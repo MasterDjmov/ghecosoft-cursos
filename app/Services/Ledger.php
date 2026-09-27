@@ -119,6 +119,7 @@ class Ledger
 
             $locked->increment('xp_total', $amount);
             $user->xp_total = $locked->xp_total;
+            Ranking::forget($course);
 
             return $transaction;
         });

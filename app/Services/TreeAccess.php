@@ -156,6 +156,14 @@ class TreeAccess
         return $this->isUnlocked($user, $node) && $this->hasActiveSubscription($user, $node->course);
     }
 
+    /** Completó todos los nodos publicados del curso (los extras no cuentan). */
+    public function isCourseCompleted(User $user, Course $course): bool
+    {
+        $nodes = $course->nodes()->where('is_published', true)->where('type', '!=', NodeType::Extra)->get();
+
+        return $nodes->isNotEmpty() && $nodes->every(fn (Node $node) => $this->isCompleted($user, $node));
+    }
+
     public function state(User $user, Node $node): string
     {
         if ($this->isUnlocked($user, $node)) {

@@ -20,6 +20,8 @@ class Reward
 
     public ?int $newLevel = null;
 
+    public bool $courseCompleted = false;
+
     public function summary(): string
     {
         $parts = [];
@@ -34,6 +36,9 @@ class Reward
         }
         if ($this->badge) {
             $parts[] = 'insignia «'.$this->badge->name.'»';
+        }
+        if ($this->courseCompleted) {
+            $parts[] = '¡terminaste el curso!';
         }
         if ($this->newLevel) {
             $parts[] = '¡subiste a '.Level::where('number', $this->newLevel)->first()?->name().'!';

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AuthorizationStatus;
 use App\Enums\RankingDisplay;
 use App\Enums\Role;
 use Database\Factories\UserFactory;
@@ -85,6 +86,46 @@ class User extends Authenticatable implements PasskeyUser
     public function initials(): string
     {
         return Str::upper(Str::substr($this->name, 0, 1).Str::substr($this->last_name ?: $this->name, 0, 1));
+    }
+
+    /** Autorización del adulto responsable aprobada por el docente (G12). */
+    public function hasApprovedGuardianAuthorization(): bool
+    {
+        return $this->guardianAuthorizations()->where('status', AuthorizationStatus::Approved)->exists();
+    }
+
+    /**
+     * Motivo por el que todavía no puede tener CV público ni ranking global
+     * (null = puede). Hace falta saber la edad; a los menores, la nota firmada.
+     */
+    public function publicProfileBlocker(): ?string
+    {
+        return match (true) {
+            $this->birth_date === null => 'Cargá tu fecha de nacimiento en Datos personales.',
+            $this->isMinor() && ! $this->hasApprovedGuardianAuthorization() => 'Como sos menor de 18, primero el profe tiene que aprobar la autorización firmada por tu adulto responsable.',
+            default => null,
+        };
+    }
+
+    /** El CV se ve en /cv/{usuario} y figura en el ranking global. */
+    public function hasPublicProfile(): bool
+    {
+        return $this->cv_public && $this->publicProfileBlocker() === null;
+    }
+
+    /** Cómo aparece en los rankings: apodo, o nombre e inicial del apellido. */
+    public function rankingName(): string
+    {
+        if ($this->ranking_display === RankingDisplay::Nickname && filled($this->nickname)) {
+            return $this->nickname;
+        }
+
+        return trim($this->name.' '.Str::upper(Str::substr((string) $this->last_name, 0, 1)).($this->last_name ? '.' : ''));
+    }
+
+    public function courseCompletions(): HasMany
+    {
+        return $this->hasMany(CourseCompletion::class);
     }
 
     public function subscriptions(): HasMany

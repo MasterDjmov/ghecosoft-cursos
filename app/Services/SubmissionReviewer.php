@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\CoinReason;
 use App\Enums\SubmissionStatus;
 use App\Enums\XpReason;
+use App\Models\CourseCompletion;
+use App\Models\CourseSubscription;
 use App\Models\Currency;
 use App\Models\Level;
 use App\Models\Node;
@@ -15,6 +17,7 @@ use App\Models\XpTransaction;
 use App\Notifications\PlatformNotification;
 use App\Support\Reward;
 use DomainException;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -138,6 +141,20 @@ class SubmissionReviewer
                 $student->badges()->attach($node->badge_id, ['awarded_at' => now()]);
                 $reward->badge = $node->badge;
             }
+        }
+
+        // ¿Con este nodo terminó el curso? Se guardan los días de cursada (para el CV).
+        $course = $node->course;
+        if (! CourseCompletion::where('user_id', $student->id)->where('course_id', $course->id)->exists()
+            && $this->access->isCourseCompleted($student, $course)) {
+            $firstStart = CourseSubscription::where('user_id', $student->id)->where('course_id', $course->id)->min('starts_at');
+            CourseCompletion::create([
+                'user_id' => $student->id,
+                'course_id' => $course->id,
+                'completed_at' => now(),
+                'days_taken' => $firstStart ? max(1, (int) ceil(Carbon::parse($firstStart)->diffInDays(now()))) : 0,
+            ]);
+            $reward->courseCompleted = true;
         }
     }
 

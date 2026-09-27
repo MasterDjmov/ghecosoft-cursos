@@ -30,13 +30,18 @@
             this.syncHash();
             this.$nextTick(() => this.scrollToPractice(id));
         },
+        fromHash() {
+            const match = location.hash.match(/^#practica-(\d+)$/);
+            if (match && document.getElementById('practica-' + match[1])) this.goToPractice(Number(match[1]));
+        },
         scrollToPractice(id) {
             document.getElementById('practica-' + id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         },
         syncHash() {
             history.replaceState(history.state, '', location.pathname + location.search + (this.openPractice ? '#practica-' + this.openPractice : ''));
         },
-    }">
+    }"
+    x-on:hashchange.window="fromHash()">
     <nav class="flex flex-wrap items-center gap-2 text-sm text-ink-muted">
         <a href="{{ route('student.worlds') }}" wire:navigate class="hover:text-ink">Mundos</a>
         <flux:icon name="chevron-right" variant="micro" />
@@ -93,8 +98,16 @@
         </flux:callout>
     @endunless
 
-    {{-- Teoría: video, explicación y ejemplo (se puede contraer). --}}
-    @if ($youtubeId || $node->video_url || $contentHtml || $node->example_code)
+    {{-- Crónica: la historia del nodo, antes de la teoría. --}}
+    @if ($sections['chronicle'])
+        <aside class="relative overflow-hidden rounded-lg border border-secondary/40 bg-secondary/10 px-6 py-5" data-test="chronicle">
+            <p class="tech-label mb-2 flex items-center gap-2 text-secondary-bright"><flux:icon name="sparkles" variant="micro" /> Crónica</p>
+            <div class="markdown text-ink italic">{!! $sections['chronicle'] !!}</div>
+        </aside>
+    @endif
+
+    {{-- Teoría: objetivos, video, explicación, ejemplo, usos y errores (se puede contraer). --}}
+    @if ($youtubeId || $node->video_url || $contentHtml || $node->example_code || $sections['objectives'] || $sections['before'] || $sections['uses'] || $sections['errors'])
         <section class="panel" x-data="{ theory: true }">
             <button type="button" class="flex w-full items-center gap-2 px-6 py-4 text-start" x-on:click="theory = ! theory" x-bind:aria-expanded="theory">
                 <flux:icon name="book-open" variant="mini" class="text-primary-bright" />
@@ -102,7 +115,24 @@
                 <flux:icon name="chevron-down" variant="micro" class="ms-auto text-ink-muted transition" x-bind:class="theory && 'rotate-180'" />
             </button>
             <div x-show="theory" x-collapse>
-                <div class="flex flex-col gap-6 px-6 pb-6">
+                <div class="flex flex-col gap-8 px-6 pb-6">
+                    @if ($sections['objectives'] || $sections['before'])
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            @if ($sections['objectives'])
+                                <div class="rounded-lg border border-outline bg-surface-lowest/50 p-4">
+                                    <p class="tech-label mb-2 flex items-center gap-2"><flux:icon name="flag" variant="micro" class="text-success" /> Al terminar, vas a poder</p>
+                                    <div class="markdown text-sm">{!! $sections['objectives'] !!}</div>
+                                </div>
+                            @endif
+                            @if ($sections['before'])
+                                <div class="rounded-lg border border-outline bg-surface-lowest/50 p-4">
+                                    <p class="tech-label mb-2 flex items-center gap-2"><flux:icon name="arrow-uturn-left" variant="micro" class="text-primary-bright" /> Antes de empezar</p>
+                                    <div class="markdown text-sm">{!! $sections['before'] !!}</div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+
                     @if ($youtubeId)
                         <div class="aspect-video overflow-hidden rounded-lg border border-outline">
                             <iframe class="size-full" src="https://www.youtube-nocookie.com/embed/{{ $youtubeId }}" title="{{ $node->title }}"
@@ -113,15 +143,46 @@
                     @endif
 
                     @if ($contentHtml)
-                        <article class="markdown">{!! $contentHtml !!}</article>
+                        <x-node-section title="Explicación" icon="light-bulb" companion="companion.theory" :course="$course">
+                            <article class="markdown">{!! $contentHtml !!}</article>
+                        </x-node-section>
                     @endif
 
                     @if ($node->example_code)
-                        <div class="flex flex-col gap-2">
-                            <h3 class="tech-label">Ejemplo</h3>
+                        <x-node-section title="Ejemplo" icon="code-bracket">
                             <x-code-runner :code="$node->example_code" :stdin="$node->sample_input" :expected="$node->expected_output" name="ejemplo"
                                 :language="$node->example_language ?? $course->language->value" :runnable="$runnable" />
-                        </div>
+                        </x-node-section>
+                    @endif
+
+                    @if ($sections['uses'])
+                        <x-node-section title="¿Para qué sirve?" icon="wrench-screwdriver" companion="companion.uses" :course="$course" color="text-warning">
+                            <div class="markdown">{!! $sections['uses'] !!}</div>
+                        </x-node-section>
+                    @endif
+
+                    @if ($sections['errors'] || $beast)
+                        <x-node-section title="Errores habituales" icon="bug-ant" companion="companion.errors" :course="$course" color="text-danger">
+                            @if ($beast)
+                                <div class="flex items-start gap-3 rounded-lg border border-danger/40 bg-danger/10 p-4" data-test="beast">
+                                    @if ($beast['icon_path'])
+                                        <img src="{{ Storage::disk('public')->url($beast['icon_path']) }}" alt="" class="size-12 shrink-0 rounded-md object-cover">
+                                    @else
+                                        <span class="grid size-12 shrink-0 place-items-center rounded-md bg-danger/20 text-danger"><flux:icon name="bug-ant" /></span>
+                                    @endif
+                                    <div class="flex min-w-0 flex-col gap-1">
+                                        <p class="tech-label text-danger">Criatura</p>
+                                        <p class="font-display font-semibold text-white">{{ ucfirst($beast['singular']) }}</p>
+                                        @if ($beast['short_description'])
+                                            <p class="text-sm text-ink-muted">{{ $beast['short_description'] }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endif
+                            @if ($sections['errors'])
+                                <div class="markdown">{!! $sections['errors'] !!}</div>
+                            @endif
+                        </x-node-section>
                     @endif
                 </div>
             </div>
@@ -166,6 +227,30 @@
                     <livewire:student.practice-card :practice="$practice" :number="$numbers[$practice->id]" :key="'practice-'.$practice->id" />
                 @endforeach
             @endif
+        </section>
+    @endif
+
+    {{-- Prueba del sello: autoevaluación sin nota. --}}
+    @if ($selfCheck->isNotEmpty())
+        <section class="panel flex flex-col gap-4 p-6" data-test="self-check">
+            <div class="flex flex-col gap-1">
+                <h2 class="flex items-center gap-2 font-display text-lg font-semibold text-white"><flux:icon name="shield-check" variant="mini" class="text-success" /> Prueba del sello</h2>
+                <p class="text-sm text-ink-muted">Si podés responder esto, lo entendiste. Pensalo antes de ver la respuesta: no suma ni resta nada.</p>
+            </div>
+            <ol class="flex flex-col gap-3">
+                @foreach ($selfCheck as $item)
+                    <li class="rounded-lg border border-outline bg-surface-lowest/40">
+                        <details class="group">
+                            <summary class="flex cursor-pointer list-none items-start gap-3 px-4 py-3 text-ink">
+                                <span class="font-mono text-xs text-ink-muted">{{ $loop->iteration }}.</span>
+                                <span class="flex-1">{{ $item['question'] }}</span>
+                                <span class="shrink-0 text-xs text-primary-bright group-open:hidden">Ver respuesta</span>
+                            </summary>
+                            <div class="markdown border-t border-outline px-4 py-3 text-sm">{!! $item['answer'] ?: '<p>—</p>' !!}</div>
+                        </details>
+                    </li>
+                @endforeach
+            </ol>
         </section>
     @endif
 

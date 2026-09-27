@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Language;
 use App\Enums\Modality;
 use App\Enums\NodeType;
+use App\Enums\PracticeEnvironment;
 use App\Enums\SubmissionMode;
 use App\Models\Badge;
 use App\Models\Branch;
@@ -64,13 +65,32 @@ class PythonDemoCourseSeeder extends Seeder
         ]);
 
         $root = $this->node(null, null, NodeType::Root, 'Clase 0 · Preparar el entorno', 0, 10, [
+            'chronicle' => "Cruzás el portal y caés de espaldas sobre el pasto del Valle. Una serpiente de escamas doradas te mira de cerca.\n\n—Antes de escribir tu primer hechizo —dice Ofidia—, necesitás tus herramientas.",
+            'objectives' => "- Instalar Python y abrir el intérprete.\n- Ejecutar tu primer `print()`.\n- Leer tu primer pergamino de error (traceback).",
+            'before_you_start' => 'Nada: este es el primer paso.',
+            'use_cases' => 'Con Python se hacen páginas web, análisis de datos, inteligencia artificial, robots y juegos. Todo empieza con una línea como esta.',
+            'common_errors' => "Si escribís `print(\"Hola\"` sin cerrar el paréntesis, aparece un **slime**:\n\n```\nSyntaxError: '(' was never closed\n```\n\nLeé la última línea del pergamino: te dice qué pasó y la flecha `^` te marca dónde.",
+            'beast_key' => 'beast.slime',
+            'self_check' => [
+                ['question' => '¿Qué muestra print("Hola", "mundo")?', 'answer' => '`Hola mundo`: `print` separa los valores con un espacio.'],
+                ['question' => '¿En qué línea del traceback está el tipo de error?', 'answer' => 'En la última.'],
+            ],
+            'teacher_solutions' => "Tu primer programa: print(\"Kira\")\nprint(\"La Rioja\")\n\nTiempo estimado de la clase: 60 minutos.",
             'content' => "## Bienvenida\n\nAntes de escribir tu primer programa, preparamos las herramientas.\n\n1. Instalá **Python 3** desde python.org (o verificá con `python3 --version`).\n2. Abrí una terminal y escribí `python3`: aparece el **REPL** (`>>>`).\n3. Probá `print(\"Hola, mundo\")`.",
             'example_code' => "print(\"Hola, mundo\")\nprint(\"Mi primer programa en Python\")",
             'expected_output' => "Hola, mundo\nMi primer programa en Python",
         ], [
-            ['Instalá Python', 'Instalá Python 3 y verificá la versión con `python3 --version`. Marcá la práctica como completada cuando lo tengas.', true, SubmissionMode::None, 0, 5],
-            ['Tu primer programa', 'Escribí un programa que muestre tu nombre y tu ciudad en dos líneas.', true, SubmissionMode::Code, 5, 10],
-            ['Pedile datos al usuario', 'Pedí el nombre con `input()` y saludá: `Hola, <nombre>`.', true, SubmissionMode::Code, 5, 10],
+            ['Instalá Python', 'Instalá Python 3 y verificá la versión con `python3 --version`. Marcá la práctica como completada cuando lo tengas.', true, SubmissionMode::None, 0, 5, ['environment' => PracticeEnvironment::Local]],
+            ['Tu primer programa', 'Escribí un programa que muestre tu nombre y tu ciudad en dos líneas.', true, SubmissionMode::Code, 5, 10, [
+                'approval_criteria' => "- Usa `print()` dos veces.\n- Muestra el nombre en la primera línea y la ciudad en la segunda.",
+                'reference_solution' => "print(\"Kira\")\nprint(\"La Rioja\")",
+            ]],
+            ['Pedile datos al usuario', 'Pedí el nombre con `input()` y saludá: `Hola, <nombre>`.', true, SubmissionMode::Code, 5, 10, [
+                'sample_input' => 'Kira',
+                'expected_output' => 'Hola, Kira',
+                'approval_criteria' => "- Lee el nombre con `input()`.\n- Muestra exactamente `Hola, ` seguido del nombre.",
+                'reference_solution' => "nombre = input()\nprint(\"Hola,\", nombre)",
+            ]],
             ['Saludo decorado', 'Mostrá el saludo dentro de un marco hecho con `*`.', false, SubmissionMode::Code, 3, 15],
         ]);
 
@@ -83,6 +103,15 @@ class PythonDemoCourseSeeder extends Seeder
         ], $this->standardPractices('comentarios'));
 
         $variables = $this->node($fundamentals, $comments, NodeType::Topic, 'Variables', 2, 10, [
+            'chronicle' => "En la posada, Bron cuenta su oro con los dedos y se equivoca cada vez.\n\n—Necesitás un lugar donde guardar ese número —le decís. Mia sonríe: sabe cómo se llama eso.",
+            'objectives' => "- Guardar un valor con un nombre.\n- Cambiarlo y volver a mostrarlo.",
+            'before_you_start' => 'Saber usar `print()` (Clase 0) y escribir comentarios (Comentarios).',
+            'use_cases' => 'Un carrito de compras guarda el total en una variable; un juego guarda la vida del personaje.',
+            'common_errors' => "Usar una variable antes de crearla despierta a un **esqueleto**:\n\n```\nNameError: name 'oro' is not defined\n```",
+            'beast_key' => 'beast.skeleton',
+            'self_check' => [
+                ['question' => 'Si oro = 5 y después oro = oro + 1, ¿cuánto vale oro?', 'answer' => '6'],
+            ],
             'content' => "## Variables\n\nUna variable es un **nombre que apunta a un valor**. El `=` no significa \"es igual\": significa \"que este nombre apunte a este valor\".",
             'example_code' => "oro = 15\noro = oro + 10\nprint(f\"Tenés {oro} monedas\")",
             'expected_output' => 'Tenés 25 monedas',
@@ -132,7 +161,7 @@ class PythonDemoCourseSeeder extends Seeder
     }
 
     /**
-     * @param  list<array{0: string, 1: string, 2: bool, 3: SubmissionMode, 4: int, 5: int}>  $practices
+     * @param  list<array{0: string, 1: string, 2: bool, 3: SubmissionMode, 4: int, 5: int, 6?: array<string, mixed>}>  $practices
      */
     private function node(?Branch $branch, ?Node $parent, NodeType $type, string $title, int $position, int $price, array $fields, array $practices): Node
     {
@@ -148,7 +177,8 @@ class PythonDemoCourseSeeder extends Seeder
             ...$fields,
         ]);
 
-        foreach ($practices as $index => [$practiceTitle, $instructions, $required, $mode, $coins, $xp]) {
+        foreach ($practices as $index => $practice) {
+            [$practiceTitle, $instructions, $required, $mode, $coins, $xp] = $practice;
             $node->practices()->create([
                 'title' => $practiceTitle,
                 'instructions' => $instructions,
@@ -158,6 +188,7 @@ class PythonDemoCourseSeeder extends Seeder
                 'coin_reward' => $coins,
                 'xp_reward' => $xp,
                 'position' => $index + 1,
+                ...($practice[6] ?? []),
             ]);
         }
 

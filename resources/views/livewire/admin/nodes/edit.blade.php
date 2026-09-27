@@ -33,7 +33,7 @@
 
     {{-- Pestañas --}}
     <nav class="flex gap-1 overflow-x-auto border-b border-outline" role="tablist">
-        @foreach (['data' => 'Datos', 'content' => 'Contenido', 'practices' => 'Hojas ('.$practices->count().')', 'resources' => 'Recursos ('.$resources->count().')'] as $key => $label)
+        @foreach (['data' => 'Datos', 'content' => 'Contenido', 'practices' => 'Hojas ('.$practices->count().')', 'resources' => 'Recursos ('.$resources->count().')', 'teacher' => 'Solo docente'] as $key => $label)
             <button type="button" role="tab" x-on:click="tab = '{{ $key }}'"
                 class="-mb-px shrink-0 border-b-2 px-4 py-2 text-sm font-medium transition"
                 x-bind:class="tab === '{{ $key }}' ? 'border-primary-bright text-primary-bright' : 'border-transparent text-ink-muted hover:text-ink'">
@@ -43,7 +43,7 @@
     </nav>
 
     {{-- Datos y contenido (un solo formulario) --}}
-    <form wire:submit="save" x-show="tab === 'data' || tab === 'content'" class="flex flex-col gap-6">
+    <form wire:submit="save" x-show="['data', 'content', 'teacher'].includes(tab)" class="flex flex-col gap-6">
         <div x-show="tab === 'data'" class="panel flex flex-col gap-6 p-5 sm:p-6">
             <flux:input wire:model="title" label="Título" required />
 
@@ -100,27 +100,98 @@
             <flux:switch wire:model="is_published" label="Publicado" description="Sin publicar, el alumno lo ve bloqueado y no lo puede abrir." />
         </div>
 
-        <div x-show="tab === 'content'" x-cloak class="panel flex flex-col gap-6 p-5 sm:p-6" x-data="{ preview: false }">
-            <div class="flex flex-col gap-2">
+        {{-- Contenido por secciones (D37): cada una con su personaje. Todo admite markdown. --}}
+        <div x-show="tab === 'content'" x-cloak class="flex flex-col gap-6">
+            <flux:callout icon="information-circle" color="cyan">
+                <flux:callout.text>
+                    El alumno ve las secciones en este orden y solo las que tengan texto. Todas admiten markdown.
+                    Los nombres de la compañía se cambian en <flux:link :href="route('admin.glossary')" wire:navigate>Diccionario</flux:link>.
+                </flux:callout.text>
+            </flux:callout>
+
+            <div class="panel flex flex-col gap-5 p-5 sm:p-6">
+                <flux:heading>Historia</flux:heading>
+                <flux:textarea wire:model="chronicle" label="Crónica" rows="3"
+                    description:trailing="2 a 4 líneas, en segunda persona: qué te pasa y por qué necesitás este tema." />
+            </div>
+
+            <div class="panel flex flex-col gap-5 p-5 sm:p-6">
+                <flux:heading>Antes de la explicación</flux:heading>
+                <flux:textarea wire:model="objectives" label="Objetivos" rows="3" placeholder="- Guardar un valor en una variable&#10;- Cambiarlo y mostrarlo"
+                    description:trailing="Una lista: «Al terminar, vas a poder…»." />
+                <flux:textarea wire:model="before_you_start" label="Antes de empezar" rows="2"
+                    description:trailing="Qué tenés que saber ya (podés nombrar los nodos anteriores)." />
+            </div>
+
+            <div class="panel flex flex-col gap-2 p-5 sm:p-6" x-data="{ preview: false }">
                 <div class="flex items-center justify-between">
-                    <flux:label>Explicación</flux:label>
+                    <flux:heading>Explicación · {{ term('companion.theory', $course) }}</flux:heading>
                     <flux:button size="xs" variant="ghost" x-on:click="preview = ! preview" x-text="preview ? 'Editar' : 'Vista previa'" />
                 </div>
                 <div x-show="! preview">
-                    <flux:textarea wire:model.blur="content" rows="14" class="font-mono text-sm" placeholder="## Variables&#10;&#10;Una variable es…" />
+                    <flux:textarea wire:model.blur="content" rows="14" class="font-mono text-sm" placeholder="## Variables&#10;&#10;Una variable es…" aria-label="Explicación" />
                 </div>
                 <div x-show="preview" x-cloak class="markdown min-h-40 rounded-lg border border-outline bg-surface-lowest/60 p-4">{!! $contentPreview !!}</div>
                 <flux:description>Markdown: <code>## Título</code>, <code>**negrita**</code>, listas y bloques de código con <code>```python</code>.</flux:description>
             </div>
 
-            <flux:textarea wire:model="example_code" label="Código de ejemplo" rows="8" class="font-mono text-sm"
-                description:trailing="El alumno lo va a poder ejecutar en el navegador (Fase 3)." />
-
-            <div class="grid gap-6 sm:grid-cols-2">
-                <flux:textarea wire:model="sample_input" label="Entrada de ejemplo (opcional)" rows="3" class="font-mono text-sm"
-                    description:trailing="Una línea por cada input()." />
-                <flux:textarea wire:model="expected_output" label="Salida esperada (opcional)" rows="3" class="font-mono text-sm" />
+            <div class="panel flex flex-col gap-5 p-5 sm:p-6">
+                <flux:heading>Código de ejemplo</flux:heading>
+                <flux:textarea wire:model="example_code" rows="8" class="font-mono text-sm" aria-label="Código de ejemplo"
+                    description:trailing="El alumno lo puede ejecutar en el navegador (si el lenguaje del curso tiene ejecutor)." />
+                <div class="grid gap-6 sm:grid-cols-2">
+                    <flux:textarea wire:model="sample_input" label="Entrada de ejemplo (opcional)" rows="3" class="font-mono text-sm"
+                        description:trailing="Una línea por cada lectura de teclado." />
+                    <flux:textarea wire:model="expected_output" label="Salida esperada (opcional)" rows="3" class="font-mono text-sm" />
+                </div>
             </div>
+
+            <div class="panel flex flex-col gap-5 p-5 sm:p-6">
+                <flux:heading>¿Para qué sirve? · {{ term('companion.uses', $course) }}</flux:heading>
+                <flux:textarea wire:model="use_cases" rows="3" aria-label="¿Para qué sirve?" description:trailing="Uno o dos usos reales, fuera del juego." />
+            </div>
+
+            <div class="panel flex flex-col gap-5 p-5 sm:p-6">
+                <flux:heading>Errores habituales · {{ term('companion.errors', $course) }}</flux:heading>
+                <flux:select wire:model="beast_key" label="Criatura del bestiario" description:trailing="Se muestra con su nombre, ícono y descripción del Diccionario.">
+                    <flux:select.option value="">Sin criatura</flux:select.option>
+                    @foreach ($beasts as $key => $name)
+                        <flux:select.option :value="$key">{{ $name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                <flux:textarea wire:model="common_errors" rows="6" class="font-mono text-sm" aria-label="Errores habituales"
+                    description:trailing="El error típico, cómo se ve el traceback y cómo leerlo." />
+            </div>
+
+            <div class="panel flex flex-col gap-4 p-5 sm:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <flux:heading>Prueba del sello</flux:heading>
+                        <flux:text class="text-sm">Autoevaluación sin nota: el alumno lee la pregunta y despliega la respuesta.</flux:text>
+                    </div>
+                    <flux:button size="sm" icon="plus" wire:click="addSelfCheck">Pregunta</flux:button>
+                </div>
+                @forelse ($selfCheck as $index => $item)
+                    <div class="flex flex-col gap-3 rounded-lg border border-outline bg-surface-lowest/40 p-4 sm:flex-row" wire:key="self-check-{{ $index }}">
+                        <div class="flex flex-1 flex-col gap-3">
+                            <flux:input wire:model="selfCheck.{{ $index }}.question" :label="'Pregunta '.($index + 1)" />
+                            <flux:textarea wire:model="selfCheck.{{ $index }}.answer" label="Respuesta" rows="2" />
+                        </div>
+                        <flux:button size="xs" variant="ghost" icon="trash" wire:click="removeSelfCheck({{ $index }})" aria-label="Quitar pregunta" class="self-start" />
+                    </div>
+                @empty
+                    <p class="text-sm text-ink-muted">Sin preguntas todavía.</p>
+                @endforelse
+            </div>
+        </div>
+
+        {{-- Solo docente --}}
+        <div x-show="tab === 'teacher'" x-cloak class="panel flex flex-col gap-5 p-5 sm:p-6">
+            <flux:callout icon="lock-closed" color="amber">
+                <flux:callout.text>El alumno <strong>nunca</strong> ve esta pestaña: la plataforma no le manda estos textos.</flux:callout.text>
+            </flux:callout>
+            <flux:textarea wire:model="teacher_solutions" label="Soluciones y notas del nodo" rows="14" class="font-mono text-sm"
+                description:trailing="Soluciones de referencia, tiempo estimado y dificultades frecuentes. La solución de cada hoja va en la hoja." />
         </div>
 
         <div class="flex justify-end">
@@ -229,6 +300,8 @@
 
             <flux:input wire:model="practiceTitle" label="Título" placeholder="Misión 1" />
             <flux:textarea wire:model="practiceInstructions" label="Consigna" rows="5" description:trailing="Admite markdown." />
+            <flux:textarea wire:model="practiceCriteria" label="Criterio de aprobación" rows="3" placeholder="- Pide el nombre con input()&#10;- Muestra el saludo en una línea"
+                description:trailing="Lo ve el alumno («Para aprobar») y lo tenés a mano al corregir." />
 
             <div class="grid gap-5 sm:grid-cols-2">
                 <flux:switch wire:model.live="practiceRequired" label="Obligatoria"
@@ -239,6 +312,15 @@
                     @endforeach
                 </flux:select>
             </div>
+
+            <flux:radio.group wire:model.live="practiceEnvironment" label="Dónde se resuelve" variant="segmented">
+                @foreach ($environments as $environment)
+                    <flux:radio :value="$environment->value" :label="$environment->label()" />
+                @endforeach
+            </flux:radio.group>
+            @if ($practiceEnvironment === 'local' && $practiceMode === 'code')
+                <flux:text class="-mt-3 text-sm text-warning">Las prácticas locales suelen entregarse como archivo: revisá el tipo de entrega.</flux:text>
+            @endif
 
             @if (in_array($practiceMode, ['file', 'both'], true))
                 <flux:input wire:model="practiceExtensions" label="Extensiones permitidas" placeholder="py, txt, zip" />
@@ -257,8 +339,14 @@
 
             @if ($practiceMode !== 'none')
                 <flux:textarea wire:model="practiceStarterCode" label="Código inicial (opcional)" rows="4" class="font-mono text-sm" />
-                <flux:textarea wire:model="practiceSampleInput" label="Entrada de prueba (opcional)" rows="2" class="font-mono text-sm" />
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <flux:textarea wire:model="practiceSampleInput" label="Entrada de prueba (opcional)" rows="2" class="font-mono text-sm" />
+                    <flux:textarea wire:model="practiceExpectedOutput" label="Salida esperada (opcional)" rows="2" class="font-mono text-sm" />
+                </div>
             @endif
+
+            <flux:textarea wire:model="practiceSolution" label="Solución de referencia (solo docente)" rows="5" class="font-mono text-sm"
+                description:trailing="El alumno nunca la ve. La tenés a mano al corregir." />
 
             <div class="flex justify-end gap-2">
                 <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>

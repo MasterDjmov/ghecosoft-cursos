@@ -19,6 +19,12 @@ return [
     'world.region' => ['group' => 'world', 'label' => 'Nombre de la región o isla de un curso', 'singular' => 'región', 'plural' => 'regiones', 'gender' => 'f'],
     'mentor.name' => ['group' => 'world', 'label' => 'Mentor o guía (nombre, retrato y presentación)', 'singular' => 'el profe', 'gender' => 'm'],
 
+    // Compañía: cada personaje presenta una sección fija del nodo (D37). Iguales en todos los cursos salvo que un curso los cambie.
+    'companion.theory' => ['group' => 'companions', 'label' => 'Quien da la explicación teórica del nodo', 'singular' => 'Mia', 'gender' => 'f'],
+    'companion.uses' => ['group' => 'companions', 'label' => 'Quien cuenta "¿para qué sirve?" (usos reales)', 'singular' => 'Bron', 'gender' => 'm'],
+    'companion.errors' => ['group' => 'companions', 'label' => 'Quien muestra los errores habituales y las trampas', 'singular' => 'Zed', 'gender' => 'm'],
+    'companion.guild' => ['group' => 'companions', 'label' => 'Quien da los encargos del mundo real (optativas)', 'singular' => 'el Gremio', 'gender' => 'm'],
+
     // Economía
     'coin.course' => ['group' => 'economy', 'label' => 'Moneda del curso (se gana con obligatorias)', 'singular' => 'moneda', 'plural' => 'monedas', 'gender' => 'f'],
     'coin.wildcard' => ['group' => 'economy', 'label' => 'Moneda comodín (se gana con optativas, abre extras)', 'singular' => 'comodín', 'plural' => 'comodines', 'gender' => 'm'],

@@ -3,12 +3,14 @@
 namespace App\Livewire\Admin\Nodes;
 
 use App\Enums\NodeType;
+use App\Enums\PracticeEnvironment;
 use App\Enums\ResourceType;
 use App\Enums\SubmissionMode;
 use App\Exceptions\TreeEditRefused;
 use App\Models\Badge;
 use App\Models\Course;
 use App\Models\Currency;
+use App\Models\GlossaryTerm;
 use App\Models\Node;
 use App\Models\Practice;
 use App\Services\TreeEditor;
@@ -23,7 +25,7 @@ use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
-/** Editor de un nodo: datos, contenido, hojas (prácticas) y recursos. */
+/** Editor de un nodo: datos, contenido por secciones (D37), hojas (prácticas), recursos y soluciones del docente. */
 #[Title('Editar nodo')]
 class Edit extends Component
 {
@@ -59,7 +61,26 @@ class Edit extends Component
 
     public string $video_url = '';
 
+    // Secciones del nodo (D37). `content` es la explicación.
+    public string $chronicle = '';
+
+    public string $objectives = '';
+
+    public string $before_you_start = '';
+
     public string $content = '';
+
+    public string $use_cases = '';
+
+    public string $common_errors = '';
+
+    public string $beast_key = '';
+
+    /** Prueba del sello: [['question' => '', 'answer' => '']]. */
+    public array $selfCheck = [];
+
+    /** Solo del docente. */
+    public string $teacher_solutions = '';
 
     public string $example_code = '';
 
@@ -73,6 +94,14 @@ class Edit extends Component
     public string $practiceTitle = '';
 
     public string $practiceInstructions = '';
+
+    public string $practiceCriteria = '';
+
+    public string $practiceEnvironment = 'browser';
+
+    public string $practiceExpectedOutput = '';
+
+    public string $practiceSolution = '';
 
     public bool $practiceRequired = true;
 
@@ -127,7 +156,15 @@ class Edit extends Component
         $this->badge_id = $node->badge_id;
         $this->is_published = $node->is_published;
         $this->video_url = (string) $node->video_url;
+        $this->chronicle = (string) $node->chronicle;
+        $this->objectives = (string) $node->objectives;
+        $this->before_you_start = (string) $node->before_you_start;
         $this->content = (string) $node->content;
+        $this->use_cases = (string) $node->use_cases;
+        $this->common_errors = (string) $node->common_errors;
+        $this->beast_key = (string) $node->beast_key;
+        $this->selfCheck = $node->selfCheckItems();
+        $this->teacher_solutions = (string) $node->teacher_solutions;
         $this->example_code = (string) $node->example_code;
         $this->expected_output = (string) $node->expected_output;
         $this->sample_input = (string) $node->sample_input;
@@ -146,11 +183,26 @@ class Edit extends Component
             'badge_id' => ['nullable', Rule::exists('badges', 'id')],
             'is_published' => ['boolean'],
             'video_url' => ['nullable', 'url:https', 'max:500'],
+            'chronicle' => ['nullable', 'string', 'max:5000'],
+            'objectives' => ['nullable', 'string', 'max:5000'],
+            'before_you_start' => ['nullable', 'string', 'max:5000'],
             'content' => ['nullable', 'string', 'max:65000'],
+            'use_cases' => ['nullable', 'string', 'max:10000'],
+            'common_errors' => ['nullable', 'string', 'max:20000'],
+            'beast_key' => ['nullable', 'string', 'max:60', 'regex:/^beast\.[a-z0-9_.]+$/'],
+            'selfCheck' => ['array', 'max:20'],
+            'selfCheck.*.question' => ['nullable', 'string', 'max:1000'],
+            'selfCheck.*.answer' => ['nullable', 'string', 'max:5000'],
+            'teacher_solutions' => ['nullable', 'string', 'max:100000'],
             'example_code' => ['nullable', 'string', 'max:20000'],
             'expected_output' => ['nullable', 'string', 'max:5000'],
             'sample_input' => ['nullable', 'string', 'max:5000'],
-        ], [], ['parent_id' => 'requisito', 'video_url' => 'video', 'branch_id' => 'rama', 'badge_id' => 'insignia']);
+        ], [], [
+            'parent_id' => 'requisito', 'video_url' => 'video', 'branch_id' => 'rama', 'badge_id' => 'insignia',
+            'chronicle' => 'crónica', 'objectives' => 'objetivos', 'before_you_start' => 'antes de empezar',
+            'use_cases' => '¿para qué sirve?', 'common_errors' => 'errores habituales', 'beast_key' => 'criatura',
+            'selfCheck.*.question' => 'pregunta', 'selfCheck.*.answer' => 'respuesta', 'teacher_solutions' => 'soluciones',
+        ]);
 
         try {
             $editor->updateNode($this->node, [
@@ -163,7 +215,15 @@ class Edit extends Component
                 'badge_id' => $this->type === NodeType::Boss->value ? $this->badge_id : null,
                 'is_published' => $this->is_published,
                 'video_url' => $this->video_url ?: null,
+                'chronicle' => $this->chronicle ?: null,
+                'objectives' => $this->objectives ?: null,
+                'before_you_start' => $this->before_you_start ?: null,
                 'content' => $this->content ?: null,
+                'use_cases' => $this->use_cases ?: null,
+                'common_errors' => $this->common_errors ?: null,
+                'beast_key' => $this->beast_key ?: null,
+                'self_check' => $this->cleanSelfCheck() ?: null,
+                'teacher_solutions' => $this->teacher_solutions ?: null,
                 'example_code' => $this->example_code ?: null,
                 'example_language' => $this->example_code ? $this->course->language->value : null,
                 'expected_output' => $this->expected_output ?: null,
@@ -180,11 +240,36 @@ class Edit extends Component
         Flux::toast(variant: 'success', text: 'Nodo guardado.');
     }
 
+    public function addSelfCheck(): void
+    {
+        $this->selfCheck[] = ['question' => '', 'answer' => ''];
+    }
+
+    public function removeSelfCheck(int $index): void
+    {
+        unset($this->selfCheck[$index]);
+        $this->selfCheck = array_values($this->selfCheck);
+    }
+
+    /** @return list<array{question: string, answer: string}> */
+    private function cleanSelfCheck(): array
+    {
+        return collect($this->selfCheck)
+            ->map(fn ($item) => ['question' => trim((string) ($item['question'] ?? '')), 'answer' => trim((string) ($item['answer'] ?? ''))])
+            ->filter(fn ($item) => $item['question'] !== '')
+            ->values()
+            ->all();
+    }
+
     public function newPractice(): void
     {
         $this->practiceId = null;
         $this->practiceTitle = '';
         $this->practiceInstructions = '';
+        $this->practiceCriteria = '';
+        $this->practiceEnvironment = PracticeEnvironment::Browser->value;
+        $this->practiceExpectedOutput = '';
+        $this->practiceSolution = '';
         $this->practiceRequired = true;
         $this->practiceMode = SubmissionMode::Code->value;
         $this->practiceExtensions = '';
@@ -204,6 +289,10 @@ class Edit extends Component
         $this->practiceId = $practice->id;
         $this->practiceTitle = $practice->title;
         $this->practiceInstructions = (string) $practice->instructions;
+        $this->practiceCriteria = (string) $practice->approval_criteria;
+        $this->practiceEnvironment = $practice->environment->value;
+        $this->practiceExpectedOutput = (string) $practice->expected_output;
+        $this->practiceSolution = (string) $practice->reference_solution;
         $this->practiceRequired = $practice->is_required;
         $this->practiceMode = $practice->submission_mode->value;
         $this->practiceExtensions = (string) $practice->allowed_extensions;
@@ -221,6 +310,10 @@ class Edit extends Component
         $this->validate([
             'practiceTitle' => ['required', 'string', 'max:255'],
             'practiceInstructions' => ['nullable', 'string', 'max:20000'],
+            'practiceCriteria' => ['nullable', 'string', 'max:5000'],
+            'practiceEnvironment' => ['required', Rule::enum(PracticeEnvironment::class)],
+            'practiceExpectedOutput' => ['nullable', 'string', 'max:5000'],
+            'practiceSolution' => ['nullable', 'string', 'max:50000'],
             'practiceRequired' => ['boolean'],
             'practiceMode' => ['required', Rule::enum(SubmissionMode::class)],
             'practiceExtensions' => ['nullable', 'string', 'max:100', 'regex:/^[a-z0-9]+(\s*,\s*[a-z0-9]+)*$/i'],
@@ -230,7 +323,8 @@ class Edit extends Component
             'practiceXp' => ['required', 'integer', 'min:0', 'max:10000'],
         ], ['practiceExtensions.regex' => 'Escribí las extensiones separadas por coma, sin punto: py, txt, zip.'], [
             'practiceTitle' => 'título', 'practiceInstructions' => 'consigna', 'practiceCoins' => 'recompensa',
-            'practiceXp' => 'XP', 'practiceExtensions' => 'extensiones',
+            'practiceXp' => 'XP', 'practiceExtensions' => 'extensiones', 'practiceCriteria' => 'criterio de aprobación',
+            'practiceExpectedOutput' => 'salida esperada', 'practiceSolution' => 'solución de referencia',
         ]);
 
         $usesFile = in_array($this->practiceMode, [SubmissionMode::File->value, SubmissionMode::Both->value], true);
@@ -238,6 +332,10 @@ class Edit extends Component
         $data = [
             'title' => $this->practiceTitle,
             'instructions' => $this->practiceInstructions ?: null,
+            'approval_criteria' => $this->practiceCriteria ?: null,
+            'environment' => $this->practiceEnvironment,
+            'expected_output' => $this->practiceMode !== SubmissionMode::None->value ? ($this->practiceExpectedOutput ?: null) : null,
+            'reference_solution' => $this->practiceSolution ?: null,
             'is_required' => $this->practiceRequired,
             'submission_mode' => $this->practiceMode,
             'allowed_extensions' => $usesFile ? (Str::of($this->practiceExtensions)->lower()->replaceMatches('/\s+/', '')->toString() ?: null) : null,
@@ -311,6 +409,23 @@ class Edit extends Component
         Reorder::move($this->node->resources(), $this->node->resources()->findOrFail($id), $position);
     }
 
+    /**
+     * Criaturas del bestiario: las del catálogo más las que el docente creó (general o del curso).
+     *
+     * @return array<string, string> clave => nombre
+     */
+    private function beastOptions(): array
+    {
+        $keys = collect(array_keys(config('glossary')))
+            ->merge(GlossaryTerm::where('key', 'like', 'beast.%')
+                ->where(fn ($q) => $q->whereNull('course_id')->orWhere('course_id', $this->course->id))
+                ->pluck('key'))
+            ->filter(fn ($key) => str_starts_with($key, 'beast.'))
+            ->unique();
+
+        return $keys->mapWithKeys(fn ($key) => [$key => Str::ucfirst(term($key, $this->course))])->sort()->all();
+    }
+
     private function findPractice(int $practiceId): Practice
     {
         return $this->node->practices()->findOrFail($practiceId);
@@ -328,6 +443,8 @@ class Edit extends Component
             'badges' => Badge::where(fn ($q) => $q->whereNull('course_id')->orWhere('course_id', $this->course->id))->orderBy('name')->get(),
             'nodeTypes' => [NodeType::Topic, NodeType::Boss, NodeType::Extra],
             'modes' => SubmissionMode::cases(),
+            'environments' => PracticeEnvironment::cases(),
+            'beasts' => $this->beastOptions(),
             'requiredReward' => $practices->where('is_required', true)->sum('coin_reward'),
             'optionalReward' => $practices->where('is_required', false)->sum('coin_reward'),
             'xpTotal' => $practices->sum('xp_reward'),

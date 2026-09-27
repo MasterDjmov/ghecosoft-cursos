@@ -30,6 +30,9 @@
         @endif
         <h3 class="min-w-0 truncate font-medium text-white">{{ $practice->title }}</h3>
         <flux:badge size="sm" class="shrink-0" :color="$statusBadge[$status][1] ?? 'zinc'">{{ $statusBadge[$status][0] ?? 'Sin hacer' }}</flux:badge>
+        @if ($isLocal)
+            <flux:badge size="sm" class="hidden shrink-0 sm:inline-flex" icon="computer-desktop" title="{{ $practice->environment->hint($mode) }}">Local</flux:badge>
+        @endif
         <span class="min-w-0 flex-1">
             @if ($lastFeedback)
                 <span class="hidden truncate text-xs text-ink-muted italic md:block" x-show="openPractice !== {{ $practice->id }}">
@@ -52,8 +55,25 @@
                 +{{ $practice->xp_reward }} {{ term('xp.short') }}
             </p>
 
+            @unless ($practice->is_required)
+                <x-companion key="companion.guild" :course="$course" color="text-secondary-bright" />
+            @endunless
+
             @if ($instructionsHtml)
                 <div class="markdown text-sm">{!! $instructionsHtml !!}</div>
+            @endif
+
+            @if ($criteriaHtml)
+                <div class="rounded-lg border border-success/30 bg-success/5 px-4 py-3" data-test="criteria">
+                    <p class="tech-label mb-1 flex items-center gap-2 text-success"><flux:icon name="clipboard-document-check" variant="micro" /> Para aprobar</p>
+                    <div class="markdown text-sm">{!! $criteriaHtml !!}</div>
+                </div>
+            @endif
+
+            @if ($isLocal)
+                <flux:callout icon="computer-desktop" color="zinc">
+                    <flux:callout.text>{{ $practice->environment->hint($mode) }}</flux:callout.text>
+                </flux:callout>
             @endif
 
             {{-- Historial de intentos y comentarios (antes del editor: primero la devolución, después rehacer). --}}
@@ -110,7 +130,7 @@
             @endphp
 
             @if ($usesCode)
-                <x-code-runner :code="$startingCode" :stdin="$practice->sample_input" :language="$course->language->value"
+                <x-code-runner :code="$startingCode" :stdin="$practice->sample_input" :expected="$practice->expected_output" :language="$course->language->value"
                     :name="'practica_'.$number" :read-only="! $canSubmit" wire:key="editor-{{ $practice->id }}-{{ $latest?->id }}">
                     <x-slot:footer>
                         @if ($canSubmit && $usesFile)

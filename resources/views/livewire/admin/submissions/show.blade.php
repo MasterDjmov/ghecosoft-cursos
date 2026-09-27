@@ -33,6 +33,20 @@
         </details>
     @endif
 
+    @if ($criteriaHtml)
+        <section class="panel flex flex-col gap-2 border-s-4 border-s-success p-5" data-test="criteria">
+            <p class="tech-label flex items-center gap-2 text-success"><flux:icon name="clipboard-document-check" variant="micro" /> Criterio de aprobación</p>
+            <div class="markdown text-sm">{!! $criteriaHtml !!}</div>
+        </section>
+    @endif
+
+    @if ($practice->reference_solution)
+        <details class="panel p-5" data-test="reference-solution">
+            <summary class="cursor-pointer font-medium text-white">Solución de referencia <span class="text-xs text-ink-muted">(solo vos)</span></summary>
+            <pre class="mt-3 max-h-96 overflow-auto rounded-lg border border-outline bg-[#05070d] p-3 font-mono text-sm whitespace-pre-wrap text-ink">{{ $practice->reference_solution }}</pre>
+        </details>
+    @endif
+
     <section class="panel flex flex-col gap-4 p-5">
         @if ($submission->code)
             <x-code-runner :code="$submission->code" :stdin="$practice->sample_input" :language="$course->language->value"

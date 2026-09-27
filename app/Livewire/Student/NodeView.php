@@ -5,6 +5,7 @@ namespace App\Livewire\Student;
 use App\Models\Course;
 use App\Models\Node;
 use App\Services\TreeAccess;
+use App\Support\Glossary;
 use App\Support\Markdown;
 use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
@@ -59,8 +60,24 @@ class NodeView extends Component
                 'price' => UnlockMessages::price($child),
             ]);
 
+        // Secciones del nodo (D37). Las soluciones del docente no se leen acá: nunca llegan al alumno.
+        $node = $this->node;
+        $sections = [
+            'chronicle' => Markdown::render($node->chronicle),
+            'objectives' => Markdown::render($node->objectives),
+            'before' => Markdown::render($node->before_you_start),
+            'uses' => Markdown::render($node->use_cases),
+            'errors' => Markdown::render($node->common_errors),
+        ];
+        $selfCheck = collect($node->selfCheckItems())
+            ->map(fn ($item) => ['question' => $item['question'], 'answer' => Markdown::render($item['answer'] ?? '')]);
+        $beast = $node->beast_key ? ['key' => $node->beast_key, ...app(Glossary::class)->resolve($node->beast_key, $this->course)] : null;
+
         return view('livewire.student.node-view', [
-            'contentHtml' => Markdown::render($this->node->content),
+            'contentHtml' => Markdown::render($node->content),
+            'sections' => $sections,
+            'selfCheck' => $selfCheck,
+            'beast' => $beast,
             'practices' => $practices,
             'numbers' => $practices->pluck('id')->flip()->map(fn ($index) => $index + 1),
             'statuses' => $statuses,

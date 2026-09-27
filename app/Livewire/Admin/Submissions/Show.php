@@ -94,6 +94,7 @@ class Show extends Component
             'node' => $practice->node,
             'course' => $practice->node->course,
             'instructionsHtml' => Markdown::render($practice->instructions),
+            'criteriaHtml' => Markdown::render($practice->approval_criteria),
             'previous' => Submission::where('user_id', $submission->user_id)->where('practice_id', $practice->id)
                 ->whereKeyNot($submission->id)->orderByDesc('attempt')->get(),
             'pendingCount' => Submission::where('status', SubmissionStatus::Submitted)->count(),

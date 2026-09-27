@@ -26,6 +26,7 @@ class Glossary extends Component
 
     public const GROUPS = [
         'world' => 'Mundo',
+        'companions' => 'Compañía',
         'economy' => 'Economía',
         'progress' => 'Progreso',
         'levels' => 'Niveles',

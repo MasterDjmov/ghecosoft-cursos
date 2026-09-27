@@ -221,7 +221,7 @@ Todo genérico para cualquier lenguaje (D39).
 
 | Fase | Entregable para probar |
 |---|---|
-| **6** | **Modelo de contenido** (D37): secciones del nodo y campos nuevos de la práctica, soluciones solo del docente, editor del admin y vista del alumno con cada sección y su personaje |
+| **6** ✅ | **Modelo de contenido** (D37, terminada el 2026-09-28): secciones del nodo y campos nuevos de la práctica, soluciones solo del docente, editor del admin y vista del alumno con cada sección y su personaje |
 | **7** | **Importador**: formato fijo (común + anexo por lenguaje) documentado, `app:import-course` con modo de prueba e IDs estables que actualiza sin borrar el progreso; se ajusta el super prompt para que entregue ese formato |
 | **8** | **Sendas**: requisitos múltiples por nodo, tipo Ventana, Sendas que brotan de un nodo (se abren con comodines o monedas del curso) y su dibujo en el árbol |
 | **9** | **Historia en pantalla** (bienvenida, crónica, rama completada, jefe, criatura, Encrucijada) y **héroe** (D38) |

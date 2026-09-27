@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Student;
 
+use App\Enums\PracticeEnvironment;
 use App\Enums\SubmissionMode;
 use App\Models\Practice;
 use App\Models\PracticeMark;
@@ -131,6 +132,8 @@ class PracticeCard extends Component
         return view('livewire.student.practice-card', [
             'course' => $course,
             'instructionsHtml' => Markdown::render($this->practice->instructions),
+            'criteriaHtml' => Markdown::render($this->practice->approval_criteria),
+            'isLocal' => $this->practice->environment === PracticeEnvironment::Local,
             'attempts' => $attempts,
             'latest' => $latest,
             'status' => $approved ? 'approved' : $latest?->status->value,

@@ -281,5 +281,9 @@ Hay gente a la que el docente le crea la cuenta. Hoy solo existe el registro del
 - Si es menor, queda pendiente la autorización como en el registro normal.
 - **Email opcional (decidido, D36)**: la cuenta puede ser solo con usuario. `users.email` pasa a nullable (sigue único cuando está). El formulario de registro también lo deja opcional.
 - En la ficha del alumno: **editar email y usuario** y **"Resetear clave"** (otra clave provisoria + cambio obligatorio al entrar). Así el docente reactiva a quien perdió el acceso.
-- Sin email: no hay "Olvidé mi clave" ni avisos por mail (los avisos siguen en la campanita). La pantalla de "Olvidé mi clave" tiene que decir "si no tenés email, pedíselo al profe".
+- Sin email: no hay "Olvidé mi clave" ni avisos por mail (los avisos siguen en la campanita).
+- **Contacto por teléfono** (pedido del docente, para poder dar una mano):
+  - el alumno ya puede cargar su **teléfono** (opcional) en *Mi cuenta → Perfil*; sumarlo también al **registro** y al **alta por el docente**, y que el docente lo vea y lo edite en la ficha del alumno, con botón para escribirle por WhatsApp;
+  - en **"Olvidé mi clave"** y en el **login**: "¿No tenés email o no te llega? Escribile al profe" con botón de **WhatsApp** (chat o llamada) al número de *Configuración*. Si el número no está cargado, no se muestra;
+  - el número del docente pasa a verse en páginas públicas: es una decisión consciente del docente.
 - Solo el admin puede hacerlo: Policy y tests Pest.

@@ -6,7 +6,7 @@ use App\Models\Course;
 use App\Models\Node;
 use App\Services\TreeAccess;
 use App\Support\Glossary;
-use App\Support\Markdown;
+use App\Support\Narrative;
 use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
 use Livewire\Attributes\On;
@@ -62,20 +62,26 @@ class NodeView extends Component
 
         // Secciones del nodo (D37). Las soluciones del docente no se leen acá: nunca llegan al alumno.
         $node = $this->node;
+        // {heroe}, {mentor}, {mundo} y {region} se reemplazan antes del markdown.
+        $render = fn (?string $text) => Narrative::render($text, $this->course, $user);
         $sections = [
-            'chronicle' => Markdown::render($node->chronicle),
-            'objectives' => Markdown::render($node->objectives),
-            'before' => Markdown::render($node->before_you_start),
-            'uses' => Markdown::render($node->use_cases),
-            'errors' => Markdown::render($node->common_errors),
+            'chronicle' => $render($node->chronicle),
+            'objectives' => $render($node->objectives),
+            'before' => $render($node->before_you_start),
+            'uses' => $render($node->use_cases),
+            'errors' => $render($node->common_errors),
         ];
         $selfCheck = collect($node->selfCheckItems())
-            ->map(fn ($item) => ['question' => $item['question'], 'answer' => Markdown::render($item['answer'] ?? '')]);
+            ->map(fn ($item) => ['question' => Narrative::fill($item['question'], $this->course, $user), 'answer' => $render($item['answer'] ?? '')]);
         $beast = $node->beast_key ? ['key' => $node->beast_key, ...app(Glossary::class)->resolve($node->beast_key, $this->course)] : null;
+        if ($beast) {
+            $beast['lore_html'] = $render($beast['lore']);
+        }
 
         return view('livewire.student.node-view', [
-            'contentHtml' => Markdown::render($node->content),
+            'contentHtml' => $render($node->content),
             'sections' => $sections,
+            'bossXp' => (int) config('game.boss_defeated_xp'),
             'selfCheck' => $selfCheck,
             'beast' => $beast,
             'practices' => $practices,

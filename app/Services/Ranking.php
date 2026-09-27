@@ -74,6 +74,7 @@ class Ranking
             'position' => $index + 1,
             'user_id' => $row['user_id'],
             'name' => $users[$row['user_id']]?->rankingName() ?? '—',
+            'hero' => $users[$row['user_id']]?->hero_name,
             'username' => $users[$row['user_id']]?->hasPublicProfile() ? $users[$row['user_id']]->username : null,
             'xp' => $row['xp'],
         ]);

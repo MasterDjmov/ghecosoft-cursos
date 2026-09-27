@@ -37,6 +37,21 @@ Un curso completo se escribe en uno o varios archivos **Markdown** y se carga en
 6. Valores de sí/no: `si` o `no`.
 7. Todo el texto admite markdown. El HTML se muestra escapado.
 
+### Marcadores en los textos
+
+En cualquier texto (crónicas, explicación, consignas, historia del diccionario) se pueden usar:
+
+| Marcador | Se reemplaza por |
+|---|---|
+| `{heroe}` | El héroe que eligió el alumno (o `hero.name`, "Kira", si todavía no eligió) |
+| `{mentor}` | `mentor.name` del curso (por ejemplo, Ofidia) |
+| `{mundo}` | `world.name` |
+| `{region}` | `world.region` del curso |
+
+Escribí en segunda persona y sin marcar el género del héroe: *"—Bien hecho, {heroe} —dice {mentor}."*
+
+Textos de historia del diccionario que se muestran: `story.course_intro` (bienvenida, en la ficha y el árbol), `story.branch_completed` (al completar una rama), `story.course_completed` (al terminar el curso). El **título** es la columna *singular* y el texto, la columna *historia*.
+
 ## 2. `# CURSO`
 
 ```meta

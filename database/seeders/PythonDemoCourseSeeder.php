@@ -66,8 +66,25 @@ class PythonDemoCourseSeeder extends Seeder
             'short_description' => 'La moneda del curso de Python: se gana aprobando prácticas obligatorias.',
         ]);
 
+        // Historia de ejemplo (Fase 9). {heroe}, {mentor} y {mundo} se reemplazan al mostrarla.
+        $story = [
+            ['mentor.name', 'Ofidia', null, 'f', 'Serpiente sabia del Valle de la Serpiente.', null],
+            ['world.region', 'Valle de la Serpiente', null, 'm', null, null],
+            ['story.course_intro', 'Bienvenida al Valle', null, 'f', null, "Cruzaste el portal y despertaste en {mundo}, {heroe}. Acá la magia no se recita: **se escribe**.\n\nSoy {mentor}. Te voy a enseñar la lengua del Valle, runa por runa. Cada tema que domines rompe un sello; cada misión aprobada te da escamas para abrir el siguiente."],
+            ['story.branch_completed', '¡Rama completada!', null, 'f', null, '—Bien hecho, {heroe} —dice {mentor}—. Otra parte del Valle ya habla tu lengua.'],
+            ['story.course_completed', '¡Dominaste la lengua del Valle!', null, 'f', null, '{mentor} te entrega la última escama. —Ya no sos aprendiz, {heroe}. El Valle es tuyo; ahora elegí tu Senda.'],
+        ];
+        foreach ($story as [$key, $singular, $plural, $gender, $short, $lore]) {
+            GlossaryTerm::create(['key' => $key, 'course_id' => $this->course->id, 'singular' => $singular, 'plural' => $plural, 'gender' => $gender, 'short_description' => $short, 'lore' => $lore]);
+        }
+        GlossaryTerm::firstOrCreate(['key' => 'beast.slime', 'course_id' => null], [
+            'singular' => 'slime', 'plural' => 'slimes', 'gender' => 'm',
+            'short_description' => 'Nace de errores de sintaxis e indentación.',
+            'lore' => 'Los slimes brotan de los paréntesis sin cerrar y las sangrías torcidas. Son débiles, pero están en todos lados.',
+        ]);
+
         $root = $this->node(null, null, NodeType::Root, 'Clase 0 · Preparar el entorno', 0, 10, [
-            'chronicle' => "Cruzás el portal y caés de espaldas sobre el pasto del Valle. Una serpiente de escamas doradas te mira de cerca.\n\n—Antes de escribir tu primer hechizo —dice Ofidia—, necesitás tus herramientas.",
+            'chronicle' => "Cruzás el portal y caés de espaldas sobre el pasto del Valle. Una serpiente de escamas doradas te mira de cerca.\n\n—Antes de escribir tu primer hechizo, {heroe} —dice {mentor}—, necesitás tus herramientas.",
             'objectives' => "- Instalar Python y abrir el intérprete.\n- Ejecutar tu primer `print()`.\n- Leer tu primer pergamino de error (traceback).",
             'before_you_start' => 'Nada: este es el primer paso.',
             'use_cases' => 'Con Python se hacen páginas web, análisis de datos, inteligencia artificial, robots y juegos. Todo empieza con una línea como esta.',

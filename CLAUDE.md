@@ -43,6 +43,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 ## Convenciones del código
 - Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`. Editar el árbol (crear, mover, borrar, duplicar): `TreeEditor`; entregar: `PracticeSubmitter`; corregir y pagar: `SubmissionReviewer`; rankings: `Ranking`; importar cursos: `CourseImporter` (+ `Support\CourseImport`); avisos: `PlatformNotification`; orden por arrastre: `App\Support\Reorder` + `wire:sort`.
 - Textos narrativos con `term('clave', $course, $cantidad)` (diccionario), nunca escritos a mano en las vistas. La compañía que presenta cada sección del nodo sale de `companion.theory|uses|errors|guild` (`<x-companion>`).
+- Textos narrativos del curso para el alumno: `Narrative::render()` (reemplaza `{heroe}`, `{mentor}`, `{mundo}`, `{region}` y pasa a markdown); historia del diccionario con `Story::get()`.
 - Soluciones del docente (`nodes.teacher_solutions`, `practices.reference_solution`) van en `$hidden` y nunca se renderizan en vistas del alumno; hay test que lo verifica.
 - Estados y tipos como PHP enums (`app/Enums`) con `label()` en español.
 - Los modelos declaran en `$attributes` los mismos valores por defecto que la base.

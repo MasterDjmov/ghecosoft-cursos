@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\CoinReason;
 use App\Enums\SubmissionStatus;
 use App\Enums\XpReason;
+use App\Models\Course;
 use App\Models\CourseCompletion;
 use App\Models\CourseSubscription;
 use App\Models\Currency;
@@ -16,6 +17,7 @@ use App\Models\User;
 use App\Models\XpTransaction;
 use App\Notifications\PlatformNotification;
 use App\Support\Reward;
+use App\Support\Story;
 use DomainException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -92,6 +94,7 @@ class SubmissionReviewer
         if ($notify && $admin) {
             $this->notifyStudent($submission->fresh(), 'approved', '¡Aprobada! '.$reward->summary());
         }
+        $this->tellStory($submission->user, $submission->practice->node->course, $reward);
 
         return $reward;
     }
@@ -114,6 +117,23 @@ class SubmissionReviewer
         });
 
         $this->notifyStudent($submission->fresh(), 'redo', 'Hay que rehacerla: '.str($comment)->limit(120));
+    }
+
+    /**
+     * Un nodo sin obligatorias (por ejemplo, la Encrucijada narrativa) queda completo al abrirlo:
+     * paga lo mismo que completarlo aprobando y, si era el último, cierra el curso.
+     */
+    public function completeOnOpen(User $student, Node $node): Reward
+    {
+        $reward = DB::transaction(function () use ($student, $node) {
+            $reward = new Reward;
+            $this->completeNode($student, $node, null, $reward);
+
+            return $reward;
+        });
+        $this->tellStory($student, $node->course, $reward);
+
+        return $reward;
     }
 
     /** XP del nodo completo (una sola vez) y, si es jefe, su XP e insignia. */
@@ -143,6 +163,14 @@ class SubmissionReviewer
             }
         }
 
+        // ¿Con este nodo quedó completa su rama? (para el aviso de historia)
+        if ($node->branch) {
+            $branchNodes = $node->branch->nodes()->where('is_published', true)->get();
+            if ($branchNodes->every(fn (Node $n) => $this->access->isCompleted($student, $n))) {
+                $reward->branch = $node->branch;
+            }
+        }
+
         // ¿Con este nodo terminó el curso? Se guardan los días de cursada (para el CV).
         $course = $node->course;
         if (! CourseCompletion::where('user_id', $student->id)->where('course_id', $course->id)->exists()
@@ -155,6 +183,26 @@ class SubmissionReviewer
                 'days_taken' => $firstStart ? max(1, (int) ceil(Carbon::parse($firstStart)->diffInDays(now()))) : 0,
             ]);
             $reward->courseCompleted = true;
+        }
+    }
+
+    /** Historia en pantalla (Fase 9): aviso al completar una rama o el curso, con el texto del diccionario. */
+    private function tellStory(User $student, Course $course, Reward $reward): void
+    {
+        $stories = array_filter([
+            $reward->branch ? ['story.branch_completed', '¡«'.$reward->branch->title.'» completada!', 'flag'] : null,
+            $reward->courseCompleted ? ['story.course_completed', '¡Terminaste '.$course->title.'!', 'trophy'] : null,
+        ]);
+
+        foreach ($stories as [$key, $title, $icon]) {
+            $story = Story::get($key, $course, $student, requireText: false);
+            $student->notify(new PlatformNotification(
+                kind: $key,
+                title: $title,
+                body: str($story['text'] ?: $story['title'])->limit(300)->toString(),
+                url: route('student.tree', $course),
+                icon: $icon,
+            ));
         }
     }
 

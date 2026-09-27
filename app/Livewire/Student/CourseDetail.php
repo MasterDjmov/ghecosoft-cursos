@@ -12,6 +12,7 @@ use App\Services\Ledger;
 use App\Services\NodeUnlocker;
 use App\Services\TreeAccess;
 use App\Support\Markdown;
+use App\Support\Story;
 use App\Support\UnlockMessages;
 use DomainException;
 use Flux\Flux;
@@ -113,6 +114,7 @@ class CourseDetail extends Component
         $kind = $requester->kindFor($user, $this->course);
 
         return view('livewire.student.course-detail', [
+            'intro' => Story::get('story.course_intro', $this->course, auth()->user()),
             'descriptionHtml' => Markdown::render($this->course->description),
             'subscription' => $subscription,
             'lastSubscription' => $user->subscriptions()->where('course_id', $this->course->id)->orderByDesc('ends_at')->first(),

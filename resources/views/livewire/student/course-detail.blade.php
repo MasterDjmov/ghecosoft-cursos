@@ -93,6 +93,10 @@
         @endif
     </section>
 
+    @if ($intro)
+        <x-story-card :story="$intro" :course="$course" icon="book-open" data-test="course-intro" />
+    @endif
+
     @if ($descriptionHtml)
         <section class="panel flex flex-col gap-3 p-5 sm:p-6">
             <h2 class="font-display text-lg font-semibold text-white">De qué se trata</h2>

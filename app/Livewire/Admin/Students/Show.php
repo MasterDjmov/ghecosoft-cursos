@@ -11,6 +11,8 @@ use App\Models\Submission;
 use App\Models\User;
 use App\Models\XpTransaction;
 use App\Services\Ledger;
+use App\Services\Ranking;
+use App\Support\HeroName;
 use Flux\Flux;
 use InvalidArgumentException;
 use Livewire\Attributes\Title;
@@ -29,9 +31,23 @@ class Show extends Component
 
     public string $reason = '';
 
+    /** Moderación del héroe (D38). */
+    public string $heroName = '';
+
     public function mount(User $user): void
     {
         abort_unless($user->isStudent(), 404);
+        $this->heroName = (string) $user->hero_name;
+    }
+
+    public function saveHero(): void
+    {
+        $this->heroName = (string) HeroName::normalize($this->heroName);
+        $this->validate(HeroName::rules('heroName', $this->user), HeroName::messages('heroName'), ['heroName' => 'nombre del héroe']);
+
+        $this->user->update(['hero_name' => $this->heroName ?: null]);
+        Ranking::forget();
+        Flux::toast(variant: 'success', text: 'Héroe actualizado.');
     }
 
     /** Dar o quitar monedas o XP. El motivo es obligatorio y queda en el libro. */

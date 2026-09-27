@@ -17,6 +17,7 @@ return [
     // Mundo
     'world.name' => ['group' => 'world', 'label' => 'Nombre del mundo (reemplaza a «Codexia»)', 'singular' => 'el Mundo del Código', 'gender' => 'm'],
     'world.region' => ['group' => 'world', 'label' => 'Nombre de la región o isla de un curso', 'singular' => 'región', 'plural' => 'regiones', 'gender' => 'f'],
+    'hero.name' => ['group' => 'world', 'label' => 'Héroe por defecto (hasta que el alumno elija el suyo; en los textos: {heroe})', 'singular' => 'Kira', 'gender' => 'f'],
     'mentor.name' => ['group' => 'world', 'label' => 'Mentor o guía (nombre, retrato y presentación)', 'singular' => 'el profe', 'gender' => 'm'],
 
     // Compañía: cada personaje presenta una sección fija del nodo (D37). Iguales en todos los cursos salvo que un curso los cambie.

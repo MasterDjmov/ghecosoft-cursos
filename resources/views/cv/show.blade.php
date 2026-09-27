@@ -21,6 +21,9 @@
                 <div class="flex min-w-0 flex-1 flex-col gap-1">
                     <p class="tech-label">Currículum · {{ config('app.name') }}</p>
                     <h1 class="font-display text-3xl font-semibold text-white">{{ $user->fullName() }}</h1>
+                    @if ($user->hero_name)
+                        <p class="flex items-center gap-1.5 text-sm text-secondary-bright" data-test="cv-hero"><flux:icon name="sparkles" variant="micro" /> Héroe: {{ $user->hero_name }}</p>
+                    @endif
                     <p class="text-ink-muted">
                         {{ $level?->name() ?? ucfirst(term('level')).' 1' }} · {{ $user->xp_total }} {{ term('xp.short') }}
                         · {{ $approvedPractices }} {{ term('practice', null, $approvedPractices) }} aprobadas

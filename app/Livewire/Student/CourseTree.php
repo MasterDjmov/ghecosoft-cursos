@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Node;
 use App\Services\NodeUnlocker;
 use App\Services\TreeAccess;
+use App\Support\Story;
 use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
 use Flux\Flux;
@@ -86,6 +87,12 @@ class CourseTree extends Component
             'subscription' => $access->activeSubscription($user, $this->course),
             'selected' => $selected,
             'selectedCanUnlock' => $selected && $access->canUnlock($user, $this->course->nodes()->find($selected['id'])),
+            // Historia en pantalla (Fase 9): bienvenida, rama completada y fin del curso.
+            'intro' => Story::get('story.course_intro', $this->course, $user),
+            'branchStory' => Story::get('story.branch_completed', $this->course, $user, requireText: false),
+            'finale' => $access->isCourseCompleted($user, $this->course)
+                ? Story::get('story.course_completed', $this->course, $user, requireText: false)
+                : null,
         ])->title('Árbol · '.$this->course->title);
     }
 }

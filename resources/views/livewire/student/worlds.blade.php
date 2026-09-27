@@ -7,6 +7,16 @@
 
     <x-wallet-bar class="sm:hidden" />
 
+    @unless (auth()->user()->hero_name)
+        <flux:callout icon="sparkles" color="violet" data-test="hero-prompt">
+            <flux:callout.heading>Elegí el nombre de tu héroe</flux:callout.heading>
+            <flux:callout.text>
+                Hasta que lo elijas, en la historia te llaman {{ term('hero.name') }}. Es único en toda la plataforma y aparece en el ranking.
+                <flux:link :href="route('profile.edit')" wire:navigate>Elegirlo ahora</flux:link>
+            </flux:callout.text>
+        </flux:callout>
+    @endunless
+
     @foreach ($worlds->filter(fn ($w) => $w['status'] === 'active' && $w['subscription']->ends_at->lte(now()->addDays(config('game.subscription_warning_days')))) as $world)
         <flux:callout icon="clock" color="amber">
             <flux:callout.text>

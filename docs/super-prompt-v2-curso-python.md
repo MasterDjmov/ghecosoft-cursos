@@ -99,7 +99,7 @@ El héroe cruza un portal a un mundo donde **la magia no se recita: se escribe**
 - Otras regiones (otros cursos a futuro): C = Las Forjas de Hierro (Maese Ferrum), Java = El Imperio de las Clases (Kaffa). La historia de Python no tiene que cerrarle la puerta a esas regiones.
 
 ### El héroe: el personaje es del alumno
-- El nombre por defecto es **Kira**, aprendiz de espadachina, pero **el alumno puede renombrarlo**. En todos los textos usá el marcador **`{heroe}`** (clave nueva del diccionario: `hero.name`).
+- El nombre por defecto es **Kira**, aprendiz de espadachina, pero **el alumno puede renombrarlo** (su héroe es único en la plataforma y aparece en el ranking). En todos los textos usá el marcador **`{heroe}`** (clave `hero.name`). También existen **`{mentor}`**, **`{mundo}`** y **`{region}`**, que salen del diccionario.
 - Para que el renombre funcione con cualquier nombre, **escribí las crónicas en segunda persona** ("Cruzás el portal...", "Ofidia te mira...") y **evitá marcar el género del héroe**. El nombre aparece sobre todo cuando le hablan los personajes: *"—Bien hecho, {heroe}."*
 - En las prácticas, el alumno **construye a su héroe en código**: la ficha, la mochila, el bestiario, los hechizos. Es el mismo personaje, y su código crece de nodo en nodo.
 

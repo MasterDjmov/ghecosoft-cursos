@@ -11,6 +11,8 @@
     $isTrunk = fn ($n) => $n['type'] !== 'extra' && ($n['branch_id'] === null || ($kinds[$n['branch_id']] ?? 'trunk') === 'trunk');
     $trunk = $nodes->filter($isTrunk);
     $trunkDone = $trunk->where('state', 'completed')->count();
+    $branchDone = fn ($branchId) => ($branchNodes = $nodes->where('branch_id', $branchId))->isNotEmpty()
+        && $branchNodes->every(fn ($n) => $n['state'] === 'completed');
     $optional = $branches->filter(fn ($b) => $b['kind'] !== 'trunk')
         ->map(fn ($b) => ['branch' => $b, 'nodes' => $nodes->where('branch_id', $b['id'])])
         ->filter(fn ($item) => $item['nodes']->isNotEmpty());
@@ -41,6 +43,32 @@
             </button>
         </div>
     </header>
+
+    {{-- Fin del curso --}}
+    @if ($finale)
+        <x-story-card :story="$finale" :course="$course" icon="trophy" tone="success" data-test="course-finale">
+            <div>
+                <flux:button size="sm" icon="identification" :href="route('cv.show', auth()->user()->username)" target="_blank">Ver mi CV</flux:button>
+            </div>
+        </x-story-card>
+    @endif
+
+    {{-- Bienvenida: se puede cerrar; queda un botón para volver a verla. --}}
+    @if ($intro)
+        <div x-data="{ hidden: (() => { try { return localStorage.getItem('story-intro-{{ $course->id }}') === '1' } catch (e) { return false } })() }">
+            <div x-show="! hidden">
+                <x-story-card :story="$intro" :course="$course" icon="book-open" data-test="course-intro">
+                    <div class="flex justify-end">
+                        <flux:button size="xs" variant="ghost" icon="x-mark" x-on:click="hidden = true; try { localStorage.setItem('story-intro-{{ $course->id }}', '1') } catch (e) {}">Cerrar</flux:button>
+                    </div>
+                </x-story-card>
+            </div>
+            <button type="button" x-show="hidden" x-cloak class="flex items-center gap-1.5 text-xs text-secondary-bright hover:underline"
+                x-on:click="hidden = false; try { localStorage.removeItem('story-intro-{{ $course->id }}') } catch (e) {}">
+                <flux:icon name="book-open" variant="micro" /> {{ $intro['title'] }}
+            </button>
+        </div>
+    @endif
 
     @if ($optional->isNotEmpty())
         <div class="-mt-2 flex flex-wrap gap-2" data-test="optional-progress">
@@ -93,6 +121,9 @@
             <section class="flex flex-col gap-2">
                 <h2 class="flex items-center gap-2 font-display text-lg font-semibold text-white">
                     {{ $branch['title'] }}
+                    @if ($branchDone($branch['id']))
+                        <flux:badge size="sm" color="green" icon="check">Completada</flux:badge>
+                    @endif
                     @if ($branch['kind'] === 'path')
                         <flux:badge size="sm" color="pink">{{ ucfirst(term('branch.path', $course)) }}</flux:badge>
                     @elseif ($branch['is_extra'])

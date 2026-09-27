@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Badge;
+use App\Models\Branch;
 use App\Models\Level;
 
 /** Lo que ganó el alumno con una aprobación (para el aviso). */
@@ -22,6 +23,9 @@ class Reward
 
     public bool $courseCompleted = false;
 
+    /** Rama que quedó completa con esta aprobación (Fase 9: aviso de historia). */
+    public ?Branch $branch = null;
+
     public function summary(): string
     {
         $parts = [];
@@ -36,6 +40,9 @@ class Reward
         }
         if ($this->badge) {
             $parts[] = 'insignia «'.$this->badge->name.'»';
+        }
+        if ($this->branch) {
+            $parts[] = '«'.$this->branch->title.'» completada';
         }
         if ($this->courseCompleted) {
             $parts[] = '¡terminaste el curso!';

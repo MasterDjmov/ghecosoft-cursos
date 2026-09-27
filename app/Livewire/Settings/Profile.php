@@ -4,6 +4,8 @@ namespace App\Livewire\Settings;
 
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use App\Services\Ranking;
+use App\Support\HeroName;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -30,6 +32,9 @@ class Profile extends Component
 
     public string $birth_date = '';
 
+    /** D38: nombre del héroe, público y único. */
+    public string $hero_name = '';
+
     public function mount(): void
     {
         $user = Auth::user();
@@ -41,6 +46,18 @@ class Profile extends Component
         $this->phone = (string) $user->phone;
         $this->dni = (string) $user->dni;
         $this->birth_date = (string) $user->birth_date?->format('Y-m-d');
+        $this->hero_name = (string) $user->hero_name;
+    }
+
+    public function saveHero(): void
+    {
+        $user = Auth::user();
+        $this->hero_name = (string) HeroName::normalize($this->hero_name);
+        $this->validate(HeroName::rules('hero_name', $user), HeroName::messages('hero_name'), ['hero_name' => 'nombre del héroe']);
+
+        $user->update(['hero_name' => $this->hero_name ?: null]);
+        Ranking::forget();
+        Flux::toast(variant: 'success', text: $this->hero_name ? "¡Que empiece la aventura, {$this->hero_name}!" : 'Tu héroe vuelve a llamarse '.term('hero.name').'.');
     }
 
     public function updateProfileInformation(): void

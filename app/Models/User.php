@@ -35,7 +35,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property RankingDisplay $ranking_display
  * @property bool $cv_public
  */
-#[Fillable(['name', 'last_name', 'username', 'email', 'password', 'phone', 'dni', 'birth_date', 'avatar', 'nickname', 'ranking_display', 'cv_public'])]
+#[Fillable(['name', 'last_name', 'username', 'email', 'password', 'phone', 'dni', 'birth_date', 'avatar', 'nickname', 'hero_name', 'ranking_display', 'cv_public'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -111,6 +111,12 @@ class User extends Authenticatable implements PasskeyUser
     public function hasPublicProfile(): bool
     {
         return $this->cv_public && $this->publicProfileBlocker() === null;
+    }
+
+    /** El héroe del alumno (D38); si todavía no lo eligió, el del diccionario ("Kira"). */
+    public function heroName(): string
+    {
+        return $this->hero_name ?: term('hero.name');
     }
 
     /** Cómo aparece en los rankings: apodo, o nombre e inicial del apellido. */

@@ -9,7 +9,7 @@ use App\Models\PracticeMark;
 use App\Models\Submission;
 use App\Services\PracticeSubmitter;
 use App\Services\SubmissionReviewer;
-use App\Support\Markdown;
+use App\Support\Narrative;
 use DomainException;
 use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
@@ -131,8 +131,8 @@ class PracticeCard extends Component
 
         return view('livewire.student.practice-card', [
             'course' => $course,
-            'instructionsHtml' => Markdown::render($this->practice->instructions),
-            'criteriaHtml' => Markdown::render($this->practice->approval_criteria),
+            'instructionsHtml' => Narrative::render($this->practice->instructions, $course, $user),
+            'criteriaHtml' => Narrative::render($this->practice->approval_criteria, $course, $user),
             'isLocal' => $this->practice->environment === PracticeEnvironment::Local,
             'attempts' => $attempts,
             'latest' => $latest,

@@ -5,6 +5,14 @@
         </x-slot:actions>
     </x-admin.page-header>
 
+    <form wire:submit="saveHero" class="panel flex flex-col gap-3 p-4 sm:flex-row sm:items-end" data-test="hero-moderation">
+        <div class="flex-1">
+            <flux:input wire:model="heroName" label="Héroe" :placeholder="term('hero.name').' (sin elegir)'" maxlength="20"
+                description="Público y único. Cambialo si el nombre no es apropiado; vacío = vuelve al héroe por defecto." />
+        </div>
+        <flux:button type="submit" icon="check">Guardar héroe</flux:button>
+    </form>
+
     <div class="grid gap-4 sm:grid-cols-3">
         <div class="panel flex flex-col gap-1 p-4">
             <span class="tech-label">{{ ucfirst(term('xp')) }}</span>

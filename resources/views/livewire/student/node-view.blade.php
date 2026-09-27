@@ -98,6 +98,24 @@
         </flux:callout>
     @endunless
 
+    {{-- Presentación del jefe: qué se gana al vencerlo. --}}
+    @if ($node->isBoss())
+        <aside class="flex items-center gap-4 rounded-lg border border-danger/40 bg-danger/10 px-6 py-4" data-test="boss-banner">
+            <span class="grid size-12 shrink-0 place-items-center rounded-full bg-danger/20 text-danger"><flux:icon name="fire" /></span>
+            <div class="flex min-w-0 flex-col gap-0.5">
+                <p class="tech-label text-danger">{{ ucfirst(term('node.boss', $course)) }}{{ $node->branch ? ' de «'.$node->branch->title.'»' : '' }}</p>
+                <p class="text-ink">
+                    Es un proyecto integrador: no trae teoría nueva. Vencelo y ganás
+                    <strong class="text-white">+{{ $bossXp }} {{ term('xp.short') }}</strong>@if ($node->badge) y la {{ term('badge', $course) }}
+                        <strong class="text-white">«{{ $node->badge->name }}»</strong>@endif.
+                </p>
+                @if ($node->badge?->description)
+                    <p class="text-sm text-ink-muted">{{ $node->badge->description }}</p>
+                @endif
+            </div>
+        </aside>
+    @endif
+
     {{-- Crónica: la historia del nodo, antes de la teoría. --}}
     @if ($sections['chronicle'])
         <aside class="relative overflow-hidden rounded-lg border border-secondary/40 bg-secondary/10 px-6 py-5" data-test="chronicle">
@@ -175,6 +193,12 @@
                                         <p class="font-display font-semibold text-white">{{ ucfirst($beast['singular']) }}</p>
                                         @if ($beast['short_description'])
                                             <p class="text-sm text-ink-muted">{{ $beast['short_description'] }}</p>
+                                        @endif
+                                        @if ($beast['lore_html'])
+                                            <details class="mt-1 text-sm">
+                                                <summary class="cursor-pointer text-danger/90">Su historia</summary>
+                                                <div class="markdown mt-2">{!! $beast['lore_html'] !!}</div>
+                                            </details>
                                         @endif
                                     </div>
                                 </div>

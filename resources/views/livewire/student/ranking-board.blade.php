@@ -32,6 +32,9 @@
                         {{ $row['name'] }}
                     @endif
                     @if ($isMe) <span class="text-xs text-primary-bright">(vos)</span> @endif
+                    @if ($row['hero'] ?? null)
+                        <span class="block truncate text-xs text-secondary-bright"><flux:icon name="sparkles" variant="micro" class="inline" /> {{ $row['hero'] }}</span>
+                    @endif
                 </span>
                 <span class="font-mono text-sm text-primary-bright">{{ $row['xp'] }} {{ term('xp.short') }}</span>
             </li>

@@ -11,12 +11,16 @@ use Illuminate\Support\Facades\DB;
 
 class NodeUnlocker
 {
-    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger) {}
+    public function __construct(
+        private readonly TreeAccess $access,
+        private readonly Ledger $ledger,
+        private readonly SubmissionReviewer $reviewer,
+    ) {}
 
     /** @throws NodeLocked */
     public function unlock(User $user, Node $node): NodeUnlock
     {
-        return DB::transaction(function () use ($user, $node) {
+        $unlock = DB::transaction(function () use ($user, $node) {
             // Bloquea al usuario antes de revisar: dos pedidos simultáneos se ejecutan de a uno.
             User::whereKey($user->id)->lockForUpdate()->first();
 
@@ -41,5 +45,12 @@ class NodeUnlocker
 
             return $unlock;
         });
+
+        // Sin obligatorias, abrirlo ya lo completa (XP del nodo, curso completado, historia).
+        if ($this->access->requiredPracticesApproved($user, $node)) {
+            $this->reviewer->completeOnOpen($user, $node);
+        }
+
+        return $unlock;
     }
 }

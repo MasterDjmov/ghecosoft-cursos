@@ -245,3 +245,15 @@ El docente decidió **pulir detalles antes de subirla**. Cuando llegue el moment
 - WhatsApp y mensaje prearmado (en *Configuración*, ya en el servidor).
 - Casilla de correo para los avisos por mail (SMTP), por ejemplo en `lariojaclick.ar`.
 
+
+## 11. Ideas aprobadas para más adelante (pulido)
+
+### Modo misión (anotado el 2026-09-27; al docente le gusta la idea, todavía no se diseña)
+Pantalla de trabajo a pantalla completa para **una práctica**, inspirada en una maqueta tipo "centro de comando" (historia a la izquierda, editor al centro, terminal abajo). Es **otra presentación**: no cambia lógica, monedas ni reglas.
+- Se entra con un botón **"Entrar a la misión"** en cada práctica. La página del nodo queda como está (leer, repasar, celular). En celular no hay modo misión: sigue la vista actual.
+- **Izquierda**, con pestañas: *Historia* (la crónica del nodo; resuelve dónde mostrar la historia), *Consigna* y *Teoría*. Debajo, las prácticas del nodo como checklist con los colores de estado; tocar una cambia de archivo.
+- **Centro**: el editor ventana y la consola con pestañas que ya existen (`x-code-runner`).
+- **Arriba**: misión, recompensa (+XP, +monedas) y **Entregar** siempre visible. Derecha opcional: devolución del profe y estado de la entrega.
+- **Afuera**: inspector de memoria o Valgrind (propio de C++), "Ejecutar tests" (no hay corrección automática; lo más cercano es "coincide con la salida esperada") e indicadores decorativos falsos. "Pista (−XP)" sería una regla nueva de economía: se decide primero en GAMIFICACION.md.
+- Estética: la paleta y tipografías actuales, más sobria que la maqueta.
+- Próximo paso: propuesta de distribución (qué va en cada zona) para que el docente la ajuste antes de programar.

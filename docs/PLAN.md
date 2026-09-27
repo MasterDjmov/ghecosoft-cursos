@@ -60,6 +60,7 @@
 | D35 | Producción | `ProductionSeeder` (sin usuarios de prueba), `URL::forceHttps` en producción y el usuario no puede ser solo números (no es un DNI) | Seguridad del deploy |
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 | D36 | Email del alumno | **Opcional** (en el registro y en el alta por el docente). Se entra con usuario o email. El docente puede cambiarle el email y resetearle la clave desde el admin para reactivar la cuenta | Hay alumnos sin email o que pierden el acceso; no se los bloquea por eso (2026-09-27) |
+| D37 | Contenido del nodo | **Secciones como campos separados**: crónica, objetivos, antes de empezar, explicación (Mia; es el `content` actual), ¿para qué sirve? (Bron), errores habituales (Zed, con la criatura del bestiario), prueba del sello (autoevaluación sin nota, respuestas desplegables) y **soluciones solo del docente** (nunca se mandan al alumno). Práctica: suma criterio de aprobación, solución de referencia (solo docente), salida esperada y entorno Navegador/Local | Permite dibujar cada sección con su personaje, ocultar las soluciones de forma segura e importar el curso del super prompt (2026-09-27) |
 
 ---
 

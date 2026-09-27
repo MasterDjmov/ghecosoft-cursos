@@ -33,9 +33,10 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - `npm run build` — assets para producción
 - `vendor/bin/pint` — formato del código
 - `php artisan app:create-admin` — crear el admin en producción
+- `php artisan db:seed --class=ProductionSeeder` — datos mínimos en producción (nunca `db:seed` a secas). Deploy: [docs/DEPLOY.md](docs/DEPLOY.md)
 
 ## Convenciones del código
-- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`. Editar el árbol (crear, mover, borrar, duplicar): `TreeEditor`; orden por arrastre: `App\Support\Reorder` + `wire:sort`.
+- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`. Editar el árbol (crear, mover, borrar, duplicar): `TreeEditor`; entregar: `PracticeSubmitter`; corregir y pagar: `SubmissionReviewer`; rankings: `Ranking`; avisos: `PlatformNotification`; orden por arrastre: `App\Support\Reorder` + `wire:sort`.
 - Textos narrativos con `term('clave', $course, $cantidad)` (diccionario), nunca escritos a mano en las vistas.
 - Estados y tipos como PHP enums (`app/Enums`) con `label()` en español.
 - Los modelos declaran en `$attributes` los mismos valores por defecto que la base.

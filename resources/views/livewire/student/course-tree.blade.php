@@ -18,7 +18,10 @@
         <div class="flex min-w-0 flex-1 flex-col gap-1">
             <p class="tech-label">{{ term('world.name') }} · {{ $course->title }}</p>
             <h1 class="font-display text-2xl font-semibold text-white">Tu árbol</h1>
-            <p class="text-sm text-ink-muted">{{ $completed }}/{{ $total }} {{ term('node', $course, $total) }} completados</p>
+            <p class="text-sm text-ink-muted">
+                {{ $completed }}/{{ $total }} {{ term('node', $course, $total) }} completados ·
+                <a href="{{ route('student.ranking.course', $course) }}" wire:navigate class="text-primary-bright hover:underline">Top 10 del curso</a>
+            </p>
         </div>
         <div class="inline-flex self-start rounded-lg border border-outline bg-surface-low p-1 sm:self-center" role="tablist">
             <button type="button" role="tab" x-on:click="tab = 'tree'" class="flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition"

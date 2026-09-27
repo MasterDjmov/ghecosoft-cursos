@@ -24,7 +24,7 @@ class Dashboard extends Component
                 ['label' => 'Solicitudes pendientes', 'value' => EnrollmentRequest::where('status', RequestStatus::Pending)->count(), 'icon' => 'inbox-arrow-down', 'url' => route('admin.requests')],
                 ['label' => 'Entregas por corregir', 'value' => Submission::where('status', SubmissionStatus::Submitted)->count(), 'icon' => 'code-bracket-square', 'url' => route('admin.submissions.index')],
                 ['label' => 'Alumnos con abono vigente', 'value' => CourseSubscription::active()->distinct()->count('user_id'), 'icon' => 'users', 'url' => route('admin.students.index')],
-                ['label' => 'Autorizaciones pendientes', 'value' => GuardianAuthorization::where('status', AuthorizationStatus::Pending)->count(), 'icon' => 'document-check'],
+                ['label' => 'Autorizaciones pendientes', 'value' => GuardianAuthorization::where('status', AuthorizationStatus::Pending)->count(), 'icon' => 'document-check', 'url' => route('admin.authorizations')],
             ],
             'students' => User::where('role', Role::Student)->count(),
         ]);

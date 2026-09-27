@@ -80,7 +80,7 @@
             <p class="flex items-center gap-2 text-xs text-ink-muted"><flux:icon name="information-circle" variant="micro" /> {{ $blocker }}</p>
         @endif
 
-        <div>
+        <div @class(['hidden' => $status === 'approved'])>
             <flux:button size="xs" variant="ghost" :icon="$marked ? 'check-circle' : 'check'" wire:click="toggleMark">
                 {{ $marked ? 'Marcada como completada' : 'Marcar como completada' }}
             </flux:button>

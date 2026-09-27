@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente. Fases 1 a 3 terminadas (2026-09-27). **Fase 4 terminada (2026-09-27)**, esperando prueba del docente.
+> **Estado:** aprobado por el docente. Fases 1 a 4 terminadas (2026-09-27). **Fase 5 terminada (2026-09-27)**: plataforma completa según el plan, esperando prueba del docente y el deploy ([DEPLOY.md](DEPLOY.md)).
 
 ---
 
@@ -54,6 +54,10 @@
 | D29 | Entregas | Nueva entrega solo con el nodo abierto, abono vigente, sin otra esperando corrección y sin haberla aprobado; el primer aprobado de cada hoja paga, los siguientes no | Intentos ilimitados sin duplicar pagos |
 | D30 | Notificaciones | Una sola clase `PlatformNotification` (título, texto, link, ícono) en base de datos + mail si hay SMTP; campanita con consulta cada 60 s | Hosting sin workers ni websockets |
 | D31 | Alumnos (admin) | Buscador y ficha con abonos, saldos, movimientos, entregas y **ajuste manual con motivo** (se adelantó a la Fase 4) | Lo pide la especificación y usa los mismos movimientos |
+| D32 | Ranking | Por curso: XP ganada **en ese curso**, entre quienes tuvieron abono; global: solo perfiles públicos. Nombre + inicial del apellido, o apodo. Caché de 5 min que se limpia al sumar XP | Privacidad y justicia (G9) |
+| D33 | Perfil público | Requiere fecha de nacimiento cargada; si es menor, la autorización aprobada. Sin eso el tilde está deshabilitado | G10 + G12 |
+| D34 | CV en PDF | Impresión del navegador ("Descargar PDF") con hoja de estilos de impresión, sin librerías de PDF en el servidor | Liviano para hosting compartido |
+| D35 | Producción | `ProductionSeeder` (sin usuarios de prueba), `URL::forceHttps` en producción y el usuario no puede ser solo números (no es un DNI) | Seguridad del deploy |
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 
 ---

@@ -27,6 +27,10 @@
                         <flux:sidebar.item icon="users" :href="route('admin.students.index')" :current="request()->routeIs('admin.students.*')" wire:navigate>
                             Alumnos
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="document-check" :href="route('admin.authorizations')" :current="request()->routeIs('admin.authorizations')" wire:navigate
+                            :badge="\App\Models\GuardianAuthorization::where('status', 'pending')->count() ?: null">
+                            Autorizaciones
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="share" :href="route('admin.courses.index')" :current="request()->routeIs('admin.courses.*', 'admin.nodes.*')" wire:navigate>
                             Cursos y árboles
                         </flux:sidebar.item>
@@ -52,8 +56,14 @@
                     </flux:sidebar.group>
                 @else
                     <flux:sidebar.group heading="Aprender" class="grid">
-                        <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.*')" wire:navigate>
+                        <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.worlds', 'student.course', 'student.tree', 'student.node')" wire:navigate>
                             Mundos
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="trophy" :href="route('student.ranking')" :current="request()->routeIs('student.ranking*')" wire:navigate>
+                            Ranking
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->username)" target="_blank">
+                            Mi CV
                         </flux:sidebar.item>
                     </flux:sidebar.group>
                 @endif
@@ -62,7 +72,7 @@
             <flux:spacer />
 
             <flux:sidebar.nav>
-                <flux:sidebar.item icon="user-circle" :href="route('profile.edit')" :current="request()->routeIs('profile.edit', 'security.edit', 'movements')" wire:navigate>
+                <flux:sidebar.item icon="user-circle" :href="route('profile.edit')" :current="request()->routeIs('profile.edit', 'security.edit', 'movements', 'privacy')" wire:navigate>
                     Mi cuenta
                 </flux:sidebar.item>
             </flux:sidebar.nav>

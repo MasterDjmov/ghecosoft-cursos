@@ -135,3 +135,16 @@ textarea:focus[data-flux-control],
 select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-surface;
 }
+
+/* CV en PDF (impresión del navegador): fondo blanco y sin botones. */
+@media print {
+    @page { margin: 14mm; }
+    body { background: #fff !important; color: #0b1326 !important; }
+    .no-print { display: none !important; }
+    .cv .panel { background: #fff !important; box-shadow: none !important; backdrop-filter: none !important; border-color: #cbd5e1 !important; break-inside: avoid; }
+    .cv h1, .cv h2, .cv h3, .cv .text-white, .cv .text-ink { color: #0b1326 !important; }
+    .cv .text-ink-muted, .cv .tech-label { color: #475569 !important; }
+    .cv .bg-surface-highest { background: #e2e8f0 !important; }
+    .cv .bg-surface-high { background: #f1f5f9 !important; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

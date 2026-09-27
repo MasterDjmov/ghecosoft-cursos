@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\CvController;
+use App\Http\Controllers\Files\GuardianAuthorizationController;
 use App\Http\Controllers\Files\NodeResourceController;
 use App\Http\Controllers\Files\ReceiptController;
 use App\Http\Controllers\Files\SubmissionFileController;
+use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
@@ -16,10 +19,14 @@ use App\Livewire\Admin\Submissions;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\NodeView;
+use App\Livewire\Student\RankingBoard;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => auth()->check() ? redirect()->route('home') : redirect()->route('login'));
+
+// CV público (opt-in del alumno). Sin login.
+Route::get('cv/{username}', CvController::class)->middleware('throttle:60,1')->name('cv.show');
 
 Route::middleware('auth')->group(function () {
     // Destino después de entrar: cada rol a su inicio.
@@ -31,11 +38,14 @@ Route::middleware('auth')->group(function () {
     Route::livewire('cursos/{course}', CourseDetail::class)->name('student.course');
     Route::livewire('cursos/{course}/arbol', CourseTree::class)->name('student.tree');
     Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
+    Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
+    Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 
     // Descargas del disco privado: cada controlador llama a authorize().
     Route::get('archivos/recursos/{resource}', NodeResourceController::class)->name('files.resource');
     Route::get('archivos/comprobantes/{request}', ReceiptController::class)->name('files.receipt');
     Route::get('archivos/entregas/{submission}', SubmissionFileController::class)->name('files.submission');
+    Route::get('archivos/autorizaciones/{authorization}', GuardianAuthorizationController::class)->name('files.authorization');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -49,6 +59,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         : redirect()->route('admin.submissions.index'))->name('submissions.next');
     Route::livewire('entregas/{submission}', Submissions\Show::class)->name('submissions.show');
 
+    Route::livewire('autorizaciones', Authorizations::class)->name('authorizations');
     Route::livewire('alumnos', Students\Index::class)->name('students.index');
     Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
 

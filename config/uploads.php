@@ -12,6 +12,12 @@ return [
         'mimes' => ['png', 'jpg', 'jpeg', 'webp'],
     ],
 
+    // Comprobantes de pago (disco privado).
+    'receipt' => [
+        'max_kb' => 5120,
+        'mimes' => ['jpg', 'jpeg', 'png', 'pdf'],
+    ],
+
     // Recursos de un nodo (disco privado, se sirven por controlador).
     'resource' => [
         'max_kb' => 20480,

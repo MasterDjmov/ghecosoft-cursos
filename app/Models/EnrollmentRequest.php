@@ -35,6 +35,11 @@ class EnrollmentRequest extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
     public function cohort(): BelongsTo
     {
         return $this->belongsTo(Cohort::class);

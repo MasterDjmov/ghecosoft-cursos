@@ -39,6 +39,10 @@ return [
         'uncompromised' => 'Esa :attribute apareció en una filtración de datos. Elegí otra.',
     ],
     'regex' => 'El formato de :attribute no es válido.',
+    'custom' => [
+        'username' => ['not_regex' => 'El usuario no puede ser solo números (es el link de tu CV: no uses tu DNI).'],
+    ],
+    'not_regex' => 'El formato de :attribute no es válido.',
     'required' => 'Completá :attribute.',
     'same' => ':attribute y :other tienen que coincidir.',
     'string' => ':attribute tiene que ser texto.',

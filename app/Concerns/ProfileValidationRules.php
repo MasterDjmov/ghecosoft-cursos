@@ -45,6 +45,8 @@ trait ProfileValidationRules
             'min:3',
             'max:30',
             'regex:/^[a-z0-9][a-z0-9_-]*$/',
+            // Es el link del CV público: no puede ser un DNI (solo números).
+            'not_regex:/^\d+$/',
             Rule::notIn(self::RESERVED_USERNAMES),
             $userId === null
                 ? Rule::unique(User::class)

@@ -237,7 +237,7 @@ El docente decidió **pulir detalles antes de subirla**. Cuando llegue el moment
 - Copias de seguridad de la base y de `storage/app/private`.
 
 **Lo que falta cargar o decidir (del lado del docente):**
-- Nombre del mundo que reemplaza a "Codexia", nombres narrativos e historia (en *Diccionario*).
+- Nombre del mundo que reemplaza a "Codexia", nombres narrativos e historia (en *Diccionario*). **En curso (2026-09-27):** el docente la está definiendo con Claude online a partir de [HISTORIA-BRIEF.md](HISTORIA-BRIEF.md); Python es el primer curso que sale. Falta decidir en qué pantallas ve el alumno la historia, el bestiario y el mentor (hoy se cargan pero no se muestran).
 - Contenido real de Python a partir de FullCursos: clase 0 y temas.
 - Modelo de la nota de autorización para menores.
 - Logo en PNG con fondo transparente y versión horizontal.

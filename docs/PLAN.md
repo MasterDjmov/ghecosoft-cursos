@@ -218,12 +218,20 @@ Al final de cada fase: `php artisan test` + `npm run build` + qué probar → **
 
 El docente decidió **pulir detalles antes de subirla**. Cuando llegue el momento se sigue [DEPLOY.md](DEPLOY.md). Lo que hay que tener presente:
 
+**Dónde va:** `https://gamificado.lariojaclick.ar` (anotado el 2026-09-27). El subdominio ya está creado en cPanel y pasa por **Cloudflare**; hoy sirve un `index.html` de prueba que se borra al subir el proyecto. Detalles en [DEPLOY.md § 9](DEPLOY.md).
+
+**Antes de subir (código):**
+- Confiar en el proxy de Cloudflare (`trustProxies` en `bootstrap/app.php` con los rangos de Cloudflare o `at: '*'` si el servidor solo recibe tráfico de Cloudflare), con su test. Sin esto la app ve la IP de Cloudflare: los límites de intentos se comparten entre todos los alumnos.
+- `APP_URL=https://gamificado.lariojaclick.ar` y `SESSION_SECURE_COOKIE=true` en el `.env` del servidor.
+
 **Cuidados al instalar:**
 - Datos iniciales con `php artisan db:seed --class=ProductionSeeder`, **nunca** `db:seed` a secas: crea `admin/admin123` y `cliente/cliente123`.
 - El docente se crea con `php artisan app:create-admin`, con clave fuerte.
 - En producción: `APP_ENV=production`, `APP_DEBUG=false`. Todo va por HTTPS (`URL::forceHttps`) y `migrate:fresh` queda bloqueado.
 - El dominio apunta a `public/`; el proyecto nunca va dentro de `public_html`. Después de instalar, correr `php artisan storage:link`.
 - Límites de PHP: `upload_max_filesize` 25M y `post_max_size` 30M.
+- Borrar el `index.html` de prueba del subdominio (Apache lo prefiere a `index.php`).
+- Cloudflare: SSL en *Full (strict)* (con *Flexible* hay bucle de redirecciones) y *Rocket Loader* apagado (rompe Livewire).
 - Copias de seguridad de la base y de `storage/app/private`.
 
 **Lo que falta cargar o decidir (del lado del docente):**
@@ -233,5 +241,5 @@ El docente decidió **pulir detalles antes de subirla**. Cuando llegue el moment
 - Logo en PNG con fondo transparente y versión horizontal.
 - Confirmar la XP extra: +20 por nodo y +50 por jefe (`config/game.php`).
 - WhatsApp y mensaje prearmado (en *Configuración*, ya en el servidor).
-- Casilla de correo para los avisos por mail (SMTP).
+- Casilla de correo para los avisos por mail (SMTP), por ejemplo en `lariojaclick.ar`.
 

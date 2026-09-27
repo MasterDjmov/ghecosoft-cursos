@@ -1,6 +1,8 @@
 # Subir GhecoSoft-Code al servidor (Duplika · cPanel · servidor `mate`)
 
 > **Estado (2026-09-27):** todavía **no** se subió. Primero se pulen detalles; la lista de pendientes está en [PLAN.md § 10](PLAN.md).
+>
+> **Dominio de producción:** `https://gamificado.lariojaclick.ar` (subdominio ya creado en cPanel y detrás de **Cloudflare**). Por ahora sirve un `index.html` de prueba que hay que **borrar** al subir el proyecto (ver § 9).
 
 Guía paso a paso para el hosting compartido (CloudLinux, PHP 8.3, MariaDB, Node 20 por SSH).
 La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el código de los alumnos corre en su navegador.
@@ -23,10 +25,10 @@ La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el có
    - crear la base, por ejemplo `tuusuario_ghecosoft`;
    - crear un usuario con una contraseña larga;
    - darle **todos los privilegios** sobre esa base.
-5. **Dominio o subdominio** (*Domains*): por ejemplo `code.ghecosoft.com`, con **document root** `~/ghecosoft-code/public`.
+5. **Dominio o subdominio** (*Domains*): `gamificado.lariojaclick.ar` (ya creado), con **document root** `~/ghecosoft-code/public`.
    Si el panel no deja elegir esa carpeta, ver § 7.
 6. **SSL**: que *SSL/TLS Status → AutoSSL* cubra el dominio. La app fuerza HTTPS en producción.
-7. **Correo** (opcional pero recomendado): crear una casilla, por ejemplo `no-responder@ghecosoft.com`, para los avisos por mail.
+7. **Correo** (opcional pero recomendado): crear una casilla, por ejemplo `no-responder@lariojaclick.ar`, para los avisos por mail.
 
 ## 2. Primera instalación (por SSH)
 
@@ -59,11 +61,11 @@ Valores a cambiar:
 |---|---|
 | `APP_ENV` | `production` |
 | `APP_DEBUG` | `false` (**nunca** `true` en el servidor: mostraría datos internos) |
-| `APP_URL` | `https://code.ghecosoft.com` (con https) |
+| `APP_URL` | `https://gamificado.lariojaclick.ar` (con https) |
 | `LOG_LEVEL` | `warning` |
 | `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | los del paso 1.4 (`DB_HOST=localhost` suele funcionar mejor que `127.0.0.1` en cPanel) |
 | `MAIL_MAILER` | `smtp` (o dejar `log` si no vas a mandar mails) |
-| `MAIL_HOST` / `MAIL_PORT` / `MAIL_SCHEME` | `mail.ghecosoft.com` / `465` / `smtps` (según cPanel → *Connect Devices*) |
+| `MAIL_HOST` / `MAIL_PORT` / `MAIL_SCHEME` | `mail.lariojaclick.ar` / `465` / `smtps` (según cPanel → *Connect Devices*) |
 | `MAIL_USERNAME` / `MAIL_PASSWORD` | la casilla del paso 1.7 |
 | `MAIL_FROM_ADDRESS` | la misma casilla |
 | `QUEUE_CONNECTION` | `sync` (dejarlo así: no hay workers) |
@@ -95,10 +97,10 @@ chmod -R ug+rwX storage bootstrap/cache
 
 ## 5. Revisar que quedó bien
 
-1. Entrar a `https://code.ghecosoft.com` → aparece el login con el geco.
+1. Entrar a `https://gamificado.lariojaclick.ar` → aparece el login con el geco.
 2. Entrar con el admin creado en el paso 4 → *Configuración*: cargar tu **WhatsApp** y el mensaje.
-3. `https://code.ghecosoft.com/.env` tiene que dar **404** (si se ve algo, el document root está mal: ver § 7).
-4. `https://code.ghecosoft.com/storage/` no tiene que listar archivos. Los comprobantes, entregas, recursos y autorizaciones **no** están ahí: van a `storage/app/private` y solo se bajan con permiso.
+3. `https://gamificado.lariojaclick.ar/.env` tiene que dar **404** (si se ve algo, el document root está mal: ver § 7).
+4. `https://gamificado.lariojaclick.ar/storage/` no tiene que listar archivos. Los comprobantes, entregas, recursos y autorizaciones **no** están ahí: van a `storage/app/private` y solo se bajan con permiso.
 5. Registrar un alumno de prueba, pedir inscripción, aprobarla, abrir la clase 0 y tocar **Ejecutar** en el ejemplo. La primera vez tarda unos segundos porque descarga Python.
 
 ## 6. Actualizar a una versión nueva
@@ -140,7 +142,18 @@ Lo que no se puede perder:
 
 Recomendado: una copia por semana, más una antes de cada actualización.
 
-## 9. Problemas comunes
+## 9. Cloudflare y el subdominio `gamificado.lariojaclick.ar`
+
+El subdominio pasa por Cloudflare (proxy naranja). Al subir el proyecto:
+
+1. **Borrar el `index.html` de prueba** de la carpeta del subdominio. Apache prefiere `index.html` a `index.php`: si queda, tapa la app. Después, apuntar el document root a `~/ghecosoft-code/public` (o el enlace del § 7).
+2. **SSL en Cloudflare: *Full (strict)*** (*SSL/TLS → Overview*). Con *Flexible*, Cloudflare le habla al servidor por HTTP, la app redirige a HTTPS y queda un bucle de redirecciones. AutoSSL de cPanel da el certificado del servidor.
+3. **Confiar en el proxy de Cloudflare** (pendiente de código, PLAN § 10): sin eso, Laravel ve la IP de Cloudflare en vez de la del alumno (los límites de intentos del login y de entregas se comparten entre todos) y no detecta bien el HTTPS.
+4. **Nada de caché de HTML ni optimizaciones que tocan el JS**: en Cloudflare, *Rocket Loader* apagado (rompe Livewire y Alpine) y sin reglas de *Cache Everything* para las páginas. Cachear `/build/*` sí está bien: los archivos llevan hash.
+5. **Límite de subida**: el plan gratis de Cloudflare acepta hasta 100 MB por pedido; nuestros archivos son de 25 MB como máximo, así que no molesta.
+6. Si se ve algo raro después de actualizar, *Caching → Purge Everything* en Cloudflare.
+
+## 10. Problemas comunes
 
 | Síntoma | Causa probable | Solución |
 |---|---|---|
@@ -150,4 +163,7 @@ Recomendado: una copia por semana, más una antes de cada actualización.
 | "413" o "El archivo es muy grande" | Límites de PHP | Subir `upload_max_filesize` y `post_max_size` (paso 1.3) |
 | "Ejecutar" no responde | El navegador no llega a jsDelivr | Probar con otra red; se puede cambiar `PYODIDE_URL` |
 | No llegan mails | SMTP | Revisar `MAIL_*`; los avisos igual se ven en la campanita |
+| "Too many redirects" | Cloudflare en SSL *Flexible* | Pasar a *Full (strict)* (§ 9) |
+| Se ve la página de prueba | Quedó el `index.html` | Borrarlo (§ 9) |
+| Botones que no responden, errores de Alpine | *Rocket Loader* de Cloudflare | Apagarlo (§ 9) |
 | Cambié el `.env` y no toma | Caché de configuración | `php artisan config:cache` |

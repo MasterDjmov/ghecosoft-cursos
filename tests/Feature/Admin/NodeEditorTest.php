@@ -132,3 +132,14 @@ describe('recursos', function () {
         $this->get(route('files.resource', $resource))->assertRedirect(route('login'));
     });
 });
+
+test('tocar una hoja en el árbol dibujado abre esa hoja para editar', function () {
+    ['course' => $course, 'topic1' => $topic1] = makeCourse();
+    $practice = $topic1->practices()->first();
+
+    Livewire::withQueryParams(['hoja' => (string) $practice->id])
+        ->test(Edit::class, ['course' => $course, 'node' => $topic1])
+        ->assertSet('initialTab', 'practices')
+        ->assertSet('practiceId', $practice->id)
+        ->assertSet('practiceTitle', $practice->title);
+});

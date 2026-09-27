@@ -10,6 +10,7 @@ use App\Models\NodeUnlock;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\TreeEditor;
+use App\Support\TreeGraph;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -167,4 +168,23 @@ test('una hoja con entregas no se borra', function () {
     Submission::create(['practice_id' => $practice->id, 'user_id' => User::factory()->create()->id, 'attempt' => 1, 'submitted_at' => now()]);
 
     expect(fn () => $this->editor->deletePractice($practice))->toThrow(TreeEditRefused::class);
+});
+
+test('la vista de árbol dibujado trae todos los nodos y hojas, y guarda lo que se arrastra', function () {
+    ['course' => $course, 'topic1' => $topic1] = makeCourse();
+
+    $graph = TreeGraph::forAdmin($course);
+    expect($graph['nodes'])->toHaveCount(4)
+        ->and($graph['practices'])->toHaveCount(4)
+        ->and(collect($graph['nodes'])->firstWhere('type', 'root')['price_label'])->toBe('10 monedas');
+
+    Livewire::withQueryParams(['vista' => 'tree'])
+        ->test(Tree::class, ['course' => $course])
+        ->assertSee('Referencias')
+        ->call('moveNode', $topic1->id, 150, -80);
+
+    expect((float) $topic1->fresh()->pos_x)->toBe(150.0)->and((float) $topic1->fresh()->pos_y)->toBe(-80.0);
+
+    Livewire::test(Tree::class, ['course' => $course])->call('resetLayout');
+    expect($topic1->fresh()->pos_x)->toBeNull();
 });

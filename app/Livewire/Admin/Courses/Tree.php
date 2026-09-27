@@ -9,10 +9,12 @@ use App\Models\Currency;
 use App\Models\Node;
 use App\Services\TreeEditor;
 use App\Support\Reorder;
+use App\Support\TreeGraph;
 use Flux\Flux;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /** Editor del árbol: ramas, nodos (orden y rama por arrastre) y alta rápida de nodos. */
@@ -20,6 +22,10 @@ use Livewire\Component;
 class Tree extends Component
 {
     public Course $course;
+
+    /** 'list' (editar) o 'tree' (el árbol dibujado, como lo verá el alumno). */
+    #[Url(as: 'vista', except: 'list')]
+    public string $view = 'list';
 
     // Modal de rama.
     public ?int $branchId = null;
@@ -174,6 +180,20 @@ class Tree extends Component
         });
     }
 
+    /** El docente arrastró un nodo en el árbol dibujado: se guarda su lugar. */
+    public function moveNode(int $nodeId, int $x, int $y): void
+    {
+        $this->findNode($nodeId)->update(['pos_x' => max(-99999, min(99999, $x)), 'pos_y' => max(-99999, min(99999, $y))]);
+        $this->skipRender();
+    }
+
+    /** Vuelve a la ubicación automática (radial por rama). */
+    public function resetLayout(): void
+    {
+        $this->course->nodes()->update(['pos_x' => null, 'pos_y' => null]);
+        Flux::toast(text: 'Árbol reacomodado automáticamente.');
+    }
+
     private function findNode(?int $nodeId): Node
     {
         return $this->course->nodes()->findOrFail($nodeId);
@@ -214,6 +234,7 @@ class Tree extends Component
             'nodesById' => $nodes->keyBy('id'),
             'parentOptions' => $editor->allowedParents($this->course),
             'nodeTypes' => [NodeType::Topic, NodeType::Boss, NodeType::Extra],
+            'graph' => $this->view === 'tree' ? TreeGraph::forAdmin($this->course) : null,
             'deletingNode' => $this->deletingNodeId ? $nodes->firstWhere('id', $this->deletingNodeId) : null,
         ])->title('Árbol · '.$this->course->title);
     }

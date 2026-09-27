@@ -45,6 +45,7 @@
 | D19 | Insignia del jefe | `nodes.badge_id` (nulo): el jefe elige qué insignia entrega | G7: cada jefe da una insignia |
 | D20 | Borrados en el editor | No se borra el raíz, un nodo con dependientes, un nodo/hoja con actividad de alumnos, una rama con nodos ni un curso con alumnos: se **despublica** | No perder el historial de nadie |
 | D21 | Nombres de niveles | Van al diccionario como `level.{n}` (se editan desde *Niveles*); sin valor, "Nivel n" | Una sola fuente para los textos |
+| D23 | Árbol dibujado | `force-graph` en canvas (import dinámico, solo en la página del árbol) con **posiciones fijas**: cada rama en su sector y la distancia al centro según la profundidad (pasos desde el raíz). El docente arrastra nodos para retocar (`pos_x`/`pos_y`) o usa "Reacomodar". Vista **Lista / Árbol** en el editor; el alumno usa el mismo módulo en la Fase 3 | Estética del mapa escolar + forma PoE (ARBOL-HABILIDADES § 8) |
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 
 ---

@@ -103,9 +103,12 @@ class Edit extends Component
 
         $this->fillFromNode();
 
-        if ($this->openPractice === 'nueva') {
+        // "+ Nueva hoja" (?hoja=nueva) o una hoja tocada en el árbol dibujado (?hoja=12).
+        if ($this->openPractice !== '') {
             $this->initialTab = 'practices';
-            $this->newPractice();
+            ctype_digit($this->openPractice) && $this->node->practices()->whereKey((int) $this->openPractice)->exists()
+                ? $this->editPractice((int) $this->openPractice)
+                : $this->newPractice();
             $this->openPractice = '';
         }
     }

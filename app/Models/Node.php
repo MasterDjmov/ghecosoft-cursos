@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\NodeType;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+#[Fillable(['course_id', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'video_url', 'content', 'example_code', 'example_language', 'expected_output', 'sample_input', 'pos_x', 'pos_y', 'is_published'])]
+class Node extends Model
+{
+    /** Mismos valores por defecto que la base. */
+    protected $attributes = ['type' => 'topic', 'position' => 0, 'price' => 0, 'is_published' => true];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => NodeType::class,
+            'price' => 'integer',
+            'is_published' => 'boolean',
+        ];
+    }
+
+    public function isRoot(): bool
+    {
+        return $this->type === NodeType::Root;
+    }
+
+    public function course(): BelongsTo
+    {
+        return $this->belongsTo(Course::class);
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Node::class, 'parent_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Node::class, 'parent_id');
+    }
+
+    public function priceCurrency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'price_currency_id');
+    }
+
+    public function practices(): HasMany
+    {
+        return $this->hasMany(Practice::class)->orderBy('position');
+    }
+
+    public function resources(): HasMany
+    {
+        return $this->hasMany(NodeResource::class)->orderBy('position');
+    }
+
+    /** Moneda con la que se paga: la indicada en el nodo o, si no, la del curso. */
+    public function paymentCurrency(): Currency
+    {
+        return $this->priceCurrency ?? Currency::forCourse($this->course);
+    }
+}

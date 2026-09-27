@@ -9,6 +9,7 @@ use App\Models\CourseSubscription;
 use App\Models\Currency;
 use App\Models\EnrollmentRequest;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
 use DomainException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ class EnrollmentApprover
      */
     public function approve(EnrollmentRequest $request, User $admin, ?string $note = null): CourseSubscription
     {
-        return DB::transaction(function () use ($request, $admin, $note) {
+        $subscription = DB::transaction(function () use ($request, $admin, $note) {
             $request = EnrollmentRequest::whereKey($request->id)->lockForUpdate()->firstOrFail();
 
             if ($request->status !== RequestStatus::Pending) {
@@ -68,6 +69,20 @@ class EnrollmentApprover
                 'granted_by' => $admin->id,
             ]);
         });
+
+        $request->refresh();
+        $course = $request->course;
+        $request->user->notify(new PlatformNotification(
+            'request.approved',
+            '¡Aprobada! '.$course->title,
+            $request->kind === RequestKind::New
+                ? "Recibiste {$course->root_price} ".term('coin.course', $course, $course->root_price).'. Ya podés abrir el curso.'
+                : 'Tu abono ahora vence el '.$subscription->ends_at->format('d/m/Y').'.',
+            route('student.course', $course),
+            'check-circle',
+        ));
+
+        return $subscription;
     }
 
     public function reject(EnrollmentRequest $request, User $admin, ?string $note = null): void
@@ -86,5 +101,14 @@ class EnrollmentApprover
                 'reviewed_by' => $admin->id,
             ])->save();
         });
+
+        $request->refresh();
+        $request->user->notify(new PlatformNotification(
+            'request.rejected',
+            'Solicitud rechazada: '.$request->course->title,
+            $note ?: 'Escribile al profe para ver qué pasó.',
+            route('student.course', $request->course),
+            'x-circle',
+        ));
     }
 }

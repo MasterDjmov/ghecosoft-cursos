@@ -18,6 +18,11 @@ return [
         'mimes' => ['jpg', 'jpeg', 'png', 'pdf'],
     ],
 
+    // Entregas de los alumnos (disco privado). Las extensiones las define cada práctica.
+    'submission' => [
+        'max_kb' => 10240,
+    ],
+
     // Recursos de un nodo (disco privado, se sirven por controlador).
     'resource' => [
         'max_kb' => 20480,

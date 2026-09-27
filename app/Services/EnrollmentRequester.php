@@ -10,6 +10,7 @@ use App\Models\CourseSubscription;
 use App\Models\EnrollmentRequest;
 use App\Models\Setting;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
 use DomainException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
@@ -63,7 +64,17 @@ class EnrollmentRequester
             $data['receipt_original_name'] = Str::limit($receipt->getClientOriginalName(), 250, '');
         }
 
-        return EnrollmentRequest::create($data);
+        $request = EnrollmentRequest::create($data);
+
+        PlatformNotification::toAdmins(new PlatformNotification(
+            'request.new',
+            ($request->kind === RequestKind::Renewal ? 'Renovación: ' : 'Nueva inscripción: ').$course->title,
+            $user->fullName().($type === RequestType::Receipt ? ' mandó el comprobante.' : ' te va a escribir por WhatsApp.'),
+            route('admin.requests'),
+            'inbox-arrow-down',
+        ));
+
+        return $request;
     }
 
     /** Link de WhatsApp al profe con el mensaje armado, o null si no cargó su número. */

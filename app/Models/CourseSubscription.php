@@ -25,6 +25,11 @@ class CourseSubscription extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function cohort(): BelongsTo
+    {
+        return $this->belongsTo(Cohort::class);
+    }
+
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);

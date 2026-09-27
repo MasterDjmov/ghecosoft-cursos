@@ -28,4 +28,10 @@ class XpTransaction extends Model
     {
         return $this->morphTo();
     }
+
+    /** Quién hizo el movimiento (el docente en ajustes y correcciones). */
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

@@ -33,6 +33,11 @@ class Submission extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
     public function comments(): HasMany
     {
         return $this->hasMany(SubmissionComment::class)->oldest();

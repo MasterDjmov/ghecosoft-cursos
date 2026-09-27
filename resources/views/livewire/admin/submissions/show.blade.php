@@ -36,7 +36,7 @@
     <section class="panel flex flex-col gap-4 p-5">
         @if ($submission->code)
             <x-code-runner :code="$submission->code" :stdin="$practice->sample_input" :language="$course->language->value"
-                read-only title="Código entregado" wire:key="code-{{ $submission->id }}" />
+                read-only :name="'intento_'.$submission->attempt" wire:key="code-{{ $submission->id }}" />
         @endif
         @if ($submission->file_path)
             <flux:button icon="paper-clip" :href="route('files.submission', $submission)" class="self-start">{{ $submission->file_original_name }}</flux:button>

@@ -23,6 +23,9 @@ class PracticeCard extends Component
 
     public Practice $practice;
 
+    /** Número de la hoja dentro del nodo (para el nombre del archivo: practica_N.py). */
+    public int $number = 1;
+
     /** @var TemporaryUploadedFile|null */
     public $file = null;
 
@@ -62,6 +65,7 @@ class PracticeCard extends Component
         }
 
         $this->reset('file');
+        $this->dispatch('practice-updated');
         Flux::toast(variant: 'success', text: '¡Entregado! Te avisamos cuando el profe la corrija.');
     }
 
@@ -136,6 +140,8 @@ class PracticeCard extends Component
             'usesCode' => in_array($this->practice->submission_mode, [SubmissionMode::Code, SubmissionMode::Both], true),
             'usesFile' => in_array($this->practice->submission_mode, [SubmissionMode::File, SubmissionMode::Both], true),
             // Arranca con lo último que entregó (para rehacer) o con el código inicial.
+            // Última devolución del docente, para la vista previa de la fila contraída.
+            'lastFeedback' => $attempts->flatMap->comments->filter(fn ($c) => $c->user->isAdmin())->sortByDesc('created_at')->first(),
             'startingCode' => $latest?->code ?? (string) $this->practice->starter_code,
         ]);
     }

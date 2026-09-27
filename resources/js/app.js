@@ -27,12 +27,13 @@ document.addEventListener('alpine:init', () => {
 });
 
 // Editor + ejecutor: el ejemplo de un nodo, las hojas y la bandeja del docente.
-// config: { code, stdin, expected, language, readOnly, runnable, pyodideUrl, timeout }
+// config: { code, stdin, expected, language, readOnly, runnable, tab, pyodideUrl, timeout }
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('codeRunner', (config) => ({
         code: config.code ?? '',
         original: config.code ?? '',
         stdin: config.stdin ?? '',
+        tab: config.tab ?? 'output',
         output: null,
         status: '',
         error: false,
@@ -61,6 +62,7 @@ document.addEventListener('alpine:init', () => {
         async run() {
             if (this.running || config.runnable === false) return;
             this.running = true;
+            this.tab = 'output';
             this.error = false;
             this.matches = null;
             this.output = '';

@@ -148,3 +148,11 @@ select:focus[data-flux-control] {
     .cv .bg-surface-high { background: #f1f5f9 !important; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* Editor como ventana: sin borde propio y con alto mínimo de 8 líneas. Va fuera de las capas
+   porque CodeMirror inyecta sus estilos sin capa y ganarían. */
+.code-window .cm-editor { border: 0; border-radius: 0; }
+.code-window .cm-editor.cm-focused { outline: none; }
+.code-window .cm-gutters { border-radius: 0; }
+.code-window .cm-content { min-height: calc(8lh + 20px); }
+.code-window-fallback { min-height: calc(8 * 1.6 * 14px + 20px); line-height: 1.6; }

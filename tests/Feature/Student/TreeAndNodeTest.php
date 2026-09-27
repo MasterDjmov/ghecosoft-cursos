@@ -1,9 +1,11 @@
 <?php
 
 use App\Enums\CoinReason;
+use App\Enums\SubmissionStatus;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\NodeView;
 use App\Models\Currency;
+use App\Models\Submission;
 use App\Models\User;
 use App\Services\Ledger;
 use App\Services\NodeUnlocker;
@@ -119,3 +121,22 @@ test('se reconoce el video de YouTube para embeberlo', function (string $url, ?s
     ['https://youtu.be/dQw4w9WgXcQ?t=10', 'dQw4w9WgXcQ'],
     ['https://vimeo.com/123', null],
 ]);
+
+test('el nodo resume el progreso de las hojas y abre la primera pendiente', function () {
+    $data = makeCourse();
+    ['course' => $course, 'root' => $root] = $data;
+    $root->practices()->create(['title' => 'Segundo programa', 'is_required' => true, 'position' => 1]);
+    $root->practices()->create(['title' => 'Reto opcional', 'is_required' => false, 'position' => 2]);
+    $student = studentWithRootOpen($data);
+    $first = $root->practices()->where('title', 'Primer programa')->first();
+    Submission::create(['practice_id' => $first->id, 'user_id' => $student->id, 'attempt' => 1, 'submitted_at' => now()])
+        ->forceFill(['status' => SubmissionStatus::Approved, 'reviewed_at' => now()])->save();
+    $second = $root->practices()->where('title', 'Segundo programa')->first();
+
+    $this->actingAs($student)->get(route('student.node', [$course, $root]))
+        ->assertOk()
+        ->assertSeeInOrder(['1 de 3', '1 obligatoria pendiente'])
+        ->assertSee('data-first-pending="'.$second->id.'"', false)
+        ->assertSeeInOrder(['Segundo programa', 'Desafíos extra', 'Reto opcional'])
+        ->assertSee('practica_2.py');
+});

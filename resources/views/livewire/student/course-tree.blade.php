@@ -6,7 +6,14 @@
     $root = $nodes->firstWhere('type', 'root');
     $branches = collect($graph['branches'])->sortBy([['is_extra', 'asc'], ['position', 'asc']]);
     $loose = $nodes->where('type', '!=', 'root')->filter(fn ($n) => ! $branches->contains('id', $n['branch_id']));
-    $total = $nodes->count();
+    // El progreso cuenta el tronco (como "curso completado" y el CV); Sendas y extras van aparte.
+    $kinds = collect($graph['branches'])->pluck('kind', 'id');
+    $isTrunk = fn ($n) => $n['type'] !== 'extra' && ($n['branch_id'] === null || ($kinds[$n['branch_id']] ?? 'trunk') === 'trunk');
+    $trunk = $nodes->filter($isTrunk);
+    $trunkDone = $trunk->where('state', 'completed')->count();
+    $optional = $branches->filter(fn ($b) => $b['kind'] !== 'trunk')
+        ->map(fn ($b) => ['branch' => $b, 'nodes' => $nodes->where('branch_id', $b['id'])])
+        ->filter(fn ($item) => $item['nodes']->isNotEmpty());
 @endphp
 
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8"
@@ -19,7 +26,7 @@
             <p class="tech-label">{{ term('world.name') }} · {{ $course->title }}</p>
             <h1 class="font-display text-2xl font-semibold text-white">Tu árbol</h1>
             <p class="text-sm text-ink-muted">
-                {{ $completed }}/{{ $total }} {{ term('node', $course, $total) }} completados ·
+                <span data-test="trunk-progress">{{ $trunkDone }}/{{ $trunk->count() }} {{ term('node', $course, $trunk->count()) }} del camino principal</span> ·
                 <a href="{{ route('student.ranking.course', $course) }}" wire:navigate class="text-primary-bright hover:underline">Top 10 del curso</a>
             </p>
         </div>
@@ -34,6 +41,20 @@
             </button>
         </div>
     </header>
+
+    @if ($optional->isNotEmpty())
+        <div class="-mt-2 flex flex-wrap gap-2" data-test="optional-progress">
+            @foreach ($optional as $item)
+                <span @class([
+                    'rounded-full border px-2.5 py-1 text-xs',
+                    'border-[#f472b6]/50 text-[#f9a8d4]' => $item['branch']['kind'] === 'path',
+                    'border-secondary/50 text-secondary-bright' => $item['branch']['kind'] === 'extra',
+                ])>
+                    {{ $item['branch']['title'] }} · {{ $item['nodes']->where('state', 'completed')->count() }}/{{ $item['nodes']->count() }}
+                </span>
+            @endforeach
+        </div>
+    @endif
 
     <x-wallet-bar class="sm:hidden" />
 

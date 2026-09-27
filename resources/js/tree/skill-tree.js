@@ -85,13 +85,23 @@ function nodeStyle(node) {
 function buildGraph(data) {
     const positions = layoutTree(data);
     const pathBranches = new Set(data.branches.filter((branch) => branch.kind === 'path').map((branch) => branch.id));
+    const extraBranches = new Set(data.branches.filter((branch) => branch.kind === 'extra').map((branch) => branch.id));
+    // Categoría del nombre, para filtrarlo desde el panel de referencias.
+    const labelGroup = (node) => {
+        if (node.type === 'root') return 'root';
+        if (node.type === 'extra' || extraBranches.has(node.branch_id)) return 'extra';
+        if (pathBranches.has(node.branch_id)) return 'path';
+        if (node.type === 'boss') return 'boss';
+        if (node.type === 'window') return 'window';
+        return 'trunk';
+    };
     const visible = new Set(data.nodes.map((node) => node.id));
     const nodes = [];
     const links = [];
 
     for (const node of data.nodes) {
         const position = positions.get(node.id) ?? { x: 0, y: 0, angle: 0 };
-        nodes.push({ ...node, kind: 'node', id: `n${node.id}`, key: node.id, fx: position.x, fy: position.y, angle: position.angle, inPath: pathBranches.has(node.branch_id) });
+        nodes.push({ ...node, kind: 'node', id: `n${node.id}`, key: node.id, fx: position.x, fy: position.y, angle: position.angle, inPath: pathBranches.has(node.branch_id), labelGroup: labelGroup(node) });
 
         if (node.parent_id && visible.has(node.parent_id)) {
             links.push({ source: `n${node.parent_id}`, target: `n${node.id}`, kind: 'trunk', state: node.state });
@@ -131,6 +141,8 @@ export function mountSkillTree(element, data, options = {}) {
     }
 
     const graphData = buildGraph(data);
+    // Categorías cuyos nombres no se dibujan (el raíz siempre se ve).
+    let hiddenLabels = new Set(options.hiddenLabels ?? []);
 
     const graph = new ForceGraph(element)
         .width(element.clientWidth)
@@ -238,6 +250,7 @@ export function mountSkillTree(element, data, options = {}) {
             }
             ctx.restore();
 
+            if (hiddenLabels.has(node.labelGroup)) return;
             const label = node.state === 'available' && node.price_label ? `${node.title} · ${node.price_label}` : node.title;
             drawLabel(ctx, label, node.x, node.y + radius + 12 / scale + 4, scale, { dim: node.state === 'locked' });
         })
@@ -276,6 +289,10 @@ export function mountSkillTree(element, data, options = {}) {
 
     return {
         fit,
+        setHiddenLabels(groups) {
+            hiddenLabels = new Set(groups);
+            graph.zoom(graph.zoom()); // redibuja
+        },
         focus(nodeKey) {
             const ids = new Set([`n${nodeKey}`]);
             graphData.nodes.forEach((n) => n.parentKey === `n${nodeKey}` && ids.add(n.id));

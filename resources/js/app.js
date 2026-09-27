@@ -1,14 +1,26 @@
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
 // en las páginas que muestran el árbol (import dinámico).
 document.addEventListener('alpine:init', () => {
+    // Categorías de nombres que se pueden ocultar desde el panel de referencias (se recuerdan por navegador).
+    const LABEL_GROUPS = ['trunk', 'boss', 'window', 'path', 'extra'];
+    const readHidden = () => {
+        try {
+            return JSON.parse(localStorage.getItem('tree-hidden-labels') ?? '[]').filter((g) => LABEL_GROUPS.includes(g));
+        } catch (e) {
+            return [];
+        }
+    };
+
     window.Alpine.data('skillTree', (data, options = {}) => ({
         tree: null,
+        hiddenLabels: readHidden(),
 
         async init() {
             const { mountSkillTree } = await import('./tree/skill-tree.js');
 
             this.tree = mountSkillTree(this.$refs.canvas, data, {
                 editable: Boolean(options.editable),
+                hiddenLabels: this.hiddenLabels,
                 // Nodo abierto: se entra. Cerrado: el componente muestra precio y motivos.
                 onNodeClick: (node) => (node.url ? window.Livewire.navigate(node.url) : this.$wire.selectNode?.(node.key)),
                 onPracticeClick: (practice) => practice.url && window.Livewire.navigate(practice.url),
@@ -18,6 +30,20 @@ document.addEventListener('alpine:init', () => {
 
         fit() {
             this.tree?.fit();
+        },
+
+        labelVisible(group) {
+            return !this.hiddenLabels.includes(group);
+        },
+
+        toggleLabel(group) {
+            this.hiddenLabels = this.labelVisible(group) ? [...this.hiddenLabels, group] : this.hiddenLabels.filter((g) => g !== group);
+            this.tree?.setHiddenLabels(this.hiddenLabels);
+            try {
+                localStorage.setItem('tree-hidden-labels', JSON.stringify(this.hiddenLabels));
+            } catch (e) {
+                // Sin almacenamiento: vale solo para esta visita.
+            }
         },
 
         destroy() {

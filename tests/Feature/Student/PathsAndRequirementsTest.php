@@ -191,3 +191,17 @@ MD;
     expect(collect($bad->errors)->implode(' '))->toContain('ciclo')
         ->and(Node::where('code', 'R01-N02')->firstOrFail()->requirements()->count())->toBe(0);
 });
+
+test('el árbol del alumno cuenta el camino principal y muestra cada Senda aparte', function () {
+    $data = courseWithPath();
+    $student = studentWithFunds($data);
+    app(NodeUnlocker::class)->unlock($student, $data['root']);
+    approveRequiredPractices($student, $data['root']);
+
+    // Tronco: raíz, Tema 1, Tema 2 y la Ventana (4). La Senda (2 nodos) va aparte.
+    $this->actingAs($student)->get(route('student.tree', $data['course']))
+        ->assertOk()
+        ->assertSeeInOrder(['1/4', 'del camino principal'])
+        ->assertSee('Senda Web · 0/2')
+        ->assertSee('Nombres en el árbol');
+});

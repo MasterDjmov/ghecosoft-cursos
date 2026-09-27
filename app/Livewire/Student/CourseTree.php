@@ -86,7 +86,6 @@ class CourseTree extends Component
             'subscription' => $access->activeSubscription($user, $this->course),
             'selected' => $selected,
             'selectedCanUnlock' => $selected && $access->canUnlock($user, $this->course->nodes()->find($selected['id'])),
-            'completed' => collect($graph['nodes'])->where('state', TreeAccess::STATE_COMPLETED)->count(),
         ])->title('Árbol · '.$this->course->title);
     }
 }

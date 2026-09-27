@@ -285,6 +285,12 @@ Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, qu
 3. **Datos para decidir** en cada tarjeta y ficha: nivel (desde cero / intermedio), duración aproximada (cantidad de nodos o semanas), modalidad y horario (ya existe en comisiones). **A decidir:** si se muestra el precio en pesos (hoy no es un dato del sistema; se maneja por WhatsApp o comprobante) o queda "Consultá".
 4. **Cursos "Próximamente"**: un estado del curso para mostrarlo como adelanto sin abrirlo, con "Avisame cuando salga" (sirve para medir interés). Candidatos, según el material de FullCursos: C (01–02), C++ (03–11), Java (18–20), PHP (21), JS (22), TypeScript (23), Arduino (15), Phaser (16).
 - **Top de héroes en la landing**: héroe (D38), cómo aparece en el ranking (apodo, o nombre e inicial) y XP de los mejores, para que los alumnos compitan. **Nunca el usuario de login** (es la mitad del acceso a la cuenta; decidido el 2026-09-27). Mismas reglas de privacidad que el ranking global: solo quienes tienen perfil público (los menores, con la autorización aprobada).
+- **Ideas de diseño del docente (2026-09-28)**: referencias del Hall of Fame de La Rioja Aprende y una maqueta de Stitch. Se mantiene la paleta actual (azules y neones, DevLevel Obsidian).
+  - **Portada**: título "Aprendé a programar avanzando por tu árbol de habilidades", botones *Ver cursos* y *Top 10*, y el **login a la derecha**, en la misma pantalla.
+  - **Tarjetas de cursos**: logo, lenguaje, descripción corta, cantidad de nodos, nivel y botón. Los que no existen van como "Próximamente", nunca como si estuvieran.
+  - **Monedas por curso** como coleccionables (cada curso tiene la suya, con su ícono del diccionario): encaja con el modelo real.
+  - **Top 10**: **podio** para los 3 primeros (el 1.º más grande, con corona) y lista del 4 al 10 con héroe, apodo, rango (nombre del nivel), insignias y XP.
+  - **Qué NO se muestra porque no existe o sería falso**: temporadas y ligas con cierre (la XP es permanente), tendencia ▲▼ (haría falta guardar fotos del ranking), rachas de días (regla nueva, a decidir en GAMIFICACION), passkey, "compilador online / uptime", y cursos o lenguajes que se ejecuten en el navegador sin ser así (hoy solo corre Python). Nunca DNI ni datos personales en rankings.
 - Sin filtros ni categorías por ahora: con 1–5 cursos no aportan.
 - Toda regla de acceso nueva (landing pública, curso "Próximamente" que no se puede abrir) va con Policy y test Pest.
 

@@ -220,6 +220,8 @@ El docente decidió **pulir detalles antes de subirla**. Cuando llegue el moment
 
 **Dónde va:** `https://gamificado.lariojaclick.ar` (anotado el 2026-09-27). El subdominio ya está creado en cPanel y pasa por **Cloudflare**; hoy sirve un `index.html` de prueba que se borra al subir el proyecto. Detalles en [DEPLOY.md § 9](DEPLOY.md).
 
+**Repositorio:** `git@github.com:MasterDjmov/ghecosoft-cursos.git` (creado vacío el 2026-09-27, sin primer push todavía). Pendiente: la clave SSH del servidor como *deploy key* de solo lectura (DEPLOY.md § 2); se hace más adelante.
+
 **Antes de subir (código):**
 - Confiar en el proxy de Cloudflare (`trustProxies` en `bootstrap/app.php` con los rangos de Cloudflare o `at: '*'` si el servidor solo recibe tráfico de Cloudflare), con su test. Sin esto la app ve la IP de Cloudflare: los límites de intentos se comparten entre todos los alumnos.
 - `APP_URL=https://gamificado.lariojaclick.ar` y `SESSION_SECURE_COOKIE=true` en el `.env` del servidor.

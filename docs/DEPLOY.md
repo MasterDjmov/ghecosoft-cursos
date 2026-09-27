@@ -3,6 +3,8 @@
 > **Estado (2026-09-27):** todavía **no** se subió. Primero se pulen detalles; la lista de pendientes está en [PLAN.md § 10](PLAN.md).
 >
 > **Dominio de producción:** `https://gamificado.lariojaclick.ar` (subdominio ya creado en cPanel y detrás de **Cloudflare**). Por ahora sirve un `index.html` de prueba que hay que **borrar** al subir el proyecto (ver § 9).
+>
+> **Repositorio:** `git@github.com:MasterDjmov/ghecosoft-cursos.git` (creado vacío; todavía no se hizo el primer push). Falta darle al servidor acceso por SSH al repo (ver § 2).
 
 Guía paso a paso para el hosting compartido (CloudLinux, PHP 8.3, MariaDB, Node 20 por SSH).
 La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el código de los alumnos corre en su navegador.
@@ -32,9 +34,29 @@ La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el có
 
 ## 2. Primera instalación (por SSH)
 
+Antes, una sola vez: que el servidor pueda leer el repo de GitHub por SSH.
+
+```bash
+ssh-keygen -t ed25519 -C "servidor-mate" -f ~/.ssh/github_ghecosoft   # sin frase, Enter
+cat ~/.ssh/github_ghecosoft.pub
+```
+
+Esa clave pública se carga en GitHub → repo *ghecosoft-cursos* → *Settings → Deploy keys* (solo lectura). Después:
+
+```bash
+cat >> ~/.ssh/config <<'CFG'
+Host github.com
+    IdentityFile ~/.ssh/github_ghecosoft
+    IdentitiesOnly yes
+CFG
+ssh -T git@github.com    # tiene que saludar con el nombre del repo
+```
+
+Si el hosting bloquea el puerto 22 hacia afuera, usar `Hostname ssh.github.com` y `Port 443` en ese mismo bloque.
+
 ```bash
 cd ~
-git clone <URL-del-repositorio> ghecosoft-code
+git clone git@github.com:MasterDjmov/ghecosoft-cursos.git ghecosoft-code
 cd ghecosoft-code
 
 # Dependencias de PHP sin las de desarrollo

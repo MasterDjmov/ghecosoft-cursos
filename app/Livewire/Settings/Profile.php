@@ -3,82 +3,71 @@
 namespace App\Livewire\Settings;
 
 use App\Concerns\ProfileValidationRules;
+use App\Models\User;
 use Flux\Flux;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-#[Title('Profile settings')]
+#[Title('Mi cuenta')]
 class Profile extends Component
 {
     use ProfileValidationRules;
 
     public string $name = '';
 
+    public string $last_name = '';
+
+    public string $username = '';
+
     public string $email = '';
 
-    /**
-     * Mount the component.
-     */
+    public string $phone = '';
+
+    public string $dni = '';
+
+    public string $birth_date = '';
+
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
+        $user = Auth::user();
+
+        $this->name = $user->name;
+        $this->last_name = $user->last_name;
+        $this->username = $user->username;
+        $this->email = $user->email;
+        $this->phone = (string) $user->phone;
+        $this->dni = (string) $user->dni;
+        $this->birth_date = (string) $user->birth_date?->format('Y-m-d');
     }
 
-    /**
-     * Update the profile information for the currently authenticated user.
-     */
     public function updateProfileInformation(): void
     {
         $user = Auth::user();
 
-        $validated = $this->validate($this->profileRules($user->id));
+        $this->username = Str::lower(trim($this->username));
+        $this->email = Str::lower(trim($this->email));
 
-        $user->fill($validated);
+        $validated = $this->validate([
+            ...$this->profileRules($user->id),
+            'phone' => ['nullable', 'string', 'max:30'],
+            'dni' => ['nullable', 'regex:/^\d{7,8}$/', Rule::unique(User::class)->ignore($user->id)],
+            'birth_date' => ['nullable', 'date', 'before:today'],
+        ], [
+            'dni.regex' => 'El DNI tiene que tener 7 u 8 números, sin puntos.',
+        ]);
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+        $user->fill([
+            ...$validated,
+            'phone' => $validated['phone'] ?: null,
+            'dni' => $validated['dni'] ?: null,
+            'birth_date' => $validated['birth_date'] ?: null,
+        ]);
 
         $user->save();
 
         Flux::toast(variant: 'success', text: __('Profile updated.'));
-    }
-
-    /**
-     * Send an email verification notification to the current user.
-     */
-    public function resendVerificationNotification(): void
-    {
-        $user = Auth::user();
-
-        if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false));
-
-            return;
-        }
-
-        $user->sendEmailVerificationNotification();
-
-        Flux::toast(text: __('A new verification link has been sent to your email address.'));
-    }
-
-    #[Computed]
-    public function hasUnverifiedEmail(): bool
-    {
-        $user = Auth::user();
-
-        return $user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail();
-    }
-
-    #[Computed]
-    public function showDeleteUser(): bool
-    {
-        $user = Auth::user();
-
-        return ! $user instanceof MustVerifyEmail || $user->hasVerifiedEmail();
     }
 }

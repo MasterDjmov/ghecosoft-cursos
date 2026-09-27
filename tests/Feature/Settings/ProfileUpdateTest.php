@@ -1,90 +1,37 @@
 <?php
 
-namespace Tests\Feature\Settings;
-
 use App\Livewire\Settings\Profile;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use Tests\TestCase;
 
-class ProfileUpdateTest extends TestCase
-{
-    use RefreshDatabase;
+test('la página de mi cuenta se muestra', function () {
+    $this->actingAs(User::factory()->create())->get(route('profile.edit'))->assertOk();
+});
 
-    public function test_profile_page_is_displayed(): void
-    {
-        $this->actingAs($user = User::factory()->create());
+test('el alumno actualiza sus datos, DNI y fecha de nacimiento', function () {
+    $user = User::factory()->create();
 
-        $this->get('/settings/profile')->assertOk();
-    }
+    Livewire::actingAs($user)->test(Profile::class)
+        ->set('name', 'Kira')
+        ->set('last_name', 'Pérez')
+        ->set('username', 'Kira_Perez')
+        ->set('email', 'kira@example.com')
+        ->set('dni', '40123456')
+        ->set('birth_date', '2010-05-01')
+        ->call('updateProfileInformation')
+        ->assertHasNoErrors();
 
-    public function test_profile_information_can_be_updated(): void
-    {
-        $user = User::factory()->create();
+    $user->refresh();
+    expect($user->username)->toBe('kira_perez')
+        ->and($user->dni)->toBe('40123456')
+        ->and($user->isMinor())->toBeTrue();
+});
 
-        $this->actingAs($user);
+test('el DNI es opcional pero tiene que ser válido y único', function () {
+    User::factory()->create(['dni' => '30111222']);
+    $user = User::factory()->create();
 
-        $response = Livewire::test(Profile::class)
-            ->set('name', 'Test User')
-            ->set('email', 'test@example.com')
-            ->call('updateProfileInformation');
-
-        $response->assertHasNoErrors();
-
-        $user->refresh();
-
-        $this->assertEquals('Test User', $user->name);
-        $this->assertEquals('test@example.com', $user->email);
-        $this->assertNull($user->email_verified_at);
-    }
-
-    public function test_email_verification_status_is_unchanged_when_email_address_is_unchanged(): void
-    {
-        $user = User::factory()->create();
-
-        $this->actingAs($user);
-
-        $response = Livewire::test(Profile::class)
-            ->set('name', 'Test User')
-            ->set('email', $user->email)
-            ->call('updateProfileInformation');
-
-        $response->assertHasNoErrors();
-
-        $this->assertNotNull($user->refresh()->email_verified_at);
-    }
-
-    public function test_user_can_delete_their_account(): void
-    {
-        $user = User::factory()->create();
-
-        $this->actingAs($user);
-
-        $response = Livewire::test('settings.delete-user-form')
-            ->set('password', 'password')
-            ->call('deleteUser');
-
-        $response
-            ->assertHasNoErrors()
-            ->assertRedirect('/');
-
-        $this->assertNull($user->fresh());
-        $this->assertFalse(auth()->check());
-    }
-
-    public function test_correct_password_must_be_provided_to_delete_account(): void
-    {
-        $user = User::factory()->create();
-
-        $this->actingAs($user);
-
-        $response = Livewire::test('settings.delete-user-form')
-            ->set('password', 'wrong-password')
-            ->call('deleteUser');
-
-        $response->assertHasErrors(['password']);
-
-        $this->assertNotNull($user->fresh());
-    }
-}
+    Livewire::actingAs($user)->test(Profile::class)->set('dni', '')->call('updateProfileInformation')->assertHasNoErrors();
+    Livewire::actingAs($user)->test(Profile::class)->set('dni', '30.111.222')->call('updateProfileInformation')->assertHasErrors('dni');
+    Livewire::actingAs($user)->test(Profile::class)->set('dni', '30111222')->call('updateProfileInformation')->assertHasErrors('dni');
+});

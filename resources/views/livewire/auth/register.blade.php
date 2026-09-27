@@ -2,47 +2,41 @@
     <div class="flex flex-col gap-6">
         <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
 
-        <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
 
-        <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-6">
+        <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-5">
             @csrf
-            <!-- Name -->
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <flux:input name="name" :label="__('Name')" :value="old('name')" type="text" required autofocus autocomplete="given-name" placeholder="Tu nombre" />
+                <flux:input name="last_name" label="Apellido" :value="old('last_name')" type="text" required autocomplete="family-name" placeholder="Tu apellido" />
+            </div>
+
             <flux:input
-                name="name"
-                :label="__('Name')"
-                :value="old('name')"
+                name="username"
+                label="Usuario"
+                :value="old('username')"
                 type="text"
                 required
-                autofocus
-                autocomplete="name"
-                :placeholder="__('Full name')"
+                autocomplete="username"
+                placeholder="kira_perez"
+                description="Minúsculas, números, - y _. Es también el link de tu CV."
             />
 
-            <!-- Email Address -->
-            <flux:input
-                name="email"
-                :label="__('Email address')"
-                :value="old('email')"
-                type="email"
-                required
-                autocomplete="email"
-                placeholder="email@example.com"
-            />
+            <flux:input name="email" :label="__('Email address')" :value="old('email')" type="email" required autocomplete="email" placeholder="email@ejemplo.com" />
 
-            <!-- Password -->
-            <flux:input
-                name="password"
-                :label="__('Password')"
-                type="password"
-                required
-                autocomplete="new-password"
-                :placeholder="__('Password')"
-                passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
-                viewable
-            />
+            <x-password-strength>
+                <flux:input
+                    name="password"
+                    :label="__('Password')"
+                    type="password"
+                    required
+                    autocomplete="new-password"
+                    :placeholder="__('Password')"
+                    viewable
+                />
+            </x-password-strength>
 
-            <!-- Confirm Password -->
             <flux:input
                 name="password_confirmation"
                 :label="__('Confirm password')"
@@ -50,18 +44,15 @@
                 required
                 autocomplete="new-password"
                 :placeholder="__('Confirm password')"
-                passwordrules="{{ \Illuminate\Validation\Rules\Password::defaults()->toPasswordRulesString() }}"
                 viewable
             />
 
-            <div class="flex items-center justify-end">
-                <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">
-                    {{ __('Create account') }}
-                </flux:button>
-            </div>
+            <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">
+                {{ __('Create account') }}
+            </flux:button>
         </form>
 
-        <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
+        <div class="space-x-1 text-center text-sm text-ink-muted">
             <span>{{ __('Already have an account?') }}</span>
             <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
         </div>

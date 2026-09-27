@@ -3,7 +3,7 @@
 Plataforma de cursos de programación de uso personal (un docente, alumnos por comisiones). Laravel + Livewire + Tailwind + MariaDB, CodeMirror 6 y Pyodide en el navegador.
 
 ## Documentos
-- [docs/GAMIFICACION.md](docs/GAMIFICACION.md) — **EN CONVERSACIÓN — manda sobre los demás**: árbol con nodos y hojas, monedas, XP, insignias, ranking, CV. La gamificación pasó a ser el eje (antes estaba fuera de alcance). Primer curso: Python.
+- [docs/GAMIFICACION.md](docs/GAMIFICACION.md) — decisiones del modelo (cerrado el 2026-09-27; ESPECIFICACION y PLAN ya lo incorporan): árbol con nodos y hojas, monedas, XP, insignias, ranking, CV. La gamificación pasó a ser el eje (antes estaba fuera de alcance). Primer curso: Python.
 - [docs/ESPECIFICACION.md](docs/ESPECIFICACION.md) — qué hay que construir (fuente de verdad funcional).
 - [docs/PLAN.md](docs/PLAN.md) — cómo: estructura, migraciones, rutas, componentes, decisiones y preguntas abiertas.
 - [docs/DISENO.md](docs/DISENO.md) — análisis de las referencias visuales y tokens de diseño.
@@ -26,8 +26,17 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - Hosting compartido (cPanel/CloudLinux, servidor `mate`): PHP **8.3**, MariaDB, Node 20 (build por SSH; hay "Setup Node.js App" pero esta plataforma no lo usa), sin workers, sin PostgreSQL. `QUEUE_CONNECTION=sync`. `composer.json` fija `platform.php = 8.3.33`.
 - Fuera de alcance (por ahora): pagos online, certificados, foros, quizzes, corrección automática, ejecución de C/C++/Java. La **gamificación y el abono de 30 días SÍ están dentro** (ver GAMIFICACION.md).
 
-## Comandos (a completar en Fase 1)
-- `composer run dev` — servidor + Vite en desarrollo
-- `php artisan test` — suite Pest
+## Comandos
+- `composer run dev` — servidor + Vite en desarrollo (o `php artisan serve` + `npm run dev`)
+- `php artisan test` — suite Pest (usa la base `ghecosoft_code_testing`, MariaDB)
+- `php artisan migrate:fresh --seed` — base local con admin/admin123, cliente/cliente123 y el curso demo de Python
 - `npm run build` — assets para producción
-- `php artisan app:create-admin` — crear el admin
+- `vendor/bin/pint` — formato del código
+- `php artisan app:create-admin` — crear el admin en producción
+
+## Convenciones del código
+- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`.
+- Textos narrativos con `term('clave', $course, $cantidad)` (diccionario), nunca escritos a mano en las vistas.
+- Estados y tipos como PHP enums (`app/Enums`) con `label()` en español.
+- Los modelos declaran en `$attributes` los mismos valores por defecto que la base.
+- Tests en estilo Pest; helpers `makeCourse()`, `enrolledStudent()`, `approveRequiredPractices()` en `tests/Pest.php`.

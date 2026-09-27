@@ -2,16 +2,9 @@
     'sidebar' => false,
 ])
 
-@if($sidebar)
-    <flux:sidebar.brand :name="config('app.name', 'Laravel')" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-            <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:sidebar.brand>
-@else
-    <flux:brand :name="config('app.name', 'Laravel')" {{ $attributes }}>
-        <x-slot name="logo" class="flex aspect-square size-8 items-center justify-center rounded-md bg-accent-content text-accent-foreground">
-            <x-app-logo-icon class="size-5 fill-current text-white dark:text-black" />
-        </x-slot>
-    </flux:brand>
-@endif
+<a {{ $attributes->merge(['class' => 'flex items-center gap-2.5']) }}>
+    <img src="/images/logo-mark.jpg" alt="" class="size-9 rounded-full ring-1 ring-primary-bright/40">
+    <span class="font-display text-lg font-semibold tracking-tight text-white">
+        GhecoSoft<span class="text-primary-bright">-Code</span>
+    </span>
+</a>

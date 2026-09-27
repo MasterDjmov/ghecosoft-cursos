@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente ("puedes avanzar"); Fase 1 en curso.
+> **Estado:** aprobado por el docente. **Fase 1 terminada (2026-09-27)**, esperando prueba del docente.
 
 ---
 
@@ -38,6 +38,9 @@
 | D12 | Componentes | Livewire basados en clase (`app/Livewire/...`); las pantallas del starter kit se re-estilizan | Testeables |
 | D13 | Árbol gráfico | `force-graph` con `dagMode: 'radialout'`, posiciones fijas (`pos_x`/`pos_y`), import dinámico solo en esa página | Forma PoE + estilo del mapa escolar |
 | D14 | Tests | Pest contra **MariaDB** (`ghecosoft_code_testing`) | Mismo motor que producción |
+| D16 | Pest | **Pest 4** (Pest 5 exige PHP 8.4 y el servidor tiene 8.3). Con la plataforma fijada en 8.3.33, Symfony quedó en 7.4 | Mismo `composer.lock` en local y servidor |
+| D17 | Verificación de email | **Desactivada** (sin `MustVerifyEmail`); la cuenta se usa apenas se registra | Hosting con SMTP opcional; el docente valida en la clase inicial |
+| D18 | Fuentes | Inter, Space Grotesk y JetBrains Mono **autoalojadas** por el plugin de Vite (sin CDN en tiempo de ejecución) | Privacidad y velocidad |
 | D15 | Mail | Canal `mail` solo si hay SMTP configurado; `QUEUE_CONNECTION=sync` | Hosting sin workers |
 
 ---

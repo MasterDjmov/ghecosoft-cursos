@@ -1,81 +1,60 @@
 <?php
 
-namespace Tests\Feature\Auth;
-
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
-use Tests\TestCase;
 
-class AuthenticationTest extends TestCase
-{
-    use RefreshDatabase;
+test('la pantalla de login se muestra', function () {
+    $this->get(route('login'))->assertOk()->assertSee('Usuario o email');
+});
 
-    public function test_login_screen_can_be_rendered(): void
-    {
-        $response = $this->get(route('login'));
+test('se puede entrar con el email', function () {
+    $user = User::factory()->create();
 
-        $response->assertOk();
-    }
+    $this->post(route('login.store'), ['login' => $user->email, 'password' => 'password'])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('home', absolute: false));
 
-    public function test_users_can_authenticate_using_the_login_screen(): void
-    {
-        $user = User::factory()->create();
+    $this->assertAuthenticatedAs($user);
+});
 
-        $response = $this->post(route('login.store'), [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
+test('se puede entrar con el usuario, sin importar mayúsculas', function () {
+    $user = User::factory()->create(['username' => 'kira_perez']);
 
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('dashboard', absolute: false));
+    $this->post(route('login.store'), ['login' => 'Kira_Perez', 'password' => 'password'])
+        ->assertSessionHasNoErrors();
 
-        $this->assertAuthenticated();
-    }
+    $this->assertAuthenticatedAs($user);
+});
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
-    {
-        $user = User::factory()->create();
+test('no se puede entrar con una contraseña incorrecta', function () {
+    $user = User::factory()->create();
 
-        $response = $this->post(route('login.store'), [
-            'email' => $user->email,
-            'password' => 'wrong-password',
-        ]);
+    $this->post(route('login.store'), ['login' => $user->username, 'password' => 'incorrecta'])
+        ->assertSessionHasErrors('login');
 
-        $response->assertSessionHasErrorsIn('email');
+    $this->assertGuest();
+});
 
-        $this->assertGuest();
-    }
+test('con 2FA activado se pide el código', function () {
+    $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
-    public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge(): void
-    {
-        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
+    $user = User::factory()->withTwoFactor()->create();
 
-        Features::twoFactorAuthentication([
-            'confirm' => true,
-            'confirmPassword' => true,
-        ]);
+    $this->post(route('login.store'), ['login' => $user->email, 'password' => 'password'])
+        ->assertRedirect(route('two-factor.login'));
 
-        $user = User::factory()->withTwoFactor()->create();
+    $this->assertGuest();
+});
 
-        $response = $this->post(route('login.store'), [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
+test('se puede salir de la cuenta', function () {
+    $user = User::factory()->create();
 
-        $response->assertRedirect(route('two-factor.login'));
-        $this->assertGuest();
-    }
+    $this->actingAs($user)->post(route('logout'))->assertRedirect('/');
 
-    public function test_users_can_logout(): void
-    {
-        $user = User::factory()->create();
+    $this->assertGuest();
+});
 
-        $response = $this->actingAs($user)->post(route('logout'));
-
-        $response->assertRedirect(route('home'));
-
-        $this->assertGuest();
-    }
-}
+test('después de entrar, cada rol va a su inicio', function () {
+    $this->actingAs(User::factory()->create())->get(route('home'))->assertRedirect(route('student.worlds'));
+    $this->actingAs(User::factory()->admin()->create())->get(route('home'))->assertRedirect(route('admin.dashboard'));
+});

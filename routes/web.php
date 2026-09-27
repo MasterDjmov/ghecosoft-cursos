@@ -1,12 +1,18 @@
 <?php
 
 use App\Http\Controllers\Files\NodeResourceController;
+use App\Http\Controllers\Files\ReceiptController;
 use App\Livewire\Admin\Badges;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Glossary;
 use App\Livewire\Admin\Levels;
 use App\Livewire\Admin\Nodes;
+use App\Livewire\Admin\Requests;
+use App\Livewire\Admin\Settings;
+use App\Livewire\Student\CourseDetail;
+use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\NodeView;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
 
@@ -19,13 +25,19 @@ Route::middleware('auth')->group(function () {
         : redirect()->route('student.worlds'))->name('home');
 
     Route::livewire('mundos', Worlds::class)->name('student.worlds');
+    Route::livewire('cursos/{course}', CourseDetail::class)->name('student.course');
+    Route::livewire('cursos/{course}/arbol', CourseTree::class)->name('student.tree');
+    Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
 
     // Descargas del disco privado: cada controlador llama a authorize().
     Route::get('archivos/recursos/{resource}', NodeResourceController::class)->name('files.resource');
+    Route::get('archivos/comprobantes/{request}', ReceiptController::class)->name('files.receipt');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::livewire('/', AdminDashboard::class)->name('dashboard');
+    Route::livewire('solicitudes', Requests::class)->name('requests');
+    Route::livewire('configuracion', Settings::class)->name('settings');
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');
     Route::livewire('cursos/nuevo', Courses\Form::class)->name('courses.create');

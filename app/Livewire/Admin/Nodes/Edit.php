@@ -12,6 +12,7 @@ use App\Models\Currency;
 use App\Models\Node;
 use App\Models\Practice;
 use App\Services\TreeEditor;
+use App\Support\Markdown;
 use App\Support\Reorder;
 use Flux\Flux;
 use Illuminate\Support\Str;
@@ -330,7 +331,7 @@ class Edit extends Component
             'requiredReward' => $practices->where('is_required', true)->sum('coin_reward'),
             'optionalReward' => $practices->where('is_required', false)->sum('coin_reward'),
             'xpTotal' => $practices->sum('xp_reward'),
-            'contentPreview' => Str::markdown($this->content, ['html_input' => 'escape', 'allow_unsafe_links' => false]),
+            'contentPreview' => Markdown::render($this->content),
         ])->title($this->node->title.' · '.$this->course->title);
     }
 }

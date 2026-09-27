@@ -44,6 +44,16 @@
                         <p class="text-xs text-ink-muted">Abono hasta el {{ $world['subscription']->ends_at->format('d/m/Y') }}</p>
                     @endif
                 </div>
+
+                @php
+                    [$action, $actionUrl, $primary] = match ($world['status']) {
+                        'active' => ['Entrar', route('student.tree', $course), true],
+                        'expired' => ['Renovar', route('student.course', $course), false],
+                        'ready' => ['Abrir el curso', route('student.course', $course), true],
+                        default => ['Ver curso', route('student.course', $course), false],
+                    };
+                @endphp
+                <flux:button :variant="$primary ? 'primary' : 'filled'" :href="$actionUrl" wire:navigate class="w-full">{{ $action }}</flux:button>
             </article>
         @empty
             <div class="panel p-8 text-center text-ink-muted sm:col-span-2 lg:col-span-3">

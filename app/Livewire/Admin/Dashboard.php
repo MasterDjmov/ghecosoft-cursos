@@ -21,7 +21,7 @@ class Dashboard extends Component
     {
         return view('livewire.admin.dashboard', [
             'counters' => [
-                ['label' => 'Solicitudes pendientes', 'value' => EnrollmentRequest::where('status', RequestStatus::Pending)->count(), 'icon' => 'inbox-arrow-down'],
+                ['label' => 'Solicitudes pendientes', 'value' => EnrollmentRequest::where('status', RequestStatus::Pending)->count(), 'icon' => 'inbox-arrow-down', 'url' => route('admin.requests')],
                 ['label' => 'Entregas por corregir', 'value' => Submission::where('status', SubmissionStatus::Submitted)->count(), 'icon' => 'code-bracket-square'],
                 ['label' => 'Alumnos con abono vigente', 'value' => CourseSubscription::active()->distinct()->count('user_id'), 'icon' => 'users'],
                 ['label' => 'Autorizaciones pendientes', 'value' => GuardianAuthorization::where('status', AuthorizationStatus::Pending)->count(), 'icon' => 'document-check'],

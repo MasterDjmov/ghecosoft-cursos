@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    // Python en el navegador (D5): se descarga del CDN la primera vez que se ejecuta algo.
+    'pyodide' => [
+        'url' => env('PYODIDE_URL', 'https://cdn.jsdelivr.net/pyodide/v0.29.5/full/'),
+        'timeout_ms' => 5000,
+    ],
+
 ];

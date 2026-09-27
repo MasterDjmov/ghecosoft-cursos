@@ -7,11 +7,11 @@
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         @foreach ($counters as $counter)
-            <div class="panel flex flex-col gap-3 p-5">
+            <a href="{{ $counter['url'] ?? '#' }}" @if (isset($counter['url'])) wire:navigate @endif class="panel flex flex-col gap-3 p-5 transition hover:border-primary-bright/50">
                 <flux:icon :name="$counter['icon']" class="size-6 text-primary-bright" />
                 <span class="font-display text-3xl font-semibold text-white">{{ $counter['value'] }}</span>
                 <span class="text-sm text-ink-muted">{{ $counter['label'] }}</span>
-            </div>
+            </a>
         @endforeach
     </div>
 </div>

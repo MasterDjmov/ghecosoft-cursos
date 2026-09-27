@@ -19,7 +19,7 @@
             <span class="text-ink-muted">{{ $currency->is_wildcard ? term('coin.wildcard', null, $amount) : term('coin.course', $currency->course, $amount) }}</span>
         </span>
     @empty
-        <span class="text-xs text-ink-muted">Sin {{ term('coin.course', null, 2) }} todavía</span>
+        <span class="panel px-2.5 py-1 text-xs text-ink-muted">0 {{ term('coin.course', null, 2) }}</span>
     @endforelse
 
     <span class="panel flex items-center gap-1.5 px-2.5 py-1 text-xs">

@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente. Fase 1 terminada (2026-09-27). **Fase 2 terminada (2026-09-27)**, esperando prueba del docente.
+> **Estado:** aprobado por el docente. Fases 1 y 2 terminadas (2026-09-27). **Fase 3 terminada (2026-09-27)**, esperando prueba del docente.
 
 ---
 
@@ -46,6 +46,9 @@
 | D20 | Borrados en el editor | No se borra el raíz, un nodo con dependientes, un nodo/hoja con actividad de alumnos, una rama con nodos ni un curso con alumnos: se **despublica** | No perder el historial de nadie |
 | D21 | Nombres de niveles | Van al diccionario como `level.{n}` (se editan desde *Niveles*); sin valor, "Nivel n" | Una sola fuente para los textos |
 | D23 | Árbol dibujado | `force-graph` en canvas (import dinámico, solo en la página del árbol) con **posiciones fijas**: cada rama en su sector y la distancia al centro según la profundidad (pasos desde el raíz). El docente arrastra nodos para retocar (`pos_x`/`pos_y`) o usa "Reacomodar". Vista **Lista / Árbol** en el editor; el alumno usa el mismo módulo en la Fase 3 | Estética del mapa escolar + forma PoE (ARBOL-HABILIDADES § 8) |
+| D24 | Pyodide | **v0.29.5** (Python 3.13) desde jsDelivr (`PYODIDE_URL`); el reloj de 5 s arranca cuando Python ya cargó (la primera descarga no cuenta) | La primera carga tarda según la conexión |
+| D25 | Qué ve el alumno de un nodo cerrado | Nombre, tipo, precio y por qué está bloqueado; **nunca** el contenido ni las consignas (sus hojas aparecen como "?"). Un nodo sin publicar y sin abrir no aparece | Gamificación visible sin filtrar contenido |
+| D26 | Renovación | Se puede pedir con el abono vencido o a 7 días de vencer; los días nuevos se suman al final | Evita pedidos duplicados |
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 
 ---

@@ -3,9 +3,14 @@
 namespace App\Support;
 
 use App\Enums\NodeType;
+use App\Enums\SubmissionStatus;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\Practice;
+use App\Models\Submission;
+use App\Models\User;
+use App\Services\TreeAccess;
+use Illuminate\Support\Collection;
 
 /**
  * Datos del árbol para el dibujo en canvas (resources/js/tree). El docente lo
@@ -19,11 +24,7 @@ class TreeGraph
         $nodes = $course->nodes()->with(['practices', 'priceCurrency', 'parent:id,title'])->get();
 
         return [
-            'course' => [
-                'title' => $course->title,
-                'short' => $course->language->short(),
-                'logo' => $course->logoUrl(),
-            ],
+            'course' => self::courseData($course),
             'branches' => $course->branches()->get(['id', 'title', 'position', 'is_extra'])->toArray(),
             'nodes' => $nodes->map(fn (Node $node) => [
                 'id' => $node->id,
@@ -63,6 +64,103 @@ class TreeGraph
                 ]),
                 'url' => route('admin.nodes.edit', [$course, $node]).'?hoja='.$practice->id,
             ]))->values()->all(),
+        ];
+    }
+
+    /**
+     * El árbol como lo ve el alumno: estados de cada nodo y de sus hojas. De los
+     * nodos que no abrió se ve el nombre y el precio, nunca el contenido ni las consignas.
+     *
+     * @return array<string, mixed>
+     */
+    public static function forStudent(Course $course, User $user): array
+    {
+        $access = app(TreeAccess::class);
+        $unlocked = $user->nodeUnlocks()->whereHas('node', fn ($q) => $q->where('course_id', $course->id))->pluck('node_id')->flip();
+
+        // Sin publicar y sin abrir: no existe para el alumno.
+        $nodes = $course->nodes()->with(['practices', 'priceCurrency', 'parent:id,title', 'course'])->get()
+            ->filter(fn (Node $node) => $node->is_published || $unlocked->has($node->id))
+            ->values();
+
+        $statuses = self::practiceStatuses($user, $nodes);
+
+        return [
+            'course' => self::courseData($course),
+            'branches' => $course->branches()->get(['id', 'title', 'position', 'is_extra'])->toArray(),
+            'nodes' => $nodes->map(function (Node $node) use ($access, $user, $course) {
+                $state = $access->state($user, $node);
+                $open = in_array($state, [TreeAccess::STATE_UNLOCKED, TreeAccess::STATE_COMPLETED], true);
+                $blockers = $open ? [] : UnlockMessages::for($user, $node);
+
+                return [
+                    'id' => $node->id,
+                    'title' => $node->title,
+                    'type' => $node->type->value,
+                    'branch_id' => $node->branch_id,
+                    'parent_id' => $node->parent_id,
+                    'position' => $node->position,
+                    'pos_x' => $node->pos_x,
+                    'pos_y' => $node->pos_y,
+                    'state' => $state,
+                    'price_label' => UnlockMessages::price($node),
+                    'blockers' => $blockers,
+                    'tooltip' => implode(' · ', array_filter([
+                        $node->title,
+                        term('state.'.$state, $course),
+                        $open ? null : UnlockMessages::price($node),
+                        $state === TreeAccess::STATE_LOCKED ? ($blockers[0] ?? null) : null,
+                    ])),
+                    'url' => $open ? route('student.node', [$course, $node]) : null,
+                ];
+            })->all(),
+            'practices' => $nodes->flatMap(function (Node $node) use ($unlocked, $statuses, $course) {
+                $open = $unlocked->has($node->id);
+
+                return $node->practices->map(fn (Practice $practice) => [
+                    'id' => $practice->id,
+                    'node_id' => $node->id,
+                    'title' => $open ? $practice->title : '?',
+                    'required' => $practice->is_required,
+                    'mode' => $practice->submission_mode->value,
+                    'status' => $open ? ($statuses[$practice->id] ?? 'pending') : 'pending',
+                    'tooltip' => $open
+                        ? $practice->title.' · '.($practice->is_required ? 'Obligatoria' : 'Optativa')
+                        : 'Abrí «'.$node->title.'» para ver sus '.term('practice', $course, 2),
+                    'url' => $open ? route('student.node', [$course, $node]).'#practica-'.$practice->id : null,
+                ]);
+            })->values()->all(),
+        ];
+    }
+
+    /**
+     * Estado de cada hoja para el alumno: approved si alguna entrega se aprobó;
+     * si no, el de la última entrega (submitted | redo).
+     *
+     * @param  Collection<int, Node>  $nodes
+     * @return array<int, string>
+     */
+    public static function practiceStatuses(User $user, Collection $nodes): array
+    {
+        $ids = $nodes->flatMap->practices->pluck('id');
+
+        return Submission::where('user_id', $user->id)->whereIn('practice_id', $ids)
+            ->orderBy('attempt')
+            ->get(['practice_id', 'status'])
+            ->groupBy('practice_id')
+            ->map(fn ($attempts) => $attempts->contains('status', SubmissionStatus::Approved)
+                ? 'approved'
+                : $attempts->last()->status->value)
+            ->all();
+    }
+
+    /** @return array{title: string, short: string, logo: ?string} */
+    private static function courseData(Course $course): array
+    {
+        return [
+            'title' => $course->title,
+            'short' => $course->language->short(),
+            'logo' => $course->logoUrl(),
         ];
     }
 

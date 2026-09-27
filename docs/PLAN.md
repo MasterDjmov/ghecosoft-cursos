@@ -257,3 +257,16 @@ Pantalla de trabajo a pantalla completa para **una práctica**, inspirada en una
 - **Afuera**: inspector de memoria o Valgrind (propio de C++), "Ejecutar tests" (no hay corrección automática; lo más cercano es "coincide con la salida esperada") e indicadores decorativos falsos. "Pista (−XP)" sería una regla nueva de economía: se decide primero en GAMIFICACION.md.
 - Estética: la paleta y tipografías actuales, más sobria que la maqueta.
 - Próximo paso: propuesta de distribución (qué va en cada zona) para que el docente la ajuste antes de programar.
+
+### Catálogo y "mis cursos" (anotado el 2026-09-27; aprobado por el docente)
+Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, que llevan a la ficha con la inscripción), pero mezclados: el alumno no distingue cuáles son suyos ni si hay más. Y la raíz del sitio manda directo al login, así que un visitante no ve la oferta.
+
+1. **Separar en el panel del alumno** (prioridad):
+   - arriba, **"Mis cursos" / "Seguí donde dejaste"**: los que tiene abiertos o con abono, con el último nodo en el que va y un botón para continuar;
+   - abajo, **"Descubrí más mundos"**: los publicados en los que no está, más los "Próximamente";
+   - si no tiene ninguno, que se vea primero la oferta con un mensaje de bienvenida.
+2. **Landing pública** (sin iniciar sesión) con una sección, más abajo, de **los cursos que más se dictan**: tarjetas con el logo, una línea de descripción, y los botones *Crear cuenta* y *Consultar por WhatsApp*. Estética del geco (DISENO.md), no corporativa. Probablemente haga falta una marca de **"destacado"** en el curso para elegir cuáles salen ahí.
+3. **Datos para decidir** en cada tarjeta y ficha: nivel (desde cero / intermedio), duración aproximada (cantidad de nodos o semanas), modalidad y horario (ya existe en comisiones). **A decidir:** si se muestra el precio en pesos (hoy no es un dato del sistema; se maneja por WhatsApp o comprobante) o queda "Consultá".
+4. **Cursos "Próximamente"**: un estado del curso para mostrarlo como adelanto sin abrirlo, con "Avisame cuando salga" (sirve para medir interés). Candidatos, según el material de FullCursos: C (01–02), C++ (03–11), Java (18–20), PHP (21), JS (22), TypeScript (23), Arduino (15), Phaser (16).
+- Sin filtros ni categorías por ahora: con 1–5 cursos no aportan.
+- Toda regla de acceso nueva (landing pública, curso "Próximamente" que no se puede abrir) va con Policy y test Pest.

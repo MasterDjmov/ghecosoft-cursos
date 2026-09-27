@@ -23,7 +23,7 @@
     @endforelse
 
     <span class="panel flex items-center gap-1.5 px-2.5 py-1 text-xs">
-        <span class="font-mono text-primary-bright">{{ \Illuminate\Support\Str::ucfirst(term('level')) }} {{ $level?->number ?? 1 }}</span>
+        <span class="font-mono text-primary-bright">{{ $level?->name() ?? \Illuminate\Support\Str::ucfirst(term('level')).' 1' }}</span>
         <span class="text-ink-muted">·</span>
         <span class="font-mono text-white">{{ $user->xp_total }}</span>
         <span class="text-ink-muted">{{ term('xp.short') }}</span>

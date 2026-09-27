@@ -99,6 +99,27 @@
     .live-dot {
         @apply inline-block size-1.5 animate-pulse rounded-full bg-success;
     }
+
+    /* Texto en markdown (contenido de nodos, consignas, descripciones). */
+    .markdown {
+        @apply flex flex-col gap-3 leading-relaxed text-ink;
+
+        & h1, & h2, & h3 { @apply font-display font-semibold text-white; }
+        & h1 { @apply text-2xl; }
+        & h2 { @apply text-xl; }
+        & h3 { @apply text-lg; }
+        & a { @apply text-primary-bright underline underline-offset-2; }
+        & strong { @apply text-white; }
+        & ul { @apply list-disc ps-6; }
+        & ol { @apply list-decimal ps-6; }
+        & li + li { @apply mt-1; }
+        & :not(pre) > code { @apply rounded bg-surface-highest px-1.5 py-0.5 font-mono text-[0.9em] text-primary-bright; }
+        & pre { @apply overflow-x-auto rounded-lg border border-outline bg-surface-lowest p-4 font-mono text-sm; }
+        & blockquote { @apply border-s-2 border-secondary ps-4 text-ink-muted; }
+        & table { @apply w-full text-sm; }
+        & th, & td { @apply border border-outline px-2 py-1 text-start; }
+        & hr { @apply border-outline; }
+    }
 }
 
 [data-flux-field]:not(ui-radio, ui-checkbox) {

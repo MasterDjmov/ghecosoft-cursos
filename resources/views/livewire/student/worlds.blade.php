@@ -23,9 +23,7 @@
 
             <article @class(['panel flex flex-col gap-4 p-5', 'panel-active' => in_array($world['status'], ['active', 'ready'])]) data-test="world-{{ $course->slug }}">
                 <div class="flex items-start justify-between gap-3">
-                    <div class="grid size-14 shrink-0 place-items-center rounded-full border border-primary-bright/40 bg-primary/10 font-display text-lg font-bold text-primary-bright" title="{{ $course->language->label() }}">
-                        {{ $course->language->short() }}
-                    </div>
+                    <x-course-logo :course="$course" />
                     <span class="rounded border px-2 py-0.5 font-mono text-[11px] {{ $badgeClass }}">{{ $badge }}</span>
                 </div>
 

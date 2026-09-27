@@ -9,6 +9,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/DISENO.md](docs/DISENO.md) — análisis de las referencias visuales y tokens de diseño.
 - [docs/IDENTIDAD-VISUAL.md](docs/IDENTIDAD-VISUAL.md) — marca GhecoSoft-Code (geco), paleta "DevLevel Obsidian", tipografías.
 - [docs/ARBOL-HABILIDADES.md](docs/ARBOL-HABILIDADES.md) — forma y dibujo del árbol (radial tipo PoE + estilo del grafo de `force-graph`; § 6–8 mandan).
+- [docs/super-prompt-v2-curso-python.md](docs/super-prompt-v2-curso-python.md) — el prompt con el que Claude online diseña el curso de Python (reglas pedagógicas, plantilla de nodo, Sendas). Lo que pide define las fases 6–9 de PLAN § 9.
 - [docs/HISTORIA-BRIEF.md](docs/HISTORIA-BRIEF.md) — resumen del sistema que se le pasa a Claude online para definir la historia del curso de Python (el primero en salir). Actualizarlo si cambian el diccionario, la economía o dónde se muestra la historia.
 - [docs/CURSOS-EXISTENTES.md](docs/CURSOS-EXISTENTES.md) — el material de `/home/djmov/Programas/Cursos/FullCursos/` y cómo se traduce a cursos, unidades y clases. Esa carpeta es solo lectura: no se modifica desde este proyecto.
 
@@ -17,6 +18,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - Commits chicos y descriptivos por funcionalidad.
 - Interfaz en **español rioplatense** ("Continuá", "Entregá tu tarea"); código, nombres de rutas, clases y columnas en **inglés**. URIs visibles en español.
 - Si una decisión cambia, actualizar PLAN.md (tabla de decisiones) en el mismo commit.
+- **Todo se diseña para cualquier lenguaje** (D39): Python es el primer curso, pero secciones, prácticas, Sendas, monedas, jefes, importador e historia no pueden depender de Python (salvo el ejecutor del navegador).
 
 ## Reglas que no se rompen
 - El código del alumno **nunca** se ejecuta en el servidor. Python corre con Pyodide en un Web Worker (timeout 5 s).

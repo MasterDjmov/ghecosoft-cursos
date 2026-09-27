@@ -61,6 +61,8 @@
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 | D36 | Email del alumno | **Opcional** (en el registro y en el alta por el docente). Se entra con usuario o email. El docente puede cambiarle el email y resetearle la clave desde el admin para reactivar la cuenta | Hay alumnos sin email o que pierden el acceso; no se los bloquea por eso (2026-09-27) |
 | D37 | Contenido del nodo | **Secciones como campos separados**: crónica, objetivos, antes de empezar, explicación (Mia; es el `content` actual), ¿para qué sirve? (Bron), errores habituales (Zed, con la criatura del bestiario), prueba del sello (autoevaluación sin nota, respuestas desplegables) y **soluciones solo del docente** (nunca se mandan al alumno). Práctica: suma criterio de aprobación, solución de referencia (solo docente), salida esperada y entorno Navegador/Local | Permite dibujar cada sección con su personaje, ocultar las soluciones de forma segura e importar el curso del super prompt (2026-09-27) |
+| D38 | Nombre del héroe | **Público y único en toda la plataforma** (sin distinguir mayúsculas ni tildes). Lo elige el alumno; 3 a 20 caracteres, letras, números y espacios; el docente lo puede cambiar (moderación). Hasta que lo elija, los textos usan `hero.name` del diccionario ("Kira") y en los tops aparece sin héroe. Se muestra en ranking, CV y en el **top de la landing** | La idea es que los alumnos compitan en los tops con su héroe (2026-09-27) |
+| D39 | **Estructura para todos los lenguajes** | Todo lo que se arma para Python (secciones del nodo, prácticas, Sendas bloqueadas que se abren con monedas del curso o comodines, jefes, insignias, extras, importador, historia) es **genérico**: nada depende de Python salvo el ejecutor del navegador. Cada curso define su lenguaje, su diccionario (región, mentor, moneda) y su árbol; el formato del importador y el super prompt tienen una parte común y un anexo por lenguaje | Python es el primero, pero si funciona se suben C, C++, Java y el resto con la misma estructura (2026-09-27) |
 
 ---
 
@@ -214,6 +216,18 @@ Worker de Pyodide cargado cuando se usa por primera vez, stdin desde un textarea
 
 Al final de cada fase: `php artisan test` + `npm run build` + qué probar → **freno**.
 
+### Fases del curso completo (acordadas el 2026-09-27, a partir de `super-prompt-v2-curso-python.md`)
+Todo genérico para cualquier lenguaje (D39).
+
+| Fase | Entregable para probar |
+|---|---|
+| **6** | **Modelo de contenido** (D37): secciones del nodo y campos nuevos de la práctica, soluciones solo del docente, editor del admin y vista del alumno con cada sección y su personaje |
+| **7** | **Importador**: formato fijo (común + anexo por lenguaje) documentado, `app:import-course` con modo de prueba e IDs estables que actualiza sin borrar el progreso; se ajusta el super prompt para que entregue ese formato |
+| **8** | **Sendas**: requisitos múltiples por nodo, tipo Ventana, Sendas que brotan de un nodo (se abren con comodines o monedas del curso) y su dibujo en el árbol |
+| **9** | **Historia en pantalla** (bienvenida, crónica, rama completada, jefe, criatura, Encrucijada) y **héroe** (D38) |
+
+Después, las tareas del § 11: alta de alumnos + email opcional + WhatsApp, "Mis cursos" + landing (con el top de héroes) y modo misión.
+
 ---
 
 ## 10. Producción (pendiente: todavía no se sube)
@@ -270,6 +284,7 @@ Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, qu
 2. **Landing pública** (sin iniciar sesión) con una sección, más abajo, de **los cursos que más se dictan**: tarjetas con el logo, una línea de descripción, y los botones *Crear cuenta* y *Consultar por WhatsApp*. Estética del geco (DISENO.md), no corporativa. Probablemente haga falta una marca de **"destacado"** en el curso para elegir cuáles salen ahí.
 3. **Datos para decidir** en cada tarjeta y ficha: nivel (desde cero / intermedio), duración aproximada (cantidad de nodos o semanas), modalidad y horario (ya existe en comisiones). **A decidir:** si se muestra el precio en pesos (hoy no es un dato del sistema; se maneja por WhatsApp o comprobante) o queda "Consultá".
 4. **Cursos "Próximamente"**: un estado del curso para mostrarlo como adelanto sin abrirlo, con "Avisame cuando salga" (sirve para medir interés). Candidatos, según el material de FullCursos: C (01–02), C++ (03–11), Java (18–20), PHP (21), JS (22), TypeScript (23), Arduino (15), Phaser (16).
+- **Top de héroes en la landing**: usuario, héroe (D38) y XP de los mejores, para que los alumnos compitan. Mismas reglas de privacidad que el ranking global: solo quienes tienen perfil público (los menores, con la autorización aprobada). **A confirmar:** mostrar el apodo/nombre del ranking en lugar del usuario de login, que es un dato para entrar a la cuenta.
 - Sin filtros ni categorías por ahora: con 1–5 cursos no aportan.
 - Toda regla de acceso nueva (landing pública, curso "Próximamente" que no se puede abrir) va con Policy y test Pest.
 

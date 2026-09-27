@@ -6,8 +6,8 @@ use App\Models\Course;
 use App\Models\Node;
 use App\Services\TreeAccess;
 use App\Support\Markdown;
-use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -25,6 +25,10 @@ class NodeView extends Component
         $this->authorize('view', $node);
     }
 
+    /** Una hoja "sin entrega" se marcó completada: puede haber cambiado el estado del nodo. */
+    #[On('practice-approved')]
+    public function refreshProgress(): void {}
+
     /** ID de YouTube si el video es de ahí (se muestra embebido); si no, se muestra el link. */
     public static function youtubeId(?string $url): ?string
     {
@@ -39,7 +43,6 @@ class NodeView extends Component
     {
         $user = auth()->user();
         $practices = $this->node->practices()->get();
-        $statuses = TreeGraph::practiceStatuses($user, collect([$this->node->setRelation('practices', $practices)]));
 
         // Siguientes: los nodos que dependen de este, con su estado para el alumno.
         $next = $this->node->children()->where('is_published', true)->orderBy('position')->get()
@@ -52,8 +55,6 @@ class NodeView extends Component
         return view('livewire.student.node-view', [
             'contentHtml' => Markdown::render($this->node->content),
             'practices' => $practices,
-            'instructions' => $practices->mapWithKeys(fn ($p) => [$p->id => Markdown::render($p->instructions)]),
-            'statuses' => $statuses,
             'resources' => $this->node->resources()->get(),
             'youtubeId' => self::youtubeId($this->node->video_url),
             'parent' => $this->node->parent && $access->canView($user, $this->node->parent) ? $this->node->parent : null,

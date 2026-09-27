@@ -7,6 +7,15 @@
 
     <x-wallet-bar class="sm:hidden" />
 
+    @foreach ($worlds->filter(fn ($w) => $w['status'] === 'active' && $w['subscription']->ends_at->lte(now()->addDays(config('game.subscription_warning_days')))) as $world)
+        <flux:callout icon="clock" color="amber">
+            <flux:callout.text>
+                Tu abono de <strong>{{ $world['course']->title }}</strong> vence el {{ $world['subscription']->ends_at->format('d/m/Y') }}.
+                <flux:link :href="route('student.course', $world['course'])" wire:navigate>Renovalo</flux:link> para no frenar.
+            </flux:callout.text>
+        </flux:callout>
+    @endforeach
+
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         @forelse ($worlds as $world)
             @php

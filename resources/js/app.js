@@ -26,11 +26,12 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
-// Ejemplo ejecutable de un nodo (y, en la Fase 4, las hojas).
+// Editor + ejecutor: el ejemplo de un nodo, las hojas y la bandeja del docente.
+// config: { code, stdin, expected, language, readOnly, runnable, pyodideUrl, timeout }
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('codeRunner', (config) => ({
-        code: config.code,
-        original: config.code,
+        code: config.code ?? '',
+        original: config.code ?? '',
         stdin: config.stdin ?? '',
         output: null,
         status: '',
@@ -38,9 +39,27 @@ document.addEventListener('alpine:init', () => {
         running: false,
         copied: false,
         matches: null,
+        editor: null,
+
+        async init() {
+            if (!this.$refs.editor) return;
+            const { createEditor } = await import('./editor/code-editor.js');
+            this.$refs.editor.replaceChildren();
+            this.editor = createEditor(this.$refs.editor, {
+                doc: this.code,
+                language: config.language ?? 'python',
+                readOnly: Boolean(config.readOnly),
+                onChange: (code) => (this.code = code),
+                onRun: () => this.run(),
+            });
+        },
+
+        destroy() {
+            this.editor?.destroy();
+        },
 
         async run() {
-            if (this.running) return;
+            if (this.running || config.runnable === false) return;
             this.running = true;
             this.error = false;
             this.matches = null;
@@ -77,6 +96,7 @@ document.addEventListener('alpine:init', () => {
 
         restore() {
             this.code = this.original;
+            this.editor?.setDoc(this.original);
         },
     }));
 });

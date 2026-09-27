@@ -43,49 +43,10 @@
 
     {{-- Ejemplo ejecutable --}}
     @if ($node->example_code)
-        <section class="panel flex flex-col gap-3 p-5 sm:p-6"
-            x-data="codeRunner(@js(['code' => $node->example_code, 'stdin' => (string) $node->sample_input, 'expected' => (string) $node->expected_output, 'pyodideUrl' => config('services.pyodide.url'), 'timeout' => config('services.pyodide.timeout_ms')]))">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="font-display text-lg font-semibold text-white">Ejemplo</h2>
-                <div class="flex flex-wrap gap-2">
-                    <flux:button size="sm" variant="ghost" icon="clipboard" x-on:click="copy"><span x-text="copied ? '¡Copiado!' : 'Copiar'">Copiar</span></flux:button>
-                    <flux:button size="sm" variant="ghost" icon="arrow-uturn-left" x-on:click="restore" x-show="code !== original">Restaurar</flux:button>
-                    @if ($runnable)
-                        <flux:button size="sm" variant="primary" icon="play" x-on:click="run" x-bind:disabled="running">
-                            <span x-text="running ? 'Ejecutando…' : 'Ejecutar'"></span>
-                        </flux:button>
-                    @endif
-                </div>
-            </div>
-
-            <textarea x-model="code" spellcheck="false" rows="{{ min(18, substr_count($node->example_code, "\n") + 2) }}"
-                class="w-full resize-y rounded-lg border border-outline bg-surface-lowest p-3 font-mono text-sm text-ink focus:ring-2 focus:ring-accent focus:outline-none"
-                aria-label="Código de ejemplo" x-on:keydown.ctrl.enter.prevent="run"></textarea>
-
-            @if ($runnable)
-                <details class="text-sm" @if ($node->sample_input) open @endif>
-                    <summary class="cursor-pointer text-ink-muted">Entrada (una línea por cada <code class="font-mono">input()</code>)</summary>
-                    <textarea x-model="stdin" rows="2" spellcheck="false"
-                        class="mt-2 w-full rounded-lg border border-outline bg-surface-lowest p-2 font-mono text-sm text-ink focus:ring-2 focus:ring-accent focus:outline-none"></textarea>
-                </details>
-
-                <div class="flex flex-col gap-2" x-show="output !== null || status" x-cloak>
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="tech-label">Salida</span>
-                        <span class="font-mono" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
-                    </div>
-                    <pre class="max-h-72 overflow-auto rounded-lg border border-outline bg-[#05070d] p-3 font-mono text-sm whitespace-pre-wrap"
-                        x-bind:class="error ? 'text-danger' : 'text-success'" x-text="output"></pre>
-                    <p class="text-xs text-success" x-show="matches === true">✓ Coincide con la salida esperada.</p>
-                </div>
-            @endif
-
-            @if ($node->expected_output)
-                <details class="text-sm">
-                    <summary class="cursor-pointer text-ink-muted">Salida esperada</summary>
-                    <pre class="mt-2 overflow-auto rounded-lg border border-outline bg-surface-lowest p-3 font-mono text-sm text-ink-muted">{{ $node->expected_output }}</pre>
-                </details>
-            @endif
+        <section class="panel flex flex-col gap-2 p-5 sm:p-6">
+            <h2 class="font-display text-lg font-semibold text-white">Ejemplo</h2>
+            <x-code-runner :code="$node->example_code" :stdin="$node->sample_input" :expected="$node->expected_output"
+                :language="$node->example_language ?? $course->language->value" :runnable="$runnable" />
         </section>
     @endif
 
@@ -116,29 +77,7 @@
         <section class="flex flex-col gap-3">
             <h2 class="font-display text-lg font-semibold text-white">{{ ucfirst(term('practice', $course, 2)) }}</h2>
             @foreach ($practices as $practice)
-                @php($status = $statuses[$practice->id] ?? null)
-                <article id="practica-{{ $practice->id }}" class="panel flex scroll-mt-20 flex-col gap-3 p-5" wire:key="practice-{{ $practice->id }}">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <h3 class="font-medium text-white">{{ $practice->title }}</h3>
-                        <flux:badge size="sm" :color="$practice->is_required ? 'cyan' : 'violet'">{{ $practice->is_required ? 'Obligatoria' : 'Optativa' }}</flux:badge>
-                        @if ($status)
-                            <flux:badge size="sm" :color="['approved' => 'green', 'submitted' => 'amber', 'redo' => 'red'][$status]">
-                                {{ ['approved' => 'Aprobada', 'submitted' => 'Entregada', 'redo' => 'Rehacer'][$status] }}
-                            </flux:badge>
-                        @endif
-                        <span class="ms-auto font-mono text-xs text-ink-muted">
-                            +{{ $practice->coin_reward }} {{ $practice->is_required ? $coin($practice->coin_reward) : $wild($practice->coin_reward) }}
-                            · +{{ $practice->xp_reward }} {{ term('xp.short') }}
-                        </span>
-                    </div>
-                    @if ($instructions[$practice->id])
-                        <div class="markdown text-sm">{!! $instructions[$practice->id] !!}</div>
-                    @endif
-                    <p class="text-xs text-ink-muted">
-                        <flux:icon name="clock" variant="micro" class="inline" />
-                        Entrega: {{ $practice->submission_mode->label() }}. El editor y el botón Entregar llegan en la próxima actualización.
-                    </p>
-                </article>
+                <livewire:student.practice-card :practice="$practice" :key="'practice-'.$practice->id" />
             @endforeach
         </section>
     @endif

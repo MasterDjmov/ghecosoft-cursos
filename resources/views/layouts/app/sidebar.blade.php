@@ -17,8 +17,15 @@
                             Inicio
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="inbox-arrow-down" :href="route('admin.requests')" :current="request()->routeIs('admin.requests')" wire:navigate
-                            :badge="($pendingRequests = \App\Models\EnrollmentRequest::where('status', 'pending')->count()) ?: null">
+                            :badge="\App\Models\EnrollmentRequest::where('status', 'pending')->count() ?: null">
                             Solicitudes
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="code-bracket-square" :href="route('admin.submissions.index')" :current="request()->routeIs('admin.submissions.*')" wire:navigate
+                            :badge="\App\Models\Submission::where('status', 'submitted')->count() ?: null">
+                            Entregas
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="users" :href="route('admin.students.index')" :current="request()->routeIs('admin.students.*')" wire:navigate>
+                            Alumnos
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="share" :href="route('admin.courses.index')" :current="request()->routeIs('admin.courses.*', 'admin.nodes.*')" wire:navigate>
                             Cursos y árboles
@@ -55,7 +62,7 @@
             <flux:spacer />
 
             <flux:sidebar.nav>
-                <flux:sidebar.item icon="user-circle" :href="route('profile.edit')" :current="request()->routeIs('profile.edit', 'security.edit')" wire:navigate>
+                <flux:sidebar.item icon="user-circle" :href="route('profile.edit')" :current="request()->routeIs('profile.edit', 'security.edit', 'movements')" wire:navigate>
                     Mi cuenta
                 </flux:sidebar.item>
             </flux:sidebar.nav>
@@ -71,6 +78,7 @@
 
             <flux:spacer />
 
+            <livewire:notifications-bell />
             <x-desktop-user-menu />
         </flux:header>
 

@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente. Fases 1 y 2 terminadas (2026-09-27). **Fase 3 terminada (2026-09-27)**, esperando prueba del docente.
+> **Estado:** aprobado por el docente. Fases 1 a 3 terminadas (2026-09-27). **Fase 4 terminada (2026-09-27)**, esperando prueba del docente.
 
 ---
 
@@ -49,6 +49,11 @@
 | D24 | Pyodide | **v0.29.5** (Python 3.13) desde jsDelivr (`PYODIDE_URL`); el reloj de 5 s arranca cuando Python ya cargó (la primera descarga no cuenta) | La primera carga tarda según la conexión |
 | D25 | Qué ve el alumno de un nodo cerrado | Nombre, tipo, precio y por qué está bloqueado; **nunca** el contenido ni las consignas (sus hojas aparecen como "?"). Un nodo sin publicar y sin abrir no aparece | Gamificación visible sin filtrar contenido |
 | D26 | Renovación | Se puede pedir con el abono vencido o a 7 días de vencer; los días nuevos se suman al final | Evita pedidos duplicados |
+| D27 | XP extra | `config/game.php`: nodo completo +20, jefe vencido +50 (una sola vez cada uno, además de la XP de las hojas) | Premia cerrar nodos y ramas |
+| D28 | "Marcar como completada" | En una hoja **sin entrega** cuenta como aprobada (paga lo que tenga). En las demás es una marca personal que no aprueba nada | Así "Instalá Python" puede ser obligatoria |
+| D29 | Entregas | Nueva entrega solo con el nodo abierto, abono vigente, sin otra esperando corrección y sin haberla aprobado; el primer aprobado de cada hoja paga, los siguientes no | Intentos ilimitados sin duplicar pagos |
+| D30 | Notificaciones | Una sola clase `PlatformNotification` (título, texto, link, ícono) en base de datos + mail si hay SMTP; campanita con consulta cada 60 s | Hosting sin workers ni websockets |
+| D31 | Alumnos (admin) | Buscador y ficha con abonos, saldos, movimientos, entregas y **ajuste manual con motivo** (se adelantó a la Fase 4) | Lo pide la especificación y usa los mismos movimientos |
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 
 ---

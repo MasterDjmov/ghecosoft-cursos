@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Files\NodeResourceController;
 use App\Http\Controllers\Files\ReceiptController;
+use App\Http\Controllers\Files\SubmissionFileController;
 use App\Livewire\Admin\Badges;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
@@ -10,6 +11,8 @@ use App\Livewire\Admin\Levels;
 use App\Livewire\Admin\Nodes;
 use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Settings;
+use App\Livewire\Admin\Students;
+use App\Livewire\Admin\Submissions;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\NodeView;
@@ -32,12 +35,22 @@ Route::middleware('auth')->group(function () {
     // Descargas del disco privado: cada controlador llama a authorize().
     Route::get('archivos/recursos/{resource}', NodeResourceController::class)->name('files.resource');
     Route::get('archivos/comprobantes/{request}', ReceiptController::class)->name('files.receipt');
+    Route::get('archivos/entregas/{submission}', SubmissionFileController::class)->name('files.submission');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::livewire('/', AdminDashboard::class)->name('dashboard');
     Route::livewire('solicitudes', Requests::class)->name('requests');
     Route::livewire('configuracion', Settings::class)->name('settings');
+
+    Route::livewire('entregas', Submissions\Index::class)->name('submissions.index');
+    Route::get('entregas/siguiente', fn () => ($next = Submissions\Show::nextPending())
+        ? redirect()->route('admin.submissions.show', $next)
+        : redirect()->route('admin.submissions.index'))->name('submissions.next');
+    Route::livewire('entregas/{submission}', Submissions\Show::class)->name('submissions.show');
+
+    Route::livewire('alumnos', Students\Index::class)->name('students.index');
+    Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');
     Route::livewire('cursos/nuevo', Courses\Form::class)->name('courses.create');

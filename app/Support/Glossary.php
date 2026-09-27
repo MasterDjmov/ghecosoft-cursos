@@ -32,16 +32,38 @@ class Glossary
 
         // Las claves llevan punto (coin.course): no se puede usar config('glossary.coin.course').
         $default = config('glossary')[$key] ?? null;
-        $singular = $term['singular'] ?? $default['singular'] ?? Str::headline($key);
+        $singular = $term['singular'] ?? $default['singular'] ?? $this->fallback($key, $course);
 
         return [
             'singular' => $singular,
-            'plural' => $term['plural'] ?? $default['plural'] ?? Str::plural($singular),
+            // El plural en español no se deduce: si no está cargado, se repite el singular.
+            'plural' => $term['plural'] ?? $default['plural'] ?? $singular,
             'gender' => $term['gender'] ?? $default['gender'] ?? 'm',
             'icon_path' => $term['icon_path'] ?? null,
             'short_description' => $term['short_description'] ?? null,
             'lore' => $term['lore'] ?? null,
         ];
+    }
+
+    /** Nombre técnico en español para claves sin valor: "Nivel 3" para level.3. */
+    private function fallback(string $key, ?Course $course): string
+    {
+        if (preg_match('/^level\.(\d+)$/', $key, $match)) {
+            return Str::ucfirst($this->term('level', $course)).' '.$match[1];
+        }
+
+        return Str::headline($key);
+    }
+
+    /** De dónde sale el valor: 'course', 'general', 'default' o null (no existe en ningún lado). */
+    public function source(string $key, ?Course $course = null): ?string
+    {
+        return match (true) {
+            $course !== null && isset($this->termsFor($course->id)[$key]) => 'course',
+            isset($this->termsFor(null)[$key]) => 'general',
+            isset(config('glossary')[$key]) => 'default',
+            default => null,
+        };
     }
 
     public function term(string $key, ?Course $course = null, int $count = 1): string

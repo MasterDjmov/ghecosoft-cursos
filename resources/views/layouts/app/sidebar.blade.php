@@ -16,6 +16,20 @@
                         <flux:sidebar.item icon="squares-2x2" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
                             Inicio
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="share" :href="route('admin.courses.index')" :current="request()->routeIs('admin.courses.*', 'admin.nodes.*')" wire:navigate>
+                            Cursos y árboles
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                    <flux:sidebar.group heading="Juego" class="grid">
+                        <flux:sidebar.item icon="book-open" :href="route('admin.glossary')" :current="request()->routeIs('admin.glossary')" wire:navigate>
+                            Diccionario
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="chart-bar" :href="route('admin.levels')" :current="request()->routeIs('admin.levels')" wire:navigate>
+                            Niveles
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="trophy" :href="route('admin.badges')" :current="request()->routeIs('admin.badges')" wire:navigate>
+                            Insignias
+                        </flux:sidebar.item>
                     </flux:sidebar.group>
                     <flux:sidebar.group heading="Vista del alumno" class="grid">
                         <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.worlds')" wire:navigate>

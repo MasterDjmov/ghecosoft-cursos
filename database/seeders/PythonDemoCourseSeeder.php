@@ -6,6 +6,7 @@ use App\Enums\Language;
 use App\Enums\Modality;
 use App\Enums\NodeType;
 use App\Enums\SubmissionMode;
+use App\Models\Badge;
 use App\Models\Branch;
 use App\Models\Course;
 use App\Models\Currency;
@@ -87,7 +88,11 @@ class PythonDemoCourseSeeder extends Seeder
             'expected_output' => 'Tenés 25 monedas',
         ], $this->standardPractices('variables'));
 
+        $slimeBadge = Badge::create(['code' => 'rey_slime', 'course_id' => $this->course->id, 'name' => 'Cazador de slimes', 'description' => 'Venciste al Rey Slime.']);
+        $golemBadge = Badge::create(['code' => 'golem_bucle', 'course_id' => $this->course->id, 'name' => 'Rompe-bucles', 'description' => 'Venciste al Golem del Bucle.']);
+
         $boss1 = $this->node($fundamentals, $variables, NodeType::Boss, 'Jefe: el Rey Slime', 3, 10, [
+            'badge_id' => $slimeBadge->id,
             'content' => "## ¡El Rey Slime!\n\nProyecto del bloque: una **ficha de personaje** que pide datos, hace cuentas y muestra un resumen prolijo.",
         ], [
             ['Ficha de personaje', 'Pedí nombre, clase, nivel y oro. Mostrá la ficha y cuánto oro le falta para 100.', true, SubmissionMode::Code, 10, 50],
@@ -108,6 +113,7 @@ class PythonDemoCourseSeeder extends Seeder
         ], $this->standardPractices('bucles'));
 
         $this->node($control, $loops, NodeType::Boss, 'Jefe: el Golem del Bucle', 3, 10, [
+            'badge_id' => $golemBadge->id,
             'content' => "## ¡El Golem del Bucle!\n\nProyecto del bloque: un **menú de consola** que se repite hasta que el usuario elige salir.",
         ], [
             ['Menú de la posada', 'Mostrá un menú con 3 opciones y repetilo hasta que elijan "Salir".', true, SubmissionMode::Code, 10, 50],

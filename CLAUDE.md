@@ -35,7 +35,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - `php artisan app:create-admin` — crear el admin en producción
 
 ## Convenciones del código
-- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`.
+- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`. Editar el árbol (crear, mover, borrar, duplicar): `TreeEditor`; orden por arrastre: `App\Support\Reorder` + `wire:sort`.
 - Textos narrativos con `term('clave', $course, $cantidad)` (diccionario), nunca escritos a mano en las vistas.
 - Estados y tipos como PHP enums (`app/Enums`) con `label()` en español.
 - Los modelos declaran en `$attributes` los mismos valores por defecto que la base.

@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente. **Fase 1 terminada (2026-09-27)**, esperando prueba del docente.
+> **Estado:** aprobado por el docente. Fase 1 terminada (2026-09-27). **Fase 2 terminada (2026-09-27)**, esperando prueba del docente.
 
 ---
 
@@ -42,6 +42,10 @@
 | D17 | Verificación de email | **Desactivada** (sin `MustVerifyEmail`); la cuenta se usa apenas se registra | Hosting con SMTP opcional; el docente valida en la clase inicial |
 | D18 | Fuentes | Inter, Space Grotesk y JetBrains Mono **autoalojadas** por el plugin de Vite (sin CDN en tiempo de ejecución) | Privacidad y velocidad |
 | D15 | Mail | Canal `mail` solo si hay SMTP configurado; `QUEUE_CONNECTION=sync` | Hosting sin workers |
+| D19 | Insignia del jefe | `nodes.badge_id` (nulo): el jefe elige qué insignia entrega | G7: cada jefe da una insignia |
+| D20 | Borrados en el editor | No se borra el raíz, un nodo con dependientes, un nodo/hoja con actividad de alumnos, una rama con nodos ni un curso con alumnos: se **despublica** | No perder el historial de nadie |
+| D21 | Nombres de niveles | Van al diccionario como `level.{n}` (se editan desde *Niveles*); sin valor, "Nivel n" | Una sola fuente para los textos |
+| D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
 
 ---
 
@@ -65,7 +69,7 @@ Todas las columnas en inglés. `→` = clave foránea.
 | `courses` | title, slug, short_description, description, language, logo?, cover?, is_published, position, root_price (10), subscription_days (30) |
 | `cohorts` | → course, name, modality, schedule_text?, starts_on?, is_open_for_enrollment |
 | `branches` | → course, title, position, is_extra (bool) |
-| `nodes` | → course, → branch? (null en el raíz), → parent? (nodo requisito), type (`root`\|`topic`\|`boss`\|`extra`), title, position, price, → price_currency? (null = moneda del curso), video_url?, content?, example_code?, example_language?, expected_output?, sample_input?, pos_x?, pos_y?, is_published |
+| `nodes` | → course, → branch? (null en el raíz), → parent? (nodo requisito), type (`root`\|`topic`\|`boss`\|`extra`), title, position, price, → price_currency? (null = moneda del curso), → badge? (jefes), video_url?, content?, example_code?, example_language?, expected_output?, sample_input?, pos_x?, pos_y?, is_published |
 | `node_resources` | → node, type (`link`\|`file`), title, url?, file_path?, original_name?, position |
 | `practices` (hojas) | → node, title, instructions, is_required, submission_mode (`code`\|`file`\|`both`\|`none`), allowed_extensions?, starter_code?, sample_input?, coin_reward, xp_reward, position |
 

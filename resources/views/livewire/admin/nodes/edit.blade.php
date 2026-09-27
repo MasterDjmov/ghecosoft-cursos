@@ -5,7 +5,7 @@
 @endphp
 
 <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 sm:p-8" x-data="{ tab: '{{ $initialTab }}' }">
-    <x-admin.page-header :label="'Cursos · '.$course->title.' · '.$node->type->label()" :title="$node->title">
+    <x-admin.page-header :label="'Cursos · '.$course->title.' · '.$node->type->label().($node->code ? ' · '.$node->code : '')" :title="$node->title">
         <x-slot:actions>
             <flux:button variant="ghost" icon="arrow-left" :href="route('admin.courses.tree', $course)" wire:navigate>Árbol</flux:button>
         </x-slot:actions>

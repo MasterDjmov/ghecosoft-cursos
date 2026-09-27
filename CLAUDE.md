@@ -10,6 +10,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/IDENTIDAD-VISUAL.md](docs/IDENTIDAD-VISUAL.md) — marca GhecoSoft-Code (geco), paleta "DevLevel Obsidian", tipografías.
 - [docs/ARBOL-HABILIDADES.md](docs/ARBOL-HABILIDADES.md) — forma y dibujo del árbol (radial tipo PoE + estilo del grafo de `force-graph`; § 6–8 mandan).
 - [docs/super-prompt-v2-curso-python.md](docs/super-prompt-v2-curso-python.md) — el prompt con el que Claude online diseña el curso de Python (reglas pedagógicas, plantilla de nodo, Sendas). Lo que pide define las fases 6–9 de PLAN § 9.
+- [docs/FORMATO-CURSO.md](docs/FORMATO-CURSO.md) — formato Markdown para importar un curso entero (IDs estables, secciones, prácticas, diccionario). Ejemplo probado en `tests/Fixtures/curso-ejemplo.md`.
 - [docs/HISTORIA-BRIEF.md](docs/HISTORIA-BRIEF.md) — resumen del sistema que se le pasa a Claude online para definir la historia del curso de Python (el primero en salir). Actualizarlo si cambian el diccionario, la economía o dónde se muestra la historia.
 - [docs/CURSOS-EXISTENTES.md](docs/CURSOS-EXISTENTES.md) — el material de `/home/djmov/Programas/Cursos/FullCursos/` y cómo se traduce a cursos, unidades y clases. Esa carpeta es solo lectura: no se modifica desde este proyecto.
 
@@ -35,11 +36,12 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - `php artisan migrate:fresh --seed` — base local con admin/admin123, cliente/cliente123 y el curso demo de Python
 - `npm run build` — assets para producción
 - `vendor/bin/pint` — formato del código
+- `php artisan app:import-course carpeta/ [--apply]` — revisar (o importar con `--apply`) un curso en el formato de FORMATO-CURSO.md; también desde *Admin → Cursos → Importar*
 - `php artisan app:create-admin` — crear el admin en producción
 - `php artisan db:seed --class=ProductionSeeder` — datos mínimos en producción (nunca `db:seed` a secas). Deploy: [docs/DEPLOY.md](docs/DEPLOY.md)
 
 ## Convenciones del código
-- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`. Editar el árbol (crear, mover, borrar, duplicar): `TreeEditor`; entregar: `PracticeSubmitter`; corregir y pagar: `SubmissionReviewer`; rankings: `Ranking`; avisos: `PlatformNotification`; orden por arrastre: `App\Support\Reorder` + `wire:sort`.
+- Monedas y XP: solo `App\Services\Ledger`. Acceso al árbol: `App\Services\TreeAccess`. Abrir nodos: `NodeUnlocker`. Aprobar pagos: `EnrollmentApprover`. Editar el árbol (crear, mover, borrar, duplicar): `TreeEditor`; entregar: `PracticeSubmitter`; corregir y pagar: `SubmissionReviewer`; rankings: `Ranking`; importar cursos: `CourseImporter` (+ `Support\CourseImport`); avisos: `PlatformNotification`; orden por arrastre: `App\Support\Reorder` + `wire:sort`.
 - Textos narrativos con `term('clave', $course, $cantidad)` (diccionario), nunca escritos a mano en las vistas. La compañía que presenta cada sección del nodo sale de `companion.theory|uses|errors|guild` (`<x-companion>`).
 - Soluciones del docente (`nodes.teacher_solutions`, `practices.reference_solution`) van en `$hidden` y nunca se renderizan en vistas del alumno; hay test que lo verifica.
 - Estados y tipos como PHP enums (`app/Enums`) con `label()` en español.

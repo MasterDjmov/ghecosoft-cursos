@@ -65,6 +65,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');
     Route::livewire('cursos/nuevo', Courses\Form::class)->name('courses.create');
+    Route::livewire('cursos/importar', Courses\Import::class)->name('courses.import');
     Route::livewire('cursos/{course}/editar', Courses\Form::class)->name('courses.edit');
     Route::livewire('cursos/{course}/arbol', Courses\Tree::class)->name('courses.tree');
     Route::livewire('cursos/{course}/nodos/{node}', Nodes\Edit::class)->name('nodes.edit');

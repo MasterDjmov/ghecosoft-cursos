@@ -228,11 +228,20 @@ Si ves otra Senda necesaria (por ejemplo bots, procesamiento de imágenes, cienc
 ## 8. FORMATOS DE SALIDA
 
 ### 8.1 Diccionario narrativo (para cargar directo en el panel)
-Formato: `clave | singular | plural | género (f/m) | descripción corta | historia (si aplica)`
+Tabla Markdown bajo el título `# DICCIONARIO`, con estas columnas (la última es opcional: `curso` o `general`):
+
+```
+| clave | singular | plural | género | descripción | historia | ámbito |
+|---|---|---|---|---|---|---|
+| coin.course | escama | escamas | f | Se gana aprobando misiones del Valle. | | |
+```
+Género `f` o `m`. En la historia, los saltos de línea van como `<br>`.
 
 Claves que existen: `world.name`, `world.region`, `mentor.name`, `coin.course`, `coin.wildcard`, `xp`, `xp.short`, `level`, `level.1` a `level.7`, `branch`, `node`, `node.root`, `node.boss`, `node.extra`, `practice`, `badge`, `state.locked`, `state.available`, `state.unlocked`, `state.completed`, `story.course_intro`, `story.branch_completed`, `story.course_completed`, `beast.slime`, `beast.goblin`, `beast.skeleton`, `beast.orc`, `beast.ogre`, `beast.troll`, `beast.dragon`.
 
-Claves nuevas que propongo: `hero.name` (por defecto "Kira"), `branch.path` (nombre para "Senda"), y las que veas necesarias (por ejemplo `story.<jefe>_intro`).
+Claves de la compañía (ya existen): `companion.theory` (Mia), `companion.uses` (Bron), `companion.errors` (Zed), `companion.guild` (el Gremio).
+
+Claves nuevas que propongo: `hero.name` (por defecto "Kira"), `branch.path` (nombre para "Senda"), y las que veas necesarias (por ejemplo `story.<jefe>_intro`, `beast.<criatura>` para criaturas nuevas).
 
 ### 8.2 Ramas y jefes
 Formato: `rama | título del jefe | crónica (2 a 4 líneas) | nombre de la insignia | descripción de la insignia`
@@ -243,62 +252,112 @@ Formato: `rama | título del jefe | crónica (2 a 4 líneas) | nombre de la insi
 
 Tipo: Raíz / Tema / Jefe / Extra / Ventana / Senda. Entorno: Navegador / Local.
 
-### 8.4 Plantilla de cada nodo
+### 8.4 Plantilla de cada nodo (formato importable, NO cambies los títulos)
+La plataforma **importa tu respuesta tal cual**: los títulos, los IDs y los bloques ` ```meta ` tienen que ser exactamente así. Dentro del texto de una sección, los subtítulos van con `####` o más (nunca `#`, `##` ni `###`).
+
+IDs **estables**: rama `R01`, nodo `R01-N02`, misión `R01-N02-M1`, encargo `R01-N02-E1`. El raíz es `R00-N01` y va **antes** de la primera rama. Una vez usados, los IDs no se cambian.
+
+````
+# RAMA R01 · Primeros hechizos
+
+```meta
+tipo: tronco            # tronco | extra | senda
 ```
-## [ID] · [Título del nodo]
-Tipo: Tema / Jefe / Extra / Ventana / Senda
-Rama: ...
-Se desbloquea con: "Aprobá las prácticas obligatorias de «...»."
-Precio: X escamas (o comodines)
+
+## R01-N02 · Variables
+
+```meta
+tipo: tema              # raiz | tema | jefe | extra | ventana
+padre: R01-N01          # el nodo que hay que completar antes
+requiere: R00-N01       # (opcional) otros nodos que también hay que completar
+precio: 10
+moneda: curso           # curso | comodin
+criatura: esqueleto     # del bestiario
+```
 
 ### Crónica
-2 a 4 líneas, en segunda persona. Qué le pasa al héroe y por qué necesita esto.
+2 a 4 líneas, en segunda persona. Qué te pasa y por qué necesitás esto.
 
-### Objetivo
-Al terminar, podés... (2 a 4 objetivos concretos y verificables).
+### Objetivos
+- Al terminar, podés... (2 a 4 objetivos concretos y verificables)
 
 ### Antes de empezar
 Qué tenés que saber ya (tomado del registro de conceptos).
 
 ### Explicación (Mia)
-Teoría paso a paso, en pasos cortos, cada uno con un ejemplo mínimo.
+Teoría paso a paso, en pasos cortos, cada uno con un ejemplo mínimo. Subtítulos con ####.
 
 ### Código de ejemplo
-Código ejecutable en la plataforma + entrada de ejemplo (stdin) + salida esperada.
+```python
+# código ejecutable en la plataforma
+```
+
+### Entrada de ejemplo
+```
+lo que se tipea (una línea por cada input)
+```
+
+### Salida esperada
+```
+lo que tiene que mostrar
+```
 
 ### ¿Para qué sirve? (Bron)
 Uno o dos usos reales fuera del juego.
 
 ### Errores habituales (Zed)
-El error típico, la criatura del bestiario que lo encarna, cómo se ve el
-pergamino (traceback) y cómo leerlo.
+El error típico, cómo se ve el pergamino (traceback) y cómo leerlo.
 
-### Misiones (obligatorias, las que hagan falta: 3 a 6)
-Ordenadas de guiadas a abiertas. Para cada una:
-- Nombre narrativo
-- [Navegador] o [Local, entrega archivo] · tipo de entrega
-- Consigna en pasos numerados
-- Entrada de ejemplo (si usa input) y salida esperada
-- Criterio de aprobación (lista verificable para el docente)
-- Escamas y XP que paga
+### Misión R01-N02-M1 · Nombre narrativo
 
-### Encargo del Gremio (optativa)
-Un problema del mundo real con lo aprendido. Paga comodines.
-
-### Prueba del sello (autoevaluación)
-3 a 5 preguntas cortas: predecir una salida, encontrar el error, elegir la opción correcta.
-
-### Chequeo de prerrequisitos
-Todo lo que usa el nodo → confirmación de que ya se enseñó.
-Conceptos que este nodo agrega al registro.
-Dudas sembradas y en qué nodo se resuelven.
-
-### Soluciones (para el docente)
-Solución de referencia de cada misión, tiempo estimado y dificultades frecuentes.
+```meta
+entrega: codigo         # codigo | archivo | ambos | ninguna
+entorno: navegador      # navegador | local
+monedas: 3
+xp: 10
 ```
 
+#### Consigna
+Pasos numerados.
+
+#### Criterio de aprobación
+- Lista verificable para el docente (también la ve el alumno).
+
+#### Código inicial
+```python
+# (opcional)
+```
+
+#### Entrada de ejemplo
+```
+(si usa input)
+```
+
+#### Salida esperada
+```
+(si corresponde)
+```
+
+#### Solución de referencia
+```python
+# solo la ve el docente
+```
+
+### Encargo R01-N02-E1 · Nombre
+(Optativa del Gremio: mismas partes que una misión; paga comodines.)
+
+### Prueba del sello
+#### ¿Pregunta corta: predecir una salida, encontrar el error o elegir la opción?
+Respuesta. (Es **autoevaluación sin nota**: el alumno despliega la respuesta; no suma ni resta.)
+
+### Soluciones (docente)
+Tiempo estimado, dificultades frecuentes y notas. Solo la ve el docente.
+````
+
+Misiones: 3 a 6, de guiadas a abiertas. El **Chequeo de prerrequisitos** (lo que usa el nodo, lo que agrega al registro y las dudas sembradas) va **fuera** del bloque importable, como texto tuyo después del nodo.
+
 ### 8.5 Jefes
-Igual que un nodo, pero **sin teoría nueva**. Agregá: el error que encarna la criatura, **fases del combate** (2 o 3 partes crecientes del proyecto), condición de victoria verificable, insignia.
+Igual que un nodo (`tipo: jefe`), pero **sin teoría nueva**. En el meta agregá `insignia:` e `insignia_descripcion:`. En la Crónica o la Explicación: el error que encarna la criatura, **fases del combate** (2 o 3 partes crecientes del proyecto) y la condición de victoria verificable (va también en el Criterio de aprobación de la misión).
 
 ### 8.6 Sendas
 Antes de sus nodos: guía, lugar del mundo, de qué nodo brota, requisitos, "elegí esta Senda si te gusta...", qué proyectos y salidas laborales abre, y si necesita hardware o instalación local.
@@ -316,9 +375,25 @@ Hoy el alumno ve: nombres del mundo, monedas, XP, niveles, estados, títulos, ex
 Trabajá **por etapas** y esperá mi aprobación entre cada una:
 
 1. **Etapa 1 · El mundo**: alternativas para el nombre del mundo, diccionario narrativo completo (8.1), nombres de los 7 rangos, qué representan escamas, comodines y XP, y la propuesta de dónde mostrar la historia (9).
-2. **Etapa 2 · El mapa**: el árbol completo del tronco y todas las Sendas (8.3), con los nodos ventana y de dónde brota cada Senda. Marcá con 🆕 lo que no existe en la plataforma.
+2. **Etapa 2 · El mapa**: el árbol completo del tronco y todas las Sendas (8.3), con los nodos ventana y de dónde brota cada Senda, y los **IDs definitivos**. Estimá cuántos nodos y prácticas tiene el tronco y cada Senda, y cuántas semanas llevaría a un ritmo de 2 clases por semana. Marcá con 🆕 lo que no existe en la plataforma.
 3. **Etapa 3 · Ramas y jefes**: tabla 8.2 completa, más `story.course_intro`, `story.branch_completed` y `story.course_completed`.
-4. **Etapa 4 en adelante**: los nodos de **una rama por vez**, en orden, con la plantilla 8.4.
+4. **Etapa 4 en adelante**: los nodos de **una rama por vez**, en orden, con la plantilla 8.4. Cada rama en **un solo bloque de código markdown** listo para guardar como `NN-rama.md` (por ejemplo `01-primeros-hechizos.md`). La primera respuesta de esta etapa incluye también `00-curso.md` con `# CURSO`, el `# DICCIONARIO` y el nodo raíz. Formato de `# CURSO`:
+
+````
+# CURSO
+
+```meta
+slug: python
+titulo: Python desde cero
+lenguaje: python
+descripcion_corta: ...
+precio_raiz: 10
+dias_abono: 30
+```
+
+### Descripción
+Texto de la ficha del curso.
+````
 
 Al final de cada respuesta mostrá el **registro de conceptos actualizado** (breve) y preguntá si seguimos.
 

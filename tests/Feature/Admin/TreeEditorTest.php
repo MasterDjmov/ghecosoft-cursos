@@ -125,12 +125,14 @@ test('un nodo sin alumnos ni dependientes se borra con sus hojas', function () {
 
 test('duplicar copia el nodo con sus hojas, sin publicar', function () {
     ['course' => $course, 'topic1' => $topic1] = makeCourse();
+    $topic1->update(['code' => 'R01-N01']); // un nodo importado: la copia no puede repetir el ID
 
     $copy = $this->editor->duplicateNode($topic1);
 
     expect($copy->title)->toBe('Tema 1 (copia)')
         ->and($copy->is_published)->toBeFalse()
         ->and($copy->parent_id)->toBe($topic1->parent_id)
+        ->and($copy->code)->toBeNull()
         ->and($copy->practices()->pluck('title')->all())->toBe($topic1->practices()->pluck('title')->all());
 });
 

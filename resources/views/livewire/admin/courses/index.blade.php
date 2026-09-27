@@ -1,6 +1,7 @@
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-8 p-4 sm:p-8">
     <x-admin.page-header title="Cursos" subtitle="Cada curso es un mundo con su árbol. Arrastrá para cambiar el orden del mapa.">
         <x-slot:actions>
+            <flux:button icon="arrow-down-tray" :href="route('admin.courses.import')" wire:navigate>Importar</flux:button>
             <flux:button variant="primary" icon="plus" :href="route('admin.courses.create')" wire:navigate>Nuevo curso</flux:button>
         </x-slot:actions>
     </x-admin.page-header>

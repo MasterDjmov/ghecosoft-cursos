@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['node_id', 'title', 'instructions', 'approval_criteria', 'is_required', 'submission_mode', 'environment', 'allowed_extensions', 'starter_code', 'sample_input', 'expected_output', 'reference_solution', 'coin_reward', 'xp_reward', 'position'])]
+#[Fillable(['node_id', 'code', 'title', 'instructions', 'approval_criteria', 'is_required', 'submission_mode', 'environment', 'allowed_extensions', 'starter_code', 'sample_input', 'expected_output', 'reference_solution', 'coin_reward', 'xp_reward', 'position'])]
 class Practice extends Model
 {
     /** Mismos valores por defecto que la base. */

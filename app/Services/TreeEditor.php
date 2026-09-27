@@ -150,7 +150,7 @@ class TreeEditor
         }
 
         return DB::transaction(function () use ($node) {
-            $copy = $node->replicate(['position']);
+            $copy = $node->replicate(['position', 'code']);
             $copy->title = Str::limit($node->title.' (copia)', 255, '');
             $copy->is_published = false;
             $copy->position = Reorder::next(Node::where('course_id', $node->course_id)->where('branch_id', $node->branch_id));

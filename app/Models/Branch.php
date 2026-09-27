@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['course_id', 'title', 'position', 'is_extra'])]
+#[Fillable(['course_id', 'code', 'title', 'position', 'is_extra'])]
 class Branch extends Model
 {
     /** Mismos valores por defecto que la base. */

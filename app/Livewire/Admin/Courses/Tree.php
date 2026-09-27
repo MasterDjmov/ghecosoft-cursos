@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Courses;
 
+use App\Enums\BranchKind;
 use App\Enums\NodeType;
 use App\Exceptions\TreeEditRefused;
 use App\Models\Course;
@@ -32,7 +33,8 @@ class Tree extends Component
 
     public string $branchTitle = '';
 
-    public bool $branchIsExtra = false;
+    /** trunk | extra | path (Senda). */
+    public string $branchKind = 'trunk';
 
     // Modal de nodo nuevo.
     public ?int $nodeBranchId = null;
@@ -45,7 +47,7 @@ class Tree extends Component
 
     public int $nodePrice = 10;
 
-    /** 'course' | 'wildcard' (solo extras). */
+    /** 'course' | 'wildcard' (cualquier nodo salvo el raíz; por ejemplo, la entrada a una Senda). */
     public string $nodePaidWith = 'course';
 
     // Confirmación de borrado.
@@ -57,7 +59,7 @@ class Tree extends Component
 
         $this->branchId = $branch?->id;
         $this->branchTitle = $branch->title ?? '';
-        $this->branchIsExtra = $branch->is_extra ?? false;
+        $this->branchKind = $branch?->kind->value ?? BranchKind::Trunk->value;
         $this->resetValidation();
 
         Flux::modal('branch')->show();
@@ -65,13 +67,16 @@ class Tree extends Component
 
     public function saveBranch(TreeEditor $editor): void
     {
-        $this->validate(['branchTitle' => ['required', 'string', 'max:120']], [], ['branchTitle' => 'nombre de la rama']);
+        $this->validate([
+            'branchTitle' => ['required', 'string', 'max:120'],
+            'branchKind' => ['required', Rule::enum(BranchKind::class)],
+        ], [], ['branchTitle' => 'nombre de la rama', 'branchKind' => 'tipo de rama']);
 
         if ($this->branchId) {
             $this->course->branches()->findOrFail($this->branchId)
-                ->update(['title' => $this->branchTitle, 'is_extra' => $this->branchIsExtra]);
+                ->update(['title' => $this->branchTitle, 'kind' => BranchKind::from($this->branchKind)]);
         } else {
-            $editor->createBranch($this->course, $this->branchTitle, $this->branchIsExtra);
+            $editor->createBranch($this->course, $this->branchTitle, BranchKind::from($this->branchKind));
         }
 
         Flux::modal('branch')->close();
@@ -91,27 +96,23 @@ class Tree extends Component
 
         $this->nodeBranchId = $branch?->id;
         $this->nodeTitle = '';
-        $this->nodeType = $branch?->is_extra ? NodeType::Extra->value : NodeType::Topic->value;
+        // Extras: nodo extra en comodines. Senda: su primer nodo (la entrada) en comodines; los de adentro, en la moneda del curso.
+        $isExtra = $branch?->kind === BranchKind::Extra;
+        $isPathEntry = $branch?->isPath() && ! $lastInBranch;
+        $this->nodeType = $isExtra ? NodeType::Extra->value : NodeType::Topic->value;
         $this->nodeParentId = $lastInBranch->id ?? $this->course->rootNode?->id;
-        $this->nodePrice = $branch?->is_extra ? 3 : 10;
-        $this->nodePaidWith = $branch?->is_extra ? 'wildcard' : 'course';
+        $this->nodePrice = $isExtra || $isPathEntry ? 3 : 10;
+        $this->nodePaidWith = $isExtra || $isPathEntry ? 'wildcard' : 'course';
         $this->resetValidation();
 
         Flux::modal('node')->show();
-    }
-
-    public function updatedNodeType(string $type): void
-    {
-        if ($type !== NodeType::Extra->value) {
-            $this->nodePaidWith = 'course';
-        }
     }
 
     public function saveNode(TreeEditor $editor)
     {
         $this->validate([
             'nodeTitle' => ['required', 'string', 'max:255'],
-            'nodeType' => ['required', Rule::in([NodeType::Topic->value, NodeType::Boss->value, NodeType::Extra->value])],
+            'nodeType' => ['required', Rule::in(array_map(fn (NodeType $t) => $t->value, NodeType::editable()))],
             'nodeBranchId' => ['nullable', Rule::exists('branches', 'id')->where('course_id', $this->course->id)],
             'nodeParentId' => ['required', 'integer'],
             'nodePrice' => ['required', 'integer', 'min:0', 'max:1000'],
@@ -123,7 +124,7 @@ class Tree extends Component
             'branch_id' => $this->nodeBranchId,
             'parent_id' => $this->nodeParentId,
             'price' => $this->nodePrice,
-            'price_currency_id' => $this->nodeType === NodeType::Extra->value && $this->nodePaidWith === 'wildcard' ? Currency::wildcard()->id : null,
+            'price_currency_id' => $this->nodePaidWith === 'wildcard' ? Currency::wildcard()->id : null,
         ]), 'Nodo creado.');
 
         if ($node) {
@@ -233,7 +234,8 @@ class Tree extends Component
             'nodesByBranch' => $nodes->reject->isRoot()->groupBy(fn (Node $node) => $node->branch_id ?? 'none'),
             'nodesById' => $nodes->keyBy('id'),
             'parentOptions' => $editor->allowedParents($this->course),
-            'nodeTypes' => [NodeType::Topic, NodeType::Boss, NodeType::Extra],
+            'nodeTypes' => NodeType::editable(),
+            'branchKinds' => BranchKind::cases(),
             'graph' => $this->view === 'tree' ? TreeGraph::forAdmin($this->course) : null,
             'deletingNode' => $this->deletingNodeId ? $nodes->firstWhere('id', $this->deletingNodeId) : null,
         ])->title('Árbol · '.$this->course->title);

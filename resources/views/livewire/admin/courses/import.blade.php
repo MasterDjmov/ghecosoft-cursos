@@ -1,5 +1,5 @@
 @php
-    $entities = ['curso' => 'Curso', 'diccionario' => 'Diccionario', 'ramas' => 'Ramas', 'nodos' => 'Nodos', 'prácticas' => 'Prácticas', 'insignias' => 'Insignias'];
+    $entities = ['curso' => 'Curso', 'diccionario' => 'Diccionario', 'ramas' => 'Ramas', 'nodos' => 'Nodos', 'prácticas' => 'Prácticas', 'insignias' => 'Insignias', 'requisitos' => 'Requisitos extra'];
 @endphp
 
 <div class="mx-auto flex w-full max-w-4xl flex-col gap-6 p-4 sm:p-8">

@@ -72,7 +72,9 @@
             <section class="flex flex-col gap-2">
                 <h2 class="flex items-center gap-2 font-display text-lg font-semibold text-white">
                     {{ $branch['title'] }}
-                    @if ($branch['is_extra'])
+                    @if ($branch['kind'] === 'path')
+                        <flux:badge size="sm" color="pink">{{ ucfirst(term('branch.path', $course)) }}</flux:badge>
+                    @elseif ($branch['is_extra'])
                         <flux:badge size="sm" color="violet">Extras</flux:badge>
                     @endif
                 </h2>

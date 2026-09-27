@@ -68,15 +68,15 @@
                         <flux:icon name="bars-3" class="size-5 cursor-grab text-ink-muted" wire:sort:handle />
                         <h2 class="min-w-0 flex-1 truncate font-display text-lg font-semibold text-white">
                             {{ $branch->title }}
-                            @if ($branch->is_extra)
-                                <flux:badge size="sm" color="violet" class="ms-2 align-middle">Extras</flux:badge>
+                            @if ($branch->kind !== \App\Enums\BranchKind::Trunk)
+                                <flux:badge size="sm" :color="$branch->isPath() ? 'pink' : 'violet'" class="ms-2 align-middle">{{ $branch->isPath() ? ucfirst(term('branch.path', $course)) : $branch->kind->label() }}</flux:badge>
                             @endif
                         </h2>
                         <flux:button size="sm" icon="plus" wire:click="openNode({{ $branch->id }})">Nodo</flux:button>
                         <flux:dropdown position="bottom" align="end">
                             <flux:button size="sm" variant="ghost" icon="ellipsis-horizontal" aria-label="Opciones de la rama" />
                             <flux:menu>
-                                <flux:menu.item icon="pencil-square" wire:click="openBranch({{ $branch->id }})">Renombrar</flux:menu.item>
+                                <flux:menu.item icon="pencil-square" wire:click="openBranch({{ $branch->id }})">Editar</flux:menu.item>
                                 <flux:menu.item icon="trash" variant="danger" wire:click="deleteBranch({{ $branch->id }})" wire:confirm="¿Borrar la rama «{{ $branch->title }}»?">Borrar rama</flux:menu.item>
                             </flux:menu>
                         </flux:dropdown>
@@ -106,9 +106,17 @@
     {{-- Modal: rama --}}
     <flux:modal name="branch" class="w-full max-w-md">
         <form wire:submit="saveBranch" class="flex flex-col gap-5">
-            <flux:heading size="lg">{{ $branchId ? 'Renombrar rama' : 'Nueva rama' }}</flux:heading>
+            <flux:heading size="lg">{{ $branchId ? 'Editar rama' : 'Nueva rama' }}</flux:heading>
             <flux:input wire:model="branchTitle" label="Nombre" placeholder="Fundamentos" autofocus />
-            <flux:checkbox wire:model="branchIsExtra" label="Es una rama de extras" description="Nodos optativos, en el anillo exterior del árbol." />
+            <flux:radio.group wire:model="branchKind" label="Tipo" variant="segmented">
+                @foreach ($branchKinds as $kind)
+                    <flux:radio :value="$kind->value" :label="$kind === \App\Enums\BranchKind::Path ? ucfirst(term('branch.path', $course)) : $kind->label()" />
+                @endforeach
+            </flux:radio.group>
+            <flux:text class="-mt-2 text-sm">
+                <strong>Tronco</strong>: obligatoria, cuenta para completar el curso. <strong>Extras</strong>: nodos optativos sueltos.
+                <strong>{{ ucfirst(term('branch.path', $course)) }}</strong>: especialización optativa que brota de un nodo (su primer nodo suele costar {{ term('coin.wildcard', null, 2) }}).
+            </flux:text>
             <div class="flex justify-end gap-2">
                 <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
                 <flux:button variant="primary" type="submit">Guardar</flux:button>
@@ -136,12 +144,10 @@
 
             <div class="grid gap-4 sm:grid-cols-2">
                 <flux:input wire:model="nodePrice" type="number" min="0" label="Precio" />
-                @if ($nodeType === 'extra')
-                    <flux:select wire:model="nodePaidWith" label="Se paga con">
-                        <flux:select.option value="course">{{ ucfirst(term('coin.course', $course, 2)) }}</flux:select.option>
-                        <flux:select.option value="wildcard">{{ ucfirst(term('coin.wildcard', null, 2)) }}</flux:select.option>
-                    </flux:select>
-                @endif
+                <flux:select wire:model="nodePaidWith" label="Se paga con">
+                    <flux:select.option value="course">{{ ucfirst(term('coin.course', $course, 2)) }}</flux:select.option>
+                    <flux:select.option value="wildcard">{{ ucfirst(term('coin.wildcard', null, 2)) }}</flux:select.option>
+                </flux:select>
             </div>
 
             <div class="flex justify-end gap-2">

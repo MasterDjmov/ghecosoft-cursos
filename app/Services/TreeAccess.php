@@ -17,7 +17,8 @@ use App\Models\User;
  * Decide, en cada request, qué puede ver y abrir un alumno del árbol.
  *
  * - Ver un nodo: haberlo abierto alguna vez (el acceso a lo visto es permanente).
- * - Abrir un nodo: abono vigente + raíz abierto + obligatorias del nodo padre aprobadas + saldo.
+ * - Abrir un nodo: abono vigente + raíz abierto + obligatorias del nodo padre (y de sus
+ *   requisitos extra) aprobadas + saldo.
  * - Entregar: nodo abierto + abono vigente.
  */
 class TreeAccess
@@ -39,6 +40,8 @@ class TreeAccess
     public const BLOCK_ROOT_CLOSED = 'root_closed';
 
     public const BLOCK_PARENT_INCOMPLETE = 'parent_incomplete';
+
+    public const BLOCK_REQUIREMENTS_INCOMPLETE = 'requirements_incomplete';
 
     public const BLOCK_INSUFFICIENT_FUNDS = 'insufficient_funds';
 
@@ -122,6 +125,10 @@ class TreeAccess
             if ($node->parent && ! $this->isCompleted($user, $node->parent)) {
                 $blockers[] = self::BLOCK_PARENT_INCOMPLETE;
             }
+
+            if ($this->incompleteRequirements($user, $node) !== []) {
+                $blockers[] = self::BLOCK_REQUIREMENTS_INCOMPLETE;
+            }
         }
 
         if ($this->ledger->balance($user, $this->paymentCurrency($node)) < $node->price) {
@@ -129,6 +136,19 @@ class TreeAccess
         }
 
         return $blockers;
+    }
+
+    /**
+     * Requisitos extra del nodo que el alumno todavía no completó.
+     *
+     * @return list<Node>
+     */
+    public function incompleteRequirements(User $user, Node $node): array
+    {
+        return $node->requirements
+            ->reject(fn (Node $required) => $this->isCompleted($user, $required))
+            ->values()
+            ->all();
     }
 
     public function canUnlock(User $user, Node $node): bool
@@ -156,10 +176,10 @@ class TreeAccess
         return $this->isUnlocked($user, $node) && $this->hasActiveSubscription($user, $node->course);
     }
 
-    /** Completó todos los nodos publicados del curso (los extras no cuentan). */
+    /** Completó todos los nodos publicados del tronco (los extras y las Sendas no cuentan). */
     public function isCourseCompleted(User $user, Course $course): bool
     {
-        $nodes = $course->nodes()->where('is_published', true)->where('type', '!=', NodeType::Extra)->get();
+        $nodes = $course->nodes()->where('is_published', true)->trunk()->get();
 
         return $nodes->isNotEmpty() && $nodes->every(fn (Node $node) => $this->isCompleted($user, $node));
     }

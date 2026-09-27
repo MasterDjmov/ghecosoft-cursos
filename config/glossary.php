@@ -34,9 +34,11 @@ return [
     // Progreso
     'level' => ['group' => 'progress', 'label' => 'Nivel o rango (palabra genérica)', 'singular' => 'nivel', 'plural' => 'niveles', 'gender' => 'm'],
     'branch' => ['group' => 'progress', 'label' => 'Rama o bloque del árbol', 'singular' => 'rama', 'plural' => 'ramas', 'gender' => 'f'],
+    'branch.path' => ['group' => 'progress', 'label' => 'Senda (rama de especialización optativa)', 'singular' => 'senda', 'plural' => 'sendas', 'gender' => 'f'],
     'node' => ['group' => 'progress', 'label' => 'Nodo (un tema del árbol)', 'singular' => 'nodo', 'plural' => 'nodos', 'gender' => 'm'],
     'node.root' => ['group' => 'progress', 'label' => 'Nodo raíz (la clase 0, entrada al curso)', 'singular' => 'nodo raíz', 'plural' => 'nodos raíz', 'gender' => 'm'],
     'node.boss' => ['group' => 'progress', 'label' => 'Nodo jefe (cierra cada rama)', 'singular' => 'jefe', 'plural' => 'jefes', 'gender' => 'm'],
+    'node.window' => ['group' => 'progress', 'label' => 'Nodo ventana (prueba un campo; de ahí brota una Senda)', 'singular' => 'ventana', 'plural' => 'ventanas', 'gender' => 'f'],
     'node.extra' => ['group' => 'progress', 'label' => 'Nodo extra (optativo)', 'singular' => 'extra', 'plural' => 'extras', 'gender' => 'm'],
     'practice' => ['group' => 'progress', 'label' => 'Hoja o práctica', 'singular' => 'práctica', 'plural' => 'prácticas', 'gender' => 'f'],
     'badge' => ['group' => 'progress', 'label' => 'Insignia', 'singular' => 'insignia', 'plural' => 'insignias', 'gender' => 'f'],

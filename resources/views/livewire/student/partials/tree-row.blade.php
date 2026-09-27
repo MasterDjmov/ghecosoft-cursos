@@ -11,6 +11,7 @@
         'root' => 'star',
         'boss' => 'fire',
         'extra' => 'sparkles',
+        'window' => 'eye',
         default => 'cube',
     };
 @endphp
@@ -27,6 +28,7 @@
                 'bg-primary/20 text-primary-bright' => $node['type'] === 'root' || $node['type'] === 'topic',
                 'bg-danger/20 text-danger' => $node['type'] === 'boss',
                 'bg-secondary/20 text-secondary-bright' => $node['type'] === 'extra',
+                'bg-[#2dd4bf]/20 text-[#2dd4bf]' => $node['type'] === 'window',
                 'grayscale' => $node['state'] === 'locked',
             ])>
                 <flux:icon :name="$typeIcon" variant="mini" />

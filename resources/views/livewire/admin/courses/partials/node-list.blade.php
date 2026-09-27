@@ -9,6 +9,7 @@
             $icon = match ($node->type) {
                 \App\Enums\NodeType::Boss => 'fire',
                 \App\Enums\NodeType::Extra => 'sparkles',
+                \App\Enums\NodeType::Window => 'eye',
                 default => 'cube',
             };
         @endphp
@@ -16,7 +17,7 @@
             wire:key="node-{{ $node->id }}" wire:sort:item="{{ $node->id }}" data-test="node-{{ $node->id }}">
             <div class="flex min-w-0 flex-1 items-center gap-3">
                 <flux:icon name="bars-3" class="size-4 shrink-0 cursor-grab text-ink-muted" wire:sort:handle />
-                <flux:icon :name="$icon" @class(['size-5 shrink-0', 'text-danger' => $node->isBoss(), 'text-secondary-bright' => $node->type === \App\Enums\NodeType::Extra, 'text-primary-bright' => $node->type === \App\Enums\NodeType::Topic]) />
+                <flux:icon :name="$icon" @class(['size-5 shrink-0', 'text-danger' => $node->isBoss(), 'text-secondary-bright' => $node->type === \App\Enums\NodeType::Extra, 'text-primary-bright' => $node->type === \App\Enums\NodeType::Topic, 'text-[#2dd4bf]' => $node->type === \App\Enums\NodeType::Window]) />
                 <div class="flex min-w-0 flex-col gap-0.5">
                     <div class="flex flex-wrap items-center gap-2">
                         <a href="{{ route('admin.nodes.edit', [$course, $node]) }}" wire:navigate class="truncate font-medium text-white hover:text-primary-bright">{{ $node->title }}</a>

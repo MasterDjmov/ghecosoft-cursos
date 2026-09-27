@@ -11,6 +11,9 @@ const COLORS = {
     topic: '#3b82f6',
     boss: '#ef4444',
     extra: '#a855f7',
+    window: '#2dd4bf',
+    path: '#f472b6',
+    requirement: 'rgba(244,114,182,0.45)',
     locked: '#334155',
     required: '#10b981',
     optional: '#8b5cf6',
@@ -20,7 +23,7 @@ const COLORS = {
     pending: '#475569',
 };
 
-const RADIUS = { root: 20, topic: 10, boss: 13, extra: 9, practice: 6 };
+const RADIUS = { root: 20, topic: 10, window: 11, boss: 13, extra: 9, practice: 6 };
 
 // Desde qué zoom se ven los nombres de las hojas (como en el mapa escolar).
 const LEAF_LABEL_ZOOM = 2.2;
@@ -64,7 +67,8 @@ function drawLabel(ctx, text, x, y, scale, { small = false, dim = false } = {}) 
 
 /** Color y estilo de un nodo del árbol según su tipo y su estado. */
 function nodeStyle(node) {
-    const base = COLORS[node.type] ?? COLORS.topic;
+    // Los temas de una Senda toman su color; jefes y ventanas conservan el propio.
+    const base = node.inPath && node.type === 'topic' ? COLORS.path : (COLORS[node.type] ?? COLORS.topic);
 
     switch (node.state) {
         case 'locked':
@@ -80,15 +84,22 @@ function nodeStyle(node) {
 
 function buildGraph(data) {
     const positions = layoutTree(data);
+    const pathBranches = new Set(data.branches.filter((branch) => branch.kind === 'path').map((branch) => branch.id));
+    const visible = new Set(data.nodes.map((node) => node.id));
     const nodes = [];
     const links = [];
 
     for (const node of data.nodes) {
         const position = positions.get(node.id) ?? { x: 0, y: 0, angle: 0 };
-        nodes.push({ ...node, kind: 'node', id: `n${node.id}`, key: node.id, fx: position.x, fy: position.y, angle: position.angle });
+        nodes.push({ ...node, kind: 'node', id: `n${node.id}`, key: node.id, fx: position.x, fy: position.y, angle: position.angle, inPath: pathBranches.has(node.branch_id) });
 
-        if (node.parent_id) {
+        if (node.parent_id && visible.has(node.parent_id)) {
             links.push({ source: `n${node.parent_id}`, target: `n${node.id}`, kind: 'trunk', state: node.state });
+        }
+
+        // Requisitos extra: línea punteada fina desde cada nodo que también hay que completar.
+        for (const required of node.requires ?? []) {
+            if (visible.has(required)) links.push({ source: `n${required}`, target: `n${node.id}`, kind: 'requirement', state: node.state });
         }
 
         const practices = data.practices.filter((practice) => practice.node_id === node.id);
@@ -134,6 +145,7 @@ export function mountSkillTree(element, data, options = {}) {
         .enableNodeDrag(Boolean(options.editable))
         .nodeLabel((node) => escapeHtml(node.tooltip ?? node.title))
         .linkColor((link) => {
+            if (link.kind === 'requirement') return COLORS.requirement;
             if (link.kind === 'trunk') {
                 return ['locked', 'available', 'draft'].includes(link.state) ? 'rgba(100,116,139,0.28)' : 'rgba(100,116,139,0.6)';
             }
@@ -142,6 +154,7 @@ export function mountSkillTree(element, data, options = {}) {
         })
         .linkWidth((link) => (link.kind === 'trunk' ? 1.6 : 1))
         .linkLineDash((link) => {
+            if (link.kind === 'requirement') return [1, 3];
             if (link.kind === 'trunk') return link.state === 'available' ? [4, 3] : null;
             return link.status === 'approved' ? null : [2, 2];
         })
@@ -220,6 +233,8 @@ export function mountSkillTree(element, data, options = {}) {
                 drawIcon(ctx, 'boss', node.x, node.y, radius * 1.2, node.state === 'available' ? COLORS.boss : '#ffffff');
             } else if (node.type === 'extra') {
                 drawIcon(ctx, 'extra', node.x, node.y, radius * 1.2, node.state === 'available' ? COLORS.extra : '#ffffff');
+            } else if (node.type === 'window') {
+                drawIcon(ctx, 'window', node.x, node.y, radius * 1.15, node.state === 'available' ? COLORS.window : '#0b1326');
             }
             ctx.restore();
 

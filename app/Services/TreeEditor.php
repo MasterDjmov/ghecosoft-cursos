@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\BranchKind;
 use App\Enums\NodeType;
 use App\Exceptions\TreeEditRefused;
 use App\Models\Branch;
@@ -73,13 +74,39 @@ class TreeEditor
         });
     }
 
-    public function createBranch(Course $course, string $title, bool $isExtra = false): Branch
+    public function createBranch(Course $course, string $title, BranchKind|bool $kind = BranchKind::Trunk): Branch
     {
+        if (is_bool($kind)) {
+            $kind = $kind ? BranchKind::Extra : BranchKind::Trunk;
+        }
+
         return $course->branches()->create([
             'title' => $title,
-            'is_extra' => $isExtra,
+            'kind' => $kind,
             'position' => Reorder::next($course->branches()),
         ]);
+    }
+
+    /**
+     * Requisitos extra de un nodo (además del padre): nodos del mismo curso que no dependan de él.
+     *
+     * @param  list<int>  $requiredIds
+     */
+    public function setRequirements(Node $node, array $requiredIds): void
+    {
+        $requiredIds = array_values(array_unique(array_map('intval', $requiredIds)));
+        if ($node->isRoot() && $requiredIds !== []) {
+            throw new TreeEditRefused('El nodo raíz no tiene requisitos.');
+        }
+
+        $allowed = $this->allowedParents($node->course, $node)->pluck('id');
+        $invalid = array_diff($requiredIds, $allowed->all());
+        if ($invalid !== []) {
+            throw new TreeEditRefused('Un requisito no puede ser el mismo nodo ni uno que dependa de él (formaría un ciclo).');
+        }
+
+        // El padre ya es requisito: no se repite.
+        $node->requirements()->sync(array_values(array_diff($requiredIds, [$node->parent_id])));
     }
 
     public function deleteBranch(Branch $branch): void
@@ -156,6 +183,8 @@ class TreeEditor
             $copy->position = Reorder::next(Node::where('course_id', $node->course_id)->where('branch_id', $node->branch_id));
             $copy->save();
 
+            $copy->requirements()->sync($node->requirements()->pluck('nodes.id'));
+
             foreach ($node->practices as $practice) {
                 $copy->practices()->create($practice->only($practice->getFillable()));
             }
@@ -201,7 +230,7 @@ class TreeEditor
 
     /**
      * Nodos que pueden ser requisito de $node: del mismo curso, sin él mismo ni
-     * sus descendientes (evita ciclos).
+     * los que dependen de él (evita ciclos).
      *
      * @return Collection<int, Node>
      */
@@ -217,14 +246,20 @@ class TreeEditor
             ->get();
     }
 
-    /** @return list<int> */
+    /**
+     * Los que dependen de $node, directa o indirectamente: por padre o por requisito extra.
+     *
+     * @return list<int>
+     */
     public function descendantIds(Node $node): array
     {
         $ids = [];
         $frontier = [$node->id];
 
         while ($frontier !== []) {
-            $frontier = Node::whereIn('parent_id', $frontier)->whereNotIn('id', $ids)->pluck('id')->all();
+            $children = Node::whereIn('parent_id', $frontier)->pluck('id');
+            $dependents = DB::table('node_requirements')->whereIn('required_node_id', $frontier)->pluck('node_id');
+            $frontier = $children->merge($dependents)->unique()->diff([...$ids, $node->id])->values()->all();
             $ids = [...$ids, ...$frontier];
         }
 

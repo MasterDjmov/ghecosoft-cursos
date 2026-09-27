@@ -46,7 +46,7 @@ test('se crea una rama y un nodo que depende del último de la rama', function (
     $component->call('openNode', $branch->id)->assertSet('nodeParentId', $node->id);
 });
 
-test('solo un extra se puede pagar con comodines', function () {
+test('cualquier nodo salvo el raíz se puede pagar con comodines (por ejemplo, la entrada a una Senda)', function () {
     ['course' => $course, 'root' => $root] = makeCourse();
 
     Livewire::test(Tree::class, ['course' => $course])
@@ -65,7 +65,7 @@ test('solo un extra se puede pagar con comodines', function () {
         ->set('nodeParentId', $root->id)
         ->call('saveNode');
 
-    expect(Node::where('title', 'Tema caro')->first()->price_currency_id)->toBeNull()
+    expect(Node::where('title', 'Tema caro')->first()->price_currency_id)->toBe(Currency::wildcard()->id)
         ->and(Node::where('title', 'Extra de comodín')->first()->price_currency_id)->toBe(Currency::wildcard()->id);
 });
 

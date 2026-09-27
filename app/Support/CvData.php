@@ -30,11 +30,13 @@ class CvData
             ->map(function (Course $course) use ($user, $access, $completions) {
                 $nodes = $course->nodes()->where('is_published', true)->orderBy('branch_id')->orderBy('position')->get();
                 $completed = $nodes->filter(fn (Node $node) => $access->isCompleted($user, $node));
+                // El progreso cuenta el tronco: los extras y las Sendas suman habilidades, no porcentaje.
+                $trunkIds = $course->nodes()->where('is_published', true)->trunk()->pluck('id');
 
                 return [
                     'course' => $course,
-                    'total' => $nodes->where('type', '!=', NodeType::Extra)->count(),
-                    'completedCount' => $completed->where('type', '!=', NodeType::Extra)->count(),
+                    'total' => $trunkIds->count(),
+                    'completedCount' => $completed->whereIn('id', $trunkIds)->count(),
                     'skills' => $completed->reject->isRoot()->pluck('title')->values(),
                     'completion' => $completions[$course->id] ?? null,
                     'since' => $user->subscriptions()->where('course_id', $course->id)->min('starts_at'),

@@ -11,6 +11,9 @@
             <span class="flex items-center gap-2"><span class="size-3 rounded-full bg-[#3b82f6]"></span> Tema</span>
             <span class="flex items-center gap-2"><span class="size-3 rounded-full bg-[#ef4444]"></span> {{ ucfirst(term('node.boss', $course)) }}</span>
             <span class="flex items-center gap-2"><span class="size-3 rounded-full bg-[#a855f7]"></span> Extra</span>
+            <span class="flex items-center gap-2"><span class="size-3 rounded-full bg-[#2dd4bf]"></span> {{ ucfirst(term('node.window', $course)) }}</span>
+            <span class="flex items-center gap-2"><span class="size-3 rounded-full bg-[#f472b6]"></span> {{ ucfirst(term('branch.path', $course)) }}</span>
+            <span class="flex items-center gap-2"><span class="w-3 border-t-2 border-dotted border-[#f472b6]"></span> Requisito extra</span>
             <span class="flex items-center gap-2"><span class="size-3 rounded-full border border-dashed border-[#3b82f6] bg-[#3b82f6]/40"></span> Sin publicar</span>
         </div>
         <div class="flex flex-col gap-1.5">

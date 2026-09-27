@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\BranchKind;
 use App\Enums\Language;
 use App\Enums\Modality;
 use App\Enums\NodeType;
@@ -17,7 +18,8 @@ use Illuminate\Database\Seeder;
 
 /**
  * Curso demo de Python: raíz (clase 0) → rama Fundamentos (Comentarios →
- * Variables → Jefe) → rama Control (Condicionales → Bucles → Jefe), más un
+ * Variables → Jefe, y la Ventana "tu primera web") → rama Control (Condicionales →
+ * Bucles → Jefe), la Senda Web que brota de la Ventana (con un requisito extra) y un
  * extra que se paga con comodines.
  *
  * Economía: cada nodo cuesta 10 monedas del curso y sus obligatorias pagan
@@ -148,7 +150,31 @@ class PythonDemoCourseSeeder extends Seeder
             ['Menú de la posada', 'Mostrá un menú con 3 opciones y repetilo hasta que elijan "Salir".', true, SubmissionMode::Code, 10, 50],
         ]);
 
-        $extras = Branch::create(['course_id' => $this->course->id, 'title' => 'Extras', 'position' => 99, 'is_extra' => true]);
+        // Ventana: hace probar un campo a todos; de ella brota la Senda Web (optativa).
+        $window = $this->node($fundamentals, $variables, NodeType::Window, 'Ventana: tu primera web', 4, 10, [
+            'chronicle' => 'En la plaza del pueblo, el Gremio pega carteles. —¿Y si los carteles se escribieran solos? —pregunta Mia.',
+            'content' => "## Una página es texto\n\nUna página web es texto con etiquetas. Con lo que ya sabés, Python puede escribirla.",
+            'example_code' => "nombre = \"Kira\"\nprint(f\"<h1>Hola, {nombre}</h1>\")",
+            'expected_output' => '<h1>Hola, Kira</h1>',
+        ], [
+            ['Tu cartel', 'Generá con `print()` un título `<h1>` y un párrafo `<p>` con tu nombre.', true, SubmissionMode::Code, 10, 10],
+        ]);
+
+        $web = Branch::create(['course_id' => $this->course->id, 'title' => 'Senda Web', 'kind' => BranchKind::Path, 'position' => 50]);
+        $html = $this->node($web, $window, NodeType::Topic, 'HTML con Python', 1, 3, [
+            'content' => "## Etiquetas\n\nTítulos, párrafos y listas: la estructura de una página.",
+            'price_currency_id' => $wildcard->id,
+        ], [
+            ['Lista de héroes', 'Generá una lista `<ul>` con tres héroes.', true, SubmissionMode::Code, 10, 15],
+        ]);
+        $templates = $this->node($web, $html, NodeType::Topic, 'Plantillas', 2, 10, [
+            'content' => "## Plantillas\n\nUna misma página para muchos datos: se elige qué mostrar con condicionales.",
+        ], [
+            ['Tarjeta del héroe', 'Mostrá la tarjeta en verde si tiene más de 50 de vida y en rojo si no.', true, SubmissionMode::Code, 10, 15],
+        ]);
+        $templates->requirements()->attach($conditionals->id);
+
+        $extras = Branch::create(['course_id' => $this->course->id, 'title' => 'Extras', 'position' => 99, 'kind' => BranchKind::Extra]);
 
         $this->node($extras, $variables, NodeType::Extra, 'Extra: f-strings a fondo', 1, 3, [
             'content' => "## f-strings a fondo\n\nFormato de números, alineación y relleno: `f\"{precio:>8.2f}\"`.",

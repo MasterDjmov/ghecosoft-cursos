@@ -21,17 +21,18 @@ class TreeGraph
     /** @return array<string, mixed> */
     public static function forAdmin(Course $course): array
     {
-        $nodes = $course->nodes()->with(['practices', 'priceCurrency', 'parent:id,title'])->get();
+        $nodes = $course->nodes()->with(['practices', 'priceCurrency', 'parent:id,title', 'requirements:id,title'])->get();
 
         return [
             'course' => self::courseData($course),
-            'branches' => $course->branches()->get(['id', 'title', 'position', 'is_extra'])->toArray(),
+            'branches' => self::branches($course),
             'nodes' => $nodes->map(fn (Node $node) => [
                 'id' => $node->id,
                 'title' => $node->title,
                 'type' => $node->type->value,
                 'branch_id' => $node->branch_id,
                 'parent_id' => $node->parent_id,
+                'requires' => $node->requirements->pluck('id')->all(),
                 'position' => $node->position,
                 'pos_x' => $node->pos_x,
                 'pos_y' => $node->pos_y,
@@ -41,7 +42,7 @@ class TreeGraph
                     $node->title,
                     $node->type->label(),
                     self::price($course, $node),
-                    $node->parent ? 'requiere: '.$node->parent->title : null,
+                    $node->parent ? 'requiere: '.$node->parent->title.$node->requirements->map(fn ($r) => ', '.$r->title)->implode('') : null,
                     $node->is_published ? null : 'sin publicar',
                 ])),
                 'url' => route('admin.nodes.edit', [$course, $node]),
@@ -79,7 +80,7 @@ class TreeGraph
         $unlocked = $user->nodeUnlocks()->whereHas('node', fn ($q) => $q->where('course_id', $course->id))->pluck('node_id')->flip();
 
         // Sin publicar y sin abrir: no existe para el alumno.
-        $nodes = $course->nodes()->with(['practices', 'priceCurrency', 'parent:id,title', 'course'])->get()
+        $nodes = $course->nodes()->with(['practices', 'priceCurrency', 'parent:id,title', 'course', 'requirements'])->get()
             ->filter(fn (Node $node) => $node->is_published || $unlocked->has($node->id))
             ->values();
 
@@ -87,7 +88,7 @@ class TreeGraph
 
         return [
             'course' => self::courseData($course),
-            'branches' => $course->branches()->get(['id', 'title', 'position', 'is_extra'])->toArray(),
+            'branches' => self::branches($course),
             'nodes' => $nodes->map(function (Node $node) use ($access, $user, $course) {
                 $state = $access->state($user, $node);
                 $open = in_array($state, [TreeAccess::STATE_UNLOCKED, TreeAccess::STATE_COMPLETED], true);
@@ -99,6 +100,7 @@ class TreeGraph
                     'type' => $node->type->value,
                     'branch_id' => $node->branch_id,
                     'parent_id' => $node->parent_id,
+                    'requires' => $node->requirements->pluck('id')->all(),
                     'position' => $node->position,
                     'pos_x' => $node->pos_x,
                     'pos_y' => $node->pos_y,
@@ -152,6 +154,19 @@ class TreeGraph
                 ? 'approved'
                 : $attempts->last()->status->value)
             ->all();
+    }
+
+    /** @return list<array{id: int, title: string, position: int, is_extra: bool, kind: string}> */
+    private static function branches(Course $course): array
+    {
+        return $course->branches()->get(['id', 'title', 'position', 'is_extra', 'kind'])
+            ->map(fn ($branch) => [
+                'id' => $branch->id,
+                'title' => $branch->title,
+                'position' => $branch->position,
+                'is_extra' => $branch->is_extra,
+                'kind' => $branch->kind->value,
+            ])->all();
     }
 
     /** @return array{title: string, short: string, logo: ?string} */

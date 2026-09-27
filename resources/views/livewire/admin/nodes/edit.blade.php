@@ -78,14 +78,25 @@
 
                 <flux:text class="-mt-3 text-sm">El alumno tiene que aprobar las obligatorias del requisito antes de abrir este nodo.</flux:text>
 
+                <flux:checkbox.group wire:model="requirementIds" label="Requisitos extra (opcional)"
+                    description="Nodos que también hay que completar, además del requisito principal. Por ejemplo: una parte de una Senda que necesita un tema avanzado del tronco.">
+                    <div class="grid max-h-56 gap-2 overflow-y-auto rounded-lg border border-outline bg-surface-lowest/40 p-3 sm:grid-cols-2">
+                        @foreach ($parentOptions as $option)
+                            @continue($option->isRoot())
+                            <flux:checkbox :value="(string) $option->id" :label="$option->title" />
+                        @endforeach
+                    </div>
+                </flux:checkbox.group>
+
                 <div class="grid gap-6 sm:grid-cols-2">
                     <flux:input wire:model="price" type="number" min="0" label="Precio" />
-                    @if ($type === 'extra')
-                        <flux:select wire:model.live="paidWith" label="Se paga con">
-                            <flux:select.option value="course">{{ ucfirst($coinCourse(2)) }}</flux:select.option>
-                            <flux:select.option value="wildcard">{{ ucfirst($coinWildcard(2)) }}</flux:select.option>
-                        </flux:select>
-                    @elseif ($type === 'boss')
+                    <flux:select wire:model.live="paidWith" label="Se paga con">
+                        <flux:select.option value="course">{{ ucfirst($coinCourse(2)) }}</flux:select.option>
+                        <flux:select.option value="wildcard">{{ ucfirst($coinWildcard(2)) }}</flux:select.option>
+                    </flux:select>
+                </div>
+                <div class="grid gap-6 sm:grid-cols-2">
+                    @if ($type === 'boss')
                         <flux:select wire:model="badge_id" label="Insignia al vencerlo" description:trailing="Se crean en Insignias.">
                             <flux:select.option value="">Sin insignia</flux:select.option>
                             @foreach ($badges as $badge)

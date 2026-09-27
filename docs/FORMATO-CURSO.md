@@ -66,18 +66,22 @@ Una tabla con estas columnas (la última es opcional):
 ## 4. Rama: `# RAMA R01 · Título`
 
 ```meta
-tipo: tronco      # tronco (por defecto) | extra (optativa) | senda (Fase 8; hoy se guarda como extra)
+tipo: tronco      # tronco (por defecto) | extra (nodos optativos sueltos) | senda (especialización optativa)
 posicion: 1       # orden en el árbol (por defecto, el orden del archivo)
 ```
+
+### Sendas
+
+Una Senda es una rama `tipo: senda`. Su primer nodo tiene como `padre` el nodo del tronco del que **brota** (normalmente una `ventana`) y suele cobrarse en `comodin`; los de adentro, en la moneda del curso. Si un tramo necesita un tema más avanzado del tronco, se agrega con `requiere:`. Una Senda puede brotar de otra. En el árbol se dibuja saliendo de su nodo de origen, y **no cuenta** para completar el curso (como los extras).
 
 ## 5. Nodo: `## R01-N01 · Título`
 
 ```meta
-tipo: tema        # raiz | tema | jefe | extra | ventana (Fase 8; hoy = tema)
+tipo: tema        # raiz | tema | jefe | extra | ventana (nodo corto que hace probar un campo; de ahí brota una Senda)
 padre: R00-N01    # obligatorio salvo el raíz: el nodo que hay que completar antes
-requiere: R03-N02 # requisitos extra (Fase 8; hoy se avisa y se ignora)
+requiere: R03-N02, R05-N01 # requisitos extra: también hay que completarlos (además del padre)
 precio: 10        # el raíz toma precio_raiz del curso
-moneda: curso     # curso | comodin (solo nodos extra, por ahora)
+moneda: curso     # curso | comodin (cualquier nodo salvo el raíz; la entrada a una Senda suele ir en comodín)
 criatura: slime   # del bestiario: slime, goblin, esqueleto… o la clave completa (beast.hydra)
 video: https://www.youtube.com/watch?v=…
 insignia: Cazador de slimes            # solo jefes
@@ -129,8 +133,8 @@ Partes:
 
 ## 7. Qué revisa el importador
 
-- **Errores** (no se guarda nada): falta `slug`, `titulo` o `lenguaje`; no hay exactamente un raíz; IDs repetidos; `padre` que no existe; ciclos; rama inexistente; valores desconocidos en `tipo`, `entrega` o `entorno`; bloques de código sin cerrar; un nodo que pasa de raíz a otro tipo.
-- **Avisos**: secciones o claves desconocidas; obligatorias sin criterio; jefes sin insignia; tipos o datos de la Fase 8; obligatorias que cambian de tipo con entregas de alumnos; **economía**: si las obligatorias de un nodo pagan menos de lo que cuesta un hijo.
+- **Errores** (no se guarda nada): falta `slug`, `titulo` o `lenguaje`; no hay exactamente un raíz; IDs repetidos; `padre` o `requiere` que no existen; ciclos (por padre o por requisitos); rama inexistente; valores desconocidos en `tipo`, `entrega` o `entorno`; bloques de código sin cerrar; un nodo que pasa de raíz a otro tipo.
+- **Avisos**: secciones o claves desconocidas; obligatorias sin criterio; jefes sin insignia; obligatorias que cambian de tipo con entregas de alumnos; **economía**: si las obligatorias de un nodo pagan menos de lo que cuesta un hijo (en la moneda del curso).
 
 ## Anexo por lenguaje
 

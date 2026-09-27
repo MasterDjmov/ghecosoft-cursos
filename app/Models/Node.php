@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Enums\NodeType;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['course_id', 'code', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'badge_id', 'video_url', 'chronicle', 'objectives', 'before_you_start', 'content', 'example_code', 'example_language', 'expected_output', 'sample_input', 'use_cases', 'common_errors', 'beast_key', 'self_check', 'teacher_solutions', 'pos_x', 'pos_y', 'is_published'])]
@@ -35,6 +37,21 @@ class Node extends Model
     public function selfCheckItems(): array
     {
         return array_values(array_filter($this->self_check ?? [], fn ($item) => filled($item['question'] ?? null)));
+    }
+
+    /**
+     * Requisitos extra (Fase 8): nodos que también hay que completar, además del padre.
+     */
+    public function requirements(): BelongsToMany
+    {
+        return $this->belongsToMany(Node::class, 'node_requirements', 'node_id', 'required_node_id')->withTimestamps();
+    }
+
+    /** Lo que cuenta para "curso completado": ni extras ni nodos de ramas optativas (extras o Sendas). */
+    public function scopeTrunk(Builder $query): void
+    {
+        $query->where('type', '!=', NodeType::Extra)
+            ->where(fn ($q) => $q->whereNull('branch_id')->orWhereHas('branch', fn ($b) => $b->where('is_extra', false)));
     }
 
     public function isRoot(): bool

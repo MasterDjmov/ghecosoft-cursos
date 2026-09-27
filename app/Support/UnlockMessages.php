@@ -23,10 +23,22 @@ class UnlockMessages
                 TreeAccess::BLOCK_NO_SUBSCRIPTION => 'Tu abono no está vigente: renovalo para seguir abriendo.',
                 TreeAccess::BLOCK_ROOT_CLOSED => 'Primero abrí «'.$course->rootNode?->title.'».',
                 TreeAccess::BLOCK_PARENT_INCOMPLETE => 'Aprobá las '.term('practice', $course, 2).' obligatorias de «'.$node->parent?->title.'».',
+                TreeAccess::BLOCK_REQUIREMENTS_INCOMPLETE => self::missingRequirements($user, $node, $access),
                 TreeAccess::BLOCK_INSUFFICIENT_FUNDS => self::missingFunds($user, $node, $access),
                 default => null,
             };
         }, $blockers)));
+    }
+
+    /** "Aprobá también las obligatorias de «X» y de «Y»." */
+    private static function missingRequirements(User $user, Node $node, TreeAccess $access): ?string
+    {
+        $titles = collect($access->incompleteRequirements($user, $node))->map(fn (Node $required) => '«'.$required->title.'»');
+        if ($titles->isEmpty()) {
+            return null;
+        }
+
+        return 'Aprobá también las '.term('practice', $node->course, 2).' obligatorias de '.$titles->join(', de ', ' y de ').'.';
     }
 
     private static function missingFunds(User $user, Node $node, TreeAccess $access): string

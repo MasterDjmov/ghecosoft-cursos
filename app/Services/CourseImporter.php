@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\BranchKind;
 use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\PracticeEnvironment;
@@ -39,7 +40,7 @@ class CourseImporter
 
     private const NODE_TYPES = [
         'raiz' => NodeType::Root, 'tema' => NodeType::Topic, 'jefe' => NodeType::Boss, 'extra' => NodeType::Extra,
-        'ventana' => NodeType::Topic, 'senda' => NodeType::Topic,
+        'ventana' => NodeType::Window, 'senda' => NodeType::Topic,
     ];
 
     private const MODES = [
@@ -156,6 +157,7 @@ class CourseImporter
         $branches = $this->applyBranches($data['branches']);
         $nodes = $this->applyNodes($data['nodes'], $branches);
         $this->applyParents($data['nodes'], $nodes);
+        $this->applyRequirements($data['nodes'], $nodes);
         $this->checkCycles();
         $this->checkEconomy($data['nodes'], $nodes);
         $this->reportLeftovers($data, $nodes);
@@ -225,15 +227,22 @@ class CourseImporter
         $result = Branch::where('course_id', $this->course->id)->whereNotNull('code')->get()->keyBy('code')->all();
 
         foreach ($branches as $code => $branch) {
-            $kind = CourseFileParser::normalize($branch['meta']['tipo'] ?? 'tronco');
-            if ($kind === 'senda') {
-                $this->report->warning("Rama {$code}: las Sendas llegan en la Fase 8; por ahora se guarda como rama optativa (extra).");
+            $kind = match (CourseFileParser::normalize($branch['meta']['tipo'] ?? 'tronco')) {
+                'extra', 'extras' => BranchKind::Extra,
+                'senda' => BranchKind::Path,
+                'tronco' => BranchKind::Trunk,
+                default => null,
+            };
+            if ($kind === null) {
+                $this->report->error("Rama {$code}: tipo «{$branch['meta']['tipo']}» desconocido (tronco, extra o senda).");
+
+                continue;
             }
             $model = $result[$code] ?? new Branch(['course_id' => $this->course->id, 'code' => $code]);
             $model->fill([
                 'title' => $branch['title'],
                 'position' => (int) ($branch['meta']['posicion'] ?? $branch['order']),
-                'is_extra' => in_array($kind, ['extra', 'senda'], true),
+                'kind' => $kind,
             ]);
             $this->save('ramas', $model);
             $result[$code] = $model;
@@ -255,8 +264,8 @@ class CourseImporter
             $where = $node['where'];
             $typeKey = CourseFileParser::normalize($meta['tipo'] ?? 'tema');
             $type = self::NODE_TYPES[$typeKey];
-            if (in_array($typeKey, ['ventana', 'senda'], true)) {
-                $this->report->warning("{$where}: el tipo «{$typeKey}» llega en la Fase 8; por ahora se guarda como tema.");
+            if ($typeKey === 'senda') {
+                $this->report->warning("{$where}: «senda» es un tipo de rama (# RAMA con «tipo: senda»); el nodo se guarda como tema.");
             }
 
             $model = $existing[$node['code']] ?? null;
@@ -286,11 +295,8 @@ class CourseImporter
             }
 
             $currency = CourseFileParser::normalize($meta['moneda'] ?? 'curso');
-            if ($currency === 'comodin' && $type !== NodeType::Extra) {
-                $this->report->warning("{$where}: solo los nodos extra se pagan con comodines (hasta la Fase 8); se cobra en la moneda del curso.");
-            }
-            if (filled($meta['requiere'] ?? null)) {
-                $this->report->warning("{$where}: «requiere» (requisitos múltiples) llega en la Fase 8; por ahora solo cuenta «padre».");
+            if ($currency === 'comodin' && $type === NodeType::Root) {
+                $this->report->warning("{$where}: el raíz se paga siempre con la moneda del curso.");
             }
 
             $beast = $meta['criatura'] ?? null;
@@ -307,7 +313,7 @@ class CourseImporter
                 'branch_id' => $branch?->id,
                 'position' => $type === NodeType::Root ? 0 : ($positions[$positionKey] = ($positions[$positionKey] ?? 0) + 1),
                 'price' => $type === NodeType::Root ? $this->course->root_price : (int) ($meta['precio'] ?? ($model->exists ? $model->price : 10)),
-                'price_currency_id' => $type === NodeType::Extra && $currency === 'comodin' ? $wildcard->id : null,
+                'price_currency_id' => $type !== NodeType::Root && $currency === 'comodin' ? $wildcard->id : null,
                 'video_url' => $meta['video'] ?? null,
                 'chronicle' => $fields['chronicle'] ?? null,
                 'objectives' => $fields['objectives'] ?? null,
@@ -435,20 +441,76 @@ class CourseImporter
         }
     }
 
+    /** Requisitos extra ("requiere: R03-N02, R05-N01"), además del padre. */
+    private function applyRequirements(array $nodes, array $models): void
+    {
+        foreach ($nodes as $node) {
+            $model = $models[$node['code']] ?? null;
+            if (! $model) {
+                continue;
+            }
+            $codes = collect(preg_split('/[\s,;]+/', (string) ($node['meta']['requiere'] ?? ''), -1, PREG_SPLIT_NO_EMPTY))
+                ->map(fn ($code) => Str::upper($code))->unique();
+            if ($model->isRoot() && $codes->isNotEmpty()) {
+                $this->report->warning("{$node['where']}: el raíz no tiene requisitos; se ignora «requiere».");
+
+                continue;
+            }
+
+            $ids = [];
+            foreach ($codes as $code) {
+                $required = $models[$code] ?? Node::where('course_id', $this->course->id)->where('code', $code)->first();
+                if (! $required) {
+                    $this->report->error("{$node['where']}: el requisito {$code} de {$node['code']} no existe.");
+
+                    continue;
+                }
+                $ids[] = $required->id;
+            }
+
+            $before = $model->requirements()->pluck('nodes.id')->sort()->values()->all();
+            $after = collect($ids)->reject(fn ($id) => $id === $model->parent_id)->sort()->values()->all();
+            if ($before === $after) {
+                continue;
+            }
+            // Sin validar ciclos acá: se revisa todo junto al final (padres + requisitos).
+            $model->requirements()->sync($after);
+            $this->report->count('requisitos', 'updated');
+        }
+    }
+
+    /** Un nodo no puede depender de sí mismo, ni por padre ni por requisitos extra. */
     private function checkCycles(): void
     {
-        $parents = Node::where('course_id', $this->course->id)->pluck('parent_id', 'id');
+        $nodeIds = Node::where('course_id', $this->course->id)->pluck('id');
         $codes = Node::where('course_id', $this->course->id)->pluck('code', 'id');
+        $edges = Node::where('course_id', $this->course->id)->whereNotNull('parent_id')->pluck('parent_id', 'id')
+            ->map(fn ($parent) => [$parent])->all();
+        foreach (DB::table('node_requirements')->whereIn('node_id', $nodeIds)->get() as $row) {
+            $edges[$row->node_id][] = $row->required_node_id;
+        }
 
-        foreach ($parents->keys() as $id) {
-            $seen = [];
-            for ($current = $id; $current !== null; $current = $parents[$current] ?? null) {
-                if (isset($seen[$current])) {
-                    $this->report->error('Los requisitos forman un ciclo en el nodo '.($codes[$id] ?? "#{$id}").'.');
-
-                    return;
+        $state = []; // 1 = visitando, 2 = listo
+        $visit = function (int $id) use (&$visit, &$state, $edges): ?int {
+            $state[$id] = 1;
+            foreach ($edges[$id] ?? [] as $next) {
+                if (($state[$next] ?? 0) === 1) {
+                    return $id;
                 }
-                $seen[$current] = true;
+                if (($state[$next] ?? 0) === 0 && ($found = $visit($next)) !== null) {
+                    return $found;
+                }
+            }
+            $state[$id] = 2;
+
+            return null;
+        };
+
+        foreach ($nodeIds as $id) {
+            if (($state[$id] ?? 0) === 0 && ($found = $visit($id)) !== null) {
+                $this->report->error('Los requisitos forman un ciclo en el nodo '.($codes[$found] ?? "#{$found}").'.');
+
+                return;
             }
         }
     }

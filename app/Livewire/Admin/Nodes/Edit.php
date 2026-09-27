@@ -50,8 +50,11 @@ class Edit extends Component
 
     public int $price = 10;
 
-    /** 'course' | 'wildcard' (solo extras). */
+    /** 'course' | 'wildcard' (cualquier nodo salvo el raíz). */
     public string $paidWith = 'course';
+
+    /** Requisitos extra (además del padre). @var list<int> */
+    public array $requirementIds = [];
 
     public string $initialTab = 'data';
 
@@ -154,6 +157,7 @@ class Edit extends Component
         $this->price = $node->price;
         $this->paidWith = $node->priceCurrency?->is_wildcard ? 'wildcard' : 'course';
         $this->badge_id = $node->badge_id;
+        $this->requirementIds = $node->requirements()->pluck('nodes.id')->map(fn ($id) => (string) $id)->all();
         $this->is_published = $node->is_published;
         $this->video_url = (string) $node->video_url;
         $this->chronicle = (string) $node->chronicle;
@@ -176,7 +180,9 @@ class Edit extends Component
 
         $this->validate([
             'title' => ['required', 'string', 'max:255'],
-            'type' => $isRoot ? [] : ['required', Rule::in([NodeType::Topic->value, NodeType::Boss->value, NodeType::Extra->value])],
+            'type' => $isRoot ? [] : ['required', Rule::in(array_map(fn (NodeType $t) => $t->value, NodeType::editable()))],
+            'requirementIds' => ['array', 'max:20'],
+            'requirementIds.*' => ['integer'],
             'branch_id' => ['nullable', Rule::exists('branches', 'id')->where('course_id', $this->course->id)],
             'parent_id' => $isRoot ? [] : ['required', 'integer'],
             'price' => ['required', 'integer', 'min:0', 'max:1000'],
@@ -211,7 +217,7 @@ class Edit extends Component
                 'branch_id' => $this->branch_id,
                 'parent_id' => $this->parent_id,
                 'price' => $this->price,
-                'price_currency_id' => $this->type === NodeType::Extra->value && $this->paidWith === 'wildcard' ? Currency::wildcard()->id : null,
+                'price_currency_id' => ! $isRoot && $this->paidWith === 'wildcard' ? Currency::wildcard()->id : null,
                 'badge_id' => $this->type === NodeType::Boss->value ? $this->badge_id : null,
                 'is_published' => $this->is_published,
                 'video_url' => $this->video_url ?: null,
@@ -229,6 +235,7 @@ class Edit extends Component
                 'expected_output' => $this->expected_output ?: null,
                 'sample_input' => $this->sample_input ?: null,
             ]);
+            $editor->setRequirements($this->node->refresh(), $isRoot ? [] : $this->requirementIds);
         } catch (TreeEditRefused $e) {
             Flux::toast(variant: 'danger', text: $e->getMessage());
 
@@ -441,7 +448,7 @@ class Edit extends Component
             'branches' => $this->course->branches()->get(),
             'parentOptions' => $editor->allowedParents($this->course, $this->node),
             'badges' => Badge::where(fn ($q) => $q->whereNull('course_id')->orWhere('course_id', $this->course->id))->orderBy('name')->get(),
-            'nodeTypes' => [NodeType::Topic, NodeType::Boss, NodeType::Extra],
+            'nodeTypes' => NodeType::editable(),
             'modes' => SubmissionMode::cases(),
             'environments' => PracticeEnvironment::cases(),
             'beasts' => $this->beastOptions(),

@@ -73,7 +73,7 @@ function something()
 function makeCourse(array $overrides = []): array
 {
     $course = Course::create([
-        'title' => 'Python', 'slug' => 'python-'.Str::random(6), 'language' => 'python',
+        'title' => 'Python', 'slug' => 'python-'.Str::lower(Str::random(6)), 'language' => 'python',
         'is_published' => true, 'root_price' => 10, 'subscription_days' => 30, ...$overrides,
     ]);
     Currency::forCourse($course);

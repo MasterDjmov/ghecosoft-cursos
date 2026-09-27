@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['course_id', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'video_url', 'content', 'example_code', 'example_language', 'expected_output', 'sample_input', 'pos_x', 'pos_y', 'is_published'])]
+#[Fillable(['course_id', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'badge_id', 'video_url', 'content', 'example_code', 'example_language', 'expected_output', 'sample_input', 'pos_x', 'pos_y', 'is_published'])]
 class Node extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -26,6 +26,23 @@ class Node extends Model
     public function isRoot(): bool
     {
         return $this->type === NodeType::Root;
+    }
+
+    public function isBoss(): bool
+    {
+        return $this->type === NodeType::Boss;
+    }
+
+    public function unlocks(): HasMany
+    {
+        return $this->hasMany(NodeUnlock::class);
+    }
+
+    /** Algún alumno ya lo abrió o entregó una hoja: borrarlo se llevaría su historial. */
+    public function hasStudentActivity(): bool
+    {
+        return $this->unlocks()->exists()
+            || Submission::whereIn('practice_id', Practice::where('node_id', $this->id)->select('id'))->exists();
     }
 
     public function course(): BelongsTo
@@ -51,6 +68,12 @@ class Node extends Model
     public function priceCurrency(): BelongsTo
     {
         return $this->belongsTo(Currency::class, 'price_currency_id');
+    }
+
+    /** Insignia que entrega el jefe al completarse. */
+    public function badge(): BelongsTo
+    {
+        return $this->belongsTo(Badge::class);
     }
 
     public function practices(): HasMany

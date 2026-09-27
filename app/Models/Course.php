@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Storage;
 
 #[Fillable(['title', 'slug', 'short_description', 'description', 'language', 'logo', 'cover', 'is_published', 'position', 'root_price', 'subscription_days'])]
 class Course extends Model
@@ -30,6 +31,11 @@ class Course extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function logoUrl(): ?string
+    {
+        return $this->logo ? Storage::disk('public')->url($this->logo) : null;
     }
 
     public function cohorts(): HasMany

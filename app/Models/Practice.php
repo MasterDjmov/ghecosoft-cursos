@@ -29,6 +29,11 @@ class Practice extends Model
         return $this->belongsTo(Node::class);
     }
 
+    public function hasStudentActivity(): bool
+    {
+        return $this->submissions()->exists() || PracticeMark::where('practice_id', $this->id)->exists();
+    }
+
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);

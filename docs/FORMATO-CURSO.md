@@ -124,6 +124,9 @@ Lo que va entre paréntesis en el título se ignora: `### Explicación (Mia)` va
 
 ## 6. Práctica: `### Misión R01-N01-M1 · Título`
 
+**Todo nodo necesita al menos una misión obligatoria**, incluidos el raíz, los jefes, las ventanas, los extras y los nodos narrativos (como la Encrucijada: una misión de reflexión, que puede ser `entrega: ninguna`).
+
+
 `Misión` o `Práctica` = obligatoria; `Encargo` o `Desafío` = optativa (paga comodines).
 
 ```meta
@@ -148,7 +151,7 @@ Partes:
 
 ## 7. Qué revisa el importador
 
-- **Errores** (no se guarda nada): falta `slug`, `titulo` o `lenguaje`; no hay exactamente un raíz; IDs repetidos; `padre` o `requiere` que no existen; ciclos (por padre o por requisitos); rama inexistente; valores desconocidos en `tipo`, `entrega` o `entorno`; bloques de código sin cerrar; un nodo que pasa de raíz a otro tipo.
+- **Errores** (no se guarda nada): un nodo publicado **sin ninguna práctica obligatoria** (todo nodo necesita al menos una; si no está listo, `publicado: no`); falta `slug`, `titulo` o `lenguaje`; no hay exactamente un raíz; IDs repetidos; `padre` o `requiere` que no existen; ciclos (por padre o por requisitos); rama inexistente; valores desconocidos en `tipo`, `entrega` o `entorno`; bloques de código sin cerrar; un nodo que pasa de raíz a otro tipo.
 - **Avisos**: secciones o claves desconocidas; obligatorias sin criterio; jefes sin insignia; obligatorias que cambian de tipo con entregas de alumnos; **economía**: si las obligatorias de un nodo pagan menos de lo que cuesta un hijo (en la moneda del curso).
 
 ## Anexo por lenguaje

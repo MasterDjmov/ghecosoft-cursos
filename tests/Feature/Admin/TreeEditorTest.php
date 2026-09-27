@@ -3,6 +3,7 @@
 use App\Enums\NodeType;
 use App\Exceptions\TreeEditRefused;
 use App\Livewire\Admin\Courses\Tree;
+use App\Livewire\Admin\Nodes\Edit;
 use App\Models\Branch;
 use App\Models\Currency;
 use App\Models\Node;
@@ -189,4 +190,40 @@ test('la vista de árbol dibujado trae todos los nodos y hojas, y guarda lo que 
 
     Livewire::test(Tree::class, ['course' => $course])->call('resetLayout');
     expect($topic1->fresh()->pos_x)->toBeNull();
+});
+
+test('un nodo sin práctica obligatoria no se publica, y la última obligatoria no se borra ni pasa a optativa', function () {
+    ['course' => $course, 'topic1' => $topic1, 'topic2' => $topic2] = makeCourse();
+    $this->actingAs(User::factory()->admin()->create());
+
+    // Tema 2 no tiene hojas: no se puede publicar.
+    $topic2->update(['is_published' => false]);
+    Livewire::test(Edit::class, ['course' => $course, 'node' => $topic2])
+        ->set('is_published', true)
+        ->call('save');
+    expect($topic2->fresh()->is_published)->toBeFalse();
+
+    // Tema 1 tiene dos obligatorias: se puede borrar una, no la última.
+    [$first, $second] = $topic1->practices()->where('is_required', true)->get()->all();
+    $this->editor->deletePractice($first);
+    expect(fn () => $this->editor->deletePractice($second))->toThrow(TreeEditRefused::class);
+
+    Livewire::test(Edit::class, ['course' => $course, 'node' => $topic1])
+        ->call('editPractice', $second->id)
+        ->set('practiceRequired', false)
+        ->call('savePractice')
+        ->assertHasErrors('practiceRequired');
+    expect($second->fresh()->is_required)->toBeTrue();
+});
+
+test('un nodo nuevo desde el árbol se crea como borrador', function () {
+    ['course' => $course, 'root' => $root] = makeCourse();
+
+    Livewire::test(Tree::class, ['course' => $course])
+        ->call('openNode')
+        ->set('nodeTitle', 'Nuevo tema')
+        ->set('nodeParentId', $root->id)
+        ->call('saveNode');
+
+    expect(Node::where('title', 'Nuevo tema')->first()->is_published)->toBeFalse();
 });

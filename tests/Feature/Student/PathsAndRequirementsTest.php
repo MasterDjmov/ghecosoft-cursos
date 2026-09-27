@@ -116,6 +116,7 @@ test('no se puede poner como requisito un nodo que depende del mismo (ciclo)', f
 
 test('el editor del nodo guarda los requisitos extra y la moneda de cualquier nodo', function () {
     $data = courseWithPath();
+    $data['topic2']->practices()->create(['title' => 'Misión', 'is_required' => true]); // todo nodo publicado lleva una obligatoria
     $this->actingAs(User::factory()->admin()->create());
 
     Livewire::test(Edit::class, ['course' => $data['course'], 'node' => $data['topic2']])
@@ -153,6 +154,12 @@ tipo: ventana
 padre: R01-N01
 ```
 
+### Misión R02-N01-M1 · Tu cartel
+
+#### Consigna
+
+Generá un título HTML.
+
 # RAMA S01 · Senda Web
 
 ```meta
@@ -167,12 +174,24 @@ precio: 3
 moneda: comodin
 ```
 
+### Misión S01-N01-M1 · Lista
+
+#### Consigna
+
+Generá una lista.
+
 ## S01-N02 · Plantillas
 
 ```meta
 padre: S01-N01
 requiere: R01-N02
 ```
+
+### Misión S01-N02-M1 · Tarjeta
+
+#### Consigna
+
+Mostrá la tarjeta del héroe.
 MD;
     $file = fn (string $extra) => [['name' => 'curso.md', 'content' => file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md')).$extra]];
 

@@ -336,6 +336,13 @@ class CourseImporter
             if ($type === NodeType::Root) {
                 $model->parent_id = null;
             }
+            // Todo nodo publicado tiene al menos una obligatoria: un nodo sin hojas no se gana ni se completa.
+            $hasRequired = collect($node['practices'])->contains(fn ($p) => isset($p['meta']['obligatoria']) ? self::yes($p['meta']['obligatoria']) : $p['required_default']);
+            if (! $hasRequired) {
+                $model->is_published
+                    ? $this->report->error("{$where}: el nodo {$node['code']} no tiene ninguna práctica obligatoria (una ### Misión). Todo nodo publicado necesita al menos una; si todavía no está listo, poné «publicado: no».")
+                    : $this->report->warning("{$where}: el nodo {$node['code']} no tiene prácticas obligatorias; queda sin publicar hasta que tenga una.");
+            }
             $model->badge_id = $type === NodeType::Boss ? $this->badgeFor($node) : null;
             $this->save('nodos', $model);
             $result[$node['code']] = $model;

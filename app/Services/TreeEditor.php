@@ -215,8 +215,40 @@ class TreeEditor
         if ($practice->hasStudentActivity()) {
             throw new TreeEditRefused('Esta hoja ya tiene entregas o marcas de alumnos: no se puede borrar.');
         }
+        if ($practice->is_required && $this->isLastRequired($practice)) {
+            throw new TreeEditRefused(self::LAST_REQUIRED);
+        }
 
         $practice->delete();
+    }
+
+    /** Pasar una hoja de obligatoria a optativa: no puede dejar a un nodo publicado sin obligatorias. */
+    public function assertCanBeOptional(Practice $practice): void
+    {
+        if ($practice->is_required && $this->isLastRequired($practice)) {
+            throw new TreeEditRefused(self::LAST_REQUIRED);
+        }
+    }
+
+    /**
+     * Todo nodo publicado tiene al menos una práctica obligatoria: un nodo sin hojas no se puede
+     * ganar ni completar.
+     */
+    public function assertPublishable(Node $node): void
+    {
+        if (! $node->practices()->where('is_required', true)->exists()) {
+            throw new TreeEditRefused('Para publicarlo, el nodo necesita al menos una '.term('practice', $node->course).' obligatoria.');
+        }
+    }
+
+    private const LAST_REQUIRED = 'Es la única práctica obligatoria de un nodo publicado: agregá otra o despublicá el nodo primero.';
+
+    private function isLastRequired(Practice $practice): bool
+    {
+        $node = $practice->node;
+
+        return $node->is_published
+            && ! $node->practices()->where('is_required', true)->whereKeyNot($practice->id)->exists();
     }
 
     public function deleteResource(NodeResource $resource): void

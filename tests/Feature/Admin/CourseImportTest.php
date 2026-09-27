@@ -27,7 +27,7 @@ test('revisar no guarda nada y cuenta lo que se crearía', function () {
 
     expect($report->ok())->toBeTrue()
         ->and($report->counts['nodos']['created'])->toBe(4)
-        ->and($report->counts['prácticas']['created'])->toBe(5)
+        ->and($report->counts['prácticas']['created'])->toBe(6)
         ->and(Course::where('slug', 'python-import')->exists())->toBeFalse();
 });
 
@@ -133,6 +133,16 @@ test('se aceptan archivos envueltos en un bloque ```markdown, como los copia un 
 
     expect($report->errors)->toBe([])
         ->and($report->counts['nodos']['created'])->toBe(4);
+});
+
+test('un nodo publicado sin misiones obligatorias es un error; sin publicar, solo un aviso', function () {
+    $sinHojas = "\n# RAMA R03 · Vacía\n\n## R03-N01 · Sin hojas\n\n```meta\npadre: R01-N01\n```\n";
+    $bad = app(CourseImporter::class)->import(exampleCourseFile(fn ($c) => $c.$sinHojas), dryRun: true);
+    expect(collect($bad->errors)->implode(' '))->toContain('R03-N01 no tiene ninguna práctica obligatoria');
+
+    $draft = app(CourseImporter::class)->import(exampleCourseFile(fn ($c) => $c.str_replace('padre: R01-N01', "padre: R01-N01\npublicado: no", $sinHojas)), dryRun: true);
+    expect($draft->errors)->toBe([])
+        ->and(collect($draft->warnings)->implode(' '))->toContain('queda sin publicar');
 });
 
 test('los comentarios en el bloque meta se ignoran', function () {

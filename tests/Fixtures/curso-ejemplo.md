@@ -220,3 +220,18 @@ moneda: comodin
 ### Explicación
 
 Formato de números con f-strings.
+
+### Misión R90-N01-M1 · Ticket alineado
+
+```meta
+monedas: 0
+xp: 15
+```
+
+#### Consigna
+
+Mostrá tres precios alineados a la derecha.
+
+#### Criterio de aprobación
+
+- Usa `:>` en las f-strings.

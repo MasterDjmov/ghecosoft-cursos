@@ -194,7 +194,7 @@ Git y GitHub, estructura de proyectos y paquetes (`__init__.py`, imports absolut
 *Jefe final del curso:* el Dragón del Valle (proyecto final).
 
 **Nodo final · La Encrucijada**
-Nodo narrativo (sin prácticas obligatorias o con una sola de reflexión) donde Ofidia repasa todo lo recorrido y le muestra al alumno **todas las Sendas**: qué se hace en cada una, qué proyectos permite y qué salidas laborales abre. Es el momento de "soltarle la mano".
+Nodo narrativo con **una sola misión obligatoria de reflexión** (puede ser `entrega: ninguna`; todo nodo necesita al menos una obligatoria) donde Ofidia repasa todo lo recorrido y le muestra al alumno **todas las Sendas**: qué se hace en cada una, qué proyectos permite y qué salidas laborales abre. Es el momento de "soltarle la mano".
 
 ---
 
@@ -354,7 +354,7 @@ Respuesta. (Es **autoevaluación sin nota**: el alumno despliega la respuesta; n
 Tiempo estimado, dificultades frecuentes y notas. Solo la ve el docente.
 ````
 
-Misiones: 3 a 6, de guiadas a abiertas. El **Chequeo de prerrequisitos** (lo que usa el nodo, lo que agrega al registro y las dudas sembradas) va **fuera** del bloque importable, como texto tuyo después del nodo.
+Misiones: 3 a 6, de guiadas a abiertas. **Todo nodo lleva al menos una misión obligatoria** (también jefes, ventanas, extras y la Encrucijada). El **Chequeo de prerrequisitos** (lo que usa el nodo, lo que agrega al registro y las dudas sembradas) va **fuera** del bloque importable, como texto tuyo después del nodo.
 
 ### 8.5 Jefes
 Igual que un nodo (`tipo: jefe`), pero **sin teoría nueva**. En el meta agregá `insignia:` e `insignia_descripcion:`. En la Crónica o la Explicación: el error que encarna la criatura, **fases del combate** (2 o 3 partes crecientes del proyecto) y la condición de victoria verificable (va también en el Criterio de aprobación de la misión).

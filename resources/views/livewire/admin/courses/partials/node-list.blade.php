@@ -24,6 +24,9 @@
                         @unless ($node->is_published)
                             <flux:badge size="sm">Sin publicar</flux:badge>
                         @endunless
+                        @if ($node->required_count === 0)
+                            <flux:badge size="sm" color="amber" icon="exclamation-triangle" data-test="no-required">Sin obligatorias</flux:badge>
+                        @endif
                         @if ($node->badge)
                             <flux:badge size="sm" color="amber" icon="trophy">{{ $node->badge->name }}</flux:badge>
                         @endif

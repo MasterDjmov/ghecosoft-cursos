@@ -108,7 +108,7 @@
             @endif
 
             <flux:input wire:model="video_url" type="url" label="Video (opcional)" placeholder="https://www.youtube.com/watch?v=…" />
-            <flux:switch wire:model="is_published" label="Publicado" description="Sin publicar, el alumno lo ve bloqueado y no lo puede abrir." />
+            <flux:switch wire:model="is_published" label="Publicado" description="Sin publicar, el alumno lo ve bloqueado y no lo puede abrir. Para publicarlo, el nodo necesita al menos una práctica obligatoria." />
         </div>
 
         {{-- Contenido por secciones (D37): cada una con su personaje. Todo admite markdown. --}}
@@ -315,8 +315,11 @@
                 description:trailing="Lo ve el alumno («Para aprobar») y lo tenés a mano al corregir." />
 
             <div class="grid gap-5 sm:grid-cols-2">
-                <flux:switch wire:model.live="practiceRequired" label="Obligatoria"
-                    description="Apagado = optativa (paga {{ $coinWildcard(2) }})." />
+                <div class="flex flex-col gap-1">
+                    <flux:switch wire:model.live="practiceRequired" label="Obligatoria"
+                        description="Apagado = optativa (paga {{ $coinWildcard(2) }}). Cada nodo publicado necesita al menos una obligatoria." />
+                    <flux:error name="practiceRequired" />
+                </div>
                 <flux:select wire:model.live="practiceMode" label="Entrega">
                     @foreach ($modes as $mode)
                         <flux:select.option :value="$mode->value">{{ $mode->label() }}</flux:select.option>

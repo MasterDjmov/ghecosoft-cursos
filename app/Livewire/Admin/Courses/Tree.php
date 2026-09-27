@@ -125,7 +125,9 @@ class Tree extends Component
             'parent_id' => $this->nodeParentId,
             'price' => $this->nodePrice,
             'price_currency_id' => $this->nodePaidWith === 'wildcard' ? Currency::wildcard()->id : null,
-        ]), 'Nodo creado.');
+            // Un nodo sin hojas no se publica: queda en borrador hasta tener una obligatoria.
+            'is_published' => false,
+        ]), 'Nodo creado como borrador: agregale una práctica obligatoria y publicalo.');
 
         if ($node) {
             Flux::modal('node')->close();

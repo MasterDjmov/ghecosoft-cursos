@@ -211,6 +211,9 @@ class Edit extends Component
         ]);
 
         try {
+            if ($this->is_published) {
+                $editor->assertPublishable($this->node);
+            }
             $editor->updateNode($this->node, [
                 'title' => $this->title,
                 'type' => $this->type,
@@ -352,10 +355,20 @@ class Edit extends Component
             'xp_reward' => $this->practiceXp,
         ];
 
-        if ($this->practiceId) {
-            $this->findPractice($this->practiceId)->update($data);
-        } else {
-            $editor->createPractice($this->node, $data);
+        try {
+            if ($this->practiceId) {
+                $practice = $this->findPractice($this->practiceId);
+                if (! $this->practiceRequired) {
+                    $editor->assertCanBeOptional($practice);
+                }
+                $practice->update($data);
+            } else {
+                $editor->createPractice($this->node, $data);
+            }
+        } catch (TreeEditRefused $e) {
+            $this->addError('practiceRequired', $e->getMessage());
+
+            return;
         }
 
         Flux::modal('practice')->close();

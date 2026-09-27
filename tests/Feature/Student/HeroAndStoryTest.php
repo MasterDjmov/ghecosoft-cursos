@@ -12,6 +12,7 @@ use App\Models\Submission;
 use App\Models\User;
 use App\Services\Ledger;
 use App\Services\NodeUnlocker;
+use App\Services\PracticeSubmitter;
 use App\Services\Ranking;
 use App\Services\SubmissionReviewer;
 use App\Support\Glossary;
@@ -136,18 +137,19 @@ test('completar una rama avisa con su historia', function () {
         ->and($notification->data['body'])->toBe('Bien hecho, Luna.');
 });
 
-test('un último nodo sin obligatorias (la Encrucijada) cierra el curso al abrirlo', function () {
+test('la Encrucijada (misión de reflexión sin entrega) cierra el curso con su historia', function () {
     ['course' => $course, 'root' => $root, 'topic1' => $topic1, 'topic2' => $topic2] = makeCourse();
     storyTerm('story.course_completed', $course, '¡Dominaste el Valle!', 'Elegí tu Senda, {heroe}.');
+    $reflection = $topic2->practices()->create(['title' => 'Mirá hacia atrás', 'is_required' => true, 'submission_mode' => 'none', 'xp_reward' => 10]);
     $student = enrolledStudent($course);
     app(NodeUnlocker::class)->unlock($student, $root);
     approveAll($student, $root);
     app(NodeUnlocker::class)->unlock($student, $topic1);
     approveAll($student, $topic1);
-
-    // Tema 2 no tiene prácticas: es la Encrucijada.
     app(Ledger::class)->credit($student, Currency::forCourse($course), 10, CoinReason::ManualAdjustment, note: 'test');
     app(NodeUnlocker::class)->unlock($student, $topic2);
+
+    app(PracticeSubmitter::class)->toggleMark($student, $reflection);
 
     expect(CourseCompletion::where('user_id', $student->id)->where('course_id', $course->id)->exists())->toBeTrue()
         ->and($student->notifications()->get()->pluck('data.kind'))->toContain('story.course_completed');

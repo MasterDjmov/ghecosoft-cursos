@@ -199,7 +199,7 @@ class PythonDemoCourseSeeder extends Seeder
             'expected_output' => '[   1234.50]',
             'price_currency_id' => $wildcard->id,
         ], [
-            ['Ticket alineado', 'Mostrá un ticket con 3 productos y sus precios alineados a la derecha.', false, SubmissionMode::Code, 3, 15],
+            ['Ticket alineado', 'Mostrá un ticket con 3 productos y sus precios alineados a la derecha.', true, SubmissionMode::Code, 0, 15],
         ]);
     }
 

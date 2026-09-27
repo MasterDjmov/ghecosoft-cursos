@@ -119,23 +119,6 @@ class SubmissionReviewer
         $this->notifyStudent($submission->fresh(), 'redo', 'Hay que rehacerla: '.str($comment)->limit(120));
     }
 
-    /**
-     * Un nodo sin obligatorias (por ejemplo, la Encrucijada narrativa) queda completo al abrirlo:
-     * paga lo mismo que completarlo aprobando y, si era el último, cierra el curso.
-     */
-    public function completeOnOpen(User $student, Node $node): Reward
-    {
-        $reward = DB::transaction(function () use ($student, $node) {
-            $reward = new Reward;
-            $this->completeNode($student, $node, null, $reward);
-
-            return $reward;
-        });
-        $this->tellStory($student, $node->course, $reward);
-
-        return $reward;
-    }
-
     /** XP del nodo completo (una sola vez) y, si es jefe, su XP e insignia. */
     private function completeNode(User $student, Node $node, ?User $admin, Reward $reward): void
     {

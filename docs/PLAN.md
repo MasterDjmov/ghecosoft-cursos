@@ -287,10 +287,20 @@ Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, qu
 - **Top de héroes en la landing**: héroe (D38), cómo aparece en el ranking (apodo, o nombre e inicial) y XP de los mejores, para que los alumnos compitan. **Nunca el usuario de login** (es la mitad del acceso a la cuenta; decidido el 2026-09-27). Mismas reglas de privacidad que el ranking global: solo quienes tienen perfil público (los menores, con la autorización aprobada).
 - **Ideas de diseño del docente (2026-09-28)**: referencias del Hall of Fame de La Rioja Aprende y una maqueta de Stitch. Se mantiene la paleta actual (azules y neones, DevLevel Obsidian).
   - **Portada**: título "Aprendé a programar avanzando por tu árbol de habilidades", botones *Ver cursos* y *Top 10*, y el **login a la derecha**, en la misma pantalla.
-  - **Tarjetas de cursos**: logo, lenguaje, descripción corta, cantidad de nodos, nivel y botón. Los que no existen van como "Próximamente", nunca como si estuvieran.
+  - **Tarjetas de cursos**: logo, lenguaje, descripción corta, cantidad de nodos, nivel y botón.
+  - **Cursos "Próximamente"** (decidido 2026-09-28): tarjeta con **imagen de referencia** (la portada del curso, `courses.cover`) y **qué se va a dar** (un temario corto: bloques o temas principales), sin botón de entrar. Nunca se presentan como si ya estuvieran disponibles ni como si se ejecutaran en el navegador (hoy solo Python).
   - **Monedas por curso** como coleccionables (cada curso tiene la suya, con su ícono del diccionario): encaja con el modelo real.
   - **Top 10**: **podio** para los 3 primeros (el 1.º más grande, con corona) y lista del 4 al 10 con héroe, apodo, rango (nombre del nivel), insignias y XP.
-  - **Qué NO se muestra porque no existe o sería falso**: temporadas y ligas con cierre (la XP es permanente), tendencia ▲▼ (haría falta guardar fotos del ranking), rachas de días (regla nueva, a decidir en GAMIFICACION), passkey, "compilador online / uptime", y cursos o lenguajes que se ejecuten en el navegador sin ser así (hoy solo corre Python). Nunca DNI ni datos personales en rankings.
+  - **Tendencia ▲▼** (viable, decidido 2026-09-28): no hace falta tiempo real. Se guarda una **foto diaria de las posiciones** la primera vez que alguien carga el ranking ese día (sin cron, como pide la regla de "todo en cada request"), y la flecha compara la posición de hoy con la foto anterior.
+  - Nunca DNI ni datos personales en rankings.
+
+**Posibles mejoras para más adelante** (Stitch las propuso; se evalúan cuando toque, no se hacen ahora):
+- **Rachas de días** (🔥 "14 días"): días seguidos con actividad. Hay que definir qué cuenta (entregar, aprobar, abrir un nodo) y si da premio; se decide en GAMIFICACION.md.
+- **Temporadas y ligas** con cierre y cuenta regresiva: choca con la XP permanente; posible como un ranking aparte que se reinicia (por ejemplo, XP del mes).
+- **Especialidad en el ranking** ("C++ · Memory Guru"): posible con las Sendas (Fase 8) y sus insignias.
+- **Entrar con passkey**.
+- **Indicadores de estado del sistema** (compilador en línea, uptime): solo si algún día son reales.
+- **Progreso de nodos por curso en las tarjetas** ("18/24"): solo para el alumno que inició sesión, en su panel.
 - Sin filtros ni categorías por ahora: con 1–5 cursos no aportan.
 - Toda regla de acceso nueva (landing pública, curso "Próximamente" que no se puede abrir) va con Policy y test Pest.
 

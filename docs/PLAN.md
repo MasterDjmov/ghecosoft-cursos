@@ -270,3 +270,14 @@ Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, qu
 4. **Cursos "Próximamente"**: un estado del curso para mostrarlo como adelanto sin abrirlo, con "Avisame cuando salga" (sirve para medir interés). Candidatos, según el material de FullCursos: C (01–02), C++ (03–11), Java (18–20), PHP (21), JS (22), TypeScript (23), Arduino (15), Phaser (16).
 - Sin filtros ni categorías por ahora: con 1–5 cursos no aportan.
 - Toda regla de acceso nueva (landing pública, curso "Próximamente" que no se puede abrir) va con Policy y test Pest.
+
+### Alta de alumnos por el docente (anotado el 2026-09-27; pedido del docente)
+Hay gente a la que el docente le crea la cuenta. Hoy solo existe el registro del alumno y `app:create-admin`.
+- En *Alumnos* → **"Nuevo alumno"**: nombre, apellido, usuario, email, fecha de nacimiento (para saber si es menor) y **clave provisoria**. La cuenta se crea verificada.
+- **Cambio de clave obligatorio** en el primer ingreso: hace falta una marca nueva en `users`.
+- Botón para **copiar los datos de acceso** (usuario, clave provisoria y link), para mandarlos por WhatsApp.
+- Opcional en el mismo formulario: **inscribirlo directo a un curso y a una comisión**. Pasa por `EnrollmentApprover`, así recibe las monedas del raíz y el abono como cualquier inscripción aprobada, y queda en el libro de movimientos.
+- Si es menor, queda pendiente la autorización como en el registro normal.
+- **A decidir:** alumnos **sin email**. Hoy el email es obligatorio y único; sin email tampoco puede recuperar la clave solo, y el docente se la resetea. Opciones: email opcional (columna nullable) o pedirlo siempre.
+- También: botón **"Resetear clave"** en la ficha del alumno, con otra clave provisoria.
+- Solo el admin puede hacerlo: Policy y tests Pest.

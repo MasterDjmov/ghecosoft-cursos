@@ -59,6 +59,7 @@
 | D34 | CV en PDF | Impresión del navegador ("Descargar PDF") con hoja de estilos de impresión, sin librerías de PDF en el servidor | Liviano para hosting compartido |
 | D35 | Producción | `ProductionSeeder` (sin usuarios de prueba), `URL::forceHttps` en producción y el usuario no puede ser solo números (no es un DNI) | Seguridad del deploy |
 | D22 | Archivos de recursos | Disco privado, se validan por **extensión** (lista en `config/uploads.php`) y se descargan con `nosniff` | `mimes` no reconoce `.py` (lo ve como texto) |
+| D36 | Email del alumno | **Opcional** (en el registro y en el alta por el docente). Se entra con usuario o email. El docente puede cambiarle el email y resetearle la clave desde el admin para reactivar la cuenta | Hay alumnos sin email o que pierden el acceso; no se los bloquea por eso (2026-09-27) |
 
 ---
 
@@ -278,6 +279,7 @@ Hay gente a la que el docente le crea la cuenta. Hoy solo existe el registro del
 - Botón para **copiar los datos de acceso** (usuario, clave provisoria y link), para mandarlos por WhatsApp.
 - Opcional en el mismo formulario: **inscribirlo directo a un curso y a una comisión**. Pasa por `EnrollmentApprover`, así recibe las monedas del raíz y el abono como cualquier inscripción aprobada, y queda en el libro de movimientos.
 - Si es menor, queda pendiente la autorización como en el registro normal.
-- **A decidir:** alumnos **sin email**. Hoy el email es obligatorio y único; sin email tampoco puede recuperar la clave solo, y el docente se la resetea. Opciones: email opcional (columna nullable) o pedirlo siempre.
-- También: botón **"Resetear clave"** en la ficha del alumno, con otra clave provisoria.
+- **Email opcional (decidido, D36)**: la cuenta puede ser solo con usuario. `users.email` pasa a nullable (sigue único cuando está). El formulario de registro también lo deja opcional.
+- En la ficha del alumno: **editar email y usuario** y **"Resetear clave"** (otra clave provisoria + cambio obligatorio al entrar). Así el docente reactiva a quien perdió el acceso.
+- Sin email: no hay "Olvidé mi clave" ni avisos por mail (los avisos siguen en la campanita). La pantalla de "Olvidé mi clave" tiene que decir "si no tenés email, pedíselo al profe".
 - Solo el admin puede hacerlo: Policy y tests Pest.

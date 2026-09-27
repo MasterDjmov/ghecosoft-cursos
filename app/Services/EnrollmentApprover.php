@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Services;
+
+use App\Enums\CoinReason;
+use App\Enums\RequestKind;
+use App\Enums\RequestStatus;
+use App\Models\CourseSubscription;
+use App\Models\Currency;
+use App\Models\EnrollmentRequest;
+use App\Models\User;
+use DomainException;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+
+class EnrollmentApprover
+{
+    public function __construct(private readonly Ledger $ledger) {}
+
+    /**
+     * Inscripción nueva: acredita las monedas del curso (precio del raíz) y abre el abono.
+     * Renovación: solo extiende el abono; arranca cuando vence el actual (o hoy).
+     */
+    public function approve(EnrollmentRequest $request, User $admin, ?string $note = null): CourseSubscription
+    {
+        return DB::transaction(function () use ($request, $admin, $note) {
+            $request = EnrollmentRequest::whereKey($request->id)->lockForUpdate()->firstOrFail();
+
+            if ($request->status !== RequestStatus::Pending) {
+                throw new DomainException('La solicitud ya fue revisada.');
+            }
+
+            $course = $request->course;
+            $student = $request->user;
+
+            $request->forceFill([
+                'status' => RequestStatus::Approved,
+                'admin_note' => $note,
+                'reviewed_at' => now(),
+                'reviewed_by' => $admin->id,
+            ])->save();
+
+            if ($request->kind === RequestKind::New && $course->root_price > 0) {
+                $this->ledger->credit(
+                    $student,
+                    Currency::forCourse($course),
+                    $course->root_price,
+                    CoinReason::EnrollmentGrant,
+                    $request,
+                    $course,
+                    by: $admin,
+                );
+            }
+
+            // Si ya tiene abono (vigente o programado), el nuevo arranca cuando termina el último.
+            $latestEnd = CourseSubscription::where('user_id', $student->id)
+                ->where('course_id', $course->id)
+                ->max('ends_at');
+            $startsAt = $latestEnd && now()->lt($latestEnd) ? Carbon::parse($latestEnd) : now();
+
+            return CourseSubscription::create([
+                'user_id' => $student->id,
+                'course_id' => $course->id,
+                'cohort_id' => $request->cohort_id,
+                'starts_at' => $startsAt,
+                'ends_at' => $startsAt->copy()->addDays($course->subscription_days),
+                'enrollment_request_id' => $request->id,
+                'granted_by' => $admin->id,
+            ]);
+        });
+    }
+
+    public function reject(EnrollmentRequest $request, User $admin, ?string $note = null): void
+    {
+        DB::transaction(function () use ($request, $admin, $note) {
+            $request = EnrollmentRequest::whereKey($request->id)->lockForUpdate()->firstOrFail();
+
+            if ($request->status !== RequestStatus::Pending) {
+                throw new DomainException('La solicitud ya fue revisada.');
+            }
+
+            $request->forceFill([
+                'status' => RequestStatus::Rejected,
+                'admin_note' => $note,
+                'reviewed_at' => now(),
+                'reviewed_by' => $admin->id,
+            ])->save();
+        });
+    }
+}

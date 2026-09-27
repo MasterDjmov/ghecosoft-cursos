@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente. Fases 1 a 4 terminadas (2026-09-27). **Fase 5 terminada (2026-09-27)**: plataforma completa según el plan, esperando prueba del docente y el deploy ([DEPLOY.md](DEPLOY.md)).
+> **Estado:** aprobado por el docente. Fases 1 a 4 terminadas (2026-09-27). **Fase 5 terminada (2026-09-27)**: plataforma completa según el plan. **Etapa actual: pulido de detalles** con el docente; el deploy queda para después (ver § 10).
 
 ---
 
@@ -211,3 +211,27 @@ Worker de Pyodide cargado cuando se usa por primera vez, stdin desde un textarea
 | **5** | Ranking, **CV público** + privacidad, **autorización de menores**, pulido responsive, `DEPLOY.md`, `README.md`, suite Pest completa |
 
 Al final de cada fase: `php artisan test` + `npm run build` + qué probar → **freno**.
+
+---
+
+## 10. Producción (pendiente: todavía no se sube)
+
+El docente decidió **pulir detalles antes de subirla**. Cuando llegue el momento se sigue [DEPLOY.md](DEPLOY.md). Lo que hay que tener presente:
+
+**Cuidados al instalar:**
+- Datos iniciales con `php artisan db:seed --class=ProductionSeeder`, **nunca** `db:seed` a secas: crea `admin/admin123` y `cliente/cliente123`.
+- El docente se crea con `php artisan app:create-admin`, con clave fuerte.
+- En producción: `APP_ENV=production`, `APP_DEBUG=false`. Todo va por HTTPS (`URL::forceHttps`) y `migrate:fresh` queda bloqueado.
+- El dominio apunta a `public/`; el proyecto nunca va dentro de `public_html`. Después de instalar, correr `php artisan storage:link`.
+- Límites de PHP: `upload_max_filesize` 25M y `post_max_size` 30M.
+- Copias de seguridad de la base y de `storage/app/private`.
+
+**Lo que falta cargar o decidir (del lado del docente):**
+- Nombre del mundo que reemplaza a "Codexia", nombres narrativos e historia (en *Diccionario*).
+- Contenido real de Python a partir de FullCursos: clase 0 y temas.
+- Modelo de la nota de autorización para menores.
+- Logo en PNG con fondo transparente y versión horizontal.
+- Confirmar la XP extra: +20 por nodo y +50 por jefe (`config/game.php`).
+- WhatsApp y mensaje prearmado (en *Configuración*, ya en el servidor).
+- Casilla de correo para los avisos por mail (SMTP).
+

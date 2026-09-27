@@ -1,5 +1,7 @@
 # Subir GhecoSoft-Code al servidor (Duplika · cPanel · servidor `mate`)
 
+> **Estado (2026-09-27):** todavía **no** se subió. Primero se pulen detalles; la lista de pendientes está en [PLAN.md § 10](PLAN.md).
+
 Guía paso a paso para el hosting compartido (CloudLinux, PHP 8.3, MariaDB, Node 20 por SSH).
 La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el código de los alumnos corre en su navegador.
 

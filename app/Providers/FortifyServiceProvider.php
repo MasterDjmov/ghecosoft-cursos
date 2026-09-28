@@ -53,6 +53,10 @@ class FortifyServiceProvider extends ServiceProvider
 
             return $user && Hash::check((string) $request->input('password'), $user->password) ? $user : null;
         });
+
+        // Confirmar la clave (antes de Seguridad): se compara con la del usuario logueado.
+        // Sin esto Fortify la busca por el campo del login ("login"), que no es una columna.
+        Fortify::confirmPasswordsUsing(fn (User $user, ?string $password): bool => Hash::check((string) $password, $user->password));
     }
 
     /**

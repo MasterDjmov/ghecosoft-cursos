@@ -1,21 +1,28 @@
 <?php
 
-namespace Tests\Feature\Auth;
-
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class PasswordConfirmationTest extends TestCase
-{
-    use RefreshDatabase;
+test('la pantalla de confirmar la clave se muestra', function () {
+    $this->actingAs(User::factory()->create())->get(route('password.confirm'))->assertOk();
+});
 
-    public function test_confirm_password_screen_can_be_rendered(): void
-    {
-        $user = User::factory()->create();
+test('con la clave correcta se entra a Seguridad', function () {
+    $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('password.confirm'));
+    $this->actingAs($user)->get(route('security.edit'))->assertRedirect(route('password.confirm'));
 
-        $response->assertOk();
-    }
-}
+    $this->actingAs($user)->post(route('password.confirm.store'), ['password' => 'password'])
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('security.edit'));
+
+    $this->actingAs($user)->get(route('security.edit'))->assertOk();
+});
+
+test('con la clave incorrecta avisa y no deja pasar', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)->post(route('password.confirm.store'), ['password' => 'incorrecta'])
+        ->assertSessionHasErrors('password');
+
+    $this->actingAs($user)->get(route('security.edit'))->assertRedirect(route('password.confirm'));
+});

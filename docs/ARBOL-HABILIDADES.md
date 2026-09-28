@@ -194,6 +194,13 @@ Proyecto: `/var/www/html/marcos/visualizador-escuelas/` (Next.js 16, MVP). Al do
 
 **Propuesta:** `force-graph` con `dagMode: 'radialout'` + posiciones fijas + el estilo del mapa escolar (pulso, partículas, etiquetas por zoom, click para enfocar rama, panel de referencias).
 
+**Cómo se ubican los nodos** (`resources/js/tree/layout.js`, D47):
+
+- Si **todas las ramas salen del raíz**: abanico, cada rama en su sector y sus nodos hacia afuera.
+- Si **una rama sigue a otra** (Objetos después del jefe de Fundamentos, como en Python): el tronco va en **espiral**. Cada rama sale pegada al último nodo de la anterior, los nodos quedan siempre a la misma distancia (130 px) y entre una vuelta y la siguiente hay 240 px. Así no aparecen tramos larguísimos entre un jefe y la rama que sigue.
+- Una rama que sale de un nodo del medio, y las **Sendas**, brotan de su nodo de origen hacia afuera.
+- Los nodos que el docente mueve a mano se respetan.
+
 ### Cómo se lleva a esta plataforma (Livewire, no Next)
 
 - `force-graph` es **JavaScript puro** (no necesita React): se instala con npm, se empaqueta con **Vite** y se monta en un `<div wire:ignore>` con Alpine.

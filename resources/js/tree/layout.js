@@ -1,5 +1,5 @@
 // Posiciones del árbol "estilo Path of Exile": el raíz en el centro y cada rama
-// sale en su propio sector, con sus nodos en orden hacia afuera. Las Sendas no
+// sale en su propio sector (o, si las ramas van una detrás de otra, en espiral), con sus nodos en orden hacia afuera. Las Sendas no
 // tienen sector: brotan del nodo del que dependen, abiertas hacia un costado.
 // Las hojas (prácticas) se abren a los costados de su nodo. Es determinista: el
 // árbol se ve siempre igual. Si el docente movió un nodo, se respeta su pos_x/pos_y.
@@ -10,6 +10,10 @@ const PATH_STEP = 90;
 // Separación (en píxeles de arco) entre nodos hermanos a la misma distancia: deja lugar a las etiquetas.
 const SIBLING_GAP = 190;
 const LEAF_DISTANCE = 34;
+// Espiral: distancia entre nodos seguidos y entre una vuelta y la siguiente.
+const SPIRAL_STEP = 130;
+const ARM_GAP = 240;
+const SIBLING_OFFSET = 70;
 
 export function layoutTree(data) {
     const positions = new Map();
@@ -48,35 +52,18 @@ export function layoutTree(data) {
     // Una Senda sin nodo de origen visible se dibuja como una rama más.
     const paths = groups.filter((group) => group.path && group.nodes.length && sproutOf(group));
     const active = groups.filter((group) => group.nodes.length && !paths.includes(group));
-    const sector = (2 * Math.PI) / Math.max(active.length, 1);
 
-    active.forEach((group, index) => {
-        const angle = -Math.PI / 2 + index * sector;
-        const byDepth = new Map();
+    // Ramas que siguen a otra (Objetos después del jefe de Fundamentos). Si las hay, el
+    // tronco se dibuja en espiral: cada rama sale pegada a la anterior y los nodos quedan
+    // a la misma distancia entre sí. Si todas salen del raíz, abanico por sectores.
+    const owner = new Map(active.flatMap((group) => group.nodes.map((node) => [node.id, group])));
+    const chained = active.filter((group) => owner.has(sproutOf(group)?.id));
 
-        group.nodes
-            .sort((a, b) => depthOf(a) - depthOf(b) || a.position - b.position || a.id - b.id)
-            .forEach((node) => {
-                const depth = Math.max(depthOf(node), 1);
-                const siblings = byDepth.get(depth) ?? [];
-                siblings.push(node);
-                byDepth.set(depth, siblings);
-            });
-
-        for (const [depth, siblings] of byDepth) {
-            const radius = FIRST_RING + (depth - 1) * STEP;
-            // Hermanos a la misma distancia: se abren en abanico dentro del sector.
-            const spread = Math.min(sector * 0.8, (siblings.length - 1) * (SIBLING_GAP / radius));
-            siblings.forEach((node, k) => {
-                const offset = siblings.length === 1 ? 0 : -spread / 2 + (spread * k) / (siblings.length - 1);
-                // Un vaivén chico para que no quede rígido, en píxeles (en ángulo crecería con el radio
-                // y en cursos largos las etiquetas se pisarían).
-                const sway = (Math.sin(depth * 1.7) * Math.min(18, radius * Math.min(0.1, sector / 8))) / radius;
-                const nodeAngle = angle + offset + sway;
-                positions.set(node.id, { x: Math.cos(nodeAngle) * radius, y: Math.sin(nodeAngle) * radius, angle: nodeAngle });
-            });
-        }
-    });
+    if (chained.length) {
+        placeSpiral(active, chained, depthOf, sproutOf, positions, paths);
+    } else {
+        placeSectors(active, depthOf, positions);
+    }
 
     // Sendas: desde su nodo de origen, en diagonal hacia afuera. Si una brota de otra
     // Senda, espera a que esa tenga lugar.
@@ -91,7 +78,9 @@ export function layoutTree(data) {
             const k = perSprout.get(sprout.id) ?? 0;
             perSprout.set(sprout.id, k + 1);
             const side = k % 2 === 0 ? 1 : -1;
-            const direction = base.angle + side * (1.0 + 0.4 * Math.floor(k / 2));
+            const direction = (base.out ?? base.angle) + side * (1.0 + 0.4 * Math.floor(k / 2));
+            // Desde la espiral, con el mismo paso que el tronco.
+            const step = base.out === undefined ? PATH_STEP : SPIRAL_STEP;
             const byDepth = new Map();
 
             group.nodes
@@ -104,8 +93,8 @@ export function layoutTree(data) {
             for (const [depth, siblings] of byDepth) {
                 siblings.forEach((node, j) => {
                     const offset = (j - (siblings.length - 1) / 2) * 55;
-                    const x = base.x + Math.cos(direction) * PATH_STEP * depth + Math.cos(direction + Math.PI / 2) * offset;
-                    const y = base.y + Math.sin(direction) * PATH_STEP * depth + Math.sin(direction + Math.PI / 2) * offset;
+                    const x = base.x + Math.cos(direction) * step * depth + Math.cos(direction + Math.PI / 2) * offset;
+                    const y = base.y + Math.sin(direction) * step * depth + Math.sin(direction + Math.PI / 2) * offset;
                     positions.set(node.id, { x, y, angle: direction });
                 });
             }
@@ -123,6 +112,92 @@ export function layoutTree(data) {
     }
 
     return positions;
+}
+
+const byDepthOf = (nodes, depthOf) => {
+    const byDepth = new Map();
+    nodes
+        .slice()
+        .sort((a, b) => depthOf(a) - depthOf(b) || a.position - b.position || a.id - b.id)
+        .forEach((node) => {
+            const depth = Math.max(depthOf(node), 1);
+            byDepth.set(depth, [...(byDepth.get(depth) ?? []), node]);
+        });
+    return byDepth;
+};
+
+/** Cada rama en su sector, con los nodos hacia afuera según la distancia al raíz. */
+function placeSectors(active, depthOf, positions) {
+    const sector = (2 * Math.PI) / Math.max(active.length, 1);
+
+    active.forEach((group, index) => {
+        const angle = -Math.PI / 2 + index * sector;
+
+        for (const [depth, siblings] of byDepthOf(group.nodes, depthOf)) {
+            const radius = FIRST_RING + (depth - 1) * STEP;
+            // Hermanos a la misma distancia: se abren en abanico dentro del sector.
+            const spread = Math.min(sector * 0.8, (siblings.length - 1) * (SIBLING_GAP / radius));
+            siblings.forEach((node, k) => {
+                const offset = siblings.length === 1 ? 0 : -spread / 2 + (spread * k) / (siblings.length - 1);
+                // Un vaivén chico para que no quede rígido, en píxeles (en ángulo crecería con el radio
+                // y en cursos largos las etiquetas se pisarían).
+                const sway = (Math.sin(depth * 1.7) * Math.min(18, radius * Math.min(0.1, sector / 8))) / radius;
+                const nodeAngle = angle + offset + sway;
+                positions.set(node.id, { x: Math.cos(nodeAngle) * radius, y: Math.sin(nodeAngle) * radius, angle: nodeAngle });
+            });
+        }
+    });
+}
+
+/**
+ * Tronco en espiral: cada rama que sale del raíz empieza un brazo, y las que siguen
+ * al último nodo de un brazo lo continúan. Una rama que sale de un nodo del medio
+ * brota de costado, como una Senda (se agrega a `paths`).
+ */
+function placeSpiral(active, chained, depthOf, sproutOf, positions, paths) {
+    const arms = active.filter((group) => !chained.includes(group)).map((group) => [group]);
+    const tail = (group) => group.nodes.reduce((last, node) => (depthOf(node) >= depthOf(last) ? node : last));
+
+    let pending = chained.slice();
+    let grew = true;
+    while (pending.length && grew) {
+        grew = false;
+        for (const group of pending.slice()) {
+            const arm = arms.find((candidate) => tail(candidate.at(-1)).id === sproutOf(group).id);
+            if (arm) {
+                arm.push(group);
+                pending = pending.filter((other) => other !== group);
+                grew = true;
+            }
+        }
+    }
+    for (const group of pending) {
+        group.path = true;
+        paths.push(group);
+    }
+
+    // Espiral de Arquímedes: entre vuelta y vuelta queda siempre ARM_GAP (repartido entre los brazos).
+    const b = (ARM_GAP * Math.max(arms.length, 1)) / (2 * Math.PI);
+
+    arms.forEach((arm, index) => {
+        const start = -Math.PI / 2 + (index * 2 * Math.PI) / arms.length;
+        let phi = 0;
+        let radius = FIRST_RING;
+
+        [...byDepthOf(arm.flatMap((group) => group.nodes), depthOf).values()].forEach((siblings, slot) => {
+            if (slot > 0) {
+                phi += SPIRAL_STEP / Math.hypot(radius, b);
+                radius = FIRST_RING + b * phi;
+            }
+            const theta = start + phi;
+            // Dirección del camino en ese punto: las hojas se abren a sus costados.
+            const heading = Math.atan2(b * Math.sin(theta) + radius * Math.cos(theta), b * Math.cos(theta) - radius * Math.sin(theta));
+            siblings.forEach((node, k) => {
+                const r = radius + (k - (siblings.length - 1) / 2) * SIBLING_OFFSET;
+                positions.set(node.id, { x: Math.cos(theta) * r, y: Math.sin(theta) * r, angle: heading, out: theta });
+            });
+        });
+    });
 }
 
 /** Hojas a los costados del nodo (perpendiculares a su rama), alternando lados. */

@@ -406,7 +406,8 @@ class CourseFileParser
     {
         foreach ($fields as $field => $text) {
             $text = trim($text, "\n");
-            if (in_array($field, self::CODE_FIELDS, true) && preg_match('/^\s*(```+|~~~+)[\w+-]*\s*\n(.*?)\n\s*\1\s*$/s', trim($text), $m)) {
+            // [ \t]* y no \s* después del lenguaje: una entrada puede empezar con una línea vacía (a propósito).
+            if (in_array($field, self::CODE_FIELDS, true) && preg_match('/^\s*(```+|~~~+)[\w+-]*[ \t]*\n(.*?)\n\s*\1\s*$/s', trim($text), $m)) {
                 $text = $m[2];
             }
             $fields[$field] = in_array($field, self::CODE_FIELDS, true) ? rtrim($text) : trim($text);

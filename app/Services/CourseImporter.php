@@ -15,6 +15,7 @@ use App\Models\Currency;
 use App\Models\GlossaryTerm;
 use App\Models\Node;
 use App\Models\Practice;
+use App\Rules\SafeUpload;
 use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
 use App\Support\Glossary;
@@ -142,6 +143,10 @@ class CourseImporter
                 $mode = CourseFileParser::normalize($practice['meta']['entrega'] ?? 'codigo');
                 if (! isset(self::MODES[$mode])) {
                     $this->report->error("{$practice['where']}: entrega «{$practice['meta']['entrega']}» desconocida (codigo, archivo, ambos, ninguna).");
+                }
+                $extensions = array_map('trim', explode(',', Str::lower(str_replace('.', '', (string) ($practice['meta']['extensiones'] ?? '')))));
+                if ($blocked = array_intersect($extensions, SafeUpload::BLOCKED)) {
+                    $this->report->error("{$practice['where']}: por seguridad no se aceptan entregas ".implode(', ', $blocked).'.');
                 }
                 $environment = CourseFileParser::normalize($practice['meta']['entorno'] ?? 'navegador');
                 if (! in_array($environment, ['navegador', 'local'], true)) {

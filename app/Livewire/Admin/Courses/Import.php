@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Courses;
 
+use App\Rules\SafeUpload;
 use App\Services\CourseImporter;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -42,7 +43,7 @@ class Import extends Component
     {
         $this->validate([
             'files' => ['required', 'array', 'min:1', 'max:40'],
-            'files.*' => ['file', 'extensions:md,txt', 'max:2048'],
+            'files.*' => ['file', 'extensions:md,txt', new SafeUpload, 'max:2048'],
         ], [], ['files' => 'archivos', 'files.*' => 'archivo']);
 
         // Se leen en orden por nombre: 00-curso.md, 01-rama.md…

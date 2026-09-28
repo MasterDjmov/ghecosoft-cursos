@@ -80,7 +80,7 @@ test('el menor sube la autorización, el docente la aprueba y ahí puede publica
 
     Livewire::actingAs($minor)->test(Privacy::class)
         ->assertSee('Autorización de tu adulto responsable')
-        ->set('authorization', UploadedFile::fake()->create('nota.pdf', 100, 'application/pdf'))
+        ->set('authorization', UploadedFile::fake()->createWithContent('nota.pdf', "%PDF-1.4\n%%EOF\n"))
         ->call('uploadAuthorization')
         ->assertHasNoErrors();
 

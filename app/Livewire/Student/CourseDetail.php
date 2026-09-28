@@ -7,6 +7,7 @@ use App\Exceptions\NodeLocked;
 use App\Models\Course;
 use App\Models\Currency;
 use App\Models\EnrollmentRequest;
+use App\Rules\SafeUpload;
 use App\Services\EnrollmentRequester;
 use App\Services\Ledger;
 use App\Services\NodeUnlocker;
@@ -45,7 +46,7 @@ class CourseDetail extends Component
     public function sendReceipt(EnrollmentRequester $requester): void
     {
         $this->validate([
-            'receipt' => ['required', 'file', 'mimes:'.implode(',', config('uploads.receipt.mimes')), 'max:'.config('uploads.receipt.max_kb')],
+            'receipt' => ['required', 'file', 'extensions:'.implode(',', config('uploads.receipt.mimes')), 'mimes:'.implode(',', config('uploads.receipt.mimes')), new SafeUpload, 'max:'.config('uploads.receipt.max_kb')],
             'message' => ['nullable', 'string', 'max:1000'],
         ], ['receipt.required' => 'Adjuntá el comprobante (foto o PDF).'], ['receipt' => 'comprobante', 'message' => 'mensaje']);
 

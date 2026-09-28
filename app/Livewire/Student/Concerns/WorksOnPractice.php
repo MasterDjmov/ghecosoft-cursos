@@ -6,6 +6,7 @@ use App\Enums\PracticeEnvironment;
 use App\Enums\SubmissionMode;
 use App\Models\PracticeMark;
 use App\Models\Submission;
+use App\Rules\SafeUpload;
 use App\Services\PracticeSubmitter;
 use App\Services\SubmissionReviewer;
 use App\Support\Narrative;
@@ -30,7 +31,7 @@ trait WorksOnPractice
 
         $extensions = $this->practice->allowed_extensions ?: 'py,txt,zip,pdf';
         $this->validate([
-            'file' => ['nullable', 'file', 'extensions:'.$extensions, 'max:'.config('uploads.submission.max_kb')],
+            'file' => ['nullable', 'file', 'extensions:'.$extensions, new SafeUpload, 'max:'.config('uploads.submission.max_kb')],
         ], [], ['file' => 'archivo']);
 
         if ($code !== null && mb_strlen($code) > 100_000) {

@@ -13,6 +13,7 @@ use App\Models\Currency;
 use App\Models\GlossaryTerm;
 use App\Models\Node;
 use App\Models\Practice;
+use App\Rules\SafeUpload;
 use App\Services\TreeEditor;
 use App\Support\Markdown;
 use App\Support\Reorder;
@@ -332,7 +333,12 @@ class Edit extends Component
             'practiceSolution' => ['nullable', 'string', 'max:50000'],
             'practiceRequired' => ['boolean'],
             'practiceMode' => ['required', Rule::enum(SubmissionMode::class)],
-            'practiceExtensions' => ['nullable', 'string', 'max:100', 'regex:/^[a-z0-9]+(\s*,\s*[a-z0-9]+)*$/i'],
+            'practiceExtensions' => ['nullable', 'string', 'max:100', 'regex:/^[a-z0-9]+(\s*,\s*[a-z0-9]+)*$/i', function ($attribute, $value, $fail) {
+                $blocked = array_intersect(array_map('trim', explode(',', Str::lower((string) $value))), SafeUpload::BLOCKED);
+                if ($blocked) {
+                    $fail('Por seguridad no se aceptan: '.implode(', ', $blocked).'.');
+                }
+            }],
             'practiceStarterCode' => ['nullable', 'string', 'max:20000'],
             'practiceSampleInput' => ['nullable', 'string', 'max:5000'],
             'practiceCoins' => ['required', 'integer', 'min:0', 'max:1000'],
@@ -407,7 +413,7 @@ class Edit extends Component
             'resourceType' => ['required', Rule::enum(ResourceType::class)],
             'resourceTitle' => ['required', 'string', 'max:255'],
             'resourceUrl' => $isFile ? [] : ['required', 'url:http,https', 'max:500'],
-            'resourceFile' => $isFile ? ['required', 'file', 'extensions:'.implode(',', config('uploads.resource.mimes')), 'max:'.config('uploads.resource.max_kb')] : [],
+            'resourceFile' => $isFile ? ['required', 'file', 'extensions:'.implode(',', config('uploads.resource.mimes')), new SafeUpload, 'max:'.config('uploads.resource.max_kb')] : [],
         ], [], ['resourceTitle' => 'título', 'resourceUrl' => 'link', 'resourceFile' => 'archivo']);
 
         $data = ['type' => $this->resourceType, 'title' => $this->resourceTitle, 'position' => Reorder::next($this->node->resources())];

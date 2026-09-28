@@ -94,7 +94,7 @@ describe('recursos', function () {
         Livewire::test(Edit::class, ['course' => $course, 'node' => $root])
             ->set('resourceType', 'file')
             ->set('resourceTitle', 'Apunte')
-            ->set('resourceFile', UploadedFile::fake()->create('apunte clase 0.pdf', 100, 'application/pdf'))
+            ->set('resourceFile', UploadedFile::fake()->createWithContent('apunte clase 0.pdf', "%PDF-1.4\n%%EOF\n"))
             ->call('addResource')
             ->assertHasNoErrors();
 

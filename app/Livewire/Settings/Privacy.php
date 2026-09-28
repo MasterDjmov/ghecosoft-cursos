@@ -5,6 +5,7 @@ namespace App\Livewire\Settings;
 use App\Enums\AuthorizationStatus;
 use App\Enums\RankingDisplay;
 use App\Notifications\PlatformNotification;
+use App\Rules\SafeUpload;
 use App\Services\Ranking;
 use Flux\Flux;
 use Illuminate\Support\Facades\Cache;
@@ -74,7 +75,7 @@ class Privacy extends Component
         $user = auth()->user();
 
         $this->validate([
-            'authorization' => ['required', 'file', 'mimes:'.implode(',', config('uploads.receipt.mimes')), 'max:'.config('uploads.receipt.max_kb')],
+            'authorization' => ['required', 'file', 'extensions:'.implode(',', config('uploads.receipt.mimes')), 'mimes:'.implode(',', config('uploads.receipt.mimes')), new SafeUpload, 'max:'.config('uploads.receipt.max_kb')],
         ], [], ['authorization' => 'autorización']);
 
         if ($user->guardianAuthorizations()->where('status', AuthorizationStatus::Pending)->exists()) {

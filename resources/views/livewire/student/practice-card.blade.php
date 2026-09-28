@@ -139,7 +139,7 @@
 
             @if ($usesCode)
                 <x-code-runner :code="$startingCode" :stdin="$practice->sample_input" :expected="$practice->expected_output" :language="$course->language->value"
-                    :name="'practica_'.$number" :read-only="! $canSubmit" wire:key="editor-{{ $practice->id }}-{{ $latest?->id }}">
+                    :name="'practica_'.$number" :read-only="! $canSubmit" :runnable="! $isLocal" wire:key="editor-{{ $practice->id }}-{{ $latest?->id }}">
                     <x-slot:footer>
                         @if ($canSubmit && $usesFile)
                             @include('livewire.student.partials.practice-file', ['hint' => $fileHint])

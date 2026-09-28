@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\BranchKind;
+use App\Enums\CourseLevel;
 use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\PracticeEnvironment;
@@ -41,6 +42,10 @@ class CourseImporter
     private const NODE_TYPES = [
         'raiz' => NodeType::Root, 'tema' => NodeType::Topic, 'jefe' => NodeType::Boss, 'extra' => NodeType::Extra,
         'ventana' => NodeType::Window, 'senda' => NodeType::Topic,
+    ];
+
+    private const LEVELS = [
+        'desde cero' => CourseLevel::Beginner, 'inicial' => CourseLevel::Beginner, 'intermedio' => CourseLevel::Intermediate, 'avanzado' => CourseLevel::Advanced,
     ];
 
     private const MODES = [
@@ -98,6 +103,9 @@ class CourseImporter
         }
         if (filled($meta['slug'] ?? null) && ! preg_match('/^[a-z0-9]+(-[a-z0-9]+)*$/', $meta['slug'])) {
             $this->report->error('El slug del curso va en minúsculas y con guiones: «python» o «python-desde-cero».');
+        }
+        if (filled($meta['nivel'] ?? null) && ! isset(self::LEVELS[CourseFileParser::normalize($meta['nivel'])])) {
+            $this->report->error("Nivel «{$meta['nivel']}» desconocido (desde_cero, intermedio, avanzado).");
         }
         if (filled($meta['lenguaje'] ?? null) && ! Language::tryFrom(Str::lower($meta['lenguaje']))) {
             $this->report->error("Lenguaje «{$meta['lenguaje']}» desconocido. Valores: ".collect(Language::cases())->pluck('value')->implode(', ').'.');
@@ -174,6 +182,10 @@ class CourseImporter
             'language' => Str::lower($meta['lenguaje']),
             'root_price' => isset($meta['precio_raiz']) ? (int) $meta['precio_raiz'] : null,
             'subscription_days' => isset($meta['dias_abono']) ? (int) $meta['dias_abono'] : null,
+            'syllabus' => ($course['syllabus'] ?? '') ?: null,
+            'level' => isset($meta['nivel']) ? self::LEVELS[CourseFileParser::normalize($meta['nivel'])] ?? null : null,
+            'is_featured' => isset($meta['destacado']) ? self::yes($meta['destacado']) : null,
+            'is_upcoming' => isset($meta['proximamente']) ? self::yes($meta['proximamente']) : null,
         ], fn ($value) => $value !== null));
 
         // "publicado" vale solo al crear: después se publica u oculta desde el admin.
@@ -321,6 +333,8 @@ class CourseImporter
                 'content' => $fields['content'] ?? null,
                 'example_code' => $fields['example_code'] ?? null,
                 'example_language' => filled($fields['example_code'] ?? null) ? $this->course->language->value : null,
+                // "ejecutable: no": el ejemplo se muestra y se copia, pero no se corre en el navegador (pygame, hardware…).
+                'example_runnable' => self::yes($meta['ejecutable'] ?? 'si'),
                 'sample_input' => $fields['sample_input'] ?? null,
                 'expected_output' => $fields['expected_output'] ?? null,
                 'use_cases' => $fields['use_cases'] ?? null,

@@ -5,7 +5,8 @@
     $statusLabel = ['approved' => ['Aprobada', 'text-success border-success/50'], 'submitted' => ['Esperando corrección', 'text-warning border-warning/50'], 'redo' => ['Rehacer', 'text-[#fca5a5] border-[#f87171]/60']];
     $colors = ['approved' => '#10b981', 'submitted' => '#f59e0b', 'redo' => '#f87171'];
     $canSubmit = $blocker === null;
-    $canRun = $course->language->value === 'python';
+    // Una práctica "local" se resuelve en la compu del alumno: acá no se ejecuta.
+    $canRun = $course->language->value === 'python' && ! $isLocal;
     $extension = ['python' => 'py', 'c' => 'c', 'cpp' => 'cpp', 'java' => 'java', 'javascript' => 'js', 'typescript' => 'ts', 'php' => 'php', 'sql' => 'sql', 'arduino' => 'ino'][$course->language->value] ?? 'txt';
     $submitDisabled = $usesFile ? "code.trim() === '' && ! \$wire.file" : "code.trim() === ''";
     $nodeUrl = route('student.node', [$course, $node]);

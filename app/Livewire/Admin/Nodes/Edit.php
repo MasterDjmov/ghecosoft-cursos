@@ -87,6 +87,9 @@ class Edit extends Component
 
     public string $example_code = '';
 
+    /** Si el ejemplo se puede ejecutar en el navegador (no: pygame, hardware…). */
+    public bool $example_runnable = true;
+
     public string $expected_output = '';
 
     public string $sample_input = '';
@@ -170,6 +173,7 @@ class Edit extends Component
         $this->selfCheck = $node->selfCheckItems();
         $this->teacher_solutions = (string) $node->teacher_solutions;
         $this->example_code = (string) $node->example_code;
+        $this->example_runnable = $node->example_runnable;
         $this->expected_output = (string) $node->expected_output;
         $this->sample_input = (string) $node->sample_input;
     }
@@ -201,6 +205,7 @@ class Edit extends Component
             'selfCheck.*.answer' => ['nullable', 'string', 'max:5000'],
             'teacher_solutions' => ['nullable', 'string', 'max:100000'],
             'example_code' => ['nullable', 'string', 'max:20000'],
+            'example_runnable' => ['boolean'],
             'expected_output' => ['nullable', 'string', 'max:5000'],
             'sample_input' => ['nullable', 'string', 'max:5000'],
         ], [], [
@@ -235,6 +240,7 @@ class Edit extends Component
                 'teacher_solutions' => $this->teacher_solutions ?: null,
                 'example_code' => $this->example_code ?: null,
                 'example_language' => $this->example_code ? $this->course->language->value : null,
+                'example_runnable' => $this->example_runnable,
                 'expected_output' => $this->expected_output ?: null,
                 'sample_input' => $this->sample_input ?: null,
             ]);

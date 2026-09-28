@@ -150,6 +150,8 @@
                 <flux:heading>Código de ejemplo</flux:heading>
                 <flux:textarea wire:model="example_code" rows="8" class="font-mono text-sm" aria-label="Código de ejemplo"
                     description:trailing="El alumno lo puede ejecutar en el navegador (si el lenguaje del curso tiene ejecutor)." />
+                <flux:switch wire:model="example_runnable" label="Se ejecuta en el navegador"
+                    description="Apagalo si el ejemplo necesita algo que el navegador no tiene (pygame, una ventana, hardware, archivos de la compu): se muestra y se copia, sin botón Ejecutar." />
                 <div class="grid gap-6 sm:grid-cols-2">
                     <flux:textarea wire:model="sample_input" label="Entrada de ejemplo (opcional)" rows="3" class="font-mono text-sm"
                         description:trailing="Una línea por cada lectura de teclado." />

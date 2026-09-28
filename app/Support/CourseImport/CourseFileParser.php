@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 /**
  * Lee el formato de curso (docs/FORMATO-CURSO.md) y devuelve una estructura sin tocar la base.
  *
- *   # CURSO                      datos del curso (bloque meta) y ### Descripción
+ *   # CURSO                      datos del curso (bloque meta), ### Descripción y ### Temario
  *   # DICCIONARIO                una tabla | clave | singular | plural | género | descripción | historia | ámbito |
  *   # RAMA R01 · Título          una rama (bloque meta opcional)
  *   ## R01-N01 · Título          un nodo: bloque meta + ### secciones
@@ -77,7 +77,7 @@ class CourseFileParser
     public function parse(array $files, ImportReport $report): array
     {
         $this->report = $report;
-        $this->result = ['course' => ['meta' => [], 'description' => ''], 'glossary' => [], 'branches' => [], 'nodes' => []];
+        $this->result = ['course' => ['meta' => [], 'description' => '', 'syllabus' => ''], 'glossary' => [], 'branches' => [], 'nodes' => []];
 
         foreach ($files as $file) {
             $this->parseFile($file['name'], $file['content']);
@@ -88,7 +88,9 @@ class CourseFileParser
 
     private function parseFile(string $name, string $content): void
     {
-        $lines = self::unwrap(preg_split('/\R/u', str_replace("\t", '    ', $content)));
+        // Solo la sangría: un tabulador adentro del texto es parte de la salida (print("a\tb")).
+        $content = preg_replace_callback('/^\t+/m', fn ($m) => str_repeat('    ', strlen($m[0])), $content);
+        $lines = self::unwrap(preg_split('/\R/u', $content));
         $fence = null;          // marcador del bloque de código abierto (``` o ~~~)
         $metaTarget = null;     // el bloque abierto es ```meta
         $buffer = [];
@@ -197,7 +199,7 @@ class CourseFileParser
         }
 
         if ($this->block === 'course' && $level === 3) {
-            $this->section = self::normalize($text) === 'descripcion' ? 'description' : null;
+            $this->section = ['descripcion' => 'description', 'temario' => 'syllabus'][self::normalize($text)] ?? null;
             if ($this->section === null) {
                 $this->report->warning("{$where}: sección del curso «{$text}» desconocida; se ignora.");
             }
@@ -264,8 +266,8 @@ class CourseFileParser
     private function append(string $line): void
     {
         if ($this->block === 'course') {
-            if ($this->section === 'description') {
-                $this->result['course']['description'] .= $line."\n";
+            if ($this->section !== null) {
+                $this->result['course'][$this->section] .= $line."\n";
             }
 
             return;
@@ -386,6 +388,8 @@ class CourseFileParser
     private function finish(): array
     {
         $this->result['course']['description'] = trim($this->result['course']['description']);
+        // Temario: un tema por línea (acepta lista con - o *).
+        $this->result['course']['syllabus'] = trim(preg_replace('/^\s*[-*]\s+/m', '', $this->result['course']['syllabus']));
 
         foreach ($this->result['nodes'] as &$node) {
             $node['fields'] = self::cleanFields($node['fields']);

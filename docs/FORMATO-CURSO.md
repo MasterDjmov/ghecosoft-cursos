@@ -61,10 +61,14 @@ lenguaje: python          # obligatorio: python, c, cpp, java, javascript, types
 descripcion_corta: Tu primera lengua: clara y legible.
 precio_raiz: 10           # monedas para abrir la Clase 0
 dias_abono: 30
+nivel: desde_cero         # desde_cero | intermedio | avanzado
+destacado: si             # sale en la landing entre los cursos que más se dictan
+proximamente: no          # "Próximamente": se ve con su temario pero no se abre (solo si no está publicado)
 publicado: no             # solo al crearlo (por defecto, borrador); después se publica desde el admin
 ```
 
-`### Descripción`: texto largo de la ficha del curso.
+- `### Descripción`: texto largo de la ficha del curso.
+- `### Temario`: una lista corta (un tema por línea, con `-`) que se muestra en las tarjetas del catálogo y de la landing.
 
 ## 3. `# DICCIONARIO`
 
@@ -99,6 +103,7 @@ precio: 10        # el raíz toma precio_raiz del curso
 moneda: curso     # curso | comodin (cualquier nodo salvo el raíz; la entrada a una Senda suele ir en comodín)
 criatura: slime   # del bestiario: slime, goblin, esqueleto… o la clave completa (beast.hydra)
 video: https://www.youtube.com/watch?v=…
+ejecutable: no    # el Código de ejemplo se muestra y se copia, sin botón Ejecutar (pygame, hardware, paquetes externos)
 insignia: Cazador de slimes            # solo jefes
 insignia_descripcion: Venciste al Rey Slime.
 publicado: si     # un nodo nuevo se publica por defecto; uno existente cambia solo si se escribe
@@ -158,6 +163,13 @@ Partes:
 
 | Lenguaje | Se ejecuta en el navegador | Prácticas |
 |---|---|---|
-| **Python** | Sí (Pyodide, programas de consola, corte a los 5 s) | `entorno: navegador` para consola; `local` + `entrega: archivo` para pygame, Tkinter, hardware, archivos del disco o red |
+| **Python** | Sí (Pyodide, programas de consola, corte a los 5 s) | `entorno: navegador` para consola; `local` + `entrega: archivo` para pygame, Tkinter, hardware, archivos del disco, red o paquetes externos (numpy, pandas) |
+
+Detalles del ejecutor de Python (para escribir salidas esperadas que coincidan):
+
+- La salida es la misma que en la terminal con la entrada redirigida: el texto de `input("Nivel: ")` queda en la misma línea que lo que se muestra después, y lo que se "tipea" **no** aparece.
+- `if __name__ == "__main__":` funciona, y también `asyncio.run(...)`.
+- Los archivos que escribe el programa viven en una memoria temporal: se pueden crear y leer durante la ejecución (conviene borrarlos al final para que cada ejecución arranque igual).
+- Las salidas esperadas se comparan tal cual (se respetan los tabuladores); la forma segura de obtenerlas es ejecutar la solución de referencia en una terminal.
 | C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta. Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` |
 | JavaScript / TypeScript | No (por ahora; es posible a futuro) | Igual que el anterior |

@@ -4,6 +4,7 @@ use App\Enums\NodeType;
 use App\Enums\PracticeEnvironment;
 use App\Enums\SubmissionMode;
 use App\Livewire\Admin\Courses\Import;
+use App\Livewire\Student\NodeView;
 use App\Models\Course;
 use App\Models\GlossaryTerm;
 use App\Models\Node;
@@ -187,4 +188,35 @@ test('el comando revisa por defecto e importa con --apply', function () {
 
     $this->artisan('app:import-course', ['paths' => [$path], '--apply' => true])->assertSuccessful();
     expect(Course::where('slug', 'python-import')->exists())->toBeTrue();
+});
+
+test('el curso trae nivel, destacado y temario; un nodo puede no ejecutarse; los tabuladores de una salida se respetan', function () {
+    $file = exampleCourseFile(fn (string $content) => str_replace(
+        ["publicado: no\n```\n", "tipo: raiz\n", "### Salida esperada\n\n```\nHola, mundo\n```"],
+        ["publicado: no\nnivel: intermedio\ndestacado: si\n```\n\n### Temario\n\n- Variables\n- Bucles\n", "tipo: raiz\nejecutable: no\n", "### Salida esperada\n\n```\nNombre:\tKira\n```"],
+        $content,
+    ));
+
+    $report = app(CourseImporter::class)->import($file, dryRun: false);
+    expect($report->errors)->toBe([]);
+
+    $course = Course::where('slug', 'python-import')->firstOrFail();
+    $root = Node::where('code', 'R00-N01')->firstOrFail();
+    expect($course->level->label())->toBe('Intermedio')
+        ->and($course->is_featured)->toBeTrue()
+        ->and($course->syllabusItems())->toBe(['Variables', 'Bucles'])
+        ->and($root->example_runnable)->toBeFalse()
+        ->and($root->expected_output)->toBe("Nombre:\tKira")
+        ->and(Node::where('code', 'R01-N01')->value('example_runnable'))->toBeTrue();
+});
+
+test('un ejemplo marcado "ejecutable: no" se muestra sin botón Ejecutar', function () {
+    ['course' => $course, 'root' => $root] = makeCourse();
+    $root->update(['example_code' => 'import pygame', 'example_language' => 'python', 'example_runnable' => false]);
+    $student = enrolledStudent($course);
+    app(NodeUnlocker::class)->unlock($student, $root);
+
+    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $root])
+        ->assertSee('import pygame')
+        ->assertViewHas('runnable', false);
 });

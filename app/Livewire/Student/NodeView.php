@@ -94,7 +94,7 @@ class NodeView extends Component
             'next' => $next,
             'subscription' => $access->activeSubscription($user, $this->course),
             'completed' => $access->isCompleted($user, $this->node),
-            'runnable' => $this->node->example_code && $this->course->language->value === 'python',
+            'runnable' => $this->node->example_code && $this->node->example_runnable && $this->course->language->value === 'python',
         ])->title($this->node->title.' · '.$this->course->title);
     }
 }

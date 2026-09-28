@@ -130,7 +130,7 @@ class Ranking
             'user_id' => $row['user_id'],
             'name' => $users[$row['user_id']]?->rankingName() ?? '—',
             'hero' => $users[$row['user_id']]?->hero_name,
-            'username' => $users[$row['user_id']]?->hasPublicProfile() ? $users[$row['user_id']]->username : null,
+            'cv_slug' => $users[$row['user_id']]?->hasPublicProfile() ? $users[$row['user_id']]->cv_slug : null,
             'xp' => $row['xp'],
         ]);
     }

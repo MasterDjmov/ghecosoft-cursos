@@ -26,7 +26,7 @@
             </div>
 
             <flux:input wire:model="username" label="Usuario" type="text" required autocomplete="username"
-                description="También es el link de tu CV: /cv/{{ $username ?: 'tu_usuario' }}" />
+                description="Con esto entrás a la plataforma. No se muestra en ningún lugar público (tu CV tiene su propio link)." />
 
             <flux:input wire:model="email" label="Email (opcional)" type="email" autocomplete="email"
                 description="Sirve para recuperar la clave. Sin email, si la olvidás, te la resetea el profe." />

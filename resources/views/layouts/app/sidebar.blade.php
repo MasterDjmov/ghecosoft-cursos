@@ -62,7 +62,7 @@
                         <flux:sidebar.item icon="trophy" :href="route('student.ranking')" :current="request()->routeIs('student.ranking*')" wire:navigate>
                             Ranking
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->username)" target="_blank">
+                        <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->cv_slug)" target="_blank">
                             Mi CV
                         </flux:sidebar.item>
                     </flux:sidebar.group>

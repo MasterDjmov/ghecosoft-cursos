@@ -94,7 +94,7 @@
 
             <footer class="border-t border-outline pt-4 text-xs text-ink-muted">
                 Cada tema completado y cada {{ term('practice') }} aprobada fueron revisados por el docente. La {{ term('xp') }} mide constancia y avance, no notas.
-                · {{ url('/cv/'.$user->username) }}
+                · {{ route('cv.show', $user->cv_slug) }}
             </footer>
         </main>
     </body>

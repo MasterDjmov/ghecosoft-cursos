@@ -48,7 +48,7 @@
     @if ($finale)
         <x-story-card :story="$finale" :course="$course" icon="trophy" tone="success" data-test="course-finale">
             <div>
-                <flux:button size="sm" icon="identification" :href="route('cv.show', auth()->user()->username)" target="_blank">Ver mi CV</flux:button>
+                <flux:button size="sm" icon="identification" :href="route('cv.show', auth()->user()->cv_slug)" target="_blank">Ver mi CV</flux:button>
             </div>
         </x-story-card>
     @endif

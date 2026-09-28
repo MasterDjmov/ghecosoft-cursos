@@ -26,8 +26,8 @@
                     'bg-surface-highest text-ink-muted' => $row['position'] > 3,
                 ])>{{ $row['position'] }}</span>
                 <span class="min-w-0 flex-1 truncate text-white">
-                    @if ($row['username'] && ! $course)
-                        <a href="{{ route('cv.show', $row['username']) }}" class="hover:text-primary-bright" target="_blank">{{ $row['name'] }}</a>
+                    @if (($row['cv_slug'] ?? null) && ! $course)
+                        <a href="{{ route('cv.show', $row['cv_slug']) }}" class="hover:text-primary-bright" target="_blank">{{ $row['name'] }}</a>
                     @else
                         {{ $row['name'] }}
                     @endif

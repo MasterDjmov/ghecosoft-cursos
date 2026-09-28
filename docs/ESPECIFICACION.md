@@ -83,7 +83,7 @@ Plataforma de cursos de programación **gamificada** de un docente (Python, C, C
 12. **Menores de 18:** el alumno sube una **nota de autorización** firmada (docente, alumno y adulto responsable). Hasta que el docente la aprueba, no puede tener CV público ni aparecer en el ranking global.
 13. **CV y ranking:**
     - **Top ten por curso**, visible entre compañeros; cada uno elige si figura con su nombre o con un apodo.
-    - **CV público** en `/cv/{usuario}`, solo si el alumno tilda "Compartir mi CV públicamente" (apagado por defecto; lo puede apagar cuando quiera). Se descarga en PDF.
+    - **CV público** en su propio link (`/cv/nombre-apellido-xxxxxx`, nunca el usuario de login; el alumno puede generar uno nuevo y, si quiere, pedir un código de 6 cifras para verlo), solo si el alumno tilda "Compartir mi CV públicamente" (apagado por defecto; lo puede apagar cuando quiera). Se descarga en PDF.
     - El CV **nunca** muestra código ni comentarios.
 14. **DNI:** opcional, lo carga el alumno en *Mi cuenta*.
 15. **Seguridad:** un alumno **nunca** ve nodos que no abrió, cursos cuyo raíz no abrió ni entregas de otros. Todo cubierto por Policies y tests Pest.

@@ -55,12 +55,12 @@ test('el ranking global y el CV son opt-in', function () {
     app(Ledger::class)->addXp($student, 40, XpReason::ManualAdjustment, note: 'x');
 
     expect(app(Ranking::class)->global()->pluck('user_id'))->not->toContain($student->id);
-    $this->get(route('cv.show', $student->username))->assertNotFound()->assertSee('Este perfil es privado')->assertDontSee($student->name);
+    $this->get(route('cv.show', $student->fresh()->cv_slug))->assertNotFound()->assertSee('Este perfil es privado')->assertDontSee($student->name);
 
     Livewire::actingAs($student)->test(Privacy::class)->set('cv_public', true)->call('save')->assertHasNoErrors();
 
     expect(app(Ranking::class)->global()->pluck('user_id'))->toContain($student->id);
-    $this->get(route('cv.show', $student->username))->assertOk()->assertSee($student->fullName())->assertSee($data['course']->title);
+    $this->get(route('cv.show', $student->fresh()->cv_slug))->assertOk()->assertSee($student->fullName())->assertSee($data['course']->title);
 });
 
 test('sin fecha de nacimiento o siendo menor sin autorización no se puede publicar el CV', function () {
@@ -106,7 +106,7 @@ test('el CV nunca muestra código ni comentarios, y el dueño ve la vista previa
     $submission = app(PracticeSubmitter::class)->submit($student, $data['root']->practices()->first(), 'print("secreto")');
     app(SubmissionReviewer::class)->approve($submission, User::factory()->admin()->create(), 'Comentario privado del profe');
 
-    $this->actingAs($student)->get(route('cv.show', $student->username))
+    $this->actingAs($student)->get(route('cv.show', $student->fresh()->cv_slug))
         ->assertOk()->assertSee('Vista previa')->assertDontSee('secreto')->assertDontSee('Comentario privado');
 });
 

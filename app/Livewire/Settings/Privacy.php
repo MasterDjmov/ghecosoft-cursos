@@ -4,6 +4,7 @@ namespace App\Livewire\Settings;
 
 use App\Enums\AuthorizationStatus;
 use App\Enums\RankingDisplay;
+use App\Models\User;
 use App\Notifications\PlatformNotification;
 use App\Rules\SafeUpload;
 use App\Services\Ranking;
@@ -70,6 +71,32 @@ class Privacy extends Component
         Flux::toast(variant: 'success', text: 'Privacidad guardada.');
     }
 
+    /** Link nuevo para el CV: el anterior deja de funcionar. */
+    public function newCvLink(): void
+    {
+        auth()->user()->forceFill(['cv_slug' => User::newCvSlug(auth()->user())])->save();
+        Ranking::forget();
+        Flux::toast(variant: 'success', text: 'Listo: tu CV tiene un link nuevo y el anterior ya no funciona.');
+    }
+
+    /** Pedir (o dejar de pedir) un código de 6 cifras para ver el CV. */
+    public function toggleCvCode(): void
+    {
+        $user = auth()->user();
+        $user->forceFill(['cv_code' => $user->cv_code ? null : User::newCvCode()])->save();
+        Flux::toast(variant: 'success', text: $user->cv_code ? 'Ahora tu CV pide un código. Pasalo junto con el link.' : 'Tu CV ya no pide código: lo ve quien tenga el link.');
+    }
+
+    /** Código nuevo: quien usó el anterior tiene que poner el nuevo. */
+    public function newCvCode(): void
+    {
+        $user = auth()->user();
+        if ($user->cv_code) {
+            $user->forceFill(['cv_code' => User::newCvCode()])->save();
+            Flux::toast(variant: 'success', text: 'Código nuevo. El anterior ya no sirve.');
+        }
+    }
+
     public function uploadAuthorization(): void
     {
         $user = auth()->user();
@@ -107,7 +134,8 @@ class Privacy extends Component
             'isMinor' => $user->isMinor(),
             'authorizations' => $user->guardianAuthorizations()->latest()->get(),
             'hasApproved' => $user->hasApprovedGuardianAuthorization(),
-            'cvUrl' => route('cv.show', $user->username),
+            'cvUrl' => route('cv.show', $user->cv_slug),
+            'cvCode' => $user->cv_code,
         ]);
     }
 }

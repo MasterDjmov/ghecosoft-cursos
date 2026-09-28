@@ -34,7 +34,7 @@ trait ProfileValidationRules
     }
 
     /**
-     * Usuario: minúsculas, números, guion y guion bajo. También es el link del CV (/cv/{usuario}).
+     * Usuario: minúsculas, números, guion y guion bajo. No se muestra en público: el CV tiene su propio link (cv_slug).
      *
      * @return array<int, ValidationRule|array<mixed>|string>
      */

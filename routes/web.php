@@ -29,7 +29,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', LandingController::class)->middleware('throttle:120,1')->name('landing');
 
 // CV público (opt-in del alumno). Sin login.
-Route::get('cv/{username}', CvController::class)->middleware('throttle:60,1')->name('cv.show');
+Route::get('cv/{slug}', [CvController::class, 'show'])->middleware('throttle:60,1')->name('cv.show');
+Route::post('cv/{slug}', [CvController::class, 'unlock'])->middleware('throttle:20,1')->name('cv.unlock');
 
 Route::middleware(['auth', 'password.changed'])->group(function () {
     // Destino después de entrar: cada rol a su inicio.

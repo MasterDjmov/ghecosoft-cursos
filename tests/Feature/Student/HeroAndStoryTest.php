@@ -98,7 +98,7 @@ test('el héroe aparece en el ranking y en el CV', function () {
     Ranking::forget();
 
     $this->actingAs($student)->get(route('student.ranking'))->assertOk()->assertSee('Luna');
-    $this->get(route('cv.show', $student->username))->assertOk()->assertSee('Héroe: Luna');
+    $this->get(route('cv.show', $student->fresh()->cv_slug))->assertOk()->assertSee('Héroe: Luna');
 });
 
 test('la bienvenida del curso se ve en la ficha y en el árbol, y el jefe se presenta', function () {

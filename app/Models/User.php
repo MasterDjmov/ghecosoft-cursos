@@ -35,9 +35,11 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string|null $nickname
  * @property RankingDisplay $ranking_display
  * @property bool $cv_public
+ * @property string $cv_slug
+ * @property ?string $cv_code
  */
 #[Fillable(['name', 'last_name', 'username', 'email', 'password', 'phone', 'dni', 'birth_date', 'avatar', 'nickname', 'hero_name', 'ranking_display', 'cv_public'])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
+#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'cv_code'])]
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
@@ -61,9 +63,34 @@ class User extends Authenticatable implements PasskeyUser
             'birth_date' => 'date',
             'ranking_display' => RankingDisplay::class,
             'cv_public' => 'boolean',
+            'cv_code' => 'encrypted',
             'must_change_password' => 'boolean',
             'xp_total' => 'integer',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        // Link propio del CV, que no revela el usuario de login.
+        static::creating(fn (User $user) => $user->cv_slug ??= self::newCvSlug($user));
+    }
+
+    /** Nombre y apellido + 6 caracteres al azar: se puede leer y no se puede adivinar. */
+    public static function newCvSlug(User $user): string
+    {
+        $base = Str::limit(Str::slug($user->fullName()) ?: 'alumno', 60, '');
+
+        do {
+            $slug = $base.'-'.Str::lower(Str::random(6));
+        } while (static::where('cv_slug', $slug)->exists());
+
+        return $slug;
+    }
+
+    /** Un código de acceso nuevo de 6 cifras (el anterior deja de servir). */
+    public static function newCvCode(): string
+    {
+        return str_pad((string) random_int(0, 999_999), 6, '0', STR_PAD_LEFT);
     }
 
     public function isAdmin(): bool

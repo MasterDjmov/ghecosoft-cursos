@@ -11,7 +11,7 @@
                     <p class="flex items-start gap-2 text-sm text-warning"><flux:icon name="lock-closed" variant="micro" class="mt-0.5 shrink-0" /> {{ $blocker }}</p>
                 @endif
                 <p class="text-sm text-ink-muted">
-                    Tu link: <a href="{{ $cvUrl }}" target="_blank" class="font-mono text-primary-bright hover:underline">{{ $cvUrl }}</a>
+                    Tu link: <a href="{{ $cvUrl }}" target="_blank" class="break-all font-mono text-primary-bright hover:underline" data-test="cv-url">{{ $cvUrl }}</a>
                     (mientras esté apagado, solo lo ves vos).
                 </p>
             </div>
@@ -31,6 +31,28 @@
                 <flux:button variant="primary" type="submit">Guardar</flux:button>
             </div>
         </form>
+
+        {{-- Link y código del CV: se aplican al instante (no dependen de "Guardar"). --}}
+        <section class="panel mb-6 flex flex-col gap-4 p-5">
+            <div class="flex flex-col gap-1">
+                <h3 class="font-display font-semibold text-white">Quién puede ver tu CV</h3>
+                <p class="text-sm text-ink-muted">Tu link no muestra tu usuario. Si lo compartiste y ya no querés que lo vean, generá uno nuevo: el anterior deja de funcionar.</p>
+            </div>
+            <div>
+                <flux:button size="sm" icon="arrow-path" wire:click="newCvLink" wire:confirm="¿Generar un link nuevo? El que compartiste deja de funcionar.">Generar un link nuevo</flux:button>
+            </div>
+
+            <flux:separator variant="subtle" />
+
+            <flux:switch :checked="(bool) $cvCode" wire:click="toggleCvCode" label="Pedir un código para ver mi CV"
+                description="Quien abra tu link tiene que escribir un código de 6 cifras que le pasás vos. Tus compañeros también lo necesitan desde el ranking." data-test="cv-code-switch" />
+            @if ($cvCode)
+                <div class="flex flex-wrap items-center gap-3">
+                    <span class="rounded-lg border border-primary/40 bg-primary/10 px-4 py-2 font-mono text-2xl tracking-[0.3em] text-primary-bright" data-test="cv-code-value">{{ $cvCode }}</span>
+                    <flux:button size="sm" icon="arrow-path" wire:click="newCvCode" wire:confirm="¿Generar un código nuevo? El anterior deja de servir.">Código nuevo</flux:button>
+                </div>
+            @endif
+        </section>
 
         @if ($isMinor || $authorizations->isNotEmpty())
             <section class="panel flex flex-col gap-4 p-5">

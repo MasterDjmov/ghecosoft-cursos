@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             PythonDemoCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
+            DemoHeroesSeeder::class,
         ]);
     }
 }

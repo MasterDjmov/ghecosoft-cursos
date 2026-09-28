@@ -5,6 +5,7 @@ use App\Http\Controllers\Files\GuardianAuthorizationController;
 use App\Http\Controllers\Files\NodeResourceController;
 use App\Http\Controllers\Files\ReceiptController;
 use App\Http\Controllers\Files\SubmissionFileController;
+use App\Http\Controllers\LandingController;
 use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
 use App\Livewire\Admin\Courses;
@@ -23,7 +24,8 @@ use App\Livewire\Student\RankingBoard;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => auth()->check() ? redirect()->route('home') : redirect()->route('login'));
+// Portada pública (a quien ya entró lo manda a su inicio).
+Route::get('/', LandingController::class)->middleware('throttle:120,1')->name('landing');
 
 // CV público (opt-in del alumno). Sin login.
 Route::get('cv/{username}', CvController::class)->middleware('throttle:60,1')->name('cv.show');

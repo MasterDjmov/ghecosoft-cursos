@@ -67,6 +67,7 @@
 | D41 | Sendas y requisitos | Las ramas tienen tipo (`branches.kind`: tronco, extra, senda; `is_extra` queda como "no es tronco"). Requisitos extra en `node_requirements` (además del padre), validados contra ciclos por padre y por requisito. Nodo tipo **Ventana**. **Cualquier nodo salvo el raíz** puede cobrarse en comodines (antes, solo los extras): así la entrada a una Senda cuesta comodines y lo de adentro, moneda del curso. "Curso completado" y el progreso del CV cuentan solo el **tronco** (las Ventanas sí; extras y Sendas no). En el árbol, cada Senda sale dibujada desde su nodo de origen | Pedido del super prompt (§ 7): Sendas que brotan del tronco y exigen temas más avanzados (2026-09-28) |
 | D42 | Historia en pantalla y héroe | Marcadores `{heroe}`, `{mentor}`, `{mundo}`, `{region}` en todos los textos del curso (`Narrative`). Bienvenida (`story.course_intro`) en la ficha y en el árbol (se puede cerrar); aviso con `story.branch_completed` al completar una rama y con `story.course_completed` al terminar el curso (campanita + panel en el árbol); presentación del jefe con su insignia; historia de la criatura en Errores habituales. Héroe elegido en *Mi cuenta*, moderable en la ficha del alumno, visible en ranking y CV | Fase 9 (2026-09-28) |
 | D43 | Todo nodo tiene hojas | **Todo nodo publicado tiene al menos una práctica obligatoria** (raíz, temas, jefes, ventanas, extras y la Encrucijada, que lleva una misión de reflexión, puede ser sin entrega). El editor no publica un nodo sin obligatorias, un nodo nuevo desde el árbol nace como borrador, la última obligatoria de un nodo publicado no se borra ni pasa a optativa, y el importador lo marca como error (o aviso con `publicado: no`) | Pedido del docente: un nodo sin hojas no se gana ni se completa (2026-09-28) |
+| D44 | Catálogo y landing | **Mundos** separa "Seguí donde dejaste" (con el último nodo abierto sin completar) de "Descubrí más mundos". El curso suma nivel, temario corto (un tema por línea), portada, **destacado** (sale en la landing; si no hay ninguno, salen todos los publicados) y **Próximamente** (`is_upcoming`, vale solo sin publicar: se ve pero no se abre). "Avisame cuando salga" (`course_interests`) avisa una sola vez al publicarlo. **Landing** en `/` para quien no entró: portada con login al lado, cursos, Próximamente, monedas y top 10 con podio (héroe, nombre de ranking, rango, insignias, XP; nunca el usuario de login). Tendencia ▲▼ contra una foto diaria (`ranking_snapshots`) que se toma en la primera carga del día. Precio en pesos: no se muestra ("Consultá" por WhatsApp) | Pedidos del docente del 2026-09-27/28 (§ 11) |
 
 ---
 
@@ -230,7 +231,7 @@ Todo genérico para cualquier lenguaje (D39).
 | **8** ✅ | **Sendas** (terminada el 2026-09-28): requisitos múltiples por nodo, tipo Ventana, Sendas que brotan de un nodo (se abren con comodines o monedas del curso) y su dibujo en el árbol |
 | **9** ✅ | **Historia en pantalla** (terminada el 2026-09-28) (bienvenida, crónica, rama completada, jefe, criatura, Encrucijada) y **héroe** (D38) |
 
-Después, las tareas del § 11: ~~alta de alumnos + email opcional + WhatsApp~~ (hecha el 2026-09-28), "Mis cursos" + landing (con el top de héroes) y modo misión.
+Después, las tareas del § 11: ~~alta de alumnos + email opcional + WhatsApp~~ y ~~"Mis cursos" + landing (con el top de héroes)~~ (hechas el 2026-09-28, D44), y modo misión.
 
 ---
 
@@ -278,7 +279,7 @@ Pantalla de trabajo a pantalla completa para **una práctica**, inspirada en una
 - Estética: la paleta y tipografías actuales, más sobria que la maqueta.
 - Próximo paso: propuesta de distribución (qué va en cada zona) para que el docente la ajuste antes de programar.
 
-### Catálogo y "mis cursos" (anotado el 2026-09-27; aprobado por el docente)
+### Catálogo y "mis cursos" ✅ (anotado el 2026-09-27; hecho el 2026-09-28, ver D44)
 Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, que llevan a la ficha con la inscripción), pero mezclados: el alumno no distingue cuáles son suyos ni si hay más. Y la raíz del sitio manda directo al login, así que un visitante no ve la oferta.
 
 1. **Separar en el panel del alumno** (prioridad):

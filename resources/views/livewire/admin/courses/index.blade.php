@@ -17,12 +17,17 @@
                             <h2 class="font-display text-lg font-semibold text-white">{{ $course->title }}</h2>
                             @if ($course->is_published)
                                 <flux:badge size="sm" color="green">Publicado</flux:badge>
+                            @elseif ($course->isUpcoming())
+                                <flux:badge size="sm" color="violet" icon="rocket-launch">Próximamente · {{ $course->interests_count }} {{ $course->interests_count === 1 ? 'interesado' : 'interesados' }}</flux:badge>
                             @else
                                 <flux:badge size="sm">Borrador</flux:badge>
                             @endif
+                            @if ($course->is_featured)
+                                <flux:badge size="sm" color="amber" icon="star">Destacado</flux:badge>
+                            @endif
                         </div>
                         <p class="font-mono text-xs text-ink-muted">
-                            {{ $course->language->label() }} · {{ $course->branches_count }} ramas · {{ $course->nodes_count }} nodos ·
+                            {{ $course->language->label() }} · {{ $course->level->label() }} · {{ $course->branches_count }} ramas · {{ $course->nodes_count }} nodos ·
                             raíz {{ $course->root_price }} {{ term('coin.course', $course, $course->root_price) }} · abono {{ $course->subscription_days }} días ·
                             {{ $activeStudents[$course->id] ?? 0 }} con abono vigente
                         </p>

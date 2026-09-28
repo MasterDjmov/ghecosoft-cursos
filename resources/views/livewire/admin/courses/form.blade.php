@@ -18,12 +18,20 @@
 
         <flux:textarea wire:model="description" label="Descripción" rows="6" description:trailing="Admite markdown (**negrita**, listas, `código`)." />
 
-        <div class="grid gap-6 sm:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2">
             <flux:select wire:model="language" label="Lenguaje">
                 @foreach ($languages as $option)
                     <flux:select.option :value="$option->value">{{ $option->label() }}</flux:select.option>
                 @endforeach
             </flux:select>
+            <flux:select wire:model="level" label="Nivel">
+                @foreach ($levels as $option)
+                    <flux:select.option :value="$option->value">{{ $option->label() }}</flux:select.option>
+                @endforeach
+            </flux:select>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2">
             <flux:input wire:model="root_price" type="number" min="1" label="Precio del raíz"
                 description:trailing="Monedas que se acreditan al aprobar el pago (y lo que cuesta abrir el raíz)." />
             <flux:input wire:model="subscription_days" type="number" min="1" label="Días de abono" />
@@ -47,7 +55,33 @@
             <flux:error name="logo" />
         </div>
 
-        <flux:switch wire:model="is_published" label="Publicado" description="Si está apagado, los alumnos no ven el curso en el mapa." />
+        <div class="flex flex-col gap-3">
+            <flux:label>Portada</flux:label>
+            <div class="flex flex-wrap items-center gap-4">
+                @if ($cover && $cover->isPreviewable())
+                    <img src="{{ $cover->temporaryUrl() }}" alt="" class="h-20 w-36 rounded-lg border border-outline object-cover">
+                @elseif ($course?->coverUrl())
+                    <img src="{{ $course->coverUrl() }}" alt="" class="h-20 w-36 rounded-lg border border-outline object-cover">
+                @endif
+                <input type="file" wire:model="cover" accept="image/png,image/jpeg,image/webp"
+                    class="text-sm text-ink-muted file:me-3 file:rounded-md file:border-0 file:bg-surface-highest file:px-3 file:py-2 file:text-ink hover:file:bg-surface-high">
+                @if ($course?->cover)
+                    <flux:button size="sm" variant="ghost" wire:click="removeCover">Quitar portada</flux:button>
+                @endif
+            </div>
+            <flux:description>Horizontal (16:9). Es la imagen de referencia de las tarjetas "Próximamente" y de la landing.</flux:description>
+            <flux:error name="cover" />
+        </div>
+
+        <flux:textarea wire:model="syllabus" label="Temario corto" rows="5" placeholder="Variables y tipos&#10;Condicionales&#10;Bucles&#10;Funciones"
+            description:trailing="Un tema por línea. Se muestra en las tarjetas del catálogo, sobre todo en «Próximamente»." />
+
+        <div class="grid gap-4 sm:grid-cols-3">
+            <flux:switch wire:model.live="is_published" label="Publicado" description="Si está apagado, no se puede abrir ni inscribirse." />
+            <flux:switch wire:model="is_upcoming" label="Próximamente" :disabled="$is_published"
+                description="Sin publicar: se muestra como adelanto, con «Avisame cuando salga»." />
+            <flux:switch wire:model="is_featured" label="Destacado" description="Sale en la landing entre los cursos que más se dictan." />
+        </div>
 
         <div class="flex flex-wrap items-center justify-between gap-3">
             <flux:button variant="primary" type="submit">{{ $course ? 'Guardar' : 'Crear curso' }}</flux:button>

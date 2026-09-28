@@ -46,10 +46,17 @@ class TreeEditor
     /** El raíz cuesta lo mismo que las monedas que se acreditan al aprobar el pago. */
     public function updateCourse(Course $course, array $data): Course
     {
+        $wasPublished = $course->is_published;
+
         DB::transaction(function () use ($course, $data) {
             $course->update($data);
             $course->nodes()->where('type', NodeType::Root)->update(['price' => $course->root_price]);
         });
+
+        // Quienes pidieron "Avisame cuando salga" se enteran al publicarlo.
+        if (! $wasPublished && $course->is_published) {
+            app(CourseCatalog::class)->announceRelease($course);
+        }
 
         return $course;
     }

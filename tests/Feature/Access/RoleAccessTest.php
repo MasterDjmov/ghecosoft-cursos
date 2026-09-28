@@ -25,10 +25,7 @@ test('el alumno ve sus mundos con el estado de cada curso', function () {
 
     $this->actingAs($student)->get(route('student.worlds'))
         ->assertOk()
-        ->assertSee('Python desde cero')
-        ->assertSee('Listo para abrir')
-        ->assertSee('C desde cero')
-        ->assertSee('Bloqueado');
+        ->assertSeeInOrder(['Python desde cero', 'Listo para abrir', 'Descubrí más mundos', 'C desde cero', 'Ver el curso']);
 });
 
 test('los cursos no publicados no aparecen', function () {

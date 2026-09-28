@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             LevelSeeder::class,
             UserSeeder::class,
             PythonDemoCourseSeeder::class,
+            UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
         ]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Courses;
 
+use App\Enums\CourseLevel;
 use App\Enums\Language;
 use App\Exceptions\TreeEditRefused;
 use App\Models\Course;
@@ -34,7 +35,16 @@ class Form extends Component
 
     public string $language = 'python';
 
+    public string $level = 'beginner';
+
     public bool $is_published = false;
+
+    public bool $is_featured = false;
+
+    public bool $is_upcoming = false;
+
+    /** Temario corto para "Próximamente" y las tarjetas: un tema por línea. */
+    public string $syllabus = '';
 
     public int $root_price = 10;
 
@@ -43,11 +53,16 @@ class Form extends Component
     /** @var TemporaryUploadedFile|null */
     public $logo = null;
 
+    /** @var TemporaryUploadedFile|null */
+    public $cover = null;
+
     public function mount(?Course $course = null): void
     {
         if ($course?->exists) {
             $this->course = $course;
-            $this->fill($course->only(['title', 'slug', 'is_published', 'root_price', 'subscription_days']));
+            $this->fill($course->only(['title', 'slug', 'is_published', 'is_featured', 'is_upcoming', 'root_price', 'subscription_days']));
+            $this->level = $course->level->value;
+            $this->syllabus = (string) $course->syllabus;
             $this->description = (string) $course->description;
             $this->short_description = (string) $course->short_description;
             $this->language = $course->language->value;
@@ -69,23 +84,31 @@ class Form extends Component
             'short_description' => ['nullable', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:20000'],
             'language' => ['required', Rule::enum(Language::class)],
+            'level' => ['required', Rule::enum(CourseLevel::class)],
             'is_published' => ['boolean'],
+            'is_featured' => ['boolean'],
+            'is_upcoming' => ['boolean'],
+            'syllabus' => ['nullable', 'string', 'max:2000'],
             'root_price' => ['required', 'integer', 'min:1', 'max:1000'],
             'subscription_days' => ['required', 'integer', 'min:1', 'max:3650'],
             'logo' => ['nullable', 'image', 'mimes:'.implode(',', config('uploads.image.mimes')), 'max:'.config('uploads.image.max_kb')],
-        ], [], ['slug' => 'dirección', 'root_price' => 'precio del raíz', 'subscription_days' => 'días de abono', 'short_description' => 'descripción corta']);
+            'cover' => ['nullable', 'image', 'mimes:'.implode(',', config('uploads.image.mimes')), 'max:'.config('uploads.image.max_kb')],
+        ], [], ['cover' => 'portada', 'syllabus' => 'temario', 'slug' => 'dirección', 'root_price' => 'precio del raíz', 'subscription_days' => 'días de abono', 'short_description' => 'descripción corta']);
 
-        unset($data['logo']);
-        if ($this->logo) {
-            $data['logo'] = $this->logo->storeAs('courses', Str::uuid().'.'.$this->logo->extension(), 'public');
-            if ($this->course?->logo) {
-                Storage::disk('public')->delete($this->course->logo);
+        unset($data['logo'], $data['cover']);
+        foreach (['logo', 'cover'] as $image) {
+            if ($this->{$image}) {
+                $data[$image] = $this->{$image}->storeAs('courses', Str::uuid().'.'.$this->{$image}->extension(), 'public');
+                if ($this->course?->{$image}) {
+                    Storage::disk('public')->delete($this->course->{$image});
+                }
             }
         }
+        $data['syllabus'] = trim($data['syllabus'] ?? '') ?: null;
 
         if ($this->course) {
             $editor->updateCourse($this->course, $data);
-            $this->logo = null;
+            $this->logo = $this->cover = null;
             Flux::toast(variant: 'success', text: 'Curso guardado.');
 
             return null;
@@ -102,6 +125,14 @@ class Form extends Component
         if ($this->course?->logo) {
             Storage::disk('public')->delete($this->course->logo);
             $this->course->update(['logo' => null]);
+        }
+    }
+
+    public function removeCover(): void
+    {
+        if ($this->course?->cover) {
+            Storage::disk('public')->delete($this->course->cover);
+            $this->course->update(['cover' => null]);
         }
     }
 
@@ -123,7 +154,7 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.admin.courses.form', ['languages' => Language::cases()])
+        return view('livewire.admin.courses.form', ['languages' => Language::cases(), 'levels' => CourseLevel::cases()])
             ->title($this->course ? 'Editar '.$this->course->title : 'Nuevo curso');
     }
 }

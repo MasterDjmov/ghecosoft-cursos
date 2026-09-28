@@ -77,7 +77,7 @@ Si hay algún ✗ o algún error, el comando termina con código de error.
 ## Para un curso nuevo
 
 1. Importarlo (`php artisan app:import-course cursos/<curso>/ --apply`) y publicarlo.
-2. Correr `php artisan app:simulate-course <slug> --reset`.
+2. Correr `php artisan app:simulate-course <slug>`. Si ya hay alumnos simulados de otro curso, **se reutilizan**: se inscriben también en este (así se prueban cursos en paralelo y los movimientos por curso). `--reset` borra a todos los simulados y empieza de cero.
 3. Revisar:
    - que nadie quede **trabado** (si pasa, suele ser la economía: las obligatorias no alcanzan para el próximo nodo, o faltan optativas para los comodines de una Senda);
    - que todos los controles den ✓;

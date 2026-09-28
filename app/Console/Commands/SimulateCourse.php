@@ -11,6 +11,7 @@ use App\Enums\SubmissionStatus;
 use App\Models\CoinTransaction;
 use App\Models\Course;
 use App\Models\CourseCompletion;
+use App\Models\CourseSubscription;
 use App\Models\Currency;
 use App\Models\EnrollmentRequest;
 use App\Models\Node;
@@ -121,9 +122,9 @@ class SimulateCourse extends Command
         if ($this->option('report')) {
             foreach (self::PERSONAS as $persona) {
                 if ($user = User::where('username', $persona['username'])->where('email', 'like', '%@'.self::DOMAIN)->first()) {
-                    $this->students[$persona['username']] = ['persona' => $persona, 'user' => $user, 'stuck' => null, 'attempts' => Submission::where('user_id', $user->id)->count(),
-                        'redos' => Submission::where('user_id', $user->id)->where('status', SubmissionStatus::Redo)->count(),
-                        'renewals' => EnrollmentRequest::where('user_id', $user->id)->where('kind', 'renewal')->where('status', RequestStatus::Approved)->count()];
+                    $this->students[$persona['username']] = ['persona' => $persona, 'user' => $user, 'stuck' => null, 'attempts' => Submission::where('user_id', $user->id)->whereHas('practice.node', fn ($q) => $q->where('course_id', $course->id))->count(),
+                        'redos' => Submission::where('user_id', $user->id)->where('status', SubmissionStatus::Redo)->whereHas('practice.node', fn ($q) => $q->where('course_id', $course->id))->count(),
+                        'renewals' => EnrollmentRequest::where('user_id', $user->id)->where('course_id', $course->id)->where('kind', 'renewal')->where('status', RequestStatus::Approved)->count()];
                 }
             }
             $this->report(null);
@@ -131,13 +132,14 @@ class SimulateCourse extends Command
             return self::SUCCESS;
         }
 
-        if (User::whereIn('username', array_column(self::PERSONAS, 'username'))->exists()) {
-            if (! $this->option('reset')) {
-                $this->error('Ya hay alumnos de una simulación anterior: usá --reset para borrarlos y empezar de nuevo.');
-
-                return self::FAILURE;
-            }
+        // Los alumnos de una simulación anterior (de otro curso) se reutilizan: así se prueban cursos en paralelo.
+        // Si ya cursaron ESTE curso, hay que empezar de cero con --reset.
+        if ($this->option('reset')) {
             $this->reset();
+        } elseif (CourseSubscription::where('course_id', $course->id)->whereIn('user_id', $this->simulatedIds())->exists()) {
+            $this->error('Los alumnos simulados ya cursaron este curso: usá --reset para borrarlos y empezar de nuevo.');
+
+            return self::FAILURE;
         }
 
         mt_srand((int) $this->option('seed'));
@@ -240,6 +242,21 @@ class SimulateCourse extends Command
         $this->attempt('inscribir a '.$persona['username'], function () use ($persona) {
             $email = $persona['username'].'@'.self::DOMAIN;
             $data = ['name' => $persona['name'], 'last_name' => $persona['last_name'], 'username' => $persona['username'], 'email' => $email];
+
+            // Ya existe (cursó otro curso en una simulación anterior): se inscribe en este.
+            if ($existente = User::where('username', $persona['username'])->where('email', $email)->first()) {
+                if ($persona['via'] === 'admin') {
+                    app(StudentAccounts::class)->enroll($existente, $this->course, $this->teacher);
+                    $this->students[$persona['username']]['enrolled_on'] = now();
+                    $this->students[$persona['username']]['enrollments']++;
+                } else {
+                    $type = $persona['via'] === 'contact' ? RequestType::Contact : RequestType::Receipt;
+                    app(EnrollmentRequester::class)->request($existente, $this->course, $type, $type === RequestType::Receipt ? $this->receipt() : null, 'Hola profe, ahora quiero hacer este curso.');
+                }
+                $this->students[$persona['username']]['user'] = $existente;
+
+                return;
+            }
 
             if ($persona['via'] === 'admin') {
                 // La crea el docente con clave provisoria, ya inscripta; ella la cambia al entrar.
@@ -563,18 +580,20 @@ class SimulateCourse extends Command
         $this->newLine();
         $this->info($days === null ? 'Simulación guardada en la base:' : "Resultado después de {$days} días simulados:");
         $this->table(
-            ['Alumno', 'Clave', 'Nodos', 'Prácticas', 'Entregas', 'Rehacer', 'Renov.', 'XP', 'Monedas', 'Comodines', 'Terminó', 'Días'],
+            ['Alumno', 'Clave', 'Nodos', 'Prácticas', 'Entregas', 'Rehacer', 'Renov.', 'XP del curso', 'Monedas', 'Comodines', 'Terminó', 'Días'],
             collect($this->students)->filter(fn ($state) => $state['user'] !== null)->map(function ($state) use ($ledger, $nodes, $practices, $coin) {
                 $user = $state['user']->fresh();
-                $approved = Submission::where('user_id', $user->id)->where('status', SubmissionStatus::Approved)->distinct('practice_id')->count('practice_id');
+                $delCurso = fn ($q) => $q->where('course_id', $this->course->id);
+                $approved = Submission::where('user_id', $user->id)->where('status', SubmissionStatus::Approved)
+                    ->whereHas('practice.node', $delCurso)->distinct('practice_id')->count('practice_id');
                 $completion = CourseCompletion::where('user_id', $user->id)->where('course_id', $this->course->id)->first();
 
                 return [
                     $user->username, $state['persona']['password'],
-                    NodeUnlock::where('user_id', $user->id)->count()."/{$nodes}",
+                    NodeUnlock::where('user_id', $user->id)->whereHas('node', $delCurso)->count()."/{$nodes}",
                     "{$approved}/{$practices}",
                     $state['attempts'], $state['redos'], $state['renewals'],
-                    $user->xp_total,
+                    (int) XpTransaction::where('user_id', $user->id)->where('course_id', $this->course->id)->sum('amount'),
                     $ledger->balance($user, $coin),
                     $ledger->balance($user, Currency::wildcard()),
                     $completion ? 'sí' : ($state['stuck'] ? 'trabado: '.$state['stuck'] : 'no'),

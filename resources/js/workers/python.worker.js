@@ -27,15 +27,19 @@ self.onmessage = async ({ data }) => {
 
         let output = '';
         let truncated = false;
-        const write = (text) => {
+        // Salida cruda (no "por líneas"): así el texto de input("Nivel: ") queda en la misma
+        // línea que lo que sigue, igual que en la terminal, y se puede comparar con la esperada.
+        const decoder = new TextDecoder();
+        const write = (buffer) => {
             if (output.length > MAX_OUTPUT) {
                 truncated = true;
-                return;
+            } else {
+                output += decoder.decode(buffer, { stream: true });
             }
-            output += text + '\n';
+            return buffer.length;
         };
-        pyodide.setStdout({ batched: write });
-        pyodide.setStderr({ batched: write });
+        pyodide.setStdout({ write });
+        pyodide.setStderr({ write });
 
         const lines = String(stdin ?? '').split('\n');
         if (lines.at(-1) === '') lines.pop();
@@ -43,6 +47,8 @@ self.onmessage = async ({ data }) => {
 
         // Cada ejecución arranca con variables limpias.
         const globals = pyodide.globals.get('dict')();
+        // Como en la terminal: el programa es "__main__" (para el clásico if __name__ == "__main__":).
+        globals.set('__name__', '__main__');
         const started = performance.now();
         let error = null;
         try {
@@ -51,6 +57,9 @@ self.onmessage = async ({ data }) => {
             error = cleanError(e.message);
         } finally {
             globals.destroy();
+            // Lo último sin salto de línea (print(..., end="")) queda en el buffer: sacarlo ahora,
+            // o aparecería al principio de la próxima ejecución.
+            pyodide.runPython('import sys\nsys.stdout.flush()\nsys.stderr.flush()');
         }
 
         if (truncated) output += '\n… (la salida es muy larga: se cortó)';

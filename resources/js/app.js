@@ -103,7 +103,8 @@ document.addEventListener('alpine:init', () => {
                 onReady: () => (this.status = 'Ejecutando…'),
             });
 
-            this.output = (result.output + (result.error ? `${result.output ? '\n' : ''}${result.error}` : '')).replace(/\n+$/, '') || '(sin salida)';
+            const separator = result.output && !result.output.endsWith('\n') ? '\n' : '';
+            this.output = (result.output + (result.error ? separator + result.error : '')).replace(/\n+$/, '') || '(sin salida)';
             this.error = Boolean(result.error);
             this.status = result.error ? (result.timedOut ? 'Tiempo agotado' : 'Error') : `Listo en ${result.ms} ms`;
             if (!result.error && config.expected) {

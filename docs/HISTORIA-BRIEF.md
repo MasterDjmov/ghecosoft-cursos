@@ -1,5 +1,7 @@
 # GhecoSoft-Code: resumen para armar la historia (curso de Python)
 
+> **Curso de C (2026-09-28):** ya tiene su historia, tomada de `FullCursos/GUION.md`: las **Forjas de Hierro**, con **Maese Ferrum** (herrero enano, amigo de Bron), la moneda es el **lingote** y los jefes son el Gólem de Escoria, la Araña de las Direcciones, la Sanguijuela de las Minas, el Guardián del Archivo y el Dragón bajo la Montaña (Sendas: la Salamandra del Horno y el Autómata Guardián). Todo está en el diccionario y los nodos de `cursos/c/`: si la historia de Python cambia el mundo común (por ejemplo, `{mundo}`), revisar que siga cuadrando.
+
 > **Para qué es este archivo:** es el contexto que se le pasa a Claude online (claude.ai) para definir la historia del curso de Python, que es el primero en salir. Se armó el 2026-09-27 a partir del código y de `FullCursos`. Si cambia el sistema (claves del diccionario, economía, dónde se muestra la historia), actualizarlo antes de volver a pasarlo. Lo que se decida en esa charla se carga en el **Diccionario** del admin y en los nodos, y se anota en [PLAN.md § 10](PLAN.md).
 
 Te paso el contexto de una plataforma de cursos de programación gamificada que estoy construyendo (soy el docente). Necesito tu ayuda para cuadrar la historia/narrativa. Abajo está cómo funciona el sistema hoy, qué textos se pueden cargar, el contenido de Python que existe y las limitaciones. Al final te digo qué necesito.

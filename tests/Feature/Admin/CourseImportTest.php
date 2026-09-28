@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\GlossaryTerm;
 use App\Models\Node;
 use App\Models\NodeUnlock;
+use App\Models\Practice;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\CourseImporter;
@@ -219,4 +220,23 @@ test('un ejemplo marcado "ejecutable: no" se muestra sin botón Ejecutar', funct
     Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $root])
         ->assertSee('import pygame')
         ->assertViewHas('runnable', false);
+});
+
+test('los cursos reales de cursos/ se importan sin errores ni avisos', function (string $carpeta) {
+    $files = collect(glob(base_path("cursos/{$carpeta}/*.md")))->sort()
+        ->map(fn (string $file) => ['name' => basename($file), 'content' => file_get_contents($file)])
+        ->values()->all();
+
+    $report = app(CourseImporter::class)->import($files, dryRun: true)->toArray();
+
+    expect($files)->not->toBeEmpty()
+        ->and($report['errors'])->toBe([])
+        ->and($report['warnings'])->toBe([]);
+})->with(['python', 'c']);
+
+test('una entrada de ejemplo que empieza con una línea vacía la conserva', function () {
+    $contenido = str_replace("#### Entrada de ejemplo\n\n```\n15\n```", "#### Entrada de ejemplo\n\n```\n\n15\n```", file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md')));
+    app(CourseImporter::class)->import([['name' => 'curso.md', 'content' => $contenido]], dryRun: false);
+
+    expect(Practice::where('code', 'R01-N01-M1')->value('sample_input'))->toBe("\n15");
 });

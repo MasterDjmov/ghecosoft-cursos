@@ -171,5 +171,5 @@ Detalles del ejecutor de Python (para escribir salidas esperadas que coincidan):
 - `if __name__ == "__main__":` funciona, y también `asyncio.run(...)`.
 - Los archivos que escribe el programa viven en una memoria temporal: se pueden crear y leer durante la ejecución (conviene borrarlos al final para que cada ejecución arranque igual).
 - Las salidas esperadas se comparan tal cual (se respetan los tabuladores); la forma segura de obtenerlas es ejecutar la solución de referencia en una terminal.
-| C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta. Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` |
+| C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta (el editor colorea C, C++ y Arduino). Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` (programas de varios archivos, SDL, sketches de Arduino: `.zip`). La *Entrada de ejemplo* y la *Salida esperada* sirven igual: el alumno compara en su compu, y el súper test compila con `gcc` y las verifica |
 | JavaScript / TypeScript | No (por ahora; es posible a futuro) | Igual que el anterior |

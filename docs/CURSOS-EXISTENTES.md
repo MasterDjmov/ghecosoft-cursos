@@ -2,6 +2,8 @@
 
 > **Python ya está en la plataforma (2026-09-28, D46):** las 28 unidades de `17-Python` son el curso de [`cursos/python/`](../cursos/python/). 01–11 se convirtieron; 12–42 se reescribieron desde cero en el formato nuevo (crónica, explicación, errores, misiones con criterio y solución, prueba del sello) y se sumaron tres jefes y la Encrucijada.
 
+> **C ya está en la plataforma (2026-09-28, D52):** `01-C` y `02-C-Intermedio` son el curso de [`cursos/c/`](../cursos/c/), *Las Forjas de Hierro* con Maese Ferrum (la historia de `GUION.md`). 01–16 se convirtieron; 17–30 se reescribieron o escribieron desde cero (varias eran «📝 por crear»); se sumaron jefes por rama (el 16 y el 28 son jefes) y la Encrucijada del Yunque, y dos Sendas: SDL3 (`06-SDL3`) y Arduino (`15-Arduino`, con el lado de la compu reescrito en C).
+
 > Origen: `/home/djmov/Programas/Cursos/FullCursos/` (relevado el 2026-09-26).
 > Objetivo: decidir **cómo se arma cada curso en la plataforma** (curso → unidades → clases → tarea) a partir de lo que ya está escrito.
 > No se modificó nada en esa carpeta.

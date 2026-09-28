@@ -107,6 +107,7 @@ php artisan storage:link                               # logos, íconos e insign
 
 # El curso de Python (cursos/python/): igual que Admin → Cursos → Importar (sin usuarios de prueba)
 php artisan app:import-course cursos/python/ --apply
+php artisan app:import-course cursos/c/ --apply
 
 # Caché de configuración, rutas y vistas (más rápido)
 php artisan config:cache

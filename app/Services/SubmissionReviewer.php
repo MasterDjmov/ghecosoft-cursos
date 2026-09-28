@@ -120,6 +120,23 @@ class SubmissionReviewer
     }
 
     /** XP del nodo completo (una sola vez) y, si es jefe, su XP e insignia. */
+    /**
+     * Un nodo sin prácticas obligatorias queda completo apenas se abre (lo llama
+     * NodeUnlocker): da su XP, la insignia si es jefe y, si era el último, cierra el curso.
+     */
+    public function completeWithoutPractices(User $student, Node $node): ?Reward
+    {
+        if (! $this->access->isCompleted($student, $node)) {
+            return null;
+        }
+
+        $reward = new Reward;
+        $this->completeNode($student, $node, null, $reward);
+        $this->tellStory($student, $node->course, $reward);
+
+        return $reward;
+    }
+
     private function completeNode(User $student, Node $node, ?User $admin, Reward $reward): void
     {
         $paid = fn (XpReason $reason) => XpTransaction::where('user_id', $student->id)

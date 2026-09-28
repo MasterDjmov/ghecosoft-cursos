@@ -2,10 +2,12 @@
 
 use App\Enums\CoinReason;
 use App\Exceptions\NodeLocked;
+use App\Models\CourseCompletion;
 use App\Models\Currency;
 use App\Models\EnrollmentRequest;
 use App\Models\NodeUnlock;
 use App\Models\User;
+use App\Models\XpTransaction;
 use App\Services\EnrollmentApprover;
 use App\Services\Ledger;
 use App\Services\NodeUnlocker;
@@ -117,4 +119,21 @@ test('un nodo de otro curso sin raíz abierto está bloqueado', function () {
     $student = enrolledStudent($this->course);
 
     expect($this->access->unlockBlockers($student, $otherTopic))->toContain(TreeAccess::BLOCK_NO_SUBSCRIPTION, TreeAccess::BLOCK_ROOT_CLOSED);
+});
+
+test('un nodo sin prácticas obligatorias se completa al abrirlo, y si es el último cierra el curso', function () {
+    $student = enrolledStudent($this->course);
+    $this->ledger->credit($student, Currency::forCourse($this->course), 20, CoinReason::ManualAdjustment);
+
+    $this->unlocker->unlock($student, $this->root);
+    approveRequiredPractices($student, $this->root);
+    $this->unlocker->unlock($student, $this->topic1);
+    approveRequiredPractices($student, $this->topic1);
+
+    // Tema 2 no tiene prácticas: es el último del tronco.
+    $this->unlocker->unlock($student, $this->topic2);
+
+    expect($this->access->isCompleted($student, $this->topic2))->toBeTrue()
+        ->and(XpTransaction::where('user_id', $student->id)->where('reason', 'node_completed')->where('source_id', $this->topic2->id)->exists())->toBeTrue()
+        ->and(CourseCompletion::where('user_id', $student->id)->where('course_id', $this->course->id)->exists())->toBeTrue();
 });

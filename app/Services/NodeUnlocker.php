@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class NodeUnlocker
 {
-    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger) {}
+    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly SubmissionReviewer $reviewer) {}
 
     /** @throws NodeLocked */
     public function unlock(User $user, Node $node): NodeUnlock
@@ -37,6 +37,11 @@ class NodeUnlocker
 
             if ($node->price > 0) {
                 $this->ledger->debit($user, $currency, $node->price, CoinReason::NodeUnlock, $unlock, $node->course);
+            }
+
+            // Sin prácticas obligatorias no hay nada que aprobar: se completa al abrirlo.
+            if (! $node->practices()->where('is_required', true)->exists()) {
+                $this->reviewer->completeWithoutPractices($user, $node);
             }
 
             return $unlock;

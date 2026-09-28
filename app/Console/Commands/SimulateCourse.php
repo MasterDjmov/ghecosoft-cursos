@@ -413,12 +413,13 @@ class SimulateCourse extends Command
                 : "resultado = valor_que_no_existe\n".$code;
         }
 
-        // En C/C++: una variable sin declarar (no compila) o un printf de más antes del último return.
+        // En C/C++: una variable sin declarar (no compila) o una línea de más antes del último return.
         if ($this->runner) {
             $at = strrpos($code, 'return 0;');
+            $extra = $this->language === 'c' ? 'printf("listo\\n");' : 'std::cout << "listo\\n";';
 
             return $practice->expected_output && $at !== false && mt_rand(0, 1)
-                ? substr($code, 0, $at)."printf(\"listo\\n\");\n    ".substr($code, $at)
+                ? substr($code, 0, $at).$extra."\n    ".substr($code, $at)
                 : $code."\nint funcion_rota(void) { return valor_que_no_existe; }\n";
         }
 
@@ -524,7 +525,7 @@ class SimulateCourse extends Command
                 // Como compila el alumno en su compu: con advertencias, y la matemática enlazada.
                 $source = $this->language === 'c' ? 'main.c' : 'main.cpp';
                 file_put_contents($dir.'/'.$source, $code);
-                $compile = new Process([$this->runner, $this->language === 'c' ? '-std=c11' : '-std=c++17', '-Wall', '-Wextra', '-o', 'programa', $source, '-lm'], $dir, null, null, 30);
+                $compile = new Process([$this->runner, $this->language === 'c' ? '-std=c11' : '-std=c++20', '-Wall', '-Wextra', '-o', 'programa', $source, '-lm'], $dir, null, null, 30);
                 $compile->run();
                 if (! $compile->isSuccessful()) {
                     $first = collect(explode("\n", $compile->getErrorOutput()))->first(fn ($line) => str_contains($line, 'error'));

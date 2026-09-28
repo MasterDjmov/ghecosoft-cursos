@@ -95,6 +95,20 @@
                     <li class="py-2 text-ink-muted">Sin abonos.</li>
                 @endforelse
             </ul>
+            @if ($courseCohorts->isNotEmpty())
+                <div class="flex flex-col gap-3 border-t border-outline pt-3">
+                    <span class="tech-label">Comisión</span>
+                    @foreach ($courseCohorts as $subscription)
+                        <flux:select size="sm" :label="$subscription->course->title" wire:key="cohort-course-{{ $subscription->course_id }}"
+                            x-on:change="$wire.changeCohort({{ $subscription->course_id }}, $event.target.value)">
+                            <flux:select.option value="" :selected="! $subscription->cohort_id">Sin comisión</flux:select.option>
+                            @foreach ($subscription->course->cohorts->sortBy('name') as $cohort)
+                                <flux:select.option :value="(string) $cohort->id" :selected="$subscription->cohort_id === $cohort->id">{{ $cohort->name }}{{ $cohort->is_open_for_enrollment ? '' : ' (cerrada)' }}</flux:select.option>
+                            @endforeach
+                        </flux:select>
+                    @endforeach
+                </div>
+            @endif
             @if ($badges->isNotEmpty())
                 <div class="flex flex-wrap gap-2 border-t border-outline pt-3">
                     @foreach ($badges as $badge)

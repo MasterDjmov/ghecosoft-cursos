@@ -59,10 +59,16 @@ class EnrollmentApprover
                 ->max('ends_at');
             $startsAt = $latestEnd && now()->lt($latestEnd) ? Carbon::parse($latestEnd) : now();
 
+            // Una renovación sin comisión elegida sigue en la que ya tenía.
+            $cohortId = $request->cohort_id ?? CourseSubscription::where('user_id', $student->id)
+                ->where('course_id', $course->id)
+                ->latest('ends_at')
+                ->value('cohort_id');
+
             return CourseSubscription::create([
                 'user_id' => $student->id,
                 'course_id' => $course->id,
-                'cohort_id' => $request->cohort_id,
+                'cohort_id' => $cohortId,
                 'starts_at' => $startsAt,
                 'ends_at' => $startsAt->copy()->addDays($course->subscription_days),
                 'enrollment_request_id' => $request->id,

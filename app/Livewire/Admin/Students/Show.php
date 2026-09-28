@@ -104,6 +104,22 @@ class Show extends Component
         Flux::toast(variant: 'success', text: 'Héroe actualizado.');
     }
 
+    /** Comisión del alumno en un curso ('' = sin comisión). Es solo una etiqueta de sus abonos. */
+    public function changeCohort(StudentAccounts $accounts, int $courseId, string $cohortId): void
+    {
+        $course = $this->user->subscriptions()->where('course_id', $courseId)->firstOrFail()->course;
+
+        try {
+            $accounts->changeCohort($this->user, $course, $cohortId === '' ? null : (int) $cohortId);
+        } catch (InvalidArgumentException) {
+            Flux::toast(variant: 'danger', text: 'Esa comisión no es de este curso.');
+
+            return;
+        }
+
+        Flux::toast(variant: 'success', text: 'Comisión actualizada.');
+    }
+
     /** Dar o quitar monedas o XP. El motivo es obligatorio y queda en el libro. */
     public function adjust(Ledger $ledger): void
     {
@@ -137,8 +153,12 @@ class Show extends Component
     {
         $balances = $ledger->balances($this->user);
 
+        $subscriptions = $this->user->subscriptions()->with(['course.cohorts', 'cohort'])->orderByDesc('ends_at')->get();
+
         return view('livewire.admin.students.show', [
-            'subscriptions' => $this->user->subscriptions()->with(['course', 'cohort'])->orderByDesc('ends_at')->get(),
+            'subscriptions' => $subscriptions,
+            // Un curso por fila (el abono más reciente manda) para elegir la comisión.
+            'courseCohorts' => $subscriptions->unique('course_id')->filter(fn ($s) => $s->course->cohorts->isNotEmpty())->values(),
             'balances' => $balances,
             'currencies' => Currency::with('course')->get()->sortBy(fn ($c) => $c->is_wildcard ? 'zzz' : $c->course?->title),
             'submissions' => Submission::with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),

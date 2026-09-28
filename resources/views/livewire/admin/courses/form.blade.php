@@ -94,6 +94,8 @@
     </form>
 
     @if ($course)
+        <livewire:admin.courses.cohorts :course="$course" />
+
         <flux:modal name="delete-course" class="max-w-md">
             <div class="flex flex-col gap-4">
                 <flux:heading size="lg">¿Borrar «{{ $course->title }}»?</flux:heading>

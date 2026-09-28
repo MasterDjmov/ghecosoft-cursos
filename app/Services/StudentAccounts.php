@@ -10,6 +10,7 @@ use App\Models\EnrollmentRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 /**
  * Cuentas que crea el docente (alumnos sin email o que necesitan una mano):
@@ -66,6 +67,20 @@ class StudentAccounts
         ]);
 
         return $this->approver->approve($request, $admin, 'Alta hecha por el docente.');
+    }
+
+    /**
+     * Asigna (o quita, con null) la comisión del alumno en un curso. Es solo una etiqueta:
+     * va en todos sus abonos del curso y no toca aperturas, monedas, XP ni vencimientos.
+     */
+    public function changeCohort(User $student, Course $course, ?int $cohortId): void
+    {
+        $cohortId = $cohortId === null ? null : $course->cohorts()->whereKey($cohortId)->value('id')
+            ?? throw new InvalidArgumentException('La comisión no es de este curso.');
+
+        CourseSubscription::where('user_id', $student->id)
+            ->where('course_id', $course->id)
+            ->update(['cohort_id' => $cohortId]);
     }
 
     /** Nueva clave provisoria; la anterior deja de valer y al entrar la tiene que cambiar. */

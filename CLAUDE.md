@@ -13,6 +13,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/FORMATO-CURSO.md](docs/FORMATO-CURSO.md) — formato Markdown para importar un curso entero (IDs estables, secciones, prácticas, diccionario). Ejemplo probado en `tests/Fixtures/curso-ejemplo.md`.
 - [docs/HISTORIA-BRIEF.md](docs/HISTORIA-BRIEF.md) — resumen del sistema que se le pasa a Claude online para definir la historia del curso de Python (el primero en salir). Actualizarlo si cambian el diccionario, la economía o dónde se muestra la historia.
 - [cursos/python/](cursos/python/) — el curso de Python en el formato del importador (lo carga el seeder local; se reimporta sin tocar el progreso). Se edita ahí y se reimporta.
+- [docs/IDEAS-GAMIFICACION.md](docs/IDEAS-GAMIFICACION.md) — análisis de lo bueno, lo malo y un abanico de mejoras (respuesta inmediata, pistas, retos cortos, ligas, logros). **Revisar y decidir antes de subir a producción.**
 - [docs/SIMULACION.md](docs/SIMULACION.md) — el "súper test": `app:simulate-course` hace cursar un curso entero a 5 alumnos con el docente corrigiendo, y revisa economía, aperturas, insignias y fin del curso. Se corre con cada curso nuevo antes de abrirlo.
 - [docs/CURSOS-EXISTENTES.md](docs/CURSOS-EXISTENTES.md) — el material de `/home/djmov/Programas/Cursos/FullCursos/` y cómo se traduce a cursos, unidades y clases. Esa carpeta es solo lectura: no se modifica desde este proyecto.
 

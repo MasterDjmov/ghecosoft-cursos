@@ -251,6 +251,7 @@ El docente decidió **pulir detalles antes de subirla**. Cuando llegue el moment
 **Repositorio:** `git@github.com:MasterDjmov/ghecosoft-cursos.git` (creado vacío el 2026-09-27, sin primer push todavía). Pendiente: la clave SSH del servidor como *deploy key* de solo lectura (DEPLOY.md § 2); se hace más adelante.
 
 **Antes de subir (código):**
+- Revisar [IDEAS-GAMIFICACION.md](IDEAS-GAMIFICACION.md) y decidir qué mejoras entran antes del lanzamiento.
 - Hecho (D48): confiar en el proxy de Cloudflare con `TRUSTED_PROXIES=cloudflare` (`config/security.php`, con test).
 - `APP_URL=https://gamificado.lariojaclick.ar`, `TRUSTED_PROXIES=cloudflare` y `SESSION_SECURE_COOKIE=true` en el `.env` del servidor.
 - El docente activa la verificación en dos pasos (2FA) en su cuenta: es la que puede todo.

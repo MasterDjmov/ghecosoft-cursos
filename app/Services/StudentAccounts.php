@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Services;
+
+use App\Enums\RequestType;
+use App\Enums\Role;
+use App\Models\Course;
+use App\Models\CourseSubscription;
+use App\Models\EnrollmentRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+/**
+ * Cuentas que crea el docente (alumnos sin email o que necesitan una mano):
+ * alta con clave provisoria, reseteo de clave e inscripción directa.
+ */
+class StudentAccounts
+{
+    public function __construct(private readonly EnrollmentApprover $approver) {}
+
+    /**
+     * Crea el alumno con clave provisoria; al entrar la tiene que cambiar.
+     * Si viene un curso, lo inscribe como una solicitud aprobada (monedas + abono).
+     *
+     * @param  array{name: string, last_name: string, username: string, email?: ?string, phone?: ?string, birth_date?: ?string}  $data
+     */
+    public function create(array $data, string $password, User $admin, ?Course $course = null, ?int $cohortId = null): User
+    {
+        $student = DB::transaction(function () use ($data, $password) {
+            $student = User::create([
+                'name' => $data['name'],
+                'last_name' => $data['last_name'],
+                'username' => $data['username'],
+                'email' => $data['email'] ?? null,
+                'phone' => $data['phone'] ?? null,
+                'birth_date' => $data['birth_date'] ?? null,
+                'password' => $password,
+            ]);
+
+            $student->forceFill([
+                'role' => Role::Student,
+                'email_verified_at' => now(),
+                'must_change_password' => true,
+            ])->save();
+
+            return $student;
+        });
+
+        if ($course) {
+            $this->enroll($student, $course, $admin, $cohortId);
+        }
+
+        return $student;
+    }
+
+    /** Pasa por EnrollmentApprover, así queda en el libro igual que una inscripción aprobada. */
+    public function enroll(User $student, Course $course, User $admin, ?int $cohortId = null): CourseSubscription
+    {
+        $request = EnrollmentRequest::create([
+            'user_id' => $student->id,
+            'course_id' => $course->id,
+            'cohort_id' => $course->cohorts()->whereKey($cohortId)->value('id'),
+            'kind' => app(EnrollmentRequester::class)->kindFor($student, $course),
+            'type' => RequestType::Admin,
+        ]);
+
+        return $this->approver->approve($request, $admin, 'Alta hecha por el docente.');
+    }
+
+    /** Nueva clave provisoria; la anterior deja de valer y al entrar la tiene que cambiar. */
+    public function resetPassword(User $student): string
+    {
+        $password = self::temporaryPassword();
+        $student->forceFill(['password' => $password, 'must_change_password' => true])->save();
+
+        return $password;
+    }
+
+    /** Texto para mandarle por WhatsApp con los datos de acceso. */
+    public static function accessMessage(User $student, string $password, bool $reset = false): string
+    {
+        return implode("\n", [
+            $reset
+                ? "¡Hola, {$student->name}! Te reseteé la clave de ".config('app.name').'.'
+                : "¡Hola, {$student->name}! Ya tenés tu cuenta en ".config('app.name').'.',
+            'Entrá en: '.route('login'),
+            "Usuario: {$student->username}",
+            "Clave provisoria: {$password}",
+            'Al entrar te va a pedir que elijas tu propia clave.',
+        ]);
+    }
+
+    /** Fácil de dictar por WhatsApp: sin letras que se confunden (l, o, i). Ej.: "Kxqa4821". */
+    public static function temporaryPassword(): string
+    {
+        $letters = collect(range(1, 4))->map(fn () => 'abcdefghjkmnpqrstuvwxyz'[random_int(0, 22)])->implode('');
+
+        return Str::ucfirst($letters).random_int(1000, 9999);
+    }
+}

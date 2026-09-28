@@ -28,7 +28,7 @@ Route::get('/', fn () => auth()->check() ? redirect()->route('home') : redirect(
 // CV público (opt-in del alumno). Sin login.
 Route::get('cv/{username}', CvController::class)->middleware('throttle:60,1')->name('cv.show');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'password.changed'])->group(function () {
     // Destino después de entrar: cada rol a su inicio.
     Route::get('inicio', fn () => auth()->user()->isAdmin()
         ? redirect()->route('admin.dashboard')
@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('archivos/autorizaciones/{authorization}', GuardianAuthorizationController::class)->name('files.authorization');
 });
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::livewire('/', AdminDashboard::class)->name('dashboard');
     Route::livewire('solicitudes', Requests::class)->name('requests');
     Route::livewire('configuracion', Settings::class)->name('settings');
@@ -61,6 +61,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::livewire('autorizaciones', Authorizations::class)->name('authorizations');
     Route::livewire('alumnos', Students\Index::class)->name('students.index');
+    Route::livewire('alumnos/nuevo', Students\Create::class)->name('students.create');
     Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');

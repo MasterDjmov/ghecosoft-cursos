@@ -1,6 +1,6 @@
 <x-layouts::auth :title="__('Forgot password')">
     <div class="flex flex-col gap-6">
-        <x-auth-header :title="__('Forgot password')" :description="__('Enter your email to receive a password reset link')" />
+        <x-auth-header :title="__('Forgot password')" :description="'Escribí tu email y te mandamos un link para elegir otra clave. Si tu cuenta no tiene email, el profe te la resetea.'" />
 
         <!-- Session Status -->
         <x-auth-session-status class="text-center" :status="session('status')" />
@@ -22,6 +22,8 @@
                 {{ __('Email password reset link') }}
             </flux:button>
         </form>
+
+        <x-teacher-contact />
 
         <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-400">
             <span>{{ __('Or, return to') }}</span>

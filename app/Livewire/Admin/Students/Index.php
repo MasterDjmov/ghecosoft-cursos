@@ -29,7 +29,7 @@ class Index extends Component
             ->when(trim($this->search) !== '', function ($q) {
                 $term = '%'.trim($this->search).'%';
                 $q->where(fn ($w) => $w->where('name', 'like', $term)->orWhere('last_name', 'like', $term)
-                    ->orWhere('username', 'like', $term)->orWhere('email', 'like', $term)->orWhere('dni', 'like', $term));
+                    ->orWhere('username', 'like', $term)->orWhere('email', 'like', $term)->orWhere('phone', 'like', $term)->orWhere('dni', 'like', $term));
             })
             ->orderBy('last_name')->orderBy('name')
             ->paginate(30);

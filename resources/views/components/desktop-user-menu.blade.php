@@ -9,7 +9,7 @@
             <flux:avatar :name="auth()->user()->fullName()" :initials="auth()->user()->initials()" class="!bg-secondary !text-white" />
             <div class="grid flex-1 leading-tight">
                 <span class="truncate font-semibold text-white">{{ auth()->user()->fullName() }}</span>
-                <span class="truncate text-xs text-ink-muted">{{ auth()->user()->email }}</span>
+                <span class="truncate text-xs text-ink-muted">{{ auth()->user()->email ?? '@'.auth()->user()->username }}</span>
             </div>
         </div>
         <flux:menu.separator />

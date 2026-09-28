@@ -50,3 +50,12 @@ test('el usuario tiene que ser único, en minúsculas y no reservado', function 
     $this->post(route('register.store'), registrationData(['username' => $username]))
         ->assertSessionHasErrors('username');
 })->with(['repetido' => 'ocupado', 'reservado' => 'admin', 'con espacios' => 'kira perez', 'muy corto' => 'ab']);
+
+test('el email es opcional y se puede dejar el teléfono (D36)', function () {
+    $this->post(route('register.store'), registrationData(['email' => '', 'phone' => '+54 9 380 412-3456']))
+        ->assertSessionHasNoErrors();
+
+    $user = User::where('username', 'kira_perez')->firstOrFail();
+    expect($user->email)->toBeNull()
+        ->and($user->phone)->toBe('+54 9 380 412-3456');
+});

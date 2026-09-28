@@ -24,7 +24,8 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string $name
  * @property string $last_name
  * @property string $username
- * @property string $email
+ * @property string|null $email
+ * @property bool $must_change_password
  * @property Role $role
  * @property string|null $phone
  * @property string|null $dni
@@ -48,6 +49,7 @@ class User extends Authenticatable implements PasskeyUser
         'xp_total' => 0,
         'ranking_display' => 'name',
         'cv_public' => false,
+        'must_change_password' => false,
     ];
 
     protected function casts(): array
@@ -59,6 +61,7 @@ class User extends Authenticatable implements PasskeyUser
             'birth_date' => 'date',
             'ranking_display' => RankingDisplay::class,
             'cv_public' => 'boolean',
+            'must_change_password' => 'boolean',
             'xp_total' => 'integer',
         ];
     }
@@ -76,6 +79,14 @@ class User extends Authenticatable implements PasskeyUser
     public function fullName(): string
     {
         return trim($this->name.' '.$this->last_name);
+    }
+
+    /** Número de WhatsApp (solo dígitos) para escribirle, o null si no cargó teléfono. */
+    public function whatsappUrl(): ?string
+    {
+        $number = preg_replace('/\D+/', '', (string) $this->phone);
+
+        return $number === '' ? null : 'https://wa.me/'.$number;
     }
 
     public function isMinor(): bool

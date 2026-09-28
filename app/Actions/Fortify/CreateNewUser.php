@@ -31,18 +31,20 @@ class CreateNewUser implements CreatesNewUsers
         RateLimiter::hit($throttleKey, 60);
 
         $input['username'] = Str::lower(trim($input['username'] ?? ''));
-        $input['email'] = Str::lower(trim($input['email'] ?? ''));
+        $input['email'] = Str::lower(trim($input['email'] ?? '')) ?: null;
+        $input['phone'] = trim($input['phone'] ?? '') ?: null;
 
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
-        ])->validate();
+        ], $this->profileMessages())->validate();
 
         return User::create([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
             'username' => $input['username'],
             'email' => $input['email'],
+            'phone' => $input['phone'],
             'password' => $input['password'],
         ]);
     }

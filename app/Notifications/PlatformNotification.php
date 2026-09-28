@@ -23,7 +23,8 @@ class PlatformNotification extends Notification
 
     public function via(object $notifiable): array
     {
-        return Channels::for();
+        // Sin email (D36) el aviso queda solo en la campanita.
+        return blank($notifiable->email ?? null) ? ['database'] : Channels::for();
     }
 
     /** @return array<string, string> */

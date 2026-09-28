@@ -42,7 +42,7 @@ class Profile extends Component
         $this->name = $user->name;
         $this->last_name = $user->last_name;
         $this->username = $user->username;
-        $this->email = $user->email;
+        $this->email = (string) $user->email;
         $this->phone = (string) $user->phone;
         $this->dni = (string) $user->dni;
         $this->birth_date = (string) $user->birth_date?->format('Y-m-d');
@@ -69,15 +69,16 @@ class Profile extends Component
 
         $validated = $this->validate([
             ...$this->profileRules($user->id),
-            'phone' => ['nullable', 'string', 'max:30'],
             'dni' => ['nullable', 'regex:/^\d{7,8}$/', Rule::unique(User::class)->ignore($user->id)],
             'birth_date' => ['nullable', 'date', 'before:today'],
         ], [
+            ...$this->profileMessages(),
             'dni.regex' => 'El DNI tiene que tener 7 u 8 números, sin puntos.',
         ]);
 
         $user->fill([
             ...$validated,
+            'email' => $validated['email'] ?: null,
             'phone' => $validated['phone'] ?: null,
             'dni' => $validated['dni'] ?: null,
             'birth_date' => $validated['birth_date'] ?: null,

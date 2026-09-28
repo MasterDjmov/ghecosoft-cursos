@@ -45,6 +45,8 @@
             </flux:button>
         </form>
 
+        <x-teacher-contact />
+
         <div class="space-x-1 text-center text-sm text-ink-muted">
             <span>{{ __('Don\'t have an account?') }}</span>
             <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>

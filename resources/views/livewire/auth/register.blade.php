@@ -23,7 +23,12 @@
                 description="Minúsculas, números, - y _. Es también el link de tu CV."
             />
 
-            <flux:input name="email" :label="__('Email address')" :value="old('email')" type="email" required autocomplete="email" placeholder="email@ejemplo.com" />
+            <div class="grid gap-5 sm:grid-cols-2">
+                <flux:input name="email" label="Email (opcional)" :value="old('email')" type="email" autocomplete="email" placeholder="email@ejemplo.com"
+                    description="Para recuperar la clave." />
+                <flux:input name="phone" label="Teléfono (opcional)" :value="old('phone')" type="tel" autocomplete="tel" placeholder="+54 9 380 412-3456"
+                    description="Para que el profe te escriba." />
+            </div>
 
             <x-password-strength>
                 <flux:input

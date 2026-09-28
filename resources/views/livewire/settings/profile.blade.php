@@ -28,10 +28,12 @@
             <flux:input wire:model="username" label="Usuario" type="text" required autocomplete="username"
                 description="También es el link de tu CV: /cv/{{ $username ?: 'tu_usuario' }}" />
 
-            <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
+            <flux:input wire:model="email" label="Email (opcional)" type="email" autocomplete="email"
+                description="Sirve para recuperar la clave. Sin email, si la olvidás, te la resetea el profe." />
 
             <div class="grid gap-6 sm:grid-cols-2">
-                <flux:input wire:model="phone" label="Teléfono (opcional)" type="tel" autocomplete="tel" />
+                <flux:input wire:model="phone" label="Teléfono (opcional)" type="tel" autocomplete="tel" placeholder="+54 9 380 412-3456"
+                    description="Para que el profe pueda escribirte por WhatsApp." />
                 <flux:input wire:model="birth_date" label="Fecha de nacimiento (opcional)" type="date" />
             </div>
 

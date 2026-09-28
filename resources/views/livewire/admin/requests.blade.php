@@ -30,7 +30,7 @@
                     <p class="text-sm text-ink-muted">
                         {{ $request->course->title }}@if ($request->cohort) · {{ $request->cohort->name }}@endif
                         · {{ $request->created_at->format('d/m/Y H:i') }}
-                        · {{ $request->type === \App\Enums\RequestType::Receipt ? 'con comprobante' : 'avisó por WhatsApp' }}
+                        · {{ match ($request->type) { \App\Enums\RequestType::Receipt => 'con comprobante', \App\Enums\RequestType::Contact => 'avisó por WhatsApp', \App\Enums\RequestType::Admin => 'la cargaste vos' } }}
                     </p>
                     @if ($request->message)
                         <p class="text-sm text-ink">«{{ $request->message }}»</p>

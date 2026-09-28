@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Students;
 
+use App\Concerns\ProfileValidationRules;
 use App\Enums\CoinReason;
 use App\Enums\XpReason;
 use App\Exceptions\InsufficientFunds;
@@ -12,9 +13,12 @@ use App\Models\User;
 use App\Models\XpTransaction;
 use App\Services\Ledger;
 use App\Services\Ranking;
+use App\Services\StudentAccounts;
 use App\Support\HeroName;
 use Flux\Flux;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -22,7 +26,20 @@ use Livewire\Component;
 #[Title('Alumno')]
 class Show extends Component
 {
+    use ProfileValidationRules;
+
     public User $user;
+
+    /** Cuenta y contacto: el docente los cambia para reactivar a quien perdió el acceso (D36). */
+    public string $username = '';
+
+    public string $email = '';
+
+    public string $phone = '';
+
+    /** Datos de acceso después de resetear la clave (se muestran una vez). */
+    #[Locked]
+    public ?array $credentials = null;
 
     /** 'xp' o el id de una moneda. */
     public string $target = 'xp';
@@ -38,6 +55,45 @@ class Show extends Component
     {
         abort_unless($user->isStudent(), 404);
         $this->heroName = (string) $user->hero_name;
+        $this->username = $user->username;
+        $this->email = (string) $user->email;
+        $this->phone = (string) $user->phone;
+    }
+
+    public function saveAccount()
+    {
+        $this->username = Str::lower(trim($this->username));
+        $this->email = Str::lower(trim($this->email));
+        $this->phone = trim($this->phone);
+
+        $validated = $this->validate([
+            'username' => $this->usernameRules($this->user->id),
+            'email' => $this->emailRules($this->user->id),
+            'phone' => $this->phoneRules(),
+        ], $this->profileMessages(), ['username' => 'usuario', 'phone' => 'teléfono']);
+
+        $renamed = $validated['username'] !== $this->user->username;
+        $this->user->update([
+            'username' => $validated['username'],
+            'email' => $validated['email'] ?: null,
+            'phone' => $validated['phone'] ?: null,
+        ]);
+        Flux::toast(variant: 'success', text: 'Cuenta actualizada.');
+
+        // El usuario va en la URL de la ficha.
+        if ($renamed) {
+            return $this->redirectRoute('admin.students.show', $this->user, navigate: true);
+        }
+    }
+
+    public function resetPassword(StudentAccounts $accounts): void
+    {
+        $password = $accounts->resetPassword($this->user);
+        $this->credentials = [
+            'message' => StudentAccounts::accessMessage($this->user, $password, reset: true),
+            'whatsapp' => $this->user->whatsappUrl(),
+        ];
+        Flux::modal('credentials')->show();
     }
 
     public function saveHero(): void

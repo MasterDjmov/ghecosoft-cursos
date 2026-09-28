@@ -230,7 +230,7 @@ Todo genérico para cualquier lenguaje (D39).
 | **8** ✅ | **Sendas** (terminada el 2026-09-28): requisitos múltiples por nodo, tipo Ventana, Sendas que brotan de un nodo (se abren con comodines o monedas del curso) y su dibujo en el árbol |
 | **9** ✅ | **Historia en pantalla** (terminada el 2026-09-28) (bienvenida, crónica, rama completada, jefe, criatura, Encrucijada) y **héroe** (D38) |
 
-Después, las tareas del § 11: alta de alumnos + email opcional + WhatsApp, "Mis cursos" + landing (con el top de héroes) y modo misión.
+Después, las tareas del § 11: ~~alta de alumnos + email opcional + WhatsApp~~ (hecha el 2026-09-28), "Mis cursos" + landing (con el top de héroes) y modo misión.
 
 ---
 
@@ -308,8 +308,12 @@ Hoy *Mundos* muestra todos los cursos publicados (los propios y los cerrados, qu
 - Sin filtros ni categorías por ahora: con 1–5 cursos no aportan.
 - Toda regla de acceso nueva (landing pública, curso "Próximamente" que no se puede abrir) va con Policy y test Pest.
 
-### Alta de alumnos por el docente (anotado el 2026-09-27; pedido del docente)
-Hay gente a la que el docente le crea la cuenta. Hoy solo existe el registro del alumno y `app:create-admin`.
+### Alta de alumnos por el docente ✅ (anotado el 2026-09-27; hecho el 2026-09-28)
+Hay gente a la que el docente le crea la cuenta.
+
+**Cómo quedó:** *Alumnos → Nuevo alumno* (`admin.students.create`) con clave provisoria generada (`StudentAccounts`, sin l/o/i para dictarla) y marca `users.must_change_password`: el middleware `password.changed` lo manda a *Elegí tu clave* (`password.change`) hasta que la cambie. La inscripción directa crea una solicitud de tipo `admin` y la aprueba con `EnrollmentApprover`. En la ficha: *Cuenta y contacto* (usuario, email, teléfono, botón de WhatsApp) y *Resetear clave*. Login y "Olvidé mi clave" muestran WhatsApp y Llamar al número de *Configuración*. Sin email, los avisos van solo a la campanita. Tests: `tests/Feature/Admin/StudentAccountsTest.php`.
+
+Lo pedido:
 - En *Alumnos* → **"Nuevo alumno"**: nombre, apellido, usuario, email, fecha de nacimiento (para saber si es menor) y **clave provisoria**. La cuenta se crea verificada.
 - **Cambio de clave obligatorio** en el primer ingreso: hace falta una marca nueva en `users`.
 - Botón para **copiar los datos de acceso** (usuario, clave provisoria y link), para mandarlos por WhatsApp.

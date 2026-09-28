@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 trait ProfileValidationRules
 {
     /** Usuarios que no se pueden elegir al registrarse (rutas y roles). */
-    public const RESERVED_USERNAMES = ['admin', 'administrador', 'root', 'docente', 'profe', 'cv', 'mundos', 'cursos', 'soporte', 'ghecosoft'];
+    public const RESERVED_USERNAMES = ['admin', 'administrador', 'root', 'docente', 'profe', 'cv', 'mundos', 'cursos', 'soporte', 'ghecosoft', 'nuevo'];
 
     /**
      * @return array<string, array<int, ValidationRule|array<mixed>|string>>
@@ -21,6 +21,7 @@ trait ProfileValidationRules
             'last_name' => $this->nameRules(),
             'username' => $this->usernameRules($userId),
             'email' => $this->emailRules($userId),
+            'phone' => $this->phoneRules(),
         ];
     }
 
@@ -55,12 +56,14 @@ trait ProfileValidationRules
     }
 
     /**
+     * Opcional (D36): hay alumnos sin email; el docente les crea la cuenta y les resetea la clave.
+     *
      * @return array<int, ValidationRule|array<mixed>|string>
      */
     protected function emailRules(?int $userId = null): array
     {
         return [
-            'required',
+            'nullable',
             'string',
             'email',
             'max:255',
@@ -68,5 +71,21 @@ trait ProfileValidationRules
                 ? Rule::unique(User::class)
                 : Rule::unique(User::class)->ignore($userId),
         ];
+    }
+
+    /**
+     * Teléfono opcional, para que el profe pueda escribirle por WhatsApp.
+     *
+     * @return array<int, ValidationRule|array<mixed>|string>
+     */
+    protected function phoneRules(): array
+    {
+        return ['nullable', 'string', 'max:25', 'regex:/^\+?[0-9 ()-]{6,25}$/'];
+    }
+
+    /** @return array<string, string> */
+    protected function profileMessages(): array
+    {
+        return ['phone.regex' => 'Escribí solo números (podés usar +, espacios y guiones), con código de área.'];
     }
 }

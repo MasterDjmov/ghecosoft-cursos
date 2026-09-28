@@ -1,17 +1,65 @@
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
-    <x-admin.page-header label="Alumnos" :title="$user->fullName()" :subtitle="'@'.$user->username.' · '.$user->email.($user->phone ? ' · '.$user->phone : '').($user->dni ? ' · DNI '.$user->dni : '')">
+    <x-admin.page-header label="Alumnos" :title="$user->fullName()" :subtitle="'@'.$user->username.($user->email ? ' · '.$user->email : ' · sin email').($user->phone ? ' · '.$user->phone : '').($user->dni ? ' · DNI '.$user->dni : '')">
         <x-slot:actions>
             <flux:button variant="ghost" icon="arrow-left" :href="route('admin.students.index')" wire:navigate>Alumnos</flux:button>
         </x-slot:actions>
     </x-admin.page-header>
 
-    <form wire:submit="saveHero" class="panel flex flex-col gap-3 p-4 sm:flex-row sm:items-end" data-test="hero-moderation">
-        <div class="flex-1">
-            <flux:input wire:model="heroName" label="Héroe" :placeholder="term('hero.name').' (sin elegir)'" maxlength="20"
+    <div class="grid gap-4 lg:grid-cols-2">
+        <form wire:submit="saveAccount" class="panel flex flex-col gap-4 p-4" data-test="account-form">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <h2 class="font-display font-semibold text-white">Cuenta y contacto</h2>
+                <div class="flex flex-wrap gap-2">
+                    @if ($user->whatsappUrl())
+                        <flux:button size="sm" icon="chat-bubble-left-right" :href="$user->whatsappUrl()" target="_blank" rel="noopener">WhatsApp</flux:button>
+                    @endif
+                    <flux:modal.trigger name="confirm-reset">
+                        <flux:button size="sm" icon="key">Resetear clave</flux:button>
+                    </flux:modal.trigger>
+                </div>
+            </div>
+            @if ($user->must_change_password)
+                <p class="flex items-center gap-2 text-xs text-warning"><flux:icon name="clock" variant="micro" /> Todavía no cambió la clave provisoria.</p>
+            @endif
+            <flux:input wire:model="username" label="Usuario" size="sm" />
+            <div class="grid gap-4 sm:grid-cols-2">
+                <flux:input wire:model="email" type="email" label="Email" size="sm" placeholder="Sin email" />
+                <flux:input wire:model="phone" type="tel" label="Teléfono" size="sm" placeholder="+54 9 380 412-3456" />
+            </div>
+            <div class="flex justify-end">
+                <flux:button type="submit" size="sm" icon="check">Guardar cuenta</flux:button>
+            </div>
+        </form>
+
+        <form wire:submit="saveHero" class="panel flex flex-col gap-3 p-4" data-test="hero-moderation">
+            <h2 class="font-display font-semibold text-white">Héroe</h2>
+            <flux:input wire:model="heroName" :placeholder="term('hero.name').' (sin elegir)'" maxlength="20" size="sm"
                 description="Público y único. Cambialo si el nombre no es apropiado; vacío = vuelve al héroe por defecto." />
+            <div class="flex justify-end">
+                <flux:button type="submit" size="sm" icon="check">Guardar héroe</flux:button>
+            </div>
+        </form>
+    </div>
+
+    <flux:modal name="confirm-reset" class="max-w-md">
+        <div class="flex flex-col gap-4">
+            <flux:heading size="lg">¿Resetear la clave de {{ $user->name }}?</flux:heading>
+            <flux:text>Se genera una clave provisoria nueva y la actual deja de andar. Al entrar, tiene que elegir una propia.</flux:text>
+            <div class="flex justify-end gap-2">
+                <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                <flux:button variant="danger" icon="key" wire:click="resetPassword" x-on:click="$flux.modal('confirm-reset').close()" data-test="reset-password-button">Resetear</flux:button>
+            </div>
         </div>
-        <flux:button type="submit" icon="check">Guardar héroe</flux:button>
-    </form>
+    </flux:modal>
+
+    <flux:modal name="credentials" class="max-w-lg">
+        <div class="flex flex-col gap-4">
+            <flux:heading size="lg">Clave nueva de {{ $user->name }}</flux:heading>
+            @if ($credentials)
+                @include('livewire.admin.students.partials.credentials', ['credentials' => $credentials])
+            @endif
+        </div>
+    </flux:modal>
 
     <div class="grid gap-4 sm:grid-cols-3">
         <div class="panel flex flex-col gap-1 p-4">

@@ -7,6 +7,7 @@ import { keymap } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
 import { HighlightStyle, syntaxHighlighting, indentUnit } from '@codemirror/language';
 import { python } from '@codemirror/lang-python';
+import { cpp } from '@codemirror/lang-cpp';
 import { tags as t } from '@lezer/highlight';
 
 const theme = EditorView.theme(
@@ -38,7 +39,8 @@ const highlight = HighlightStyle.define([
     { tag: t.operator, color: '#94a3b8' },
 ]);
 
-const LANGUAGES = { python: () => python() };
+// C, C++ y Arduino comparten resaltado; los demás lenguajes se ven sin colores por ahora.
+const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp() };
 
 /**
  * @param {HTMLElement} parent

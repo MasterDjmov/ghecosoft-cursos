@@ -86,7 +86,10 @@ class SimulateCourse extends Command
     /** @var list<string> lo que salió mal en el sistema (excepciones inesperadas) */
     private array $failures = [];
 
-    private ?string $python = null;
+    /** Lenguaje del curso y el programa con que el docente prueba el código (python3, gcc, g++), si está instalado. */
+    private string $language = '';
+
+    private ?string $runner = null;
 
     private $nodes = null;
 
@@ -138,12 +141,14 @@ class SimulateCourse extends Command
         }
 
         mt_srand((int) $this->option('seed'));
-        $this->python = $course->language->value === 'python' ? (new ExecutableFinder)->find('python3') : null;
+        $this->language = $course->language->value;
+        $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++'][$this->language] ?? null;
+        $this->runner = $tool ? (new ExecutableFinder)->find($tool) : null;
         $this->workDir = storage_path('app/simulacion');
         @mkdir($this->workDir, 0775, true);
 
         $this->info("Simulando «{$course->title}»: ".count(self::PERSONAS).' alumnos, corrige '.$teacher->name.'.');
-        $this->line($this->python ? 'El docente prueba el código con python3 (como en la consola del navegador).' : 'El docente compara el código con la solución de referencia.');
+        $this->line($this->runner ? 'El docente prueba el código con '.basename($this->runner).'.' : 'El docente compara el código con la solución de referencia.');
 
         $start = CarbonImmutable::today()->subDays((int) $this->option('days'))->setTime(9, 0);
         $today = CarbonImmutable::today();
@@ -385,10 +390,19 @@ class SimulateCourse extends Command
         }
 
         // Errores típicos: una variable mal escrita, o un print de más que cambia la salida.
-        if ($this->python) {
+        if ($this->runner && $this->language === 'python') {
             return $practice->expected_output && mt_rand(0, 1)
                 ? $code."print('listo')\n"
                 : "resultado = valor_que_no_existe\n".$code;
+        }
+
+        // En C/C++: una variable sin declarar (no compila) o un printf de más antes del último return.
+        if ($this->runner) {
+            $at = strrpos($code, 'return 0;');
+
+            return $practice->expected_output && $at !== false && mt_rand(0, 1)
+                ? substr($code, 0, $at)."printf(\"listo\\n\");\n    ".substr($code, $at)
+                : $code."\nint funcion_rota(void) { return valor_que_no_existe; }\n";
         }
 
         return implode("\n", array_slice(explode("\n", trim($code)), 0, -1))."\n";
@@ -452,7 +466,7 @@ class SimulateCourse extends Command
             return [true, ''];
         }
 
-        if (! $this->python) {
+        if (! $this->runner) {
             $reference = trim((string) $practice->reference_solution);
 
             return $reference === '' || trim($submission->code) === $reference
@@ -460,9 +474,11 @@ class SimulateCourse extends Command
                 : [false, 'Le falta una parte: compará con lo que pide la consigna, paso por paso.'];
         }
 
-        [$output, $error] = $this->runPython($submission->code, $practice->sample_input);
+        [$output, $error] = $this->runCode($submission->code, $practice->sample_input);
         if ($error !== null) {
-            return [false, "Tu programa termina con un error:\n\n    {$error}\n\nLeé la última línea del traceback: te dice qué nombre no existe."];
+            return [false, $this->language === 'python'
+                ? "Tu programa termina con un error:\n\n    {$error}\n\nLeé la última línea del traceback: te dice qué nombre no existe."
+                : "Tu programa no compila o termina con error:\n\n    {$error}\n\nLeé el primer error del compilador: dice el archivo, la línea y qué falta."];
         }
         if ($practice->expected_output && trim(str_replace("\r\n", "\n", $output)) !== trim(str_replace("\r\n", "\n", $practice->expected_output))) {
             $got = collect(explode("\n", trim($output)));
@@ -475,23 +491,48 @@ class SimulateCourse extends Command
         return [true, ''];
     }
 
-    /** @return array{0: string, 1: ?string} salida y última línea del error */
-    private function runPython(string $code, ?string $stdin): array
+    /** @return array{0: string, 1: ?string} salida, y el error (del compilador o de la ejecución) si hubo */
+    private function runCode(string $code, ?string $stdin): array
     {
         $dir = $this->workDir.'/run-'.Str::random(8);
         @mkdir($dir, 0775, true);
-        file_put_contents($dir.'/main.py', $code);
+        $output = '';
+        $error = null;
 
-        $process = new Process([$this->python, 'main.py'], $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', 5);
         try {
+            if ($this->language === 'python') {
+                file_put_contents($dir.'/main.py', $code);
+                $command = [$this->runner, 'main.py'];
+            } else {
+                // Como compila el alumno en su compu: con advertencias, y la matemática enlazada.
+                $source = $this->language === 'c' ? 'main.c' : 'main.cpp';
+                file_put_contents($dir.'/'.$source, $code);
+                $compile = new Process([$this->runner, $this->language === 'c' ? '-std=c11' : '-std=c++17', '-Wall', '-Wextra', '-o', 'programa', $source, '-lm'], $dir, null, null, 30);
+                $compile->run();
+                if (! $compile->isSuccessful()) {
+                    $first = collect(explode("\n", $compile->getErrorOutput()))->first(fn ($line) => str_contains($line, 'error'));
+
+                    return ['', $first ?: 'No compila.'];
+                }
+                $command = ['./programa'];
+            }
+
+            $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', 5);
             $process->run();
-            $error = $process->isSuccessful() ? null : (collect(explode("\n", trim($process->getErrorOutput())))->last() ?: 'El programa terminó con error.');
+            $output = $process->getOutput();
+            if ($this->language === 'python' && ! $process->isSuccessful()) {
+                $error = collect(explode("\n", trim($process->getErrorOutput())))->last() ?: 'El programa terminó con error.';
+            } elseif ($process->hasBeenSignaled() || $process->getExitCode() >= 128) {
+                // En C, un código de salida distinto de 0 puede ser a propósito; una señal (violación de segmento) no.
+                $error = 'El programa se cortó (código '.$process->getExitCode().': ¿un puntero o un índice fuera de lugar?).';
+            }
         } catch (Throwable) {
             $error = 'Tardó más de 5 segundos (¿un bucle que no termina?).';
+        } finally {
+            exec('rm -rf '.escapeshellarg($dir));
         }
-        exec('rm -rf '.escapeshellarg($dir));
 
-        return [$process->getOutput(), $error];
+        return [$output, $error];
     }
 
     // ---------------------------------------------------------------- final

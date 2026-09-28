@@ -34,6 +34,7 @@ Los alumnos simulados usan emails `@simulacion.test`. Así `--reset` los encuent
 
 1. **A la mañana, el docente** aprueba las inscripciones y renovaciones pendientes y corrige todas las entregas que llegaron:
    - Con **Python**, ejecuta el código con `python3` y la *Entrada de ejemplo*, igual que la consola del navegador. Si termina con error o la salida no coincide con la *Salida esperada*, pide rehacer con un comentario que dice qué línea no coincide o qué error apareció.
+   - Con **C y C++**, compila con `gcc`/`g++` (`-Wall -Wextra`, como en la compu del alumno) y ejecuta igual: si no compila, se corta o la salida no coincide, pide rehacer con el primer error del compilador.
    - Con **otros lenguajes**, compara con la *Solución de referencia*.
    - Los **archivos** los revisa por su contenido.
 2. **A la tarde, cada alumno** (algunos días no entra) hace varias acciones, en este orden:
@@ -42,7 +43,7 @@ Los alumnos simulados usan emails `@simulacion.test`. Así `--reset` los encuent
    3. Si le faltan comodines para una Senda, vuelve a hacer optativas.
    4. Con el abono vencido, pide la renovación.
 
-   A veces se equivoca a propósito: un nombre mal escrito (`NameError`) o un `print` de más. En el segundo intento se equivoca menos, y a veces le contesta al profe en el hilo de la entrega.
+   A veces se equivoca a propósito: un nombre mal escrito (`NameError`, o en C una variable sin declarar que no compila) o un `print`/`printf` de más. En el segundo intento se equivoca menos, y a veces le contesta al profe en el hilo de la entrega.
 3. **A la noche** se guarda la foto diaria del ranking.
 
 Todo pasa por los **mismos servicios que las pantallas**:

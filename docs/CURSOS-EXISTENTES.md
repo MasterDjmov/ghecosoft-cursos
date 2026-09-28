@@ -4,6 +4,8 @@
 
 > **C ya está en la plataforma (2026-09-28, D52):** `01-C` y `02-C-Intermedio` son el curso de [`cursos/c/`](../cursos/c/), *Las Forjas de Hierro* con Maese Ferrum (la historia de `GUION.md`). 01–16 se convirtieron; 17–30 se reescribieron o escribieron desde cero (varias eran «📝 por crear»); se sumaron jefes por rama (el 16 y el 28 son jefes) y la Encrucijada del Yunque, y dos Sendas: SDL3 (`06-SDL3`) y Arduino (`15-Arduino`, con el lado de la compu reescrito en C).
 
+> **C++ ya está en la plataforma (2026-09-28, D53):** `03-C++`, `04-C++-Moderno` y `11-STL` (más `05-C++-Videojuegos` para la última rama) son el curso de [`cursos/cpp/`](../cursos/cpp/), *La Ciudadela de los Artífices* con la mentora **Tesla**. Como todo estaba en formato viejo, se escribió desde cero siguiendo la regla de la auditoría (cada capítulo arranca de cero; la comparación con C va en un recuadro opcional), usando esos ejemplos como base. Las Sendas son SDL3 en C++ (`07-SDL3-Cpp`) y Qt (`12-Qt-GUI`).
+
 > Origen: `/home/djmov/Programas/Cursos/FullCursos/` (relevado el 2026-09-26).
 > Objetivo: decidir **cómo se arma cada curso en la plataforma** (curso → unidades → clases → tarea) a partir de lo que ya está escrito.
 > No se modificó nada en esa carpeta.
@@ -41,7 +43,7 @@ Todos los cursos comparten una historia:
 | Las Forjas de Hierro | 01–02 C | Maese Ferrum | definida |
 | El Valle de la Serpiente | 17 Python | Ofidia | definida |
 | El Imperio de las Clases | 18–20 Java | Kaffa | definida |
-| La Ciudadela de los Artífices | 03–11 C++ | a definir | — |
+| La Ciudadela de los Artífices | 03–05, 07, 11, 12 C++ | Tesla, la Artífice Mayor | definida (D53) |
 | El Puerto de los Mensajeros / La Feria de las Luces | 21 PHP / 22–23 JS-TS | a definir | — |
 
 > Dato a tener en cuenta para [DISENO.md](DISENO.md): la **idea 2 (CodeQuest)** tiene el mismo tono que este guion:
@@ -89,16 +91,16 @@ Columnas:
 |---|---|---|---|---|---|
 | 01 | C (Forjas, parte 1) | 16 | **16** | ❌ (C) | ✅ reconstruido completo |
 | 02 | C intermedio (Forjas, parte 2) | 7 | 0 | ❌ | 🔄 bloques 3–5 y proyectos por hacer (índice: 17–30) |
-| 03 | C++ | 12 | 0 | ❌ | formato viejo; se rehace desde cero junto con 04 y 11 |
-| 04 | C++ moderno / STL | 14 | 0 | ❌ | formato viejo |
-| 05 | C++ videojuegos (consola) | 7 | 0 | ❌ | formato viejo |
+| 03 | C++ | 12 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, ramas 1 y 2, reescrito desde cero (D53) |
+| 04 | C++ moderno / STL | 14 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, rama 3 (D53) |
+| 05 | C++ videojuegos (consola) | 7 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, rama 5 y jefe final (D53) |
 | 06 | SDL3 en C | 13 | 0 | ❌ (ventana gráfica) | formato viejo |
-| 07 | SDL3 en C++ | 9 | 0 | ❌ | formato viejo |
+| 07 | SDL3 en C++ | 9 | 0 | ❌ | formato viejo · en la plataforma: Senda de la Linterna Mágica de `cursos/cpp` (D53) |
 | 08 | Proyecto final "Guardián de las Gemas" | 1 proyecto | — | ❌ | proyecto único (~1200 líneas, con assets) |
 | 09 | SFML | 8 | 0 | ❌ | ⏳ falta `libsfml-dev` |
 | 10 | OpenGL | 10 | 0 | ❌ | formato viejo |
-| 11 | STL a fondo | 10 | 0 | ❌ | formato viejo |
-| 12 | Qt GUI | 7 + 46 mini apps (`Lab-Qt6`) | 0 | ❌ | formato viejo |
+| 11 | STL a fondo | 10 | 0 | ❌ | formato viejo · en la plataforma: `cursos/cpp`, rama 4 (D53) |
+| 12 | Qt GUI | 7 + 46 mini apps (`Lab-Qt6`) | 0 | ❌ | formato viejo · en la plataforma: Senda de los Vitrales de `cursos/cpp` (D53) |
 | 13 | WebAssembly | 6 | 0 | ⚠️ el **resultado** corre en el navegador | formato viejo |
 | 14 | PostgreSQL (libpq) | 6 | 0 | ❌ | ⏳ falta `libpq-dev` |
 | 15 | Arduino | 7 | 0 | ❌ (hardware) | formato viejo |

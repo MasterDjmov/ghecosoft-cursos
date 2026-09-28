@@ -14,12 +14,12 @@ class UpcomingCoursesSeeder extends Seeder
     public function run(TreeEditor $editor): void
     {
         $courses = [
-            ['title' => 'C desde cero', 'slug' => 'c', 'language' => Language::C, 'level' => CourseLevel::Beginner,
-                'short_description' => 'El lenguaje que está debajo de casi todo.',
-                'syllabus' => "Compilar y ejecutar\nVariables y tipos\nCondicionales y bucles\nFunciones\nArreglos y cadenas\nPunteros"],
-            ['title' => 'C++ intermedio', 'slug' => 'cpp', 'language' => Language::Cpp, 'level' => CourseLevel::Intermediate,
-                'short_description' => 'Clases, memoria y la STL, paso a paso.',
-                'syllabus' => "Clases y objetos\nHerencia y polimorfismo\nMemoria dinámica\nPlantillas\nLa STL"],
+            ['title' => 'Java: El Imperio de las Clases', 'slug' => 'java', 'language' => Language::Java, 'level' => CourseLevel::Beginner,
+                'short_description' => 'Programación orientada a objetos, escritorio y bases de datos.',
+                'syllabus' => "Clases y objetos\nHerencia e interfaces\nColecciones\nExcepciones y archivos\nInterfaces gráficas\nBases de datos"],
+            ['title' => 'JavaScript: La Feria de las Luces', 'slug' => 'javascript', 'language' => Language::JavaScript, 'level' => CourseLevel::Beginner,
+                'short_description' => 'El lenguaje del navegador: páginas vivas y juegos web.',
+                'syllabus' => "Variables y funciones\nEl DOM\nEventos\nFetch y JSON\nJuegos con canvas"],
         ];
 
         foreach ($courses as $i => $data) {

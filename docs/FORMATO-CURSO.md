@@ -164,6 +164,8 @@ Partes:
 | Lenguaje | Se ejecuta en el navegador | Prácticas |
 |---|---|---|
 | **Python** | Sí (Pyodide, programas de consola, corte a los 5 s) | `entorno: navegador` para consola; `local` + `entrega: archivo` para pygame, Tkinter, hardware, archivos del disco, red o paquetes externos (numpy, pandas) |
+| C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta (el editor colorea C, C++ y Arduino). Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` (programas de varios archivos, SDL, Qt, sketches de Arduino: `.zip`). La *Entrada de ejemplo* y la *Salida esperada* sirven igual: el alumno compara en su compu, y el súper test compila con `gcc -std=c11` / `g++ -std=c++20` y las verifica |
+| JavaScript / TypeScript | No (por ahora; es posible a futuro) | Igual que el anterior |
 
 Detalles del ejecutor de Python (para escribir salidas esperadas que coincidan):
 
@@ -171,5 +173,5 @@ Detalles del ejecutor de Python (para escribir salidas esperadas que coincidan):
 - `if __name__ == "__main__":` funciona, y también `asyncio.run(...)`.
 - Los archivos que escribe el programa viven en una memoria temporal: se pueden crear y leer durante la ejecución (conviene borrarlos al final para que cada ejecución arranque igual).
 - Las salidas esperadas se comparan tal cual (se respetan los tabuladores); la forma segura de obtenerlas es ejecutar la solución de referencia en una terminal.
-| C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta (el editor colorea C, C++ y Arduino). Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` (programas de varios archivos, SDL, sketches de Arduino: `.zip`). La *Entrada de ejemplo* y la *Salida esperada* sirven igual: el alumno compara en su compu, y el súper test compila con `gcc` y las verifica |
-| JavaScript / TypeScript | No (por ahora; es posible a futuro) | Igual que el anterior |
+
+Para C y C++ vale lo mismo: la salida esperada es la de la terminal con la entrada redirigida (`./programa < entrada.txt`). Lo que tiene que ser igual en cualquier compu va por la salida estándar; lo que cambia (tiempos medidos) va por `std::cerr`. Con `<random>`, la salida esperada es la de `g++` en Linux: `std::mt19937` es igual en todos lados, pero las distribuciones pueden dar otros números con `clang`.

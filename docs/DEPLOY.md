@@ -105,9 +105,10 @@ php artisan db:seed --class=ProductionSeeder --force   # configuración, moneda 
 php artisan app:create-admin                           # tu usuario docente (clave fuerte)
 php artisan storage:link                               # logos, íconos e insignias
 
-# El curso de Python (cursos/python/): igual que Admin → Cursos → Importar (sin usuarios de prueba)
+# Los cursos (cursos/python/, cursos/c/, cursos/cpp/): igual que Admin → Cursos → Importar (sin usuarios de prueba)
 php artisan app:import-course cursos/python/ --apply
 php artisan app:import-course cursos/c/ --apply
+php artisan app:import-course cursos/cpp/ --apply
 
 # Caché de configuración, rutas y vistas (más rápido)
 php artisan config:cache

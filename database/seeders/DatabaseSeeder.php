@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             LevelSeeder::class,
             UserSeeder::class,
-            PythonDemoCourseSeeder::class,
+            PythonCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
             DemoHeroesSeeder::class,

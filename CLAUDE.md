@@ -12,6 +12,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/super-prompt-v2-curso-python.md](docs/super-prompt-v2-curso-python.md) — el prompt con el que Claude online diseña el curso de Python (reglas pedagógicas, plantilla de nodo, Sendas). Lo que pide define las fases 6–9 de PLAN § 9.
 - [docs/FORMATO-CURSO.md](docs/FORMATO-CURSO.md) — formato Markdown para importar un curso entero (IDs estables, secciones, prácticas, diccionario). Ejemplo probado en `tests/Fixtures/curso-ejemplo.md`.
 - [docs/HISTORIA-BRIEF.md](docs/HISTORIA-BRIEF.md) — resumen del sistema que se le pasa a Claude online para definir la historia del curso de Python (el primero en salir). Actualizarlo si cambian el diccionario, la economía o dónde se muestra la historia.
+- [cursos/python/](cursos/python/) — el curso de Python en el formato del importador (lo carga el seeder local; se reimporta sin tocar el progreso). Se edita ahí y se reimporta.
 - [docs/CURSOS-EXISTENTES.md](docs/CURSOS-EXISTENTES.md) — el material de `/home/djmov/Programas/Cursos/FullCursos/` y cómo se traduce a cursos, unidades y clases. Esa carpeta es solo lectura: no se modifica desde este proyecto.
 
 ## Reglas de trabajo
@@ -33,7 +34,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 ## Comandos
 - `composer run dev` — servidor + Vite en desarrollo (o `php artisan serve` + `npm run dev`)
 - `php artisan test` — suite Pest (usa la base `ghecosoft_code_testing`, MariaDB)
-- `php artisan migrate:fresh --seed` — base local con admin/admin123, cliente/cliente123 y el curso demo de Python
+- `php artisan migrate:fresh --seed` — base local con admin/admin123, cliente/cliente123 y el curso de Python importado de `cursos/python/`
 - `npm run build` — assets para producción
 - `vendor/bin/pint` — formato del código
 - `php artisan app:import-course carpeta/ [--apply]` — revisar (o importar con `--apply`) un curso en el formato de FORMATO-CURSO.md; también desde *Admin → Cursos → Importar*

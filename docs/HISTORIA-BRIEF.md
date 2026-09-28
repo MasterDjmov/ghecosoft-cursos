@@ -48,15 +48,17 @@ Importante: hoy el alumno **ve** los nombres de mundo, monedas, XP, niveles, est
 
 Además, fuera del diccionario, se escribe historia en: título y explicación de cada nodo (la "Crónica" puede ir como recuadro al principio), títulos y consignas de las prácticas, nombre y descripción de cada rama e insignia.
 
-## 5. Lo que hay HOY cargado de Python (curso demo, contenido de prueba)
-"Python desde cero", moneda "escama":
-- **Raíz · Clase 0 · Preparar el entorno**: Instalá Python (sin entrega) · Tu primer programa · Pedile datos al usuario · (optativa) Saludo decorado.
-- **Rama Fundamentos**: Comentarios → Variables → **Jefe: el Rey Slime** (proyecto "Ficha de personaje"; insignia "Cazador de slimes").
-- **Rama Control**: Condicionales → Bucles → **Jefe: el Golem del Bucle** (proyecto "Menú de la posada"; insignia "Rompe-bucles").
-- **Rama Extras**: "f-strings a fondo" (se abre con comodines).
-- Cada tema: 3 obligatorias ("Misión 1/2/3", genéricas) + 1 optativa ("Encargo del Gremio").
+## 5. Lo que hay HOY cargado de Python (2026-09-28)
+"Python: El Valle de la Serpiente", importado de `cursos/python/` (el material de `17-Python`), moneda "escama", mentora Ofidia. Todos los textos usan `{heroe}`, `{mentor}`, `{mundo}` y `{region}`: si la historia cambia nombres, se cambia el Diccionario y no los nodos.
+- **Clase 0 · Hola, Python** (raíz).
+- **Rama 1 · Fundamentos: el despertar en el Valle** (tipos … módulos, 10 temas) → **Jefe: la Hidra de las Mil Runas** (la tienda del Valle + el informe de la batalla; insignia "Sello de la Hidra").
+- **Rama 2 · Objetos y errores: la Gran Biblioteca** (clases, herencia, excepciones, JSON/CSV) → **Jefe: el Archivista Corrupto** ("Sello del Archivista").
+- **Rama 3 · Iteración y calidad: la Torre del Reloj** (generadores, funcional, decoradores, tipos y pruebas, asyncio, rendimiento) → **Jefe: el Golem del Reloj** ("Sello del Reloj") → **La Encrucijada** (ventana; misión de reflexión; completa el curso).
+- **Senda de la Arena** (pygame, 4 nodos, en la compu) → jefe "Junta las Gemas" ("Campeón de la Arena").
+- **Senda del Reino** (datos, IA para juegos, robótica con Arduino) → jefe "el mando de Arduino" ("Artífice del Reino").
+- Cada tema: Crónica, Objetivos, Antes de empezar, Explicación (Mia), Código de ejemplo, ¿Para qué sirve? (Bron), Errores habituales (Zed + criatura), 3 misiones obligatorias con criterio, 1 Encargo del Gremio (optativo) y Prueba del sello.
 
-Es un esqueleto para probar el sistema; se va a reemplazar por el contenido real.
+Los nombres de jefes y regiones del índice de abajo (Rey Slime, Hidra de las Mil Formas, Liche…) eran los planeados en el material: los jefes cargados son los de esta lista. Lo que defina la historia puede renombrarlos (se edita el archivo del curso y se reimporta sin tocar el progreso).
 
 ## 6. El material real (mis cursos existentes) y la historia que ya tenía
 Historia común "Las Crónicas del Código": **Kira**, aprendiz de espadachina, cruza un portal a **Codexia**, donde la magia no se recita: **se escribe**. Cada región tiene su lengua arcana (un lenguaje) y su mentor. Criaturas nacidas de hechizos mal escritos invaden el mundo; para volver a casa Kira aprende cada lengua y vence al jefe de cada región.

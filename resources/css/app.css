@@ -156,3 +156,8 @@ select:focus[data-flux-control] {
 .code-window .cm-gutters { border-radius: 0; }
 .code-window .cm-content { min-height: calc(8lh + 20px); }
 .code-window-fallback { min-height: calc(8 * 1.6 * 14px + 20px); line-height: 1.6; }
+
+/* Modo misión: el editor ocupa todo el alto disponible. */
+.mission-editor .cm-editor { height: 100%; border: 0; border-radius: 0; }
+.mission-editor .cm-editor.cm-focused { outline: none; }
+.mission-editor .cm-scroller { overflow: auto; }

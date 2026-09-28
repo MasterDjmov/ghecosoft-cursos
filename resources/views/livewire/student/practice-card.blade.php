@@ -55,9 +55,17 @@
                 +{{ $practice->xp_reward }} {{ term('xp.short') }}
             </p>
 
-            @unless ($practice->is_required)
-                <x-companion key="companion.guild" :course="$course" color="text-secondary-bright" />
-            @endunless
+            @if ($usesCode || ! $practice->is_required)
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    @unless ($practice->is_required)
+                        <x-companion key="companion.guild" :course="$course" color="text-secondary-bright" />
+                    @endunless
+                    @if ($usesCode)
+                        <flux:button size="sm" icon="arrows-pointing-out" class="ms-auto hidden lg:inline-flex" data-test="enter-mission"
+                            :href="route('student.mission', [$course, $practice->node_id, $practice])" wire:navigate>Entrar a la misión</flux:button>
+                    @endif
+                </div>
+            @endif
 
             @if ($instructionsHtml)
                 <div class="markdown text-sm">{!! $instructionsHtml !!}</div>

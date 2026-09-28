@@ -68,6 +68,7 @@
 | D42 | Historia en pantalla y héroe | Marcadores `{heroe}`, `{mentor}`, `{mundo}`, `{region}` en todos los textos del curso (`Narrative`). Bienvenida (`story.course_intro`) en la ficha y en el árbol (se puede cerrar); aviso con `story.branch_completed` al completar una rama y con `story.course_completed` al terminar el curso (campanita + panel en el árbol); presentación del jefe con su insignia; historia de la criatura en Errores habituales. Héroe elegido en *Mi cuenta*, moderable en la ficha del alumno, visible en ranking y CV | Fase 9 (2026-09-28) |
 | D43 | Todo nodo tiene hojas | **Todo nodo publicado tiene al menos una práctica obligatoria** (raíz, temas, jefes, ventanas, extras y la Encrucijada, que lleva una misión de reflexión, puede ser sin entrega). El editor no publica un nodo sin obligatorias, un nodo nuevo desde el árbol nace como borrador, la última obligatoria de un nodo publicado no se borra ni pasa a optativa, y el importador lo marca como error (o aviso con `publicado: no`) | Pedido del docente: un nodo sin hojas no se gana ni se completa (2026-09-28) |
 | D44 | Catálogo y landing | **Mundos** separa "Seguí donde dejaste" (con el último nodo abierto sin completar) de "Descubrí más mundos". El curso suma nivel, temario corto (un tema por línea), portada, **destacado** (sale en la landing; si no hay ninguno, salen todos los publicados) y **Próximamente** (`is_upcoming`, vale solo sin publicar: se ve pero no se abre). "Avisame cuando salga" (`course_interests`) avisa una sola vez al publicarlo. **Landing** en `/` para quien no entró: portada con login al lado, cursos, Próximamente, monedas y top 10 con podio (héroe, nombre de ranking, rango, insignias, XP; nunca el usuario de login). Tendencia ▲▼ contra una foto diaria (`ranking_snapshots`) que se toma en la primera carga del día. Precio en pesos: no se muestra ("Consultá" por WhatsApp) | Pedidos del docente del 2026-09-27/28 (§ 11) |
+| D45 | Modo misión | Distribución **A · centro de comando** (elegida por el docente sobre una maqueta): barra con misión, recompensa, estado, **Ejecutar** y **Entregar**; a la izquierda Historia / Consigna / Teoría y las misiones del nodo como checklist (se pliega, y lo recuerda por navegador); al centro editor y consola a todo el alto; a la derecha la devolución del profe **solo si hay**. Ruta `cursos/{curso}/nodos/{nodo}/mision/{práctica}`, mismas reglas que el nodo (Policy del nodo). Solo para prácticas con código y pantallas grandes (en celular, la vista del nodo). Entregar, marcar y comentar comparten el trait `WorksOnPractice` con la tarjeta del nodo | Otra presentación de la misma práctica: no cambia lógica, monedas ni reglas (2026-09-28) |
 
 ---
 
@@ -231,7 +232,7 @@ Todo genérico para cualquier lenguaje (D39).
 | **8** ✅ | **Sendas** (terminada el 2026-09-28): requisitos múltiples por nodo, tipo Ventana, Sendas que brotan de un nodo (se abren con comodines o monedas del curso) y su dibujo en el árbol |
 | **9** ✅ | **Historia en pantalla** (terminada el 2026-09-28) (bienvenida, crónica, rama completada, jefe, criatura, Encrucijada) y **héroe** (D38) |
 
-Después, las tareas del § 11: ~~alta de alumnos + email opcional + WhatsApp~~ y ~~"Mis cursos" + landing (con el top de héroes)~~ (hechas el 2026-09-28, D44), y modo misión.
+Después, las tareas del § 11: ~~alta de alumnos + email opcional + WhatsApp~~ y ~~"Mis cursos" + landing (con el top de héroes)~~ (hechas el 2026-09-28, D44), y ~~modo misión~~ (D45).
 
 ---
 
@@ -269,7 +270,7 @@ El docente decidió **pulir detalles antes de subirla**. Cuando llegue el moment
 
 ## 11. Ideas aprobadas para más adelante (pulido)
 
-### Modo misión (anotado el 2026-09-27; al docente le gusta la idea, todavía no se diseña)
+### Modo misión ✅ (anotado el 2026-09-27; hecho el 2026-09-28, ver D45)
 Pantalla de trabajo a pantalla completa para **una práctica**, inspirada en una maqueta tipo "centro de comando" (historia a la izquierda, editor al centro, terminal abajo). Es **otra presentación**: no cambia lógica, monedas ni reglas.
 - Se entra con un botón **"Entrar a la misión"** en cada práctica. La página del nodo queda como está (leer, repasar, celular). En celular no hay modo misión: sigue la vista actual.
 - **Izquierda**, con pestañas: *Historia* (la crónica del nodo; resuelve dónde mostrar la historia), *Consigna* y *Teoría*. Debajo, las prácticas del nodo como checklist con los colores de estado; tocar una cambia de archivo.

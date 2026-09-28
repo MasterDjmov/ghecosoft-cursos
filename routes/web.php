@@ -19,6 +19,7 @@ use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
 use App\Livewire\Student\RankingBoard;
 use App\Livewire\Student\Worlds;
@@ -40,6 +41,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('cursos/{course}', CourseDetail::class)->name('student.course');
     Route::livewire('cursos/{course}/arbol', CourseTree::class)->name('student.tree');
     Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
+    Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
     Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 

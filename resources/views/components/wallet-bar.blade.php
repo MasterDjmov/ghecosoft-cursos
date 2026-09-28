@@ -14,7 +14,7 @@
                 'grid size-5 place-items-center rounded-full font-mono text-[10px] font-bold',
                 'bg-secondary/25 text-secondary-bright' => $currency->is_wildcard,
                 'bg-primary/20 text-primary-bright' => ! $currency->is_wildcard,
-            ])>{{ $currency->is_wildcard ? '★' : mb_strtoupper(mb_substr($currency->course?->title ?? '?', 0, 2)) }}</span>
+            ])>{{ $currency->is_wildcard ? '★' : mb_strtoupper($currency->course?->language->short() ?? '?') }}</span>
             <span class="font-mono font-medium text-white">{{ $amount }}</span>
             <span class="text-ink-muted">{{ $currency->is_wildcard ? term('coin.wildcard', null, $amount) : term('coin.course', $currency->course, $amount) }}</span>
         </span>

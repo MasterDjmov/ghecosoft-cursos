@@ -1,10 +1,11 @@
 # Subir GhecoSoft-Code al servidor (Duplika · cPanel · servidor `mate`)
 
-> **Estado (2026-09-27):** todavía **no** se subió. Primero se pulen detalles; la lista de pendientes está en [PLAN.md § 10](PLAN.md).
+> **Estado (2026-09-28):** **subido.** `https://gamificado.lariojaclick.ar` (subdominio de cPanel detrás de **Cloudflare**).
 >
-> **Dominio de producción:** `https://gamificado.lariojaclick.ar` (subdominio ya creado en cPanel y detrás de **Cloudflare**). Por ahora sirve un `index.html` de prueba que hay que **borrar** al subir el proyecto (ver § 9).
->
-> **Repositorio:** `git@github.com:MasterDjmov/ghecosoft-cursos.git` (creado vacío; todavía no se hizo el primer push). Falta darle al servidor acceso por SSH al repo (ver § 2).
+> - La app vive en `~/gamificado.lariojaclick.ar` (clonada ahí) y el **document root** del subdominio apunta a `gamificado.lariojaclick.ar/public`.
+> - Repositorio: `git@github.com:MasterDjmov/ghecosoft-cursos.git`. El servidor lo lee con la deploy key `~/.ssh/ghecosoft_code` y el alias `github-ghecosoft_code` (§ 2).
+> - Base: `lariojac_code_cursos`. Cursos importados: Python, C y C++.
+> - Para actualizar: `scripts/deploy.sh` desde la compu (§ 6). En el servidor **no** se compilan los assets.
 
 Guía paso a paso para el hosting compartido (CloudLinux, PHP 8.3, MariaDB, Node 20 por SSH).
 La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el código de los alumnos corre en su navegador.
@@ -27,37 +28,46 @@ La plataforma **no necesita** workers, colas, cron ni "Setup Python App": el có
    - crear la base, por ejemplo `tuusuario_ghecosoft`;
    - crear un usuario con una contraseña larga;
    - darle **todos los privilegios** sobre esa base.
-5. **Dominio o subdominio** (*Domains*): `gamificado.lariojaclick.ar` (ya creado), con **document root** `~/ghecosoft-code/public`.
+5. **Dominio o subdominio** (*Domains*): `gamificado.lariojaclick.ar` (ya creado), con **document root** `gamificado.lariojaclick.ar/public` (la carpeta donde se clona el repo).
    Si el panel no deja elegir esa carpeta, ver § 7.
 6. **SSL**: que *SSL/TLS Status → AutoSSL* cubra el dominio. La app fuerza HTTPS en producción.
 7. **Correo** (opcional pero recomendado): crear una casilla, por ejemplo `no-responder@lariojaclick.ar`, para los avisos por mail.
 
 ## 2. Primera instalación (por SSH)
 
-Antes, una sola vez: que el servidor pueda leer el repo de GitHub por SSH.
+Antes, una sola vez: que el servidor pueda leer el repo de GitHub por SSH. Con un nombre y un alias propios, para no pisar otras claves del servidor:
 
 ```bash
-ssh-keygen -t ed25519 -C "servidor-mate" -f ~/.ssh/github_ghecosoft   # sin frase, Enter
-cat ~/.ssh/github_ghecosoft.pub
+ssh-keygen -t ed25519 -C "servidor-mate-ghecosoft_code" -f ~/.ssh/ghecosoft_code -N ""
+cat ~/.ssh/ghecosoft_code.pub
 ```
 
 Esa clave pública se carga en GitHub → repo *ghecosoft-cursos* → *Settings → Deploy keys* (solo lectura). Después:
 
 ```bash
 cat >> ~/.ssh/config <<'CFG'
-Host github.com
-    IdentityFile ~/.ssh/github_ghecosoft
+
+Host github-ghecosoft_code
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/ghecosoft_code
     IdentitiesOnly yes
 CFG
-ssh -T git@github.com    # tiene que saludar con el nombre del repo
+chmod 600 ~/.ssh/config
+ssh -T git@github-ghecosoft_code    # tiene que saludar con el nombre del repo
 ```
 
-Si el hosting bloquea el puerto 22 hacia afuera, usar `Hostname ssh.github.com` y `Port 443` en ese mismo bloque.
+Si el hosting bloquea el puerto 22 hacia afuera, usar `HostName ssh.github.com` y `Port 443` en ese mismo bloque.
+
+La carpeta del subdominio ya existe (con archivos ocultos de cPanel), así que en vez de `git clone` se arma el repo en el lugar, y el document root se apunta a su `public/` **antes** de crear el `.env`:
 
 ```bash
-cd ~
-git clone git@github.com:MasterDjmov/ghecosoft-cursos.git ghecosoft-code
-cd ghecosoft-code
+cd ~/gamificado.lariojaclick.ar
+rm index.html                        # la página de prueba
+git init -b main
+git remote add origin git@github-ghecosoft_code:MasterDjmov/ghecosoft-cursos.git
+git fetch origin
+git checkout -t origin/main
 
 # Dependencias de PHP sin las de desarrollo
 composer install --no-dev --optimize-autoloader
@@ -67,7 +77,7 @@ npm ci
 npm run build
 ```
 
-> Si `npm` no está disponible por SSH, corré `npm ci && npm run build` en tu máquina y subí la carpeta `public/build/` completa.
+> En `mate`, `npm run build` **falla** (CloudLinux limita los hilos). Compilá en tu máquina y subí `public/build/` completa; `scripts/deploy.sh` lo hace (§ 6).
 
 ## 3. Configuración (`.env`)
 
@@ -131,8 +141,20 @@ chmod -R ug+rwX storage bootstrap/cache
 
 ## 6. Actualizar a una versión nueva
 
+**En el servidor `mate` no se puede compilar** (`npm run build` se corta con `OS can't spawn worker thread`: CloudLinux limita los hilos). Los assets se compilan en la compu del docente y se sube `public/build/`. Todo eso lo hace un script, desde la compu:
+
 ```bash
-cd ~/ghecosoft-code
+git push                      # el servidor baja de GitHub
+scripts/deploy.sh             # build local + git pull, composer, migraciones, public/build y caché
+scripts/deploy.sh --cursos    # además reimporta los cursos de cursos/
+```
+
+Necesita en `~/.ssh/config` de la compu un alias `ghecosoft-prod` (HostName, Port 4444, User `lariojac`, la clave autorizada en el servidor). El servidor lee el repo con su propia deploy key, por el alias `github-ghecosoft_code` de su `~/.ssh/config`.
+
+A mano (si el servidor pudiera compilar):
+
+```bash
+cd ~/gamificado.lariojaclick.ar
 php artisan down                      # pantalla de mantenimiento
 git pull
 composer install --no-dev --optimize-autoloader
@@ -172,7 +194,7 @@ Recomendado: una copia por semana, más una antes de cada actualización.
 
 El subdominio pasa por Cloudflare (proxy naranja). Al subir el proyecto:
 
-1. **Borrar el `index.html` de prueba** de la carpeta del subdominio. Apache prefiere `index.html` a `index.php`: si queda, tapa la app. Después, apuntar el document root a `~/ghecosoft-code/public` (o el enlace del § 7).
+1. **Borrar el `index.html` de prueba** de la carpeta del subdominio. Apache prefiere `index.html` a `index.php`: si queda, tapa la app. Después, apuntar el document root a `gamificado.lariojaclick.ar/public` (o el enlace del § 7).
 2. **SSL en Cloudflare: *Full (strict)*** (*SSL/TLS → Overview*). Con *Flexible*, Cloudflare le habla al servidor por HTTP, la app redirige a HTTPS y queda un bucle de redirecciones. AutoSSL de cPanel da el certificado del servidor.
 3. **Confiar en el proxy de Cloudflare**: `TRUSTED_PROXIES=cloudflare` en el `.env`. Sin eso, Laravel ve la IP de Cloudflare en vez de la del alumno (los límites de intentos del login y de entregas se comparten entre todos) y no detecta bien el HTTPS. Los rangos están en `config/security.php` (revisar de vez en cuando https://www.cloudflare.com/ips/).
 4. **Nada de caché de HTML ni optimizaciones que tocan el JS**: en Cloudflare, *Rocket Loader* apagado (rompe Livewire y Alpine) y sin reglas de *Cache Everything* para las páginas. Cachear `/build/*` sí está bien: los archivos llevan hash.

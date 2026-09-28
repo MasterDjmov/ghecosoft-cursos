@@ -69,7 +69,9 @@ export function layoutTree(data) {
             const spread = Math.min(sector * 0.8, (siblings.length - 1) * (SIBLING_GAP / radius));
             siblings.forEach((node, k) => {
                 const offset = siblings.length === 1 ? 0 : -spread / 2 + (spread * k) / (siblings.length - 1);
-                const sway = Math.sin(depth * 1.7) * Math.min(0.1, sector / 8);
+                // Un vaivén chico para que no quede rígido, en píxeles (en ángulo crecería con el radio
+                // y en cursos largos las etiquetas se pisarían).
+                const sway = (Math.sin(depth * 1.7) * Math.min(18, radius * Math.min(0.1, sector / 8))) / radius;
                 const nodeAngle = angle + offset + sway;
                 positions.set(node.id, { x: Math.cos(nodeAngle) * radius, y: Math.sin(nodeAngle) * radius, angle: nodeAngle });
             });

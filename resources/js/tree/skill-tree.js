@@ -47,11 +47,24 @@ function escapeHtml(text) {
     return String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 }
 
-function drawLabel(ctx, text, x, y, scale, { small = false, dim = false } = {}) {
+/**
+ * Dibuja una etiqueta. Con `taken` (los rectángulos ya dibujados en este cuadro) se
+ * omite si se pisa con otra: al alejar el zoom quedan las más importantes, y al
+ * acercarlo aparecen todas. Devuelve si se dibujó.
+ */
+function drawLabel(ctx, text, x, y, scale, { small = false, dim = false, taken = null, force = false } = {}) {
     const fontSize = (small ? 10 : 12) / scale;
     ctx.font = `${small ? '500' : '600'} ${fontSize}px Inter, sans-serif`;
     const width = ctx.measureText(text).width + fontSize * 0.9;
     const height = fontSize * 1.65;
+
+    if (taken) {
+        const gap = 2 / scale;
+        const box = { left: x - width / 2 - gap, right: x + width / 2 + gap, top: y - height / 2 - gap, bottom: y + height / 2 + gap };
+        const overlaps = taken.some((other) => box.left < other.right && box.right > other.left && box.top < other.bottom && box.bottom > other.top);
+        if (overlaps && !force) return false;
+        taken.push(box);
+    }
 
     ctx.fillStyle = 'rgba(5,7,13,0.85)';
     ctx.fillRect(x - width / 2, y - height / 2, width, height);
@@ -63,6 +76,16 @@ function drawLabel(ctx, text, x, y, scale, { small = false, dim = false } = {}) 
     ctx.textBaseline = 'middle';
     ctx.fillStyle = dim ? '#94a3b8' : '#e2e8f0';
     ctx.fillText(text, x, y);
+    return true;
+}
+
+/** Orden de dibujo (y de prioridad de las etiquetas): el raíz, lo que se puede abrir o se está cursando, jefes y ventanas, el resto. */
+function drawPriority(node) {
+    if (node.kind === 'practice') return 5;
+    if (node.type === 'root') return 0;
+    if (['available', 'unlocked'].includes(node.state)) return 1;
+    if (['boss', 'window'].includes(node.type)) return 2;
+    return node.state === 'locked' ? 4 : 3;
 }
 
 /** Color y estilo de un nodo del árbol según su tipo y su estado. */
@@ -120,6 +143,9 @@ function buildGraph(data) {
         });
     }
 
+    // Lo importante se dibuja primero: así, si las etiquetas se pisan, se ve la suya.
+    nodes.sort((a, b) => drawPriority(a) - drawPriority(b));
+
     return { nodes, links };
 }
 
@@ -143,6 +169,8 @@ export function mountSkillTree(element, data, options = {}) {
     const graphData = buildGraph(data);
     // Categorías cuyos nombres no se dibujan (el raíz siempre se ve).
     let hiddenLabels = new Set(options.hiddenLabels ?? []);
+    // Etiquetas ya dibujadas en el cuadro actual (se vacía antes de cada cuadro).
+    let takenLabels = [];
 
     const graph = new ForceGraph(element)
         .width(element.clientWidth)
@@ -175,6 +203,7 @@ export function mountSkillTree(element, data, options = {}) {
         .linkDirectionalParticleWidth(2.4)
         .linkDirectionalParticleSpeed(0.006)
         .linkDirectionalParticleColor(() => '#a5f3fc')
+        .onRenderFramePre(() => (takenLabels = []))
         .nodeCanvasObjectMode(() => 'replace')
         .nodeCanvasObject((node, ctx, scale) => {
             if (node.kind === 'practice') {
@@ -184,7 +213,7 @@ export function mountSkillTree(element, data, options = {}) {
                 ctx.fillStyle = color;
                 ctx.fill();
                 drawIcon(ctx, node.mode, node.x, node.y, RADIUS.practice * 1.25);
-                if (scale >= LEAF_LABEL_ZOOM) drawLabel(ctx, node.title, node.x, node.y + RADIUS.practice + 12 / scale, scale, { small: true });
+                if (scale >= LEAF_LABEL_ZOOM) drawLabel(ctx, node.title, node.x, node.y + RADIUS.practice + 12 / scale, scale, { small: true, taken: takenLabels });
                 return;
             }
 
@@ -252,7 +281,7 @@ export function mountSkillTree(element, data, options = {}) {
 
             if (hiddenLabels.has(node.labelGroup)) return;
             const label = node.state === 'available' && node.price_label ? `${node.title} · ${node.price_label}` : node.title;
-            drawLabel(ctx, label, node.x, node.y + radius + 12 / scale + 4, scale, { dim: node.state === 'locked' });
+            drawLabel(ctx, label, node.x, node.y + radius + 12 / scale + 4, scale, { dim: node.state === 'locked', taken: takenLabels, force: node.type === 'root' });
         })
         .nodePointerAreaPaint((node, color, ctx) => {
             const radius = node.kind === 'practice' ? RADIUS.practice + 2 : (RADIUS[node.type] ?? RADIUS.topic) + 3;

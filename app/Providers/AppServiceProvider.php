@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Models\User;
+use App\Support\TrustedProxies;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +51,9 @@ class AppServiceProvider extends ServiceProvider
 
         // En el servidor todo va por HTTPS (AutoSSL de cPanel).
         URL::forceHttps(app()->isProduction());
+
+        // Detrás de Cloudflare: la IP real del alumno (límites de intentos) y el HTTPS.
+        TrustedProxies::apply();
 
         // Regla pedida para la plataforma: mínimo 8, mayúscula, minúscula y número.
         Password::defaults(fn (): Password => Password::min(8)->mixedCase()->numbers());

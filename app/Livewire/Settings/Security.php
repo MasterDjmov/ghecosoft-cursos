@@ -6,6 +6,7 @@ use App\Concerns\PasswordValidationRules;
 use Exception;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
@@ -97,6 +98,17 @@ class Security extends Component
      */
     public function updatePassword(): void
     {
+        // La clave actual no se puede adivinar a fuerza de intentos (sesión abierta en una compu compartida).
+        $key = 'update-password:'.Auth::id();
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $this->reset('current_password', 'password', 'password_confirmation');
+
+            throw ValidationException::withMessages([
+                'current_password' => __('auth.throttle', ['seconds' => RateLimiter::availableIn($key)]),
+            ]);
+        }
+        RateLimiter::hit($key, 60);
+
         try {
             $validated = $this->validate([
                 'current_password' => $this->currentPasswordRules(),

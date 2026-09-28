@@ -92,6 +92,8 @@ Valores a cambiar:
 | `MAIL_FROM_ADDRESS` | la misma casilla |
 | `QUEUE_CONNECTION` | `sync` (dejarlo así: no hay workers) |
 | `PYODIDE_URL` | dejar el de `.env.example` (Python 3.13 desde jsDelivr) |
+| `TRUSTED_PROXIES` | `cloudflare` (la IP real del alumno para los límites de intentos; ver § 9) |
+| `SESSION_SECURE_COOKIE` | `true` (la cookie de sesión viaja solo por HTTPS) |
 
 Los avisos siempre aparecen en la campanita; por mail salen solo si `MAIL_MAILER=smtp` y hay un host real.
 
@@ -170,7 +172,7 @@ El subdominio pasa por Cloudflare (proxy naranja). Al subir el proyecto:
 
 1. **Borrar el `index.html` de prueba** de la carpeta del subdominio. Apache prefiere `index.html` a `index.php`: si queda, tapa la app. Después, apuntar el document root a `~/ghecosoft-code/public` (o el enlace del § 7).
 2. **SSL en Cloudflare: *Full (strict)*** (*SSL/TLS → Overview*). Con *Flexible*, Cloudflare le habla al servidor por HTTP, la app redirige a HTTPS y queda un bucle de redirecciones. AutoSSL de cPanel da el certificado del servidor.
-3. **Confiar en el proxy de Cloudflare** (pendiente de código, PLAN § 10): sin eso, Laravel ve la IP de Cloudflare en vez de la del alumno (los límites de intentos del login y de entregas se comparten entre todos) y no detecta bien el HTTPS.
+3. **Confiar en el proxy de Cloudflare**: `TRUSTED_PROXIES=cloudflare` en el `.env`. Sin eso, Laravel ve la IP de Cloudflare en vez de la del alumno (los límites de intentos del login y de entregas se comparten entre todos) y no detecta bien el HTTPS. Los rangos están en `config/security.php` (revisar de vez en cuando https://www.cloudflare.com/ips/).
 4. **Nada de caché de HTML ni optimizaciones que tocan el JS**: en Cloudflare, *Rocket Loader* apagado (rompe Livewire y Alpine) y sin reglas de *Cache Everything* para las páginas. Cachear `/build/*` sí está bien: los archivos llevan hash.
 5. **Límite de subida**: el plan gratis de Cloudflare acepta hasta 100 MB por pedido; nuestros archivos son de 25 MB como máximo, así que no molesta.
 6. Si se ve algo raro después de actualizar, *Caching → Purge Everything* en Cloudflare.

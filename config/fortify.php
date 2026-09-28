@@ -115,7 +115,9 @@ return [
     */
 
     'limiters' => [
-        'login' => 'login',
+        // null: Fortify cuenta solo los intentos fallidos (usuario + IP) y avisa en el formulario.
+        // El tope por IP lo pone App\Http\Middleware\ThrottleAuthForms.
+        'login' => null,
         'two-factor' => 'two-factor',
         'passkeys' => 'passkeys',
     ],

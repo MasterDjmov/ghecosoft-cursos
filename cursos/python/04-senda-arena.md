@@ -1,4 +1,4 @@
-# RAMA S01 · Senda de la Arena
+# RAMA S01 · Senda de la Arena: videojuegos con pygame
 
 ```meta
 tipo: senda

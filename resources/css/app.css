@@ -96,6 +96,11 @@
         @apply font-mono text-[11px] tracking-widest text-ink-muted uppercase;
     }
 
+    /* Temas del temario: admiten `código` en línea. */
+    .syllabus-item code {
+        @apply rounded bg-surface-highest px-1 py-px font-mono text-[0.9em] text-primary-bright;
+    }
+
     .live-dot {
         @apply inline-block size-1.5 animate-pulse rounded-full bg-success;
     }

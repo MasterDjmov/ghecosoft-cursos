@@ -33,7 +33,6 @@ Al final del camino principal llegás a la **Encrucijada de los Engranajes**, de
 - C++ moderno: contenedores, `optional`, lambdas, punteros inteligentes y RAII
 - La STL a fondo: plantillas, iteradores, algoritmos y vistas
 - Excepciones, depuración, pruebas y un juego completo en consola
-- Sendas: videojuegos con SDL3 y ventanas con Qt
 
 # DICCIONARIO
 

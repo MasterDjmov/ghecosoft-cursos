@@ -32,7 +32,6 @@ Al final del camino principal llegás a la **Encrucijada**, de donde salen las S
 - Excepciones, JSON y CSV
 - Generadores, programación funcional y decoradores
 - Anotaciones de tipos, asyncio y rendimiento
-- Sendas: videojuegos con pygame, datos, IA y robótica
 
 # DICCIONARIO
 

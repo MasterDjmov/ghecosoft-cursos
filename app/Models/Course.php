@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BranchKind;
 use App\Enums\CourseLevel;
 use App\Enums\Language;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -79,6 +80,14 @@ class Course extends Model
     public function branches(): HasMany
     {
         return $this->hasMany(Branch::class)->orderBy('position');
+    }
+
+    /** Sendas con algún nodo publicado: el temario del catálogo las muestra como opcionales. */
+    public function paths(): HasMany
+    {
+        return $this->branches()
+            ->where('kind', BranchKind::Path)
+            ->whereHas('nodes', fn ($q) => $q->where('is_published', true));
     }
 
     public function nodes(): HasMany

@@ -1,7 +1,9 @@
 <?php
 
 use App\Enums\XpReason;
+use App\Models\Branch;
 use App\Models\Course;
+use App\Models\Node;
 use App\Models\RankingSnapshot;
 use App\Models\User;
 use App\Services\Ledger;
@@ -81,4 +83,21 @@ test('el ranking sale bien del caché aunque el caché no deserialice clases', f
 
     expect(app(Ranking::class)->global())->toHaveCount(1)
         ->and(app(Ranking::class)->global()->first()['hero'])->toBe('Kirana');
+});
+
+test('el temario completo se abre en un modal, con las Sendas como opcionales y sin títulos de clases', function () {
+    ['course' => $course, 'topic1' => $topic1] = makeCourse(['syllabus' => implode("\n", ['Uno', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Referencias y `std::vector`', 'Siete <b>']), 'is_featured' => true]);
+    $path = Branch::create(['course_id' => $course->id, 'code' => 'S01', 'title' => 'Senda de la Arena: videojuegos con pygame', 'kind' => 'path', 'position' => 5]);
+    Node::create(['course_id' => $course->id, 'branch_id' => $path->id, 'parent_id' => $topic1->id, 'type' => 'topic', 'title' => 'Sprites secretos', 'price' => 5]);
+    $hidden = Branch::create(['course_id' => $course->id, 'code' => 'S02', 'title' => 'Senda vacía: sin nodos', 'kind' => 'path', 'position' => 6]);
+
+    $this->get('/')->assertOk()
+        ->assertSee('data-test="syllabus-'.$course->slug.'"', false)
+        ->assertSee('y 2 temas más · + 1 Senda opcional')
+        ->assertSee('Referencias y <code>std::vector</code>', false)
+        ->assertSee('Siete &lt;b&gt;', false)
+        ->assertSee('Senda de la Arena')
+        ->assertSee('videojuegos con pygame')
+        ->assertDontSee('Senda vacía')
+        ->assertDontSee('Sprites secretos');
 });

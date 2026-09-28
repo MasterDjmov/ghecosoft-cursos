@@ -39,6 +39,7 @@ class Worlds extends Component
         $user = auth()->user();
 
         $worlds = Course::inCatalog()
+            ->with('paths')
             ->withCount(['nodes as published_nodes_count' => fn ($q) => $q->where('is_published', true)])
             ->orderBy('position')
             ->get()

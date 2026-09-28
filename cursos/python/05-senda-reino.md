@@ -1,4 +1,4 @@
-# RAMA S02 · Senda del Reino
+# RAMA S02 · Senda del Reino: datos, IA y robótica
 
 ```meta
 tipo: senda

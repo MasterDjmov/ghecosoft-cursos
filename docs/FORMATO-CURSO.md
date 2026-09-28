@@ -68,7 +68,7 @@ publicado: no             # solo al crearlo (por defecto, borrador); después se
 ```
 
 - `### Descripción`: texto largo de la ficha del curso.
-- `### Temario`: una lista corta (un tema por línea, con `-`) que se muestra en las tarjetas del catálogo y de la landing.
+- `### Temario`: una lista corta (un tema por línea, con `-`; admite `código`). La tarjeta del catálogo y de la landing muestra los 5 primeros y el botón **Ver temario** abre la lista completa. No hace falta nombrar las Sendas: el modal las agrega solo, como opcionales (ver § 4).
 
 ## 3. `# DICCIONARIO`
 
@@ -91,7 +91,7 @@ posicion: 1       # orden en el árbol (por defecto, el orden del archivo)
 
 ### Sendas
 
-Una Senda es una rama `tipo: senda`. Su primer nodo tiene como `padre` el nodo del tronco del que **brota** (normalmente una `ventana`) y suele cobrarse en `comodin`; los de adentro, en la moneda del curso. Si un tramo necesita un tema más avanzado del tronco, se agrega con `requiere:`. Una Senda puede brotar de otra. En el árbol se dibuja saliendo de su nodo de origen, y **no cuenta** para completar el curso (como los extras).
+Una Senda es una rama `tipo: senda`. Conviene titularla «Nombre: de qué trata» (`# RAMA S01 · Senda de la Arena: videojuegos con pygame`): el temario de la landing la muestra así, en el bloque de opcionales (solo las que tienen algún nodo publicado; nunca los títulos de sus nodos). Su primer nodo tiene como `padre` el nodo del tronco del que **brota** (normalmente una `ventana`) y suele cobrarse en `comodin`; los de adentro, en la moneda del curso. Si un tramo necesita un tema más avanzado del tronco, se agrega con `requiere:`. Una Senda puede brotar de otra. En el árbol se dibuja saliendo de su nodo de origen, y **no cuenta** para completar el curso (como los extras).
 
 ## 5. Nodo: `## R01-N01 · Título`
 

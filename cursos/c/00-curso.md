@@ -33,7 +33,6 @@ Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde 
 - Memoria dinámica, listas y punteros a función
 - Archivos de texto y binarios, módulos y menús
 - Depuración, pruebas y proyectos completos
-- Sendas: videojuegos con SDL3 y Arduino
 
 # DICCIONARIO
 

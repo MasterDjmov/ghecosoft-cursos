@@ -6,11 +6,9 @@ use App\Concerns\ProfileValidationRules;
 use App\Enums\CoinReason;
 use App\Enums\XpReason;
 use App\Exceptions\InsufficientFunds;
-use App\Models\CoinTransaction;
 use App\Models\Currency;
 use App\Models\Submission;
 use App\Models\User;
-use App\Models\XpTransaction;
 use App\Services\Ledger;
 use App\Services\Ranking;
 use App\Services\StudentAccounts;
@@ -131,6 +129,7 @@ class Show extends Component
         }
 
         $this->reset('amount', 'reason');
+        $this->dispatch('ledger-updated');
         Flux::toast(variant: 'success', text: 'Ajuste registrado.');
     }
 
@@ -142,8 +141,6 @@ class Show extends Component
             'subscriptions' => $this->user->subscriptions()->with(['course', 'cohort'])->orderByDesc('ends_at')->get(),
             'balances' => $balances,
             'currencies' => Currency::with('course')->get()->sortBy(fn ($c) => $c->is_wildcard ? 'zzz' : $c->course?->title),
-            'coinMovements' => CoinTransaction::with(['currency.course', 'creator:id,name'])->where('user_id', $this->user->id)->latest('id')->limit(30)->get(),
-            'xpMovements' => XpTransaction::with('creator:id,name')->where('user_id', $this->user->id)->latest('id')->limit(30)->get(),
             'submissions' => Submission::with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),
             'badges' => $this->user->badges()->get(),
         ])->title($this->user->fullName());

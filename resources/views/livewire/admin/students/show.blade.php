@@ -139,5 +139,5 @@
         </ul>
     </section>
 
-    <x-movements :coins="$coinMovements" :xp="$xpMovements" show-author />
+    <livewire:movement-feed :user="$user" show-author />
 </div>

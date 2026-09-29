@@ -1,4 +1,4 @@
-<section class="panel flex flex-col gap-4 p-5 sm:p-6">
+<section id="comisiones" class="panel flex scroll-mt-6 flex-col gap-4 p-5 sm:p-6">
     <div class="flex flex-wrap items-start justify-between gap-3">
         <div class="flex flex-col gap-1">
             <h2 class="font-display font-semibold text-white">Comisiones</h2>

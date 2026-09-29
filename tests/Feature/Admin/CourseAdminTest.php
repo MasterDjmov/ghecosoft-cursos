@@ -110,3 +110,12 @@ test('publicar y ordenar cursos desde el listado', function () {
         ->and($b->fresh()->position)->toBe(1)
         ->and($a->fresh()->position)->toBe(2);
 });
+
+test('el listado tiene el atajo a las comisiones de cada curso, con cuántas tiene', function () {
+    ['course' => $course] = makeCourse();
+    $course->cohorts()->create(['name' => 'Martes 18 h']);
+
+    Livewire::test(Index::class)
+        ->assertSee(route('admin.courses.edit', $course).'#comisiones', false)
+        ->assertSee('Comisiones (1)');
+});

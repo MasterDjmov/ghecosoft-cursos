@@ -36,6 +36,8 @@
                 <div class="flex flex-wrap gap-2">
                     <flux:button size="sm" variant="primary" icon="share" :href="route('admin.courses.tree', $course)" wire:navigate>Árbol</flux:button>
                     <flux:button size="sm" icon="pencil-square" :href="route('admin.courses.edit', $course)" wire:navigate>Datos</flux:button>
+                    {{-- Sin wire:navigate: la carga completa baja sola hasta #comisiones. --}}
+                    <flux:button size="sm" icon="user-group" :href="route('admin.courses.edit', $course).'#comisiones'">Comisiones ({{ $course->cohorts_count }})</flux:button>
                     <flux:button size="sm" variant="ghost" :icon="$course->is_published ? 'eye-slash' : 'eye'" wire:click="togglePublished({{ $course->id }})">
                         {{ $course->is_published ? 'Despublicar' : 'Publicar' }}
                     </flux:button>

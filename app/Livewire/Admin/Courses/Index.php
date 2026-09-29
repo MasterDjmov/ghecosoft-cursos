@@ -26,7 +26,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.admin.courses.index', [
-            'courses' => Course::withCount(['nodes', 'branches', 'interests'])->orderBy('position')->orderBy('id')->get(),
+            'courses' => Course::withCount(['nodes', 'branches', 'interests', 'cohorts'])->orderBy('position')->orderBy('id')->get(),
             'activeStudents' => CourseSubscription::active()->selectRaw('course_id, count(distinct user_id) as total')
                 ->groupBy('course_id')->pluck('total', 'course_id'),
         ]);

@@ -120,8 +120,8 @@ test('un alumno no puede crear cuentas ni ver la ficha de otro', function () {
     $student = User::factory()->create();
     $other = User::factory()->create();
 
-    $this->actingAs($student)->get(route('admin.students.create'))->assertForbidden();
-    $this->actingAs($student)->get(route('admin.students.show', $other))->assertForbidden();
+    $this->actingAs($student)->get(route('admin.students.create'))->assertRedirect(route('home'));
+    $this->actingAs($student)->get(route('admin.students.show', $other))->assertRedirect(route('home'));
 });
 
 test('sin email los avisos quedan solo en la campanita', function () {

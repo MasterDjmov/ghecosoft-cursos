@@ -153,8 +153,8 @@ test('sin abono no se abre el curso', function () {
 test('un alumno no entra a la bandeja ni a la configuración', function () {
     $this->actingAs(User::factory()->create());
 
-    $this->get(route('admin.requests'))->assertForbidden();
-    $this->get(route('admin.settings'))->assertForbidden();
+    $this->get(route('admin.requests'))->assertRedirect(route('home'));
+    $this->get(route('admin.settings'))->assertRedirect(route('home'));
 });
 
 test('la configuración guarda el WhatsApp', function () {

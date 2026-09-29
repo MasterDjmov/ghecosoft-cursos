@@ -7,8 +7,13 @@ test('un invitado va al login', function () {
     $this->get(route('admin.dashboard'))->assertRedirect(route('login'));
 });
 
-test('un alumno no puede entrar al panel del docente', function () {
-    $this->actingAs(User::factory()->create())->get(route('admin.dashboard'))->assertForbidden();
+test('un alumno no puede entrar al panel del docente: vuelve a su inicio, sin ver el panel', function () {
+    $student = User::factory()->create();
+
+    $this->actingAs($student)->get(route('admin.dashboard'))->assertRedirect(route('home'));
+    $this->actingAs($student)->followingRedirects()->get(route('admin.dashboard'))
+        ->assertOk()->assertDontSee('Solicitudes pendientes');
+    $this->actingAs($student)->getJson(route('admin.dashboard'))->assertForbidden();
 });
 
 test('el docente entra a su panel y también puede ver la vista del alumno', function () {

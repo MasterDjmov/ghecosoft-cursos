@@ -33,7 +33,7 @@ test('un alumno no entra a ninguna pantalla del editor', function () {
         route('admin.courses.index'), route('admin.courses.tree', $course), route('admin.nodes.edit', [$course, $topic1]),
         route('admin.glossary'), route('admin.levels'), route('admin.badges'),
     ] as $url) {
-        $this->get($url)->assertForbidden();
+        $this->get($url)->assertRedirect(route('home'));
     }
 });
 

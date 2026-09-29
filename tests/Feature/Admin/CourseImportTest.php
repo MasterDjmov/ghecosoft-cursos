@@ -161,7 +161,7 @@ test('avisa si las obligatorias no alcanzan para pagar el nodo siguiente', funct
 });
 
 test('solo el docente entra a importar', function () {
-    $this->actingAs(User::factory()->create())->get(route('admin.courses.import'))->assertForbidden();
+    $this->actingAs(User::factory()->create())->get(route('admin.courses.import'))->assertRedirect(route('home'));
     $this->actingAs(User::factory()->admin()->create())->get(route('admin.courses.import'))->assertOk();
 });
 

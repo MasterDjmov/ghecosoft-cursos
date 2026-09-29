@@ -9,20 +9,16 @@
 <div {{ $attributes->merge(['class' => 'flex flex-wrap items-center gap-2']) }}>
     @forelse ($balances as $currencyId => $amount)
         @php($currency = $currencies[$currencyId])
-        <span class="panel flex items-center gap-1.5 px-2.5 py-1 text-xs" title="{{ $currency->course?->title ?? 'Sirve para extras de cualquier curso' }}">
-            <span @class([
-                'grid size-5 place-items-center rounded-full font-mono text-[10px] font-bold',
-                'bg-secondary/25 text-secondary-bright' => $currency->is_wildcard,
-                'bg-primary/20 text-primary-bright' => ! $currency->is_wildcard,
-            ])>{{ $currency->is_wildcard ? '★' : mb_strtoupper($currency->course?->language->short() ?? '?') }}</span>
+        <span class="panel flex items-center gap-2 py-1 ps-1 pe-3 text-sm" title="{{ $currency->course?->title ?? 'Sirve para extras de cualquier curso' }}">
+            <x-coin-icon :currency="$currency" />
             <span class="font-mono font-medium text-white">{{ $amount }}</span>
             <span class="text-ink-muted">{{ $currency->is_wildcard ? term('coin.wildcard', null, $amount) : term('coin.course', $currency->course, $amount) }}</span>
         </span>
     @empty
-        <span class="panel px-2.5 py-1 text-xs text-ink-muted">0 {{ term('coin.course', null, 2) }}</span>
+        <span class="panel px-3 py-1.5 text-sm text-ink-muted">0 {{ term('coin.course', null, 2) }}</span>
     @endforelse
 
-    <span class="panel flex items-center gap-1.5 px-2.5 py-1 text-xs">
+    <span class="panel flex items-center gap-1.5 px-3 py-1.5 text-sm">
         <span class="font-mono text-primary-bright">{{ $level?->name() ?? \Illuminate\Support\Str::ucfirst(term('level')).' 1' }}</span>
         <span class="text-ink-muted">·</span>
         <span class="font-mono text-white">{{ $user->xp_total }}</span>

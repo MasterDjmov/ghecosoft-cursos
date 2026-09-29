@@ -187,8 +187,8 @@ test('un alumno no comenta ni ve entregas ajenas, ni entra a la bandeja', functi
     $intruder = User::factory()->create();
 
     Livewire::actingAs($intruder)->test(PracticeCard::class, ['practice' => $this->practice])->assertForbidden();
-    $this->actingAs($intruder)->get(route('admin.submissions.show', $submission))->assertForbidden();
-    $this->actingAs($intruder)->get(route('admin.submissions.index'))->assertForbidden();
+    $this->actingAs($intruder)->get(route('admin.submissions.show', $submission))->assertRedirect(route('home'));
+    $this->actingAs($intruder)->get(route('admin.submissions.index'))->assertRedirect(route('home'));
 });
 
 test('el hilo de comentarios avisa al otro lado', function () {

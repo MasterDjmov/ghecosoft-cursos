@@ -38,3 +38,17 @@ test('los cursos no publicados no aparecen', function () {
 
     $this->actingAs(User::factory()->create())->get(route('student.worlds'))->assertDontSee('Curso en borrador');
 });
+
+test('el 403 muestra la página de la zona prohibida con el botón para volver al inicio', function () {
+    ['course' => $course, 'root' => $root] = makeCourse();
+    $owner = enrolledStudent($course);
+    $submission = $root->practices()->first()->submissions()->create([
+        'user_id' => $owner->id, 'attempt' => 1, 'file_path' => 'submissions/x.py', 'submitted_at' => now(),
+    ]);
+
+    $this->actingAs(User::factory()->create())->get(route('files.submission', $submission))
+        ->assertForbidden()
+        ->assertSee('Esta puerta está sellada')
+        ->assertSee('/images/error-403.webp', false)
+        ->assertSee('href="'.route('home').'"', false);
+});

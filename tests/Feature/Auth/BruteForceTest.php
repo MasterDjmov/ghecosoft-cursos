@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
 test('después de 5 claves mal para el mismo usuario, el login se frena aunque la sexta sea correcta', function () {
+    // Con el reloj quieto, el mensaje dice siempre 60 segundos (si no, a veces cruza al 59).
+    $this->freezeSecond();
     $user = User::factory()->create();
 
     foreach (range(1, 5) as $i) {

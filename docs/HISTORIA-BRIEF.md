@@ -33,7 +33,7 @@ Te paso el contexto de una plataforma de cursos de programación gamificada que 
 - **Moneda del curso** (en Python se llama "**escama**"): se gana con prácticas obligatorias y se gasta en abrir nodos. En el demo cada nodo cuesta 10 y sus obligatorias pagan justo 10.
 - **Moneda comodín** (general, de todos los cursos): se gana con optativas y abre los nodos Extra.
 - **XP**: nunca se gasta; sube de **nivel**. Por práctica (10 a 50 XP), +20 XP al completar un nodo, +50 XP al vencer un jefe.
-- **Niveles** (XP necesaria): 1 = 0 · 2 = 100 · 3 = 250 · 4 = 500 · 5 = 1000 · 6 = 1750 · 7 = 2750. Cada nivel puede tener nombre propio (rango).
+- **Niveles** (XP necesaria): 100 niveles con curva `35 · (n − 1)^1.58` (D56): 2 = 35 · 5 = 310 · 10 = 1150 · 15 = 2250 · 20 = 3700 · 30 = 7200 · 50 = 16 500 · 100 = 50 000. Un curso completo deja entre el 15 y el 21; el 100 pide una docena de cursos. Cada nivel puede tener nombre propio (rango).
 - **Insignias**: una por jefe (ej. "Cazador de slimes").
 - **Ranking**: top 10 por curso y global (por XP). **CV público** del alumno con cursos, nivel e insignias.
 

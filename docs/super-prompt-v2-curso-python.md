@@ -71,7 +71,7 @@ El curso es **uno solo y muy completo**: un **tronco obligatorio** que enseña t
 - **Escama** (moneda del curso de Python): se gana con prácticas obligatorias y se gasta en abrir nodos. Referencia actual: cada nodo cuesta 10 y sus obligatorias pagan 10 en total. Si un nodo tiene muchas prácticas, repartí las escamas entre ellas.
 - **Comodín** (moneda general, de todos los cursos): se gana con optativas y abre nodos Extra.
 - **XP**: nunca se gasta. De 10 a 50 XP por práctica (según dificultad), +20 al completar un nodo, +50 al vencer un jefe.
-- **Niveles** por XP: 1 = 0 · 2 = 100 · 3 = 250 · 4 = 500 · 5 = 1000 · 6 = 1750 · 7 = 2750. Cada nivel tiene un nombre de rango.
+- **Niveles** por XP: 100 niveles (curva `35 · (n − 1)^1.58`; 2 = 35 · 10 = 1150 · 15 = 2250 · 100 = 50 000). Cada nivel puede tener un nombre de rango.
 - **Insignias**: una por jefe. Aparecen en el **CV público** del alumno.
 - **Ranking**: top 10 por curso y global.
 

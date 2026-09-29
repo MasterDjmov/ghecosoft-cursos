@@ -57,11 +57,11 @@ test('los niveles guardan XP creciente y el nombre va al diccionario', function 
 
     Livewire::test(Levels::class)
         ->set('rows.2.name', 'Aprendiz')
-        ->set('rows.2.xp_required', 120)
+        ->set('rows.2.xp_required', 100)
         ->call('save')
         ->assertHasNoErrors();
 
-    expect(Level::where('number', 2)->value('xp_required'))->toBe(120)
+    expect(Level::where('number', 2)->value('xp_required'))->toBe(100)
         ->and(Level::where('number', 2)->first()->name())->toBe('Aprendiz')
         ->and(Level::where('number', 3)->first()->name())->toBe('Nivel 3');
 
@@ -91,4 +91,20 @@ test('insignias: se crean y no se borra una que un alumno ganó', function () {
     Livewire::test(Badges::class)->call('delete', $badge->id);
 
     expect(Badge::find($badge->id))->not->toBeNull();
+});
+
+test('la curva trae 100 niveles crecientes y no pisa los nombres de los rangos', function () {
+    Level::create(['number' => 2, 'xp_required' => 100]);
+    GlossaryTerm::create(['key' => 'level.2', 'singular' => 'Aprendiz']);
+
+    $this->seed(LevelSeeder::class);
+    $levels = Level::orderBy('number')->pluck('xp_required', 'number');
+
+    expect($levels)->toHaveCount(100)
+        ->and($levels[1])->toBe(0)
+        ->and($levels[2])->toBe(35)
+        ->and($levels[100])->toBe(50000)
+        ->and($levels->values()->sliding(2)->every(fn ($pair) => $pair->last() > $pair->first()))->toBeTrue()
+        ->and(Level::where('number', 2)->first()->name())->toBe('Aprendiz')
+        ->and(Level::forXp(2515)?->number)->toBe(15);
 });

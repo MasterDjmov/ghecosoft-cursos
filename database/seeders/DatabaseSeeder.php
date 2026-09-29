@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             PythonCourseSeeder::class,
             CCourseSeeder::class,
             CppCourseSeeder::class,
+            JavaCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
             DemoHeroesSeeder::class,

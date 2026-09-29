@@ -144,7 +144,7 @@ class SimulateCourse extends Command
 
         mt_srand((int) $this->option('seed'));
         $this->language = $course->language->value;
-        $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++'][$this->language] ?? null;
+        $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++', 'java' => 'java'][$this->language] ?? null;
         $this->runner = $tool ? (new ExecutableFinder)->find($tool) : null;
         $this->workDir = storage_path('app/simulacion');
         @mkdir($this->workDir, 0775, true);
@@ -413,6 +413,13 @@ class SimulateCourse extends Command
                 : "resultado = valor_que_no_existe\n".$code;
         }
 
+        // En Java: una variable sin declarar (no compila) o una línea de más al empezar el main.
+        if ($this->runner && $this->language === 'java') {
+            return $practice->expected_output && mt_rand(0, 1)
+                ? preg_replace('/(static void main\(String\[\] \w+\)[^{]*\{)/', "$1\n        System.out.println(\"listo\");", $code, 1)
+                : $code."\nclass Rota { int funcion() { return valorQueNoExiste; } }\n";
+        }
+
         // En C/C++: una variable sin declarar (no compila) o una línea de más antes del último return.
         if ($this->runner) {
             $at = strrpos($code, 'return 0;');
@@ -484,7 +491,7 @@ class SimulateCourse extends Command
             return [true, ''];
         }
 
-        if (! $this->runner) {
+        if (! $this->runner || ! $this->canRun($submission->code)) {
             $reference = trim((string) $practice->reference_solution);
 
             return $reference === '' || trim($submission->code) === $reference
@@ -509,6 +516,16 @@ class SimulateCourse extends Command
         return [true, ''];
     }
 
+    /**
+     * En Java, el docente no puede probar acá lo que necesita la base (PostgreSQL), una ventana,
+     * varios archivos o lo que no es un programa (un script SQL): eso lo compara con la solución de referencia.
+     */
+    private function canRun(string $code): bool
+    {
+        return $this->language !== 'java'
+            || (str_contains($code, 'static void main') && ! preg_match('/```|jdbc:|javax\.swing|java\.awt|^\s*package\s/m', $code));
+    }
+
     /** @return array{0: string, 1: ?string} salida, y el error (del compilador o de la ejecución) si hubo */
     private function runCode(string $code, ?string $stdin): array
     {
@@ -521,6 +538,10 @@ class SimulateCourse extends Command
             if ($this->language === 'python') {
                 file_put_contents($dir.'/main.py', $code);
                 $command = [$this->runner, 'main.py'];
+            } elseif ($this->language === 'java') {
+                // `java Main.java` compila en memoria y corre la primera clase del archivo.
+                file_put_contents($dir.'/Main.java', $code);
+                $command = [$this->runner, '-Dfile.encoding=UTF-8', '-Dstdout.encoding=UTF-8', 'Main.java'];
             } else {
                 // Como compila el alumno en su compu: con advertencias, y la matemática enlazada.
                 $source = $this->language === 'c' ? 'main.c' : 'main.cpp';
@@ -535,10 +556,14 @@ class SimulateCourse extends Command
                 $command = ['./programa'];
             }
 
-            $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', 5);
+            // La JVM tarda en arrancar y compilar: le damos más margen que a un programa nativo.
+            $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', $this->language === 'java' ? 20 : 5);
             $process->run();
             $output = $process->getOutput();
-            if ($this->language === 'python' && ! $process->isSuccessful()) {
+            if ($this->language === 'java' && ! $process->isSuccessful()) {
+                $lines = collect(explode("\n", trim($process->getErrorOutput())));
+                $error = $lines->first(fn ($line) => str_contains($line, 'error:') || str_starts_with($line, 'Exception')) ?: ($lines->first() ?: 'El programa terminó con error.');
+            } elseif ($this->language === 'python' && ! $process->isSuccessful()) {
                 $error = collect(explode("\n", trim($process->getErrorOutput())))->last() ?: 'El programa terminó con error.';
             } elseif ($process->hasBeenSignaled() || $process->getExitCode() >= 128) {
                 // En C, un código de salida distinto de 0 puede ser a propósito; una señal (violación de segmento) no.

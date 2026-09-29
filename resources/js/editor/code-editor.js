@@ -8,6 +8,7 @@ import { indentWithTab } from '@codemirror/commands';
 import { HighlightStyle, syntaxHighlighting, indentUnit } from '@codemirror/language';
 import { python } from '@codemirror/lang-python';
 import { cpp } from '@codemirror/lang-cpp';
+import { java } from '@codemirror/lang-java';
 import { tags as t } from '@lezer/highlight';
 
 const theme = EditorView.theme(
@@ -40,7 +41,7 @@ const highlight = HighlightStyle.define([
 ]);
 
 // C, C++ y Arduino comparten resaltado; los demás lenguajes se ven sin colores por ahora.
-const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp() };
+const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp(), java: () => java() };
 
 /**
  * @param {HTMLElement} parent

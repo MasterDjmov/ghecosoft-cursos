@@ -232,7 +232,7 @@ test('los cursos reales de cursos/ se importan sin errores ni avisos', function 
     expect($files)->not->toBeEmpty()
         ->and($report['errors'])->toBe([])
         ->and($report['warnings'])->toBe([]);
-})->with(['python', 'c', 'cpp']);
+})->with(['python', 'c', 'cpp', 'java']);
 
 test('una entrada de ejemplo que empieza con una línea vacía la conserva', function () {
     $contenido = str_replace("#### Entrada de ejemplo\n\n```\n15\n```", "#### Entrada de ejemplo\n\n```\n\n15\n```", file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md')));

@@ -6,6 +6,8 @@
 
 > **C++ ya está en la plataforma (2026-09-28, D53):** `03-C++`, `04-C++-Moderno` y `11-STL` (más `05-C++-Videojuegos` para la última rama) son el curso de [`cursos/cpp/`](../cursos/cpp/), *La Ciudadela de los Artífices* con la mentora **Tesla**. Como todo estaba en formato viejo, se escribió desde cero siguiendo la regla de la auditoría (cada capítulo arranca de cero; la comparación con C va en un recuadro opcional), usando esos ejemplos como base. Las Sendas son SDL3 en C++ (`07-SDL3-Cpp`) y Qt (`12-Qt-GUI`).
 
+> **Java ya está en la plataforma (2026-09-29, D58):** `18-Java`, `19-Java-Avanzado` y `20-SpringBoot-Lombok` son el curso de [`cursos/java/`](../cursos/java/), *El Imperio de las Clases* con la mentora **Kaffa**. `18-Java` arma el tronco (fundamentos, objetos, colecciones y errores, archivos y bases de datos en PostgreSQL, Swing); lo que estaba sin hacer se escribió desde cero. Las Sendas son el Arcade Imperial (juego 2D con Swing), las Corrientes (`19-Java-Avanzado`: Java moderno) y el Puerto de Spring (`20-SpringBoot-Lombok` y la parte de Spring de `19`).
+
 > Origen: `/home/djmov/Programas/Cursos/FullCursos/` (relevado el 2026-09-26).
 > Objetivo: decidir **cómo se arma cada curso en la plataforma** (curso → unidades → clases → tarea) a partir de lo que ya está escrito.
 > No se modificó nada en esa carpeta.
@@ -42,7 +44,7 @@ Todos los cursos comparten una historia:
 |---|---|---|---|
 | Las Forjas de Hierro | 01–02 C | Maese Ferrum | definida |
 | El Valle de la Serpiente | 17 Python | Ofidia | definida |
-| El Imperio de las Clases | 18–20 Java | Kaffa | definida |
+| El Imperio de las Clases | 18–20 Java | Kaffa | definida (D58) |
 | La Ciudadela de los Artífices | 03–05, 07, 11, 12 C++ | Tesla, la Artífice Mayor | definida (D53) |
 | El Puerto de los Mensajeros / La Feria de las Luces | 21 PHP / 22–23 JS-TS | a definir | — |
 
@@ -106,9 +108,9 @@ Columnas:
 | 15 | Arduino | 7 | 0 | ❌ (hardware) | formato viejo |
 | 16 | Phaser | 13 | 0 | ⚠️ son páginas HTML jugables | formato viejo |
 | 17 | **Python** | 28 (índice: 47) | **11** | ✅ Pyodide (ver § 5) | 🔄 bloque 1 listo (01–11); sigue 12–19 |
-| 18 | **Java** (Paradigmas III, UNLaR) | 26 (índice: 42) | **8** | ❌ | 🔄 bloque 1 listo (01–08); sigue 09–18 |
-| 19 | Java avanzado | 13 | 0 | ❌ | pendiente: bloque 0 de repaso |
-| 20 | Spring Boot + Lombok | 12 | 0 | ❌ | pendiente: bloque 0 de repaso |
+| 18 | **Java** (Paradigmas III, UNLaR) | 26 (índice: 42) | **8** | ❌ | en la plataforma: `cursos/java`, ramas 1 a 5 y Senda del Arcade (D58) |
+| 19 | Java avanzado | 13 | 0 | ❌ | en la plataforma: Senda de las Corrientes de `cursos/java` (D58) |
+| 20 | Spring Boot + Lombok | 12 | 0 | ❌ | en la plataforma: Senda del Puerto de Spring de `cursos/java` (D58) |
 | 21 | PHP | 23 | 0 | ❌ hoy (posible con php-wasm) | formato viejo |
 | 22 | JS Vanilla | 22 | 0 | ⚠️ JS corre nativo en el navegador | formato viejo |
 | 23 | TypeScript | 22 | 0 | ⚠️ ídem, compilando TS en el cliente | formato viejo |

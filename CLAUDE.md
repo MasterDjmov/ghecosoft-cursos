@@ -25,7 +25,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - **Todo se diseña para cualquier lenguaje** (D39): Python es el primer curso, pero secciones, prácticas, Sendas, monedas, jefes, importador e historia no pueden depender de Python (salvo el ejecutor del navegador).
 
 ## Reglas que no se rompen
-- El código del alumno **nunca** se ejecuta en el servidor. Python corre con Pyodide en un Web Worker (timeout 5 s); C y C++, solo para el docente al corregir, con Clang en WebAssembly en su navegador (D66).
+- El código del alumno **nunca** se ejecuta en el servidor. Python corre con Pyodide en un Web Worker (timeout 5 s); C y C++, solo para el docente al corregir, con Clang en WebAssembly en su navegador (D66); Java, el docente lo prueba en su compu con el comando que arma la entrega (D67).
 - Qué puede ver y hacer un alumno (nodo abierto, abono vigente) se calcula **en cada request**; **no** usar cron para abrir ni vencer nada.
 - Comprobantes, entregas, apuntes y autorizaciones de menores van al disco privado y se sirven solo por controladores con `authorize()`.
 - Un alumno nunca ve nodos que no abrió, cursos cuyo raíz no abrió ni entregas ajenas; con el abono vencido no abre ni entrega. Toda regla nueva de acceso va con Policy + test Pest.

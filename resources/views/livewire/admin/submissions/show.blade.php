@@ -51,6 +51,9 @@
         @if ($submission->code)
             <x-code-runner :code="$submission->code" :stdin="$practice->sample_input" :expected="$practice->expected_output" :language="$course->language->value"
                 read-only :name="'intento_'.$submission->attempt" wire:key="code-{{ $submission->id }}" />
+            @if ($course->language->value === 'java')
+                <x-local-run :code="$submission->code" :stdin="$practice->sample_input" :name="'intento_'.$submission->id" wire:key="local-{{ $submission->id }}" />
+            @endif
         @endif
         @if ($submission->file_path)
             <flux:button icon="paper-clip" :href="route('files.submission', $submission)" class="self-start">{{ $submission->file_original_name }}</flux:button>

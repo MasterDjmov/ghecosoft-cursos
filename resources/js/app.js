@@ -1,3 +1,5 @@
+import './live-alerts.js';
+
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
 // en las páginas que muestran el árbol (import dinámico).
 document.addEventListener('alpine:init', () => {

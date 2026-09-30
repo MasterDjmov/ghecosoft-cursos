@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Settings\Alerts;
 use App\Livewire\Settings\ChangeTemporaryPassword;
 use App\Livewire\Settings\Movements;
 use App\Livewire\Settings\Privacy;
@@ -14,6 +15,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('mi-cuenta', Profile::class)->name('profile.edit');
     Route::livewire('mi-cuenta/movimientos', Movements::class)->name('movements');
     Route::livewire('mi-cuenta/privacidad', Privacy::class)->name('privacy');
+    Route::livewire('mi-cuenta/avisos', Alerts::class)->name('alerts');
 
     Route::livewire('mi-cuenta/seguridad', Security::class)
         ->middleware(['password.confirm'])

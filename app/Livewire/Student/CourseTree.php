@@ -85,6 +85,8 @@ class CourseTree extends Component
         return view('livewire.student.course-tree', [
             'graph' => $graph,
             'subscription' => $access->activeSubscription($user, $this->course),
+            // Clase 0 de prueba (D71): todavía no abrió el raíz y no tiene abono.
+            'trial' => $access->canTryCourse($user, $this->course),
             'paidUntil' => $access->paidUntil($user, $this->course),
             'selected' => $selected,
             'selectedCanUnlock' => $selected && $access->canUnlock($user, $this->course->nodes()->find($selected['id'])),

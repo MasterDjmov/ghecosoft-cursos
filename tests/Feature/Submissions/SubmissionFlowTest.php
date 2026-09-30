@@ -183,10 +183,13 @@ test('los archivos de una entrega van al disco privado y solo los ve su autor y 
 });
 
 test('un alumno no comenta ni ve entregas ajenas, ni entra a la bandeja', function () {
-    $submission = app(PracticeSubmitter::class)->submit($this->student, $this->practice, 'a');
+    $submission = app(PracticeSubmitter::class)->submit($this->student, $this->practice, 'print("codigo ajeno")');
     $intruder = User::factory()->create();
 
-    Livewire::actingAs($intruder)->test(PracticeCard::class, ['practice' => $this->practice])->assertForbidden();
+    // Sin abono, la otra cuenta prueba la Clase 0 (D71): ve la práctica, nunca las entregas del alumno.
+    Livewire::actingAs($intruder)->test(PracticeCard::class, ['practice' => $this->practice])
+        ->assertDontSee('codigo ajeno')
+        ->set('comment', 'Hola')->call('addComment', $submission->id)->assertForbidden();
     $this->actingAs($intruder)->get(route('admin.submissions.show', $submission))->assertRedirect(route('home'));
     $this->actingAs($intruder)->get(route('admin.submissions.index'))->assertRedirect(route('home'));
 });

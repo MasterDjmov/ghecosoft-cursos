@@ -94,7 +94,10 @@ test('el alumno ve solo los nodos que abrió', function () {
     $this->actingAs($student)->get(route('student.node', [$course, $root]))
         ->assertOk()->assertSee('Bienvenida al curso')->assertSee('Ejecutar')->assertSee('Primer programa');
     $this->actingAs($student)->get(route('student.node', [$course, $topic1]))->assertForbidden();
-    $this->actingAs(User::factory()->create())->get(route('student.node', [$course, $root]))->assertForbidden();
+    // Otra cuenta sin abono solo prueba la Clase 0 (D71); el resto sigue cerrado.
+    $stranger = User::factory()->create();
+    $this->actingAs($stranger)->get(route('student.node', [$course, $root]))->assertOk()->assertSee('data-test="trial-banner"', false);
+    $this->actingAs($stranger)->get(route('student.node', [$course, $topic1]))->assertForbidden();
 });
 
 test('un nodo pedido con otro curso da 404', function () {

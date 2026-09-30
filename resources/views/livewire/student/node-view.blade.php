@@ -90,13 +90,24 @@
         @endif
     </header>
 
-    @unless ($subscription)
+    @if ($trial)
+        {{-- Clase 0 de prueba (D71): se lee y se practica; para que el profe corrija, el abono. --}}
+        <flux:callout icon="sparkles" color="cyan" data-test="trial-banner">
+            <flux:callout.heading>Estás probando {{ $course->title }} gratis</flux:callout.heading>
+            <flux:callout.text>
+                Leé la clase, mirá el ejemplo y resolvé las {{ term('practice', $course, 2) }} en el editor. Cuando quieras que el profe te corrija y seguir con el resto del curso, pedí tu abono: el mes empieza a correr recién cuando se aprueba.
+            </flux:callout.text>
+            <x-slot name="actions">
+                <flux:button variant="primary" size="sm" icon="ticket" :href="route('student.course', $course)" wire:navigate>Pedir abono</flux:button>
+            </x-slot>
+        </flux:callout>
+    @elseif (! $subscription)
         <flux:callout icon="clock" color="amber">
             <flux:callout.text>Tu abono no está vigente: podés repasar este {{ term('node', $course) }}, pero no entregar.
                 <flux:link :href="route('student.course', $course)" wire:navigate>Renovar</flux:link>
             </flux:callout.text>
         </flux:callout>
-    @endunless
+    @endif
 
     {{-- Presentación del jefe: qué se gana al vencerlo. --}}
     @if ($node->isBoss())

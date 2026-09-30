@@ -16,7 +16,8 @@ class PracticeMessagePolicy
 
     public function viewThread(User $user, Practice $practice, User $student): bool
     {
-        return $user->id === $student->id && $this->access->canView($user, $practice->node);
+        // isUnlocked, no canView: la Clase 0 de prueba (D71) no abre consultas al profe.
+        return $user->id === $student->id && $this->access->isUnlocked($user, $practice->node);
     }
 
     /** Escribir, además, pide el abono vigente (como entregar). */

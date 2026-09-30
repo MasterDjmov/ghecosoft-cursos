@@ -125,6 +125,7 @@ class CourseDetail extends Component
             'kind' => $kind,
             'balance' => $ledger->balance($user, Currency::forCourse($this->course)),
             'canOpen' => ! $rootOpen && $this->course->rootNode && $access->canUnlock($user, $this->course->rootNode),
+            'canTry' => $access->canTryCourse($user, $this->course),
             'cohorts' => $this->course->cohorts()->where('is_open_for_enrollment', true)->get(),
             'history' => EnrollmentRequest::where('user_id', $user->id)->where('course_id', $this->course->id)
                 ->where('status', '!=', 'pending')->latest()->limit(5)->get(),

@@ -76,7 +76,10 @@ class Worlds extends Component
                 $current = $unlocks->map(fn ($u) => $nodes->get($u->node_id))
                     ->first(fn (?Node $node) => $node && ! $done->has($node->id));
 
-                return ['course' => $course, 'total' => $total, 'completed' => $done->count(), 'subscription' => $subscription, 'paidUntil' => $paidUntil, 'status' => $status, 'current' => $current];
+                // Clase 0 de prueba (D71): sin abono ni raíz abierto, se entra gratis.
+                $trialRoot = in_array($status, ['closed', 'pending'], true) && $access->canTryCourse($user, $course) ? $course->rootNode : null;
+
+                return ['course' => $course, 'total' => $total, 'completed' => $done->count(), 'subscription' => $subscription, 'paidUntil' => $paidUntil, 'status' => $status, 'current' => $current, 'trialRoot' => $trialRoot];
             });
 
         [$mine, $discover] = $worlds->partition(fn ($w) => ! in_array($w['status'], ['closed', 'upcoming']));

@@ -41,6 +41,11 @@
                         <flux:button variant="primary" icon="academic-cap" href="#cursos">Ver cursos</flux:button>
                         <flux:button icon="trophy" href="#top">Top 10</flux:button>
                     </div>
+                    {{-- Clase 0 de prueba (D71) --}}
+                    <p class="flex items-center gap-2 text-sm text-ink" data-test="landing-trial">
+                        <flux:icon name="sparkles" variant="micro" class="shrink-0 text-secondary-bright" />
+                        <span><flux:link :href="route('register')">Creá tu cuenta gratis</flux:link> y probá la clase 0 de cualquier curso antes de pagar.</span>
+                    </p>
 
                     <ol class="grid gap-3 pt-2 sm:grid-cols-3">
                         @foreach ([['lock-open', 'Abrí nodos', 'con las monedas del curso'], ['code-bracket', 'Resolvé prácticas', 'y el profe te devuelve cada una'], ['sparkles', 'Sumá experiencia', 'insignias y rango para tu héroe']] as [$icon, $title, $text])
@@ -79,12 +84,12 @@
                 <div class="flex flex-col gap-1">
                     <p class="tech-label">Mundos</p>
                     <h2 class="font-display text-3xl font-semibold text-white">Los cursos que más se dictan</h2>
-                    <p class="text-ink-muted">Se cursan en comisiones, con el profe. Creá tu cuenta y pedí tu lugar, o consultá por WhatsApp.</p>
+                    <p class="text-ink-muted">Se cursan en comisiones, con el profe. Creá tu cuenta gratis, probá la clase 0 del curso que te guste y, si te convence, pedí tu lugar (o consultá por WhatsApp).</p>
                 </div>
                 <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     @forelse ($courses as $course)
                         <x-catalog-card :course="$course" :nodes="$course->published_nodes_count">
-                            <flux:button size="sm" variant="primary" :href="route('register')" class="flex-1">Crear cuenta</flux:button>
+                            <flux:button size="sm" variant="primary" icon="play" :href="route('register')" class="flex-1">Probar gratis</flux:button>
                             @if ($whatsapp)
                                 <flux:button size="sm" icon="chat-bubble-left-right" class="flex-1" target="_blank" rel="noopener"
                                     href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hola profe, quiero saber más de «'.$course->title.'».') }}">Consultar</flux:button>

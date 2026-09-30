@@ -18,7 +18,7 @@ class RankingBoard extends Component
     {
         if ($course?->exists) {
             // El ranking del curso lo ven los compañeros que entraron al curso (y el docente).
-            $this->authorize('viewTree', $course);
+            $this->authorize('viewRanking', $course);
             $this->course = $course;
         }
     }

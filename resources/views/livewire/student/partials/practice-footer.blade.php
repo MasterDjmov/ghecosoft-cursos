@@ -17,6 +17,9 @@
     </div>
 
     <div class="flex flex-wrap items-center gap-2 sm:shrink-0 sm:justify-end">
+        @if ($trial)
+            <flux:button variant="primary" icon="ticket" :href="route('student.course', $course)" wire:navigate data-test="trial-enroll">Pedir abono</flux:button>
+        @endif
         @if ($showMark)
             @if ($mode === \App\Enums\SubmissionMode::None)
                 <flux:button icon="check" wire:click="toggleMark" :disabled="! $canSubmit">Marcar como completada</flux:button>

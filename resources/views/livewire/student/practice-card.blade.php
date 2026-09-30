@@ -11,7 +11,7 @@
     $statusColor = ['approved' => '#10b981', 'submitted' => '#f59e0b', 'redo' => '#f87171'][$status] ?? '#475569';
     $statusIcon = ['approved' => 'check-circle', 'submitted' => 'clock', 'redo' => 'arrow-path'][$status] ?? null;
     $canSubmit = $blocker === null;
-    $showMark = ! $usesCode && $status !== 'approved';
+    $showMark = ! $usesCode && $status !== 'approved' && ! $trial;
     $fileHint = 'Archivo'.($practice->allowed_extensions ? ' ('.$practice->allowed_extensions.')' : '').($usesCode ? ' (opcional si entregás código)' : '');
 @endphp
 
@@ -86,7 +86,8 @@
             @endif
 
             {{-- Historial de intentos y comentarios (antes del editor: primero la devolución, después rehacer). --}}
-            {{-- Consultas al profe (D63): sin necesidad de entregar. --}}
+            {{-- Consultas al profe (D63): sin necesidad de entregar (no en la Clase 0 de prueba, D71). --}}
+            @unless ($trial)
             <details class="rounded-lg border border-outline bg-surface-lowest/40 px-4 py-3" data-test="practice-messages" @if ($unreadMessages) open @endif>
                 <summary class="flex cursor-pointer items-center gap-2 text-sm text-ink-muted">
                     <flux:icon name="chat-bubble-left-right" variant="micro" /> Consultas al profe{{ $messageCount ? ' ('.$messageCount.')' : '' }}
@@ -98,6 +99,7 @@
                     <livewire:practice-chat lazy :practice="$practice" :student="auth()->user()" wire:key="card-chat-{{ $practice->id }}" />
                 </div>
             </details>
+            @endunless
 
             @if ($attempts->isNotEmpty() && $mode !== SubmissionMode::None)
                 <details class="flex flex-col gap-3 rounded-lg border border-outline bg-surface-lowest/40 px-4 py-3"
@@ -153,7 +155,7 @@
 
             @if ($usesCode)
                 <x-code-runner :code="$startingCode" :stdin="$practice->sample_input" :expected="$practice->expected_output" :language="$course->language->value"
-                    :name="'practica_'.$number" :read-only="! $canSubmit" :runnable="! $isLocal" wire:key="editor-{{ $practice->id }}-{{ $latest?->id }}">
+                    :name="'practica_'.$number" :read-only="! $canSubmit && ! $trial" :runnable="! $isLocal" wire:key="editor-{{ $practice->id }}-{{ $latest?->id }}">
                     <x-slot:footer>
                         @if ($canSubmit && $usesFile)
                             @include('livewire.student.partials.practice-file', ['hint' => $fileHint])

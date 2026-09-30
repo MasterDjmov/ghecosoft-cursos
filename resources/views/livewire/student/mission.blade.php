@@ -25,7 +25,7 @@
         wire:key="mission-{{ $practice->id }}-{{ $latest?->id }}"
         x-data="codeRunner(@js([
             'code' => $startingCode, 'stdin' => (string) $practice->sample_input, 'expected' => (string) $practice->expected_output,
-            'language' => $course->language->value, 'readOnly' => ! $canSubmit || ! $usesCode, 'runnable' => $canRun && $usesCode,
+            'language' => $course->language->value, 'readOnly' => (! $canSubmit && ! $trial) || ! $usesCode, 'runnable' => $canRun && $usesCode,
             'pyodideUrl' => config('services.pyodide.url'), 'timeout' => config('services.pyodide.timeout_ms'),
         ]))">
 
@@ -63,6 +63,9 @@
             @elseif ($blocker && $status !== 'approved')
                 <span class="flex max-w-xs items-center gap-1.5 text-xs text-ink-muted"><flux:icon name="information-circle" variant="micro" class="shrink-0" /> {{ $blocker }}</span>
             @endif
+            @if ($trial)
+                <flux:button variant="primary" size="sm" icon="ticket" :href="route('student.course', $course)" wire:navigate data-test="trial-enroll">Pedir abono</flux:button>
+            @endif
             <livewire:notifications-bell />
         </header>
 
@@ -91,6 +94,7 @@
                         <button type="button" x-on:click="panel = 'theory'" class="-mb-px border-b-2 px-3 py-2.5 text-sm transition"
                             x-bind:class="panel === 'theory' ? 'border-primary-bright font-semibold text-primary-bright' : 'border-transparent text-ink-muted hover:text-ink'">Teoría</button>
                     @endif
+                    @unless ($trial)
                     <button type="button" x-on:click="panel = 'messages'" class="-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2.5 text-sm transition" data-test="messages-tab"
                         x-bind:class="panel === 'messages' ? 'border-primary-bright font-semibold text-primary-bright' : 'border-transparent text-ink-muted hover:text-ink'">
                         Mensajes
@@ -98,6 +102,7 @@
                             <span class="grid min-w-4 place-items-center rounded-full bg-danger px-1 font-mono text-[10px] font-bold text-white">{{ $unreadMessages }}</span>
                         @endif
                     </button>
+                    @endunless
                     <button type="button" x-on:click="left = false" class="ms-auto rounded p-1.5 text-ink-muted hover:bg-surface-high hover:text-ink" aria-label="Plegar el panel">
                         <flux:icon name="chevron-double-left" variant="micro" />
                     </button>
@@ -154,10 +159,12 @@
                         </div>
                     @endif
 
+                    @unless ($trial)
                     <div x-show="panel === 'messages'" x-cloak class="flex flex-col gap-3" data-test="mission-messages">
                         <p class="tech-label">Consultas al profe sobre esta misión</p>
                         <livewire:practice-chat lazy :practice="$practice" :student="auth()->user()" wire:key="chat-{{ $practice->id }}" />
                     </div>
+                    @endunless
                 </div>
 
                 {{-- Misiones del nodo: tocar una cambia de archivo sin salir --}}

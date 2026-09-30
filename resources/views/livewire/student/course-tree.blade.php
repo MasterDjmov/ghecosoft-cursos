@@ -89,7 +89,15 @@
 
     <x-wallet-bar class="sm:hidden" />
 
-    @unless ($subscription)
+    @if ($trial)
+        <flux:callout icon="sparkles" color="cyan" data-test="trial-banner">
+            <flux:callout.heading>Estás probando {{ $course->title }} gratis</flux:callout.heading>
+            <flux:callout.text>
+                Entrá a la clase 0 sin pagar: leé, mirá el ejemplo y practicá. Para que el profe te corrija y abrir el resto del árbol,
+                <flux:link :href="route('student.course', $course)" wire:navigate>pedí tu abono</flux:link> (el mes empieza a correr cuando se aprueba).
+            </flux:callout.text>
+        </flux:callout>
+    @elseif (! $subscription)
         <flux:callout icon="clock" color="amber">
             <flux:callout.heading>Tu abono no está vigente</flux:callout.heading>
             <flux:callout.text>
@@ -97,7 +105,7 @@
                 <flux:link :href="route('student.course', $course)" wire:navigate>renová el abono</flux:link>.
             </flux:callout.text>
         </flux:callout>
-    @endunless
+    @endif
 
     {{-- Árbol dibujado --}}
     <template x-if="tab === 'tree'">

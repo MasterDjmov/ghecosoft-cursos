@@ -92,7 +92,12 @@ class TreeGraph
             'nodes' => $nodes->map(function (Node $node) use ($access, $user, $course) {
                 $state = $access->state($user, $node);
                 $open = in_array($state, [TreeAccess::STATE_UNLOCKED, TreeAccess::STATE_COMPLETED], true);
-                $blockers = $open ? [] : UnlockMessages::for($user, $node);
+                // Clase 0 de prueba (D71): se entra gratis, sin abrirla.
+                $trial = ! $open && $access->isTrial($user, $node);
+                if ($trial) {
+                    $state = TreeAccess::STATE_AVAILABLE;
+                }
+                $blockers = $open || $trial ? [] : UnlockMessages::for($user, $node);
 
                 return [
                     'id' => $node->id,
@@ -107,13 +112,13 @@ class TreeGraph
                     'state' => $state,
                     'price_label' => UnlockMessages::price($node),
                     'blockers' => $blockers,
-                    'tooltip' => implode(' · ', array_filter([
+                    'tooltip' => $trial ? $node->title.' · Probala gratis' : implode(' · ', array_filter([
                         $node->title,
                         term('state.'.$state, $course),
                         $open ? null : UnlockMessages::price($node),
                         $state === TreeAccess::STATE_LOCKED ? ($blockers[0] ?? null) : null,
                     ])),
-                    'url' => $open ? route('student.node', [$course, $node]) : null,
+                    'url' => $open || $trial ? route('student.node', [$course, $node]) : null,
                 ];
             })->all(),
             'practices' => $nodes->flatMap(function (Node $node) use ($unlocked, $statuses, $course) {

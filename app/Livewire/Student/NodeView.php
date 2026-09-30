@@ -93,6 +93,7 @@ class NodeView extends Component
             'parent' => $this->node->parent && $access->canView($user, $this->node->parent) ? $this->node->parent : null,
             'next' => $next,
             'subscription' => $access->activeSubscription($user, $this->course),
+            'trial' => $access->isTrial($user, $this->node),
             'completed' => $access->isCompleted($user, $this->node),
             'runnable' => $this->node->example_code && $this->node->example_runnable && $this->course->language->value === 'python',
         ])->title($this->node->title.' · '.$this->course->title);

@@ -70,6 +70,23 @@
             </div>
         @endif
 
+        {{-- Clase 0 de prueba (D71): sin abono de este curso, se entra gratis a leer y practicar. --}}
+        @if ($canTry)
+            <div class="flex flex-col gap-3 rounded-lg border border-secondary/40 bg-secondary/10 p-4" data-test="trial-offer">
+                <div class="flex flex-col gap-1">
+                    <p class="flex items-center gap-2 font-medium text-white"><flux:icon name="sparkles" variant="micro" class="text-secondary-bright" /> Probalo gratis antes de pagar</p>
+                    <p class="text-sm text-ink">
+                        Entrá a la <strong class="text-white">{{ $course->rootNode->title }}</strong>: leé la clase, mirá el ejemplo y practicá sin pagar.
+                        Para que el profe te corrija y seguir con el resto, pedís el abono; el mes empieza a correr recién cuando se aprueba.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <flux:button variant="primary" icon="play" :href="route('student.node', [$course, $course->rootNode])" wire:navigate>Probar la clase 0 gratis</flux:button>
+                    <flux:button variant="ghost" icon="share" :href="route('student.tree', $course)" wire:navigate>Ver el árbol</flux:button>
+                </div>
+            </div>
+        @endif
+
         @if ($pending && $subscription)
             <flux:callout icon="clock" color="amber">
                 <flux:callout.text>Tu pedido de renovación está pendiente de aprobación.</flux:callout.text>

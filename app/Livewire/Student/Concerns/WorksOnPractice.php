@@ -10,6 +10,7 @@ use App\Models\Submission;
 use App\Rules\SafeUpload;
 use App\Services\PracticeSubmitter;
 use App\Services\SubmissionReviewer;
+use App\Services\TreeAccess;
 use App\Support\Narrative;
 use App\Support\ReviewHours;
 use DomainException;
@@ -128,6 +129,8 @@ trait WorksOnPractice
             // Si la última entrega espera corrección y llegó fuera de horario: cuándo se revisa.
             'reviewNotice' => ! $approved && $latest?->status->value === 'submitted' ? ReviewHours::notice($latest->submitted_at) : null,
             'blocker' => $submitter->blocker($user, $this->practice),
+            // Clase 0 de prueba (D71): se escribe y se ejecuta, pero no se entrega.
+            'trial' => app(TreeAccess::class)->isTrial($user, $this->practice->node),
             'marked' => PracticeMark::where('user_id', $user->id)->where('practice_id', $this->practice->id)->exists(),
             'mode' => $this->practice->submission_mode,
             'usesCode' => in_array($this->practice->submission_mode, [SubmissionMode::Code, SubmissionMode::Both], true),

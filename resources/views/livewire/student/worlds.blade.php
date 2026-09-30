@@ -88,6 +88,9 @@
                                 @if ($world['status'] === 'active' && $world['current'])
                                     <flux:button variant="ghost" size="sm" icon="share" :href="route('student.tree', $course)" wire:navigate>Árbol</flux:button>
                                 @endif
+                                @if ($world['trialRoot'] ?? null)
+                                    <flux:button variant="ghost" size="sm" icon="play" :href="route('student.node', [$course, $world['trialRoot']])" wire:navigate>Probar la clase 0</flux:button>
+                                @endif
                                 <flux:button :variant="$primary ? 'primary' : 'filled'" size="sm" :icon:trailing="$primary ? 'arrow-right' : null" :href="$actionUrl" wire:navigate>{{ $action }}</flux:button>
                             </div>
                         </div>
@@ -98,7 +101,7 @@
     @else
         <flux:callout icon="map" color="cyan" data-test="welcome">
             <flux:callout.heading>¡Bienvenido a {{ term('world.name') }}!</flux:callout.heading>
-            <flux:callout.text>Todavía no estás en ningún mundo. Mirá los cursos, entrá al que te guste y pedí tu lugar.</flux:callout.text>
+            <flux:callout.text>Todavía no estás en ningún mundo. Mirá los cursos y <strong>probá gratis la clase 0</strong> del que te guste: leé, practicá y, si te convence, pedí tu lugar.</flux:callout.text>
         </flux:callout>
     @endif
 
@@ -106,6 +109,7 @@
         <h2 class="flex items-center gap-2 font-display text-xl font-semibold text-white">
             <flux:icon name="globe-americas" class="size-6 text-secondary-bright" /> {{ $mine->isEmpty() ? 'Elegí tu mundo' : 'Descubrí más mundos' }}
         </h2>
+        <p class="-mt-2 text-sm text-ink-muted">La clase 0 de cada mundo se prueba gratis: pedís el abono cuando quieras que el profe te corrija y seguir.</p>
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($discover as $world)
                 <x-catalog-card :course="$world['course']" :nodes="$world['total']" wire:key="catalog-{{ $world['course']->id }}">
@@ -119,7 +123,12 @@
                             <flux:button size="sm" variant="primary" icon="bell-alert" wire:click="toggleInterest({{ $world['course']->id }})" class="w-full" data-test="interest-{{ $world['course']->slug }}">Avisame cuando salga</flux:button>
                         @endif
                     @else
-                        <flux:button size="sm" variant="primary" icon:trailing="arrow-right" :href="route('student.course', $world['course'])" wire:navigate class="w-full">Ver el curso</flux:button>
+                        <div class="flex w-full gap-2">
+                            @if ($world['trialRoot'] ?? null)
+                                <flux:button size="sm" variant="primary" icon="play" :href="route('student.node', [$world['course'], $world['trialRoot']])" wire:navigate class="flex-1" data-test="try-{{ $world['course']->slug }}">Probar gratis</flux:button>
+                            @endif
+                            <flux:button size="sm" :variant="($world['trialRoot'] ?? null) ? 'filled' : 'primary'" icon:trailing="arrow-right" :href="route('student.course', $world['course'])" wire:navigate class="flex-1">Ver el curso</flux:button>
+                        </div>
                     @endif
                 </x-catalog-card>
             @empty

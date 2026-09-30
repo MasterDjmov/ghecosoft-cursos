@@ -39,6 +39,7 @@ class PracticeSubmitter
     public function blocker(User $user, Practice $practice): ?string
     {
         return match (true) {
+            $this->access->isTrial($user, $practice->node) => 'Estás probando la clase gratis: para que el profe te corrija y seguir, pedí tu abono.',
             ! $this->access->isUnlocked($user, $practice->node) => 'Abrí el '.term('node', $practice->node->course).' para entregar.',
             ! $this->access->hasActiveSubscription($user, $practice->node->course) => 'Tu abono no está vigente: renovalo para entregar.',
             $this->isApproved($user, $practice) => 'Ya está aprobada.',
@@ -112,6 +113,11 @@ class PracticeSubmitter
      */
     public function toggleMark(User $user, Practice $practice): ?Reward
     {
+        // Solo en nodos abiertos: la Clase 0 de prueba (D71) no deja marcas ni registros.
+        if (! $this->access->isUnlocked($user, $practice->node)) {
+            throw new DomainException((string) $this->blocker($user, $practice));
+        }
+
         if ($practice->submission_mode === SubmissionMode::None) {
             if ($blocker = $this->blocker($user, $practice)) {
                 throw new DomainException($blocker);

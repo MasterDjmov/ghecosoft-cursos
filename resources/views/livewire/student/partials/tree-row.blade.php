@@ -1,6 +1,8 @@
 {{-- Un nodo en la vista de lista del árbol del alumno. --}}
 @php
     $open = in_array($node['state'], ['unlocked', 'completed'], true);
+    // Clase 0 de prueba (D71): se entra sin abrirla.
+    $trial = ! $open && filled($node['url'] ?? null);
     [$badgeColor, $icon] = match ($node['state']) {
         'completed' => ['green', 'check-circle'],
         'unlocked' => ['cyan', 'lock-open'],
@@ -35,7 +37,7 @@
             </div>
             <div class="flex min-w-0 flex-col gap-1">
                 <div class="flex flex-wrap items-center gap-2">
-                    @if ($open)
+                    @if ($open || $trial)
                         <a href="{{ $node['url'] }}" wire:navigate class="font-medium text-white hover:text-primary-bright">{{ $node['title'] }}</a>
                     @else
                         <span class="font-medium text-ink">{{ $node['title'] }}</span>
@@ -62,6 +64,8 @@
         <div class="shrink-0">
             @if ($open)
                 <flux:button size="sm" icon-trailing="arrow-right" :href="$node['url']" wire:navigate>Entrar</flux:button>
+            @elseif ($trial)
+                <flux:button size="sm" variant="primary" icon="play" :href="$node['url']" wire:navigate>Probar gratis</flux:button>
             @elseif ($node['state'] === 'available')
                 <flux:button size="sm" variant="primary" icon="lock-open" wire:click="selectNode({{ $node['id'] }})">Abrir · {{ $node['price_label'] }}</flux:button>
             @else

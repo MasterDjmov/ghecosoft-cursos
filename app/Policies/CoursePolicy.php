@@ -16,8 +16,17 @@ class CoursePolicy
         return $course->is_published;
     }
 
-    /** El árbol se ve recién con el raíz abierto (y para siempre, aunque venza el abono). */
+    /**
+     * El árbol se ve con el raíz abierto (y para siempre, aunque venza el abono) o mientras
+     * se prueba la Clase 0 (D71): los demás nodos se ven cerrados, con su nombre y precio.
+     */
     public function viewTree(User $user, Course $course): bool
+    {
+        return $this->access->isRootOpen($user, $course) || $this->access->canTryCourse($user, $course);
+    }
+
+    /** El ranking del curso, solo para los que entraron (la Clase 0 de prueba no cuenta, D71). */
+    public function viewRanking(User $user, Course $course): bool
     {
         return $this->access->isRootOpen($user, $course);
     }

@@ -95,7 +95,7 @@ Las monedas **tienen tipo**, y cada tipo tiene su **ícono**. Referencia: `docs/
   | **Abierto** | Pagado; está haciendo sus prácticas |
   | **Completado** | Todas sus obligatorias aprobadas |
 
-- La regla de seguridad "un alumno nunca ve clases no liberadas" pasa a ser **"nunca ve nodos que no abrió"**, con Policy y tests igual que antes.
+- La regla de seguridad "un alumno nunca ve clases no liberadas" pasa a ser **"nunca ve nodos que no abrió"**, con Policy y tests igual que antes. Excepción (2026-09-30, D71): la **Clase 0 de prueba** — cualquier cuenta sin abono de un curso lee y practica su raíz gratis, sin entregar ni dejar registros; para que el profe corrija y seguir, pide el abono (y el mes corre desde que se aprueba).
 
 ### Prácticas sin entrega (instalar, leer, extras)
 - **Todas** las prácticas, obligatorias y optativas, tienen **"Marcar como completada"**.

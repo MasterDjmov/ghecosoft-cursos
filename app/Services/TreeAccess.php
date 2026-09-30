@@ -193,7 +193,30 @@ class TreeAccess
 
     public function canView(User $user, Node $node): bool
     {
-        return $user->isAdmin() || $this->isUnlocked($user, $node);
+        return $user->isAdmin() || $this->isUnlocked($user, $node) || $this->isTrial($user, $node);
+    }
+
+    /**
+     * Clase 0 de prueba (D71): sin abono de ese curso, el raíz publicado de un curso publicado se puede
+     * leer y practicar (el editor y Ejecutar andan) sin abrirlo: no se paga, no se entrega ni se consulta
+     * al profe y no queda registro. Al aprobarse el abono, el raíz se abre como siempre.
+     */
+    public function isTrial(User $user, Node $node): bool
+    {
+        return $node->isRoot()
+            && $node->is_published
+            && $node->course->is_published
+            && ! $user->isAdmin()
+            && ! $this->isUnlocked($user, $node)
+            && ! $this->hasActiveSubscription($user, $node->course);
+    }
+
+    /** El raíz del curso se puede probar gratis (D71). */
+    public function canTryCourse(User $user, Course $course): bool
+    {
+        $root = $course->rootNode;
+
+        return $root !== null && $this->isTrial($user, $root);
     }
 
     public function canSubmit(User $user, Practice $practice): bool

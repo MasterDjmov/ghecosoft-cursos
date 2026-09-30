@@ -36,7 +36,7 @@ test('muestra los destacados y los "Próximamente", nunca los borradores', funct
     Course::create(['title' => 'Borrador secreto', 'slug' => 'secreto']);
 
     $this->get('/')->assertOk()
-        ->assertSeeInOrder(['Python destacado', 'Bucles', 'Crear cuenta', 'Próximamente', 'C que viene'])
+        ->assertSeeInOrder(['Python destacado', 'Bucles', 'Probar gratis', 'Próximamente', 'C que viene'])
         ->assertDontSee('catalog-'.$other->slug) // hay destacados: solo esos (su moneda sí se ve)
         ->assertDontSee('Borrador secreto');
 });

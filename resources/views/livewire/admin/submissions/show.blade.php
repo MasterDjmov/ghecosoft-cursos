@@ -74,7 +74,7 @@
 
         @unless ($pending)
             <form wire:submit="addReply" class="flex items-end gap-2">
-                <flux:textarea wire:model="reply" rows="2" placeholder="Responder…" class="flex-1" aria-label="Respuesta" />
+                <x-emoji-field class="flex-1"><flux:textarea class="pe-10" wire:model="reply" rows="2" placeholder="Responder…" aria-label="Respuesta" /></x-emoji-field>
                 <flux:button type="submit" icon="paper-airplane">Enviar</flux:button>
             </form>
             <flux:error name="reply" />
@@ -84,7 +84,7 @@
     {{-- Corrección --}}
     @if ($pending)
         <section class="panel panel-active flex flex-col gap-4 p-5">
-            <flux:textarea wire:model="comment" label="Comentario" rows="3" placeholder="Opcional al aprobar; obligatorio para Rehacer." />
+            <x-emoji-field><flux:textarea class="pe-10" wire:model="comment" label="Comentario" rows="3" placeholder="Opcional al aprobar; obligatorio para Rehacer." /></x-emoji-field>
             <div class="flex flex-wrap justify-end gap-2">
                 <flux:button icon="arrow-path" wire:click="redo">Rehacer</flux:button>
                 <flux:button variant="primary" icon="check" wire:click="approve">Aprobar</flux:button>

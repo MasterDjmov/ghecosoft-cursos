@@ -76,7 +76,7 @@
                         @endif
                     </flux:text>
                 @endif
-                <flux:textarea wire:model="note" :label="$decision === 'approve' ? 'Nota (opcional)' : 'Motivo'" rows="3" />
+                <x-emoji-field><flux:textarea class="pe-10" wire:model="note" :label="$decision === 'approve' ? 'Nota (opcional)' : 'Motivo'" rows="3" /></x-emoji-field>
                 <div class="flex justify-end gap-2">
                     <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
                     <flux:button :variant="$decision === 'approve' ? 'primary' : 'danger'" type="submit">{{ $decision === 'approve' ? 'Aprobar' : 'Rechazar' }}</flux:button>

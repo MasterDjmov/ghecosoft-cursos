@@ -117,7 +117,7 @@
                                 @endforeach
                                 @if ($loop->first)
                                     <form wire:submit="addComment({{ $attempt->id }})" class="flex items-end gap-2">
-                                        <flux:textarea wire:model="comment" rows="1" placeholder="Escribile al profe…" class="flex-1" aria-label="Comentario" />
+                                        <x-emoji-field class="flex-1"><flux:textarea class="pe-10" wire:model="comment" rows="1" placeholder="Escribile al profe…" aria-label="Comentario" /></x-emoji-field>
                                         <flux:button type="submit" size="sm" icon="paper-airplane" aria-label="Enviar comentario" />
                                     </form>
                                     <flux:error name="comment" />

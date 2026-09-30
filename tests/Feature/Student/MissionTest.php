@@ -100,3 +100,13 @@ test('lo que se entrega fuera del horario de corrección avisa cuándo se revisa
     Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
         ->assertSee('el profe la revisa hoy entre las 8 y las 22 h');
 });
+
+test('los cuadros para escribirle al profe tienen el botón de emojis', function () {
+    ['course' => $course, 'root' => $root, 'student' => $student, 'practice' => $practice] = missionSetup();
+    $submission = Submission::create(['practice_id' => $practice->id, 'user_id' => $student->id, 'attempt' => 1, 'code' => 'print(1)', 'submitted_at' => now()]);
+    app(SubmissionReviewer::class)->comment($submission, User::factory()->admin()->create(), 'Mirá la línea 1.');
+
+    Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
+        ->assertSeeHtml('data-test="emoji-button"')
+        ->assertSee('🤔');
+});

@@ -148,7 +148,7 @@
                 </flux:select>
             @endif
 
-            <flux:textarea wire:model="message" label="Mensaje para el profe (opcional)" rows="3" />
+            <x-emoji-field><flux:textarea class="pe-10" wire:model="message" label="Mensaje para el profe (opcional)" rows="3" /></x-emoji-field>
 
             <div class="flex flex-wrap justify-end gap-2">
                 <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>

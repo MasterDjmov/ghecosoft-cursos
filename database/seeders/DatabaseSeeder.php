@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             CCourseSeeder::class,
             CppCourseSeeder::class,
             JavaCourseSeeder::class,
+            PhpCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
             DemoHeroesSeeder::class,

@@ -8,6 +8,8 @@
 
 > **Java ya está en la plataforma (2026-09-29, D58):** `18-Java`, `19-Java-Avanzado` y `20-SpringBoot-Lombok` son el curso de [`cursos/java/`](../cursos/java/), *El Imperio de las Clases* con la mentora **Kaffa**. `18-Java` arma el tronco (fundamentos, objetos, colecciones y errores, archivos y bases de datos en PostgreSQL, Swing); lo que estaba sin hacer se escribió desde cero. Las Sendas son el Arcade Imperial (juego 2D con Swing), las Corrientes (`19-Java-Avanzado`: Java moderno) y el Puerto de Spring (`20-SpringBoot-Lombok` y la parte de Spring de `19`).
 
+> **PHP ya está en la plataforma (2026-09-29, D59):** `21-PHP` es el curso de [`cursos/php/`](../cursos/php/), *El Puerto de los Mensajeros* con la mentora **Elefa**. De `21-PHP` salen los fundamentos, los objetos, los closures, los generadores, las fechas y enums, PHPUnit y el RPG (`21`–`23`, la Senda de la Arena); lo que faltaba (la web, formularios, sesiones, seguridad, MySQL/MariaDB con PDO, MVC, API REST, hosting, Laravel, JavaScript con `fetch` y HTML/CSS) se escribió desde cero, orientado a MariaDB.
+
 > Origen: `/home/djmov/Programas/Cursos/FullCursos/` (relevado el 2026-09-26).
 > Objetivo: decidir **cómo se arma cada curso en la plataforma** (curso → unidades → clases → tarea) a partir de lo que ya está escrito.
 > No se modificó nada en esa carpeta.
@@ -46,7 +48,8 @@ Todos los cursos comparten una historia:
 | El Valle de la Serpiente | 17 Python | Ofidia | definida |
 | El Imperio de las Clases | 18–20 Java | Kaffa | definida (D58) |
 | La Ciudadela de los Artífices | 03–05, 07, 11, 12 C++ | Tesla, la Artífice Mayor | definida (D53) |
-| El Puerto de los Mensajeros / La Feria de las Luces | 21 PHP / 22–23 JS-TS | a definir | — |
+| El Puerto de los Mensajeros | 21 PHP | Elefa, la Capitana del Puerto | definida (D59) |
+| La Feria de las Luces | 22–23 JS-TS | a definir | — |
 
 > Dato a tener en cuenta para [DISENO.md](DISENO.md): la **idea 2 (CodeQuest)** tiene el mismo tono que este guion:
 > - "misiones";
@@ -111,7 +114,7 @@ Columnas:
 | 18 | **Java** (Paradigmas III, UNLaR) | 26 (índice: 42) | **8** | ❌ | en la plataforma: `cursos/java`, ramas 1 a 5 y Senda del Arcade (D58) |
 | 19 | Java avanzado | 13 | 0 | ❌ | en la plataforma: Senda de las Corrientes de `cursos/java` (D58) |
 | 20 | Spring Boot + Lombok | 12 | 0 | ❌ | en la plataforma: Senda del Puerto de Spring de `cursos/java` (D58) |
-| 21 | PHP | 23 | 0 | ❌ hoy (posible con php-wasm) | formato viejo |
+| 21 | PHP | 23 | 0 | ❌ hoy (posible con php-wasm) | en la plataforma: `cursos/php`, tronco de 5 ramas y Senda de la Arena (D59) |
 | 22 | JS Vanilla | 22 | 0 | ⚠️ JS corre nativo en el navegador | formato viejo |
 | 23 | TypeScript | 22 | 0 | ⚠️ ídem, compilando TS en el cliente | formato viejo |
 

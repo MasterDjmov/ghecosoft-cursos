@@ -164,7 +164,7 @@ Partes:
 | Lenguaje | Se ejecuta en el navegador | Prácticas |
 |---|---|---|
 | **Python** | Sí (Pyodide, programas de consola, corte a los 5 s) | `entorno: navegador` para consola; `local` + `entrega: archivo` para pygame, Tkinter, hardware, archivos del disco, red o paquetes externos (numpy, pandas) |
-| C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta (el editor colorea C, C++, Arduino y Java). Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` (programas de varios archivos, SDL, Qt, sketches de Arduino: `.zip`). La *Entrada de ejemplo* y la *Salida esperada* sirven igual: el alumno compara en su compu, y el súper test compila con `gcc -std=c11` / `g++ -std=c++20` y las verifica |
+| C, C++, Java, PHP, SQL, Arduino, otros | No (por ahora) | El ejemplo se muestra y se copia, no se ejecuta (el editor colorea C, C++, Arduino, Java y PHP). Las prácticas van `entorno: local` con `entrega: codigo` (pegar el código) o `archivo` (programas de varios archivos, SDL, Qt, sketches de Arduino: `.zip`). La *Entrada de ejemplo* y la *Salida esperada* sirven igual: el alumno compara en su compu, y el súper test compila con `gcc -std=c11` / `g++ -std=c++20` (o corre `java Main.java` / `php8.3 main.php`) y las verifica |
 | JavaScript / TypeScript | No (por ahora; es posible a futuro) | Igual que el anterior |
 
 Detalles del ejecutor de Python (para escribir salidas esperadas que coincidan):

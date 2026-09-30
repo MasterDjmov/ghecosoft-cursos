@@ -4,7 +4,7 @@
 >
 > - La app vive en `~/gamificado.lariojaclick.ar` (clonada ahí) y el **document root** del subdominio apunta a `gamificado.lariojaclick.ar/public`.
 > - Repositorio: `git@github.com:MasterDjmov/ghecosoft-cursos.git`. El servidor lo lee con la deploy key `~/.ssh/ghecosoft_code` y el alias `github-ghecosoft_code` (§ 2).
-> - Base: `lariojac_code_cursos`. Cursos importados: Python, C, C++ y Java.
+> - Base: `lariojac_code_cursos`. Cursos importados: Python, C, C++, Java y PHP.
 > - Para actualizar: `scripts/deploy.sh` desde la compu (§ 6). En el servidor **no** se compilan los assets.
 
 Guía paso a paso para el hosting compartido (CloudLinux, PHP 8.3, MariaDB, Node 20 por SSH).
@@ -115,11 +115,12 @@ php artisan db:seed --class=ProductionSeeder --force   # configuración, moneda 
 php artisan app:create-admin                           # tu usuario docente (clave fuerte)
 php artisan storage:link                               # logos, íconos e insignias
 
-# Los cursos (cursos/python/, cursos/c/, cursos/cpp/, cursos/java/): igual que Admin → Cursos → Importar (sin usuarios de prueba)
+# Los cursos (cursos/python/, cursos/c/, cursos/cpp/, cursos/java/, cursos/php/): igual que Admin → Cursos → Importar (sin usuarios de prueba)
 php artisan app:import-course cursos/python/ --apply
 php artisan app:import-course cursos/c/ --apply
 php artisan app:import-course cursos/cpp/ --apply
 php artisan app:import-course cursos/java/ --apply
+php artisan app:import-course cursos/php/ --apply
 
 # Caché de configuración, rutas y vistas (más rápido)
 php artisan config:cache

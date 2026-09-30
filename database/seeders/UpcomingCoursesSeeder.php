@@ -17,9 +17,6 @@ class UpcomingCoursesSeeder extends Seeder
             ['title' => 'JavaScript: La Feria de las Luces', 'slug' => 'javascript', 'language' => Language::JavaScript, 'level' => CourseLevel::Beginner,
                 'short_description' => 'El lenguaje del navegador: páginas vivas y juegos web.',
                 'syllabus' => "Variables y funciones\nEl DOM\nEventos\nFetch y JSON\nJuegos con canvas"],
-            ['title' => 'PHP: La Posada de los Servidores', 'slug' => 'php', 'language' => Language::Php, 'level' => CourseLevel::Beginner,
-                'short_description' => 'Páginas que responden: formularios, sesiones y bases de datos.',
-                'syllabus' => "Variables y arreglos\nFormularios\nSesiones y cookies\nBases de datos con PDO\nUn sistema completo"],
         ];
 
         foreach ($courses as $i => $data) {

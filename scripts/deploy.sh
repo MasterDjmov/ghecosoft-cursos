@@ -4,7 +4,7 @@
 # así que se compilan acá y se sube public/build/ por SSH.
 #
 #   scripts/deploy.sh            # código + assets + migraciones
-#   scripts/deploy.sh --cursos   # además reimporta cursos/python, cursos/c, cursos/cpp y cursos/java
+#   scripts/deploy.sh --cursos   # además reimporta cursos/python, cursos/c, cursos/cpp, cursos/java y cursos/php
 #
 # Requiere el alias "ghecosoft-prod" en ~/.ssh/config (o DEPLOY_HOST=...).
 set -euo pipefail
@@ -49,7 +49,7 @@ ssh "$HOST" bash -s <<EOF
 set -euo pipefail
 cd ~/$APP_DIR
 if [[ $CURSOS == 1 ]]; then
-    for c in cursos/python/ cursos/c/ cursos/cpp/ cursos/java/; do php artisan app:import-course "\$c" --apply; done
+    for c in cursos/python/ cursos/c/ cursos/cpp/ cursos/java/ cursos/php/; do php artisan app:import-course "\$c" --apply; done
 fi
 php artisan optimize:clear
 php artisan config:cache

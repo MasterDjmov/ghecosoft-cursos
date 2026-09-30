@@ -144,8 +144,9 @@ class SimulateCourse extends Command
 
         mt_srand((int) $this->option('seed'));
         $this->language = $course->language->value;
-        $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++', 'java' => 'java'][$this->language] ?? null;
-        $this->runner = $tool ? (new ExecutableFinder)->find($tool) : null;
+        $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++', 'java' => 'java', 'php' => 'php8.3'][$this->language] ?? null;
+        // PHP: la versión del hosting (8.3) si está instalada; si no, la que haya.
+        $this->runner = $tool ? ((new ExecutableFinder)->find($tool) ?? ($this->language === 'php' ? (new ExecutableFinder)->find('php') : null)) : null;
         $this->workDir = storage_path('app/simulacion');
         @mkdir($this->workDir, 0775, true);
 
@@ -420,6 +421,13 @@ class SimulateCourse extends Command
                 : $code."\nclass Rota { int funcion() { return valorQueNoExiste; } }\n";
         }
 
+        // En PHP: una función que no existe (error fatal) o un echo de más al final.
+        if ($this->runner && $this->language === 'php') {
+            return $practice->expected_output && mt_rand(0, 1)
+                ? $code."echo \"listo\\n\";\n"
+                : $code."funcion_que_no_existe();\n";
+        }
+
         // En C/C++: una variable sin declarar (no compila) o una línea de más antes del último return.
         if ($this->runner) {
             $at = strrpos($code, 'return 0;');
@@ -501,9 +509,11 @@ class SimulateCourse extends Command
 
         [$output, $error] = $this->runCode($submission->code, $practice->sample_input);
         if ($error !== null) {
-            return [false, $this->language === 'python'
-                ? "Tu programa termina con un error:\n\n    {$error}\n\nLeé la última línea del traceback: te dice qué nombre no existe."
-                : "Tu programa no compila o termina con error:\n\n    {$error}\n\nLeé el primer error del compilador: dice el archivo, la línea y qué falta."];
+            return [false, match ($this->language) {
+                'python' => "Tu programa termina con un error:\n\n    {$error}\n\nLeé la última línea del traceback: te dice qué nombre no existe.",
+                'php' => "Tu programa termina con un error:\n\n    {$error}\n\nLeé el mensaje de PHP: dice qué pasó y en qué línea.",
+                default => "Tu programa no compila o termina con error:\n\n    {$error}\n\nLeé el primer error del compilador: dice el archivo, la línea y qué falta.",
+            }];
         }
         if ($practice->expected_output && trim(str_replace("\r\n", "\n", $output)) !== trim(str_replace("\r\n", "\n", $practice->expected_output))) {
             $got = collect(explode("\n", trim($output)));
@@ -519,11 +529,16 @@ class SimulateCourse extends Command
     /**
      * En Java, el docente no puede probar acá lo que necesita la base (PostgreSQL), una ventana,
      * varios archivos o lo que no es un programa (un script SQL): eso lo compara con la solución de referencia.
+     * En PHP, lo mismo con las páginas web, la base (MariaDB), los include y los argumentos de la terminal.
      */
     private function canRun(string $code): bool
     {
-        return $this->language !== 'java'
-            || (str_contains($code, 'static void main') && ! preg_match('/```|jdbc:|javax\.swing|java\.awt|^\s*package\s/m', $code));
+        return match ($this->language) {
+            'java' => str_contains($code, 'static void main') && ! preg_match('/```|jdbc:|javax\.swing|java\.awt|^\s*package\s/m', $code),
+            'php' => str_starts_with(ltrim($code), '<?php')
+                && ! preg_match('/```|mysql:|new PDO|\$_(GET|POST|SESSION|COOKIE|FILES|SERVER)\b|\$argv|\b(require|include)(_once)?\b|session_start|header\(|<html/i', $code),
+            default => true,
+        };
     }
 
     /** @return array{0: string, 1: ?string} salida, y el error (del compilador o de la ejecución) si hubo */
@@ -538,6 +553,10 @@ class SimulateCourse extends Command
             if ($this->language === 'python') {
                 file_put_contents($dir.'/main.py', $code);
                 $command = [$this->runner, 'main.py'];
+            } elseif ($this->language === 'php') {
+                // Como lo corre el alumno, pero con todos los avisos a la vista.
+                file_put_contents($dir.'/main.php', $code);
+                $command = [$this->runner, '-d', 'display_errors=stderr', '-d', 'error_reporting=-1', '-d', 'date.timezone=America/Argentina/Buenos_Aires', 'main.php'];
             } elseif ($this->language === 'java') {
                 // `java Main.java` compila en memoria y corre la primera clase del archivo.
                 file_put_contents($dir.'/Main.java', $code);
@@ -563,6 +582,9 @@ class SimulateCourse extends Command
             if ($this->language === 'java' && ! $process->isSuccessful()) {
                 $lines = collect(explode("\n", trim($process->getErrorOutput())));
                 $error = $lines->first(fn ($line) => str_contains($line, 'error:') || str_starts_with($line, 'Exception')) ?: ($lines->first() ?: 'El programa terminó con error.');
+            } elseif ($this->language === 'php' && ! $process->isSuccessful()) {
+                $lines = collect(explode("\n", trim($process->getErrorOutput())));
+                $error = $lines->first(fn ($line) => preg_match('/(Fatal|Parse) error/', $line)) ?: ($lines->first() ?: 'El programa terminó con error.');
             } elseif ($this->language === 'python' && ! $process->isSuccessful()) {
                 $error = collect(explode("\n", trim($process->getErrorOutput())))->last() ?: 'El programa terminó con error.';
             } elseif ($process->hasBeenSignaled() || $process->getExitCode() >= 128) {

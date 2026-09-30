@@ -11,7 +11,7 @@
     <flux:button variant="ghost" size="sm" icon="arrow-left" :href="route('student.worlds')" wire:navigate class="self-start">Mundos</flux:button>
 
     <header class="panel flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:p-6">
-        <x-course-logo :course="$course" size="size-20" />
+        <x-course-logo :course="$course" size="size-24" />
         <div class="flex min-w-0 flex-1 flex-col gap-1">
             <p class="tech-label">{{ $course->language->label() }} · {{ $nodeCount }} {{ term('node', $course, $nodeCount) }}</p>
             <h1 class="font-display text-2xl font-semibold text-white sm:text-3xl">{{ $course->title }}</h1>

@@ -52,7 +52,7 @@
                     @endphp
                     <article @class(['panel flex flex-col gap-4 p-5', 'panel-active' => in_array($world['status'], ['active', 'ready'])]) data-test="world-{{ $course->slug }}">
                         <div class="flex items-start gap-4">
-                            <x-course-logo :course="$course" />
+                            <x-course-logo :course="$course" size="size-20" />
                             <div class="flex min-w-0 flex-1 flex-col gap-1">
                                 <div class="flex flex-wrap items-center justify-between gap-2">
                                     <h3 class="font-display text-lg font-semibold text-white">{{ $course->title }}</h3>

@@ -13,7 +13,7 @@
 
     <div class="flex flex-1 flex-col gap-4 p-5">
         <div class="flex items-start justify-between gap-3">
-            <x-course-logo :course="$course" size="size-12" />
+            <x-course-logo :course="$course" size="size-20" />
             @if ($upcoming)
                 <span class="rounded border border-secondary-bright/40 px-2 py-0.5 font-mono text-[11px] text-secondary-bright">Próximamente</span>
             @endif
@@ -55,7 +55,7 @@
             <flux:modal :name="'syllabus-'.$course->slug" class="w-full max-w-lg">
                 <div class="flex flex-col gap-5">
                     <div class="flex items-center gap-3">
-                        <x-course-logo :course="$course" size="size-12" />
+                        <x-course-logo :course="$course" size="size-20" />
                         <div class="flex flex-col gap-0.5">
                             <flux:heading size="lg">{{ $course->title }}</flux:heading>
                             <p class="font-mono text-[11px] text-ink-muted">

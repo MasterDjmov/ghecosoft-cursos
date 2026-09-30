@@ -126,7 +126,7 @@
                         @foreach ($coins as $coin)
                             <div class="panel flex items-center gap-3 p-3 pe-5">
                                 @if ($coin['icon_path'])
-                                    <img src="{{ Storage::disk('public')->url($coin['icon_path']) }}" alt="" class="size-12 rounded-full border border-[#fbbf24]/50 object-cover">
+                                    <img src="{{ Storage::disk('public')->url($coin['icon_path']) }}" alt="" class="size-14 rounded-full border border-[#fbbf24]/50 object-cover">
                                 @else
                                     <span class="grid size-12 place-items-center rounded-full border border-[#fbbf24]/50 bg-[#fbbf24]/10 font-mono text-sm font-bold text-[#fbbf24]">{{ $coin['course']->language->short() }}</span>
                                 @endif

@@ -23,7 +23,7 @@
     x-init="$watch('tab', value => { try { localStorage.setItem('tree-tab', value) } catch (e) {} })">
 
     <header class="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <x-course-logo :course="$course" size="size-14" />
+        <x-course-logo :course="$course" size="size-16" />
         <div class="flex min-w-0 flex-1 flex-col gap-1">
             <p class="tech-label">{{ term('world.name') }} · {{ $course->title }}</p>
             <h1 class="font-display text-2xl font-semibold text-white">Tu árbol</h1>

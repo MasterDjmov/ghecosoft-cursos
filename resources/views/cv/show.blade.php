@@ -41,7 +41,7 @@
                     @php($percent = $item['total'] ? intdiv($item['completedCount'] * 100, $item['total']) : 0)
                     <article class="panel flex flex-col gap-3 p-5">
                         <div class="flex flex-wrap items-center gap-3">
-                            <x-course-logo :course="$item['course']" size="size-10" />
+                            <x-course-logo :course="$item['course']" size="size-12" />
                             <div class="flex min-w-0 flex-1 flex-col">
                                 <h3 class="font-medium text-white">{{ $item['course']->title }}</h3>
                                 <p class="text-xs text-ink-muted">

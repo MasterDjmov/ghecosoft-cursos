@@ -11,7 +11,7 @@
             <article class="panel flex flex-col gap-4 p-4 sm:flex-row sm:items-center" wire:key="course-{{ $course->id }}" wire:sort:item="{{ $course->id }}">
                 <div class="flex items-center gap-4 sm:flex-1">
                     <flux:icon name="bars-3" class="size-5 shrink-0 cursor-grab text-ink-muted" wire:sort:handle />
-                    <x-course-logo :course="$course" size="size-12" />
+                    <x-course-logo :course="$course" size="size-14" />
                     <div class="flex min-w-0 flex-col gap-1">
                         <div class="flex flex-wrap items-center gap-2">
                             <h2 class="font-display text-lg font-semibold text-white">{{ $course->title }}</h2>

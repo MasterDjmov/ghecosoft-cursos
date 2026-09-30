@@ -1,4 +1,4 @@
-@props(['currency', 'size' => 'size-8'])
+@props(['currency', 'size' => 'size-9'])
 
 {{-- La moneda: su imagen del diccionario (coin.course del curso o coin.wildcard) o, si no hay, la sigla del lenguaje / ★. --}}
 @php($icon = app(\App\Support\Glossary::class)->resolve($currency->is_wildcard ? 'coin.wildcard' : 'coin.course', $currency->is_wildcard ? null : $currency->course)['icon_path'])

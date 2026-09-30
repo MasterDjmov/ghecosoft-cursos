@@ -46,6 +46,11 @@
             @if ($status)
                 <span class="shrink-0 rounded-md border px-2.5 py-1 text-xs {{ $statusLabel[$status][1] }}" data-test="mission-status">{{ $statusLabel[$status][0] }}</span>
             @endif
+            @if ($reviewNotice)
+                <span class="inline-flex shrink-0 items-center gap-1 rounded-md border border-warning/50 px-2.5 py-1 text-xs text-warning" title="{{ $reviewNotice }}" data-test="review-notice">
+                    <flux:icon name="moon" variant="micro" /> Fuera de horario
+                </span>
+            @endif
 
             @if ($canRun && $usesCode)
                 <flux:button icon="play" x-on:click="run" x-bind:disabled="running" title="Ejecutar (Ctrl+Enter)">
@@ -159,6 +164,7 @@
                                 ]) style="{{ $item->is_required ? 'border-inline-start-color: '.($colors[$itemStatus] ?? '#475569') : '' }}"
                                     @if ($item->id === $practice->id) aria-current="page" @endif>
                                     <span class="min-w-0 flex-1 truncate">{{ $loop->iteration }} · {{ $item->title }}</span>
+                                    <x-attempts :count="$attemptCounts[$item->id] ?? 0" />
                                     <span class="shrink-0 text-xs" style="color: {{ $colors[$itemStatus] ?? '#94a3b8' }}">
                                         {{ ['approved' => 'Aprobada', 'submitted' => 'En corrección', 'redo' => 'Rehacer'][$itemStatus] ?? ($item->is_required ? 'Pendiente' : 'Optativa') }}
                                     </span>

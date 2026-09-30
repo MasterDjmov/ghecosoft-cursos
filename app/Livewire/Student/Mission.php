@@ -6,6 +6,7 @@ use App\Livewire\Student\Concerns\WorksOnPractice;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\Practice;
+use App\Models\Submission;
 use App\Services\PracticeSubmitter;
 use App\Support\Narrative;
 use App\Support\TreeGraph;
@@ -58,6 +59,8 @@ class Mission extends Component
             ...$state,
             'practices' => $practices,
             'statuses' => $statuses,
+            'attemptCounts' => Submission::where('user_id', $user->id)->whereIn('practice_id', $practices->pluck('id'))
+                ->groupBy('practice_id')->selectRaw('practice_id, count(*) as total')->pluck('total', 'practice_id'),
             'number' => $practices->search(fn (Practice $p) => $p->id === $this->practice->id) + 1,
             'chronicle' => $render($this->node->chronicle),
             'theory' => array_filter([

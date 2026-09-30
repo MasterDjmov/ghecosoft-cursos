@@ -8,6 +8,9 @@
             @endif
             <span @class(['text-ink-muted' => ! $status])>{{ $footerStatus }}</span>
         </p>
+        @if ($reviewNotice)
+            <p class="flex items-start gap-2 text-xs text-warning" data-test="review-notice"><flux:icon name="moon" variant="micro" class="mt-px shrink-0" /> {{ $reviewNotice }}</p>
+        @endif
         @if ($blocker && $status !== 'approved')
             <p class="flex items-start gap-2 text-xs text-ink-muted"><flux:icon name="information-circle" variant="micro" class="mt-px shrink-0" /> {{ $blocker }}</p>
         @endif

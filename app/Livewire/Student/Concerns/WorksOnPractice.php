@@ -10,6 +10,7 @@ use App\Rules\SafeUpload;
 use App\Services\PracticeSubmitter;
 use App\Services\SubmissionReviewer;
 use App\Support\Narrative;
+use App\Support\ReviewHours;
 use DomainException;
 use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
@@ -50,7 +51,7 @@ trait WorksOnPractice
 
         $this->reset('file');
         $this->dispatch('practice-updated');
-        Flux::toast(variant: 'success', text: '¡Entregado! Te avisamos cuando el profe la corrija.');
+        Flux::toast(variant: 'success', text: '¡Entregado! '.(ReviewHours::notice(now()) ?? 'Te avisamos cuando el profe la corrija.'));
     }
 
     public function toggleMark(PracticeSubmitter $submitter): void
@@ -121,6 +122,8 @@ trait WorksOnPractice
             'attempts' => $attempts,
             'latest' => $latest,
             'status' => $approved ? 'approved' : $latest?->status->value,
+            // Si la última entrega espera corrección y llegó fuera de horario: cuándo se revisa.
+            'reviewNotice' => ! $approved && $latest?->status->value === 'submitted' ? ReviewHours::notice($latest->submitted_at) : null,
             'blocker' => $submitter->blocker($user, $this->practice),
             'marked' => PracticeMark::where('user_id', $user->id)->where('practice_id', $this->practice->id)->exists(),
             'mode' => $this->practice->submission_mode,

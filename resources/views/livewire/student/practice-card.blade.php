@@ -30,6 +30,7 @@
         @endif
         <h3 class="min-w-0 truncate font-medium text-white">{{ $practice->title }}</h3>
         <flux:badge size="sm" class="shrink-0" :color="$statusBadge[$status][1] ?? 'zinc'">{{ $statusBadge[$status][0] ?? 'Sin hacer' }}</flux:badge>
+        <x-attempts :count="$attempts->count()" />
         @if ($isLocal)
             <flux:badge size="sm" class="hidden shrink-0 sm:inline-flex" icon="computer-desktop" title="{{ $practice->environment->hint($mode) }}">Local</flux:badge>
         @endif

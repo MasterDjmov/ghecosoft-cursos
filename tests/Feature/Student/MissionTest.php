@@ -5,6 +5,7 @@ use App\Models\Submission;
 use App\Models\User;
 use App\Services\NodeUnlocker;
 use App\Services\SubmissionReviewer;
+use App\Support\ReviewHours;
 use Livewire\Livewire;
 
 /** Modo misión: la misma práctica a pantalla completa, con las mismas reglas. */
@@ -65,4 +66,37 @@ test('la devolución del profe aparece en su columna', function () {
         ->assertOk()
         ->assertSee('Devolución del profe')
         ->assertSee('Revisá el signo del elif.');
+});
+
+test('cada práctica muestra cuántas veces se entregó, con su color', function () {
+    ['course' => $course, 'root' => $root, 'student' => $student, 'practice' => $practice] = missionSetup();
+
+    Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
+        ->assertDontSeeHtml('data-test="attempts"');
+
+    foreach ([1, 2, 3, 4] as $attempt) {
+        Submission::create(['practice_id' => $practice->id, 'user_id' => $student->id, 'attempt' => $attempt, 'code' => 'print(1)', 'submitted_at' => now()]);
+    }
+    Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
+        ->assertSeeHtml('data-attempts="4"')
+        ->assertSeeHtml('color: #f87171');
+    $this->actingAs($student)->get(route('student.node', [$course, $root]))->assertSee('4 intentos');
+});
+
+test('lo que se entrega fuera del horario de corrección avisa cuándo se revisa', function () {
+    expect(ReviewHours::notice(Carbon\Carbon::parse('2026-10-01 10:00')))->toBeNull()
+        ->and(ReviewHours::reviewDay(Carbon\Carbon::parse('2026-10-01 22:00'))->toDateString())->toBe('2026-10-02')
+        ->and(ReviewHours::reviewDay(Carbon\Carbon::parse('2026-10-02 03:15'))->toDateString())->toBe('2026-10-02');
+
+    ['course' => $course, 'root' => $root, 'student' => $student, 'practice' => $practice] = missionSetup();
+    $this->travelTo(Carbon\Carbon::parse('2026-10-01 23:30'));
+
+    Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
+        ->call('submit', 'print("hola")')
+        ->assertSee('el profe la revisa mañana (02/10) entre las 8 y las 22 h')
+        ->assertSeeHtml('data-test="review-notice"');
+
+    $this->travelTo(Carbon\Carbon::parse('2026-10-02 10:00'));
+    Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
+        ->assertSee('el profe la revisa hoy entre las 8 y las 22 h');
 });

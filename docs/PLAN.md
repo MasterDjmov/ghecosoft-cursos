@@ -350,3 +350,35 @@ Lo pedido:
   - en **"Olvidé mi clave"** y en el **login**: "¿No tenés email o no te llega? Escribile al profe" con botón de **WhatsApp** (chat o llamada) al número de *Configuración*. Si el número no está cargado, no se muestra;
   - el número del docente pasa a verse en páginas públicas: es una decisión consciente del docente.
 - Solo el admin puede hacerlo: Policy y tests Pest.
+
+### Cuentas compartidas: sesión única (y la IP como refuerzo) 🔲 (anotado el 2026-09-30, a decidir con el docente)
+Pedido: que una cuenta de alumno no la use otra persona. Dos caminos que el docente aceptó; se propone empezar por el primero.
+
+**A · Sesión única (propuesta).** Una cuenta de alumno solo puede estar abierta en un lugar a la vez.
+- Al iniciar sesión se borran las demás sesiones del usuario (las sesiones ya viven en la base: `SESSION_DRIVER=database`, tabla `sessions` con `user_id`). Quien estaba adentro, en su próximo pedido, vuelve al login con el aviso «Entraste desde otro lugar: por seguridad cerramos esta sesión».
+- Cada desalojo se anota (`session_evictions`: usuario, cuándo, IP y navegador de las dos puntas, con `TRUSTED_PROXIES=cloudflare` para tener la IP real). Si pasa **3 o más veces en 24 h** (a definir), le llega un aviso en vivo al docente (D62) con el detalle.
+- El docente, desde la ficha del alumno: **Bloquear** (no puede entrar; se cierran sus sesiones), **Desbloquear** y **Resetear clave** (ya existe en `StudentAccounts`). Bloqueado ve «Tu cuenta está pausada: escribile al profe» con el WhatsApp del docente.
+- No afecta al docente (puede tener varias sesiones). No depende de la IP: los datos móviles no dan falsos positivos.
+- Costo para el alumno honesto: PC y celular no pueden estar abiertos a la vez (uno cierra al otro).
+
+**B · Distinta red (refuerzo, solo si A no alcanza).** Guardar la red de cada ingreso y comparar por rango (/24 en IPv4, /48 en IPv6). PC y celular en la misma casa comparten IP pública: valen. **Problema:** los datos móviles (4G, CGNAT) cambian de IP seguido → falsos positivos. Si se hace: redes conocidas por alumno que el docente aprueba, y al principio **solo alertar** (no bloquear) para medir.
+
+**Para decidir:** ¿arrancamos con A? ¿cuántos desalojos por día disparan el aviso? ¿el bloqueo es solo manual (el docente decide) o automático al pasar el límite? Toda regla nueva de acceso va con Policy y tests Pest.
+
+### Ejecutar las entregas al corregir (lado docente) 🔲 (anotado el 2026-09-30, a decidir con el docente)
+Pedido: poder correr en la plataforma el código de una entrega simple sin copiarlo a un editor local. Hoy ya pasa con **Python** (Pyodide en `x-code-runner` de *Admin → Entregas*).
+
+- **Siempre en el navegador del docente** (WebAssembly en un Web Worker, con tiempo límite): el código del alumno sigue sin ejecutarse nunca en el servidor. El worker no ve la sesión ni las cookies.
+- Solo **código simple**: un archivo, de consola, con la *Entrada de ejemplo* y comparando con la *Salida esperada* (la misma consola de Python: Salida / Entrada / Esperada). Los zip, lo que usa una base real (PDO/MariaDB, JDBC/PostgreSQL), ventanas (Swing, Qt, SDL), Laravel/Spring y Arduino se siguen probando en la compu del docente.
+- Cada ejecutor es un módulo más en `resources/js/runners/` (como `python.js`), cargado solo cuando se usa y cacheado por el navegador.
+
+| Orden | Lenguaje | Cómo | Descarga (una vez) | Nota |
+|---|---|---|---|---|
+| 1 | PHP (consola) | php-wasm (PHP 8.x) | ~15–20 MB | sin MariaDB; `readline`/`STDIN` con la entrada de ejemplo |
+| 2 | JavaScript / HTML / CSS | iframe con `sandbox` (sin mismo origen) | nada | muestra la página y la consola |
+| 3 | C | TinyCC compilado a WebAssembly | ~1–2 MB | C99 de consola (`scanf`/`printf`) |
+| 4 | C++ | clang compilado a WebAssembly | ~30–60 MB | pesado pero solo del lado docente |
+| 4 | Java | CheerpJ (`javac` + JVM en el navegador) | ~20 MB+ | lento al arrancar; **revisar la licencia** antes |
+| — | SQL | sql.js (SQLite) | ~1 MB | aproximado: lo específico de MariaDB no anda |
+
+**Para decidir:** ¿el orden está bien? ¿se habilita también para los alumnos más adelante? (hoy la regla dice que C/C++/Java corren en la compu del alumno: cambiarla es una decisión aparte, en GAMIFICACION/ESPECIFICACION).

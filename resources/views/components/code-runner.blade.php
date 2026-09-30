@@ -15,8 +15,9 @@
         'typescript' => 'ts', 'php' => 'php', 'sql' => 'sql', 'arduino' => 'ino',
     ][$language] ?? 'txt';
     $languageLabel = \App\Enums\Language::tryFrom($language)?->label() ?? $language;
-    // Python corre para todos (Pyodide); C, C++ (D66) y PHP (D68) solo para el docente al corregir, en su navegador.
-    $canRun = $runnable && ($language === 'python' || (in_array($language, ['c', 'cpp', 'php'], true) && auth()->user()?->isAdmin()));
+    // Python corre para todos (Pyodide); C, C++ (D66) y PHP (D68) solo para el docente al corregir, en su navegador;
+    // Java (D69), también solo el docente, en su compu con scripts/JavaRunner.java.
+    $canRun = $runnable && ($language === 'python' || (in_array($language, ['c', 'cpp', 'php', 'java'], true) && auth()->user()?->isAdmin()));
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
 @endphp
 
@@ -27,7 +28,7 @@
     x-data="codeRunner(@js([
         'code' => (string) $code, 'stdin' => (string) $stdin, 'expected' => (string) $expected, 'language' => $language,
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
-        'pyodideUrl' => config('services.pyodide.url'), 'timeout' => config('services.pyodide.timeout_ms'),
+        'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'timeout' => config('services.pyodide.timeout_ms'),
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}

@@ -41,4 +41,9 @@ return [
         'timeout_ms' => 5000,
     ],
 
+    // Ejecutor local de Java del docente (D69): scripts/JavaRunner.java, en su compu.
+    'java_runner' => [
+        'url' => env('JAVA_RUNNER_URL', 'http://127.0.0.1:17017'),
+    ],
+
 ];

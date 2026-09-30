@@ -240,7 +240,7 @@ test('el docente puede ejecutar una entrega de C++ al corregir; el alumno de C++
         ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
 });
 
-test('una entrega de Java trae el comando para probarla en la compu del docente (D67)', function () {
+test('el docente ejecuta una entrega de Java con el ejecutor local o con el comando para la terminal (D67, D69)', function () {
     $this->data['course']->update(['language' => 'java']);
     $this->practice->update(['sample_input' => "3\n"]);
     $submission = Submission::create(['practice_id' => $this->practice->id, 'user_id' => $this->student->id, 'attempt' => 1,
@@ -248,7 +248,11 @@ test('una entrega de Java trae el comando para probarla en la compu del docente 
 
     $this->actingAs($this->admin)->get(route('admin.submissions.show', $submission))
         ->assertOk()->assertSee('data-test="local-run"', false)->assertSee('Descargar Tablas.java')
-        ->assertSee('java -cp . Tablas', false)->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
+        ->assertSee('java -cp . Tablas', false)->assertSee('title="Ejecutar (Ctrl+Enter)"', false)
+        ->assertSee('127.0.0.1:17017', false);
+
+    $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))
+        ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
 });
 
 test('el docente puede ejecutar una entrega de PHP al corregir; el alumno de PHP no ejecuta en la plataforma (D68)', function () {

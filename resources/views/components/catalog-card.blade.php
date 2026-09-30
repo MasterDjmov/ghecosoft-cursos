@@ -13,7 +13,7 @@
 
     <div class="flex flex-1 flex-col gap-4 p-5">
         <div class="flex items-start justify-between gap-3">
-            <x-course-logo :course="$course" size="size-20" />
+            <x-course-logo :course="$course" size="size-50 max-w-full" />
             @if ($upcoming)
                 <span class="rounded border border-secondary-bright/40 px-2 py-0.5 font-mono text-[11px] text-secondary-bright">Próximamente</span>
             @endif

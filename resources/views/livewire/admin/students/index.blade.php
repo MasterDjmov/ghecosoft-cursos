@@ -75,7 +75,11 @@
                                                 <span class="text-xs {{ $row['active'] ? 'text-success' : 'text-ink-muted' }}">{{ $row['active'] ? 'Abono vigente' : 'Abono vencido' }}</span>
                                             </div>
                                         </div>
-                                        @if ($row['canChange'])
+                                        @if ($row['canCreate'])
+                                            <flux:button size="sm" variant="primary" icon="plus" wire:click="createCohortFor({{ $person->id }}, {{ $row['course']->id }})" data-test="create-cohort-{{ $row['course']->id }}">
+                                                Crear comisión y sumarlo
+                                            </flux:button>
+                                        @elseif ($row['canChange'])
                                             <flux:select size="sm" class="sm:w-72" aria-label="Comisión en {{ $row['course']->title }}"
                                                 x-on:change="$wire.assignCohort({{ $person->id }}, {{ $row['course']->id }}, $event.target.value)">
                                                 <flux:select.option value="" :selected="! $row['cohort']">Sin comisión</flux:select.option>
@@ -88,8 +92,8 @@
                                         @else
                                             <span class="text-sm text-ink-muted">
                                                 {{ $row['cohort'] ? $row['cohort']->name.($row['cohort']->teacher ? ' · '.$row['cohort']->teacher->fullName() : '') : 'Sin comisión' }}
-                                                @if (! $isAdmin && $row['options']->isEmpty())
-                                                    · no tenés comisiones de este curso
+                                                @if (! $isAdmin && $row['cohort'])
+                                                    · de otro docente
                                                 @endif
                                             </span>
                                         @endif

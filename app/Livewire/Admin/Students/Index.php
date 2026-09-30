@@ -69,6 +69,27 @@ class Index extends Component
         Flux::toast(variant: 'success', text: $target ? 'Comisión actualizada.' : 'Quedó sin comisión en este curso.');
     }
 
+    /**
+     * Sin comisiones propias en ese curso: crea una (a nombre del docente; del administrador, sin docente)
+     * con un nombre por defecto y suma al alumno. El nombre se cambia después en Comisiones.
+     */
+    public function createCohortFor(StudentAccounts $accounts, int $userId, int $courseId): void
+    {
+        $student = User::where('role', Role::Student)->findOrFail($userId);
+        $course = Course::whereIn('id', $student->subscriptions()->select('course_id'))->findOrFail($courseId);
+        $viewer = auth()->user();
+        // Crear no mueve a nadie de la comisión de otro docente.
+        $this->authorize('assignCohort', [$student, $course, null]);
+
+        $cohort = $course->cohorts()->create([
+            'name' => $viewer->isTeacher() ? 'Comisión de '.$viewer->fullName() : 'Comisión '.($course->cohorts()->count() + 1),
+            'teacher_id' => $viewer->isTeacher() ? $viewer->id : null,
+        ]);
+        $accounts->changeCohort($student, $course, $cohort->id);
+
+        Flux::toast(variant: 'success', text: 'Creaste «'.$cohort->name.'» y '.$student->name.' quedó adentro. El nombre y el horario se cambian en Comisiones.');
+    }
+
     /** Solo el administrador: la cuenta de un docente vuelve a ser de alumno (sus comisiones quedan sin docente). */
     public function demote(int $userId): void
     {
@@ -133,6 +154,8 @@ class Index extends Component
                     'active' => $subscription->ends_at->isFuture(),
                     'options' => $options,
                     'canChange' => $viewer->isAdmin() || ($options->isNotEmpty() && $viewer->can('assignCohort', [$student, $course, null])),
+                    // Sin comisiones para elegir (y sin estar en la de otro docente): se crea una ahí mismo.
+                    'canCreate' => $options->isEmpty() && $viewer->can('assignCohort', [$student, $course, null]),
                 ];
             })->values()->all();
     }

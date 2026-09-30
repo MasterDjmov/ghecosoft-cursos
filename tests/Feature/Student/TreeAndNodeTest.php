@@ -8,17 +8,8 @@ use App\Models\Currency;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\Ledger;
-use App\Services\NodeUnlocker;
 use App\Support\TreeGraph;
 use Livewire\Livewire;
-
-function studentWithRootOpen(array $course): User
-{
-    $student = enrolledStudent($course['course']);
-    app(NodeUnlocker::class)->unlock($student, $course['root']);
-
-    return $student;
-}
 
 test('sin el raíz abierto, el árbol manda a la ficha del curso', function () {
     ['course' => $course] = makeCourse();

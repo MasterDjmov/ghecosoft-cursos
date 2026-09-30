@@ -8,6 +8,7 @@ use App\Models\Node;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\EnrollmentApprover;
+use App\Services\NodeUnlocker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -102,6 +103,15 @@ function enrolledStudent(Course $course, ?User $student = null): User
     $student ??= User::factory()->create();
     $request = EnrollmentRequest::create(['user_id' => $student->id, 'course_id' => $course->id, 'kind' => 'new', 'type' => 'contact']);
     app(EnrollmentApprover::class)->approve($request, User::factory()->admin()->create());
+
+    return $student;
+}
+
+/** Alumno inscripto que ya abrió el raíz del curso (el que arma makeCourse()). */
+function studentWithRootOpen(array $course): User
+{
+    $student = enrolledStudent($course['course']);
+    app(NodeUnlocker::class)->unlock($student, $course['root']);
 
     return $student;
 }

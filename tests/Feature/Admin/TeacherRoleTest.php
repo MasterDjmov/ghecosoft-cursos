@@ -115,6 +115,24 @@ test('el docente suma un alumno a su comisión desde Alumnos, pero no mueve alum
     expect(CourseSubscription::where('user_id', $this->other->id)->value('cohort_id'))->toBe($this->cohort->id);
 });
 
+test('sin comisión propia en ese curso, el docente la crea desde Alumnos y suma al alumno', function () {
+    $java = makeCourse(['title' => 'Java', 'language' => 'java']);
+    $student = enrolledStudent($java['course']);
+
+    Livewire::actingAs($this->teacher)->test(StudentsIndex::class)
+        ->set('tab', 'sumar')->set('search', $student->username)
+        ->call('toggle', $student->id)->assertSee('data-test="create-cohort-'.$java['course']->id.'"', false)
+        ->call('createCohortFor', $student->id, $java['course']->id);
+
+    $cohort = Cohort::where('course_id', $java['course']->id)->firstOrFail();
+    expect($cohort->teacher_id)->toBe($this->teacher->id)
+        ->and(CourseSubscription::where('user_id', $student->id)->where('course_id', $java['course']->id)->value('cohort_id'))->toBe($cohort->id);
+
+    // En la comisión de otro docente no se crea nada.
+    $rival = User::factory()->teacher()->create();
+    Livewire::actingAs($rival)->test(StudentsIndex::class)->call('createCohortFor', $student->id, $java['course']->id)->assertForbidden();
+});
+
 test('el docente crea comisiones a su nombre y no toca las de otros', function () {
     $adminCohort = Cohort::create(['course_id' => $this->course->id, 'name' => 'Del admin']);
 

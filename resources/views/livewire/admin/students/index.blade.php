@@ -75,10 +75,12 @@
                                                 <span class="text-xs {{ $row['active'] ? 'text-success' : 'text-ink-muted' }}">{{ $row['active'] ? 'Abono vigente' : 'Abono vencido' }}</span>
                                             </div>
                                         </div>
-                                        @if ($row['canCreate'])
-                                            <flux:button size="sm" variant="primary" icon="plus" wire:click="createCohortFor({{ $person->id }}, {{ $row['course']->id }})" data-test="create-cohort-{{ $row['course']->id }}">
-                                                Crear comisión y sumarlo
-                                            </flux:button>
+                                        @if ($row['needsCohort'])
+                                            {{-- Las comisiones se crean en Comisiones, dentro de cada curso; acá solo se elige. --}}
+                                            <span class="text-sm text-ink-muted" data-test="needs-cohort-{{ $row['course']->id }}">
+                                                {{ $isAdmin ? 'Este curso no tiene comisiones.' : 'No tenés comisiones de este curso.' }}
+                                                <flux:link :href="route('admin.cohorts').'#comisiones-'.$row['course']->id">Creá una en Comisiones</flux:link>
+                                            </span>
                                         @elseif ($row['canChange'])
                                             <flux:select size="sm" class="sm:w-72" aria-label="Comisión en {{ $row['course']->title }}"
                                                 x-on:change="$wire.assignCohort({{ $person->id }}, {{ $row['course']->id }}, $event.target.value)">

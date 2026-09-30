@@ -115,22 +115,22 @@ test('el docente suma un alumno a su comisión desde Alumnos, pero no mueve alum
     expect(CourseSubscription::where('user_id', $this->other->id)->value('cohort_id'))->toBe($this->cohort->id);
 });
 
-test('sin comisión propia en ese curso, el docente la crea desde Alumnos y suma al alumno', function () {
+test('sin comisión propia en ese curso, Alumnos manda a crearla en Comisiones; con una, se elige', function () {
     $java = makeCourse(['title' => 'Java', 'language' => 'java']);
     $student = enrolledStudent($java['course']);
 
     Livewire::actingAs($this->teacher)->test(StudentsIndex::class)
         ->set('tab', 'sumar')->set('search', $student->username)
-        ->call('toggle', $student->id)->assertSee('data-test="create-cohort-'.$java['course']->id.'"', false)
-        ->call('createCohortFor', $student->id, $java['course']->id);
+        ->call('toggle', $student->id)
+        ->assertSee('data-test="needs-cohort-'.$java['course']->id.'"', false)
+        ->assertSee(route('admin.cohorts').'#comisiones-'.$java['course']->id, false);
 
-    $cohort = Cohort::where('course_id', $java['course']->id)->firstOrFail();
-    expect($cohort->teacher_id)->toBe($this->teacher->id)
-        ->and(CourseSubscription::where('user_id', $student->id)->where('course_id', $java['course']->id)->value('cohort_id'))->toBe($cohort->id);
-
-    // En la comisión de otro docente no se crea nada.
-    $rival = User::factory()->teacher()->create();
-    Livewire::actingAs($rival)->test(StudentsIndex::class)->call('createCohortFor', $student->id, $java['course']->id)->assertForbidden();
+    $cohort = Cohort::create(['course_id' => $java['course']->id, 'teacher_id' => $this->teacher->id, 'name' => 'Java de la tarde']);
+    Livewire::actingAs($this->teacher)->test(StudentsIndex::class)
+        ->set('tab', 'sumar')->set('search', $student->username)
+        ->call('toggle', $student->id)->assertSee('Java de la tarde')
+        ->call('assignCohort', $student->id, $java['course']->id, (string) $cohort->id);
+    expect(CourseSubscription::where('user_id', $student->id)->where('course_id', $java['course']->id)->value('cohort_id'))->toBe($cohort->id);
 });
 
 test('el docente crea comisiones a su nombre y no toca las de otros', function () {

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['course_id', 'code', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'badge_id', 'video_url', 'chronicle', 'objectives', 'before_you_start', 'content', 'example_code', 'example_language', 'example_runnable', 'expected_output', 'sample_input', 'use_cases', 'common_errors', 'beast_key', 'self_check', 'teacher_solutions', 'pos_x', 'pos_y', 'is_published'])]
+#[Fillable(['course_id', 'code', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'badge_id', 'video_url', 'chronicle', 'objectives', 'before_you_start', 'content', 'example_code', 'example_language', 'example_runnable', 'expected_output', 'sample_input', 'use_cases', 'common_errors', 'beast_key', 'topics', 'uses', 'self_check', 'teacher_solutions', 'pos_x', 'pos_y', 'is_published'])]
 class Node extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -27,6 +27,9 @@ class Node extends Model
             'is_published' => 'boolean',
             'example_runnable' => 'boolean',
             'self_check' => 'array',
+            // Universo de cursos (D70): temas del catálogo que enseña y que da por sabidos.
+            'topics' => 'array',
+            'uses' => 'array',
         ];
     }
 

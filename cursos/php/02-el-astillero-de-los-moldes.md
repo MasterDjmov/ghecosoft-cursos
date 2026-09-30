@@ -12,6 +12,7 @@ tipo: tema
 padre: R01-N10
 precio: 10
 criatura: skeleton
+temas: poo.clases, poo.constructores
 ```
 
 ### Crónica
@@ -660,6 +661,7 @@ tipo: tema
 padre: R02-N01
 precio: 10
 criatura: troll
+temas: poo.encapsulamiento, poo.records
 ```
 
 ### Crónica
@@ -1346,6 +1348,7 @@ tipo: tema
 padre: R02-N02
 precio: 10
 criatura: goblin
+temas: poo.static, diseno.patrones
 ```
 
 ### Crónica
@@ -1966,6 +1969,7 @@ tipo: tema
 padre: R02-N03
 precio: 10
 criatura: troll
+temas: poo.herencia
 ```
 
 ### Crónica
@@ -2666,6 +2670,7 @@ tipo: tema
 padre: R02-N04
 precio: 10
 criatura: ogre
+temas: poo.abstractas, poo.polimorfismo
 ```
 
 ### Crónica
@@ -3396,6 +3401,7 @@ tipo: tema
 padre: R02-N05
 precio: 10
 criatura: goblin
+temas: poo.interfaces
 ```
 
 ### Crónica
@@ -4171,6 +4177,7 @@ tipo: tema
 padre: R02-N06
 precio: 10
 criatura: troll
+temas: poo.composicion, diseno.inyeccion
 ```
 
 ### Crónica
@@ -4987,6 +4994,7 @@ tipo: tema
 padre: R02-N07
 precio: 10
 criatura: goblin
+temas: prog.enums, prog.fechas
 ```
 
 ### Crónica
@@ -5696,6 +5704,7 @@ tipo: tema
 padre: R02-N08
 precio: 10
 criatura: troll
+temas: err.excepciones
 ```
 
 ### Crónica
@@ -6437,6 +6446,7 @@ tipo: tema
 padre: R02-N09
 precio: 10
 criatura: skeleton
+temas: prog.modulos, cal.build
 ```
 
 ### Crónica
@@ -7291,6 +7301,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Gólem
 insignia_descripcion: Venciste al Gólem del Astillero: diseñás sistemas con clases, interfaces, enums y excepciones.
+usa: poo.interfaces, prog.enums, err.excepciones, cal.build
 ```
 
 ### Crónica

@@ -14,6 +14,7 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: hw.arduino
 ```
 
 ### Crónica
@@ -350,6 +351,8 @@ padre: S02-N01
 precio: 10
 criatura: ogro
 ejecutable: no
+temas: hw.entradas
+usa: hw.arduino
 ```
 
 ### Crónica
@@ -655,6 +658,8 @@ padre: S02-N02
 precio: 10
 criatura: goblin
 ejecutable: no
+temas: hw.serie
+usa: hw.arduino
 ```
 
 ### Crónica
@@ -1057,6 +1062,7 @@ criatura: dragon
 ejecutable: no
 insignia: Artífice de Autómatas
 insignia_descripcion: Venciste al Autómata Guardián: tu código mueve el mundo real desde una placa.
+usa: hw.serie, hw.entradas
 ```
 
 ### Crónica

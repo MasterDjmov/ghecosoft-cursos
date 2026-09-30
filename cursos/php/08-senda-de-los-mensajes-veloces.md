@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: skeleton
 ejecutable: no
+temas: js.fundamentos, js.dom, js.eventos, js.fetch
+usa: web.api-rest, html.estructura
 ```
 
 ### Crónica
@@ -1022,6 +1024,8 @@ padre: S03-N01
 precio: 10
 criatura: troll
 ejecutable: no
+temas: js.formularios
+usa: js.fetch, web.sesiones
 ```
 
 ### Crónica
@@ -2682,6 +2686,7 @@ criatura: dragon
 ejecutable: no
 insignia: Mensajero Veloz
 insignia_descripcion: Venciste al Leviatán de los Mensajes: construiste aplicaciones de una sola página que conversan en vivo con tu API de PHP y MariaDB.
+usa: js.fetch, js.formularios, sql.modelo
 ```
 
 ### Crónica

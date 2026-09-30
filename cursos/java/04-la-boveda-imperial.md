@@ -12,6 +12,7 @@ tipo: tema
 padre: R03-N08
 precio: 10
 criatura: goblin
+temas: arch.texto, arch.csv, arch.config
 ```
 
 ### Crónica
@@ -661,6 +662,7 @@ tipo: tema
 padre: R04-N01
 precio: 10
 criatura: skeleton
+temas: sql.modelo, sql.abm
 ```
 
 ### Crónica
@@ -1196,6 +1198,7 @@ tipo: tema
 padre: R04-N02
 precio: 10
 criatura: ogre
+temas: sql.consultas, sql.joins
 ```
 
 ### Crónica
@@ -1913,6 +1916,7 @@ tipo: tema
 padre: R04-N03
 precio: 10
 criatura: troll
+temas: sql.avanzado
 ```
 
 ### Crónica
@@ -2427,6 +2431,7 @@ tipo: tema
 padre: R04-N04
 precio: 10
 criatura: goblin
+temas: sql.desde-codigo, sql.inyeccion
 ```
 
 ### Crónica
@@ -3237,6 +3242,8 @@ tipo: tema
 padre: R04-N05
 precio: 10
 criatura: skeleton
+temas: diseno.capas
+usa: sql.desde-codigo, poo.records
 ```
 
 ### Crónica
@@ -4331,6 +4338,8 @@ tipo: tema
 padre: R04-N06
 precio: 10
 criatura: troll
+temas: sql.transacciones
+usa: sql.desde-codigo
 ```
 
 ### Crónica
@@ -5141,6 +5150,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Liche
 insignia_descripcion: Venciste al Liche de las Tablas Huérfanas: tus datos quedan siempre coherentes.
+usa: sql.joins, sql.transacciones, diseno.capas
 ```
 
 ### Crónica

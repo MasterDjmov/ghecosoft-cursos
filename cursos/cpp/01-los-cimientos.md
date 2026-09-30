@@ -12,6 +12,7 @@ tipo: tema
 padre: R00-N01
 precio: 10
 criatura: goblin
+temas: prog.variables, prog.operadores
 ```
 
 ### Crónica
@@ -454,6 +455,7 @@ tipo: tema
 padre: R01-N01
 precio: 10
 criatura: goblin
+temas: prog.entrada, prog.cadenas
 ```
 
 ### Crónica
@@ -941,6 +943,7 @@ tipo: tema
 padre: R01-N02
 precio: 10
 criatura: ogro
+temas: prog.condicionales
 ```
 
 ### Crónica
@@ -1422,6 +1425,7 @@ tipo: tema
 padre: R01-N03
 precio: 10
 criatura: ogro
+temas: prog.bucles
 ```
 
 ### Crónica
@@ -1967,6 +1971,7 @@ tipo: tema
 padre: R01-N04
 precio: 10
 criatura: esqueleto
+temas: prog.funciones, prog.alcance
 ```
 
 ### Crónica
@@ -2498,6 +2503,7 @@ tipo: tema
 padre: R01-N05
 precio: 10
 criatura: troll
+temas: prog.referencias
 ```
 
 ### Crónica
@@ -3006,6 +3012,7 @@ tipo: tema
 padre: R01-N06
 precio: 10
 criatura: orco
+temas: col.listas
 ```
 
 ### Crónica
@@ -3608,6 +3615,7 @@ tipo: tema
 padre: R01-N07
 precio: 10
 criatura: goblin
+temas: prog.matematica-azar
 ```
 
 ### Crónica
@@ -4129,6 +4137,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Autómata
 insignia_descripcion: Venciste al Autómata de Latón: dominás los fundamentos de C++.
+usa: prog.funciones, col.listas, err.validacion
 ```
 
 ### Crónica

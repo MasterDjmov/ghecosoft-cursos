@@ -12,6 +12,7 @@ tipo: tema
 padre: R03-N09
 precio: 10
 criatura: esqueleto
+temas: poo.genericos
 ```
 
 ### Crónica
@@ -640,6 +641,7 @@ tipo: tema
 padre: R04-N01
 precio: 10
 criatura: orco
+temas: func.iteradores
 ```
 
 ### Crónica
@@ -1185,6 +1187,7 @@ tipo: tema
 padre: R04-N02
 precio: 10
 criatura: ogro
+temas: col.pilas-colas
 ```
 
 ### Crónica
@@ -1805,6 +1808,7 @@ tipo: tema
 padre: R04-N03
 precio: 10
 criatura: orco
+temas: col.mapas, col.conjuntos
 ```
 
 ### Crónica
@@ -2340,6 +2344,7 @@ tipo: tema
 padre: R04-N04
 precio: 10
 criatura: ogro
+temas: alg.ordenamiento, alg.busqueda
 ```
 
 ### Crónica
@@ -2889,6 +2894,8 @@ tipo: tema
 padre: R04-N05
 precio: 10
 criatura: esqueleto
+temas: func.orden-superior
+usa: func.lambdas
 ```
 
 ### Crónica
@@ -3484,6 +3491,7 @@ tipo: tema
 padre: R04-N06
 precio: 10
 criatura: troll
+temas: func.streams
 ```
 
 ### Crónica
@@ -4100,6 +4108,8 @@ tipo: tema
 padre: R04-N07
 precio: 10
 criatura: orco
+temas: poo.genericos
+usa: func.iteradores
 ```
 
 ### Crónica
@@ -4826,6 +4836,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Kraken
 insignia_descripcion: Venciste al Kraken de los Contenedores: dominás la biblioteca estándar de C++.
+usa: col.pilas-colas, func.streams, err.opcionales
 ```
 
 ### Crónica

@@ -12,6 +12,7 @@ tipo: tema
 padre: R00-N01
 precio: 10
 criatura: goblin
+temas: prog.variables
 ```
 
 ### Crónica
@@ -464,6 +465,7 @@ tipo: tema
 padre: R01-N01
 precio: 10
 criatura: ogre
+temas: prog.operadores
 ```
 
 ### Crónica
@@ -881,6 +883,7 @@ tipo: tema
 padre: R01-N02
 precio: 10
 criatura: ogre
+temas: prog.cadenas, prog.salida
 ```
 
 ### Crónica
@@ -1340,6 +1343,7 @@ tipo: tema
 padre: R01-N03
 precio: 10
 criatura: goblin
+temas: prog.entrada, prog.matematica-azar
 ```
 
 ### Crónica
@@ -1833,6 +1837,7 @@ tipo: tema
 padre: R01-N04
 precio: 10
 criatura: ogre
+temas: prog.condicionales
 ```
 
 ### Crónica
@@ -2376,6 +2381,7 @@ tipo: tema
 padre: R01-N05
 precio: 10
 criatura: ogre
+temas: prog.bucles, err.validacion
 ```
 
 ### Crónica
@@ -2972,6 +2978,7 @@ tipo: tema
 padre: R01-N06
 precio: 10
 criatura: orc
+temas: col.arrays, col.matrices
 ```
 
 ### Crónica
@@ -3511,6 +3518,7 @@ tipo: tema
 padre: R01-N07
 precio: 10
 criatura: skeleton
+temas: prog.funciones, prog.recursion
 ```
 
 ### Crónica
@@ -4123,6 +4131,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Centinela
 insignia_descripcion: Venciste al Centinela de la Aduana: dominás los fundamentos de Java.
+usa: prog.funciones, col.arrays, err.validacion
 ```
 
 ### Crónica

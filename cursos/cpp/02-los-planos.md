@@ -12,6 +12,7 @@ tipo: tema
 padre: R01-N09
 precio: 10
 criatura: esqueleto
+temas: col.registros, poo.clases
 ```
 
 ### Crónica
@@ -626,6 +627,7 @@ tipo: tema
 padre: R02-N01
 precio: 10
 criatura: troll
+temas: poo.constructores
 ```
 
 ### Crónica
@@ -1237,6 +1239,7 @@ tipo: tema
 padre: R02-N02
 precio: 10
 criatura: ogro
+temas: poo.encapsulamiento
 ```
 
 ### Crónica
@@ -1917,6 +1920,7 @@ tipo: tema
 padre: R02-N03
 precio: 10
 criatura: goblin
+temas: poo.operadores
 ```
 
 ### Crónica
@@ -2559,6 +2563,7 @@ tipo: tema
 padre: R02-N04
 precio: 10
 criatura: esqueleto
+temas: poo.composicion
 ```
 
 ### Crónica
@@ -3258,6 +3263,7 @@ tipo: tema
 padre: R02-N05
 precio: 10
 criatura: esqueleto
+temas: poo.herencia
 ```
 
 ### Crónica
@@ -3919,6 +3925,7 @@ tipo: tema
 padre: R02-N06
 precio: 10
 criatura: ogro
+temas: poo.polimorfismo, poo.abstractas
 ```
 
 ### Crónica
@@ -4649,6 +4656,7 @@ tipo: tema
 padre: R02-N07
 precio: 10
 criatura: esqueleto
+temas: prog.modulos, cal.build
 ```
 
 ### Crónica
@@ -5406,6 +5414,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Quimera
 insignia_descripcion: Venciste a la Quimera de la Arena: dominás clases, herencia y polimorfismo en C++.
+usa: poo.polimorfismo, poo.composicion, mem.smart-pointers
 ```
 
 ### Crónica

@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: fw.spring, diseno.inyeccion
+usa: cal.build
 ```
 
 ### Crónica
@@ -1411,6 +1413,8 @@ padre: S03-N01
 precio: 10
 criatura: orc
 ejecutable: no
+temas: web.http, web.api-rest
+usa: fw.spring
 ```
 
 ### Crónica
@@ -2946,6 +2950,8 @@ padre: S03-N02
 precio: 10
 criatura: troll
 ejecutable: no
+temas: web.api-rest, err.validacion
+usa: fw.spring
 ```
 
 ### Crónica
@@ -4898,6 +4904,8 @@ padre: S03-N03
 precio: 10
 criatura: skeleton
 ejecutable: no
+temas: sql.orm
+usa: fw.spring, sql.modelo
 ```
 
 ### Crónica
@@ -7080,6 +7088,7 @@ criatura: dragon
 ejecutable: no
 insignia: Capitán del Puerto de Spring
 insignia_descripcion: Venciste al Kraken de los Servicios: construiste una API REST completa con Spring Boot, JPA y pruebas.
+usa: fw.spring, web.api-rest, sql.orm, diseno.capas
 ```
 
 ### Crónica

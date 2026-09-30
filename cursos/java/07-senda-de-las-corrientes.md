@@ -13,6 +13,8 @@ padre: R05-N09
 precio: 3
 moneda: comodin
 criatura: slime
+temas: func.streams
+usa: func.lambdas
 ```
 
 ### Crónica
@@ -541,6 +543,7 @@ tipo: tema
 padre: S02-N01
 precio: 10
 criatura: troll
+temas: func.streams, err.opcionales
 ```
 
 ### Crónica
@@ -1091,6 +1094,8 @@ tipo: tema
 padre: S02-N02
 precio: 10
 criatura: goblin
+temas: poo.records
+usa: func.lambdas
 ```
 
 ### Crónica
@@ -1798,6 +1803,7 @@ tipo: tema
 padre: S02-N03
 precio: 10
 criatura: orc
+temas: conc.hilos, conc.sincronizacion
 ```
 
 ### Crónica
@@ -2433,6 +2439,7 @@ precio: 10
 criatura: dragon
 insignia: Domador de Corrientes
 insignia_descripcion: Venciste al Leviatán de los Datos: procesás miles de registros con streams, tipos sellados y concurrencia, sin un solo null.
+usa: func.streams, conc.hilos
 ```
 
 ### Crónica

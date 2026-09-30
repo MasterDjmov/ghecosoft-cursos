@@ -12,6 +12,7 @@ tipo: tema
 padre: R02-N05
 precio: 10
 criatura: ogro
+temas: func.iteradores
 ```
 
 ### Crónica
@@ -403,6 +404,7 @@ tipo: tema
 padre: R03-N01
 precio: 10
 criatura: ogro
+temas: func.lambdas, func.orden-superior, func.streams
 ```
 
 ### Crónica
@@ -839,6 +841,7 @@ tipo: tema
 padre: R03-N02
 precio: 10
 criatura: troll
+temas: func.closures, func.decoradores
 ```
 
 ### Crónica
@@ -1341,6 +1344,7 @@ tipo: tema
 padre: R03-N03
 precio: 10
 criatura: goblin
+temas: cal.tipos, cal.pruebas, cal.build
 ```
 
 ### Crónica
@@ -1776,6 +1780,7 @@ tipo: tema
 padre: R03-N04
 precio: 10
 criatura: troll
+temas: conc.async, conc.sincronizacion
 ```
 
 ### Crónica
@@ -2185,6 +2190,8 @@ tipo: tema
 padre: R03-N05
 precio: 10
 criatura: ogro
+temas: cal.rendimiento, alg.complejidad
+usa: col.conjuntos, col.pilas-colas
 ```
 
 ### Crónica
@@ -2567,6 +2574,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Reloj
 insignia_descripcion: Detuviste al Golem del Reloj: iterás, decorás y esperás como un artífice.
+usa: func.iteradores, func.decoradores, conc.async
 ```
 
 ### Crónica

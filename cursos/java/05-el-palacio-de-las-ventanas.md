@@ -13,6 +13,7 @@ padre: R04-N08
 precio: 10
 criatura: slime
 ejecutable: no
+temas: gui.swing, gui.eventos, gui.componentes
 ```
 
 ### Crónica
@@ -645,6 +646,8 @@ tipo: tema
 padre: R05-N01
 precio: 10
 criatura: ogre
+temas: gui.layouts
+usa: gui.swing
 ```
 
 ### Crónica
@@ -1328,6 +1331,8 @@ padre: R05-N02
 precio: 10
 criatura: goblin
 ejecutable: no
+temas: gui.componentes
+usa: gui.swing
 ```
 
 ### Crónica
@@ -2098,6 +2103,8 @@ padre: R05-N03
 precio: 10
 criatura: troll
 ejecutable: no
+temas: gui.tablas-arboles, gui.menus-dialogos
+usa: gui.swing
 ```
 
 ### Crónica
@@ -3021,6 +3028,8 @@ padre: R05-N04
 precio: 10
 criatura: ogre
 ejecutable: no
+temas: gui.menus-dialogos
+usa: gui.swing
 ```
 
 ### Crónica
@@ -3856,6 +3865,8 @@ padre: R05-N05
 precio: 10
 criatura: troll
 ejecutable: no
+temas: conc.ui-hilo
+usa: gui.swing, sql.desde-codigo
 ```
 
 ### Crónica
@@ -4737,6 +4748,8 @@ padre: R05-N06
 precio: 10
 criatura: skeleton
 ejecutable: no
+temas: diseno.capas
+usa: gui.swing, sql.desde-codigo
 ```
 
 ### Crónica
@@ -6124,6 +6137,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Dragón
 insignia_descripcion: Venciste al Dragón del Imperio: construiste un sistema de escritorio completo, de la base a las ventanas.
+usa: diseno.capas, gui.swing, sql.desde-codigo
 ```
 
 ### Crónica

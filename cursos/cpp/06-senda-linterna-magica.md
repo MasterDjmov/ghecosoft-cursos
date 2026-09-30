@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: graf.sdl, juegos.bucle
+usa: mem.raii
 ```
 
 ### Crónica
@@ -581,6 +583,8 @@ padre: S01-N01
 precio: 10
 criatura: ogro
 ejecutable: no
+temas: juegos.entrada, juegos.sprites
+usa: graf.sdl
 ```
 
 ### Crónica
@@ -1256,6 +1260,8 @@ padre: S01-N02
 precio: 10
 criatura: orco
 ejecutable: no
+temas: juegos.colisiones, juegos.camara, juegos.estados
+usa: graf.sdl
 ```
 
 ### Crónica
@@ -2019,6 +2025,7 @@ criatura: dragon
 ejecutable: no
 insignia: Cazador del Espectro
 insignia_descripcion: Venciste al Espectro de la Linterna: hiciste un videojuego completo en C++ con SDL3.
+usa: graf.sdl, juegos.ia, prog.modulos
 ```
 
 ### Crónica

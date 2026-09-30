@@ -107,6 +107,8 @@ ejecutable: no    # el Código de ejemplo se muestra y se copia, sin botón Ejec
 insignia: Cazador de slimes            # solo jefes
 insignia_descripcion: Venciste al Rey Slime.
 publicado: si     # un nodo nuevo se publica por defecto; uno existente cambia solo si se escribe
+temas: html.formularios, css.selectores  # lo que ENSEÑA, con claves de cursos/temas.md (universo de cursos, D70)
+usa: html.estructura                     # lo que da por sabido (de este u otro curso); el alumno no ve ninguno de los dos
 ```
 
 Secciones (todas opcionales; el alumno ve solo las que tienen texto, en este orden):

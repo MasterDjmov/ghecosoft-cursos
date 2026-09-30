@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: skeleton
 ejecutable: no
+temas: fw.laravel
+usa: web.mvc, cal.build
 ```
 
 ### Crónica
@@ -982,6 +984,8 @@ padre: S02-N01
 precio: 10
 criatura: troll
 ejecutable: no
+temas: sql.orm
+usa: fw.laravel, sql.modelo
 ```
 
 ### Crónica
@@ -2606,6 +2610,7 @@ criatura: dragon
 ejecutable: no
 insignia: Guardián de la Ciudadela
 insignia_descripcion: Venciste al Grifo de los Registros: construiste sistemas completos con Laravel y MariaDB, con reglas del negocio y pruebas.
+usa: fw.laravel, sql.orm, cal.pruebas
 ```
 
 ### Crónica

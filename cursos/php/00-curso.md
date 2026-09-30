@@ -59,6 +59,7 @@ Al final del camino principal llegás a la **Encrucijada de los Sellos**, de don
 ```meta
 tipo: raiz
 criatura: slime
+temas: prog.entorno, prog.salida
 ```
 
 ### Crónica

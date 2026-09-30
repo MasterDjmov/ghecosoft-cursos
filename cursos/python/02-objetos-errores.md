@@ -12,6 +12,7 @@ tipo: tema
 padre: R01-N11
 precio: 10
 criatura: esqueleto
+temas: poo.clases, poo.encapsulamiento, poo.operadores, poo.records
 ```
 
 ### Crónica
@@ -589,6 +590,7 @@ tipo: tema
 padre: R02-N01
 precio: 10
 criatura: goblin
+temas: poo.herencia, poo.polimorfismo, poo.abstractas
 ```
 
 ### Crónica
@@ -1299,6 +1301,7 @@ tipo: tema
 padre: R02-N02
 precio: 10
 criatura: goblin
+temas: err.excepciones, arch.texto, arch.rutas
 ```
 
 ### Crónica
@@ -1804,6 +1807,8 @@ tipo: tema
 padre: R02-N03
 precio: 10
 criatura: orco
+temas: arch.json, arch.csv
+usa: poo.records
 ```
 
 ### Crónica
@@ -2293,6 +2298,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Archivista
 insignia_descripcion: Venciste al Archivista Corrupto: tus datos sobreviven a cualquier maldición.
+usa: poo.clases, err.excepciones, arch.json
 ```
 
 ### Crónica

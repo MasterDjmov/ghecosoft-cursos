@@ -12,6 +12,7 @@ tipo: tema
 padre: R04-N09
 precio: 10
 criatura: skeleton
+temas: web.mvc, diseno.capas
 ```
 
 ### Crónica
@@ -1364,6 +1365,7 @@ tipo: tema
 padre: R05-N01
 precio: 10
 criatura: troll
+temas: func.closures, func.orden-superior, func.iteradores
 ```
 
 ### Crónica
@@ -2027,6 +2029,8 @@ tipo: tema
 padre: R05-N02
 precio: 10
 criatura: goblin
+temas: web.api-rest, arch.json
+usa: web.http
 ```
 
 ### Crónica
@@ -2712,6 +2716,8 @@ tipo: tema
 padre: R05-N03
 precio: 10
 criatura: ogre
+temas: cal.pruebas
+usa: cal.build
 ```
 
 ### Crónica
@@ -3714,6 +3720,8 @@ tipo: tema
 padre: R05-N04
 precio: 10
 criatura: troll
+temas: cal.logging, arch.config
+usa: err.excepciones
 ```
 
 ### Crónica
@@ -4365,6 +4373,7 @@ tipo: tema
 padre: R05-N05
 precio: 10
 criatura: slime
+temas: web.despliegue
 ```
 
 ### Crónica
@@ -5087,6 +5096,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Dragón del Faro
 insignia_descripcion: Venciste al Dragón del Faro: construiste un sistema web completo en PHP, probado y listo para subir.
+usa: web.mvc, web.api-rest, cal.pruebas, sql.desde-codigo
 ```
 
 ### Crónica

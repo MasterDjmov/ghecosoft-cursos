@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: graf.sdl, juegos.bucle
+usa: herr.compilacion
 ```
 
 ### Crónica
@@ -549,6 +551,8 @@ padre: S01-N01
 precio: 10
 criatura: ogro
 ejecutable: no
+temas: juegos.entrada
+usa: graf.sdl
 ```
 
 ### Crónica
@@ -1110,6 +1114,8 @@ padre: S01-N02
 precio: 10
 criatura: orco
 ejecutable: no
+temas: juegos.colisiones, juegos.ia
+usa: graf.sdl
 ```
 
 ### Crónica
@@ -1938,6 +1944,8 @@ criatura: dragon
 ejecutable: no
 insignia: Domador de la Salamandra
 insignia_descripcion: Venciste a la Salamandra del Horno: hiciste un videojuego completo en C con SDL3.
+temas: juegos.estados
+usa: graf.sdl
 ```
 
 ### Crónica

@@ -12,6 +12,7 @@ tipo: tema
 padre: R00-N01
 precio: 10
 criatura: goblin
+temas: prog.variables
 ```
 
 ### Crónica
@@ -499,6 +500,7 @@ tipo: tema
 padre: R01-N01
 precio: 10
 criatura: ogre
+temas: prog.operadores
 ```
 
 ### Crónica
@@ -962,6 +964,7 @@ tipo: tema
 padre: R01-N02
 precio: 10
 criatura: skeleton
+temas: prog.cadenas
 ```
 
 ### Crónica
@@ -1429,6 +1432,7 @@ tipo: tema
 padre: R01-N03
 precio: 10
 criatura: goblin
+temas: prog.entrada, prog.argumentos, err.validacion
 ```
 
 ### Crónica
@@ -1944,6 +1948,7 @@ tipo: tema
 padre: R01-N04
 precio: 10
 criatura: ogre
+temas: prog.condicionales
 ```
 
 ### Crónica
@@ -2501,6 +2506,7 @@ tipo: tema
 padre: R01-N05
 precio: 10
 criatura: orc
+temas: prog.bucles
 ```
 
 ### Crónica
@@ -3045,6 +3051,7 @@ tipo: tema
 padre: R01-N06
 precio: 10
 criatura: orc
+temas: col.listas, col.mapas, col.matrices
 ```
 
 ### Crónica
@@ -3590,6 +3597,7 @@ tipo: tema
 padre: R01-N07
 precio: 10
 criatura: skeleton
+temas: prog.funciones, prog.alcance, cal.tipos
 ```
 
 ### Crónica
@@ -4236,6 +4244,7 @@ tipo: tema
 padre: R01-N08
 precio: 10
 criatura: skeleton
+temas: prog.modulos
 ```
 
 ### Crónica
@@ -4902,6 +4911,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Sirena
 insignia_descripcion: Venciste a la Sirena de los Tipos Débiles: dominás los fundamentos de PHP.
+usa: prog.funciones, col.mapas, err.validacion
 ```
 
 ### Crónica

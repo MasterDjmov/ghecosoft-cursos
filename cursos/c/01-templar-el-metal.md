@@ -12,6 +12,7 @@ tipo: tema
 criatura: goblin
 padre: R00-N01
 precio: 10
+temas: prog.variables
 ```
 
 ### Crónica
@@ -537,6 +538,7 @@ tipo: tema
 criatura: ogro
 padre: R01-N01
 precio: 10
+temas: prog.operadores
 ```
 
 ### Crónica
@@ -1053,6 +1055,7 @@ tipo: tema
 criatura: goblin
 padre: R01-N02
 precio: 10
+temas: prog.bits
 ```
 
 ### Crónica
@@ -1547,6 +1550,7 @@ tipo: tema
 criatura: goblin
 padre: R01-N03
 precio: 10
+temas: prog.salida, prog.entrada
 ```
 
 ### Crónica
@@ -2069,6 +2073,7 @@ tipo: tema
 criatura: ogro
 padre: R01-N04
 precio: 10
+temas: prog.condicionales, err.validacion
 ```
 
 ### Crónica
@@ -2669,6 +2674,7 @@ tipo: tema
 criatura: ogro
 padre: R01-N05
 precio: 10
+temas: prog.bucles, err.validacion
 ```
 
 ### Crónica
@@ -3291,6 +3297,7 @@ tipo: tema
 criatura: esqueleto
 padre: R01-N06
 precio: 10
+temas: prog.funciones, prog.alcance, prog.recursion
 ```
 
 ### Crónica
@@ -3952,6 +3959,7 @@ tipo: tema
 criatura: esqueleto
 padre: R01-N07
 precio: 10
+temas: prog.matematica-azar
 ```
 
 ### Crónica
@@ -4537,6 +4545,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Gólem
 insignia_descripcion: Venciste al Gólem de Escoria: dominás los fundamentos de C.
+usa: prog.funciones, err.validacion
 ```
 
 ### Crónica

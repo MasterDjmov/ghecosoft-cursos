@@ -12,6 +12,8 @@ tipo: tema
 padre: R02-N11
 precio: 10
 criatura: slime
+temas: web.http, web.servidor
+usa: html.estructura
 ```
 
 ### Crónica
@@ -538,6 +540,8 @@ tipo: tema
 padre: R03-N01
 precio: 10
 criatura: orc
+temas: web.formularios
+usa: html.formularios
 ```
 
 ### Crónica
@@ -1082,6 +1086,8 @@ tipo: tema
 padre: R03-N02
 precio: 10
 criatura: goblin
+temas: web.formularios, err.validacion
+usa: html.formularios
 ```
 
 ### Crónica
@@ -1731,6 +1737,7 @@ tipo: tema
 padre: R03-N03
 precio: 10
 criatura: troll
+temas: web.sesiones
 ```
 
 ### Crónica
@@ -2342,6 +2349,8 @@ tipo: tema
 padre: R03-N04
 precio: 10
 criatura: troll
+temas: web.seguridad
+usa: web.formularios
 ```
 
 ### Crónica
@@ -3015,6 +3024,8 @@ tipo: tema
 padre: R03-N05
 precio: 10
 criatura: skeleton
+temas: web.auth
+usa: web.sesiones
 ```
 
 ### Crónica
@@ -3770,6 +3781,8 @@ tipo: tema
 padre: R03-N06
 precio: 10
 criatura: goblin
+temas: web.subidas, arch.json
+usa: html.formularios
 ```
 
 ### Crónica
@@ -4480,6 +4493,8 @@ tipo: tema
 padre: R03-N07
 precio: 10
 criatura: ogre
+temas: web.plantillas
+usa: html.estructura
 ```
 
 ### Crónica
@@ -5306,6 +5321,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Gorgona
 insignia_descripcion: Venciste a la Gorgona de los Formularios: construís sitios web con login, formularios seguros y archivos.
+usa: web.auth, web.seguridad, web.subidas, web.plantillas
 ```
 
 ### Crónica

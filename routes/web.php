@@ -18,6 +18,7 @@ use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Settings;
 use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
+use App\Livewire\Admin\Universe;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\Mission;
@@ -73,6 +74,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
     Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');
+    Route::livewire('universo', Universe::class)->name('universe');
     Route::livewire('cursos/nuevo', Courses\Form::class)->name('courses.create');
     Route::livewire('cursos/importar', Courses\Import::class)->name('courses.import');
     Route::livewire('cursos/{course}/editar', Courses\Form::class)->name('courses.edit');

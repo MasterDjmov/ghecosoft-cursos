@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: juegos.turnos
+usa: poo.abstractas, prog.enums, poo.interfaces
 ```
 
 ### Crónica
@@ -776,6 +778,8 @@ padre: S01-N01
 precio: 10
 criatura: goblin
 ejecutable: no
+temas: diseno.patrones
+usa: juegos.turnos
 ```
 
 ### Crónica
@@ -1618,6 +1622,8 @@ padre: S01-N02
 precio: 10
 criatura: orc
 ejecutable: no
+temas: juegos.guardado
+usa: func.iteradores, sql.desde-codigo
 ```
 
 ### Crónica
@@ -2399,6 +2405,7 @@ criatura: dragon
 insignia: Campeón de la Arena
 insignia_descripcion: Venciste al Campeón Eterno: programaste un RPG por turnos completo en PHP.
 ejecutable: no
+usa: juegos.turnos, cal.build, sql.desde-codigo
 ```
 
 ### Crónica

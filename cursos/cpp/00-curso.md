@@ -57,6 +57,7 @@ Al final del camino principal llegás a la **Encrucijada de los Engranajes**, de
 ```meta
 tipo: raiz
 criatura: slime
+temas: prog.entorno, prog.salida, herr.compilacion
 ```
 
 ### Crónica

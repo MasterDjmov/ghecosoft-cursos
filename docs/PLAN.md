@@ -93,6 +93,7 @@
 | D67 | Probar Java en la compu del docente | En una entrega de Java, debajo del código, *Copiar comando* arma un comando de terminal que crea `/tmp/ghecosoft/intento_N/<Clase>.java` (heredoc con delimitador entre comillas: el código llega tal cual), compila con `javac -encoding UTF-8` y corre con la entrada de ejemplo; *Descargar <Clase>.java* baja el archivo. Todo se arma en el navegador (`<x-local-run>`), sin ruta nueva. No hay ejecución en el navegador: CheerpJ requiere licencia para este uso y TeaVM-javac no compila código común de los cursos. |
 | D68 | Ejecutar PHP al corregir | En *Admin → Entregas*, el docente ejecuta una entrega de PHP de consola **en su navegador**: PHP 8.3.33 en WebAssembly (`@php-wasm/universal` + `@php-wasm/web-8-3`, versión fija) en un Web Worker (`php.worker.js`), con 5 s de límite. Un envoltorio define `STDIN` (la entrada de ejemplo), `STDOUT`, `STDERR`, `readline()` y `$argv`; avisos y errores salen en la salida como en la terminal. El `.wasm` (18 MB, 7 MB comprimido) no va al build: `scripts/build-php-toolchain.sh` lo copia a `public/toolchains/php` (lo corre `deploy.sh`) y Vite lo reemplaza por un módulo vacío. Lo que usa MariaDB (PDO), web o varios archivos se sigue probando en la compu. |
 | D69 | Ejecutor local de Java | *Ejecutar* también en las entregas de Java, para el docente: la página le manda el código a `scripts/JavaRunner.java`, un programa Java de un solo archivo que el docente deja abierto en su compu (`java scripts/JavaRunner.java`, sin instalar nada). Compila con `javac`, corre con `java` (256 MB, 5 s, salida hasta 256 KB) con la entrada de ejemplo y devuelve salida, errores y diagnósticos a la misma consola. Escucha solo en `127.0.0.1:17017` y atiende únicamente al `Origin` de la plataforma (producción y `localhost:8000`; se agregan con `--origin`) y a `Host` 127.0.0.1/localhost (contra DNS rebinding); Chrome pide una vez permiso de «red local». El comando para la terminal (D67) queda plegado como alternativa. El código corre con los permisos del docente, como cuando prueba un zip. |
+| D70 | Universo de cursos | *Admin → Universo*: todos los cursos en un mapa 3D (3d-force-graph, todo el ancho y pantalla completa) unidos por los temas del catálogo `cursos/temas.md` (familias **de lenguaje** —cada lenguaje los enseña a su manera— y **compartidas** —HTML, CSS, JS, SQL, web, algoritmos, juegos…—, cada una de lo básico a lo avanzado; es una lista ideal, con temas que todavía nadie enseña). Cada nodo marca en su `meta` qué temas enseña (`temas:`) y cuáles da por sabidos (`usa:`); se guardan en `nodes.topics`/`nodes.uses` y el alumno no los ve. El mapa muestra lo repetido entre cursos, lo que falta y lo que falta pero algún nodo usa; abajo, un tablero por familia y la cobertura de cada lenguaje. Los cursos que ya están no se tocan: sirve para analizar y, más adelante, para armar cursos nuevos con copias de lo que existe (paso 4, pendiente). |
 
 ---
 
@@ -393,7 +394,7 @@ Pedido: poder correr en la plataforma el código de una entrega simple sin copia
 
 **Para decidir:** ¿el orden está bien? ¿se habilita también para los alumnos más adelante? (hoy la regla dice que C/C++/Java corren en la compu del alumno: cambiarla es una decisión aparte, en GAMIFICACION/ESPECIFICACION).
 
-### Universo de cursos: mapa 3D y cursos nuevos armados con lo que ya existe 🔲 (anotado el 2026-09-30; a repasar con el docente antes de codear)
+### Universo de cursos: mapa 3D y cursos nuevos armados con lo que ya existe 🔄 (anotado el 2026-09-30; pasos 1–3 hechos, ver D70; el 4 cuando se arme el curso de HTML)
 Pedido: una vista grande del docente para ver cómo se vinculan todos los cursos (PHP da HTML y CSS; Python tiene Sendas web; JS va a necesitar HTML), encontrar lo repetido y lo que falta, y que los cursos que vengan (HTML, CSS, JS…) se armen con lo que ya está escrito en el universo en vez de cargarlo de nuevo.
 
 **Decidido con el docente:**
@@ -424,6 +425,4 @@ Marcar a mano los ~250 nodos actuales es mucho: Claude propone los temas de cada
 
 **Orden propuesto:** 1–2 (catálogo y marcado, sin interfaz nueva), 3 (el mapa), 4 (el armado; se usa cuando se arme el curso de HTML).
 
-**Para decidir:**
-- ¿Las familias del catálogo las proponemos juntos a partir de lo que ya hay en los cursos, o se parte de una lista de temas "ideal" de cada lenguaje (lo que *debería* enseñarse), para que los faltantes muestren también lo que ningún curso da?
-- ¿El armado de un curso nuevo escribe el borrador como archivos en `cursos/` (para seguir el circuito de siempre: editar, revisar, importar) o como un curso oculto directo en la base?
+**Decidido después (2026-09-30):** el catálogo es una lista **ideal** (muestra también lo que ningún curso da; se le agregan ramas y caminos, como SDL, OpenGL o SFML, a medida que aparezcan) y el armado de un curso nuevo escribe el borrador como **archivos en `cursos/`** (el circuito de siempre: editar, revisar, simular, importar).

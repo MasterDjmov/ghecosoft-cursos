@@ -12,6 +12,7 @@ tipo: tema
 padre: R02-N11
 precio: 10
 criatura: skeleton
+temas: prog.modulos, cal.build
 ```
 
 ### Crónica
@@ -765,6 +766,7 @@ tipo: tema
 padre: R03-N01
 precio: 10
 criatura: orc
+temas: col.listas, poo.genericos
 ```
 
 ### Crónica
@@ -1446,6 +1448,7 @@ tipo: tema
 padre: R03-N02
 precio: 10
 criatura: troll
+temas: col.mapas, col.conjuntos
 ```
 
 ### Crónica
@@ -2009,6 +2012,7 @@ tipo: tema
 padre: R03-N03
 precio: 10
 criatura: troll
+temas: err.excepciones
 ```
 
 ### Crónica
@@ -2783,6 +2787,7 @@ tipo: tema
 padre: R03-N04
 precio: 10
 criatura: skeleton
+temas: func.lambdas, func.orden-superior
 ```
 
 ### Crónica
@@ -3377,6 +3382,7 @@ tipo: tema
 padre: R03-N05
 precio: 10
 criatura: ogre
+temas: cal.pruebas
 ```
 
 ### Crónica
@@ -4146,6 +4152,7 @@ tipo: tema
 padre: R03-N06
 precio: 10
 criatura: ogre
+temas: cal.depuracion, cal.logging, cal.documentacion
 ```
 
 ### Crónica
@@ -4729,6 +4736,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Espectro
 insignia_descripcion: Venciste al Espectro Nulo: tus colecciones no se rompen y tus errores se entienden.
+usa: col.mapas, err.excepciones, func.lambdas, cal.pruebas
 ```
 
 ### Crónica

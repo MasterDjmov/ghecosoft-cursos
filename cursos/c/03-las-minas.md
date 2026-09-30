@@ -12,6 +12,8 @@ tipo: tema
 padre: R02-N07
 precio: 10
 criatura: troll
+temas: mem.dinamica
+usa: mem.punteros
 ```
 
 ### Crónica
@@ -590,6 +592,8 @@ tipo: tema
 padre: R03-N01
 precio: 10
 criatura: troll
+temas: col.listas
+usa: mem.dinamica
 ```
 
 ### Crónica
@@ -1369,6 +1373,8 @@ tipo: tema
 padre: R03-N02
 precio: 10
 criatura: troll
+temas: alg.listas-enlazadas
+usa: mem.dinamica
 ```
 
 ### Crónica
@@ -2299,6 +2305,7 @@ tipo: tema
 padre: R03-N03
 precio: 10
 criatura: esqueleto
+temas: mem.punteros-funcion, func.orden-superior
 ```
 
 ### Crónica
@@ -2899,6 +2906,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Sanguijuela
 insignia_descripcion: Venciste a la Sanguijuela de las Minas: pedís y devolvés la memoria sin perder un byte.
+usa: mem.dinamica, alg.listas-enlazadas, cal.depuracion
 ```
 
 ### Crónica

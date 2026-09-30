@@ -56,6 +56,7 @@ Al final del camino principal llegás a la **Encrucijada**, de donde salen las S
 ```meta
 tipo: raiz
 criatura: slime
+temas: prog.entorno, prog.salida, prog.entrada
 ```
 
 ### Crónica

@@ -12,6 +12,7 @@ tipo: tema
 padre: R03-N09
 precio: 10
 criatura: slime
+temas: sql.modelo, sql.abm
 ```
 
 ### Crónica
@@ -529,6 +530,7 @@ tipo: tema
 padre: R04-N01
 precio: 10
 criatura: ogre
+temas: sql.consultas
 ```
 
 ### Crónica
@@ -1150,6 +1152,7 @@ tipo: tema
 padre: R04-N02
 precio: 10
 criatura: troll
+temas: sql.joins, sql.normalizacion
 ```
 
 ### Crónica
@@ -1778,6 +1781,7 @@ tipo: tema
 padre: R04-N03
 precio: 10
 criatura: skeleton
+temas: sql.desde-codigo
 ```
 
 ### Crónica
@@ -2498,6 +2502,8 @@ tipo: tema
 padre: R04-N04
 precio: 10
 criatura: troll
+temas: sql.inyeccion
+usa: sql.desde-codigo
 ```
 
 ### Crónica
@@ -3179,6 +3185,8 @@ tipo: tema
 padre: R04-N05
 precio: 10
 criatura: goblin
+temas: sql.abm
+usa: web.formularios, sql.desde-codigo
 ```
 
 ### Crónica
@@ -4171,6 +4179,7 @@ tipo: tema
 padre: R04-N06
 precio: 10
 criatura: troll
+temas: sql.transacciones, sql.indices, sql.avanzado
 ```
 
 ### Crónica
@@ -4929,6 +4938,8 @@ tipo: tema
 padre: R04-N07
 precio: 10
 criatura: skeleton
+temas: diseno.capas
+usa: sql.desde-codigo, web.auth
 ```
 
 ### Crónica
@@ -6010,6 +6021,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Serpiente Marina
 insignia_descripcion: Venciste a la Serpiente Marina de las Tablas: construís sistemas sobre MySQL y MariaDB con transacciones y repositorios.
+usa: sql.joins, sql.transacciones, diseno.capas
 ```
 
 ### Crónica

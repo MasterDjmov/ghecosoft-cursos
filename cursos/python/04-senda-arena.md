@@ -14,6 +14,7 @@ precio: 3
 moneda: comodin
 criatura: ogro
 ejecutable: no
+temas: graf.pygame, juegos.bucle
 ```
 
 ### Crónica
@@ -254,6 +255,8 @@ padre: S01-N01
 precio: 10
 criatura: goblin
 ejecutable: no
+temas: juegos.entrada
+usa: graf.pygame
 ```
 
 ### Crónica
@@ -499,6 +502,8 @@ padre: S01-N02
 precio: 10
 criatura: orco
 ejecutable: no
+temas: juegos.sprites, juegos.colisiones
+usa: graf.pygame
 ```
 
 ### Crónica
@@ -803,6 +808,8 @@ criatura: dragon
 ejecutable: no
 insignia: Campeón de la Arena
 insignia_descripcion: Terminaste "Junta las Gemas": un videojuego completo en Python.
+temas: juegos.estados, juegos.guardado
+usa: graf.pygame, prog.modulos
 ```
 
 ### Crónica

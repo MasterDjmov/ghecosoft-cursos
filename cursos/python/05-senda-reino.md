@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: goblin
 ejecutable: no
+temas: datos.pandas, datos.graficos
+usa: arch.csv
 ```
 
 ### Crónica
@@ -288,6 +290,8 @@ tipo: tema
 padre: S02-N01
 precio: 10
 criatura: orco
+temas: alg.grafos
+usa: col.pilas-colas
 ```
 
 ### Crónica
@@ -693,6 +697,8 @@ tipo: tema
 padre: S02-N02
 precio: 10
 criatura: ogro
+temas: alg.ia-juegos
+usa: alg.grafos
 ```
 
 ### Crónica
@@ -1098,6 +1104,8 @@ precio: 10
 criatura: troll
 insignia: Artífice del Reino
 insignia_descripcion: Conectaste Python con el mundo real: datos, IA y hardware.
+temas: hw.serie
+usa: hw.arduino
 ```
 
 ### Crónica

@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: gui.qt, gui.eventos, gui.componentes, gui.layouts
+usa: cal.build
 ```
 
 ### Crónica
@@ -458,6 +460,8 @@ padre: S02-N01
 precio: 10
 criatura: goblin
 ejecutable: no
+temas: gui.componentes, gui.menus-dialogos
+usa: gui.qt
 ```
 
 ### Crónica
@@ -1016,6 +1020,8 @@ padre: S02-N02
 precio: 10
 criatura: orco
 ejecutable: no
+temas: gui.dibujo, gui.modelo-vista
+usa: gui.qt
 ```
 
 ### Crónica
@@ -1503,6 +1509,7 @@ criatura: dragon
 ejecutable: no
 insignia: Maestro Vidriero
 insignia_descripcion: Venciste a la Gárgola de los Vitrales: construiste aplicaciones de escritorio completas con Qt.
+usa: gui.qt, arch.texto
 ```
 
 ### Crónica

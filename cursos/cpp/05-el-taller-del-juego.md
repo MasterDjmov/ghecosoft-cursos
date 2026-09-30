@@ -12,6 +12,7 @@ tipo: tema
 padre: R04-N09
 precio: 10
 criatura: ogro
+temas: err.excepciones
 ```
 
 ### Crónica
@@ -691,6 +692,7 @@ tipo: tema
 padre: R05-N01
 precio: 10
 criatura: ogro
+temas: cal.depuracion
 ```
 
 ### Crónica
@@ -1307,6 +1309,7 @@ tipo: tema
 padre: R05-N02
 precio: 10
 criatura: ogro
+temas: cal.pruebas, cal.rendimiento
 ```
 
 ### Crónica
@@ -1897,6 +1900,8 @@ tipo: tema
 padre: R05-N03
 precio: 10
 criatura: orco
+temas: juegos.ia, diseno.maquina-estados
+usa: poo.encapsulamiento, err.opcionales
 ```
 
 ### Crónica
@@ -2730,6 +2735,8 @@ tipo: tema
 padre: R05-N04
 precio: 10
 criatura: ogro
+temas: juegos.bucle, juegos.estados
+usa: diseno.maquina-estados
 ```
 
 ### Crónica
@@ -3489,6 +3496,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Minotauro
 insignia_descripcion: Venciste al Minotauro del Laberinto: dominás C++, de la primera línea a un juego completo.
+usa: arch.texto, err.excepciones, prog.modulos
 ```
 
 ### Crónica

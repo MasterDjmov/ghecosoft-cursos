@@ -19,6 +19,7 @@ use App\Rules\SafeUpload;
 use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
 use App\Support\Glossary;
+use App\Support\TopicCatalog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -345,6 +346,8 @@ class CourseImporter
                 'use_cases' => $fields['use_cases'] ?? null,
                 'common_errors' => $fields['common_errors'] ?? null,
                 'beast_key' => $beast ?: null,
+                'topics' => $this->topics($meta['temas'] ?? '', $where, 'temas'),
+                'uses' => $this->topics($meta['usa'] ?? '', $where, 'usa'),
                 'self_check' => $node['self_check'] ?: null,
                 'teacher_solutions' => $fields['teacher_solutions'] ?? null,
             ]);
@@ -465,6 +468,22 @@ class CourseImporter
                 $model->save();
             }
         }
+    }
+
+    /**
+     * Temas del universo ("temas: html.formularios, css.selectores", D70). Una clave que no está en
+     * cursos/temas.md se guarda igual (el mapa la muestra como tema suelto) y se avisa.
+     *
+     * @return list<string>|null
+     */
+    private function topics(string $value, string $where, string $key): ?array
+    {
+        $topics = collect(preg_split('/[\s,;]+/', Str::lower($value), -1, PREG_SPLIT_NO_EMPTY))->unique()->values();
+        foreach ($topics->reject(fn ($topic) => TopicCatalog::has($topic)) as $unknown) {
+            $this->report->warning("{$where}: el tema «{$unknown}» de «{$key}» no está en cursos/temas.md.");
+        }
+
+        return $topics->isEmpty() ? null : $topics->all();
     }
 
     /** Requisitos extra ("requiere: R03-N02, R05-N01"), además del padre. */

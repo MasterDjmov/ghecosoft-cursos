@@ -12,6 +12,7 @@ tipo: tema
 padre: R03-N05
 precio: 10
 criatura: goblin
+temas: arch.texto, arch.csv
 ```
 
 ### Crónica
@@ -558,6 +559,8 @@ tipo: tema
 padre: R04-N01
 precio: 10
 criatura: troll
+temas: arch.binarios
+usa: col.registros
 ```
 
 ### Crónica
@@ -1095,6 +1098,7 @@ tipo: tema
 padre: R04-N02
 precio: 10
 criatura: esqueleto
+temas: prog.modulos, cal.build
 ```
 
 ### Crónica
@@ -1729,6 +1733,7 @@ tipo: tema
 padre: R04-N03
 precio: 10
 criatura: orco
+temas: prog.argumentos
 ```
 
 ### Crónica
@@ -2237,6 +2242,7 @@ tipo: tema
 padre: R04-N04
 precio: 10
 criatura: ogro
+temas: prog.menu
 ```
 
 ### Crónica
@@ -3310,6 +3316,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Archivo
 insignia_descripcion: Venciste al Guardián del Archivo: tus programas guardan, cargan y se ordenan en módulos.
+usa: prog.modulos, prog.menu, arch.binarios, mem.dinamica
 ```
 
 ### Crónica

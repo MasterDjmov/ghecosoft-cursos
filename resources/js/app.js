@@ -57,6 +57,67 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
+// Universo de cursos (D70, Admin → Universo): el mapa 3D se descarga solo en esa página.
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('universeMap', (data) => ({
+        map: null,
+        selected: null,
+        query: '',
+        notFound: false,
+        dimensions: 3,
+        courses: data.courses.filter((c) => c.nodes > 0 || c.upcoming).map((c) => c.id),
+        // De entrada, solo las familias compartidas (las de cada lenguaje llenan el centro de temas comunes).
+        families: data.families.filter((f) => f.scope === 'compartido').map((f) => f.key),
+        missing: true,
+        uses: true,
+        colors: {},
+        statusLabels: {},
+
+        async init() {
+            const { mountUniverse, familyColors, STATUS_LABELS } = await import('./universe/universe-map.js');
+            this.colors = familyColors(data.families);
+            this.statusLabels = STATUS_LABELS;
+            this.map = mountUniverse(this.$refs.canvas, data, { onSelect: (detail) => (this.selected = detail) });
+            this.apply();
+            setTimeout(() => this.map?.fit(), 2500);
+            this.$watch('courses', () => this.apply());
+            this.$watch('families', () => this.apply());
+            this.$watch('missing', () => this.apply());
+            this.$watch('uses', () => this.apply());
+        },
+
+        apply() {
+            this.map?.setFilters({ courses: this.courses, families: this.families, missing: this.missing, uses: this.uses });
+        },
+
+        toggleScope(scope, on) {
+            const keys = data.families.filter((f) => f.scope === scope).map((f) => f.key);
+            this.families = on ? [...new Set([...this.families, ...keys])] : this.families.filter((k) => !keys.includes(k));
+        },
+
+        search() {
+            this.notFound = this.query.trim() !== '' && !this.map?.search(this.query);
+        },
+
+        go(id) {
+            this.map?.select(id);
+        },
+
+        toggleDimensions() {
+            this.dimensions = this.dimensions === 3 ? 2 : 3;
+            this.map?.dimensions(this.dimensions);
+        },
+
+        fit() {
+            this.map?.fit();
+        },
+
+        destroy() {
+            this.map?.destroy();
+        },
+    }));
+});
+
 // Editor + ejecutor: el ejemplo de un nodo, las hojas y la bandeja del docente.
 // config: { code, stdin, expected, language, readOnly, runnable, tab, pyodideUrl, javaRunnerUrl, timeout }
 document.addEventListener('alpine:init', () => {

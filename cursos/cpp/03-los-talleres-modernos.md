@@ -12,6 +12,8 @@ tipo: tema
 padre: R02-N09
 precio: 10
 criatura: goblin
+temas: col.arrays
+usa: prog.bucles
 ```
 
 ### Crónica
@@ -609,6 +611,7 @@ tipo: tema
 padre: R03-N01
 precio: 10
 criatura: orco
+temas: prog.cadenas
 ```
 
 ### Crónica
@@ -1225,6 +1228,7 @@ tipo: tema
 padre: R03-N02
 precio: 10
 criatura: orco
+temas: col.mapas, col.conjuntos
 ```
 
 ### Crónica
@@ -1818,6 +1822,7 @@ tipo: tema
 padre: R03-N03
 precio: 10
 criatura: ogro
+temas: prog.enums, diseno.maquina-estados, err.opcionales
 ```
 
 ### Crónica
@@ -2492,6 +2497,7 @@ tipo: tema
 padre: R03-N04
 precio: 10
 criatura: esqueleto
+temas: func.lambdas, func.orden-superior
 ```
 
 ### Crónica
@@ -3090,6 +3096,7 @@ tipo: tema
 padre: R03-N05
 precio: 10
 criatura: troll
+temas: arch.texto, arch.csv, arch.rutas
 ```
 
 ### Crónica
@@ -3720,6 +3727,7 @@ tipo: tema
 padre: R03-N06
 precio: 10
 criatura: troll
+temas: mem.smart-pointers, mem.dinamica
 ```
 
 ### Crónica
@@ -4379,6 +4387,7 @@ tipo: tema
 padre: R03-N07
 precio: 10
 criatura: troll
+temas: mem.raii, mem.movimiento
 ```
 
 ### Crónica
@@ -5066,6 +5075,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Mímico
 insignia_descripcion: Venciste al Mímico del Bestiario: dominás el C++ moderno, sus contenedores y su memoria.
+usa: col.mapas, mem.smart-pointers, err.opcionales, func.lambdas, arch.texto
 ```
 
 ### Crónica

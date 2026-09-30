@@ -38,6 +38,9 @@
                         <flux:sidebar.item icon="share" :href="route('admin.courses.index')" :current="request()->routeIs('admin.courses.*', 'admin.nodes.*')" wire:navigate>
                             Cursos y árboles
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="globe-alt" :href="route('admin.universe')" :current="request()->routeIs('admin.universe')" wire:navigate>
+                            Universo
+                        </flux:sidebar.item>
                     </flux:sidebar.group>
                     <flux:sidebar.group heading="Juego" class="grid">
                         <flux:sidebar.item icon="book-open" :href="route('admin.glossary')" :current="request()->routeIs('admin.glossary')" wire:navigate>

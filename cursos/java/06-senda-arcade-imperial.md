@@ -14,6 +14,8 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: gui.dibujo, juegos.bucle
+usa: gui.swing
 ```
 
 ### Crónica
@@ -719,6 +721,8 @@ padre: S01-N01
 precio: 10
 criatura: goblin
 ejecutable: no
+temas: juegos.entrada, juegos.estados
+usa: gui.swing
 ```
 
 ### Crónica
@@ -1571,6 +1575,7 @@ padre: S01-N02
 precio: 10
 criatura: orc
 ejecutable: no
+temas: juegos.sprites, juegos.colisiones
 ```
 
 ### Crónica
@@ -2541,6 +2546,8 @@ precio: 10
 criatura: dragon
 insignia: Campeón del Arcade
 insignia_descripcion: Venciste al Guardián de la Máquina: programaste un juego 2D completo en Java.
+temas: juegos.guardado
+usa: juegos.estados, arch.texto
 ```
 
 ### Crónica

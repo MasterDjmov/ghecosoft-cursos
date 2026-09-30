@@ -14,6 +14,7 @@ precio: 3
 moneda: comodin
 criatura: slime
 ejecutable: no
+temas: html.estructura, html.texto, html.semantica
 ```
 
 ### Crónica
@@ -641,6 +642,7 @@ padre: S04-N01
 precio: 10
 criatura: orc
 ejecutable: no
+temas: html.listas-tablas, html.formularios
 ```
 
 ### Crónica
@@ -1261,6 +1263,8 @@ padre: S04-N02
 precio: 10
 criatura: ogre
 ejecutable: no
+temas: css.selectores, css.caja
+usa: html.estructura
 ```
 
 ### Crónica
@@ -1952,6 +1956,7 @@ padre: S04-N03
 precio: 10
 criatura: troll
 ejecutable: no
+temas: css.flexbox, css.grid, css.responsive
 ```
 
 ### Crónica
@@ -2688,6 +2693,7 @@ criatura: dragon
 ejecutable: no
 insignia: Vidrierista del Puerto
 insignia_descripcion: Venciste al Hipocampo de las Vidrieras: armaste sitios completos con HTML y CSS que se ven bien en cualquier pantalla.
+usa: html.semantica, css.responsive, html.formularios
 ```
 
 ### Crónica

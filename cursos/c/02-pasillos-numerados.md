@@ -12,6 +12,7 @@ tipo: tema
 criatura: orco
 padre: R01-N09
 precio: 10
+temas: col.arrays, col.matrices
 ```
 
 ### Crónica
@@ -904,6 +905,8 @@ tipo: tema
 criatura: orco
 padre: R02-N01
 precio: 10
+temas: prog.cadenas
+usa: col.arrays
 ```
 
 ### Crónica
@@ -1677,6 +1680,7 @@ tipo: tema
 criatura: esqueleto
 padre: R02-N02
 precio: 10
+temas: col.registros, prog.enums
 ```
 
 ### Crónica
@@ -2480,6 +2484,7 @@ tipo: tema
 criatura: troll
 padre: R02-N03
 precio: 10
+temas: mem.punteros
 ```
 
 ### Crónica
@@ -3263,6 +3268,8 @@ tipo: tema
 criatura: troll
 padre: R02-N04
 precio: 10
+temas: mem.punteros
+usa: col.registros
 ```
 
 ### Crónica
@@ -4079,6 +4086,8 @@ tipo: tema
 criatura: orco
 padre: R02-N05
 precio: 10
+temas: alg.busqueda, alg.ordenamiento
+usa: col.registros, col.arrays
 ```
 
 ### Crónica
@@ -5052,6 +5061,7 @@ padre: R02-N06
 precio: 10
 insignia: Sello de la Araña
 insignia_descripcion: Venciste a la Araña de las Direcciones en la Arena: dominás arrays, textos, structs y punteros en C.
+usa: mem.punteros, col.registros, prog.matematica-azar
 ```
 
 ### Crónica

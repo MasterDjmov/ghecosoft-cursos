@@ -12,6 +12,7 @@ tipo: tema
 padre: R04-N06
 precio: 10
 criatura: ogro
+temas: cal.depuracion
 ```
 
 ### Crónica
@@ -537,6 +538,7 @@ tipo: tema
 padre: R05-N01
 precio: 10
 criatura: ogro
+temas: cal.pruebas
 ```
 
 ### Crónica
@@ -1109,6 +1111,7 @@ tipo: tema
 padre: R05-N02
 precio: 10
 criatura: orco
+usa: arch.csv, alg.ordenamiento, mem.dinamica
 ```
 
 ### Crónica
@@ -2130,6 +2133,7 @@ precio: 10
 criatura: dragon
 insignia: Sello del Dragón de Hierro
 insignia_descripcion: Venciste al Dragón bajo la Montaña: dominás C, de la primera línea a un programa completo.
+usa: col.matrices, arch.binarios, prog.matematica-azar
 ```
 
 ### Crónica

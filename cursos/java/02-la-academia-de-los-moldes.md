@@ -12,6 +12,7 @@ tipo: tema
 padre: R01-N09
 precio: 10
 criatura: skeleton
+temas: poo.clases
 ```
 
 ### Crónica
@@ -623,6 +624,7 @@ tipo: tema
 padre: R02-N01
 precio: 10
 criatura: goblin
+temas: poo.constructores
 ```
 
 ### Crónica
@@ -1222,6 +1224,7 @@ tipo: tema
 padre: R02-N02
 precio: 10
 criatura: troll
+temas: poo.encapsulamiento, poo.static
 ```
 
 ### Crónica
@@ -1899,6 +1902,7 @@ tipo: tema
 padre: R02-N03
 precio: 10
 criatura: troll
+temas: prog.referencias
 ```
 
 ### Crónica
@@ -2555,6 +2559,7 @@ tipo: tema
 padre: R02-N04
 precio: 10
 criatura: skeleton
+temas: poo.herencia
 ```
 
 ### Crónica
@@ -3298,6 +3303,7 @@ tipo: tema
 padre: R02-N05
 precio: 10
 criatura: goblin
+temas: poo.polimorfismo, poo.abstractas
 ```
 
 ### Crónica
@@ -4044,6 +4050,7 @@ tipo: tema
 padre: R02-N06
 precio: 10
 criatura: skeleton
+temas: poo.interfaces
 ```
 
 ### Crónica
@@ -4761,6 +4768,7 @@ tipo: tema
 padre: R02-N07
 precio: 10
 criatura: troll
+temas: poo.composicion
 ```
 
 ### Crónica
@@ -5534,6 +5542,7 @@ tipo: tema
 padre: R02-N08
 precio: 10
 criatura: goblin
+temas: prog.enums, poo.records
 ```
 
 ### Crónica
@@ -6164,6 +6173,7 @@ tipo: tema
 padre: R02-N09
 precio: 10
 criatura: ogre
+temas: diseno.uml
 ```
 
 ### Crónica
@@ -6809,6 +6819,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Quimera
 insignia_descripcion: Venciste a la Quimera de las Mil Herencias: pensás en objetos.
+usa: poo.herencia, poo.interfaces, poo.composicion, diseno.uml
 ```
 
 ### Crónica

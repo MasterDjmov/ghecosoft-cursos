@@ -12,6 +12,7 @@ tipo: tema
 padre: R00-N01
 precio: 10
 criatura: goblin
+temas: prog.variables
 ```
 
 ### Crónica
@@ -453,6 +454,7 @@ tipo: tema
 padre: R01-N01
 precio: 10
 criatura: ogro
+temas: prog.operadores
 ```
 
 ### Crónica
@@ -951,6 +953,7 @@ tipo: tema
 padre: R01-N02
 precio: 10
 criatura: orco
+temas: prog.cadenas
 ```
 
 ### Crónica
@@ -1445,6 +1448,7 @@ tipo: tema
 padre: R01-N03
 precio: 10
 criatura: ogro
+temas: prog.condicionales, prog.bucles, err.validacion
 ```
 
 ### Crónica
@@ -2096,6 +2100,7 @@ tipo: tema
 padre: R01-N04
 precio: 10
 criatura: orco
+temas: col.listas, col.registros, col.matrices
 ```
 
 ### Crónica
@@ -2707,6 +2712,7 @@ tipo: tema
 padre: R01-N05
 precio: 10
 criatura: orco
+temas: col.mapas, col.conjuntos
 ```
 
 ### Crónica
@@ -3278,6 +3284,7 @@ tipo: tema
 padre: R01-N06
 precio: 10
 criatura: troll
+temas: prog.referencias
 ```
 
 ### Crónica
@@ -3830,6 +3837,7 @@ tipo: tema
 padre: R01-N07
 precio: 10
 criatura: troll
+temas: prog.funciones
 ```
 
 ### Crónica
@@ -4392,6 +4400,7 @@ tipo: tema
 padre: R01-N08
 precio: 10
 criatura: esqueleto
+temas: prog.alcance, prog.recursion, func.lambdas, func.orden-superior
 ```
 
 ### Crónica
@@ -5060,6 +5069,7 @@ tipo: tema
 padre: R01-N09
 precio: 10
 criatura: esqueleto
+temas: prog.modulos
 ```
 
 ### Crónica
@@ -5575,6 +5585,7 @@ precio: 10
 criatura: dragon
 insignia: Sello de la Hidra
 insignia_descripcion: Venciste a la Hidra de las Mil Runas: dominás los fundamentos de Python.
+usa: prog.funciones, err.validacion, col.mapas
 ```
 
 ### Crónica

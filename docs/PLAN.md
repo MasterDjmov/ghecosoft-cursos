@@ -392,3 +392,38 @@ Pedido: poder correr en la plataforma el código de una entrega simple sin copia
 - **Java: decidido (D67), se prueba en la compu del docente.** CheerpJ es gratis solo para uso personal, libre o de evaluación (no permite alojarlo) y TeaVM-javac —la alternativa libre— hoy no sirve: su `javac` no resuelve `getMessage()`, `getClass()` ni `Integer.sum` y no trae `Scanner` (probado el 2026-09-30, también en su playground). Después se sumó el ejecutor local (D69): `scripts/JavaRunner.java` deja usar *Ejecutar* también en Java.
 
 **Para decidir:** ¿el orden está bien? ¿se habilita también para los alumnos más adelante? (hoy la regla dice que C/C++/Java corren en la compu del alumno: cambiarla es una decisión aparte, en GAMIFICACION/ESPECIFICACION).
+
+### Universo de cursos: mapa 3D y cursos nuevos armados con lo que ya existe 🔲 (anotado el 2026-09-30; a repasar con el docente antes de codear)
+Pedido: una vista grande del docente para ver cómo se vinculan todos los cursos (PHP da HTML y CSS; Python tiene Sendas web; JS va a necesitar HTML), encontrar lo repetido y lo que falta, y que los cursos que vengan (HTML, CSS, JS…) se armen con lo que ya está escrito en el universo en vez de cargarlo de nuevo.
+
+**Decidido con el docente:**
+- **Los cursos que ya están no se tocan**: su contenido se queda donde está, sin cambios de monedas, aperturas, abonos ni progreso. Los vínculos sirven para analizar y para armar cursos **nuevos**.
+- **Vínculos por tema** (no nodo a nodo): un catálogo de temas y cada nodo marca qué temas enseña y cuáles usa. Solo así aparecen los faltantes.
+- **En el mapa, solo nodos**: las prácticas se ven al elegir un nodo.
+
+**1. Catálogo de temas.** `cursos/temas.md`: claves estables por familia y en orden de dificultad dentro de la familia (`html.estructura`, `html.formularios`, `css.selectores`, `css.flexbox`, `sql.joins`, `poo.herencia`, `web.http`…), con título y una línea de qué abarca. El orden es el que después usa el armado de un curso (de lo básico a lo avanzado).
+
+**2. Marcar los nodos.** Dos claves nuevas en el `meta` del nodo (FORMATO-CURSO § 5), en el Markdown del curso para que sobrevivan al reimportar:
+```meta
+temas: html.formularios, css.selectores   # lo que el nodo ENSEÑA
+usa: html.estructura                      # lo que da por sabido (de este u otro curso)
+```
+Marcar a mano los ~250 nodos actuales es mucho: Claude propone los temas de cada nodo leyendo su contenido y el docente los revisa en el mapa (aceptar / cambiar). Son metadatos: el alumno no ve nada distinto.
+
+**3. El mapa (Admin → Universo).** 3D con **3d-force-graph** (mismo autor y API que `force-graph`, el del árbol), con rotación, zoom y botón para pasar a 2D.
+- Cada curso es una galaxia con su color y su logo en el centro; sus nodos, como en el árbol.
+- Arcos entre cursos: **mismo tema** (dos nodos enseñan lo mismo: repetido), **usa** (un nodo usa un tema que enseña otro curso).
+- **Nodos fantasma** (grises, translúcidos): temas del catálogo que algún nodo *usa* pero ningún curso *enseña*, y los cursos «Próximamente».
+- Clic en un nodo: curso, rama, temas, prácticas y los nodos de otros cursos con los mismos temas. Filtros por curso, por familia de temas y por tipo de vínculo; buscador.
+- Tablero al costado: por familia de temas, qué está enseñado, dónde, cuántas veces y qué falta.
+
+**4. Armar un curso nuevo desde el universo.** Se elige una familia (p. ej. `html.*` y `css.*`) y la plataforma junta **copias** de los nodos que enseñan esos temas, ordenadas según el catálogo, y escribe un **borrador** en el formato del importador (`cursos/<nuevo>/`), que se completa y revisa como cualquier curso (luego `app:simulate-course` antes de abrirlo).
+- Se copia, no se comparte: cada curso queda independiente (corregir el de HTML no cambia el de PHP). Cada nodo copiado anota de dónde salió (`origen: php/R04-N02`), y el mapa lo muestra.
+- Los temas del catálogo sin ningún nodo quedan como nodos vacíos marcados **FALTA**.
+- Los textos con nombres del otro mundo (mentor, héroe, lugares, moneda) se marcan para reescribirlos con la historia del curso nuevo.
+
+**Orden propuesto:** 1–2 (catálogo y marcado, sin interfaz nueva), 3 (el mapa), 4 (el armado; se usa cuando se arme el curso de HTML).
+
+**Para decidir:**
+- ¿Las familias del catálogo las proponemos juntos a partir de lo que ya hay en los cursos, o se parte de una lista de temas "ideal" de cada lenguaje (lo que *debería* enseñarse), para que los faltantes muestren también lo que ningún curso da?
+- ¿El armado de un curso nuevo escribe el borrador como archivos en `cursos/` (para seguir el circuito de siempre: editar, revisar, importar) o como un curso oculto directo en la base?

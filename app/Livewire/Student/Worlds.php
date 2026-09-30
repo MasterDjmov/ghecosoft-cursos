@@ -57,6 +57,7 @@ class Worlds extends Component
                 $done = $nodes->filter(fn (Node $node) => $access->requiredPracticesApproved($user, $node));
 
                 $subscription = $access->activeSubscription($user, $course);
+                $paidUntil = $subscription ? $access->paidUntil($user, $course) : null;
                 $rootOpen = $unlocks->isNotEmpty() && $access->isRootOpen($user, $course);
                 $pending = $user->enrollmentRequests()
                     ->where('course_id', $course->id)
@@ -75,7 +76,7 @@ class Worlds extends Component
                 $current = $unlocks->map(fn ($u) => $nodes->get($u->node_id))
                     ->first(fn (?Node $node) => $node && ! $done->has($node->id));
 
-                return ['course' => $course, 'total' => $total, 'completed' => $done->count(), 'subscription' => $subscription, 'status' => $status, 'current' => $current];
+                return ['course' => $course, 'total' => $total, 'completed' => $done->count(), 'subscription' => $subscription, 'paidUntil' => $paidUntil, 'status' => $status, 'current' => $current];
             });
 
         [$mine, $discover] = $worlds->partition(fn ($w) => ! in_array($w['status'], ['closed', 'upcoming']));
@@ -84,7 +85,7 @@ class Worlds extends Component
             'mine' => $mine,
             'discover' => $discover->sortBy(fn ($w) => $w['status'] === 'upcoming' ? 1 : 0)->values(),
             'interested' => CourseInterest::where('user_id', $user->id)->pluck('course_id')->flip(),
-            'expiring' => $mine->filter(fn ($w) => $w['status'] === 'active' && $w['subscription']->ends_at->lte(now()->addDays(config('game.subscription_warning_days')))),
+            'expiring' => $mine->filter(fn ($w) => $w['status'] === 'active' && $w['paidUntil']->lte(now()->addDays(config('game.subscription_warning_days')))),
         ]);
     }
 }

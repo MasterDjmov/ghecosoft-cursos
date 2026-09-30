@@ -12,6 +12,7 @@ use App\Models\NodeUnlock;
 use App\Models\Practice;
 use App\Models\Submission;
 use App\Models\User;
+use Carbon\CarbonInterface;
 
 /**
  * Decide, en cada request, qué puede ver y abrir un alumno del árbol.
@@ -54,6 +55,32 @@ class TreeAccess
             ->where('course_id', $course->id)
             ->orderByDesc('ends_at')
             ->first();
+    }
+
+    /**
+     * Hasta cuándo tiene abono pagado: el fin del período vigente o, si ya renovó, el del último
+     * período que sigue pegado (la renovación empieza donde termina el anterior). Null sin abono vigente.
+     */
+    public function paidUntil(User $user, Course $course): ?CarbonInterface
+    {
+        $current = $this->activeSubscription($user, $course);
+        if ($current === null) {
+            return null;
+        }
+
+        $until = $current->ends_at;
+        $later = CourseSubscription::where('user_id', $user->id)
+            ->where('course_id', $course->id)
+            ->where('ends_at', '>', $until)
+            ->orderBy('starts_at')
+            ->get(['starts_at', 'ends_at']);
+        foreach ($later as $subscription) {
+            if ($subscription->starts_at->lte($until) && $subscription->ends_at->gt($until)) {
+                $until = $subscription->ends_at;
+            }
+        }
+
+        return $until;
     }
 
     public function hasActiveSubscription(User $user, Course $course): bool

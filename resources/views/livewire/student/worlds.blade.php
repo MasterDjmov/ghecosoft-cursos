@@ -20,7 +20,7 @@
     @foreach ($expiring as $world)
         <flux:callout icon="clock" color="amber">
             <flux:callout.text>
-                Tu abono de <strong>{{ $world['course']->title }}</strong> vence el {{ $world['subscription']->ends_at->format('d/m/Y') }}.
+                Tu abono de <strong>{{ $world['course']->title }}</strong> vence el {{ $world['paidUntil']->format('d/m/Y') }}.
                 <flux:link :href="route('student.course', $world['course'])" wire:navigate>Renovalo</flux:link> para no frenar.
             </flux:callout.text>
         </flux:callout>
@@ -80,7 +80,7 @@
 
                         <div class="mt-auto flex flex-wrap items-center justify-between gap-3">
                             <span class="text-xs text-ink-muted">
-                                @if ($world['subscription']) Abono hasta el {{ $world['subscription']->ends_at->format('d/m/Y') }} @endif
+                                @if ($world['paidUntil']) Abono hasta el {{ $world['paidUntil']->format('d/m/Y') }} @endif
                             </span>
                             <div class="flex gap-2">
                                 @if ($world['status'] === 'active' && $world['current'])

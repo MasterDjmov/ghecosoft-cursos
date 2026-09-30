@@ -5,12 +5,15 @@ use App\Enums\RequestStatus;
 use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Settings;
 use App\Livewire\Student\CourseDetail;
+use App\Livewire\Student\Worlds;
 use App\Models\Currency;
 use App\Models\EnrollmentRequest;
 use App\Models\Setting;
 use App\Models\User;
+use App\Services\EnrollmentApprover;
 use App\Services\EnrollmentRequester;
 use App\Services\Ledger;
+use App\Services\TreeAccess;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -167,4 +170,23 @@ test('la configuración guarda el WhatsApp', function () {
         ->assertHasNoErrors();
 
     expect(Setting::get('whatsapp_number'))->toBe('+54 9 380 412-3456');
+});
+
+test('con la renovación aprobada antes de vencer, el alumno ve la fecha nueva y no el aviso', function () {
+    ['course' => $course] = makeCourse();
+    $student = enrolledStudent($course);
+    Livewire::actingAs($student)->test(CourseDetail::class, ['course' => $course])->call('openCourse');
+    $this->travel(27)->days();
+
+    $renewal = EnrollmentRequest::create(['user_id' => $student->id, 'course_id' => $course->id, 'kind' => 'renewal', 'type' => 'contact']);
+    app(EnrollmentApprover::class)->approve($renewal, User::factory()->admin()->create());
+    $hasta = app(TreeAccess::class)->paidUntil($student, $course);
+
+    expect((int) round(now()->diffInDays($hasta)))->toBe(33);
+    Livewire::actingAs($student)->test(CourseDetail::class, ['course' => $course])
+        ->assertSee($hasta->format('d/m/Y'))
+        ->assertDontSee('Tu abono vence pronto');
+    Livewire::actingAs($student)->test(Worlds::class)
+        ->assertSee('Abono hasta el '.$hasta->format('d/m/Y'))
+        ->assertDontSee('Renovalo');
 });

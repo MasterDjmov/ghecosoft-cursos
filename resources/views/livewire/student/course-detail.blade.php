@@ -1,6 +1,7 @@
 @php
     $coin = fn (int $n) => term('coin.course', $course, $n);
-    $daysLeft = $subscription ? (int) ceil(now()->diffInDays($subscription->ends_at, false)) : null;
+    // Los días cuentan hasta el final de lo pagado (con la renovación ya aprobada, si la hay).
+    $daysLeft = $paidUntil ? (int) ceil(now()->diffInDays($paidUntil, false)) : null;
     // Se puede pedir: sin solicitud pendiente y sin abono, o con el abono vencido o por vencer (7 días).
     $canRequest = ! $pending && (! $subscription || $daysLeft <= 7);
     $isRenewal = $kind === \App\Enums\RequestKind::Renewal;
@@ -25,7 +26,7 @@
         @if ($rootOpen && $subscription)
             <div class="flex flex-col gap-1">
                 <p class="tech-label"><span class="live-dot me-2"></span>Estás cursando</p>
-                <p class="text-ink">Tu abono vence el <strong class="text-white">{{ $subscription->ends_at->format('d/m/Y') }}</strong> ({{ $daysLeft }} {{ $daysLeft === 1 ? 'día' : 'días' }}).</p>
+                <p class="text-ink">Tu abono vence el <strong class="text-white">{{ $paidUntil->format('d/m/Y') }}</strong> ({{ $daysLeft }} {{ $daysLeft === 1 ? 'día' : 'días' }}).</p>
             </div>
             <div class="flex flex-wrap gap-2">
                 <flux:button variant="primary" icon="share" :href="route('student.tree', $course)" wire:navigate>Ir al árbol</flux:button>

@@ -118,6 +118,7 @@ class CourseDetail extends Component
             'intro' => Story::get('story.course_intro', $this->course, auth()->user()),
             'descriptionHtml' => Markdown::render($this->course->description),
             'subscription' => $subscription,
+            'paidUntil' => $subscription ? $access->paidUntil($user, $this->course) : null,
             'lastSubscription' => $user->subscriptions()->where('course_id', $this->course->id)->orderByDesc('ends_at')->first(),
             'rootOpen' => $rootOpen,
             'pending' => $pending,

@@ -108,6 +108,10 @@ document.addEventListener('alpine:init', () => {
                     timeout: config.timeout,
                     onStatus: (status) => (this.status = status),
                 });
+            } else if (config.language === 'php') {
+                // PHP: solo en la bandeja del docente (D68), con PHP en WebAssembly.
+                const { runPhp } = await import('./runners/php.js');
+                result = await runPhp(this.code, { stdin: this.stdin, timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else {
                 const { runPython, isPythonLoaded } = await import('./runners/python.js');
                 this.status = isPythonLoaded() ? 'Ejecutando…' : 'Cargando Python (la primera vez tarda unos segundos)…';
@@ -121,7 +125,9 @@ document.addEventListener('alpine:init', () => {
 
             const separator = result.output && !result.output.endsWith('\n') ? '\n' : '';
             const compiler = result.diagnostics ? `── Compilador ──\n${result.diagnostics.trimEnd()}\n── Programa ──\n` : '';
-            this.output = (compiler + result.output + (result.error ? separator + result.error : '')).replace(/\n+$/, '') || '(sin salida)';
+            // Lo que el programa escribió en STDERR sin fallar (avisos de PHP, std::cerr) va al final.
+            const notices = result.stderr?.trim() ? `${result.output && !result.output.endsWith('\n') ? '\n' : ''}── STDERR ──\n${result.stderr.trim()}` : '';
+            this.output = (compiler + result.output + (result.error ? separator + result.error : notices)).replace(/\n+$/, '') || '(sin salida)';
             this.error = Boolean(result.error);
             this.status = result.error ? (result.timedOut ? 'Tiempo agotado' : 'Error') : `Listo en ${result.ms} ms`;
             if (!result.error && config.expected) {

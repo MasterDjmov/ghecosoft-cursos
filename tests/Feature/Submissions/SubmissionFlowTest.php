@@ -250,3 +250,15 @@ test('una entrega de Java trae el comando para probarla en la compu del docente 
         ->assertOk()->assertSee('data-test="local-run"', false)->assertSee('Descargar Tablas.java')
         ->assertSee('java -cp . Tablas', false)->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
 });
+
+test('el docente puede ejecutar una entrega de PHP al corregir; el alumno de PHP no ejecuta en la plataforma (D68)', function () {
+    $this->data['course']->update(['language' => 'php']);
+    $submission = Submission::create(['practice_id' => $this->practice->id, 'user_id' => $this->student->id, 'attempt' => 1,
+        'code' => "<?php\necho trim(fgets(STDIN)) * 2;", 'submitted_at' => now()]);
+
+    $this->actingAs($this->admin)->get(route('admin.submissions.show', $submission))
+        ->assertOk()->assertSee('title="Ejecutar (Ctrl+Enter)"', false)->assertDontSee('data-test="local-run"', false);
+
+    $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))
+        ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
+});

@@ -18,6 +18,8 @@
         "@codemirror/view": "^6.43.13",
         "@laravel/passkeys": "^0.2.0",
         "@lezer/highlight": "^1.2.4",
+        "@php-wasm/universal": "3.1.56",
+        "@php-wasm/web-8-3": "3.1.56",
         "@tailwindcss/vite": "^4.1.11",
         "codemirror": "^6.0.2",
         "concurrently": "^10.0.3",

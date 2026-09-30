@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\NodeType;
+use App\Models\Course;
 use App\Models\User;
+use App\Services\TreeAccess;
 use App\Support\CvData;
+use App\Support\TreeGraph;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -40,6 +44,33 @@ class CvController extends Controller
         return response()->view('cv.show', [
             ...CvData::for($user),
             'preview' => ! $user->hasPublicProfile(),
+        ]);
+    }
+
+    /** El árbol coloreado de un curso del CV, solo para mirar (mismas reglas que el CV). */
+    public function tree(Request $request, string $slug, Course $course): Response|RedirectResponse
+    {
+        $user = $this->visible($slug);
+        if (! $user) {
+            return response()->view('cv.private', [], 404);
+        }
+        if ($this->needsCode($request, $user)) {
+            return redirect()->route('cv.show', $slug);
+        }
+        // Solo los cursos que figuran en el CV: los que empezó (abrió el raíz).
+        $root = $course->nodes()->where('type', NodeType::Root)->first();
+        abort_unless($root && app(TreeAccess::class)->isUnlocked($user, $root), 404);
+
+        $graph = TreeGraph::forVisitor($course, $user);
+        // El avance cuenta el camino principal, igual que el CV (las Sendas y los extras suman aparte).
+        $trunkIds = $course->nodes()->where('is_published', true)->trunk()->pluck('id')->flip();
+
+        return response()->view('cv.tree', [
+            'user' => $user,
+            'course' => $course,
+            'graph' => $graph,
+            'total' => $trunkIds->count(),
+            'completed' => collect($graph['nodes'])->filter(fn ($n) => $trunkIds->has($n['id']) && $n['state'] === TreeAccess::STATE_COMPLETED)->count(),
         ]);
     }
 

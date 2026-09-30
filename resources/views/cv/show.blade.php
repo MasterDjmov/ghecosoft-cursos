@@ -39,33 +39,45 @@
                 <h2 class="font-display text-lg font-semibold text-white">Cursos</h2>
                 @forelse ($courses as $item)
                     @php($percent = $item['total'] ? intdiv($item['completedCount'] * 100, $item['total']) : 0)
-                    <article class="panel flex flex-col gap-3 p-5">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <x-course-logo :course="$item['course']" size="size-12" />
-                            <div class="flex min-w-0 flex-1 flex-col">
-                                <h3 class="font-medium text-white">{{ $item['course']->title }}</h3>
-                                <p class="text-xs text-ink-muted">
-                                    @if ($item['since']) Desde {{ \Illuminate\Support\Carbon::parse($item['since'])->format('m/Y') }} · @endif
-                                    {{ $item['completedCount'] }}/{{ $item['total'] }} {{ term('node', $item['course'], $item['total']) }}
-                                </p>
+                    {{-- Acordeón: cerrado de entrada (con muchos cursos el CV no se hace eterno); al imprimir se abre todo. --}}
+                    <details class="cv-course panel group" data-test="cv-course">
+                        <summary class="flex cursor-pointer list-none flex-col gap-3 p-5 [&::-webkit-details-marker]:hidden">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <x-course-logo :course="$item['course']" size="size-12" />
+                                <div class="flex min-w-0 flex-1 flex-col">
+                                    <h3 class="font-medium text-white">{{ $item['course']->title }}</h3>
+                                    <p class="text-xs text-ink-muted">
+                                        @if ($item['since']) Desde {{ \Illuminate\Support\Carbon::parse($item['since'])->format('m/Y') }} · @endif
+                                        {{ $item['completedCount'] }}/{{ $item['total'] }} {{ term('node', $item['course'], $item['total']) }}
+                                    </p>
+                                </div>
+                                @if ($item['completion'])
+                                    <span class="rounded border border-success/50 px-2 py-0.5 text-xs text-success">
+                                        Completado el {{ $item['completion']->completed_at->format('d/m/Y') }} · {{ $item['completion']->days_taken }} días
+                                    </span>
+                                @else
+                                    <span class="font-mono text-xs text-ink-muted">{{ $percent }}%</span>
+                                @endif
+                                <flux:icon name="chevron-down" variant="micro" class="no-print shrink-0 text-ink-muted transition group-open:rotate-180" />
                             </div>
-                            @if ($item['completion'])
-                                <span class="rounded border border-success/50 px-2 py-0.5 text-xs text-success">
-                                    Completado el {{ $item['completion']->completed_at->format('d/m/Y') }} · {{ $item['completion']->days_taken }} días
-                                </span>
+                            <div class="h-1.5 overflow-hidden rounded-full bg-surface-highest"><div class="h-full bg-primary-bright" style="width: {{ $percent }}%"></div></div>
+                        </summary>
+                        <div class="flex flex-col gap-3 px-5 pb-5">
+                            @if ($item['skills']->isNotEmpty())
+                                <ul class="flex flex-wrap gap-1.5" aria-label="Temas completados">
+                                    @foreach ($item['skills'] as $skill)
+                                        <li class="rounded-md border border-outline bg-surface-high px-2 py-0.5 text-xs text-ink">{{ $skill }}</li>
+                                    @endforeach
+                                </ul>
                             @else
-                                <span class="font-mono text-xs text-ink-muted">{{ $percent }}%</span>
+                                <p class="text-sm text-ink-muted">Recién empieza este curso.</p>
                             @endif
+                            <a href="{{ route('cv.tree', [$user->cv_slug, $item['course']]) }}" data-test="cv-tree-link"
+                                class="no-print inline-flex items-center gap-2 self-start rounded-lg border border-primary-bright/60 px-3 py-1.5 text-sm text-primary-bright transition hover:bg-primary/10">
+                                <flux:icon name="share" variant="micro" /> Ver árbol
+                            </a>
                         </div>
-                        <div class="h-1.5 overflow-hidden rounded-full bg-surface-highest"><div class="h-full bg-primary-bright" style="width: {{ $percent }}%"></div></div>
-                        @if ($item['skills']->isNotEmpty())
-                            <ul class="flex flex-wrap gap-1.5" aria-label="Temas completados">
-                                @foreach ($item['skills'] as $skill)
-                                    <li class="rounded-md border border-outline bg-surface-high px-2 py-0.5 text-xs text-ink">{{ $skill }}</li>
-                                @endforeach
-                            </ul>
-                        @endif
-                    </article>
+                    </details>
                 @empty
                     <p class="panel p-5 text-ink-muted">Todavía no empezó ningún curso.</p>
                 @endforelse
@@ -97,5 +109,13 @@
                 · {{ route('cv.show', $user->cv_slug) }}
             </footer>
         </main>
+        <script>
+            // Para imprimir (o guardar en PDF) se abren todos los cursos, y después vuelven como estaban.
+            window.addEventListener('beforeprint', () => document.querySelectorAll('.cv-course').forEach((d) => {
+                d.dataset.wasOpen = d.open ? '1' : '';
+                d.open = true;
+            }));
+            window.addEventListener('afterprint', () => document.querySelectorAll('.cv-course').forEach((d) => (d.open = d.dataset.wasOpen === '1')));
+        </script>
     </body>
 </html>

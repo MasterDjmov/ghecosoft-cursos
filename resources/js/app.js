@@ -24,7 +24,10 @@ document.addEventListener('alpine:init', () => {
                 editable: Boolean(options.editable),
                 hiddenLabels: this.hiddenLabels,
                 // Nodo abierto: se entra. Cerrado: el componente muestra precio y motivos.
-                onNodeClick: (node) => (node.url ? window.Livewire.navigate(node.url) : this.$wire.selectNode?.(node.key)),
+                onNodeClick: (node) => {
+                    if (node.url) window.Livewire.navigate(node.url);
+                    else if (!options.readOnly) this.$wire.selectNode?.(node.key);
+                },
                 onPracticeClick: (practice) => practice.url && window.Livewire.navigate(practice.url),
                 onNodeMoved: (id, x, y) => this.$wire.moveNode(id, x, y),
             });

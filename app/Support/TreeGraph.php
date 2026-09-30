@@ -136,6 +136,25 @@ class TreeGraph
     }
 
     /**
+     * El árbol de un alumno para quien mira su CV: los mismos colores de avance, solo para mirar.
+     * Sin links, precios ni motivos de bloqueo; las hojas de nodos cerrados siguen como «?».
+     */
+    public static function forVisitor(Course $course, User $user): array
+    {
+        $graph = self::forStudent($course, $user);
+        $graph['nodes'] = array_map(fn (array $node) => [
+            ...$node,
+            'url' => null,
+            'price_label' => null,
+            'blockers' => [],
+            'tooltip' => $node['title'].' · '.term('state.'.$node['state'], $course),
+        ], $graph['nodes']);
+        $graph['practices'] = array_map(fn (array $practice) => [...$practice, 'url' => null], $graph['practices']);
+
+        return $graph;
+    }
+
+    /**
      * Estado de cada hoja para el alumno: approved si alguna entrega se aprobó;
      * si no, el de la última entrega (submitted | redo).
      *

@@ -32,6 +32,7 @@ Route::get('/', LandingController::class)->middleware('throttle:120,1')->name('l
 // CV público (opt-in del alumno). Sin login.
 Route::get('cv/{slug}', [CvController::class, 'show'])->middleware('throttle:60,1')->name('cv.show');
 Route::post('cv/{slug}', [CvController::class, 'unlock'])->middleware('throttle:20,1')->name('cv.unlock');
+Route::get('cv/{slug}/arbol/{course:slug}', [CvController::class, 'tree'])->middleware('throttle:60,1')->name('cv.tree');
 
 Route::middleware(['auth', 'password.changed'])->group(function () {
     // Destino después de entrar: cada rol a su inicio.

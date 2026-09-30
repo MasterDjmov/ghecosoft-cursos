@@ -2,6 +2,7 @@
 
 use App\Livewire\Settings\Privacy;
 use App\Models\User;
+use App\Services\NodeUnlocker;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 
@@ -81,4 +82,37 @@ test('el código se guarda cifrado en la base', function () {
 
     expect(DB::table('users')->where('id', $this->student->id)->value('cv_code'))->not->toBe('482913')
         ->and($this->student->toArray())->not->toHaveKey('cv_code');
+});
+
+test('en el CV cada curso es un acordeón con su árbol, que se ve solo para mirar', function () {
+    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse();
+    enrolledStudent($course, $this->student);
+    app(NodeUnlocker::class)->unlock($this->student, $root);
+
+    $this->get(route('cv.show', $this->student->cv_slug))
+        ->assertOk()
+        ->assertSee('data-test="cv-course"', false)
+        ->assertSee(route('cv.tree', [$this->student->cv_slug, $course]), false);
+
+    $this->get(route('cv.tree', [$this->student->cv_slug, $course]))
+        ->assertOk()
+        ->assertSee('Árbol de Valentina Ríos')
+        ->assertSee('Clase 0')
+        ->assertDontSee('/nodos/', false)
+        ->assertDontSee('Misión 1');
+});
+
+test('el árbol del CV respeta las reglas del CV y solo muestra cursos empezados', function () {
+    ['course' => $course, 'root' => $root] = makeCourse();
+    ['course' => $other] = makeCourse();
+    enrolledStudent($course, $this->student);
+    app(NodeUnlocker::class)->unlock($this->student, $root);
+
+    $this->get(route('cv.tree', [$this->student->cv_slug, $other]))->assertNotFound();
+
+    $this->student->forceFill(['cv_code' => '123456'])->save();
+    $this->get(route('cv.tree', [$this->student->cv_slug, $course]))->assertRedirect(route('cv.show', $this->student->cv_slug));
+
+    $this->student->forceFill(['cv_public' => false, 'cv_code' => null])->save();
+    $this->get(route('cv.tree', [$this->student->cv_slug, $course]))->assertNotFound();
 });

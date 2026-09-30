@@ -98,18 +98,30 @@ document.addEventListener('alpine:init', () => {
             this.matches = null;
             this.output = '';
 
-            const { runPython, isPythonLoaded } = await import('./runners/python.js');
-            this.status = isPythonLoaded() ? 'Ejecutando…' : 'Cargando Python (la primera vez tarda unos segundos)…';
-
-            const result = await runPython(this.code, {
-                stdin: this.stdin,
-                url: config.pyodideUrl,
-                timeout: config.timeout,
-                onReady: () => (this.status = 'Ejecutando…'),
-            });
+            let result;
+            if (config.language === 'cpp' || config.language === 'c') {
+                // C y C++: solo en la bandeja del docente (D66), compilando en el navegador.
+                const { runCpp } = await import('./runners/cpp.js');
+                result = await runCpp(this.code, {
+                    stdin: this.stdin,
+                    language: config.language,
+                    timeout: config.timeout,
+                    onStatus: (status) => (this.status = status),
+                });
+            } else {
+                const { runPython, isPythonLoaded } = await import('./runners/python.js');
+                this.status = isPythonLoaded() ? 'Ejecutando…' : 'Cargando Python (la primera vez tarda unos segundos)…';
+                result = await runPython(this.code, {
+                    stdin: this.stdin,
+                    url: config.pyodideUrl,
+                    timeout: config.timeout,
+                    onReady: () => (this.status = 'Ejecutando…'),
+                });
+            }
 
             const separator = result.output && !result.output.endsWith('\n') ? '\n' : '';
-            this.output = (result.output + (result.error ? separator + result.error : '')).replace(/\n+$/, '') || '(sin salida)';
+            const compiler = result.diagnostics ? `── Compilador ──\n${result.diagnostics.trimEnd()}\n── Programa ──\n` : '';
+            this.output = (compiler + result.output + (result.error ? separator + result.error : '')).replace(/\n+$/, '') || '(sin salida)';
             this.error = Boolean(result.error);
             this.status = result.error ? (result.timedOut ? 'Tiempo agotado' : 'Error') : `Listo en ${result.ms} ms`;
             if (!result.error && config.expected) {

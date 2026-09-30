@@ -25,7 +25,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - **Todo se diseña para cualquier lenguaje** (D39): Python es el primer curso, pero secciones, prácticas, Sendas, monedas, jefes, importador e historia no pueden depender de Python (salvo el ejecutor del navegador).
 
 ## Reglas que no se rompen
-- El código del alumno **nunca** se ejecuta en el servidor. Python corre con Pyodide en un Web Worker (timeout 5 s).
+- El código del alumno **nunca** se ejecuta en el servidor. Python corre con Pyodide en un Web Worker (timeout 5 s); C y C++, solo para el docente al corregir, con Clang en WebAssembly en su navegador (D66).
 - Qué puede ver y hacer un alumno (nodo abierto, abono vigente) se calcula **en cada request**; **no** usar cron para abrir ni vencer nada.
 - Comprobantes, entregas, apuntes y autorizaciones de menores van al disco privado y se sirven solo por controladores con `authorize()`.
 - Un alumno nunca ve nodos que no abrió, cursos cuyo raíz no abrió ni entregas ajenas; con el abono vencido no abre ni entrega. Toda regla nueva de acceso va con Policy + test Pest.
@@ -43,6 +43,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - `php artisan app:simulate-course python [--reset]` — súper test local: 5 alumnos cursan todo y el docente corrige (docs/SIMULACION.md)
 - `php artisan app:create-admin` — crear el admin en producción
 - `php artisan db:seed --class=ProductionSeeder` — datos mínimos en producción (nunca `db:seed` a secas). Deploy: [docs/DEPLOY.md](docs/DEPLOY.md)
+- `scripts/build-cpp-toolchain.sh` — arma `public/toolchains/cpp/` (biblioteca de C++ con excepciones + PCH) para que el docente ejecute C/C++ al corregir (D66); una vez, o al cambiar las versiones de `resources/js/runners/cpp-config.js`
 - `scripts/deploy.sh [--cursos]` — actualizar producción desde la compu (el servidor no puede compilar los assets: se compilan acá y se sube `public/build/`)
 
 ## Convenciones del código

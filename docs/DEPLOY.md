@@ -122,6 +122,9 @@ php artisan app:import-course cursos/cpp/ --apply
 php artisan app:import-course cursos/java/ --apply
 php artisan app:import-course cursos/php/ --apply
 
+# Compilador de C/C++ para corregir en el navegador (D66): se arma en la compu con
+# scripts/build-cpp-toolchain.sh y scripts/deploy.sh sube public/toolchains/ cuando cambia.
+
 # Caché de configuración, rutas y vistas (más rápido)
 php artisan config:cache
 php artisan route:cache

@@ -227,3 +227,15 @@ test('las pantallas nuevas cargan', function () {
     $this->actingAs($this->student)->get(route('movements'))->assertOk()->assertSee('Inscripción');
     $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))->assertOk()->assertSee('Esperando corrección');
 });
+
+test('el docente puede ejecutar una entrega de C++ al corregir; el alumno de C++ no ejecuta en la plataforma', function () {
+    $this->data['course']->update(['language' => 'cpp']);
+    $submission = Submission::create(['practice_id' => $this->practice->id, 'user_id' => $this->student->id, 'attempt' => 1,
+        'code' => "#include <iostream>\nint main() { std::cout << 42; }", 'submitted_at' => now()]);
+
+    $this->actingAs($this->admin)->get(route('admin.submissions.show', $submission))
+        ->assertOk()->assertSee('title="Ejecutar (Ctrl+Enter)"', false);
+
+    $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))
+        ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
+});

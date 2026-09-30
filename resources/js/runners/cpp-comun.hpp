@@ -1,0 +1,37 @@
+// Encabezado precompilado para ejecutar entregas de C++ (D66): los #include que usan casi todos los
+// programas del curso. Si el alumno los incluye de nuevo, no cuesta nada (tienen guardas).
+#include <algorithm>
+#include <array>
+#include <cctype>
+#include <chrono>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <deque>
+#include <format>
+#include <fstream>
+#include <functional>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <list>
+#include <map>
+#include <memory>
+#include <numeric>
+#include <optional>
+#include <queue>
+#include <random>
+#include <ranges>
+#include <set>
+#include <sstream>
+#include <stack>
+#include <stdexcept>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <unordered_set>
+#include <utility>
+#include <variant>
+#include <vector>

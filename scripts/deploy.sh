@@ -3,7 +3,7 @@
 # El hosting no puede compilar los assets (CloudLinux corta los hilos de Vite),
 # así que se compilan acá y se sube public/build/ por SSH.
 #
-#   scripts/deploy.sh            # código + assets + migraciones
+#   scripts/deploy.sh            # código + assets + migraciones (+ public/toolchains si cambió)
 #   scripts/deploy.sh --cursos   # además reimporta cursos/python, cursos/c, cursos/cpp, cursos/java y cursos/php
 #
 # Requiere el alias "ghecosoft-prod" en ~/.ssh/config (o DEPLOY_HOST=...).
@@ -43,6 +43,19 @@ EOF
 
 # 4. public/build: se sube a una carpeta nueva y se reemplaza de una vez.
 tar czf - -C public build | ssh "$HOST" "cd ~/$APP_DIR/public && rm -rf build.new && mkdir build.new && tar xzf - -C build.new --strip-components=1 && rm -rf build && mv build.new build"
+
+# 4b. public/toolchains (compilador de C/C++ para corregir en el navegador, D66): se arma con
+#     scripts/build-cpp-toolchain.sh y se sube solo si cambió (pesa ~20 MB).
+if [[ -d public/toolchains ]]; then
+    LOCAL_SUM=$(cd public && find toolchains -type f | sort | xargs sha1sum | sha1sum | cut -d' ' -f1)
+    REMOTE_SUM=$(ssh "$HOST" "cat ~/$APP_DIR/public/toolchains/.sum 2>/dev/null || true")
+    if [[ "$LOCAL_SUM" != "$REMOTE_SUM" ]]; then
+        echo "→ Subiendo public/toolchains…"
+        tar czf - -C public toolchains | ssh "$HOST" "cd ~/$APP_DIR/public && rm -rf toolchains.new && mkdir toolchains.new && tar xzf - -C toolchains.new --strip-components=1 && echo $LOCAL_SUM > toolchains.new/.sum && rm -rf toolchains && mv toolchains.new toolchains"
+    fi
+else
+    echo "(Sin public/toolchains: C/C++ no se va a poder ejecutar al corregir. Correlo con scripts/build-cpp-toolchain.sh.)"
+fi
 
 # 5. Cursos (opcional), caché y salir del mantenimiento.
 ssh "$HOST" bash -s <<EOF

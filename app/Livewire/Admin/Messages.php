@@ -6,6 +6,7 @@ use App\Models\Practice;
 use App\Models\PracticeMessage;
 use App\Models\User;
 use App\Services\PracticeMessenger;
+use App\Services\TeacherScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -24,10 +25,11 @@ class Messages extends Component
     #[Url(as: 'alumno')]
     public string $student = '';
 
-    /** Lo que el docente todavía no leyó: mensajes de alumnos sin read_at. */
-    public static function unreadQuery(): Builder
+    /** Lo que el docente todavía no leyó: mensajes de alumnos sin read_at (del docente: de sus comisiones, D72). */
+    public static function unreadQuery(?User $viewer = null): Builder
     {
-        return PracticeMessage::whereNull('read_at')->whereColumn('author_id', 'student_id');
+        return app(TeacherScope::class)->messages(PracticeMessage::query(), $viewer ?? auth()->user())
+            ->whereNull('read_at')->whereColumn('author_id', 'student_id');
     }
 
     /** Al responder, la lista se reordena en el momento. */
@@ -42,7 +44,7 @@ class Messages extends Component
     /** @return Collection<int, object> */
     private function threads(): Collection
     {
-        $rows = PracticeMessage::query()
+        $rows = app(TeacherScope::class)->messages(PracticeMessage::query(), auth()->user())
             ->selectRaw('practice_id, student_id, max(id) as last_id, max(created_at) as last_at')
             ->selectRaw('sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread')
             ->when($this->student !== '', fn ($q) => $q->where('student_id', (int) $this->student))
@@ -70,6 +72,10 @@ class Messages extends Component
         [$practiceId, $studentId] = array_pad(array_map('intval', explode('-', $this->thread)), 2, 0);
         $practice = $practiceId ? Practice::with('node.course')->find($practiceId) : null;
         $selectedStudent = $studentId ? User::find($studentId) : null;
+        // Un docente solo abre hilos de alumnos de sus comisiones (D72).
+        if ($practice && $selectedStudent && auth()->user()->cannot('viewThread', [PracticeMessage::class, $practice, $selectedStudent])) {
+            [$practice, $selectedStudent] = [null, null];
+        }
         if ($practice && $selectedStudent) {
             // Abrir la conversación la marca leída antes de dibujar la lista.
             app(PracticeMessenger::class)->markRead(auth()->user(), $practice, $selectedStudent);

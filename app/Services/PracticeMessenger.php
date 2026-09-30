@@ -22,10 +22,10 @@ class PracticeMessenger
         ]);
 
         $excerpt = $practice->title.': '.Str::limit(trim($body), 120);
-        if ($author->isAdmin()) {
+        if ($author->isStaff()) {
             $student->notify(new PlatformNotification('message', 'El profe te respondió', $excerpt, self::studentUrl($practice), 'chat-bubble-left-right'));
         } else {
-            PlatformNotification::toAdmins(new PlatformNotification('message', 'Consulta de '.$student->fullName(), $excerpt, self::adminUrl($practice, $student), 'chat-bubble-left-right'));
+            PlatformNotification::toStaff(new PlatformNotification('message', 'Consulta de '.$student->fullName(), $excerpt, self::adminUrl($practice, $student), 'chat-bubble-left-right'), $student, $practice->node->course);
         }
 
         return $message;

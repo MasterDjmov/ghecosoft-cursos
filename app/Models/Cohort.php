@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['course_id', 'name', 'modality', 'schedule_text', 'starts_on', 'is_open_for_enrollment'])]
+#[Fillable(['course_id', 'teacher_id', 'name', 'modality', 'schedule_text', 'starts_on', 'is_open_for_enrollment'])]
 class Cohort extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -26,6 +26,12 @@ class Cohort extends Model
     public function course(): BelongsTo
     {
         return $this->belongsTo(Course::class);
+    }
+
+    /** Docente a cargo (D72); sin docente, la atiende el administrador. */
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 
     public function subscriptions(): HasMany

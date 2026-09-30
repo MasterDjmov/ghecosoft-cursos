@@ -8,6 +8,7 @@ use App\Http\Controllers\Files\SubmissionFileController;
 use App\Http\Controllers\LandingController;
 use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
+use App\Livewire\Admin\CohortBoard;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Glossary;
@@ -18,6 +19,7 @@ use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Settings;
 use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
+use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
@@ -37,9 +39,11 @@ Route::get('cv/{slug}/arbol/{course:slug}', [CvController::class, 'tree'])->midd
 
 Route::middleware(['auth', 'password.changed'])->group(function () {
     // Destino después de entrar: cada rol a su inicio.
-    Route::get('inicio', fn () => auth()->user()->isAdmin()
-        ? redirect()->route('admin.dashboard')
-        : redirect()->route('student.worlds'))->name('home');
+    Route::get('inicio', fn () => match (true) {
+        auth()->user()->isAdmin() => redirect()->route('admin.dashboard'),
+        auth()->user()->isTeacher() => redirect()->route('admin.submissions.index'),
+        default => redirect()->route('student.worlds'),
+    })->name('home');
 
     Route::livewire('mundos', Worlds::class)->name('student.worlds');
     Route::livewire('cursos/{course}', CourseDetail::class)->name('student.course');
@@ -56,22 +60,14 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::get('archivos/autorizaciones/{authorization}', GuardianAuthorizationController::class)->name('files.authorization');
 });
 
+// Solo el administrador: pagos, contenido, juego y configuración.
 Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::livewire('/', AdminDashboard::class)->name('dashboard');
     Route::livewire('solicitudes', Requests::class)->name('requests');
     Route::livewire('configuracion', Settings::class)->name('settings');
 
-    Route::livewire('entregas', Submissions\Index::class)->name('submissions.index');
-    Route::get('entregas/siguiente', fn () => ($next = Submissions\Show::nextPending())
-        ? redirect()->route('admin.submissions.show', $next)
-        : redirect()->route('admin.submissions.index'))->name('submissions.next');
-    Route::livewire('entregas/{submission}', Submissions\Show::class)->name('submissions.show');
-
-    Route::livewire('mensajes', Messages::class)->name('messages');
     Route::livewire('autorizaciones', Authorizations::class)->name('authorizations');
-    Route::livewire('alumnos', Students\Index::class)->name('students.index');
     Route::livewire('alumnos/nuevo', Students\Create::class)->name('students.create');
-    Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');
     Route::livewire('universo', Universe::class)->name('universe');
@@ -84,6 +80,21 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
     Route::livewire('diccionario', Glossary::class)->name('glossary');
     Route::livewire('niveles', Levels::class)->name('levels');
     Route::livewire('insignias', Badges::class)->name('badges');
+});
+
+// Administrador y docentes (D72): cada pantalla muestra al docente solo lo de sus comisiones (TeacherScope).
+Route::middleware(['auth', 'password.changed', 'role:admin,teacher'])->prefix('admin')->name('admin.')->group(function () {
+    Route::livewire('entregas', Submissions\Index::class)->name('submissions.index');
+    Route::get('entregas/siguiente', fn () => ($next = Submissions\Show::nextPending())
+        ? redirect()->route('admin.submissions.show', $next)
+        : redirect()->route('admin.submissions.index'))->name('submissions.next');
+    Route::livewire('entregas/{submission}', Submissions\Show::class)->name('submissions.show');
+
+    Route::livewire('mensajes', Messages::class)->name('messages');
+    Route::livewire('comisiones', CohortBoard::class)->name('cohorts');
+    Route::livewire('cursos/{course}/temario', Syllabus::class)->name('syllabus');
+    Route::livewire('alumnos', Students\Index::class)->name('students.index');
+    Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
 });
 
 require __DIR__.'/settings.php';

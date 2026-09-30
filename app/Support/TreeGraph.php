@@ -91,6 +91,10 @@ class TreeGraph
             'branches' => self::branches($course),
             'nodes' => $nodes->map(function (Node $node) use ($access, $user, $course) {
                 $state = $access->state($user, $node);
+                // El administrador y los docentes (D72) leen todo el curso.
+                if ($user->isStaff()) {
+                    $state = TreeAccess::STATE_UNLOCKED;
+                }
                 $open = in_array($state, [TreeAccess::STATE_UNLOCKED, TreeAccess::STATE_COMPLETED], true);
                 // Clase 0 de prueba (D71): se entra gratis, sin abrirla.
                 $trial = ! $open && $access->isTrial($user, $node);

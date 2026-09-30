@@ -25,7 +25,8 @@ class SingleSession
 
     public static function applies(?User $user): bool
     {
-        return $user !== null && ! $user->isAdmin();
+        // Solo alumnos: el administrador y los docentes (D72) pueden tener varias sesiones.
+        return $user !== null && $user->isStudent();
     }
 
     /** Esta sesión pasa a ser la de la cuenta (las otras quedan afuera). */

@@ -97,7 +97,7 @@
                 <flux:link :href="route('student.course', $course)" wire:navigate>pedí tu abono</flux:link> (el mes empieza a correr cuando se aprueba).
             </flux:callout.text>
         </flux:callout>
-    @elseif (! $subscription)
+    @elseif (! $subscription && ! $staff)
         <flux:callout icon="clock" color="amber">
             <flux:callout.heading>Tu abono no está vigente</flux:callout.heading>
             <flux:callout.text>

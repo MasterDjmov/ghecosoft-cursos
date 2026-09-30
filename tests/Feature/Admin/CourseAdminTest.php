@@ -116,6 +116,6 @@ test('el listado tiene el atajo a las comisiones de cada curso, con cuántas tie
     $course->cohorts()->create(['name' => 'Martes 18 h']);
 
     Livewire::test(Index::class)
-        ->assertSee(route('admin.courses.edit', $course).'#comisiones', false)
+        ->assertSee(route('admin.courses.edit', $course).'#comisiones-'.$course->id, false)
         ->assertSee('Comisiones (1)');
 });

@@ -22,6 +22,14 @@ class UserSeeder extends Seeder
             'password' => 'admin123',
         ])->forceFill(['role' => Role::Admin, 'email_verified_at' => now()])->save();
 
+        // Rol docente (D72): corrige y atiende a los alumnos de sus comisiones (DemoTeacherSeeder le arma una).
+        User::updateOrCreate(['username' => 'docente'], [
+            'name' => 'Docente',
+            'last_name' => 'de Prueba',
+            'email' => 'docente@ghecosoft.test',
+            'password' => 'docente123',
+        ])->forceFill(['role' => Role::Teacher, 'email_verified_at' => now()])->save();
+
         User::updateOrCreate(['username' => 'cliente'], [
             'name' => 'Cliente',
             'last_name' => 'de Prueba',

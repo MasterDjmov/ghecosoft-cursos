@@ -67,8 +67,8 @@
     <section class="panel flex flex-col gap-3 p-5">
         <h2 class="font-display font-semibold text-white">Comentarios</h2>
         @forelse ($submission->comments as $item)
-            <div @class(['rounded-md p-3 text-sm', 'bg-primary/10 border-s-2 border-primary-bright' => $item->user->isAdmin(), 'bg-surface-high' => ! $item->user->isAdmin()])>
-                <p class="text-xs text-ink-muted">{{ $item->user->isAdmin() ? 'Vos' : $item->user->fullName() }} · {{ $item->created_at->format('d/m H:i') }}</p>
+            <div @class(['rounded-md p-3 text-sm', 'bg-primary/10 border-s-2 border-primary-bright' => $item->user->isStaff(), 'bg-surface-high' => ! $item->user->isStaff()])>
+                <p class="text-xs text-ink-muted">{{ $item->user->is(auth()->user()) ? 'Vos' : ($item->user->isStaff() ? 'Profe '.$item->user->name : $item->user->fullName()) }} · {{ $item->created_at->format('d/m H:i') }}</p>
                 <p class="text-ink">{!! nl2br(e($item->body)) !!}</p>
             </div>
         @empty

@@ -136,7 +136,7 @@ trait WorksOnPractice
             'usesCode' => in_array($this->practice->submission_mode, [SubmissionMode::Code, SubmissionMode::Both], true),
             'usesFile' => in_array($this->practice->submission_mode, [SubmissionMode::File, SubmissionMode::Both], true),
             // Última devolución del docente (vista previa de la fila contraída y columna de la misión).
-            'lastFeedback' => $attempts->flatMap->comments->filter(fn ($c) => $c->user->isAdmin())->sortByDesc('created_at')->first(),
+            'lastFeedback' => $attempts->flatMap->comments->filter(fn ($c) => $c->user->isStaff())->sortByDesc('created_at')->first(),
             // Arranca con lo último que entregó (para rehacer) o con el código inicial.
             'startingCode' => $latest?->code ?? (string) $this->practice->starter_code,
         ];

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PhpCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
+            DemoTeacherSeeder::class,
             DemoHeroesSeeder::class,
         ]);
     }

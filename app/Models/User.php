@@ -103,9 +103,27 @@ class User extends Authenticatable implements PasskeyUser
         return $this->role === Role::Admin;
     }
 
+    /** Docente (D72): ve lo de los alumnos de sus comisiones (App\Services\TeacherScope). */
+    public function isTeacher(): bool
+    {
+        return $this->role === Role::Teacher;
+    }
+
+    /** El que corrige: el administrador o un docente ("el profe" para el alumno). */
+    public function isStaff(): bool
+    {
+        return $this->isAdmin() || $this->isTeacher();
+    }
+
     public function isStudent(): bool
     {
         return $this->role === Role::Student;
+    }
+
+    /** Comisiones a cargo de un docente. */
+    public function taughtCohorts(): HasMany
+    {
+        return $this->hasMany(Cohort::class, 'teacher_id');
     }
 
     public function fullName(): string

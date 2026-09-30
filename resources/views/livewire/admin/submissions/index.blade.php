@@ -1,5 +1,5 @@
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
-    <x-admin.page-header title="Entregas" subtitle="Aprobada paga las monedas y la XP de la hoja (una sola vez). Rehacer pide un comentario.">
+    <x-admin.page-header title="Entregas" :subtitle="(auth()->user()->isTeacher() ? 'Las de los alumnos de tus comisiones. ' : '').'Aprobada paga las monedas y la XP de la hoja (una sola vez). Rehacer pide un comentario.'">
         <x-slot:actions>
             @if ($pendingCount > 0)
                 <flux:button variant="primary" icon="play" :href="route('admin.submissions.next')" wire:navigate>Corregir la más vieja</flux:button>
@@ -7,7 +7,13 @@
         </x-slot:actions>
     </x-admin.page-header>
 
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    @if (auth()->user()->isTeacher() && $cohorts->isEmpty() && $courseId === '')
+        <flux:callout icon="user-group" color="cyan">
+            <flux:callout.text>Todavía no tenés comisiones. <flux:link :href="route('admin.cohorts')" wire:navigate>Creá una</flux:link> y sumale alumnos: vas a ver acá sus entregas.</flux:callout.text>
+        </flux:callout>
+    @endif
+
+    <div @class(['grid gap-4 sm:grid-cols-2', 'lg:grid-cols-5' => $teachers->isNotEmpty(), 'lg:grid-cols-4' => $teachers->isEmpty()])>
         <flux:select wire:model.live="status" label="Estado">
             <flux:select.option value="submitted">Sin corregir ({{ $pendingCount }})</flux:select.option>
             <flux:select.option value="approved">Aprobadas</flux:select.option>
@@ -20,6 +26,14 @@
                 <flux:select.option :value="(string) $option->id">{{ $option->title }}</flux:select.option>
             @endforeach
         </flux:select>
+        @if ($teachers->isNotEmpty())
+            <flux:select wire:model.live="teacherId" label="Docente">
+                <flux:select.option value="">Todos</flux:select.option>
+                @foreach ($teachers as $teacher)
+                    <flux:select.option :value="(string) $teacher->id">{{ $teacher->fullName() }}</flux:select.option>
+                @endforeach
+            </flux:select>
+        @endif
         <flux:select wire:model.live="cohortId" label="Comisión">
             <flux:select.option value="">Todas</flux:select.option>
             @foreach ($cohorts as $option)

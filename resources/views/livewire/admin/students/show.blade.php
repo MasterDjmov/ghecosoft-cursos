@@ -1,10 +1,31 @@
+@php($isAdmin = auth()->user()->isAdmin())
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
     <x-admin.page-header label="Alumnos" :title="$user->fullName()" :subtitle="'@'.$user->username.($user->email ? ' · '.$user->email : ' · sin email').($user->phone ? ' · '.$user->phone : '').($user->dni ? ' · DNI '.$user->dni : '')">
         <x-slot:actions>
+            @if ($isAdmin)
+                {{-- Rol docente (D72): la cuenta pasa a corregir y atender a los alumnos de sus comisiones. --}}
+                <flux:button icon="academic-cap" wire:click="promote" data-test="promote"
+                    wire:confirm="¿Hacer docente a {{ $user->fullName() }}? Va a poder crear comisiones, corregir las entregas y responder las consultas de sus alumnos. Deja de ser alumno (su progreso queda guardado).">Hacer docente</flux:button>
+            @endif
             <flux:button variant="ghost" icon="arrow-left" :href="route('admin.students.index')" wire:navigate>Alumnos</flux:button>
         </x-slot:actions>
     </x-admin.page-header>
 
+    @unless ($isAdmin)
+        <div class="panel flex flex-wrap items-center justify-between gap-2 p-4" data-test="teacher-account-actions">
+            <p class="text-sm text-ink-muted">Si {{ $user->name }} se olvidó la clave, le podés dar una provisoria.</p>
+            <div class="flex flex-wrap gap-2">
+                @if ($user->whatsappUrl())
+                    <flux:button size="sm" icon="chat-bubble-left-right" :href="$user->whatsappUrl()" target="_blank" rel="noopener">WhatsApp</flux:button>
+                @endif
+                <flux:modal.trigger name="confirm-reset">
+                    <flux:button size="sm" icon="key">Resetear clave</flux:button>
+                </flux:modal.trigger>
+            </div>
+        </div>
+    @endunless
+
+    @if ($isAdmin)
     <div class="grid gap-4 lg:grid-cols-2">
         <form wire:submit="saveAccount" class="panel flex flex-col gap-4 p-4" data-test="account-form">
             <div class="flex flex-wrap items-center justify-between gap-2">
@@ -40,6 +61,7 @@
             </div>
         </form>
     </div>
+    @endif
 
     <flux:modal name="confirm-reset" class="max-w-md">
         <div class="flex flex-col gap-4">
@@ -95,7 +117,7 @@
                     <li class="py-2 text-ink-muted">Sin abonos.</li>
                 @endforelse
             </ul>
-            @if ($courseCohorts->isNotEmpty())
+            @if ($isAdmin && $courseCohorts->isNotEmpty())
                 <div class="flex flex-col gap-3 border-t border-outline pt-3">
                     <span class="tech-label">Comisión</span>
                     @foreach ($courseCohorts as $subscription)
@@ -118,6 +140,7 @@
             @endif
         </section>
 
+        @if ($isAdmin)
         <form wire:submit="adjust" class="panel flex flex-col gap-4 p-5">
             <h2 class="font-display font-semibold text-white">Ajuste manual</h2>
             <div class="grid gap-4 sm:grid-cols-2">
@@ -136,6 +159,7 @@
                 <flux:button type="submit" variant="primary">Registrar</flux:button>
             </div>
         </form>
+        @endif
     </div>
 
     <section class="panel flex flex-col gap-3 p-5">
@@ -153,6 +177,7 @@
         </ul>
     </section>
 
+    @if ($isAdmin)
     <section @class(['panel flex flex-col gap-3 p-5', 'border-warning/60' => $user->blocked_at]) data-test="account-security">
         <div class="flex flex-wrap items-center justify-between gap-2">
             <h2 class="font-display font-semibold text-white">Seguridad de la cuenta</h2>
@@ -181,6 +206,7 @@
             @endforelse
         </ul>
     </section>
+    @endif
 
     <section class="panel flex flex-col gap-3 p-5" data-test="student-messages">
         <div class="flex items-center justify-between gap-2">
@@ -204,5 +230,7 @@
         </ul>
     </section>
 
-    <livewire:movement-feed :user="$user" show-author />
+    @if ($isAdmin)
+        <livewire:movement-feed :user="$user" show-author />
+    @endif
 </div>

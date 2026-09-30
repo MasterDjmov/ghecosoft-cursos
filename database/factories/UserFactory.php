@@ -40,6 +40,11 @@ class UserFactory extends Factory
         ];
     }
 
+    public function teacher(): static
+    {
+        return $this->state(fn (array $attributes) => ['role' => Role::Teacher]);
+    }
+
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => ['role' => Role::Admin]);

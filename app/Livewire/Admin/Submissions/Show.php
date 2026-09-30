@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Submissions;
 use App\Enums\SubmissionStatus;
 use App\Models\Submission;
 use App\Services\SubmissionReviewer;
+use App\Services\TeacherScope;
 use App\Support\Markdown;
 use DomainException;
 use Flux\Flux;
@@ -21,17 +22,24 @@ class Show extends Component
 
     public string $reply = '';
 
-    /** "Corregir la más vieja": la primera sin corregir de la bandeja. */
+    /** "Corregir la más vieja": la primera sin corregir de la bandeja (del docente: de sus comisiones, D72). */
     public static function nextPending(?int $exceptId = null): ?Submission
     {
-        return Submission::where('status', SubmissionStatus::Submitted)
+        return app(TeacherScope::class)->submissions(Submission::query(), auth()->user())
+            ->where('status', SubmissionStatus::Submitted)
             ->when($exceptId, fn ($q) => $q->whereKeyNot($exceptId))
             ->oldest('submitted_at')
             ->first();
     }
 
+    public function mount(): void
+    {
+        $this->authorize('review', $this->submission);
+    }
+
     public function approve(SubmissionReviewer $reviewer)
     {
+        $this->authorize('review', $this->submission);
         $this->validate(['comment' => ['nullable', 'string', 'max:2000']]);
 
         try {
@@ -49,6 +57,7 @@ class Show extends Component
 
     public function redo(SubmissionReviewer $reviewer)
     {
+        $this->authorize('review', $this->submission);
         $this->validate(
             ['comment' => ['required', 'string', 'max:2000']],
             ['comment.required' => 'Contale qué tiene que corregir.'],
@@ -70,6 +79,7 @@ class Show extends Component
 
     public function addReply(SubmissionReviewer $reviewer): void
     {
+        $this->authorize('review', $this->submission);
         $this->validate(['reply' => ['required', 'string', 'max:2000']], [], ['reply' => 'comentario']);
         $reviewer->comment($this->submission, auth()->user(), $this->reply);
         $this->reset('reply');
@@ -97,7 +107,7 @@ class Show extends Component
             'criteriaHtml' => Markdown::render($practice->approval_criteria),
             'previous' => Submission::where('user_id', $submission->user_id)->where('practice_id', $practice->id)
                 ->whereKeyNot($submission->id)->orderByDesc('attempt')->get(),
-            'pendingCount' => Submission::where('status', SubmissionStatus::Submitted)->count(),
+            'pendingCount' => app(TeacherScope::class)->submissions(Submission::query(), auth()->user())->where('status', SubmissionStatus::Submitted)->count(),
         ])->title('Corregir · '.$practice->title);
     }
 }

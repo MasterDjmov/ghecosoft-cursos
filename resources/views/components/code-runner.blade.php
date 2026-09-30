@@ -17,7 +17,7 @@
     $languageLabel = \App\Enums\Language::tryFrom($language)?->label() ?? $language;
     // Python corre para todos (Pyodide); C, C++ (D66) y PHP (D68) solo para el docente al corregir, en su navegador;
     // Java (D69), también solo el docente, en su compu con scripts/JavaRunner.java.
-    $canRun = $runnable && ($language === 'python' || (in_array($language, ['c', 'cpp', 'php', 'java'], true) && auth()->user()?->isAdmin()));
+    $canRun = $runnable && ($language === 'python' || (in_array($language, ['c', 'cpp', 'php', 'java'], true) && auth()->user()?->isStaff()));
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
 @endphp
 

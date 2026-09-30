@@ -4,7 +4,7 @@
     x-on:practice-chat-sent.window="$nextTick(() => $refs.list && ($refs.list.scrollTop = $refs.list.scrollHeight))">
     @if ($messages->isEmpty())
         <p class="rounded-lg border border-dashed border-outline p-3 text-sm text-ink-muted">
-            @if ($viewer->isAdmin())
+            @if ($viewer->isStaff())
                 Todavía no hay mensajes con {{ $student->name }} sobre esta práctica.
             @else
                 ¿Te trabaste o tenés una duda? Escribile al profe acá, sin necesidad de entregar. La conversación queda guardada en esta práctica.
@@ -16,7 +16,7 @@
                 @php($mine = $message->author_id === $viewer->id)
                 <li wire:key="message-{{ $message->id }}" @class(['flex flex-col max-w-[85%] gap-0.5', 'self-end items-end' => $mine, 'self-start items-start' => ! $mine])>
                     <span class="px-1 text-[11px] text-ink-muted">
-                        {{ $mine ? 'Vos' : ($message->author->isAdmin() ? 'El profe' : $message->author->name) }} · {{ $message->created_at->format('d/m H:i') }}
+                        {{ $mine ? 'Vos' : ($message->author->isStaff() ? 'El profe' : $message->author->name) }} · {{ $message->created_at->format('d/m H:i') }}
                     </span>
                     <p @class([
                         'whitespace-pre-line break-words rounded-lg border px-3 py-2 text-sm',
@@ -31,7 +31,7 @@
     @if ($canSend)
         <form wire:submit="send" class="flex items-end gap-2">
             <x-emoji-field class="flex-1">
-                <flux:textarea class="pe-10" wire:model="body" rows="2" :placeholder="$viewer->isAdmin() ? 'Respondele…' : 'Escribile al profe…'" aria-label="Mensaje" />
+                <flux:textarea class="pe-10" wire:model="body" rows="2" :placeholder="$viewer->isStaff() ? 'Respondele…' : 'Escribile al profe…'" aria-label="Mensaje" />
             </x-emoji-field>
             <flux:button type="submit" icon="paper-airplane" aria-label="Enviar mensaje" />
         </form>

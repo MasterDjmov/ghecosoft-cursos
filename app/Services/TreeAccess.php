@@ -193,7 +193,8 @@ class TreeAccess
 
     public function canView(User $user, Node $node): bool
     {
-        return $user->isAdmin() || $this->isUnlocked($user, $node) || $this->isTrial($user, $node);
+        // El administrador y los docentes (D72) leen todos los cursos.
+        return $user->isStaff() || $this->isUnlocked($user, $node) || $this->isTrial($user, $node);
     }
 
     /**
@@ -206,7 +207,7 @@ class TreeAccess
         return $node->isRoot()
             && $node->is_published
             && $node->course->is_published
-            && ! $user->isAdmin()
+            && ! $user->isStaff()
             && ! $this->isUnlocked($user, $node)
             && ! $this->hasActiveSubscription($user, $node->course);
     }

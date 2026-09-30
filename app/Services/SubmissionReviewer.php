@@ -227,16 +227,16 @@ class SubmissionReviewer
         $practice = $submission->practice;
         $node = $practice->node;
 
-        if ($author->isAdmin()) {
+        if ($author->isStaff()) {
             $submission->user->notify(new PlatformNotification(
                 'comment', 'Comentario del profe: '.$practice->title, str($body)->limit(140),
                 route('student.node', [$node->course, $node]).'#practica-'.$practice->id, 'chat-bubble-left-right',
             ));
         } else {
-            PlatformNotification::toAdmins(new PlatformNotification(
+            PlatformNotification::toStaff(new PlatformNotification(
                 'comment', $author->fullName().' comentó: '.$practice->title, str($body)->limit(140),
                 route('admin.submissions.show', $submission), 'chat-bubble-left-right',
-            ));
+            ), $submission->user, $node->course);
         }
 
         return $comment;

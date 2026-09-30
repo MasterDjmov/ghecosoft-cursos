@@ -32,7 +32,7 @@ test('el alumno consulta, el docente lo ve en su bandeja, responde y a cada uno 
     expect($admin->unreadNotifications->firstWhere('data.kind', 'message')->data)
         ->title->toBe('Consulta de '.$student->fullName())
         ->url->toContain('hilo='.$practice->id.'-'.$student->id);
-    expect(Messages::unreadQuery()->count())->toBe(1);
+    expect(Messages::unreadQuery($admin)->count())->toBe(1);
 
     Livewire::actingAs($admin)->test(Messages::class, ['thread' => $practice->id.'-'.$student->id])
         ->assertSee($student->fullName())
@@ -41,7 +41,7 @@ test('el alumno consulta, el docente lo ve en su bandeja, responde y a cada uno 
         ->set('body', 'Sí, con dos decimales.')
         ->call('send');
 
-    expect(Messages::unreadQuery()->count())->toBe(0)
+    expect(Messages::unreadQuery($admin)->count())->toBe(0)
         ->and($student->unreadNotifications->firstWhere('data.kind', 'message')->data['title'])->toBe('El profe te respondió')
         ->and(PracticeMessage::thread($practice, $student)->unreadFor($student)->count())->toBe(1);
 

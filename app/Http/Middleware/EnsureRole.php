@@ -7,12 +7,12 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/** Uso: ->middleware('role:admin') */
+/** Uso: ->middleware('role:admin') o, para varios roles, ->middleware('role:admin,teacher') */
 class EnsureRole
 {
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if ($request->user()?->role === Role::from($role)) {
+        if (in_array($request->user()?->role, array_map(fn ($role) => Role::from($role), $roles), true)) {
             return $next($request);
         }
 

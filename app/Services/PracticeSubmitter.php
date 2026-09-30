@@ -95,13 +95,13 @@ class PracticeSubmitter
             return Submission::create($data);
         });
 
-        PlatformNotification::toAdmins(new PlatformNotification(
+        PlatformNotification::toStaff(new PlatformNotification(
             'submission.new',
             'Nueva entrega: '.$practice->title,
             $user->fullName().' · '.$practice->node->title.' (intento '.$submission->attempt.')',
             route('admin.submissions.show', $submission),
             'code-bracket-square',
-        ));
+        ), $user, $practice->node->course);
 
         return $submission;
     }

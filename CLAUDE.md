@@ -29,6 +29,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - El código del alumno **nunca** se ejecuta en el servidor. Python corre con Pyodide en un Web Worker (timeout 5 s); C y C++, solo para el docente al corregir, con Clang en WebAssembly en su navegador (D66); PHP, igual, con PHP 8.3 en WebAssembly (D68); Java, en la compu del docente con `scripts/JavaRunner.java` abierto (D69) o con el comando que arma la entrega (D67).
 - Qué puede ver y hacer un alumno (nodo abierto, abono vigente) se calcula **en cada request**; **no** usar cron para abrir ni vencer nada.
 - Comprobantes, entregas, apuntes y autorizaciones de menores van al disco privado y se sirven solo por controladores con `authorize()`.
+- Roles (D72): **administrador** (todo), **docente** (solo lo de los alumnos de sus comisiones, en el curso de cada una: entregas, mensajes, fichas, resetear clave; nunca pagos ni contenido) y **alumno**. Todo alcance del docente pasa por `App\Services\TeacherScope` y sus Policies (`SubmissionPolicy::review`, `PracticeMessagePolicy`, `UserPolicy`); el administrador pasa por `Gate::before`.
 - Un alumno nunca ve nodos que no abrió, cursos cuyo raíz no abrió ni entregas ajenas; con el abono vencido no abre ni entrega. Única excepción: la **Clase 0 de prueba** (D71, `TreeAccess::isTrial`): sin abono de ese curso, el raíz publicado se lee y se practica (y se ve el árbol cerrado), sin abrirlo, entregar, marcar ni consultar, y sin dejar registros. Toda regla nueva de acceso va con Policy + test Pest.
 - Toda moneda y todo XP pasa por un **único servicio con libro de movimientos**; nunca se suma un saldo "a mano".
 - Hosting compartido (cPanel/CloudLinux, servidor `mate`): PHP **8.3**, MariaDB, Node 20 (build por SSH; hay "Setup Node.js App" pero esta plataforma no lo usa), sin workers, sin PostgreSQL. `QUEUE_CONNECTION=sync`. `composer.json` fija `platform.php = 8.3.33`.
@@ -37,7 +38,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 ## Comandos
 - `composer run dev` — servidor + Vite en desarrollo (o `php artisan serve` + `npm run dev`)
 - `php artisan test` — suite Pest (usa la base `ghecosoft_code_testing`, MariaDB)
-- `php artisan migrate:fresh --seed` — base local con admin/admin123, cliente/cliente123 y los cursos de Python, C, C++, Java y PHP importados de `cursos/`
+- `php artisan migrate:fresh --seed` — base local con admin/admin123, docente/docente123 (con una comisión de Python y cliente adentro), cliente/cliente123 y los cursos de Python, C, C++, Java y PHP importados de `cursos/`
 - `npm run build` — assets para producción
 - `vendor/bin/pint` — formato del código
 - `php artisan app:import-course carpeta/ [--apply]` — revisar (o importar con `--apply`) un curso en el formato de FORMATO-CURSO.md; también desde *Admin → Cursos → Importar*

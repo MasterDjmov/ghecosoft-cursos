@@ -101,7 +101,7 @@
                 <flux:button variant="primary" size="sm" icon="ticket" :href="route('student.course', $course)" wire:navigate>Pedir abono</flux:button>
             </x-slot>
         </flux:callout>
-    @elseif (! $subscription)
+    @elseif (! $subscription && ! auth()->user()->isStaff())
         <flux:callout icon="clock" color="amber">
             <flux:callout.text>Tu abono no está vigente: podés repasar este {{ term('node', $course) }}, pero no entregar.
                 <flux:link :href="route('student.course', $course)" wire:navigate>Renovar</flux:link>

@@ -22,12 +22,12 @@ class CoursePolicy
      */
     public function viewTree(User $user, Course $course): bool
     {
-        return $this->access->isRootOpen($user, $course) || $this->access->canTryCourse($user, $course);
+        return $user->isStaff() || $this->access->isRootOpen($user, $course) || $this->access->canTryCourse($user, $course);
     }
 
     /** El ranking del curso, solo para los que entraron (la Clase 0 de prueba no cuenta, D71). */
     public function viewRanking(User $user, Course $course): bool
     {
-        return $this->access->isRootOpen($user, $course);
+        return $user->isStaff() || $this->access->isRootOpen($user, $course);
     }
 }

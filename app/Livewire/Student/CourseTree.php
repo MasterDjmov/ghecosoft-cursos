@@ -87,6 +87,7 @@ class CourseTree extends Component
             'subscription' => $access->activeSubscription($user, $this->course),
             // Clase 0 de prueba (D71): todavía no abrió el raíz y no tiene abono.
             'trial' => $access->canTryCourse($user, $this->course),
+            'staff' => $user->isStaff(),
             'paidUntil' => $access->paidUntil($user, $this->course),
             'selected' => $selected,
             'selectedCanUnlock' => $selected && $access->canUnlock($user, $this->course->nodes()->find($selected['id'])),

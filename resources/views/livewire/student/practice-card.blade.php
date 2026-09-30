@@ -125,8 +125,8 @@
                                     </details>
                                 @endif
                                 @foreach ($attempt->comments as $item)
-                                    <div @class(['rounded-md p-2 text-sm', 'bg-primary/10 border-s-2 border-primary-bright' => $item->user->isAdmin(), 'bg-surface-high' => ! $item->user->isAdmin()])>
-                                        <p class="text-xs text-ink-muted">{{ $item->user->isAdmin() ? 'El profe' : 'Vos' }} · {{ $item->created_at->format('d/m H:i') }}</p>
+                                    <div @class(['rounded-md p-2 text-sm', 'bg-primary/10 border-s-2 border-primary-bright' => $item->user->isStaff(), 'bg-surface-high' => ! $item->user->isStaff()])>
+                                        <p class="text-xs text-ink-muted">{{ $item->user->isStaff() ? 'El profe' : 'Vos' }} · {{ $item->created_at->format('d/m H:i') }}</p>
                                         <p class="text-ink">{!! nl2br(e($item->body)) !!}</p>
                                     </div>
                                 @endforeach

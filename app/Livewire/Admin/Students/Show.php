@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Students;
 
 use App\Concerns\ProfileValidationRules;
 use App\Enums\CoinReason;
+use App\Enums\Role;
 use App\Enums\XpReason;
 use App\Exceptions\InsufficientFunds;
 use App\Models\Currency;
@@ -14,6 +15,7 @@ use App\Services\Ledger;
 use App\Services\Ranking;
 use App\Services\SingleSession;
 use App\Services\StudentAccounts;
+use App\Services\TeacherScope;
 use App\Support\HeroName;
 use Flux\Flux;
 use Illuminate\Support\Facades\DB;
@@ -55,6 +57,8 @@ class Show extends Component
     public function mount(User $user): void
     {
         abort_unless($user->isStudent(), 404);
+        // El docente (D72) solo abre la ficha de los alumnos de sus comisiones.
+        $this->authorize('viewStudent', $user);
         $this->heroName = (string) $user->hero_name;
         $this->username = $user->username;
         $this->email = (string) $user->email;
@@ -63,6 +67,7 @@ class Show extends Component
 
     public function saveAccount()
     {
+        $this->onlyAdmin();
         $this->username = Str::lower(trim($this->username));
         $this->email = Str::lower(trim($this->email));
         $this->phone = trim($this->phone);
@@ -87,21 +92,40 @@ class Show extends Component
         }
     }
 
+    /** Rol docente (D72): la cuenta pasa a docente; sus abonos y progreso quedan guardados. */
+    public function promote()
+    {
+        $this->onlyAdmin();
+        $this->user->forceFill(['role' => Role::Teacher])->save();
+        Flux::toast(variant: 'success', text: $this->user->fullName().' ahora es docente.');
+
+        return $this->redirectRoute('admin.students.index', ['ver' => 'docentes'], navigate: true);
+    }
+
+    /** Lo que no hace un docente: cuenta, monedas, héroe, seguridad, comisiones desde la ficha. */
+    private function onlyAdmin(): void
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+    }
+
     /** Pausar la cuenta (D65): se cortan todas sus sesiones y no puede entrar hasta reactivarla. */
     public function block(SingleSession $sessions): void
     {
+        $this->onlyAdmin();
         $sessions->block($this->user);
         Flux::toast(variant: 'success', text: 'Cuenta pausada: se cerraron sus sesiones.');
     }
 
     public function unblock(SingleSession $sessions): void
     {
+        $this->onlyAdmin();
         $sessions->unblock($this->user);
         Flux::toast(variant: 'success', text: 'Cuenta reactivada.');
     }
 
     public function resetPassword(StudentAccounts $accounts): void
     {
+        $this->authorize('resetPassword', $this->user);
         $password = $accounts->resetPassword($this->user);
         $this->credentials = [
             'message' => StudentAccounts::accessMessage($this->user, $password, reset: true),
@@ -112,6 +136,7 @@ class Show extends Component
 
     public function saveHero(): void
     {
+        $this->onlyAdmin();
         $this->heroName = (string) HeroName::normalize($this->heroName);
         $this->validate(HeroName::rules('heroName', $this->user), HeroName::messages('heroName'), ['heroName' => 'nombre del héroe']);
 
@@ -123,6 +148,7 @@ class Show extends Component
     /** Comisión del alumno en un curso ('' = sin comisión). Es solo una etiqueta de sus abonos. */
     public function changeCohort(StudentAccounts $accounts, int $courseId, string $cohortId): void
     {
+        $this->onlyAdmin();
         $course = $this->user->subscriptions()->where('course_id', $courseId)->firstOrFail()->course;
 
         try {
@@ -139,6 +165,7 @@ class Show extends Component
     /** Dar o quitar monedas o XP. El motivo es obligatorio y queda en el libro. */
     public function adjust(Ledger $ledger): void
     {
+        $this->onlyAdmin();
         $this->validate([
             'target' => ['required', 'string'],
             'amount' => ['required', 'integer', 'not_in:0', 'between:-10000,10000'],
@@ -177,12 +204,12 @@ class Show extends Component
             'courseCohorts' => $subscriptions->unique('course_id')->filter(fn ($s) => $s->course->cohorts->isNotEmpty())->values(),
             'balances' => $balances,
             'currencies' => Currency::with('course')->get()->sortBy(fn ($c) => $c->is_wildcard ? 'zzz' : $c->course?->title),
-            'messageThreads' => PracticeMessage::where('student_id', $this->user->id)
+            'messageThreads' => app(TeacherScope::class)->messages(PracticeMessage::query(), auth()->user())->where('student_id', $this->user->id)
                 ->selectRaw('practice_id, count(*) as total, sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread, max(created_at) as last_at')
                 ->groupBy('practice_id')->orderByDesc('last_at')->with('practice.node')->get(),
             'evictions' => DB::table('session_evictions')->where('user_id', $this->user->id)
                 ->where('created_at', '>=', now()->subDays(30))->latest('created_at')->limit(20)->get(),
-            'submissions' => Submission::with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),
+            'submissions' => app(TeacherScope::class)->submissions(Submission::query(), auth()->user())->with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),
             'badges' => $this->user->badges()->get(),
         ])->title($this->user->fullName());
     }

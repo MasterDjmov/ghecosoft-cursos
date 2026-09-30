@@ -11,17 +11,21 @@
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                @if (auth()->user()->isAdmin())
-                    <flux:sidebar.group heading="Docente" class="grid">
-                        <flux:sidebar.item icon="squares-2x2" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
-                            Inicio
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="inbox-arrow-down" :href="route('admin.requests')" :current="request()->routeIs('admin.requests')" wire:navigate
-                            :badge="\App\Models\EnrollmentRequest::where('status', 'pending')->count() ?: null">
-                            Solicitudes
-                        </flux:sidebar.item>
+                @if (auth()->user()->isStaff())
+                    @php($isAdmin = auth()->user()->isAdmin())
+                    <flux:sidebar.group :heading="$isAdmin ? 'Administración' : 'Docente'" class="grid">
+                        @if ($isAdmin)
+                            <flux:sidebar.item icon="squares-2x2" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
+                                Inicio
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="inbox-arrow-down" :href="route('admin.requests')" :current="request()->routeIs('admin.requests')" wire:navigate
+                                :badge="\App\Models\EnrollmentRequest::where('status', 'pending')->count() ?: null">
+                                Solicitudes
+                            </flux:sidebar.item>
+                        @endif
+                        {{-- Entregas, mensajes y alumnos: del docente, los de sus comisiones (D72). --}}
                         <flux:sidebar.item icon="code-bracket-square" :href="route('admin.submissions.index')" :current="request()->routeIs('admin.submissions.*')" wire:navigate
-                            :badge="\App\Models\Submission::where('status', 'submitted')->count() ?: null">
+                            :badge="app(\App\Services\TeacherScope::class)->submissions(\App\Models\Submission::query(), auth()->user())->where('status', 'submitted')->count() ?: null">
                             Entregas
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.messages')" :current="request()->routeIs('admin.messages')" wire:navigate
@@ -31,6 +35,10 @@
                         <flux:sidebar.item icon="users" :href="route('admin.students.index')" :current="request()->routeIs('admin.students.*')" wire:navigate>
                             Alumnos
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="user-group" :href="route('admin.cohorts')" :current="request()->routeIs('admin.cohorts', 'admin.syllabus')" wire:navigate>
+                            Comisiones
+                        </flux:sidebar.item>
+                        @if ($isAdmin)
                         <flux:sidebar.item icon="document-check" :href="route('admin.authorizations')" :current="request()->routeIs('admin.authorizations')" wire:navigate
                             :badge="\App\Models\GuardianAuthorization::where('status', 'pending')->count() ?: null">
                             Autorizaciones
@@ -41,7 +49,9 @@
                         <flux:sidebar.item icon="globe-alt" :href="route('admin.universe')" :current="request()->routeIs('admin.universe')" wire:navigate>
                             Universo
                         </flux:sidebar.item>
+                        @endif
                     </flux:sidebar.group>
+                    @if ($isAdmin)
                     <flux:sidebar.group heading="Juego" class="grid">
                         <flux:sidebar.item icon="book-open" :href="route('admin.glossary')" :current="request()->routeIs('admin.glossary')" wire:navigate>
                             Diccionario
@@ -56,6 +66,7 @@
                             Configuración
                         </flux:sidebar.item>
                     </flux:sidebar.group>
+                    @endif
                     <flux:sidebar.group heading="Vista del alumno" class="grid">
                         <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.*')" wire:navigate>
                             Mundos
@@ -89,7 +100,7 @@
         <flux:header class="sticky top-0 z-20 border-b border-outline bg-surface/80 backdrop-blur-md">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-            @unless (auth()->user()->isAdmin())
+            @unless (auth()->user()->isStaff())
                 <x-wallet-bar class="hidden sm:flex" />
             @endunless
 

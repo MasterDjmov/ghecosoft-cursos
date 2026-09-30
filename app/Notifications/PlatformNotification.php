@@ -3,7 +3,9 @@
 namespace App\Notifications;
 
 use App\Enums\Role;
+use App\Models\Course;
 use App\Models\User;
+use App\Services\TeacherScope;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -48,11 +50,20 @@ class PlatformNotification extends Notification
             ->action('Ver en la plataforma', $this->url);
     }
 
-    /** Avisa a todos los docentes. */
+    /** Avisa a los administradores (pagos, cuentas, privacidad). */
     public static function toAdmins(self $notification): void
     {
         \Illuminate\Support\Facades\Notification::send(
             User::where('role', Role::Admin)->get(),
+            $notification,
+        );
+    }
+
+    /** Lo de un alumno en un curso (entregas, consultas): a los administradores y a sus docentes (D72). */
+    public static function toStaff(self $notification, User $student, Course $course): void
+    {
+        \Illuminate\Support\Facades\Notification::send(
+            User::where('role', Role::Admin)->get()->merge(app(TeacherScope::class)->teachersOf($student, $course))->unique('id'),
             $notification,
         );
     }

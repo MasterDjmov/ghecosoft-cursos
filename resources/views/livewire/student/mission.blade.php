@@ -268,8 +268,8 @@
                     @if ($latest)
                         <div class="mt-auto flex flex-col gap-2 border-t border-outline pt-3">
                             @foreach ($latest->comments->reject(fn ($c) => $c->id === $lastFeedback?->id) as $item)
-                                <div @class(['rounded-md p-2 text-sm', 'border-s-2 border-primary-bright bg-primary/10' => $item->user->isAdmin(), 'bg-surface-high' => ! $item->user->isAdmin()])>
-                                    <p class="text-xs text-ink-muted">{{ $item->user->isAdmin() ? 'El profe' : 'Vos' }} · {{ $item->created_at->format('d/m H:i') }}</p>
+                                <div @class(['rounded-md p-2 text-sm', 'border-s-2 border-primary-bright bg-primary/10' => $item->user->isStaff(), 'bg-surface-high' => ! $item->user->isStaff()])>
+                                    <p class="text-xs text-ink-muted">{{ $item->user->isStaff() ? 'El profe' : 'Vos' }} · {{ $item->created_at->format('d/m H:i') }}</p>
                                     <p class="text-ink">{!! nl2br(e($item->body)) !!}</p>
                                 </div>
                             @endforeach

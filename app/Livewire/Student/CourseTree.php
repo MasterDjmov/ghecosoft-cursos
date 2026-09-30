@@ -85,6 +85,7 @@ class CourseTree extends Component
         return view('livewire.student.course-tree', [
             'graph' => $graph,
             'subscription' => $access->activeSubscription($user, $this->course),
+            'paidUntil' => $access->paidUntil($user, $this->course),
             'selected' => $selected,
             'selectedCanUnlock' => $selected && $access->canUnlock($user, $this->course->nodes()->find($selected['id'])),
             // Historia en pantalla (Fase 9): bienvenida, rama completada y fin del curso.

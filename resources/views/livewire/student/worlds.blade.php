@@ -80,7 +80,9 @@
 
                         <div class="mt-auto flex flex-wrap items-center justify-between gap-3">
                             <span class="text-xs text-ink-muted">
-                                @if ($world['paidUntil']) Abono hasta el {{ $world['paidUntil']->format('d/m/Y') }} @endif
+                                @if ($world['paidUntil'])
+                                    <x-subscription-countdown :until="$world['paidUntil']" :total="$course->subscription_days" compact />
+                                @endif
                             </span>
                             <div class="flex gap-2">
                                 @if ($world['status'] === 'active' && $world['current'])

@@ -25,6 +25,7 @@
     <section class="panel panel-active flex flex-col gap-4 p-5 sm:p-6" data-test="course-status">
         @if ($rootOpen && $subscription)
             <div class="flex flex-col gap-1">
+                <x-subscription-countdown :until="$paidUntil" :total="$course->subscription_days" class="mb-2 self-start" />
                 <p class="tech-label"><span class="live-dot me-2"></span>Estás cursando</p>
                 <p class="text-ink">Tu abono vence el <strong class="text-white">{{ $paidUntil->format('d/m/Y') }}</strong> ({{ $daysLeft }} {{ $daysLeft === 1 ? 'día' : 'días' }}).</p>
             </div>

@@ -32,6 +32,9 @@
                 <a href="{{ route('student.ranking.course', $course) }}" wire:navigate class="text-primary-bright hover:underline">Top 10 del curso</a>
             </p>
         </div>
+        @if ($paidUntil)
+            <x-subscription-countdown :until="$paidUntil" :total="$course->subscription_days" class="self-start sm:self-center" />
+        @endif
         <div class="inline-flex self-start rounded-lg border border-outline bg-surface-low p-1 sm:self-center" role="tablist">
             <button type="button" role="tab" x-on:click="tab = 'tree'" class="flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition"
                 x-bind:class="tab === 'tree' ? 'bg-primary-bright text-surface' : 'text-ink-muted hover:text-ink'">

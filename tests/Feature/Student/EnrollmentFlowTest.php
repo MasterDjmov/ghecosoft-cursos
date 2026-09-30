@@ -187,6 +187,19 @@ test('con la renovación aprobada antes de vencer, el alumno ve la fecha nueva y
         ->assertSee($hasta->format('d/m/Y'))
         ->assertDontSee('Tu abono vence pronto');
     Livewire::actingAs($student)->test(Worlds::class)
-        ->assertSee('Abono hasta el '.$hasta->format('d/m/Y'))
+        ->assertSee('Abono pago hasta el '.$hasta->format('d/m/Y'))
+        ->assertSeeHtml('data-days="33"')
         ->assertDontSee('Renovalo');
+});
+
+test('el contador de días de abono cambia de color al acercarse el vencimiento', function () {
+    ['course' => $course] = makeCourse();
+    $student = enrolledStudent($course);
+    Livewire::actingAs($student)->test(CourseDetail::class, ['course' => $course])->call('openCourse');
+
+    $this->actingAs($student)->get(route('student.tree', $course))->assertSee('data-days="30"', false)->assertSee('color: #22d3ee', false);
+    $this->travel(24)->days();
+    $this->actingAs($student)->get(route('student.tree', $course))->assertSee('data-days="6"', false)->assertSee('color: #f59e0b', false);
+    $this->travel(4)->days();
+    $this->actingAs($student)->get(route('student.tree', $course))->assertSee('data-days="2"', false)->assertSee('animate-pulse', false);
 });

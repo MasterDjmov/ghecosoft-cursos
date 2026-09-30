@@ -383,4 +383,9 @@ Pedido: poder correr en la plataforma el código de una entrega simple sin copia
 | 4 | Java | CheerpJ (`javac` + JVM en el navegador) | ~20 MB+ | lento al arrancar; **revisar la licencia** antes |
 | — | SQL | sql.js (SQLite) | ~1 MB | aproximado: lo específico de MariaDB no anda |
 
+**Avance (2026-09-30):**
+- **C y C++: hecho** (D66). Clang 22 en WebAssembly desde el CDN, C++20 con excepciones, ~8–15 s por ejecución. Primera vez: ~105 MB de compilador (queda en caché).
+- **PHP: probado, falta integrar.** `@php-wasm` (PHP 8.3.33) corre los programas de consola con `php.run()` y un envoltorio que define `STDIN` (un archivo con la *Entrada de ejemplo*), `STDOUT`, `STDERR` y `readline()`; errores en texto plano (`display_errors=0`, `log_errors`). El paquete importa su `.wasm` con sintaxis de empaquetador: hay que cargar `@php-wasm/web-8-3/asyncify/php_8_3.js` a través de Vite (`assetsInclude: ['**/*.wasm']`) y `@php-wasm/universal` (`loadPHPRuntime`); suma ~18 MB al build (o armarlo como `public/toolchains/php`, como C++). Los CDN no sirven para esto (esm.sh reescribe mal el `.wasm`).
+- **Java: a decidir por el docente.** La opción madura es CheerpJ (JVM + `javac` en el navegador; Java 11 estable, 17 en camino), pero es **gratis solo para uso personal, proyectos libres o evaluación**; uso comercial ≈ £100 por desarrollador por mes (hay precios para instituciones educativas). Alternativa: un servicio externo (Judge0/Piston) solo para Java, con límite de uso y el código saliendo a un tercero.
+
 **Para decidir:** ¿el orden está bien? ¿se habilita también para los alumnos más adelante? (hoy la regla dice que C/C++/Java corren en la compu del alumno: cambiarla es una decisión aparte, en GAMIFICACION/ESPECIFICACION).

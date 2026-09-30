@@ -153,5 +153,27 @@
         </ul>
     </section>
 
+    <section class="panel flex flex-col gap-3 p-5" data-test="student-messages">
+        <div class="flex items-center justify-between gap-2">
+            <h2 class="font-display font-semibold text-white">Consultas</h2>
+            @if ($messageThreads->isNotEmpty())
+                <a href="{{ route('admin.messages', ['alumno' => $user->id]) }}" wire:navigate class="text-sm text-primary-bright hover:underline">Ver todas en Mensajes</a>
+            @endif
+        </div>
+        <ul class="divide-y divide-outline text-sm">
+            @forelse ($messageThreads as $row)
+                <li class="flex flex-wrap items-center gap-2 py-2">
+                    <a href="{{ route('admin.messages', ['hilo' => $row->practice_id.'-'.$user->id]) }}" wire:navigate class="text-primary-bright hover:underline">{{ $row->practice?->title }}</a>
+                    <span class="text-ink-muted">{{ $row->practice?->node->title }} · {{ $row->total }} {{ $row->total == 1 ? 'mensaje' : 'mensajes' }}</span>
+                    @if ($row->unread)
+                        <flux:badge size="sm" color="red">{{ $row->unread }} sin leer</flux:badge>
+                    @endif
+                </li>
+            @empty
+                <li class="py-2 text-ink-muted">No mandó consultas.</li>
+            @endforelse
+        </ul>
+    </section>
+
     <livewire:movement-feed :user="$user" show-author />
 </div>

@@ -12,6 +12,7 @@ use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Glossary;
 use App\Livewire\Admin\Levels;
+use App\Livewire\Admin\Messages;
 use App\Livewire\Admin\Nodes;
 use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Settings;
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
         : redirect()->route('admin.submissions.index'))->name('submissions.next');
     Route::livewire('entregas/{submission}', Submissions\Show::class)->name('submissions.show');
 
+    Route::livewire('mensajes', Messages::class)->name('messages');
     Route::livewire('autorizaciones', Authorizations::class)->name('authorizations');
     Route::livewire('alumnos', Students\Index::class)->name('students.index');
     Route::livewire('alumnos/nuevo', Students\Create::class)->name('students.create');

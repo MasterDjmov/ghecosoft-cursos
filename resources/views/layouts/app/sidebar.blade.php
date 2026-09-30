@@ -24,6 +24,10 @@
                             :badge="\App\Models\Submission::where('status', 'submitted')->count() ?: null">
                             Entregas
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="chat-bubble-left-right" :href="route('admin.messages')" :current="request()->routeIs('admin.messages')" wire:navigate
+                            :badge="\App\Livewire\Admin\Messages::unreadQuery()->count() ?: null">
+                            Mensajes
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="users" :href="route('admin.students.index')" :current="request()->routeIs('admin.students.*')" wire:navigate>
                             Alumnos
                         </flux:sidebar.item>

@@ -86,6 +86,19 @@
             @endif
 
             {{-- Historial de intentos y comentarios (antes del editor: primero la devolución, después rehacer). --}}
+            {{-- Consultas al profe (D63): sin necesidad de entregar. --}}
+            <details class="rounded-lg border border-outline bg-surface-lowest/40 px-4 py-3" data-test="practice-messages" @if ($unreadMessages) open @endif>
+                <summary class="flex cursor-pointer items-center gap-2 text-sm text-ink-muted">
+                    <flux:icon name="chat-bubble-left-right" variant="micro" /> Consultas al profe{{ $messageCount ? ' ('.$messageCount.')' : '' }}
+                    @if ($unreadMessages)
+                        <span class="grid min-w-4 place-items-center rounded-full bg-danger px-1 font-mono text-[10px] font-bold text-white">{{ $unreadMessages }}</span>
+                    @endif
+                </summary>
+                <div class="mt-3">
+                    <livewire:practice-chat lazy :practice="$practice" :student="auth()->user()" wire:key="card-chat-{{ $practice->id }}" />
+                </div>
+            </details>
+
             @if ($attempts->isNotEmpty() && $mode !== SubmissionMode::None)
                 <details class="flex flex-col gap-3 rounded-lg border border-outline bg-surface-lowest/40 px-4 py-3"
                     @if ($latest && $latest->status->value !== 'submitted' && $latest->comments->isNotEmpty()) open @endif>

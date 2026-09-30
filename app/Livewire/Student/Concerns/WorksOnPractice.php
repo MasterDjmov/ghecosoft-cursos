@@ -5,6 +5,7 @@ namespace App\Livewire\Student\Concerns;
 use App\Enums\PracticeEnvironment;
 use App\Enums\SubmissionMode;
 use App\Models\PracticeMark;
+use App\Models\PracticeMessage;
 use App\Models\Submission;
 use App\Rules\SafeUpload;
 use App\Services\PracticeSubmitter;
@@ -122,6 +123,8 @@ trait WorksOnPractice
             'attempts' => $attempts,
             'latest' => $latest,
             'status' => $approved ? 'approved' : $latest?->status->value,
+            'messageCount' => PracticeMessage::thread($this->practice, $user)->count(),
+            'unreadMessages' => PracticeMessage::thread($this->practice, $user)->unreadFor($user)->count(),
             // Si la última entrega espera corrección y llegó fuera de horario: cuándo se revisa.
             'reviewNotice' => ! $approved && $latest?->status->value === 'submitted' ? ReviewHours::notice($latest->submitted_at) : null,
             'blocker' => $submitter->blocker($user, $this->practice),

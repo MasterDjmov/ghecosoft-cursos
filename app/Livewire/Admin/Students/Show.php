@@ -7,6 +7,7 @@ use App\Enums\CoinReason;
 use App\Enums\XpReason;
 use App\Exceptions\InsufficientFunds;
 use App\Models\Currency;
+use App\Models\PracticeMessage;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\Ledger;
@@ -161,6 +162,9 @@ class Show extends Component
             'courseCohorts' => $subscriptions->unique('course_id')->filter(fn ($s) => $s->course->cohorts->isNotEmpty())->values(),
             'balances' => $balances,
             'currencies' => Currency::with('course')->get()->sortBy(fn ($c) => $c->is_wildcard ? 'zzz' : $c->course?->title),
+            'messageThreads' => PracticeMessage::where('student_id', $this->user->id)
+                ->selectRaw('practice_id, count(*) as total, sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread, max(created_at) as last_at')
+                ->groupBy('practice_id')->orderByDesc('last_at')->with('practice.node')->get(),
             'submissions' => Submission::with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),
             'badges' => $this->user->badges()->get(),
         ])->title($this->user->fullName());

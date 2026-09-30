@@ -63,6 +63,7 @@
             @elseif ($blocker && $status !== 'approved')
                 <span class="flex max-w-xs items-center gap-1.5 text-xs text-ink-muted"><flux:icon name="information-circle" variant="micro" class="shrink-0" /> {{ $blocker }}</span>
             @endif
+            <livewire:notifications-bell />
         </header>
 
         <div class="grid min-h-0 flex-1" style="grid-template-columns: auto minmax(0, 1fr){{ $showSide ? ' 300px' : '' }}">
@@ -73,6 +74,8 @@
                     panel: 'brief', left: true,
                     init() {
                         try { this.left = localStorage.getItem('mission-left') !== '0' } catch (e) {}
+                        // Desde el aviso «El profe te respondió» se llega directo a los mensajes.
+                        if (new URLSearchParams(window.location.search).get('panel') === 'messages') { this.panel = 'messages'; this.left = true }
                         this.$watch('left', (v) => { try { localStorage.setItem('mission-left', v ? '1' : '0') } catch (e) {} })
                     },
                 }"
@@ -88,6 +91,13 @@
                         <button type="button" x-on:click="panel = 'theory'" class="-mb-px border-b-2 px-3 py-2.5 text-sm transition"
                             x-bind:class="panel === 'theory' ? 'border-primary-bright font-semibold text-primary-bright' : 'border-transparent text-ink-muted hover:text-ink'">Teoría</button>
                     @endif
+                    <button type="button" x-on:click="panel = 'messages'" class="-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2.5 text-sm transition" data-test="messages-tab"
+                        x-bind:class="panel === 'messages' ? 'border-primary-bright font-semibold text-primary-bright' : 'border-transparent text-ink-muted hover:text-ink'">
+                        Mensajes
+                        @if ($unreadMessages)
+                            <span class="grid min-w-4 place-items-center rounded-full bg-danger px-1 font-mono text-[10px] font-bold text-white">{{ $unreadMessages }}</span>
+                        @endif
+                    </button>
                     <button type="button" x-on:click="left = false" class="ms-auto rounded p-1.5 text-ink-muted hover:bg-surface-high hover:text-ink" aria-label="Plegar el panel">
                         <flux:icon name="chevron-double-left" variant="micro" />
                     </button>
@@ -143,6 +153,11 @@
                             @endisset
                         </div>
                     @endif
+
+                    <div x-show="panel === 'messages'" x-cloak class="flex flex-col gap-3" data-test="mission-messages">
+                        <p class="tech-label">Consultas al profe sobre esta misión</p>
+                        <livewire:practice-chat lazy :practice="$practice" :student="auth()->user()" wire:key="chat-{{ $practice->id }}" />
+                    </div>
                 </div>
 
                 {{-- Misiones del nodo: tocar una cambia de archivo sin salir --}}

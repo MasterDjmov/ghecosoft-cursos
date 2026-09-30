@@ -39,7 +39,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property ?string $cv_code
  */
 #[Fillable(['name', 'last_name', 'username', 'email', 'password', 'phone', 'dni', 'birth_date', 'avatar', 'nickname', 'hero_name', 'ranking_display', 'cv_public', 'alert_sound', 'alert_desktop'])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'cv_code'])]
+#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token', 'cv_code', 'session_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
@@ -69,6 +69,7 @@ class User extends Authenticatable implements PasskeyUser
             'must_change_password' => 'boolean',
             'alert_sound' => 'boolean',
             'alert_desktop' => 'boolean',
+            'blocked_at' => 'datetime',
             'xp_total' => 'integer',
         ];
     }

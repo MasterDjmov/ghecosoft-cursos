@@ -153,6 +153,35 @@
         </ul>
     </section>
 
+    <section @class(['panel flex flex-col gap-3 p-5', 'border-warning/60' => $user->blocked_at]) data-test="account-security">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+            <h2 class="font-display font-semibold text-white">Seguridad de la cuenta</h2>
+            @if ($user->blocked_at)
+                <flux:button size="sm" variant="primary" icon="lock-open" wire:click="unblock" data-test="unblock">Reactivar</flux:button>
+            @else
+                <flux:button size="sm" variant="danger" icon="lock-closed" wire:click="block" wire:confirm="¿Pausar la cuenta de {{ $user->name }}? Se cierran sus sesiones y no puede entrar hasta que la reactives." data-test="block">Pausar cuenta</flux:button>
+            @endif
+        </div>
+        @if ($user->blocked_at)
+            <p class="flex items-center gap-2 text-sm text-warning"><flux:icon name="lock-closed" variant="micro" /> Pausada desde el {{ $user->blocked_at->format('d/m/Y H:i') }}. Para devolverle el acceso: Reactivar y, si hace falta, Resetear clave.</p>
+        @endif
+        <p class="text-sm text-ink-muted">
+            La cuenta solo puede estar abierta en un lugar a la vez: si entra desde otro, se cierra la sesión anterior.
+            Si pasa {{ \App\Services\SingleSession::EVICTIONS_TO_WARN }} veces en 24 horas te llega un aviso.
+        </p>
+        <ul class="divide-y divide-outline text-sm">
+            @forelse ($evictions as $eviction)
+                <li class="flex flex-wrap items-center gap-2 py-2">
+                    <span class="font-mono text-xs text-ink">{{ \Illuminate\Support\Carbon::parse($eviction->created_at)->format('d/m/Y H:i') }}</span>
+                    <span class="text-ink-muted">sesión cerrada en {{ $eviction->ip ?? 'IP desconocida' }}</span>
+                    <span class="truncate text-xs text-ink-muted">{{ \Illuminate\Support\Str::limit($eviction->user_agent, 80) }}</span>
+                </li>
+            @empty
+                <li class="py-2 text-ink-muted">En los últimos 30 días no hubo sesiones cerradas por entrar desde otro lugar.</li>
+            @endforelse
+        </ul>
+    </section>
+
     <section class="panel flex flex-col gap-3 p-5" data-test="student-messages">
         <div class="flex items-center justify-between gap-2">
             <h2 class="font-display font-semibold text-white">Consultas</h2>

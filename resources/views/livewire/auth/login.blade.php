@@ -4,6 +4,12 @@
 
         <x-auth-session-status class="text-center" :status="session('status')" />
 
+        @if ($notice = session()->pull(\App\Services\SingleSession::NOTICE_KEY))
+            <flux:callout icon="shield-exclamation" color="amber" data-test="auth-notice">
+                <flux:callout.text>{{ $notice }}</flux:callout.text>
+            </flux:callout>
+        @endif
+
         <x-passkey-verify />
 
         <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-6">

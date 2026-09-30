@@ -104,6 +104,16 @@ function handle({ user, unread, newest, sound, desktop }) {
 }
 
 document.addEventListener('livewire:init', () => {
+    // Sesión cerrada (la cuenta entró en otro lado, D65, o se pausó): en vez del cartel de Livewire en
+    // inglés, directo al login, que explica qué pasó.
+    window.Livewire.hook('request', ({ fail }) => {
+        fail(({ status, preventDefault }) => {
+            if (status === 419) {
+                preventDefault();
+                window.location.href = '/login';
+            }
+        });
+    });
     window.Livewire.on('live-alerts', (payload) => handle(Array.isArray(payload) ? payload[0] : payload));
     window.Livewire.on('alert-preferences', (payload) => {
         const p = Array.isArray(payload) ? payload[0] : payload;

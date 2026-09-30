@@ -88,6 +88,7 @@
 | D62 | Avisos en vivo | Sin workers ni WebSockets (hosting compartido): la campanita (`NotificationsBell`) consulta cada 20 s también con la pestaña en segundo plano (`wire:poll.20s.keep-alive`) y manda al navegador cuántos avisos hay sin leer y el último. `resources/js/live-alerts.js` pone la cantidad en el título de la pestaña (`(3) …`), un punto rojo en el ícono y, si el aviso es nuevo (se recuerda el último por navegador), toca un tono corto (Web Audio, sin archivos) y muestra la notificación del sistema si no se está mirando la plataforma. Cada usuario (docente o alumno) elige el sonido y la notificación del sistema en **Mi cuenta → Avisos** (`users.alert_sound`, `users.alert_desktop`). Con el navegador cerrado no llega nada (eso sería Web Push, más adelante) | Pedido del docente (2026-09-29 y 2026-09-30) |
 | D63 | Consultas por práctica | Un hilo por alumno y práctica (`practice_messages`), sin necesidad de entregar. El alumno lo usa en la solapa **Mensajes** del modo misión y en «Consultas al profe» de la tarjeta de la práctica; el docente, en **Admin → Mensajes** (sin leer primero; también desde la ficha del alumno y desde la campanita, que lleva al hilo). `PracticeMessenger` guarda y avisa al otro lado (`PlatformNotification`, que llega en vivo por D62); `PracticeChat` es el hilo (se actualiza cada 20 s, carga diferida, emojis). Acceso (`PracticeMessagePolicy`): el alumno ve solo su hilo y solo de nodos que abrió; escribir pide el abono vigente (leer, no). Máximo 10 mensajes por minuto y 2000 letras | Pedido del docente (2026-09-29 y 2026-09-30) |
 | D64 | CV en acordeón con su árbol | En el CV cada curso es un acordeón (`<details>`) cerrado de entrada, con la barra de avance a la vista; al abrirlo, los temas completados y **Ver árbol**: `/cv/{link}/arbol/{curso}` muestra el árbol coloreado del alumno solo para mirar (`TreeGraph::forVisitor`: sin links, precios ni motivos; las hojas de nodos que no abrió siguen como «?»), con las mismas reglas que el CV (público o dueño/docente, código de acceso) y solo de cursos que empezó. Al imprimir se abren todos los cursos y se ocultan los botones | Pedido del docente (2026-09-30) |
+| D65 | Sesión única para alumnos | Una cuenta de alumno solo está abierta en un lugar a la vez (`EnsureSingleSession` + `SingleSession`): al iniciar sesión (clave, passkey o «recordarme») esa sesión se queda con la cuenta (`users.session_token`); la anterior, en su próximo pedido, se cierra (también su «recordarme») y ve en el login «Tu cuenta se abrió en otro dispositivo…». Cada cierre se anota (`session_evictions`: IP y navegador); al **3.º en 24 h** le llega al docente el aviso «¿Cuenta compartida?». El docente, en la ficha del alumno: **Pausar cuenta** (`users.blocked_at`: corta todas las sesiones y no deja entrar) / **Reactivar**, más **Resetear clave**. El bloqueo es solo manual. No aplica al docente. La red (IP) no se usa: los datos móviles darían falsos positivos | Decisión del docente (2026-09-30): sesión única; el resto, según la recomendación |
 
 ---
 
@@ -351,7 +352,7 @@ Lo pedido:
   - el número del docente pasa a verse en páginas públicas: es una decisión consciente del docente.
 - Solo el admin puede hacerlo: Policy y tests Pest.
 
-### Cuentas compartidas: sesión única (y la IP como refuerzo) 🔲 (anotado el 2026-09-30, a decidir con el docente)
+### Cuentas compartidas: sesión única (y la IP como refuerzo) ✅ (anotado y decidido el 2026-09-30: sesión única, ver D65; la IP queda como refuerzo si hiciera falta)
 Pedido: que una cuenta de alumno no la use otra persona. Dos caminos que el docente aceptó; se propone empezar por el primero.
 
 **A · Sesión única (propuesta).** Una cuenta de alumno solo puede estar abierta en un lugar a la vez.
@@ -365,7 +366,7 @@ Pedido: que una cuenta de alumno no la use otra persona. Dos caminos que el doce
 
 **Para decidir:** ¿arrancamos con A? ¿cuántos desalojos por día disparan el aviso? ¿el bloqueo es solo manual (el docente decide) o automático al pasar el límite? Toda regla nueva de acceso va con Policy y tests Pest.
 
-### Ejecutar las entregas al corregir (lado docente) 🔲 (anotado el 2026-09-30, a decidir con el docente)
+### Ejecutar las entregas al corregir (lado docente) 🔲 (anotado el 2026-09-30; decidido: primero **C++, Java y PHP** —de esos llegan correcciones— y después el resto; por ahora solo el docente, anotado para alumnos más adelante)
 Pedido: poder correr en la plataforma el código de una entrega simple sin copiarlo a un editor local. Hoy ya pasa con **Python** (Pyodide en `x-code-runner` de *Admin → Entregas*).
 
 - **Siempre en el navegador del docente** (WebAssembly en un Web Worker, con tiempo límite): el código del alumno sigue sin ejecutarse nunca en el servidor. El worker no ve la sesión ni las cookies.

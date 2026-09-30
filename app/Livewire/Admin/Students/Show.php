@@ -12,9 +12,11 @@ use App\Models\Submission;
 use App\Models\User;
 use App\Services\Ledger;
 use App\Services\Ranking;
+use App\Services\SingleSession;
 use App\Services\StudentAccounts;
 use App\Support\HeroName;
 use Flux\Flux;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Livewire\Attributes\Locked;
@@ -83,6 +85,19 @@ class Show extends Component
         if ($renamed) {
             return $this->redirectRoute('admin.students.show', $this->user, navigate: true);
         }
+    }
+
+    /** Pausar la cuenta (D65): se cortan todas sus sesiones y no puede entrar hasta reactivarla. */
+    public function block(SingleSession $sessions): void
+    {
+        $sessions->block($this->user);
+        Flux::toast(variant: 'success', text: 'Cuenta pausada: se cerraron sus sesiones.');
+    }
+
+    public function unblock(SingleSession $sessions): void
+    {
+        $sessions->unblock($this->user);
+        Flux::toast(variant: 'success', text: 'Cuenta reactivada.');
     }
 
     public function resetPassword(StudentAccounts $accounts): void
@@ -165,6 +180,8 @@ class Show extends Component
             'messageThreads' => PracticeMessage::where('student_id', $this->user->id)
                 ->selectRaw('practice_id, count(*) as total, sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread, max(created_at) as last_at')
                 ->groupBy('practice_id')->orderByDesc('last_at')->with('practice.node')->get(),
+            'evictions' => DB::table('session_evictions')->where('user_id', $this->user->id)
+                ->where('created_at', '>=', now()->subDays(30))->latest('created_at')->limit(20)->get(),
             'submissions' => Submission::with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),
             'badges' => $this->user->badges()->get(),
         ])->title($this->user->fullName());

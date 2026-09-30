@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Http\Middleware\EnsureRole;
+use App\Http\Middleware\EnsureSingleSession;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\ThrottleAuthForms;
 use Illuminate\Foundation\Application;
@@ -20,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => EnsureRole::class,
             'password.changed' => EnsurePasswordChanged::class,
         ]);
-        $middleware->web(append: [ThrottleAuthForms::class, SecurityHeaders::class]);
+        $middleware->web(append: [ThrottleAuthForms::class, SecurityHeaders::class, EnsureSingleSession::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {

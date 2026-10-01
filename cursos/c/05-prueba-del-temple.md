@@ -1504,6 +1504,32 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Sin contactos
+```entrada
+listar
+```
+```salida
+> listar
+  (0 contactos)
+Al volver a abrir: 0 contactos.
+```
+
+##### Un contacto
+```entrada
+agregar Mia;380 1;mia@torre.ar
+listar
+```
+```salida
+> agregar Mia;380 1;mia@torre.ar
+  Agregado.
+> listar
+  Mia              380 1          mia@torre.ar
+  (1 contactos)
+Al volver a abrir: 1 contactos.
+```
+
 ### Misión R05-N03-M2 · Buscar, borrar y validar
 
 ```meta
@@ -1901,6 +1927,68 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Teléfonos al límite
+```entrada
+agregar A;12345;a@b.c
+agregar B;123456;b@c.d
+agregar C;+54-380;c@d.e
+agregar D;54+380123;d@e.f
+listar
+```
+```salida
+> agregar A;12345;a@b.c
+  Teléfono inválido: 12345
+> agregar B;123456;b@c.d
+  Agregado.
+> agregar C;+54-380;c@d.e
+  Teléfono inválido: +54-380
+> agregar D;54+380123;d@e.f
+  Teléfono inválido: 54+380123
+> listar
+  B                123456         b@c.d
+  (1 contactos)
+Al volver a abrir: 1 contactos.
+```
+
+##### Emails al límite
+```entrada
+agregar A;380 123456;@b.c
+agregar B;380 123456;a@b
+agregar C;380 123456;a@.c
+agregar D;380 123456;a@b.c
+listar
+```
+```salida
+> agregar A;380 123456;@b.c
+  Email inválido: @b.c
+> agregar B;380 123456;a@b
+  Email inválido: a@b
+> agregar C;380 123456;a@.c
+  Agregado.
+> agregar D;380 123456;a@b.c
+  Agregado.
+> listar
+  C                380 123456     a@.c
+  D                380 123456     a@b.c
+  (2 contactos)
+Al volver a abrir: 2 contactos.
+```
+
+##### Buscar sin contactos
+```entrada
+buscar algo
+borrar Nadie
+```
+```salida
+> buscar algo
+  No hay coincidencias para "algo".
+> borrar Nadie
+  No existe ese contacto.
+Al volver a abrir: 0 contactos.
+```
+
 ### Misión R05-N03-M3 · Ordenar por cualquier campo
 
 ```meta
@@ -2012,6 +2100,29 @@ int main(void)
     return 0;
 }
 ```
+
+#### Pruebas
+
+##### Solo nombre
+```entrada
+nombre
+```
+```salida
+Por nombre:
+  Ana Paz  ana@correo.ar    mes  3
+  Bron     bron@forja.ar    mes  7
+  Ferrum   ferrum@forja.ar  mes 11
+  Mia Luz  mia@torre.ar     mes  3
+```
+
+##### Campo desconocido
+```entrada
+edad
+```
+```salida
+No se puede ordenar por "edad" (nombre, email o cumple)
+```
+
 
 ### Encargo R05-N03-E1 · Las etiquetas del correo
 
@@ -2384,6 +2495,110 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Sin pasos
+```entrada
+```
+```salida
+#############
+#@..#...$...#
+#.#.#.###.#.#
+#.#...#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+#############
+#@..#...$...#
+#.#.#.###.#.#
+#.#...#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+Te quedaste en la oscuridad. Pasos: 0. Oro: 0.
+```
+
+##### Directo a la salida
+```entrada
+s
+s
+s
+s
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+w
+w
+w
+w
+d
+s
+s
+s
+s
+```
+```salida
+#############
+#@..#...$...#
+#.#.#.###.#.#
+#.#...#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+  ¡Tesoro! Oro: 10
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+  Pared.
+#############
+#...#...$...#
+#.#.#.###.#.#
+#.#...#$..#.#
+#.###.#.###.#
+#........@#S#
+#############
+Te quedaste en la oscuridad. Pasos: 12. Oro: 10.
+```
+
+##### Todo pared
+```entrada
+w
+a
+```
+```salida
+#############
+#@..#...$...#
+#.#.#.###.#.#
+#.#...#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+  Pared.
+  Pared.
+#############
+#@..#...$...#
+#.#.#.###.#.#
+#.#...#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+Te quedaste en la oscuridad. Pasos: 0. Oro: 0.
+```
+
 ### Misión R05-N04-M2 · Los guardianes
 
 ```meta
@@ -2729,6 +2944,59 @@ int main(void)
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin pasos
+```entrada
+```
+```salida
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+Te quedaste en la oscuridad. Vida: 40. Pasos: 0. Oro: 0.
+```
+
+##### Pelea con el Goblin y se queda
+```entrada
+d
+d
+s
+s
+d
+```
+```salida
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+  ¡Goblin (vida 14) te cierra el paso!
+  Ronda 1: le pegás 6, te pega 3. Tu vida: 37
+  Ronda 2: le pegás 7, te pega 3. Tu vida: 34
+  Ronda 3: le pegás 9. ¡Goblin cae!
+#############
+#...#...$..E#
+#.#.#.###.#.#
+#.#.@.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+Te quedaste en la oscuridad. Vida: 34. Pasos: 5. Oro: 0.
 ```
 
 ### Misión R05-N04-M3 · Guardar la partida
@@ -3198,6 +3466,58 @@ int main(void)
     remove(RUTA);
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Guardar y cargar enseguida
+```entrada
+g
+c
+```
+```salida
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+  Partida guardada.
+  Partida cargada (vida 40, oro 0, pasos 0).
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+Te quedaste en la oscuridad. Vida: 40. Pasos: 0. Oro: 0.
+```
+
+##### Cargar sin guardar
+```entrada
+c
+c
+```
+```salida
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+  No hay partida guardada.
+  No hay partida guardada.
+#############
+#@..#...$..E#
+#.#.#.###.#.#
+#.#.E.#$..#.#
+#.###.#.###.#
+#$........#S#
+#############
+Te quedaste en la oscuridad. Vida: 40. Pasos: 0. Oro: 0.
 ```
 
 ### Encargo R05-N04-E1 · El cartógrafo

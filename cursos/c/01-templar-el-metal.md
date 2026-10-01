@@ -1830,6 +1830,32 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Defensa mayor que el ataque
+```entrada
+5
+9
+```
+```salida
+Ataque de Kira: Defensa del orco:
+Daño normal:    -4
+Daño crítico:   -8
+Golpes para vencer un orco de 60 de vida: -13
+```
+
+##### Daño justo para un golpe
+```entrada
+69
+9
+```
+```salida
+Ataque de Kira: Defensa del orco:
+Daño normal:    60
+Daño crítico:  120
+Golpes para vencer un orco de 60 de vida: 1
+```
+
 ### Misión R01-N04-M2 · La tabla de la compañía
 
 ```meta
@@ -1954,6 +1980,20 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Otras alturas
+```entrada
+2.05
+0,5
+1.80 metros
+```
+```salida
+Altura con punto: -> leí 2.05 (convertidos: 1)
+Altura con coma: -> leí 0.00 (convertidos: 1)  <- ¡se perdió el ,80!
+Altura en palabras: -> altura sigue en 1.80 (convertidos: 1)
+```
+
 ### Encargo R01-N04-E1 · El recibo de la ferretería
 
 ```meta
@@ -2034,6 +2074,40 @@ int main(void)
     printf("----------------------------------\n");
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Un solo producto barato
+```entrada
+Tornillo
+1
+0.10
+```
+```salida
+Producto: Cantidad: Precio unitario:
+----------------------------------
+Tornillo                1 x     0.10
+Subtotal                          0.10
+IVA 21%                           0.02
+TOTAL                             0.12
+----------------------------------
+```
+
+##### Cantidad grande
+```entrada
+Chapa galvanizada
+1000
+3500.75
+```
+```salida
+Producto: Cantidad: Precio unitario:
+----------------------------------
+Chapa galvanizada    1000 x  3500.75
+Subtotal                    3500750.00
+IVA 21%                      735157.50
+TOTAL                       4235907.50
+----------------------------------
 ```
 
 ### Prueba del sello
@@ -2397,6 +2471,53 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Frío
+```entrada
+20
+```
+```salida
+Temperatura del hierro (°C):
+Frío: todavía no se puede trabajar.
+```
+
+##### Bordes
+```entrada
+1538
+```
+```salida
+Temperatura del hierro (°C):
+Amarillo blanco: cuidado, casi se funde.
+```
+
+##### Fundido
+```entrada
+2000
+```
+```salida
+Temperatura del hierro (°C):
+¡Se fundió! (el hierro funde a 1538 °C)
+```
+
+##### Negativa
+```entrada
+-10
+```
+```salida
+Temperatura del hierro (°C):
+Imposible: el hierro no se congela así.
+```
+
+##### No es un número
+```entrada
+caliente
+```
+```salida
+Temperatura del hierro (°C):
+Eso no es una temperatura.
+```
+
 ### Misión R01-N05-M2 · La calculadora del mercader
 
 ```meta
@@ -2476,6 +2597,44 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### División por cero
+```entrada
+7 / 0
+```
+```salida
+Cuenta (por ejemplo 12.5 * 4):
+No se puede dividir por cero.
+```
+
+##### Con x
+```entrada
+3 x 3
+```
+```salida
+Cuenta (por ejemplo 12.5 * 4):
+3.00 * 3.00 = 9.00
+```
+
+##### Operador desconocido
+```entrada
+2 ^ 8
+```
+```salida
+Cuenta (por ejemplo 12.5 * 4):
+Operador desconocido: '^'
+```
+
+##### Datos de menos
+```entrada
+5 +
+```
+```salida
+Cuenta (por ejemplo 12.5 * 4):
+Formato inválido: tiene que ser número, operador, número.
+```
+
 ### Misión R01-N05-M3 · La tirada contra la dificultad
 
 ```meta
@@ -2546,6 +2705,44 @@ int main(void)
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Pifia
+```entrada
+1
+```
+```salida
+Tirada del d20:
+Pifia: falla siempre.
+```
+
+##### Crítico
+```entrada
+20
+```
+```salida
+Tirada del d20:
+¡Crítico! Acierta siempre.
+```
+
+##### Falla por poco
+```entrada
+11
+```
+```salida
+Tirada del d20:
+Falla (11 + 3 < 15).
+```
+
+##### Fuera de rango
+```entrada
+21
+```
+```salida
+Tirada del d20:
+Un d20 da de 1 a 20.
 ```
 
 ### Encargo R01-N05-E1 · El correo del Gremio
@@ -2635,6 +2832,52 @@ int main(void)
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Envío gratis
+```entrada
+1
+10
+50000
+```
+```salida
+Zona (1-3): Kilos: Monto de la compra:
+Envío gratis (costaría $3500).
+```
+
+##### Zona inválida
+```entrada
+4
+2
+1000
+```
+```salida
+Zona (1-3): Kilos: Monto de la compra:
+Zona inválida.
+```
+
+##### Menos de un kilo
+```entrada
+3
+0
+1000
+```
+```salida
+Zona (1-3): Kilos: Monto de la compra:
+El paquete tiene que pesar al menos 1 kilo.
+```
+
+##### Resto del país con varios kilos
+```entrada
+3
+3
+49999
+```
+```salida
+Zona (1-3): Kilos: Monto de la compra:
+Envío: $3100
 ```
 
 ### Prueba del sello
@@ -3185,6 +3428,48 @@ int main(void)
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Acierta al primero
+```entrada
+37
+```
+```salida
+Intento 1: ¡Correcto! Era 37. Lo lograste en 1 intentos.
+```
+
+##### Se acaban los intentos
+```entrada
+10
+20
+30
+40
+45
+50
+```
+```salida
+Intento 1: más alto
+Intento 2: más alto
+Intento 3: más alto
+Intento 4: más bajo
+Intento 5: más bajo
+Intento 6: más bajo
+No lo adivinaste. Era 37.
+```
+
+##### Todo inválido
+```entrada
+cero
+51
+0
+```
+```salida
+Intento 1: tiene que ser un número del 1 al 50.
+Intento 1: tiene que ser un número del 1 al 50.
+Intento 1: tiene que ser un número del 1 al 50.
+Intento 1: No lo adivinaste. Era 37.
 ```
 
 ### Encargo R01-N06-E1 · El vuelto del cajero
@@ -4365,6 +4650,36 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Se termina la entrada
+```entrada
+1
+```
+```salida
+Intento 1: más alto
+Intento 2: No lo adivinaste. Era 38.
+```
+
+##### Siempre lo mismo
+```entrada
+25
+25
+25
+25
+25
+25
+```
+```salida
+Intento 1: más alto
+Intento 2: más alto
+Intento 3: más alto
+Intento 4: más alto
+Intento 5: más alto
+Intento 6: más alto
+No lo adivinaste. Era 38.
+```
+
 ### Misión R01-N08-M3 · El sello de la Forja
 
 ```meta
@@ -4433,6 +4748,34 @@ int main(void)
     printf("\nletras %d, dígitos %d, espacios %d, otros %d\n", letras, digitos, espacios, otros);
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Solo dígitos
+```entrada
+2026 99
+```
+```salida
+Escribí una línea: 2026_99
+letras 0, dígitos 6, espacios 1, otros 0
+```
+
+##### Mayúsculas y símbolos
+```entrada
+¡HOLA, Kira!
+```
+```salida
+Escribí una línea: ??HOLA?_KIRA?
+letras 8, dígitos 0, espacios 1, otros 4
+```
+
+##### Línea vacía
+```entrada
+```
+```salida
+Escribí una línea:
+letras 0, dígitos 0, espacios 0, otros 0
 ```
 
 ### Encargo R01-N08-E1 · El préstamo del banco
@@ -4765,6 +5108,64 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Cobra sin comprar
+```entrada
+0
+```
+```salida
+=== CAJA DE LA FORJA ===
+1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
+Producto:
+--------------------------------
+Productos: 0
+Subtotal:        0.00
+Descuento:       0.00
+TOTAL:           0.00
+```
+
+##### Descuento justo en 500
+```entrada
+2
+5
+3
+4
+0
+```
+```salida
+=== CAJA DE LA FORJA ===
+1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
+Producto: Cantidad:
+   5 x Escudo             400.00
+Producto: Cantidad:
+   4 x Herradura           60.00
+Producto:
+--------------------------------
+Productos: 9
+Subtotal:      460.00
+Descuento:       0.00
+TOTAL:         460.00
+```
+
+##### Se termina la entrada
+```entrada
+1
+2
+```
+```salida
+=== CAJA DE LA FORJA ===
+1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
+Producto: Cantidad:
+   2 x Espada             240.00
+Producto:
+--------------------------------
+Productos: 2
+Subtotal:      240.00
+Descuento:       0.00
+TOTAL:         240.00
+```
+
 ### Misión R01-N09-M2 · Las placas del Gólem
 
 ```meta
@@ -5013,6 +5414,50 @@ int main(void)
     printf("\n¡Hasta la próxima!\n");
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sale enseguida
+```entrada
+0
+```
+```salida
+1) °C a °F  2) km a millas  3) pesos a dólares  0) salir
+Opción:
+¡Hasta la próxima!
+```
+
+##### Bajo cero y cero
+```entrada
+1
+-40
+3
+0
+0
+```
+```salida
+1) °C a °F  2) km a millas  3) pesos a dólares  0) salir
+Opción: Valor:
+-40.0 °C = -40.0 °F
+
+1) °C a °F  2) km a millas  3) pesos a dólares  0) salir
+Opción: Valor:
+$0.00 = US$0.00
+
+1) °C a °F  2) km a millas  3) pesos a dólares  0) salir
+Opción:
+¡Hasta la próxima!
+```
+
+##### Se termina la entrada
+```entrada
+2
+```
+```salida
+1) °C a °F  2) km a millas  3) pesos a dólares  0) salir
+Opción: Valor:
+¡Hasta la próxima!
 ```
 
 ### Prueba del sello

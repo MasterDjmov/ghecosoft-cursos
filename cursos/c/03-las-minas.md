@@ -379,6 +379,61 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Una celda
+```entrada
+1
+1
+```
+```salida
+Filas: Columnas:
+ 0
+Oro en la mina: 0
+```
+
+##### Máximo
+```entrada
+20
+20
+```
+```salida
+Filas: Columnas:
+ 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7
+ 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4
+ 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1
+ 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8
+ 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5
+ 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2
+ 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9
+ 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6
+ 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3
+ 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0
+ 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7
+ 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4
+ 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1
+ 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8
+ 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5
+ 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2
+ 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9
+ 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6
+ 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3
+ 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0
+Oro en la mina: 1800
+```
+
+##### Fuera de rango
+```entrada
+0
+21
+2
+2
+```
+```salida
+Filas: Columnas:
+Tamaño inválido.
+```
+
 ### Misión R03-N01-M3 · Achicar el cofre
 
 ```meta
@@ -553,6 +608,44 @@ int main(void)
     free(notas);
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Una sola nota
+```entrada
+1
+10
+```
+```salida
+¿Cuántas notas? Nota 1:
+Promedio: 10.00
+Arriba del promedio:
+```
+
+##### Todas iguales
+```entrada
+3
+5
+5
+5
+```
+```salida
+¿Cuántas notas? Nota 1: Nota 2: Nota 3:
+Promedio: 5.00
+Arriba del promedio:
+```
+
+##### Notas en el borde
+```entrada
+2
+0
+10
+```
+```salida
+¿Cuántas notas? Nota 1: Nota 2:
+Promedio: 5.00
+Arriba del promedio: 10.0
 ```
 
 ### Prueba del sello
@@ -1338,6 +1431,33 @@ int main(void)
     free(items);                           /* ...y despues el array de punteros */
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Una sola línea
+```entrada
+Pan
+```
+```salida
+Lista de compras (1):
+ 1. Pan
+```
+
+##### Solo líneas vacías
+```entrada
+```
+```salida
+Lista de compras (0):
+```
+
+##### Línea larga
+```entrada
+Queso rallado de campo estacionado doce meses
+```
+```salida
+Lista de compras (1):
+ 1. Queso rallado de campo estacionado doce meses
 ```
 
 ### Prueba del sello
@@ -2143,6 +2263,42 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Ya ordenados
+```entrada
+A
+B
+C
+```
+```salida
+[A]
+[A -> B]
+[A -> B -> C]
+```
+
+##### Al revés
+```entrada
+Z
+M
+A
+```
+```salida
+[Z]
+[M -> Z]
+[A -> M -> Z]
+```
+
+##### Repetidos
+```entrada
+Llave
+Llave
+```
+```salida
+[Llave]
+[Llave -> Llave]
+```
+
 ### Encargo R03-N03-E1 · La fila del correo
 
 ```meta
@@ -2271,6 +2427,29 @@ int main(void)
     return 0;
 }
 ```
+
+#### Pruebas
+
+##### Atender sin nadie
+```entrada
+atender
+atender
+```
+```salida
+No hay nadie en la fila
+No hay nadie en la fila
+```
+
+##### Nadie queda
+```entrada
+llega Ana
+atender
+```
+```salida
+Llega Ana (1 en la fila)
+Se atiende a Ana (0 en la fila)
+```
+
 
 ### Prueba del sello
 
@@ -2678,6 +2857,66 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Medita mucho
+```entrada
+meditar
+meditar
+fuego
+fuego
+fuego
+```
+```salida
+> meditar
+  Meditás (+8 maná)
+  vida 40, maná 28
+> meditar
+  Meditás (+8 maná)
+  vida 40, maná 36
+> fuego
+  ¡Bola de fuego! (-10 maná)
+  vida 40, maná 26
+> fuego
+  ¡Bola de fuego! (-10 maná)
+  vida 40, maná 16
+> fuego
+  ¡Bola de fuego! (-10 maná)
+  vida 40, maná 6
+```
+
+##### Sin maná para curar
+```entrada
+fuego
+fuego
+curar
+```
+```salida
+> fuego
+  ¡Bola de fuego! (-10 maná)
+  vida 40, maná 10
+> fuego
+  ¡Bola de fuego! (-10 maná)
+  vida 40, maná 0
+> curar
+  No alcanza el maná (0).
+  vida 40, maná 0
+```
+
+##### Hechizos desconocidos
+```entrada
+rayo
+volar
+```
+```salida
+> rayo
+  Mia no conoce ese hechizo.
+  vida 40, maná 20
+> volar
+  Mia no conoce ese hechizo.
+  vida 40, maná 20
+```
+
 ### Misión R03-N04-M3 · Ordenar de muchas formas
 
 ```meta
@@ -2771,6 +3010,33 @@ int main(void)
     return 0;
 }
 ```
+
+#### Pruebas
+
+##### Todas las formas
+```entrada
+1
+2
+3
+```
+```salida
+por nombre: Arco(9, 1.5) Daga(6, 0.8) Espada(11, 3.2) Hacha(14, 4.5)
+por daño: Hacha(14, 4.5) Espada(11, 3.2) Arco(9, 1.5) Daga(6, 0.8)
+por peso: Daga(6, 0.8) Arco(9, 1.5) Espada(11, 3.2) Hacha(14, 4.5)
+```
+
+##### Inválidos
+```entrada
+0
+4
+x
+```
+```salida
+Elegí 1, 2 o 3.
+Elegí 1, 2 o 3.
+Elegí 1, 2 o 3.
+```
+
 
 ### Encargo R03-N04-E1 · La calculadora del Gremio
 
@@ -2869,6 +3135,36 @@ int main(void)
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Negativos y decimales
+```entrada
+-2.5 * 4
+0.1 + 0.2
+```
+```salida
+-2.5 * 4 = -10
+0.1 + 0.2 = 0.3
+```
+
+##### Mal escritas
+```entrada
+5 +
+* 3
+```
+```salida
+No entiendo la cuenta.
+No entiendo la cuenta.
+```
+
+##### División con resto
+```entrada
+10 / 4
+```
+```salida
+10 / 4 = 2.5
 ```
 
 ### Prueba del sello
@@ -3215,6 +3511,68 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Registro vacío
+```entrada
+mostrar
+ordenar vida
+golpe Orco 5
+```
+```salida
+> mostrar
+  0 enemigos:
+> ordenar vida
+  0 enemigos:
+> golpe Orco 5
+  No hay nadie así
+Fin del registro: quedan 0. Se libera todo.
+```
+
+##### Datos inválidos
+```entrada
+agregar Orco cero 10
+agregar Troll 50
+agregar
+```
+```salida
+> agregar Orco cero 10
+  Uso: agregar Nombre vida ataque
+> agregar Troll 50
+  Uso: agregar Nombre vida ataque
+> agregar
+  Uso: agregar Nombre vida ataque
+Fin del registro: quedan 0. Se libera todo.
+```
+
+##### Crece más allá de la capacidad inicial
+```entrada
+agregar A 1 1
+agregar B 2 2
+agregar C 3 3
+agregar D 4 4
+agregar E 5 5
+agregar F 6 6
+agregar G 7 7
+agregar H 8 8
+agregar I 9 9
+ordenar ataque
+```
+```salida
+> agregar A 1 1
+> agregar B 2 2
+> agregar C 3 3
+> agregar D 4 4
+> agregar E 5 5
+> agregar F 6 6
+> agregar G 7 7
+> agregar H 8 8
+> agregar I 9 9
+> ordenar ataque
+  9 enemigos: I(9/9) H(8/8) G(7/7) F(6/6) E(5/5) D(4/4) C(3/3) B(2/2) A(1/1)
+Fin del registro: quedan 9. Se libera todo.
+```
+
 ### Misión R03-N05-M2 · La mordida de la Sanguijuela
 
 ```meta
@@ -3506,6 +3864,31 @@ int main(void)
     return 0;
 }
 ```
+
+#### Pruebas
+
+##### Deshacer sin nada
+```entrada
+deshacer
+mostrar
+```
+```salida
+(nada para deshacer)
+Documento:
+```
+
+##### Escribir y mostrar
+```entrada
+escribir Uno
+escribir Dos
+mostrar
+```
+```salida
+Documento:
+  Uno
+  Dos
+```
+
 
 ### Prueba del sello
 

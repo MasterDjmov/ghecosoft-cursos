@@ -2706,6 +2706,66 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Sale enseguida
+```entrada
+0
+```
+```salida
+[vida 30/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+
+Hasta mañana. Fuerza final: 5, oro: 10.
+```
+
+##### Apuesta sin oro
+```entrada
+5
+5
+5
+0
+```
+```salida
+[vida 30/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+Perdés la apuesta. -10 de oro.
+
+[vida 30/50 | oro 0 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+No te alcanza para apostar.
+
+[vida 30/50 | oro 0 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+No te alcanza para apostar.
+
+[vida 30/50 | oro 0 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+
+Hasta mañana. Fuerza final: 5, oro: 0.
+```
+
+##### Se termina la entrada
+```entrada
+3
+```
+```salida
+[vida 30/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+Trabajás en la forja. +15 de oro.
+
+[vida 30/50 | oro 25 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí:
+Hasta mañana. Fuerza final: 5, oro: 25.
+```
+
 ### Misión R04-N05-M2 · El menú como tabla
 
 ```meta
@@ -2947,6 +3007,52 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Sale enseguida
+```entrada
+0
+```
+```salida
+[vida 30/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
+Elegí:
+Hasta mañana. Fuerza final: 5, oro: 10.
+```
+
+##### Opciones inválidas
+```entrada
+9
+-1
+0
+```
+```salida
+[vida 30/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
+Elegí:
+  Opción inválida.
+Elegí:
+  Opción inválida.
+Elegí:
+Hasta mañana. Fuerza final: 5, oro: 10.
+```
+
+##### Se termina la entrada
+```entrada
+1
+```
+```salida
+[vida 30/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
+Elegí:
+Dormís en la posada. Vida completa.
+
+[vida 50/50 | oro 10 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
+Elegí:
+Hasta mañana. Fuerza final: 5, oro: 10.
+```
+
 ### Misión R04-N05-M3 · La tienda y la despedida
 
 ```meta
@@ -3121,6 +3227,86 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Sale sin confirmar y se termina
+```entrada
+0
+n
+0
+```
+```salida
+[vida 40 | oro 45 | flechas 0 | pociones 0]
+1) Tienda  2) Trabajar (+15 oro)  0) Salir
+Elegí: ¿Seguro que querés salir? (s/n):
+
+[vida 40 | oro 45 | flechas 0 | pociones 0]
+1) Tienda  2) Trabajar (+15 oro)  0) Salir
+Elegí: ¿Seguro que querés salir? (s/n):
+Chau. Te llevás 0 flechas y 0 pociones.
+```
+
+##### Tienda sin oro
+```entrada
+1
+2
+2
+2
+1
+0
+0
+s
+```
+```salida
+[vida 40 | oro 45 | flechas 0 | pociones 0]
+1) Tienda  2) Trabajar (+15 oro)  0) Salir
+Elegí:
+  -- Tienda (oro 45) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+  +1 poción.
+
+  -- Tienda (oro 25) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+  +1 poción.
+
+  -- Tienda (oro 5) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+  No alcanza.
+
+  -- Tienda (oro 5) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+  +10 flechas.
+
+  -- Tienda (oro 0) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+[vida 40 | oro 0 | flechas 10 | pociones 2]
+1) Tienda  2) Trabajar (+15 oro)  0) Salir
+Elegí: ¿Seguro que querés salir? (s/n):
+
+Chau. Te llevás 10 flechas y 2 pociones.
+```
+
+##### Se termina dentro de la tienda
+```entrada
+1
+1
+```
+```salida
+[vida 40 | oro 45 | flechas 0 | pociones 0]
+1) Tienda  2) Trabajar (+15 oro)  0) Salir
+Elegí:
+  -- Tienda (oro 45) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+  +10 flechas.
+
+  -- Tienda (oro 40) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
+  Elegí:
+[vida 40 | oro 40 | flechas 10 | pociones 0]
+1) Tienda  2) Trabajar (+15 oro)  0) Salir
+Elegí:
+Chau. Te llevás 10 flechas y 0 pociones.
+```
+
 ### Encargo R04-N05-E1 · El cajero del Gremio
 
 ```meta
@@ -3279,6 +3465,106 @@ int main(void)
     printf("\nGracias por usar el cajero del Gremio.\n");
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Movimientos sin movimientos
+```entrada
+4
+0
+```
+```salida
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+    +5000.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Gracias por usar el cajero del Gremio.
+```
+
+##### Más de cinco movimientos
+```entrada
+2
+1
+2
+2
+2
+3
+2
+4
+3
+5
+3
+6
+4
+0
+```
+```salida
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $5001.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $5003.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $5006.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $5010.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $5005.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $4999.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+       -6.00
+       -5.00
+       +4.00
+       +3.00
+       +2.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Gracias por usar el cajero del Gremio.
+```
+
+##### Extraer todo
+```entrada
+3
+5000
+1
+0
+```
+```salida
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Monto:
+Listo. Saldo: $0.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Saldo: $0.00
+
+1) Saldo  2) Depositar  3) Extraer  4) Movimientos  0) Salir
+Opción:
+Gracias por usar el cajero del Gremio.
 ```
 
 ### Prueba del sello

@@ -502,6 +502,51 @@ int main(void)
 }
 ```
 
+#### Pruebas
+
+##### Diez temperaturas
+```entrada
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+```
+```salida
+Temperatura 1 (o "fin"): Temperatura 2 (o "fin"): Temperatura 3 (o "fin"): Temperatura 4 (o "fin"): Temperatura 5 (o "fin"): Temperatura 6 (o "fin"): Temperatura 7 (o "fin"): Temperatura 8 (o "fin"): Temperatura 9 (o "fin"): Temperatura 10 (o "fin"):
+10 temperaturas: mayor 1000, menor 100, promedio 550.0
+5 superan el promedio
+```
+
+##### Ninguna válida
+```entrada
+-1
+mucho
+fin
+```
+```salida
+Temperatura 1 (o "fin"):   no es una temperatura válida.
+Temperatura 1 (o "fin"):   no es una temperatura válida.
+Temperatura 1 (o "fin"):
+No se cargó ninguna temperatura.
+```
+
+##### Una sola
+```entrada
+500
+fin
+```
+```salida
+Temperatura 1 (o "fin"): Temperatura 2 (o "fin"):
+1 temperaturas: mayor 500, menor 500, promedio 500.0
+0 superan el promedio
+```
+
 ### Misión R02-N01-M2 · El espejo de la Forja
 
 ```meta
@@ -767,6 +812,106 @@ void dibujar(int mapa[][COLUMNAS], int fila_kira, int col_kira)
         printf("\n");
     }
 }
+```
+
+#### Pruebas
+
+##### Sale enseguida
+```entrada
+q
+```
+```salida
+########
+#K.$#.$#
+#.#...##
+#$#.#.$#
+########
+Movimiento (w/a/s/d, q para salir):
+########
+#K.$#.$#
+#.#...##
+#$#.#.$#
+########
+Kira juntó 0 tesoros.
+```
+
+##### Contra la pared
+```entrada
+w
+a
+a
+q
+```
+```salida
+########
+#K.$#.$#
+#.#...##
+#$#.#.$#
+########
+Movimiento (w/a/s/d, q para salir):
+  ¡pared!
+Movimiento:
+  ¡pared!
+Movimiento:
+  ¡pared!
+Movimiento:
+########
+#K.$#.$#
+#.#...##
+#$#.#.$#
+########
+Kira juntó 0 tesoros.
+```
+
+##### Junta todos los tesoros que puede
+```entrada
+d
+d
+s
+s
+d
+d
+w
+w
+d
+d
+d
+s
+s
+q
+```
+```salida
+########
+#K.$#.$#
+#.#...##
+#$#.#.$#
+########
+Movimiento (w/a/s/d, q para salir):
+Movimiento:
+  ¡tesoro! (llevás 1)
+Movimiento:
+Movimiento:
+Movimiento:
+  ¡pared!
+Movimiento:
+  ¡pared!
+Movimiento:
+Movimiento:
+Movimiento:
+  ¡pared!
+Movimiento:
+  ¡pared!
+Movimiento:
+  ¡pared!
+Movimiento:
+Movimiento:
+Movimiento:
+########
+#...#.$#
+#.#...##
+#$#K#.$#
+########
+Kira juntó 1 tesoros.
 ```
 
 ### Encargo R02-N01-E1 · Las notas de la escuela
@@ -1385,6 +1530,40 @@ void iniciales(const char texto[], char destino[], int tam)
 }
 ```
 
+#### Pruebas
+
+##### Nombre simple
+```entrada
+ana
+```
+```salida
+Nombre completo:
+Ficha: Ana (A.)
+```
+
+##### Todo en mayúsculas
+```entrada
+JUAN PEREZ
+```
+```salida
+Nombre completo:
+Ficha: Juan Perez (J.P.)
+```
+
+##### Inválidos hasta el final
+```entrada
+123
+!!
+```
+```salida
+Nombre completo:
+  tiene que tener letras (sin números ni símbolos).
+Nombre completo:
+  tiene que tener letras (sin números ni símbolos).
+Nombre completo:
+Sin nombre, no hay ficha.
+```
+
 ### Misión R02-N02-M2 · El registro de la Forja
 
 ```meta
@@ -1470,6 +1649,39 @@ int main(void)
     printf("%d registros válidos, %d de oro en total\n", validas, oro_total);
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Todo válido
+```entrada
+Ana;1;0
+Beto;99;5
+```
+```salida
+Ana        nivel  1      0 de oro
+Beto       nivel 99      5 de oro
+2 registros válidos, 5 de oro en total
+```
+
+##### Separadores raros
+```entrada
+;5;10
+Kira;;10
+Kira;5;
+```
+```salida
+línea 1 inválida: ";5;10"
+línea 2 inválida: "Kira;;10"
+línea 3 inválida: "Kira;5;"
+0 registros válidos, 0 de oro en total
+```
+
+##### Sin registros
+```entrada
+```
+```salida
+0 registros válidos, 0 de oro en total
 ```
 
 ### Misión R02-N02-M3 · Las runas espejo
@@ -2951,6 +3163,39 @@ void ordenar_tres(int *a, int *b, int *c)
         intercambiar(a, b);
     }
 }
+```
+
+#### Pruebas
+
+##### Ya ordenadas
+```entrada
+1
+2
+3
+```
+```salida
+Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100): Dureza del tercer lingote (1-100):
+De menor a mayor: 1 2 3
+```
+
+##### Iguales
+```entrada
+50
+50
+50
+```
+```salida
+Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100): Dureza del tercer lingote (1-100):
+De menor a mayor: 50 50 50
+```
+
+##### Se termina la entrada
+```entrada
+10
+```
+```salida
+Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100):
+No hay más entrada.
 ```
 
 ### Misión R02-N04-M2 · Recorrer con punteros
@@ -4898,6 +5143,52 @@ int posicion(const Compania *c, const char *nombre)
 }
 ```
 
+#### Pruebas
+
+##### Listar vacío y salir
+```entrada
+4
+0
+```
+```salida
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: (vacía)
+
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: ¡Hasta la próxima!
+```
+
+##### Buscar y quitar lo que no está
+```entrada
+2
+Nadie
+3
+Nadie
+0
+```
+```salida
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: Nombre: No hay nadie llamado Nadie.
+
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: Nombre: No hay nadie llamado Nadie.
+
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: ¡Hasta la próxima!
+```
+
+##### Se termina la entrada
+```entrada
+1
+Kira
+```
+```salida
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: Nombre: Nivel (1-99):
+1) agregar  2) buscar  3) quitar  4) listar  0) salir
+Opción: ¡Hasta la próxima!
+```
+
 ### Encargo R02-N06-E1 · La ferretería del Gremio
 
 ```meta
@@ -6332,6 +6623,223 @@ void recompensa(Partida *p)
 }
 ```
 
+#### Pruebas
+
+##### Se rinde enseguida
+```entrada
+1
+```
+```salida
+=== LA ARENA DE LAS FORJAS ===
+
+--- Oleada 1 de 4: Slime de escoria ---
+  [##########]  90/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Slime de escoria pega: 6 de daño.
+  [#########-]  84/ 90 Kira
+  [####------]  12/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 19 de daño.
+¡Slime de escoria cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 3).
+
+--- Oleada 2 de 4: Goblin de la fragua ---
+  [#########-]  84/ 90 Kira
+  [##########]  45/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Goblin de la fragua pega: 8 de daño.
+¡La daga estaba envenenada!
+  [########--]  76/ 90 Kira
+  [######----]  27/ 45 Goblin de la fragua
+El veneno quema: -3 (turnos de veneno restantes: 2).
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Goblin de la fragua pega: 9 de daño.
+  [#######---]  64/ 90 Kira
+  [##--------]  12/ 45 Goblin de la fragua
+El veneno quema: -3 (turnos de veneno restantes: 1).
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+¡Goblin de la fragua cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 4).
+
+--- Oleada 3 de 4: Orco del yunque ---
+  [######----]  61/ 90 Kira
+  [##########]  60/ 60 Orco del yunque
+El veneno quema: -3 (turnos de veneno restantes: 0).
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 13 de daño.
+  [#####-----]  45/ 90 Kira
+  [#######---]  44/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Orco del yunque pega: 10 de daño.
+  [###-------]  35/ 90 Kira
+  [####------]  29/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 12 de daño.
+  [##--------]  23/ 90 Kira
+  [##--------]  13/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 14 de daño.
+¡Orco del yunque cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 5).
+
+--- Oleada 4 de 4: Araña de las Direcciones ---
+  [##--------]  23/ 90 Kira
+  [##########] 110/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Araña de las Direcciones pega: 14 de daño.
+  [#---------]   9/ 90 Kira
+  [########--]  98/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Araña de las Direcciones pega: 18 de daño.
+
+=== RESULTADO ===
+Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
+oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 171 | pociones sin usar: 5
+```
+
+##### Defiende siempre
+```entrada
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+```
+```salida
+=== LA ARENA DE LAS FORJAS ===
+
+--- Oleada 1 de 4: Slime de escoria ---
+  [##########]  90/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [#########-]  87/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [#########-]  84/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 4 de daño.
+  [########--]  80/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 4 de daño.
+  [########--]  76/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [########--]  73/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [#######---]  70/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [#######---]  67/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [#######---]  64/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 4 de daño.
+  [######----]  60/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 4 de daño.
+  [######----]  56/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 19 de daño.
+Slime de escoria pega: 4 de daño.
+  [#####-----]  52/ 90 Kira
+  [###-------]  11/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 20 de daño.
+¡Slime de escoria cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 3).
+
+--- Oleada 2 de 4: Goblin de la fragua ---
+  [#####-----]  52/ 90 Kira
+  [##########]  45/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Goblin de la fragua pega: 9 de daño.
+¡La daga estaba envenenada!
+  [####------]  43/ 90 Kira
+  [######----]  29/ 45 Goblin de la fragua
+El veneno quema: -3 (turnos de veneno restantes: 2).
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Goblin de la fragua pega: 7 de daño.
+  [###-------]  33/ 90 Kira
+  [###-------]  14/ 45 Goblin de la fragua
+El veneno quema: -3 (turnos de veneno restantes: 1).
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+¡Goblin de la fragua cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 4).
+
+--- Oleada 3 de 4: Orco del yunque ---
+  [###-------]  30/ 90 Kira
+  [##########]  60/ 60 Orco del yunque
+El veneno quema: -3 (turnos de veneno restantes: 0).
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 10 de daño.
+  [#---------]  17/ 90 Kira
+  [#######---]  44/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 14 de daño.
+Orco del yunque pega: 12 de daño.
+  [----------]   5/ 90 Kira
+  [#####-----]  30/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 13 de daño.
+Orco del yunque pega: 12 de daño.
+
+=== RESULTADO ===
+Kira cae en la oleada 3. Ferrum la saca de la arena a la rastra.
+oleadas vencidas: 2 de 4 | turnos: 18 | daño hecho: 128 | pociones sin usar: 4
+```
+
 ### Misión R02-N07-M2 · El oro y la tienda
 
 ```meta
@@ -7072,6 +7580,212 @@ void tienda(Partida *p)
         printf("Compraste %s.\n", nombres[opcion - 1]);
     }
 }
+```
+
+#### Pruebas
+
+##### Se termina la entrada
+```entrada
+1
+1
+```
+```salida
+=== LA ARENA DE LAS FORJAS ===
+
+--- Oleada 1 de 4: Slime de escoria ---
+  [##########]  90/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Slime de escoria pega: 6 de daño.
+  [#########-]  84/ 90 Kira
+  [####------]  12/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 19 de daño.
+¡Slime de escoria cae! Deja 10 de oro (Kira tiene 10).
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+
+--- Oleada 2 de 4: Goblin de la fragua ---
+  [#########-]  84/ 90 Kira
+  [##########]  45/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Goblin de la fragua pega: 8 de daño.
+  [########--]  76/ 90 Kira
+  [######----]  27/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Goblin de la fragua pega: 9 de daño.
+  [#######---]  67/ 90 Kira
+  [##--------]  12/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+¡Goblin de la fragua cae! Deja 15 de oro (Kira tiene 25).
+Tienda de Ferrum (tenés 25 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+
+--- Oleada 3 de 4: Orco del yunque ---
+  [#######---]  67/ 90 Kira
+  [##########]  60/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 13 de daño.
+  [######----]  54/ 90 Kira
+  [#######---]  44/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Orco del yunque pega: 10 de daño.
+  [####------]  44/ 90 Kira
+  [####------]  29/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 12 de daño.
+  [###-------]  32/ 90 Kira
+  [##--------]  13/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 14 de daño.
+¡Orco del yunque cae! Deja 20 de oro (Kira tiene 45).
+Tienda de Ferrum (tenés 45 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+
+--- Oleada 4 de 4: Araña de las Direcciones ---
+  [###-------]  32/ 90 Kira
+  [##########] 110/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Araña de las Direcciones pega: 14 de daño.
+  [##--------]  18/ 90 Kira
+  [########--]  98/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Araña de las Direcciones pega: 18 de daño.
+
+=== RESULTADO ===
+Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
+oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 171 | pociones sin usar: 2
+```
+
+##### Ataca siempre
+```entrada
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+```
+```salida
+=== LA ARENA DE LAS FORJAS ===
+
+--- Oleada 1 de 4: Slime de escoria ---
+  [##########]  90/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Slime de escoria pega: 6 de daño.
+  [#########-]  84/ 90 Kira
+  [####------]  12/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 19 de daño.
+¡Slime de escoria cae! Deja 10 de oro (Kira tiene 10).
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+No te alcanza: poción cuesta 15.
+Tienda de Ferrum (tenés 10 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+
+--- Oleada 2 de 4: Goblin de la fragua ---
+  [#########-]  84/ 90 Kira
+  [##########]  45/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Goblin de la fragua pega: 8 de daño.
+  [########--]  76/ 90 Kira
+  [######----]  27/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Goblin de la fragua pega: 9 de daño.
+  [#######---]  67/ 90 Kira
+  [##--------]  12/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+¡Goblin de la fragua cae! Deja 15 de oro (Kira tiene 25).
+Tienda de Ferrum (tenés 25 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+
+--- Oleada 3 de 4: Orco del yunque ---
+  [#######---]  67/ 90 Kira
+  [##########]  60/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 13 de daño.
+  [######----]  54/ 90 Kira
+  [#######---]  44/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Orco del yunque pega: 10 de daño.
+  [####------]  44/ 90 Kira
+  [####------]  29/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 12 de daño.
+  [###-------]  32/ 90 Kira
+  [##--------]  13/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 14 de daño.
+¡Orco del yunque cae! Deja 20 de oro (Kira tiene 45).
+Tienda de Ferrum (tenés 45 de oro):
+1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
+
+--- Oleada 4 de 4: Araña de las Direcciones ---
+  [###-------]  32/ 90 Kira
+  [##########] 110/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Araña de las Direcciones pega: 14 de daño.
+  [##--------]  18/ 90 Kira
+  [########--]  98/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Araña de las Direcciones pega: 18 de daño.
+
+=== RESULTADO ===
+Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
+oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 171 | pociones sin usar: 2
 ```
 
 ### Misión R02-N07-M3 · La crónica de la pelea
@@ -7821,6 +8535,196 @@ void recompensa(Partida *p)
 }
 ```
 
+#### Pruebas
+
+##### Sin golpes
+```entrada
+4
+```
+```salida
+=== LA ARENA DE LAS FORJAS ===
+
+--- Oleada 1 de 4: Slime de escoria ---
+  [##########]  90/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira se cubre con el escudo.
+Slime de escoria pega: 3 de daño.
+  [#########-]  87/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Slime de escoria pega: 7 de daño.
+  [########--]  80/ 90 Kira
+  [####------]  12/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 20 de daño.
+¡Slime de escoria cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 3).
+
+--- Oleada 2 de 4: Goblin de la fragua ---
+  [########--]  80/ 90 Kira
+  [##########]  45/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Goblin de la fragua pega: 8 de daño.
+  [########--]  72/ 90 Kira
+  [######----]  30/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Goblin de la fragua pega: 9 de daño.
+  [#######---]  63/ 90 Kira
+  [###-------]  14/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+¡Goblin de la fragua cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 4).
+
+--- Oleada 3 de 4: Orco del yunque ---
+  [#######---]  63/ 90 Kira
+  [##########]  60/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Orco del yunque pega: 13 de daño.
+  [#####-----]  50/ 90 Kira
+  [#######---]  45/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 12 de daño.
+Orco del yunque pega: 14 de daño.
+  [####------]  36/ 90 Kira
+  [#####-----]  33/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 14 de daño.
+Orco del yunque pega: 12 de daño.
+  [##--------]  24/ 90 Kira
+  [###-------]  19/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 13 de daño.
+Orco del yunque pega: 10 de daño.
+  [#---------]  14/ 90 Kira
+  [#---------]   6/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 13 de daño.
+¡Orco del yunque cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 5).
+
+--- Oleada 4 de 4: Araña de las Direcciones ---
+  [#---------]  14/ 90 Kira
+  [##########] 110/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Araña de las Direcciones pega: 14 de daño.
+
+=== RESULTADO ===
+Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
+oleadas vencidas: 3 de 4 | turnos: 12 | daño hecho: 169 | pociones sin usar: 5
+
+Los golpes más fuertes (de 11):
+  1. 20 de daño a Slime de escoria (turno 3)
+  2. 18 de daño a Slime de escoria (turno 2)
+  3. 18 de daño a Goblin de la fragua (turno 6)
+```
+
+##### Golpes fuertes
+```entrada
+2
+2
+2
+2
+2
+2
+```
+```salida
+=== LA ARENA DE LAS FORJAS ===
+
+--- Oleada 1 de 4: Slime de escoria ---
+  [##########]  90/ 90 Kira
+  [##########]  30/ 30 Slime de escoria
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+¡Golpe fuerte! 36 de daño.
+¡Slime de escoria cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+El ataque de Kira sube a 19.
+
+--- Oleada 2 de 4: Goblin de la fragua ---
+  [##########]  90/ 90 Kira
+  [##########]  45/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+¡Golpe fuerte! 42 de daño.
+Goblin de la fragua pega: 8 de daño.
+  [#########-]  82/ 90 Kira
+  [----------]   3/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+El golpe fuerte falla.
+Goblin de la fragua pega: 9 de daño.
+  [########--]  73/ 90 Kira
+  [----------]   3/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+El golpe fuerte falla.
+Goblin de la fragua pega: 11 de daño.
+  [######----]  62/ 90 Kira
+  [----------]   3/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+¡Golpe fuerte! 40 de daño.
+¡Goblin de la fragua cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 3).
+
+--- Oleada 3 de 4: Orco del yunque ---
+  [######----]  62/ 90 Kira
+  [##########]  60/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 15 de daño.
+Orco del yunque pega: 14 de daño.
+  [#####-----]  48/ 90 Kira
+  [#######---]  45/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 17 de daño.
+Orco del yunque pega: 12 de daño.
+  [####------]  36/ 90 Kira
+  [####------]  28/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Orco del yunque pega: 10 de daño.
+  [##--------]  26/ 90 Kira
+  [##--------]  12/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+¡Orco del yunque cae!
+Ferrum ofrece una recompensa:
+1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
+Kira guarda otra poción (tiene 4).
+
+--- Oleada 4 de 4: Araña de las Direcciones ---
+  [##--------]  26/ 90 Kira
+  [##########] 110/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 18 de daño.
+Araña de las Direcciones pega: 14 de daño.
+  [#---------]  12/ 90 Kira
+  [########--]  92/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender:
+Kira ataca: 16 de daño.
+Araña de las Direcciones pega: 16 de daño.
+
+=== RESULTADO ===
+Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
+oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 216 | pociones sin usar: 4
+
+Los golpes más fuertes (de 9):
+  1. 42 de daño a Goblin de la fragua (turno 2)
+  2. 40 de daño a Goblin de la fragua (turno 5)
+  3. 36 de daño a Slime de escoria (turno 1)
+```
+
 ### Encargo R02-N07-E1 · La agenda del consultorio
 
 ```meta
@@ -8083,6 +8987,133 @@ void listar(Agenda *a, bool solo_pendientes)
         printf("  (no hay turnos)\n");
     }
 }
+```
+
+#### Pruebas
+
+##### Agenda vacía
+```entrada
+2
+4
+0
+```
+```salida
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción:   (no hay turnos)
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción:   (no hay turnos)
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Fin del día.
+```
+
+##### Agenda llena
+```entrada
+1
+08:00
+A
+1
+08:10
+B
+1
+08:20
+C
+1
+08:30
+D
+1
+08:40
+E
+1
+08:50
+F
+1
+09:00
+G
+1
+09:10
+H
+1
+09:20
+I
+2
+0
+```
+```salida
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: La agenda del día está completa.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción:
+  tiene que ser un número entre 0 y 4.
+Opción:
+  tiene que ser un número entre 0 y 4.
+Opción:   08:00  A                pendiente
+  08:10  B                pendiente
+  08:20  C                pendiente
+  08:30  D                pendiente
+  08:40  E                pendiente
+  08:50  F                pendiente
+  09:00  G                pendiente
+  09:10  H                pendiente
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Fin del día.
+```
+
+##### Atender una hora sin turno
+```entrada
+1
+10:00
+Ana
+3
+10:01
+3
+10:00
+3
+10:00
+0
+```
+```salida
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora (hh:mm): Paciente: Turno agendado.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora del turno atendido: No hay turno a esa hora.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora del turno atendido: Ana, atendido/a.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Hora del turno atendido: Ana, atendido/a.
+
+1) nuevo turno  2) agenda  3) atender  4) pendientes  0) salir
+Opción: Fin del día.
 ```
 
 ### Prueba del sello

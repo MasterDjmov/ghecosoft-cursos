@@ -1030,6 +1030,47 @@ int main(int argc, char *argv[])
 }
 ```
 
+#### Pruebas
+
+##### Sin estados
+```entrada
+hola
+chau
+```
+```salida
+2 líneas leídas, 2 ignoradas
+```
+
+##### Zona muerta
+```entrada
+S 0 0 59 -59
+S 0 0 61 0
+S 0 0 0 -61
+S 0 0 -61 61
+```
+```salida
+joystick: derecha
+joystick: arriba
+joystick: abajo izquierda
+4 líneas leídas, 0 ignoradas
+```
+
+##### Botones juntos
+```entrada
+S 1 1 0 0
+S 0 0 0 0
+S 1 1 0 0
+```
+```salida
+A apretado
+B apretado
+A suelto
+B suelto
+A apretado
+B apretado
+3 líneas leídas, 0 ignoradas
+```
+
 ### Prueba del sello
 
 #### ¿Por qué conviene que la placa mande su estado completo en cada línea?
@@ -1406,6 +1447,34 @@ int main(int argc, char *argv[])
 }
 ```
 
+#### Pruebas
+
+##### Sin estados
+```entrada
+```
+```salida
+Se cortó la conexión. Pasos: 0. Oro: 0.
+```
+
+##### Siempre centrado
+```entrada
+S 0 0 0 0
+S 0 0 10 10
+```
+```salida
+Se cortó la conexión. Pasos: 0. Oro: 0.
+```
+
+##### Inclinado sin volver al centro
+```entrada
+S 0 0 500 0
+S 0 0 500 0
+S 0 0 500 0
+```
+```salida
+Se cortó la conexión. Pasos: 1. Oro: 0.
+```
+
 ### Misión S02-N04-M2 · El marcador de oro
 
 ```meta
@@ -1613,6 +1682,43 @@ int main(int argc, char *argv[])
     printf("Recorrido del joystick: x de %d a %d, y de %d a %d\n", min_x, max_x, min_y, max_y);
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Un solo estado
+```entrada
+S 0 0 0 0
+```
+```salida
+Estados recibidos: 1 (unos 0.0 segundos a 30 por segundo)
+Pulsaciones: A 0, B 0
+Recorrido del joystick: x de 0 a 0, y de 0 a 0
+```
+
+##### Botones apretados todo el tiempo
+```entrada
+S 1 1 5 5
+S 1 1 6 6
+S 1 1 7 7
+```
+```salida
+Estados recibidos: 3 (unos 0.1 segundos a 30 por segundo)
+Pulsaciones: A 1, B 1
+Recorrido del joystick: x de 0 a 7, y de 0 a 7
+```
+
+##### Con líneas basura
+```entrada
+basura
+S 0 0 0 0
+otra
+S 1 0 -1 1
+```
+```salida
+Estados recibidos: 2 (unos 0.1 segundos a 30 por segundo)
+Pulsaciones: A 1, B 0
+Recorrido del joystick: x de -1 a 0, y de 0 a 1
 ```
 
 ### Prueba del sello

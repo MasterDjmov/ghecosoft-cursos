@@ -1,9 +1,12 @@
 <?php
 
+use App\Livewire\Admin\Glossary as GlossaryAdmin;
 use App\Models\GlossaryTerm;
+use App\Models\User;
 use App\Support\Glossary;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Livewire;
 
 /** Retratos del Diccionario: uno general para todos los cursos que usan el mismo personaje. */
 test('un curso sin retrato propio usa el general si es el mismo personaje, y no si lo renombró', function () {
@@ -38,4 +41,24 @@ test('app:glossary-portraits carga los retratos por el nombre del archivo y salt
         ->and(GlossaryTerm::where('key', 'beast.troll')->whereNull('course_id')->value('icon_path'))->not->toBeNull();
 
     File::deleteDirectory($dir);
+});
+
+test('el tamaño de los retratos se elige en el Diccionario y se usa en los nodos', function () {
+    $data = makeCourse();
+    $student = studentWithRootOpen($data);
+    $data['root']->update(['content' => 'Teoría', 'common_errors' => 'Errores', 'beast_key' => 'beast.slime']);
+    GlossaryTerm::create(['key' => 'companion.theory', 'course_id' => null, 'singular' => 'Mia', 'plural' => 'Mia', 'gender' => 'f', 'icon_path' => 'glossary/mia.jpg']);
+    GlossaryTerm::create(['key' => 'beast.slime', 'course_id' => null, 'singular' => 'slime', 'plural' => 'slimes', 'gender' => 'm', 'icon_path' => 'glossary/slime.jpg']);
+    Glossary::flush(null);
+
+    $node = fn () => $this->actingAs($student)->get(route('student.node', [$data['course'], $data['root']]));
+    $node()->assertSee('width: 48px', false)->assertSee('width: 80px', false);
+
+    $admin = User::factory()->admin()->create();
+    Livewire::actingAs($admin)->test(GlossaryAdmin::class)
+        ->assertSee('Tamaño de los retratos')
+        ->set('companionSize', 300)->call('savePortraitSizes')->assertHasErrors('companionSize')
+        ->set('companionSize', 64)->set('beastSize', 120)->call('savePortraitSizes')->assertHasNoErrors();
+
+    $node()->assertSee('width: 64px', false)->assertSee('width: 120px', false);
 });

@@ -195,7 +195,7 @@
                             @if ($beast)
                                 <div class="flex items-start gap-3 rounded-lg border border-danger/40 bg-danger/10 p-4" data-test="beast">
                                     @if ($beast['icon_path'])
-                                        <img src="{{ Storage::disk('public')->url($beast['icon_path']) }}" alt="" class="size-12 shrink-0 rounded-md object-cover">
+                                        <img src="{{ Storage::disk('public')->url($beast['icon_path']) }}" alt="" class="shrink-0 rounded-lg border border-danger/30 object-cover" style="width: {{ \App\Support\Portraits::beast() }}px; height: {{ \App\Support\Portraits::beast() }}px">
                                     @else
                                         <span class="grid size-12 shrink-0 place-items-center rounded-md bg-danger/20 text-danger"><flux:icon name="bug-ant" /></span>
                                     @endif

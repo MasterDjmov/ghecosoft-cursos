@@ -6,7 +6,9 @@ use App\Enums\Gender;
 use App\Models\Course;
 use App\Models\GlossaryTerm;
 use App\Models\Level;
+use App\Models\Setting;
 use App\Support\Glossary as GlossaryResolver;
+use App\Support\Portraits;
 use Flux\Flux;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +40,11 @@ class Glossary extends Component
 
     /** 'general' o el id de un curso. */
     #[Url(as: 'ambito')]
+    /** Tamaño de los retratos en píxeles (App\Support\Portraits): la compañía y la mentora, y las criaturas. */
+    public int $companionSize = 48;
+
+    public int $beastSize = 80;
+
     public string $scope = 'general';
 
     #[Url(as: 'grupo', except: '')]
@@ -160,6 +167,23 @@ class Glossary extends Component
         Flux::toast(text: $copied === 0 ? 'No había términos generales para copiar.' : "Se copiaron {$copied} términos.");
     }
 
+    public function mount(): void
+    {
+        $this->companionSize = Portraits::companion();
+        $this->beastSize = Portraits::beast();
+    }
+
+    public function savePortraitSizes(): void
+    {
+        $this->validate([
+            'companionSize' => ['required', 'integer', 'between:24,200'],
+            'beastSize' => ['required', 'integer', 'between:24,200'],
+        ], [], ['companionSize' => 'tamaño de la compañía', 'beastSize' => 'tamaño de las criaturas']);
+        Setting::put('portrait_companion_px', (string) $this->companionSize);
+        Setting::put('portrait_beast_px', (string) $this->beastSize);
+        Flux::toast(variant: 'success', text: 'Tamaños guardados: ya se ven así en los nodos.');
+    }
+
     private function course(): ?Course
     {
         return $this->scope === 'general' ? null : Course::find((int) $this->scope);
@@ -201,6 +225,8 @@ class Glossary extends Component
             'course' => $course,
             'groups' => self::GROUPS,
             'genders' => Gender::cases(),
+            'previewCompanion' => $resolver->resolve('companion.theory', $course)['icon_path'],
+            'previewBeast' => $resolver->resolve('beast.slime', $course)['icon_path'],
             'currentIcon' => $this->key !== '' ? GlossaryTerm::where('key', $this->key)->where('course_id', $course?->id)->value('icon_path') : null,
         ]);
     }

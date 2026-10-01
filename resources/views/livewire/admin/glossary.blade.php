@@ -24,6 +24,30 @@
         </flux:select>
     </div>
 
+    {{-- Tamaño de los retratos en las páginas de los nodos (para toda la plataforma). --}}
+    <details class="panel p-5" data-test="portrait-sizes">
+        <summary class="cursor-pointer font-medium text-white">Tamaño de los retratos</summary>
+        <form wire:submit="savePortraitSizes" class="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <div class="flex items-end gap-4">
+                <flux:input type="number" min="24" max="200" wire:model.live.debounce.300ms="companionSize" label="Compañía y mentora (px)" class="w-40" />
+                @if ($previewCompanion)
+                    <img src="{{ Storage::disk('public')->url($previewCompanion) }}" alt="" class="shrink-0 rounded-lg border border-outline object-cover"
+                        style="width: {{ max(24, min(200, $companionSize)) }}px; height: {{ max(24, min(200, $companionSize)) }}px">
+                @endif
+            </div>
+            <div class="flex items-end gap-4">
+                <flux:input type="number" min="24" max="200" wire:model.live.debounce.300ms="beastSize" label="Criaturas (px)" class="w-40" />
+                @if ($previewBeast)
+                    <img src="{{ Storage::disk('public')->url($previewBeast) }}" alt="" class="shrink-0 rounded-lg border border-danger/30 object-cover"
+                        style="width: {{ max(24, min(200, $beastSize)) }}px; height: {{ max(24, min(200, $beastSize)) }}px">
+                @endif
+            </div>
+            <flux:button type="submit" variant="primary" class="sm:ms-auto">Guardar tamaños</flux:button>
+        </form>
+        <flux:error name="companionSize" /><flux:error name="beastSize" />
+        <p class="mt-2 text-xs text-ink-muted">De 24 a 200 px. La vista previa cambia mientras escribís; en los nodos se aplica al guardar. Por defecto: 48 y 80.</p>
+    </details>
+
     <div class="panel overflow-hidden">
         <ul class="divide-y divide-outline">
             @foreach ($rows as $row)

@@ -683,7 +683,7 @@ compania = [
 #### Salida esperada
 
 ```
-7  Ana
+ 7  Ana
  7  Bron
  6  Zed
  5  Kira

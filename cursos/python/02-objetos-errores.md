@@ -894,7 +894,7 @@ class Enemigo(Entidad):
 #### Salida esperada
 
 ```
-Muñeco de práctica recibe 6 (vida 94)
+  Muñeco de práctica recibe 6 (vida 94)
   Muñeco de práctica recibe 5 (vida 89)
   ¡Rey Slime entra en furia!
   Muñeco de práctica recibe 10 (vida 79)

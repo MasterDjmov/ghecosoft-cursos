@@ -1,0 +1,11 @@
+[Unit]
+Description=Ejecutor local de Java para corregir entregas (GhecoSoft-Code, D69)
+
+[Service]
+WorkingDirectory=/var/www/html/larioja-aprende-cursos
+ExecStart=/usr/bin/java scripts/JavaRunner.java
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

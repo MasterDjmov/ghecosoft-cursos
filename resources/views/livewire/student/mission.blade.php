@@ -134,6 +134,8 @@
                                 <flux:callout.text>{{ $practice->environment->hint($mode) }}</flux:callout.text>
                             </flux:callout>
                         @endif
+                        {{-- A mano, al lado de la consigna: el alumno no tiene que volver al nodo para verlo. --}}
+                        <x-expected-io :input="$practice->sample_input" :expected="$practice->expected_output" />
                         @if ($canSubmit && $usesFile)
                             @include('livewire.student.partials.practice-file', ['hint' => 'Archivo'.($practice->allowed_extensions ? ' ('.$practice->allowed_extensions.')' : '').' (opcional si entregás código)'])
                         @endif
@@ -231,7 +233,6 @@
                     @if ($canRun)
                         <x-code-console fill class="h-56 shrink-0 overflow-hidden rounded-lg border border-outline" />
                     @endif
-                    <x-expected-io :input="$practice->sample_input" :expected="$practice->expected_output" class="shrink-0" />
                 @else
                     <div class="panel flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center text-ink-muted">
                         <p>Esta misión no se resuelve en el editor.</p>

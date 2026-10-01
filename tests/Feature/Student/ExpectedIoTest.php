@@ -26,9 +26,12 @@ test('el indicio muestra la entrada y la salida, en la tarjeta del nodo y en el 
         ->assertOk()
         ->assertSeeInOrder(['Cómo debería verse', 'Entrada de ejemplo', 'ENTRADA-DE-EJEMPLO', 'Salida esperada', 'SALIDA-ESPERADA']);
 
-    $this->actingAs($student)->get(route('student.mission', [$course, $root, $practice]))
+    // En el modo misión, una sola vez y en la consigna (panel izquierdo), antes del editor.
+    $mission = $this->actingAs($student)->get(route('student.mission', [$course, $root, $practice]))
         ->assertOk()
-        ->assertSeeInOrder(['Cómo debería verse', 'Entrada de ejemplo', 'ENTRADA-DE-EJEMPLO', 'Salida esperada', 'SALIDA-ESPERADA']);
+        ->assertSeeInOrder(['Cómo debería verse', 'Entrada de ejemplo', 'ENTRADA-DE-EJEMPLO', 'Salida esperada', 'SALIDA-ESPERADA', 'x-ref="editor"'], false)
+        ->getContent();
+    expect(substr_count($mission, 'data-test="expected-io"'))->toBe(1);
 })->with([
     'Python en el navegador' => ['python', PracticeEnvironment::Browser],
     'C++ en la compu' => ['cpp', PracticeEnvironment::Local],

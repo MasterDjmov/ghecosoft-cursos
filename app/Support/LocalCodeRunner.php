@@ -108,14 +108,15 @@ class LocalCodeRunner
             $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', $this->language === 'java' ? max(20, $this->timeout) : $this->timeout);
             $process->run();
             $output = $process->getOutput();
+            // Un código de salida distinto de 0 puede ser a propósito (exit(1) cuando la consigna lo pide):
+            // es un error solo si hay uno de verdad (excepción, Fatal error, traceback).
+            $lines = collect(explode("\n", trim($process->getErrorOutput())));
             if ($this->language === 'java' && ! $process->isSuccessful()) {
-                $lines = collect(explode("\n", trim($process->getErrorOutput())));
-                $error = $lines->first(fn ($line) => str_contains($line, 'error:') || str_starts_with($line, 'Exception')) ?: ($lines->first() ?: 'El programa terminó con error.');
+                $error = $lines->first(fn ($line) => str_contains($line, 'error:') || str_starts_with($line, 'Exception'));
             } elseif ($this->language === 'php' && ! $process->isSuccessful()) {
-                $lines = collect(explode("\n", trim($process->getErrorOutput())));
-                $error = $lines->first(fn ($line) => preg_match('/(Fatal|Parse) error/', $line)) ?: ($lines->first() ?: 'El programa terminó con error.');
+                $error = $lines->first(fn ($line) => preg_match('/(Fatal|Parse) error/', $line));
             } elseif ($this->language === 'python' && ! $process->isSuccessful()) {
-                $error = collect(explode("\n", trim($process->getErrorOutput())))->last() ?: 'El programa terminó con error.';
+                $error = $lines->contains(fn ($line) => str_starts_with($line, 'Traceback')) ? $lines->last() : null;
             } elseif ($process->hasBeenSignaled() || $process->getExitCode() >= 128) {
                 // En C, un código de salida distinto de 0 puede ser a propósito; una señal (violación de segmento) no.
                 $error = 'El programa se cortó (código '.$process->getExitCode().': ¿un puntero o un índice fuera de lugar?).';

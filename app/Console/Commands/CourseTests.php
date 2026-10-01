@@ -90,6 +90,9 @@ class CourseTests extends Command
                         $totals['sin salida']++;
                         if (LocalCodeRunner::normalize($output) === '') {
                             $problems[] = [$practice['code'], $case['label'], 'la solución no muestra nada con esa entrada'];
+                        } elseif (! mb_check_encoding($output, 'UTF-8')) {
+                            // Por ejemplo strrev() sobre un texto con tildes: no se escribe en el .md.
+                            $problems[] = [$practice['code'], $case['label'], 'la salida no es texto UTF-8 válido (¿se partió una letra con tilde?)'];
                         } else {
                             $fills[$practice['code']][$case['test']] = LocalCodeRunner::normalize($output);
                         }

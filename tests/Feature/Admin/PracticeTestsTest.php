@@ -102,3 +102,19 @@ test('app:course-tests completa las salidas que faltan con la solución de refer
 
     File::deleteDirectory($dir);
 });
+
+test('al comparar se ignoran los espacios del final y las líneas vacías de las puntas, no la sangría', function () {
+    expect(LocalCodeRunner::matches("\nHola  \nMundo\n\n", "Hola\nMundo"))->toBeTrue()
+        ->and(LocalCodeRunner::matches("\r\nA\r\n", 'A'))->toBeTrue()
+        ->and(LocalCodeRunner::matches('  Hola', 'Hola'))->toBeFalse();
+});
+
+test('el ejecutor local no toma como error un exit(1) pedido, pero sí un traceback', function () {
+    $runner = new LocalCodeRunner('python');
+    if (! $runner->available()) {
+        $this->markTestSkipped('Falta python3 en esta compu.');
+    }
+
+    expect($runner->run("import sys\nprint('Dato inválido.')\nsys.exit(1)", ''))->toBe(["Dato inválido.\n", null])
+        ->and($runner->run('print(1 / 0)', '')[1])->toContain('ZeroDivisionError');
+});

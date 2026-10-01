@@ -153,6 +153,15 @@ class CourseImporter
                 if (! in_array($environment, ['navegador', 'local'], true)) {
                     $this->report->error("{$practice['where']}: entorno «{$practice['meta']['entorno']}» desconocido (navegador o local).");
                 }
+                foreach ($practice['tests'] as $number => $test) {
+                    $label = "{$practice['where']}: {$practice['code']}, prueba ".($number + 1).($test['name'] !== '' ? " «{$test['name']}»" : '');
+                    if ($test['expected'] === null) {
+                        $this->report->warning("{$label} sin salida: no se guarda (completala con app:course-tests --fill).");
+                    }
+                }
+                if ($practice['tests'] !== [] && in_array(self::MODES[$mode] ?? null, [SubmissionMode::File, SubmissionMode::None], true)) {
+                    $this->report->warning("{$practice['where']}: {$practice['code']} tiene pruebas pero se entrega como archivo o sin entrega: no se van a poder correr.");
+                }
             }
         }
 
@@ -430,12 +439,34 @@ class CourseImporter
                 'position' => $index + 1,
             ]);
             $this->save('prácticas', $model);
+            $this->applyTests($model, $practice['tests']);
         }
 
         $missing = $existing->keys()->diff(collect($data['practices'])->pluck('code'));
         foreach ($missing as $code) {
             $this->report->note("La práctica {$code} de {$node->code} está en la base pero no en el archivo: quedó sin tocar.");
         }
+    }
+
+    /**
+     * Pruebas extra (D73): no tienen actividad de alumnos colgando, así que se reemplazan enteras
+     * cuando cambian. Las que no tienen salida no se guardan (ya hubo aviso).
+     */
+    private function applyTests(Practice $practice, array $tests): void
+    {
+        $wanted = collect($tests)->filter(fn ($test) => $test['expected'] !== null)->values()
+            ->map(fn ($test, $index) => ['position' => $index + 1, 'name' => Str::limit($test['name'] ?: 'Prueba '.($index + 1), 255, ''), 'input' => $test['input'], 'expected_output' => $test['expected']]);
+        $current = $practice->tests()->get(['position', 'name', 'input', 'expected_output'])
+            ->map(fn ($test) => ['position' => $test->position, 'name' => $test->name, 'input' => $test->input, 'expected_output' => $test->expected_output]);
+
+        if ($wanted->all() === $current->all()) {
+            $wanted->isNotEmpty() && $this->report->count('pruebas', 'unchanged');
+
+            return;
+        }
+        $practice->tests()->delete();
+        $practice->tests()->createMany($wanted->all());
+        $this->report->count('pruebas', $current->isEmpty() ? 'created' : 'updated');
     }
 
     /** Segunda pasada: con todos los nodos creados, se enlaza cada uno con su padre. */

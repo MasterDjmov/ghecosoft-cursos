@@ -39,6 +39,12 @@ class Practice extends Model
         return $this->submissions()->exists() || PracticeMark::where('practice_id', $this->id)->exists();
     }
 
+    /** Pruebas extra (D73), solo del docente: no se cargan en las vistas del alumno. */
+    public function tests(): HasMany
+    {
+        return $this->hasMany(PracticeTest::class)->orderBy('position');
+    }
+
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);

@@ -29,6 +29,7 @@ use App\Services\Ranking;
 use App\Services\StudentAccounts;
 use App\Services\SubmissionReviewer;
 use App\Services\TreeAccess;
+use App\Support\LocalCodeRunner;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use DomainException;
@@ -41,8 +42,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Symfony\Component\Process\ExecutableFinder;
-use Symfony\Component\Process\Process;
 use Throwable;
 use ZipArchive;
 
@@ -96,6 +95,8 @@ class SimulateCourse extends Command
 
     private string $workDir;
 
+    private LocalCodeRunner $local;
+
     public function handle(): int
     {
         if (app()->isProduction()) {
@@ -144,11 +145,9 @@ class SimulateCourse extends Command
 
         mt_srand((int) $this->option('seed'));
         $this->language = $course->language->value;
-        $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++', 'java' => 'java', 'php' => 'php8.3'][$this->language] ?? null;
-        // PHP: la versión del hosting (8.3) si está instalada; si no, la que haya.
-        $this->runner = $tool ? ((new ExecutableFinder)->find($tool) ?? ($this->language === 'php' ? (new ExecutableFinder)->find('php') : null)) : null;
         $this->workDir = storage_path('app/simulacion');
-        @mkdir($this->workDir, 0775, true);
+        $this->local = new LocalCodeRunner($this->language, $this->workDir);
+        $this->runner = $this->local->binary;
 
         $this->info("Simulando «{$course->title}»: ".count(self::PERSONAS).' alumnos, corrige '.$teacher->name.'.');
         $this->line($this->runner ? 'El docente prueba el código con '.basename($this->runner).'.' : 'El docente compara el código con la solución de referencia.');
@@ -499,7 +498,7 @@ class SimulateCourse extends Command
             return [true, ''];
         }
 
-        if (! $this->runner || ! $this->canRun($submission->code)) {
+        if (! $this->runner || ! $this->local->canRun($submission->code)) {
             $reference = trim((string) $practice->reference_solution);
 
             return $reference === '' || trim($submission->code) === $reference
@@ -507,7 +506,7 @@ class SimulateCourse extends Command
                 : [false, 'Le falta una parte: compará con lo que pide la consigna, paso por paso.'];
         }
 
-        [$output, $error] = $this->runCode($submission->code, $practice->sample_input);
+        [$output, $error] = $this->local->run($submission->code, $practice->sample_input);
         if ($error !== null) {
             return [false, match ($this->language) {
                 'python' => "Tu programa termina con un error:\n\n    {$error}\n\nLeé la última línea del traceback: te dice qué nombre no existe.",
@@ -523,81 +522,17 @@ class SimulateCourse extends Command
             return [false, 'La salida no coincide con la esperada. En la línea '.($line + 1).' esperaba «'.($want[$line] ?? '(nada)').'» y tu programa mostró «'.($got[$line] ?? '(nada)').'».'];
         }
 
-        return [true, ''];
-    }
-
-    /**
-     * En Java, el docente no puede probar acá lo que necesita la base (PostgreSQL), una ventana,
-     * varios archivos o lo que no es un programa (un script SQL): eso lo compara con la solución de referencia.
-     * En PHP, lo mismo con las páginas web, la base (MariaDB), los include y los argumentos de la terminal.
-     */
-    private function canRun(string $code): bool
-    {
-        return match ($this->language) {
-            'java' => str_contains($code, 'static void main') && ! preg_match('/```|jdbc:|javax\.swing|java\.awt|^\s*package\s/m', $code),
-            'php' => str_starts_with(ltrim($code), '<?php')
-                && ! preg_match('/```|mysql:|new PDO|\$_(GET|POST|SESSION|COOKIE|FILES|SERVER)\b|\$argv|\b(require|include)(_once)?\b|session_start|header\(|<html/i', $code),
-            default => true,
-        };
-    }
-
-    /** @return array{0: string, 1: ?string} salida, y el error (del compilador o de la ejecución) si hubo */
-    private function runCode(string $code, ?string $stdin): array
-    {
-        $dir = $this->workDir.'/run-'.Str::random(8);
-        @mkdir($dir, 0775, true);
-        $output = '';
-        $error = null;
-
-        try {
-            if ($this->language === 'python') {
-                file_put_contents($dir.'/main.py', $code);
-                $command = [$this->runner, 'main.py'];
-            } elseif ($this->language === 'php') {
-                // Como lo corre el alumno, pero con todos los avisos a la vista.
-                file_put_contents($dir.'/main.php', $code);
-                $command = [$this->runner, '-d', 'display_errors=stderr', '-d', 'error_reporting=-1', '-d', 'date.timezone=America/Argentina/Buenos_Aires', 'main.php'];
-            } elseif ($this->language === 'java') {
-                // `java Main.java` compila en memoria y corre la primera clase del archivo.
-                file_put_contents($dir.'/Main.java', $code);
-                $command = [$this->runner, '-Dfile.encoding=UTF-8', '-Dstdout.encoding=UTF-8', 'Main.java'];
-            } else {
-                // Como compila el alumno en su compu: con advertencias, y la matemática enlazada.
-                $source = $this->language === 'c' ? 'main.c' : 'main.cpp';
-                file_put_contents($dir.'/'.$source, $code);
-                $compile = new Process([$this->runner, $this->language === 'c' ? '-std=c11' : '-std=c++20', '-Wall', '-Wextra', '-o', 'programa', $source, '-lm'], $dir, null, null, 30);
-                $compile->run();
-                if (! $compile->isSuccessful()) {
-                    $first = collect(explode("\n", $compile->getErrorOutput()))->first(fn ($line) => str_contains($line, 'error'));
-
-                    return ['', $first ?: 'No compila.'];
+        // Pruebas extra (D73): el docente las corre todas antes de aprobar.
+        $tests = $practice->tests;
+        if ($tests->isNotEmpty()) {
+            foreach ($this->local->runMany($submission->code, $tests->pluck('input')->all()) as $i => [$output, $error]) {
+                if ($error !== null || ! LocalCodeRunner::matches($output, $tests[$i]->expected_output)) {
+                    return [false, "Con el ejemplo anda, pero no pasa la prueba «{$tests[$i]->name}». Probá tu programa con otros datos: el caso vacío, el borde, el dato inválido."];
                 }
-                $command = ['./programa'];
             }
-
-            // La JVM tarda en arrancar y compilar: le damos más margen que a un programa nativo.
-            $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', $this->language === 'java' ? 20 : 5);
-            $process->run();
-            $output = $process->getOutput();
-            if ($this->language === 'java' && ! $process->isSuccessful()) {
-                $lines = collect(explode("\n", trim($process->getErrorOutput())));
-                $error = $lines->first(fn ($line) => str_contains($line, 'error:') || str_starts_with($line, 'Exception')) ?: ($lines->first() ?: 'El programa terminó con error.');
-            } elseif ($this->language === 'php' && ! $process->isSuccessful()) {
-                $lines = collect(explode("\n", trim($process->getErrorOutput())));
-                $error = $lines->first(fn ($line) => preg_match('/(Fatal|Parse) error/', $line)) ?: ($lines->first() ?: 'El programa terminó con error.');
-            } elseif ($this->language === 'python' && ! $process->isSuccessful()) {
-                $error = collect(explode("\n", trim($process->getErrorOutput())))->last() ?: 'El programa terminó con error.';
-            } elseif ($process->hasBeenSignaled() || $process->getExitCode() >= 128) {
-                // En C, un código de salida distinto de 0 puede ser a propósito; una señal (violación de segmento) no.
-                $error = 'El programa se cortó (código '.$process->getExitCode().': ¿un puntero o un índice fuera de lugar?).';
-            }
-        } catch (Throwable) {
-            $error = 'Tardó más de 5 segundos (¿un bucle que no termina?).';
-        } finally {
-            exec('rm -rf '.escapeshellarg($dir));
         }
 
-        return [$output, $error];
+        return [true, ''];
     }
 
     // ---------------------------------------------------------------- final

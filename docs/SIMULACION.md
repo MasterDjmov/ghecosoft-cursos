@@ -4,7 +4,7 @@ Antes de abrir un curso a los alumnos (y cada vez que se carga uno nuevo), se co
 
 - 5 alumnos se inscriben y el docente los aprueba (con sus monedas iniciales).
 - Juegan día por día hasta abrir todo el árbol: entregan, se equivocan, rehacen, renuevan el abono y juntan comodines para las Sendas.
-- Mientras tanto, el docente corrige: aprueba o pide rehacer según el código funcione.
+- Mientras tanto, el docente corrige: aprueba o pide rehacer según el código funcione, con el ejemplo y con las `#### Pruebas` de la práctica (D73).
 
 Sirve para ver si el sistema falla en un recorrido real (economía, aperturas, jefes, insignias, fin del curso, abonos) y para ver cómo queda un alumno al final (árbol, CV, ranking, movimientos).
 

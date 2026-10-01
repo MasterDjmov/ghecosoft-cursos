@@ -155,6 +155,23 @@ Partes:
 | `#### Entrada de ejemplo` | Lo que se tipea al ejecutar |
 | `#### Salida esperada` | Lo que tiene que mostrar |
 | `#### Solución de referencia` | **Solo el docente** |
+| `#### Pruebas` | **Solo el docente** (D73): casos extra para corregir más rápido. Cada uno es un `##### Nombre` con un bloque ` ```entrada ` (opcional) y uno ` ```salida ` |
+
+Las **Pruebas** sirven en los programas que leen entrada (uno sin entrada muestra siempre lo mismo): 2 a 4 casos que el ejemplo no cubre, como el vacío, el borde o el dato inválido. El alumno ve solo la de ejemplo; el docente las corre todas al corregir.
+
+````markdown
+#### Pruebas
+
+##### Sin piezas
+```entrada
+fin
+```
+```salida
+No hay piezas.
+```
+````
+
+La salida no se escribe a mano: se deja el bloque ` ```salida ` vacío (o se omite) y `php artisan app:course-tests cursos/cpp --fill` lo completa corriendo la *Solución de referencia* en esta compu. Sin `--fill`, el comando verifica que la solución de referencia dé el ejemplo y todas las pruebas (con `--only=R02` se limita a una rama o nodo). Al comparar se ignoran los espacios del final de cada línea y las líneas vacías del principio y del final; la sangría sí cuenta.
 
 ## 7. Qué revisa el importador
 

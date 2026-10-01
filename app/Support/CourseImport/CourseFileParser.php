@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
  *   # RAMA R01 · Título          una rama (bloque meta opcional)
  *   ## R01-N01 · Título          un nodo: bloque meta + ### secciones
  *   ### Misión R01-N01-M1 · …    una práctica (Misión = obligatoria; Encargo/Desafío = optativa): meta + #### partes
+ *   #### Pruebas                 pruebas extra del docente (D73): ##### Nombre + bloques ```entrada y ```salida
  *
  * Los bloques ```meta llevan líneas "clave: valor". Lo que está dentro de un bloque de código
  * nunca se toma como título.
@@ -47,6 +48,7 @@ class CourseFileParser
         'salida esperada' => 'expected_output',
         'solucion' => 'reference_solution',
         'solucion de referencia' => 'reference_solution',
+        'pruebas' => 'tests',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */
@@ -395,11 +397,42 @@ class CourseFileParser
             $node['fields'] = self::cleanFields($node['fields']);
             $node['self_check'] = array_map(fn ($item) => ['question' => trim($item['question']), 'answer' => trim($item['answer'])], $node['self_check']);
             foreach ($node['practices'] as &$practice) {
+                $practice['tests'] = self::parseTests($practice['fields']['tests'] ?? '');
+                unset($practice['fields']['tests']);
                 $practice['fields'] = self::cleanFields($practice['fields']);
             }
         }
 
         return $this->result;
+    }
+
+    /**
+     * «#### Pruebas» (D73): cada «##### Nombre» lleva un bloque ```entrada (opcional) y uno ```salida.
+     * Una prueba sin salida queda con expected = null (app:course-tests --fill la completa).
+     *
+     * @return list<array{name: string, input: ?string, expected: ?string}>
+     */
+    public static function parseTests(string $text): array
+    {
+        $tests = [];
+        foreach (preg_split('/^#####\s+/m', $text) as $index => $chunk) {
+            if ($index === 0) {
+                continue; // lo que va antes del primer «#####»
+            }
+            [$name, $body] = array_pad(explode("\n", $chunk, 2), 2, '');
+            $blocks = [];
+            preg_match_all('/^\s*(```+|~~~+)\s*(entrada|salida)[ \t]*\n(.*?)\n?^\s*\1\s*$/msi', $body, $matches, PREG_SET_ORDER);
+            foreach ($matches as $m) {
+                $blocks[Str::lower($m[2])] = rtrim($m[3]);
+            }
+            $tests[] = [
+                'name' => trim(preg_replace('/\s*#+\s*$/', '', $name)),
+                'input' => $blocks['entrada'] ?? null,
+                'expected' => isset($blocks['salida']) && $blocks['salida'] !== '' ? $blocks['salida'] : null,
+            ];
+        }
+
+        return $tests;
     }
 
     private static function cleanFields(array $fields): array

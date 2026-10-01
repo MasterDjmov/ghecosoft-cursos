@@ -1,6 +1,6 @@
 # Corrección asistida (D73, diseño a revisar)
 
-Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30.
+Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) hecha el 2026-10-01.
 
 ## Punto de partida
 
@@ -80,7 +80,7 @@ En *Admin → Entregas*, en una entrega de código con pruebas:
 
 - Al abrirla, **corren todas las pruebas** en el navegador del docente (en C/C++ se compila una vez y se ejecuta con cada entrada; en Java, `JavaRunner` recibe la lista de entradas y compila una vez).
 - Arriba del código: **«3 de 4 pruebas pasan»**. Cada prueba que falla muestra entrada, salida esperada y salida obtenida, con las diferencias marcadas.
-- **Comparación:** se ignoran los espacios al final de cada línea y los saltos de línea del final. Si la única diferencia es esa, se marca como coincide, con la aclaración «difiere solo en espacios del final».
+- **Comparación:** se ignoran los espacios al final de cada línea y las líneas vacías del principio y del final (no se ven). Los espacios al principio de una línea sí cuentan: son la sangría. Si la única diferencia es lo ignorado, se marca como coincide, con la aclaración «difiere solo en espacios o líneas vacías».
 - *Aprobar* y *Pedir que rehaga* quedan igual que hoy: la decisión es del docente.
 - En Java, si `JavaRunner` no está abierto, se avisa como hoy y las pruebas no corren.
 

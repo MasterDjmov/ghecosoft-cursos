@@ -2369,6 +2369,51 @@ foreach ($logros as $logro) {
 printf("Desbloqueaste %d de %d (%.0f%%)\n", $cumplidos, count($logros), $cumplidos * 100 / count($logros));
 ```
 
+#### Pruebas
+
+##### Una partida
+```entrada
+1;100;maga;1;10
+```
+```salida
+[x] Primera sangre
+[ ] Sobreviviente
+[ ] Sin ayuda
+[ ] Versátil
+[ ] Maratón
+[ ] Constante
+Desbloqueaste 1 de 6 (17%)
+```
+
+##### Constante
+```entrada
+2;100;guerrero;0;50
+3;200;maga;0;50
+4;300;arquero;0;50
+```
+```salida
+[x] Primera sangre
+[ ] Sobreviviente
+[ ] Sin ayuda
+[x] Versátil
+[x] Maratón
+[x] Constante
+Desbloqueaste 4 de 6 (67%)
+```
+
+##### Sin partidas
+```entrada
+```
+```salida
+[ ] Primera sangre
+[ ] Sobreviviente
+[ ] Sin ayuda
+[ ] Versátil
+[ ] Maratón
+[ ] Constante
+Desbloqueaste 0 de 6 (0%)
+```
+
 ### Prueba del sello
 
 #### ¿Por qué las oleadas se producen con un generador?
@@ -2628,6 +2673,107 @@ if ($campeon['vida'] <= 0) {
 } else {
     echo "Se terminaron las órdenes: el duelo queda pendiente.\n";
 }
+```
+
+#### Pruebas
+
+##### Bomba y pociones
+```entrada
+bomba
+bomba
+pocion
+pocion
+pocion
+```
+```salida
+Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+> bomba
+  ¡Kira tira la bomba! 35 de daño
+  El Campeón golpea: 11
+Turno 2 · Kira [#########.] 79/90 · Campeón [#######...] 65/100
+> bomba
+  No te quedan bombas
+Turno 2 · Kira [#########.] 79/90 · Campeón [#######...] 65/100
+> pocion
+  Kira toma una poción: +11
+  El Campeón golpea: 12
+Turno 3 · Kira [#########.] 78/90 · Campeón [#######...] 65/100
+> pocion
+  Kira toma una poción: +12
+  El Campeón golpea: 9
+Turno 4 · Kira [#########.] 81/90 · Campeón [#######...] 65/100
+> pocion
+  No te quedan pociones
+Se terminaron las órdenes: el duelo queda pendiente.
+```
+
+##### Ataca siempre
+```entrada
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+atacar
+```
+```salida
+Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+> atacar
+  Kira ataca: 14
+  El Campeón golpea: 12
+Turno 2 · Kira [#########.] 78/90 · Campeón [#########.] 86/100
+> atacar
+  Kira ataca: 12
+  El Campeón golpea: 10
+Turno 3 · Kira [########..] 68/90 · Campeón [#######...] 74/100
+> atacar
+  Kira ataca: 6 (el Campeón se defendió)
+  El Campeón golpea: 11
+Turno 4 · Kira [######....] 57/90 · Campeón [#######...] 68/100
+> atacar
+  Kira ataca: 8 (el Campeón se defendió)
+  El Campeón golpea: 13
+Turno 5 · Kira [#####.....] 44/90 · Campeón [######....] 60/100
+> atacar
+  Kira ataca: 7 (el Campeón se defendió)
+  El Campeón golpea: 13
+Turno 6 · Kira [###.......] 31/90 · Campeón [#####.....] 53/100
+> atacar
+  Kira ataca: 7 (el Campeón se defendió)
+  El Campeón golpea: 9
+Turno 7 · Kira [##........] 22/90 · Campeón [#####.....] 46/100
+> atacar
+  Kira ataca: 6 (el Campeón se defendió)
+  El Campeón golpea: 11
+Turno 8 · Kira [#.........] 11/90 · Campeón [####......] 40/100
+> atacar
+  Kira ataca: 6 (el Campeón se defendió)
+  El Campeón golpea: 12
+Kira cayó. El Campeón sigue invicto.
+```
+
+##### Órdenes desconocidas
+```entrada
+nadar
+estado
+```
+```salida
+Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+> nadar
+  Orden desconocida
+Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+> estado
+  Pociones: 2 · bombas: 1
+Se terminaron las órdenes: el duelo queda pendiente.
 ```
 
 ### Misión S01-N04-M2 · La Arena completa

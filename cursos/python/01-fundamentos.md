@@ -419,6 +419,32 @@ fahrenheit = celsius * 9 / 5 + 32
 print(f"{celsius:.1f} °C son {fahrenheit:.1f} °F")
 ```
 
+#### Pruebas
+
+##### Cero
+```entrada
+0
+```
+```salida
+Temperatura en °C: 0.0 °C son 32.0 °F
+```
+
+##### Bajo cero
+```entrada
+-40
+```
+```salida
+Temperatura en °C: -40.0 °C son -40.0 °F
+```
+
+##### Con decimales
+```entrada
+36.6
+```
+```salida
+Temperatura en °C: 36.6 °C son 97.9 °F
+```
+
 ### Prueba del sello
 
 #### ¿Qué tipo tiene el valor que devuelve `input()`? ¿Cómo lo pasás a número?
@@ -2004,6 +2030,36 @@ while True:
     else:
         print(f"¡Correcto! Lo adivinaste en {intentos} intentos.")
         break
+```
+
+#### Pruebas
+
+##### Se rinde
+```entrada
+10
+me rindo
+```
+```salida
+Tu número (o 'me rindo'):   Más bajo.
+Tu número (o 'me rindo'): El número era 8.
+```
+
+##### Muchos inválidos
+```entrada
+x
+51
+0
+4
+10
+8
+```
+```salida
+Tu número (o 'me rindo'):   Eso no es un número.
+Tu número (o 'me rindo'):   Más bajo.
+Tu número (o 'me rindo'):   Más alto.
+Tu número (o 'me rindo'):   Más alto.
+Tu número (o 'me rindo'):   Más bajo.
+Tu número (o 'me rindo'): ¡Correcto! Lo adivinaste en 5 intentos.
 ```
 
 ### Encargo R01-N04-E1 · El vuelto del cajero
@@ -5787,6 +5843,55 @@ while True:
 
 print("¡Hasta la próxima!")
 mostrar(inventario, oro)
+```
+
+#### Pruebas
+
+##### Sin oro para vender
+```entrada
+vender espada 1
+inventario
+salir
+```
+```salida
+> No tenés 1 espada.
+> Oro: 100
+> ¡Hasta la próxima!
+Oro: 100
+```
+
+##### Gasta todo
+```entrada
+comprar espada 1
+comprar cuerda 8
+comprar antorcha 1
+inventario
+salir
+```
+```salida
+> Compraste 1 espada por 60.
+> Compraste 8 cuerda por 40.
+> No te alcanza: 1 antorcha cuestan 3.
+> Oro: 0
+  cuerda      8
+  espada      1
+> ¡Hasta la próxima!
+Oro: 0
+  cuerda      8
+  espada      1
+```
+
+##### Órdenes raras
+```entrada
+volar
+comprar
+salir
+```
+```salida
+> Usá: comprar <objeto> <cantidad>, vender <objeto> <cantidad>, inventario o salir.
+> Usá: comprar <objeto> <cantidad>, vender <objeto> <cantidad>, inventario o salir.
+> ¡Hasta la próxima!
+Oro: 100
 ```
 
 ### Misión R01-N11-M2 · El informe de la batalla

@@ -5355,6 +5355,34 @@ while (($linea = fgets(STDIN)) !== false) {
 }
 ```
 
+#### Pruebas
+
+##### Medidas en el borde
+```entrada
+Ana;92
+Beto;116
+Caro;117
+Dani;1
+```
+```salida
+Ana: talle S (92 cm) $58.000
+Beto: talle XL (116 cm) $69.600
+Caro: no hay talle para «117»
+Dani: talle S (92 cm) $58.000
+```
+
+##### Talles en mayúscula y minúscula
+```entrada
+Eva;S
+Fede;xl
+Gabi;XXS
+```
+```salida
+Eva: talle S (92 cm) $58.000
+Fede: talle XL (116 cm) $69.600
+Gabi: no hay talle para «XXS»
+```
+
 ### Misión R02-N08-M2 · El vencimiento de las cuotas
 
 ```meta
@@ -5439,6 +5467,42 @@ for ($n = 1; $n <= $cuotas; $n++) {
     $ultimo = $vence;
 }
 echo "Días entre la compra y el último vencimiento: ", $compra->diff($ultimo)->days, "\n";
+```
+
+#### Pruebas
+
+##### Una cuota en enero
+```entrada
+15/12/2026
+1
+```
+```salida
+Fecha de compra: Cuotas:
+Cuota 1: lunes 11/01/2027
+Días entre la compra y el último vencimiento: 27
+```
+
+##### Fecha inválida
+```entrada
+31/02/2026
+3
+```
+```salida
+Fecha de compra: Cuotas:
+Fecha inválida.
+```
+
+##### Compra el día 10
+```entrada
+10/01/2027
+3
+```
+```salida
+Fecha de compra: Cuotas:
+Cuota 1: miércoles 10/02/2027
+Cuota 2: miércoles 10/03/2027
+Cuota 3: lunes 12/04/2027
+Días entre la compra y el último vencimiento: 92
 ```
 
 ### Misión R02-N08-M3 · El semáforo de los pedidos
@@ -5669,6 +5733,34 @@ while (($linea = fgets(STDIN)) !== false) {
     printf("  %-6s ingresó %s · %2d años · %2d días\n", $nombre, $ingreso->format('d/m/Y'), $antiguedad, $dias);
 }
 echo "Total de días a otorgar: $total\n";
+```
+
+#### Pruebas
+
+##### Bordes de tramos
+```entrada
+2026
+Uno;31/12/2021
+Dos;01/01/2021
+Tres;31/12/2016
+Cuatro;31/12/2006
+```
+```salida
+Vacaciones 2026
+  Uno    ingresó 31/12/2021 ·  5 años · 14 días
+  Dos    ingresó 01/01/2021 ·  5 años · 14 días
+  Tres   ingresó 31/12/2016 · 10 años · 21 días
+  Cuatro ingresó 31/12/2006 · 20 años · 28 días
+Total de días a otorgar: 77
+```
+
+##### Sin empleados
+```entrada
+2026
+```
+```salida
+Vacaciones 2026
+Total de días a otorgar: 0
 ```
 
 ### Prueba del sello
@@ -6046,6 +6138,36 @@ while (($linea = fgets(STDIN)) !== false) {
 echo "Procesadas: $procesadas · bien: $bien · mal: ", $procesadas - $bien, "\n";
 ```
 
+#### Pruebas
+
+##### Todo bien
+```entrada
+1 + 1
+2 * -3
+9 / 3
+```
+```salida
+1 + 1 = 2
+2 * -3 = -6
+9 / 3 = 3
+Procesadas: 3 · bien: 3 · mal: 0
+```
+
+##### Todo mal
+```entrada
+1 / 0
+1 % 2
+uno + dos
+2 +
+```
+```salida
+1 / 0 → División por cero
+1 % 2 → no se puede: Operador desconocido: %
+uno + dos → dato inválido: No son números: uno y dos
+2 + → dato inválido: Formato: NUMERO OPERADOR NUMERO
+Procesadas: 4 · bien: 0 · mal: 4
+```
+
 ### Misión R02-N09-M2 · Las excepciones del banco
 
 ```meta
@@ -6411,6 +6533,35 @@ ksort($porCampo);
 foreach ($porCampo as $campo => $cantidad) {
     echo "  $campo: $cantidad\n";
 }
+```
+
+#### Pruebas
+
+##### Todo válido
+```entrada
+Ana;ana@x.com;18
+Beto;beto@x.com;110
+```
+```salida
+Importados: 2
+  Ana <ana@x.com>, 18 años
+  Beto <beto@x.com>, 110 años
+Errores:
+```
+
+##### Bordes de edad
+```entrada
+Uno;uno@x.com;17
+Dos;dos@x.com;111
+Tres;tres@x.com;18.5
+```
+```salida
+Importados: 0
+Errores:
+  renglón 1: edad fuera de rango: 17
+  renglón 2: edad fuera de rango: 111
+  renglón 3: edad no numérica: 18.5
+  edad: 3
 ```
 
 ### Prueba del sello
@@ -7624,6 +7775,50 @@ while (($linea = fgets(STDIN)) !== false) {
         echo "Error: ", $e->getMessage(), "\n";
     }
 }
+```
+
+#### Pruebas
+
+##### Solo informe
+```entrada
+INFORME
+```
+```salida
+Facturado: $0,00
+```
+
+##### Bote completo
+```entrada
+INGRESA;bote;B-1;3;0;remos
+AVANZA;B-1
+TRABAJA;B-1;1.5
+AVANZA;B-1
+AVANZA;B-1
+INFORME
+```
+```salida
+Ingresó B-1 (bote): remos
+B-1 pasa a en reparación
+B-1: +1.5 h
+B-1 pasa a lista
+B-1 pasa a entregada
+B-1      bote    Entregada       1.5 h  $18.000,00
+Facturado: $18.000,00
+```
+
+##### Lancha chica sin recargo
+```entrada
+INGRESA;lancha;L-1;5;150;aceite
+AVANZA;L-1
+TRABAJA;L-1;2
+INFORME
+```
+```salida
+Ingresó L-1 (lancha): aceite
+L-1 pasa a en reparación
+L-1: +2 h
+L-1      lancha  EnReparacion    2.0 h  $36.000,00
+Facturado: $36.000,00
 ```
 
 ### Misión R02-N11-M2 · El alquiler de botes

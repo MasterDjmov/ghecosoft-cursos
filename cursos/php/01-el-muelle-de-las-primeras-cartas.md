@@ -1687,6 +1687,32 @@ echo "Tu nombre tiene ", mb_strlen($nombre), " letras.\n";
 echo "Al revés: ", strtoupper(strrev($nombre)), "\n";
 ```
 
+#### Pruebas
+
+##### Nombre en minúsculas
+```entrada
+olmo
+Valle Verde
+```
+```salida
+Nombre: Ciudad:
+Bienvenida, Olmo de Valle Verde.
+Tu nombre tiene 4 letras.
+Al revés: OMLO
+```
+
+##### Nombre compuesto
+```entrada
+ana paula
+puerto
+```
+```salida
+Nombre: Ciudad:
+Bienvenida, Ana Paula de puerto.
+Tu nombre tiene 9 letras.
+Al revés: ALUAP ANA
+```
+
 ### Misión R01-N04-M2 · La balanza de la aduana
 
 ```meta
@@ -1765,6 +1791,33 @@ if (is_numeric($texto)) {
 }
 
 printf("\nTotal: %.1f kg (%d inválido/s)\n", $total, $invalidos);
+```
+
+#### Pruebas
+
+##### Todos válidos
+```entrada
+1
+2,5
+3.25
+```
+```salida
+Peso 1: Peso 2: Peso 3:
+Total: 6.8 kg (0 inválido/s)
+```
+
+##### Todos inválidos
+```entrada
+a
+b
+c
+```
+```salida
+Peso 1: Peso inválido: «a»
+Peso 2: Peso inválido: «b»
+Peso 3: Peso inválido: «c»
+
+Total: 0.0 kg (3 inválido/s)
 ```
 
 ### Misión R01-N04-M3 · La etiqueta por argumentos
@@ -1913,6 +1966,44 @@ printf("Superficie a pintar: %.2f m²\n", $metros);
 echo "Litros: $litros\n";
 echo "Latas de ", LITROS_LATA, " l: $latas\n";
 echo "Total: $", number_format($latas * PRECIO_LATA, 2, ',', '.'), "\n";
+```
+
+#### Pruebas
+
+##### Medidas inválidas
+```entrada
+ancho alto
+2
+```
+```salida
+Ancho y alto (m):
+Hay que escribir dos números, por ejemplo: 4.5 2.6
+```
+
+##### Pared chica, una mano
+```entrada
+1 1
+1
+```
+```salida
+Ancho y alto (m): Manos:
+Superficie a pintar: 1.00 m²
+Litros: 1
+Latas de 4 l: 1
+Total: $38.500,00
+```
+
+##### Pared grande
+```entrada
+10 3,5
+3
+```
+```salida
+Ancho y alto (m): Manos:
+Superficie a pintar: 105.00 m²
+Litros: 11
+Latas de 4 l: 3
+Total: $115.500,00
 ```
 
 ### Prueba del sello
@@ -2259,6 +2350,51 @@ echo "Categoría: $categoria", $estudiante ? " (estudiante)" : "", "\n";
 echo "Pasaje: $", number_format($tarifa, 2, ',', '.'), "\n";
 ```
 
+#### Pruebas
+
+##### Bebé
+```entrada
+2
+no
+```
+```salida
+Edad: ¿Estudiante? (si/no):
+Categoría: bebé
+Pasaje: $0,00
+```
+
+##### Jubilado estudiante
+```entrada
+70
+si
+```
+```salida
+Edad: ¿Estudiante? (si/no):
+Categoría: jubilado (estudiante)
+Pasaje: $2.000,00
+```
+
+##### Edad inválida
+```entrada
+150
+no
+```
+```salida
+Edad: ¿Estudiante? (si/no):
+Edad inválida.
+```
+
+##### Niño en el borde
+```entrada
+12
+no
+```
+```salida
+Edad: ¿Estudiante? (si/no):
+Categoría: niño
+Pasaje: $2.500,00
+```
+
 ### Misión R01-N05-M2 · El semáforo del muelle
 
 ```meta
@@ -2330,6 +2466,48 @@ echo "Acción: $accion\n";
 echo "Velocidad máxima: $velocidad nudos\n";
 ```
 
+#### Pruebas
+
+##### Verde
+```entrada
+verde
+```
+```salida
+Color:
+Acción: Avanzar
+Velocidad máxima: 20 nudos
+```
+
+##### Luz de servicio
+```entrada
+Violeta
+```
+```salida
+Color:
+Acción: Ceder el paso a la guardia
+Velocidad máxima: 0 nudos
+```
+
+##### Color desconocido
+```entrada
+naranja
+```
+```salida
+Color:
+Acción: Semáforo roto: llamar al capitán del puerto
+Velocidad máxima: 0 nudos
+```
+
+##### Rojo
+```entrada
+ROJO
+```
+```salida
+Color:
+Acción: Detenerse
+Velocidad máxima: 0 nudos
+```
+
 ### Misión R01-N05-M3 · El año del faro
 
 ```meta
@@ -2380,6 +2558,32 @@ for ($i = 1; $i <= 3; $i++) {
     $dias = $bisiesto ? 366 : 365;
     echo $anio, ": ", $bisiesto ? "bisiesto" : "común", " ($dias días)\n";
 }
+```
+
+#### Pruebas
+
+##### Divisible por 400
+```entrada
+2400
+2100
+1600
+```
+```salida
+2400: bisiesto (366 días)
+2100: común (365 días)
+1600: bisiesto (366 días)
+```
+
+##### Años comunes
+```entrada
+2023
+2025
+1
+```
+```salida
+2023: común (365 días)
+2025: común (365 días)
+1: común (365 días)
 ```
 
 ### Encargo R01-N05-E1 · El envío de la tienda online
@@ -2471,6 +2675,46 @@ if ($compra > 80000) {
     }
 }
 echo "Envío: $", number_format($envio, 2, ',', '.'), "\n";
+```
+
+#### Pruebas
+
+##### Capital con compra grande
+```entrada
+capital
+3
+90000
+```
+```salida
+Zona: Peso (kg): Compra ($):
+Base (capital): 1500
+Extra por peso: 0
+Compra grande: envío gratis
+Envío: $0,00
+```
+
+##### Interior pesado
+```entrada
+interior
+12.5
+1000
+```
+```salida
+Zona: Peso (kg): Compra ($):
+Base (interior): 3500
+Extra por peso: 3200
+Envío: $6.700,00
+```
+
+##### Zona desconocida
+```entrada
+luna
+1
+1
+```
+```salida
+Zona: Peso (kg): Compra ($):
+Zona desconocida.
 ```
 
 ### Prueba del sello
@@ -2794,6 +3038,65 @@ for ($i = 1; $i <= 10; $i++) {
 echo "Máximo sin pasar 250 kg: $maximo cajón/es\n";
 ```
 
+#### Pruebas
+
+##### Cajón pesado
+```entrada
+300
+```
+```salida
+Peso de un cajón (kg):
+ 1 cajón/es:   300.0 kg <- excede
+ 2 cajón/es:   600.0 kg <- excede
+ 3 cajón/es:   900.0 kg <- excede
+ 4 cajón/es:  1200.0 kg <- excede
+ 5 cajón/es:  1500.0 kg <- excede
+ 6 cajón/es:  1800.0 kg <- excede
+ 7 cajón/es:  2100.0 kg <- excede
+ 8 cajón/es:  2400.0 kg <- excede
+ 9 cajón/es:  2700.0 kg <- excede
+10 cajón/es:  3000.0 kg <- excede
+Máximo sin pasar 250 kg: 0 cajón/es
+```
+
+##### Cajón liviano
+```entrada
+5
+```
+```salida
+Peso de un cajón (kg):
+ 1 cajón/es:     5.0 kg
+ 2 cajón/es:    10.0 kg
+ 3 cajón/es:    15.0 kg
+ 4 cajón/es:    20.0 kg
+ 5 cajón/es:    25.0 kg
+ 6 cajón/es:    30.0 kg
+ 7 cajón/es:    35.0 kg
+ 8 cajón/es:    40.0 kg
+ 9 cajón/es:    45.0 kg
+10 cajón/es:    50.0 kg
+Máximo sin pasar 250 kg: 10 cajón/es
+```
+
+##### Justo 25 kg
+```entrada
+25
+```
+```salida
+Peso de un cajón (kg):
+ 1 cajón/es:    25.0 kg
+ 2 cajón/es:    50.0 kg
+ 3 cajón/es:    75.0 kg
+ 4 cajón/es:   100.0 kg
+ 5 cajón/es:   125.0 kg
+ 6 cajón/es:   150.0 kg
+ 7 cajón/es:   175.0 kg
+ 8 cajón/es:   200.0 kg
+ 9 cajón/es:   225.0 kg
+10 cajón/es:   250.0 kg
+Máximo sin pasar 250 kg: 10 cajón/es
+```
+
 ### Misión R01-N06-M2 · La clave del almacén
 
 ```meta
@@ -2857,6 +3160,28 @@ if (!$correcta) {
     exit(1);
 }
 echo "Adelante. Acertaste en el intento $intentos.\n";
+```
+
+#### Pruebas
+
+##### Acierta al primero
+```entrada
+ancla
+```
+```salida
+Clave: Adelante. Acertaste en el intento 1.
+```
+
+##### Se bloquea
+```entrada
+a
+b
+c
+```
+```salida
+Clave: Incorrecta. Te quedan 2 intento/s.
+Clave: Incorrecta. Te quedan 1 intento/s.
+Clave: Almacén bloqueado.
 ```
 
 ### Misión R01-N06-M3 · El registro de llegadas
@@ -2941,6 +3266,46 @@ echo "Barcos: $barcos\n";
 echo "Pasajeros: $pasajeros\n";
 printf("Promedio: %.2f\n", $barcos > 0 ? $pasajeros / $barcos : 0);
 echo "El más lleno: $mayor ($maxPasajeros)\n";
+```
+
+#### Pruebas
+
+##### FIN de entrada
+```entrada
+FIN
+Gaviota;10
+```
+```salida
+Barcos: 0
+Pasajeros: 0
+Promedio: 0.00
+El más lleno:  (-1)
+```
+
+##### Un solo barco
+```entrada
+Delfín;5
+```
+```salida
+Llegó Delfín con 5 pasajeros
+Barcos: 1
+Pasajeros: 5
+Promedio: 5.00
+El más lleno: Delfín (5)
+```
+
+##### Empate de pasajeros
+```entrada
+A;50
+B;50
+```
+```salida
+Llegó A con 50 pasajeros
+Llegó B con 50 pasajeros
+Barcos: 2
+Pasajeros: 100
+Promedio: 50.00
+El más lleno: A (50)
 ```
 
 ### Encargo R01-N06-E1 · El plan de cuotas
@@ -3481,6 +3846,26 @@ foreach (array_slice($cuenta, 0, 5) as $palabra => $veces) {
 }
 ```
 
+#### Pruebas
+
+##### Pocas palabras
+```entrada
+la del el
+```
+```salida
+del: 1
+```
+
+##### Palabras repetidas
+```entrada
+Faro faro FARO, mar mar ¡ola!
+```
+```salida
+faro: 3
+mar: 2
+ola: 1
+```
+
 ### Encargo R01-N07-E1 · El carrito de la despensa
 
 ```meta
@@ -3562,6 +3947,46 @@ if ($total > 15000) {
     $total *= 0.90;
 }
 echo "TOTAL: ", $total, "\n";
+```
+
+#### Pruebas
+
+##### Nada de la lista
+```entrada
+chocolate 2
+vino 1
+```
+```salida
+No tenemos: chocolate
+No tenemos: vino
+TOTAL: 0
+```
+
+##### Sin descuento
+```entrada
+yerba 1
+azúcar 1
+```
+```salida
+azúcar    x1     1500     1500
+yerba      x1     4200     4200
+TOTAL: 5700
+```
+
+##### Justo en el límite
+```entrada
+yerba 2
+azúcar 2
+fideos 3
+galletitas 1
+```
+```salida
+azúcar    x2     1500     3000
+fideos     x3     1100     3300
+galletitas x1     1600     1600
+yerba      x2     4200     8400
+Descuento 10%: -1630
+TOTAL: 14670
 ```
 
 ### Prueba del sello
@@ -4209,6 +4634,34 @@ while (($linea = fgets(STDIN)) !== false) {
     }
     printf("%-14s %s\n", formatearCuit($linea), cuitValido($linea) ? "válido" : "inválido");
 }
+```
+
+#### Pruebas
+
+##### Verificador 0
+```entrada
+20-00000000-1
+```
+```salida
+20-00000000-1  válido
+```
+
+##### Verificador 10
+```entrada
+23-11111111-9
+```
+```salida
+23-11111111-9  inválido
+```
+
+##### Formatos raros
+```entrada
+ 20 12345678 6 
+2012345678612
+```
+```salida
+20-12345678-6  válido
+2012345678612  inválido
 ```
 
 ### Prueba del sello
@@ -5108,6 +5561,55 @@ foreach ($resumen as $barco => $r) {
     }
 }
 echo "\nMás carga: $masKilos ({$resumen[$masKilos]['kilos']} kg)\n";
+```
+
+#### Pruebas
+
+##### Todos válidos
+```entrada
+Gaviota;01/01/2026;10;1
+Gaviota;02/01/2026;20;3
+```
+```salida
+Registros con errores:
+
+Resumen por barco:
+  Gaviota   2 viaje/s     30 kg    2.0 pasajeros
+
+Más carga: Gaviota (30 kg)
+```
+
+##### Todos inválidos
+```entrada
+Gaviota;1/1/2026;10;1
+Albatros;01/00/2026;10;1
+Tortuga;01/01/2026;3.5;1
+Delfín;01/01/2026;10;-1
+```
+```salida
+Registros con errores:
+  renglón 1: fecha inválida: 1/1/2026
+  renglón 2: fecha inválida: 01/00/2026
+  renglón 3: kilos inválidos: 3.5
+  renglón 4: pasajeros inválidos: -1
+
+Resumen por barco:
+
+Más carga:  ( kg)
+```
+
+##### Bordes de pasajeros
+```entrada
+Ballena;31/12/2026;0;0
+Ballena;31/12/2026;0;500
+```
+```salida
+Registros con errores:
+
+Resumen por barco:
+  Ballena   2 viaje/s      0 kg  250.0 pasajeros
+
+Más carga: Ballena (0 kg)
 ```
 
 ### Misión R01-N10-M2 · La oficina de encomiendas

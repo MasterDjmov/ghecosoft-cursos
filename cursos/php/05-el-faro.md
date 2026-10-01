@@ -1802,6 +1802,44 @@ echo "Ruta con más errores: ", array_key_first($porRuta), " (", reset($porRuta)
 echo "El más lento: {$contador['lento']['metodo']} {$contador['lento']['ruta']} ({$contador['lento']['ms']} ms, {$contador['lento']['hora']})\n";
 ```
 
+#### Pruebas
+
+##### Sin errores
+```entrada
+2026-10-03 09:00:01 GET /a 200 10
+2026-10-03 09:00:02 GET /b 301 20
+```
+```salida
+Pedidos válidos: 2
+Errores: 0
+Ruta con más errores:  ()
+El más lento: GET /b (20 ms, 09:00:02)
+```
+
+##### Todo roto
+```entrada
+hola
+1 2 3
+```
+```salida
+Pedidos válidos: 0
+Errores: 0
+Ruta con más errores:  ()
+El más lento:   ( ms, )
+```
+
+##### Empate de errores
+```entrada
+2026-10-03 09:00:01 GET /a 404 1
+2026-10-03 09:00:02 GET /b 404 1
+```
+```salida
+Pedidos válidos: 2
+Errores: 2
+Ruta con más errores: /a (1)
+El más lento: GET /a (1 ms, 09:00:01)
+```
+
 ### Misión R05-N02-M3 · El número de turno infinito
 
 ```meta
@@ -4338,6 +4376,49 @@ foreach ($errores as $error) {
 $sospechosas = array_filter($fallidosPorIp, fn($n) => $n >= 3);
 echo "IP sospechosas: ", $sospechosas === [] ? 'ninguna' : implode(', ', array_map(fn($ip, $n) => "$ip ($n intentos)", array_keys($sospechosas), $sospechosas)), "\n";
 echo "Pedido más caro: {$masCaro['pedido']} por $", number_format($masCaro['total'], 2, ',', '.'), "\n";
+```
+
+#### Pruebas
+
+##### Sin errores ni sospechosos
+```entrada
+[2026-10-03 08:00:01] INFO: Arranca el día {}
+[2026-10-03 08:10:00] INFO: Pedido confirmado {"pedido":7,"total":1500.5}
+```
+```salida
+Eventos: INFO 2 · ilegibles 0
+Errores:
+IP sospechosas: ninguna
+Pedido más caro: 7 por $1.500,50
+```
+
+##### Casi todo ilegible
+```entrada
+basura
+[sin cierre INFO: x {}
+[2026-10-03 08:10:00] INFO: Pedido confirmado {"pedido":8,"total":100}
+```
+```salida
+Eventos: INFO 1 · ilegibles 2
+Errores:
+IP sospechosas: ninguna
+Pedido más caro: 8 por $100,00
+```
+
+##### Dos IP con dos intentos
+```entrada
+[2026-10-03 08:00:01] WARNING: Login fallido {"email":"a@x.com","ip":"1.1.1.1"}
+[2026-10-03 08:00:02] WARNING: Login fallido {"email":"a@x.com","ip":"1.1.1.1"}
+[2026-10-03 08:00:03] WARNING: Login fallido {"email":"b@x.com","ip":"2.2.2.2"}
+[2026-10-03 08:00:04] WARNING: Login fallido {"email":"b@x.com","ip":"2.2.2.2"}
+[2026-10-03 09:00:00] INFO: Pedido confirmado {"pedido":9,"total":20000}
+[2026-10-03 09:30:00] INFO: Pedido confirmado {"pedido":10,"total":19999}
+```
+```salida
+Eventos: INFO 2, WARNING 4 · ilegibles 0
+Errores:
+IP sospechosas: ninguna
+Pedido más caro: 9 por $20.000,00
 ```
 
 ### Prueba del sello

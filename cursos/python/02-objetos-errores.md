@@ -1593,6 +1593,37 @@ pociones = pedir_entero("Pociones (0-5): ", 0, 5)
 print(f"Nivel {nivel} con {pociones} pociones.")
 ```
 
+#### Pruebas
+
+##### Bordes
+```entrada
+1
+0
+```
+```salida
+Nivel (1-10): Pociones (0-5): Nivel 1 con 0 pociones.
+```
+
+##### Más bordes
+```entrada
+10
+5
+```
+```salida
+Nivel (1-10): Pociones (0-5): Nivel 10 con 5 pociones.
+```
+
+##### Decimales
+```entrada
+7.5
+3
+2
+```
+```salida
+Nivel (1-10): '7.5' no es un número entero.
+Nivel (1-10): Pociones (0-5): Nivel 3 con 2 pociones.
+```
+
 ### Misión R02-N03-M2 · La configuración perdida
 
 ```meta

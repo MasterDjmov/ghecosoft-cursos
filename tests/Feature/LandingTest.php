@@ -3,12 +3,14 @@
 use App\Enums\XpReason;
 use App\Models\Branch;
 use App\Models\Course;
+use App\Models\GlossaryTerm;
 use App\Models\Node;
 use App\Models\RankingSnapshot;
 use App\Models\User;
 use App\Services\Ledger;
 use App\Services\Ranking;
 use App\Services\TreeEditor;
+use App\Support\Glossary;
 use Illuminate\Support\Facades\Cache;
 
 /** Landing pública: cursos, "Próximamente" y top 10 de héroes (sin datos de acceso). */
@@ -100,4 +102,22 @@ test('el temario completo se abre en un modal, con las Sendas como opcionales y 
         ->assertSee('videojuegos con pygame')
         ->assertDontSee('Senda vacía')
         ->assertDontSee('Sprites secretos');
+});
+
+test('la portada presenta a la compañía y a sus enemigos con los nombres del Diccionario', function () {
+    GlossaryTerm::create(['key' => 'companion.theory', 'course_id' => null, 'singular' => 'Mía la Sabia', 'plural' => 'Mía la Sabia', 'gender' => 'f', 'short_description' => 'Explica todo con paciencia.']);
+    Glossary::flush(null);
+
+    $this->get('/')->assertOk()
+        ->assertSee('data-test="landing-cast"', false)
+        ->assertSee('Tu compañía y sus enemigos')
+        ->assertSee('Mía la Sabia')->assertSee('Explica todo con paciencia.')
+        ->assertSee('img/personajes/dragon.webp', false)
+        ->assertSee('Dragón');
+
+    // Un enemigo nuevo del Diccionario general aparece con su retrato; sin retrato, no.
+    GlossaryTerm::create(['key' => 'beast.hydra', 'course_id' => null, 'singular' => 'hidra', 'plural' => 'hidras', 'gender' => 'f', 'icon_path' => 'glossary/hidra.jpg', 'short_description' => 'Le cortás un bug y salen dos.']);
+    GlossaryTerm::create(['key' => 'beast.kraken', 'course_id' => null, 'singular' => 'kraken', 'plural' => 'krakens', 'gender' => 'm']);
+    Glossary::flush(null);
+    $this->get('/')->assertSee('Hidra')->assertSee('glossary/hidra.jpg', false)->assertSee('Le cortás un bug y salen dos.')->assertDontSee('Kraken');
 });

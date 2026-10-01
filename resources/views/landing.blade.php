@@ -119,6 +119,53 @@
                 </section>
             @endif
 
+            {{-- La compañía y sus enemigos: una fila para cada bando (del Diccionario general). --}}
+            @if ($crew->isNotEmpty() || $beasts->isNotEmpty())
+            <section class="flex flex-col gap-8" data-test="landing-cast">
+                <div class="flex flex-col gap-1">
+                    <p class="tech-label">La historia</p>
+                    <h2 class="font-display text-3xl font-semibold text-white">Tu compañía y sus enemigos</h2>
+                    <p class="text-ink-muted">En cada mundo te acompaña un equipo. Enfrente, las criaturas: cada una es un error típico al programar, y la vencés aprendiendo a leerlo.</p>
+                </div>
+
+                <div @class(['flex flex-col gap-3', 'hidden' => $crew->isEmpty()])>
+                    <p class="tech-label text-primary-bright">Protagonistas</p>
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                        @foreach ($crew as $member)
+                            <figure class="flex flex-col items-center gap-2 text-center">
+                                <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" loading="lazy"
+                                    class="size-28 rounded-full object-cover ring-2 ring-primary/40 shadow-[0_0_24px_rgba(34,211,238,0.25)] transition hover:scale-105">
+                                <figcaption class="flex flex-col gap-0.5">
+                                    <span class="font-display font-semibold text-white">{{ $member['name'] }}</span>
+                                    @if ($member['role'])
+                                        <span class="text-xs text-ink-muted">{{ $member['role'] }}</span>
+                                    @endif
+                                </figcaption>
+                            </figure>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div @class(['flex flex-col gap-3', 'hidden' => $beasts->isEmpty()])>
+                    <p class="tech-label text-[#fca5a5]">Enemigos</p>
+                    <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-7">
+                        @foreach ($beasts as $beast)
+                            <figure class="flex flex-col items-center gap-2 text-center">
+                                <img src="{{ $beast['image'] }}" alt="{{ $beast['name'] }}" loading="lazy"
+                                    class="size-24 rounded-xl object-cover ring-2 ring-danger/40 shadow-[0_0_24px_rgba(248,113,113,0.2)] transition hover:scale-105">
+                                <figcaption class="flex flex-col gap-0.5">
+                                    <span class="font-display font-semibold text-white">{{ $beast['name'] }}</span>
+                                    @if ($beast['role'])
+                                        <span class="text-xs text-ink-muted">{{ $beast['role'] }}</span>
+                                    @endif
+                                </figcaption>
+                            </figure>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+            @endif
+
             {{-- Monedas coleccionables --}}
             @if ($coins->isNotEmpty())
                 <section class="flex flex-col gap-6">

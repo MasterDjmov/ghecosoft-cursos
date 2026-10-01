@@ -7,7 +7,9 @@
 // Otra plataforma además de las de siempre:  java scripts/JavaRunner.java --origin https://otra.ejemplo
 //
 // Seguridad: escucha solo en 127.0.0.1 y atiende únicamente pedidos del navegador que vengan de la plataforma
-// (encabezado Origin, que una página no puede falsificar) dirigidos a 127.0.0.1/localhost (frena el DNS rebinding).
+// (encabezado Origin, que una página no puede falsificar) o de una copia servida en esta misma compu
+// (http://127.0.0.1 o http://localhost, cualquier puerto), dirigidos a 127.0.0.1/localhost (frena el DNS rebinding).
+// Anota cada pedido (método, ruta y origen, nunca el código) en la salida: con el servicio, journalctl --user -u javarunner.
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -49,7 +51,7 @@ public class JavaRunner {
         server.createContext("/", JavaRunner::handle);
         server.start();
         System.out.println("Ejecutor de Java listo en http://127.0.0.1:" + PORT + " (Java " + Runtime.version() + ").");
-        System.out.println("Atiende a: " + String.join(", ", ORIGINS));
+        System.out.println("Atiende a: " + String.join(", ", ORIGINS) + " y cualquier página de esta compu (127.0.0.1 o localhost).");
         System.out.println("Dejalo abierto mientras corregís; Ctrl+C para cerrarlo.");
     }
 
@@ -57,7 +59,11 @@ public class JavaRunner {
         try (ex) {
             String origin = ex.getRequestHeaders().getFirst("Origin");
             String host = String.valueOf(ex.getRequestHeaders().getFirst("Host")).replaceAll(":\\d+$", "");
-            if (origin == null || !ORIGINS.contains(origin) || !(host.equals("127.0.0.1") || host.equals("localhost"))) {
+            // Una línea por pedido (sin el código): sirve para ver si el navegador llega hasta acá.
+            System.out.println(java.time.LocalTime.now().withNano(0) + " " + ex.getRequestMethod() + " " + ex.getRequestURI().getPath()
+                + " desde " + origin + " (host " + host + ")");
+            if (!allowed(origin) || !(host.equals("127.0.0.1") || host.equals("localhost"))) {
+                System.out.println("  rechazado: origen o host no permitidos");
                 send(ex, 403, "{\"error\":\"origen no permitido\"}", null);
                 return;
             }
@@ -77,6 +83,11 @@ public class JavaRunner {
         } catch (Exception e) {
             System.err.println("Error: " + e);
         }
+    }
+
+    /** La plataforma en producción (y las de --origin), o una copia servida en esta misma compu (cualquier puerto). */
+    static boolean allowed(String origin) {
+        return origin != null && (ORIGINS.contains(origin) || origin.matches("http://(127\\.0\\.0\\.1|localhost)(:\\d+)?"));
     }
 
     static void send(HttpExchange ex, int status, String body, String origin) throws IOException {

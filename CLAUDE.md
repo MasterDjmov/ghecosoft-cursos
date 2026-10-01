@@ -16,6 +16,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [cursos/temas.md](cursos/temas.md) — catálogo de temas del universo (D70): cada nodo marca en su `meta` los temas que enseña (`temas:`) y los que usa (`usa:`); *Admin → Universo* los muestra en un mapa 3D con lo repetido y lo que falta. Un tema nuevo se agrega acá antes de usarlo en un curso.
 - [docs/IDEAS-GAMIFICACION.md](docs/IDEAS-GAMIFICACION.md) — análisis de lo bueno, lo malo y un abanico de mejoras (respuesta inmediata, pistas, retos cortos, ligas, logros). **Revisar y decidir antes de subir a producción.**
 - [docs/SIMULACION.md](docs/SIMULACION.md) — el "súper test": `app:simulate-course` hace cursar un curso entero a 5 alumnos con el docente corrigiendo, y revisa economía, aperturas, insignias y fin del curso. Se corre con cada curso nuevo antes de abrirlo.
+- [docs/CORRECCION-ASISTIDA.md](docs/CORRECCION-ASISTIDA.md) — D73, a revisar: la corrección sigue siendo humana, pero con varias pruebas por práctica que corren en el navegador del docente, el indicio (entrada + salida esperada) igual en todos los cursos, comentarios guardados y «dónde se traban».
 - [docs/CURSOS-EXISTENTES.md](docs/CURSOS-EXISTENTES.md) — el material de `/home/djmov/Programas/Cursos/FullCursos/` y cómo se traduce a cursos, unidades y clases. Esa carpeta es solo lectura: no se modifica desde este proyecto.
 
 ## Reglas de trabajo

@@ -146,7 +146,9 @@ class SimulateCourse extends Command
         mt_srand((int) $this->option('seed'));
         $this->language = $course->language->value;
         $this->workDir = storage_path('app/simulacion');
-        $this->local = new LocalCodeRunner($this->language, $this->workDir);
+        // Python corta a los 5 s como Pyodide en el navegador; lo compilado corre en la compu del alumno
+        // y hay prácticas que miden rendimiento (C++ R05-N03-M3 ronda los 5 s sin optimizar).
+        $this->local = new LocalCodeRunner($this->language, $this->workDir, timeout: $this->language === 'python' ? 5 : 20);
         $this->runner = $this->local->binary;
 
         $this->info("Simulando «{$course->title}»: ".count(self::PERSONAS).' alumnos, corrige '.$teacher->name.'.');

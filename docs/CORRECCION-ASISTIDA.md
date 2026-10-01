@@ -120,7 +120,8 @@ Todos coinciden con la solución de referencia (`app:course-tests`). Las salidas
 - **Java:** las prácticas con base de datos (JDBC) quedan sin pruebas: no se pueden correr ni en el súper test ni con `JavaRunner`. Lo mismo en PHP con las páginas web y PDO (15 prácticas).
 - **Contenido corregido al verificar:** dos salidas esperadas de Python habían perdido la sangría de la primera línea (R02-N02-M1 y R03-N02-M2).
 - **A revisar por el docente:** la solución de referencia de PHP R05-N05-E1 (*El monitor de la tienda*) falla con `number_format(null)` si el registro no tiene ningún pedido confirmado. La consigna no dice qué mostrar en ese caso; las pruebas incluyen siempre un pedido.
-- **Rendimiento:** C++ R05-N03-M3 mide búsquedas (2000 sobre 200 000 números) y, sin optimizar, tarda cerca de 5 s; el comando usa 20 s de margen. Al corregir en el navegador (Clang en WebAssembly) va a tardar.
+- **Rendimiento:** C++ R05-N03-M3 mide búsquedas (2000 sobre 200 000 números) y, sin optimizar, tarda cerca de 5 s; el comando y el súper test usan 20 s de margen en los lenguajes compilados (con 5 s, el súper test la rechazaba siempre y los alumnos simulados se trababan ahí). Al corregir en el navegador (Clang en WebAssembly) va a tardar.
+- **Súper test de C++ con las pruebas (2026-10-01):** todos los controles en verde; en 90 días terminan valen, cami y lu, y tomi y mateo (los perfiles que más se equivocan y faltan) quedan a mitad de camino, sin ninguna práctica que los trabe.
 
 ## Decidido (2026-09-30)
 

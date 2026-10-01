@@ -42,8 +42,9 @@ scripts/build-php-toolchain.sh >/dev/null
 ssh "$HOST" bash -s <<EOF
 set -euo pipefail
 cd ~/$APP_DIR
-php artisan down --retry=30 || true
 git pull --ff-only
+bash scripts/backup.sh   # copia de la base y los archivos antes de migrar (DEPLOY.md § 8)
+php artisan down --retry=30 || true
 composer install --no-dev --optimize-autoloader --no-interaction
 php artisan migrate --force
 EOF

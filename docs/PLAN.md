@@ -273,7 +273,7 @@ La plataforma está en `https://gamificado.lariojaclick.ar` desde el **2026-09-2
 **Actualizar:** desde la compu del docente, después de `git push`: `scripts/deploy.sh` (código, estilos, migraciones y caché) o `scripts/deploy.sh --cursos` (además reimporta los cursos de `cursos/`). En el servidor `npm run build` no anda: los assets se compilan en la compu y se sube `public/build/`.
 
 **Pendiente:**
-- **Copias de seguridad automáticas** de la base y de `storage/app/private` (hoy son a mano, DEPLOY.md).
+- Hecho (2026-10-01): **copias de seguridad** con `scripts/backup.sh` (todos los días por *Cron Jobs* de cPanel y antes de cada deploy, 14 días) y `scripts/pull-backups.sh` para traerlas a la compu (DEPLOY.md § 8). El docente agenda la tarea en cPanel.
 - La clave SSH del servidor como *deploy key* de solo lectura (DEPLOY.md § 2), si hace falta.
 
 Lo que sigue quedó como registro de la instalación.

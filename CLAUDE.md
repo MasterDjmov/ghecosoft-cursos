@@ -49,6 +49,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - `scripts/build-cpp-toolchain.sh` — arma `public/toolchains/cpp/` (biblioteca de C++ con excepciones + PCH) para que el docente ejecute C/C++ al corregir (D66); una vez, o al cambiar las versiones de `resources/js/runners/cpp-config.js`
 - `scripts/build-php-toolchain.sh` — copia PHP 8.3 en WebAssembly (de `node_modules/@php-wasm/web-8-3`) a `public/toolchains/php/` para ejecutar PHP al corregir (D68); lo corre solo `deploy.sh`
 - `java scripts/JavaRunner.java` — ejecutor local de Java: dejarlo abierto mientras se corrige para que *Ejecutar* ande en las entregas de Java (D69; escucha solo en 127.0.0.1:17017)
+- `scripts/backup.sh` — copia de la base y de `storage/app` en el servidor (cron diario de cPanel y antes de cada deploy); `scripts/pull-backups.sh` las trae a la compu (DEPLOY.md § 8)
 - `scripts/deploy.sh [--cursos]` — actualizar producción desde la compu (el servidor no puede compilar los assets: se compilan acá y se sube `public/build/`)
 
 ## Convenciones del código

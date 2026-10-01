@@ -184,17 +184,23 @@ ln -s ~/ghecosoft-code/public ~/public_html
 
 ## 8. Copias de seguridad
 
-Lo que no se puede perder:
+Lo que no se puede perder: **la base de datos**, **`storage/app/private`** (comprobantes, entregas, recursos y autorizaciones) y **`storage/app/public`** (logos, íconos e insignias). Además, el **`.env`**: guardalo en un lugar seguro, fuera del servidor.
 
-- **La base de datos**: cPanel → *Backup* → *Download a MySQL Database Backup*, o por SSH:
+`scripts/backup.sh` (corre en el servidor) copia la base (`mysqldump`, sin bloquear las tablas) y los archivos subidos a `~/backups/ghecosoft/`, fuera de la web, y borra los de más de 14 días. Anota cada copia en `~/backups/ghecosoft/backup.log` y, si falla, sale con error.
+
+- **Todos los días**, desde cPanel → *Cron Jobs* → *Añadir nuevo trabajo de cron*: minuto `30`, hora `4`, día `*`, mes `*`, día de la semana `*`, y como comando:
   ```bash
-  mysqldump -u USUARIO -p BASE > ~/backups/ghecosoft-$(date +%F).sql
+  /bin/bash /home/lariojac/gamificado.lariojaclick.ar/scripts/backup.sh
   ```
-- **`storage/app/private`**: comprobantes, entregas, recursos y autorizaciones.
-- **`storage/app/public`**: logos, íconos e insignias.
-- **`.env`**: guardalo en un lugar seguro, fuera del servidor.
+  No escribe nada si sale bien; si falla, cPanel manda el error al mail configurado arriba de esa pantalla (*Correo electrónico de cron*).
+- **Antes de cada actualización**: `scripts/deploy.sh` la corre sola, antes de las migraciones.
+- **Fuera del servidor**: desde la compu del docente, `scripts/pull-backups.sh` trae a `~/Respaldos/ghecosoft` las copias que todavía no tiene (una vez por semana, por ejemplo). Sin esto, si se pierde el servidor se pierden también las copias.
 
-Recomendado: una copia por semana, más una antes de cada actualización.
+Para restaurar (con cuidado: pisa la base):
+```bash
+gunzip -c ~/backups/ghecosoft/db-AAAA-MM-DD_HHMM.sql.gz | mysql -u USUARIO -p BASE
+tar xzf ~/backups/ghecosoft/archivos-AAAA-MM-DD_HHMM.tar.gz -C ~/gamificado.lariojaclick.ar/storage/app
+```
 
 ## 9. Cloudflare y el subdominio `gamificado.lariojaclick.ar`
 

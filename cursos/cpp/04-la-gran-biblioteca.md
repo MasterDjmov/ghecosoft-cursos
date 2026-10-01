@@ -515,6 +515,46 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Desapilar vacía
+```entrada
+-
++ uno
+-
+-
+```
+```salida
+no hay nada
+apilo uno
+saco uno
+no hay nada
+Quedan 0
+Tope de la pila de números: 7
+```
+
+##### Llena y queda
+```entrada
++ a
++ b
++ c
+```
+```salida
+apilo a
+apilo b
+apilo c
+Quedan 3
+Tope de la pila de números: 7
+```
+
+##### Sin órdenes
+```entrada
+```
+```salida
+Quedan 0
+Tope de la pila de números: 7
+```
+
 ### Encargo R04-N01-E1 · Estadísticas para cualquier número
 
 ```meta
@@ -990,6 +1030,37 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sin positivos
+```entrada
+-1 -2 0
+```
+```salida
+Leí 3 números
+Positivos ordenados:
+De mayor a menor:
+```
+
+##### Uno solo
+```entrada
+42
+```
+```salida
+Leí 1 números
+Positivos ordenados: 42
+De mayor a menor: 42
+```
+
+##### Vacía
+```entrada
+```
+```salida
+Leí 0 números
+Positivos ordenados:
+De mayor a menor:
+```
+
 ### Misión R04-N02-M3 · Borrar sin perder el dedo
 
 ```meta
@@ -1152,6 +1223,30 @@ int main()
     std::cout << "\n" << todos.size() << " clientes distintos\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin repetidos
+```entrada
+1 3 5
+2 4 6
+```
+```salida
+Unidos: 1 2 3 4 5 6
+Sin repetir: 1 2 3 4 5 6
+6 clientes distintos
+```
+
+##### Todos iguales
+```entrada
+7 7 7
+7 7
+```
+```salida
+Unidos: 7 7 7 7 7
+Sin repetir: 7
+1 clientes distintos
 ```
 
 ### Prueba del sello
@@ -1493,6 +1588,36 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Todo bien
+```entrada
+()[]{}
+sin simbolos
+```
+```salida
+ok:    ()[]{}
+ok:    sin simbolos
+```
+
+##### Cierre al principio
+```entrada
+]abc
+```
+```salida
+error: ]abc
+       ^
+```
+
+##### Solo aperturas
+```entrada
+(((
+```
+```salida
+error: (((
+         ^
+```
+
 ### Misión R04-N03-M2 · La fila del banco
 
 ```meta
@@ -1585,6 +1710,36 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Atender sin nadie
+```entrada
+atender
+atender
+```
+```salida
+La caja espera: no hay nadie
+La caja espera: no hay nadie
+Atendidos: 0, fila más larga: 0, esperando: 0
+```
+
+##### Nadie atendido
+```entrada
+llega Ana
+llega Bruno
+```
+```salida
+Atendidos: 0, fila más larga: 2, esperando: 2
+Próximo: Ana, último: Bruno
+```
+
+##### Sin órdenes
+```entrada
+```
+```salida
+Atendidos: 0, fila más larga: 0, esperando: 0
+```
+
 ### Misión R04-N03-M3 · El historial con límite
 
 ```meta
@@ -1671,6 +1826,42 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Deshacer sin historial
+```entrada
+deshacer rehacer
+```
+```salida
+deshacer -> | rehacer:0
+rehacer -> | rehacer:0
+```
+
+##### Seis acciones
+```entrada
+a b c d e f
+```
+```salida
+a -> a | rehacer:0
+b -> a b | rehacer:0
+c -> a b c | rehacer:0
+d -> a b c d | rehacer:0
+e -> b c d e | rehacer:0
+f -> c d e f | rehacer:0
+```
+
+##### Deshacer y escribir otra cosa
+```entrada
+a b deshacer c rehacer
+```
+```salida
+a -> a | rehacer:0
+b -> a b | rehacer:0
+deshacer -> a | rehacer:1
+c -> a c | rehacer:0
+rehacer -> a c | rehacer:0
 ```
 
 ### Encargo R04-N03-E1 · La guardia del hospital
@@ -1773,6 +1964,40 @@ int main()
     std::cout << "Esperando: " << guardia.size() << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Médico sin pacientes
+```entrada
+medico
+```
+```salida
+Sala vacía
+Esperando: 0
+```
+
+##### Misma urgencia en orden de llegada
+```entrada
+ingresa A 3
+ingresa B 3
+ingresa C 3
+medico
+medico
+```
+```salida
+Pasa A (urgencia 3)
+Pasa B (urgencia 3)
+Esperando: 1
+```
+
+##### Quedan esperando
+```entrada
+ingresa X 1
+ingresa Y 5
+```
+```salida
+Esperando: 2
 ```
 
 ### Prueba del sello
@@ -2085,6 +2310,31 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Agenda vacía
+```entrada
+dia 1
+semana 1 30
+```
+```salida
+Día 1: libre
+Del 1 al 30:
+Total de actividades: 0
+```
+
+##### Rango de un día
+```entrada
+agendar 10 a
+agendar 10 b
+agendar 11 c
+semana 10 10
+```
+```salida
+Del 10 al 10: 10-a 10-b
+Total de actividades: 3
+```
+
 ### Misión R04-N04-M2 · El ranking vivo
 
 ```meta
@@ -2158,6 +2408,48 @@ int main()
     std::cout << "Peor partida: " << ranking.rbegin()->nombre << " " << ranking.rbegin()->puntos << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Menos de tres partidas
+```entrada
+Kira 10
+Bron 20
+```
+```salida
+Top 3:
+  1. Bron 20
+  2. Kira 10
+Partidas registradas: 2
+Peor partida: Kira 10
+```
+
+##### Empates en todo
+```entrada
+B 100
+A 100
+C 100
+A 100
+```
+```salida
+Top 3:
+  1. A 100
+  2. A 100
+  3. B 100
+Partidas registradas: 4
+Peor partida: C 100
+```
+
+##### Una sola partida
+```entrada
+Solo 1
+```
+```salida
+Top 3:
+  1. Solo 1
+Partidas registradas: 1
+Peor partida: Solo 1
 ```
 
 ### Misión R04-N04-M3 · El índice de la biblioteca
@@ -2236,6 +2528,27 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Una sola palabra repetida
+```entrada
+uno dos
+tres uno
+cuatro
+```
+```salida
+uno: 1 2
+```
+
+##### Misma palabra en la misma línea
+```entrada
+el el el
+el
+```
+```salida
+el: 1 2
+```
+
 ### Encargo R04-N04-E1 · Las tarifas del correo
 
 ```meta
@@ -2309,6 +2622,32 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Bordes
+```entrada
+0
+50
+50.01
+10
+24.99
+```
+```salida
+0.0 kg: no se envía
+50.0 kg: $12500 (tramo desde 25.0 kg)
+50.0 kg: no se envía
+10.0 kg: $6800 (tramo desde 10.0 kg)
+25.0 kg: $6800 (tramo desde 10.0 kg)
+```
+
+##### Peso mínimo
+```entrada
+0.01
+```
+```salida
+0.0 kg: $1500 (tramo desde 0.0 kg)
 ```
 
 ### Prueba del sello
@@ -2621,6 +2960,47 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Cantidad impar
+```entrada
+3 9 6
+```
+```salida
+Notas: 3
+Promedio: 6, mediana: 6
+Menor: 3, mayor: 9
+Aprobados: 2
+Todos rindieron
+Ordenadas: 3 6 9
+```
+
+##### Alguno no rindió
+```entrada
+0 10 8 6
+```
+```salida
+Notas: 4
+Promedio: 6, mediana: 7
+Menor: 0, mayor: 10
+Aprobados: 3
+Hay ausentes (nota 0)
+Ordenadas: 0 6 8 10
+```
+
+##### Una sola nota
+```entrada
+10
+```
+```salida
+Notas: 1
+Promedio: 10, mediana: 10
+Menor: 10, mayor: 10
+Aprobados: 1
+Todos rindieron
+Ordenadas: 10
+```
+
 ### Misión R04-N05-M2 · El podio de la carrera
 
 ```meta
@@ -2706,6 +3086,37 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Tres corredores
+```entrada
+A 300
+B 200
+C 100
+```
+```salida
+1. C (100 s)
+2. B (200 s)
+3. A (300 s)
+Tiempo mediano: 200 s (B)
+Último: A
+```
+
+##### Empates de tiempo
+```entrada
+A 500
+B 500
+C 400
+D 600
+```
+```salida
+1. C (400 s)
+2. A (500 s)
+3. B (500 s)
+Tiempo mediano: 500 s (A)
+Último: D
+```
+
 ### Misión R04-N05-M3 · Los socios en orden
 
 ```meta
@@ -2779,6 +3190,39 @@ int main()
               << (std::is_sorted(socios.begin(), socios.end()) ? "sí" : "no") << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Todos ya socios
+```entrada
+88 91 5310
+```
+```salida
+7 socios únicos
+88: es socio (posición 0)
+91: es socio (posición 1)
+5310: es socio (posición 6)
+Ahora hay 7, ¿sigue ordenado? sí
+```
+
+##### Más grande que todos
+```entrada
+6000 7000
+```
+```salida
+7 socios únicos
+6000: no es socio
+7000: no es socio
+Ahora hay 9, ¿sigue ordenado? sí
+```
+
+##### Sin consultas
+```entrada
+```
+```salida
+7 socios únicos
+Ahora hay 7, ¿sigue ordenado? sí
 ```
 
 ### Encargo R04-N05-E1 · Los invitados del casamiento
@@ -2859,6 +3303,30 @@ int main()
     mostrar("Solo de la novia", solo_novia);
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Nadie en común
+```entrada
+Ana Beto
+Caro Dani
+```
+```salida
+Invitados por los dos (0):
+Lista final (4): Ana Beto Caro Dani
+Solo de la novia (2): Ana Beto
+```
+
+##### Listas iguales
+```entrada
+Ana Beto Ana
+Beto Ana
+```
+```salida
+Invitados por los dos (2): Ana Beto
+Lista final (2): Ana Beto
+Solo de la novia (0):
 ```
 
 ### Prueba del sello
@@ -3183,6 +3651,28 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Bordes del rango
+```entrada
+0 9 10 30 31
+```
+```salida
+5 datos, suma 80, máximo 31, promedio 16
+Entre 10 y 30: 2
+Entre 0 y 9: 2
+```
+
+##### Un solo dato
+```entrada
+100
+```
+```salida
+1 datos, suma 100, máximo 100, promedio 100
+Entre 10 y 30: 0
+Entre 0 y 9: 0
+```
+
 ### Misión R04-N06-M2 · La calculadora de comandos
 
 ```meta
@@ -3263,6 +3753,35 @@ int main()
     std::cout << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Negativos y decimales
+```entrada
+resta 2.5 10
+por -3 4
+```
+```salida
+resta(2.5, 10) = -7.5
+por(-3, 4) = -12
+Operaciones: hipotenusa por potencia promedio resta suma
+```
+
+##### Ninguna existe
+```entrada
+dividir 1 2
+```
+```salida
+dividir: no existe
+Operaciones: hipotenusa por potencia promedio resta suma
+```
+
+##### Sin órdenes
+```entrada
+```
+```salida
+Operaciones: hipotenusa por potencia promedio resta suma
 ```
 
 ### Misión R04-N06-M3 · El bus de eventos
@@ -3368,6 +3887,39 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Silencio de entrada
+```entrada
+silencio x
+moneda 50
+```
+```salida
+  (sin festejos)
+Puntos: 50, logros: 0
+```
+
+##### Solo jefes
+```entrada
+jefe Hidra
+jefe Kraken
+```
+```salida
+  logro: venciste a Hidra
+  logro: venciste a Kraken
+Puntos: 0, logros: 2
+```
+
+##### Evento desconocido
+```entrada
+tesoro 100
+moneda 1
+```
+```salida
+  ¡+1!
+Puntos: 1, logros: 0
+```
+
 ### Encargo R04-N06-E1 · Las reglas de descuento
 
 ```meta
@@ -3456,6 +4008,32 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Socio con compra grande sin miércoles
+```entrada
+20000 1 si martes
+```
+```salida
+$20000.00: [socio 10%] [compra grande -$500] -> $17500.00
+```
+
+##### Miércoles con un solo artículo
+```entrada
+5000 1 no miercoles
+```
+```salida
+$5000.00: -> $5000.00
+```
+
+##### Justo 10000
+```entrada
+10000 1 no lunes
+```
+```salida
+$10000.00: [compra grande -$500] -> $9500.00
 ```
 
 ### Prueba del sello
@@ -3804,6 +4382,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Campos vacíos
+```entrada
+,,
+```
+```salida
+3 campos: [] [] []
+```
+
+##### Sin comas y con espacios
+```entrada
+   a b c
+```
+```salida
+1 campos: [a b c]
+```
+
+##### Coma al final
+```entrada
+uno,dos,
+```
+```salida
+3 campos: [uno] [dos] []
+```
+
 ### Misión R04-N07-M2 · Normalizar con span
 
 ```meta
@@ -3976,6 +4580,31 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Nadie de relojes ni de vapor
+```entrada
+Tesla faros 10
+Edison faros 9
+```
+```salida
+Los 3 de mayor nivel: Tesla(10) Edison(9)
+Del taller de relojes:
+Aprendices: 0
+```
+
+##### Todos aprendices
+```entrada
+A relojes 1
+B vapor 2
+```
+```salida
+Los 3 de mayor nivel: B(2) A(1)
+Del taller de relojes: A
+Aprendices: 2
+El de más nivel en vapor: B
+```
+
 ### Encargo R04-N07-E1 · El log del servidor
 
 ```meta
@@ -4073,6 +4702,33 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin errores
+```entrada
+[INFO] todo bien
+[WARN] cuidado
+```
+```salida
+INFO: 1
+WARN: 1
+Errores:
+```
+
+##### Corchetes raros
+```entrada
+[] vacío
+[ERROR]sin espacio
+ERROR sin corchetes
+```
+```salida
+: 1
+?: 1
+ERROR: 1
+Errores:
+  sin espacio
 ```
 
 ### Prueba del sello
@@ -4440,6 +5096,26 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Paso que no cae justo
+```entrada
+0 10 3
+1 2 5
+```
+```salida
+[0, 10) de a 3: 0 3 6 9 | suma 18, múltiplos de 3: 4
+[1, 2) de a 5: 1 | suma 1, múltiplos de 3: 0
+```
+
+##### Rango al revés
+```entrada
+10 1 1
+```
+```salida
+[10, 1) de a 1: | suma 0, múltiplos de 3: 0
+```
+
 ### Misión R04-N08-M2 · El anillo que rechaza
 
 ```meta
@@ -4595,6 +5271,43 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sale de una sala vacía
+```entrada
+sale
+entra Ana
+sale
+sale
+```
+```salida
+Últimos 3 en llegar: Ana
+En la sala:
+```
+
+##### Sin órdenes
+```entrada
+```
+```salida
+Últimos 3 en llegar:
+En la sala:
+```
+
+##### Muchos llegan
+```entrada
+entra A
+entra B
+entra C
+entra D
+entra E
+```
+```salida
+La sala está llena: D espera
+La sala está llena: E espera
+Últimos 3 en llegar: C D E
+En la sala: A B C
+```
+
 ### Misión R04-N08-M3 · La matriz de alturas
 
 ```meta
@@ -4704,6 +5417,37 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Una sola fila
+```entrada
+1 3
+-5 0 5
+```
+```salida
+-5 0 5
+Suma: 0
+Cima: 5
+Sin pozos:
+0 0 5
+```
+
+##### Todo pozos
+```entrada
+2 2
+-1 -2
+-3 -4
+```
+```salida
+-1 -2
+-3 -4
+Suma: -10
+Cima: -1
+Sin pozos:
+0 0
+0 0
+```
+
 ### Encargo R04-N08-E1 · El promedio móvil de ventas
 
 ```meta
@@ -4799,6 +5543,48 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Menos de una semana
+```entrada
+50 60
+```
+```salida
+Día 1: 50.0 | promedio de 1 días: 50.0
+Día 2: 60.0 | promedio de 2 días: 55.0
+```
+
+##### Ventas iguales sin picos
+```entrada
+100 100 100 100 100 100 100 100
+```
+```salida
+Día 1: 100.0 | promedio de 1 días: 100.0
+Día 2: 100.0 | promedio de 2 días: 100.0
+Día 3: 100.0 | promedio de 3 días: 100.0
+Día 4: 100.0 | promedio de 4 días: 100.0
+Día 5: 100.0 | promedio de 5 días: 100.0
+Día 6: 100.0 | promedio de 6 días: 100.0
+Día 7: 100.0 | promedio de 7 días: 100.0
+Día 8: 100.0 | promedio de 7 días: 100.0
+```
+
+##### Pico justo en el límite
+```entrada
+100 100 100 100 100 100 100 150 151
+```
+```salida
+Día 1: 100.0 | promedio de 1 días: 100.0
+Día 2: 100.0 | promedio de 2 días: 100.0
+Día 3: 100.0 | promedio de 3 días: 100.0
+Día 4: 100.0 | promedio de 4 días: 100.0
+Día 5: 100.0 | promedio de 5 días: 100.0
+Día 6: 100.0 | promedio de 6 días: 100.0
+Día 7: 100.0 | promedio de 7 días: 100.0
+Día 8: 150.0 | promedio de 7 días: 107.1
+Día 9: 151.0 | promedio de 7 días: 114.4
 ```
 
 ### Prueba del sello
@@ -5105,6 +5891,56 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sale enseguida
+```entrada
+0
+```
+```salida
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+¡Hasta luego!
+```
+
+##### Se termina la entrada
+```entrada
+1
+lavar
+2
+```
+```salida
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+Tarea:
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+1. [ ] lavar
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+¡Hasta luego!
+```
+
+##### Marcar fuera de rango y limpiar sin hechas
+```entrada
+1
+!urgente
+3
+5
+4
+6
+0
+```
+```salida
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+Tarea:
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+Número:
+No existe la tarea 5.
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+Borradas: 0
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+1 tareas, 0 hechas, 1 urgentes pendientes
+1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
+¡Hasta luego!
+```
+
 ### Misión R04-N09-M2 · Los tentáculos del Kraken
 
 ```meta
@@ -5355,6 +6191,85 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Kira no se mueve
+```entrada
+x
+```
+```salida
+..........
+.....t....
+@..+....K.
+......t...
+..........
+Turno 1: Kira va a (0, 2)
+..........
+....t.....
+@..+....K.
+.....t....
+..........
+Kira sigue en pie; enemigos caídos: 0, entidades: 5
+```
+
+##### Kira va hacia arriba
+```entrada
+aaaa
+```
+```salida
+..........
+.....t....
+@..+....K.
+......t...
+..........
+Turno 1: Kira va a (0, 1)
+Turno 2: Kira va a (0, 0)
+Turno 3: Kira va a (0, -1)
+Turno 4: Kira va a (0, -2)
+..........
+.t........
+...+....K.
+..t.......
+..........
+Kira sigue en pie; enemigos caídos: 0, entidades: 5
+```
+
+##### Camino largo
+```entrada
+ddddddddddddd
+```
+```salida
+..........
+.....t....
+@..+....K.
+......t...
+..........
+Turno 1: Kira va a (1, 2)
+Turno 2: Kira va a (2, 2)
+Turno 3: Kira va a (3, 2)
+  Kira junta poción (vida 60)
+  Kira y tentáculo chocan: tentáculo queda en 3, Kira en 54
+Turno 4: Kira va a (4, 2)
+  Kira y tentáculo chocan: tentáculo queda en -9, Kira en 48
+  [evento] cae tentáculo
+Turno 5: Kira va a (5, 2)
+Turno 6: Kira va a (6, 2)
+Turno 7: Kira va a (7, 2)
+Turno 8: Kira va a (8, 2)
+  Kira y Kraken chocan: Kraken queda en 48, Kira en 39
+Turno 9: Kira va a (9, 2)
+Turno 10: Kira va a (10, 2)
+Turno 11: Kira va a (11, 2)
+Turno 12: Kira va a (12, 2)
+Turno 13: Kira va a (13, 2)
+..........
+..........
+........K.
+..........
+..........
+Kira sigue en pie; enemigos caídos: 1, entidades: 3
+```
+
 ### Encargo R04-N09-E1 · El despacho de pedidos
 
 ```meta
@@ -5470,6 +6385,46 @@ int main()
     std::cout << (atrasados.empty() ? " ninguno" : "") << "\nQuedan: " << pendientes.size() << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Camión sin pedidos
+```entrada
+camion 10
+```
+```salida
+Camión (min 30):
+Bultos por zona:
+Atrasados: ninguno
+Quedan: 0
+```
+
+##### Pedido que no entra en ningún camión
+```entrada
+pedido 1 norte 100 50
+camion 10
+camion 20
+```
+```salida
+Camión (min 30):
+Camión (min 60):
+Bultos por zona:
+Atrasados: ninguno
+Quedan: 1
+```
+
+##### Empate de vencimiento
+```entrada
+pedido 7 sur 60 1
+pedido 3 norte 60 1
+camion 5
+```
+```salida
+Camión (min 30): #3 #7
+Bultos por zona: norte=1 sur=1
+Atrasados: ninguno
+Quedan: 0
 ```
 
 ### Prueba del sello

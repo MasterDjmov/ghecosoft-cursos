@@ -709,6 +709,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Un solo nombre
+```entrada
+Tesla
+inventora
+```
+```salida
+Nombre completo: Oficio:
+Registrado: Tesla (inventora)
+Letras del nombre (con espacios): 5
+Inicial: T
+```
+
+##### Nombre largo con varios espacios
+```entrada
+María de los Ángeles Pérez
+herrera mayor
+```
+```salida
+Nombre completo: Oficio:
+Registrado: María de los Ángeles Pérez (herrera mayor)
+Letras del nombre (con espacios): 29
+Inicial: M
+```
+
 ### Misión R01-N02-M2 · La balanza del mercado
 
 ```meta
@@ -776,6 +802,41 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Precio no numérico
+```entrada
+engranajes
+caro
+3
+```
+```salida
+Producto: Precio:
+Precio inválido.
+```
+
+##### Cantidad no numérica
+```entrada
+resortes
+12.5
+muchos
+```
+```salida
+Producto: Precio: Cantidad:
+Cantidad inválida.
+```
+
+##### Precio con muchos decimales
+```entrada
+tuerca
+0.333
+3
+```
+```salida
+Producto: Precio: Cantidad:
+3 x tuerca a $0.33 = $1.00
+```
+
 ### Misión R01-N02-M3 · La tabla de materiales
 
 ```meta
@@ -836,6 +897,34 @@ int main()
     std::cout << std::left << std::setw(12) << "TOTAL" << std::right << std::setw(8) << c1 + c2 + c3 << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Cantidades grandes
+```entrada
+plomo 1250 estanio 3 oro 999999
+```
+```salida
+Tres materiales con su cantidad (nombre cantidad):
+Material       Cant.
+plomo           1250
+estanio            3
+oro           999999
+TOTAL        1001252
+```
+
+##### Ceros
+```entrada
+cobre 0 zinc 0 hierro 0
+```
+```salida
+Tres materiales con su cantidad (nombre cantidad):
+Material       Cant.
+cobre              0
+zinc               0
+hierro             0
+TOTAL              0
 ```
 
 ### Encargo R01-N02-E1 · La deuda del club
@@ -908,6 +997,38 @@ int main()
     std::cout << "En 3 cuotas de: $" << (deuda + recargo) / 3 << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin deuda
+```entrada
+Bruno Díaz
+5000
+0
+```
+```salida
+Socio: Cuota mensual: Meses adeudados:
+Socio: Bruno Díaz
+Deuda: $0.00
+Recargo (10%): $0.00
+Total: $0.00
+En 3 cuotas de: $0.00
+```
+
+##### Cuota con decimales
+```entrada
+Celi Ruiz
+3333.33
+2
+```
+```salida
+Socio: Cuota mensual: Meses adeudados:
+Socio: Celi Ruiz
+Deuda: $6666.66
+Recargo (10%): $666.67
+Total: $7333.33
+En 3 cuotas de: $2444.44
 ```
 
 ### Prueba del sello
@@ -1202,6 +1323,38 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Se abre
+```entrada
+5
+si
+```
+```salida
+Nivel: ¿Tenés llave? (si/no):
+La puerta se abre.
+```
+
+##### Le falta la llave
+```entrada
+9
+no
+```
+```salida
+Nivel: ¿Tenés llave? (si/no):
+Te falta la llave.
+```
+
+##### Le falta todo
+```entrada
+1
+no
+```
+```salida
+Nivel: ¿Tenés llave? (si/no):
+Volvé cuando seas más fuerte y tengas la llave.
+```
+
 ### Misión R01-N03-M2 · La calculadora del taller
 
 ```meta
@@ -1274,6 +1427,44 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Multiplicación con x
+```entrada
+6 x 7
+```
+```salida
+Cuenta (ej: 8 * 3):
+6 * 7 = 42
+```
+
+##### Resta negativa
+```entrada
+3 - 10
+```
+```salida
+Cuenta (ej: 8 * 3):
+3 - 10 = -7
+```
+
+##### Operación desconocida
+```entrada
+5 % 2
+```
+```salida
+Cuenta (ej: 8 * 3):
+Operación desconocida: %
+```
+
+##### División con decimales
+```entrada
+7 / 2
+```
+```salida
+Cuenta (ej: 8 * 3):
+7 / 2 = 3.5
+```
+
 ### Misión R01-N03-M3 · El calendario de la Ciudadela
 
 ```meta
@@ -1326,6 +1517,38 @@ int main()
     std::cout << "Febrero tiene " << (bisiesto ? 29 : 28) << " días.\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Divisible por 400
+```entrada
+2000
+```
+```salida
+Año:
+2000 es bisiesto
+Febrero tiene 29 días.
+```
+
+##### Divisible por 4
+```entrada
+2024
+```
+```salida
+Año:
+2024 es bisiesto
+Febrero tiene 29 días.
+```
+
+##### Año común
+```entrada
+2023
+```
+```salida
+Año:
+2023 no es bisiesto
+Febrero tiene 28 días.
 ```
 
 ### Encargo R01-N03-E1 · El boleto del colectivo
@@ -1390,6 +1613,38 @@ int main()
     std::cout << "Boleto: $" << precio << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Menor de 6 un sábado
+```entrada
+4
+sabado
+```
+```salida
+Edad: Día (lunes..domingo):
+Boleto: $0
+```
+
+##### Adulto en día de semana
+```entrada
+30
+martes
+```
+```salida
+Edad: Día (lunes..domingo):
+Boleto: $800
+```
+
+##### Joven el fin de semana
+```entrada
+16
+sabado
+```
+```salida
+Edad: Día (lunes..domingo):
+Boleto: $300
 ```
 
 ### Prueba del sello
@@ -1722,6 +1977,41 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sin lecturas
+```entrada
+0
+```
+```salida
+Lecturas (0 para terminar):
+No hubo lecturas.
+```
+
+##### Una sola lectura negativa
+```entrada
+-15 0
+```
+```salida
+Lecturas (0 para terminar):
+Lecturas: 1
+Suma: -15
+Promedio: -15
+Máximo: -15, mínimo: -15
+```
+
+##### Todas iguales
+```entrada
+5 5 5 5 0
+```
+```salida
+Lecturas (0 para terminar):
+Lecturas: 4
+Suma: 20
+Promedio: 5
+Máximo: 5, mínimo: 5
+```
+
 ### Misión R01-N04-M2 · La pirámide de engranajes
 
 ```meta
@@ -1783,6 +2073,34 @@ int main()
     std::cout << "Engranajes usados: " << pisos * pisos << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Un piso
+```entrada
+1
+```
+```salida
+Pisos:
+o
+Engranajes usados: 1
+```
+
+##### Siete pisos
+```entrada
+7
+```
+```salida
+Pisos:
+      o
+     ooo
+    ooooo
+   ooooooo
+  ooooooooo
+ ooooooooooo
+ooooooooooooo
+Engranajes usados: 49
 ```
 
 ### Misión R01-N04-M3 · El adivino mecánico
@@ -1858,6 +2176,49 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Acierta al primero
+```entrada
+37
+```
+```salida
+Intento 1:
+¡Acertaste! Era 37.
+```
+
+##### Se acaban los intentos
+```entrada
+10
+90
+20
+80
+30
+```
+```salida
+Intento 1:
+Más alto.
+Intento 2:
+Más bajo.
+Intento 3:
+Más alto.
+Intento 4:
+Más bajo.
+Intento 5:
+Más alto.
+Se acabaron los intentos. Era 37.
+```
+
+##### Se termina la entrada
+```entrada
+40
+```
+```salida
+Intento 1:
+Más bajo.
+Intento 2: Se acabaron los intentos. Era 37.
 ```
 
 ### Encargo R01-N04-E1 · La alcancía
@@ -1936,6 +2297,33 @@ int main()
     std::cout << "Llegás a la meta en " << mes << " meses.\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Depósito cero
+```entrada
+50000
+0
+3
+```
+```salida
+Meta: Depósito mensual: Interés mensual (%):
+Con ese depósito no se llega nunca.
+```
+
+##### Sin interés
+```entrada
+30000
+10000
+0
+```
+```salida
+Meta: Depósito mensual: Interés mensual (%):
+Mes 1: $10000.00
+Mes 2: $20000.00
+Mes 3: $30000.00
+Llegás a la meta en 3 meses.
 ```
 
 ### Prueba del sello
@@ -2470,6 +2858,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Tasa cero
+```entrada
+120000
+0
+```
+```salida
+Capital: Tasa anual (%):
+6 cuotas de $20000.00 (total $120000.00)
+12 cuotas de $10000.00 (total $120000.00)
+24 cuotas de $5000.00 (total $120000.00)
+```
+
+##### Tasa baja
+```entrada
+1000000
+12
+```
+```salida
+Capital: Tasa anual (%):
+6 cuotas de $172548.37 (total $1035290.20)
+12 cuotas de $88848.79 (total $1066185.46)
+24 cuotas de $47073.47 (total $1129763.33)
+```
+
 ### Prueba del sello
 
 #### ¿Qué pasa con las variables de una función cuando termina?
@@ -2855,6 +3269,35 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Ya ordenados
+```entrada
+1 2 3
+```
+```salida
+Tres números:
+Ordenados: 1 2 3
+```
+
+##### Al revés con negativos
+```entrada
+9 0 -4
+```
+```salida
+Tres números:
+Ordenados: -4 0 9
+```
+
+##### Repetidos
+```entrada
+5 2 5
+```
+```salida
+Tres números:
+Ordenados: 2 5 5
+```
+
 ### Misión R01-N06-M3 · La división con resto
 
 ```meta
@@ -2977,6 +3420,26 @@ int main()
     std::cout << "Normalizado: " << codigo << " (" << codigo.size() << " caracteres)\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Ya normalizado
+```entrada
+XY99
+```
+```salida
+Código:
+Normalizado: XY99 (4 caracteres)
+```
+
+##### Solo guiones y espacios en el medio
+```entrada
+a - b - c   1
+```
+```salida
+Código:
+Normalizado: ABC1 (4 caracteres)
 ```
 
 ### Prueba del sello
@@ -3333,6 +3796,40 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Ninguna válida
+```entrada
+0 11 -3 15
+```
+```salida
+No hay notas.
+```
+
+##### Cantidad par de notas
+```entrada
+10 2 8 6
+```
+```salida
+Notas válidas: 4
+Promedio: 6.5
+Aprobados: 3
+Ordenadas: 2 6 8 10
+Mediana: 8
+```
+
+##### Una sola nota
+```entrada
+6
+```
+```salida
+Notas válidas: 1
+Promedio: 6
+Aprobados: 1
+Ordenadas: 6
+Mediana: 6
+```
+
 ### Misión R01-N07-M2 · El plano del taller
 
 ```meta
@@ -3420,6 +3917,36 @@ int main()
     std::cout << "Piezas colocadas: " << colocadas << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Plano vacío
+```entrada
+2 3 0
+```
+```salida
+...
+...
+Piezas colocadas: 0
+```
+
+##### Todas fuera o encimadas
+```entrada
+3 3 4
+0 0 A
+0 0 B
+3 0 C
+-1 2 D
+```
+```salida
+Ocupado: 0,0
+Fuera del plano: 3,0
+Fuera del plano: -1,2
+A..
+...
+...
+Piezas colocadas: 1
 ```
 
 ### Misión R01-N07-M3 · La fila del taller
@@ -3580,6 +4107,27 @@ int main()
     std::cout << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Faltan datos
+```entrada
+1000 2000 3000
+```
+```salida
+Faltan ventas: hacen falta 7.
+```
+
+##### Todos iguales
+```entrada
+5000 5000 5000 5000 5000 5000 5000
+```
+```salida
+Total: $35000
+Promedio: $5000
+Mejor día: lunes ($5000)
+Sobre el promedio:
 ```
 
 ### Prueba del sello
@@ -3874,6 +4422,46 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Otra semilla
+```entrada
+1
+```
+```salida
+ 2: *** 35
+ 3: ****** 61
+ 4: ********** 101
+ 5: ************* 135
+ 6: ***************** 174
+ 7: ******************** 204
+ 8: **************** 167
+ 9: ************ 126
+10: ********* 98
+11: ****** 64
+12: *** 35
+La suma más común: 7
+```
+
+##### Semilla grande
+```entrada
+987654
+```
+```salida
+ 2: *** 34
+ 3: ***** 54
+ 4: ********* 90
+ 5: ************ 121
+ 6: ****************** 185
+ 7: ****************** 189
+ 8: **************** 167
+ 9: *************** 150
+10: ********** 103
+11: ****** 67
+12: **** 40
+La suma más común: 7
+```
+
 ### Misión R01-N08-M2 · Distancias entre torres
 
 ```meta
@@ -3952,6 +4540,32 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Una sola torre
+```entrada
+0 0 1
+Unica 3 4
+```
+```salida
+Unica: 5.00
+La más cercana: Unica
+```
+
+##### Empate en la más cercana
+```entrada
+0 0 3
+Este 5 0
+Oeste -5 0
+Lejos 20 20
+```
+```salida
+Este: 5.00
+Oeste: 5.00
+Lejos: 28.28
+La más cercana: Este
 ```
 
 ### Misión R01-N08-M3 · Los cofres de la Ciudadela
@@ -4039,6 +4653,44 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Semilla 1
+```entrada
+1
+```
+```salida
+Cofre 1: común
+Cofre 2: épico
+Cofre 3: raro
+Cofre 4: épico
+Cofre 5: común
+Cofre 6: común
+Cofre 7: común
+Cofre 8: épico
+Cofre 9: común
+Cofre 10: común
+Comunes 6, raros 1, épicos 3
+```
+
+##### Semilla 2026
+```entrada
+2026
+```
+```salida
+Cofre 1: común
+Cofre 2: raro
+Cofre 3: común
+Cofre 4: épico
+Cofre 5: épico
+Cofre 6: épico
+Cofre 7: común
+Cofre 8: raro
+Cofre 9: común
+Cofre 10: común
+Comunes 5, raros 2, épicos 3
+```
+
 ### Encargo R01-N08-E1 · La rifa del club
 
 ```meta
@@ -4100,6 +4752,24 @@ int main()
     std::cout << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Semilla 1
+```entrada
+1
+```
+```salida
+Números ganadores: 21 24 25 34 50
+```
+
+##### Semilla 99
+```entrada
+99
+```
+```salida
+Números ganadores: 6 10 19 29 37
 ```
 
 ### Prueba del sello
@@ -4446,6 +5116,180 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Se retira enseguida
+```entrada
+7
+```
+```salida
+--- Turno 1 ---
+Kira     [##########] 60/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira se retira del duelo.
+```
+
+##### Ataca siempre
+```entrada
+42
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+```
+```salida
+--- Turno 1 ---
+Kira     [##########] 60/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 8.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 5.
+--- Turno 2 ---
+Kira     [#########.] 55/60
+Autómata [########..] 62/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 7.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 5.
+--- Turno 3 ---
+Kira     [########..] 50/60
+Autómata [#######...] 55/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 10.
+El Autómata golpea por 10.
+--- Turno 4 ---
+Kira     [######....] 40/60
+Autómata [######....] 45/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 9.
+El Autómata golpea por 7.
+--- Turno 5 ---
+Kira     [#####.....] 33/60
+Autómata [#####.....] 36/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 6.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 4.
+--- Turno 6 ---
+Kira     [####......] 29/60
+Autómata [####......] 30/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 8.
+El Autómata golpea por 10.
+--- Turno 7 ---
+Kira     [###.......] 19/60
+Autómata [###.......] 22/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 10.
+El Autómata golpea por 10.
+--- Turno 8 ---
+Kira     [#.........] 9/60
+Autómata [#.........] 12/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 6.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 6.
+--- Turno 9 ---
+Kira     [..........] 3/60
+Autómata [..........] 6/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 11.
+=== ¡Kira vence al Autómata de Latón! ===
+```
+
+##### Cura sin pociones
+```entrada
+5
+2
+2
+2
+1
+1
+1
+1
+1
+1
+1
+1
+```
+```salida
+--- Turno 1 ---
+Kira     [##########] 60/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira se cura. Pociones restantes: 1.
+El Autómata golpea por 7.
+--- Turno 2 ---
+Kira     [########..] 53/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira se cura. Pociones restantes: 0.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 6.
+--- Turno 3 ---
+Kira     [#########.] 54/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+No quedan pociones: Kira pierde el turno.
+El Autómata golpea por 7.
+--- Turno 4 ---
+Kira     [#######...] 47/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 12.
+El Autómata golpea por 12.
+--- Turno 5 ---
+Kira     [#####.....] 35/60
+Autómata [########..] 58/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 6.
+El Autómata golpea por 10.
+--- Turno 6 ---
+Kira     [####......] 25/60
+Autómata [#######...] 52/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 11.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 4.
+--- Turno 7 ---
+Kira     [###.......] 21/60
+Autómata [#####.....] 41/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 9.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 4.
+--- Turno 8 ---
+Kira     [##........] 17/60
+Autómata [####......] 32/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 7.
+El Autómata golpea por 11.
+--- Turno 9 ---
+Kira     [#.........] 6/60
+Autómata [###.......] 25/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 10.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 5.
+--- Turno 10 ---
+Kira     [..........] 1/60
+Autómata [##........] 15/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Kira golpea por 9.
+El Autómata golpea por 7.
+=== El Autómata gana esta vez. ===
+```
+
 ### Misión R01-N09-M2 · Las placas del Autómata
 
 ```meta
@@ -4569,6 +5413,42 @@ int main()
     std::cout << "Quedan " << enteras << " placas enteras.\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin golpes
+```entrada
+```
+```salida
+[0:30][1:30][2:40][3:50][4:40][5:30][6:30]
+Quedan 7 placas enteras.
+```
+
+##### Golpes en los bordes
+```entrada
+0 100
+6 100
+```
+```salida
+[0:30][1:30][2:40][3:50][4:40][5:30][6:30]
+Golpe en 0 por 100: ¡2 placa(s) rota(s)!
+[0:0][1:0][2:40][3:50][4:40][5:30][6:30]
+Golpe en 6 por 100: ¡2 placa(s) rota(s)!
+[0:0][1:0][2:40][3:50][4:40][5:0][6:0]
+Quedan 3 placas enteras.
+```
+
+##### Todo al aire
+```entrada
+-1 50
+7 50
+```
+```salida
+[0:30][1:30][2:40][3:50][4:40][5:30][6:30]
+Golpe al aire.
+Golpe al aire.
+Quedan 7 placas enteras.
 ```
 
 ### Encargo R01-N09-E1 · El cajero automático
@@ -4702,6 +5582,52 @@ int main()
     std::cout << "Saldo final: $" << saldo << " en " << movimientos.size() << " movimientos.\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sale enseguida
+```entrada
+0
+```
+```salida
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Saldo final: $10000.00 en 0 movimientos.
+```
+
+##### Monto cero y negativo
+```entrada
+1
+0
+2
+-100
+3
+0
+```
+```salida
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Monto:
+Monto inválido.
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Monto:
+Monto inválido.
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Movimientos: (ninguno)
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Saldo final: $10000.00 en 0 movimientos.
+```
+
+##### Se termina la entrada
+```entrada
+1
+250.75
+```
+```salida
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Monto:
+Saldo: $10250.75
+1 depositar, 2 extraer, 3 movimientos, 0 salir:
+Saldo final: $10250.75 en 1 movimientos.
 ```
 
 ### Prueba del sello

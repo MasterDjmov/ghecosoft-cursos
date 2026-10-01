@@ -37,7 +37,8 @@ class CourseTests extends Command
         $report = new ImportReport;
         $data = (new CourseFileParser)->parse($files, $report);
         $language = Str::lower((string) ($data['course']['meta']['lenguaje'] ?? ''));
-        $runner = new LocalCodeRunner($language);
+        // Margen amplio: hay prácticas que miden rendimiento (sin optimizar tardan unos segundos).
+        $runner = new LocalCodeRunner($language, timeout: 20);
         if (! $runner->available()) {
             $this->error("No encuentro con qué correr «{$language}» en esta compu (python3, gcc, g++, java o php).");
 

@@ -332,6 +332,35 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sin errores
+```entrada
+1 2 3
+```
+```salida
+Suma: 6 (0 errores)
+```
+
+##### Todo errores
+```entrada
+abc 12.5 +
+```
+```salida
+abc: no es un número
+12.5: sobran caracteres: ".5"
++: no es un número
+Suma: 0 (3 errores)
+```
+
+##### Límite del int
+```entrada
+2147483647 -2147483648
+```
+```salida
+Suma: -1 (0 errores)
+```
+
 ### Misión R05-N01-M2 · El depósito que valida
 
 ```meta
@@ -445,6 +474,26 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Pedir justo lo que hay
+```entrada
+resorte 4
+resorte 1
+```
+```salida
+Salen 4 resorte (quedan 0)
+no alcanza el stock de resorte: pidieron 1, hay 0
+```
+
+##### Cero
+```entrada
+engranaje 0
+```
+```salida
+Error: la cantidad tiene que ser positiva
 ```
 
 ### Misión R05-N01-M3 · ¿Dónde se atrapa?
@@ -657,6 +706,35 @@ int main()
     std::cout << "Importados " << socios.size() << " de " << numero << "; recaudación mensual $" << total << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Todo válido
+```entrada
+Ana,34,4500
+Bruno,40,1000.25
+```
+```salida
+Importados 2 de 2; recaudación mensual $5500.25
+```
+
+##### Edades en el borde
+```entrada
+A,0,100
+B,-1,100
+C,120,100
+```
+```salida
+Línea 2: edad imposible: -1
+Importados 2 de 3; recaudación mensual $200
+```
+
+##### Sin socios
+```entrada
+```
+```salida
+Importados 0 de 0; recaudación mensual $0
 ```
 
 ### Prueba del sello
@@ -993,6 +1071,28 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Todo sin stock
+```entrada
+a 0 100
+b 0 200
+```
+```salida
+Ítems: 0
+Total: $0
+```
+
+##### Un solo ítem
+```entrada
+cafe 1 4000
+```
+```salida
+Ítems: 1
+Total: $4000
+El más caro: cafe
+```
+
 ### Misión R05-N02-M2 · Funciones que se defienden
 
 ```meta
@@ -1086,6 +1186,44 @@ int main()
     std::cout << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin notas
+```entrada
+```
+```salida
+Reparto de 17 en 5: 4 4 3 3 3
+```
+
+##### Todas válidas
+```entrada
+1 2 3 4 5 6 7 8 9 10
+```
+```salida
+1: uno
+2: dos
+3: tres
+4: cuatro
+5: cinco
+6: seis
+7: siete
+8: ocho
+9: nueve
+10: diez
+Reparto de 17 en 5: 4 4 3 3 3
+```
+
+##### Todas inválidas
+```entrada
+-1 100 0
+```
+```salida
+-1: nota inválida
+100: nota inválida
+0: nota inválida
+Reparto de 17 en 5: 4 4 3 3 3
 ```
 
 ### Misión R05-N02-M3 · Limpiar la función tramposa
@@ -1190,6 +1328,29 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Nadie llega
+```entrada
+500
+Kira 340
+Bron 80
+```
+```salida
+0 con 500 o más:
+```
+
+##### Todos empatados
+```entrada
+0
+C 5
+A 5
+B 5
+```
+```salida
+3 con 0 o más: A B C
+```
+
 ### Encargo R05-N02-E1 · La planilla de horas
 
 ```meta
@@ -1274,6 +1435,31 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Horas en el borde
+```entrada
+ana 0
+ana 24
+ana 24.5
+```
+```salida
+Registro ignorado: ana 24.5
+ana: 24.0 h en 2 días (promedio 12.0)
+```
+
+##### Un solo empleado con extra
+```entrada
+zoe 10
+zoe 10
+zoe 10
+zoe 10
+zoe 10
+```
+```salida
+zoe: 50.0 h en 5 días (promedio 10.0) +10.0 h extra
 ```
 
 ### Prueba del sello
@@ -2278,6 +2464,62 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Kira quieta
+```entrada
+.....
+```
+```salida
+T1 Kira@0: G1@5 alerta G2@19 patrulla
+T2 Kira@0: G1@5 alerta G2@20 patrulla
+T3 Kira@0: G1@5 alerta G2@19 patrulla
+T4 Kira@0: G1@5 alerta G2@18 patrulla
+T5 Kira@0: G1@5 alerta G2@17 patrulla
+```
+
+##### Kira va y vuelve
+```entrada
+ddddiiii
+```
+```salida
+T1 Kira@1: G1@5 alerta G2@19 patrulla
+T2 Kira@2: G1@4 persigue G2@20 patrulla
+T3 Kira@3: G1@4 ataca G2@19 patrulla
+T4 Kira@4: G1@4 ataca G2@18 patrulla
+T5 Kira@3: G1@4 ataca G2@17 patrulla
+T6 Kira@2: G1@3 persigue G2@16 patrulla
+T7 Kira@1: G1@2 persigue G2@15 patrulla
+T8 Kira@0: G1@1 persigue G2@14 patrulla
+```
+
+##### Corre hasta el final
+```entrada
+dddddddddddddddddddd
+```
+```salida
+T1 Kira@1: G1@5 alerta G2@19 patrulla
+T2 Kira@2: G1@4 persigue G2@20 patrulla
+T3 Kira@3: G1@4 ataca G2@19 patrulla
+T4 Kira@4: G1@4 ataca G2@18 patrulla
+T5 Kira@5: G1@4 ataca G2@17 patrulla
+T6 Kira@6: G1@5 persigue G2@16 patrulla
+T7 Kira@7: G1@6 persigue G2@15 patrulla
+T8 Kira@8: G1@7 persigue G2@15 alerta
+T9 Kira@9: G1@8 persigue G2@15 alerta
+T10 Kira@10: G1@9 persigue G2@14 persigue
+T11 Kira@11: G1@10 persigue G2@13 persigue
+T12 Kira@12: G1@11 persigue G2@13 ataca
+T13 Kira@13: G1@12 persigue G2@13 ataca
+T14 Kira@14: G1@13 persigue G2@13 ataca
+T15 Kira@15: G1@14 persigue G2@14 persigue
+T16 Kira@16: G1@15 persigue G2@15 persigue
+T17 Kira@17: G1@16 persigue G2@16 persigue
+T18 Kira@18: G1@17 persigue G2@17 persigue
+T19 Kira@19: G1@18 persigue G2@18 persigue
+T20 Kira@20: G1@19 persigue G2@19 persigue
+```
+
 ### Misión R05-N04-M2 · La mochila del explorador
 
 ```meta
@@ -2444,6 +2686,71 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Mochila llena
+```entrada
+juntar a
+juntar b
+juntar c
+juntar d
+juntar e
+```
+```salida
+Junta a
+  [a x1]
+Junta b
+  [a x1, b x1]
+Junta c
+  [a x1, b x1, c x1]
+Junta d
+  [a x1, b x1, c x1, d x1]
+No entra e
+  [a x1, b x1, c x1, d x1]
+Final: vida 50, ataque 5
+```
+
+##### Usar lo que no hay
+```entrada
+usar pocion
+usar llave
+```
+```salida
+No tiene pocion
+  []
+No tiene llave
+  []
+Final: vida 50, ataque 5
+```
+
+##### Muchas pociones
+```entrada
+juntar pocion
+juntar pocion
+juntar pocion
+usar pocion
+usar pocion
+usar pocion
+usar pocion
+```
+```salida
+Junta pocion
+  [pocion x1]
+Junta pocion
+  [pocion x2]
+Junta pocion
+  [pocion x3]
+Bebe pocion: vida 60
+  [pocion x2]
+Bebe pocion: vida 60
+  [pocion x1]
+Bebe pocion: vida 60
+  []
+No tiene pocion
+  []
+Final: vida 60, ataque 5
+```
+
 ### Misión R05-N04-M3 · El torneo de la Arena
 
 ```meta
@@ -2548,6 +2855,34 @@ int main()
     std::cout << "Campeón: " << ronda[0].nombre << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Semilla 1
+```entrada
+1
+```
+```salida
+Ronda 1:
+  Kira vs Bron: gana Bron en 10 rondas (le queda 20)
+  Lyn vs Oto: gana Lyn en 7 rondas (le queda 2)
+Ronda 2:
+  Bron vs Lyn: gana Bron en 7 rondas (le queda 27)
+Campeón: Bron
+```
+
+##### Semilla 777
+```entrada
+777
+```
+```salida
+Ronda 1:
+  Kira vs Bron: gana Bron en 10 rondas (le queda 9)
+  Lyn vs Oto: gana Oto en 7 rondas (le queda 1)
+Ronda 2:
+  Bron vs Oto: gana Bron en 16 rondas (le queda 7)
+Campeón: Bron
 ```
 
 ### Encargo R05-N04-E1 · La máquina expendedora
@@ -2704,6 +3039,69 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Agota el stock
+```entrada
+moneda 5000
+elegir A2
+moneda 5000
+elegir A2
+cancelar
+```
+```salida
+Crédito: $5000
+Sale gaseosa, vuelto $3800
+Crédito: $5000
+gaseosa agotado
+Devuelve $5000
+```
+
+##### Código que no existe
+```entrada
+moneda 1000
+elegir Z9
+cancelar
+cancelar
+```
+```salida
+Crédito: $1000
+No existe Z9
+Devuelve $1000
+```
+
+##### Vende todo y queda fuera de servicio
+```entrada
+moneda 800
+elegir A1
+moneda 800
+elegir A1
+moneda 1200
+elegir A2
+moneda 900
+elegir B1
+moneda 900
+elegir B1
+moneda 900
+elegir B1
+moneda 100
+```
+```salida
+Crédito: $800
+Sale agua
+Crédito: $800
+Sale agua
+Crédito: $1200
+Sale gaseosa
+Crédito: $900
+Sale alfajor
+Crédito: $900
+Sale alfajor
+Crédito: $900
+Sale alfajor
+Fuera de servicio: devuelve $100
 ```
 
 ### Prueba del sello
@@ -3087,6 +3485,51 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Pierde enseguida
+```entrada
+empezar jugar golpe golpe golpe ok
+```
+```salida
+empezar: Título -> Menú
+jugar: Menú -> Jugando (0 pts, 3 vidas)
+golpe: Jugando (0 pts, 2 vidas)
+golpe: Jugando (0 pts, 1 vidas)
+golpe: Jugando -> Game Over
+ok: Game Over -> Menú
+Récord: 0
+```
+
+##### Récord que mejora
+```entrada
+x jugar moneda golpe golpe golpe ok jugar moneda moneda moneda golpe golpe golpe
+```
+```salida
+x: Título -> Menú
+jugar: Menú -> Jugando (0 pts, 3 vidas)
+moneda: Jugando (10 pts, 3 vidas)
+golpe: Jugando (10 pts, 2 vidas)
+golpe: Jugando (10 pts, 1 vidas)
+golpe: Jugando -> Game Over
+ok: Game Over -> Menú
+jugar: Menú -> Jugando (0 pts, 3 vidas)
+moneda: Jugando (10 pts, 3 vidas)
+moneda: Jugando (20 pts, 3 vidas)
+moneda: Jugando (30 pts, 3 vidas)
+golpe: Jugando (30 pts, 2 vidas)
+golpe: Jugando (30 pts, 1 vidas)
+golpe: Jugando -> Game Over
+Récord: 30
+```
+
+##### Sin eventos
+```entrada
+```
+```salida
+Récord: 0
+```
+
 ### Misión R05-N05-M2 · El salto
 
 ```meta
@@ -3185,6 +3628,38 @@ int main()
     std::cout << "Altura máxima: " << maxima << " m, " << cuadros << " cuadros\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Paso fino
+```entrada
+0.01
+```
+```salida
+t=0.05s altura 0.27
+t=0.10s altura 0.49
+t=0.15s altura 0.66
+t=0.20s altura 0.78
+t=0.25s altura 0.85
+t=0.30s altura 0.87
+t=0.35s altura 0.84
+t=0.40s altura 0.76
+t=0.45s altura 0.63
+t=0.50s altura 0.45
+t=0.55s altura 0.22
+t=0.59s altura 0.00
+Altura máxima: 0.87 m, 59 cuadros
+```
+
+##### Paso grueso
+```entrada
+0.1
+```
+```salida
+t=0.50s altura 0.00
+t=0.60s altura 0.00
+Altura máxima: 0.60 m, 6 cuadros
 ```
 
 ### Misión R05-N05-M3 · Esquivar rocas
@@ -3342,6 +3817,102 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Kira quieta
+```entrada
+................
+```
+```salida
+cuadro 0:
+  .o.....
+  .......
+  .......
+  .......
+  .......
+  ...@...
+cuadro 3:
+  .......
+  ....o..
+  .......
+  .o.....
+  .......
+  ...@...
+cuadro 6:
+  ...o...
+  .......
+  o......
+  .......
+  ....o..
+  ...@...
+cuadro 9:
+  .......
+  ......o
+  .......
+  ...o...
+  .......
+  o..@...
+cuadro 11:
+  .......
+  ..o....
+  .......
+  ......o
+  .......
+  ...X...
+¡Una roca alcanzó a Kira!; rocas esquivadas: 3
+```
+
+##### Siempre a la izquierda
+```entrada
+iiiiiiiiiiiiiiii
+```
+```salida
+cuadro 0:
+  .o.....
+  .......
+  .......
+  .......
+  .......
+  ..@....
+cuadro 3:
+  .......
+  ....o..
+  .......
+  .o.....
+  .......
+  @......
+cuadro 6:
+  ...o...
+  .......
+  o......
+  .......
+  ....o..
+  @......
+cuadro 9:
+  .......
+  ......o
+  .......
+  ...o...
+  .......
+  X......
+¡Una roca alcanzó a Kira!; rocas esquivadas: 2
+```
+
+##### Pocos cuadros
+```entrada
+d
+```
+```salida
+cuadro 0:
+  .o.....
+  .......
+  .......
+  .......
+  .......
+  ....@..
+Kira sigue en pie; rocas esquivadas: 0
+```
+
 ### Encargo R05-N05-E1 · El semáforo de la esquina
 
 ```meta
@@ -3459,6 +4030,45 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Aprieta temprano
+```entrada
+2
+```
+```salida
+2.0 s: un peatón aprieta el botón
+5.0 s: amarilla
+8.0 s: roja
+23.0 s: verde
+43.0 s: amarilla
+46.0 s: roja
+```
+
+##### Aprieta en rojo
+```entrada
+21
+```
+```salida
+20.0 s: amarilla
+21.0 s: un peatón aprieta el botón
+23.0 s: roja
+38.0 s: verde
+58.0 s: amarilla
+```
+
+##### Aprieta justo al final
+```entrada
+59.5
+```
+```salida
+20.0 s: amarilla
+23.0 s: roja
+38.0 s: verde
+58.0 s: amarilla
+59.5 s: un peatón aprieta el botón
 ```
 
 ### Prueba del sello
@@ -4345,6 +4955,41 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sin roturas
+```entrada
+```
+```salida
+Guardada.
+  Kira en (4, 3), vida 23, con llave, venció a 2
+```
+
+##### Línea vacía
+```entrada
+5
+```
+```salida
+Guardada.
+  Kira en (4, 3), vida 23, con llave, venció a 2
+Rompo la línea 5 -> ""
+  Partida dañada, línea 5: clave desconocida ""
+```
+
+##### Llave y vida en el borde
+```entrada
+4 vida 30
+4 vida 0
+```
+```salida
+Guardada.
+  Kira en (4, 3), vida 23, con llave, venció a 2
+Rompo la línea 4 -> "vida 30"
+  Kira en (4, 3), vida 30, con llave, venció a 2
+Rompo la línea 4 -> "vida 0"
+  Partida dañada, línea 4: vida fuera de rango
+```
+
 ### Encargo R05-N06-E1 · Las reservas de la cancha
 
 ```meta
@@ -4514,6 +5159,49 @@ int main()
     std::cout << "--- reservas.txt ---\n" << in.rdbuf();
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin pedidos
+```entrada
+```
+```salida
+Reservas (0 pedidos rechazados):
+--- reservas.txt ---
+```
+
+##### Bordes del horario
+```entrada
+reservar domingo 9 Ana
+reservar domingo 22 Bruno
+reservar domingo 8 Celi
+reservar domingo 23 Dami
+```
+```salida
+Reservado: domingo 9h (Ana)
+Reservado: domingo 22h (Bruno)
+No se pudo: la cancha abre de 9 a 22
+No se pudo: la cancha abre de 9 a 22
+Reservas (2 pedidos rechazados):
+  domingo: 9h Ana 22h Bruno
+--- reservas.txt ---
+domingo 9 Ana
+domingo 22 Bruno
+```
+
+##### Cancelar dos veces
+```entrada
+reservar viernes 10 Ana
+cancelar viernes 10
+cancelar viernes 10
+```
+```salida
+Reservado: viernes 10h (Ana)
+Cancelado: viernes 10h
+No se pudo: no había reserva el viernes a las 10
+Reservas (1 pedidos rechazados):
+--- reservas.txt ---
 ```
 
 ### Prueba del sello

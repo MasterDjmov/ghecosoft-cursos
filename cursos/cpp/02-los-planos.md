@@ -329,6 +329,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Una sola pieza
+```entrada
+tornillo 500 1.5
+```
+```salida
+tornillo: 500 x $1.5 = $750
+Total: $750
+La pieza más cara: tornillo
+Con poco stock (menos de 10):
+```
+
+##### Nada con poco stock
+```entrada
+perno 10 100
+arandela 50 2
+```
+```salida
+perno: 10 x $100 = $1000
+arandela: 50 x $2 = $100
+Total: $1100
+La pieza más cara: perno
+Con poco stock (menos de 10):
+```
+
 ### Misión R02-N01-M2 · El rectángulo del plano
 
 ```meta
@@ -499,6 +525,34 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sale con nadie adentro
+```entrada
+s s e s s
+```
+```salida
+Adentro: 0
+Entraron en total: 1
+```
+
+##### Solo entradas
+```entrada
+e e e e
+```
+```salida
+Adentro: 4
+Entraron en total: 4
+```
+
+##### Sin movimientos
+```entrada
+```
+```salida
+Adentro: 0
+Entraron en total: 0
+```
+
 ### Encargo R02-N01-E1 · Las notas de la escuela
 
 ```meta
@@ -592,6 +646,28 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Alumno sin notas
+```entrada
+Eva 0
+Fede 2 6 6
+```
+```salida
+Eva: 0 a recuperar
+Fede: 6 aprobado
+Mejor promedio: Fede
+```
+
+##### Uno solo
+```entrada
+Gabi 3 10 10 9
+```
+```salida
+Gabi: 9.66667 aprobado
+Mejor promedio: Gabi
 ```
 
 ### Prueba del sello
@@ -1206,6 +1282,24 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Un cliente
+```entrada
+Ana
+```
+```salida
+Turno 1: Ana
+Turnos entregados: 1
+```
+
+##### Nadie
+```entrada
+```
+```salida
+Turnos entregados: 0
+```
+
 ### Prueba del sello
 
 #### ¿Cuándo corre el constructor? ¿Y el destructor?
@@ -1540,6 +1634,34 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Solo rechazos
+```entrada
+e 100
+d 0
+d -5
+```
+```salida
+e 100.00 rechazado -> $0.00
+d 0.00 rechazado -> $0.00
+d -5.00 rechazado -> $0.00
+Kira: 0 movimientos, saldo $0.00
+```
+
+##### Extrae todo justo
+```entrada
+d 1000
+e 1000
+e 0.01
+```
+```salida
+d 1000.00 ok -> $1000.00
+e 1000.00 ok -> $0.00
+e 0.01 rechazado -> $0.00
+Kira: 2 movimientos, saldo $0.00
+```
+
 ### Misión R02-N03-M2 · La fracción siempre simplificada
 
 ```meta
@@ -1767,6 +1889,38 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Quita de una mochila vacía
+```entrada
+- farol
++ pluma 0
++ ancla 21
+```
+```salida
+No está: farol
+No entra: pluma
+No entra: ancla
+Mochila (0/20):
+Lugar libre: 20
+```
+
+##### Llena justo
+```entrada
++ carpa 20
++ hilo 1
+- carpa
++ hilo 1
+```
+```salida
+Guardado: carpa
+No entra: hilo
+Sacado: carpa
+Guardado: hilo
+Mochila (1/20): hilo
+Lugar libre: 19
+```
+
 ### Encargo R02-N03-E1 · Las entradas del recital
 
 ```meta
@@ -1885,6 +2039,46 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Confirma más de lo reservado
+```entrada
+reservar 10
+confirmar 11
+cancelar 11
+confirmar 10
+```
+```salida
+reservar 10: ok -> disponibles 90, reservadas 10, vendidas 0
+confirmar 11: rechazado -> disponibles 90, reservadas 10, vendidas 0
+cancelar 11: rechazado -> disponibles 90, reservadas 10, vendidas 0
+confirmar 10: ok -> disponibles 90, reservadas 0, vendidas 10
+```
+
+##### Vende todo
+```entrada
+reservar 100
+confirmar 100
+reservar 1
+```
+```salida
+reservar 100: ok -> disponibles 0, reservadas 100, vendidas 0
+confirmar 100: ok -> disponibles 0, reservadas 0, vendidas 100
+reservar 1: rechazado -> disponibles 0, reservadas 0, vendidas 100
+```
+
+##### Cantidades no positivas
+```entrada
+reservar 0
+reservar -5
+cancelar -1
+```
+```salida
+reservar 0: rechazado -> disponibles 100, reservadas 0, vendidas 0
+reservar -5: rechazado -> disponibles 100, reservadas 0, vendidas 0
+cancelar -1: rechazado -> disponibles 100, reservadas 0, vendidas 0
 ```
 
 ### Prueba del sello
@@ -2425,6 +2619,30 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Una sola salida
+```entrada
+12:00 Norte
+```
+```salida
+12:00  Norte
+Entre el primero y el último: 00:00
+```
+
+##### Medianoche y última
+```entrada
+23:59 Reloj
+00:00 Faro
+00:01 Vapor
+```
+```salida
+00:00  Faro
+00:01  Vapor
+23:59  Reloj
+Entre el primero y el último: 23:59
+```
+
 ### Encargo R02-N04-E1 · Dinero sin errores
 
 ```meta
@@ -2909,6 +3127,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Vende todo el resorte
+```entrada
+resorte 50
+resorte 1
+```
+```salida
+Vendido: 50 resorte por $1250
+No se puede vender 1 resorte
+Cierre: 1 ventas, $1250
+  engranaje: 10
+  resorte: 0
+  valvula: 3
+```
+
+##### Sin ventas
+```entrada
+```
+```salida
+Cierre: 0 ventas, $0
+  engranaje: 10
+  resorte: 50
+  valvula: 3
+```
+
 ### Misión R02-N05-M2 · El tren de carga
 
 ```meta
@@ -3043,6 +3287,52 @@ int main()
     tren.informe();
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Llena todo el carbón de una
+```entrada
+carbon 60
+carbon 1
+```
+```salida
+Carga de 60 t de carbon
+Carga de 1 t de carbon: no entraron 1 t
+El Carbonero:
+  vagón 1 (carbon): 30/30
+  vagón 2 (agua): 0/20
+  vagón 3 (carbon): 30/30
+  vagón 4 (hierro): 0/40
+  total: 60 t
+```
+
+##### Sin cargas
+```entrada
+```
+```salida
+El Carbonero:
+  vagón 1 (carbon): 0/30
+  vagón 2 (agua): 0/20
+  vagón 3 (carbon): 0/30
+  vagón 4 (hierro): 0/40
+  total: 0 t
+```
+
+##### Hierro justo
+```entrada
+hierro 40
+agua 0
+```
+```salida
+Carga de 40 t de hierro
+Carga de 0 t de agua
+El Carbonero:
+  vagón 1 (carbon): 0/30
+  vagón 2 (agua): 0/20
+  vagón 3 (carbon): 0/30
+  vagón 4 (hierro): 40/40
+  total: 40 t
 ```
 
 ### Misión R02-N05-M3 · El orden del reloj
@@ -3232,6 +3522,32 @@ int main()
     pedido.imprimir();
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Minorista
+```entrada
+Kiosco minorista
+alfajores 24 950
+gaseosa 6 1800.5
+```
+```salida
+Cliente: Kiosco
+alfajores     24  22800.00
+gaseosa        6  10803.00
+TOTAL             33603.00
+```
+
+##### Mayorista con una sola línea
+```entrada
+Mayorista mayorista
+cable 1000 0.75
+```
+```salida
+Cliente: Mayorista (mayorista)
+cable       1000    750.00
+TOTAL               675.00
 ```
 
 ### Prueba del sello
@@ -3727,6 +4043,40 @@ int main()
     std::cout << (quimera.vivo() ? "La Quimera resiste." : "La Quimera cae.") << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Muere de un golpe
+```entrada
+150
+```
+```salida
+Quimera: vida 0/100, ataque 12, oro 100, fase 1
+La Quimera cae.
+```
+
+##### Justo la mitad
+```entrada
+50 10 10
+```
+```salida
+¡Quimera se enfurece!
+Quimera: vida 50/100, ataque 24, oro 300, fase 2
+Quimera: vida 40/100, ataque 24, oro 300, fase 2
+Quimera: vida 30/100, ataque 24, oro 300, fase 2
+La Quimera resiste.
+```
+
+##### Golpes que no la matan
+```entrada
+5 5 5
+```
+```salida
+Quimera: vida 95/100, ataque 12, oro 100, fase 1
+Quimera: vida 90/100, ataque 12, oro 100, fase 1
+Quimera: vida 85/100, ataque 12, oro 100, fase 1
+La Quimera resiste.
 ```
 
 ### Misión R02-N06-M3 · Tres generaciones
@@ -4306,6 +4656,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Una sola figura
+```entrada
+t 5 5 5
+```
+```salida
+triángulo: área 10.83, perímetro 15.00
+Vidrio total: 10.83
+La pieza más grande: triángulo
+```
+
+##### Empate en la más grande
+```entrada
+r 2 8
+r 4 4
+c 1
+```
+```salida
+rectángulo: área 16.00, perímetro 20.00
+cuadrado: área 16.00, perímetro 16.00
+círculo: área 3.14, perímetro 6.28
+Vidrio total: 35.14
+La pieza más grande: rectángulo
+```
+
 ### Misión R02-N07-M2 · La cuadrilla de autómatas
 
 ```meta
@@ -4425,6 +4801,38 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Una hora
+```entrada
+1
+```
+```salida
+Cargo-1: produjo 30, costó 12, rinde 18
+Chispa: produjo 45, costó 20, rinde 25
+Tuerca: produjo 5, costó 4, rinde 1
+```
+
+##### Tres horas (el soldador se enfría)
+```entrada
+3
+```
+```salida
+Cargo-1: produjo 90, costó 36, rinde 54
+Chispa: produjo 90, costó 60, rinde 30
+Tuerca: produjo 30, costó 12, rinde 18
+```
+
+##### Diez horas
+```entrada
+10
+```
+```salida
+Cargo-1: produjo 300, costó 120, rinde 180
+Chispa: produjo 315, costó 200, rinde 115
+Tuerca: produjo 275, costó 40, rinde 235
 ```
 
 ### Misión R02-N07-M3 · El rebanado
@@ -4621,6 +5029,37 @@ int main()
     std::cout << "Total cobrado: $" << cobrado << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Transferencia justo en el tope
+```entrada
+transferencia 100000
+transferencia 100000.01
+```
+```salida
+transferencia: $100000.00 -> $100150.00
+transferencia: $100000.01 -> $100000.01
+Total cobrado: $200150.01
+```
+
+##### Tarjeta en 12 cuotas
+```entrada
+tarjeta 10000 12
+efectivo 0.5
+```
+```salida
+tarjeta en 12 cuota(s): $10000.00 -> $14800.00
+efectivo: $0.50 -> $0.45
+Total cobrado: $14800.45
+```
+
+##### Sin pagos
+```entrada
+```
+```salida
+Total cobrado: $0.00
 ```
 
 ### Prueba del sello
@@ -6017,6 +6456,74 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Kira vence a la Quimera
+```entrada
+lanza
+martillo
+espada
+lanza
+```
+```salida
+Turno 1: la Quimera es león
+  Kira usa lanza: 30 de daño (Quimera 70)
+  La Quimera golpea por 16 (Kira 64)
+Turno 2: la Quimera es cabra
+  Kira usa martillo: 30 de daño (Quimera 40)
+  La Quimera golpea por 8 (Kira 56)
+Turno 3: la Quimera es serpiente
+  Kira usa espada: 30 de daño (Quimera 10)
+  La Quimera golpea por 12 (Kira 44)
+Turno 4: la Quimera es león
+  Kira usa lanza: 30 de daño (Quimera 0)
+¡La Quimera cae! Kira leyó cada forma.
+```
+
+##### Armas que no sirven
+```entrada
+espada
+lanza
+martillo
+arco
+arco
+arco
+arco
+arco
+arco
+```
+```salida
+Turno 1: la Quimera es león
+  Kira usa espada: 15 de daño (Quimera 85)
+  La Quimera golpea por 16 (Kira 64)
+Turno 2: la Quimera es cabra
+  Kira usa lanza: 21 de daño (Quimera 64)
+  La Quimera golpea por 8 (Kira 56)
+Turno 3: la Quimera es serpiente
+  Kira usa martillo: 12 de daño (Quimera 52)
+  La Quimera golpea por 12 (Kira 44)
+Turno 4: la Quimera es león
+  Kira duda con "arco" y pierde el golpe.
+  La Quimera golpea por 16 (Kira 28)
+Turno 5: la Quimera es cabra
+  Kira duda con "arco" y pierde el golpe.
+  La Quimera golpea por 8 (Kira 20)
+Turno 6: la Quimera es serpiente
+  Kira duda con "arco" y pierde el golpe.
+  La Quimera golpea por 12 (Kira 8)
+Turno 7: la Quimera es león
+  Kira duda con "arco" y pierde el golpe.
+  La Quimera golpea por 16 (Kira 0)
+Kira cae. La Quimera cambia de forma y se ríe.
+```
+
+##### Sin armas
+```entrada
+```
+```salida
+El duelo queda sin terminar.
+```
+
 ### Encargo R02-N09-E1 · La central de alarmas
 
 ```meta
@@ -6142,6 +6649,40 @@ int main()
     std::cout << "Alarmas: " << alarmas << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin alarmas
+```entrada
+100 -18 0 20
+```
+```salida
+Alarmas: 0
+```
+
+##### Ronda incompleta
+```entrada
+500 -30
+```
+```salida
+Ronda 1: ¡ALARMA! humo en cocina (500)
+Ronda 1: ¡ALARMA! temperatura en cámara de frío (-30)
+Alarmas: 2
+```
+
+##### Bordes exactos
+```entrada
+300 -20 0 15
+301 -15 0 27
+0 -14 2 28
+```
+```salida
+Ronda 2: ¡ALARMA! humo en cocina (301)
+Ronda 3: ¡ALARMA! temperatura en cámara de frío (-14)
+Ronda 3: ¡ALARMA! puerta en depósito (2)
+Ronda 3: ¡ALARMA! temperatura en sala de servidores (28)
+Alarmas: 4
 ```
 
 ### Prueba del sello

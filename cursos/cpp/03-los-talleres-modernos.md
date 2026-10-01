@@ -302,6 +302,38 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Todas iguales
+```entrada
+20 20 20 20 20 20 20
+```
+```salida
+lun: 20
+mar: 20
+mié: 20
+jue: 20
+vie: 20
+sáb: 20
+dom: 20
+Máxima 20, mínima 20, promedio 20
+```
+
+##### Bajo cero
+```entrada
+-5 -2 0 3 -8 1 -1
+```
+```salida
+lun: -5
+mar: -2
+mié: 0
+jue: 3
+vie: -8
+sáb: 1
+dom: -1
+Máxima 3, mínima -8, promedio -1.71429
+```
+
 ### Misión R03-N01-M2 · El ta-te-ti del patio
 
 ```meta
@@ -411,6 +443,64 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Gana X en diagonal
+```entrada
+0 0
+0 1
+1 1
+0 2
+2 2
+```
+```salida
+XOO
+.X.
+..X
+Gana X
+```
+
+##### Gana O en una columna
+```entrada
+0 0
+0 2
+1 1
+1 2
+2 1
+2 2
+```
+```salida
+X.O
+.XO
+.XO
+Gana O
+```
+
+##### Jugadas fuera del tablero
+```entrada
+3 3
+-1 0
+0 0
+```
+```salida
+Jugada inválida: 3 3
+Jugada inválida: -1 0
+X..
+...
+...
+Partida sin terminar
+```
+
+##### Sin jugadas
+```entrada
+```
+```salida
+...
+...
+...
+Partida sin terminar
 ```
 
 ### Misión R03-N01-M3 · Copia o referencia
@@ -576,6 +666,36 @@ int main()
     std::cout << "Total anual: $" << anual << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Bordes de los tramos
+```entrada
+150 151 400 401 0 1
+```
+```salida
+Bimestre 1: 150 kWh -> $12000.00
+Bimestre 2: 151 kWh -> $12110.00
+Bimestre 3: 400 kWh -> $39500.00
+Bimestre 4: 401 kWh -> $39660.00
+Bimestre 5: 0 kWh -> $0.00
+Bimestre 6: 1 kWh -> $80.00
+Total anual: $103350.00
+```
+
+##### Consumo alto todo el año
+```entrada
+1000 1000 1000 1000 1000 1000
+```
+```salida
+Bimestre 1: 1000 kWh -> $135500.00
+Bimestre 2: 1000 kWh -> $135500.00
+Bimestre 3: 1000 kWh -> $135500.00
+Bimestre 4: 1000 kWh -> $135500.00
+Bimestre 5: 1000 kWh -> $135500.00
+Bimestre 6: 1000 kWh -> $135500.00
+Total anual: $813000.00
 ```
 
 ### Prueba del sello
@@ -910,6 +1030,51 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Rutas raras
+```entrada
+a/b/c/
+archivo.
+.oculto.txt
+carpeta/.gitignore
+```
+```salida
+a/b/c/
+  carpeta: a/b/c
+  nombre:
+  extensión: (ninguna)
+archivo.
+  carpeta: .
+  nombre: archivo
+  extensión:
+.oculto.txt
+  carpeta: .
+  nombre: .oculto
+  extensión: txt
+carpeta/.gitignore
+  carpeta: carpeta
+  nombre: .gitignore
+  extensión: (ninguna)
+```
+
+##### Líneas vacías en el medio
+```entrada
+uno.txt
+
+dos/tres.tar.gz
+```
+```salida
+uno.txt
+  carpeta: .
+  nombre: uno
+  extensión: txt
+dos/tres.tar.gz
+  carpeta: dos
+  nombre: tres.tar
+  extensión: gz
+```
+
 ### Misión R03-N02-M2 · El censor de la Ciudadela
 
 ```meta
@@ -987,6 +1152,34 @@ int main()
     std::cout << "(" << total << " reemplazos)\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin apariciones
+```entrada
+hierro
+acero
+la torre gris
+el puente azul
+```
+```salida
+la torre gris
+el puente azul
+(0 reemplazos)
+```
+
+##### Reemplazar por nada
+```entrada
+xx
+
+axxbxxc
+xxxx
+```
+```salida
+abc
+
+(4 reemplazos)
 ```
 
 ### Misión R03-N02-M3 · El registro de la aduana
@@ -1090,6 +1283,39 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Todas inválidas
+```entrada
+a;b;c
+;;
+Lyn;;arquera
+```
+```salida
+Línea 1 inválida: a;b;c
+Línea 2 inválida: ;;
+Línea 3 inválida: Lyn;;arquera
+```
+
+##### Una sola válida
+```entrada
+Kira;27;artífice
+```
+```salida
+Kira (27), artífice
+1 registros, edad promedio 27
+```
+
+##### Edad con signo
+```entrada
+Bron;-5;guerrero
+Oto;+64;relojero
+```
+```salida
+Línea 1 inválida: Bron;-5;guerrero
+Línea 2 inválida: Oto;+64;relojero
+```
+
 ### Encargo R03-N02-E1 · El validador de CUIT
 
 ```meta
@@ -1191,6 +1417,36 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Verificador 0 y 9
+```entrada
+20-00000000-1
+23-45678901-9
+```
+```salida
+20-00000000-1: válido
+23-45678901-9: inválido
+```
+
+##### Cantidad de dígitos equivocada
+```entrada
+123
+20-12345678-66
+```
+```salida
+123: inválido
+20-12345678-66: inválido
+```
+
+##### Con letras
+```entrada
+20-1234567A-6
+```
+```salida
+20-1234567A-6: inválido
 ```
 
 ### Prueba del sello
@@ -1532,6 +1788,36 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Empate en la más común
+```entrada
+b a b a
+```
+```salida
+a: 2
+b: 2
+4 palabras, 2 distintas; la más común: a
+```
+
+##### Solo números y signos
+```entrada
+42 ... ¡!
+```
+```salida
+0 palabras, 0 distintas; la más común:
+```
+
+##### Mayúsculas y minúsculas
+```entrada
+Torre TORRE torre Faro
+```
+```salida
+faro: 1
+torre: 3
+4 palabras, 2 distintas; la más común: torre
+```
+
 ### Misión R03-N03-M2 · La agenda de la Ciudadela
 
 ```meta
@@ -1614,6 +1900,36 @@ int main()
     std::cout << "Contactos: " << agenda.size() << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Todo sobre alguien que no está
+```entrada
+ver Lyn
+baja Lyn
+ver Lyn
+```
+```salida
+No está Lyn
+No estaba: Lyn
+No está Lyn
+Contactos: 0
+```
+
+##### Alta y baja de la misma persona
+```entrada
+alta Oto 111
+baja Oto
+alta Oto 222
+ver Oto
+```
+```salida
+Agregado: Oto
+Borrado: Oto
+Agregado: Oto
+Oto: 222
+Contactos: 1
 ```
 
 ### Misión R03-N03-M3 · Los visitantes de las torres
@@ -1706,6 +2022,46 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Nadie en común
+```entrada
+norte Kira
+reloj Bron
+```
+```salida
+Norte (1): Kira
+Reloj (1): Bron
+Las dos (0):
+Solo Norte (1): Kira
+Alguna (2): Bron Kira
+```
+
+##### Solo la Norte
+```entrada
+norte Kira
+norte Kira
+norte Lyn
+```
+```salida
+Norte (2): Kira Lyn
+Reloj (0):
+Las dos (0):
+Solo Norte (2): Kira Lyn
+Alguna (2): Kira Lyn
+```
+
+##### Sin visitantes
+```entrada
+```
+```salida
+Norte (0):
+Reloj (0):
+Las dos (0):
+Solo Norte (0):
+Alguna (0):
+```
+
 ### Encargo R03-N03-E1 · Las ventas por vendedor
 
 ```meta
@@ -1787,6 +2143,37 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Un solo vendedor
+```entrada
+zoe 100
+zoe 200.25
+```
+```salida
+Por vendedor:
+  zoe: $300.25 en 2 ventas
+Ranking:
+  1. zoe
+```
+
+##### Empate en el ranking
+```entrada
+ana 500
+bruno 500
+celi 100
+```
+```salida
+Por vendedor:
+  ana: $500.00 en 1 ventas
+  bruno: $500.00 en 1 ventas
+  celi: $100.00 en 1 ventas
+Ranking:
+  1. ana
+  2. bruno
+  3. celi
 ```
 
 ### Prueba del sello
@@ -2181,6 +2568,38 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Rayo de entrada
+```entrada
+rayo rayo reparar dia
+```
+```salida
+rayo: apagada -> averiada
+rayo: sigue averiada
+reparar: averiada -> apagada
+dia: sigue apagada
+2 cambios; termina apagada
+```
+
+##### Eventos desconocidos
+```entrada
+sol lluvia noche
+```
+```salida
+sol: sigue apagada
+lluvia: sigue apagada
+noche: apagada -> girando
+1 cambios; termina girando
+```
+
+##### Sin eventos
+```entrada
+```
+```salida
+0 cambios; termina apagada
+```
+
 ### Misión R03-N04-M2 · El catálogo de piezas
 
 ```meta
@@ -2272,6 +2691,38 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Ninguna existe
+```entrada
+A01 B02
+```
+```salida
+A01: no existe
+B02: no existe
+Total: $0
+Precio de X99 (o 0): 0
+```
+
+##### Minúsculas
+```entrada
+e24 E24
+```
+```salida
+e24: no existe
+E24: engranaje de 24 $350
+Total: $350
+Precio de X99 (o 0): 0
+```
+
+##### Sin códigos
+```entrada
+```
+```salida
+Total: $0
+Precio de X99 (o 0): 0
+```
+
 ### Misión R03-N04-M3 · Números sin romperse
 
 ```meta
@@ -2360,6 +2811,37 @@ int main()
     std::cout << validos << " números, suma " << suma << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Límites del int
+```entrada
+2147483647 -2147483648 2147483648
+```
+```salida
+ignoro "-2147483648"
+ignoro "2147483648"
+1 números, suma 2147483647
+```
+
+##### Signos solos y ceros
+```entrada
++ -0 +0 000
+```
+```salida
+ignoro "+"
+3 números, suma 0
+```
+
+##### Sin números
+```entrada
+hola chau
+```
+```salida
+ignoro "hola"
+ignoro "chau"
+0 números, suma 0
 ```
 
 ### Encargo R03-N04-E1 · El estado del pedido
@@ -2462,6 +2944,40 @@ int main()
     std::cout << "Estado final: " << a_texto(pedido) << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Cancelar pendiente
+```entrada
+cancelar pagar enviar
+```
+```salida
+cancelar: pendiente -> cancelado
+pagar: no se puede con el pedido cancelado
+enviar: no se puede con el pedido cancelado
+Estado final: cancelado
+```
+
+##### Pagado y cancelado
+```entrada
+pagar cancelar entregar
+```
+```salida
+pagar: pendiente -> pagado
+cancelar: pagado -> cancelado
+entregar: no se puede con el pedido cancelado
+Estado final: cancelado
+```
+
+##### Acción desconocida
+```entrada
+volar pagar
+```
+```salida
+volar: no se puede con el pedido pendiente
+pagar: pendiente -> pagado
+Estado final: pagado
 ```
 
 ### Prueba del sello
@@ -2796,6 +3312,32 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Todos empatados
+```entrada
+B 5 3 3
+A 5 3 3
+C 5 3 3
+```
+```salida
+1. A 5 pts (0)
+2. B 5 pts (0)
+3. C 5 pts (0)
+```
+
+##### Diferencia negativa en la punta
+```entrada
+Alfa 9 1 5
+Beta 9 2 3
+Gama 3 10 0
+```
+```salida
+1. Beta 9 pts (-1)
+2. Alfa 9 pts (-4)
+3. Gama 3 pts (+10)
+```
+
 ### Misión R03-N05-M2 · El radar de la muralla
 
 ```meta
@@ -2882,6 +3424,33 @@ int main()
     std::cout << (todos_lejos ? "Nadie pegado a la muralla." : "¡Hay alguien pegado a la muralla!") << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Nadie en alcance
+```entrada
+5
+lejos 100 100
+otro -50 0
+```
+```salida
+Dentro del alcance (5): 0 de 2
+El más cercano: otro a 50
+Nadie pegado a la muralla.
+```
+
+##### Todos pegados
+```entrada
+3
+a 0 0
+b 1 1
+```
+```salida
+Dentro del alcance (3): 2 de 2
+Primer contacto en alcance: a
+El más cercano: a a 0
+¡Hay alguien pegado a la muralla!
 ```
 
 ### Misión R03-N05-M3 · La limpieza del campo
@@ -2977,6 +3546,42 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Nadie cae
+```entrada
+orco 60
+troll 90
+```
+```salida
+Al principio: orco(60) troll(90)
+Tras la explosión: orco(35) troll(65)
+Caen 0; quedan: orco(35) troll(65)
+Gritos: orco! troll!
+```
+
+##### Caen todos
+```entrada
+rata 5
+slime 25
+```
+```salida
+Al principio: rata(5) slime(25)
+Tras la explosión: rata(-20) slime(0)
+Caen 2; quedan:
+Gritos:
+```
+
+##### Sin enemigos
+```entrada
+```
+```salida
+Al principio:
+Tras la explosión:
+Caen 0; quedan:
+Gritos:
+```
+
 ### Encargo R03-N05-E1 · El buscador de la ferretería
 
 ```meta
@@ -3061,6 +3666,32 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Nada del rubro
+```entrada
+jardin 1000
+martillo herramientas 4200 3
+```
+```salida
+Rubro jardin hasta $1000:
+  nada
+```
+
+##### Empate de precio
+```entrada
+fijaciones 100
+tuerca fijaciones 50 10
+arandela fijaciones 50 4
+clavo fijaciones 100 0
+perno fijaciones 101 9
+```
+```salida
+Rubro fijaciones hasta $100:
+  arandela $50 (4)
+  tuerca $50 (10)
 ```
 
 ### Prueba del sello
@@ -3395,6 +4026,29 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Sin líneas nuevas
+```entrada
+```
+```salida
+Agregadas: 0
+1: Día 1: llegué a la Ciudadela
+1 líneas, 30 bytes de texto
+```
+
+##### Una línea
+```entrada
+
+Día 2: nada nuevo
+```
+```salida
+Agregadas: 1
+1: Día 1: llegué a la Ciudadela
+2: Día 2: nada nuevo
+2 líneas, 48 bytes de texto
+```
+
 ### Misión R03-N06-M2 · Las notas en CSV
 
 ```meta
@@ -3492,6 +4146,28 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Un solo alumno aprobado
+```entrada
+Eva 6 6 6
+```
+```salida
+Eva: 6.00
+Promedio del curso: 6.00
+```
+
+##### Todos recuperan
+```entrada
+Fede 1 2 3
+Gabi 5 5 5
+```
+```salida
+Fede: 2.00 (recupera)
+Gabi: 5.00 (recupera)
+Promedio del curso: 3.50
+```
+
 ### Misión R03-N06-M3 · El orden del archivo
 
 ```meta
@@ -3579,6 +4255,32 @@ int main()
     std::cout << "¿Quedó algo? " << (fs::exists(BASE) ? "sí" : "no") << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Una sola carpeta
+```entrada
+planos a.txt abc
+planos b.txt abc
+```
+```salida
+4	planos/a.txt
+4	planos/b.txt
+2 archivos, 8 bytes
+¿Quedó algo? no
+```
+
+##### Archivo vacío y grande
+```entrada
+x vacio.txt -
+y grande.txt muchas-letras-para-un-archivo-grande
+```
+```salida
+37	y/grande.txt
+2	x/vacio.txt
+2 archivos, 39 bytes
+¿Quedó algo? no
 ```
 
 ### Encargo R03-N06-E1 · La configuración del programa
@@ -3692,6 +4394,38 @@ int main()
     std::cout << "--- " << RUTA << " ---\n" << in.rdbuf();
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Sin cambios
+```entrada
+```
+```salida
+--- programa.ini ---
+# configuración del programa
+idioma=es
+tema=claro
+volumen=7
+```
+
+##### Clave con espacios y valor vacío
+```entrada
+idioma=en
+color=
+=sin clave
+```
+```salida
+Cambia idioma
+Nueva color
+Nueva
+--- programa.ini ---
+# configuración del programa
+=sin clave
+color=
+idioma=en
+tema=claro
+volumen=7
 ```
 
 ### Prueba del sello
@@ -4088,6 +4822,47 @@ int main()
     std::cout << taller.size() << " autómatas, carga total " << total << "\n";
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Romper lo que no existe
+```entrada
+fabricar grua Uno
+romper Dos
+limpiar
+```
+```salida
+  sale de fábrica: Uno
+1 autómatas, carga total 500
+  a la chatarra: Uno
+```
+
+##### Romper todos
+```entrada
+fabricar carretilla A
+fabricar carretilla B
+romper A
+romper B
+limpiar
+```
+```salida
+  sale de fábrica: A
+  sale de fábrica: B
+  a la chatarra: A
+  a la chatarra: B
+0 autómatas, carga total 0
+```
+
+##### Solo tipos desconocidos
+```entrada
+fabricar robot X
+fabricar tren Y
+```
+```salida
+  no sé fabricar "robot"
+  no sé fabricar "tren"
+0 autómatas, carga total 0
 ```
 
 ### Misión R03-N07-M2 · El traspaso
@@ -4704,6 +5479,49 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Solo pares
+```entrada
+2 4 6
+```
+```salida
+inicio turno
+  inicio pieza 2
+    - par: se descarta
+  fin pieza 2
+  inicio pieza 4
+    - par: se descarta
+  fin pieza 4
+  inicio pieza 6
+    - par: se descarta
+  fin pieza 6
+  - total 0
+fin turno
+```
+
+##### Sin piezas
+```entrada
+```
+```salida
+inicio turno
+  - total 0
+fin turno
+```
+
+##### Un impar grande
+```entrada
+101
+```
+```salida
+inicio turno
+  inicio pieza 101
+    - impar: se pule
+  fin pieza 101
+  - total 101
+fin turno
+```
+
 ### Misión R03-N08-M2 · El candado de la sala de máquinas
 
 ```meta
@@ -5038,6 +5856,48 @@ int main()
     }
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Justo todo el saldo
+```entrada
+30000
+```
+```salida
+Ana -> Bruno $30000:
+  hecha
+  Ana: $0, Bruno: $35000
+```
+
+##### Justo el límite
+```entrada
+50000
+```
+```salida
+Ana -> Bruno $50000:
+  Ana quedaría en negativo
+  (transferencia de $50000 deshecha)
+  rechazada
+  Ana: $30000, Bruno: $5000
+```
+
+##### Montos chicos
+```entrada
+1
+2
+3
+```
+```salida
+Ana -> Bruno $1:
+  hecha
+  Ana: $29999, Bruno: $5001
+Ana -> Bruno $2:
+  hecha
+  Ana: $29997, Bruno: $5003
+Ana -> Bruno $3:
+  hecha
+  Ana: $29994, Bruno: $5006
 ```
 
 ### Prueba del sello
@@ -5583,6 +6443,45 @@ int main()
 }
 ```
 
+#### Pruebas
+
+##### Atacar sin forma
+```entrada
+atacar 10
+imitar 2
+atacar 20
+```
+```salida
+  el Mímico se transforma en murciélago (vida 15)
+  Kira golpea al Mímico-murciélago: vida 0
+¡El Mímico cae con forma de murciélago!
+```
+
+##### Copia de un lobo muerto
+```entrada
+herir 0 40
+imitar 0
+atacar 1
+```
+```salida
+  el lobo original queda en 0
+  el Mímico se transforma en lobo (vida 0)
+  Kira golpea al Mímico-lobo: vida 0
+¡El Mímico cae con forma de lobo!
+```
+
+##### Escapa
+```entrada
+imitar 1
+atacar 10
+```
+```salida
+  el Mímico se transforma en gólem (vida 120)
+  Kira golpea al Mímico-gólem: vida 110
+  responde con 15 (Kira 85)
+El Mímico escapa.
+```
+
 ### Encargo R03-N09-E1 · El inventario del almacén
 
 ```meta
@@ -5745,6 +6644,54 @@ int main()
     std::cout << "--- stock.csv ---\n" << in.rdbuf();
     return 0;
 }
+```
+
+#### Pruebas
+
+##### Movimientos rechazados
+```entrada
+sale ZZZ 1
+entra ZZZ 1
+sale AZU 13
+```
+```salida
+sale 1 ZZZ: rechazado
+entra 1 ZZZ: rechazado
+sale 13 AZU: rechazado
+A reponer: AZU
+Valor del stock: $142900
+--- stock.csv ---
+AZU,12,15,1200
+FID,30,20,950
+YER,40,10,2500
+```
+
+##### Nadie a reponer
+```entrada
+entra AZU 10
+ver AZU
+```
+```salida
+entra 10 AZU: ok
+AZU: 22 unidades
+A reponer: nada
+Valor del stock: $154900
+--- stock.csv ---
+AZU,22,15,1200
+FID,30,20,950
+YER,40,10,2500
+```
+
+##### Sin movimientos
+```entrada
+```
+```salida
+A reponer: AZU
+Valor del stock: $142900
+--- stock.csv ---
+AZU,12,15,1200
+FID,30,20,950
+YER,40,10,2500
 ```
 
 ### Prueba del sello

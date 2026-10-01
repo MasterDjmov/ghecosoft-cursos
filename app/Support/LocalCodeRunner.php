@@ -19,7 +19,7 @@ class LocalCodeRunner
 
     private string $workDir;
 
-    public function __construct(public readonly string $language, ?string $workDir = null)
+    public function __construct(public readonly string $language, ?string $workDir = null, private int $timeout = 5)
     {
         // PHP: la versión del hosting (8.3) si está instalada; si no, la que haya.
         $tool = ['python' => 'python3', 'c' => 'gcc', 'cpp' => 'g++', 'java' => 'java', 'php' => 'php8.3'][$language] ?? null;
@@ -105,7 +105,7 @@ class LocalCodeRunner
 
         try {
             // La JVM tarda en arrancar y compilar: le damos más margen que a un programa nativo.
-            $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', $this->language === 'java' ? 20 : 5);
+            $process = new Process($command, $dir, ['PYTHONIOENCODING' => 'utf-8', 'PYTHONDONTWRITEBYTECODE' => '1'], $stdin ?? '', $this->language === 'java' ? max(20, $this->timeout) : $this->timeout);
             $process->run();
             $output = $process->getOutput();
             if ($this->language === 'java' && ! $process->isSuccessful()) {
@@ -121,7 +121,7 @@ class LocalCodeRunner
                 $error = 'El programa se cortó (código '.$process->getExitCode().': ¿un puntero o un índice fuera de lugar?).';
             }
         } catch (Throwable) {
-            $error = 'Tardó más de 5 segundos (¿un bucle que no termina?).';
+            $error = "Tardó más de {$this->timeout} segundos (¿un bucle que no termina?).";
         }
 
         return [$output, $error];

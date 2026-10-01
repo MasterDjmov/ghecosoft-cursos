@@ -1132,6 +1132,38 @@ public class Compras {
 }
 ```
 
+#### Pruebas
+
+##### Lista vacía
+```entrada
+ver
+fin
+```
+```salida
+Lista: []
+Final: [] (0 items)
+```
+
+##### Quitar todo
+```entrada
+agregar a
+quitar a
+quitar a
+fin
+```
+```salida
+a no estaba en la lista
+Final: [] (0 items)
+```
+
+##### Sin fin
+```entrada
+agregar pan
+```
+```salida
+Final: [pan] (1 items)
+```
+
 ### Misión R03-N02-M2 · Los puntajes del torneo
 
 ```meta
@@ -1229,6 +1261,50 @@ public class Torneo {
         System.out.println("Los tres mejores: " + ordenados.subList(0, Math.min(3, ordenados.size())));
     }
 }
+```
+
+#### Pruebas
+
+##### Todos menores a 50
+```entrada
+10
+20
+30
+```
+```salida
+Puntajes: [10, 20, 30]
+Promedio: 20.0
+Máximo: 30, mínimo: 10
+Superan el promedio: 1
+Sin los menores a 50: []
+Los tres mejores: []
+```
+
+##### Uno solo
+```entrada
+75
+```
+```salida
+Puntajes: [75]
+Promedio: 75.0
+Máximo: 75, mínimo: 75
+Superan el promedio: 0
+Sin los menores a 50: [75]
+Los tres mejores: [75]
+```
+
+##### Dos puntajes
+```entrada
+100
+40
+```
+```salida
+Puntajes: [100, 40]
+Promedio: 70.0
+Máximo: 100, mínimo: 40
+Superan el promedio: 1
+Sin los menores a 50: [100]
+Los tres mejores: [100]
 ```
 
 ### Misión R03-N02-M3 · El cofre genérico
@@ -1413,6 +1489,45 @@ public class FilaBanco {
         System.out.println("Esperando: " + fila);
     }
 }
+```
+
+#### Pruebas
+
+##### Atender sin nadie
+```entrada
+atender
+```
+```salida
+No hay nadie para atender
+Atendidos: []
+Esperando: []
+```
+
+##### Se va alguien que no está
+```entrada
+llega Ana
+se-va Beto
+atender
+```
+```salida
+Atendiendo a Ana
+Atendidos: [Ana]
+Esperando: []
+```
+
+##### Muchas prioridades
+```entrada
+llega A
+prioridad B
+prioridad C
+atender
+atender
+```
+```salida
+Atendiendo a C
+Atendiendo a B
+Atendidos: [C, B]
+Esperando: [A]
 ```
 
 ### Prueba del sello
@@ -1735,6 +1850,30 @@ public class Censo {
 }
 ```
 
+#### Pruebas
+
+##### Una sola criatura
+```entrada
+dragon 1
+```
+```salida
+dragon: 1
+Total: 1
+La más vista: dragon
+```
+
+##### Empate en la más vista
+```entrada
+lobo 5
+oso 5
+```
+```salida
+lobo: 5
+oso: 5
+Total: 10
+La más vista: lobo
+```
+
 ### Misión R03-N03-M2 · Los invitados del banquete
 
 ```meta
@@ -1811,6 +1950,32 @@ public class Banquete {
         return nombres;
     }
 }
+```
+
+#### Pruebas
+
+##### Nadie en común
+```entrada
+Kira, Bron
+Lía, Pip
+```
+```salida
+Todos: [Bron, Kira, Lía, Pip]
+Invitados por las dos casas: []
+Solo de la primera casa: [Bron, Kira]
+Lugares a preparar: 4
+```
+
+##### Listas iguales con espacios raros
+```entrada
+  kira ,BRON
+Bron,kira
+```
+```salida
+Todos: [Bron, Kira]
+Invitados por las dos casas: [Bron, Kira]
+Solo de la primera casa: []
+Lugares a preparar: 2
 ```
 
 ### Misión R03-N03-M3 · El inventario de la caravana
@@ -1899,6 +2064,40 @@ public class Caravana {
 }
 ```
 
+#### Pruebas
+
+##### Sacar lo que no hay
+```entrada
+- oro 1
+? oro
+fin
+```
+```salida
+No alcanza oro: hay 0
+oro: 0
+Inventario: {}
+```
+
+##### Sumar varias veces
+```entrada
++ pan 1
++ pan 2
+- pan 3
++ pan 5
+fin
+```
+```salida
+Inventario: {pan=5}
+```
+
+##### Sin fin
+```entrada
++ sal 1
+```
+```salida
+Inventario: {sal=1}
+```
+
 ### Encargo R03-N03-E1 · Las ventas por vendedor
 
 ```meta
@@ -1977,6 +2176,32 @@ public class Ventas {
         System.out.printf("Total general: %.2f%n", general);
     }
 }
+```
+
+#### Pruebas
+
+##### Un solo vendedor
+```entrada
+Zoe;100
+Zoe;0.5
+```
+```salida
+Vendedor Ventas      Total   Promedio
+Zoe           2     100.50      50.25
+Total general: 100.50
+```
+
+##### Montos con decimales
+```entrada
+A;0.1
+B;0.2
+A;0.3
+```
+```salida
+Vendedor Ventas      Total   Promedio
+A             2       0.40       0.20
+B             1       0.20       0.20
+Total general: 0.60
 ```
 
 ### Prueba del sello
@@ -2421,6 +2646,41 @@ public class Divisiones {
         System.out.println(bien + " de " + procesadas + " líneas salieron bien");
     }
 }
+```
+
+#### Pruebas
+
+##### Todo bien
+```entrada
+9/3
+-8/2
+```
+```salida
+9/3 = 3
+-8/2 = -4
+2 de 2 líneas salieron bien
+```
+
+##### Todo mal
+```entrada
+a/b
+1/0
+sin barra
+```
+```salida
+a/b: hay algo que no es un número
+1/0: no se puede dividir por cero
+sin barra: hay algo que no es un número
+0 de 3 líneas salieron bien
+```
+
+##### División por número negativo
+```entrada
+7/-2
+```
+```salida
+7/-2 = -3
+1 de 1 líneas salieron bien
 ```
 
 ### Misión R03-N04-M2 · La herrería sin stock
@@ -3268,6 +3528,42 @@ public class Hechizos {
 interface Hechizo {
     int lanzar(int poder);
 }
+```
+
+#### Pruebas
+
+##### Hechizos en el borde
+```entrada
+tope 100
+tope 101
+invertir -5
+cuadrado -3
+```
+```salida
+tope(100) = 100
+tope(101) = 100
+invertir(-5) = 5
+cuadrado(-3) = 9
+  tras duplicar: 14
+  tras cuadrado: 196
+  tras mitad: 98
+  tras invertir: -98
+  tras tope: -98
+```
+
+##### Ninguno existe
+```entrada
+volar 1
+nadar 2
+```
+```salida
+No existe el hechizo volar
+No existe el hechizo nadar
+  tras duplicar: 14
+  tras cuadrado: 196
+  tras mitad: 98
+  tras invertir: -98
+  tras tope: -98
 ```
 
 ### Encargo R03-N05-E1 · Los filtros de la tienda
@@ -4514,6 +4810,27 @@ public class DiarioDeposito {
 }
 ```
 
+#### Pruebas
+
+##### Solo entradas
+```entrada
++ pan 3
++ pan 2
+```
+```salida
+Stock final: {pan=5}
+```
+
+##### Sacar de más
+```entrada
+- sal 1
++ sal 1
+- sal 2
+```
+```salida
+Stock final: {sal=1}
+```
+
 ### Misión R03-N07-M3 · La documentación de la balanza
 
 ```meta
@@ -4699,6 +5016,28 @@ public class ReporteErrores {
         System.out.println("Líneas descartadas: " + descartadas);
     }
 }
+```
+
+#### Pruebas
+
+##### Todo válido
+```entrada
+Zoe;10
+Zoe;20
+```
+```salida
+Zoe        30.00
+Líneas descartadas: 0
+```
+
+##### Todo inválido
+```entrada
+x
+y;
+z;-1
+```
+```salida
+Líneas descartadas: 3
 ```
 
 ### Prueba del sello
@@ -5178,6 +5517,51 @@ class Biblioteca {
 }
 ```
 
+#### Pruebas
+
+##### Disponibles sin libros
+```entrada
+disponibles
+socio Kira
+salir
+```
+```salida
+Disponibles: []
+Kira: ninguno
+```
+
+##### Devolver y prestar de nuevo
+```entrada
+alta A;Uno;Autor
+prestar A;Kira
+devolver A
+prestar A;Bron
+socio Bron
+disponibles
+salir
+```
+```salida
+Alta de A
+A prestado a Kira
+A devuelto
+A prestado a Bron
+Bron: [Uno]
+Disponibles: []
+```
+
+##### Comandos mal escritos
+```entrada
+prestar
+alta A;B
+volar
+salir
+```
+```salida
+Comando inválido: prestar
+Comando inválido: alta A;B
+Comando inválido: volar
+```
+
 ### Misión R03-N08-M2 · El Espectro en el código
 
 ```meta
@@ -5511,6 +5895,38 @@ class Agenda {
         }
     }
 }
+```
+
+#### Pruebas
+
+##### Teléfonos al límite
+```entrada
+nuevo A;12345678;
+nuevo B;1234567;
+nuevo C;1234567890123;
+nuevo D;12345678901234;
+etiquetas
+salir
+```
+```salida
+Agregado: A
+Error: teléfono inválido: 1234567
+Agregado: C
+Error: teléfono inválido: 12345678901234
+Etiquetas: []
+```
+
+##### Buscar sin contactos
+```entrada
+buscar x
+etiqueta club
+etiquetas
+salir
+```
+```salida
+Buscar 'x': []
+Etiqueta club: []
+Etiquetas: []
 ```
 
 ### Prueba del sello

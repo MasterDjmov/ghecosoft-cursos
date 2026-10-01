@@ -1605,6 +1605,34 @@ public class FichaViajero {
 }
 ```
 
+#### Pruebas
+
+##### Justo 7 días (sin descuento)
+```entrada
+kira valdez
+Frontera
+7
+```
+```salida
+Nombre completo: Ciudad de origen: Días de estadía:
+Viajero: KIRA VALDEZ
+Viene de: Frontera
+Costo de 7 días: 105.00 denarios
+```
+
+##### Un día
+```entrada
+Lía
+Puerto
+1
+```
+```salida
+Nombre completo: Ciudad de origen: Días de estadía:
+Viajero: LÍA
+Viene de: Puerto
+Costo de 1 días: 15.00 denarios
+```
+
 ### Misión R01-N04-M2 · El terreno del cuartel
 
 ```meta
@@ -1668,6 +1696,32 @@ public class Terreno {
         System.out.println("Estacas para el perímetro: " + estacas);
     }
 }
+```
+
+#### Pruebas
+
+##### Cuadrado
+```entrada
+2
+2
+```
+```salida
+Ancho: Largo:
+Área: 4.00 m2
+Diagonal: 2.83 m
+Estacas para el perímetro: 4
+```
+
+##### Terreno chico
+```entrada
+0.5
+0.5
+```
+```salida
+Ancho: Largo:
+Área: 0.25 m2
+Diagonal: 0.71 m
+Estacas para el perímetro: 1
 ```
 
 ### Misión R01-N04-M3 · Los dados del tahúr
@@ -1736,6 +1790,32 @@ public class Dados {
 }
 ```
 
+#### Pruebas
+
+##### Semilla 1
+```entrada
+1
+```
+```salida
+Semilla:
+Dados: 4 5 2
+Suma: 11
+Mayor: 5
+¿Trío? false
+```
+
+##### Semilla 2026
+```entrada
+2026
+```
+```salida
+Semilla:
+Dados: 6 5 2
+Suma: 13
+Mayor: 6
+¿Trío? false
+```
+
 ### Encargo R01-N04-E1 · La cuota del préstamo
 
 ```meta
@@ -1802,6 +1882,34 @@ public class Prestamo {
         System.out.printf("Intereses: %.2f%n", total - monto);
     }
 }
+```
+
+#### Pruebas
+
+##### Una cuota
+```entrada
+50000
+24
+1
+```
+```salida
+Monto: Tasa anual (%): Cuotas:
+Cuota: 51000.00
+Total a pagar: 51000.00
+Intereses: 1000.00
+```
+
+##### Tasa baja
+```entrada
+1000000
+12
+24
+```
+```salida
+Monto: Tasa anual (%): Cuotas:
+Cuota: 47073.47
+Total a pagar: 1129763.33
+Intereses: 129763.33
 ```
 
 ### Prueba del sello
@@ -2124,6 +2232,44 @@ public class Veredicto {
 }
 ```
 
+#### Pruebas
+
+##### Bordes
+```entrada
+1
+```
+```salida
+Nota:
+Desaprobado
+```
+
+##### Sobresaliente
+```entrada
+10
+```
+```salida
+Nota:
+Sobresaliente
+```
+
+##### Fuera de rango
+```entrada
+0
+```
+```salida
+Nota:
+Nota inválida
+```
+
+##### Aprobado justo
+```entrada
+4
+```
+```salida
+Nota:
+Aprobado
+```
+
 ### Misión R01-N05-M2 · El menú de la posada
 
 ```meta
@@ -2195,6 +2341,38 @@ public class MenuPosada {
         }
     }
 }
+```
+
+#### Pruebas
+
+##### Agua
+```entrada
+4
+```
+```salida
+1 Guiso | 2 Pan | 3 Café | 4 Agua
+Opción:
+Pediste agua: 0 denarios
+```
+
+##### Opción inexistente
+```entrada
+9
+```
+```salida
+1 Guiso | 2 Pan | 3 Café | 4 Agua
+Opción:
+Esa opción no existe
+```
+
+##### Guiso
+```entrada
+1
+```
+```salida
+1 Guiso | 2 Pan | 3 Café | 4 Agua
+Opción:
+Pediste guiso: 1200 denarios
 ```
 
 ### Misión R01-N05-M3 · Piedra, papel o tijera
@@ -2274,6 +2452,40 @@ public class PiedraPapelTijera {
 }
 ```
 
+#### Pruebas
+
+##### Piedra
+```entrada
+piedra
+1
+```
+```salida
+Tu jugada: Semilla del guardia:
+Kira: piedra | Guardia: piedra
+Empate
+```
+
+##### Tijera
+```entrada
+tijera
+2026
+```
+```salida
+Tu jugada: Semilla del guardia:
+Kira: tijera | Guardia: tijera
+Empate
+```
+
+##### Jugada inválida
+```entrada
+lagarto
+3
+```
+```salida
+Tu jugada: Semilla del guardia:
+Jugada inválida
+```
+
 ### Encargo R01-N05-E1 · El envío de la tienda
 
 ```meta
@@ -2346,6 +2558,41 @@ public class Envio {
         System.out.println("Total: " + (monto + envio));
     }
 }
+```
+
+#### Pruebas
+
+##### CABA con envío gratis
+```entrada
+CABA
+50001
+```
+```salida
+Zona (CABA, GBA o INTERIOR): Monto de la compra:
+Envío: 0
+Total: 50001
+```
+
+##### GBA justo en el límite
+```entrada
+gba
+50000
+```
+```salida
+Zona (CABA, GBA o INTERIOR): Monto de la compra:
+Envío: 4000
+Total: 54000
+```
+
+##### Interior sin descuento
+```entrada
+INTERIOR
+100
+```
+```salida
+Zona (CABA, GBA o INTERIOR): Monto de la compra:
+Envío: 7000
+Total: 7100
 ```
 
 ### Prueba del sello
@@ -2702,6 +2949,73 @@ public class Tabla {
 }
 ```
 
+#### Pruebas
+
+##### Bordes válidos
+```entrada
+1
+```
+```salida
+Número (1-10):
+ 1 x  1 =   1
+ 1 x  2 =   2
+ 1 x  3 =   3
+ 1 x  4 =   4
+ 1 x  5 =   5
+ 1 x  6 =   6
+ 1 x  7 =   7
+ 1 x  8 =   8
+ 1 x  9 =   9
+ 1 x 10 =  10
+Suma de la tabla: 55
+```
+
+##### Diez
+```entrada
+10
+```
+```salida
+Número (1-10):
+10 x  1 =  10
+10 x  2 =  20
+10 x  3 =  30
+10 x  4 =  40
+10 x  5 =  50
+10 x  6 =  60
+10 x  7 =  70
+10 x  8 =  80
+10 x  9 =  90
+10 x 10 = 100
+Suma de la tabla: 550
+```
+
+##### Muchos inválidos
+```entrada
+0
+11
+-3
+x
+5
+```
+```salida
+Número (1-10): Tiene que ser un número del 1 al 10.
+Número (1-10): Tiene que ser un número del 1 al 10.
+Número (1-10): Tiene que ser un número del 1 al 10.
+Número (1-10): Tiene que ser un número del 1 al 10.
+Número (1-10):
+ 5 x  1 =   5
+ 5 x  2 =  10
+ 5 x  3 =  15
+ 5 x  4 =  20
+ 5 x  5 =  25
+ 5 x  6 =  30
+ 5 x  7 =  35
+ 5 x  8 =  40
+ 5 x  9 =  45
+ 5 x 10 =  50
+Suma de la tabla: 275
+```
+
 ### Misión R01-N06-M2 · El adivino de la frontera
 
 ```meta
@@ -2782,6 +3096,39 @@ public class Adivino {
         }
     }
 }
+```
+
+#### Pruebas
+
+##### Acierta al primero
+```entrada
+42
+31
+```
+```salida
+Semilla: Intento: ¡Acertaste en 1 intentos!
+```
+
+##### Se queda sin intentos
+```entrada
+42
+1
+2
+3
+4
+5
+6
+7
+```
+```salida
+Semilla: Intento:   Es mayor
+Intento:   Es mayor
+Intento:   Es mayor
+Intento:   Es mayor
+Intento:   Es mayor
+Intento:   Es mayor
+Intento:   Es mayor
+Se acabaron los intentos. Era 31
 ```
 
 ### Misión R01-N06-M3 · La cosecha del granero
@@ -2868,6 +3215,49 @@ public class Cosecha {
 }
 ```
 
+#### Pruebas
+
+##### Solo fin
+```entrada
+fin
+```
+```salida
+Cosecha (o fin):
+Cosechas válidas: 0
+Total: 0
+Mayor: 0
+Promedio: 0.0
+```
+
+##### Todos negativos
+```entrada
+-1
+-2
+fin
+```
+```salida
+Cosecha (o fin):   Ignoro el negativo -1
+Cosecha (o fin):   Ignoro el negativo -2
+Cosecha (o fin):
+Cosechas válidas: 0
+Total: 0
+Mayor: 0
+Promedio: 0.0
+```
+
+##### Una sola cosecha
+```entrada
+500
+fin
+```
+```salida
+Cosecha (o fin): Cosecha (o fin):
+Cosechas válidas: 1
+Total: 500
+Mayor: 500
+Promedio: 500.0
+```
+
 ### Encargo R01-N06-E1 · El plan de ahorro
 
 ```meta
@@ -2943,6 +3333,151 @@ public class Ahorro {
         }
     }
 }
+```
+
+#### Pruebas
+
+##### No llega en 120 meses
+```entrada
+100
+0
+1000000
+```
+```salida
+Ahorro mensual: Interés mensual (%): Meta:
+Mes   1:       100.00
+Mes   2:       200.00
+Mes   3:       300.00
+Mes   4:       400.00
+Mes   5:       500.00
+Mes   6:       600.00
+Mes   7:       700.00
+Mes   8:       800.00
+Mes   9:       900.00
+Mes  10:      1000.00
+Mes  11:      1100.00
+Mes  12:      1200.00
+Mes  13:      1300.00
+Mes  14:      1400.00
+Mes  15:      1500.00
+Mes  16:      1600.00
+Mes  17:      1700.00
+Mes  18:      1800.00
+Mes  19:      1900.00
+Mes  20:      2000.00
+Mes  21:      2100.00
+Mes  22:      2200.00
+Mes  23:      2300.00
+Mes  24:      2400.00
+Mes  25:      2500.00
+Mes  26:      2600.00
+Mes  27:      2700.00
+Mes  28:      2800.00
+Mes  29:      2900.00
+Mes  30:      3000.00
+Mes  31:      3100.00
+Mes  32:      3200.00
+Mes  33:      3300.00
+Mes  34:      3400.00
+Mes  35:      3500.00
+Mes  36:      3600.00
+Mes  37:      3700.00
+Mes  38:      3800.00
+Mes  39:      3900.00
+Mes  40:      4000.00
+Mes  41:      4100.00
+Mes  42:      4200.00
+Mes  43:      4300.00
+Mes  44:      4400.00
+Mes  45:      4500.00
+Mes  46:      4600.00
+Mes  47:      4700.00
+Mes  48:      4800.00
+Mes  49:      4900.00
+Mes  50:      5000.00
+Mes  51:      5100.00
+Mes  52:      5200.00
+Mes  53:      5300.00
+Mes  54:      5400.00
+Mes  55:      5500.00
+Mes  56:      5600.00
+Mes  57:      5700.00
+Mes  58:      5800.00
+Mes  59:      5900.00
+Mes  60:      6000.00
+Mes  61:      6100.00
+Mes  62:      6200.00
+Mes  63:      6300.00
+Mes  64:      6400.00
+Mes  65:      6500.00
+Mes  66:      6600.00
+Mes  67:      6700.00
+Mes  68:      6800.00
+Mes  69:      6900.00
+Mes  70:      7000.00
+Mes  71:      7100.00
+Mes  72:      7200.00
+Mes  73:      7300.00
+Mes  74:      7400.00
+Mes  75:      7500.00
+Mes  76:      7600.00
+Mes  77:      7700.00
+Mes  78:      7800.00
+Mes  79:      7900.00
+Mes  80:      8000.00
+Mes  81:      8100.00
+Mes  82:      8200.00
+Mes  83:      8300.00
+Mes  84:      8400.00
+Mes  85:      8500.00
+Mes  86:      8600.00
+Mes  87:      8700.00
+Mes  88:      8800.00
+Mes  89:      8900.00
+Mes  90:      9000.00
+Mes  91:      9100.00
+Mes  92:      9200.00
+Mes  93:      9300.00
+Mes  94:      9400.00
+Mes  95:      9500.00
+Mes  96:      9600.00
+Mes  97:      9700.00
+Mes  98:      9800.00
+Mes  99:      9900.00
+Mes 100:     10000.00
+Mes 101:     10100.00
+Mes 102:     10200.00
+Mes 103:     10300.00
+Mes 104:     10400.00
+Mes 105:     10500.00
+Mes 106:     10600.00
+Mes 107:     10700.00
+Mes 108:     10800.00
+Mes 109:     10900.00
+Mes 110:     11000.00
+Mes 111:     11100.00
+Mes 112:     11200.00
+Mes 113:     11300.00
+Mes 114:     11400.00
+Mes 115:     11500.00
+Mes 116:     11600.00
+Mes 117:     11700.00
+Mes 118:     11800.00
+Mes 119:     11900.00
+Mes 120:     12000.00
+En 120 meses no se llega a la meta
+```
+
+##### Llega el primer mes
+```entrada
+1000
+5
+500
+```
+```salida
+Ahorro mensual: Interés mensual (%): Meta:
+Mes   1:      1000.00
+Llegaste a la meta en 1 meses
 ```
 
 ### Prueba del sello
@@ -3265,6 +3800,44 @@ public class Temperaturas {
 }
 ```
 
+#### Pruebas
+
+##### Todas iguales
+```entrada
+20
+20
+20
+20
+20
+20
+20
+```
+```salida
+Día 1: Día 2: Día 3: Día 4: Día 5: Día 6: Día 7:
+[20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]
+Promedio: 20.0
+Máxima: 20.0 (día 1)
+Mínima: 20.0
+```
+
+##### Bajo cero
+```entrada
+-3
+-1.5
+0
+2
+-7.25
+1
+-2
+```
+```salida
+Día 1: Día 2: Día 3: Día 4: Día 5: Día 6: Día 7:
+[-3.0, -1.5, 0.0, 2.0, -7.25, 1.0, -2.0]
+Promedio: -1.5
+Máxima: 2.0 (día 4)
+Mínima: -7.25
+```
+
 ### Misión R01-N07-M2 · El ranking del torneo
 
 ```meta
@@ -3406,6 +3979,51 @@ public class MapaTesoro {
         System.out.println("Casillas libres: " + libres);
     }
 }
+```
+
+#### Pruebas
+
+##### Tesoro sobre el río
+```entrada
+0
+2
+```
+```salida
+Fila del tesoro: Columna del tesoro:
+..X...
+..#...
+..#...
+..#...
+Casillas libres: 20
+```
+
+##### Fuera del mapa
+```entrada
+4
+6
+```
+```salida
+Fila del tesoro: Columna del tesoro:
+Esa posición está fuera del mapa
+..#...
+..#...
+..#...
+..#...
+Casillas libres: 20
+```
+
+##### Esquina
+```entrada
+3
+5
+```
+```salida
+Fila del tesoro: Columna del tesoro:
+..#...
+..#...
+..#...
+..#..X
+Casillas libres: 19
 ```
 
 ### Encargo R01-N07-E1 · Las ventas por sucursal
@@ -3856,6 +4474,38 @@ public class Cambista {
 }
 ```
 
+#### Pruebas
+
+##### Cero
+```entrada
+0
+```
+```salida
+Pesos:
+0.0 pesos son 0.0 denarios
+0.0 denarios son 0.0 pesos
+```
+
+##### Monto chico
+```entrada
+1
+```
+```salida
+Pesos:
+1.0 pesos son 0.0 denarios
+0.0 denarios son 0.0 pesos
+```
+
+##### Monto grande
+```entrada
+1000000
+```
+```salida
+Pesos:
+1000000.0 pesos son 4000.0 denarios
+4000.0 denarios son 1000000.0 pesos
+```
+
 ### Misión R01-N08-M2 · Las estadísticas del regimiento
 
 ```meta
@@ -4094,6 +4744,34 @@ public class Cuit {
         return verificador == digitos.charAt(10) - '0';
     }
 }
+```
+
+#### Pruebas
+
+##### Verificador 0
+```entrada
+20-00000000-1
+```
+```salida
+20-00000000-1: válido
+```
+
+##### Con letras y largo raro
+```entrada
+20-1234567A-6
+2012345678
+```
+```salida
+20-1234567A-6: inválido
+2012345678: inválido
+```
+
+##### Sin guiones
+```entrada
+20123456786
+```
+```salida
+20123456786: válido
 ```
 
 ### Prueba del sello
@@ -4521,6 +5199,119 @@ public class DueloCentinela {
 }
 ```
 
+#### Pruebas
+
+##### Cura siempre
+```entrada
+5
+2
+2
+2
+2
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+```
+```salida
+Semilla:
+Turno 1 | Kira 40 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se cura 0
+El Centinela golpea: 10 de daño
+
+Turno 2 | Kira 30 (pociones: 2) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se cura 10
+El Centinela golpea: 6 de daño
+
+Turno 3 | Kira 34 (pociones: 1) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se cura 6
+El Centinela golpea: 5 de daño
+
+Turno 4 | Kira 35 (pociones: 0) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: No quedan pociones: Kira pierde el turno
+El Centinela golpea: 9 de daño
+
+Turno 5 | Kira 26 (pociones: 0) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 12 de daño
+El Centinela golpea: 12 de daño
+
+Turno 6 | Kira 14 (pociones: 0) | Centinela 48
+1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 9 de daño
+El Centinela golpea: 11 de daño
+
+Turno 7 | Kira 3 (pociones: 0) | Centinela 39
+1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 13 de daño
+El Centinela golpea: 8 de daño
+
+Kira cae en el turno 7. El Centinela queda con 26.
+```
+
+##### Defiende siempre
+```entrada
+99
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+```
+```salida
+Semilla:
+Turno 1 | Kira 40 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 5 de daño
+
+Turno 2 | Kira 35 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 4 de daño
+
+Turno 3 | Kira 31 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 3 de daño
+
+Turno 4 | Kira 28 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 5 de daño
+
+Turno 5 | Kira 23 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 5 de daño
+
+Turno 6 | Kira 18 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 4 de daño
+
+Turno 7 | Kira 14 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 5 de daño
+
+Turno 8 | Kira 9 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 4 de daño
+
+Turno 9 | Kira 5 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+El Centinela golpea: 5 de daño
+
+Kira cae en el turno 9. El Centinela queda con 60.
+```
+
 ### Misión R01-N09-M2 · Los registros del Centinela
 
 ```meta
@@ -4677,6 +5468,59 @@ public class RegistrosCentinela {
         return cantidad;
     }
 }
+```
+
+#### Pruebas
+
+##### Todos válidos
+```entrada
+Ana;30;10
+Beto;17;0
+```
+```salida
+Nombre    Edad    Oro
+Ana         30     10
+Beto        17      0
+Promedio de edad: 23.5
+Oro total: 10
+El más rico: Ana
+Menores de 18: 1
+```
+
+##### Bordes de edad
+```entrada
+Uno;0;1
+Dos;120;1
+Tres;121;1
+Cuatro;-1;1
+```
+```salida
+Descartado [Tres;121;1]: edad fuera de rango
+Descartado [Cuatro;-1;1]: la edad no es un número
+
+Nombre    Edad    Oro
+Uno          0      1
+Dos        120      1
+Promedio de edad: 60.0
+Oro total: 2
+El más rico: Uno
+Menores de 18: 1
+```
+
+##### Ninguno válido
+```entrada
+a;b;c
+x
+```
+```salida
+Descartado [a;b;c]: la edad no es un número
+Descartado [x]: tiene que tener nombre;edad;oro
+
+Nombre    Edad    Oro
+Promedio de edad: 0.0
+Oro total: 0
+El más rico: null
+Menores de 18: 0
 ```
 
 ### Encargo R01-N09-E1 · El cajero automático
@@ -4845,6 +5689,78 @@ public class Cajero {
         }
     }
 }
+```
+
+#### Pruebas
+
+##### Tres PIN incorrectos
+```entrada
+1
+2
+3
+```
+```salida
+PIN: PIN incorrecto (2 intentos restantes)
+PIN: PIN incorrecto (1 intentos restantes)
+PIN: PIN incorrecto (0 intentos restantes)
+Tarjeta retenida.
+```
+
+##### Depositar y ver movimientos
+```entrada
+4321
+2
+1000
+2
+2000
+4
+1
+5
+```
+```salida
+PIN: Acceso correcto.
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Monto a depositar: Depositaste $1000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Monto a depositar: Depositaste $2000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción:   Depósito +1000
+  Depósito +2000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Saldo: $53000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Gracias por usar el cajero.
+```
+
+##### Extraer justo 30000
+```entrada
+4321
+3
+30000
+3
+30001
+1
+5
+```
+```salida
+PIN: Acceso correcto.
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Monto a extraer: Retirá $30000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Monto a extraer: El máximo por extracción es $30000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Saldo: $20000
+
+1 Saldo | 2 Depositar | 3 Extraer | 4 Movimientos | 5 Salir
+Opción: Gracias por usar el cajero.
 ```
 
 ### Prueba del sello

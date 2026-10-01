@@ -5860,6 +5860,39 @@ enum Dia {
 }
 ```
 
+#### Pruebas
+
+##### Domingo
+```entrada
+domingo
+```
+```salida
+Día:
+DOMINGO es fin de semana
+Mañana es LUNES
+En el mercado hoy: cerrado
+```
+
+##### Mayúsculas mezcladas
+```entrada
+LuNeS
+```
+```salida
+Día:
+LUNES es día hábil
+Mañana es MARTES
+En el mercado hoy: verduras
+```
+
+##### No es un día
+```entrada
+feriado
+```
+```salida
+Día:
+FERIADO no es un día
+```
+
 ### Misión R02-N09-M2 · Los pedidos de la herrería
 
 ```meta
@@ -7663,6 +7696,42 @@ class Estudiante implements Comparable<Estudiante> {
 }
 ```
 
+#### Pruebas
+
+##### Un solo estudiante
+```entrada
+200;Zoe;ALGEBRA;4
+200;Zoe;DISENO;3
+```
+```salida
+Ranking de la Academia
+1. Zoe (200)  promedio 3.50  aprobadas 1  horas 96
+```
+
+##### Empate de promedio
+```entrada
+2;B;ALGEBRA;8
+1;A;DISENO;8
+```
+```salida
+Ranking de la Academia
+1. A (1)  promedio 8.00  aprobadas 1  horas 64
+2. B (2)  promedio 8.00  aprobadas 1  horas 96
+```
+
+##### Solo errores
+```entrada
+5;X;MAGIA;5
+6;Y;ALGEBRA;0
+```
+```salida
+Línea salteada [5;X;MAGIA;5]: No enum constant Materia.MAGIA
+Línea salteada [6;Y;ALGEBRA;0]: nota fuera de rango: 0
+
+Ranking de la Academia
+1. Y (6)  promedio 0.00  aprobadas 0  horas 0
+```
+
 ### Encargo R02-N11-E1 · El estacionamiento
 
 ```meta
@@ -7856,6 +7925,52 @@ class Estacionamiento {
         return sb.toString();
     }
 }
+```
+
+#### Pruebas
+
+##### Estacionamiento lleno
+```entrada
+E AA1 AUTO 1
+E AA2 AUTO 1
+E AA3 AUTO 1
+E AA4 AUTO 1
+E AA5 AUTO 1
+E AA6 AUTO 1
+E AA7 MOTO 1
+```
+```salida
+AA1 entra a la cochera 1
+AA2 entra a la cochera 2
+AA3 entra a la cochera 3
+AA4 entra a la cochera 4
+AA5 entra a la cochera 5
+AA6 entra a la cochera 6
+AA7: no hay cochera para MOTO
+Cocheras: 1:AA1 2:AA2 3:AA3 4:AA4 5:AA5 6:AA6
+Recaudación: $0
+```
+
+##### Sale lo que no está
+```entrada
+S ZZ999 10
+```
+```salida
+ZZ999 no está en el estacionamiento
+Cocheras: 1:libre 2:libre 3:libre 4:libre 5:libre 6:libre
+Recaudación: $0
+```
+
+##### Misma hora (mínimo una hora)
+```entrada
+E M1 MOTO 5
+S M1 5
+```
+```salida
+M1 entra a la cochera 1
+M1 sale y paga $800
+Cocheras: 1:libre 2:libre 3:libre 4:libre 5:libre 6:libre
+Recaudación: $800
 ```
 
 ### Prueba del sello

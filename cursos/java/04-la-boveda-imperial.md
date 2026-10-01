@@ -434,6 +434,18 @@ public class DiarioPosada {
 }
 ```
 
+#### Pruebas
+
+##### Un solo huésped
+```entrada
+Pip 08:00
+```
+```salida
+1. == Diario de la posada La Taza ==
+2. 08:00 llegó Pip
+```
+
+
 ### Misión R04-N01-M3 · La configuración del juego
 
 ```meta

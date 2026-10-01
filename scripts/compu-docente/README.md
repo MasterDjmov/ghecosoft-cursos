@@ -69,7 +69,11 @@ Para que *Ejecutar* ande en las entregas de Java (D69), el ejecutor corre de fon
 scripts/compu-docente/instalar-javarunner.sh
 ```
 
-Instala `javarunner.service` (el de esta carpeta) en `~/.config/systemd/user/`. Comandos útiles:
+Instala `javarunner.service` (el de esta carpeta) en `~/.config/systemd/user/`.
+
+En Chrome, la página de la plataforma necesita dos permisos (ícono a la izquierda de la dirección → *Configuración del sitio*): **Red local** y **Aplicaciones en el dispositivo**. Y **ninguna extensión que toque CORS** (como *CORS Unblock*) activa en esa pestaña: cambian el origen del pedido y el ejecutor lo rechaza. Cada pedido queda anotado en `journalctl --user -u javarunner`.
+
+Comandos útiles:
 
 ```bash
 systemctl --user status javarunner          # ¿está andando?

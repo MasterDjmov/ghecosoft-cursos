@@ -94,6 +94,7 @@ En *Admin → Entregas*, en una entrega de código con pruebas:
 
 - **Comentarios guardados:** cada docente guarda sus devoluciones frecuentes («Bien, pero revisá los nombres de las variables») y las inserta con un clic al corregir. Tabla `review_snippets` (`user_id`, `course_id` opcional, `body`, `position`).
 - **Dónde se traban:** en cada curso, las prácticas con más pedidos de rehacer y más intentos promedio, con los alumnos del alcance del docente (`TeacherScope`). Suele señalar consignas poco claras.
+  - Primera versión hecha el 2026-10-01, **solo para el administrador**: en su *Inicio*, «Estadísticas · Prácticas» (`Support\PracticeStats`), por curso y período, con «Las más elegidas» y «Donde más se traban» (intentos para rehacer, intentos por alumno, pruebas que fallan y consultas, incluidas las prácticas con consultas y sin entregas). Falta la versión del docente, con sus alumnos (`TeacherScope`).
 
 ## 6. Orden de trabajo (cada etapa se prueba antes de seguir)
 

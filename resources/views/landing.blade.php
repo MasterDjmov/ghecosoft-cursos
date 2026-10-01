@@ -119,14 +119,35 @@
                 </section>
             @endif
 
-            {{-- La compañía y sus enemigos: una fila para cada bando (del Diccionario general). --}}
-            @if ($crew->isNotEmpty() || $beasts->isNotEmpty())
+            {{-- Las líderes de cada mundo, la compañía y sus enemigos: una fila para cada uno (del Diccionario). --}}
+            @if ($leaders->isNotEmpty() || $crew->isNotEmpty() || $beasts->isNotEmpty())
             <section class="flex flex-col gap-8" data-test="landing-cast">
                 <div class="flex flex-col gap-1">
                     <p class="tech-label">La historia</p>
                     <h2 class="font-display text-3xl font-semibold text-white">Tu compañía y sus enemigos</h2>
                     <p class="text-ink-muted">En cada mundo te acompaña un equipo. Enfrente, las criaturas: cada una es un error típico al programar, y la vencés aprendiendo a leerlo.</p>
                 </div>
+
+                @if ($leaders->isNotEmpty())
+                    <div class="flex flex-col gap-3" data-test="landing-leaders">
+                        <p class="tech-label text-[#c4b5fd]">Líderes de cada mundo</p>
+                        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+                            @foreach ($leaders as $leader)
+                                <figure class="flex flex-col items-center gap-2 text-center">
+                                    <img src="{{ $leader['image'] }}" alt="{{ $leader['name'] }}" loading="lazy"
+                                        class="size-28 rounded-full object-cover ring-2 ring-[#a78bfa]/50 shadow-[0_0_28px_rgba(167,139,250,0.3)] transition hover:scale-105">
+                                    <figcaption class="flex flex-col gap-0.5">
+                                        <span class="font-display font-semibold text-white">{{ $leader['name'] }}</span>
+                                        <span class="font-mono text-[11px] text-[#c4b5fd]">{{ $leader['course'] }}</span>
+                                        @if ($leader['role'])
+                                            <span class="text-xs text-ink-muted">{{ $leader['role'] }}</span>
+                                        @endif
+                                    </figcaption>
+                                </figure>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
                 <div @class(['flex flex-col gap-3', 'hidden' => $crew->isEmpty()])>
                     <p class="tech-label text-primary-bright">Protagonistas</p>

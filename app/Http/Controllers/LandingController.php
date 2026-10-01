@@ -59,7 +59,9 @@ class LandingController
             return ['image' => $image, 'name' => Str::ucfirst($term['singular']), 'role' => $term['short_description'] ?: (self::ROLES[$key] ?? null)];
         });
 
+        // Las líderes de cada curso (mentor.name) van en su propia fila: leaders().
         $own = $glossary->courseCharacters($prefixes, publishedOnly: true)
+            ->reject(fn (array $term) => $term['key'] === 'mentor.name')
             ->map(fn (array $term) => [
                 'image' => $term['icon_path'] ? Storage::disk('public')->url($term['icon_path']) : null,
                 'name' => Str::ucfirst($term['singular']),
@@ -69,6 +71,20 @@ class LandingController
         return $general->values()->concat($own)
             ->filter(fn (array $character) => $character['image'] !== null)
             ->unique('name')
+            ->values();
+    }
+
+    /** La líder de cada curso publicado (Ofidia en Python, Elefa en PHP…), con retrato del Diccionario. */
+    private function leaders(Glossary $glossary): Collection
+    {
+        return $glossary->courseCharacters(['mentor.name'], publishedOnly: true)
+            ->filter(fn (array $term) => $term['icon_path'] !== null)
+            ->map(fn (array $term) => [
+                'image' => Storage::disk('public')->url($term['icon_path']),
+                'name' => Str::ucfirst($term['singular']),
+                'course' => Str::before($term['course']->title, ':'),
+                'role' => $term['short_description'],
+            ])
             ->values();
     }
 
@@ -91,6 +107,7 @@ class LandingController
         return view('landing', [
             'courses' => $featured->isNotEmpty() ? $featured : $published,
             'upcoming' => $catalog->filter(fn (Course $course) => $course->isUpcoming()),
+            'leaders' => $this->leaders($glossary),
             'crew' => $this->cast($glossary, ['hero.name', 'mentor.name', 'companion.']),
             'beasts' => $this->cast($glossary, ['beast.']),
             'coins' => $published->map(fn (Course $course) => ['course' => $course, ...$glossary->resolve('coin.course', $course)]),

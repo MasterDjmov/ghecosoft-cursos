@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Support\Glossary;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 
 /** Retratos del Diccionario: uno general para todos los cursos que usan el mismo personaje. */
@@ -79,11 +80,11 @@ test('el Diccionario general lista los personajes propios de cada curso y abre s
         ->assertSet('singular', 'Ofidia');
 });
 
-test('la portada suma los personajes propios de los cursos publicados que tienen retrato', function () {
+test('la portada muestra a la líder de cada curso publicado con retrato, en su propia fila', function () {
     $course = makeCourse()['course'];
     $course->update(['is_published' => true]);
     GlossaryTerm::create(['key' => 'mentor.name', 'course_id' => $course->id, 'singular' => 'Ofidia', 'plural' => 'Ofidia', 'gender' => 'f', 'icon_path' => 'glossary/ofidia.jpg', 'short_description' => 'Serpiente sabia.']);
     GlossaryTerm::create(['key' => 'companion.theory', 'course_id' => $course->id, 'singular' => 'Sin Foto', 'plural' => 'Sin Foto', 'gender' => 'f']);
 
-    $this->get('/')->assertOk()->assertSee('Ofidia')->assertSee('glossary/ofidia.jpg', false)->assertSee('Serpiente sabia.')->assertDontSee('Sin Foto');
+    $this->get('/')->assertOk()->assertSee('data-test="landing-leaders"', false)->assertSee('Ofidia')->assertSee(Str::before($course->title, ':'))->assertSee('glossary/ofidia.jpg', false)->assertSee('Serpiente sabia.')->assertDontSee('Sin Foto');
 });

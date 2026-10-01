@@ -1,6 +1,6 @@
 # Corrección asistida (D73, diseño a revisar)
 
-Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) hecha el 2026-10-01.
+Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) y etapa 3 (las pruebas de los cinco cursos) hechas el 2026-10-01. Sigue la etapa 4, con el docente.
 
 ## Punto de partida
 
@@ -104,6 +104,23 @@ En *Admin → Entregas*, en una entrega de código con pruebas:
 5. **Comentarios guardados y Dónde se traban** (§ 5).
 
 Tests Pest en cada etapa: el alumno nunca recibe las pruebas extra, solo quien corrige guarda `check_result`, el importador lee y reemplaza las pruebas.
+
+## Etapa 3: cómo quedó (2026-10-01)
+
+| Curso | Prácticas con pruebas | Casos (ejemplo + pruebas) |
+|---|---|---|
+| Python | 4 | 97 |
+| C | 45 | 244 |
+| C++ | 116 | 458 |
+| Java | 36 | 211 |
+| PHP | 24 | 156 |
+
+Todos coinciden con la solución de referencia (`app:course-tests`). Las salidas las escribió `--fill`, no a mano. Notas:
+
+- **Java:** las prácticas con base de datos (JDBC) quedan sin pruebas: no se pueden correr ni en el súper test ni con `JavaRunner`. Lo mismo en PHP con las páginas web y PDO (15 prácticas).
+- **Contenido corregido al verificar:** dos salidas esperadas de Python habían perdido la sangría de la primera línea (R02-N02-M1 y R03-N02-M2).
+- **A revisar por el docente:** la solución de referencia de PHP R05-N05-E1 (*El monitor de la tienda*) falla con `number_format(null)` si el registro no tiene ningún pedido confirmado. La consigna no dice qué mostrar en ese caso; las pruebas incluyen siempre un pedido.
+- **Rendimiento:** C++ R05-N03-M3 mide búsquedas (2000 sobre 200 000 números) y, sin optimizar, tarda cerca de 5 s; el comando usa 20 s de margen. Al corregir en el navegador (Clang en WebAssembly) va a tardar.
 
 ## Decidido (2026-09-30)
 

@@ -62,3 +62,28 @@ test('el tamaño de los retratos se elige en el Diccionario y se usa en los nodo
 
     $node()->assertSee('width: 64px', false)->assertSee('width: 120px', false);
 });
+
+test('el Diccionario general lista los personajes propios de cada curso y abre su edición en ese curso', function () {
+    $course = makeCourse()['course'];
+    GlossaryTerm::create(['key' => 'mentor.name', 'course_id' => $course->id, 'singular' => 'Ofidia', 'plural' => 'Ofidia', 'gender' => 'f']);
+    // El mismo personaje que el general (toma su retrato): no hace falta listarlo.
+    GlossaryTerm::create(['key' => 'beast.slime', 'course_id' => $course->id, 'singular' => 'slime', 'plural' => 'slimes', 'gender' => 'm']);
+
+    Livewire::actingAs(User::factory()->admin()->create())
+        ->test(GlossaryAdmin::class)
+        ->assertSee('data-test="course-characters"', false)
+        ->assertSee('Ofidia')
+        ->assertDontSee("editIn({$course->id}, 'beast.slime')", false)
+        ->call('editIn', $course->id, 'mentor.name')
+        ->assertSet('scope', (string) $course->id)
+        ->assertSet('singular', 'Ofidia');
+});
+
+test('la portada suma los personajes propios de los cursos publicados que tienen retrato', function () {
+    $course = makeCourse()['course'];
+    $course->update(['is_published' => true]);
+    GlossaryTerm::create(['key' => 'mentor.name', 'course_id' => $course->id, 'singular' => 'Ofidia', 'plural' => 'Ofidia', 'gender' => 'f', 'icon_path' => 'glossary/ofidia.jpg', 'short_description' => 'Serpiente sabia.']);
+    GlossaryTerm::create(['key' => 'companion.theory', 'course_id' => $course->id, 'singular' => 'Sin Foto', 'plural' => 'Sin Foto', 'gender' => 'f']);
+
+    $this->get('/')->assertOk()->assertSee('Ofidia')->assertSee('glossary/ofidia.jpg', false)->assertSee('Serpiente sabia.')->assertDontSee('Sin Foto');
+});

@@ -48,6 +48,33 @@
         <p class="mt-2 text-xs text-ink-muted">De 24 a 200 px. La vista previa cambia mientras escribís; en los nodos se aplica al guardar. Por defecto: 48 y 80.</p>
     </details>
 
+    {{-- Los personajes que un curso renombró (la mentora de Python es Ofidia): viven en el ámbito de su curso. --}}
+    @if ($courseCharacters->isNotEmpty())
+        <section class="panel flex flex-col gap-3 p-5" data-test="course-characters">
+            <div>
+                <h2 class="font-display font-semibold text-white">Personajes propios de los cursos</h2>
+                <p class="text-sm text-ink-muted">Cada curso los nombra a su manera y no toman el retrato del general: subile la foto a cada uno.</p>
+            </div>
+            <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($courseCharacters as $character)
+                    <li class="flex items-center gap-3 rounded-lg border border-outline bg-surface-low p-2" wire:key="character-{{ $character['course']->id }}-{{ $character['key'] }}">
+                        @if ($character['icon_path'])
+                            <img src="{{ Storage::disk('public')->url($character['icon_path']) }}" alt="" class="size-10 shrink-0 rounded-md object-cover">
+                        @else
+                            <div class="grid size-10 shrink-0 place-items-center rounded-md bg-surface-highest font-mono text-sm text-ink-muted">{{ mb_substr($character['singular'], 0, 1) }}</div>
+                        @endif
+                        <div class="flex min-w-0 flex-1 flex-col">
+                            <span class="truncate font-medium text-white">{{ $character['singular'] }}</span>
+                            <span class="truncate text-xs text-ink-muted">{{ $character['course']->title }} · <code class="font-mono">{{ $character['key'] }}</code></span>
+                        </div>
+                        <flux:button size="xs" :icon="$character['icon_path'] ? 'pencil-square' : 'photo'"
+                            wire:click="editIn({{ $character['course']->id }}, '{{ $character['key'] }}')">{{ $character['icon_path'] ? 'Editar' : 'Foto' }}</flux:button>
+                    </li>
+                @endforeach
+            </ul>
+        </section>
+    @endif
+
     <div class="panel overflow-hidden">
         <ul class="divide-y divide-outline">
             @foreach ($rows as $row)

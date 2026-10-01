@@ -39,7 +39,8 @@ class LandingController
 
     /**
      * Los personajes del Diccionario general con ese prefijo (los de fábrica y las claves propias), en el
-     * orden del catálogo. Sin retrato no se muestran.
+     * orden del catálogo, y después los propios de cada curso publicado (Ofidia, la mentora de Python). Sin
+     * retrato no se muestran.
      *
      * @param  list<string>  $prefixes
      */
@@ -50,13 +51,25 @@ class LandingController
             ->unique()
             ->filter(fn (string $key) => Str::startsWith($key, $prefixes) || in_array($key, $prefixes, true));
 
-        return $keys->map(function (string $key) use ($glossary) {
+        $general = $keys->map(function (string $key) use ($glossary) {
             $term = $glossary->resolve($key);
             $image = isset(self::IMAGES[$key]) ? asset('img/personajes/'.self::IMAGES[$key].'.webp')
                 : ($term['icon_path'] ? Storage::disk('public')->url($term['icon_path']) : null);
 
             return ['image' => $image, 'name' => Str::ucfirst($term['singular']), 'role' => $term['short_description'] ?: (self::ROLES[$key] ?? null)];
-        })->filter(fn (array $character) => $character['image'] !== null)->values();
+        });
+
+        $own = $glossary->courseCharacters($prefixes, publishedOnly: true)
+            ->map(fn (array $term) => [
+                'image' => $term['icon_path'] ? Storage::disk('public')->url($term['icon_path']) : null,
+                'name' => Str::ucfirst($term['singular']),
+                'role' => $term['short_description'] ?: (self::ROLES[$term['key']] ?? null),
+            ]);
+
+        return $general->values()->concat($own)
+            ->filter(fn (array $character) => $character['image'] !== null)
+            ->unique('name')
+            ->values();
     }
 
     public function __invoke(Ranking $ranking, Glossary $glossary)

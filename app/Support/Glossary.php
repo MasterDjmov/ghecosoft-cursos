@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Course;
 use App\Models\GlossaryTerm;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -45,6 +46,31 @@ class Glossary
             'short_description' => $term['short_description'] ?? null,
             'lore' => $term['lore'] ?? null,
         ];
+    }
+
+    /**
+     * Los personajes propios de cada curso (Ofidia, la mentora de Python): términos de un curso con ese
+     * prefijo que se llaman distinto que en el general, y por eso no heredan su retrato.
+     *
+     * @param  list<string>  $prefixes
+     * @return Collection<int, array{course: Course, key: string, singular: string, short_description: ?string, icon_path: ?string}>
+     */
+    public function courseCharacters(array $prefixes, bool $publishedOnly = false): Collection
+    {
+        $courses = Course::query()->when($publishedOnly, fn ($q) => $q->where('is_published', true))->orderBy('position')->get();
+
+        return $courses->flatMap(fn (Course $course) => GlossaryTerm::where('course_id', $course->id)
+            ->where(fn ($q) => collect($prefixes)->each(fn ($prefix) => $q->orWhere('key', 'like', $prefix.'%')))
+            ->orderBy('key')
+            ->get()
+            ->filter(fn (GlossaryTerm $term) => Str::lower($this->resolve($term->key)['singular']) !== Str::lower($term->singular))
+            ->map(fn (GlossaryTerm $term) => [
+                'course' => $course,
+                'key' => $term->key,
+                'singular' => $term->singular,
+                'short_description' => $term->short_description,
+                'icon_path' => $term->icon_path,
+            ]))->values();
     }
 
     /** Nombre técnico en español para claves sin valor: "Nivel 3" para level.3. */

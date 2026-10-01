@@ -43,6 +43,25 @@
         <flux:input wire:model.live.debounce.400ms="search" label="Alumno" placeholder="Nombre o usuario" icon="magnifying-glass" />
     </div>
 
+    {{-- Corrección asistida (D73): las pruebas corren en este navegador, una entrega tras otra. --}}
+    @php($toCheck = $submissions->getCollection()->filter(fn ($s) => $s->status === \App\Enums\SubmissionStatus::Submitted && filled($s->code) && $s->check_result === null)->pluck('id')->values())
+    <div class="flex flex-wrap items-center gap-3" wire:key="checks-{{ $toCheck->implode('-') }}"
+        x-data="inboxChecks(@js(['ids' => $toCheck, 'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'timeout' => config('services.pyodide.timeout_ms')]))">
+        <flux:select wire:model.live="checks" size="sm" class="max-w-56" aria-label="Pruebas">
+            <flux:select.option value="">Pruebas: todas</flux:select.option>
+            <flux:select.option value="pass">Pasan todas</flux:select.option>
+            <flux:select.option value="fail">Falla alguna</flux:select.option>
+            <flux:select.option value="none">Sin probar</flux:select.option>
+        </flux:select>
+        @if ($toCheck->isNotEmpty())
+            <flux:button size="sm" icon="beaker" x-on:click="run" x-bind:disabled="running" data-test="check-pending">
+                Probar pendientes ({{ $toCheck->count() }})
+            </flux:button>
+        @endif
+        <span class="text-sm text-ink-muted" x-show="running" x-text="progress"></span>
+        <pre class="w-full max-h-40 overflow-auto font-mono text-xs whitespace-pre-wrap text-[#fca5a5]" x-show="problem" x-text="problem"></pre>
+    </div>
+
     <div class="panel overflow-hidden">
         <ul class="divide-y divide-outline">
             @forelse ($submissions as $submission)
@@ -53,6 +72,13 @@
                                 <span class="font-medium text-white">{{ $submission->user->fullName() }}</span>
                                 <span class="font-mono text-xs text-ink-muted">{{ '@'.$submission->user->username }}</span>
                                 <flux:badge size="sm" :color="['submitted' => 'amber', 'approved' => 'green', 'redo' => 'red'][$submission->status->value]">{{ $submission->status->label() }}</flux:badge>
+                                @if ($check = $submission->check_result)
+                                    @php($allPass = $check['passed'] === $check['total'])
+                                    <span @class(['rounded-full px-2 py-0.5 font-mono text-xs', 'bg-success/15 text-success' => $allPass, 'bg-danger/15 text-[#fca5a5]' => ! $allPass])
+                                        title="Pruebas, según el navegador de quien corrigió" data-test="check-{{ $submission->id }}">
+                                        {{ $allPass ? '✓' : '✗' }} {{ $check['passed'] }}/{{ $check['total'] }}
+                                    </span>
+                                @endif
                             </div>
                             <p class="truncate text-sm text-ink-muted">
                                 {{ $submission->practice->node->course->title }} · {{ $submission->practice->node->title }} · <span class="text-ink">{{ $submission->practice->title }}</span>

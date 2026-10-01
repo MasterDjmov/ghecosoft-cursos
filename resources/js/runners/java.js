@@ -30,7 +30,7 @@ export async function runJava(code, { stdin = '', url, timeout = 5000, onStatus 
         });
         data = await response.json();
     } catch (e) {
-        return { output: '', error: notRunning(), diagnostics: '', ms: 0 };
+        return { output: '', error: notRunning(), diagnostics: '', ms: 0, unavailable: true };
     }
 
     if (!data.compiled) {

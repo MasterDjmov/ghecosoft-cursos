@@ -1,6 +1,6 @@
 # Corrección asistida (D73, diseño a revisar)
 
-Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) y etapa 3 (las pruebas de los cinco cursos) hechas el 2026-10-01. Sigue la etapa 4, con el docente.
+Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) etapa 3 (las pruebas de los cinco cursos) y etapa 4 (pruebas al abrir la entrega y *Probar pendientes*) hechas el 2026-10-01. Sigue la etapa 5.
 
 ## Punto de partida
 
@@ -104,6 +104,15 @@ En *Admin → Entregas*, en una entrega de código con pruebas:
 5. **Comentarios guardados y Dónde se traban** (§ 5).
 
 Tests Pest en cada etapa: el alumno nunca recibe las pruebas extra, solo quien corrige guarda `check_result`, el importador lee y reemplaza las pruebas.
+
+## Etapa 4: cómo quedó (2026-10-01)
+
+- **Al abrir una entrega de código** (`SubmissionCases::for`: el ejemplo + las pruebas), el panel **Pruebas** las corre solas en el navegador (`resources/js/runners/cases.js`; en C/C++ compila una vez y corre cada entrada) y muestra «N de M pruebas pasan». Las que fallan se abren solas con la entrada y lo esperado contra lo obtenido, línea por línea, con las diferencias marcadas. *Volver a probar* las repite.
+- **Pasa** si la salida coincide (con la misma comparación que `app:course-tests`) y el programa no se cortó: un `exit(1)` pedido por la consigna no la hace fallar; no compilar, el tiempo agotado o un corte sí.
+- **El resultado** se guarda en `submissions.check_result` (`{passed, total, at}`) solo si cuadra con los casos de la entrega y quien lo manda puede corregirla. Si el ejecutor no está (Java sin `JavaRunner`, un compilador que no carga), no se guarda nada y se muestra por qué.
+- **En la bandeja**: la marca ✓ 3/3 o ✗ 1/3 en cada entrega, el filtro *Pruebas* (pasan todas / falla alguna / sin probar) y **Probar pendientes (N)**, que corre una tras otra las sin corregir de la página que todavía no se probaron.
+- La primera vez en C/C++ el navegador baja el compilador (~120 MB); después queda guardado.
+- Probado de punta a punta con Chrome sin ventana: Python (4/4), PHP (5/5) y C++ (3/3 la solución de referencia; 0/3 una entrega simulada con una línea de más), y *Probar pendientes* con cuatro entregas de C++.
 
 ## Etapa 3: cómo quedó (2026-10-01)
 

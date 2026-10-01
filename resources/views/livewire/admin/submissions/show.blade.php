@@ -47,6 +47,10 @@
         </details>
     @endif
 
+    @if ($cases)
+        @include('livewire.admin.submissions.partials.cases')
+    @endif
+
     <section class="panel flex flex-col gap-4 p-5">
         @if ($submission->code)
             <x-code-runner :code="$submission->code" :stdin="$practice->sample_input" :expected="$practice->expected_output" :language="$course->language->value"

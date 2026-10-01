@@ -118,6 +118,66 @@ document.addEventListener('alpine:init', () => {
     }));
 });
 
+// Corrección asistida (D73): las pruebas de una entrega, al abrirla, y «Probar pendientes» en la bandeja.
+// config: { language, code, cases, pyodideUrl, javaRunnerUrl, timeout }
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('submissionCases', (config) => ({
+        running: false,
+        status: '',
+        results: [],
+        passed: 0,
+        total: config.cases.length,
+        unavailable: null,
+
+        init() {
+            this.run();
+        },
+
+        async run() {
+            if (this.running) return;
+            this.running = true;
+            this.unavailable = null;
+            const { runCases, diffLines } = await import('./runners/cases.js');
+            const outcome = await runCases({ ...config, onStatus: (status) => (this.status = status) });
+            this.results = outcome.results.map((r) => ({ ...r, lines: r.passed ? [] : diffLines(r.expected, r.output) }));
+            this.passed = outcome.passed;
+            this.unavailable = outcome.unavailable;
+            this.status = '';
+            this.running = false;
+            // Si el ejecutor no estaba, no se guarda nada: no es que el alumno falló.
+            if (!outcome.unavailable) this.$wire.saveCheck(outcome.passed, outcome.total);
+        },
+    }));
+
+    // config: { ids, pyodideUrl, javaRunnerUrl, timeout }
+    window.Alpine.data('inboxChecks', (config) => ({
+        running: false,
+        progress: '',
+        problem: null,
+
+        async run() {
+            if (this.running) return;
+            this.running = true;
+            this.problem = null;
+            const { runCases } = await import('./runners/cases.js');
+            for (const [i, id] of config.ids.entries()) {
+                this.progress = `Probando ${i + 1} de ${config.ids.length}…`;
+                const data = await this.$wire.casesFor(id);
+                if (!data.cases.length) continue;
+                const outcome = await runCases({ ...config, language: data.language, code: data.code, cases: data.cases });
+                if (outcome.unavailable) {
+                    this.problem = outcome.unavailable;
+                    continue;
+                }
+                await this.$wire.saveCheck(id, outcome.passed, outcome.total);
+            }
+            this.progress = '';
+            this.running = false;
+            this.$wire.$refresh();
+        },
+    }));
+});
+
 // Editor + ejecutor: el ejemplo de un nodo, las hojas y la bandeja del docente.
 // config: { code, stdin, expected, language, readOnly, runnable, tab, pyodideUrl, javaRunnerUrl, timeout }
 document.addEventListener('alpine:init', () => {

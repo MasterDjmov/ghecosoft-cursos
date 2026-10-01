@@ -44,7 +44,7 @@ export async function runPhp(code, { stdin = '', timeout = 5000, onStatus } = {}
     if (result.type === 'failed') {
         current.terminate();
         if (worker === current) worker = null;
-        return { output: '', error: `No se pudo ejecutar PHP: ${result.message}`, stderr: '', ms: 0 };
+        return { output: '', error: `No se pudo ejecutar PHP: ${result.message}`, stderr: '', ms: 0, unavailable: true };
     }
     const errors = (result.errors ?? '').trim();
     const error = result.exit !== 0 ? `El programa terminó con código ${result.exit}.${errors ? '\n' + errors : ''}` : null;

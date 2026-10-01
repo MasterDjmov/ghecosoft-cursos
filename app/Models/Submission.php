@@ -20,6 +20,7 @@ class Submission extends Model
             'status' => SubmissionStatus::class,
             'submitted_at' => 'datetime',
             'reviewed_at' => 'datetime',
+            'check_result' => 'array',
         ];
     }
 

@@ -8,6 +8,8 @@ use App\Models\Course;
 use App\Models\Submission;
 use App\Models\User;
 use App\Services\TeacherScope;
+use App\Support\SubmissionCases;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -35,6 +37,28 @@ class Index extends Component
     #[Url(as: 'docente', except: '')]
     public string $teacherId = '';
 
+    /** Pruebas (D73): '' todas, 'pass' pasan todas, 'fail' falla alguna, 'none' sin probar. */
+    #[Url(as: 'pruebas', except: '')]
+    public string $checks = '';
+
+    /** Para «Probar pendientes»: el código, el lenguaje y los casos de una entrega (solo si la puede corregir). */
+    #[Renderless]
+    public function casesFor(int $id): array
+    {
+        $submission = Submission::with('practice.node.course', 'practice.tests')->findOrFail($id);
+        $this->authorize('review', $submission);
+
+        return ['code' => (string) $submission->code, 'language' => $submission->practice->node->course->language->value, 'cases' => SubmissionCases::for($submission)];
+    }
+
+    #[Renderless]
+    public function saveCheck(int $id, int $passed, int $total): void
+    {
+        $submission = Submission::findOrFail($id);
+        $this->authorize('review', $submission);
+        SubmissionCases::store($submission, $passed, $total);
+    }
+
     public function updated(): void
     {
         $this->resetPage();
@@ -52,6 +76,9 @@ class Index extends Component
             // La comisión del alumno en el curso de la entrega (no la de otro curso).
             ->when($this->cohortId !== '', fn ($q) => $this->inCohorts($q, [(int) $this->cohortId]))
             ->when($teacherCohorts !== null, fn ($q) => $this->inCohorts($q, $teacherCohorts->all() ?: [0]))
+            ->when($this->checks === 'pass', fn ($q) => $q->whereNotNull('check_result')->whereColumn('check_result->passed', 'check_result->total'))
+            ->when($this->checks === 'fail', fn ($q) => $q->whereNotNull('check_result')->whereColumn('check_result->passed', '<', 'check_result->total'))
+            ->when($this->checks === 'none', fn ($q) => $q->whereNull('check_result'))
             ->when(trim($this->search) !== '', function ($q) {
                 $term = '%'.trim($this->search).'%';
                 $q->whereHas('user', fn ($u) => $u->where('name', 'like', $term)->orWhere('last_name', 'like', $term)->orWhere('username', 'like', $term));

@@ -77,6 +77,36 @@ export async function runCpp(code, { stdin = '', timeout = 5000, language = 'cpp
     return { output: result.output, error, diagnostics: compiled.diagnostics, stderr: result.exit === 0 ? result.errors : '', ms: result.ms };
 }
 
+/**
+ * El mismo programa con varias entradas (pruebas al corregir, D73): se compila una sola vez.
+ *
+ * @returns {Promise<Array<{output: string, error: string|null, ms: number, timedOut?: boolean, compileError?: boolean, unavailable?: boolean}>>}
+ */
+export async function runCppMany(code, inputs, { timeout = 5000, language = 'cpp', onStatus } = {}) {
+    onStatus?.(loaded ? 'Compilando…' : 'Cargando el compilador (la primera vez baja ~120 MB y tarda)…');
+    const compiled = await compile(code, language, () => onStatus?.('Compilando…'));
+    if (compiled.type === 'loadFailed') {
+        return inputs.map(() => ({ output: '', error: `No se pudo cargar el compilador: ${compiled.message}`, ms: 0, unavailable: true }));
+    }
+    if (compiled.type === 'compileError') {
+        return inputs.map(() => ({ output: '', error: 'No compila.', diagnostics: compiled.diagnostics, ms: 0, compileError: true }));
+    }
+    const results = [];
+    for (const [i, stdin] of inputs.entries()) {
+        onStatus?.(`Ejecutando ${i + 1} de ${inputs.length}…`);
+        const result = await execute(compiled.wasm, stdin, timeout);
+        if (result.timedOut) {
+            results.push({ output: '', error: `Se cortó a los ${timeout / 1000} segundos.`, ms: timeout, timedOut: true });
+        } else {
+            const error = result.crashed ? `El programa se cortó: ${result.errors.trim()}`
+                : result.exit !== 0 ? `El programa terminó con código ${result.exit}.` : null;
+            results.push({ output: result.output, error, ms: result.ms, crashed: Boolean(result.crashed), exit: result.exit });
+        }
+    }
+
+    return results;
+}
+
 export function isCppLoaded() {
     return loaded;
 }

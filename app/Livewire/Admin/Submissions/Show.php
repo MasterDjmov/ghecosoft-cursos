@@ -7,8 +7,10 @@ use App\Models\Submission;
 use App\Services\SubmissionReviewer;
 use App\Services\TeacherScope;
 use App\Support\Markdown;
+use App\Support\SubmissionCases;
 use DomainException;
 use Flux\Flux;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -85,6 +87,14 @@ class Show extends Component
         $this->reset('reply');
     }
 
+    /** Lo que dieron las pruebas en el navegador de quien corrige (D73): una ayuda para la bandeja. */
+    #[Renderless]
+    public function saveCheck(int $passed, int $total): void
+    {
+        $this->authorize('review', $this->submission);
+        SubmissionCases::store($this->submission, $passed, $total);
+    }
+
     private function goToNext()
     {
         $next = self::nextPending($this->submission->id);
@@ -105,6 +115,7 @@ class Show extends Component
             'course' => $practice->node->course,
             'instructionsHtml' => Markdown::render($practice->instructions),
             'criteriaHtml' => Markdown::render($practice->approval_criteria),
+            'cases' => SubmissionCases::for($submission),
             'previous' => Submission::where('user_id', $submission->user_id)->where('practice_id', $practice->id)
                 ->whereKeyNot($submission->id)->orderByDesc('attempt')->get(),
             'pendingCount' => app(TeacherScope::class)->submissions(Submission::query(), auth()->user())->where('status', SubmissionStatus::Submitted)->count(),

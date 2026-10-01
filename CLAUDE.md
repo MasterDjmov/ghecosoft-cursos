@@ -45,6 +45,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - `vendor/bin/pint` — formato del código
 - `php artisan app:import-course carpeta/ [--apply]` — revisar (o importar con `--apply`) un curso en el formato de FORMATO-CURSO.md; también desde *Admin → Cursos → Importar*
 - `php artisan app:course-tests cursos/cpp [--fill] [--only=R02]` — corre la solución de referencia de cada práctica contra su ejemplo y sus `#### Pruebas` (D73); con `--fill` escribe las salidas que faltan en los .md. Correrlo antes de reimportar un curso
+- `php artisan app:glossary-portraits carpeta/ [--apply]` — carga los retratos de la compañía y del bestiario en el Diccionario general por el nombre del archivo (`personaje_mia.jpeg`, `slime.png`…); los cursos que usan el mismo personaje (mismo nombre) toman ese retrato
 - `php artisan app:simulate-course python [--reset]` — súper test local: 5 alumnos cursan todo y el docente corrige (docs/SIMULACION.md)
 - `php artisan app:create-admin` — crear el admin en producción
 - `php artisan db:seed --class=ProductionSeeder` — datos mínimos en producción (nunca `db:seed` a secas). Deploy: [docs/DEPLOY.md](docs/DEPLOY.md)

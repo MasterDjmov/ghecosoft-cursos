@@ -26,9 +26,8 @@ class Glossary
     /** @return array{singular: string, plural: string, gender: string, icon_path: ?string, short_description: ?string, lore: ?string} */
     public function resolve(string $key, ?Course $course = null): array
     {
-        $term = ($course ? $this->termsFor($course->id)[$key] ?? null : null)
-            ?? $this->termsFor(null)[$key]
-            ?? null;
+        $general = $this->termsFor(null)[$key] ?? null;
+        $term = ($course ? $this->termsFor($course->id)[$key] ?? null : null) ?? $general;
 
         // Las claves llevan punto (coin.course): no se puede usar config('glossary.coin.course').
         $default = config('glossary')[$key] ?? null;
@@ -39,7 +38,10 @@ class Glossary
             // El plural en español no se deduce: si no está cargado, se repite el singular.
             'plural' => $term['plural'] ?? $default['plural'] ?? $singular,
             'gender' => $term['gender'] ?? $default['gender'] ?? 'm',
-            'icon_path' => $term['icon_path'] ?? null,
+            // Sin retrato propio en el curso, el del Diccionario general si es el mismo personaje (el slime de
+            // todos los cursos); si el curso lo renombró (su mentor es Ofidia, no «el profe»), no.
+            'icon_path' => $term['icon_path']
+                ?? (Str::lower($general['singular'] ?? '') === Str::lower($singular) ? $general['icon_path'] ?? null : null),
             'short_description' => $term['short_description'] ?? null,
             'lore' => $term['lore'] ?? null,
         ];

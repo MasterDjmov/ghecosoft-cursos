@@ -112,6 +112,11 @@
                         <span class="text-ink-muted">{{ $subscription->starts_at->format('d/m/Y') }} → {{ $subscription->ends_at->format('d/m/Y') }}</span>
                         @if ($subscription->cohort) <span class="text-ink-muted">· {{ $subscription->cohort->name }}</span> @endif
                         <flux:badge size="sm" :color="$active ? 'green' : ($subscription->starts_at->isFuture() ? 'cyan' : 'zinc')">{{ $active ? 'Vigente' : ($subscription->starts_at->isFuture() ? 'Programado' : 'Vencido') }}</flux:badge>
+                        {{-- Un botón por curso (con renovaciones hay varios abonos del mismo). --}}
+                        @if (! in_array($subscription->course_id, $treeShown ??= [], true) && auth()->user()->can('viewProgress', [$user, $subscription->course]))
+                            @php($treeShown[] = $subscription->course_id)
+                            <flux:button size="xs" variant="ghost" icon="share" class="ms-auto" :href="route('admin.students.tree', [$user, $subscription->course])" wire:navigate>Ver árbol</flux:button>
+                        @endif
                     </li>
                 @empty
                     <li class="py-2 text-ink-muted">Sin abonos.</li>

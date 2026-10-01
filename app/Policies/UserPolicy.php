@@ -21,6 +21,12 @@ class UserPolicy
         return $user->isTeacher() && $student->isStudent() && $this->scope->teaches($user, $student);
     }
 
+    /** El árbol de avance del alumno en un curso: solo si está en una comisión del docente en ese curso. */
+    public function viewProgress(User $user, User $student, Course $course): bool
+    {
+        return $user->isTeacher() && $student->isStudent() && $this->scope->teaches($user, $student, $course);
+    }
+
     /** Resetear la clave, si el alumno lo pide. */
     public function resetPassword(User $user, User $student): bool
     {

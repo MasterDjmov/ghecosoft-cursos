@@ -74,6 +74,10 @@
                                                 <span class="truncate text-sm text-white">{{ $row['course']->title }}</span>
                                                 <span class="text-xs {{ $row['active'] ? 'text-success' : 'text-ink-muted' }}">{{ $row['active'] ? 'Abono vigente' : 'Abono vencido' }}</span>
                                             </div>
+                                            @can('viewProgress', [$person, $row['course']])
+                                                <flux:button size="xs" variant="ghost" icon="share" :href="route('admin.students.tree', [$person, $row['course']])" wire:navigate
+                                                    data-test="student-tree-link-{{ $row['course']->id }}">Ver árbol</flux:button>
+                                            @endcan
                                         </div>
                                         @if ($row['needsCohort'])
                                             {{-- Las comisiones se crean en Comisiones, dentro de cada curso; acá solo se elige. --}}

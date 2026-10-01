@@ -168,3 +168,20 @@ test('el temario del curso lo ven el administrador y los docentes, con las resol
     $this->actingAs(User::factory()->admin()->create())->get(route('admin.syllabus', $this->course))->assertOk();
     $this->actingAs($this->mine)->get(route('admin.syllabus', $this->course))->assertRedirect(route('home'));
 });
+
+test('el árbol de avance de un alumno lo ven el administrador y su docente; el de otro alumno, no', function () {
+    $tree = fn (User $student) => route('admin.students.tree', [$student, $this->course]);
+
+    $this->actingAs(User::factory()->admin()->create())->get($tree($this->other))
+        ->assertOk()->assertSee('data-test="student-progress-tree"', false)->assertSee('Árbol de '.$this->other->fullName());
+    $this->actingAs($this->teacher)->get($tree($this->mine))->assertOk()->assertSee('data-test="student-progress-tree"', false);
+    $this->actingAs($this->teacher)->get($tree($this->other))->assertForbidden();
+    $this->actingAs($this->mine)->get($tree($this->mine))->assertRedirect();   // el alumno no entra al panel
+
+    // El botón aparece en la ficha y en la fila de Alumnos solo para quien puede verlo.
+    $this->actingAs($this->teacher)->get(route('admin.students.show', $this->mine))->assertSee($tree($this->mine));
+    Livewire::actingAs($this->teacher)->test(StudentsIndex::class)->call('toggle', $this->mine->id)
+        ->assertSee('data-test="student-tree-link-'.$this->course->id.'"', false);
+    Livewire::actingAs($this->teacher)->test(StudentsIndex::class)->call('toggle', $this->other->id)
+        ->assertDontSee('data-test="student-tree-link-'.$this->course->id.'"', false);
+});

@@ -55,7 +55,18 @@
             {{ $node->isRoot() ? term('node.root', $course) : ($node->isBoss() ? term('node.boss', $course) : ($node->branch?->title ?? $node->type->label())) }}
             @if ($completed) · <span class="text-success">{{ term('state.completed', $course) }}</span> @endif
         </p>
-        <h1 class="font-display text-2xl font-semibold text-white sm:text-3xl">{{ $node->title }}</h1>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h1 class="font-display text-2xl font-semibold text-white sm:text-3xl">{{ $node->title }}</h1>
+            {{-- Volver al curso en la vista que se elija (la página del curso la abre con #arbol o #lista). --}}
+            <nav class="inline-flex shrink-0 self-start rounded-lg border border-outline bg-surface-low p-1 sm:self-center" aria-label="Ver el curso" data-test="node-tree-links">
+                <a href="{{ route('student.tree', $course) }}#arbol" wire:navigate x-on:click="try { localStorage.setItem('tree-tab', 'tree') } catch (e) {}" class="flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-ink-muted transition hover:bg-surface-high hover:text-ink">
+                    <flux:icon name="share" variant="micro" /> Árbol
+                </a>
+                <a href="{{ route('student.tree', $course) }}#lista" wire:navigate x-on:click="try { localStorage.setItem('tree-tab', 'list') } catch (e) {}" class="flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-ink-muted transition hover:bg-surface-high hover:text-ink">
+                    <flux:icon name="list-bullet" variant="micro" /> Lista
+                </a>
+            </nav>
+        </div>
 
         {{-- Resumen de progreso de las hojas --}}
         @if ($practices->isNotEmpty())

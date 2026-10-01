@@ -132,3 +132,15 @@ test('la hoja guarda criterio, entorno, salida esperada y solución', function (
         ->and($practice->expected_output)->toBe('Hola, Kira')
         ->and($practice->reference_solution)->toBe('print("Hola")');
 });
+
+test('cada nodo ofrece volver al curso en árbol o en lista', function () {
+    ['course' => $course, 'root' => $root] = nodeWithSections();
+    $student = enrolledStudent($course);
+    app(NodeUnlocker::class)->unlock($student, $root);
+
+    $this->actingAs($student)->get(route('student.node', [$course, $root]))
+        ->assertOk()
+        ->assertSee('data-test="node-tree-links"', false)
+        ->assertSee(route('student.tree', $course).'#arbol', false)
+        ->assertSee(route('student.tree', $course).'#lista', false);
+});

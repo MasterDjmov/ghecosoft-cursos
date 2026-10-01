@@ -19,7 +19,7 @@
 @endphp
 
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8"
-    x-data="{ tab: (() => { try { return localStorage.getItem('tree-tab') } catch (e) { return null } })() ?? (window.innerWidth < 768 ? 'list' : 'tree') }"
+    x-data="{ tab: ({ '#arbol': 'tree', '#lista': 'list' })[location.hash] ?? (() => { try { return localStorage.getItem('tree-tab') } catch (e) { return null } })() ?? (window.innerWidth < 768 ? 'list' : 'tree') }"
     x-init="$watch('tab', value => { try { localStorage.setItem('tree-tab', value) } catch (e) {} })">
 
     <header class="flex flex-col gap-4 sm:flex-row sm:items-center">

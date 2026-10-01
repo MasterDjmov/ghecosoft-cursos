@@ -63,7 +63,7 @@ public class JavaRunner {
             System.out.println(java.time.LocalTime.now().withNano(0) + " " + ex.getRequestMethod() + " " + ex.getRequestURI().getPath()
                 + " desde " + origin + " (host " + host + ")");
             if (!allowed(origin) || !(host.equals("127.0.0.1") || host.equals("localhost"))) {
-                System.out.println("  rechazado: origen o host no permitidos" + ("http://127.0.0.1".equals(origin) ? " (¿una extensión como CORS Unblock cambió el origen?)" : ""));
+                System.out.println("  rechazado: origen o host no permitidos" + ("http://127.0.0.1".equals(origin) ? " (¿una extensión como Page Assist o CORS Unblock cambió el origen?)" : ""));
                 send(ex, 403, "{\"error\":\"origen no permitido\"}", null);
                 return;
             }

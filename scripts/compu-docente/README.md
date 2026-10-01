@@ -71,7 +71,7 @@ scripts/compu-docente/instalar-javarunner.sh
 
 Instala `javarunner.service` (el de esta carpeta) en `~/.config/systemd/user/`.
 
-En Chrome, la página de la plataforma necesita dos permisos (ícono a la izquierda de la dirección → *Configuración del sitio*): **Red local** y **Aplicaciones en el dispositivo**. Y **ninguna extensión que toque CORS** (como *CORS Unblock*) activa en esa pestaña: cambian el origen del pedido y el ejecutor lo rechaza. Cada pedido queda anotado en `journalctl --user -u javarunner`.
+En Chrome, la página de la plataforma necesita dos permisos (ícono a la izquierda de la dirección → *Configuración del sitio*): **Red local** y **Aplicaciones en el dispositivo**. Y **ninguna extensión que cambie el origen de los pedidos a 127.0.0.1** activa: *CORS Unblock* y **Page Assist** (la de IA local, que lo hace para hablarle a Ollama) rompen *Ejecutar*; apagarlas mientras se corrige. Cada pedido queda anotado en `journalctl --user -u javarunner`.
 
 Comandos útiles:
 

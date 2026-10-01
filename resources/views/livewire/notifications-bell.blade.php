@@ -1,4 +1,4 @@
-<div wire:poll.20s.keep-alive data-unread="{{ $unread }}" class="relative" x-data="{ open: false }" x-on:keydown.escape.window="open = false" x-on:click.outside="open = false">
+<div data-unread="{{ $unread }}" class="relative" x-data="liveBell" x-on:keydown.escape.window="open = false" x-on:click.outside="open = false">
     <div>
         <button type="button" x-on:click="open = ! open" x-bind:aria-expanded="open" class="relative grid size-9 place-items-center rounded-lg text-ink-muted transition hover:bg-surface-high hover:text-ink" aria-label="Avisos{{ $unread ? " ({$unread} sin leer)" : '' }}">
             <flux:icon name="bell" variant="outline" class="size-5" />

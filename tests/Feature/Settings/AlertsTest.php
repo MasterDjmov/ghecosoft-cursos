@@ -29,5 +29,5 @@ test('la campanita manda al navegador la cantidad sin leer, el último aviso y l
             && $params['newest']['title'] === 'Te corrigieron'
             && $params['sound'] === false
             && $params['user'] === $user->id)
-        ->assertSeeHtml('wire:poll.20s.keep-alive');
+        ->assertSeeHtml('x-data="liveBell"');
 });

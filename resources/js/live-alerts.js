@@ -1,5 +1,5 @@
-// Avisos en vivo (D62): la campanita (Livewire) manda cada 20 s cuántos avisos hay sin leer y cuál es
-// el último. Acá: la cantidad en el título de la pestaña, un punto rojo en el ícono y, si el aviso es
+// Avisos en vivo (D62): la campanita (Livewire) manda cuántos avisos hay sin leer y cuál es el último:
+// cada 20 s con la pestaña a la vista y cada 60 s en segundo plano, para no cargar el hosting compartido. Acá: la cantidad en el título de la pestaña, un punto rojo en el ícono y, si el aviso es
 // nuevo, un tono corto y la notificación del sistema (según las preferencias de Mi cuenta → Avisos).
 
 const TITLE_COUNT = /^\(\d+\+?\) /;
@@ -102,6 +102,38 @@ function handle({ user, unread, newest, sound, desktop }) {
     // La notificación del sistema, solo si no está mirando la plataforma (otra pestaña u otro programa).
     if (prefs.desktop && !document.hasFocus()) desktopNotification(newest);
 }
+
+const VISIBLE_MS = 20000;
+const HIDDEN_MS = 60000;
+
+// La campanita consulta sola: más seguido si se está mirando la pestaña y, al volver a ella, enseguida.
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('liveBell', () => ({
+        open: false,
+        timer: null,
+        init() {
+            this.onVisibility = () => {
+                if (!document.hidden) this.schedule(0);
+            };
+            document.addEventListener('visibilitychange', this.onVisibility);
+            this.schedule();
+        },
+        schedule(delay = document.hidden ? HIDDEN_MS : VISIBLE_MS) {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(async () => {
+                try {
+                    await this.$wire.$refresh();
+                } finally {
+                    this.schedule();
+                }
+            }, delay);
+        },
+        destroy() {
+            clearTimeout(this.timer);
+            document.removeEventListener('visibilitychange', this.onVisibility);
+        },
+    }));
+});
 
 document.addEventListener('livewire:init', () => {
     // Sesión cerrada (la cuenta entró en otro lado, D65, o se pausó): en vez del cartel de Livewire en

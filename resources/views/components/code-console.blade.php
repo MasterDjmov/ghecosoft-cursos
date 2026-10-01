@@ -1,6 +1,6 @@
-@props(['expected' => '', 'fill' => false])
+@props(['fill' => false])
 
-{{-- Consola del editor (Salida / Entrada / Esperada). Vive dentro de un x-data="codeRunner(...)":
+{{-- Consola del editor (Salida / Entrada); la salida esperada va en <x-expected-io> (D73). Vive dentro de un x-data="codeRunner(...)":
      usa sus variables (tab, output, stdin, status, error, matches). Con fill ocupa el alto que le den. --}}
 <div {{ $attributes->class(['flex flex-col bg-[#05070d]', 'min-h-0' => $fill]) }}>
     <div class="flex shrink-0 items-center gap-1 border-b border-outline/60 px-2" role="tablist">
@@ -13,11 +13,6 @@
             Entrada (stdin)
             <span class="size-1.5 rounded-full bg-primary-bright" x-show="stdin.trim() !== ''" x-cloak title="Tiene datos de entrada"></span>
         </button>
-        @if (filled($expected))
-            <button type="button" role="tab" x-on:click="tab = 'expected'" x-bind:aria-selected="tab === 'expected'"
-                class="-mb-px border-b-2 px-2.5 py-2 text-xs font-medium transition"
-                x-bind:class="tab === 'expected' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">Esperada</button>
-        @endif
         <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
     </div>
 
@@ -32,9 +27,4 @@
             class="w-full rounded-md border border-outline bg-surface-lowest p-2 font-mono text-sm text-ink focus:ring-2 focus:ring-accent focus:outline-none"></textarea>
         <p class="text-xs text-ink-muted">Una línea por cada <code class="font-mono">input()</code>.</p>
     </div>
-    @if (filled($expected))
-        <div x-show="tab === 'expected'" x-cloak role="tabpanel" @class(['p-3', 'min-h-0 flex-1 overflow-auto' => $fill])>
-            <pre @class(['font-mono text-sm whitespace-pre-wrap text-ink-muted', 'max-h-72 overflow-auto' => ! $fill])>{{ $expected }}</pre>
-        </div>
-    @endif
 </div>

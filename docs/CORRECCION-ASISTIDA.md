@@ -1,6 +1,6 @@
 # Corrección asistida (D73, diseño a revisar)
 
-Conversado con el docente el 2026-09-30. **Estado: a revisar antes de codear.**
+Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30.
 
 ## Punto de partida
 
@@ -26,12 +26,12 @@ Hoy la *Entrada de ejemplo* y la *Salida esperada* se muestran distinto según e
 - **Python** (corre en el navegador): la salida esperada está escondida en la solapa *Esperada* de la consola, y la entrada, precargada en *Entrada (stdin)*. Es fácil no verla.
 - **C, C++, Java y PHP** (se resuelven en la compu): un desplegable *Salida esperada*, pero **la entrada de ejemplo no se muestra**. En C++, 120 prácticas leen entrada y el alumno no sabe con qué datos se obtiene esa salida.
 
-**Propuesta:** un mismo bloque, **«Cómo debería verse»**, en todas las prácticas de todos los cursos, en la tarjeta del nodo y en el modo misión. Está abierto de entrada y muestra:
+**Propuesta:** un mismo bloque, **«Cómo debería verse»**, en todas las prácticas de todos los cursos, en la tarjeta del nodo y en el modo misión. Va **cerrado** de entrada, como hoy la salida esperada (es un recurso: el alumno lo abre si lo necesita), y muestra:
 
 - **Entrada de ejemplo**, si la práctica la tiene, con la aclaración «lo que se tipea, una línea por lectura».
 - **Salida esperada**.
 
-En Python, la consola sigue con sus solapas y el «✓ Coincide» (la entrada sigue precargada para ejecutar), pero el bloque se ve igual que en los demás cursos. Lo mismo vale para el ejemplo del nodo (*Código de ejemplo*). Componente único: `<x-expected-io>`.
+En Python, la consola queda con *Salida* y *Entrada (stdin)* y el «✓ Coincide» (la entrada sigue precargada para ejecutar), pero el bloque se ve igual que en los demás cursos. Lo mismo vale para el ejemplo del nodo (*Código de ejemplo*). Componente único: `<x-expected-io>`. La solapa *Esperada* de la consola de Python se saca para que el indicio esté en un solo lugar.
 
 Las pruebas extra del § 2 **no** salen en este bloque: el alumno ve solo la de ejemplo.
 
@@ -105,7 +105,7 @@ En *Admin → Entregas*, en una entrega de código con pruebas:
 
 Tests Pest en cada etapa: el alumno nunca recibe las pruebas extra, solo quien corrige guarda `check_result`, el importador lee y reemplaza las pruebas.
 
-## A decidir
+## Decidido (2026-09-30)
 
-- ¿El bloque «Cómo debería verse» va **abierto** de entrada (propuesta) o cerrado, para que el alumno lo abra si lo necesita?
-- ¿Los comentarios guardados son de cada docente (propuesta) o se comparten entre todos los docentes de un curso?
+- El bloque «Cómo debería verse» va **cerrado** de entrada.
+- Los comentarios guardados son **de cada docente**.

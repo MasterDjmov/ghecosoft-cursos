@@ -229,13 +229,9 @@
                     </section>
 
                     @if ($canRun)
-                        <x-code-console :expected="$practice->expected_output" fill class="h-56 shrink-0 overflow-hidden rounded-lg border border-outline" />
-                    @elseif (filled($practice->expected_output))
-                        <div class="shrink-0 rounded-lg border border-outline bg-surface-lowest p-3">
-                            <p class="tech-label mb-1">Salida esperada</p>
-                            <pre class="max-h-40 overflow-auto font-mono text-sm whitespace-pre-wrap text-ink-muted">{{ $practice->expected_output }}</pre>
-                        </div>
+                        <x-code-console fill class="h-56 shrink-0 overflow-hidden rounded-lg border border-outline" />
                     @endif
+                    <x-expected-io :input="$practice->sample_input" :expected="$practice->expected_output" class="shrink-0" />
                 @else
                     <div class="panel flex flex-1 flex-col items-center justify-center gap-3 p-8 text-center text-ink-muted">
                         <p>Esta misión no se resuelve en el editor.</p>

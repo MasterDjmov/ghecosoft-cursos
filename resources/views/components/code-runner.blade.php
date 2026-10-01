@@ -22,7 +22,7 @@
 @endphp
 
 {{-- Editor CodeMirror como "ventana": barra con archivo y acciones, y consola con pestañas
-     (Salida / Entrada / Esperada) que ejecuta con Pyodide. Los slots "actions" (en la barra)
+     (Salida / Entrada) que ejecuta con Pyodide, y debajo «Cómo debería verse» (D73). Los slots "actions" (en la barra)
      y "footer" (debajo) ven las variables de Alpine (code, stdin), por ejemplo: $wire.submit(code). --}}
 <div {{ $attributes->class('flex flex-col gap-4') }}
     x-data="codeRunner(@js([
@@ -72,16 +72,11 @@
 
         {{-- Consola --}}
         @if ($canRun)
-            <x-code-console :expected="$expected" class="border-t border-outline" />
+            <x-code-console class="border-t border-outline" />
         @endif
     </div>
 
-    @if (filled($expected) && ! $canRun)
-        <details class="text-sm">
-            <summary class="cursor-pointer text-ink-muted">Salida esperada</summary>
-            <pre class="mt-2 overflow-auto rounded-lg border border-outline bg-surface-lowest p-3 font-mono text-sm text-ink-muted">{{ $expected }}</pre>
-        </details>
-    @endif
+    <x-expected-io :input="$stdin" :expected="$expected" />
 
     {{ $footer ?? '' }}
 </div>

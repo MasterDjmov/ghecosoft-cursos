@@ -1,7 +1,7 @@
 # Plan técnico
 
 > Reescrito el 2026-09-27 con el modelo gamificado. Basado en [ESPECIFICACION.md](ESPECIFICACION.md) y [GAMIFICACION.md](GAMIFICACION.md).
-> **Estado:** aprobado por el docente. Fases 1 a 4 terminadas (2026-09-27). **Fase 5 terminada (2026-09-27)**: plataforma completa según el plan. **Etapa actual: pulido de detalles** con el docente; el deploy queda para después (ver § 10).
+> **Estado:** aprobado por el docente. Fases 1 a 4 terminadas (2026-09-27). **Fase 5 terminada (2026-09-27)**: plataforma completa según el plan. **En producción desde el 2026-09-28** (ver § 10); la etapa actual es pulir y sumar lo que pide el docente, de a un cambio por vez.
 
 ---
 
@@ -264,16 +264,22 @@ Después, las tareas del § 11: ~~alta de alumnos + email opcional + WhatsApp~~ 
 
 ---
 
-## 10. Producción (pendiente: todavía no se sube)
+## 10. Producción (en vivo desde el 2026-09-28)
 
-El docente decidió **pulir detalles antes de subirla**. Cuando llegue el momento se sigue [DEPLOY.md](DEPLOY.md). Lo que hay que tener presente:
+La plataforma está en `https://gamificado.lariojaclick.ar` desde el **2026-09-28** (subdominio en cPanel detrás de **Cloudflare**; base `lariojac_code_cursos`). La guía de instalación es [DEPLOY.md](DEPLOY.md).
 
-**Dónde va:** `https://gamificado.lariojaclick.ar` (anotado el 2026-09-27). El subdominio ya está creado en cPanel y pasa por **Cloudflare**; hoy sirve un `index.html` de prueba que se borra al subir el proyecto. Detalles en [DEPLOY.md § 9](DEPLOY.md).
+**Repositorio:** `git@github.com:MasterDjmov/ghecosoft-cursos.git` (primer push el 2026-09-28).
 
-**Repositorio:** `git@github.com:MasterDjmov/ghecosoft-cursos.git` (creado vacío el 2026-09-27, sin primer push todavía). Pendiente: la clave SSH del servidor como *deploy key* de solo lectura (DEPLOY.md § 2); se hace más adelante.
+**Actualizar:** desde la compu del docente, después de `git push`: `scripts/deploy.sh` (código, estilos, migraciones y caché) o `scripts/deploy.sh --cursos` (además reimporta los cursos de `cursos/`). En el servidor `npm run build` no anda: los assets se compilan en la compu y se sube `public/build/`.
 
-**Antes de subir (código):**
-- Revisar [IDEAS-GAMIFICACION.md](IDEAS-GAMIFICACION.md) y decidir qué mejoras entran antes del lanzamiento.
+**Pendiente:**
+- **Copias de seguridad automáticas** de la base y de `storage/app/private` (hoy son a mano, DEPLOY.md).
+- La clave SSH del servidor como *deploy key* de solo lectura (DEPLOY.md § 2), si hace falta.
+
+Lo que sigue quedó como registro de la instalación.
+
+**Antes de subir (código)** — registro de la instalación:
+- Hecho: las ideas de [IDEAS-GAMIFICACION.md](IDEAS-GAMIFICACION.md) se revisaron; la corrección sigue siendo humana y se agiliza con D73. Las monedas, por ahora, abren nodos; un evento de canje queda para más adelante.
 - Hecho (D48): confiar en el proxy de Cloudflare con `TRUSTED_PROXIES=cloudflare` (`config/security.php`, con test).
 - `APP_URL=https://gamificado.lariojaclick.ar`, `TRUSTED_PROXIES=cloudflare` y `SESSION_SECURE_COOKIE=true` en el `.env` del servidor.
 - El docente activa la verificación en dos pasos (2FA) en su cuenta: es la que puede todo.

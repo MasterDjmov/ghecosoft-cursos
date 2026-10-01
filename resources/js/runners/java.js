@@ -4,10 +4,16 @@
 
 export const START_COMMAND = 'java scripts/JavaRunner.java';
 
+// Sin respuesta puede ser que el ejecutor no esté abierto o que el navegador no deje a la página hablarle a la
+// compu (Chrome y Firefox piden permiso de «red local» para 127.0.0.1 desde un sitio de internet).
 const notRunning = () =>
-    'No encuentro el ejecutor de Java en tu compu. Abrí una terminal en la carpeta del proyecto y corré:\n'
+    'No me pude comunicar con el ejecutor de Java de tu compu.\n\n'
+    + '1. Si el navegador preguntó si este sitio puede acceder a otros dispositivos o apps de tu red local, tocá Permitir. '
+    + 'Si lo rechazaste: candado (o ícono) a la izquierda de la dirección → Configuración del sitio → «Acceso a la red local» → Permitir, y recargá.\n'
+    + '2. Si no está abierto, abrí una terminal en la carpeta del proyecto y corré:\n'
     + `  ${START_COMMAND}\n`
-    + `(Si ya está abierto y esta página es otra, agregale --origin ${window.location.origin}.)`;
+    + `   (si la página es otra, agregale --origin ${window.location.origin}).\n`
+    + '3. Mientras tanto, «Probar en la terminal» (debajo) arma un comando para correrlo a mano.';
 
 /**
  * @returns {Promise<{output: string, error: string|null, diagnostics: string, stderr?: string, ms: number, timedOut?: boolean}>}

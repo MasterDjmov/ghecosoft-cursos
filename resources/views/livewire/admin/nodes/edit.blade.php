@@ -361,6 +361,28 @@
                 </div>
             @endif
 
+            {{-- «Así tiene que quedar» (D77): la página resuelta, para que el alumno compare. --}}
+            <div class="flex flex-col gap-2" data-test="practice-references">
+                <flux:label>Así tiene que quedar (opcional)</flux:label>
+                <p class="text-xs text-ink-muted">Capturas de la página resuelta, sobre todo para HTML y CSS: celular (390 px de ancho) y compu (1280 px). PNG, JPG o WebP, hasta {{ \App\Support\PracticeReferences::MAX_KB / 1024 }} MB.</p>
+                <div class="grid gap-4 sm:grid-cols-2">
+                    @foreach (['mobile' => ['practiceRefMobile', 'Celular'], 'desktop' => ['practiceRefDesktop', 'Compu']] as $device => [$property, $label])
+                        <div class="flex flex-col gap-2 rounded-lg border border-outline p-3">
+                            <span class="text-sm text-ink">{{ $label }}</span>
+                            @if ($this->{$property} && $this->{$property}->isPreviewable())
+                                <img src="{{ $this->{$property}->temporaryUrl() }}" alt="" class="max-h-40 self-start rounded border border-outline object-contain">
+                            @elseif ($practiceRefCurrent[$device] && ! in_array($device, $practiceRefRemove, true))
+                                <img src="{{ $practiceRefCurrent[$device] }}" alt="" class="max-h-40 self-start rounded border border-outline object-contain">
+                                <flux:checkbox wire:model.live="practiceRefRemove" value="{{ $device }}" label="Quitarla" />
+                            @endif
+                            <input type="file" wire:model="{{ $property }}" accept="image/png,image/jpeg,image/webp"
+                                class="text-xs text-ink-muted file:me-2 file:rounded-md file:border-0 file:bg-surface-highest file:px-2 file:py-1.5 file:text-ink">
+                            <flux:error :name="$property" />
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
             <flux:textarea wire:model="practiceSolution" label="Solución de referencia (solo docente)" rows="5" class="font-mono text-sm"
                 description:trailing="El alumno nunca la ve. La tenés a mano al corregir." />
 

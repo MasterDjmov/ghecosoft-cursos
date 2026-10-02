@@ -36,7 +36,9 @@ class ImportCourse extends Command
 
         $apply = (bool) $this->option('apply');
         $this->info(($apply ? 'Importando' : 'Revisando').' '.count($files).' archivo(s)…');
-        $report = $importer->import($files, dryRun: ! $apply);
+        // Las capturas de «Cómo debe quedar» (D77) se buscan desde la carpeta del curso.
+        $first = $this->argument('paths')[0];
+        $report = $importer->import($files, dryRun: ! $apply, assetsDir: is_dir($first) ? $first : dirname($first));
         $this->printReport($report);
 
         if (! $report->ok()) {

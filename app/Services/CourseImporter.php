@@ -19,6 +19,7 @@ use App\Rules\SafeUpload;
 use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
 use App\Support\Glossary;
+use App\Support\PracticeReferences;
 use App\Support\TopicCatalog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -59,10 +60,17 @@ class CourseImporter
 
     private Course $course;
 
+    /** La carpeta del curso, para las capturas de «Cómo debe quedar» (D77); null si se importa desde la web. */
+    private ?string $assetsDir = null;
+
+    private bool $dryRun = true;
+
     /** @param  list<array{name: string, content: string}>  $files */
-    public function import(array $files, bool $dryRun = true): ImportReport
+    public function import(array $files, bool $dryRun = true, ?string $assetsDir = null): ImportReport
     {
         $this->report = new ImportReport;
+        $this->assetsDir = $assetsDir ? (realpath($assetsDir) ?: null) : null;
+        $this->dryRun = $dryRun;
         $data = (new CourseFileParser)->parse($files, $this->report);
         $this->validate($data);
 
@@ -433,6 +441,7 @@ class CourseImporter
                 'starter_code' => $fields['starter_code'] ?? null,
                 'sample_input' => $fields['sample_input'] ?? null,
                 'expected_output' => $mode === SubmissionMode::None ? null : ($fields['expected_output'] ?? null),
+                ...$this->references($practice, $model),
                 'reference_solution' => $fields['reference_solution'] ?? null,
                 'coin_reward' => max(0, (int) ($meta['monedas'] ?? $meta['recompensa'] ?? 0)),
                 'xp_reward' => max(0, (int) ($meta['xp'] ?? 10)),
@@ -446,6 +455,46 @@ class CourseImporter
         foreach ($missing as $code) {
             $this->report->note("La práctica {$code} de {$node->code} está en la base pero no en el archivo: quedó sin tocar.");
         }
+    }
+
+    /**
+     * «Cómo debe quedar» (D77): copia las capturas de la carpeta del curso al disco público. Sin carpeta
+     * (desde la web, que sube solo los .md) o con una imagen que no sirve, quedan las que ya tenía.
+     *
+     * @return array{reference_mobile?: ?string, reference_desktop?: ?string}
+     */
+    private function references(array $practice, Practice $model): array
+    {
+        $wanted = $practice['references'] ?? [];
+        if ($wanted === []) {
+            return ['reference_mobile' => null, 'reference_desktop' => null];
+        }
+        if ($this->assetsDir === null) {
+            $this->report->warning("{$practice['where']}: {$practice['code']} tiene capturas («Cómo debe quedar»): desde la web no se suben; cargalas con `php artisan app:import-course` o desde el editor de la práctica.");
+
+            return [];
+        }
+
+        $columns = [];
+        foreach (['mobile' => 'reference_mobile', 'desktop' => 'reference_desktop'] as $device => $column) {
+            if (! isset($wanted[$device])) {
+                $columns[$column] = null;
+
+                continue;
+            }
+            $path = realpath($this->assetsDir.'/'.ltrim($wanted[$device], '/'));
+            $problem = $path === false ? 'no se encuentra'
+                : (! str_starts_with($path, $this->assetsDir.DIRECTORY_SEPARATOR) ? 'está fuera de la carpeta del curso' : PracticeReferences::check($path));
+            if ($problem) {
+                $this->report->warning("{$practice['where']}: {$practice['code']}: la captura «{$wanted[$device]}» {$problem}; queda la que tenía.");
+
+                continue;
+            }
+            $columns[$column] = $this->dryRun ? 'practice-refs/(revisión)' : PracticeReferences::store($path);
+            $this->report->count('capturas', $model->{$column} === $columns[$column] ? 'unchanged' : ($model->{$column} ? 'updated' : 'created'));
+        }
+
+        return $columns;
     }
 
     /**

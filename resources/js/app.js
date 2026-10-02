@@ -198,6 +198,9 @@ document.addEventListener('alpine:init', () => {
         device: 'mobile',
         fullscreen: false,
         renderTimer: null,
+        // «Así tiene que quedar» (D77): las capturas de la página resuelta, para comparar en el mismo tamaño.
+        references: config.references ?? {},
+        showReference: false,
 
         async init() {
             const isHtml = config.language === 'html' && config.runnable !== false;

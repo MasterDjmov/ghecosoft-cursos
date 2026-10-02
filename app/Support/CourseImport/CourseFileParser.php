@@ -49,6 +49,9 @@ class CourseFileParser
         'solucion' => 'reference_solution',
         'solucion de referencia' => 'reference_solution',
         'pruebas' => 'tests',
+        'como debe quedar' => 'references',
+        'como tiene que quedar' => 'references',
+        'asi tiene que quedar' => 'references',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */
@@ -398,12 +401,32 @@ class CourseFileParser
             $node['self_check'] = array_map(fn ($item) => ['question' => trim($item['question']), 'answer' => trim($item['answer'])], $node['self_check']);
             foreach ($node['practices'] as &$practice) {
                 $practice['tests'] = self::parseTests($practice['fields']['tests'] ?? '');
-                unset($practice['fields']['tests']);
+                $practice['references'] = self::parseReferences($practice['fields']['references'] ?? '');
+                unset($practice['fields']['tests'], $practice['fields']['references']);
                 $practice['fields'] = self::cleanFields($practice['fields']);
             }
         }
 
         return $this->result;
+    }
+
+    /**
+     * «#### Cómo debe quedar» (D77): una línea por pantalla, con la ruta de la captura relativa a la carpeta
+     * del curso: «celular: capturas/R01-N01-M1-celular.webp» y «compu: …».
+     *
+     * @return array{mobile?: string, desktop?: string}
+     */
+    public static function parseReferences(string $text): array
+    {
+        $references = [];
+        foreach (preg_split('/\R/', $text) as $line) {
+            if (preg_match('/^\s*[-*]?\s*(celular|m[oó]vil|compu|computadora|escritorio)\s*:\s*`?([^`]+?)`?\s*$/iu', $line, $m)) {
+                $device = in_array(self::normalize($m[1]), ['celular', 'movil'], true) ? 'mobile' : 'desktop';
+                $references[$device] = trim($m[2]);
+            }
+        }
+
+        return $references;
     }
 
     /**

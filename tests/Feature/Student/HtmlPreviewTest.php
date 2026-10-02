@@ -44,7 +44,7 @@ test('en un curso de HTML, el alumno ve su página en la caja aislada y no la co
 test('la caja nunca recibe permisos: el iframe no lleva allow-scripts, allow-forms ni allow-same-origin', function () {
     $html = view('components.html-preview')->render();
 
-    expect($html)->toContain('sandbox=""')
+    expect($html)->toMatch('/<iframe\b[^>]*\ssandbox=""\s/')
         ->and($html)->not->toContain('allow-scripts')
         ->and($html)->not->toContain('allow-same-origin')
         ->and($html)->not->toContain('allow-forms');

@@ -7,6 +7,7 @@
     'readOnly' => false,
     'showStdin' => null,
     'name' => 'main',
+    'references' => [],
 ])
 
 @php
@@ -28,6 +29,7 @@
         'code' => (string) $code, 'stdin' => (string) $stdin, 'expected' => (string) $expected, 'language' => $language,
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'timeout' => config('services.pyodide.timeout_ms'),
+        'references' => (object) array_filter($references),
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -77,7 +79,7 @@
         @endif
     </div>
 
-    <x-expected-io :input="$stdin" :expected="$expected" />
+    <x-expected-io :input="$stdin" :expected="$expected" :references="$references" />
 
     {{ $footer ?? '' }}
 </div>

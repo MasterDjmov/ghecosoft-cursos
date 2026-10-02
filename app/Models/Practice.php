@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['node_id', 'code', 'title', 'instructions', 'approval_criteria', 'is_required', 'submission_mode', 'environment', 'allowed_extensions', 'starter_code', 'sample_input', 'expected_output', 'reference_solution', 'coin_reward', 'xp_reward', 'position'])]
+#[Fillable(['node_id', 'code', 'title', 'instructions', 'approval_criteria', 'is_required', 'submission_mode', 'environment', 'allowed_extensions', 'starter_code', 'sample_input', 'expected_output', 'reference_mobile', 'reference_desktop', 'reference_solution', 'coin_reward', 'xp_reward', 'position'])]
 class Practice extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -48,5 +49,18 @@ class Practice extends Model
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * «Así tiene que quedar» (D77): las capturas de la página resuelta, para comparar.
+     *
+     * @return array{mobile: ?string, desktop: ?string}
+     */
+    public function referenceUrls(): array
+    {
+        return [
+            'mobile' => $this->reference_mobile ? Storage::disk('public')->url($this->reference_mobile) : null,
+            'desktop' => $this->reference_desktop ? Storage::disk('public')->url($this->reference_desktop) : null,
+        ];
     }
 }

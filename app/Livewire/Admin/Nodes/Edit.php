@@ -16,6 +16,7 @@ use App\Models\Practice;
 use App\Rules\SafeUpload;
 use App\Services\TreeEditor;
 use App\Support\Markdown;
+use App\Support\PracticeReferences;
 use App\Support\Reorder;
 use Flux\Flux;
 use Illuminate\Support\Str;
@@ -123,6 +124,16 @@ class Edit extends Component
     public int $practiceCoins = 0;
 
     public int $practiceXp = 10;
+
+    /** «Así tiene que quedar» (D77): capturas nuevas que se suben y las actuales que se quitan. */
+    public $practiceRefMobile = null;
+
+    public $practiceRefDesktop = null;
+
+    public array $practiceRefRemove = [];
+
+    /** @var array{mobile: ?string, desktop: ?string} */
+    public array $practiceRefCurrent = ['mobile' => null, 'desktop' => null];
 
     // Recurso nuevo.
     public string $resourceType = 'link';
@@ -294,6 +305,7 @@ class Edit extends Component
         $this->practiceSampleInput = '';
         $this->practiceCoins = 3;
         $this->practiceXp = 10;
+        $this->reset('practiceRefMobile', 'practiceRefDesktop', 'practiceRefRemove', 'practiceRefCurrent');
         $this->resetValidation();
 
         Flux::modal('practice')->show();
@@ -317,6 +329,8 @@ class Edit extends Component
         $this->practiceSampleInput = (string) $practice->sample_input;
         $this->practiceCoins = $practice->coin_reward;
         $this->practiceXp = $practice->xp_reward;
+        $this->reset('practiceRefMobile', 'practiceRefDesktop', 'practiceRefRemove');
+        $this->practiceRefCurrent = $practice->referenceUrls();
         $this->resetValidation();
 
         Flux::modal('practice')->show();
@@ -343,10 +357,13 @@ class Edit extends Component
             'practiceSampleInput' => ['nullable', 'string', 'max:5000'],
             'practiceCoins' => ['required', 'integer', 'min:0', 'max:1000'],
             'practiceXp' => ['required', 'integer', 'min:0', 'max:10000'],
+            'practiceRefMobile' => ['nullable', 'image', 'mimes:'.implode(',', PracticeReferences::EXTENSIONS), 'max:'.PracticeReferences::MAX_KB],
+            'practiceRefDesktop' => ['nullable', 'image', 'mimes:'.implode(',', PracticeReferences::EXTENSIONS), 'max:'.PracticeReferences::MAX_KB],
         ], ['practiceExtensions.regex' => 'Escribí las extensiones separadas por coma, sin punto: py, txt, zip.'], [
             'practiceTitle' => 'título', 'practiceInstructions' => 'consigna', 'practiceCoins' => 'recompensa',
             'practiceXp' => 'XP', 'practiceExtensions' => 'extensiones', 'practiceCriteria' => 'criterio de aprobación',
             'practiceExpectedOutput' => 'salida esperada', 'practiceSolution' => 'solución de referencia',
+            'practiceRefMobile' => 'captura del celular', 'practiceRefDesktop' => 'captura de la compu',
         ]);
 
         $usesFile = in_array($this->practiceMode, [SubmissionMode::File->value, SubmissionMode::Both->value], true);
@@ -366,6 +383,13 @@ class Edit extends Component
             'coin_reward' => $this->practiceCoins,
             'xp_reward' => $this->practiceXp,
         ];
+        foreach (['mobile' => 'practiceRefMobile', 'desktop' => 'practiceRefDesktop'] as $device => $property) {
+            if ($this->{$property}) {
+                $data['reference_'.$device] = PracticeReferences::store($this->{$property}->getRealPath(), $this->{$property}->extension());
+            } elseif (in_array($device, $this->practiceRefRemove, true)) {
+                $data['reference_'.$device] = null;
+            }
+        }
 
         try {
             if ($this->practiceId) {

@@ -156,6 +156,7 @@ Partes:
 | `#### Salida esperada` | Lo que tiene que mostrar |
 | `#### Solución de referencia` | **Solo el docente** |
 | `#### Pruebas` | **Solo el docente** (D73): casos extra para corregir más rápido. Cada uno es un `##### Nombre` con un bloque ` ```entrada ` (opcional) y uno ` ```salida ` |
+| `#### Cómo debe quedar` | (D77, sobre todo HTML y CSS) Las capturas de la página resuelta: una línea `celular: ruta` y otra `compu: ruta`, relativas a la carpeta del curso (PNG, JPG o WebP; celular a 390 px de ancho y compu a 1280). El alumno las ve en «Cómo debería verse» y con *Comparar* en la vista previa. Solo las copia `php artisan app:import-course carpeta/`: la importación desde la web sube solo los `.md` y las deja como estaban |
 
 Las **Pruebas** sirven en los programas que leen entrada (uno sin entrada muestra siempre lo mismo): 2 a 4 casos que el ejemplo no cubre, como el vacío, el borde o el dato inválido. El alumno ve solo la de ejemplo; el docente las corre todas al corregir.
 

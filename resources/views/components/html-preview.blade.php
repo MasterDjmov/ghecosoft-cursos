@@ -14,7 +14,13 @@
                 <flux:icon :name="$icon" variant="micro" /> {{ $label }}
             </button>
         @endforeach
-        <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
+        <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="showReference ? 'Así tiene que quedar' : status"></span>
+        <button type="button" x-show="references[device]" x-cloak x-on:click="showReference = ! showReference" data-test="compare-reference"
+            class="ms-1 flex items-center gap-1 rounded px-2 py-1 text-xs font-medium transition"
+            x-bind:class="showReference ? 'bg-secondary/20 text-secondary-bright' : 'text-ink-muted hover:bg-surface-high hover:text-ink'"
+            title="Ver cómo tiene que quedar, en el mismo tamaño">
+            <flux:icon name="photo" variant="micro" /> <span x-text="showReference ? 'Ver la mía' : 'Comparar'">Comparar</span>
+        </button>
         <button type="button" x-on:click="fullscreen = true" class="ms-1 rounded p-1.5 text-ink-muted hover:bg-surface-high hover:text-ink" title="Pantalla completa">
             <flux:icon name="arrows-pointing-out" variant="micro" />
         </button>
@@ -36,7 +42,12 @@
         <div x-ref="stage" @class(['relative overflow-hidden bg-[#0b1020]', 'min-h-0 flex-1' => $fill, 'h-[28rem]' => ! $fill])
             x-bind:class="fullscreen && 'min-h-0 flex-1'">
             @php($width = "(device === 'mobile' ? 390 : 1280)")
-            <iframe sandbox="" referrerpolicy="no-referrer" title="Vista previa de la página" x-bind:srcdoc="preview" loading="lazy"
+            {{-- La captura de referencia: mismo ancho (achicado igual que la página) y se recorre hacia abajo. --}}
+            <div x-show="showReference && references[device]" x-cloak class="absolute inset-0 overflow-y-auto">
+                <img x-bind:src="references[device]" alt="Así tiene que quedar" class="mx-auto block max-w-none bg-white shadow-lg"
+                    x-bind:style="`width: ${ {{ $width }} * Math.min(1, w / {{ $width }}) }px`">
+            </div>
+            <iframe x-show="! (showReference && references[device])" sandbox="" referrerpolicy="no-referrer" title="Vista previa de la página" x-bind:srcdoc="preview" loading="lazy"
                 class="absolute top-0 origin-top-left border-0 bg-white shadow-lg"
                 x-bind:style="(() => { const d = {{ $width }}; const s = Math.min(1, w / d); return `width: ${d}px; height: ${s > 0 ? h / s : h}px; transform: scale(${s}); left: ${Math.max(0, (w - d * s) / 2)}px`; })()"></iframe>
         </div>

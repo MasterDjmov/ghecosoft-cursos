@@ -28,6 +28,7 @@
             'code' => $startingCode, 'stdin' => (string) $practice->sample_input, 'expected' => (string) $practice->expected_output,
             'language' => $course->language->value, 'readOnly' => (! $canSubmit && ! $trial) || ! $usesCode, 'runnable' => $canRun && $usesCode,
             'pyodideUrl' => config('services.pyodide.url'), 'timeout' => config('services.pyodide.timeout_ms'),
+            'references' => (object) array_filter($practice->referenceUrls()),
         ]))">
 
         {{-- A · Barra de misión --}}
@@ -136,7 +137,7 @@
                             </flux:callout>
                         @endif
                         {{-- A mano, al lado de la consigna: el alumno no tiene que volver al nodo para verlo. --}}
-                        <x-expected-io :input="$practice->sample_input" :expected="$practice->expected_output" />
+                        <x-expected-io :input="$practice->sample_input" :expected="$practice->expected_output" :references="$practice->referenceUrls()" />
                         @if ($canSubmit && $usesFile)
                             @include('livewire.student.partials.practice-file', ['hint' => 'Archivo'.($practice->allowed_extensions ? ' ('.$practice->allowed_extensions.')' : '').' (opcional si entregás código)'])
                         @endif

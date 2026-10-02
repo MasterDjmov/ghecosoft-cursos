@@ -104,6 +104,10 @@ class SimulateCourse extends Command
 
             return self::FAILURE;
         }
+        // Nunca un mail de verdad: con el SMTP del docente en el .env local, una simulación agotó el límite
+        // diario de Gmail (que comparte con producción y con su otra página). Los avisos quedan en la campanita.
+        config(['mail.default' => 'array']);
+        app('mail.manager')->forgetMailers();
 
         $course = Course::where('slug', $this->argument('course'))->first();
         $teacher = User::where('role', Role::Admin)->orderBy('id')->first();

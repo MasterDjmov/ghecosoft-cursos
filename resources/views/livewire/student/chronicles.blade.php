@@ -59,34 +59,7 @@
                         @continue
                     @endif
                     @php($shownLocked = $shownLocked || ! $page['unlocked'])
-                    @php($image = $portrait($page['speaker']))
-                    @if ($page['unlocked'])
-                        <article class="panel flex gap-4 p-5" data-test="chronicle-page">
-                            @if ($image)
-                                <img src="{{ $image }}" alt="" class="size-14 shrink-0 rounded-full object-cover ring-2 ring-secondary/50">
-                            @endif
-                            <div class="flex min-w-0 flex-col gap-2">
-                                <h3 class="font-display text-lg font-semibold text-white">{{ $page['title'] }}</h3>
-                                <div class="markdown text-ink italic">{!! $page['html'] !!}</div>
-                            </div>
-                        </article>
-                    @else
-                        <article class="relative flex gap-4 overflow-hidden rounded-lg border border-dashed border-outline bg-surface-lowest/60 p-5" data-test="chronicle-locked">
-                            <div class="relative size-14 shrink-0">
-                                @if ($image)
-                                    <img src="{{ $image }}" alt="" class="size-14 rounded-full object-cover opacity-30 blur-[2px] grayscale">
-                                @else
-                                    <div class="size-14 rounded-full bg-surface-highest"></div>
-                                @endif
-                                <flux:icon name="lock-closed" class="absolute inset-0 m-auto size-5 text-ink-muted" />
-                            </div>
-                            <div class="flex min-w-0 flex-col gap-1">
-                                <h3 class="font-display text-lg font-semibold text-ink-muted">{{ $page['title'] }}</h3>
-                                <p class="text-sm text-ink-muted">{{ $page['missing'] }}</p>
-                                <p class="text-sm text-warning/90 italic">{{ $hint() }}</p>
-                            </div>
-                        </article>
-                    @endif
+                    @include('livewire.partials.chronicle-page', ['page' => $page, 'portrait' => $portrait($page['speaker']), 'hint' => $page['unlocked'] ? null : $hint()])
                 @endforeach
                 @if ($hidden > 0)
                     <p class="flex items-center gap-2 rounded-lg border border-dashed border-outline/70 px-5 py-3 text-sm text-ink-muted" data-test="chronicle-more">

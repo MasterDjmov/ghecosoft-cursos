@@ -21,6 +21,7 @@ use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
 use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
+use App\Livewire\Admin\Story as StoryRoom;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\Universe as StudentUniverse;
 use App\Livewire\Student\CourseDetail;
@@ -82,6 +83,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
     Route::livewire('cursos/{course}/nodos/{node}', Nodes\Edit::class)->name('nodes.edit');
 
     Route::livewire('diccionario', Glossary::class)->name('glossary');
+    Route::livewire('historia', StoryRoom::class)->name('story');
     Route::livewire('niveles', Levels::class)->name('levels');
     Route::livewire('insignias', Badges::class)->name('badges');
 });

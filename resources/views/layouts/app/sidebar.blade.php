@@ -56,6 +56,9 @@
                         <flux:sidebar.item icon="book-open" :href="route('admin.glossary')" :current="request()->routeIs('admin.glossary')" wire:navigate>
                             Diccionario
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="sparkles" :href="route('admin.story')" :current="request()->routeIs('admin.story')" wire:navigate data-test="menu-story">
+                            Historia
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="chart-bar" :href="route('admin.levels')" :current="request()->routeIs('admin.levels')" wire:navigate>
                             Niveles
                         </flux:sidebar.item>

@@ -1,6 +1,6 @@
 # Mis Crónicas — el libro de la historia (D80, a revisar)
 
-Conversado con el docente el 2026-10-02. **Estado:** diseño aprobado en líneas generales, sin programar; se arma después del Universo de los alumnos (D81).
+Conversado con el docente el 2026-10-02. **Estado:** etapa 1 hecha el 2026-10-02 (el libro del alumno); siguen la sala de guion con fragmentos y el portal.
 
 La historia de cada curso hoy está desparramada: la bienvenida en la página del curso, una crónica en cada nodo, el final al terminarlo. **Mis Crónicas** la junta en un **libro que se va abriendo** a medida que el alumno aprueba: lo que todavía no desbloqueó se ve, pero no se lee, y lo invita a seguir. Lo nuevo late en el menú para que lo encuentre.
 

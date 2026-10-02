@@ -80,6 +80,19 @@
                         <flux:sidebar.item icon="trophy" :href="route('student.ranking')" :current="request()->routeIs('student.ranking*')" wire:navigate>
                             Ranking
                         </flux:sidebar.item>
+                        {{-- Mis Crónicas (D80): late cuando hay páginas nuevas sin leer. --}}
+                        @php($newPages = (new \App\Support\Chronicles(auth()->user()))->newCount())
+                        <flux:sidebar.item icon="book-open" :href="route('student.chronicles')" :current="request()->routeIs('student.chronicles')" wire:navigate data-test="menu-chronicles">
+                            <span class="flex items-center gap-2">
+                                Mis Crónicas
+                                @if ($newPages > 0)
+                                    <span class="relative flex size-5 items-center justify-center" data-test="chronicles-new" title="{{ $newPages }} {{ $newPages === 1 ? 'página nueva' : 'páginas nuevas' }}">
+                                        <span class="absolute inline-flex size-full animate-ping rounded-full bg-warning/60"></span>
+                                        <span class="relative grid size-5 place-items-center rounded-full bg-warning font-mono text-[10px] font-bold text-[#05070d]">{{ $newPages }}</span>
+                                    </span>
+                                @endif
+                            </span>
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="sparkles" :href="route('student.universe')" :current="request()->routeIs('student.universe')" wire:navigate data-test="menu-universe">
                             Universo
                         </flux:sidebar.item>

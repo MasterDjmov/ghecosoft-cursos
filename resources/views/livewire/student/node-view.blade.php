@@ -118,6 +118,11 @@
                 <div class="flex flex-col gap-0.5">
                     <p class="font-medium text-white">¡Completaste este {{ term('node', $course) }}!</p>
                     <p class="text-sm text-ink-muted">Ya podés abrir {{ $ready->count() === 1 ? 'el siguiente' : 'cualquiera de los siguientes' }}.</p>
+                    @if (filled($node->chronicle))
+                        <a href="{{ route('student.chronicles', ['libro' => $course->slug]) }}" wire:navigate class="flex items-center gap-1.5 text-sm text-warning hover:underline" data-test="chronicle-unlocked">
+                            <flux:icon name="book-open" variant="micro" /> Se desbloqueó una página nueva de tus Crónicas
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="flex flex-col gap-2 sm:items-end">

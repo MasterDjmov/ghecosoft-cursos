@@ -45,7 +45,8 @@ class Glossary
             'icon_path' => $term['icon_path']
                 ?? (Str::lower($general['singular'] ?? '') === Str::lower($singular) ? $general['icon_path'] ?? null : null),
             'short_description' => $term['short_description'] ?? null,
-            'lore' => $term['lore'] ?? null,
+            // Algunas historias traen texto de fábrica (el prólogo de Mis Crónicas, D80).
+            'lore' => $term['lore'] ?? $default['lore'] ?? null,
         ];
     }
 

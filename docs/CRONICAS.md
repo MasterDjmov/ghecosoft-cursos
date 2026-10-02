@@ -1,6 +1,6 @@
 # Mis Crónicas — el libro de la historia (D80, a revisar)
 
-Conversado con el docente el 2026-10-02. **Estado:** diseño, sin programar.
+Conversado con el docente el 2026-10-02. **Estado:** diseño aprobado en líneas generales, sin programar; se arma después del Universo de los alumnos (D81).
 
 La historia de cada curso hoy está desparramada: la bienvenida en la página del curso, una crónica en cada nodo, el final al terminarlo. **Mis Crónicas** la junta en un **libro que se va abriendo** a medida que el alumno aprueba: lo que todavía no desbloqueó se ve, pero no se lee, y lo invita a seguir. Lo nuevo late en el menú para que lo encuentre.
 
@@ -69,14 +69,30 @@ Van en el Diccionario de cada curso (`story.portal_piece`) y se leen al terminar
 
 Cada curso nuevo trae su pieza: la cuenta («Pieza N de M») se ajusta sola con los cursos publicados.
 
-## 7. Dónde se ve
+## 7. Los fragmentos y la sala de guion (Admin → Historia)
+
+**Admin → Historia** (en el menú del administrador) es la sala de guion del universo entero, en orden: el prólogo, cada curso como un libro, sus ramas y, dentro, la crónica de cada nodo y el epílogo. Sirve para:
+
+- **Leer la historia completa de corrido** y ver qué tiene imagen, qué está flojo y qué falta.
+- **Agregar fragmentos** en cualquier lugar: un trozo extra de lectura (markdown con `{heroe}`, `{mentor}`…) con una **imagen opcional** —un epílogo de rama, un interludio, una carta de un personaje, un recuerdo de las Forjas—. Cada fragmento dice **cuándo se desbloquea**: al completar un nodo, al vencer al jefe, al terminar la rama o al terminar el curso. Se pueden reordenar y editar; no tocan los `.md` de los cursos (viven en la base, como las imágenes del Diccionario).
+- **«Ver como alumno»**: elegir hasta dónde llegó un alumno (por ejemplo, el nodo 3 de HTML) y ver el libro como lo vería él.
+
+Para el alumno: si empieza por **HTML**, en *Mis Crónicas* ve el **prólogo** y **el libro de HTML**, que se abre página por página al completar nodos, con los fragmentos en su lugar; los demás cursos aparecen recién cuando los empieza, y el portal arranca en «Pieza 0 de 6».
+
+**Las viñetas:** cada página muestra **de cuerpo entero a quien habla** (la líder, la compañía, la criatura o el jefe) sobre el fondo del mundo. Los personajes de cuerpo entero están en `publicidad/logos cursos/personajes/` (896×1200): se cargan en el Diccionario como una segunda imagen de cada personaje, junto al retrato redondo.
+
+**Pendiente de decidir (más adelante):**
+- Que el alumno **elija su protagonista** entre los existentes (Kira o el héroe).
+- Tres personajes cuyo dibujo no coincide con el texto de los cursos: **Kaffa** (dibujo: un hechicero con barba; texto: «la Arquitecta Imperial»), **Tesla** (dibujo: un chico de traje azul con visor; texto: «la Artífice Mayor») y **Bron** (dibujo: un mecánico humano; texto: «guerrero enano»). Lo más simple es ajustar los textos a las imágenes.
+
+## 8. Dónde se ve
 
 - **Menú del alumno → Mis Crónicas** (con el punto que late).
 - **En su CV**: «Crónicas: 34 páginas desbloqueadas · 2 piezas del portal».
 - El docente ve el libro de un alumno desde su ficha, igual que su árbol.
 
-## 8. Etapas
+## 9. Etapas
 
-1. El libro (prólogo + un libro por curso con lo que ya está escrito), lo bloqueado con sus frases y el punto que late en el menú.
-2. El portal (las piezas) y el CV.
-3. Las ilustraciones por rama.
+1. El libro del alumno (prólogo + un libro por curso con lo que ya está escrito), lo bloqueado con sus frases y el punto que late en el menú.
+2. *Admin → Historia*: la sala de guion, los fragmentos con imagen y «Ver como alumno».
+3. El portal (las piezas), el CV y los personajes de cuerpo entero en las viñetas.

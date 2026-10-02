@@ -88,6 +88,14 @@ Arco de Python (8 bloques = 8 ramas, 47 temas en el índice; ✅ = formato nuevo
 
 Más proyectos integradores 43–47.
 
+## 6 bis. El universo compartido (desde el curso de HTML, 2026-10-02)
+
+Las regiones hechas hasta ahora y su líder: el **Valle de la Serpiente** (Python, Ofidia), las **Forjas de Hierro** (C, Maese Ferrum), la **Ciudadela de los Artífices** (C++, Tesla), el **Imperio de las Clases** (Java, Kaffa), el **Puerto de los Mensajeros** (PHP, Elefa) y los **Talleres de los Vitrales** (HTML y CSS, Tesela). La compañía (Mia, Bron, Zed, el Gremio) viaja por todas; el héroe es el alumno.
+
+**Cruces:** cada curso nuevo nombra a 2 o 3 personajes de otras regiones, en la crónica (nunca hacen falta para resolver una misión), y cada vínculo es verdad también en la técnica. Ya hay: Tesela y Tesla fueron aprendices de Ferrum (los navegadores están escritos en C y C++); el plomo de los Talleres sale de las Forjas; Elefa despacha los formularios que arman los Talleres (PHP responde lo que manda el HTML); Kaffa encargó vitrales para su catedral.
+
+**El hilo:** el portal por el que llegó el héroe es un vitral, obra del **Vidriero**, el maestro de Tesela, que desapareció. El vitral está quieto: lo que lo hace moverse se aprende en la **Feria de las Luces** (JavaScript), el curso que sigue. Cada líder sabe una parte; un curso solo cierra su historia, varios juntan las piezas.
+
 ## 7. Límites técnicos que afectan a la historia
 - En el navegador solo corren **programas de consola**: print/input (la entrada se escribe antes de ejecutar, una línea por cada input()), corte a los 5 segundos. pygame, Tkinter, puerto serie, archivos del disco real o red no corren ahí: esas prácticas se entregan **como archivo** hecho en la compu del alumno.
 - La corrección es humana: las prácticas pueden pedir cosas creativas (no hace falta salida exacta).

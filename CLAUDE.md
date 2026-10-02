@@ -12,7 +12,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/super-prompt-v2-curso-python.md](docs/super-prompt-v2-curso-python.md) — el prompt con el que Claude online diseña el curso de Python (reglas pedagógicas, plantilla de nodo, Sendas). Lo que pide define las fases 6–9 de PLAN § 9.
 - [docs/FORMATO-CURSO.md](docs/FORMATO-CURSO.md) — formato Markdown para importar un curso entero (IDs estables, secciones, prácticas, diccionario). Ejemplo probado en `tests/Fixtures/curso-ejemplo.md`.
 - [docs/HISTORIA-BRIEF.md](docs/HISTORIA-BRIEF.md) — resumen del sistema que se le pasa a Claude online para definir la historia del curso de Python (el primero en salir). Actualizarlo si cambian el diccionario, la economía o dónde se muestra la historia.
-- [cursos/python/](cursos/python/), [cursos/c/](cursos/c/), [cursos/cpp/](cursos/cpp/), [cursos/java/](cursos/java/) y [cursos/php/](cursos/php/) — los cursos de Python, C, C++, Java y PHP en el formato del importador (los carga el seeder local; se reimportan sin tocar el progreso). Se editan ahí y se reimportan.
+- [cursos/python/](cursos/python/), [cursos/c/](cursos/c/), [cursos/cpp/](cursos/cpp/), [cursos/java/](cursos/java/), [cursos/php/](cursos/php/) y [cursos/html/](cursos/html/) — los cursos de Python, C, C++, Java, PHP y HTML y CSS en el formato del importador (los carga el seeder local; se reimportan sin tocar el progreso). Se editan ahí y se reimportan.
 - [cursos/temas.md](cursos/temas.md) — catálogo de temas del universo (D70): cada nodo marca en su `meta` los temas que enseña (`temas:`) y los que usa (`usa:`); *Admin → Universo* los muestra en un mapa 3D con lo repetido y lo que falta. Un tema nuevo se agrega acá antes de usarlo en un curso.
 - [docs/IDEAS-GAMIFICACION.md](docs/IDEAS-GAMIFICACION.md) — análisis de lo bueno, lo malo y un abanico de mejoras (respuesta inmediata, pistas, retos cortos, ligas, logros). **Revisar y decidir antes de subir a producción.**
 - [docs/SIMULACION.md](docs/SIMULACION.md) — el "súper test": `app:simulate-course` hace cursar un curso entero a 5 alumnos con el docente corrigiendo, y revisa economía, aperturas, insignias y fin del curso. Se corre con cada curso nuevo antes de abrirlo.
@@ -40,11 +40,12 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 ## Comandos
 - `composer run dev` — servidor + Vite en desarrollo (o `php artisan serve` + `npm run dev`)
 - `php artisan test` — suite Pest (usa la base `ghecosoft_code_testing`, MariaDB)
-- `php artisan migrate:fresh --seed` — base local con admin/admin123, docente/docente123 (con una comisión de Python y cliente adentro), cliente/cliente123 y los cursos de Python, C, C++, Java y PHP importados de `cursos/`
+- `php artisan migrate:fresh --seed` — base local con admin/admin123, docente/docente123 (con una comisión de Python y cliente adentro), cliente/cliente123 y los cursos de Python, C, C++, Java, PHP y HTML y CSS importados de `cursos/`
 - `npm run build` — assets para producción
 - `vendor/bin/pint` — formato del código
 - `php artisan app:import-course carpeta/ [--apply]` — revisar (o importar con `--apply`) un curso en el formato de FORMATO-CURSO.md; también desde *Admin → Cursos → Importar*
 - `php artisan app:course-tests cursos/cpp [--fill] [--only=R02]` — corre la solución de referencia de cada práctica contra su ejemplo y sus `#### Pruebas` (D73); con `--fill` escribe las salidas que faltan en los .md. Correrlo antes de reimportar un curso
+- `node scripts/html-captures.mjs cursos/html [--only=R02] [--force]` — genera las capturas «Así tiene que quedar» (celular 390 px y compu 1280 px) de cada práctica de HTML con su solución de referencia y escribe `#### Cómo debe quedar` en el .md (D77; necesita Chrome). Correrlo antes de reimportar el curso de HTML
 - `php artisan app:glossary-portraits carpeta/ [--apply]` — carga los retratos de la compañía y del bestiario en el Diccionario general por el nombre del archivo (`personaje_mia.jpeg`, `slime.png`…); los cursos que usan el mismo personaje (mismo nombre) toman ese retrato; también los fondos 16:9 de los mundos (`mundo_codigo` → `world.name`; `mundo_ofidia`, `mundo_maese_ferrum`… → la región del curso de esa líder, D74)
 - `php artisan app:simulate-course python [--reset]` — súper test local: 5 alumnos cursan todo y el docente corrige (docs/SIMULACION.md)
 - `php artisan app:create-admin` — crear el admin en producción

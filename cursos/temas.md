@@ -121,6 +121,7 @@ alcance: compartido
 - herr.compilacion · Compilar y enlazar · qué hace el compilador, advertencias, enlazador
 - herr.terminal · La terminal · comandos básicos, rutas, redirecciones
 - herr.git · Git · commits, ramas, GitHub
+- herr.navegador · Herramientas del navegador · inspector (DevTools), modo celular, validador de HTML
 
 ## diseno · Diseño de software
 alcance: compartido
@@ -177,7 +178,9 @@ alcance: compartido
 - css.flexbox · Flexbox · filas y columnas flexibles
 - css.grid · Grid · grillas, áreas, grillas que se adaptan
 - css.responsive · Diseño adaptable · mobile first, @media
+- css.posicion · Posición y capas · position, sticky, fixed, z-index
 - css.animaciones · Transiciones y animaciones · transition, keyframes
+- css.temas · Temas y componentes · variables de diseño, tema propio, componentes reutilizables, guía de estilo
 - css.frameworks · Frameworks de CSS · Tailwind, Bootstrap
 
 ## js · JavaScript

@@ -14,7 +14,7 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 |---|---|---|
 | **Kira** | la heroína que llega de otro mundo | empieza sin saber nada |
 | **Mia** | maga curiosa | pregunta "¿por qué funciona así?" (la teoría) |
-| **Bron** | guerrero enano, directo y práctico | "¿y esto para qué me sirve?" (los usos reales); viejo amigo de Maese Ferrum |
+| **Bron** | mecánico y guerrero, directo y práctico | "¿y esto para qué me sirve?" (los usos reales); viejo amigo de Maese Ferrum |
 | **Zed** | pícaro que siempre busca atajos | muestra los atajos, los trucos y las trampas (los errores) |
 | **El Gremio** | comerciantes, bibliotecarios, herreros | encargan trabajos del mundo real |
 | **El Profe** | el Cronista del Gremio | recorre las regiones y revisa las misiones de los aprendices |
@@ -26,14 +26,14 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 |---|---|---|---|---|
 | **El Valle de la Serpiente** | Python | **Ofidia**, serpiente sabia, guardiana del Valle | escamas | valle verde con cascadas, lotos y caminos que serpentean; templos con serpientes doradas |
 | **Las Forjas de Hierro** | C | **Maese Ferrum**, herrero enano, el Forjador | lingotes | fraguas, ríos de lava, chimeneas; "el metal no perdona, pero tampoco miente" |
-| **La Ciudadela de los Artífices** | C++ | **Tesla**, la Artífice Mayor, inventora | engranajes | ciudad de engranajes en la montaña, rayos y cintas de energía; dibuja **planos** para construir mil veces la misma pieza |
-| **El Imperio de las Clases** | Java | **Kaffa**, la Arquitecta Imperial | denarios | capital de catedrales con vitrales dorados; "nada existe suelto"; nunca le falta su taza de café |
+| **La Ciudadela de los Artífices** | C++ | **Tesla**, el Artífice Mayor, inventor | engranajes | ciudad de engranajes en la montaña, rayos y cintas de energía; dibuja **planos** para construir mil veces la misma pieza |
+| **El Imperio de las Clases** | Java | **Kaffa**, el Arquitecto Imperial | denarios | capital de catedrales con vitrales dorados; "nada existe suelto"; nunca le falta su taza de café |
 | **El Puerto de los Mensajeros** | PHP | **Elefa**, la Capitana del Puerto, una elefanta | sellos de lacre | puerto con barcos, faro y una torre cuya campana suena con cada pedido; "ningún mensaje se queda sin respuesta" |
 | **Los Talleres de los Vitrales** | HTML y CSS | **Tesela, la Vitralista** | cristales | ciudad de ventanales de colores, ríos de plomo fundido y hornos; "todo vitral empieza chico" |
 
 ## Cómo se cruzan las historias
 
-- **Las Forjas son el origen.** Maese Ferrum fue maestro de **Tesla** y de **Tesela**: las dos fueron aprendices juntas. Tesla eligió los engranajes y subió a la montaña a fundar la Ciudadela; Tesela eligió el vidrio. Sus nombres se parecen a propósito.
+- **Las Forjas son el origen.** Maese Ferrum fue maestro de **Tesla** y de **Tesela**: los dos fueron aprendices juntos. Tesla eligió los engranajes y subió a la montaña a fundar la Ciudadela; Tesela eligió el vidrio. Sus nombres se parecen a propósito.
 - **El plomo de los vitrales sale de las Forjas.** Sin el metal de Ferrum no habría ni un vitral en el mundo.
 - **Los Talleres hacen las ventanas de todos.** Hay vitrales de Tesela en las catedrales de Kaffa, en las ventanas del Valle de Ofidia y en cada mensaje que despacha el Puerto.
 - **Elefa responde lo que arman los Talleres.** Los formularios se hacen en los Talleres; cuando alguien los completa, el mensaje viaja al Puerto y Elefa lo contesta.
@@ -77,7 +77,7 @@ Cada región tiene sus jefes, con nombres propios, por ejemplo:
 
 1. **Un capítulo por región**, cada uno con la paleta y la arquitectura de su mundo, y el portal-vitral como hilo entre capítulos.
 2. **El código como magia visible:** runas que son líneas de código y, cuando hay un error, criaturas que salen de ellas.
-3. **Las líderes como mentoras con su objeto:**
+3. **Los líderes y su objeto:**
    - el martillo de Ferrum;
    - el compás de Tesla y el de Kaffa;
    - la campana de Elefa;

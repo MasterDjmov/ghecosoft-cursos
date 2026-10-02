@@ -39,7 +39,7 @@ Al final del camino principal llegás a la **Encrucijada de los Engranajes**, de
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
 | coin.course | engranaje | engranajes | m | La moneda de la Ciudadela: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
-| mentor.name | Tesla | | f | La Artífice Mayor: inventora y guía de la Ciudadela de los Artífices. | Aprendió a forjar con Maese Ferrum, en las Forjas de Hierro, y un día subió la montaña con una idea: dejar de hacer cada pieza a mano y dibujar **planos** que cualquiera pudiera construir mil veces. Así nació la Ciudadela. Es rápida, curiosa y odia repetir código. | curso |
+| mentor.name | Tesla | | m | El Artífice Mayor: inventor y guía de la Ciudadela de los Artífices. | Aprendió a forjar con Maese Ferrum, en las Forjas de Hierro, y un día subió la montaña con una idea: dejar de hacer cada pieza a mano y dibujar **planos** que cualquiera pudiera construir mil veces. Así nació la Ciudadela. Es rápido, curioso y odia repetir código. | curso |
 | world.region | Ciudadela de los Artífices | | f | La región del mundo cuya lengua arcana es C++. | | curso |
 | story.course_intro | Bienvenida a la Ciudadela | | f | | Subís la última cuesta, {heroe}, y la ves: la **Ciudadela de los Artífices**, una ciudad de torres, poleas y engranajes que giran solos.<br><br>Soy {mentor}. Acá no fabricamos cada pieza a mano: dibujamos **planos**, y de cada plano salen todas las piezas que haga falta. Primero escribís el plano; el **Taller**, el compilador, lo revisa y lo construye.<br><br>Cada tema que domines te da un plano nuevo; cada misión aprobada te da engranajes para abrir el siguiente. | curso |
 | story.branch_completed | ¡Rama ensamblada! | | f | | {mentor} da vuelta una manivela y una torre entera se ilumina. —Otra parte de la Ciudadela ya funciona con tus planos, {heroe}. | curso |
@@ -62,7 +62,7 @@ temas: prog.entorno, prog.salida, herr.compilacion
 
 ### Crónica
 
-Después de días de subida, llegás a la **Ciudadela de los Artífices**: torres altísimas, puentes que se pliegan solos y engranajes que giran en todas las paredes. En la puerta te espera una mujer con anteojos de bronce y las manos manchadas de grasa: es **{mentor}**, la Artífice Mayor.
+Después de días de subida, llegás a la **Ciudadela de los Artífices**: torres altísimas, puentes que se pliegan solos y engranajes que giran en todas las paredes. En la puerta te espera un muchacho de traje azul, con un visor de bronce y las manos manchadas de grasa: es **{mentor}**, el Artífice Mayor.
 
 —Acá la magia se escribe en **C++**, {heroe}. No construimos cada pieza a mano: dibujamos **planos**, y de un plano salen todas las piezas que haga falta. Pero todo empieza igual que siempre: escribís el plano, el **Taller** (el compilador) lo revisa y lo construye. Recién ahí funciona.
 
@@ -303,12 +303,12 @@ xp: 10
 
 #### Consigna
 
-Mostrá la ficha de Kira en la Ciudadela: nombre, clase, región y mentora, uno por
+Mostrá la ficha de Kira en la Ciudadela: nombre, clase, región y mentor, uno por
 línea, con el valor separado por `\t`.
 
 #### Criterio de aprobación
 
-- Muestra nombre, clase, región y mentora, uno por línea.
+- Muestra nombre, clase, región y mentor, uno por línea.
 - Separa los valores con `\t`.
 - Compila sin advertencias con `-Wall -Wextra`.
 
@@ -319,7 +319,7 @@ línea, con el valor separado por `\t`.
 Nombre:	Kira
 Clase:	Artífice
 Región:	La Ciudadela de los Artífices
-Mentora:	Tesla
+Mentor:	Tesla
 ```
 
 #### Solución de referencia
@@ -334,7 +334,7 @@ int main()
     std::cout << "Nombre:\tKira\n";
     std::cout << "Clase:\tArtífice\n";
     std::cout << "Región:\tLa Ciudadela de los Artífices\n";
-    std::cout << "Mentora:\tTesla\n";
+    std::cout << "Mentor:\tTesla\n";
     return 0;
 }
 ```

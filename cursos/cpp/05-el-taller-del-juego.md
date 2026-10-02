@@ -5240,7 +5240,7 @@ precio: 10
 
 ### Crónica
 
-Salís del Laberinto con el sello del Minotauro en la mano. Arriba, en la plaza de la Ciudadela, hay un engranaje gigante tallado en el piso, y de sus dientes salen caminos. {mentor} te espera sentada en el borde, con el compás de bronce entre las manos.
+Salís del Laberinto con el sello del Minotauro en la mano. Arriba, en la plaza de la Ciudadela, hay un engranaje gigante tallado en el piso, y de sus dientes salen caminos. {mentor} te espera sentado en el borde, con el compás de bronce entre las manos.
 
 —Ya hablás la lengua de la Ciudadela, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Por un camino se llega a la **Linterna Mágica**, donde los planos se mueven en una pantalla. Por el otro, al **Taller de los Vitrales**, donde se construyen ventanas que cualquiera puede usar.
 

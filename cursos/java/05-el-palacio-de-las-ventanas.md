@@ -5246,7 +5246,7 @@ puede estar vacío ni pasar de 50 caracteres, y el email tiene que tener `@`) y
 ```sql
 DROP TABLE IF EXISTS profesor;
 CREATE TABLE profesor (id SERIAL PRIMARY KEY, apellido_nombre VARCHAR(50) NOT NULL, email VARCHAR(60) NOT NULL);
-INSERT INTO profesor (apellido_nombre, email) VALUES ('Kaffa, Arquitecta', 'kaffa@imperio.edu');
+INSERT INTO profesor (apellido_nombre, email) VALUES ('Kaffa, Arquitecto', 'kaffa@imperio.edu');
 ```
 
 `db.properties`
@@ -6267,7 +6267,7 @@ CREATE TABLE acta_profesor (acta_id INTEGER REFERENCES acta(id) ON DELETE CASCAD
 CREATE TABLE registro (acta_id INTEGER REFERENCES acta(id) ON DELETE CASCADE, matricula VARCHAR(10) REFERENCES alumno(matricula),
                        nota INTEGER CHECK (nota BETWEEN 1 AND 10), PRIMARY KEY (acta_id, matricula));
 INSERT INTO aula VALUES (101, 40), (5, 3);
-INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecta'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
+INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecto'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
 INSERT INTO alumno VALUES ('A-001', 'Valdez, Kira'), ('A-002', 'Tallo, Bron'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
 ```
 
@@ -6297,7 +6297,7 @@ public class Actas {
 
         ActaDeExamen acta = new ActaDeExamen(LocalDate.of(2026, 12, 10), "kaffa", "Licenciatura en Sistemas",
                 "Paradigmas y Lenguajes III", new Aula(101, 40));
-        acta.agregarProfesor(new Profesor(1, "Kaffa, Arquitecta"));
+        acta.agregarProfesor(new Profesor(1, "Kaffa, Arquitecto"));
         acta.agregarProfesor(new Profesor(2, "Ferrum, Maese"));
         acta.agregarRegistro(new Registro(new Alumno("A-001", "Valdez, Kira"), 9));
         acta.agregarRegistro(new Registro(new Alumno("A-002", "Tallo, Bron"), 4));
@@ -6316,7 +6316,7 @@ public class Actas {
 
         // Una regla de la base: la nota 11 viola el CHECK y la transacción deshace todo el acta
         ActaDeExamen mala = new ActaDeExamen(LocalDate.of(2026, 12, 12), "kaffa", "Licenciatura en Sistemas", "Bases de Datos", new Aula(101, 40));
-        mala.agregarProfesor(new Profesor(1, "Kaffa, Arquitecta"));
+        mala.agregarProfesor(new Profesor(1, "Kaffa, Arquitecto"));
         mala.agregarRegistro(new Registro(new Alumno("A-001", "Valdez, Kira"), 8));
         mala.agregarRegistro(new Registro(new Alumno("A-002", "Tallo, Bron"), 11));
         intentar(controlador, mala);
@@ -6511,7 +6511,7 @@ final class Conexion {
 ```
 Acta 1 de Paradigmas y Lenguajes III: guardada
   Paradigmas y Lenguajes III, aula 101
-  Tribunal: Ferrum, Maese / Kaffa, Arquitecta
+  Tribunal: Ferrum, Maese / Kaffa, Arquitecto
   Inscriptos 4, presentes 3, aprobados 2, promedio 5.00
 Acta de Álgebra rechazada: el aula 5 tiene capacidad para 3 y hay 4 alumnos
 Acta de Bases de Datos deshecha por la base (23514)
@@ -6607,7 +6607,7 @@ CREATE TABLE acta_profesor (acta_id INTEGER REFERENCES acta(id) ON DELETE CASCAD
 CREATE TABLE registro (acta_id INTEGER REFERENCES acta(id) ON DELETE CASCADE, matricula VARCHAR(10) REFERENCES alumno(matricula),
                        nota INTEGER CHECK (nota BETWEEN 1 AND 10), PRIMARY KEY (acta_id, matricula));
 INSERT INTO aula VALUES (101, 40), (5, 3);
-INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecta'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
+INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecto'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
 INSERT INTO alumno VALUES ('A-001', 'Valdez, Kira'), ('A-002', 'Tallo, Bron'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
 ```
 
@@ -7433,7 +7433,7 @@ CREATE TABLE acta_profesor (acta_id INTEGER REFERENCES acta(id), profesor_id INT
 CREATE TABLE registro (acta_id INTEGER REFERENCES acta(id), matricula VARCHAR(10) REFERENCES alumno(matricula),
                        nota INTEGER CHECK (nota BETWEEN 1 AND 10), PRIMARY KEY (acta_id, matricula));
 INSERT INTO aula VALUES (101, 40);
-INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecta'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
+INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecto'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
 INSERT INTO alumno VALUES ('A-001', 'Valdez, Kira'), ('A-002', 'Tallo, Bron'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
 INSERT INTO acta (fecha, usuario, carrera, materia, aula_numero) VALUES
     ('2026-12-10', 'kaffa', 'Sistemas', 'Paradigmas III', 101), ('2026-12-14', 'kaffa', 'Sistemas', 'Bases de Datos', 101),
@@ -7610,7 +7610,7 @@ precio: 10
 
 Salís de la sala del Tribunal con el sello del Dragón en la mano. En la plaza central del Imperio hay una fuente con forma de denario gigante, y de ella salen tres avenidas. Al final de una se ve una sala de juegos llena de luces; al final de otra, un río que corre rapidísimo; al final de la tercera, un puerto con barcos que llegan de todo el mundo.
 
-{mentor} te espera sentada en el borde de la fuente, con una taza de café.
+{mentor} te espera sentado en el borde de la fuente, con una taza de café.
 
 —Ya hablás la lengua del Imperio, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Pero antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
 

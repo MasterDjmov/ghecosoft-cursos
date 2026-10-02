@@ -714,11 +714,11 @@ int main()
 ##### Un solo nombre
 ```entrada
 Tesla
-inventora
+inventor
 ```
 ```salida
 Nombre completo: Oficio:
-Registrado: Tesla (inventora)
+Registrado: Tesla (inventor)
 Letras del nombre (con espacios): 5
 Inicial: T
 ```

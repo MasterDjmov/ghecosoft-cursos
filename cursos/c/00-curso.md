@@ -334,7 +334,7 @@ cada mensaje y arreglalo **de a uno**:
 int main(void)
 {
     printf("Kira conoce a Bron.\n")
-    Printf("Bron es un guerrero enano.\n");
+    Printf("Bron es mecánico y guerrero.\n");
     return 0;
 }
 ```
@@ -351,7 +351,7 @@ int main(void)
 int main(void)
 {
     printf("Kira conoce a Bron.\n")
-    Printf("Bron es un guerrero enano.\n");
+    Printf("Bron es mecánico y guerrero.\n");
     return 0;
 }
 ```
@@ -360,7 +360,7 @@ int main(void)
 
 ```
 Kira conoce a Bron.
-Bron es un guerrero enano.
+Bron es mecánico y guerrero.
 ```
 
 #### Solución de referencia
@@ -379,7 +379,7 @@ Bron es un guerrero enano.
 int main(void)
 {
     printf("Kira conoce a Bron.\n");
-    printf("Bron es un guerrero enano.\n");
+    printf("Bron es mecánico y guerrero.\n");
     return 0;
 }
 ```

@@ -108,7 +108,7 @@ El héroe cruza un portal a un mundo donde **la magia no se recita: se escribe**
 |---|---|---|
 | **Mia** | Maga curiosa | La explicación teórica |
 | **Zed** | Pícaro de los atajos | Errores habituales y trampas |
-| **Bron** | Guerrero enano | "¿Para qué sirve?": usos reales fuera del juego |
+| **Bron** | Mecánico y guerrero | "¿Para qué sirve?": usos reales fuera del juego |
 | **El Gremio** | Encargos del mundo real | Práctica optativa (calculadoras, archivos, datos, APIs) |
 | **Ofidia** | Mentora del Valle | Presenta cada rama y cada jefe; entrega las escamas |
 

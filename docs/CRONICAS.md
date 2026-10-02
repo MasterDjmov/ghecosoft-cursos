@@ -83,7 +83,7 @@ Para el alumno: si empieza por **HTML**, en *Mis Crónicas* ve el **prólogo** y
 
 **Pendiente de decidir (más adelante):**
 - Que el alumno **elija su protagonista** entre los existentes (Kira o el héroe).
-- Tres personajes cuyo dibujo no coincide con el texto de los cursos: **Kaffa** (dibujo: un hechicero con barba; texto: «la Arquitecta Imperial»), **Tesla** (dibujo: un chico de traje azul con visor; texto: «la Artífice Mayor») y **Bron** (dibujo: un mecánico humano; texto: «guerrero enano»). Lo más simple es ajustar los textos a las imágenes.
+- ~~Tres personajes cuyo dibujo no coincidía con el texto~~: resuelto el 2026-10-02 ajustando los textos a las imágenes: **Kaffa** es *el Arquitecto Imperial*, **Tesla** es *el Artífice Mayor* (compañero de aprendizaje de Tesela) y **Bron** es *mecánico y guerrero*.
 
 ## 8. Dónde se ve
 

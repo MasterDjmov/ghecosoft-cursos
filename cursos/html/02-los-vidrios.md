@@ -631,7 +631,7 @@ usa: css.selectores
 
 Cada vidrio del vitral va dentro de un marco, y entre marco y marco hay un espacio. Medís a ojo y los vidrios se te salen del marco.
 
-Justo pasa por el taller **Tesla**, la Artífice de la Ciudadela, a buscar un encargo. Mira tu trabajo y se ríe: —Igual que Tesela cuando éramos aprendices de Ferrum. —Y te muestra su cinta métrica—. Todo es una **caja**, {heroe}: contenido, relleno, borde y espacio afuera. **Medí las cuatro.**
+Justo pasa por el taller **Tesla**, el Artífice de la Ciudadela, a buscar un encargo. Mira tu trabajo y se ríe: —Igual que Tesela cuando éramos aprendices de Ferrum. —Y te muestra su cinta métrica—. Todo es una **caja**, {heroe}: contenido, relleno, borde y espacio afuera. **Medí las cuatro.**
 
 ### Objetivos
 
@@ -2080,7 +2080,7 @@ usa: css.flexbox
 
 ### Crónica
 
-Llega un mensajero del Imperio de las Clases: **Kaffa**, la Arquitecta Imperial, encarga doce vitrales para su catedral. "Todos iguales, alineados en filas y columnas perfectas", dice la carta. Y abajo, el podio de los campeones: el del medio, más alto.
+Llega un mensajero del Imperio de las Clases: **Kaffa**, el Arquitecto Imperial, encarga doce vitrales para su catedral. "Todos iguales, alineados en filas y columnas perfectas", dice la carta. Y abajo, el podio de los campeones: el del medio, más alto.
 
 —Con la regla flexible hacés filas, {heroe} —dice {mentor}—, pero no **cuadrículas**. Para Kaffa, que no tolera un vidrio torcido, desplegamos la **malla**.
 

@@ -42,8 +42,23 @@ class Universe extends Component
             ];
         });
 
+        // Lo que piden los alumnos (D81), de más a menos votado.
+        $topicTitles = collect(TopicCatalog::topics())->map(fn ($topic) => $topic['title']);
+        $requests = collect($graph['voters'] ?? [])->map(function ($names, string $target) use ($topicTitles, $courses) {
+            [$kind, $key] = explode(':', $target, 2);
+
+            return [
+                'target' => $target,
+                'title' => $kind === 'course' ? ($courses[(int) $key]['title'] ?? $target) : ($topicTitles[$key] ?? $key),
+                'kind' => $kind === 'course' ? 'curso' : 'tema',
+                'count' => count($names),
+                'voters' => collect($names),
+            ];
+        })->sortByDesc('count')->values();
+
         return view('livewire.admin.universe', [
             'graph' => $graph,
+            'requests' => $requests,
             'courses' => $courses,
             'shared' => $families->where('scope', TopicCatalog::SCOPE_SHARED)->values(),
             'language' => $families->where('scope', TopicCatalog::SCOPE_LANGUAGE)->values(),

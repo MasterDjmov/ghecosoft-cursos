@@ -21,6 +21,7 @@ use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
 use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
+use App\Livewire\Student\Universe as StudentUniverse;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\Mission;
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
     Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
     Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
+    Route::livewire('universo', StudentUniverse::class)->name('student.universe');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 
     // Descargas del disco privado: cada controlador llama a authorize().

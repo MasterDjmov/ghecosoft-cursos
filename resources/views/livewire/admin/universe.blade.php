@@ -175,12 +175,42 @@
                             </div>
                         </div>
                     </template>
+
+                    {{-- Por qué brilla y quién lo pidió (D81) --}}
+                    <div x-show="selected.reasons?.length || selected.voters?.length" class="flex flex-col gap-1 border-t border-outline pt-3" data-test="universe-why">
+                        <template x-for="reason in (selected.reasons ?? [])" :key="reason"><p class="text-xs text-warning" x-text="'✦ ' + reason"></p></template>
+                        <template x-if="selected.voters?.length">
+                            <div class="flex flex-col gap-0.5">
+                                <p class="tech-label" x-text="'Lo pidieron (' + selected.voters.length + ')'"></p>
+                                <template x-for="name in selected.voters" :key="name"><p class="text-xs text-ink" x-text="name"></p></template>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </template>
         </aside>
     </section>
 
     <div class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 sm:px-8">
+    {{-- Lo que piden los alumnos (D81): sus votos «Quiero aprender esto», de más a menos --}}
+    <section class="panel flex flex-col gap-3 p-5" data-test="universe-requests">
+        <div>
+            <h2 class="font-display font-semibold text-white">Lo que piden los alumnos</h2>
+            <p class="text-sm text-ink-muted">Votan desde su Universo los temas que ningún curso enseña y los cursos que vienen. Lo más votado late en el mapa.</p>
+        </div>
+        @forelse ($requests as $request)
+            <div class="flex flex-col gap-1 border-t border-outline/60 pt-2 sm:flex-row sm:items-start sm:gap-4" wire:key="request-{{ $request['target'] }}">
+                <span class="w-10 shrink-0 font-display text-xl font-semibold text-warning">{{ $request['count'] }}</span>
+                <div class="flex min-w-0 flex-1 flex-col">
+                    <span class="font-medium text-white">{{ $request['title'] }} <span class="text-xs text-ink-muted">· {{ $request['kind'] }}</span></span>
+                    <span class="text-xs text-ink-muted">{{ $request['voters']->join(', ') }}</span>
+                </div>
+            </div>
+        @empty
+            <flux:text>Todavía nadie votó.</flux:text>
+        @endforelse
+    </section>
+
     {{-- Resumen --}}
     @php
         $allShared = $shared->flatMap(fn ($f) => $f['rows']);

@@ -59,8 +59,12 @@ document.addEventListener('alpine:init', () => {
 
 // Universo de cursos (D70, Admin → Universo): el mapa 3D se descarga solo en esa página.
 document.addEventListener('alpine:init', () => {
-    window.Alpine.data('universeMap', (data) => ({
+    window.Alpine.data('universeMap', (data, options = {}) => ({
         map: null,
+        // D81: el alumno mira y vota «Quiero aprender esto» (un voto por tema o curso que viene).
+        votes: { ...(data.votes ?? {}) },
+        myVotes: [...(data.myVotes ?? [])],
+        voting: false,
         selected: null,
         query: '',
         notFound: false,
@@ -77,7 +81,7 @@ document.addEventListener('alpine:init', () => {
             const { mountUniverse, familyColors, STATUS_LABELS } = await import('./universe/universe-map.js');
             this.colors = familyColors(data.families);
             this.statusLabels = STATUS_LABELS;
-            this.map = mountUniverse(this.$refs.canvas, data, { onSelect: (detail) => (this.selected = detail) });
+            this.map = mountUniverse(this.$refs.canvas, data, { onSelect: (detail) => (this.selected = detail), student: Boolean(options.student) });
             this.apply();
             setTimeout(() => this.map?.fit(), 2500);
             this.$watch('courses', () => this.apply());
@@ -97,6 +101,19 @@ document.addEventListener('alpine:init', () => {
 
         search() {
             this.notFound = this.query.trim() !== '' && !this.map?.search(this.query);
+        },
+
+        async vote(target) {
+            if (this.voting) return;
+            this.voting = true;
+            try {
+                const { voted, count } = await this.$wire.toggleVote(target);
+                this.votes = { ...this.votes, [target]: count };
+                this.myVotes = voted ? [...this.myVotes, target] : this.myVotes.filter((t) => t !== target);
+                this.map?.setVotes(this.votes);
+            } finally {
+                this.voting = false;
+            }
         },
 
         go(id) {

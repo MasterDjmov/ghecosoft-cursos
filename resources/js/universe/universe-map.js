@@ -1,6 +1,8 @@
-// Mapa 3D del universo de cursos (D70, Admin → Universo). Cada curso es una galaxia (su centro y sus nodos,
-// unidos como en su árbol) y los temas del catálogo (cursos/temas.md) son octaedros que atan los nodos que
-// los enseñan (línea) o los usan (línea con partículas). Solo para mirar: no cambia nada.
+// Mapa 3D del universo de cursos (D70, Admin → Universo; D81, el Universo del alumno). Cada curso es una
+// galaxia (su logo en el centro y sus nodos, unidos como en su árbol) y los temas del catálogo
+// (cursos/temas.md) son octaedros que atan los nodos que los enseñan (línea) o los usan (línea con
+// partículas). Los temas que faltan y tienen potencial —se usan, los piden los alumnos— laten.
+// Solo para mirar: no cambia nada (el voto del alumno lo guarda su componente de Livewire).
 import ForceGraph3D from '3d-force-graph';
 import SpriteText from 'three-spritetext';
 import * as THREE from 'three';
@@ -24,8 +26,63 @@ export function familyColors(families) {
     return Object.fromEntries(families.map((family) => [family.key, family.color]));
 }
 
-export function mountUniverse(element, data, { onSelect } = {}) {
+/** Un color más apagado, mezclado con el fondo: los nodos que el alumno todavía no abrió. */
+function dim(hex, amount = 0.6) {
+    const n = parseInt(String(hex ?? '#94a3b8').slice(1), 16);
+    const mix = (c, bg) => Math.round(c * (1 - amount) + bg * amount);
+    return `rgb(${mix((n >> 16) & 255, 5)}, ${mix((n >> 8) & 255, 7)}, ${mix(n & 255, 13)})`;
+}
+
+/** El halo de luz de lo que late: un degradé radial que se suma a lo que hay detrás. */
+let haloTexture = null;
+function halo() {
+    if (!haloTexture) {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+        gradient.addColorStop(0, 'rgba(255,255,255,1)');
+        gradient.addColorStop(0.35, 'rgba(255,255,255,0.35)');
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 128, 128);
+        haloTexture = new THREE.CanvasTexture(canvas);
+    }
+    return haloTexture;
+}
+
+/** El logo del curso como medallón redondo con un aro de su color (como en el árbol 2D). */
+function logoSprite(url, color, faded) {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 256;
+    const texture = new THREE.CanvasTexture(canvas);
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, opacity: faded ? 0.45 : 1, depthWrite: false }));
+    const image = new Image();
+    image.onload = () => {
+        const ctx = canvas.getContext('2d');
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(128, 128, 116, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(image, 12, 12, 232, 232);
+        ctx.restore();
+        ctx.lineWidth = 12;
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.arc(128, 128, 120, 0, Math.PI * 2);
+        ctx.stroke();
+        texture.needsUpdate = true;
+    };
+    image.src = url;
+    return sprite;
+}
+
+export function mountUniverse(element, data, { onSelect, student = false } = {}) {
     const courses = new Map(data.courses.map((course) => [course.id, course]));
+    let votes = { ...(data.votes ?? {}) };
+    const voters = data.voters ?? {};
+    // Lo que late: cada uno con su material, su halo, su intensidad y su fase (para que no laten a la vez).
+    let pulsers = [];
     const colors = familyColors(data.families);
     const families = new Map(data.families.map((family) => [family.key, family]));
     const rawNodes = new Map(data.nodes.map((node) => [node.id, node]));
@@ -46,7 +103,8 @@ export function mountUniverse(element, data, { onSelect } = {}) {
     // Todas las piezas se arman una vez; los filtros eligen cuáles se muestran (así conservan su lugar).
     const all = {
         courses: data.courses.map((course) => ({ id: `c${course.id}`, kind: 'course', course, color: course.color })),
-        nodes: data.nodes.map((node) => ({ id: `n${node.id}`, kind: 'node', node, courseId: node.course_id, color: courses.get(node.course_id)?.color })),
+        nodes: data.nodes.map((node) => ({ id: `n${node.id}`, kind: 'node', node, courseId: node.course_id,
+            color: node.title === null ? dim(courses.get(node.course_id)?.color) : courses.get(node.course_id)?.color })),
         topics: data.topics.map((topic) => {
             const status = topicStatus(topic);
             return { id: `t${topic.key}`, kind: 'topic', topic, family: topic.family, status,
@@ -54,6 +112,31 @@ export function mountUniverse(element, data, { onSelect } = {}) {
         }),
     };
     const byId = new Map([...all.courses, ...all.nodes, ...all.topics].map((item) => [item.id, item]));
+
+    /**
+     * El potencial de un tema que falta: lo usan nodos sin que nadie lo enseñe (la demanda real), lo piden
+     * los alumnos y su familia ya tiene temas enseñados (está "cerca"). Con potencial, late.
+     */
+    const taughtByFamily = new Map();
+    for (const item of all.topics) {
+        if (item.status === 'ok' || item.status === 'repeated') taughtByFamily.set(item.family, (taughtByFamily.get(item.family) ?? 0) + 1);
+    }
+    function potential(item) {
+        if (item.kind === 'course') {
+            const v = votes[`course:${item.course.id}`] ?? 0;
+            return { score: item.course.upcoming ? v * 3 : 0, reasons: v ? [`${v === 1 ? '1 alumno lo quiere' : v + ' alumnos lo quieren'}`] : [] };
+        }
+        if (item.kind !== 'topic' || (item.status !== 'missing' && item.status !== 'needed')) return { score: 0, reasons: [] };
+        const used = item.topic.used.length;
+        const usedCourses = new Set(item.topic.used.map((id) => rawNodes.get(id)?.course_id)).size;
+        const v = votes[`topic:${item.topic.key}`] ?? 0;
+        const near = taughtByFamily.get(item.family) ?? 0;
+        const reasons = [];
+        if (used) reasons.push(`Lo usan ${used} ${used === 1 ? 'nodo' : 'nodos'} de ${usedCourses} ${usedCourses === 1 ? 'curso' : 'cursos'} y ningún curso lo enseña`);
+        if (v) reasons.push(v === 1 ? '1 alumno lo quiere aprender' : `${v} alumnos lo quieren aprender`);
+        if (near) reasons.push(`Su familia ya tiene ${near} ${near === 1 ? 'tema enseñado' : 'temas enseñados'}: está cerca`);
+        return { score: used * 2 + v * 3 + (near ? 1 : 0), reasons };
+    }
     const topicCenter = (topic) => {
         const points = topic.taught.map((id) => centers.get(rawNodes.get(id)?.course_id)).filter(Boolean);
         if (!points.length) return { x: 0, y: 0, z: 0 };
@@ -104,9 +187,15 @@ export function mountUniverse(element, data, { onSelect } = {}) {
 
     function courseObject(item) {
         const group = new THREE.Group();
-        const sphere = new THREE.Mesh(new THREE.SphereGeometry(10, 24, 24),
-            new THREE.MeshLambertMaterial({ color: item.color, transparent: item.course.upcoming, opacity: item.course.upcoming ? 0.3 : 1 }));
-        group.add(sphere);
+        if (item.course.logo) {
+            const sprite = logoSprite(item.course.logo, item.color, item.course.upcoming);
+            sprite.scale.set(26, 26, 1);
+            group.add(sprite);
+        } else {
+            group.add(new THREE.Mesh(new THREE.SphereGeometry(10, 24, 24),
+                new THREE.MeshLambertMaterial({ color: item.color, transparent: item.course.upcoming, opacity: item.course.upcoming ? 0.3 : 1 })));
+        }
+        addGlow(group, item, 34);
         const label = new SpriteText(item.course.title + (item.course.upcoming ? ' (próximamente)' : ''), 7, item.color);
         label.fontWeight = '600';
         label.position.set(0, 20, 0);
@@ -116,24 +205,56 @@ export function mountUniverse(element, data, { onSelect } = {}) {
 
     function topicObject(item) {
         const group = new THREE.Group();
-        const size = item.status === 'repeated' ? 6 : 4;
-        const faded = item.status === 'missing';
-        group.add(new THREE.Mesh(new THREE.OctahedronGeometry(size),
-            new THREE.MeshLambertMaterial({ color: item.color, transparent: true, opacity: faded ? 0.3 : 0.95,
-                emissive: item.status === 'repeated' ? item.color : '#000000', emissiveIntensity: 0.6 })));
-        const label = new SpriteText(item.topic.title, 3, faded ? '#64748b' : item.color);
+        const glowing = potential(item).score >= 2;
+        const size = item.status === 'repeated' ? 6 : glowing ? 5 : 4;
+        const faded = item.status === 'missing' && !glowing;
+        const color = glowing ? '#fbbf24' : item.color;
+        const material = new THREE.MeshLambertMaterial({ color, transparent: true, opacity: faded ? (student ? 0.5 : 0.3) : 0.95,
+            emissive: item.status === 'repeated' || glowing ? color : '#000000', emissiveIntensity: 0.6 });
+        group.add(new THREE.Mesh(new THREE.OctahedronGeometry(size), material));
+        const label = new SpriteText(item.topic.title, 3, faded ? '#94a3b8' : color);
         label.position.set(0, -size - 4, 0);
         group.add(label);
+        addGlow(group, item, size * 6, material);
         return group;
     }
 
+    /** Si tiene potencial, un halo que late (y el material brilla al ritmo). */
+    function addGlow(group, item, base, material = null) {
+        const { score } = potential(item);
+        if (score < 2) return;
+        const intensity = Math.min(1, 0.35 + score / 12);
+        const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: halo(), color: '#fbbf24', transparent: true, opacity: 0.4,
+            blending: THREE.AdditiveBlending, depthWrite: false }));
+        sprite.scale.set(base, base, 1);
+        group.add(sprite);
+        pulsers.push({ sprite, material, base, intensity, phase: Math.random() * Math.PI * 2 });
+    }
+
+    let frame = 0;
+    const pulse = (time) => {
+        const t = time / 1000;
+        for (const p of pulsers) {
+            const k = 0.5 + 0.5 * Math.sin(t * 2.4 + p.phase);
+            const scale = p.base * (1 + 0.45 * k * p.intensity);
+            p.sprite.scale.set(scale, scale, 1);
+            p.sprite.material.opacity = 0.15 + 0.6 * k * p.intensity;
+            if (p.material) p.material.emissiveIntensity = 0.3 + 0.9 * k * p.intensity;
+        }
+        frame = requestAnimationFrame(pulse);
+    };
+    frame = requestAnimationFrame(pulse);
+
     function tooltip(item) {
-        if (item.kind === 'course') return `<b>${escape(item.course.title)}</b><br>${item.course.nodes} nodos`;
+        const why = potential(item);
+        const glow = why.score >= 2 ? `<br><span style="color:#fbbf24">✦ ${why.reasons.map(escape).join('<br>✦ ')}</span>` : '';
+        if (item.kind === 'course') return `<b>${escape(item.course.title)}</b><br>${item.course.upcoming ? 'Próximamente' : item.course.nodes + ' nodos'}${glow}`;
         if (item.kind === 'node') {
             const course = courses.get(item.courseId);
-            return `<b>${escape(item.node.title)}</b><br>${escape(course?.title)} · ${escape(item.node.code)}`;
+            if (item.node.title === null) return `<b>Un nodo por descubrir</b><br>${escape(course?.title)}`;
+            return `<b>${escape(item.node.title)}</b><br>${escape(course?.title)}${item.node.code ? ' · ' + escape(item.node.code) : ''}`;
         }
-        return `<b>${escape(item.topic.title)}</b> <small>${escape(item.topic.key)}</small><br>${escape(STATUS_LABELS[item.status])}`;
+        return `<b>${escape(item.topic.title)}</b>${student ? '' : ` <small>${escape(item.topic.key)}</small>`}<br>${escape(STATUS_LABELS[item.status])}${glow}`;
     }
 
     const isFocused = (link) => selected && (endId(link.source) === selected || endId(link.target) === selected);
@@ -170,8 +291,10 @@ export function mountUniverse(element, data, { onSelect } = {}) {
             const topic = byId.get(`t${key}`);
             return { id: `t${key}`, key, title: topic?.topic.title ?? key, color: topic?.color ?? '#94a3b8', status: topic?.status };
         };
+        const vote = (target, canVote) => ({ target, canVote: student && canVote, votes: votes[target] ?? 0, voters: voters[target] ?? [], reasons: potential(item).reasons });
         if (item.kind === 'course') {
-            return { kind: 'course', title: item.course.title, color: item.color, nodes: item.course.nodes, upcoming: item.course.upcoming, url: item.course.url };
+            return { kind: 'course', title: item.course.title, color: item.color, nodes: item.course.nodes, upcoming: item.course.upcoming, url: item.course.url,
+                ...vote(`course:${item.course.id}`, item.course.upcoming) };
         }
         if (item.kind === 'node') {
             const node = item.node;
@@ -188,9 +311,10 @@ export function mountUniverse(element, data, { onSelect } = {}) {
         const topic = item.topic;
         const family = families.get(topic.family);
         return {
-            kind: 'topic', title: topic.title, key: topic.key, description: topic.description, color: item.color,
+            kind: 'topic', title: topic.title, key: topic.key, description: topic.description, color: potential(item).score >= 2 ? '#fbbf24' : item.color,
             family: family?.title ?? topic.family, scope: family?.scope, status: item.status, statusLabel: STATUS_LABELS[item.status],
             loose: topic.loose, taught: topic.taught.map(nodeInfo).filter(Boolean), used: topic.used.map(nodeInfo).filter(Boolean),
+            ...vote(`topic:${topic.key}`, item.status === 'missing' || item.status === 'needed'),
         };
     }
 
@@ -219,15 +343,23 @@ export function mountUniverse(element, data, { onSelect } = {}) {
             const q = normalize(query).trim();
             if (!q) return null;
             // Primero los temas, después los nodos y al final los cursos.
-            const text = (item) => item.kind === 'node' ? item.node.title + ' ' + item.node.code : item.kind === 'topic' ? item.topic.title + ' ' + item.topic.key : item.course.title;
+            const text = (item) => item.kind === 'node' ? (item.node.title ?? '') + ' ' + (item.node.code ?? '') : item.kind === 'topic' ? item.topic.title + ' ' + item.topic.key : item.course.title;
             const shown = graph.graphData().nodes;
             const match = ['topic', 'node', 'course'].map((kind) => shown.find((item) => item.kind === kind && normalize(text(item)).includes(q))).find(Boolean);
             if (match) select(match.id, { fly: true });
             return match?.id ?? null;
         },
+        /** Después de un voto: el halo y el cartel se recalculan. */
+        setVotes(next) {
+            votes = { ...next };
+            pulsers = [];
+            graph.nodeThreeObject(graph.nodeThreeObject());
+            if (selected) onSelect?.(details(selected));
+        },
         fit: () => graph.zoomToFit(800, 40),
         dimensions: (n) => graph.numDimensions(n),
         destroy() {
+            cancelAnimationFrame(frame);
             observer.disconnect();
             graph._destructor?.();
         },

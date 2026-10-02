@@ -29,6 +29,12 @@
                         · {{ $approvedPractices }} {{ term('practice', null, $approvedPractices) }} aprobadas
                         · {{ $badges->count() }} {{ term('badge', null, $badges->count()) }}
                     </p>
+                    @if ($chronicles['pages'] > 0 || $chronicles['pieces'] > 0)
+                        <p class="flex items-center gap-1.5 text-sm text-warning" data-test="cv-chronicles">
+                            <flux:icon name="book-open" variant="micro" /> Crónicas: {{ $chronicles['pages'] }} {{ $chronicles['pages'] === 1 ? 'página desbloqueada' : 'páginas desbloqueadas' }}
+                            · {{ $chronicles['pieces'] }} de {{ $chronicles['totalPieces'] }} piezas del portal
+                        </p>
+                    @endif
                 </div>
                 <button type="button" onclick="window.print()" class="no-print inline-flex items-center gap-2 self-start rounded-lg bg-primary-bright px-4 py-2 text-sm font-medium text-surface hover:bg-primary">
                     <flux:icon name="arrow-down-tray" variant="mini" /> Descargar PDF

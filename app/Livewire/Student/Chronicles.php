@@ -17,7 +17,7 @@ use Livewire\Component;
 #[Title('Mis Crónicas')]
 class Chronicles extends Component
 {
-    /** 'prologo' o el slug de un curso. */
+    /** 'prologo', 'portal' o el slug de un curso. */
     #[Url(as: 'libro', except: 'prologo')]
     public string $book = 'prologo';
 
@@ -34,6 +34,11 @@ class Chronicles extends Component
         $chronicles = new Book($user);
         $courses = $chronicles->courses();
         $course = $courses->firstWhere('slug', $this->book);
+        $figure = function (string $key) use ($glossary, $course): ?string {
+            $path = $glossary->resolve($key, $course)['figure_path'];
+
+            return $path ? Storage::disk('public')->url($path) : null;
+        };
         $portrait = function (string $key) use ($glossary, $course): ?string {
             $path = $glossary->resolve($key, $course)['icon_path'];
 
@@ -51,7 +56,10 @@ class Chronicles extends Component
             'unlocked' => $pages->where('unlocked', true)->count(),
             'total' => $pages->count(),
             'scene' => $glossary->scene($course),
+            'portal' => $this->book === 'portal' ? $chronicles->portal() : [],
+            'glossary' => $glossary,
             'portrait' => $portrait,
+            'figure' => $figure,
             'hint' => fn () => Book::hint($course, $user),
         ]);
     }

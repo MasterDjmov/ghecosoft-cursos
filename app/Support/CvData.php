@@ -44,6 +44,13 @@ class CvData
             });
 
         return [
+            // Mis Crónicas (D80): páginas de historia desbloqueadas y piezas del portal.
+            'chronicles' => (function () use ($user) {
+                $book = new Chronicles($user);
+                $portal = collect($book->portal(render: false));
+
+                return ['pages' => $book->unlockedCount() - 1 - $portal->where('unlocked', true)->count(), 'pieces' => $portal->where('unlocked', true)->count(), 'totalPieces' => $portal->count()];
+            })(),
             'user' => $user,
             'level' => Level::forXp($user->xp_total),
             'courses' => $courses,

@@ -7,6 +7,7 @@
     <div class="grid gap-4 sm:grid-cols-2">
         <flux:select wire:model.live="courseSlug" label="Libro">
             <flux:select.option value="">Prólogo (para todos)</flux:select.option>
+            <flux:select.option value="portal">El portal (una pieza por curso)</flux:select.option>
             @foreach ($courses as $option)
                 <flux:select.option :value="$option->slug">{{ $option->title }}{{ $option->is_published ? '' : ' (sin publicar)' }}</flux:select.option>
             @endforeach
@@ -38,7 +39,10 @@
         </div>
     </section>
 
-    @if (! $course)
+    @if ($courseSlug === 'portal')
+        @include('livewire.partials.chronicle-portal', ['portal' => $portal, 'glossary' => $glossary])
+        <p class="text-sm text-ink-muted">Cada pieza se escribe en el Diccionario de su curso (clave <code class="font-mono">story.portal_piece</code>) o en el .md del curso; un curso nuevo trae la suya.</p>
+    @elseif (! $course)
         @if ($prologue)
             <article class="panel flex flex-col gap-4 p-6"><div class="markdown text-ink">{!! $prologue['html'] !!}</div></article>
         @endif
@@ -49,7 +53,7 @@
                 <p class="tech-label text-primary-bright">{{ $chapter['title'] }}</p>
                 @foreach ($chapter['pages'] as $page)
                     <div class="flex flex-col gap-1.5" wire:key="page-{{ $loop->parent->index }}-{{ $loop->index }}">
-                        @include('livewire.partials.chronicle-page', ['page' => $page, 'portrait' => $portrait($page['speaker']), 'hint' => $page['unlocked'] ? null : $hint()])
+                        @include('livewire.partials.chronicle-page', ['page' => $page, 'portrait' => $portrait($page['speaker']), 'figure' => $page['kind'] === 'fragment' ? null : $figure($page['speaker']), 'hint' => $page['unlocked'] ? null : $hint()])
                         @if ($editing)
                             <div class="flex flex-wrap items-center justify-end gap-1 text-xs">
                                 @if ($page['fragment_id'])

@@ -16,6 +16,7 @@ use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Mis Crónicas (D80): la historia de cada curso juntada en un libro que se abre a medida que el alumno
@@ -172,11 +173,38 @@ class Chronicles
         ];
     }
 
+    /**
+     * El portal (el hilo del misterio): una pieza por curso publicado que la tenga (Diccionario del curso:
+     * story.portal_piece), que se lee al terminar ese curso. «Pieza N de M» se ajusta sola con cada curso.
+     *
+     * @return list<array{course: Course, title: string, html: ?string, unlocked: bool, missing: ?string}>
+     */
+    public function portal(bool $render = true): array
+    {
+        return Course::where('is_published', true)->orderBy('position')->orderBy('title')->get()
+            ->map(function (Course $course) use ($render) {
+                $piece = Story::get('story.portal_piece', $course, $this->user);
+                if (! $piece) {
+                    return null;
+                }
+                $done = $this->revealAll || $this->finishedCourses->has($course->id);
+
+                return [
+                    'course' => $course,
+                    'title' => $done ? $piece['title'] : 'Una pieza por descubrir',
+                    'html' => $done && $render ? $piece['html'] : null,
+                    'unlocked' => $done,
+                    'missing' => $done ? null : 'Terminá «'.Str::before($course->title, ':').'» para que '.app(Glossary::class)->term('mentor.name', $course).' te cuente lo que sabe.',
+                ];
+            })->filter()->values()->all();
+    }
+
     /** Páginas desbloqueadas en total (el prólogo cuenta): si hay más que las vistas, el menú late. */
     public function unlockedCount(): int
     {
-        return 1 + $this->courses()->sum(fn (Course $course) => collect($this->book($course, render: false))
-            ->sum(fn ($chapter) => collect($chapter['pages'])->where('unlocked', true)->count()));
+        return 1 + collect($this->portal(render: false))->where('unlocked', true)->count()
+            + $this->courses()->sum(fn (Course $course) => collect($this->book($course, render: false))
+                ->sum(fn ($chapter) => collect($chapter['pages'])->where('unlocked', true)->count()));
     }
 
     public function newCount(): int

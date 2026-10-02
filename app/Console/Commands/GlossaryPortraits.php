@@ -17,8 +17,10 @@ use Illuminate\Support\Str;
  * slime.png… Los cursos que usan el mismo personaje (el mismo nombre) toman ese retrato.
  * También los fondos 16:9 de los mundos: mundo_codigo (el Mundo del Código, world.name del General) y
  * mundo_<líder> (mundo_ofidia, mundo_maese_ferrum…: la región del curso de esa líder, world.region).
+ * Con --figuras, los personajes de cuerpo entero (Mis Crónicas, D80): kira, mia, bron, zed, el profe, las
+ * criaturas y las líderes por su nombre (ofidia, maese ferrum, tesla…), como segunda imagen del término.
  */
-#[Signature('app:glossary-portraits {path : Carpeta con las imágenes} {--apply : Guardar (sin esto, solo muestra qué haría)}')]
+#[Signature('app:glossary-portraits {path : Carpeta con las imágenes} {--apply : Guardar (sin esto, solo muestra qué haría)} {--figuras : Son personajes de cuerpo entero}')]
 #[Description('Carga los retratos de personajes y criaturas, y los fondos de los mundos, en el Diccionario')]
 class GlossaryPortraits extends Command
 {
@@ -39,11 +41,20 @@ class GlossaryPortraits extends Command
         'dragon' => 'beast.dragon',
     ];
 
+    /** Con --figuras: el nombre del archivo de cuerpo entero → clave (las líderes se buscan por su nombre). */
+    public const FIGURES = [
+        'kira' => 'hero.name', 'el_profe' => 'mentor.name', 'mia' => 'companion.theory', 'bron' => 'companion.uses',
+        'zed' => 'companion.errors', 'gremio' => 'companion.guild', 'slime' => 'beast.slime', 'goblin' => 'beast.goblin',
+        'esqueleto' => 'beast.skeleton', 'orco' => 'beast.orc', 'ogro' => 'beast.ogre', 'troll' => 'beast.troll', 'dragon' => 'beast.dragon',
+    ];
+
     public function handle(Glossary $glossary): int
     {
         $folder = rtrim((string) $this->argument('path'), '/');
+        $figures = (bool) $this->option('figuras');
+        $column = $figures ? 'figure_path' : 'icon_path';
         $images = collect(glob($folder.'/*.{jpg,jpeg,png,webp}', GLOB_BRACE))
-            ->keyBy(fn ($path) => Str::lower(pathinfo($path, PATHINFO_FILENAME)));
+            ->keyBy(fn ($path) => Str::slug(pathinfo($path, PATHINFO_FILENAME), '_'));
         if ($images->isEmpty()) {
             $this->error("No hay imágenes en {$folder}.");
 
@@ -54,9 +65,16 @@ class GlossaryPortraits extends Command
         $regions = GlossaryTerm::where('key', 'mentor.name')->whereNotNull('course_id')->get()
             ->mapWithKeys(fn (GlossaryTerm $mentor) => ['mundo_'.Str::slug($mentor->singular, '_') => $mentor->course_id]);
 
+        $leaders = GlossaryTerm::where('key', 'mentor.name')->whereNotNull('course_id')->get()
+            ->mapWithKeys(fn (GlossaryTerm $mentor) => [Str::slug($mentor->singular, '_') => $mentor->course_id]);
+
         $rows = [];
         foreach ($images as $name => $path) {
+            // Las líderes por su nombre («maesse ferrum» también vale por «maese ferrum»).
+            $leader = $leaders[str_replace('maesse', 'maese', $name)] ?? null;
             [$key, $courseId] = match (true) {
+                $figures && $leader !== null => ['mentor.name', $leader],
+                $figures => [self::FIGURES[$name] ?? null, null],
                 $name === 'mundo_codigo' => ['world.name', null],
                 isset($regions[$name]) => ['world.region', $regions[$name]],
                 default => [self::FILES[$name] ?? null, null],
@@ -76,7 +94,7 @@ class GlossaryPortraits extends Command
             $term = GlossaryTerm::firstOrNew(['key' => $key, 'course_id' => $courseId]);
             $resolved = $glossary->resolve($key, $course);
             $what = $key.' ('.$resolved['singular'].($course ? ' · '.Str::before($course->title, ':') : '').')';
-            $rows[] = [basename($path), $what, $term->icon_path ? 'reemplaza la imagen' : 'imagen nueva'];
+            $rows[] = [basename($path), $what, $term->{$column} ? 'reemplaza la imagen' : 'imagen nueva'];
             if (! $this->option('apply')) {
                 continue;
             }
@@ -84,12 +102,12 @@ class GlossaryPortraits extends Command
             if (! $term->exists) {
                 $term->fill(['singular' => $resolved['singular'], 'plural' => $resolved['plural'], 'gender' => $resolved['gender']]);
             }
-            if ($term->icon_path) {
-                Storage::disk('public')->delete($term->icon_path);
+            if ($term->{$column}) {
+                Storage::disk('public')->delete($term->{$column});
             }
             $extension = Str::lower(pathinfo($path, PATHINFO_EXTENSION)) === 'jpeg' ? 'jpg' : Str::lower(pathinfo($path, PATHINFO_EXTENSION));
-            $term->icon_path = 'glossary/'.Str::uuid().'.'.$extension;
-            Storage::disk('public')->put($term->icon_path, file_get_contents($path));
+            $term->{$column} = 'glossary/'.Str::uuid().'.'.$extension;
+            Storage::disk('public')->put($term->{$column}, file_get_contents($path));
             $term->save();
             Glossary::flush($courseId);
         }

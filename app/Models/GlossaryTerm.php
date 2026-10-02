@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['key', 'course_id', 'singular', 'plural', 'gender', 'icon_path', 'short_description', 'lore'])]
+#[Fillable(['key', 'course_id', 'singular', 'plural', 'gender', 'icon_path', 'figure_path', 'short_description', 'lore'])]
 class GlossaryTerm extends Model
 {
     protected static function booted(): void

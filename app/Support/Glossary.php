@@ -25,7 +25,7 @@ class Glossary
         Cache::forget(self::cacheKey($courseId));
     }
 
-    /** @return array{singular: string, plural: string, gender: string, icon_path: ?string, short_description: ?string, lore: ?string} */
+    /** @return array{singular: string, plural: string, gender: string, icon_path: ?string, figure_path: ?string, short_description: ?string, lore: ?string} */
     public function resolve(string $key, ?Course $course = null): array
     {
         $general = $this->termsFor(null)[$key] ?? null;
@@ -44,6 +44,9 @@ class Glossary
             // todos los cursos); si el curso lo renombró (su mentor es Ofidia, no «el profe»), no.
             'icon_path' => $term['icon_path']
                 ?? (Str::lower($general['singular'] ?? '') === Str::lower($singular) ? $general['icon_path'] ?? null : null),
+            // El personaje de cuerpo entero (D80), con el mismo criterio que el retrato.
+            'figure_path' => $term['figure_path']
+                ?? (Str::lower($general['singular'] ?? '') === Str::lower($singular) ? $general['figure_path'] ?? null : null),
             'short_description' => $term['short_description'] ?? null,
             // Algunas historias traen texto de fábrica (el prólogo de Mis Crónicas, D80).
             'lore' => $term['lore'] ?? $default['lore'] ?? null,
@@ -126,6 +129,7 @@ class Glossary
                 'plural' => $term->plural,
                 'gender' => $term->gender->value,
                 'icon_path' => $term->icon_path,
+                'figure_path' => $term->figure_path,
                 'short_description' => $term->short_description,
                 'lore' => $term->lore,
             ]])

@@ -163,6 +163,21 @@
                 <flux:error name="icon" />
             </div>
 
+            <div class="flex flex-col gap-2" data-test="glossary-figure">
+                <flux:label>Cuerpo entero (opcional)</flux:label>
+                <p class="text-xs text-ink-muted">Para los personajes: se ve al costado de sus páginas en Mis Crónicas, como una viñeta. Vertical (por ejemplo, 896 × 1200).</p>
+                <div class="flex items-center gap-3">
+                    @if ($figure && $figure->isPreviewable())
+                        <img src="{{ $figure->temporaryUrl() }}" alt="" class="h-24 rounded-md object-cover">
+                    @elseif ($currentFigure)
+                        <img src="{{ Storage::disk('public')->url($currentFigure) }}" alt="" class="h-24 rounded-md object-cover">
+                    @endif
+                    <input type="file" wire:model="figure" accept="image/png,image/jpeg,image/webp"
+                        class="text-sm text-ink-muted file:me-3 file:rounded-md file:border-0 file:bg-surface-highest file:px-3 file:py-2 file:text-ink hover:file:bg-surface-high">
+                </div>
+                <flux:error name="figure" />
+            </div>
+
             <div class="flex justify-end gap-2">
                 <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
                 <flux:button variant="primary" type="submit">Guardar</flux:button>

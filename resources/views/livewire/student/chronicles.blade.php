@@ -9,8 +9,12 @@
     {{-- Los libros --}}
     <nav class="flex flex-wrap gap-2" aria-label="Libros" data-test="chronicle-books">
         <button type="button" wire:click="$set('book', 'prologo')"
-            @class(['flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition', 'border-primary-bright bg-primary/10 text-white' => ! $course, 'border-outline text-ink-muted hover:text-white' => $course])>
+            @class(['flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition', 'border-primary-bright bg-primary/10 text-white' => $book === 'prologo', 'border-outline text-ink-muted hover:text-white' => $book !== 'prologo'])>
             <flux:icon name="sparkles" variant="micro" /> Prólogo
+        </button>
+        <button type="button" wire:click="$set('book', 'portal')" data-test="chronicle-portal-tab"
+            @class(['flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition', 'border-warning bg-warning/10 text-white' => $book === 'portal', 'border-outline text-ink-muted hover:text-white' => $book !== 'portal'])>
+            <flux:icon name="key" variant="micro" /> El portal
         </button>
         @foreach ($courses as $option)
             <button type="button" wire:click="$set('book', '{{ $option->slug }}')" wire:key="book-{{ $option->id }}"
@@ -27,15 +31,17 @@
         @endif
         <div class="absolute inset-0 bg-gradient-to-t from-[#070a14] via-[#070a14]/70 to-transparent"></div>
         <div class="relative flex flex-col gap-1 p-5">
-            <p class="tech-label text-secondary-bright">{{ $course ? 'Libro' : 'Prólogo' }}</p>
-            <h2 class="font-display text-2xl font-semibold text-white">{{ $course ? $course->title : ($prologue['title'] ?? 'El Mundo del Código') }}</h2>
+            <p class="tech-label text-secondary-bright">{{ $course ? 'Libro' : ($book === 'portal' ? 'El misterio' : 'Prólogo') }}</p>
+            <h2 class="font-display text-2xl font-semibold text-white">{{ $course ? $course->title : ($book === 'portal' ? 'El portal por el que llegaste' : ($prologue['title'] ?? 'El Mundo del Código')) }}</h2>
             @if ($course)
                 <p class="font-mono text-xs text-ink-muted">{{ $unlocked }} de {{ $total }} páginas desbloqueadas</p>
             @endif
         </div>
     </section>
 
-    @if (! $course)
+    @if ($book === 'portal')
+        @include('livewire.partials.chronicle-portal', ['portal' => $portal, 'glossary' => $glossary])
+    @elseif (! $course)
         @if ($prologue)
             <article class="panel flex flex-col gap-4 p-6" data-test="chronicle-prologue">
                 <div class="markdown text-ink">{!! $prologue['html'] !!}</div>
@@ -59,7 +65,7 @@
                         @continue
                     @endif
                     @php($shownLocked = $shownLocked || ! $page['unlocked'])
-                    @include('livewire.partials.chronicle-page', ['page' => $page, 'portrait' => $portrait($page['speaker']), 'hint' => $page['unlocked'] ? null : $hint()])
+                    @include('livewire.partials.chronicle-page', ['page' => $page, 'portrait' => $portrait($page['speaker']), 'figure' => $page['kind'] === 'fragment' ? null : $figure($page['speaker']), 'hint' => $page['unlocked'] ? null : $hint()])
                 @endforeach
                 @if ($hidden > 0)
                     <p class="flex items-center gap-2 rounded-lg border border-dashed border-outline/70 px-5 py-3 text-sm text-ink-muted" data-test="chronicle-more">

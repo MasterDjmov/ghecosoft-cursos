@@ -68,10 +68,13 @@ class Glossary extends Component
     /** @var TemporaryUploadedFile|null */
     public $icon = null;
 
+    /** El personaje de cuerpo entero (Mis Crónicas, D80). @var TemporaryUploadedFile|null */
+    public $figure = null;
+
     public function edit(string $key): void
     {
         $this->resetValidation();
-        $this->reset('icon');
+        $this->reset('icon', 'figure');
 
         $resolved = app(GlossaryResolver::class)->resolve($key, $this->course());
         $this->key = $key;
@@ -96,7 +99,7 @@ class Glossary extends Component
     public function newKey(): void
     {
         $this->resetValidation();
-        $this->reset('key', 'singular', 'plural', 'short_description', 'lore', 'icon');
+        $this->reset('key', 'singular', 'plural', 'short_description', 'lore', 'icon', 'figure');
         $this->gender = 'f';
         $this->isNewKey = true;
 
@@ -115,6 +118,7 @@ class Glossary extends Component
             'short_description' => ['nullable', 'string', 'max:255'],
             'lore' => ['nullable', 'string', 'max:20000'],
             'icon' => ['nullable', 'image', 'mimes:'.implode(',', config('uploads.image.mimes')), 'max:'.config('uploads.image.max_kb')],
+            'figure' => ['nullable', 'image', 'mimes:'.implode(',', config('uploads.image.mimes')), 'max:'.config('uploads.image.max_kb')],
         ], ['key.regex' => 'La clave va en minúsculas, con puntos: story.dragon_intro.'], [
             'key' => 'clave', 'short_description' => 'descripción corta', 'lore' => 'historia',
         ]);
@@ -135,6 +139,13 @@ class Glossary extends Component
             $term->icon_path = $this->icon->storeAs('glossary', Str::uuid().'.'.$this->icon->extension(), 'public');
         }
 
+        if ($this->figure) {
+            if ($term->figure_path) {
+                Storage::disk('public')->delete($term->figure_path);
+            }
+            $term->figure_path = $this->figure->storeAs('glossary', Str::uuid().'.'.$this->figure->extension(), 'public');
+        }
+
         $term->save();
 
         Flux::modal('term')->close();
@@ -147,8 +158,10 @@ class Glossary extends Component
         $term = GlossaryTerm::where('key', $key)->where('course_id', $this->course()?->id)->first();
 
         if ($term) {
-            if ($term->icon_path) {
-                Storage::disk('public')->delete($term->icon_path);
+            foreach ([$term->icon_path, $term->figure_path] as $path) {
+                if ($path) {
+                    Storage::disk('public')->delete($path);
+                }
             }
             $term->delete();
             Flux::toast(text: 'Se volvió al valor heredado.');
@@ -237,6 +250,7 @@ class Glossary extends Component
             'previewCompanion' => $resolver->resolve('companion.theory', $course)['icon_path'],
             'previewBeast' => $resolver->resolve('beast.slime', $course)['icon_path'],
             'currentIcon' => $this->key !== '' ? GlossaryTerm::where('key', $this->key)->where('course_id', $course?->id)->value('icon_path') : null,
+            'currentFigure' => $this->key !== '' ? GlossaryTerm::where('key', $this->key)->where('course_id', $course?->id)->value('figure_path') : null,
         ]);
     }
 }

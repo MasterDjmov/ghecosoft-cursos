@@ -158,6 +158,11 @@ class Story extends Component
         $course = $this->course();
         $student = $this->viewAs !== '' ? User::where('role', 'student')->find((int) $this->viewAs) : null;
         $chronicles = new Chronicles($student ?? auth()->user(), revealAll: ! $student);
+        $figure = function (string $key) use ($glossary, $course): ?string {
+            $path = $glossary->resolve($key, $course)['figure_path'];
+
+            return $path ? Storage::disk('public')->url($path) : null;
+        };
         $portrait = function (string $key) use ($glossary, $course): ?string {
             $path = $glossary->resolve($key, $course)['icon_path'];
 
@@ -176,7 +181,10 @@ class Story extends Component
             'chapters' => $course ? $chronicles->book($course) : [],
             'prologue' => StoryText::get('story.prologue', null, auth()->user()),
             'scene' => $glossary->scene($course),
+            'portal' => $this->courseSlug === 'portal' ? $chronicles->portal() : [],
+            'glossary' => $glossary,
             'portrait' => $portrait,
+            'figure' => $figure,
             'hint' => fn () => Chronicles::hint($course, $student ?? auth()->user()),
             'triggers' => FragmentTrigger::cases(),
             'anchorTitle' => $this->anchorNode ? Node::find($this->anchorNode)?->title : null,

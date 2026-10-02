@@ -14,13 +14,20 @@
             <img src="{{ $page['image'] }}" alt="" class="max-h-96 w-full rounded-lg object-cover">
         @endif
         <div class="flex gap-4">
-            @if ($portrait && $page['kind'] !== 'fragment')
+            {{-- Quien habla: de cuerpo entero al costado (como una viñeta) o, si no hay, su retrato. --}}
+            @if (! ($figure ?? null) && $portrait && $page['kind'] !== 'fragment')
                 <img src="{{ $portrait }}" alt="" class="size-14 shrink-0 rounded-full object-cover ring-2 ring-secondary/50">
             @endif
-            <div class="flex min-w-0 flex-col gap-2">
+            <div class="flex min-w-0 flex-1 flex-col gap-2">
                 <h3 class="font-display text-lg font-semibold text-white">{{ $page['title'] }}</h3>
                 <div class="markdown text-ink italic">{!! $page['html'] !!}</div>
             </div>
+            @if ($figure ?? null)
+                <img src="{{ $figure }}" alt="" loading="lazy" class="hidden h-56 w-40 shrink-0 self-end rounded-lg object-cover object-top ring-1 ring-secondary/30 sm:block" data-test="chronicle-figure">
+                @if ($portrait)
+                    <img src="{{ $portrait }}" alt="" class="size-12 shrink-0 rounded-full object-cover ring-2 ring-secondary/50 sm:hidden">
+                @endif
+            @endif
         </div>
     </article>
 @else

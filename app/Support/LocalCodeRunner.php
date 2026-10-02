@@ -68,7 +68,9 @@ class LocalCodeRunner
         try {
             if ($this->language === 'python') {
                 file_put_contents($dir.'/main.py', $code);
-                $command = [$this->binary, 'main.py'];
+                // Con el manejador de errores de Python de siempre: el de apport (Ubuntu, Mint), ante una
+                // excepción en un archivo fuera de /tmp, busca a qué paquete pertenece y tarda más que el timeout.
+                $command = [$this->binary, '-c', 'import runpy, sys; sys.excepthook = sys.__excepthook__; sys.argv = ["main.py"]; runpy.run_path("main.py", run_name="__main__")'];
             } elseif ($this->language === 'php') {
                 // Como lo corre el alumno, pero con todos los avisos a la vista.
                 file_put_contents($dir.'/main.php', $code);

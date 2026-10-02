@@ -88,8 +88,9 @@ test('lo que se entrega fuera del horario de corrección avisa cuándo se revisa
         ->and(ReviewHours::reviewDay(Carbon\Carbon::parse('2026-10-01 22:00'))->toDateString())->toBe('2026-10-02')
         ->and(ReviewHours::reviewDay(Carbon\Carbon::parse('2026-10-02 03:15'))->toDateString())->toBe('2026-10-02');
 
-    ['course' => $course, 'root' => $root, 'student' => $student, 'practice' => $practice] = missionSetup();
+    // Primero el viaje y después el alumno: su abono tiene que existir a esa hora.
     $this->travelTo(Carbon\Carbon::parse('2026-10-01 23:30'));
+    ['course' => $course, 'root' => $root, 'student' => $student, 'practice' => $practice] = missionSetup();
 
     Livewire::actingAs($student)->test(Mission::class, ['course' => $course, 'node' => $root, 'practice' => $practice])
         ->call('submit', 'print("hola")')

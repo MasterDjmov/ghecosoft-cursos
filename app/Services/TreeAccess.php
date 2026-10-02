@@ -13,6 +13,7 @@ use App\Models\Practice;
 use App\Models\Submission;
 use App\Models\User;
 use Carbon\CarbonInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Decide, en cada request, qué puede ver y abrir un alumno del árbol.
@@ -163,6 +164,28 @@ class TreeAccess
         }
 
         return $blockers;
+    }
+
+    /**
+     * Los nodos que vienen después de lo que el alumno ya abrió: publicados, cerrados y con el padre abierto
+     * (o el raíz, si todavía no lo abrió). Cada uno con lo que le falta para abrirlo; sin bloqueos, se abre.
+     * Con `$after`, solo los hijos de ese nodo (el «Siguiente» al terminar un nodo).
+     *
+     * @return Collection<int, array{node: Node, blockers: list<string>}>
+     */
+    public function nextNodes(User $user, Course $course, ?Node $after = null): Collection
+    {
+        return Node::query()
+            ->where('course_id', $course->id)
+            ->where('is_published', true)
+            ->when($after, fn ($q) => $q->where('parent_id', $after->id))
+            ->with(['course', 'parent', 'requirements'])
+            ->orderBy('position')->orderBy('id')
+            ->get()
+            ->reject(fn (Node $node) => $this->isUnlocked($user, $node))
+            ->filter(fn (Node $node) => $node->isRoot() || ($node->parent && $this->isUnlocked($user, $node->parent)))
+            ->map(fn (Node $node) => ['node' => $node, 'blockers' => $this->unlockBlockers($user, $node)])
+            ->values();
     }
 
     /**

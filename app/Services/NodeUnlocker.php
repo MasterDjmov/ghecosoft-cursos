@@ -7,16 +7,26 @@ use App\Exceptions\NodeLocked;
 use App\Models\Node;
 use App\Models\NodeUnlock;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
+use App\Support\UnlockMessages;
 use Illuminate\Support\Facades\DB;
 
 class NodeUnlocker
 {
     public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly SubmissionReviewer $reviewer) {}
 
-    /** @throws NodeLocked */
-    public function unlock(User $user, Node $node): NodeUnlock
+    /**
+     * Abre el nodo con las monedas del alumno. Con `$by` (el docente o el administrador que lo ayuda cuando
+     * se traba) las reglas y el cobro son los mismos; queda registrado quién lo abrió y al alumno le llega
+     * un aviso.
+     *
+     * @throws NodeLocked
+     */
+    public function unlock(User $user, Node $node, ?User $by = null): NodeUnlock
     {
-        return DB::transaction(function () use ($user, $node) {
+        $by = $by?->is($user) ? null : $by;
+
+        $unlock = DB::transaction(function () use ($user, $node, $by) {
             // Bloquea al usuario antes de revisar: dos pedidos simultáneos se ejecutan de a uno.
             User::whereKey($user->id)->lockForUpdate()->first();
 
@@ -32,6 +42,7 @@ class NodeUnlocker
                 'node_id' => $node->id,
                 'currency_id' => $currency->id,
                 'price_paid' => $node->price,
+                'unlocked_by' => $by?->id,
                 'unlocked_at' => now(),
             ]);
 
@@ -46,5 +57,18 @@ class NodeUnlocker
 
             return $unlock;
         });
+
+        if ($by) {
+            $user->notify(new PlatformNotification(
+                kind: 'node_unlocked_for_you',
+                title: 'Te abrieron «'.$node->title.'»',
+                body: ($by->isAdmin() ? 'El profe' : 'Tu profe '.$by->name).' abrió «'.$node->title.'» por vos'
+                    .($node->price > 0 ? ' con '.UnlockMessages::price($node).' de tu saldo.' : '.'),
+                url: route('student.node', [$node->course, $node]),
+                icon: 'lock-open',
+            ));
+        }
+
+        return $unlock;
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Student;
 
+use App\Livewire\Student\Concerns\UnlocksNodes;
 use App\Models\Course;
 use App\Models\Node;
+use App\Services\NodeUnlocker;
 use App\Services\TreeAccess;
 use App\Support\Glossary;
 use App\Support\Narrative;
@@ -17,6 +19,8 @@ use Livewire\Component;
 #[Title('Nodo')]
 class NodeView extends Component
 {
+    use UnlocksNodes;
+
     public Course $course;
 
     public Node $node;
@@ -31,6 +35,14 @@ class NodeView extends Component
     #[On('practice-approved')]
     #[On('practice-updated')]
     public function refreshProgress(): void {}
+
+    /** «Siguiente»: abrir desde acá un nodo que depende de este, sin tener que buscarlo en el árbol. */
+    public function unlockNext(int $nodeId, NodeUnlocker $unlocker)
+    {
+        $next = $this->node->children()->where('is_published', true)->findOrFail($nodeId);
+
+        return $this->openNode($next, $unlocker);
+    }
 
     /** ID de YouTube si el video es de ahí (se muestra embebido); si no, se muestra el link. */
     public static function youtubeId(?string $url): ?string

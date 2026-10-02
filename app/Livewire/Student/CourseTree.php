@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Student;
 
-use App\Exceptions\NodeLocked;
+use App\Livewire\Student\Concerns\UnlocksNodes;
 use App\Models\Course;
 use App\Models\Node;
 use App\Services\NodeUnlocker;
@@ -10,9 +10,7 @@ use App\Services\TreeAccess;
 use App\Support\Glossary;
 use App\Support\Story;
 use App\Support\TreeGraph;
-use App\Support\UnlockMessages;
 use Flux\Flux;
-use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -20,6 +18,8 @@ use Livewire\Component;
 #[Title('Árbol')]
 class CourseTree extends Component
 {
+    use UnlocksNodes;
+
     public Course $course;
 
     public ?int $selectedNodeId = null;
@@ -45,27 +45,7 @@ class CourseTree extends Component
 
     public function unlock(int $nodeId, NodeUnlocker $unlocker)
     {
-        $node = $this->visibleNode($nodeId);
-
-        $key = 'unlock:'.auth()->id();
-        if (RateLimiter::tooManyAttempts($key, 20)) {
-            Flux::toast(variant: 'danger', text: 'Demasiados intentos. Esperá un minuto.');
-
-            return null;
-        }
-        RateLimiter::hit($key, 60);
-
-        try {
-            $unlocker->unlock(auth()->user(), $node);
-        } catch (NodeLocked $e) {
-            Flux::toast(variant: 'danger', text: implode(' ', UnlockMessages::for(auth()->user(), $node, $e->reasons)));
-
-            return null;
-        }
-
-        Flux::toast(variant: 'success', text: '¡Abriste «'.$node->title.'»!');
-
-        return $this->redirectRoute('student.node', [$this->course, $node], navigate: true);
+        return $this->openNode($this->visibleNode($nodeId), $unlocker);
     }
 
     /** Un nodo del curso que el alumno puede ver en el árbol (publicado o ya abierto). */

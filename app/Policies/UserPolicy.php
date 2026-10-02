@@ -27,6 +27,15 @@ class UserPolicy
         return $user->isTeacher() && $student->isStudent() && $this->scope->teaches($user, $student, $course);
     }
 
+    /**
+     * Abrirle un nodo cuando se traba (con sus monedas y las mismas reglas): el docente, a los alumnos de
+     * sus comisiones en ese curso; el administrador pasa por Gate::before.
+     */
+    public function unlockFor(User $user, User $student, Course $course): bool
+    {
+        return $this->viewProgress($user, $student, $course);
+    }
+
     /** Resetear la clave, si el alumno lo pide. */
     public function resetPassword(User $user, User $student): bool
     {

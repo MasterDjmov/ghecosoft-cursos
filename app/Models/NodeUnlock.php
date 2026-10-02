@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'node_id', 'currency_id', 'price_paid', 'unlocked_at'])]
+#[Fillable(['user_id', 'node_id', 'currency_id', 'price_paid', 'unlocked_by', 'unlocked_at'])]
 class NodeUnlock extends Model
 {
     public $timestamps = false;

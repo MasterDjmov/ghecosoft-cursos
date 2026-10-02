@@ -109,6 +109,26 @@
         @endif
     </header>
 
+    {{-- Nodo completo y el siguiente se puede abrir: se avisa arriba, sin tener que bajar ni buscarlo en el árbol. --}}
+    @php($ready = $completed ? $next->where('state', 'available') : collect())
+    @if ($ready->isNotEmpty())
+        <section class="flex flex-col gap-3 rounded-lg border border-success/40 bg-success/10 px-5 py-4 sm:flex-row sm:items-center" data-test="node-next-ready">
+            <div class="flex min-w-0 flex-1 items-start gap-3">
+                <flux:icon name="check-badge" class="mt-0.5 size-6 shrink-0 text-success" />
+                <div class="flex flex-col gap-0.5">
+                    <p class="font-medium text-white">¡Completaste este {{ term('node', $course) }}!</p>
+                    <p class="text-sm text-ink-muted">Ya podés abrir {{ $ready->count() === 1 ? 'el siguiente' : 'cualquiera de los siguientes' }}.</p>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 sm:items-end">
+                @foreach ($ready as $item)
+                    <flux:button variant="primary" icon="lock-open" wire:click="unlockNext({{ $item['node']->id }})"
+                        wire:confirm="¿Abrir «{{ $item['node']->title }}» por {{ $item['price'] }}?">Abrir «{{ $item['node']->title }}» · {{ $item['price'] }}</flux:button>
+                @endforeach
+            </div>
+        </section>
+    @endif
+
     @if ($trial)
         {{-- Clase 0 de prueba (D71): se lee y se practica; para que el profe corrija, el abono. --}}
         <flux:callout icon="sparkles" color="cyan" data-test="trial-banner">
@@ -321,7 +341,8 @@
                 @if (in_array($item['state'], ['unlocked', 'completed'], true))
                     <flux:button icon-trailing="arrow-right" :href="route('student.node', [$course, $item['node']])" wire:navigate>{{ $item['node']->title }}</flux:button>
                 @elseif ($item['state'] === 'available')
-                    <flux:button variant="primary" icon="lock-open" :href="route('student.tree', $course)" wire:navigate>Siguiente: {{ $item['node']->title }} · {{ $item['price'] }}</flux:button>
+                    <flux:button variant="primary" icon="lock-open" wire:click="unlockNext({{ $item['node']->id }})"
+                        wire:confirm="¿Abrir «{{ $item['node']->title }}» por {{ $item['price'] }}?">Siguiente: {{ $item['node']->title }} · {{ $item['price'] }}</flux:button>
                 @else
                     <span class="flex items-center gap-2 text-sm text-ink-muted">
                         <flux:icon name="lock-closed" variant="micro" /> {{ $item['node']->title }}: aprobá las obligatorias de este {{ term('node', $course) }}

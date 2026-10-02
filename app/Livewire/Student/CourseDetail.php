@@ -12,6 +12,7 @@ use App\Services\EnrollmentRequester;
 use App\Services\Ledger;
 use App\Services\NodeUnlocker;
 use App\Services\TreeAccess;
+use App\Support\Glossary;
 use App\Support\Markdown;
 use App\Support\Story;
 use App\Support\UnlockMessages;
@@ -116,6 +117,7 @@ class CourseDetail extends Component
 
         return view('livewire.student.course-detail', [
             'intro' => Story::get('story.course_intro', $this->course, auth()->user()),
+            'scene' => app(Glossary::class)->scene($this->course),
             'descriptionHtml' => Markdown::render($this->course->description),
             'subscription' => $subscription,
             'paidUntil' => $subscription ? $access->paidUntil($user, $this->course) : null,

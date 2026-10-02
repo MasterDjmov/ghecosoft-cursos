@@ -113,7 +113,7 @@
     </section>
 
     @if ($intro)
-        <x-story-card :story="$intro" :course="$course" icon="book-open" data-test="course-intro" />
+        <x-story-card :story="$intro" :course="$course" :scene="$scene" icon="book-open" data-test="course-intro" />
     @endif
 
     @if ($descriptionHtml)

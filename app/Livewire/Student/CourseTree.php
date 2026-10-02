@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Node;
 use App\Services\NodeUnlocker;
 use App\Services\TreeAccess;
+use App\Support\Glossary;
 use App\Support\Story;
 use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
@@ -93,6 +94,7 @@ class CourseTree extends Component
             'selectedCanUnlock' => $selected && $access->canUnlock($user, $this->course->nodes()->find($selected['id'])),
             // Historia en pantalla (Fase 9): bienvenida, rama completada y fin del curso.
             'intro' => Story::get('story.course_intro', $this->course, $user),
+            'scene' => app(Glossary::class)->scene($this->course),
             'branchStory' => Story::get('story.branch_completed', $this->course, $user, requireText: false),
             'finale' => $access->isCourseCompleted($user, $this->course)
                 ? Story::get('story.course_completed', $this->course, $user, requireText: false)

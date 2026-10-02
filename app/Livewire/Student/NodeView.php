@@ -80,6 +80,8 @@ class NodeView extends Component
 
         return view('livewire.student.node-view', [
             'contentHtml' => $render($node->content),
+            // La Clase 0 abre con el mundo del curso (Diccionario: world.region del curso, o world.name).
+            'scene' => $this->node->isRoot() ? app(Glossary::class)->scene($this->course) : null,
             'sections' => $sections,
             'bossXp' => (int) config('game.boss_defeated_xp'),
             'selfCheck' => $selfCheck,

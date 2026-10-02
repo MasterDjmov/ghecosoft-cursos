@@ -46,6 +46,7 @@ Hay un **diccionario narrativo** editable desde el panel: cada elemento tiene un
 
 Claves actuales y su valor por defecto hoy:
 - Mundo: `world.name` = "el Mundo del Código" (reemplaza a "Codexia", nombre por decidir) · `world.region` = "región" · `mentor.name` = "el profe"
+  - Cada región tiene un **fondo 16:9** (imagen de `world.region` del curso) y el Mundo del Código el suyo (un balcón con cuatro portales): se ven en la Clase 0 y en la bienvenida del curso. Al describir una región nueva, describirla de forma que se pueda dibujar (D74).
 - Economía: `coin.course` = moneda (en Python: escama) · `coin.wildcard` = comodín · `xp` = experiencia · `xp.short` = XP
 - Progreso: `level` = nivel · `level.1` … `level.7` (nombre de cada rango) · `branch` = rama · `node` = nodo · `node.root` = nodo raíz · `node.boss` = jefe · `node.extra` = extra · `practice` = práctica · `badge` = insignia
 - Estados: `state.locked` Bloqueado · `state.available` Listo para abrir · `state.unlocked` Abierto · `state.completed` Completado

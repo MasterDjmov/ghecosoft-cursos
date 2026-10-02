@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\GlossaryTerm;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -46,6 +47,18 @@ class Glossary
             'short_description' => $term['short_description'] ?? null,
             'lore' => $term['lore'] ?? null,
         ];
+    }
+
+    /**
+     * El fondo del mundo (16:9) de un curso: la imagen de su región (world.region del curso) o, si no tiene,
+     * la del Mundo del Código (world.name del General). Null si ninguna tiene imagen.
+     */
+    public function scene(?Course $course = null): ?string
+    {
+        $path = ($course ? $this->termsFor($course->id)['world.region']['icon_path'] ?? null : null)
+            ?? $this->termsFor(null)['world.name']['icon_path'] ?? null;
+
+        return $path ? Storage::disk('public')->url($path) : null;
     }
 
     /**

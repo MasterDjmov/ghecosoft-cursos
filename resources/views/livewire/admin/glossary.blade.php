@@ -48,12 +48,12 @@
         <p class="mt-2 text-xs text-ink-muted">De 24 a 200 px. La vista previa cambia mientras escribís; en los nodos se aplica al guardar. Por defecto: 48 y 80.</p>
     </details>
 
-    {{-- Los personajes que un curso renombró (la mentora de Python es Ofidia): viven en el ámbito de su curso. --}}
+    {{-- Los personajes y regiones que un curso renombró (Ofidia, el Valle de la Serpiente): viven en el ámbito de su curso. --}}
     @if ($courseCharacters->isNotEmpty())
         <section class="panel flex flex-col gap-3 p-5" data-test="course-characters">
             <div>
-                <h2 class="font-display font-semibold text-white">Personajes propios de los cursos</h2>
-                <p class="text-sm text-ink-muted">Cada curso los nombra a su manera y no toman el retrato del general: subile la foto a cada uno.</p>
+                <h2 class="font-display font-semibold text-white">Personajes y regiones propios de los cursos</h2>
+                <p class="text-sm text-ink-muted">Cada curso los nombra a su manera y no toman la imagen del general: subile la foto a cada personaje y el fondo 16:9 a cada región (va en la Clase 0 y en la bienvenida del curso). El del Mundo del Código va en <code class="font-mono">world.name</code>.</p>
             </div>
             <ul class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($courseCharacters as $character)
@@ -68,7 +68,7 @@
                             <span class="truncate text-xs text-ink-muted">{{ $character['course']->title }} · <code class="font-mono">{{ $character['key'] }}</code></span>
                         </div>
                         <flux:button size="xs" :icon="$character['icon_path'] ? 'pencil-square' : 'photo'"
-                            wire:click="editIn({{ $character['course']->id }}, '{{ $character['key'] }}')">{{ $character['icon_path'] ? 'Editar' : 'Foto' }}</flux:button>
+                            wire:click="editIn({{ $character['course']->id }}, '{{ $character['key'] }}')">{{ $character['icon_path'] ? 'Editar' : ($character['key'] === 'world.region' ? 'Fondo' : 'Foto') }}</flux:button>
                     </li>
                 @endforeach
             </ul>

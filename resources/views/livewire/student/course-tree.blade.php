@@ -60,7 +60,7 @@
     @if ($intro)
         <div x-data="{ hidden: (() => { try { return localStorage.getItem('story-intro-{{ $course->id }}') === '1' } catch (e) { return false } })() }">
             <div x-show="! hidden">
-                <x-story-card :story="$intro" :course="$course" icon="book-open" data-test="course-intro">
+                <x-story-card :story="$intro" :course="$course" :scene="$scene" icon="book-open" data-test="course-intro">
                     <div class="flex justify-end">
                         <flux:button size="xs" variant="ghost" icon="x-mark" x-on:click="hidden = true; try { localStorage.setItem('story-intro-{{ $course->id }}', '1') } catch (e) {}">Cerrar</flux:button>
                     </div>

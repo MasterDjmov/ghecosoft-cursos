@@ -233,7 +233,7 @@ class Glossary extends Component
             'course' => $course,
             'groups' => self::GROUPS,
             'genders' => Gender::cases(),
-            'courseCharacters' => $course ? collect() : $resolver->courseCharacters(['hero.', 'mentor.', 'companion.', 'beast.']),
+            'courseCharacters' => $course ? collect() : $resolver->courseCharacters(['world.region', 'hero.', 'mentor.', 'companion.', 'beast.']),
             'previewCompanion' => $resolver->resolve('companion.theory', $course)['icon_path'],
             'previewBeast' => $resolver->resolve('beast.slime', $course)['icon_path'],
             'currentIcon' => $this->key !== '' ? GlossaryTerm::where('key', $this->key)->where('course_id', $course?->id)->value('icon_path') : null,

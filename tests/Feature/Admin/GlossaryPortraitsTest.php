@@ -88,3 +88,43 @@ test('la portada muestra a la líder de cada curso publicado con retrato, en su 
 
     $this->get('/')->assertOk()->assertSee('data-test="landing-leaders"', false)->assertSee('Ofidia')->assertSee(Str::before($course->title, ':'))->assertSee('glossary/ofidia.jpg', false)->assertSee('Serpiente sabia.')->assertDontSee('Sin Foto');
 });
+
+test('el fondo del mundo sale del Diccionario: la región del curso o, si no tiene, el Mundo del Código', function () {
+    $made = makeCourse();
+    $course = $made['course'];
+    $student = studentWithRootOpen($made);
+    GlossaryTerm::create(['key' => 'story.course_intro', 'course_id' => $course->id, 'singular' => 'Bienvenida', 'plural' => 'Bienvenida', 'gender' => 'f', 'lore' => 'Cruzaste el portal.']);
+    GlossaryTerm::create(['key' => 'world.name', 'course_id' => null, 'singular' => 'el Mundo del Código', 'plural' => 'el Mundo del Código', 'gender' => 'm', 'icon_path' => 'glossary/mundo-codigo.jpg']);
+    Glossary::flush(null);
+    Glossary::flush($course->id);
+
+    $this->actingAs($student)->get(route('student.node', [$course, $made['root']]))
+        ->assertSee('data-test="node-scene"', false)->assertSee('glossary/mundo-codigo.jpg', false);
+    $this->actingAs($student)->get(route('student.node', [$course, $made['topic1']]))->assertDontSee('data-test="node-scene"', false);
+
+    GlossaryTerm::create(['key' => 'world.region', 'course_id' => $course->id, 'singular' => 'Valle de la Serpiente', 'plural' => 'Valle de la Serpiente', 'gender' => 'm', 'icon_path' => 'glossary/valle.jpg']);
+    Glossary::flush($course->id);
+    $this->actingAs($student)->get(route('student.node', [$course, $made['root']]))
+        ->assertSee('glossary/valle.jpg', false)->assertSee('Valle de la Serpiente')->assertDontSee('glossary/mundo-codigo.jpg', false);
+    $this->actingAs($student)->get(route('student.tree', $course))
+        ->assertSee('data-test="story-scene"', false)->assertSee('glossary/valle.jpg', false);
+});
+
+test('app:glossary-portraits carga mundo_codigo en el General y mundo_<líder> en la región de su curso', function () {
+    Storage::fake('public');
+    $course = makeCourse()['course'];
+    GlossaryTerm::create(['key' => 'mentor.name', 'course_id' => $course->id, 'singular' => 'Maese Ferrum', 'plural' => 'Maese Ferrum', 'gender' => 'm']);
+    $dir = storage_path('framework/testing/mundos-'.uniqid());
+    File::ensureDirectoryExists($dir);
+    $png = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=');
+    foreach (['mundo_codigo', 'mundo_maese_ferrum', 'mundo_kira'] as $name) {
+        file_put_contents("{$dir}/{$name}.png", $png);
+    }
+
+    $this->artisan('app:glossary-portraits', ['path' => $dir, '--apply' => true])->expectsOutputToContain('todavía no se usa')->assertSuccessful();
+
+    expect(GlossaryTerm::where('key', 'world.name')->whereNull('course_id')->value('icon_path'))->not->toBeNull()
+        ->and(GlossaryTerm::where('key', 'world.region')->where('course_id', $course->id)->value('icon_path'))->not->toBeNull()
+        ->and(app(Glossary::class)->scene($course))->toContain('glossary/');
+    File::deleteDirectory($dir);
+});

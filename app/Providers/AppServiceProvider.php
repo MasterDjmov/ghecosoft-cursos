@@ -4,10 +4,14 @@ namespace App\Providers;
 
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Models\User;
+use App\Support\MailBudget;
 use App\Support\TrustedProxies;
 use Carbon\CarbonImmutable;
+use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
 
         // También en las acciones de Livewire: con clave provisoria no se hace nada más.
         Livewire::addPersistentMiddleware([EnsurePasswordChanged::class]);
+
+        // El correo real (SMTP del docente) con interruptor y tope por día: lo que no corresponde no sale.
+        Event::listen(MessageSending::class, fn () => config('mail.default') === 'smtp' && ! MailBudget::canSend() ? false : null);
+        Event::listen(MessageSent::class, fn () => config('mail.default') === 'smtp' ? MailBudget::record() : null);
     }
 
     /**

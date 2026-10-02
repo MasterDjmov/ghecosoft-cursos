@@ -3,11 +3,12 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Setting;
+use App\Support\MailBudget;
 use Flux\Flux;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-/** Configuración general: WhatsApp del profe y el mensaje prearmado. */
+/** Configuración general: WhatsApp del profe, el mensaje prearmado y el correo (interruptor y tope diario). */
 #[Title('Configuración')]
 class Settings extends Component
 {
@@ -17,11 +18,27 @@ class Settings extends Component
 
     public string $welcome_text = '';
 
+    /** Correo (Support\MailBudget): si salen mails y cuántos por día como mucho. */
+    public bool $mail_enabled = false;
+
+    public int $mail_daily_limit = MailBudget::DEFAULT_LIMIT;
+
     public function mount(): void
     {
         foreach (['whatsapp_number', 'whatsapp_message', 'welcome_text'] as $key) {
             $this->{$key} = (string) Setting::get($key, '');
         }
+        $this->mail_enabled = MailBudget::enabled();
+        $this->mail_daily_limit = MailBudget::limit();
+    }
+
+    public function saveMail(): void
+    {
+        $this->validate(['mail_daily_limit' => ['required', 'integer', 'between:0,2000']], [], ['mail_daily_limit' => 'tope diario']);
+        Setting::put('mail_enabled', $this->mail_enabled ? '1' : '0');
+        Setting::put('mail_daily_limit', (string) $this->mail_daily_limit);
+
+        Flux::toast(variant: 'success', text: $this->mail_enabled ? 'Correo activado: salen hasta '.$this->mail_daily_limit.' mails por día.' : 'Correo apagado: los avisos quedan solo en la campanita.');
     }
 
     public function save(): void
@@ -43,6 +60,9 @@ class Settings extends Component
 
     public function render()
     {
-        return view('livewire.admin.settings');
+        return view('livewire.admin.settings', [
+            'mailSentToday' => MailBudget::sentToday(),
+            'mailConfigured' => config('mail.default') === 'smtp',
+        ]);
     }
 }

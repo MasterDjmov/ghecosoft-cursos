@@ -10,14 +10,13 @@
 ])
 
 @php
-    $extension = [
-        'python' => 'py', 'c' => 'c', 'cpp' => 'cpp', 'java' => 'java', 'javascript' => 'js',
-        'typescript' => 'ts', 'php' => 'php', 'sql' => 'sql', 'arduino' => 'ino',
-    ][$language] ?? 'txt';
-    $languageLabel = \App\Enums\Language::tryFrom($language)?->label() ?? $language;
-    // Python corre para todos (Pyodide); C, C++ (D66) y PHP (D68) solo para el docente al corregir, en su navegador;
-    // Java (D69), también solo el docente, en su compu con scripts/JavaRunner.java.
-    $canRun = $runnable && ($language === 'python' || (in_array($language, ['c', 'cpp', 'php', 'java'], true) && auth()->user()?->isStaff()));
+    $languageEnum = \App\Enums\Language::tryFrom($language);
+    $extension = $languageEnum?->extension() ?? 'txt';
+    $languageLabel = $languageEnum?->label() ?? $language;
+    // Python (Pyodide) y HTML y CSS (vista previa aislada, D76) corren para todos; C, C++ (D66) y PHP (D68) solo
+    // para el docente al corregir, en su navegador; Java (D69), también solo el docente, en su compu.
+    $canRun = $runnable && ($languageEnum?->runsForStudents() || (in_array($language, ['c', 'cpp', 'php', 'java'], true) && auth()->user()?->isStaff()));
+    $isHtml = $language === 'html';
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
 @endphp
 
@@ -58,7 +57,7 @@
                 @if ($canRun)
                     <button type="button" x-on:click="run" x-bind:disabled="running" title="Ejecutar (Ctrl+Enter)"
                         class="{{ $barButton }} bg-primary/15 text-primary-bright hover:bg-primary/25">
-                        <flux:icon name="play" variant="micro" /> <span class="hidden sm:inline" x-text="running ? 'Ejecutando…' : 'Ejecutar'">Ejecutar</span>
+                        <flux:icon name="play" variant="micro" /> <span class="hidden sm:inline" x-text="running ? 'Ejecutando…' : '{{ $isHtml ? 'Ver' : 'Ejecutar' }}'">{{ $isHtml ? 'Ver' : 'Ejecutar' }}</span>
                     </button>
                 @endif
                 {{ $actions ?? '' }}
@@ -70,8 +69,10 @@
             <pre class="code-window-fallback p-3 font-mono text-sm whitespace-pre-wrap text-ink">{{ $code }}</pre>
         </div>
 
-        {{-- Consola --}}
-        @if ($canRun)
+        {{-- Consola, o la página dibujada si es HTML y CSS --}}
+        @if ($canRun && $isHtml)
+            <x-html-preview class="border-t border-outline" />
+        @elseif ($canRun)
             <x-code-console class="border-t border-outline" />
         @endif
     </div>

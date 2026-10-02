@@ -193,8 +193,15 @@ document.addEventListener('alpine:init', () => {
         copied: false,
         matches: null,
         editor: null,
+        // HTML y CSS (D76): la página dibujada en la caja aislada, el tamaño de pantalla y la pantalla completa.
+        preview: '',
+        device: 'mobile',
+        fullscreen: false,
+        renderTimer: null,
 
         async init() {
+            const isHtml = config.language === 'html' && config.runnable !== false;
+            if (isHtml) this.run();
             if (!this.$refs.editor) return;
             const { createEditor } = await import('./editor/code-editor.js');
             this.$refs.editor.replaceChildren();
@@ -202,16 +209,25 @@ document.addEventListener('alpine:init', () => {
                 doc: this.code,
                 language: config.language ?? 'python',
                 readOnly: Boolean(config.readOnly),
-                onChange: (code) => (this.code = code),
+                onChange: (code) => {
+                    this.code = code;
+                    // La página se vuelve a dibujar sola mientras se escribe (con una pausa corta).
+                    if (isHtml) {
+                        clearTimeout(this.renderTimer);
+                        this.renderTimer = setTimeout(() => this.run(), 400);
+                    }
+                },
                 onRun: () => this.run(),
             });
         },
 
         destroy() {
+            clearTimeout(this.renderTimer);
             this.editor?.destroy();
         },
 
         async run() {
+            if (config.language === 'html') return this.renderHtml();
             if (this.running || config.runnable === false) return;
             this.running = true;
             this.tab = 'output';
@@ -259,6 +275,15 @@ document.addEventListener('alpine:init', () => {
                 this.matches = result.output.trim() === config.expected.trim();
             }
             this.running = false;
+        },
+
+        async renderHtml() {
+            if (config.runnable === false) return;
+            const { buildPreview } = await import('./runners/html.js');
+            const result = await buildPreview(this.code);
+            this.preview = result.html;
+            this.error = Boolean(result.error);
+            this.status = result.error ?? `Dibujada en ${result.ms} ms`;
         },
 
         async copy() {

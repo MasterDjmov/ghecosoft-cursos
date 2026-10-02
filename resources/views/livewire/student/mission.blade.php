@@ -6,8 +6,9 @@
     $colors = ['approved' => '#10b981', 'submitted' => '#f59e0b', 'redo' => '#f87171'];
     $canSubmit = $blocker === null;
     // Una práctica "local" se resuelve en la compu del alumno: acá no se ejecuta.
-    $canRun = $course->language->value === 'python' && ! $isLocal;
-    $extension = ['python' => 'py', 'c' => 'c', 'cpp' => 'cpp', 'java' => 'java', 'javascript' => 'js', 'typescript' => 'ts', 'php' => 'php', 'sql' => 'sql', 'arduino' => 'ino'][$course->language->value] ?? 'txt';
+    $canRun = $course->language->runsForStudents() && ! $isLocal;
+    $isHtml = $course->language->value === 'html';
+    $extension = $course->language->extension();
     $submitDisabled = $usesFile ? "code.trim() === '' && ! \$wire.file" : "code.trim() === ''";
     $nodeUrl = route('student.node', [$course, $node]);
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
@@ -230,7 +231,9 @@
                         </div>
                     </section>
 
-                    @if ($canRun)
+                    @if ($canRun && $isHtml)
+                        <x-html-preview fill class="h-[45%] shrink-0 overflow-hidden rounded-lg border border-outline" />
+                    @elseif ($canRun)
                         <x-code-console fill class="h-56 shrink-0 overflow-hidden rounded-lg border border-outline" />
                     @endif
                 @else

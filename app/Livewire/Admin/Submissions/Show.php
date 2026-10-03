@@ -57,6 +57,26 @@ class Show extends Component
         return $this->goToNext();
     }
 
+    /** La marcaste para rehacer por error: se aprueba igual, sin que el alumno vuelva a entregar (D82). */
+    public function approveAnyway(SubmissionReviewer $reviewer)
+    {
+        $this->authorize('review', $this->submission);
+        $this->validate(['comment' => ['nullable', 'string', 'max:2000']]);
+
+        try {
+            $reward = $reviewer->approve($this->submission, auth()->user(), $this->comment ?: null, reconsider: true);
+        } catch (DomainException $e) {
+            Flux::toast(variant: 'danger', text: $e->getMessage());
+
+            return null;
+        }
+
+        $this->reset('comment');
+        Flux::toast(variant: 'success', text: 'Aprobada. '.$reward->summary());
+
+        return null;
+    }
+
     public function redo(SubmissionReviewer $reviewer)
     {
         $this->authorize('review', $this->submission);
@@ -116,6 +136,7 @@ class Show extends Component
             'instructionsHtml' => Markdown::render($practice->instructions),
             'criteriaHtml' => Markdown::render($practice->approval_criteria),
             'cases' => SubmissionCases::for($submission),
+            'canApproveAnyway' => $submission->status === SubmissionStatus::Redo && SubmissionReviewer::isLatestAttempt($submission),
             'previous' => Submission::where('user_id', $submission->user_id)->where('practice_id', $practice->id)
                 ->whereKeyNot($submission->id)->orderByDesc('attempt')->get(),
             'pendingCount' => app(TeacherScope::class)->submissions(Submission::query(), auth()->user())->where('status', SubmissionStatus::Submitted)->count(),

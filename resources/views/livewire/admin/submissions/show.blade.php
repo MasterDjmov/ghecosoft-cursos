@@ -97,6 +97,21 @@
                 <flux:button variant="primary" icon="check" wire:click="approve">Aprobar</flux:button>
             </div>
         </section>
+    @elseif ($canApproveAnyway)
+        {{-- D82: marcada para rehacer por error; se aprueba sin que el alumno vuelva a entregar. --}}
+        <section class="panel flex flex-col gap-3 p-5" data-test="approve-anyway">
+            <div>
+                <h2 class="font-display font-semibold text-white">¿La marcaste para rehacer por error?</h2>
+                <p class="text-sm text-ink-muted">Si esta entrega estaba bien, aprobala igual: el alumno no tiene que volver a mandarla y cobra lo de siempre (nunca dos veces).</p>
+            </div>
+            <x-emoji-field><flux:textarea class="pe-10" wire:model="comment" rows="2" placeholder="Opcional: «Perdón, estaba bien. ¡Aprobada!»" aria-label="Comentario" /></x-emoji-field>
+            <div class="flex flex-wrap justify-end gap-2">
+                @if ($pendingCount > 0)
+                    <flux:button icon="forward" :href="route('admin.submissions.next')" wire:navigate>Siguiente sin corregir</flux:button>
+                @endif
+                <flux:button variant="primary" icon="check" wire:click="approveAnyway" wire:confirm="¿Aprobar esta entrega igual?">Aprobar igual</flux:button>
+            </div>
+        </section>
     @elseif ($pendingCount > 0)
         <flux:button variant="primary" icon="forward" :href="route('admin.submissions.next')" wire:navigate class="self-end">Siguiente sin corregir</flux:button>
     @endif

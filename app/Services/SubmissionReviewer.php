@@ -31,12 +31,17 @@ class SubmissionReviewer
 {
     public function __construct(private readonly Ledger $ledger, private readonly TreeAccess $access) {}
 
-    public function approve(Submission $submission, ?User $admin, ?string $comment = null, bool $notify = true): Reward
+    /**
+     * Con `$reconsider`, también una entrega marcada para rehacer por error (D82): solo si es la última
+     * del alumno en esa práctica. Se paga igual que siempre, y nunca dos veces.
+     */
+    public function approve(Submission $submission, ?User $admin, ?string $comment = null, bool $notify = true, bool $reconsider = false): Reward
     {
-        $reward = DB::transaction(function () use ($submission, $admin, $comment) {
+        $reward = DB::transaction(function () use ($submission, $admin, $comment, $reconsider) {
             $submission = Submission::whereKey($submission->id)->lockForUpdate()->firstOrFail();
-            if ($submission->status !== SubmissionStatus::Submitted) {
-                throw new DomainException('Esta entrega ya fue corregida.');
+            $canReconsider = $reconsider && $submission->status === SubmissionStatus::Redo && self::isLatestAttempt($submission);
+            if ($submission->status !== SubmissionStatus::Submitted && ! $canReconsider) {
+                throw new DomainException($reconsider ? 'Solo se puede aprobar la última entrega marcada para rehacer.' : 'Esta entrega ya fue corregida.');
             }
 
             $student = $submission->user;
@@ -240,5 +245,12 @@ class SubmissionReviewer
         }
 
         return $comment;
+    }
+
+    /** ¿Es el último intento del alumno en esa práctica? (si mandó otro después, se corrige ese). */
+    public static function isLatestAttempt(Submission $submission): bool
+    {
+        return ! Submission::where('user_id', $submission->user_id)->where('practice_id', $submission->practice_id)
+            ->where('attempt', '>', $submission->attempt)->exists();
     }
 }

@@ -1,4 +1,6 @@
-# La compañía de héroes (D83, a revisar)
+# La compañía de héroes (D83, reemplazada)
+
+> **Reemplazada por [JUEGO.md](JUEGO.md) (D84, 2026-10-06).** Queda como historia de la charla.
 
 Conversado con el docente el 2026-10-04, tomando ideas de Tanoth, MapleStory, Lineage 2 y Shiba Wars. **Estado:** diseño, sin programar.
 

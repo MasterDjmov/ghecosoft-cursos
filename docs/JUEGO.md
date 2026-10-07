@@ -61,7 +61,7 @@ El **nodo se mantiene**, igual que el árbol, las monedas del curso y el abono. 
    - Lo que se comprueba en el navegador se puede trampear, así que **solo dan premios de juego**: XP del protagonista, oro, cartas e ítems.
    - **Nunca dan monedas del curso, nunca abren nodos y no cuentan para el CV.**
    - Es la única corrección automática de la plataforma.
-3. **Las prácticas del nodo** (M1, M2…, encargos) **las sigue corrigiendo el docente.** Son las que pagan monedas del curso, abren nodos y valen para el CV, como hoy.
+3. **Las prácticas del nodo** (M1, M2…, encargos) **las sigue corrigiendo el docente.** Son las que pagan monedas del curso, abren nodos y valen para el CV, como hoy. **Aparecen al superar las micro-misiones del nodo** (D95), junto con los recursos y la Prueba del sello; si el alumno se traba, el docente se las abre desde su árbol.
    - Con las micro-misiones el alumno llega mejor preparado, así que se pueden **achicar las obligatorias** (por ejemplo, 2) y el resto pasa a ser optativo con botín.
 4. **El error se vuelve monstruo:** una **tabla fija por lenguaje**, sin IA, convierte el error nativo en la criatura del bestiario. Gheco lo explica en palabras del juego, con la pista justa:
    - `SyntaxError` → Slime;

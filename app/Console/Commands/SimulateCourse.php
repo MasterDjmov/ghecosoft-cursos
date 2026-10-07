@@ -26,6 +26,7 @@ use App\Services\Ledger;
 use App\Services\NodeUnlocker;
 use App\Services\PracticeSubmitter;
 use App\Services\Ranking;
+use App\Services\StepCompleter;
 use App\Services\StudentAccounts;
 use App\Services\SubmissionReviewer;
 use App\Services\TreeAccess;
@@ -369,6 +370,13 @@ class SimulateCourse extends Command
     private function submit(User $user, Practice $practice, array &$state): void
     {
         $previous = app(PracticeSubmitter::class)->latest($user, $practice);
+
+        // D95: antes de las prácticas, supera las micro-misiones del nodo.
+        if (! app(TreeAccess::class)->practicesOpen($user, $practice->node)) {
+            foreach ($practice->node->steps as $step) {
+                app(StepCompleter::class)->complete($user, $step, (string) $step->expected_output);
+            }
+        }
 
         // Después de una corrección, a veces le contesta al profe.
         if ($previous?->status === SubmissionStatus::Redo && mt_rand(1, 3) === 1) {

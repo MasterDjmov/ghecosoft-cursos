@@ -24,6 +24,23 @@
         </div>
     </section>
 
+    {{-- D95: prácticas que esperan micro-misiones; si se traba (sin ejecutor de Java, por ejemplo), se las abrís. --}}
+    @if ($lockedPractices->isNotEmpty())
+        <section class="panel flex flex-col gap-3 p-5" data-test="student-locked-practices">
+            <div>
+                <h2 class="font-display font-semibold text-white">{{ ucfirst(term('practice', $course, 2)) }} que esperan micro-misiones</h2>
+                <p class="text-sm text-ink-muted">Las ve al superar las micro-misiones del {{ term('node', $course) }}. Si se traba, abríselas: las micro-misiones le quedan para después.</p>
+            </div>
+            @foreach ($lockedPractices as $item)
+                <div class="flex flex-col gap-2 border-t border-outline/60 pt-3 sm:flex-row sm:items-center" wire:key="locked-{{ $item['id'] }}">
+                    <span class="flex-1 font-medium text-ink">{{ $item['title'] }} <span class="font-mono text-xs text-ink-muted">· {{ $item['done'] }} de {{ $item['total'] }} micro-misiones</span></span>
+                    <flux:button size="sm" icon="lock-open" wire:click="grantPractices({{ $item['id'] }})" data-test="grant-practices-{{ $item['id'] }}"
+                        wire:confirm="¿Abrirle las {{ term('practice', $course, 2) }} de «{{ $item['title'] }}» a {{ $user->name }} sin que termine las micro-misiones?">Abrirle las {{ term('practice', $course, 2) }}</flux:button>
+                </div>
+            @endforeach
+        </section>
+    @endif
+
     {{-- Lo que sigue: si se traba, se lo abrís con sus monedas (mismas reglas que si lo abriera él). --}}
     <section class="panel flex flex-col gap-3 p-5" data-test="student-next-nodes">
         <div>

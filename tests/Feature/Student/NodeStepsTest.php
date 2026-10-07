@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\XpReason;
+use App\Livewire\Admin\Students\Tree;
 use App\Livewire\Student\NodeView;
 use App\Models\CoinTransaction;
 use App\Models\Course;
@@ -9,10 +10,13 @@ use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
+use App\Models\Submission;
 use App\Models\User;
 use App\Models\XpTransaction;
 use App\Services\CourseImporter;
+use App\Services\PracticeSubmitter;
 use App\Services\StepCompleter;
+use App\Services\TreeAccess;
 use Livewire\Livewire;
 
 /*
@@ -253,4 +257,76 @@ test('el oro se muestra si existe (D89) y los ítems recién cuando exista el in
     config(['game.inventory_enabled' => true]);
     $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
         ->assertSee('Bolsa de cuero');
+});
+
+/*
+ * D95: en un nodo con micro-misiones, las prácticas, los recursos y la autoevaluación aparecen al superarlas.
+ */
+
+test('con micro-misiones pendientes no ve las prácticas ni la autoevaluación, y no puede entregar ni entrar al modo misión', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $practice = $course->rootNode->practices()->where('title', 'Tu primer programa')->firstOrFail();
+
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->assertOk()->getContent();
+    expect($html)->toContain('data-test="practices-locked"')
+        ->and($html)->toContain('0 de 2')
+        ->and($html)->not->toContain('data-test="practice-'.$practice->id.'"')
+        ->and($html)->not->toContain('data-test="self-check"')
+        ->and($html)->not->toContain('data-test="practice-progress"');
+
+    $this->actingAs($student)->get(route('student.mission', [$course, $course->rootNode, $practice]))
+        ->assertRedirect(route('student.node', [$course, $course->rootNode]));
+
+    expect(app(PracticeSubmitter::class)->blocker($student, $practice))->toContain('micro-misiones')
+        ->and(fn () => app(PracticeSubmitter::class)->submit($student, $practice, 'print(1)'))->toThrow(DomainException::class, 'micro-misiones');
+});
+
+test('al superar todas las micro-misiones aparecen las prácticas y puede entregar', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $practice = $course->rootNode->practices()->where('title', 'Tu primer programa')->firstOrFail();
+    [$first, $second] = $course->rootNode->steps()->get()->all();
+    app(StepCompleter::class)->complete($student, $first, 'Hola, Valle');
+    app(StepCompleter::class)->complete($student, $second, "uno\ndos");
+
+    $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->assertOk()
+        ->assertDontSee('data-test="practices-locked"', false)
+        ->assertSee('data-test="practice-'.$practice->id.'"', false)
+        ->assertSee('data-test="self-check"', false);
+    $this->actingAs($student)->get(route('student.mission', [$course, $course->rootNode, $practice]))->assertOk();
+    expect(app(PracticeSubmitter::class)->blocker($student, $practice))->toBeNull();
+});
+
+test('quien ya entregó una práctica del nodo la sigue viendo; el staff y los nodos sin micro-misiones, siempre', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $access = app(TreeAccess::class);
+    expect($access->practicesOpen($student, $course->rootNode))->toBeFalse();
+
+    $practice = $course->rootNode->practices()->first();
+    Submission::create(['practice_id' => $practice->id, 'user_id' => $student->id, 'attempt' => 1, 'submitted_at' => now()]);
+    expect($access->practicesOpen($student, $course->rootNode))->toBeTrue()
+        ->and($access->practicesOpen(User::factory()->admin()->create(), $course->rootNode))->toBeTrue();
+
+    $made = makeCourse();
+    expect($access->practicesOpen(studentWithRootOpen($made), $made['root']))->toBeTrue();
+});
+
+test('el docente le abre las prácticas desde el árbol del alumno y le llega el aviso', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $admin = User::factory()->admin()->create();
+
+    Livewire::actingAs($admin)->test(Tree::class, ['user' => $student, 'course' => $course])
+        ->assertSee('data-test="grant-practices-'.$course->rootNode->id.'"', false)
+        ->call('grantPractices', $course->rootNode->id)
+        ->assertDontSee('data-test="grant-practices-'.$course->rootNode->id.'"', false);
+
+    expect(app(TreeAccess::class)->practicesOpen($student, $course->rootNode))->toBeTrue()
+        ->and($student->notifications()->where('data->kind', 'practices_granted')->exists())->toBeTrue();
+
+    // Otro alumno no puede abrírselas a nadie.
+    $other = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    Livewire::actingAs($other)->test(Tree::class, ['user' => $student, 'course' => $course])->assertForbidden();
 });

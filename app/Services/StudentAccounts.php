@@ -120,7 +120,7 @@ class StudentAccounts
     public const RESET = [
         'expeditions' => ['user_id'], 'crafts' => ['user_id'], 'heroes' => ['user_id'], 'mounts' => ['user_id'],
         'item_movements' => ['user_id'], 'coin_transactions' => ['user_id'], 'xp_transactions' => ['user_id'],
-        'node_step_completions' => ['user_id'], 'node_unlocks' => ['user_id'], 'practice_marks' => ['user_id'],
+        'node_step_completions' => ['user_id'], 'practice_grants' => ['user_id'], 'node_unlocks' => ['user_id'], 'practice_marks' => ['user_id'],
         'submission_comments' => ['user_id'], 'submissions' => ['user_id'], 'practice_messages' => ['student_id', 'author_id'],
         'course_completions' => ['user_id'], 'user_badges' => ['user_id'], 'ranking_snapshots' => ['user_id'],
         'universe_votes' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],

@@ -42,6 +42,7 @@ class PracticeSubmitter
             $this->access->isTrial($user, $practice->node) => 'Estás probando la clase gratis: para que el profe te corrija y seguir, pedí tu abono.',
             ! $this->access->isUnlocked($user, $practice->node) => 'Abrí el '.term('node', $practice->node->course).' para entregar.',
             ! $this->access->hasActiveSubscription($user, $practice->node->course) => 'Tu abono no está vigente: renovalo para entregar.',
+            ! $this->access->practicesOpen($user, $practice->node) => 'Superá las micro-misiones del '.term('node', $practice->node->course).' para entregar.',
             $this->isApproved($user, $practice) => 'Ya está aprobada.',
             $this->latest($user, $practice)?->status === SubmissionStatus::Submitted => 'Tu entrega está esperando corrección.',
             default => null,

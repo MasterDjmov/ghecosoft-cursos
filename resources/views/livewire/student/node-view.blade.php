@@ -77,7 +77,7 @@
         </div>
 
         {{-- Resumen de progreso de las hojas --}}
-        @if ($practices->isNotEmpty())
+        @if ($practices->isNotEmpty() && $practicesOpen)
             <div class="mt-2 flex flex-col gap-3" data-test="practice-progress">
                 <div class="flex flex-col gap-1.5">
                     <p class="text-sm text-ink-muted">
@@ -277,8 +277,19 @@
         </section>
     @endif
 
+    {{-- D95: con micro-misiones pendientes, las prácticas, los recursos y la autoevaluación esperan. --}}
+    @if (! $practicesOpen && ($practices->isNotEmpty() || $resources->isNotEmpty() || $selfCheck->isNotEmpty()))
+        <section class="panel flex flex-col items-center gap-2 p-6 text-center" data-test="practices-locked">
+            <flux:icon name="lock-closed" class="size-8 text-ink-muted" />
+            <h2 class="font-display text-lg font-semibold text-white">{{ ucfirst(term('practice', $course, 2)) }} cerradas</h2>
+            <p class="max-w-md text-sm text-ink-muted">
+                Superá las micro-misiones de arriba (<span class="font-medium text-ink">{{ $stepsDone }} de {{ $steps->count() }}</span>) y acá aparecen las {{ term('practice', $course, 2) }}, los recursos y la Prueba del sello.
+            </p>
+        </section>
+    @endif
+
     {{-- Recursos --}}
-    @if ($resources->isNotEmpty())
+    @if ($resources->isNotEmpty() && $practicesOpen)
         <section class="panel flex flex-col gap-3 p-5 sm:p-6">
             <h2 class="font-display text-lg font-semibold text-white">Recursos</h2>
             <ul class="flex flex-col gap-2">
@@ -300,7 +311,7 @@
     @endif
 
     {{-- Hojas (prácticas) --}}
-    @if ($practices->isNotEmpty())
+    @if ($practices->isNotEmpty() && $practicesOpen)
         <section class="mt-6 flex flex-col gap-7">
             <h2 class="font-display text-lg font-semibold text-white">{{ ucfirst(term('practice', $course, 2)) }}</h2>
             @foreach ($required as $practice)
@@ -319,7 +330,7 @@
     @endif
 
     {{-- Prueba del sello: autoevaluación sin nota. --}}
-    @if ($selfCheck->isNotEmpty())
+    @if ($selfCheck->isNotEmpty() && $practicesOpen)
         <section class="panel flex flex-col gap-4 p-6" data-test="self-check">
             <div class="flex flex-col gap-1">
                 <h2 class="flex items-center gap-2 font-display text-lg font-semibold text-white"><flux:icon name="shield-check" variant="mini" class="text-success" /> Prueba del sello</h2>

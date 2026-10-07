@@ -158,6 +158,9 @@ class NodeView extends Component
             'next' => $next,
             'subscription' => $access->activeSubscription($user, $this->course),
             'trial' => $access->isTrial($user, $this->node),
+            // D95: las prácticas, los recursos y la autoevaluación esperan a que supere las micro-misiones.
+            'practicesOpen' => $access->practicesOpen($user, $this->node),
+            'stepsDone' => $doneSteps->count(),
             'completed' => $access->isCompleted($user, $this->node),
             'runnable' => $this->node->example_code && $this->node->example_runnable && $this->course->language->studentCanRun(),
         ])->title($this->node->title.' · '.$this->course->title);

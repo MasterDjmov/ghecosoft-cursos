@@ -8,8 +8,12 @@ use App\Models\Course;
 use App\Models\CourseSubscription;
 use App\Models\Currency;
 use App\Models\Node;
+use App\Models\NodeStep;
+use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
 use App\Models\Practice;
+use App\Models\PracticeGrant;
+use App\Models\PracticeMark;
 use App\Models\Submission;
 use App\Models\User;
 use Carbon\CarbonInterface;
@@ -247,7 +251,42 @@ class TreeAccess
     {
         $node = $practice->node;
 
-        return $this->isUnlocked($user, $node) && $this->hasActiveSubscription($user, $node->course);
+        return $this->isUnlocked($user, $node) && $this->hasActiveSubscription($user, $node->course)
+            && $this->practicesOpen($user, $node);
+    }
+
+    /**
+     * Micro-misiones del nodo que le faltan superar (D95).
+     *
+     * @return array{done: int, total: int}
+     */
+    public function stepProgress(User $user, Node $node): array
+    {
+        $steps = NodeStep::where('node_id', $node->id)->pluck('id');
+        $done = $steps->isEmpty() ? 0 : NodeStepCompletion::where('user_id', $user->id)->whereIn('node_step_id', $steps)->count();
+
+        return ['done' => $done, 'total' => $steps->count()];
+    }
+
+    /**
+     * D95: en un nodo con micro-misiones, las prácticas, los recursos y la autoevaluación aparecen recién al
+     * superarlas todas. Siempre abiertas para el staff, en los nodos sin micro-misiones, si el alumno ya entregó
+     * o marcó alguna práctica del nodo (nadie pierde lo que tenía) y si el docente se las abrió (PracticeGrant).
+     */
+    public function practicesOpen(User $user, Node $node): bool
+    {
+        if ($user->isStaff()) {
+            return true;
+        }
+        $progress = $this->stepProgress($user, $node);
+        if ($progress['done'] >= $progress['total']) {
+            return true;
+        }
+        $practices = Practice::where('node_id', $node->id)->pluck('id');
+
+        return Submission::where('user_id', $user->id)->whereIn('practice_id', $practices)->exists()
+            || PracticeMark::where('user_id', $user->id)->whereIn('practice_id', $practices)->exists()
+            || PracticeGrant::where('user_id', $user->id)->where('node_id', $node->id)->exists();
     }
 
     /** Completó todos los nodos publicados del tronco (los extras y las Sendas no cuentan). */

@@ -8,8 +8,10 @@ use App\Models\Node;
 use App\Models\Practice;
 use App\Models\Submission;
 use App\Services\PracticeSubmitter;
+use App\Services\TreeAccess;
 use App\Support\Narrative;
 use App\Support\TreeGraph;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -41,6 +43,10 @@ class Mission extends Component
     {
         abort_unless($node->course_id === $course->id && $practice->node_id === $node->id, 404);
         $this->authorize('view', $node);
+        // D95: con micro-misiones pendientes, las prácticas todavía no están a la vista.
+        if (! app(TreeAccess::class)->practicesOpen(auth()->user(), $node)) {
+            throw new HttpResponseException(redirect()->route('student.node', [$course, $node]));
+        }
     }
 
     #[On('practice-updated')]

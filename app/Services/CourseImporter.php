@@ -473,7 +473,8 @@ class CourseImporter
     /**
      * Micro-misiones (D84): se actualizan por su ID (R01-N01-P1), así no se pierde quién las superó. Las que
      * ya no están en el archivo se borran (no tienen entregas: solo quién las superó, y la XP queda en el libro).
-     * La imagen se busca en «escenas/<ID>.webp|jpg|png» de la carpeta del curso (o en la ruta de «imagen:»).
+     * La imagen se busca en «escenas/<ID>.webp|jpg|jpeg|png» de la carpeta del curso, en mayúsculas o minúsculas
+     * (o en la ruta de «imagen:»).
      */
     private function applySteps(Node $node, array $steps): void
     {
@@ -527,7 +528,8 @@ class CourseImporter
         }
         $candidates = filled($step['meta']['imagen'] ?? null) && str_contains($step['meta']['imagen'], '.')
             ? [$step['meta']['imagen']]
-            : array_map(fn ($ext) => 'escenas/'.$step['code'].'.'.$ext, ['webp', 'jpg', 'jpeg', 'png']);
+            : collect([$step['code'], Str::lower($step['code'])])
+                ->crossJoin(['webp', 'jpg', 'jpeg', 'png'])->map(fn ($pair) => 'escenas/'.$pair[0].'.'.$pair[1])->all();
         foreach ($candidates as $relative) {
             $path = realpath($this->assetsDir.'/'.ltrim($relative, '/'));
             if ($path === false || ! str_starts_with($path, $this->assetsDir.DIRECTORY_SEPARATOR)) {

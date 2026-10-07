@@ -2462,13 +2462,13 @@ El plano de tu hechizo queda colgado en la pared del Gremio, al lado de los de b
 
 ```meta
 lugar: El Gremio de Artífices
-personajes: Mia, Gheco, una artífice
+personajes: Mia, Gheco, la maestra del Gremio
 carta: Tipos compuestos | dict[str, int] · list[str] · int | None: un entero o nada
 recompensa: xp 10, oro 10
 ```
 
 #### Escena
-Una artífice busca precios en su lista. A veces la pieza no está, y el plano tiene que decirlo: devuelve un número… **o nada**.
+La maestra del Gremio busca precios en su lista. A veces la pieza no está, y el plano tiene que decirlo: devuelve un número… **o nada**.
 
 #### Gheco sugiere
 Las anotaciones pueden describir colecciones: `dict[str, int]` es un diccionario de texto a entero. Y `int | None` dice «un entero **o** `None`».
@@ -2503,10 +2503,10 @@ print(precio(lista, "péndulo"))
 ```
 
 #### Al superarla
-—Ahora el que use mi lista ya sabe que tiene que fijarse si vino `None` —dice la artífice—. Me ahorraste diez preguntas por día.
+—Ahora el que use mi lista ya sabe que tiene que fijarse si vino `None` —dice la maestra del Gremio—. Me ahorraste diez preguntas por día.
 
 #### Imagen
-- Una artífice con gafas de aumento y guantes de cuero revisa una lista de precios.
+- La maestra del Gremio, con sus gafas de aumento y su delantal de cuero, revisa una lista de precios.
 - Sobre la lista, el plano: `int | None`.
 
 ### Micro-misión R03-N04-P3 · Probar en el taller

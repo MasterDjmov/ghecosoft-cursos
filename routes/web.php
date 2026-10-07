@@ -9,6 +9,7 @@ use App\Http\Controllers\JavaRunnerDownloadController;
 use App\Http\Controllers\LandingController;
 use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
+use App\Livewire\Admin\Characters;
 use App\Livewire\Admin\CohortBoard;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
@@ -115,6 +116,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
     Route::livewire('diccionario', Glossary::class)->name('glossary');
     Route::livewire('historia', StoryRoom::class)->name('story');
     Route::livewire('historia/escenas', Scenes::class)->name('scenes');
+    Route::livewire('historia/personajes', Characters::class)->name('characters');
     Route::livewire('juego/items', AdminItems::class)->name('items');
     Route::livewire('niveles', Levels::class)->name('levels');
     Route::livewire('insignias', Badges::class)->name('badges');

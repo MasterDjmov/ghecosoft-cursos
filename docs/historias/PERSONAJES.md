@@ -274,7 +274,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Frase:** «Un registro mal guardado es un recuerdo perdido.»
 - **Imágenes:** completas.
 
-### Maese Horas *(falta la imagen)*
+### Maese Horas
 - **Rol:** el relojero de la Torre del Reloj (Acto III).
 - **Edad y sexo:** 65, varón.
 - **Altura y contextura:** bajo, de hombros anchos, manos muy precisas.
@@ -284,7 +284,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Personalidad:** meticuloso, tranquilo; **mide antes de opinar**.
 - **Frase:** «No discutas: medí.»
 
-### La Guardiana de la Arena *(falta la imagen)*
+### La Guardiana de la Arena
 - **Rol:** cuida el Coliseo del Valle (Senda de la Arena, pygame).
 - **Edad y sexo:** 28, mujer.
 - **Altura y contextura:** alta, atlética, de luchadora.
@@ -294,13 +294,50 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Personalidad:** enérgica, competitiva, justa.
 - **Frase:** «Acá los hechizos no se leen: se juegan.»
 
-### El Consejo del Reino *(falta la imagen)*
+### El Consejo del Reino
 - **Rol:** los tres magos que responden preguntas con datos (Senda del Reino).
 - **Quiénes son:** tres consejeros, una mujer y dos varones de edades distintas (30, 50, 70), alrededor de una mesa de cristal con gráficos holográficos.
 - **Ropa:** túnicas grises con bordados verdes de números.
 - **Objeto:** la **mesa de cristal** donde aparecen los gráficos.
 - **Personalidad:** calmos, curiosos, discuten con números.
 - **Frase:** «No opines: mostranos los datos.»
+
+### La cocinera de la Torre *(falta la imagen)*
+- **Rol:** cocina sola el banquete de la Torre del Reloj, en el quinto piso (R03-N05); le enseña a Mia a esperar sin frenar (asyncio).
+- **Edad y sexo:** 50, mujer.
+- **Altura y contextura:** mediana, robusta, **brazos fuertes**.
+- **Rasgos:** piel trigueña, mejillas coloradas por el calor, **pelo canoso atado bajo un pañuelo verde**.
+- **Ropa:** delantal blanco con manchas, sobre ropa oscura con vivos verdes neón; mangas arremangadas.
+- **Objeto:** un **cucharón de bronce** y, colgados del cinturón, varios **relojitos de arena** que va dando vuelta.
+- **Personalidad:** enérgica, práctica, cariñosa a los gritos; llama «chiquita» a Mia.
+- **Frase:** «No se trata de tener más manos: no te quedes quieta mientras algo espera.»
+- **Dónde va:** la cocina de la Torre, con ollas humeantes, hornos de piedra y engranajes en el techo.
+
+### La maestra del Gremio de Artífices *(falta la imagen)*
+- **Rol:** dirige el Gremio de Artífices, en el cuarto piso de la Torre (R03-N04); prueba todo antes de montarlo y le da a Mia el **Escudo de las Aserciones**.
+- **Edad y sexo:** 60, mujer.
+- **Altura y contextura:** alta, delgada, de espalda recta.
+- **Rasgos:** piel oscura, **pelo blanco muy corto**, **gafas de aumento de varios lentes** subidas a la frente.
+- **Ropa:** **delantal de cuero** con bolsillos llenos de calibres y destornilladores finos, camisa oscura con vivos verdes.
+- **Objeto:** una **libreta de pruebas** con marcas de verificación que brillan.
+- **Personalidad:** exigente, seca, justa; no confía en nada que no se haya probado.
+- **Frase:** «Lo que se prueba, aguanta.»
+- **Dónde va:** el taller del Gremio, con mesas de dibujo y planos de relojes.
+
+### El Archivista Corrupto (jefe de R02) *(falta la imagen)*
+- **Rol:** el jefe de la Bóveda (R02-N05): mezcla los registros y quiere borrar las notas del viajero.
+- **Qué es:** una **figura alta hecha de hojas arrancadas**, sin cara, con **tinta negra que le chorrea de los dedos** y letras sueltas que giran a su alrededor.
+- **Color:** papel amarillento, tinta negra y **destellos violetas** de corrupción.
+- **Cómo habla:** a los gritos, con un **ruido de papel que se rompe**; repite palabras sueltas («¡Mucha!»).
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Gólem del Reloj (jefe de R03) *(falta la imagen)*
+- **Rol:** el jefe de la cima de la Torre del Reloj (R03-N07). No habla.
+- **Qué es:** un **gigante de bronce** hecho de engranajes, con un **corazón rojo de engranajes** que late a la vista en el pecho; de él salen oleadas de piezas.
+- **Rasgos:** ojos de bronce enormes, placas con números de reloj, vapor en las juntas.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+**Solo se nombran (no hace falta imagen):** Nima, la arquera que fue hacia las Forjas (R02-N04), y los aprendices de la Torre.
 
 ---
 

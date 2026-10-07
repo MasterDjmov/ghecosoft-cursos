@@ -62,6 +62,9 @@
                         <flux:sidebar.item icon="photo" :href="route('admin.scenes')" :current="request()->routeIs('admin.scenes')" wire:navigate data-test="menu-scenes">
                             Escenas
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="user-group" :href="route('admin.characters')" :current="request()->routeIs('admin.characters')" wire:navigate data-test="menu-characters">
+                            Personajes
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="shopping-bag" :href="route('admin.items')" :current="request()->routeIs('admin.items')" wire:navigate data-test="menu-items">
                             Ítems
                         </flux:sidebar.item>

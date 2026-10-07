@@ -282,7 +282,7 @@ recompensa: xp 10, oro 10
 ```
 
 #### Escena
-La Gran Biblioteca huele a tinta y a piedra mojada. Entre estantes que llegan al techo, una mujer alta, de anteojos redondos y un manojo de llaves al cinturón, acomoda moldes de bronce con forma de criatura.
+La Gran Biblioteca huele a tinta y a piedra mojada. Entre estantes que llegan al techo, una mujer alta, de pelo azul noche larguísimo y adornos dorados en forma de cuernos, acomoda moldes de bronce con forma de criatura con la punta de su báculo.
 —**Sila**, la Archivera. —No levanta la vista—. Acá nadie escribe cada orco por separado. Se escribe el **molde** una vez, y de él salen los que hagan falta. Probá.
 
 #### Gheco sugiere
@@ -329,7 +329,7 @@ Sila levanta por fin la vista. —Mirá vos. Los moldes te reconocen.
 
 #### Imagen
 - La Gran Biblioteca del Bastión: estantes altísimos, escaleras móviles, moldes de bronce con forma de criaturas.
-- Sila, alta, de anteojos redondos y llaves al cinturón, mira por encima de un libro.
+- Sila, alta, de pelo azul noche larguísimo con adornos dorados en forma de cuernos y vestido azul noche y dorado, mira por encima de un libro, con su báculo dorado en la mano.
 - Sobre las manos de Mia flotan por primera vez cubos de datos cian.
 - Dos orquitos de luz con su vida encima: `40` y `55`.
 

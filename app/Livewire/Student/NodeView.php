@@ -13,11 +13,11 @@ use App\Support\Glossary;
 use App\Support\Narrative;
 use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
-use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -44,27 +44,28 @@ class NodeView extends Component
 
     /**
      * Micro-misión superada (D84): el navegador ya comparó la salida; acá se vuelve a comparar y se da la XP
-     * una sola vez. Solo premios de juego (StepCompleter).
+     * una sola vez (StepCompleter, solo premios de juego). No se vuelve a dibujar la página: el alumno ve lo que
+     * ganó y pasa a la siguiente cuando toca «Siguiente».
+     *
+     * @return array{ok: bool, xp?: int, error?: string}
      */
-    public function completeStep(int $stepId, string $output, StepCompleter $completer): void
+    #[Renderless]
+    public function completeStep(int $stepId, string $output, StepCompleter $completer): array
     {
         $step = $this->node->steps()->findOrFail($stepId);
         $key = 'steps:'.auth()->id();
         if (RateLimiter::tooManyAttempts($key, 30)) {
-            return;
+            return ['ok' => false, 'error' => 'Esperá un momento antes de volver a probar.'];
         }
         RateLimiter::hit($key, 60);
 
         try {
             $new = $completer->complete(auth()->user(), $step, Str::limit($output, 20000, ''));
         } catch (InvalidArgumentException $e) {
-            Flux::toast(variant: 'danger', text: $e->getMessage());
+            return ['ok' => false, 'error' => $e->getMessage()];
+        }
 
-            return;
-        }
-        if ($new) {
-            Flux::toast(variant: 'success', text: '¡Micro-misión superada!'.($step->xp_reward > 0 && ! auth()->user()->isStaff() ? ' +'.$step->xp_reward.' '.term('xp.short') : ''));
-        }
+        return ['ok' => true, 'xp' => $new && ! auth()->user()->isStaff() ? $step->xp_reward : 0];
     }
 
     /** «Siguiente»: abrir desde acá un nodo que depende de este, sin tener que buscarlo en el árbol. */

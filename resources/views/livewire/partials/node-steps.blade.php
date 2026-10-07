@@ -41,7 +41,9 @@
             </details>
         @elseif ($currentStep?->is($step))
             {{-- La que toca: escena, pista de Gheco, desafío y el editor. --}}
-            <article class="panel panel-active flex flex-col overflow-hidden" wire:key="step-current-{{ $step->id }}" data-test="step-current">
+            {{-- result: lo que contestó el servidor al superarla (se queda en pantalla hasta tocar «Siguiente»). --}}
+            <article class="panel panel-active flex flex-col overflow-hidden" wire:key="step-current-{{ $step->id }}" data-test="step-current"
+                x-data="{ result: null }">
                 @if ($image = $step->imageUrl() ?? $fallbackScene)
                     <figure class="relative aspect-[16/7] overflow-hidden border-b border-outline">
                         <img src="{{ $image }}" alt="" class="size-full object-cover" loading="lazy" data-test="step-image">
@@ -89,18 +91,64 @@
                         :show-stdin="filled($step->sample_input)">
                         <x-slot:footer>
                             {{-- Al coincidir la salida, se avisa una sola vez. --}}
-                            <div x-data="{ sent: false }" x-effect="if (matches === true && ! sent) { sent = true; $wire.completeStep({{ $step->id }}, output) }">
+                            <div x-data="{ sent: false }" x-effect="if (matches === true && ! sent) { sent = true; $wire.completeStep({{ $step->id }}, output).then((r) => { result = r; if (! r.ok) sent = false }) }">
                                 <p x-show="matches === false" x-cloak class="flex items-center gap-2 text-sm text-warning" data-test="step-mismatch">
                                     <flux:icon name="exclamation-triangle" variant="micro" /> Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.
                                 </p>
-                                <p x-show="sent" x-cloak class="flex items-center gap-2 text-sm text-success">
-                                    <flux:icon name="check-circle" variant="micro" /> ¡Coincide!
-                                </p>
+                                <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
                             </div>
                         </x-slot:footer>
                     </x-code-runner>
 
-                    <p class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
+                    {{-- Superada: qué pasó en la historia, qué ganó y recién ahí «Siguiente». --}}
+                    <section x-show="result?.ok" x-cloak x-transition class="flex flex-col gap-4 rounded-lg border border-success/40 bg-success/10 p-5" data-test="step-success">
+                        <p class="flex items-center gap-2 font-display text-lg font-semibold text-success">
+                            <flux:icon name="check-badge" variant="mini" /> ¡Micro-misión superada!
+                        </p>
+                        @if ($texts['success'])
+                            <div class="markdown text-ink">{!! $texts['success'] !!}</div>
+                        @endif
+                        <div class="flex flex-col gap-2">
+                            <p class="tech-label">Ganaste</p>
+                            <ul class="flex flex-wrap gap-2 text-sm">
+                                <li class="flex items-center gap-1.5 rounded-lg border border-warning/40 bg-warning/10 px-3 py-1.5 text-warning">
+                                    <flux:icon name="sparkles" variant="micro" />
+                                    <span x-text="result?.xp > 0 ? '+' + result.xp + ' {{ term('xp.short') }}' : '{{ term('xp.short') }} (ya la tenías o sos del staff)'"></span>
+                                </li>
+                                @if ($step->card_title)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-secondary/40 bg-secondary/10 px-3 py-1.5 text-secondary-bright" title="{{ $step->card_body }}">
+                                        <flux:icon name="book-open" variant="micro" /> Carta del grimorio: {{ $step->card_title }}
+                                    </li>
+                                @endif
+                                @if ($step->gold_reward > 0)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-outline px-3 py-1.5 text-ink-muted">
+                                        <flux:icon name="currency-dollar" variant="micro" /> +{{ $step->gold_reward }} de oro <span class="text-xs">(llega con tu bolsa, próximamente)</span>
+                                    </li>
+                                @endif
+                                @if ($step->item)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-outline px-3 py-1.5 text-ink-muted">
+                                        <flux:icon name="gift" variant="micro" /> {{ $step->item }} <span class="text-xs">(a tu inventario, próximamente)</span>
+                                    </li>
+                                @endif
+                            </ul>
+                            @if ($step->card_body)
+                                <p class="font-mono text-xs text-ink-muted">{{ $step->card_body }}</p>
+                            @endif
+                            @if ($texts['unlocks'])
+                                <div class="markdown text-sm text-ink"><strong>Se abre:</strong> {!! $texts['unlocks'] !!}</div>
+                            @endif
+                        </div>
+                        <p class="text-sm text-ink-muted">Tomate un momento: mirá tu código y la salida. Cuando quieras, seguí.</p>
+                        <div class="flex justify-end">
+                            @if ($loop->last)
+                                <flux:button variant="primary" icon:trailing="arrow-down" x-on:click="$wire.$refresh()" data-test="step-next">Terminar las micro-misiones</flux:button>
+                            @else
+                                <flux:button variant="primary" icon:trailing="arrow-right" x-on:click="$wire.$refresh()" data-test="step-next">Siguiente micro-misión</flux:button>
+                            @endif
+                        </div>
+                    </section>
+
+                    <p x-show="! result?.ok" class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
                         <span class="flex items-center gap-1"><flux:icon name="sparkles" variant="micro" class="text-warning" /> +{{ $step->xp_reward }} {{ term('xp.short') }}</span>
                         @if ($step->card_title)
                             <span class="flex items-center gap-1"><flux:icon name="book-open" variant="micro" class="text-secondary-bright" /> Carta: {{ $step->card_title }}</span>

@@ -199,13 +199,20 @@ test('el alumno ve la micro-misión actual, las siguientes bloqueadas y nunca la
         ->and($html)->not->toContain('print(&quot;Hola, Valle&quot;)');
 });
 
-test('desde la página del nodo se supera y pasa a la siguiente', function () {
+test('desde la página del nodo se supera, se queda en pantalla y «Siguiente» pasa a la otra', function () {
     $course = coursesWithSteps();
     $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
     $first = $course->rootNode->steps()->first();
 
-    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
-        ->call('completeStep', $first->id, 'Hola, Valle')
+    $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
+    $component->call('completeStep', $first->id, 'Hola, Valle')
+        ->assertReturned(['ok' => true, 'xp' => 10])
+        ->assertSee('data-test="step-success"', false);
+
+    $component->call('completeStep', $first->id, 'otra cosa')
+        ->assertReturned(['ok' => false, 'error' => 'La salida no es la esperada.']);
+
+    $component->call('$refresh')
         ->assertSee('data-test="step-done"', false)
         ->assertSee('Dos líneas');
 

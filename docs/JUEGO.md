@@ -166,8 +166,10 @@ Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/
 ## 11 bis. Lo que se decidió para la parte jugable (D89, 2026-10-07)
 
 - **Fase A (hecha):** el oro, «Tomá el control» (aspecto + 24 puntos), el panel del héroe (vida, maná, atributos que se suben con oro, equipo vacío) y el grimorio. Ver PLAN D89.
-- **Fase B:** el puesto de Baldo (armas, ropa y pociones de ejemplo, que después carga el docente), la mochila con solapas por lenguaje y **3 lugares de equipo por héroe**: arma, ropa y accesorio. El oro y la mochila son del jugador; lo equipado, de cada héroe.
+- **Fase B (hecha, D90):** el puesto de Baldo (armas, ropa y pociones de ejemplo, que después carga el docente), la mochila con solapas por lenguaje y **3 lugares de equipo por héroe**: arma, ropa y accesorio. El oro y la mochila son del jugador; lo equipado, de cada héroe.
 - **Fase C:** el mapa del Valle con sus lugares, 3 expediciones al azar (5, 15 y 30 minutos, 6 por día), las monturas n1–n5 y el combate. Al volver, el servidor calcula la pelea y el alumno la ve **turno por turno** (se puede saltar). **Si pierde, vuelve sin botín**: gasta la expedición, pero no pierde nada de lo que tiene.
+
+**Anotado para más adelante:** el **crafteo** (fabricar armas, ropa y pociones con los materiales que traen las expediciones: baba de slime, diente de goblin, musgo de troll…) y **vender** a la tienda.
 
 ## 12. Etapas
 

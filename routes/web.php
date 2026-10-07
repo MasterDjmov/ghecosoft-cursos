@@ -13,6 +13,7 @@ use App\Livewire\Admin\CohortBoard;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Glossary;
+use App\Livewire\Admin\Items as AdminItems;
 use App\Livewire\Admin\Levels;
 use App\Livewire\Admin\Messages;
 use App\Livewire\Admin\Nodes;
@@ -30,10 +31,12 @@ use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\Grimoire;
 use App\Livewire\Student\Hero;
 use App\Livewire\Student\Heroes;
+use App\Livewire\Student\Inventory as StudentInventory;
 use App\Livewire\Student\JavaRunner as StudentJavaRunner;
 use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
 use App\Livewire\Student\RankingBoard;
+use App\Livewire\Student\Shop;
 use App\Livewire\Student\Universe as StudentUniverse;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +65,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
         Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
         Route::livewire('cursos/{course}/heroe', Hero::class)->name('student.hero');
+        Route::livewire('cursos/{course}/tienda', Shop::class)->name('student.shop');
     });
     Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
     Route::livewire('universo', StudentUniverse::class)->name('student.universe');
@@ -69,6 +73,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     // El juego (D89): los protagonistas y el grimorio.
     Route::livewire('heroes', Heroes::class)->name('student.heroes');
     Route::livewire('grimorio', Grimoire::class)->name('student.grimoire');
+    Route::livewire('mochila', StudentInventory::class)->name('student.inventory');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
@@ -100,6 +105,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
     Route::livewire('diccionario', Glossary::class)->name('glossary');
     Route::livewire('historia', StoryRoom::class)->name('story');
     Route::livewire('historia/escenas', Scenes::class)->name('scenes');
+    Route::livewire('juego/items', AdminItems::class)->name('items');
     Route::livewire('niveles', Levels::class)->name('levels');
     Route::livewire('insignias', Badges::class)->name('badges');
 });

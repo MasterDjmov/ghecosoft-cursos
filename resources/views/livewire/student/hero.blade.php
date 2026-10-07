@@ -96,7 +96,7 @@
                         <div class="flex items-center gap-3 rounded-lg border border-outline/70 p-2.5" wire:key="up-{{ $stat }}">
                             <span class="grid size-10 shrink-0 place-items-center rounded-md border border-primary/40 bg-primary/10 font-mono text-xs font-bold text-primary-bright">{{ \App\Models\Hero::statShort($stat) }}</span>
                             <div class="flex min-w-0 flex-1 flex-col">
-                                <span class="font-medium text-white">{{ \App\Models\Hero::statLabel($stat) }} <span class="font-mono text-primary-bright" data-test="value-{{ $stat }}">{{ $hero->{$stat} }}</span></span>
+                                <span class="font-medium text-white">{{ \App\Models\Hero::statLabel($stat) }} <span class="font-mono text-primary-bright" data-test="value-{{ $stat }}">{{ $hero->{$stat} }}</span>@if ($b = $hero->bonus($stat)) <span class="font-mono text-sm text-success" title="Por el equipo">{{ $b > 0 ? '+' : '' }}{{ $b }}</span>@endif</span>
                                 <span class="text-xs text-ink-muted">{{ \App\Models\Hero::statHelp($stat) }}</span>
                             </div>
                             @if ($hero->{$stat} >= \App\Models\Hero::MAX_STAT)
@@ -110,19 +110,36 @@
                     @endforeach
                 </section>
 
-                {{-- Equipo: llega con la tienda y las expediciones (fases B y C) --}}
+                {{-- Equipo (D90): se equipa desde la mochila. --}}
                 <section class="panel flex flex-col gap-3 p-4" data-test="hero-equipment">
-                    <h2 class="font-display text-lg font-semibold text-white">Equipo</h2>
-                    <div class="grid grid-cols-3 gap-2">
-                        @foreach (['Arma' => 'bolt', 'Ropa' => 'shield-check', 'Accesorio' => 'sparkles'] as $slot => $icon)
-                            <div class="flex flex-col items-center gap-1 rounded-lg border border-dashed border-outline p-3 text-center">
-                                <flux:icon :name="$icon" class="text-ink-muted" />
-                                <span class="text-sm text-white">{{ $slot }}</span>
-                                <span class="text-xs text-ink-muted">Vacío</span>
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <h2 class="font-display text-lg font-semibold text-white">Equipo</h2>
+                        <span class="font-mono text-xs text-ink-muted">ATQ {{ $hero->bonus('attack') }} · DEF {{ $hero->bonus('defense') }}</span>
+                    </div>
+                    <div class="grid gap-2 sm:grid-cols-3">
+                        @foreach (\App\Enums\ItemKind::slots() as $slot)
+                            @php($worn = $hero->equipment()->get($slot))
+                            @php($kindOfSlot = \App\Enums\ItemKind::forSlot($slot))
+                            <div @class(['flex flex-col items-center gap-1 rounded-lg border p-3 text-center', 'border-dashed border-outline' => ! $worn, $worn?->rarity->classes() => $worn]) data-test="slot-{{ $slot }}">
+                                @if ($worn?->imageUrl())
+                                    <img src="{{ $worn->imageUrl() }}" alt="" class="size-10 rounded object-cover">
+                                @else
+                                    <flux:icon :name="$kindOfSlot->icon()" @class(['text-ink-muted' => ! $worn]) />
+                                @endif
+                                <span class="text-xs text-ink-muted">{{ $kindOfSlot->label() }}</span>
+                                <span class="text-sm text-white">{{ $worn?->name ?? 'Vacío' }}</span>
+                                @if ($worn && ($bonuses = $worn->bonuses()))
+                                    <span class="font-mono text-[11px] text-success">{{ implode(' · ', $bonuses) }}</span>
+                                @endif
                             </div>
                         @endforeach
                     </div>
-                    <p class="text-xs text-ink-muted">Pronto: el puesto de Baldo y las expediciones por el Valle.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <flux:button size="sm" icon="shopping-bag" :href="route('student.inventory', ['solapa' => $course->slug])" wire:navigate data-test="hero-bag">Mochila: equipar</flux:button>
+                        @if ($protagonist['shop'] ?? null)
+                            <flux:button size="sm" icon="building-storefront" :href="route('student.shop', $course)" wire:navigate data-test="hero-shop">{{ $protagonist['shop']['name'] }}</flux:button>
+                        @endif
+                    </div>
                 </section>
             </div>
         </div>

@@ -239,7 +239,7 @@ test('el oro se muestra si existe (D89) y los ítems recién cuando exista el in
     NodeStep::where('code', 'R00-N01-P1')->update(['item' => 'Bolsa de cuero']);
     $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
 
-    config(['game.gold_enabled' => false]);
+    config(['game.gold_enabled' => false, 'game.inventory_enabled' => false]);
     $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
         ->assertOk()
         ->assertDontSee('de oro')

@@ -2657,7 +2657,7 @@ lugar: Las Terrazas de las Funciones
 personajes: Mia, Gheco, Tilo, Ofidia
 carta: Default mutable | NUNCA def f(x, bolsa=[]) · usar bolsa=None y adentro: if bolsa is None: bolsa = []
 recompensa: xp 15, oro 20
-item: Pociones de Curación
+item: Poción de Curación x3
 imagen: R01-N08-P7
 ```
 

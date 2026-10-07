@@ -12,12 +12,18 @@ enum CoinReason: string
     // Oro (D89).
     case StepCompleted = 'step_completed';
     case StatUpgrade = 'stat_upgrade';
+    case ShopPurchase = 'shop_purchase';
+    case MountPurchase = 'mount_purchase';
+    case ExpeditionLoot = 'expedition_loot';
 
     public function label(): string
     {
         return match ($this) {
             self::StepCompleted => 'Micro-misión superada',
             self::StatUpgrade => 'Atributo mejorado',
+            self::ShopPurchase => 'Compra en la tienda',
+            self::MountPurchase => 'Montura',
+            self::ExpeditionLoot => 'Botín de expedición',
             self::EnrollmentGrant => 'Inscripción aprobada',
             self::PracticeApproved => 'Práctica aprobada',
             self::NodeUnlock => 'Nodo abierto',

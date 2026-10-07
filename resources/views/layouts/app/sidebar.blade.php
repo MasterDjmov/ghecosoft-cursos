@@ -62,6 +62,9 @@
                         <flux:sidebar.item icon="photo" :href="route('admin.scenes')" :current="request()->routeIs('admin.scenes')" wire:navigate data-test="menu-scenes">
                             Escenas
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="shopping-bag" :href="route('admin.items')" :current="request()->routeIs('admin.items')" wire:navigate data-test="menu-items">
+                            Ítems
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="chart-bar" :href="route('admin.levels')" :current="request()->routeIs('admin.levels')" wire:navigate>
                             Niveles
                         </flux:sidebar.item>
@@ -101,6 +104,9 @@
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="user-circle" :href="route('student.heroes')" :current="request()->routeIs('student.heroes', 'student.hero')" wire:navigate data-test="menu-heroes">
                             Mis héroes
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="shopping-bag" :href="route('student.inventory')" :current="request()->routeIs('student.inventory', 'student.shop')" wire:navigate data-test="menu-inventory">
+                            Mochila
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="bookmark-square" :href="route('student.grimoire')" :current="request()->routeIs('student.grimoire')" wire:navigate data-test="menu-grimoire">
                             Grimorio

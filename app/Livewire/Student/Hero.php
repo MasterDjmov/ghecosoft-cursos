@@ -9,6 +9,7 @@ use App\Models\Level;
 use App\Models\NodeStepCompletion;
 use App\Models\XpTransaction;
 use App\Services\Heroes;
+use App\Services\Inventory;
 use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
 use InvalidArgumentException;
@@ -39,6 +40,7 @@ class Hero extends Component
         $this->authorize('play', $course);
         abort_if($heroes->protagonist($course) === null, 404);
         $heroes->settleGold(auth()->user());
+        app(Inventory::class)->settleItems(auth()->user());
         if ($hero = $heroes->heroOf(auth()->user(), $course)) {
             $this->look = $hero->look;
         }

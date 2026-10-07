@@ -78,12 +78,14 @@ class Heroes
         if (! $this->canRedistribute($hero)) {
             throw new InvalidArgumentException('Ya mejoraste atributos con oro: los puntos quedan fijos.');
         }
-        $hero->update($this->checkDistribution($stats));
+        // Si lo reacomoda con un Pergamino del Reinicio, se gasta.
+        $hero->update([...$this->checkDistribution($stats), 'respec_available' => false]);
     }
 
+    /** Gratis mientras no compró puntos con oro; después, con un Pergamino del Reinicio usado. */
     public function canRedistribute(Hero $hero): bool
     {
-        return ! CoinTransaction::where('reason', CoinReason::StatUpgrade)
+        return $hero->respec_available || ! CoinTransaction::where('reason', CoinReason::StatUpgrade)
             ->where('source_type', $hero->getMorphClass())->where('source_id', $hero->id)->exists();
     }
 

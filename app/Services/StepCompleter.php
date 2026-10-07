@@ -16,7 +16,7 @@ use InvalidArgumentException;
  */
 class StepCompleter
 {
-    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly Heroes $heroes) {}
+    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly Heroes $heroes, private readonly Inventory $inventory) {}
 
     /** Puede jugarla: ve el nodo (abierto o Clase 0 de prueba, D71/D84) y superó las anteriores. */
     public function canPlay(User $user, NodeStep $step): bool
@@ -69,6 +69,7 @@ class StepCompleter
                 $this->ledger->addXp($user, $step->xp_reward, XpReason::StepCompleted, $step, $step->node->course);
             }
             $this->heroes->creditStep($user, $step);
+            $this->inventory->creditStep($user, $step);
 
             return true;
         });

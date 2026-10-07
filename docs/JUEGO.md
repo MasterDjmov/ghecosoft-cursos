@@ -186,6 +186,20 @@ El mapa suma 6 lugares: 3 en el Bastión (niveles 10 a 12) y 3 en la Ciudadela (
 - **Sin destripar la historia:** de lo que falta se ve el nombre y el tipo, no el texto. Lo mismo que *Mis Crónicas*: lo bloqueado no sale del servidor.
 - **Todo sale de lo que ya existe:** el meta de las micro-misiones (`item:`, `se abre:`), `config/game.php` (lugares, monturas) y el catálogo de ítems. No hay que cargar nada a mano.
 
+**Agendado (pedido del docente, 2026-10-07): la pelea como pantalla de batalla**, al estilo de la referencia que mandó (dos retratos enfrentados, barras grandes y las estadísticas de los dos). Hoy es una lista de renglones con barras chicas.
+- **Arriba, las estadísticas lado a lado:** Mia y la criatura, con su nivel, fuerza, destreza, inteligencia, suerte, daño (rango), armadura y daño después de la armadura.
+- **Al medio, los retratos** de Mia (su aspecto) y de la criatura, con el número del último golpe saltando sobre quien lo recibe.
+- **Abajo, las barras grandes:**
+  - la **vida** de Mia y la de la criatura, con el número `actual / máximo`;
+  - además, la barra de **maná** de Mia, que baja con cada hechizo («Rayo rúnico −8 MP»).
+- **El registro de renglones**, más chico, debajo (el que ya existe).
+- **Al terminar, la vida y el maná con que vuelve se guardan en el héroe**. Antes de la próxima expedición se elige entre:
+  - **tomar una poción**;
+  - **esperar la recuperación**: unos minutos, que se calculan al mirar, sin cron, como todo lo demás;
+  - **salir así**.
+  Hoy cada expedición arranca con la vida y el maná llenos. Esto cambia el balance y hay que volver a simularlo.
+- Los datos ya están: el log de cada turno guarda `hp`, `mp`, `ehp` y `emax`. Falta guardar el estado del héroe entre expediciones (dos columnas y la hora en que volvió) y dibujar la pantalla.
+
 **Anotado para más adelante:** el **crafteo** (fabricar armas, ropa y pociones con los materiales que traen las expediciones: baba de slime, diente de goblin, musgo de troll…) y **vender** a la tienda.
 
 ## 12. Etapas

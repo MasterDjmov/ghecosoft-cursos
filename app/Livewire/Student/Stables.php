@@ -17,14 +17,37 @@ class Stables extends Component
 {
     public string $species = '';
 
+    /** La especie cuya ficha (sus 5 evoluciones) se está mirando; nada se compra ni se cambia con solo mirar. */
+    public ?string $preview = null;
+
     public function mount(Service $stables): void
     {
         $this->species = $stables->mountOf(auth()->user())?->species ?? '';
     }
 
+    public function inspect(string $species): void
+    {
+        $this->preview = array_key_exists($species, config('game.mounts.species')) ? $species : null;
+    }
+
+    public function closePreview(): void
+    {
+        $this->preview = null;
+    }
+
+    /** Desde la ficha: sin montura, la elige y la compra en n1; con montura, le cambia la especie (gratis). */
     public function choose(string $species, Service $stables): void
     {
+        if (! array_key_exists($species, config('game.mounts.species'))) {
+            return;
+        }
+        $this->preview = null;
         $this->species = $species;
+        if (! $stables->mountOf(auth()->user())) {
+            $this->buy($stables);
+
+            return;
+        }
         if ($stables->mountOf(auth()->user())) {
             try {
                 $stables->changeSpecies(auth()->user(), $species);

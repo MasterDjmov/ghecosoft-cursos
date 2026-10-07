@@ -198,3 +198,21 @@ test('el Reloj de Arena termina ya la expedición en camino y se gasta', functio
         ->and(Expedition::first()->resolved_at)->not->toBeNull()
         ->and(fn () => $service->hurry($w['student']))->toThrow(InvalidArgumentException::class, 'en camino');
 });
+
+test('los establos: tocar una especie muestra sus 5 evoluciones sin comprar ni cambiar nada', function () {
+    $w = expeditionWorld();
+    Level::create(['number' => 3, 'xp_required' => 0]);
+    app(Ledger::class)->credit($w['student'], Currency::gold(), 400, CoinReason::ManualAdjustment);
+
+    $page = Livewire::actingAs($w['student'])->test(StablesPage::class)
+        ->call('inspect', 'serphira')
+        ->assertSee('Así evoluciona')->assertSee('n5');
+    expect(Mount::count())->toBe(0);
+
+    $page->call('choose', 'serphira')->assertSet('preview', null);
+    expect(Mount::first()->species)->toBe('serphira')->and(Mount::first()->level)->toBe(1);
+
+    $page->call('inspect', 'titan')->call('closePreview');
+    expect(Mount::first()->species)->toBe('serphira');
+    $page->call('inspect', 'no-existe')->assertSet('preview', null);
+});

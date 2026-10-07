@@ -7,6 +7,14 @@
 
     <x-wallet-bar class="sm:hidden" />
 
+    @if ($closedCourse = session('maintenance_course'))
+        {{-- Quiso entrar a un curso en mantenimiento (D86). --}}
+        <flux:callout icon="wrench-screwdriver" color="amber" data-test="course-maintenance-notice">
+            <flux:callout.heading>{{ $closedCourse }} está en mantenimiento</flux:callout.heading>
+            <flux:callout.text>{{ \App\Support\Maintenance::DEFAULT_COURSE_MESSAGE }}</flux:callout.text>
+        </flux:callout>
+    @endif
+
     @unless (auth()->user()->hero_name)
         <flux:callout icon="sparkles" color="violet" data-test="hero-prompt">
             <flux:callout.heading>Elegí el nombre de tu héroe</flux:callout.heading>
@@ -36,7 +44,8 @@
                     @php
                         $course = $world['course'];
                         $percent = $world['total'] > 0 ? intdiv($world['completed'] * 100, $world['total']) : 0;
-                        [$badge, $badgeClass] = match ($world['status']) {
+                        $closed = ! \App\Support\Maintenance::letsIntoCourse(auth()->user(), $course);
+                        [$badge, $badgeClass] = $closed ? ['En mantenimiento', 'text-warning border-warning/40'] : match ($world['status']) {
                             'active' => ['En curso', 'text-success border-success/40'],
                             'expired' => ['Abono vencido', 'text-warning border-warning/40'],
                             'ready' => ['Listo para abrir', 'text-primary-bright border-primary-bright/40'],
@@ -85,6 +94,9 @@
                                 @endif
                             </span>
                             <div class="flex gap-2">
+                                @if ($closed)
+                                    <span class="flex items-center gap-1.5 text-xs text-warning" data-test="course-closed"><flux:icon name="wrench-screwdriver" variant="micro" /> Volvé en un rato</span>
+                                @else
                                 @if ($world['status'] === 'active' && $world['current'])
                                     <flux:button variant="ghost" size="sm" icon="share" :href="route('student.tree', $course)" wire:navigate>Árbol</flux:button>
                                 @endif
@@ -92,6 +104,7 @@
                                     <flux:button variant="ghost" size="sm" icon="play" :href="route('student.node', [$course, $world['trialRoot']])" wire:navigate>Probar la clase 0</flux:button>
                                 @endif
                                 <flux:button :variant="$primary ? 'primary' : 'filled'" size="sm" :icon:trailing="$primary ? 'arrow-right' : null" :href="$actionUrl" wire:navigate>{{ $action }}</flux:button>
+                                @endif
                             </div>
                         </div>
                     </article>

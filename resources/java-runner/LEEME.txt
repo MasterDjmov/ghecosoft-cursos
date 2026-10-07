@@ -1,0 +1,24 @@
+EJECUTOR DE JAVA · GhecoSoft-Code
+==================================
+
+Con este programa abierto, el botón «Ejecutar» de los cursos de Java corre tu código acá, en tu compu.
+Tu código nunca se ejecuta en el servidor de la plataforma.
+
+1. Instalá el JDK 21 (una sola vez):
+   - Windows: https://adoptium.net → Temurin 21 (LTS) → el instalador .msi. Dejá marcada «Add to PATH».
+   - Ubuntu/Debian: sudo apt install openjdk-21-jdk
+   - Mac: https://adoptium.net → el instalador .pkg
+
+2. Abrí el ejecutor (cada vez que vayas a practicar):
+   - Windows: doble clic en «Iniciar-ejecutor.bat». Si Windows avisa «Windows protegió su PC»,
+     tocá «Más información» → «Ejecutar de todas formas».
+   - Linux y Mac: en una terminal, dentro de esta carpeta: sh iniciar-ejecutor.sh
+
+3. Dejá la ventana abierta y volvé a la plataforma. La primera vez, el navegador pregunta si el sitio
+   puede acceder a tu red local: tocá «Permitir».
+
+Qué hace: escucha solo en tu compu (127.0.0.1, puerto 17017) y solo atiende a la plataforma
+(https://gamificado.lariojaclick.ar). Compila y ejecuta el código del editor con un límite de tiempo.
+Cerrá la ventana y deja de funcionar.
+
+Los pasos con imágenes y el botón «Probar conexión» están en la plataforma: Herramientas → Ejecutor de Java.

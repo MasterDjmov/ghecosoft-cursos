@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Middleware\EnsureCourseOpen;
 use App\Http\Middleware\EnsurePasswordChanged;
+use App\Http\Middleware\EnsurePlatformOpen;
 use App\Http\Middleware\EnsureRole;
 use App\Http\Middleware\EnsureSingleSession;
 use App\Http\Middleware\SecurityHeaders;
@@ -20,8 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => EnsureRole::class,
             'password.changed' => EnsurePasswordChanged::class,
+            'course.open' => EnsureCourseOpen::class,
         ]);
-        $middleware->web(append: [ThrottleAuthForms::class, SecurityHeaders::class, EnsureSingleSession::class]);
+        $middleware->web(append: [ThrottleAuthForms::class, SecurityHeaders::class, EnsureSingleSession::class, EnsurePlatformOpen::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {

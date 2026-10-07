@@ -14,9 +14,12 @@
     $languageEnum = \App\Enums\Language::tryFrom($language);
     $extension = $languageEnum?->extension() ?? 'txt';
     $languageLabel = $languageEnum?->label() ?? $language;
-    // Python (Pyodide) y HTML y CSS (vista previa aislada, D76) corren para todos; C, C++ (D66) y PHP (D68) solo
-    // para el docente al corregir, en su navegador; Java (D69), también solo el docente, en su compu.
-    $canRun = $runnable && ($languageEnum?->runsForStudents() || (in_array($language, ['c', 'cpp', 'php', 'java'], true) && auth()->user()?->isStaff()));
+    // Python (Pyodide) y HTML y CSS (vista previa aislada, D76) corren para todos en el navegador; Java, con el
+    // ejecutor de la compu de cada uno (D69 para el docente, D85 para el alumno); C, C++ (D66) y PHP (D68) solo
+    // para el docente al corregir, en su navegador.
+    $canRun = $runnable && ($languageEnum?->studentCanRun() || (in_array($language, ['c', 'cpp', 'php'], true) && auth()->user()?->isStaff()));
+    // Al alumno, si el ejecutor de Java no responde, se le explica cómo instalarlo (al docente, cómo abrirlo).
+    $javaHelpUrl = $language === 'java' && ! auth()->user()?->isStaff() ? route('student.java-runner') : null;
     $isHtml = $language === 'html';
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
 @endphp
@@ -28,7 +31,7 @@
     x-data="codeRunner(@js([
         'code' => (string) $code, 'stdin' => (string) $stdin, 'expected' => (string) $expected, 'language' => $language,
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
-        'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'timeout' => config('services.pyodide.timeout_ms'),
+        'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
         'references' => (object) array_filter($references),
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
@@ -78,6 +81,13 @@
             <x-code-console class="border-t border-outline" />
         @endif
     </div>
+
+    @if ($canRun && $javaHelpUrl)
+        <p class="-mt-2 flex items-center gap-1.5 text-xs text-ink-muted" data-test="java-runner-hint">
+            <flux:icon name="computer-desktop" variant="micro" /> Java se ejecuta en tu compu, con el
+            <a href="{{ $javaHelpUrl }}" wire:navigate class="text-primary-bright hover:underline">Ejecutor de Java</a> abierto.
+        </p>
+    @endif
 
     <x-expected-io :input="$stdin" :expected="$expected" :references="$references" />
 

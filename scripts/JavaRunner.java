@@ -1,9 +1,9 @@
-// Ejecutor local de Java para corregir (D69): la página de una entrega le manda el código y este programa,
-// en la compu del docente, lo compila con javac y lo corre con java, con la entrada de ejemplo y tiempo límite.
-// Java no tiene un compilador libre y completo para el navegador (D67), así que corre acá, como cuando el
-// docente prueba un zip: el código del alumno nunca se ejecuta en el servidor.
+// Ejecutor local de Java: la página le manda el código y este programa, en esta compu, lo compila con javac y
+// lo corre con java, con la entrada de ejemplo y tiempo límite. Lo usa el docente al corregir (D69) y el alumno
+// para probar su propio código (D85, lo baja de Herramientas → Ejecutor de Java). Java no tiene un compilador
+// libre y completo para el navegador (D67): el código del alumno nunca se ejecuta en el servidor.
 //
-// Uso (Java 17 o más, sin instalar nada):   java scripts/JavaRunner.java
+// Uso (JDK 17 o más, sin instalar nada):    java scripts/JavaRunner.java
 // Otra plataforma además de las de siempre:  java scripts/JavaRunner.java --origin https://otra.ejemplo
 //
 // Seguridad: escucha solo en 127.0.0.1 y atiende únicamente pedidos del navegador que vengan de la plataforma
@@ -47,12 +47,18 @@ public class JavaRunner {
         for (int i = 0; i + 1 < args.length; i++) {
             if (args[i].equals("--origin")) ORIGINS.add(args[++i].replaceAll("/+$", ""));
         }
-        HttpServer server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), PORT), 0);
+        HttpServer server;
+        try {
+            server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), PORT), 0);
+        } catch (java.net.BindException e) {
+            System.out.println("Ya hay un ejecutor de Java abierto en esta compu (puerto " + PORT + "): no hace falta abrir otro.");
+            return;
+        }
         server.createContext("/", JavaRunner::handle);
         server.start();
         System.out.println("Ejecutor de Java listo en http://127.0.0.1:" + PORT + " (Java " + Runtime.version() + ").");
         System.out.println("Atiende a: " + String.join(", ", ORIGINS));
-        System.out.println("Dejalo abierto mientras corregís; Ctrl+C para cerrarlo.");
+        System.out.println("Dejalo abierto mientras uses la plataforma; para cerrarlo, Ctrl+C o cerrá esta ventana.");
     }
 
     static synchronized void handle(HttpExchange ex) throws IOException {
@@ -130,6 +136,9 @@ public class JavaRunner {
             Files.writeString(dir.resolve(file + ".java"), code);
             String java = Path.of(System.getProperty("java.home"), "bin", "java").toString();
             String javac = Path.of(System.getProperty("java.home"), "bin", "javac").toString();
+            if (!Files.exists(Path.of(javac)) && !Files.exists(Path.of(javac + ".exe"))) {
+                return "{\"compiled\":false,\"diagnostics\":" + json("Este Java no trae javac (es un JRE). Instalá el JDK: https://adoptium.net (Temurin 21, LTS).") + "}";
+            }
 
             Result compiled = exec(List.of(javac, "-encoding", "UTF-8", "-Xlint:none", "-d", "out", file + ".java"), dir, "", COMPILE_SECONDS * 1000);
             if (compiled.timedOut || compiled.exit != 0) {

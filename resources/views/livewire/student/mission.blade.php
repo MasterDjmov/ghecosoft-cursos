@@ -5,8 +5,8 @@
     $statusLabel = ['approved' => ['Aprobada', 'text-success border-success/50'], 'submitted' => ['Esperando corrección', 'text-warning border-warning/50'], 'redo' => ['Rehacer', 'text-[#fca5a5] border-[#f87171]/60']];
     $colors = ['approved' => '#10b981', 'submitted' => '#f59e0b', 'redo' => '#f87171'];
     $canSubmit = $blocker === null;
-    // Una práctica "local" se resuelve en la compu del alumno: acá no se ejecuta.
-    $canRun = $course->language->runsForStudents() && ! $isLocal;
+    // Una práctica "local" se resuelve en la compu del alumno: acá no se ejecuta. Java corre con el ejecutor de su compu (D85).
+    $canRun = $course->language->studentCanRun() && ! $isLocal;
     $isHtml = $course->language->value === 'html';
     $extension = $course->language->extension();
     $submitDisabled = $usesFile ? "code.trim() === '' && ! \$wire.file" : "code.trim() === ''";
@@ -28,6 +28,7 @@
             'code' => $startingCode, 'stdin' => (string) $practice->sample_input, 'expected' => (string) $practice->expected_output,
             'language' => $course->language->value, 'readOnly' => (! $canSubmit && ! $trial) || ! $usesCode, 'runnable' => $canRun && $usesCode,
             'pyodideUrl' => config('services.pyodide.url'), 'timeout' => config('services.pyodide.timeout_ms'),
+            'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => route('student.java-runner'),
             'references' => (object) array_filter($practice->referenceUrls()),
         ]))">
 

@@ -1,6 +1,27 @@
 <div class="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-8">
     <x-admin.page-header title="Configuración" />
 
+    {{-- Mantenimiento (D86): la plataforma entera (solo entra el administrador) o algunos cursos. --}}
+    <form wire:submit="saveMaintenance" @class(['panel flex flex-col gap-5 p-5 sm:p-6', 'border-warning/60' => $maintenance_platform || $maintenance_courses]) data-test="maintenance-settings">
+        <div class="flex flex-col gap-1">
+            <h2 class="flex items-center gap-2 font-display font-semibold text-white">
+                <flux:icon name="wrench-screwdriver" variant="mini" class="text-warning" /> Mantenimiento
+            </h2>
+            <p class="text-sm text-ink-muted">Para subir cambios tranquilo. Con la plataforma en mantenimiento <strong class="text-ink">solo entrás vos</strong>: a los demás (alumnos y docentes) se les cierra la sesión y el login les muestra el aviso; nadie puede crear una cuenta. Con un curso en mantenimiento, sus alumnos no entran a ese curso (vos y los docentes sí, para revisarlo). Los días de abono siguen corriendo.</p>
+        </div>
+        <flux:switch wire:model.live="maintenance_platform" label="Plataforma en mantenimiento" description="Solo el administrador puede entrar." />
+        <flux:textarea wire:model="maintenance_message" label="Mensaje" rows="2" :placeholder="$defaultMaintenanceMessage"
+            description:trailing="Lo ven en el login. Vacío, se usa el de ejemplo." />
+        <flux:checkbox.group wire:model.live="maintenance_courses" label="Cursos en mantenimiento">
+            @foreach ($courses as $course)
+                <flux:checkbox :value="(string) $course->id" :label="$course->title.($course->is_published ? '' : ' (sin publicar)')" />
+            @endforeach
+        </flux:checkbox.group>
+        <div class="flex justify-end">
+            <flux:button variant="primary" type="submit">Guardar</flux:button>
+        </div>
+    </form>
+
     <form wire:submit="save" class="panel flex flex-col gap-6 p-5 sm:p-6">
         <flux:input wire:model="whatsapp_number" label="Tu WhatsApp" placeholder="+54 9 380 412-3456"
             description:trailing="Lo usa el botón «Contactar al profe». Si está vacío, el botón no aparece." />

@@ -110,6 +110,11 @@ class Course extends Model
         return $this->hasMany(CourseSubscription::class);
     }
 
+    public function enrollmentRequests(): HasMany
+    {
+        return $this->hasMany(EnrollmentRequest::class);
+    }
+
     public function glossaryTerms(): HasMany
     {
         return $this->hasMany(GlossaryTerm::class);

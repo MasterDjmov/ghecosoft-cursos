@@ -5,6 +5,7 @@ namespace App\Actions\Fortify;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
+use App\Support\Maintenance;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -22,6 +23,10 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+        // Plataforma en mantenimiento (D86): no se crean cuentas nuevas.
+        if (Maintenance::platform()) {
+            throw ValidationException::withMessages(['email' => Maintenance::message()]);
+        }
         $throttleKey = 'register:'.request()->ip();
         if (RateLimiter::tooManyAttempts($throttleKey, 6)) {
             throw ValidationException::withMessages([

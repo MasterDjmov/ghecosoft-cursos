@@ -2,13 +2,15 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Course;
 use App\Models\Setting;
 use App\Support\MailBudget;
+use App\Support\Maintenance;
 use Flux\Flux;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-/** Configuración general: WhatsApp del profe, el mensaje prearmado y el correo (interruptor y tope diario). */
+/** Configuración general: WhatsApp del profe, el mensaje prearmado, el correo (interruptor y tope diario) y el mantenimiento. */
 #[Title('Configuración')]
 class Settings extends Component
 {
@@ -23,6 +25,14 @@ class Settings extends Component
 
     public int $mail_daily_limit = MailBudget::DEFAULT_LIMIT;
 
+    /** Mantenimiento (Support\Maintenance, D86): la plataforma entera o algunos cursos. */
+    public bool $maintenance_platform = false;
+
+    public string $maintenance_message = '';
+
+    /** @var list<string> ids de los cursos en mantenimiento */
+    public array $maintenance_courses = [];
+
     public function mount(): void
     {
         foreach (['whatsapp_number', 'whatsapp_message', 'welcome_text'] as $key) {
@@ -30,6 +40,28 @@ class Settings extends Component
         }
         $this->mail_enabled = MailBudget::enabled();
         $this->mail_daily_limit = MailBudget::limit();
+        $this->maintenance_platform = Maintenance::platform();
+        $this->maintenance_message = (string) Setting::get('maintenance_message', '');
+        $this->maintenance_courses = array_map('strval', Maintenance::courseIds());
+    }
+
+    public function saveMaintenance(): void
+    {
+        $this->validate([
+            'maintenance_message' => ['nullable', 'string', 'max:300'],
+            'maintenance_courses' => ['array'],
+            'maintenance_courses.*' => ['integer', 'exists:courses,id'],
+        ], [], ['maintenance_message' => 'mensaje']);
+        Setting::put('maintenance_platform', $this->maintenance_platform ? '1' : '0');
+        Setting::put('maintenance_message', trim($this->maintenance_message) ?: null);
+        Setting::put('maintenance_courses', implode(',', array_map('intval', $this->maintenance_courses)) ?: null);
+
+        $courses = count($this->maintenance_courses);
+        Flux::toast(variant: $this->maintenance_platform ? 'warning' : 'success', text: match (true) {
+            $this->maintenance_platform => 'Plataforma en mantenimiento: solo entrás vos. Los demás ven el aviso al entrar.',
+            $courses > 0 => 'Plataforma abierta. '.($courses === 1 ? '1 curso queda' : $courses.' cursos quedan').' en mantenimiento.',
+            default => 'Todo abierto: plataforma y cursos.',
+        });
     }
 
     public function saveMail(): void
@@ -63,6 +95,8 @@ class Settings extends Component
         return view('livewire.admin.settings', [
             'mailSentToday' => MailBudget::sentToday(),
             'mailConfigured' => config('mail.default') === 'smtp',
+            'courses' => Course::orderBy('position')->orderBy('title')->get(['id', 'title', 'is_published']),
+            'defaultMaintenanceMessage' => Maintenance::DEFAULT_MESSAGE,
         ]);
     }
 }

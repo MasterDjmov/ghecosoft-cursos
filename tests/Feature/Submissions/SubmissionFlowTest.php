@@ -254,8 +254,9 @@ test('el docente ejecuta una entrega de Java con el ejecutor local o con el coma
         ->assertSee('java -cp . Tablas', false)->assertSee('title="Ejecutar (Ctrl+Enter)"', false)
         ->assertSee('127.0.0.1:17017', false);
 
+    // Desde D85 el alumno también ejecuta Java, con el ejecutor de su propia compu.
     $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))
-        ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
+        ->assertOk()->assertSee('data-test="java-runner-hint"', false);
 });
 
 test('el docente puede ejecutar una entrega de PHP al corregir; el alumno de PHP no ejecuta en la plataforma (D68)', function () {

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Models\User;
+use App\Support\Maintenance;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\FailedPasswordResetLinkRequestResponse;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Responses\SuccessfulPasswordResetLinkRequestResponse;
@@ -51,7 +53,15 @@ class FortifyServiceProvider extends ServiceProvider
 
             $user = User::where('email', $login)->orWhere('username', $login)->first();
 
-            return $user && Hash::check((string) $request->input('password'), $user->password) ? $user : null;
+            if (! $user || ! Hash::check((string) $request->input('password'), $user->password)) {
+                return null;
+            }
+            // Plataforma en mantenimiento (D86): solo entra el administrador.
+            if (! Maintenance::letsIn($user)) {
+                throw ValidationException::withMessages([Fortify::username() => Maintenance::message()]);
+            }
+
+            return $user;
         });
 
         // Confirmar la clave (antes de Seguridad): se compara con la del usuario logueado.

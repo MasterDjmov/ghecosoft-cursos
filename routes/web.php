@@ -5,6 +5,7 @@ use App\Http\Controllers\Files\GuardianAuthorizationController;
 use App\Http\Controllers\Files\NodeResourceController;
 use App\Http\Controllers\Files\ReceiptController;
 use App\Http\Controllers\Files\SubmissionFileController;
+use App\Http\Controllers\JavaRunnerDownloadController;
 use App\Http\Controllers\LandingController;
 use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
@@ -17,18 +18,19 @@ use App\Livewire\Admin\Messages;
 use App\Livewire\Admin\Nodes;
 use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Settings;
+use App\Livewire\Admin\Story as StoryRoom;
 use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
 use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
-use App\Livewire\Admin\Story as StoryRoom;
 use App\Livewire\Student\Chronicles as StudentChronicles;
-use App\Livewire\Student\Universe as StudentUniverse;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\JavaRunner as StudentJavaRunner;
 use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
 use App\Livewire\Student\RankingBoard;
+use App\Livewire\Student\Universe as StudentUniverse;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
 
@@ -49,13 +51,18 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     })->name('home');
 
     Route::livewire('mundos', Worlds::class)->name('student.worlds');
-    Route::livewire('cursos/{course}', CourseDetail::class)->name('student.course');
-    Route::livewire('cursos/{course}/arbol', CourseTree::class)->name('student.tree');
-    Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
-    Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
+    // Un curso en mantenimiento (D86) no deja entrar a sus alumnos.
+    Route::middleware('course.open')->group(function () {
+        Route::livewire('cursos/{course}', CourseDetail::class)->name('student.course');
+        Route::livewire('cursos/{course}/arbol', CourseTree::class)->name('student.tree');
+        Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
+        Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
+    });
     Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
     Route::livewire('universo', StudentUniverse::class)->name('student.universe');
     Route::livewire('cronicas', StudentChronicles::class)->name('student.chronicles');
+    Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
+    Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 
     // Descargas del disco privado: cada controlador llama a authorize().

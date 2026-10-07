@@ -2,6 +2,13 @@
     <div class="flex flex-col gap-6">
         <x-auth-header :title="__('Create an account')" :description="__('Enter your details below to create your account')" />
 
+        @if (\App\Support\Maintenance::platform())
+            <flux:callout icon="wrench-screwdriver" color="amber" data-test="maintenance-notice">
+                <flux:callout.heading>Estamos en mantenimiento</flux:callout.heading>
+                <flux:callout.text>{{ \App\Support\Maintenance::message() }} Por ahora no se pueden crear cuentas nuevas.</flux:callout.text>
+            </flux:callout>
+        @endif
+
         <x-auth-session-status class="text-center" :status="session('status')" />
 
         <form method="POST" action="{{ route('register.store') }}" class="flex flex-col gap-5">

@@ -60,6 +60,21 @@ enum Language: string
         return in_array($this, [self::Python, self::Html], true);
     }
 
+    /**
+     * Lo que corre con el ejecutor local en la compu de quien lo usa (D85): Java, con scripts/JavaRunner.java
+     * abierto. Lo usan el docente al corregir y el alumno para probar su propio código; nunca el servidor.
+     */
+    public function runsOnLocalRunner(): bool
+    {
+        return $this === self::Java;
+    }
+
+    /** Lo que el alumno puede ejecutar: en el navegador o con el ejecutor de su compu. */
+    public function studentCanRun(): bool
+    {
+        return $this->runsForStudents() || $this->runsOnLocalRunner();
+    }
+
     /** Extensión del archivo en el editor. */
     public function extension(): string
     {

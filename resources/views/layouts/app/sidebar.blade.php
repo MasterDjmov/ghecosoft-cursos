@@ -99,6 +99,12 @@
                         <flux:sidebar.item icon="sparkles" :href="route('student.universe')" :current="request()->routeIs('student.universe')" wire:navigate data-test="menu-universe">
                             Universo
                         </flux:sidebar.item>
+                        {{-- Herramientas → Ejecutor de Java (D85): para quien cursa o pidió un curso de Java. --}}
+                        @if (\App\Models\Course::where('language', \App\Enums\Language::Java)->where(fn ($q) => $q->whereHas('subscriptions', fn ($s) => $s->where('user_id', auth()->id()))->orWhereHas('enrollmentRequests', fn ($r) => $r->where('user_id', auth()->id())))->exists())
+                            <flux:sidebar.item icon="command-line" :href="route('student.java-runner')" :current="request()->routeIs('student.java-runner')" wire:navigate data-test="menu-java-runner">
+                                Ejecutor de Java
+                            </flux:sidebar.item>
+                        @endif
                         <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->cv_slug)" target="_blank">
                             Mi CV
                         </flux:sidebar.item>

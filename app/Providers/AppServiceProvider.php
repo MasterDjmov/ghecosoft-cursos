@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\EnsureCourseOpen;
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Models\User;
 use App\Support\MailBudget;
@@ -38,8 +39,9 @@ class AppServiceProvider extends ServiceProvider
         // El docente puede ver y hacer todo; las Policies solo deciden por los alumnos.
         Gate::before(fn (User $user) => $user->isAdmin() ? true : null);
 
-        // También en las acciones de Livewire: con clave provisoria no se hace nada más.
-        Livewire::addPersistentMiddleware([EnsurePasswordChanged::class]);
+        // También en las acciones de Livewire: con clave provisoria no se hace nada más, y un curso en
+        // mantenimiento (D86) frena también las páginas que ya estaban abiertas.
+        Livewire::addPersistentMiddleware([EnsurePasswordChanged::class, EnsureCourseOpen::class]);
 
         // El correo real (SMTP del docente) con interruptor y tope por día: lo que no corresponde no sale.
         Event::listen(MessageSending::class, fn () => config('mail.default') === 'smtp' && ! MailBudget::canSend() ? false : null);

@@ -166,3 +166,11 @@ select:focus[data-flux-control] {
 .mission-editor .cm-editor { height: 100%; border: 0; border-radius: 0; }
 .mission-editor .cm-editor.cm-focused { outline: none; }
 .mission-editor .cm-scroller { overflow: auto; }
+
+/* El prólogo animado (D84 § 1): la cámara se acerca despacio sobre cada toma. */
+@keyframes prologue-kenburns {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.08) translate(-1.5%, -1%); }
+}
+.prologue-kenburns { animation: prologue-kenburns 14s cubic-bezier(.25, 1, .5, 1) forwards; }
+@media (prefers-reduced-motion: reduce) { .prologue-kenburns { animation: none; } }

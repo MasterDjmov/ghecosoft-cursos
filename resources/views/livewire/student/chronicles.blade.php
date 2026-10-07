@@ -42,6 +42,7 @@
     @if ($book === 'portal')
         @include('livewire.partials.chronicle-portal', ['portal' => $portal, 'glossary' => $glossary])
     @elseif (! $course)
+        <x-prologue-player />
         @if ($prologue)
             <article class="panel flex flex-col gap-4 p-6" data-test="chronicle-prologue">
                 <div class="markdown text-ink">{!! $prologue['html'] !!}</div>

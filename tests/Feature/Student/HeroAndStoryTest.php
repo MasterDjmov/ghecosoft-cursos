@@ -70,17 +70,20 @@ test('el docente puede cambiar un héroe inapropiado', function () {
 });
 
 test('los marcadores de la historia se reemplazan con el héroe y el diccionario', function () {
-    ['course' => $course] = makeCourse();
+    ['course' => $course] = makeCourse(['language' => 'c']);
     storyTerm('mentor.name', $course, 'Ofidia');
     $student = User::factory()->create(['hero_name' => 'Luna']);
     $anonymous = User::factory()->create();
 
+    // D84: en un curso sin protagonista, el héroe del alumno; en Python, Mia; en los textos generales, el jugador.
+    expect(Narrative::fill('—Bien hecho, {heroe}.', makeCourse()['course'], $student))->toBe('—Bien hecho, Mia.')
+        ->and(Narrative::fill('Hola, {heroe}.', null, $student))->toBe('Hola, Luna.');
     expect(Narrative::fill('—Bien hecho, {heroe} —dice {mentor}.', $course, $student))->toBe('—Bien hecho, Luna —dice Ofidia.')
         ->and(Narrative::fill('Hola, {Héroe}.', $course, $anonymous))->toBe('Hola, Kira.');
 });
 
 test('la crónica del nodo llama al alumno por su héroe', function () {
-    ['course' => $course, 'root' => $root] = makeCourse();
+    ['course' => $course, 'root' => $root] = makeCourse(['language' => 'c']);
     $root->update(['chronicle' => '—Adelante, {heroe}.']);
     $student = enrolledStudent($course);
     $student->update(['hero_name' => 'Luna']);
@@ -102,7 +105,7 @@ test('el héroe aparece en el ranking y en el CV', function () {
 });
 
 test('la bienvenida del curso se ve en la ficha y en el árbol, y el jefe se presenta', function () {
-    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse();
+    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse(['language' => 'c']);
     storyTerm('story.course_intro', $course, 'Bienvenida al Valle', 'Despertaste en el Valle, {heroe}.');
     $student = enrolledStudent($course);
     $student->update(['hero_name' => 'Luna']);
@@ -119,7 +122,7 @@ test('la bienvenida del curso se ve en la ficha y en el árbol, y el jefe se pre
 });
 
 test('completar una rama avisa con su historia', function () {
-    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse();
+    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse(['language' => 'c']);
     storyTerm('story.branch_completed', $course, '¡Rama completada!', 'Bien hecho, {heroe}.');
     $branch = Branch::create(['course_id' => $course->id, 'title' => 'Fundamentos']);
     $topic1->update(['branch_id' => $branch->id]);

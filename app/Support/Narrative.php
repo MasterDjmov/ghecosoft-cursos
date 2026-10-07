@@ -21,7 +21,7 @@ class Narrative
 
         $user ??= auth()->user();
         $values = [
-            'heroe' => $user?->heroName() ?? term('hero.name', $course),
+            'heroe' => self::hero($course, $user),
             'mentor' => term('mentor.name', $course),
             'mundo' => term('world.name', $course),
             'region' => term('world.region', $course),
@@ -33,6 +33,22 @@ class Narrative
 
             return $values[$key];
         }, $text);
+    }
+
+    /**
+     * {heroe} (D84 § 1): en un curso con protagonista, el protagonista (Mia en Python); en los textos generales
+     * (el prólogo), el jugador: su nombre de héroe si eligió uno, o su nombre.
+     */
+    public static function hero(?Course $course, ?User $user): string
+    {
+        if ($course && ($protagonist = config('game.protagonists.'.$course->language->value))) {
+            return $protagonist['name'];
+        }
+        if ($course === null && $user) {
+            return $user->hero_name ?: Str::before(trim((string) $user->name), ' ') ?: $user->heroName();
+        }
+
+        return $user?->heroName() ?? term('hero.name', $course);
     }
 
     /** Reemplaza los marcadores y pasa el texto a HTML (markdown). */

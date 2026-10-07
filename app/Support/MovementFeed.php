@@ -70,8 +70,9 @@ class MovementFeed
         $xp = XpTransaction::with('creator:id,name')->tap($filter)->latest('id')->limit($take)->get();
         $truncated = $coins->count() === $take || $xp->count() === $take;
 
-        $all = $coins->map(fn ($row) => ['kind' => 'coin', 'row' => $row])
-            ->merge($xp->map(fn ($row) => ['kind' => 'xp', 'row' => $row]));
+        // toBase(): las filas pasan a ser arrays, y una colección de Eloquent vacía no sabría unirlos.
+        $all = $coins->toBase()->map(fn ($row) => ['kind' => 'coin', 'row' => $row])
+            ->merge($xp->toBase()->map(fn ($row) => ['kind' => 'xp', 'row' => $row]));
         self::loadSources($all->pluck('row'));
         $courses = Course::whereIn('id', $all->pluck('row.course_id')->filter()->unique())->get()->keyBy('id');
 

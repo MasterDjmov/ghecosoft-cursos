@@ -51,3 +51,11 @@ test('un alumno no ve los movimientos de otro; el docente sí, con quién los hi
 test('la página de Mi cuenta muestra los movimientos', function () {
     $this->actingAs($this->student)->get(route('movements'))->assertOk()->assertSee('Primer programa');
 });
+
+test('un alumno con XP y sin ninguna moneda también tiene su ficha y sus movimientos', function () {
+    $onlyXp = User::factory()->create();
+    app(\App\Services\Ledger::class)->addXp($onlyXp, 5, \App\Enums\XpReason::ManualAdjustment, note: 'Prueba');
+
+    Livewire::actingAs($this->admin)->test(MovementFeed::class, ['user' => $onlyXp])->assertOk()->assertSee('Prueba');
+    $this->actingAs($this->admin)->get(route('admin.students.show', $onlyXp))->assertOk();
+});

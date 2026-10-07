@@ -302,7 +302,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Personalidad:** calmos, curiosos, discuten con números.
 - **Frase:** «No opines: mostranos los datos.»
 
-### La cocinera de la Torre *(falta la imagen)*
+### La cocinera de la Torre
 - **Rol:** cocina sola el banquete de la Torre del Reloj, en el quinto piso (R03-N05); le enseña a Mia a esperar sin frenar (asyncio).
 - **Edad y sexo:** 50, mujer.
 - **Altura y contextura:** mediana, robusta, **brazos fuertes**.
@@ -313,7 +313,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Frase:** «No se trata de tener más manos: no te quedes quieta mientras algo espera.»
 - **Dónde va:** la cocina de la Torre, con ollas humeantes, hornos de piedra y engranajes en el techo.
 
-### La maestra del Gremio de Artífices *(falta la imagen)*
+### La maestra del Gremio de Artífices
 - **Rol:** dirige el Gremio de Artífices, en el cuarto piso de la Torre (R03-N04); prueba todo antes de montarlo y le da a Mia el **Escudo de las Aserciones**.
 - **Edad y sexo:** 60, mujer.
 - **Altura y contextura:** alta, delgada, de espalda recta.
@@ -324,14 +324,14 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Frase:** «Lo que se prueba, aguanta.»
 - **Dónde va:** el taller del Gremio, con mesas de dibujo y planos de relojes.
 
-### El Archivista Corrupto (jefe de R02) *(falta la imagen)*
+### El Archivista Corrupto (jefe de R02)
 - **Rol:** el jefe de la Bóveda (R02-N05): mezcla los registros y quiere borrar las notas del viajero.
 - **Qué es:** una **figura alta hecha de hojas arrancadas**, sin cara, con **tinta negra que le chorrea de los dedos** y letras sueltas que giran a su alrededor.
 - **Color:** papel amarillento, tinta negra y **destellos violetas** de corrupción.
 - **Cómo habla:** a los gritos, con un **ruido de papel que se rompe**; repite palabras sueltas («¡Mucha!»).
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Gólem del Reloj (jefe de R03) *(falta la imagen)*
+### El Gólem del Reloj (jefe de R03)
 - **Rol:** el jefe de la cima de la Torre del Reloj (R03-N07). No habla.
 - **Qué es:** un **gigante de bronce** hecho de engranajes, con un **corazón rojo de engranajes** que late a la vista en el pecho; de él salen oleadas de piezas.
 - **Rasgos:** ojos de bronce enormes, placas con números de reloj, vapor en las juntas.

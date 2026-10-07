@@ -298,7 +298,7 @@ usa: col.pilas-colas
 
 En la Torre de los Estrategas, un enemigo de práctica tiene que llegar hasta Mia atravesando un laberinto. Los aprendices lo mueven «hacia donde está» y se choca contra cada pared.
 
-—Una buena criatura no camina hacia su presa —dice la estratega—: **busca el camino**. Y el mejor buscador del Reino se llama A*.
+—Una buena criatura no camina hacia su presa —dice la consejera más joven del Consejo, que entrena a los estrategas—: **busca el camino**. Y el mejor buscador del Reino se llama A*.
 
 ### Objetivos
 
@@ -705,7 +705,7 @@ usa: alg.grafos
 
 En el último salón de la Torre de los Estrategas hay dos rivales. Uno juega al tres en raya y **no pierde nunca**. El otro empezó cayéndose en todos los pozos de un pasillo… y después de mil intentos, lo cruza sin dudar.
 
-—El primero **piensa** todas las jugadas posibles —dice la estratega—. El segundo **aprende** de sus errores. Son las dos grandes familias de la inteligencia artificial.
+—El primero **piensa** todas las jugadas posibles —dice la consejera—. El segundo **aprende** de sus errores. Son las dos grandes familias de la inteligencia artificial.
 
 ### Objetivos
 
@@ -1112,7 +1112,7 @@ usa: hw.arduino
 
 En el Taller del Reino, un Arduino con un joystick y dos botones espera sobre la mesa. Cada fracción de segundo manda una línea de texto por el cable. Del otro lado, el programa de Mia tiene que entenderla, aunque a veces llegue cortada o con basura.
 
-—El mundo real es ruidoso —dice la artífice—. Un buen mago no confía en cada mensaje: **lo revisa**, y si se pierde uno, el siguiente lo corrige.
+—El mundo real es ruidoso —dice la maestra del Gremio de Artífices, que bajó de la Torre a ayudar en el Taller—. Un buen mago no confía en cada mensaje: **lo revisa**, y si se pierde uno, el siguiente lo corrige.
 
 ### Objetivos
 

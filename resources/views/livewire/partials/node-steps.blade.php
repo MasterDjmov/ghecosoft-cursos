@@ -30,12 +30,41 @@
                     @endif
                     <flux:icon name="chevron-down" variant="micro" class="text-ink-muted transition group-open:rotate-180 {{ $step->card_title ? '' : 'ms-auto' }}" />
                 </summary>
+                @php($mine = $doneSteps[$step->id])
                 <div class="flex flex-col gap-3 border-t border-success/20 px-4 py-3">
                     @if ($texts['scene'])
                         <div class="markdown text-sm text-ink-muted">{!! $texts['scene'] !!}</div>
                     @endif
+                    @if ($texts['challenge'])
+                        <div class="markdown text-sm text-white">{!! $texts['challenge'] !!}</div>
+                    @endif
+                    {{-- Lo que escribió y lo que obtuvo. --}}
+                    @if (filled($mine->code))
+                        <div class="flex flex-col gap-1" data-test="step-my-code">
+                            <div class="flex items-center justify-between">
+                                <p class="tech-label">Tu código</p>
+                                <button type="button" class="text-xs text-primary-bright hover:underline"
+                                    x-data x-on:click="navigator.clipboard.writeText(@js($mine->code)); $el.textContent = '¡Copiado!'">Copiar</button>
+                            </div>
+                            <pre class="overflow-x-auto rounded-lg border border-outline bg-surface-lowest p-3 font-mono text-sm text-ink">{{ $mine->code }}</pre>
+                        </div>
+                    @endif
+                    @if (filled($mine->output))
+                        <div class="flex flex-col gap-1">
+                            <p class="tech-label">Lo que obtuviste</p>
+                            <pre class="overflow-x-auto rounded-lg border border-success/30 bg-surface-lowest p-3 font-mono text-sm text-success">{{ $mine->output }}</pre>
+                        </div>
+                    @endif
                     @if ($texts['success'])
                         <div class="markdown text-sm text-ink">{!! $texts['success'] !!}</div>
+                    @endif
+                    @if ($step->card_title)
+                        <p class="flex flex-wrap items-center gap-2 text-xs">
+                            <span class="flex items-center gap-1.5 rounded border border-secondary/40 px-2 py-1 text-secondary-bright"><flux:icon name="book-open" variant="micro" /> {{ $step->card_title }}</span>
+                            @if ($step->card_body)
+                                <span class="font-mono text-ink-muted">{{ $step->card_body }}</span>
+                            @endif
+                        </p>
                     @endif
                 </div>
             </details>
@@ -91,7 +120,7 @@
                         :show-stdin="filled($step->sample_input)">
                         <x-slot:footer>
                             {{-- Al coincidir la salida, se avisa una sola vez. --}}
-                            <div x-data="{ sent: false }" x-effect="if (matches === true && ! sent) { sent = true; $wire.completeStep({{ $step->id }}, output).then((r) => { result = r; if (! r.ok) sent = false }) }">
+                            <div x-data="{ sent: false }" x-effect="if (matches === true && ! sent) { sent = true; $wire.completeStep({{ $step->id }}, output, code).then((r) => { result = r; if (! r.ok) sent = false }) }">
                                 <p x-show="matches === false" x-cloak class="flex items-center gap-2 text-sm text-warning" data-test="step-mismatch">
                                     <flux:icon name="exclamation-triangle" variant="micro" /> Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.
                                 </p>

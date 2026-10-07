@@ -50,7 +50,7 @@ class NodeView extends Component
      * @return array{ok: bool, xp?: int, error?: string}
      */
     #[Renderless]
-    public function completeStep(int $stepId, string $output, StepCompleter $completer): array
+    public function completeStep(int $stepId, string $output, string $code, StepCompleter $completer): array
     {
         $step = $this->node->steps()->findOrFail($stepId);
         $key = 'steps:'.auth()->id();
@@ -60,7 +60,7 @@ class NodeView extends Component
         RateLimiter::hit($key, 60);
 
         try {
-            $new = $completer->complete(auth()->user(), $step, Str::limit($output, 20000, ''));
+            $new = $completer->complete(auth()->user(), $step, Str::limit($output, 20000, ''), Str::limit($code, 20000, ''));
         } catch (InvalidArgumentException $e) {
             return ['ok' => false, 'error' => $e->getMessage()];
         }
@@ -124,8 +124,9 @@ class NodeView extends Component
 
         // Micro-misiones (D84): las superadas, la actual y las que faltan.
         $steps = $this->node->steps()->get();
+        // Lo que escribió y obtuvo en cada una superada, para volver a mirarlo.
         $doneSteps = $steps->isEmpty() ? collect() : NodeStepCompletion::where('user_id', $user->id)
-            ->whereIn('node_step_id', $steps->pluck('id'))->pluck('node_step_id')->flip();
+            ->whereIn('node_step_id', $steps->pluck('id'))->get()->keyBy('node_step_id');
         $currentStep = $steps->first(fn ($step) => ! $doneSteps->has($step->id));
         $stepTexts = $steps->mapWithKeys(fn ($step) => [$step->id => [
             'scene' => $render($step->scene),

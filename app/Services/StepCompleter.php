@@ -44,7 +44,7 @@ class StepCompleter
      *
      * @throws InvalidArgumentException si no puede jugarla o la salida no es la esperada.
      */
-    public function complete(User $user, NodeStep $step, string $output): bool
+    public function complete(User $user, NodeStep $step, string $output, ?string $code = null): bool
     {
         if (! $this->canPlay($user, $step)) {
             throw new InvalidArgumentException('Esta micro-misión todavía no está disponible.');
@@ -53,12 +53,15 @@ class StepCompleter
             throw new InvalidArgumentException('La salida no es la esperada.');
         }
 
-        return DB::transaction(function () use ($user, $step) {
+        return DB::transaction(function () use ($user, $step, $output, $code) {
             $completion = NodeStepCompletion::firstOrCreate(
                 ['user_id' => $user->id, 'node_step_id' => $step->id],
-                ['completed_at' => now()],
+                ['completed_at' => now(), 'code' => $code, 'output' => $output],
             );
             if (! $completion->wasRecentlyCreated) {
+                // Si la vuelve a resolver, queda su última versión para releer (la XP no se repite).
+                $completion->update(['code' => $code ?? $completion->code, 'output' => $output]);
+
                 return false;
             }
             // El staff prueba sin sumar XP.

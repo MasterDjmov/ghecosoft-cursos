@@ -205,15 +205,17 @@ test('desde la página del nodo se supera, se queda en pantalla y «Siguiente» 
     $first = $course->rootNode->steps()->first();
 
     $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
-    $component->call('completeStep', $first->id, 'Hola, Valle')
+    $component->call('completeStep', $first->id, 'Hola, Valle', 'print("Hola, Valle")')
         ->assertReturned(['ok' => true, 'xp' => 10])
         ->assertSee('data-test="step-success"', false);
 
-    $component->call('completeStep', $first->id, 'otra cosa')
+    $component->call('completeStep', $first->id, 'otra cosa', 'print("otra cosa")')
         ->assertReturned(['ok' => false, 'error' => 'La salida no es la esperada.']);
 
     $component->call('$refresh')
         ->assertSee('data-test="step-done"', false)
+        ->assertSee('data-test="step-my-code"', false)
+        ->assertSee('print(&quot;Hola, Valle&quot;)', false)
         ->assertSee('Dos líneas');
 
     expect(NodeStepCompletion::where('user_id', $student->id)->count())->toBe(1);

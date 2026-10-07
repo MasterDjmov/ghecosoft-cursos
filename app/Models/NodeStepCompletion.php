@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['user_id', 'node_step_id', 'completed_at'])]
+#[Fillable(['user_id', 'node_step_id', 'code', 'output', 'completed_at'])]
 class NodeStepCompletion extends Model
 {
     protected function casts(): array

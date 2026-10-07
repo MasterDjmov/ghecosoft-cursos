@@ -12,9 +12,12 @@ use Illuminate\Support\Str;
  */
 class CharacterSheets
 {
+    /** Otro archivo de fichas (los tests usan uno propio para no depender de cómo está el .md real). */
+    public static ?string $file = null;
+
     public static function path(): string
     {
-        return base_path('docs/historias/PERSONAJES.md');
+        return self::$file ?? base_path('docs/historias/PERSONAJES.md');
     }
 
     /** El estilo común que va en todos los pedidos (lo que dice el .md arriba de todo). */

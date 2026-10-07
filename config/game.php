@@ -84,6 +84,20 @@ return [
                 6 => 'Hechicera de la Espiral',
             ],
         ],
+        // Java (docs/historias/java.md): la tienda y las expediciones del Imperio se suman cuando esté su mapa.
+        'java' => [
+            'name' => 'Zed',
+            'slug' => 'zed',
+            'title' => 'Ladrón del Puerto',
+            'looks' => [
+                1 => 'Ladrón del Visor',
+                2 => 'Saqueador de Coleta',
+                3 => 'Máscara de Humo',
+                4 => 'Sombra de Capucha',
+                5 => 'Sonrisa Torcida',
+                6 => 'Veterano del Puerto',
+            ],
+        ],
     ],
 
     // Las criaturas de las expediciones (D91), al nivel 1: vida, ataque, defensa y destreza. Crecen con el

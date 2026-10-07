@@ -44,8 +44,8 @@ Al final del camino principal llegás a la **Encrucijada de los Denarios**, de d
 | coin.course | denario | denarios | m | La moneda del Imperio: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
 | mentor.name | Kaffa | | m | El Arquitecto Imperial: diseñó los planos de la capital del Imperio de las Clases. | Kaffa trazó los planos de la capital cuando el Imperio era un montón de piedras sueltas. Su regla es simple: **nada existe suelto**. Cada cosa tiene su clase, cada clase su paquete y cada acuerdo su contrato. Es exigente, pero siempre explica por qué. En sus planos nunca falta una taza de café. | curso |
 | world.region | Imperio de las Clases | | m | La región del mundo cuya lengua arcana es Java. | | curso |
-| story.course_intro | Bienvenida al Imperio | | f | | Llegás a la frontera del **Imperio de las Clases**, {heroe}. Hay una muralla, un portón y una fila de viajeros esperando.<br><br>Soy {mentor}, el Arquitecto Imperial. Antes de entrar vas a pasar por la **Aduana del Compilador**: revisa todo lo que escribís y no deja pasar nada que no esté declarado. Parece estricta, y lo es, pero cada error que te marca en la frontera es uno que no vas a sufrir adentro.<br><br>Cada tema que domines te abre una puerta del Imperio; cada misión aprobada te da denarios para abrir la siguiente. | curso |
-| story.branch_completed | ¡Distrito conquistado! | | m | | {mentor} desenrolla un plano nuevo y marca con tinta un distrito entero. —Esta parte del Imperio ya funciona con tus clases, {heroe}. | curso |
+| story.course_intro | Bienvenida al Imperio | | f | | Zed robaba en los techos del Puerto hasta que tocó una **llave de plomo y vidrio** que decía *«para quien llegue»*. Un vitral se encendió como un portal y despertó en la fila de la **Aduana del Compilador**, sin un solo papel.<br><br>Soy {mentor}, el Arquitecto Imperial. Acá **nada existe suelto** y nada pasa sin declararse: la Aduana revisa todo lo que Zed escribe. Parece estricta, y lo es, pero cada error que marca en la frontera es uno que no va a sufrir adentro.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas lo hace avanzar, cada tema que domines le abre una puerta del Imperio y cada misión aprobada te da denarios para abrir la siguiente. | curso |
+| story.branch_completed | ¡Distrito conquistado! | | m | | {mentor} desenrolla un plano nuevo y marca con tinta un distrito entero. —Esta parte del Imperio ya funciona con tus clases, Zed. Nadia lo anota en su libreta, y por una vez no agrega ningún comentario. | curso |
 | story.course_completed | ¡Dominaste la lengua del Imperio! | | f | | {mentor} te entrega su compás de arquitecto y una taza de café recién hecha. —Ya sos arquitecta o arquitecto del Imperio, {heroe}. Desde la Encrucijada de los Denarios salen tres caminos: el Arcade, las Corrientes y el Puerto de Spring. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que no pudo ordenar Kaffa | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Trató de explicarme qué estaba construyendo y no pude ponerlo en ninguna clase. Es lo único que nunca supe ordenar: algo que no es de ningún lugar, porque es de todos. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis: la Aduana no deja pasar ni una línea. | Los slimes brotan de los punto y coma olvidados, las llaves sin cerrar y las comillas perdidas. La Aduana los detecta al compilar con mensajes como `';' expected`. Son débiles, pero hasta que no los eliminás no se ejecuta nada. | curso |
@@ -66,9 +66,11 @@ temas: prog.entorno, prog.salida, herr.compilacion
 
 ### Crónica
 
-La fila de la Aduana avanza despacio. Delante tuyo, un mercader entrega un pergamino; el aduanero lo lee, frunce el ceño y se lo devuelve con una marca roja: *falta un punto y coma en la línea 3*. El mercader suspira y vuelve al final de la fila.
+Zed robaba en los techos del **Puerto de los Mensajeros** desde que tenía memoria. Esa noche abrió un paquete sin remitente: adentro había una **llave de plomo y vidrios de colores**, con una etiqueta que decía *«para quien llegue»*. La tocó, un vitral del depósito se encendió como un portal… y despertó en una fila, frente a la muralla del **Imperio de las Clases**.
 
-—Así funciona la frontera —dice {mentor}, con su taza de café en la mano—. El **compilador** revisa todo antes de dejarlo entrar. Molesta al principio. Después vas a agradecerlo, {heroe}: acá los errores se ven en la puerta y no a mitad del camino.
+Delante de él, un mercader entrega un pergamino; el aduanero lo lee y se lo devuelve con una marca roja: *falta un punto y coma en la línea 3*. Una aduanera de uniforme azul, **Nadia**, le pide a Zed sus papeles. Él no tiene ninguno.
+
+—Así funciona la frontera —dice {mentor}, el Arquitecto Imperial, con su taza de café en la mano—. El **compilador** revisa todo antes de dejarlo entrar. Molesta al principio. Después lo vas a agradecer, Zed: acá los errores se ven en la puerta y no a mitad del camino.
 
 ### Objetivos
 
@@ -265,6 +267,274 @@ of file while parsing`: falta cerrar una comilla o una llave.
 **Goblin: `java` no encuentra la clase.** `Error: Could not find or load main class
 HolaImperio`: estás en otra carpeta, o escribiste `java HolaImperio.class`
 (se ejecuta sin la extensión).
+
+### Micro-misión R00-N01-P1 · Declarar en la frontera
+
+```meta
+lugar: La fila de la Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+carta: Mostrar texto | System.out.println("texto"); · muestra y salta de línea · cada instrucción termina con ;
+recompensa: xp 10
+```
+
+#### Escena
+Zed despierta en una fila larguísima frente a una muralla con vitrales dorados, con una llave de vidrio en la mano. Una aduanera de uniforme azul y rodete tirante le corta el paso: **Nadia**.
+—Nombre y procedencia. Por escrito. En el Imperio, lo que no está declarado no existe.
+Sobre el hombro de Zed aparece un gecko de luz con antiparras: **Gheco**. —Escribilo en el pergamino. Acá los pergaminos se **ejecutan**.
+
+#### Gheco sugiere
+`System.out.println("…");` muestra el texto entre comillas y salta a la línea siguiente. Para ejecutarlo: con el **Ejecutor de Java** abierto en tu compu (*Herramientas → Ejecutor de Java*), tocá **Ejecutar**. Si no lo tenés, corrélo en tu compu o tu IDE y pegá la salida abajo.
+
+#### Desafío
+Completá la instrucción para declarar quién sos.
+
+#### Código inicial
+```java
+public class Declaracion {
+    public static void main(String[] args) {
+        System.out.___("Me llamo Zed y vengo del Puerto.");
+    }
+}
+```
+
+#### Salida esperada
+```
+Me llamo Zed y vengo del Puerto.
+```
+
+#### Solución
+```java
+public class Declaracion {
+    public static void main(String[] args) {
+        System.out.println("Me llamo Zed y vengo del Puerto.");
+    }
+}
+```
+
+#### Al superarla
+Nadia lee la declaración, la sella y anota algo en su libreta. —Del Puerto. Ajá. —No suena a cumplido.
+
+#### Imagen
+- La muralla del Imperio de las Clases de noche, con vitrales dorados encendidos y una fila de viajeros.
+- Nadia (uniforme azul de cuello alto, botones de bronce, rodete tirante, guantes blancos) le corta el paso a Zed.
+- Zed (pelo blanco plateado, visor rojo, campera negra con vivos rojos) sostiene una llave de plomo y vidrios de colores.
+- Gheco, gecko cian con antiparras, aparece sobre su hombro.
+
+### Micro-misión R00-N01-P2 · Todo en una línea
+
+```meta
+lugar: La fila de la Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+carta: print o println | print no salta de línea · println sí · se pueden combinar
+recompensa: xp 10
+```
+
+#### Escena
+—El formulario va en **una sola línea** —dice Nadia—: nombre, guion, oficio. Y la fecha abajo.
+
+#### Gheco sugiere
+`System.out.print(…)` muestra **sin** saltar de línea: lo siguiente sigue pegado. `println` salta al final.
+
+#### Desafío
+Usá `print` para que nombre y oficio queden en la misma línea.
+
+#### Código inicial
+```java
+public class Formulario {
+    public static void main(String[] args) {
+        System.out.println("Zed");
+        System.out.println(" - ladrón de techos");
+        System.out.println("Llegada: hoy");
+    }
+}
+```
+
+#### Salida esperada
+```
+Zed - ladrón de techos
+Llegada: hoy
+```
+
+#### Solución
+```java
+public class Formulario {
+    public static void main(String[] args) {
+        System.out.print("Zed");
+        System.out.println(" - ladrón de techos");
+        System.out.println("Llegada: hoy");
+    }
+}
+```
+
+#### Al superarla
+Nadia levanta una ceja. —¿«Ladrón de techos»? Por lo menos es honesto. —Y lo anota igual.
+
+#### Imagen
+- Un formulario de pergamino con tres renglones luminosos: los dos primeros unidos en uno.
+- Nadia, con la pluma en alto, mira a Zed con una ceja levantada.
+
+### Micro-misión R00-N01-P3 · El punto y coma olvidado
+
+```meta
+lugar: La fila de la Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+criatura: slime
+carta: Error de compilación | el compilador (javac) revisa ANTES de ejecutar · ';' expected: falta un punto y coma
+recompensa: xp 10
+```
+
+#### Escena
+Delante de Zed, un mercader entrega su pergamino y se lo devuelven con una marca roja. Del pergamino gotea un **slime**.
+—La Aduana es el **compilador** —dice Gheco—. Revisa todo antes de dejarlo pasar. Si falta un signo, no se ejecuta nada.
+
+#### Gheco sugiere
+Un **error de compilación** aparece antes de ejecutar: el programa ni arranca. `';' expected` quiere decir que falta un punto y coma en esa línea.
+
+#### Desafío
+Arreglá el pergamino del mercader para que la Aduana lo deje pasar.
+
+#### Código inicial
+```java
+public class Mercader {
+    public static void main(String[] args) {
+        System.out.println("Traigo tres barriles")
+        System.out.println("y ninguna mala intención");
+    }
+}
+```
+
+#### Salida esperada
+```
+Traigo tres barriles
+y ninguna mala intención
+```
+
+#### Solución
+```java
+public class Mercader {
+    public static void main(String[] args) {
+        System.out.println("Traigo tres barriles");
+        System.out.println("y ninguna mala intención");
+    }
+}
+```
+
+#### Al superarla
+El slime se evapora. El mercader, agradecido, le guiña un ojo a Zed. Nadia, en cambio, no le saca los ojos de encima.
+
+#### Imagen
+- Un pergamino con una marca roja en la línea 3, del que gotea un slime verde que se evapora.
+- Un mercader agradecido; Zed con el pergamino corregido.
+
+### Micro-misión R00-N01-P4 · Lo que explota adentro
+
+```meta
+lugar: La fila de la Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+criatura: ogro
+carta: Error de ejecución | compila, pero falla al correr · el stack trace dice la línea · dividir enteros por 0: ArithmeticException
+recompensa: xp 10
+```
+
+#### Escena
+Zed intenta repartir el peaje entre los viajeros de su fila… que son cero. El pergamino **compila**, pero al ejecutarse explota con un mensaje largo.
+—Eso es un **error de ejecución** —dice Gheco—. La Aduana no lo vio venir. Leé la línea que te marca.
+
+#### Gheco sugiere
+Un **error de ejecución** pasa con el programa ya andando. El *stack trace* dice qué pasó (`ArithmeticException: / by zero`) y en qué línea. Dividir un entero por 0 lo provoca.
+
+#### Desafío
+Que el peaje se reparta entre los 4 viajeros de la fila.
+
+#### Código inicial
+```java
+public class Peaje {
+    public static void main(String[] args) {
+        int peaje = 20;
+        int viajeros = 0;
+        System.out.println("Cada uno paga " + peaje / viajeros);
+    }
+}
+```
+
+#### Salida esperada
+```
+Cada uno paga 5
+```
+
+#### Solución
+```java
+public class Peaje {
+    public static void main(String[] args) {
+        int peaje = 20;
+        int viajeros = 4;
+        System.out.println("Cada uno paga " + peaje / viajeros);
+    }
+}
+```
+
+#### Al superarla
+Cinco denarios cada uno. La fila avanza y Zed ya está frente al portón.
+
+#### Imagen
+- Un pergamino que explota en chispas rojas con el texto `/ by zero`.
+- Zed retrocede de un salto; Gheco se tapa los ojos.
+
+### Micro-misión R00-N01-P5 · Nada existe suelto
+
+```meta
+lugar: El portón de la Aduana
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: La anatomía | public class Nombre { … } · public static void main(String[] args) { … } · en Java todo vive en una clase
+recompensa: xp 15
+item: Llave del Vitral
+```
+
+#### Escena
+En el portón, un hombre alto con una taza de café mira el pergamino de Zed: **Kaffa**, el Arquitecto Imperial. Al pergamino le falta el comienzo.
+—En el Imperio **nada existe suelto** —dice—. Cada instrucción vive en un método, y cada método, en una clase.
+
+#### Gheco sugiere
+Todo programa de Java tiene una **clase** (`public class Nombre { … }`) y adentro el método **`main`**, donde empieza a ejecutarse. Las llaves `{ }` marcan dónde empieza y termina cada uno.
+
+#### Desafío
+Escribí la línea que abre el método `main`.
+
+#### Código inicial
+```java
+public class Porton {
+    ___
+        System.out.println("Zed, del Puerto");
+        System.out.println("Declara: una llave de vidrio");
+    }
+}
+```
+
+#### Salida esperada
+```
+Zed, del Puerto
+Declara: una llave de vidrio
+```
+
+#### Solución
+```java
+public class Porton {
+    public static void main(String[] args) {
+        System.out.println("Zed, del Puerto");
+        System.out.println("Declara: una llave de vidrio");
+    }
+}
+```
+
+#### Al superarla
+Kaffa toma la llave de vidrio, la mira contra la luz de los vitrales y se la devuelve, muy despacio.
+—Pasás la Aduana como todos, Zed: **declarando**. Nadia te va a acompañar. —Ella no parece contenta. Él tampoco.
+La **Llave del Vitral** va a tu mochila.
+
+#### Imagen
+- Kaffa (alto, de túnica de arquitecto, con una taza de café) mira una llave de plomo y vidrios de colores contra la luz de un vitral dorado.
+- Zed y Nadia, uno al lado del otro, mirándose de reojo.
+- El portón de la Aduana empieza a abrirse.
 
 ### Misión R00-N01-M1 · El pase de frontera
 

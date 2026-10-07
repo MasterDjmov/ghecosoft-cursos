@@ -144,6 +144,20 @@
                                 </p>
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
                             </div>
+                            {{-- Java (D85): sin el ejecutor abierto, se corre en la compu o el IDE y se pega la salida. --}}
+                            @if ($course->language->runsOnLocalRunner())
+                                <details class="mt-2 rounded-lg border border-outline/70 px-3 py-2 text-sm" x-show="! result?.ok" x-data="{ pasted: '', checking: false, wrong: false }" data-test="step-paste">
+                                    <summary class="cursor-pointer text-ink-muted hover:text-white">¿No tenés el ejecutor abierto? Corré el programa en tu compu y pegá acá lo que mostró</summary>
+                                    <div class="mt-2 flex flex-col gap-2">
+                                        <textarea x-model="pasted" rows="4" class="w-full rounded-md border border-outline bg-surface-lowest p-2 font-mono text-sm text-ink" placeholder="La salida de tu programa, tal cual" data-test="step-paste-output"></textarea>
+                                        <div class="flex items-center gap-3">
+                                            <flux:button size="sm" variant="primary" x-bind:disabled="checking || pasted.trim() === ''" data-test="step-paste-check"
+                                                x-on:click="checking = true; wrong = false; $wire.completeStep({{ $step->id }}, pasted, code).then((r) => { checking = false; if (r.ok) { result = r } else { wrong = true } })">Comprobar</flux:button>
+                                            <span x-show="wrong" x-cloak class="text-warning">Todavía no: esa salida no es igual a la esperada. Comparalas línea por línea.</span>
+                                        </div>
+                                    </div>
+                                </details>
+                            @endif
                         </x-slot:footer>
                     </x-code-runner>
 

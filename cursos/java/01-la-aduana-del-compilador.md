@@ -17,9 +17,11 @@ temas: prog.variables
 
 ### Crónica
 
-Pasás la primera puerta y un aduanero te pone delante una balanza con cajones etiquetados: *enteros*, *decimales*, *letras*, *verdadero o falso*. Nada entra sin etiqueta.
+Pasado el portón, un aduanero le pone a Zed delante una balanza con cajones etiquetados: *enteros*, *decimales*, *letras*, *verdadero o falso*. Zed intenta meter «un poco de todo» en el mismo cajón. Nada entra sin etiqueta.
 
-—En el Imperio cada cosa se **declara** —explica {mentor}—. Si decís que un cajón guarda números enteros, la Aduana no te va a dejar meter medio kilo de harina. Parece rígido, {heroe}, pero así nadie se lleva sorpresas.
+—En el Imperio cada cosa se **declara** —explica {mentor}—. Si decís que un cajón guarda números enteros, la Aduana no te va a dejar meter medio kilo de harina. Parece rígido, Zed, pero así nadie se lleva sorpresas.
+
+Nadia anota todo en su libreta. No le saca los ojos de encima.
 
 ### Objetivos
 
@@ -228,6 +230,224 @@ number too large`): el literal es `int` y no entra. Va `3450000000L`.
 
 **Slime: comillas equivocadas.** `char c = "K";` o `String s = 'Kira';`: el `char`
 va con comillas simples y el `String` con dobles.
+
+### Micro-misión R01-N01-P1 · Cada cajón con su etiqueta
+
+```meta
+lugar: La Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+carta: Variables y tipos | int edad = 18; · double peso = 2.5; · String nombre = "Zed"; · boolean libre = true;
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Pasado el portón hay una balanza con cajones etiquetados: *enteros*, *decimales*, *texto*, *verdadero o falso*. Zed quiere meter «un poco de todo» en el mismo cajón.
+—Cada cajón guarda **un solo tipo** —dice Nadia—. Declaralo.
+
+#### Gheco sugiere
+Una variable se declara con su **tipo** y su nombre: `int` (enteros), `double` (decimales), `String` (texto, con mayúscula) y `boolean` (`true` o `false`).
+
+#### Desafío
+Completá el tipo de cada cajón.
+
+#### Código inicial
+```java
+public class Cajones {
+    public static void main(String[] args) {
+        ___ barriles = 3;
+        ___ peso = 12.5;
+        ___ propietario = "Zed";
+        ___ declarado = true;
+        System.out.println(barriles + " barriles de " + peso + " kg, de " + propietario + ": " + declarado);
+    }
+}
+```
+
+#### Salida esperada
+```
+3 barriles de 12.5 kg, de Zed: true
+```
+
+#### Solución
+```java
+public class Cajones {
+    public static void main(String[] args) {
+        int barriles = 3;
+        double peso = 12.5;
+        String propietario = "Zed";
+        boolean declarado = true;
+        System.out.println(barriles + " barriles de " + peso + " kg, de " + propietario + ": " + declarado);
+    }
+}
+```
+
+#### Al superarla
+La balanza se equilibra y cada cajón se cierra con un clic. Nadia tilda algo en la libreta.
+
+#### Imagen
+- Una balanza de bronce con cuatro cajones etiquetados: enteros, decimales, texto, verdadero o falso.
+- Zed acomoda paquetes en cada cajón; Nadia controla con la libreta.
+
+### Micro-misión R01-N01-P2 · Lo que no cambia
+
+```meta
+lugar: La Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+carta: Constantes | final double PEAJE = 2.5; · no se puede reasignar · nombre en MAYÚSCULAS
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Zed «ajusta» el valor del peaje en su cuenta, para pagar menos. Nadia ni lo mira: —El peaje es **constante**. Escribilo así y el compilador no te va a dejar tocarlo.
+
+#### Gheco sugiere
+Con `final` una variable se vuelve **constante**: si alguien intenta cambiarla, no compila. Por costumbre se escribe en MAYÚSCULAS.
+
+#### Desafío
+Sacá la línea que intenta cambiar la constante, para que compile.
+
+#### Código inicial
+```java
+public class Constante {
+    public static void main(String[] args) {
+        final int PEAJE = 5;
+        int carros = 4;
+        PEAJE = 1;
+        System.out.println("Total: " + PEAJE * carros + " denarios");
+    }
+}
+```
+
+#### Salida esperada
+```
+Total: 20 denarios
+```
+
+#### Solución
+```java
+public class Constante {
+    public static void main(String[] args) {
+        final int PEAJE = 5;
+        int carros = 4;
+        System.out.println("Total: " + PEAJE * carros + " denarios");
+    }
+}
+```
+
+#### Al superarla
+Veinte denarios. Zed paga, de mala gana. —Por lo menos es la misma regla para todos —murmura Gheco.
+
+#### Imagen
+- Un cartel de piedra tallada con el peaje: «5», con un candado de bronce.
+- Zed pagando monedas de mala gana; Nadia extiende la mano.
+
+### Micro-misión R01-N01-P3 · Medio kilo no entra
+
+```meta
+lugar: La Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+criatura: goblin
+carta: Casting | int n = (int) 3.99; → 3 (corta, no redondea) · de double a int hay que pedirlo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Zed intenta guardar 7,8 kilos de harina en el cajón de los enteros. No compila, y de entre los sacos salta un **goblin**.
+—Los goblins nacen de los tipos que no encajan —dice Gheco—. Si querés pasar un decimal a entero, **pedilo**.
+
+#### Gheco sugiere
+Un `double` no entra solo en un `int`: hay que **convertirlo** con `(int)`. Ojo: **corta** los decimales, no redondea. Para redondear está `Math.round`.
+
+#### Desafío
+Convertí el peso a entero (cortando) para el cajón de enteros.
+
+#### Código inicial
+```java
+public class Casting {
+    public static void main(String[] args) {
+        double harina = 7.8;
+        int cajon = harina;
+        System.out.println("En el cajón entran " + cajon + " kg");
+        System.out.println("Redondeado serían " + Math.round(harina));
+    }
+}
+```
+
+#### Salida esperada
+```
+En el cajón entran 7 kg
+Redondeado serían 8
+```
+
+#### Solución
+```java
+public class Casting {
+    public static void main(String[] args) {
+        double harina = 7.8;
+        int cajon = (int) harina;
+        System.out.println("En el cajón entran " + cajon + " kg");
+        System.out.println("Redondeado serían " + Math.round(harina));
+    }
+}
+```
+
+#### Al superarla
+Siete kilos al cajón; los ochocientos gramos sobrantes se los queda el goblin y huye. Nadia anota: «pérdida: 0,8 kg».
+
+#### Imagen
+- Un goblin flaco huye con un saquito de harina entre los cajones.
+- Un cajón de enteros con un 7 grabado; un 0,8 escapándose en el aire.
+
+### Micro-misión R01-N01-P4 · El reparto que no da
+
+```meta
+lugar: La Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+criatura: ogro
+carta: División entera | 7 / 2 → 3 (dos int) · 7 / 2.0 → 3.5 · si uno es double, el resultado es double
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay que repartir 7 denarios de multa entre 2 viajeros. La cuenta da 3 cada uno… y se perdió un denario. Ningún error: es un **ogro**.
+
+#### Gheco sugiere
+Entre dos `int`, `/` da la **división entera**: tira los decimales. Si uno de los dos es `double` (por ejemplo `2.0`), el resultado tiene decimales.
+
+#### Desafío
+Hacé que el reparto dé con decimales.
+
+#### Código inicial
+```java
+public class Reparto {
+    public static void main(String[] args) {
+        int multa = 7;
+        System.out.println("Cada uno paga " + multa / 2);
+    }
+}
+```
+
+#### Salida esperada
+```
+Cada uno paga 3.5
+```
+
+#### Solución
+```java
+public class Reparto {
+    public static void main(String[] args) {
+        int multa = 7;
+        System.out.println("Cada uno paga " + multa / 2.0);
+    }
+}
+```
+
+#### Al superarla
+Tres y medio cada uno: el denario perdido aparece. —Ningún error y todo mal —dice Gheco—. Así son los ogros.
+
+#### Imagen
+- Siete monedas que se reparten en dos montones de tres y media; media moneda partida brilla en el medio.
+- Un ogro chiquito que se escabulle detrás de la balanza.
 
 ### Misión R01-N01-M1 · El inventario del carro
 
@@ -472,7 +692,9 @@ temas: prog.operadores
 
 En el patio de la Aduana, dos guardias discuten a los gritos: uno calculó que la caravana paga 18 denarios y el otro, 12. Los dos usaron los mismos números.
 
-—Tienen razón los dos —suspira {mentor}—, y los dos están mal. Uno sumó antes de multiplicar y el otro al revés. Las **expresiones** tienen reglas de orden, {heroe}. Si no las conocés, el ogro de la lógica se ríe de vos.
+—Tienen razón los dos —suspira {mentor}—, y los dos están mal. Uno sumó antes de multiplicar y el otro al revés. Las **expresiones** tienen reglas de orden, Zed. Si no las conocés, el ogro de la lógica se ríe de vos.
+
+Zed, que en el Puerto contaba monedas ajenas a toda velocidad, descubre que acá el orden decide quién paga de más.
 
 ### Objetivos
 
@@ -653,6 +875,230 @@ lados siempre. Para condiciones usá `&&` y `||`.
 
 **Orco: dividir por cero.** Entre enteros, `x / 0` corta el programa con
 `ArithmeticException: / by zero`. Entre `double`, da `Infinity`.
+
+### Micro-misión R01-N02-P1 · Cuántos carros completos
+
+```meta
+lugar: El patio de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: / y % | 17 / 5 → 3 (cuántas veces entra) · 17 % 5 → 2 (lo que sobra)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el patio hay 17 barriles y los carros llevan 5 cada uno. Dos guardias discuten cuántos carros salen y cuántos barriles quedan. Nadia le pasa la cuenta a Zed.
+
+#### Gheco sugiere
+Con enteros, `/` dice **cuántas veces entra** y `%` (el resto) dice **lo que sobra**.
+
+#### Desafío
+Completá con el operador del resto.
+
+#### Código inicial
+```java
+public class Carros {
+    public static void main(String[] args) {
+        int barriles = 17;
+        int porCarro = 5;
+        System.out.println("Carros llenos: " + barriles / porCarro);
+        System.out.println("Sobran: " + barriles ___ porCarro);
+    }
+}
+```
+
+#### Salida esperada
+```
+Carros llenos: 3
+Sobran: 2
+```
+
+#### Solución
+```java
+public class Carros {
+    public static void main(String[] args) {
+        int barriles = 17;
+        int porCarro = 5;
+        System.out.println("Carros llenos: " + barriles / porCarro);
+        System.out.println("Sobran: " + barriles % porCarro);
+    }
+}
+```
+
+#### Al superarla
+Tres carros y dos barriles sueltos. Los guardias se callan. Uno le hace un gesto a Zed: no está mal, para un colado.
+
+#### Imagen
+- El patio de la Aduana: tres carros cargados y dos barriles sueltos.
+- Dos guardias que dejan de discutir; Zed con los brazos cruzados, satisfecho.
+
+### Micro-misión R01-N02-P2 · Sumar sobre lo que hay
+
+```meta
+lugar: El patio de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: Asignación compuesta | x += 3 · x -= 2 · x *= 2 · x++ suma uno
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Contá los carros que van pasando —dice Nadia—. Uno por uno. Y al final, cada carro paga el doble por ser feriado.
+
+#### Gheco sugiere
+`carros++` suma uno. `total += 5` es `total = total + 5`; también existen `-=`, `*=` y `/=`.
+
+#### Desafío
+Completá las tres cuentas con atajos.
+
+#### Código inicial
+```java
+public class Conteo {
+    public static void main(String[] args) {
+        int carros = 0;
+        carros___;
+        carros___;
+        carros___;
+        int peaje = carros * 5;
+        peaje ___ 2;
+        System.out.println(carros + " carros pagan " + peaje);
+    }
+}
+```
+
+#### Salida esperada
+```
+3 carros pagan 30
+```
+
+#### Solución
+```java
+public class Conteo {
+    public static void main(String[] args) {
+        int carros = 0;
+        carros++;
+        carros++;
+        carros++;
+        int peaje = carros * 5;
+        peaje *= 2;
+        System.out.println(carros + " carros pagan " + peaje);
+    }
+}
+```
+
+#### Al superarla
+Treinta denarios de feriado. Nadia los guarda en la caja fuerte… y mira a Zed para ver dónde tiene las manos.
+
+#### Imagen
+- Una caja fuerte de la Aduana con un contador de carros de bronce que marca 3.
+- Nadia guardando monedas mientras vigila a Zed de reojo.
+
+### Micro-misión R01-N02-P3 · ¿Puede pasar?
+
+```meta
+lugar: El patio de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: Lógicos | && (y) · || (o) · ! (no) · dan true o false
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La regla del portón: pasa quien **tiene sello y pagó**, o quien es **guardia**. Zed tiene sello, no pagó y no es guardia, pero dice que debería pasar.
+
+#### Gheco sugiere
+`&&` es «y» (las dos cosas), `||` es «o» (alguna de las dos) y `!` niega. Combinadas dan `true` o `false`.
+
+#### Desafío
+Escribí la regla del portón con `&&` y `||`.
+
+#### Código inicial
+```java
+public class Porton {
+    public static void main(String[] args) {
+        boolean tieneSello = true;
+        boolean pago = false;
+        boolean esGuardia = false;
+        boolean pasa = ___;
+        System.out.println("¿Zed pasa? " + pasa);
+    }
+}
+```
+
+#### Salida esperada
+```
+¿Zed pasa? false
+```
+
+#### Solución
+```java
+public class Porton {
+    public static void main(String[] args) {
+        boolean tieneSello = true;
+        boolean pago = false;
+        boolean esGuardia = false;
+        boolean pasa = (tieneSello && pago) || esGuardia;
+        System.out.println("¿Zed pasa? " + pasa);
+    }
+}
+```
+
+#### Al superarla
+`false`. Zed paga, refunfuñando. —La regla no tiene otra puerta —dice Nadia, y por primera vez casi se ríe.
+
+#### Imagen
+- Un portón con dos candados de luz: «sello» encendido y «pago» apagado.
+- Zed busca una rendija en el portón; Nadia, apoyada en la pared, casi sonríe.
+
+### Micro-misión R01-N02-P4 · Primero lo que va primero
+
+```meta
+lugar: El patio de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: ogro
+carta: Precedencia | * y / antes que + y - · los paréntesis mandan · 2 + 3 * 4 → 14
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cada carro paga 3 denarios, más 10 de la caravana entera, y todo eso por 2 porque es feriado. Un guardia hizo la cuenta y le dio 16. Debería ser 32. No hay error: un **ogro**.
+
+#### Gheco sugiere
+Java multiplica y divide **antes** de sumar y restar. Si querés otro orden, usá **paréntesis**.
+
+#### Desafío
+Poné los paréntesis para que la cuenta dé lo que tiene que dar.
+
+#### Código inicial
+```java
+public class Feriado {
+    public static void main(String[] args) {
+        int carros = 2;
+        int total = carros * 3 + 10 * 2;
+        System.out.println("La caravana paga " + total);
+    }
+}
+```
+
+#### Salida esperada
+```
+La caravana paga 32
+```
+
+#### Solución
+```java
+public class Feriado {
+    public static void main(String[] args) {
+        int carros = 2;
+        int total = (carros * 3 + 10) * 2;
+        System.out.println("La caravana paga " + total);
+    }
+}
+```
+
+#### Al superarla
+Treinta y dos. Los dos guardias que discutían se dan la mano. —El orden decide quién paga de más —dice Zed, y Nadia lo anota en su libreta como si fuera una regla.
+
+#### Imagen
+- Una pizarra con la cuenta: los paréntesis brillan en verde.
+- Dos guardias dándose la mano; Nadia anota en su libreta.
 
 ### Misión R01-N02-M1 · El reloj de la torre
 
@@ -888,9 +1334,11 @@ temas: prog.cadenas, prog.salida
 
 ### Crónica
 
-La oficina de sellos de la Aduana está tapada de pergaminos: nombres mal escritos, apellidos en mayúsculas, espacios de más. El escriba jefe te mira con ojeras.
+La oficina de sellos de la Aduana está tapada de pergaminos: nombres mal escritos, apellidos en mayúsculas, espacios de más. El Escriba Jefe mira a Zed con ojeras.
 
-—Los textos son lo que más se rompe —dice {mentor}—. Y tienen una trampa que se cobró más víctimas que cualquier monstruo: en el Imperio, **dos textos iguales no siempre son el mismo texto**. Prestá atención, {heroe}.
+Zed piensa en copiar un sello y ahorrarse la fila. Lo copia perfecto, letra por letra… y la Aduana lo rechaza.
+
+—Los textos son lo que más se rompe —dice {mentor}—. Y tienen una trampa que se cobró más víctimas que cualquier monstruo: en el Imperio, **dos textos iguales no siempre son el mismo texto**. Prestá atención, Zed.
 
 ### Objetivos
 
@@ -1097,6 +1545,235 @@ y `%f` para decimales.
 
 **Ogro: coma en lugar de punto.** Sin `Locale.setDefault(Locale.US)`, en una compu en
 español `%.2f` muestra `12,50`.
+
+### Micro-misión R01-N03-P1 · Los nombres torcidos
+
+```meta
+lugar: La oficina de sellos de la Aduana
+personajes: Zed, Gheco, Nadia, el Escriba Jefe
+carta: Métodos de String | .trim() saca espacios · .toUpperCase() · .length() · .charAt(0)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la oficina de sellos, el Escriba Jefe tiene los ojos rojos de copiar nombres con espacios de más y en minúsculas. —Arreglámelos —le pide a Zed—, que yo ya no veo.
+
+#### Gheco sugiere
+Un `String` sabe hacer cosas: `.trim()` saca los espacios de los costados, `.toUpperCase()` lo pasa a mayúsculas y `.length()` dice cuántas letras tiene.
+
+#### Desafío
+Limpiá el nombre y pasalo a mayúsculas.
+
+#### Código inicial
+```java
+public class Nombres {
+    public static void main(String[] args) {
+        String crudo = "   nadia   ";
+        String limpio = crudo.___.___;
+        System.out.println("[" + limpio + "] tiene " + limpio.length() + " letras");
+    }
+}
+```
+
+#### Salida esperada
+```
+[NADIA] tiene 5 letras
+```
+
+#### Solución
+```java
+public class Nombres {
+    public static void main(String[] args) {
+        String crudo = "   nadia   ";
+        String limpio = crudo.trim().toUpperCase();
+        System.out.println("[" + limpio + "] tiene " + limpio.length() + " letras");
+    }
+}
+```
+
+#### Al superarla
+«NADIA», sin un espacio de más. Nadia, que miraba por encima del hombro, carraspea. —Está bien escrito. Por una vez.
+
+#### Imagen
+- Una oficina tapada de pergaminos; el Escriba Jefe, ojeroso, con anteojos en la punta de la nariz.
+- Un pergamino donde «   nadia   » se convierte en «NADIA».
+
+### Micro-misión R01-N03-P2 · El sello falsificado
+
+```meta
+lugar: La oficina de sellos de la Aduana
+personajes: Zed, Gheco, Nadia, el Escriba Jefe
+criatura: ogro
+carta: == contra equals | == pregunta si es el MISMO objeto · .equals() compara el texto · para textos, siempre equals
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Zed copia un sello que dice exactamente lo mismo que el original: «APROBADO». La Aduana lo compara… y dice que **no** es igual.
+—Dos textos iguales no siempre son **el mismo** texto —dice Gheco—. Ese es el ogro preferido del Imperio.
+
+#### Gheco sugiere
+Con textos, `==` pregunta si son **el mismo objeto**, no si dicen lo mismo, y a veces da `false` aunque el texto sea igual. Para comparar el contenido se usa `.equals()`.
+
+#### Desafío
+Compará el contenido de los dos sellos.
+
+#### Código inicial
+```java
+public class Sello {
+    public static void main(String[] args) {
+        String original = "APROBADO";
+        String copia = new String("APROBADO");
+        System.out.println("¿Mismo objeto? " + (original == copia));
+        System.out.println("¿Mismo texto? " + ___);
+    }
+}
+```
+
+#### Salida esperada
+```
+¿Mismo objeto? false
+¿Mismo texto? true
+```
+
+#### Solución
+```java
+public class Sello {
+    public static void main(String[] args) {
+        String original = "APROBADO";
+        String copia = new String("APROBADO");
+        System.out.println("¿Mismo objeto? " + (original == copia));
+        System.out.println("¿Mismo texto? " + original.equals(copia));
+    }
+}
+```
+
+#### Al superarla
+«Mismo objeto: false. Mismo texto: true.» El Escriba Jefe se ríe. —¡Así me engañaron cien veces! —Zed no dice que él también pensaba engañarlo.
+
+#### Imagen
+- Dos sellos idénticos «APROBADO» sobre la mesa; entre ellos, un `==` tachado y un `.equals()` brillando.
+- El Escriba Jefe riéndose; Zed silba mirando al techo.
+
+### Micro-misión R01-N03-P3 · La lista de una sola tirada
+
+```meta
+lugar: La oficina de sellos de la Aduana
+personajes: Zed, Gheco, Nadia, el Escriba Jefe
+carta: StringBuilder | sb.append("…") agrega · sb.toString() da el texto · para armar textos de a pedazos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Escriba Jefe quiere la lista de los viajeros de hoy en una sola línea, separados por guiones. Pegar texto con `+` dentro de un bucle lo vuelve loco.
+
+#### Gheco sugiere
+`StringBuilder` arma un texto de a pedazos: `append` agrega al final y `toString()` devuelve el texto armado.
+
+#### Desafío
+Agregá cada viajero con `append`.
+
+#### Código inicial
+```java
+public class Lista {
+    public static void main(String[] args) {
+        String[] viajeros = {"Zed", "Nadia", "un mercader"};
+        StringBuilder sb = new StringBuilder();
+        for (String v : viajeros) {
+            sb.___(v).___(" - ");
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+#### Salida esperada
+```
+Zed - Nadia - un mercader - 
+```
+
+#### Solución
+```java
+public class Lista {
+    public static void main(String[] args) {
+        String[] viajeros = {"Zed", "Nadia", "un mercader"};
+        StringBuilder sb = new StringBuilder();
+        for (String v : viajeros) {
+            sb.append(v).append(" - ");
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
+
+#### Al superarla
+La lista sale de un tirón. —Nadia no es una viajera —protesta ella. —Hoy sí —dice Zed—: viaja conmigo.
+
+#### Imagen
+- Una tira de pergamino que se arma sola, nombre por nombre, con guiones de luz.
+- Nadia, ofendida, con los brazos en jarra; Zed sonriendo torcido.
+
+### Micro-misión R01-N03-P4 · La tabla de tarifas
+
+```meta
+lugar: La oficina de sellos de la Aduana
+personajes: Zed, Gheco, Nadia, el Escriba Jefe
+carta: printf | System.out.printf(Locale.US, "%-8s %6.2f%n", nombre, precio) · %s texto · %d entero · %.2f decimales · %n salto
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—La tabla de tarifas tiene que quedar **prolija** —pide el Escriba—: el nombre a la izquierda y el precio con dos decimales, alineado.
+
+#### Gheco sugiere
+`printf` usa un **formato**: `%s` para textos, `%d` para enteros, `%.2f` para decimales con 2 cifras, `%n` para saltar de línea. Un número antes (`%-8s`, `%6.2f`) fija el ancho. Con `Locale.US`, el decimal es un punto en cualquier compu.
+
+#### Desafío
+Completá el formato del precio: ancho 6 y 2 decimales.
+
+#### Código inicial
+```java
+import java.util.Locale;
+
+public class Tarifas {
+    public static void main(String[] args) {
+        String[] cosas = {"Barril", "Caballo", "Carta"};
+        double[] precios = {2.5, 12, 0.75};
+        for (int i = 0; i < cosas.length; i++) {
+            System.out.printf(Locale.US, "%-8s ___%n", cosas[i], precios[i]);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Barril     2.50
+Caballo   12.00
+Carta      0.75
+```
+
+#### Solución
+```java
+import java.util.Locale;
+
+public class Tarifas {
+    public static void main(String[] args) {
+        String[] cosas = {"Barril", "Caballo", "Carta"};
+        double[] precios = {2.5, 12, 0.75};
+        for (int i = 0; i < cosas.length; i++) {
+            System.out.printf(Locale.US, "%-8s %6.2f%n", cosas[i], precios[i]);
+        }
+    }
+}
+```
+
+#### Al superarla
+La tabla queda perfecta, con los números alineados como soldados. El Escriba Jefe la cuelga en la puerta. En la ventanilla de al lado, alguien empieza a hacer preguntas.
+
+#### Imagen
+- Una tabla de tarifas tallada en bronce, con precios perfectamente alineados.
+- El Escriba Jefe la cuelga en la puerta de la oficina.
 
 ### Misión R01-N03-M1 · El registro del escriba
 
@@ -1348,9 +2025,9 @@ temas: prog.entrada, prog.matematica-azar
 
 ### Crónica
 
-En la ventanilla de la Aduana, el aduanero ya no lee pergaminos: te **pregunta**. Nombre, edad, cuánto oro traés. Anota cada respuesta y hace cuentas con una tablilla de fórmulas.
+En la ventanilla de la Aduana, Nadia ya no lee pergaminos: **pregunta**. Nombre, edad, cuánto oro trae cada viajero. Anota cada respuesta y hace cuentas con una tablilla de fórmulas. Cuando le toca a Zed, contesta «muchos» donde iba un número.
 
-—Un programa que no escucha siempre dice lo mismo —dice {mentor}—. Enseñale a preguntar, {heroe}. Pero ojo: la gente responde cualquier cosa. Donde esperás un número, alguien va a escribir "muchos".
+—Un programa que no escucha siempre dice lo mismo —dice {mentor}—. Enseñale a preguntar, Zed. Pero ojo: la gente responde cualquier cosa. Vos lo sabés mejor que nadie.
 
 ### Objetivos
 
@@ -1537,6 +2214,262 @@ Ventanilla.java:5: error: cannot find symbol
 Va `import java.util.Scanner;` arriba de todo.
 
 **Ogro: `nextInt(6)` da de 0 a 5.** Para un dado de 1 a 6, sumale 1.
+
+### Micro-misión R01-N04-P1 · El interrogatorio
+
+```meta
+lugar: La ventanilla de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: Scanner | Scanner sc = new Scanner(System.in); · sc.nextLine() lee una línea · import java.util.Scanner;
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la ventanilla, Nadia ya no lee pergaminos: **pregunta**. —Ahora lo escribís vos —le dice a Zed—. Que el programa pregunte el nombre y salude.
+
+#### Gheco sugiere
+`Scanner` lee lo que se escribe en el teclado. Se crea con `new Scanner(System.in)` y `nextLine()` lee una línea entera. Hay que importarlo: `import java.util.Scanner;`. Acá la **Entrada** ya viene escrita: es lo que «tipearía» el viajero.
+
+#### Desafío
+Leé el nombre con `nextLine`.
+
+#### Código inicial
+```java
+import java.util.Scanner;
+
+public class Ventanilla {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre: ");
+        String nombre = sc.___;
+        System.out.println();
+        System.out.println("Bienvenido al Imperio, " + nombre);
+    }
+}
+```
+
+#### Entrada
+```
+Baldo
+```
+
+#### Salida esperada
+```
+Nombre: 
+Bienvenido al Imperio, Baldo
+```
+
+#### Solución
+```java
+import java.util.Scanner;
+
+public class Ventanilla {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+        System.out.println();
+        System.out.println("Bienvenido al Imperio, " + nombre);
+    }
+}
+```
+
+#### Al superarla
+«Bienvenido al Imperio, Baldo.» El mercader de la fila, un hombrecito de orejas puntiagudas, se va contento. —Ese no es de acá —murmura Gheco.
+
+#### Imagen
+- La ventanilla de la Aduana: Nadia del otro lado del vidrio con su libreta.
+- Un mercader de orejas puntiagudas y antiparras (Baldo, de paso por el Imperio) recibe su sello contento.
+
+### Micro-misión R01-N04-P2 · El salto de línea perdido
+
+```meta
+lugar: La ventanilla de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: esqueleto
+carta: nextInt + nextLine | nextInt() deja el Enter en la fila · un sc.nextLine() de más lo saca
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Ahora la ventanilla pregunta la edad (un número) y después el oficio. Pero el oficio sale **vacío**, como si el viajero no hubiera dicho nada.
+
+#### Gheco sugiere
+`nextInt()` lee el número pero **deja el Enter** esperando. El `nextLine()` que sigue se lleva ese Enter vacío. Solución: un `sc.nextLine();` extra justo después de `nextInt()`.
+
+#### Desafío
+Agregá la línea que se lleva el Enter que quedó.
+
+#### Código inicial
+```java
+import java.util.Scanner;
+
+public class Edad {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int edad = sc.nextInt();
+        String oficio = sc.nextLine();
+        System.out.println("Edad: " + edad);
+        System.out.println("Oficio: [" + oficio + "]");
+    }
+}
+```
+
+#### Entrada
+```
+18
+ladrón de techos
+```
+
+#### Salida esperada
+```
+Edad: 18
+Oficio: [ladrón de techos]
+```
+
+#### Solución
+```java
+import java.util.Scanner;
+
+public class Edad {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int edad = sc.nextInt();
+        sc.nextLine();
+        String oficio = sc.nextLine();
+        System.out.println("Edad: " + edad);
+        System.out.println("Oficio: [" + oficio + "]");
+    }
+}
+```
+
+#### Al superarla
+«Oficio: ladrón de techos.» Nadia levanta la vista. —¿Pusiste eso en un formulario oficial? —Es lo que dijo el viajero —responde Zed, inocente.
+
+#### Imagen
+- Un formulario donde el casillero «Oficio» pasa de vacío a lleno.
+- Nadia, incrédula, mira el formulario; Zed sonríe torcido.
+
+### Micro-misión R01-N04-P3 · La tablilla de fórmulas
+
+```meta
+lugar: La ventanilla de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: Math | Math.max(a, b) · Math.pow(b, e) · Math.sqrt(x) · Math.abs(x) · Math.round(x)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Para tasar un terreno del cuartel, Nadia usa una **tablilla de fórmulas**: el lado de un terreno cuadrado a partir de su superficie, y cuál de dos ofertas es mayor.
+
+#### Gheco sugiere
+`Math` ya trae fórmulas listas: `Math.sqrt(x)` (raíz cuadrada), `Math.pow(base, exponente)`, `Math.max(a, b)`, `Math.abs(x)`.
+
+#### Desafío
+Calculá el lado con la raíz cuadrada.
+
+#### Código inicial
+```java
+public class Terreno {
+    public static void main(String[] args) {
+        double superficie = 144;
+        double lado = ___;
+        System.out.println("Lado: " + lado);
+        System.out.println("Mejor oferta: " + Math.max(300, 450));
+        System.out.println("2 a la 10: " + Math.pow(2, 10));
+    }
+}
+```
+
+#### Salida esperada
+```
+Lado: 12.0
+Mejor oferta: 450
+2 a la 10: 1024.0
+```
+
+#### Solución
+```java
+public class Terreno {
+    public static void main(String[] args) {
+        double superficie = 144;
+        double lado = Math.sqrt(superficie);
+        System.out.println("Lado: " + lado);
+        System.out.println("Mejor oferta: " + Math.max(300, 450));
+        System.out.println("2 a la 10: " + Math.pow(2, 10));
+    }
+}
+```
+
+#### Al superarla
+Doce de lado. Nadia guarda la tablilla y, sin darse cuenta, le presta a Zed su pluma.
+
+#### Imagen
+- Una tablilla de bronce con fórmulas grabadas que se encienden: raíz, potencia, máximo.
+- Nadia le pasa su pluma a Zed sin mirarlo.
+
+### Micro-misión R01-N04-P4 · Los dados del tahúr
+
+```meta
+lugar: La ventanilla de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: Random | Random r = new Random(semilla); · r.nextInt(6) + 1 → de 1 a 6 · con la misma semilla, siempre lo mismo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un tahúr en la fila le ofrece a Zed un juego de dados. Zed, que de trampas sabe, sospecha: los dados salen siempre igual.
+—Es un azar con **semilla** —dice Gheco—. Misma semilla, mismos números. Los dados del tahúr están cargados.
+
+#### Gheco sugiere
+`new Random(42)` crea un generador con **semilla**: con la misma semilla da siempre la misma secuencia (sirve para probar). `r.nextInt(6)` da de 0 a 5; sumándole 1, de 1 a 6.
+
+#### Desafío
+Tirá tres dados de 1 a 6.
+
+#### Código inicial
+```java
+import java.util.Random;
+
+public class Dados {
+    public static void main(String[] args) {
+        Random r = new Random(42);
+        for (int i = 1; i <= 3; i++) {
+            int dado = ___;
+            System.out.println("Tirada " + i + ": " + dado);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Tirada 1: 3
+Tirada 2: 4
+Tirada 3: 1
+```
+
+#### Solución
+```java
+import java.util.Random;
+
+public class Dados {
+    public static void main(String[] args) {
+        Random r = new Random(42);
+        for (int i = 1; i <= 3; i++) {
+            int dado = r.nextInt(6) + 1;
+            System.out.println("Tirada " + i + ": " + dado);
+        }
+    }
+}
+```
+
+#### Al superarla
+Zed adivina cada tirada antes de que caiga. El tahúr se va de la fila, furioso. Nadia anota: «tahúr: denunciado». —Por una vez, una trampa sirvió para algo —le dice a Zed.
+
+#### Imagen
+- Tres dados de luz en el aire, cada uno con su número antes de caer.
+- Un tahúr furioso que se va; Nadia anota en su libreta.
 
 ### Misión R01-N04-M1 · La ficha del viajero
 
@@ -1950,9 +2883,9 @@ temas: prog.condicionales
 
 ### Crónica
 
-Frente a la Aduana hay tres portones: uno para mercaderes, uno para soldados y uno para peregrinos. El guardia mira a cada viajero y lo manda a uno o a otro según lo que traiga.
+Frente a la Aduana hay tres portones: uno para mercaderes, uno para soldados y uno para peregrinos. El guardia mira a cada viajero y lo manda a uno o a otro según lo que traiga. Esa tarde, Nadia le da a Zed el puesto del guardia.
 
-—Un programa que siempre hace lo mismo es una carretilla —dice {mentor}—. Uno que **decide** es un guardia. Enseñale a tus programas a elegir el portón, {heroe}.
+—Un programa que siempre hace lo mismo es una carretilla —dice {mentor}—. Uno que **decide** es un guardia. Enseñale a tus programas a elegir el portón, Zed. Y fijate en qué orden preguntás.
 
 ### Objetivos
 
@@ -2170,6 +3103,276 @@ mismo, y el bloque de abajo se ejecuta **siempre**.
 **Esqueleto: variable que puede quedar sin valor.** Si declarás `int tasa;` y la
 asignás solo en algunos `if` sin un `else`, el compilador dice `variable tasa might
 not have been initialized`.
+
+### Micro-misión R01-N05-P1 · Los tres portones
+
+```meta
+lugar: Los tres portones de la Aduana
+personajes: Zed, Gheco, Nadia
+carta: if / else if / else | se revisa en orden · entra al PRIMERO que se cumple · else: si ninguno
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Frente a la Aduana hay tres portones: mercaderes, soldados y peregrinos. Nadia le da a Zed el puesto del guardia: —Mandá a cada uno al suyo.
+
+#### Gheco sugiere
+`if (condición) { … } else if (otra) { … } else { … }` revisa **en orden** y entra solo en el primero que se cumple. El `else` es para todos los demás.
+
+#### Desafío
+Completá la condición del portón de los soldados.
+
+#### Código inicial
+```java
+public class Portones {
+    public static void main(String[] args) {
+        String[] viajeros = {"mercader", "soldado", "peregrino"};
+        for (String v : viajeros) {
+            if (v.equals("mercader")) {
+                System.out.println(v + ": portón del oro");
+            } else if (___) {
+                System.out.println(v + ": portón de hierro");
+            } else {
+                System.out.println(v + ": portón de piedra");
+            }
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+mercader: portón del oro
+soldado: portón de hierro
+peregrino: portón de piedra
+```
+
+#### Solución
+```java
+public class Portones {
+    public static void main(String[] args) {
+        String[] viajeros = {"mercader", "soldado", "peregrino"};
+        for (String v : viajeros) {
+            if (v.equals("mercader")) {
+                System.out.println(v + ": portón del oro");
+            } else if (v.equals("soldado")) {
+                System.out.println(v + ": portón de hierro");
+            } else {
+                System.out.println(v + ": portón de piedra");
+            }
+        }
+    }
+}
+```
+
+#### Al superarla
+Cada viajero a su portón, sin una equivocación. —Un programa que decide es un guardia —dice Gheco—. Y vos sos un buen guardia, para ser ladrón.
+
+#### Imagen
+- Tres portones de la Aduana: uno dorado, uno de hierro y uno de piedra, cada uno con su fila.
+- Zed en el puesto del guardia, señalando; Nadia lo observa con la libreta.
+
+### Micro-misión R01-N05-P2 · El orden importa
+
+```meta
+lugar: Los tres portones de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: ogro
+carta: El orden de los if | lo más exigente primero · si la primera condición es amplia, tapa a las demás
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El peaje depende de la carga: más de 100 kg paga 20, más de 50 paga 10, el resto 5. El guardia anterior lo escribió… y todos pagan 10. Un **ogro**.
+
+#### Gheco sugiere
+Los `else if` se revisan en orden: si la primera condición es la más **amplia** (`> 50`), atrapa también a los de 100 y nunca se llega a la otra. Lo más exigente va **primero**.
+
+#### Desafío
+Reordená las condiciones.
+
+#### Código inicial
+```java
+public class Peso {
+    public static void main(String[] args) {
+        int[] cargas = {120, 70, 30};
+        for (int kg : cargas) {
+            int peaje;
+            if (kg > 50) {
+                peaje = 10;
+            } else if (kg > 100) {
+                peaje = 20;
+            } else {
+                peaje = 5;
+            }
+            System.out.println(kg + " kg: " + peaje);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+120 kg: 20
+70 kg: 10
+30 kg: 5
+```
+
+#### Solución
+```java
+public class Peso {
+    public static void main(String[] args) {
+        int[] cargas = {120, 70, 30};
+        for (int kg : cargas) {
+            int peaje;
+            if (kg > 100) {
+                peaje = 20;
+            } else if (kg > 50) {
+                peaje = 10;
+            } else {
+                peaje = 5;
+            }
+            System.out.println(kg + " kg: " + peaje);
+        }
+    }
+}
+```
+
+#### Al superarla
+El carro de 120 kg paga lo justo. Nadia anota la corrección y, por primera vez, le pone a Zed una tilde de aprobado.
+
+#### Imagen
+- Tres carros de distintos tamaños en una balanza gigante, cada uno con su peaje.
+- La libreta de Nadia con una tilde verde junto al nombre de Zed.
+
+### Micro-misión R01-N05-P3 · El menú de la posada
+
+```meta
+lugar: La posada junto a la Aduana
+personajes: Zed, Gheco, Nadia
+carta: switch | switch (op) { case 1 -> …; case 2 -> …; default -> …; } · compara un valor contra varios casos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Al terminar el turno, Nadia lleva a Zed a la posada. El menú se pide por número, y el posadero se confunde siempre. —Escribile el menú —dice Nadia—, que yo invito.
+
+#### Gheco sugiere
+`switch` compara un valor contra varios casos. Con flechas (`case 1 -> …;`) no hace falta `break`. `default` atrapa todo lo que no coincide.
+
+#### Desafío
+Completá el caso 2: «Guiso del Imperio».
+
+#### Código inicial
+```java
+public class Posada {
+    public static void main(String[] args) {
+        int[] pedidos = {1, 2, 7};
+        for (int op : pedidos) {
+            switch (op) {
+                case 1 -> System.out.println("1: Pan y café");
+                ___
+                default -> System.out.println(op + ": eso no está en el menú");
+            }
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+1: Pan y café
+2: Guiso del Imperio
+7: eso no está en el menú
+```
+
+#### Solución
+```java
+public class Posada {
+    public static void main(String[] args) {
+        int[] pedidos = {1, 2, 7};
+        for (int op : pedidos) {
+            switch (op) {
+                case 1 -> System.out.println("1: Pan y café");
+                case 2 -> System.out.println("2: Guiso del Imperio");
+                default -> System.out.println(op + ": eso no está en el menú");
+            }
+        }
+    }
+}
+```
+
+#### Al superarla
+Pan, café y guiso. Zed pide el siete «por las dudas» y el posadero se ríe. Nadia paga, como prometió.
+
+#### Imagen
+- Una posada cálida con un menú de pizarra numerado.
+- Zed y Nadia en una mesa; él señala el número 7 y el posadero se ríe.
+
+### Micro-misión R01-N05-P4 · El switch que devuelve
+
+```meta
+lugar: La posada junto a la Aduana
+personajes: Zed, Gheco, Nadia
+carta: switch como expresión | String x = switch (v) { case "a" -> "…"; default -> "…"; }; · devuelve un valor
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la posada, Nadia le cuenta a Zed cómo se clasifica a los viajeros. Él escribe la regla en una servilleta, más corta que la del reglamento.
+—Así no está en el reglamento —dice ella. —Pero hace lo mismo —responde él.
+
+#### Gheco sugiere
+Un `switch` también puede **devolver** un valor: `String portón = switch (oficio) { case "mercader" -> "oro"; … default -> "piedra"; };`. Fijate el `;` del final.
+
+#### Desafío
+Escribí el `switch` que devuelve el portón de cada oficio.
+
+#### Código inicial
+```java
+public class Servilleta {
+    public static void main(String[] args) {
+        String[] oficios = {"soldado", "mercader", "ladrón"};
+        for (String oficio : oficios) {
+            String porton = ___;
+            System.out.println(oficio + " -> " + porton);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+soldado -> hierro
+mercader -> oro
+ladrón -> piedra
+```
+
+#### Solución
+```java
+public class Servilleta {
+    public static void main(String[] args) {
+        String[] oficios = {"soldado", "mercader", "ladrón"};
+        for (String oficio : oficios) {
+            String porton = switch (oficio) {
+                case "mercader" -> "oro";
+                case "soldado" -> "hierro";
+                default -> "piedra";
+            };
+            System.out.println(oficio + " -> " + porton);
+        }
+    }
+}
+```
+
+#### Al superarla
+Nadia lee la servilleta dos veces y se la guarda en el bolsillo. —Mañana se la muestro al Escriba Jefe.
+Afuera, la Aduana cierra. Hay que contar todo lo que entró, carro por carro. Mañana, Zed va a aprender a **repetir**.
+
+#### Imagen
+- Una servilleta con un switch escrito a mano, sobre una mesa de la posada.
+- Nadia guardándose la servilleta en el bolsillo de la chaqueta; Zed sonríe con la taza en la mano.
+- Por la ventana, la Aduana cerrando y faroles encendiéndose.
 
 ### Misión R01-N05-M1 · La balanza del veredicto
 

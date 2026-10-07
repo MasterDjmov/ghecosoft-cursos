@@ -81,9 +81,10 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('mochila', StudentInventory::class)->name('student.inventory');
     Route::livewire('taller', StudentWorkshop::class)->name('student.workshop');
     Route::livewire('establos', Stables::class)->name('student.stables');
-    // El menú lleva a las expediciones del primer mundo con héroe (o a Mis héroes, si todavía no tiene).
+    // El menú lleva a las expediciones del último mundo con héroe que ya tenga expediciones (o a Mis héroes).
     Route::get('expediciones', function () {
-        $hero = App\Models\Hero::with('course')->where('user_id', auth()->id())->latest('updated_at')->first();
+        $hero = App\Models\Hero::with('course')->where('user_id', auth()->id())->latest('updated_at')->get()
+            ->first(fn ($hero) => config('game.protagonists.'.$hero->course->language->value.'.expeditions') !== null);
 
         return $hero ? redirect()->route('student.expeditions', $hero->course) : redirect()->route('student.heroes');
     })->name('student.expeditions.home');

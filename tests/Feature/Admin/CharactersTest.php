@@ -7,12 +7,16 @@ use Livewire\Livewire;
 
 /*
  * Historia → Personajes: las fichas de docs/historias/PERSONAJES.md con su pedido para Stitch. Solo el administrador.
+ * Usan un archivo de fichas propio, para no depender de cómo está el .md real.
  */
+
+beforeEach(fn () => CharacterSheets::$file = base_path('tests/Fixtures/personajes.md'));
+afterEach(fn () => CharacterSheets::$file = null);
 
 test('lee las fichas del .md, con su sección y si les falta la imagen', function () {
     $sheets = CharacterSheets::all()->keyBy('name');
 
-    expect($sheets)->toHaveKeys(['Mia', 'Gheco', 'Sila', 'La cocinera de la Torre'])
+    expect($sheets)->toHaveKeys(['Mia', 'Sila', 'La cocinera de la Torre'])
         ->and($sheets['Mia']['protagonist'])->toBeTrue()
         ->and($sheets['Sila']['protagonist'])->toBeFalse()
         ->and($sheets['La cocinera de la Torre']['missing'])->toBeTrue()

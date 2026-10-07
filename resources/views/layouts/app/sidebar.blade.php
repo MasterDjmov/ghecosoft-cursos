@@ -59,6 +59,9 @@
                         <flux:sidebar.item icon="sparkles" :href="route('admin.story')" :current="request()->routeIs('admin.story')" wire:navigate data-test="menu-story">
                             Historia
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="photo" :href="route('admin.scenes')" :current="request()->routeIs('admin.scenes')" wire:navigate data-test="menu-scenes">
+                            Escenas
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="chart-bar" :href="route('admin.levels')" :current="request()->routeIs('admin.levels')" wire:navigate>
                             Niveles
                         </flux:sidebar.item>

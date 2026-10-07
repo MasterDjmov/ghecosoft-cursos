@@ -17,6 +17,7 @@ use App\Livewire\Admin\Levels;
 use App\Livewire\Admin\Messages;
 use App\Livewire\Admin\Nodes;
 use App\Livewire\Admin\Requests;
+use App\Livewire\Admin\Scenes;
 use App\Livewire\Admin\Settings;
 use App\Livewire\Admin\Story as StoryRoom;
 use App\Livewire\Admin\Students;
@@ -91,6 +92,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
 
     Route::livewire('diccionario', Glossary::class)->name('glossary');
     Route::livewire('historia', StoryRoom::class)->name('story');
+    Route::livewire('historia/escenas', Scenes::class)->name('scenes');
     Route::livewire('niveles', Levels::class)->name('levels');
     Route::livewire('insignias', Badges::class)->name('badges');
 });

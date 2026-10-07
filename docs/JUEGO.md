@@ -12,7 +12,7 @@ Conversado con el docente entre el 2026-10-04 y el 2026-10-06, a partir de [FICH
 El Mundo del Código **vive en la mente de quien programa** (el prólogo). El alumno es **esa mente**: el jugador que mueve a los protagonistas.
 
 - **El Alfa crea al jugador**, no a un personaje:
-  - la intro animada (el prólogo en 6 tomas, con música opcional);
+  - la intro animada (el prólogo en 6 tomas, con música opcional): la que armó el docente con Stitch en `publicidad/logos cursos/introduccion novela/` (`intro.html` + `assets/`). Se pasa a una vista propia (sin el Tailwind por CDN, imágenes en webp, música comprimida y con botón). Se ve al crear la cuenta y **se vuelve a ver desde *Mis Crónicas → Prólogo***;
   - Gheco lo recibe en el **Balcón de los Portales**;
   - elige su **apodo**;
   - **el Profe** le muestra el lado del juego: el grimorio, el inventario, los establos y las expediciones.

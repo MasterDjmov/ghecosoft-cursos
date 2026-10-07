@@ -89,34 +89,6 @@
                         <flux:sidebar.item icon="trophy" :href="route('student.ranking')" :current="request()->routeIs('student.ranking*')" wire:navigate>
                             Ranking
                         </flux:sidebar.item>
-                        {{-- Mis Crónicas (D80): late cuando hay páginas nuevas sin leer. --}}
-                        @php($newPages = (new \App\Support\Chronicles(auth()->user()))->newCount())
-                        <flux:sidebar.item icon="book-open" :href="route('student.chronicles')" :current="request()->routeIs('student.chronicles')" wire:navigate data-test="menu-chronicles">
-                            <span class="flex items-center gap-2">
-                                Mis Crónicas
-                                @if ($newPages > 0)
-                                    <span class="relative flex size-5 items-center justify-center" data-test="chronicles-new" title="{{ $newPages }} {{ $newPages === 1 ? 'página nueva' : 'páginas nuevas' }}">
-                                        <span class="absolute inline-flex size-full animate-ping rounded-full bg-warning/60"></span>
-                                        <span class="relative grid size-5 place-items-center rounded-full bg-warning font-mono text-[10px] font-bold text-[#05070d]">{{ $newPages }}</span>
-                                    </span>
-                                @endif
-                            </span>
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="user-circle" :href="route('student.heroes')" :current="request()->routeIs('student.heroes', 'student.hero')" wire:navigate data-test="menu-heroes">
-                            Mis héroes
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="map" :href="route('student.expeditions.home')" :current="request()->routeIs('student.expeditions*')" wire:navigate data-test="menu-expeditions">
-                            Expediciones
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="trophy" :href="route('student.stables')" :current="request()->routeIs('student.stables')" wire:navigate data-test="menu-stables">
-                            Establos
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="shopping-bag" :href="route('student.inventory')" :current="request()->routeIs('student.inventory', 'student.shop')" wire:navigate data-test="menu-inventory">
-                            Mochila
-                        </flux:sidebar.item>
-                        <flux:sidebar.item icon="bookmark-square" :href="route('student.grimoire')" :current="request()->routeIs('student.grimoire')" wire:navigate data-test="menu-grimoire">
-                            Grimorio
-                        </flux:sidebar.item>
                         <flux:sidebar.item icon="sparkles" :href="route('student.universe')" :current="request()->routeIs('student.universe')" wire:navigate data-test="menu-universe">
                             Universo
                         </flux:sidebar.item>
@@ -130,6 +102,41 @@
                             Mi CV
                         </flux:sidebar.item>
                     </flux:sidebar.group>
+
+                    {{-- El juego (D84): separado de lo del curso, para que se entienda qué es cada cosa. --}}
+                    <flux:separator variant="subtle" class="my-2" />
+                    <div class="rounded-xl border border-secondary/30 bg-secondary/5 p-1" data-test="menu-game">
+                        <flux:sidebar.group heading="Juego" class="grid">
+                            {{-- Mis Crónicas (D80): late cuando hay páginas nuevas sin leer. --}}
+                            @php($newPages = (new \App\Support\Chronicles(auth()->user()))->newCount())
+                            <flux:sidebar.item icon="book-open" :href="route('student.chronicles')" :current="request()->routeIs('student.chronicles')" wire:navigate data-test="menu-chronicles">
+                                <span class="flex items-center gap-2">
+                                    Mis Crónicas
+                                    @if ($newPages > 0)
+                                        <span class="relative flex size-5 items-center justify-center" data-test="chronicles-new" title="{{ $newPages }} {{ $newPages === 1 ? 'página nueva' : 'páginas nuevas' }}">
+                                            <span class="absolute inline-flex size-full animate-ping rounded-full bg-warning/60"></span>
+                                            <span class="relative grid size-5 place-items-center rounded-full bg-warning font-mono text-[10px] font-bold text-[#05070d]">{{ $newPages }}</span>
+                                        </span>
+                                    @endif
+                                </span>
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="user-circle" :href="route('student.heroes')" :current="request()->routeIs('student.heroes', 'student.hero')" wire:navigate data-test="menu-heroes">
+                                Mis héroes
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="map" :href="route('student.expeditions.home')" :current="request()->routeIs('student.expeditions*')" wire:navigate data-test="menu-expeditions">
+                                Expediciones
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="rocket-launch" :href="route('student.stables')" :current="request()->routeIs('student.stables')" wire:navigate data-test="menu-stables">
+                                Establos
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="shopping-bag" :href="route('student.inventory')" :current="request()->routeIs('student.inventory', 'student.shop')" wire:navigate data-test="menu-inventory">
+                                Mochila
+                            </flux:sidebar.item>
+                            <flux:sidebar.item icon="bookmark-square" :href="route('student.grimoire')" :current="request()->routeIs('student.grimoire')" wire:navigate data-test="menu-grimoire">
+                                Grimorio
+                            </flux:sidebar.item>
+                        </flux:sidebar.group>
+                    </div>
                 @endif
             </flux:sidebar.nav>
 

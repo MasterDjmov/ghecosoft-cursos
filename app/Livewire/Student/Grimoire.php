@@ -10,7 +10,8 @@ use Livewire\Component;
 
 /**
  * El grimorio (D84 § 4, D89): la carta de cada micro-misión superada, con su sintaxis para copiar.
- * Una solapa por curso y, adentro, un grupo por nodo. Es la «memoria externa» del jugador.
+ * Una solapa por curso y, adentro, todo plegado: rama → nodo → carta (con un buscador), para que no sea una
+ * pared de cartas. Es la «memoria externa» del jugador.
  */
 #[Title('Grimorio')]
 class Grimoire extends Component
@@ -32,7 +33,7 @@ class Grimoire extends Component
     {
         $user = auth()->user();
         $done = NodeStepCompletion::where('user_id', $user->id)->pluck('completed_at', 'node_step_id');
-        $steps = NodeStep::with('node.course')
+        $steps = NodeStep::with('node.course', 'node.branch')
             ->whereIn('id', $done->keys())
             ->whereNotNull('card_title')
             ->get()
@@ -41,7 +42,12 @@ class Grimoire extends Component
         $books = $steps->groupBy(fn (NodeStep $step) => $step->node->course_id)
             ->map(fn ($courseSteps) => [
                 'course' => $courseSteps->first()->node->course,
-                'nodes' => $courseSteps->groupBy('node_id')->map(fn ($nodeSteps) => ['node' => $nodeSteps->first()->node, 'steps' => $nodeSteps->values()])->values(),
+                'branches' => $courseSteps->groupBy(fn (NodeStep $step) => $step->node->branch_id ?? 0)
+                    ->map(fn ($branchSteps) => [
+                        'branch' => $branchSteps->first()->node->branch,
+                        'count' => $branchSteps->count(),
+                        'nodes' => $branchSteps->groupBy('node_id')->map(fn ($nodeSteps) => ['node' => $nodeSteps->first()->node, 'steps' => $nodeSteps->values()])->values(),
+                    ])->values(),
                 'count' => $courseSteps->count(),
             ])
             ->sortBy(fn ($book) => $book['course']->title)

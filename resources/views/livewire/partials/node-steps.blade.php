@@ -1,6 +1,8 @@
 {{-- Micro-misiones (D84): una a la vez. Se comprueban solas en el navegador; al coincidir la salida, se avisa
      al servidor (que la vuelve a comparar y da la XP). Solo premios de juego. --}}
 @php
+    // El oro, los ítems y lo que «se abre» se muestran recién cuando existan (config game.inventory_enabled).
+    $inventory = (bool) config('game.inventory_enabled');
     $total = $steps->count();
     $doneCount = $doneSteps->count();
     // La última superada (la que viene justo antes de la actual) se muestra abierta: ahí está lo que pasó.
@@ -149,21 +151,21 @@
                                         <flux:icon name="book-open" variant="micro" /> Carta del grimorio: {{ $step->card_title }}
                                     </li>
                                 @endif
-                                @if ($step->gold_reward > 0)
-                                    <li class="flex items-center gap-1.5 rounded-lg border border-outline px-3 py-1.5 text-ink-muted">
-                                        <flux:icon name="currency-dollar" variant="micro" /> +{{ $step->gold_reward }} de oro <span class="text-xs">(llega con tu bolsa, próximamente)</span>
+                                @if ($inventory && $step->gold_reward > 0)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-warning/40 bg-warning/10 px-3 py-1.5 text-warning">
+                                        <flux:icon name="currency-dollar" variant="micro" /> +{{ $step->gold_reward }} de oro
                                     </li>
                                 @endif
-                                @if ($step->item)
-                                    <li class="flex items-center gap-1.5 rounded-lg border border-outline px-3 py-1.5 text-ink-muted">
-                                        <flux:icon name="gift" variant="micro" /> {{ $step->item }} <span class="text-xs">(a tu inventario, próximamente)</span>
+                                @if ($inventory && $step->item)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-success/40 bg-success/10 px-3 py-1.5 text-success">
+                                        <flux:icon name="gift" variant="micro" /> {{ $step->item }}
                                     </li>
                                 @endif
                             </ul>
                             @if ($step->card_body)
                                 <p class="font-mono text-xs text-ink-muted">{{ $step->card_body }}</p>
                             @endif
-                            @if ($texts['unlocks'])
+                            @if ($inventory && $texts['unlocks'])
                                 <div class="markdown text-sm text-ink"><strong>Se abre:</strong> {!! $texts['unlocks'] !!}</div>
                             @endif
                         </div>
@@ -182,7 +184,7 @@
                         @if ($step->card_title)
                             <span class="flex items-center gap-1"><flux:icon name="book-open" variant="micro" class="text-secondary-bright" /> Carta: {{ $step->card_title }}</span>
                         @endif
-                        @if ($step->item)
+                        @if ($inventory && $step->item)
                             <span class="flex items-center gap-1"><flux:icon name="gift" variant="micro" class="text-success" /> {{ $step->item }}</span>
                         @endif
                         <span>Se comprueba sola: no la corrige el profe.</span>

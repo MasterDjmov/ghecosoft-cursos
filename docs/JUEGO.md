@@ -113,6 +113,8 @@ Un alumno constante junta unos **3.000–4.000 de oro por mes**. El tope es **po
 
 **Atributos con oro:** cada punto extra cuesta **100 × el valor actual** (subir de 10 a 11 cuesta 1.000). El alumno elige entre montura y atributos. Las pociones y las reparaciones también gastan oro.
 
+**Mientras no existan la bolsa y el inventario** (D88, `game.inventory_enabled` apagado), las micro-misiones muestran solo la XP y la carta del grimorio: no se promete oro ni ítems que no se guardan. **Al abrirlos**, a cada jugador se le acredita (por el `Ledger`) el oro y los ítems de **todas las micro-misiones que ya superó**, de todos sus cursos: el inventario es uno solo por jugador, así que el que llega de otro curso ya lo tiene.
+
 ## 7. Los ítems y el botín
 
 **Regla que no se rompe:** un ítem **nunca limita ni amplía lo que el alumno puede escribir**. Nada de «+3 variables» ni «más lugares en el vector»: el curso deja usar todo lo aprendido. Los ítems **solo afectan al juego**, y el concepto vive en el **nombre y la metáfora**:

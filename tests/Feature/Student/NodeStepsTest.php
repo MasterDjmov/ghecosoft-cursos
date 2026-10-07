@@ -229,3 +229,19 @@ test('un nodo sin micro-misiones se ve como siempre, con la teoría abierta', fu
         ->assertOk()
         ->assertDontSee('data-test="node-steps"', false);
 });
+
+test('mientras no existan la bolsa y el inventario, no se muestra oro ni ítems', function () {
+    $course = coursesWithSteps();
+    NodeStep::where('code', 'R00-N01-P1')->update(['item' => 'Bolsa de cuero']);
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+
+    $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
+        ->assertOk()
+        ->assertDontSee('de oro')
+        ->assertDontSee('Bolsa de cuero');
+
+    config(['game.inventory_enabled' => true]);
+    $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
+        ->assertSee('+5 de oro')
+        ->assertSee('Bolsa de cuero');
+});

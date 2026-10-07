@@ -11,6 +11,7 @@
                 <flux:select.option :value="(string) $course->id">{{ $course->title }}</flux:select.option>
             @endforeach
         </flux:select>
+        <flux:switch wire:model.live="onlyMissing" label="Solo sin imagen" class="sm:mb-2" data-test="items-only-missing" />
         <flux:button variant="primary" icon="plus" wire:click="create" class="sm:ms-auto" data-test="item-new">Nuevo ítem</flux:button>
     </div>
 
@@ -26,6 +27,8 @@
                             @if ($item->droppable)<span class="text-sky-300">Cae en expediciones</span>@endif
                             @if ($owners[$item->id] ?? 0)<span>{{ $owners[$item->id] }} lo tienen</span>@endif
                             <span class="ms-auto flex gap-2">
+                                <button type="button" class="text-primary-bright hover:underline" title="El pedido para generar su imagen" data-test="copy-item-prompt-{{ $item->code }}"
+                                    x-data x-on:click="navigator.clipboard.writeText(@js($item->fullImagePrompt())); $el.textContent = '¡Copiado!'">Copiar pedido</button>
                                 <button type="button" wire:click="edit({{ $item->id }})" class="text-primary-bright hover:underline" data-test="edit-{{ $item->code }}">Editar</button>
                                 <button type="button" wire:click="delete({{ $item->id }})" wire:confirm="¿Borrar «{{ $item->name }}»?" class="hover:text-danger">Borrar</button>
                             </span>
@@ -80,6 +83,7 @@
                 <flux:checkbox wire:model="form.droppable" label="Cae en las expediciones" />
             </div>
             <div class="flex flex-col gap-2">
+                <flux:textarea wire:model="form.image_prompt" label="Pedido de imagen" rows="3" description="Cómo es el objeto (forma, materiales, colores). «Copiar pedido» le suma el nombre, la rareza, la descripción y el estilo común." data-test="form-image-prompt" />
                 <flux:input type="file" wire:model="image" label="Imagen (cuadrada, PNG, JPG o WebP)" accept="image/png,image/jpeg,image/webp" />
                 <div wire:loading wire:target="image" class="text-xs text-ink-muted">Subiendo…</div>
                 @if ($image)

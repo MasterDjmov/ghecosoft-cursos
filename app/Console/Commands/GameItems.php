@@ -69,6 +69,52 @@ class GameItems extends Command
         ],
     ];
 
+    /**
+     * El pedido de imagen de cada ítem de ejemplo (cómo es el objeto); se completa en los que no tienen uno,
+     * nunca pisa lo que escribió el docente. El estilo común lo suma Item::fullImagePrompt().
+     */
+    public const PROMPTS = [
+        // Python: el Valle de la Serpiente (neón verde y cian)
+        'vara-de-junco' => 'Una vara recta de junco verde del río, atada con cordel en la empuñadura, con una runa pequeña que brilla en la punta.',
+        'pluma-de-la-copista' => 'Una pluma larga de escribir, violeta y lila, con punta de metal afilada como un estilete y una cinta de texto holográfico enroscada.',
+        'baculo-del-interprete' => 'Un báculo de madera oscura coronado por una serpiente de piedra que sostiene un cristal verde; líneas de código flotan alrededor del cristal.',
+        'daga-del-indice-cero' => 'Una daga fina de acero oscuro con un «0» grabado en la hoja que brilla en cian; guardia con forma de corchetes [ ].',
+        'cetro-de-la-espiral' => 'Un cetro de plata con una espiral de luz verde en la punta, como un portal en miniatura que gira; escamas grabadas en el mango.',
+        'tunica-de-aprendiz' => 'Una túnica sencilla de aprendiz, gris oscuro, doblada con prolijidad, con un borde verde apagado y una runa cosida en el pecho.',
+        'capa-del-valle' => 'Una capa verde musgo con capucha, flotando como si la moviera el viento, con gotas de agua que resbalan sin mojarla.',
+        'chaleco-de-escamas' => 'Un chaleco de cuero cubierto de escamas verdes superpuestas, cosidas una por una, con remaches de bronce.',
+        'tunica-runica' => 'Una túnica larga azul oscuro con runas bordadas en hilo de luz cian que se encienden en hileras, colgada de un perchero de bronce.',
+        'manto-de-ofidia' => 'Un manto amplio de escamas esmeralda y doradas, con una gran escama brillante en el broche, que ondula como el cuerpo de una serpiente.',
+        'anillo-del-bucle' => 'Un anillo de plata con forma de flecha circular que vuelve sobre sí misma, con una piedrita verde que gira despacio.',
+        'amuleto-del-traceback' => 'Un amuleto con forma de pergamino enroscado colgado de una cadena, con una línea de traceback grabada que brilla en violeta de abajo hacia arriba.',
+        'colgante-de-la-sangria' => 'Un colgante con cuatro piedras cian alineadas a la misma distancia exacta, en un marco de plata rectangular.',
+        'ojo-del-depurador' => 'Un monóculo dorado con un ojo de luz violeta en el lente, rodeado de pequeños engranajes y un insecto de metal posado en el borde.',
+        'espiral-de-junco' => 'Una espiral tejida con junco verde, del tamaño de una mano, con una lucecita en el centro.',
+        'espejo-del-troll' => 'Un espejo de mano ovalado, con marco de piedra cubierto de musgo, que refleja dos imágenes iguales desfasadas.',
+        'pocion-de-curacion' => 'Un frasco redondo de vidrio con líquido verde luminoso, tapón de corcho y una etiqueta con una cruz.',
+        'bolsa-de-cuero' => 'Una bolsita de cuero marrón atada con cordón, con algunas monedas de oro asomando.',
+        'llave-del-puente' => 'Una llave grande de piedra negra con la cabeza en forma de serpiente enroscada y ojos verdes de musgo.',
+        'morral-de-la-posada' => 'Un morral de lona gastado con muchas correas y parches, con una jarrita colgando del costado.',
+        'el-bestiario' => 'Un libro grueso de tapas de cuero verde con dibujos de criaturas en relieve y un monóculo de luz cian apoyado encima.',
+        'cofre-de-los-ecos' => 'Un cofrecito del tamaño de una nuez, de bronce, con ondas de sonido talladas en la tapa que vibran en cian.',
+        'estante-portatil' => 'Un estante plegable de madera clara, abierto en tres tomos, con tiras de luz que separan cada libro.',
+        'notas-del-viajero' => 'Un manojo de hojas viejas, húmedas y a medio borrar, atadas con un hilo, con la marca de agua de un pequeño vitral.',
+        'pluma-del-archivista' => 'Una pluma de plata que escribe sola en el aire una línea de tinta violeta; restos de papel picado flotando alrededor.',
+        'pieza-de-vitral' => 'Un fragmento de vitral de plomo y vidrios de colores, del tamaño de una moneda grande, que proyecta luces de colores.',
+        'escudo-de-las-aserciones' => 'Un escudo redondo de bronce con una gran marca de verificación grabada en el centro que brilla en verde; remaches como engranajes.',
+        'reloj-de-arena' => 'Un reloj de arena chiquito de bronce y vidrio, con arena verde luminosa que cae hacia arriba.',
+        'tunica-encendida' => 'Una túnica de maga violeta oscura con todas sus runas encendidas en violeta brillante, de los pies a la capucha, que flota con luz propia.',
+        'baba-de-slime' => 'Un frasquito con una gota de baba verde pegajosa y translúcida, con burbujas adentro.',
+        'diente-de-goblin' => 'Un diente amarillento y puntiagudo de goblin, con una monedita pegada.',
+        'hueso-de-esqueleto' => 'Un hueso blanco con runas apagadas grabadas, partido en una punta.',
+        'colmillo-de-orco' => 'Un colmillo grande y curvo de orco, con una muesca en la base.',
+        'musgo-de-troll' => 'Un puñado de musgo verde oscuro con pequeñas piedras incrustadas, que brilla apenas.',
+        'garra-de-ogro' => 'Una garra gruesa y gris de ogro, con la uña rota.',
+        // Comunes (sirven en cualquier mundo)
+        'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
+        Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',
+    ];
+
     public function handle(): int
     {
         $created = 0;
@@ -87,6 +133,9 @@ class GameItems extends Command
                     'droppable' => $row['droppable'] ?? false,
                 ]);
                 $created += (int) $item->wasRecentlyCreated;
+                if (! $item->image_prompt && isset(self::PROMPTS[$item->code])) {
+                    $item->update(['image_prompt' => self::PROMPTS[$item->code]]);
+                }
             }
         }
         $this->info("Ítems de ejemplo: {$created} nuevos.");

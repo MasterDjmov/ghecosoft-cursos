@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Storage;
  * Un ítem del juego (D84 § 7, D90). Regla que no se rompe: un ítem nunca limita ni amplía lo que el alumno
  * puede escribir; solo afecta al juego (atributos, ataque, defensa, curación).
  */
-#[Fillable(['code', 'name', 'description', 'kind', 'rarity', 'course_id', 'attack', 'defense', 'strength', 'dexterity', 'intelligence', 'luck', 'heal', 'price', 'min_level', 'in_shop', 'droppable', 'image_path'])]
+#[Fillable(['code', 'name', 'description', 'kind', 'rarity', 'course_id', 'attack', 'defense', 'strength', 'dexterity', 'intelligence', 'luck', 'heal', 'price', 'min_level', 'in_shop', 'droppable', 'image_path', 'image_prompt'])]
 class Item extends Model
 {
+    /** Estilo común de las imágenes de ítems (para generarlas siempre iguales). */
+    public const IMAGE_STYLE = 'Ícono de ítem de juego RPG, cuadrado 1:1 (1024×1024), el objeto solo y centrado, en vista tres cuartos, sobre fondo oscuro liso con un brillo suave detrás; estilo anime/cómic cyber-arcana, con luz propia y detalles de neón del color de su mundo; sin texto ni personas.';
+
     /** El que deja reacomodar los puntos del héroe una vez (D89). */
     public const RESPEC = 'pergamino-del-reinicio';
 
@@ -49,6 +52,24 @@ class Item extends Model
     public function imageUrl(): ?string
     {
         return $this->image_path ? Storage::disk('public')->url($this->image_path) : null;
+    }
+
+    /** El pedido completo para generar la imagen: qué es, su rareza, lo que pidió el docente y el estilo común. */
+    public function fullImagePrompt(): string
+    {
+        $glow = match ($this->rarity) {
+            ItemRarity::Rare => 'brillo celeste',
+            ItemRarity::Epic => 'brillo violeta intenso, con partículas',
+            default => 'brillo gris tenue',
+        };
+
+        return trim(implode("\n", array_filter([
+            "Ítem: {$this->name} ({$this->kind->label()}, {$this->rarity->label()}).",
+            $this->image_prompt,
+            $this->description ? "En el juego: {$this->description}" : null,
+            "Rareza: {$glow}.",
+            self::IMAGE_STYLE,
+        ])));
     }
 
     public function isEquippable(): bool

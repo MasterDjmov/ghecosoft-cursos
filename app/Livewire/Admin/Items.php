@@ -31,6 +31,9 @@ class Items extends Component
     #[Url(as: 'mundo')]
     public string $world = '';
 
+    #[Url(as: 'sin-imagen', except: false)]
+    public bool $onlyMissing = false;
+
     public ?int $editingId = null;
 
     /** @var array<string, mixed> */
@@ -39,7 +42,7 @@ class Items extends Component
     /** @var TemporaryUploadedFile|null */
     public $image = null;
 
-    private const FIELDS = ['code', 'name', 'description', 'kind', 'rarity', 'course_id', 'attack', 'defense', 'strength', 'dexterity', 'intelligence', 'luck', 'heal', 'price', 'min_level', 'in_shop', 'droppable'];
+    private const FIELDS = ['code', 'name', 'description', 'kind', 'rarity', 'course_id', 'attack', 'defense', 'strength', 'dexterity', 'intelligence', 'luck', 'heal', 'price', 'min_level', 'in_shop', 'droppable', 'image_prompt'];
 
     public function create(): void
     {
@@ -48,7 +51,7 @@ class Items extends Component
         $this->image = null;
         $this->form = ['code' => '', 'name' => '', 'description' => '', 'kind' => ItemKind::Weapon->value, 'rarity' => ItemRarity::Common->value,
             'course_id' => ctype_digit($this->world) ? $this->world : '', 'attack' => 0, 'defense' => 0, 'strength' => 0, 'dexterity' => 0,
-            'intelligence' => 0, 'luck' => 0, 'heal' => 0, 'price' => '', 'min_level' => 1, 'in_shop' => false, 'droppable' => false];
+            'intelligence' => 0, 'luck' => 0, 'heal' => 0, 'price' => '', 'min_level' => 1, 'in_shop' => false, 'droppable' => false, 'image_prompt' => ''];
         Flux::modal('item')->show();
     }
 
@@ -83,12 +86,14 @@ class Items extends Component
             'form.price' => ['nullable', 'integer', 'between:1,1000000'],
             'form.min_level' => ['integer', 'between:1,100'],
             'form.in_shop' => ['boolean'], 'form.droppable' => ['boolean'],
+            'form.image_prompt' => ['nullable', 'string', 'max:2000'],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:'.PracticeReferences::MAX_KB, new SafeUpload],
         ], [], ['form.code' => 'código', 'form.name' => 'nombre', 'form.price' => 'precio', 'image' => 'imagen'])['form'];
 
         $data['course_id'] = $data['course_id'] ?: null;
         $data['price'] = $data['price'] === '' ? null : $data['price'];
         $data['description'] = $data['description'] ?: null;
+        $data['image_prompt'] = $data['image_prompt'] ?: null;
         if ($data['in_shop'] && $data['price'] === null) {
             $this->addError('form.price', 'Para venderlo en la tienda, ponele precio.');
 
@@ -126,6 +131,7 @@ class Items extends Component
         $items = Item::with('course')
             ->when($this->world === 'comunes', fn ($q) => $q->whereNull('course_id'))
             ->when(ctype_digit($this->world), fn ($q) => $q->where('course_id', (int) $this->world))
+            ->when($this->onlyMissing, fn ($q) => $q->whereNull('image_path'))
             ->orderBy('kind')->orderBy('min_level')->orderBy('name')->get();
 
         return view('livewire.admin.items', [

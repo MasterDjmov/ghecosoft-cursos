@@ -149,3 +149,26 @@ test('el admin crea y edita ítems; uno que ya tienen jugadores no se borra', fu
     $this->actingAs($admin)->get(route('admin.items'))->assertOk();
     $this->actingAs($w['student'])->get(route('admin.items'))->assertRedirect();
 });
+
+test('cada ítem tiene su pedido de imagen: el catálogo lo completa sin pisar el del docente, y se filtran los que no tienen imagen', function () {
+    makeCourse();
+    $mine = Item::create(['code' => 'vara-de-junco', 'name' => 'Vara de Junco', 'kind' => 'weapon', 'image_prompt' => 'La mía, de sauce.']);
+    $this->artisan('app:game-items')->assertSuccessful();
+
+    expect($mine->fresh()->image_prompt)->toBe('La mía, de sauce.')
+        ->and(Item::where('code', 'pocion-grande')->value('image_prompt'))->toContain('frasco grande');
+
+    $prompt = Item::where('code', 'pocion-grande')->first()->fullImagePrompt();
+    expect($prompt)->toContain('Ítem: Poción Grande')->toContain('brillo celeste')->toContain(Item::IMAGE_STYLE);
+
+    $admin = User::factory()->admin()->create();
+    Item::where('code', 'pocion-grande')->update(['image_path' => 'items/pocion.webp']);
+    Livewire::actingAs($admin)->test(AdminItems::class)
+        ->assertSee('data-test="copy-item-prompt-pocion-grande"', false)
+        ->set('onlyMissing', true)
+        ->assertDontSee('data-test="copy-item-prompt-pocion-grande"', false)
+        ->assertSee('data-test="copy-item-prompt-pergamino-del-reinicio"', false)
+        ->call('edit', $mine->id)->assertSet('form.image_prompt', 'La mía, de sauce.')
+        ->set('form.image_prompt', 'De sauce llorón.')->call('save');
+    expect($mine->fresh()->image_prompt)->toBe('De sauce llorón.');
+});

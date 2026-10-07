@@ -90,6 +90,9 @@ return [
             'name' => 'Zed',
             'slug' => 'zed',
             'title' => 'Ladrón del Puerto',
+            // Baldo, el mercader ambulante, también pone su puesto en el Imperio (aparece en R01-N04).
+            'shop' => ['name' => 'El puesto de Baldo en el Imperio', 'keeper' => 'Baldo', 'portrait' => 'img/personajes/baldo.webp', 'figure' => 'img/personajes/baldo-cuerpo.webp',
+                'greeting' => '—¡Zed! Sabía que ibas a terminar acá. Te tengo justo lo que necesitás para la Aduana… a precio imperial, eso sí.'],
             'expeditions' => [
                 'opens_after' => 'R01-N05',
                 'map' => 'img/mundos/imperio/mapa.webp',

@@ -69,6 +69,28 @@ class GameItems extends Command
             ['code' => 'capa-de-musgo', 'name' => 'Capa de Musgo', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'La Capa del Valle, forrada con musgo de troll: nada la atraviesa fácil.'],
             ['code' => 'baculo-de-la-garra', 'name' => 'Báculo de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Báculo del Intérprete, con garras de ogro y escamas de dragón.'],
         ],
+        'java' => [
+            // Armas
+            ['code' => 'ganzua-de-bronce', 'name' => 'Ganzúa de Bronce', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'En el Imperio no abre nada, pero pincha.'],
+            ['code' => 'baston-del-aduanero', 'name' => 'Bastón del Aduanero', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'Con él se marca lo que no está declarado.'],
+            ['code' => 'sello-cortante', 'name' => 'Sello Cortante', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Un sello de bronce con el borde afilado: aprueba o corta.'],
+            ['code' => 'estoque-del-casting', 'name' => 'Estoque del Casting', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Convierte lo que toca al tipo que hace falta.'],
+            ['code' => 'compas-de-kaffa', 'name' => 'Compás de Kaffa', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Con este compás se trazaron los planos de la capital.'],
+            // Ropa
+            ['code' => 'capa-de-viajero', 'name' => 'Capa de Viajero', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'La que llevan los que hacen fila en la Aduana.'],
+            ['code' => 'chaqueta-de-la-aduana', 'name' => 'Chaqueta de la Aduana', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Azul, de cuello alto y botones de bronce. Nadia diría que no es para cualquiera.'],
+            ['code' => 'armadura-de-los-moldes', 'name' => 'Armadura de los Moldes', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Salió entera del molde, sin una pieza de menos.'],
+            ['code' => 'gabardina-encapsulada', 'name' => 'Gabardina Encapsulada', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 6, 'intelligence' => 2, 'price' => 1300, 'min_level' => 9, 'droppable' => true, 'description' => 'Lo de adentro no se toca desde afuera.'],
+            ['code' => 'manto-imperial', 'name' => 'Manto Imperial', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Bordado con los planos de todas las catedrales del Imperio.'],
+            // Accesorios
+            ['code' => 'taza-de-cafe', 'name' => 'Taza de Café', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Siempre caliente. Kaffa tiene una igual.'],
+            ['code' => 'anillo-del-punto-y-coma', 'name' => 'Anillo del Punto y Coma', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Nunca te olvidás de cerrar una instrucción.'],
+            ['code' => 'monoculo-del-compilador', 'name' => 'Monóculo del Compilador', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Ve el error antes de ejecutar.'],
+            ['code' => 'sello-imperial', 'name' => 'Sello Imperial', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'El que lo lleva pasa cualquier Aduana.'],
+            // Pociones y de la historia
+            ['code' => 'cafe-fuerte', 'name' => 'Café Fuerte', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Una taza bien cargada. En las expediciones se toma sola si la vida baja mucho.'],
+            ['code' => 'llave-del-vitral', 'name' => 'Llave del Vitral', 'kind' => 'story', 'description' => 'Plomo y vidrios de colores, con una etiqueta: «para quien llegue». No entra en ninguna cerradura del Imperio… todavía.'],
+        ],
         null => [
             ['code' => 'pocion-grande', 'name' => 'Poción Grande', 'kind' => 'potion', 'rarity' => 'rare', 'heal' => 90, 'price' => 80, 'min_level' => 6, 'description' => 'Sirve en cualquier mundo.'],
             ['code' => Item::RESPEC, 'name' => 'Pergamino del Reinicio', 'kind' => 'special', 'rarity' => 'epic', 'price' => 1500, 'min_level' => 5, 'description' => 'Al usarlo sobre un héroe, deja reacomodar sus puntos del principio una vez.'],
@@ -121,6 +143,23 @@ class GameItems extends Command
         'pluma-del-juicio' => 'Una pluma de escribir violeta con la punta de diente afilado y el cañón reforzado con anillos de hueso tallado.',
         'capa-de-musgo' => 'Una capa verde con capucha, forrada por dentro con musgo de troll que brilla apenas, con piedritas incrustadas.',
         'baculo-de-la-garra' => 'Un báculo de madera oscura con una serpiente de piedra en la punta, rodeada de tres garras de ogro y escamas de dragón que brillan como brasas.',
+        // Java: el Imperio de las Clases (dorado de las catedrales y rojo de Zed)
+        'ganzua-de-bronce' => 'Una ganzúa larga de bronce con el mango envuelto en cuero negro y un brillo rojo en la punta.',
+        'baston-del-aduanero' => 'Un bastón de madera oscura con puntera y empuñadura de bronce, con el escudo de la Aduana grabado.',
+        'sello-cortante' => 'Un sello de bronce grande, de mango largo, con el borde afilado como una hoja y la palabra «APROBADO» en relieve.',
+        'estoque-del-casting' => 'Un estoque fino de acero con la guarda en forma de paréntesis ( ) y runas doradas en la hoja.',
+        'compas-de-kaffa' => 'Un compás de arquitecto enorme, de bronce y oro, con una punta que deja una estela de luz dorada.',
+        'capa-de-viajero' => 'Una capa marrón gastada de viajero, con capucha y un parche con el sello de la Aduana.',
+        'chaqueta-de-la-aduana' => 'Una chaqueta azul oscuro de cuello alto con botones de bronce y vivos dorados, doblada con prolijidad.',
+        'armadura-de-los-moldes' => 'Una armadura de placas gris acero, perfecta y simétrica, con las marcas del molde todavía visibles.',
+        'gabardina-encapsulada' => 'Una gabardina negra larga con candados dorados pequeños en los bolsillos y el cuello alto.',
+        'manto-imperial' => 'Un manto rojo profundo con planos de catedrales bordados en hilo de oro que brillan.',
+        'taza-de-cafe' => 'Una taza de cerámica blanca con borde dorado, café humeante y un hilo de vapor que dibuja un engranaje.',
+        'anillo-del-punto-y-coma' => 'Un anillo de bronce con un punto y coma ; de rubí engarzado.',
+        'monoculo-del-compilador' => 'Un monóculo dorado con el lente rojo, que proyecta una línea de código marcada en rojo.',
+        'sello-imperial' => 'Un sello de lacre dorado con el escudo del Imperio, colgado de una cadena fina.',
+        'cafe-fuerte' => 'Un vaso de vidrio grueso con café negro humeante y una franja dorada, con una etiqueta con una cruz.',
+        'llave-del-vitral' => 'Una llave antigua de plomo con la cabeza hecha de vidrios de colores, como un vitral pequeño, con una etiqueta de papel atada.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

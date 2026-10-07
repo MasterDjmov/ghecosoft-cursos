@@ -206,6 +206,12 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 - **Mover nodos entre ramas** cambia sus códigos (S02-N01 pasa a R04-N01, R04 pasa a ser una Senda). Hoy nadie los cursó (ver arriba), pero el importador tiene que tratarlos como movidos y no como nuevos, para no dejar nodos viejos sueltos.
 - **Los tres nodos nuevos** (patrones, Big O, SOLID), **Lombok** dentro de R05-N05 y el **jefe final** hay que escribirlos enteros: explicación, ejemplo, prácticas y prueba del sello, como los demás.
 
+## 3 bis. El juego en el Imperio (hecho, 2026-10-07)
+
+- **Zed** con sus 6 aspectos (`public/img/protagonistas/zed/`).
+- **El mapa de expediciones** (`public/img/mundos/imperio/mapa.webp`): 12 lugares, de la Aduana (nivel 1) a la Torre del Arquitecto (nivel 13); se abren desde Decisiones (R01-N05). Al reordenar el curso, revisar los nodos de los dos últimos.
+- **El puesto de Baldo en el Imperio:** Baldo, el mercader ambulante (aparece en R01-N04), vende armas, ropa, accesorios y el **Café Fuerte** (la poción del Imperio). 16 ítems del Imperio en `app:game-items`, con su pedido de imagen, más la **Llave del Vitral** (historia).
+
 ## 4. Arreglos de continuidad respecto del curso actual
 
 - **{heroe}** pasa a ser Zed en todo el curso (como Mia en Python).

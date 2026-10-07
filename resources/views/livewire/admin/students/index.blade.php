@@ -26,6 +26,12 @@
         <flux:input class="flex-1" wire:model.live.debounce.400ms="search" :placeholder="$placeholder" icon="magnifying-glass" />
     </div>
 
+    @if ($isAdmin && ! $teachers && $maintenanceOn)
+        <flux:callout icon="wrench-screwdriver" color="amber" data-test="maintenance-hint">
+            <flux:callout.text>Hay mantenimiento activo. Tildá <strong>Entra en mantenimiento</strong> en los alumnos que quieras dejar pasar para probar: entran a la plataforma y a los cursos cerrados. Hay {{ count($maintenanceAllowed) }} {{ count($maintenanceAllowed) === 1 ? 'habilitado' : 'habilitados' }}.</flux:callout.text>
+        </flux:callout>
+    @endif
+
     @if ($teachers)
         <flux:text class="text-sm">Para hacer docente a alguien, entrá a su ficha de alumno y tocá «Hacer docente». Un docente corrige y atiende a los alumnos de sus comisiones; no ve pagos ni edita cursos.</flux:text>
     @endif
@@ -46,8 +52,9 @@
                                 wire:confirm="¿{{ $person->fullName() }} vuelve a ser alumno? Sus comisiones quedan sin docente (las atendés vos).">Volver a alumno</flux:button>
                         </div>
                     @else
+                        <div class="flex items-center">
                         <button type="button" wire:click="toggle({{ $person->id }})" aria-expanded="{{ $expanded === $person->id ? 'true' : 'false' }}"
-                            class="flex w-full items-center gap-4 p-4 text-start transition hover:bg-surface-high/50" data-test="student-row-{{ $person->username }}">
+                            class="flex min-w-0 flex-1 items-center gap-4 p-4 text-start transition hover:bg-surface-high/50" data-test="student-row-{{ $person->username }}">
                             <flux:avatar size="sm" :initials="$person->initials()" />
                             <div class="flex min-w-0 flex-1 flex-col">
                                 <span class="font-medium text-white">{{ $person->fullName() }}</span>
@@ -63,6 +70,17 @@
                             @endunless
                             <flux:icon :name="$expanded === $person->id ? 'chevron-up' : 'chevron-down'" variant="micro" class="text-ink-muted" />
                         </button>
+                        @if ($isAdmin)
+                            {{-- Entra aunque haya mantenimiento (D86): para probar como lo ve un alumno. --}}
+                            @php($allowed = isset($maintenanceAllowed[$person->id]))
+                            <label class="flex shrink-0 cursor-pointer items-center gap-2 border-s border-outline px-4 py-2 text-xs {{ $allowed ? 'text-warning' : 'text-ink-muted' }}"
+                                title="Entra a la plataforma y a los cursos aunque estén en mantenimiento" data-test="maintenance-access-{{ $person->username }}">
+                                <input type="checkbox" class="size-4 accent-[#f59e0b]" @checked($allowed) wire:click="toggleMaintenanceAccess({{ $person->id }})">
+                                <flux:icon name="wrench-screwdriver" variant="micro" />
+                                <span class="hidden sm:inline">Entra en mantenimiento</span>
+                            </label>
+                        @endif
+                        </div>
 
                         @if ($expanded === $person->id)
                             <div class="flex flex-col gap-3 border-t border-outline bg-surface-lowest/40 px-4 py-4 sm:ps-16" data-test="student-courses">

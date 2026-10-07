@@ -9,6 +9,7 @@ use App\Models\CourseSubscription;
 use App\Models\User;
 use App\Services\StudentAccounts;
 use App\Services\TeacherScope;
+use App\Support\Maintenance;
 use Flux\Flux;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -70,6 +71,17 @@ class Index extends Component
     }
 
     /** Solo el administrador: la cuenta de un docente vuelve a ser de alumno (sus comisiones quedan sin docente). */
+    /** Dejarlo entrar aunque haya mantenimiento (D86), para probar como alumno. Solo el administrador. */
+    public function toggleMaintenanceAccess(int $userId): void
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        $student = User::where('role', Role::Student)->findOrFail($userId);
+        $allowed = Maintenance::toggleAllowed($student);
+        Flux::toast(variant: 'success', text: $allowed
+            ? $student->fullName().' puede entrar aunque haya mantenimiento.'
+            : $student->fullName().' ya no entra durante el mantenimiento.');
+    }
+
     public function demote(int $userId): void
     {
         abort_unless(auth()->user()->isAdmin(), 403);
@@ -105,6 +117,8 @@ class Index extends Component
             'finding' => $finding,
             'active' => CourseSubscription::active()->whereIn('user_id', $people->pluck('id'))->pluck('user_id')->flip(),
             'detail' => $this->expanded && ! $teachers ? $this->detail($this->expanded, $viewer, $scope) : null,
+            'maintenanceAllowed' => array_flip(Maintenance::allowedIds()),
+            'maintenanceOn' => Maintenance::platform() || Maintenance::courseIds() !== [],
         ]);
     }
 

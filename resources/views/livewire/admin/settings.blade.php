@@ -7,7 +7,7 @@
             <h2 class="flex items-center gap-2 font-display font-semibold text-white">
                 <flux:icon name="wrench-screwdriver" variant="mini" class="text-warning" /> Mantenimiento
             </h2>
-            <p class="text-sm text-ink-muted">Para subir cambios tranquilo. Con la plataforma en mantenimiento <strong class="text-ink">solo entrás vos</strong>: a los demás (alumnos y docentes) se les cierra la sesión y el login les muestra el aviso; nadie puede crear una cuenta. Con un curso en mantenimiento, sus alumnos no entran a ese curso (vos y los docentes sí, para revisarlo). Los días de abono siguen corriendo.</p>
+            <p class="text-sm text-ink-muted">Para subir cambios tranquilo. Con la plataforma en mantenimiento <strong class="text-ink">solo entrás vos</strong> (y los alumnos que tildes en <a href="{{ route('admin.students.index') }}" wire:navigate class="text-primary-bright hover:underline">Alumnos → Entra en mantenimiento</a>, para probar): a los demás (alumnos y docentes) se les cierra la sesión y el login les muestra el aviso; nadie puede crear una cuenta. Con un curso en mantenimiento, sus alumnos no entran a ese curso (vos y los docentes sí, para revisarlo). Los días de abono siguen corriendo.</p>
         </div>
         <flux:switch wire:model.live="maintenance_platform" label="Plataforma en mantenimiento" description="Solo el administrador puede entrar." />
         <flux:textarea wire:model="maintenance_message" label="Mensaje" rows="2" :placeholder="$defaultMaintenanceMessage"

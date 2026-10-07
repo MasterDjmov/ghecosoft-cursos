@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Settings;
+use App\Livewire\Admin\Students\Index;
 use App\Models\Setting;
 use App\Models\User;
 use App\Support\Maintenance;
@@ -87,4 +88,42 @@ test('los otros cursos siguen abiertos', function () {
     Setting::put('maintenance_courses', (string) $closed['course']->id);
 
     $this->actingAs($student)->get(route('student.tree', $open['course']))->assertOk();
+});
+
+test('un alumno habilitado desde Alumnos entra aunque haya mantenimiento, en la plataforma y en el curso cerrado', function () {
+    $made = makeCourse();
+    $student = studentWithRootOpen($made);
+    $student->update(['password' => 'secreto123']);
+    $other = studentWithRootOpen($made);
+    Setting::put('maintenance_platform', '1');
+    Setting::put('maintenance_courses', (string) $made['course']->id);
+
+    Livewire::actingAs(User::factory()->admin()->create())
+        ->test(Index::class)
+        ->assertSee('data-test="maintenance-hint"', false)
+        ->call('toggleMaintenanceAccess', $student->id);
+    expect(Maintenance::isAllowed($student))->toBeTrue();
+    auth()->logout();
+
+    $this->post(route('login.store'), ['login' => $student->username, 'password' => 'secreto123']);
+    $this->assertAuthenticatedAs($student);
+    $this->get(route('student.tree', $made['course']))->assertOk();
+    auth()->logout();
+
+    $this->actingAs($other)->get(route('student.worlds'))->assertRedirect(route('login'));
+});
+
+test('se deshabilita con el mismo tilde, y el docente no puede tocarlo', function () {
+    $student = User::factory()->create();
+    Maintenance::toggleAllowed($student);
+
+    Livewire::actingAs(User::factory()->admin()->create())
+        ->test(Index::class)
+        ->call('toggleMaintenanceAccess', $student->id);
+    expect(Maintenance::isAllowed($student))->toBeFalse();
+
+    Livewire::actingAs(User::factory()->teacher()->create())
+        ->test(Index::class)
+        ->call('toggleMaintenanceAccess', $student->id)
+        ->assertForbidden();
 });

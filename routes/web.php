@@ -28,6 +28,7 @@ use App\Livewire\Admin\Universe;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\Expeditions;
 use App\Livewire\Student\Grimoire;
 use App\Livewire\Student\Hero;
 use App\Livewire\Student\Heroes;
@@ -37,6 +38,7 @@ use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
 use App\Livewire\Student\RankingBoard;
 use App\Livewire\Student\Shop;
+use App\Livewire\Student\Stables;
 use App\Livewire\Student\Universe as StudentUniverse;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +68,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
         Route::livewire('cursos/{course}/heroe', Hero::class)->name('student.hero');
         Route::livewire('cursos/{course}/tienda', Shop::class)->name('student.shop');
+        Route::livewire('cursos/{course}/expediciones', Expeditions::class)->name('student.expeditions');
     });
     Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
     Route::livewire('universo', StudentUniverse::class)->name('student.universe');
@@ -74,6 +77,13 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('heroes', Heroes::class)->name('student.heroes');
     Route::livewire('grimorio', Grimoire::class)->name('student.grimoire');
     Route::livewire('mochila', StudentInventory::class)->name('student.inventory');
+    Route::livewire('establos', Stables::class)->name('student.stables');
+    // El menú lleva a las expediciones del primer mundo con héroe (o a Mis héroes, si todavía no tiene).
+    Route::get('expediciones', function () {
+        $hero = App\Models\Hero::with('course')->where('user_id', auth()->id())->latest('updated_at')->first();
+
+        return $hero ? redirect()->route('student.expeditions', $hero->course) : redirect()->route('student.heroes');
+    })->name('student.expeditions.home');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');

@@ -139,7 +139,7 @@ Las rarezas usan marco **gris, azul, violeta y dorado**. El catálogo de cada le
   - Al volver, **el servidor calcula la pelea** con los atributos, el equipo y la montura.
   - Da oro, materiales y a veces un ítem.
 - **Sin código del alumno:** no se puede trampear, no depende del ejecutor de cada lenguaje y no corre nada del alumno en el servidor (solo la cuenta del juego). Las «rutinas aprobadas» de la D83 quedan para más adelante.
-- **Pendiente** (§ 11): las fórmulas del combate, qué pasa al perder, cómo se usan HP y MP, y los lugares de cada mapa (salen de la historia de cada curso).
+- **Resuelto en la D91** (PLAN): las fórmulas del combate, la derrota (vuelve sin botín), la vida, el maná y las pociones, y los 12 lugares del Valle bajo. Faltan los lugares del Bastión (R02) y la Ciudadela (R03) cuando tengan micro-misiones.
 
 ## 9. Incursiones (más adelante)
 
@@ -168,7 +168,7 @@ Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/
 - **Fase A (hecha):** el oro, «Tomá el control» (aspecto + 24 puntos), el panel del héroe (vida, maná, atributos que se suben con oro, equipo vacío) y el grimorio. Ver PLAN D89.
 - **Fase B (hecha, D90):** el puesto de Baldo (armas, ropa y pociones de ejemplo, que después carga el docente), la mochila con solapas por lenguaje y **3 lugares de equipo por héroe**: arma, ropa y accesorio. El oro y la mochila son del jugador; lo equipado, de cada héroe.
 - **La intro (hecha):** el prólogo animado en *Mis Crónicas → Prólogo* (`<x-prologue-player>`): las 6 tomas en `public/img/prologo/`, la frase de Gheco, la música comprimida en `public/audio/prologo.mp3` (apagada hasta que la prenda) y los textos en voseo. Falta mostrarla también al crear la cuenta, con el Alfa. `{heroe}` ya es el protagonista en los cursos que lo tienen y el jugador en los textos generales (`Narrative::hero`).
-- **Fase C:** el mapa del Valle con sus lugares, 3 expediciones al azar (5, 15 y 30 minutos, 6 por día), las monturas n1–n5 y el combate. Al volver, el servidor calcula la pelea y el alumno la ve **turno por turno** (se puede saltar). **Si pierde, vuelve sin botín**: gasta la expedición, pero no pierde nada de lo que tiene.
+- **Fase C (hecha, D91):** el mapa del Valle con sus lugares, 3 expediciones al azar (5, 15 y 30 minutos, 6 por día), las monturas n1–n5 y el combate. Al volver, el servidor calcula la pelea y el alumno la ve **turno por turno** (se puede saltar). **Si pierde, vuelve sin botín**: gasta la expedición, pero no pierde nada de lo que tiene.
 
 **Anotado para más adelante:** el **crafteo** (fabricar armas, ropa y pociones con los materiales que traen las expediciones: baba de slime, diente de goblin, musgo de troll…) y **vender** a la tienda.
 

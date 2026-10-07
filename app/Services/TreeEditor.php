@@ -71,14 +71,7 @@ class TreeEditor
             throw new TreeEditRefused('El curso ya tiene alumnos: no se puede borrar. Despublicalo para ocultarlo.');
         }
 
-        DB::transaction(function () use ($course) {
-            $files = NodeResource::whereIn('node_id', $course->nodes()->select('id'))->pluck('file_path')->filter();
-            Storage::disk('local')->delete($files->all());
-            Storage::disk('public')->delete(array_filter([$course->logo, $course->cover]));
-
-            $course->nodes()->update(['parent_id' => null]);
-            $course->delete();
-        });
+        app(CourseDeleter::class)->delete($course);
     }
 
     public function createBranch(Course $course, string $title, BranchKind|bool $kind = BranchKind::Trunk): Branch

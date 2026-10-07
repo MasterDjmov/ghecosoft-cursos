@@ -99,11 +99,30 @@
         <flux:modal name="delete-course" class="max-w-md">
             <div class="flex flex-col gap-4">
                 <flux:heading size="lg">¿Borrar «{{ $course->title }}»?</flux:heading>
-                <flux:text>Se borran sus ramas, nodos, hojas y recursos. Si ya tiene alumnos no se puede: despublicalo.</flux:text>
-                <div class="flex justify-end gap-2">
-                    <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
-                    <flux:button variant="danger" wire:click="delete">Borrar</flux:button>
-                </div>
+                @if ($impact['students'] === 0 && $impact['requests'] === 0)
+                    <flux:text>Se borran sus ramas, nodos, hojas y recursos. Todavía no tiene alumnos.</flux:text>
+                    <div class="flex justify-end gap-2">
+                        <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                        <flux:button variant="danger" wire:click="delete">Borrar</flux:button>
+                    </div>
+                @else
+                    {{-- Con alumnos (D87): se muestra todo lo que se pierde y se confirma escribiendo el nombre corto. --}}
+                    <flux:callout icon="exclamation-triangle" color="red" data-test="delete-impact">
+                        <flux:callout.text>
+                            <strong>Este curso tiene alumnos.</strong> Se pierde para siempre:
+                            {{ $impact['students'] }} {{ $impact['students'] === 1 ? 'alumno' : 'alumnos' }} con su progreso ({{ $impact['active'] }} con el abono vigente),
+                            {{ $impact['submissions'] }} entregas, {{ $impact['requests'] }} solicitudes con sus comprobantes de pago,
+                            las monedas del curso, {{ $impact['nodes'] }} nodos y {{ $impact['practices'] }} prácticas.
+                            Las cuentas y la XP ganada quedan.
+                        </flux:callout.text>
+                    </flux:callout>
+                    <flux:text>Para <strong>actualizar</strong> el curso no hace falta borrarlo: reimportalo (no toca el progreso) y, mientras tanto, ponelo en mantenimiento desde Configuración. Antes de borrar, hacé una copia de la base (<code class="font-mono">scripts/backup.sh</code>).</flux:text>
+                    <flux:input wire:model="deleteConfirm" :label="'Escribí «'.$course->slug.'» para confirmar'" autocomplete="off" data-test="delete-confirm" />
+                    <div class="flex justify-end gap-2">
+                        <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                        <flux:button variant="danger" wire:click="deleteWithStudents">Borrar con todo</flux:button>
+                    </div>
+                @endif
             </div>
         </flux:modal>
     @endif

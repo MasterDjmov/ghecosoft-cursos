@@ -238,4 +238,29 @@
     @if ($isAdmin)
         <livewire:movement-feed :user="$user" show-author />
     @endif
+
+    @if ($isAdmin && $user->role === \App\Enums\Role::Student)
+        {{-- Eliminar la cuenta (D87): con todo lo suyo, confirmando con su usuario. --}}
+        <section class="panel flex flex-wrap items-center justify-between gap-3 border-danger/40 p-5" data-test="delete-account">
+            <div class="flex flex-col gap-1">
+                <h2 class="font-display font-semibold text-white">Eliminar la cuenta</h2>
+                <p class="text-sm text-ink-muted">Se borra la cuenta con todo lo suyo: abonos, progreso, entregas, comprobantes, monedas, XP y consultas. No se puede deshacer. Para que no entre por un tiempo, mejor pausala.</p>
+            </div>
+            <flux:modal.trigger name="delete-account">
+                <flux:button variant="danger" icon="trash" data-test="delete-account-button">Eliminar cuenta</flux:button>
+            </flux:modal.trigger>
+        </section>
+
+        <flux:modal name="delete-account" class="max-w-md">
+            <form wire:submit="deleteAccount" class="flex flex-col gap-4">
+                <flux:heading size="lg">¿Eliminar la cuenta de {{ $user->fullName() }}?</flux:heading>
+                <flux:text>Se pierde todo lo suyo y no se puede deshacer.</flux:text>
+                <flux:input wire:model="deleteConfirm" :label="'Escribí «'.$user->username.'» para confirmar'" autocomplete="off" data-test="delete-account-confirm" />
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                    <flux:button variant="danger" type="submit">Eliminar</flux:button>
+                </div>
+            </form>
+        </flux:modal>
+    @endif
 </div>

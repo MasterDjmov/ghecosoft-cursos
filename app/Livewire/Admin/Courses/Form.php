@@ -6,6 +6,7 @@ use App\Enums\CourseLevel;
 use App\Enums\Language;
 use App\Exceptions\TreeEditRefused;
 use App\Models\Course;
+use App\Services\CourseDeleter;
 use App\Services\TreeEditor;
 use App\Support\Reorder;
 use Flux\Flux;
@@ -24,6 +25,9 @@ class Form extends Component
     use WithFileUploads;
 
     public ?Course $course = null;
+
+    /** Para borrar un curso con alumnos (D87) hay que escribir su nombre corto. */
+    public string $deleteConfirm = '';
 
     public string $title = '';
 
@@ -152,9 +156,29 @@ class Form extends Component
         return $this->redirectRoute('admin.courses.index', navigate: true);
     }
 
+    /** Borra el curso aunque tenga alumnos (D87): todo lo de adentro se pierde. Solo el administrador. */
+    public function deleteWithStudents(CourseDeleter $deleter)
+    {
+        abort_unless(auth()->user()->isAdmin() && $this->course, 403);
+        if (trim($this->deleteConfirm) !== $this->course->slug) {
+            $this->addError('deleteConfirm', 'Escribí exactamente «'.$this->course->slug.'» para confirmar.');
+
+            return null;
+        }
+
+        $title = $this->course->title;
+        $deleter->delete($this->course);
+        Flux::toast(variant: 'success', text: '«'.$title.'» borrado, con todo lo de adentro.');
+
+        return $this->redirectRoute('admin.courses.index', navigate: true);
+    }
+
     public function render()
     {
-        return view('livewire.admin.courses.form', ['languages' => Language::cases(), 'levels' => CourseLevel::cases()])
+        return view('livewire.admin.courses.form', [
+            'languages' => Language::cases(), 'levels' => CourseLevel::cases(),
+            'impact' => $this->course ? app(CourseDeleter::class)->impact($this->course) : null,
+        ])
             ->title($this->course ? 'Editar '.$this->course->title : 'Nuevo curso');
     }
 }

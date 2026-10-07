@@ -108,6 +108,26 @@ class Show extends Component
         abort_unless(auth()->user()->isAdmin(), 403);
     }
 
+    /** Para eliminar la cuenta (D87) hay que escribir su usuario. */
+    public string $deleteConfirm = '';
+
+    /** Eliminar la cuenta del alumno con todo lo suyo (D87). Solo el administrador. */
+    public function deleteAccount(StudentAccounts $accounts)
+    {
+        $this->onlyAdmin();
+        if (trim($this->deleteConfirm) !== $this->user->username) {
+            $this->addError('deleteConfirm', 'Escribí exactamente «'.$this->user->username.'» para confirmar.');
+
+            return null;
+        }
+
+        $name = $this->user->fullName();
+        $accounts->delete($this->user);
+        Flux::toast(variant: 'success', text: 'Se eliminó la cuenta de '.$name.'.');
+
+        return $this->redirectRoute('admin.students.index', navigate: true);
+    }
+
     /** Pausar la cuenta (D65): se cortan todas sus sesiones y no puede entrar hasta reactivarla. */
     public function block(SingleSession $sessions): void
     {

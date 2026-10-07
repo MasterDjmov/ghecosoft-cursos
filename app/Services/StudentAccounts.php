@@ -7,8 +7,11 @@ use App\Enums\Role;
 use App\Models\Course;
 use App\Models\CourseSubscription;
 use App\Models\EnrollmentRequest;
+use App\Models\GuardianAuthorization;
+use App\Models\Submission;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -81,6 +84,33 @@ class StudentAccounts
         CourseSubscription::where('user_id', $student->id)
             ->where('course_id', $course->id)
             ->update(['cohort_id' => $cohortId]);
+    }
+
+    /**
+     * Eliminar la cuenta de un alumno (D87), solo el administrador: la cuenta y todo lo suyo (abonos, entregas,
+     * solicitudes, movimientos, mensajes) y sus archivos privados (entregas, comprobantes, autorizaciones).
+     * Nunca una cuenta de docente o administrador.
+     */
+    public function delete(User $student): void
+    {
+        if ($student->role !== Role::Student) {
+            throw new InvalidArgumentException('Solo se eliminan cuentas de alumnos.');
+        }
+
+        DB::transaction(function () use ($student) {
+            $files = collect()
+                ->merge(Submission::where('user_id', $student->id)->pluck('file_path'))
+                ->merge(EnrollmentRequest::where('user_id', $student->id)->pluck('receipt_path'))
+                ->merge(GuardianAuthorization::where('user_id', $student->id)->pluck('file_path'))
+                ->filter()->unique()->values()->all();
+
+            $student->delete();
+
+            DB::afterCommit(function () use ($files) {
+                Storage::disk('local')->delete($files);
+                Ranking::forget();
+            });
+        });
     }
 
     /** Nueva clave provisoria; la anterior deja de valer y al entrar la tiene que cambiar. */

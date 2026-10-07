@@ -34,6 +34,10 @@
                 </summary>
                 @php($mine = $doneSteps[$step->id])
                 <div class="flex flex-col gap-3 border-t border-success/20 px-4 py-3">
+                    {{-- La imagen sigue acompañando la lectura (o el fondo del mundo, si todavía no tiene). --}}
+                    @if ($image = $step->imageUrl() ?? $fallbackScene)
+                        <img src="{{ $image }}" alt="" class="aspect-[16/7] w-full rounded-lg border border-outline object-cover" loading="lazy" data-test="step-done-image">
+                    @endif
                     @if ($texts['scene'])
                         <div class="markdown text-sm text-ink-muted">{!! $texts['scene'] !!}</div>
                     @endif

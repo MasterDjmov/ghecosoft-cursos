@@ -203,6 +203,7 @@ test('desde la página del nodo se supera, se queda en pantalla y «Siguiente» 
     $course = coursesWithSteps();
     $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
     $first = $course->rootNode->steps()->first();
+    $first->update(['image_path' => 'practice-refs/escena.webp']);
 
     $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
     $component->call('completeStep', $first->id, 'Hola, Valle', 'print("Hola, Valle")')
@@ -215,6 +216,7 @@ test('desde la página del nodo se supera, se queda en pantalla y «Siguiente» 
     $component->call('$refresh')
         ->assertSee('data-test="step-done"', false)
         ->assertSee('data-test="step-my-code"', false)
+        ->assertSee('data-test="step-done-image"', false)
         ->assertSee('print(&quot;Hola, Valle&quot;)', false)
         ->assertSee('Dos líneas');
 

@@ -17,9 +17,11 @@ temas: func.iteradores
 
 ### Crónica
 
-Del otro lado de la Biblioteca se levanta la **Torre del Reloj**. En su primer piso, un río de enemigos no para de salir de un portal: slimes, murciélagos, orcos… Nadie sabe cuántos son. Quizás infinitos.
+Las notas del viajero, ya enteras, terminaban así: «la Torre del Reloj guarda el tiempo del Valle; yo le debo una pieza». La **Torre del Reloj** se levanta en la Gran Ciudadela de {mentor}. En su primer piso, de un portal no paran de salir enemigos: slimes, murciélagos, orcos… Nadie sabe cuántos son. Quizás infinitos.
 
-—No hace falta conocerlos a todos de antemano, {heroe} —dice {mentor}—. Pedilos **de a uno**, cuando los necesites. Así funciona un **generador**.
+—No hace falta conocerlos a todos de antemano —dice Gheco—. Pedilos **de a uno**, cuando los necesites. Así funciona un **generador**.
+
+Arriba, **Maese Horas**, el relojero, cuenta que el gran reloj atrasa desde que se perdió una pieza.
 
 ### Objetivos
 
@@ -38,9 +40,9 @@ Listas y bucles (R01), funciones (R01-N08) y clases (R02-N01).
 Un **iterable** es cualquier cosa que se puede recorrer con `for`: listas, textos, diccionarios, archivos. Un **iterador** es el objeto que hace el recorrido: sabe por dónde va.
 
 ```python
-it = iter(["Kira", "Bron"])   # pedirle al iterable un iterador
-next(it)                      # "Kira"
-next(it)                      # "Bron"
+it = iter(["Mia", "Tilo"])   # pedirle al iterable un iterador
+next(it)                      # "Mia"
+next(it)                      # "Tilo"
 next(it)                      # StopIteration: se terminó
 ```
 
@@ -94,7 +96,7 @@ from itertools import islice, takewhile
 # =========================================================
 # Iterable e iterador
 # =========================================================
-compania = ["Kira", "Bron", "Mia"]
+compania = ["Mia", "Tilo", "Sila"]
 it = iter(compania)          # un iterador: recuerda por dónde va
 print(next(it), next(it), next(it))
 try:
@@ -144,14 +146,14 @@ print("oleadas chicas seguidas:", [o["numero"] for o in chicas])
 print("enemigos en 10 oleadas:", sum(len(o["enemigos"]) for o in islice(oleadas(4), 10)))
 
 # enumerate y zip también son iteradores
-for i, (nombre, vida) in enumerate(zip(["Kira", "Bron", "Mia"], [120, 90, 150]), start=1):
+for i, (nombre, vida) in enumerate(zip(["Mia", "Tilo", "Sila"], [120, 90, 150]), start=1):
     print(f"{i}. {nombre}: {vida} de vida")
 ```
 
 ### Salida esperada
 
 ```
-Kira Bron Mia
+Mia Tilo Sila
 se terminó: StopIteration
 3
 2
@@ -163,9 +165,9 @@ se terminó: StopIteration
 tranquilas: [1, 2, 3]
 oleadas chicas seguidas: [1, 2, 3]
 enemigos en 10 oleadas: 45
-1. Kira: 120 de vida
-2. Bron: 90 de vida
-3. Mia: 150 de vida
+1. Mia: 120 de vida
+2. Tilo: 90 de vida
+3. Sila: 150 de vida
 ```
 
 ### ¿Para qué sirve?
@@ -360,7 +362,7 @@ def leer_registro(lineas):
 
 registro = """INFO: arranca el servidor
 ERROR: no se encontró config.txt
-INFO: usuario Kira conectado
+INFO: usuario Mia conectado
 ERROR: la base no responde
 INFO: reintento
 ERROR: la base no responde""".splitlines()
@@ -409,9 +411,11 @@ temas: func.lambdas, func.orden-superior, func.streams
 
 ### Crónica
 
-En el segundo piso de la Torre, el relojero ordena cientos de piezas sin tocarlas una por una. Dice "agrupalas por tamaño", "quedate con las doradas", "ordenalas por peso y después por nombre", y las piezas obedecen.
+En el segundo piso, Maese Horas ordena cientos de piezas sin tocarlas una por una. Dice «agrupalas por tamaño», «quedate con las doradas», «ordenalas por peso y después por nombre», y las piezas obedecen.
 
-—Él no escribe **cómo** hacerlo paso a paso, {heroe} —dice {mentor}—. Escribe **qué** quiere. Esa es la magia funcional.
+—No escribo **cómo** hacerlo paso a paso —dice el relojero—. Escribo **qué** quiero.
+
+Entre las piezas, Mia encuentra una de **plomo y vidrio de colores** que no es de ningún reloj.
 
 ### Objetivos
 
@@ -487,10 +491,10 @@ class Heroe:
 
 
 compania = [
-    Heroe("Kira", "pícara", 5, 90),
-    Heroe("Bron", "guerrero", 7, 160),
-    Heroe("Mia", "maga", 4, 70),
-    Heroe("Zed", "guerrero", 6, 140),
+    Heroe("Mia", "maga", 5, 90),
+    Heroe("Tilo", "guerrero", 7, 160),
+    Heroe("Sila", "maga", 4, 70),
+    Heroe("Baldo", "guerrero", 6, 140),
     Heroe("Ana", "pícara", 8, 110),
 ]
 
@@ -522,18 +526,18 @@ print("primeros 4:", list(it.islice(it.chain(["slime"] * 3, ["orco"] * 2, ["jefe
 ### Salida esperada
 
 ```
-['KIRA', 'BRON', 'MIA', 'ZED', 'ANA']
-['Bron', 'Zed', 'Ana']
-['Bron', 'Zed', 'Ana']
-por nivel: ['Ana(8)', 'Bron(7)', 'Zed(6)', 'Kira(5)', 'Mia(4)']
-por clase y nivel: [('guerrero', 'Bron'), ('guerrero', 'Zed'), ('maga', 'Mia'), ('pícara', 'Ana'), ('pícara', 'Kira')]
-el de más vida: Bron
+['MIA', 'TILO', 'SILA', 'BALDO', 'ANA']
+['Tilo', 'Baldo', 'Ana']
+['Tilo', 'Baldo', 'Ana']
+por nivel: ['Ana(8)', 'Tilo(7)', 'Baldo(6)', 'Mia(5)', 'Sila(4)']
+por clase y nivel: [('guerrero', 'Tilo'), ('guerrero', 'Baldo'), ('maga', 'Mia'), ('maga', 'Sila'), ('pícara', 'Ana')]
+el de más vida: Tilo
 vida total: 570
 vida total (reduce): 570
 --- por clase ---
-  guerrero: ['Bron', 'Zed']
-  maga: ['Mia']
-  pícara: ['Kira', 'Ana']
+  guerrero: ['Tilo', 'Baldo']
+  maga: ['Mia', 'Sila']
+  pícara: ['Ana']
 dúos posibles: 10
 XP acumulada: [100, 350, 750, 1450]
 primeros 4: ['slime', 'slime', 'slime', 'orco']
@@ -569,7 +573,7 @@ A partir de la compañía, armá un diccionario `{clase: vida promedio}` usando 
 
 - Ordena por clase antes de agrupar.
 - Calcula el promedio de cada grupo.
-- Guerrero 150.0, maga 70.0 y pícara 100.0.
+- Guerrero 150.0, maga 80.0 y pícara 110.0.
 
 #### Código inicial
 
@@ -587,10 +591,10 @@ class Heroe:
 
 
 compania = [
-    Heroe("Kira", "pícara", 5, 90),
-    Heroe("Bron", "guerrero", 7, 160),
-    Heroe("Mia", "maga", 4, 70),
-    Heroe("Zed", "guerrero", 6, 140),
+    Heroe("Mia", "maga", 5, 90),
+    Heroe("Tilo", "guerrero", 7, 160),
+    Heroe("Sila", "maga", 4, 70),
+    Heroe("Baldo", "guerrero", 6, 140),
     Heroe("Ana", "pícara", 7, 110),
 ]
 
@@ -601,8 +605,8 @@ compania = [
 
 ```
 guerrero    150.0
-maga         70.0
-pícara      100.0
+maga         80.0
+pícara      110.0
 ```
 
 #### Solución de referencia
@@ -621,10 +625,10 @@ class Heroe:
 
 
 compania = [
-    Heroe("Kira", "pícara", 5, 90),
-    Heroe("Bron", "guerrero", 7, 160),
-    Heroe("Mia", "maga", 4, 70),
-    Heroe("Zed", "guerrero", 6, 140),
+    Heroe("Mia", "maga", 5, 90),
+    Heroe("Tilo", "guerrero", 7, 160),
+    Heroe("Sila", "maga", 4, 70),
+    Heroe("Baldo", "guerrero", 6, 140),
     Heroe("Ana", "pícara", 7, 110),
 ]
 
@@ -653,7 +657,7 @@ Ordená la compañía por nivel **de mayor a menor** y, a igual nivel, por nombr
 #### Criterio de aprobación
 
 - Un solo `sorted` con `key=lambda h: (-h.nivel, h.nombre)` (o equivalente).
-- Ana y Bron (nivel 7) quedan en orden alfabético.
+- Ana y Tilo (nivel 7) quedan en orden alfabético.
 
 #### Código inicial
 
@@ -670,10 +674,10 @@ class Heroe:
 
 
 compania = [
-    Heroe("Kira", "pícara", 5, 90),
-    Heroe("Bron", "guerrero", 7, 160),
-    Heroe("Mia", "maga", 4, 70),
-    Heroe("Zed", "guerrero", 6, 140),
+    Heroe("Mia", "maga", 5, 90),
+    Heroe("Tilo", "guerrero", 7, 160),
+    Heroe("Sila", "maga", 4, 70),
+    Heroe("Baldo", "guerrero", 6, 140),
     Heroe("Ana", "pícara", 7, 110),
 ]
 
@@ -684,10 +688,10 @@ compania = [
 
 ```
  7  Ana
- 7  Bron
- 6  Zed
- 5  Kira
- 4  Mia
+ 7  Tilo
+ 6  Baldo
+ 5  Mia
+ 4  Sila
 ```
 
 #### Solución de referencia
@@ -705,10 +709,10 @@ class Heroe:
 
 
 compania = [
-    Heroe("Kira", "pícara", 5, 90),
-    Heroe("Bron", "guerrero", 7, 160),
-    Heroe("Mia", "maga", 4, 70),
-    Heroe("Zed", "guerrero", 6, 140),
+    Heroe("Mia", "maga", 5, 90),
+    Heroe("Tilo", "guerrero", 7, 160),
+    Heroe("Sila", "maga", 4, 70),
+    Heroe("Baldo", "guerrero", 6, 140),
     Heroe("Ana", "pícara", 7, 110),
 ]
 
@@ -846,9 +850,11 @@ temas: func.closures, func.decoradores
 
 ### Crónica
 
-En el tercer piso de la Torre, los relojeros no desarman los relojes para mejorarlos: les ponen **encima** una pieza nueva. Una que mide el tiempo, otra que repite si algo falla, otra que anota cada movimiento. El reloj sigue siendo el mismo; ahora hace más.
+En el tercer piso, los relojeros no desarman los relojes para mejorarlos: les ponen **encima** una pieza nueva. Una que mide el tiempo, otra que repite si algo falla, otra que anota cada movimiento. El reloj sigue siendo el mismo; ahora hace más.
 
-—Eso es un **decorador**, {heroe} —dice {mentor}—. Una función que envuelve a otra sin tocarla.
+—Eso es un **decorador** —dice Maese Horas—. Una función que envuelve a otra sin tocarla.
+
+La pieza de vidrio encaja justo en uno: es la que el viajero arregló hace mucho.
 
 ### Objetivos
 
@@ -1034,12 +1040,12 @@ def saludar(quien):
 
 @comando("atacar")
 def atacar(quien):
-    return f"{quien} ataca con su espada"
+    return f"{quien} lanza un rayo"
 
 
 for orden in ["saludar", "atacar", "bailar"]:
     accion = COMANDOS.get(orden)
-    print(accion("Kira") if accion else f"no conozco '{orden}'")
+    print(accion("Mia") if accion else f"no conozco '{orden}'")
 ```
 
 ### Salida esperada
@@ -1054,8 +1060,8 @@ CacheInfo(hits=81, misses=120, maxsize=None, currsize=120)
   intento 1 falló: tiempo agotado
   intento 2 falló: tiempo agotado
 conectado
-¡Hola, Kira!
-Kira ataca con su espada
+¡Hola, Mia!
+Mia lanza un rayo
 no conozco 'bailar'
 ```
 
@@ -1149,7 +1155,7 @@ xp: 10
 
 #### Consigna
 
-Escribí el decorador `@requiere_vida` para **métodos**: si `self.vida <= 0`, avisa que el personaje está fuera de combate y no ejecuta el método. Aplicalo a `atacar` y `curarse` de una clase `Heroe`, y probalo con Kira (30 de vida) y Zed (0).
+Escribí el decorador `@requiere_vida` para **métodos**: si `self.vida <= 0`, avisa que el personaje está fuera de combate y no ejecuta el método. Aplicalo a `atacar` y `curarse` de una clase `Heroe`, y probalo con Mia (30 de vida) y Baldo (0).
 
 #### Criterio de aprobación
 
@@ -1160,10 +1166,10 @@ Escribí el decorador `@requiere_vida` para **métodos**: si `self.vida <= 0`, a
 #### Salida esperada
 
 ```
-Kira ataca a un orco.
-Zed no puede: está fuera de combate.
-Zed no puede: está fuera de combate.
-Kira se cura: vida 50.
+Mia ataca a un orco.
+Baldo no puede: está fuera de combate.
+Baldo no puede: está fuera de combate.
+Mia se cura: vida 50.
 ```
 
 #### Solución de referencia
@@ -1197,12 +1203,12 @@ class Heroe:
         print(f"{self.nombre} se cura: vida {self.vida}.")
 
 
-kira = Heroe("Kira", 30)
-zed = Heroe("Zed", 0)
-kira.atacar("un orco")
-zed.atacar("un orco")
-zed.curarse(50)
-kira.curarse(20)
+mia = Heroe("Mia", 30)
+baldo = Heroe("Baldo", 0)
+mia.atacar("un orco")
+baldo.atacar("un orco")
+baldo.curarse(50)
+mia.curarse(20)
 ```
 
 ### Misión R03-N03-M3 · La memoria del oráculo
@@ -1349,9 +1355,9 @@ temas: cal.tipos, cal.pruebas, cal.build
 
 ### Crónica
 
-En el cuarto piso de la Torre trabaja el **Gremio de Artífices**. Sus planos no dicen solo "acá va una pieza": dicen **qué clase** de pieza (un engranaje de bronce, un resorte de acero). Y antes de montar un reloj, lo **prueban**: si una pieza falla, lo saben en el taller y no en la plaza.
+En el cuarto piso trabaja **el Gremio de Artífices**. Sus planos no dicen solo «acá va una pieza»: dicen **qué clase** de pieza (un engranaje de bronce, un resorte de acero). Y antes de montar un reloj, lo **prueban**: si una pieza falla, lo saben en el taller y no en la plaza.
 
-—Tu código también puede decir qué espera y comprobar que funciona, {heroe} —dice {mentor}.
+—Tu código también puede decir qué espera y comprobar que funciona, Mia —dice Gheco.
 
 ### Objetivos
 
@@ -1459,16 +1465,16 @@ def probar(descripcion: str, condicion: bool) -> None:
     print(f"[{'OK   ' if condicion else 'FALLA'}] {descripcion}")
 
 
-kira = Combatiente("Kira", vida=30, ataque=8, defensa=2)
+mia = Combatiente("Mia", vida=30, ataque=8, defensa=2)
 golem = Combatiente("Golem", vida=50, ataque=6, defensa=4)
 
-probar("daño básico: 8 - 4 = 4", danio(kira, golem) == 4)
-probar("el crítico duplica", danio(kira, golem, critico=True) == 8)
+probar("daño básico: 8 - 4 = 4", danio(mia, golem) == 4)
+probar("el crítico duplica", danio(mia, golem, critico=True) == 8)
 probar("si pega, al menos 1", danio(Combatiente("Débil", 10, 1), golem) == 1)
 herido = aplicar(golem, 20)
 probar("aplicar no modifica el original", herido.vida == 30 and golem.vida == 50)
-probar("la vida no baja de 0", aplicar(kira, 999).vida == 0)
-probar("buscar devuelve None si no está", buscar([kira, golem], "Zed") is None)
+probar("la vida no baja de 0", aplicar(mia, 999).vida == 0)
+probar("buscar devuelve None si no está", buscar([mia, golem], "Baldo") is None)
 
 
 
@@ -1553,7 +1559,7 @@ def aplicar_a_todos(funcion, valores):
 
 
 print(curar(80, 30))
-print(nombres_vivos([("Kira", 30), ("Zed", 0), ("Mia", 12)]))
+print(nombres_vivos([("Mia", 30), ("Baldo", 0), ("Sila", 12)]))
 print(buscar_objeto({"poción": 3}, "espada"))
 print(aplicar_a_todos(lambda v: v * 2, [1, 2, 3]))
 ```
@@ -1562,7 +1568,7 @@ print(aplicar_a_todos(lambda v: v * 2, [1, 2, 3]))
 
 ```
 100
-['Kira', 'Mia']
+['Mia', 'Sila']
 None
 [2, 4, 6]
 {'vida': <class 'int'>, 'cantidad': <class 'int'>, 'maximo': <class 'int'>, 'return': <class 'int'>}
@@ -1591,7 +1597,7 @@ def aplicar_a_todos(funcion: Callable[[int], int], valores: list[int]) -> list[i
 
 
 print(curar(80, 30))
-print(nombres_vivos([("Kira", 30), ("Zed", 0), ("Mia", 12)]))
+print(nombres_vivos([("Mia", 30), ("Baldo", 0), ("Sila", 12)]))
 print(buscar_objeto({"poción": 3}, "espada"))
 print(aplicar_a_todos(lambda v: v * 2, [1, 2, 3]))
 print(curar.__annotations__)
@@ -1785,9 +1791,11 @@ temas: conc.async, conc.sincronizacion
 
 ### Crónica
 
-En el quinto piso, la cocinera de la Torre prepara el banquete sola. No se queda mirando cómo hierve la sopa: pone el agua, mientras tanto amasa el pan, y mientras el pan se hornea, prepara el té. Una sola persona, muchas esperas a la vez.
+Del quinto piso llega el ruido de una cocina con mil cosas al fuego. La cocinera de la Torre prepara el banquete sola. No se queda mirando cómo hierve la sopa: pone el agua, mientras tanto amasa el pan, y mientras el pan se hornea, prepara el té. Una sola persona, muchas esperas a la vez.
 
-—No se trata de tener más manos, {heroe} —dice {mentor}—, sino de **no quedarse quieta mientras algo espera**.
+—No se trata de tener más manos —dice la cocinera—, sino de **no quedarse quieta mientras algo espera**.
+
+De pronto, el gran reloj se para del todo. Algo despierta en la cima.
 
 ### Objetivos
 
@@ -1950,20 +1958,20 @@ xp: 10
 
 #### Consigna
 
-Tres alumnos entregan una tarea en un aula virtual (una corrutina que espera un rato y devuelve `"<nombre> entregó"`). Bron se desconecta: su corrutina lanza `ConnectionError`. Juntalos con `gather(..., return_exceptions=True)` y mostrá, en orden, quién entregó y qué problema hubo, sin que el error de Bron corte a los demás.
+Tres alumnos entregan una tarea en un aula virtual (una corrutina que espera un rato y devuelve `"<nombre> entregó"`). Tilo se desconecta: su corrutina lanza `ConnectionError`. Juntalos con `gather(..., return_exceptions=True)` y mostrá, en orden, quién entregó y qué problema hubo, sin que el error de Tilo corte a los demás.
 
 #### Criterio de aprobación
 
 - Usa `asyncio.gather` con `return_exceptions=True`.
 - Distingue los errores con `isinstance(resultado, Exception)`.
-- Kira y Mia entregan aunque Bron falle.
+- Mia y Sila entregan aunque Tilo falle.
 
 #### Salida esperada
 
 ```
-ok: Kira entregó
-problema: Bron se desconectó
 ok: Mia entregó
+problema: Tilo se desconectó
+ok: Sila entregó
 ```
 
 #### Solución de referencia
@@ -1981,7 +1989,7 @@ async def alumno(nombre, espera, falla=False):
 
 async def main():
     resultados = await asyncio.gather(
-        alumno("Kira", 0.2), alumno("Bron", 0.1, falla=True), alumno("Mia", 0.3),
+        alumno("Mia", 0.2), alumno("Tilo", 0.1, falla=True), alumno("Sila", 0.3),
         return_exceptions=True,
     )
     for r in resultados:
@@ -2093,9 +2101,9 @@ async def jugador(meta, nombre, aportes):
 async def main():
     meta = Meta(100)
     async with asyncio.TaskGroup() as grupo:
-        grupo.create_task(jugador(meta, "Kira", [10, 15, 5]))
-        grupo.create_task(jugador(meta, "Bron", [20, 10]))
-        grupo.create_task(jugador(meta, "Mia", [25, 5]))
+        grupo.create_task(jugador(meta, "Mia", [10, 15, 5]))
+        grupo.create_task(jugador(meta, "Tilo", [20, 10]))
+        grupo.create_task(jugador(meta, "Sila", [25, 5]))
     print(f"progreso: {meta.progreso}/{meta.objetivo}")
 
 
@@ -2196,9 +2204,11 @@ usa: col.conjuntos, col.pilas-colas
 
 ### Crónica
 
-En el último piso de la Torre, el gran reloj atrasa. Los aprendices discuten: "es el péndulo", "son los engranajes", "es el aceite". El maestro relojero no discute: saca un cronómetro y **mide** cada pieza. En cinco minutos encuentra la culpable. No era ninguna de las que decían.
+En el último piso, los aprendices discuten por qué atrasa el reloj: «es el péndulo», «son los engranajes», «es el aceite». La Mia del principio habría leído todos los manuales. Ahora saca un cronómetro y **mide** cada pieza. En cinco minutos encuentra la culpable. No era ninguna de las que decían.
 
-—Nunca adivines dónde se va el tiempo, {heroe} —dice {mentor}—. **Medilo**.
+—Nunca adivines dónde se va el tiempo —dice Maese Horas, sonriendo—. **Medilo**.
+
+La pieza culpable es el corazón del Gólem.
 
 ### Objetivos
 
@@ -2517,15 +2527,15 @@ El Gremio tiene una lista de correos con repetidos. Sacá los repetidos **conser
 #### Salida esperada
 
 ```
-['kira@valle.com', 'bron@valle.com', 'mia@valle.com', 'zed@valle.com']
-atajo con dict.fromkeys: ['kira@valle.com', 'bron@valle.com', 'mia@valle.com', 'zed@valle.com']
+['mia@valle.com', 'tilo@valle.com', 'sila@valle.com', 'baldo@valle.com']
+atajo con dict.fromkeys: ['mia@valle.com', 'tilo@valle.com', 'sila@valle.com', 'baldo@valle.com']
 ```
 
 #### Solución de referencia
 
 ```python
-correos = ["kira@valle.com", "bron@valle.com", "kira@valle.com", "mia@valle.com",
-           "bron@valle.com", "zed@valle.com", "kira@valle.com"]
+correos = ["mia@valle.com", "tilo@valle.com", "mia@valle.com", "sila@valle.com",
+           "tilo@valle.com", "baldo@valle.com", "mia@valle.com"]
 
 # Sin repetidos y en el orden en que llegaron: un set para "ya lo vi", una lista para el orden
 vistos = set()
@@ -2579,9 +2589,9 @@ usa: func.iteradores, func.decoradores, conc.async
 
 ### Crónica
 
-En la cima de la Torre, el **Golem del Reloj** despierta. De su pecho salen oleadas de engranajes, resortes y péndulos, una tras otra, sin fin. Y cada siete oleadas, aparece él.
+En la cima de la Torre despierta el **Gólem del Reloj**. De su pecho salen oleadas de engranajes, resortes y péndulos, una tras otra, sin fin. Y cada siete oleadas, aparece él.
 
-—Contalas sin guardarlas todas, {heroe} —dice {mentor}—. Ordenalas, agrupalas, y cuando llegue el Golem, que tus tres torres lo esperen **a la vez**.
+—Contalas sin guardarlas todas —dice {mentor}—. Ordenalas, agrupalas, probá cada pieza y medí dónde está el problema. Y cuando llegue el Gólem, que tus tres torres lo esperen **a la vez**.
 
 ### Objetivos
 
@@ -2853,9 +2863,11 @@ precio: 10
 
 ### Crónica
 
-Bajás de la Torre y el camino se abre en varios senderos. {mentor} se enrosca en una piedra, al sol, y te mira con algo parecido al orgullo.
+El reloj del Valle vuelve a andar. Mia baja de la Torre y el camino se abre en varios senderos: **la Encrucijada**. {mentor} se sienta al sol en una piedra del puente y le cuenta lo que vio hace mucho: un viajero con las manos manchadas de plomo, que buscaba la lengua más clara del mundo y siguió camino hacia las Forjas.
 
-—Ya hablás la lengua del Valle, {heroe}. Lo que sigue ya no es obligatorio: es **tuyo**. Por un sendero se llega a la Arena, donde la magia se vuelve juego. Por el otro, al Reino, donde se pone al servicio de la gente: datos, máquinas que piensan, robots.
+Mia levanta el pergamino, ya lleno, contra la luz del reloj. Por fin se lee la marca de agua: **un vitral, y debajo, «para quien llegue»**.
+
+Tilo se queda en el Valle, como aprendiz de {mentor}. Gheco señala los caminos: las **Sendas** del Valle, y el que baja hacia **las Forjas**.
 
 —Antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
 

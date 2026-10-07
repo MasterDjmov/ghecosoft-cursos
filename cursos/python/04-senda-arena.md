@@ -19,9 +19,9 @@ temas: graf.pygame, juegos.bucle
 
 ### Crónica
 
-El sendero de la izquierda termina en un coliseo de piedra: **la Arena**. Acá los hechizos no se leen en un pergamino: se **ven**, se mueven, reaccionan. La guardiana de la Arena te da una sola regla:
+Uno de los senderos de la Encrucijada termina en un coliseo de piedra: **la Arena**. Acá los hechizos no se leen en un pergamino: se **ven**, se mueven, reaccionan. La Guardiana de la Arena le da a Mia una sola regla:
 
-—Todo lo que se mueve acá late al mismo ritmo, {heroe}: mirar, mover, dibujar. Mirar, mover, dibujar. Sesenta veces por segundo.
+—Todo lo que se mueve acá late al mismo ritmo: mirar, mover, dibujar. Mirar, mover, dibujar. Sesenta veces por segundo.
 
 ### Objetivos
 
@@ -261,9 +261,9 @@ usa: graf.pygame
 
 ### Crónica
 
-Tu primer combate en la Arena. El rival se mueve rápido, esquiva, salta. Vos apretás las flechas y tu personaje… tarda, patina, va más rápido en diagonal.
+El primer combate de Mia en la Arena. El rival se mueve rápido, esquiva, salta. Ella aprieta las flechas y su personaje… tarda, patina, va más rápido en diagonal.
 
-—Hay dos formas de escuchar al teclado, {heroe} —dice la guardiana—: lo que **acaba de pasar** y lo que **está pasando**. Aprendé cuál usar para cada cosa.
+—Hay dos formas de escuchar al teclado —dice la Guardiana—: lo que **acaba de pasar** y lo que **está pasando**. Aprendé cuál usar para cada cosa.
 
 ### Objetivos
 
@@ -510,7 +510,7 @@ usa: graf.pygame
 
 La Arena se llena: gemas que brillan, enemigos que persiguen, proyectiles. Manejar cada uno a mano es imposible.
 
-—Cada cosa en la Arena es un **sprite**, {heroe} —dice la guardiana—: una imagen con su lugar. Juntalos en **grupos** y dejá que los grupos hagan el trabajo pesado.
+—Cada cosa en la Arena es un **sprite** —dice la Guardiana—: una imagen con su lugar. Juntalos en **grupos** y dejá que los grupos hagan el trabajo pesado.
 
 ### Objetivos
 
@@ -814,9 +814,9 @@ usa: graf.pygame, prog.modulos
 
 ### Crónica
 
-La prueba final de la Arena no es un combate: es **construir** uno. La guardiana te entrega los planos de "Junta las Gemas": un mundo más grande que la pantalla, una cámara que te sigue, enemigos que se multiplican, un menú y una pantalla de fin.
+La prueba final de la Arena no es un combate: es **construir** uno. La Guardiana le entrega a Mia los planos de «Junta las Gemas»: un mundo más grande que la pantalla, una cámara que la sigue, enemigos que se multiplican, un menú y una pantalla de fin.
 
-—Ya tenés todas las piezas, {heroe}. Ahora hacelo tuyo.
+—Ya tenés todas las piezas. Ahora hacelo tuyo.
 
 ### Objetivos
 

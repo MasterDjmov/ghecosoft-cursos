@@ -38,11 +38,11 @@ Al final del camino principal llegás a la **Encrucijada**, de donde salen las S
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
 | coin.course | escama | escamas | f | La moneda del Valle: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
-| mentor.name | Ofidia | | f | Serpiente sabia, guardiana del Valle de la Serpiente. | Nadie sabe cuántos años tiene. Enseñó la lengua del Valle a todos los que cruzaron el portal antes que vos, y todavía se acuerda de sus errores. | curso |
+| mentor.name | Ofidia | | f | Mujer alta de pelo verde, con un vestido de escamas esmeralda y una corona de serpientes vivas: la guardiana del Valle de la Serpiente. | Nadie sabe cuántos años tiene. Enseñó la lengua del Valle a todos los que cruzaron el portal antes que Mia, y todavía se acuerda de sus errores. | curso |
 | world.region | Valle de la Serpiente | | m | La región del mundo cuya lengua arcana es Python. | | curso |
-| story.course_intro | Bienvenida al Valle | | f | | Cruzaste el portal y despertaste en {mundo}, {heroe}, con un pergamino en blanco en la mano.<br><br>Soy {mentor}. En este mundo la magia no se recita: **se escribe**. Todo lo que escribas en ese pergamino, el Intérprete lo va a leer y lo va a hacer realidad, línea por línea.<br><br>Cada tema que domines rompe un sello; cada misión aprobada te da escamas para abrir el siguiente. | curso |
-| story.branch_completed | ¡Rama completada! | | f | | —Bien hecho, {heroe} —dice {mentor}—. Otra parte del Valle ya habla tu lengua. | curso |
-| story.course_completed | ¡Dominaste la lengua del Valle! | | f | | {mentor} te entrega la última escama. —Ya no sos aprendiz, {heroe}. El Valle es tuyo. Desde la Encrucijada salen caminos que pocos recorren: elegí tu Senda. | curso |
+| story.course_intro | Bienvenida al Valle | | f | | Una noche, leyendo, Mia vio abrirse en la pared una espiral de luz verde. La tocó, y despertó en el {region} con un **pergamino en blanco** en la mano que no es suyo.<br><br>Soy {mentor}, la guardiana de este Valle. Acá la magia no se recita: **se escribe**. Todo lo que Mia escriba en ese pergamino, el Intérprete lo va a leer y lo va a hacer realidad, línea por línea.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines rompe un sello y cada misión aprobada te da escamas para abrir el siguiente. | curso |
+| story.branch_completed | ¡Rama completada! | | f | | —Bien hecho, Mia —dice {mentor}—. Otra parte del Valle ya habla tu lengua, y otra parte de tu túnica se enciende. | curso |
+| story.course_completed | ¡Dominaste la lengua del Valle! | | f | | El reloj del Valle vuelve a andar. Mia levanta el pergamino, ya lleno, contra la luz, y por fin se lee la marca de agua: un vitral y, debajo, «para quien llegue».<br><br>—Ya no sos aprendiz, Mia —dice {mentor}—. Desde la Encrucijada salen caminos que pocos recorren: las Sendas del Valle, y el que baja hacia las Forjas. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que vio Ofidia | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Hace mucho cruzó el Valle un viajero con las manos manchadas de plomo. Me preguntó cuál era la lengua más clara del mundo, la que cualquiera pudiera leer. Le dije que la mía. Sonrió y siguió camino hacia las Forjas. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis e indentación. | Los slimes brotan de las comillas sin cerrar, los paréntesis olvidados y las sangrías torcidas. Son débiles, pero están en todos lados: el programa ni siquiera arranca hasta que los eliminás. | curso |
 | beast.goblin | goblin | goblins | m | Nace de mezclar tipos que no combinan. | Los goblins roban en silencio: suman texto con números, convierten lo que no se puede convertir. Su firma es el TypeError y el ValueError. | curso |
@@ -62,9 +62,11 @@ temas: prog.entorno, prog.salida, prog.entrada
 
 ### Crónica
 
-Despertás en un valle desconocido, con un pergamino en blanco en la mano. Una serpiente enorme te observa: es **{mentor}**, la guardiana del Valle.
+Una noche, leyendo como siempre, Mia vio abrirse en la pared de su cuarto una **espiral de luz verde**. La tocó. Ahora despierta a la orilla de un río, en un valle desconocido, con un **pergamino en blanco** en la mano que no es suyo.
 
-—Acá la magia no se recita, {heroe}: se **escribe** —te dice—. Todo lo que escribas en ese pergamino, el Intérprete lo va a leer y lo va a hacer realidad, línea por línea.
+Del agua sale caminando una mujer de pelo verde, con un vestido de escamas esmeralda y una corona de serpientes: **{mentor}**, la guardiana del Valle. Sobre el hombro de Mia parpadea un gecko de luz con antiparras: **Gheco**.
+
+—Acá la magia no se recita, Mia: se **escribe** —dice {mentor}—. Todo lo que escribas en ese pergamino, el Intérprete lo va a leer y lo va a hacer realidad, línea por línea.
 
 ### Objetivos
 
@@ -93,9 +95,9 @@ Si en la terminal escribís solo `python3`, se abre el **REPL** (*Read-Eval-Prin
 ```
 >>> 2 + 3
 5
->>> nombre = "Kira"
+>>> nombre = "Mia"
 >>> nombre
-'Kira'
+'Mia'
 >>> exit()
 ```
 
@@ -143,7 +145,7 @@ Los espacios al principio de la línea **tienen significado** en Python: marcan 
 
 # --- print: mostrar texto ---
 print("Hola, Codexia")
-print("Kira", "despierta", "en", "el", "Valle")
+print("Mia", "despierta", "en", "el", "Valle")
 
 # sep= cambia el separador y end= lo que va al final.
 print("fuego", "agua", "tierra", sep=" | ")
@@ -152,7 +154,7 @@ print("...", end="")
 print(" listo")
 
 # --- variables: un NOMBRE que apunta a un VALOR ---
-nombre = "Kira"
+nombre = "Mia"
 nivel = 1
 oro = 15
 
@@ -174,13 +176,13 @@ print("Fin del primer pergamino")
 
 ```
 Hola, Codexia
-Kira despierta en el Valle
+Mia despierta en el Valle
 fuego | agua | tierra
 Cargando... listo
-Heroína: Kira
+Heroína: Mia
 Nivel: 1 - Oro: 15
 Encontró un cofre. Oro: 25
-Kira tiene 25 monedas de oro
+Mia tiene 25 monedas de oro
 Le faltan 75 para comprar una espada
 Fin del primer pergamino
 ```
@@ -507,14 +509,14 @@ Al menos una línea tiene que usar `sep=`.
 
 ```python
 # Tu ficha de personaje
-nombre = "Kira"
+nombre = "Mia"
 ```
 
 #### Solución de referencia
 
 ```python
-nombre = "Kira"
-clase = "espadachina"
+nombre = "Mia"
+clase = "maga"
 nivel = 1
 vida = 100
 oro = 15

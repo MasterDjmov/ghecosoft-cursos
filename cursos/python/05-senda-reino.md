@@ -20,9 +20,9 @@ usa: arch.csv
 
 ### Crónica
 
-El sendero de la derecha lleva al **Reino**, donde los magos no pelean: **responden preguntas**. En la oficina del Consejo, miles de registros de partidas esperan en una planilla: cuánto duraron, cuántas gemas se juntaron, dónde se murió más.
+Otro sendero de la Encrucijada lleva al **Reino**, donde los magos no pelean: **responden preguntas**. En la oficina del Consejo, miles de registros de partidas esperan en una planilla: cuánto duraron, cuántas gemas se juntaron, dónde se murió más.
 
-—Nadie puede leer dos mil filas, {heroe} —dice el consejero—. Pero Python sí. Preguntale a los datos si el juego es demasiado difícil.
+—Nadie puede leer dos mil filas —dice el consejero—. Pero Python sí. Preguntale a los datos si el juego es demasiado difícil.
 
 ### Objetivos
 
@@ -296,9 +296,9 @@ usa: col.pilas-colas
 
 ### Crónica
 
-En la torre de los Estrategas, un enemigo de práctica tiene que llegar hasta vos atravesando un laberinto. Los aprendices lo mueven "hacia donde estás" y se choca contra cada pared.
+En la Torre de los Estrategas, un enemigo de práctica tiene que llegar hasta Mia atravesando un laberinto. Los aprendices lo mueven «hacia donde está» y se choca contra cada pared.
 
-—Una buena criatura no camina hacia su presa, {heroe} —dice la estratega—: **busca el camino**. Y el mejor buscador del Reino se llama A*.
+—Una buena criatura no camina hacia su presa —dice la estratega—: **busca el camino**. Y el mejor buscador del Reino se llama A*.
 
 ### Objetivos
 
@@ -703,9 +703,9 @@ usa: alg.grafos
 
 ### Crónica
 
-En el último salón de la torre de los Estrategas hay dos rivales. Uno juega al tres en raya y **no pierde nunca**. El otro empezó cayéndose en todos los pozos de un pasillo… y después de mil intentos, lo cruza sin dudar.
+En el último salón de la Torre de los Estrategas hay dos rivales. Uno juega al tres en raya y **no pierde nunca**. El otro empezó cayéndose en todos los pozos de un pasillo… y después de mil intentos, lo cruza sin dudar.
 
-—El primero **piensa** todas las jugadas posibles, {heroe} —dice la estratega—. El segundo **aprende** de sus errores. Son las dos grandes familias de la inteligencia artificial.
+—El primero **piensa** todas las jugadas posibles —dice la estratega—. El segundo **aprende** de sus errores. Son las dos grandes familias de la inteligencia artificial.
 
 ### Objetivos
 
@@ -1110,9 +1110,9 @@ usa: hw.arduino
 
 ### Crónica
 
-En el taller del Reino, un Arduino con un joystick y dos botones espera sobre la mesa. Cada fracción de segundo manda una línea de texto por el cable. Del otro lado, tu programa tiene que entenderla, aunque a veces llegue cortada o con basura.
+En el Taller del Reino, un Arduino con un joystick y dos botones espera sobre la mesa. Cada fracción de segundo manda una línea de texto por el cable. Del otro lado, el programa de Mia tiene que entenderla, aunque a veces llegue cortada o con basura.
 
-—El mundo real es ruidoso, {heroe} —dice la artífice—. Un buen mago no confía en cada mensaje: **lo revisa**, y si se pierde uno, el siguiente lo corrige.
+—El mundo real es ruidoso —dice la artífice—. Un buen mago no confía en cada mensaje: **lo revisa**, y si se pierde uno, el siguiente lo corrige.
 
 ### Objetivos
 

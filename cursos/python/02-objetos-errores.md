@@ -17,9 +17,11 @@ temas: poo.clases, poo.encapsulamiento, poo.operadores, poo.records
 
 ### Crónica
 
-Dejaste atrás a la Hidra y llegaste a la **Gran Biblioteca**. Sus guardianes no escriben cada criatura por separado: tienen **moldes**. Un molde de "orco" dice qué datos tiene todo orco (vida, fuerza) y qué sabe hacer (atacar, gritar). Con un molde se fabrican mil orcos, cada uno con su propia vida.
+Con la Hidra vencida, el Paso lleva al **Bastión de las Escamas**, que guarda **la Gran Biblioteca**. Ahí trabaja **Sila**, la Archivera. Sus guardianes no escriben cada criatura por separado: tienen **moldes**. Un molde de «orco» dice qué datos tiene todo orco (vida, fuerza) y qué sabe hacer (atacar, gritar). De un molde salen mil orcos, cada uno con su propia vida.
 
-—A ese molde lo llamamos **clase**, {heroe} —dice {mentor}—, y a cada pieza que sale de él, **objeto**.
+—A ese molde lo llamamos **clase** —dice Sila—, y a cada pieza que sale de él, **objeto**.
+
+Cuando Mia crea el suyo, por primera vez aparecen **cubos de datos** flotando sobre sus manos.
 
 ### Objetivos
 
@@ -36,7 +38,7 @@ Funciones (R01-N08), diccionarios (R01-N06) y referencias (R01-N07): un objeto s
 
 #### Por qué hacen falta las clases
 
-Hasta ahora, un personaje era un diccionario (`{"nombre": "Kira", "vida": 100}`) y las acciones eran funciones sueltas (`curar(personaje, 20)`). Funciona, pero nada impide escribir `personaje["vdia"]` o pasarle a `curar` un diccionario de otra cosa. Una **clase** junta en un solo lugar los **datos** (atributos) y las **acciones** (métodos) de un tipo de cosa.
+Hasta ahora, un personaje era un diccionario (`{"nombre": "Mia", "vida": 100}`) y las acciones eran funciones sueltas (`curar(personaje, 20)`). Funciona, pero nada impide escribir `personaje["vdia"]` o pasarle a `curar` un diccionario de otra cosa. Una **clase** junta en un solo lugar los **datos** (atributos) y las **acciones** (métodos) de un tipo de cosa.
 
 #### Definir una clase
 
@@ -50,14 +52,14 @@ class Personaje:
         self.vida = max(0, self.vida - danio)
 
 
-kira = Personaje("Kira")        # crear un OBJETO (una instancia)
-kira.recibir(30)                # llamar a un MÉTODO
-print(kira.vida)                # leer un ATRIBUTO → 70
+mia = Personaje("Mia")        # crear un OBJETO (una instancia)
+mia.recibir(30)                # llamar a un MÉTODO
+print(mia.vida)                # leer un ATRIBUTO → 70
 ```
 
 - `class Personaje:` define el molde. Por convención, los nombres de clase van en **MayúsculaInicial**.
 - `__init__` se ejecuta **solo** cada vez que creás un objeto: arma sus atributos iniciales.
-- `self` es "este objeto". Python lo pasa solo: `kira.recibir(30)` es en realidad `Personaje.recibir(kira, 30)`. Por eso todo método tiene `self` como primer parámetro, pero al llamarlo no se escribe.
+- `self` es "este objeto". Python lo pasa solo: `mia.recibir(30)` es en realidad `Personaje.recibir(mia, 30)`. Por eso todo método tiene `self` como primer parámetro, pero al llamarlo no se escribe.
 - `self.vida = vida` crea un atributo **del objeto**: cada personaje tiene su propia vida.
 
 #### Atributos de instancia y de clase
@@ -71,7 +73,7 @@ Un atributo escrito dentro de la clase, fuera de los métodos, es **de la clase*
 def porcentaje(self):
     return self.vida / self.vida_max
 
-print(bron.porcentaje)   # sin paréntesis
+print(tilo.porcentaje)   # sin paréntesis
 ```
 
 Sirve para valores que se **calculan** a partir de otros, o para proteger un atributo: por convención, un nombre que empieza con `_` (como `_saldo`) avisa "no lo toques desde afuera"; la `@property saldo` deja leerlo sin poder asignarlo.
@@ -144,13 +146,13 @@ class Personaje:
         return f"{self.nombre} ({self.vida}/{self.vida_max})"
 
 
-kira = Personaje("Kira")
-bron = Personaje("Bron", vida=150)
-bron.recibir(40)
-print(kira)
-print(bron)
-print(f"Bron está al {bron.porcentaje:.0%}")
-print("especie:", kira.especie, "y", bron.especie)
+mia = Personaje("Mia")
+tilo = Personaje("Tilo", vida=150)
+tilo.recibir(40)
+print(mia)
+print(tilo)
+print(f"Tilo está al {tilo.porcentaje:.0%}")
+print("especie:", mia.especie, "y", tilo.especie)
 
 
 # =========================================================
@@ -211,7 +213,7 @@ class Jugador:
 pocion = Item("Poción", valor=25)
 print(pocion)
 print(pocion == Item("Poción", 25))
-j = Jugador("Kira")
+j = Jugador("Mia")
 j.recoger(pocion)
 print(j)
 
@@ -230,9 +232,9 @@ print("celdas distintas:", len(visitadas))
 ### Salida esperada
 
 ```
-Kira (100/100)
-Bron (110/150)
-Bron está al 73%
+Mia (100/100)
+Tilo (110/150)
+Tilo está al 73%
 especie: humana y humana
 Vec2(4, 5)
 Vec2(6, 8)
@@ -240,7 +242,7 @@ True
 largo de a: 5.0
 Item(nombre='Poción', valor=25)
 True
-Jugador(nombre='Kira', vida=100, inventario=[Item(nombre='Poción', valor=25)])
+Jugador(nombre='Mia', vida=100, inventario=[Item(nombre='Poción', valor=25)])
 celdas distintas: 2
 ```
 
@@ -256,7 +258,7 @@ Las clases son la forma de modelar "cosas" en casi cualquier programa: un `Usuar
 AttributeError: 'Personaje' object has no attribute 'vdia'. Did you mean: 'vida'?
 ```
 
-Un error de tipeo al leer o escribir un atributo. Ojo: **asignar** con un nombre mal escrito (`kira.vdia = 50`) no da error: crea un atributo nuevo y el verdadero queda igual (un ogro).
+Un error de tipeo al leer o escribir un atributo. Ojo: **asignar** con un nombre mal escrito (`mia.vdia = 50`) no da error: crea un atributo nuevo y el verdadero queda igual (un ogro).
 
 **Goblin: olvidar `self`**:
 
@@ -384,7 +386,7 @@ xp: 10
 
 Con `@dataclass`, definí `Vec2` (con `x`, `y` y un método `distancia(otro)`) y `Enemigo` con `nombre`, `vida` y `pos: Vec2`. Agregale a `Enemigo` el método `esta_cerca(objetivo, radio)`, que diga si el enemigo está a `radio` o menos de la posición `objetivo`.
 
-Con Kira en `(2, 3)`, revisá una horda de tres enemigos: Slime en `(3, 3)`, Orco en `(10, 1)` y Goblin en `(2, 7)`, con radio 4.
+Con Mia en `(2, 3)`, revisá una horda de tres enemigos: Slime en `(3, 3)`, Orco en `(10, 1)` y Goblin en `(2, 7)`, con radio 4.
 
 #### Criterio de aprobación
 
@@ -426,10 +428,10 @@ class Enemigo:
         return self.pos.distancia(objetivo) <= radio
 
 
-kira = Vec2(2, 3)
+mia = Vec2(2, 3)
 horda = [Enemigo("Slime", 20, Vec2(3, 3)), Enemigo("Orco", 40, Vec2(10, 1)), Enemigo("Goblin", 30, Vec2(2, 7))]
 for enemigo in horda:
-    alerta = "¡cerca!" if enemigo.esta_cerca(kira, radio=4) else "lejos"
+    alerta = "¡cerca!" if enemigo.esta_cerca(mia, radio=4) else "lejos"
     print(f"{enemigo.nombre}: {alerta}")
 ```
 
@@ -511,7 +513,7 @@ El Gremio abre cuentas a sus socios. Escribí `CuentaGremio` con titular, saldo 
 ```
 Saldo insuficiente: tenés 750.
 El depósito tiene que ser positivo.
-Bron: $450
+Tilo: $450
 movimientos: ['+250', '-300']
 ```
 
@@ -548,7 +550,7 @@ class CuentaGremio:
         return f"{self.titular}: ${self._saldo}"
 
 
-cuenta = CuentaGremio("Bron", 500)
+cuenta = CuentaGremio("Tilo", 500)
 cuenta.depositar(250)
 cuenta.extraer(1000)
 cuenta.extraer(300)
@@ -565,11 +567,11 @@ La clase es el **molde** (define qué datos y métodos hay); el objeto es una **
 
 #### ¿Qué es `self` y por qué no se escribe al llamar a un método?
 
-Es el objeto sobre el que se llama el método. Python lo pasa solo: `kira.recibir(5)` equivale a `Personaje.recibir(kira, 5)`.
+Es el objeto sobre el que se llama el método. Python lo pasa solo: `mia.recibir(5)` equivale a `Personaje.recibir(mia, 5)`.
 
 #### ¿Cuándo se ejecuta `__init__`?
 
-Cada vez que se crea un objeto nuevo, por ejemplo `Personaje("Kira")`.
+Cada vez que se crea un objeto nuevo, por ejemplo `Personaje("Mia")`.
 
 #### ¿Qué hace `@dataclass` por vos?
 
@@ -581,7 +583,7 @@ Porque todos los objetos compartirían la misma lista. Se usa `field(default_fac
 
 ### Soluciones (docente)
 
-Reescrito desde cero a partir de `17-Python/12-Clases` (que estaba pensado como diferencia con C++). Clave: que entiendan `self` con la equivalencia `kira.recibir(5)` = `Personaje.recibir(kira, 5)`.
+Reescrito desde cero a partir de `17-Python/12-Clases` (que estaba pensado como diferencia con C++). Clave: que entiendan `self` con la equivalencia `mia.recibir(5)` = `Personaje.recibir(mia, 5)`.
 
 ## R02-N02 · Herencia y polimorfismo
 
@@ -595,9 +597,9 @@ temas: poo.herencia, poo.polimorfismo, poo.abstractas
 
 ### Crónica
 
-En el ala de estrategia de la Biblioteca, un mapa de batalla muestra héroes, enemigos y hasta torres de defensa. Todos tienen vida, todos reciben daño, todos juegan su turno… pero cada uno lo juega **a su manera**.
+Sila le cuenta que alguien está mezclando los registros de la Biblioteca. Para entender qué pasa, la lleva al **Ala de Estrategia**: un mapa de batalla con héroes, enemigos y torres de defensa. Todos tienen vida, todos reciben daño, todos juegan su turno… pero cada uno **a su manera**.
 
-—No escribas cada uno desde cero, {heroe} —dice {mentor}—. Escribí lo **común** una vez y dejá que cada uno **herede** y cambie solo lo que lo hace distinto.
+—No escribas cada uno desde cero, Mia —dice Sila—. Escribí lo **común** una vez y dejá que cada uno **herede** y cambie solo lo que lo hace distinto.
 
 ### Objetivos
 
@@ -638,7 +640,7 @@ class Heroe(Entidad):                 # Heroe hereda de Entidad
 #### Polimorfismo: la misma llamada, distintas respuestas
 
 ```python
-for e in [Heroe("Kira"), Enemigo("Orco", 40, 6), TorreDefensiva()]:
+for e in [Heroe("Mia"), Enemigo("Orco", 40, 6), TorreDefensiva()]:
     e.turno(objetivo)
 ```
 
@@ -663,7 +665,7 @@ Python no exige herencia para el polimorfismo. `TorreDefensiva` no hereda de `En
 
 #### `isinstance`
 
-`isinstance(kira, Entidad)` da `True` si `kira` es de esa clase **o de una subclase**. Usalo poco: si te encontrás preguntando el tipo para decidir qué hacer, probablemente ese comportamiento tendría que ser un método.
+`isinstance(mia, Entidad)` da `True` si `mia` es de esa clase **o de una subclase**. Usalo poco: si te encontrás preguntando el tipo para decidir qué hacer, probablemente ese comportamiento tendría que ser un método.
 
 #### Herencia o no
 
@@ -754,7 +756,7 @@ class TorreDefensiva:
 
 
 random.seed(3)
-heroe = Heroe("Kira")
+heroe = Heroe("Mia")
 horda = [Enemigo("Orco", 40, 6), Enemigo("Slime", 20, 3), TorreDefensiva()]
 
 numero = 1
@@ -765,7 +767,7 @@ while heroe.vivo() and any(e.vivo() for e in horda):
     numero += 1
 
 print("gana el héroe" if heroe.vivo() else "cae el héroe")
-print("¿Kira es una Entidad?", isinstance(heroe, Entidad))
+print("¿Mia es una Entidad?", isinstance(heroe, Entidad))
 print("¿la torreta es una Entidad?", isinstance(horda[2], Entidad))
 ```
 
@@ -774,38 +776,38 @@ print("¿la torreta es una Entidad?", isinstance(horda[2], Entidad))
 ```
 --- turno 1 ---
   Orco recibe 9 (vida 31)
-  Kira recibe 7 (vida 93)
-  Kira recibe 5 (vida 88)
-  Kira recibe 5 (vida 83)
+  Mia recibe 7 (vida 93)
+  Mia recibe 5 (vida 88)
+  Mia recibe 5 (vida 83)
 --- turno 2 ---
   Orco recibe 12 (vida 19)
-  Kira recibe 9 (vida 74)
-  Kira recibe 3 (vida 71)
-  Kira recibe 5 (vida 66)
+  Mia recibe 9 (vida 74)
+  Mia recibe 3 (vida 71)
+  Mia recibe 5 (vida 66)
 --- turno 3 ---
   Orco recibe 12 (vida 7)
-  Kira recibe 6 (vida 60)
-  Kira recibe 6 (vida 54)
-  Kira recibe 5 (vida 49)
+  Mia recibe 6 (vida 60)
+  Mia recibe 6 (vida 54)
+  Mia recibe 5 (vida 49)
 --- turno 4 ---
   Orco recibe 10 (vida 0)
-  Kira recibe 4 (vida 45)
-  Kira recibe 5 (vida 40)
+  Mia recibe 4 (vida 45)
+  Mia recibe 5 (vida 40)
 --- turno 5 ---
   Slime recibe 9 (vida 11)
-  Kira recibe 6 (vida 34)
-  Kira recibe 5 (vida 29)
+  Mia recibe 6 (vida 34)
+  Mia recibe 5 (vida 29)
 --- turno 6 ---
-  Kira toma una poción (vida 69)
-  Kira recibe 6 (vida 63)
-  Kira recibe 5 (vida 58)
+  Mia toma una poción (vida 69)
+  Mia recibe 6 (vida 63)
+  Mia recibe 5 (vida 58)
 --- turno 7 ---
   Slime recibe 11 (vida 0)
-  Kira recibe 5 (vida 53)
+  Mia recibe 5 (vida 53)
 --- turno 8 ---
   Torreta recibe 13 (vida 0)
 gana el héroe
-¿Kira es una Entidad? True
+¿Mia es una Entidad? True
 ¿la torreta es una Entidad? False
 ```
 
@@ -977,7 +979,7 @@ xp: 10
 
 Creá `Curandero` **sin heredar** de `Entidad` (duck typing): tiene `nombre`, `vida`, una lista de `aliados` y los métodos `vivo()`, `recibir()` y `turno(objetivo)`. En su turno, en lugar de atacar, cura 15 al aliado vivo con **menos vida**.
 
-Armá una ronda con Kira (40), Bron (25) y la curandera Mia contra un orco: dos rondas en las que los héroes atacan, Mia cura y el orco le pega a Bron. Usá `random.seed(4)`.
+Armá una ronda con Mia (40), Tilo (25) y la curandera Sila contra un orco: dos rondas en las que los héroes atacan, Sila cura y el orco le pega a Tilo. Usá `random.seed(4)`.
 
 #### Criterio de aprobación
 
@@ -1027,13 +1029,13 @@ class Enemigo(Entidad):
 --- ronda 1 ---
   Orco recibe 10 (vida 50)
   Orco recibe 10 (vida 40)
-  Mia cura a Bron (vida 40)
-  Bron recibe 6 (vida 34)
+  Sila cura a Tilo (vida 40)
+  Tilo recibe 6 (vida 34)
 --- ronda 2 ---
   Orco recibe 10 (vida 30)
   Orco recibe 10 (vida 20)
-  Mia cura a Bron (vida 49)
-  Bron recibe 7 (vida 42)
+  Sila cura a Tilo (vida 49)
+  Tilo recibe 7 (vida 42)
 ```
 
 #### Solución de referencia
@@ -1101,16 +1103,16 @@ def ronda(entidades, objetivo):
             e.turno(objetivo)
 
 
-kira = Heroe("Kira", 40)
-bron = Heroe("Bron", 25)
-mia = Curandero("Mia", [kira, bron])
+mia = Heroe("Mia", 40)
+tilo = Heroe("Tilo", 25)
+sila = Curandero("Sila", [mia, tilo])
 orco = Enemigo("Orco", 60, 5)
 
 random.seed(4)
 for numero in range(1, 3):
     print(f"--- ronda {numero} ---")
-    ronda([kira, bron, mia], orco)
-    orco.turno(bron)
+    ronda([mia, tilo, sila], orco)
+    orco.turno(tilo)
 ```
 
 ### Misión R02-N02-M3 · Las fichas de la compañía
@@ -1137,9 +1139,9 @@ Antes de terminar, **probá** crear un `Picaro` sin `descripcion()` y leé el er
 
 ```
 La compañía:
- - Bron, guerrero de primera línea (150 de vida)
- - Mia, maga del fuego (80 de vida)
- - Zed, pícaro sigiloso (90 de vida)
+ - Tilo, guerrero de primera línea (150 de vida)
+ - Sila, maga del fuego (80 de vida)
+ - Baldo, pícaro sigiloso (90 de vida)
 ```
 
 #### Solución de referencia
@@ -1190,7 +1192,7 @@ class Picaro(Entidad):
 # TypeError: Can't instantiate abstract class Picaro without an implementation
 # for abstract method 'descripcion'
 
-compania = [Guerrero("Bron", 150), Maga("Mia", 80), Picaro("Zed", 90)]
+compania = [Guerrero("Tilo", 150), Maga("Sila", 80), Picaro("Baldo", 90)]
 print("La compañía:")
 for integrante in compania:
     print(" -", integrante.descripcion())
@@ -1306,9 +1308,11 @@ temas: err.excepciones, arch.texto, arch.rutas
 
 ### Crónica
 
-En el sótano de la Biblioteca, los pergaminos están húmedos, rotos o directamente no están. Un aprendiz intentó leer uno que no existía y el hechizo le explotó en la cara.
+Los registros dañados vienen del **Sótano**. Ahí los pergaminos están húmedos, rotos o directamente no están. Un aprendiz intentó leer uno que no existía y el hechizo le explotó en la cara.
 
-—Un buen mago no espera que todo salga bien, {heroe} —dice {mentor}—. **Intenta**, y tiene preparado qué hacer si sale mal. Y cuando abre un pergamino, **siempre** lo vuelve a cerrar.
+—Un buen mago no espera que todo salga bien —dice {mentor}—. **Intenta**, y tiene preparado qué hacer si sale mal. Y cuando abre un pergamino, **siempre** lo vuelve a cerrar.
+
+Entre la humedad, Mia encuentra **notas del viajero del vitral, a medio borrar**. Por primera vez, el error no le da miedo: lo espera.
 
 ### Objetivos
 
@@ -1384,7 +1388,7 @@ except KeyError:
 
 ```python
 with open("puntajes.txt", "w", encoding="utf-8") as f:
-    f.write("Kira,1200\n")
+    f.write("Mia,1200\n")
 
 with open("puntajes.txt", encoding="utf-8") as f:
     for linea in f:
@@ -1457,7 +1461,7 @@ def crear_heroe(nombre, vida):
 
 
 try:
-    crear_heroe("Zed", -10)
+    crear_heroe("Baldo", -10)
 except VidaInvalida as error:
     print("error controlado:", error)
 
@@ -1468,7 +1472,7 @@ except VidaInvalida as error:
 archivo = Path("puntajes.txt")
 
 with archivo.open("w", encoding="utf-8") as f:
-    for nombre, puntos in [("Kira", 1200), ("Bron", 950), ("Mia", 1500)]:
+    for nombre, puntos in [("Mia", 1200), ("Tilo", 950), ("Sila", 1500)]:
         f.write(f"{nombre},{puntos}\n")
 
 filas = []
@@ -1501,11 +1505,11 @@ nivel 5 ok
 sacás: antorcha
 no hay nada en la posición 5
 pedido raro: list indices must be integers or slices, not str
-error controlado: la vida de Zed tiene que ser mayor que 0 (vino -10)
+error controlado: la vida de Baldo tiene que ser mayor que 0 (vino -10)
 ranking:
-  Mia     1500
-  Kira    1200
-  Bron     950
+  Sila    1500
+  Mia     1200
+  Tilo     950
 el pergamino no existe
 ¿quedó el archivo? False
 ```
@@ -1844,9 +1848,11 @@ usa: poo.records
 
 ### Crónica
 
-El archivista de la Biblioteca guarda las crónicas de cada aventurero en dos formatos. Uno, prolijo y anidado, que cualquier mago del reino sabe leer: el **JSON**. El otro, en columnas, como las planillas de los comerciantes: el **CSV**.
+En **el Archivo**, Sila guarda las crónicas de cada aventurero en dos formatos. Uno, prolijo y anidado, que cualquier mago del reino sabe leer: el **JSON**. El otro, en columnas, como las planillas de Baldo: el **CSV**.
 
-—Si tu partida no se puede guardar, {heroe}, se pierde al apagar la vela —dice {mentor}—. Aprendé a escribirla en papel.
+Mia copia las notas del viajero en los dos, para que no se pierdan.
+
+—Si tu partida no se puede guardar, se pierde al apagar la vela —dice Sila—. Aprendé a escribirla en papel.
 
 ### Objetivos
 
@@ -1865,7 +1871,7 @@ Diccionarios y listas (R01), dataclasses (R02-N01) y archivos con `with` (R02-N0
 JSON es un formato de **texto** para guardar datos con estructura. Se parece muchísimo a los diccionarios y listas de Python:
 
 ```json
-{"heroe": "Kira", "nivel": 3, "inventario": ["poción", "llave"], "maldito": false}
+{"heroe": "Mia", "nivel": 3, "inventario": ["poción", "llave"], "maldito": false}
 ```
 
 Lo entiende cualquier lenguaje, por eso es el idioma de las APIs, las configuraciones y los guardados. JSON solo conoce: objetos (`dict`), listas (`list`), textos (`str`), números (`int`, `float`), `true`/`false` (`bool`) y `null` (`None`).
@@ -1956,7 +1962,7 @@ def cargar(ruta=SAVE):
 # =========================================================
 # JSON: guardar y cargar
 # =========================================================
-partida = Partida(Heroe("Kira", vida=80, nivel=3, inventario=["poción", "llave"]), gemas=7)
+partida = Partida(Heroe("Mia", vida=80, nivel=3, inventario=["poción", "llave"]), gemas=7)
 guardar(partida)
 print("--- partida.json ---")
 print(SAVE.read_text(encoding="utf-8"))
@@ -1997,7 +2003,7 @@ PLANILLA.unlink()
 --- partida.json ---
 {
   "heroe": {
-    "nombre": "Kira",
+    "nombre": "Mia",
     "vida": 80,
     "nivel": 3,
     "inventario": [
@@ -2008,7 +2014,7 @@ PLANILLA.unlink()
   "mapa": "cripta-01",
   "gemas": 7
 }
-cargada: Partida(heroe=Heroe(nombre='Kira', vida=80, nivel=3, inventario=['poción', 'llave']), mapa='cripta-01', gemas=7)
+cargada: Partida(heroe=Heroe(nombre='Mia', vida=80, nivel=3, inventario=['poción', 'llave']), mapa='cripta-01', gemas=7)
 ¿mismo estado? True
 para la web: {"tipo": "gema", "total": 7}
 de vuelta: {'tipo': 'gema', 'total': 7}
@@ -2055,7 +2061,7 @@ Los guardados viejos (versión 1) no tenían `"version"` ni `"mapa"`. Escribí:
 - `cargar(texto)`: lee el JSON con `json.loads` y lo **migra** con una función `migrar(datos)`: si no tiene versión o es menor que 2, agrega `"mapa": "cripta-01"` y `"version": 2`.
 - `guardar(datos)`: devuelve el JSON con `"version": 2`.
 
-Probá con un guardado viejo (`{"heroe": "Kira", "gemas": 3}`) y uno nuevo.
+Probá con un guardado viejo (`{"heroe": "Mia", "gemas": 3}`) y uno nuevo.
 
 #### Criterio de aprobación
 
@@ -2066,9 +2072,9 @@ Probá con un guardado viejo (`{"heroe": "Kira", "gemas": 3}`) y uno nuevo.
 #### Salida esperada
 
 ```
-{'heroe': 'Kira', 'gemas': 3, 'mapa': 'cripta-01', 'version': 2}
-{'heroe': 'Bron', 'gemas': 5, 'mapa': 'torre-02', 'version': 2}
-{"heroe": "Kira", "gemas": 3, "mapa": "cripta-01", "version": 2}
+{'heroe': 'Mia', 'gemas': 3, 'mapa': 'cripta-01', 'version': 2}
+{'heroe': 'Tilo', 'gemas': 5, 'mapa': 'torre-02', 'version': 2}
+{"heroe": "Mia", "gemas": 3, "mapa": "cripta-01", "version": 2}
 ```
 
 #### Solución de referencia
@@ -2095,8 +2101,8 @@ def guardar(datos):
     return json.dumps({**datos, "version": VERSION}, ensure_ascii=False)
 
 
-viejo = '{"heroe": "Kira", "gemas": 3}'
-nuevo = '{"heroe": "Bron", "gemas": 5, "mapa": "torre-02", "version": 2}'
+viejo = '{"heroe": "Mia", "gemas": 3}'
+nuevo = '{"heroe": "Tilo", "gemas": 5, "mapa": "torre-02", "version": 2}'
 print(cargar(viejo))
 print(cargar(nuevo))
 print(guardar(cargar(viejo)))
@@ -2123,9 +2129,9 @@ Guardá **tres** partidas (una dataclass `Partida` con `heroe`, `mapa` y `gemas`
 #### Salida esperada
 
 ```
-Slot 1: Kira en cripta-01 (7 gemas)
-Slot 2: Bron en torre-02 (12 gemas)
-Slot 3: Mia en valle (0 gemas)
+Slot 1: Mia en cripta-01 (7 gemas)
+Slot 2: Tilo en torre-02 (12 gemas)
+Slot 3: Sila en valle (0 gemas)
 ¿se recuperó todo? True
 ```
 
@@ -2157,7 +2163,7 @@ def cargar_slots():
         return [Partida(**d) for d in json.load(f)]
 
 
-slots = [Partida("Kira", "cripta-01", 7), Partida("Bron", "torre-02", 12), Partida("Mia", "valle", 0)]
+slots = [Partida("Mia", "cripta-01", 7), Partida("Tilo", "torre-02", 12), Partida("Sila", "valle", 0)]
 guardar_slots(slots)
 for numero, partida in enumerate(cargar_slots(), start=1):
     print(f"Slot {numero}: {partida.heroe} en {partida.mapa} ({partida.gemas} gemas)")
@@ -2179,11 +2185,11 @@ Con esta planilla de ventas (escribila en `ventas.csv` desde el programa):
 
 ```
 fecha,vendedor,producto,monto
-2026-09-01,Bron,espada,60
-2026-09-01,Mia,poción,24
-2026-09-02,Bron,escudo,45
-2026-09-02,Zed,poción,12
-2026-09-03,Mia,espada,60
+2026-09-01,Tilo,espada,60
+2026-09-01,Sila,poción,24
+2026-09-02,Tilo,escudo,45
+2026-09-02,Baldo,poción,12
+2026-09-03,Sila,espada,60
 ```
 
 Calculá el total de cada vendedor con `csv.DictReader` y escribí un `resumen.csv` con `vendedor,total`, ordenado de mayor a menor. Mostrá el resumen y borrá los dos archivos.
@@ -2198,9 +2204,9 @@ Calculá el total de cada vendedor con `csv.DictReader` y escribí un `resumen.c
 
 ```
 vendedor,total
-Bron,105
-Mia,84
-Zed,12
+Tilo,105
+Sila,84
+Baldo,12
 ```
 
 #### Solución de referencia
@@ -2210,11 +2216,11 @@ import csv
 from pathlib import Path
 
 DATOS = """fecha,vendedor,producto,monto
-2026-09-01,Bron,espada,60
-2026-09-01,Mia,poción,24
-2026-09-02,Bron,escudo,45
-2026-09-02,Zed,poción,12
-2026-09-03,Mia,espada,60
+2026-09-01,Tilo,espada,60
+2026-09-01,Sila,poción,24
+2026-09-02,Tilo,escudo,45
+2026-09-02,Baldo,poción,12
+2026-09-03,Sila,espada,60
 """
 RUTA = Path("ventas.csv")
 RUTA.write_text(DATOS, encoding="utf-8")
@@ -2258,7 +2264,7 @@ Probala con un héroe que tiene una lista de ítems (dataclasses) y un set de ha
 #### Salida esperada
 
 ```
-{"nombre": "Kira", "items": [{"nombre": "espada", "valor": 60}], "habilidades": ["fuego", "sigilo"]}
+{"nombre": "Mia", "items": [{"nombre": "espada", "valor": 60}], "habilidades": ["fuego", "sigilo"]}
 ```
 
 #### Solución de referencia
@@ -2290,8 +2296,8 @@ class Heroe:
     habilidades: set = field(default_factory=set)
 
 
-kira = Heroe("Kira", [Item("espada", 60)], {"sigilo", "fuego"})
-print(json.dumps(kira, default=a_json, ensure_ascii=False))
+mia = Heroe("Mia", [Item("espada", 60)], {"sigilo", "fuego"})
+print(json.dumps(mia, default=a_json, ensure_ascii=False))
 ```
 
 ### Prueba del sello
@@ -2334,9 +2340,9 @@ usa: poo.clases, err.excepciones, arch.json
 
 ### Crónica
 
-En lo más profundo de la Biblioteca, el **Archivista Corrupto** mezcla los registros: borra campos, rompe los pergaminos a la mitad, cambia números por palabras. Los aventureros que confían en sus archivos pierden todo.
+Las copias empiezan a cambiar solas. En **la Bóveda**, el **Archivista Corrupto** mezcla los registros: borra campos, rompe los pergaminos a la mitad, cambia números por palabras. Quiere borrar las notas del viajero, porque la corrupción se come la claridad.
 
-—Para vencerlo no alcanza con guardar, {heroe} —dice {mentor}—. Hay que **validar** lo que entra, **modelar** bien lo que se guarda y **sobrevivir** a lo que viene roto.
+—Para vencerlo no alcanza con guardar —dice {mentor}—. Hay que **validar** lo que entra, **modelar** bien lo que se guarda y **sobrevivir** a lo que viene roto.
 
 ### Objetivos
 
@@ -2406,9 +2412,9 @@ Modelá una compañía de aventureros:
 Procesá esta lista de pedidos mostrando `+ nombre` o `x motivo` en cada uno:
 
 ```python
-pedidos = [("Kira", "espadachina", 6), ("Bron", "guerrero", 8), ("", "maga", 3),
-           ("Mia", "maga", 5), ("Bron", "guerrero", 8), ("Zed", "pícaro", 70),
-           ("Zed", "pícaro", 4), ("Ana", "arquera", 2)]
+pedidos = [("Mia", "maga", 6), ("Tilo", "guerrero", 8), ("", "maga", 3),
+           ("Sila", "maga", 5), ("Tilo", "guerrero", 8), ("Baldo", "pícaro", 70),
+           ("Baldo", "pícaro", 4), ("Ana", "arquera", 2)]
 ```
 
 Al final guardá la compañía en JSON, reconstruila y mostrá sus integrantes y el nivel promedio.
@@ -2418,20 +2424,20 @@ Al final guardá la compañía en JSON, reconstruila y mostrá sus integrantes y
 - Las validaciones lanzan `ErrorDeCompania`; el bucle las atrapa y sigue.
 - `Heroe` valida en `__post_init__`.
 - `desde_json` es un `@classmethod` y reconstruye la compañía con sus héroes.
-- Resultado: Kira, Bron, Mia y Zed, con nivel promedio 5.8.
+- Resultado: Mia, Tilo, Sila y Baldo, con nivel promedio 5.8.
 
 #### Salida esperada
 
 ```
-+ Kira
-+ Bron
-x el héroe necesita un nombre
 + Mia
-x Bron ya está en la compañía
++ Tilo
+x el héroe necesita un nombre
++ Sila
+x Tilo ya está en la compañía
 x nivel 70 fuera de rango (1-50)
-+ Zed
++ Baldo
 x la compañía ya tiene 4 integrantes
-Los del Valle: ['Kira', 'Bron', 'Mia', 'Zed'], nivel promedio 5.8
+Los del Valle: ['Mia', 'Tilo', 'Sila', 'Baldo'], nivel promedio 5.8
 ```
 
 #### Solución de referencia
@@ -2488,9 +2494,9 @@ class Compania:
 
 
 compania = Compania("Los del Valle")
-pedidos = [("Kira", "espadachina", 6), ("Bron", "guerrero", 8), ("", "maga", 3),
-           ("Mia", "maga", 5), ("Bron", "guerrero", 8), ("Zed", "pícaro", 70),
-           ("Zed", "pícaro", 4), ("Ana", "arquera", 2)]
+pedidos = [("Mia", "maga", 6), ("Tilo", "guerrero", 8), ("", "maga", 3),
+           ("Sila", "maga", 5), ("Tilo", "guerrero", 8), ("Baldo", "pícaro", 70),
+           ("Baldo", "pícaro", 4), ("Ana", "arquera", 2)]
 for nombre, clase, nivel in pedidos:
     try:
         compania.sumar(Heroe(nombre, clase, nivel))
@@ -2523,10 +2529,10 @@ Procesá esta lista y mostrá qué pergaminos se salvaron y cuántas gemas se re
 
 ```python
 pergaminos = [
-    '{"heroe": "Kira", "vida": 80, "gemas": 7}',
-    '{"heroe": "Bron", "vida": 95',
-    '{"heroe": "Mia", "gemas": 3}',
-    '{"heroe": "Zed", "vida": "mucha", "gemas": 1}',
+    '{"heroe": "Mia", "vida": 80, "gemas": 7}',
+    '{"heroe": "Tilo", "vida": 95',
+    '{"heroe": "Sila", "gemas": 3}',
+    '{"heroe": "Baldo", "vida": "mucha", "gemas": 1}',
     '["no", "es", "un", "save"]',
     '{"heroe": "Ana", "vida": 60, "gemas": 12}',
 ]
@@ -2579,10 +2585,10 @@ def leer_pergamino(texto):
 
 
 pergaminos = [
-    '{"heroe": "Kira", "vida": 80, "gemas": 7}',
-    '{"heroe": "Bron", "vida": 95',
-    '{"heroe": "Mia", "gemas": 3}',
-    '{"heroe": "Zed", "vida": "mucha", "gemas": 1}',
+    '{"heroe": "Mia", "vida": 80, "gemas": 7}',
+    '{"heroe": "Tilo", "vida": 95',
+    '{"heroe": "Sila", "gemas": 3}',
+    '{"heroe": "Baldo", "vida": "mucha", "gemas": 1}',
     '["no", "es", "un", "save"]',
     '{"heroe": "Ana", "vida": 60, "gemas": 12}',
 ]
@@ -2619,9 +2625,9 @@ La escuela del pueblo quiere la lista de inscriptos en una planilla. Con una lis
 
 ```
 nombre,curso,nota
-Kira,Python,9
-Bron,Python,6
-Mia,Python,10
+Mia,Python,9
+Tilo,Python,6
+Sila,Python,10
 ```
 
 #### Solución de referencia
@@ -2631,9 +2637,9 @@ import csv
 from pathlib import Path
 
 inscriptos = [
-    {"nombre": "Kira", "curso": "Python", "nota": 9},
-    {"nombre": "Bron", "curso": "Python", "nota": 6},
-    {"nombre": "Mia", "curso": "Python", "nota": 10},
+    {"nombre": "Mia", "curso": "Python", "nota": 9},
+    {"nombre": "Tilo", "curso": "Python", "nota": 6},
+    {"nombre": "Sila", "curso": "Python", "nota": 10},
 ]
 
 ruta = Path("inscriptos.csv")

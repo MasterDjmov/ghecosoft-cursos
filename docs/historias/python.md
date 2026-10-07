@@ -213,7 +213,9 @@ Los magos del Reino no pelean: **responden preguntas**. Mia lee lo que cuentan l
 
 ## 3. Arreglos de continuidad respecto del curso actual
 
-La historia de hoy tiene saltos que este arco corrige:
+**Hecho (2026-10-07):** las 33 crónicas, la bienvenida, el cierre y la ficha de Ofidia en el diccionario ya siguen este arco. En ejemplos y prácticas, la compañía vieja pasó a la del Valle, todo a la vez: Kira → **Mia**, la Mia maga de antes → **Sila**, Bron → **Tilo**, Zed → **Baldo** (con las salidas rehechas ejecutando el código y `app:course-tests` en 97 de 97).
+
+Los saltos que tenía la historia anterior:
 - **R01-N03** pasaba «en la Gran Biblioteca del Valle», y **R02** «llega» a la Gran Biblioteca: pasa a ser la **Casa de los Copistas**.
 - **R01-N10** («la Biblioteca del Valle») pasa a ser la **Casa de los Tomos**.
 - **R01-N05**: «Bron, Mia y Zed se sumaron» pasa a ser **Tilo se suma**. En R01-N07, quien cae es Tilo. En R01-N09, Tilo encuentra el cofre.

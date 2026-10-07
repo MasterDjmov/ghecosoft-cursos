@@ -17,11 +17,11 @@ temas: prog.variables
 
 ### Crónica
 
-En el mercado del Valle, un mercader te vende tres cosas y te anota los precios en un papel: "12", "3.5", "7". Los sumás y le decís "123.57". El mercader se ríe:
+{mentor} la mandó a la Aldea del Script a conseguir lo necesario para el camino. En el Mercado, **Baldo**, el mercader, le anota tres precios en un papelito: "12", "3.5", "7". Mia los suma y le dice "123.57". Baldo se ríe, y un **goblin** se asoma entre las cajas.
 
-—Sumaste **letras**, no números.
+—Sumaste **letras**, no números —le susurra Gheco—. En este mundo cada valor tiene un **tipo**. Aprendé a reconocerlos y a convertirlos, o los goblins te van a robar hasta la última escama.
 
-{mentor} interviene: —En este mundo, cada valor tiene un **tipo**, {heroe}. Aprendé a reconocerlos y a convertirlos, o los goblins te van a robar hasta la última escama.
+Y en una bolsita olvidada del puesto hay algo que nadie sabe explicar: **un vitral dibujado en tinta**.
 
 ### Objetivos
 
@@ -39,7 +39,7 @@ entre tipos y mostrar números con formato.
 |---|---|---|
 | `int` | números enteros | `100`, `-3`, `1_250_000` |
 | `float` | números con decimales | `3.5`, `-0.25`, `1.5e3` (= 1500.0) |
-| `str` | texto | `"Kira"`, `'hola'`, `""` (texto vacío) |
+| `str` | texto | `"Mia"`, `'hola'`, `""` (texto vacío) |
 | `bool` | verdadero o falso | `True`, `False` (con mayúscula) |
 | `NoneType` | "no hay valor" | `None` |
 
@@ -106,7 +106,7 @@ verdadero/falso o "nada". La variable no tiene tipo: solo apunta a un valor.
 # =========================================================
 vida = 100              # int   -> numero entero
 velocidad = 3.5         # float -> numero con decimales (punto, no coma)
-nombre = "Kira"         # str   -> texto (string)
+nombre = "Mia"         # str   -> texto (string)
 viva = True             # bool  -> True o False (con mayuscula)
 objetivo = None         # None  -> "no hay valor todavia"
 
@@ -163,7 +163,7 @@ print(mensaje)
 # Son FALSOS: 0, 0.0, "" (texto vacio), None, y las colecciones vacias.
 # Todo lo demas es VERDADERO.
 print("bool(0) =", bool(0), "| bool(15) =", bool(15))
-print('bool("") =', bool(""), '| bool("Kira") =', bool("Kira"))
+print('bool("") =', bool(""), '| bool("Mia") =', bool("Mia"))
 print("bool(None) =", bool(None))
 
 # =========================================================
@@ -197,7 +197,7 @@ int(3.99) = 3
 round(3.99) = 4
 Nivel 7
 bool(0) = False | bool(15) = True
-bool("") = False | bool("Kira") = True
+bool("") = False | bool("Mia") = True
 bool(None) = False
 oro: 1234567.89
 oro: 1,234,567.89
@@ -568,7 +568,7 @@ y el nivel 3 como `003`.
 #### Salida esperada
 
 ```
-Heroína: Kira
+Heroína: Mia
 Oro:     15,230.50
 Vida:    63/90 (70%)
 Nivel:   003
@@ -579,7 +579,7 @@ Nivel:   003
 ```python
 """Mision 2 - La ficha con formato."""
 
-nombre = "Kira"
+nombre = "Mia"
 oro = 15230.5
 vida = 63
 vida_max = 90
@@ -744,9 +744,9 @@ temas: prog.operadores
 
 ### Crónica
 
-La primera prueba de {mentor} es en el Puente del Juicio. El puente solo deja pasar a quien sabe **calcular** su daño, **comparar** su fuerza con la del guardián y **combinar** condiciones sin equivocarse: "nivel 5 o más, con llave o con magia, y sin maldición".
+Para salir de la Aldea hay que cruzar **el Puente del Juicio**, de piedra negra, con una serpiente tallada en el arco. El Guardián del Puente solo deja pasar a quien sabe **calcular** su daño, **comparar** fuerzas y **combinar** condiciones sin equivocarse: «nivel 5 o más, con llave o con magia, y sin maldición».
 
-—Un error en el orden de las palabras, {heroe}, y el puente se derrumba.
+—Un error en el orden de las palabras —retumba el Guardián— y el puente se derrumba.
 
 ### Objetivos
 
@@ -783,7 +783,7 @@ Con textos: `"ab" + "cd"` → `"abcd"` y `"ja" * 3` → `"jajaja"` (se ve en 04)
 - **`=` asigna y `==` compara.** Confundirlos es el error más común.
 - Se pueden **encadenar**: `30 <= vida < 70` equivale a `30 <= vida and vida < 70`.
 - Los textos se comparan en orden alfabético, letra por letra, según el código
-  de cada carácter: las **mayúsculas van antes que las minúsculas** (`"Zed" < "ana"`).
+  de cada carácter: las **mayúsculas van antes que las minúsculas** (`"Baldo" < "ana"`).
 
 #### Lógicos: `and`, `or`, `not`
 | Expresión | Es verdadera cuando… |
@@ -882,8 +882,8 @@ print("vida >= 30 ->", vida >= 30)
 print("¿vida entre 30 y 70?", 30 <= vida < 70)
 
 # Los textos se comparan en orden alfabetico (por codigo de cada letra)
-print('"ana" < "bron" ->', "ana" < "bron")
-print('"Zed" < "ana"  ->', "Zed" < "ana")    # las MAYUSCULAS van antes que las minusculas
+print('"ana" < "tilo" ->', "ana" < "tilo")
+print('"Baldo" < "ana"  ->', "Baldo" < "ana")    # las MAYUSCULAS van antes que las minusculas
 
 # =========================================================
 # Logicos: and, or, not
@@ -951,8 +951,8 @@ vida != 0  -> True
 vida < 30  -> False
 vida >= 30 -> True
 ¿vida entre 30 y 70? True
-"ana" < "bron" -> True
-"Zed" < "ana"  -> True
+"ana" < "tilo" -> True
+"Baldo" < "ana"  -> True
 abre la puerta: True
 hay luz: True
 ¿puede repartir? False
@@ -1320,23 +1320,23 @@ xp: 10
 #### Consigna
 
 Pasa quien tiene nivel 5 o más, **y** (llave **o**
-magia), **y no** está maldito. Evaluá la regla para Kira (nivel 6, con llave),
-Mia (nivel 5, maga, sin llave) y Zed (nivel 8, con llave, maldito). Después
+magia), **y no** está maldito. Evaluá la regla para Mia (nivel 6, con llave),
+Sila (nivel 5, maga, sin llave) y Baldo (nivel 8, con llave, maldito). Después
 probá la regla **sin paréntesis** con un aprendiz mago de nivel 1 y explicá
 por qué cambia el resultado.
 
 #### Criterio de aprobación
 
-- Evalúa la regla con paréntesis para Kira (True), Mia (True) y Zed (False).
+- Evalúa la regla con paréntesis para Mia (True), Sila (True) y Baldo (False).
 - Prueba la regla sin paréntesis con el aprendiz y muestra que cambia el resultado.
 - Explica en un comentario que `and` se evalúa antes que `or`.
 
 #### Salida esperada
 
 ```
-Kira puede entrar: True
-Mia puede entrar:  True
-Zed puede entrar:  False
+Mia puede entrar: True
+Sila puede entrar:  True
+Baldo puede entrar:  False
 Aprendiz, SIN parentesis: True
 Aprendiz, CON parentesis: False
 ```
@@ -1350,25 +1350,25 @@ Regla: nivel 5 o mas, Y (tener la llave O ser mago), Y NO estar maldito.
 Los parentesis son OBLIGATORIOS: 'and' se evalua antes que 'or'.
 """
 
-# Kira: nivel 6, con llave, no es maga, no esta maldita
+# Mia: nivel 6, con llave, todavia sin magia, no esta maldita
 nivel = 6
 tiene_llave = True
 es_mago = False
 maldito = False
-print("Kira puede entrar:", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
+print("Mia puede entrar:", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
 
-# Mia: nivel 5, sin llave, pero es maga
+# Sila: nivel 5, sin llave, pero es maga
 nivel = 5
 tiene_llave = False
 es_mago = True
-print("Mia puede entrar: ", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
+print("Sila puede entrar: ", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
 
-# Zed: nivel 8, con llave, pero MALDITO
+# Baldo: nivel 8, con llave, pero MALDITO
 nivel = 8
 tiene_llave = True
 es_mago = False
 maldito = True
-print("Zed puede entrar: ", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
+print("Baldo puede entrar: ", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
 
 # Un aprendiz mago de nivel 1: sin parentesis la condicion cambia de significado.
 #   nivel >= 5 and tiene_llave or es_mago and not maldito
@@ -1483,9 +1483,9 @@ print(anio, (anio % 4 == 0 and anio % 100 != 0) or anio % 400 == 0)
 
 `=` **asigna** un valor a un nombre; `==` **compara** dos valores y da `True` o `False`.
 
-#### ¿Qué devuelve `"" or "Anónimo"`? ¿Y `"Kira" or "Anónimo"`?
+#### ¿Qué devuelve `"" or "Anónimo"`? ¿Y `"Mia" or "Anónimo"`?
 
-`"" or "Anónimo"` da `"Anónimo"` (el texto vacío es falso). `"Kira" or "Anónimo"` da `"Kira"`.
+`"" or "Anónimo"` da `"Anónimo"` (el texto vacío es falso). `"Mia" or "Anónimo"` da `"Mia"`.
 
 #### ¿Por qué `oro > 0 and 100 / oro > 10` no falla cuando `oro` es 0?
 
@@ -1517,9 +1517,11 @@ temas: prog.cadenas
 
 ### Crónica
 
-En la Gran Biblioteca del Valle, los pergaminos están escritos en runas desordenadas: nombres con espacios de más, palabras en mayúsculas y minúsculas mezcladas, mensajes que solo se leen al revés. La bibliotecaria te pide ayuda.
+Del otro lado del río, la **Casa de los Copistas** está tapada de carteles: espacios de más, mayúsculas mezcladas, mensajes que solo se leen al revés. La Copista no da abasto y le pide ayuda a Mia.
 
-{mentor} sonríe: —Un texto es una **fila de letras**, {heroe}. Si sabés contarlas, cortarlas y transformarlas, ningún pergamino se te va a resistir.
+—Un texto es una **fila de letras** —le explica Gheco—. Si sabés contarlas, cortarlas y transformarlas, ningún cartel se te va a resistir.
+
+En un cartel viejo, escrito con una claridad perfecta, aparece otra vez **el vitral** del papelito de Baldo. Esta vez, como firma.
 
 ### Objetivos
 
@@ -1617,7 +1619,7 @@ print(doble)
 
 # Caracteres especiales con \  (secuencias de escape)
 print("Línea 1\nLínea 2")          # \n = salto de linea
-print("Nombre:\tKira")             # \t = tabulacion
+print("Nombre:\tMia")             # \t = tabulacion
 print("Ofidia dijo: \"escribí\"")  # \" = comilla dentro del texto
 print("C:\\valle\\mapa.txt")       # \\ = una barra invertida
 
@@ -1660,7 +1662,7 @@ print(runa, "->", nueva)
 # =========================================================
 # Metodos: texto.metodo(...)
 # =========================================================
-grito = "  kira LA valiente  "
+grito = "  mia LA valiente  "
 print(f"[{grito.strip()}]")        # saca espacios de los bordes
 print(f"[{grito.upper()}]")        # MAYUSCULAS
 print(f"[{grito.lower()}]")        # minusculas
@@ -1679,7 +1681,7 @@ print("endswith:", frase.endswith("huye"))
 # Preguntas sobre el contenido
 print('"123".isdigit():', "123".isdigit())
 print('"12a".isdigit():', "12a".isdigit())
-print('"Kira".isalpha():', "Kira".isalpha())
+print('"Mia".isalpha():', "Mia".isalpha())
 
 # split parte el texto y join lo vuelve a unir.
 # split devuelve una LISTA de textos: las listas se ven en 06.
@@ -1691,8 +1693,8 @@ print("palabras:", "el   valle    duerme".split())   # sin argumento: por espaci
 # =========================================================
 # Alinear texto en f-strings:  {valor:<ancho}  {valor:>ancho}  {valor:^ancho}
 # =========================================================
-print(f"|{'Kira':<10}|{'Bron':>10}|{'Mia':^10}|")
-print(f"|{'Zed':*^10}|")           # rellenar con un caracter
+print(f"|{'Mia':<10}|{'Tilo':>10}|{'Sila':^10}|")
+print(f"|{'Baldo':*^10}|")           # rellenar con un caracter
 
 # =========================================================
 # Unicode: acentos, ñ y simbolos son caracteres normales
@@ -1708,7 +1710,7 @@ comillas simples
 comillas dobles: sirven si el texto tiene un 'apóstrofo'
 Línea 1
 Línea 2
-Nombre:	Kira
+Nombre:	Mia
 Ofidia dijo: "escribí"
 C:\valle\mapa.txt
 === POSADA DEL ROBLE ===
@@ -1729,12 +1731,12 @@ fuegobola
 --------------------
 ¿'PIEN' en la runa? True
 SERPIENTE -> ZERPIENTE
-[kira LA valiente]
-[  KIRA LA VALIENTE  ]
-[  kira la valiente  ]
-[Kira La Valiente]
-[Kira la valiente]
-[  kira LA valiente  ]  <- el original no cambió
+[mia LA valiente]
+[  MIA LA VALIENTE  ]
+[  mia la valiente  ]
+[Mia La Valiente]
+[Mia la valiente]
+[  mia LA valiente  ]  <- el original no cambió
 replace: el ogro ataca, el ogro huye
 count: 2
 find: 8
@@ -1743,12 +1745,12 @@ startswith: True
 endswith: True
 "123".isdigit(): True
 "12a".isdigit(): False
-"Kira".isalpha(): True
+"Mia".isalpha(): True
 split: ['espada', 'escudo', 'poción']
 join: espada + escudo + poción
 palabras: ['el', 'valle', 'duerme']
-|Kira      |      Bron|   Mia    |
-|***Zed****|
+|Mia       |      Tilo|   Sila   |
+|**Baldo***|
 Ñandú del Sur - largo: 13 - mayúsculas: ÑANDÚ DEL SUR
 ```
 
@@ -1780,7 +1782,7 @@ Si no estás seguro de que esté, usá `find` y fijate si da `-1`.
 - Olvidar los paréntesis: `nombre.upper` (sin `()`) no llama al método; muestra
   algo como `<built-in method upper ...>`.
 - Pensar que `texto[2:5]` incluye la posición 5: no la incluye.
-- Comparar sin normalizar: `"Kira" == "kira"` es `False`. Compará
+- Comparar sin normalizar: `"Mia" == "mia"` es `False`. Compará
   `a.lower() == b.lower()`.
 
 ### Micro-misión R01-N03-P1 · El cartel que no se entiende
@@ -2034,23 +2036,23 @@ xp: 10
 
 #### Consigna
 
-A partir de `"   kira la VALIENTE   "`, obtené
-`"Kira La Valiente"`, sus iniciales (`K.L.V.`) usando índices, el largo y el
+A partir de `"   mia la VALIENTE   "`, obtené
+`"Mia La Valiente"`, sus iniciales (`M.L.V.`) usando índices, el largo y el
 nombre en mayúsculas centrado en 30 caracteres.
 
 #### Criterio de aprobación
 
-- Limpia el texto y lo muestra como `Kira La Valiente`.
-- Arma las iniciales `K.L.V.` usando índices.
+- Limpia el texto y lo muestra como `Mia La Valiente`.
+- Arma las iniciales `M.L.V.` usando índices.
 - Muestra el largo y el nombre en mayúsculas centrado en 30 caracteres.
 
 #### Salida esperada
 
 ```
-Nombre: [Kira La Valiente]
-Iniciales: K.L.V.
-Largo sin espacios de borde: 16
-Para el cartel:        KIRA LA VALIENTE       |
+Nombre: [Mia La Valiente]
+Iniciales: M.L.V.
+Largo sin espacios de borde: 15
+Para el cartel:        MIA LA VALIENTE        |
 ```
 
 #### Solución de referencia
@@ -2058,11 +2060,11 @@ Para el cartel:        KIRA LA VALIENTE       |
 ```python
 """Mision 1 - El nombre del heroe, prolijo."""
 
-entrada = "   kira la VALIENTE   "
+entrada = "   mia la VALIENTE   "
 
 limpio = entrada.strip().title()
 print(f"Nombre: [{limpio}]")
-print(f"Iniciales: {limpio[0]}.{limpio[5]}.{limpio[8]}.")
+print(f"Iniciales: {limpio[0]}.{limpio[4]}.{limpio[7]}.")
 print(f"Largo sin espacios de borde: {len(limpio)}")
 print(f"Para el cartel: {limpio.upper():^30}|")
 ```
@@ -2127,8 +2129,8 @@ xp: 10
 #### Consigna
 
 Mostrá una tabla alineada con encabezados
-`NOMBRE`, `CLASE` y `NIVEL`, con Kira (espadachina, 3), Bron (guerrero, 5),
-Mia (maga, 4) y Zed (pícaro, 2). Los nombres y las clases, a la izquierda; el
+`NOMBRE`, `CLASE` y `NIVEL`, con Mia (maga, 3), Tilo (guerrero, 5),
+Sila (maga, 4) y Baldo (pícaro, 2). Los nombres y las clases, a la izquierda; el
 nivel, a la derecha.
 
 #### Criterio de aprobación
@@ -2142,10 +2144,10 @@ nivel, a la derecha.
 ```
 NOMBRE  CLASE        NIVEL
 --------------------------
-Kira    espadachina      3
-Bron    guerrero         5
-Mia     maga             4
-Zed     picaro           2
+Mia     maga             3
+Tilo    guerrero         5
+Sila    maga             4
+Baldo   picaro           2
 ```
 
 #### Solución de referencia
@@ -2155,10 +2157,10 @@ Zed     picaro           2
 
 print(f"{'NOMBRE':<8}{'CLASE':<12}{'NIVEL':>6}")
 print("-" * 26)
-print(f"{'Kira':<8}{'espadachina':<12}{3:>6}")
-print(f"{'Bron':<8}{'guerrero':<12}{5:>6}")
-print(f"{'Mia':<8}{'maga':<12}{4:>6}")
-print(f"{'Zed':<8}{'picaro':<12}{2:>6}")
+print(f"{'Mia':<8}{'maga':<12}{3:>6}")
+print(f"{'Tilo':<8}{'guerrero':<12}{5:>6}")
+print(f"{'Sila':<8}{'maga':<12}{4:>6}")
+print(f"{'Baldo':<8}{'picaro':<12}{2:>6}")
 ```
 
 ### Encargo R01-N03-E1 · Los correos del Gremio
@@ -2172,7 +2174,7 @@ xp: 15
 #### Consigna
 
 El Gremio guarda los correos de sus socios, pero cada uno lo escribe como
-quiere: `"   Kira.Espada@Valle.COM "`. Normalizalo (sin espacios y en minúsculas),
+quiere: `"   Mia.Runas@Valle.COM "`. Normalizalo (sin espacios y en minúsculas),
 separá el **usuario** (lo que va antes de la `@`) y el **dominio** (lo que va
 después) usando `find` y cortes, y verificá que tenga una sola `@`.
 
@@ -2185,8 +2187,8 @@ después) usando `find` y cortes, y verificá que tenga una sola `@`.
 #### Salida esperada
 
 ```
-normalizado: kira.espada@valle.com
-usuario: kira.espada
+normalizado: mia.runas@valle.com
+usuario: mia.runas
 dominio: valle.com
 ¿es del Valle? True
 ¿tiene una sola @? True
@@ -2201,7 +2203,7 @@ Los socios escriben su email de cualquier manera. Hay que normalizarlo y
 separar usuario y dominio.
 """
 
-email = "   Kira.Espada@Valle.COM "
+email = "   Mia.Runas@Valle.COM "
 
 email = email.strip().lower()
 arroba = email.find("@")
@@ -2253,9 +2255,9 @@ temas: prog.condicionales, prog.bucles, err.validacion
 
 ### Crónica
 
-El Laberinto de las Siete Salas no se cruza caminando derecho. En cada sala hay que **decidir**: si hay trampa, esquivar; si hay cofre, abrir; si aparece el jefe, huir. Y hay que **repetir**: avanzar sala por sala hasta encontrar la salida.
+El cartel firmado decía que el camino a las Terrazas cruza **el Laberinto de las Siete Salas**. En cada sala hay que **decidir**: si hay trampa, esquivar; si hay cofre, abrir; si aparece el jefe, huir. Y hay que **repetir**: avanzar sala por sala hasta encontrar la salida.
 
-{mentor} te enseña las runas del camino: `if` para elegir, `while` y `for` para insistir, `break` para escapar a tiempo.
+Es la primera vez que Mia escribe un plan que no leyó antes en ningún libro. Gheco le enseña las runas del camino: `if` para elegir, `while` y `for` para insistir, `break` para escapar a tiempo.
 
 ### Objetivos
 
@@ -2479,21 +2481,21 @@ for _ in range(10):         # '_' = no me interesa el numero de vuelta
 print("tiradas del dado:", tiradas.strip())
 
 # Combate hasta que alguien cae
-vida_kira = 20
+vida_mia = 20
 vida_goblin = 15
 ronda = 1
-while vida_kira > 0 and vida_goblin > 0:
+while vida_mia > 0 and vida_goblin > 0:
     golpe = random.randint(3, 7)
     vida_goblin -= golpe
     # max(a, b) devuelve el mayor: asi la vida no se muestra negativa
-    print(f"ronda {ronda}: Kira pega {golpe}, goblin queda en {max(vida_goblin, 0)}")
+    print(f"ronda {ronda}: Mia pega {golpe}, goblin queda en {max(vida_goblin, 0)}")
     if vida_goblin <= 0:
         break
     golpe = random.randint(1, 5)
-    vida_kira -= golpe
-    print(f"          goblin pega {golpe}, Kira queda en {max(vida_kira, 0)}")
+    vida_mia -= golpe
+    print(f"          goblin pega {golpe}, Mia queda en {max(vida_mia, 0)}")
     ronda += 1
-print("gana Kira" if vida_kira > 0 else "gana el goblin")
+print("gana Mia" if vida_mia > 0 else "gana el goblin")
 ```
 
 ### Salida esperada
@@ -2537,12 +2539,12 @@ sala 5: ¡el jefe! salís del laberinto
    huir -> escapás
  bailar -> no conocés el comando 'bailar'
 tiradas del dado: 6 1 1 6 3 2 2 2 6 1
-ronda 1: Kira pega 7, goblin queda en 8
-          goblin pega 1, Kira queda en 19
-ronda 2: Kira pega 7, goblin queda en 1
-          goblin pega 4, Kira queda en 15
-ronda 3: Kira pega 3, goblin queda en 0
-gana Kira
+ronda 1: Mia pega 7, goblin queda en 8
+          goblin pega 1, Mia queda en 19
+ronda 2: Mia pega 7, goblin queda en 1
+          goblin pega 4, Mia queda en 15
+ronda 3: Mia pega 3, goblin queda en 0
+gana Mia
 ```
 
 ### ¿Para qué sirve?
@@ -3026,7 +3028,7 @@ xp: 10
 
 #### Consigna
 
-Kira (30 de vida, 2 pociones) pelea contra un orco
+Mia (30 de vida, 2 pociones) pelea contra un orco
 (40 de vida). En su turno, si tiene menos de 10 de vida y le quedan pociones,
 toma una (+15); si no, ataca con `randint(4, 9)`. El orco pega con
 `randint(3, 8)`. Usá `random.seed(7)` para que siempre salga igual.
@@ -3041,21 +3043,21 @@ toma una (+15); si no, ataca con `randint(4, 9)`. El orco pega con
 #### Salida esperada
 
 ```
-turno 1: Kira pega 6 -> orco 34
-         orco pega 4 -> Kira 26
-turno 2: Kira pega 7 -> orco 27
-         orco pega 8 -> Kira 18
-turno 3: Kira pega 4 -> orco 23
-         orco pega 3 -> Kira 15
-turno 4: Kira pega 8 -> orco 15
-         orco pega 3 -> Kira 12
-turno 5: Kira pega 6 -> orco 9
-         orco pega 7 -> Kira 5
-turno 6: Kira toma una poción -> vida 20 (quedan 1)
-         orco pega 3 -> Kira 17
-turno 7: Kira pega 8 -> orco 1
-         orco pega 4 -> Kira 13
-turno 8: Kira pega 4 -> orco 0
+turno 1: Mia pega 6 -> orco 34
+         orco pega 4 -> Mia 26
+turno 2: Mia pega 7 -> orco 27
+         orco pega 8 -> Mia 18
+turno 3: Mia pega 4 -> orco 23
+         orco pega 3 -> Mia 15
+turno 4: Mia pega 8 -> orco 15
+         orco pega 3 -> Mia 12
+turno 5: Mia pega 6 -> orco 9
+         orco pega 7 -> Mia 5
+turno 6: Mia toma una poción -> vida 20 (quedan 1)
+         orco pega 3 -> Mia 17
+turno 7: Mia pega 8 -> orco 1
+         orco pega 4 -> Mia 13
+turno 8: Mia pega 4 -> orco 0
 ¡Victoria!
 ```
 
@@ -3064,35 +3066,35 @@ turno 8: Kira pega 4 -> orco 0
 ```python
 """Mision 2 - Combate con pociones.
 
-Kira (30 de vida, 2 pociones) contra un orco (40 de vida). Si en su turno
-Kira tiene menos de 10 de vida y le quedan pociones, toma una (+15) en vez de atacar.
+Mia (30 de vida, 2 pociones) contra un orco (40 de vida). Si en su turno
+Mia tiene menos de 10 de vida y le quedan pociones, toma una (+15) en vez de atacar.
 """
 
 import random
 
 random.seed(7)
-vida_kira = 30
+vida_mia = 30
 vida_orco = 40
 pociones = 2
 turno = 1
 
-while vida_kira > 0 and vida_orco > 0:
-    if vida_kira < 10 and pociones > 0:
+while vida_mia > 0 and vida_orco > 0:
+    if vida_mia < 10 and pociones > 0:
         pociones -= 1
-        vida_kira += 15
-        print(f"turno {turno}: Kira toma una poción -> vida {vida_kira} (quedan {pociones})")
+        vida_mia += 15
+        print(f"turno {turno}: Mia toma una poción -> vida {vida_mia} (quedan {pociones})")
     else:
         golpe = random.randint(4, 9)
         vida_orco -= golpe
-        print(f"turno {turno}: Kira pega {golpe} -> orco {max(vida_orco, 0)}")
+        print(f"turno {turno}: Mia pega {golpe} -> orco {max(vida_orco, 0)}")
         if vida_orco <= 0:
             break
     golpe = random.randint(3, 8)
-    vida_kira -= golpe
-    print(f"         orco pega {golpe} -> Kira {max(vida_kira, 0)}")
+    vida_mia -= golpe
+    print(f"         orco pega {golpe} -> Mia {max(vida_mia, 0)}")
     turno += 1
 
-print("¡Victoria!" if vida_kira > 0 else "Kira cae... fin de la partida")
+print("¡Victoria!" if vida_mia > 0 else "Mia cae... fin de la partida")
 ```
 
 ### Misión R01-N04-M3 · El acertijo de la serpiente
@@ -3299,9 +3301,11 @@ temas: col.listas, col.registros, col.matrices
 
 ### Crónica
 
-Ya no viajás sin compañía: Bron, Mia y Zed se sumaron. Hay que llevar la cuenta de quién está, qué hay en la mochila, el ranking del torneo y el mapa de cada mazmorra.
+Mia sale del Laberinto de noche, agotada, frente a **la Posada de la Serpiente**. Junto al fuego conoce a **Tilo**, un chico de la Aldea, hijo de un balsero, que sueña con subir a las Terrazas y no sabe leer las runas. Se suma a la compañía.
 
-—Para guardar **muchos** valores juntos —dice {mentor}—, el Valle tiene dos caravanas: la **lista**, que carga y descarga en cada pueblo, y la **tupla**, sellada con cera: lo que entra, no cambia.
+Ahora hay que llevar la cuenta de quién viaja, qué hay en la mochila y el mapa del camino.
+
+—Para guardar **muchos** valores juntos —dice Gheco—, el Valle tiene dos caravanas: la **lista**, que carga y descarga en cada pueblo, y la **tupla**, sellada con cera: lo que entra, no cambia.
 
 ### Objetivos
 
@@ -3318,7 +3322,7 @@ recorrerlos, armar listas nuevas con *comprehensions*, manejar listas de listas
 
 #### Listas: `[...]`
 Una **lista** es una secuencia **ordenada** y **modificable**:
-`compania = ["Kira", "Bron", "Mia"]`. Se accede por índice (`compania[0]`,
+`compania = ["Mia", "Tilo", "Sila"]`. Se accede por índice (`compania[0]`,
 `compania[-1]`), se corta (`compania[:2]`), se mide con `len` y se pregunta con
 `in`, igual que un texto. `list("abc")` convierte un texto en la lista de sus
 letras: `['a', 'b', 'c']`.
@@ -3371,8 +3375,8 @@ elementos. Se usan para datos que van juntos y no cambian: coordenadas
 `(x, y)`, colores `(r, g, b)`, o un registro `(puntos, nombre)`.
 - **La coma hace la tupla**, no los paréntesis: `(42,)` es una tupla;
   `(42)` es solo el número 42. `3, 7` también es una tupla.
-- Las tuplas **se comparan elemento por elemento**: `(95, "Bron") > (95, "Ana")`,
-  porque empatan en 95 y `"Bron"` > `"Ana"`. Por eso ordenar tuplas
+- Las tuplas **se comparan elemento por elemento**: `(95, "Tilo") > (95, "Ana")`,
+  porque empatan en 95 y `"Tilo"` > `"Ana"`. Por eso ordenar tuplas
   `(puntos, nombre)` ordena por puntos y desempata por nombre.
 
 **¿Lista o tupla?** Si la colección **crece o cambia**, lista. Si es un
@@ -3384,7 +3388,7 @@ Repartir los elementos de una secuencia en variables:
 - `x, y = posicion` (tiene que haber tantas variables como elementos).
 - `a, b = b, a` intercambia dos variables.
 - `primero, *resto = lista`: el `*` junta en una lista "lo que sobra".
-- En un `for`: `for nombre, nivel in [("Kira", 3), ("Bron", 5)]:`.
+- En un `for`: `for nombre, nivel in [("Mia", 3), ("Tilo", 5)]:`.
 - Anidado: `for i, (puntos, nombre) in enumerate(ranking):`.
 
 #### `match` con secuencias
@@ -3409,9 +3413,9 @@ Las dos se indexan y se cortan igual que los textos (04).
 # =========================================================
 # Crear listas y acceder por indice
 # =========================================================
-compania = ["Kira", "Bron", "Mia"]
+compania = ["Mia", "Tilo", "Sila"]
 vacia = []
-mezcla = ["Kira", 3, 12.5, True]        # puede mezclar tipos (mejor no abusar)
+mezcla = ["Mia", 3, 12.5, True]        # puede mezclar tipos (mejor no abusar)
 print(compania, vacia, mezcla)
 print("cantidad:", len(compania))
 print("primera:", compania[0], "- última:", compania[-1])
@@ -3420,8 +3424,8 @@ print("las dos primeras:", compania[:2])
 # =========================================================
 # Modificar una lista
 # =========================================================
-compania[1] = "Bron el Enano"           # reemplazar por indice
-compania.append("Zed")                  # agregar al final
+compania[1] = "Tilo el Balsero"           # reemplazar por indice
+compania.append("Baldo")                  # agregar al final
 compania.insert(0, "Ofidia")            # insertar en una posicion
 print("después de agregar:", compania)
 
@@ -3450,7 +3454,7 @@ print("sort(reverse=True):", puntajes)
 print("top 3:", puntajes[:3])
 print("min / max / suma:", min(puntajes), max(puntajes), sum(puntajes))
 
-nombres = ["zed", "Kira", "bron", "Mia"]
+nombres = ["baldo", "Mia", "tilo", "Sila"]
 print("sorted:", sorted(nombres))                   # mayusculas primero (03)
 # key= recibe una FUNCION que dice por que valor ordenar (se ve a fondo en 10)
 print("sin distinguir mayúsculas:", sorted(nombres, key=str.lower))
@@ -3521,7 +3525,7 @@ print("primero:", primero, "| resto:", resto)
 *otros, ultimo = "S", "L", "I", "M", "E"
 print("otros:", otros, "| último:", ultimo)
 
-for nombre, nivel in [("Kira", 3), ("Bron", 5)]:   # desempaquetar en el for
+for nombre, nivel in [("Mia", 3), ("Tilo", 5)]:   # desempaquetar en el for
     print(f"{nombre} es nivel {nivel}")
 
 # =========================================================
@@ -3542,13 +3546,13 @@ for orden in [("mover", 2, -1), ("atacar", "orco"), ("descansar",), ("volar", 1,
 ### Salida esperada
 
 ```
-['Kira', 'Bron', 'Mia'] [] ['Kira', 3, 12.5, True]
+['Mia', 'Tilo', 'Sila'] [] ['Mia', 3, 12.5, True]
 cantidad: 3
-primera: Kira - última: Mia
-las dos primeras: ['Kira', 'Bron']
-después de agregar: ['Ofidia', 'Kira', 'Bron el Enano', 'Mia', 'Zed']
-salió: Zed -> ['Kira', 'Bron el Enano', 'Mia']
-salió: Bron el Enano -> ['Kira', 'Mia']
+primera: Mia - última: Sila
+las dos primeras: ['Mia', 'Tilo']
+después de agregar: ['Ofidia', 'Mia', 'Tilo el Balsero', 'Sila', 'Baldo']
+salió: Baldo -> ['Mia', 'Tilo el Balsero', 'Sila']
+salió: Tilo el Balsero -> ['Mia', 'Sila']
 botín: ['poción', 'llave', 'gema', 'gema', 'mapa']
 ¿cuántas gemas? 2
 ¿dónde está la llave? 1
@@ -3557,10 +3561,10 @@ sorted: [45, 87, 120, 210, 300] | original: [120, 45, 300, 87, 210]
 sort(reverse=True): [300, 210, 120, 87, 45]
 top 3: [300, 210, 120]
 min / max / suma: 45 300 762
-sorted: ['Kira', 'Mia', 'bron', 'zed']
-sin distinguir mayúsculas: ['bron', 'Kira', 'Mia', 'zed']
-en la compañía: Kira
+sorted: ['Mia', 'Sila', 'baldo', 'tilo']
+sin distinguir mayúsculas: ['baldo', 'Mia', 'Sila', 'tilo']
 en la compañía: Mia
+en la compañía: Sila
   1. poción
   2. llave
   3. gema
@@ -3582,8 +3586,8 @@ x=3 y=7
 intercambio: escudo espada
 primero: 10 | resto: [20, 30, 40]
 otros: ['S', 'L', 'I', 'M'] | último: E
-Kira es nivel 3
-Bron es nivel 5
+Mia es nivel 3
+Tilo es nivel 5
 te movés 2 en x y -1 en y
 atacás al orco
 descansás
@@ -4056,7 +4060,7 @@ gemas: 2
 #### Solución de referencia
 
 ```python
-"""Mision 1 - La mochila de Kira."""
+"""Mision 1 - La mochila de Mia."""
 
 mochila = ["antorcha", "cuerda", "poción"]
 print("al salir:", mochila)
@@ -4093,9 +4097,9 @@ xp: 10
 #### Consigna
 
 Con los resultados
-`[(120, "Kira"), (95, "Bron"), (150, "Mia"), (95, "Ana"), (60, "Zed")]`,
+`[(120, "Mia"), (95, "Tilo"), (150, "Sila"), (95, "Ana"), (60, "Baldo")]`,
 mostrá el ranking de mayor a menor con puestos, el podio (solo nombres, con
-una comprehension) y el promedio de puntos. ¿En qué orden quedan Bron y Ana, y
+una comprehension) y el promedio de puntos. ¿En qué orden quedan Tilo y Ana, y
 por qué?
 
 #### Criterio de aprobación
@@ -4103,18 +4107,18 @@ por qué?
 - Ordena de mayor a menor con `sorted(..., reverse=True)`.
 - Arma el podio con una comprehension.
 - Calcula el promedio de puntos.
-- Explica en un comentario el orden de Bron y Ana (desempata por el segundo valor de la tupla).
+- Explica en un comentario el orden de Tilo y Ana (desempata por el segundo valor de la tupla).
 
 #### Salida esperada
 
 ```
 RANKING
-1. Mia    150
-2. Kira   120
-3. Bron    95
+1. Sila   150
+2. Mia    120
+3. Tilo    95
 4. Ana     95
-5. Zed     60
-podio: ['Mia', 'Kira', 'Bron']
+5. Baldo   60
+podio: ['Sila', 'Mia', 'Tilo']
 promedio: 104.0
 ```
 
@@ -4128,7 +4132,7 @@ elemento por elemento: primero por puntos y, si empatan, por nombre.
 Asi sorted() ordena por puntos sin nada extra.
 """
 
-resultados = [(120, "Kira"), (95, "Bron"), (150, "Mia"), (95, "Ana"), (60, "Zed")]
+resultados = [(120, "Mia"), (95, "Tilo"), (150, "Sila"), (95, "Ana"), (60, "Baldo")]
 
 ranking = sorted(resultados, reverse=True)
 print("RANKING")
@@ -4152,7 +4156,7 @@ xp: 10
 #### Consigna
 
 Armá el mapa como lista de listas (`list("#K..G.#")`
-convierte cada fila). Encontrá la posición de Kira (`K`) con dos `for` y
+convierte cada fila). Encontrá la posición de Mia (`K`) con dos `for` y
 `enumerate`, contá las gemas (`G`) y, si a su derecha hay piso (`.`), movela.
 Mostrá el mapa antes y después.
 
@@ -4166,9 +4170,9 @@ Mostrá el mapa antes y después.
 #### Salida esperada
 
 ```
-Kira está en fila 1, columna 1
+Mia está en fila 1, columna 1
 gemas en el mapa: 3
-Kira avanza a la derecha
+Mia avanza a la derecha
 #######
 #.K.G.#
 #.#G#.#
@@ -4181,7 +4185,7 @@ Kira avanza a la derecha
 ```python
 """Mision 3 - El mapa de la mazmorra.
 
-Encontrar a Kira (K), contar las gemas (G) y moverla una casilla a la derecha
+Encontrar a Mia (K), contar las gemas (G) y moverla una casilla a la derecha
 si ahi hay piso ('.').
 """
 
@@ -4204,13 +4208,13 @@ for f, fila in enumerate(mapa):
         elif celda == "G":
             gemas += 1
 
-print(f"Kira está en fila {fila_k}, columna {col_k}")
+print(f"Mia está en fila {fila_k}, columna {col_k}")
 print("gemas en el mapa:", gemas)
 
 if mapa[fila_k][col_k + 1] == ".":
     mapa[fila_k][col_k] = "."
     mapa[fila_k][col_k + 1] = "K"
-    print("Kira avanza a la derecha")
+    print("Mia avanza a la derecha")
 
 for fila in mapa:
     print("".join(fila))
@@ -4308,11 +4312,11 @@ temas: col.mapas, col.conjuntos
 
 ### Crónica
 
-La bibliotecaria del Valle te entrega el **Bestiario**: un libro donde cada criatura tiene su página, con su vida, su ataque y sus debilidades.
+En el camino vive un ermitaño que conoce todas las criaturas del Valle. **El Ermitaño** los recibe con un monóculo de luz cian y les muestra **el Bestiario**: cada criatura tiene su página, con su vida, su ataque y sus debilidades.
 
-—No lo leas de principio a fin, {heroe} —te advierte—. **Buscá por el nombre**.
+—No lo lean de principio a fin —les advierte—. **Busquen por el nombre**.
 
-Esa noche, Mia anota qué hechizos conoce cada integrante de la compañía, sin repetir ninguno, para saber cuáles comparten y cuáles faltan.
+Esa noche, Mia anota qué sabe hacer cada integrante de la compañía, sin repetir nada, para ver qué comparten y qué les falta.
 
 ### Objetivos
 
@@ -4331,8 +4335,8 @@ elegir la estructura correcta para cada problema.
 Un diccionario guarda **pares clave → valor**. En lugar de buscar por posición
 (como en una lista), **se busca por clave**:
 ```python
-kira = {"nombre": "Kira", "vida": 100, "nivel": 3}
-kira["vida"]        # 100
+mia = {"nombre": "Mia", "vida": 100, "nivel": 3}
+mia["vida"]        # 100
 ```
 - Las claves **no se repiten**. Si asignás una clave que ya existe, se reemplaza
   su valor.
@@ -4432,41 +4436,41 @@ from collections import Counter, defaultdict
 # =========================================================
 # Crear un diccionario y leer valores
 # =========================================================
-kira = {"nombre": "Kira", "clase": "espadachina", "vida": 100, "nivel": 3}
-print(kira)
-print("nombre:", kira["nombre"])
-print("cantidad de claves:", len(kira))
+mia = {"nombre": "Mia", "clase": "maga", "vida": 100, "nivel": 3}
+print(mia)
+print("nombre:", mia["nombre"])
+print("cantidad de claves:", len(mia))
 
 # get: leer SIN error si la clave no existe (devuelve None o un valor por defecto)
-print("armadura:", kira.get("armadura"))
-print("armadura:", kira.get("armadura", 0))
-print("¿tiene 'vida'?", "vida" in kira)      # 'in' pregunta por CLAVES
+print("armadura:", mia.get("armadura"))
+print("armadura:", mia.get("armadura", 0))
+print("¿tiene 'vida'?", "vida" in mia)      # 'in' pregunta por CLAVES
 
 # =========================================================
 # Modificar
 # =========================================================
-kira["vida"] -= 25                  # cambiar el valor de una clave existente
-kira["mana"] = 40                   # clave nueva -> se agrega
-kira.update({"nivel": 4, "oro": 15})   # varias a la vez
-print("después de la pelea:", kira)
+mia["vida"] -= 25                  # cambiar el valor de una clave existente
+mia["mana"] = 40                   # clave nueva -> se agrega
+mia.update({"nivel": 4, "oro": 15})   # varias a la vez
+print("después de la pelea:", mia)
 
-oro = kira.pop("oro")               # sacar una clave y devolver su valor
-del kira["mana"]                    # borrar una clave
-print(f"sacó {oro} de oro ->", kira)
+oro = mia.pop("oro")               # sacar una clave y devolver su valor
+del mia["mana"]                    # borrar una clave
+print(f"sacó {oro} de oro ->", mia)
 
 # setdefault: devuelve el valor; si la clave no existe, antes la crea con el defecto
-kira.setdefault("hechizos", 0)
-kira.setdefault("vida", 999)        # ya existe: no la cambia
-print("setdefault:", kira)
+mia.setdefault("hechizos", 0)
+mia.setdefault("vida", 999)        # ya existe: no la cambia
+print("setdefault:", mia)
 
 # =========================================================
 # Recorrer
 # =========================================================
-for clave in kira:                  # recorre las CLAVES
+for clave in mia:                  # recorre las CLAVES
     print("clave:", clave)
-print("claves:", list(kira.keys()))
-print("valores:", list(kira.values()))
-for clave, valor in kira.items():   # pares (clave, valor)
+print("claves:", list(mia.keys()))
+print("valores:", list(mia.values()))
+for clave, valor in mia.items():   # pares (clave, valor)
     print(f"  {clave:>9}: {valor}")
 
 # =========================================================
@@ -4508,7 +4512,7 @@ print("lo más común:", contador.most_common(1))
 
 # collections.defaultdict: crea el valor por defecto solo, al acceder
 por_puesto = defaultdict(list)          # si la clave no existe, arranca con una lista vacia
-for nombre, puesto in [("Kira", "vanguardia"), ("Mia", "retaguardia"), ("Bron", "vanguardia")]:
+for nombre, puesto in [("Mia", "vanguardia"), ("Sila", "retaguardia"), ("Tilo", "vanguardia")]:
     por_puesto[puesto].append(nombre)
 print("formación:", dict(por_puesto))
 
@@ -4529,40 +4533,40 @@ tiradas = [3, 6, 3, 1, 6, 6, 2]
 print("valores distintos:", sorted(set(tiradas)))
 
 # Operaciones de conjuntos
-kira_sabe = {"espada", "escudo", "fuego"}
-mia_sabe = {"fuego", "hielo", "curación"}
-print("las dos saben:", sorted(kira_sabe & mia_sabe))    # interseccion
-print("entre las dos:", sorted(kira_sabe | mia_sabe))    # union
-print("solo Kira:", sorted(kira_sabe - mia_sabe))        # diferencia
-print("una sola:", sorted(kira_sabe ^ mia_sabe))         # diferencia simetrica
-print("¿{'fuego'} está incluido en lo de Kira?", {"fuego"} <= kira_sabe)
+mia_sabe = {"espada", "escudo", "fuego"}
+sila_sabe = {"fuego", "hielo", "curación"}
+print("las dos saben:", sorted(mia_sabe & sila_sabe))    # interseccion
+print("entre las dos:", sorted(mia_sabe | sila_sabe))    # union
+print("solo Mia:", sorted(mia_sabe - sila_sabe))        # diferencia
+print("una sola:", sorted(mia_sabe ^ sila_sabe))         # diferencia simetrica
+print("¿{'fuego'} está incluido en lo de Mia?", {"fuego"} <= mia_sabe)
 
 # Set comprehension
-iniciales = {nombre[0] for nombre in ["Kira", "Kael", "Mia", "Bron"]}
+iniciales = {nombre[0] for nombre in ["Mia", "Kael", "Sila", "Tilo"]}
 print("iniciales:", sorted(iniciales))
 ```
 
 ### Salida esperada
 
 ```
-{'nombre': 'Kira', 'clase': 'espadachina', 'vida': 100, 'nivel': 3}
-nombre: Kira
+{'nombre': 'Mia', 'clase': 'maga', 'vida': 100, 'nivel': 3}
+nombre: Mia
 cantidad de claves: 4
 armadura: None
 armadura: 0
 ¿tiene 'vida'? True
-después de la pelea: {'nombre': 'Kira', 'clase': 'espadachina', 'vida': 75, 'nivel': 4, 'mana': 40, 'oro': 15}
-sacó 15 de oro -> {'nombre': 'Kira', 'clase': 'espadachina', 'vida': 75, 'nivel': 4}
-setdefault: {'nombre': 'Kira', 'clase': 'espadachina', 'vida': 75, 'nivel': 4, 'hechizos': 0}
+después de la pelea: {'nombre': 'Mia', 'clase': 'maga', 'vida': 75, 'nivel': 4, 'mana': 40, 'oro': 15}
+sacó 15 de oro -> {'nombre': 'Mia', 'clase': 'maga', 'vida': 75, 'nivel': 4}
+setdefault: {'nombre': 'Mia', 'clase': 'maga', 'vida': 75, 'nivel': 4, 'hechizos': 0}
 clave: nombre
 clave: clase
 clave: vida
 clave: nivel
 clave: hechizos
 claves: ['nombre', 'clase', 'vida', 'nivel', 'hechizos']
-valores: ['Kira', 'espadachina', 75, 4, 0]
-     nombre: Kira
-      clase: espadachina
+valores: ['Mia', 'maga', 75, 4, 0]
+     nombre: Mia
+      clase: maga
        vida: 75
       nivel: 4
    hechizos: 0
@@ -4577,7 +4581,7 @@ en (2, 3) hay: cofre
 conteo a mano: {'gema': 3, 'poción': 2, 'oro': 1}
 Counter: Counter({'gema': 3, 'poción': 2, 'oro': 1})
 lo más común: [('gema', 3)]
-formación: {'vanguardia': ['Kira', 'Bron'], 'retaguardia': ['Mia']}
+formación: {'vanguardia': ['Mia', 'Tilo'], 'retaguardia': ['Sila']}
 criaturas vistas: ['goblin', 'orco', 'slime']
 set vacío: set() | {} es: <class 'dict'>
 ¿vio un orco? True
@@ -4585,10 +4589,10 @@ cantidad: 4
 valores distintos: [1, 2, 3, 6]
 las dos saben: ['fuego']
 entre las dos: ['curación', 'escudo', 'espada', 'fuego', 'hielo']
-solo Kira: ['escudo', 'espada']
+solo Mia: ['escudo', 'espada']
 una sola: ['curación', 'escudo', 'espada', 'hielo']
-¿{'fuego'} está incluido en lo de Kira? True
-iniciales: ['B', 'K', 'M']
+¿{'fuego'} está incluido en lo de Mia? True
+iniciales: ['K', 'M', 'S', 'T']
 ```
 
 ### ¿Para qué sirve?
@@ -4610,8 +4614,8 @@ tupla.
 
 **Ogros (corre, pero hace otra cosa):**
 - `vacio = {}` y después `vacio.add(x)`: es un diccionario, no un set.
-- `"Kira" in personaje` busca entre las **claves**, no entre los valores. Para
-  valores: `"Kira" in personaje.values()`.
+- `"Mia" in personaje` busca entre las **claves**, no entre los valores. Para
+  valores: `"Mia" in personaje.values()`.
 - Esperar que un `set` mantenga el orden de inserción: no lo hace.
 
 ### Micro-misión R01-N06-P1 · La página del slime
@@ -5116,9 +5120,9 @@ xp: 10
 
 #### Consigna
 
-Con los conjuntos de habilidades de Kira,
-Mia y Bron: ¿qué saben los tres?, ¿qué saben entre todos?, ¿qué sabe solo
-Mia? La Torre del Hielo exige `{"hielo", "escudo", "sigilo"}`: ¿la compañía lo
+Con los conjuntos de habilidades de Mia,
+Sila y Tilo: ¿qué saben los tres?, ¿qué saben entre todos?, ¿qué sabe solo
+Sila? La Torre del Hielo exige `{"hielo", "escudo", "sigilo"}`: ¿la compañía lo
 cubre? ¿Qué les falta?
 
 #### Criterio de aprobación
@@ -5132,7 +5136,7 @@ cubre? ¿Qué les falta?
 ```
 los tres saben: ['fuego']
 entre todos: ['curación', 'escudo', 'espada', 'fuego', 'hacha', 'hielo', 'rayo']
-solo Mia: ['curación', 'hielo', 'rayo']
+solo Sila: ['curación', 'hielo', 'rayo']
 ¿la compañía cubre todo? False
 les falta aprender: ['sigilo']
 ```
@@ -5142,17 +5146,17 @@ les falta aprender: ['sigilo']
 ```python
 """Mision 3 - Las habilidades de la compania."""
 
-kira = {"espada", "escudo", "fuego"}
-mia = {"fuego", "hielo", "curación", "rayo"}
-bron = {"hacha", "escudo", "fuego"}
+mia = {"espada", "escudo", "fuego"}
+sila = {"fuego", "hielo", "curación", "rayo"}
+tilo = {"hacha", "escudo", "fuego"}
 
-print("los tres saben:", sorted(kira & mia & bron))
-print("entre todos:", sorted(kira | mia | bron))
-print("solo Mia:", sorted(mia - kira - bron))
+print("los tres saben:", sorted(mia & sila & tilo))
+print("entre todos:", sorted(mia | sila | tilo))
+print("solo Sila:", sorted(sila - mia - tilo))
 
 # habilidades que exige la Torre del Hielo
 requeridas = {"hielo", "escudo", "sigilo"}
-tiene_la_compania = kira | mia | bron
+tiene_la_compania = mia | sila | tilo
 print("¿la compañía cubre todo?", requeridas <= tiene_la_compania)
 print("les falta aprender:", sorted(requeridas - tiene_la_compania))
 ```
@@ -5251,9 +5255,11 @@ temas: prog.referencias
 
 ### Crónica
 
-Antes de entrar a la cueva del troll, anotás la lista de la compañía "por las dudas". Cuando Bron cae y lo tachás de la lista, descubrís con horror que tu anotación **también** lo perdió. No escribiste dos listas: escribiste **dos nombres para la misma lista**.
+El Ermitaño tenía razón: bajo el puente viejo vive un troll. Antes de entrar a su cueva, Mia anota la lista de la compañía «por las dudas». Cuando **Tilo** cae en una trampa y lo tacha de la lista, descubre con horror que su anotación **también** lo perdió. No escribió dos listas: escribió **dos nombres para la misma lista**.
 
-{mentor} suspira: —Ese es el troll más traicionero del Valle, {heroe}. No lo vas a ver venir: el programa no da error, simplemente hace otra cosa.
+Mia, que siempre creyó que leer alcanzaba, entiende algo nuevo: hay que **probar** para saber.
+
+—Ese es el troll más traicionero del Valle —dice Gheco—. No lo vas a ver venir: el programa no da error, simplemente hace otra cosa.
 
 ### Objetivos
 
@@ -5270,17 +5276,17 @@ correctamente (copia superficial y profunda).
 ### Explicación
 
 #### Las variables son etiquetas, no cajas
-`compania = ["Kira", "Bron"]` crea **un objeto lista** y le pega la etiqueta
+`compania = ["Mia", "Tilo"]` crea **un objeto lista** y le pega la etiqueta
 `compania`. Después, `equipo = compania` **no copia nada**: pega una segunda
 etiqueta **al mismo objeto**.
 
 ```
 compania ──┐
-           ├──►  ["Kira", "Bron"]
+           ├──►  ["Mia", "Tilo"]
 equipo  ───┘
 ```
 
-Si modificás el objeto por un nombre (`equipo.append("Mia")`), el cambio **se ve
+Si modificás el objeto por un nombre (`equipo.append("Sila")`), el cambio **se ve
 por el otro**, porque es el mismo objeto. A esto se le dice **alias**.
 
 #### Identidad: `is` e `id()`
@@ -5307,7 +5313,7 @@ número nuevo y mueve la etiqueta; cualquier otro nombre sigue apuntando al valo
 viejo. `nombre.upper()` crea un texto nuevo.
 
 **Una tupla es inmutable, pero sus elementos pueden no serlo**:
-`("Kira", ["poción"])` no deja cambiar qué hay en cada posición, pero la lista de
+`("Mia", ["poción"])` no deja cambiar qué hay en cada posición, pero la lista de
 adentro sí se puede modificar.
 
 #### Copias superficiales (*shallow*)
@@ -5353,17 +5359,17 @@ import copy
 # =========================================================
 # 1. Dos nombres, un mismo objeto (alias)
 # =========================================================
-compania = ["Kira", "Bron"]
+compania = ["Mia", "Tilo"]
 equipo = compania                 # NO copia: 'equipo' es otra etiqueta del MISMO objeto
-equipo.append("Mia")
-print("compania:", compania)      # ¡tambien tiene a Mia!
+equipo.append("Sila")
+print("compania:", compania)      # ¡tambien tiene a Sila!
 print("¿mismo objeto?", equipo is compania)          # is: ¿es el mismo objeto?
 print("¿mismo id?", id(equipo) == id(compania))      # id(): identidad del objeto
 
 # =========================================================
 # 2. Reasignar NO es modificar
 # =========================================================
-equipo = ["Zed"]                  # la etiqueta 'equipo' pasa a OTRO objeto nuevo
+equipo = ["Baldo"]                  # la etiqueta 'equipo' pasa a OTRO objeto nuevo
 print("compania:", compania, "| equipo:", equipo)    # compania no cambio
 
 # =========================================================
@@ -5374,7 +5380,7 @@ vida_guardada = vida
 vida -= 30                        # crea un int NUEVO y mueve la etiqueta 'vida'
 print("vida:", vida, "| guardada:", vida_guardada)   # la guardada sigue en 100
 
-nombre = "kira"
+nombre = "mia"
 otro = nombre
 nombre = nombre.upper()           # los str tampoco se modifican: se crea uno nuevo
 print("nombre:", nombre, "| otro:", otro)
@@ -5416,12 +5422,12 @@ mapa_profundo[0][1] = "K"
 print("original:", mapa, "| copia profunda:", mapa_profundo)
 
 # Lo mismo con diccionarios que tienen listas adentro
-kira = {"nombre": "Kira", "mochila": ["poción"]}
-clon_sup = kira.copy()            # superficial: comparte la mochila
-clon_prof = copy.deepcopy(kira)   # profunda: mochila propia
+mia = {"nombre": "Mia", "mochila": ["poción"]}
+clon_sup = mia.copy()            # superficial: comparte la mochila
+clon_prof = copy.deepcopy(mia)   # profunda: mochila propia
 clon_sup["mochila"].append("gema")
 clon_prof["mochila"].append("mapa")
-print("kira:", kira)
+print("mia:", mia)
 print("clon superficial:", clon_sup)
 print("clon profundo:", clon_prof)
 
@@ -5439,7 +5445,7 @@ print("grilla buena:", buena)
 # =========================================================
 # 9. Una tupla inmutable... que contiene algo mutable
 # =========================================================
-registro = ("Kira", ["poción"])
+registro = ("Mia", ["poción"])
 # registro[1] = []                # TypeError: la tupla no deja cambiar SUS elementos
 registro[1].append("gema")        # pero la lista de adentro SI se puede modificar
 print("registro:", registro)
@@ -5448,12 +5454,12 @@ print("registro:", registro)
 ### Salida esperada
 
 ```
-compania: ['Kira', 'Bron', 'Mia']
+compania: ['Mia', 'Tilo', 'Sila']
 ¿mismo objeto? True
 ¿mismo id? True
-compania: ['Kira', 'Bron', 'Mia'] | equipo: ['Zed']
+compania: ['Mia', 'Tilo', 'Sila'] | equipo: ['Baldo']
 vida: 70 | guardada: 100
-nombre: KIRA | otro: kira
+nombre: MIA | otro: mia
 a == b: True
 a is b: False
 a is c: True
@@ -5462,12 +5468,12 @@ original: ['espada', 'escudo'] | copia1: ['espada', 'escudo', 'arco']
 mapa original: [['#', 'K'], ['.', '#']]
 ¿la fila 0 es la misma? True
 original: [['#', '.'], ['.', '#']] | copia profunda: [['#', 'K'], ['.', '#']]
-kira: {'nombre': 'Kira', 'mochila': ['poción', 'gema']}
-clon superficial: {'nombre': 'Kira', 'mochila': ['poción', 'gema']}
-clon profundo: {'nombre': 'Kira', 'mochila': ['poción', 'mapa']}
+mia: {'nombre': 'Mia', 'mochila': ['poción', 'gema']}
+clon superficial: {'nombre': 'Mia', 'mochila': ['poción', 'gema']}
+clon profundo: {'nombre': 'Mia', 'mochila': ['poción', 'mapa']}
 grilla mala: [['X', '.', '.'], ['X', '.', '.'], ['X', '.', '.']]
 grilla buena: [['X', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
-registro: ('Kira', ['poción', 'gema'])
+registro: ('Mia', ['poción', 'gema'])
 ```
 
 ### ¿Para qué sirve?
@@ -5754,12 +5760,12 @@ xp: 10
 
 #### Consigna
 
-Este código pierde a Bron también en el respaldo.
+Este código pierde a Tilo también en el respaldo.
 Explicá por qué y arreglalo:
 ```python
-compania = ["Kira", "Bron", "Mia", "Zed"]
+compania = ["Mia", "Tilo", "Sila", "Baldo"]
 respaldo = compania
-compania.remove("Bron")
+compania.remove("Tilo")
 compania = respaldo
 ```
 
@@ -5767,14 +5773,14 @@ compania = respaldo
 
 - Explica en un comentario por qué `respaldo = compania` no copia la lista.
 - Arregla el respaldo con `.copy()` (o `list(...)`).
-- Muestra que el respaldo conserva a Bron.
+- Muestra que el respaldo conserva a Tilo.
 
 #### Código inicial
 
 ```python
-compania = ["Kira", "Bron", "Mia", "Zed"]
+compania = ["Mia", "Tilo", "Sila", "Baldo"]
 respaldo = compania
-compania.remove("Bron")
+compania.remove("Tilo")
 compania = respaldo
 print(compania)
 ```
@@ -5782,9 +5788,9 @@ print(compania)
 #### Salida esperada
 
 ```
-después de la batalla: ['Kira', 'Mia', 'Zed']
-respaldo: ['Kira', 'Bron', 'Mia', 'Zed']
-compañía restaurada: ['Kira', 'Bron', 'Mia', 'Zed']
+después de la batalla: ['Mia', 'Sila', 'Baldo']
+respaldo: ['Mia', 'Tilo', 'Sila', 'Baldo']
+compañía restaurada: ['Mia', 'Tilo', 'Sila', 'Baldo']
 ```
 
 #### Solución de referencia
@@ -5796,16 +5802,16 @@ Version con el bug: el "respaldo" era un alias, asi que se perdia junto con
 la compania original:
 
     respaldo = compania          # <- no copia nada
-    compania.remove("Bron")      # Bron cae en batalla...
+    compania.remove("Tilo")      # Tilo cae en batalla...
     compania = respaldo          # ...y el respaldo TAMBIEN lo perdio
 
 Arreglo: hacer una COPIA antes de la batalla.
 """
 
-compania = ["Kira", "Bron", "Mia", "Zed"]
+compania = ["Mia", "Tilo", "Sila", "Baldo"]
 
 respaldo = compania.copy()       # lista nueva con los mismos nombres
-compania.remove("Bron")
+compania.remove("Tilo")
 print("después de la batalla:", compania)
 print("respaldo:", respaldo)
 
@@ -5824,7 +5830,7 @@ xp: 10
 #### Consigna
 
 Guardá un checkpoint de un mapa (lista de listas)
-antes de mover a Kira y juntar la gema, y después volvé al checkpoint.
+antes de mover a Mia y juntar la gema, y después volvé al checkpoint.
 Mostrá también qué habría pasado con una copia superficial.
 
 #### Criterio de aprobación
@@ -5866,7 +5872,7 @@ mapa = [
 
 checkpoint = copy.deepcopy(mapa)
 
-# Kira avanza y junta la gema
+# Mia avanza y junta la gema
 mapa[1][1] = "."
 mapa[1][3] = "K"
 print("mapa actual:")
@@ -5960,8 +5966,8 @@ xp: 15
 #### Consigna
 
 La herrería tiene una **plantilla de factura** (un diccionario con el negocio,
-el cliente y una lista de ítems vacía). Generá una factura para Kira (espada
-$120, afilado $10) y otra para Bron (hacha $95) **a partir de la plantilla**,
+el cliente y una lista de ítems vacía). Generá una factura para Mia (espada
+$120, afilado $10) y otra para Tilo (hacha $95) **a partir de la plantilla**,
 mostralas con su total y comprobá que la plantilla quedó vacía.
 
 #### Criterio de aprobación
@@ -5973,11 +5979,11 @@ mostralas con su total y comprobá que la plantilla quedó vacía.
 #### Salida esperada
 
 ```
-Herrería del Roble - cliente: Kira
+Herrería del Roble - cliente: Mia
    espada     $  120
    afilado    $   10
    TOTAL      $  130
-Herrería del Roble - cliente: Bron
+Herrería del Roble - cliente: Tilo
    hacha      $   95
    TOTAL      $   95
 ¿la plantilla quedó vacía? True
@@ -5997,8 +6003,8 @@ import copy
 plantilla = {"negocio": "Herrería del Roble", "cliente": "", "items": []}
 
 clientes = {
-    "Kira": [("espada", 120), ("afilado", 10)],
-    "Bron": [("hacha", 95)],
+    "Mia": [("espada", 120), ("afilado", 10)],
+    "Tilo": [("hacha", 95)],
 }
 
 facturas = []
@@ -6057,9 +6063,9 @@ temas: prog.funciones
 
 ### Crónica
 
-Mia está cansada de escribir el mismo hechizo de curación, runa por runa, cada vez que alguien se lastima. {mentor} le muestra un truco antiguo: escribir el hechizo **una sola vez**, ponerle un **nombre** y, desde entonces, invocarlo por su nombre diciendo a quién y cuánto curar.
+Mia llega a **las Terrazas de las Funciones** con Tilo lastimado, colgado de su hombro. Está cansada de escribir el mismo hechizo de curación, runa por runa, cada vez que hace falta. {mentor} los espera junto a una cascada y le muestra un truco antiguo: escribir el hechizo **una sola vez**, ponerle un **nombre** y, desde entonces, invocarlo diciendo a quién y cuánto curar.
 
-—Así nacen los **conjuros**, {heroe}. Un buen conjuro hace una sola cosa y la hace bien.
+—Así nacen los **conjuros**, Mia. Un buen conjuro hace una sola cosa y la hace bien.
 
 ### Objetivos
 
@@ -6238,7 +6244,7 @@ def describir(nombre, **atributos):  # atributos llega como DICCIONARIO
         print(f"  {clave} = {valor}")
 
 
-describir("Mia", clase="maga", nivel=4, hechizo="rayo")
+describir("Sila", clase="maga", nivel=4, hechizo="rayo")
 
 # Al LLAMAR, * y ** hacen lo contrario: desarman una lista o un dict en argumentos
 golpes = [2, 2, 6]
@@ -6273,10 +6279,10 @@ def reiniciar(mochila):
     mochila = []                     # REASIGNA solo la etiqueta local: afuera no cambia nada
 
 
-mochila_kira = ["antorcha"]
-agregar_botin(mochila_kira, "gema")
-reiniciar(mochila_kira)
-print("mochila de Kira:", mochila_kira)
+mochila_mia = ["antorcha"]
+agregar_botin(mochila_mia, "gema")
+reiniciar(mochila_mia)
+print("mochila de Mia:", mochila_mia)
 
 
 # =========================================================
@@ -6321,7 +6327,7 @@ def mostrar_turnos(orden):
         print(f"  turno {i}: {nombre}")
 
 
-compania = [("Kira", 7), ("Bron", 4), ("Mia", 6), ("Zed", 9)]
+compania = [("Mia", 7), ("Tilo", 4), ("Sila", 6), ("Baldo", 9)]
 mostrar_turnos(ordenar_turnos(compania))
 ```
 
@@ -6340,7 +6346,7 @@ saludar() devolvió: None
 total: 24
 nueva posición: 4 3
 combo: 26
-Mia:
+Sila:
   clase = maga
   nivel = 4
   hechizo = rayo
@@ -6348,15 +6354,15 @@ combo: 10
 {'nombre': 'troll', 'vida': 60, 'ataque': 9, 'jefe': False}
 curada: 100
 docstring: Cura 'cantidad' puntos sin pasarse de la vida maxima.
-mochila de Kira: ['antorcha', 'gema']
+mochila de Mia: ['antorcha', 'gema']
 ['poción']
 ['poción', 'llave']
 ['poción']
 ['llave']
-  turno 1: Zed
-  turno 2: Kira
-  turno 3: Mia
-  turno 4: Bron
+  turno 1: Baldo
+  turno 2: Mia
+  turno 3: Sila
+  turno 4: Tilo
 ```
 
 ### ¿Para qué sirve?
@@ -6814,8 +6820,8 @@ pasás nombres?
 #### Salida esperada
 
 ```
-[{'nombre': 'Kira', 'vida': 100}, {'nombre': 'Bron', 'vida': 100}, {'nombre': 'Mia', 'vida': 100}]
-[{'nombre': 'Zed', 'vida': 70}]
+[{'nombre': 'Mia', 'vida': 100}, {'nombre': 'Tilo', 'vida': 100}, {'nombre': 'Sila', 'vida': 100}]
+[{'nombre': 'Baldo', 'vida': 70}]
 []
 ```
 
@@ -6830,8 +6836,8 @@ def crear_compania(*nombres, vida=100):
     return [{"nombre": nombre, "vida": vida} for nombre in nombres]
 
 
-print(crear_compania("Kira", "Bron", "Mia"))
-print(crear_compania("Zed", vida=70))
+print(crear_compania("Mia", "Tilo", "Sila"))
+print(crear_compania("Baldo", vida=70))
 print(crear_compania())                 # sin nombres: lista vacia
 ```
 
@@ -6879,9 +6885,9 @@ def aplicar_buff(stats, **cambios):
     return nuevos
 
 
-kira = {"vida": 80, "ataque": 12, "defensa": 4}
-bendecida = aplicar_buff(kira, ataque=5, defensa=2, suerte=1)
-print("original:", kira)
+mia = {"vida": 80, "ataque": 12, "defensa": 4}
+bendecida = aplicar_buff(mia, ataque=5, defensa=2, suerte=1)
+print("original:", mia)
 print("bendecida:", bendecida)
 ```
 
@@ -6979,9 +6985,9 @@ temas: prog.alcance, prog.recursion, func.lambdas, func.orden-superior
 
 ### Crónica
 
-En la Cueva de los Ecos, cada palabra que pronunciás adentro de una cámara **solo existe en esa cámara**. Mia descubre que sus conjuros se pueden **guardar en un grimorio** y pasar de mano en mano como cualquier otro objeto. Y Zed encuentra un cofre que tiene cofres adentro, que a su vez tienen más cofres…
+Más arriba, en las Terrazas, está **la Cueva de los Ecos**: cada palabra que se pronuncia adentro de una cámara **solo existe en esa cámara**. Mia descubre que sus conjuros se pueden guardar en el grimorio y pasar de mano en mano, como cualquier otro objeto. Y Tilo encuentra un cofre que tiene cofres adentro, que a su vez tienen más cofres…
 
-—Para abrirlos todos, {heroe} —dice {mentor}—, hace falta un conjuro que se invoque **a sí mismo**.
+—Para abrirlos todos —dice Gheco—, hace falta un conjuro que se invoque **a sí mismo**.
 
 ### Objetivos
 
@@ -7081,7 +7087,7 @@ reino = "Valle de la Serpiente"          # GLOBAL: definido afuera de toda funci
 
 
 def presentarse():
-    nombre = "Kira"                       # LOCAL: solo existe dentro de presentarse
+    nombre = "Mia"                       # LOCAL: solo existe dentro de presentarse
     print(f"{nombre} del {reino}")        # 'reino' no es local: lo encuentra en global
 
 
@@ -7165,7 +7171,7 @@ print(hechizo("el orco"))
 
 # ...en diccionarios (una "tabla de acciones", en lugar de muchos if/elif)
 grimorio = {"fuego": bola_de_fuego, "rayo": rayo, "cura": curacion}
-for palabra, objetivo in [("rayo", "el goblin"), ("cura", "Bron"), ("fuego", "el slime")]:
+for palabra, objetivo in [("rayo", "el goblin"), ("cura", "Tilo"), ("fuego", "el slime")]:
     print(grimorio[palabra](objetivo))
 
 
@@ -7182,7 +7188,7 @@ print(lanzar_a_todos(rayo, ["orco", "ogro"]))
 doble = lambda x: x * 2                   # igual que: def doble(x): return x * 2
 print("doble de 21:", doble(21))
 
-compania = [("Kira", 3, 90), ("Bron", 5, 140), ("Mia", 4, 70)]   # (nombre, nivel, vida)
+compania = [("Mia", 3, 90), ("Tilo", 5, 140), ("Sila", 4, 70)]   # (nombre, nivel, vida)
 por_nivel = sorted(compania, key=lambda p: p[1])        # key: que valor usar para ordenar
 print("por nivel:", [p[0] for p in por_nivel])
 print("más vida:", max(compania, key=lambda p: p[2])[0])
@@ -7260,7 +7266,7 @@ print("límite de recursión:", sys.getrecursionlimit())
 ### Salida esperada
 
 ```
-Kira del Valle de la Serpiente
+Mia del Valle de la Serpiente
 nivel global: 1
 derrotados: 2
 victorias: 2
@@ -7268,12 +7274,12 @@ max de la lista: 9
 golpes acumulados: 5 13 16
 🔥 el orco arde
 ⚡ el goblin queda aturdido
-✨ Bron recupera vida
+✨ Tilo recupera vida
 🔥 el slime arde
 ['⚡ orco queda aturdido', '⚡ ogro queda aturdido']
 doble de 21: 42
-por nivel: ['Kira', 'Mia', 'Bron']
-más vida: Bron
+por nivel: ['Mia', 'Sila', 'Tilo']
+más vida: Tilo
 3
 2
 1
@@ -7616,7 +7622,7 @@ ejecute, o avise si no existe.
 ```
 el ogro recibe 6 de daño de fuego
 el troll queda congelado 3 turnos
-Bron recupera 10 de vida
+Tilo recupera 10 de vida
 'volar' no es un hechizo conocido
 ```
 
@@ -7650,8 +7656,8 @@ def lanzar(palabra, objetivo, poder=2):
 
 print(lanzar("fuego", "el ogro"))
 print(lanzar("hielo", "el troll", poder=3))
-print(lanzar("curar", "Bron"))
-print(lanzar("volar", "Mia"))
+print(lanzar("curar", "Tilo"))
+print(lanzar("volar", "Sila"))
 ```
 
 ### Misión R01-N09-M2 · Ordenar la compañía
@@ -7678,10 +7684,10 @@ con `key=lambda`.
 #### Salida esperada
 
 ```
-por vida: ['Bron', 'Kira', 'Zed', 'Mia']
-por nombre: ['Bron', 'Kira', 'Mia', 'Zed']
-por nivel: [('Bron', 5), ('Mia', 4), ('Zed', 4), ('Kira', 3)]
-la de menos vida: Mia
+por vida: ['Tilo', 'Mia', 'Baldo', 'Sila']
+por nombre: ['Baldo', 'Mia', 'Sila', 'Tilo']
+por nivel: [('Tilo', 5), ('Baldo', 4), ('Sila', 4), ('Mia', 3)]
+la de menos vida: Sila
 ```
 
 #### Solución de referencia
@@ -7690,10 +7696,10 @@ la de menos vida: Mia
 """Mision 2 - Ordenar la compania de varias formas (key= con lambda)."""
 
 compania = [
-    {"nombre": "Kira", "nivel": 3, "vida": 90},
-    {"nombre": "Bron", "nivel": 5, "vida": 140},
-    {"nombre": "Mia", "nivel": 4, "vida": 70},
-    {"nombre": "Zed", "nivel": 4, "vida": 85},
+    {"nombre": "Mia", "nivel": 3, "vida": 90},
+    {"nombre": "Tilo", "nivel": 5, "vida": 140},
+    {"nombre": "Sila", "nivel": 4, "vida": 70},
+    {"nombre": "Baldo", "nivel": 4, "vida": 85},
 ]
 
 por_vida = sorted(compania, key=lambda p: p["vida"], reverse=True)
@@ -7919,9 +7925,11 @@ temas: prog.modulos
 
 ### Crónica
 
-Tu pergamino ya es tan largo que se enrolla solo y no hay forma de encontrar nada. {mentor} te lleva a la Biblioteca del Valle, donde cada saber tiene su **tomo** (un módulo) y los tomos de un mismo tema comparten **estante** (un paquete).
+El pergamino de Mia ya es tan largo que se enrolla solo, y no hay forma de encontrar nada. En la cima de las Terrazas está **la Casa de los Tomos**: cada saber tiene su **tomo** (un módulo) y los tomos de un mismo tema comparten **estante** (un paquete).
 
-—Además, {heroe}, la biblioteca ya tiene cientos de tomos escritos por otros magos. **No reinventes lo que ya está escrito**.
+—Además —dice la Copista, entre estantes que llegan al techo—, acá hay cientos de tomos escritos por otros magos. **No reinventes lo que ya está escrito**.
+
+En el estante más viejo espera un tomo firmado con **el vitral**.
 
 ### Objetivos
 
@@ -8507,7 +8515,7 @@ xp: 10
 
 #### Consigna
 
-Con `datetime`: Kira llegó el 7/9/2026, hoy
+Con `datetime`: Mia llegó el 7/9/2026, hoy
 es 26/9/2026 y la luna llena es el 26/10/2026. ¿Cuántos días lleva? ¿Cuántos
 faltan? Mostrá las próximas 4 guardias (una cada 3 días) con la fecha y el día
 de la semana **en castellano** (pista: `fecha.weekday()` da 0 para el lunes).
@@ -8718,9 +8726,9 @@ usa: prog.funciones, err.validacion, col.mapas
 
 ### Crónica
 
-A la salida del Valle te espera la **Hidra de las Mil Runas**. Cada vez que le cortás una cabeza con un hechizo mal escrito, le crecen dos.
+Desde la Casa de los Tomos se ve **el Paso** que sube al Bastión de las Escamas, tapado por algo enorme: la **Hidra de las Mil Runas**. Todas las runas torcidas del Valle bajo se juntaron en ella, y cada hechizo mal escrito le hace crecer dos cabezas.
 
-—No se la vence con un solo conjuro, {heroe} —dice {mentor}—. Se la vence con **todo** lo que aprendiste, bien ordenado: variables, decisiones, bucles, listas, diccionarios y funciones, cada cosa en su lugar.
+—No se la vence con un solo conjuro —dice {mentor}—. Se la vence con **todo** lo que aprendiste, bien ordenado: **dividí** el problema en funciones chicas y **probá** cada parte.
 
 ### Objetivos
 

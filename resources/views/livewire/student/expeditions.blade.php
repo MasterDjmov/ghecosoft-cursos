@@ -91,7 +91,14 @@
             <section class="flex flex-col gap-3">
                 <div class="flex items-center justify-between">
                     <h2 class="font-display text-lg font-semibold text-white">Elegí una expedición</h2>
-                    @if ($today >= $perDay)<span class="text-sm text-warning">Ya hiciste las {{ $perDay }} de hoy. Mañana hay más.</span>@endif
+                    @if ($today >= $perDay)
+                        <span class="text-sm text-warning">Ya hiciste las {{ $perDay }} de hoy. Mañana hay más.</span>
+                    @else
+                        <span class="flex items-center gap-1 text-sm text-ink-muted" wire:key="refresh-{{ $refreshIn }}" data-test="offers-refresh"
+                            x-data="{ left: {{ $refreshIn }}, t: null }" x-init="t = setInterval(() => { if (--left <= 0) { clearInterval(t); $wire.$refresh(); } }, 1000)" x-on:livewire:navigating.window="clearInterval(t)">
+                            <flux:icon name="arrow-path" variant="micro" /> Nuevas en <span class="font-mono" x-text="String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0')"></span>
+                        </span>
+                    @endif
                 </div>
                 <div class="grid gap-3 md:grid-cols-3">
                     @foreach ($offers as $offer)
@@ -110,7 +117,7 @@
                             <p class="text-xs text-ink-muted">{{ $offer['place']['text'] }}</p>
                             <div class="mt-auto flex items-center justify-between gap-2 pt-1">
                                 <span class="flex items-center gap-1 text-sm text-warning"><x-gold-icon class="size-4" /> ~{{ $offer['gold'] }}</span>
-                                <flux:button size="sm" variant="primary" wire:click="send({{ $offer['index'] }})" :disabled="$today >= $perDay" data-test="send-{{ $offer['length'] }}">Mandar a {{ $protagonist['name'] }}</flux:button>
+                                <flux:button size="sm" variant="primary" wire:click="send({{ $offer['index'] }}, '{{ $offer['place']['code'] }}')" :disabled="$today >= $perDay" data-test="send-{{ $offer['length'] }}">Mandar a {{ $protagonist['name'] }}</flux:button>
                             </div>
                         </article>
                     @endforeach

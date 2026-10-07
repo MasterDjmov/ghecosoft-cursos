@@ -216,3 +216,29 @@ test('los establos: tocar una especie muestra sus 5 evoluciones sin comprar ni c
     expect(Mount::first()->species)->toBe('serphira');
     $page->call('inspect', 'no-existe')->assertSet('preview', null);
 });
+
+test('las 3 del momento se vuelven a sortear cada media hora, y no manda a un lugar distinto del que se vio', function () {
+    $w = expeditionWorld();
+    config(['game.protagonists.python.expeditions.places' => collect(range(1, 8))->map(fn ($i) => [
+        'code' => "lugar-{$i}", 'name' => "Lugar {$i}", 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 1, 'y' => 1, 'text' => '.',
+    ])->all()]);
+    $service = app(Expeditions::class);
+    $this->travelTo(now()->startOfHour()->addMinutes(5));
+
+    $first = collect($service->offers($w['student'], $w['course']))->pluck('place.code')->all();
+    expect(collect($service->offers($w['student'], $w['course']))->pluck('place.code')->all())->toBe($first)
+        ->and($service->nextRefresh()->equalTo(now()->startOfHour()->addMinutes(30)))->toBeTrue();
+
+    // En las tandas siguientes cambian (con 8 lugares, alguna de las próximas tiene que ser distinta).
+    $later = collect(range(1, 4))->map(function ($n) use ($service, $w) {
+        $this->travel(30)->minutes();
+
+        return collect($service->offers($w['student'], $w['course']))->pluck('place.code')->all();
+    });
+    expect($later->contains(fn ($codes) => $codes !== $first))->toBeTrue();
+
+    $now = $service->offers($w['student'], $w['course'])[0]['place']['code'];
+    $other = collect(range(1, 8))->map(fn ($i) => "lugar-{$i}")->first(fn ($c) => $c !== $now);
+    expect(fn () => $service->start($w['student'], $w['hero'], 0, $other))->toThrow(InvalidArgumentException::class, 'se renovaron');
+    expect($service->start($w['student'], $w['hero'], 0, $now)->place)->toBe($now);
+});

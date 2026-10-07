@@ -13,6 +13,7 @@ use App\Models\Item;
 use App\Models\Mount;
 use App\Models\Node;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
@@ -109,7 +110,8 @@ class Expeditions
 
     /**
      * Las 3 expediciones del momento (corta, media y larga) a lugares abiertos. Salen de una semilla con el
-     * jugador, el día y cuántas lleva hoy: se renuevan al salir, y no se pueden «tirar de nuevo» recargando.
+     * jugador, la media hora en curso y cuántas lleva hoy: se renuevan al salir y cada media hora, y no se
+     * pueden «tirar de nuevo» recargando.
      *
      * @return list<array<string, mixed>>
      */
@@ -119,7 +121,7 @@ class Expeditions
         if ($open->isEmpty() || ! $this->isOpen($user, $course)) {
             return [];
         }
-        $random = new Randomizer(new Mt19937(crc32($user->id.'|'.now()->toDateString().'|'.$this->todayCount($user).'|'.$course->id)));
+        $random = new Randomizer(new Mt19937(crc32($user->id.'|'.$this->slot().'|'.$this->todayCount($user).'|'.$course->id)));
         $offers = [];
         foreach (array_keys(config('game.expedition.lengths')) as $index => $length) {
             // Las largas prefieren los lugares más difíciles que ya abrió.
@@ -138,8 +140,23 @@ class Expeditions
         return $offers;
     }
 
-    /** Mandar al héroe a una de las 3 expediciones del momento. */
-    public function start(User $user, Hero $hero, int $index): Expedition
+    /** La media hora en curso (el número de tanda): cambia sola con el reloj. */
+    private function slot(): int
+    {
+        return intdiv(now()->timestamp, max(1, (int) config('game.expedition.refresh_minutes')) * 60);
+    }
+
+    /** Cuándo se sortean las próximas 3. */
+    public function nextRefresh(): Carbon
+    {
+        return Carbon::createFromTimestamp(($this->slot() + 1) * max(1, (int) config('game.expedition.refresh_minutes')) * 60);
+    }
+
+    /**
+     * Mandar al héroe a una de las 3 expediciones del momento. Con `$place` (el lugar que vio el jugador), si
+     * justo se renovaron, no lo manda a otro lugar sin avisar.
+     */
+    public function start(User $user, Hero $hero, int $index, ?string $place = null): Expedition
     {
         if ($hero->user_id !== $user->id) {
             throw new InvalidArgumentException('Ese héroe no es tuyo.');
@@ -149,7 +166,7 @@ class Expeditions
             throw new InvalidArgumentException('Las expediciones de este mundo todavía no se abrieron.');
         }
 
-        return DB::transaction(function () use ($user, $hero, $course, $index) {
+        return DB::transaction(function () use ($user, $hero, $course, $index, $place) {
             User::whereKey($user->id)->lockForUpdate()->first();
             if ($this->active($user)) {
                 throw new InvalidArgumentException('Ya hay una expedición en camino: esperá a que vuelva.');
@@ -160,6 +177,9 @@ class Expeditions
             $offer = $this->offers($user, $course)[$index] ?? null;
             if (! $offer) {
                 throw new InvalidArgumentException('Esa expedición ya no está.');
+            }
+            if ($place !== null && $offer['place']['code'] !== $place) {
+                throw new InvalidArgumentException('Las expediciones se renovaron: elegí una de las nuevas.');
             }
 
             return Expedition::create([

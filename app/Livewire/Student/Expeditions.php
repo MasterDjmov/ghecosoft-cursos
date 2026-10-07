@@ -37,7 +37,7 @@ class Expeditions extends Component
         $heroes->settleGold(auth()->user());
     }
 
-    public function send(int $index, Service $service, Heroes $heroes): void
+    public function send(int $index, Service $service, Heroes $heroes, ?string $place = null): void
     {
         $key = 'expedition-start:'.auth()->id();
         if (RateLimiter::tooManyAttempts($key, 10)) {
@@ -54,7 +54,7 @@ class Expeditions extends Component
             return;
         }
         try {
-            $service->start(auth()->user(), $hero, $index);
+            $service->start(auth()->user(), $hero, $index, $place);
             Flux::toast(variant: 'success', text: '¡En camino!');
         } catch (InvalidArgumentException $e) {
             Flux::toast(variant: 'danger', text: $e->getMessage());
@@ -109,6 +109,7 @@ class Expeditions extends Component
             'activePlace' => $active ? $service->placeName($active->course, $active->place) : null,
             'today' => $service->todayCount($user),
             'perDay' => (int) config('game.expedition.per_day'),
+            'refreshIn' => (int) max(1, now()->diffInSeconds($service->nextRefresh(), false)),
             'history' => Expedition::where('user_id', $user->id)->where('course_id', $this->course->id)->whereNotNull('resolved_at')->latest('id')->limit(8)->get(),
             'fight' => $this->watching ? Expedition::where('user_id', $user->id)->find($this->watching) : null,
             'mount' => $mount,

@@ -106,6 +106,8 @@ return [
             'medium' => ['label' => 'Media', 'minutes' => 15, 'gold' => 40, 'enemies' => [2, 3]],
             'long' => ['label' => 'Larga', 'minutes' => 30, 'gold' => 80, 'enemies' => [3, 4]],
         ],
+        // Cada cuántos minutos se vuelven a sortear las 3 del momento (se calcula al mirar, sin cron).
+        'refresh_minutes' => 30,
         'per_day' => 6,
         'drops' => ['common' => 20, 'rare' => 5, 'epic' => 1],
         'pity' => 15,

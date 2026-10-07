@@ -56,6 +56,43 @@ class Heroes
         if ($look < 1 || $look > Hero::LOOKS) {
             throw new InvalidArgumentException('Elegí uno de los aspectos.');
         }
+        $values = $this->checkDistribution($stats);
+
+        return DB::transaction(function () use ($user, $course, $look, $values) {
+            if ($this->heroOf($user, $course)) {
+                throw new InvalidArgumentException('Ya tomaste el control de este personaje.');
+            }
+
+            return Hero::create(['user_id' => $user->id, 'course_id' => $course->id, 'look' => $look, ...$values]);
+        });
+    }
+
+    /**
+     * Reacomodar los 24 puntos del principio: gratis mientras no haya comprado ningún punto con oro
+     * (después, solo con un Pergamino del Reinicio, que llega con los ítems).
+     *
+     * @param  array<string, int>  $stats
+     */
+    public function redistribute(Hero $hero, array $stats): void
+    {
+        if (! $this->canRedistribute($hero)) {
+            throw new InvalidArgumentException('Ya mejoraste atributos con oro: los puntos quedan fijos.');
+        }
+        $hero->update($this->checkDistribution($stats));
+    }
+
+    public function canRedistribute(Hero $hero): bool
+    {
+        return ! CoinTransaction::where('reason', CoinReason::StatUpgrade)
+            ->where('source_type', $hero->getMorphClass())->where('source_id', $hero->id)->exists();
+    }
+
+    /**
+     * @param  array<string, int>  $stats
+     * @return array<string, int>
+     */
+    private function checkDistribution(array $stats): array
+    {
         $values = [];
         foreach (Hero::STATS as $stat) {
             $value = $stats[$stat] ?? null;
@@ -68,13 +105,7 @@ class Heroes
             throw new InvalidArgumentException('Tenés que repartir exactamente '.Hero::POINTS.' puntos.');
         }
 
-        return DB::transaction(function () use ($user, $course, $look, $values) {
-            if ($this->heroOf($user, $course)) {
-                throw new InvalidArgumentException('Ya tomaste el control de este personaje.');
-            }
-
-            return Hero::create(['user_id' => $user->id, 'course_id' => $course->id, 'look' => $look, ...$values]);
-        });
+        return $values;
     }
 
     /** El aspecto es solo cosmético: se cambia cuando quiera y gratis. */

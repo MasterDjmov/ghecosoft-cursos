@@ -128,6 +128,30 @@ test('el panel pide poder ver el curso, y un curso sin protagonista no tiene hé
     Livewire::actingAs($student)->test(HeroPage::class, ['course' => $other['course']])->assertNotFound();
 });
 
+test('con el abono recién aprobado (sin la Clase 0 abierta) ya puede tomar el control', function () {
+    $course = heroCourse();
+    $student = enrolledStudent($course['course']);
+
+    Livewire::actingAs($student)->test(HeroPage::class, ['course' => $course['course']])->assertOk()->assertSee('Tomá el control de Mia');
+});
+
+test('reacomodar los puntos es gratis hasta comprar uno con oro', function () {
+    $course = heroCourse();
+    $student = studentWithRootOpen($course);
+    $heroes = app(Heroes::class);
+    $hero = $heroes->create($student, $course['course'], 1, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]);
+
+    $heroes->redistribute($hero, ['strength' => 4, 'dexterity' => 4, 'intelligence' => 12, 'luck' => 4]);
+    expect($hero->fresh()->intelligence)->toBe(12);
+
+    app(Ledger::class)->credit($student, Currency::gold(), 400, CoinReason::ManualAdjustment);
+    $heroes->upgrade($hero->fresh(), 'strength');
+
+    expect($heroes->canRedistribute($hero))->toBeFalse()
+        ->and(fn () => $heroes->redistribute($hero, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]))
+        ->toThrow(InvalidArgumentException::class);
+});
+
 test('Mis héroes muestra el protagonista de cada mundo que puede jugar', function () {
     $course = heroCourse();
     $student = studentWithRootOpen($course);

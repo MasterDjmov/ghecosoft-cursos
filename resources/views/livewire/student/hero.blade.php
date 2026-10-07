@@ -38,51 +38,7 @@
             </div>
         </section>
 
-        <section class="flex flex-col gap-3" x-data="{
-                stats: $wire.entangle('stats'),
-                total: {{ \App\Models\Hero::POINTS }}, min: {{ \App\Models\Hero::MIN_STAT }}, max: {{ \App\Models\Hero::MAX_START }},
-                get used() { return Object.values(this.stats).reduce((a, b) => a + Number(b), 0) },
-                get left() { return this.total - this.used },
-                add(stat, delta) {
-                    const value = Number(this.stats[stat]) + delta;
-                    if (value < this.min || value > this.max || (delta > 0 && this.left <= 0)) return;
-                    this.stats[stat] = value;
-                },
-            }">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-                <h2 class="font-display text-lg font-semibold text-white">2. Sus atributos</h2>
-                <span class="rounded-md border px-2 py-1 font-mono text-sm" :class="left === 0 ? 'border-success/50 text-success' : 'border-warning/50 text-warning'" data-test="points-left">
-                    Puntos sin repartir: <span x-text="left"></span>
-                </span>
-            </div>
-            <p class="text-sm text-ink-muted">Repartí {{ \App\Models\Hero::POINTS }} puntos. Cada atributo va de {{ \App\Models\Hero::MIN_STAT }} a {{ \App\Models\Hero::MAX_START }}.</p>
-            <div class="grid gap-3 sm:grid-cols-2">
-                @foreach (\App\Models\Hero::STATS as $stat)
-                    <div class="panel flex items-center gap-3 p-3" wire:key="stat-{{ $stat }}">
-                        <span class="grid size-10 shrink-0 place-items-center rounded-md border border-primary/40 bg-primary/10 font-mono text-xs font-bold text-primary-bright">{{ \App\Models\Hero::statShort($stat) }}</span>
-                        <div class="flex min-w-0 flex-1 flex-col">
-                            <span class="font-medium text-white">{{ \App\Models\Hero::statLabel($stat) }}</span>
-                            <span class="text-xs text-ink-muted">{{ \App\Models\Hero::statHelp($stat) }}</span>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <flux:button size="sm" variant="ghost" icon="minus" x-on:click="add('{{ $stat }}', -1)" aria-label="Bajar {{ \App\Models\Hero::statLabel($stat) }}" />
-                            <span class="w-7 text-center font-mono text-lg font-semibold text-white" x-text="stats.{{ $stat }}" data-test="stat-{{ $stat }}"></span>
-                            <flux:button size="sm" variant="ghost" icon="plus" x-on:click="add('{{ $stat }}', 1)" aria-label="Subir {{ \App\Models\Hero::statLabel($stat) }}" />
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-            <p class="flex flex-wrap gap-4 font-mono text-sm text-ink-muted">
-                <span>Vida: <span class="text-success" x-text="50 + 10 * stats.strength"></span></span>
-                <span>Maná: <span class="text-primary-bright" x-text="20 + 5 * stats.intelligence"></span></span>
-            </p>
-            <flux:error name="stats" />
-            <div class="flex justify-end">
-                <flux:button variant="primary" icon="bolt" wire:click="takeControl" x-bind:disabled="left !== 0" data-test="take-control">
-                    Tomar el control de {{ $protagonist['name'] }}
-                </flux:button>
-            </div>
-        </section>
+        @include('livewire.student.partials.hero-points', ['heading' => '2. Sus atributos', 'action' => 'takeControl', 'label' => 'Tomar el control de '.$protagonist['name']])
     @else
         <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
             {{-- Retrato, nivel, vida y maná --}}
@@ -118,12 +74,23 @@
             </section>
 
             <div class="flex flex-col gap-6">
+                @if ($editing)
+                    <div class="panel p-4">
+                        @include('livewire.student.partials.hero-points', ['heading' => 'Reacomodar los puntos', 'action' => 'redistribute', 'label' => 'Guardar', 'cancel' => true])
+                    </div>
+                @endif
                 {{-- Atributos: se suben con oro --}}
-                <section class="panel flex flex-col gap-3 p-4" data-test="hero-stats">
+                <section @class(['panel flex flex-col gap-3 p-4', 'hidden' => $editing]) data-test="hero-stats">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <h2 class="font-display text-lg font-semibold text-white">Atributos</h2>
                         <span class="text-xs text-ink-muted">Cada punto cuesta 100 × su valor actual</span>
                     </div>
+                    @if ($canRedistribute)
+                        <p class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-primary/30 bg-primary/5 px-3 py-2 text-xs text-ink">
+                            <span>Mientras no compres puntos con oro, podés reacomodar los del principio gratis.</span>
+                            <button type="button" wire:click="startEditing" class="text-primary-bright hover:underline" data-test="redistribute">Reacomodar puntos</button>
+                        </p>
+                    @endif
                     @foreach (\App\Models\Hero::STATS as $stat)
                         @php($cost = $hero->upgradeCost($stat))
                         <div class="flex items-center gap-3 rounded-lg border border-outline/70 p-2.5" wire:key="up-{{ $stat }}">

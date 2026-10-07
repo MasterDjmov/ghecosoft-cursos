@@ -28,12 +28,15 @@ class Hero extends Component
     /** Lo que elige al tomar el control (y el aspecto, al cambiarlo). */
     public int $look = 1;
 
-    /** @var array<string, int> */
-    public array $stats = ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6];
+    /** El reparto: empieza con el mínimo en cada uno y los puntos que sobran, libres. @var array<string, int> */
+    public array $stats = ['strength' => 4, 'dexterity' => 4, 'intelligence' => 4, 'luck' => 4];
+
+    /** Reacomodando los puntos (gratis mientras no haya comprado ninguno con oro). */
+    public bool $editing = false;
 
     public function mount(Course $course, Heroes $heroes): void
     {
-        $this->authorize('viewTree', $course);
+        $this->authorize('play', $course);
         abort_if($heroes->protagonist($course) === null, 404);
         $heroes->settleGold(auth()->user());
         if ($hero = $heroes->heroOf(auth()->user(), $course)) {
@@ -51,6 +54,31 @@ class Hero extends Component
             return;
         }
         Flux::toast(variant: 'success', text: '¡Tomaste el control de '.$heroes->protagonist($this->course)['name'].'!');
+    }
+
+    public function startEditing(Heroes $heroes): void
+    {
+        $hero = $heroes->heroOf(auth()->user(), $this->course);
+        if (! $hero || ! $heroes->canRedistribute($hero)) {
+            return;
+        }
+        $this->stats = collect(HeroModel::STATS)->mapWithKeys(fn ($stat) => [$stat => $hero->{$stat}])->all();
+        $this->editing = true;
+    }
+
+    public function redistribute(Heroes $heroes): void
+    {
+        $hero = $heroes->heroOf(auth()->user(), $this->course);
+        abort_unless($hero, 404);
+        try {
+            $heroes->redistribute($hero, array_map('intval', $this->stats));
+        } catch (InvalidArgumentException $e) {
+            $this->addError('stats', $e->getMessage());
+
+            return;
+        }
+        $this->editing = false;
+        Flux::toast(variant: 'success', text: 'Puntos reacomodados.');
     }
 
     public function changeLook(int $look, Heroes $heroes): void
@@ -98,7 +126,8 @@ class Hero extends Component
 
         return view('livewire.student.hero', [
             'protagonist' => $protagonist,
-            'hero' => $heroes->heroOf($user, $this->course),
+            'hero' => $hero = $heroes->heroOf($user, $this->course),
+            'canRedistribute' => $hero && $heroes->canRedistribute($hero),
             'looks' => collect($protagonist['looks'])->map(fn ($name, $n) => ['n' => $n, 'name' => $name, 'url' => Heroes::lookUrl($protagonist, $n)]),
             'gold' => $heroes->gold($user),
             'level' => Level::forXp($user->xp_total),

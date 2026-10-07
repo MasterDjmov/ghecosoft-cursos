@@ -18,7 +18,7 @@ class Heroes extends Component
         $user = auth()->user();
         $owned = Hero::where('user_id', $user->id)->get()->keyBy('course_id');
         $cards = Course::where('is_published', true)->orderBy('title')->get()
-            ->filter(fn (Course $course) => $heroes->protagonist($course) !== null && Gate::allows('viewTree', $course))
+            ->filter(fn (Course $course) => $heroes->protagonist($course) !== null && Gate::allows('play', $course))
             ->map(fn (Course $course) => [
                 'course' => $course,
                 'protagonist' => $protagonist = $heroes->protagonist($course),

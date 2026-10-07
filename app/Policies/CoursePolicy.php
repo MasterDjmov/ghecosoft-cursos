@@ -25,6 +25,15 @@ class CoursePolicy
         return $user->isStaff() || $this->access->isRootOpen($user, $course) || $this->access->canTryCourse($user, $course);
     }
 
+    /**
+     * El protagonista del curso (D89): quien ve el árbol o tiene el abono vigente, aunque todavía no haya
+     * abierto la Clase 0 (recién aprobado).
+     */
+    public function play(User $user, Course $course): bool
+    {
+        return $this->viewTree($user, $course) || ($course->is_published && $this->access->hasActiveSubscription($user, $course));
+    }
+
     /** El ranking del curso, solo para los que entraron (la Clase 0 de prueba no cuenta, D71). */
     public function viewRanking(User $user, Course $course): bool
     {

@@ -341,6 +341,26 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ---
 
+## El Imperio de las Clases (Java)
+
+### Nadia *(falta la imagen)*
+- **Curso y rol:** Java. La aduanera de la Aduana del Compilador que atrapa a Zed en la Clase 0; lo vigila «hasta que aprenda» y termina siendo su compañera ([java.md](java.md)).
+- **Edad y sexo:** 19, mujer.
+- **Altura y contextura:** mediana, delgada, **postura muy erguida**, paso firme.
+- **Rasgos:** piel morena, ojos oscuros y atentos, cejas rectas, **pelo negro recogido en un rodete tirante**, sin un pelo fuera de lugar.
+- **Ropa:** **uniforme de la Aduana**: chaqueta azul oscuro de cuello alto con **botones de bronce** y vivos dorados, cinturón de cuero con hebilla de bronce, pantalón azul oscuro, botas lustradas, **guantes blancos**.
+- **Objeto:** un **sello de bronce** colgado del cinturón y una **libreta de registros** siempre abierta, con una pluma.
+- **Color:** azul oscuro y el **dorado** de las catedrales del Imperio.
+- **Personalidad:** prolija, seria, se sabe el reglamento de memoria; se ríe muy poco, y cuando lo hace es por algo que hizo Zed.
+- **Le gusta:** que las cosas cierren; los registros prolijos; el café de Kaffa (sin azúcar).
+- **Defecto o miedo:** le cuesta improvisar; teme equivocarse delante de todos.
+- **Frase:** «Lo que no está declarado, no existe.»
+- **Relaciones:** discípula de Kaffa; compañera de Zed (ella pregunta «¿qué dice el reglamento?», él «¿y si probamos por acá?»).
+- **Primera aparición:** Java, Clase 0.
+- **Dónde va:** la Aduana del Compilador, en la muralla del Imperio: portones de piedra, balanzas con cajones etiquetados, vitrales dorados.
+
+---
+
 ## 4. Los líderes de los otros mundos (se completan con cada curso)
 
 | Personaje | Región | Datos fijos de hoy |

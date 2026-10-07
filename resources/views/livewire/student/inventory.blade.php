@@ -80,7 +80,7 @@
                             @elseif ($item->kind === \App\Enums\ItemKind::Potion)
                                 <span class="text-ink-muted">Se toma sola en las expediciones si la vida baja mucho.</span>
                             @elseif ($item->kind === \App\Enums\ItemKind::Material)
-                                <span class="text-ink-muted">Material: pronto, para fabricar.</span>
+                                <a href="{{ route('student.workshop') }}" wire:navigate class="text-primary-bright hover:underline">Material: se usa en el Taller</a>
                             @endif
                         </div>
                     </x-item-card>

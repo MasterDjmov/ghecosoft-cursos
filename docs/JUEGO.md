@@ -200,7 +200,14 @@ El mapa suma 6 lugares: 3 en el Bastión (niveles 10 a 12) y 3 en la Ciudadela (
   Hoy cada expedición arranca con la vida y el maná llenos. Esto cambia el balance y hay que volver a simularlo.
 - Los datos ya están: el log de cada turno guarda `hp`, `mp`, `ehp` y `emax`. Falta guardar el estado del héroe entre expediciones (dos columnas y la hora en que volvió) y dibujar la pantalla.
 
-**Anotado para más adelante:** el **crafteo** (fabricar armas, ropa y pociones con los materiales que traen las expediciones: baba de slime, diente de goblin, musgo de troll…) y **vender** a la tienda.
+**El taller (crafteo, hecho, D93):** recetas fijas en `config('game.recipes')`.
+- **Cómo funciona:** cada receta pide materiales de las expediciones y, para mejorar, el ítem de antes (la Pluma de la Copista pasa a Pluma del Juicio; el Báculo del Intérprete, a Báculo de la Garra, épico). Así se arma el árbol común → raro → épico.
+- **Al empezar** se descuentan los ingredientes; tarda unos minutos (sin cron) y **se recoge** al volver. Una cosa a la vez.
+- **El taller dice qué falta y dónde cae** cada material (los lugares de expedición, de todos los mundos), o si se compra en la tienda.
+- **Python tiene 6 recetas**; el dragón ahora deja **Escama de Dragón** (épica), que solo cae en los lugares más altos.
+- **Lo que sigue:** cuando Java (y los demás) tengan sus materiales, se suman **recetas que mezclan mundos**: por ejemplo, una que pida Musgo de Troll del Valle y algo del Imperio. Eso es lo que invita a explorar otros cursos.
+
+**Anotado para más adelante:** **vender** a la tienda.
 
 ## 12. Etapas
 

@@ -209,6 +209,10 @@ La Guardiana de la Arena: acá los hechizos **se ven y se mueven**. Mia arma su 
 **S02 · La Senda del Reino** (datos, IA, robótica) — *La oficina del Consejo, la Torre de los Estrategas y el Taller del Reino.*
 Los magos del Reino no pelean: **responden preguntas**. Mia lee lo que cuentan las partidas, hace que un enemigo encuentre el camino (A*), arma rivales que aprenden y conecta un mando de Arduino.
 
+**Micro-misiones de las Sendas (recomendación, a decidir):** el arco de Mia se cierra en la Encrucijada; las Sendas son optativas y hoy no tienen micro-misiones.
+- **S02, Reino:** se pueden hacer, cortas, como las del camino principal, porque numpy y pandas corren en el navegador (Pyodide) y se comprueban solas. La parte de Arduino no.
+- **S01, Arena:** pygame necesita una ventana en la compu del alumno, así que no se puede comprobar sola. Se pueden hacer micro-misiones de **la lógica del juego sin pygame** (mover con vectores, chocar dos rectángulos, sumar puntos), que sí corren en el navegador, y dejar lo visual para las prácticas que corrige el docente.
+
 ---
 
 ## 3. Arreglos de continuidad respecto del curso actual

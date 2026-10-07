@@ -41,6 +41,7 @@ use App\Livewire\Student\RankingBoard;
 use App\Livewire\Student\Shop;
 use App\Livewire\Student\Stables;
 use App\Livewire\Student\Universe as StudentUniverse;
+use App\Livewire\Student\Workshop as StudentWorkshop;
 use App\Livewire\Student\Worlds;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +79,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('heroes', Heroes::class)->name('student.heroes');
     Route::livewire('grimorio', Grimoire::class)->name('student.grimoire');
     Route::livewire('mochila', StudentInventory::class)->name('student.inventory');
+    Route::livewire('taller', StudentWorkshop::class)->name('student.workshop');
     Route::livewire('establos', Stables::class)->name('student.stables');
     // El menú lleva a las expediciones del primer mundo con héroe (o a Mis héroes, si todavía no tiene).
     Route::get('expediciones', function () {

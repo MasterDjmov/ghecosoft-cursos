@@ -10,6 +10,8 @@ enum ItemReason: string
     case Loot = 'loot';
     case ManualAdjustment = 'manual_adjustment';
     case Reversal = 'reversal';
+    case CraftingCost = 'crafting_cost';
+    case Crafted = 'crafted';
 
     public function label(): string
     {
@@ -20,6 +22,8 @@ enum ItemReason: string
             self::Loot => 'Botín de expedición',
             self::ManualAdjustment => 'Ajuste del docente',
             self::Reversal => 'Corrección',
+            self::CraftingCost => 'Usado en el taller',
+            self::Crafted => 'Fabricado en el taller',
         };
     }
 }

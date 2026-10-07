@@ -62,6 +62,12 @@ class GameItems extends Command
             ['code' => 'colmillo-de-orco', 'name' => 'Colmillo de Orco', 'kind' => 'material', 'rarity' => 'common', 'description' => 'Del que pidió el índice que no estaba.'],
             ['code' => 'musgo-de-troll', 'name' => 'Musgo de Troll', 'kind' => 'material', 'rarity' => 'rare', 'description' => 'Crece debajo de los puentes entre variables.'],
             ['code' => 'garra-de-ogro', 'name' => 'Garra de Ogro', 'kind' => 'material', 'rarity' => 'rare', 'description' => 'El ogro no da error: da esto.'],
+            ['code' => 'escama-de-dragon', 'name' => 'Escama de Dragón', 'kind' => 'material', 'rarity' => 'epic', 'description' => 'De las cabezas sueltas de la Hidra y de lo que vigila los lugares más altos del Valle.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'anillo-de-colmillos', 'name' => 'Anillo de Colmillos', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'strength' => 2, 'luck' => 1, 'description' => 'El Anillo del Bucle, con cinco colmillos de orco engarzados.'],
+            ['code' => 'pluma-del-juicio', 'name' => 'Pluma del Juicio', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 3, 'description' => 'La Pluma de la Copista, endurecida con dientes y huesos: escribe y corta.'],
+            ['code' => 'capa-de-musgo', 'name' => 'Capa de Musgo', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'La Capa del Valle, forrada con musgo de troll: nada la atraviesa fácil.'],
+            ['code' => 'baculo-de-la-garra', 'name' => 'Báculo de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Báculo del Intérprete, con garras de ogro y escamas de dragón.'],
         ],
         null => [
             ['code' => 'pocion-grande', 'name' => 'Poción Grande', 'kind' => 'potion', 'rarity' => 'rare', 'heal' => 90, 'price' => 80, 'min_level' => 6, 'description' => 'Sirve en cualquier mundo.'],
@@ -110,6 +116,11 @@ class GameItems extends Command
         'colmillo-de-orco' => 'Un colmillo grande y curvo de orco, con una muesca en la base.',
         'musgo-de-troll' => 'Un puñado de musgo verde oscuro con pequeñas piedras incrustadas, que brilla apenas.',
         'garra-de-ogro' => 'Una garra gruesa y gris de ogro, con la uña rota.',
+        'escama-de-dragon' => 'Una escama grande de dragón, verde oscuro iridiscente, con bordes que brillan como brasas.',
+        'anillo-de-colmillos' => 'Un anillo de plata grueso con cinco colmillos pequeños de orco engarzados alrededor de una piedra verde.',
+        'pluma-del-juicio' => 'Una pluma de escribir violeta con la punta de diente afilado y el cañón reforzado con anillos de hueso tallado.',
+        'capa-de-musgo' => 'Una capa verde con capucha, forrada por dentro con musgo de troll que brilla apenas, con piedritas incrustadas.',
+        'baculo-de-la-garra' => 'Un báculo de madera oscura con una serpiente de piedra en la punta, rodeada de tres garras de ogro y escamas de dragón que brillan como brasas.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

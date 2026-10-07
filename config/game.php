@@ -95,7 +95,7 @@ return [
         'orco' => ['hp' => 42, 'attack' => 9, 'defense' => 3, 'dexterity' => 4, 'material' => 'colmillo-de-orco'],
         'troll' => ['hp' => 50, 'attack' => 9, 'defense' => 3, 'dexterity' => 2, 'material' => 'musgo-de-troll'],
         'ogro' => ['hp' => 54, 'attack' => 10, 'defense' => 3, 'dexterity' => 3, 'material' => 'garra-de-ogro'],
-        'dragon' => ['hp' => 80, 'attack' => 12, 'defense' => 4, 'dexterity' => 5, 'material' => null],
+        'dragon' => ['hp' => 80, 'attack' => 12, 'defense' => 4, 'dexterity' => 5, 'material' => 'escama-de-dragon'],
     ],
 
     // Expediciones (D91, JUEGO.md § 6 y § 8): minutos y oro base de cada largo, cuántas criaturas, el tope diario
@@ -113,6 +113,19 @@ return [
         'pity' => 15,
         // Para probar en local: 60 = cada minuto dura un segundo. En producción, 1.
         'speed' => (int) env('GAME_EXPEDITION_SPEED', 1),
+    ],
+
+    // El taller (crafteo, D93): recetas fijas por código de ítem. `needs`: ingredientes (código → cantidad; un
+    // ítem de la receta, como la Pluma de la Copista, se mejora); `gives`: el resultado y cuántos; `minutes`: lo
+    // que tarda (se calcula al mirar, sin cron); `min_level`: nivel del jugador. Las recetas que mezclan mundos
+    // se suman cuando cada mundo tenga sus materiales.
+    'recipes' => [
+        ['code' => 'pocion-de-baba', 'gives' => ['pocion-de-curacion' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'pocion-grande-de-musgo', 'gives' => ['pocion-grande' => 1], 'needs' => ['pocion-de-curacion' => 2, 'musgo-de-troll' => 1], 'minutes' => 5, 'min_level' => 6],
+        ['code' => 'anillo-de-colmillos', 'gives' => ['anillo-de-colmillos' => 1], 'needs' => ['anillo-del-bucle' => 1, 'colmillo-de-orco' => 5], 'minutes' => 10, 'min_level' => 5],
+        ['code' => 'pluma-del-juicio', 'gives' => ['pluma-del-juicio' => 1], 'needs' => ['pluma-de-la-copista' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'capa-de-musgo', 'gives' => ['capa-de-musgo' => 1], 'needs' => ['capa-del-valle' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'baculo-de-la-garra', 'gives' => ['baculo-de-la-garra' => 1], 'needs' => ['baculo-del-interprete' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
     ],
 
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.

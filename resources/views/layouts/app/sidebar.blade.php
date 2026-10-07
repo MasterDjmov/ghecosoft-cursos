@@ -135,6 +135,9 @@
                             <flux:sidebar.item icon="shopping-bag" :href="route('student.inventory')" :current="request()->routeIs('student.inventory', 'student.shop')" wire:navigate data-test="menu-inventory">
                                 Mochila
                             </flux:sidebar.item>
+                            <flux:sidebar.item icon="wrench-screwdriver" :href="route('student.workshop')" :current="request()->routeIs('student.workshop')" wire:navigate data-test="menu-workshop">
+                                Taller
+                            </flux:sidebar.item>
                             <flux:sidebar.item icon="bookmark-square" :href="route('student.grimoire')" :current="request()->routeIs('student.grimoire')" wire:navigate data-test="menu-grimoire">
                                 Grimorio
                             </flux:sidebar.item>

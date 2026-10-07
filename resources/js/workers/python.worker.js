@@ -23,6 +23,20 @@ self.onmessage = async ({ data }) => {
 
     try {
         const pyodide = await load(url);
+        // numpy, pandas… (Senda del Reino): se bajan de la misma distribución oficial de Pyodide, solo la
+        // primera vez, y antes de avisar «listo» para que la descarga no cuente en el tiempo límite.
+        await pyodide.loadPackagesFromImports(code);
+        // Importarlos también antes (pandas tarda varios segundos en importarse): solo los que vinieron de la
+        // distribución, por su nombre de paquete.
+        for (const name of Object.keys(pyodide.loadedPackages)) {
+            if (/^[a-z_][a-z0-9_]*$/.test(name)) {
+                try {
+                    pyodide.runPython(`import ${name}`);
+                } catch {
+                    // Hay paquetes cuyo módulo se llama distinto: se importan cuando el programa los pida.
+                }
+            }
+        }
         self.postMessage({ id, type: 'ready' });
 
         let output = '';

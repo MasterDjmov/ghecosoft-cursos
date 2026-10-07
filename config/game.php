@@ -84,11 +84,42 @@ return [
                 6 => 'Hechicera de la Espiral',
             ],
         ],
-        // Java (docs/historias/java.md): la tienda y las expediciones del Imperio se suman cuando esté su mapa.
+        // Java (docs/historias/java.md). La tienda del Imperio, cuando haya ítems del Imperio.
+        // Ojo: al reordenar el curso (R04 y R05 nuevas, D92 de java.md), revisar los nodos de los lugares del final.
         'java' => [
             'name' => 'Zed',
             'slug' => 'zed',
             'title' => 'Ladrón del Puerto',
+            'expeditions' => [
+                'opens_after' => 'R01-N05',
+                'map' => 'img/mundos/imperio/mapa.webp',
+                'places' => [
+                    ['code' => 'aduana-del-compilador', 'name' => 'La Aduana del Compilador', 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 22, 'y' => 76,
+                        'text' => 'La muralla y sus portones: los slimes se esconden en los pergaminos rechazados.'],
+                    ['code' => 'camino-de-las-caravanas', 'name' => 'El camino de las caravanas', 'node' => 'R01-N02', 'level' => 2, 'creatures' => ['slime', 'goblin'], 'x' => 13, 'y' => 92,
+                        'text' => 'Carretas que esperan para entrar, con mercadería mal declarada.'],
+                    ['code' => 'muelles-del-rio', 'name' => 'Los muelles del Río', 'node' => 'R01-N04', 'level' => 3, 'creatures' => ['goblin', 'esqueleto'], 'x' => 44, 'y' => 70,
+                        'text' => 'Cajones sin etiqueta y nombres que no existen en ningún registro.'],
+                    ['code' => 'posada-del-bytecode', 'name' => 'La Posada del Bytecode', 'node' => 'R01-N05', 'level' => 4, 'creatures' => ['goblin', 'orco'], 'x' => 75, 'y' => 66,
+                        'text' => 'De noche, los viajeros piden lo que no está en el menú.'],
+                    ['code' => 'encrucijada-de-los-denarios', 'name' => 'La Encrucijada de los Denarios', 'node' => 'R01-N09', 'level' => 5, 'creatures' => ['orco', 'esqueleto'], 'x' => 41, 'y' => 58,
+                        'text' => 'La plaza de la fuente: todos los caminos del Imperio pasan por acá.'],
+                    ['code' => 'academia-de-los-moldes', 'name' => 'La Academia de los Moldes', 'node' => 'R02-N01', 'level' => 6, 'creatures' => ['esqueleto', 'troll'], 'x' => 22, 'y' => 44,
+                        'text' => 'Moldes rotos de los que salen criaturas a medio hacer.'],
+                    ['code' => 'jardines-polimorficos', 'name' => 'Los Jardines Polimórficos', 'node' => 'R02-N06', 'level' => 7, 'creatures' => ['troll', 'ogro'], 'x' => 58, 'y' => 38,
+                        'text' => 'Cada planta responde distinto a la misma orden. Algunas muerden.'],
+                    ['code' => 'archivos-imperiales', 'name' => 'Los Archivos Imperiales', 'node' => 'R03-N01', 'level' => 8, 'creatures' => ['troll', 'ogro'], 'x' => 73, 'y' => 46,
+                        'text' => 'Salas de estantes donde a veces lo que buscás es null.'],
+                    ['code' => 'rio-de-la-capital', 'name' => 'El Río de la Capital', 'node' => 'R03-N04', 'level' => 9, 'creatures' => ['ogro', 'orco'], 'x' => 52, 'y' => 54,
+                        'text' => 'Las barcazas bajan cargadas; no todas llegan a destino.'],
+                    ['code' => 'la-represa', 'name' => 'La Represa', 'node' => 'R03-N08', 'level' => 10, 'creatures' => ['ogro', 'troll', 'dragon'], 'x' => 66, 'y' => 82,
+                        'text' => 'Donde el río se traba, algo enorme se mueve bajo el agua.'],
+                    ['code' => 'boveda-imperial', 'name' => 'La Bóveda Imperial', 'node' => 'R04-N01', 'level' => 11, 'creatures' => ['troll', 'ogro', 'dragon'], 'x' => 86, 'y' => 26,
+                        'text' => 'Tablas huérfanas y registros sin dueño, en lo alto del acantilado.'],
+                    ['code' => 'torre-del-arquitecto', 'name' => 'La Torre del Arquitecto', 'node' => 'R05-N08', 'level' => 13, 'creatures' => ['ogro', 'dragon'], 'x' => 30, 'y' => 20,
+                        'text' => 'La torre más alta del Imperio. Arriba, una ventana espera su vidrio.'],
+                ],
+            ],
             'looks' => [
                 1 => 'Ladrón del Visor',
                 2 => 'Saqueador de Coleta',

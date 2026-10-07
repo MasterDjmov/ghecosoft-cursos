@@ -4,9 +4,9 @@ Nivel 3 y 4 del método ([../JUEGO.md](../JUEGO.md) § 10) para **la Clase 0 y l
 
 **Estado:**
 - La planilla (§ 2) cubre la Clase 0 y los 11 nodos.
-- Las micro-misiones completas (§ 3) están escritas para la **Clase 0** y los **nodos 1 a 4** (26 en total).
-- Faltan los nodos 5 a 11, siguiendo la planilla.
-- Las salidas esperadas de los nodos 2 a 4 salen de **ejecutar cada solución**, no de escribirlas a mano. El generador también comprueba que el código inicial **no** dé ya la salida esperada.
+- Las micro-misiones completas (§ 3) están escritas para **todo el Acto I**: la Clase 0 y los nodos 1 a 11 (70 en total).
+- **Regla de largo:** una sola cosa por micro-misión, escena de 2 a 4 líneas, la pista justa. Si un tema necesita más, se agrega **otra micro-misión corta**, nunca una más larga. Ninguna usa temas de nodos posteriores.
+- Las salidas esperadas de los nodos 2 a 11 salen de **ejecutar cada solución**, no de escribirlas a mano. El generador también comprueba que el código inicial **no** dé ya la salida esperada.
 - Cuando esté programado, el texto final va al `.md` del curso.
 
 **Cuántos nodos tiene cada acto:**
@@ -77,69 +77,78 @@ imagen: R01-N01-P2
 | P3 | ídem | ídem | float inexacto, `round()` | El vuelto de Baldo no da justo | carta *round* |
 | P4 | ídem | ídem | verdadero/falso, `bool()` | Baldo revisa bolsas vacías y llenas | carta *truthy/falsy* |
 | P5 | ídem | ídem | formato de números | Arma el cartel del puesto de Baldo. Él le marca el camino al Puente | carta *formato* |
-| **R01-N02** | El Puente del Juicio | Mia, Gheco, el Guardián del Puente (una serpiente de piedra) | | | |
-| P1 | ídem | ídem | aritméticos, `//`, `%` | Calcula su daño para la primera prueba | |
-| P2 | ídem | ídem | asignación aumentada | Lleva la cuenta de los golpes | |
-| P3 | ídem | ídem | comparaciones (también encadenadas) | Compara su fuerza con la del guardián | |
-| P4 | ídem | ídem | `and`, `or`, `not`, cortocircuito | «Nivel 5 o más, con llave o magia, sin maldición» | |
-| P5 | ídem | ídem | `in`, `is`, precedencia | El puente se abre | **Llave del Puente** |
-| **R01-N03** | La Casa de los Copistas | + la Copista | | | |
-| P1 | ídem | ídem | crear textos, escapes, multilínea | Carteles desordenados | |
-| P2 | ídem | ídem | índices y cortes | Mensajes que solo se leen al revés | |
-| P3 | ídem | ídem | inmutables, operar con textos | | |
-| P4 | ídem | ídem | métodos, `split`/`join` | Ordena los carteles | |
-| P5 | ídem | ídem | alinear, Unicode | En un cartel viejo aparece **la firma del vitral** | nota del viajero (1) |
-| **R01-N04** | El Laberinto de las Siete Salas | Mia, Gheco | | | |
-| P1 | ídem | ídem | `if`/`elif`/`else` | Sala 1: trampa o cofre | |
-| P2 | ídem | ídem | `while` | Sala 2: avanzar hasta la luz | |
-| P3 | ídem | ídem | `for` y `range` | Salas 3–4: contar losas | |
-| P4 | ídem | ídem | `break`/`continue`, `for…else` | Sala 5: huir del jefe | |
-| P5 | ídem | ídem | `match` | Sala 6: la puerta de los comandos | |
-| P6 | ídem | ídem | `random` con semilla | Sala 7: los dados de la salida | **Espiral de Junco** |
-| **R01-N05** | La Posada de la Serpiente | + **Tilo** | | Tilo se suma | |
-| P1 | ídem | ídem | crear listas, índices | Anota quién viaja | |
-| P2 | ídem | ídem | modificar, `sort`/`sorted` | La mochila | |
-| P3 | ídem | ídem | recorrer, `enumerate` | | |
-| P4 | ídem | ídem | comprehension | | |
-| P5 | ídem | ídem | listas anidadas | El mapa del camino | |
-| P6 | ídem | ídem | tuplas, desempaquetado, `match` con secuencias | Rumor: «una espadachina de pelo corto bajó a las Forjas». **Se abren las expediciones:** el Profe aparece con su tablero | **Morral de la Posada** |
-| **R01-N06** | La Ermita del Bestiario | + el Ermitaño | | | |
-| P1 | ídem | ídem | crear diccionarios, `get` | | **el Bestiario** (se abre la ficha de criaturas) |
-| P2 | ídem | ídem | modificar, `setdefault` | | |
-| P3 | ídem | ídem | recorrer | | |
-| P4 | ídem | ídem | dict comprehension, anidados | | |
-| P5 | ídem | ídem | contar, `Counter` | | |
-| P6 | ídem | ídem | conjuntos | El Ermitaño advierte del troll | |
-| **R01-N07** | La Cueva del Troll, bajo el puente viejo | Mia, Tilo, Gheco, el troll | | | |
-| P1 | ídem | ídem | alias | **Punto medio:** Tilo cae y la anotación «de respaldo» también lo pierde | |
-| P2 | ídem | ídem | reasignar no es modificar | | |
-| P3 | ídem | ídem | `==` frente a `is` | | |
-| P4 | ídem | ídem | copia superficial y su trampa | | |
-| P5 | ídem | ídem | `deepcopy` | Vence al troll | **Espejo del Troll** |
-| **R01-N08** | Las Terrazas de las Funciones | Mia, Tilo (lastimado), Gheco, Ofidia | | | |
-| P1 | ídem | ídem | `def` y llamar | Cura a Tilo | |
-| P2 | ídem | ídem | parámetros y `return` | | |
-| P3 | ídem | ídem | por nombre, valores por defecto | | |
-| P4 | ídem | ídem | devolver varios, `*args`/`**kwargs` | | |
-| P5 | ídem | ídem | el default mutable | | |
-| P6 | ídem | ídem | dividir en funciones chicas | Tilo se cura | **Pociones de Curación** |
-| **R01-N09** | La Cueva de los Ecos | Mia, Tilo, Gheco | | | |
-| P1 | ídem | ídem | alcance (LEGB), `global` | | |
-| P2 | ídem | ídem | `nonlocal` | | |
-| P3 | ídem | ídem | funciones como objetos, tabla de acciones | | |
-| P4 | ídem | ídem | `lambda` | | |
-| P5 | ídem | ídem | recursión | Cofres dentro de cofres | **Cofre de los Ecos** |
-| **R01-N10** | La Casa de los Tomos | + la bibliotecaria de los Tomos | | | |
-| P1 | ídem | ídem | `math`, `random` | | |
-| P2 | ídem | ídem | `statistics`, `datetime` | | |
-| P3 | ídem | ídem | `decimal`, `namedtuple` | | |
-| P4 | ídem | ídem | módulos propios | | |
-| P5 | ídem | ídem | paquetes | En el estante viejo, un **módulo firmado con el vitral**. Desde la Casa se ve algo enorme en el Paso | **Estante Portátil**, nota del viajero (2) |
-| **R01-N11** | El Paso de la Hidra | Mia, Tilo, Gheco, Ofidia | | | |
-| P1–P3 | ídem | ídem | repaso por partes: cada cabeza es un error del acto | Jefe: la Hidra | |
-| (cierre) | ídem | ídem | | Vence: se enciende la **primera parte de la túnica**; el Paso se abre al Bastión | ítem raro |
+| **R01-N02 · Operadores** | | | | | |
+| P1 | El Puente del Juicio | Mia, Gheco, el Guardián del Puente | Aritméticos | Los golpes que hacen falta |  |
+| P2 | El Puente del Juicio | Mia, Gheco, el Guardián del Puente | Asignación aumentada | La cuenta de la energía |  |
+| P3 | El Puente del Juicio | Mia, Gheco, el Guardián del Puente | Comparación | ¿Quién es más fuerte? |  |
+| P4 | El Puente del Juicio | Mia, Gheco, el Guardián del Puente | Lógicos | La regla del puente |  |
+| P5 | El Puente del Juicio | Mia, Gheco, el Guardián del Puente | Pertenencia e identidad | La llave del puente | Llave del Puente |
+| **R01-N03 · Strings: el texto** | | | | | |
+| P1 | La Casa de los Copistas | Mia, Gheco, la Copista | Crear textos | El cartel que no se entiende |  |
+| P2 | La Casa de los Copistas | Mia, Gheco, la Copista | Índices y cortes | El mensaje al revés |  |
+| P3 | La Casa de los Copistas | Mia, Gheco, la Copista | Textos inmutables | La tinta que no se borra |  |
+| P4 | La Casa de los Copistas | Mia, Gheco, la Copista | Métodos de texto | Ordenar los carteles |  |
+| P5 | La Casa de los Copistas | Mia, Gheco, la Copista | Alinear | La firma del vitral | se abre: la primera nota del viajero en el grimorio |
+| **R01-N04 · Decidir y repetir** | | | | | |
+| P1 | El Laberinto de las Siete Salas | Mia, Gheco | if / elif / else | Sala 1: trampa o cofre |  |
+| P2 | El Laberinto de las Siete Salas | Mia, Gheco | while | Sala 2: hasta ver la luz |  |
+| P3 | El Laberinto de las Siete Salas | Mia, Gheco | for y range | Salas 3 y 4: contar las losas |  |
+| P4 | El Laberinto de las Siete Salas | Mia, Gheco | break y continue | Sala 5: el jefe y la salida |  |
+| P5 | El Laberinto de las Siete Salas | Mia, Gheco | match / case | Sala 6: la puerta de los comandos |  |
+| P6 | El Laberinto de las Siete Salas | Mia, Gheco | Azar reproducible | Sala 7: los dados de la salida | Espiral de Junco · se abre: el primer ítem que sirve en el juego: la Espiral de Junco |
+| **R01-N05 · Listas y tuplas** | | | | | |
+| P1 | La Posada de la Serpiente | Mia, Gheco | Listas | Lo que hay en la mochila |  |
+| P2 | La Posada de la Serpiente | Mia, Gheco, Tilo | Agregar a una lista | Tilo se suma |  |
+| P3 | La Posada de la Serpiente | Mia, Gheco, Tilo | Sacar de una lista | Sacar lo que sobra |  |
+| P4 | La Posada de la Serpiente | Mia, Gheco, Tilo | Ordenar | El orden de la guardia |  |
+| P5 | La Posada de la Serpiente | Mia, Gheco, Tilo | Recorrer | Pasar lista |  |
+| P6 | La Posada de la Serpiente | Mia, Gheco, Tilo | Comprehension | Provisiones para el doble | Morral de la Posada |
+| P7 | La Posada de la Serpiente | Mia, Gheco, Tilo | Listas anidadas | El mapa del camino |  |
+| P8 | La Posada de la Serpiente | Mia, Gheco, Tilo, el Profe | Tuplas | Coordenadas que no cambian | se abre: las expediciones del jugador |
+| **R01-N06 · Diccionarios y conjuntos** | | | | | |
+| P1 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Diccionarios | La página del slime |  |
+| P2 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | get | La página que falta |  |
+| P3 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Modificar un diccionario | Anotar lo que viste |  |
+| P4 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Recorrer un diccionario | Leer el Bestiario entero |  |
+| P5 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Contar con un diccionario | Contar las huellas |  |
+| P6 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Counter | El contador del Ermitaño |  |
+| P7 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Conjuntos | Sin repetir |  |
+| P8 | La Ermita del Bestiario | Mia, Gheco, Tilo, el Ermitaño | Operaciones de conjuntos | Las debilidades en común | El Bestiario · se abre: la ficha de criaturas del Bestiario en el inventario |
+| **R01-N07 · Referencias, mutabilidad y copias** | | | | | |
+| P1 | La Cueva del Troll | Mia, Gheco, Tilo | Alias | La anotación de respaldo |  |
+| P2 | La Cueva del Troll | Mia, Gheco, Tilo | Reasignar | Reasignar no es modificar |  |
+| P3 | La Cueva del Troll | Mia, Gheco, Tilo | == frente a is | ¿El mismo o igual? |  |
+| P4 | La Cueva del Troll | Mia, Gheco, Tilo | Copia superficial | La copia que no alcanza |  |
+| P5 | La Cueva del Troll | Mia, Gheco, Tilo | Copia profunda | Copiar hasta el fondo | Espejo del Troll |
+| **R01-N08 · Funciones** | | | | | |
+| P1 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | def | El hechizo con nombre |  |
+| P2 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | Parámetros | A quién y cuánto |  |
+| P3 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | return | El hechizo que devuelve |  |
+| P4 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | Valores por defecto | Por defecto, una poción chica |  |
+| P5 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | Devolver varios | Dos resultados |  |
+| P6 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | *args | Tantas pociones como quieras |  |
+| P7 | Las Terrazas de las Funciones | Mia, Gheco, Tilo, Ofidia | Default mutable | La bolsa que nadie vació | Pociones de Curación |
+| **R01-N09 · Alcance, funciones como objetos y recursión** | | | | | |
+| P1 | La Cueva de los Ecos | Mia, Gheco, Tilo | Alcance local | Lo que se dice adentro |  |
+| P2 | La Cueva de los Ecos | Mia, Gheco, Tilo | global | El contador de la cueva |  |
+| P3 | La Cueva de los Ecos | Mia, Gheco, Tilo | Funciones como valores | El grimorio de conjuros |  |
+| P4 | La Cueva de los Ecos | Mia, Gheco, Tilo | lambda | Hechizos de una línea |  |
+| P5 | La Cueva de los Ecos | Mia, Gheco, Tilo | Recursión | Cofres dentro de cofres | Cofre de los Ecos |
+| **R01-N10 · Módulos y paquetes** | | | | | |
+| P1 | La Casa de los Tomos | Mia, Gheco, Tilo, la Copista | import | El tomo de los números |  |
+| P2 | La Casa de los Tomos | Mia, Gheco, Tilo, la Copista | from … import | Traer solo lo que usás |  |
+| P3 | La Casa de los Tomos | Mia, Gheco, Tilo, la Copista | datetime | El calendario del viaje |  |
+| P4 | La Casa de los Tomos | Mia, Gheco, Tilo, la Copista | Decimal | El vuelto exacto |  |
+| P5 | La Casa de los Tomos | Mia, Gheco, Tilo, la Copista | namedtuple | Fichas con nombre | Estante Portátil |
+| P6 | La Casa de los Tomos | Mia, Gheco, Tilo, la Copista | __name__ | El tomo firmado | se abre: la segunda nota del viajero en el grimorio |
+| **R01-N11 · Jefe: la Hidra de las Mil Runas** | | | | | |
+| P1 | El Paso de la Hidra | Mia, Gheco, Tilo | Leer un NameError | La cabeza del esqueleto |  |
+| P2 | El Paso de la Hidra | Mia, Gheco, Tilo | Leer un TypeError | La cabeza del goblin |  |
+| P3 | El Paso de la Hidra | Mia, Gheco, Tilo | Leer un IndexError | La cabeza del orco |  |
+| P4 | El Paso de la Hidra | Mia, Gheco, Tilo | Errores de lógica | La cabeza del ogro |  |
+| P5 | El Paso de la Hidra | Mia, Gheco, Tilo, Ofidia | Dividir para vencer | La cabeza central |  |
 
-> En el Acto I la bibliotecaria de la Casa de los Tomos **no es Sila** (Sila está en la Gran Biblioteca, Acto II). Si se quiere ahorrar un personaje, puede ser **la Copista**, que se mudó a cuidar los tomos.
+> En la Casa de los Tomos (nodo 10) está **la Copista**, que se mudó a cuidar los tomos. Sila aparece recién en la Gran Biblioteca (Acto II).
 
 ---
 
@@ -476,7 +485,9 @@ Para usar un texto como número, **convertilo**: `int("12")` da `12` y `float("3
 **Desafío.** Convertí los precios antes de sumar.
 
 ```python
-a, b, c = "12", "3.5", "7"
+a = "12"
+b = "3.5"
+c = "7"
 print(a + b + c)          # lo que te quería cobrar
 total = ___
 print(f"Total: {total}")
@@ -1024,33 +1035,33 @@ CASA DE LOS COPISTAS
 ```meta
 lugar: La Casa de los Copistas
 personajes: Mia, Gheco, la Copista
-carta: Métodos de texto | strip · lower/upper/title · replace · split → lista · " ".join(lista)
+carta: Métodos de texto | strip() saca espacios de las puntas · lower() · upper() · title() · replace("a", "b")
 recompensa: xp 15, oro 15
 imagen: R01-N03-P4
 ```
 
 **Escena.**
 El cartel más feo de todos es el de una oficina de la Aldea: tiene espacios por todos lados y mayúsculas mezcladas, como si lo hubiera escrito un goblin.
-`"  oFIcina    DE   lAs    RUNAS  "`
-—Necesito que quede *Oficina De Las Runas*, con un solo espacio entre palabras.
+`"   oFIcina de LAS runas   "`
+—Necesito que quede *Oficina De Las Runas*, sin espacios en las puntas.
 
 **Gheco sugiere.**
-`split()` sin nada parte el texto en **palabras** y se come todos los espacios de más (te da una lista: las listas se ven en el nodo 5). `" ".join(palabras)` las vuelve a unir con un espacio. Y `.title()` pone la primera letra de cada palabra en mayúscula.
+`strip()` saca los espacios de las puntas y `title()` pone en mayúscula la primera letra de cada palabra. Se pueden **encadenar**: `texto.strip().title()`.
 
-**Desafío.** Limpiá el cartel en una sola línea encadenando métodos.
+**Desafío.** Limpiá el cartel encadenando los dos métodos. Los corchetes muestran dónde empieza y termina.
 
 ```python
-cartel = "  oFIcina    DE   lAs    RUNAS  "
+cartel = "   oFIcina de LAS runas   "
 limpio = cartel
-print(limpio)
+print(f"[{limpio}]")
 ```
 
 **Salida esperada.**
 ```
-Oficina De Las Runas
+[Oficina De Las Runas]
 ```
 
-**Solución.** `limpio = " ".join(cartel.split()).title()`.
+**Solución.** `limpio = cartel.strip().title()`.
 
 **Al superarla.**
 Los carteles de toda la casa se acomodan solos, como si hubieran estado esperando que alguien les dijera cómo. Uno, viejísimo, cae de un estante a tus pies.
@@ -1280,34 +1291,34 @@ imagen: R01-N04-P4
 ```
 
 **Escena.**
-La quinta sala tiene seis puertas. Detrás de alguna duerme un **ogro**. La runa dice: *«Revisá las puertas. Las vacías, salteálas. Si encontrás al ogro, no pelees: salí corriendo.»*
+La quinta sala tiene seis puertas numeradas. Gheco escucha detrás de cada una: la 2 y la 4 están vacías, y detrás de la 5 ronca un **ogro**. La runa dice: *«Revisá las puertas en orden. Las vacías, salteálas. Si llegás al ogro, no pelees: salí corriendo.»*
 —Y si revisamos todas y no está… —susurra Gheco— mejor todavía.
 
 **Gheco sugiere.**
 Dentro de un bucle, `continue` **salta** directo a la vuelta siguiente, y `break` **corta** el bucle entero. Un `for` puede tener `else`: corre **solo si el bucle terminó sin `break`** («busqué en todos lados y no estaba»).
 
-**Desafío.** Las puertas vacías se saltean con `continue`; si aparece el ogro, `break`. Completá.
+**Desafío.** Las vacías (2 y 4) se saltean con `continue`; en la del ogro (5), `break`. Completá.
 
 ```python
-puertas = ["vacía", "vacía", "cofre", "vacía", "ogro", "cofre"]
-for numero, puerta in enumerate(puertas, start=1):
-    if puerta == "vacía":
+for puerta in range(1, 7):
+    if puerta == 2 or puerta == 4:
         ___
-    if puerta == "ogro":
-        print(f"Puerta {numero}: ¡el ogro! A correr.")
+    if puerta == 5:
+        print(f"Puerta {puerta}: ¡el ogro! A correr.")
         ___
-    print(f"Puerta {numero}: {puerta}")
+    print(f"Puerta {puerta}: un cofre")
 else:
     print("No había ningún ogro.")
 ```
 
 **Salida esperada.**
 ```
-Puerta 3: cofre
+Puerta 1: un cofre
+Puerta 3: un cofre
 Puerta 5: ¡el ogro! A correr.
 ```
 
-**Solución.** `continue` y `break`. (Las listas como `puertas` y `enumerate` se ven a fondo en el nodo 5: acá alcanza con saber que el `for` recorre las puertas de a una.)
+**Solución.** `continue` y `break`.
 
 **Al superarla.**
 Salís de la sala 5 sin hacer ruido, con el corazón en la garganta. El ogro ronca detrás de la puerta 5 y no se entera de nada. La puerta 6 queda sin abrir… y no importa.
@@ -1397,21 +1408,24 @@ Gheco señala un número diminuto grabado en el borde de la mesa: **7**.
 ```python
 import random
 ___
-tiradas = [random.randint(1, 6) for _ in range(3)]
-print(f"Tiradas: {tiradas}")
-suma = sum(tiradas)
-print(f"Suma: {suma}")
-print("¡Salís del Laberinto!" if suma > 8 else "Seguís adentro.")
+dado1 = random.randint(1, 6)
+dado2 = random.randint(1, 6)
+dado3 = random.randint(1, 6)
+suma = dado1 + dado2 + dado3
+print(f"Tiradas: {dado1} {dado2} {dado3} · suma {suma}")
+if suma > 8:
+    print("¡Salís del Laberinto!")
+else:
+    print("Seguís adentro.")
 ```
 
 **Salida esperada.**
 ```
-Tiradas: [3, 2, 4]
-Suma: 9
+Tiradas: 3 2 4 · suma 9
 ¡Salís del Laberinto!
 ```
 
-**Solución.** `random.seed(7)`. (La línea de las tiradas usa una *comprehension* y `sum`, que se ven en el nodo 5; la última, el `if` en una línea: `a if condición else b`.)
+**Solución.** `random.seed(7)`.
 
 **Al superarla.**
 Los dados se quedan quietos y el piso de la sala gira despacio, como una escalera de caracol. Te deja afuera, en la ladera, bajo las estrellas. En la mesa quedó, enrollado, un **junco con forma de espiral**: lo guardás.
@@ -1428,5 +1442,1991 @@ Ya es de noche y estás agotada. Allá abajo, junto al puente viejo, se ven las 
 ---
 
 > Después vienen las prácticas que corrige el docente (**M1** El ritmo de la forja, **M2** Combate con pociones, **M3** El acertijo de la serpiente, **E1** El vuelto del cajero).
+
+---
+
+### R01-N05 · Listas y tuplas
+
+*La Posada de la Serpiente, junto al puente viejo. Mia, Gheco y, desde la segunda micro-misión, **Tilo**. Al final aparece **el Profe**.*
+
+#### Micro-misión R01-N05-P1 · Lo que hay en la mochila
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco
+carta: Listas | [a, b, c] · lista[0] primero · lista[-1] último · len(lista)
+recompensa: xp 10, oro 10
+imagen: R01-N05-P1
+```
+
+**Escena.**
+La Posada huele a pan y a río. Te sentás junto al fuego y vaciás la mochila sobre la mesa: el pergamino, la llave del puente y la espiral de junco.
+—Anotalo —dice Gheco—. Un aventurero que no sabe qué lleva, no sabe qué puede hacer.
+
+**Gheco sugiere.**
+Una **lista** guarda varios valores en orden, entre corchetes: `["a", "b"]`. Se cuenta desde 0, igual que en los textos: `lista[0]` es el primero y `lista[-1]`, el último. `len(lista)` dice cuántos hay.
+
+**Desafío.** Mostrá lo primero, lo último y cuántas cosas hay.
+
+```python
+mochila = ["pergamino", "llave del puente", "espiral de junco"]
+print(mochila[___])
+print(mochila[___])
+print(len(___))
+```
+
+**Salida esperada.**
+```
+pergamino
+espiral de junco
+3
+```
+
+**Solución.** `mochila[0]`, `mochila[-1]` y `len(mochila)`.
+
+**Al superarla.**
+Un chico descalzo, con un farol verde en la punta de una pértiga, mira tu mochila desde la mesa de al lado. No deja de mirar el pergamino.
+
+**Imagen.**
+- Interior cálido de la Posada de la Serpiente: fuego, mesas de madera, faroles verdes.
+- Sobre la mesa de Mia: un pergamino, una llave verde y un junco en espiral.
+- En la mesa de al lado, Tilo (14, pelo castaño con una hoja enredada, pañuelo verde, pértiga con farol verde) mira con curiosidad.
+
+---
+
+#### Micro-misión R01-N05-P2 · Tilo se suma
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+carta: Agregar a una lista | lista.append(x) al final · lista.insert(0, x) al principio
+recompensa: xp 10, oro 10
+imagen: R01-N05-P2
+```
+
+**Escena.**
+—Soy **Tilo** —dice el chico—. Sé todo del río, pero no sé leer las runas. Quiero subir a las Terrazas. ¿Me llevan?
+Gheco te mira. Vos mirás la lista de la compañía, que hasta ahora tenía dos nombres.
+
+**Gheco sugiere.**
+`lista.append(x)` agrega `x` **al final**. La lista cambia ahí mismo: no hace falta volver a asignarla.
+
+**Desafío.** Sumá a Tilo a la compañía.
+
+```python
+compania = ["Mia", "Gheco"]
+___
+print(compania)
+print(f"Somos {len(compania)}")
+```
+
+**Salida esperada.**
+```
+['Mia', 'Gheco', 'Tilo']
+Somos 3
+```
+
+**Solución.** `compania.append("Tilo")`.
+
+**Al superarla.**
+Tilo sonríe con toda la cara. —¿Y eso para qué sirve? —pregunta, señalando el pergamino. Es la primera de muchas veces que lo va a preguntar.
+
+**Imagen.**
+- Tilo, de pie, con la pértiga y el farol verde, extiende la mano a Mia.
+- Sobre la mesa, el pergamino muestra una lista que crece: Mia, Gheco, Tilo.
+- Gheco, sobre el hombro de Mia, desconfiado pero sonriendo.
+
+---
+
+#### Micro-misión R01-N05-P3 · Sacar lo que sobra
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+carta: Sacar de una lista | lista.remove(x) por valor · lista.pop() el último · x in lista para preguntar
+recompensa: xp 10, oro 10
+imagen: R01-N05-P3
+```
+
+**Escena.**
+Tilo vacía su bolsa: un anzuelo, una piedra lisa, **otra piedra lisa** y un pan.
+—Dos piedras no —dice Gheco—. Pesan.
+
+**Gheco sugiere.**
+`lista.remove(x)` saca **la primera** aparición de `x` (si no está, da error: preguntá antes con `x in lista`). `lista.pop()` saca y devuelve el último.
+
+**Desafío.** Sacá una de las piedras y comé el pan (el último).
+
+```python
+bolsa = ["anzuelo", "piedra lisa", "piedra lisa", "pan"]
+bolsa.___("piedra lisa")
+comido = bolsa.___()
+print(f"Te comés: {comido}")
+print(bolsa)
+```
+
+**Salida esperada.**
+```
+Te comés: pan
+['anzuelo', 'piedra lisa']
+```
+
+**Solución.** `remove` y `pop`.
+
+**Al superarla.**
+Tilo se guarda la piedra que queda. —Es para hacer sapito en el río —explica, muy serio.
+
+**Imagen.**
+- Primer plano de la mesa: un anzuelo, un pan y dos piedras lisas; una de ellas se desvanece en partículas.
+- Tilo masticando el pan; Mia anotando en el pergamino.
+
+---
+
+#### Micro-misión R01-N05-P4 · El orden de la guardia
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+carta: Ordenar | lista.sort() cambia la lista · sorted(lista) devuelve una nueva · reverse=True al revés
+recompensa: xp 10, oro 10
+imagen: R01-N05-P4
+```
+
+**Escena.**
+Para dormir tranquilos, alguien tiene que hacer guardia. Deciden ir por orden alfabético… pero Gheco quiere ver también el orden al revés, «por si acaso».
+
+**Gheco sugiere.**
+`sorted(lista)` devuelve una lista **nueva** ordenada y deja la original como estaba. `lista.sort()` la ordena **ahí mismo**. Las dos aceptan `reverse=True`.
+
+**Desafío.** Mostrá la guardia en orden y al revés, sin cambiar la lista original.
+
+```python
+compania = ["Tilo", "Mia", "Gheco"]
+print(___)
+print(___)
+print(compania)
+```
+
+**Salida esperada.**
+```
+['Gheco', 'Mia', 'Tilo']
+['Tilo', 'Mia', 'Gheco']
+['Tilo', 'Mia', 'Gheco']
+```
+
+**Solución.** `sorted(compania)` y `sorted(compania, reverse=True)`.
+
+**Al superarla.**
+Le toca a Gheco la primera guardia. Se duerme a los tres minutos.
+
+**Imagen.**
+- La Posada de noche, casi a oscuras; Gheco «de guardia» dormido sobre una silla, brillando suave.
+- Mia y Tilo durmiendo en catres; sobre la mesa, el pergamino con la lista ordenada.
+
+---
+
+#### Micro-misión R01-N05-P5 · Pasar lista
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+carta: Recorrer | for x in lista: · for i, x in enumerate(lista, start=1): posición y valor
+recompensa: xp 10, oro 10
+imagen: R01-N05-P5
+```
+
+**Escena.**
+—Antes de salir se pasa lista —dice Tilo—. Mi papá lo hace con los balseros: uno, dos, tres.
+
+**Gheco sugiere.**
+`for x in lista:` recorre los elementos de a uno. Si además querés el número de cada uno, `enumerate(lista, start=1)` te da la **posición y el valor** juntos.
+
+**Desafío.** Pasá lista numerando desde 1.
+
+```python
+compania = ["Mia", "Gheco", "Tilo"]
+for ___ in ___:
+    print(f"{numero}. {nombre}: ¡presente!")
+```
+
+**Salida esperada.**
+```
+1. Mia: ¡presente!
+2. Gheco: ¡presente!
+3. Tilo: ¡presente!
+```
+
+**Solución.** `for numero, nombre in enumerate(compania, start=1):`.
+
+**Al superarla.**
+«¡Presente!», grita Gheco tan fuerte que despierta a medio salón.
+
+**Imagen.**
+- Amanecer en la puerta de la Posada: Mia, Tilo y Gheco en fila, como soldaditos.
+- Números de luz (1, 2, 3) flotan sobre sus cabezas.
+
+---
+
+#### Micro-misión R01-N05-P6 · Provisiones para el doble
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+carta: Comprehension | [expresión for x in lista] · con filtro: [x for x in lista if condición]
+recompensa: xp 15, oro 15
+item: Morral de la Posada
+imagen: R01-N05-P6
+```
+
+**Escena.**
+El posadero les vende provisiones, pero el camino es largo: hace falta el **doble** de cada cosa. Y de paso, quedarse solo con lo que cueste menos de 5.
+
+**Gheco sugiere.**
+Una *comprehension* arma una lista nueva desde otra en una línea: `[p * 2 for p in cantidades]`. Con un `if` al final, filtra: `[p for p in precios if p < 5]`.
+
+**Desafío.** Doblá las cantidades y filtrá los precios baratos.
+
+```python
+cantidades = [2, 1, 3]
+precios = [3, 8, 4, 12]
+dobles = ___
+baratos = ___
+print(dobles)
+print(baratos)
+```
+
+**Salida esperada.**
+```
+[4, 2, 6]
+[3, 4]
+```
+
+**Solución.** `[c * 2 for c in cantidades]` y `[p for p in precios if p < 5]`.
+
+**Al superarla.**
+El posadero, sorprendido por lo rápido de la cuenta, les regala un **morral** de cuero con muchos bolsillos.
+
+**Imagen.**
+- El mostrador de la Posada con bolsas de provisiones que se duplican en el aire.
+- El posadero entrega un morral de cuero lleno de bolsillos a Mia.
+
+---
+
+#### Micro-misión R01-N05-P7 · El mapa del camino
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+carta: Listas anidadas | mapa[fila][columna] · una lista de filas, cada fila una lista
+recompensa: xp 15, oro 15
+imagen: R01-N05-P7
+```
+
+**Escena.**
+Tilo dibuja en la mesa el camino a la Ermita como una grilla: `.` es camino y `#` es piedra. La ermita está en la última fila, a la derecha.
+
+**Gheco sugiere.**
+Una lista puede tener listas adentro: un **mapa** es una lista de filas. `mapa[1][2]` es la fila 1, columna 2 (siempre desde 0).
+
+**Desafío.** Mostrá qué hay en la esquina de la ermita (última fila, última columna) y en la casilla del medio.
+
+```python
+mapa = [
+    [".", "#", "."],
+    [".", ".", "#"],
+    ["#", ".", "E"],
+]
+print(mapa[___][___])
+print(mapa[___][___])
+```
+
+**Salida esperada.**
+```
+E
+.
+```
+
+**Solución.** `mapa[2][2]` (o `mapa[-1][-1]`) y `mapa[1][1]`.
+
+**Al superarla.**
+—E de Ermita —dice Tilo—. Ahí vive un viejo que sabe el nombre de todos los bichos.
+
+**Imagen.**
+- Una grilla de 3×3 dibujada con tiza sobre la mesa de la Posada; una casilla con una E brilla.
+- Tilo con la tiza en la mano; Mia sigue el dedo de Tilo sobre la grilla.
+
+---
+
+#### Micro-misión R01-N05-P8 · Coordenadas que no cambian
+
+```meta
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo, el Profe
+carta: Tuplas | (x, y) como una lista que no se cambia · desempaquetar: fila, col = posicion
+recompensa: xp 15, oro 20
+imagen: R01-N05-P8
+```
+
+**Escena.**
+Un hombre de barba canosa y sobretodo negro con líneas cian se sienta a la mesa sin pedir permiso. Toma notas en una tableta de luz.
+—Soy **el Profe**, el Cronista del Gremio. Anoto las hazañas de los aprendices. La ermita está fija en el mapa, chicos: anótenla como algo que **no cambia**.
+
+**Gheco sugiere.**
+Una **tupla** es como una lista, pero entre paréntesis y **no se puede modificar**: ideal para coordenadas. Se puede **desempaquetar**: `fila, col = (2, 2)` reparte cada valor en su variable.
+
+**Desafío.** Guardá la ermita como tupla y desempaquetala.
+
+```python
+ermita = ___
+fila, col = ___
+print(f"Fila {fila}, columna {col}")
+```
+
+**Salida esperada.**
+```
+Fila 2, columna 2
+```
+
+**Solución.** `ermita = (2, 2)` y `fila, col = ermita`.
+
+**Al superarla.**
+El Profe asiente y les muestra su tablero: un mapa del Valle con lugares que se pueden **recorrer**.
+—Mientras estudian, pueden mandar a explorar. Les explico cómo funcionan los establos y las expediciones.
+Antes de irse, comenta al pasar que vio bajar hacia las Forjas a una espadachina de pelo corto, con un mechón cian.
+
+**Se abre:** las **expediciones** del jugador (el Profe explica el mapa, el temporizador y los establos).
+
+**Imagen.**
+- El Profe (barba canosa, anteojos, sobretodo negro con líneas cian) sentado a la mesa con su tableta holográfica.
+- Sobre la tableta, un mapa del Valle con puntos brillantes para explorar.
+- Mia y Tilo inclinados para ver; Gheco, fascinado.
+
+---
+
+> Después vienen las prácticas que corrige el docente (**M1** La mochila, **M2** El ranking del torneo, **M3** El mapa de la mazmorra, **E1** Las notas de la escuela).
+
+---
+
+### R01-N06 · Diccionarios y conjuntos
+
+*La Ermita del Bestiario, en el bosque de la colina. Mia, Gheco, Tilo y el Ermitaño, rodeado de libros y de un bicho de luz que nunca se queda quieto.*
+
+#### Micro-misión R01-N06-P1 · La página del slime
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Diccionarios | {clave: valor} · d["clave"] lee · las claves no se repiten
+recompensa: xp 10, oro 10
+imagen: R01-N06-P1
+```
+
+**Escena.**
+El Ermitaño los mira con un solo ojo; el otro es un monóculo de luz cian.
+—¿Quieren el Bestiario? Primero lean una página. Cada criatura tiene sus datos con nombre: vida, ataque, debilidad.
+
+**Gheco sugiere.**
+Un **diccionario** guarda pares **clave: valor** entre llaves. Se lee por la clave, no por la posición: `slime["vida"]`.
+
+**Desafío.** Mostrá la vida y la debilidad del slime.
+
+```python
+slime = {"vida": 10, "ataque": 2, "debilidad": "fuego"}
+print(slime[___])
+print(slime[___])
+```
+
+**Salida esperada.**
+```
+10
+fuego
+```
+
+**Solución.** `slime["vida"]` y `slime["debilidad"]`.
+
+**Al superarla.**
+—Lee —gruñe el Ermitaño—. Bien. Una página no es un libro.
+
+**Imagen.**
+- Interior de una ermita de madera llena de libros y frascos; un bicho de luz revolotea.
+- El Ermitaño (capa de musgo con capucha, barba gris, monóculo cian, bastón con orbe) sostiene un libro abierto en la página del slime.
+- Mia, Tilo y Gheco leen por encima de su hombro.
+
+---
+
+#### Micro-misión R01-N06-P2 · La página que falta
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+criatura: orco
+carta: get | d.get(clave) da None si no está · d.get(clave, "por defecto") · d[clave] da KeyError
+recompensa: xp 10, oro 10
+imagen: R01-N06-P2
+```
+
+**Escena.**
+Tilo busca la página del **troll**, que es la que más miedo le da. El libro tiembla y no la encuentra: un orco chiquito asoma entre las hojas.
+
+**Gheco sugiere.**
+Pedir una clave que no existe con `d[clave]` da `KeyError` (el grito del orco). `d.get(clave, "algo")` devuelve el valor si está y, si no, lo que le digas.
+
+**Desafío.** Buscá al troll sin que aparezca el orco.
+
+```python
+vida = {"slime": 10, "goblin": 15, "orco": 30}
+print(vida["troll"])
+```
+
+**Salida esperada.**
+```
+No está anotado
+```
+
+**Solución.** `vida.get("troll", "No está anotado")`.
+
+**Al superarla.**
+—No está anotado porque nadie volvió para contarlo —dice el Ermitaño. Tilo traga saliva.
+
+**Imagen.**
+- Un orco diminuto asoma entre las páginas del Bestiario con la boca abierta, gritando KeyError.
+- Tilo da un salto hacia atrás; Mia escribe `get` en el pergamino y el orco se esconde.
+
+---
+
+#### Micro-misión R01-N06-P3 · Anotar lo que viste
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Modificar un diccionario | d[clave] = valor agrega o cambia · del d[clave] borra
+recompensa: xp 10, oro 10
+imagen: R01-N06-P3
+```
+
+**Escena.**
+Le contás al Ermitaño el goblin del mercado. Era más fuerte de lo que dice el libro: tenía 20 de vida, no 15. Y el murciélago de la cueva, que nadie anotó, tenía 8.
+
+**Gheco sugiere.**
+`d[clave] = valor` **cambia** el valor si la clave existe y la **agrega** si no.
+
+**Desafío.** Corregí al goblin y agregá al murciélago.
+
+```python
+vida = {"slime": 10, "goblin": 15}
+___
+___
+print(vida)
+```
+
+**Salida esperada.**
+```
+{'slime': 10, 'goblin': 20, 'murciélago': 8}
+```
+
+**Solución.** `vida["goblin"] = 20` y `vida["murciélago"] = 8`.
+
+**Al superarla.**
+El Ermitaño moja la pluma y lo anota él mismo, con letra temblorosa. —Nadie me había traído datos nuevos en años.
+
+**Imagen.**
+- El Ermitaño escribe en el Bestiario a la luz de su bastón; una página nueva muestra un murciélago.
+- Gheco imita a un murciélago colgado de una viga.
+
+---
+
+#### Micro-misión R01-N06-P4 · Leer el Bestiario entero
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Recorrer un diccionario | for clave, valor in d.items(): · d.keys() · d.values()
+recompensa: xp 10, oro 10
+imagen: R01-N06-P4
+```
+
+**Escena.**
+—Si lo van a llevar, sepan qué hay adentro —dice el Ermitaño—. Léanmelo en voz alta.
+
+**Gheco sugiere.**
+`d.items()` da los pares **clave y valor** juntos, para recorrerlos con un `for`.
+
+**Desafío.** Mostrá cada criatura con su vida.
+
+```python
+vida = {"slime": 10, "goblin": 20, "murciélago": 8}
+for ___ in ___:
+    print(f"{nombre}: {v} de vida")
+```
+
+**Salida esperada.**
+```
+slime: 10 de vida
+goblin: 20 de vida
+murciélago: 8 de vida
+```
+
+**Solución.** `for nombre, v in vida.items():`.
+
+**Al superarla.**
+El bicho de luz se posa en el hombro de Gheco. Se miran. Se caen bien.
+
+**Imagen.**
+- Mia lee en voz alta el Bestiario; nombres de criaturas flotan en el aire como fantasmas de luz.
+- El bicho de luz y Gheco, frente a frente, curiosos.
+
+---
+
+#### Micro-misión R01-N06-P5 · Contar las huellas
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Contar con un diccionario | cuenta[x] = cuenta.get(x, 0) + 1
+recompensa: xp 15, oro 15
+imagen: R01-N06-P5
+```
+
+**Escena.**
+Afuera de la ermita hay huellas en el barro. Tilo, que sabe leer huellas aunque no runas, las va nombrando. El Ermitaño quiere saber **cuántas de cada una**.
+
+**Gheco sugiere.**
+El patrón para contar: un diccionario vacío y, por cada cosa, `cuenta[x] = cuenta.get(x, 0) + 1`. La primera vez `get` da 0.
+
+**Desafío.** Completá la línea que cuenta.
+
+```python
+huellas = ["slime", "goblin", "slime", "slime", "goblin", "troll"]
+cuenta = {}
+for h in huellas:
+    ___
+print(cuenta)
+```
+
+**Salida esperada.**
+```
+{'slime': 3, 'goblin': 2, 'troll': 1}
+```
+
+**Solución.** `cuenta[h] = cuenta.get(h, 0) + 1`.
+
+**Al superarla.**
+Hay **una** huella de troll. Fresca. Tilo deja de sonreír.
+
+**Imagen.**
+- Barro con huellas de distintos tamaños; una enorme, de troll, en primer plano.
+- Tilo agachado señalando las huellas; contadores de luz flotan sobre cada tipo.
+
+---
+
+#### Micro-misión R01-N06-P6 · El contador del Ermitaño
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Counter | from collections import Counter · Counter(lista) · .most_common(1)
+recompensa: xp 10, oro 10
+imagen: R01-N06-P6
+```
+
+**Escena.**
+El Ermitaño se ríe por primera vez. —Eso que hicieron a mano ya existe hecho. Miren.
+
+**Gheco sugiere.**
+`Counter(lista)` cuenta todo de una vez y `.most_common(1)` da el más repetido, con su cantidad.
+
+**Desafío.** Usá `Counter` para saber cuál huella aparece más.
+
+```python
+from collections import Counter
+huellas = ["slime", "goblin", "slime", "slime", "goblin", "troll"]
+cuenta = ___
+print(cuenta.most_common(1))
+```
+
+**Salida esperada.**
+```
+[('slime', 3)]
+```
+
+**Solución.** `Counter(huellas)`.
+
+**Al superarla.**
+—Los slimes siempre ganan en cantidad —dice el Ermitaño—. Por eso hay que aprender a vencerlos rápido.
+
+**Imagen.**
+- El Ermitaño con el bastón en alto; del orbe sale un contador holográfico.
+- Mia, admirada; Tilo, todavía mirando la huella del troll.
+
+---
+
+#### Micro-misión R01-N06-P7 · Sin repetir
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Conjuntos | set(lista) sin repetidos ni orden · {a, b} · x in conjunto es muy rápido
+recompensa: xp 10, oro 10
+imagen: R01-N06-P7
+```
+
+**Escena.**
+—Para el índice del libro, cada criatura una sola vez —pide el Ermitaño.
+
+**Gheco sugiere.**
+Un **conjunto** (`set`) guarda cada valor **una sola vez** y sin orden. `set(lista)` saca los repetidos. Para mostrarlo prolijo, `sorted(conjunto)`.
+
+**Desafío.** Armá el índice sin repetidos y en orden alfabético.
+
+```python
+huellas = ["slime", "goblin", "slime", "slime", "goblin", "troll"]
+indice = ___
+print(sorted(indice))
+```
+
+**Salida esperada.**
+```
+['goblin', 'slime', 'troll']
+```
+
+**Solución.** `set(huellas)`.
+
+**Al superarla.**
+El índice del Bestiario se escribe solo en la primera página.
+
+**Imagen.**
+- La primera página del Bestiario con un índice que se escribe solo, en tinta verde.
+- El bicho de luz ilumina cada palabra a medida que aparece.
+
+---
+
+#### Micro-misión R01-N06-P8 · Las debilidades en común
+
+```meta
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+carta: Operaciones de conjuntos | a & b los dos · a | b alguno · a - b solo el primero
+recompensa: xp 15, oro 20
+item: El Bestiario
+imagen: R01-N06-P8
+```
+
+**Escena.**
+—Última lección —dice el Ermitaño—. El troll es débil al fuego y a la luz. El goblin, a la luz y al agua. ¿Qué les sirve contra los dos?
+
+**Gheco sugiere.**
+`a & b` da lo que está **en los dos**; `a | b`, lo que está **en alguno**; `a - b`, lo que está en `a` pero **no** en `b`.
+
+**Desafío.** Mostrá lo que sirve contra los dos y lo que sirve solo contra el troll.
+
+```python
+troll = {"fuego", "luz"}
+goblin = {"luz", "agua"}
+print(troll ___ goblin)
+print(troll ___ goblin)
+```
+
+**Salida esperada.**
+```
+{'luz'}
+{'fuego'}
+```
+
+**Solución.** `troll & goblin` y `troll - goblin`.
+
+**Al superarla.**
+El Ermitaño cierra el libro y te lo pone en las manos: **el Bestiario** es tuyo.
+—La luz sirve contra los dos. Y la van a necesitar: el camino a las Terrazas pasa por **debajo del puente viejo**. Ahí vive el troll de la huella.
+
+**Se abre:** la **ficha de criaturas** del Bestiario en el inventario.
+
+**Imagen.**
+- El Ermitaño entrega el Bestiario a Mia; el libro brilla al cambiar de manos.
+- Dos círculos de luz se cruzan en el aire: en la intersección, la palabra «luz».
+- Por la ventana, a lo lejos, se ve un puente viejo de piedra sobre el río.
+
+---
+
+> Después vienen las prácticas que corrige el docente (**M1** El bestiario, **M2** El reparto del botín, **M3** Las habilidades de la compañía, **E1** Las estadísticas del pregonero).
+
+---
+
+### R01-N07 · Referencias, mutabilidad y copias
+
+*La Cueva del Troll, debajo del puente viejo. Mia, Gheco, Tilo y el troll, que no se ve pero se oye.*
+
+#### Micro-misión R01-N07-P1 · La anotación de respaldo
+
+```meta
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+criatura: troll
+carta: Alias | b = a NO copia: son dos nombres para la MISMA lista · lo que cambia por uno, cambia por el otro
+recompensa: xp 15, oro 15
+imagen: R01-N07-P1
+```
+
+**Escena.**
+Antes de entrar, anotás la compañía «por las dudas», en una segunda lista. Adentro, el piso cede y **Tilo cae** por un pozo. Lo sacás de la lista… y al mirar la de respaldo, **Tilo tampoco está**.
+Desde la oscuridad, el troll se ríe.
+
+**Gheco sugiere.**
+`respaldo = compania` **no hace una copia**: da otro nombre a **la misma** lista. Lo que le hacés por un nombre, se ve por el otro. Ejecutalo y mirá.
+
+**Desafío.** Ejecutá el código y completá lo que imprime el respaldo. Después, cambiá la segunda línea para que el respaldo sea una copia de verdad: `compania.copy()`.
+
+```python
+compania = ["Mia", "Gheco", "Tilo"]
+respaldo = compania
+compania.remove("Tilo")
+print(compania)
+print(respaldo)
+```
+
+**Salida esperada.**
+```
+['Mia', 'Gheco']
+['Mia', 'Gheco', 'Tilo']
+```
+
+**Solución.** `respaldo = compania.copy()`.
+
+**Al superarla.**
+En el respaldo verdadero, Tilo sigue anotado. Y desde el fondo del pozo se escucha su voz: —¡Estoy bien! ¡Me raspé!
+Te das cuenta de algo: **leíste** que `=` no copia, y aun así te equivocaste. Hasta que no lo **probaste**, no lo entendiste.
+
+**Imagen.**
+- Boca de una cueva bajo un puente viejo de piedra, oscura, con ojos amarillos al fondo.
+- Mia, de rodillas al borde de un pozo, con el pergamino donde dos listas brillan unidas por un mismo hilo.
+- Gheco ilumina el pozo; abajo, la mano de Tilo saludando.
+
+---
+
+#### Micro-misión R01-N07-P2 · Reasignar no es modificar
+
+```meta
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+criatura: troll
+carta: Reasignar | a = a + [x] crea una lista NUEVA (el alias no la ve) · a.append(x) cambia la MISMA
+recompensa: xp 10, oro 10
+imagen: R01-N07-P2
+```
+
+**Escena.**
+Gheco quiere entender la trampa del troll. —¿Y si en lugar de `append` sumo con `+`?
+
+**Gheco sugiere.**
+`a.append(x)` **modifica** la lista. `a = a + [x]` arma una lista **nueva** y hace que `a` apunte a ella: el otro nombre sigue apuntando a la vieja.
+
+**Desafío.** Completá: el primer resultado tiene que mostrar que `b` no cambió.
+
+```python
+a = ["llave"]
+b = a
+a = ___
+print(a)
+print(b)
+```
+
+**Salida esperada.**
+```
+['llave', 'bestiario']
+['llave']
+```
+
+**Solución.** `a = a + ["bestiario"]`.
+
+**Al superarla.**
+—Entonces el troll no me engaña si sé si estoy **cambiando** algo o **apuntando** a otra cosa —dice Gheco, orgulloso de la frase.
+
+**Imagen.**
+- Dos etiquetas de luz con flechas: una apunta a una caja vieja, la otra a una caja nueva.
+- Gheco explicándole a Tilo con gestos exagerados.
+
+---
+
+#### Micro-misión R01-N07-P3 · ¿El mismo o igual?
+
+```meta
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+criatura: troll
+carta: == frente a is | == ¿valen lo mismo? · is ¿son el MISMO objeto? · is solo para None
+recompensa: xp 10, oro 10
+imagen: R01-N07-P3
+```
+
+**Escena.**
+En la cueva hay dos cofres idénticos. El troll susurra: «Son el mismo». Gheco no le cree.
+
+**Gheco sugiere.**
+`==` pregunta si **valen lo mismo**. `is` pregunta si son **el mismo objeto**. Dos listas iguales pueden ser objetos distintos. Para comparar valores usá siempre `==` (y `is` solo con `None`).
+
+**Desafío.** Completá las dos comparaciones.
+
+```python
+cofre1 = ["oro", "gema"]
+cofre2 = ["oro", "gema"]
+print(cofre1 ___ cofre2)
+print(cofre1 ___ cofre2)
+```
+
+**Salida esperada.**
+```
+True
+False
+```
+
+**Solución.** `==` (True) e `is` (False).
+
+**Al superarla.**
+—Iguales, pero no el mismo —dice Tilo—. Como dos piedras lisas.
+
+**Imagen.**
+- Dos cofres idénticos uno al lado del otro, iluminados por Gheco.
+- Sobre ellos, `==` brilla en verde y `is` en rojo.
+- Unos ojos amarillos miran desde la oscuridad.
+
+---
+
+#### Micro-misión R01-N07-P4 · La copia que no alcanza
+
+```meta
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+criatura: troll
+carta: Copia superficial | lista.copy() copia la de afuera, pero las de ADENTRO siguen compartidas
+recompensa: xp 15, oro 15
+imagen: R01-N07-P4
+```
+
+**Escena.**
+Copiás el mapa de la cueva antes de marcar el camino. Marcás una casilla en el original… y **la copia también aparece marcada**. El troll se ríe más fuerte.
+
+**Gheco sugiere.**
+`.copy()` copia **la lista de afuera**, pero si adentro hay listas (las filas del mapa), esas se **comparten**. Es una copia **superficial**.
+
+**Desafío.** Ejecutalo y mirá cómo la copia también cambia. No hay que arreglar nada todavía: completá el `print` de la copia.
+
+```python
+mapa = [[".", "."], [".", "."]]
+copia = mapa.copy()
+mapa[0][0] = "X"
+print(mapa)
+```
+
+**Salida esperada.**
+```
+[['X', '.'], ['.', '.']]
+[['X', '.'], ['.', '.']]
+```
+
+**Solución.** `print(copia)`: también tiene la X.
+
+**Al superarla.**
+—Las filas son las mismas —dice Mia—. Necesito copiar **todo**, hasta el fondo.
+
+**Imagen.**
+- Dos mapas de piedra lado a lado; la misma X aparece en los dos a la vez, unida por un hilo de luz.
+- Mia frunce el ceño, pensando.
+
+---
+
+#### Micro-misión R01-N07-P5 · Copiar hasta el fondo
+
+```meta
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+criatura: troll
+carta: Copia profunda | import copy · copy.deepcopy(x) copia todo, también lo de adentro
+recompensa: xp 15, oro 20
+item: Espejo del Troll
+imagen: R01-N07-P5
+```
+
+**Escena.**
+El troll sale de la sombra: enorme, con piel de piedra y musgo. Para vencerlo hay que cruzar marcando el camino **sin arruinar** el mapa de respaldo.
+
+**Gheco sugiere.**
+`copy.deepcopy(mapa)` copia la lista **y todo lo que tiene adentro**. Lo que cambies en el original ya no toca la copia.
+
+**Desafío.** Usá `deepcopy` para que el respaldo quede limpio.
+
+```python
+import copy
+mapa = [[".", "."], [".", "."]]
+respaldo = mapa.copy()
+mapa[0][0] = "X"
+print(respaldo)
+```
+
+**Salida esperada.**
+```
+[['.', '.'], ['.', '.']]
+```
+
+**Solución.** `respaldo = copy.deepcopy(mapa)`.
+
+**Al superarla.**
+Con el mapa limpio encontrás la salida, y con la luz de Gheco (la debilidad del Bestiario) el troll retrocede hasta convertirse en piedra. Donde estaba, queda un **espejo** de bordes de musgo.
+Tilo, raspado, se apoya en vos para caminar. —Dicen que en las Terrazas hay un hechizo de curación que se escribe **una sola vez** —dice, apretando los dientes.
+
+**Imagen.**
+- El troll (enorme, piel de piedra y musgo, ojos amarillos) se vuelve estatua bajo la luz cian de Gheco.
+- En el suelo, un espejo con bordes de musgo refleja a Mia.
+- Tilo, raspado, apoyado en el hombro de Mia.
+
+---
+
+> Después vienen las prácticas que corrige el docente (**M1** El bug del troll, **M2** El punto de guardado, **M3** Predicción, **E1** Las facturas de la herrería).
+
+---
+
+### R01-N08 · Funciones
+
+*Las Terrazas de las Funciones, primer nivel. Mia, Gheco, Tilo (lastimado) y {mentor}, que los espera arriba de una escalera de cascadas.*
+
+#### Micro-misión R01-N08-P1 · El hechizo con nombre
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: def | def nombre(): define · nombre() la llama · se escribe UNA vez y se usa muchas
+recompensa: xp 10, oro 10
+imagen: R01-N08-P1
+```
+
+**Escena.**
+Llegás a las Terrazas con Tilo colgado de tu hombro. {mentor} los espera junto a una cascada.
+—Cansada de escribir runa por runa el mismo hechizo, ¿no? Escribilo **una vez**, ponele **nombre** y llamalo cuando quieras.
+
+**Gheco sugiere.**
+`def curar():` define una **función**: un bloque con nombre. No hace nada hasta que la **llamás** con `curar()`. Podés llamarla todas las veces que quieras.
+
+**Desafío.** Definí `curar` y llamala dos veces.
+
+```python
+___
+    print("Una luz verde cierra un raspón.")
+
+curar()
+curar()
+```
+
+**Salida esperada.**
+```
+Una luz verde cierra un raspón.
+Una luz verde cierra un raspón.
+```
+
+**Solución.** `def curar():`.
+
+**Al superarla.**
+Dos raspones de Tilo se cierran. —Me quedan como diez —se queja, pero se le escapa una sonrisa.
+
+**Imagen.**
+- Terrazas verdes escalonadas con cascadas; Ofidia, de pie junto al agua, serena.
+- Mia apoya la mano en el brazo de Tilo: una luz verde sale de su pergamino.
+- Gheco hace de enfermero con una venda en la cola.
+
+---
+
+#### Micro-misión R01-N08-P2 · A quién y cuánto
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: Parámetros | def curar(nombre, puntos): · se llama con curar("Tilo", 5) · cada llamada, sus valores
+recompensa: xp 10, oro 10
+imagen: R01-N08-P2
+```
+
+**Escena.**
+—Un hechizo que siempre hace lo mismo sirve poco —dice {mentor}—. Decile **a quién** curar y **cuánto**.
+
+**Gheco sugiere.**
+Entre los paréntesis de `def` van los **parámetros**: nombres que reciben los valores que le pasás al llamar.
+
+**Desafío.** Agregá los parámetros y curá a Tilo con 5 y a Gheco con 1.
+
+```python
+def curar(___):
+    print(f"{nombre} recupera {puntos} de vida.")
+
+curar("Tilo", 5)
+curar("Gheco", 1)
+```
+
+**Salida esperada.**
+```
+Tilo recupera 5 de vida.
+Gheco recupera 1 de vida.
+```
+
+**Solución.** `def curar(nombre, puntos):`.
+
+**Al superarla.**
+—¿Y a mí por qué? —pregunta Gheco. —Por las dudas —contesta Tilo.
+
+**Imagen.**
+- Dos haces de luz verde salen del pergamino: uno grande hacia Tilo, uno chiquito hacia Gheco.
+- Ofidia observa, con las serpientes de su corona atentas.
+
+---
+
+#### Micro-misión R01-N08-P3 · El hechizo que devuelve
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: return | return valor devuelve un resultado · sin return, la función devuelve None
+recompensa: xp 15, oro 15
+imagen: R01-N08-P3
+```
+
+**Escena.**
+—Mostrar no alcanza —dice {mentor}—. Quiero que el hechizo me **dé** la vida nueva, para anotarla.
+
+**Gheco sugiere.**
+`return` **devuelve** un valor a quien llamó: `nueva = curar(4, 10)`. `print` solo muestra; `return` entrega. Sin `return`, la función devuelve `None`.
+
+**Desafío.** Hacé que `curar` devuelva la vida nueva.
+
+```python
+def curar(vida, puntos):
+    ___
+
+vida_tilo = 4
+vida_tilo = curar(vida_tilo, 10)
+print(f"Tilo tiene {vida_tilo} de vida.")
+```
+
+**Salida esperada.**
+```
+Tilo tiene 14 de vida.
+```
+
+**Solución.** `return vida + puntos`.
+
+**Al superarla.**
+Tilo se para solo, por primera vez desde la cueva. Sin `return`, el pergamino había dicho «Tilo tiene None de vida», y Gheco casi se desmaya.
+
+**Imagen.**
+- Tilo de pie por sus propios medios, con la pértiga.
+- Sobre el pergamino, un número que vuelve volando hacia Mia como una flecha de luz: `return 14`.
+
+---
+
+#### Micro-misión R01-N08-P4 · Por defecto, una poción chica
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: Valores por defecto | def f(x, y=10): · f(1) usa 10 · f(1, y=25) por nombre
+recompensa: xp 10, oro 10
+imagen: R01-N08-P4
+```
+
+**Escena.**
+—Casi siempre curás 10 —observa Gheco—. ¿Y si el 10 viniera solo, y solo lo decís cuando es otra cosa?
+
+**Gheco sugiere.**
+`def curar(vida, puntos=10):` hace que `puntos` valga 10 si no lo pasás. Y al llamar podés nombrar el argumento: `curar(4, puntos=25)`, que se lee mejor.
+
+**Desafío.** Poné 10 por defecto y usá el nombre en la segunda llamada.
+
+```python
+def curar(vida, puntos___):
+    return vida + puntos
+
+print(curar(4))
+print(curar(4, ___))
+```
+
+**Salida esperada.**
+```
+14
+29
+```
+
+**Solución.** `puntos=10` y `puntos=25`.
+
+**Al superarla.**
+{mentor} asiente. —Ya escribís hechizos como los del Valle. Subamos.
+
+**Imagen.**
+- Ofidia sube por una escalera de piedra entre cascadas; Mia, Tilo y Gheco la siguen.
+- En el aire, dos frascos de poción: uno chico (10) y uno grande (25).
+
+---
+
+#### Micro-misión R01-N08-P5 · Dos resultados
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: Devolver varios | return a, b devuelve una tupla · se desempaqueta: x, y = f()
+recompensa: xp 10, oro 10
+imagen: R01-N08-P5
+```
+
+**Escena.**
+En el segundo nivel, una fuente revisa a quien bebe y dice dos cosas: cuánta vida tiene y si está **en peligro** (menos de 10).
+
+**Gheco sugiere.**
+Una función puede devolver varios valores separados por coma: `return vida, vida < 10`. Llegan como una tupla, y la desempaquetás como en la Posada: `v, peligro = revisar(7)`.
+
+**Desafío.** Devolvé los dos valores.
+
+```python
+def revisar(vida):
+    return ___
+
+v, peligro = revisar(7)
+print(f"Vida {v}. ¿En peligro? {peligro}")
+```
+
+**Salida esperada.**
+```
+Vida 7. ¿En peligro? True
+```
+
+**Solución.** `return vida, vida < 10`.
+
+**Al superarla.**
+Tilo bebe. La fuente dice 14 y «no». Él insiste en que se siente en peligro igual.
+
+**Imagen.**
+- Una fuente de piedra con forma de serpiente que muestra dos números de luz sobre el agua.
+- Tilo bebiendo con las manos; Gheco controlando el resultado.
+
+---
+
+#### Micro-misión R01-N08-P6 · Tantas pociones como quieras
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: *args | def f(*valores): recibe cualquier cantidad · adentro, valores es una tupla
+recompensa: xp 15, oro 15
+imagen: R01-N08-P6
+```
+
+**Escena.**
+—¿Y si quiero tomar dos pociones? ¿Y tres? —pregunta Tilo—. ¿Hay que escribir un hechizo para cada cantidad?
+
+**Gheco sugiere.**
+Con `*` antes del parámetro, la función acepta **cualquier cantidad** de valores: `def tomar(*pociones):`. Adentro, `pociones` es una tupla que podés recorrer.
+
+**Desafío.** Completá el parámetro y el total.
+
+```python
+def tomar(___):
+    total = 0
+    for p in pociones:
+        total += p
+    return total
+
+print(tomar(10))
+print(tomar(10, 25, 5))
+```
+
+**Salida esperada.**
+```
+10
+40
+```
+
+**Solución.** `def tomar(*pociones):`.
+
+**Al superarla.**
+—Tres juntas no —advierte {mentor}—. Dan hipo de magia. —Tilo ya las tomó.
+
+**Imagen.**
+- Tilo con tres frascos vacíos y un hipo que suelta burbujas verdes.
+- Ofidia se tapa la boca para no reírse.
+
+---
+
+#### Micro-misión R01-N08-P7 · La bolsa que nadie vació
+
+```meta
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo, Ofidia
+carta: Default mutable | NUNCA def f(x, bolsa=[]) · usar bolsa=None y adentro: if bolsa is None: bolsa = []
+recompensa: xp 15, oro 20
+item: Pociones de Curación
+imagen: R01-N08-P7
+```
+
+**Escena.**
+{mentor} te da su hechizo para armar bolsas de pociones. Lo usás para Tilo y después para Gheco… y **la bolsa de Gheco aparece con la poción de Tilo adentro**.
+—Ah —dice {mentor}—. La trampa más vieja del Valle.
+
+**Gheco sugiere.**
+El valor por defecto se crea **una sola vez**, cuando se define la función. Si es una lista, **todas las llamadas comparten la misma**. Usá `None` y creá la lista adentro.
+
+**Desafío.** Arreglá la función para que cada bolsa sea nueva.
+
+```python
+def armar_bolsa(pocion, bolsa=[]):
+    bolsa.append(pocion)
+    return bolsa
+
+print(armar_bolsa("vida"))
+print(armar_bolsa("maná"))
+```
+
+**Salida esperada.**
+```
+['vida']
+['maná']
+```
+
+**Solución.** `bolsa=None` y, adentro, `if bolsa is None: bolsa = []`.
+
+**Al superarla.**
+Cada uno con su bolsa, y en cada bolsa **pociones de curación** de verdad. Tilo, curado, salta en una pierna para demostrarlo.
+{mentor} señala hacia arriba, donde las terrazas se meten en la montaña. —Ahí hay una cueva donde las palabras solo existen adentro. Cuidado con lo que gritan.
+
+**Imagen.**
+- Dos bolsas de cuero, cada una con su poción brillante; un hilo de luz que las unía se corta.
+- Tilo saltando en una pierna, curado.
+- Ofidia señala hacia la boca de una cueva en lo alto de las terrazas.
+
+---
+
+> Después vienen las prácticas que corrige el docente (**M1** La bolsa de dados, **M2** Formar la compañía, **M3** La bendición del templo, **E1** El precio del mercado).
+
+---
+
+### R01-N09 · Alcance, funciones como objetos y recursión
+
+*La Cueva de los Ecos, entre las Terrazas. Mia, Gheco y Tilo. Cada cámara de la cueva devuelve las palabras, pero solo adentro.*
+
+#### Micro-misión R01-N09-P1 · Lo que se dice adentro
+
+```meta
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+criatura: esqueleto
+carta: Alcance local | lo que se crea dentro de una función solo existe ahí · para sacarlo: return
+recompensa: xp 10, oro 10
+imagen: R01-N09-P1
+```
+
+**Escena.**
+Tilo grita «¡HOLA!» dentro de la primera cámara y el eco responde. Afuera, le pide al eco que repita… y aparece un **esqueleto**: un nombre sin cuerpo.
+
+**Gheco sugiere.**
+Una variable creada **dentro** de una función es **local**: afuera no existe (por eso `NameError`). Si la necesitás afuera, **devolvela** con `return`.
+
+**Desafío.** Hacé que la cámara devuelva el eco y guardalo afuera.
+
+```python
+def camara():
+    eco = "¡HOLA! ¡hola! hola…"
+
+camara()
+print(eco)
+```
+
+**Salida esperada.**
+```
+¡HOLA! ¡hola! hola…
+```
+
+**Solución.** `return eco` adentro y `eco = camara()` afuera.
+
+**Al superarla.**
+El esqueleto se desarma en huesitos que se caen en las piedras. Tilo los junta de recuerdo; Gheco le dice que no.
+
+**Imagen.**
+- Una cámara redonda de piedra con ondas de sonido visibles rebotando en las paredes.
+- Afuera, un esqueleto torpe hecho de letras sueltas se desarma.
+- Tilo con las manos llenas de huesitos; Gheco negando con la cabeza.
+
+---
+
+#### Micro-misión R01-N09-P2 · El contador de la cueva
+
+```meta
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+carta: global | para CAMBIAR una variable de afuera desde una función: global x · mejor: recibir y devolver
+recompensa: xp 10, oro 10
+imagen: R01-N09-P2
+```
+
+**Escena.**
+Gheco quiere contar cuántas veces gritaron en la cueva. Escribe una función que suma 1… y el pergamino se queja.
+
+**Gheco sugiere.**
+Si una función **asigna** una variable, Python la toma como local, aunque exista afuera (`UnboundLocalError`). `global gritos` le avisa que es la de afuera. Funciona, pero se usa poco: casi siempre es mejor recibir el valor y devolverlo.
+
+**Desafío.** Agregá la línea que falta.
+
+```python
+gritos = 0
+
+def gritar():
+    gritos += 1
+
+gritar()
+gritar()
+print(f"Gritaron {gritos} veces")
+```
+
+**Salida esperada.**
+```
+Gritaron 2 veces
+```
+
+**Solución.** `global gritos` al principio de la función.
+
+**Al superarla.**
+—Funciona —dice Gheco—, pero ahora la cueva entera sabe cuánto gritamos. Prefiero que los secretos queden en su cámara.
+
+**Imagen.**
+- Gheco con un ábaco de piedra contando gritos; números de eco flotan.
+- Tilo con las manos alrededor de la boca, gritando.
+
+---
+
+#### Micro-misión R01-N09-P3 · El grimorio de conjuros
+
+```meta
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+carta: Funciones como valores | se guardan en variables y diccionarios · acciones["luz"]() la llama
+recompensa: xp 15, oro 15
+imagen: R01-N09-P3
+```
+
+**Escena.**
+En una cámara hay un atril con un libro: cada página tiene un nombre y, al decirlo, el conjuro se lanza solo. Mia se da cuenta de que **sus** hechizos también se pueden guardar así.
+
+**Gheco sugiere.**
+Una función es un valor más: se puede guardar en un diccionario **sin paréntesis** (`"luz": luz`) y llamarla después con `acciones["luz"]()`. Es una tabla de acciones: reemplaza muchos `if`.
+
+**Desafío.** Completá la tabla y llamá al conjuro que pide la orden.
+
+```python
+def luz():
+    print("La cueva se ilumina.")
+
+def calma():
+    print("Los ecos se callan.")
+
+acciones = {"luz": ___, "calma": ___}
+orden = "luz"
+acciones[orden]___
+```
+
+**Salida esperada.**
+```
+La cueva se ilumina.
+```
+
+**Solución.** `{"luz": luz, "calma": calma}` y `acciones[orden]()`.
+
+**Al superarla.**
+La cueva se ilumina y, por primera vez, ven el fondo: un pasillo que sube.
+
+**Imagen.**
+- Un atril de piedra con un libro abierto; de sus páginas salen conjuros como luciérnagas.
+- La cueva iluminada de golpe; Mia con el pergamino en alto.
+
+---
+
+#### Micro-misión R01-N09-P4 · Hechizos de una línea
+
+```meta
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+carta: lambda | lambda x: expresión · función chica sin nombre · típico en sorted(lista, key=lambda x: x[1])
+recompensa: xp 15, oro 15
+imagen: R01-N09-P4
+```
+
+**Escena.**
+Para cruzar el pasillo hay que enfrentar a las criaturas de la menos a la más fuerte. Tilo tiene la lista de criaturas con su vida.
+
+**Gheco sugiere.**
+`lambda c: c[1]` es una función de una línea, sin nombre. `sorted(lista, key=...)` usa esa función para saber **por qué valor** ordenar: acá, por la vida (la posición 1 de cada tupla).
+
+**Desafío.** Ordená por vida, de menor a mayor.
+
+```python
+criaturas = [("murciélago", 8), ("goblin", 20), ("slime", 10)]
+for nombre, vida in sorted(criaturas, key=___):
+    print(nombre, vida)
+```
+
+**Salida esperada.**
+```
+murciélago 8
+slime 10
+goblin 20
+```
+
+**Solución.** `key=lambda c: c[1]`.
+
+**Al superarla.**
+Murciélago, slime, goblin: uno por uno, cada vez más fácil porque cada vez saben más. Al final del pasillo hay un cofre.
+
+**Imagen.**
+- Un pasillo de piedra que sube; tres siluetas de criaturas en fila de menor a mayor.
+- Al final, un cofre que brilla.
+
+---
+
+#### Micro-misión R01-N09-P5 · Cofres dentro de cofres
+
+```meta
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+carta: Recursión | una función que se llama a sí misma · siempre con un caso que termina
+recompensa: xp 15, oro 20
+item: Cofre de los Ecos
+imagen: R01-N09-P5
+```
+
+**Escena.**
+Tilo abre el cofre: adentro hay monedas **y otro cofre**. Y adentro de ese, monedas y otro cofre más. —¿Cuántas monedas hay en total?
+
+**Gheco sugiere.**
+Una función **recursiva** se llama a sí misma con algo más chico: si encuentra otro cofre (una lista), se cuenta a sí misma adentro. `isinstance(x, list)` pregunta si `x` es una lista. El caso que termina: los números se suman y listo.
+
+**Desafío.** Completá la llamada recursiva.
+
+```python
+def contar(cofre):
+    total = 0
+    for cosa in cofre:
+        if isinstance(cosa, list):
+            total += ___
+        else:
+            total += cosa
+    return total
+
+cofre = [5, [3, [2, 1]], 4]
+print(contar(cofre))
+```
+
+**Salida esperada.**
+```
+15
+```
+
+**Solución.** `contar(cosa)`.
+
+**Al superarla.**
+Quince monedas. El cofre más chico, del tamaño de una nuez, se queda con vos: cuando lo acercás al oído, repite lo último que dijiste.
+Tu pergamino, mientras tanto, se enrolla solo: ya es tan largo que no encontrás nada. Arriba de la cueva, en la cima de las Terrazas, está **la Casa de los Tomos**.
+
+**Imagen.**
+- Una serie de cofres uno dentro de otro, abiertos como muñecas rusas, con monedas brillando en cada uno.
+- Mia sostiene el cofre más pequeño junto a su oreja.
+- El pergamino de Mia, larguísimo, enrollado en el piso.
+
+---
+
+> Después vienen las prácticas que corrige el docente (**M1** El grimorio de Mia, **M2** Ordenar la compañía, **M3** Las cámaras de la cueva, **E1** El archivo del escriba).
+
+---
+
+### R01-N10 · Módulos y paquetes
+
+*La Casa de los Tomos, en la cima de las Terrazas. Mia, Gheco, Tilo y la Copista, que se mudó a cuidar los tomos («para tener un rato de silencio»).*
+
+#### Micro-misión R01-N10-P1 · El tomo de los números
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo, la Copista
+carta: import | import math · math.sqrt(16) · math.ceil(2.1) → 3 · math.pi
+recompensa: xp 10, oro 10
+imagen: R01-N10-P1
+```
+
+**Escena.**
+—¡Ustedes! —La Copista los recibe entre estantes que llegan al techo—. Acá cada saber tiene su **tomo**. No hace falta escribirlo todo de nuevo: se pide prestado.
+Tilo quiere saber cuántos viajes de balsa necesita para 21 pasajeros si entran 5 por viaje.
+
+**Gheco sugiere.**
+`import math` trae el tomo de matemática. Se usa con un punto: `math.ceil(x)` redondea **hacia arriba**, `math.sqrt(x)` es la raíz.
+
+**Desafío.** Calculá los viajes redondeando hacia arriba.
+
+```python
+___
+pasajeros = 21
+lugares = 5
+print(math.ceil(pasajeros / lugares))
+```
+
+**Salida esperada.**
+```
+5
+```
+
+**Solución.** `import math`.
+
+**Al superarla.**
+—Cinco viajes —dice Tilo—. Mi papá siempre decía cuatro y dejaba a uno en la orilla.
+
+**Imagen.**
+- Una biblioteca circular en la cima de las terrazas: estantes altísimos, tomos con lomos de colores, una cúpula con estrellas.
+- La Copista (túnica lila, horquillas) baja un tomo con el símbolo π.
+- Tilo contando con los dedos.
+
+---
+
+#### Micro-misión R01-N10-P2 · Traer solo lo que usás
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo, la Copista
+carta: from … import | from statistics import mean · import algo as alias
+recompensa: xp 10, oro 10
+imagen: R01-N10-P2
+```
+
+**Escena.**
+—No hace falta bajar el tomo entero si querés una sola página —dice la Copista—. Quiero el promedio de las vidas del Bestiario.
+
+**Gheco sugiere.**
+`from statistics import mean` trae **solo** `mean`, y se usa sin el prefijo: `mean(lista)`.
+
+**Desafío.** Traé `mean` y calculá el promedio.
+
+```python
+vidas = [10, 20, 8, 30]
+print(mean(vidas))
+```
+
+**Salida esperada.**
+```
+17
+```
+
+**Solución.** `from statistics import mean`.
+
+**Al superarla.**
+La Copista anota «17» en una ficha y la guarda en el tomo del Bestiario. —Promedio de criaturas: diecisiete. Lindo número.
+
+**Imagen.**
+- Una sola página que sale volando de un tomo cerrado hacia las manos de Mia.
+- La Copista anotando en una ficha.
+
+---
+
+#### Micro-misión R01-N10-P3 · El calendario del viaje
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo, la Copista
+carta: datetime | from datetime import date, timedelta · date(2026, 10, 7) + timedelta(days=30) · .strftime("%d/%m/%Y")
+recompensa: xp 15, oro 15
+imagen: R01-N10-P3
+```
+
+**Escena.**
+—Si salimos hoy, el 7 de octubre, y el viaje a la Gran Biblioteca dura 30 días… ¿qué día llegamos? —pregunta Mia.
+
+**Gheco sugiere.**
+`date(año, mes, día)` es una fecha y `timedelta(days=30)`, una duración: se pueden sumar. `.strftime("%d/%m/%Y")` la muestra como día/mes/año.
+
+**Desafío.** Calculá la llegada y mostrala en formato argentino.
+
+```python
+from datetime import date, timedelta
+salida = date(2026, 10, 7)
+llegada = ___
+print(llegada.strftime(___))
+```
+
+**Salida esperada.**
+```
+06/11/2026
+```
+
+**Solución.** `salida + timedelta(days=30)` y `"%d/%m/%Y"`.
+
+**Al superarla.**
+—Seis de noviembre —dice la Copista—. Si no se demoran en el Paso. —Y se queda callada, mirando por la ventana.
+
+**Imagen.**
+- Un calendario de piedra con días que pasan como hojas al viento.
+- La Copista mira por la ventana con preocupación.
+
+---
+
+#### Micro-misión R01-N10-P4 · El vuelto exacto
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo, la Copista
+carta: Decimal | from decimal import Decimal · Decimal("0.1") con comillas · cuentas de dinero exactas
+recompensa: xp 10, oro 10
+imagen: R01-N10-P4
+```
+
+**Escena.**
+Te acordás del vuelto de Baldo: `0.1 + 0.2` no daba `0.3`. La Copista sonríe. —Para la plata hay un tomo especial.
+
+**Gheco sugiere.**
+`Decimal("0.1")` guarda el decimal **exacto** (escribilo entre comillas). Con `Decimal`, `0.1 + 0.2` da justo `0.3`.
+
+**Desafío.** Rehacé la cuenta de Baldo con `Decimal`.
+
+```python
+a = 0.1
+b = 0.2
+print(a + b)
+print(a + b == 0.3)
+```
+
+**Salida esperada.**
+```
+0.3
+True
+```
+
+**Solución.** `from decimal import Decimal`, `Decimal("0.1")`, `Decimal("0.2")` y comparar con `Decimal("0.3")`.
+
+**Al superarla.**
+—La próxima vez que veas a Baldo, decíselo —ríe Gheco—. Va a tener que inventar otra excusa.
+
+**Imagen.**
+- Dos monedas que se suman en el aire dando un 0.3 perfecto, sin grietas.
+- Gheco riéndose a carcajadas.
+
+---
+
+#### Micro-misión R01-N10-P5 · Fichas con nombre
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo, la Copista
+carta: namedtuple | from collections import namedtuple · Criatura = namedtuple("Criatura", "nombre vida") · c.vida
+recompensa: xp 10, oro 10
+item: Estante Portátil
+imagen: R01-N10-P5
+```
+
+**Escena.**
+—Las tuplas son prolijas —dice la Copista—, pero `c[1]` no dice nada. ¿No sería mejor `c.vida`?
+
+**Gheco sugiere.**
+`namedtuple` crea un tipo de tupla con **nombres de campo**: `Criatura("slime", 10)` y después `c.nombre`, `c.vida`.
+
+**Desafío.** Creá el tipo y mostrá los campos por su nombre.
+
+```python
+from collections import namedtuple
+Criatura = ___
+c = Criatura("slime", 10)
+print(f"{c.nombre} tiene {c.vida} de vida")
+```
+
+**Salida esperada.**
+```
+slime tiene 10 de vida
+```
+
+**Solución.** `namedtuple("Criatura", "nombre vida")`.
+
+**Al superarla.**
+La Copista te deja ordenar tu pergamino en **tomos**: uno de textos, uno de listas, uno de hechizos. Por fin encontrás todo.
+
+**Imagen.**
+- El pergamino de Mia se separa en tres tomos pequeños que se acomodan en un estante portátil.
+- La Copista aprueba con la cabeza.
+
+---
+
+#### Micro-misión R01-N10-P6 · El tomo firmado
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo, la Copista
+carta: __name__ | if __name__ == "__main__": · lo de adentro corre solo si ejecutás ESE archivo, no si lo importan
+recompensa: xp 15, oro 20
+imagen: R01-N10-P6
+```
+
+**Escena.**
+En el estante más alto, Tilo encuentra un tomo finito con **el vitral** en el lomo. Es un módulo, escrito con la letra clarísima del viajero. Termina con una línea que Mia no entiende: `if __name__ == "__main__":`.
+
+**Gheco sugiere.**
+Cada archivo tiene un nombre interno: `__name__`. Si lo **ejecutás**, vale `"__main__"`. Si otro archivo lo **importa**, vale el nombre del archivo. Por eso `if __name__ == "__main__":` separa «lo que hago si me ejecutan» de «lo que presto si me importan».
+
+**Desafío.** Ejecutalo así como está: el pergamino es el archivo que se ejecuta. Completá la condición.
+
+```python
+def saludo():
+    return "Para quien llegue."
+
+if __name__ == ___:
+    print(saludo())
+```
+
+**Salida esperada.**
+```
+Para quien llegue.
+```
+
+**Solución.** `"__main__"`.
+
+**Al superarla.**
+*Para quien llegue.* Es la misma frase que todavía no pudiste leer en la marca de agua de tu pergamino; lo sentís aunque no sepas por qué. Guardás el tomo en el grimorio: **la segunda nota del viajero**.
+Por la ventana de la Casa se ve el **Paso** que sube al Bastión de las Escamas. Algo enorme se mueve ahí. Tiene muchas cabezas.
+
+**Se abre:** la **segunda nota del viajero** en el grimorio.
+
+**Imagen.**
+- Un tomo finito con un vitral en el lomo, abierto en las manos de Mia; la última línea brilla.
+- Por la ventana circular, a lo lejos, la silueta de una hidra de muchas cabezas sobre un paso de montaña.
+- Tilo y Gheco pegados al vidrio.
+
+---
+
+> Después vienen las prácticas que corrige el docente (**M1** Tu propio módulo, **M2** El calendario de la aventura, **M3** Romper el círculo, **E1** El módulo de los comerciantes). Los módulos propios (varios archivos) se practican en M1, en la compu.
+
+---
+
+### R01-N11 · Jefe: la Hidra de las Mil Runas
+
+*El Paso de la Hidra, entre las Terrazas y el Bastión. Mia, Gheco, Tilo y {mentor}, que mira desde lejos: este combate es de Mia. Cada cabeza de la Hidra es un error del Valle; cortarla con un hechizo mal escrito le hace crecer dos.*
+
+#### Micro-misión R01-N11-P1 · La cabeza del esqueleto
+
+```meta
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Tilo
+criatura: esqueleto
+carta: Leer un NameError | «name 'x' is not defined»: una variable mal escrita o usada antes de crearla
+recompensa: xp 15, oro 15
+imagen: R01-N11-P1
+```
+
+**Escena.**
+La primera cabeza de la Hidra tiene forma de calavera. Grita `NameError` y tu hechizo de luz se apaga.
+
+**Gheco sugiere.**
+Leé el error de abajo hacia arriba: dice **qué nombre** no existe. Casi siempre es una letra cambiada o una mayúscula.
+
+**Desafío.** Encontrá el nombre mal escrito y corregilo.
+
+```python
+def ataque(fuerza, arma):
+    return fuerza + arma
+
+fuerza_mia = 12
+arma_mia = 5
+print(ataque(fuerza_mia, arma_Mia))
+```
+
+**Salida esperada.**
+```
+17
+```
+
+**Solución.** `arma_Mia` tenía una mayúscula: es `arma_mia`.
+
+**Al superarla.**
+La cabeza de calavera se deshace. La Hidra ruge con las que le quedan.
+
+**Imagen.**
+- La Hidra de las Mil Runas en el paso de montaña: cuerpo de serpiente gigante, cabezas distintas; una con forma de calavera grita «NameError».
+- Mia, firme, con el pergamino en alto; Tilo detrás con la pértiga; Gheco ilumina.
+
+---
+
+#### Micro-misión R01-N11-P2 · La cabeza del goblin
+
+```meta
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Tilo
+criatura: goblin
+carta: Leer un TypeError | «can only concatenate str (not "int") to str»: mezclaste texto y número
+recompensa: xp 15, oro 15
+imagen: R01-N11-P2
+```
+
+**Escena.**
+La segunda cabeza es verde y flaca, con sonrisa de goblin. Tu hechizo de daño explota en chispas: `TypeError`.
+
+**Gheco sugiere.**
+Un `TypeError` dice que mezclaste tipos que no se combinan, como texto y número con `+`. La solución más clara: un f-string.
+
+**Desafío.** Arreglá el mensaje del daño.
+
+```python
+danio = 17
+print("Le hacés " + danio + " de daño")
+```
+
+**Salida esperada.**
+```
+Le hacés 17 de daño
+```
+
+**Solución.** `print(f"Le hacés {danio} de daño")` (o `str(danio)`).
+
+**Al superarla.**
+La cabeza del goblin cae. Tilo grita de alegría y la Hidra lo mira; él se esconde detrás de vos.
+
+**Imagen.**
+- Una cabeza verde de la Hidra con sonrisa de goblin explota en chispas.
+- Tilo festejando y escondiéndose a la vez.
+
+---
+
+#### Micro-misión R01-N11-P3 · La cabeza del orco
+
+```meta
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Tilo
+criatura: orco
+carta: Leer un IndexError | «list index out of range»: pediste una posición que no existe (se cuenta desde 0)
+recompensa: xp 15, oro 15
+imagen: R01-N11-P3
+```
+
+**Escena.**
+La tercera cabeza tiene colmillos de orco. Para cortarla hay que golpear **cada** cabeza de una lista, pero tu bucle siempre se pasa de una.
+
+**Gheco sugiere.**
+Si una lista tiene 3 elementos, las posiciones son 0, 1 y 2. `range(len(lista) + 1)` se pasa. Lo más simple: recorrer la lista directamente, sin posiciones.
+
+**Desafío.** Arreglá el bucle.
+
+```python
+cabezas = ["orco", "ogro", "hidra"]
+for i in range(len(cabezas) + 1):
+    print(f"Golpe a la cabeza {cabezas[i]}")
+```
+
+**Salida esperada.**
+```
+Golpe a la cabeza orco
+Golpe a la cabeza ogro
+Golpe a la cabeza hidra
+```
+
+**Solución.** `for cabeza in cabezas:` (o `range(len(cabezas))`).
+
+**Al superarla.**
+La cabeza de orco cae. Quedan dos: la del ogro y la central, la más grande.
+
+**Imagen.**
+- Una cabeza con colmillos de orco cae; las cabezas restantes se agitan.
+- Mia corre entre las rocas del paso.
+
+---
+
+#### Micro-misión R01-N11-P4 · La cabeza del ogro
+
+```meta
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Tilo
+criatura: ogro
+carta: Errores de lógica | el programa corre sin errores… y da mal · se vencen probando con un caso que sabés calcular
+recompensa: xp 20, oro 20
+imagen: R01-N11-P4
+```
+
+**Escena.**
+La cabeza del ogro no grita. Tu hechizo corre, no explota, no da error… y la cabeza no cae. El promedio de tus golpes da cualquier cosa.
+
+**Gheco sugiere.**
+Un **ogro** no deja traceback: el programa termina tranquilo y el resultado está mal. Se vence **probando**: con 10, 20 y 30, el promedio tiene que dar 20. ¿Da?
+
+**Desafío.** Encontrá el error de lógica.
+
+```python
+golpes = [10, 20, 30]
+promedio = sum(golpes) / len(golpes) + 1
+print(f"Promedio: {promedio}")
+```
+
+**Salida esperada.**
+```
+Promedio: 20.0
+```
+
+**Solución.** Sobraba el `+ 1`: el promedio es `sum(golpes) / len(golpes)`.
+
+**Al superarla.**
+La cabeza del ogro se derrumba en silencio, como cayó cada uno de sus errores: sin avisar.
+
+**Imagen.**
+- Una cabeza de ogro de la Hidra se derrumba sin ruido.
+- Mia, concentrada, comprueba una cuenta en el pergamino con el dedo.
+
+---
+
+#### Micro-misión R01-N11-P5 · La cabeza central
+
+```meta
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Tilo, Ofidia
+criatura: dragón
+carta: Dividir para vencer | un problema grande = funciones chicas, cada una probada
+recompensa: xp 25, oro 30
+imagen: R01-N11-P5
+```
+
+**Escena.**
+Queda la cabeza central, la más grande. Cada vez que le pegás con un hechizo largo y enredado, le crecen dos. {mentor}, desde lejos, dice una sola frase:
+—Dividí.
+
+**Gheco sugiere.**
+Un problema grande se vence **en partes**: una función que hace una sola cosa, otra que hace otra, y una que las junta. Cada parte se prueba sola.
+
+**Desafío.** Completá las dos funciones chicas; la tercera ya las usa.
+
+```python
+def danio(fuerza, arma):
+    ___
+
+def sigue_viva(vida):
+    ___
+
+def combate(vida, fuerza, arma):
+    turnos = 0
+    while sigue_viva(vida):
+        vida -= danio(fuerza, arma)
+        turnos += 1
+    return turnos
+
+print(f"Cae en {combate(100, 12, 5)} turnos")
+```
+
+**Salida esperada.**
+```
+Cae en 6 turnos
+```
+
+**Solución.** `return fuerza + arma` y `return vida > 0`.
+
+**Al superarla.**
+Seis golpes limpios, uno detrás de otro. La Hidra cae y el Paso queda en silencio.
+Mirás tu túnica: **las runas del borde, desde los pies hasta la cintura, brillan en violeta**. Ya no se apagan.
+{mentor} se acerca despacio. —En el Valle bajo aprendiste lo más difícil: que se aprende **escribiendo**. Arriba está el Bastión de las Escamas, y adentro, la Gran Biblioteca. Ahí te esperan cosas que no vas a poder leer sin equivocarte.
+
+**Imagen.**
+- La cabeza central de la Hidra se desploma en el paso de montaña; polvo y runas que se apagan.
+- Mia de pie, con la túnica encendida en violeta desde los pies hasta la cintura.
+- Ofidia se acerca; Tilo y Gheco abrazados de alegría.
+- Al fondo, el Bastión de las Escamas recortado contra la aurora.
+
+---
+
+> Después vienen las prácticas del jefe, que corrige el docente (**M1** La tienda del Valle, **M2** El informe de la batalla, **E1** La libreta del almacén). Al aprobarlas: la **primera parte de la túnica encendida**, el ítem raro del jefe y el Paso abierto hacia el Bastión de las Escamas.
 
 ---

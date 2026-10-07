@@ -233,6 +233,14 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Frase:** «¡Justo, justo!»
 - **Imágenes:** completas.
 
+### El Guardián del Puente
+- **Rol:** custodia el Puente del Juicio (R01-N02); hace las cinco preguntas que encienden las runas de la baranda y le da a Mia la Llave del Puente.
+- **Qué es:** una **serpiente de piedra gigante** enroscada en el arco del puente, cubierta de musgo, con **runas de código que brillan en verde** por el cuerpo (`True`, `==`, `if`).
+- **Rasgos:** ojos y una gema en la frente verdes y encendidos, colmillos de piedra; cuando habla, su voz hace temblar el agua.
+- **Personalidad:** severo pero justo; valora que no le mientan más que la fuerza.
+- **Frase:** «Nadie cruza sin saber calcular.»
+- **Imágenes:** completas (`personajes/Guardian del Puente/`).
+
 ### La Copista
 - **Rol:** copia y ordena los carteles y pergaminos de la Aldea (R01-N03). Puede ser también la que cuida la Casa de los Tomos (R01-N10).
 - **Edad y sexo:** 30, mujer.

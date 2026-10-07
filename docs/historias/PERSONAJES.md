@@ -343,7 +343,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ## El Imperio de las Clases (Java)
 
-### Nadia *(falta la imagen)*
+### Nadia
 - **Curso y rol:** Java. La aduanera de la Aduana del Compilador que atrapa a Zed en la Clase 0; lo vigila «hasta que aprenda» y termina siendo su compañera ([java.md](java.md)).
 - **Edad y sexo:** 19, mujer.
 - **Altura y contextura:** mediana, delgada, **postura muy erguida**, paso firme.

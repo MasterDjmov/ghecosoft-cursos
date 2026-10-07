@@ -262,6 +262,29 @@
     @endif
 
     @if ($isAdmin && $user->role === \App\Enums\Role::Student)
+        {{-- Reiniciar la cuenta: como recién creada, sin cursos ni progreso, pero con su usuario y su clave. --}}
+        <section class="panel flex flex-wrap items-center justify-between gap-3 border-warning/40 p-5" data-test="reset-account">
+            <div class="flex flex-col gap-1">
+                <h2 class="font-display font-semibold text-white">Reiniciar la cuenta</h2>
+                <p class="text-sm text-ink-muted">Queda como recién creada: sale de todos los cursos y se borra todo lo que hizo (abonos, progreso, entregas, comprobantes, monedas, XP, oro, héroes, mochila, insignias y consultas). Conserva su usuario, su nombre y su clave, así después lo habilitás y empieza de cero. No se puede deshacer.</p>
+            </div>
+            <flux:modal.trigger name="reset-account">
+                <flux:button icon="arrow-path" class="border-warning/60! text-warning!" data-test="reset-account-button">Reiniciar cuenta</flux:button>
+            </flux:modal.trigger>
+        </section>
+
+        <flux:modal name="reset-account" class="max-w-md">
+            <form wire:submit="resetAccount" class="flex flex-col gap-4">
+                <flux:heading size="lg">¿Reiniciar la cuenta de {{ $user->fullName() }}?</flux:heading>
+                <flux:text>Sale de todos los cursos y se borra todo lo que hizo. Conserva su usuario y su clave. No se puede deshacer.</flux:text>
+                <flux:input wire:model="resetConfirm" :label="'Escribí «'.$user->username.'» para confirmar'" autocomplete="off" data-test="reset-account-confirm" />
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                    <flux:button variant="danger" type="submit" data-test="reset-account-submit">Reiniciar</flux:button>
+                </div>
+            </form>
+        </flux:modal>
+
         {{-- Eliminar la cuenta (D87): con todo lo suyo, confirmando con su usuario. --}}
         <section class="panel flex flex-wrap items-center justify-between gap-3 border-danger/40 p-5" data-test="delete-account">
             <div class="flex flex-col gap-1">

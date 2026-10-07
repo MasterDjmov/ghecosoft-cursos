@@ -130,6 +130,26 @@ class Show extends Component
         return $this->redirectRoute('admin.students.index', navigate: true);
     }
 
+    /** Para reiniciar la cuenta hay que escribir su usuario. */
+    public string $resetConfirm = '';
+
+    /** Reiniciar la cuenta: queda sin cursos ni progreso, pero conserva el usuario y la clave. Solo el administrador. */
+    public function resetAccount(StudentAccounts $accounts): void
+    {
+        $this->onlyAdmin();
+        if (trim($this->resetConfirm) !== $this->user->username) {
+            $this->addError('resetConfirm', 'Escribí exactamente «'.$this->user->username.'» para confirmar.');
+
+            return;
+        }
+
+        $accounts->reset($this->user);
+        $this->resetConfirm = '';
+        $this->user->refresh();
+        Flux::modal('reset-account')->close();
+        Flux::toast(variant: 'success', text: 'Cuenta de '.$this->user->fullName().' reiniciada: ya no está en ningún curso. Habilitalo cuando quieras para que empiece de cero.');
+    }
+
     /** Pausar la cuenta (D65): se cortan todas sus sesiones y no puede entrar hasta reactivarla. */
     public function block(SingleSession $sessions): void
     {

@@ -113,6 +113,56 @@ class StudentAccounts
         });
     }
 
+    /**
+     * Lo que se borra al reiniciar una cuenta: tabla → columnas que apuntan al alumno. El orden importa
+     * (las expediciones apuntan a los héroes). Un test revisa que toda tabla nueva con el alumno esté acá o en KEEP.
+     */
+    public const RESET = [
+        'expeditions' => ['user_id'], 'crafts' => ['user_id'], 'heroes' => ['user_id'], 'mounts' => ['user_id'],
+        'item_movements' => ['user_id'], 'coin_transactions' => ['user_id'], 'xp_transactions' => ['user_id'],
+        'node_step_completions' => ['user_id'], 'node_unlocks' => ['user_id'], 'practice_marks' => ['user_id'],
+        'submission_comments' => ['user_id'], 'submissions' => ['user_id'], 'practice_messages' => ['student_id', 'author_id'],
+        'course_completions' => ['user_id'], 'user_badges' => ['user_id'], 'ranking_snapshots' => ['user_id'],
+        'universe_votes' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],
+    ];
+
+    /** Lo que se conserva: cómo entra (llaves de acceso, sesiones), la autorización de menor y los «Avisame». */
+    public const KEEP = ['passkeys', 'session_evictions', 'guardian_authorizations', 'course_interests'];
+
+    /**
+     * Reiniciar la cuenta: queda como recién creada (mismo usuario, nombre y clave) pero sin cursos ni nada de
+     * lo hecho: abonos, progreso, entregas, comprobantes, monedas, XP, oro, héroes, mochila, consultas e
+     * insignias. Para volver a empezar un curso de cero. Solo el administrador.
+     */
+    public function reset(User $student): void
+    {
+        if ($student->role !== Role::Student) {
+            throw new InvalidArgumentException('Solo se reinician cuentas de alumnos.');
+        }
+
+        DB::transaction(function () use ($student) {
+            $files = collect()
+                ->merge(Submission::where('user_id', $student->id)->pluck('file_path'))
+                ->merge(EnrollmentRequest::where('user_id', $student->id)->pluck('receipt_path'))
+                ->filter()->unique()->values()->all();
+
+            foreach (self::RESET as $table => $columns) {
+                DB::table($table)->where(function ($query) use ($columns, $student) {
+                    foreach ($columns as $column) {
+                        $query->orWhere($column, $student->id);
+                    }
+                })->delete();
+            }
+            $student->notifications()->delete();
+            $student->forceFill(['xp_total' => 0])->save();
+
+            DB::afterCommit(function () use ($files) {
+                Storage::disk('local')->delete($files);
+                Ranking::forget();
+            });
+        });
+    }
+
     /** Nueva clave provisoria; la anterior deja de valer y al entrar la tiene que cambiar. */
     public function resetPassword(User $student): string
     {

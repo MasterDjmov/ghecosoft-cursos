@@ -9,3 +9,7 @@
 CHANGELOG.md export-ignore
 README.md export-ignore
 .github/workflows/browser-tests.yml export-ignore
+
+# Lanzador y LEEME del ejecutor de Java para Windows (D85): siempre con CRLF.
+resources/java-runner/*.bat text eol=crlf
+resources/java-runner/*.txt text eol=crlf

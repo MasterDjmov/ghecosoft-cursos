@@ -93,7 +93,7 @@
             <div class="flex flex-wrap gap-2">
                 @forelse ($balances as $currencyId => $amount)
                     @php($currency = $currencies->firstWhere('id', $currencyId))
-                    <flux:badge>{{ $amount }} {{ $currency?->is_wildcard ? term('coin.wildcard', null, $amount) : term('coin.course', $currency?->course, $amount).' ('.$currency?->course?->title.')' }}</flux:badge>
+                    <flux:badge>{{ $amount }} {{ $currency?->label($amount) }}{{ $currency?->course ? ' ('.$currency->course->title.')' : '' }}</flux:badge>
                 @empty
                     <span class="text-sm text-ink-muted">Sin saldo.</span>
                 @endforelse
@@ -153,7 +153,7 @@
                     <flux:select.option value="xp">{{ ucfirst(term('xp')) }} ({{ term('xp.short') }})</flux:select.option>
                     @foreach ($currencies as $currency)
                         <flux:select.option :value="(string) $currency->id">
-                            {{ $currency->is_wildcard ? ucfirst(term('coin.wildcard', null, 2)) : ucfirst(term('coin.course', $currency->course, 2)).' · '.$currency->course?->title }}
+                            {{ ucfirst($currency->label()) }}{{ $currency->course ? ' · '.$currency->course->title : '' }}
                         </flux:select.option>
                     @endforeach
                 </flux:select>

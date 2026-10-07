@@ -9,10 +9,15 @@ enum CoinReason: string
     case NodeUnlock = 'node_unlock';
     case ManualAdjustment = 'manual_adjustment';
     case Reversal = 'reversal';
+    // Oro (D89).
+    case StepCompleted = 'step_completed';
+    case StatUpgrade = 'stat_upgrade';
 
     public function label(): string
     {
         return match ($this) {
+            self::StepCompleted => 'Micro-misión superada',
+            self::StatUpgrade => 'Atributo mejorado',
             self::EnrollmentGrant => 'Inscripción aprobada',
             self::PracticeApproved => 'Práctica aprobada',
             self::NodeUnlock => 'Nodo abierto',

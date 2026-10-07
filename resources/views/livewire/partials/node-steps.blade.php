@@ -1,7 +1,9 @@
 {{-- Micro-misiones (D84): una a la vez. Se comprueban solas en el navegador; al coincidir la salida, se avisa
      al servidor (que la vuelve a comparar y da la XP). Solo premios de juego. --}}
 @php
-    // El oro, los ítems y lo que «se abre» se muestran recién cuando existan (config game.inventory_enabled).
+    // El oro existe desde la D89 (config game.gold_enabled); los ítems y lo que «se abre», recién cuando
+    // exista el inventario (config game.inventory_enabled).
+    $gold = (bool) config('game.gold_enabled');
     $inventory = (bool) config('game.inventory_enabled');
     $total = $steps->count();
     $doneCount = $doneSteps->count();
@@ -18,6 +20,16 @@
     <div class="h-1.5 overflow-hidden rounded-full bg-surface-highest" role="progressbar" aria-valuemin="0" aria-valuemax="{{ $total }}" aria-valuenow="{{ $doneCount }}">
         <div class="h-full rounded-full bg-warning transition-all" style="width: {{ $total ? round($doneCount / $total * 100) : 0 }}%"></div>
     </div>
+
+    {{-- Todavía no tomó el control del protagonista (D89): se lo invita, sin frenar las micro-misiones. --}}
+    @php($protagonist = app(\App\Services\Heroes::class)->protagonist($course))
+    @if ($protagonist && auth()->user()->isStudent() && ! app(\App\Services\Heroes::class)->heroOf(auth()->user(), $course))
+        <a href="{{ route('student.hero', $course) }}" wire:navigate class="flex items-center gap-3 rounded-lg border border-warning/50 bg-warning/10 px-4 py-3 text-sm transition hover:bg-warning/15" data-test="take-control-prompt">
+            <img src="{{ \App\Services\Heroes::lookUrl($protagonist, 1) }}" alt="" class="size-10 shrink-0 rounded-full object-cover">
+            <span class="flex-1 text-ink"><strong class="text-warning">Tomá el control de {{ $protagonist['name'] }}</strong>: elegí su aspecto y repartí sus puntos. El oro que ganes acá sube sus atributos.</span>
+            <flux:icon name="chevron-right" variant="mini" class="text-warning" />
+        </a>
+    @endif
 
     @foreach ($steps as $step)
         @php($texts = $stepTexts[$step->id])
@@ -155,9 +167,9 @@
                                         <flux:icon name="book-open" variant="micro" /> Carta del grimorio: {{ $step->card_title }}
                                     </li>
                                 @endif
-                                @if ($inventory && $step->gold_reward > 0)
-                                    <li class="flex items-center gap-1.5 rounded-lg border border-warning/40 bg-warning/10 px-3 py-1.5 text-warning">
-                                        <flux:icon name="currency-dollar" variant="micro" /> +{{ $step->gold_reward }} de oro
+                                @if ($gold && $step->gold_reward > 0)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-warning/40 bg-warning/10 px-3 py-1.5 text-warning" data-test="step-gold">
+                                        <x-gold-icon class="size-4" /> <span x-text="result?.xp > 0 ? '+{{ $step->gold_reward }} de oro' : 'Oro (ya lo tenías o sos del staff)'"></span>
                                     </li>
                                 @endif
                                 @if ($inventory && $step->item)
@@ -187,6 +199,9 @@
                         <span class="flex items-center gap-1"><flux:icon name="sparkles" variant="micro" class="text-warning" /> +{{ $step->xp_reward }} {{ term('xp.short') }}</span>
                         @if ($step->card_title)
                             <span class="flex items-center gap-1"><flux:icon name="book-open" variant="micro" class="text-secondary-bright" /> Carta: {{ $step->card_title }}</span>
+                        @endif
+                        @if ($gold && $step->gold_reward > 0)
+                            <span class="flex items-center gap-1"><x-gold-icon class="size-3.5" /> +{{ $step->gold_reward }} de oro</span>
                         @endif
                         @if ($inventory && $step->item)
                             <span class="flex items-center gap-1"><flux:icon name="gift" variant="micro" class="text-success" /> {{ $step->item }}</span>

@@ -27,6 +27,9 @@ use App\Livewire\Admin\Universe;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\Grimoire;
+use App\Livewire\Student\Hero;
+use App\Livewire\Student\Heroes;
 use App\Livewire\Student\JavaRunner as StudentJavaRunner;
 use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
@@ -58,10 +61,14 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         Route::livewire('cursos/{course}/arbol', CourseTree::class)->name('student.tree');
         Route::livewire('cursos/{course}/nodos/{node}', NodeView::class)->name('student.node');
         Route::livewire('cursos/{course}/nodos/{node}/mision/{practice}', Mission::class)->name('student.mission');
+        Route::livewire('cursos/{course}/heroe', Hero::class)->name('student.hero');
     });
     Route::livewire('ranking', RankingBoard::class)->name('student.ranking');
     Route::livewire('universo', StudentUniverse::class)->name('student.universe');
     Route::livewire('cronicas', StudentChronicles::class)->name('student.chronicles');
+    // El juego (D89): los protagonistas y el grimorio.
+    Route::livewire('heroes', Heroes::class)->name('student.heroes');
+    Route::livewire('grimorio', Grimoire::class)->name('student.grimoire');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');

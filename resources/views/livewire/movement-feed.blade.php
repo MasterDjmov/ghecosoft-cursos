@@ -1,7 +1,7 @@
 @php
     $amountClass = fn (array $amount) => $amount['amount'] < 0
         ? 'border-danger/40 bg-danger/10 text-danger'
-        : ['coin' => 'border-success/40 bg-success/10 text-success', 'wildcard' => 'border-secondary-bright/40 bg-secondary/10 text-secondary-bright', 'xp' => 'border-primary/40 bg-primary/10 text-primary-bright'][$amount['type']];
+        : ['coin' => 'border-success/40 bg-success/10 text-success', 'wildcard' => 'border-secondary-bright/40 bg-secondary/10 text-secondary-bright', 'gold' => 'border-warning/40 bg-warning/10 text-warning', 'xp' => 'border-primary/40 bg-primary/10 text-primary-bright'][$amount['type']];
 @endphp
 
 {{-- Movimientos separados por curso: resumen arriba, cada hecho con su detalle abajo. --}}

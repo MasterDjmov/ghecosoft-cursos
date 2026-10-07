@@ -5,7 +5,9 @@ namespace App\Support;
 use App\Models\CoinTransaction;
 use App\Models\Course;
 use App\Models\EnrollmentRequest;
+use App\Models\Hero;
 use App\Models\Node;
+use App\Models\NodeStep;
 use App\Models\NodeUnlock;
 use App\Models\Submission;
 use App\Models\User;
@@ -91,6 +93,7 @@ class MovementFeed
             $relations = match ($type) {
                 Submission::class => ['practice.node'],
                 NodeUnlock::class => ['node'],
+                NodeStep::class => ['node'],
                 default => [],
             };
             $sources = $type ? $type::with($relations)->whereIn('id', $group->pluck('source_id')->unique())->get()->keyBy('id') : collect();
@@ -116,6 +119,8 @@ class MovementFeed
                 ($first->reason->value === 'boss_defeated' ? 'Venciste a ' : 'Completaste ').'«'.$source->title.'»',
                 null, $source, $first->reason->value === 'boss_defeated' ? 'fire' : 'flag',
             ],
+            $source instanceof NodeStep => ['Micro-misión: «'.$source->title.'»', 'De «'.$source->node->title.'»', $source->node, 'bolt'],
+            $source instanceof Hero => [$first->reason->label(), $first->note, null, 'arrow-trending-up'],
             $source instanceof EnrollmentRequest => [$first->reason->label(), 'Para abrir «'.($course?->nodes()->where('type', 'root')->value('title') ?? 'el primer nodo').'»', null, 'ticket'],
             default => [$first->reason->label(), null, null, 'adjustments-horizontal'],
         };
@@ -132,9 +137,14 @@ class MovementFeed
             'at' => $first->created_at,
             'amounts' => $items->map(fn ($item) => $item['kind'] === 'xp'
                 ? ['amount' => $item['row']->amount, 'label' => term('xp.short'), 'type' => 'xp']
-                : ['amount' => $item['row']->amount, 'type' => $item['row']->currency->is_wildcard ? 'wildcard' : 'coin',
-                    'label' => $item['row']->currency->is_wildcard ? term('coin.wildcard', null, abs($item['row']->amount)) : term('coin.course', $item['row']->currency->course, abs($item['row']->amount))])
-                ->sortBy(fn ($amount) => ['coin' => 0, 'wildcard' => 1, 'xp' => 2][$amount['type']])
+                : ['amount' => $item['row']->amount,
+                    'type' => match (true) {
+                        $item['row']->currency->isGold() => 'gold',
+                        $item['row']->currency->is_wildcard => 'wildcard',
+                        default => 'coin',
+                    },
+                    'label' => $item['row']->currency->label(abs($item['row']->amount))])
+                ->sortBy(fn ($amount) => ['coin' => 0, 'wildcard' => 1, 'gold' => 2, 'xp' => 3][$amount['type']])
                 ->values()
                 ->all(),
         ];

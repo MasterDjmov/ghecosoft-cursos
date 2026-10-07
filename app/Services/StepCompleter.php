@@ -12,11 +12,11 @@ use InvalidArgumentException;
 /**
  * Superar una micro-misión (D84 § 3). El código corre en el navegador del alumno; acá se recibe la salida que
  * obtuvo y se compara con la esperada. Como lo que viene del navegador se puede falsificar, solo da premios
- * de juego (XP por el Ledger): nunca monedas del curso, aperturas de nodos ni nada que cuente para el CV.
+ * de juego (XP y oro por el Ledger, D89): nunca monedas del curso, aperturas de nodos ni nada que cuente para el CV.
  */
 class StepCompleter
 {
-    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger) {}
+    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly Heroes $heroes) {}
 
     /** Puede jugarla: ve el nodo (abierto o Clase 0 de prueba, D71/D84) y superó las anteriores. */
     public function canPlay(User $user, NodeStep $step): bool
@@ -68,6 +68,7 @@ class StepCompleter
             if ($step->xp_reward > 0 && ! $user->isStaff()) {
                 $this->ledger->addXp($user, $step->xp_reward, XpReason::StepCompleted, $step, $step->node->course);
             }
+            $this->heroes->creditStep($user, $step);
 
             return true;
         });

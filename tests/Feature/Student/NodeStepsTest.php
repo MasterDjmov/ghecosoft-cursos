@@ -4,6 +4,7 @@ use App\Enums\XpReason;
 use App\Livewire\Student\NodeView;
 use App\Models\CoinTransaction;
 use App\Models\Course;
+use App\Models\Currency;
 use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
@@ -160,16 +161,17 @@ test('se supera con la salida correcta, en orden, y da la XP una sola vez', func
     expect($completer->complete($student, $second, "uno\r\ndos"))->toBeTrue();
 });
 
-test('no da monedas del curso ni abre nodos', function () {
+test('no da monedas del curso ni abre nodos (solo oro, D89)', function () {
     $course = coursesWithSteps();
     $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
-    $coins = CoinTransaction::where('user_id', $student->id)->count();
+    $notGold = fn () => CoinTransaction::where('user_id', $student->id)->whereHas('currency', fn ($q) => $q->where('code', '!=', Currency::GOLD))->count();
+    $coins = $notGold();
     $unlocks = NodeUnlock::where('user_id', $student->id)->count();
 
     $first = $course->rootNode->steps()->first();
     app(StepCompleter::class)->complete($student, $first, 'Hola, Valle');
 
-    expect(CoinTransaction::where('user_id', $student->id)->count())->toBe($coins)
+    expect($notGold())->toBe($coins)
         ->and(NodeUnlock::where('user_id', $student->id)->count())->toBe($unlocks);
 });
 
@@ -232,18 +234,23 @@ test('un nodo sin micro-misiones se ve como siempre, con la teoría abierta', fu
         ->assertDontSee('data-test="node-steps"', false);
 });
 
-test('mientras no existan la bolsa y el inventario, no se muestra oro ni ítems', function () {
+test('el oro se muestra si existe (D89) y los ítems recién cuando exista el inventario', function () {
     $course = coursesWithSteps();
     NodeStep::where('code', 'R00-N01-P1')->update(['item' => 'Bolsa de cuero']);
     $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
 
+    config(['game.gold_enabled' => false]);
     $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
         ->assertOk()
         ->assertDontSee('de oro')
         ->assertDontSee('Bolsa de cuero');
 
-    config(['game.inventory_enabled' => true]);
+    config(['game.gold_enabled' => true]);
     $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
         ->assertSee('+5 de oro')
+        ->assertDontSee('Bolsa de cuero');
+
+    config(['game.inventory_enabled' => true]);
+    $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))
         ->assertSee('Bolsa de cuero');
 });

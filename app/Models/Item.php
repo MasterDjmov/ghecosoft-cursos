@@ -19,6 +19,12 @@ class Item extends Model
     /** El que deja reacomodar los puntos del héroe una vez (D89). */
     public const RESPEC = 'pergamino-del-reinicio';
 
+    /** Equipado, da una segunda vida en cada expedición (R02-N03). */
+    public const TRACEBACK = 'amuleto-del-traceback';
+
+    /** Termina al instante la expedición en camino; se gasta al usarlo (R03-N06). */
+    public const HOURGLASS = 'reloj-de-arena';
+
     protected $attributes = [
         'rarity' => 'common', 'attack' => 0, 'defense' => 0, 'strength' => 0, 'dexterity' => 0, 'intelligence' => 0,
         'luck' => 0, 'heal' => 0, 'min_level' => 1, 'in_shop' => false, 'droppable' => false,

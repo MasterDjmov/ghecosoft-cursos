@@ -138,6 +138,7 @@
                         <flux:button size="sm" icon="shopping-bag" :href="route('student.inventory', ['solapa' => $course->slug])" wire:navigate data-test="hero-bag">Mochila: equipar</flux:button>
                         @if ($protagonist['expeditions'] ?? null)
                             <flux:button size="sm" icon="map" :href="route('student.expeditions', $course)" wire:navigate data-test="hero-expeditions">Expediciones</flux:button>
+                            <flux:button size="sm" icon="trophy" :href="route('student.stables')" wire:navigate data-test="hero-stables">Establos</flux:button>
                         @endif
                         @if ($protagonist['shop'] ?? null)
                             <flux:button size="sm" icon="building-storefront" :href="route('student.shop', $course)" wire:navigate data-test="hero-shop">{{ $protagonist['shop']['name'] }}</flux:button>

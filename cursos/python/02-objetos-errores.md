@@ -272,6 +272,377 @@ Pasa cuando escribís `def recibir(danio):` sin `self`: Python igual le pasa el 
 
 **Troll: el default mutable** en una clase normal: `def __init__(self, items=[])` comparte **la misma lista** entre todos los objetos. Usá `None` y creala adentro, o `field(default_factory=list)` en una dataclass.
 
+### Micro-misión R02-N01-P1 · El primer molde
+
+```meta
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+carta: Clase y objeto | class Orco: · def __init__(self, nombre, vida): · grum = Orco("Grum", 40) · grum.vida
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La Gran Biblioteca huele a tinta y a piedra mojada. Entre estantes que llegan al techo, una mujer alta, de anteojos redondos y un manojo de llaves al cinturón, acomoda moldes de bronce con forma de criatura.
+—**Sila**, la Archivera. —No levanta la vista—. Acá nadie escribe cada orco por separado. Se escribe el **molde** una vez, y de él salen los que hagan falta. Probá.
+
+#### Gheco sugiere
+`class Orco:` define el molde (la **clase**). Adentro, `__init__` se ejecuta **solo** cada vez que creás un orco: guarda sus datos en `self`, que es «este orco». `Orco("Grum", 40)` crea un **objeto**.
+
+#### Desafío
+Completá el nombre del método que arma cada orco.
+
+#### Código inicial
+```python
+class Orco:
+    def ___(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+grum = Orco("Grum", 40)
+brak = Orco("Brak", 55)
+print(grum.nombre, grum.vida)
+print(brak.nombre, brak.vida)
+```
+
+#### Salida esperada
+```
+Grum 40
+Brak 55
+```
+
+#### Solución
+```python
+class Orco:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+grum = Orco("Grum", 40)
+brak = Orco("Brak", 55)
+print(grum.nombre, grum.vida)
+print(brak.nombre, brak.vida)
+```
+
+#### Al superarla
+Del molde salen dos orquitos de luz, cada uno con su número de vida encima. Y entonces pasa algo nuevo: sobre tus manos aparecen **cubos de datos**, chiquitos, girando en el aire.
+Sila levanta por fin la vista. —Mirá vos. Los moldes te reconocen.
+
+#### Imagen
+- La Gran Biblioteca del Bastión: estantes altísimos, escaleras móviles, moldes de bronce con forma de criaturas.
+- Sila, alta, de anteojos redondos y llaves al cinturón, mira por encima de un libro.
+- Sobre las manos de Mia flotan por primera vez cubos de datos cian.
+- Dos orquitos de luz con su vida encima: `40` y `55`.
+
+### Micro-misión R02-N01-P2 · Lo que sabe hacer
+
+```meta
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+carta: Métodos | def recibir(self, danio): · grum.recibir(10) · self es el objeto que llama
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Un molde no guarda solo datos —dice Sila—. También dice qué **sabe hacer** la criatura. Un orco recibe golpes, por ejemplo. Y nunca queda con vida negativa: eso enloquece a los registros.
+
+#### Gheco sugiere
+Un **método** es una función adentro de la clase. Su primer parámetro es `self`, y Python lo pasa solo: `grum.recibir(10)` es `Orco.recibir(grum, 10)`. Para que la vida no baje de 0, usá `max(0, ...)`.
+
+#### Desafío
+Escribí lo que hace `recibir`.
+
+#### Código inicial
+```python
+class Orco:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+    def recibir(self, danio):
+        ___
+
+grum = Orco("Grum", 40)
+grum.recibir(15)
+print(grum.vida)
+grum.recibir(30)
+print(grum.vida)
+```
+
+#### Salida esperada
+```
+25
+0
+```
+
+#### Solución
+```python
+class Orco:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+    def recibir(self, danio):
+        self.vida = max(0, self.vida - danio)
+
+grum = Orco("Grum", 40)
+grum.recibir(15)
+print(grum.vida)
+grum.recibir(30)
+print(grum.vida)
+```
+
+#### Al superarla
+El orquito de luz se tambalea y se desarma en chispas al llegar a 0. Gheco aplaude con la cola.
+
+#### Imagen
+- Un orquito de luz que se desarma en chispas al recibir un golpe.
+- Mia con el pergamino abierto: `def recibir(self, danio):` brilla en verde.
+- Gheco aplaude con la cola, colgado de un estante.
+
+### Micro-misión R02-N01-P3 · Lo que comparten todos
+
+```meta
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+carta: Atributo de clase | creados = 0 dentro de la clase · lo comparten todos · Orco.creados += 1
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Sila te pasa un registro gastado. —Necesito saber cuántos orcos salieron de este molde. No quiero contarlos de a uno.
+
+#### Gheco sugiere
+Lo que se escribe **en la clase**, fuera de los métodos, es de la **clase**: lo comparten todos los objetos. Para cambiarlo, nombrá la clase: `Orco.creados += 1`. Lo de `self.` es de cada objeto.
+
+#### Desafío
+Cada vez que se crea un orco, sumá uno al contador de la clase.
+
+#### Código inicial
+```python
+class Orco:
+    creados = 0
+
+    def __init__(self, nombre):
+        self.nombre = nombre
+        ___
+
+Orco("Grum")
+Orco("Brak")
+Orco("Zog")
+print(f"Salieron del molde: {Orco.creados}")
+```
+
+#### Salida esperada
+```
+Salieron del molde: 3
+```
+
+#### Solución
+```python
+class Orco:
+    creados = 0
+
+    def __init__(self, nombre):
+        self.nombre = nombre
+        Orco.creados += 1
+
+Orco("Grum")
+Orco("Brak")
+Orco("Zog")
+print(f"Salieron del molde: {Orco.creados}")
+```
+
+#### Al superarla
+—Tres. Igual que en mi registro —dice Sila, y por primera vez sonríe—. Alguien anda cambiando estos números. Por eso los cuento dos veces.
+
+#### Imagen
+- Sila sostiene un registro gastado con números tachados.
+- Sobre el molde de bronce flota un contador de luz: `3`.
+- Mia, con los cubos de datos girando sobre su mano.
+
+### Micro-misión R02-N01-P4 · Cómo se ve en el registro
+
+```meta
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+carta: __str__ | def __str__(self): return f"..." · lo usa print(objeto)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Imprimís un orco y el pergamino escribe `<__main__.Orco object at 0x7f3a…>`.
+—Eso no lo entiende nadie —dice Sila—. Enseñale al molde cómo **presentarse**.
+
+#### Gheco sugiere
+Los métodos con doble guion bajo le enseñan a tu clase a funcionar con Python. `__str__` devuelve el texto que muestra `print(objeto)`.
+
+#### Desafío
+Completá el nombre del método para que `print` muestre la ficha.
+
+#### Código inicial
+```python
+class Orco:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+    def ___(self):
+        return f"{self.nombre} ({self.vida} de vida)"
+
+print(Orco("Grum", 40))
+```
+
+#### Salida esperada
+```
+Grum (40 de vida)
+```
+
+#### Solución
+```python
+class Orco:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+    def __str__(self):
+        return f"{self.nombre} ({self.vida} de vida)"
+
+print(Orco("Grum", 40))
+```
+
+#### Al superarla
+El registro se reescribe solo, prolijo: «Grum (40 de vida)». Sila asiente y lo archiva.
+
+#### Imagen
+- Un pergamino que pasa de un garabato `0x7f3a…` a una ficha prolija: «Grum (40 de vida)».
+- Sila lo archiva en un cajón de bronce.
+
+### Micro-misión R02-N01-P5 · La vida en porcentaje
+
+```meta
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila, Tilo
+carta: @property | @property def porcentaje(self): · se usa sin paréntesis: tilo.porcentaje
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Tilo entra corriendo con un raspón nuevo. —¿Cuánta vida me queda? Pero en porcentaje, que los números sueltos no los entiendo.
+
+#### Gheco sugiere
+Con `@property` arriba, un método se usa **como un atributo**, sin paréntesis. Sirve para valores que se **calculan** con otros: `self.vida / self.vida_max`.
+
+#### Desafío
+Poné lo que falta arriba de `porcentaje`.
+
+#### Código inicial
+```python
+class Personaje:
+    def __init__(self, nombre, vida_max):
+        self.nombre = nombre
+        self.vida = vida_max
+        self.vida_max = vida_max
+
+    ___
+    def porcentaje(self):
+        return self.vida / self.vida_max
+
+tilo = Personaje("Tilo", 80)
+tilo.vida -= 20
+print(f"A {tilo.nombre} le queda {tilo.porcentaje:.0%}")
+```
+
+#### Salida esperada
+```
+A Tilo le queda 75%
+```
+
+#### Solución
+```python
+class Personaje:
+    def __init__(self, nombre, vida_max):
+        self.nombre = nombre
+        self.vida = vida_max
+        self.vida_max = vida_max
+
+    @property
+    def porcentaje(self):
+        return self.vida / self.vida_max
+
+tilo = Personaje("Tilo", 80)
+tilo.vida -= 20
+print(f"A {tilo.nombre} le queda {tilo.porcentaje:.0%}")
+```
+
+#### Al superarla
+—¡Setenta y cinco por ciento! —festeja Tilo—. Eso lo entiendo. —Y se va corriendo otra vez, a raspar el veinticinco que le queda.
+
+#### Imagen
+- Tilo con una barra de vida flotando sobre la cabeza: `75%`.
+- Mia se ríe; Sila niega con la cabeza, divertida.
+
+### Micro-misión R02-N01-P6 · El molde rápido
+
+```meta
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+carta: @dataclass | @dataclass class Item: nombre: str · valor: int = 0 · escribe __init__, __repr__ y __eq__
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Sila te muestra una pila de moldes que solo **guardan datos**: libros, llaves, pociones.
+—Para estos hay un atajo. Les decís qué campos tienen, y el molde se escribe solo.
+
+#### Gheco sugiere
+`@dataclass` arriba de la clase escribe por vos `__init__`, `__repr__` y `__eq__` a partir de los campos anotados (`nombre: str`). Se importa con `from dataclasses import dataclass`.
+
+#### Desafío
+Poné el decorador que falta.
+
+#### Código inicial
+```python
+from dataclasses import dataclass
+
+___
+class Libro:
+    titulo: str
+    paginas: int = 100
+
+libro = Libro("Crónicas del Valle", 320)
+print(libro)
+print(libro == Libro("Crónicas del Valle", 320))
+```
+
+#### Salida esperada
+```
+Libro(titulo='Crónicas del Valle', paginas=320)
+True
+```
+
+#### Solución
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Libro:
+    titulo: str
+    paginas: int = 100
+
+libro = Libro("Crónicas del Valle", 320)
+print(libro)
+print(libro == Libro("Crónicas del Valle", 320))
+```
+
+#### Al superarla
+El libro aparece entero en el pergamino, con su título y sus páginas. Sila lo guarda y baja la voz.
+—Te voy a decir algo, Mia. Alguien está **mezclando los registros** de la Biblioteca. Y no sé quién.
+
+#### Imagen
+- Una pila de moldes de bronce con forma de libro, llave y poción.
+- Sila, seria, se inclina hacia Mia y le habla en voz baja.
+- Detrás, un estante con fichas tachadas y mezcladas.
+
 ### Misión R02-N01-M1 · El vector que apunta
 
 ```meta
@@ -836,6 +1207,337 @@ Si la subclase tiene su propio `__init__`, el de la base **no** se ejecuta solo.
 **Ogro: redefinir un método con otro nombre**: si la base llama a `turno()` y la subclase define `Turno()` o `turn()`, no hay error, pero se sigue usando el de la base.
 
 **Ogro: heredar para reutilizar código cuando no hay relación "es un"**: la herencia se vuelve un laberinto. Preferí la composición.
+
+### Micro-misión R02-N02-P1 · Lo común, una vez
+
+```meta
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila
+carta: Herencia | class Heroe(Entidad): · hereda atributos y métodos · «un héroe ES UNA entidad»
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Ala de Estrategia es una mesa enorme con un mapa de batalla vivo: héroes, enemigos y torres de piedra que se mueven solos.
+—Todos tienen vida y todos reciben daño —dice Sila—. No lo escribas tres veces. Escribilo **una**, y que los demás lo **hereden**.
+
+#### Gheco sugiere
+`class Heroe(Entidad):` dice que `Heroe` **hereda** todo lo de `Entidad`: sus atributos y sus métodos. Se usa cuando la relación es «**es un**»: un héroe **es una** entidad.
+
+#### Desafío
+Hacé que `Heroe` herede de `Entidad`.
+
+#### Código inicial
+```python
+class Entidad:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+    def recibir(self, danio):
+        self.vida = max(0, self.vida - danio)
+
+class Heroe(___):
+    pass
+
+mia = Heroe("Mia", 100)
+mia.recibir(25)
+print(mia.nombre, mia.vida)
+```
+
+#### Salida esperada
+```
+Mia 75
+```
+
+#### Solución
+```python
+class Entidad:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+    def recibir(self, danio):
+        self.vida = max(0, self.vida - danio)
+
+class Heroe(Entidad):
+    pass
+
+mia = Heroe("Mia", 100)
+mia.recibir(25)
+print(mia.nombre, mia.vida)
+```
+
+#### Al superarla
+Tu figurita aparece en el mapa de batalla, con su barra de vida. No escribiste nada de daño, y lo recibe igual.
+
+#### Imagen
+- Una mesa-mapa de batalla viva, con figuras de luz de héroes, enemigos y torres.
+- La figurita de Mia, con su barra de vida en 75.
+- Sila señala el mapa con una regla larga.
+
+### Micro-misión R02-N02-P2 · No te olvides de la base
+
+```meta
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila
+carta: super() | super().__init__(nombre, 100) · primero arma la base y después lo propio
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Tu héroe necesita algo que la entidad no tiene: **pociones**. Le escribís su propio `__init__`… y de pronto la figurita no tiene nombre ni vida.
+—Te olvidaste de llamar a la base —dice Sila—. Que arme lo suyo primero.
+
+#### Gheco sugiere
+Si la subclase tiene su propio `__init__`, el de la base **no** se ejecuta solo. Llamalo con `super().__init__(...)` y después agregá lo propio.
+
+#### Desafío
+Llamá al `__init__` de la base.
+
+#### Código inicial
+```python
+class Entidad:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+class Heroe(Entidad):
+    def __init__(self, nombre):
+        ___
+        self.pociones = 2
+
+mia = Heroe("Mia")
+print(mia.nombre, mia.vida, mia.pociones)
+```
+
+#### Salida esperada
+```
+Mia 100 2
+```
+
+#### Solución
+```python
+class Entidad:
+    def __init__(self, nombre, vida):
+        self.nombre = nombre
+        self.vida = vida
+
+class Heroe(Entidad):
+    def __init__(self, nombre):
+        super().__init__(nombre, 100)
+        self.pociones = 2
+
+mia = Heroe("Mia")
+print(mia.nombre, mia.vida, mia.pociones)
+```
+
+#### Al superarla
+La figurita recupera su nombre y su vida, y ahora lleva dos frasquitos verdes en el cinturón.
+
+#### Imagen
+- La figurita de Mia en el mapa, con dos frasquitos verdes al cinturón.
+- Una flecha de luz que sube de `Heroe` a `Entidad` con la palabra `super()`.
+
+### Micro-misión R02-N02-P3 · Cada uno a su manera
+
+```meta
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila
+carta: Polimorfismo | la misma llamada (e.turno()), distinta respuesta · cada subclase redefine el método
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Ahora el turno —dice Sila—. El orco ataca, la arquera dispara. El mapa no pregunta quién es quién: a cada uno le dice «jugá tu turno».
+Pero tu arquera se queda quieta: su método se llama distinto.
+
+#### Gheco sugiere
+Una subclase puede **redefinir** un método de la base. Para que el bucle llame al de cada una, tiene que llamarse **igual**. Eso es el **polimorfismo**: la misma llamada, distintas respuestas.
+
+#### Desafío
+Poné el nombre justo al método de la arquera.
+
+#### Código inicial
+```python
+class Entidad:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def turno(self):
+        return f"{self.nombre} espera"
+
+class Orco(Entidad):
+    def turno(self):
+        return f"{self.nombre} ataca con el hacha"
+
+class Arquera(Entidad):
+    def ___(self):
+        return f"{self.nombre} dispara una flecha"
+
+for e in [Orco("Grum"), Arquera("Nima"), Entidad("Un aldeano")]:
+    print(e.turno())
+```
+
+#### Salida esperada
+```
+Grum ataca con el hacha
+Nima dispara una flecha
+Un aldeano espera
+```
+
+#### Solución
+```python
+class Entidad:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def turno(self):
+        return f"{self.nombre} espera"
+
+class Orco(Entidad):
+    def turno(self):
+        return f"{self.nombre} ataca con el hacha"
+
+class Arquera(Entidad):
+    def turno(self):
+        return f"{self.nombre} dispara una flecha"
+
+for e in [Orco("Grum"), Arquera("Nima"), Entidad("Un aldeano")]:
+    print(e.turno())
+```
+
+#### Al superarla
+En el mapa, cada figura juega a su manera: el orco levanta el hacha, la arquera tensa el arco y el aldeano… espera.
+
+#### Imagen
+- Tres figuras de luz en el mapa: un orco con hacha, una arquera tensando el arco y un aldeano quieto.
+- Un mismo rayo que sale del pergamino de Mia hacia los tres: `turno()`.
+
+### Micro-misión R02-N02-P4 · La torre que no es entidad
+
+```meta
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila
+criatura: orco
+carta: Duck typing | no importa de qué clase viene, sino qué métodos tiene · AttributeError: le falta ese método
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Sila pone en el mapa una **torre de piedra**. No es una entidad, no hereda de nadie. Pero cuando le toca el turno, el mapa explota: `AttributeError`. Detrás del humo, un **orco** se ríe.
+—Los orcos nacen de **pedir lo que no está** —dice Gheco—. El mapa le pidió `turno` a la torre… y la torre tiene otro nombre.
+
+#### Gheco sugiere
+En Python no hace falta heredar para entrar en el bucle: alcanza con **tener el método** que se usa. «Si camina como pato y hace cuac, es un pato.» Eso se llama **duck typing**.
+
+#### Desafío
+Arreglá la torre para que juegue su turno como las demás.
+
+#### Código inicial
+```python
+class Orco:
+    def turno(self):
+        return "El orco ataca"
+
+class Torre:
+    def disparar(self):
+        return "La torre lanza una piedra"
+
+for e in [Orco(), Torre()]:
+    print(e.turno())
+```
+
+#### Salida esperada
+```
+El orco ataca
+La torre lanza una piedra
+```
+
+#### Solución
+```python
+class Orco:
+    def turno(self):
+        return "El orco ataca"
+
+class Torre:
+    def turno(self):
+        return "La torre lanza una piedra"
+
+for e in [Orco(), Torre()]:
+    print(e.turno())
+```
+
+#### Al superarla
+La torre gira sobre sí misma y le tira una piedra al orco, que se va rengueando. Sila anota algo en su libreta: «la nueva entiende rápido».
+
+#### Imagen
+- Una torre de piedra en el mapa lanza una piedra a un orco que huye rengueando.
+- Humo de un error que se disipa: `AttributeError` tachado.
+- Sila anota en su libreta.
+
+### Micro-misión R02-N02-P5 · El contrato
+
+```meta
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila
+carta: Clase abstracta | class Entidad(ABC): · @abstractmethod def turno · sin turno: TypeError al crear
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Para que no vuelva a pasar —dice Sila—, la base deja **escrito el contrato**: toda entidad tiene que saber jugar su turno. Si alguien crea una que no sabe, el mapa no la acepta.
+Probás con un gólem nuevo y el mapa lo rechaza: `TypeError`.
+
+#### Gheco sugiere
+Con `ABC` y `@abstractmethod`, la base dice qué métodos **tiene** que tener toda subclase. Si falta alguno, crear el objeto da `TypeError` **enseguida**, no a mitad de la batalla.
+
+#### Desafío
+Hacé que el gólem cumpla el contrato: que juegue su turno con «Gólem golpea el suelo».
+
+#### Código inicial
+```python
+from abc import ABC, abstractmethod
+
+class Entidad(ABC):
+    @abstractmethod
+    def turno(self):
+        ...
+
+class Golem(Entidad):
+    pass
+
+print(Golem().turno())
+```
+
+#### Salida esperada
+```
+Gólem golpea el suelo
+```
+
+#### Solución
+```python
+from abc import ABC, abstractmethod
+
+class Entidad(ABC):
+    @abstractmethod
+    def turno(self):
+        ...
+
+class Golem(Entidad):
+    def turno(self):
+        return "Gólem golpea el suelo"
+
+print(Golem().turno())
+```
+
+#### Al superarla
+El gólem de piedra entra al mapa y da un pisotón que hace saltar a todas las figuras.
+Sila mira hacia abajo, hacia una escalera húmeda. —Los registros dañados vienen del **Sótano**. Mañana bajamos.
+
+#### Imagen
+- Un pequeño gólem de piedra en el mapa da un pisotón: todas las figuras saltan.
+- Sila señala una escalera de piedra que baja hacia la oscuridad, con humedad en los escalones.
 
 ### Misión R02-N02-M1 · El jefe furioso
 
@@ -1536,6 +2238,317 @@ La ruta es relativa a la carpeta **desde donde ejecutás** el programa, no a don
 
 **Goblin: leer un número de un archivo y olvidarse de que es texto**: `"950" > "1200"` es `True` (compara letras). Convertí con `int()`.
 
+### Micro-misión R02-N03-P1 · Intentar
+
+```meta
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila
+carta: try / except | try: lo que puede fallar · except ValueError: qué hacer · el programa sigue
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Sótano gotea. Los pergaminos están húmedos, y en uno el nivel de un aventurero dice «tres» con letras. Lo convertís a número y el hechizo explota: `ValueError`.
+—No te asustes —dice {mentor}, que bajó con ustedes—. **Intentá**, y tené preparado qué hacer si sale mal.
+
+#### Gheco sugiere
+Lo que puede fallar va en `try:`. Si lanza el error que nombrás en `except`, Python salta ahí y el programa **sigue**. Si no falla, el `except` se saltea.
+
+#### Desafío
+Atrapá el error de conversión: si el nivel no es un número, que valga 1.
+
+#### Código inicial
+```python
+for texto in ["7", "tres", "12"]:
+    try:
+        nivel = int(texto)
+    except ___:
+        nivel = 1
+    print(f"{texto} -> nivel {nivel}")
+```
+
+#### Salida esperada
+```
+7 -> nivel 7
+tres -> nivel 1
+12 -> nivel 12
+```
+
+#### Solución
+```python
+for texto in ["7", "tres", "12"]:
+    try:
+        nivel = int(texto)
+    except ValueError:
+        nivel = 1
+    print(f"{texto} -> nivel {nivel}")
+```
+
+#### Al superarla
+El pergamino húmedo no explota: se queda quieto, con un «nivel 1» prolijo al lado del «tres». Y te das cuenta de algo raro: **el error no te dio miedo**.
+
+#### Imagen
+- Un sótano de piedra húmedo, con goteras y pergaminos apilados.
+- Mia sostiene un pergamino mojado; de él sale un estallido de luz que se detiene en el aire, atrapado.
+- Ofidia, con una lámpara, la mira tranquila.
+
+### Micro-misión R02-N03-P2 · Lo que no está
+
+```meta
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila
+carta: except ... as error | except KeyError as error: print(error) · atrapá lo que sabés manejar
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Sila busca cosas en el inventario de un aventurero que no volvió: la espada está, el mapa no. Cada vez que pide algo que no está, salta un **orco**.
+—Preguntá y, si no está, decí **qué** faltaba —dice Sila.
+
+#### Gheco sugiere
+Pedirle a un diccionario una clave que no tiene lanza `KeyError`. Con `except KeyError as error:` guardás el error para mostrar qué clave faltaba.
+
+#### Desafío
+Atrapá el error y mostrá qué faltó.
+
+#### Código inicial
+```python
+mochila = {"espada": 1, "antorcha": 3}
+for cosa in ["espada", "mapa", "antorcha"]:
+    try:
+        print(f"{cosa}: {mochila[cosa]}")
+    except ___ as error:
+        print(f"Falta {error}")
+```
+
+#### Salida esperada
+```
+espada: 1
+Falta 'mapa'
+antorcha: 3
+```
+
+#### Solución
+```python
+mochila = {"espada": 1, "antorcha": 3}
+for cosa in ["espada", "mapa", "antorcha"]:
+    try:
+        print(f"{cosa}: {mochila[cosa]}")
+    except KeyError as error:
+        print(f"Falta {error}")
+```
+
+#### Al superarla
+El orco intenta salir de la mochila, pero tu `except` lo agarra de la oreja. Sila anota: «falta el mapa».
+
+#### Imagen
+- Una mochila de cuero abierta sobre una mesa del sótano: una espada y antorchas; un hueco donde iba el mapa.
+- Un orco pequeño atrapado de la oreja por un lazo de luz que dice `except KeyError`.
+
+### Micro-misión R02-N03-P3 · Siempre se cierra
+
+```meta
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Ofidia
+carta: else y finally | else: solo si NO hubo error · finally: SIEMPRE, con error o sin él
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Un buen mago, cuando abre un pergamino, **siempre** lo vuelve a cerrar —dice {mentor}—. Salga bien o salga mal.
+
+#### Gheco sugiere
+Después del `except` pueden ir dos bloques más: `else:` corre **solo si no hubo error**, y `finally:` corre **siempre**. El `finally` es para lo que no se puede olvidar: cerrar, guardar, apagar.
+
+#### Desafío
+Completá los dos bloques que faltan.
+
+#### Código inicial
+```python
+def abrir(texto):
+    try:
+        n = int(texto)
+    except ValueError:
+        print(f"{texto}: no se puede leer")
+    ___:
+        print(f"{texto}: página {n}")
+    ___:
+        print("pergamino cerrado")
+
+abrir("4")
+abrir("xx")
+```
+
+#### Salida esperada
+```
+4: página 4
+pergamino cerrado
+xx: no se puede leer
+pergamino cerrado
+```
+
+#### Solución
+```python
+def abrir(texto):
+    try:
+        n = int(texto)
+    except ValueError:
+        print(f"{texto}: no se puede leer")
+    else:
+        print(f"{texto}: página {n}")
+    finally:
+        print("pergamino cerrado")
+
+abrir("4")
+abrir("xx")
+```
+
+#### Al superarla
+Los dos pergaminos vuelven a su estante, enrollados y atados. Uno leído, el otro no, pero los dos **cerrados**.
+
+#### Imagen
+- Dos pergaminos que se enrollan y se atan solos con cintas de luz.
+- Ofidia asiente, con la lámpara en alto.
+
+### Micro-misión R02-N03-P4 · El pergamino que no existe
+
+```meta
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila
+carta: Archivos | with open("notas.txt", "w", encoding="utf-8") as f: · "r" leer · "w" escribir · "a" agregar
+recompensa: xp 15, oro 15
+item: Notas del Viajero
+```
+
+#### Escena
+En el fondo del Sótano hay un cajón con tu misma marca de agua: **un vitral**. Adentro, hojas a medio borrar. Copiás lo que se lee a un archivo nuevo antes de que la humedad se lo coma. Después buscás otra hoja que se nombra en ellas, «viajero.txt»… y no está.
+
+#### Gheco sugiere
+`with open(nombre, "w", encoding="utf-8") as f:` abre un archivo para **escribir** y lo **cierra solo** al terminar el bloque. Para leerlo, el modo es `"r"` (o ninguno). Si el archivo no existe, abrir para leer lanza `FileNotFoundError`.
+
+#### Desafío
+Escribí las notas, leelas línea por línea, y atrapá el error del archivo que falta.
+
+#### Código inicial
+```python
+with open("notas.txt", "w", encoding="utf-8") as f:
+    f.write("la lengua mas clara\n")
+    f.write("para quien llegue\n")
+
+with open("notas.txt", encoding="utf-8") as f:
+    for linea in f:
+        print(linea.strip())
+
+try:
+    with open("viajero.txt", encoding="utf-8") as f:
+        print(f.read())
+except ___:
+    print("No está: viajero.txt")
+```
+
+#### Salida esperada
+```
+la lengua mas clara
+para quien llegue
+No está: viajero.txt
+```
+
+#### Solución
+```python
+with open("notas.txt", "w", encoding="utf-8") as f:
+    f.write("la lengua mas clara\n")
+    f.write("para quien llegue\n")
+
+with open("notas.txt", encoding="utf-8") as f:
+    for linea in f:
+        print(linea.strip())
+
+try:
+    with open("viajero.txt", encoding="utf-8") as f:
+        print(f.read())
+except FileNotFoundError:
+    print("No está: viajero.txt")
+```
+
+#### Al superarla
+Dos frases, a salvo: «la lengua más clara» y «para quien llegue». Las **Notas del Viajero** van a tu mochila.
+—Es la misma marca que tu pergamino —dice Gheco, muy bajito.
+
+#### Imagen
+- Un cajón de madera húmedo con un vitral grabado en la tapa; adentro, hojas a medio borrar.
+- Mia copia las frases al pergamino; las letras pasan de la hoja vieja a la nueva como luciérnagas.
+- Gheco, serio, mira la marca del vitral.
+
+### Micro-misión R02-N03-P5 · Avisar con nombre propio
+
+```meta
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila, Ofidia
+carta: raise | class PergaminoRoto(Exception): pass · raise PergaminoRoto("...") · se atrapa aparte
+recompensa: xp 15, oro 20
+item: Amuleto del Traceback
+se abre: el Amuleto del Traceback: una segunda vida en las expediciones (equipalo como accesorio)
+```
+
+#### Escena
+Sila quiere que el catálogo **avise** cuando le piden una página que no puede existir, en vez de devolver cualquier cosa.
+—Que el error tenga **nombre** —dice {mentor}—. Así quien lo reciba sabe exactamente qué pasó.
+
+#### Gheco sugiere
+Una excepción propia es una clase que hereda de `Exception`. Con `raise PergaminoRoto("…")` tu función avisa que algo está mal, y quien la llama la atrapa con `except PergaminoRoto`.
+
+#### Desafío
+Lanzá el error cuando la página sea negativa.
+
+#### Código inicial
+```python
+class PergaminoRoto(Exception):
+    pass
+
+def leer(pagina):
+    if pagina < 0:
+        ___ PergaminoRoto(f"la página {pagina} no existe")
+    return f"Página {pagina}: legible"
+
+for p in [3, -2]:
+    try:
+        print(leer(p))
+    except PergaminoRoto as error:
+        print(f"Aviso: {error}")
+```
+
+#### Salida esperada
+```
+Página 3: legible
+Aviso: la página -2 no existe
+```
+
+#### Solución
+```python
+class PergaminoRoto(Exception):
+    pass
+
+def leer(pagina):
+    if pagina < 0:
+        raise PergaminoRoto(f"la página {pagina} no existe")
+    return f"Página {pagina}: legible"
+
+for p in [3, -2]:
+    try:
+        print(leer(p))
+    except PergaminoRoto as error:
+        print(f"Aviso: {error}")
+```
+
+#### Al superarla
+{mentor} saca de su manga un amuleto con forma de pergamino enroscado y te lo cuelga del cuello.
+—El **Amuleto del Traceback**. Quien sabe leer su error, se levanta una vez más. —Y agrega—: Ya no le tenés miedo. Se te nota.
+
+#### Imagen
+- Ofidia cuelga un amuleto con forma de pergamino enroscado del cuello de Mia.
+- El amuleto brilla en violeta, con una línea de traceback grabada.
+- Sila y Gheco miran, contentos; el sótano está ordenado.
+
 ### Misión R02-N03-M1 · El dato rebelde
 
 ```meta
@@ -2046,6 +3059,316 @@ Convertilo antes con `asdict()` o usá el parámetro `default=` de `json.dump`.
 
 **Ogro: filas vacías de más** al escribir un CSV en Windows: pasa si abrís el archivo sin `newline=""`.
 
+### Micro-misión R02-N04-P1 · De diccionario a texto
+
+```meta
+lugar: El Archivo
+personajes: Mia, Gheco, Sila
+carta: json.dumps | json.dumps(datos, ensure_ascii=False) → texto · False se escribe false · None, null
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Archivo, las crónicas se guardan en un idioma que cualquier mago del reino sabe leer.
+—Se llama **JSON** —dice Sila—. Es casi igual a tus diccionarios, pero en texto. Pasá la primera nota del viajero.
+
+#### Gheco sugiere
+`import json`. `json.dumps(datos)` convierte un diccionario (o lista) en **texto** JSON. Con `ensure_ascii=False`, los acentos quedan tal cual. Fijate: `False` pasa a `false` y `None` a `null`.
+
+#### Desafío
+Convertí la nota a texto JSON.
+
+#### Código inicial
+```python
+import json
+
+nota = {"autor": "el viajero", "página": 3, "legible": False, "fecha": None}
+texto = json.___(nota, ensure_ascii=False)
+print(texto)
+print(type(texto).__name__)
+```
+
+#### Salida esperada
+```
+{"autor": "el viajero", "página": 3, "legible": false, "fecha": null}
+str
+```
+
+#### Solución
+```python
+import json
+
+nota = {"autor": "el viajero", "página": 3, "legible": False, "fecha": None}
+texto = json.dumps(nota, ensure_ascii=False)
+print(texto)
+print(type(texto).__name__)
+```
+
+#### Al superarla
+La nota se escribe en una tira de papel, en el idioma del Archivo. Sila la cuelga junto a otras mil.
+
+#### Imagen
+- El Archivo: pasillos de tiras de papel colgadas como banderines, cada una con llaves `{}`.
+- Sila cuelga una tira nueva; Mia sostiene el pergamino con el texto JSON.
+
+### Micro-misión R02-N04-P2 · Y de vuelta
+
+```meta
+lugar: El Archivo
+personajes: Mia, Gheco, Sila
+carta: json.loads | json.loads(texto) → diccionario · después se usa como siempre: datos["clave"]
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Sila descuelga una tira vieja: la crónica de un aventurero que pasó hace años.
+—Leela. Quiero saber el segundo objeto de su inventario.
+
+#### Gheco sugiere
+`json.loads(texto)` hace el camino inverso: del **texto** JSON a diccionarios y listas de Python. Después se usan como siempre.
+
+#### Desafío
+Convertí el texto y mostrá lo que se pide.
+
+#### Código inicial
+```python
+import json
+
+texto = '{"heroe": "Nima", "nivel": 4, "inventario": ["soga", "brújula", "pan"]}'
+datos = json.___(texto)
+print(datos["heroe"], datos["nivel"] + 1)
+print(datos["inventario"][1])
+```
+
+#### Salida esperada
+```
+Nima 5
+brújula
+```
+
+#### Solución
+```python
+import json
+
+texto = '{"heroe": "Nima", "nivel": 4, "inventario": ["soga", "brújula", "pan"]}'
+datos = json.loads(texto)
+print(datos["heroe"], datos["nivel"] + 1)
+print(datos["inventario"][1])
+```
+
+#### Al superarla
+Una brújula vieja. —Nima —dice Sila—. Una arquera que fue hacia las Forjas. Nunca volvió a escribir.
+
+#### Imagen
+- Una tira de papel vieja que se convierte en un cofrecito con soga, brújula y pan.
+- Mia sostiene la brújula; Sila mira hacia lejos.
+
+### Micro-misión R02-N04-P3 · Guardar la partida
+
+```meta
+lugar: El Archivo
+personajes: Mia, Gheco, Sila
+carta: json.dump / json.load | con un archivo abierto · indent=2 lo hace legible · sin s: archivo; con s: texto
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Si tu partida no se puede guardar, se pierde al apagar la vela —dice Sila—. Guardala en un archivo y volvé a cargarla. Si sale igual, está bien guardada.
+
+#### Gheco sugiere
+`json.dump(datos, f)` escribe **en un archivo** abierto; `json.load(f)` lee de uno. (Sin la `s`: archivo. Con la `s`: texto.) `indent=2` lo deja legible.
+
+#### Desafío
+Guardá y volvé a cargar la partida.
+
+#### Código inicial
+```python
+import json
+
+partida = {"heroe": "Mia", "nivel": 12, "oro": 340, "ítems": ["amuleto", "notas"]}
+
+with open("partida.json", "w", encoding="utf-8") as f:
+    json.___(partida, f, indent=2, ensure_ascii=False)
+
+with open("partida.json", encoding="utf-8") as f:
+    cargada = json.___(f)
+
+print(cargada["heroe"], cargada["nivel"])
+print(cargada == partida)
+```
+
+#### Salida esperada
+```
+Mia 12
+True
+```
+
+#### Solución
+```python
+import json
+
+partida = {"heroe": "Mia", "nivel": 12, "oro": 340, "ítems": ["amuleto", "notas"]}
+
+with open("partida.json", "w", encoding="utf-8") as f:
+    json.dump(partida, f, indent=2, ensure_ascii=False)
+
+with open("partida.json", encoding="utf-8") as f:
+    cargada = json.load(f)
+
+print(cargada["heroe"], cargada["nivel"])
+print(cargada == partida)
+```
+
+#### Al superarla
+Tu partida queda guardada en el Archivo, en su propio cajón. Sila le pega una etiqueta: «Mia, la que llegó con el pergamino».
+
+#### Imagen
+- Un cajón de archivo con una etiqueta escrita a mano: «Mia».
+- Adentro, un pergamino con el JSON de la partida, prolijo, con sangría.
+
+### Micro-misión R02-N04-P4 · El héroe al papel
+
+```meta
+lugar: El Archivo
+personajes: Mia, Gheco, Sila, Tilo
+carta: asdict y ** | asdict(heroe) → dict para json · Heroe(**datos) lo reconstruye
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Tilo quiere que su ficha también quede guardada. Pero su ficha es una dataclass, y `json` no sabe qué hacer con ella.
+—Pasala a diccionario para guardarla —dice Sila—, y al cargarla, reconstruila.
+
+#### Gheco sugiere
+`asdict(objeto)` convierte una dataclass en diccionario. Al cargar, `Heroe(**datos)` la arma otra vez: el `**` reparte el diccionario como argumentos por nombre.
+
+#### Desafío
+Completá la conversión y la reconstrucción.
+
+#### Código inicial
+```python
+import json
+from dataclasses import dataclass, asdict
+
+@dataclass
+class Heroe:
+    nombre: str
+    nivel: int
+
+tilo = Heroe("Tilo", 3)
+texto = json.dumps(___(tilo))
+print(texto)
+
+datos = json.loads(texto)
+copia = Heroe(___datos)
+print(copia)
+print(copia == tilo)
+```
+
+#### Salida esperada
+```
+{"nombre": "Tilo", "nivel": 3}
+Heroe(nombre='Tilo', nivel=3)
+True
+```
+
+#### Solución
+```python
+import json
+from dataclasses import dataclass, asdict
+
+@dataclass
+class Heroe:
+    nombre: str
+    nivel: int
+
+tilo = Heroe("Tilo", 3)
+texto = json.dumps(asdict(tilo))
+print(texto)
+
+datos = json.loads(texto)
+copia = Heroe(**datos)
+print(copia)
+print(copia == tilo)
+```
+
+#### Al superarla
+—¡Estoy en el Archivo! —grita Tilo, tan fuerte que tres archiveros le chistan a la vez.
+
+#### Imagen
+- Tilo, emocionado, señala su cajón en el Archivo; tres archiveros le chistan.
+- Sila se tapa la cara con la mano, divertida.
+
+### Micro-misión R02-N04-P5 · La planilla de Baldo
+
+```meta
+lugar: El Archivo
+personajes: Mia, Gheco, Sila
+criatura: goblin
+carta: CSV | csv.writer(f).writerow([...]) · csv.DictReader(f) · al leer, TODO es texto: convertí
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Baldo mandó sus ventas en una **planilla**: un CSV, columnas separadas por comas. Querés sumar las cantidades, y el pergamino escribe `"325"`. Un **goblin** salta de entre las columnas.
+—Mezclaste tipos otra vez —dice Gheco—. Al leer un CSV, **todo** viene como texto.
+
+#### Gheco sugiere
+`csv.writer(f)` escribe filas; `csv.DictReader(f)` lee cada fila como un diccionario con los nombres de la primera línea. Ojo: todo lo que se lee es `str`. Para sumar, convertí con `int()`.
+
+#### Desafío
+Arreglá la suma.
+
+#### Código inicial
+```python
+import csv
+
+with open("ventas.csv", "w", newline="", encoding="utf-8") as f:
+    escritor = csv.writer(f)
+    escritor.writerow(["producto", "cantidad"])
+    escritor.writerow(["poción", 3])
+    escritor.writerow(["soga", 2])
+    escritor.writerow(["pan", 5])
+
+total = 0
+with open("ventas.csv", newline="", encoding="utf-8") as f:
+    for fila in csv.DictReader(f):
+        total += fila["cantidad"]
+print(f"Vendió {total} cosas")
+```
+
+#### Salida esperada
+```
+Vendió 10 cosas
+```
+
+#### Solución
+```python
+import csv
+
+with open("ventas.csv", "w", newline="", encoding="utf-8") as f:
+    escritor = csv.writer(f)
+    escritor.writerow(["producto", "cantidad"])
+    escritor.writerow(["poción", 3])
+    escritor.writerow(["soga", 2])
+    escritor.writerow(["pan", 5])
+
+total = 0
+with open("ventas.csv", newline="", encoding="utf-8") as f:
+    for fila in csv.DictReader(f):
+        total += int(fila["cantidad"])
+print(f"Vendió {total} cosas")
+```
+
+#### Al superarla
+Diez cosas. El goblin se escurre entre las columnas y desaparece.
+Pero cuando volvés a mirar las copias de las notas del viajero… **cambiaron**. Una palabra tachada, un número donde había una letra. Sila palidece. —Alguien las está corrompiendo. Desde **la Bóveda**.
+
+#### Imagen
+- Una planilla de luz con columnas `producto` y `cantidad`; un goblin se escurre entre las filas.
+- Las copias de las notas del viajero, con palabras tachadas y números raros.
+- Sila, pálida, mira hacia una puerta de hierro al fondo del Archivo.
+
 ### Misión R02-N04-M1 · Guardados de otra época
 
 ```meta
@@ -2391,6 +3714,353 @@ El Archivista combina a todas las criaturas de la rama:
 - **Orco**: el campo que falta (`KeyError`). Revisá antes de usarlo.
 - **Slime**: el JSON cortado a la mitad (`json.JSONDecodeError`).
 - **Ogro**: atrapar el error y seguir como si nada, sin avisar qué se perdió.
+
+### Micro-misión R02-N05-P1 · El campo que falta
+
+```meta
+lugar: La Bóveda
+personajes: Mia, Gheco, Sila
+criatura: orco
+carta: Revisar antes de usar | "vida" in registro · registro.get("vida") → None si falta
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Bóveda es redonda y oscura. En el centro flota el **Archivista Corrupto**: una figura hecha de hojas arrancadas, con tinta que le chorrea de los dedos. Te tira registros a los que les **borró campos**, y de cada hueco sale un **orco**.
+
+#### Gheco sugiere
+Antes de usar una clave que puede faltar, preguntá: `"vida" in registro`. O usá `registro.get("vida")`, que devuelve `None` en vez de explotar.
+
+#### Desafío
+Mostrá la vida de cada uno, o avisá si el campo falta.
+
+#### Código inicial
+```python
+registros = [
+    {"nombre": "Nima", "vida": 80},
+    {"nombre": "Brak"},
+    {"nombre": "Sila", "vida": 95},
+]
+for r in registros:
+    if ___:
+        print(f"{r['nombre']}: {r['vida']}")
+    else:
+        print(f"{r['nombre']}: le borraron la vida")
+```
+
+#### Salida esperada
+```
+Nima: 80
+Brak: le borraron la vida
+Sila: 95
+```
+
+#### Solución
+```python
+registros = [
+    {"nombre": "Nima", "vida": 80},
+    {"nombre": "Brak"},
+    {"nombre": "Sila", "vida": 95},
+]
+for r in registros:
+    if "vida" in r:
+        print(f"{r['nombre']}: {r['vida']}")
+    else:
+        print(f"{r['nombre']}: le borraron la vida")
+```
+
+#### Al superarla
+El orco del hueco se queda sin nada que agarrar y se disuelve en tinta. El Archivista chilla con un ruido de papel que se rompe.
+
+#### Imagen
+- La Bóveda redonda y oscura; en el centro, el Archivista Corrupto: una figura de hojas arrancadas con tinta chorreando de los dedos.
+- Un orco de tinta que se disuelve en el aire.
+- Mia, firme, con los cubos de datos girando sobre sus manos.
+
+### Micro-misión R02-N05-P2 · Palabras en lugar de números
+
+```meta
+lugar: La Bóveda
+personajes: Mia, Gheco, Sila
+criatura: goblin
+carta: isinstance | isinstance(valor, int) · revisá el tipo de lo que viene de afuera
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—¡Mucha! —grita el Archivista, y en un registro la vida dice `"mucha"` en vez de un número. Del papel salta un **goblin**.
+
+#### Gheco sugiere
+Lo que viene de afuera puede tener **el tipo equivocado**. `isinstance(valor, int)` pregunta si es un entero antes de hacer cuentas con él.
+
+#### Desafío
+Sumá solo las vidas que son números.
+
+#### Código inicial
+```python
+vidas = [80, "mucha", 95, "???", 40]
+total = 0
+for v in vidas:
+    if ___:
+        total += v
+    else:
+        print(f"Descartado: {v}")
+print(f"Vida total: {total}")
+```
+
+#### Salida esperada
+```
+Descartado: mucha
+Descartado: ???
+Vida total: 215
+```
+
+#### Solución
+```python
+vidas = [80, "mucha", 95, "???", 40]
+total = 0
+for v in vidas:
+    if isinstance(v, int):
+        total += v
+    else:
+        print(f"Descartado: {v}")
+print(f"Vida total: {total}")
+```
+
+#### Al superarla
+Los goblins se quedan con las palabras y vos con los números. El Archivista retrocede un paso: le arrancaste dos hojas.
+
+#### Imagen
+- Dos goblins de tinta se llevan las palabras «mucha» y «???».
+- El Archivista retrocede; dos hojas se le desprenden del cuerpo.
+
+### Micro-misión R02-N05-P3 · El pergamino cortado
+
+```meta
+lugar: La Bóveda
+personajes: Mia, Gheco, Sila
+criatura: slime
+carta: JSONDecodeError | try: json.loads(texto) · except json.JSONDecodeError: el texto está roto
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Archivista rompe un pergamino por la mitad y te lo tira. El JSON queda **cortado**, sin cerrar, y del corte gotea un **slime**.
+—Si lo leés así, explota —dice Sila—. Separá lo sano de lo roto.
+
+#### Gheco sugiere
+Si el texto no es un JSON válido, `json.loads` lanza `json.JSONDecodeError`. Atrapalo y seguí con el resto.
+
+#### Desafío
+Leé los pergaminos que se puedan y contá los rotos.
+
+#### Código inicial
+```python
+import json
+
+pergaminos = ['{"nombre": "Nima"}', '{"nombre": "Br', '{"nombre": "Tilo"}']
+rotos = 0
+for texto in pergaminos:
+    try:
+        print(json.loads(texto)["nombre"])
+    except ___:
+        rotos += 1
+print(f"Rotos: {rotos}")
+```
+
+#### Salida esperada
+```
+Nima
+Tilo
+Rotos: 1
+```
+
+#### Solución
+```python
+import json
+
+pergaminos = ['{"nombre": "Nima"}', '{"nombre": "Br', '{"nombre": "Tilo"}']
+rotos = 0
+for texto in pergaminos:
+    try:
+        print(json.loads(texto)["nombre"])
+    except json.JSONDecodeError:
+        rotos += 1
+print(f"Rotos: {rotos}")
+```
+
+#### Al superarla
+El slime se evapora. Los dos pergaminos sanos vuelven a su estante; el roto queda apartado, con una etiqueta: «reparar».
+
+#### Imagen
+- Un pergamino partido al medio del que gotea un slime verde que se evapora.
+- Dos pergaminos sanos vuelan a su estante.
+
+### Micro-misión R02-N05-P4 · Validar al crear
+
+```meta
+lugar: La Bóveda
+personajes: Mia, Gheco, Sila, Ofidia
+criatura: ogro
+carta: __post_init__ | en una dataclass, corre después de __init__ · ahí se valida y se lanza el error
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El Archivista ya no rompe registros: ahora los **inventa**. Un héroe de nivel 900, otro de nivel -3. Corren sin error… y todo da mal. Es un **ogro**.
+—No dejes entrar lo que no tiene sentido —dice {mentor}—. Revisalo **al crearlo**, no después.
+
+#### Gheco sugiere
+En una dataclass, `__post_init__` se ejecuta justo después del `__init__` que escribe Python. Es el lugar para revisar los datos y lanzar un error si no tienen sentido.
+
+#### Desafío
+Escribí el nombre del método que valida.
+
+#### Código inicial
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Heroe:
+    nombre: str
+    nivel: int
+
+    def ___(self):
+        if not 1 <= self.nivel <= 50:
+            raise ValueError(f"{self.nombre}: nivel {self.nivel} fuera de rango")
+
+for nombre, nivel in [("Mia", 12), ("Falso", 900), ("Tilo", 3), ("Nadie", -3)]:
+    try:
+        print(Heroe(nombre, nivel))
+    except ValueError as error:
+        print(f"Rechazado: {error}")
+```
+
+#### Salida esperada
+```
+Heroe(nombre='Mia', nivel=12)
+Rechazado: Falso: nivel 900 fuera de rango
+Heroe(nombre='Tilo', nivel=3)
+Rechazado: Nadie: nivel -3 fuera de rango
+```
+
+#### Solución
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Heroe:
+    nombre: str
+    nivel: int
+
+    def __post_init__(self):
+        if not 1 <= self.nivel <= 50:
+            raise ValueError(f"{self.nombre}: nivel {self.nivel} fuera de rango")
+
+for nombre, nivel in [("Mia", 12), ("Falso", 900), ("Tilo", 3), ("Nadie", -3)]:
+    try:
+        print(Heroe(nombre, nivel))
+    except ValueError as error:
+        print(f"Rechazado: {error}")
+```
+
+#### Al superarla
+Los héroes inventados se deshacen en la puerta, antes de entrar. El Archivista se encoge: ya no le queda de qué estar hecho.
+
+#### Imagen
+- Una puerta de luz en la Bóveda: dos héroes de tinta se deshacen al tocarla; Mia y Tilo pasan.
+- El Archivista, más chico, encogido.
+
+### Micro-misión R02-N05-P5 · El error que se traduce
+
+```meta
+lugar: La Bóveda
+personajes: Mia, Gheco, Sila, Ofidia
+criatura: dragón
+carta: @classmethod y raise from | def desde_json(cls, texto): · raise PergaminoCorrupto(...) from error
+recompensa: xp 25, oro 30
+item: Pluma del Archivista
+```
+
+#### Escena
+Al Archivista le queda una sola hoja: la última nota del viajero. Para salvarla, la Biblioteca tiene que poder **armarla desde el JSON** y, si viene rota, avisar con **su propio** error, no con uno que nadie entiende.
+
+#### Gheco sugiere
+Un `@classmethod` recibe la **clase** (`cls`) en vez del objeto: sirve para crear objetos de otra forma, como `Nota.desde_json(texto)`. Y `raise MiError(...) from error` traduce un error de bajo nivel a uno tuyo, sin perder el original.
+
+#### Desafío
+Completá el decorador y la traducción del error.
+
+#### Código inicial
+```python
+import json
+from dataclasses import dataclass
+
+class PergaminoCorrupto(Exception):
+    pass
+
+@dataclass
+class Nota:
+    autor: str
+    texto: str
+
+    ___
+    def desde_json(cls, crudo):
+        try:
+            return cls(**json.loads(crudo))
+        except json.JSONDecodeError as error:
+            raise PergaminoCorrupto("la nota viene cortada") ___ error
+
+for crudo in ['{"autor": "el viajero", "texto": "yo le debo una pieza"}', '{"autor": "el vi']:
+    try:
+        print(Nota.desde_json(crudo))
+    except PergaminoCorrupto as error:
+        print(f"Aviso: {error}")
+```
+
+#### Salida esperada
+```
+Nota(autor='el viajero', texto='yo le debo una pieza')
+Aviso: la nota viene cortada
+```
+
+#### Solución
+```python
+import json
+from dataclasses import dataclass
+
+class PergaminoCorrupto(Exception):
+    pass
+
+@dataclass
+class Nota:
+    autor: str
+    texto: str
+
+    @classmethod
+    def desde_json(cls, crudo):
+        try:
+            return cls(**json.loads(crudo))
+        except json.JSONDecodeError as error:
+            raise PergaminoCorrupto("la nota viene cortada") from error
+
+for crudo in ['{"autor": "el viajero", "texto": "yo le debo una pieza"}', '{"autor": "el vi']:
+    try:
+        print(Nota.desde_json(crudo))
+    except PergaminoCorrupto as error:
+        print(f"Aviso: {error}")
+```
+
+#### Al superarla
+La última hoja se arma entera y el Archivista se deshace en papel picado que cae como nieve. Entre los papelitos, una **pluma de plata** que todavía escribe sola: la **Pluma del Archivista**.
+Mirás tu túnica: las runas se encendieron **hasta los hombros**.
+Las notas del viajero, ahora enteras, terminan así: «La lengua más clara es para escribir instrucciones que cualquiera pueda seguir. **La Torre del Reloj guarda el tiempo del Valle; yo le debo una pieza.**»
+
+#### Imagen
+- El Archivista Corrupto se deshace en papel picado que cae como nieve en la Bóveda.
+- Mia sostiene una pluma de plata que escribe sola en el aire.
+- Su túnica, con las runas encendidas en violeta hasta los hombros.
+- Sila lee en voz alta la última nota; a lo lejos, por una ventana, se ve la Torre del Reloj.
 
 ### Misión R02-N05-M1 · El registro de la compañía
 

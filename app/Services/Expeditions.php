@@ -200,6 +200,27 @@ class Expeditions
         });
     }
 
+    /** El Reloj de Arena: la expedición en camino termina ya (se gasta uno). */
+    public function hurry(User $user): Expedition
+    {
+        $hourglass = Item::where('code', Item::HOURGLASS)->first();
+
+        return DB::transaction(function () use ($user, $hourglass) {
+            User::whereKey($user->id)->lockForUpdate()->first();
+            $active = $this->active($user);
+            if (! $active || $active->isReady()) {
+                throw new InvalidArgumentException('No hay ninguna expedición en camino.');
+            }
+            if (! $hourglass || $this->inventory->available($user, $hourglass) < 1) {
+                throw new InvalidArgumentException('No tenés un Reloj de Arena.');
+            }
+            $this->inventory->take($user, $hourglass, 1, ItemReason::Used, $active, 'Terminó la expedición al instante');
+            $active->update(['ends_at' => now()]);
+
+            return $active;
+        });
+    }
+
     public function placeName(Course $course, string $code): string
     {
         return collect($this->world($course)['places'] ?? [])->firstWhere('code', $code)['name'] ?? $code;
@@ -235,6 +256,7 @@ class Expeditions
         $hp = $maxHp;
         $mp = $maxMp;
         $usesMagic = $int > $str;
+        $secondLife = $hero->accessory?->code === Item::TRACEBACK;
 
         // Pociones disponibles de este mundo o comunes, de la más chica a la más grande.
         $owned = $this->inventory->owned($hero->user);
@@ -336,6 +358,11 @@ class Expeditions
                         $damage = max(1, (int) round($vary($enemy['attack'])) - ($def + intdiv($dex, 3)));
                         $hp -= $damage;
                         $say('enemy', "El {$enemy['name']} pega: {$damage} de daño.", $enemy);
+                        if ($hp <= 0 && $secondLife) {
+                            $secondLife = false;
+                            $hp = (int) ceil($maxHp / 2);
+                            $say('revive', "El Amuleto del Traceback brilla: {$name} lee su error de abajo hacia arriba y se levanta con {$hp} de vida.", $enemy);
+                        }
                         if ($hp > 0 && $hp < $maxHp * 0.35) {
                             $drink();
                         }

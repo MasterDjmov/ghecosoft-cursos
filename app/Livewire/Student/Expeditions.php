@@ -4,9 +4,11 @@ namespace App\Livewire\Student;
 
 use App\Models\Course;
 use App\Models\Expedition;
+use App\Models\Item;
 use App\Models\Mount;
 use App\Services\Expeditions as Service;
 use App\Services\Heroes;
+use App\Services\Inventory;
 use Flux\Flux;
 use Illuminate\Support\Facades\RateLimiter;
 use InvalidArgumentException;
@@ -66,12 +68,23 @@ class Expeditions extends Component
         $this->watching = $service->resolve($active)->id;
     }
 
+    /** El Reloj de Arena: termina ya la que está en camino. */
+    public function hurry(Service $service): void
+    {
+        try {
+            $service->hurry(auth()->user());
+            Flux::toast(variant: 'success', text: 'La arena cae de golpe: ¡ya volvió!');
+        } catch (InvalidArgumentException $e) {
+            Flux::toast(variant: 'danger', text: $e->getMessage());
+        }
+    }
+
     public function watch(int $id): void
     {
         $this->watching = Expedition::where('user_id', auth()->id())->whereNotNull('resolved_at')->findOrFail($id)->id;
     }
 
-    public function render(Service $service, Heroes $heroes)
+    public function render(Service $service, Heroes $heroes, Inventory $inventory)
     {
         $user = auth()->user();
         $hero = $heroes->heroOf($user, $this->course);
@@ -97,6 +110,7 @@ class Expeditions extends Component
             'mount' => $mount,
             'heroImage' => $hero ? Heroes::lookUrl($protagonist, $hero->look) : null,
             'service' => $service,
+            'hourglasses' => ($hourglass = Item::where('code', Item::HOURGLASS)->first()) ? $inventory->available($user, $hourglass) : 0,
         ]);
     }
 }

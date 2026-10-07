@@ -59,6 +59,20 @@ return [
                         'text' => 'Estantes hasta el techo. Algo se mueve entre los tomos viejos.'],
                     ['code' => 'paso-de-la-hidra', 'name' => 'Paso de la Hidra', 'node' => 'R01-N11', 'level' => 9, 'creatures' => ['ogro', 'troll', 'dragon'], 'x' => 54, 'y' => 35,
                         'text' => 'Donde cayó la Hidra todavía quedan cabezas sueltas.'],
+                    // Acto II: el Bastión de las Escamas (R02).
+                    ['code' => 'gran-biblioteca', 'name' => 'La Gran Biblioteca', 'node' => 'R02-N01', 'level' => 10, 'creatures' => ['orco', 'esqueleto', 'troll'], 'x' => 66, 'y' => 40,
+                        'text' => 'Pasillos de estantes infinitos, donde algunos moldes se escaparon solos.'],
+                    ['code' => 'sotano-del-bastion', 'name' => 'El Sótano del Bastión', 'node' => 'R02-N03', 'level' => 11, 'creatures' => ['slime', 'troll', 'ogro'], 'x' => 72, 'y' => 48,
+                        'text' => 'Goteras, pergaminos húmedos y errores que nadie atrapó.'],
+                    ['code' => 'la-boveda', 'name' => 'La Bóveda', 'node' => 'R02-N05', 'level' => 12, 'creatures' => ['ogro', 'troll', 'dragon'], 'x' => 61, 'y' => 47,
+                        'text' => 'Donde cayó el Archivista todavía vuelan hojas corruptas.'],
+                    // Acto III: la Gran Ciudadela y la Torre del Reloj (R03).
+                    ['code' => 'torre-del-reloj', 'name' => 'Los pisos de la Torre', 'node' => 'R03-N01', 'level' => 13, 'creatures' => ['orco', 'ogro', 'troll'], 'x' => 76, 'y' => 31,
+                        'text' => 'Del portal del primer piso todavía salen enemigos, de a uno.'],
+                    ['code' => 'gremio-de-artifices', 'name' => 'El Gremio de Artífices', 'node' => 'R03-N04', 'level' => 14, 'creatures' => ['ogro', 'troll', 'dragon'], 'x' => 90, 'y' => 23,
+                        'text' => 'Talleres llenos de piezas sin probar. Algunas muerden.'],
+                    ['code' => 'cima-del-reloj', 'name' => 'La cima del Reloj', 'node' => 'R03-N07', 'level' => 15, 'creatures' => ['troll', 'dragon'], 'x' => 82, 'y' => 13,
+                        'text' => 'Bajo las auroras, los engranajes del Gólem siguen girando solos.'],
                 ],
             ],
             'looks' => [

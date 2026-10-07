@@ -167,3 +167,34 @@ test('el héroe y la expedición son del jugador', function () {
         ->call('watch', $trip->id)->assertNotFound();
     expect(Hero::count())->toBe(1)->and($trip->user_id)->toBe($w['student']->id);
 });
+
+test('el Amuleto del Traceback equipado levanta al héroe una sola vez por expedición', function () {
+    $w = expeditionWorld(placeLevel: 40);
+    $amulet = Item::create(['code' => Item::TRACEBACK, 'name' => 'Amuleto del Traceback', 'kind' => 'accessory', 'rarity' => 'rare']);
+    app(Inventory::class)->grant($w['student'], $amulet, 1, ItemReason::ManualAdjustment);
+    app(Inventory::class)->equip($w['hero'], $amulet);
+
+    $trip = finishTrip(app(Expeditions::class)->start($w['student'], $w['hero']->fresh(), 0));
+
+    expect($trip->won)->toBeFalse()
+        ->and(collect($trip->log)->where('t', 'revive')->count())->toBe(1);
+});
+
+test('el Reloj de Arena termina ya la expedición en camino y se gasta', function () {
+    $w = expeditionWorld();
+    $service = app(Expeditions::class);
+    $hourglass = Item::create(['code' => Item::HOURGLASS, 'name' => 'Reloj de Arena', 'kind' => 'special', 'rarity' => 'rare']);
+
+    $service->start($w['student'], $w['hero'], 0);
+    expect(fn () => $service->hurry($w['student']))->toThrow(InvalidArgumentException::class, 'Reloj de Arena');
+
+    app(Inventory::class)->grant($w['student'], $hourglass, 1, ItemReason::ManualAdjustment);
+    Livewire::actingAs($w['student'])->test(ExpeditionsPage::class, ['course' => $w['course']])
+        ->assertSee('Reloj de Arena (1)')
+        ->call('hurry')
+        ->call('claim')->assertSee('Saltar');
+
+    expect(app(Inventory::class)->owned($w['student'])[$hourglass->id] ?? 0)->toBe(0)
+        ->and(Expedition::first()->resolved_at)->not->toBeNull()
+        ->and(fn () => $service->hurry($w['student']))->toThrow(InvalidArgumentException::class, 'en camino');
+});

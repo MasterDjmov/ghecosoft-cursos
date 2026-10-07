@@ -75,6 +75,8 @@
                                 @foreach ($heroesFor($item) as $hero)
                                     <flux:button size="xs" wire:click="useOn({{ $item->id }}, {{ $hero->id }})" wire:confirm="¿Usar el pergamino con {{ $protagonist($hero)['name'] ?? 'este héroe' }}? Vas a poder reacomodar sus puntos del principio una vez." data-test="use-respec">Usar con {{ $protagonist($hero)['name'] ?? 'el héroe' }}</flux:button>
                                 @endforeach
+                            @elseif ($item->code === \App\Models\Item::HOURGLASS)
+                                <span class="text-ink-muted">Se usa en Expediciones, con una en camino: termina al instante.</span>
                             @elseif ($item->kind === \App\Enums\ItemKind::Potion)
                                 <span class="text-ink-muted">Se toma sola en las expediciones si la vida baja mucho.</span>
                             @elseif ($item->kind === \App\Enums\ItemKind::Material)

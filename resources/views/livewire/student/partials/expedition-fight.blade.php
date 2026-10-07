@@ -4,7 +4,7 @@
     $log = $fight->log ?? [];
     $rewards = $fight->rewards ?? [];
     $colors = ['narr' => 'text-ink-muted', 'event' => 'text-secondary-bright', 'appear' => 'text-warning', 'hit' => 'text-white', 'spell' => 'text-primary-bright',
-        'crit' => 'text-amber-300 font-semibold', 'miss' => 'text-ink-muted', 'enemy' => 'text-danger', 'dodge' => 'text-success', 'potion' => 'text-success',
+        'crit' => 'text-amber-300 font-semibold', 'miss' => 'text-ink-muted', 'enemy' => 'text-danger', 'dodge' => 'text-success', 'potion' => 'text-success', 'revive' => 'text-violet-300 font-semibold',
         'down' => 'text-success font-semibold', 'victory' => 'text-success font-semibold', 'defeat' => 'text-danger font-semibold'];
 @endphp
 <section class="panel flex flex-col gap-4 p-4" data-test="expedition-fight" wire:key="fight-{{ $fight->id }}"

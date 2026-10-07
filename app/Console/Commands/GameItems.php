@@ -36,7 +36,7 @@ class GameItems extends Command
             ['code' => 'manto-de-ofidia', 'name' => 'Manto de Ofidia', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Una escama del vestido de la guardiana, convertida en manto.'],
             // Accesorios
             ['code' => 'anillo-del-bucle', 'name' => 'Anillo del Bucle', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Da vueltas en el dedo sin parar, pero sabe cuándo frenar.'],
-            ['code' => 'amuleto-del-traceback', 'name' => 'Amuleto del Traceback', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Se lee de abajo hacia arriba, como los errores.'],
+            ['code' => 'amuleto-del-traceback', 'name' => 'Amuleto del Traceback', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Se lee de abajo hacia arriba, como los errores. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
             ['code' => 'colgante-de-la-sangria', 'name' => 'Colgante de la Sangría', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Cuatro espacios exactos entre cada piedra.'],
             ['code' => 'ojo-del-depurador', 'name' => 'Ojo del Depurador', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Ve el error antes de que pase.'],
             // De la historia (los dan las micro-misiones; algunos sirven en el juego)
@@ -48,6 +48,12 @@ class GameItems extends Command
             ['code' => 'morral-de-la-posada', 'name' => 'Morral de la Posada', 'kind' => 'story', 'description' => 'Para llevar lo de toda la compañía.'],
             ['code' => 'el-bestiario', 'name' => 'El Bestiario', 'kind' => 'story', 'description' => 'Regalo del Ermitaño: cada criatura del Valle, con su vida, su ataque y su debilidad.'],
             ['code' => 'cofre-de-los-ecos', 'name' => 'Cofre de los Ecos', 'kind' => 'story', 'description' => 'Del tamaño de una nuez. Si lo acercás al oído, repite lo último que dijiste.'],
+            ['code' => 'notas-del-viajero', 'name' => 'Notas del Viajero', 'kind' => 'story', 'description' => 'Hojas a medio borrar del Sótano del Bastión, con la marca del vitral.'],
+            ['code' => 'pluma-del-archivista', 'name' => 'Pluma del Archivista', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 7, 'intelligence' => 3, 'description' => 'Lo que quedó del Archivista Corrupto: una pluma de plata que todavía escribe sola.'],
+            ['code' => 'pieza-de-vitral', 'name' => 'Pieza de Vitral', 'kind' => 'story', 'description' => 'Plomo y vidrio de colores. No es de ningún reloj, pero encaja en uno.'],
+            ['code' => 'escudo-de-las-aserciones', 'name' => 'Escudo de las Aserciones', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 7, 'strength' => 1, 'description' => 'Del Gremio de Artífices: lo que se prueba, aguanta.'],
+            ['code' => 'reloj-de-arena', 'name' => 'Reloj de Arena', 'kind' => 'special', 'rarity' => 'rare', 'price' => 200, 'min_level' => 5, 'description' => 'Termina al instante la expedición que está en camino. Se gasta al usarlo.'],
+            ['code' => 'tunica-encendida', 'name' => 'Túnica Encendida', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 11, 'intelligence' => 4, 'luck' => 2, 'description' => 'La túnica de Mia con todas sus runas encendidas, de los pies a la capucha.'],
             ['code' => 'estante-portatil', 'name' => 'Estante Portátil', 'kind' => 'story', 'description' => 'Para ordenar el pergamino en tomos.'],
             // Materiales de las expediciones (para el crafteo, más adelante)
             ['code' => 'baba-de-slime', 'name' => 'Baba de Slime', 'kind' => 'material', 'rarity' => 'common', 'description' => 'Pegajosa. Huele a comilla sin cerrar.'],

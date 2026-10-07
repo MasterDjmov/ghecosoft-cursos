@@ -5,6 +5,7 @@ Nivel 3 y 4 del método ([../JUEGO.md](../JUEGO.md) § 10) para **la Clase 0 y l
 **Estado:**
 - La planilla (§ 2) cubre la Clase 0 y los 11 nodos.
 - Las micro-misiones completas (§ 3) están escritas para **todo el Acto I**: la Clase 0 y los nodos 1 a 11 (70 en total).
+- Las del **Acto II y III** (64: 26 de la Gran Biblioteca y 38 de la Torre del Reloj) se escribieron directamente en `cursos/python/02-objetos-errores.md` y `03-iteracion-calidad.md`, con el mismo formato y la misma regla de largo.
 - **Regla de largo:** una sola cosa por micro-misión, escena de 2 a 4 líneas, la pista justa. Si un tema necesita más, se agrega **otra micro-misión corta**, nunca una más larga. Ninguna usa temas de nodos posteriores.
 - Las salidas esperadas de los nodos 2 a 11 salen de **ejecutar cada solución**, no de escribirlas a mano. El generador también comprueba que el código inicial **no** dé ya la salida esperada.
 - Cuando esté programado, el texto final va al `.md` del curso.

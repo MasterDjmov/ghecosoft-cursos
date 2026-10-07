@@ -105,8 +105,11 @@
                         <flux:sidebar.item icon="user-circle" :href="route('student.heroes')" :current="request()->routeIs('student.heroes', 'student.hero')" wire:navigate data-test="menu-heroes">
                             Mis héroes
                         </flux:sidebar.item>
-                        <flux:sidebar.item icon="map" :href="route('student.expeditions.home')" :current="request()->routeIs('student.expeditions*', 'student.stables')" wire:navigate data-test="menu-expeditions">
+                        <flux:sidebar.item icon="map" :href="route('student.expeditions.home')" :current="request()->routeIs('student.expeditions*')" wire:navigate data-test="menu-expeditions">
                             Expediciones
+                        </flux:sidebar.item>
+                        <flux:sidebar.item icon="trophy" :href="route('student.stables')" :current="request()->routeIs('student.stables')" wire:navigate data-test="menu-stables">
+                            Establos
                         </flux:sidebar.item>
                         <flux:sidebar.item icon="shopping-bag" :href="route('student.inventory')" :current="request()->routeIs('student.inventory', 'student.shop')" wire:navigate data-test="menu-inventory">
                             Mochila

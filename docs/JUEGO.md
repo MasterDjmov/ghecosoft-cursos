@@ -170,6 +170,22 @@ Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/
 - **La intro (hecha):** el prólogo animado en *Mis Crónicas → Prólogo* (`<x-prologue-player>`): las 6 tomas en `public/img/prologo/`, la frase de Gheco, la música comprimida en `public/audio/prologo.mp3` (apagada hasta que la prenda) y los textos en voseo. Falta mostrarla también al crear la cuenta, con el Alfa. `{heroe}` ya es el protagonista en los cursos que lo tienen y el jugador en los textos generales (`Narrative::hero`).
 - **Fase C (hecha, D91):** el mapa del Valle con sus lugares, 3 expediciones al azar (5, 15 y 30 minutos, 6 por día), las monturas n1–n5 y el combate. Al volver, el servidor calcula la pelea y el alumno la ve **turno por turno** (se puede saltar). **Si pierde, vuelve sin botín**: gasta la expedición, pero no pierde nada de lo que tiene.
 
+**Python, ramas 2 y 3 (hecho, 2026-10-07):** las 64 micro-misiones de la Gran Biblioteca y la Torre del Reloj (26 + 38), con sus ítems de historia:
+- **Amuleto del Traceback** (R02-N03): equipado, en cada expedición levanta una vez al héroe con la mitad de la vida.
+- **Pluma del Archivista** (R02-N05) y **Túnica Encendida** (R03-N07): la mejor arma y la mejor ropa del Valle.
+- **Escudo de las Aserciones** (R03-N04): ropa rara.
+- **Reloj de Arena** (R03-N06): termina al instante la expedición en camino y se gasta. También se vende, a 200.
+- **Notas del Viajero** y **Pieza de Vitral**: solo de historia.
+
+El mapa suma 6 lugares: 3 en el Bastión (niveles 10 a 12) y 3 en la Ciudadela (13 a 15).
+
+**Propuesta, a revisar: el Códice de desbloqueos** (como el árbol de tecnologías de OGame). Una página del jugador que muestre, **por mundo**, qué se consigue y dónde, para que se vea lo que da cada curso y lo que da uno y otro no:
+- **Una columna por mundo**, en el orden del árbol: cada nodo con lo que abre (lugares de expedición, ítems de historia, cartas del grimorio, la tienda o las expediciones).
+- **Lo del jugador:** las monturas por nivel (n1 en nivel 3, n2 en 8…) y los ítems de la tienda por nivel mínimo.
+- **Lo ya conseguido**, encendido; **lo que falta**, en gris con el requisito («Se abre al completar *Clases y objetos*»).
+- **Sin destripar la historia:** de lo que falta se ve el nombre y el tipo, no el texto. Lo mismo que *Mis Crónicas*: lo bloqueado no sale del servidor.
+- **Todo sale de lo que ya existe:** el meta de las micro-misiones (`item:`, `se abre:`), `config/game.php` (lugares, monturas) y el catálogo de ítems. No hay que cargar nada a mano.
+
 **Anotado para más adelante:** el **crafteo** (fabricar armas, ropa y pociones con los materiales que traen las expediciones: baba de slime, diente de goblin, musgo de troll…) y **vender** a la tienda.
 
 ## 12. Etapas

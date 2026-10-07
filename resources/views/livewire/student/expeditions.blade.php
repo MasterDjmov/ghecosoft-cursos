@@ -66,7 +66,7 @@
     @if ($open && $hero)
         {{-- En camino --}}
         @if ($active)
-            <section class="panel panel-active flex flex-col gap-3 p-4" data-test="expedition-active" wire:key="active-{{ $active->id }}"
+            <section class="panel panel-active flex flex-col gap-3 p-4" data-test="expedition-active" wire:key="active-{{ $active->id }}-{{ $active->ends_at->timestamp }}"
                 x-data="{ left: {{ (int) max(0, ceil(now()->diffInSeconds($active->ends_at, false))) }}, total: {{ (int) max(1, round($active->started_at->diffInSeconds($active->ends_at))) }}, t: null }"
                 x-init="t = setInterval(() => { if (left > 0) left--; }, 1000)" x-on:livewire:navigating.window="clearInterval(t)">
                 <div class="flex flex-wrap items-center gap-3">
@@ -76,6 +76,9 @@
                         <p class="font-display text-lg font-semibold text-white">{{ $protagonist['name'] }} explora {{ $activePlace }}</p>
                     </div>
                     <span class="font-mono text-2xl text-primary-bright" x-show="left > 0" x-text="String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0')"></span>
+                    @if ($hourglasses > 0)
+                        <flux:button size="sm" icon="clock" wire:click="hurry" x-show="left > 0" wire:confirm="¿Usar un Reloj de Arena? La expedición termina ya y el reloj se gasta." data-test="expedition-hurry">Reloj de Arena ({{ $hourglasses }})</flux:button>
+                    @endif
                     <flux:button variant="primary" icon="flag" wire:click="claim" x-show="left <= 0" x-cloak data-test="expedition-claim">Ver cómo le fue</flux:button>
                 </div>
                 <div class="h-2 overflow-hidden rounded-full bg-surface-high">

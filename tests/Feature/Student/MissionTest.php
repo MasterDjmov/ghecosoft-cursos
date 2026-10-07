@@ -33,7 +33,7 @@ test('el nodo ofrece entrar a la misión y la misión muestra consigna, historia
     $this->actingAs($student)->get(route('student.mission', [$course, $root, $practice]))
         ->assertOk()
         ->assertSee('Misión 1 · Primer programa')
-        ->assertSee('Mostrá un saludo, Kira.')
+        ->assertSee('Mostrá un saludo, Mia.') // D84: en Python, {heroe} es Mia
         ->assertSee('Usa print.')
         ->assertSee('El Valle te espera.')
         ->assertSee('Misiones del nodo')

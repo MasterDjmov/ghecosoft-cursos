@@ -174,6 +174,39 @@ No hay piezas.
 
 La salida no se escribe a mano: se deja el bloque ` ```salida ` vacío (o se omite) y `php artisan app:course-tests cursos/cpp --fill` lo completa corriendo la *Solución de referencia* en esta compu. Sin `--fill`, el comando verifica que la solución de referencia dé el ejemplo y todas las pruebas (con `--only=R02` se limita a una rama o nodo). Al comparar se ignoran los espacios del final de cada línea y las líneas vacías del principio y del final; la sangría sí cuenta.
 
+## 6 bis. Micro-misión: `### Micro-misión R01-N01-P1 · Título` (D84)
+
+Pasos **cortos** del nodo, antes de las prácticas: una sola cosa por micro-misión. Se comprueban **solas** en el navegador del alumno (su salida contra la `Salida esperada`) y solo dan premios de juego (XP; el oro y los ítems se guardan para más adelante). Nunca dan monedas del curso, no abren nodos ni cuentan para el CV. Si un nodo tiene micro-misiones, su «Teoría» aparece cerrada, como material para profundizar.
+
+````
+### Micro-misión R01-N01-P2 · Sumar números, no letras
+
+```meta
+lugar: El Mercado de la Aldea del Script
+personajes: Mia, Gheco, Baldo
+criatura: goblin                      # opcional
+carta: Conversiones | int("12") → 12 · float("3.5") → 3.5
+recompensa: xp 15, oro 15
+item: Bolsa de cuero                  # opcional
+se abre: el oro del jugador           # opcional
+```
+
+#### Escena            (2 a 4 líneas; {mentor}, {mundo}, {region})
+#### Gheco sugiere     (el concepto mínimo, con un ejemplo)
+#### Desafío           (qué hacer)
+#### Código inicial    (```python … ```; con ___ donde completa)
+#### Entrada           (opcional: lo que se «tipea»)
+#### Salida esperada   (obligatoria: con esto se comprueba)
+#### Solución          (oculta: nunca llega al alumno)
+#### Al superarla      (qué cambia en la historia)
+#### Imagen            (el pedido para generarla)
+````
+
+- **IDs estables:** se actualizan por su ID; quién las superó no se pierde al reimportar. Las que ya no están en el archivo se borran.
+- **La imagen** se busca sola en `escenas/<ID>.webp` (o `.jpg`/`.png`) dentro de la carpeta del curso. Si no hay, se muestra el fondo del mundo.
+- **Salida esperada:** se compara sin espacios al final de cada línea ni líneas vacías al final. Generala ejecutando la solución, no a mano.
+- **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
+
 ## 7. Qué revisa el importador
 
 - **Errores** (no se guarda nada): un nodo publicado **sin ninguna práctica obligatoria** (todo nodo necesita al menos una; si no está listo, `publicado: no`); falta `slug`, `titulo` o `lenguaje`; no hay exactamente un raíz; IDs repetidos; `padre` o `requiere` que no existen; ciclos (por padre o por requisitos); rama inexistente; valores desconocidos en `tipo`, `entrega` o `entorno`; bloques de código sin cerrar; un nodo que pasa de raíz a otro tipo.

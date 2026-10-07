@@ -116,6 +116,12 @@ class Node extends Model
         return $this->hasMany(Practice::class)->orderBy('position');
     }
 
+    /** Las micro-misiones del nodo (D84), en orden. */
+    public function steps(): HasMany
+    {
+        return $this->hasMany(NodeStep::class)->orderBy('position');
+    }
+
     public function resources(): HasMany
     {
         return $this->hasMany(NodeResource::class)->orderBy('position');

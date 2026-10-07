@@ -179,12 +179,21 @@
         </aside>
     @endif
 
-    {{-- Teoría: objetivos, video, explicación, ejemplo, usos y errores (se puede contraer). --}}
+    {{-- Micro-misiones (D84): lo primero del nodo, cortas y una por vez. --}}
+    @if ($steps->isNotEmpty())
+        @include('livewire.partials.node-steps', ['fallbackScene' => app(\App\Support\Glossary::class)->scene($course)])
+    @endif
+
+    {{-- Teoría: objetivos, video, explicación, ejemplo, usos y errores (se puede contraer). Con micro-misiones
+         arranca cerrada: es para profundizar. --}}
     @if ($youtubeId || $node->video_url || $contentHtml || $node->example_code || $sections['objectives'] || $sections['before'] || $sections['uses'] || $sections['errors'])
-        <section class="panel" x-data="{ theory: true }">
+        <section class="panel" x-data="{ theory: @js($steps->isEmpty()) }" data-test="theory">
             <button type="button" class="flex w-full items-center gap-2 px-6 py-4 text-start" x-on:click="theory = ! theory" x-bind:aria-expanded="theory">
                 <flux:icon name="book-open" variant="mini" class="text-primary-bright" />
-                <h2 class="font-display text-lg font-semibold text-white">Teoría</h2>
+                <h2 class="font-display text-lg font-semibold text-white">{{ $steps->isEmpty() ? 'Teoría' : 'Teoría completa' }}</h2>
+                @if ($steps->isNotEmpty())
+                    <span class="hidden text-sm text-ink-muted sm:inline">· para profundizar</span>
+                @endif
                 <flux:icon name="chevron-down" variant="micro" class="ms-auto text-ink-muted transition" x-bind:class="theory && 'rotate-180'" />
             </button>
             <div x-show="theory" x-collapse>

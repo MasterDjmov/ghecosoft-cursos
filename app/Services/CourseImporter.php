@@ -14,6 +14,7 @@ use App\Models\Course;
 use App\Models\Currency;
 use App\Models\GlossaryTerm;
 use App\Models\Node;
+use App\Models\NodeStep;
 use App\Models\Practice;
 use App\Rules\SafeUpload;
 use App\Support\CourseImport\CourseFileParser;
@@ -141,6 +142,17 @@ class CourseImporter
                 $this->report->error("{$where}: tipo «{$node['meta']['tipo']}» desconocido (raiz, tema, jefe, extra, ventana).");
             }
             $roots += $type === 'raiz' ? 1 : 0;
+
+            $stepCodes = [];
+            foreach ($node['steps'] ?? [] as $step) {
+                if (isset($stepCodes[$step['code']])) {
+                    $this->report->error("{$step['where']}: la micro-misión {$step['code']} está repetida en el nodo.");
+                }
+                $stepCodes[$step['code']] = true;
+                if (blank($step['fields']['expected_output'] ?? null)) {
+                    $this->report->error("{$step['where']}: la micro-misión {$step['code']} no tiene «Salida esperada»: sin ella no se puede comprobar sola.");
+                }
+            }
 
             $practiceCodes = [];
             foreach ($node['practices'] as $practice) {
@@ -387,6 +399,7 @@ class CourseImporter
             $result[$node['code']] = $model;
 
             $this->applyPractices($model, $node);
+            $this->applySteps($model, $node['steps'] ?? []);
         }
 
         return $result;
@@ -455,6 +468,81 @@ class CourseImporter
         foreach ($missing as $code) {
             $this->report->note("La práctica {$code} de {$node->code} está en la base pero no en el archivo: quedó sin tocar.");
         }
+    }
+
+    /**
+     * Micro-misiones (D84): se actualizan por su ID (R01-N01-P1), así no se pierde quién las superó. Las que
+     * ya no están en el archivo se borran (no tienen entregas: solo quién las superó, y la XP queda en el libro).
+     * La imagen se busca en «escenas/<ID>.webp|jpg|png» de la carpeta del curso (o en la ruta de «imagen:»).
+     */
+    private function applySteps(Node $node, array $steps): void
+    {
+        $existing = NodeStep::where('node_id', $node->id)->get()->keyBy('code');
+
+        foreach ($steps as $index => $step) {
+            $meta = $step['meta'];
+            $fields = $step['fields'];
+            [$cardTitle, $cardBody] = array_pad(array_map('trim', explode('|', (string) ($meta['carta'] ?? ''), 2)), 2, null);
+            $reward = (string) ($meta['recompensa'] ?? '');
+
+            $model = $existing[$step['code']] ?? new NodeStep(['node_id' => $node->id, 'code' => $step['code']]);
+            $model->fill([
+                'position' => $index + 1,
+                'title' => Str::limit($step['title'], 255, ''),
+                'place' => Str::limit($meta['lugar'] ?? '', 255, '') ?: null,
+                'characters' => Str::limit($meta['personajes'] ?? '', 255, '') ?: null,
+                'creature' => filled($meta['criatura'] ?? null) ? Str::lower($meta['criatura']) : null,
+                'card_title' => $cardTitle ? Str::limit($cardTitle, 255, '') : null,
+                'card_body' => $cardBody ? Str::limit($cardBody, 500, '') : null,
+                'xp_reward' => preg_match('/xp\s*(\d+)/i', $reward, $m) ? (int) $m[1] : 10,
+                'gold_reward' => preg_match('/oro\s*(\d+)/i', $reward, $m) ? (int) $m[1] : 0,
+                'item' => Str::limit($meta['item'] ?? '', 255, '') ?: null,
+                'scene' => $fields['scene'] ?? null,
+                'hint' => $fields['hint'] ?? null,
+                'challenge' => $fields['challenge'] ?? null,
+                'starter_code' => $fields['starter_code'] ?? null,
+                'sample_input' => $fields['sample_input'] ?? null,
+                'expected_output' => $fields['expected_output'] ?? '',
+                'solution' => $fields['solution'] ?? null,
+                'success_text' => $fields['success_text'] ?? null,
+                'unlocks' => Str::limit($meta['se_abre'] ?? '', 500, '') ?: null,
+                'image_prompt' => $fields['image_prompt'] ?? null,
+                ...$this->stepImage($step, $model),
+            ]);
+            $this->save('micro-misiones', $model);
+        }
+
+        $codes = collect($steps)->pluck('code');
+        foreach ($existing->keys()->diff($codes) as $code) {
+            $existing[$code]->delete();
+            $this->report->note("La micro-misión {$code} de {$node->code} ya no está en el archivo: se borró.");
+        }
+    }
+
+    /** La imagen de la escena, si está en la carpeta del curso. Desde la web (sin carpeta) queda la que tenía. */
+    private function stepImage(array $step, NodeStep $model): array
+    {
+        if ($this->assetsDir === null) {
+            return [];
+        }
+        $candidates = filled($step['meta']['imagen'] ?? null) && str_contains($step['meta']['imagen'], '.')
+            ? [$step['meta']['imagen']]
+            : array_map(fn ($ext) => 'escenas/'.$step['code'].'.'.$ext, ['webp', 'jpg', 'jpeg', 'png']);
+        foreach ($candidates as $relative) {
+            $path = realpath($this->assetsDir.'/'.ltrim($relative, '/'));
+            if ($path === false || ! str_starts_with($path, $this->assetsDir.DIRECTORY_SEPARATOR)) {
+                continue;
+            }
+            if ($problem = PracticeReferences::check($path)) {
+                $this->report->warning("{$step['where']}: la imagen «{$relative}» {$problem}; queda la que tenía.");
+
+                return [];
+            }
+
+            return ['image_path' => $this->dryRun ? 'practice-refs/(revisión)' : PracticeReferences::store($path)];
+        }
+
+        return [];
     }
 
     /**

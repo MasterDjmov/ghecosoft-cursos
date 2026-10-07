@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
  *   # RAMA R01 · Título          una rama (bloque meta opcional)
  *   ## R01-N01 · Título          un nodo: bloque meta + ### secciones
  *   ### Misión R01-N01-M1 · …    una práctica (Misión = obligatoria; Encargo/Desafío = optativa): meta + #### partes
+ *   ### Micro-misión R01-N01-P1 · …  un paso corto que se comprueba solo (D84): meta + #### partes
  *   #### Pruebas                 pruebas extra del docente (D73): ##### Nombre + bloques ```entrada y ```salida
  *
  * Los bloques ```meta llevan líneas "clave: valor". Lo que está dentro de un bloque de código
@@ -54,8 +55,22 @@ class CourseFileParser
         'asi tiene que quedar' => 'references',
     ];
 
+    /** Parte de una micro-misión (título normalizado) → columna (D84). */
+    public const STEP_PARTS = [
+        'escena' => 'scene',
+        'gheco sugiere' => 'hint',
+        'pista' => 'hint',
+        'desafio' => 'challenge',
+        'codigo inicial' => 'starter_code',
+        'entrada' => 'sample_input',
+        'salida esperada' => 'expected_output',
+        'solucion' => 'solution',
+        'al superarla' => 'success_text',
+        'imagen' => 'image_prompt',
+    ];
+
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */
-    private const CODE_FIELDS = ['example_code', 'sample_input', 'expected_output', 'starter_code', 'reference_solution'];
+    private const CODE_FIELDS = ['example_code', 'sample_input', 'expected_output', 'starter_code', 'reference_solution', 'solution'];
 
     private const SEPARATOR = '\s*[·:–—-]\s*';
 
@@ -69,6 +84,8 @@ class CourseFileParser
     private ?int $nodeIndex = null;
 
     private ?int $practiceIndex = null;
+
+    private ?int $stepIndex = null;
 
     private ?string $section = null;
 
@@ -196,7 +213,7 @@ class CourseFileParser
             $this->block = 'node';
             $this->result['nodes'][] = [
                 'code' => Str::upper($m[1]), 'title' => trim($m[2]), 'branch' => $this->currentBranch,
-                'meta' => [], 'fields' => [], 'self_check' => [], 'practices' => [], 'where' => $where,
+                'meta' => [], 'fields' => [], 'self_check' => [], 'practices' => [], 'steps' => [], 'where' => $where,
             ];
             $this->nodeIndex = array_key_last($this->result['nodes']);
 
@@ -212,7 +229,7 @@ class CourseFileParser
             return;
         }
 
-        if ($this->nodeIndex === null || ! in_array($this->block, ['node', 'practice'], true)) {
+        if ($this->nodeIndex === null || ! in_array($this->block, ['node', 'practice', 'step'], true)) {
             $this->report->warning("{$where}: título «{$text}» fuera de un nodo; se ignora.");
 
             return;
@@ -221,6 +238,19 @@ class CourseFileParser
         if ($level === 3) {
             $this->part = null;
             $this->questionIndex = null;
+            $this->stepIndex = null;
+
+            if (preg_match('/^Micro[\s-]?misi[oó]n\s+(\S+)'.self::SEPARATOR.'(.+)$/iu', $text, $m)) {
+                $this->block = 'step';
+                $this->section = null;
+                $this->practiceIndex = null;
+                $this->result['nodes'][$this->nodeIndex]['steps'][] = [
+                    'code' => Str::upper($m[1]), 'title' => trim($m[2]), 'meta' => [], 'fields' => [], 'where' => $where,
+                ];
+                $this->stepIndex = array_key_last($this->result['nodes'][$this->nodeIndex]['steps']);
+
+                return;
+            }
 
             if (preg_match('/^(Misi[oó]n|Encargo|Pr[aá]ctica|Desaf[ií]o)\s+(\S+)'.self::SEPARATOR.'(.+)$/iu', $text, $m)) {
                 $this->block = 'practice';
@@ -247,7 +277,17 @@ class CourseFileParser
             return;
         }
 
-        // Nivel 4: parte de una práctica o pregunta de la Prueba del sello.
+        // Nivel 4: parte de una micro-misión, de una práctica o pregunta de la Prueba del sello.
+        if ($this->block === 'step') {
+            $key = self::normalize($text);
+            $this->part = self::STEP_PARTS[$key] ?? null;
+            if ($this->part === null) {
+                $this->report->warning("{$where}: parte de micro-misión «{$text}» desconocida; se ignora.");
+            }
+
+            return;
+        }
+
         if ($this->block === 'practice') {
             $key = self::normalize($text);
             $this->part = self::PRACTICE_PARTS[$key] ?? null;
@@ -283,6 +323,14 @@ class CourseFileParser
         }
 
         $node = &$this->result['nodes'][$this->nodeIndex];
+
+        if ($this->block === 'step' && $this->stepIndex !== null) {
+            if ($this->part !== null) {
+                $node['steps'][$this->stepIndex]['fields'][$this->part] = ($node['steps'][$this->stepIndex]['fields'][$this->part] ?? '').$line."\n";
+            }
+
+            return;
+        }
 
         if ($this->block === 'practice' && $this->practiceIndex !== null) {
             if ($this->part !== null) {
@@ -327,6 +375,7 @@ class CourseFileParser
             $this->block === 'course' => $this->result['course']['meta'] = [...$this->result['course']['meta'], ...$meta],
             $this->block === 'branch' && $this->currentBranch !== null => $this->result['branches'][$this->currentBranch]['meta'] = $meta,
             $this->block === 'practice' && $this->practiceIndex !== null => $this->result['nodes'][$this->nodeIndex]['practices'][$this->practiceIndex]['meta'] = $meta,
+            $this->block === 'step' && $this->stepIndex !== null => $this->result['nodes'][$this->nodeIndex]['steps'][$this->stepIndex]['meta'] = $meta,
             $this->block === 'node' && $this->nodeIndex !== null => $this->result['nodes'][$this->nodeIndex]['meta'] = $meta,
             default => $this->report->warning("{$where}: bloque meta fuera de lugar; se ignora."),
         };
@@ -365,6 +414,7 @@ class CourseFileParser
         $this->section = null;
         $this->part = null;
         $this->practiceIndex = null;
+        $this->stepIndex = null;
         $this->questionIndex = null;
     }
 
@@ -404,6 +454,9 @@ class CourseFileParser
                 $practice['references'] = self::parseReferences($practice['fields']['references'] ?? '');
                 unset($practice['fields']['tests'], $practice['fields']['references']);
                 $practice['fields'] = self::cleanFields($practice['fields']);
+            }
+            foreach ($node['steps'] as &$step) {
+                $step['fields'] = self::cleanFields($step['fields']);
             }
         }
 

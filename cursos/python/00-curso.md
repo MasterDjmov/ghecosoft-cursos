@@ -232,6 +232,257 @@ Otros clásicos:
 - **Escribir `Print`** con mayúscula → `NameError`.
 - **Sumar texto y número**: `"Oro: " + 15` → `TypeError`. Usá una f-string.
 
+### Micro-misión R00-N01-P1 · El pergamino habla
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia
+carta: print | print("texto") · print(a, b, sep=" | ")
+recompensa: xp 10
+```
+
+#### Escena
+Abrís los ojos. Pasto húmedo, el ruido de una cascada y un cielo verde que se mueve como agua. En tu mano hay un **pergamino en blanco** que no es tuyo. El río tiembla y se abre. Del agua sale caminando una mujer alta, de pelo verde larguísimo, con un vestido hecho de escamas esmeralda y una corona de serpientes que se mueven despacio. No se moja.
+
+—Te estaba esperando —dice, con una voz tranquila que suena como el río—. Soy **{mentor}**, la guardiana de este Valle. Acá la magia **no se recita, Mia: se escribe**. Lo que escribas en ese pergamino, el **Intérprete** lo hace realidad.
+
+Te quedás quieta. Hay mil preguntas en tu cabeza y ninguna respuesta en el pergamino. Algo cian parpadea sobre tu hombro: un **gecko de luz**, con antiparras de aviador, que te saluda con la cola.
+
+—¡Hola! Soy **Gheco**. No te asustes: en este Valle todos empezamos igual. Lo primero es que el pergamino **hable**. Decile quién sos.
+
+#### Gheco sugiere
+`print(...)` muestra en pantalla lo que le pasás. El texto va **entre comillas**: sin comillas, Python cree que es el nombre de algo.
+
+```python
+print("Hola, Valle")
+```
+
+#### Desafío
+Hacé que el pergamino diga exactamente: `Me llamo Mia y vengo de muy lejos.`
+
+#### Código inicial
+```python
+# Escribí abajo tu primer conjuro
+```
+
+#### Salida esperada
+```
+Me llamo Mia y vengo de muy lejos.
+```
+
+#### Solución
+```python
+print("Me llamo Mia y vengo de muy lejos.")
+```
+
+#### Al superarla
+Las letras aparecen solas en el pergamino, en tinta verde que brilla. {mentor} asiente despacio.
+—Escribiste, y pasó. Así funciona todo acá.
+
+#### Imagen
+- Plano general: la orilla de un río en un valle verde, de noche, con auroras cian.
+- Mia, sentada en el pasto, recién despierta, con su túnica violeta de runas **apagadas** y un pergamino en las manos donde brilla una línea de texto verde.
+- Del río sale Ofidia: mujer alta, pelo verde larguísimo, vestido de escamas esmeralda con el símbolo de Python en el pecho, corona de serpientes; serena.
+- Gheco flota sobre el hombro de Mia.
+
+### Micro-misión R00-N01-P2 · Lo que se anota no se olvida
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia
+carta: Variables | nombre = valor · escamas = escamas + 5
+recompensa: xp 10
+```
+
+#### Escena
+{mentor} se arrodilla junto a vos, se arranca **cinco escamas brillantes** del vestido y las deja en el pasto.
+—Son tuyas. En el Valle, lo que querés recordar lo anotás con un **nombre**. Anotá quién sos y cuántas escamas tenías antes… y cuántas tenés ahora.
+
+#### Gheco sugiere
+Una **variable** es un nombre que apunta a un valor: `escamas = 0`. El `=` no significa «es igual»: significa «que `escamas` apunte a esto». Para sumarle, calculás con el valor viejo y lo volvés a guardar: `escamas = escamas + 5`.
+
+#### Desafío
+Completá la línea que falta para que Mia pase de 0 a 5 escamas.
+
+#### Código inicial
+```python
+nombre = "Mia"
+escamas = 0
+print(nombre, "tiene", escamas, "escamas")
+
+escamas = ___
+print(nombre, "tiene", escamas, "escamas")
+```
+
+#### Salida esperada
+```
+Mia tiene 0 escamas
+Mia tiene 5 escamas
+```
+
+#### Solución
+```python
+escamas = escamas + 5
+```
+
+#### Al superarla
+Las cinco escamas se elevan y se pegan al borde del pergamino, como un sello.
+—Ahora el pergamino sabe cuántas tenés —dice Gheco—. Y no se va a olvidar.
+
+#### Imagen
+- Primer plano de las manos de Mia sosteniendo el pergamino.
+- Cinco escamas esmeralda flotan hacia él, dejando una estela de luz.
+- En el pergamino brilla `escamas = escamas + 5`.
+- Gheco, al lado, aplaudiendo con las patitas.
+
+### Micro-misión R00-N01-P3 · La ficha del pergamino
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia
+carta: f-strings | f"Tenés {oro} monedas" · # un comentario
+recompensa: xp 10
+```
+
+#### Escena
+—Cada aprendiz del Valle tiene su ficha —dice {mentor}—. Una sola línea que diga quién es, qué tiene y cuánto le falta. Para romper el primer sello del Valle hacen falta **10 escamas**.
+
+#### Gheco sugiere
+Con una `f` antes de las comillas, lo que pongas entre `{ }` se **calcula** y se mete en el texto: `f"Te faltan {10 - escamas}"`. Y lo que va después de `#` es un **comentario**: Python lo ignora, es para quien lee.
+
+#### Desafío
+Armá la ficha en una sola línea con un f-string.
+
+#### Código inicial
+```python
+nombre = "Mia"
+escamas = 5
+# La ficha: nombre, clase, escamas y cuántas faltan para 10
+print(f"___")
+```
+
+#### Salida esperada
+```
+Mia · aprendiz de maga · 5 escamas · le faltan 5 para romper el primer sello
+```
+
+#### Solución
+```python
+print(f"{nombre} · aprendiz de maga · {escamas} escamas · le faltan {10 - escamas} para romper el primer sello")
+```
+
+#### Al superarla
+En la tapa del pergamino aparece tu ficha, como el título de un libro. Gheco la lee en voz alta, orgulloso, como si fuera suya.
+
+#### Imagen
+- El pergamino abierto, flotando frente a Mia.
+- En su borde superior, una línea dorada con la ficha, como un título.
+- Mia la mira con curiosidad, ajustándose los anteojos.
+- Ofidia, de fondo, desenfocada, sonríe.
+
+### Micro-misión R00-N01-P4 · La pregunta de Ofidia
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia
+carta: input | respuesta = input("¿Pregunta? ") · siempre devuelve texto
+recompensa: xp 10
+```
+
+#### Escena
+{mentor} se inclina hasta quedar a tu altura. Las serpientes de su corona también te miran.
+—Todos los que cruzan el portal buscan algo, Mia. ¿Vos qué venís a buscar?
+Querés contestar, pero el pergamino solo habla, no escucha. Todavía.
+
+#### Gheco sugiere
+`input("pregunta ")` muestra la pregunta, espera a que alguien escriba y guarda lo que escribió. **Siempre devuelve texto.** En la plataforma, lo que se «tipea» va en la pestaña **Entrada**.
+
+#### Desafío
+Que el pergamino le pregunte a Mia y le conteste con lo que ella responda.
+
+#### Código inicial
+```python
+deseo = input("¿Qué venís a buscar? ")
+print(f"___")
+```
+
+#### Entrada
+```
+entender cómo funciona todo
+```
+
+#### Salida esperada
+```
+¿Qué venís a buscar? Buscás entender cómo funciona todo. Acá eso se consigue escribiendo.
+```
+
+#### Solución
+```python
+print(f"Buscás {deseo}. Acá eso se consigue escribiendo.")
+```
+
+#### Al superarla
+{mentor} se ríe, un sonido como de hojas secas.
+—Entender. Igual que el último que pasó por acá. Él tampoco se quedaba quieto hasta saber cómo funcionaba algo.
+No te dice quién era. Todavía.
+
+#### Imagen
+- Ofidia, inclinada a la altura de Mia, mirándola a los ojos; las serpientes de su corona, curiosas.
+- Entre ellas, el pergamino muestra un signo de pregunta de luz verde.
+- Mia, un poco intimidada pero firme.
+- Al fondo, las primeras casas de la Aldea del Script, con faroles verdes.
+
+### Micro-misión R00-N01-P5 · El primer slime
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia, un slime
+criatura: slime
+carta: Leer el error | el traceback se lee de abajo hacia arriba: la última línea dice QUÉ pasó; la de arriba, DÓNDE
+recompensa: xp 15
+```
+
+#### Escena
+Estás tan entusiasmada que escribís rápido, sin mirar. El pergamino tiembla, se mancha… y de la mancha cae al pasto **un slime**: una gota verde y temblorosa, con dos ojitos, que te muestra la lengua.
+
+—¡Un slime! —grita Gheco—. Nacen de los hechizos mal escritos. Tranquila: son débiles, pero no se van hasta que encontrás qué escribiste mal.
+
+#### Gheco sugiere
+Cuando algo falla, Python muestra un **traceback**. Leelo **de abajo hacia arriba**:
+- la última línea dice **qué** pasó (`SyntaxError`, `IndentationError`…);
+- la de arriba marca **dónde** (la línea).
+
+Y ojo: los espacios al principio de la línea **significan algo** en Python. Uno de más, sin motivo, es un error.
+
+#### Desafío
+Ejecutalo tal como está, leé el error y corregilo. Hay **dos** errores: cuando arregles el primero, aparece el segundo.
+
+#### Código inicial
+```python
+print("Las escamas brillan)
+  print("El slime se derrite")
+```
+
+#### Salida esperada
+```
+Las escamas brillan
+El slime se derrite
+```
+
+#### Solución
+Cerrar las comillas de la primera línea y sacar los dos espacios del principio de la segunda.
+
+#### Al superarla
+El slime se derrite en un charquito que se evapora con olor a menta.
+{mentor} te mira con algo parecido al orgullo.
+—Escribiste, te equivocaste y **leíste el error**. La mayoría tarda semanas en aprender eso. Ahora andá a la Aldea: en el Mercado vas a conseguir lo que necesitás para el camino.
+
+#### Imagen
+- Escena de acción cómica: un slime verde translúcido, con ojos grandes, salta frente a Mia.
+- Del pergamino sale una línea roja de error, con `SyntaxError` escrito en runas.
+- Mia retrocede un paso, sorprendida.
+- Gheco, en el aire, señala la línea del error con una pantalla holográfica.
+
 ### Misión R00-N01-M1 · La ficha de personaje
 
 ```meta

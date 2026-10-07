@@ -4,6 +4,7 @@ namespace App\Livewire\Student;
 
 use App\Models\Course;
 use App\Models\Expedition;
+use App\Models\Hero;
 use App\Models\Item;
 use App\Models\Mount;
 use App\Services\Expeditions as Service;
@@ -30,11 +31,18 @@ class Expeditions extends Component
     /** Sube con cada «Ver la pelea»: vuelve a arrancar la repetición aunque sea la misma pelea. */
     public int $replay = 0;
 
+    /** El héroe que va: cualquiera de los del jugador puede ir a cualquier mapa (cursos en paralelo). */
+    public ?int $heroId = null;
+
     public function mount(Course $course, Heroes $heroes): void
     {
-        $this->authorize('play', $course);
         abort_if(app(Service::class)->world($course) === null, 404);
-        $heroes->settleGold(auth()->user());
+        $user = auth()->user();
+        // Quien cursa (o prueba) este curso, o cualquier jugador con algún héroe, que viene a explorar.
+        abort_unless($user->can('play', $course) || Hero::where('user_id', $user->id)->exists(), 403);
+        $heroes->settleGold($user);
+        $this->heroId = $heroes->heroOf($user, $course)?->id
+            ?? Hero::where('user_id', $user->id)->latest('updated_at')->value('id');
     }
 
     public function send(int $index, Service $service, Heroes $heroes, ?string $place = null): void
@@ -47,14 +55,14 @@ class Expeditions extends Component
         }
         RateLimiter::hit($key, 60);
 
-        $hero = $heroes->heroOf(auth()->user(), $this->course);
+        $hero = Hero::where('user_id', auth()->id())->find($this->heroId);
         if (! $hero) {
-            Flux::toast(variant: 'danger', text: 'Primero tomá el control del héroe.');
+            Flux::toast(variant: 'danger', text: 'Primero tomá el control de un héroe.');
 
             return;
         }
         try {
-            $service->start(auth()->user(), $hero, $index, $place);
+            $service->start(auth()->user(), $hero, $index, $place, $this->course);
             Flux::toast(variant: 'success', text: '¡En camino!');
         } catch (InvalidArgumentException $e) {
             Flux::toast(variant: 'danger', text: $e->getMessage());
@@ -91,14 +99,23 @@ class Expeditions extends Component
     public function render(Service $service, Heroes $heroes, Inventory $inventory)
     {
         $user = auth()->user();
-        $hero = $heroes->heroOf($user, $this->course);
+        $myHeroes = Hero::with('course')->where('user_id', $user->id)->orderBy('id')->get();
+        $hero = $myHeroes->firstWhere('id', $this->heroId);
         $world = $service->world($this->course);
         $active = $service->active($user);
         $mount = Mount::where('user_id', $user->id)->first();
-        $protagonist = $heroes->protagonist($this->course);
+        // El que va (su nombre y su cara): el héroe elegido; si todavía no tiene ninguno, el de este mundo.
+        $protagonist = $hero ? $heroes->protagonist($hero->course) : $heroes->protagonist($this->course);
+        $activeHero = $active ? $myHeroes->firstWhere('id', $active->hero_id) : null;
 
         return view('livewire.student.expeditions', [
             'hero' => $hero,
+            'myHeroes' => $myHeroes,
+            'heroFace' => fn (Hero $h) => Heroes::lookUrl($heroes->protagonist($h->course), $h->look),
+            'heroName' => fn (?Hero $h) => $h ? ($heroes->protagonist($h->course)['name'] ?? 'Tu héroe') : 'Tu héroe',
+            'activeHero' => $activeHero,
+            'worlds' => $service->worlds(),
+            'studies' => ! $service->explorer($user, $this->course) || $service->studies($user, $this->course),
             'protagonist' => $protagonist,
             'world' => $world,
             'open' => $service->isOpen($user, $this->course),

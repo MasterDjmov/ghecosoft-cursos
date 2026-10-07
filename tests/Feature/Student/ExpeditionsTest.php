@@ -242,3 +242,65 @@ test('las 3 del momento se vuelven a sortear cada media hora, y no manda a un lu
     expect(fn () => $service->start($w['student'], $w['hero'], 0, $other))->toThrow(InvalidArgumentException::class, 'se renovaron');
     expect($service->start($w['student'], $w['hero'], 0, $now)->place)->toBe($now);
 });
+
+test('cursos en paralelo: un héroe de otro curso explora el mapa por el nivel del jugador y trae el botín de ese mapa', function () {
+    $w = expeditionWorld();
+    config(['game.protagonists.java' => ['name' => 'Zed', 'slug' => 'zed', 'title' => 'Ladrón', 'looks' => [1 => 'Uno']]]);
+    $java = makeCourse(['title' => 'Java', 'language' => 'java']);
+    $explorer = studentWithRootOpen($java);
+    $service = app(Expeditions::class);
+
+    // Sin héroe no hay a quién mandar; con Zed, el Valle se le abre (sin cursar Python).
+    expect($service->isOpen($explorer, $w['course']))->toBeFalse();
+    $zed = app(Heroes::class)->create($explorer, $java['course'], 1, ['strength' => 12, 'dexterity' => 4, 'intelligence' => 4, 'luck' => 4]);
+    $places = $service->places($explorer, $w['course'])->keyBy('code');
+    expect($service->studies($explorer, $w['course']))->toBeFalse()
+        ->and($service->isOpen($explorer, $w['course']))->toBeTrue()
+        ->and($places['orilla']['open'])->toBeTrue()        // nivel 1: su nivel de jugador alcanza
+        ->and($places['mercado']['open'])->toBeFalse()      // nivel 2: todavía no
+        ->and($places['mercado']['by_level'])->toBeTrue();
+
+    $trip = finishTrip($service->start($explorer, $zed, 0, null, $w['course']));
+    expect($trip->course_id)->toBe($w['course']->id)
+        ->and($trip->hero_id)->toBe($zed->id)
+        ->and($trip->log[0]['text'])->toContain('Zed sale hacia La Orilla');
+
+    // Desde la pantalla: entra al mapa ajeno, elige a Zed y lo manda.
+    Expedition::query()->delete();
+    Livewire::actingAs($explorer)->test(ExpeditionsPage::class, ['course' => $w['course']])
+        ->assertSee('nivel de jugador')
+        ->assertSet('heroId', $zed->id)
+        ->call('send', 0)
+        ->assertSee('Zed explora');
+    $this->actingAs($explorer)->get(route('student.expeditions.home'))->assertRedirect(route('student.expeditions', $w['course']));
+});
+
+test('quien tiene dos héroes elige cuál va', function () {
+    $w = expeditionWorld();
+    config(['game.protagonists.java' => ['name' => 'Zed', 'slug' => 'zed', 'title' => 'Ladrón', 'looks' => [1 => 'Uno']]]);
+    $java = makeCourse(['title' => 'Java', 'language' => 'java']);
+    enrolledStudent($java['course'], $w['student']);
+    $zed = app(Heroes::class)->create($w['student'], $java['course'], 1, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]);
+
+    Livewire::actingAs($w['student'])->test(ExpeditionsPage::class, ['course' => $w['course']])
+        ->assertSet('heroId', $w['hero']->id)
+        ->set('heroId', $zed->id)
+        ->call('send', 0);
+    expect(Expedition::first()->hero_id)->toBe($zed->id);
+});
+
+test('cursar los dos cursos nunca deja peor: con un héroe de otro curso, el mapa se abre aunque falte avanzar', function () {
+    $w = expeditionWorld();
+    config(['game.protagonists.java' => ['name' => 'Zed', 'slug' => 'zed', 'title' => 'Ladrón', 'looks' => [1 => 'Uno']]]);
+    $java = makeCourse(['title' => 'Java', 'language' => 'java']);
+    $both = studentWithRootOpen($w);            // cursa Python, todavía sin completar el nodo que abre el mapa
+    $service = app(Expeditions::class);
+    expect($service->isOpen($both, $w['course']))->toBeFalse();
+
+    enrolledStudent($java['course'], $both);
+    app(Heroes::class)->create($both, $java['course'], 1, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]);
+    $places = $service->places($both, $w['course'])->keyBy('code');
+    expect($service->isOpen($both, $w['course']))->toBeTrue()
+        ->and($places['orilla']['open'])->toBeTrue()
+        ->and($places['mercado']['open'])->toBeFalse();
+});

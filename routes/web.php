@@ -81,12 +81,14 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('mochila', StudentInventory::class)->name('student.inventory');
     Route::livewire('taller', StudentWorkshop::class)->name('student.workshop');
     Route::livewire('establos', Stables::class)->name('student.stables');
-    // El menú lleva a las expediciones del último mundo con héroe que ya tenga expediciones (o a Mis héroes).
-    Route::get('expediciones', function () {
-        $hero = App\Models\Hero::with('course')->where('user_id', auth()->id())->latest('updated_at')->get()
-            ->first(fn ($hero) => config('game.protagonists.'.$hero->course->language->value.'.expeditions') !== null);
+    // El menú lleva al mapa del mundo del último héroe (si tiene mapa) o al primer mundo con mapa: cualquier héroe
+    // puede explorar cualquier mapa (cursos en paralelo). Sin héroes, a Mis héroes.
+    Route::get('expediciones', function (App\Services\Expeditions $expeditions) {
+        $heroes = App\Models\Hero::with('course')->where('user_id', auth()->id())->latest('updated_at')->get();
+        $world = $heroes->map(fn ($hero) => $hero->course)->first(fn ($course) => $expeditions->world($course) !== null)
+            ?? ($heroes->isNotEmpty() ? $expeditions->worlds()->first() : null);
 
-        return $hero ? redirect()->route('student.expeditions', $hero->course) : redirect()->route('student.heroes');
+        return $world ? redirect()->route('student.expeditions', $world) : redirect()->route('student.heroes');
     })->name('student.expeditions.home');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');

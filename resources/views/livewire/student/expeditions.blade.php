@@ -2,7 +2,7 @@
 <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-4 sm:p-8">
     <header class="flex flex-wrap items-end justify-between gap-3">
         <div class="flex flex-col gap-1">
-            <a href="{{ route('student.hero', $course) }}" wire:navigate class="tech-label hover:text-white">← Mi héroe</a>
+            <a href="{{ route('student.heroes') }}" wire:navigate class="tech-label hover:text-white">← Mis héroes</a>
             <h1 class="font-display text-2xl font-semibold text-white sm:text-3xl">Expediciones</h1>
             <p class="text-ink-muted">{{ $course->title }} · hoy: <span class="font-mono text-white" data-test="expeditions-today">{{ $today }} de {{ $perDay }}</span></p>
         </div>
@@ -19,6 +19,37 @@
         </div>
     </header>
 
+    {{-- Cursos en paralelo: se elige el mapa y quién va. --}}
+    @if ($worlds->count() > 1 || $myHeroes->count() > 1)
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            @if ($worlds->count() > 1)
+                <nav class="flex flex-wrap gap-2" aria-label="Mapas" data-test="expedition-worlds">
+                    @foreach ($worlds as $w)
+                        <a href="{{ route('student.expeditions', $w) }}" wire:navigate wire:key="world-{{ $w->id }}"
+                            @class(['rounded-lg border px-3 py-1.5 text-sm transition', 'border-primary-bright bg-primary/10 text-white' => $w->is($course), 'border-outline text-ink-muted hover:text-white' => ! $w->is($course)])>
+                            {{ term('world.region', $w) }}
+                        </a>
+                    @endforeach
+                </nav>
+            @endif
+            @if ($myHeroes->count() > 1)
+                <div class="flex items-center gap-2" data-test="expedition-heroes">
+                    <span class="text-sm text-ink-muted">Va:</span>
+                    @foreach ($myHeroes as $h)
+                        <button type="button" wire:click="$set('heroId', {{ $h->id }})" wire:key="pick-{{ $h->id }}" data-test="pick-hero-{{ $h->id }}"
+                            title="{{ $heroName($h) }} ({{ $h->course->title }})"
+                            @class(['flex items-center gap-2 rounded-full border py-1 ps-1 pe-3 text-sm transition', 'border-primary-bright bg-primary/10 text-white' => $hero?->is($h), 'border-outline text-ink-muted hover:text-white' => ! $hero?->is($h)])>
+                            <img src="{{ $heroFace($h) }}" alt="" class="size-7 rounded-full object-cover"> {{ $heroName($h) }}
+                        </button>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    @endif
+    @if (! $studies && $open)
+        <p class="text-sm text-ink-muted" data-test="expedition-explorer">No cursás este mundo: los lugares se te abren con tu <strong class="text-white">nivel de jugador</strong>. Las criaturas no te van a tener piedad.</p>
+    @endif
+
     @if (! $open)
         <div class="panel flex items-start gap-4 p-4" data-test="expeditions-locked">
             <img src="{{ asset('img/personajes/profe.webp') }}" alt="" class="size-14 shrink-0 rounded-full border border-secondary/40 object-cover">
@@ -28,14 +59,17 @@
             </div>
         </div>
     @elseif (! $hero)
-        <a href="{{ route('student.hero', $course) }}" wire:navigate class="flex items-center gap-3 rounded-lg border border-warning/50 bg-warning/10 px-4 py-3 text-sm" data-test="expeditions-need-hero">
-            <strong class="text-warning">Tomá el control de {{ $protagonist['name'] }}</strong> para mandarla de expedición.
+        <a href="{{ route('student.heroes') }}" wire:navigate class="flex items-center gap-3 rounded-lg border border-warning/50 bg-warning/10 px-4 py-3 text-sm" data-test="expeditions-need-hero">
+            <strong class="text-warning">Tomá el control de un héroe</strong> para mandarlo de expedición.
         </a>
     @endif
 
     {{-- La pelea que se está mirando --}}
     @if ($fight)
-        @include('livewire.student.partials.expedition-fight', ['fight' => $fight, 'replay' => $replay])
+        @php($fightHero = $myHeroes->firstWhere('id', $fight->hero_id))
+        @include('livewire.student.partials.expedition-fight', ['fight' => $fight, 'replay' => $replay,
+            'protagonist' => $fightHero ? app(\App\Services\Heroes::class)->protagonist($fightHero->course) : $protagonist,
+            'heroImage' => $fightHero ? $heroFace($fightHero) : $heroImage])
     @endif
 
     {{-- El mapa --}}
@@ -56,7 +90,7 @@
                     @if ($place['open'])
                         <span class="block text-ink-muted">{{ collect($place['creatures'])->map(fn ($c) => $service->creatureName($c, $course))->implode(', ') }}</span>
                     @else
-                        <span class="block text-warning">Se abre al completar «{{ $place['node_title'] }}»</span>
+                        <span class="block text-warning">{{ $place['by_level'] ? 'Se abre en el nivel '.$place['level'].' de jugador' : 'Se abre al completar «'.$place['node_title'].'»' }}</span>
                     @endif
                 </span>
             </div>
@@ -70,10 +104,10 @@
                 x-data="{ left: {{ (int) max(0, ceil(now()->diffInSeconds($active->ends_at, false))) }}, total: {{ (int) max(1, round($active->started_at->diffInSeconds($active->ends_at))) }}, t: null }"
                 x-init="t = setInterval(() => { if (left > 0) left--; }, 1000)" x-on:livewire:navigating.window="clearInterval(t)">
                 <div class="flex flex-wrap items-center gap-3">
-                    @if ($heroImage)<img src="{{ $heroImage }}" alt="" class="size-12 rounded-full border border-primary-bright/60 object-cover">@endif
+                    @if ($activeHero)<img src="{{ $heroFace($activeHero) }}" alt="" class="size-12 rounded-full border border-primary-bright/60 object-cover">@endif
                     <div class="flex min-w-0 flex-1 flex-col">
                         <p class="tech-label text-primary-bright">Expedición {{ config('game.expedition.lengths.'.$active->length.'.label') }} en camino</p>
-                        <p class="font-display text-lg font-semibold text-white">{{ $protagonist['name'] }} explora {{ $activePlace }}</p>
+                        <p class="font-display text-lg font-semibold text-white">{{ $heroName($activeHero) }} explora {{ $activePlace }}</p>
                     </div>
                     <span class="font-mono text-2xl text-primary-bright" x-show="left > 0" x-text="String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0')"></span>
                     @if ($hourglasses > 0)

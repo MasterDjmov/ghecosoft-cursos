@@ -202,6 +202,8 @@ El mapa suma 6 lugares: 3 en el Bastión (niveles 10 a 12) y 3 en la Ciudadela (
   Hoy cada expedición arranca con la vida y el maná llenos. Esto cambia el balance y hay que volver a simularlo.
 - Los datos ya están: el log de cada turno guarda `hp`, `mp`, `ehp` y `emax`. Falta guardar el estado del héroe entre expediciones (dos columnas y la hora en que volvió) y dibujar la pantalla.
 
+**Cursos en paralelo (D94):** el oro, la mochila, la montura, el taller y la expedición en camino son del jugador; cada héroe es de su curso. **Cualquier héroe puede explorar cualquier mapa:** en Expediciones se elige el mapa y quién va. Quien cursa el curso del mapa lo abre avanzando en el curso; con un héroe de otro curso, el mapa está abierto y cada lugar se abre por el avance o por el nivel de jugador. Un héroe recién llegado a un mapa ajeno va a estar flojo: es parte del juego.
+
 **El taller (crafteo, hecho, D93):** recetas fijas en `config('game.recipes')`.
 - **Cómo funciona:** cada receta pide materiales de las expediciones y, para mejorar, el ítem de antes (la Pluma de la Copista pasa a Pluma del Juicio; el Báculo del Intérprete, a Báculo de la Garra, épico). Así se arma el árbol común → raro → épico.
 - **Al empezar** se descuentan los ingredientes; tarda unos minutos (sin cron) y **se recoge** al volver. Una cosa a la vez.

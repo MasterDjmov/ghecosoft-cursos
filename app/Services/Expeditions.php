@@ -6,6 +6,7 @@ use App\Enums\CoinReason;
 use App\Enums\ItemKind;
 use App\Enums\ItemReason;
 use App\Models\Course;
+use App\Models\CourseSubscription;
 use App\Models\Currency;
 use App\Models\Expedition;
 use App\Models\Hero;
@@ -50,16 +51,44 @@ class Expeditions
         return $course->nodes()->where('code', $code)->first();
     }
 
-    /** Se abren al completar el nodo `opens_after` (en el Valle, la Posada). */
+    /**
+     * Quien cursa el curso de ese mundo (tiene o tuvo su abono) explora su mapa avanzando en el curso. Los
+     * demás jugadores también pueden explorarlo con cualquiera de sus héroes: los lugares se les abren por su
+     * nivel de jugador (cursos en paralelo).
+     */
+    public function studies(User $user, Course $course): bool
+    {
+        return CourseSubscription::where('user_id', $user->id)->where('course_id', $course->id)->exists();
+    }
+
+    /** Los mundos con mapa (para elegir dónde explorar). @return Collection<int, Course> */
+    public function worlds(): Collection
+    {
+        return Course::orderBy('position')->get()->filter(fn (Course $course) => $this->world($course) !== null)->values();
+    }
+
+    /** Tiene un héroe de otro curso: viene a explorar este mapa (cursos en paralelo). */
+    public function explorer(User $user, Course $course): bool
+    {
+        return Hero::where('user_id', $user->id)->where('course_id', '!=', $course->id)->exists();
+    }
+
+    /**
+     * Abierto: a quien cursa ese curso, al completar el nodo `opens_after` (en el Valle, la Posada); a quien
+     * tiene un héroe de otro curso, ya (nunca queda peor por cursar los dos).
+     */
     public function isOpen(User $user, Course $course): bool
     {
         $world = $this->world($course);
         if (! $world) {
             return false;
         }
+        if ($user->isStaff() || $this->explorer($user, $course)) {
+            return true;
+        }
         $node = $this->node($course, $world['opens_after']);
 
-        return $user->isStaff() || ($node && $this->access->isCompleted($user, $node));
+        return $this->studies($user, $course) && $node && $this->access->isCompleted($user, $node);
     }
 
     /**
@@ -70,11 +99,18 @@ class Expeditions
     public function places(User $user, Course $course): Collection
     {
         $nodes = $course->nodes()->get(['id', 'code', 'title', 'course_id', 'type', 'is_published'])->keyBy('code');
+        $studies = $this->studies($user, $course);
+        $explorer = $this->explorer($user, $course);
+        $level = Inventory::playerLevel($user);
 
-        return collect($this->world($course)['places'] ?? [])->map(function (array $place) use ($user, $nodes) {
+        return collect($this->world($course)['places'] ?? [])->map(function (array $place) use ($user, $nodes, $studies, $explorer, $level) {
             $node = $nodes[$place['node']] ?? null;
+            // Avanzando en el curso del mapa, o (con un héroe de otro curso) llegando a su nivel de jugador.
+            $open = $user->isStaff()
+                || ($studies && $node && $this->access->isCompleted($user, $node))
+                || ($explorer && $level >= (int) $place['level']);
 
-            return [...$place, 'node_title' => $node?->title, 'open' => $user->isStaff() || ($node && $this->access->isCompleted($user, $node))];
+            return [...$place, 'node_title' => $node?->title, 'by_level' => $explorer && ! $studies, 'open' => $open];
         });
     }
 
@@ -156,12 +192,13 @@ class Expeditions
      * Mandar al héroe a una de las 3 expediciones del momento. Con `$place` (el lugar que vio el jugador), si
      * justo se renovaron, no lo manda a otro lugar sin avisar.
      */
-    public function start(User $user, Hero $hero, int $index, ?string $place = null): Expedition
+    public function start(User $user, Hero $hero, int $index, ?string $place = null, ?Course $world = null): Expedition
     {
         if ($hero->user_id !== $user->id) {
             throw new InvalidArgumentException('Ese héroe no es tuyo.');
         }
-        $course = $hero->course;
+        // El mapa: el del mundo elegido (cualquier héroe puede ir a cualquier mapa), o el de su propio curso.
+        $course = $world ?? $hero->course;
         if (! $this->isOpen($user, $course)) {
             throw new InvalidArgumentException('Las expediciones de este mundo todavía no se abrieron.');
         }
@@ -208,7 +245,7 @@ class Expeditions
             if ($result['won']) {
                 if ($result['rewards']['gold'] > 0) {
                     $this->ledger->credit($user, Currency::gold(), $result['rewards']['gold'], CoinReason::ExpeditionLoot, $locked, $hero->course,
-                        $this->placeName($hero->course, $locked->place));
+                        $this->placeName($locked->course ?? $hero->course, $locked->place));
                 }
                 foreach ($result['rewards']['items'] as $loot) {
                     $this->inventory->grant($user, Item::findOrFail($loot['id']), $loot['quantity'], ItemReason::Loot, $locked);
@@ -254,7 +291,8 @@ class Expeditions
     public function simulate(Expedition $expedition, Hero $hero): array
     {
         $course = $hero->course;
-        $place = collect($this->world($course)['places'] ?? [])->firstWhere('code', $expedition->place);
+        $map = $expedition->course ?? $course;
+        $place = collect($this->world($map)['places'] ?? [])->firstWhere('code', $expedition->place);
         if (! $place) {
             throw new InvalidArgumentException('Ese lugar ya no existe.');
         }
@@ -338,7 +376,7 @@ class Expeditions
             $base = config('game.creatures.'.$code);
             $max = (int) round($base['hp'] * (1 + 0.12 * ($level - 1)));
             $enemy = [
-                'code' => $code, 'name' => $this->creatureName($code, $course), 'hp' => $max, 'max' => $max,
+                'code' => $code, 'name' => $this->creatureName($code, $map), 'hp' => $max, 'max' => $max,
                 'attack' => $base['attack'] * (1 + 0.07 * ($level - 1)), 'defense' => $base['defense'] + intdiv($level - 1, 3),
                 'dexterity' => $base['dexterity'] + intdiv($level, 2),
             ];
@@ -418,7 +456,7 @@ class Expeditions
                 }
             }
             // Un ítem al azar, con contador de mala suerte.
-            if ($drop = $this->rollDrop($hero, $r, $chance)) {
+            if ($drop = $this->rollDrop($hero, $map, $r, $chance)) {
                 $rewards['items'][] = ['id' => $drop->id, 'name' => $drop->name, 'quantity' => 1, 'rarity' => $drop->rarity->value];
                 $rewards['item_rarity'] = $drop->rarity->value;
             }
@@ -428,7 +466,8 @@ class Expeditions
         return ['won' => $won, 'log' => $log, 'rewards' => $rewards, 'potions' => $used];
     }
 
-    private function rollDrop(Hero $hero, Randomizer $r, \Closure $chance): ?Item
+    /** El botín es del mapa: ítems de ese mundo o comunes. */
+    private function rollDrop(Hero $hero, Course $map, Randomizer $r, \Closure $chance): ?Item
     {
         $drops = config('game.expedition.drops');
         $rarity = match (true) {
@@ -450,7 +489,7 @@ class Expeditions
             return null;
         }
         $pool = Item::where('droppable', true)->where('rarity', $rarity)
-            ->where(fn ($q) => $q->where('course_id', $hero->course_id)->orWhereNull('course_id'))->orderBy('id')->get();
+            ->where(fn ($q) => $q->where('course_id', $map->id)->orWhereNull('course_id'))->orderBy('id')->get();
 
         return $pool->isEmpty() ? null : $pool[$r->getInt(0, $pool->count() - 1)];
     }

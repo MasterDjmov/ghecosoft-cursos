@@ -359,7 +359,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, Clase 0.
 - **Dónde va:** la Aduana del Compilador, en la muralla del Imperio: portones de piedra, balanzas con cajones etiquetados, vitrales dorados.
 
-### El Escriba Jefe *(falta la imagen)*
+### El Escriba Jefe
 - **Rol:** dirige la **oficina de sellos de la Aduana**, donde se registra a cada viajero que entra al Imperio (R01-N03); le pasa a Zed los problemas de texto: nombres sucios para limpiar, el `==` que no sirve para comparar textos y la tabla de tarifas alineada con `printf`. Nadia le lleva la servilleta de Zed (R01-N05).
 - **Edad y sexo:** 65, hombre.
 - **Altura y contextura:** bajo, panzón, un poco encorvado de tanto escribir.

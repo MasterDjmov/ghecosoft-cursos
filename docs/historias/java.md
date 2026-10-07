@@ -157,7 +157,7 @@ Lo que hoy es la Senda de las Corrientes (S02) pasa al camino obligatorio, más 
 
 ### Acto V — La Torre del Arquitecto (R05, unidad 3 y Spring)
 
-La Torre de Kaffa, donde se dibujan los planos de todo el Imperio. Tres nodos nuevos y dos que hoy están en la Senda del Puerto de Spring (S03).
+La Torre de Kaffa, donde se dibujan los planos de todo el Imperio. Tres nodos nuevos y tres que hoy están en la Senda del Puerto de Spring (S03). El acto entero apunta al **examen final práctico** de la cátedra (el último, «BiblioExpress»: Java 17 o 21, Spring Boot 3, Lombok, Git y GitHub, en memoria, capas controller–service–model–dto, herencia o interfaces, validaciones, el patrón Strategy, `HashMap` y `HashSet`, y Postman con evidencias).
 
 **R05-N01 · Eficiencia: Big O y medir tiempos** *(nuevo)* — *El primer piso: la sala de las balanzas del tiempo.* Dos aprendices discuten qué algoritmo es más rápido; Kaffa les da un reloj: «No discutan: **midan**. Y después, piensen cómo crece». Consigue: cartas O(1), O(n), O(n²), O(log n), `System.nanoTime()`. Gancho: un plano que nadie se anima a cambiar.
 
@@ -165,18 +165,26 @@ La Torre de Kaffa, donde se dibujan los planos de todo el Imperio. Tres nodos nu
 
 **R05-N03 · Spring: el contenedor, IoC e inyección de dependencias** *(hoy S03-N01)* — *El tercer piso: el taller que arma solo.* En lugar de que cada pieza fabrique sus partes, un **contenedor** las crea y se las entrega. Consigue: cartas `@Component`, `@Service`, `@Autowired`, inyección por constructor, Maven. Gancho: desde la Torre se ve el Puerto, lejos.
 
-**R05-N04 · Servicios REST con Spring MVC** *(hoy S03-N02)* — *El cuarto piso: la ventanilla de los mensajes.* La Torre responde pedidos de todo el Mundo del Código. Zed escribe el servicio que conecta el Imperio con **el Puerto**, su casa: por primera vez llega al Puerto **construyendo** y no robando. Consigue: cartas `@RestController`, `@GetMapping`, `@PostMapping`, JSON. Gancho: arriba, el Dragón despierta.
+**R05-N04 · Servicios REST con Spring MVC** *(hoy S03-N02)* — *El cuarto piso: la ventanilla de los mensajes.* La Torre responde pedidos de todo el Mundo del Código. Zed escribe el servicio que conecta el Imperio con **el Puerto**, su casa: por primera vez llega al Puerto **construyendo** y no robando. Consigue: cartas `@RestController`, `@GetMapping`, `@PostMapping`, `@RequestBody`, JSON, probar con Postman. Gancho: los mensajes del Puerto llegan con cualquier cosa adentro.
 
-**R05-N05 · Jefe final: el Dragón del Imperio** *(nuevo, reemplaza al de Swing)* — *La cima de la Torre.* El examen del Imperio, hecho de todo el programa: un servicio con Spring que usa colecciones, streams, un patrón, concurrencia donde hace falta, principios SOLID y su medición. Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su ganzúa, ya transformada) y su sello de arquitecto. Gancho: la ventana más alta.
+**R05-N05 · Capas, DTO, validaciones y Lombok** *(hoy S03-N03, más Lombok)* — *El quinto piso: las cuatro salas.* Kaffa separa el servicio en salas que no se pisan: controller, service, model, dto y el repositorio en memoria. Lo que entra y sale por la ventanilla es un **DTO**, nunca el modelo; lo que entra se **valida**; y Lombok escribe los getters, constructores y builders. Es el cambio del acto: Zed, que entraba por cualquier lado, ahora **diseña las puertas** de su propio servicio. Consigue: cartas DTO, `@Valid`, `@NotBlank`, `@ExceptionHandler`, `@Data`, `@Builder`, `@RequiredArgsConstructor`. Gancho: en la cima, el Tribunal deja un pliego sobre la mesa.
 
-**R05-N06 · La Encrucijada de los Denarios** *(hoy R05-N09)* — *La ventana más alta y la fuente.* Zed coloca el vitral del viajero en el marco vacío y la Llave del Vitral lo abre: muestra el balcón de los cuatro portales y *«para quien llegue»*. Kaffa cuenta su pieza del portal. Nadia se queda en la Aduana, como jefa de turno. Gheco señala las Sendas.
+**R05-N06 · Jefe final: el Dragón del Imperio** *(nuevo, reemplaza al de Swing)* — *La cima de la Torre.* El pliego del Tribunal es **un simulacro del examen final, con el mismo formato y en 90 minutos**, ambientado en el Imperio. Por ejemplo, **«AduanaExpress»**:
+- **Mercancías** (`Caja`, `Barril`, heredan de `Mercancia`) y **viajeros** (`Mercader`, y `Peregrino`, con 50 % de descuento en los recargos);
+- un **recargo por demora** con estrategia activa (`RecargoNormal`, `RecargoFeria`, `RecargoNocturno`: el patrón **Strategy**);
+- **depurar pasaportes duplicados** en una sola pasada con `HashSet`, y buscar mercancías por código con `HashMap`;
+- capas controller–service–model–dto, repositorio en memoria, Lombok, endpoints REST, colección de Postman y `EVIDENCIAS.md` en un repositorio de GitHub.
+
+Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su ganzúa, ya transformada) y su sello de arquitecto. Gancho: la ventana más alta.
+
+**R05-N07 · La Encrucijada de los Denarios** *(hoy R05-N09)* — *La ventana más alta y la fuente.* Zed coloca el vitral del viajero en el marco vacío y la Llave del Vitral lo abre: muestra el balcón de los cuatro portales y *«para quien llegue»*. Kaffa cuenta su pieza del portal. Nadia se queda en la Aduana, como jefa de turno. Gheco señala las Sendas.
 
 ### Las Sendas (optativas, desde la Encrucijada)
 
 - **S01 · La Bóveda Imperial** *(hoy R04)*: SQL con PostgreSQL, JDBC, DAO y transacciones; jefe, el Liche de las Tablas Huérfanas. Las micro-misiones de SQL corren en el navegador con SQLite.
 - **S02 · El Palacio de las Ventanas** *(hoy R05-N01 a N08)*: Swing, layouts, tablas, MDI, SwingWorker y MVC; jefe, la Registración de Actas. Las micro-misiones son la lógica sin ventana.
 - **S03 · El Arcade Imperial** *(hoy S01)*: un juego 2D con Swing.
-- **S04 · El Puerto de Spring** *(hoy S03-N03 a N05)*: DTO, validaciones, JPA y el Kraken de los Servicios. Zed **vuelve al Puerto**, ahora a construir sus servicios.
+- **S04 · El Puerto de Spring** *(hoy S03-N04 y N05)*: JPA con base de datos y el Kraken de los Servicios. Zed **vuelve al Puerto**, ahora a construir sus servicios.
 
 **Lo que se suma en las ramas que quedan:** el programa pide **clases Wrapper y autoboxing** (U1) y en el curso solo está `Integer.parseInt`. Propongo sumarlas a **R03-N02 · ArrayList y genéricos**, donde aparecen solas (`List<Integer>` no acepta `int`).
 
@@ -188,12 +196,15 @@ La Torre de Kaffa, donde se dibujan los planos de todo el Imperio. Tres nodos nu
 2. **SQL y Swing:** las micro-misiones de SQL corren en el navegador con **SQLite**; las de Swing son **la lógica sin ventana**. Las dos ramas pasan a ser Sendas (§ 2).
 3. **3 o 4 micro-misiones por nodo**, siempre que el alumno termine sabiendo el tema: si un nodo necesita más para eso, lleva más.
 4. **Las crónicas pasan a tercera persona con Zed**, como con Mia.
-5. **Manda el programa de la cátedra:** el camino obligatorio cubre las unidades 1 a 3 y lleva al examen; lo demás es optativo.
+5. **Manda el programa de la cátedra:** el camino obligatorio cubre las unidades 1 a 3 y lleva al examen; lo demás es optativo. **El jefe final es un simulacro del examen** (formato del último, «BiblioExpress»), con Spring Boot 3 y Lombok.
+6. **UML, JUnit, paquetes y .jar** quedan en el camino (son cortos y ayudan); si hace falta, se dan en clase.
+7. **Spring en micro-misiones:** Java puro que imita la idea (un contenedor chiquito, inyectar por constructor, un controlador que devuelve el JSON, una estrategia elegida en tiempo de ejecución). Spring, Lombok, Git y Postman de verdad, en las prácticas que corrige el docente.
+
+**En producción (revisado el 2026-10-07, solo lectura):** un solo alumno cursa Java, en la rama 1 (Clase 0, R01-N01 y R01-N02). Los nodos que se mueven (R04, R05, S02 y S03) no los abrió nadie: se pueden reordenar sin reiniciar a nadie.
 
 **Lo que hay que resolver al programar:**
-- **Mover nodos entre ramas** cambia sus códigos (S02-N01 pasa a R04-N01, R04 pasa a ser una Senda). Hay que hacerlo **sin perder el progreso** de quien ya los cursó: abiertos, entregas aprobadas y monedas. Antes de tocar nada, revisar en producción quién está cursando Java y por dónde va.
-- **Spring en micro-misiones:** el ejecutor corre un archivo suelto, sin Maven. Las micro-misiones de Spring serían **Java puro que imita la idea** (un contenedor chiquito con un `Map`, inyectar por constructor, un método que devuelve el JSON), y Spring de verdad queda para las prácticas que corrige el docente.
-- **Los tres nodos nuevos** (patrones, Big O, SOLID) y el jefe final nuevo hay que escribirlos enteros: explicación, ejemplo, prácticas y prueba del sello, como los demás.
+- **Mover nodos entre ramas** cambia sus códigos (S02-N01 pasa a R04-N01, R04 pasa a ser una Senda). Hoy nadie los cursó (ver arriba), pero el importador tiene que tratarlos como movidos y no como nuevos, para no dejar nodos viejos sueltos.
+- **Los tres nodos nuevos** (patrones, Big O, SOLID), **Lombok** dentro de R05-N05 y el **jefe final** hay que escribirlos enteros: explicación, ejemplo, prácticas y prueba del sello, como los demás.
 
 ## 4. Arreglos de continuidad respecto del curso actual
 

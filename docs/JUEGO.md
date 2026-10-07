@@ -154,7 +154,9 @@ De lo grande a lo chico, y **no se escribe un nivel hasta que el docente aprueba
 3. **La planilla de continuidad:** para cada escena, lugar, quién está, qué lleva encima y qué cambió.
 4. **Las micro-misiones** con sus 4 partes y el **pedido de imagen** de cada una, con las descripciones fijas de los personajes de [historias/PERSONAJES.md](historias/PERSONAJES.md).
 
-Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/python.md)), **Java**, **C y C++** (los que tienen alumnos frenados), después PHP y HTML.
+Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/python.md)), **Java** ([historias/java.md](historias/java.md)), **C y C++** (los que tienen alumnos frenados), después PHP y HTML.
+
+**Regla de cada curso (2026-10-07):** el camino obligatorio da **lo fundamental y lo que pide la cátedra** (el programa y el examen). Lo que se pueda sumar (frameworks y herramientas de verdad, temas fuera del examen) va en **misiones extra o Sendas, después de lo prioritario**. En Java, por ejemplo, el camino lleva al examen final y SQL y Swing quedan como Sendas.
 
 ## 11. Lo que falta definir
 

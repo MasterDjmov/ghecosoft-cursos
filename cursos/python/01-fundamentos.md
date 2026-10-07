@@ -466,7 +466,7 @@ En un f-string, después de `:` va el **formato**:
 - `{p:.0%}`: lo muestra como porcentaje.
 
 #### Desafío
-
+Completá los tres `___` con el formato justo para que el cartel quede prolijo.
 
 #### Código inicial
 ```python
@@ -2903,7 +2903,7 @@ dado1 = random.randint(1, 6)
 dado2 = random.randint(1, 6)
 dado3 = random.randint(1, 6)
 suma = dado1 + dado2 + dado3
-print(f"Tiradas: {dado1} {dado2} {dado3} · suma {suma}")
+print(f"Tiradas: {dado1} {dado2} {dado3} - suma {suma}")
 if suma > 8:
     print("¡Salís del Laberinto!")
 else:
@@ -2912,7 +2912,7 @@ else:
 
 #### Salida esperada
 ```
-Tiradas: 3 2 4 · suma 9
+Tiradas: 3 2 4 - suma 9
 ¡Salís del Laberinto!
 ```
 
@@ -2924,7 +2924,7 @@ dado1 = random.randint(1, 6)
 dado2 = random.randint(1, 6)
 dado3 = random.randint(1, 6)
 suma = dado1 + dado2 + dado3
-print(f"Tiradas: {dado1} {dado2} {dado3} · suma {suma}")
+print(f"Tiradas: {dado1} {dado2} {dado3} - suma {suma}")
 if suma > 8:
     print("¡Salís del Laberinto!")
 else:

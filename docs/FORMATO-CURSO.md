@@ -204,7 +204,7 @@ se abre: el oro del jugador           # opcional
 
 - **IDs estables:** se actualizan por su ID; quién las superó no se pierde al reimportar. Las que ya no están en el archivo se borran.
 - **La imagen** se busca sola en `escenas/<ID>.webp` (o `.jpg`/`.png`) dentro de la carpeta del curso. Si no hay, se muestra el fondo del mundo.
-- **Salida esperada:** se compara sin espacios al final de cada línea ni líneas vacías al final. Generala ejecutando la solución, no a mano.
+- **Salida esperada:** se compara sin espacios al final de cada línea ni líneas vacías al final. Generala ejecutando la solución, no a mano. Lo que el alumno tiene que tipear lleva solo caracteres del teclado: nada de `·`, `—`, `…`, `→` ni comillas tipográficas (en el código inicial ya escrito sí pueden ir).
 - **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
 
 ## 7. Qué revisa el importador

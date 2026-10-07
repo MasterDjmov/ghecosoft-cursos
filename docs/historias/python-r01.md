@@ -281,12 +281,12 @@ print(f"___")
 
 **Salida esperada.**
 ```
-Mia · aprendiz de maga · 5 escamas · le faltan 5 para romper el primer sello
+Mia - aprendiz de maga - 5 escamas - le faltan 5 para romper el primer sello
 ```
 
 **Solución.**
 ```python
-print(f"{nombre} · aprendiz de maga · {escamas} escamas · le faltan {10 - escamas} para romper el primer sello")
+print(f"{nombre} - aprendiz de maga - {escamas} escamas - le faltan {10 - escamas} para romper el primer sello")
 ```
 
 **Al superarla.** En la tapa del pergamino aparece tu ficha, como el título de un libro. Gheco la lee en voz alta, orgulloso, como si fuera suya.
@@ -619,6 +619,7 @@ En un f-string, después de `:` va el **formato**:
 - `{p:.0%}`: lo muestra como porcentaje.
 
 **Desafío.**
+Completá los tres `___` con el formato justo para que el cartel quede prolijo.
 
 ```python
 caja = 15230.5
@@ -1412,7 +1413,7 @@ dado1 = random.randint(1, 6)
 dado2 = random.randint(1, 6)
 dado3 = random.randint(1, 6)
 suma = dado1 + dado2 + dado3
-print(f"Tiradas: {dado1} {dado2} {dado3} · suma {suma}")
+print(f"Tiradas: {dado1} {dado2} {dado3} - suma {suma}")
 if suma > 8:
     print("¡Salís del Laberinto!")
 else:
@@ -1421,7 +1422,7 @@ else:
 
 **Salida esperada.**
 ```
-Tiradas: 3 2 4 · suma 9
+Tiradas: 3 2 4 - suma 9
 ¡Salís del Laberinto!
 ```
 

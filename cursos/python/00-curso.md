@@ -363,12 +363,12 @@ print(f"___")
 
 #### Salida esperada
 ```
-Mia · aprendiz de maga · 5 escamas · le faltan 5 para romper el primer sello
+Mia - aprendiz de maga - 5 escamas - le faltan 5 para romper el primer sello
 ```
 
 #### Solución
 ```python
-print(f"{nombre} · aprendiz de maga · {escamas} escamas · le faltan {10 - escamas} para romper el primer sello")
+print(f"{nombre} - aprendiz de maga - {escamas} escamas - le faltan {10 - escamas} para romper el primer sello")
 ```
 
 #### Al superarla

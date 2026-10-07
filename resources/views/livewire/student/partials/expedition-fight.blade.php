@@ -7,14 +7,14 @@
         'crit' => 'text-amber-300 font-semibold', 'miss' => 'text-ink-muted', 'enemy' => 'text-danger', 'dodge' => 'text-success', 'potion' => 'text-success', 'revive' => 'text-violet-300 font-semibold',
         'down' => 'text-success font-semibold', 'victory' => 'text-success font-semibold', 'defeat' => 'text-danger font-semibold'];
 @endphp
-<section class="panel flex flex-col gap-4 p-4" data-test="expedition-fight" wire:key="fight-{{ $fight->id }}"
+<section class="panel flex flex-col gap-4 p-4" data-test="expedition-fight" wire:key="fight-{{ $fight->id }}-{{ $replay ?? 0 }}"
     x-data="{
         log: @js($log), shown: 0, timer: null,
         get now() { return this.log[Math.max(0, this.shown - 1)] ?? {} },
         get done() { return this.shown >= this.log.length },
         play() { clearInterval(this.timer); this.timer = setInterval(() => { if (this.done) { clearInterval(this.timer); return; } this.shown++; this.$nextTick(() => this.$refs.list?.scrollTo({ top: 99999, behavior: 'smooth' })); }, 750); },
         skip() { clearInterval(this.timer); this.shown = this.log.length; },
-    }" x-init="shown = 1; play()" x-on:livewire:navigating.window="clearInterval(timer)">
+    }" x-init="shown = 1; play(); $el.scrollIntoView({ behavior: 'smooth', block: 'start' })" x-on:livewire:navigating.window="clearInterval(timer)">
     <div class="flex flex-wrap items-center justify-between gap-2">
         <h2 class="font-display text-lg font-semibold text-white">{{ $rewards['place'] ?? $fight->place }} · {{ config('game.expedition.lengths.'.$fight->length.'.label') }}</h2>
         <button type="button" x-show="! done" x-on:click="skip()" class="text-sm text-primary-bright hover:underline" data-test="fight-skip">Saltar</button>

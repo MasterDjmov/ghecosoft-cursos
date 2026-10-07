@@ -27,6 +27,9 @@ class Expeditions extends Component
     /** La expedición cuya pelea se está mirando. */
     public ?int $watching = null;
 
+    /** Sube con cada «Ver la pelea»: vuelve a arrancar la repetición aunque sea la misma pelea. */
+    public int $replay = 0;
+
     public function mount(Course $course, Heroes $heroes): void
     {
         $this->authorize('play', $course);
@@ -79,9 +82,10 @@ class Expeditions extends Component
         }
     }
 
-    public function watch(int $id): void
+    public function showFight(int $id): void
     {
         $this->watching = Expedition::where('user_id', auth()->id())->whereNotNull('resolved_at')->findOrFail($id)->id;
+        $this->replay++;
     }
 
     public function render(Service $service, Heroes $heroes, Inventory $inventory)

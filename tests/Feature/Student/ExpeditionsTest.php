@@ -164,7 +164,7 @@ test('el héroe y la expedición son del jugador', function () {
     // Otro jugador (aunque pruebe la Clase 0) no ve ni mira las expediciones ajenas.
     Livewire::actingAs($other)->test(ExpeditionsPage::class, ['course' => $w['course']])
         ->assertDontSee('Las últimas')
-        ->call('watch', $trip->id)->assertNotFound();
+        ->call('showFight', $trip->id)->assertNotFound();
     expect(Hero::count())->toBe(1)->and($trip->user_id)->toBe($w['student']->id);
 });
 

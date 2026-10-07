@@ -35,7 +35,7 @@
 
     {{-- La pelea que se está mirando --}}
     @if ($fight)
-        @include('livewire.student.partials.expedition-fight', ['fight' => $fight])
+        @include('livewire.student.partials.expedition-fight', ['fight' => $fight, 'replay' => $replay])
     @endif
 
     {{-- El mapa --}}
@@ -134,7 +134,7 @@
                             <span class="text-xs {{ \App\Enums\ItemRarity::from($loot['rarity'])->classes() }}">{{ $loot['name'] }}{{ $loot['quantity'] > 1 ? ' ×'.$loot['quantity'] : '' }}</span>
                         @endforeach
                     @endif
-                    <button type="button" wire:click="watch({{ $past->id }})" class="ms-auto text-xs text-primary-bright hover:underline">Ver la pelea</button>
+                    <button type="button" wire:click="showFight({{ $past->id }})" class="ms-auto text-xs text-primary-bright hover:underline" data-test="history-watch">Ver la pelea</button>
                 </div>
             @endforeach
         </section>

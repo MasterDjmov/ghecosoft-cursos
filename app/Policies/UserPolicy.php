@@ -36,6 +36,12 @@ class UserPolicy
         return $this->viewProgress($user, $student, $course);
     }
 
+    /** Reiniciar su héroe de un curso (D89): como abrirle un nodo, solo en el curso de su comisión. */
+    public function resetHero(User $user, User $student, Course $course): bool
+    {
+        return $this->viewProgress($user, $student, $course);
+    }
+
     /** Resetear la clave, si el alumno lo pide. */
     public function resetPassword(User $user, User $student): bool
     {

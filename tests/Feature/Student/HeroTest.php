@@ -2,6 +2,7 @@
 
 use App\Enums\CoinReason;
 use App\Exceptions\InsufficientFunds;
+use App\Livewire\Admin\Students\Show;
 use App\Livewire\Student\Grimoire;
 use App\Livewire\Student\Hero as HeroPage;
 use App\Livewire\Student\Heroes as HeroesPage;
@@ -182,4 +183,37 @@ test('las páginas del juego responden y el menú las muestra', function () {
     $this->actingAs($student)->get(route('student.heroes'))->assertOk()->assertSee('data-test="menu-grimoire"', false);
     $this->actingAs($student)->get(route('student.hero', $course['course']))->assertOk();
     $this->actingAs($student)->get(route('student.grimoire'))->assertOk();
+});
+
+test('desde la ficha del alumno se reinicia el héroe y se le devuelve el oro de los atributos', function () {
+    $course = heroCourse();
+    $student = studentWithRootOpen($course);
+    $heroes = app(Heroes::class);
+    $hero = $heroes->create($student, $course['course'], 1, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]);
+    app(Ledger::class)->credit($student, Currency::gold(), 700, CoinReason::ManualAdjustment);
+    $heroes->upgrade($hero, 'luck');
+    expect(goldOf($student))->toBe(100);
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(Show::class, ['user' => $student])
+        ->assertSee('Protagonistas')
+        ->call('resetHero', $hero->id);
+
+    expect(Hero::where('user_id', $student->id)->exists())->toBeFalse()
+        ->and(goldOf($student))->toBe(700);
+});
+
+test('el docente reinicia héroes solo de los alumnos de su comisión', function () {
+    $course = heroCourse();
+    $student = studentWithRootOpen($course);
+    $hero = app(Heroes::class)->create($student, $course['course'], 1, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]);
+    $teacher = User::factory()->teacher()->create();
+    $cohort = $course['course']->cohorts()->create(['name' => 'Tarde', 'teacher_id' => $teacher->id]);
+    $student->subscriptions()->update(['cohort_id' => $cohort->id]);
+    $other = User::factory()->teacher()->create();
+
+    expect($other->can('resetHero', [$student, $course['course']]))->toBeFalse()
+        ->and($teacher->can('resetHero', [$student, $course['course']]))->toBeTrue();
+
+    Livewire::actingAs($teacher)->test(Show::class, ['user' => $student])->call('resetHero', $hero->id);
+    expect(Hero::whereKey($hero->id)->exists())->toBeFalse();
 });

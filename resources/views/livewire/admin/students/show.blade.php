@@ -63,6 +63,28 @@
     </div>
     @endif
 
+    {{-- Sus protagonistas (D89): reiniciar para corregir; se devuelve el oro de los atributos. --}}
+    @if ($heroes->isNotEmpty())
+        <section class="panel flex flex-col gap-3 p-4" data-test="student-heroes">
+            <h2 class="font-display font-semibold text-white">Protagonistas</h2>
+            @foreach ($heroes as $item)
+                <div class="flex flex-wrap items-center gap-3 rounded-lg border border-outline/70 p-3" wire:key="hero-{{ $item['hero']->id }}">
+                    <div class="flex min-w-0 flex-1 flex-col">
+                        <span class="font-medium text-white">{{ $item['name'] }} <span class="text-sm text-ink-muted">· {{ $item['hero']->course->title }}</span></span>
+                        <span class="font-mono text-xs text-ink-muted">
+                            @foreach (\App\Models\Hero::STATS as $stat){{ \App\Models\Hero::statShort($stat) }} {{ $item['hero']->{$stat} }}@if (! $loop->last) · @endif @endforeach
+                            · oro gastado en atributos: {{ $item['spent'] }}
+                        </span>
+                    </div>
+                    <flux:button size="sm" variant="danger" icon="arrow-path" wire:click="resetHero({{ $item['hero']->id }})" data-test="reset-hero"
+                        wire:confirm="¿Reiniciar a {{ $item['name'] }}? Se le devuelven {{ $item['spent'] }} de oro y la próxima vez vuelve a «Tomá el control» (aspecto y puntos).">
+                        Reiniciar
+                    </flux:button>
+                </div>
+            @endforeach
+        </section>
+    @endif
+
     <flux:modal name="confirm-reset" class="max-w-md">
         <div class="flex flex-col gap-4">
             <flux:heading size="lg">¿Resetear la clave de {{ $user->name }}?</flux:heading>

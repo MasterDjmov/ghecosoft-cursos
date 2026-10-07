@@ -8,9 +8,11 @@ use App\Enums\Role;
 use App\Enums\XpReason;
 use App\Exceptions\InsufficientFunds;
 use App\Models\Currency;
+use App\Models\Hero;
 use App\Models\PracticeMessage;
 use App\Models\Submission;
 use App\Models\User;
+use App\Services\Heroes;
 use App\Services\Ledger;
 use App\Services\Ranking;
 use App\Services\SingleSession;
@@ -182,6 +184,17 @@ class Show extends Component
         Flux::toast(variant: 'success', text: 'Comisión actualizada.');
     }
 
+    /** Reiniciar un héroe (D89): se devuelve el oro de los atributos y vuelve a «Tomá el control». */
+    public function resetHero(int $heroId, Heroes $heroes): void
+    {
+        $hero = Hero::where('user_id', $this->user->id)->findOrFail($heroId);
+        $this->authorize('resetHero', [$this->user, $hero->course]);
+
+        $refund = $heroes->reset($hero, auth()->user());
+        $this->dispatch('ledger-updated');
+        Flux::toast(variant: 'success', text: 'Héroe reiniciado'.($refund > 0 ? ': se le devolvieron '.$refund.' de oro.' : '.'));
+    }
+
     /** Dar o quitar monedas o XP. El motivo es obligatorio y queda en el libro. */
     public function adjust(Ledger $ledger): void
     {
@@ -223,6 +236,10 @@ class Show extends Component
             // Un curso por fila (el abono más reciente manda) para elegir la comisión.
             'courseCohorts' => $subscriptions->unique('course_id')->filter(fn ($s) => $s->course->cohorts->isNotEmpty())->values(),
             'balances' => $balances,
+            // Sus héroes (D89), solo los de cursos que este usuario puede corregir.
+            'heroes' => Hero::with('course')->where('user_id', $this->user->id)->get()
+                ->filter(fn (Hero $hero) => auth()->user()->can('resetHero', [$this->user, $hero->course]))
+                ->map(fn (Hero $hero) => ['hero' => $hero, 'name' => app(Heroes::class)->protagonist($hero->course)['name'] ?? 'Héroe', 'spent' => app(Heroes::class)->spentOnStats($hero)]),
             'currencies' => Currency::with('course')->get()->sortBy(fn ($c) => $c->is_wildcard ? 'zzz' : $c->course?->title),
             'messageThreads' => app(TeacherScope::class)->messages(PracticeMessage::query(), auth()->user())->where('student_id', $this->user->id)
                 ->selectRaw('practice_id, count(*) as total, sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread, max(created_at) as last_at')

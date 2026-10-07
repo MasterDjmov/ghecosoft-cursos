@@ -108,6 +108,34 @@ class Heroes
         return $values;
     }
 
+    /** El oro que gastó en atributos (lo que se devuelve al reiniciarlo). */
+    public function spentOnStats(Hero $hero): int
+    {
+        return -(int) CoinTransaction::where('reason', CoinReason::StatUpgrade)
+            ->where('source_type', $hero->getMorphClass())->where('source_id', $hero->id)->sum('amount');
+    }
+
+    /**
+     * Reiniciar el héroe para corregir (Admin → Alumnos, D89): le devuelve el oro que gastó en atributos
+     * (queda en el libro) y lo borra; la próxima vez vuelve a «Tomá el control».
+     *
+     * @return int el oro devuelto
+     */
+    public function reset(Hero $hero, ?User $by = null): int
+    {
+        return DB::transaction(function () use ($hero, $by) {
+            $locked = Hero::whereKey($hero->id)->lockForUpdate()->firstOrFail();
+            $refund = $this->spentOnStats($locked);
+            if ($refund > 0) {
+                $this->ledger->credit($locked->user, Currency::gold(), $refund, CoinReason::Reversal, $locked, $locked->course,
+                    'Reinicio del héroe: se devuelve el oro de los atributos', $by);
+            }
+            $locked->delete();
+
+            return $refund;
+        });
+    }
+
     /** El aspecto es solo cosmético: se cambia cuando quiera y gratis. */
     public function changeLook(Hero $hero, int $look): void
     {

@@ -359,6 +359,20 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, Clase 0.
 - **Dónde va:** la Aduana del Compilador, en la muralla del Imperio: portones de piedra, balanzas con cajones etiquetados, vitrales dorados.
 
+### El Escriba Jefe *(falta la imagen)*
+- **Rol:** dirige la **oficina de sellos de la Aduana**, donde se registra a cada viajero que entra al Imperio (R01-N03); le pasa a Zed los problemas de texto: nombres sucios para limpiar, el `==` que no sirve para comparar textos y la tabla de tarifas alineada con `printf`. Nadia le lleva la servilleta de Zed (R01-N05).
+- **Edad y sexo:** 65, hombre.
+- **Altura y contextura:** bajo, panzón, un poco encorvado de tanto escribir.
+- **Rasgos:** piel clara, **ojeras marcadas** y ojos enrojecidos, calvo arriba con **mechones blancos despeinados** a los costados, barba corta canosa, **anteojos redondos en la punta de la nariz**, dedos manchados de tinta.
+- **Ropa:** túnica azul oscuro de la Aduana, gastada, con **mangas protectoras negras** hasta el codo y vivos dorados; un sello de bronce colgado del cuello.
+- **Objeto:** una **pluma** detrás de la oreja y una pila de **pergaminos** que siempre está por caerse.
+- **Color:** azul oscuro, dorado y el marrón de la tinta y el pergamino.
+- **Personalidad:** buenazo, cansado, quejoso; se ríe fuerte cuando descubre por qué lo engañaban; agradecido con quien le ahorra trabajo.
+- **Frase:** «Arreglámelos, que yo ya no veo.»
+- **Relaciones:** jefe de oficina de Nadia en los papeles; le toma cariño a Zed sin saber que pensaba engañarlo.
+- **Primera aparición:** Java, R01-N03.
+- **Dónde va:** la oficina de sellos: escritorio tapado de pergaminos, tinteros, sellos de bronce colgados en la pared y la **tabla de tarifas** clavada en la puerta.
+
 ---
 
 ## 4. Los líderes de los otros mundos (se completan con cada curso)

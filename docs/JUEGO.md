@@ -17,7 +17,7 @@ El Mundo del Código **vive en la mente de quien programa** (el prólogo). El al
   - elige su **apodo**;
   - **el Profe** le muestra el lado del juego: el grimorio, el inventario, los establos y las expediciones.
   - Lo hace cualquiera que se registra, sin pagar. **Los que ya cursan lo completan** la primera vez que entran después del cambio, como una actualización de juego: la plataforma los lleva y les marca en rojo lo que falta.
-- **Cada curso tiene su protagonista fijo**, y la historia es la de ese personaje (fichas en [historias/PROTAGONISTAS.md](historias/PROTAGONISTAS.md)):
+- **Cada curso tiene su protagonista fijo**, y la historia es la de ese personaje (fichas en [historias/PERSONAJES.md](historias/PERSONAJES.md)):
 
   | Curso | Protagonista |
   |---|---|
@@ -150,16 +150,13 @@ De lo grande a lo chico, y **no se escribe un nivel hasta que el docente aprueba
 1. **El arco** (1–2 páginas): de dónde viene el protagonista, qué busca, qué misterio lo empuja, cómo cambia y cómo termina; cada rama es un acto.
 2. **Los capítulos:** cada nodo, con lugar del mapa, personajes, lo que aprende, lo que consigue y el gancho al siguiente.
 3. **La planilla de continuidad:** para cada escena, lugar, quién está, qué lleva encima y qué cambió.
-4. **Las micro-misiones** con sus 4 partes y el **pedido de imagen** de cada una, con las descripciones fijas de los personajes de [historias/PROTAGONISTAS.md](historias/PROTAGONISTAS.md).
+4. **Las micro-misiones** con sus 4 partes y el **pedido de imagen** de cada una, con las descripciones fijas de los personajes de [historias/PERSONAJES.md](historias/PERSONAJES.md).
 
 Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/python.md)), **Java**, **C y C++** (los que tienen alumnos frenados), después PHP y HTML.
 
 ## 11. Lo que falta definir
 
-- **Java para el alumno.** Las micro-misiones de Java necesitan correr en algún lado. Opciones:
-  - **(a) El ejecutor local en la compu del alumno:** el mismo `JavaRunner.java` del docente, que ya atiende solo a la plataforma, con un instalador paso a paso para Windows y Linux.
-  - **(b) Java en el navegador:** investigar licencias y peso.
-  - **(c) Una compu del docente que ejecute las comprobaciones de los alumnos:** desaconsejada (ver la charla del 2026-10-06).
+- ~~Java para el alumno~~: resuelto con el **ejecutor local en su compu** (D85, *Herramientas → Ejecutor de Java*). Queda investigar Java en el navegador (licencias y peso) para no depender de instalar nada.
 - **C y C++ para el alumno:** habilitar el Clang en WebAssembly que ya usa el docente, con el aviso de ~20 MB de descarga.
 - **El combate:** fórmulas, derrota, HP y MP, pociones.
 - **El mapa de cada mundo:** los lugares, por sector.
@@ -167,8 +164,8 @@ Orden de los cursos: **Python** (prueba piloto: [historias/python.md](historias/
 ## 12. Etapas
 
 1. **El jugador:** la intro animada, el Alfa (apodo, Gheco, el Profe) y el panel del jugador vacío (oro, nivel, inventario, grimorio). Obligatorio para todos.
-2. **Los protagonistas:** «Tomá el control» (aspecto + 24 puntos), su ficha, HP y MP, y `{heroe}` por curso.
-3. **Las micro-misiones:** el formato, el importador, la vista de las 4 partes, la comprobación en el navegador, la recompensa, el grimorio y los errores como monstruos. **Python, rama 1**, como prueba piloto con alumnos reales.
+2. **Los protagonistas:** «Tomá el control» (aspecto + 24 puntos), su ficha, HP y MP, y `{heroe}` por curso. **Mis personajes**: la galería con las fichas completas ([historias/PERSONAJES.md](historias/PERSONAJES.md) § 5), que salen del Diccionario.
+3. **Las micro-misiones:** el formato ([historias/python-r01.md](historias/python-r01.md) § 1), el importador, *Admin → Historia → Escenas* (las imágenes por curso, con su pedido), la vista de las 4 partes, la comprobación en el navegador, la recompensa, el grimorio y los errores como monstruos. **Python, rama 1**, como prueba piloto con alumnos reales.
 4. **El oro, los ítems y el botín** de micro-misiones y jefes; la tienda de atributos.
 5. **Expediciones:** el mapa, el temporizador, las monturas y el combate.
 6. **Java, C y C++** con sus historias y su ejecución para el alumno.

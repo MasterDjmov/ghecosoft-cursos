@@ -2,7 +2,7 @@
 
 Nivel 1 y 2 del método de [../JUEGO.md](../JUEGO.md) § 10: **el arco** y **los capítulos** (un párrafo por nodo). La planilla de continuidad y las micro-misiones se escriben **después de que el docente apruebe esto**.
 
-Personajes y aspecto: [PROTAGONISTAS.md](PROTAGONISTAS.md). El contenido técnico de cada nodo (explicaciones, prácticas, pruebas) **no cambia**: cambia la historia que lo envuelve y el corte en micro-misiones.
+Personajes y aspecto: [PERSONAJES.md](PERSONAJES.md). El contenido técnico de cada nodo (explicaciones, prácticas, pruebas) **no cambia**: cambia la historia que lo envuelve y el corte en micro-misiones.
 
 ---
 
@@ -67,7 +67,7 @@ Formato de cada capítulo: **lugar** · qué pasa · lo que **consigue** (carta 
 ### Acto I — El Valle bajo (R01)
 
 **R00-N01 · Clase 0 · Hola, Python** — *La orilla del río, junto a la Aldea del Script.*
-Mia despierta con el pergamino en blanco. Gheco se presenta y Ofidia emerge del río y le explica la regla del Valle. Primeros conjuros:
+Mia despierta con el pergamino en blanco. Ofidia sale del río y le explica la regla del Valle, y Gheco se presenta. Primeros conjuros:
 - `print` para que el pergamino «hable»;
 - una variable para su nombre;
 - `input` para escuchar.
@@ -76,7 +76,7 @@ Su primer slime nace de una comilla sin cerrar, y Gheco le enseña a **leer el t
 - **Gancho:** Ofidia le dice que en la Aldea hay alguien que la puede ayudar a conseguir lo que necesita.
 
 **R01-N01 · Tipos de datos y conversiones** — *El mercado de la Aldea del Script.*
-Baldo, el mercader, le anota tres precios en un papel («12», «3.5», «7»). Mia los «suma» y le da 123.57, y aparece un goblin. Aprende que el texto no es un número y a convertir.
+Baldo, el mercader, le anota tres precios en un papel («12», «3.5», «7»). Mia los «suma» y le da 123.57, y aparece un goblin. Aprende que el texto no es un número y a convertir. En una bolsita olvidada encuentra **un vitral dibujado en tinta**: la primera pista del viajero.
 - **Consigue:** su **primera bolsa de oro** (se abre el oro del jugador) y las cartas `int/float/str`, `conversiones`.
 - **Gancho:** para salir de la Aldea hay que cruzar el Puente del Juicio.
 
@@ -86,7 +86,7 @@ El puente solo deja pasar a quien sabe **calcular** su daño, **comparar** y **c
 - **Gancho:** del otro lado está la Casa de los Copistas, donde un pedido de ayuda espera hace días.
 
 **R01-N03 · Strings: el texto** — *La Casa de los Copistas.*
-La Copista tiene los carteles del Valle escritos en runas desordenadas: espacios de más, mayúsculas mezcladas, mensajes al revés. Mia los ordena. En un cartel viejo aparece por primera vez **la firma del vitral**, en una nota escrita con una claridad perfecta.
+La Copista tiene los carteles del Valle escritos en runas desordenadas: espacios de más, mayúsculas mezcladas, mensajes al revés. Mia los ordena. En un cartel viejo vuelve a aparecer **el vitral** del papelito de Baldo, esta vez como firma de una nota escrita con una claridad perfecta.
 - **Consigue:** las cartas `strings`, `métodos de texto`, `f-strings con formato`.
 - **Gancho:** la Copista no sabe quién la escribió, pero la nota dice «el camino a las Terrazas cruza el Laberinto».
 
@@ -197,7 +197,7 @@ Oleadas de engranajes sin fin, y cada siete oleadas, el Gólem. Mia lo vence con
 - **El reloj del Valle vuelve a andar.**
 
 **R03-N08 · La Encrucijada** — *Los puentes al pie de la Ciudadela.*
-Ofidia se enrosca al sol y le cuenta lo que vio (la pieza del portal). Mia levanta el pergamino, ya lleno, contra la luz del reloj, y se lee la marca de agua: **un vitral, y «para quien llegue»**. Tilo se queda en el Valle, como aprendiz de Ofidia. Gheco señala los caminos:
+Ofidia se sienta al sol en una piedra del puente y le cuenta lo que vio (la pieza del portal). Mia levanta el pergamino, ya lleno, contra la luz del reloj, y se lee la marca de agua: **un vitral, y «para quien llegue»**. Tilo se queda en el Valle, como aprendiz de Ofidia. Gheco señala los caminos:
 - las **Sendas** del Valle;
 - el camino hacia **las Forjas**, por donde siguió el viajero.
 

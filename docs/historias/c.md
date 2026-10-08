@@ -163,13 +163,19 @@ Hulda, la capataz, cuenta cada vagoneta. Las Minas son la memoria: lo que se pid
 
 ## 4. Lo que hay que construir
 
-1. **Ejecutar C para el alumno en las micro-misiones (D98):** el mismo Clang en WebAssembly que usa el docente al corregir (D66, `public/toolchains/cpp/`), ahora también para el alumno, solo en las micro-misiones y en su navegador (nunca en el servidor). Cambia la regla de CLAUDE.md. Entrada por `stdin` cuando la micro-misión la pida.
-2. **Generador de micro-misiones de C** (`scripts/micro-misiones/genc.py`): cada solución se compila y se ejecuta con `gcc -std=c17 -Wall -Wextra`; la salida esperada nunca se escribe a mano, y el código inicial no puede dar ya la salida. Una prueba en Chrome con el Clang del navegador, como las 16 de SQL.
-3. **Kira jugable** en `config('game.protagonists.c')`: sus 6 aspectos (ya están las imágenes), el mapa de expediciones de las Forjas, la tienda y las recetas del taller.
-4. **Las fichas en PERSONAJES.md** de Maese Ferrum, Tizón, Hulda, Chispa, el Archivero y los siete jefes: **hechas** (2026-10-08). Las que faltan generar están en *Admin → Historia → Personajes* con «Solo sin imagen».
-5. **El nodo nuevo** (el preprocesador) y las secciones nuevas (printf a fondo, almacenamiento, union, listas ordenadas), con sus prácticas y la Prueba del sello.
-6. **Linux y Windows** en todos los nodos que compilan.
-7. **Las crónicas en tercera persona** y los ejemplos con la gente de las Forjas, con las salidas rehechas ejecutando (`app:course-tests`).
+**Hecho (2026-10-08, D98 y D99):**
+1. **C para el alumno en el navegador (D98):** el Clang en WebAssembly del docente ahora también corre para el alumno, con una carpeta vacía en memoria para `fopen` y sin el encabezado precompilado de C++. Si el compilador no carga, la micro-misión deja pegar la salida de la compu.
+2. **`scripts/micro-misiones/genc.py`:** compila cada solución con `gcc -std=c11 -Wall -Wextra` (sin advertencias), saca la salida ejecutándola, rechaza lo que da distinto en wasm32 (`%p`, `sizeof(long)`, `rand()`) y las salidas con espacios en las puntas; con `--json`, los casos para probarlos en Chrome.
+3. **161 micro-misiones** (Clase 0 y R01 45, R02 28, R03 24, R04 24, R05 19 con las cinco escamas del Dragón, Sendas 21), todas con `gcc` y con el Clang del navegador. Sin arrays antes de R02; las salidas, sin tildes (para que el alumno de Windows pueda pegarlas).
+4. **Kira jugable** (`config('game.protagonists.c')`, 6 aspectos en `public/img/protagonistas/kira/`) y los ítems de las Forjas en `app:game-items`, con el **Amuleto del Volcado** como segunda vida (`Item::CORE_DUMP`).
+5. **Las fichas** de Ferrum, Tizón, Hulda, Chispa, el Archivero y los siete jefes en PERSONAJES.md.
+6. **Los nodos nuevos** (R01-N08 el preprocesador, R03-N04 pilas y colas), las secciones del apunte (printf a fondo, almacenamiento, union, burbuja y desempate, inserción ordenada, lista sin malloc, baja lógica) y **el Dragón como FundiciónExpress**. La migración `renumber_c_course_codes` corre los nodos que siguen con sus prácticas e insignias.
+7. **Linux y Windows** en la Clase 0 y en cada «Cómo compilarlo» (ZinjaI, Code::Blocks, VS Code con MSYS2), y en depuración, módulos, argumentos, SDL3 y Arduino.
+8. **Las crónicas en tercera persona** y la compañía de las Forjas (Mia → Hulda, Bron → Tizón, Zed → Chispa), con las salidas rehechas (`app:course-tests`: 255 de 255 antes del simulacro).
+
+**Falta:**
+- **El mapa de las Forjas** para las expediciones (`public/img/mundos/forjas/mapa.webp`) y sus lugares; **la tienda** (el carro de Chispa, con su imagen) y **las recetas del taller** de las Forjas, que se apoyan en los ítems de la tienda.
+- **Las imágenes** de Tizón, Hulda, Chispa, el Archivero y los siete jefes (en *Admin → Historia → Personajes*), de los ítems nuevos (en *Admin → Juego → Ítems*) y de las escenas de las 161 micro-misiones.
 
 ## 5. Lo que decidió el docente (2026-10-08)
 

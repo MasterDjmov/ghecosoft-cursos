@@ -19,7 +19,7 @@ Aprendé **C desde cero**. No hace falta saber programar: cada tema se explica a
 
 C es la lengua sobre la que están construidos los sistemas operativos, los microcontroladores y buena parte de los programas que usás todos los días. Entender C es entender qué pasa **por debajo**.
 
-Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilás el ejemplo en tu compu y resolvés las **misiones**: al aprobarlas ganás lingotes para abrir el siguiente. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
+Cada tema es un **nodo** del árbol. En cada uno acompañás a **Kira**, una aprendiz de espadachina que llegó a las Forjas rompiendo su espada contra un portón: resolvés sus **micro-misiones** (C corre acá mismo, en tu navegador), leés la explicación y hacés las **misiones** en tu compu, que al aprobarlas te dan lingotes para abrir el siguiente. Cada rama termina con un **jefe**, y el último es un simulacro del parcial.
 
 Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde salen dos Sendas optativas: videojuegos 2D con **SDL3** y electrónica con **Arduino**.
 
@@ -28,11 +28,11 @@ Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde 
 ### Temario
 
 - Compilar, variables, operadores y bits
-- Entrada y salida, decisiones, bucles y funciones
-- Arrays, textos, structs y punteros
-- Memoria dinámica, listas y punteros a función
-- Archivos de texto y binarios, módulos y menús
-- Depuración, pruebas y proyectos completos
+- Entrada y salida, decisiones, bucles, funciones y el preprocesador
+- Arrays y matrices, textos, structs, uniones y punteros
+- Memoria dinámica, listas, pilas, colas y punteros a función
+- Archivos de texto y binarios (con baja lógica), módulos y menús
+- Depuración, pruebas y el simulacro del parcial (matrices, estructuras y archivos)
 
 # DICCIONARIO
 

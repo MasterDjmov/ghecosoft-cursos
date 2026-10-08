@@ -128,7 +128,7 @@ El camino actual de C ya cubre casi todo el apunte. **Se mantiene el orden** (fu
 - **N03 · Structs, enum, typedef y union** — *Las fichas de los encargos.* La ficha del pedido de plomo tiene **dos formas de leerse** (union): leída como número dice un peso; leída por bytes, al revés (*little endian*), dice «PARA QUIEN LLEGUE».
 - **N04 · Punteros** — *Los carteles que señalan.* Kira sigue un cartel que no apunta a ningún lado, se cae por un hueco y el programa revienta. Hulda la saca con una soga y le regala **el Amuleto del Volcado**: «Para la próxima que te caigas».
 - **N05 · Punteros y structs** — *El mapa de los pasillos.* Tizón confunde `.` con `->` y manda una carta a la dirección de la carta.
-- **N06 · Arrays de structs** — *El registro de toda la Forja.*
+- **N06 · Arrays de structs** (+ ordenar a mano con desempate) — *El registro de toda la Forja.* Ferrum quiere a los aprendices ordenados por temple y, si empatan, por nombre; Kira los ordena por altura «porque se ve más prolijo». Tizón queda primero por tercera vez y nadie le cree.
 - **N07 · Jefe: la Araña de las Direcciones** — *El pasillo sin fin.* Teje direcciones falsas y cambia los carteles de lugar. Kira, por una vez, no da un espadazo: anota cada dirección, y la Araña se enreda en su propia tela. Consigue: **el Hilo de las Direcciones**. Gancho: el plomo del pedido vino de las Minas.
 
 ### Acto III — Las Minas (R03)
@@ -138,13 +138,14 @@ Hulda, la capataz, cuenta cada vagoneta. Las Minas son la memoria: lo que se pid
 - **N01 · Memoria dinámica** — *Las vagonetas prestadas.* Kira pide diez vagonetas, devuelve nueve y Hulda la hace contar un chiste malo frente a toda la mina. El chiste es tan malo que nadie vuelve a olvidarse un `free`.
 - **N02 · Un array que crece** — *La galería que se alarga.* Cada vez que la galería se llena, hay que cavar una más grande y mudar todo (`realloc`); Tizón calcula que conviene duplicarla y, por una vez, nadie le discute.
 - **N03 · Listas enlazadas** (+ inserción ordenada y lista con arrays) — *Los vagones enganchados.* Kira engancha los vagones en cualquier orden y el tren de la mina sale al revés. Hay que engancharlos **ordenados por peso**. Al final de una vía muerta, la **veta del plomo** del Vidriero.
-- **N04 · Punteros a función** — *Las palancas de las vías.* Una palanca que cambia qué tren sale; Chispa intenta poner una que manda todos los trenes a su puesto.
-- **N05 · Jefe: la Sanguijuela de las Minas** — *La galería que se vacía.* Se come cada vagoneta que nadie devolvió y está gordísima (casi todas son de Chispa). Kira la vence liberando todo, y la Sanguijuela queda flaquita y avergonzada. Consigue: **la Lámpara del Minero**. Gancho: el registro de la veta está en el Archivo.
+- **N04 · Pilas y colas** *(nuevo)* — *El montacargas y la fila de las vagonetas.* El montacargas es una pila: la última bolsa que sube es la primera que baja, y Tizón, que subió primero su almuerzo, se queda sin comer hasta la noche. La salida de la mina es una cola: la primera vagoneta que llega es la primera que sale, y Chispa intenta colarse (no puede: la cola no tiene `push_front`).
+- **N05 · Punteros a función** (+ `qsort`) — *Las palancas de las vías.* Una palanca que cambia qué tren sale; Chispa intenta poner una que manda todos los trenes a su puesto.
+- **N06 · Jefe: la Sanguijuela de las Minas** — *La galería que se vacía.* Se come cada vagoneta que nadie devolvió y está gordísima (casi todas son de Chispa). Kira la vence liberando todo, y la Sanguijuela queda flaquita y avergonzada. Consigue: **la Lámpara del Minero**. Gancho: el registro de la veta está en el Archivo.
 
 ### Acto IV — El Archivo de la Forja (R04)
 
 - **N01 · Archivos de texto** — *Los libros de pedidos.* El Archivero busca sus anteojos durante toda la crónica (los tiene puestos); mientras, Kira aprende a abrir, leer y **cerrar** un libro.
-- **N02 · Archivos binarios** — *Las cajas de fichas selladas.* Tizón abre una caja binaria con un editor de texto y ve jeroglíficos; jura que es un idioma antiguo.
+- **N02 · Archivos binarios** — *Las cajas de fichas selladas.* Tizón abre una caja binaria con un editor de texto y ve jeroglíficos; jura que es un idioma antiguo. El Archivero le enseña a corregir una sola ficha sin reescribir la caja (`fseek`) y a dar de baja un lingote sin borrarlo: le pone una **B** de «bajado» (baja lógica), porque en el Archivo nada se tira.
 - **N03 · Programas en varios archivos** — *Los talleres separados* (con `extern`, guardas y `make`, en Linux y en Windows). Cada taller hace su pieza; si dos talleres hacen la misma, el enlazador grita «¡ya hay una!».
 - **N04 · Argumentos de la línea de comandos** — *Los pedidos por ventanilla.* Chispa hace pedidos gritando desde la puerta, todo junto y sin comas.
 - **N05 · El menú de consola** — *El mostrador del Archivero.*
@@ -155,7 +156,7 @@ Hulda, la capataz, cuenta cada vagoneta. Las Minas son la memoria: lo que se pid
 - **N01 · Depuración** — *El martillo que escucha* (`gdb` en Linux y en Windows con MSYS2). Ferrum golpea cada pieza y escucha dónde suena hueca; Kira aprende a frenar el programa en una línea en lugar de gritarle.
 - **N02 · Tests** — *La prueba de cada pieza.* Tizón, feliz: por fin alguien le paga por medir todo.
 - **N03 · Proyecto: la agenda del Gremio** — *El encargo completo.*
-- **N04 · Jefe final: el Dragón bajo la Montaña** — *La fragua más honda.* El dragón duerme sobre el plomo del Vidriero y ronca fuego. Kira, que llegó a las Forjas rompiendo la espada contra un portón, forja su propia hoja midiendo cada grado (Tizón le pasa las medidas sin que se las pida, y ella las usa sin protestar): **la Hoja Templada**. Detrás del dragón, **la Matriz del Marco** que dejó el Vidriero.
+- **N04 · Jefe final: el Dragón bajo la Montaña** (simulacro **FundiciónExpress**, § 5) — *La fragua más honda.* El dragón duerme sobre el plomo del Vidriero y ronca fuego; para pasar hay que resolver los tres encargos que tiene grabados en las escamas. Kira, que llegó a las Forjas rompiendo la espada contra un portón, forja su propia hoja midiendo cada grado (Tizón le pasa las medidas sin que se las pida, y ella las usa sin protestar): **la Hoja Templada**. Detrás del dragón, **la Matriz del Marco** que dejó el Vidriero.
 - **N05 · La Encrucijada del Yunque** — Ferrum golpea el yunque **tres veces** (Kira no sabe qué hacer) y cuenta su pieza del portal. En la pared, debajo de la cuenta de espadazos, Ferrum escribe: «Problemas resueltos midiendo: todos». Tizón se queda de oficial en la Forja. Gheco señala las Sendas: **la Forja Viva** (SDL3) y **los Autómatas** (Arduino).
 
 ---
@@ -170,9 +171,43 @@ Hulda, la capataz, cuenta cada vagoneta. Las Minas son la memoria: lo que se pid
 6. **Linux y Windows** en todos los nodos que compilan.
 7. **Las crónicas en tercera persona** y los ejemplos con la gente de las Forjas, con las salidas rehechas ejecutando (`app:course-tests`).
 
-## 5. Preguntas abiertas
+## 5. Lo que decidió el docente (2026-10-08)
 
-- **Tizón, Hulda, Chispa y el Archivero**: ¿van esos nombres y esos papeles? (Sus fichas ya están para generar las imágenes; si cambia un nombre, se cambia en la ficha.)
-- **¿Qué usan los alumnos en Windows** para compilar C: Code::Blocks, Dev-C++, VS Code con MSYS2?
-- **El nodo nuevo cambia la numeración de R01** (el Gólem pasa de N09 a N10). Si hay alumnos con progreso en C en producción, va una migración como la de Java (D96); si no, se renumera directo.
-- **¿Hay un examen final de Programación I** con un formato conocido (como BiblioExpress en Java)? Si lo hay, el Dragón puede ser su simulacro.
+- **Tizón, Hulda, Chispa y el Archivero** van con esos nombres y papeles.
+- **Los entornos:** el docente hace practicar en **ZinjaI**; la UNLaR usa **Code::Blocks, ZinjaI y VS Code**; la UTN, **VS Code** (y Qt Creator para C++). Cada «Cómo compilarlo» da tres caminos:
+  - **ZinjaI o Code::Blocks** (Linux y Windows: abrir el archivo, compilar y ejecutar con F9; en Windows ya traen MinGW);
+  - **VS Code**: en Windows con **MSYS2 (UCRT64)** y su `gcc`, en Linux con el `gcc` del sistema;
+  - **la terminal**: `gcc -Wall -Wextra programa.c -o programa` y `./programa` en Linux, `programa.exe` en Windows.
+  Donde algo no anda igual se avisa: `-fsanitize=address` no existe en MinGW (en Windows se usa `-fsanitize=undefined` o Dr. Memory), las rutas (`/` y `\\`), los acentos en la consola de Windows (`chcp 65001`).
+- **Los alumnos de C en producción se reiniciaron** (habían hecho 3 o 4 misiones y les resultó mucho: por eso las micro-misiones). Se renumera directo, sin migración.
+- **Los exámenes de la UNLaR y la UTN** (C, Programación I) piden **matrices, arreglos de estructuras y archivos binarios**, y **listas, pilas y colas con estructuras**. Ejemplos de la UTN (parcial con tiempo):
+  1. **Mediciones industriales:** matriz de reales 7 × 4 validada entre 0 y 100, tabla, promedios por máquina y por día, la mayor medición con su día y su máquina, un vector de promedios ordenado **sin perder a qué máquina pertenece** cada uno, y una búsqueda por límite; todo con funciones.
+  2. **Alumnos con estructuras:** hasta 50, con legajo validado y notas entre 0 y 10, promedio y condición (promociona, regulariza o libre), listados, el mejor promedio, porcentaje por condición, **ordenar por promedio descendente y, si empatan, por apellido ascendente**, y buscar por legajo.
+  3. **Archivo binario de productos** con menú: crear, listar activos, buscar por código, **actualizar stock** en el archivo, **baja lógica** (estado A o B), el de mayor precio, promedio de precios y cuántos tienen stock menor a 10.
+  4. (Clase 08) **Biblioteca personal:** vector de 5 structs `Libro`, menú, buscar por código, filtrar por estado, promedio de páginas, el de más páginas y **modificar el estado usando punteros**.
+  En C++ toman archivos con clases y herencia (va al curso de C++).
+
+### Cambios que salen de los exámenes
+
+| Qué | Dónde |
+|---|---|
+| **Pilas y colas con estructuras** (con array y con nodos enlazados: `push`, `pop`, `tope`, encolar y desencolar) | **Nodo nuevo** en R03, después de listas |
+| **Ordenar a mano**: burbuja y selección, ordenar structs con **desempate** (promedio desc. y apellido asc. con `strcmp`), ordenar un vector **sin perder la referencia** (vector de índices o de structs `{máquina, promedio}`); después, lo mismo con `qsort` | R02-N06 (arrays de structs), y `qsort` en R03 (punteros a función) |
+| **Validar la entrada** en bucle (legajo > 0, nota entre 0 y 10, valor entre 0.0 y 100.0) | Ya está en R01-N06; se repite en las prácticas |
+| **Actualizar un registro en el archivo** (`fseek` + `fwrite`) y **baja lógica** con un campo estado | R04-N02 (archivos binarios) |
+| **Porcentajes por categoría** y «el mayor con su referencia» (día y máquina) | Prácticas de R02 |
+
+### El Dragón es el simulacro del parcial
+
+Como AduanaExpress en Java: **«FundiciónExpress»**, tres ejercicios del mismo formato que el parcial, ambientados en las Forjas, **pensado para 180 minutos y sin penalizar si se pasa** (se anota cuánto tardó):
+1. **Las temperaturas de los hornos:** matriz de reales 7 días × 4 hornos validada entre 0.0 y 1500.0; promedios por horno y por día, el horno más caliente, el pico con su día y su horno, vector de promedios ordenado sin perder el horno, y buscar si algún horno supera un límite.
+2. **Los aprendices de la Forja:** hasta 50 structs (legajo, nombre, tres notas de temple, promedio y rango: oficial, aprendiz o «de vuelta al fuelle»), validaciones, listados, porcentajes por rango, ordenar con desempate y buscar por legajo.
+3. **El depósito de lingotes:** archivo binario de structs con menú: alta, listar activos, buscar por código, actualizar stock, baja lógica, y el más caro, el promedio de precios y los de stock bajo.
+
+Con la grilla de corrección a la vista, como en Java. Las micro-misiones del Dragón arman cada ejercicio pieza por pieza.
+
+### La numeración nueva
+
+- **R01:** N08 pasa a ser **El preprocesador y las macros**, N09 Bibliotecas y **N10 el Gólem**.
+- **R03:** N04 pasa a ser **Pilas y colas**, N05 Punteros a función y **N06 la Sanguijuela**.
+- Los demás no cambian. Como nadie tiene progreso, el importador actualiza cada código con su contenido nuevo.

@@ -9,7 +9,7 @@ posicion: 4
 
 ```meta
 tipo: tema
-padre: R03-N05
+padre: R03-N06
 precio: 10
 criatura: goblin
 temas: arch.texto, arch.csv
@@ -2260,7 +2260,7 @@ En la posada de la Forja, el posadero tiene un cartel con opciones: descansar, e
 ### Antes de empezar
 
 - Bucles y validación de la entrada (07), `switch` (06).
-- Punteros a structs (14) y punteros a función (R03-N04).
+- Punteros a structs (14) y punteros a función (R03-N05).
 
 ### Explicación
 

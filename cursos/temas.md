@@ -119,6 +119,7 @@ alcance: lenguaje
 alcance: compartido
 
 - herr.compilacion · Compilar y enlazar · qué hace el compilador, advertencias, enlazador
+- herr.preprocesador · El preprocesador y las macros · #include, #define, macros con parámetros, compilación condicional (#if, #ifdef), #error
 - herr.terminal · La terminal · comandos básicos, rutas, redirecciones
 - herr.git · Git · commits, ramas, GitHub
 - herr.navegador · Herramientas del navegador · inspector (DevTools), modo celular, validador de HTML

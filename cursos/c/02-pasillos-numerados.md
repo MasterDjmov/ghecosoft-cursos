@@ -10,7 +10,7 @@ posicion: 2
 ```meta
 tipo: tema
 criatura: orco
-padre: R01-N09
+padre: R01-N10
 precio: 10
 temas: col.arrays, col.matrices
 ```

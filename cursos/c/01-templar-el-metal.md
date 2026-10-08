@@ -4237,12 +4237,571 @@ Porque el factorial crece muy rápido: `13!` ya no entra en un `int`.
 
 Material original: `01-C/08-Funciones` (soluciones completas en `soluciones/`, con sus archivos de entrada y salida).
 
-## R01-N08 · Bibliotecas estándar útiles
+## R01-N08 · El preprocesador y las macros
+
+```meta
+tipo: tema
+criatura: ogro
+padre: R01-N07
+precio: 10
+temas: herr.preprocesador
+usa: prog.funciones
+```
+
+### Crónica
+
+En el taller de marcar, cada pieza recibe su sello antes de entrar al horno: el escudo de las Forjas, el peso, el nombre del herrero. Nadie lo graba a mano: hay **sellos de bronce** que se apoyan y listo.
+
+Tizón talla su primer sello, uno que marca el **cubo** de un número: `a*a*a`. Lo prueba con 2 y sale 8. Feliz, lo prueba con `2+1`… y sale 7. Esa tarde, la partida entera de herraduras sale **con forma de banana**.
+
+—El sello no piensa, Tizón —gruñe Ferrum, levantando una herradura torcida—. **Copia**. Si copiás sin paréntesis, copiás el error.
+
+Kira se ríe tan fuerte que tiene que sentarse. En la pared, debajo de la cuenta de espadazos, alguien escribe con tiza: «Herraduras banana: 40».
+
+### Objetivos
+
+Entender qué hace el **preprocesador** antes de compilar, usar `#include` y
+`#define` (constantes y macros con parámetros) sin caer en la trampa de los
+paréntesis, elegir entre una macro y una función, y compilar partes del
+programa solo cuando hace falta (`#if`, `#ifdef`, `#ifndef`, `#error`).
+
+### Antes de empezar
+
+- Funciones (R01-N07).
+
+### Explicación
+
+#### Del fuente al ejecutable
+Cuando apretás **Compilar**, pasan tres cosas en orden:
+
+1. el **preprocesador** lee las líneas que empiezan con `#` y **reemplaza texto**:
+   pega los `#include`, cambia cada macro por su valor y saca lo que no se
+   compila;
+2. el **compilador** traduce ese C «limpio» a código de máquina (un archivo objeto);
+3. el **enlazador** junta tu objeto con las bibliotecas (`printf` está ahí) y
+   arma el ejecutable.
+
+El preprocesador **no sabe C**: solo copia y pega texto. Para ver qué le entrega
+al compilador: `gcc -E programa.c` (en Linux y en Windows con MSYS2).
+
+#### `#include`: pegar otro archivo
+```c
+#include <stdio.h>      /* < >: lo busca en las carpetas del compilador */
+#include "forja.h"      /* " ": primero en la carpeta de tu programa */
+```
+Las directivas van **una por línea**, empiezan con `#` y **no llevan `;`**.
+
+#### `#define`: constantes con nombre
+```c
+#define TOPE 10
+#define NOMBRE_FORJA "Forjas de Hierro"
+int temperaturas[TOPE];         /* el preprocesador escribe int temperaturas[10]; */
+```
+Se escriben en **MAYÚSCULAS** por costumbre, para distinguirlas de las
+variables. Si se cambia `TOPE`, cambia en todo el programa. La otra forma es
+`const int tope = 10;`: tiene tipo y el depurador la ve; `#define` sirve
+también para el tamaño de un array en cualquier compilador.
+
+#### Macros con parámetros (y la trampa de los paréntesis)
+```c
+#define CUBO_MAL(a)  a*a*a
+#define CUBO(a)      ((a) * (a) * (a))
+```
+`CUBO_MAL(2+1)` se copia como `2+1*2+1*2+1`, que vale **7**, no 27. La regla:
+**un paréntesis alrededor de cada parámetro y otro alrededor de todo**.
+`CUBO(2+1)` se copia como `((2+1) * (2+1) * (2+1))` = 27.
+
+Otra trampa: la macro **repite** el argumento. `CUBO(i++)` incrementa `i` tres
+veces. Con macros, pasá siempre valores simples.
+
+Sin espacio entre el nombre y el paréntesis: `#define DOBLE (x) ...` define una
+constante `DOBLE` que vale `(x) ...`, y no una macro.
+
+#### ¿Macro o función?
+| | Macro | Función |
+|---|---|---|
+| Qué es | texto que se copia | código que se llama |
+| Tipos | no los revisa | los revisa |
+| Velocidad | sin costo de llamada | un salto y una vuelta |
+| Errores | raros y difíciles de ver | claros |
+
+Una macro sirve para algo **muy corto** que se usa **muchas veces**, como el
+`SWAP` del apunte, que intercambia dos variables de cualquier tipo:
+```c
+#define SWAP(tipo, a, b) do { tipo aux_ = (a); (a) = (b); (b) = aux_; } while (0)
+```
+El `do { … } while (0)` hace que la macro se comporte como **una sola**
+instrucción (anda bien dentro de un `if` sin llaves). Para todo lo demás, una
+función. En C moderno, una función `static inline` da la velocidad de la macro
+con la seguridad de la función.
+
+`#undef NOMBRE` borra una definición: desde esa línea, `NOMBRE` ya no existe.
+
+#### Compilar solo una parte: `#if`, `#ifdef`, `#ifndef`
+```c
+#define NIVEL 2
+
+#if NIVEL >= 2
+    printf("modo forja\n");          /* esto se compila */
+#elif NIVEL == 1
+    printf("modo práctica\n");       /* esto no llega al compilador */
+#else
+    printf("modo aprendiz\n");
+#endif
+
+#ifdef DEPURAR                        /* = #if defined(DEPURAR) */
+    printf("detalle para depurar\n");
+#endif
+```
+- `#ifdef X` pregunta si `X` está definido; `#ifndef X`, si **no** lo está.
+- Todo `#if` termina con su `#endif`.
+- `#error mensaje` corta la compilación con ese mensaje: sirve para avisar que
+  falta algo (`#ifndef NIVEL` → `#error Falta definir NIVEL`).
+- Las **guardas** de los archivos `.h` (`#ifndef FORJA_H` … `#endif`) usan esto
+  mismo; se ven en R04-N03.
+
+Una macro se puede definir **al compilar**, sin tocar el código: `-DDEPURAR` o
+`-DNIVEL=1`.
+- En la terminal (Linux, o Windows con MSYS2): `gcc -DDEPURAR programa.c -o programa`.
+- En **ZinjaI** y en **Code::Blocks**, en las opciones de compilación del proyecto
+  hay un lugar para los *defines* (`DEPURAR`, `NIVEL=1`).
+- En **VS Code**, se agrega `-DDEPURAR` a los argumentos de `gcc` en `tasks.json`.
+
+#### Macros que ya vienen
+`__LINE__` es el número de línea y `__FILE__`, el nombre del archivo: sirven para
+mensajes de depuración. `__func__` (que no es una macro, pero se usa igual) es el
+nombre de la función en la que estás.
+
+#### Cómo compilarlo y ejecutarlo
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**
+  (compilar y ejecutar).
+- **VS Code**: en Windows, con el `gcc` de MSYS2; en Linux, con el del sistema.
+  Desde la terminal integrada:
+  - Linux: `gcc -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+- Para ver lo que hace el preprocesador: `gcc -E main.c | tail -40`
+  (en Windows con MSYS2, igual).
+
+### Código de ejemplo
+
+```c
+/*
+ * R01-N08 - El preprocesador: constantes, macros con parametros (con y sin
+ * parentesis), macro contra funcion, #undef y compilacion condicional.
+ */
+#include <stdio.h>
+
+#define TOPE 5
+#define NOMBRE_FORJA "Forjas de Hierro"
+
+#define CUBO_MAL(a)  a*a*a                 /* sin parentesis: peligro */
+#define CUBO(a)      ((a) * (a) * (a))     /* bien: cada parametro y todo */
+#define MAYOR(a, b)  ((a) > (b) ? (a) : (b))
+#define SWAP(tipo, a, b) do { tipo aux_ = (a); (a) = (b); (b) = aux_; } while (0)
+
+#define NIVEL 2                            /* probá cambiarlo por 1 o 0 */
+
+int cubo_funcion(int a)
+{
+    return a * a * a;
+}
+
+int main(void)
+{
+    int pesos[TOPE] = { 12, 7, 30, 18, 9 };
+    printf("Bienvenidos a las %s (%d piezas)\n", NOMBRE_FORJA, TOPE);
+
+    printf("CUBO_MAL(2+1) = %d   (se copio como 2+1*2+1*2+1)\n", CUBO_MAL(2+1));
+    printf("CUBO(2+1)     = %d\n", CUBO(2+1));
+    printf("cubo_funcion(2+1) = %d\n", cubo_funcion(2+1));
+
+    int mayor = pesos[0];
+    for (int i = 1; i < TOPE; i++) {
+        mayor = MAYOR(mayor, pesos[i]);
+    }
+    printf("la pieza mas pesada: %d\n", mayor);
+
+    int martillos = 3, yunques = 8;
+    SWAP(int, martillos, yunques);
+    printf("despues del SWAP: martillos %d, yunques %d\n", martillos, yunques);
+
+    double frio = 20.5, caliente = 900.0;
+    SWAP(double, frio, caliente);
+    printf("tambien con double: %.1f y %.1f\n", frio, caliente);
+
+#if NIVEL >= 2
+    printf("modo forja: el horno al maximo\n");
+#elif NIVEL == 1
+    printf("modo practica: el horno a la mitad\n");
+#else
+    printf("modo aprendiz: el horno apagado\n");
+#endif
+
+#ifdef DEPURAR
+    printf("[depurar] linea %d\n", __LINE__);
+#endif
+
+#undef TOPE
+    /* desde aca, TOPE ya no existe: usarlo daria error */
+    printf("fin del turno en la funcion %s\n", __func__);
+    return 0;
+}
+```
+
+### Salida esperada
+
+```
+Bienvenidos a las Forjas de Hierro (5 piezas)
+CUBO_MAL(2+1) = 7   (se copio como 2+1*2+1*2+1)
+CUBO(2+1)     = 27
+cubo_funcion(2+1) = 27
+la pieza mas pesada: 30
+despues del SWAP: martillos 8, yunques 3
+tambien con double: 900.0 y 20.5
+modo forja: el horno al maximo
+fin del turno en la funcion main
+```
+
+### ¿Para qué sirve?
+
+Todo programa de C usa el preprocesador: cada `#include` es una directiva. Las constantes con `#define` son la forma clásica de los tamaños de los arrays y los valores fijos. La compilación condicional deja **un solo código** que se compila distinto en Linux y en Windows (`#ifdef _WIN32`), con o sin mensajes de depuración, o para una placa distinta en Arduino. Y las guardas (`#ifndef ... #endif`) están en cada archivo `.h` que vas a escribir.
+
+### Errores habituales
+
+Mensajes reales de `gcc` 13 con `-Wall -Wextra`.
+
+**Ogro: la macro sin paréntesis.** Compila sin un solo aviso y da otro
+resultado: `CUBO_MAL(2+1)` vale 7. Mirá lo que hace el preprocesador con
+`gcc -E`.
+
+**Slime: el `;` al final de un `#define`.** `#define TOPE 10;` copia también el
+punto y coma:
+```
+e1.c:2:16: error: expected ‘]’ before ‘;’ token
+    2 | #define TOPE 10;
+      |                ^
+e1.c:5:11: note: in expansion of macro ‘TOPE’
+    5 |     int v[TOPE];
+      |           ^~~~
+```
+
+**Esqueleto: el espacio antes del paréntesis.** `#define DOBLE (x) ((x) + (x))`
+define una constante, no una macro, y aparece una `x` que no existe:
+```
+e4.c:2:16: error: ‘x’ undeclared (first use in this function)
+    2 | #define DOBLE (x) ((x) + (x))
+      |                ^
+```
+
+**Slime: un `#ifdef` sin su `#endif`.**
+```
+e2.c:3: error: unterminated #ifdef
+    3 | #ifdef MODO_FORJA
+      |
+```
+
+**El `#error` que pusiste vos.** No es un bug: es el aviso que escribiste para
+cuando falta algo:
+```
+e3.c:3:2: error: #error Falta definir NIVEL: compila con -DNIVEL=1
+```
+
+**Ogro: el argumento con `++`.** `MAYOR(i++, j)` puede incrementar `i` dos
+veces. Con macros, nada de `++` ni llamadas a funciones en los argumentos.
+
+### Misión R01-N08-M1 · Los sellos de la Forja
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Definí con `#define` la constante `LINGOTES_POR_CAJA` (12) y las macros
+`AREA(base, altura)`, `MENOR(a, b)` y `EN_RANGO(x, min, max)` (vale 1 si `x`
+está entre `min` y `max`, incluidos), **con todos los paréntesis**. Probalas con
+`AREA(3+1, 2)`, `MENOR(7, 4)`, `EN_RANGO(850, 800, 1200)` y
+`EN_RANGO(1300, 800, 1200)`, y calculá cuántas cajas completas salen de 100
+lingotes y cuántos sobran.
+
+#### Criterio de aprobación
+
+- Usa `#define` para la constante y las tres macros, con un paréntesis en cada parámetro y otro alrededor de todo.
+- `AREA(3+1, 2)` da 8 (sin paréntesis daría 5).
+- Muestra las cajas completas y los lingotes que sobran.
+
+#### Salida esperada
+
+```
+AREA(3+1, 2) = 8
+MENOR(7, 4) = 4
+EN_RANGO(850, 800, 1200) = 1
+EN_RANGO(1300, 800, 1200) = 0
+100 lingotes: 8 cajas de 12 y sobran 4
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 1 - Los sellos de la Forja: una constante y tres macros con todos
+ * los parentesis.
+ */
+#include <stdio.h>
+
+#define LINGOTES_POR_CAJA 12
+#define AREA(base, altura)   ((base) * (altura))
+#define MENOR(a, b)          ((a) < (b) ? (a) : (b))
+#define EN_RANGO(x, min, max) ((x) >= (min) && (x) <= (max))
+
+int main(void)
+{
+    printf("AREA(3+1, 2) = %d\n", AREA(3+1, 2));
+    printf("MENOR(7, 4) = %d\n", MENOR(7, 4));
+    printf("EN_RANGO(850, 800, 1200) = %d\n", EN_RANGO(850, 800, 1200));
+    printf("EN_RANGO(1300, 800, 1200) = %d\n", EN_RANGO(1300, 800, 1200));
+
+    int lingotes = 100;
+    printf("%d lingotes: %d cajas de %d y sobran %d\n", lingotes,
+           lingotes / LINGOTES_POR_CAJA, LINGOTES_POR_CAJA, lingotes % LINGOTES_POR_CAJA);
+    return 0;
+}
+```
+
+### Misión R01-N08-M2 · Las herraduras banana
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Tizón dejó estas macros en el taller:
+```c
+#define CUBO(a)   a*a*a
+#define DOBLE(x)  x+x
+#define MITAD(x)  x/2
+```
+Arreglalas y mostrá, para cada una, el resultado con un argumento que
+**rompía** la versión vieja: `CUBO(2+1)`, `DOBLE(3)*2` y `MITAD(10+4)`. Al
+lado, el valor que daba la versión rota (calculalo a mano: el preprocesador
+solo copia texto).
+
+#### Criterio de aprobación
+
+- Las tres macros tienen un paréntesis en cada parámetro y otro alrededor de todo.
+- `CUBO(2+1)` da 27, `DOBLE(3)*2` da 12 y `MITAD(10+4)` da 7.
+- Muestra también el valor que daba la versión rota (7, 9 y 12).
+
+#### Salida esperada
+
+```
+CUBO(2+1)   = 27  (la rota daba 7)
+DOBLE(3)*2  = 12  (la rota daba 9)
+MITAD(10+4) =  7  (la rota daba 12)
+Ninguna herradura banana.
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 2 - Las herraduras banana: macros sin parentesis, arregladas.
+ * La version rota copia el texto tal cual:
+ *   CUBO(2+1)   -> 2+1*2+1*2+1 = 7
+ *   DOBLE(3)*2  -> 3+3*2       = 9
+ *   MITAD(10+4) -> 10+4/2      = 12
+ */
+#include <stdio.h>
+
+#define CUBO(a)   ((a) * (a) * (a))
+#define DOBLE(x)  ((x) + (x))
+#define MITAD(x)  ((x) / 2)
+
+int main(void)
+{
+    printf("CUBO(2+1)   = %2d  (la rota daba 7)\n", CUBO(2+1));
+    printf("DOBLE(3)*2  = %2d  (la rota daba 9)\n", DOBLE(3)*2);
+    printf("MITAD(10+4) = %2d  (la rota daba 12)\n", MITAD(10+4));
+    printf("Ninguna herradura banana.\n");
+    return 0;
+}
+```
+
+### Misión R01-N08-M3 · Modo práctica y modo forja
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Escribí un programa que muestre la temperatura del horno según `NIVEL`:
+- si `NIVEL` no está definido, que **no compile** y avise con `#error`;
+- con `NIVEL` 0, «horno apagado»; con 1, «horno a 600 grados»; con 2 o más,
+  «horno a 1200 grados»;
+- si además está definido `DEPURAR`, que muestre también la línea del programa
+  con `__LINE__`.
+
+Definí `NIVEL` en 1 arriba del programa y entregalo así. Probá en tu compu los
+otros valores y `-DDEPURAR`.
+
+#### Criterio de aprobación
+
+- Usa `#ifndef` con `#error` cuando falta `NIVEL`.
+- Usa `#if`, `#elif`, `#else` y `#endif` para los tres niveles.
+- Usa `#ifdef DEPURAR` para el detalle de depuración.
+
+#### Salida esperada
+
+```
+horno a 600 grados
+nivel elegido: 1
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 3 - Modo practica y modo forja: compilacion condicional.
+ * Probar con: gcc -DDEPURAR main.c -o programa
+ */
+#include <stdio.h>
+
+#define NIVEL 1
+
+#ifndef NIVEL
+#error Falta definir NIVEL (0, 1 o 2)
+#endif
+
+int main(void)
+{
+#if NIVEL >= 2
+    printf("horno a 1200 grados\n");
+#elif NIVEL == 1
+    printf("horno a 600 grados\n");
+#else
+    printf("horno apagado\n");
+#endif
+
+#ifdef DEPURAR
+    printf("[depurar] esto salio de la linea %d\n", __LINE__);
+#endif
+    printf("nivel elegido: %d\n", NIVEL);
+    return 0;
+}
+```
+
+### Encargo R01-N08-E1 · La tabla de conversión del mercader
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 1
+xp: 15
+```
+
+#### Consigna
+
+Chispa vende en las Forjas y en el Valle, y nunca sabe cuánto es cada cosa.
+Escribí las macros `C_A_F(c)` (de grados Celsius a Fahrenheit: `c * 9 / 5 + 32`)
+y `KG_A_LIBRAS(kg)` (`kg * 2.20462`), con todos los paréntesis, y mostrá una
+tabla de 0 a 1200 grados de 300 en 300 y otra con 1, 5 y 12.5 kilos. Usá
+`double` y dos decimales.
+
+#### Criterio de aprobación
+
+- Escribe `C_A_F` y `KG_A_LIBRAS` con todos los paréntesis.
+- Muestra las dos tablas alineadas, con dos decimales.
+
+#### Salida esperada
+
+```
+Celsius  Fahrenheit
+      0       32.00
+    300      572.00
+    600     1112.00
+    900     1652.00
+   1200     2192.00
+
+Kilos   Libras
+  1.0     2.20
+  5.0    11.02
+ 12.5    27.56
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Encargo - La tabla de conversion del mercader: macros con parametros
+ * para convertir temperaturas y pesos.
+ */
+#include <stdio.h>
+
+#define C_A_F(c)        ((c) * 9.0 / 5.0 + 32.0)
+#define KG_A_LIBRAS(kg) ((kg) * 2.20462)
+
+int main(void)
+{
+    printf("Celsius  Fahrenheit\n");
+    for (int c = 0; c <= 1200; c += 300) {
+        printf("%7d  %10.2f\n", c, C_A_F(c));
+    }
+    double kilos[] = { 1.0, 5.0, 12.5 };
+    printf("\nKilos   Libras\n");
+    for (int i = 0; i < 3; i++) {
+        printf("%5.1f  %7.2f\n", kilos[i], KG_A_LIBRAS(kilos[i]));
+    }
+    return 0;
+}
+```
+
+### Prueba del sello
+
+#### ¿Qué hace el preprocesador y cuándo lo hace?
+
+Reemplaza texto **antes** de compilar: pega los `#include`, cambia cada macro por su valor y saca lo que no se compila (`#if`). No sabe C: solo copia y pega.
+
+#### ¿Cuánto vale `CUBO(1+1)` si `#define CUBO(a) a*a*a`? ¿Y bien escrita?
+
+`1+1*1+1*1+1` = 4. Bien escrita, `((a) * (a) * (a))`, vale 8.
+
+#### ¿Qué diferencia hay entre `#include <stdio.h>` y `#include "forja.h"`?
+
+Con `< >` el archivo se busca en las carpetas del compilador; con `" "`, primero en la carpeta de tu programa.
+
+#### ¿Por qué `#define TOPE 10;` da un error raro?
+
+Porque el `;` también se copia: `int v[TOPE];` queda `int v[10;];`.
+
+#### ¿Cuándo conviene una macro y cuándo una función?
+
+Una macro, para algo muy corto que se usa muchas veces (y no revisa tipos); una función, para todo lo demás, porque revisa los tipos y sus errores son claros.
+
+#### ¿Para qué sirven `#ifdef DEPURAR` y `-DDEPURAR`?
+
+Para compilar los mensajes de depuración solo cuando se pide: `-DDEPURAR` define `DEPURAR` al compilar, sin tocar el código.
+
+### Soluciones (docente)
+
+Nodo nuevo (2026-10-08), del apunte de Programación I de la UNLaR (Camargo), «El preprocesador del C» (pp. 19–21) y «Velocidad de ejecución de las funciones» (p. 49), en C estándar.
+
+## R01-N09 · Bibliotecas estándar útiles
 
 ```meta
 tipo: tema
 criatura: esqueleto
-padre: R01-N07
+padre: R01-N08
 precio: 10
 temas: prog.matematica-azar
 ```
@@ -4470,7 +5029,7 @@ el mismo número muchas veces seguidas.
 **Ogro: `abs` con decimales.** `abs(-2.5)` convierte a entero y da 2. Para
 `double`, `fabs`.
 
-### Misión R01-N08-M1 · Combate con pociones
+### Misión R01-N09-M1 · Combate con pociones
 
 ```meta
 entrega: codigo
@@ -4562,7 +5121,7 @@ int tirar(int minimo, int maximo)
 }
 ```
 
-### Misión R01-N08-M2 · El oráculo al azar
+### Misión R01-N09-M2 · El oráculo al azar
 
 ```meta
 entrega: codigo
@@ -4680,7 +5239,7 @@ Intento 6: más alto
 No lo adivinaste. Era 38.
 ```
 
-### Misión R01-N08-M3 · El sello de la Forja
+### Misión R01-N09-M3 · El sello de la Forja
 
 ```meta
 entrega: codigo
@@ -4778,7 +5337,7 @@ Escribí una línea:
 letras 0, dígitos 0, espacios 0, otros 0
 ```
 
-### Encargo R01-N08-E1 · El préstamo del banco
+### Encargo R01-N09-E1 · El préstamo del banco
 
 ```meta
 entrega: codigo
@@ -4879,11 +5438,11 @@ Porque además de cualquier carácter puede devolver `EOF` (fin de la entrada), 
 
 Material original: `01-C/09-Bibliotecas` (soluciones completas en `soluciones/`, con sus archivos de entrada y salida).
 
-## R01-N09 · Jefe: el Gólem de Escoria
+## R01-N10 · Jefe: el Gólem de Escoria
 
 ```meta
 tipo: jefe
-padre: R01-N08
+padre: R01-N09
 precio: 10
 criatura: dragon
 insignia: Sello del Gólem
@@ -4959,7 +5518,7 @@ El Gólem combina a todas las criaturas de la rama:
 - **Esqueleto**: usar una función antes de declararla (sin prototipo).
 - **Ogro**: un bucle que no revisa si `fgets` devolvió `NULL` y se queda preguntando para siempre cuando termina la entrada.
 
-### Misión R01-N09-M1 · La caja de la Forja
+### Misión R01-N10-M1 · La caja de la Forja
 
 ```meta
 entrega: codigo
@@ -5166,7 +5725,7 @@ Descuento:       0.00
 TOTAL:         240.00
 ```
 
-### Misión R01-N09-M2 · Las placas del Gólem
+### Misión R01-N10-M2 · Las placas del Gólem
 
 ```meta
 entrega: codigo
@@ -5281,7 +5840,7 @@ int main(void)
 }
 ```
 
-### Encargo R01-N09-E1 · El conversor del Gremio
+### Encargo R01-N10-E1 · El conversor del Gremio
 
 ```meta
 entrega: codigo

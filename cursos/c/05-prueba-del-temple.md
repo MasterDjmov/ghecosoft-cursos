@@ -1128,7 +1128,7 @@ Antes del último desafío, el Gremio te pide un favor que no tiene nada de mág
 
 ### Antes de empezar
 
-- Strings (11), array dinámico (R03-N02), archivos de texto (R04-N01) y punteros a función (R03-N04).
+- Strings (11), array dinámico (R03-N02), archivos de texto (R04-N01) y punteros a función (R03-N05).
 - Tests (R05-N02), para probar las validaciones.
 
 ### Explicación

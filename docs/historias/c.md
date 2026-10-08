@@ -54,7 +54,7 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ Las Forjas de 
 - **El Archivero de la Forja** *(nuevo, a confirmar)*: guarda los pedidos y los planos de todos los encargos (R04).
 - **Bron, Mia y Zed no viajan con ella.** Solo se los anticipa: Ferrum recibe una carta de Bron desde la Ciudadela (es su viejo amigo), y un mercader cuenta que en el Imperio atraparon a un ladrón de techos en la Aduana.
 
-**Los ejemplos y las prácticas** que hoy usan a Mia, Bron y Zed como compañía (≈ 300 menciones) pasan a gente de las Forjas, como se hizo en Java (Kira → Nadia, Bron → Baldo): **Mia → Tizón**, **Bron → Hulda**, **Zed → Chispa**, un mercader de lingotes que va y viene *(a confirmar)*. Las salidas se rehacen ejecutando el código.
+**Los ejemplos y las prácticas** que hoy usan a Mia, Bron y Zed como compañía (≈ 300 menciones) pasan a gente de las Forjas, como se hizo en Java (Kira → Nadia, Bron → Baldo): **Mia → Hulda**, **Bron → Tizón** y **Zed → Chispa** (respetando el género de cada uno; en el código va `Tizon`, sin tilde, porque `printf("%-8s")` cuenta bytes y la tilde ocupa dos). Las salidas se rehacen ejecutando el código.
 
 **Las crónicas pasan a tercera persona con Kira** («Ferrum le explica a Kira…»), como las de Zed.
 

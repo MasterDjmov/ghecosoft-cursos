@@ -2477,11 +2477,809 @@ Cuando se insertan y quitan elementos todo el tiempo al principio o en el medio,
 
 Reescrita desde cero a partir de `02-C-Intermedio/19-ListaEnlazada` (formato viejo). Las misiones 1 a 3 parten del mismo código inicial.
 
-## R03-N04 · Punteros a función
+## R03-N04 · Pilas y colas
 
 ```meta
 tipo: tema
 padre: R03-N03
+precio: 10
+criatura: troll
+temas: col.pilas-colas
+usa: alg.listas-enlazadas, mem.dinamica
+```
+
+### Crónica
+
+En las Minas hay dos máquinas que Hulda cuida como a sus hijas.
+
+El **montacargas**: las bolsas se apilan una encima de otra y, arriba, la última que se subió es la **primera que baja**. Tizón subió su almuerzo primero, abajo de todo, y se queda sin comer hasta la noche. —Es una **pila** —le explica Hulda sin una gota de compasión—. Último en entrar, primero en salir.
+
+La **fila de las vagonetas**: la primera que llega a la boca de la mina es la **primera que sale**. Chispa intenta meter su vagoneta adelante de todas, sonriendo con el diente de oro. Hulda ni lo mira: —Es una **cola**, mercader. Al fondo.
+
+Kira, que siempre quiere pasar primero, se pone al fondo sin que nadie se lo diga. Ferrum, que la vio desde lejos, golpea el yunque dos veces.
+
+### Objetivos
+
+- Entender una **pila** (el último que entra es el primero que sale) y una **cola** (el primero que entra es el primero que sale).
+- Implementarlas **con un array** y **con nodos enlazados**, guardando structs.
+- Controlar los dos errores clásicos: sacar de una vacía y meter en una llena.
+- Reconocer dónde se usan: deshacer, paréntesis balanceados, turnos y pedidos.
+
+### Antes de empezar
+
+- Lista enlazada (R03-N03): una pila con nodos es insertar y quitar **al frente**.
+- Arrays de structs (R02-N06).
+
+### Explicación
+
+#### La pila (LIFO)
+Una **pila** (*stack*) solo deja tocar el **tope**:
+- **apilar** (*push*): poner arriba;
+- **desapilar** (*pop*): sacar el de arriba;
+- **ver el tope** sin sacarlo, y saber si está **vacía**.
+
+Con un **array**, alcanza con el array y un contador que dice cuántos hay:
+```c
+#define MAX 10
+typedef struct {
+    Bolsa datos[MAX];
+    int cantidad;               /* el tope es datos[cantidad - 1] */
+} Pila;
+
+bool apilar(Pila *p, Bolsa b)
+{
+    if (p->cantidad == MAX) return false;     /* llena: overflow */
+    p->datos[p->cantidad++] = b;
+    return true;
+}
+
+bool desapilar(Pila *p, Bolsa *sale)
+{
+    if (p->cantidad == 0) return false;       /* vacía: underflow */
+    *sale = p->datos[--p->cantidad];
+    return true;
+}
+```
+Las funciones reciben la pila **por puntero** (`Pila *p`) porque la modifican, y
+devuelven `bool` para avisar si pudieron. Lo que sale se entrega por un puntero
+(`Bolsa *sale`).
+
+Con **nodos**, apilar es insertar al frente de una lista, y desapilar es quitar
+el primero: no hay límite de tamaño (solo la memoria).
+
+#### La cola (FIFO)
+Una **cola** (*queue*) se llena por el **fondo** y se vacía por el **frente**:
+- **encolar**: agregar al fondo;
+- **desencolar**: sacar el del frente.
+
+Con **nodos**, se guardan **dos** punteros, al frente y al fondo, para no
+recorrer toda la lista en cada encolar:
+```c
+typedef struct {
+    NodoV *frente;          /* de acá sale */
+    NodoV *fondo;           /* acá se engancha el que llega */
+} Cola;
+
+void encolar(Cola *c, NodoV *n)
+{
+    n->siguiente = NULL;
+    if (c->fondo == NULL) c->frente = n;      /* estaba vacía: es el único */
+    else c->fondo->siguiente = n;
+    c->fondo = n;
+}
+```
+Al desencolar el último, **también** el fondo vuelve a `NULL`: es el error más
+común de las colas.
+
+Con un **array**, la cola es **circular**: el frente avanza y, al llegar al
+final del array, vuelve al principio con `%`:
+```c
+int pos = (c->frente + c->cantidad) % MAX;    /* dónde entra el próximo */
+c->frente = (c->frente + 1) % MAX;            /* después de sacar uno */
+```
+Así no hace falta correr todos los elementos cada vez que sale uno.
+
+#### ¿Pila o cola?
+| Problema | Estructura | Por qué |
+|---|---|---|
+| deshacer (Ctrl+Z) | pila | lo último que hiciste es lo primero que se deshace |
+| revisar que `( [ { } ] )` cierre bien | pila | el último que abrió es el primero que tiene que cerrar |
+| turnos, pedidos, impresora | cola | se atiende por orden de llegada |
+| recorrer un laberinto a lo ancho | cola | primero lo más cercano |
+
+#### Cómo compilarlo y ejecutarlo
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **VS Code** o la terminal:
+  - Linux: `gcc -Wall -Wextra -g main.c -o programa` y `./programa`; con
+    `-fsanitize=address` se ven las fugas y los punteros perdidos.
+  - Windows (MSYS2): `gcc -Wall -Wextra -g main.c -o programa.exe` y
+    `programa.exe`. El sanitizador de direcciones no está en MinGW: usá
+    `-fsanitize=undefined` o, para las fugas, contá cada `malloc` con su `free`.
+- Con entrada desde un archivo: `./programa < entrada.txt` (Linux) o
+  `programa.exe < entrada.txt` (Windows, en la terminal).
+
+### Código de ejemplo
+
+```c
+/*
+ * R03-N04 - Pilas y colas: el montacargas (una pila con array de structs) y
+ * la fila de vagonetas (una cola con nodos enlazados, con frente y fondo).
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX 4
+
+/* ---------- La pila: el montacargas ---------- */
+typedef struct {
+    char duenio[12];
+    int kilos;
+} Bolsa;
+
+typedef struct {
+    Bolsa datos[MAX];
+    int cantidad;
+} Pila;
+
+bool apilar(Pila *p, const char *duenio, int kilos)
+{
+    if (p->cantidad == MAX) {
+        return false;                           /* llena */
+    }
+    Bolsa *b = &p->datos[p->cantidad++];
+    strcpy(b->duenio, duenio);
+    b->kilos = kilos;
+    return true;
+}
+
+bool desapilar(Pila *p, Bolsa *sale)
+{
+    if (p->cantidad == 0) {
+        return false;                           /* vacia */
+    }
+    *sale = p->datos[--p->cantidad];
+    return true;
+}
+
+/* ---------- La cola: la fila de vagonetas ---------- */
+typedef struct NodoV {
+    int numero;
+    int carga;
+    struct NodoV *siguiente;
+} NodoV;
+
+typedef struct {
+    NodoV *frente;
+    NodoV *fondo;
+} Cola;
+
+void encolar(Cola *c, int numero, int carga)
+{
+    NodoV *n = malloc(sizeof *n);
+    if (n == NULL) {
+        exit(1);
+    }
+    n->numero = numero;
+    n->carga = carga;
+    n->siguiente = NULL;
+    if (c->fondo == NULL) {
+        c->frente = n;                          /* estaba vacia */
+    } else {
+        c->fondo->siguiente = n;
+    }
+    c->fondo = n;
+}
+
+bool desencolar(Cola *c, int *numero, int *carga)
+{
+    if (c->frente == NULL) {
+        return false;
+    }
+    NodoV *sale = c->frente;
+    *numero = sale->numero;
+    *carga = sale->carga;
+    c->frente = sale->siguiente;
+    if (c->frente == NULL) {
+        c->fondo = NULL;                        /* se vacio: el fondo tambien */
+    }
+    free(sale);
+    return true;
+}
+
+int main(void)
+{
+    Pila montacargas = { .cantidad = 0 };
+    const char *duenios[] = { "Tizon", "Kira", "Hulda", "Chispa", "Ferrum" };
+    int kilos[] = { 3, 12, 20, 7, 30 };
+
+    printf("== El montacargas (pila) ==\n");
+    for (int i = 0; i < 5; i++) {
+        if (apilar(&montacargas, duenios[i], kilos[i])) {
+            printf("sube la bolsa de %s (%d kg)\n", duenios[i], kilos[i]);
+        } else {
+            printf("no entra la bolsa de %s: el montacargas esta lleno\n", duenios[i]);
+        }
+    }
+    Bolsa b;
+    while (desapilar(&montacargas, &b)) {
+        printf("baja la bolsa de %s\n", b.duenio);
+    }
+    printf("el almuerzo de Tizon bajo ultimo\n");
+
+    printf("\n== La fila de vagonetas (cola) ==\n");
+    Cola fila = { NULL, NULL };
+    encolar(&fila, 1, 300);
+    encolar(&fila, 2, 120);
+    encolar(&fila, 3, 450);
+    int numero, carga;
+    while (desencolar(&fila, &numero, &carga)) {
+        printf("sale la vagoneta %d con %d kg\n", numero, carga);
+    }
+    printf("fila vacia: frente %s, fondo %s\n",
+           fila.frente == NULL ? "NULL" : "ocupado", fila.fondo == NULL ? "NULL" : "ocupado");
+    return 0;
+}
+```
+
+### Salida esperada
+
+```
+== El montacargas (pila) ==
+sube la bolsa de Tizon (3 kg)
+sube la bolsa de Kira (12 kg)
+sube la bolsa de Hulda (20 kg)
+sube la bolsa de Chispa (7 kg)
+no entra la bolsa de Ferrum: el montacargas esta lleno
+baja la bolsa de Chispa
+baja la bolsa de Hulda
+baja la bolsa de Kira
+baja la bolsa de Tizon
+el almuerzo de Tizon bajo ultimo
+
+== La fila de vagonetas (cola) ==
+sale la vagoneta 1 con 300 kg
+sale la vagoneta 2 con 120 kg
+sale la vagoneta 3 con 450 kg
+fila vacia: frente NULL, fondo NULL
+```
+
+### ¿Para qué sirve?
+
+Las pilas están adentro de todo programa: cada vez que se llama a una función, se apila (la **pila de llamadas** que muestra el sanitizador). También son el «deshacer» de cualquier editor y la forma de revisar que un código abra y cierre bien sus llaves. Las colas ordenan todo lo que se atiende por turno: los pedidos de un servidor, las impresiones, los mensajes. En C++ ya vienen hechas (`std::stack`, `std::queue`); en C se escriben a mano, y los parciales lo piden.
+
+### Errores habituales
+
+**Troll: desapilar de una pila vacía.** Con `p->datos[--p->cantidad]` y la pila
+vacía, se lee `datos[-1]`: memoria ajena. Siempre preguntar antes si está
+vacía (y devolver `false`).
+
+**Orco: apilar en una pila llena.** Con array, `datos[MAX]` ya está fuera del
+array. Con `-fsanitize=address` (Linux):
+```
+==ERROR: AddressSanitizer: stack-buffer-overflow on address ...
+WRITE of size 4 ...
+```
+
+**Troll: la cola que se vació y el fondo que sigue apuntando.** Si al sacar el
+último no se pone `fondo = NULL`, el próximo `encolar` engancha el nodo nuevo
+a uno que ya se liberó.
+
+**Ogro: confundir el orden.** Si la consigna dice «por orden de llegada», es una
+cola; si dice «el último primero», una pila. Probá con tres elementos en papel
+antes de programar.
+
+**Troll: no liberar.** Al terminar, hay que desencolar (o desapilar) todo lo que
+quede para hacer el `free` de cada nodo.
+
+### Misión R03-N04-M1 · El montacargas
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Implementá una **pila con array** de hasta 3 `Bolsa` (dueño y kilos) con
+`apilar`, `desapilar`, `tope` y `vacia`. Apilá las bolsas de Kira (12 kg),
+Hulda (20 kg), Chispa (7 kg) y Ferrum (30 kg) —la última no entra—, mostrá el
+tope, desapilá todo mostrando cada una y, al final, intentá desapilar una vez
+más con la pila vacía.
+
+#### Criterio de aprobación
+
+- La pila es un struct con el array y la cantidad; las funciones la reciben por puntero.
+- `apilar` avisa cuando está llena y `desapilar` cuando está vacía, sin salirse del array.
+- Las bolsas bajan en el orden inverso al que subieron.
+
+#### Salida esperada
+
+```
+apilada: Kira (12 kg)
+apilada: Hulda (20 kg)
+apilada: Chispa (7 kg)
+llena: no entra la de Ferrum
+arriba de todo: Chispa
+baja: Chispa (7 kg)
+baja: Hulda (20 kg)
+baja: Kira (12 kg)
+vacia: no hay nada para bajar
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 1 - El montacargas: una pila con array de structs.
+ */
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX 3
+
+typedef struct {
+    char duenio[12];
+    int kilos;
+} Bolsa;
+
+typedef struct {
+    Bolsa datos[MAX];
+    int cantidad;
+} Pila;
+
+bool vacia(const Pila *p)
+{
+    return p->cantidad == 0;
+}
+
+bool apilar(Pila *p, const char *duenio, int kilos)
+{
+    if (p->cantidad == MAX) {
+        return false;
+    }
+    strcpy(p->datos[p->cantidad].duenio, duenio);
+    p->datos[p->cantidad].kilos = kilos;
+    p->cantidad++;
+    return true;
+}
+
+bool desapilar(Pila *p, Bolsa *sale)
+{
+    if (vacia(p)) {
+        return false;
+    }
+    p->cantidad--;
+    *sale = p->datos[p->cantidad];
+    return true;
+}
+
+const Bolsa *tope(const Pila *p)
+{
+    return vacia(p) ? NULL : &p->datos[p->cantidad - 1];
+}
+
+int main(void)
+{
+    Pila p = { .cantidad = 0 };
+    const char *duenios[] = { "Kira", "Hulda", "Chispa", "Ferrum" };
+    int kilos[] = { 12, 20, 7, 30 };
+    for (int i = 0; i < 4; i++) {
+        if (apilar(&p, duenios[i], kilos[i])) {
+            printf("apilada: %s (%d kg)\n", duenios[i], kilos[i]);
+        } else {
+            printf("llena: no entra la de %s\n", duenios[i]);
+        }
+    }
+    printf("arriba de todo: %s\n", tope(&p)->duenio);
+
+    Bolsa b;
+    while (desapilar(&p, &b)) {
+        printf("baja: %s (%d kg)\n", b.duenio, b.kilos);
+    }
+    if (!desapilar(&p, &b)) {
+        printf("vacia: no hay nada para bajar\n");
+    }
+    return 0;
+}
+```
+
+### Misión R03-N04-M2 · Las llaves que cierran
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+El Archivero desconfía de los planos de Chispa: dice que nunca cierra lo que
+abre. Leé líneas hasta el final de la entrada y, para cada una, decí si sus
+`( )`, `[ ]` y `{ }` están **balanceados**, usando una **pila de char**: cada
+apertura se apila; cada cierre tiene que coincidir con el tope.
+
+#### Criterio de aprobación
+
+- Usa una pila de `char` (con array) para las aperturas.
+- Un cierre que no coincide con el tope, o una pila con algo al final, es «no cierra».
+- Ignora los demás caracteres y muestra el resultado de cada línea.
+
+#### Entrada de ejemplo
+
+```
+int v[3] = { 1, 2, (3) };
+if (a[0] > 2) { b = (c + d]; }
+{ [ ( ) ] }
+((((
+```
+
+#### Salida esperada
+
+```
+línea 1: cierra
+línea 2: no cierra
+línea 3: cierra
+línea 4: no cierra
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 2 - Las llaves que cierran: una pila de char revisa que cada
+ * apertura cierre en el orden correcto.
+ */
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define MAX 100
+
+bool balanceada(const char *linea)
+{
+    char pila[MAX];
+    int cantidad = 0;
+    for (int i = 0; linea[i] != '\0'; i++) {
+        char c = linea[i];
+        if (c == '(' || c == '[' || c == '{') {
+            if (cantidad == MAX) {
+                return false;
+            }
+            pila[cantidad++] = c;
+        } else if (c == ')' || c == ']' || c == '}') {
+            char espera = c == ')' ? '(' : c == ']' ? '[' : '{';
+            if (cantidad == 0 || pila[cantidad - 1] != espera) {
+                return false;
+            }
+            cantidad--;
+        }
+    }
+    return cantidad == 0;
+}
+
+int main(void)
+{
+    char linea[200];
+    int n = 0;
+    while (fgets(linea, sizeof linea, stdin) != NULL) {
+        linea[strcspn(linea, "\n")] = '\0';
+        n++;
+        printf("línea %d: %s\n", n, balanceada(linea) ? "cierra" : "no cierra");
+    }
+    return 0;
+}
+```
+
+#### Pruebas
+
+##### Sin llaves
+```entrada
+sin llaves ni nada
+x = 3 + 4;
+```
+```salida
+línea 1: cierra
+línea 2: cierra
+```
+
+##### Cierra de más
+```entrada
+())
+[)
+```
+```salida
+línea 1: no cierra
+línea 2: no cierra
+```
+
+### Misión R03-N04-M3 · La fila de vagonetas
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Implementá una **cola con nodos** (frente y fondo) de vagonetas (número y
+carga). Leé órdenes, una por línea: `llega N KG` encola, `sale` desencola y
+muestra cuál salió (o «no hay vagonetas»), `fin` termina. Al terminar, mostrá
+cuántas quedaron en la fila y liberalas.
+
+#### Criterio de aprobación
+
+- La cola tiene punteros al frente y al fondo; encolar no recorre la lista.
+- Al sacar la última, el fondo también vuelve a `NULL`.
+- Salen por orden de llegada y al final se liberan todos los nodos.
+
+#### Entrada de ejemplo
+
+```
+llega 1 300
+llega 2 120
+sale
+llega 3 450
+sale
+sale
+sale
+llega 4 80
+fin
+```
+
+#### Salida esperada
+
+```
+llega la vagoneta 1 (300 kg)
+llega la vagoneta 2 (120 kg)
+sale la vagoneta 1 con 300 kg
+llega la vagoneta 3 (450 kg)
+sale la vagoneta 2 con 120 kg
+sale la vagoneta 3 con 450 kg
+no hay vagonetas
+llega la vagoneta 4 (80 kg)
+quedan 1 en la fila
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 3 - La fila de vagonetas: una cola con nodos, frente y fondo.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct NodoV {
+    int numero;
+    int carga;
+    struct NodoV *siguiente;
+} NodoV;
+
+typedef struct {
+    NodoV *frente;
+    NodoV *fondo;
+    int cantidad;
+} Cola;
+
+void encolar(Cola *c, int numero, int carga)
+{
+    NodoV *n = malloc(sizeof *n);
+    if (n == NULL) {
+        exit(1);
+    }
+    n->numero = numero;
+    n->carga = carga;
+    n->siguiente = NULL;
+    if (c->fondo == NULL) {
+        c->frente = n;
+    } else {
+        c->fondo->siguiente = n;
+    }
+    c->fondo = n;
+    c->cantidad++;
+}
+
+bool desencolar(Cola *c, NodoV *sale)
+{
+    if (c->frente == NULL) {
+        return false;
+    }
+    NodoV *primero = c->frente;
+    *sale = *primero;
+    c->frente = primero->siguiente;
+    if (c->frente == NULL) {
+        c->fondo = NULL;
+    }
+    free(primero);
+    c->cantidad--;
+    return true;
+}
+
+int main(void)
+{
+    Cola fila = { NULL, NULL, 0 };
+    char orden[10];
+    while (scanf("%9s", orden) == 1) {
+        if (orden[0] == 'f') {
+            break;
+        } else if (orden[0] == 'l') {
+            int numero, carga;
+            if (scanf("%d %d", &numero, &carga) == 2) {
+                encolar(&fila, numero, carga);
+                printf("llega la vagoneta %d (%d kg)\n", numero, carga);
+            }
+        } else {
+            NodoV v;
+            if (desencolar(&fila, &v)) {
+                printf("sale la vagoneta %d con %d kg\n", v.numero, v.carga);
+            } else {
+                printf("no hay vagonetas\n");
+            }
+        }
+    }
+    printf("quedan %d en la fila\n", fila.cantidad);
+    NodoV v;
+    while (desencolar(&fila, &v)) {
+        /* libera cada nodo al sacarlo */
+    }
+    return 0;
+}
+```
+
+### Encargo R03-N04-E1 · La cola circular del horno
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 1
+xp: 15
+```
+
+#### Consigna
+
+El horno grande tiene lugar para **4 piezas** esperando. Implementá una **cola
+circular con array** (frente, cantidad y `% MAX`) de piezas (código y
+temperatura) con `encolar` y `desencolar`. Simulá: entran las piezas 10, 11, 12
+y 13; la 14 no entra; salen dos; entran la 14 y la 15 (dan la vuelta al
+array); salen todas. Mostrá en cada paso en qué posición del array quedó cada
+pieza.
+
+#### Criterio de aprobación
+
+- La cola usa un array de structs con `frente` y `cantidad`, y avanza con `% MAX`.
+- Avisa cuando está llena o vacía, sin salirse del array.
+- Muestra que las piezas 14 y 15 ocupan las posiciones 0 y 1 al dar la vuelta.
+
+#### Salida esperada
+
+```
+entra la pieza 10 en la posición 0
+entra la pieza 11 en la posición 1
+entra la pieza 12 en la posición 2
+entra la pieza 13 en la posición 3
+lleno: la pieza 14 espera afuera
+sale la pieza 10 de la posición 0 (800 grados)
+sale la pieza 11 de la posición 1 (850 grados)
+entra la pieza 14 en la posición 0
+entra la pieza 15 en la posición 1
+sale la pieza 12 de la posición 2 (900 grados)
+sale la pieza 13 de la posición 3 (950 grados)
+sale la pieza 14 de la posición 0 (1000 grados)
+sale la pieza 15 de la posición 1 (1050 grados)
+horno vacío
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Encargo - La cola circular del horno: una cola con array que da la vuelta
+ * con % MAX, sin correr los elementos.
+ */
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX 4
+
+typedef struct {
+    int codigo;
+    int grados;
+} Pieza;
+
+typedef struct {
+    Pieza datos[MAX];
+    int frente;
+    int cantidad;
+} Cola;
+
+bool encolar(Cola *c, Pieza p)
+{
+    if (c->cantidad == MAX) {
+        printf("lleno: la pieza %d espera afuera\n", p.codigo);
+        return false;
+    }
+    int pos = (c->frente + c->cantidad) % MAX;
+    c->datos[pos] = p;
+    c->cantidad++;
+    printf("entra la pieza %d en la posición %d\n", p.codigo, pos);
+    return true;
+}
+
+bool desencolar(Cola *c, Pieza *sale)
+{
+    if (c->cantidad == 0) {
+        return false;
+    }
+    *sale = c->datos[c->frente];
+    printf("sale la pieza %d de la posición %d (%d grados)\n", sale->codigo, c->frente, sale->grados);
+    c->frente = (c->frente + 1) % MAX;
+    c->cantidad--;
+    return true;
+}
+
+int main(void)
+{
+    Cola horno = { .frente = 0, .cantidad = 0 };
+    Pieza sale;
+    for (int codigo = 10; codigo <= 14; codigo++) {
+        encolar(&horno, (Pieza){ codigo, 800 + (codigo - 10) * 50 });
+    }
+    desencolar(&horno, &sale);
+    desencolar(&horno, &sale);
+    encolar(&horno, (Pieza){ 14, 1000 });
+    encolar(&horno, (Pieza){ 15, 1050 });
+    while (desencolar(&horno, &sale)) {
+        /* sale todo */
+    }
+    printf("horno vacío\n");
+    return 0;
+}
+```
+
+### Prueba del sello
+
+#### ¿Qué diferencia hay entre una pila y una cola?
+
+En la pila sale primero el **último** que entró (LIFO); en la cola sale primero el **primero** que entró (FIFO).
+
+#### Si apilás 1, 2 y 3 y desapilás dos veces, ¿qué queda? ¿Y si fuera una cola?
+
+En la pila queda el 1 (salieron 3 y 2). En la cola queda el 3 (salieron 1 y 2).
+
+#### ¿Por qué `apilar` y `desapilar` reciben la pila por puntero?
+
+Porque la modifican: con una copia, el cambio se perdería al volver.
+
+#### ¿Para qué guarda la cola enlazada un puntero al fondo?
+
+Para encolar sin recorrer toda la lista hasta el último nodo.
+
+#### ¿Qué hay que hacer con el fondo cuando se saca el último elemento?
+
+Ponerlo en `NULL`: si sigue apuntando al nodo liberado, el próximo `encolar` lo usa.
+
+#### ¿Para qué sirve el `% MAX` en la cola circular?
+
+Para que, al llegar al final del array, la posición vuelva a 0 y se aprovechen los lugares que dejaron libres los que salieron.
+
+### Soluciones (docente)
+
+Nodo nuevo (2026-10-08): los parciales de la UNLaR y la UTN piden listas, pilas y colas con estructuras. Del apunte de Programación I (Camargo), «Listas» (pp. 63–70), en C estándar.
+
+## R03-N05 · Punteros a función
+
+```meta
+tipo: tema
+padre: R03-N04
 precio: 10
 criatura: esqueleto
 temas: mem.punteros-funcion, func.orden-superior
@@ -2664,7 +3462,7 @@ Nunca se "arregla" con un cast: la función tiene que tener la firma exacta.
 
 **Ogro: restar `double` en un comparador.** `return a->peso - b->peso;` convierte a `int` y `0.5` pasa a ser `0`: el orden sale mal. Se usa `(a > b) - (a < b)`.
 
-### Misión R03-N04-M1 · El filtro de la horda
+### Misión R03-N05-M1 · El filtro de la horda
 
 ```meta
 entrega: codigo
@@ -2748,7 +3546,7 @@ int main(void)
 }
 ```
 
-### Misión R03-N04-M2 · Los conjuros de mina de Hulda
+### Misión R03-N05-M2 · Los conjuros de mina de Hulda
 
 ```meta
 entrega: codigo
@@ -2917,7 +3715,7 @@ volar
   vida 40, maná 20
 ```
 
-### Misión R03-N04-M3 · Ordenar de muchas formas
+### Misión R03-N05-M3 · Ordenar de muchas formas
 
 ```meta
 entrega: codigo
@@ -3038,7 +3836,7 @@ Elegí 1, 2 o 3.
 ```
 
 
-### Encargo R03-N04-E1 · La calculadora del Gremio
+### Encargo R03-N05-E1 · La calculadora del Gremio
 
 ```meta
 entrega: codigo
@@ -3193,11 +3991,11 @@ Porque el resultado se convierte a `int`: una diferencia de 0.5 da 0 y el orden 
 
 Unidad nueva (en `02-C-Intermedio` estaba planificada como 20, sin escribir).
 
-## R03-N05 · Jefe: la Sanguijuela de las Minas
+## R03-N06 · Jefe: la Sanguijuela de las Minas
 
 ```meta
 tipo: jefe
-padre: R03-N04
+padre: R03-N05
 precio: 10
 criatura: dragon
 insignia: Sello de la Sanguijuela
@@ -3279,7 +4077,7 @@ La Sanguijuela es la reina de los trolls de memoria:
 - **Ogro**: no revisar el `NULL` de un `malloc`.
 - **Orco**: `%s` sin ancho en `sscanf`: un nombre largo desborda el array.
 
-### Misión R03-N05-M1 · El registro de la horda
+### Misión R03-N06-M1 · El registro de la horda
 
 ```meta
 entrega: codigo
@@ -3573,7 +4371,7 @@ ordenar ataque
 Fin del registro: quedan 9. Se libera todo.
 ```
 
-### Misión R03-N05-M2 · La mordida de la Sanguijuela
+### Misión R03-N06-M2 · La mordida de la Sanguijuela
 
 ```meta
 entrega: codigo
@@ -3735,7 +4533,7 @@ int main(void)
 }
 ```
 
-### Encargo R03-N05-E1 · El historial del Gremio
+### Encargo R03-N06-E1 · El historial del Gremio
 
 ```meta
 entrega: codigo

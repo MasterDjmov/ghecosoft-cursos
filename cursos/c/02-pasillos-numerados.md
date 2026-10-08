@@ -393,6 +393,295 @@ a3.c:3:36: warning: excess elements in array initializer
 **Ogro: el array sin inicializar.** `int suma[5];` y después `suma[i] += x`:
 empieza con basura. Inicializalo con `= { 0 }`.
 
+### Micro-misión R02-N01-P1 · Los estantes desde el cero
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+criatura: orco
+carta: Array | int v[5] guarda 5 enteros seguidos · las posiciones van de 0 a 4 · v[5] ya no existe
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Debajo de la Forja corren los pasillos numerados: estantes de hierro que empiezan en **cero**. Kira, que cuenta desde uno, busca el estante 5 de una hilera de cinco… y encuentra un **orco** durmiendo la siesta.
+
+#### Gheco sugiere
+`int pesos[5]` tiene los lugares `pesos[0]` a `pesos[4]`. El bucle va de `i = 0` mientras `i < 5`: con `<=` se pasa uno y despierta al orco.
+
+#### Desafío
+Arreglá el bucle para recorrer solo los cinco estantes.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pesos[5] = { 12, 7, 30, 18, 9 };
+    int total = 0;
+    for (int i = 1; i <= 5; i++) {
+        total += pesos[i];
+    }
+    printf("peso total: %d kg\n", total);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+peso total: 76 kg
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pesos[5] = { 12, 7, 30, 18, 9 };
+    int total = 0;
+    for (int i = 0; i < 5; i++) {
+        total += pesos[i];
+    }
+    printf("peso total: %d kg\n", total);
+    return 0;
+}
+```
+
+#### Al superarla
+Setenta y seis kilos, y el orco sigue durmiendo. Kira se aleja en puntas de pie.
+
+#### Imagen
+- Un pasillo de piedra con cinco estantes de hierro numerados del 0 al 4, y un sexto hueco sin número.
+- Un orco grande duerme en el hueco.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) retrocede en puntas de pie.
+
+### Micro-misión R02-N01-P2 · El estante más pesado
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+carta: Buscar el mayor | arrancar con el primero · recorrer comparando · guardar también DÓNDE estaba
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Tizón quiere saber qué estante carga más, y **cuál** es, para reforzarlo. Con el peso solo no le alcanza.
+
+#### Gheco sugiere
+Se arranca con el primero como el mayor (`mayor = v[0]`, `donde = 0`) y se recorre desde el 1: si uno supera al mayor, se guardan su valor y su posición.
+
+#### Desafío
+Completá la comparación y lo que se guarda.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pesos[6] = { 12, 7, 30, 18, 9, 25 };
+    int mayor = pesos[0];
+    int donde = 0;
+    for (int i = 1; i < 6; i++) {
+        if (___) {
+            mayor = pesos[i];
+            donde = ___;
+        }
+    }
+    printf("el estante %d carga %d kg\n", donde, mayor);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+el estante 2 carga 30 kg
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pesos[6] = { 12, 7, 30, 18, 9, 25 };
+    int mayor = pesos[0];
+    int donde = 0;
+    for (int i = 1; i < 6; i++) {
+        if (pesos[i] > mayor) {
+            mayor = pesos[i];
+            donde = i;
+        }
+    }
+    printf("el estante %d carga %d kg\n", donde, mayor);
+    return 0;
+}
+```
+
+#### Al superarla
+El estante 2. Tizón le pone un puntal de hierro, lo mide, y le pone otro, por las dudas.
+
+#### Imagen
+- Una hilera de estantes con bolsas de distinto tamaño; uno se combea por el peso.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) coloca un puntal de hierro.
+
+### Micro-misión R02-N01-P3 · La tabla de los hornos
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Maese Ferrum
+carta: Matriz | int t[3][4]: 3 filas, 4 columnas · t[fila][columna] · dos bucles anidados la recorren
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Ferrum anota la temperatura de 4 hornos durante 3 días, en una tabla. Quiere el promedio de cada **horno** (cada columna), no de cada día.
+
+#### Gheco sugiere
+En `t[dia][horno]`, el promedio de un horno suma **una columna**: el bucle de afuera recorre los hornos y el de adentro, los días.
+
+#### Desafío
+Completá la suma de la columna.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int t[3][4] = {
+        { 800, 950, 700, 1000 },
+        { 820, 900, 720, 1100 },
+        { 860, 910, 680, 1060 },
+    };
+    for (int horno = 0; horno < 4; horno++) {
+        int suma = 0;
+        for (int dia = 0; dia < 3; dia++) {
+            suma += ___;
+        }
+        printf("horno %d: promedio %.1f\n", horno + 1, suma / 3.0);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+horno 1: promedio 826.7
+horno 2: promedio 920.0
+horno 3: promedio 700.0
+horno 4: promedio 1053.3
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int t[3][4] = {
+        { 800, 950, 700, 1000 },
+        { 820, 900, 720, 1100 },
+        { 860, 910, 680, 1060 },
+    };
+    for (int horno = 0; horno < 4; horno++) {
+        int suma = 0;
+        for (int dia = 0; dia < 3; dia++) {
+            suma += t[dia][horno];
+        }
+        printf("horno %d: promedio %.1f\n", horno + 1, suma / 3.0);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El horno 4 es el más caliente. Ferrum lo sospechaba: ahí se le quemaron las cejas.
+
+#### Imagen
+- Una pizarra con una tabla de 3 filas y 4 columnas de temperaturas.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala la cuarta columna.
+
+### Micro-misión R02-N01-P4 · Contadores en un array
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+carta: Array de contadores | cuenta[valor]++ · el dato es el índice · inicializar todo en 0 con = { 0 }
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Tizón tiró su dado medido veinte veces y anotó cada resultado. Quiere saber cuántas veces salió cada número del 1 al 6, «para demostrar que no está cargado».
+
+#### Gheco sugiere
+Un array de contadores usa el **dato como índice**: `cuenta[dado]++`. Con 7 lugares, del 1 al 6 se usan tal cual (el 0 queda sin usar). `= { 0 }` pone todo en cero.
+
+#### Desafío
+Completá la línea que cuenta.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int cuenta[7] = { 0 };
+    int dado;
+    for (int i = 0; i < 20; i++) {
+        scanf("%d", &dado);
+        ___;
+    }
+    for (int cara = 1; cara <= 6; cara++) {
+        printf("el %d salio %d veces\n", cara, cuenta[cara]);
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+3 6 1 4 6 2 5 6 3 1 2 6 4 5 3 6 1 2 4 5
+```
+
+#### Salida esperada
+```
+el 1 salio 3 veces
+el 2 salio 3 veces
+el 3 salio 3 veces
+el 4 salio 3 veces
+el 5 salio 3 veces
+el 6 salio 5 veces
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int cuenta[7] = { 0 };
+    int dado;
+    for (int i = 0; i < 20; i++) {
+        scanf("%d", &dado);
+        cuenta[dado]++;
+    }
+    for (int cara = 1; cara <= 6; cara++) {
+        printf("el %d salio %d veces\n", cara, cuenta[cara]);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El 6 salió cinco veces. Tizón dice que es casualidad. Los de la taberna dicen que no. La discusión sigue hasta hoy.
+
+#### Imagen
+- Seis montoncitos de piedritas, uno por cara de un dado, el del 6 más alto.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) defiende su dado frente a aprendices desconfiados.
+
 ### Misión R02-N01-M1 · Las temperaturas del horno
 
 ```meta
@@ -1408,6 +1697,259 @@ Agrandá el destino, o chequeá lo que devuelve `snprintf`.
 **Ogro: el Enter pegado.** Sin el `strcspn`, `strcmp(nombre, "Kira")` da
 distinto: el texto es `"Kira\n"`.
 
+### Micro-misión R02-N02-P1 · OROHIERRO
+
+```meta
+lugar: El mostrador de etiquetas
+personajes: Kira, Gheco, Chispa
+criatura: orco
+carta: El '\0' | un texto termina en '\0' · "ORO" ocupa 4 bytes · el array tiene que tener lugar para el tapón
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Chispa etiqueta un lingote con «ORO» en una placa de **tres** casilleros. El lector sigue de largo hasta la placa de al lado y el lingote de hierro se vende como «OROHIERRO».
+Tizón lo descubre a la media hora. Chispa jura que fue sin querer.
+
+#### Gheco sugiere
+Un texto en C es un array de `char` que termina en `'\0'`. `"ORO"` necesita **4** lugares: tres letras y el tapón. Con `char etiqueta[3]`, no entra.
+
+#### Desafío
+Dale a la etiqueta el tamaño justo para «ORO» y su tapón.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char etiqueta[___];
+    strcpy(etiqueta, "ORO");
+    printf("etiqueta: %s (%zu letras, %zu bytes)\n", etiqueta, strlen(etiqueta), sizeof etiqueta);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+etiqueta: ORO (3 letras, 4 bytes)
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char etiqueta[4];
+    strcpy(etiqueta, "ORO");
+    printf("etiqueta: %s (%zu letras, %zu bytes)\n", etiqueta, strlen(etiqueta), sizeof etiqueta);
+    return 0;
+}
+```
+
+#### Al superarla
+ORO, tres letras, cuatro bytes. Chispa vuelve a etiquetar todos los lingotes. Tizón los revisa uno por uno.
+
+#### Imagen
+- Dos placas de hierro pegadas: «ORO» y «HIERRO», sin separación.
+- Un orco chiquito sale de la unión entre las dos placas.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con cara de inocente.
+
+### Micro-misión R02-N02-P2 · No se compara con ==
+
+```meta
+lugar: El mostrador de etiquetas
+personajes: Kira, Gheco, Tizón
+criatura: ogro
+carta: strcmp | strcmp(a, b) da 0 si son iguales · negativo si a va antes · positivo si va después · == compara direcciones, no letras
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kira busca la caja de Tizón comparando nombres con `==`. Nunca la encuentra, aunque está ahí, con su nombre escrito clarito.
+
+#### Gheco sugiere
+Con textos, `==` compara **dónde están** guardados, no las letras. `strcmp(a, b) == 0` pregunta si tienen las mismas letras.
+
+#### Desafío
+Cambiá la comparación.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char caja[10] = "Tizon";
+    char buscado[10] = "Tizon";
+    if (caja == buscado) {
+        printf("encontrada\n");
+    } else {
+        printf("no esta\n");
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+encontrada
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char caja[10] = "Tizon";
+    char buscado[10] = "Tizon";
+    if (strcmp(caja, buscado) == 0) {
+        printf("encontrada\n");
+    } else {
+        printf("no esta\n");
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Encontrada. Adentro de la caja de Tizón hay otra libreta, más chica, con las medidas de la libreta grande.
+
+#### Imagen
+- Una pared de cajas etiquetadas; una dice Tizon.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) abre la caja y encuentra una libreta más chica.
+
+### Micro-misión R02-N02-P3 · El nombre con espacios
+
+```meta
+lugar: El mostrador de etiquetas
+personajes: Kira, Gheco, Chispa
+carta: fgets y el \n | fgets lee la línea con espacios · deja el '\n' al final · strcspn(s, "\n") encuentra dónde está para borrarlo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Chispa quiere que su etiqueta diga «Chispa el Veloz», con espacios. `scanf("%s")` se corta en el primer espacio. `fgets` lo lee entero, pero trae un salto de línea de regalo.
+
+#### Gheco sugiere
+`fgets(s, sizeof s, stdin)` lee la línea entera, con el `'\n'`. `s[strcspn(s, "\n")] = '\0';` lo cambia por el fin de texto.
+
+#### Desafío
+Sacale el salto de línea al nombre.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char nombre[40];
+    fgets(nombre, sizeof nombre, stdin);
+    ___
+    printf("[%s] tiene %zu letras\n", nombre, strlen(nombre));
+    return 0;
+}
+```
+
+#### Entrada
+```
+Chispa el Veloz
+```
+
+#### Salida esperada
+```
+[Chispa el Veloz] tiene 15 letras
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char nombre[40];
+    fgets(nombre, sizeof nombre, stdin);
+    nombre[strcspn(nombre, "\n")] = '\0';
+    printf("[%s] tiene %zu letras\n", nombre, strlen(nombre));
+    return 0;
+}
+```
+
+#### Al superarla
+[Chispa el Veloz], quince letras. Chispa la manda a grabar en bronce. Tizón le cobra la medición.
+
+#### Imagen
+- Una placa de bronce con «Chispa el Veloz» grabado.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) posa al lado, orgulloso.
+
+### Micro-misión R02-N02-P4 · Armar el cartel
+
+```meta
+lugar: El mostrador de etiquetas
+personajes: Kira, Gheco, Tizón
+carta: Armar textos | strcpy copia · strcat agrega al final · snprintf arma con formato sin pasarse del tamaño
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Tizón quiere un cartel para la puerta de cada taller: el oficio, un guion y el nombre. Kira lo arma pegando pedazos.
+
+#### Gheco sugiere
+`snprintf(destino, sizeof destino, "%s - %s", a, b)` arma el texto con formato **sin pasarse** del tamaño del array. Es la forma segura.
+
+#### Desafío
+Armá el cartel con `snprintf`.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char oficio[] = "Herreria";
+    char nombre[] = "Maese Ferrum";
+    char cartel[30];
+    ___;
+    printf("%s\n", cartel);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Herreria - Maese Ferrum
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char oficio[] = "Herreria";
+    char nombre[] = "Maese Ferrum";
+    char cartel[30];
+    snprintf(cartel, sizeof cartel, "%s - %s", oficio, nombre);
+    printf("%s\n", cartel);
+    return 0;
+}
+```
+
+#### Al superarla
+«Herreria - Maese Ferrum». Ferrum lo clava en la puerta y lo mira un rato largo. Es la primera vez que tiene cartel.
+
+#### Imagen
+- Un cartel de madera recién clavado en una puerta de hierro: Herreria - Maese Ferrum.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) le alcanza los clavos a Kira.
+
 ### Misión R02-N02-M1 · El nombre del aprendiz
 
 ```meta
@@ -2257,6 +2799,312 @@ t2.c:9:5: warning: enumeration value ‘VERDE’ not handled in switch [-Wswitch
 **Ogro: la copia que se pierde.** `mover(kira, 3, 0);` sin guardar el resultado
 no mueve a nadie.
 
+### Micro-misión R02-N03-P1 · La ficha de hierro
+
+```meta
+lugar: El depósito de fichas
+personajes: Kira, Gheco, Maese Ferrum
+carta: struct | agrupa datos de distinto tipo · se accede con el punto: f.nombre · typedef le da un nombre corto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Antes había una lista de nombres, otra de vidas y otra de fuerzas. Un día alguien ordenó una y no las otras, y Kira quedó con la vida de Tizón durante una semana. Ferrum manda hacer **fichas**.
+
+#### Gheco sugiere
+`typedef struct { … } Aprendiz;` define un tipo con varios campos. Cada campo se usa con el punto: `kira.vida`.
+
+#### Desafío
+Completá los campos que faltan en la ficha.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    ___
+    ___
+} Aprendiz;
+
+int main(void)
+{
+    Aprendiz kira = { "Kira", 90, 15 };
+    printf("%s: vida %d, fuerza %d\n", kira.nombre, kira.vida, kira.fuerza);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Kira: vida 90, fuerza 15
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+    int fuerza;
+} Aprendiz;
+
+int main(void)
+{
+    Aprendiz kira = { "Kira", 90, 15 };
+    printf("%s: vida %d, fuerza %d\n", kira.nombre, kira.vida, kira.fuerza);
+    return 0;
+}
+```
+
+#### Al superarla
+Una ficha, todo junto. Ya nadie le puede cambiar la vida a Kira por ordenar otra lista. Kira se siente aliviada; Tizón, un poco menos medido.
+
+#### Imagen
+- Una ficha de hierro con campos grabados: nombre, vida, fuerza.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) cuelga la ficha en un tablero.
+
+### Micro-misión R02-N03-P2 · El oficio con nombre
+
+```meta
+lugar: El depósito de fichas
+personajes: Kira, Gheco, Tizón
+carta: enum | enum { HERRERO, MINERA, MERCADER } · son enteros con nombre (0, 1, 2) · se leen mejor que números sueltos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En las fichas viejas el oficio era un número: 0, 1 o 2. Nadie se acordaba cuál era cuál y Chispa figuraba como «minero».
+
+#### Gheco sugiere
+Un `enum` pone nombre a cada valor: `HERRERO` vale 0, `MINERA` 1 y `MERCADER` 2. Un `switch` puede usarlos en los `case`.
+
+#### Desafío
+Completá los `case` del `switch` con los nombres del `enum`.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef enum { HERRERO, MINERA, MERCADER } Oficio;
+
+const char *nombre_oficio(Oficio o)
+{
+    switch (o) {
+    case ___: return "herrero";
+    case ___: return "minera";
+    case ___: return "mercader";
+    }
+    return "?";
+}
+
+int main(void)
+{
+    printf("Tizon: %s\n", nombre_oficio(HERRERO));
+    printf("Hulda: %s\n", nombre_oficio(MINERA));
+    printf("Chispa: %s\n", nombre_oficio(MERCADER));
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Tizon: herrero
+Hulda: minera
+Chispa: mercader
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef enum { HERRERO, MINERA, MERCADER } Oficio;
+
+const char *nombre_oficio(Oficio o)
+{
+    switch (o) {
+    case HERRERO: return "herrero";
+    case MINERA: return "minera";
+    case MERCADER: return "mercader";
+    }
+    return "?";
+}
+
+int main(void)
+{
+    printf("Tizon: %s\n", nombre_oficio(HERRERO));
+    printf("Hulda: %s\n", nombre_oficio(MINERA));
+    printf("Chispa: %s\n", nombre_oficio(MERCADER));
+    return 0;
+}
+```
+
+#### Al superarla
+Chispa, mercader. Por fin. Hulda se queja de que la sacaron de «minero» y la pusieron en «minera». Le gustaba más el error.
+
+#### Imagen
+- Tres fichas de hierro con oficios grabados: herrero, minera, mercader.
+- Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) mira su ficha con desconfianza.
+
+### Micro-misión R02-N03-P3 · Fichas dentro de fichas
+
+```meta
+lugar: El depósito de fichas
+personajes: Kira, Gheco, Hulda
+carta: Structs anidados | un campo puede ser otro struct · se llega con dos puntos: h.pos.x · se copian enteros con =
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Hulda quiere saber **dónde** está cada minero: cada ficha necesita una posición en la mina (galería y profundidad). Y quiere poder mover a alguien de lugar sin rehacer la ficha.
+
+#### Gheco sugiere
+Un struct puede tener otro struct adentro: `minero.pos.galeria`. Para mover, se cambian los campos de la posición.
+
+#### Desafío
+Mové a Tizon a la galería 3, profundidad 40.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    int galeria;
+    int profundidad;
+} Posicion;
+
+typedef struct {
+    char nombre[12];
+    Posicion pos;
+} Minero;
+
+int main(void)
+{
+    Minero tizon = { "Tizon", { 1, 10 } };
+    ___
+    ___
+    printf("%s esta en la galeria %d, a %d metros\n", tizon.nombre, tizon.pos.galeria, tizon.pos.profundidad);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Tizon esta en la galeria 3, a 40 metros
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    int galeria;
+    int profundidad;
+} Posicion;
+
+typedef struct {
+    char nombre[12];
+    Posicion pos;
+} Minero;
+
+int main(void)
+{
+    Minero tizon = { "Tizon", { 1, 10 } };
+    tizon.pos.galeria = 3;
+    tizon.pos.profundidad = 40;
+    printf("%s esta en la galeria %d, a %d metros\n", tizon.nombre, tizon.pos.galeria, tizon.pos.profundidad);
+    return 0;
+}
+```
+
+#### Al superarla
+Galería 3, cuarenta metros. Tizón baja, mide la profundidad con una soga, y vuelve: cuarenta metros y dos centímetros. Lo deja pasar.
+
+#### Imagen
+- Un mapa de la mina con galerías numeradas y una ficha clavada en la galería 3.
+- Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) señala el mapa con el pico.
+
+### Micro-misión R02-N03-P4 · PARA QUIEN LLEGUE
+
+```meta
+lugar: El depósito de fichas
+personajes: Kira, Gheco, Tizón
+carta: union | sus campos comparten la misma memoria · un número y sus bytes son lo mismo visto distinto · en las PC, el byte de menor peso va primero
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La ficha del pedido de plomo tiene un campo raro: un número que, según Ferrum, «no pesa nada que tenga sentido». Kira sospecha que hay que leerlo **de otra forma**.
+
+#### Gheco sugiere
+En un `union`, los campos ocupan el **mismo lugar**. Si se guarda un número en `valor`, `letras[0]` … `letras[3]` son sus cuatro bytes, empezando por el de menor peso (*little endian*).
+
+#### Desafío
+Mostrá los cuatro bytes del número como letras.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+typedef union {
+    uint32_t valor;
+    char letras[4];
+} Marca;
+
+int main(void)
+{
+    Marca m;
+    m.valor = 1095909712u;
+    printf("como numero: %u\n", m.valor);
+    printf("como letras: ");
+    for (int i = 0; i < 4; i++) {
+        putchar(___);
+    }
+    printf("\n");
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+como numero: 1095909712
+como letras: PARA
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdint.h>
+
+typedef union {
+    uint32_t valor;
+    char letras[4];
+} Marca;
+
+int main(void)
+{
+    Marca m;
+    m.valor = 1095909712u;
+    printf("como numero: %u\n", m.valor);
+    printf("como letras: ");
+    for (int i = 0; i < 4; i++) {
+        putchar(m.letras[i]);
+    }
+    printf("\n");
+    return 0;
+}
+```
+
+#### Al superarla
+«PARA». La primera palabra. Kira revisa el resto de los campos de la ficha, uno por uno, de la misma manera: «PARA QUIEN LLEGUE». Tizón se sienta en el piso, sin medir nada, por primera vez en su vida.
+
+#### Imagen
+- Una ficha de hierro vieja con números grabados, y encima, en luz cian, las letras PARA QUIEN LLEGUE.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sostiene la ficha contra la luz de una antorcha.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) sentado en el piso, sin el calibre en la mano.
+
 ### Misión R02-N03-M1 · La ficha del arma
 
 ```meta
@@ -3094,6 +3942,267 @@ u4.c:1:43: error: invalid operands to binary * (have ‘int *’ and ‘int’)
 ```
 Pero `valor++` compila sin avisos: avanza el puntero y el número queda igual.
 
+### Micro-misión R02-N04-P1 · El cartel que señala
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+carta: Puntero | int *p = &x guarda DÓNDE está x · *p es el valor de lo apuntado · cambiar *p cambia x
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En los pasillos hay **carteles** que no guardan nada: señalan dónde está cada cosa. Tizón quiere cambiar la carga de un estante sin ir hasta él: le alcanza con tirar del cartel.
+
+#### Gheco sugiere
+`&carga` es la dirección de `carga`. Un puntero la guarda: `int *cartel = &carga;`. Con `*cartel = 50;` se cambia lo apuntado.
+
+#### Desafío
+Completá el puntero y el cambio a través de él.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int carga = 20;
+    int *cartel = ___;
+    ___ = 50;
+    printf("carga del estante: %d\n", carga);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+carga del estante: 50
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int carga = 20;
+    int *cartel = &carga;
+    *cartel = 50;
+    printf("carga del estante: %d\n", carga);
+    return 0;
+}
+```
+
+#### Al superarla
+Cincuenta, sin moverse del lugar. Tizón tira de todos los carteles del pasillo para comprobar que andan. Andan.
+
+#### Imagen
+- Un cartel de hierro con una flecha que se estira como un hilo de cobre hasta un estante lejano.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) tira del cartel.
+
+### Micro-misión R02-N04-P2 · El cartel a ninguna parte
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Hulda
+criatura: troll
+carta: NULL | un puntero que no apunta a nada vale NULL · antes de usarlo, preguntar if (p != NULL) · *NULL rompe el programa
+recompensa: xp 15, oro 15
+item: Amuleto del Volcado
+```
+
+#### Escena
+Kira sigue un cartel que dice «por acá» con toda la confianza del mundo. El cartel no apuntaba a nada: Kira cae por un hueco, el programa revienta y en la pared queda escrito *Violación de segmento*.
+Hulda la saca con una soga.
+
+#### Gheco sugiere
+Un puntero que no apunta a nada vale `NULL`. Usar `*p` con `p == NULL` rompe el programa. Siempre se pregunta antes: `if (p != NULL)`.
+
+#### Desafío
+Protegé la lectura: si el cartel es `NULL`, avisá en lugar de seguirlo.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int tesoro = 7;
+    int *carteles[2] = { &tesoro, NULL };
+    for (int i = 0; i < 2; i++) {
+        printf("cartel %d: hay %d lingotes\n", i, *carteles[i]);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cartel 0: hay 7 lingotes
+cartel 1: no apunta a nada
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int tesoro = 7;
+    int *carteles[2] = { &tesoro, NULL };
+    for (int i = 0; i < 2; i++) {
+        if (carteles[i] != NULL) {
+            printf("cartel %d: hay %d lingotes\n", i, *carteles[i]);
+        } else {
+            printf("cartel %d: no apunta a nada\n", i);
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Hulda le cuelga a Kira un amuleto al cuello. —El **Amuleto del Volcado**: guarda lo que pasó antes de cada caída. Para la próxima que te caigas, que va a haber. —El amuleto va a tu mochila.
+
+#### Imagen
+- Un hueco oscuro en el piso del pasillo, al lado de un cartel que apunta al vacío.
+- Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) levanta a Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con una soga.
+- Un amuleto con forma de gota de lava brilla en la mano de Hulda.
+
+### Micro-misión R02-N04-P3 · Intercambiar de verdad
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Chispa
+carta: Punteros como parámetros | void f(int *a) recibe la dirección · *a = … cambia la variable de quien llama · se llama con f(&x)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Chispa intercambió dos estantes con una función que trabajaba con copias. Los estantes, claro, siguen igual. Él dice que «en su compu andaba».
+
+#### Gheco sugiere
+Para que una función cambie variables de afuera, recibe sus **direcciones** (`int *a, int *b`) y cambia `*a` y `*b`. Se llama con `intercambiar(&x, &y)`.
+
+#### Desafío
+Completá la función y la llamada.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+void intercambiar(int *a, int *b)
+{
+    int aux = ___;
+    *a = ___;
+    ___ = aux;
+}
+
+int main(void)
+{
+    int estante_a = 12, estante_b = 30;
+    intercambiar(___, ___);
+    printf("a: %d, b: %d\n", estante_a, estante_b);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+a: 30, b: 12
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+void intercambiar(int *a, int *b)
+{
+    int aux = *a;
+    *a = *b;
+    *b = aux;
+}
+
+int main(void)
+{
+    int estante_a = 12, estante_b = 30;
+    intercambiar(&estante_a, &estante_b);
+    printf("a: %d, b: %d\n", estante_a, estante_b);
+    return 0;
+}
+```
+
+#### Al superarla
+Ahora sí, intercambiados. Chispa dice que esa era su idea desde el principio.
+
+#### Imagen
+- Dos estantes que cambian de lugar en el aire, unidos por hilos de cobre.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) se atribuye el mérito.
+
+### Micro-misión R02-N04-P4 · Avanzar por los estantes
+
+```meta
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+carta: Aritmética de punteros | p + 1 es el SIGUIENTE elemento (no el siguiente byte) · *(p + i) es lo mismo que p[i] · el nombre del array es la dirección del primero
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Tizón descubre que puede recorrer el pasillo moviendo el cartel, sin contar estantes: cada `+ 1` lo lleva al siguiente, mida lo que mida cada uno.
+
+#### Gheco sugiere
+Si `p` apunta a `v[0]`, `p + 1` apunta a `v[1]`: C avanza de a **un elemento**. `*(p + i)` es `v[i]`.
+
+#### Desafío
+Recorré los pesos con el puntero, sin corchetes.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pesos[4] = { 5, 12, 8, 20 };
+    int *p = pesos;
+    int total = 0;
+    for (int i = 0; i < 4; i++) {
+        total += ___;
+    }
+    printf("total: %d, el ultimo pesa %d\n", total, ___);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+total: 45, el ultimo pesa 20
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pesos[4] = { 5, 12, 8, 20 };
+    int *p = pesos;
+    int total = 0;
+    for (int i = 0; i < 4; i++) {
+        total += *(p + i);
+    }
+    printf("total: %d, el ultimo pesa %d\n", total, *(p + 3));
+    return 0;
+}
+```
+
+#### Al superarla
+Cuarenta y cinco. Tizón recorre el pasillo moviendo el cartel de un lado a otro, fascinado, hasta que Hulda le pide que pare.
+
+#### Imagen
+- Un cartel que salta de estante en estante dejando una estela de luz cian.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) lo mueve con un dedo, fascinado.
+
 ### Misión R02-N04-M1 · La receta de lectura
 
 ```meta
@@ -3886,6 +4995,322 @@ compila y no cambia nada.
 **Troll: devolver un puntero a un struct local.** Si `personaje_crear` devolviera
 `&p` (un `Personaje *`), el puntero quedaría colgando (el Troll del 13). Para
 crear, se devuelve por valor… o se reserva memoria que sobreviva (17).
+
+### Micro-misión R02-N05-P1 · Mandar el cartel, no la copia
+
+```meta
+lugar: El taller de fichas
+personajes: Kira, Gheco, Maese Ferrum
+carta: Struct por puntero | void f(Aprendiz *a) · a->vida es (*a).vida · cambia la ficha original
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kira manda su ficha al taller para que le suban la fuerza, y vuelve igual: el taller cambió una **copia**. —Es como fundir otra espada cada vez que querés afilarla —dice Ferrum—. Mandá el cartel.
+
+#### Gheco sugiere
+Con `Aprendiz *a`, la función recibe la dirección de la ficha. `a->fuerza` es el campo de la ficha original. Se llama con `entrenar(&kira)`.
+
+#### Desafío
+Hacé que `entrenar` reciba un puntero y cambie la ficha original.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int fuerza;
+} Aprendiz;
+
+void entrenar(Aprendiz a)
+{
+    a.fuerza += 5;
+}
+
+int main(void)
+{
+    Aprendiz kira = { "Kira", 15 };
+    entrenar(kira);
+    printf("%s: fuerza %d\n", kira.nombre, kira.fuerza);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Kira: fuerza 20
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int fuerza;
+} Aprendiz;
+
+void entrenar(Aprendiz *a)
+{
+    a->fuerza += 5;
+}
+
+int main(void)
+{
+    Aprendiz kira = { "Kira", 15 };
+    entrenar(&kira);
+    printf("%s: fuerza %d\n", kira.nombre, kira.fuerza);
+    return 0;
+}
+```
+
+#### Al superarla
+Fuerza 20. Kira flexiona el brazo. Ferrum le recuerda que la fuerza no se usa contra portones.
+
+#### Imagen
+- Una ficha de hierro unida por un hilo de cobre a un taller donde un enano la martilla.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) flexiona el brazo.
+
+### Micro-misión R02-N05-P2 · La carta a la dirección de la carta
+
+```meta
+lugar: El taller de fichas
+personajes: Kira, Gheco, Tizón, Hulda
+criatura: esqueleto
+carta: Punto o flecha | con el struct: h.vida · con un puntero: p->vida · usar . con un puntero no compila
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Tizón manda un cartel a la ficha de Hulda… pero confunde el **punto** con la **flecha** y el Horno no quiere saber nada. Hulda todavía no sabe si reírse.
+
+#### Gheco sugiere
+Con la variable struct se usa el punto: `hulda.vida`. Con un **puntero** a struct, la flecha: `p->vida`.
+
+#### Desafío
+Corregí los accesos: uno es una variable y el otro, un puntero.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+} Minero;
+
+int main(void)
+{
+    Minero hulda = { "Hulda", 120 };
+    Minero *p = &hulda;
+    p.vida -= 20;
+    printf("%s: vida %d\n", hulda->nombre, hulda.vida);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Hulda: vida 100
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+} Minero;
+
+int main(void)
+{
+    Minero hulda = { "Hulda", 120 };
+    Minero *p = &hulda;
+    p->vida -= 20;
+    printf("%s: vida %d\n", hulda.nombre, hulda.vida);
+    return 0;
+}
+```
+
+#### Al superarla
+Cien de vida. Hulda decide reírse. Tizón anota: «Punto: la cosa. Flecha: el cartel a la cosa».
+
+#### Imagen
+- Una carta con una flecha dibujada que apunta a sí misma.
+- Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) se ríe a carcajadas.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) anota en la libreta, colorado.
+
+### Micro-misión R02-N05-P3 · La función que solo mira
+
+```meta
+lugar: El taller de fichas
+personajes: Kira, Gheco, Chispa
+carta: const con punteros | void mostrar(const Ficha *f) · puede leer, no cambiar · evita copiar structs grandes
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Chispa pidió ver la ficha de un lingote «solo para mirar», y le bajó el precio a la mitad. Ferrum quiere una ventanilla que muestre pero **no deje tocar**.
+
+#### Gheco sugiere
+Con `const Ficha *f`, la función recibe la dirección (no copia la ficha entera) pero el compilador **no deja** cambiarla. Mostrar sí.
+
+#### Desafío
+Agregá `const` al parámetro y completá lo que muestra.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char metal[12];
+    int precio;
+} Ficha;
+
+void mostrar(___ Ficha *f)
+{
+    printf("%s: %d lingotes\n", ___, ___);
+}
+
+int main(void)
+{
+    Ficha oro = { "oro", 40 };
+    mostrar(&oro);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+oro: 40 lingotes
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char metal[12];
+    int precio;
+} Ficha;
+
+void mostrar(const Ficha *f)
+{
+    printf("%s: %d lingotes\n", f->metal, f->precio);
+}
+
+int main(void)
+{
+    Ficha oro = { "oro", 40 };
+    mostrar(&oro);
+    return 0;
+}
+```
+
+#### Al superarla
+Cuarenta lingotes, y nadie lo puede cambiar desde la ventanilla. Chispa intenta igual. El Horno le contesta con un error.
+
+#### Imagen
+- Una ventanilla con un vidrio grueso: detrás, una ficha de oro.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con la nariz pegada al vidrio.
+
+### Micro-misión R02-N05-P4 · El más herido
+
+```meta
+lugar: El taller de fichas
+personajes: Kira, Gheco, Hulda
+carta: Devolver un puntero | Minero *mas_herido(Minero v[], int n) · devuelve la dirección del elemento · quien llama lo cambia directo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Después de un derrumbe, Hulda tiene vendas para uno solo: para el más herido de la cuadrilla. Quiere una función que le **señale** a quién, para curarlo ahí mismo.
+
+#### Gheco sugiere
+La función recorre el array y devuelve `&v[i]` del de menos vida. Con ese puntero, `herido->vida += 30` cura al original.
+
+#### Desafío
+Completá el puntero que se devuelve y la cura.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+} Minero;
+
+Minero *mas_herido(Minero v[], int n)
+{
+    Minero *peor = &v[0];
+    for (int i = 1; i < n; i++) {
+        if (v[i].vida < peor->vida) {
+            peor = ___;
+        }
+    }
+    return peor;
+}
+
+int main(void)
+{
+    Minero cuadrilla[3] = { { "Tizon", 60 }, { "Kira", 25 }, { "Chispa", 40 } };
+    Minero *herido = mas_herido(cuadrilla, 3);
+    ___;
+    for (int i = 0; i < 3; i++) {
+        printf("%s: %d\n", cuadrilla[i].nombre, cuadrilla[i].vida);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Tizon: 60
+Kira: 55
+Chispa: 40
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+} Minero;
+
+Minero *mas_herido(Minero v[], int n)
+{
+    Minero *peor = &v[0];
+    for (int i = 1; i < n; i++) {
+        if (v[i].vida < peor->vida) {
+            peor = &v[i];
+        }
+    }
+    return peor;
+}
+
+int main(void)
+{
+    Minero cuadrilla[3] = { { "Tizon", 60 }, { "Kira", 25 }, { "Chispa", 40 } };
+    Minero *herido = mas_herido(cuadrilla, 3);
+    herido->vida += 30;
+    for (int i = 0; i < 3; i++) {
+        printf("%s: %d\n", cuadrilla[i].nombre, cuadrilla[i].vida);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Kira, de 25 a 55. Hulda le venda el brazo con un nudo de minera. —La próxima, no te pongas adelante del derrumbe.
+
+#### Imagen
+- Una cuadrilla de mineros sentados entre piedras después de un derrumbe.
+- Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) venda el brazo de Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian).
 
 ### Misión R02-N05-M1 · La mochila por puntero
 
@@ -4781,6 +6206,385 @@ Usá siempre `sizeof(v[0])` o `sizeof(Tipo)`.
 
 **Troll: el puntero viejo.** Guardar el puntero que devolvió `buscar`, después
 quitar u ordenar, y seguir usándolo: ahora apunta a **otro** héroe.
+
+### Micro-misión R02-N06-P1 · El estante de fichas
+
+```meta
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Tizón
+carta: Array de structs | Aprendiz v[10]; · v[i].nombre · una cantidad aparte dice cuántos hay cargados
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El registro de la Forja es un estante con lugar para diez fichas, pero hoy hay cuatro. Tizón quiere el listado y el promedio de fuerza, sin contar los lugares vacíos.
+
+#### Gheco sugiere
+Un array de structs se recorre igual que cualquier array, hasta la **cantidad** cargada (no hasta el tamaño): `v[i].fuerza`.
+
+#### Desafío
+Completá el recorrido y la suma.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int fuerza;
+} Aprendiz;
+
+int main(void)
+{
+    Aprendiz registro[10] = { { "Kira", 20 }, { "Tizon", 14 }, { "Hulda", 30 }, { "Chispa", 8 } };
+    int cantidad = 4;
+    int suma = 0;
+    for (int i = 0; i < ___; i++) {
+        printf("%-7s %3d\n", registro[i].nombre, registro[i].fuerza);
+        suma += ___;
+    }
+    printf("promedio: %.2f\n", (double) suma / cantidad);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Kira     20
+Tizon    14
+Hulda    30
+Chispa    8
+promedio: 18.00
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int fuerza;
+} Aprendiz;
+
+int main(void)
+{
+    Aprendiz registro[10] = { { "Kira", 20 }, { "Tizon", 14 }, { "Hulda", 30 }, { "Chispa", 8 } };
+    int cantidad = 4;
+    int suma = 0;
+    for (int i = 0; i < cantidad; i++) {
+        printf("%-7s %3d\n", registro[i].nombre, registro[i].fuerza);
+        suma += registro[i].fuerza;
+    }
+    printf("promedio: %.2f\n", (double) suma / cantidad);
+    return 0;
+}
+```
+
+#### Al superarla
+Promedio 18. Chispa queda último en fuerza y propone que la tabla se ordene «por simpatía».
+
+#### Imagen
+- Un estante con diez lugares y cuatro fichas colgadas.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) suma con el lápiz.
+
+### Micro-misión R02-N06-P2 · Buscar por legajo
+
+```meta
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+carta: Buscar | recorrer comparando el campo clave · devolver la posición o -1 si no está · -1 es «no está»
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Ferrum busca a un aprendiz por su número de legajo. Si no existe, quiere un aviso, no un aprendiz cualquiera.
+
+#### Gheco sugiere
+La función recorre y devuelve la **posición** donde está el legajo, o `-1` si no lo encuentra. Quien la llama pregunta si dio `-1`.
+
+#### Desafío
+Completá la comparación y lo que se devuelve si no está.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    int legajo;
+    char nombre[12];
+} Aprendiz;
+
+int buscar(const Aprendiz v[], int n, int legajo)
+{
+    for (int i = 0; i < n; i++) {
+        if (___) {
+            return i;
+        }
+    }
+    return ___;
+}
+
+int main(void)
+{
+    Aprendiz v[3] = { { 101, "Kira" }, { 102, "Tizon" }, { 105, "Hulda" } };
+    int buscados[2] = { 105, 103 };
+    for (int k = 0; k < 2; k++) {
+        int pos = buscar(v, 3, buscados[k]);
+        if (pos == -1) {
+            printf("legajo %d: no existe\n", buscados[k]);
+        } else {
+            printf("legajo %d: %s\n", buscados[k], v[pos].nombre);
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+legajo 105: Hulda
+legajo 103: no existe
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    int legajo;
+    char nombre[12];
+} Aprendiz;
+
+int buscar(const Aprendiz v[], int n, int legajo)
+{
+    for (int i = 0; i < n; i++) {
+        if (v[i].legajo == legajo) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int main(void)
+{
+    Aprendiz v[3] = { { 101, "Kira" }, { 102, "Tizon" }, { 105, "Hulda" } };
+    int buscados[2] = { 105, 103 };
+    for (int k = 0; k < 2; k++) {
+        int pos = buscar(v, 3, buscados[k]);
+        if (pos == -1) {
+            printf("legajo %d: no existe\n", buscados[k]);
+        } else {
+            printf("legajo %d: %s\n", buscados[k], v[pos].nombre);
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El 103 no existe. Chispa jura que es el suyo. Ferrum le recuerda que Chispa no es aprendiz: es un problema.
+
+#### Imagen
+- Un fichero de hierro con legajos numerados.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) sostiene una ficha y mira a Chispa de reojo.
+
+### Micro-misión R02-N06-P3 · Burbuja con desempate
+
+```meta
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Tizón
+carta: Ordenar con desempate | una función va_antes(a, b) · primero el promedio (mayor primero) · si empatan, strcmp del nombre
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Ferrum quiere el cuadro de honor por temple de mayor a menor y, si empatan, por nombre. Kira los ordenó por altura. Tizón quedó primero por tercera vez y nadie le cree.
+
+#### Gheco sugiere
+`va_antes` decide el orden: si los promedios son distintos, va antes el mayor; si empatan, el que va antes alfabéticamente (`strcmp(a, b) < 0`). La burbuja intercambia cuando el de la derecha `va_antes` que el de la izquierda.
+
+#### Desafío
+Completá el desempate.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct {
+    char nombre[12];
+    int temple;
+} Aprendiz;
+
+bool va_antes(const Aprendiz *a, const Aprendiz *b)
+{
+    if (a->temple != b->temple) {
+        return a->temple > b->temple;
+    }
+    return ___;
+}
+
+int main(void)
+{
+    Aprendiz v[4] = { { "Tizon", 8 }, { "Kira", 9 }, { "Hulda", 8 }, { "Chispa", 5 } };
+    for (int pasada = 0; pasada < 3; pasada++) {
+        for (int i = 0; i < 3 - pasada; i++) {
+            if (va_antes(&v[i + 1], &v[i])) {
+                Aprendiz aux = v[i];
+                v[i] = v[i + 1];
+                v[i + 1] = aux;
+            }
+        }
+    }
+    for (int i = 0; i < 4; i++) {
+        printf("%d. %s (%d)\n", i + 1, v[i].nombre, v[i].temple);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+1. Kira (9)
+2. Hulda (8)
+3. Tizon (8)
+4. Chispa (5)
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+typedef struct {
+    char nombre[12];
+    int temple;
+} Aprendiz;
+
+bool va_antes(const Aprendiz *a, const Aprendiz *b)
+{
+    if (a->temple != b->temple) {
+        return a->temple > b->temple;
+    }
+    return strcmp(a->nombre, b->nombre) < 0;
+}
+
+int main(void)
+{
+    Aprendiz v[4] = { { "Tizon", 8 }, { "Kira", 9 }, { "Hulda", 8 }, { "Chispa", 5 } };
+    for (int pasada = 0; pasada < 3; pasada++) {
+        for (int i = 0; i < 3 - pasada; i++) {
+            if (va_antes(&v[i + 1], &v[i])) {
+                Aprendiz aux = v[i];
+                v[i] = v[i + 1];
+                v[i + 1] = aux;
+            }
+        }
+    }
+    for (int i = 0; i < 4; i++) {
+        printf("%d. %s (%d)\n", i + 1, v[i].nombre, v[i].temple);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Kira primera; Hulda y Tizón empatados, en orden alfabético. Tizón pide que lo midan de nuevo. Lo miden. Sigue tercero.
+
+#### Imagen
+- El cuadro de honor de la Forja colgado en la pared, con cuatro nombres.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) pide que lo midan, con el calibre en la mano.
+
+### Micro-misión R02-N06-P4 · El autómata que ordena
+
+```meta
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+carta: qsort | qsort(v, n, sizeof v[0], comparar) · comparar recibe const void * · devuelve <0, 0 o >0, como strcmp
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Ferrum saca de un cajón un autómata de bronce que ordena cualquier cosa… si le explicás cómo comparar. Kira tiene que escribir esa explicación para ordenar los lingotes por precio.
+
+#### Gheco sugiere
+`qsort` necesita una función `int comparar(const void *a, const void *b)`. Adentro se convierten: `const Lingote *x = a;` y se devuelve `x->precio - y->precio` (negativo si va antes).
+
+#### Desafío
+Completá la comparación.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char metal[10];
+    int precio;
+} Lingote;
+
+int comparar(const void *a, const void *b)
+{
+    const Lingote *x = a;
+    const Lingote *y = b;
+    return ___;
+}
+
+int main(void)
+{
+    Lingote v[4] = { { "oro", 40 }, { "hierro", 5 }, { "plomo", 9 }, { "cobre", 12 } };
+    qsort(v, 4, sizeof v[0], comparar);
+    for (int i = 0; i < 4; i++) {
+        printf("%-7s %3d\n", v[i].metal, v[i].precio);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+hierro    5
+plomo     9
+cobre    12
+oro      40
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char metal[10];
+    int precio;
+} Lingote;
+
+int comparar(const void *a, const void *b)
+{
+    const Lingote *x = a;
+    const Lingote *y = b;
+    return x->precio - y->precio;
+}
+
+int main(void)
+{
+    Lingote v[4] = { { "oro", 40 }, { "hierro", 5 }, { "plomo", 9 }, { "cobre", 12 } };
+    qsort(v, 4, sizeof v[0], comparar);
+    for (int i = 0; i < 4; i++) {
+        printf("%-7s %3d\n", v[i].metal, v[i].precio);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Del más barato al más caro. El autómata de bronce hace una reverencia y vuelve solo a su cajón. Kira juraría que guiñó un ojo.
+
+#### Imagen
+- Un autómata de bronce chiquito ordenando lingotes sobre una mesa.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) lo mira con cariño de abuelo.
 
 ### Misión R02-N06-M1 · El tablero de récords
 
@@ -6085,6 +7889,349 @@ las peleas serían contra el Slime.
 **Orco: agregar más oleadas sin mirar el tamaño.** El total sale de
 `sizeof(oleadas) / sizeof(oleadas[0])`: si se agrega un rival al array, el
 bucle se ajusta solo.
+
+### Micro-misión R02-N07-P1 · Los carteles falsos
+
+```meta
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón
+criatura: dragon
+carta: Seguir punteros | un puntero puede apuntar a otro puntero · **pp llega al valor · anotar cada dirección antes de seguirla
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la Arena, la **Araña de las Direcciones** teje carteles que apuntan a otros carteles. Kira, por primera vez, no tira el primer golpe: saca la libreta de Tizón y sigue los hilos de a uno.
+
+#### Gheco sugiere
+Un puntero a puntero (`int **pp`) guarda la dirección de otro puntero. `*pp` es el puntero del medio y `**pp`, el valor del final.
+
+#### Desafío
+Seguí los dos carteles hasta el tesoro.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int tesoro = 99;
+    int *cartel = &tesoro;
+    int **cartel_al_cartel = &cartel;
+    printf("el tesoro vale %d\n", ___);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+el tesoro vale 99
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int tesoro = 99;
+    int *cartel = &tesoro;
+    int **cartel_al_cartel = &cartel;
+    printf("el tesoro vale %d\n", **cartel_al_cartel);
+    return 0;
+}
+```
+
+#### Al superarla
+Noventa y nueve. La Araña cambia los carteles de lugar, furiosa. Kira ya los tiene anotados.
+
+#### Imagen
+- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) teje carteles que apuntan a otros carteles.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) anota en la libreta de Tizón, concentrada.
+
+### Micro-misión R02-N07-P2 · La red de la Araña
+
+```meta
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Hulda
+criatura: orco
+carta: No pasarse | recorrer hasta la cantidad · comprobar el índice antes de usarlo · la Araña vive del lugar que sigue al último
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Araña tiende su red justo después del último lugar del array: espera que alguien lea uno de más. Hulda le pasa a Kira una regla: «antes de pisar, contá».
+
+#### Gheco sugiere
+Antes de usar `v[pos]`, se comprueba `pos >= 0 && pos < n`. Si no, se avisa y no se toca.
+
+#### Desafío
+Completá la comprobación.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pociones[4] = { 30, 15, 50, 10 };
+    int n = 4;
+    int pos;
+    for (int k = 0; k < 4; k++) {
+        scanf("%d", &pos);
+        if (___) {
+            printf("pocion %d: cura %d\n", pos, pociones[pos]);
+        } else {
+            printf("pocion %d: es la red de la arania\n", pos);
+        }
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+2 5 -1 0
+```
+
+#### Salida esperada
+```
+pocion 2: cura 50
+pocion 5: es la red de la arania
+pocion -1: es la red de la arania
+pocion 0: cura 30
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int pociones[4] = { 30, 15, 50, 10 };
+    int n = 4;
+    int pos;
+    for (int k = 0; k < 4; k++) {
+        scanf("%d", &pos);
+        if (pos >= 0 && pos < n) {
+            printf("pocion %d: cura %d\n", pos, pociones[pos]);
+        } else {
+            printf("pocion %d: es la red de la arania\n", pos);
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Dos trampas esquivadas. La Araña sube por su tela, nerviosa, y cambia de estrategia.
+
+#### Imagen
+- Una red de cobre tendida después del último estante de una hilera.
+- Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) sostiene una regla de madera.
+
+### Micro-misión R02-N07-P3 · El hilo que cambia todo
+
+```meta
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón
+carta: Funciones con punteros a struct | la función recibe Luchador * · cambia vida del original · devuelve si sigue en pie
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Araña muerde y envenena: cada turno le saca vida a quien muerde. Kira escribe un turno que actúa sobre las fichas **originales**, con carteles.
+
+#### Gheco sugiere
+`void morder(Luchador *atacante, Luchador *victima)` resta el ataque de uno a la vida del otro con `->`. La vida no baja de 0.
+
+#### Desafío
+Completá la mordida.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+    int ataque;
+} Luchador;
+
+void morder(const Luchador *atacante, Luchador *victima)
+{
+    victima->vida -= ___;
+    if (victima->vida < 0) {
+        victima->vida = 0;
+    }
+}
+
+int main(void)
+{
+    Luchador arania = { "Arania", 80, 12 };
+    Luchador kira = { "Kira", 50, 30 };
+    morder(&arania, &kira);
+    morder(&kira, &arania);
+    morder(&kira, &arania);
+    printf("%s: %d, %s: %d\n", kira.nombre, kira.vida, arania.nombre, arania.vida);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Kira: 38, Arania: 20
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    char nombre[12];
+    int vida;
+    int ataque;
+} Luchador;
+
+void morder(const Luchador *atacante, Luchador *victima)
+{
+    victima->vida -= atacante->ataque;
+    if (victima->vida < 0) {
+        victima->vida = 0;
+    }
+}
+
+int main(void)
+{
+    Luchador arania = { "Arania", 80, 12 };
+    Luchador kira = { "Kira", 50, 30 };
+    morder(&arania, &kira);
+    morder(&kira, &arania);
+    morder(&kira, &arania);
+    printf("%s: %d, %s: %d\n", kira.nombre, kira.vida, arania.nombre, arania.vida);
+    return 0;
+}
+```
+
+#### Al superarla
+Kira con 38, la Araña con 20. Tizón, en la tribuna, se emociona tanto que se le cae el calibre.
+
+#### Imagen
+- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) retrocede herida.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con el escudo en alto.
+
+### Micro-misión R02-N07-P4 · La Araña se enreda
+
+```meta
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón, Maese Ferrum
+criatura: dragon
+carta: Todo junto | array de structs + punteros + funciones · recorrer y cambiar por dirección · cada pieza en su lugar
+recompensa: xp 25, oro 30
+item: Hilo de las Direcciones
+```
+
+#### Escena
+La Araña tiene cuatro patas sanas y una vida enorme. Kira anotó en la libreta qué golpe va a cada pata. Si los aplica en orden, sobre las patas **originales**, la Araña se enreda en su propia tela.
+
+#### Gheco sugiere
+`golpear(&patas[i], golpe)` cambia la pata original. Al final se cuentan las patas con resistencia 0.
+
+#### Desafío
+Completá la llamada y la cuenta de patas rotas.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef struct {
+    int numero;
+    int resistencia;
+} Pata;
+
+void golpear(Pata *p, int golpe)
+{
+    p->resistencia = golpe >= p->resistencia ? 0 : p->resistencia - golpe;
+}
+
+int main(void)
+{
+    Pata patas[4] = { { 1, 25 }, { 2, 35 }, { 3, 20 }, { 4, 30 } };
+    int rotas = 0;
+    for (int i = 0; i < 4; i++) {
+        int golpe;
+        scanf("%d", &golpe);
+        golpear(___, golpe);
+        printf("pata %d: queda %d\n", patas[i].numero, patas[i].resistencia);
+        if (___) {
+            rotas++;
+        }
+    }
+    printf("patas rotas: %d de 4\n", rotas);
+    if (rotas >= 3) {
+        printf("la arania se enreda en su propia tela\n");
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+25 40 18 30
+```
+
+#### Salida esperada
+```
+pata 1: queda 0
+pata 2: queda 0
+pata 3: queda 2
+pata 4: queda 0
+patas rotas: 3 de 4
+la arania se enreda en su propia tela
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef struct {
+    int numero;
+    int resistencia;
+} Pata;
+
+void golpear(Pata *p, int golpe)
+{
+    p->resistencia = golpe >= p->resistencia ? 0 : p->resistencia - golpe;
+}
+
+int main(void)
+{
+    Pata patas[4] = { { 1, 25 }, { 2, 35 }, { 3, 20 }, { 4, 30 } };
+    int rotas = 0;
+    for (int i = 0; i < 4; i++) {
+        int golpe;
+        scanf("%d", &golpe);
+        golpear(&patas[i], golpe);
+        printf("pata %d: queda %d\n", patas[i].numero, patas[i].resistencia);
+        if (patas[i].resistencia == 0) {
+            rotas++;
+        }
+    }
+    printf("patas rotas: %d de 4\n", rotas);
+    if (rotas >= 3) {
+        printf("la arania se enreda en su propia tela\n");
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La Araña de las Direcciones queda colgando de su propia tela, enredada en carteles que apuntan a sí mismos. De la tela, Kira saca un hilo de cobre que **siempre sabe adónde va**: el **Hilo de las Direcciones**, que va a tu mochila. En la ficha del pedido de plomo, una última línea: el plomo salió **de las Minas**.
+
+#### Imagen
+- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) colgando enredada en su propia tela.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) enrolla un hilo de cobre brillante en la mano.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
 
 ### Misión R02-N07-M1 · El veneno del Goblin
 

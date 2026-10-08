@@ -1,4 +1,4 @@
-// Compila C++ en el navegador del docente (D66): Clang de YoWASP (WebAssembly, del CDN) con la biblioteca
+// Compila C y C++ en el navegador (C++ del docente, D66; C también del alumno, D98): Clang de YoWASP (WebAssembly, del CDN) con la biblioteca
 // estándar de wasi-sdk con excepciones y un encabezado precompilado (public/toolchains/cpp). El programa
 // resultante lo ejecuta otro worker (wasi-run.worker.js), así un bucle infinito no se lleva al compilador.
 import { CLANG_URL, SYSROOT_URL, PCH_URL, COMPILE_FLAGS, LINK_FLAGS, C_FLAGS } from '../runners/cpp-config.js';
@@ -36,24 +36,28 @@ function untar(bytes) {
 }
 
 let tools = null;
+let header = null;
 
-async function load() {
+/** Clang y la biblioteca. El encabezado precompilado (~14 MB) es solo de C++: el alumno de C no lo baja (D98). */
+async function load(language) {
     tools ??= Promise.all([
         import(/* @vite-ignore */ CLANG_URL),
         fetch(SYSROOT_URL).then(gunzip).then(untar),
-        fetch(PCH_URL).then(gunzip),
-    ]).then(([clang, sysroot, pch]) => ({ runClang: clang.runClang, sysroot, pch }));
+    ]).then(([clang, sysroot]) => ({ runClang: clang.runClang, sysroot }));
+    if (language !== 'c') header ??= fetch(PCH_URL).then(gunzip);
     try {
-        return await tools;
+        const loaded = await tools;
+        return { ...loaded, pch: language === 'c' ? null : await header };
     } catch (e) {
         tools = null;
+        header = null;
         throw e;
     }
 }
 
 self.onmessage = async ({ data: { id, code, language } }) => {
     try {
-        const { runClang, sysroot, pch } = await load();
+        const { runClang, sysroot, pch } = await load(language);
         self.postMessage({ id, type: 'loaded' });
 
         let diagnostics = '';

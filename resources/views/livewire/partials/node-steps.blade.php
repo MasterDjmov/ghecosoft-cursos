@@ -146,10 +146,13 @@
                                 </p>
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
                             </div>
-                            {{-- Java (D85): sin el ejecutor abierto, se corre en la compu o el IDE y se pega la salida. --}}
-                            @if ($stepLanguage->runsOnLocalRunner())
+                            {{-- Java (D85) sin el ejecutor abierto, o C (D98) si el compilador del navegador no carga: se corre
+                                 en la compu o el IDE y se pega la salida. --}}
+                            @if ($stepLanguage->runsOnLocalRunner() || $stepLanguage === \App\Enums\Language::C)
                                 <details class="mt-2 rounded-lg border border-outline/70 px-3 py-2 text-sm" x-show="! result?.ok" x-data="{ pasted: '', checking: false, wrong: false }" data-test="step-paste">
-                                    <summary class="cursor-pointer text-ink-muted hover:text-white">¿No tenés el ejecutor abierto? Corré el programa en tu compu y pegá acá lo que mostró</summary>
+                                    <summary class="cursor-pointer text-ink-muted hover:text-white">{{ $stepLanguage->runsOnLocalRunner()
+                                        ? '¿No tenés el ejecutor abierto? Corré el programa en tu compu y pegá acá lo que mostró'
+                                        : '¿No carga el compilador? Compilalo en tu compu (ZinjaI, Code::Blocks o VS Code) y pegá acá lo que mostró' }}</summary>
                                     <div class="mt-2 flex flex-col gap-2">
                                         <textarea x-model="pasted" rows="4" class="w-full rounded-md border border-outline bg-surface-lowest p-2 font-mono text-sm text-ink" placeholder="La salida de tu programa, tal cual" data-test="step-paste-output"></textarea>
                                         <div class="flex items-center gap-3">

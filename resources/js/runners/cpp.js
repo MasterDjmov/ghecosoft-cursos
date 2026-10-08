@@ -1,7 +1,7 @@
-// Ejecuta C++ en el navegador del docente (D66): compila en un worker (Clang en WebAssembly) y corre el
-// programa en otro, con tiempo límite. La primera vez baja el compilador (~105 MB del CDN) y la biblioteca
-// (~20 MB del sitio); después queda en la caché del navegador. Solo para corregir: el código del alumno
-// nunca se ejecuta en el servidor.
+// Ejecuta C y C++ en el navegador: C++ solo al corregir (D66); C también para el alumno (D98). Compila en
+// un worker (Clang en WebAssembly) y corre el programa en otro, con tiempo límite. La primera vez baja el
+// compilador (~105 MB del CDN) y la biblioteca (~6 MB del sitio; C++ suma ~14 MB de encabezado
+// precompilado); después queda en la caché del navegador. El código nunca se ejecuta en el servidor.
 
 let compiler = null;
 let loaded = false;
@@ -55,7 +55,7 @@ function execute(wasm, stdin, timeout) {
  * @returns {Promise<{output: string, error: string|null, diagnostics: string, ms: number, timedOut?: boolean}>}
  */
 export async function runCpp(code, { stdin = '', timeout = 5000, language = 'cpp', onStatus } = {}) {
-    onStatus?.(loaded ? 'Compilando…' : 'Cargando el compilador (la primera vez baja ~120 MB y tarda)…');
+    onStatus?.(loaded ? 'Compilando…' : `Cargando el compilador (la primera vez baja ~${language === 'c' ? 110 : 125} MB y tarda; después queda guardado)…`);
     const compiled = await compile(code, language, () => onStatus?.('Compilando…'));
 
     if (compiled.type === 'loadFailed') {

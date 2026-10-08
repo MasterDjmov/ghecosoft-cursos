@@ -357,3 +357,27 @@ test('el bloque del código inicial marca una micro-misión de otro lenguaje que
     expect($html)->toContain('r00-n01-p1.sql')
         ->and($html)->not->toContain('data-test="step-paste"');
 });
+
+/*
+ * C para el alumno (D98): la micro-misión se ejecuta con Clang en su navegador, y si el compilador no carga, la puede
+ * compilar en su compu y pegar la salida.
+ */
+
+test('una micro-misión de C se ejecuta en el navegador del alumno y ofrece pegar la salida', function () {
+    $cStep = str_replace(["```python\n# tu conjuro\n```", "#### Solución\n```python\nprint(\"Hola, Valle\")\n```"],
+        ["```c\n#include <stdio.h>\nint main(void) { ___ }\n```", "#### Solución\n```c\n#include <stdio.h>\nint main(void) { printf(\"Hola, Valle\\n\"); return 0; }\n```"], STEPS_MD);
+    $report = app(CourseImporter::class)->import(stepsCourseFile(fn ($md) => str_replace('### Misión R00-N01-M1', $cStep.'### Misión R00-N01-M1', $md)), dryRun: false);
+    expect($report->errors)->toBe([]);
+    $course = Course::where('slug', 'python-import')->firstOrFail();
+    $course->update(['is_published' => true]);
+    $first = $course->rootNode->steps()->first();
+
+    expect($first->runLanguage($course))->toBe(Language::C);
+
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->assertOk()->getContent();
+    expect($html)->toContain('r00-n01-p1.c')
+        ->and($html)->toContain('data-test="step-paste"')
+        ->and($html)->toContain('¿No carga el compilador?')
+        ->and($html)->toContain('runnable\\u0022:true');
+});

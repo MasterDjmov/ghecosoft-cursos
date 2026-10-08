@@ -53,12 +53,13 @@ enum Language: string
 
     /**
      * Lo que el alumno puede ejecutar en su navegador: Python (Pyodide en un Web Worker), HTML y CSS (una
-     * vista previa en un iframe aislado, sin JavaScript ni red) y SQL (SQLite en WebAssembly, en un Web Worker,
-     * con una base vacía en memoria en cada ejecución). El resto, solo quien corrige (D66–D69).
+     * vista previa en un iframe aislado, sin JavaScript ni red), SQL (SQLite en WebAssembly, en un Web Worker,
+     * con una base vacía en memoria en cada ejecución) y C (D98: Clang en WebAssembly, el mismo del docente,
+     * con una carpeta vacía en memoria). El resto, solo quien corrige (D66–D69).
      */
     public function runsForStudents(): bool
     {
-        return in_array($this, [self::Python, self::Html, self::Sql], true);
+        return in_array($this, [self::Python, self::Html, self::Sql, self::C], true);
     }
 
     /**

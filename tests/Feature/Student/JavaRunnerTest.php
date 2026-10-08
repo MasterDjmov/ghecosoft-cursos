@@ -16,12 +16,13 @@ function javaCourse(): array
     return [...$made, 'student' => studentWithRootOpen($made), 'practice' => $made['root']->practices()->first()];
 }
 
-test('Java corre con el ejecutor local; C, C++ y PHP siguen siendo solo del docente', function () {
+test('Java corre con el ejecutor local; C corre en el navegador (D98); C++ y PHP siguen siendo solo del docente', function () {
     expect(Language::Java->studentCanRun())->toBeTrue()
         ->and(Language::Java->runsForStudents())->toBeFalse()
         ->and(Language::Python->studentCanRun())->toBeTrue()
         ->and(Language::Cpp->studentCanRun())->toBeFalse()
-        ->and(Language::C->studentCanRun())->toBeFalse()
+        ->and(Language::C->studentCanRun())->toBeTrue()
+        ->and(Language::C->runsForStudents())->toBeTrue()
         ->and(Language::Php->studentCanRun())->toBeFalse();
 });
 

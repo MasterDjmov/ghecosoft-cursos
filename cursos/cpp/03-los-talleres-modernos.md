@@ -101,6 +101,14 @@ Tablero t;
 > **Si venís de C.** `std::array<int, 4>` reemplaza a `int x[4]`, pero sabe su
 > tamaño, se copia con `=` y no se "degrada" a puntero al pasarlo a una función.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -826,6 +834,14 @@ letras acentuadas, un `char` puede ser negativo y eso es comportamiento indefini
 > **Si venís de C.** `find` reemplaza a `strstr`/`strchr`, `substr` a copiar a
 > mano, `==` a `strcmp`, `std::stoi`/`std::to_string` a `atoi`/`sprintf`, y los
 > `stringstream` a `sscanf`/`sprintf`. Todo sin tamaños fijos ni `free`.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1579,6 +1595,14 @@ nodos. Por ahora: "ordená poniendo primero al de mayor `second`".)
 > **Si venís de C.** C no trae nada de esto: había que escribir una tabla hash o
 > un árbol a mano. En C++ son una línea.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -2310,6 +2334,14 @@ excepciones.
 
 > **Si venís de C.** `enum class` es un `enum` que no se mezcla con los enteros.
 > `optional` reemplaza al "devuelvo −1 si no lo encontré".
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -3114,6 +3146,14 @@ una línea.
 > **Si venís de C.** Es como pasarle a `qsort` un puntero a función, pero escrita
 > ahí mismo, con tipos, y pudiendo usar variables de afuera.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -3814,8 +3854,12 @@ mostrar, guardalos en un vector y ordenalos.
 
 #### ¿Dónde se crean los archivos?
 Una ruta relativa (`"piezas.csv"`) se busca en la **carpeta desde donde ejecutás**
-el programa, no donde está el `.cpp`. Si ejecutás `./build/programa` desde la
-carpeta del proyecto, el archivo aparece en la carpeta del proyecto.
+el programa, no donde está el `.cpp`. Si ejecutás `./build/programa` (en Windows,
+`build\programa.exe`) desde la carpeta del proyecto, el archivo aparece en la
+carpeta del proyecto. Los IDE ejecutan desde su propia carpeta de trabajo
+(Code::Blocks, la del proyecto; ZinjaI, la del archivo): si no encontrás el
+archivo, buscalo ahí. Las rutas se escriben con `/`, que anda en Linux y en
+Windows.
 
 > **Si venís de C.** `ofstream`/`ifstream` reemplazan a `fopen`/`fprintf`/`fgets`,
 > y se cierran solos (no hay `fclose` que olvidar). `std::filesystem` reemplaza a
@@ -3845,6 +3889,14 @@ f.write(reinterpret_cast<const char*>(&m), sizeof m);
 Con `std::ios::ate` el archivo se abre parado al final, y `tellg()` dice en qué byte está: dividido por el tamaño del registro, da la cantidad.
 
 > **Si venís de C.** Es lo mismo que `fwrite`, `fread` y `fseek` con un `struct`, y los parciales de la UNLaR y la UTN lo toman igual.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -4765,6 +4817,14 @@ algo "anda raro".
 > ocurre solo, en todos los caminos de salida. `shared_ptr` es un contador de
 > referencias que en C había que programar a mano.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -5454,6 +5514,14 @@ Pide la versión que generaría el compilador, de forma explícita:
 
 > **Si venís de C.** En C, cada `fopen` necesitaba su `fclose` y cada `malloc` su
 > `free`, en **cada** camino de salida. RAII hace que eso sea imposible de olvidar.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 

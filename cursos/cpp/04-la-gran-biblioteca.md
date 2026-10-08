@@ -106,6 +106,14 @@ el compilador necesita ver todo el molde en cada lugar donde se usa.
 > tipos, como `qsort`) o con macros. Las plantillas son genéricas **y** revisan
 > los tipos.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -779,6 +787,14 @@ for (auto it = v.begin(); it != v.end(); ) {
 > **Si venís de C.** Un iterador de `vector` se usa como un puntero a un array
 > (`*p`, `p++`, `p + 3`). La idea generaliza el puntero a cualquier contenedor.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -1369,6 +1385,14 @@ mira con `top()`/`front()`, después se saca).
 
 > **Si venís de C.** Pilas y colas se programaban a mano con arrays o listas
 > enlazadas. Acá vienen hechas, y el `deque` evita escribir un buffer circular.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -2135,6 +2159,14 @@ Los `unordered` no tienen `lower_bound` ni orden: si necesitás rangos, `map`.
 > **Si venís de C.** Todo esto (un árbol balanceado con búsquedas por rango) en C
 > eran cientos de líneas. Acá es una declaración.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -2790,6 +2822,14 @@ multiplica.
 
 > **Si venís de C.** C solo traía `qsort` y `bsearch`. En C++ hay más de cien
 > algoritmos, con tipos y para cualquier contenedor.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -3470,6 +3510,14 @@ lambda. Usalo cuando tenés que **guardar** la acción.
 
 > **Si venís de C.** Es un puntero a función, pero puede guardar también lambdas
 > con capturas y functores con estado.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -4191,6 +4239,14 @@ usás. Para guardar el resultado, recorrelo y cargá un vector.
 > pero con tipos y con todos los métodos. Las views no tienen equivalente: en C
 > cada paso era un bucle y un array intermedio.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -4878,6 +4934,14 @@ elemento, y los algoritmos funcionan igual (así funciona `std::views::iota`).
 > **Si venís de C.** En C, cada estructura necesitaba sus propias funciones de
 > recorrido y su propio "sumar", "buscar", "máximo". Acá escribís el iterador una
 > vez y reutilizás cien algoritmos.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 

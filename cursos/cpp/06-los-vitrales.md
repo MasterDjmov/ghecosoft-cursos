@@ -542,6 +542,12 @@ Redefiniendo `closeEvent(QCloseEvent* e)` en tu ventana podés guardar antes de 
 #### Validar
 Revisá **todo** lo que escribe el usuario antes de usarlo, y decile **qué** está mal (juntá los errores en una `QStringList` y mostralos juntos). Botones que no tienen sentido en un momento (borrar sin nada elegido) se desactivan con `setEnabled(false)`.
 
+#### Cómo compilarlo y ejecutarlo
+
+Abre una ventana, así que se compila en tu compu con el `CMakeLists.txt` del primer nodo de la rama:
+- **Qt Creator** (Linux y Windows): abrí el `CMakeLists.txt` y apretá **Ctrl+R**.
+- **Terminal:** `cmake -B build && cmake --build build`, y después `./build/vitrales` (Linux) o `build\vitrales.exe` (Windows).
+
 ### Código de ejemplo
 
 ```cpp
@@ -2340,6 +2346,12 @@ La vista se conecta con `vista->setModel(modelo)`. Cuando el **modelo** cambia (
 Entre el modelo y la vista puede ir un **proxy**, como `QSortFilterProxyModel`, que filtra y ordena sin tocar los datos originales. Ojo: los índices de la vista son los del proxy; para llegar al modelo, `mapToSource`.
 
 (`QListWidget` y `QTableWidget`, del nodo anterior, son versiones "todo en uno" con el modelo adentro: más simples, pero menos flexibles.)
+
+#### Cómo compilarlo y ejecutarlo
+
+Abre una ventana, así que se compila en tu compu con el `CMakeLists.txt` del primer nodo de la rama:
+- **Qt Creator** (Linux y Windows): abrí el `CMakeLists.txt` y apretá **Ctrl+R**.
+- **Terminal:** `cmake -B build && cmake --build build`, y después `./build/vitrales` (Linux) o `build\vitrales.exe` (Windows).
 
 ### Código de ejemplo
 

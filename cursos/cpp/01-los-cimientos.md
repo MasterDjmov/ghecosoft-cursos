@@ -125,6 +125,14 @@ indefinido* (el programa puede hacer cualquier cosa).
 > es un tipo del lenguaje (sin `#include`), `static_cast` reemplaza al
 > `(double) x` de C, y la inicialización con llaves te cuida de perder datos.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -554,14 +562,25 @@ ocupa un byte más por cada una, y la columna se corre un lugar.
 #### Probar un programa con entrada sin escribirla cada vez
 En la terminal podés mandarle la entrada desde un archivo:
 ```bash
-./programa < entrada.txt
-printf 'Lima\n27\nsin miedo\n' | ./programa
+./programa < entrada.txt                    # Linux
+programa.exe < entrada.txt                  # Windows (cmd)
+printf 'Lima\n27\nsin miedo\n' | ./programa # Linux: la entrada escrita ahí mismo
 ```
-Así funcionan las **entradas de ejemplo** de las misiones.
+Así funcionan las **entradas de ejemplo** de las misiones. En ZinjaI y
+Code::Blocks se escribe en la consola que abren, o se le indica un archivo de
+entrada en las opciones de ejecución.
 
 > **Si venís de C.** `std::string` reemplaza a los `char[]`: no hay tamaño fijo
 > ni riesgo de desbordar. `std::cin >> x` reemplaza a `scanf` (sin `&` ni `%d`) y
 > `std::getline` a `fgets` (sin el `\n` final).
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1162,6 +1181,14 @@ Se lee: "¿condición? entonces esto : si no, esto otro".
 > **Si venís de C.** Todo es igual, salvo que en C++ las condiciones son `bool`
 > de verdad y los `std::string` se comparan con `==` (en C había que usar
 > `strcmp`).
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1782,6 +1809,14 @@ Se lee "para cada `c` en `palabra`". Lo vas a usar muchísimo con los vectores.
 
 > **Si venís de C.** `while`, `do-while`, `for`, `break` y `continue` son
 > idénticos. El `for` de rango es nuevo.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -2462,6 +2497,14 @@ Muchas funciones ya vienen hechas. En `<cmath>`: `std::sqrt(x)` (raíz),
 > **Si venís de C.** Las funciones son iguales; lo nuevo es la sobrecarga (en C
 > hacían falta `abs`, `fabs`, `labs`…) y los parámetros por defecto.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -3025,6 +3068,14 @@ una dirección, `*p` es lo apuntado, `p->campo` es un campo de lo apuntado.
 > dirección (`curar(&v)` y `p->vida`). En C++ la referencia hace lo mismo sin
 > `&` en la llamada ni `*` o `->` adentro, y sin riesgo de un puntero nulo.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -3583,6 +3634,14 @@ Es la forma natural de guardar un tablero, un mapa de juego o una planilla.
 > **Si venís de C.** `std::vector` reemplaza a los arrays y a todo el
 > `malloc`/`realloc`/`free` de un array dinámico: crece solo y se libera solo
 > cuando termina su alcance.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -4263,6 +4322,14 @@ std::clamp(x, 0, 100);   // x, pero sin salir de 0..100
 > **Si venís de C.** `rand() % 6 + 1` y `srand(time(NULL))` funcionan, pero dan
 > números peor repartidos. `<random>` es la forma moderna.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -4863,10 +4930,13 @@ tirón: se **parte**.
 #### Probar con la entrada de ejemplo
 Guardá la entrada de ejemplo en un archivo y probá con
 ```bash
-./programa < entrada.txt > mi_salida.txt
+./programa < entrada.txt > mi_salida.txt          # Linux
 diff mi_salida.txt salida_esperada.txt
+programa.exe < entrada.txt > mi_salida.txt        # Windows (cmd)
+fc mi_salida.txt salida_esperada.txt
 ```
-`diff` no muestra nada si son idénticas; si no, te dice qué líneas difieren.
+`diff` (y `fc` en Windows) no muestra diferencias si son idénticas; si no, te
+dice qué líneas difieren.
 
 #### Leer una opción de un menú, bien
 Un menú tiene que sobrevivir a lo que escriba el usuario:

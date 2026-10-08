@@ -23,7 +23,7 @@ Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilá
 
 El camino termina con **aplicaciones de escritorio en Qt** y **TallerExpress**, un simulacro del examen: clases con herencia, un archivo y su ventana. Después, en la **Encrucijada de los Engranajes**, sale una Senda optativa de videojuegos 2D con **SDL3**.
 
-> Qué hace falta: una compu con `g++` (en Linux: `sudo apt install g++`; en Windows, WSL o MSYS2; en macOS, las herramientas de Xcode). Los programas de C++ se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
+> Qué hace falta: los ejemplos y las micro-misiones corren en este navegador. Para las misiones, una compu con `g++` y un editor: ZinjaI, Code::Blocks o VS Code (en Linux y en Windows), y Qt Creator para la rama de Qt. En Linux: `sudo apt install g++`; en Windows, MSYS2 o el compilador que trae el editor; en macOS, las herramientas de Xcode). Los programas de C++ se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
 
 ### Temario
 
@@ -80,13 +80,11 @@ error y las advertencias**.
 
 ### Antes de empezar
 
-Nada: este es el punto de partida. Necesitás una terminal y el compilador `g++`.
-
-- **Linux**: `sudo apt install g++` (Ubuntu, Debian, Mint).
-- **Windows**: WSL (Ubuntu dentro de Windows) o MSYS2; después, lo mismo que en Linux.
-- **macOS**: `xcode-select --install` (trae `clang++`, que se usa igual que `g++`).
-
-Probá `g++ --version`: tiene que decir 11 o más (el curso usa C++20).
+Nada: este es el punto de partida. Para los ejemplos y las micro-misiones alcanza
+con este navegador (tocá **Ejecutar**: la primera vez baja el compilador y tarda
+un poco). Para las misiones vas a necesitar un entorno de C++ en tu compu: abajo
+está cómo instalarlo en Linux y en Windows. El curso usa **C++20**, así que el
+compilador tiene que ser `g++` 11 o más nuevo (`g++ --version`).
 
 ### Explicación
 
@@ -113,6 +111,42 @@ Por dentro, `g++` hace tres pasos:
 
 Casi siempre se hacen los tres de una vez, pero conviene saber que existen: los
 errores de cada paso se ven distintos.
+
+#### Dónde escribir y compilar (Linux y Windows)
+Tres caminos; elegí uno y usalo todo el curso (en la rama de Qt se suma Qt Creator).
+
+**1. ZinjaI** (el más simple, pensado para aprender; Linux y Windows). Bajalo de
+su página (`zinjai.sourceforge.net`): en Windows trae el compilador adentro; en
+Linux, instalá antes `g++` (`sudo apt install build-essential`). Archivo → Nuevo,
+escribís y **F9** compila y ejecuta. Para C++20, agregá `-std=c++20` en las
+opciones de compilación (si el compilador que trae es viejo y no lo reconoce,
+probá `-std=c++2a` o configurale el `g++` de MSYS2).
+
+**2. Code::Blocks** (Linux y Windows). En Windows, bajá el instalador que dice
+**mingw-setup**, de la versión **25.03 o más nueva**: trae un `g++` moderno (la
+20.03 trae `g++` 8, que no conoce C++20). En Linux: `sudo apt install codeblocks`.
+Archivo → Nuevo → Archivo vacío, guardalo como `main.cpp`. En *Settings → Compiler*
+tildá la opción de **C++20** (o escribí `-std=c++20` en *Other compiler options*),
+y **F9**.
+
+**3. VS Code con `g++` y la terminal.**
+- **Linux:** `sudo apt install build-essential` y listo: `g++ --version`.
+- **Windows:** instalá **MSYS2** (`msys2.org`), abrí la terminal **MSYS2 UCRT64**
+  y escribí `pacman -S mingw-w64-ucrt-x86_64-gcc` (trae `gcc` y `g++`). Agregá
+  `C:\msys64\ucrt64\bin` a la variable `Path` de Windows para que `g++` ande en
+  cualquier terminal. Probá `g++ --version`.
+- En VS Code, la extensión **C/C++** de Microsoft. Se compila desde la terminal
+  integrada (Ctrl+ñ):
+
+| | Linux | Windows |
+|---|---|---|
+| Compilar | `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` | `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` |
+| Ejecutar | `./programa` | `programa.exe` (o `.\programa.exe` en PowerShell) |
+| Ver el `return` | `echo $?` | `echo %errorlevel%` (cmd) o `$LASTEXITCODE` (PowerShell) |
+
+**Las tildes en la consola de Windows:** si ves `Â¡Hola` en lugar de `¡Hola`,
+escribí `chcp 65001` en la consola antes de ejecutar (o, en ZinjaI y
+Code::Blocks, configurá la consola en UTF-8). En Linux se ven bien siempre.
 
 #### Anatomía del programa
 ```cpp
@@ -200,6 +234,14 @@ primer** error y volvé a compilar: los siguientes suelen desaparecer solos.
 > **Si venís de C.** `std::cout << x` reemplaza a `printf("%d", x)`: no hay
 > `%d` ni `%f`, así que se acaban los errores de formato. `#include <iostream>`
 > reemplaza a `<stdio.h>`. El resto (el `main`, las llaves, el `;`) es igual.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 

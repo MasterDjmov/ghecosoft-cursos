@@ -51,7 +51,13 @@ g++ -std=c++20 -Wall -Wextra -o juego main.cpp $(pkg-config --cflags --libs sdl3
 find_package(SDL3 REQUIRED CONFIG)
 target_link_libraries(juego PRIVATE SDL3::SDL3)
 ```
-En Windows se usa MSYS2 (`pacman -S mingw-w64-ucrt-x86_64-sdl3`) y en macOS, `brew install sdl3`.
+**Windows** (en la terminal **MSYS2 UCRT64**):
+```bash
+pacman -S mingw-w64-ucrt-x86_64-sdl3 mingw-w64-ucrt-x86_64-pkgconf
+g++ -std=c++20 -Wall -Wextra -o juego.exe main.cpp $(pkg-config --cflags --libs sdl3)
+./juego.exe
+```
+En Windows, el archivo que tiene el `main` lleva además `#include <SDL3/SDL_main.h>` (en Linux no molesta: se puede dejar siempre). Para abrir el juego con doble clic fuera de MSYS2, copiá `SDL3.dll` (de `C:\msys64\ucrt64\bin`) a la carpeta del `.exe`. En **Code::Blocks**, **ZinjaI** o **Qt Creator**, agregá en las opciones del proyecto la carpeta de `include` de SDL3 y la biblioteca `SDL3`. En macOS, `brew install sdl3`.
 
 Estos programas abren una **ventana**: se prueban en tu compu, no en la plataforma, y las misiones se entregan como `.zip` con el código.
 
@@ -638,6 +644,12 @@ Una animación es una lista de cuadros y un reloj: se acumula `dt` y, cada tanto
 
 #### El mouse
 `SDL_GetMouseState(&x, &y)` da la posición y qué botones están apretados (`SDL_BUTTON_LMASK`, `SDL_BUTTON_RMASK`). Los eventos `SDL_EVENT_MOUSE_BUTTON_DOWN` y `SDL_EVENT_MOUSE_WHEEL` avisan clics y rueda.
+
+#### Cómo compilarlo y ejecutarlo
+
+Abre una ventana, así que se compila en tu compu, con SDL3 instalado como en el primer nodo de la Senda:
+- Linux: `g++ -std=c++20 -Wall -Wextra -o juego main.cpp $(pkg-config --cflags --libs sdl3)` y `./juego`
+- Windows (terminal **MSYS2 UCRT64**): lo mismo con `-o juego.exe`, y `./juego.exe`
 
 ### Código de ejemplo
 
@@ -1328,6 +1340,12 @@ public:
 };
 ```
 El bucle principal tiene un `std::unique_ptr<Escena>` y no sabe cuál es: le pide que se actualice y se dibuje. Cuando una escena llena `siguiente`, el bucle la cambia (`escena = std::move(escena->siguiente)`) y la vieja se destruye sola. Es el polimorfismo de la rama 2 y la propiedad única de la rama 3, trabajando juntos.
+
+#### Cómo compilarlo y ejecutarlo
+
+Abre una ventana, así que se compila en tu compu, con SDL3 instalado como en el primer nodo de la Senda:
+- Linux: `g++ -std=c++20 -Wall -Wextra -o juego main.cpp $(pkg-config --cflags --libs sdl3)` y `./juego`
+- Windows (terminal **MSYS2 UCRT64**): lo mismo con `-o juego.exe`, y `./juego.exe`
 
 ### Código de ejemplo
 

@@ -110,6 +110,14 @@ construir pisos en una no cambia la otra.
 > (`torre_construir(&t, 4)`). En C++ los métodos van adentro (`t.construir(4)`),
 > no hace falta `typedef` para usar el nombre, y `private` impide romper las reglas.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -847,6 +855,14 @@ datos `static`.
 > `automata_init(&a, ...)` si se acordaba, y a `automata_liberar(&a)` al final.
 > En C++ las dos cosas pasan solas.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -1455,6 +1471,14 @@ bien encapsulada.
 > **Si venís de C.** En C la regla dependía de que todos llamaran a la función
 > correcta; nada impedía escribir `cuenta.saldo = -500`. En C++ el compilador lo
 > impide.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -2269,6 +2293,14 @@ un método con nombre.
 > **Si venís de C.** En C no se podía: había que escribir `vec2_sumar(a, b)`. En
 > C++ los tipos propios se usan como los del lenguaje.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -3047,6 +3079,14 @@ punteros inteligentes en la rama 3; por ahora, cada objeto **contiene** sus part
 
 > **Si venís de C.** Es como un struct con otros structs adentro, pero cada parte
 > trae sus métodos y se construye y destruye sola.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -3892,6 +3932,14 @@ que se elija la versión **del tipo real** hace falta `virtual`: eso es el
 > casteando punteros a mano. En C++ es parte del lenguaje, y el compilador controla
 > los tipos.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -4619,6 +4667,14 @@ Por eso el polimorfismo siempre va **por referencia o por puntero**.
 > **Si venís de C.** En C se imitaba con punteros a función dentro de los structs
 > (una "tabla" de funciones armada a mano). `virtual` hace exactamente eso, pero lo
 > arma y lo controla el compilador.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -5425,7 +5481,14 @@ g++ -std=c++20 -Wall -Wextra -c Torre.cpp     # -> Torre.o
 g++ -std=c++20 -Wall -Wextra -c main.cpp      # -> main.o
 g++ -o ciudadela main.o Torre.o               # enlazar
 ```
-La ventaja: si solo cambiás `main.cpp`, solo se recompila ese.
+La ventaja: si solo cambiás `main.cpp`, solo se recompila ese. En **Windows**
+los comandos son los mismos (en la terminal de MSYS2 o la de VS Code), con
+`-o ciudadela.exe`.
+
+En un IDE, varios archivos van en un **proyecto**: en **ZinjaI**, Archivo → Nuevo
+proyecto y agregar los `.cpp` y `.h`; en **Code::Blocks**, Archivo → Nuevo →
+Proyecto (*Console application*, en C++) y Proyecto → Agregar archivos. El IDE
+compila cada `.cpp` y los enlaza solo.
 
 Los errores del **enlazador** se ven distintos: no mencionan una línea, sino un
 nombre que "no está definido" o "está definido dos veces".
@@ -5447,18 +5510,27 @@ Y se compila con:
 ```bash
 cmake -B build              # prepara la carpeta build (una sola vez)
 cmake --build build         # compila solo lo que cambió
-./build/ciudadela
+./build/ciudadela           # Linux
+build\ciudadela.exe         # Windows
 ```
 Para agregar un archivo nuevo al proyecto, se suma a la lista de
 `add_executable`. CMake funciona igual en Linux, Windows y macOS, y lo entienden
-todos los editores (VS Code, CLion, Qt Creator). Instalalo con
-`sudo apt install cmake`.
+todos los editores (VS Code con la extensión *CMake Tools*, CLion, Qt Creator).
+Instalalo con `sudo apt install cmake` en Linux; en Windows, con MSYS2
+(`pacman -S mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja`, y después
+`cmake -B build -G Ninja`) o con el instalador de `cmake.org`.
 
 #### Cómo entregar un proyecto de varios archivos
 Comprimí la carpeta (sin la carpeta `build`) en un `.zip` y subila.
 
 > **Si venís de C.** Es la misma idea que `.h` y `.c`, con clases en vez de
 > funciones sueltas, y CMake en lugar de un Makefile escrito a mano.
+
+#### Cómo compilarlo y ejecutarlo
+
+Es un proyecto de varios archivos, así que se compila en tu compu:
+- **ZinjaI o Code::Blocks** (Linux y Windows): un proyecto nuevo con los `.cpp` y los `.h`, y **F9**.
+- **Terminal:** `g++ -std=c++20 -Wall -Wextra *.cpp -o programa` (en Windows, `-o programa.exe`), o con CMake, como arriba.
 
 ### Código de ejemplo
 

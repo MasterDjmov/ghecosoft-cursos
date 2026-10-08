@@ -116,6 +116,14 @@ usa en los movimientos (rama 3) y en funciones simples que no pueden fallar.
 > revisar en cada llamada (y era fácil olvidarlo). Una excepción no se puede
 > ignorar: o alguien la atrapa, o el programa se detiene.
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -836,6 +844,12 @@ memoria y el comportamiento indefinido, con el archivo y la línea:
 Es la herramienta que más tiempo te va a ahorrar: usala cada vez que algo "anda
 raro".
 
+**En Windows** (MinGW), `-fsanitize=address` no existe: queda
+`-fsanitize=undefined -fsanitize-undefined-trap-on-error`, y para la memoria,
+**Dr. Memory** (`drmemory -- programa.exe`). Otra opción es instalar **WSL** (un
+Linux dentro de Windows) y usar todo lo de arriba tal cual. Y mientras depurás,
+`.at()` en lugar de `[]` avisa los índices fuera de rango en cualquier sistema.
+
 #### El depurador: `gdb`
 Compilá con `-g` (información para depurar) y:
 ```bash
@@ -849,8 +863,16 @@ gdb ./programa
 (gdb) continue                   # seguir hasta el próximo break
 ```
 Si el programa se corta (*Segmentation fault*), `run` y después `backtrace`
-muestran **exactamente** dónde. VS Code, CLion y Qt Creator tienen el mismo
-depurador con botones.
+muestran **exactamente** dónde.
+
+**En Windows:** `gdb` viene con MSYS2 (`pacman -S mingw-w64-ucrt-x86_64-gdb`) y
+se usa igual: `gdb programa.exe`. Sin comandos, los IDE tienen el mismo
+depurador con botones:
+- **ZinjaI** (Linux y Windows): clic en el margen de una línea para un punto de
+  parada y **F5** para depurar; las variables se ven en el panel de inspecciones.
+- **Code::Blocks**: *Debug → Toggle breakpoint* (F5) y *Debug → Start* (F8); el
+  proyecto tiene que estar en modo *Debug*.
+- **VS Code** y **Qt Creator**: un clic en el margen y el botón de depurar.
 
 #### Trampas comunes de C++ (y cómo evitarlas)
 | Trampa | Cómo se evita |
@@ -868,6 +890,14 @@ depurador con botones.
 > **Si venís de C.** Las mismas herramientas (`gdb`, sanitizadores) sirven para C.
 > C++ agrega trampas propias (iteradores, copias, vistas), pero también muchas
 > defensas (`at()`, RAII, punteros inteligentes).
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1584,6 +1614,14 @@ y muestra la diferencia en el destructor.
 > **Si venís de C.** `<chrono>` reemplaza a `clock()` y `time()`, con unidades que
 > el compilador revisa (no se mezclan milisegundos con segundos por accidente).
 
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
+
 ### Código de ejemplo
 
 ```cpp
@@ -2152,6 +2190,14 @@ para que ninguna defensa haga invencible a nadie.
 
 > **Si venís de C.** Es lo mismo que harías con structs y funciones, pero cada
 > pieza protege sus reglas y el compilador te impide saltearlas.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -3211,6 +3257,14 @@ El jefe final es por turnos; la Senda de SDL3, en tiempo real.
 
 > **Si venís de C.** El bucle y el `dt` son iguales en C. Lo que cambia es que
 > las partes se organizan en clases y los estados son `enum class`.
+
+#### Cómo compilarlo y ejecutarlo
+
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa` y `./programa`
+  - Windows: `g++ -std=c++20 -Wall -Wextra main.cpp -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 

@@ -51,7 +51,7 @@ gcc -std=c11 -Wall -Wextra -o juego main.c $(pkg-config --cflags --libs sdl3) -l
 
 **Windows** (en la terminal **MSYS2 UCRT64**):
 ```bash
-pacman -S mingw-w64-ucrt-x86_64-SDL3 mingw-w64-ucrt-x86_64-pkgconf
+pacman -S mingw-w64-ucrt-x86_64-sdl3 mingw-w64-ucrt-x86_64-pkgconf
 gcc -std=c11 -Wall -Wextra -o juego.exe main.c $(pkg-config --cflags --libs sdl3) -lm
 ./juego.exe
 ```

@@ -386,7 +386,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, R02-N01.
 - **Dónde va:** los talleres de la Academia: moldes de bronce colgando del techo, yunques, chispas y pizarras.
 
-### El Archivista Mayor *(falta la imagen)*
+### El Archivista Mayor
 - **Rol:** dirige los **Archivos Imperiales** (R03): recibe a Zed, le enseña paquetes, listas, mapas y lambdas, y le abre el ala sur donde está la ficha vacía del Vidriero.
 - **Edad y sexo:** 70, hombre.
 - **Altura y contextura:** alto y muy flaco, un poco encorvado.
@@ -399,7 +399,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, R03-N01.
 - **Dónde va:** los Archivos Imperiales: salas altísimas de estantes, escaleras con ruedas, cajoncitos de fichas y faroles.
 
-### El Espectro Nulo (jefe de R03 de Java) *(falta la imagen)*
+### El Espectro Nulo (jefe de R03 de Java)
 - **Rol:** el jefe de los Archivos (R03-N08): vive en la «sala vacía», borra los registros del Vidriero y aparece donde alguien supuso que algo existía. Al apagarse deja la **Linterna del Espectro**.
 - **Qué es:** una **figura transparente hecha de pergaminos en blanco** que flotan, sin cara, con un **hueco negro con forma de «null»** en el pecho y jirones de tinta que se desvanecen.
 - **Color:** blanco papel, gris y un **azul frío** espectral.

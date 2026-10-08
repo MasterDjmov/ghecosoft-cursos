@@ -175,7 +175,7 @@ return [
         ['code' => 'capa-de-musgo', 'gives' => ['capa-de-musgo' => 1], 'needs' => ['capa-del-valle' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'baculo-de-la-garra', 'gives' => ['baculo-de-la-garra' => 1], 'needs' => ['baculo-del-interprete' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
         // El Imperio (Java): los mismos materiales, con los ítems del puesto de Baldo.
-        ['code' => 'cafe-de-baba', 'gives' => ['cafe-fuerte' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'cafe-fuerte-doble', 'gives' => ['cafe-fuerte' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
         ['code' => 'taza-encantada', 'gives' => ['taza-encantada' => 1], 'needs' => ['taza-de-cafe' => 1, 'colmillo-de-orco' => 5], 'minutes' => 10, 'min_level' => 5],
         ['code' => 'sello-dentado', 'gives' => ['sello-dentado' => 1], 'needs' => ['baston-del-aduanero' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'chaqueta-forrada', 'gives' => ['chaqueta-forrada' => 1], 'needs' => ['chaqueta-de-la-aduana' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],

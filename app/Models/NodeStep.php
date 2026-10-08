@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Language;
+use App\Support\LocalCodeRunner;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,12 +49,10 @@ class NodeStep extends Model
         return $this->image_path ? Storage::disk('public')->url($this->image_path) : null;
     }
 
-    /** Lo que se compara: sin espacios al final de cada línea ni líneas vacías al final, y con \n. */
+    /** Lo que se compara: igual que en la corrección asistida y en el navegador (LocalCodeRunner::normalize). */
     public static function normalizeOutput(?string $text): string
     {
-        $lines = preg_split('/\R/', (string) $text);
-
-        return trim(implode("\n", array_map('rtrim', $lines)), "\n");
+        return LocalCodeRunner::normalize((string) $text);
     }
 
     public function accepts(?string $output): bool

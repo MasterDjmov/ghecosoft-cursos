@@ -2,10 +2,9 @@
 // práctica) en el navegador del docente —o, en Java, en su compu (D69)— y compara la salida. Es una ayuda
 // para corregir: la decisión sigue siendo del docente. El código del alumno nunca se ejecuta en el servidor.
 
-/** Igual que en el servidor (LocalCodeRunner): sin espacios al final de cada línea ni líneas vacías en las puntas. */
-export function normalize(text) {
-    return String(text ?? '').replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '').replace(/^\n+|\n+$/g, '');
-}
+import { normalize } from './compare.js';
+
+export { normalize };
 
 /**
  * Un caso pasa si la salida coincide y el programa no se cortó. Un código de salida distinto de 0 (exit(1)
@@ -79,7 +78,7 @@ export function diffLines(expected, got) {
     for (let i = 0; i < Math.max(want.length, have.length); i++) {
         const a = want[i] ?? null;
         const b = have[i] ?? null;
-        lines.push({ expected: a, got: b, same: a !== null && b !== null && a.replace(/[ \t]+$/, '') === b.replace(/[ \t]+$/, '') });
+        lines.push({ expected: a, got: b, same: a !== null && b !== null && a === b });
     }
 
     return lines;

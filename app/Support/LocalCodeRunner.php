@@ -132,7 +132,8 @@ class LocalCodeRunner
 
     /**
      * ¿Coinciden? Como en la corrección asistida (D73): se ignoran los espacios al final de cada
-     * línea, las líneas vacías del principio y del final (y los \r de Windows). Los espacios al
+     * línea, las líneas vacías del principio y del final, los \r de Windows y lo invisible (BOM,
+     * espacios de ancho cero, espacio duro como espacio común, tildes NFC). Los espacios al
      * principio de una línea sí cuentan: son la sangría que pide la consigna.
      */
     public static function matches(string $output, string $expected): bool
@@ -142,6 +143,16 @@ class LocalCodeRunner
 
     public static function normalize(string $text): string
     {
-        return trim(preg_replace('/[ \t]+$/m', '', str_replace("\r\n", "\n", $text)), "\n");
+        // Las tildes en una sola forma (NFC), como el navegador (resources/js/runners/compare.js).
+        if (class_exists(\Normalizer::class)) {
+            $text = \Normalizer::normalize($text, \Normalizer::FORM_C) ?: $text;
+        }
+        $text = preg_replace('/\r\n?/', "\n", $text);
+        // Lo invisible (BOM, espacios de ancho cero, guion opcional, controles) no cuenta.
+        $text = preg_replace('/[\x{FEFF}\x{200B}-\x{200D}\x{2060}\x{00AD}\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $text) ?? $text;
+        // El espacio duro y los finos cuentan como un espacio común.
+        $text = preg_replace('/[\x{00A0}\x{2000}-\x{200A}\x{202F}\x{205F}\x{3000}]/u', ' ', $text) ?? $text;
+
+        return trim(preg_replace('/[ \t]+$/m', '', $text), "\n");
     }
 }

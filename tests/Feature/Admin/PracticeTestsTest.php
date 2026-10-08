@@ -2,6 +2,7 @@
 
 use App\Models\Course;
 use App\Models\Node;
+use App\Models\NodeStep;
 use App\Models\NodeUnlock;
 use App\Models\Practice;
 use App\Services\CourseImporter;
@@ -107,6 +108,15 @@ test('al comparar se ignoran los espacios del final y las líneas vacías de las
     expect(LocalCodeRunner::matches("\nHola  \nMundo\n\n", "Hola\nMundo"))->toBeTrue()
         ->and(LocalCodeRunner::matches("\r\nA\r\n", 'A'))->toBeTrue()
         ->and(LocalCodeRunner::matches('  Hola', 'Hola'))->toBeFalse();
+});
+
+test('al comparar no cuenta lo invisible que agrega Windows o el teclado: BOM, espacio duro, \\r sueltos, tildes descompuestas', function () {
+    $expected = "Zed - ladrón de techos\nLlegada: hoy";
+
+    expect(LocalCodeRunner::matches("\u{FEFF}Zed\u{00A0}- ladrón de techos\r\nLlegada: hoy\r\n", $expected))->toBeTrue()
+        ->and(LocalCodeRunner::matches("Zed - ladro\u{0301}n de techos\rLlegada:\u{200B} hoy", $expected))->toBeTrue()
+        ->and(NodeStep::normalizeOutput("Zed\u{00A0}- ladrón de techos\r\nLlegada: hoy"))->toBe($expected)
+        ->and(LocalCodeRunner::matches("Zed \u{2013} ladrón de techos\nLlegada: hoy", $expected))->toBeFalse();
 });
 
 test('el ejecutor local no toma como error un exit(1) pedido, pero sí un traceback', function () {

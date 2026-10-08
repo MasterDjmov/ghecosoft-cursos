@@ -144,6 +144,7 @@
                                 <p x-show="matches === false" x-cloak class="flex items-center gap-2 text-sm text-warning" data-test="step-mismatch">
                                     <flux:icon name="exclamation-triangle" variant="micro" /> Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.
                                 </p>
+                                <p x-show="matches === false && mismatch" x-cloak class="mt-1 text-xs text-ink-muted" x-text="mismatch" data-test="step-mismatch-detail"></p>
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
                             </div>
                             {{-- Java (D85) sin el ejecutor abierto, o C y C++ (D98, D100) si el compilador del navegador no carga: se corre

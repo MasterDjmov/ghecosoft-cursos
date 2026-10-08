@@ -1,4 +1,5 @@
 import './live-alerts.js';
+import { describeDifference } from './runners/compare.js';
 
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
 // en las páginas que muestran el árbol (import dinámico).
@@ -209,6 +210,7 @@ document.addEventListener('alpine:init', () => {
         running: false,
         copied: false,
         matches: null,
+        mismatch: null,
         editor: null,
         // HTML y CSS (D76): la página dibujada en la caja aislada, el tamaño de pantalla y la pantalla completa.
         preview: '',
@@ -253,6 +255,7 @@ document.addEventListener('alpine:init', () => {
             this.tab = 'output';
             this.error = false;
             this.matches = null;
+            this.mismatch = null;
             this.output = '';
 
             let result;
@@ -296,9 +299,9 @@ document.addEventListener('alpine:init', () => {
             this.error = Boolean(result.error);
             this.status = result.error ? (result.timedOut ? 'Tiempo agotado' : 'Error') : `Listo en ${result.ms} ms`;
             if (!result.error && config.expected) {
-                // Como el servidor (LocalCodeRunner::normalize): sin los espacios del final de cada renglón.
-                const normalize = (text) => text.replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '').replace(/^\n+|\n+$/g, '');
-                this.matches = normalize(result.output) === normalize(config.expected);
+                // Como el servidor (LocalCodeRunner::normalize); si no coincide, se dice dónde (sobre todo lo invisible).
+                this.mismatch = describeDifference(config.expected, result.output);
+                this.matches = this.mismatch === null;
             }
             this.running = false;
         },

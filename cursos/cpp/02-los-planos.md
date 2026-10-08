@@ -1608,7 +1608,7 @@ e 9000.00 rechazado -> $3800.00
 d -50.00 rechazado -> $3800.00
 e 3800.00 ok -> $0.00
 d 250.50 ok -> $250.50
-Kira: 4 movimientos, saldo $250.50
+Lima: 4 movimientos, saldo $250.50
 ```
 
 #### Solución de referencia
@@ -1660,7 +1660,7 @@ private:
 int main()
 {
     std::cout << std::fixed << std::setprecision(2);
-    Cuenta cuenta("Kira");
+    Cuenta cuenta("Lima");
     char op = ' ';
     double monto = 0;
     while (std::cin >> op >> monto) {
@@ -1684,7 +1684,7 @@ d -5
 e 100.00 rechazado -> $0.00
 d 0.00 rechazado -> $0.00
 d -5.00 rechazado -> $0.00
-Kira: 0 movimientos, saldo $0.00
+Lima: 0 movimientos, saldo $0.00
 ```
 
 ##### Extrae todo justo
@@ -1697,7 +1697,7 @@ e 0.01
 d 1000.00 ok -> $1000.00
 e 1000.00 ok -> $0.00
 e 0.01 rechazado -> $0.00
-Kira: 2 movimientos, saldo $0.00
+Lima: 2 movimientos, saldo $0.00
 ```
 
 ### Misión R02-N03-M2 · La fracción siempre simplificada
@@ -2336,7 +2336,7 @@ int main()
     std::cout << std::boolalpha << "pos == (4, 2)? " << (pos == Vec2{4, 2}) << "\n";
     std::cout << "pos != vel? " << (pos != vel) << "\n";
 
-    std::vector<Marca> tabla = {{120, "Bron"}, {340, "Kira"}, {95, "Lyn"}};
+    std::vector<Marca> tabla = {{120, "Bron"}, {340, "Lima"}, {95, "Lyn"}};
     std::sort(tabla.begin(), tabla.end());          // usa operator<
     for (const Marca& m : tabla) {
         std::cout << m.nombre << " " << m.puntos << "\n";
@@ -2356,7 +2356,7 @@ largo de pos: 5
 tras pos += vel: (4, 2)
 pos == (4, 2)? true
 pos != vel? true
-Kira 340
+Lima 340
 Bron 120
 Lyn 95
 ```
@@ -3114,14 +3114,14 @@ private:
 
 int main()
 {
-    Jugador kira("Kira");
-    kira.ficha();
-    kira.mover(3, 0);
-    kira.mover(0, 2.5);
-    kira.recoger({"Poción", 15});
-    kira.recoger({"Llave de bronce", 0});
-    kira.recoger({"Rubí", 120});
-    kira.ficha();
+    Jugador lima("Lima");
+    lima.ficha();
+    lima.mover(3, 0);
+    lima.mover(0, 2.5);
+    lima.recoger({"Poción", 15});
+    lima.recoger({"Llave de bronce", 0});
+    lima.recoger({"Rubí", 120});
+    lima.ficha();
     return 0;
 }
 ```
@@ -3129,10 +3129,10 @@ int main()
 ### Salida esperada
 
 ```
-Kira en (0, 0)
+Lima en (0, 0)
   mochila (valor 0):
     (vacía)
-Kira en (3, 2.5)
+Lima en (3, 2.5)
   mochila (valor 135):
     - Poción (15)
     - Llave de bronce (0)
@@ -3970,23 +3970,23 @@ private:
 
 int main()
 {
-    Heroe kira("Kira");
+    Heroe lima("Lima");
     Enemigo goblin("Goblin", 30, 9, 12);
-    kira.estado();             // metodo heredado de Entidad
+    lima.estado();             // metodo heredado de Entidad
     goblin.estado();
 
-    std::cout << "\nKira golpea al Goblin por " << kira.ataque() << ", dos veces:\n";
-    goblin.recibir_dano(kira.ataque());
-    goblin.recibir_dano(kira.ataque());
+    std::cout << "\nLima golpea al Goblin por " << lima.ataque() << ", dos veces:\n";
+    goblin.recibir_dano(lima.ataque());
+    goblin.recibir_dano(lima.ataque());
     goblin.estado();
 
     if (!goblin.vivo()) {
         std::cout << "\nGoblin derrotado: suelta " << goblin.oro() << " de oro.\n";
-        kira.ganar_exp(80);
-        kira.ganar_exp(50);
+        lima.ganar_exp(80);
+        lima.ganar_exp(50);
     }
-    std::cout << "\nKira (exp " << kira.exp() << "):\n";
-    kira.estado();
+    std::cout << "\nLima (exp " << lima.exp() << "):\n";
+    lima.estado();
     return 0;
 }
 ```
@@ -3994,17 +3994,17 @@ int main()
 ### Salida esperada
 
 ```
-  Kira: vida 120/120, ataque 18
+  Lima: vida 120/120, ataque 18
   Goblin: vida 30/30, ataque 9
 
-Kira golpea al Goblin por 18, dos veces:
+Lima golpea al Goblin por 18, dos veces:
   Goblin: vida 0/30, ataque 9
 
 Goblin derrotado: suelta 12 de oro.
-  ¡Kira sube de nivel! ataque 21
+  ¡Lima sube de nivel! ataque 21
 
-Kira (exp 30):
-  Kira: vida 140/140, ataque 21
+Lima (exp 30):
+  Lima: vida 140/140, ataque 21
 ```
 
 ### ¿Para qué sirve?
@@ -5623,7 +5623,7 @@ e 9000.00 rechazado -> $3800.00
 d -50.00 rechazado -> $3800.00
 e 3800.00 ok -> $0.00
 d 250.50 ok -> $250.50
-Kira: 4 movimientos, saldo $250.50
+Lima: 4 movimientos, saldo $250.50
 ```
 
 #### Solución de referencia
@@ -5691,7 +5691,7 @@ void Cuenta::resumen() const
 int main()
 {
     std::cout << std::fixed << std::setprecision(2);
-    Cuenta cuenta("Kira");
+    Cuenta cuenta("Lima");
     char op = ' ';
     double monto = 0;
     while (std::cin >> op >> monto) {
@@ -6202,54 +6202,54 @@ Reproducí exactamente la salida esperada.
 #### Salida esperada
 
 ```
-Heroína Kira (120/120) entra a la Arena.
+Heroína Lima (120/120) entra a la Arena.
 
 -- Entra Slime (30/30) --
-  1: Kira golpea por 14
+  1: Lima golpea por 14
   1: Slime responde por 4  | 116 vs 19
-  2: Kira golpea por 14
+  2: Lima golpea por 14
   2: Slime responde por 4  | 112 vs 8
     ¡golpe crítico!
-  3: Kira golpea por 28  | 112 vs 0
->> Slime cae. Heroína Kira (120/120)
+  3: Lima golpea por 28  | 112 vs 0
+>> Slime cae. Heroína Lima (120/120)
 
 -- Entra Goblin (40/40) --
-  1: Kira golpea por 14
+  1: Lima golpea por 14
   1: Goblin responde por 8  | 112 vs 30
-  2: Kira golpea por 14
+  2: Lima golpea por 14
   2: Goblin responde por 8  | 104 vs 20
     ¡golpe crítico!
-  3: Kira golpea por 28  | 104 vs 0
->> Goblin cae. Heroína Kira (120/120)
+  3: Lima golpea por 28  | 104 vs 0
+>> Goblin cae. Heroína Lima (120/120)
 
 -- Entra Quimera (110/110) [forma: león] --
-  1: Kira golpea por 14
+  1: Lima golpea por 14
     la Quimera ruge como león
   1: Quimera responde por 18  | 102 vs 96
-  2: Kira golpea por 14
+  2: Lima golpea por 14
     la Quimera se cura como cabra
   2: Quimera responde por 6  | 96 vs 94
     ¡golpe crítico!
-  3: Kira golpea por 28
+  3: Lima golpea por 28
     la Quimera muerde como serpiente (veneno 4)
   3: Quimera responde por 4  | 92 vs 66
-  4: Kira golpea por 14
+  4: Lima golpea por 14
     la Quimera ruge como león
   4: Quimera responde por 22  | 70 vs 52
-  5: Kira golpea por 14
+  5: Lima golpea por 14
     la Quimera se cura como cabra
   5: Quimera responde por 10  | 60 vs 50
     ¡golpe crítico!
-  6: Kira golpea por 28
+  6: Lima golpea por 28
     la Quimera muerde como serpiente (veneno 8)
   6: Quimera responde por 8  | 52 vs 22
-  7: Kira golpea por 14
+  7: Lima golpea por 14
     la Quimera ruge como león
   7: Quimera responde por 26  | 26 vs 8
-  8: Kira golpea por 14  | 26 vs 0
->> Quimera cae. Heroína Kira (56/120)
+  8: Lima golpea por 14  | 26 vs 0
+>> Quimera cae. Heroína Lima (56/120)
 
-=== ¡Kira vence a la Quimera de la Arena! ===
+=== ¡Lima vence a la Quimera de la Arena! ===
 ```
 
 #### Solución de referencia
@@ -6502,17 +6502,17 @@ bool Arena::jugar()
 
 int main()
 {
-    Heroina kira("Kira");
-    Arena arena(kira);
+    Heroina lima("Lima");
+    Arena arena(lima);
     arena.agregar(std::make_unique<Slime>());
     arena.agregar(std::make_unique<Goblin>());
     arena.agregar(std::make_unique<Quimera>());
 
-    std::cout << kira.descripcion() << " entra a la Arena.\n";
+    std::cout << lima.descripcion() << " entra a la Arena.\n";
     if (arena.jugar()) {
-        std::cout << "\n=== ¡Kira vence a la Quimera de la Arena! ===\n";
+        std::cout << "\n=== ¡Lima vence a la Quimera de la Arena! ===\n";
     } else {
-        std::cout << "\n=== Kira cae en la Arena. ===\n";
+        std::cout << "\n=== Lima cae en la Arena. ===\n";
     }
     return 0;
 }
@@ -6547,8 +6547,8 @@ Ahora la Quimera es una clase que **tiene** sus formas: un vector de
 | cabra | 8 | 30%, salvo el **martillo** (0%) |
 | serpiente | 12 | 60%, salvo la **espada** (0%) |
 
-La Quimera tiene 100 de vida; Kira, 80. Cada línea de la entrada es el arma que
-usa Kira (fuerza 30). Si el arma no existe, pierde el golpe. Después, si la Quimera
+La Quimera tiene 100 de vida; Lima, 80. Cada línea de la entrada es el arma que
+usa Lima (fuerza 30). Si el arma no existe, pierde el golpe. Después, si la Quimera
 sigue viva, golpea con el daño de su forma y cambia a la siguiente. El duelo
 termina cuando alguien cae o se acaba la entrada.
 
@@ -6573,20 +6573,20 @@ espada
 
 ```
 Turno 1: la Quimera es león
-  Kira usa lanza: 30 de daño (Quimera 70)
-  La Quimera golpea por 16 (Kira 64)
+  Lima usa lanza: 30 de daño (Quimera 70)
+  La Quimera golpea por 16 (Lima 64)
 Turno 2: la Quimera es cabra
-  Kira duda con "arco" y pierde el golpe.
-  La Quimera golpea por 8 (Kira 56)
+  Lima duda con "arco" y pierde el golpe.
+  La Quimera golpea por 8 (Lima 56)
 Turno 3: la Quimera es serpiente
-  Kira usa espada: 30 de daño (Quimera 40)
-  La Quimera golpea por 12 (Kira 44)
+  Lima usa espada: 30 de daño (Quimera 40)
+  La Quimera golpea por 12 (Lima 44)
 Turno 4: la Quimera es león
-  Kira usa martillo: 15 de daño (Quimera 25)
-  La Quimera golpea por 16 (Kira 28)
+  Lima usa martillo: 15 de daño (Quimera 25)
+  La Quimera golpea por 16 (Lima 28)
 Turno 5: la Quimera es cabra
-  Kira usa martillo: 30 de daño (Quimera 0)
-¡La Quimera cae! Kira leyó cada forma.
+  Lima usa martillo: 30 de daño (Quimera 0)
+¡La Quimera cae! Lima leyó cada forma.
 ```
 
 #### Solución de referencia
@@ -6604,7 +6604,7 @@ public:
     virtual ~Forma() = default;
     virtual std::string nombre() const = 0;
     virtual int dano() const = 0;
-    // Cuanto del golpe de Kira absorbe esta forma (0 a 100 %).
+    // Cuanto del golpe de Lima absorbe esta forma (0 a 100 %).
     virtual int defensa(const std::string& arma) const = 0;
 };
 
@@ -6659,28 +6659,28 @@ private:
 int main()
 {
     Quimera q;
-    int kira = 80;
+    int lima = 80;
     int turno = 1;
     std::string arma;
-    while (kira > 0 && q.vida() > 0 && std::cin >> arma) {
+    while (lima > 0 && q.vida() > 0 && std::cin >> arma) {
         std::cout << "Turno " << turno << ": la Quimera es " << q.forma().nombre() << "\n";
         if (arma != "espada" && arma != "lanza" && arma != "martillo") {
-            std::cout << "  Kira duda con \"" << arma << "\" y pierde el golpe.\n";
+            std::cout << "  Lima duda con \"" << arma << "\" y pierde el golpe.\n";
         } else {
             int hecho = q.recibir(arma, 30);
-            std::cout << "  Kira usa " << arma << ": " << hecho << " de daño (Quimera " << q.vida() << ")\n";
+            std::cout << "  Lima usa " << arma << ": " << hecho << " de daño (Quimera " << q.vida() << ")\n";
         }
         if (q.vida() > 0) {
-            kira = std::max(0, kira - q.forma().dano());
-            std::cout << "  La Quimera golpea por " << q.forma().dano() << " (Kira " << kira << ")\n";
+            lima = std::max(0, lima - q.forma().dano());
+            std::cout << "  La Quimera golpea por " << q.forma().dano() << " (Lima " << lima << ")\n";
             q.cambiar();
         }
         turno++;
     }
     if (q.vida() == 0) {
-        std::cout << "¡La Quimera cae! Kira leyó cada forma.\n";
-    } else if (kira == 0) {
-        std::cout << "Kira cae. La Quimera cambia de forma y se ríe.\n";
+        std::cout << "¡La Quimera cae! Lima leyó cada forma.\n";
+    } else if (lima == 0) {
+        std::cout << "Lima cae. La Quimera cambia de forma y se ríe.\n";
     } else {
         std::cout << "El duelo queda sin terminar.\n";
     }
@@ -6690,7 +6690,7 @@ int main()
 
 #### Pruebas
 
-##### Kira vence a la Quimera
+##### Lima vence a la Quimera
 ```entrada
 lanza
 martillo
@@ -6699,17 +6699,17 @@ lanza
 ```
 ```salida
 Turno 1: la Quimera es león
-  Kira usa lanza: 30 de daño (Quimera 70)
-  La Quimera golpea por 16 (Kira 64)
+  Lima usa lanza: 30 de daño (Quimera 70)
+  La Quimera golpea por 16 (Lima 64)
 Turno 2: la Quimera es cabra
-  Kira usa martillo: 30 de daño (Quimera 40)
-  La Quimera golpea por 8 (Kira 56)
+  Lima usa martillo: 30 de daño (Quimera 40)
+  La Quimera golpea por 8 (Lima 56)
 Turno 3: la Quimera es serpiente
-  Kira usa espada: 30 de daño (Quimera 10)
-  La Quimera golpea por 12 (Kira 44)
+  Lima usa espada: 30 de daño (Quimera 10)
+  La Quimera golpea por 12 (Lima 44)
 Turno 4: la Quimera es león
-  Kira usa lanza: 30 de daño (Quimera 0)
-¡La Quimera cae! Kira leyó cada forma.
+  Lima usa lanza: 30 de daño (Quimera 0)
+¡La Quimera cae! Lima leyó cada forma.
 ```
 
 ##### Armas que no sirven
@@ -6726,27 +6726,27 @@ arco
 ```
 ```salida
 Turno 1: la Quimera es león
-  Kira usa espada: 15 de daño (Quimera 85)
-  La Quimera golpea por 16 (Kira 64)
+  Lima usa espada: 15 de daño (Quimera 85)
+  La Quimera golpea por 16 (Lima 64)
 Turno 2: la Quimera es cabra
-  Kira usa lanza: 21 de daño (Quimera 64)
-  La Quimera golpea por 8 (Kira 56)
+  Lima usa lanza: 21 de daño (Quimera 64)
+  La Quimera golpea por 8 (Lima 56)
 Turno 3: la Quimera es serpiente
-  Kira usa martillo: 12 de daño (Quimera 52)
-  La Quimera golpea por 12 (Kira 44)
+  Lima usa martillo: 12 de daño (Quimera 52)
+  La Quimera golpea por 12 (Lima 44)
 Turno 4: la Quimera es león
-  Kira duda con "arco" y pierde el golpe.
-  La Quimera golpea por 16 (Kira 28)
+  Lima duda con "arco" y pierde el golpe.
+  La Quimera golpea por 16 (Lima 28)
 Turno 5: la Quimera es cabra
-  Kira duda con "arco" y pierde el golpe.
-  La Quimera golpea por 8 (Kira 20)
+  Lima duda con "arco" y pierde el golpe.
+  La Quimera golpea por 8 (Lima 20)
 Turno 6: la Quimera es serpiente
-  Kira duda con "arco" y pierde el golpe.
-  La Quimera golpea por 12 (Kira 8)
+  Lima duda con "arco" y pierde el golpe.
+  La Quimera golpea por 12 (Lima 8)
 Turno 7: la Quimera es león
-  Kira duda con "arco" y pierde el golpe.
-  La Quimera golpea por 16 (Kira 0)
-Kira cae. La Quimera cambia de forma y se ríe.
+  Lima duda con "arco" y pierde el golpe.
+  La Quimera golpea por 16 (Lima 0)
+Lima cae. La Quimera cambia de forma y se ríe.
 ```
 
 ##### Sin armas

@@ -125,7 +125,7 @@ int main()
     std::cout << nombre << ": " << torres << " torres de " << altura << " m\n";
 
     // En el for de rango: const auto& lee sin copiar; auto& permite modificar
-    std::vector<std::string> equipo = {"Kira", "Bron", "Lyn"};
+    std::vector<std::string> equipo = {"Lima", "Bron", "Lyn"};
     for (const auto& n : equipo) {
         std::cout << "  - " << n << "\n";
     }
@@ -177,7 +177,7 @@ int main()
 
 ```
 Reloj: 12 torres de 37.5 m
-  - Kira
+  - Lima
   - Bron
   - Lyn
 Vidas tras la trampa: 90 70 130
@@ -736,7 +736,7 @@ temas: prog.cadenas
 
 ### Crónica
 
-En la oficina de la Aduana de la Ciudadela, un escriba recibe planillas escritas de cualquier manera: "Kira;27;artífice", "bron ; 120 ;guerrero", nombres con espacios de más, extensiones raras.
+En la oficina de la Aduana de la Ciudadela, un escriba recibe planillas escritas de cualquier manera: "Lima;27;artífice", "bron ; 120 ;guerrero", nombres con espacios de más, extensiones raras.
 
 —El mundo te va a dar texto sucio —dice {mentor}—. Antes de hacer nada con él, hay que **buscarlo, cortarlo y limpiarlo**. Y un número escrito como texto todavía no es un número.
 
@@ -836,7 +836,7 @@ letras acentuadas, un `char` puede ser negativo y eso es comportamiento indefini
 
 int main()
 {
-    std::string completo = "Kira de la Ciudadela";
+    std::string completo = "Lima de la Ciudadela";
     completo += "!";
     std::cout << completo << " (" << completo.size() << " caracteres)\n";
 
@@ -900,10 +900,10 @@ int main()
 ### Salida esperada
 
 ```
-Kira de la Ciudadela! (21 caracteres)
+Lima de la Ciudadela! (21 caracteres)
 "Ciudadela" empieza en 11
 No dice "Forjas"
-Primeras 4 letras: Kira
+Primeras 4 letras: Lima
 Nombre: planos/torre.norte, extensión: png
 ¡el plano nuevo!
 ¿Termina en .png? true
@@ -971,7 +971,7 @@ carpeta (o `.` si no tiene), el nombre sin extensión y la extensión (o
 ```
 planos/torre.norte.png
 leeme
-/home/kira/.config
+/home/lima/.config
 informe.pdf
 ```
 
@@ -986,8 +986,8 @@ leeme
   carpeta: .
   nombre: leeme
   extensión: (ninguna)
-/home/kira/.config
-  carpeta: /home/kira
+/home/lima/.config
+  carpeta: /home/lima
   nombre: .config
   extensión: (ninguna)
 informe.pdf
@@ -1207,7 +1207,7 @@ registros válidos hay y la edad promedio.
 #### Entrada de ejemplo
 
 ```
-Kira;27;artífice
+Lima;27;artífice
 Bron;120;guerrero
 ;30;nadie
 Lyn;veinte;arquera
@@ -1218,7 +1218,7 @@ solo;dos
 #### Salida esperada
 
 ```
-Kira (27), artífice
+Lima (27), artífice
 Bron (120), guerrero
 Línea 3 inválida: ;30;nadie
 Línea 4 inválida: Lyn;veinte;arquera
@@ -1299,10 +1299,10 @@ Línea 3 inválida: Lyn;;arquera
 
 ##### Una sola válida
 ```entrada
-Kira;27;artífice
+Lima;27;artífice
 ```
 ```salida
-Kira (27), artífice
+Lima (27), artífice
 1 registros, edad promedio 27
 ```
 
@@ -1843,27 +1843,27 @@ consulta puede crear contactos por accidente.
 #### Entrada de ejemplo
 
 ```
-alta Kira 3804112233
+alta Lima 3804112233
 alta Bron 3804556677
-ver Kira
+ver Lima
 ver Lyn
-alta Kira 3804999000
+alta Lima 3804999000
 baja Lyn
 baja Bron
-ver Kira
+ver Lima
 ```
 
 #### Salida esperada
 
 ```
-Agregado: Kira
+Agregado: Lima
 Agregado: Bron
-Kira: 3804112233
+Lima: 3804112233
 No está Lyn
-Actualizado: Kira
+Actualizado: Lima
 No estaba: Lyn
 Borrado: Bron
-Kira: 3804999000
+Lima: 3804999000
 Contactos: 1
 ```
 
@@ -1956,11 +1956,11 @@ visitaron **las dos**, los que visitaron **solo** la Norte y los que visitaron
 #### Entrada de ejemplo
 
 ```
-norte Kira
+norte Lima
 reloj Bron
 norte Lyn
-reloj Kira
-norte Kira
+reloj Lima
+norte Lima
 reloj Oto
 norte Tesla
 reloj Lyn
@@ -1969,11 +1969,11 @@ reloj Lyn
 #### Salida esperada
 
 ```
-Norte (3): Kira Lyn Tesla
-Reloj (4): Bron Kira Lyn Oto
-Las dos (2): Kira Lyn
+Norte (3): Lima Lyn Tesla
+Reloj (4): Bron Lima Lyn Oto
+Las dos (2): Lima Lyn
 Solo Norte (1): Tesla
-Alguna (5): Bron Kira Lyn Oto Tesla
+Alguna (5): Bron Lima Lyn Oto Tesla
 ```
 
 #### Solución de referencia
@@ -2026,29 +2026,29 @@ int main()
 
 ##### Nadie en común
 ```entrada
-norte Kira
+norte Lima
 reloj Bron
 ```
 ```salida
-Norte (1): Kira
+Norte (1): Lima
 Reloj (1): Bron
 Las dos (0):
-Solo Norte (1): Kira
-Alguna (2): Bron Kira
+Solo Norte (1): Lima
+Alguna (2): Bron Lima
 ```
 
 ##### Solo la Norte
 ```entrada
-norte Kira
-norte Kira
+norte Lima
+norte Lima
 norte Lyn
 ```
 ```salida
-Norte (2): Kira Lyn
+Norte (2): Lima Lyn
 Reloj (0):
 Las dos (0):
-Solo Norte (2): Kira Lyn
-Alguna (2): Kira Lyn
+Solo Norte (2): Lima Lyn
+Alguna (2): Lima Lyn
 ```
 
 ##### Sin visitantes
@@ -3051,7 +3051,7 @@ necesita. El tipo que devuelve lo deduce el compilador.
 #### Guardarla en una variable
 ```cpp
 auto etiqueta = [](const Heroe& h) { return h.vida > 100 ? "tanque" : "ágil"; };
-etiqueta(kira);    // se llama como una función
+etiqueta(lima);    // se llama como una función
 ```
 
 #### Capturas: usar variables de afuera
@@ -3133,7 +3133,7 @@ void mostrar(const std::string& titulo, const std::vector<Heroe>& v)
 
 int main()
 {
-    std::vector<Heroe> grupo = {{"Kira", 120, 5}, {"Lyn", 70, 8}, {"Bron", 160, 3}, {"Oto", 90, 6}};
+    std::vector<Heroe> grupo = {{"Lima", 120, 5}, {"Lyn", 70, 8}, {"Bron", 160, 3}, {"Oto", 90, 6}};
 
     // [captura](parametros) { cuerpo }
     std::sort(grupo.begin(), grupo.end(), [](const Heroe& a, const Heroe& b) { return a.vida > b.vida; });
@@ -3183,17 +3183,17 @@ int main()
 ### Salida esperada
 
 ```
-Por vida, de mayor a menor: Bron(160) Kira(120) Oto(90) Lyn(70)
-Por nombre: Bron(160) Kira(120) Lyn(70) Oto(90)
+Por vida, de mayor a menor: Bron(160) Lima(120) Oto(90) Lyn(70)
+Por nombre: Bron(160) Lima(120) Lyn(70) Oto(90)
 Primero con nivel 6 o más: Lyn
 Heridos (vida < 100): 2
 Vida total: 440
 ¿Alguno con menos de 80? true
   Bron: tanque
-  Kira: tanque
+  Lima: tanque
   Lyn: ágil
   Oto: ágil
-Sin los de nivel bajo: Kira(120) Lyn(70) Oto(90)
+Sin los de nivel bajo: Lima(120) Lyn(70) Oto(90)
 Suma de niveles: 19
 ```
 
@@ -4722,7 +4722,7 @@ manejan la memoria solos.
 #### `std::shared_ptr<T>`: varios dueños
 ```cpp
 auto atlas = std::make_shared<Textura>("heroes.png");
-Sprite a{"kira", atlas}, b{"bron", atlas};   // copiar un shared_ptr está permitido
+Sprite a{"lima", atlas}, b{"bron", atlas};   // copiar un shared_ptr está permitido
 atlas.use_count();                           // cuántos dueños hay (3)
 atlas.reset();                               // este dueño suelta; el objeto sigue si hay otros
 ```
@@ -4805,7 +4805,7 @@ int main()
 
     std::cout << "\n4) shared_ptr: la textura vive mientras alguien la use\n";
     auto atlas = std::make_shared<Textura>("heroes.png");
-    std::vector<Sprite> sprites = {{"kira", atlas}, {"bron", atlas}};
+    std::vector<Sprite> sprites = {{"lima", atlas}, {"bron", atlas}};
     std::cout << "  dueños: " << atlas.use_count() << "\n";
     atlas.reset();                                            // main la suelta...
     std::cout << "  main soltó su puntero; la textura sigue (la usan 2 sprites)\n";
@@ -6484,10 +6484,10 @@ En la sala hay tres criaturas (un vector de `unique_ptr<Criatura>`): un lobo
 abstracta, con `nombre()`, `golpe()` y `clonar()` virtuales puros, y `herir(n)`.
 
 El `Mimico` **tiene** una forma (`std::unique_ptr<Criatura>`) que es una **copia
-propia**, hecha con `clonar()`. Kira tiene 100 de vida. Órdenes:
+propia**, hecha con `clonar()`. Lima tiene 100 de vida. Órdenes:
 - `imitar i`: el Mímico copia a la criatura `i` de la sala (con su vida **actual**);
 - `herir i n`: se hiere a la criatura original `i` (la copia no cambia);
-- `atacar n`: Kira hiere al Mímico; si no cae, responde con el golpe de su forma.
+- `atacar n`: Lima hiere al Mímico; si no cae, responde con el golpe de su forma.
 
 Si el Mímico cae, termina. Si la entrada se acaba, el Mímico escapa.
 
@@ -6513,14 +6513,14 @@ atacar 5
 
 ```
   el Mímico se transforma en gólem (vida 120)
-  Kira golpea al Mímico-gólem: vida 90
-  responde con 15 (Kira 85)
+  Lima golpea al Mímico-gólem: vida 90
+  responde con 15 (Lima 85)
   el lobo original queda en 15
   el Mímico se transforma en lobo (vida 15)
-  Kira golpea al Mímico-lobo: vida 5
-  responde con 9 (Kira 76)
+  Lima golpea al Mímico-lobo: vida 5
+  responde con 9 (Lima 76)
   el lobo original queda en 0
-  Kira golpea al Mímico-lobo: vida 0
+  Lima golpea al Mímico-lobo: vida 0
 ¡El Mímico cae con forma de lobo!
 ```
 
@@ -6597,9 +6597,9 @@ int main()
     sala.push_back(std::make_unique<Murcielago>());
 
     Mimico mimico;
-    int kira = 100;
+    int lima = 100;
     std::string orden;
-    while (kira > 0 && std::cin >> orden) {
+    while (lima > 0 && std::cin >> orden) {
         if (orden == "imitar") {
             std::size_t i = 0;
             std::cin >> i;
@@ -6619,16 +6619,16 @@ int main()
             std::cin >> n;
             Criatura& f = mimico.forma();
             f.herir(n);
-            std::cout << "  Kira golpea al Mímico-" << f.nombre() << ": vida " << f.vida() << "\n";
+            std::cout << "  Lima golpea al Mímico-" << f.nombre() << ": vida " << f.vida() << "\n";
             if (f.vida() == 0) {
                 std::cout << "¡El Mímico cae con forma de " << f.nombre() << "!\n";
                 return 0;
             }
-            kira -= f.golpe();
-            std::cout << "  responde con " << f.golpe() << " (Kira " << kira << ")\n";
+            lima -= f.golpe();
+            std::cout << "  responde con " << f.golpe() << " (Lima " << lima << ")\n";
         }
     }
-    std::cout << (kira <= 0 ? "Kira cae ante el Mímico.\n" : "El Mímico escapa.\n");
+    std::cout << (lima <= 0 ? "Lima cae ante el Mímico.\n" : "El Mímico escapa.\n");
     return 0;
 }
 ```
@@ -6643,7 +6643,7 @@ atacar 20
 ```
 ```salida
   el Mímico se transforma en murciélago (vida 15)
-  Kira golpea al Mímico-murciélago: vida 0
+  Lima golpea al Mímico-murciélago: vida 0
 ¡El Mímico cae con forma de murciélago!
 ```
 
@@ -6656,7 +6656,7 @@ atacar 1
 ```salida
   el lobo original queda en 0
   el Mímico se transforma en lobo (vida 0)
-  Kira golpea al Mímico-lobo: vida 0
+  Lima golpea al Mímico-lobo: vida 0
 ¡El Mímico cae con forma de lobo!
 ```
 
@@ -6667,8 +6667,8 @@ atacar 10
 ```
 ```salida
   el Mímico se transforma en gólem (vida 120)
-  Kira golpea al Mímico-gólem: vida 110
-  responde con 15 (Kira 85)
+  Lima golpea al Mímico-gólem: vida 110
+  responde con 15 (Lima 85)
 El Mímico escapa.
 ```
 

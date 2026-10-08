@@ -493,12 +493,12 @@ Por eso con `std::cin >> nombre` solo se lee **una palabra**.
 #### `std::string`: textos que crecen solos
 `std::string` (de `<string>`) guarda un texto de cualquier largo:
 ```cpp
-std::string nombre = "Kira";
+std::string nombre = "Lima";
 std::string completo = nombre + " de la Ciudadela";   // + une textos
 nombre.size();        // cantidad de caracteres (4)
 nombre.empty();       // ¿está vacío?
 nombre[0];            // el primer carácter: 'K'
-nombre == "Kira";     // comparar textos con ==
+nombre == "Lima";     // comparar textos con ==
 ```
 Ojo con `size()`: cuenta **bytes**, y una letra con tilde o una eñe ocupa 2 en
 UTF-8. `"Ñandú".size()` da 7, no 5.
@@ -551,7 +551,7 @@ ocupa un byte más por cada una, y la columna se corre un lugar.
 En la terminal podés mandarle la entrada desde un archivo:
 ```bash
 ./programa < entrada.txt
-printf 'Kira\n27\nsin miedo\n' | ./programa
+printf 'Lima\n27\nsin miedo\n' | ./programa
 ```
 Así funcionan las **entradas de ejemplo** de las misiones.
 
@@ -607,7 +607,7 @@ int main()
 ### Entrada de ejemplo
 
 ```
-Kira
+Lima
 27
 un buen plano sirve mil veces
 ```
@@ -617,10 +617,10 @@ un buen plano sirve mil veces
 ```
 ¿Cómo te llamás? ¿Edad? Escribí tu lema: 
 --- ficha ---
-Hola, Kira. Tenés 27 años.
+Hola, Lima. Tenés 27 años.
 Tu nombre tiene 4 letras.
 Lema: "un buen plano sirve mil veces"
-Bienvenida, Kira!
+Bienvenida, Lima!
 
   Producto    Precio
     Tuerca   1234.50
@@ -639,8 +639,8 @@ Casi todo programa de consola pregunta algo: un menú, un formulario de alta, un
 variable queda en 0 y todas las lecturas siguientes también fallan. Revisá
 siempre la lectura con `if (!(std::cin >> edad))`.
 
-**Ogro: `>>` corta en el espacio.** `std::cin >> nombre` con `Kira Vélez` guarda
-solo `Kira`; `Vélez` queda esperando para la próxima lectura.
+**Ogro: `>>` corta en el espacio.** `std::cin >> nombre` con `Lima Vélez` guarda
+solo `Lima`; `Vélez` queda esperando para la próxima lectura.
 
 **Esqueleto: falta `#include <string>` o `<iomanip>`.**
 ```
@@ -648,7 +648,7 @@ main.cpp:6:10: error: ‘setw’ is not a member of ‘std’
 main.cpp:1:1: note: ‘std::setw’ is defined in header ‘<iomanip>’; did you forget to ‘#include <iomanip>’?
 ```
 
-**Goblin: comillas simples para un texto.** `'Kira'` no es un texto: las comillas
+**Goblin: comillas simples para un texto.** `'Lima'` no es un texto: las comillas
 simples son para **un** carácter. Los textos van entre comillas dobles.
 
 ### Misión R01-N02-M1 · El registro de la puerta
@@ -673,17 +673,17 @@ Ciudadela. Mostrá el registro, la cantidad de caracteres del nombre y la inicia
 #### Entrada de ejemplo
 
 ```
-Kira Valdez
+Lima Valdez
 artífice aprendiz
 ```
 
 #### Salida esperada
 
 ```
-Nombre completo: Oficio: 
-Registrado: Kira Valdez (artífice aprendiz)
+Nombre completo: Oficio:
+Registrado: Lima Valdez (artífice aprendiz)
 Letras del nombre (con espacios): 11
-Inicial: K
+Inicial: L
 ```
 
 #### Solución de referencia
@@ -2435,7 +2435,7 @@ encajan igual de bien con una llamada, es un error de "llamada ambigua".
 Un parámetro puede tener un valor que se usa si la llamada no lo pasa:
 ```cpp
 void saludar(const std::string& nombre, const std::string& titulo = "aprendiz");
-saludar("Kira");                    // titulo = "aprendiz"
+saludar("Lima");                    // titulo = "aprendiz"
 saludar("Tesla", "Artífice Mayor");
 ```
 Los parámetros con valor por defecto van **al final**. Si hay prototipo, el valor
@@ -2511,7 +2511,7 @@ int main()
     std::cout << "dano(10, 1.5) = " << dano(10, 1.5) << "\n";
     linea(20);
 
-    saludar("Kira");                 // usa el valor por defecto
+    saludar("Lima");                 // usa el valor por defecto
     saludar("Tesla", "Artífice Mayor");
     linea(20);
 
@@ -2549,7 +2549,7 @@ dano(10)      = 10
 dano(10, 5)   = 15
 dano(10, 1.5) = 15
 --------------------
-Salud, aprendiz Kira.
+Salud, aprendiz Lima.
 Salud, Artífice Mayor Tesla.
 --------------------
 Primos hasta 30: 2 3 5 7 11 13 17 19 23 29 
@@ -2989,7 +2989,7 @@ for (char& c : grito) { ... }   // c ES cada carácter: cambiarlo cambia el text
 
 #### Una trampa: devolver una referencia a algo local
 ```cpp
-const std::string& nombre() { std::string s = "Kira"; return s; }   // ¡mal!
+const std::string& nombre() { std::string s = "Lima"; return s; }   // ¡mal!
 ```
 `s` muere al terminar la función; la referencia queda apuntando a nada (una
 **referencia colgante**, territorio de trolls). Devolvé por valor: `std::string
@@ -3065,7 +3065,7 @@ int main()
     int& alias = vida;
     alias -= 100;
     std::cout << "Tras alias -= 100: vida = " << vida << "\n";
-    mostrar("Kira", vida);
+    mostrar("Lima", vida);
 
     // for de rango con referencia: modifica cada caracter del texto
     std::string grito = "a la torre";
@@ -3094,7 +3094,7 @@ Tras curar_copia: 50 (no cambio)
 Tras curar:       80
 x=9 y=1 (intercambiados)
 Tras alias -= 100: vida = -20
-  Kira: vida -20
+  Lima: vida -20
 A LA TORRE
 engranajes = 12
 ¿nada apunta a algo? no
@@ -3960,7 +3960,7 @@ xp: 10
 
 #### Consigna
 
-Empezá con la fila `Bron Lyn Kira Lyn Oto`. Mostrala después de cada paso:
+Empezá con la fila `Bron Lyn Lima Lyn Oto`. Mostrala después de cada paso:
 1. Tesla se cuela en la **segunda** posición (`insert`).
 2. Se atiende al primero: mostrá su nombre y quitalo (`erase`).
 3. Se quitan los nombres repetidos, quedándose con la primera aparición (armá un
@@ -3977,11 +3977,11 @@ Al final, mostrá cuántos quedan y quién es el último.
 #### Salida esperada
 
 ```
-Fila: Bron Lyn Kira Lyn Oto
-Fila: Bron Tesla Lyn Kira Lyn Oto
+Fila: Bron Lyn Lima Lyn Oto
+Fila: Bron Tesla Lyn Lima Lyn Oto
 Atendido: Bron
-Fila: Tesla Lyn Kira Lyn Oto
-Fila: Tesla Lyn Kira Oto
+Fila: Tesla Lyn Lima Lyn Oto
+Fila: Tesla Lyn Lima Oto
 Quedan 4, el último es Oto
 ```
 
@@ -4005,7 +4005,7 @@ void mostrar(const std::vector<std::string>& fila)
 
 int main()
 {
-    std::vector<std::string> fila = {"Bron", "Lyn", "Kira", "Lyn", "Oto"};
+    std::vector<std::string> fila = {"Bron", "Lyn", "Lima", "Lyn", "Oto"};
     mostrar(fila);
 
     fila.insert(fila.begin() + 1, "Tesla");          // Tesla se cuela segunda
@@ -4902,8 +4902,8 @@ xp: 30
 
 #### Consigna
 
-Programá el duelo de Kira (60 de vida) contra el Autómata (70 de vida). La
-entrada trae una **semilla** y después las opciones de Kira, una por turno.
+Programá el duelo de Lima (60 de vida) contra el Autómata (70 de vida). La
+entrada trae una **semilla** y después las opciones de Lima, una por turno.
 
 Reglas:
 - Golpes al azar con `std::uniform_int_distribution<int>(6, 12)`.
@@ -4917,9 +4917,9 @@ Reglas:
   (`uniform_int_distribution<int>(0, 1)`): si sale 1, tropieza y su golpe se
   divide por 2.
 - El orden de las tiradas importa (así sale igual que la salida esperada): primero
-  el golpe de Kira (si ataca), después el golpe del Autómata y por último su
+  el golpe de Lima (si ataca), después el golpe del Autómata y por último su
   moneda.
-- Si la entrada se termina, Kira se retira.
+- Si la entrada se termina, Lima se retira.
 
 Escribí al menos las funciones `pedir_opcion`, `recibir(int& vida, int dano)` y
 `barra`.
@@ -4952,65 +4952,65 @@ Escribí al menos las funciones `pedir_opcion`, `recibir(int& vida, int dano)` y
 
 ```
 --- Turno 1 ---
-Kira     [##########] 60/60
+Lima     [##########] 60/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira carga energía (1).
+Lima carga energía (1).
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 3.
 --- Turno 2 ---
-Kira     [#########.] 57/60
+Lima     [#########.] 57/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira carga energía (2).
+Lima carga energía (2).
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 4.
 --- Turno 3 ---
-Kira     [########..] 53/60
+Lima     [########..] 53/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira golpea por 28.
+Lima golpea por 28.
 El Autómata golpea por 12.
 --- Turno 4 ---
-Kira     [######....] 41/60
+Lima     [######....] 41/60
 Autómata [######....] 42/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira se cura. Pociones restantes: 1.
+Lima se cura. Pociones restantes: 1.
 El Autómata golpea por 10.
 --- Turno 5 ---
-Kira     [########..] 50/60
+Lima     [########..] 50/60
 Autómata [######....] 42/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
 Opción inválida.
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira golpea por 6.
+Lima golpea por 6.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 6.
 --- Turno 6 ---
-Kira     [#######...] 44/60
+Lima     [#######...] 44/60
 Autómata [#####.....] 36/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira golpea por 7.
+Lima golpea por 7.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 5.
 --- Turno 7 ---
-Kira     [######....] 39/60
+Lima     [######....] 39/60
 Autómata [####......] 29/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira golpea por 8.
+Lima golpea por 8.
 El Autómata golpea por 9.
 --- Turno 8 ---
-Kira     [#####.....] 30/60
+Lima     [#####.....] 30/60
 Autómata [###.......] 21/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira golpea por 11.
+Lima golpea por 11.
 El Autómata golpea por 11.
 --- Turno 9 ---
-Kira     [###.......] 19/60
+Lima     [###.......] 19/60
 Autómata [#.........] 10/70
 Tu turno (1 atacar, 2 curar, 3 cargar): 
-Kira golpea por 10.
-=== ¡Kira vence al Autómata de Latón! ===
+Lima golpea por 10.
+=== ¡Lima vence al Autómata de Latón! ===
 ```
 
 #### Solución de referencia
@@ -5022,7 +5022,7 @@ Kira golpea por 10.
 #include <random>
 #include <string>
 
-const int VIDA_KIRA = 60;
+const int VIDA_LIMA = 60;
 const int VIDA_AUTOMATA = 70;
 
 // Lee una opcion entre 1 y 3. Devuelve 0 si la entrada se termino.
@@ -5068,37 +5068,37 @@ int main()
     std::uniform_int_distribution<int> golpe(6, 12);
     std::uniform_int_distribution<int> moneda(0, 1);
 
-    int kira = VIDA_KIRA;
+    int lima = VIDA_LIMA;
     int automata = VIDA_AUTOMATA;
     int carga = 0;
     int pociones = 2;
     int turno = 1;
 
-    while (kira > 0 && automata > 0) {
+    while (lima > 0 && automata > 0) {
         std::cout << "--- Turno " << turno << " ---\n";
-        barra("Kira    ", kira, VIDA_KIRA);
+        barra("Lima    ", lima, VIDA_LIMA);
         barra("Autómata", automata, VIDA_AUTOMATA);
         int op = pedir_opcion();
         if (op == 0) {
-            std::cout << "Kira se retira del duelo.\n";
+            std::cout << "Lima se retira del duelo.\n";
             return 0;
         }
         if (op == 1) {
             int dano = golpe(gen) + carga * 8;
             carga = 0;
             recibir(automata, dano);
-            std::cout << "Kira golpea por " << dano << ".\n";
+            std::cout << "Lima golpea por " << dano << ".\n";
         } else if (op == 2) {
             if (pociones > 0) {
                 pociones--;
-                kira = std::min(kira + 20, VIDA_KIRA);
-                std::cout << "Kira se cura. Pociones restantes: " << pociones << ".\n";
+                lima = std::min(lima + 20, VIDA_LIMA);
+                std::cout << "Lima se cura. Pociones restantes: " << pociones << ".\n";
             } else {
-                std::cout << "No quedan pociones: Kira pierde el turno.\n";
+                std::cout << "No quedan pociones: Lima pierde el turno.\n";
             }
         } else {
             carga++;
-            std::cout << "Kira carga energía (" << carga << ").\n";
+            std::cout << "Lima carga energía (" << carga << ").\n";
         }
         if (automata > 0) {
             int dano = golpe(gen);
@@ -5106,12 +5106,12 @@ int main()
                 dano /= 2;
                 std::cout << "El Autómata tropieza con un engranaje suelto.\n";
             }
-            recibir(kira, dano);
+            recibir(lima, dano);
             std::cout << "El Autómata golpea por " << dano << ".\n";
         }
         turno++;
     }
-    std::cout << "=== " << (kira > 0 ? "¡Kira vence al Autómata de Latón!" : "El Autómata gana esta vez.") << " ===\n";
+    std::cout << "=== " << (lima > 0 ? "¡Lima vence al Autómata de Latón!" : "El Autómata gana esta vez.") << " ===\n";
     return 0;
 }
 ```
@@ -5124,10 +5124,10 @@ int main()
 ```
 ```salida
 --- Turno 1 ---
-Kira     [##########] 60/60
+Lima     [##########] 60/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira se retira del duelo.
+Lima se retira del duelo.
 ```
 
 ##### Ataca siempre
@@ -5148,63 +5148,63 @@ Kira se retira del duelo.
 ```
 ```salida
 --- Turno 1 ---
-Kira     [##########] 60/60
+Lima     [##########] 60/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 8.
+Lima golpea por 8.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 5.
 --- Turno 2 ---
-Kira     [#########.] 55/60
+Lima     [#########.] 55/60
 Autómata [########..] 62/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 7.
+Lima golpea por 7.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 5.
 --- Turno 3 ---
-Kira     [########..] 50/60
+Lima     [########..] 50/60
 Autómata [#######...] 55/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 10.
+Lima golpea por 10.
 El Autómata golpea por 10.
 --- Turno 4 ---
-Kira     [######....] 40/60
+Lima     [######....] 40/60
 Autómata [######....] 45/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 9.
+Lima golpea por 9.
 El Autómata golpea por 7.
 --- Turno 5 ---
-Kira     [#####.....] 33/60
+Lima     [#####.....] 33/60
 Autómata [#####.....] 36/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 6.
+Lima golpea por 6.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 4.
 --- Turno 6 ---
-Kira     [####......] 29/60
+Lima     [####......] 29/60
 Autómata [####......] 30/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 8.
+Lima golpea por 8.
 El Autómata golpea por 10.
 --- Turno 7 ---
-Kira     [###.......] 19/60
+Lima     [###.......] 19/60
 Autómata [###.......] 22/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 10.
+Lima golpea por 10.
 El Autómata golpea por 10.
 --- Turno 8 ---
-Kira     [#.........] 9/60
+Lima     [#.........] 9/60
 Autómata [#.........] 12/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 6.
+Lima golpea por 6.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 6.
 --- Turno 9 ---
-Kira     [..........] 3/60
+Lima     [..........] 3/60
 Autómata [..........] 6/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 11.
-=== ¡Kira vence al Autómata de Latón! ===
+Lima golpea por 11.
+=== ¡Lima vence al Autómata de Latón! ===
 ```
 
 ##### Cura sin pociones
@@ -5224,68 +5224,68 @@ Kira golpea por 11.
 ```
 ```salida
 --- Turno 1 ---
-Kira     [##########] 60/60
+Lima     [##########] 60/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira se cura. Pociones restantes: 1.
+Lima se cura. Pociones restantes: 1.
 El Autómata golpea por 7.
 --- Turno 2 ---
-Kira     [########..] 53/60
+Lima     [########..] 53/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira se cura. Pociones restantes: 0.
+Lima se cura. Pociones restantes: 0.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 6.
 --- Turno 3 ---
-Kira     [#########.] 54/60
+Lima     [#########.] 54/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-No quedan pociones: Kira pierde el turno.
+No quedan pociones: Lima pierde el turno.
 El Autómata golpea por 7.
 --- Turno 4 ---
-Kira     [#######...] 47/60
+Lima     [#######...] 47/60
 Autómata [##########] 70/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 12.
+Lima golpea por 12.
 El Autómata golpea por 12.
 --- Turno 5 ---
-Kira     [#####.....] 35/60
+Lima     [#####.....] 35/60
 Autómata [########..] 58/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 6.
+Lima golpea por 6.
 El Autómata golpea por 10.
 --- Turno 6 ---
-Kira     [####......] 25/60
+Lima     [####......] 25/60
 Autómata [#######...] 52/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 11.
+Lima golpea por 11.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 4.
 --- Turno 7 ---
-Kira     [###.......] 21/60
+Lima     [###.......] 21/60
 Autómata [#####.....] 41/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 9.
+Lima golpea por 9.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 4.
 --- Turno 8 ---
-Kira     [##........] 17/60
+Lima     [##........] 17/60
 Autómata [####......] 32/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 7.
+Lima golpea por 7.
 El Autómata golpea por 11.
 --- Turno 9 ---
-Kira     [#.........] 6/60
+Lima     [#.........] 6/60
 Autómata [###.......] 25/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 10.
+Lima golpea por 10.
 El Autómata tropieza con un engranaje suelto.
 El Autómata golpea por 5.
 --- Turno 10 ---
-Kira     [..........] 1/60
+Lima     [..........] 1/60
 Autómata [##........] 15/70
 Tu turno (1 atacar, 2 curar, 3 cargar):
-Kira golpea por 9.
+Lima golpea por 9.
 El Autómata golpea por 7.
 === El Autómata gana esta vez. ===
 ```

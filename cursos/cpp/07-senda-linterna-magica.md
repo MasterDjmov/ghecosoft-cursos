@@ -846,7 +846,7 @@ extensiones: zip, cpp, h, txt
 
 #### Consigna
 
-Hacé que Kira patine: las teclas **aceleran** (900 px/s²), la fricción frena (`v -= v * friccion * dt`) y la rapidez tiene un máximo. La diagonal va normalizada. Contra la orilla, rebota perdiendo la mitad de la velocidad. Con `H` (recién apretada), alterná entre hielo (fricción 1.5) y tierra (fricción 10), y cambiá el color del fondo. Mostrá la rapidez actual con `SDL_RenderDebugTextFormat`.
+Hacé que Lima patine: las teclas **aceleran** (900 px/s²), la fricción frena (`v -= v * friccion * dt`) y la rapidez tiene un máximo. La diagonal va normalizada. Contra la orilla, rebota perdiendo la mitad de la velocidad. Con `H` (recién apretada), alterná entre hielo (fricción 1.5) y tierra (fricción 10), y cambiá el color del fondo. Mostrá la rapidez actual con `SDL_RenderDebugTextFormat`.
 
 #### Criterio de aprobación
 
@@ -932,7 +932,7 @@ int main()
     }
     SDL_SetRenderVSync(p, 1);
     Input input;
-    Patinadora kira;
+    Patinadora lima;
     bool hielo = true;
     Uint64 antes = SDL_GetTicks();
     bool corriendo = true;
@@ -952,17 +952,17 @@ int main()
         }
         if (input.recien(SDL_SCANCODE_H)) {        // alterna hielo y tierra
             hielo = !hielo;
-            kira.friccion = hielo ? 1.5f : 10.0f;
+            lima.friccion = hielo ? 1.5f : 10.0f;
         }
-        kira.actualizar(input.abajo(SDL_SCANCODE_D) - input.abajo(SDL_SCANCODE_A),
+        lima.actualizar(input.abajo(SDL_SCANCODE_D) - input.abajo(SDL_SCANCODE_A),
                         input.abajo(SDL_SCANCODE_S) - input.abajo(SDL_SCANCODE_W), dt);
         SDL_SetRenderDrawColor(p, hielo ? 180 : 110, hielo ? 220 : 90, hielo ? 240 : 60, 255);
         SDL_RenderClear(p);
-        SDL_FRect r{kira.x, kira.y, 20, 20};
+        SDL_FRect r{lima.x, lima.y, 20, 20};
         SDL_SetRenderDrawColor(p, 200, 60, 60, 255);
         SDL_RenderFillRect(p, &r);
         SDL_SetRenderDrawColor(p, 20, 20, 20, 255);
-        SDL_RenderDebugTextFormat(p, 10, 10, "WASD mover  H hielo/tierra  rapidez %.0f", std::hypot(kira.vx, kira.vy));
+        SDL_RenderDebugTextFormat(p, 10, 10, "WASD mover  H hielo/tierra  rapidez %.0f", std::hypot(lima.vx, lima.vy));
         SDL_RenderPresent(p);
     }
     SDL_DestroyRenderer(p);
@@ -1304,7 +1304,7 @@ El nivel es un `std::vector<std::string>` (como el Laberinto del Minotauro): cad
 #### La cámara
 Si el mundo mide 2400 × 1800 y la ventana 800 × 600, se dibuja solo una parte. La cámara es un punto `(camx, camy)`: la esquina del mundo que se ve arriba a la izquierda.
 - **Del mundo a la pantalla**: `pantalla = mundo - camara`.
-- Para **seguir** a Kira, la cámara se centra en ella: `camx = kira.x - ANCHO / 2`, limitada con `std::clamp` para no mostrar afuera del mundo.
+- Para **seguir** a Lima, la cámara se centra en ella: `camx = lima.x - ANCHO / 2`, limitada con `std::clamp` para no mostrar afuera del mundo.
 - Para que se mueva **suave**, se acerca de a poco a la posición deseada: `camx += (deseada - camx) * 5 * dt`.
 - Lo que no se ve **no se dibuja**: es la optimización más simple.
 
@@ -1328,7 +1328,7 @@ El bucle principal tiene un `std::unique_ptr<Escena>` y no sabe cuál es: le pid
 ```cpp
 /*
  * S01-N03 - Colisiones, camara y escenas.
- * Un mundo de baldosas mas grande que la ventana; la camara sigue a Kira;
+ * Un mundo de baldosas mas grande que la ventana; la camara sigue a Lima;
  * las paredes frenan (AABB, resuelto eje por eje); menu y juego son escenas polimorficas.
  */
 #include <SDL3/SDL.h>
@@ -1399,14 +1399,14 @@ public:
             dy /= largo;
         }
         // Eje por eje: mover en x y corregir, despues mover en y y corregir. Asi se desliza por las paredes.
-        kira_.x += dx * 220 * dt;
+        lima_.x += dx * 220 * dt;
         resolver(true);
-        kira_.y += dy * 220 * dt;
+        lima_.y += dy * 220 * dt;
         resolver(false);
-        // La camara centra a Kira, sin mostrar afuera del mundo.
+        // La camara centra a Lima, sin mostrar afuera del mundo.
         float mundo_w = mapa_[0].size() * TILE, mundo_h = mapa_.size() * TILE;
-        camx_ = std::clamp(kira_.x + kira_.w / 2 - ANCHO / 2, 0.0f, mundo_w - ANCHO);
-        camy_ = std::clamp(kira_.y + kira_.h / 2 - ALTO / 2, 0.0f, mundo_h - ALTO);
+        camx_ = std::clamp(lima_.x + lima_.w / 2 - ANCHO / 2, 0.0f, mundo_w - ANCHO);
+        camy_ = std::clamp(lima_.y + lima_.h / 2 - ALTO / 2, 0.0f, mundo_h - ALTO);
     }
 
     void dibujar(SDL_Renderer* p) const override
@@ -1422,7 +1422,7 @@ public:
                 }
             }
         }
-        SDL_FRect k{kira_.x - camx_, kira_.y - camy_, kira_.w, kira_.h};
+        SDL_FRect k{lima_.x - camx_, lima_.y - camy_, lima_.w, lima_.h};
         SDL_SetRenderDrawColor(p, 240, 190, 90, 255);
         SDL_RenderFillRect(p, &k);
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
@@ -1435,20 +1435,20 @@ private:
         for (std::size_t f = 0; f < mapa_.size(); f++) {
             for (std::size_t c = 0; c < mapa_[f].size(); c++) {
                 SDL_FRect pared{c * TILE, f * TILE, TILE, TILE};
-                if (mapa_[f][c] != '#' || !se_tocan(kira_, pared)) {
+                if (mapa_[f][c] != '#' || !se_tocan(lima_, pared)) {
                     continue;
                 }
                 if (en_x) {       // empujar afuera por el lado mas cercano
-                    kira_.x = (kira_.x + kira_.w / 2 < pared.x + TILE / 2) ? pared.x - kira_.w : pared.x + TILE;
+                    lima_.x = (lima_.x + lima_.w / 2 < pared.x + TILE / 2) ? pared.x - lima_.w : pared.x + TILE;
                 } else {
-                    kira_.y = (kira_.y + kira_.h / 2 < pared.y + TILE / 2) ? pared.y - kira_.h : pared.y + TILE;
+                    lima_.y = (lima_.y + lima_.h / 2 < pared.y + TILE / 2) ? pared.y - lima_.h : pared.y + TILE;
                 }
             }
         }
     }
 
     std::vector<std::string> mapa_;
-    SDL_FRect kira_{60, 60, 26, 26};
+    SDL_FRect lima_{60, 60, 26, 26};
     float camx_ = 0, camy_ = 0;
 };
 
@@ -1551,11 +1551,11 @@ extensiones: zip, cpp, h, txt
 
 #### Consigna
 
-Armá un laberinto de baldosas (`#` pared, `o` moneda) con una clase `Laberinto` que carga el mapa, guarda las monedas como rectángulos, resuelve colisiones eje por eje (`resolver(caja, en_x)`, un método `const`) y junta monedas con `std::erase_if` (devolviendo cuántas juntó). Kira se mueve con WASD. Cuando junta todas, mostrá el tiempo que tardó.
+Armá un laberinto de baldosas (`#` pared, `o` moneda) con una clase `Laberinto` que carga el mapa, guarda las monedas como rectángulos, resuelve colisiones eje por eje (`resolver(caja, en_x)`, un método `const`) y junta monedas con `std::erase_if` (devolviendo cuántas juntó). Lima se mueve con WASD. Cuando junta todas, mostrá el tiempo que tardó.
 
 #### Criterio de aprobación
 
-- Kira se desliza por las paredes sin trabarse.
+- Lima se desliza por las paredes sin trabarse.
 - Las monedas se juntan con `erase_if` y AABB.
 - Al final se muestra el tiempo.
 
@@ -1656,7 +1656,7 @@ int main()
                    "#.#####.####.#.#.#.#", "#.......#o...#.#...#", "####.##.#.####.###.#", "#o...#..#......#...#",
                    "#.#.##.####.#..#.#o#", "#.#......o..#....#.#", "#.####.#######.#.#.#", "#o.....#o.......#..#",
                    "####################"});
-    SDL_FRect kira{44, 44, 28, 28};
+    SDL_FRect lima{44, 44, 28, 28};
     int juntadas = 0;
     Uint64 inicio = SDL_GetTicks(), antes = inicio;
     float tiempo_final = 0;
@@ -1675,11 +1675,11 @@ int main()
         float dx = k[SDL_SCANCODE_D] - k[SDL_SCANCODE_A], dy = k[SDL_SCANCODE_S] - k[SDL_SCANCODE_W];
         float largo = std::hypot(dx, dy);
         if (largo > 0 && !lab.sin_monedas()) {
-            kira.x += dx / largo * 200 * dt;
-            lab.resolver(kira, true);
-            kira.y += dy / largo * 200 * dt;
-            lab.resolver(kira, false);
-            juntadas += lab.juntar(kira);
+            lima.x += dx / largo * 200 * dt;
+            lab.resolver(lima, true);
+            lima.y += dy / largo * 200 * dt;
+            lab.resolver(lima, false);
+            juntadas += lab.juntar(lima);
             if (lab.sin_monedas()) {
                 tiempo_final = (ahora - inicio) / 1000.0f;
             }
@@ -1688,7 +1688,7 @@ int main()
         SDL_RenderClear(p);
         lab.dibujar(p);
         SDL_SetRenderDrawColor(p, 90, 200, 240, 255);
-        SDL_RenderFillRect(p, &kira);
+        SDL_RenderFillRect(p, &lima);
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
         if (lab.sin_monedas()) {
             SDL_RenderDebugTextFormat(p, 250, 290, "¡Todas! %d monedas en %.1f segundos", juntadas, tiempo_final);
@@ -1716,13 +1716,13 @@ extensiones: zip, cpp, h, txt
 
 #### Consigna
 
-En un mundo de 2400 × 1800 con 120 árboles al azar (con semilla), la cámara sigue a Kira **suavemente** y no muestra fuera del mundo. Solo se dibujan los árboles visibles (mostrá cuántos se dibujan). En una esquina, un **minimapa**: el mundo entero a escala, con el rectángulo de lo que se ve y un punto para Kira.
+En un mundo de 2400 × 1800 con 120 árboles al azar (con semilla), la cámara sigue a Lima **suavemente** y no muestra fuera del mundo. Solo se dibujan los árboles visibles (mostrá cuántos se dibujan). En una esquina, un **minimapa**: el mundo entero a escala, con el rectángulo de lo que se ve y un punto para Lima.
 
 #### Criterio de aprobación
 
 - La cámara convierte del mundo a la pantalla y se limita con `std::clamp`.
 - No se dibuja lo que queda fuera de la vista.
-- El minimapa muestra la vista y a Kira.
+- El minimapa muestra la vista y a Lima.
 
 #### Solución de referencia
 
@@ -1777,7 +1777,7 @@ int main()
     for (int i = 0; i < 120; i++) {
         arboles.push_back({rx(gen), ry(gen), 40, 40});
     }
-    SDL_FRect kira{MUNDO_W / 2, MUNDO_H / 2, 24, 24};
+    SDL_FRect lima{MUNDO_W / 2, MUNDO_H / 2, 24, 24};
     Camara cam;
     Uint64 antes = SDL_GetTicks();
     bool corriendo = true;
@@ -1795,10 +1795,10 @@ int main()
         float dx = k[SDL_SCANCODE_D] - k[SDL_SCANCODE_A], dy = k[SDL_SCANCODE_S] - k[SDL_SCANCODE_W];
         float largo = std::hypot(dx, dy);
         if (largo > 0) {
-            kira.x = std::clamp(kira.x + dx / largo * 300 * dt, 0.0f, MUNDO_W - kira.w);
-            kira.y = std::clamp(kira.y + dy / largo * 300 * dt, 0.0f, MUNDO_H - kira.h);
+            lima.x = std::clamp(lima.x + dx / largo * 300 * dt, 0.0f, MUNDO_W - lima.w);
+            lima.y = std::clamp(lima.y + dy / largo * 300 * dt, 0.0f, MUNDO_H - lima.h);
         }
-        cam.seguir(kira, dt);
+        cam.seguir(lima, dt);
 
         SDL_SetRenderDrawColor(p, 60, 120, 60, 255);
         SDL_RenderClear(p);
@@ -1811,7 +1811,7 @@ int main()
                 dibujados++;
             }
         }
-        SDL_FRect kk = cam.a_pantalla(kira);
+        SDL_FRect kk = cam.a_pantalla(lima);
         SDL_SetRenderDrawColor(p, 240, 190, 90, 255);
         SDL_RenderFillRect(p, &kk);
 
@@ -1823,11 +1823,11 @@ int main()
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
         SDL_FRect vista{marco.x + cam.x() * ESCALA, marco.y + cam.y() * ESCALA, ANCHO * ESCALA, ALTO * ESCALA};
         SDL_RenderRect(p, &vista);
-        SDL_FRect punto{marco.x + kira.x * ESCALA - 2, marco.y + kira.y * ESCALA - 2, 4, 4};
+        SDL_FRect punto{marco.x + lima.x * ESCALA - 2, marco.y + lima.y * ESCALA - 2, 4, 4};
         SDL_SetRenderDrawColor(p, 240, 190, 90, 255);
         SDL_RenderFillRect(p, &punto);
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
-        SDL_RenderDebugTextFormat(p, 10, 10, "WASD  (%.0f, %.0f)  árboles dibujados: %d de %zu", kira.x, kira.y, dibujados, arboles.size());
+        SDL_RenderDebugTextFormat(p, 10, 10, "WASD  (%.0f, %.0f)  árboles dibujados: %d de %zu", lima.x, lima.y, dibujados, arboles.size());
         SDL_RenderPresent(p);
     }
     SDL_DestroyRenderer(p);
@@ -2048,14 +2048,14 @@ Toda la Senda.
 | Archivo | Qué tiene |
 |---|---|
 | `Base.h` / `.cpp` | `Input`, `Textura` (RAII, se mueve), `se_tocan`, `Camara` |
-| `Mundo.h` / `.cpp` | el mapa: paredes, gemas, dónde empiezan Kira y los espectros; lanza si el mapa es inválido |
-| `Actores.h` / `.cpp` | `Kira` (movimiento con colisión, vidas, invulnerabilidad) y `Espectro` (vaga en círculos o persigue) |
+| `Mundo.h` / `.cpp` | el mapa: paredes, gemas, dónde empiezan Lima y los espectros; lanza si el mapa es inválido |
+| `Actores.h` / `.cpp` | `Lima` (movimiento con colisión, vidas, invulnerabilidad) y `Espectro` (vaga en círculos o persigue) |
 | `main.cpp` | el nivel, las escenas (`Menu`, `Partida`, `Fin`) y el bucle |
 
 Fijate en lo que **no** cambió desde el Laberinto del Minotauro: el mapa es texto, la lógica está separada del dibujo, el mundo valida y lanza, y el bucle es entrada → actualizar → dibujar. Lo nuevo es el tiempo real (`dt`), la cámara y las texturas.
 
 #### Invulnerabilidad
-Si un espectro toca a Kira, pierde una vida y queda **invulnerable** un segundo y medio (parpadea). Si no, un espectro encima le sacaría todas las vidas en unos pocos cuadros.
+Si un espectro toca a Lima, pierde una vida y queda **invulnerable** un segundo y medio (parpadea). Si no, un espectro encima le sacaría todas las vidas en unos pocos cuadros.
 
 #### Cómo encararlo
 1. Compilá el proyecto tal como está y jugalo.
@@ -2089,7 +2089,7 @@ extensiones: zip, cpp, h, txt
 #### Consigna
 
 Compilá el juego con CMake y jugalo hasta ganar. Después, agregale **dos** cosas:
-1. **Un nuevo tipo de gema** (`G`, grande): vale 5 y hace a Kira invulnerable 3 segundos.
+1. **Un nuevo tipo de gema** (`G`, grande): vale 5 y hace a Lima invulnerable 3 segundos.
 2. **Un segundo nivel**: al juntar todas las gemas del primero, la partida carga el segundo (otro `std::vector<std::string>`) en vez de terminar; el juego se gana al completar los dos.
 
 Entregá el proyecto completo en un `.zip`.
@@ -2171,7 +2171,7 @@ private:
 
 class Partida : public Escena {
 public:
-    Partida(SDL_Renderer* p) : mundo_(NIVEL), kira_(mundo_.inicio_kira())
+    Partida(SDL_Renderer* p) : mundo_(NIVEL), lima_(mundo_.inicio_lima())
     {
         const std::map<char, SDL_Color> PALETA = {{'p', {60, 40, 30, 255}}, {'c', {240, 200, 160, 255}}, {'r', {200, 60, 60, 255}}, {'a', {60, 90, 200, 255}}, {'b', {230, 235, 255, 200}}, {'o', {20, 20, 40, 255}}};
         sprites_.emplace_back(p, std::vector<std::string>{"..pppp..", "..cccc..", "..c.c.c.", "..cccc..", ".rrrrrr.", "c.rrrr.c", "..aaaa..", "..a..a..", ".aa..aa."}, PALETA);
@@ -2186,18 +2186,18 @@ public:
     void actualizar(const Input& in, float dt) override
     {
         tiempo_ += dt;
-        kira_.actualizar(in, mundo_, dt);
-        gemas_ += mundo_.juntar(kira_.caja());
+        lima_.actualizar(in, mundo_, dt);
+        gemas_ += mundo_.juntar(lima_.caja());
         for (auto& e : espectros_) {
-            e.actualizar(kira_.caja(), dt);
-            if (se_tocan(e.caja(), kira_.caja())) {
-                kira_.recibir_golpe();
+            e.actualizar(lima_.caja(), dt);
+            if (se_tocan(e.caja(), lima_.caja())) {
+                lima_.recibir_golpe();
             }
         }
-        cam_.x = std::clamp(kira_.caja().x - ANCHO / 2, 0.0f, mundo_.ancho() - ANCHO);
-        cam_.y = std::clamp(kira_.caja().y - ALTO / 2, 0.0f, mundo_.alto() - ALTO);
-        if (mundo_.gemas() == 0 || !kira_.viva()) {
-            siguiente = std::make_unique<Fin>(kira_.viva(), gemas_, tiempo_);
+        cam_.x = std::clamp(lima_.caja().x - ANCHO / 2, 0.0f, mundo_.ancho() - ANCHO);
+        cam_.y = std::clamp(lima_.caja().y - ALTO / 2, 0.0f, mundo_.alto() - ALTO);
+        if (mundo_.gemas() == 0 || !lima_.viva()) {
+            siguiente = std::make_unique<Fin>(lima_.viva(), gemas_, tiempo_);
         }
     }
 
@@ -2206,20 +2206,20 @@ public:
         SDL_SetRenderDrawColor(p, 25, 22, 35, 255);
         SDL_RenderClear(p);
         mundo_.dibujar(p, cam_, tiempo_);
-        bool visible = !kira_.parpadea() || static_cast<int>(tiempo_ * 10) % 2 == 0;
+        bool visible = !lima_.parpadea() || static_cast<int>(tiempo_ * 10) % 2 == 0;
         if (visible) {
-            sprites_[0].dibujar(p, cam_.a_pantalla(kira_.caja()), kira_.mira_izquierda());
+            sprites_[0].dibujar(p, cam_.a_pantalla(lima_.caja()), lima_.mira_izquierda());
         }
         for (const auto& e : espectros_) {
             sprites_[1].dibujar(p, cam_.a_pantalla(e.caja()));
         }
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
-        SDL_RenderDebugTextFormat(p, 10, 10, "Vidas: %d   Gemas: %d (faltan %zu)   %.0f s", kira_.vidas(), gemas_, mundo_.gemas(), tiempo_);
+        SDL_RenderDebugTextFormat(p, 10, 10, "Vidas: %d   Gemas: %d (faltan %zu)   %.0f s", lima_.vidas(), gemas_, mundo_.gemas(), tiempo_);
     }
 
 private:
     Mundo mundo_;
-    Kira kira_;
+    Lima lima_;
     std::vector<Espectro> espectros_;
     std::vector<Textura> sprites_;
     Camara cam_;
@@ -2432,7 +2432,7 @@ bool se_tocan(const SDL_FRect& a, const SDL_FRect& b)
 
 #include "Base.h"
 
-// El mapa: '#' pared, 'g' gema, 'K' inicio de Kira, 'E' un espectro. Lanza si el mapa es invalido.
+// El mapa: '#' pared, 'g' gema, 'K' inicio de Lima, 'E' un espectro. Lanza si el mapa es invalido.
 class Mundo {
 public:
     explicit Mundo(const std::vector<std::string>& filas);
@@ -2440,7 +2440,7 @@ public:
     void resolver(SDL_FRect& caja, bool en_x) const;       // saca la caja de las paredes, en un eje
     int juntar(const SDL_FRect& caja);                      // gemas que toca: las quita y dice cuantas
     std::size_t gemas() const { return gemas_.size(); }
-    SDL_FRect inicio_kira() const { return inicio_; }
+    SDL_FRect inicio_lima() const { return inicio_; }
     const std::vector<SDL_FRect>& espectros() const { return espectros_; }
     float ancho() const { return static_cast<float>(filas_[0].size()) * TILE; }
     float alto() const { return static_cast<float>(filas_.size()) * TILE; }
@@ -2462,7 +2462,7 @@ private:
 
 Mundo::Mundo(const std::vector<std::string>& filas) : filas_(filas)
 {
-    bool hay_kira = false;
+    bool hay_lima = false;
     for (std::size_t f = 0; f < filas_.size(); f++) {
         if (filas_[f].size() != filas_[0].size()) {
             throw std::invalid_argument("la fila " + std::to_string(f) + " del mapa tiene otro largo");
@@ -2475,7 +2475,7 @@ Mundo::Mundo(const std::vector<std::string>& filas) : filas_(filas)
                 break;
             case 'K':
                 inicio_ = {x + 6, y + 6, 28, 28};
-                hay_kira = true;
+                hay_lima = true;
                 break;
             case 'E':
                 espectros_.push_back({x + 4, y + 4, 32, 32});
@@ -2486,8 +2486,8 @@ Mundo::Mundo(const std::vector<std::string>& filas) : filas_(filas)
             filas_[f][c] = '.';
         }
     }
-    if (!hay_kira || gemas_.empty()) {
-        throw std::invalid_argument("el mapa necesita a Kira (K) y al menos una gema (g)");
+    if (!hay_lima || gemas_.empty()) {
+        throw std::invalid_argument("el mapa necesita a Lima (K) y al menos una gema (g)");
     }
 }
 
@@ -2538,9 +2538,9 @@ void Mundo::dibujar(SDL_Renderer* p, const Camara& cam, float tiempo) const
 #include "Base.h"
 #include "Mundo.h"
 
-class Kira {
+class Lima {
 public:
-    explicit Kira(SDL_FRect inicio) : caja_(inicio) {}
+    explicit Lima(SDL_FRect inicio) : caja_(inicio) {}
     void actualizar(const Input& in, const Mundo& mundo, float dt);
     void recibir_golpe();
     bool viva() const { return vidas_ > 0; }
@@ -2556,11 +2556,11 @@ private:
     bool izquierda_ = false;
 };
 
-// El espectro atraviesa paredes: vaga en circulos y, si Kira se acerca, la persigue.
+// El espectro atraviesa paredes: vaga en circulos y, si Lima se acerca, la persigue.
 class Espectro {
 public:
     Espectro(SDL_FRect inicio, float fase) : caja_(inicio), centro_x_(inicio.x), centro_y_(inicio.y), fase_(fase) {}
-    void actualizar(const SDL_FRect& kira, float dt);
+    void actualizar(const SDL_FRect& lima, float dt);
     bool persigue() const { return persigue_; }
     const SDL_FRect& caja() const { return caja_; }
 
@@ -2578,7 +2578,7 @@ private:
 #include <algorithm>
 #include <cmath>
 
-void Kira::actualizar(const Input& in, const Mundo& mundo, float dt)
+void Lima::actualizar(const Input& in, const Mundo& mundo, float dt)
 {
     invulnerable_ = std::max(0.0f, invulnerable_ - dt);
     float dx = in.abajo(SDL_SCANCODE_D) - in.abajo(SDL_SCANCODE_A);
@@ -2596,7 +2596,7 @@ void Kira::actualizar(const Input& in, const Mundo& mundo, float dt)
     mundo.resolver(caja_, false);
 }
 
-void Kira::recibir_golpe()
+void Lima::recibir_golpe()
 {
     if (invulnerable_ > 0) {
         return;
@@ -2605,14 +2605,14 @@ void Kira::recibir_golpe()
     invulnerable_ = 1.5f;
 }
 
-void Espectro::actualizar(const SDL_FRect& kira, float dt)
+void Espectro::actualizar(const SDL_FRect& lima, float dt)
 {
     fase_ += dt;
-    float dx = kira.x - caja_.x, dy = kira.y - caja_.y;
+    float dx = lima.x - caja_.x, dy = lima.y - caja_.y;
     float distancia = std::hypot(dx, dy);
     persigue_ = distancia < 220;
     if (persigue_) {
-        caja_.x += dx / distancia * 120 * dt;             // mas lento que Kira: se lo puede esquivar
+        caja_.x += dx / distancia * 120 * dt;             // mas lento que Lima: se lo puede esquivar
         caja_.y += dy / distancia * 120 * dt;
         centro_x_ = caja_.x;
         centro_y_ = caja_.y;
@@ -2690,7 +2690,7 @@ private:
 
 class Partida : public Escena {
 public:
-    Partida(SDL_Renderer* p) : mundo_(NIVEL), kira_(mundo_.inicio_kira())
+    Partida(SDL_Renderer* p) : mundo_(NIVEL), lima_(mundo_.inicio_lima())
     {
         const std::map<char, SDL_Color> PALETA = {{'p', {60, 40, 30, 255}}, {'c', {240, 200, 160, 255}}, {'r', {200, 60, 60, 255}}, {'a', {60, 90, 200, 255}}, {'b', {230, 235, 255, 200}}, {'o', {20, 20, 40, 255}}};
         sprites_.emplace_back(p, std::vector<std::string>{"..pppp..", "..cccc..", "..c.c.c.", "..cccc..", ".rrrrrr.", "c.rrrr.c", "..aaaa..", "..a..a..", ".aa..aa."}, PALETA);
@@ -2705,18 +2705,18 @@ public:
     void actualizar(const Input& in, float dt) override
     {
         tiempo_ += dt;
-        kira_.actualizar(in, mundo_, dt);
-        gemas_ += mundo_.juntar(kira_.caja());
+        lima_.actualizar(in, mundo_, dt);
+        gemas_ += mundo_.juntar(lima_.caja());
         for (auto& e : espectros_) {
-            e.actualizar(kira_.caja(), dt);
-            if (se_tocan(e.caja(), kira_.caja())) {
-                kira_.recibir_golpe();
+            e.actualizar(lima_.caja(), dt);
+            if (se_tocan(e.caja(), lima_.caja())) {
+                lima_.recibir_golpe();
             }
         }
-        cam_.x = std::clamp(kira_.caja().x - ANCHO / 2, 0.0f, mundo_.ancho() - ANCHO);
-        cam_.y = std::clamp(kira_.caja().y - ALTO / 2, 0.0f, mundo_.alto() - ALTO);
-        if (mundo_.gemas() == 0 || !kira_.viva()) {
-            siguiente = std::make_unique<Fin>(kira_.viva(), gemas_, tiempo_);
+        cam_.x = std::clamp(lima_.caja().x - ANCHO / 2, 0.0f, mundo_.ancho() - ANCHO);
+        cam_.y = std::clamp(lima_.caja().y - ALTO / 2, 0.0f, mundo_.alto() - ALTO);
+        if (mundo_.gemas() == 0 || !lima_.viva()) {
+            siguiente = std::make_unique<Fin>(lima_.viva(), gemas_, tiempo_);
         }
     }
 
@@ -2725,20 +2725,20 @@ public:
         SDL_SetRenderDrawColor(p, 25, 22, 35, 255);
         SDL_RenderClear(p);
         mundo_.dibujar(p, cam_, tiempo_);
-        bool visible = !kira_.parpadea() || static_cast<int>(tiempo_ * 10) % 2 == 0;
+        bool visible = !lima_.parpadea() || static_cast<int>(tiempo_ * 10) % 2 == 0;
         if (visible) {
-            sprites_[0].dibujar(p, cam_.a_pantalla(kira_.caja()), kira_.mira_izquierda());
+            sprites_[0].dibujar(p, cam_.a_pantalla(lima_.caja()), lima_.mira_izquierda());
         }
         for (const auto& e : espectros_) {
             sprites_[1].dibujar(p, cam_.a_pantalla(e.caja()));
         }
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
-        SDL_RenderDebugTextFormat(p, 10, 10, "Vidas: %d   Gemas: %d (faltan %zu)   %.0f s", kira_.vidas(), gemas_, mundo_.gemas(), tiempo_);
+        SDL_RenderDebugTextFormat(p, 10, 10, "Vidas: %d   Gemas: %d (faltan %zu)   %.0f s", lima_.vidas(), gemas_, mundo_.gemas(), tiempo_);
     }
 
 private:
     Mundo mundo_;
-    Kira kira_;
+    Lima lima_;
     std::vector<Espectro> espectros_;
     std::vector<Textura> sprites_;
     Camara cam_;
@@ -2981,7 +2981,7 @@ bool se_tocan(const SDL_FRect& a, const SDL_FRect& b)
 
 #include "Base.h"
 
-// El mapa: '#' pared, 'g' gema, 'K' inicio de Kira, 'E' un espectro. Lanza si el mapa es invalido.
+// El mapa: '#' pared, 'g' gema, 'K' inicio de Lima, 'E' un espectro. Lanza si el mapa es invalido.
 class Mundo {
 public:
     explicit Mundo(const std::vector<std::string>& filas);
@@ -2989,7 +2989,7 @@ public:
     void resolver(SDL_FRect& caja, bool en_x) const;       // saca la caja de las paredes, en un eje
     int juntar(const SDL_FRect& caja);                      // gemas que toca: las quita y dice cuantas
     std::size_t gemas() const { return gemas_.size(); }
-    SDL_FRect inicio_kira() const { return inicio_; }
+    SDL_FRect inicio_lima() const { return inicio_; }
     const std::vector<SDL_FRect>& espectros() const { return espectros_; }
     float ancho() const { return static_cast<float>(filas_[0].size()) * TILE; }
     float alto() const { return static_cast<float>(filas_.size()) * TILE; }
@@ -3011,7 +3011,7 @@ private:
 
 Mundo::Mundo(const std::vector<std::string>& filas) : filas_(filas)
 {
-    bool hay_kira = false;
+    bool hay_lima = false;
     for (std::size_t f = 0; f < filas_.size(); f++) {
         if (filas_[f].size() != filas_[0].size()) {
             throw std::invalid_argument("la fila " + std::to_string(f) + " del mapa tiene otro largo");
@@ -3024,7 +3024,7 @@ Mundo::Mundo(const std::vector<std::string>& filas) : filas_(filas)
                 break;
             case 'K':
                 inicio_ = {x + 6, y + 6, 28, 28};
-                hay_kira = true;
+                hay_lima = true;
                 break;
             case 'E':
                 espectros_.push_back({x + 4, y + 4, 32, 32});
@@ -3035,8 +3035,8 @@ Mundo::Mundo(const std::vector<std::string>& filas) : filas_(filas)
             filas_[f][c] = '.';
         }
     }
-    if (!hay_kira || gemas_.empty()) {
-        throw std::invalid_argument("el mapa necesita a Kira (K) y al menos una gema (g)");
+    if (!hay_lima || gemas_.empty()) {
+        throw std::invalid_argument("el mapa necesita a Lima (K) y al menos una gema (g)");
     }
 }
 
@@ -3087,9 +3087,9 @@ void Mundo::dibujar(SDL_Renderer* p, const Camara& cam, float tiempo) const
 #include "Base.h"
 #include "Mundo.h"
 
-class Kira {
+class Lima {
 public:
-    explicit Kira(SDL_FRect inicio) : caja_(inicio) {}
+    explicit Lima(SDL_FRect inicio) : caja_(inicio) {}
     void actualizar(const Input& in, const Mundo& mundo, float dt);
     void recibir_golpe();
     bool viva() const { return vidas_ > 0; }
@@ -3105,11 +3105,11 @@ private:
     bool izquierda_ = false;
 };
 
-// El espectro atraviesa paredes: vaga en circulos y, si Kira se acerca, la persigue.
+// El espectro atraviesa paredes: vaga en circulos y, si Lima se acerca, la persigue.
 class Espectro {
 public:
     Espectro(SDL_FRect inicio, float fase) : caja_(inicio), centro_x_(inicio.x), centro_y_(inicio.y), fase_(fase) {}
-    void actualizar(const SDL_FRect& kira, float dt);
+    void actualizar(const SDL_FRect& lima, float dt);
     bool persigue() const { return persigue_; }
     const SDL_FRect& caja() const { return caja_; }
 
@@ -3127,7 +3127,7 @@ private:
 #include <algorithm>
 #include <cmath>
 
-void Kira::actualizar(const Input& in, const Mundo& mundo, float dt)
+void Lima::actualizar(const Input& in, const Mundo& mundo, float dt)
 {
     invulnerable_ = std::max(0.0f, invulnerable_ - dt);
     float dx = in.abajo(SDL_SCANCODE_D) - in.abajo(SDL_SCANCODE_A);
@@ -3145,7 +3145,7 @@ void Kira::actualizar(const Input& in, const Mundo& mundo, float dt)
     mundo.resolver(caja_, false);
 }
 
-void Kira::recibir_golpe()
+void Lima::recibir_golpe()
 {
     if (invulnerable_ > 0) {
         return;
@@ -3154,14 +3154,14 @@ void Kira::recibir_golpe()
     invulnerable_ = 1.5f;
 }
 
-void Espectro::actualizar(const SDL_FRect& kira, float dt)
+void Espectro::actualizar(const SDL_FRect& lima, float dt)
 {
     fase_ += dt;
-    float dx = kira.x - caja_.x, dy = kira.y - caja_.y;
+    float dx = lima.x - caja_.x, dy = lima.y - caja_.y;
     float distancia = std::hypot(dx, dy);
     persigue_ = distancia < 220;
     if (persigue_) {
-        caja_.x += dx / distancia * 120 * dt;             // mas lento que Kira: se lo puede esquivar
+        caja_.x += dx / distancia * 120 * dt;             // mas lento que Lima: se lo puede esquivar
         caja_.y += dy / distancia * 120 * dt;
         centro_x_ = caja_.x;
         centro_y_ = caja_.y;
@@ -3247,7 +3247,7 @@ private:
 
 class Partida : public Escena {
 public:
-    Partida(SDL_Renderer* p) : mundo_(NIVEL), kira_(mundo_.inicio_kira())
+    Partida(SDL_Renderer* p) : mundo_(NIVEL), lima_(mundo_.inicio_lima())
     {
         const std::map<char, SDL_Color> PALETA = {{'p', {60, 40, 30, 255}}, {'c', {240, 200, 160, 255}}, {'r', {200, 60, 60, 255}}, {'a', {60, 90, 200, 255}}, {'b', {230, 235, 255, 200}}, {'o', {20, 20, 40, 255}}};
         sprites_.emplace_back(p, std::vector<std::string>{"..pppp..", "..cccc..", "..c.c.c.", "..cccc..", ".rrrrrr.", "c.rrrr.c", "..aaaa..", "..a..a..", ".aa..aa."}, PALETA);
@@ -3262,18 +3262,18 @@ public:
     void actualizar(const Input& in, float dt) override
     {
         tiempo_ += dt;
-        kira_.actualizar(in, mundo_, dt);
-        gemas_ += mundo_.juntar(kira_.caja());
+        lima_.actualizar(in, mundo_, dt);
+        gemas_ += mundo_.juntar(lima_.caja());
         for (auto& e : espectros_) {
-            e.actualizar(kira_.caja(), dt);
-            if (se_tocan(e.caja(), kira_.caja())) {
-                kira_.recibir_golpe();
+            e.actualizar(lima_.caja(), dt);
+            if (se_tocan(e.caja(), lima_.caja())) {
+                lima_.recibir_golpe();
             }
         }
-        cam_.x = std::clamp(kira_.caja().x - ANCHO / 2, 0.0f, mundo_.ancho() - ANCHO);
-        cam_.y = std::clamp(kira_.caja().y - ALTO / 2, 0.0f, mundo_.alto() - ALTO);
-        if (mundo_.gemas() == 0 || !kira_.viva()) {
-            siguiente = std::make_unique<Fin>(kira_.viva(), gemas_, tiempo_);
+        cam_.x = std::clamp(lima_.caja().x - ANCHO / 2, 0.0f, mundo_.ancho() - ANCHO);
+        cam_.y = std::clamp(lima_.caja().y - ALTO / 2, 0.0f, mundo_.alto() - ALTO);
+        if (mundo_.gemas() == 0 || !lima_.viva()) {
+            siguiente = std::make_unique<Fin>(lima_.viva(), gemas_, tiempo_);
         }
     }
 
@@ -3282,20 +3282,20 @@ public:
         SDL_SetRenderDrawColor(p, 25, 22, 35, 255);
         SDL_RenderClear(p);
         mundo_.dibujar(p, cam_, tiempo_);
-        bool visible = !kira_.parpadea() || static_cast<int>(tiempo_ * 10) % 2 == 0;
+        bool visible = !lima_.parpadea() || static_cast<int>(tiempo_ * 10) % 2 == 0;
         if (visible) {
-            sprites_[0].dibujar(p, cam_.a_pantalla(kira_.caja()), kira_.mira_izquierda());
+            sprites_[0].dibujar(p, cam_.a_pantalla(lima_.caja()), lima_.mira_izquierda());
         }
         for (const auto& e : espectros_) {
             sprites_[1].dibujar(p, cam_.a_pantalla(e.caja()));
         }
         SDL_SetRenderDrawColor(p, 255, 255, 255, 255);
-        SDL_RenderDebugTextFormat(p, 10, 10, "Vidas: %d   Gemas: %d (faltan %zu)   %.0f s", kira_.vidas(), gemas_, mundo_.gemas(), tiempo_);
+        SDL_RenderDebugTextFormat(p, 10, 10, "Vidas: %d   Gemas: %d (faltan %zu)   %.0f s", lima_.vidas(), gemas_, mundo_.gemas(), tiempo_);
     }
 
 private:
     Mundo mundo_;
-    Kira kira_;
+    Lima lima_;
     std::vector<Espectro> espectros_;
     std::vector<Textura> sprites_;
     Camara cam_;
@@ -3616,7 +3616,7 @@ El mapa como texto, la lógica separada del dibujo, la validación con excepcion
 
 Para que un solo toque, que dura varios cuadros, no descuente varias vidas.
 
-#### ¿Por qué los espectros persiguen más lento que Kira?
+#### ¿Por qué los espectros persiguen más lento que Lima?
 
 Para que se los pueda esquivar: el balance hace que el juego sea justo.
 

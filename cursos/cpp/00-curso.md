@@ -294,7 +294,7 @@ Regla para leer errores largos de C++: **mirá la primera línea que dice
 ejecutaste `./programa`: corre la versión anterior. Compilá **siempre** antes de
 ejecutar.
 
-### Misión R00-N01-M1 · La ficha de Kira
+### Misión R00-N01-M1 · La ficha de Lima
 
 ```meta
 entrega: codigo
@@ -305,7 +305,7 @@ xp: 10
 
 #### Consigna
 
-Mostrá la ficha de Kira en la Ciudadela: nombre, clase, región y mentor, uno por
+Mostrá la ficha de Lima en la Ciudadela: nombre, clase, región y mentor, uno por
 línea, con el valor separado por `\t`.
 
 #### Criterio de aprobación
@@ -318,7 +318,7 @@ línea, con el valor separado por `\t`.
 
 ```
 === FICHA ===
-Nombre:	Kira
+Nombre:	Lima
 Clase:	Artífice
 Región:	La Ciudadela de los Artífices
 Mentor:	Tesla
@@ -327,13 +327,13 @@ Mentor:	Tesla
 #### Solución de referencia
 
 ```cpp
-// Mision 1 - La ficha de Kira en la Ciudadela.
+// Mision 1 - La ficha de Lima en la Ciudadela.
 #include <iostream>
 
 int main()
 {
     std::cout << "=== FICHA ===\n";
-    std::cout << "Nombre:\tKira\n";
+    std::cout << "Nombre:\tLima\n";
     std::cout << "Clase:\tArtífice\n";
     std::cout << "Región:\tLa Ciudadela de los Artífices\n";
     std::cout << "Mentor:\tTesla\n";
@@ -357,7 +357,7 @@ uno** (volvé a compilar después de cada arreglo):
 ```cpp
 int main()
 {
-    std::cout << "Kira llega a la Ciudadela.\n"
+    std::cout << "Lima llega a la Ciudadela.\n"
     cout << "Tesla la espera en la torre.\n";
     return 0;
 }
@@ -374,7 +374,7 @@ int main()
 ```cpp
 int main()
 {
-    std::cout << "Kira llega a la Ciudadela.\n"
+    std::cout << "Lima llega a la Ciudadela.\n"
     cout << "Tesla la espera en la torre.\n";
     return 0;
 }
@@ -383,7 +383,7 @@ int main()
 #### Salida esperada
 
 ```
-Kira llega a la Ciudadela.
+Lima llega a la Ciudadela.
 Tesla la espera en la torre.
 ```
 
@@ -400,7 +400,7 @@ Tesla la espera en la torre.
 
 int main()
 {
-    std::cout << "Kira llega a la Ciudadela.\n";
+    std::cout << "Lima llega a la Ciudadela.\n";
     std::cout << "Tesla la espera en la torre.\n";
     return 0;
 }

@@ -106,7 +106,8 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Le gusta:** arreglar cosas, cocinar para muchos, los chistes malos.
 - **Defecto o miedo:** arregla todo a mano, pieza por pieza. En la Ciudadela aprende a dibujar **planos** (clases y plantillas).
 - **Frase:** «¿Y esto para qué me sirve?»
-- **Relaciones:** viejo amigo de Maese Ferrum; sube a la Ciudadela de Tesla.
+- **Relaciones:** viejo amigo de Maese Ferrum (le llegan sus cartas, quemadas en una esquina); sube a la Ciudadela de Tesla, donde Lima es su compañera.
+- **Objeto que cambia con él:** la llave inglesa: la Llave Mellada (Clase 0), la Llave Ajustable (R02) y la Llave Universal (al final) ([cpp.md](cpp.md)).
 - **Primera aparición:** C++, Clase 0.
 - **Imágenes:** completas.
 
@@ -472,6 +473,138 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Color:** latón, verde placa y el rojo de los leds.
 - **Cómo habla:** con **pitidos** en código y leds que parpadean.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+---
+
+## La Ciudadela de los Artífices (C++)
+
+### Tesla
+- **Rol:** el **Artífice Mayor**, líder de la Ciudadela de los Artífices y mentor de Bron ([cpp.md](cpp.md)). Aprendió a forjar con Maese Ferrum, junto con Tesela, y un día subió la montaña con una idea: dibujar **planos** que cualquiera pudiera construir mil veces.
+- **Edad y sexo:** 22, varón.
+- **Altura y contextura:** mediano (1,75 m), delgado y atlético.
+- **Rasgos:**
+  - piel clara, sonrisa de costado, cara de estar pensando en otra cosa;
+  - **pelo negro azulado, corto y en punta**, siempre revuelto;
+  - **visor de cristal cian** sobre los ojos, con líneas de código que pasan por adentro.
+- **Ropa:** **traje ajustado azul** con líneas de luz cian, **engranajes de bronce** en los hombros y en una pierna, zapatillas con suela luminosa.
+- **Objeto:** el **compás de bronce** con el que trazó la primera torre; a su alrededor flotan pantallas con planos, y le saltan **chispas eléctricas** cuando se entusiasma.
+- **Color:** azul y el **cian** de la Ciudadela, con detalles de bronce.
+- **Personalidad:** rápido, curioso, impaciente; termina las frases de los demás. **Odia repetir código**: si ve dos veces lo mismo, ya está dibujando el plano. Gruñe con los chistes malos de Bron (salvo los de punteros).
+- **Le gusta:** las poleas, los inventos que se arman solos, que le pregunten «¿se puede hacer más general?».
+- **Defecto o miedo:** se aburre con lo que ya entendió y a veces se saltea un paso que para los demás no es obvio; nunca supo para qué eran las bisagras que le pidió el Vidriero.
+- **Frase:** «Dibujalo una vez. Construilo mil.»
+- **Relaciones:**
+  - aprendiz de Ferrum, hace mucho, junto con Tesela;
+  - mentor de Bron y de Lima;
+  - le dibujó las bisagras al Vidriero (su pieza del portal).
+- **Primera aparición:** C++, Clase 0.
+- **Dónde va:** la Ciudadela: torres, poleas, puentes que se pliegan y engranajes que giran en todas las paredes.
+- **Imágenes:** completas (cuerpo entero y retrato circular; los 6 retratos enmarcados son avatares).
+
+### Lima *(falta la imagen)*
+- **Curso y rol:** C++. Aprendiz de relojera de la Ciudadela que recibe a Bron en la Clase 0 y termina siendo su compañera ([cpp.md](cpp.md)). Es el contrapunto de Bron: él dice **«¿y esto para qué me sirve?»**; ella, **«¿y si lo hacemos una sola vez?»**. En los ejemplos y las prácticas reemplaza a Kira.
+- **Edad y sexo:** 16, mujer.
+- **Altura y contextura:** chiquita (1,52 m) y delgada, de dedos finos y rápidos.
+- **Rasgos:** piel morena clara, ojos verdes muy atentos, **pelo castaño oscuro atado en dos rodetes** con un lápiz clavado en uno; **una lupa de relojero** enganchada en un ojo, que se le cae cuando se sorprende.
+- **Ropa:** **delantal de relojera azul petróleo** lleno de bolsillitos con tornillos minúsculos, camisa blanca arremangada, mitones sin dedos.
+- **Objeto:** una **lima de relojero** que saca cada vez que ve dos piezas iguales hechas a mano (o dos funciones copiadas).
+- **Color:** azul petróleo y el **cian** de la Ciudadela.
+- **Personalidad:** prolija, rápida, un poco mandona; habla poco y corrige mucho. Admira a Tesla y a la Maestra Artífice, y no lo admite.
+- **Le gusta:** los relojes que no atrasan, las piezas que encajan sin forzar, que algo funcione **para cualquier** tamaño.
+- **Defecto o miedo:** quiere que todo sea perfecto antes de probarlo, y le cuesta empezar; le tiene miedo al Kraken (no sabe nadar).
+- **Frase:** «¿Y si lo hacemos una sola vez?»
+- **Relaciones:** aprendiz de Tesla; compañera de Bron (se pelean por la lima); le hace los mandados a la Maestra Artífice.
+- **Primera aparición:** C++, Clase 0.
+
+### La Maestra Artífice
+- **Rol:** la **inspectora** de la Ciudadela: nada sale de las torres sin pasar por sus pruebas. Aparece cuando alguien dice «ya anda» (sobre todo en R05, pruebas y medición, y en los jefes).
+- **Edad y sexo:** 60, mujer.
+- **Altura y contextura:** alta (1,72 m) y delgada, erguida.
+- **Rasgos:** piel oscura, cara seria de mirada aguda, **pelo blanco muy corto**; **antiparras de soldar** de bronce con lentes verdes, subidas en la frente.
+- **Ropa:** **delantal largo de cuero oscuro** con bolsillos llenos de herramientas (un calibre y una llave de bronce, lápices), sobre una **túnica verde con circuitos que brillan**; botas altas.
+- **Objeto:** una **tableta de vidrio** con una lista de pruebas y sus tildes verdes (en la de arriba dice `assert True`).
+- **Color:** verde de circuito, cuero oscuro y bronce.
+- **Personalidad:** seca, exacta, justa. Nunca dice «está mal»: pregunta «¿y la prueba?». Nadie la vio sonreír hasta que las pruebas de Bron pasan todas en verde (R05-N03), y fue medio segundo.
+- **Le gusta:** los casos borde, las listas de pruebas largas, el silencio en el taller.
+- **Defecto o miedo:** desconfía de todo lo que no se puede medir, incluidos los cumplidos.
+- **Frase:** «¿Y la prueba?»
+- **Relaciones:** inspectora de la Ciudadela desde antes que Tesla; Tesla le tiene un respeto que no le tiene a nadie; Lima le hace los mandados.
+- **Primera aparición:** C++, R03-N08.
+- **Dónde va:** el banco de pruebas de la Ciudadela: mesas largas con instrumentos, cronómetros y lámparas verdes.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Lyn *(falta la imagen)*
+- **Rol:** la **mensajera** de la Ciudadela, la más rápida de las torres. En los ejemplos y las prácticas corre, compite, apuesta y lleva los pedidos.
+- **Edad y sexo:** 19, mujer.
+- **Altura y contextura:** alta (1,74 m), fibrosa, piernas de corredora.
+- **Rasgos:** piel trigueña, pecas, **pelo rubio oscuro en una trenza larga** que flamea cuando corre.
+- **Ropa:** ropa liviana de corredora azul y blanca, **botas con resortes de bronce** en el talón, un bolso cruzado con cartas.
+- **Objeto:** un **cronómetro de bolsillo** con el que mide cada carrera (y cada programa).
+- **Personalidad:** competitiva, alegre, apuesta todo; se enoja si pierde contra un programa.
+- **Frase:** «¿Te juego una carrera?»
+- **Relaciones:** amiga de Bron; le trae las cartas de Ferrum (quemadas en una esquina).
+- **Primera aparición:** C++, R01-N02.
+
+### Oto *(falta la imagen)*
+- **Rol:** el **cocinero del comedor** de los artífices. En los ejemplos y las prácticas es el que pesa, mide y reparte (las recetas son algoritmos).
+- **Edad y sexo:** 40, varón.
+- **Altura y contextura:** grandote (1,90 m) y panzón, de brazos fuertes.
+- **Rasgos:** piel rosada, cachetes colorados, **bigote enorme en forma de manubrio**, cabeza afeitada.
+- **Ropa:** **gorro de cocinero alto** con un engranaje bordado, delantal blanco con manchas de todos los colores (algunas violetas).
+- **Objeto:** un **cucharón de bronce** y un **libro de recetas exactas**, con los gramos anotados al margen.
+- **Personalidad:** bonachón, ruidoso, generoso; cuando improvisa una receta (un comportamiento indefinido), el guiso sale violeta.
+- **Frase:** «Receta que se respeta, guiso que no falla.»
+- **Relaciones:** amigo de Bron (los dos cocinan para muchos); le teme a la Maestra Artífice, que le prueba la sopa con termómetro.
+- **Primera aparición:** C++, R01-N03.
+
+### El Autómata de Latón *(falta la imagen)*
+- **Rol:** el jefe de los Cimientos (R01-N09 de C++). Tesla lo construyó terco a propósito: no deja pasar a nadie que no domine los cimientos.
+- **Qué es:** un **autómata de tres metros** de placas de latón remachadas, con un corazón de vapor que se ve por una ventanita del pecho y una **tarjeta perforada** en la frente con su única orden.
+- **Color:** latón, vapor blanco y el **cian** de la Ciudadela en los ojos.
+- **Cómo habla:** con silbidos de vapor y frases cortas, como un programa: «ORDEN: NO DEJAR PASAR».
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### La Quimera de la Arena *(falta la imagen)*
+- **Rol:** el jefe de los Planos (R02-N09 de C++). Cambia de forma en cada turno; se la vence con polimorfismo: cada forma responde por sí misma.
+- **Qué es:** una criatura con **cabeza de león, cuerpo de cabra y cola de serpiente**, hecha de piezas de bronce que se reacomodan con un ruido de engranajes cuando cambia.
+- **Color:** bronce, cobre y el **cian** de las juntas.
+- **Cómo habla:** con tres voces a la vez, que se pelean entre ellas.
+- **Imágenes:** cuerpo entero y retrato circular.
+
+### El Mímico del Bestiario *(falta la imagen)*
+- **Rol:** el jefe de los Talleres Modernos (R03-N09 de C++). No tiene forma propia: copia a quien mira. Copió la bisagra del Vidriero y no sabe abrir nada con ella.
+- **Qué es:** una criatura **gris y blanda como cera**, que se estira y toma la forma de lo último que vio, siempre con algo mal copiado (una cola de más, un ojo en la rodilla).
+- **Color:** gris perla, con reflejos de lo que imita.
+- **Cómo habla:** repite lo último que le dijeron, con la voz de quien lo dijo.
+- **Imágenes:** cuerpo entero y retrato circular.
+
+### El Kraken de los Contenedores *(falta la imagen)*
+- **Rol:** el jefe de la Gran Biblioteca (R04-N09 de C++). Vive en los sótanos inundados y desordena todo lo que toca: saca un tentáculo por cada pasillo.
+- **Qué es:** un **pulpo gigante** de piel azul oscura con ventosas que brillan, que lleva **cajas, estantes y libros** enganchados en los tentáculos.
+- **Color:** azul profundo, verde agua y el dorado de los lomos de los libros.
+- **Cómo habla:** con burbujas; cada burbuja que revienta dice una palabra suelta.
+- **Imágenes:** cuerpo entero y retrato circular.
+
+### El Minotauro del Laberinto *(falta la imagen)*
+- **Rol:** el jefe del Taller del Juego (R05-N06 de C++). Vive en el Laberinto, debajo del Taller; no persigue, **embiste**. Custodia el Engranaje del Portal.
+- **Qué es:** un **toro gigante de hierro y bronce** que camina en dos patas, con cuernos de acero, ojos de brasa y un engranaje enorme colgado del cuello.
+- **Color:** hierro oscuro, bronce y el rojo de los ojos.
+- **Cómo habla:** resopla vapor por la nariz; no dice nada.
+- **Imágenes:** cuerpo entero y retrato circular.
+
+### La Gárgola de los Vitrales *(falta la imagen)*
+- **Rol:** el jefe final de C++ (R06-N05): le toma a Bron el examen, **TallerExpress**. Custodia el libro del taller de reparaciones y nunca dejó pasar un programa con una fila mal sumada.
+- **Qué es:** una **gárgola de piedra gris** con alas cortas, sentada en lo alto del Taller de los Vitrales, con un **monóculo** de vidrio de colores y una pluma de escribir en la garra.
+- **Color:** piedra gris, con los colores de los vitrales reflejados encima.
+- **Cómo habla:** despacio y con voz de examinadora: «Pregunta número uno».
+- **Imágenes:** cuerpo entero y retrato circular.
+
+### El Espectro de la Linterna *(falta la imagen)*
+- **Rol:** el jefe de la Senda de la Linterna Mágica (S01 de C++, SDL3). Se escapó de las placas de vidrio de la linterna y se llevó las gemas que la hacen brillar.
+- **Qué es:** un **fantasma de luz** proyectado, de bordes pixelados, que atraviesa las paredes.
+- **Color:** blanco azulado, con los colores de la linterna parpadeando.
+- **Cómo habla:** con un zumbido de proyector.
+- **Imágenes:** cuerpo entero y retrato circular.
 
 ---
 

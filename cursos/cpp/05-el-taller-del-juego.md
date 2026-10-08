@@ -1266,7 +1266,7 @@ de más a menos puntos (y por nombre si empatan). Usá `const&`, `std::erase_if`
 
 ```
 100
-Kira 340
+Lima 340
 Bron 80
 Lyn 120
 Oto 100
@@ -1276,7 +1276,7 @@ Tesla 340
 #### Salida esperada
 
 ```
-4 con 100 o más: Kira Tesla Lyn Oto
+4 con 100 o más: Lima Tesla Lyn Oto
 ```
 
 #### Solución de referencia
@@ -1333,7 +1333,7 @@ int main()
 ##### Nadie llega
 ```entrada
 500
-Kira 340
+Lima 340
 Bron 80
 ```
 ```salida
@@ -2252,20 +2252,20 @@ Accion decidir(int distancia)
 int main()
 {
     std::mt19937 gen(12345);
-    Combatiente kira("Kira", 60, 9, 2);
+    Combatiente lima("Lima", 60, 9, 2);
     Inventario mochila;
     mochila.agregar({"poción", TipoItem::Pocion, 20});
     mochila.agregar({"poción", TipoItem::Pocion, 20});
     mochila.agregar({"martillo", TipoItem::Arma, 4});
     mochila.mostrar();
     if (auto arma = mochila.usar("martillo")) {
-        kira.sumar_ataque(arma->valor);
-        std::cout << "  Kira equipa el " << arma->nombre << ": ataque " << kira.ataque() << "\n";
+        lima.sumar_ataque(arma->valor);
+        std::cout << "  Lima equipa el " << arma->nombre << ": ataque " << lima.ataque() << "\n";
     }
 
     Combatiente orco("Orco", 40, 11, 1);
     int distancia = 7;
-    for (int turno = 1; kira.vivo() && orco.vivo(); turno++) {
+    for (int turno = 1; lima.vivo() && orco.vivo(); turno++) {
         std::cout << "Turno " << turno << " (distancia " << distancia << "): ";
         switch (decidir(distancia)) {
         case Accion::Esperar:
@@ -2276,22 +2276,22 @@ int main()
             std::cout << "el orco se acerca";
             break;
         case Accion::Atacar:
-            std::cout << "Kira pega " << orco.recibir_golpe(kira.ataque(), gen);
+            std::cout << "Lima pega " << orco.recibir_golpe(lima.ataque(), gen);
             if (orco.vivo()) {
-                std::cout << ", el orco pega " << kira.recibir_golpe(orco.ataque(), gen);
+                std::cout << ", el orco pega " << lima.recibir_golpe(orco.ataque(), gen);
             }
             break;
         }
         if (distancia > 1) {
-            distancia--;                                     // Kira avanza hacia el orco
+            distancia--;                                     // Lima avanza hacia el orco
         }
-        if (kira.vida() < 25 && mochila.usar("poción")) {
-            kira.curar(20);
-            std::cout << " | Kira bebe una poción";
+        if (lima.vida() < 25 && mochila.usar("poción")) {
+            lima.curar(20);
+            std::cout << " | Lima bebe una poción";
         }
-        std::cout << " | Kira " << kira.vida() << ", orco " << orco.vida() << "\n";
+        std::cout << " | Lima " << lima.vida() << ", orco " << orco.vida() << "\n";
     }
-    std::cout << (kira.vivo() ? "Gana Kira" : "Gana el orco") << "\n";
+    std::cout << (lima.vivo() ? "Gana Lima" : "Gana el orco") << "\n";
     mochila.mostrar();
     return 0;
 }
@@ -2301,16 +2301,16 @@ int main()
 
 ```
   mochila: poción x2 martillo
-  Kira equipa el martillo: ataque 13
-Turno 1 (distancia 7): el orco vigila | Kira 60, orco 40
-Turno 2 (distancia 6): el orco vigila | Kira 60, orco 40
-Turno 3 (distancia 5): el orco se acerca | Kira 60, orco 40
-Turno 4 (distancia 3): el orco se acerca | Kira 60, orco 40
-Turno 5 (distancia 1): Kira pega 14, el orco pega 11 | Kira 49, orco 26
-Turno 6 (distancia 1): Kira pega 11, el orco pega 7 | Kira 42, orco 15
-Turno 7 (distancia 1): Kira pega 10, el orco pega 7 | Kira 35, orco 5
-Turno 8 (distancia 1): Kira pega 11 | Kira 35, orco 0
-Gana Kira
+  Lima equipa el martillo: ataque 13
+Turno 1 (distancia 7): el orco vigila | Lima 60, orco 40
+Turno 2 (distancia 6): el orco vigila | Lima 60, orco 40
+Turno 3 (distancia 5): el orco se acerca | Lima 60, orco 40
+Turno 4 (distancia 3): el orco se acerca | Lima 60, orco 40
+Turno 5 (distancia 1): Lima pega 14, el orco pega 11 | Lima 49, orco 26
+Turno 6 (distancia 1): Lima pega 11, el orco pega 7 | Lima 42, orco 15
+Turno 7 (distancia 1): Lima pega 10, el orco pega 7 | Lima 35, orco 5
+Turno 8 (distancia 1): Lima pega 11 | Lima 35, orco 0
+Gana Lima
   mochila: poción x2
 ```
 
@@ -2348,9 +2348,9 @@ xp: 10
 #### Consigna
 
 En un puente de 0 a 20 hay dos guardias: G1 en la posición 5 (ve a 3 casilleros) y
-G2 en la 18 (ve a 5). Kira empieza en 0; cada letra de la entrada la mueve (`d`
+G2 en la 18 (ve a 5). Lima empieza en 0; cada letra de la entrada la mueve (`d`
 derecha, `i` izquierda, otra cosa: se queda). Después de cada paso, cada guardia
-actúa según la distancia a Kira: a 1 o menos **ataca**; dentro de su visión
+actúa según la distancia a Lima: a 1 o menos **ataca**; dentro de su visión
 **persigue** (un paso hacia ella); hasta 2 más allá de su visión queda en **alerta**
 (no se mueve); más lejos, **patrulla** (va y viene de a un paso entre 0 y 20).
 Mostrá cada turno con la posición y el estado de cada guardia.
@@ -2358,7 +2358,7 @@ Mostrá cada turno con la posición y el estado de cada guardia.
 #### Criterio de aprobación
 
 - Los estados son un `enum class`.
-- Cada guardia decide solo con su distancia a Kira.
+- Cada guardia decide solo con su distancia a Lima.
 - La patrulla cambia de sentido en los bordes.
 
 #### Entrada de ejemplo
@@ -2370,20 +2370,20 @@ ddd.dddddddddd
 #### Salida esperada
 
 ```
-T1 Kira@1: G1@5 alerta G2@19 patrulla
-T2 Kira@2: G1@4 persigue G2@20 patrulla
-T3 Kira@3: G1@4 ataca G2@19 patrulla
-T4 Kira@3: G1@4 ataca G2@18 patrulla
-T5 Kira@4: G1@4 ataca G2@17 patrulla
-T6 Kira@5: G1@4 ataca G2@16 patrulla
-T7 Kira@6: G1@5 persigue G2@15 patrulla
-T8 Kira@7: G1@6 persigue G2@14 patrulla
-T9 Kira@8: G1@7 persigue G2@14 alerta
-T10 Kira@9: G1@8 persigue G2@13 persigue
-T11 Kira@10: G1@9 persigue G2@12 persigue
-T12 Kira@11: G1@10 persigue G2@12 ataca
-T13 Kira@12: G1@11 persigue G2@12 ataca
-T14 Kira@13: G1@12 persigue G2@12 ataca
+T1 Lima@1: G1@5 alerta G2@19 patrulla
+T2 Lima@2: G1@4 persigue G2@20 patrulla
+T3 Lima@3: G1@4 ataca G2@19 patrulla
+T4 Lima@3: G1@4 ataca G2@18 patrulla
+T5 Lima@4: G1@4 ataca G2@17 patrulla
+T6 Lima@5: G1@4 ataca G2@16 patrulla
+T7 Lima@6: G1@5 persigue G2@15 patrulla
+T8 Lima@7: G1@6 persigue G2@14 patrulla
+T9 Lima@8: G1@7 persigue G2@14 alerta
+T10 Lima@9: G1@8 persigue G2@13 persigue
+T11 Lima@10: G1@9 persigue G2@12 persigue
+T12 Lima@11: G1@10 persigue G2@12 ataca
+T13 Lima@12: G1@11 persigue G2@12 ataca
+T14 Lima@13: G1@12 persigue G2@12 ataca
 ```
 
 #### Solución de referencia
@@ -2416,14 +2416,14 @@ class Guardia {
 public:
     Guardia(const std::string& nombre, int pos, int vision) : nombre_(nombre), pos_(pos), vision_(vision) {}
 
-    void actuar(int kira)
+    void actuar(int lima)
     {
-        int d = std::abs(kira - pos_);
+        int d = std::abs(lima - pos_);
         if (d <= 1) {
             estado_ = Estado::Ataca;
         } else if (d <= vision_) {
             estado_ = Estado::Persigue;
-            pos_ += (kira > pos_) ? 1 : -1;
+            pos_ += (lima > pos_) ? 1 : -1;
         } else if (d <= vision_ + 2) {
             estado_ = Estado::Alerta;             // la ve de lejos: no se mueve, pero avisa
         } else {
@@ -2448,14 +2448,14 @@ private:
 int main()
 {
     std::vector<Guardia> guardias = {{"G1", 5, 3}, {"G2", 18, 5}};
-    int kira = 0;
+    int lima = 0;
     int turno = 1;
     char tecla = ' ';
     while (std::cin >> tecla) {
-        kira += (tecla == 'd') - (tecla == 'i');
-        std::cout << "T" << turno++ << " Kira@" << kira << ":";
+        lima += (tecla == 'd') - (tecla == 'i');
+        std::cout << "T" << turno++ << " Lima@" << lima << ":";
         for (auto& g : guardias) {
-            g.actuar(kira);
+            g.actuar(lima);
             std::cout << " " << g.informe();
         }
         std::cout << "\n";
@@ -2466,31 +2466,31 @@ int main()
 
 #### Pruebas
 
-##### Kira quieta
+##### Lima quieta
 ```entrada
 .....
 ```
 ```salida
-T1 Kira@0: G1@5 alerta G2@19 patrulla
-T2 Kira@0: G1@5 alerta G2@20 patrulla
-T3 Kira@0: G1@5 alerta G2@19 patrulla
-T4 Kira@0: G1@5 alerta G2@18 patrulla
-T5 Kira@0: G1@5 alerta G2@17 patrulla
+T1 Lima@0: G1@5 alerta G2@19 patrulla
+T2 Lima@0: G1@5 alerta G2@20 patrulla
+T3 Lima@0: G1@5 alerta G2@19 patrulla
+T4 Lima@0: G1@5 alerta G2@18 patrulla
+T5 Lima@0: G1@5 alerta G2@17 patrulla
 ```
 
-##### Kira va y vuelve
+##### Lima va y vuelve
 ```entrada
 ddddiiii
 ```
 ```salida
-T1 Kira@1: G1@5 alerta G2@19 patrulla
-T2 Kira@2: G1@4 persigue G2@20 patrulla
-T3 Kira@3: G1@4 ataca G2@19 patrulla
-T4 Kira@4: G1@4 ataca G2@18 patrulla
-T5 Kira@3: G1@4 ataca G2@17 patrulla
-T6 Kira@2: G1@3 persigue G2@16 patrulla
-T7 Kira@1: G1@2 persigue G2@15 patrulla
-T8 Kira@0: G1@1 persigue G2@14 patrulla
+T1 Lima@1: G1@5 alerta G2@19 patrulla
+T2 Lima@2: G1@4 persigue G2@20 patrulla
+T3 Lima@3: G1@4 ataca G2@19 patrulla
+T4 Lima@4: G1@4 ataca G2@18 patrulla
+T5 Lima@3: G1@4 ataca G2@17 patrulla
+T6 Lima@2: G1@3 persigue G2@16 patrulla
+T7 Lima@1: G1@2 persigue G2@15 patrulla
+T8 Lima@0: G1@1 persigue G2@14 patrulla
 ```
 
 ##### Corre hasta el final
@@ -2498,26 +2498,26 @@ T8 Kira@0: G1@1 persigue G2@14 patrulla
 dddddddddddddddddddd
 ```
 ```salida
-T1 Kira@1: G1@5 alerta G2@19 patrulla
-T2 Kira@2: G1@4 persigue G2@20 patrulla
-T3 Kira@3: G1@4 ataca G2@19 patrulla
-T4 Kira@4: G1@4 ataca G2@18 patrulla
-T5 Kira@5: G1@4 ataca G2@17 patrulla
-T6 Kira@6: G1@5 persigue G2@16 patrulla
-T7 Kira@7: G1@6 persigue G2@15 patrulla
-T8 Kira@8: G1@7 persigue G2@15 alerta
-T9 Kira@9: G1@8 persigue G2@15 alerta
-T10 Kira@10: G1@9 persigue G2@14 persigue
-T11 Kira@11: G1@10 persigue G2@13 persigue
-T12 Kira@12: G1@11 persigue G2@13 ataca
-T13 Kira@13: G1@12 persigue G2@13 ataca
-T14 Kira@14: G1@13 persigue G2@13 ataca
-T15 Kira@15: G1@14 persigue G2@14 persigue
-T16 Kira@16: G1@15 persigue G2@15 persigue
-T17 Kira@17: G1@16 persigue G2@16 persigue
-T18 Kira@18: G1@17 persigue G2@17 persigue
-T19 Kira@19: G1@18 persigue G2@18 persigue
-T20 Kira@20: G1@19 persigue G2@19 persigue
+T1 Lima@1: G1@5 alerta G2@19 patrulla
+T2 Lima@2: G1@4 persigue G2@20 patrulla
+T3 Lima@3: G1@4 ataca G2@19 patrulla
+T4 Lima@4: G1@4 ataca G2@18 patrulla
+T5 Lima@5: G1@4 ataca G2@17 patrulla
+T6 Lima@6: G1@5 persigue G2@16 patrulla
+T7 Lima@7: G1@6 persigue G2@15 patrulla
+T8 Lima@8: G1@7 persigue G2@15 alerta
+T9 Lima@9: G1@8 persigue G2@15 alerta
+T10 Lima@10: G1@9 persigue G2@14 persigue
+T11 Lima@11: G1@10 persigue G2@13 persigue
+T12 Lima@12: G1@11 persigue G2@13 ataca
+T13 Lima@13: G1@12 persigue G2@13 ataca
+T14 Lima@14: G1@13 persigue G2@13 ataca
+T15 Lima@15: G1@14 persigue G2@14 persigue
+T16 Lima@16: G1@15 persigue G2@15 persigue
+T17 Lima@17: G1@16 persigue G2@16 persigue
+T18 Lima@18: G1@17 persigue G2@17 persigue
+T19 Lima@19: G1@18 persigue G2@18 persigue
+T20 Lima@20: G1@19 persigue G2@19 persigue
 ```
 
 ### Misión R05-N04-M2 · La mochila del explorador
@@ -2762,7 +2762,7 @@ xp: 10
 
 #### Consigna
 
-Cuatro luchadores (Kira 60/12/3, Bron 80/9/5, Lyn 50/14/2 y Oto 70/10/4: vida,
+Cuatro luchadores (Lima 60/12/3, Bron 80/9/5, Lyn 50/14/2 y Oto 70/10/4: vida,
 ataque, defensa) juegan un torneo por eliminación: 1 contra 2 y 3 contra 4, y los
 ganadores la final. Cada golpe hace `ataque ± 2` (al azar) menos la defensa del
 otro, y al menos 1. Entre rondas, el ganador recupera su vida original. Leé la
@@ -2784,7 +2784,7 @@ el campeón.
 
 ```
 Ronda 1:
-  Kira vs Bron: gana Bron en 10 rondas (le queda 8)
+  Lima vs Bron: gana Bron en 10 rondas (le queda 8)
   Lyn vs Oto: gana Oto en 6 rondas (le queda 13)
 Ronda 2:
   Bron vs Oto: gana Bron en 15 rondas (le queda 15)
@@ -2838,7 +2838,7 @@ int main()
     unsigned semilla = 0;
     std::cin >> semilla;
     std::mt19937 gen(semilla);
-    std::vector<Luchador> base = {{"Kira", 60, 12, 3}, {"Bron", 80, 9, 5}, {"Lyn", 50, 14, 2}, {"Oto", 70, 10, 4}};
+    std::vector<Luchador> base = {{"Lima", 60, 12, 3}, {"Bron", 80, 9, 5}, {"Lyn", 50, 14, 2}, {"Oto", 70, 10, 4}};
     std::vector<Luchador> ronda = base;
     int numero = 1;
     while (ronda.size() > 1) {
@@ -2865,7 +2865,7 @@ int main()
 ```
 ```salida
 Ronda 1:
-  Kira vs Bron: gana Bron en 10 rondas (le queda 20)
+  Lima vs Bron: gana Bron en 10 rondas (le queda 20)
   Lyn vs Oto: gana Lyn en 7 rondas (le queda 2)
 Ronda 2:
   Bron vs Lyn: gana Bron en 7 rondas (le queda 27)
@@ -2878,7 +2878,7 @@ Campeón: Bron
 ```
 ```salida
 Ronda 1:
-  Kira vs Bron: gana Bron en 10 rondas (le queda 9)
+  Lima vs Bron: gana Bron en 10 rondas (le queda 9)
   Lyn vs Oto: gana Oto en 7 rondas (le queda 1)
 Ronda 2:
   Bron vs Oto: gana Bron en 16 rondas (le queda 7)
@@ -3217,7 +3217,7 @@ enum class Estado { Menu, Jugando, Pausa, Fin };
 
 struct Mundo {
     Estado estado = Estado::Menu;
-    double x = 0;           // posicion de Kira (en casilleros)
+    double x = 0;           // posicion de Lima (en casilleros)
     double velocidad = 0;   // casilleros por SEGUNDO
     double meta = 12;
     int cuadro = 0;
@@ -3541,7 +3541,7 @@ xp: 10
 
 #### Consigna
 
-Kira salta con una velocidad inicial de 6 m/s hacia arriba, y la gravedad es de
+Lima salta con una velocidad inicial de 6 m/s hacia arriba, y la gravedad es de
 −20 m/s². En cada cuadro: `vy += gravedad * dt`, `y += vy * dt`, y si `y` llega a 0,
 aterriza. Leé el `dt` de la entrada y simulá el salto cuadro a cuadro. Mostrá el
 tiempo y la altura cada 5 cuadros (y al aterrizar), la altura máxima y cuántos
@@ -3612,17 +3612,17 @@ int main()
 {
     double dt = 0;
     std::cin >> dt;
-    Cuerpo kira;
+    Cuerpo lima;
     double maxima = 0;
     int cuadros = 0;
     std::cout << std::fixed << std::setprecision(2);
-    saltar(kira);
-    while (!kira.en_el_piso || cuadros == 0) {
-        actualizar(kira, dt);
+    saltar(lima);
+    while (!lima.en_el_piso || cuadros == 0) {
+        actualizar(lima, dt);
         cuadros++;
-        maxima = std::max(maxima, kira.y);
-        if (cuadros % 5 == 0 || kira.en_el_piso) {
-            std::cout << "t=" << cuadros * dt << "s altura " << kira.y << "\n";
+        maxima = std::max(maxima, lima.y);
+        if (cuadros % 5 == 0 || lima.en_el_piso) {
+            std::cout << "t=" << cuadros * dt << "s altura " << lima.y << "\n";
         }
     }
     std::cout << "Altura máxima: " << maxima << " m, " << cuadros << " cuadros\n";
@@ -3673,12 +3673,12 @@ xp: 10
 
 #### Consigna
 
-En una pantalla de 7 × 6, Kira está en la fila de abajo y caen rocas. Escribí
-`struct Mundo` y tres funciones: `entrada(m, tecla)` (`i`/`d` mueve a Kira),
-`actualizar(m, cuadro)` (las rocas bajan una fila; si una llega a la fila de Kira
+En una pantalla de 7 × 6, Lima está en la fila de abajo y caen rocas. Escribí
+`struct Mundo` y tres funciones: `entrada(m, tecla)` (`i`/`d` mueve a Lima),
+`actualizar(m, cuadro)` (las rocas bajan una fila; si una llega a la fila de Lima
 en su columna, pierde; las que salen de la pantalla cuentan como esquivadas; cada 2
 cuadros aparece una roca arriba en la columna `(cuadro * 5 + 1) % 7`) y
-`dibujar(m, cuadro)` (con `const Mundo&`). Dibujá cada 3 cuadros o cuando Kira
+`dibujar(m, cuadro)` (con `const Mundo&`). Dibujá cada 3 cuadros o cuando Lima
 pierde. La entrada es una palabra con una tecla por cuadro.
 
 #### Criterio de aprobación
@@ -3730,7 +3730,7 @@ cuadro 11:
   ......o
   .......
   ...X...
-¡Una roca alcanzó a Kira!; rocas esquivadas: 3
+¡Una roca alcanzó a Lima!; rocas esquivadas: 3
 ```
 
 #### Solución de referencia
@@ -3749,7 +3749,7 @@ struct Roca {
 struct Mundo {
     int ancho = 7;
     int alto = 6;
-    int kira = 3;                  // columna de Kira (en la fila de abajo)
+    int lima = 3;                  // columna de Lima (en la fila de abajo)
     std::vector<Roca> rocas;
     int esquivadas = 0;
     bool viva = true;
@@ -3757,10 +3757,10 @@ struct Mundo {
 
 void entrada(Mundo& m, char tecla)
 {
-    if (tecla == 'i' && m.kira > 0) {
-        m.kira--;
-    } else if (tecla == 'd' && m.kira < m.ancho - 1) {
-        m.kira++;
+    if (tecla == 'i' && m.lima > 0) {
+        m.lima--;
+    } else if (tecla == 'd' && m.lima < m.ancho - 1) {
+        m.lima++;
     }
 }
 
@@ -3770,7 +3770,7 @@ void actualizar(Mundo& m, int cuadro)
         r.y++;
     }
     for (const auto& r : m.rocas) {
-        if (r.y == m.alto - 1 && r.x == m.kira) {
+        if (r.y == m.alto - 1 && r.x == m.lima) {
             m.viva = false;
         }
     }
@@ -3788,7 +3788,7 @@ void dibujar(const Mundo& m, int cuadro)
     for (const auto& r : m.rocas) {
         pantalla[r.y][r.x] = 'o';
     }
-    pantalla[m.alto - 1][m.kira] = m.viva ? '@' : 'X';
+    pantalla[m.alto - 1][m.lima] = m.viva ? '@' : 'X';
     std::cout << "cuadro " << cuadro << ":\n";
     for (const auto& fila : pantalla) {
         std::cout << "  " << fila << "\n";
@@ -3812,14 +3812,14 @@ int main()
             break;
         }
     }
-    std::cout << (m.viva ? "Kira sigue en pie" : "¡Una roca alcanzó a Kira!") << "; rocas esquivadas: " << m.esquivadas << "\n";
+    std::cout << (m.viva ? "Lima sigue en pie" : "¡Una roca alcanzó a Lima!") << "; rocas esquivadas: " << m.esquivadas << "\n";
     return 0;
 }
 ```
 
 #### Pruebas
 
-##### Kira quieta
+##### Lima quieta
 ```entrada
 ................
 ```
@@ -3859,7 +3859,7 @@ cuadro 11:
   ......o
   .......
   ...X...
-¡Una roca alcanzó a Kira!; rocas esquivadas: 3
+¡Una roca alcanzó a Lima!; rocas esquivadas: 3
 ```
 
 ##### Siempre a la izquierda
@@ -3895,7 +3895,7 @@ cuadro 9:
   ...o...
   .......
   X......
-¡Una roca alcanzó a Kira!; rocas esquivadas: 2
+¡Una roca alcanzó a Lima!; rocas esquivadas: 2
 ```
 
 ##### Pocos cuadros
@@ -3910,7 +3910,7 @@ cuadro 0:
   .......
   .......
   ....@..
-Kira sigue en pie; rocas esquivadas: 0
+Lima sigue en pie; rocas esquivadas: 0
 ```
 
 ### Encargo R05-N05-E1 · El semáforo de la esquina
@@ -4132,7 +4132,7 @@ guardan y cargan datos con manejo de errores.
 | `Vec2.h` | una coordenada de la grilla, con `==`, `+` y la distancia en pasos |
 | `Mapa.h` / `.cpp` | la grilla: validar el nivel (lanza si está mal), decir qué es transitable, vaciar casillas, dibujar con entidades encima |
 | `Entidades.h` / `.cpp` | la clase `Entidad` (jugadora y enemigos) y las funciones de dirección (`optional<Vec2>`) y de "un paso hacia" |
-| `Juego.h` / `.cpp` | junta todo: un turno = mover a Kira, mover a los enemigos, revisar el fin |
+| `Juego.h` / `.cpp` | junta todo: un turno = mover a Lima, mover a los enemigos, revisar el fin |
 | `main.cpp` | el nivel, el bucle de teclas y el `try`/`catch` |
 
 #### Cómo encararlo
@@ -4167,7 +4167,7 @@ esté libre (sin pared, sin puerta, sin otra entidad).
 los punteros dejan de valer. Buscá cuando lo necesitás.
 
 **Ogro: la IA que se mueve dos veces.** El Minotauro embiste dos pasos, pero si en
-el primero llega a Kira, ataca y **termina**.
+el primero llega a Lima, ataca y **termina**.
 
 **Ogro: seguir jugando después del final.** Cuando el estado ya no es "jugando",
 `turno` no hace nada.
@@ -4198,19 +4198,19 @@ Armá el juego en los cinco módulos de la tabla, con su `CMakeLists.txt`. El ni
 salida, `S` inicio. El constructor valida (filas del mismo largo, hay `S` y `>`) y
 lanza `std::invalid_argument` si no.
 
-**Kira** (30 de vida, ataque 6) se mueve con `w a s d`; cualquier otra tecla es
+**Lima** (30 de vida, ataque 6) se mueve con `w a s d`; cualquier otra tecla es
 esperar. Moverse hacia un enemigo lo **golpea**. Pisar la llave la junta; la poción
 cura 15; empujar la puerta con la llave la abre (sin moverse); llegar a `>` es la
 victoria.
 
 **Enemigos** (letras del nivel): la **rata** (6 de vida, ataque 2) persigue si está a
 3 pasos o menos; el **goblin** (12, 3) persigue a 8 o menos; el **Minotauro** (30, 7)
-solo se mueve si Kira está en su misma fila o columna, a 6 o menos, sin paredes en
-el medio: entonces avanza **dos** pasos. Todos se mueven un paso hacia Kira (primero
-en x, después en y) si el destino está libre, y si el destino es Kira, la atacan.
+solo se mueve si Lima está en su misma fila o columna, a 6 o menos, sin paredes en
+el medio: entonces avanza **dos** pasos. Todos se mueven un paso hacia Lima (primero
+en x, después en y) si el destino está libre, y si el destino es Lima, la atacan.
 
 La entrada es una palabra con las teclas. Mostrá el mapa al principio y al final, y
-una línea por turno con la tecla, la posición de Kira y lo que pasó.
+una línea por turno con la tecla, la posición de Lima y lo que pasó.
 
 #### Criterio de aprobación
 
@@ -4238,29 +4238,29 @@ sssssddddwwddddddddddddss
 Vida 30/30
 Turno 1 [s] (1,2):
 Turno 2 [s] (1,3):
-Turno 3 [s] (1,4): Kira junta la llave.
-Turno 4 [s] (1,5): La rata ataca a Kira (28).
-Turno 5 [s] (1,5): Kira choca contra la pared. La rata ataca a Kira (26).
-Turno 6 [d] (1,5): Kira golpea: la rata cae.
+Turno 3 [s] (1,4): Lima junta la llave.
+Turno 4 [s] (1,5): La rata ataca a Lima (28).
+Turno 5 [s] (1,5): Lima choca contra la pared. La rata ataca a Lima (26).
+Turno 6 [d] (1,5): Lima golpea: la rata cae.
 Turno 7 [d] (2,5):
 Turno 8 [d] (3,5):
 Turno 9 [d] (4,5):
 Turno 10 [w] (4,4):
 Turno 11 [w] (4,3):
-Turno 12 [d] (4,3): Kira abre la puerta con la llave.
-Turno 13 [d] (4,3): Kira golpea: el goblin queda en 6. El goblin ataca a Kira (23).
-Turno 14 [d] (4,3): Kira golpea: el goblin cae.
+Turno 12 [d] (4,3): Lima abre la puerta con la llave.
+Turno 13 [d] (4,3): Lima golpea: el goblin queda en 6. El goblin ataca a Lima (23).
+Turno 14 [d] (4,3): Lima golpea: el goblin cae.
 Turno 15 [d] (5,3):
 Turno 16 [d] (6,3):
 Turno 17 [d] (7,3):
 Turno 18 [d] (8,3):
 Turno 19 [d] (9,3):
 Turno 20 [d] (10,3):
-Turno 21 [d] (11,3): El Minotauro ataca a Kira (16).
+Turno 21 [d] (11,3): El Minotauro ataca a Lima (16).
 Turno 22 [d] (12,3):
 Turno 23 [d] (13,3):
-Turno 24 [s] (13,4): El Minotauro embiste. El Minotauro ataca a Kira (9).
-Turno 25 [s] (13,5): ¡Kira sale del laberinto!
+Turno 24 [s] (13,4): El Minotauro embiste. El Minotauro ataca a Lima (9).
+Turno 25 [s] (13,5): ¡Lima sale del laberinto!
 ###############
 #....#......!.#
 #.##.#.##.###.#
@@ -4269,7 +4269,7 @@ Turno 25 [s] (13,5): ¡Kira sale del laberinto!
 #....#......#@#
 ###############
 Vida 9/30  [llave]
-=== ¡VICTORIA! Kira escapa del Minotauro ===
+=== ¡VICTORIA! Lima escapa del Minotauro ===
 ```
 
 #### Solución de referencia
@@ -4530,7 +4530,7 @@ std::string mayuscula(std::string s)          // "el goblin" -> "El goblin", par
 }  // namespace
 
 Juego::Juego(const std::vector<std::string>& nivel)
-    : mapa_(nivel), jugadora_(Tipo::Jugador, "Kira", '@', mapa_.inicio(), 30, 6)
+    : mapa_(nivel), jugadora_(Tipo::Jugador, "Lima", '@', mapa_.inicio(), 30, 6)
 {
     // los enemigos se marcan en el nivel con su letra; se sacan del mapa y se crean
     for (std::size_t y = 0; y < nivel.size(); y++) {
@@ -4578,7 +4578,7 @@ void Juego::turno(char tecla)
     }
     if (!jugadora_.viva()) {
         estado_ = Estado::Derrota;
-        registro_.push_back("Kira cae en el laberinto.");
+        registro_.push_back("Lima cae en el laberinto.");
     }
 }
 
@@ -4586,41 +4586,41 @@ void Juego::mover_jugadora(char tecla)
 {
     auto dir = direccion(tecla);
     if (!dir) {
-        registro_.push_back("Kira espera.");
+        registro_.push_back("Lima espera.");
         return;
     }
     Vec2 destino = jugadora_.pos() + *dir;
     if (Entidad* e = enemigo_en(destino)) {
         e->recibir_dano(jugadora_.ataque());
-        registro_.push_back("Kira golpea: " + e->nombre() + (e->viva() ? " queda en " + std::to_string(e->vida()) + "." : " cae."));
+        registro_.push_back("Lima golpea: " + e->nombre() + (e->viva() ? " queda en " + std::to_string(e->vida()) + "." : " cae."));
         return;
     }
     char c = mapa_.en(destino);
     if (c == '+') {
         if (llave_) {
             mapa_.vaciar(destino);
-            registro_.push_back("Kira abre la puerta con la llave.");
+            registro_.push_back("Lima abre la puerta con la llave.");
         } else {
             registro_.push_back("La puerta está cerrada.");
         }
         return;
     }
     if (!mapa_.transitable(destino)) {
-        registro_.push_back("Kira choca contra la pared.");
+        registro_.push_back("Lima choca contra la pared.");
         return;
     }
     jugadora_.mover_a(destino);
     if (c == 'k') {
         llave_ = true;
         mapa_.vaciar(destino);
-        registro_.push_back("Kira junta la llave.");
+        registro_.push_back("Lima junta la llave.");
     } else if (c == '!') {
         jugadora_.curar(15);
         mapa_.vaciar(destino);
-        registro_.push_back("Kira bebe una poción (" + std::to_string(jugadora_.vida()) + ").");
+        registro_.push_back("Lima bebe una poción (" + std::to_string(jugadora_.vida()) + ").");
     } else if (c == '>') {
         estado_ = Estado::Victoria;
-        registro_.push_back("¡Kira sale del laberinto!");
+        registro_.push_back("¡Lima sale del laberinto!");
     }
 }
 
@@ -4657,7 +4657,7 @@ void Juego::mover_enemigo(Entidad& e)
         Vec2 destino = e.pos() + paso_hacia(e.pos(), k);
         if (destino == k) {
             jugadora_.recibir_dano(e.ataque());
-            registro_.push_back(mayuscula(e.nombre()) + " ataca a Kira (" + std::to_string(jugadora_.vida()) + ").");
+            registro_.push_back(mayuscula(e.nombre()) + " ataca a Lima (" + std::to_string(jugadora_.vida()) + ").");
             return;
         }
         if (!libre(destino)) {
@@ -4732,13 +4732,13 @@ int main()
         std::cout << juego.dibujar();
         switch (juego.estado()) {
         case Estado::Victoria:
-            std::cout << "=== ¡VICTORIA! Kira escapa del Minotauro ===\n";
+            std::cout << "=== ¡VICTORIA! Lima escapa del Minotauro ===\n";
             break;
         case Estado::Derrota:
             std::cout << "=== DERROTA ===\n";
             break;
         case Estado::Jugando:
-            std::cout << "=== Kira sigue en el laberinto ===\n";
+            std::cout << "=== Lima sigue en el laberinto ===\n";
             break;
         }
     } catch (const std::invalid_argument& e) {
@@ -4799,7 +4799,7 @@ El programa guarda, carga y muestra. Después, cada línea de la entrada es una
 
 ```
 Guardada.
-  Kira en (4, 3), vida 23, con llave, venció a 2
+  Lima en (4, 3), vida 23, con llave, venció a 2
 Rompo la línea 4 -> "vida 99"
   Partida dañada, línea 4: vida fuera de rango
 Rompo la línea 1 -> "PARTIDA VIEJA"
@@ -4913,7 +4913,7 @@ void mostrar(const Partida& p)
 int main()
 {
     const std::string RUTA = "partida.sav";
-    guardar({"Kira", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);
+    guardar({"Lima", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);
     std::cout << "Guardada.\n";
 
     // Cada linea de la entrada es una "rotura" que alguien le hace al archivo: la linea N se reemplaza.
@@ -4948,7 +4948,7 @@ int main()
         } catch (const std::exception& e) {
             std::cout << "  Error: " << e.what() << "\n";
         }
-        guardar({"Kira", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);   // se restaura para la proxima prueba
+        guardar({"Lima", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);   // se restaura para la proxima prueba
         prueba++;
     } while (std::getline(std::cin, cambio));
     return 0;
@@ -4962,7 +4962,7 @@ int main()
 ```
 ```salida
 Guardada.
-  Kira en (4, 3), vida 23, con llave, venció a 2
+  Lima en (4, 3), vida 23, con llave, venció a 2
 ```
 
 ##### Línea vacía
@@ -4971,7 +4971,7 @@ Guardada.
 ```
 ```salida
 Guardada.
-  Kira en (4, 3), vida 23, con llave, venció a 2
+  Lima en (4, 3), vida 23, con llave, venció a 2
 Rompo la línea 5 -> ""
   Partida dañada, línea 5: clave desconocida ""
 ```
@@ -4983,9 +4983,9 @@ Rompo la línea 5 -> ""
 ```
 ```salida
 Guardada.
-  Kira en (4, 3), vida 23, con llave, venció a 2
+  Lima en (4, 3), vida 23, con llave, venció a 2
 Rompo la línea 4 -> "vida 30"
-  Kira en (4, 3), vida 30, con llave, venció a 2
+  Lima en (4, 3), vida 30, con llave, venció a 2
 Rompo la línea 4 -> "vida 0"
   Partida dañada, línea 4: vida fuera de rango
 ```
@@ -5216,7 +5216,7 @@ Porque una tecla puede no ser una dirección (esperar), y eso es un resultado no
 
 #### ¿Cómo sabe el Minotauro que puede embestir?
 
-Si Kira está en su misma fila o columna, a 6 pasos o menos, y no hay paredes en el medio.
+Si Lima está en su misma fila o columna, a 6 pasos o menos, y no hay paredes en el medio.
 
 #### ¿Qué cambiaría para llevar este juego a una ventana con SDL3?
 

@@ -180,8 +180,8 @@ int main()
     std::cout << "maximo(3.5, 7.2) = " << maximo(3.5, 7.2) << "\n";             // T = double
     std::cout << "maximo(\"ana\", \"luz\") = " << maximo(std::string("ana"), std::string("luz")) << "\n";
     std::cout << "maximo<double>(10, 7.2) = " << maximo<double>(10, 7.2) << "\n";   // T explicito
-    Heroe kira{"Kira", 5}, lyn{"Lyn", 8};
-    std::cout << "Héroe de mayor nivel: " << maximo(kira, lyn).nombre << "\n";
+    Heroe lima{"Lima", 5}, lyn{"Lyn", 8};
+    std::cout << "Héroe de mayor nivel: " << maximo(lima, lyn).nombre << "\n";
 
     mostrar_par(1, "uno");
     mostrar_par(std::string("vida"), 99.5);
@@ -277,7 +277,7 @@ enteros, y contar los 6 de `{3, 6, 6, 1, 6, 2}` y los "sí" de una votación.
 
 ```
 100 0 h
-Bron Kira | 2 1
+Bron Lima | 2 1
 Seises: 3, síes: 3
 ```
 
@@ -325,7 +325,7 @@ int main()
 {
     std::cout << limitar(150, 0, 100) << " " << limitar(-3.5, 0.0, 1.0) << " "
               << limitar(std::string("m"), std::string("c"), std::string("h")) << "\n";
-    std::string a = "Kira", b = "Bron";
+    std::string a = "Lima", b = "Bron";
     intercambiar(a, b);
     int x = 1, y = 2;
     intercambiar(x, y);
@@ -1074,7 +1074,7 @@ xp: 10
 
 Con iteradores explícitos (sin `erase_if`):
 1. De `{5, 12, 7, 20, 3, 30}` borrá los mayores o iguales a 10.
-2. De la `list` `{Kira, Bron, Lyn, Bron, Oto}` borrá los "Bron" y agregale un `!` a
+2. De la `list` `{Lima, Bron, Lyn, Bron, Oto}` borrá los "Bron" y agregale un `!` a
    los demás.
 3. En `{1, 2, 3, 4}` insertá un 0 delante de cada par.
 
@@ -1090,7 +1090,7 @@ Usá lo que devuelven `erase` e `insert` para no quedarte con un iterador invál
 
 ```
 5 7 3 
-Kira! Lyn! Oto! 
+Lima! Lyn! Oto! 
 1 0 2 3 0 4 
 ```
 
@@ -1124,7 +1124,7 @@ int main()
     }
     mostrar(v);
 
-    std::list<std::string> cola = {"Kira", "Bron", "Lyn", "Bron", "Oto"};
+    std::list<std::string> cola = {"Lima", "Bron", "Lyn", "Bron", "Oto"};
     for (auto it = cola.begin(); it != cola.end();) {
         if (*it == "Bron") {
             it = cola.erase(it);
@@ -1345,7 +1345,7 @@ Sirve para deshacer, para revisar paréntesis, para volver sobre tus pasos.
 **`std::queue` (cola, FIFO: el primero que entra es el primero que sale)**
 ```cpp
 std::queue<std::string> fila;
-fila.push("Kira");   fila.front();   fila.back();   fila.pop();
+fila.push("Lima");   fila.front();   fila.back();   fila.pop();
 ```
 Sirve para turnos, pedidos, tareas pendientes, recorridos "por niveles".
 
@@ -1399,7 +1399,7 @@ int main()
     std::cout << " (primero " << d.front() << ", d[2] = " << d[2] << ")\n";
 
     // list: insertar y borrar en el medio sin mover a los demas (pero sin [])
-    std::list<std::string> ronda = {"Kira", "Lyn"};
+    std::list<std::string> ronda = {"Lima", "Lyn"};
     auto it = ronda.begin();
     ++it;
     ronda.insert(it, "Bron");                 // antes de Lyn
@@ -1425,7 +1425,7 @@ int main()
 
     // queue: cola, el primero que entra es el primero que sale (FIFO)
     std::queue<std::string> turnos;
-    for (const char* q : {"Kira", "Goblin", "Lyn"}) {
+    for (const char* q : {"Lima", "Goblin", "Lyn"}) {
         turnos.push(q);
     }
     std::cout << "turnos:";
@@ -1471,9 +1471,9 @@ int main()
 
 ```
 deque: 1 2 3 4 5 (primero 1, d[2] = 3)
-list: Bron Kira Lyn Tesla
+list: Bron Lima Lyn Tesla
 deshaciendo: [beber poción] [abrir cofre] [mover]
-turnos: Kira Goblin Lyn Kira Goblin
+turnos: Lima Goblin Lyn Lima Goblin
 daños de mayor a menor: 42 20 13 5
 el enemigo más cercano está a 2
 orden de atención: huir curar a un aliado juntar botín
@@ -2368,11 +2368,11 @@ nombre). Mostrá el top 3, cuántas partidas hay y la peor (con `rbegin`).
 #### Entrada de ejemplo
 
 ```
-Kira 340
+Lima 340
 Bron 120
 Lyn 340
 Oto 95
-Kira 210
+Lima 210
 Tesla 500
 ```
 
@@ -2381,7 +2381,7 @@ Tesla 500
 ```
 Top 3:
   1. Tesla 500
-  2. Kira 340
+  2. Lima 340
   3. Lyn 340
 Partidas registradas: 6
 Peor partida: Oto 95
@@ -2424,15 +2424,15 @@ int main()
 
 ##### Menos de tres partidas
 ```entrada
-Kira 10
+Lima 10
 Bron 20
 ```
 ```salida
 Top 3:
   1. Bron 20
-  2. Kira 10
+  2. Lima 10
 Partidas registradas: 2
-Peor partida: Kira 10
+Peor partida: Lima 10
 ```
 
 ##### Empates en todo
@@ -2838,7 +2838,7 @@ int main()
     datos.erase(std::unique(datos.begin(), datos.end()), datos.end());   // quitar repetidos (ordenado)
     mostrar("sin repetidos", datos);
 
-    std::vector<std::string> nombres = {"Lyn", "Kira", "Oto", "Bron", "Ana"};
+    std::vector<std::string> nombres = {"Lyn", "Lima", "Oto", "Bron", "Ana"};
     std::stable_sort(nombres.begin(), nombres.end(),
                      [](const std::string& a, const std::string& b) { return a.size() < b.size(); });
     std::cout << "por largo (estable, respeta el orden original entre iguales):";
@@ -2871,7 +2871,7 @@ sort: 1 3 3 4 7 9 9 9
 ¿está el 4? sí (búsqueda binaria: el rango tiene que estar ORDENADO)
 el primer 9 está en la posición 5
 sin repetidos: 1 3 4 7 9
-por largo (estable, respeta el orden original entre iguales): Lyn Oto Ana Kira Bron
+por largo (estable, respeta el orden original entre iguales): Lyn Oto Ana Lima Bron
 en los dos: 3 5
 fill 0: 0 0
 ```
@@ -3044,7 +3044,7 @@ lambda `mas_rapido` para las tres cosas.
 #### Entrada de ejemplo
 
 ```
-Kira 612
+Lima 612
 Bron 745
 Lyn 598
 Oto 701
@@ -3058,7 +3058,7 @@ Fede 830
 ```
 1. Tesla (588 s)
 2. Lyn (598 s)
-3. Kira (612 s)
+3. Lima (612 s)
 Tiempo mediano: 650 s (Ana)
 Último: Fede
 ```
@@ -4222,7 +4222,7 @@ struct Enemigo {
 
 int main()
 {
-    std::string nombre = "Kira de la Ciudadela";
+    std::string nombre = "Lima de la Ciudadela";
     std::cout << "vocales: " << contar_vocales(nombre) << " y " << contar_vocales("murciélago") << "\n";
     std::string_view sv = nombre;
     std::cout << "el apellido, sin copiar: " << sv.substr(8) << "\n";
@@ -4259,7 +4259,7 @@ int main()
     }
     std::cout << "\n";
 
-    std::map<std::string, int> oro = {{"Bron", 12}, {"Kira", 50}, {"Lyn", 30}};
+    std::map<std::string, int> oro = {{"Bron", 12}, {"Lima", 50}, {"Lyn", 30}};
     std::cout << "héroes:";
     for (const auto& n : std::views::keys(oro)) {
         std::cout << " " << n;
@@ -4282,7 +4282,7 @@ suma de todo: 36, del medio: 12
 por vida: slime rata goblin orco troll
 vivos con 30 o más: goblin orco troll
 cuadrados de los pares del 1 al 20, los 4 primeros: 4 16 36 64
-héroes: Bron Kira Lyn | al revés: 3 2 1
+héroes: Bron Lima Lyn | al revés: 3 2 1
 ```
 
 ### ¿Para qué sirve?
@@ -4337,7 +4337,7 @@ entre corchetes.
 #### Entrada de ejemplo
 
 ```
-Kira, artífice , 27
+Lima, artífice , 27
 Bron,,guerrero
   solo  
 ```
@@ -4345,7 +4345,7 @@ Bron,,guerrero
 #### Salida esperada
 
 ```
-3 campos: [Kira] [artífice] [27]
+3 campos: [Lima] [artífice] [27]
 3 campos: [Bron] [] [guerrero]
 1 campos: [solo]
 ```
@@ -4532,7 +4532,7 @@ del taller de "vapor" (con `std::ranges::find` y una proyección).
 #### Entrada de ejemplo
 
 ```
-Kira relojes 5
+Lima relojes 5
 Bron vapor 7
 Lyn relojes 2
 Oto vapor 3
@@ -4543,8 +4543,8 @@ Ana relojes 1
 #### Salida esperada
 
 ```
-Los 3 de mayor nivel: Tesla(10) Bron(7) Kira(5)
-Del taller de relojes: Kira Lyn Ana
+Los 3 de mayor nivel: Tesla(10) Bron(7) Lima(5)
+Del taller de relojes: Lima Lyn Ana
 Aprendices: 2
 El de más nivel en vapor: Bron
 ```
@@ -5982,13 +5982,13 @@ persigue. Un `Mundo` guarda un vector de entidades y ofrece:
   esa casilla;
 - `limpiar_muertos()`: avisa a los suscriptos (`std::function`) de cada muerte y
   los borra;
-- `dibujar`: cada entidad con su símbolo (`@` Kira, `t` tentáculo, `K` el Kraken,
+- `dibujar`: cada entidad con su símbolo (`@` Lima, `t` tentáculo, `K` el Kraken,
   `+` la poción); si dos comparten casilla, se ve la última creada.
 
-Kira (40 de vida, 12 de ataque) empieza en (0, 2); hay dos tentáculos que persiguen,
+Lima (40 de vida, 12 de ataque) empieza en (0, 2); hay dos tentáculos que persiguen,
 el Kraken quieto en (8, 2) y una poción (+20 de vida) en (3, 2). La entrada es una
-palabra con los pasos de Kira (`d` derecha, `i` izquierda, `a` arriba, `b` abajo).
-En cada turno: mover a Kira, recoger, mover perseguidores, combatir y limpiar.
+palabra con los pasos de Lima (`d` derecha, `i` izquierda, `a` arriba, `b` abajo).
+En cada turno: mover a Lima, recoger, mover perseguidores, combatir y limpiar.
 
 #### Criterio de aprobación
 
@@ -6011,28 +6011,28 @@ dddddddbd
 @..+....K.
 ......t...
 ..........
-Turno 1: Kira va a (1, 2)
-Turno 2: Kira va a (2, 2)
-Turno 3: Kira va a (3, 2)
-  Kira junta poción (vida 60)
-  Kira y tentáculo chocan: tentáculo queda en 3, Kira en 54
-Turno 4: Kira va a (4, 2)
-  Kira y tentáculo chocan: tentáculo queda en -9, Kira en 48
+Turno 1: Lima va a (1, 2)
+Turno 2: Lima va a (2, 2)
+Turno 3: Lima va a (3, 2)
+  Lima junta poción (vida 60)
+  Lima y tentáculo chocan: tentáculo queda en 3, Lima en 54
+Turno 4: Lima va a (4, 2)
+  Lima y tentáculo chocan: tentáculo queda en -9, Lima en 48
   [evento] cae tentáculo
-Turno 5: Kira va a (5, 2)
-Turno 6: Kira va a (6, 2)
-Turno 7: Kira va a (7, 2)
-Turno 8: Kira va a (7, 3)
-  Kira y tentáculo chocan: tentáculo queda en 3, Kira en 42
-Turno 9: Kira va a (8, 3)
-  Kira y tentáculo chocan: tentáculo queda en -9, Kira en 36
+Turno 5: Lima va a (5, 2)
+Turno 6: Lima va a (6, 2)
+Turno 7: Lima va a (7, 2)
+Turno 8: Lima va a (7, 3)
+  Lima y tentáculo chocan: tentáculo queda en 3, Lima en 42
+Turno 9: Lima va a (8, 3)
+  Lima y tentáculo chocan: tentáculo queda en -9, Lima en 36
   [evento] cae tentáculo
 ..........
 ..........
 ........K.
 ........@.
 ..........
-Kira sigue en pie; enemigos caídos: 2, entidades: 2
+Lima sigue en pie; enemigos caídos: 2, entidades: 2
 ```
 
 #### Solución de referencia
@@ -6169,7 +6169,7 @@ private:
 int main()
 {
     Mundo mundo;
-    int kira = mundo.crear({0, "Kira", '@', {0, 2}, 40, 12, false});
+    int lima = mundo.crear({0, "Lima", '@', {0, 2}, 40, 12, false});
     mundo.crear({0, "tentáculo", 't', {5, 1}, 15, 6, true});
     mundo.crear({0, "tentáculo", 't', {6, 3}, 15, 6, true});
     mundo.crear({0, "Kraken", 'K', {8, 2}, 60, 9, false});
@@ -6186,24 +6186,24 @@ int main()
     mundo.dibujar(10, 5);
     int turno = 1;
     for (char p : pasos) {
-        Entidad* h = mundo.buscar(kira);
+        Entidad* h = mundo.buscar(lima);
         if (h == nullptr) {
             break;
         }
         h->pos.x += (p == 'd') - (p == 'i');
         h->pos.y += (p == 'b') - (p == 'a');
-        std::cout << "Turno " << turno++ << ": Kira va a (" << h->pos.x << ", " << h->pos.y << ")\n";
+        std::cout << "Turno " << turno++ << ": Lima va a (" << h->pos.x << ", " << h->pos.y << ")\n";
         for (const auto& cosa : mundo.recoger(h->pos)) {
             h->vida = *h->vida + 20;
-            std::cout << "  Kira junta " << cosa << " (vida " << *h->vida << ")\n";
+            std::cout << "  Lima junta " << cosa << " (vida " << *h->vida << ")\n";
         }
         mundo.mover_perseguidores(h->pos);
-        mundo.combatir(kira);
+        mundo.combatir(lima);
         mundo.limpiar_muertos();
     }
     mundo.dibujar(10, 5);
-    Entidad* h = mundo.buscar(kira);
-    std::cout << (h ? "Kira sigue en pie" : "Kira cayó") << "; enemigos caídos: " << caidos
+    Entidad* h = mundo.buscar(lima);
+    std::cout << (h ? "Lima sigue en pie" : "Lima cayó") << "; enemigos caídos: " << caidos
               << ", entidades: " << mundo.cantidad() << "\n";
     return 0;
 }
@@ -6211,7 +6211,7 @@ int main()
 
 #### Pruebas
 
-##### Kira no se mueve
+##### Lima no se mueve
 ```entrada
 x
 ```
@@ -6221,16 +6221,16 @@ x
 @..+....K.
 ......t...
 ..........
-Turno 1: Kira va a (0, 2)
+Turno 1: Lima va a (0, 2)
 ..........
 ....t.....
 @..+....K.
 .....t....
 ..........
-Kira sigue en pie; enemigos caídos: 0, entidades: 5
+Lima sigue en pie; enemigos caídos: 0, entidades: 5
 ```
 
-##### Kira va hacia arriba
+##### Lima va hacia arriba
 ```entrada
 aaaa
 ```
@@ -6240,16 +6240,16 @@ aaaa
 @..+....K.
 ......t...
 ..........
-Turno 1: Kira va a (0, 1)
-Turno 2: Kira va a (0, 0)
-Turno 3: Kira va a (0, -1)
-Turno 4: Kira va a (0, -2)
+Turno 1: Lima va a (0, 1)
+Turno 2: Lima va a (0, 0)
+Turno 3: Lima va a (0, -1)
+Turno 4: Lima va a (0, -2)
 ..........
 .t........
 ...+....K.
 ..t.......
 ..........
-Kira sigue en pie; enemigos caídos: 0, entidades: 5
+Lima sigue en pie; enemigos caídos: 0, entidades: 5
 ```
 
 ##### Camino largo
@@ -6262,30 +6262,30 @@ ddddddddddddd
 @..+....K.
 ......t...
 ..........
-Turno 1: Kira va a (1, 2)
-Turno 2: Kira va a (2, 2)
-Turno 3: Kira va a (3, 2)
-  Kira junta poción (vida 60)
-  Kira y tentáculo chocan: tentáculo queda en 3, Kira en 54
-Turno 4: Kira va a (4, 2)
-  Kira y tentáculo chocan: tentáculo queda en -9, Kira en 48
+Turno 1: Lima va a (1, 2)
+Turno 2: Lima va a (2, 2)
+Turno 3: Lima va a (3, 2)
+  Lima junta poción (vida 60)
+  Lima y tentáculo chocan: tentáculo queda en 3, Lima en 54
+Turno 4: Lima va a (4, 2)
+  Lima y tentáculo chocan: tentáculo queda en -9, Lima en 48
   [evento] cae tentáculo
-Turno 5: Kira va a (5, 2)
-Turno 6: Kira va a (6, 2)
-Turno 7: Kira va a (7, 2)
-Turno 8: Kira va a (8, 2)
-  Kira y Kraken chocan: Kraken queda en 48, Kira en 39
-Turno 9: Kira va a (9, 2)
-Turno 10: Kira va a (10, 2)
-Turno 11: Kira va a (11, 2)
-Turno 12: Kira va a (12, 2)
-Turno 13: Kira va a (13, 2)
+Turno 5: Lima va a (5, 2)
+Turno 6: Lima va a (6, 2)
+Turno 7: Lima va a (7, 2)
+Turno 8: Lima va a (8, 2)
+  Lima y Kraken chocan: Kraken queda en 48, Lima en 39
+Turno 9: Lima va a (9, 2)
+Turno 10: Lima va a (10, 2)
+Turno 11: Lima va a (11, 2)
+Turno 12: Lima va a (12, 2)
+Turno 13: Lima va a (13, 2)
 ..........
 ..........
 ........K.
 ..........
 ..........
-Kira sigue en pie; enemigos caídos: 1, entidades: 3
+Lima sigue en pie; enemigos caídos: 1, entidades: 3
 ```
 
 ### Encargo R04-N09-E1 · El despacho de pedidos

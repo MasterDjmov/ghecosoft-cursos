@@ -28,8 +28,11 @@ class Item extends Model
     /** El del Imperio: la misma segunda vida (Java, R03-N04). */
     public const BELL = 'amuleto-de-la-campana';
 
+    /** El de las Forjas: la misma segunda vida (C, R02-N04). */
+    public const CORE_DUMP = 'amuleto-del-volcado';
+
     /** Los que dan la segunda vida en las expediciones. */
-    public const SECOND_LIFE = [self::TRACEBACK, self::BELL];
+    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP];
 
     /** Termina al instante la expedición en camino; se gasta al usarlo (R03-N06). */
     public const HOURGLASS = 'reloj-de-arena';

@@ -132,6 +132,21 @@ return [
                 6 => 'Veterano del Puerto',
             ],
         ],
+        // C (docs/historias/c.md): la tienda (el carro de Chispa) y las expediciones de las Forjas se suman
+        // cuando estén la imagen de Chispa y el mapa.
+        'c' => [
+            'name' => 'Kira',
+            'slug' => 'kira',
+            'title' => 'Aprendiz de espadachina',
+            'looks' => [
+                1 => 'Espadachina del Visor',
+                2 => 'Sombra Enmascarada',
+                3 => 'Coleta de Acero',
+                4 => 'Trenzas Rúnicas',
+                5 => 'Hija de la Fragua',
+                6 => 'Escarcha Arcana',
+            ],
+        ],
     ],
 
     // Las criaturas de las expediciones (D91), al nivel 1: vida, ataque, defensa y destreza. Crecen con el

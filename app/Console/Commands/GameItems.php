@@ -103,6 +103,18 @@ class GameItems extends Command
             ['code' => 'sello-de-entrada', 'name' => 'Sello de Entrada', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'intelligence' => 2, 'luck' => 1, 'description' => 'Te lo dio el Centinela de la Aduana: ya no sos un colado, estás declarado.'],
             ['code' => 'llave-del-vitral', 'name' => 'Llave del Vitral', 'kind' => 'story', 'description' => 'Plomo y vidrios de colores, con una etiqueta: «para quien llegue». No entra en ninguna cerradura del Imperio… todavía.'],
         ],
+        'c' => [
+            // Las Forjas (docs/historias/c.md): lo que gana Kira en la historia. La tienda (el carro de Chispa) y
+            // las recetas se suman cuando estén sus imágenes y el mapa.
+            ['code' => 'espada-rajada', 'name' => 'Espada Rajada', 'kind' => 'story', 'description' => 'La espada de aprendiz de Kira, rajada de punta a mango contra un portón que se abría tirando.'],
+            ['code' => 'espada-reforjada', 'name' => 'Espada Reforjada', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'strength' => 2, 'description' => 'Maese Ferrum la reforjó al caer el Gólem de Escoria: «La próxima la forjás vos».'],
+            ['code' => Item::CORE_DUMP, 'name' => 'Amuleto del Volcado', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Hulda te lo colgó al cuello después de tu primera caída: guarda lo que pasó antes de cada golpe. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
+            ['code' => 'hilo-de-las-direcciones', 'name' => 'Hilo de las Direcciones', 'kind' => 'accessory', 'rarity' => 'rare', 'dexterity' => 2, 'intelligence' => 1, 'luck' => 1, 'description' => 'Un hilo de cobre de la tela de la Araña: siempre sabe adónde va.'],
+            ['code' => 'lampara-del-minero', 'name' => 'Lámpara del Minero', 'kind' => 'accessory', 'rarity' => 'epic', 'defense' => 2, 'intelligence' => 3, 'luck' => 2, 'description' => 'Te la regaló Hulda al vencer a la Sanguijuela: con su luz, nada se te esconde.'],
+            ['code' => 'libro-de-registros-de-plomo', 'name' => 'Libro de Registros de Plomo', 'kind' => 'story', 'description' => 'Estaba en el último cajón del Guardián del Archivo: las medidas exactas del marco que encargó el Vidriero. En la última página: «Fundido bajo la Montaña».'],
+            ['code' => 'hoja-templada', 'name' => 'Hoja Templada', 'kind' => 'weapon', 'rarity' => 'legendary', 'attack' => 12, 'strength' => 3, 'dexterity' => 2, 'description' => 'La espada que Kira forjó ella misma frente al Dragón bajo la Montaña, midiendo cada grado.'],
+            ['code' => 'matriz-del-marco', 'name' => 'Matriz del Marco', 'kind' => 'story', 'description' => 'El molde de plomo de un vitral enorme que dejó el Vidriero bajo la Montaña, con la inscripción «para quien llegue». El mismo marco que espera en la torre más alta del Imperio.'],
+        ],
         null => [
             ['code' => 'pocion-grande', 'name' => 'Poción Grande', 'kind' => 'potion', 'rarity' => 'rare', 'heal' => 90, 'price' => 80, 'min_level' => 6, 'description' => 'Sirve en cualquier mundo.'],
             ['code' => Item::RESPEC, 'name' => 'Pergamino del Reinicio', 'kind' => 'special', 'rarity' => 'epic', 'price' => 1500, 'min_level' => 5, 'description' => 'Al usarlo sobre un héroe, deja reacomodar sus puntos del principio una vez.'],
@@ -183,6 +195,15 @@ class GameItems extends Command
         'guantes-del-artesano' => 'Un par de guantes de cuero marrón gastado con remaches y nudillos de bronce, y el sello de la Academia de los Moldes grabado en el dorso.',
         'sello-de-entrada' => 'Un sello de bronce antiguo con mango de piedra gris y la palabra «DECLARADO» en relieve, con un brillo azul en el borde.',
         'llave-del-vitral' => 'Una llave antigua de plomo con la cabeza hecha de vidrios de colores, como un vitral pequeño, con una etiqueta de papel atada.',
+        // Las Forjas (C)
+        'espada-rajada' => 'Una espada de aprendiz con una grieta que la atraviesa de punta a mango, con líneas cian apagadas en la hoja.',
+        'espada-reforjada' => 'Una espada de acero oscuro recién reforjada, con la marca del martillo en la hoja y un brillo naranja de fragua en el filo.',
+        Item::CORE_DUMP => 'Un amuleto con forma de gota de lava solidificada colgado de una cadena de hierro, con números chiquitos grabados que brillan en naranja.',
+        'hilo-de-las-direcciones' => 'Un ovillo de hilo de cobre brillante con una punta que se estira sola señalando hacia un costado, con destellos cian.',
+        'lampara-del-minero' => 'Una lámpara de minero de hierro y bronce con un vidrio grueso y una luz cian intensa adentro, con un gancho para colgar.',
+        'libro-de-registros-de-plomo' => 'Un libro grueso con tapas de plomo gris y una cadena de hierro, entreabierto, con medidas y planos de un marco en las páginas.',
+        'hoja-templada' => 'Una espada larga y fina de acero templado con un filo que brilla en cian y una empuñadura envuelta en cuero, con vapor saliendo de la hoja.',
+        'matriz-del-marco' => 'Un molde de plomo enorme con la forma de un marco de vitral redondo, con la inscripción «para quien llegue» grabada en el borde.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

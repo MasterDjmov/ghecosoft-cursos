@@ -1,15 +1,15 @@
-# RAMA S01 · Senda del Arcade Imperial: un juego 2D con Swing
+# RAMA S03 · Senda del Arcade Imperial: un juego 2D con Swing
 
 ```meta
 tipo: senda
-posicion: 6
+posicion: 8
 ```
 
-## S01-N01 · El lienzo y el bucle de juego
+## S03-N01 · El lienzo y el bucle de juego
 
 ```meta
 tipo: tema
-padre: R05-N09
+padre: R05-N07
 precio: 3
 moneda: comodin
 criatura: slime
@@ -254,7 +254,7 @@ El de Swing corre en el EDT; el otro no, y tocar la interfaz desde él trae erro
 **Ogro: la velocidad que depende de la compu.** Si movés "5 píxeles por cuadro", en
 una compu lenta el juego va más lento. Multiplicá por `dt`.
 
-### Misión S01-N01-M1 · El reloj del Arcade
+### Misión S03-N01-M1 · El reloj del Arcade
 
 ```meta
 entrega: codigo
@@ -368,7 +368,7 @@ class PanelReloj extends JPanel {
 }
 ```
 
-### Misión S01-N01-M2 · La lluvia de estrellas
+### Misión S03-N01-M2 · La lluvia de estrellas
 
 ```meta
 entrega: codigo
@@ -475,7 +475,7 @@ class PanelCielo extends JPanel {
 }
 ```
 
-### Misión S01-N01-M3 · El dibujo del castillo
+### Misión S03-N01-M3 · El dibujo del castillo
 
 ```meta
 entrega: codigo
@@ -587,7 +587,7 @@ class PanelCastillo extends JPanel {
 }
 ```
 
-### Encargo S01-N01-E1 · El gráfico de ventas
+### Encargo S03-N01-E1 · El gráfico de ventas
 
 ```meta
 entrega: codigo
@@ -713,11 +713,11 @@ Para que el movimiento dependa del tiempo real y no de cuántos cuadros por segu
 
 Senda nueva: el capítulo 18 de FullCursos no tiene juegos con Swing (los videojuegos del curso original están en C++ con SDL). Usa lo visto en la rama 5 (Swing, EDT) y lo lleva al dibujo a mano. Las prácticas se corrigen ejecutándolas; el súper test las compila y dibuja el primer cuadro sin pantalla.
 
-## S01-N02 · Teclado, movimiento y estados
+## S03-N02 · Teclado, movimiento y estados
 
 ```meta
 tipo: tema
-padre: S01-N01
+padre: S03-N01
 precio: 10
 criatura: goblin
 ejecutable: no
@@ -983,7 +983,7 @@ tecla queda en el conjunto para siempre.
 **Ogro: la pausa que no pausa.** Si el `actualizar` no mira el estado, en `PAUSA` todo
 sigue moviéndose aunque no se vea el cartel.
 
-### Misión S01-N02-M1 · El mundo probado
+### Misión S03-N02-M1 · El mundo probado
 
 ```meta
 entrega: archivo
@@ -1142,7 +1142,7 @@ class MundoNaveTest {
 }
 ```
 
-### Misión S01-N02-M2 · El carro de la mina
+### Misión S03-N02-M2 · El carro de la mina
 
 ```meta
 entrega: codigo
@@ -1298,7 +1298,7 @@ class PantallaCarro extends JPanel {
 }
 ```
 
-### Misión S01-N02-M3 · El semáforo del cruce
+### Misión S03-N02-M3 · El semáforo del cruce
 
 ```meta
 entrega: codigo
@@ -1422,7 +1422,7 @@ class PanelSemaforo extends JPanel {
 }
 ```
 
-### Encargo S01-N02-E1 · El reproductor de música
+### Encargo S03-N02-E1 · El reproductor de música
 
 ```meta
 entrega: codigo
@@ -1567,11 +1567,11 @@ Separándola en una clase (el mundo) que recibe las teclas y el `dt`, y llamando
 
 Nodo nuevo de la Senda. Las pruebas de la misión 1 corren con JUnit (el súper test las ejecuta). El rozamiento con `Math.pow(0.05, dt)` hace que frene igual con cualquier cantidad de cuadros por segundo; un `vx *= 0.9` por cuadro también sirve, pero depende de la velocidad del bucle.
 
-## S01-N03 · Sprites, colisiones y animación
+## S03-N03 · Sprites, colisiones y animación
 
 ```meta
 tipo: tema
-padre: S01-N02
+padre: S03-N02
 precio: 10
 criatura: orc
 ejecutable: no
@@ -1914,7 +1914,7 @@ borran, la lista crece, el juego se pone lento y se queda sin memoria.
 **Ogro: crear la imagen en cada cuadro.** Armar la `BufferedImage` dentro de
 `paintComponent` es lentísimo: creala una vez y reutilizala.
 
-### Misión S01-N03-M1 · Las colisiones probadas
+### Misión S03-N03-M1 · Las colisiones probadas
 
 ```meta
 entrega: archivo
@@ -2018,7 +2018,7 @@ class ColisionesTest {
 }
 ```
 
-### Misión S01-N03-M2 · Los meteoros
+### Misión S03-N03-M2 · Los meteoros
 
 ```meta
 entrega: codigo
@@ -2230,7 +2230,7 @@ class PantallaMeteoros extends JPanel {
 }
 ```
 
-### Misión S01-N03-M3 · El caminante animado
+### Misión S03-N03-M3 · El caminante animado
 
 ```meta
 entrega: codigo
@@ -2362,7 +2362,7 @@ class PanelCaminante extends JPanel {
 }
 ```
 
-### Encargo S01-N03-E1 · El salón de las mesas
+### Encargo S03-N03-E1 · El salón de las mesas
 
 ```meta
 entrega: codigo
@@ -2537,11 +2537,11 @@ Con el tiempo transcurrido: `(int) (tiempo * cuadrosPorSegundo) % cantidadDeCuad
 
 Nodo nuevo de la Senda. La misión 1 corre con JUnit en el súper test; las demás se corrigen ejecutándolas. En el ejemplo, las rocas y las monedas salen de una semilla fija, así la partida es igual cada vez.
 
-## S01-N04 · Jefe del Arcade: el Guardián de la Máquina
+## S03-N04 · Jefe del Arcade: el Guardián de la Máquina
 
 ```meta
 tipo: jefe
-padre: S01-N03
+padre: S03-N03
 precio: 10
 criatura: dragon
 insignia: Campeón del Arcade
@@ -2831,7 +2831,7 @@ enemigos del anterior.
 **Ogro: el juego imposible.** Si la dificultad crece sin tope, en el nivel 10 no se
 puede jugar. Poné límites (`Math.max`, un nivel máximo).
 
-### Misión S01-N04-M1 · Tu juego del Arcade
+### Misión S03-N04-M1 · Tu juego del Arcade
 
 ```meta
 entrega: archivo

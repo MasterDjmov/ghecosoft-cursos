@@ -1,27 +1,26 @@
-# RAMA S02 · Senda de las Corrientes: Java moderno
+# RAMA R04 · Las Corrientes del Imperio: Java moderno, patrones y concurrencia
 
 ```meta
-tipo: senda
-posicion: 7
+tipo: tronco
+posicion: 4
 ```
 
-## S02-N01 · Streams: datos que fluyen
+## R04-N01 · Streams: datos que fluyen
 
 ```meta
 tipo: tema
-padre: R05-N09
-precio: 3
-moneda: comodin
+padre: R03-N08
 criatura: slime
 temas: func.streams
 usa: func.lambdas
+precio: 10
 ```
 
 ### Crónica
 
-La segunda avenida termina en el **Río de las Corrientes**. Por él bajan miles de barquitos, cada uno con un dato. En la orilla, unos molinos los procesan sin detener el agua: uno deja pasar solo los barcos rojos, otro les cambia la carga, otro los cuenta.
+Desde las ventanas de los Archivos se oye el **río que cruza la capital**. Zed baja a la orilla siguiendo la pista del viajero: algo mandado por el río que nunca llegó. Por el agua bajan miles de barcazas, cada una con un dato, y en la orilla unos molinos las procesan sin detener la corriente: uno deja pasar solo las rojas, otro les cambia la carga, otro las cuenta.
 
-—Hasta ahora recorrías tus listas con bucles, uno por uno, anotando todo a mano —dice {mentor}—. En el Java moderno, los datos **fluyen**: describís **qué** querés (filtrar, transformar, sumar) y el río se encarga del **cómo**. Eso es un *stream*, {heroe}.
+—Hasta ahora recorrías tus listas con bucles, uno por uno, anotando todo a mano —dice {mentor}—. En el Java moderno, los datos **fluyen**: describís **qué** querés (filtrar, transformar, sumar) y el río se encarga del **cómo**. Eso es un *stream*, Zed.
 
 ### Objetivos
 
@@ -200,7 +199,7 @@ resultados raros con streams paralelos. Usá `sum`, `count` o `reduce`.
 **Esqueleto: `average()` no es un `double`.** Devuelve `OptionalDouble`: hay que usar
 `.orElse(0)` o `.getAsDouble()`.
 
-### Misión S02-N01-M1 · El inventario que fluye
+### Misión R04-N01-M1 · El inventario que fluye
 
 ```meta
 entrega: codigo
@@ -271,7 +270,7 @@ public class InventarioStreams {
 }
 ```
 
-### Misión S02-N01-M2 · Los números del oráculo
+### Misión R04-N01-M2 · Los números del oráculo
 
 ```meta
 entrega: codigo
@@ -338,7 +337,7 @@ public class NumerosOraculo {
 }
 ```
 
-### Misión S02-N01-M3 · Del bucle al stream
+### Misión R04-N01-M3 · Del bucle al stream
 
 ```meta
 entrega: codigo
@@ -446,7 +445,7 @@ public class BucleAStream {
 }
 ```
 
-### Encargo S02-N01-E1 · El resumen de la tarjeta
+### Encargo R04-N01-E1 · El resumen de la tarjeta
 
 ```meta
 entrega: codigo
@@ -536,11 +535,11 @@ Aplana: convierte cada elemento en un stream y los junta todos en uno.
 
 Sale de `19-Java-Avanzado/05-Iteradores-Stream-API`, reescrito para la Senda. `toList()` es de Java 16+ (el curso pide Java 17).
 
-## S02-N02 · Collectors y Optional
+## R04-N02 · Collectors y Optional
 
 ```meta
 tipo: tema
-padre: S02-N01
+padre: R04-N01
 precio: 10
 criatura: troll
 temas: func.streams, err.opcionales
@@ -733,7 +732,7 @@ pensado para valores de retorno.
 **Ogro: `Optional.of(null)`.** Lanza `NullPointerException`. Para un valor que puede ser
 `null`, `Optional.ofNullable(x)`.
 
-### Misión S02-N02-M1 · El reporte de ventas
+### Misión R04-N02-M1 · El reporte de ventas
 
 ```meta
 entrega: codigo
@@ -818,7 +817,7 @@ public class ReporteVentas {
 }
 ```
 
-### Misión S02-N02-M2 · El padrón sin nulls
+### Misión R04-N02-M2 · El padrón sin nulls
 
 ```meta
 entrega: codigo
@@ -904,7 +903,7 @@ public class PadronSinNulls {
 }
 ```
 
-### Misión S02-N02-M3 · Las palabras del libro
+### Misión R04-N02-M3 · Las palabras del libro
 
 ```meta
 entrega: codigo
@@ -989,7 +988,7 @@ public class PalabrasLibro {
 }
 ```
 
-### Encargo S02-N02-E1 · Las cuotas del club
+### Encargo R04-N02-E1 · Las cuotas del club
 
 ```meta
 entrega: codigo
@@ -1087,11 +1086,11 @@ Porque si está vacío lanza `NoSuchElementException`; es mejor `orElse`, `map`,
 
 Sale de `19-Java-Avanzado/02-Collections-Framework` y `05-Iteradores-Stream-API`. Los `TreeMap::new` en los `groupingBy` son para que las salidas esperadas no dependan del orden de un `HashMap`.
 
-## S02-N03 · Comparadores y el Java moderno
+## R04-N03 · Comparadores y el Java moderno
 
 ```meta
 tipo: tema
-padre: S02-N02
+padre: R04-N02
 precio: 10
 criatura: goblin
 temas: poo.records
@@ -1365,7 +1364,7 @@ todos los valores posibles: con un `int` hace falta `default`.
 **Ogro: `var` sin inicializar.** `var x;` o `var x = null;` no compila: el compilador
 necesita ver el tipo.
 
-### Misión S02-N03-M1 · El ranking con desempates
+### Misión R04-N03-M1 · El ranking con desempates
 
 ```meta
 entrega: codigo
@@ -1453,7 +1452,7 @@ public class RankingDesempates {
 }
 ```
 
-### Misión S02-N03-M2 · Los movimientos sellados
+### Misión R04-N03-M2 · Los movimientos sellados
 
 ```meta
 entrega: codigo
@@ -1574,7 +1573,7 @@ public class MovimientosSellados {
 }
 ```
 
-### Misión S02-N03-M3 · El switch de la tarifa
+### Misión R04-N03-M3 · El switch de la tarifa
 
 ```meta
 entrega: codigo
@@ -1662,7 +1661,7 @@ public class SwitchTarifa {
 }
 ```
 
-### Encargo S02-N03-E1 · Los pedidos de la rotisería
+### Encargo R04-N03-E1 · Los pedidos de la rotisería
 
 ```meta
 entrega: codigo
@@ -1796,11 +1795,11 @@ Cuando un caso del `switch` como expresión es un bloque de varias líneas: `yie
 
 Los comparadores salen de `19-Java-Avanzado/06-Comparable-Comparator`; `sealed`, los patrones y los bloques de texto son nuevos de la Senda. Todo compila con Java 17: el `switch` con patrones de tipo es de Java 21 y se menciona como nota.
 
-## S02-N04 · Concurrencia: muchas corrientes a la vez
+## R04-N05 · Concurrencia: muchas corrientes a la vez
 
 ```meta
 tipo: tema
-padre: S02-N03
+padre: R04-N03
 precio: 10
 criatura: orc
 temas: conc.hilos, conc.sincronizacion
@@ -1822,7 +1821,6 @@ En la desembocadura, el río se abre en un puerto enorme. Cien barcos cargan y d
 ### Antes de empezar
 
 - Comparadores y el Java moderno.
-- `SwingWorker` (rama 5) ya fue un primer contacto con los hilos.
 
 ### Explicación
 
@@ -2058,7 +2056,7 @@ envuelve en una `ExecutionException`: la causa real está en `e.getCause()`.
 Usá `ConcurrentHashMap`, `Collections.synchronizedList` o, mejor, que cada tarea devuelva
 su lista.
 
-### Misión S02-N04-M1 · Los recaudadores
+### Misión R04-N05-M1 · Los recaudadores
 
 ```meta
 entrega: codigo
@@ -2148,7 +2146,7 @@ public class Recaudadores {
 }
 ```
 
-### Misión S02-N04-M2 · La boletería sin sobreventa
+### Misión R04-N05-M2 · La boletería sin sobreventa
 
 ```meta
 entrega: codigo
@@ -2248,7 +2246,7 @@ public class BoleteriaSegura {
 }
 ```
 
-### Misión S02-N04-M3 · El presupuesto combinado
+### Misión R04-N05-M3 · El presupuesto combinado
 
 ```meta
 entrega: codigo
@@ -2331,7 +2329,7 @@ public class PresupuestoCombinado {
 }
 ```
 
-### Encargo S02-N04-E1 · El contador de visitas
+### Encargo R04-N05-E1 · El contador de visitas
 
 ```meta
 entrega: codigo
@@ -2430,11 +2428,11 @@ No compartir datos: que cada tarea calcule lo suyo y devuelva su resultado, y co
 
 Sale de `19-Java-Avanzado/08-Concurrencia-Threads-Executors` (hilos, `ExecutorService`, sincronización). Todas las salidas son deterministas: los hilos no imprimen y los resultados se juntan en el `main`; la M3 solo informa si tardó menos de un segundo.
 
-## S02-N05 · Jefe de las Corrientes: el Leviatán de los Datos
+## R04-N06 · Jefe de las Corrientes: el Leviatán de los Datos
 
 ```meta
 tipo: jefe
-padre: S02-N04
+padre: R04-N05
 precio: 10
 criatura: dragon
 insignia: Domador de Corrientes
@@ -2446,7 +2444,7 @@ usa: func.streams, conc.hilos
 
 En la boca del río, donde las corrientes se juntan con el mar, algo enorme se mueve bajo el agua. Los pescadores lo llaman el **Leviatán de los Datos**: traga registros por miles, mezcla los buenos con los rotos y devuelve informes que nadie entiende.
 
-—No se lo vence con un bucle y cien `if` —dice {mentor}—. Se lo vence separando lo que llega en **válido** e **inválido** sin perder ninguno, resumiendo con **streams**, repartiendo el trabajo entre **hilos** sin que se pisen, y respondiendo con un **`Optional`** cuando la respuesta puede no existir. Todo lo de la Senda, junto. Y con pruebas, {heroe}: al Leviatán no se le cree nada sin comprobarlo.
+—No se lo vence con un bucle y cien `if` —dice {mentor}—. Se lo vence separando lo que llega en **válido** e **inválido** sin perder ninguno, resumiendo con **streams**, repartiendo el trabajo entre **hilos** sin que se pisen, y respondiendo con un **`Optional`** cuando la respuesta puede no existir. Todo lo de las Corrientes, junto. Y con pruebas, Zed: al Leviatán no se le cree nada sin comprobarlo.
 
 ### Objetivos
 
@@ -2457,7 +2455,7 @@ En la boca del río, donde las corrientes se juntan con el mar, algo enorme se m
 
 ### Antes de empezar
 
-- Toda la Senda de las Corrientes.
+- Toda la rama de las Corrientes.
 - JUnit (rama 3).
 
 ### Explicación
@@ -2705,7 +2703,7 @@ de las tareas: juntalos así.
 **Ogro: el número de línea que se corre.** Al repartir en partes, cada parte tiene que
 saber desde qué línea empieza para informar el número real.
 
-### Misión S02-N05-M1 · El informe del Leviatán
+### Misión R04-N06-M1 · El informe del Leviatán
 
 ```meta
 entrega: codigo
@@ -2915,7 +2913,7 @@ public class InformeFarmacias {
 }
 ```
 
-### Misión S02-N05-M2 · Las pruebas del Leviatán
+### Misión R04-N06-M2 · Las pruebas del Leviatán
 
 ```meta
 entrega: codigo

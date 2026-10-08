@@ -1,18 +1,19 @@
-# RAMA R04 · La Bóveda Imperial: archivos y bases de datos
+# RAMA S01 · Senda de la Bóveda Imperial: archivos y bases de datos
 
 ```meta
-tipo: tronco
-posicion: 4
+tipo: senda
+posicion: 6
 ```
 
-## R04-N01 · Archivos de texto, CSV y .properties
+## S01-N01 · Archivos de texto, CSV y .properties
 
 ```meta
 tipo: tema
-padre: R03-N08
-precio: 10
+padre: R05-N07
 criatura: goblin
 temas: arch.texto, arch.csv, arch.config
+precio: 3
+moneda: comodin
 ```
 
 ### Crónica
@@ -228,7 +229,7 @@ agregar: `StandardOpenOption.APPEND`.
 **Goblin: los espacios de más.** `" 30"` no es un número para `parseInt`: hacé `trim()`
 de cada campo.
 
-### Misión R04-N01-M1 · El padrón de la frontera
+### Misión S01-N01-M1 · El padrón de la frontera
 
 ```meta
 entrega: codigo
@@ -359,7 +360,7 @@ public class Padron {
 }
 ```
 
-### Misión R04-N01-M2 · El diario de la posada
+### Misión S01-N01-M2 · El diario de la posada
 
 ```meta
 entrega: codigo
@@ -446,7 +447,7 @@ Pip 08:00
 ```
 
 
-### Misión R04-N01-M3 · La configuración del juego
+### Misión S01-N01-M3 · La configuración del juego
 
 ```meta
 entrega: codigo
@@ -543,7 +544,7 @@ public class ConfigJuego {
 }
 ```
 
-### Encargo R04-N01-E1 · La lista de precios del proveedor
+### Encargo S01-N01-E1 · La lista de precios del proveedor
 
 ```meta
 entrega: codigo
@@ -667,11 +668,11 @@ Para guardar configuración en pares `clave=valor` fuera del código, como los d
 
 Nodo nuevo (el 29 del índice de `18-Java` estaba por crear; en el original estaba adentro del de JDBC), unidad 5. Corrige lo que marcó la auditoría: el ejemplo usa un `try` con recursos de verdad y una línea mal formada no corta el programa. Los archivos de datos de cada práctica se muestran en la consigna para que el alumno los cree.
 
-## R04-N02 · SQL: tablas, restricciones y ABM
+## S01-N02 · SQL: tablas, restricciones y ABM
 
 ```meta
 tipo: tema
-padre: R04-N01
+padre: S01-N01
 precio: 10
 criatura: skeleton
 temas: sql.modelo, sql.abm
@@ -887,7 +888,7 @@ Las dobles son para nombres de columnas o tablas.
 `cannot drop table heroe because other objects depend on it`. Borrá primero la que
 depende (o usá `CASCADE`).
 
-### Misión R04-N02-M1 · Las tablas de la herrería
+### Misión S01-N02-M1 · Las tablas de la herrería
 
 ```meta
 entrega: codigo
@@ -964,7 +965,7 @@ SELECT * FROM arma ORDER BY id;
 SELECT * FROM encargo ORDER BY id;
 ```
 
-### Misión R04-N02-M2 · Las reglas que protegen
+### Misión S01-N02-M2 · Las reglas que protegen
 
 ```meta
 entrega: codigo
@@ -1026,7 +1027,7 @@ UPDATE cuenta SET saldo = saldo * 1.03 WHERE activa;
 SELECT * FROM cuenta ORDER BY id;
 ```
 
-### Misión R04-N02-M3 · El registro de la biblioteca
+### Misión S01-N02-M3 · El registro de la biblioteca
 
 ```meta
 entrega: codigo
@@ -1102,7 +1103,7 @@ UPDATE prestamo SET devuelto = prestado WHERE id = 2;
 SELECT id, socio_id, libro_id, devuelto IS NOT NULL AS devuelto FROM prestamo ORDER BY id;
 ```
 
-### Encargo R04-N02-E1 · La base del kiosco
+### Encargo S01-N02-E1 · La base del kiosco
 
 ```meta
 entrega: codigo
@@ -1203,11 +1204,11 @@ Empezando con `DROP TABLE IF EXISTS` (en orden inverso a las dependencias o con 
 
 Sale de `18-Java/26-SQL-Diseno-Consultas` (unidad 3), la parte de diseño y ABM. Corrige los dos problemas del original: el script ahora se puede volver a correr (`DROP` en orden) y las salidas son siempre las mismas. Las salidas esperadas se generaron con `psql -X -q` en inglés (`(2 rows)`); con `psql` en castellano dice `(2 filas)`.
 
-## R04-N03 · SQL: consultas, JOIN y vistas
+## S01-N03 · SQL: consultas, JOIN y vistas
 
 ```meta
 tipo: tema
-padre: R04-N02
+padre: S01-N02
 precio: 10
 criatura: ogre
 temas: sql.consultas, sql.joins
@@ -1496,7 +1497,7 @@ todo con todo: miles de filas repetidas.
 **Ogro: `WHERE` con un agregado.** `WHERE COUNT(*) > 2` no se permite: los grupos se
 filtran con `HAVING`.
 
-### Misión R04-N03-M1 · El informe del torneo
+### Misión S01-N03-M1 · El informe del torneo
 
 ```meta
 entrega: codigo
@@ -1600,7 +1601,7 @@ JOIN luchador d ON d.id = p.perdedor_id
 ORDER BY p.id;
 ```
 
-### Misión R04-N03-M2 · Los que nunca…
+### Misión S01-N03-M2 · Los que nunca…
 
 ```meta
 entrega: codigo
@@ -1706,7 +1707,7 @@ FROM luchador l;
 SELECT * FROM resumen ORDER BY victorias DESC, derrotas, nombre;
 ```
 
-### Misión R04-N03-M3 · La diferencia entre los JOIN
+### Misión S01-N03-M3 · La diferencia entre los JOIN
 
 ```meta
 entrega: codigo
@@ -1799,7 +1800,7 @@ FROM curso c LEFT JOIN inscripcion i ON i.curso_id = c.id
 GROUP BY c.id, c.nombre ORDER BY c.id;
 ```
 
-### Encargo R04-N03-E1 · Las consultas del almacén
+### Encargo S01-N03-E1 · Las consultas del almacén
 
 ```meta
 entrega: codigo
@@ -1921,11 +1922,11 @@ Una consulta guardada con un nombre, que se usa como si fuera una tabla.
 
 Sale de `18-Java/26-SQL-Diseno-Consultas` y del 27 por crear (unidad 3). Corrige el problema principal de la auditoría: los datos del ejemplo incluyen un héroe sin partidas y una partida sin héroe, así que los cinco `JOIN` dan resultados distintos; y suma `UNION`, que pedía el programa. La tabla `partida` del ejemplo no tiene clave foránea a propósito, para poder mostrar la fila huérfana del `RIGHT JOIN`.
 
-## R04-N04 · SQL: funciones, procedimientos, triggers y roles
+## S01-N04 · SQL: funciones, procedimientos, triggers y roles
 
 ```meta
 tipo: tema
-padre: R04-N03
+padre: S01-N03
 precio: 10
 criatura: troll
 temas: sql.avanzado
@@ -2134,7 +2135,7 @@ tabla que hace un `UPDATE` sobre la misma tabla se vuelve a disparar sin fin.
 **Esqueleto: sin permiso.** `ERROR: permission denied for table heroe`: el rol con el
 que te conectaste no tiene el `GRANT` necesario.
 
-### Misión R04-N04-M1 · La función del descuento
+### Misión S01-N04-M1 · La función del descuento
 
 ```meta
 entrega: codigo
@@ -2195,7 +2196,7 @@ SELECT nombre, precio, precio_final(precio, categoria, FALSE) AS no_socio, preci
 FROM producto ORDER BY id;
 ```
 
-### Misión R04-N04-M2 · El procedimiento de la venta
+### Misión S01-N04-M2 · El procedimiento de la venta
 
 ```meta
 entrega: codigo
@@ -2274,7 +2275,7 @@ SELECT * FROM articulo ORDER BY id;
 SELECT * FROM venta ORDER BY id;
 ```
 
-### Misión R04-N04-M3 · El guardián de los precios
+### Misión S01-N04-M3 · El guardián de los precios
 
 ```meta
 entrega: codigo
@@ -2352,7 +2353,7 @@ UPDATE producto SET nombre = 'Guiso de lentejas' WHERE id = 3;     -- no cambia 
 SELECT p.nombre, h.anterior, h.nuevo FROM historial_precio h JOIN producto p ON p.id = h.producto_id ORDER BY h.id;
 ```
 
-### Encargo R04-N04-E1 · Los permisos del consultorio
+### Encargo S01-N04-E1 · Los permisos del consultorio
 
 ```meta
 entrega: archivo
@@ -2436,11 +2437,11 @@ Con `RAISE EXCEPTION 'mensaje %', valor;`.
 
 Sale de `18-Java/28-SQL-Procedimientos-Roles` (unidad 3). El encargo de roles no se ejecuta en el súper test porque necesita un superusuario (`CREATE ROLE`); se corrige leyendo el script. En `RAISE EXCEPTION`, el `%%` escribe un `%` literal. El procedimiento del ejemplo se llama desde Java con `CallableStatement` en el nodo de transacciones.
 
-## R04-N05 · JDBC: conectarse y consultar
+## S01-N05 · JDBC: conectarse y consultar
 
 ```meta
 tipo: tema
-padre: R04-N04
+padre: S01-N04
 precio: 10
 criatura: goblin
 temas: sql.desde-codigo, sql.inyeccion
@@ -2713,7 +2714,7 @@ agujero de seguridad. Siempre `PreparedStatement` con `?`.
 **Troll: la conexión que no se cierra.** Sin `try` con recursos, cada consulta deja una
 conexión abierta hasta que la base dice `too many clients already`.
 
-### Misión R04-N05-M1 · El listado de la Bóveda
+### Misión S01-N05-M1 · El listado de la Bóveda
 
 ```meta
 entrega: codigo
@@ -2820,7 +2821,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N05-M2 · El buscador de viajeros
+### Misión S01-N05-M2 · El buscador de viajeros
 
 ```meta
 entrega: codigo
@@ -2938,7 +2939,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N05-M3 · La tabla universal
+### Misión S01-N05-M3 · La tabla universal
 
 ```meta
 entrega: codigo
@@ -3080,7 +3081,7 @@ final class Conexion {
 }
 ```
 
-### Encargo R04-N05-E1 · El login del sistema
+### Encargo S01-N05-E1 · El login del sistema
 
 ```meta
 entrega: codigo
@@ -3247,11 +3248,11 @@ Avanza a la siguiente fila del resultado y devuelve `false` cuando no hay más.
 
 Sale de `18-Java/30-JDBC-Conexion` (unidad 5). Corrige lo que marcó la auditoría: los datos de conexión quedan en un solo lugar (la clase `Conexion`; en la rama del escritorio se leen de un `.properties`), todo usa `try` con recursos, y se suma `ResultSetMetaData`, que usa el caso práctico de la cátedra. El súper test corre los programas JDBC contra una base local con el `schema.sql` de cada práctica.
 
-## R04-N06 · DAO: el ABM completo desde Java
+## S01-N06 · DAO: el ABM completo desde Java
 
 ```meta
 tipo: tema
-padre: R04-N05
+padre: S01-N05
 precio: 10
 criatura: skeleton
 temas: diseno.capas
@@ -3562,7 +3563,7 @@ original borra el mensaje real de PostgreSQL. Pasala como causa.
 **Goblin: los `?` en otro orden.** Si el SQL es `SET nombre = ?, vida = ? WHERE id = ?`
 y hacés `setInt(1, id)`, la base intenta guardar el id en el nombre.
 
-### Misión R04-N06-M1 · El DAO de productos
+### Misión S01-N06-M1 · El DAO de productos
 
 ```meta
 entrega: codigo
@@ -3775,7 +3776,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N06-M2 · El bean de la cátedra
+### Misión S01-N06-M2 · El bean de la cátedra
 
 ```meta
 entrega: codigo
@@ -3947,7 +3948,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N06-M3 · El DAO en memoria
+### Misión S01-N06-M3 · El DAO en memoria
 
 ```meta
 entrega: codigo
@@ -4136,7 +4137,7 @@ final class Conexion {
 }
 ```
 
-### Encargo R04-N06-E1 · El padrón de socios del club
+### Encargo S01-N06-E1 · El padrón de socios del club
 
 ```meta
 entrega: codigo
@@ -4343,11 +4344,11 @@ Una clase con atributos privados, un constructor vacío y getters y setters, que
 
 Sale de `18-Java/31-JDBC-ABM-Transacciones` (unidad 5), la parte del ABM. Suma lo que pedía la auditoría: la capa DAO con el nombre que usa la cátedra, el bean y `getGeneratedKeys` (portable, en lugar del `RETURNING` de PostgreSQL). El SQLState `23505` es el de clave duplicada en cualquier motor que siga el estándar. En el encargo, el socio que falla por DNI repetido **consume** el número 3 de la secuencia: por eso el siguiente es el 4. Los `SERIAL` pueden tener huecos y no hay que usarlos como numeración correlativa sin saltos.
 
-## R04-N07 · Transacciones y CallableStatement
+## S01-N07 · Transacciones y CallableStatement
 
 ```meta
 tipo: tema
-padre: R04-N06
+padre: S01-N06
 precio: 10
 criatura: troll
 temas: sql.transacciones
@@ -4597,7 +4598,7 @@ lo que se hizo antes queda pendiente en la conexión.
 **Goblin: el tipo del parámetro de salida.** `registerOutParameter` tiene que indicar el
 tipo que devuelve la función (`Types.INTEGER`, `Types.NUMERIC`, `Types.VARCHAR`).
 
-### Misión R04-N07-M1 · La venta con renglones
+### Misión S01-N07-M1 · La venta con renglones
 
 ```meta
 entrega: codigo
@@ -4735,7 +4736,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N07-M2 · El procedimiento desde Java
+### Misión S01-N07-M2 · El procedimiento desde Java
 
 ```meta
 entrega: codigo
@@ -4868,7 +4869,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N07-M3 · El punto de guardado
+### Misión S01-N07-M3 · El punto de guardado
 
 ```meta
 entrega: codigo
@@ -4997,7 +4998,7 @@ final class Conexion {
 }
 ```
 
-### Encargo R04-N07-E1 · La reserva de butacas
+### Encargo S01-N07-E1 · La reserva de butacas
 
 ```meta
 entrega: codigo
@@ -5153,11 +5154,11 @@ Con `prepareCall("{? = call nombre(?)}")`, registrando el primer parámetro con 
 
 Sale de `18-Java/31-JDBC-ABM-Transacciones` y del 32 por crear (unidad 5): transacciones ACID y `CallableStatement`, que el original nunca llamaba desde Java. En el ejemplo, la segunda transferencia deposita primero y falla al retirar: así se ve que el `rollback` deshace también el depósito.
 
-## R04-N08 · Jefe: el Liche de las Tablas Huérfanas
+## S01-N08 · Jefe: el Liche de las Tablas Huérfanas
 
 ```meta
 tipo: jefe
-padre: R04-N07
+padre: S01-N07
 precio: 10
 criatura: dragon
 insignia: Sello del Liche
@@ -5403,7 +5404,7 @@ en Java, cualquier otro programa (o un `UPDATE` a mano) la rompe. Ponela tambié
 **Ogro: el informe que miente.** Un `INNER JOIN` en un informe esconde a los clientes
 sin pedidos. Pensá si hace falta `LEFT JOIN` y `COALESCE`.
 
-### Misión R04-N08-M1 · El sistema del almacén imperial
+### Misión S01-N08-M1 · El sistema del almacén imperial
 
 ```meta
 entrega: codigo
@@ -5719,7 +5720,7 @@ final class Conexion {
 }
 ```
 
-### Misión R04-N08-M2 · La auditoría del Liche
+### Misión S01-N08-M2 · La auditoría del Liche
 
 ```meta
 entrega: codigo
@@ -5829,7 +5830,7 @@ COMMIT;
 SELECT f.id, f.cliente, f.total, COUNT(i.id) AS items FROM factura f LEFT JOIN item i ON i.factura_id = f.id GROUP BY f.id ORDER BY f.id;
 ```
 
-### Encargo R04-N08-E1 · El sistema de turnos del consultorio
+### Encargo S01-N08-E1 · El sistema de turnos del consultorio
 
 ```meta
 entrega: codigo
@@ -6027,4 +6028,3 @@ Una fila que apunta a otra que no existe (por ejemplo, un ítem de una factura b
 ### Soluciones (docente)
 
 Jefe nuevo de la rama 4 (el Liche de las Tablas Huérfanas del guion), integrador de las unidades 3 y 5. La misión 2 es SQL puro y usa `BEGIN`/`COMMIT` de `psql` para mostrar la transacción del lado de la base.
-

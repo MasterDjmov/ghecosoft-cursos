@@ -1,19 +1,20 @@
-# RAMA R05 · El Palacio de las Ventanas: aplicaciones de escritorio
+# RAMA S02 · Senda del Palacio de las Ventanas: aplicaciones de escritorio
 
 ```meta
-tipo: tronco
-posicion: 5
+tipo: senda
+posicion: 7
 ```
 
-## R05-N01 · La primera ventana: JFrame, componentes y eventos
+## S02-N01 · La primera ventana: JFrame, componentes y eventos
 
 ```meta
 tipo: tema
-padre: R04-N08
-precio: 10
+padre: R05-N07
 criatura: slime
 ejecutable: no
 temas: gui.swing, gui.eventos, gui.componentes
+precio: 3
+moneda: comodin
 ```
 
 ### Crónica
@@ -218,7 +219,7 @@ EDT produce errores raros y aleatorios. Creá la ventana con `SwingUtilities.inv
 **Slime: sin pantalla.** `java.awt.HeadlessException` si ejecutás un programa con
 ventanas en un servidor sin entorno gráfico.
 
-### Misión R05-N01-M1 · El conversor de monedas
+### Misión S02-N01-M1 · El conversor de monedas
 
 ```meta
 entrega: codigo
@@ -306,7 +307,7 @@ class PanelConversor extends JPanel {
 }
 ```
 
-### Misión R05-N01-M2 · El contador de la puerta
+### Misión S02-N01-M2 · El contador de la puerta
 
 ```meta
 entrega: codigo
@@ -396,7 +397,7 @@ class PanelContador extends JPanel {
 }
 ```
 
-### Misión R05-N01-M3 · La ficha del recluta
+### Misión S02-N01-M3 · La ficha del recluta
 
 ```meta
 entrega: codigo
@@ -500,7 +501,7 @@ class PanelFicha extends JPanel {
 }
 ```
 
-### Encargo R05-N01-E1 · La calculadora del almacén
+### Encargo S02-N01-E1 · La calculadora del almacén
 
 ```meta
 entrega: codigo
@@ -639,11 +640,11 @@ Con un `JOptionPane.showMessageDialog` (o un cartel en la ventana), no con `Syst
 
 Sale de `18-Java/33-Swing-Primera-Ventana` (unidad 2: GUI básica). Corrige lo que marcó la auditoría: las lambdas ya están explicadas (rama 3) y el EDT se presenta desde el primer ejemplo. Las prácticas de Swing no tienen salida esperada: se corrigen ejecutándolas; el súper test las compila y crea cada panel sin pantalla para detectar errores al armarlo.
 
-## R05-N02 · Layouts: ordenar la ventana
+## S02-N02 · Layouts: ordenar la ventana
 
 ```meta
 tipo: tema
-padre: R05-N01
+padre: S02-N01
 precio: 10
 criatura: ogre
 temas: gui.layouts
@@ -858,7 +859,7 @@ a un panel distinto: `BoxLayout can't be shared`.
 **Ogro: posiciones fijas.** Con `setLayout(null)`, en otra pantalla los textos se cortan
 o se superponen.
 
-### Misión R05-N02-M1 · El teclado del cajero
+### Misión S02-N02-M1 · El teclado del cajero
 
 ```meta
 entrega: codigo
@@ -953,7 +954,7 @@ class PanelTeclado extends JPanel {
 }
 ```
 
-### Misión R05-N02-M2 · El formulario del gremio
+### Misión S02-N02-M2 · El formulario del gremio
 
 ```meta
 entrega: codigo
@@ -1066,7 +1067,7 @@ class PanelGremio extends JPanel {
 }
 ```
 
-### Misión R05-N02-M3 · El tablero del tres en raya
+### Misión S02-N02-M3 · El tablero del tres en raya
 
 ```meta
 entrega: codigo
@@ -1188,7 +1189,7 @@ class PanelTateti extends JPanel {
 }
 ```
 
-### Encargo R05-N02-E1 · La pantalla de login
+### Encargo S02-N02-E1 · La pantalla de login
 
 ```meta
 entrega: codigo
@@ -1323,11 +1324,11 @@ Anidando paneles, cada uno con su propio layout.
 
 Nodo nuevo (el 34 del índice de `18-Java` estaba por crear), unidad 6. La auditoría marcaba que el capítulo solo usaba `BoxLayout` y `FlowLayout`: acá están los cinco que pide el programa. El editor de NetBeans genera `GroupLayout`, que se reconoce en el nodo del estilo de la cátedra.
 
-## R05-N03 · Componentes: listas, opciones y controles
+## S02-N03 · Componentes: listas, opciones y controles
 
 ```meta
 tipo: tema
-padre: R05-N02
+padre: S02-N02
 precio: 10
 criatura: goblin
 ejecutable: no
@@ -1567,7 +1568,7 @@ arrastrando la selección.
 **Slime: el área sin scroll.** Un `JTextArea` sin `JScrollPane` crece hasta tapar todo
 o esconde el texto que no entra.
 
-### Misión R05-N03-M1 · El pedido de la posada
+### Misión S02-N03-M1 · El pedido de la posada
 
 ```meta
 entrega: codigo
@@ -1684,7 +1685,7 @@ class PanelPedido extends JPanel {
 }
 ```
 
-### Misión R05-N03-M2 · Las dos listas del reclutador
+### Misión S02-N03-M2 · Las dos listas del reclutador
 
 ```meta
 entrega: codigo
@@ -1804,7 +1805,7 @@ class PanelReclutador extends JPanel {
 }
 ```
 
-### Misión R05-N03-M3 · El panel de sonido
+### Misión S02-N03-M3 · El panel de sonido
 
 ```meta
 entrega: codigo
@@ -1924,7 +1925,7 @@ class PanelSonido extends JPanel {
 }
 ```
 
-### Encargo R05-N03-E1 · La encuesta del cliente
+### Encargo S02-N03-E1 · La encuesta del cliente
 
 ```meta
 entrega: codigo
@@ -2095,11 +2096,11 @@ Un `JScrollPane`.
 
 Sale de `18-Java/35-Swing-Componentes` (unidad 6). Corrige lo que marcó la auditoría: el ejemplo original ponía casi todos los componentes pero no leía el valor de la mayoría; acá cada control se lee y alimenta un cálculo en vivo.
 
-## R05-N04 · Tablas, árboles y diálogos
+## S02-N04 · Tablas, árboles y diálogos
 
 ```meta
 tipo: tema
-padre: R05-N03
+padre: S02-N03
 precio: 10
 criatura: troll
 ejecutable: no
@@ -2421,7 +2422,7 @@ seleccionado: usarla como índice corta con `IndexOutOfBoundsException`.
 **Ogro: el árbol que no cambia.** Después de modificar los nodos hay que avisar con
 `reload()` del `DefaultTreeModel`.
 
-### Misión R05-N04-M1 · La tabla del inventario
+### Misión S02-N04-M1 · La tabla del inventario
 
 ```meta
 entrega: codigo
@@ -2622,7 +2623,7 @@ class PanelInventario extends JPanel {
 }
 ```
 
-### Misión R05-N04-M2 · El árbol genealógico del clan
+### Misión S02-N04-M2 · El árbol genealógico del clan
 
 ```meta
 entrega: codigo
@@ -2756,7 +2757,7 @@ class PanelClan extends JPanel {
 }
 ```
 
-### Misión R05-N04-M3 · El visor de CSV
+### Misión S02-N04-M3 · El visor de CSV
 
 ```meta
 entrega: codigo
@@ -2891,7 +2892,7 @@ class PanelVisor extends JPanel {
 }
 ```
 
-### Encargo R05-N04-E1 · La agenda de la veterinaria
+### Encargo S02-N04-E1 · La agenda de la veterinaria
 
 ```meta
 entrega: codigo
@@ -3020,11 +3021,11 @@ Con `DefaultMutableTreeNode`.
 
 Sale de `18-Java/37-MDI-Tablas-Arboles` (el 36 por crear), unidad 6. El modelo propio reemplaza al `DefaultTableModel` de filas `Object[]` que usaba el original; el `DefaultTableModel` se muestra igual en el encargo porque es el que genera NetBeans.
 
-## R05-N05 · MDI y menús
+## S02-N05 · MDI y menús
 
 ```meta
 tipo: tema
-padre: R05-N04
+padre: S02-N04
 precio: 10
 criatura: ogre
 ejecutable: no
@@ -3277,7 +3278,7 @@ panel.
 **Esqueleto: `PropertyVetoException`.** `setSelected(true)` declara esa excepción
 checked: hay que atraparla (normalmente se ignora).
 
-### Misión R05-N05-M1 · El sistema de la posada
+### Misión S02-N05-M1 · El sistema de la posada
 
 ```meta
 entrega: codigo
@@ -3410,7 +3411,7 @@ class PanelPosada extends JPanel {
 }
 ```
 
-### Misión R05-N05-M2 · El diálogo de alta
+### Misión S02-N05-M2 · El diálogo de alta
 
 ```meta
 entrega: codigo
@@ -3538,7 +3539,7 @@ class DialogoHuesped extends JDialog {
 }
 ```
 
-### Misión R05-N05-M3 · El menú que se adapta
+### Misión S02-N05-M3 · El menú que se adapta
 
 ```meta
 entrega: codigo
@@ -3691,7 +3692,7 @@ class PanelEditor extends JPanel {
 }
 ```
 
-### Encargo R05-N05-E1 · El panel de control del kiosco
+### Encargo S02-N05-E1 · El panel de control del kiosco
 
 ```meta
 entrega: codigo
@@ -3857,12 +3858,13 @@ Bloquea la ventana principal hasta que el diálogo se cierra.
 
 Sale de `18-Java/37-MDI-Tablas-Arboles` (unidad 6), la parte de MDI y menús. El editor de la misión 3 tiene un constructor vacío solo para que el súper test pueda crear el panel sin ventana.
 
-## R05-N06 · SwingWorker: la base sin congelar la ventana
+## S02-N06 · SwingWorker: la base sin congelar la ventana
 
 ```meta
 tipo: tema
-padre: R05-N05
+padre: S02-N05
 precio: 10
+requiere: S01-N06
 criatura: troll
 ejecutable: no
 temas: conc.ui-hilo
@@ -3885,7 +3887,7 @@ El registro de héroes del Palacio le pide a la Bóveda los datos de diez mil vi
 ### Antes de empezar
 
 - MDI y menús.
-- DAO y JDBC (rama 4).
+- DAO y JDBC (Senda de la Bóveda).
 
 ### Explicación
 
@@ -4101,7 +4103,7 @@ produce errores aleatorios y difíciles de reproducir. Actualizá la interfaz en
 **Slime: reutilizar un `SwingWorker`.** Cada `SwingWorker` se ejecuta **una sola vez**:
 para repetir la tarea, creá uno nuevo.
 
-### Misión R05-N06-M1 · El buscador que no se congela
+### Misión S02-N06-M1 · El buscador que no se congela
 
 ```meta
 entrega: codigo
@@ -4253,7 +4255,7 @@ final class Conexion {
 }
 ```
 
-### Misión R05-N06-M2 · La barra de la importación
+### Misión S02-N06-M2 · La barra de la importación
 
 ```meta
 entrega: codigo
@@ -4376,7 +4378,7 @@ class PanelImportacion extends JPanel {
 }
 ```
 
-### Misión R05-N06-M3 · El ABM que no se traba
+### Misión S02-N06-M3 · El ABM que no se traba
 
 ```meta
 entrega: codigo
@@ -4594,7 +4596,7 @@ final class Conexion {
 }
 ```
 
-### Encargo R05-N06-E1 · El reporte que tarda
+### Encargo S02-N06-E1 · El reporte que tarda
 
 ```meta
 entrega: codigo
@@ -4740,11 +4742,11 @@ Para mandar resultados parciales desde el hilo de fondo y mostrarlos en el EDT m
 
 Nodo nuevo, unidades 5 y 6. Corrige el problema que marcó la auditoría en el proyecto MDI original, que consultaba la base desde el hilo de la interfaz. El `pg_sleep(1)` en las consultas es para que en clase se note que la ventana sigue respondiendo; se puede quitar.
 
-## R05-N07 · MVC al estilo de la cátedra
+## S02-N07 · MVC al estilo de la cátedra
 
 ```meta
 tipo: tema
-padre: R05-N06
+padre: S02-N06
 precio: 10
 criatura: skeleton
 ejecutable: no
@@ -4769,7 +4771,7 @@ En la biblioteca del Palacio, {mentor} extiende sobre la mesa el plano de un sis
 ### Antes de empezar
 
 - SwingWorker y todo lo anterior de la rama.
-- DAO y transacciones (rama 4).
+- DAO y transacciones (Senda de la Bóveda).
 
 ### Explicación
 
@@ -5213,7 +5215,7 @@ number of columns: 1`.
 **Ogro: la tabla que no se llena.** Revisá que `tabla.setModel(modelo)` no esté
 comentado y que el modelo sea el mismo al que le agregás filas.
 
-### Misión R05-N07-M1 · El ABM de profesores
+### Misión S02-N07-M1 · El ABM de profesores
 
 ```meta
 entrega: archivo
@@ -5522,7 +5524,7 @@ public class PanelProfesor extends JPanel {
 }
 ```
 
-### Misión R05-N07-M2 · El controlador probado
+### Misión S02-N07-M2 · El controlador probado
 
 ```meta
 entrega: archivo
@@ -5674,7 +5676,7 @@ class AulaControladorTest {
 }
 ```
 
-### Misión R05-N07-M3 · Los errores del formulario
+### Misión S02-N07-M3 · Los errores del formulario
 
 ```meta
 entrega: codigo
@@ -5843,7 +5845,7 @@ final class Conexion {
 }
 ```
 
-### Encargo R05-N07-E1 · El login con la base
+### Encargo S02-N07-E1 · El login con la base
 
 ```meta
 entrega: archivo
@@ -6128,23 +6130,24 @@ En un archivo de configuración (`db.properties`), leído por una sola clase de 
 
 Nodo nuevo (el 38 del índice de `18-Java` estaba por crear), unidades 5 y 6. Sigue la estructura de paquetes del material de la cátedra (`Extra/curso-final-paradigmas3-v2.md`, bloque A) con los nombres en minúscula, y corrige en la misión 3 los cuatro errores que la guía encontró en ese material. El súper test compila los proyectos, corre las pruebas de la misión 2 y crea cada panel sin pantalla.
 
-## R05-N08 · Jefe final: el Dragón del Imperio
+## S02-N08 · Jefe del Palacio: el Tribunal de las Actas
 
 ```meta
 tipo: jefe
-padre: R05-N07
+padre: S02-N07
 precio: 10
+requiere: S01-N07
 criatura: dragon
-insignia: Sello del Dragón
-insignia_descripcion: Venciste al Dragón del Imperio: construiste un sistema de escritorio completo, de la base a las ventanas.
+insignia: Sello del Palacio
+insignia_descripcion: Venciste al Tribunal de las Actas: construiste un sistema de escritorio completo, de la base a las ventanas.
 usa: diseno.capas, gui.swing, sql.desde-codigo
 ```
 
 ### Crónica
 
-El Tribunal Imperial se reúne en la cima del Palacio. Sobre la mesa, un solo pergamino: *Registración de Actas de Examen*. Es el examen que el Imperio le toma a cada arquitecto antes de darle su sello. Detrás de los jueces, enroscado alrededor de la torre, duerme el **Dragón del Imperio**, hecho de todas las piezas que aprendiste: clases, colecciones, SQL, transacciones y ventanas.
+El **Tribunal de las Actas** se reúne en la cima del Palacio. Sobre la mesa, un solo pergamino: *Registración de Actas de Examen*. Es el sistema que el Palacio le pide a cada constructor de ventanas antes de darle su sello, hecho de todas las piezas de las dos Sendas: clases, colecciones, SQL, transacciones y ventanas.
 
-—No hay truco nuevo —dice {mentor}, apoyándote una mano en el hombro—. Todo lo que necesitás ya lo sabés. Diseñá la base, escribí los modelos, poné las reglas en los controladores, guardá cada acta en una transacción y armá las ventanas. Pieza por pieza, {heroe}. Así cae un dragón.
+—No hay truco nuevo —le dice {mentor} a Zed, con una mano en el hombro—. Todo lo que necesitás ya lo sabés. Diseñá la base, escribí los modelos, poné las reglas en los controladores, guardá cada acta en una transacción y armá las ventanas. Pieza por pieza. Así se convence a un tribunal.
 
 ### Objetivos
 
@@ -6155,7 +6158,7 @@ El Tribunal Imperial se reúne en la cima del Palacio. Sobre la mesa, un solo pe
 
 ### Antes de empezar
 
-- Todo el curso, en especial DAO y transacciones (rama 4) y MVC al estilo de la cátedra.
+- Toda la Senda, DAO y transacciones (Senda de la Bóveda) y MVC al estilo de la cátedra.
 
 ### Explicación
 
@@ -6540,7 +6543,7 @@ botón, otra pantalla (o una prueba) puede saltearla. Va en el controlador.
 **Orco: la fila de la tabla que no es la del modelo.** En el formulario del acta, si la
 tabla de registros se puede ordenar, convertí los índices antes de tocar el modelo.
 
-### Misión R05-N08-M1 · La Registración de Actas de Examen
+### Misión S02-N08-M1 · La Registración de Actas de Examen
 
 ```meta
 entrega: archivo
@@ -7368,7 +7371,7 @@ public class FrmPrincipal extends JFrame {
    (db.properties tiene que estar en la carpeta desde donde se ejecuta)
 ```
 
-### Misión R05-N08-M2 · El informe del tribunal
+### Misión S02-N08-M2 · El informe del tribunal
 
 ```meta
 entrega: codigo
@@ -7532,7 +7535,7 @@ final class Conexion {
 }
 ```
 
-### Encargo R05-N08-E1 · El sistema de tu barrio
+### Encargo S02-N08-E1 · El sistema de tu barrio
 
 ```meta
 entrega: archivo
@@ -7597,82 +7600,3 @@ La base: notas de 1 a 10, alumnos sin repetir en un acta, aulas existentes. El c
 ### Soluciones (docente)
 
 Jefe final del curso (el 42 del índice de `18-Java`, *Caso de la cátedra*), a partir de `Extra/curso-final-paradigmas3-v2.md`, bloque B. El ejemplo guarda la primera acta, rechaza la segunda por capacidad (regla del controlador) y deshace la tercera por la nota 11 (regla de la base), dejando una sola acta guardada. La misión 1 se corrige ejecutando el sistema; el súper test la compila y crea los paneles sin pantalla contra la base del `schema.sql`.
-
-## R05-N09 · La Encrucijada de los Denarios
-
-```meta
-tipo: ventana
-padre: R05-N08
-precio: 10
-```
-
-### Crónica
-
-Salís de la sala del Tribunal con el sello del Dragón en la mano. En la plaza central del Imperio hay una fuente con forma de denario gigante, y de ella salen tres avenidas. Al final de una se ve una sala de juegos llena de luces; al final de otra, un río que corre rapidísimo; al final de la tercera, un puerto con barcos que llegan de todo el mundo.
-
-{mentor} te espera sentado en el borde de la fuente, con una taza de café.
-
-—Ya hablás la lengua del Imperio, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Pero antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
-
-### Objetivos
-
-- Repasar todo el camino principal y reconocer lo que aprendiste.
-- Conocer las Sendas optativas que salen de acá.
-
-### Explicación
-
-#### Lo que ya sabés hacer
-
-- **La Aduana del Compilador**: compilar y ejecutar, tipos, operadores, textos, entrada por teclado, decisiones, bucles, arrays y métodos.
-- **La Academia de los Moldes**: clases y objetos, constructores, encapsulamiento, referencias, herencia, polimorfismo, interfaces, composición, `enum`, `record` y diagramas UML.
-- **Los Archivos Imperiales**: paquetes y `.jar`, listas, mapas y conjuntos, excepciones, lambdas, pruebas con JUnit y depuración.
-- **La Bóveda Imperial**: archivos, SQL con PostgreSQL (tablas, consultas, procedimientos, triggers y roles), JDBC, DAO y transacciones.
-- **El Palacio de las Ventanas**: Swing, layouts, componentes, tablas y árboles, MDI, `SwingWorker` y el estilo MVC de la cátedra, hasta un sistema de actas completo.
-
-Con eso podés construir sistemas de gestión de escritorio con base de datos, rendir el final de *Paradigmas y Lenguajes III* y leer el código Java de otros. Lo que sigue son **especializaciones**.
-
-#### Las Sendas
-
-Cada Senda es un camino optativo: no hace falta para completar el curso, y su entrada se paga con **comodines** (los que ganaste con los encargos). Adentro, los nodos se pagan con denarios, como siempre.
-
-- **Senda del Arcade Imperial**: un **juego 2D** con Swing y Java2D: dibujar en un lienzo, el bucle de juego con un `Timer`, teclado, sprites, colisiones y un juego completo.
-- **Senda de las Corrientes**: **Java moderno**: *streams*, `Optional`, comparadores avanzados, patrones de diseño y concurrencia con hilos y `ExecutorService`.
-- **Senda del Puerto de Spring**: **APIs web con Spring Boot**: proyectos con Maven, controladores REST, capas con DTO y validaciones, Lombok y persistencia con JPA en PostgreSQL.
-
-### Misión R05-N09-M1 · Mirá hacia atrás
-
-```meta
-entrega: ninguna
-entorno: navegador
-monedas: 0
-xp: 20
-```
-
-#### Consigna
-
-Antes de elegir tu Senda, tomate cinco minutos:
-
-1. ¿Cuál fue el tema que más te costó? ¿Qué te ayudó a entenderlo?
-2. ¿Qué programa de todo el camino te dio más orgullo?
-3. ¿Qué te gustaría construir ahora con Java?
-
-Charlalo con el profe en la próxima clase (o escribíselo). Cuando lo tengas, marcá la misión como completada.
-
-#### Criterio de aprobación
-
-- Pensaste las tres preguntas y lo charlaste con el profe.
-
-### Prueba del sello
-
-#### ¿Cuántas Sendas salen de la Encrucijada y con qué se paga su entrada?
-
-Tres (el Arcade Imperial, las Corrientes y el Puerto de Spring), y la entrada se paga con comodines.
-
-#### ¿Hace falta completar una Senda para terminar el curso?
-
-No: las Sendas son optativas.
-
-### Soluciones (docente)
-
-Nodo de cierre del tronco (tipo `ventana`), como la Encrucijada de los otros cursos. La misión es de reflexión y no se entrega.
-

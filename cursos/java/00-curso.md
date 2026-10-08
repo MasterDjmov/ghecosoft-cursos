@@ -5,7 +5,7 @@ slug: java
 titulo: Java: El Imperio de las Clases
 lenguaje: java
 nivel: desde_cero
-descripcion_corta: Java desde cero: objetos, colecciones, bases de datos y aplicaciones de escritorio.
+descripcion_corta: Java desde cero: objetos, colecciones, Java moderno, diseño y servicios con Spring Boot.
 precio_raiz: 10
 dias_abono: 30
 destacado: si
@@ -15,7 +15,7 @@ publicado: si
 
 ### Descripción
 
-Aprendé **Java desde cero**. No hace falta saber programar: cada tema se explica antes de usarse. El curso llega hasta aplicaciones de escritorio completas, con ventanas, base de datos y el estilo en capas que se usa en las empresas y en la facultad.
+Aprendé **Java desde cero**. No hace falta saber programar: cada tema se explica antes de usarse. El curso llega hasta un servicio web en capas con Spring Boot y Lombok, como el del examen final de la facultad y el que se usa en las empresas.
 
 Java es la lengua de los sistemas de gestión de bancos, hospitales y comercios, de Android, de los servidores de miles de empresas y de Minecraft. En el Imperio **nada existe suelto**: todo vive en una clase, cada clase en su paquete, y cada acuerdo se firma como un contrato.
 
@@ -23,9 +23,9 @@ Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilá
 
 El curso sigue el programa de **Paradigmas y Lenguajes III** (Licenciatura en Sistemas, UNLaR): cada nodo dice a qué unidad corresponde.
 
-Al final del camino principal llegás a la **Encrucijada de los Denarios**, de donde salen tres Sendas optativas: un **juego 2D** con Swing, **Java moderno** (streams, patrones y concurrencia) y **APIs web con Spring Boot**.
+Al final del camino principal llegás a la **Encrucijada de los Denarios**, de donde salen cuatro Sendas optativas: **bases de datos** con SQL y JDBC, **aplicaciones de escritorio** con Swing, un **juego 2D** y **persistencia con JPA**.
 
-> Qué hace falta: una compu con **Java 17 o más nuevo** (el JDK: `sudo apt install openjdk-17-jdk` en Linux, o el instalador de Adoptium en Windows y macOS) y, desde la cuarta rama, **PostgreSQL**. Los programas de Java se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
+> Qué hace falta: una compu con **Java 17 o más nuevo** (el JDK: `sudo apt install openjdk-17-jdk` en Linux, o el instalador de Adoptium en Windows y macOS) y, para la Senda de la Bóveda, **PostgreSQL**. Los programas de Java se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
 
 ### Temario
 
@@ -34,8 +34,10 @@ Al final del camino principal llegás a la **Encrucijada de los Denarios**, de d
 - `enum`, `record`, composición y diagramas UML
 - Paquetes, `.jar`, colecciones y genéricos, excepciones y lambdas
 - Pruebas con JUnit, depuración y logging
-- SQL con PostgreSQL y acceso a datos con JDBC: DAO y transacciones
-- Aplicaciones de escritorio con Swing: layouts, tablas, MDI y MVC
+- Java moderno: streams, `Optional`, comparadores, patrones de diseño y concurrencia
+- Diseño: eficiencia (Big O) y principios SOLID
+- Spring Boot: inyección de dependencias, servicios REST, capas con DTO, validaciones y Lombok
+- Sendas optativas: SQL y JDBC, Swing, un juego 2D y JPA
 
 # DICCIONARIO
 
@@ -46,7 +48,7 @@ Al final del camino principal llegás a la **Encrucijada de los Denarios**, de d
 | world.region | Imperio de las Clases | | m | La región del mundo cuya lengua arcana es Java. | | curso |
 | story.course_intro | Bienvenida al Imperio | | f | | Zed robaba en los techos del Puerto hasta que tocó una **llave de plomo y vidrio** que decía *«para quien llegue»*. Un vitral se encendió como un portal y despertó en la fila de la **Aduana del Compilador**, sin un solo papel.<br><br>Soy {mentor}, el Arquitecto Imperial. Acá **nada existe suelto** y nada pasa sin declararse: la Aduana revisa todo lo que Zed escribe. Parece estricta, y lo es, pero cada error que marca en la frontera es uno que no va a sufrir adentro.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas lo hace avanzar, cada tema que domines le abre una puerta del Imperio y cada misión aprobada te da denarios para abrir la siguiente. | curso |
 | story.branch_completed | ¡Distrito conquistado! | | m | | {mentor} desenrolla un plano nuevo y marca con tinta un distrito entero. —Esta parte del Imperio ya funciona con tus clases, Zed. Nadia lo anota en su libreta, y por una vez no agrega ningún comentario. | curso |
-| story.course_completed | ¡Dominaste la lengua del Imperio! | | f | | {mentor} te entrega su compás de arquitecto y una taza de café recién hecha. —Ya sos arquitecta o arquitecto del Imperio, {heroe}. Desde la Encrucijada de los Denarios salen tres caminos: el Arcade, las Corrientes y el Puerto de Spring. Elegí el tuyo. | curso |
+| story.course_completed | ¡Dominaste la lengua del Imperio! | | f | | {mentor} le entrega a Zed su compás de arquitecto y una taza de café recién hecha. —Entraste colado por la Aduana y te vas como arquitecto del Imperio. Desde la Encrucijada de los Denarios salen cuatro caminos: la Bóveda, el Palacio de las Ventanas, el Arcade y el Puerto. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que no pudo ordenar Kaffa | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Trató de explicarme qué estaba construyendo y no pude ponerlo en ninguna clase. Es lo único que nunca supe ordenar: algo que no es de ningún lugar, porque es de todos. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis: la Aduana no deja pasar ni una línea. | Los slimes brotan de los punto y coma olvidados, las llaves sin cerrar y las comillas perdidas. La Aduana los detecta al compilar con mensajes como `';' expected`. Son débiles, pero hasta que no los eliminás no se ejecuta nada. | curso |
 | beast.goblin | goblin | goblins | m | Nace de los tipos que no encajan: `incompatible types`, `NumberFormatException`, `ClassCastException`. | Los goblins viven en las conversiones: un `double` que no entra en un `int`, un texto que no es un número, un objeto que no es de la clase que creías. La Aduana atrapa a muchos al compilar; los más astutos esperan a que el programa corra. | curso |

@@ -186,7 +186,9 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 - **S03 · El Arcade Imperial** *(hoy S01)*: un juego 2D con Swing.
 - **S04 · El Puerto de Spring** *(hoy S03-N04 y N05)*: JPA con base de datos y el Kraken de los Servicios. Zed **vuelve al Puerto**, ahora a construir sus servicios.
 
-**Lo que se suma en las ramas que quedan:** el programa pide **clases Wrapper y autoboxing** (U1) y en el curso solo está `Integer.parseInt`. Propongo sumarlas a **R03-N02 · ArrayList y genéricos**, donde aparecen solas (`List<Integer>` no acepta `int`).
+**Wrapper y autoboxing** (U1): ya estaban en **R03-N02 · ArrayList y genéricos** (explicación, ejemplo y prueba del sello).
+
+**Hecho (2026-10-07, D96):** el reordenamiento ya está en `cursos/java/` (archivos 04 a 09) y la migración `reorder_java_course_codes` renombra los códigos en la base. Faltan los nodos nuevos: R04-N04 (patrones), R05-N01 (Big O), R05-N02 (SOLID), Lombok en R05-N05 y R05-N06 (el Dragón, «AduanaExpress»).
 
 ---
 
@@ -209,7 +211,7 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 ## 3 bis. El juego en el Imperio (hecho, 2026-10-07)
 
 - **Zed** con sus 6 aspectos (`public/img/protagonistas/zed/`).
-- **El mapa de expediciones** (`public/img/mundos/imperio/mapa.webp`): 12 lugares, de la Aduana (nivel 1) a la Torre del Arquitecto (nivel 13); se abren desde Decisiones (R01-N05). Al reordenar el curso, revisar los nodos de los dos últimos.
+- **El mapa de expediciones** (`public/img/mundos/imperio/mapa.webp`): 12 lugares, de la Aduana (nivel 1) a la Torre del Arquitecto (nivel 13); se abren desde Decisiones (R01-N05). La Torre del Arquitecto se abre desde R05-N03 (pasar a R05-N01 cuando exista).
 - **El puesto de Baldo en el Imperio:** Baldo, el mercader ambulante (aparece en R01-N04), vende armas, ropa, accesorios y el **Café Fuerte** (la poción del Imperio). 16 ítems del Imperio en `app:game-items`, con su pedido de imagen, más la **Llave del Vitral** (historia).
 
 ## 4. Arreglos de continuidad respecto del curso actual

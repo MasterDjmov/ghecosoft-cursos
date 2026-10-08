@@ -12,6 +12,8 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 | Protagonistas | cuerpo entero 896×1200, retrato circular y 6 variantes de aspecto |
 | Guías, líderes y secundarios | cuerpo entero y retrato circular |
 
+**Avatares:** los retratos enmarcados (las 6 variantes) son **avatares** que usa el héroe del alumno (chico o chica) para jugar en la plataforma: una representación libre del personaje, no su aspecto real. El aspecto fijo de cada ficha sale **solo del cuerpo entero y del retrato circular**, que son los de las misiones, las escenas y el resto.
+
 **Estilo común:** anime/cómic *cyber-arcana*, ropa oscura con líneas de neón del color de su región, fondo oscuro con grilla de circuitos, de noche, con luz propia.
 
 **Cómo llega cada protagonista:** las regiones del Mundo del Código no se recorren a pie: se llega por **portales** (el prólogo). Cada protagonista cruza el portal de su región en el capítulo 0 de su curso. Unos vienen de otro mundo y otros son nativos que cruzan de una región a otra. Todos, sin saberlo, pasan por obra del **Vidriero**: su firma es dejar cosas «para quien llegue».
@@ -349,9 +351,10 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Altura y contextura:** alto, de hombros anchos, erguido; se mueve con calma.
 - **Rasgos:**
   - piel clara curtida, arrugas marcadas, mirada seria y atenta;
-  - **pelo gris peinado hacia atrás**, con un mechón que cae sobre la frente;
-  - **barba corta y bigote canosos** (en algunas imágenes, solo candado);
-  - ojos de **luz ámbar** cuando se concentra; un **aro dorado** chico en una oreja.
+  - **pelo gris peinado hacia atrás**;
+  - **barba corta y bigote canosos**;
+  - un **aro dorado** chico en una oreja;
+  - a veces un **monóculo de bronce con lente de luz celeste** (en el retrato circular).
 - **Ropa:** **túnica larga de arquitecto**, granate y azul oscuro, de **cuello alto rígido**, con **líneas de circuitos doradas** bordadas de arriba abajo y mangas anchas; brazales de bronce con runas celestes; anillos de bronce con piedras celestes en los dedos.
 - **Objeto:** su **taza de café** de bronce labrado, siempre humeante (el vapor dorado y celeste); a su alrededor flotan **planos de luz** con diagramas de clases.
 - **Color:** granate, azul oscuro y el **dorado** de las catedrales del Imperio, con brillos celestes.
@@ -365,12 +368,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
   - conoció al Vidriero: trató de entender lo que construía y no pudo ponerlo en ninguna clase (su pieza del portal).
 - **Primera aparición:** Java, Clase 0 (R00-N01).
 - **Dónde va:** la Torre del Arquitecto, donde se dibujan los planos del Imperio: mesas con planos, compases, tazas de café y la ventana más alta con el marco vacío.
-- **Imágenes:** completas: cuerpo entero, retrato circular y 6 retratos enmarcados. El **aspecto fijo** es el del cuerpo entero y el primer retrato enmarcado (cuello alto granate con circuitos dorados); los otros son variantes que no cambian la base:
-  - con **monóculo de bronce de lente celeste** (el retrato circular);
-  - con **ojo cibernético** que mide la memoria (*heap*, *GC*) y uniforme con broches de bronce;
-  - con **anteojos de luz** de arquitecto y saco negro de solapas doradas;
-  - con un ojo ámbar y otro celeste, armadura de placas y la taza;
-  - **dos variantes de leyenda** (anciano de barba larga trenzada con diadema, y emperador con corona de cristales y un halo de planos): sirven para escenas del pasado o de visiones, no para el Kaffa de todos los días.
+- **Imágenes:** completas. El **aspecto fijo** sale del **cuerpo entero** y del **retrato circular**: son los de las misiones, las escenas y el resto de la plataforma. Los **6 retratos enmarcados** son **avatares** para que el héroe del alumno (chico o chica) juegue con la cara de Kaffa: una representación libre (ojo cibernético, anteojos de luz, corona…), no su aspecto real, y no se usan para describirlo.
 
 ### Nadia
 - **Curso y rol:** Java. La aduanera de la Aduana del Compilador que atrapa a Zed en la Clase 0; lo vigila «hasta que aprenda» y termina siendo su compañera ([java.md](java.md)).

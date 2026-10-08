@@ -373,7 +373,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, R01-N03.
 - **Dónde va:** la oficina de sellos: escritorio tapado de pergaminos, tinteros, sellos de bronce colgados en la pared y la **tabla de tarifas** clavada en la puerta.
 
-### La Maestra de Moldes *(falta la imagen)*
+### La Maestra de Moldes
 - **Rol:** dirige la **Academia de los Moldes** (R02): enseña clases, constructores, encapsulamiento, herencia, polimorfismo, composición, `enum` y `record`; da las órdenes en el patio de armas y, al vencer a la Quimera, le entrega a Zed los **Guantes del Artesano**.
 - **Edad y sexo:** 50, mujer.
 - **Altura y contextura:** alta, de hombros anchos y brazos fuertes de tanto forjar.

@@ -495,17 +495,16 @@ NODOS = [
               lugar="La oficina de sellos de la Aduana", personajes="Zed, Gheco, Nadia, el Escriba Jefe",
               carta="StringBuilder | sb.append(\"…\") agrega · sb.toString() da el texto · para armar textos de a pedazos",
               recompensa="xp 10, oro 10",
-              escena="El Escriba Jefe quiere la lista de los viajeros de hoy en una sola línea, separados por guiones. Pegar texto con `+` dentro de un bucle lo vuelve loco.",
+              escena="El Escriba Jefe quiere la lista de los viajeros de hoy en una sola línea, separados por guiones. Pegar pedazos con `+` lo vuelve loco: cada `+` arma un texto nuevo.",
               sugiere="`StringBuilder` arma un texto de a pedazos: `append` agrega al final y `toString()` devuelve el texto armado.",
-              desafio="Agregá cada viajero con `append`.",
+              desafio="Agregá a Nadia y al mercader con `append`, como está hecho con Zed.",
               inicial='''
                   public class Lista {
                       public static void main(String[] args) {
-                          String[] viajeros = {"Zed", "Nadia", "un mercader"};
                           StringBuilder sb = new StringBuilder();
-                          for (String v : viajeros) {
-                              sb.___(v).___(" - ");
-                          }
+                          sb.append("Zed").append(" - ");
+                          sb.___("Nadia").___(" - ");
+                          sb.___("un mercader");
                           System.out.println(sb.toString());
                       }
                   }
@@ -513,11 +512,10 @@ NODOS = [
               solucion='''
                   public class Lista {
                       public static void main(String[] args) {
-                          String[] viajeros = {"Zed", "Nadia", "un mercader"};
                           StringBuilder sb = new StringBuilder();
-                          for (String v : viajeros) {
-                              sb.append(v).append(" - ");
-                          }
+                          sb.append("Zed").append(" - ");
+                          sb.append("Nadia").append(" - ");
+                          sb.append("un mercader");
                           System.out.println(sb.toString());
                       }
                   }
@@ -537,11 +535,10 @@ NODOS = [
 
                   public class Tarifas {
                       public static void main(String[] args) {
-                          String[] cosas = {"Barril", "Caballo", "Carta"};
-                          double[] precios = {2.5, 12, 0.75};
-                          for (int i = 0; i < cosas.length; i++) {
-                              System.out.printf(Locale.US, "%-8s ___%n", cosas[i], precios[i]);
-                          }
+                          String formato = "%-8s ___%n";
+                          System.out.printf(Locale.US, formato, "Barril", 2.5);
+                          System.out.printf(Locale.US, formato, "Caballo", 12.0);
+                          System.out.printf(Locale.US, formato, "Carta", 0.75);
                       }
                   }
               ''',
@@ -550,11 +547,10 @@ NODOS = [
 
                   public class Tarifas {
                       public static void main(String[] args) {
-                          String[] cosas = {"Barril", "Caballo", "Carta"};
-                          double[] precios = {2.5, 12, 0.75};
-                          for (int i = 0; i < cosas.length; i++) {
-                              System.out.printf(Locale.US, "%-8s %6.2f%n", cosas[i], precios[i]);
-                          }
+                          String formato = "%-8s %6.2f%n";
+                          System.out.printf(Locale.US, formato, "Barril", 2.5);
+                          System.out.printf(Locale.US, formato, "Caballo", 12.0);
+                          System.out.printf(Locale.US, formato, "Carta", 0.75);
                       }
                   }
               ''',
@@ -690,10 +686,10 @@ NODOS = [
                   public class Dados {
                       public static void main(String[] args) {
                           Random r = new Random(42);
-                          for (int i = 1; i <= 3; i++) {
-                              int dado = ___;
-                              System.out.println("Tirada " + i + ": " + dado);
-                          }
+                          int primera = ___;
+                          int segunda = ___;
+                          int tercera = ___;
+                          System.out.println("Tiradas: " + primera + ", " + segunda + " y " + tercera);
                       }
                   }
               ''',
@@ -703,10 +699,10 @@ NODOS = [
                   public class Dados {
                       public static void main(String[] args) {
                           Random r = new Random(42);
-                          for (int i = 1; i <= 3; i++) {
-                              int dado = r.nextInt(6) + 1;
-                              System.out.println("Tirada " + i + ": " + dado);
-                          }
+                          int primera = r.nextInt(6) + 1;
+                          int segunda = r.nextInt(6) + 1;
+                          int tercera = r.nextInt(6) + 1;
+                          System.out.println("Tiradas: " + primera + ", " + segunda + " y " + tercera);
                       }
                   }
               ''',
@@ -724,19 +720,17 @@ NODOS = [
               recompensa="xp 10, oro 10",
               escena="Frente a la Aduana hay tres portones: mercaderes, soldados y peregrinos. Nadia le da a Zed el puesto del guardia: —Mandá a cada uno al suyo.",
               sugiere="`if (condición) { … } else if (otra) { … } else { … }` revisa **en orden** y entra solo en el primero que se cumple. El `else` es para todos los demás.",
-              desafio="Completá la condición del portón de los soldados.",
+              desafio="Completá la condición del portón de los soldados (el que llega ahora es un soldado).",
               inicial='''
                   public class Portones {
                       public static void main(String[] args) {
-                          String[] viajeros = {"mercader", "soldado", "peregrino"};
-                          for (String v : viajeros) {
-                              if (v.equals("mercader")) {
-                                  System.out.println(v + ": portón del oro");
-                              } else if (___) {
-                                  System.out.println(v + ": portón de hierro");
-                              } else {
-                                  System.out.println(v + ": portón de piedra");
-                              }
+                          String v = "soldado";
+                          if (v.equals("mercader")) {
+                              System.out.println(v + ": portón del oro");
+                          } else if (___) {
+                              System.out.println(v + ": portón de hierro");
+                          } else {
+                              System.out.println(v + ": portón de piedra");
                           }
                       }
                   }
@@ -744,15 +738,13 @@ NODOS = [
               solucion='''
                   public class Portones {
                       public static void main(String[] args) {
-                          String[] viajeros = {"mercader", "soldado", "peregrino"};
-                          for (String v : viajeros) {
-                              if (v.equals("mercader")) {
-                                  System.out.println(v + ": portón del oro");
-                              } else if (v.equals("soldado")) {
-                                  System.out.println(v + ": portón de hierro");
-                              } else {
-                                  System.out.println(v + ": portón de piedra");
-                              }
+                          String v = "soldado";
+                          if (v.equals("mercader")) {
+                              System.out.println(v + ": portón del oro");
+                          } else if (v.equals("soldado")) {
+                              System.out.println(v + ": portón de hierro");
+                          } else {
+                              System.out.println(v + ": portón de piedra");
                           }
                       }
                   }
@@ -767,40 +759,36 @@ NODOS = [
               recompensa="xp 15, oro 15",
               escena="El peaje depende de la carga: más de 100 kg paga 20, más de 50 paga 10, el resto 5. El guardia anterior lo escribió… y todos pagan 10. Un **ogro**.",
               sugiere="Los `else if` se revisan en orden: si la primera condición es la más **amplia** (`> 50`), atrapa también a los de 100 y nunca se llega a la otra. Lo más exigente va **primero**.",
-              desafio="Reordená las condiciones.",
+              desafio="Llega un carro de 120 kg y paga 10. Reordená las condiciones para que pague 20.",
               inicial='''
                   public class Peso {
                       public static void main(String[] args) {
-                          int[] cargas = {120, 70, 30};
-                          for (int kg : cargas) {
-                              int peaje;
-                              if (kg > 50) {
-                                  peaje = 10;
-                              } else if (kg > 100) {
-                                  peaje = 20;
-                              } else {
-                                  peaje = 5;
-                              }
-                              System.out.println(kg + " kg: " + peaje);
+                          int kg = 120;
+                          int peaje;
+                          if (kg > 50) {
+                              peaje = 10;
+                          } else if (kg > 100) {
+                              peaje = 20;
+                          } else {
+                              peaje = 5;
                           }
+                          System.out.println(kg + " kg: " + peaje);
                       }
                   }
               ''',
               solucion='''
                   public class Peso {
                       public static void main(String[] args) {
-                          int[] cargas = {120, 70, 30};
-                          for (int kg : cargas) {
-                              int peaje;
-                              if (kg > 100) {
-                                  peaje = 20;
-                              } else if (kg > 50) {
-                                  peaje = 10;
-                              } else {
-                                  peaje = 5;
-                              }
-                              System.out.println(kg + " kg: " + peaje);
+                          int kg = 120;
+                          int peaje;
+                          if (kg > 100) {
+                              peaje = 20;
+                          } else if (kg > 50) {
+                              peaje = 10;
+                          } else {
+                              peaje = 5;
                           }
+                          System.out.println(kg + " kg: " + peaje);
                       }
                   }
               ''',
@@ -813,17 +801,15 @@ NODOS = [
               recompensa="xp 10, oro 10",
               escena="Al terminar el turno, Nadia lleva a Zed a la posada. El menú se pide por número, y el posadero se confunde siempre. —Escribile el menú —dice Nadia—, que yo invito.",
               sugiere="`switch` compara un valor contra varios casos. Con flechas (`case 1 -> …;`) no hace falta `break`. `default` atrapa todo lo que no coincide.",
-              desafio="Completá el caso 2: «Guiso del Imperio».",
+              desafio="Nadia pide el 2. Completá el caso 2: «Guiso del Imperio».",
               inicial='''
                   public class Posada {
                       public static void main(String[] args) {
-                          int[] pedidos = {1, 2, 7};
-                          for (int op : pedidos) {
-                              switch (op) {
-                                  case 1 -> System.out.println("1: Pan y café");
-                                  ___
-                                  default -> System.out.println(op + ": eso no está en el menú");
-                              }
+                          int op = 2;
+                          switch (op) {
+                              case 1 -> System.out.println("1: Pan y café");
+                              ___
+                              default -> System.out.println(op + ": eso no está en el menú");
                           }
                       }
                   }
@@ -831,18 +817,16 @@ NODOS = [
               solucion='''
                   public class Posada {
                       public static void main(String[] args) {
-                          int[] pedidos = {1, 2, 7};
-                          for (int op : pedidos) {
-                              switch (op) {
-                                  case 1 -> System.out.println("1: Pan y café");
-                                  case 2 -> System.out.println("2: Guiso del Imperio");
-                                  default -> System.out.println(op + ": eso no está en el menú");
-                              }
+                          int op = 2;
+                          switch (op) {
+                              case 1 -> System.out.println("1: Pan y café");
+                              case 2 -> System.out.println("2: Guiso del Imperio");
+                              default -> System.out.println(op + ": eso no está en el menú");
                           }
                       }
                   }
               ''',
-              al_superar="Pan, café y guiso. Zed pide el siete «por las dudas» y el posadero se ríe. Nadia paga, como prometió.",
+              al_superar="Llega el guiso. Zed pide el siete «por las dudas» y el posadero se ríe: eso no está en el menú. Nadia paga, como prometió.",
               imagen=["Una posada cálida con un menú de pizarra numerado.",
                       "Zed y Nadia en una mesa; él señala el número 7 y el posadero se ríe."]),
             m(id="R01-N05-P4", titulo="El switch que devuelve",
@@ -858,26 +842,22 @@ NODOS = [
               inicial='''
                   public class Servilleta {
                       public static void main(String[] args) {
-                          String[] oficios = {"soldado", "mercader", "ladrón"};
-                          for (String oficio : oficios) {
-                              String porton = ___;
-                              System.out.println(oficio + " -> " + porton);
-                          }
+                          String oficio = "mercader";
+                          String porton = ___;
+                          System.out.println(oficio + " -> " + porton);
                       }
                   }
               ''',
               solucion='''
                   public class Servilleta {
                       public static void main(String[] args) {
-                          String[] oficios = {"soldado", "mercader", "ladrón"};
-                          for (String oficio : oficios) {
-                              String porton = switch (oficio) {
-                                  case "mercader" -> "oro";
-                                  case "soldado" -> "hierro";
-                                  default -> "piedra";
-                              };
-                              System.out.println(oficio + " -> " + porton);
-                          }
+                          String oficio = "mercader";
+                          String porton = switch (oficio) {
+                              case "mercader" -> "oro";
+                              case "soldado" -> "hierro";
+                              default -> "piedra";
+                          };
+                          System.out.println(oficio + " -> " + porton);
                       }
                   }
               ''',

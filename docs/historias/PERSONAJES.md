@@ -406,7 +406,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Cómo habla:** no habla: **grita** *NullPointerException* y congela todo.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Leviatán de los Datos (jefe de R04 de Java) *(falta la imagen)*
+### El Leviatán de los Datos (jefe de R04 de Java)
 - **Rol:** el jefe de las Corrientes (R04-N06): vive en la Represa, traga registros por miles y mezcla los buenos con los rotos. Detrás de él está encallada la barcaza **Ceibo** con el **Vitral del Viajero**. Al caer suelta el **Remo de las Corrientes**.
 - **Qué es:** una **serpiente marina gigante** hecha de registros, números y renglones que brillan, con aletas como hojas de papel y ojos de luz azul; el agua de la Represa se arremolina a su alrededor.
 - **Color:** azul profundo, verde agua y el blanco de los registros luminosos.

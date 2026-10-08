@@ -269,6 +269,10 @@ document.addEventListener('alpine:init', () => {
                 // Java: en la compu de quien lo usa, con scripts/JavaRunner.java abierto (D69 docente, D85 alumno).
                 const { runJava } = await import('./runners/java.js');
                 result = await runJava(this.code, { stdin: this.stdin, url: config.javaRunnerUrl, helpUrl: config.javaHelpUrl, timeout: config.timeout, onStatus: (status) => (this.status = status) });
+            } else if (config.language === 'sql') {
+                // SQL: SQLite en WebAssembly, en el navegador (las micro-misiones de SQL de Java).
+                const { runSql } = await import('./runners/sql.js');
+                result = await runSql(this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else if (config.language === 'php') {
                 // PHP: solo en la bandeja del docente (D68), con PHP en WebAssembly.
                 const { runPhp } = await import('./runners/php.js');

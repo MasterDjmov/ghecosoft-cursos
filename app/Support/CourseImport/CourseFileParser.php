@@ -516,8 +516,12 @@ class CourseFileParser
         foreach ($fields as $field => $text) {
             $text = trim($text, "\n");
             // [ \t]* y no \s* después del lenguaje: una entrada puede empezar con una línea vacía (a propósito).
-            if (in_array($field, self::CODE_FIELDS, true) && preg_match('/^\s*(```+|~~~+)[\w+-]*[ \t]*\n(.*?)\n\s*\1\s*$/s', trim($text), $m)) {
-                $text = $m[2];
+            if (in_array($field, self::CODE_FIELDS, true) && preg_match('/^\s*(```+|~~~+)([\w+-]*)[ \t]*\n(.*?)\n\s*\1\s*$/s', trim($text), $m)) {
+                $text = $m[3];
+                // El lenguaje del bloque del código inicial: una micro-misión de SQL en un curso de Java.
+                if ($field === 'starter_code' && $m[2] !== '') {
+                    $fields['starter_language'] = Str::lower($m[2]);
+                }
             }
             $fields[$field] = in_array($field, self::CODE_FIELDS, true) ? rtrim($text) : trim($text);
         }

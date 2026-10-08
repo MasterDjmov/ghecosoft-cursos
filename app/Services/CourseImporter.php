@@ -502,6 +502,8 @@ class CourseImporter
                 'hint' => $fields['hint'] ?? null,
                 'challenge' => $fields['challenge'] ?? null,
                 'starter_code' => $fields['starter_code'] ?? null,
+                // Solo si el bloque del código inicial es de otro lenguaje que el curso (```sql en Java).
+                'language' => $this->stepLanguage($fields['starter_language'] ?? null),
                 'sample_input' => $fields['sample_input'] ?? null,
                 'expected_output' => $fields['expected_output'] ?? '',
                 'solution' => $fields['solution'] ?? null,
@@ -518,6 +520,14 @@ class CourseImporter
             $existing[$code]->delete();
             $this->report->note("La micro-misión {$code} de {$node->code} ya no está en el archivo: se borró.");
         }
+    }
+
+    /** El lenguaje propio de una micro-misión: el del bloque del código inicial, si es otro que el del curso. */
+    private function stepLanguage(?string $fence): ?string
+    {
+        $language = $fence ? Language::tryFrom($fence) : null;
+
+        return $language && $language !== $this->course->language ? $language->value : null;
     }
 
     /** La imagen de la escena, si está en la carpeta del curso. Desde la web (sin carpeta) queda la que tenía. */

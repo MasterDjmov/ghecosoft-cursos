@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Language;
 use App\Enums\XpReason;
 use App\Livewire\Admin\Students\Tree;
 use App\Livewire\Student\NodeView;
@@ -329,4 +330,30 @@ test('el docente le abre las prácticas desde el árbol del alumno y le llega el
     // Otro alumno no puede abrírselas a nadie.
     $other = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
     Livewire::actingAs($other)->test(Tree::class, ['user' => $student, 'course' => $course])->assertForbidden();
+});
+
+/*
+ * Una micro-misión en otro lenguaje que su curso (SQL en Java): el bloque del código inicial dice el lenguaje y la
+ * página la ejecuta con ese (SQLite en el navegador), sin el «pegá la salida» de Java.
+ */
+
+test('el bloque del código inicial marca una micro-misión de otro lenguaje que el curso', function () {
+    $sqlStep = str_replace(["```python\n# tu conjuro\n```", "#### Solución\n```python\nprint(\"Hola, Valle\")\n```"],
+        ["```sql\nSELECT ___;\n```", "#### Solución\n```sql\nSELECT 'Hola, Valle' AS saludo;\n```"], STEPS_MD);
+    $report = app(CourseImporter::class)->import(stepsCourseFile(fn ($md) => str_replace('### Misión R00-N01-M1', $sqlStep.'### Misión R00-N01-M1', $md)), dryRun: false);
+    expect($report->errors)->toBe([]);
+    $course = Course::where('slug', 'python-import')->firstOrFail();
+    $course->update(['is_published' => true]);
+    [$first, $second] = $course->rootNode->steps()->get()->all();
+
+    expect($first->language)->toBe('sql')
+        ->and($first->runLanguage($course))->toBe(Language::Sql)
+        ->and($second->language)->toBeNull()
+        ->and($second->runLanguage($course))->toBe($course->language)
+        ->and(Language::Sql->studentCanRun())->toBeTrue();
+
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $html = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->assertOk()->getContent();
+    expect($html)->toContain('r00-n01-p1.sql')
+        ->and($html)->not->toContain('data-test="step-paste"');
 });

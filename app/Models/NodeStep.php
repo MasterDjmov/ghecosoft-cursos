@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Language;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
  * Una micro-misión (D84 § 3): un paso corto del nodo con escena, pista de Gheco, desafío y recompensa.
  * Se comprueba sola (salida esperada) y solo da premios de juego: nunca monedas del curso ni aperturas.
  */
-#[Fillable(['node_id', 'code', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'hint', 'challenge', 'starter_code', 'sample_input', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
+#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'hint', 'challenge', 'starter_code', 'sample_input', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
 class NodeStep extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -34,6 +35,12 @@ class NodeStep extends Model
     public function completions(): HasMany
     {
         return $this->hasMany(NodeStepCompletion::class);
+    }
+
+    /** Con qué se ejecuta: su propio lenguaje (SQL en un curso de Java) o el del curso. */
+    public function runLanguage(Course $course): Language
+    {
+        return ($this->language ? Language::tryFrom($this->language) : null) ?? $course->language;
     }
 
     public function imageUrl(): ?string

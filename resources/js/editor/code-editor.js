@@ -11,6 +11,7 @@ import { cpp } from '@codemirror/lang-cpp';
 import { java } from '@codemirror/lang-java';
 import { php } from '@codemirror/lang-php';
 import { html } from '@codemirror/lang-html';
+import { sql } from '@codemirror/lang-sql';
 import { tags as t } from '@lezer/highlight';
 
 const theme = EditorView.theme(
@@ -43,7 +44,7 @@ const highlight = HighlightStyle.define([
 ]);
 
 // C, C++ y Arduino comparten resaltado; los demás lenguajes se ven sin colores por ahora.
-const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp(), java: () => java(), php: () => php(), html: () => html() };
+const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp(), java: () => java(), php: () => php(), html: () => html(), sql: () => sql() };
 
 /**
  * @param {HTMLElement} parent

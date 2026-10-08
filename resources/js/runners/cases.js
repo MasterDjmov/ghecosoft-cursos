@@ -23,6 +23,10 @@ async function runOne(language, code, stdin, options) {
         const { runJava } = await import('./java.js');
         return runJava(code, { stdin, url: options.javaRunnerUrl, timeout: options.timeout });
     }
+    if (language === 'sql') {
+        const { runSql } = await import('./sql.js');
+        return runSql(code, { timeout: options.timeout });
+    }
     if (language === 'php') {
         const { runPhp } = await import('./php.js');
         return runPhp(code, { stdin, timeout: options.timeout });

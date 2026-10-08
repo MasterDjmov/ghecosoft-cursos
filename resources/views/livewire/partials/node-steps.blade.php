@@ -133,8 +133,10 @@
                         </div>
                     @endif
 
+                    {{-- Una micro-misión puede ser de otro lenguaje que el curso (SQL en Java, con SQLite en el navegador). --}}
+                    @php($stepLanguage = $step->runLanguage($course))
                     <x-code-runner :code="(string) $step->starter_code" :stdin="(string) $step->sample_input" :expected="$step->expected_output"
-                        :language="$course->language->value" :name="strtolower($step->code)" :runnable="$course->language->studentCanRun()"
+                        :language="$stepLanguage->value" :name="strtolower($step->code)" :runnable="$stepLanguage->studentCanRun()"
                         :show-stdin="filled($step->sample_input)">
                         <x-slot:footer>
                             {{-- Al coincidir la salida, se avisa una sola vez. --}}
@@ -145,7 +147,7 @@
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
                             </div>
                             {{-- Java (D85): sin el ejecutor abierto, se corre en la compu o el IDE y se pega la salida. --}}
-                            @if ($course->language->runsOnLocalRunner())
+                            @if ($stepLanguage->runsOnLocalRunner())
                                 <details class="mt-2 rounded-lg border border-outline/70 px-3 py-2 text-sm" x-show="! result?.ok" x-data="{ pasted: '', checking: false, wrong: false }" data-test="step-paste">
                                     <summary class="cursor-pointer text-ink-muted hover:text-white">¿No tenés el ejecutor abierto? Corré el programa en tu compu y pegá acá lo que mostró</summary>
                                     <div class="mt-2 flex flex-col gap-2">

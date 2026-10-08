@@ -188,7 +188,7 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 
 **Wrapper y autoboxing** (U1): ya estaban en **R03-N02 · ArrayList y genéricos** (explicación, ejemplo y prueba del sello).
 
-**Hecho (2026-10-07, D96):** el reordenamiento ya está en `cursos/java/` (archivos 04 a 09) y la migración `reorder_java_course_codes` renombra los códigos en la base. Faltan los nodos nuevos: R04-N04 (patrones), R05-N01 (Big O), R05-N02 (SOLID), Lombok en R05-N05 y R05-N06 (el Dragón, «AduanaExpress»).
+**Hecho (2026-10-07, D96):** el reordenamiento ya está en `cursos/java/` (archivos 04 a 09) y la migración `reorder_java_course_codes` renombra los códigos en la base. R04-N04 (patrones) ya está escrito. Faltan R05-N01 (Big O), R05-N02 (SOLID), Lombok en R05-N05 y R05-N06 (el Dragón, «AduanaExpress»).
 
 ---
 

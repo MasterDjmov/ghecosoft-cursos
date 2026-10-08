@@ -406,6 +406,13 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Cómo habla:** no habla: **grita** *NullPointerException* y congela todo.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
+### El Leviatán de los Datos (jefe de R04 de Java) *(falta la imagen)*
+- **Rol:** el jefe de las Corrientes (R04-N06): vive en la Represa, traga registros por miles y mezcla los buenos con los rotos. Detrás de él está encallada la barcaza **Ceibo** con el **Vitral del Viajero**. Al caer suelta el **Remo de las Corrientes**.
+- **Qué es:** una **serpiente marina gigante** hecha de registros, números y renglones que brillan, con aletas como hojas de papel y ojos de luz azul; el agua de la Represa se arremolina a su alrededor.
+- **Color:** azul profundo, verde agua y el blanco de los registros luminosos.
+- **Cómo habla:** con **voz de agua**, en preguntas; no se le cree nada sin comprobarlo.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
 ### El Centinela de la Aduana
 - **Rol:** el jefe de la Aduana (R01-N09). Aprueba o rechaza a cada viajero desde hace siglos; no se lo engaña: se lo vence con orden. Le hace a Zed cuatro preguntas y, al final, le entrega el **Sello de Entrada**.
 - **Qué es:** una **armadura vacía** de piedra gris y bronce, sentada en un **trono de piedra**, con un **libro de registros** abierto sobre las rodillas y una pluma que escribe sola. Por las juntas no se ve nada adentro: solo una **luz azul** en el lugar de los ojos.

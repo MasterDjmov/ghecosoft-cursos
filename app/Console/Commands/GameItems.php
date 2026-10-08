@@ -89,6 +89,8 @@ class GameItems extends Command
             ['code' => 'sello-imperial', 'name' => 'Sello Imperial', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'El que lo lleva pasa cualquier Aduana.'],
             // Pociones y de la historia
             ['code' => 'cafe-fuerte', 'name' => 'Café Fuerte', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Una taza bien cargada. En las expediciones se toma sola si la vida baja mucho.'],
+            ['code' => 'remo-de-las-corrientes', 'name' => 'Remo de las Corrientes', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'dexterity' => 3, 'strength' => 1, 'description' => 'Lo soltó el Leviatán de los Datos: con él, las corrientes del río te obedecen.'],
+            ['code' => 'vitral-del-viajero', 'name' => 'Vitral del Viajero', 'kind' => 'story', 'description' => 'Lo hizo el Vidriero y viajaba en la barcaza Ceibo. La etiqueta dice: «para la ventana más alta de la Torre del Arquitecto».'],
             ['code' => 'amuleto-de-la-campana', 'name' => 'Amuleto de la Campana', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Una campanita de bronce: para que escuches siempre las alarmas. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
             ['code' => 'linterna-del-espectro', 'name' => 'Linterna del Espectro', 'kind' => 'accessory', 'rarity' => 'epic', 'defense' => 2, 'intelligence' => 3, 'luck' => 2, 'description' => 'La dejó el Espectro Nulo al apagarse: ilumina donde algo debería estar.'],
             ['code' => 'guantes-del-artesano', 'name' => 'Guantes del Artesano', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'dexterity' => 1, 'description' => 'Te los dio la Maestra de Moldes al vencer a la Quimera: sos aprendiz de la Academia.'],
@@ -163,6 +165,8 @@ class GameItems extends Command
         'monoculo-del-compilador' => 'Un monóculo dorado con el lente rojo, que proyecta una línea de código marcada en rojo.',
         'sello-imperial' => 'Un sello de lacre dorado con el escudo del Imperio, colgado de una cadena fina.',
         'cafe-fuerte' => 'Un vaso de vidrio grueso con café negro humeante y una franja dorada, con una etiqueta con una cruz.',
+        'remo-de-las-corrientes' => 'Un remo largo de madera clara con vetas de luz celeste que se mueven como corrientes de agua, con la pala grabada con olas.',
+        'vitral-del-viajero' => 'Un vitral redondo de colores en un marco de plomo, envuelto a medias en una lona gastada, con una etiqueta de papel atada con un hilo.',
         'amuleto-de-la-campana' => 'Un amuleto con forma de campanita de bronce colgada de un cordón de cuero, con un brillo dorado que vibra como si sonara.',
         'linterna-del-espectro' => 'Una linterna antigua de hierro negro con vidrios esmerilados y una llama azul fría adentro, que proyecta un haz de luz pálida.',
         'guantes-del-artesano' => 'Un par de guantes de cuero marrón gastado con remaches y nudillos de bronce, y el sello de la Academia de los Moldes grabado en el dorso.',

@@ -3727,7 +3727,7 @@ tipo: tema
 padre: R03-N05
 precio: 10
 criatura: troll
-temas: arch.texto, arch.csv, arch.rutas
+temas: arch.texto, arch.csv, arch.rutas, arch.binarios
 ```
 
 ### Crónica
@@ -3740,7 +3740,8 @@ Cuando cae la noche, la Ciudadela se apaga… pero sus registros no. Todo lo que
 
 Escribir y leer archivos de texto con `std::ofstream` y `std::ifstream`, agregar
 al final, leer línea por línea y en formato CSV, y trabajar con rutas y carpetas
-con `std::filesystem`: crear, listar, consultar tamaños y borrar.
+con `std::filesystem`: crear, listar, consultar tamaños y borrar. Guardar objetos
+en archivos **binarios** y llegar directo a un registro con `seekg` y `seekp`.
 
 ### Antes de empezar
 
@@ -3807,6 +3808,31 @@ carpeta del proyecto, el archivo aparece en la carpeta del proyecto.
 > **Si venís de C.** `ofstream`/`ifstream` reemplazan a `fopen`/`fprintf`/`fgets`,
 > y se cierran solos (no hay `fclose` que olvidar). `std::filesystem` reemplaza a
 > las funciones de cada sistema operativo (`dirent.h`, `stat`, la API de Windows).
+
+#### Archivos binarios: guardar objetos tal cual
+Un archivo de texto se lee con los ojos; uno **binario** guarda los bytes del objeto tal como están en la memoria. Se abre con `std::ios::binary` y se usa `write` y `read`, que reciben la dirección del objeto como `char*` y cuántos bytes:
+```cpp
+Miembro m("Bron", 3);
+std::ofstream f("gremio.dat", std::ios::binary | std::ios::app);   // app: agrega al final
+f.write(reinterpret_cast<const char*>(&m), sizeof m);
+
+std::ifstream g("gremio.dat", std::ios::binary);
+while (g.read(reinterpret_cast<char*>(&m), sizeof m)) { /* uno por vuelta */ }
+```
+Solo se puede hacer con objetos de **tamaño fijo y sin punteros adentro**: datos simples, arreglos de `char` (`char nombre[20]`) y sin métodos `virtual`. Un `std::string` guarda adentro un **puntero** a sus letras: escribirlo así guarda la dirección, no el texto, y al leerlo apunta a cualquier lado. Para clases con `std::string` o con herencia, se usa texto: una línea por objeto, con el tipo primero (lo vas a hacer en TallerExpress, el jefe final).
+
+**Acceso directo.** Como todos los registros miden lo mismo, el registro `n` empieza en el byte `n * sizeof(Miembro)`: se puede ir directo, sin leer los anteriores, y hasta escribir encima con un `std::fstream` abierto para leer y escribir:
+```cpp
+std::fstream f("gremio.dat", std::ios::binary | std::ios::in | std::ios::out);
+f.seekg(n * sizeof(Miembro));          // posicionarse para leer (g de get)
+f.read(reinterpret_cast<char*>(&m), sizeof m);
+m.subir();
+f.seekp(n * sizeof(Miembro));          // posicionarse para escribir (p de put)
+f.write(reinterpret_cast<const char*>(&m), sizeof m);
+```
+Con `std::ios::ate` el archivo se abre parado al final, y `tellg()` dice en qué byte está: dividido por el tamaño del registro, da la cantidad.
+
+> **Si venís de C.** Es lo mismo que `fwrite`, `fread` y `fseek` con un `struct`, y los parciales de la UNLaR y la UTN lo toman igual.
 
 ### Código de ejemplo
 
@@ -4283,6 +4309,162 @@ y grande.txt muchas-letras-para-un-archivo-grande
 ¿Quedó algo? no
 ```
 
+### Misión R03-N06-M4 · El archivo del gremio
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+El gremio guarda sus miembros en un archivo **binario**, `gremio.dat`. Escribí la clase `Miembro` (un nombre de hasta 19 letras en un `char[20]` y un nivel) y un programa que empiece con el archivo vacío y lea órdenes:
+- `alta nombre nivel`: agrega un miembro al final del archivo.
+- `subir pos`: sube un nivel al miembro de esa posición (la primera es 0) **directamente en el archivo**, con `seekg` y `seekp`. Si no existe, muestra `No existe la posicion <pos>`.
+- `listar`: lee el archivo y muestra `pos. nombre (nivel n)` y al final `Miembros: <cantidad>`.
+
+#### Criterio de aprobación
+
+- `Miembro` no tiene `std::string` ni métodos virtuales, y se escribe con `write` y `sizeof`.
+- `subir` lee y escribe solo ese registro, sin cargar todo el archivo.
+- La cantidad sale del tamaño del archivo.
+
+#### Entrada de ejemplo
+
+```
+alta Bron 3
+alta Lyn 5
+alta Oto 1
+subir 1
+subir 1
+subir 7
+listar
+```
+
+#### Salida esperada
+
+```
+No existe la posicion 7
+0. Bron (nivel 3)
+1. Lyn (nivel 7)
+2. Oto (nivel 1)
+Miembros: 3
+```
+
+#### Solución de referencia
+
+```cpp
+// Mision 4 - El archivo del gremio: objetos de tamano fijo en un archivo binario, con acceso directo.
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <string>
+
+// Sin std::string ni virtual: el objeto entero son bytes fijos y se puede escribir tal cual.
+class Miembro {
+public:
+    Miembro() = default;
+    Miembro(const std::string& nombre, int nivel) : nivel_(nivel)
+    {
+        std::strncpy(nombre_, nombre.c_str(), sizeof nombre_ - 1);   // el ultimo byte queda en '\0'
+    }
+    const char* nombre() const { return nombre_; }
+    int nivel() const { return nivel_; }
+    void subir() { nivel_++; }
+
+private:
+    char nombre_[20] = {};
+    int nivel_ = 0;
+};
+
+const char* RUTA = "gremio.dat";
+
+int cantidad()
+{
+    std::ifstream f(RUTA, std::ios::binary | std::ios::ate);   // ate: abre parado al final
+    return f ? static_cast<int>(f.tellg() / sizeof(Miembro)) : 0;
+}
+
+void alta(const Miembro& m)
+{
+    std::ofstream f(RUTA, std::ios::binary | std::ios::app);
+    f.write(reinterpret_cast<const char*>(&m), sizeof m);
+}
+
+bool subir(int pos)
+{
+    if (pos < 0 || pos >= cantidad()) {
+        return false;
+    }
+    std::fstream f(RUTA, std::ios::binary | std::ios::in | std::ios::out);
+    Miembro m;
+    f.seekg(pos * sizeof(Miembro));                  // directo al registro, sin leer los anteriores
+    f.read(reinterpret_cast<char*>(&m), sizeof m);
+    m.subir();
+    f.seekp(pos * sizeof(Miembro));                  // y se escribe encima, en el mismo lugar
+    f.write(reinterpret_cast<const char*>(&m), sizeof m);
+    return true;
+}
+
+void listar()
+{
+    std::ifstream f(RUTA, std::ios::binary);
+    Miembro m;
+    int pos = 0;
+    while (f.read(reinterpret_cast<char*>(&m), sizeof m)) {
+        std::cout << pos++ << ". " << m.nombre() << " (nivel " << m.nivel() << ")\n";
+    }
+    std::cout << "Miembros: " << pos << "\n";
+}
+
+int main()
+{
+    std::ofstream(RUTA, std::ios::binary);           // empieza con el archivo vacio
+    std::string orden;
+    while (std::cin >> orden) {
+        if (orden == "alta") {
+            std::string nombre;
+            int nivel;
+            std::cin >> nombre >> nivel;
+            alta(Miembro(nombre, nivel));
+        } else if (orden == "subir") {
+            int pos;
+            std::cin >> pos;
+            if (!subir(pos)) {
+                std::cout << "No existe la posicion " << pos << "\n";
+            }
+        } else if (orden == "listar") {
+            listar();
+        }
+    }
+    return 0;
+}
+```
+
+#### Pruebas
+
+##### Archivo vacío
+```entrada
+listar
+subir 0
+```
+```salida
+Miembros: 0
+No existe la posicion 0
+```
+
+##### Un nombre demasiado largo se corta
+```entrada
+alta UnNombreMuyLargoDeVerdad 1
+listar
+```
+```salida
+0. UnNombreMuyLargoDeV (nivel 1)
+Miembros: 1
+```
+
 ### Encargo R03-N06-E1 · La configuración del programa
 
 ```meta
@@ -4429,6 +4611,14 @@ volumen=7
 ```
 
 ### Prueba del sello
+
+#### ¿Por qué no se puede escribir un `std::string` con `write` y `sizeof`?
+
+Porque adentro guarda un puntero a sus letras: se escribiría la dirección, no el texto.
+
+#### ¿Qué hacen `seekg` y `seekp`?
+
+Ponen la posición de lectura (`g`) o de escritura (`p`) en un byte del archivo, para ir directo a un registro.
 
 #### ¿Qué pasa si abrís con `std::ofstream` un archivo que ya existía?
 

@@ -716,8 +716,9 @@ En la línea de ensamblaje, cada autómata sale de la máquina ya armado, con la
 
 Escribir **constructores** que dejan cada objeto en un estado válido desde que
 nace, con lista de inicialización, sobrecarga y delegación; entender `explicit`;
-escribir **destructores** y predecir cuándo corren; y conocer los miembros
-`static`, compartidos por todos los objetos de una clase.
+escribir **destructores** y predecir cuándo corren; crear y borrar objetos con
+`new` y `delete`; usar el puntero `this`; y conocer los miembros `static`,
+compartidos por todos los objetos de una clase.
 
 ### Antes de empezar
 
@@ -797,6 +798,31 @@ Casi nunca vas a escribir un destructor para imprimir: su uso real es **liberar
 recursos** (cerrar un archivo, devolver memoria, soltar una conexión). Esa idea,
 "lo que se adquiere en el constructor se libera en el destructor", se llama
 **RAII** y la vas a ver a fondo en la rama 3.
+
+#### `new` y `delete`: objetos que viven hasta que los borrás
+Hasta ahora cada objeto vive en su bloque (en la **pila**). Con `new` se crea un objeto en el **montón** (*heap*): no muere al terminar el bloque, sino cuando alguien hace `delete`:
+```cpp
+Automata* a = new Automata("Cucu", 3);   // corre el constructor; a apunta al objeto
+a->trabajar();                           // con un puntero se usa -> en vez de .
+delete a;                                // corre el destructor y devuelve la memoria
+a = nullptr;                             // que no quede apuntando a algo que ya no existe
+
+int* numeros = new int[10];              // un arreglo en el montón
+delete[] numeros;                        // los arreglos, con delete[]
+```
+Es lo que en C eran `malloc` y `free`, con una diferencia importante: `new` **llama al constructor** y `delete` **al destructor**.
+
+Las trampas son las mismas de C:
+- Olvidar el `delete`: la memoria queda ocupada hasta que termina el programa (una **fuga**).
+- Hacer `delete` dos veces, o usar el objeto después del `delete`: comportamiento indefinido.
+- Mezclar: `new[]` va con `delete[]`, y `new` con `delete`.
+
+Por eso el C++ de hoy casi no escribe `delete` a mano: en la rama 3 vas a ver los **punteros inteligentes** (`std::unique_ptr`), que hacen el `delete` solos en su destructor. Pero tenés que saber qué hacen por dentro, y en los parciales y el código viejo vas a ver mucho `new` y `delete`.
+
+#### El puntero `this`
+Adentro de un método, `this` es un **puntero al objeto sobre el que se llamó**: en `a.trabajar()`, `this` apunta a `a`. Casi nunca hace falta escribirlo (`nombre_` ya es `this->nombre_`), salvo:
+- cuando un parámetro se llama igual que un dato: `this->vida = vida;`;
+- para devolver el objeto mismo y encadenar: `return *this;` (lo vas a ver en los operadores).
 
 #### Miembros `static`: uno para todos
 Un dato `static` no pertenece a cada objeto sino **a la clase**: hay uno solo,
@@ -1301,6 +1327,18 @@ Turnos entregados: 0
 ```
 
 ### Prueba del sello
+
+#### ¿Qué diferencia hay entre `Automata a("Cucu", 3);` y `new Automata("Cucu", 3)`?
+
+El primero vive hasta que termina su bloque; el segundo vive en el montón hasta que alguien hace `delete`.
+
+#### ¿Con qué se libera `new int[10]`?
+
+Con `delete[]`.
+
+#### ¿Qué es `this`?
+
+Un puntero al objeto sobre el que se llamó el método.
 
 #### ¿Cuándo corre el constructor? ¿Y el destructor?
 
@@ -2127,7 +2165,8 @@ En la mesa del cartógrafo de la Ciudadela, los mapas se suman: un tramo más ot
 
 Definir operadores para tus propios tipos: aritméticos (`+`, `-`, `*`, `+=`),
 de comparación (`==`, `<`, y los generados con `= default`) y el de salida (`<<`)
-para mostrarlos con `std::cout`. Ordenar vectores de tus tipos con `std::sort`.
+para mostrarlos con `std::cout`, como métodos o como **funciones amigas**
+(`friend`). Ordenar vectores de tus tipos con `std::sort`.
 
 ### Antes de empezar
 
@@ -2188,7 +2227,31 @@ std::ostream& operator<<(std::ostream& os, const Vec2& v)
     return os << "(" << v.x << ", " << v.y << ")";
 }
 ```
-Si necesita datos privados, usa los getters de la clase.
+Si necesita datos privados, tiene dos caminos: usar los getters de la clase o ser su **amiga** (lo que sigue).
+
+#### `friend`: funciones amigas
+Una función **amiga** no es un método de la clase, pero la clase le da permiso para leer lo privado. Se declara **adentro** de la clase con `friend`:
+```cpp
+class Complejo {
+public:
+    Complejo(int re = 0, int im = 0) : re_(re), im_(im) {}
+    friend Complejo operator+(const Complejo& a, const Complejo& b);      // amiga: puede leer re_ e im_
+    friend std::ostream& operator<<(std::ostream& os, const Complejo& c);
+private:
+    int re_, im_;
+};
+
+Complejo operator+(const Complejo& a, const Complejo& b)   // sin "Complejo::": no es un método
+{
+    return {a.re_ + b.re_, a.im_ + b.im_};
+}
+```
+- No tiene `this`: recibe los dos objetos como parámetros.
+- Se puede escribir entera adentro de la clase (`friend ... { ... }`), como en la misión 4.
+- La amistad **la da la clase**, no la pide la función: nadie de afuera puede hacerse amigo solo.
+- **Cuándo usarla**: para operadores con dos objetos del mismo tipo (`+`, `==`) y para `<<` y `>>`, donde a la izquierda va el stream y no puede ser un método. Para lo demás, mejor métodos y getters: cada amiga es una función más que puede romper la invariante.
+
+> **El apunte de la cátedra** define así la clase `complejo`, con `+`, `-`, `*` y `==` amigos: es el ejemplo clásico de sobrecarga de operadores en los parciales.
 
 #### Con mesura
 Un operador tiene que hacer **lo que todos esperan**: `+` suma, `==` compara. Usar
@@ -2643,6 +2706,121 @@ Entre el primero y el último: 00:00
 Entre el primero y el último: 23:59
 ```
 
+### Misión R02-N04-M4 · Los complejos del apunte
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Escribí la clase `Complejo` (parte real e imaginaria, enteras y **privadas**) con los operadores `+`, `-`, `*` y `==` como funciones **amigas**, y también `<<` (que muestre `3 + 2i` o `1 - 4i`) y `>>` (que lea dos enteros).
+
+El programa lee pares de complejos (cuatro enteros: real e imaginaria de `a`, real e imaginaria de `b`) hasta que se terminen, y por cada par muestra la suma, la resta, el producto y si son iguales.
+
+Recordá: `(a + bi) * (c + di) = (ac - bd) + (ad + bc)i`.
+
+#### Criterio de aprobación
+
+- Los datos son privados y no hay getters: los operadores son amigos.
+- `<<` y `>>` devuelven el stream para poder encadenar.
+- El signo de la parte imaginaria se muestra bien (`1 - 4i`, no `1 + -4i`).
+
+#### Entrada de ejemplo
+
+```
+3 2 1 -4
+```
+
+#### Salida esperada
+
+```
+(3 + 2i) + (1 - 4i) = 4 - 2i
+(3 + 2i) - (1 - 4i) = 2 + 6i
+(3 + 2i) * (1 - 4i) = 11 - 10i
+Son distintos
+```
+
+#### Solución de referencia
+
+```cpp
+// Mision 4 - Los complejos del apunte: una clase con datos privados y operadores amigos.
+#include <iostream>
+
+class Complejo {
+public:
+    Complejo(int re = 0, int im = 0) : re_(re), im_(im) {}
+
+    // Amigas: no son metodos (no tienen this), pero pueden leer re_ e im_.
+    friend Complejo operator+(const Complejo& a, const Complejo& b) { return {a.re_ + b.re_, a.im_ + b.im_}; }
+    friend Complejo operator-(const Complejo& a, const Complejo& b) { return {a.re_ - b.re_, a.im_ - b.im_}; }
+    friend Complejo operator*(const Complejo& a, const Complejo& b)
+    {
+        return {a.re_ * b.re_ - a.im_ * b.im_, a.re_ * b.im_ + a.im_ * b.re_};
+    }
+    friend bool operator==(const Complejo& a, const Complejo& b) { return a.re_ == b.re_ && a.im_ == b.im_; }
+
+    friend std::ostream& operator<<(std::ostream& os, const Complejo& c)
+    {
+        os << c.re_;
+        if (c.im_ < 0) {
+            return os << " - " << -c.im_ << "i";
+        }
+        return os << " + " << c.im_ << "i";
+    }
+
+    friend std::istream& operator>>(std::istream& is, Complejo& c) { return is >> c.re_ >> c.im_; }
+
+private:
+    int re_;
+    int im_;
+};
+
+int main()
+{
+    Complejo a, b;
+    while (std::cin >> a >> b) {
+        std::cout << "(" << a << ") + (" << b << ") = " << a + b << "\n";
+        std::cout << "(" << a << ") - (" << b << ") = " << a - b << "\n";
+        std::cout << "(" << a << ") * (" << b << ") = " << a * b << "\n";
+        std::cout << (a == b ? "Son iguales" : "Son distintos") << "\n";
+    }
+    return 0;
+}
+```
+
+#### Pruebas
+
+##### i por i da -1
+```entrada
+0 1 0 1
+```
+```salida
+(0 + 1i) + (0 + 1i) = 0 + 2i
+(0 + 1i) - (0 + 1i) = 0 + 0i
+(0 + 1i) * (0 + 1i) = -1 + 0i
+Son iguales
+```
+
+##### Dos pares: reales y conjugados
+```entrada
+5 0 -2 0
+2 3 2 -3
+```
+```salida
+(5 + 0i) + (-2 + 0i) = 3 + 0i
+(5 + 0i) - (-2 + 0i) = 7 + 0i
+(5 + 0i) * (-2 + 0i) = -10 + 0i
+Son distintos
+(2 + 3i) + (2 - 3i) = 4 + 0i
+(2 + 3i) - (2 - 3i) = 0 + 6i
+(2 + 3i) * (2 - 3i) = 13 + 0i
+Son distintos
+```
+
 ### Encargo R02-N04-E1 · Dinero sin errores
 
 ```meta
@@ -2765,6 +2943,14 @@ Para escribir en ese stream y devolverlo, así se puede seguir encadenando `<<`.
 #### ¿Qué genera `auto operator<=>(const T&) const = default;`?
 
 Todas las comparaciones (`<`, `<=`, `>`, `>=`, `==`, `!=`), comparando campo por campo en orden.
+
+#### ¿Qué es una función `friend`? ¿Tiene `this`?
+
+Una función que no es método de la clase, pero puede leer lo privado porque la clase la declaró amiga. No tiene `this`: recibe los objetos como parámetros.
+
+#### ¿Por qué `operator<<` no puede ser un método de tu clase?
+
+Porque a la izquierda de `<<` va el `ostream` (`cout << c`), y un método tiene siempre su objeto a la izquierda.
 
 #### ¿Qué necesita tu tipo para poder usar `std::sort(v.begin(), v.end())` sin comparador?
 
@@ -3592,8 +3778,9 @@ En el archivo de planos hay una carpeta que dice "Autómata" y, adentro, otras m
 
 Crear clases **derivadas** que reutilizan una clase **base** (relación "es un"):
 llamar al constructor de la base, usar `protected`, agregar datos y métodos,
-redefinir un método y llamar a la versión de la base, y entender el orden de
-construcción y destrucción.
+redefinir un método y llamar a la versión de la base, entender el orden de
+construcción y destrucción, la tabla de accesos de la herencia `public`,
+`protected` y `private`, y la herencia múltiple.
 
 ### Antes de empezar
 
@@ -3649,6 +3836,39 @@ void Enemigo::estado() const
 #### Varios niveles
 Una derivada puede ser base de otra: `Jefe : Enemigo : Entidad`. Un `Jefe` es un
 `Enemigo` y también es una `Entidad`.
+
+#### Herencia `public`, `protected` y `private`
+El `public` de `class Heroe : public Entidad` también se puede cambiar. Dice **cómo quedan en la derivada** los miembros que vienen de la base. Es la tabla del apunte de la cátedra:
+
+| En la base es… | con `: public Base` queda | con `: protected Base` queda | con `: private Base` queda |
+|---|---|---|---|
+| `public` | `public` | `protected` | `private` |
+| `protected` | `protected` | `protected` | `private` |
+| `private` | inaccesible | inaccesible | inaccesible |
+
+Se lee así: el tipo de herencia es un **techo**. Nada queda más abierto que eso, y lo privado de la base nunca se ve desde la derivada (está adentro del objeto, pero solo lo tocan los métodos de la base).
+
+```cpp
+class Motor { public: void arrancar(); };
+class Auto : private Motor {             // Auto USA un Motor, pero no ES un Motor para los de afuera
+public:
+    void andar() { arrancar(); }         // adentro de Auto, arrancar() se puede usar
+};
+Auto a;
+a.andar();        // bien
+a.arrancar();     // error: 'arrancar' es private dentro de Auto
+```
+- Si no escribís nada, `class` hereda **`private`** y `struct` hereda **`public`**. Por eso conviene escribirlo siempre.
+- Casi siempre se usa `public` (la relación "es un"). Con `private` lo de afuera no puede tratar a un `Auto` como un `Motor`: para "usa un" casi siempre es más claro un **miembro** (composición, el nodo anterior).
+
+#### Herencia múltiple
+Una clase puede tener **varias** bases, separadas con comas:
+```cpp
+class Volador { public: void volar() const; };
+class Nadador { public: void nadar() const; };
+class Pato : public Volador, public Nadador { };    // un Pato vuela y nada
+```
+Las bases se construyen en el orden en que están escritas (`Volador`, después `Nadador`). Si dos bases tienen un método con el mismo nombre, hay que decir cuál: `p.Volador::mover()`. Se usa poco (y con cuidado): lo más común es una base con datos y otras que solo piden métodos, como las interfaces de Java.
 
 #### Una limitación (que resuelve el nodo siguiente)
 Sin nada más, cuando una función recibe una `Entidad&` y llama a `estado()`, se
@@ -4243,6 +4463,18 @@ int main()
 ```
 
 ### Prueba del sello
+
+#### En `class B : protected A`, ¿cómo queda en `B` un método `public` de `A`?
+
+`protected`: lo pueden usar `B` y sus derivadas, pero no los de afuera.
+
+#### Si `A` tiene un dato `private`, ¿puede usarlo un método de una clase derivada?
+
+No, con ningún tipo de herencia: está dentro del objeto, pero solo lo tocan los métodos de `A` (o se lo hace `protected`).
+
+#### ¿Qué herencia usa `class B : A` si no se escribe nada?
+
+`private` (con `struct`, sería `public`).
 
 #### ¿Qué hereda `class Heroe : public Entidad`?
 

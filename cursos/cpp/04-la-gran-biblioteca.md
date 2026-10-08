@@ -1311,7 +1311,17 @@ comparadores propios.
 | `std::vector` | casi todo: acceso por índice, recorrer, agregar al final | insertar o borrar al principio o en el medio |
 | `std::deque` | agregar y sacar **por los dos extremos** (`push_front`, `push_back`) | — (un poco más lento que vector para recorrer) |
 | `std::list` | insertar y borrar en el medio **si ya tenés el iterador** | acceso por índice (no tiene `[]`), recorrer (es lenta) |
+| `std::forward_list` | lo mismo que `list`, gastando menos memoria: cada nodo apunta solo al siguiente | ir para atrás, saber el tamaño (no tiene `size()`) |
 | `std::array` | tamaño fijo | crecer |
+
+`std::forward_list` es la **lista enlazada simple** que se arma a mano en C (cada nodo con su `siguiente`). Como un nodo no conoce al anterior, se inserta y se borra **después** de una posición: `push_front`, `insert_after`, `erase_after`, y `before_begin()` para operar sobre el primero:
+```cpp
+std::forward_list<int> f = {3, 5, 8};
+f.push_front(1);                       // 1 3 5 8
+f.insert_after(f.begin(), 2);          // 1 2 3 5 8
+f.erase_after(f.before_begin());       // borra el primero: 2 3 5 8
+f.remove_if([](int x) { return x % 2 == 0; });   // 3 5
+```
 
 **Regla práctica: usá `vector`.** Cambiá solo si tenés un motivo claro (necesitás
 el frente: `deque`) o si mediste que otro es más rápido en tu caso. "Uso `list`
@@ -2754,6 +2764,14 @@ dónde empieza la "basura". Por eso se ordena primero y se borra después:
 std::sort(v.begin(), v.end());
 v.erase(std::unique(v.begin(), v.end()), v.end());
 ```
+
+#### Borrar lo que cumple algo: *erase-remove*
+`std::remove` y `std::remove_if` tampoco borran: **corren al principio** los que se quedan y devuelven dónde empieza lo que sobra. El algoritmo no puede achicar el contenedor (solo ve iteradores), así que el borrado lo hace el contenedor con `erase`. Esa pareja se llama el *idiom* **erase-remove**:
+```cpp
+std::vector<int> v = {4, 7, 2, 9, 1};
+v.erase(std::remove_if(v.begin(), v.end(), [](int x) { return x < 5; }), v.end());   // queda 7 9
+```
+Desde C++20 hay una forma corta que hace las dos cosas: `std::erase_if(v, condicion)` (y `std::erase(v, valor)`). Las listas tienen su propio `remove_if`, que sí borra. Es bueno conocer las dos: en código de antes de C++20 (y en los parciales) vas a ver el erase-remove.
 
 #### El tipo de `accumulate`
 `std::accumulate(b, e, 0)` suma en `int`; con `0.0`, en `double`. Con un cuarto

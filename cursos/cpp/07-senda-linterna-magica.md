@@ -230,6 +230,247 @@ undefined reference to `SDL_Init'
 
 **Troll: liberar en el orden equivocado o no liberar.** Las texturas antes que el renderer, el renderer antes que la ventana, y `SDL_Quit` al final. Una clase RAII lo hace siempre bien.
 
+### Micro-misión S01-N01-P1 · Los milisegundos de la linterna
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Bron, Tesla
+carta: dt en segundos | SDL da el tiempo en milisegundos (enteros) · dt = (ahora - antes) / 1000.0 · con / 1000 entre enteros da 0
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Detrás de la Encrucijada hay una sala oscura con una **linterna mágica** que proyecta figuras que se mueven. El reloj de la linterna da el tiempo en milisegundos, y el `dt` de Bron le da siempre cero: la figura no se mueve nunca.
+
+#### Gheco sugiere
+Dividí por `1000.0` (con decimales): así `16 / 1000.0` da `0.016`. Acá se prueba la lógica sin ventana (SDL no corre en el navegador): es lo mismo que pasa por dentro de SDL.
+
+#### Desafío
+Calculá el `dt` en segundos con decimales.
+
+#### Código inicial
+```cpp
+#include <cstdint>
+#include <iostream>
+
+int main()
+{
+    std::uint64_t marcas[] = {1000, 1016, 1033, 1050};
+    double x = 0;
+    for (int i = 1; i < 4; i++) {
+        double dt = (marcas[i] - marcas[i - 1]) / 1000;
+        x += 300 * dt;
+        std::cout << "dt = " << dt << " s, x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+dt = 0.016 s, x = 4.8
+dt = 0.017 s, x = 9.9
+dt = 0.017 s, x = 15
+```
+
+#### Solución
+```cpp
+#include <cstdint>
+#include <iostream>
+
+int main()
+{
+    std::uint64_t marcas[] = {1000, 1016, 1033, 1050};
+    double x = 0;
+    for (int i = 1; i < 4; i++) {
+        double dt = (marcas[i] - marcas[i - 1]) / 1000.0;
+        x += 300 * dt;
+        std::cout << "dt = " << dt << " s, x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La figura avanza quince píxeles en tres cuadros. Bron mete la mano delante de la lente y en la pared aparece una mano gigante.
+
+#### Imagen
+- Una linterna mágica de bronce proyectando figuras en una pared oscura.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) pone la mano delante de la lente.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) ajusta el foco.
+
+### Micro-misión S01-N01-P2 · La pelota que rebota
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Lyn, Bron
+carta: Rebote | si la posición se pasa del borde, se la deja en el borde y se da vuelta la velocidad (vx = -vx)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn hace rebotar una pelota de luz contra las paredes de la proyección (la pared derecha está en 100). La pelota de Bron se sale de la pared y se pierde en la oscuridad.
+
+#### Gheco sugiere
+Si `x` pasa de 100, dejala en 100 y cambiá el signo de `vx`. Lo mismo con el borde izquierdo, en 0.
+
+#### Desafío
+Hacé rebotar la pelota en los dos bordes.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    double x = 80;
+    double vx = 50;
+    const double dt = 0.25;
+    for (int cuadro = 1; cuadro <= 4; cuadro++) {
+        x += vx * dt;
+        std::cout << "cuadro " << cuadro << ": x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: x = 92.5
+cuadro 2: x = 100
+cuadro 3: x = 87.5
+cuadro 4: x = 75
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    double x = 80;
+    double vx = 50;
+    const double dt = 0.25;
+    for (int cuadro = 1; cuadro <= 4; cuadro++) {
+        x += vx * dt;
+        if (x > 100) {
+            x = 100;
+            vx = -vx;
+        } else if (x < 0) {
+            x = 0;
+            vx = -vx;
+        }
+        std::cout << "cuadro " << cuadro << ": x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La pelota toca la pared y vuelve. Lyn hace una sombra de conejo y le gana la carrera.
+
+#### Imagen
+- Una pelota de luz rebotando en el borde de una proyección.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) hace una sombra de conejo.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sigue la pelota con la mirada.
+
+### Micro-misión S01-N01-P3 · La lente que se devuelve sola
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Bron, Tesla
+carta: RAII para SDL | una clase que pide el recurso en el constructor (SDL_CreateWindow) y lo devuelve en el destructor (SDL_DestroyWindow) · se libera al revés de como se pidió
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La linterna usa tres recursos: la ventana, el pincel y una lente. Bron los pide y los devuelve a mano, y se olvidó de devolver la lente. Tesla le muestra cómo hacer que se devuelvan solos.
+
+#### Gheco sugiere
+Creá los tres como objetos `Recurso` en orden (ventana, pincel, lente) y borrá las llamadas a mano: al terminar `main`, los destructores los devuelven al revés.
+
+#### Desafío
+Usá objetos que se devuelvan solos.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+void pedir(const std::string& r) { std::cout << "pido " << r << "\n"; }
+void devolver(const std::string& r) { std::cout << "devuelvo " << r << "\n"; }
+
+class Recurso {
+public:
+    explicit Recurso(std::string n) : nombre_(n) { pedir(nombre_); }
+    ~Recurso() { devolver(nombre_); }
+    Recurso(const Recurso&) = delete;
+    Recurso& operator=(const Recurso&) = delete;
+
+private:
+    std::string nombre_;
+};
+
+int main()
+{
+    pedir("ventana");
+    pedir("pincel");
+    pedir("lente");
+    std::cout << "la linterna proyecta\n";
+    devolver("pincel");
+    devolver("ventana");
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+pido ventana
+pido pincel
+pido lente
+la linterna proyecta
+devuelvo lente
+devuelvo pincel
+devuelvo ventana
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+void pedir(const std::string& r) { std::cout << "pido " << r << "\n"; }
+void devolver(const std::string& r) { std::cout << "devuelvo " << r << "\n"; }
+
+class Recurso {
+public:
+    explicit Recurso(std::string n) : nombre_(n) { pedir(nombre_); }
+    ~Recurso() { devolver(nombre_); }
+    Recurso(const Recurso&) = delete;
+    Recurso& operator=(const Recurso&) = delete;
+
+private:
+    std::string nombre_;
+};
+
+int main()
+{
+    Recurso ventana("ventana");
+    Recurso pincel("pincel");
+    Recurso lente("lente");
+    std::cout << "la linterna proyecta\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Lente, pincel, ventana: todo vuelve a su lugar, al revés y sin olvidos.
+
+#### Imagen
+- Una linterna mágica desarmada sobre una mesa, con sus piezas en orden.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) guarda una lente.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cierra la caja.
+
 ### Misión S01-N01-M1 · Las linternas que rebotan
 
 ```meta
@@ -849,6 +1090,224 @@ Leer el teclado por estado y animar sprites con el tiempo es lo que hace cualqui
 **Troll: copiar una textura.** Dos objetos con el mismo `SDL_Texture*` lo destruirían dos veces. Por eso la copia está prohibida y solo se mueve.
 
 **Goblin: el sprite borroso.** Sin `SDL_SCALEMODE_NEAREST`, el pixel art agrandado se ve lavado.
+
+### Micro-misión S01-N02-P1 · La diagonal que no corre más
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Bron, Lima
+carta: Diagonal normalizada | si se aprietan dos flechas, el vector (1, 1) mide 1.41 · se divide por su largo (std::hypot) para que mida 1
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La heroína de la linterna (la que tiene la cara de Lima) camina más rápido en diagonal que derecho. Lima dice que así no camina ella.
+
+#### Gheco sugiere
+Si el vector de dirección no es cero, dividí `dx` y `dy` por su largo: `std::hypot(dx, dy)`.
+
+#### Desafío
+Normalizá la dirección.
+
+#### Código inicial
+```cpp
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+
+int main()
+{
+    int teclas[][2] = {{1, 0}, {1, 1}, {0, -1}};
+    std::cout << std::fixed << std::setprecision(2);
+    for (const auto& t : teclas) {
+        double dx = t[0];
+        double dy = t[1];
+        std::cout << "direccion (" << dx << ", " << dy << "), rapidez " << std::hypot(dx, dy) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+direccion (1.00, 0.00), rapidez 1.00
+direccion (0.71, 0.71), rapidez 1.00
+direccion (0.00, -1.00), rapidez 1.00
+```
+
+#### Solución
+```cpp
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+
+int main()
+{
+    int teclas[][2] = {{1, 0}, {1, 1}, {0, -1}};
+    std::cout << std::fixed << std::setprecision(2);
+    for (const auto& t : teclas) {
+        double dx = t[0];
+        double dy = t[1];
+        double largo = std::hypot(dx, dy);
+        if (largo > 0) {
+            dx /= largo;
+            dy /= largo;
+        }
+        std::cout << "direccion (" << dx << ", " << dy << "), rapidez " << std::hypot(dx, dy) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Rapidez 1.00 en todas las direcciones. Lima dice que ahora sí camina como ella.
+
+#### Imagen
+- Una figura proyectada caminando en diagonal con flechas de igual largo.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) mira la proyección, conforme.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aprieta dos flechas.
+
+### Micro-misión S01-N02-P2 · Recién apretada
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Bron, Tesla
+carta: Tecla recién apretada | está apretada AHORA y NO lo estaba en el cuadro anterior · mantenerla apretada no repite el salto
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La heroína salta cuando se aprieta la barra. Bron mantiene la barra apretada y la heroína salta en cada cuadro, como un resorte. Tesla le explica que el salto es para la tecla **recién** apretada.
+
+#### Gheco sugiere
+Guardá cómo estaba la tecla en el cuadro anterior. Salta solo si `ahora && !antes`.
+
+#### Desafío
+Saltá solo cuando la tecla se acaba de apretar.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    bool barra[] = {false, true, true, true, false, true};
+    bool antes = false;
+    int saltos = 0;
+    for (int cuadro = 0; cuadro < 6; cuadro++) {
+        bool ahora = barra[cuadro];
+        if (ahora) {
+            saltos++;
+            std::cout << "cuadro " << cuadro << ": salta\n";
+        }
+        antes = ahora;
+    }
+    std::cout << "Saltos: " << saltos << (antes ? " (la barra sigue apretada)" : "") << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: salta
+cuadro 5: salta
+Saltos: 2 (la barra sigue apretada)
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    bool barra[] = {false, true, true, true, false, true};
+    bool antes = false;
+    int saltos = 0;
+    for (int cuadro = 0; cuadro < 6; cuadro++) {
+        bool ahora = barra[cuadro];
+        if (ahora && !antes) {
+            saltos++;
+            std::cout << "cuadro " << cuadro << ": salta\n";
+        }
+        antes = ahora;
+    }
+    std::cout << "Saltos: " << saltos << (antes ? " (la barra sigue apretada)" : "") << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Dos saltos, no cuatro. La heroína deja de rebotar como un resorte.
+
+#### Imagen
+- Una heroína proyectada en el aire, con una sola marca de salto.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) cuenta los cuadros.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) suelta la barra.
+
+### Micro-misión S01-N02-P3 · Los cuadros de la caminata
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Lima, Bron
+carta: Animación | cuadro = static_cast<int>(tiempo * fps) % cantidad · con el tiempo, no con las vueltas del bucle, para que vaya igual en cualquier compu
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La heroína camina pasando cuatro placas de vidrio, a 8 cuadros por segundo. La animación de Bron se pasa del último cuadro y busca una placa 5 que no existe.
+
+#### Gheco sugiere
+Usá el resto: `% 4`, así después del cuadro 3 vuelve al 0.
+
+#### Desafío
+Hacé que la animación vuelva a empezar.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    const double fps = 8;
+    for (double t : {0.0, 0.2, 0.4, 0.6, 0.8}) {
+        int cuadro = static_cast<int>(t * fps);
+        std::cout << "t = " << t << " s -> placa " << cuadro << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+t = 0 s -> placa 0
+t = 0.2 s -> placa 1
+t = 0.4 s -> placa 3
+t = 0.6 s -> placa 0
+t = 0.8 s -> placa 2
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    const double fps = 8;
+    for (double t : {0.0, 0.2, 0.4, 0.6, 0.8}) {
+        int cuadro = static_cast<int>(t * fps) % 4;
+        std::cout << "t = " << t << " s -> placa " << cuadro << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La heroína camina en un ciclo de cuatro placas, sin buscar la quinta. Lima reconoce su cara en la placa 2 y se la tapa.
+
+#### Imagen
+- Cuatro placas de vidrio pintadas con una heroína en distintas poses.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tapa una de las placas.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) las ordena.
 
 ### Misión S01-N02-M1 · El lago de hielo
 
@@ -1563,6 +2022,270 @@ Colisiones AABB, mapas de baldosas y cámaras son la base de los juegos de plata
 
 **Troll: usar la escena después de cambiarla.** Después de `escena = std::move(escena->siguiente)`, la escena vieja ya no existe: no se puede seguir usando nada de ella en ese cuadro.
 
+### Micro-misión S01-N03-P1 · Los rectángulos que se tocan
+
+```meta
+lugar: El laberinto de la linterna
+personajes: Bron, Tesla
+carta: AABB | dos rectángulos se superponen si a.x < b.x + b.w y a.x + a.w > b.x, Y lo mismo en y · faltando una condición, choca con todo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La heroína tiene que frenar en las paredes del laberinto proyectado. La función de choque de Bron revisa solo el eje horizontal, y la heroína choca con paredes que están en otra fila.
+
+#### Gheco sugiere
+Agregá las dos condiciones del eje vertical: `a.y < b.y + b.h && a.y + a.h > b.y`.
+
+#### Desafío
+Revisá los dos ejes.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+struct Rect {
+    int x, y, w, h;
+};
+
+bool chocan(const Rect& a, const Rect& b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x;
+}
+
+int main()
+{
+    Rect heroina{10, 10, 16, 16};
+    Rect pared_cerca{20, 20, 32, 32};
+    Rect pared_abajo{10, 100, 32, 32};
+    std::cout << "Pared cerca: " << (chocan(heroina, pared_cerca) ? "choca" : "libre") << "\n";
+    std::cout << "Pared abajo: " << (chocan(heroina, pared_abajo) ? "choca" : "libre") << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Pared cerca: choca
+Pared abajo: libre
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+struct Rect {
+    int x, y, w, h;
+};
+
+bool chocan(const Rect& a, const Rect& b)
+{
+    return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+}
+
+int main()
+{
+    Rect heroina{10, 10, 16, 16};
+    Rect pared_cerca{20, 20, 32, 32};
+    Rect pared_abajo{10, 100, 32, 32};
+    std::cout << "Pared cerca: " << (chocan(heroina, pared_cerca) ? "choca" : "libre") << "\n";
+    std::cout << "Pared abajo: " << (chocan(heroina, pared_abajo) ? "choca" : "libre") << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+La heroína frena en la pared de al lado y pasa libre por arriba de la de abajo.
+
+#### Imagen
+- Dos rectángulos de luz superpuestos en una pared y uno lejos.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) dibuja los bordes con el compás.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mueve la heroína.
+
+### Micro-misión S01-N03-P2 · La cámara que no se sale del mundo
+
+```meta
+lugar: El laberinto de la linterna
+personajes: Lima, Bron
+carta: Cámara | camara = jugador - mitad_de_pantalla, limitada con std::clamp entre 0 y mundo - pantalla · en pantalla: x - camara
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El mundo de la linterna mide 1000 y la pared de la sala solo 320. La cámara sigue a la heroína, pero cerca de los bordes muestra el vacío negro de afuera del mundo.
+
+#### Gheco sugiere
+Limitá la cámara: `std::clamp(jugador - 160, 0, 1000 - 320)`.
+
+#### Desafío
+Que la cámara no muestre afuera del mundo.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+
+int main()
+{
+    const int mundo = 1000;
+    const int pantalla = 320;
+    for (int jugador : {50, 500, 950}) {
+        int camara = jugador - pantalla / 2;
+        std::cout << "jugador en " << jugador << ": camara en " << camara << ", en pantalla en " << jugador - camara << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+jugador en 50: camara en 0, en pantalla en 50
+jugador en 500: camara en 340, en pantalla en 160
+jugador en 950: camara en 680, en pantalla en 270
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+
+int main()
+{
+    const int mundo = 1000;
+    const int pantalla = 320;
+    for (int jugador : {50, 500, 950}) {
+        int camara = std::clamp(jugador - pantalla / 2, 0, mundo - pantalla);
+        std::cout << "jugador en " << jugador << ": camara en " << camara << ", en pantalla en " << jugador - camara << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+En los bordes, la cámara se queda quieta y la heroína camina por la pantalla. El vacío negro desaparece.
+
+#### Imagen
+- Un riel con la lente de la linterna que se detiene en el tope.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) frena la lente con la mano.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) camina por la proyección.
+
+### Micro-misión S01-N03-P3 · Las escenas que se pasan la posta
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Bron, Tesla
+carta: Escenas | class Escena { virtual std::unique_ptr<Escena> siguiente(...) } · cada escena decide cuál sigue · el juego guarda la actual en un unique_ptr
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La linterna tiene tres escenas: el título, el juego y el final. El título de Bron, cuando aprietan una tecla, vuelve a crear… el título.
+
+#### Gheco sugiere
+En `Titulo::siguiente`, devolvé `std::make_unique<Juego>()`.
+
+#### Desafío
+Que el título pase al juego.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+class Escena {
+public:
+    virtual ~Escena() = default;
+    virtual std::string nombre() const = 0;
+    virtual std::unique_ptr<Escena> siguiente() const = 0;
+};
+
+class Final : public Escena {
+public:
+    std::string nombre() const override { return "final"; }
+    std::unique_ptr<Escena> siguiente() const override { return nullptr; }
+};
+
+class Juego : public Escena {
+public:
+    std::string nombre() const override { return "juego"; }
+    std::unique_ptr<Escena> siguiente() const override { return std::make_unique<Final>(); }
+};
+
+class Titulo : public Escena {
+public:
+    std::string nombre() const override { return "titulo"; }
+    std::unique_ptr<Escena> siguiente() const override { return std::make_unique<Titulo>(); }
+};
+
+int main()
+{
+    std::unique_ptr<Escena> actual = std::make_unique<Titulo>();
+    for (int i = 0; i < 4 && actual; i++) {
+        std::cout << "escena: " << actual->nombre() << "\n";
+        actual = actual->siguiente();
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+escena: titulo
+escena: juego
+escena: final
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+class Escena {
+public:
+    virtual ~Escena() = default;
+    virtual std::string nombre() const = 0;
+    virtual std::unique_ptr<Escena> siguiente() const = 0;
+};
+
+class Final : public Escena {
+public:
+    std::string nombre() const override { return "final"; }
+    std::unique_ptr<Escena> siguiente() const override { return nullptr; }
+};
+
+class Juego : public Escena {
+public:
+    std::string nombre() const override { return "juego"; }
+    std::unique_ptr<Escena> siguiente() const override { return std::make_unique<Final>(); }
+};
+
+class Titulo : public Escena {
+public:
+    std::string nombre() const override { return "titulo"; }
+    std::unique_ptr<Escena> siguiente() const override { return std::make_unique<Juego>(); }
+};
+
+int main()
+{
+    std::unique_ptr<Escena> actual = std::make_unique<Titulo>();
+    for (int i = 0; i < 4 && actual; i++) {
+        std::cout << "escena: " << actual->nombre() << "\n";
+        actual = actual->siguiente();
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Título, juego, final. La linterna cuenta una historia entera, y se apaga sola al terminar.
+
+#### Imagen
+- Tres placas de vidrio en fila: un título, una escena de juego y un cartel de fin.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) cambia de placa.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aplaude.
+
 ### Misión S01-N03-M1 · El laberinto de las monedas
 
 ```meta
@@ -2101,6 +2824,246 @@ Este es el esqueleto de un juego 2D real: se puede agrandar con más niveles, so
 **Ogro: el golpe en cada cuadro.** Sin invulnerabilidad, un toque dura varios cuadros y descuenta varias vidas.
 
 **Ogro: el mapa con filas de distinto largo.** `Mundo` lanza `std::invalid_argument`: el programa lo informa en vez de leer fuera del mapa.
+
+### Micro-misión S01-N04-P1 · Las gemas de la linterna
+
+```meta
+lugar: El laberinto de los espectros
+personajes: Bron, Lyn
+criatura: dragon
+carta: Juntar | si el jugador pisa la baldosa de una gema, la gema se borra del mapa y suma · se cuentan las que faltan
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La linterna se apaga de golpe: el **Espectro de la Linterna** se escapó y se llevó las gemas que la hacen brillar. Lyn apuesta a que Bron no las junta antes del amanecer. Bron pasa por encima de las gemas, pero no las levanta.
+
+#### Gheco sugiere
+Cuando la baldosa es `*`, cambiala por `.` y sumá una gema.
+
+#### Desafío
+Juntá las gemas al pisarlas.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string fila = "B.*.**";
+    std::string camino;
+    std::cin >> camino;
+    int x = 0;
+    int gemas = 0;
+    for (char d : camino) {
+        if (d == 'E') x++;
+    }
+    std::cout << "Gemas: " << gemas << ", fila: " << fila << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+EEEEE
+```
+
+#### Salida esperada
+```
+Gemas: 3, fila: B.....
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string fila = "B.*.**";
+    std::string camino;
+    std::cin >> camino;
+    int x = 0;
+    int gemas = 0;
+    for (char d : camino) {
+        if (d == 'E') x++;
+        if (fila[x] == '*') {
+            fila[x] = '.';
+            gemas++;
+        }
+    }
+    std::cout << "Gemas: " << gemas << ", fila: " << fila << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres gemas en el bolsillo y la fila queda limpia. Lyn mira el cielo: falta mucho para el amanecer.
+
+#### Imagen
+- Un laberinto oscuro con gemas brillantes en el piso.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) junta una gema.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) mira su cronómetro.
+
+### Micro-misión S01-N04-P2 · El espectro que no se cansa
+
+```meta
+lugar: El laberinto de los espectros
+personajes: Bron, Tesla
+criatura: dragon
+carta: Perseguir | en cada paso, el espectro se acerca un lugar en cada eje: si está a la izquierda, x + 1; a la derecha, x - 1 (lo mismo en y)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Los espectros no tienen prisa, pero tampoco se cansan: en cada paso se acercan a Bron. El espectro de Bron solo se acerca en horizontal, y nunca lo alcanza en vertical.
+
+#### Gheco sugiere
+Hacé lo mismo con `y`: si el espectro está arriba, `ey++`; si está abajo, `ey--`.
+
+#### Desafío
+Que el espectro persiga en los dos ejes.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int bx = 5, by = 5;
+    int ex = 1, ey = 2;
+    for (int paso = 1; paso <= 4; paso++) {
+        if (ex < bx) ex++;
+        if (ex > bx) ex--;
+        std::cout << "paso " << paso << ": espectro en (" << ex << ", " << ey << ")\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+paso 1: espectro en (2, 3)
+paso 2: espectro en (3, 4)
+paso 3: espectro en (4, 5)
+paso 4: espectro en (5, 5)
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int bx = 5, by = 5;
+    int ex = 1, ey = 2;
+    for (int paso = 1; paso <= 4; paso++) {
+        if (ex < bx) ex++;
+        if (ex > bx) ex--;
+        if (ey < by) ey++;
+        if (ey > by) ey--;
+        std::cout << "paso " << paso << ": espectro en (" << ex << ", " << ey << ")\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Al cuarto paso, el espectro está encima de Bron. Bron sale corriendo, y ahora sabe cuántos pasos tiene de ventaja.
+
+#### Imagen
+- Un espectro de luz pixelado acercándose en diagonal por un laberinto.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) retrocede.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) cuenta los pasos.
+
+### Micro-misión S01-N04-P3 · La linterna se enciende
+
+```meta
+lugar: La sala de la Linterna Mágica
+personajes: Bron, Tesla, Lyn
+criatura: dragon
+carta: Fin del juego | se gana cuando se juntaron TODAS las gemas · se pierde si un espectro toca al jugador · se revisa en cada cuadro, en orden
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+Bron vuelve con las gemas, perseguido por los espectros. El marcador de la linterna dice «ganaste» apenas junta la primera gema, y Lyn reclama: faltan dos.
+
+#### Gheco sugiere
+Se gana cuando `gemas == total`, no con cualquier gema. Y el toque del espectro se revisa antes.
+
+#### Desafío
+Corregí la condición de victoria.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    const int total = 3;
+    int gemas = 0;
+    bool tocado = false;
+    int cuadros_con_gema[] = {2, 5, 7};
+    for (int cuadro = 1; cuadro <= 8; cuadro++) {
+        for (int c : cuadros_con_gema) {
+            if (c == cuadro) gemas++;
+        }
+        if (tocado) {
+            std::cout << "cuadro " << cuadro << ": perdiste\n";
+            return 0;
+        }
+        if (gemas > 0) {
+            std::cout << "cuadro " << cuadro << ": ganaste con " << gemas << " gemas\n";
+            return 0;
+        }
+    }
+    std::cout << "se acabo el tiempo\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 7: ganaste con 3 gemas
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    const int total = 3;
+    int gemas = 0;
+    bool tocado = false;
+    int cuadros_con_gema[] = {2, 5, 7};
+    for (int cuadro = 1; cuadro <= 8; cuadro++) {
+        for (int c : cuadros_con_gema) {
+            if (c == cuadro) gemas++;
+        }
+        if (tocado) {
+            std::cout << "cuadro " << cuadro << ": perdiste\n";
+            return 0;
+        }
+        if (gemas == total) {
+            std::cout << "cuadro " << cuadro << ": ganaste con " << gemas << " gemas\n";
+            return 0;
+        }
+    }
+    std::cout << "se acabo el tiempo\n";
+    return 0;
+}
+```
+
+#### Al superarla
+En el cuadro 7, con las tres gemas, la linterna se enciende otra vez y el Espectro vuelve a sus placas de vidrio. Oto, que había apostado a favor de Bron, le sirve un guiso de festejo.
+
+#### Imagen
+- La linterna mágica encendida otra vez, proyectando colores en toda la sala.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta tres gemas.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) festejan; Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) trae una olla.
 
 ### Misión S01-N04-M1 · El Espectro de la Linterna
 

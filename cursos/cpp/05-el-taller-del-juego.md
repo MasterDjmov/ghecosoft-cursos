@@ -266,6 +266,266 @@ main.cpp:1:21: warning: ‘throw’ will always call ‘terminate’ [-Wterminat
 Para exigir que todo sea número, usá su segundo parámetro (cuántos caracteres
 usó).
 
+### Micro-misión R05-N01-P1 · Tocar la alarma
+
+```meta
+lugar: El Taller del Juego
+personajes: Bron, Tesla
+carta: throw y catch | throw std::invalid_argument("...") avisa · try { ... } catch (const std::exception& e) { e.what() } atrapa · sin catch, el programa termina
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Taller del Juego se construyen máquinas que no pueden fallar en silencio. La que reparte engranajes entre los ayudantes **toca la alarma** si le piden repartir entre cero. Nadie la escucha, y el programa se corta de golpe.
+
+#### Gheco sugiere
+Envolvé los repartos en un `try` y atrapá con `catch (const std::exception& e)`, mostrando `Alarma: ` y `e.what()`.
+
+#### Desafío
+Atrapá la alarma para que el Taller siga andando.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stdexcept>
+
+int repartir(int engranajes, int ayudantes)
+{
+    if (ayudantes == 0) {
+        throw std::invalid_argument("no hay ayudantes");
+    }
+    return engranajes / ayudantes;
+}
+
+int main()
+{
+    std::cout << "A cada uno: " << repartir(20, 4) << "\n";
+    std::cout << "A cada uno: " << repartir(20, 0) << "\n";
+    std::cout << "El Taller sigue andando\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+A cada uno: 5
+A cada uno: Alarma: no hay ayudantes
+El Taller sigue andando
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <stdexcept>
+
+int repartir(int engranajes, int ayudantes)
+{
+    if (ayudantes == 0) {
+        throw std::invalid_argument("no hay ayudantes");
+    }
+    return engranajes / ayudantes;
+}
+
+int main()
+{
+    try {
+        std::cout << "A cada uno: " << repartir(20, 4) << "\n";
+        std::cout << "A cada uno: " << repartir(20, 0) << "\n";
+    } catch (const std::exception& e) {
+        std::cout << "Alarma: " << e.what() << "\n";
+    }
+    std::cout << "El Taller sigue andando\n";
+    return 0;
+}
+```
+
+#### Al superarla
+La alarma suena, alguien la atrapa, y el Taller sigue andando. Tesla asiente: el que sabía qué hacer estaba más arriba.
+
+#### Imagen
+- Una máquina repartidora de engranajes con una sirena encendida.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) atrapa la sirena con una mano.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el contador en cero.
+
+### Micro-misión R05-N01-P2 · Primero lo más específico
+
+```meta
+lugar: El Taller del Juego
+personajes: Bron, Lima
+carta: Orden de los catch | se prueban de arriba hacia abajo · el de la base (std::exception) atrapa TODO · los específicos van primero
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Cuando alguien pide una pieza que no existe, la máquina tiene que decir «no existe esa pieza»; para el resto de los errores, «falla general». Bron puso el `catch` general arriba, y todo le dice «falla general». El compilador ya le avisa.
+
+#### Gheco sugiere
+Poné el `catch (const std::out_of_range&)` **antes** que el de `std::exception`.
+
+#### Desafío
+Ordená los `catch`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+
+int main()
+{
+    std::vector<int> piezas = {10, 20, 30};
+    for (int pedido : {1, 7}) {
+        try {
+            std::cout << "Pieza " << pedido << ": " << piezas.at(pedido) << "\n";
+        } catch (const std::exception& e) {
+            std::cout << "Pieza " << pedido << ": falla general\n";
+        } catch (const std::out_of_range& e) {
+            std::cout << "Pieza " << pedido << ": no existe esa pieza\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Pieza 1: 20
+Pieza 7: Pieza 7: no existe esa pieza
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+
+int main()
+{
+    std::vector<int> piezas = {10, 20, 30};
+    for (int pedido : {1, 7}) {
+        try {
+            std::cout << "Pieza " << pedido << ": " << piezas.at(pedido) << "\n";
+        } catch (const std::out_of_range&) {
+            std::cout << "Pieza " << pedido << ": no existe esa pieza\n";
+        } catch (const std::exception&) {
+            std::cout << "Pieza " << pedido << ": falla general\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+«No existe esa pieza», con todas las letras. Lima lo anota: de lo más fino a lo más grueso, como las limas.
+
+#### Imagen
+- Una pared con dos redes colgadas, una de malla fina arriba y una gruesa abajo.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) acomoda la red fina arriba.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la gruesa.
+
+### Micro-misión R05-N01-P3 · La red del andamio
+
+```meta
+lugar: Los andamios del Taller del Juego
+personajes: Bron, Tesla
+carta: Excepción propia | class FallaDeAndamio : public std::runtime_error { using runtime_error::runtime_error; }; · se atrapa por su tipo
+recompensa: xp 15, oro 15
+item: Amuleto del Catch
+```
+
+#### Escena
+Bron se sube a un andamio para ver mejor; el andamio se rompe, y Bron cae… y lo ataja una **red**. El que la tendió sabía que podía romperse, aunque no cuándo.
+Tesla quiere que la falla del andamio tenga su propio tipo, para atraparla sin confundirla con otras. Bron declaró la clase, pero sigue tirando un error genérico.
+
+#### Gheco sugiere
+En `subir`, tirá la excepción propia: `throw FallaDeAndamio("se rompio el tablon " + std::to_string(piso));`.
+
+#### Desafío
+Tirá la falla con su propio tipo.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+class FallaDeAndamio : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+
+void subir(int piso)
+{
+    if (piso == 3) {
+        throw std::runtime_error("algo paso");
+    }
+    std::cout << "Bron sube al piso " << piso << "\n";
+}
+
+int main()
+{
+    try {
+        for (int piso = 1; piso <= 4; piso++) {
+            subir(piso);
+        }
+    } catch (const FallaDeAndamio& e) {
+        std::cout << "La red ataja a Bron: " << e.what() << "\n";
+    } catch (const std::exception& e) {
+        std::cout << "Error sin red: " << e.what() << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Bron sube al piso 1
+Bron sube al piso 2
+La red ataja a Bron: se rompio el tablon 3
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+class FallaDeAndamio : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+
+void subir(int piso)
+{
+    if (piso == 3) {
+        throw FallaDeAndamio("se rompio el tablon " + std::to_string(piso));
+    }
+    std::cout << "Bron sube al piso " << piso << "\n";
+}
+
+int main()
+{
+    try {
+        for (int piso = 1; piso <= 4; piso++) {
+            subir(piso);
+        }
+    } catch (const FallaDeAndamio& e) {
+        std::cout << "La red ataja a Bron: " << e.what() << "\n";
+    } catch (const std::exception& e) {
+        std::cout << "Error sin red: " << e.what() << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La red ataja a Bron. Tesla le da un amuleto con forma de red: **el Amuleto del Catch**. —Para la próxima —dice—. Siempre hay una próxima.
+
+#### Imagen
+- Un andamio de madera roto y una red de bronce tendida debajo, con alguien atajado.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuelga de la red, aliviado.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) le muestra un amuleto con forma de red.
+
 ### Misión R05-N01-M1 · Leer números de verdad
 
 ```meta
@@ -987,6 +1247,224 @@ main.cpp:1:68: warning: declaration of ‘int vida’ shadows a parameter [-Wsha
 **Ogro: `assert` con efectos.** `assert(guardar(archivo));` desaparece al compilar
 con `-DNDEBUG`, ¡y el archivo no se guarda! Dentro de un `assert`, solo
 comprobaciones sin efectos.
+
+### Micro-misión R05-N02-P1 · La suposición que falla
+
+```meta
+lugar: El Taller del Juego
+personajes: Bron, Tesla
+carta: assert | assert(condicion) (#include <cassert>) corta el programa si la suposición es falsa · es para errores de PROGRAMACIÓN, no para validar al usuario
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un autómata camina en círculos. Tesla saca la lupa y un cuaderno: —Adivinar es lo más lento que hay. Bron escribió `promedio_ultimos(n)` con una suposición (`n` no puede ser más que la cantidad de pasos), y el `assert` corta el programa: alguien la está llamando mal.
+
+#### Gheco sugiere
+El `assert` no está mal: avisa que `main` pide los últimos 5 pasos de una lista de 4. Pedí los que hay: `pasos.size()`.
+
+#### Desafío
+Corregí la llamada para que la suposición se cumpla.
+
+#### Código inicial
+```cpp
+#include <cassert>
+#include <iostream>
+#include <vector>
+
+double promedio_ultimos(const std::vector<int>& pasos, std::size_t n)
+{
+    assert(n > 0 && n <= pasos.size());
+    double suma = 0;
+    for (std::size_t i = pasos.size() - n; i < pasos.size(); i++) {
+        suma += pasos[i];
+    }
+    return suma / n;
+}
+
+int main()
+{
+    std::vector<int> pasos = {4, 6, 5, 7};
+    std::cout << "Promedio: " << promedio_ultimos(pasos, 5) << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Promedio: 5.5
+```
+
+#### Solución
+```cpp
+#include <cassert>
+#include <iostream>
+#include <vector>
+
+double promedio_ultimos(const std::vector<int>& pasos, std::size_t n)
+{
+    assert(n > 0 && n <= pasos.size());
+    double suma = 0;
+    for (std::size_t i = pasos.size() - n; i < pasos.size(); i++) {
+        suma += pasos[i];
+    }
+    return suma / n;
+}
+
+int main()
+{
+    std::vector<int> pasos = {4, 6, 5, 7};
+    std::cout << "Promedio: " << promedio_ultimos(pasos, pasos.size()) << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cinco y medio. El `assert` encontró el error en un segundo; adivinando, Bron habría tardado una tarde.
+
+#### Imagen
+- Un autómata caminando en círculos y un cuaderno con anotaciones.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) observa con una lupa.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) anota en el cuaderno.
+
+### Micro-misión R05-N02-P2 · La lectura de más
+
+```meta
+lugar: El Taller del Juego
+personajes: Bron, Lima
+carta: Leer en la condición | while (std::cin >> x) se detiene cuando la lectura falla · while (!std::cin.eof()) da una vuelta de más
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron cuenta los pasos del autómata leyendo números hasta el final, con `while (!std::cin.eof())`. Hay tres números y cuenta cuatro: la última vuelta lee nada y la cuenta igual.
+
+#### Gheco sugiere
+Leé **en la condición**: `while (std::cin >> paso)`. Si la lectura falla, el bucle termina antes de contar.
+
+#### Desafío
+Leé en la condición del bucle.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int paso = 0;
+    int lecturas = 0;
+    int suma = 0;
+    while (!std::cin.eof()) {
+        std::cin >> paso;
+        lecturas++;
+        suma += paso;
+    }
+    std::cout << "Lecturas: " << lecturas << ", suma: " << suma << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+4 6 5
+```
+
+#### Salida esperada
+```
+Lecturas: 3, suma: 15
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int paso = 0;
+    int lecturas = 0;
+    int suma = 0;
+    while (std::cin >> paso) {
+        lecturas++;
+        suma += paso;
+    }
+    std::cout << "Lecturas: " << lecturas << ", suma: " << suma << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres lecturas, quince pasos. Lima tacha `eof` de la lista de cosas que Bron puede usar.
+
+#### Imagen
+- Una tira de papel con tres números y un cuarto casillero vacío.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tacha una palabra en una lista.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuenta con los dedos.
+
+### Micro-misión R05-N02-P3 · La variable que tapa a otra
+
+```meta
+lugar: El Taller del Juego
+personajes: Bron, Tesla
+carta: Sombra | declarar otra variable con el MISMO nombre adentro de un bloque tapa a la de afuera · -Wshadow lo avisa · nombres claros
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El contador de engranajes del Taller da siempre cero. Tesla mira el código y señala la línea: adentro del bucle, Bron escribió `int total = 0;` otra vez, y esa variable nueva tapa a la de afuera.
+
+#### Gheco sugiere
+Adentro del bucle no declares otra `total`: sumá a la de afuera.
+
+#### Desafío
+Sacá la variable que tapa a la otra.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> cajas = {12, 7, 30};
+    int total = 0;
+    for (int c : cajas) {
+        int total = 0;
+        total += c;
+    }
+    std::cout << "Engranajes: " << total << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Engranajes: 49
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> cajas = {12, 7, 30};
+    int total = 0;
+    for (int c : cajas) {
+        total += c;
+    }
+    std::cout << "Engranajes: " << total << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cuarenta y nueve. Tesla le recomienda compilar con `-Wshadow`: el Taller avisa estas cosas solo.
+
+#### Imagen
+- Dos variables dibujadas como dos cajas con el mismo nombre, una tapando a la otra.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) levanta la caja de arriba.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se tapa la cara.
 
 ### Misión R05-N02-M1 · La lista de compras rota
 
@@ -1742,6 +2220,288 @@ microsegundos da **0**. Elegí la unidad según lo que medís.
 **Ogro: poner los tiempos en la salida que se compara.** Cambian en cada
 ejecución: la prueba nunca coincide. Los tiempos, por `std::cerr`.
 
+### Micro-misión R05-N03-P1 · ¿Y la prueba?
+
+```meta
+lugar: El Banco de Pruebas de la Maestra Artífice
+personajes: Bron, la Maestra Artífice
+carta: Pruebas automáticas | una función comprobar(nombre, condición) que cuenta las que pasan · se corren todas cada vez que algo cambia
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron dice que su función «ya anda». La Maestra Artífice no levanta la vista de la tableta: —¿Y la prueba?
+Esta vez Bron tiene pruebas escritas: una de cada tres falla. La función que dice si un año es bisiesto se olvidó de la regla de los siglos.
+
+#### Gheco sugiere
+Un año es bisiesto si es divisible por 4 y **no** por 100, salvo que sea divisible por 400.
+
+#### Desafío
+Arreglá la función, no las pruebas.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+bool bisiesto(int anio)
+{
+    return anio % 4 == 0;
+}
+
+int pasan = 0;
+int total = 0;
+
+void comprobar(const std::string& nombre, bool ok)
+{
+    total++;
+    if (ok) {
+        pasan++;
+    } else {
+        std::cout << "FALLA: " << nombre << "\n";
+    }
+}
+
+int main()
+{
+    comprobar("2024 es bisiesto", bisiesto(2024));
+    comprobar("1900 no es bisiesto", !bisiesto(1900));
+    comprobar("2000 es bisiesto", bisiesto(2000));
+    std::cout << pasan << " de " << total << " pruebas pasan\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+3 de 3 pruebas pasan
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+bool bisiesto(int anio)
+{
+    return (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;
+}
+
+int pasan = 0;
+int total = 0;
+
+void comprobar(const std::string& nombre, bool ok)
+{
+    total++;
+    if (ok) {
+        pasan++;
+    } else {
+        std::cout << "FALLA: " << nombre << "\n";
+    }
+}
+
+int main()
+{
+    comprobar("2024 es bisiesto", bisiesto(2024));
+    comprobar("1900 no es bisiesto", !bisiesto(1900));
+    comprobar("2000 es bisiesto", bisiesto(2000));
+    std::cout << pasan << " de " << total << " pruebas pasan\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres de tres, en verde. La Maestra Artífice sonríe **medio segundo**. Lima jura que fue un tic.
+
+#### Imagen
+- Un banco de pruebas largo con tres lucecitas verdes encendidas.
+- la Maestra Artífice (mujer alta de 60, piel oscura, pelo blanco muy corto, antiparras verdes en la frente, delantal de cuero sobre una túnica verde con circuitos, tableta con tildes verdes) sonríe apenas.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) no lo puede creer.
+
+### Micro-misión R05-N03-P2 · El caso borde
+
+```meta
+lugar: El Banco de Pruebas de la Maestra Artífice
+personajes: Lima, la Maestra Artífice
+carta: Casos borde | lo vacío, el cero, uno solo, el máximo · ahí se esconden los errores · cada uno con su prueba
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La función de Lima cuenta las palabras de un cartel. Con carteles normales anda. La Maestra Artífice agrega una prueba con el cartel **vacío**, y la función dice que tiene una palabra.
+
+#### Gheco sugiere
+Contá las palabras leyéndolas con un `std::istringstream` (como en los Talleres): un texto vacío da cero.
+
+#### Desafío
+Hacé que la función pase la prueba del cartel vacío.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int palabras(const std::string& cartel)
+{
+    int n = 1;
+    for (char c : cartel) {
+        if (c == ' ') {
+            n++;
+        }
+    }
+    return n;
+}
+
+int main()
+{
+    int pasan = 0;
+    pasan += palabras("abierto todo el dia") == 4;
+    pasan += palabras("cerrado") == 1;
+    pasan += palabras("") == 0;
+    std::cout << pasan << " de 3 pruebas pasan\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+3 de 3 pruebas pasan
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int palabras(const std::string& cartel)
+{
+    std::istringstream ss(cartel);
+    std::string p;
+    int n = 0;
+    while (ss >> p) {
+        n++;
+    }
+    return n;
+}
+
+int main()
+{
+    int pasan = 0;
+    pasan += palabras("abierto todo el dia") == 4;
+    pasan += palabras("cerrado") == 1;
+    pasan += palabras("") == 0;
+    std::cout << pasan << " de 3 pruebas pasan\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres de tres. La Maestra Artífice agrega una cuarta prueba: un cartel con espacios de más. También pasa.
+
+#### Imagen
+- Un cartel en blanco colgado en el banco de pruebas, con una tilde verde.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) ajusta la función.
+- la Maestra Artífice (mujer alta de 60, piel oscura, pelo blanco muy corto, antiparras verdes en la frente, delantal de cuero sobre una túnica verde con circuitos, tableta con tildes verdes) escribe otra prueba en la tableta.
+
+### Micro-misión R05-N03-P3 · La invariante bajo prueba
+
+```meta
+lugar: El Banco de Pruebas de la Maestra Artífice
+personajes: Bron, la Maestra Artífice
+carta: Probar una clase | se hacen muchas operaciones y después de CADA una se comprueba la invariante (0 <= presión <= 100)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Maestra Artífice prueba la caldera de Bron con una secuencia de subidas y bajadas, y después de cada una revisa que la presión siga entre 0 y 100. `bajar` deja pasar presiones negativas.
+
+#### Gheco sugiere
+`bajar` tiene que hacer lo mismo que `subir`: si el resultado se sale del rango, no cambia nada.
+
+#### Desafío
+Hacé que `bajar` cuide la regla.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+class Caldera {
+public:
+    void subir(int n) { if (presion_ + n <= 100) presion_ += n; }
+    void bajar(int n) { presion_ -= n; }
+    int presion() const { return presion_; }
+
+private:
+    int presion_ = 50;
+};
+
+int main()
+{
+    Caldera c;
+    int pasos = 0;
+    int bien = 0;
+    for (int cambio : {30, -20, 40, -70, -50, 10}) {
+        if (cambio > 0) {
+            c.subir(cambio);
+        } else {
+            c.bajar(-cambio);
+        }
+        pasos++;
+        bien += c.presion() >= 0 && c.presion() <= 100;
+    }
+    std::cout << bien << " de " << pasos << " pasos cumplen la regla (presion final " << c.presion() << ")\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+6 de 6 pasos cumplen la regla (presion final 40)
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+class Caldera {
+public:
+    void subir(int n) { if (presion_ + n <= 100) presion_ += n; }
+    void bajar(int n) { if (presion_ - n >= 0) presion_ -= n; }
+    int presion() const { return presion_; }
+
+private:
+    int presion_ = 50;
+};
+
+int main()
+{
+    Caldera c;
+    int pasos = 0;
+    int bien = 0;
+    for (int cambio : {30, -20, 40, -70, -50, 10}) {
+        if (cambio > 0) {
+            c.subir(cambio);
+        } else {
+            c.bajar(-cambio);
+        }
+        pasos++;
+        bien += c.presion() >= 0 && c.presion() <= 100;
+    }
+    std::cout << bien << " de " << pasos << " pasos cumplen la regla (presion final " << c.presion() << ")\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Seis de seis. La Maestra Artífice tilda la caldera en su tableta: puede salir del Taller.
+
+#### Imagen
+- Una caldera conectada a un banco de pruebas con cables y un manómetro.
+- la Maestra Artífice (mujer alta de 60, piel oscura, pelo blanco muy corto, antiparras verdes en la frente, delantal de cuero sobre una túnica verde con circuitos, tableta con tildes verdes) tilda la caldera en la tableta.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) desconecta los cables.
+
 ### Misión R05-N03-M1 · Las contraseñas seguras
 
 ```meta
@@ -2389,6 +3149,257 @@ o volvé a buscar.
 
 **Ogro: los números mágicos desparramados.** Un `20` en cinco lugares distintos:
 cuando quieras cambiar cuánto cura una poción, vas a olvidarte de alguno.
+
+### Micro-misión R05-N04-P1 · La mochila que apila
+
+```meta
+lugar: La mesa del juego desarmado
+personajes: Bron, Lima
+carta: Inventario | std::map<std::string, int> mochila · agregar suma a lo que había · usar resta y borra si llega a 0
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la mesa hay un juego desarmado: una heroína de madera (Bron le puso la cara de Lima, «porque es la que más pelea»), enemigos de lata y una mochila. La mochila de Bron no apila: cada poción nueva pisa a las anteriores.
+
+#### Gheco sugiere
+En `agregar`, sumá a lo que ya había: `items_[nombre] += cantidad;`.
+
+#### Desafío
+Hacé que la mochila apile.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+class Mochila {
+public:
+    void agregar(const std::string& nombre, int cantidad) { items_[nombre] = cantidad; }
+    void mostrar() const
+    {
+        for (const auto& [n, c] : items_) {
+            std::cout << n << " x" << c << "\n";
+        }
+    }
+
+private:
+    std::map<std::string, int> items_;
+};
+
+int main()
+{
+    Mochila m;
+    m.agregar("pocion", 2);
+    m.agregar("tuerca", 5);
+    m.agregar("pocion", 3);
+    m.mostrar();
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+pocion x5
+tuerca x5
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+class Mochila {
+public:
+    void agregar(const std::string& nombre, int cantidad) { items_[nombre] += cantidad; }
+    void mostrar() const
+    {
+        for (const auto& [n, c] : items_) {
+            std::cout << n << " x" << c << "\n";
+        }
+    }
+
+private:
+    std::map<std::string, int> items_;
+};
+
+int main()
+{
+    Mochila m;
+    m.agregar("pocion", 2);
+    m.agregar("tuerca", 5);
+    m.agregar("pocion", 3);
+    m.mostrar();
+    return 0;
+}
+```
+
+#### Al superarla
+Cinco pociones y cinco tuercas. Lima no sabe si ofenderse por la cara de la heroína; decide que no, por ahora.
+
+#### Imagen
+- Una mesa con piezas de un juego: una heroína de madera con la cara de Lima, enemigos de lata y una mochila.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) apila pociones.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) mira la heroína con desconfianza.
+
+### Micro-misión R05-N04-P2 · La IA del enemigo de lata
+
+```meta
+lugar: La mesa del juego desarmado
+personajes: Bron, Tesla
+carta: IA simple | se decide en orden de prioridad: primero lo más urgente (huir si queda poca vida), después atacar si está cerca, si no patrullar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El enemigo de lata decide qué hacer en cada turno. El de Bron ataca aunque le quede casi nada de vida: la pregunta por la distancia va antes que la de la vida.
+
+#### Gheco sugiere
+Primero preguntá si la vida es menor que 30 (huir), después si está cerca (atacar), y si no, patrullar.
+
+#### Desafío
+Ordená las decisiones por prioridad.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+std::string decidir(int vida, int distancia)
+{
+    if (distancia <= 2) {
+        return "atacar";
+    } else if (vida < 30) {
+        return "huir";
+    }
+    return "patrullar";
+}
+
+int main()
+{
+    std::cout << "vida 80, distancia 1: " << decidir(80, 1) << "\n";
+    std::cout << "vida 20, distancia 1: " << decidir(20, 1) << "\n";
+    std::cout << "vida 50, distancia 9: " << decidir(50, 9) << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+vida 80, distancia 1: atacar
+vida 20, distancia 1: huir
+vida 50, distancia 9: patrullar
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+std::string decidir(int vida, int distancia)
+{
+    if (vida < 30) {
+        return "huir";
+    } else if (distancia <= 2) {
+        return "atacar";
+    }
+    return "patrullar";
+}
+
+int main()
+{
+    std::cout << "vida 80, distancia 1: " << decidir(80, 1) << "\n";
+    std::cout << "vida 20, distancia 1: " << decidir(20, 1) << "\n";
+    std::cout << "vida 50, distancia 9: " << decidir(50, 9) << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Con poca vida, el enemigo de lata huye. Oto pide que haya un enemigo que sea un guiso violeta; se lo agregan.
+
+#### Imagen
+- Un enemigo de lata huyendo por la mesa del juego.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) mueve una ficha.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se ríe.
+
+### Micro-misión R05-N04-P3 · El combate que se puede repetir
+
+```meta
+lugar: La mesa del juego desarmado
+personajes: Bron, Lyn
+carta: Azar reproducible | std::mt19937 gen(semilla) · el mismo combate con la misma semilla · daño = 5 + gen() % 6
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Lyn apuesta a que la heroína le gana al guiso violeta en tres golpes. Para que nadie haga trampa, el combate usa una semilla fija: la 2026. El combate de Bron usa la semilla 1, y Lyn reclama.
+
+#### Gheco sugiere
+Cambiá la semilla a 2026 y hacé que el combate siga hasta que la vida del guiso llegue a 0 o menos.
+
+#### Desafío
+Usá la semilla acordada y peleá hasta el final.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <random>
+
+int main()
+{
+    std::mt19937 gen(1);
+    int vida = 25;
+    int golpe = 0;
+    for (int i = 0; i < 2; i++) {
+        int danio = 5 + static_cast<int>(gen() % 6);
+        vida -= danio;
+        golpe++;
+        std::cout << "Golpe " << golpe << ": " << danio << " de dano, le queda " << vida << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Golpe 1: 8 de dano, le queda 17
+Golpe 2: 5 de dano, le queda 12
+Golpe 3: 7 de dano, le queda 5
+Golpe 4: 5 de dano, le queda 0
+El guiso violeta cae en 4 golpes
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <random>
+
+int main()
+{
+    std::mt19937 gen(2026);
+    int vida = 25;
+    int golpe = 0;
+    while (vida > 0) {
+        int danio = 5 + static_cast<int>(gen() % 6);
+        vida -= danio;
+        golpe++;
+        std::cout << "Golpe " << golpe << ": " << danio << " de dano, le queda " << vida << "\n";
+    }
+    std::cout << "El guiso violeta cae en " << golpe << " golpes\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Con la semilla acordada, el combate es siempre el mismo. Lyn lo juega diez veces para estar segura.
+
+#### Imagen
+- Una heroína de madera golpeando a un guiso violeta con ojos en la mesa del juego.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) cuenta los golpes con su cronómetro.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) tira los dados.
 
 ### Misión R05-N04-M1 · Los guardias del puente
 
@@ -3404,6 +4415,263 @@ casi nunca se cumple con decimales: `x` salta de 11.9 a 12.7. Usá `>=`.
 **Ogro: un `dt` enorme.** Si la compu se traba un segundo, `dt` vale 1 y los
 objetos atraviesan paredes. Los juegos limitan `dt` (por ejemplo, a 0.1).
 
+### Micro-misión R05-N05-P1 · La velocidad que no depende de la compu
+
+```meta
+lugar: El Gran Péndulo del Taller
+personajes: Bron, Tesla
+carta: Delta time | x += velocidad * dt · dt es el tiempo de cada vuelta, en segundos · así se mueve igual en una compu rápida o lenta
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Taller gira el Gran Péndulo, y con cada vaivén los autómatas se mueven un poquito. El autómata de Bron avanza 40 en cada vuelta, sin importar cuánto dura la vuelta: en una compu rápida cruza la sala en un segundo.
+
+#### Gheco sugiere
+La velocidad es por segundo: en cada vuelta se avanza `velocidad * dt`.
+
+#### Desafío
+Mové el autómata con el tiempo de cada vuelta.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    double x = 0;
+    double velocidad = 40;
+    double tiempos[] = {0.5, 0.25, 0.25};
+    for (double dt : tiempos) {
+        x += velocidad;
+        std::cout << "dt " << dt << " -> x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+dt 0.5 -> x = 20
+dt 0.25 -> x = 30
+dt 0.25 -> x = 40
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    double x = 0;
+    double velocidad = 40;
+    double tiempos[] = {0.5, 0.25, 0.25};
+    for (double dt : tiempos) {
+        x += velocidad * dt;
+        std::cout << "dt " << dt << " -> x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Un segundo, cuarenta pasos, en cualquier compu. Tesla lo prueba con el péndulo más rápido y más lento: llega igual.
+
+#### Imagen
+- El Gran Péndulo oscilando sobre una sala con autómatas en fila.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) mide el vaivén.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) empuja un autómata.
+
+### Micro-misión R05-N05-P2 · La pausa que vuelve
+
+```meta
+lugar: El Gran Péndulo del Taller
+personajes: Lima, Bron
+carta: Estados del juego | Menu, Jugando, Pausa, Fin · la misma tecla hace cosas distintas según el estado · cada estado sabe a cuál pasa
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Lima prueba el juego: aprieta `p` para pausar y otra vez `p` para volver… y el juego se queda en pausa para siempre. A la pausa de Bron le falta el camino de vuelta.
+
+#### Gheco sugiere
+En el estado `Pausa`, la tecla `p` tiene que volver a `Jugando`.
+
+#### Desafío
+Hacé que la pausa vuelva al juego.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+enum class Estado { Menu, Jugando, Pausa, Fin };
+
+std::string nombre(Estado e)
+{
+    switch (e) {
+    case Estado::Menu: return "menu";
+    case Estado::Jugando: return "jugando";
+    case Estado::Pausa: return "pausa";
+    case Estado::Fin: return "fin";
+    }
+    return "?";
+}
+
+int main()
+{
+    Estado e = Estado::Menu;
+    std::string tecla;
+    while (e != Estado::Fin && std::cin >> tecla) {
+        switch (e) {
+        case Estado::Menu:
+            if (tecla == "enter") e = Estado::Jugando;
+            break;
+        case Estado::Jugando:
+            if (tecla == "p") e = Estado::Pausa;
+            if (tecla == "q") e = Estado::Fin;
+            break;
+        case Estado::Pausa:
+            break;
+        case Estado::Fin:
+            break;
+        }
+        std::cout << tecla << " -> " << nombre(e) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+enter p p x q
+```
+
+#### Salida esperada
+```
+enter -> jugando
+p -> pausa
+p -> jugando
+x -> jugando
+q -> fin
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+enum class Estado { Menu, Jugando, Pausa, Fin };
+
+std::string nombre(Estado e)
+{
+    switch (e) {
+    case Estado::Menu: return "menu";
+    case Estado::Jugando: return "jugando";
+    case Estado::Pausa: return "pausa";
+    case Estado::Fin: return "fin";
+    }
+    return "?";
+}
+
+int main()
+{
+    Estado e = Estado::Menu;
+    std::string tecla;
+    while (e != Estado::Fin && std::cin >> tecla) {
+        switch (e) {
+        case Estado::Menu:
+            if (tecla == "enter") e = Estado::Jugando;
+            break;
+        case Estado::Jugando:
+            if (tecla == "p") e = Estado::Pausa;
+            if (tecla == "q") e = Estado::Fin;
+            break;
+        case Estado::Pausa:
+            if (tecla == "p") e = Estado::Jugando;
+            break;
+        case Estado::Fin:
+            break;
+        }
+        std::cout << tecla << " -> " << nombre(e) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Pausa, juego, fin. Lima sale de la pausa y gana la partida en dos minutos.
+
+#### Imagen
+- Una pantalla de bronce con la palabra PAUSA tachada.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) aprieta una tecla con fuerza.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el diagrama de estados.
+
+### Micro-misión R05-N05-P3 · Escuchar, actualizar, dibujar
+
+```meta
+lugar: El Gran Péndulo del Taller
+personajes: Bron, Tesla
+carta: El bucle de juego | cada vuelta: 1) entrada 2) actualizar 3) dibujar · si se dibuja antes de actualizar, la pantalla va un paso atrás
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En cada vaivén del péndulo, los autómatas escuchan, se mueven y encienden sus luces. En el bucle de Bron, el autómata enciende las luces **antes** de moverse, y la pantalla siempre muestra dónde estaba, no dónde está.
+
+#### Gheco sugiere
+Dentro del bucle, primero actualizá la posición y después dibujá.
+
+#### Desafío
+Ordená las tres partes del bucle.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int x = 0;
+    for (int vuelta = 1; vuelta <= 3; vuelta++) {
+        int paso = 2;
+        std::cout << "vuelta " << vuelta << ": dibujo en x = " << x << "\n";
+        x += paso;
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+vuelta 1: dibujo en x = 2
+vuelta 2: dibujo en x = 4
+vuelta 3: dibujo en x = 6
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int x = 0;
+    for (int vuelta = 1; vuelta <= 3; vuelta++) {
+        int paso = 2;
+        x += paso;
+        std::cout << "vuelta " << vuelta << ": dibujo en x = " << x << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Ahora la luz se enciende donde está el autómata. Tesla dice que así se ve por dentro cualquier juego.
+
+#### Imagen
+- Una tira de tres cuadros, como una historieta, con un autómata avanzando.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) señala el orden de los cuadros.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cambia de lugar dos cuadros.
+
 ### Misión R05-N05-M1 · Las pantallas del juego
 
 ```meta
@@ -4237,6 +5505,422 @@ el primero llega a Lima, ataca y **termina**.
 
 **Ogro: seguir jugando después del final.** Cuando el estado ya no es "jugando",
 `turno` no hace nada.
+
+### Micro-misión R05-N06-P1 · El plano del Laberinto
+
+```meta
+lugar: El Laberinto bajo el Taller
+personajes: Bron, Tesla
+criatura: dragon
+carta: Mapa de texto | std::vector<std::string> mapa; · mapa[fila][columna] es una baldosa · se busca un carácter recorriendo filas y columnas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Debajo del Taller está el **Laberinto**, y adentro el **Minotauro**: no persigue, **embiste**. Tesla le da a Bron una hoja con el laberinto dibujado: `#` son paredes, `B` es Bron y `M` el Minotauro. Antes de entrar, hay que saber dónde está cada uno. Bron solo encontró a Bron.
+
+#### Gheco sugiere
+Recorré el mapa y, si la baldosa es `M`, guardá su fila y su columna.
+
+#### Desafío
+Encontrá también al Minotauro.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> mapa = {
+        "#########",
+        "#B..#...#",
+        "#.#.#.#.#",
+        "#.#...#M#",
+        "#########",
+    };
+    int bf = -1, bc = -1, mf = -1, mc = -1;
+    for (int f = 0; f < static_cast<int>(mapa.size()); f++) {
+        for (int c = 0; c < static_cast<int>(mapa[f].size()); c++) {
+            if (mapa[f][c] == 'B') {
+                bf = f;
+                bc = c;
+            }
+        }
+    }
+    std::cout << "Bron en (" << bf << ", " << bc << ")\n";
+    std::cout << "Minotauro en (" << mf << ", " << mc << ")\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Bron en (1, 1)
+Minotauro en (3, 7)
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> mapa = {
+        "#########",
+        "#B..#...#",
+        "#.#.#.#.#",
+        "#.#...#M#",
+        "#########",
+    };
+    int bf = -1, bc = -1, mf = -1, mc = -1;
+    for (int f = 0; f < static_cast<int>(mapa.size()); f++) {
+        for (int c = 0; c < static_cast<int>(mapa[f].size()); c++) {
+            if (mapa[f][c] == 'B') {
+                bf = f;
+                bc = c;
+            } else if (mapa[f][c] == 'M') {
+                mf = f;
+                mc = c;
+            }
+        }
+    }
+    std::cout << "Bron en (" << bf << ", " << bc << ")\n";
+    std::cout << "Minotauro en (" << mf << ", " << mc << ")\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El Minotauro está en la esquina de abajo a la derecha. Bron dobla el plano y se lo guarda en el bolsillo de la llave.
+
+#### Imagen
+- Un plano de laberinto dibujado a mano, con una B y una M marcadas.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) le entrega el plano.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lo mira de cerca.
+
+### Micro-misión R05-N06-P2 · La línea recta
+
+```meta
+lugar: El Laberinto bajo el Taller
+personajes: Bron, Lima
+criatura: dragon
+carta: Línea de visión | el Minotauro embiste si están en la misma fila (o columna) y NO hay paredes entre los dos · se recorre el tramo del medio
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Minotauro embiste si ve a Bron en línea recta. La función de Bron dice que lo ve siempre que estén en la misma fila, aunque haya una pared en el medio. Lima, que esta vez bajó, se esconde detrás de esa pared por las dudas.
+
+#### Gheco sugiere
+Además de estar en la misma fila, recorré las columnas entre los dos: si alguna es `#`, no lo ve.
+
+#### Desafío
+Tené en cuenta las paredes.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+bool lo_ve(const std::vector<std::string>& mapa, int fila, int c1, int c2)
+{
+    return fila >= 0;
+}
+
+int main()
+{
+    std::vector<std::string> mapa = {
+        "#########",
+        "#B..#..M#",
+        "#.....M.#",
+        "#########",
+    };
+    std::cout << "Fila 1 (B en 1, M en 7): " << (lo_ve(mapa, 1, 1, 7) ? "embiste" : "no lo ve") << "\n";
+    std::cout << "Fila 2 (B en 1, M en 6): " << (lo_ve(mapa, 2, 1, 6) ? "embiste" : "no lo ve") << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Fila 1 (B en 1, M en 7): no lo ve
+Fila 2 (B en 1, M en 6): embiste
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+bool lo_ve(const std::vector<std::string>& mapa, int fila, int c1, int c2)
+{
+    for (int c = std::min(c1, c2) + 1; c < std::max(c1, c2); c++) {
+        if (mapa[fila][c] == '#') {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main()
+{
+    std::vector<std::string> mapa = {
+        "#########",
+        "#B..#..M#",
+        "#.....M.#",
+        "#########",
+    };
+    std::cout << "Fila 1 (B en 1, M en 7): " << (lo_ve(mapa, 1, 1, 7) ? "embiste" : "no lo ve") << "\n";
+    std::cout << "Fila 2 (B en 1, M en 6): " << (lo_ve(mapa, 2, 1, 6) ? "embiste" : "no lo ve") << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Con la pared en el medio, el Minotauro no lo ve. En el pasillo abierto, sí: Bron sale de ahí corriendo.
+
+#### Imagen
+- Un pasillo del laberinto con una pared en el medio y el Minotauro al fondo.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) escondida detrás de la pared.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cruza el pasillo abierto a toda velocidad.
+
+### Micro-misión R05-N06-P3 · El mapa que no se puede jugar
+
+```meta
+lugar: El Laberinto bajo el Taller
+personajes: Bron, Tesla
+criatura: dragon
+carta: Validar con excepciones | un mapa sin B o sin M no se puede jugar · cargar() tira std::runtime_error con el problema · main lo atrapa y lo muestra
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Tesla le pasa a Bron varios planos del Laberinto, y algunos están mal dibujados: uno no tiene Minotauro, otro tiene dos Bron. La función de Bron los carga igual.
+
+#### Gheco sugiere
+En `validar`, contá las `B` y las `M`: si no hay exactamente una de cada una, tirá un `std::runtime_error` que diga cuál falta o sobra.
+
+#### Desafío
+Validá el plano antes de jugarlo.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+void validar(const std::vector<std::string>& mapa)
+{
+    int b = 0, m = 0;
+    for (const auto& fila : mapa) {
+        for (char c : fila) {
+            if (c == 'B') b++;
+            if (c == 'M') m++;
+        }
+    }
+}
+
+int main()
+{
+    std::vector<std::vector<std::string>> planos = {
+        {"#####", "#B.M#", "#####"},
+        {"#####", "#B..#", "#####"},
+        {"#####", "#BBM#", "#####"},
+    };
+    for (std::size_t i = 0; i < planos.size(); i++) {
+        try {
+            validar(planos[i]);
+            std::cout << "Plano " << i + 1 << ": se puede jugar\n";
+        } catch (const std::runtime_error& e) {
+            std::cout << "Plano " << i + 1 << ": " << e.what() << "\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Plano 1: se puede jugar
+Plano 2: tiene 0 Minotauros
+Plano 3: tiene 2 Bron
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+void validar(const std::vector<std::string>& mapa)
+{
+    int b = 0, m = 0;
+    for (const auto& fila : mapa) {
+        for (char c : fila) {
+            if (c == 'B') b++;
+            if (c == 'M') m++;
+        }
+    }
+    if (b != 1) {
+        throw std::runtime_error("tiene " + std::to_string(b) + " Bron");
+    }
+    if (m != 1) {
+        throw std::runtime_error("tiene " + std::to_string(m) + " Minotauros");
+    }
+}
+
+int main()
+{
+    std::vector<std::vector<std::string>> planos = {
+        {"#####", "#B.M#", "#####"},
+        {"#####", "#B..#", "#####"},
+        {"#####", "#BBM#", "#####"},
+    };
+    for (std::size_t i = 0; i < planos.size(); i++) {
+        try {
+            validar(planos[i]);
+            std::cout << "Plano " << i + 1 << ": se puede jugar\n";
+        } catch (const std::runtime_error& e) {
+            std::cout << "Plano " << i + 1 << ": " << e.what() << "\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Solo el primer plano se puede jugar. Tesla tira los otros dos al fuego, menos el de dos Bron, que se lo queda «de recuerdo».
+
+#### Imagen
+- Tres planos de laberinto sobre una mesa; dos tachados con una cruz roja.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) se guarda uno de los planos tachados.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene el bueno.
+
+### Micro-misión R05-N06-P4 · El engranaje del cuello
+
+```meta
+lugar: El Laberinto bajo el Taller
+personajes: Bron, Tesla, Lima
+criatura: dragon
+carta: Recorrer un camino | cada letra mueve una baldosa (N, S, E, O) · si la siguiente es pared, el camino no sirve · se cuentan los pasos hasta la M
+recompensa: xp 25, oro 30
+item: Engranaje del Portal
+```
+
+#### Escena
+Bron no entra a los golpes: entra con el plano. Escribió el camino hasta el Minotauro letra por letra, para que se quede trabado en un pasillo en diagonal. Pero su recorrido no revisa las paredes, y lo mete adentro de una.
+
+#### Gheco sugiere
+Antes de moverte, mirá la baldosa de destino: si es `#`, mostrá `Pared en el paso <n>` y cortá. Si llegás a la `M`, mostrá en cuántos pasos.
+
+#### Desafío
+Revisá las paredes en cada paso del camino.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> mapa = {
+        "#######",
+        "#B..#.#",
+        "#.#.#.#",
+        "#.#...#",
+        "#...#M#",
+        "#######",
+    };
+    std::string camino;
+    std::cin >> camino;
+    int f = 1, c = 1;
+    int pasos = 0;
+    for (char d : camino) {
+        int nf = f, nc = c;
+        if (d == 'N') nf--;
+        if (d == 'S') nf++;
+        if (d == 'E') nc++;
+        if (d == 'O') nc--;
+        f = nf;
+        c = nc;
+        pasos++;
+    }
+    std::cout << "Bron termina en (" << f << ", " << c << ") despues de " << pasos << " pasos\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+EESSEES
+```
+
+#### Salida esperada
+```
+Bron llega al Minotauro en 7 pasos
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> mapa = {
+        "#######",
+        "#B..#.#",
+        "#.#.#.#",
+        "#.#...#",
+        "#...#M#",
+        "#######",
+    };
+    std::string camino;
+    std::cin >> camino;
+    int f = 1, c = 1;
+    int pasos = 0;
+    for (char d : camino) {
+        int nf = f, nc = c;
+        if (d == 'N') nf--;
+        if (d == 'S') nf++;
+        if (d == 'E') nc++;
+        if (d == 'O') nc--;
+        pasos++;
+        if (mapa[nf][nc] == '#') {
+            std::cout << "Pared en el paso " << pasos << "\n";
+            return 0;
+        }
+        f = nf;
+        c = nc;
+        if (mapa[f][c] == 'M') {
+            std::cout << "Bron llega al Minotauro en " << pasos << " pasos\n";
+            return 0;
+        }
+    }
+    std::cout << "Bron termina en (" << f << ", " << c << ") despues de " << pasos << " pasos\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El Minotauro embiste, se traba en el pasillo y el engranaje enorme se le suelta del cuello. Es **el Engranaje del Portal**: tiene los mismos dientes que las bisagras del Vidriero. Tesla lo mira y, por primera vez, no termina la frase de nadie.
+
+#### Imagen
+- Un Minotauro de hierro trabado en un pasillo estrecho del laberinto, con la cadena del cuello rota.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene un engranaje enorme de bronce oscuro.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) lo mira en silencio; Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) se asoma detrás.
 
 ### Misión R05-N06-M1 · El Laberinto del Minotauro
 

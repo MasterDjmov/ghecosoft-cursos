@@ -340,6 +340,235 @@ Regla para leer errores largos de C++: **mirá la primera línea que dice
 ejecutaste `./programa`: corre la versión anterior. Compilá **siempre** antes de
 ejecutar.
 
+### Micro-misión R00-N01-P1 · La primera orden
+
+```meta
+lugar: El portón de engranajes
+personajes: Bron, Gheco, Tesla
+carta: Mostrar texto | std::cout << "texto\n"; · \n salta de línea · cada instrucción termina con ;
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron despierta al pie de la cuesta, junto a un vitral apagado. Arriba, el portón de la Ciudadela es una pared de engranajes trabados. Sobre su hombro aparece un gecko de luz con antiparras: **Gheco**.
+—Acá las órdenes se escriben en C++ —le dice—. Antes de arreglar nada, presentate. Por escrito.
+
+#### Gheco sugiere
+`std::cout << "…";` muestra el texto entre comillas, y `\n` al final baja a la línea siguiente. Tocá **Ejecutar**: C++ se compila acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
+
+#### Desafío
+Completá la instrucción para que Bron se presente.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    ___ << "Soy Bron, mecanico. Arreglo todo a mano.\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Soy Bron, mecanico. Arreglo todo a mano.
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Soy Bron, mecanico. Arreglo todo a mano.\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El portón no se abre, pero uno de los engranajes gira medio diente, como saludando. Gheco asiente.
+
+#### Imagen
+- Al pie de una cuesta, de noche, un vitral apagado y arriba un portón enorme hecho de engranajes de bronce trabados.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el portón con la llave en la mano.
+- Gheco (gecko de luz con antiparras) sobre su hombro.
+
+### Micro-misión R00-N01-P2 · Un slime en el portón
+
+```meta
+lugar: El portón de engranajes
+personajes: Bron, Gheco
+criatura: slime
+carta: Error de sintaxis | expected ';' · el compilador no produce nada hasta que se arregla · se lee la PRIMERA línea del error
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Entre los dientes del portón se asoma un **slime**: una gota de baba verde que se alimenta de los punto y coma olvidados. Bron le escribe una orden al portón, y el Taller ni la mira: devuelve un error.
+
+#### Gheco sugiere
+Leé el primer error: dice la línea y que **esperaba** algo (`expected ';'`). Cada instrucción termina con `;`.
+
+#### Desafío
+Encontrá lo que falta para que el programa compile.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Engranaje 1: listo\n"
+    std::cout << "Engranaje 2: listo\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Engranaje 1: listo
+Engranaje 2: listo
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Engranaje 1: listo\n";
+    std::cout << "Engranaje 2: listo\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El slime se resbala por el portón y desaparece en una grieta. Los dos primeros engranajes giran.
+
+#### Imagen
+- Un portón de engranajes de bronce con un slime verde y brillante asomado entre dos dientes.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) señala la línea del error en una pantalla flotante.
+- Gheco (gecko de luz con antiparras) se tapa la nariz.
+
+### Micro-misión R00-N01-P3 · Las cuentas del portón
+
+```meta
+lugar: El portón de engranajes
+personajes: Bron, Lima
+carta: Números | std::cout << 200 - 47; muestra 153 · entre comillas es texto: "200 - 47" se muestra tal cual
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron lleva 47 engranajes arreglados a mano. Una chica de delantal azul, con una lupa de relojero en el ojo y una lima en la mano, se le acerca: **Lima**.
+—¿Cuántos te faltan? —Bron escribe la cuenta… y el Taller le muestra la cuenta, no el resultado.
+
+#### Gheco sugiere
+Lo que va entre comillas se muestra **tal cual**. Para que C++ haga la cuenta, la cuenta va **afuera** de las comillas, con su propio `<<`.
+
+#### Desafío
+Hacé que el programa muestre el resultado de la cuenta.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Faltan " << "200 - 47" << " engranajes\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Faltan 153 engranajes
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Faltan " << 200 - 47 << " engranajes\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Ciento cincuenta y tres. Bron suspira. Lima se tapa la boca para no reírse.
+
+#### Imagen
+- Frente al portón de engranajes, una pila de engranajes arreglados y una montaña más grande sin arreglar.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuenta con los dedos, agotado.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lo mira con la lupa puesta, conteniendo la risa.
+
+### Micro-misión R00-N01-P4 · El plano del portón
+
+```meta
+lugar: El portón de engranajes
+personajes: Bron, Tesla, Lima
+carta: Varias líneas | cada \n es un salto · sin \n todo queda en un solo renglón · endl también salta
+recompensa: xp 15, oro 15
+item: Llave Mellada
+```
+
+#### Escena
+Al engranaje 47 la llave se traba en un diente, Bron hace fuerza y la llave sale **mellada**. Desde arriba baja por una polea un muchacho de traje azul y visor cian: **Tesla**, el Artífice Mayor.
+—El portón tiene un plano —dice, y le muestra una hoja—. Escribilo bien, línea por línea, y el Taller arregla los doscientos de una vez.
+
+#### Gheco sugiere
+Cada parte del plano tiene que ir en su renglón: falta el `\n` al final de cada texto.
+
+#### Desafío
+Hacé que cada paso del plano salga en su propia línea.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Plano del porton";
+    std::cout << "1. Alinear los 200 engranajes";
+    std::cout << "2. Girar la manivela";
+    std::cout << "3. Abrir";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Plano del porton
+1. Alinear los 200 engranajes
+2. Girar la manivela
+3. Abrir
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    std::cout << "Plano del porton\n";
+    std::cout << "1. Alinear los 200 engranajes\n";
+    std::cout << "2. Girar la manivela\n";
+    std::cout << "3. Abrir\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Los doscientos engranajes giran a la vez y el portón se abre con un suspiro de vapor. Bron mira su llave mellada. —¿Y esto para qué me sirve? —pregunta. Tesla sonríe: es la primera vez, y no va a ser la última.
+
+#### Imagen
+- El portón de engranajes abriéndose de par en par, con vapor y luz cian saliendo de adentro.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) sostiene un plano iluminado.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira su llave inglesa mellada.
+
 ### Misión R00-N01-M1 · La ficha de Lima
 
 ```meta

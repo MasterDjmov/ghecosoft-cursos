@@ -15,3 +15,10 @@ Las micro-misiones de Python (ramas 2 y 3 y las Sendas) se escriben como datos e
 ## C
 
 `genc.py` compila cada solución con `gcc -std=c11 -Wall -Wextra` y la ejecuta: `python3 genc.py c_r01.py [--apply] [--json casos.json]`. Rechaza las soluciones con advertencias y lo que en el navegador da distinto (D98: ahí C corre en wasm32, donde `long` y los punteros miden 4 bytes y `rand()` da otra secuencia): nada de `%p`, `sizeof(long)`, `sizeof` de punteros ni `rand()` (para azar, una semilla y una cuenta propia). Con `--json` deja los casos para probarlos en Chrome con el Clang del navegador. Cada nodo usa solo lo que ya se enseñó.
+
+## C++
+
+`gencpp.py` hace lo mismo con `g++ -std=c++20 -Wall -Wextra`: `python3 gencpp.py cpp_r01.py [--apply] [--json casos.json]`. En el navegador (D100) C++ corre con libc++ y en la compu del alumno con libstdc++ (o la de su compilador), así que además de lo de C rechaza las distribuciones de `<random>` (para azar, `std::mt19937` crudo y `gen() % n`, que da igual en todas), `random_device`, `typeid` y `std::hash`, y pide revisar a mano los `unordered_*` (`orden_libre=True` si nunca se muestra su orden). Las salidas van sin tildes. `cpp_r01.py` y `cpp_r01b.py` tienen la Clase 0 y los Cimientos; `cpp_r02.py` a `cpp_r05.py`, una rama cada uno; `cpp_r06.py`, los Vitrales (Qt) y la Senda de la Linterna (SDL3), que prueban la lógica sin ventana. Son 163, todas verificadas también en el navegador.
+
+`browser-check.mjs` prueba los casos de `--json` con el Clang del navegador (Chrome sin ventana, el admin local y el ejecutor del ejemplo de un nodo): `node browser-check.mjs casos.json --nodo=/cursos/cpp/nodos/ID`. Sirve igual para C.
+

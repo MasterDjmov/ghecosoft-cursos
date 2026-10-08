@@ -223,6 +223,325 @@ undefined reference to `vtable for Caldera'
 
 **Ogro: trabar el bucle de eventos.** Un cálculo largo (o un `sleep`) dentro de un slot congela la ventana: mientras tu función corre, Qt no puede redibujar ni atender clics.
 
+### Micro-misión R06-N01-P1 · La campana de la palanca
+
+```meta
+lugar: El Taller de los Vitrales
+personajes: Bron, Tesla
+carta: Señal y slot | una señal es una lista de funciones conectadas · emitir = llamar a todas · en Qt: connect(boton, &QPushButton::clicked, ...)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Taller de los Vitrales las ventanas **esperan**: cuando alguien toca una palanca, suena una campana y el código responde. Bron armó su propio botón para entender cómo funciona, pero al tocarlo no responde nadie.
+
+#### Gheco sugiere
+Cuando hacen clic, el botón tiene que **emitir** su señal: recorrer `conectados_` y llamar a cada función. Acá se prueba la lógica sin ventana (Qt no corre en el navegador): es lo mismo que pasa por dentro de Qt.
+
+#### Desafío
+Hacé que el clic llame a todo lo conectado.
+
+#### Código inicial
+```cpp
+#include <functional>
+#include <iostream>
+#include <vector>
+
+class Boton {
+public:
+    void conectar(std::function<void()> slot) { conectados_.push_back(slot); }
+    void click()
+    {
+        std::cout << "click!\n";
+    }
+
+private:
+    std::vector<std::function<void()>> conectados_;
+};
+
+int main()
+{
+    Boton palanca;
+    int contador = 0;
+    palanca.conectar([&contador] { contador++; std::cout << "el contador sube a " << contador << "\n"; });
+    palanca.conectar([] { std::cout << "suena la campana\n"; });
+    palanca.click();
+    palanca.click();
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+click!
+el contador sube a 1
+suena la campana
+click!
+el contador sube a 2
+suena la campana
+```
+
+#### Solución
+```cpp
+#include <functional>
+#include <iostream>
+#include <vector>
+
+class Boton {
+public:
+    void conectar(std::function<void()> slot) { conectados_.push_back(slot); }
+    void click()
+    {
+        std::cout << "click!\n";
+        for (const auto& slot : conectados_) {
+            slot();
+        }
+    }
+
+private:
+    std::vector<std::function<void()>> conectados_;
+};
+
+int main()
+{
+    Boton palanca;
+    int contador = 0;
+    palanca.conectar([&contador] { contador++; std::cout << "el contador sube a " << contador << "\n"; });
+    palanca.conectar([] { std::cout << "suena la campana\n"; });
+    palanca.click();
+    palanca.click();
+    return 0;
+}
+```
+
+#### Al superarla
+Cada clic sube el contador y suena la campana. Bron aprieta todos los botones de un vitral a la vez, para ver qué pasa, y suenan todas las campanas del taller.
+
+#### Imagen
+- Un vitral con palancas y una campana de bronce que suena.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aprieta varias palancas a la vez.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) se tapa los oídos.
+
+### Micro-misión R06-N01-P2 · Avisar solo si cambió
+
+```meta
+lugar: El Taller de los Vitrales
+personajes: Lima, Bron
+carta: valueChanged | un QSpinBox emite valueChanged(int) SOLO si el valor cambia · así nadie trabaja de más
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El selector de presión de Lima avisa a la etiqueta cada vez que alguien lo toca, aunque ponga el mismo número. La etiqueta se redibuja de más, y Lima se impacienta: así no avisa un `QSpinBox`.
+
+#### Gheco sugiere
+En `poner`, si el valor nuevo es igual al actual, no hagas nada. Si cambió, guardalo y avisá.
+
+#### Desafío
+Avisá solo cuando el valor cambia.
+
+#### Código inicial
+```cpp
+#include <functional>
+#include <iostream>
+
+class Selector {
+public:
+    std::function<void(int)> valor_cambiado;
+    void poner(int v)
+    {
+        valor_ = v;
+        if (valor_cambiado) {
+            valor_cambiado(valor_);
+        }
+    }
+
+private:
+    int valor_ = 0;
+};
+
+int main()
+{
+    Selector presion;
+    int avisos = 0;
+    presion.valor_cambiado = [&avisos](int v) { avisos++; std::cout << "etiqueta: " << v << "\n"; };
+    for (int v : {40, 40, 55, 55, 55, 70}) {
+        presion.poner(v);
+    }
+    std::cout << "Avisos: " << avisos << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+etiqueta: 40
+etiqueta: 55
+etiqueta: 70
+Avisos: 3
+```
+
+#### Solución
+```cpp
+#include <functional>
+#include <iostream>
+
+class Selector {
+public:
+    std::function<void(int)> valor_cambiado;
+    void poner(int v)
+    {
+        if (v == valor_) {
+            return;
+        }
+        valor_ = v;
+        if (valor_cambiado) {
+            valor_cambiado(valor_);
+        }
+    }
+
+private:
+    int valor_ = 0;
+};
+
+int main()
+{
+    Selector presion;
+    int avisos = 0;
+    presion.valor_cambiado = [&avisos](int v) { avisos++; std::cout << "etiqueta: " << v << "\n"; };
+    for (int v : {40, 40, 55, 55, 55, 70}) {
+        presion.poner(v);
+    }
+    std::cout << "Avisos: " << avisos << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres avisos en vez de seis. La etiqueta descansa, y Lima también.
+
+#### Imagen
+- Un selector giratorio de bronce conectado por un cable a una etiqueta luminosa.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) gira el selector.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuenta los destellos de la etiqueta.
+
+### Micro-misión R06-N01-P3 · Desconectar la campana
+
+```meta
+lugar: El Taller de los Vitrales
+personajes: Bron, Oto
+carta: Desconectar | connect devuelve un identificador · con él se desconecta (QObject::disconnect) · después de desconectar, ese slot no se llama más
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La palanca del comedor toca la campana de Oto y prende la luz. De noche, Oto quiere que la palanca prenda la luz **sin** tocar la campana. Bron escribió `desconectar`, pero no saca nada.
+
+#### Gheco sugiere
+Cada conexión tiene un número. En `desconectar(id)`, borrá del mapa la conexión con ese número: `conectados_.erase(id);`.
+
+#### Desafío
+Hacé que `desconectar` saque la conexión.
+
+#### Código inicial
+```cpp
+#include <functional>
+#include <iostream>
+#include <map>
+
+class Palanca {
+public:
+    int conectar(std::function<void()> slot)
+    {
+        conectados_[siguiente_] = slot;
+        return siguiente_++;
+    }
+    void desconectar(int id)
+    {
+        std::cout << "(desconecto " << id << ")\n";
+    }
+    void tirar()
+    {
+        for (const auto& [id, slot] : conectados_) {
+            slot();
+        }
+    }
+
+private:
+    std::map<int, std::function<void()>> conectados_;
+    int siguiente_ = 1;
+};
+
+int main()
+{
+    Palanca p;
+    int campana = p.conectar([] { std::cout << "tolon tolon\n"; });
+    p.conectar([] { std::cout << "se prende la luz\n"; });
+    p.tirar();
+    p.desconectar(campana);
+    p.tirar();
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+tolon tolon
+se prende la luz
+(desconecto 1)
+se prende la luz
+```
+
+#### Solución
+```cpp
+#include <functional>
+#include <iostream>
+#include <map>
+
+class Palanca {
+public:
+    int conectar(std::function<void()> slot)
+    {
+        conectados_[siguiente_] = slot;
+        return siguiente_++;
+    }
+    void desconectar(int id)
+    {
+        std::cout << "(desconecto " << id << ")\n";
+        conectados_.erase(id);
+    }
+    void tirar()
+    {
+        for (const auto& [id, slot] : conectados_) {
+            slot();
+        }
+    }
+
+private:
+    std::map<int, std::function<void()>> conectados_;
+    int siguiente_ = 1;
+};
+
+int main()
+{
+    Palanca p;
+    int campana = p.conectar([] { std::cout << "tolon tolon\n"; });
+    p.conectar([] { std::cout << "se prende la luz\n"; });
+    p.tirar();
+    p.desconectar(campana);
+    p.tirar();
+    return 0;
+}
+```
+
+#### Al superarla
+De noche, la palanca prende la luz y la campana no suena. Oto duerme por primera vez en semanas.
+
+#### Imagen
+- Una palanca con dos cables: uno a una campana (cortado) y otro a una lámpara encendida.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) durmiendo con el gorro puesto.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) corta un cable con una pinza.
+
 ### Misión R06-N01-M1 · El conversor de temperaturas
 
 ```meta
@@ -681,6 +1000,266 @@ main.cpp:31:64: error: ‘agregar’ is not captured
 Poné nombres distintos (`boton_agregar`).
 
 **Goblin: mezclar `QString` y `std::string`.** No se convierten solos: `QString::fromStdString` y `toStdString`.
+
+### Micro-misión R06-N02-P1 · Todos los errores juntos
+
+```meta
+lugar: La oficina de inscripciones
+personajes: Lyn, Bron
+carta: Validar | revisá TODO lo que escribió el usuario y juntá los errores en una lista · mostrarlos juntos (en Qt, un QMessageBox con la QStringList)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn se inscribe en la carrera y el formulario le avisa un error. Lo corrige, y le avisa otro. Y otro. Lyn le apuesta a la ventanita que la próxima vez se acuerda de todo; pierde, porque la ventanita le muestra los errores de a uno.
+
+#### Gheco sugiere
+En lugar de cortar con `return` en el primer error, agregá cada error a la lista `errores` y seguí revisando.
+
+#### Desafío
+Juntá todos los errores antes de avisar.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> validar(const std::string& nombre, int edad, const std::string& torre)
+{
+    std::vector<std::string> errores;
+    if (nombre.empty()) {
+        errores.push_back("falta el nombre");
+        return errores;
+    }
+    if (edad < 10 || edad > 99) {
+        errores.push_back("la edad tiene que estar entre 10 y 99");
+        return errores;
+    }
+    if (torre.empty()) {
+        errores.push_back("elegi una torre");
+    }
+    return errores;
+}
+
+int main()
+{
+    std::vector<std::string> errores = validar("", 7, "");
+    std::cout << errores.size() << " errores:\n";
+    for (const auto& e : errores) {
+        std::cout << "- " << e << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+3 errores:
+- falta el nombre
+- la edad tiene que estar entre 10 y 99
+- elegi una torre
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> validar(const std::string& nombre, int edad, const std::string& torre)
+{
+    std::vector<std::string> errores;
+    if (nombre.empty()) {
+        errores.push_back("falta el nombre");
+    }
+    if (edad < 10 || edad > 99) {
+        errores.push_back("la edad tiene que estar entre 10 y 99");
+    }
+    if (torre.empty()) {
+        errores.push_back("elegi una torre");
+    }
+    return errores;
+}
+
+int main()
+{
+    std::vector<std::string> errores = validar("", 7, "");
+    std::cout << errores.size() << " errores:\n";
+    for (const auto& e : errores) {
+        std::cout << "- " << e << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Tres errores de una vez. Lyn los corrige todos juntos y se inscribe primera, por supuesto.
+
+#### Imagen
+- Una ventanita de aviso con tres renglones de errores.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) completa el formulario a toda velocidad.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene el vitral.
+
+### Micro-misión R06-N02-P2 · Borrar de atrás para adelante
+
+```meta
+lugar: La oficina de inscripciones
+personajes: Bron, Lima
+carta: Borrar varios | al borrar el lugar i, los de atrás se corren uno · si se borra de adelante para atrás, se borra el equivocado · se recorre al revés
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la lista de inscriptos, Lima marcó dos para borrar: los lugares 1 y 3. Bron los borra en ese orden, y se va el que no era: al borrar el 1, todos los de atrás se corrieron un lugar.
+
+#### Gheco sugiere
+Recorré los lugares marcados de **atrás para adelante** (el 3 primero, después el 1): así los que todavía faltan no se mueven.
+
+#### Desafío
+Borrá en el orden que no corre a nadie.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> inscriptos = {"Bron", "Lyn", "Oto", "Lima", "Tesla"};
+    std::vector<int> marcados = {1, 3};
+    for (std::size_t k = 0; k < marcados.size(); k++) {
+        inscriptos.erase(inscriptos.begin() + marcados[k]);
+    }
+    std::cout << "Quedan:";
+    for (const auto& n : inscriptos) {
+        std::cout << " " << n;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Quedan: Bron Oto Tesla
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> inscriptos = {"Bron", "Lyn", "Oto", "Lima", "Tesla"};
+    std::vector<int> marcados = {1, 3};
+    for (auto it = marcados.rbegin(); it != marcados.rend(); ++it) {
+        inscriptos.erase(inscriptos.begin() + *it);
+    }
+    std::cout << "Quedan:";
+    for (const auto& n : inscriptos) {
+        std::cout << " " << n;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Se van Lyn y Lima, las marcadas (ya estaban inscriptas en otra carrera). Tesla sigue en la lista, que es lo que corresponde.
+
+#### Imagen
+- Una lista de nombres en un vitral, con dos renglones tachados.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) marca dos nombres.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) tacha de abajo hacia arriba.
+
+### Micro-misión R06-N02-P3 · Nombres con espacios
+
+```meta
+lugar: La oficina de inscripciones
+personajes: Bron, Oto
+carta: Guardar un formulario | una línea por inscripto, con los campos separados por ; · al leer, getline(campos, texto, ';') respeta los espacios
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El formulario guarda a cada inscripto en una línea: `nombre;edad;torre`. Oto se inscribe como «Oto el Grande», y al cargar el archivo, el programa de Bron lo parte en pedazos.
+
+#### Gheco sugiere
+Leé cada línea con `std::getline` y partila por `;` con `std::getline(campos, nombre, ';')`, que no corta en los espacios.
+
+#### Desafío
+Leé los campos respetando los espacios.
+
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main()
+{
+    {
+        std::ofstream f("inscriptos.txt");
+        f << "Oto el Grande;40;comedor\n";
+        f << "Lyn;19;torre del reloj\n";
+    }
+    std::ifstream in("inscriptos.txt");
+    std::string nombre;
+    int n = 0;
+    while (in >> nombre) {
+        std::cout << ++n << ". " << nombre << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+1. Oto el Grande (40) - comedor
+2. Lyn (19) - torre del reloj
+```
+
+#### Solución
+```cpp
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main()
+{
+    {
+        std::ofstream f("inscriptos.txt");
+        f << "Oto el Grande;40;comedor\n";
+        f << "Lyn;19;torre del reloj\n";
+    }
+    std::ifstream in("inscriptos.txt");
+    std::string linea;
+    int n = 0;
+    while (std::getline(in, linea)) {
+        std::istringstream campos(linea);
+        std::string nombre, edad, torre;
+        std::getline(campos, nombre, ';');
+        std::getline(campos, edad, ';');
+        std::getline(campos, torre);
+        std::cout << ++n << ". " << nombre << " (" << edad << ") - " << torre << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+«Oto el Grande», entero, y «torre del reloj» también. Oto pide que lo anoten así en todos lados.
+
+#### Imagen
+- Un archivo de fichas con una que dice «Oto el Grande».
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) señala su ficha con el cucharón.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) la archiva.
 
 ### Misión R06-N02-M1 · La inscripción al torneo
 
@@ -1422,6 +2001,375 @@ error: no matching function for call to 'Registro::guardar(QString&)'
 Usá `ruta.toStdString()` y `QString::fromStdString(texto)`.
 
 **Ogro: el separador dentro de un dato.** Un nombre como `Reloj;de;pared` se lee como cuatro campos. Validá lo que escribe el usuario.
+
+### Micro-misión R06-N03-P1 · La fábrica de inventos
+
+```meta
+lugar: La oficina de patentes
+personajes: Bron, Tesla
+carta: Fábrica | std::unique_ptr<Invento> crear(const std::string& tipo, ...) · el ÚNICO lugar que conoce todas las derivadas · un tipo nuevo se agrega ahí
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la oficina de patentes, el combo de la ventana ya ofrece «farol», pero la fábrica de Bron no lo conoce y devuelve nada. El empleado escribe «tipo desconocido» con cara de pena.
+
+#### Gheco sugiere
+Agregá en `crear` el caso `"farol"`, que devuelva un `std::make_unique<Farol>(nombre)`.
+
+#### Desafío
+Enseñale a la fábrica a crear faroles.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+class Invento {
+public:
+    explicit Invento(std::string n) : nombre_(n) {}
+    virtual ~Invento() = default;
+    virtual std::string tipo() const = 0;
+    const std::string& nombre() const { return nombre_; }
+
+private:
+    std::string nombre_;
+};
+
+class Reloj : public Invento {
+public:
+    using Invento::Invento;
+    std::string tipo() const override { return "reloj"; }
+};
+
+class Farol : public Invento {
+public:
+    using Invento::Invento;
+    std::string tipo() const override { return "farol"; }
+};
+
+std::unique_ptr<Invento> crear(const std::string& tipo, const std::string& nombre)
+{
+    if (tipo == "reloj") {
+        return std::make_unique<Reloj>(nombre);
+    }
+    return nullptr;
+}
+
+int main()
+{
+    for (auto [tipo, nombre] : {std::pair<std::string, std::string>{"reloj", "Cucu"}, {"farol", "Lucero"}, {"barco", "Ancla"}}) {
+        auto i = crear(tipo, nombre);
+        if (i) {
+            std::cout << "Registrado: " << i->tipo() << " " << i->nombre() << "\n";
+        } else {
+            std::cout << "Tipo desconocido: " << tipo << "\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Registrado: reloj Cucu
+Registrado: farol Lucero
+Tipo desconocido: barco
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+class Invento {
+public:
+    explicit Invento(std::string n) : nombre_(n) {}
+    virtual ~Invento() = default;
+    virtual std::string tipo() const = 0;
+    const std::string& nombre() const { return nombre_; }
+
+private:
+    std::string nombre_;
+};
+
+class Reloj : public Invento {
+public:
+    using Invento::Invento;
+    std::string tipo() const override { return "reloj"; }
+};
+
+class Farol : public Invento {
+public:
+    using Invento::Invento;
+    std::string tipo() const override { return "farol"; }
+};
+
+std::unique_ptr<Invento> crear(const std::string& tipo, const std::string& nombre)
+{
+    if (tipo == "reloj") {
+        return std::make_unique<Reloj>(nombre);
+    }
+    if (tipo == "farol") {
+        return std::make_unique<Farol>(nombre);
+    }
+    return nullptr;
+}
+
+int main()
+{
+    for (auto [tipo, nombre] : {std::pair<std::string, std::string>{"reloj", "Cucu"}, {"farol", "Lucero"}, {"barco", "Ancla"}}) {
+        auto i = crear(tipo, nombre);
+        if (i) {
+            std::cout << "Registrado: " << i->tipo() << " " << i->nombre() << "\n";
+        } else {
+            std::cout << "Tipo desconocido: " << tipo << "\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El farol Lucero queda registrado. El barco no: en la Ciudadela no hay mar.
+
+#### Imagen
+- Un mostrador de patentes con un farol, un reloj cucú y un barquito de juguete rechazado.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) sella una patente.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene el barquito.
+
+### Micro-misión R06-N03-P2 · Una sola verdad
+
+```meta
+lugar: La oficina de patentes
+personajes: Bron, la Maestra Artífice
+carta: refrescar() | los datos viven SOLO en el modelo · la tabla se vuelve a llenar desde el modelo después de cada cambio · nunca dos copias
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El empleado de patentes borra un invento de la tabla de la ventana… y el total sigue igual, porque en el registro el invento sigue estando. Dos verdades. La Maestra Artífice pasa y pregunta: —¿Y la prueba? —La prueba es el total, y no da.
+
+#### Gheco sugiere
+Borrá del **modelo** (`registro.quitar(fila)`) y después rehacé la tabla con `refrescar`, en lugar de borrar solo de `tabla`.
+
+#### Desafío
+Hacé que la tabla y el modelo digan lo mismo.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Invento {
+    std::string nombre;
+    int valor;
+};
+
+class Registro {
+public:
+    void agregar(const Invento& i) { inventos_.push_back(i); }
+    void quitar(int fila) { inventos_.erase(inventos_.begin() + fila); }
+    const std::vector<Invento>& todos() const { return inventos_; }
+    int total() const
+    {
+        int t = 0;
+        for (const auto& i : inventos_) t += i.valor;
+        return t;
+    }
+
+private:
+    std::vector<Invento> inventos_;
+};
+
+std::vector<std::string> refrescar(const Registro& r)
+{
+    std::vector<std::string> tabla;
+    for (const auto& i : r.todos()) {
+        tabla.push_back(i.nombre + " $" + std::to_string(i.valor));
+    }
+    return tabla;
+}
+
+int main()
+{
+    Registro registro;
+    registro.agregar({"Cucu", 124});
+    registro.agregar({"Pinza", 260});
+    registro.agregar({"Lucero", 125});
+    std::vector<std::string> tabla = refrescar(registro);
+    tabla.erase(tabla.begin() + 1);
+    for (const auto& fila : tabla) {
+        std::cout << fila << "\n";
+    }
+    std::cout << "Total: $" << registro.total() << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Cucu $124
+Lucero $125
+Total: $249
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Invento {
+    std::string nombre;
+    int valor;
+};
+
+class Registro {
+public:
+    void agregar(const Invento& i) { inventos_.push_back(i); }
+    void quitar(int fila) { inventos_.erase(inventos_.begin() + fila); }
+    const std::vector<Invento>& todos() const { return inventos_; }
+    int total() const
+    {
+        int t = 0;
+        for (const auto& i : inventos_) t += i.valor;
+        return t;
+    }
+
+private:
+    std::vector<Invento> inventos_;
+};
+
+std::vector<std::string> refrescar(const Registro& r)
+{
+    std::vector<std::string> tabla;
+    for (const auto& i : r.todos()) {
+        tabla.push_back(i.nombre + " $" + std::to_string(i.valor));
+    }
+    return tabla;
+}
+
+int main()
+{
+    Registro registro;
+    registro.agregar({"Cucu", 124});
+    registro.agregar({"Pinza", 260});
+    registro.agregar({"Lucero", 125});
+    registro.quitar(1);
+    std::vector<std::string> tabla = refrescar(registro);
+    for (const auto& fila : tabla) {
+        std::cout << fila << "\n";
+    }
+    std::cout << "Total: $" << registro.total() << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Doscientos cuarenta y nueve, en la tabla y en el registro. La Maestra Artífice tilda la oficina de patentes.
+
+#### Imagen
+- Una tabla en un vitral y un libro de registro al lado, con los mismos renglones.
+- la Maestra Artífice (mujer alta de 60, piel oscura, pelo blanco muy corto, antiparras verdes en la frente, delantal de cuero sobre una túnica verde con circuitos, tableta con tildes verdes) compara la tabla con el libro.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) borra un renglón del libro.
+
+### Micro-misión R06-N03-P3 · Cuando no hay nada elegido
+
+```meta
+lugar: La oficina de patentes
+personajes: Bron, Lima
+carta: currentRow() | devuelve -1 si no hay ninguna fila elegida · antes de usarla, se revisa fila < 0
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El empleado aprieta «Quitar» sin elegir ninguna fila. La tabla le pasa −1, y el programa de Bron revienta buscando el invento número −1.
+
+#### Gheco sugiere
+Revisá también que `fila` no sea negativa: si `fila < 0`, mostrá `Elegi un invento` y no hagas nada.
+
+#### Desafío
+Cuidate del −1.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> inventos = {"Cucu", "Pinza", "Lucero"};
+
+void quitar(int fila)
+{
+    if (fila >= static_cast<int>(inventos.size())) {
+        std::cout << "No existe esa fila\n";
+        return;
+    }
+    std::cout << "Quitado: " << inventos.at(fila) << "\n";
+    inventos.erase(inventos.begin() + fila);
+}
+
+int main()
+{
+    quitar(1);
+    quitar(-1);
+    quitar(5);
+    std::cout << "Quedan " << inventos.size() << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Quitado: Pinza
+Elegi un invento
+No existe esa fila
+Quedan 2
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<std::string> inventos = {"Cucu", "Pinza", "Lucero"};
+
+void quitar(int fila)
+{
+    if (fila < 0) {
+        std::cout << "Elegi un invento\n";
+        return;
+    }
+    if (fila >= static_cast<int>(inventos.size())) {
+        std::cout << "No existe esa fila\n";
+        return;
+    }
+    std::cout << "Quitado: " << inventos.at(fila) << "\n";
+    inventos.erase(inventos.begin() + fila);
+}
+
+int main()
+{
+    quitar(1);
+    quitar(-1);
+    quitar(5);
+    std::cout << "Quedan " << inventos.size() << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El empleado aprieta «Quitar» sin elegir, y la ventana le pide que elija. Nadie revienta.
+
+#### Imagen
+- Un vitral con una tabla sin ninguna fila elegida y un cartelito amable.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) señala el cartelito.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aprieta el botón «Quitar».
 
 ### Misión R06-N03-M1 · El plano sin ventana
 
@@ -2463,6 +3411,246 @@ Los widgets dibujados a mano están en los editores gráficos, los gráficos de 
 
 **Orco: usar el índice de la vista en el modelo.** Con un proxy de filtro, la fila 2 de la vista puede ser la fila 7 del modelo: siempre `mapToSource`.
 
+### Micro-misión R06-N04-P1 · ¿En qué baldosa hizo clic?
+
+```meta
+lugar: El fondo del Taller de los Vitrales
+personajes: Bron, Lima
+carta: Del mouse a la grilla | columna = x / tam · fila = y / tam (con enteros) · x es horizontal, y es vertical
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El maestro vidriero pinta cada vitral a mano, baldosa por baldosa. Bron quiere saber en qué baldosa hizo clic, y confunde las coordenadas: pinta la fila donde iba la columna.
+
+#### Gheco sugiere
+`x` es la posición horizontal (la columna) e `y` la vertical (la fila). Las baldosas miden `tam` píxeles.
+
+#### Desafío
+Calculá bien la fila y la columna.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    const int tam = 32;
+    int clics[][2] = {{40, 100}, {200, 10}, {0, 0}};
+    for (const auto& c : clics) {
+        int x = c[0];
+        int y = c[1];
+        int fila = x / tam;
+        int columna = y / tam;
+        std::cout << "clic (" << x << ", " << y << ") -> fila " << fila << ", columna " << columna << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+clic (40, 100) -> fila 3, columna 1
+clic (200, 10) -> fila 0, columna 6
+clic (0, 0) -> fila 0, columna 0
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    const int tam = 32;
+    int clics[][2] = {{40, 100}, {200, 10}, {0, 0}};
+    for (const auto& c : clics) {
+        int x = c[0];
+        int y = c[1];
+        int fila = y / tam;
+        int columna = x / tam;
+        std::cout << "clic (" << x << ", " << y << ") -> fila " << fila << ", columna " << columna << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Cada clic cae en su baldosa. Bron le pregunta al maestro vidriero si conoce al Vidriero. —Todos lo conocemos —se ríe—. Nadie lo vio nunca.
+
+#### Imagen
+- Un vitral a medio pintar dividido en baldosas, con una iluminada donde cayó el clic.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene un pincel de luz.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) anota coordenadas.
+
+### Micro-misión R06-N04-P2 · El reloj de la torre
+
+```meta
+lugar: El fondo del Taller de los Vitrales
+personajes: Tesla, Bron
+carta: Animar con un timer | en Qt, un QTimer llama a un slot cada tantos milisegundos · el slot cambia el estado y pide update() · el ángulo vuelve a 0 con % 360
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El reloj dibujado de la torre avanza la aguja 6 grados en cada tic del timer. Después de un minuto, la aguja de Bron marca 366 grados, y el dibujo se tuerce.
+
+#### Gheco sugiere
+Después de sumar, quedate con el resto de dividir por 360: `angulo_ = (angulo_ + 6) % 360;`.
+
+#### Desafío
+Hacé que la aguja dé la vuelta.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+class Aguja {
+public:
+    void tic() { angulo_ = angulo_ + 6; }
+    int angulo() const { return angulo_; }
+
+private:
+    int angulo_ = 342;
+};
+
+int main()
+{
+    Aguja a;
+    for (int i = 0; i < 5; i++) {
+        a.tic();
+        std::cout << "tic " << i + 1 << ": " << a.angulo() << " grados\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+tic 1: 348 grados
+tic 2: 354 grados
+tic 3: 0 grados
+tic 4: 6 grados
+tic 5: 12 grados
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+class Aguja {
+public:
+    void tic() { angulo_ = (angulo_ + 6) % 360; }
+    int angulo() const { return angulo_; }
+
+private:
+    int angulo_ = 342;
+};
+
+int main()
+{
+    Aguja a;
+    for (int i = 0; i < 5; i++) {
+        a.tic();
+        std::cout << "tic " << i + 1 << ": " << a.angulo() << " grados\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Trescientos cuarenta y ocho, trescientos cincuenta y cuatro, cero, seis, doce. La aguja da la vuelta, como un reloj de verdad.
+
+#### Imagen
+- Un reloj pintado en un vitral, con la aguja pasando por las doce.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) mira el reloj con el compás.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuenta los tics.
+
+### Micro-misión R06-N04-P3 · La fila del filtro no es la del modelo
+
+```meta
+lugar: El fondo del Taller de los Vitrales
+personajes: Lima, Bron
+carta: mapToSource | con un filtro (QSortFilterProxyModel), la fila que se ve NO es la del modelo · se convierte antes de borrar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la agenda, Lima filtra los contactos que tienen una «o» y elige el segundo que se ve. Bron borra la fila 1 del modelo… y se va otro contacto: la fila 1 de la vista no es la fila 1 del modelo.
+
+#### Gheco sugiere
+El filtro guarda, para cada fila visible, cuál era en el modelo (`visibles`). Borrá `modelo[visibles[1]]`, no `modelo[1]`.
+
+#### Desafío
+Convertí la fila de la vista a la del modelo antes de borrar.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> modelo = {"Tesla", "Oto", "Lima", "Bron", "Lyn"};
+    std::vector<std::size_t> visibles;
+    for (std::size_t i = 0; i < modelo.size(); i++) {
+        if (modelo[i].find('o') != std::string::npos) {
+            visibles.push_back(i);
+        }
+    }
+    std::size_t elegida = 1;
+    std::cout << "Lima elige: " << modelo[visibles[elegida]] << "\n";
+    modelo.erase(modelo.begin() + elegida);
+    std::cout << "Quedan:";
+    for (const auto& n : modelo) {
+        std::cout << " " << n;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Lima elige: Bron
+Quedan: Tesla Oto Lima Lyn
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> modelo = {"Tesla", "Oto", "Lima", "Bron", "Lyn"};
+    std::vector<std::size_t> visibles;
+    for (std::size_t i = 0; i < modelo.size(); i++) {
+        if (modelo[i].find('o') != std::string::npos) {
+            visibles.push_back(i);
+        }
+    }
+    std::size_t elegida = 1;
+    std::cout << "Lima elige: " << modelo[visibles[elegida]] << "\n";
+    modelo.erase(modelo.begin() + visibles[elegida]);
+    std::cout << "Quedan:";
+    for (const auto& n : modelo) {
+        std::cout << " " << n;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Se borra Bron (de la agenda, no de la Ciudadela). Bron protesta; Lima dice que fue un ejemplo.
+
+#### Imagen
+- Una agenda en un vitral, con un filtro que deja ver dos nombres de cinco.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) elige un nombre.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) protesta, señalándose a sí mismo.
+
 ### Misión R06-N04-M1 · El editor de baldosas
 
 ```meta
@@ -2846,6 +4034,441 @@ error: no match for ‘operator<<’ (operand types are ‘std::ostream’ and �
 **Ogro: el desempate.** Ordenar solo por costo deja las empatadas en cualquier orden: el corrector espera el orden por código.
 
 **Orco: la fila de la tabla después de ordenar o filtrar.** Si la tabla muestra el modelo ordenado, la fila `f` es la máquina `f` **solo si** se llenó después de ordenar. Con filtro, leé el código de la celda y buscá por código.
+
+### Micro-misión R06-N05-P1 · Pregunta número uno: el costo
+
+```meta
+lugar: Lo alto del Taller de los Vitrales
+personajes: Bron, Lima
+criatura: dragon
+carta: Método virtual puro | virtual int costo() const = 0; · cada máquina lo calcula a su manera · Grúa: horas * 8 + toneladas * 50
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En lo alto del Taller espera la **Gárgola de los Vitrales**, con su monóculo de colores. —Pregunta número uno —dice, con voz de examinadora. Es **TallerExpress**. —Primero los planos —le susurra Lima a Bron—. Después el vitral.
+A la grúa de Bron le falta su costo de mantenimiento, y el Taller no la deja construir: es abstracta.
+
+#### Gheco sugiere
+Escribí `int costo() const override` en `Grua`: `horas() * 8 + toneladas_ * 50`.
+
+#### Desafío
+Completá la grúa.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+class Maquina {
+public:
+    Maquina(std::string nombre, int horas) : nombre_(nombre), horas_(horas) {}
+    virtual ~Maquina() = default;
+    const std::string& nombre() const { return nombre_; }
+    int horas() const { return horas_; }
+    virtual int costo() const = 0;
+
+private:
+    std::string nombre_;
+    int horas_;
+};
+
+class Automata : public Maquina {
+public:
+    Automata(std::string n, int h, int bateria) : Maquina(n, h), bateria_(bateria) {}
+    int costo() const override { return horas() * 10 + (100 - bateria_) * 2; }
+
+private:
+    int bateria_;
+};
+
+class Grua : public Maquina {
+public:
+    Grua(std::string n, int h, int toneladas) : Maquina(n, h), toneladas_(toneladas) {}
+
+private:
+    int toneladas_;
+};
+
+int main()
+{
+    std::vector<std::unique_ptr<Maquina>> taller;
+    taller.push_back(std::make_unique<Automata>("Cuco", 40, 75));
+    taller.push_back(std::make_unique<Grua>("Brazo", 10, 2));
+    for (const auto& m : taller) {
+        std::cout << m->nombre() << ": $" << m->costo() << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Cuco: $450
+Brazo: $180
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+class Maquina {
+public:
+    Maquina(std::string nombre, int horas) : nombre_(nombre), horas_(horas) {}
+    virtual ~Maquina() = default;
+    const std::string& nombre() const { return nombre_; }
+    int horas() const { return horas_; }
+    virtual int costo() const = 0;
+
+private:
+    std::string nombre_;
+    int horas_;
+};
+
+class Automata : public Maquina {
+public:
+    Automata(std::string n, int h, int bateria) : Maquina(n, h), bateria_(bateria) {}
+    int costo() const override { return horas() * 10 + (100 - bateria_) * 2; }
+
+private:
+    int bateria_;
+};
+
+class Grua : public Maquina {
+public:
+    Grua(std::string n, int h, int toneladas) : Maquina(n, h), toneladas_(toneladas) {}
+    int costo() const override { return horas() * 8 + toneladas_ * 50; }
+
+private:
+    int toneladas_;
+};
+
+int main()
+{
+    std::vector<std::unique_ptr<Maquina>> taller;
+    taller.push_back(std::make_unique<Automata>("Cuco", 40, 75));
+    taller.push_back(std::make_unique<Grua>("Brazo", 10, 2));
+    for (const auto& m : taller) {
+        std::cout << m->nombre() << ": $" << m->costo() << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+—Correcto —dice la Gárgola, y anota algo con su pluma—. Pregunta número dos.
+
+#### Imagen
+- Lo alto del Taller de los Vitrales con la Gárgola de los Vitrales (gárgola de piedra gris con alas cortas, monóculo de vidrios de colores y una pluma de escribir en la garra).
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) dibuja un plano en una hoja.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) le susurra al oído.
+
+### Micro-misión R06-N05-P2 · Pregunta número dos: mostrarla
+
+```meta
+lugar: Lo alto del Taller de los Vitrales
+personajes: Bron, Tesla
+criatura: dragon
+carta: friend operator<< | friend std::ostream& operator<<(std::ostream&, const Maquina&) · lee lo privado y llama a lo virtual: sirve para todas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Muestre cualquier máquina con `<<` —pide la Gárgola—. Con el formato del libro: `[codigo] nombre - horas h - $costo`. El operador de Bron lee lo privado sin ser amigo, y el Taller no lo deja.
+
+#### Gheco sugiere
+Declaralo **amigo** adentro de la clase: `friend std::ostream& operator<<(std::ostream& os, const Maquina& m);`.
+
+#### Desafío
+Hacé que el operador pueda leer la máquina.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+class Maquina {
+public:
+    Maquina(int codigo, std::string nombre, int horas) : codigo_(codigo), nombre_(nombre), horas_(horas) {}
+    virtual ~Maquina() = default;
+    virtual int costo() const { return horas_ * 5; }
+
+private:
+    int codigo_;
+    std::string nombre_;
+    int horas_;
+};
+
+std::ostream& operator<<(std::ostream& os, const Maquina& m)
+{
+    return os << "[" << m.codigo_ << "] " << m.nombre_ << " - " << m.horas_ << " h - $" << m.costo();
+}
+
+int main()
+{
+    Maquina rueca(205, "Rueca", 30);
+    std::cout << rueca << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+[205] Rueca - 30 h - $150
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+class Maquina {
+public:
+    Maquina(int codigo, std::string nombre, int horas) : codigo_(codigo), nombre_(nombre), horas_(horas) {}
+    virtual ~Maquina() = default;
+    virtual int costo() const { return horas_ * 5; }
+    friend std::ostream& operator<<(std::ostream& os, const Maquina& m);
+
+private:
+    int codigo_;
+    std::string nombre_;
+    int horas_;
+};
+
+std::ostream& operator<<(std::ostream& os, const Maquina& m)
+{
+    return os << "[" << m.codigo_ << "] " << m.nombre_ << " - " << m.horas_ << " h - $" << m.costo();
+}
+
+int main()
+{
+    Maquina rueca(205, "Rueca", 30);
+    std::cout << rueca << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+«[205] Rueca - 30 h - $150.» La Gárgola acomoda el monóculo. —Pregunta número tres.
+
+#### Imagen
+- La pluma de la Gárgola escribiendo un renglón en un libro enorme.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) observa desde la escalera.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira a la Gárgola a los ojos.
+
+### Micro-misión R06-N05-P3 · Pregunta número tres: el desempate
+
+```meta
+lugar: Lo alto del Taller de los Vitrales
+personajes: Bron, Lima
+criatura: dragon
+carta: Orden con desempate | de mayor a menor costo · si empatan, por código de menor a mayor · la lambda compara el costo y, si son iguales, el código
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Liste las máquinas de mayor a menor costo —pide la Gárgola—. Y si empatan… —deja la frase en el aire. Bron ordena solo por costo, y las empatadas salen en cualquier orden. La Gárgola carraspea.
+
+#### Gheco sugiere
+En la lambda: si los costos son distintos, `return a.costo > b.costo;`; si son iguales, `return a.codigo < b.codigo;`.
+
+#### Desafío
+Desempatá por código.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Maquina {
+    int codigo;
+    std::string nombre;
+    int costo;
+};
+
+int main()
+{
+    std::vector<Maquina> taller = {{310, "Brazo", 180}, {7, "Pluma", 50}, {101, "Cuco", 450}, {3, "Seda", 50}, {205, "Rueca", 180}};
+    std::sort(taller.begin(), taller.end(), [](const Maquina& a, const Maquina& b) { return a.costo > b.costo; });
+    for (const auto& m : taller) {
+        std::cout << "[" << m.codigo << "] " << m.nombre << " $" << m.costo << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+[101] Cuco $450
+[205] Rueca $180
+[310] Brazo $180
+[3] Seda $50
+[7] Pluma $50
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Maquina {
+    int codigo;
+    std::string nombre;
+    int costo;
+};
+
+int main()
+{
+    std::vector<Maquina> taller = {{310, "Brazo", 180}, {7, "Pluma", 50}, {101, "Cuco", 450}, {3, "Seda", 50}, {205, "Rueca", 180}};
+    std::sort(taller.begin(), taller.end(), [](const Maquina& a, const Maquina& b) {
+        if (a.costo != b.costo) {
+            return a.costo > b.costo;
+        }
+        return a.codigo < b.codigo;
+    });
+    for (const auto& m : taller) {
+        std::cout << "[" << m.codigo << "] " << m.nombre << " $" << m.costo << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Rueca antes que Brazo, Seda antes que Pluma. La Gárgola deja de carraspear. —Última pregunta.
+
+#### Imagen
+- Un libro enorme con una lista ordenada y dos pares de renglones unidos por una llave.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) señala los empates.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) escribe la lambda.
+
+### Micro-misión R06-N05-P4 · Pregunta número cuatro: que nada se pierda
+
+```meta
+lugar: Lo alto del Taller de los Vitrales
+personajes: Bron, Tesla, Lima
+criatura: dragon
+carta: Guardar y cargar | una línea por máquina, el tipo primero y los campos separados por ; · al cargar, la fábrica crea la clase que corresponde
+recompensa: xp 25, oro 30
+item: Llave Universal
+```
+
+#### Escena
+—Guarde el taller y vuélvalo a cargar —dice la Gárgola—. Si se pierde una sola fila, empezamos de nuevo. Bron guarda bien, pero al cargar lee el tipo y el resto en el orden equivocado.
+
+#### Gheco sugiere
+Al cargar, cada línea es `tipo;codigo;nombre;horas`. Leé los cuatro campos **en ese orden** con `getline(campos, x, ';')`.
+
+#### Desafío
+Cargá los campos en el orden en que se guardaron.
+
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+struct Fila {
+    std::string tipo;
+    int codigo;
+    std::string nombre;
+    int horas;
+};
+
+int main()
+{
+    std::vector<Fila> taller = {{"automata", 101, "Cuco", 40}, {"telar", 205, "Rueca", 30}, {"grua", 310, "Brazo", 10}};
+    {
+        std::ofstream f("maquinas.txt");
+        for (const Fila& m : taller) {
+            f << m.tipo << ';' << m.codigo << ';' << m.nombre << ';' << m.horas << '\n';
+        }
+    }
+    std::ifstream in("maquinas.txt");
+    std::string linea;
+    int cargadas = 0;
+    while (std::getline(in, linea)) {
+        std::istringstream campos(linea);
+        std::string tipo, codigo, nombre, horas;
+        std::getline(campos, nombre, ';');
+        std::getline(campos, tipo, ';');
+        std::getline(campos, codigo, ';');
+        std::getline(campos, horas);
+        std::cout << "[" << codigo << "] " << tipo << " " << nombre << " - " << horas << " h\n";
+        cargadas++;
+    }
+    std::cout << "Cargadas: " << cargadas << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+[101] automata Cuco - 40 h
+[205] telar Rueca - 30 h
+[310] grua Brazo - 10 h
+Cargadas: 3
+```
+
+#### Solución
+```cpp
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+struct Fila {
+    std::string tipo;
+    int codigo;
+    std::string nombre;
+    int horas;
+};
+
+int main()
+{
+    std::vector<Fila> taller = {{"automata", 101, "Cuco", 40}, {"telar", 205, "Rueca", 30}, {"grua", 310, "Brazo", 10}};
+    {
+        std::ofstream f("maquinas.txt");
+        for (const Fila& m : taller) {
+            f << m.tipo << ';' << m.codigo << ';' << m.nombre << ';' << m.horas << '\n';
+        }
+    }
+    std::ifstream in("maquinas.txt");
+    std::string linea;
+    int cargadas = 0;
+    while (std::getline(in, linea)) {
+        std::istringstream campos(linea);
+        std::string tipo, codigo, nombre, horas;
+        std::getline(campos, tipo, ';');
+        std::getline(campos, codigo, ';');
+        std::getline(campos, nombre, ';');
+        std::getline(campos, horas);
+        std::cout << "[" << codigo << "] " << tipo << " " << nombre << " - " << horas << " h\n";
+        cargadas++;
+    }
+    std::cout << "Cargadas: " << cargadas << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres de tres, idénticas. La Gárgola cierra el libro, satisfecha. Bron, que llegó arreglando doscientos engranajes a mano, dibuja en la misma hoja el plano de su propia llave, una que se ajusta a **cualquier** tuerca. Tesla la construye en el torno: **la Llave Universal**. Detrás de la Gárgola, el último vitral muestra un balcón con cuatro portales; uno es un engranaje, el que Bron tiene en el bolsillo.
+
+#### Imagen
+- Un vitral enorme detrás de la Gárgola con un balcón y cuatro portales: una espiral, un engranaje, un vitral y un arco de fuego.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta una llave inglesa legendaria de bronce y cian.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) miran el vitral.
 
 ### Misión R06-N05-M1 · Los planos de TallerExpress
 

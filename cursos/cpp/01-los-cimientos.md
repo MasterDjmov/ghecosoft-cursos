@@ -240,6 +240,188 @@ En C++ los decimales llevan punto.
 main.cpp:6:13: error: assignment of read-only variable ‘DIENTES’
 ```
 
+### Micro-misión R01-N01-P1 · El goblin de los decimales
+
+```meta
+lugar: El almacén de piezas
+personajes: Bron, Lima, Gheco
+criatura: goblin
+carta: Tipos | int guarda enteros · double guarda decimales · un double en un int pierde la parte decimal
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron guarda tres kilos y tres cuartos de tornillos en el cajón de la etiqueta `int`. Al abrirlo, hay tres kilos. Los 750 gramos se los llevó un **goblin**, sin hacer ruido.
+Lima se ríe por primera vez (y después disimula).
+
+#### Gheco sugiere
+Un `int` solo guarda enteros. Para guardar `3.75`, el cajón tiene que ser `double`. Mirá también lo que dice el compilador del navegador: avisa que el valor cambia.
+
+#### Desafío
+Cambiá el tipo del cajón para que no se pierdan los decimales.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int kilos = 3.75;
+    std::cout << "Tornillos: " << kilos << " kg\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Tornillos: 3.75 kg
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    double kilos = 3.75;
+    std::cout << "Tornillos: " << kilos << " kg\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Los tres kilos y tres cuartos vuelven al cajón. En un rincón, el goblin suelta los 750 gramos y sale corriendo.
+
+#### Imagen
+- Un almacén de cajones con etiquetas: «int», «double», «char», «bool».
+- Un goblin escapa con una bolsita de tornillos.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) abre un cajón casi vacío; Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) se ríe detrás.
+
+### Micro-misión R01-N01-P2 · Cajas y sobrantes
+
+```meta
+lugar: El almacén de piezas
+personajes: Bron, Lima
+carta: División entera | 17 / 5 da 3 (entre enteros, sin decimales) · 17 % 5 da 2 (el resto)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Hay 17 tuercas para repartir en 5 cajas iguales. Bron calcula cuántas van en cada caja y cuántas sobran, pero los sobrantes le dan cualquier cosa.
+—Para el resto hay un operador —dice Lima, sin levantar la vista del reloj que arregla.
+
+#### Gheco sugiere
+Entre enteros, `/` da el cociente y `%` da el **resto**: `17 % 5` es `2`.
+
+#### Desafío
+Calculá lo que sobra con el operador del resto.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int tuercas = 17;
+    int cajas = 5;
+    int por_caja = tuercas / cajas;
+    int sobran = tuercas - cajas;
+    std::cout << "Por caja: " << por_caja << "\n";
+    std::cout << "Sobran: " << sobran << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Por caja: 3
+Sobran: 2
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int tuercas = 17;
+    int cajas = 5;
+    int por_caja = tuercas / cajas;
+    int sobran = tuercas % cajas;
+    std::cout << "Por caja: " << por_caja << "\n";
+    std::cout << "Sobran: " << sobran << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres por caja y dos sueltas, que Lima se guarda en el bolsillo del delantal «para un reloj».
+
+#### Imagen
+- Cinco cajas de madera con tres tuercas cada una y dos tuercas sueltas sobre la mesa.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) reparte tuercas.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) se guarda dos tuercas en el delantal.
+
+### Micro-misión R01-N01-P3 · El promedio de Lyn
+
+```meta
+lugar: El almacén de piezas
+personajes: Lyn, Bron
+carta: static_cast | static_cast<double>(x) convierte a propósito · si uno de los dos es double, la división tiene decimales
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn, la mensajera de la Ciudadela, corrió dos vueltas a las torres en 7 minutos en total. Quiere saber su promedio por vuelta, y el almacén le dice **3**.
+—¡Es un robo! —grita Lyn—. Le apuesto lo que sea a que fueron tres y medio.
+
+#### Gheco sugiere
+`7 / 2` entre enteros da `3`. Si convertís uno a `double` con `static_cast<double>(...)`, la división da `3.5`.
+
+#### Desafío
+Convertí a propósito para que el promedio tenga decimales.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int minutos = 7;
+    int vueltas = 2;
+    double promedio = minutos / vueltas;
+    std::cout << "Promedio: " << promedio << " minutos por vuelta\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Promedio: 3.5 minutos por vuelta
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int minutos = 7;
+    int vueltas = 2;
+    double promedio = static_cast<double>(minutos) / vueltas;
+    std::cout << "Promedio: " << promedio << " minutos por vuelta\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres y medio. Lyn gana la apuesta contra nadie y lo festeja igual.
+
+#### Imagen
+- Un pizarrón con la cuenta 7 / 2 tachada y al lado 3.5.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) levanta los brazos festejando.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aplaude sin entender del todo.
+
 ### Misión R01-N01-M1 · El plano de la torre
 
 ```meta
@@ -673,6 +855,198 @@ main.cpp:1:1: note: ‘std::setw’ is defined in header ‘<iomanip>’; did yo
 
 **Goblin: comillas simples para un texto.** `'Lima'` no es un texto: las comillas
 simples son para **un** carácter. Los textos van entre comillas dobles.
+
+### Micro-misión R01-N02-P1 · La frase entera
+
+```meta
+lugar: La ventanilla de pedidos
+personajes: Lyn, Bron, Gheco
+carta: getline | std::cin >> lee UNA palabra · std::getline(std::cin, texto) lee la línea entera
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn llega corriendo a la ventanilla (siempre llega corriendo) y grita su pedido: **«Dos ruedas dentadas»**. El guardia mecánico anota… «Dos». Nada más.
+Lyn le apuesta a Bron que el guardia está roto.
+
+#### Gheco sugiere
+`std::cin >> pedido` corta en el primer espacio. Para leer la frase completa: `std::getline(std::cin, pedido);`.
+
+#### Desafío
+Leé el pedido entero.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string pedido;
+    std::cin >> pedido;
+    std::cout << "Pedido: " << pedido << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+Dos ruedas dentadas
+```
+
+#### Salida esperada
+```
+Pedido: Dos ruedas dentadas
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string pedido;
+    std::getline(std::cin, pedido);
+    std::cout << "Pedido: " << pedido << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El guardia anota «Dos ruedas dentadas» y Lyn pierde la apuesta. Bron gana, pero no sabe bien por qué.
+
+#### Imagen
+- Una ventanilla de bronce con un guardia mecánico que escribe en un libro enorme.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) grita su pedido con las manos en la boca.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) espera con los brazos cruzados.
+
+### Micro-misión R01-N02-P2 · Cantidad por precio
+
+```meta
+lugar: La ventanilla de pedidos
+personajes: Bron, Oto
+carta: Leer números | std::cin >> a >> b; lee dos números separados por espacio · el tipo de la variable dice qué se lee
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Oto, el cocinero del comedor, pide ollas nuevas: escribe en la ventanilla la cantidad y el precio de cada una. El guardia tiene que calcular el total, pero se olvida de leer el precio.
+
+#### Gheco sugiere
+Se pueden leer varios valores seguidos: `std::cin >> cantidad >> precio;`.
+
+#### Desafío
+Leé también el precio y mostrá el total.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int cantidad = 0;
+    int precio = 0;
+    std::cin >> cantidad;
+    std::cout << cantidad << " x " << precio << " = " << cantidad * precio << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+3 250
+```
+
+#### Salida esperada
+```
+3 x 250 = 750
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int cantidad = 0;
+    int precio = 0;
+    std::cin >> cantidad >> precio;
+    std::cout << cantidad << " x " << precio << " = " << cantidad * precio << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres ollas a 250: 750. Oto paga con monedas que huelen a guiso.
+
+#### Imagen
+- La ventanilla de pedidos con un recibo que dice «3 x 250 = 750».
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) cuenta monedas con el cucharón bajo el brazo.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sella el recibo.
+
+### Micro-misión R01-N02-P3 · El menú de Oto
+
+```meta
+lugar: La ventanilla de pedidos
+personajes: Oto, Lima
+carta: Formato | #include <iomanip> · std::setw(n) da ancho a la próxima cosa · std::left alinea a la izquierda · std::fixed << std::setprecision(2) muestra 2 decimales
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Oto quiere colgar el menú del día en la ventanilla, con los precios en columna y siempre con dos decimales. Le sale todo amontonado.
+Lima le mide las columnas con la lupa: —Así no se puede leer.
+
+#### Gheco sugiere
+`std::left << std::setw(10) << nombre` ocupa 10 lugares con el nombre a la izquierda. `std::fixed << std::setprecision(2)` muestra siempre dos decimales (`8.00`).
+
+#### Desafío
+Dale ancho a la columna de los nombres y dos decimales a los precios.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <iomanip>
+
+int main()
+{
+    std::cout << "Guiso" << 12.5 << "\n";
+    std::cout << "Pan" << 3 << "\n";
+    std::cout << "Sopa" << 8.75 << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Guiso     12.50
+Pan       3.00
+Sopa      8.75
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <iomanip>
+
+int main()
+{
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << std::left << std::setw(10) << "Guiso" << 12.5 << "\n";
+    std::cout << std::left << std::setw(10) << "Pan" << 3.0 << "\n";
+    std::cout << std::left << std::setw(10) << "Sopa" << 8.75 << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+El menú queda prolijo como un reloj. Lima lo aprueba con un gesto, y Oto lo cuelga torcido.
+
+#### Imagen
+- Un pizarrón de menú con tres platos en columna y sus precios alineados con dos decimales.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) cuelga el pizarrón un poco torcido.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lo endereza con la punta de la lima.
 
 ### Misión R01-N02-M1 · El registro de la puerta
 
@@ -1290,6 +1664,239 @@ de abajo nunca se alcanzan. Ordená de la más específica a la más general.
 
 **Ogro: `0 <= x <= 100`.** Compila, pero compara `(0 <= x)` (que da 0 o 1) con
 100: siempre es verdadero. Escribí `0 <= x && x <= 100`.
+
+### Micro-misión R01-N03-P1 · Las tres compuertas
+
+```meta
+lugar: Las compuertas del canal
+personajes: Bron, Oto, Tesla
+carta: if / else if | se prueban en orden y entra en la PRIMERA que se cumple · la más exigente va primero
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Las compuertas del canal se abren según cuánto llovió: más de 50 mm, tres; más de 20, dos; algo de lluvia, una; nada, ninguna. Bron programó la tabla y, con 35 mm, abrió una sola.
+El comedor de Oto se inunda igual, porque Bron después abrió todas «por las dudas».
+
+#### Gheco sugiere
+Con `else if`, entra en la **primera** condición que se cumple. Si `lluvia > 0` va primero, 35 entra ahí y nunca llega a las otras. Ordená de la más exigente a la menos.
+
+#### Desafío
+Ordená las condiciones para que cada lluvia abra las compuertas que corresponden.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int lluvia = 0;
+    std::cin >> lluvia;
+    if (lluvia > 0) {
+        std::cout << "Abrir una compuerta\n";
+    } else if (lluvia > 20) {
+        std::cout << "Abrir dos compuertas\n";
+    } else if (lluvia > 50) {
+        std::cout << "Abrir tres compuertas\n";
+    } else {
+        std::cout << "No abrir ninguna\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+35
+```
+
+#### Salida esperada
+```
+Abrir dos compuertas
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int lluvia = 0;
+    std::cin >> lluvia;
+    if (lluvia > 50) {
+        std::cout << "Abrir tres compuertas\n";
+    } else if (lluvia > 20) {
+        std::cout << "Abrir dos compuertas\n";
+    } else if (lluvia > 0) {
+        std::cout << "Abrir una compuerta\n";
+    } else {
+        std::cout << "No abrir ninguna\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Con 35 mm se abren dos compuertas, y el agua baja del comedor. Oto sale con la olla en alto: —¡Receta que se respeta, guiso que no falla!
+
+#### Imagen
+- Un canal de piedra con tres compuertas de bronce; dos abiertas y una cerrada.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) con el agua por las rodillas, levantando una olla.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) baja una palanca, avergonzado.
+
+### Micro-misión R01-N03-P2 · El punto del guiso
+
+```meta
+lugar: El comedor de los artífices
+personajes: Oto, Bron
+carta: && y || | && pide que se cumplan LAS DOS · || alcanza con UNA · «entre 80 y 95» es t >= 80 && t <= 95
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El guiso de Oto está listo entre 80 y 95 grados, ni uno más ni uno menos. Bron le armó un termómetro que dice «listo» con 120 grados, y el guiso sale violeta.
+
+#### Gheco sugiere
+«Entre 80 y 95» son **dos** condiciones que se tienen que cumplir juntas: `&&`. Con `||` alcanza con que se cumpla una, y 120 es mayor que 80.
+
+#### Desafío
+Corregí la condición del termómetro.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int grados = 0;
+    std::cin >> grados;
+    if (grados >= 80 || grados <= 95) {
+        std::cout << "El guiso esta listo\n";
+    } else {
+        std::cout << "Todavia no\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+120
+```
+
+#### Salida esperada
+```
+Todavia no
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int grados = 0;
+    std::cin >> grados;
+    if (grados >= 80 && grados <= 95) {
+        std::cout << "El guiso esta listo\n";
+    } else {
+        std::cout << "Todavia no\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Con 120 grados el termómetro dice «todavía no», y Oto baja el fuego. El guiso vuelve a ser marrón.
+
+#### Imagen
+- Una olla enorme con un termómetro de bronce clavado que marca 120.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) sopla el guiso, preocupado.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) ajusta el termómetro.
+
+### Micro-misión R01-N03-P3 · Las torres de Lyn
+
+```meta
+lugar: La plaza de las torres
+personajes: Lyn, Lima
+carta: switch | elige por un valor exacto (un entero o un char) · cada case termina con break · sin break sigue de largo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn reparte cartas según la letra de la torre: `a`, la del reloj; `b`, la de las poleas; `c`, la de los vitrales. Con la letra `a`, el programa la manda a las tres torres. Lyn corre igual, pero llega agotada.
+
+#### Gheco sugiere
+En un `switch`, cuando entra en un `case`, sigue de largo por los de abajo hasta encontrar un `break`.
+
+#### Desafío
+Agregá lo que falta para que cada letra mande a una sola torre.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    char torre = ' ';
+    std::cin >> torre;
+    switch (torre) {
+    case 'a':
+        std::cout << "Torre del reloj\n";
+    case 'b':
+        std::cout << "Torre de las poleas\n";
+    case 'c':
+        std::cout << "Torre de los vitrales\n";
+        break;
+    default:
+        std::cout << "Esa torre no existe\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+a
+```
+
+#### Salida esperada
+```
+Torre del reloj
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    char torre = ' ';
+    std::cin >> torre;
+    switch (torre) {
+    case 'a':
+        std::cout << "Torre del reloj\n";
+        break;
+    case 'b':
+        std::cout << "Torre de las poleas\n";
+        break;
+    case 'c':
+        std::cout << "Torre de los vitrales\n";
+        break;
+    default:
+        std::cout << "Esa torre no existe\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Una carta, una torre. Lyn llega a la del reloj en un minuto y le sobra tiempo para apostar contra el reloj.
+
+#### Imagen
+- Tres torres de la Ciudadela con letras a, b y c pintadas en la base.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) corre con un bolso de cartas.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) anota los tiempos con su lupa.
 
 ### Misión R01-N03-M1 · La puerta de la torre
 
@@ -1946,6 +2553,224 @@ main.cpp:4:9: warning: ‘suma’ is used uninitialized [-Wuninitialized]
 letra, `std::cin >> x` falla y **todas** las lecturas siguientes también: un
 `do-while` que pide "hasta que sea válido" queda girando para siempre. Poné la
 lectura en la condición (`while (std::cin >> x)`) o revisá `std::cin`.
+
+### Micro-misión R01-N04-P1 · Diez tuercas, ni una más
+
+```meta
+lugar: La sala de la cinta transportadora
+personajes: Bron, Lima
+carta: for | for (int i = 0; i < 10; i++) da 10 vueltas · con <= da 11 · contá desde 0 con <
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron prende la cinta para mandar diez tuercas al taller de Lima. Llegan once. Lima la para con la mano y saca la lima.
+—¿Contaste las vueltas? —No. —Se nota.
+
+#### Gheco sugiere
+Si `i` arranca en 0, `i <= 10` da once vueltas (de 0 a 10). Con `i < 10` da diez.
+
+#### Desafío
+Hacé que la cinta mande exactamente diez tuercas.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int enviadas = 0;
+    for (int i = 0; i <= 10; i++) {
+        enviadas++;
+    }
+    std::cout << "Tuercas enviadas: " << enviadas << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Tuercas enviadas: 10
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int enviadas = 0;
+    for (int i = 0; i < 10; i++) {
+        enviadas++;
+    }
+    std::cout << "Tuercas enviadas: " << enviadas << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Diez tuercas. Lima guarda la lima, por ahora.
+
+#### Imagen
+- Una cinta transportadora de bronce con diez tuercas en fila.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) frena la cinta con una palanca.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) cuenta las tuercas con la lupa.
+
+### Micro-misión R01-N04-P2 · Las cajas crecientes
+
+```meta
+lugar: La sala de la cinta transportadora
+personajes: Bron, Tesla
+carta: Acumular | una variable que arranca en 0 y suma en cada vuelta: total += algo · se muestra DESPUÉS del bucle
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La cinta lleva cajas: la primera con 2 tuercas, la segunda con 4, la tercera con 6… Tesla le pregunta a Bron cuántas tuercas hay en total en las primeras `n` cajas. Bron cuenta con los dedos y se le acaban.
+
+#### Gheco sugiere
+La caja `i` tiene `2 * i` tuercas. Sumalas en `total` dentro del bucle (`total += 2 * i;`) y mostrá el total al final.
+
+#### Desafío
+Completá la suma dentro del bucle.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    int n = 0;
+    std::cin >> n;
+    int total = 0;
+    for (int i = 1; i <= n; i++) {
+        std::cout << "Caja " << i << ": " << 2 * i << " tuercas\n";
+    }
+    std::cout << "Total: " << total << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+5
+```
+
+#### Salida esperada
+```
+Caja 1: 2 tuercas
+Caja 2: 4 tuercas
+Caja 3: 6 tuercas
+Caja 4: 8 tuercas
+Caja 5: 10 tuercas
+Total: 30
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int main()
+{
+    int n = 0;
+    std::cin >> n;
+    int total = 0;
+    for (int i = 1; i <= n; i++) {
+        std::cout << "Caja " << i << ": " << 2 * i << " tuercas\n";
+        total += 2 * i;
+    }
+    std::cout << "Total: " << total << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Treinta tuercas en cinco cajas. Tesla asiente: —Ahora probalo con mil cajas, sin dedos.
+
+#### Imagen
+- Cinco cajas en una cinta, cada una con más tuercas que la anterior.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) señala la cinta con el compás.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se mira los dedos.
+
+### Micro-misión R01-N04-P3 · El cronómetro de Lyn
+
+```meta
+lugar: La pista alrededor de las torres
+personajes: Lyn, Bron
+carta: for de rango sobre un texto | for (char c : texto) recorre letra por letra · if (c == 'x') cuenta las x
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El cronómetro de Lyn anota cada vuelta con una letra: `x` si fue buena, `o` si tropezó. Lyn quiere saber cuántas de cada una, y Bron le cuenta solo las buenas.
+
+#### Gheco sugiere
+El `for` de rango ya recorre cada letra. Falta el contador de los tropiezos, y sumarle cuando la letra es `'o'`.
+
+#### Desafío
+Contá también los tropiezos.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string vueltas;
+    std::cin >> vueltas;
+    int buenas = 0;
+    int tropiezos = 0;
+    for (char c : vueltas) {
+        if (c == 'x') {
+            buenas++;
+        }
+    }
+    std::cout << "Buenas: " << buenas << ", tropiezos: " << tropiezos << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+xxoxxxoo
+```
+
+#### Salida esperada
+```
+Buenas: 5, tropiezos: 3
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string vueltas;
+    std::cin >> vueltas;
+    int buenas = 0;
+    int tropiezos = 0;
+    for (char c : vueltas) {
+        if (c == 'x') {
+            buenas++;
+        } else if (c == 'o') {
+            tropiezos++;
+        }
+    }
+    std::cout << "Buenas: " << buenas << ", tropiezos: " << tropiezos << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cinco buenas y tres tropiezos. Lyn jura que los tropiezos fueron culpa de las botas.
+
+#### Imagen
+- Un cronómetro de bolsillo abierto con una tira de papel que dice xxoxxxoo.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) se ata las botas de resortes.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee la tira de papel.
 
 ### Misión R01-N04-M1 · El sensor de la caldera
 
@@ -2643,6 +3468,234 @@ variable de `main`. Para eso están las referencias (nodo siguiente).
 del `for` terminaría la función en la primera vuelta. El `return true` va
 **después** del bucle, cuando ya se probaron todos los divisores.
 
+### Micro-misión R01-N05-P1 · Los relojes repetidos
+
+```meta
+lugar: El banco de herramientas de Lima
+personajes: Bron, Lima
+carta: Función | int dientes(int engranajes, int por_engranaje) { return ...; } · se escribe una vez y se llama muchas
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lima le encarga a Bron un tablero con relojes. Bron escribe la cuenta de los dientes de cada reloj, la copia, la copia otra vez… y, para ver qué pasa, una cuarta.
+Lo que pasa es que Lima saca la lima. —¿Y si lo hacemos **una sola vez**?
+
+#### Gheco sugiere
+La función recibe la cantidad de engranajes y los dientes de cada uno, y **devuelve** el total con `return`.
+
+#### Desafío
+Completá el cuerpo de la función.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int dientes_totales(int engranajes, int por_engranaje)
+{
+    return 0;
+}
+
+int main()
+{
+    std::cout << "Reloj de pared: " << dientes_totales(3, 40) << " dientes\n";
+    std::cout << "Reloj de torre: " << dientes_totales(12, 60) << " dientes\n";
+    std::cout << "Reloj de bolsillo: " << dientes_totales(5, 12) << " dientes\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Reloj de pared: 120 dientes
+Reloj de torre: 720 dientes
+Reloj de bolsillo: 60 dientes
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+int dientes_totales(int engranajes, int por_engranaje)
+{
+    return engranajes * por_engranaje;
+}
+
+int main()
+{
+    std::cout << "Reloj de pared: " << dientes_totales(3, 40) << " dientes\n";
+    std::cout << "Reloj de torre: " << dientes_totales(12, 60) << " dientes\n";
+    std::cout << "Reloj de bolsillo: " << dientes_totales(5, 12) << " dientes\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Una cuenta, tres relojes. Lima guarda la lima y Bron esconde detrás de la espalda la cuarta copia.
+
+#### Imagen
+- Un banco de relojero con tres relojes de distinto tamaño abiertos.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) amenaza con la lima.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) esconde una hoja detrás de la espalda.
+
+### Micro-misión R01-N05-P2 · Tres formas de anunciar
+
+```meta
+lugar: La torre del reloj
+personajes: Bron, Tesla
+carta: Sobrecarga | varias funciones con el MISMO nombre y distintos parámetros · C++ elige la que encaja con lo que le pasás
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El anunciador de la torre del reloj sabe anunciar números enteros y textos. Cuando Tesla le pasa la presión de la caldera, `2.5`, anuncia «entero 2». Tesla se cruza de brazos.
+
+#### Gheco sugiere
+Cuando no hay una versión para `double`, C++ convierte el `2.5` a `int` y usa esa. Escribí una tercera `anunciar` que reciba un `double`.
+
+#### Desafío
+Agregá la versión que falta.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+void anunciar(int n)
+{
+    std::cout << "entero " << n << "\n";
+}
+
+void anunciar(const std::string& texto)
+{
+    std::cout << "texto " << texto << "\n";
+}
+
+int main()
+{
+    anunciar(12);
+    anunciar("mediodia");
+    anunciar(2.5);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+entero 12
+texto mediodia
+decimal 2.5
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+void anunciar(int n)
+{
+    std::cout << "entero " << n << "\n";
+}
+
+void anunciar(const std::string& texto)
+{
+    std::cout << "texto " << texto << "\n";
+}
+
+void anunciar(double x)
+{
+    std::cout << "decimal " << x << "\n";
+}
+
+int main()
+{
+    anunciar(12);
+    anunciar("mediodia");
+    anunciar(2.5);
+    return 0;
+}
+```
+
+#### Al superarla
+«Decimal 2.5.» El anunciador suena tres veces con tres voces distintas. Tesla descruza los brazos.
+
+#### Imagen
+- Una torre de reloj con un altavoz de bronce que tiene tres bocinas.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) escucha con el visor levantado.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) ajusta una de las bocinas.
+
+### Micro-misión R01-N05-P3 · La campana por defecto
+
+```meta
+lugar: La torre del reloj
+personajes: Bron, Oto
+carta: Parámetro por defecto | void tocar(int veces = 1) · tocar() usa 1 · tocar(3) usa 3 · el valor va en la declaración
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La campana del comedor se toca una vez para avisar que hay guiso, y tres para los días de fiesta. Oto quiere poder escribir `tocar()` sin número, y el Taller no lo deja.
+
+#### Gheco sugiere
+Un parámetro puede tener un valor **por defecto**: `void tocar(int veces = 1)`. Si no se lo pasás, usa ese.
+
+#### Desafío
+Dale a `veces` el valor 1 por defecto.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+void tocar(int veces)
+{
+    for (int i = 0; i < veces; i++) {
+        std::cout << "Talan! ";
+    }
+    std::cout << "(" << veces << ")\n";
+}
+
+int main()
+{
+    tocar();
+    tocar(3);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Talan! (1)
+Talan! Talan! Talan! (3)
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+void tocar(int veces = 1)
+{
+    for (int i = 0; i < veces; i++) {
+        std::cout << "Talan! ";
+    }
+    std::cout << "(" << veces << ")\n";
+}
+
+int main()
+{
+    tocar();
+    tocar(3);
+    return 0;
+}
+```
+
+#### Al superarla
+Una campanada para el guiso de todos los días y tres para la fiesta. Oto toca las tres de nuevo, por las dudas.
+
+#### Imagen
+- Una campana de bronce en el comedor de los artífices, con una cuerda larga.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) tira de la cuerda con entusiasmo.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se tapa los oídos.
+
 ### Misión R01-N05-M1 · El conversor del puerto
 
 ```meta
@@ -3196,6 +4249,223 @@ el texto queda igual.
 **Troll: desreferenciar `nullptr`.** `int* p = nullptr; *p = 3;` hace que el
 programa se corte (*Segmentation fault*). Antes de usar un puntero que puede estar
 vacío, preguntá `if (p != nullptr)`.
+
+### Micro-misión R01-N06-P1 · La llave prestada
+
+```meta
+lugar: El depósito de la Ciudadela
+personajes: Bron, Oto
+carta: Referencia | void ajustar(int& p) recibe EL ORIGINAL · sin &, recibe una copia y el cambio se pierde al salir
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Oto le pide la llave a Bron para ajustar la presión de la olla grande. Bron, generoso, le hace una **copia** en el torno. Oto ajusta con la copia… y la olla sigue igual.
+
+#### Gheco sugiere
+Sin `&`, la función recibe una copia de `presion`: la cambia y la copia se tira al salir. Con `int& p`, recibe **la** variable de `main`.
+
+#### Desafío
+Hacé que la función ajuste la presión de verdad.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+void ajustar(int p)
+{
+    p = p - 15;
+}
+
+int main()
+{
+    int presion = 90;
+    ajustar(presion);
+    std::cout << "Presion de la olla: " << presion << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Presion de la olla: 75
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+void ajustar(int& p)
+{
+    p = p - 15;
+}
+
+int main()
+{
+    int presion = 90;
+    ajustar(presion);
+    std::cout << "Presion de la olla: " << presion << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+La olla baja a 75 y deja de silbar. Oto devuelve la llave de verdad, con olor a guiso.
+
+#### Imagen
+- Una olla gigante con un manómetro que baja de 90 a 75.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) ajusta una válvula con una llave inglesa cian.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira, satisfecho.
+
+### Micro-misión R01-N06-P2 · Dos respuestas de una vez
+
+```meta
+lugar: El depósito de la Ciudadela
+personajes: Bron, Lima
+carta: Varios resultados | una función devuelve uno con return · para devolver dos, recibe dos referencias y las llena
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lima quiere una función que, de una sola vez, diga cuántas tuercas van por caja **y** cuántas sobran. Bron escribió la función, pero los resultados nunca llegan a `main`.
+
+#### Gheco sugiere
+`por_caja` y `sobran` tienen que llegar como referencias (`int&`) para que la función pueda escribir en las variables de `main`.
+
+#### Desafío
+Hacé que los dos resultados lleguen a `main`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+void repartir(int tuercas, int cajas, int por_caja, int sobran)
+{
+    por_caja = tuercas / cajas;
+    sobran = tuercas % cajas;
+}
+
+int main()
+{
+    int por_caja = 0;
+    int sobran = 0;
+    repartir(47, 6, por_caja, sobran);
+    std::cout << "Por caja: " << por_caja << ", sobran: " << sobran << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Por caja: 7, sobran: 5
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+void repartir(int tuercas, int cajas, int& por_caja, int& sobran)
+{
+    por_caja = tuercas / cajas;
+    sobran = tuercas % cajas;
+}
+
+int main()
+{
+    int por_caja = 0;
+    int sobran = 0;
+    repartir(47, 6, por_caja, sobran);
+    std::cout << "Por caja: " << por_caja << ", sobran: " << sobran << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Siete por caja y sobran cinco. Lima anota los dos números con su letra de relojera.
+
+#### Imagen
+- Seis cajas con siete tuercas cada una y cinco tuercas sueltas.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) escribe en un cuaderno.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cierra las cajas.
+
+### Micro-misión R01-N06-P3 · El pedido de las bisagras
+
+```meta
+lugar: El depósito de la Ciudadela
+personajes: Bron, Lima, Tesla
+carta: Intercambiar | void cambiar(std::string& a, std::string& b) { std::string t = a; a = b; b = t; } · hacen falta las dos referencias
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Bron y Lima tienen que cambiar los turnos de guardia del depósito. Bron escribe una función para intercambiarlos, y los turnos quedan igual.
+Mientras lo arregla, ve en un estante un pedido viejo y amarillento: **«Bisagras, dos. Que abran algo que no es una puerta»**, firmado con un vitral dibujado. Tesla lo mira y se pone serio un segundo.
+
+#### Gheco sugiere
+Para intercambiar dos variables de `main`, la función tiene que recibir las **dos** por referencia.
+
+#### Desafío
+Hacé que el intercambio llegue a `main`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+void cambiar(std::string a, std::string b)
+{
+    std::string t = a;
+    a = b;
+    b = t;
+}
+
+int main()
+{
+    std::string manana = "Bron";
+    std::string tarde = "Lima";
+    cambiar(manana, tarde);
+    std::cout << "Manana: " << manana << "\n";
+    std::cout << "Tarde: " << tarde << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Manana: Lima
+Tarde: Bron
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+void cambiar(std::string& a, std::string& b)
+{
+    std::string t = a;
+    a = b;
+    b = t;
+}
+
+int main()
+{
+    std::string manana = "Bron";
+    std::string tarde = "Lima";
+    cambiar(manana, tarde);
+    std::cout << "Manana: " << manana << "\n";
+    std::cout << "Tarde: " << tarde << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Lima a la mañana, Bron a la tarde. El pedido de las bisagras queda en el bolsillo de Bron; Tesla no le pide que lo devuelva.
+
+#### Imagen
+- Un estante del depósito con un pedido amarillento que tiene un vitral dibujado en lugar de firma.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee el pedido.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) mira por encima de su hombro, serio.
 
 ### Misión R01-N06-M1 · Vida con límites
 
@@ -3787,6 +5057,225 @@ borrar mientras recorrés, usá índices con cuidado o armá un vector nuevo.
 
 **Troll: pasar un vector por valor sin querer.** `void mostrar(std::vector<int>
 v)` copia todo el vector en cada llamada. Para leer, `const std::vector<int>&`.
+
+### Micro-misión R01-N07-P1 · El orco del lugar 10
+
+```meta
+lugar: La torre del reloj
+personajes: Bron, Lima
+criatura: orco
+carta: Vector | std::vector<int> v = {...}; · posiciones de 0 a v.size() - 1 · v.at(i) avisa si te pasás
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la torre del reloj, los engranajes cuelgan de una cadena numerada desde **cero**. Bron recorre la cadena hasta el lugar 10 de una cadena de 10, y en ese lugar encuentra un **orco** dormido. El programa revienta con un `out_of_range`.
+
+#### Gheco sugiere
+Las posiciones van de `0` a `size() - 1`. El bucle tiene que seguir **mientras** `i < dientes.size()`. Como el código usa `.at(i)`, el orco avisa en lugar de morder en silencio.
+
+#### Desafío
+Arreglá la condición del bucle.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> dientes = {12, 40, 60, 24, 36};
+    int total = 0;
+    for (std::size_t i = 0; i <= dientes.size(); i++) {
+        total += dientes.at(i);
+    }
+    std::cout << "Dientes en la cadena: " << total << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Dientes en la cadena: 172
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> dientes = {12, 40, 60, 24, 36};
+    int total = 0;
+    for (std::size_t i = 0; i < dientes.size(); i++) {
+        total += dientes.at(i);
+    }
+    std::cout << "Dientes en la cadena: " << total << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Ciento setenta y dos dientes, y el orco sigue durmiendo. Lima le dice a Bron que los números empiezan en cero, como la paciencia de Tesla.
+
+#### Imagen
+- Una cadena vertical de engranajes numerados del 0 al 4 en una torre de reloj; en el lugar 5, un orco dormido.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) retrocede en puntas de pie.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) le hace señas de silencio.
+
+### Micro-misión R01-N07-P2 · La tabla de carreras
+
+```meta
+lugar: La pista alrededor de las torres
+personajes: Lyn, Bron
+carta: push_back y sort | v.push_back(x) agrega al final · std::sort(v.begin(), v.end()) ordena de menor a mayor (#include <algorithm>)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn corrió varias vueltas y anotó cada tiempo en segundos. Quiere verlos ordenados, del mejor al peor, y saber el mejor. Bron los guarda, pero nunca los ordena.
+
+#### Gheco sugiere
+Los tiempos ya se guardan con `push_back`. Falta ordenarlos con `std::sort(tiempos.begin(), tiempos.end());` antes de mostrarlos: el mejor queda primero.
+
+#### Desafío
+Ordená los tiempos antes de mostrarlos.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> tiempos;
+    int t = 0;
+    while (std::cin >> t) {
+        tiempos.push_back(t);
+    }
+    std::cout << "Tiempos:";
+    for (int x : tiempos) {
+        std::cout << " " << x;
+    }
+    std::cout << "\nMejor: " << tiempos[0] << " segundos\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+64 58 71 55 60
+```
+
+#### Salida esperada
+```
+Tiempos: 55 58 60 64 71
+Mejor: 55 segundos
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> tiempos;
+    int t = 0;
+    while (std::cin >> t) {
+        tiempos.push_back(t);
+    }
+    std::sort(tiempos.begin(), tiempos.end());
+    std::cout << "Tiempos:";
+    for (int x : tiempos) {
+        std::cout << " " << x;
+    }
+    std::cout << "\nMejor: " << tiempos[0] << " segundos\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cincuenta y cinco segundos. Lyn lo grita desde lo alto de la torre del reloj, para que lo escuche toda la Ciudadela.
+
+#### Imagen
+- Un pizarrón en la pista con cinco tiempos ordenados de menor a mayor.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) grita desde lo alto de una torre.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) escribe el último tiempo con tiza.
+
+### Micro-misión R01-N07-P3 · El tablero de la torre
+
+```meta
+lugar: La torre del reloj
+personajes: Bron, Tesla
+carta: Grilla | std::vector<std::vector<char>> g(3, std::vector<char>(4, '.')); · g[fila][columna]
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El tablero de control de la torre es una grilla de 3 filas y 4 columnas. Tesla le pide a Bron que marque con una `X` el engranaje roto, en la fila 1, columna 2. Bron marca la fila 2, columna 1.
+
+#### Gheco sugiere
+Primero va la **fila** y después la **columna**: `tablero[1][2]`. Las dos empiezan en 0.
+
+#### Desafío
+Marcá el engranaje en el lugar correcto.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<std::vector<char>> tablero(3, std::vector<char>(4, '.'));
+    tablero[2][1] = 'X';
+    for (const std::vector<char>& fila : tablero) {
+        for (char c : fila) {
+            std::cout << c;
+        }
+        std::cout << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+....
+..X.
+....
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<std::vector<char>> tablero(3, std::vector<char>(4, '.'));
+    tablero[1][2] = 'X';
+    for (const std::vector<char>& fila : tablero) {
+        for (char c : fila) {
+            std::cout << c;
+        }
+        std::cout << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La X cae justo sobre el engranaje que chirriaba. Tesla lo cambia en un minuto.
+
+#### Imagen
+- Un tablero de bronce con 3 filas y 4 columnas de lucecitas; una en rojo.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) cambia un engranaje en la pared de la torre.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) señala el tablero.
 
 ### Misión R01-N07-M1 · Las notas del curso
 
@@ -4426,6 +5915,214 @@ Usá `std::mt19937& gen`.
 main.cpp:5:24: error: ‘std::numbers’ has not been declared
 ```
 
+### Micro-misión R01-N08-P1 · La rueda de Lyn
+
+```meta
+lugar: La rueda de feria de la plaza
+personajes: Lyn, Tesla
+carta: Semilla | std::mt19937 gen(semilla); · gen() da el siguiente número · la misma semilla da SIEMPRE la misma secuencia
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lyn apuesta al número de la rueda de la feria y gana diez veces seguidas. Tesla desarma la rueda: alguien la arranca siempre desde la misma posición, la **semilla** 7.
+—Que la semilla la elija el feriante cada mañana —dice Tesla.
+
+#### Gheco sugiere
+La semilla ya no puede estar fija: leela de la entrada y pasásela al generador. `gen() % 6 + 1` da un número del 1 al 6 (acá se usa así para que dé igual en el navegador y en tu compu).
+
+#### Desafío
+Leé la semilla de la entrada en lugar de usar siempre la 7.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <random>
+
+int main()
+{
+    unsigned int semilla = 0;
+    std::cin >> semilla;
+    std::mt19937 gen(7);
+    for (int i = 0; i < 3; i++) {
+        std::cout << "Tirada: " << gen() % 6 + 1 << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+2026
+```
+
+#### Salida esperada
+```
+Tirada: 4
+Tirada: 1
+Tirada: 3
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <random>
+
+int main()
+{
+    unsigned int semilla = 0;
+    std::cin >> semilla;
+    std::mt19937 gen(semilla);
+    for (int i = 0; i < 3; i++) {
+        std::cout << "Tirada: " << gen() % 6 + 1 << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Con la semilla del día la rueda cambia, y Lyn pierde dos de tres. Devuelve los premios. Casi todos.
+
+#### Imagen
+- Una rueda de feria con números del 1 al 6 y una palanca de bronce.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) abraza una pila de premios.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) tiene en la mano una pieza de la rueda desarmada.
+
+### Micro-misión R01-N08-P2 · La distancia más corta
+
+```meta
+lugar: La plaza de las torres
+personajes: Bron, Lima
+carta: cmath | std::hypot(dx, dy) da la distancia en línea recta · std::sqrt, std::pow · std::round redondea
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron está en la esquina (1, 2) de la plaza y Lima en la (4, 6). Bron calcula cuánto tiene que caminar sumando los dos lados: 7. Lima cruza en diagonal y llega antes.
+
+#### Gheco sugiere
+En línea recta la distancia es la hipotenusa: `std::hypot(dx, dy)`, con `dx` y `dy` las diferencias de cada coordenada.
+
+#### Desafío
+Calculá la distancia en línea recta.
+
+#### Código inicial
+```cpp
+#include <cmath>
+#include <iostream>
+
+int main()
+{
+    double x1 = 1, y1 = 2;
+    double x2 = 4, y2 = 6;
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    double distancia = dx + dy;
+    std::cout << "Distancia: " << distancia << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Distancia: 5
+```
+
+#### Solución
+```cpp
+#include <cmath>
+#include <iostream>
+
+int main()
+{
+    double x1 = 1, y1 = 2;
+    double x2 = 4, y2 = 6;
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    double distancia = std::hypot(dx, dy);
+    std::cout << "Distancia: " << distancia << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cinco, no siete. Bron cruza en diagonal por primera vez y pisa una baldosa floja.
+
+#### Imagen
+- Una plaza con baldosas en cuadrícula; un camino en L y una diagonal marcada con tiza.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) ya llegó por la diagonal.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) camina por la L.
+
+### Micro-misión R01-N08-P3 · La aguja del manómetro
+
+```meta
+lugar: La sala de calderas
+personajes: Bron, Tesla
+carta: clamp | std::clamp(x, min, max) deja x dentro del rango (#include <algorithm>) · std::min y std::max eligen entre dos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El manómetro de la caldera tiene una aguja que va de 0 a 100. Cuando la presión se pasa, la aguja da la vuelta entera y marca cualquier cosa. Tesla quiere que se quede quieta en el tope.
+
+#### Gheco sugiere
+`std::clamp(presion, 0, 100)` devuelve la presión, pero nunca menos de 0 ni más de 100.
+
+#### Desafío
+Limitá la aguja al rango del manómetro.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+
+int main()
+{
+    int presion = 0;
+    while (std::cin >> presion) {
+        int aguja = presion;
+        std::cout << "Presion " << presion << " -> aguja en " << aguja << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+-10 45 130
+```
+
+#### Salida esperada
+```
+Presion -10 -> aguja en 0
+Presion 45 -> aguja en 45
+Presion 130 -> aguja en 100
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+
+int main()
+{
+    int presion = 0;
+    while (std::cin >> presion) {
+        int aguja = std::clamp(presion, 0, 100);
+        std::cout << "Presion " << presion << " -> aguja en " << aguja << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Con 130 la aguja se queda en 100 y suena una alarma, como corresponde. Tesla baja la presión con una palanca.
+
+#### Imagen
+- Un manómetro de bronce con la aguja clavada en el tope, junto a una caldera que echa vapor.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) baja una palanca.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee el manómetro.
+
 ### Misión R01-N08-M1 · La mesa de dados
 
 ```meta
@@ -4978,6 +6675,376 @@ mismo golpe. Un generador, creado una vez, pasado por referencia.
 
 **Orco: un índice que viene de la entrada.** Si el usuario elige la posición, 
 revisá que esté dentro del vector antes de usarla.
+
+### Micro-misión R01-N09-P1 · La tarjeta perforada
+
+```meta
+lugar: El patio de pruebas
+personajes: Bron, Tesla, Gheco
+criatura: dragon
+carta: Leer hasta un centinela | while (std::cin >> orden && orden != "FIN") { ... } · se cuenta lo que llega
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el patio de pruebas espera el **Autómata de Latón**, con una tarjeta perforada en la frente: «ORDEN: NO DEJAR PASAR A NADIE QUE NO DOMINE LOS CIMIENTOS». Bron saca la llave para desarmarlo tornillo por tornillo.
+Tesla le saca la llave de la mano. —Con un plan. Primero, leé qué órdenes tiene grabadas.
+
+#### Gheco sugiere
+Las órdenes llegan una por palabra hasta `FIN`. Contá las que dicen `girar` y las que dicen `golpear`; el bucle ya se detiene en `FIN`.
+
+#### Desafío
+Contá cada tipo de orden.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string orden;
+    int giros = 0;
+    int golpes = 0;
+    while (std::cin >> orden && orden != "FIN") {
+    }
+    std::cout << "Giros: " << giros << ", golpes: " << golpes << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+girar golpear girar girar golpear FIN girar
+```
+
+#### Salida esperada
+```
+Giros: 3, golpes: 2
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string orden;
+    int giros = 0;
+    int golpes = 0;
+    while (std::cin >> orden && orden != "FIN") {
+        if (orden == "girar") {
+            giros++;
+        } else if (orden == "golpear") {
+            golpes++;
+        }
+    }
+    std::cout << "Giros: " << giros << ", golpes: " << golpes << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres giros y dos golpes: el Autómata siempre repite el mismo patrón. Gheco lo anota: ya se sabe qué va a hacer.
+
+#### Imagen
+- Un patio de pruebas con el Autómata de Latón (autómata de tres metros de placas de latón remachadas, corazón de vapor visible por una ventanita del pecho, tarjeta perforada en la frente, ojos cian).
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee una tarjeta perforada.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) le sostiene la llave, lejos de su alcance.
+
+### Micro-misión R01-N09-P2 · Las placas más fuertes
+
+```meta
+lugar: El patio de pruebas
+personajes: Bron, Lima
+criatura: dragon
+carta: Función con referencias | void extremos(const std::vector<int>& v, int& menor, int& mayor) · const & para no copiar el vector
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las placas del Autómata tienen distinta dureza. Lima quiere saber cuál es la más blanda (por ahí se entra) y cuál la más dura (esa ni intentarla). La función de Bron solo encuentra la más dura.
+
+#### Gheco sugiere
+Arrancá `menor` y `mayor` con el primer elemento, y en el recorrido actualizá los dos.
+
+#### Desafío
+Completá la búsqueda de la placa más blanda.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
+
+void extremos(const std::vector<int>& placas, int& menor, int& mayor)
+{
+    menor = placas[0];
+    mayor = placas[0];
+    for (int p : placas) {
+        if (p > mayor) {
+            mayor = p;
+        }
+    }
+}
+
+int main()
+{
+    std::vector<int> placas;
+    int p = 0;
+    while (std::cin >> p) {
+        placas.push_back(p);
+    }
+    int menor = 0;
+    int mayor = 0;
+    extremos(placas, menor, mayor);
+    std::cout << "Mas blanda: " << menor << ", mas dura: " << mayor << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+34 12 58 9 41
+```
+
+#### Salida esperada
+```
+Mas blanda: 9, mas dura: 58
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <vector>
+
+void extremos(const std::vector<int>& placas, int& menor, int& mayor)
+{
+    menor = placas[0];
+    mayor = placas[0];
+    for (int p : placas) {
+        if (p > mayor) {
+            mayor = p;
+        }
+        if (p < menor) {
+            menor = p;
+        }
+    }
+}
+
+int main()
+{
+    std::vector<int> placas;
+    int p = 0;
+    while (std::cin >> p) {
+        placas.push_back(p);
+    }
+    int menor = 0;
+    int mayor = 0;
+    extremos(placas, menor, mayor);
+    std::cout << "Mas blanda: " << menor << ", mas dura: " << mayor << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+La placa de dureza 9 está en la rodilla izquierda. Lima la marca con tiza.
+
+#### Imagen
+- Las piernas de el Autómata de Latón (autómata de tres metros de placas de latón remachadas, corazón de vapor visible por una ventanita del pecho, tarjeta perforada en la frente, ojos cian) con una placa marcada con tiza en la rodilla.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) marca la placa.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la lista de durezas.
+
+### Micro-misión R01-N09-P3 · Las palancas con semilla
+
+```meta
+lugar: El patio de pruebas
+personajes: Bron, Tesla
+criatura: dragon
+carta: Azar repetible | con la misma semilla el Autómata hace siempre lo mismo · probar con una semilla fija es probar siempre el mismo caso
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Autómata elige al azar qué brazo mover, pero Tesla lo construyó con una semilla fija: 47, el engranaje donde se melló la llave de Bron. Si Bron simula los primeros movimientos, sabe por dónde va a venir cada golpe.
+
+#### Gheco sugiere
+`gen() % 2` da 0 o 1: 0 es el brazo izquierdo y 1 el derecho. La semilla tiene que ser la del Autómata, 47, y hay que mostrar cinco movimientos.
+
+#### Desafío
+Usá la semilla del Autómata y simulá cinco movimientos.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <random>
+#include <string>
+
+int main()
+{
+    std::mt19937 gen(1);
+    for (int i = 1; i <= 3; i++) {
+        std::string brazo = gen() % 2 == 0 ? "izquierdo" : "derecho";
+        std::cout << "Golpe " << i << ": brazo " << brazo << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Golpe 1: brazo derecho
+Golpe 2: brazo izquierdo
+Golpe 3: brazo derecho
+Golpe 4: brazo izquierdo
+Golpe 5: brazo izquierdo
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <random>
+#include <string>
+
+int main()
+{
+    std::mt19937 gen(47);
+    for (int i = 1; i <= 5; i++) {
+        std::string brazo = gen() % 2 == 0 ? "izquierdo" : "derecho";
+        std::cout << "Golpe " << i << ": brazo " << brazo << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Bron esquiva cinco golpes seguidos sin mirar. El Autómata silba vapor, confundido.
+
+#### Imagen
+- El patio de pruebas: el Autómata de Latón (autómata de tres metros de placas de latón remachadas, corazón de vapor visible por una ventanita del pecho, tarjeta perforada en la frente, ojos cian) lanza un puñetazo con un brazo.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lo esquiva con un paso al costado, mirando una hoja con anotaciones.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) aplaude desde atrás.
+
+### Micro-misión R01-N09-P4 · El corazón de vapor
+
+```meta
+lugar: El patio de pruebas
+personajes: Bron, Tesla, Lima
+criatura: dragon
+carta: Partir en funciones | cada función hace una cosa y se prueba sola · main solo las junta
+recompensa: xp 25, oro 30
+item: Engranaje de Latón
+```
+
+#### Escena
+Para detener al Autómata hay que llegar a su corazón de vapor con la secuencia justa: por cada placa, si su dureza es par se gira la llave, si es impar se golpea, y al final se cuenta cuántas veces se giró. Bron lo escribió todo en `main`, y se perdió.
+—Partilo —dice Tesla—. Una función por cosa.
+
+#### Gheco sugiere
+Completá `accion`: devuelve `"girar"` si la dureza es par y `"golpear"` si es impar. El resto del plan ya está armado.
+
+#### Desafío
+Escribí la función que decide la acción de cada placa.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<int> leer_placas()
+{
+    std::vector<int> placas;
+    int p = 0;
+    while (std::cin >> p) {
+        placas.push_back(p);
+    }
+    return placas;
+}
+
+std::string accion(int dureza)
+{
+    return "esperar";
+}
+
+int main()
+{
+    std::vector<int> placas = leer_placas();
+    int giros = 0;
+    for (int p : placas) {
+        std::string a = accion(p);
+        std::cout << p << ": " << a << "\n";
+        if (a == "girar") {
+            giros++;
+        }
+    }
+    std::cout << "Giros: " << giros << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+34 12 58 9 41
+```
+
+#### Salida esperada
+```
+34: girar
+12: girar
+58: girar
+9: golpear
+41: golpear
+Giros: 3
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+std::vector<int> leer_placas()
+{
+    std::vector<int> placas;
+    int p = 0;
+    while (std::cin >> p) {
+        placas.push_back(p);
+    }
+    return placas;
+}
+
+std::string accion(int dureza)
+{
+    if (dureza % 2 == 0) {
+        return "girar";
+    }
+    return "golpear";
+}
+
+int main()
+{
+    std::vector<int> placas = leer_placas();
+    int giros = 0;
+    for (int p : placas) {
+        std::string a = accion(p);
+        std::cout << p << ": " << a << "\n";
+        if (a == "girar") {
+            giros++;
+        }
+    }
+    std::cout << "Giros: " << giros << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres giros y dos golpes después, el Autómata se detiene con un último silbido. De su pecho cae el **Engranaje de Latón**, todavía tibio. —Bien —dice Tesla—. Y no preguntes para qué te sirve.
+
+#### Imagen
+- el Autómata de Latón (autómata de tres metros de placas de latón remachadas, corazón de vapor visible por una ventanita del pecho, tarjeta perforada en la frente, ojos cian) detenido, con la ventanita del pecho abierta y sin vapor.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene un engranaje de latón tibio.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) sonríen detrás.
 
 ### Misión R01-N09-M1 · El duelo
 

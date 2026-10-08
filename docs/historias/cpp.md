@@ -160,8 +160,9 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ La Ciudadela d
 5. **Lima** en los ejemplos (salidas rehechas con `scripts/regen-salidas.py`), **las crónicas en tercera persona** con Bron y las fichas de la Ciudadela.
 6. **Bron jugable** (`config('game.protagonists.cpp')`, 6 aspectos en `public/img/protagonistas/bron/`) y los ítems de la Ciudadela en `app:game-items`, con el **Amuleto del Catch** como segunda vida (`Item::CATCH`).
 
+7. **163 micro-misiones** (Clase 0 y R01 32, R02 28, R03 28, R04 28, R05 19, R06 16 y la Senda 12), generadas con `scripts/micro-misiones/gencpp.py` y probadas también con el Clang del navegador (`browser-check.mjs`). Las de Qt y SDL3 prueban la lógica sin ventana.
+
 **Falta:**
-- Las micro-misiones (`scripts/micro-misiones/gencpp.py`, como en C: generadas ejecutando la solución y probadas también en el navegador).
 - Las imágenes de Lima, Lyn, Oto, los jefes y los ítems; el mapa, la tienda y las recetas de la Ciudadela.
 
 ## 5. Lo que decidió el docente (2026-10-08)

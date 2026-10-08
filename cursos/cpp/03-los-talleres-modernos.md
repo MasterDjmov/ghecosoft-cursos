@@ -226,6 +226,209 @@ no avisa; `a.at(7)` sí.
 hacés `push_back`, el vector puede mudarse a otra memoria y la referencia queda
 colgando.
 
+### Micro-misión R03-N01-P1 · El goblin de la copia
+
+```meta
+lugar: Los Talleres Modernos
+personajes: Bron, Lima
+criatura: goblin
+carta: for de rango | for (auto x : v) trabaja con COPIAS · for (auto& x : v) cambia los originales · for (const auto& x : v) solo lee
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En los Talleres Modernos, Bron escribe `auto` en todos lados, encantado. Quiere duplicar la carga de cada vagoneta, pero las vagonetas siguen igual: un **goblin** se esconde en cada copia que no quería hacer.
+
+#### Gheco sugiere
+`auto x` es una copia: duplicarla no toca el vector. Para cambiar cada elemento, `auto& x`.
+
+#### Desafío
+Hacé que el bucle cambie las vagonetas de verdad.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> carga = {3, 7, 2, 5};
+    for (auto x : carga) {
+        x *= 2;
+    }
+    std::cout << "Cargas:";
+    for (const auto& x : carga) {
+        std::cout << " " << x;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Cargas: 6 14 4 10
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> carga = {3, 7, 2, 5};
+    for (auto& x : carga) {
+        x *= 2;
+    }
+    std::cout << "Cargas:";
+    for (const auto& x : carga) {
+        std::cout << " " << x;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Las vagonetas salen con el doble. Lima le señala el `&` con la punta de la lima: —Ese chiquito hace todo.
+
+#### Imagen
+- Cuatro vagonetas de bronce cargadas en un taller luminoso.
+- Un goblin escapa con una vagoneta de juguete (la copia).
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lo miran irse.
+
+### Micro-misión R03-N01-P2 · Nombre y pisos, cada uno en su lugar
+
+```meta
+lugar: Los Talleres Modernos
+personajes: Bron, Tesla
+carta: Structured bindings | for (const auto& [nombre, pisos] : torres) · separa un par o un struct en variables con nombre, en orden
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Tesla le enseña a Bron a separar cada par en dos variables con nombre. Bron las nombró al revés, y la Ciudadela tiene ahora una torre llamada «12» con «Reloj» pisos.
+
+#### Gheco sugiere
+Los nombres van en el **orden** de los campos del par: primero el `first` (el nombre), después el `second` (los pisos).
+
+#### Desafío
+Poné los nombres en el orden correcto.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+
+int main()
+{
+    std::vector<std::pair<std::string, int>> torres = {{"Reloj", 12}, {"Poleas", 8}};
+    for (const auto& [pisos, nombre] : torres) {
+        std::cout << "Torre " << nombre << ": " << pisos << " pisos\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Torre Reloj: 12 pisos
+Torre Poleas: 8 pisos
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+
+int main()
+{
+    std::vector<std::pair<std::string, int>> torres = {{"Reloj", 12}, {"Poleas", 8}};
+    for (const auto& [nombre, pisos] : torres) {
+        std::cout << "Torre " << nombre << ": " << pisos << " pisos\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La torre del Reloj recupera su nombre. Tesla dice que el código ahora se lee solo.
+
+#### Imagen
+- Dos torres con carteles; uno de los carteles está al revés.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) da vuelta el cartel.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se ríe de su error.
+
+### Micro-misión R03-N01-P3 · La semana del taller
+
+```meta
+lugar: Los Talleres Modernos
+personajes: Lima, Bron
+carta: std::array | std::array<int, 7> horas = {...}; · tamaño fijo, lo sabe el compilador · horas.size() · si sobran valores, no compila
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Lima anota las horas de trabajo de cada día de la semana en un `std::array`. Bron le hizo uno de seis lugares, y la semana tiene siete días: el Taller no lo deja compilar.
+
+#### Gheco sugiere
+En `std::array<int, N>`, `N` es la cantidad de lugares. Una semana tiene 7.
+
+#### Desafío
+Dale al array el tamaño de la semana.
+
+#### Código inicial
+```cpp
+#include <array>
+#include <iostream>
+
+int main()
+{
+    std::array<int, 6> horas = {8, 7, 9, 8, 6, 4, 2};
+    int total = 0;
+    for (int h : horas) {
+        total += h;
+    }
+    std::cout << horas.size() << " dias, " << total << " horas\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+7 dias, 44 horas
+```
+
+#### Solución
+```cpp
+#include <array>
+#include <iostream>
+
+int main()
+{
+    std::array<int, 7> horas = {8, 7, 9, 8, 6, 4, 2};
+    int total = 0;
+    for (int h : horas) {
+        total += h;
+    }
+    std::cout << horas.size() << " dias, " << total << " horas\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Siete días, cuarenta y cuatro horas. Lima subraya el domingo: dos horas, «solo para limar».
+
+#### Imagen
+- Un calendario de bronce con siete casilleros y horas anotadas.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) subraya el domingo.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) bosteza.
+
 ### Misión R03-N01-M1 · La semana del faro
 
 ```meta
@@ -964,6 +1167,227 @@ desde el principio encuentra siempre la "a" recién puesta. Seguí buscando
 **Goblin: `toupper` con acentos.** `std::toupper('é')` no la cambia (y sin el
 `unsigned char` puede ser indefinido). Para texto en español con tildes hacen falta
 bibliotecas de Unicode.
+
+### Micro-misión R03-N02-P1 · La planilla con punto y coma
+
+```meta
+lugar: La oficina de la Aduana de la Ciudadela
+personajes: Bron, Lima
+carta: find y substr | t.find(';') da la posición del ; · t.substr(desde, cuantos) corta un pedazo · t.substr(desde) hasta el final
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la Aduana llegan planillas como «Lima;27;relojera». Bron corta el nombre, pero se lleva también el punto y coma, y el escriba anota a «Lima;».
+
+#### Gheco sugiere
+Si el `;` está en la posición `p`, el nombre son los `p` caracteres desde el 0: `substr(0, p)`. Lo que sigue empieza en `p + 1`.
+
+#### Desafío
+Cortá el nombre sin el punto y coma.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string linea;
+    std::getline(std::cin, linea);
+    std::size_t p = linea.find(';');
+    std::string nombre = linea.substr(0, p + 1);
+    std::string resto = linea.substr(p + 1);
+    std::cout << "Nombre: [" << nombre << "]\n";
+    std::cout << "Resto: [" << resto << "]\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+Lima;27;relojera
+```
+
+#### Salida esperada
+```
+Nombre: [Lima]
+Resto: [27;relojera]
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string linea;
+    std::getline(std::cin, linea);
+    std::size_t p = linea.find(';');
+    std::string nombre = linea.substr(0, p);
+    std::string resto = linea.substr(p + 1);
+    std::cout << "Nombre: [" << nombre << "]\n";
+    std::cout << "Resto: [" << resto << "]\n";
+    return 0;
+}
+```
+
+#### Al superarla
+«Lima», limpito. El escriba lo anota y le devuelve a Lima su punto y coma.
+
+#### Imagen
+- Un escritorio de Aduana con planillas apiladas y una tijera de bronce.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) corta una tira de papel.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) revisa el corte con la lupa.
+
+### Micro-misión R03-N02-P2 · 27120
+
+```meta
+lugar: La oficina de la Aduana de la Ciudadela
+personajes: Bron, Lima
+carta: Texto a número | std::stoi("27") da 27 · std::stod para decimales · std::to_string(27) al revés · "27" + "120" pega textos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bron suma las edades de las planillas y le da **27120**. El escriba se desmaya. Lima lo abanica con la planilla: las edades eran texto, y sumar textos los pega.
+
+#### Gheco sugiere
+Convertí cada edad con `std::stoi` antes de sumarla.
+
+#### Desafío
+Sumá las edades como números.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string edad;
+    std::string suma;
+    while (std::cin >> edad) {
+        suma += edad;
+    }
+    std::cout << "Suma de edades: " << suma << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+27 120 19
+```
+
+#### Salida esperada
+```
+Suma de edades: 166
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::string edad;
+    int suma = 0;
+    while (std::cin >> edad) {
+        suma += std::stoi(edad);
+    }
+    std::cout << "Suma de edades: " << suma << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Ciento sesenta y seis. El escriba se despierta, lo revisa, y se vuelve a desmayar porque alguien tiene 120.
+
+#### Imagen
+- Un escriba desmayado en su silla con una planilla en la mano.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lo abanica.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el número 27120 escrito en la pizarra, avergonzado.
+
+### Micro-misión R03-N02-P3 · Las palabras de Oto
+
+```meta
+lugar: La oficina de la Aduana de la Ciudadela
+personajes: Oto, Bron
+carta: istringstream | std::istringstream ss(linea); while (ss >> palabra) · lee palabra por palabra, salteando todos los espacios
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Oto dicta su receta con espacios por todos lados, y el contador de palabras de Bron (que cuenta espacios) le da un número disparatado. Oto jura que dijo cuatro palabras.
+
+#### Gheco sugiere
+Un `std::istringstream` sobre la línea lee con `>>` palabra por palabra y se saltea los espacios de más. Contá las vueltas.
+
+#### Desafío
+Contá las palabras con un `istringstream`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main()
+{
+    std::string linea;
+    std::getline(std::cin, linea);
+    int palabras = 1;
+    for (char c : linea) {
+        if (c == ' ') {
+            palabras++;
+        }
+    }
+    std::cout << "Palabras: " << palabras << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+  Oto   cocina  guiso   violeta 
+```
+
+#### Salida esperada
+```
+Palabras: 4
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main()
+{
+    std::string linea;
+    std::getline(std::cin, linea);
+    std::istringstream ss(linea);
+    std::string palabra;
+    int palabras = 0;
+    while (ss >> palabra) {
+        palabras++;
+    }
+    std::cout << "Palabras: " << palabras << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cuatro, como dijo Oto. «Guiso violeta» queda anotado como receta oficial, para espanto de la Maestra Artífice.
+
+#### Imagen
+- Una hoja de receta con palabras muy separadas entre sí.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) dicta con el cucharón en alto.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuenta con los dedos.
 
 ### Misión R03-N02-M1 · Las rutas del archivo
 
@@ -1725,6 +2149,241 @@ de la implementación y puede cambiar. Si el orden importa, `map`.
 
 **Ogro: usar `set` para contar.** Un `set` solo sabe si algo está: insertar tres
 veces lo mismo deja uno. Para contar, `map<T, int>`.
+
+### Micro-misión R03-N03-P1 · El inventario que cuenta
+
+```meta
+lugar: El fichero del archivista
+personajes: Bron, Lima
+carta: map para contar | std::map<std::string, int> conteo; conteo[pieza]++; · la primera vez arranca en 0 · se recorre ordenado por clave
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El archivista quiere saber cuántas piezas de cada tipo llegaron. El fichero de Bron anota cada pieza, pero siempre con un 1: nunca suma.
+
+#### Gheco sugiere
+`conteo[pieza]++` suma uno a lo que ya había (la primera vez, a 0).
+
+#### Desafío
+Contá cuántas veces llega cada pieza.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+int main()
+{
+    std::map<std::string, int> conteo;
+    std::string pieza;
+    while (std::cin >> pieza) {
+        conteo[pieza] = 1;
+    }
+    for (const auto& [nombre, cantidad] : conteo) {
+        std::cout << nombre << ": " << cantidad << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+engranaje resorte engranaje tuerca engranaje resorte
+```
+
+#### Salida esperada
+```
+engranaje: 3
+resorte: 2
+tuerca: 1
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+int main()
+{
+    std::map<std::string, int> conteo;
+    std::string pieza;
+    while (std::cin >> pieza) {
+        conteo[pieza]++;
+    }
+    for (const auto& [nombre, cantidad] : conteo) {
+        std::cout << nombre << ": " << cantidad << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Tres engranajes, dos resortes, una tuerca, y en orden alfabético. El archivista no lo podía creer.
+
+#### Imagen
+- Un fichero de madera con tarjetas: engranaje 3, resorte 2, tuerca 1.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) pone tarjetas en el fichero.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) las ordena.
+
+### Micro-misión R03-N03-P2 · Buscar sin inventar
+
+```meta
+lugar: El fichero del archivista
+personajes: Bron, Tesla
+carta: Consultar sin crear | fichero["x"] CREA la entrada si no está · fichero.find("x") == fichero.end() o fichero.contains("x") solo preguntan
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Bron pregunta en el fichero dónde está la «palanca», que no existe. El fichero responde «cajón 0»… y desde ese momento la palanca existe, en el cajón 0, que está vacío. Tesla suspira.
+
+#### Gheco sugiere
+Con `[]` preguntar crea la ficha. Usá `fichero.contains("palanca")` (o `find`) para preguntar sin crear nada.
+
+#### Desafío
+Preguntá sin agregar fichas falsas.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+int main()
+{
+    std::map<std::string, int> fichero = {{"reloj", 14}, {"polea", 3}, {"vitral", 9}};
+    for (std::string buscado : {"reloj", "palanca"}) {
+        if (fichero[buscado] != 0) {
+            std::cout << buscado << ": cajon " << fichero[buscado] << "\n";
+        } else {
+            std::cout << buscado << ": no esta\n";
+        }
+    }
+    std::cout << "Fichas: " << fichero.size() << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+reloj: cajon 14
+palanca: no esta
+Fichas: 3
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+int main()
+{
+    std::map<std::string, int> fichero = {{"reloj", 14}, {"polea", 3}, {"vitral", 9}};
+    for (std::string buscado : {"reloj", "palanca"}) {
+        if (fichero.contains(buscado)) {
+            std::cout << buscado << ": cajon " << fichero.at(buscado) << "\n";
+        } else {
+            std::cout << buscado << ": no esta\n";
+        }
+    }
+    std::cout << "Fichas: " << fichero.size() << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres fichas, como antes. La palanca sigue sin existir, que es lo que tiene que hacer.
+
+#### Imagen
+- Un fichero con una tarjeta en blanco que dice «palanca» tachada.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) saca la tarjeta en blanco.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se rasca la cabeza.
+
+### Micro-misión R03-N03-P3 · Los aprobados, una sola vez
+
+```meta
+lugar: El fichero del archivista
+personajes: Oto, Lima
+carta: set | std::set<std::string> guarda cada cosa UNA vez y ordenada · insert de algo repetido no hace nada · .size()
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el libro de los aprobados nadie aparece dos veces. Oto quiere anotar su guiso dos veces «porque estaba muy bueno». El libro de Bron es un vector y lo deja.
+
+#### Gheco sugiere
+Cambiá el vector por un `std::set`: `insert` de algo repetido no lo agrega. Y sale ordenado solo.
+
+#### Desafío
+Usá un conjunto para que no haya repetidos.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <set>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::vector<std::string> aprobados;
+    std::string plato;
+    while (std::cin >> plato) {
+        aprobados.push_back(plato);
+    }
+    std::cout << "Aprobados (" << aprobados.size() << "):";
+    for (const auto& p : aprobados) {
+        std::cout << " " << p;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+guiso pan guiso sopa pan guiso
+```
+
+#### Salida esperada
+```
+Aprobados (3): guiso pan sopa
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <set>
+#include <string>
+#include <vector>
+
+int main()
+{
+    std::set<std::string> aprobados;
+    std::string plato;
+    while (std::cin >> plato) {
+        aprobados.insert(plato);
+    }
+    std::cout << "Aprobados (" << aprobados.size() << "):";
+    for (const auto& p : aprobados) {
+        std::cout << " " << p;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres platos, una vez cada uno. Oto se ofende un poquito, y después se le pasa.
+
+#### Imagen
+- Un libro de aprobados con tres renglones: guiso, pan, sopa.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) intenta escribir «guiso» otra vez.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) le saca la pluma.
 
 ### Misión R03-N03-M1 · Las palabras del manual
 
@@ -2494,6 +3153,308 @@ Hay que abrirlo: `*r` (si hay) o `r.value_or(0)`.
 
 **Ogro: usar `*r` sin preguntar.** Si el `optional` está vacío, `*r` es
 comportamiento indefinido. Preguntá con `if (r)`, o usá `value_or`.
+
+### Micro-misión R03-N04-P1 · Las luces del tablero
+
+```meta
+lugar: La sala de control
+personajes: Bron, Tesla
+carta: enum class | enum class Estado { Apagado, Girando, Averiado }; · Estado::Girando · un switch lo pasa a texto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El tablero de control ya no usa números pintados a mano: cada máquina tiene un **estado** con nombre. Pero la función que lo pasa a texto se olvidó de las averiadas, y las muestra con un signo de pregunta.
+
+#### Gheco sugiere
+Agregá el `case Estado::Averiado` que devuelva `"averiado"`.
+
+#### Desafío
+Completá la conversión del estado a texto.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+enum class Estado { Apagado, Girando, Averiado };
+
+std::string texto(Estado e)
+{
+    switch (e) {
+    case Estado::Apagado:
+        return "apagado";
+    case Estado::Girando:
+        return "girando";
+    default:
+        return "?";
+    }
+}
+
+int main()
+{
+    Estado calderas[] = {Estado::Girando, Estado::Averiado, Estado::Apagado};
+    for (Estado e : calderas) {
+        std::cout << "Caldera: " << texto(e) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Caldera: girando
+Caldera: averiado
+Caldera: apagado
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+enum class Estado { Apagado, Girando, Averiado };
+
+std::string texto(Estado e)
+{
+    switch (e) {
+    case Estado::Apagado:
+        return "apagado";
+    case Estado::Girando:
+        return "girando";
+    case Estado::Averiado:
+        return "averiado";
+    default:
+        return "?";
+    }
+}
+
+int main()
+{
+    Estado calderas[] = {Estado::Girando, Estado::Averiado, Estado::Apagado};
+    for (Estado e : calderas) {
+        std::cout << "Caldera: " << texto(e) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La segunda caldera dice «averiado» con todas las letras. Bron la apaga antes de que haga algo peor.
+
+#### Imagen
+- Un tablero de control con tres luces: verde «girando», roja «averiado», gris «apagado».
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) señala la luz roja.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) corre hacia una caldera.
+
+### Micro-misión R03-N04-P2 · Sin menos uno
+
+```meta
+lugar: La sala de control
+personajes: Bron, Lima
+carta: optional | std::optional<int> buscar(...) devuelve el valor o std::nullopt · if (r) pregunta si hay · *r lo saca
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La función que busca una máquina en el tablero devuelve **−1** cuando no la encuentra, y el tablero muestra «cajón −1». El día que Bron leyó el −1 como un cajón, abrió la pared.
+
+#### Gheco sugiere
+Que la función devuelva `std::optional<int>`: la posición si la encuentra, `std::nullopt` si no. En `main`, preguntá con `if (r)`.
+
+#### Desafío
+Reemplazá el −1 por un `optional`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <optional>
+#include <string>
+#include <vector>
+
+int buscar(const std::vector<std::string>& maquinas, const std::string& nombre)
+{
+    for (std::size_t i = 0; i < maquinas.size(); i++) {
+        if (maquinas[i] == nombre) {
+            return static_cast<int>(i);
+        }
+    }
+    return -1;
+}
+
+int main()
+{
+    std::vector<std::string> maquinas = {"caldera", "telar", "grua"};
+    for (std::string n : {"telar", "molino"}) {
+        int r = buscar(maquinas, n);
+        std::cout << n << ": cajon " << r << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+telar: cajon 1
+molino: no esta
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <optional>
+#include <string>
+#include <vector>
+
+std::optional<int> buscar(const std::vector<std::string>& maquinas, const std::string& nombre)
+{
+    for (std::size_t i = 0; i < maquinas.size(); i++) {
+        if (maquinas[i] == nombre) {
+            return static_cast<int>(i);
+        }
+    }
+    return std::nullopt;
+}
+
+int main()
+{
+    std::vector<std::string> maquinas = {"caldera", "telar", "grua"};
+    for (std::string n : {"telar", "molino"}) {
+        std::optional<int> r = buscar(maquinas, n);
+        if (r) {
+            std::cout << n << ": cajon " << *r << "\n";
+        } else {
+            std::cout << n << ": no esta\n";
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El molino «no está», y nadie abre la pared. Lima tacha el −1 de su cuaderno con dos rayas.
+
+#### Imagen
+- Una pared de la sala de control con un agujero mal tapado.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tacha un −1 en un cuaderno.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) tapa el agujero con un tablón.
+
+### Micro-misión R03-N04-P3 · La caldera que cambia de estado
+
+```meta
+lugar: La sala de control
+personajes: Bron, Tesla
+carta: Máquina de estados | según el estado actual y el evento, se pasa a otro estado · switch (estado) y adentro un if por evento
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La caldera se prende, se avería y se arregla. Tesla dibuja el diagrama: apagada → (prender) → girando → (falla) → averiada → (arreglar) → apagada. A la máquina de Bron le falta la flecha de «arreglar».
+
+#### Gheco sugiere
+En el `case Estado::Averiado`, si el evento es `arreglar`, el estado pasa a `Apagado`.
+
+#### Desafío
+Agregá la transición que falta.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+enum class Estado { Apagado, Girando, Averiado };
+
+std::string texto(Estado e)
+{
+    switch (e) {
+    case Estado::Apagado: return "apagada";
+    case Estado::Girando: return "girando";
+    case Estado::Averiado: return "averiada";
+    }
+    return "?";
+}
+
+int main()
+{
+    Estado e = Estado::Apagado;
+    std::string evento;
+    while (std::cin >> evento) {
+        switch (e) {
+        case Estado::Apagado:
+            if (evento == "prender") e = Estado::Girando;
+            break;
+        case Estado::Girando:
+            if (evento == "falla") e = Estado::Averiado;
+            break;
+        case Estado::Averiado:
+            break;
+        }
+        std::cout << evento << " -> " << texto(e) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+prender falla prender arreglar prender
+```
+
+#### Salida esperada
+```
+prender -> girando
+falla -> averiada
+prender -> averiada
+arreglar -> apagada
+prender -> girando
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+
+enum class Estado { Apagado, Girando, Averiado };
+
+std::string texto(Estado e)
+{
+    switch (e) {
+    case Estado::Apagado: return "apagada";
+    case Estado::Girando: return "girando";
+    case Estado::Averiado: return "averiada";
+    }
+    return "?";
+}
+
+int main()
+{
+    Estado e = Estado::Apagado;
+    std::string evento;
+    while (std::cin >> evento) {
+        switch (e) {
+        case Estado::Apagado:
+            if (evento == "prender") e = Estado::Girando;
+            break;
+        case Estado::Girando:
+            if (evento == "falla") e = Estado::Averiado;
+            break;
+        case Estado::Averiado:
+            if (evento == "arreglar") e = Estado::Apagado;
+            break;
+        }
+        std::cout << evento << " -> " << texto(e) << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Averiada, arreglada, girando otra vez. Tesla le agrega una flecha al diagrama con tiza: la que dibujó Bron.
+
+#### Imagen
+- Un pizarrón con un diagrama de tres círculos unidos por flechas.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) dibuja una flecha.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la tiza.
 
 ### Misión R03-N04-M1 · El faro automático
 
@@ -3275,6 +4236,229 @@ fuera del vector.
 `[&x]` de una función que ya terminó apunta a nada. Si la lambda vive más que la
 variable, capturá por copia.
 
+### Micro-misión R03-N05-P1 · La regla en la tarjeta
+
+```meta
+lugar: El clasificador de piezas
+personajes: Bron, Lima
+carta: Lambda | [](const Pieza& a, const Pieza& b) { return a.peso > b.peso; } · una función sin nombre, escrita donde se usa
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El clasificador ordena piezas, pero no sabe **cómo**: hay que darle una tarjeta con la regla. Bron escribió la tarjeta al revés, y la más liviana sale primero.
+
+#### Gheco sugiere
+Para que la más pesada vaya primero, la lambda devuelve `true` cuando `a` pesa **más** que `b`.
+
+#### Desafío
+Corregí la regla de la tarjeta.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Pieza {
+    std::string nombre;
+    int peso;
+};
+
+int main()
+{
+    std::vector<Pieza> piezas = {{"tuerca", 2}, {"yunque", 90}, {"engranaje", 15}, {"resorte", 1}};
+    std::sort(piezas.begin(), piezas.end(), [](const Pieza& a, const Pieza& b) { return a.peso < b.peso; });
+    for (const Pieza& p : piezas) {
+        std::cout << p.nombre << " " << p.peso << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+yunque 90
+engranaje 15
+tuerca 2
+resorte 1
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Pieza {
+    std::string nombre;
+    int peso;
+};
+
+int main()
+{
+    std::vector<Pieza> piezas = {{"tuerca", 2}, {"yunque", 90}, {"engranaje", 15}, {"resorte", 1}};
+    std::sort(piezas.begin(), piezas.end(), [](const Pieza& a, const Pieza& b) { return a.peso > b.peso; });
+    for (const Pieza& p : piezas) {
+        std::cout << p.nombre << " " << p.peso << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El yunque primero, el resorte al final. Bron esconde detrás de la espalda la función con nombre que había escrito para esto.
+
+#### Imagen
+- Una máquina clasificadora enorme con una ranura para tarjetas.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mete una tarjeta.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lo vigila con la lima en alto.
+
+### Micro-misión R03-N05-P2 · Las más pesadas que el límite
+
+```meta
+lugar: El clasificador de piezas
+personajes: Bron, Tesla
+carta: Captura | [limite](int p) { return p > limite; } copia limite adentro · [&] usa las de afuera por referencia · std::count_if cuenta las que cumplen
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Tesla quiere saber cuántas piezas pasan el límite de la balanza, que se lee de la entrada. La lambda de Bron no puede usar `limite`: no lo capturó.
+
+#### Gheco sugiere
+Para usar `limite` adentro de la lambda, ponelo entre los corchetes: `[limite]`.
+
+#### Desafío
+Capturá el límite.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    int limite = 0;
+    std::cin >> limite;
+    std::vector<int> pesos = {2, 90, 15, 1, 12, 7};
+    auto pesadas = std::count_if(pesos.begin(), pesos.end(), [](int p) { return p > limite; });
+    std::cout << "Pasan de " << limite << ": " << pesadas << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+10
+```
+
+#### Salida esperada
+```
+Pasan de 10: 3
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    int limite = 0;
+    std::cin >> limite;
+    std::vector<int> pesos = {2, 90, 15, 1, 12, 7};
+    auto pesadas = std::count_if(pesos.begin(), pesos.end(), [limite](int p) { return p > limite; });
+    std::cout << "Pasan de " << limite << ": " << pesadas << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres piezas pasan de 10. Tesla pone el límite en 50 para probar, y queda solo el yunque.
+
+#### Imagen
+- Una balanza de bronce con un yunque encima y una aguja en rojo.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) gira la perilla del límite.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) anota.
+
+### Micro-misión R03-N05-P3 · Fuera los defectuosos
+
+```meta
+lugar: El clasificador de piezas
+personajes: Lima, Bron
+carta: std::erase_if(v, lambda) | borra del vector todos los que cumplen la condición (C++20) · devuelve cuántos borró
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Los engranajes con menos de 10 dientes están defectuosos. Lima quiere sacarlos todos de la caja de una vez, y Bron los está sacando de a uno, con un bucle que se saltea algunos.
+
+#### Gheco sugiere
+`std::erase_if(dientes, [](int d) { return d < 10; });` borra todos los que cumplen la condición, sin saltear ninguno.
+
+#### Desafío
+Borrá los defectuosos con `erase_if`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> dientes = {12, 8, 5, 40, 9, 24};
+    for (std::size_t i = 0; i < dientes.size(); i++) {
+        if (dientes[i] < 10) {
+            dientes.erase(dientes.begin() + i);
+        }
+    }
+    std::cout << "Quedan:";
+    for (int d : dientes) {
+        std::cout << " " << d;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Borrados: 3
+Quedan: 12 40 24
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <vector>
+
+int main()
+{
+    std::vector<int> dientes = {12, 8, 5, 40, 9, 24};
+    auto borrados = std::erase_if(dientes, [](int d) { return d < 10; });
+    std::cout << "Borrados: " << borrados << "\n";
+    std::cout << "Quedan:";
+    for (int d : dientes) {
+        std::cout << " " << d;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres afuera, tres adentro. El bucle de Bron se había salteado el 5, que estaba justo después del 8.
+
+#### Imagen
+- Una caja de engranajes y, al lado, tres engranajes chiquitos descartados.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tira los defectuosos a un balde.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el balde.
+
 ### Misión R03-N05-M1 · La tabla del torneo
 
 ```meta
@@ -4034,6 +5218,259 @@ y en otra en otro. Ordená antes de mostrar.
 
 **Ogro: la ruta relativa desde otra carpeta.** "No encuentra el archivo", pero el
 archivo está: ejecutaste desde otra carpeta. Mirá `fs::current_path()`.
+
+### Micro-misión R03-N06-P1 · La bitácora que se cierra sola
+
+```meta
+lugar: El Archivo de los registros
+personajes: Bron, Lima
+carta: Cerrar al salir del bloque | un ofstream escribe en un buffer · al destruirse (fin de su bloque) se cierra y graba · leer antes de cerrar puede no encontrar nada
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Bron escribe el inventario en un archivo y, enseguida, lo lee para controlarlo. El archivo aparece vacío. Lima le explica: lo escrito todavía está en el buffer del `ofstream`, que recién lo graba al cerrarse.
+
+#### Gheco sugiere
+Poné la escritura en su propio bloque `{ ... }`: al terminar el bloque, el `ofstream` se destruye y se cierra (RAII), y después se puede leer.
+
+#### Desafío
+Cerrá el archivo antes de leerlo, con un bloque.
+
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
+
+int main()
+{
+    std::ofstream out("inventario.txt");
+    out << "llave cian\n";
+    out << "engranaje de laton\n";
+    out << "pedido de bisagras\n";
+
+    std::ifstream in("inventario.txt");
+    std::string linea;
+    int n = 0;
+    while (std::getline(in, linea)) {
+        std::cout << ++n << ". " << linea << "\n";
+    }
+    std::cout << "Lineas: " << n << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+1. llave cian
+2. engranaje de laton
+3. pedido de bisagras
+Lineas: 3
+```
+
+#### Solución
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
+
+int main()
+{
+    {
+        std::ofstream out("inventario.txt");
+        out << "llave cian\n";
+        out << "engranaje de laton\n";
+        out << "pedido de bisagras\n";
+    }
+
+    std::ifstream in("inventario.txt");
+    std::string linea;
+    int n = 0;
+    while (std::getline(in, linea)) {
+        std::cout << ++n << ". " << linea << "\n";
+    }
+    std::cout << "Lineas: " << n << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Tres líneas, y la tercera es el pedido de bisagras. Bron no lo perdió esta vez.
+
+#### Imagen
+- Un libro de registros abierto con tres renglones escritos y una pluma.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cierra el libro.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lee por encima.
+
+### Micro-misión R03-N06-P2 · Sumar, no pisar
+
+```meta
+lugar: El Archivo de los registros
+personajes: Bron, Oto
+carta: Agregar al final | std::ofstream f(ruta, std::ios::app) agrega · sin app, abrir para escribir BORRA lo que había
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Oto anota en el archivo del comedor cada guiso que sirve. Bron abre el archivo cada vez para escribir, y el archivo siempre tiene un solo guiso: el último.
+
+#### Gheco sugiere
+Abrí el archivo en modo agregar: `std::ofstream f("guisos.txt", std::ios::app);`.
+
+#### Desafío
+Hacé que cada guiso se sume al archivo.
+
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
+
+void anotar(const std::string& guiso)
+{
+    std::ofstream f("guisos.txt");
+    f << guiso << "\n";
+}
+
+int main()
+{
+    anotar("guiso de lunes");
+    anotar("guiso de martes");
+    anotar("guiso violeta");
+    std::ifstream in("guisos.txt");
+    std::string linea;
+    while (std::getline(in, linea)) {
+        std::cout << linea << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+guiso de lunes
+guiso de martes
+guiso violeta
+```
+
+#### Solución
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
+
+void anotar(const std::string& guiso)
+{
+    std::ofstream f("guisos.txt", std::ios::app);
+    f << guiso << "\n";
+}
+
+int main()
+{
+    anotar("guiso de lunes");
+    anotar("guiso de martes");
+    anotar("guiso violeta");
+    std::ifstream in("guisos.txt");
+    std::string linea;
+    while (std::getline(in, linea)) {
+        std::cout << linea << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Los tres guisos de la semana, en orden. El violeta queda anotado para la historia.
+
+#### Imagen
+- Un cuaderno de cocina con tres guisos anotados, el último en tinta violeta.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) lee el cuaderno con orgullo.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la pluma.
+
+### Micro-misión R03-N06-P3 · La columna del CSV
+
+```meta
+lugar: El Archivo de los registros
+personajes: Bron, Lima
+carta: CSV | std::getline(ss, campo, ',') corta por comas · la primera línea suele ser el encabezado · std::stoi para los números
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Archivo guarda el stock en un CSV: `pieza,cantidad`. Lima quiere el total de piezas. Bron suma también el encabezado, y el programa revienta al convertir «cantidad» en número.
+
+#### Gheco sugiere
+Leé la primera línea (el encabezado) con un `getline` antes del bucle, y no la sumes.
+
+#### Desafío
+Salteá el encabezado.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main()
+{
+    std::string linea;
+    int total = 0;
+    while (std::getline(std::cin, linea)) {
+        std::istringstream ss(linea);
+        std::string pieza, cantidad;
+        std::getline(ss, pieza, ',');
+        std::getline(ss, cantidad);
+        total += std::stoi(cantidad);
+    }
+    std::cout << "Total de piezas: " << total << "\n";
+    return 0;
+}
+```
+
+#### Entrada
+```
+pieza,cantidad
+engranaje,40
+resorte,25
+tuerca,120
+```
+
+#### Salida esperada
+```
+Total de piezas: 185
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+
+int main()
+{
+    std::string linea;
+    std::getline(std::cin, linea);
+    int total = 0;
+    while (std::getline(std::cin, linea)) {
+        std::istringstream ss(linea);
+        std::string pieza, cantidad;
+        std::getline(ss, pieza, ',');
+        std::getline(ss, cantidad);
+        total += std::stoi(cantidad);
+    }
+    std::cout << "Total de piezas: " << total << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Ciento ochenta y cinco piezas. Lima lo anota y le recuerda a Bron que la primera línea casi nunca es un dato.
+
+#### Imagen
+- Una planilla en la pared con tres columnas y un encabezado subrayado.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) subraya el encabezado.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) suma con un ábaco.
 
 ### Misión R03-N06-M1 · La bitácora
 
@@ -4958,6 +6395,221 @@ colgando cuando el dueño borra el objeto.
 el dueño, y dos objetos que se apuntan con `shared_ptr` no se liberan nunca (un
 ciclo). Usá `unique_ptr` por defecto y `weak_ptr` para "conocer sin ser dueño".
 
+### Micro-misión R03-N07-P1 · Un solo dueño
+
+```meta
+lugar: El depósito de autómatas
+personajes: Bron, Oto
+carta: unique_ptr | un solo dueño · no se copia: se ENTREGA con std::move · el que entregó queda vacío (nullptr)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La batidora (el autómata que Bron armó con `new`) por fin tiene etiqueta de dueño. Bron se la quiere dar a Oto, y escribe una copia: el Taller no lo deja. Una máquina con un solo dueño se **entrega**.
+
+#### Gheco sugiere
+`std::unique_ptr` no se copia. Para pasárselo a Oto: `std::move(de_bron)`. Después, `de_bron` queda vacío.
+
+#### Desafío
+Entregale la batidora a Oto.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+struct Automata {
+    std::string nombre;
+};
+
+int main()
+{
+    std::unique_ptr<Automata> de_bron = std::make_unique<Automata>(Automata{"Batidora"});
+    std::unique_ptr<Automata> de_oto = de_bron;
+    std::cout << "Oto tiene: " << de_oto->nombre << "\n";
+    std::cout << "Bron tiene: " << (de_bron ? de_bron->nombre : "nada") << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Oto tiene: Batidora
+Bron tiene: nada
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+
+struct Automata {
+    std::string nombre;
+};
+
+int main()
+{
+    std::unique_ptr<Automata> de_bron = std::make_unique<Automata>(Automata{"Batidora"});
+    std::unique_ptr<Automata> de_oto = std::move(de_bron);
+    std::cout << "Oto tiene: " << de_oto->nombre << "\n";
+    std::cout << "Bron tiene: " << (de_bron ? de_bron->nombre : "nada") << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+La batidora es de Oto, con etiqueta y todo. Por primera vez, se apaga sola cuando Oto cierra la cocina.
+
+#### Imagen
+- Un autómata batidora con una etiqueta colgada que dice «Oto».
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) le entrega el autómata.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) lo recibe con el cucharón en la otra mano.
+
+### Micro-misión R03-N07-P2 · Dos dueños para el guiso
+
+```meta
+lugar: El comedor de los artífices
+personajes: Oto, Bron
+carta: shared_ptr | varios dueños comparten el objeto · use_count() dice cuántos · se destruye cuando se va el ÚLTIMO
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El guiso grande es de Oto **y** de Bron: los dos lo cuidan. Bron quiere saber cuántos dueños tiene en cada momento, pero cuenta mal: imprime un número fijo.
+
+#### Gheco sugiere
+`guiso.use_count()` dice cuántos `shared_ptr` comparten el objeto. Mostralo en lugar del número fijo.
+
+#### Desafío
+Mostrá la cuenta real de dueños.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+int main()
+{
+    auto de_oto = std::make_shared<std::string>("guiso grande");
+    std::cout << "Duenos: " << 1 << "\n";
+    {
+        auto de_bron = de_oto;
+        std::cout << "Duenos: " << 1 << "\n";
+    }
+    std::cout << "Duenos: " << 1 << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Duenos: 1
+Duenos: 2
+Duenos: 1
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+int main()
+{
+    auto de_oto = std::make_shared<std::string>("guiso grande");
+    std::cout << "Duenos: " << de_oto.use_count() << "\n";
+    {
+        auto de_bron = de_oto;
+        std::cout << "Duenos: " << de_oto.use_count() << "\n";
+    }
+    std::cout << "Duenos: " << de_oto.use_count() << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Uno, dos, uno. Cuando Bron se va, el guiso sigue: todavía tiene a Oto.
+
+#### Imagen
+- Una olla grande con dos cucharones adentro.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) y Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostienen cada uno un cucharón.
+
+### Micro-misión R03-N07-P3 · Mirar sin ser dueño
+
+```meta
+lugar: El depósito de autómatas
+personajes: Lima, Bron
+carta: weak_ptr | mira un objeto de un shared_ptr sin ser dueño · w.lock() devuelve un shared_ptr, o vacío si el objeto ya no existe
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Lima lleva una lista de los autómatas del depósito, pero no es dueña de ninguno. Cuando uno vuelve a la fundición, su lista tiene que darse cuenta. La de Bron sigue diciendo que el autómata está.
+
+#### Gheco sugiere
+Antes de usarlo, pedile al `weak_ptr` el objeto con `lock()`: si devuelve vacío, el autómata ya no existe.
+
+#### Desafío
+Preguntá con `lock()` si el autómata sigue existiendo.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+int main()
+{
+    auto dueno = std::make_shared<std::string>("Cucu");
+    std::weak_ptr<std::string> lista = dueno;
+    for (int dia = 1; dia <= 2; dia++) {
+        std::cout << "Dia " << dia << ": " << "sigue en el deposito" << "\n";
+        dueno.reset();
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Dia 1: Cucu sigue en el deposito
+Dia 2: volvio a la fundicion
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+int main()
+{
+    auto dueno = std::make_shared<std::string>("Cucu");
+    std::weak_ptr<std::string> lista = dueno;
+    for (int dia = 1; dia <= 2; dia++) {
+        if (auto a = lista.lock()) {
+            std::cout << "Dia " << dia << ": " << *a << " sigue en el deposito\n";
+        } else {
+            std::cout << "Dia " << dia << ": volvio a la fundicion\n";
+        }
+        dueno.reset();
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El segundo día, Cucú ya volvió a la fundición, y la lista de Lima lo sabe. Lima lo tacha con cariño.
+
+#### Imagen
+- Una lista colgada en el depósito con un nombre tachado.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tacha el nombre con cuidado.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) empuja un autómata hacia la fundición.
+
 ### Misión R03-N07-M1 · La fábrica de autómatas
 
 ```meta
@@ -5650,6 +7302,260 @@ así que **copia** en silencio.
 que ser simple y no fallar: corre en momentos (como la salida por un error) donde
 no hay forma de manejar un segundo problema.
 
+### Micro-misión R03-N08-P1 · La puerta que se destraba sola
+
+```meta
+lugar: La sala de máquinas
+personajes: Bron, la Maestra Artífice
+carta: RAII | lo que se toma en el constructor se suelta en el destructor · así se suelta SIEMPRE, también en un return temprano
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La puerta de la sala de máquinas se traba al entrar y hay que destrabarla al salir. La función de Bron se olvida de destrabarla cuando sale antes, por la caldera rota.
+En la puerta aparece una mujer alta de pelo blanco y antiparras verdes, con una tableta llena de tildes: **la Maestra Artífice**. —¿Y la prueba? —pregunta. Bron no tiene la prueba.
+
+#### Gheco sugiere
+Usá la clase `Traba`: en su constructor traba y en su destructor destraba. Creá una al principio de `revisar` y sacá los `destrabar` a mano: el destructor corre en cualquier salida.
+
+#### Desafío
+Reemplazá el trabado a mano por un objeto `Traba`.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+void trabar() { std::cout << "puerta trabada\n"; }
+void destrabar() { std::cout << "puerta destrabada\n"; }
+
+class Traba {
+public:
+    Traba() { trabar(); }
+    ~Traba() { destrabar(); }
+};
+
+void revisar(bool caldera_rota)
+{
+    trabar();
+    if (caldera_rota) {
+        std::cout << "caldera rota: salgo corriendo\n";
+        return;
+    }
+    std::cout << "todo en orden\n";
+    destrabar();
+}
+
+int main()
+{
+    revisar(false);
+    revisar(true);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+puerta trabada
+todo en orden
+puerta destrabada
+puerta trabada
+caldera rota: salgo corriendo
+puerta destrabada
+```
+
+#### Solución
+```cpp
+#include <iostream>
+
+void trabar() { std::cout << "puerta trabada\n"; }
+void destrabar() { std::cout << "puerta destrabada\n"; }
+
+class Traba {
+public:
+    Traba() { trabar(); }
+    ~Traba() { destrabar(); }
+};
+
+void revisar(bool caldera_rota)
+{
+    Traba traba;
+    if (caldera_rota) {
+        std::cout << "caldera rota: salgo corriendo\n";
+        return;
+    }
+    std::cout << "todo en orden\n";
+}
+
+int main()
+{
+    revisar(false);
+    revisar(true);
+    return 0;
+}
+```
+
+#### Al superarla
+La puerta se destraba sola, también cuando Bron sale corriendo. La Maestra Artífice tilda algo en su tableta, sin mirarlo.
+
+#### Imagen
+- La puerta de hierro de la sala de máquinas, con un cerrojo que se abre solo.
+- la Maestra Artífice (mujer alta de 60, piel oscura, pelo blanco muy corto, antiparras verdes en la frente, delantal de cuero sobre una túnica verde con circuitos, tableta con tildes verdes) tilda algo en su tableta.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sale corriendo, con hollín en la cara.
+
+### Micro-misión R03-N08-P2 · La llave maestra se entrega
+
+```meta
+lugar: La sala de máquinas
+personajes: Bron, Tesla
+carta: = delete | LlaveMaestra(const LlaveMaestra&) = delete; prohíbe copiarla · se puede MOVER: LlaveMaestra b = std::move(a);
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La llave maestra de la sala de máquinas no se puede copiar: Tesla le borró la copia al plano. Bron intenta hacerse una copia «por las dudas». El Taller no lo deja: una llave maestra se **entrega**.
+
+#### Gheco sugiere
+En lugar de copiarla, movela: `LlaveMaestra de_bron = std::move(de_tesla);`.
+
+#### Desafío
+Entregá la llave en lugar de copiarla.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+
+class LlaveMaestra {
+public:
+    explicit LlaveMaestra(std::string sala) : sala_(sala) {}
+    LlaveMaestra(const LlaveMaestra&) = delete;
+    LlaveMaestra(LlaveMaestra&& otra) noexcept : sala_(std::move(otra.sala_)) { otra.sala_ = ""; }
+    bool abre() const { return !sala_.empty(); }
+
+private:
+    std::string sala_;
+};
+
+int main()
+{
+    LlaveMaestra de_tesla("sala de maquinas");
+    LlaveMaestra de_bron = de_tesla;
+    std::cout << "La de Tesla abre: " << (de_tesla.abre() ? "si" : "no") << "\n";
+    std::cout << "La de Bron abre: " << (de_bron.abre() ? "si" : "no") << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+La de Tesla abre: no
+La de Bron abre: si
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+
+class LlaveMaestra {
+public:
+    explicit LlaveMaestra(std::string sala) : sala_(sala) {}
+    LlaveMaestra(const LlaveMaestra&) = delete;
+    LlaveMaestra(LlaveMaestra&& otra) noexcept : sala_(std::move(otra.sala_)) { otra.sala_ = ""; }
+    bool abre() const { return !sala_.empty(); }
+
+private:
+    std::string sala_;
+};
+
+int main()
+{
+    LlaveMaestra de_tesla("sala de maquinas");
+    LlaveMaestra de_bron = std::move(de_tesla);
+    std::cout << "La de Tesla abre: " << (de_tesla.abre() ? "si" : "no") << "\n";
+    std::cout << "La de Bron abre: " << (de_bron.abre() ? "si" : "no") << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Una sola llave, ahora en el bolsillo de Bron. Tesla se queda con las manos vacías y una sonrisa.
+
+#### Imagen
+- Una llave maestra de bronce pasando de una mano a otra.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) la entrega.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) la recibe con las dos manos.
+
+### Micro-misión R03-N08-P3 · Mover en vez de copiar
+
+```meta
+lugar: La sala de máquinas
+personajes: Oto, Lima
+carta: Mover | std::move(x) avisa que x ya no se usa · el vector «se lleva» los datos sin copiarlos · x queda válido pero vacío
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Oto guarda su receta larguísima en el libro del comedor, y el libro hace una copia entera, letra por letra. Lima mide el tiempo con la lupa y se impacienta: la receta original ya no se va a usar.
+
+#### Gheco sugiere
+Pasale la receta al vector con `std::move(receta)`: el vector se lleva las letras sin copiarlas, y `receta` queda vacía.
+
+#### Desafío
+Mové la receta al libro.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+
+int main()
+{
+    std::string receta = "guiso: cebolla, zanahoria, papa, carne y una pizca de violeta";
+    std::vector<std::string> libro;
+    libro.push_back(receta);
+    std::cout << "En el libro: " << libro[0].size() << " letras\n";
+    std::cout << "En la mano de Oto: " << receta.size() << " letras\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+En el libro: 61 letras
+En la mano de Oto: 0 letras
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
+
+int main()
+{
+    std::string receta = "guiso: cebolla, zanahoria, papa, carne y una pizca de violeta";
+    std::vector<std::string> libro;
+    libro.push_back(std::move(receta));
+    std::cout << "En el libro: " << libro[0].size() << " letras\n";
+    std::cout << "En la mano de Oto: " << receta.size() << " letras\n";
+    return 0;
+}
+```
+
+#### Al superarla
+La receta está en el libro, y la hoja de Oto quedó en blanco. Oto la usa para anotar la próxima.
+
+#### Imagen
+- Un libro de recetas abierto y una hoja en blanco al lado.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) mira la hoja en blanco, sorprendido.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) guarda la lupa.
+
 ### Misión R03-N08-M1 · El registro con sangría
 
 ```meta
@@ -6279,6 +8185,382 @@ guardada a la forma anterior queda colgando.
 
 **Esqueleto: el `.cpp` del Bestiario fuera del `CMakeLists.txt`.** "undefined
 reference" a todos sus métodos.
+
+### Micro-misión R03-N09-P1 · Ordenar el Bestiario
+
+```meta
+lugar: El Bestiario de los Talleres
+personajes: Bron, Lima, Tesla
+criatura: dragon
+carta: map + optional | std::map<std::string, int> ordena por nombre · una búsqueda que puede fallar devuelve std::optional
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Anoche alguien revolvió el **Bestiario**: hay fichas rotas, criaturas repetidas y una nueva, el **Mímico**, que copia a quien mira. —Para atraparlo, primero ordená el Bestiario —dice Tesla.
+Bron guarda cada ficha en un `map` (nombre → peligro), pero las repetidas pisan a las anteriores y se pierde el peligro mayor.
+
+#### Gheco sugiere
+Si la criatura ya está, quedate con el peligro **mayor**: `fichas[n] = std::max(fichas[n], peligro);` (si no estaba, arranca en 0).
+
+#### Desafío
+Guardá el peligro mayor de cada criatura.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <string>
+
+int main()
+{
+    std::map<std::string, int> fichas;
+    std::string nombre;
+    int peligro = 0;
+    while (std::cin >> nombre >> peligro) {
+        fichas[nombre] = peligro;
+    }
+    for (const auto& [n, p] : fichas) {
+        std::cout << n << ": peligro " << p << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+lobo 7
+slime 2
+lobo 3
+troll 5
+slime 1
+```
+
+#### Salida esperada
+```
+lobo: peligro 7
+slime: peligro 2
+troll: peligro 5
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <string>
+
+int main()
+{
+    std::map<std::string, int> fichas;
+    std::string nombre;
+    int peligro = 0;
+    while (std::cin >> nombre >> peligro) {
+        fichas[nombre] = std::max(fichas[nombre], peligro);
+    }
+    for (const auto& [n, p] : fichas) {
+        std::cout << n << ": peligro " << p << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Lobo 7, slime 2, troll 5, en orden. El Bestiario queda prolijo, y en un rincón algo gris se esconde detrás de un estante.
+
+#### Imagen
+- Un libro enorme de bestiario abierto sobre un atril, con fichas desparramadas alrededor.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) ordena fichas.
+- Detrás de un estante asoma el Mímico del Bestiario (criatura gris y blanda como cera, que imita a quien mira con algo mal copiado: una cola de más, un ojo en la rodilla).
+
+### Micro-misión R03-N09-P2 · La copia que es suya
+
+```meta
+lugar: El Bestiario de los Talleres
+personajes: Bron, Tesla
+criatura: dragon
+carta: clone() | virtual std::unique_ptr<Criatura> clone() const · copia polimórfica: cada clase devuelve una copia de SÍ MISMA
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Mímico copia a quien mira. Tesla le explica a Bron cómo lo hace: no **es** un lobo, **tiene** una copia de un lobo, y esa copia es suya. Para copiar algo sin saber qué es, cada criatura sabe copiarse a sí misma. Al troll le falta su `clone`.
+
+#### Gheco sugiere
+Escribí `clone()` en `Troll` como en `Lobo`: `return std::make_unique<Troll>(*this);`.
+
+#### Desafío
+Completá la copia del troll.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+class Criatura {
+public:
+    virtual ~Criatura() = default;
+    virtual std::string sonido() const = 0;
+    virtual std::unique_ptr<Criatura> clone() const { return nullptr; }
+};
+
+class Lobo : public Criatura {
+public:
+    std::string sonido() const override { return "auuu"; }
+    std::unique_ptr<Criatura> clone() const override { return std::make_unique<Lobo>(*this); }
+};
+
+class Troll : public Criatura {
+public:
+    std::string sonido() const override { return "grrr"; }
+};
+
+int main()
+{
+    Lobo lobo;
+    Troll troll;
+    for (const Criatura* original : {static_cast<const Criatura*>(&lobo), static_cast<const Criatura*>(&troll)}) {
+        std::unique_ptr<Criatura> copia = original->clone();
+        std::cout << "El Mimico hace: " << (copia ? copia->sonido() : "...nada") << "\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+El Mimico hace: auuu
+El Mimico hace: grrr
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+
+class Criatura {
+public:
+    virtual ~Criatura() = default;
+    virtual std::string sonido() const = 0;
+    virtual std::unique_ptr<Criatura> clone() const { return nullptr; }
+};
+
+class Lobo : public Criatura {
+public:
+    std::string sonido() const override { return "auuu"; }
+    std::unique_ptr<Criatura> clone() const override { return std::make_unique<Lobo>(*this); }
+};
+
+class Troll : public Criatura {
+public:
+    std::string sonido() const override { return "grrr"; }
+    std::unique_ptr<Criatura> clone() const override { return std::make_unique<Troll>(*this); }
+};
+
+int main()
+{
+    Lobo lobo;
+    Troll troll;
+    for (const Criatura* original : {static_cast<const Criatura*>(&lobo), static_cast<const Criatura*>(&troll)}) {
+        std::unique_ptr<Criatura> copia = original->clone();
+        std::cout << "El Mimico hace: " << (copia ? copia->sonido() : "...nada") << "\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+«Auuu», «grrr». El Mímico copia al troll a la perfección, salvo por un ojo en la rodilla.
+
+#### Imagen
+- el Mímico del Bestiario (criatura gris y blanda como cera, que imita a quien mira con algo mal copiado: una cola de más, un ojo en la rodilla) tomando la forma de un troll, con un ojo en la rodilla.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) retrocede.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) lo observa con el visor bajado.
+
+### Micro-misión R03-N09-P3 · La bisagra del Mímico
+
+```meta
+lugar: El Bestiario de los Talleres
+personajes: Bron, Lima
+criatura: dragon
+carta: Lambda + algoritmo | std::find_if(v.begin(), v.end(), [](const Objeto& o) { return ...; }) devuelve un iterador, o end() si no hay
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Mímico copió a Bron (con dos llaves) y a Lima (con tres rodetes). Y tiene en la mano una **bisagra**: copió la del Vidriero, pero no sabe abrir nada con ella. Para encontrarla entre todo lo que robó, Bron recorre la bolsa a mano y se pierde.
+
+#### Gheco sugiere
+Buscá con `std::find_if` y una lambda que pregunte si el objeto es una `"bisagra"`. Si el iterador no es `end()`, la encontraste.
+
+#### Desafío
+Encontrá la bisagra con `find_if`.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Objeto {
+    std::string tipo;
+    std::string de_quien;
+};
+
+int main()
+{
+    std::vector<Objeto> bolsa = {{"llave", "Bron"}, {"lima", "Lima"}, {"bisagra", "Vidriero"}, {"cucharon", "Oto"}};
+    auto it = bolsa.end();
+    if (it != bolsa.end()) {
+        std::cout << "La bisagra era del " << it->de_quien << "\n";
+    } else {
+        std::cout << "No hay bisagra\n";
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+La bisagra era del Vidriero
+```
+
+#### Solución
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
+
+struct Objeto {
+    std::string tipo;
+    std::string de_quien;
+};
+
+int main()
+{
+    std::vector<Objeto> bolsa = {{"llave", "Bron"}, {"lima", "Lima"}, {"bisagra", "Vidriero"}, {"cucharon", "Oto"}};
+    auto it = std::find_if(bolsa.begin(), bolsa.end(), [](const Objeto& o) { return o.tipo == "bisagra"; });
+    if (it != bolsa.end()) {
+        std::cout << "La bisagra era del " << it->de_quien << "\n";
+    } else {
+        std::cout << "No hay bisagra\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La bisagra era del Vidriero, y el Mímico no sabe qué abre. Bron tampoco. Lima la dibuja en su cuaderno.
+
+#### Imagen
+- Una bolsa de tela abierta con una llave, una lima, un cucharón y una bisagra rara.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta la bisagra.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) la dibuja en su cuaderno.
+
+### Micro-misión R03-N09-P4 · El espejo del Mímico
+
+```meta
+lugar: El Bestiario de los Talleres
+personajes: Bron, Tesla, Lima
+criatura: dragon
+carta: Varios dueños, uno solo | map<string, unique_ptr<Criatura>> · el mapa es el dueño · mover una criatura al mapa con std::move
+recompensa: xp 25, oro 30
+item: Espejo del Mímico
+```
+
+#### Escena
+Para atrapar al Mímico, hay que guardar cada criatura del Bestiario en su lugar, con **un solo dueño**: el mapa. El Mímico se escapa por cada copia que queda suelta. Bron crea las criaturas pero no las mete en el mapa.
+
+#### Gheco sugiere
+Movelas al mapa: `bestiario[nombre] = std::move(c);`. Al final, el Mímico no tiene ninguna copia suelta para esconderse.
+
+#### Desafío
+Guardá cada criatura en el Bestiario, entregándola.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+
+struct Criatura {
+    std::string sonido;
+};
+
+int main()
+{
+    std::map<std::string, std::unique_ptr<Criatura>> bestiario;
+    int sueltas = 0;
+    for (auto [nombre, sonido] : {std::pair<std::string, std::string>{"lobo", "auuu"}, {"troll", "grrr"}, {"slime", "blub"}}) {
+        auto c = std::make_unique<Criatura>(Criatura{sonido});
+        if (c) {
+            sueltas++;
+        }
+    }
+    std::cout << "En el Bestiario: " << bestiario.size() << "\n";
+    for (const auto& [nombre, c] : bestiario) {
+        std::cout << nombre << ": " << c->sonido << "\n";
+    }
+    std::cout << "Copias sueltas para el Mimico: " << sueltas - static_cast<int>(bestiario.size()) << "\n";
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+En el Bestiario: 3
+lobo: auuu
+slime: blub
+troll: grrr
+Copias sueltas para el Mimico: 0
+```
+
+#### Solución
+```cpp
+#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+
+struct Criatura {
+    std::string sonido;
+};
+
+int main()
+{
+    std::map<std::string, std::unique_ptr<Criatura>> bestiario;
+    int sueltas = 0;
+    for (auto [nombre, sonido] : {std::pair<std::string, std::string>{"lobo", "auuu"}, {"troll", "grrr"}, {"slime", "blub"}}) {
+        auto c = std::make_unique<Criatura>(Criatura{sonido});
+        if (c) {
+            sueltas++;
+        }
+        bestiario[nombre] = std::move(c);
+    }
+    std::cout << "En el Bestiario: " << bestiario.size() << "\n";
+    for (const auto& [nombre, c] : bestiario) {
+        std::cout << nombre << ": " << c->sonido << "\n";
+    }
+    std::cout << "Copias sueltas para el Mimico: " << sueltas - static_cast<int>(bestiario.size()) << "\n";
+    return 0;
+}
+```
+
+#### Al superarla
+Cero copias sueltas. El Mímico no tiene a quién imitar, se derrite como una vela, y deja en el piso **el Espejo del Mímico**: refleja lo que tenés, no lo que sos.
+
+#### Imagen
+- Un charco de cera gris en el piso del Bestiario, con un espejo ovalado encima.
+- Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta el espejo.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) miran el reflejo, que es un poco distinto.
 
 ### Misión R03-N09-M1 · El Bestiario
 

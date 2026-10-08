@@ -131,6 +131,7 @@ alcance: compartido
 - diseno.capas · Capas y MVC · modelo, vista, controlador, DAO, repositorios
 - diseno.inyeccion · Inyección de dependencias · recibir las piezas, contenedor
 - diseno.patrones · Patrones de diseño · estrategia, fábrica, observador
+- diseno.solid · Principios SOLID · responsabilidad única, abierto/cerrado, Liskov, interfaces chicas, inversión de dependencias
 
 ## alg · Algoritmos y estructuras de datos
 alcance: compartido

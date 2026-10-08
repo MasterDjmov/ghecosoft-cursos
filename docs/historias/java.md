@@ -188,7 +188,7 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 
 **Wrapper y autoboxing** (U1): ya estaban en **R03-N02 · ArrayList y genéricos** (explicación, ejemplo y prueba del sello).
 
-**Hecho (2026-10-07, D96):** el reordenamiento ya está en `cursos/java/` (archivos 04 a 09) y la migración `reorder_java_course_codes` renombra los códigos en la base. R04-N04 (patrones) ya está escrito. Faltan R05-N01 (Big O), R05-N02 (SOLID), Lombok en R05-N05 y R05-N06 (el Dragón, «AduanaExpress»).
+**Hecho (2026-10-07, D96):** el reordenamiento ya está en `cursos/java/` (archivos 04 a 09) y la migración `reorder_java_course_codes` renombra los códigos en la base. Los nodos nuevos ya están escritos (R04-N04 patrones, R05-N01 Big O, R05-N02 SOLID y R05-N06 el Dragón con «AduanaExpress»); Lombok ya estaba en R05-N05.
 
 ---
 
@@ -211,7 +211,7 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 ## 3 bis. El juego en el Imperio (hecho, 2026-10-07)
 
 - **Zed** con sus 6 aspectos (`public/img/protagonistas/zed/`).
-- **El mapa de expediciones** (`public/img/mundos/imperio/mapa.webp`): 12 lugares, de la Aduana (nivel 1) a la Torre del Arquitecto (nivel 13); se abren desde Decisiones (R01-N05). La Torre del Arquitecto se abre desde R05-N03 (pasar a R05-N01 cuando exista).
+- **El mapa de expediciones** (`public/img/mundos/imperio/mapa.webp`): 12 lugares, de la Aduana (nivel 1) a la Torre del Arquitecto (nivel 13); se abren desde Decisiones (R01-N05). La Torre del Arquitecto se abre desde R05-N01.
 - **El puesto de Baldo en el Imperio:** Baldo, el mercader ambulante (aparece en R01-N04), vende armas, ropa, accesorios y el **Café Fuerte** (la poción del Imperio). 16 ítems del Imperio en `app:game-items`, con su pedido de imagen, más la **Llave del Vitral** (historia).
 
 ## 4. Arreglos de continuidad respecto del curso actual

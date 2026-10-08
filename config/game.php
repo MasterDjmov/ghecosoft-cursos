@@ -119,7 +119,7 @@ return [
                         'text' => 'Donde el río se traba, algo enorme se mueve bajo el agua.'],
                     ['code' => 'boveda-imperial', 'name' => 'La Bóveda Imperial', 'node' => 'R04-N01', 'level' => 11, 'creatures' => ['troll', 'ogro', 'dragon'], 'x' => 86, 'y' => 26,
                         'text' => 'Tablas huérfanas y registros sin dueño, en lo alto del acantilado.'],
-                    ['code' => 'torre-del-arquitecto', 'name' => 'La Torre del Arquitecto', 'node' => 'R05-N03', 'level' => 13, 'creatures' => ['ogro', 'dragon'], 'x' => 30, 'y' => 20,
+                    ['code' => 'torre-del-arquitecto', 'name' => 'La Torre del Arquitecto', 'node' => 'R05-N01', 'level' => 13, 'creatures' => ['ogro', 'dragon'], 'x' => 30, 'y' => 20,
                         'text' => 'La torre más alta del Imperio. Arriba, una ventana espera su vidrio.'],
                 ],
             ],

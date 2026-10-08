@@ -5,11 +5,981 @@ tipo: tronco
 posicion: 5
 ```
 
-## R05-N03 · Maven y el contenedor de Spring
+## R05-N01 · Eficiencia: Big O y medir tiempos
 
 ```meta
 tipo: tema
 padre: R04-N06
+precio: 10
+criatura: ogre
+temas: alg.complejidad
+usa: col.listas, col.mapas, col.conjuntos
+```
+
+### Crónica
+
+Con el vitral del viajero envuelto en lona, Zed sube a la **Torre del Arquitecto**, donde {mentor} dibuja los planos del Imperio. En el primer piso, la **sala de las balanzas del tiempo**, dos aprendices discuten a los gritos cuál de sus algoritmos es más rápido. Cada uno jura que el suyo.
+
+—No discutan: **midan** —dice {mentor}, y les deja un reloj sobre la mesa—. Y después piensen **cómo crece**: con diez datos cualquier cosa anda. La pregunta es qué pasa con un millón. Vos también, Zed: ya no alcanza con que funcione.
+
+### Objetivos
+
+- Medir el tiempo de un programa con `System.nanoTime()` y conocer sus trampas.
+- Contar las operaciones de un algoritmo y expresar cómo crecen con la notación **O grande**.
+- Reconocer O(1), O(log n), O(n), O(n log n) y O(n²) en código de verdad.
+- Elegir la colección adecuada por el costo de sus operaciones (`ArrayList`, `HashMap`, `HashSet`, `TreeMap`).
+
+### Antes de empezar
+
+- Listas, mapas y conjuntos (rama 3).
+- Streams y concurrencia (rama 4).
+
+### Explicación
+
+#### Medir con el reloj
+`System.nanoTime()` da un instante en nanosegundos. Restando dos, sabés cuánto tardó algo:
+```java
+long inicio = System.nanoTime();
+ordenar(datos);
+long ms = (System.nanoTime() - inicio) / 1_000_000;
+System.out.println("Tardó " + ms + " ms");
+```
+Tres trampas: la primera vez Java es más lento (está compilando el código caliente), cada medición
+varía según lo que haga la compu en ese momento, y con pocos datos no se ve nada. Medí varias veces,
+con datos grandes, y mirá la **tendencia**, no un número suelto.
+
+#### Contar pasos: la notación O grande
+Como el tiempo depende de la máquina, los algoritmos se comparan **contando operaciones** en función
+de la cantidad de datos, *n*. La **O grande** dice cómo crece esa cuenta cuando *n* crece, sin
+importar las constantes:
+
+| Orden | Nombre | Ejemplo | Con n = 1.000.000 |
+|---|---|---|---|
+| O(1) | constante | `lista.get(i)`, `mapa.get(k)`, `set.contains(x)` | 1 paso |
+| O(log n) | logarítmico | búsqueda binaria en un array ordenado, `TreeMap.get` | unos 20 pasos |
+| O(n) | lineal | recorrer una lista, `lista.contains(x)` | un millón |
+| O(n log n) | casi lineal | `Collections.sort`, `Arrays.sort` | unos 20 millones |
+| O(n²) | cuadrático | dos bucles anidados sobre los mismos datos | un billón |
+
+#### Cómo se lee en el código
+```java
+for (int i = 0; i < n; i++) { … }                      // un bucle: O(n)
+for (int i = 0; i < n; i++)                            // dos bucles anidados: O(n²)
+    for (int j = i + 1; j < n; j++) { … }
+while (desde <= hasta) { medio = …; /* descarta la mitad */ }   // partir a la mitad: O(log n)
+```
+Lo que manda es el término que **más crece**: un O(n) seguido de un O(n²) es O(n²).
+
+#### El costo de las colecciones
+| Operación | `ArrayList` | `HashMap` / `HashSet` | `TreeMap` / `TreeSet` |
+|---|---|---|---|
+| buscar por posición | O(1) | — | — |
+| ¿está? / buscar por clave | O(n) | O(1) | O(log n) |
+| agregar al final | O(1) | O(1) | O(log n) |
+| recorrer en orden | sí | sin orden | ordenado |
+
+Por eso, **para buscar por código** se usa un `HashMap`, y **para detectar repetidos** en una sola
+pasada, un `HashSet`: con dos bucles es O(n²); con el conjunto, O(n). En el examen final se pide
+exactamente eso: depurar duplicados «en una sola pasada».
+
+### Código de ejemplo
+
+```java
+/*
+ * Eficiencia: contar pasos en lugar de adivinar. Búsqueda lineal contra binaria y
+ * duplicados con dos bucles contra un HashSet.
+ */
+import java.util.HashSet;
+import java.util.Set;
+
+public class Balanzas {
+    static int pasos;
+
+    static int lineal(int[] datos, int buscado) {
+        for (int i = 0; i < datos.length; i++) {
+            pasos++;
+            if (datos[i] == buscado) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    static int binaria(int[] ordenados, int buscado) {
+        int desde = 0;
+        int hasta = ordenados.length - 1;
+        while (desde <= hasta) {
+            pasos++;
+            int medio = (desde + hasta) / 2;
+            if (ordenados[medio] == buscado) {
+                return medio;
+            } else if (ordenados[medio] < buscado) {
+                desde = medio + 1;
+            } else {
+                hasta = medio - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        for (int n : new int[] {1_000, 1_000_000}) {
+            int[] datos = new int[n];
+            for (int i = 0; i < n; i++) {
+                datos[i] = i * 2;
+            }
+            int buscado = datos[n - 1];
+            pasos = 0;
+            lineal(datos, buscado);
+            int pasosLineal = pasos;
+            pasos = 0;
+            binaria(datos, buscado);
+            System.out.printf("n = %d: lineal %d pasos, binaria %d pasos%n", n, pasosLineal, pasos);
+        }
+
+        String[] pasaportes = {"A1", "B2", "A1", "C3", "B2", "D4"};
+        long comparaciones = 0;
+        for (int i = 0; i < pasaportes.length; i++) {
+            for (int j = i + 1; j < pasaportes.length; j++) {
+                comparaciones++;
+            }
+        }
+        Set<String> vistos = new HashSet<>();
+        int repetidos = 0;
+        for (String p : pasaportes) {
+            if (!vistos.add(p)) {
+                repetidos++;
+            }
+        }
+        System.out.println("Duplicados con dos bucles: " + comparaciones + " comparaciones");
+        System.out.println("Duplicados con HashSet: " + pasaportes.length + " pasos, " + repetidos + " repetidos");
+    }
+}
+```
+
+### Salida esperada
+
+```
+n = 1000: lineal 1000 pasos, binaria 10 pasos
+n = 1000000: lineal 1000000 pasos, binaria 20 pasos
+Duplicados con dos bucles: 15 comparaciones
+Duplicados con HashSet: 6 pasos, 2 repetidos
+```
+
+### ¿Para qué sirve?
+
+Con los datos de una clase práctica, cualquier algoritmo anda. Con los de una empresa (millones de clientes, de ventas, de registros), un O(n²) tarda horas y un O(n) segundos. Saber leer la O grande te deja elegir la colección correcta, explicar por qué tu solución escala y responder la pregunta que aparece en todas las entrevistas y en el examen: «¿cuál es la complejidad de tu solución?».
+
+### Errores habituales
+
+**Ogro: el `contains` adentro de un bucle.** `lista.contains(x)` recorre la lista entera: adentro
+de un `for` sobre la misma lista, el programa es O(n²) aunque se vea un solo bucle. Con un
+`HashSet` es O(1).
+
+**Goblin: medir una sola vez.** Un número suelto de `nanoTime` no dice nada: la primera ejecución
+es más lenta y cada una varía. Medí varias veces con datos grandes.
+
+**Troll: la búsqueda binaria en datos desordenados.** Solo funciona si el array está ordenado; si
+no, devuelve cualquier cosa sin dar error.
+
+**Slime: optimizar antes de tiempo.** Primero que funcione y sea claro; después medí y mejorá
+lo que de verdad tarda.
+
+### Misión R05-N01-M1 · Contar pasos
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Escribí la búsqueda **lineal** y la **binaria** sobre un array de `int` ordenado, y contá los
+pasos de cada una en una variable `static int pasos` (un paso por cada elemento que miran).
+Para *n* = 10, 100, 1.000, 10.000 y 100.000, llená el array con `i * 3` y buscá un valor que
+**no está** (`-1`), que es el peor caso. Mostrá la tabla con `printf("%6d %8d %8d%n", …)`.
+
+#### Criterio de aprobación
+
+- La búsqueda binaria descarta la mitad en cada paso (`desde`, `hasta`, `medio`).
+- Los pasos se cuentan, no se miden con el reloj: la salida es siempre la misma.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+     n   lineal  binaria
+    10       10        3
+   100      100        6
+  1000     1000        9
+ 10000    10000       13
+100000   100000       16
+```
+
+#### Solución de referencia
+
+```java
+// Mision 1 - Contar pasos: búsqueda lineal y binaria.
+public class ContarPasos {
+    static int pasos;
+
+    static int lineal(int[] datos, int buscado) {
+        for (int i = 0; i < datos.length; i++) {
+            pasos++;
+            if (datos[i] == buscado) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    static int binaria(int[] ordenados, int buscado) {
+        int desde = 0;
+        int hasta = ordenados.length - 1;
+        while (desde <= hasta) {
+            pasos++;
+            int medio = (desde + hasta) / 2;
+            if (ordenados[medio] == buscado) {
+                return medio;
+            } else if (ordenados[medio] < buscado) {
+                desde = medio + 1;
+            } else {
+                hasta = medio - 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("     n   lineal  binaria");
+        for (int n : new int[] {10, 100, 1_000, 10_000, 100_000}) {
+            int[] datos = new int[n];
+            for (int i = 0; i < n; i++) {
+                datos[i] = i * 3;
+            }
+            pasos = 0;
+            lineal(datos, -1);
+            int l = pasos;
+            pasos = 0;
+            binaria(datos, -1);
+            System.out.printf("%6d %8d %8d%n", n, l, pasos);
+        }
+    }
+}
+```
+
+### Misión R05-N01-M2 · Los pasaportes duplicados
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+La Aduana recibe la lista de pasaportes del día con repetidos:
+`AR-101, UY-202, AR-101, CL-303, UY-202, AR-101, PY-404`. Encontrá los duplicados **de dos
+formas** y compará:
+
+1. Con dos bucles anidados, contando las comparaciones.
+2. Con un `HashSet` de vistos y un `LinkedHashSet` de duplicados, **en una sola pasada**.
+
+Mostrá los duplicados de cada forma, cuántos pasos hizo cada una y cuántos pasaportes únicos hay.
+
+#### Criterio de aprobación
+
+- La segunda forma recorre la lista una sola vez y usa `add` del conjunto para saber si ya estaba.
+- Las dos formas encuentran los mismos duplicados.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+Con dos bucles: [AR-101, UY-202] en 21 comparaciones
+Con HashSet: [AR-101, UY-202] en 7 pasos
+Únicos: 4
+```
+
+#### Solución de referencia
+
+```java
+// Mision 2 - Los pasaportes duplicados: O(n²) contra O(n).
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class PasaportesDuplicados {
+    public static void main(String[] args) {
+        List<String> pasaportes = List.of("AR-101", "UY-202", "AR-101", "CL-303", "UY-202", "AR-101", "PY-404");
+
+        long comparaciones = 0;
+        List<String> duplicadosLentos = new ArrayList<>();
+        for (int i = 0; i < pasaportes.size(); i++) {
+            for (int j = i + 1; j < pasaportes.size(); j++) {
+                comparaciones++;
+                String p = pasaportes.get(i);
+                if (p.equals(pasaportes.get(j)) && !duplicadosLentos.contains(p)) {
+                    duplicadosLentos.add(p);
+                }
+            }
+        }
+
+        Set<String> vistos = new HashSet<>();
+        Set<String> duplicados = new LinkedHashSet<>();
+        for (String p : pasaportes) {
+            if (!vistos.add(p)) {
+                duplicados.add(p);
+            }
+        }
+
+        System.out.println("Con dos bucles: " + duplicadosLentos + " en " + comparaciones + " comparaciones");
+        System.out.println("Con HashSet: " + duplicados + " en " + pasaportes.size() + " pasos");
+        System.out.println("Únicos: " + vistos.size());
+    }
+}
+```
+
+### Misión R05-N01-M3 · Buscar por código
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Cargá 50.000 mercancías (`record Mercancia(String codigo, String descripcion)`, con códigos
+`M0` a `M49999`) en una **lista** y en un **mapa** por código. Buscá `M10`, `M49999` y `X1`
+de las dos formas: en la lista recorriendo (contá los pasos) y en el mapa con `get` (un paso
+cada una). Mostrá qué encontraste, comprobá que las dos formas coinciden y mostrá los pasos
+totales de cada una.
+
+#### Criterio de aprobación
+
+- La búsqueda en la lista corta con `break` al encontrar.
+- El mapa se usa con `get`, sin recorrerlo.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+M10: bulto 10
+M49999: bulto 49999
+X1: no está
+Pasos con la lista: 100011
+Pasos con el mapa: 3
+```
+
+#### Solución de referencia
+
+```java
+// Mision 3 - Buscar por código: lista contra mapa.
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class BuscarPorCodigo {
+    record Mercancia(String codigo, String descripcion) { }
+
+    public static void main(String[] args) {
+        int n = 50_000;
+        List<Mercancia> lista = new ArrayList<>();
+        Map<String, Mercancia> mapa = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            Mercancia m = new Mercancia("M" + i, "bulto " + i);
+            lista.add(m);
+            mapa.put(m.codigo(), m);
+        }
+
+        String[] buscados = {"M10", "M49999", "X1"};
+        long pasosLista = 0;
+        for (String codigo : buscados) {
+            Mercancia encontrada = null;
+            for (Mercancia m : lista) {
+                pasosLista++;
+                if (m.codigo().equals(codigo)) {
+                    encontrada = m;
+                    break;
+                }
+            }
+            Mercancia porMapa = mapa.get(codigo);
+            System.out.println(codigo + ": " + (porMapa == null ? "no está" : porMapa.descripcion())
+                    + (encontrada == porMapa ? "" : " (¡no coinciden!)"));
+        }
+        System.out.println("Pasos con la lista: " + pasosLista);
+        System.out.println("Pasos con el mapa: " + buscados.length);
+    }
+}
+```
+
+### Encargo R05-N01-E1 · Cómo crecen
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 1
+xp: 15
+```
+
+#### Consigna
+
+Mostrá una tabla con *n*, log₂ *n* (redondeado), *n* log *n* y *n²* para *n* = 10, 100,
+1.000, 10.000 y 100.000 (usá `long` para que no se desborde). Al final, mostrá cuántas veces
+más grande es *n²* que *n* log *n* con *n* = 100.000, tomando log *n* = 17.
+
+#### Criterio de aprobación
+
+- Usa `long` para los productos grandes.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+       n    log n      n log n            n²
+      10        3           30           100
+     100        7          700         10000
+    1000       10        10000       1000000
+   10000       13       130000     100000000
+  100000       17      1700000   10000000000
+Con n = 100.000, n² es 5882 veces n log n
+```
+
+#### Solución de referencia
+
+```java
+// Encargo 1 - Cómo crecen: la tabla de las funciones.
+public class ComoCrecen {
+    public static void main(String[] args) {
+        System.out.println("       n    log n      n log n            n²");
+        for (int n : new int[] {10, 100, 1_000, 10_000, 100_000}) {
+            int log = (int) Math.round(Math.log(n) / Math.log(2));
+            System.out.printf("%8d %8d %12d %13d%n", n, log, (long) n * log, (long) n * n);
+        }
+        System.out.println("Con n = 100.000, n² es " + (100_000L * 100_000L) / (100_000L * 17) + " veces n log n");
+    }
+}
+```
+
+### Prueba del sello
+
+#### ¿Por qué los algoritmos se comparan contando operaciones y no con el reloj?
+
+Porque el tiempo depende de la máquina y de lo que esté haciendo en ese momento; la cantidad de operaciones depende solo del algoritmo y de *n*.
+
+#### ¿Qué complejidad tienen dos bucles anidados que recorren la misma lista?
+
+O(n²): por cada elemento se recorren los demás.
+
+#### ¿Por qué la búsqueda binaria es O(log n)?
+
+Porque en cada paso descarta la mitad de lo que queda: con un millón de datos alcanza con unos 20 pasos.
+
+#### ¿Qué colección usás para saber si un pasaporte ya apareció, y con qué costo?
+
+Un `HashSet`: `add` y `contains` son O(1), y toda la lista se revisa en una sola pasada, O(n).
+
+#### ¿Qué trampas tiene medir con `System.nanoTime()`?
+
+La primera ejecución es más lenta, cada medición varía y con pocos datos no se ve la diferencia: hay que medir varias veces y con datos grandes.
+
+
+### Soluciones (docente)
+
+Nodo nuevo (D96): el programa de la cátedra pide eficiencia y Big O en la unidad 3, y el examen pide depurar duplicados «en una sola pasada». Las misiones cuentan pasos en lugar de medir tiempos, para que la salida sea verificable; en clase conviene mostrar además una medición con `nanoTime` y comentar por qué varía.
+
+## R05-N02 · Principios SOLID
+
+```meta
+tipo: tema
+padre: R05-N01
+precio: 10
+criatura: troll
+temas: diseno.solid
+usa: poo.interfaces, diseno.patrones
+```
+
+### Crónica
+
+En el segundo piso de la Torre están los **planos viejos**: uno tan enredado que cambiar una puerta tira una pared, otro donde la cocina también es la armería y el dormitorio. Nadie se anima a tocarlos. Zed, que entraba a las casas por cualquier lado, ve por primera vez el problema desde adentro.
+
+—Hay cinco reglas para que un plano dure —dice {mentor}, y las anota en la pizarra con tiza—. Se llaman **SOLID**. La última es la más importante: **no fabriques lo que usás; pedilo**. Arriba, en el piso del contenedor, vas a ver por qué.
+
+### Objetivos
+
+- Conocer los cinco principios SOLID y reconocer cuándo se rompen.
+- Separar responsabilidades: una clase, una razón para cambiar.
+- Extender sin modificar con interfaces (y Strategy).
+- Diseñar subtipos que cumplen lo que prometen y interfaces chicas.
+- Depender de abstracciones y recibir las dependencias por el constructor.
+
+### Antes de empezar
+
+- Interfaces y polimorfismo (rama 2).
+- Patrones de diseño (rama 4).
+- Eficiencia: Big O y medir tiempos.
+
+### Explicación
+
+#### S: responsabilidad única
+Una clase tiene **una sola razón para cambiar**. Si `Informe` calcula los totales, arma el texto y
+lo guarda en un archivo, cualquier cambio en cualquiera de las tres cosas la toca. Separada en
+`CalculadoraVentas`, `FormateadorInforme` y un guardador, cada cambio toca una sola clase.
+
+#### O: abierta a la extensión, cerrada a la modificación
+Agregar un comportamiento nuevo **no debería obligar a editar** lo que ya anda. Un `switch` con cada
+tipo de descuento crece para siempre; una interfaz `Descuento` con una clase por descuento (una
+Strategy) se extiende **agregando** una clase:
+```java
+interface Descuento { double aplicar(double precio); }
+record Peregrino() implements Descuento { public double aplicar(double p) { return p * 0.5; } }
+// mañana: record Gremio() implements Descuento { … }  — cobrar(...) no se toca
+```
+
+#### L: sustitución de Liskov
+Donde se usa un tipo, tiene que poder ir **cualquier subtipo** sin sorpresas. El ejemplo clásico:
+si `Cuadrado extends Rectangulo` y `setAncho` también cambia el alto, un método que espera un
+rectángulo se rompe. Si un hijo no puede cumplir lo que promete el padre, la herencia está mal.
+
+#### I: segregación de interfaces
+Mejor **varias interfaces chicas** que una gorda. Una impresora común no debería verse obligada a
+implementar `escanear()` y `enviarFax()` para cumplir un contrato: `Imprime` y `Escanea` por
+separado, y la multifunción firma las dos.
+
+#### D: inversión de dependencias
+Las clases importantes dependen de **interfaces**, no de clases concretas, y **reciben** sus piezas
+en lugar de crearlas:
+```java
+class ServicioReservas {
+    private final Avisador avisador;                       // una interfaz
+    ServicioReservas(Avisador avisador) {                  // se la pasan de afuera
+        this.avisador = avisador;
+    }
+}
+new ServicioReservas(new AvisadorPorMail());               // en producción
+new ServicioReservas(new AvisadorDePrueba());              // en las pruebas
+```
+Es exactamente lo que hace **Spring** en el piso de arriba: el contenedor crea las piezas y se las
+pasa al constructor de cada servicio (con Lombok, `@RequiredArgsConstructor`).
+
+### Código de ejemplo
+
+```java
+/*
+ * SOLID en un servicio chico: cada clase una responsabilidad, el cálculo abierto a extensiones,
+ * interfaces chicas y el servicio que recibe sus piezas por el constructor.
+ */
+import java.util.ArrayList;
+import java.util.List;
+
+public class PlanosQueDuran {
+    public static void main(String[] args) {
+        Repositorio repo = new RepositorioEnMemoria();
+        ServicioDeclaraciones servicio = new ServicioDeclaraciones(repo, new TarifaComun());
+        servicio.declarar(new Declaracion("Baldo", 200));
+        servicio.declarar(new Declaracion("Nadia", 50));
+        servicio.setTarifa(new TarifaFeria());
+        servicio.declarar(new Declaracion("Zed", 200));
+        new Informe().imprimir(repo.todas());
+    }
+}
+
+record Declaracion(String viajero, double valor) { }
+
+record Liquidacion(String viajero, double impuesto) { }
+
+interface Tarifa {                                    // O: se agregan tarifas sin tocar el servicio
+    double impuesto(double valor);
+}
+
+class TarifaComun implements Tarifa {
+    public double impuesto(double valor) { return valor * 0.10; }
+}
+
+class TarifaFeria implements Tarifa {
+    public double impuesto(double valor) { return valor * 0.05; }
+}
+
+interface Repositorio {                               // I y D: una interfaz chica, de la que depende el servicio
+    void guardar(Liquidacion l);
+
+    List<Liquidacion> todas();
+}
+
+class RepositorioEnMemoria implements Repositorio {
+    private final List<Liquidacion> datos = new ArrayList<>();
+
+    public void guardar(Liquidacion l) { datos.add(l); }
+
+    public List<Liquidacion> todas() { return List.copyOf(datos); }
+}
+
+class ServicioDeclaraciones {                         // S: solo liquida
+    private final Repositorio repositorio;
+    private Tarifa tarifa;
+
+    ServicioDeclaraciones(Repositorio repositorio, Tarifa tarifa) {   // D: recibe sus piezas
+        this.repositorio = repositorio;
+        this.tarifa = tarifa;
+    }
+
+    void setTarifa(Tarifa tarifa) { this.tarifa = tarifa; }
+
+    void declarar(Declaracion d) {
+        repositorio.guardar(new Liquidacion(d.viajero(), tarifa.impuesto(d.valor())));
+    }
+}
+
+class Informe {                                       // S: solo muestra
+    void imprimir(List<Liquidacion> liquidaciones) {
+        liquidaciones.forEach(l -> System.out.println(l.viajero() + ": " + l.impuesto() + " denarios"));
+    }
+}
+```
+
+### Salida esperada
+
+```
+Baldo: 20.0 denarios
+Nadia: 5.0 denarios
+Zed: 10.0 denarios
+```
+
+### ¿Para qué sirve?
+
+SOLID es la diferencia entre un programa que se puede cambiar y uno que da miedo tocar. Es lo que se espera en las capas del examen final (controller, service, repositorio y DTO, cada uno con lo suyo), lo que piden las empresas en las entrevistas y lo que hace posible probar cada pieza por separado. Spring está construido sobre la D: si entendés la inversión de dependencias, entendés Spring.
+
+### Errores habituales
+
+**Troll: la clase que hace todo.** Un `Sistema` con quinientas líneas que lee, calcula, valida,
+guarda y muestra. Cualquier cambio rompe algo lejos.
+
+**Ogro: el `switch` que crece.** Cada tipo nuevo agrega un `case` en cinco lugares. Con una
+interfaz, se agrega una clase.
+
+**Goblin: el hijo que no cumple.** Un subtipo que tira `UnsupportedOperationException` en un
+método del padre rompe Liskov: la jerarquía está mal.
+
+**Esqueleto: el `new` escondido.** Un servicio que hace `new RepositorioMySQL()` adentro no se
+puede probar sin la base: pedilo por el constructor.
+
+### Misión R05-N02-M1 · Una sola razón para cambiar
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+En la Torre hay una clase que calcula el total de las ventas, arma el texto del informe y lo
+anuncia, todo junto. Separala en tres clases con **una responsabilidad cada una**:
+`CalculadoraVentas` (`int total(List<Venta>)`), `FormateadorInforme`
+(`String formatear(int cantidad, int total)`) y `Pregonero` (`void anunciar(String texto)`,
+que muestra `[Torre] …`). Con las ventas `Capital 120`, `Puerto 80` y `Capital 40`, el `main`
+usa las tres y anuncia el informe.
+
+#### Criterio de aprobación
+
+- Cada clase hace una sola cosa: ninguna calcula y muestra a la vez.
+- El `main` solo conecta las piezas.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+[Torre] Ventas: 3 | Total: 240 denarios
+```
+
+#### Solución de referencia
+
+```java
+// Mision 1 - Una sola razón para cambiar (S).
+import java.util.List;
+
+public class UnaRazon {
+    public static void main(String[] args) {
+        List<Venta> ventas = List.of(new Venta("Capital", 120), new Venta("Puerto", 80), new Venta("Capital", 40));
+        int total = new CalculadoraVentas().total(ventas);
+        String texto = new FormateadorInforme().formatear(ventas.size(), total);
+        new Pregonero().anunciar(texto);
+    }
+}
+
+record Venta(String ciudad, int monto) { }
+
+class CalculadoraVentas {
+    int total(List<Venta> ventas) {
+        return ventas.stream().mapToInt(Venta::monto).sum();
+    }
+}
+
+class FormateadorInforme {
+    String formatear(int cantidad, int total) {
+        return "Ventas: " + cantidad + " | Total: " + total + " denarios";
+    }
+}
+
+class Pregonero {
+    void anunciar(String texto) {
+        System.out.println("[Torre] " + texto);
+    }
+}
+```
+
+### Misión R05-N02-M2 · Abierto para agregar
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+El cobro de la Torre tiene descuentos que no paran de aparecer. Declará la interfaz
+`Descuento` con `double aplicar(double precio)` y tres implementaciones: `SinDescuento`, `Peregrino`
+(paga la mitad) y `Gremio` (15 denarios menos). Un método `cobrar(double precio, Descuento d)`
+aplica el descuento **sin ningún `if` ni `switch`**. Mostrá cuánto paga un precio de 100 con
+cada descuento, con el nombre simple de la clase.
+
+#### Criterio de aprobación
+
+- Agregar un descuento nuevo es agregar una clase: `cobrar` no se toca.
+- No hay `if`, `switch` ni `instanceof` sobre el tipo de descuento.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+SinDescuento: 100.0
+Peregrino: 50.0
+Gremio: 85.0
+```
+
+#### Solución de referencia
+
+```java
+// Mision 2 - Abierto para agregar, cerrado para tocar (O).
+import java.util.List;
+
+public class AbiertoCerrado {
+    interface Descuento {
+        double aplicar(double precio);
+    }
+
+    record SinDescuento() implements Descuento {
+        public double aplicar(double precio) { return precio; }
+    }
+
+    record Peregrino() implements Descuento {
+        public double aplicar(double precio) { return precio * 0.5; }
+    }
+
+    record Gremio() implements Descuento {
+        public double aplicar(double precio) { return precio - 15; }
+    }
+
+    static double cobrar(double precio, Descuento d) {
+        return d.aplicar(precio);
+    }
+
+    public static void main(String[] args) {
+        for (Descuento d : List.of(new SinDescuento(), new Peregrino(), new Gremio())) {
+            System.out.println(d.getClass().getSimpleName() + ": " + cobrar(100, d));
+        }
+    }
+}
+```
+
+### Misión R05-N02-M3 · No fabriques lo que usás
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+El `ServicioReservas` avisa cada reserva. Hacé que **dependa de una interfaz** `Avisador`
+(`void avisar(String mensaje)`) recibida por el constructor, en lugar de crear él su forma de
+avisar. Probalo con dos avisadores: uno de consola (una lambda que muestra `Consola: …`) y un
+`AvisadorDePrueba` que **guarda** los avisos en una lista. Una reserva con 0 noches o menos se
+rechaza con el aviso `reserva rechazada para …`. Reservá a Zed (3 noches) con el de consola, y a
+Nadia (1) y a Baldo (0) con el de prueba, y mostrá lo que guardó.
+
+#### Criterio de aprobación
+
+- `ServicioReservas` no hace ningún `new` de un avisador: lo recibe.
+- El mismo servicio funciona con los dos avisadores sin cambios.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+Consola: Zed reservó 3 noches
+Avisos guardados en la prueba: [Nadia reservó 1 noche, reserva rechazada para Baldo]
+```
+
+#### Solución de referencia
+
+```java
+// Mision 3 - No fabriques lo que usás: pedilo (D).
+import java.util.ArrayList;
+import java.util.List;
+
+public class Inversion {
+    public static void main(String[] args) {
+        Avisador deConsola = mensaje -> System.out.println("Consola: " + mensaje);
+        AvisadorDePrueba dePrueba = new AvisadorDePrueba();
+
+        new ServicioReservas(deConsola).reservar("Zed", 3);
+        ServicioReservas paraProbar = new ServicioReservas(dePrueba);
+        paraProbar.reservar("Nadia", 1);
+        paraProbar.reservar("Baldo", 0);
+        System.out.println("Avisos guardados en la prueba: " + dePrueba.avisos);
+    }
+}
+
+interface Avisador {
+    void avisar(String mensaje);
+}
+
+class AvisadorDePrueba implements Avisador {
+    final List<String> avisos = new ArrayList<>();
+
+    public void avisar(String mensaje) { avisos.add(mensaje); }
+}
+
+class ServicioReservas {
+    private final Avisador avisador;
+
+    ServicioReservas(Avisador avisador) {
+        this.avisador = avisador;
+    }
+
+    void reservar(String viajero, int noches) {
+        if (noches <= 0) {
+            avisador.avisar("reserva rechazada para " + viajero);
+            return;
+        }
+        avisador.avisar(viajero + " reservó " + noches + (noches == 1 ? " noche" : " noches"));
+    }
+}
+```
+
+### Encargo R05-N02-E1 · Interfaces chicas
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 1
+xp: 15
+```
+
+#### Consigna
+
+En la oficina de la Torre hay impresoras comunes y multifunción. En lugar de una interfaz gorda
+con `imprimir` y `escanear`, declará dos chicas: `Imprime` y `Escanea`. La `Impresora` firma solo
+`Imprime`; la `Multifuncion`, las dos. Imprimí el «pasaporte de Zed» con una lista de `Imprime`
+que tenga una de cada una, y escaneá el «vitral del Vidriero» con la multifunción vista como
+`Escanea`.
+
+#### Criterio de aprobación
+
+- Ninguna clase implementa un método que no sabe hacer (nada de `UnsupportedOperationException`).
+- La multifunción se usa donde se espera cualquiera de las dos interfaces.
+- La salida coincide con la esperada.
+
+#### Salida esperada
+
+```
+impreso: pasaporte de Zed
+impreso en color: pasaporte de Zed
+escaneado: vitral del Vidriero
+```
+
+#### Solución de referencia
+
+```java
+// Encargo 1 - Interfaces chicas y subtipos que cumplen (I y L).
+import java.util.List;
+
+public class Chicas {
+    interface Imprime {
+        String imprimir(String doc);
+    }
+
+    interface Escanea {
+        String escanear(String doc);
+    }
+
+    static class Impresora implements Imprime {
+        public String imprimir(String doc) { return "impreso: " + doc; }
+    }
+
+    static class Multifuncion implements Imprime, Escanea {
+        public String imprimir(String doc) { return "impreso en color: " + doc; }
+
+        public String escanear(String doc) { return "escaneado: " + doc; }
+    }
+
+    public static void main(String[] args) {
+        List<Imprime> impresoras = List.of(new Impresora(), new Multifuncion());
+        for (Imprime i : impresoras) {
+            System.out.println(i.imprimir("pasaporte de Zed"));
+        }
+        Escanea escaner = new Multifuncion();
+        System.out.println(escaner.escanear("vitral del Vidriero"));
+    }
+}
+```
+
+### Prueba del sello
+
+#### ¿Qué dice el principio de responsabilidad única?
+
+Que una clase tiene una sola razón para cambiar: si hace dos cosas que cambian por motivos distintos, hay que separarla.
+
+#### ¿Cómo se agrega un comportamiento nuevo sin modificar el código que ya anda?
+
+Con una interfaz y una clase nueva que la implementa (abierto/cerrado): el código que usa la interfaz no se toca.
+
+#### Dá un ejemplo de algo que rompe el principio de Liskov.
+
+Un `Cuadrado` que hereda de `Rectangulo` y cambia el alto al cambiar el ancho, o un hijo que tira `UnsupportedOperationException` en un método del padre.
+
+#### ¿Por qué conviene recibir las dependencias por el constructor?
+
+Porque la clase depende de una interfaz y no de una implementación: se puede usar con otra (por ejemplo, una de prueba) sin cambiarla. Es lo que hace Spring.
+
+#### ¿Qué principio rompe una interfaz con diez métodos que casi nadie usa todos?
+
+El de segregación de interfaces: conviene dividirla en interfaces chicas.
+
+
+### Soluciones (docente)
+
+Nodo nuevo (D96): el programa de la cátedra pide SOLID en la unidad 3, y el examen evalúa las capas y la Strategy. La M3 es la base de la inyección de dependencias del nodo siguiente; vale la pena mostrar en clase que `AvisadorDePrueba` es lo mismo que un *mock*.
+
+## R05-N03 · Maven y el contenedor de Spring
+
+```meta
+tipo: tema
+padre: R05-N02
 criatura: slime
 ejecutable: no
 temas: fw.spring, diseno.inyeccion
@@ -19,7 +989,7 @@ precio: 10
 
 ### Crónica
 
-Con el vitral del viajero envuelto en lona, Zed sube a la **Torre del Arquitecto**, donde {mentor} dibuja los planos del Imperio. En el tercer piso hay un taller que arma solo: nadie fabrica sus propias piezas. Una grúa gigante, el **Contenedor**, sabe qué pieza va en cada lugar y la coloca. Los maestros solo dicen *"necesito un timonel y una brújula"*, y el Contenedor se los entrega armados. Por la ventana, lejos, se ve el Puerto: la casa de Zed.
+En el tercer piso de la Torre hay un taller que arma solo: nadie fabrica sus propias piezas. Una grúa gigante, el **Contenedor**, sabe qué pieza va en cada lugar y la coloca. Los maestros solo dicen *"necesito un timonel y una brújula"*, y el Contenedor se los entrega armados. Por la ventana, lejos, se ve el Puerto: la casa de Zed.
 
 —Hasta ahora hacías `new` de todo y conectabas las piezas vos —dice {mentor}—. En el Puerto, **Spring** crea los objetos y se los pasa a quien los necesita. Y **Maven** trae las bibliotecas del mundo sin que copies un solo `.jar`. Es la forma en que se hacen hoy la mayoría de los sistemas en Java, Zed.
 
@@ -4895,11 +5865,975 @@ Un constructor con todos los atributos `final`, ideal para la inyección de depe
 
 Nodo nuevo de la Senda (`19-Java-Avanzado` no tiene validaciones ni Lombok). Los `pom.xml` con Lombok declaran el procesador de anotaciones para que compilen también con Java 23 o más nuevo.
 
+## R05-N06 · Jefe final: el Dragón del Imperio
+
+```meta
+tipo: jefe
+padre: R05-N05
+precio: 10
+criatura: dragon
+ejecutable: no
+insignia: Sello del Arquitecto
+insignia_descripcion: Venciste al Dragón del Imperio: construiste un servicio en capas con Spring Boot, como el del examen final.
+usa: fw.spring, diseno.capas, diseno.patrones, col.mapas, col.conjuntos
+```
+
+### Crónica
+
+En la cima de la Torre del Arquitecto, enroscado alrededor de la ventana más alta, duerme el **Dragón del Imperio**: está hecho de todas las piezas que Zed fue juntando desde la Aduana. Sobre la mesa del Tribunal hay un solo pliego, lacrado: **AduanaExpress**. Es el examen que el Imperio le toma a cada arquitecto antes de darle su sello, y se resuelve en noventa minutos.
+
+—No hay truco nuevo —dice {mentor}, y por primera vez deja la taza de café a un costado—. Leé todo el pliego antes de escribir una línea. Armá las capas, poné cada regla donde va, probá cada pieza y dejá las evidencias. Pieza por pieza, Zed. Así cae un dragón. Nadia, en la puerta, cruza los dedos sin que nadie la vea.
+
+### Objetivos
+
+- Resolver en 90 minutos un caso completo con el formato del examen final de la cátedra.
+- Organizar un servicio Spring Boot en capas: controller, service, repository, model y dto.
+- Combinar herencia, Strategy, `HashMap`, `HashSet`, validaciones, Lombok y manejo de errores.
+- Entregar como en el examen: GitHub con commits, colección de Postman y `EVIDENCIAS.md`.
+
+### Antes de empezar
+
+- Toda la Torre: Big O, SOLID, el contenedor de Spring, REST y DTO con validaciones y Lombok.
+- Patrones de diseño (rama 4) y colecciones (rama 3).
+
+### Explicación
+
+#### Cómo se enfrenta el examen
+1. **Leé todo el pliego** (5 minutos) y subrayá los números: porcentajes, días, códigos de estado.
+2. **Creá el proyecto** con Spring Initializr (Web, Validation, Lombok) y hacé el primer commit.
+3. **Modelo primero** (15 minutos): las clases abstractas y sus tipos. Commit.
+4. **Strategy y repositorio** (15 minutos): la interfaz, las estrategias como `@Component` y el `HashMap`. Commit.
+5. **Servicio y DTO** (20 minutos): las reglas van en el servicio; el controlador solo traduce. Commit.
+6. **Controlador y errores** (15 minutos): las rutas y el `@RestControllerAdvice`. Commit.
+7. **Postman y evidencias** (15 minutos): un pedido por ruta, incluidos los de error, y las capturas.
+Si algo no sale, **dejalo andando a medias y seguí**: se corrige por partes.
+
+#### La forma del proyecto
+```
+imperio.aduana
+├── controller   AduanaController         ← traduce HTTP ↔ DTO, nada de reglas
+├── service      AduanaServicio           ← las reglas: liquidar, depurar, activar la estrategia
+├── repository   MercanciaRepositorio     ← HashMap en memoria
+├── model        Mercancia, Caja, Barril, Viajero, Mercader, Peregrino
+├── dto          …Pedido y …Respuesta (record con validaciones)
+├── strategy     RecargoStrategy y sus tres implementaciones
+└── exception    ManejadorErrores y las excepciones propias
+```
+
+#### Elegir la estrategia por nombre
+Si cada estrategia es un `@Component` con nombre, Spring las junta solo en un mapa, y el servicio
+elige la activa sin `if` ni `switch`:
+```java
+@Component("feria")
+public class RecargoFeria implements RecargoStrategy { … }
+
+@Service
+@RequiredArgsConstructor
+public class AduanaServicio {
+    private final Map<String, RecargoStrategy> estrategias;   // "normal", "feria", "nocturno"
+    private String estrategiaActiva = "normal";
+}
+```
+
+#### Las evidencias
+El `EVIDENCIAS.md` tiene una sección por pedido: qué se mandó, qué respondió (código y cuerpo) y la
+captura de Postman. Exportá la colección (*Export → Collection v2.1*) y subila al repositorio. Los
+commits tienen que mostrar el avance: uno solo al final se nota.
+
+### Código de ejemplo
+
+El esqueleto de la Strategy elegida por nombre, que se usa en el examen:
+
+```java
+public interface RecargoStrategy {
+    double calcular(int dias, double valor);
+}
+
+@Component("normal")
+public class RecargoNormal implements RecargoStrategy {
+    @Override
+    public double calcular(int dias, double valor) {
+        return valor * 0.02 * dias;
+    }
+}
+
+@Service
+@RequiredArgsConstructor
+public class AduanaServicio {
+    private final Map<String, RecargoStrategy> estrategias;
+    private String estrategiaActiva = "normal";
+
+    public void activar(String nombre) {
+        if (!estrategias.containsKey(nombre)) {
+            throw new IllegalArgumentException("Estrategia desconocida: " + nombre);
+        }
+        estrategiaActiva = nombre;
+    }
+
+    public double recargo(int dias, double valor, Viajero viajero) {
+        return estrategias.get(estrategiaActiva).calcular(dias, valor) * viajero.factorRecargo();
+    }
+}
+```
+
+### ¿Para qué sirve?
+
+Es el ensayo general del examen final de *Paradigmas y Lenguajes III*: el mismo formato, el mismo tiempo y las mismas piezas (capas, herencia, Strategy, `HashMap`, `HashSet`, validaciones, Lombok, GitHub y Postman). Y es la forma en que se arma un servicio web en cualquier empresa que use Java.
+
+### Errores habituales
+
+**Dragón: empezar por el controlador.** Sin modelo ni servicio, el controlador se llena de reglas
+y después no hay tiempo de ordenarlo. Modelo, servicio y recién después la API.
+
+**Ogro: devolver el modelo.** Si la respuesta es la entidad, se filtran datos y cualquier cambio
+interno rompe a los clientes: siempre un DTO.
+
+**Goblin: la estrategia con `switch`.** Un `switch (estrategiaActiva)` en el servicio no es una
+Strategy: cada cálculo va en su clase.
+
+**Troll: el `null` de un `get`.** `mapa.get(codigo)` puede dar `null`: convertilo en un 404 con
+una excepción propia.
+
+**Slime: un solo commit al final.** El historial de GitHub es parte de la nota.
+
+### Misión R05-N06-M1 · El pliego del Tribunal: AduanaExpress
+
+```meta
+entrega: archivo
+entorno: local
+extensiones: zip
+monedas: 6
+xp: 30
+```
+
+#### Consigna
+
+**Simulacro del examen final · 90 minutos · AduanaExpress.** Leé todo antes de empezar.
+
+La Aduana del Imperio quiere un servicio web para registrar mercancías, liquidar declaraciones y
+depurar pasaportes. Hacelo con **Java 17 o 21, Spring Boot 3, Maven y Lombok**, con los datos
+**en memoria** (sin base de datos) y las capas **controller – service – repository – model – dto**.
+
+**1. Modelo (20 puntos).** Una `Mercancia` abstracta (`codigo`, `descripcion`, `valorDeclarado`)
+con dos tipos que calculan su impuesto: `Caja` (10 % del valor) y `Barril` (10 % del valor más
+0,5 por litro). Un `Viajero` abstracto (`nombre`, `pasaporte`) con `Mercader` (paga el recargo
+entero) y `Peregrino` (paga la **mitad** del recargo). Usá Lombok para los getters y constructores.
+
+**2. Recargo por demora con Strategy (20 puntos).** Una interfaz `RecargoStrategy` con
+`double calcular(int dias, double valor)` y tres estrategias: **normal** (2 % del valor por día),
+**feria** (los primeros 3 días gratis, después 1 % por día) y **nocturno** (si hay demora, 5 %
+fijo más 3 % por día). Hay una estrategia **activa** (al empezar, normal) que se cambia en
+tiempo de ejecución.
+
+**3. Colecciones (15 puntos).** El repositorio guarda las mercancías en un **`HashMap`** por
+código. La depuración de pasaportes encuentra los duplicados **en una sola pasada** con un
+**`HashSet`**, conservando el orden de llegada.
+
+**4. API REST (25 puntos).**
+
+| Método | Ruta | Hace |
+|---|---|---|
+| POST | `/api/mercancias` | registra (`tipo` CAJA o BARRIL); 201, o 409 si el código ya existe |
+| GET | `/api/mercancias` | lista, ordenada por código |
+| GET | `/api/mercancias/{codigo}` | una mercancía con su impuesto; 404 si no existe |
+| GET | `/api/recargo` | la estrategia activa |
+| PUT | `/api/recargo/{nombre}` | activa otra; 400 si no existe |
+| POST | `/api/declaraciones` | liquida: impuestos + recargo (por el valor total y el tipo de viajero) |
+| POST | `/api/pasaportes/depurar` | recibe una lista y devuelve `unicos` y `duplicados` |
+
+Lo que entra y sale son **DTO** (nunca el modelo), redondeados a dos decimales.
+
+**5. Validaciones y errores (10 puntos).** `@Valid` con Bean Validation: textos no vacíos, valor
+positivo, litros y días no negativos, al menos un código, tipos válidos. Los errores salen como
+`ProblemDetail` desde un `@RestControllerAdvice`: 400 con los campos inválidos, 404 y 409.
+
+**6. Entrega y evidencias (10 puntos).** Un repositorio en **GitHub** con commits a medida que
+avanzás, un `README.md` (cómo se ejecuta), la **colección de Postman** exportada y un
+`EVIDENCIAS.md` con una captura de cada pedido de la tabla (incluidos los de error). Entregá
+acá un `.zip` del proyecto (sin `target/`) con el enlace al repositorio en el `README.md`.
+
+#### Criterio de aprobación
+
+- **Modelo (20):** herencia con clases abstractas y el cálculo en cada subtipo, sin `instanceof` ni `switch` sobre el tipo fuera de la creación.
+- **Strategy (20):** una clase por estrategia y el servicio delega en la activa; cambiarla no toca el cálculo.
+- **Colecciones (15):** `HashMap` por código y depuración en una pasada con `HashSet`.
+- **API (25):** las 7 rutas con sus códigos de estado; DTO en la entrada y la salida.
+- **Validaciones y errores (10):** `@Valid` y `ProblemDetail` con 400, 404 y 409.
+- **Entrega (10):** GitHub con commits, README, colección de Postman y `EVIDENCIAS.md`.
+- Se aprueba con 60 puntos. Un proyecto que no compila no se corrige.
+
+#### Solución de referencia
+
+`pom.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>imperio</groupId>
+    <artifactId>aduana-express</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
+
+`src/main/resources/application.properties`
+
+```properties
+spring.main.banner-mode=off
+logging.level.root=warn
+```
+
+`src/main/java/imperio/aduana/AduanaExpressApplication.java`
+
+```java
+package imperio.aduana;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AduanaExpressApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(AduanaExpressApplication.class, args);
+    }
+}
+```
+
+`src/main/java/imperio/aduana/model/Mercancia.java`
+
+```java
+package imperio.aduana.model;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+/** Lo común de toda mercancía. Cada tipo calcula su impuesto. */
+@Getter
+@RequiredArgsConstructor
+public abstract class Mercancia {
+    private final String codigo;
+    private final String descripcion;
+    private final double valorDeclarado;
+
+    public abstract String getTipo();
+
+    public abstract double impuesto();
+}
+```
+
+`src/main/java/imperio/aduana/model/Caja.java`
+
+```java
+package imperio.aduana.model;
+
+/** Una caja paga el 10 % de su valor. */
+public class Caja extends Mercancia {
+    public Caja(String codigo, String descripcion, double valorDeclarado) {
+        super(codigo, descripcion, valorDeclarado);
+    }
+
+    @Override
+    public String getTipo() {
+        return "CAJA";
+    }
+
+    @Override
+    public double impuesto() {
+        return getValorDeclarado() * 0.10;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/model/Barril.java`
+
+```java
+package imperio.aduana.model;
+
+import lombok.Getter;
+
+/** Un barril paga el 10 % de su valor más medio denario por litro. */
+@Getter
+public class Barril extends Mercancia {
+    private final int litros;
+
+    public Barril(String codigo, String descripcion, double valorDeclarado, int litros) {
+        super(codigo, descripcion, valorDeclarado);
+        this.litros = litros;
+    }
+
+    @Override
+    public String getTipo() {
+        return "BARRIL";
+    }
+
+    @Override
+    public double impuesto() {
+        return getValorDeclarado() * 0.10 + litros * 0.5;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/model/Viajero.java`
+
+```java
+package imperio.aduana.model;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+/** Quien declara. Cada tipo de viajero paga una parte distinta del recargo. */
+@Getter
+@RequiredArgsConstructor
+public abstract class Viajero {
+    private final String nombre;
+    private final String pasaporte;
+
+    public abstract double factorRecargo();
+}
+```
+
+`src/main/java/imperio/aduana/model/Mercader.java`
+
+```java
+package imperio.aduana.model;
+
+public class Mercader extends Viajero {
+    public Mercader(String nombre, String pasaporte) {
+        super(nombre, pasaporte);
+    }
+
+    @Override
+    public double factorRecargo() {
+        return 1.0;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/model/Peregrino.java`
+
+```java
+package imperio.aduana.model;
+
+/** Los peregrinos pagan la mitad de los recargos. */
+public class Peregrino extends Viajero {
+    public Peregrino(String nombre, String pasaporte) {
+        super(nombre, pasaporte);
+    }
+
+    @Override
+    public double factorRecargo() {
+        return 0.5;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/strategy/RecargoStrategy.java`
+
+```java
+package imperio.aduana.strategy;
+
+/** Cómo se calcula el recargo por demora (Strategy). */
+public interface RecargoStrategy {
+    double calcular(int dias, double valor);
+}
+```
+
+`src/main/java/imperio/aduana/strategy/RecargoNormal.java`
+
+```java
+package imperio.aduana.strategy;
+
+import org.springframework.stereotype.Component;
+
+/** 2 % del valor por cada día de demora. */
+@Component("normal")
+public class RecargoNormal implements RecargoStrategy {
+    @Override
+    public double calcular(int dias, double valor) {
+        return valor * 0.02 * dias;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/strategy/RecargoFeria.java`
+
+```java
+package imperio.aduana.strategy;
+
+import org.springframework.stereotype.Component;
+
+/** En feria, los primeros 3 días no pagan; después, 1 % por día. */
+@Component("feria")
+public class RecargoFeria implements RecargoStrategy {
+    @Override
+    public double calcular(int dias, double valor) {
+        return dias <= 3 ? 0 : valor * 0.01 * (dias - 3);
+    }
+}
+```
+
+`src/main/java/imperio/aduana/strategy/RecargoNocturno.java`
+
+```java
+package imperio.aduana.strategy;
+
+import org.springframework.stereotype.Component;
+
+/** De noche: si hay demora, 5 % fijo más 3 % por día. */
+@Component("nocturno")
+public class RecargoNocturno implements RecargoStrategy {
+    @Override
+    public double calcular(int dias, double valor) {
+        return dias == 0 ? 0 : valor * 0.05 + valor * 0.03 * dias;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/dto/MercanciaPedido.java`
+
+```java
+package imperio.aduana.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+
+public record MercanciaPedido(
+        @NotBlank @Pattern(regexp = "CAJA|BARRIL", message = "debe ser CAJA o BARRIL") String tipo,
+        @NotBlank String codigo,
+        @NotBlank String descripcion,
+        @Positive double valorDeclarado,
+        @PositiveOrZero int litros) {
+}
+```
+
+`src/main/java/imperio/aduana/dto/MercanciaRespuesta.java`
+
+```java
+package imperio.aduana.dto;
+
+import imperio.aduana.model.Mercancia;
+
+public record MercanciaRespuesta(String codigo, String tipo, String descripcion, double valorDeclarado, double impuesto) {
+    public static MercanciaRespuesta de(Mercancia m) {
+        return new MercanciaRespuesta(m.getCodigo(), m.getTipo(), m.getDescripcion(), m.getValorDeclarado(), m.impuesto());
+    }
+}
+```
+
+`src/main/java/imperio/aduana/dto/DeclaracionPedido.java`
+
+```java
+package imperio.aduana.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
+import java.util.List;
+
+public record DeclaracionPedido(
+        @NotBlank String viajero,
+        @NotBlank String pasaporte,
+        @NotBlank @Pattern(regexp = "MERCADER|PEREGRINO", message = "debe ser MERCADER o PEREGRINO") String tipoViajero,
+        @NotEmpty List<@NotBlank String> codigos,
+        @PositiveOrZero int diasDemora) {
+}
+```
+
+`src/main/java/imperio/aduana/dto/DeclaracionRespuesta.java`
+
+```java
+package imperio.aduana.dto;
+
+public record DeclaracionRespuesta(String viajero, int mercancias, double impuestos, double recargo, double total, String estrategia) {
+}
+```
+
+`src/main/java/imperio/aduana/dto/DepuracionRespuesta.java`
+
+```java
+package imperio.aduana.dto;
+
+import java.util.Set;
+
+public record DepuracionRespuesta(Set<String> unicos, Set<String> duplicados) {
+}
+```
+
+`src/main/java/imperio/aduana/repository/MercanciaRepositorio.java`
+
+```java
+package imperio.aduana.repository;
+
+import imperio.aduana.model.Mercancia;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import org.springframework.stereotype.Repository;
+
+/** En memoria: un HashMap por código (buscar es O(1)). */
+@Repository
+public class MercanciaRepositorio {
+    private final Map<String, Mercancia> porCodigo = new HashMap<>();
+
+    public boolean existe(String codigo) {
+        return porCodigo.containsKey(codigo);
+    }
+
+    public void guardar(Mercancia m) {
+        porCodigo.put(m.getCodigo(), m);
+    }
+
+    public Optional<Mercancia> buscar(String codigo) {
+        return Optional.ofNullable(porCodigo.get(codigo));
+    }
+
+    public List<Mercancia> todas() {
+        List<Mercancia> lista = new ArrayList<>(porCodigo.values());
+        lista.sort(Comparator.comparing(Mercancia::getCodigo));
+        return lista;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/service/AduanaServicio.java`
+
+```java
+package imperio.aduana.service;
+
+import imperio.aduana.dto.DeclaracionPedido;
+import imperio.aduana.dto.DeclaracionRespuesta;
+import imperio.aduana.dto.DepuracionRespuesta;
+import imperio.aduana.dto.MercanciaPedido;
+import imperio.aduana.exception.ConflictoException;
+import imperio.aduana.exception.NoEncontradoException;
+import imperio.aduana.model.Barril;
+import imperio.aduana.model.Caja;
+import imperio.aduana.model.Mercader;
+import imperio.aduana.model.Mercancia;
+import imperio.aduana.model.Peregrino;
+import imperio.aduana.model.Viajero;
+import imperio.aduana.repository.MercanciaRepositorio;
+import imperio.aduana.strategy.RecargoStrategy;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AduanaServicio {
+    private final MercanciaRepositorio repositorio;
+    private final Map<String, RecargoStrategy> estrategias;   // Spring junta los @Component por nombre
+    private String estrategiaActiva = "normal";
+
+    public Mercancia registrar(MercanciaPedido p) {
+        if (repositorio.existe(p.codigo())) {
+            throw new ConflictoException("Ya existe la mercancía " + p.codigo());
+        }
+        Mercancia m = switch (p.tipo()) {
+            case "CAJA" -> new Caja(p.codigo(), p.descripcion(), p.valorDeclarado());
+            case "BARRIL" -> new Barril(p.codigo(), p.descripcion(), p.valorDeclarado(), p.litros());
+            default -> throw new IllegalArgumentException("Tipo desconocido: " + p.tipo());
+        };
+        repositorio.guardar(m);
+        return m;
+    }
+
+    public Mercancia buscar(String codigo) {
+        return repositorio.buscar(codigo).orElseThrow(() -> new NoEncontradoException("No existe la mercancía " + codigo));
+    }
+
+    public List<Mercancia> todas() {
+        return repositorio.todas();
+    }
+
+    public String getEstrategiaActiva() {
+        return estrategiaActiva;
+    }
+
+    public void activar(String nombre) {
+        if (!estrategias.containsKey(nombre)) {
+            throw new IllegalArgumentException("Estrategia desconocida: " + nombre + ". Opciones: " + new java.util.TreeSet<>(estrategias.keySet()));
+        }
+        estrategiaActiva = nombre;
+    }
+
+    public DeclaracionRespuesta declarar(DeclaracionPedido p) {
+        Viajero viajero = p.tipoViajero().equals("PEREGRINO")
+                ? new Peregrino(p.viajero(), p.pasaporte())
+                : new Mercader(p.viajero(), p.pasaporte());
+        List<Mercancia> mercancias = p.codigos().stream().map(this::buscar).toList();
+        double valor = mercancias.stream().mapToDouble(Mercancia::getValorDeclarado).sum();
+        double impuestos = mercancias.stream().mapToDouble(Mercancia::impuesto).sum();
+        double recargo = estrategias.get(estrategiaActiva).calcular(p.diasDemora(), valor) * viajero.factorRecargo();
+        return new DeclaracionRespuesta(viajero.getNombre(), mercancias.size(), redondear(impuestos), redondear(recargo),
+                redondear(impuestos + recargo), estrategiaActiva);
+    }
+
+    /** Una sola pasada: el HashSet dice en O(1) si el pasaporte ya apareció. */
+    public DepuracionRespuesta depurar(List<String> pasaportes) {
+        Set<String> vistos = new LinkedHashSet<>();
+        Set<String> duplicados = new LinkedHashSet<>();
+        for (String p : pasaportes) {
+            if (!vistos.add(p)) {
+                duplicados.add(p);
+            }
+        }
+        return new DepuracionRespuesta(vistos, duplicados);
+    }
+
+    private static double redondear(double x) {
+        return Math.round(x * 100) / 100.0;
+    }
+}
+```
+
+`src/main/java/imperio/aduana/controller/AduanaController.java`
+
+```java
+package imperio.aduana.controller;
+
+import imperio.aduana.dto.DeclaracionPedido;
+import imperio.aduana.dto.DeclaracionRespuesta;
+import imperio.aduana.dto.DepuracionRespuesta;
+import imperio.aduana.dto.MercanciaPedido;
+import imperio.aduana.dto.MercanciaRespuesta;
+import imperio.aduana.service.AduanaServicio;
+import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+@RequiredArgsConstructor
+public class AduanaController {
+    private final AduanaServicio servicio;
+
+    @PostMapping("/mercancias")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MercanciaRespuesta registrar(@Valid @RequestBody MercanciaPedido pedido) {
+        return MercanciaRespuesta.de(servicio.registrar(pedido));
+    }
+
+    @GetMapping("/mercancias")
+    public List<MercanciaRespuesta> todas() {
+        return servicio.todas().stream().map(MercanciaRespuesta::de).toList();
+    }
+
+    @GetMapping("/mercancias/{codigo}")
+    public MercanciaRespuesta buscar(@PathVariable String codigo) {
+        return MercanciaRespuesta.de(servicio.buscar(codigo));
+    }
+
+    @GetMapping("/recargo")
+    public Map<String, String> estrategia() {
+        return Map.of("estrategia", servicio.getEstrategiaActiva());
+    }
+
+    @PutMapping("/recargo/{nombre}")
+    public Map<String, String> activar(@PathVariable String nombre) {
+        servicio.activar(nombre);
+        return Map.of("estrategia", servicio.getEstrategiaActiva());
+    }
+
+    @PostMapping("/declaraciones")
+    public DeclaracionRespuesta declarar(@Valid @RequestBody DeclaracionPedido pedido) {
+        return servicio.declarar(pedido);
+    }
+
+    @PostMapping("/pasaportes/depurar")
+    public DepuracionRespuesta depurar(@RequestBody List<String> pasaportes) {
+        return servicio.depurar(pasaportes);
+    }
+}
+```
+
+`src/main/java/imperio/aduana/exception/NoEncontradoException.java`
+
+```java
+package imperio.aduana.exception;
+
+public class NoEncontradoException extends RuntimeException {
+    public NoEncontradoException(String mensaje) {
+        super(mensaje);
+    }
+}
+```
+
+`src/main/java/imperio/aduana/exception/ConflictoException.java`
+
+```java
+package imperio.aduana.exception;
+
+public class ConflictoException extends RuntimeException {
+    public ConflictoException(String mensaje) {
+        super(mensaje);
+    }
+}
+```
+
+`src/main/java/imperio/aduana/exception/ManejadorErrores.java`
+
+```java
+package imperio.aduana.exception;
+
+import java.util.Map;
+import java.util.TreeMap;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class ManejadorErrores {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail invalido(MethodArgumentNotValidException e) {
+        Map<String, String> campos = new TreeMap<>();
+        e.getBindingResult().getFieldErrors().forEach(f -> campos.put(f.getField(), f.getDefaultMessage()));
+        ProblemDetail p = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Datos inválidos");
+        p.setProperty("campos", campos);
+        return p;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ProblemDetail argumento(IllegalArgumentException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(NoEncontradoException.class)
+    public ProblemDetail noEncontrado(NoEncontradoException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(ConflictoException.class)
+    public ProblemDetail conflicto(ConflictoException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, e.getMessage());
+    }
+}
+```
+
+### Misión R05-N06-M2 · Las pruebas del Dragón
+
+```meta
+entrega: archivo
+entorno: local
+extensiones: zip
+monedas: 6
+xp: 30
+```
+
+#### Consigna
+
+Probá AduanaExpress con **JUnit y MockMvc** (`@SpringBootTest` y `@AutoConfigureMockMvc`), sin
+levantar el servidor a mano. Las pruebas tienen que cubrir, como mínimo:
+
+1. Registrar una caja y un barril (201, con su impuesto), buscar uno (200), uno que no existe (404),
+   un código repetido (409) y un pedido inválido (400 con los campos).
+2. Una declaración con la estrategia **normal** y un mercader, y otra con **feria** y un
+   **peregrino**, comprobando impuestos, recargo y total; una estrategia que no existe (400).
+3. La depuración de pasaportes: cuántos únicos y cuáles duplicados, en orden.
+
+Cada prueba arranca con la aplicación limpia (`@DirtiesContext`), porque los datos están en
+memoria. Entregá el `.zip` del proyecto con las pruebas pasando (`./mvnw test`).
+
+#### Criterio de aprobación
+
+- Las pruebas cubren los tres grupos y comprueban códigos de estado **y** valores del JSON.
+- Cada prueba es independiente: no depende del orden ni de lo que dejó otra.
+- `./mvnw test` pasa sin errores.
+
+#### Solución de referencia
+
+`src/test/java/imperio/aduana/AduanaExpressTest.java`
+
+```java
+package imperio.aduana;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.web.servlet.MockMvc;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+class AduanaExpressTest {
+    @Autowired
+    MockMvc mvc;
+
+    void cargar() throws Exception {
+        mvc.perform(post("/api/mercancias").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"tipo\":\"CAJA\",\"codigo\":\"C1\",\"descripcion\":\"sal\",\"valorDeclarado\":1000,\"litros\":0}"))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.impuesto").value(100.0));
+        mvc.perform(post("/api/mercancias").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"tipo\":\"BARRIL\",\"codigo\":\"B1\",\"descripcion\":\"vino\",\"valorDeclarado\":500,\"litros\":40}"))
+                .andExpect(status().isCreated()).andExpect(jsonPath("$.impuesto").value(70.0));
+    }
+
+    @Test
+    void registraBuscaYRechaza() throws Exception {
+        cargar();
+        mvc.perform(get("/api/mercancias/B1")).andExpect(status().isOk()).andExpect(jsonPath("$.tipo").value("BARRIL"));
+        mvc.perform(get("/api/mercancias/X9")).andExpect(status().isNotFound());
+        mvc.perform(post("/api/mercancias").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"tipo\":\"CAJA\",\"codigo\":\"C1\",\"descripcion\":\"otra\",\"valorDeclarado\":10,\"litros\":0}"))
+                .andExpect(status().isConflict());
+        mvc.perform(post("/api/mercancias").contentType(MediaType.APPLICATION_JSON)
+                .content("{\"tipo\":\"BOLSA\",\"codigo\":\"\",\"descripcion\":\"x\",\"valorDeclarado\":-5,\"litros\":0}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.campos.tipo").exists())
+                .andExpect(jsonPath("$.campos.codigo").exists())
+                .andExpect(jsonPath("$.campos.valorDeclarado").exists());
+    }
+
+    @Test
+    void declaraConLaEstrategiaActivaYElDescuentoDelPeregrino() throws Exception {
+        cargar();
+        String mercader = "{\"viajero\":\"Baldo\",\"pasaporte\":\"AR-101\",\"tipoViajero\":\"MERCADER\",\"codigos\":[\"C1\",\"B1\"],\"diasDemora\":5}";
+        mvc.perform(post("/api/declaraciones").contentType(MediaType.APPLICATION_JSON).content(mercader))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.impuestos").value(170.0))
+                .andExpect(jsonPath("$.recargo").value(150.0))
+                .andExpect(jsonPath("$.total").value(320.0))
+                .andExpect(jsonPath("$.estrategia").value("normal"));
+
+        mvc.perform(put("/api/recargo/feria")).andExpect(status().isOk()).andExpect(jsonPath("$.estrategia").value("feria"));
+        String peregrino = mercader.replace("MERCADER", "PEREGRINO");
+        mvc.perform(post("/api/declaraciones").contentType(MediaType.APPLICATION_JSON).content(peregrino))
+                .andExpect(jsonPath("$.recargo").value(15.0))
+                .andExpect(jsonPath("$.total").value(185.0));
+
+        mvc.perform(put("/api/recargo/lunar")).andExpect(status().isBadRequest());
+        mvc.perform(post("/api/declaraciones").contentType(MediaType.APPLICATION_JSON)
+                .content(mercader.replace("\"B1\"", "\"X9\""))).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void depuraLosPasaportesEnUnaPasada() throws Exception {
+        mvc.perform(post("/api/pasaportes/depurar").contentType(MediaType.APPLICATION_JSON)
+                .content("[\"AR-101\",\"UY-202\",\"AR-101\",\"CL-303\",\"UY-202\",\"AR-101\"]"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.unicos.length()").value(3))
+                .andExpect(jsonPath("$.duplicados[0]").value("AR-101"))
+                .andExpect(jsonPath("$.duplicados[1]").value("UY-202"));
+    }
+}
+```
+
+### Prueba del sello
+
+#### ¿En qué capa va la regla «el peregrino paga la mitad del recargo»?
+
+En el modelo (`factorRecargo()` de cada viajero) o en el servicio, nunca en el controlador: el controlador solo traduce entre HTTP y los DTO.
+
+#### ¿Cómo se cambia la estrategia de recargo sin tocar el cálculo?
+
+Cada estrategia es una clase que implementa `RecargoStrategy`; el servicio guarda cuál está activa y le delega el cálculo. Cambiarla es cambiar esa referencia.
+
+#### ¿Por qué un `HashMap` para las mercancías y un `HashSet` para los pasaportes?
+
+Porque buscar por código en un `HashMap` y preguntar si ya está en un `HashSet` es O(1): todo se resuelve en una sola pasada.
+
+#### ¿Qué devuelve la API cuando el código no existe, y desde dónde?
+
+Un 404 con un `ProblemDetail`, armado por el `@RestControllerAdvice` a partir de una excepción propia que lanza el servicio.
+
+#### ¿Qué tiene que tener la entrega además del código?
+
+El repositorio de GitHub con commits a medida que se avanza, el `README.md`, la colección de Postman exportada y el `EVIDENCIAS.md` con una captura de cada pedido.
+
+
+### Soluciones (docente)
+
+Nodo nuevo (D96): el simulacro del examen final, con el formato del último (BiblioExpress) ambientado en el Imperio. La solución de referencia compila con Spring Boot 3.3.5 y Java 17 y sus pruebas de la M2 pasan con `./mvnw test`. Conviene tomarlo en clase con reloj, como el examen, y corregirlo con la grilla del criterio.
+
 ## R05-N07 · La Encrucijada de los Denarios
 
 ```meta
 tipo: ventana
-padre: R05-N05
+padre: R05-N06
 precio: 10
 ```
 

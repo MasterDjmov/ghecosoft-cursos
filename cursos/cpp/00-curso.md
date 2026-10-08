@@ -5,7 +5,7 @@ slug: cpp
 titulo: C++: La Ciudadela de los Artífices
 lenguaje: cpp
 nivel: desde_cero
-descripcion_corta: C++ desde cero: clases, C++ moderno, la biblioteca estándar y un juego completo.
+descripcion_corta: C++ desde cero: clases, C++ moderno, la biblioteca estándar, un juego completo y ventanas con Qt.
 precio_raiz: 10
 dias_abono: 30
 destacado: si
@@ -21,7 +21,7 @@ C++ es la lengua de los motores de videojuegos, los navegadores, los programas d
 
 Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilás el ejemplo en tu compu y resolvés las **misiones**: al aprobarlas ganás engranajes para abrir el siguiente. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
 
-Al final del camino principal llegás a la **Encrucijada de los Engranajes**, de donde salen dos Sendas optativas: videojuegos 2D con **SDL3** y aplicaciones de escritorio con **Qt**.
+El camino termina con **aplicaciones de escritorio en Qt** y **TallerExpress**, un simulacro del examen: clases con herencia, un archivo y su ventana. Después, en la **Encrucijada de los Engranajes**, sale una Senda optativa de videojuegos 2D con **SDL3**.
 
 > Qué hace falta: una compu con `g++` (en Linux: `sudo apt install g++`; en Windows, WSL o MSYS2; en macOS, las herramientas de Xcode). Los programas de C++ se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
 
@@ -33,6 +33,7 @@ Al final del camino principal llegás a la **Encrucijada de los Engranajes**, de
 - C++ moderno: contenedores, `optional`, lambdas, punteros inteligentes y RAII
 - La STL a fondo: plantillas, iteradores, algoritmos y vistas
 - Excepciones, depuración, pruebas y un juego completo en consola
+- Aplicaciones de escritorio con Qt: ventanas, formularios, tablas y archivos
 
 # DICCIONARIO
 
@@ -43,7 +44,7 @@ Al final del camino principal llegás a la **Encrucijada de los Engranajes**, de
 | world.region | Ciudadela de los Artífices | | f | La región del mundo cuya lengua arcana es C++. | | curso |
 | story.course_intro | Bienvenida a la Ciudadela | | f | | Subís la última cuesta, {heroe}, y la ves: la **Ciudadela de los Artífices**, una ciudad de torres, poleas y engranajes que giran solos.<br><br>Soy {mentor}. Acá no fabricamos cada pieza a mano: dibujamos **planos**, y de cada plano salen todas las piezas que haga falta. Primero escribís el plano; el **Taller**, el compilador, lo revisa y lo construye.<br><br>Cada tema que domines te da un plano nuevo; cada misión aprobada te da engranajes para abrir el siguiente. | curso |
 | story.branch_completed | ¡Rama ensamblada! | | f | | {mentor} da vuelta una manivela y una torre entera se ilumina. —Otra parte de la Ciudadela ya funciona con tus planos, {heroe}. | curso |
-| story.course_completed | ¡Dominaste la lengua de la Ciudadela! | | f | | {mentor} te entrega su compás de bronce, el que usó para trazar la primera torre. —Ya sos artífice, {heroe}. Desde la Encrucijada de los Engranajes salen dos caminos: la Linterna Mágica y el Taller de los Vitrales. Elegí el tuyo. | curso |
+| story.course_completed | ¡Dominaste la lengua de la Ciudadela! | | f | | {mentor} te entrega su compás de bronce, el que usó para trazar la primera torre. —Ya sos artífice, {heroe}. Desde la Encrucijada de los Engranajes sale un camino más, si lo querés: la Linterna Mágica. | curso |
 | story.portal_piece | Lo que dibujó Tesla | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Me pidió un mecanismo raro: unas bisagras que pudieran abrir algo que no era una puerta. Las dibujé en un plano y nunca supe si las usó. Hasta que vi tu portal. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis: el Taller no puede ni empezar. | Los slimes brotan de los punto y coma olvidados, las llaves sin cerrar y las comillas perdidas. Son débiles, pero están en todos lados: hasta que no los eliminás, el compilador no produce nada. | curso |
 | beast.goblin | goblin | goblins | m | Nace de los tipos que no encajan y las conversiones que pierden datos. | Los goblins roban en silencio: un `double` que se guarda en un `int` y pierde los decimales, un `unsigned` que da la vuelta, un `cin` que falla y deja la variable en cero. | curso |

@@ -2,14 +2,14 @@
 
 ```meta
 tipo: senda
-posicion: 6
+posicion: 7
 ```
 
 ## S01-N01 · La Linterna Mágica: ventana y bucle
 
 ```meta
 tipo: tema
-padre: R05-N07
+padre: R06-N06
 precio: 3
 moneda: comodin
 criatura: slime

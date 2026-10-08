@@ -231,7 +231,7 @@ test('las pantallas nuevas cargan', function () {
     $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))->assertOk()->assertSee('Esperando corrección');
 });
 
-test('el docente puede ejecutar una entrega de C++ al corregir; el alumno de C++ no ejecuta en la plataforma', function () {
+test('el docente puede ejecutar una entrega de C++ al corregir, y el alumno de C++ también ejecuta en su navegador (D100)', function () {
     $this->data['course']->update(['language' => 'cpp']);
     $submission = Submission::create(['practice_id' => $this->practice->id, 'user_id' => $this->student->id, 'attempt' => 1,
         'code' => "#include <iostream>\nint main() { std::cout << 42; }", 'submitted_at' => now()]);
@@ -240,7 +240,7 @@ test('el docente puede ejecutar una entrega de C++ al corregir; el alumno de C++
         ->assertOk()->assertSee('title="Ejecutar (Ctrl+Enter)"', false);
 
     $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))
-        ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
+        ->assertOk()->assertSee('title="Ejecutar (Ctrl+Enter)"', false);
 });
 
 test('el docente ejecuta una entrega de Java con el ejecutor local o con el comando para la terminal (D67, D69)', function () {

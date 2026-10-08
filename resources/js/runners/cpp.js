@@ -1,4 +1,4 @@
-// Ejecuta C y C++ en el navegador: C++ solo al corregir (D66); C también para el alumno (D98). Compila en
+// Ejecuta C y C++ en el navegador: al corregir (D66) y también para el alumno (D98 C, D100 C++). Compila en
 // un worker (Clang en WebAssembly) y corre el programa en otro, con tiempo límite. La primera vez baja el
 // compilador (~105 MB del CDN) y la biblioteca (~6 MB del sitio; C++ suma ~14 MB de encabezado
 // precompilado); después queda en la caché del navegador. El código nunca se ejecuta en el servidor.

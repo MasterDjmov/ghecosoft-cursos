@@ -4097,7 +4097,7 @@ Para que la simulación dé siempre el mismo resultado y se pueda comparar con l
 
 Material original: `05-C++-Videojuegos/05-GameState` y `06-GameLoop` (con dt fijo para que la salida sea comparable).
 
-## R05-N06 · Jefe final: el Minotauro del Laberinto
+## R05-N06 · Jefe: el Minotauro del Laberinto
 
 ```meta
 tipo: jefe
@@ -5229,70 +5229,3 @@ Porque el archivo pudo editarse a mano o romperse; mejor un error claro que una 
 ### Soluciones (docente)
 
 Jefe final del camino principal. M1 reescribe `05-C++-Videojuegos/07-ProyectoMazmorra` con llave, puerta, poción, tres IA y validación con excepciones; se entrega como `.zip`. La secuencia de la entrada de ejemplo gana en 25 turnos.
-
-## R05-N07 · La Encrucijada de los Engranajes
-
-```meta
-tipo: ventana
-padre: R05-N06
-precio: 10
-```
-
-### Crónica
-
-Salís del Laberinto con el sello del Minotauro en la mano. Arriba, en la plaza de la Ciudadela, hay un engranaje gigante tallado en el piso, y de sus dientes salen caminos. {mentor} te espera sentado en el borde, con el compás de bronce entre las manos.
-
-—Ya hablás la lengua de la Ciudadela, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Por un camino se llega a la **Linterna Mágica**, donde los planos se mueven en una pantalla. Por el otro, al **Taller de los Vitrales**, donde se construyen ventanas que cualquiera puede usar.
-
-—Antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
-
-### Objetivos
-
-- Repasar todo el camino principal y reconocer lo que aprendiste.
-- Conocer las Sendas optativas que salen de acá.
-
-### Explicación
-
-#### Lo que ya sabés hacer
-
-- **Los Cimientos**: compilar, tipos, entrada y salida, decisiones, bucles, funciones, referencias, vectores y azar.
-- **Los Planos**: clases, constructores, encapsulamiento, operadores, composición, herencia, polimorfismo y proyectos de varios archivos con CMake.
-- **Los Talleres Modernos**: `auto`, textos, mapas y conjuntos, `enum class`, `optional`, lambdas, archivos, punteros inteligentes y RAII.
-- **La Gran Biblioteca**: plantillas, iteradores, todos los contenedores, algoritmos, `std::function`, vistas y ranges, y contenedores propios.
-- **El Taller del Juego**: excepciones, depuración, pruebas, y un juego completo por turnos.
-
-Con eso ya podés escribir programas completos en C++ y leer código de otros. Lo que sigue son **especializaciones**.
-
-#### Las Sendas
-
-Cada Senda es un camino optativo: no hace falta para completar el curso, y su entrada se paga con **comodines** (los que ganaste con los encargos del Gremio). Adentro, los nodos se pagan con engranajes, como siempre.
-
-- **Senda de la Linterna Mágica**: videojuegos 2D con **SDL3**. Ventanas, el bucle de juego en tiempo real, teclado, sprites, animación, colisiones y cámara, hasta un juego completo. Se resuelve en tu compu.
-- **Senda de los Vitrales**: aplicaciones de escritorio con **Qt**. Ventanas, botones, formularios, señales y slots, dibujo propio y un editor completo. Se resuelve en tu compu.
-
-### Misión R05-N07-M1 · Mirá hacia atrás
-
-```meta
-entrega: ninguna
-entorno: navegador
-monedas: 0
-xp: 20
-```
-
-#### Consigna
-
-Antes de elegir tu Senda, tomate cinco minutos:
-
-1. ¿Cuál fue el tema que más te costó? ¿Qué te ayudó a entenderlo?
-2. ¿Qué programa de todo el camino te dio más orgullo?
-3. ¿Qué te gustaría construir ahora con C++?
-
-Charlalo con el profe en la próxima clase (o escribíselo). Cuando lo tengas, marcá la misión como completada.
-
-#### Criterio de aprobación
-
-- Respondió las tres preguntas (en clase o por escrito).
-
-### Soluciones (docente)
-
-Nodo Ventana: cierra el camino principal (completarlo completa el curso) y de acá brotan las Sendas S01 (SDL3) y S02 (Qt). La misión es de reflexión, sin entrega.

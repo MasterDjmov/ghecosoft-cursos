@@ -1,4 +1,4 @@
-// Compila C y C++ en el navegador (C++ del docente, D66; C también del alumno, D98): Clang de YoWASP (WebAssembly, del CDN) con la biblioteca
+// Compila C y C++ en el navegador (del docente, D66, y del alumno: C, D98; C++, D100): Clang de YoWASP (WebAssembly, del CDN) con la biblioteca
 // estándar de wasi-sdk con excepciones y un encabezado precompilado (public/toolchains/cpp). El programa
 // resultante lo ejecuta otro worker (wasi-run.worker.js), así un bucle infinito no se lleva al compilador.
 import { CLANG_URL, SYSROOT_URL, PCH_URL, COMPILE_FLAGS, LINK_FLAGS, C_FLAGS } from '../runners/cpp-config.js';

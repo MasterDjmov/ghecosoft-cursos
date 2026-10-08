@@ -3550,7 +3550,7 @@ op(3, 4) = 112
 
 ### ¿Para qué sirve?
 
-Guardar acciones es la base de las interfaces gráficas (cada botón guarda qué hacer cuando lo tocan: lo vas a ver en la Senda de Qt), de los sistemas de eventos de los motores de juegos, de los atajos de teclado configurables, de los motores de reglas de negocio (descuentos, validaciones, permisos) y de las tareas programadas ("dentro de 5 minutos, hacé esto").
+Guardar acciones es la base de las interfaces gráficas (cada botón guarda qué hacer cuando lo tocan: lo vas a ver en la rama de Qt), de los sistemas de eventos de los motores de juegos, de los atajos de teclado configurables, de los motores de reglas de negocio (descuentos, validaciones, permisos) y de las tareas programadas ("dentro de 5 minutos, hacé esto").
 
 ### Errores habituales
 

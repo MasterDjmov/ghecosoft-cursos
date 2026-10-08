@@ -3199,7 +3199,7 @@ Suma de niveles: 19
 
 ### ¿Para qué sirve?
 
-Las lambdas son la forma normal de decirle a la biblioteca "cómo": ordenar productos por precio, filtrar los clientes morosos, buscar el primer turno libre, contar las ventas grandes, aplicar un descuento a toda una lista. También se usan para reaccionar a eventos ("cuando toquen este botón, hacé esto"), algo que vas a ver en la Senda de Qt y en la rama 4 con `std::function`.
+Las lambdas son la forma normal de decirle a la biblioteca "cómo": ordenar productos por precio, filtrar los clientes morosos, buscar el primer turno libre, contar las ventas grandes, aplicar un descuento a toda una lista. También se usan para reaccionar a eventos ("cuando toquen este botón, hacé esto"), algo que vas a ver en la rama de Qt (la 6) y en la rama 4 con `std::function`.
 
 ### Errores habituales
 

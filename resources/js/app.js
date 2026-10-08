@@ -257,7 +257,7 @@ document.addEventListener('alpine:init', () => {
 
             let result;
             if (config.language === 'cpp' || config.language === 'c') {
-                // C y C++, compilando en el navegador: C también para el alumno (D98); C++, solo al corregir (D66).
+                // C y C++, compilando en el navegador: también para el alumno (D98 C, D100 C++).
                 const { runCpp } = await import('./runners/cpp.js');
                 result = await runCpp(this.code, {
                     stdin: this.stdin,

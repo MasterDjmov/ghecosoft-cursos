@@ -14,9 +14,9 @@
     $languageEnum = \App\Enums\Language::tryFrom($language);
     $extension = $languageEnum?->extension() ?? 'txt';
     $languageLabel = $languageEnum?->label() ?? $language;
-    // Python (Pyodide), HTML y CSS (vista previa aislada, D76), SQL y C (Clang en WebAssembly, D98) corren para
+    // Python (Pyodide), HTML y CSS (vista previa aislada, D76), SQL, C y C++ (Clang en WebAssembly, D98, D100) corren para
     // todos en el navegador; Java, con el ejecutor de la compu de cada uno (D69 para el docente, D85 para el
-    // alumno); C++ (D66) y PHP (D68) solo para el docente al corregir, en su navegador.
+    // alumno); PHP (D68), solo para el docente al corregir, en su navegador.
     $canRun = $runnable && ($languageEnum?->studentCanRun() || (in_array($language, ['c', 'cpp', 'php'], true) && auth()->user()?->isStaff()));
     // Al alumno, si el ejecutor de Java no responde, se le explica cómo instalarlo (al docente, cómo abrirlo).
     $javaHelpUrl = $language === 'java' && ! auth()->user()?->isStaff() ? route('student.java-runner') : null;

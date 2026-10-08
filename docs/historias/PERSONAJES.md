@@ -373,7 +373,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, R01-N03.
 - **Dónde va:** la oficina de sellos: escritorio tapado de pergaminos, tinteros, sellos de bronce colgados en la pared y la **tabla de tarifas** clavada en la puerta.
 
-### El Centinela de la Aduana *(falta la imagen)*
+### El Centinela de la Aduana
 - **Rol:** el jefe de la Aduana (R01-N09). Aprueba o rechaza a cada viajero desde hace siglos; no se lo engaña: se lo vence con orden. Le hace a Zed cuatro preguntas y, al final, le entrega el **Sello de Entrada**.
 - **Qué es:** una **armadura vacía** de piedra gris y bronce, sentada en un **trono de piedra**, con un **libro de registros** abierto sobre las rodillas y una pluma que escribe sola. Por las juntas no se ve nada adentro: solo una **luz azul** en el lugar de los ojos.
 - **Rasgos:** casco alto con cresta, placas con números grabados que se apagan una por una cuando lo vencen, capa raída.

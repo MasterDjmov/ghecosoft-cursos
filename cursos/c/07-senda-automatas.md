@@ -142,6 +142,243 @@ Arduino y placas parecidas están en impresoras 3D, estaciones meteorológicas c
 
 **Goblin: `millis()` en un `int`.** Un `int` del Uno tiene 16 bits: a los 32 segundos se desborda. Siempre `unsigned long`.
 
+### Micro-misión S02-N01-P1 · Parpadear sin delay
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón
+carta: El tiempo sin frenar | guardar cuándo fue el último cambio · si ya pasó el intervalo, cambiar y anotar el momento · millis() en la placa
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira prende su primera luz y se queda mirándola un minuto entero. Con `delay`, la placa no hace **nada más** mientras espera. Tizón quiere que parpadee y que, a la vez, siga escuchando. Acá no hay placa: se prueba la lógica del autómata sola, con el tiempo y los pines simulados. En la placa de verdad, lo mismo va adentro de loop().
+
+#### Gheco sugiere
+En lugar de esperar, se guarda `ultimo` (el momento del último cambio). En cada vuelta, si `ahora - ultimo >= INTERVALO`, se cambia el led y `ultimo = ahora`.
+
+#### Desafío
+Completá la condición y lo que se anota.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define INTERVALO 500
+
+int main(void)
+{
+    bool led = false;
+    unsigned long ultimo = 0;
+    for (unsigned long ahora = 0; ahora <= 2000; ahora += 100) {
+        if (___) {
+            led = !led;
+            ___;
+            printf("%lu ms: led %s\n", ahora, led ? "prendido" : "apagado");
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+500 ms: led prendido
+1000 ms: led apagado
+1500 ms: led prendido
+2000 ms: led apagado
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define INTERVALO 500
+
+int main(void)
+{
+    bool led = false;
+    unsigned long ultimo = 0;
+    for (unsigned long ahora = 0; ahora <= 2000; ahora += 100) {
+        if (ahora - ultimo >= INTERVALO) {
+            led = !led;
+            ultimo = ahora;
+            printf("%lu ms: led %s\n", ahora, led ? "prendido" : "apagado");
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Cada medio segundo, exacto. Tizón lo mide: «Quinientos. Exacto. Bien». Y la placa sigue libre para escuchar lo que venga.
+
+#### Imagen
+- Una placa de electrónica con un led rojo que parpadea, sobre una mesa de latón.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira el led, fascinada.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) con un cronómetro.
+
+### Micro-misión S02-N01-P2 · El semáforo del Taller
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Chispa
+carta: Secuencias con tiempo | un estado y cuánto dura cada uno · al terminar el tiempo, pasar al siguiente · % para volver a empezar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La puerta del Taller tiene un semáforo para que los autómatas no choquen. Chispa lo cruza siempre en rojo «porque tiene apuro». Kira programa el ciclo.
+
+#### Gheco sugiere
+Tres estados con su duración: verde 3000, amarillo 1000, rojo 2000. Cuando pasó la duración del estado actual, se pasa al siguiente con `(estado + 1) % 3`.
+
+#### Desafío
+Completá el cambio de estado.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    const char *nombres[3] = { "verde", "amarillo", "rojo" };
+    unsigned long duracion[3] = { 3000, 1000, 2000 };
+    int estado = 0;
+    unsigned long desde = 0;
+    printf("0 ms: verde\n");
+    for (unsigned long ahora = 0; ahora <= 8000; ahora += 500) {
+        if (ahora - desde >= duracion[estado]) {
+            estado = ___;
+            desde = ahora;
+            printf("%lu ms: %s\n", ahora, nombres[estado]);
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+0 ms: verde
+3000 ms: amarillo
+4000 ms: rojo
+6000 ms: verde
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    const char *nombres[3] = { "verde", "amarillo", "rojo" };
+    unsigned long duracion[3] = { 3000, 1000, 2000 };
+    int estado = 0;
+    unsigned long desde = 0;
+    printf("0 ms: verde\n");
+    for (unsigned long ahora = 0; ahora <= 8000; ahora += 500) {
+        if (ahora - desde >= duracion[estado]) {
+            estado = (estado + 1) % 3;
+            desde = ahora;
+            printf("%lu ms: %s\n", ahora, nombres[estado]);
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Verde, amarillo, rojo, verde. Chispa espera el verde por primera vez. Le parece una eternidad. Fueron dos segundos.
+
+#### Imagen
+- Un semáforo de latón con tres luces en la puerta del Taller.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) esperando, impaciente, con un pie golpeando el piso.
+
+### Micro-misión S02-N01-P3 · Los bits del puerto
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón
+carta: Pines como bits | un byte puede ser 8 leds · encender: puerto |= (1 << pin) · apagar: puerto &= ~(1 << pin)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El autómata tiene 8 leds en el pecho, y el Taller los guarda en un solo byte: cada bit, un led. Tizón quiere encender el 0 y el 3 y apagar el 7, sin tocar los demás.
+
+#### Gheco sugiere
+Encender el led `n`: `puerto |= (1 << n)`. Apagarlo: `puerto &= ~(1 << n)`. `%02X` muestra el byte en hexa con dos cifras.
+
+#### Desafío
+Completá el encendido y el apagado.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+void mostrar(unsigned char puerto)
+{
+    for (int pin = 7; pin >= 0; pin--) {
+        putchar(puerto & (1 << pin) ? '*' : '.');
+    }
+    printf("  0x%02X\n", puerto);
+}
+
+int main(void)
+{
+    unsigned char puerto = 0x80;
+    mostrar(puerto);
+    puerto ___ (1 << 0);
+    puerto ___ (1 << 3);
+    mostrar(puerto);
+    puerto ___ ~(1 << 7);
+    mostrar(puerto);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+*.......  0x80
+*...*..*  0x89
+....*..*  0x09
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+void mostrar(unsigned char puerto)
+{
+    for (int pin = 7; pin >= 0; pin--) {
+        putchar(puerto & (1 << pin) ? '*' : '.');
+    }
+    printf("  0x%02X\n", puerto);
+}
+
+int main(void)
+{
+    unsigned char puerto = 0x80;
+    mostrar(puerto);
+    puerto |= (1 << 0);
+    puerto |= (1 << 3);
+    mostrar(puerto);
+    puerto &= ~(1 << 7);
+    mostrar(puerto);
+    return 0;
+}
+```
+
+#### Al superarla
+Dos leds prendidos, uno apagado, el resto intacto. El pecho del autómata dibuja una carita. Tizón jura que no fue a propósito.
+
+#### Imagen
+- El pecho de un autómata de latón con una fila de 8 leds, algunos encendidos.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) sonríe, sospechosamente.
+
 ### Misión S02-N01-M1 · SOS en Morse
 
 ```meta
@@ -471,6 +708,254 @@ El antirrebote está en todo aparato con botones: controles remotos, teclados, a
 
 **Goblin: la lectura que tiembla.** Las lecturas analógicas varían un poco aunque la perilla esté quieta: para avisar cambios hace falta un umbral.
 
+### Micro-misión S02-N02-P1 · El botón que rebota
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón
+carta: Antirrebote | el contacto rebota unos milisegundos · aceptar el cambio solo si la lectura se mantuvo estable un tiempo · contar al apretar, no al rebotar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira aprieta un botón **una** vez y el autómata cuenta **siete**. Tizón se pasa la tarde mirando el botón con la lupa hasta que lo ve: el contacto **rebota** como una pelota. Acá no hay placa: se prueba la lógica del autómata sola, con el tiempo y los pines simulados. En la placa de verdad, lo mismo va adentro de loop().
+
+#### Gheco sugiere
+Se guarda la última lectura cruda y desde cuándo está así. El estado «de verdad» cambia solo si la lectura cruda se mantuvo igual al menos `ESTABLE` ms. Y se cuenta cuando ese estado pasa a apretado.
+
+#### Desafío
+Completá la condición de lectura estable.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define ESTABLE 20
+
+int main(void)
+{
+    /* lecturas cada 5 ms: 1 = apretado (rebota al apretar y al soltar) */
+    int lectura[16] = { 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0 };
+    int estable = 0, ultima = 0, pulsaciones = 0;
+    unsigned long desde = 0;
+    for (int i = 0; i < 16; i++) {
+        unsigned long ahora = i * 5;
+        if (lectura[i] != ultima) {
+            ultima = lectura[i];
+            desde = ahora;
+        }
+        if (___ && ultima != estable) {
+            estable = ultima;
+            if (estable == 1) {
+                pulsaciones++;
+                printf("%2lu ms: apretado\n", ahora);
+            }
+        }
+    }
+    printf("pulsaciones: %d\n", pulsaciones);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+35 ms: apretado
+pulsaciones: 1
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define ESTABLE 20
+
+int main(void)
+{
+    /* lecturas cada 5 ms: 1 = apretado (rebota al apretar y al soltar) */
+    int lectura[16] = { 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0 };
+    int estable = 0, ultima = 0, pulsaciones = 0;
+    unsigned long desde = 0;
+    for (int i = 0; i < 16; i++) {
+        unsigned long ahora = i * 5;
+        if (lectura[i] != ultima) {
+            ultima = lectura[i];
+            desde = ahora;
+        }
+        if (ahora - desde >= ESTABLE && ultima != estable) {
+            estable = ultima;
+            if (estable == 1) {
+                pulsaciones++;
+                printf("%2lu ms: apretado\n", ahora);
+            }
+        }
+    }
+    printf("pulsaciones: %d\n", pulsaciones);
+    return 0;
+}
+```
+
+#### Al superarla
+Una pulsación, aunque el contacto rebotó cuatro veces. Tizón guarda la lupa con cariño: fue su gran descubrimiento.
+
+#### Imagen
+- Un botón de latón visto con lupa, con chispitas de rebote en el contacto.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) con la lupa en la mano, triunfante.
+
+### Micro-misión S02-N02-P2 · La perilla y el servo
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Chispa
+carta: map() | llevar un valor de un rango a otro · (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min · la perilla da 0 a 1023, el servo va de 0 a 180
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La perilla del autómata da números de 0 a 1023, y el brazo (un servo) va de 0 a 180 grados. Chispa giró la perilla al máximo y el brazo intentó ir a 1023 grados. Hubo un ruido feo.
+
+#### Gheco sugiere
+`mapear(x, in_min, in_max, out_min, out_max)` hace la regla de tres. Con enteros, multiplicar antes de dividir para no perder precisión.
+
+#### Desafío
+Completá la cuenta de `mapear`.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+long mapear(long x, long in_min, long in_max, long out_min, long out_max)
+{
+    return ___;
+}
+
+int main(void)
+{
+    long lecturas[4] = { 0, 512, 767, 1023 };
+    for (int i = 0; i < 4; i++) {
+        printf("perilla %4ld -> brazo a %3ld grados\n", lecturas[i], mapear(lecturas[i], 0, 1023, 0, 180));
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+perilla    0 -> brazo a   0 grados
+perilla  512 -> brazo a  90 grados
+perilla  767 -> brazo a 134 grados
+perilla 1023 -> brazo a 180 grados
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+long mapear(long x, long in_min, long in_max, long out_min, long out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+int main(void)
+{
+    long lecturas[4] = { 0, 512, 767, 1023 };
+    for (int i = 0; i < 4; i++) {
+        printf("perilla %4ld -> brazo a %3ld grados\n", lecturas[i], mapear(lecturas[i], 0, 1023, 0, 180));
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+De 0 a 180, sin ruidos feos. El brazo del autómata saluda a Chispa. Chispa no sabe si es un saludo o una amenaza.
+
+#### Imagen
+- Un brazo de autómata de latón que gira suave, con una perilla al lado.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) devuelve el saludo, inseguro.
+
+### Micro-misión S02-N02-P3 · Promediar la perilla
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón
+carta: Suavizar lecturas | las lecturas analógicas tiemblan · promediar las últimas N con un array circular · la suma se actualiza sin recorrer todo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La perilla tiembla: 510, 515, 508, 600 (un salto), 512… y el brazo tiembla con ella. Tizón propone promediar las últimas 4 lecturas.
+
+#### Gheco sugiere
+Un array circular de 4: al llegar una lectura, se resta de la suma la que sale, se guarda la nueva en su lugar y se suma. El promedio es `suma / 4` (cuando ya hay 4).
+
+#### Desafío
+Completá la actualización de la suma.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+#define N 4
+
+int main(void)
+{
+    int lecturas[8] = { 510, 515, 508, 600, 512, 509, 514, 511 };
+    int ventana[N] = { 0 };
+    int suma = 0;
+    for (int i = 0; i < 8; i++) {
+        int pos = i % N;
+        suma -= ___;
+        ventana[pos] = lecturas[i];
+        suma += ___;
+        if (i >= N - 1) {
+            printf("lectura %d: promedio %d\n", lecturas[i], suma / N);
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+lectura 600: promedio 533
+lectura 512: promedio 533
+lectura 509: promedio 532
+lectura 514: promedio 533
+lectura 511: promedio 511
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+#define N 4
+
+int main(void)
+{
+    int lecturas[8] = { 510, 515, 508, 600, 512, 509, 514, 511 };
+    int ventana[N] = { 0 };
+    int suma = 0;
+    for (int i = 0; i < 8; i++) {
+        int pos = i % N;
+        suma -= ventana[pos];
+        ventana[pos] = lecturas[i];
+        suma += ventana[pos];
+        if (i >= N - 1) {
+            printf("lectura %d: promedio %d\n", lecturas[i], suma / N);
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El salto de 600 apenas mueve el promedio. El brazo deja de temblar. Tizón, en cambio, tiembla de emoción.
+
+#### Imagen
+- Un gráfico de líneas sobre un pergamino: una línea que tiembla y otra suave encima.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) emocionado.
+
 ### Misión S02-N02-M1 · El contador de golpes
 
 ```meta
@@ -798,6 +1283,177 @@ Los protocolos de línea de texto están en todos lados: los módems y los módu
 **Ogro: mandar solo los cambios.** Si se pierde el mensaje "soltó el botón", la compu cree que sigue apretado para siempre.
 
 **Troll: el puerto sin configurar.** Sin `termios`, el sistema procesa los bytes (eco, fin de línea) y los mensajes llegan mezclados.
+
+### Micro-misión S02-N03-P1 · Una línea por mensaje
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón
+carta: Protocolo de texto | una línea por mensaje · la primera letra dice qué es · S temperatura, B botón · lo que no se entiende, se ignora
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El primer autómata de Kira le manda a la compu un mensaje larguísimo sin pausas y la compu entiende «BANANA». Tizón inventa un idioma: **una línea por mensaje**, con una letra al principio que dice de qué se trata.
+
+#### Gheco sugiere
+Se lee línea por línea. `S 23` es un sensor con su valor; `B 1` es el botón. Con `sscanf(linea, "%c %d", &tipo, &valor) == 2` se separan. Lo que no encaja se cuenta como ignorado.
+
+#### Desafío
+Completá la lectura del mensaje.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char linea[50];
+    char tipo;
+    int valor, ignoradas = 0;
+    while (fgets(linea, sizeof linea, stdin) != NULL) {
+        if (___ && (tipo == 'S' || tipo == 'B')) {
+            printf(tipo == 'S' ? "sensor: %d grados\n" : "boton: %d\n", valor);
+        } else {
+            ignoradas++;
+        }
+    }
+    printf("ignoradas: %d\n", ignoradas);
+    return 0;
+}
+```
+
+#### Entrada
+```
+S 23
+B 1
+BANANA
+S 25
+
+B 0
+```
+
+#### Salida esperada
+```
+sensor: 23 grados
+boton: 1
+sensor: 25 grados
+boton: 0
+ignoradas: 2
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char linea[50];
+    char tipo;
+    int valor, ignoradas = 0;
+    while (fgets(linea, sizeof linea, stdin) != NULL) {
+        if (sscanf(linea, "%c %d", &tipo, &valor) == 2 && (tipo == 'S' || tipo == 'B')) {
+            printf(tipo == 'S' ? "sensor: %d grados\n" : "boton: %d\n", valor);
+        } else {
+            ignoradas++;
+        }
+    }
+    printf("ignoradas: %d\n", ignoradas);
+    return 0;
+}
+```
+
+#### Al superarla
+Cuatro mensajes entendidos, dos ignorados, ni una banana. Funciona a la primera; Tizón no lo puede creer y lo prueba tres veces más.
+
+#### Imagen
+- Un cable que une un autómata de latón con una compu; por el cable viajan renglones de luz.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) incrédulo.
+
+### Micro-misión S02-N03-P2 · La suma de control
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Chispa
+carta: Checksum | el que manda agrega un número calculado con los datos · el que recibe lo recalcula · si no coincide, el mensaje se dañó en el camino
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Chispa se paró arriba del cable y algunos mensajes llegan cambiados. Kira agrega a cada mensaje una **suma de control**: si no coincide, el mensaje se descarta.
+
+#### Gheco sugiere
+El mensaje es `S valor suma`, donde `suma = valor % 97`. Al recibir, se recalcula: si `valor % 97 != suma`, el mensaje está dañado.
+
+#### Desafío
+Completá la comprobación.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char linea[50];
+    char tipo;
+    int valor, suma;
+    while (fgets(linea, sizeof linea, stdin) != NULL) {
+        if (sscanf(linea, "%c %d %d", &tipo, &valor, &suma) != 3) {
+            continue;
+        }
+        if (___) {
+            printf("valor %d: ok\n", valor);
+        } else {
+            printf("valor %d: danado, se descarta\n", valor);
+        }
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+S 230 36
+S 251 57
+S 240 99
+```
+
+#### Salida esperada
+```
+valor 230: ok
+valor 251: ok
+valor 240: danado, se descarta
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    char linea[50];
+    char tipo;
+    int valor, suma;
+    while (fgets(linea, sizeof linea, stdin) != NULL) {
+        if (sscanf(linea, "%c %d %d", &tipo, &valor, &suma) != 3) {
+            continue;
+        }
+        if (valor % 97 == suma) {
+            printf("valor %d: ok\n", valor);
+        } else {
+            printf("valor %d: danado, se descarta\n", valor);
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El mensaje dañado no pasa. Chispa se baja del cable. Dice que estaba «revisando la instalación».
+
+#### Imagen
+- Un cable con un mensaje de luz que se pone rojo al pasar por debajo del pie de alguien.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) parado arriba del cable, silbando.
 
 ### Misión S02-N03-M1 · La consola del Gremio
 
@@ -1218,6 +1874,223 @@ El Guardián combina a las criaturas de la Senda:
 - **Troll**: escribir al puerto sin revisar lo que devuelve `write`.
 - **Orco**: mostrar en 4 LEDs un número mayor a 15 (se limita con `constrain`).
 - **Goblin**: el `\r` al final de las órdenes.
+
+### Micro-misión S02-N04-P1 · El joystick de bronce
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón
+criatura: dragon
+carta: Zona muerta | el joystick en reposo no da exactamente el centro · lo que está cerca del centro cuenta como quieto · el resto da la dirección
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+En el fondo del Taller espera el **Autómata Guardián**, con un joystick de bronce. Kira lo agarra como si fuera una espada. El Guardián pita, ofendido. Ella lo suelta, respira, y lo vuelve a agarrar con dos dedos.
+En reposo, el joystick no marca 512 exacto: marca 509, 515… y el personaje camina solo.
+
+#### Gheco sugiere
+Los valores entre `CENTRO - ZONA` y `CENTRO + ZONA` se toman como quieto. Más abajo, `izquierda`; más arriba, `derecha`.
+
+#### Desafío
+Completá la condición de la zona muerta.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+#define CENTRO 512
+#define ZONA 40
+
+const char *direccion(int x)
+{
+    if (___) {
+        return "quieto";
+    }
+    return x < CENTRO ? "izquierda" : "derecha";
+}
+
+int main(void)
+{
+    int x;
+    while (scanf("%d", &x) == 1) {
+        printf("%d: %s\n", x, direccion(x));
+    }
+    return 0;
+}
+```
+
+#### Entrada
+```
+509
+515
+100
+900
+540
+```
+
+#### Salida esperada
+```
+509: quieto
+515: quieto
+100: izquierda
+900: derecha
+540: quieto
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+#define CENTRO 512
+#define ZONA 40
+
+const char *direccion(int x)
+{
+    if (x > CENTRO - ZONA && x < CENTRO + ZONA) {
+        return "quieto";
+    }
+    return x < CENTRO ? "izquierda" : "derecha";
+}
+
+int main(void)
+{
+    int x;
+    while (scanf("%d", &x) == 1) {
+        printf("%d: %s\n", x, direccion(x));
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+El personaje se queda quieto cuando tiene que quedarse quieto. El Guardián deja de pitar. Las luces del pecho se ponen verdes, una por una.
+
+#### Imagen
+- El Autómata Guardián (autómata de latón del tamaño de un perro grande, cables a la vista, leds por ojos y un servomotor en cada articulación) con un joystick de bronce en la mano extendida.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) lo agarra con dos dedos, concentrada.
+
+### Micro-misión S02-N04-P2 · La placa y la compu, cada una en lo suyo
+
+```meta
+lugar: El Taller de los Autómatas
+personajes: Kira, Gheco, Tizón, Maese Ferrum
+criatura: dragon
+carta: Todo junto | la placa manda una línea por evento · la compu interpreta y mueve el juego · cada parte en lo suyo, con un idioma simple
+recompensa: xp 30, oro 30
+```
+
+#### Escena
+Última prueba del Guardián: recorrer la mazmorra del Dragón con **su** control. La placa manda `J` con la dirección y `B` cuando se aprieta el botón (que abre puertas). La compu mueve a Kira.
+
+#### Gheco sugiere
+Por cada línea: `J -1` o `J 1` mueve a Kira un lugar; `B 1` abre la puerta si está justo al lado (la puerta está en 4). Al llegar a 6 con la puerta abierta, se gana.
+
+#### Desafío
+Completá el movimiento y la apertura de la puerta.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define PUERTA 4
+#define SALIDA 6
+
+int main(void)
+{
+    char linea[20], tipo;
+    int valor, pos = 0;
+    bool abierta = false;
+    while (fgets(linea, sizeof linea, stdin) != NULL && pos < SALIDA) {
+        if (sscanf(linea, "%c %d", &tipo, &valor) != 2) {
+            continue;
+        }
+        if (tipo == 'J') {
+            int nueva = pos + valor;
+            if (nueva == PUERTA && !abierta) {
+                printf("la puerta esta cerrada\n");
+            } else if (nueva >= 0) {
+                ___;
+                printf("Kira en %d\n", pos);
+            }
+        } else if (tipo == 'B' && valor == 1 && ___) {
+            abierta = true;
+            printf("se abre la puerta\n");
+        }
+    }
+    printf(pos == SALIDA ? "el guardian se inclina\n" : "todavia no\n");
+    return 0;
+}
+```
+
+#### Entrada
+```
+J 1
+J 1
+J 1
+J 1
+B 1
+J 1
+J 1
+J 1
+```
+
+#### Salida esperada
+```
+Kira en 1
+Kira en 2
+Kira en 3
+la puerta esta cerrada
+se abre la puerta
+Kira en 4
+Kira en 5
+Kira en 6
+el guardian se inclina
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+#define PUERTA 4
+#define SALIDA 6
+
+int main(void)
+{
+    char linea[20], tipo;
+    int valor, pos = 0;
+    bool abierta = false;
+    while (fgets(linea, sizeof linea, stdin) != NULL && pos < SALIDA) {
+        if (sscanf(linea, "%c %d", &tipo, &valor) != 2) {
+            continue;
+        }
+        if (tipo == 'J') {
+            int nueva = pos + valor;
+            if (nueva == PUERTA && !abierta) {
+                printf("la puerta esta cerrada\n");
+            } else if (nueva >= 0) {
+                pos = nueva;
+                printf("Kira en %d\n", pos);
+            }
+        } else if (tipo == 'B' && valor == 1 && pos == PUERTA - 1) {
+            abierta = true;
+            printf("se abre la puerta\n");
+        }
+    }
+    printf(pos == SALIDA ? "el guardian se inclina\n" : "todavia no\n");
+    return 0;
+}
+```
+
+#### Al superarla
+Kira llega a la salida. El Autómata Guardián se inclina, las luces del pecho todas en verde, y pita una melodía corta. Tizón jura que es una canción de las Forjas. Ferrum, que la conoce, no dice nada y se seca un ojo.
+
+#### Imagen
+- El Autómata Guardián (autómata de latón del tamaño de un perro grande, cables a la vista, leds por ojos y un servomotor en cada articulación) inclinado, con todas las luces del pecho en verde.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con el joystick en la mano.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) se seca un ojo disimuladamente.
 
 ### Misión S02-N04-M1 · La mazmorra con control
 

@@ -199,6 +199,249 @@ undefined reference to `SDL_Init'
 
 **Troll: no destruir lo que se creó.** La ventana y el renderer se devuelven al final, en orden inverso.
 
+### Micro-misión S01-N01-P1 · Sesenta veces por segundo
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+carta: El bucle de juego | leer la entrada, actualizar, dibujar, y otra vez · cada vuelta es un cuadro · el juego no termina hasta que se cierra
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira abre su primera ventana y la cierra sin querer en el mismo segundo: su programa terminaba enseguida. Tizón cronometra: «Duró 0,02 segundos. Récord». Acá no se abre una ventana: se prueba la lógica del juego sola, como en las pruebas de cualquier juego de verdad. El dibujo con SDL3 queda para tu compu.
+
+#### Gheco sugiere
+Un juego es un bucle: en cada vuelta (un **cuadro**) se actualiza el mundo. Acá el bucle corre 5 cuadros y en cada uno la caja avanza su velocidad.
+
+#### Desafío
+Completá la actualización de la posición en cada cuadro.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int main(void)
+{
+    int x = 0;
+    int velocidad = 12;
+    bool corriendo = true;
+    int cuadro = 0;
+    while (corriendo) {
+        ___;
+        cuadro++;
+        printf("cuadro %d: caja en x = %d\n", cuadro, x);
+        if (cuadro == 5) {
+            corriendo = false;
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: caja en x = 12
+cuadro 2: caja en x = 24
+cuadro 3: caja en x = 36
+cuadro 4: caja en x = 48
+cuadro 5: caja en x = 60
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int main(void)
+{
+    int x = 0;
+    int velocidad = 12;
+    bool corriendo = true;
+    int cuadro = 0;
+    while (corriendo) {
+        x += velocidad;
+        cuadro++;
+        printf("cuadro %d: caja en x = %d\n", cuadro, x);
+        if (cuadro == 5) {
+            corriendo = false;
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Cinco cuadros, la caja avanza. Tizón le pide que no cierre más la ventana sin avisarle: quiere cronometrar todo.
+
+#### Imagen
+- Una puerta de vidrio negro detrás de la cual una caja de luz cian se mueve sobre una superficie que brilla.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) frente a la puerta.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) con un cronómetro.
+
+### Micro-misión S01-N01-P2 · La misma velocidad a 60 o a 240
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+carta: Delta time | x += velocidad * dt · dt es el tiempo del cuadro en segundos · así el juego va igual en cualquier compu
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la compu de Tizón (rapidísima) la caja vuela; en la de Chispa (vieja) se arrastra. Ferrum: —El metal no puede andar más rápido porque el horno es nuevo.
+
+#### Gheco sugiere
+La velocidad se piensa en **píxeles por segundo** y cada cuadro avanza `velocidad * dt`, donde `dt` es lo que duró el cuadro. Con 60 cuadros de 1/60 o 240 de 1/240, al segundo se llega al mismo lugar.
+
+#### Desafío
+Completá el avance con `dt`.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+double un_segundo(int cuadros_por_segundo)
+{
+    double x = 0.0;
+    double velocidad = 120.0;
+    double dt = 1.0 / cuadros_por_segundo;
+    for (int i = 0; i < cuadros_por_segundo; i++) {
+        x += ___;
+    }
+    return x;
+}
+
+int main(void)
+{
+    printf("a 60 cuadros: %.1f px\n", un_segundo(60));
+    printf("a 240 cuadros: %.1f px\n", un_segundo(240));
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+a 60 cuadros: 120.0 px
+a 240 cuadros: 120.0 px
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+double un_segundo(int cuadros_por_segundo)
+{
+    double x = 0.0;
+    double velocidad = 120.0;
+    double dt = 1.0 / cuadros_por_segundo;
+    for (int i = 0; i < cuadros_por_segundo; i++) {
+        x += velocidad * dt;
+    }
+    return x;
+}
+
+int main(void)
+{
+    printf("a 60 cuadros: %.1f px\n", un_segundo(60));
+    printf("a 240 cuadros: %.1f px\n", un_segundo(240));
+    return 0;
+}
+```
+
+#### Al superarla
+Ciento veinte píxeles en las dos. Chispa, por primera vez, juega a la misma velocidad que Tizón. Pierde igual.
+
+#### Imagen
+- Dos pantallas lado a lado, una moderna y una vieja, con la misma caja en el mismo lugar.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) frente a la pantalla vieja.
+
+### Micro-misión S01-N01-P3 · Rebotar en los bordes
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Maese Ferrum
+carta: Rebote | si se pasa del borde, se queda en el borde y la velocidad cambia de signo · vx = -vx
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La caja de Kira se escapa por el borde derecho de la pantalla y no vuelve más. Ferrum golpea el marco de la ventana: —Que rebote como el martillo en el yunque.
+
+#### Gheco sugiere
+Si `x` pasa el borde derecho (`x > ANCHO - LADO`), se la deja en el borde y se invierte la velocidad (`vx = -vx`). Lo mismo con el izquierdo (`x < 0`).
+
+#### Desafío
+Completá el rebote en el borde derecho.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+#define ANCHO 100
+#define LADO 10
+
+int main(void)
+{
+    int x = 70, vx = 15;
+    for (int cuadro = 1; cuadro <= 6; cuadro++) {
+        x += vx;
+        if (x > ANCHO - LADO) {
+            x = ANCHO - LADO;
+            ___;
+        } else if (x < 0) {
+            x = 0;
+            vx = -vx;
+        }
+        printf("cuadro %d: x = %d, vx = %d\n", cuadro, x, vx);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: x = 85, vx = 15
+cuadro 2: x = 90, vx = -15
+cuadro 3: x = 75, vx = -15
+cuadro 4: x = 60, vx = -15
+cuadro 5: x = 45, vx = -15
+cuadro 6: x = 30, vx = -15
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+#define ANCHO 100
+#define LADO 10
+
+int main(void)
+{
+    int x = 70, vx = 15;
+    for (int cuadro = 1; cuadro <= 6; cuadro++) {
+        x += vx;
+        if (x > ANCHO - LADO) {
+            x = ANCHO - LADO;
+            vx = -vx;
+        } else if (x < 0) {
+            x = 0;
+            vx = -vx;
+        }
+        printf("cuadro %d: x = %d, vx = %d\n", cuadro, x, vx);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La caja choca, vuelve y sigue. Ferrum la mira rebotar un rato largo, hipnotizado. Nadie se anima a interrumpirlo.
+
+#### Imagen
+- Una caja de luz que rebota contra el borde de una pantalla, dejando una estela.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) hipnotizado mirándola.
+
 ### Misión S01-N01-M1 · Rebote en dos ejes
 
 ```meta
@@ -721,6 +964,251 @@ Todo juego y toda aplicación interactiva decide cómo leer la entrada: los jueg
 **Ogro: el temblor al llegar.** Al ir hacia un punto, si el paso es más grande que la distancia que falta, el personaje se pasa, vuelve y tiembla. Si la distancia es menor que el paso, se lo pone directo en el destino.
 
 **Goblin: coordenadas `int`.** En SDL3 las posiciones del mouse y los `SDL_FRect` son `float`.
+
+### Micro-misión S01-N02-P1 · Apretar o mantener
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+carta: Teclas | un evento dice «se apretó» una vez · el estado dice «está apretada» en cada cuadro · saltar va con el evento, caminar con el estado
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El personaje de Kira salta **todo el tiempo** mientras mantiene la tecla, como un resorte. Tizón lo mide: 60 saltos por segundo. Acá no se abre una ventana: se prueba la lógica del juego sola, como en las pruebas de cualquier juego de verdad. El dibujo con SDL3 queda para tu compu.
+
+#### Gheco sugiere
+«Recién apretada» es: está apretada **ahora** y **no** lo estaba en el cuadro anterior. Para saltar se usa eso; para caminar alcanza con «está apretada».
+
+#### Desafío
+Completá la condición de «recién apretada».
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int main(void)
+{
+    /* la tecla de saltar en 6 cuadros seguidos: 1 = apretada */
+    bool tecla[6] = { false, true, true, true, false, true };
+    bool antes = false;
+    int saltos = 0;
+    for (int c = 0; c < 6; c++) {
+        if (___) {
+            saltos++;
+            printf("cuadro %d: salta\n", c);
+        }
+        antes = tecla[c];
+    }
+    printf("saltos: %d\n", saltos);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: salta
+cuadro 5: salta
+saltos: 2
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int main(void)
+{
+    /* la tecla de saltar en 6 cuadros seguidos: 1 = apretada */
+    bool tecla[6] = { false, true, true, true, false, true };
+    bool antes = false;
+    int saltos = 0;
+    for (int c = 0; c < 6; c++) {
+        if (tecla[c] && !antes) {
+            saltos++;
+            printf("cuadro %d: salta\n", c);
+        }
+        antes = tecla[c];
+    }
+    printf("saltos: %d\n", saltos);
+    return 0;
+}
+```
+
+#### Al superarla
+Dos saltos, uno por apretada. El personaje deja de rebotar como un resorte. Tizón anota: «Golpe de martillo ≠ sostener el martillo».
+
+#### Imagen
+- Un personaje pixelado que salta una vez sobre una plataforma.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) anota en la libreta.
+
+### Micro-misión S01-N02-P2 · Caminar en diagonal
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Chispa
+carta: Dirección | sumar las teclas: derecha +1, izquierda -1 · en diagonal, normalizar para no ir más rápido · dividir por la raíz de 2
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Chispa descubrió que caminando en diagonal su personaje va **más rápido** que derecho, y lo usa para ganar todas las carreras. Kira lo arregla.
+
+#### Gheco sugiere
+Con derecha y abajo a la vez, el vector es (1, 1), que mide raíz de 2. Para que mida 1, se divide cada parte por `sqrt(dx*dx + dy*dy)` (si no es 0).
+
+#### Desafío
+Completá la normalización.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <math.h>
+
+void mover(int derecha, int izquierda, int abajo, int arriba)
+{
+    double dx = derecha - izquierda;
+    double dy = abajo - arriba;
+    double largo = sqrt(dx * dx + dy * dy);
+    if (largo > 0) {
+        ___;
+        ___;
+    }
+    printf("paso: (%.3f, %.3f)\n", dx, dy);
+}
+
+int main(void)
+{
+    mover(1, 0, 0, 0);
+    mover(1, 0, 1, 0);
+    mover(0, 0, 0, 0);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+paso: (1.000, 0.000)
+paso: (0.707, 0.707)
+paso: (0.000, 0.000)
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <math.h>
+
+void mover(int derecha, int izquierda, int abajo, int arriba)
+{
+    double dx = derecha - izquierda;
+    double dy = abajo - arriba;
+    double largo = sqrt(dx * dx + dy * dy);
+    if (largo > 0) {
+        dx /= largo;
+        dy /= largo;
+    }
+    printf("paso: (%.3f, %.3f)\n", dx, dy);
+}
+
+int main(void)
+{
+    mover(1, 0, 0, 0);
+    mover(1, 0, 1, 0);
+    mover(0, 0, 0, 0);
+    return 0;
+}
+```
+
+#### Al superarla
+En diagonal, cada paso mide lo mismo. Chispa pierde su truco y su primera carrera. Pide revancha por diagonal. No hay diagonal más rápida.
+
+#### Imagen
+- Dos personajes pixelados corriendo, uno derecho y otro en diagonal, llegando juntos.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con cara de estafado.
+
+### Micro-misión S01-N02-P3 · No salirse de la pantalla
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+carta: Limitar | después de mover, x = limitar(x, 0, ANCHO - LADO) · lo mismo con y · el personaje se frena en el borde
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El personaje de Kira se va por el borde y no vuelve. Lo vuelve a crear. Lo vuelve a perder. Tizón dibuja con tiza el borde de la pantalla en el piso, por las dudas.
+
+#### Gheco sugiere
+Después de mover, se limita cada coordenada al rango de la pantalla con una función `limitar(valor, min, max)`.
+
+#### Desafío
+Completá `limitar`.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+#define ANCHO 320
+#define LADO 16
+
+int limitar(int valor, int min, int max)
+{
+    ___
+}
+
+int main(void)
+{
+    int pruebas[4] = { -20, 100, 310, 400 };
+    for (int i = 0; i < 4; i++) {
+        printf("%d -> %d\n", pruebas[i], limitar(pruebas[i], 0, ANCHO - LADO));
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+-20 -> 0
+100 -> 100
+310 -> 304
+400 -> 304
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+#define ANCHO 320
+#define LADO 16
+
+int limitar(int valor, int min, int max)
+{
+    if (valor < min) {
+        return min;
+    }
+    if (valor > max) {
+        return max;
+    }
+    return valor;
+}
+
+int main(void)
+{
+    int pruebas[4] = { -20, 100, 310, 400 };
+    for (int i = 0; i < 4; i++) {
+        printf("%d -> %d\n", pruebas[i], limitar(pruebas[i], 0, ANCHO - LADO));
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Ni para un lado ni para el otro. El personaje se frena en el borde. Tizón borra la tiza del piso, con un poquito de pena.
+
+#### Imagen
+- Un personaje pixelado que choca contra el borde de la pantalla y se queda.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) borra una línea de tiza del piso.
 
 ### Misión S01-N02-M1 · El lago de hielo
 
@@ -1308,6 +1796,265 @@ La detección AABB es la primera prueba de colisión de casi todos los motores d
 **Orco: el array de partículas lleno.** Escribir una chispa nueva sin buscar un lugar libre desborda el array.
 
 **Slime: el alfa que no se ve.** Sin `SDL_BLENDMODE_BLEND`, el alfa se ignora y todo es sólido.
+
+### Micro-misión S01-N03-P1 · ¿Se tocan?
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+carta: Colisión entre rectángulos | se tocan si se superponen en x Y en y · a.x < b.x + b.ancho && b.x < a.x + a.ancho · lo mismo en y
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las criaturas de Kira atraviesan las paredes como fantasmas toda la tarde. Chispa propone venderlas como «función nueva». Tizón propone preguntar si dos rectángulos se tocan.
+
+#### Gheco sugiere
+Dos rectángulos se superponen si se superponen **en x** (`a.x < b.x + b.w && b.x < a.x + a.w`) **y** en y (lo mismo con `y` y `h`).
+
+#### Desafío
+Completá la superposición en y.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct {
+    int x, y, w, h;
+} Rect;
+
+bool se_tocan(Rect a, Rect b)
+{
+    return a.x < b.x + b.w && b.x < a.x + a.w && ___;
+}
+
+int main(void)
+{
+    Rect kira = { 10, 10, 16, 16 };
+    Rect pared = { 20, 0, 8, 40 };
+    Rect moneda = { 60, 60, 8, 8 };
+    Rect techo = { 0, 30, 50, 4 };
+    printf("pared: %d, moneda: %d, techo: %d\n", se_tocan(kira, pared), se_tocan(kira, moneda), se_tocan(kira, techo));
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+pared: 1, moneda: 0, techo: 0
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct {
+    int x, y, w, h;
+} Rect;
+
+bool se_tocan(Rect a, Rect b)
+{
+    return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+}
+
+int main(void)
+{
+    Rect kira = { 10, 10, 16, 16 };
+    Rect pared = { 20, 0, 8, 40 };
+    Rect moneda = { 60, 60, 8, 8 };
+    Rect techo = { 0, 30, 50, 4 };
+    printf("pared: %d, moneda: %d, techo: %d\n", se_tocan(kira, pared), se_tocan(kira, moneda), se_tocan(kira, techo));
+    return 0;
+}
+```
+
+#### Al superarla
+Pared sí, moneda no, techo no. Las criaturas dejan de atravesar paredes. Chispa se queda sin producto nuevo.
+
+#### Imagen
+- Tres rectángulos de luz alrededor de un personaje; uno se ilumina en rojo al tocarlo.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) decepcionado.
+
+### Micro-misión S01-N03-P2 · La criatura que persigue
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+carta: Perseguir | en cada cuadro, acercarse un paso: si está a la derecha, x++; si a la izquierda, x-- · lo mismo en y
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las criaturas de hierro de la Forja Viva siguen el rastro de Kira. La primera que programó ella se queda quieta mirando a la nada, «pensando».
+
+#### Gheco sugiere
+En cada cuadro, la criatura compara su posición con la de Kira y da **un paso** hacia ella en cada eje (si ya está alineada en un eje, no se mueve en ese).
+
+#### Desafío
+Completá el paso en x.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int paso_hacia(int desde, int hasta)
+{
+    if (desde < hasta) {
+        return desde + 1;
+    }
+    if (desde > hasta) {
+        return desde - 1;
+    }
+    return desde;
+}
+
+int main(void)
+{
+    int kx = 5, ky = 3;
+    int cx = 1, cy = 5;
+    for (int cuadro = 1; cuadro <= 4; cuadro++) {
+        cx = ___;
+        cy = paso_hacia(cy, ky);
+        printf("cuadro %d: criatura en (%d, %d)\n", cuadro, cx, cy);
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: criatura en (2, 4)
+cuadro 2: criatura en (3, 3)
+cuadro 3: criatura en (4, 3)
+cuadro 4: criatura en (5, 3)
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int paso_hacia(int desde, int hasta)
+{
+    if (desde < hasta) {
+        return desde + 1;
+    }
+    if (desde > hasta) {
+        return desde - 1;
+    }
+    return desde;
+}
+
+int main(void)
+{
+    int kx = 5, ky = 3;
+    int cx = 1, cy = 5;
+    for (int cuadro = 1; cuadro <= 4; cuadro++) {
+        cx = paso_hacia(cx, kx);
+        cy = paso_hacia(cy, ky);
+        printf("cuadro %d: criatura en (%d, %d)\n", cuadro, cx, cy);
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Cuatro cuadros y la criatura llega a Kira. Ella grita, aunque la programó ella. Tizón cronometra el grito.
+
+#### Imagen
+- Una criatura de hierro pixelada que avanza en diagonal hacia un personaje.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) retrocede con un grito.
+
+### Micro-misión S01-N03-P3 · Juntar las monedas
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Chispa
+carta: Recolectar | recorrer las monedas activas · si toca al personaje, se desactiva y suma · nunca se cuenta dos veces
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay monedas de fuego frío por todo el nivel. Chispa propone que valgan el doble «si las agarra él». Kira hace que cada moneda se cuente **una sola vez**.
+
+#### Gheco sugiere
+Cada moneda tiene `activa`. Si está activa y toca al personaje, se desactiva y se suma. Desactivada, ya no cuenta aunque la vuelva a tocar.
+
+#### Desafío
+Completá la condición y la recolección.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct {
+    int x;
+    bool activa;
+} Moneda;
+
+int main(void)
+{
+    Moneda m[3] = { { 4, true }, { 7, true }, { 9, true } };
+    int recorrido[6] = { 3, 4, 4, 5, 7, 4 };
+    int juntadas = 0;
+    for (int paso = 0; paso < 6; paso++) {
+        for (int i = 0; i < 3; i++) {
+            if (___) {
+                ___;
+                juntadas++;
+                printf("paso %d: moneda en %d\n", paso, m[i].x);
+            }
+        }
+    }
+    printf("monedas: %d de 3\n", juntadas);
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+paso 1: moneda en 4
+paso 4: moneda en 7
+monedas: 2 de 3
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct {
+    int x;
+    bool activa;
+} Moneda;
+
+int main(void)
+{
+    Moneda m[3] = { { 4, true }, { 7, true }, { 9, true } };
+    int recorrido[6] = { 3, 4, 4, 5, 7, 4 };
+    int juntadas = 0;
+    for (int paso = 0; paso < 6; paso++) {
+        for (int i = 0; i < 3; i++) {
+            if (m[i].activa && m[i].x == recorrido[paso]) {
+                m[i].activa = false;
+                juntadas++;
+                printf("paso %d: moneda en %d\n", paso, m[i].x);
+            }
+        }
+    }
+    printf("monedas: %d de 3\n", juntadas);
+    return 0;
+}
+```
+
+#### Al superarla
+Dos de tres, cada una contada una vez. Chispa pasa tres veces por la misma moneda «por si acaso». Sigue valiendo una.
+
+#### Imagen
+- Monedas de fuego frío flotando en un nivel pixelado; dos se apagan al ser tocadas.
+- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) pasa una y otra vez por el mismo lugar.
 
 ### Misión S01-N03-M1 · Las chispas
 
@@ -2187,6 +2934,236 @@ La Salamandra combina todo lo de la Senda:
 - **Orco**: recorrer más gemas de las que tiene el nivel (usá la cantidad de cada nivel, no el máximo del array).
 - **Ogro**: al pasar de nivel, olvidar reiniciar las gemas tomadas o las posiciones.
 - **Troll**: no destruir la ventana y el renderer al salir.
+
+### Micro-misión S01-N04-P1 · Los estados del juego
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón
+criatura: dragon
+carta: Máquina de estados | enum { MENU, JUGANDO, GANASTE, PERDISTE } · cada estado decide qué se actualiza · las transiciones, en un solo lugar
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+En el corazón de la Forja Viva vive la **Salamandra del Horno**. La primera partida dura cuatro segundos, y el juego sigue «jugando» después de perder. Kira ordena el juego en **estados**.
+
+#### Gheco sugiere
+El juego está siempre en **un** estado. Según el evento (`empezar`, `todas las monedas`, `te alcanzó`), cambia de estado. Una función `siguiente(estado, evento)` decide.
+
+#### Desafío
+Completá las dos transiciones que faltan.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+typedef enum { MENU, JUGANDO, GANASTE, PERDISTE } Estado;
+typedef enum { EMPEZAR, MONEDAS, ALCANZADA } Evento;
+
+const char *nombre(Estado e)
+{
+    const char *n[] = { "menu", "jugando", "ganaste", "perdiste" };
+    return n[e];
+}
+
+Estado siguiente(Estado e, Evento ev)
+{
+    if (e == MENU && ev == EMPEZAR) {
+        return JUGANDO;
+    }
+    if (e == JUGANDO && ev == MONEDAS) {
+        return ___;
+    }
+    if (e == JUGANDO && ev == ALCANZADA) {
+        return ___;
+    }
+    return e;
+}
+
+int main(void)
+{
+    Evento partida[4] = { MONEDAS, EMPEZAR, ALCANZADA, MONEDAS };
+    Estado e = MENU;
+    for (int i = 0; i < 4; i++) {
+        e = siguiente(e, partida[i]);
+        printf("%s\n", nombre(e));
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+menu
+jugando
+perdiste
+perdiste
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+typedef enum { MENU, JUGANDO, GANASTE, PERDISTE } Estado;
+typedef enum { EMPEZAR, MONEDAS, ALCANZADA } Evento;
+
+const char *nombre(Estado e)
+{
+    const char *n[] = { "menu", "jugando", "ganaste", "perdiste" };
+    return n[e];
+}
+
+Estado siguiente(Estado e, Evento ev)
+{
+    if (e == MENU && ev == EMPEZAR) {
+        return JUGANDO;
+    }
+    if (e == JUGANDO && ev == MONEDAS) {
+        return GANASTE;
+    }
+    if (e == JUGANDO && ev == ALCANZADA) {
+        return PERDISTE;
+    }
+    return e;
+}
+
+int main(void)
+{
+    Evento partida[4] = { MONEDAS, EMPEZAR, ALCANZADA, MONEDAS };
+    Estado e = MENU;
+    for (int i = 0; i < 4; i++) {
+        e = siguiente(e, partida[i]);
+        printf("%s\n", nombre(e));
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Perder ahora es perder: el juego no sigue solo. Tizón lleva la estadística de partidas en la pared, al lado de la cuenta de espadazos.
+
+#### Imagen
+- La Salamandra del Horno (salamandra de fuego vivo hecha de píxeles encendidos que dejan una estela) corre por una pantalla que muestra «PERDISTE».
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) anota en la pared.
+
+### Micro-misión S01-N04-P2 · La Salamandra se duerme
+
+```meta
+lugar: La Forja Viva
+personajes: Kira, Gheco, Tizón, Maese Ferrum
+criatura: dragon
+carta: El juego entero | bucle + movimiento + persecución + colisiones + estados · cada parte en su función · un juego que alguien quiera jugar dos veces
+recompensa: xp 30, oro 30
+```
+
+#### Escena
+Última partida. Kira tiene el recorrido planeado en la libreta de Tizón. Si junta las tres monedas antes de que la Salamandra la alcance, la Salamandra se duerme.
+
+#### Gheco sugiere
+En cada cuadro: Kira avanza un paso de su recorrido, junta lo que toca, la Salamandra da un paso hacia ella, y se revisa si la alcanzó. El juego termina en `GANASTE` o `PERDISTE`.
+
+#### Desafío
+Completá la condición de victoria y la de derrota.
+
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int paso_hacia(int desde, int hasta)
+{
+    return desde < hasta ? desde + 1 : desde > hasta ? desde - 1 : desde;
+}
+
+int main(void)
+{
+    int recorrido[6] = { 2, 3, 4, 5, 6, 7 };
+    int monedas[3] = { 3, 5, 7 };
+    bool juntada[3] = { false, false, false };
+    int juntadas = 0;
+    int salamandra = -4;
+    for (int c = 0; c < 6; c++) {
+        int kira = recorrido[c];
+        for (int i = 0; i < 3; i++) {
+            if (!juntada[i] && monedas[i] == kira) {
+                juntada[i] = true;
+                juntadas++;
+            }
+        }
+        salamandra = paso_hacia(salamandra, kira);
+        printf("cuadro %d: Kira en %d, salamandra en %d, monedas %d\n", c + 1, kira, salamandra, juntadas);
+        if (___) {
+            printf("GANASTE: la salamandra se duerme\n");
+            break;
+        }
+        if (___) {
+            printf("PERDISTE: la salamandra te alcanzo\n");
+            break;
+        }
+    }
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+cuadro 1: Kira en 2, salamandra en -3, monedas 0
+cuadro 2: Kira en 3, salamandra en -2, monedas 1
+cuadro 3: Kira en 4, salamandra en -1, monedas 1
+cuadro 4: Kira en 5, salamandra en 0, monedas 2
+cuadro 5: Kira en 6, salamandra en 1, monedas 2
+cuadro 6: Kira en 7, salamandra en 2, monedas 3
+GANASTE: la salamandra se duerme
+```
+
+#### Solución
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+int paso_hacia(int desde, int hasta)
+{
+    return desde < hasta ? desde + 1 : desde > hasta ? desde - 1 : desde;
+}
+
+int main(void)
+{
+    int recorrido[6] = { 2, 3, 4, 5, 6, 7 };
+    int monedas[3] = { 3, 5, 7 };
+    bool juntada[3] = { false, false, false };
+    int juntadas = 0;
+    int salamandra = -4;
+    for (int c = 0; c < 6; c++) {
+        int kira = recorrido[c];
+        for (int i = 0; i < 3; i++) {
+            if (!juntada[i] && monedas[i] == kira) {
+                juntada[i] = true;
+                juntadas++;
+            }
+        }
+        salamandra = paso_hacia(salamandra, kira);
+        printf("cuadro %d: Kira en %d, salamandra en %d, monedas %d\n", c + 1, kira, salamandra, juntadas);
+        if (juntadas == 3) {
+            printf("GANASTE: la salamandra se duerme\n");
+            break;
+        }
+        if (salamandra == kira) {
+            printf("PERDISTE: la salamandra te alcanzo\n");
+            break;
+        }
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+Tres monedas, y la Salamandra todavía a dos pasos. Se acurruca en un rincón de la pantalla y se duerme, chisporroteando bajito. Ferrum pide jugar. Pierde en cuatro segundos. Pide revancha.
+
+#### Imagen
+- La Salamandra del Horno (salamandra de fuego vivo hecha de píxeles encendidos que dejan una estela) dormida en un rincón de la pantalla, chisporroteando.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con tres monedas de fuego frío en la mano.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) agarra el control, entusiasmado.
 
 ### Misión S01-N04-M1 · Reiniciar y récord
 

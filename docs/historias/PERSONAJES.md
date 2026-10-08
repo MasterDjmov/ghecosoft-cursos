@@ -413,6 +413,13 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Cómo habla:** con **voz de agua**, en preguntas; no se le cree nada sin comprobarlo.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
+### El Dragón del Imperio (jefe final de Java) *(falta la imagen)*
+- **Rol:** el jefe final de Java (R05-N06), en la cima de la Torre del Arquitecto: es el simulacro del examen, **AduanaExpress**. Al caer, la ganzúa de Zed se transforma en la **Llave Maestra**.
+- **Qué es:** un **dragón de bronce y vitrales** hecho de todas las piezas del curso: escamas como moldes de la Academia, campanas de los Archivos en el lomo, alas con corrientes del río, ojos de luz dorada. Está enroscado alrededor de la ventana más alta, la del marco vacío.
+- **Color:** bronce, dorado y los colores de los vitrales del Imperio.
+- **Cómo habla:** no ruge: hace **preguntas**, una por pieza, y cada respuesta correcta le apaga una escama.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
 ### El Centinela de la Aduana
 - **Rol:** el jefe de la Aduana (R01-N09). Aprueba o rechaza a cada viajero desde hace siglos; no se lo engaña: se lo vence con orden. Le hace a Zed cuatro preguntas y, al final, le entrega el **Sello de Entrada**.
 - **Qué es:** una **armadura vacía** de piedra gris y bronce, sentada en un **trono de piedra**, con un **libro de registros** abierto sobre las rodillas y una pluma que escribe sola. Por las juntas no se ve nada adentro: solo una **luz azul** en el lugar de los ojos.

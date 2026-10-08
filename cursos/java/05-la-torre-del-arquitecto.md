@@ -185,6 +185,309 @@ no, devuelve cualquier cosa sin dar error.
 **Slime: optimizar antes de tiempo.** Primero que funcione y sea claro; después medí y mejorá
 lo que de verdad tarda.
 
+### Micro-misión R05-N01-P1 · No discutan: cuenten
+
+```meta
+lugar: La sala de las balanzas del tiempo
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Contar pasos | un contador adentro del bucle · cuántas vueltas da según n · eso es lo que mide la O grande
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el primer piso de la Torre, dos aprendices discuten cuál de sus algoritmos es más rápido. Kaffa deja un reloj sobre la mesa, pero Gheco tiene una idea mejor: **contar** cuántos pasos da cada uno.
+
+#### Gheco sugiere
+Para comparar algoritmos sin depender de la compu, se cuentan los pasos: una variable `pasos` que suma 1 en cada vuelta. Una búsqueda lineal en el peor caso mira **todos** los elementos.
+
+#### Desafío
+Sumá un paso en cada vuelta del bucle.
+
+#### Código inicial
+```java
+public class Balanza {
+    public static void main(String[] args) {
+        for (int n : new int[] {10, 100, 1000}) {
+            int pasos = 0;
+            for (int i = 0; i < n; i++) {
+                ___;
+            }
+            System.out.println("n = " + n + ": " + pasos + " pasos");
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+n = 10: 10 pasos
+n = 100: 100 pasos
+n = 1000: 1000 pasos
+```
+
+#### Solución
+```java
+public class Balanza {
+    public static void main(String[] args) {
+        for (int n : new int[] {10, 100, 1000}) {
+            int pasos = 0;
+            for (int i = 0; i < n; i++) {
+                pasos++;
+            }
+            System.out.println("n = " + n + ": " + pasos + " pasos");
+        }
+    }
+}
+```
+
+#### Al superarla
+Diez veces más datos, diez veces más pasos. —Eso es **O(n)** —dice Gheco—: crece igual que los datos. Los aprendices dejan de gritar y se ponen a contar.
+
+#### Imagen
+- La sala de las balanzas del tiempo: balanzas de bronce con relojes de arena en vez de pesas.
+- Dos aprendices discutiendo; Gheco con un ábaco de luz contando pasos.
+
+### Micro-misión R05-N01-P2 · Dos bucles, n al cuadrado
+
+```meta
+lugar: La sala de las balanzas del tiempo
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: ogro
+carta: O(n²) | un bucle adentro de otro sobre los mismos datos · con el doble de datos, cuatro veces más pasos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El segundo aprendiz compara cada pasaporte con todos los demás. Con pocos anda; con muchos, la Aduana entera espera. Un **ogro** sonríe: el programa funciona, pero no termina nunca.
+
+#### Gheco sugiere
+Dos bucles anidados que comparan cada par: `for i … for j = i + 1 …`. Los pasos crecen como **n²**: con 10 veces más datos, unas 100 veces más pasos.
+
+#### Desafío
+Completá el inicio del bucle de adentro: compara cada uno con los que vienen **después**.
+
+#### Código inicial
+```java
+public class Cuadrado {
+    public static void main(String[] args) {
+        for (int n : new int[] {10, 100, 1000}) {
+            long pasos = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = ___; j < n; j++) {
+                    pasos++;
+                }
+            }
+            System.out.println("n = " + n + ": " + pasos + " comparaciones");
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+n = 10: 45 comparaciones
+n = 100: 4950 comparaciones
+n = 1000: 499500 comparaciones
+```
+
+#### Solución
+```java
+public class Cuadrado {
+    public static void main(String[] args) {
+        for (int n : new int[] {10, 100, 1000}) {
+            long pasos = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    pasos++;
+                }
+            }
+            System.out.println("n = " + n + ": " + pasos + " comparaciones");
+        }
+    }
+}
+```
+
+#### Al superarla
+De 45 a casi medio millón. —Con los pasaportes de un día de feria —calcula Nadia—, esto tarda hasta mañana. El ogro aplaude.
+
+#### Imagen
+- Una balanza con un plato que se hunde bajo una montaña de comparaciones.
+- Nadia haciendo cuentas en su libreta, alarmada; un ogro aplaudiendo.
+
+### Micro-misión R05-N01-P3 · Una sola pasada
+
+```meta
+lugar: La sala de las balanzas del tiempo
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: HashSet en una pasada | vistos.add(p) devuelve false si ya estaba · O(1) cada uno · O(n) en total
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Los pasaportes repetidos se encuentran en **una sola pasada** —dice Kaffa—. Es lo que te van a pedir en el examen. Con lo que aprendiste en los Archivos alcanza.
+
+#### Gheco sugiere
+Con un `HashSet` de vistos, cada `add` dice en un paso si el pasaporte ya había aparecido (devuelve `false`). Así se recorre la lista **una sola vez**.
+
+#### Desafío
+Completá la condición: si no se pudo agregar, es un repetido.
+
+#### Código inicial
+```java
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class UnaPasada {
+    public static void main(String[] args) {
+        List<String> pasaportes = List.of("AR-101", "UY-202", "AR-101", "CL-303", "UY-202");
+        Set<String> vistos = new HashSet<>();
+        Set<String> repetidos = new LinkedHashSet<>();
+        int pasos = 0;
+        for (String p : pasaportes) {
+            pasos++;
+            if (___) {
+                repetidos.add(p);
+            }
+        }
+        System.out.println("Repetidos: " + repetidos);
+        System.out.println("Pasos: " + pasos);
+    }
+}
+```
+
+#### Salida esperada
+```
+Repetidos: [AR-101, UY-202]
+Pasos: 5
+```
+
+#### Solución
+```java
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class UnaPasada {
+    public static void main(String[] args) {
+        List<String> pasaportes = List.of("AR-101", "UY-202", "AR-101", "CL-303", "UY-202");
+        Set<String> vistos = new HashSet<>();
+        Set<String> repetidos = new LinkedHashSet<>();
+        int pasos = 0;
+        for (String p : pasaportes) {
+            pasos++;
+            if (!vistos.add(p)) {
+                repetidos.add(p);
+            }
+        }
+        System.out.println("Repetidos: " + repetidos);
+        System.out.println("Pasos: " + pasos);
+    }
+}
+```
+
+#### Al superarla
+Cinco pasaportes, cinco pasos. —«¿Cuál es la complejidad de tu solución?» —pregunta Kaffa, imitando a un profesor. —O(n) —contesta Zed, sin pensarlo.
+
+#### Imagen
+- Una fila de pasaportes pasando una sola vez por un arco; dos de ellos se encienden en rojo al pasar.
+- Kaffa con anteojos de profesor, sonriendo.
+
+### Micro-misión R05-N01-P4 · Partir a la mitad
+
+```meta
+lugar: La sala de las balanzas del tiempo
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: O(log n) | la búsqueda binaria descarta la mitad en cada paso · un millón de datos, unos 20 pasos · solo con datos ORDENADOS
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+El último aprendiz busca un registro en el archivo ordenado de la Torre: un millón de fichas. No las mira de a una: abre por la mitad, ve si se pasó, y descarta media pila.
+
+#### Gheco sugiere
+En la búsqueda binaria, si lo del medio es menor que lo buscado, lo buscado está en la mitad de **arriba**: `desde = medio + 1`. Si es mayor, en la de abajo: `hasta = medio - 1`.
+
+#### Desafío
+Completá qué pasa cuando lo del medio es menor que lo buscado.
+
+#### Código inicial
+```java
+public class Mitad {
+    public static void main(String[] args) {
+        int n = 1_000_000;
+        int[] fichas = new int[n];
+        for (int i = 0; i < n; i++) {
+            fichas[i] = i * 2;
+        }
+        int buscado = 1_234_566;
+        int desde = 0;
+        int hasta = n - 1;
+        int pasos = 0;
+        int encontrada = -1;
+        while (desde <= hasta) {
+            pasos++;
+            int medio = (desde + hasta) / 2;
+            if (fichas[medio] == buscado) {
+                encontrada = medio;
+                break;
+            } else if (fichas[medio] < buscado) {
+                ___;
+            } else {
+                hasta = medio - 1;
+            }
+        }
+        System.out.println("Ficha en la posición " + encontrada + ", en " + pasos + " pasos");
+    }
+}
+```
+
+#### Salida esperada
+```
+Ficha en la posición 617283, en 20 pasos
+```
+
+#### Solución
+```java
+public class Mitad {
+    public static void main(String[] args) {
+        int n = 1_000_000;
+        int[] fichas = new int[n];
+        for (int i = 0; i < n; i++) {
+            fichas[i] = i * 2;
+        }
+        int buscado = 1_234_566;
+        int desde = 0;
+        int hasta = n - 1;
+        int pasos = 0;
+        int encontrada = -1;
+        while (desde <= hasta) {
+            pasos++;
+            int medio = (desde + hasta) / 2;
+            if (fichas[medio] == buscado) {
+                encontrada = medio;
+                break;
+            } else if (fichas[medio] < buscado) {
+                desde = medio + 1;
+            } else {
+                hasta = medio - 1;
+            }
+        }
+        System.out.println("Ficha en la posición " + encontrada + ", en " + pasos + " pasos");
+    }
+}
+```
+
+#### Al superarla
+Un millón de fichas y la encuentra en menos de veinte pasos. Los aprendices se dan la mano.
+En el segundo piso, Kaffa abre un plano viejo tan enredado que cambiar una puerta tira una pared.
+
+#### Imagen
+- Una pila gigante de fichas que se parte por la mitad una y otra vez hasta dejar una sola brillando.
+- Al fondo, una escalera que sube al segundo piso, con planos enrollados en los escalones.
+
 ### Misión R05-N01-M1 · Contar pasos
 
 ```meta
@@ -670,6 +973,356 @@ método del padre rompe Liskov: la jerarquía está mal.
 
 **Esqueleto: el `new` escondido.** Un servicio que hace `new RepositorioMySQL()` adentro no se
 puede probar sin la base: pedilo por el constructor.
+
+### Micro-misión R05-N02-P1 · La cocina que también es armería
+
+```meta
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: troll
+carta: S: responsabilidad única | una clase, una razón para cambiar · calcular, formatear y mostrar van en clases distintas
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En un plano viejo, la cocina también es la armería y el dormitorio. En el código del mismo arquitecto, una clase calcula, formatea y muestra. Un **troll** vive cómodo en ese desorden.
+
+#### Gheco sugiere
+Separá: una clase **calcula** y otra **formatea**. Así, si cambia el formato, no tocás la cuenta. El `main` solo conecta las piezas.
+
+#### Desafío
+Completá la llamada al formateador con el total calculado.
+
+#### Código inicial
+```java
+public class Separar {
+    public static void main(String[] args) {
+        int[] tasas = {120, 80, 40};
+        int total = new Calculadora().total(tasas);
+        String texto = ___;
+        System.out.println(texto);
+    }
+}
+
+class Calculadora {
+    int total(int[] montos) {
+        int t = 0;
+        for (int m : montos) {
+            t += m;
+        }
+        return t;
+    }
+}
+
+class Formateador {
+    String formatear(int total) {
+        return "Tasas del día: " + total + " denarios";
+    }
+}
+```
+
+#### Salida esperada
+```
+Tasas del día: 240 denarios
+```
+
+#### Solución
+```java
+public class Separar {
+    public static void main(String[] args) {
+        int[] tasas = {120, 80, 40};
+        int total = new Calculadora().total(tasas);
+        String texto = new Formateador().formatear(total);
+        System.out.println(texto);
+    }
+}
+
+class Calculadora {
+    int total(int[] montos) {
+        int t = 0;
+        for (int m : montos) {
+            t += m;
+        }
+        return t;
+    }
+}
+
+class Formateador {
+    String formatear(int total) {
+        return "Tasas del día: " + total + " denarios";
+    }
+}
+```
+
+#### Al superarla
+Cada clase en su habitación. El troll se queda sin rincón donde esconderse. —**S** —anota Kaffa en la pizarra.
+
+#### Imagen
+- Un plano viejo partido en tres habitaciones nuevas, cada una con su cartel: «calcular», «formatear», «mostrar».
+- Kaffa escribiendo una S enorme en la pizarra.
+
+### Micro-misión R05-N02-P2 · Agregar sin romper
+
+```meta
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: O: abierto/cerrado | lo nuevo se AGREGA (una clase que implementa la interfaz) · lo que ya anda no se toca
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Torre agrega un descuento nuevo cada semana. En el código viejo, cada uno era un `case` más en un `switch` gigante. Kaffa le pide a Zed que agregue el del **Gremio** sin tocar `cobrar`.
+
+#### Gheco sugiere
+Con una interfaz `Descuento`, cada descuento es una clase. Para agregar el del Gremio (15 menos) alcanza con **una clase nueva**; `cobrar` sigue igual.
+
+#### Desafío
+Completá el `aplicar` del descuento del Gremio: 15 denarios menos.
+
+#### Código inicial
+```java
+public class Abierto {
+    static double cobrar(double precio, Descuento d) {
+        return d.aplicar(precio);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Peregrino: " + cobrar(100, new Peregrino()));
+        System.out.println("Gremio: " + cobrar(100, new Gremio()));
+    }
+}
+
+interface Descuento {
+    double aplicar(double precio);
+}
+
+class Peregrino implements Descuento {
+    public double aplicar(double precio) { return precio * 0.5; }
+}
+
+class Gremio implements Descuento {
+    public double aplicar(double precio) { return ___; }
+}
+```
+
+#### Salida esperada
+```
+Peregrino: 50.0
+Gremio: 85.0
+```
+
+#### Solución
+```java
+public class Abierto {
+    static double cobrar(double precio, Descuento d) {
+        return d.aplicar(precio);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Peregrino: " + cobrar(100, new Peregrino()));
+        System.out.println("Gremio: " + cobrar(100, new Gremio()));
+    }
+}
+
+interface Descuento {
+    double aplicar(double precio);
+}
+
+class Peregrino implements Descuento {
+    public double aplicar(double precio) { return precio * 0.5; }
+}
+
+class Gremio implements Descuento {
+    public double aplicar(double precio) { return precio - 15; }
+}
+```
+
+#### Al superarla
+Un descuento nuevo y `cobrar` no se enteró. —**O** —anota Kaffa—. Abierto para agregar, cerrado para tocar. Es la Strategy del astillero, con otro nombre.
+
+#### Imagen
+- Un plano con una habitación nueva agregada en el borde, sin tocar las demás.
+- Zed con una regla y un lápiz, satisfecho.
+
+### Micro-misión R05-N02-P3 · El hijo que no cumple
+
+```meta
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: goblin
+carta: L: Liskov | donde va el padre, tiene que poder ir cualquier hijo sin sorpresas · si el hijo no puede cumplir, la herencia está mal
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En un plano viejo, el `Avestruz` hereda de `Ave`… y `volar()` tira un error. Cada vez que alguien hace volar a todas las aves, el programa explota. Un **goblin** se esconde en esa herencia.
+
+#### Gheco sugiere
+Si no todas las aves vuelan, `volar()` no va en `Ave`: va en una interfaz `Voladora` que firman solo las que pueden. Así, donde se espera una `Voladora`, ninguna falla.
+
+#### Desafío
+Completá el tipo de la lista: solo las que pueden volar.
+
+#### Código inicial
+```java
+import java.util.List;
+
+public class Liskov {
+    public static void main(String[] args) {
+        List<___> bandada = List.of(new Paloma(), new Grifo());
+        for (Voladora v : bandada) {
+            System.out.println(v.volar());
+        }
+        System.out.println(new Avestruz().correr());
+    }
+}
+
+interface Voladora {
+    String volar();
+}
+
+class Paloma implements Voladora {
+    public String volar() { return "la paloma vuela bajo"; }
+}
+
+class Grifo implements Voladora {
+    public String volar() { return "el grifo vuela en espiral"; }
+}
+
+class Avestruz {
+    String correr() { return "el avestruz corre, no vuela"; }
+}
+```
+
+#### Salida esperada
+```
+la paloma vuela bajo
+el grifo vuela en espiral
+el avestruz corre, no vuela
+```
+
+#### Solución
+```java
+import java.util.List;
+
+public class Liskov {
+    public static void main(String[] args) {
+        List<Voladora> bandada = List.of(new Paloma(), new Grifo());
+        for (Voladora v : bandada) {
+            System.out.println(v.volar());
+        }
+        System.out.println(new Avestruz().correr());
+    }
+}
+
+interface Voladora {
+    String volar();
+}
+
+class Paloma implements Voladora {
+    public String volar() { return "la paloma vuela bajo"; }
+}
+
+class Grifo implements Voladora {
+    public String volar() { return "el grifo vuela en espiral"; }
+}
+
+class Avestruz {
+    String correr() { return "el avestruz corre, no vuela"; }
+}
+```
+
+#### Al superarla
+Nadie le pide al avestruz que vuele, y nada explota. —**L** y, de paso, **I** —dice Kaffa—: interfaces chicas, que cada uno firme solo lo que puede cumplir.
+
+#### Imagen
+- Una paloma y un grifo volando; abajo, un avestruz corriendo feliz por el piso de la Torre.
+- Un goblin escondido detrás de un plano tachado que decía «Avestruz extends Ave».
+
+### Micro-misión R05-N02-P4 · No lo fabriques: pedilo
+
+```meta
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: D: inversión de dependencias | la clase depende de una INTERFAZ y la RECIBE por el constructor · no hace new de lo que usa
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+—La última regla es la más importante —dice Kaffa, y la subraya dos veces—: **no fabriques lo que usás; pedilo**. El servicio de reservas no crea su avisador: se lo dan. Así funciona con el de la Torre y con uno de prueba.
+
+#### Gheco sugiere
+El servicio guarda un `Avisador` (una interfaz) y lo recibe por el constructor: `new ServicioReservas(avisador)`. Así, el mismo servicio funciona con cualquier avisador, también con una lambda.
+
+#### Desafío
+Completá el constructor del servicio pasándole el avisador.
+
+#### Código inicial
+```java
+public class Inversion {
+    public static void main(String[] args) {
+        Avisador torre = mensaje -> System.out.println("[Torre] " + mensaje);
+        ServicioReservas servicio = ___;
+        servicio.reservar("Zed", 2);
+    }
+}
+
+interface Avisador {
+    void avisar(String mensaje);
+}
+
+class ServicioReservas {
+    private final Avisador avisador;
+
+    ServicioReservas(Avisador avisador) {
+        this.avisador = avisador;
+    }
+
+    void reservar(String viajero, int noches) {
+        avisador.avisar(viajero + " reservó " + noches + " noches en la Torre");
+    }
+}
+```
+
+#### Salida esperada
+```
+[Torre] Zed reservó 2 noches en la Torre
+```
+
+#### Solución
+```java
+public class Inversion {
+    public static void main(String[] args) {
+        Avisador torre = mensaje -> System.out.println("[Torre] " + mensaje);
+        ServicioReservas servicio = new ServicioReservas(torre);
+        servicio.reservar("Zed", 2);
+    }
+}
+
+interface Avisador {
+    void avisar(String mensaje);
+}
+
+class ServicioReservas {
+    private final Avisador avisador;
+
+    ServicioReservas(Avisador avisador) {
+        this.avisador = avisador;
+    }
+
+    void reservar(String viajero, int noches) {
+        avisador.avisar(viajero + " reservó " + noches + " noches en la Torre");
+    }
+}
+```
+
+#### Al superarla
+El servicio no sabe quién avisa, y no le hace falta. —**D** —termina Kaffa, y la pizarra queda llena: S, O, L, I, D.
+—En el piso de arriba —agrega—, hay alguien que se dedica solo a eso: fabricar las piezas y pasárselas a cada uno.
+
+#### Imagen
+- La pizarra de la Torre con las cinco letras SOLID escritas con tiza, la D subrayada dos veces.
+- Kaffa señalando hacia el techo, donde se oye el ruido de una grúa.
 
 ### Misión R05-N02-M1 · Una sola razón para cambiar
 
@@ -1381,6 +2034,377 @@ existe hace fallar el arranque: `Could not resolve placeholder`.
 **Slime: inyección en el atributo.** `@Autowired private Repositorio r;` funciona, pero
 el atributo no puede ser `final` y la clase no se puede probar sin Spring. Preferí el
 constructor.
+
+### Micro-misión R05-N03-P1 · El taller que arma solo
+
+```meta
+lugar: El taller del Contenedor
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: El contenedor | alguien crea los objetos y se los entrega a quien los pide · en Spring, el ApplicationContext con sus @Component
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el tercer piso, una grúa gigante, el **Contenedor**, sabe qué pieza va en cada lugar. Los maestros no fabrican nada: piden «un reloj» y la grúa se lo entrega armado. —Spring es esa grúa —dice Gheco—. Armemos una de juguete para entenderla.
+
+#### Gheco sugiere
+Un contenedor guarda las piezas por nombre en un mapa y las entrega cuando alguien las pide. En Spring, cada clase con `@Component` es una pieza, y el contenedor la crea **una sola vez**.
+
+#### Desafío
+Completá el método que entrega una pieza por su nombre.
+
+#### Código inicial
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Grua {
+    public static void main(String[] args) {
+        Contenedor contenedor = new Contenedor();
+        contenedor.registrar("reloj", new Reloj());
+        Reloj a = (Reloj) contenedor.pedir("reloj");
+        Reloj b = (Reloj) contenedor.pedir("reloj");
+        System.out.println(a.hora());
+        System.out.println("Es la misma pieza: " + (a == b));
+    }
+}
+
+class Contenedor {
+    private final Map<String, Object> piezas = new HashMap<>();
+
+    void registrar(String nombre, Object pieza) {
+        piezas.put(nombre, pieza);
+    }
+
+    Object pedir(String nombre) {
+        return ___;
+    }
+}
+
+class Reloj {
+    String hora() {
+        return "Son las 9 en la Torre";
+    }
+}
+```
+
+#### Salida esperada
+```
+Son las 9 en la Torre
+Es la misma pieza: true
+```
+
+#### Solución
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Grua {
+    public static void main(String[] args) {
+        Contenedor contenedor = new Contenedor();
+        contenedor.registrar("reloj", new Reloj());
+        Reloj a = (Reloj) contenedor.pedir("reloj");
+        Reloj b = (Reloj) contenedor.pedir("reloj");
+        System.out.println(a.hora());
+        System.out.println("Es la misma pieza: " + (a == b));
+    }
+}
+
+class Contenedor {
+    private final Map<String, Object> piezas = new HashMap<>();
+
+    void registrar(String nombre, Object pieza) {
+        piezas.put(nombre, pieza);
+    }
+
+    Object pedir(String nombre) {
+        return piezas.get(nombre);
+    }
+}
+
+class Reloj {
+    String hora() {
+        return "Son las 9 en la Torre";
+    }
+}
+```
+
+#### Al superarla
+Dos pedidos, la misma pieza: el contenedor la creó una sola vez. —Como el Singleton del astillero —dice Zed—, pero sin `private` ni `get()`. —Exacto —dice Kaffa—: lo hace la grúa.
+
+#### Imagen
+- Una grúa de bronce enorme en el tercer piso de la Torre, entregando un reloj a un maestro.
+- Zed mirando hacia arriba, entendiendo.
+
+### Micro-misión R05-N03-P2 · La pieza que viene con piezas
+
+```meta
+lugar: El taller del Contenedor
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Inyección por constructor | la grúa crea primero lo que la pieza necesita y se lo pasa al construirla · en Spring: @RequiredArgsConstructor y final
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El `ServicioCampanas` necesita un `Reloj` para saber cuándo tocar. No lo fabrica: lo **pide en el constructor**, y la grúa se lo pasa al armarlo. Es la **D** de SOLID, hecha máquina.
+
+#### Gheco sugiere
+Cuando el contenedor arma una pieza que necesita otra, primero busca la que hace falta y la pasa al constructor: `new ServicioCampanas(reloj)`. En Spring se escribe el constructor (o se lo deja a Lombok con `@RequiredArgsConstructor`) y el contenedor hace el resto.
+
+#### Desafío
+Completá el armado del servicio con el reloj que ya está en el contenedor.
+
+#### Código inicial
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Inyeccion {
+    public static void main(String[] args) {
+        Map<String, Object> contenedor = new HashMap<>();
+        contenedor.put("reloj", new Reloj());
+        Reloj reloj = (Reloj) contenedor.get("reloj");
+        contenedor.put("campanas", ___);
+        ServicioCampanas campanas = (ServicioCampanas) contenedor.get("campanas");
+        System.out.println(campanas.tocar());
+    }
+}
+
+class Reloj {
+    int hora() { return 9; }
+}
+
+class ServicioCampanas {
+    private final Reloj reloj;
+
+    ServicioCampanas(Reloj reloj) {
+        this.reloj = reloj;
+    }
+
+    String tocar() {
+        return "Din don: son las " + reloj.hora();
+    }
+}
+```
+
+#### Salida esperada
+```
+Din don: son las 9
+```
+
+#### Solución
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Inyeccion {
+    public static void main(String[] args) {
+        Map<String, Object> contenedor = new HashMap<>();
+        contenedor.put("reloj", new Reloj());
+        Reloj reloj = (Reloj) contenedor.get("reloj");
+        contenedor.put("campanas", new ServicioCampanas(reloj));
+        ServicioCampanas campanas = (ServicioCampanas) contenedor.get("campanas");
+        System.out.println(campanas.tocar());
+    }
+}
+
+class Reloj {
+    int hora() { return 9; }
+}
+
+class ServicioCampanas {
+    private final Reloj reloj;
+
+    ServicioCampanas(Reloj reloj) {
+        this.reloj = reloj;
+    }
+
+    String tocar() {
+        return "Din don: son las " + reloj.hora();
+    }
+}
+```
+
+#### Al superarla
+Las campanas suenan a las 9. El servicio nunca hizo `new Reloj()`: se lo dieron armado. —Eso es **inyectar** —dice Kaffa—. Spring lo hace con cien piezas sin que escribas una línea de esto.
+
+#### Imagen
+- La grúa colocando un reloj adentro de un mecanismo de campanas.
+- Las campanas de la Torre sonando.
+
+### Micro-misión R05-N03-P3 · Dos piezas, una interfaz
+
+```meta
+lugar: El taller del Contenedor
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Elegir la implementación | el servicio pide una INTERFAZ · el contenedor decide cuál le da (en Spring, @Primary, @Qualifier o un perfil)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la Torre hay dos formas de avisar: por **campana** y por **mensajero**. El servicio de avisos no sabe cuál usa: pide «un notificador», y la configuración de la Torre decide.
+
+#### Gheco sugiere
+El servicio recibe un `Notificador` (la interfaz). Según la configuración (`modo`), el contenedor le pasa una implementación u otra. En Spring eso se elige con `@Primary`, `@Qualifier` o `application.properties`.
+
+#### Desafío
+Completá la elección: con el modo "mensajero", el contenedor da un `PorMensajero`.
+
+#### Código inicial
+```java
+public class DosPiezas {
+    static Notificador elegir(String modo) {
+        return modo.equals("mensajero") ? ___ : new PorCampana();
+    }
+
+    public static void main(String[] args) {
+        for (String modo : new String[] {"campana", "mensajero"}) {
+            ServicioAvisos servicio = new ServicioAvisos(elegir(modo));
+            System.out.println(servicio.avisar("el Dragón despertó"));
+        }
+    }
+}
+
+interface Notificador {
+    String enviar(String texto);
+}
+
+class PorCampana implements Notificador {
+    public String enviar(String texto) { return "Campana: " + texto; }
+}
+
+class PorMensajero implements Notificador {
+    public String enviar(String texto) { return "Mensajero: " + texto; }
+}
+
+class ServicioAvisos {
+    private final Notificador notificador;
+
+    ServicioAvisos(Notificador notificador) { this.notificador = notificador; }
+
+    String avisar(String texto) { return notificador.enviar(texto); }
+}
+```
+
+#### Salida esperada
+```
+Campana: el Dragón despertó
+Mensajero: el Dragón despertó
+```
+
+#### Solución
+```java
+public class DosPiezas {
+    static Notificador elegir(String modo) {
+        return modo.equals("mensajero") ? new PorMensajero() : new PorCampana();
+    }
+
+    public static void main(String[] args) {
+        for (String modo : new String[] {"campana", "mensajero"}) {
+            ServicioAvisos servicio = new ServicioAvisos(elegir(modo));
+            System.out.println(servicio.avisar("el Dragón despertó"));
+        }
+    }
+}
+
+interface Notificador {
+    String enviar(String texto);
+}
+
+class PorCampana implements Notificador {
+    public String enviar(String texto) { return "Campana: " + texto; }
+}
+
+class PorMensajero implements Notificador {
+    public String enviar(String texto) { return "Mensajero: " + texto; }
+}
+
+class ServicioAvisos {
+    private final Notificador notificador;
+
+    ServicioAvisos(Notificador notificador) { this.notificador = notificador; }
+
+    String avisar(String texto) { return notificador.enviar(texto); }
+}
+```
+
+#### Al superarla
+«el Dragón despertó», por campana y por mensajero. Nadia y Zed se miran: el aviso de prueba sonó demasiado real.
+
+#### Imagen
+- Una campana y un mensajero con alas saliendo de la misma puerta del taller.
+- Nadia y Zed mirando hacia arriba, inquietos.
+
+### Micro-misión R05-N03-P4 · La configuración de la Torre
+
+```meta
+lugar: El taller del Contenedor
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: application.properties | los valores que cambian (tasas, nombres, puertos) van afuera del código · en Spring: @Value("${clave}")
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+La tasa de cambio del Puerto cambia cada mes. Si está escrita en el código, hay que recompilar todo. —Lo que cambia —dice Kaffa— va en la **configuración**, no en el código.
+
+#### Gheco sugiere
+Un archivo de propiedades guarda pares `clave=valor`. `Properties.load(...)` los lee y `getProperty("clave")` los devuelve como texto. En Spring es `application.properties` y se lee con `@Value("${clave}")`.
+
+#### Desafío
+Completá la lectura de la tasa desde las propiedades.
+
+#### Código inicial
+```java
+import java.io.StringReader;
+import java.util.Properties;
+
+public class Configuracion {
+    public static void main(String[] args) throws Exception {
+        String archivo = """
+                torre.nombre=Torre del Arquitecto
+                cambio.tasa=0.85
+                """;
+        Properties props = new Properties();
+        props.load(new StringReader(archivo));
+        double tasa = Double.parseDouble(props.___("cambio.tasa"));
+        System.out.println(props.getProperty("torre.nombre"));
+        System.out.println("100 denarios son " + (100 * tasa) + " monedas del Puerto");
+    }
+}
+```
+
+#### Salida esperada
+```
+Torre del Arquitecto
+100 denarios son 85.0 monedas del Puerto
+```
+
+#### Solución
+```java
+import java.io.StringReader;
+import java.util.Properties;
+
+public class Configuracion {
+    public static void main(String[] args) throws Exception {
+        String archivo = """
+                torre.nombre=Torre del Arquitecto
+                cambio.tasa=0.85
+                """;
+        Properties props = new Properties();
+        props.load(new StringReader(archivo));
+        double tasa = Double.parseDouble(props.getProperty("cambio.tasa"));
+        System.out.println(props.getProperty("torre.nombre"));
+        System.out.println("100 denarios son " + (100 * tasa) + " monedas del Puerto");
+    }
+}
+```
+
+#### Al superarla
+Ochenta y cinco monedas del Puerto. Por la ventana del tercer piso, lejos, se ve el Puerto: la casa de Zed. —Arriba —dice Kaffa— vas a escribir la ventanilla que conecta la Torre con el Puerto.
+
+#### Imagen
+- Un pergamino de configuración clavado en la pared del taller, con «cambio.tasa=0.85».
+- Zed mirando por la ventana hacia el Puerto lejano, con barcos y techos.
 
 ### Misión R05-N03-M1 · El reloj del puerto
 
@@ -2388,9 +3412,9 @@ usa: fw.spring
 
 ### Crónica
 
-En el muelle central del Puerto hay una ventanilla que nunca cierra. Llegan mensajeros de todo el Imperio con pedidos escritos siempre igual: *"DAME el barco 7"*, *"AGREGÁ este cargamento"*, *"BORRÁ el turno 3"*. La ventanilla contesta con un número y un papel: *200, acá está*; *404, ese barco no existe*.
+En el cuarto piso de la Torre está la **ventanilla de los mensajes**, que nunca cierra. Llegan pedidos de todo el Mundo del Código, escritos siempre igual: *«DAME el barco 7»*, *«AGREGÁ este cargamento»*, *«BORRÁ el turno 3»*. La ventanilla contesta con un número y un papel: *200, acá está*; *404, ese barco no existe*. Kaffa le encarga a Zed la que va a conectar la Torre con el Puerto, su casa.
 
-—Así se hablan hoy los sistemas —dice {mentor}—: por **HTTP**, con verbos y códigos que todos entienden. Una app de celular, una página web, otro sistema: todos le piden datos a un **servicio REST**. Tu ventanilla va a ser un `@RestController`, {heroe}.
+—Así se hablan hoy los sistemas —dice {mentor}—: por **HTTP**, con verbos y códigos que todos entienden. Una app de celular, una página web, otro sistema: todos le piden datos a un **servicio REST**. Tu ventanilla va a ser un `@RestController`, Zed. Por primera vez vas a llegar al Puerto construyendo.
 
 ### Objetivos
 
@@ -2795,6 +3819,307 @@ distintos: los datos en memoria van en un `ConcurrentHashMap` y los contadores e
 
 **Slime: el puerto ocupado.** `Port 8080 was already in use`: quedó otra aplicación
 corriendo. Cerrala o cambiá `server.port` en `application.properties`.
+
+### Micro-misión R05-N04-P1 · La ventanilla de los mensajes
+
+```meta
+lugar: La ventanilla de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Ruta y método | GET /api/barcos lee · POST /api/barcos crea · el controlador elige qué hacer según el método y la ruta
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el cuarto piso está la **ventanilla de los mensajes**: llegan pedidos de todo el Mundo del Código y cada uno dice **qué quiere** (el método) y **sobre qué** (la ruta). Gheco arma una ventanilla de juguete para ver cómo decide.
+
+#### Gheco sugiere
+Un pedido HTTP tiene un **método** (`GET` para leer, `POST` para crear, `PUT` para cambiar, `DELETE` para borrar) y una **ruta**. El controlador los mira y decide. En Spring: `@GetMapping("/api/barcos")`.
+
+#### Desafío
+Completá el caso del pedido que crea un barco.
+
+#### Código inicial
+```java
+public class Ventanilla {
+    static String atender(String metodo, String ruta) {
+        return switch (metodo + " " + ruta) {
+            case "GET /api/barcos" -> "200: [Garza, Bagre]";
+            case ___ -> "201: barco creado";
+            default -> "404: no existe " + ruta;
+        };
+    }
+
+    public static void main(String[] args) {
+        System.out.println(atender("GET", "/api/barcos"));
+        System.out.println(atender("POST", "/api/barcos"));
+        System.out.println(atender("GET", "/api/dragones"));
+    }
+}
+```
+
+#### Salida esperada
+```
+200: [Garza, Bagre]
+201: barco creado
+404: no existe /api/dragones
+```
+
+#### Solución
+```java
+public class Ventanilla {
+    static String atender(String metodo, String ruta) {
+        return switch (metodo + " " + ruta) {
+            case "GET /api/barcos" -> "200: [Garza, Bagre]";
+            case "POST /api/barcos" -> "201: barco creado";
+            default -> "404: no existe " + ruta;
+        };
+    }
+
+    public static void main(String[] args) {
+        System.out.println(atender("GET", "/api/barcos"));
+        System.out.println(atender("POST", "/api/barcos"));
+        System.out.println(atender("GET", "/api/dragones"));
+    }
+}
+```
+
+#### Al superarla
+Leer, crear y un 404 para lo que no existe. —En Spring no escribís el `switch` —dice Kaffa—: ponés `@GetMapping` y `@PostMapping` y el framework elige.
+
+#### Imagen
+- Una ventanilla de piedra en el cuarto piso de la Torre, con un cartel de rutas: GET, POST, PUT, DELETE.
+- Gheco atendiendo la ventanilla con una gorrita de empleado.
+
+### Micro-misión R05-N04-P2 · Responder en JSON
+
+```meta
+lugar: La ventanilla de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: JSON | {"nombre": "Garza", "carga": 80} · texto entre comillas, números sin comillas · Spring convierte los objetos solo (Jackson)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Puerto no lee pergaminos del Imperio: lee **JSON**. Zed tiene que responder cada barco en ese idioma.
+
+#### Gheco sugiere
+Un objeto JSON va entre llaves, con `"clave": valor` separados por coma. Los textos llevan comillas (`\"Garza\"`) y los números no. En Spring, el controlador devuelve el objeto y Jackson lo convierte solo.
+
+#### Desafío
+Completá el JSON con la carga del barco (un número, sin comillas).
+
+#### Código inicial
+```java
+public class Json {
+    record Barco(String nombre, int carga) {
+        String json() {
+            return "{\"nombre\": \"" + nombre + "\", \"carga\": " + ___ + "}";
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Barco("Garza", 80).json());
+        System.out.println(new Barco("Bagre", 120).json());
+    }
+}
+```
+
+#### Salida esperada
+```
+{"nombre": "Garza", "carga": 80}
+{"nombre": "Bagre", "carga": 120}
+```
+
+#### Solución
+```java
+public class Json {
+    record Barco(String nombre, int carga) {
+        String json() {
+            return "{\"nombre\": \"" + nombre + "\", \"carga\": " + carga + "}";
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Barco("Garza", 80).json());
+        System.out.println(new Barco("Bagre", 120).json());
+    }
+}
+```
+
+#### Al superarla
+Dos barcos en JSON, que el Puerto entiende. —Armarlo a mano es para entenderlo —dice Gheco—. En Spring, nunca más.
+
+#### Imagen
+- Un pergamino con llaves y comillas, el JSON de un barco, viajando por un tubo hacia el Puerto.
+- Gheco con un diccionario «Imperio ↔ JSON».
+
+### Micro-misión R05-N04-P3 · El código de la respuesta
+
+```meta
+lugar: La ventanilla de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: orco
+carta: Códigos de estado | 200 ok · 201 creado · 400 pedido inválido · 404 no existe · 409 conflicto · 500 error del servidor
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cuando alguien pide un barco que no existe, la ventanilla responde 200 con un cuerpo vacío y el cliente no entiende nada. Un **orco** festeja el silencio. Cada respuesta tiene que decir **cómo salió**.
+
+#### Gheco sugiere
+Los códigos de estado dicen cómo salió el pedido: **200** encontrado, **404** no existe. En Spring, un `ResponseEntity.notFound()` o una excepción manejada en un `@RestControllerAdvice`.
+
+#### Desafío
+Completá el código de estado para un barco que no existe.
+
+#### Código inicial
+```java
+import java.util.Map;
+
+public class Estados {
+    static final Map<String, Integer> BARCOS = Map.of("Garza", 80, "Bagre", 120);
+
+    static String buscar(String nombre) {
+        Integer carga = BARCOS.get(nombre);
+        if (carga == null) {
+            return ___ + " no existe el barco " + nombre;
+        }
+        return 200 + " {\"nombre\": \"" + nombre + "\", \"carga\": " + carga + "}";
+    }
+
+    public static void main(String[] args) {
+        System.out.println(buscar("Garza"));
+        System.out.println(buscar("Ceibo"));
+    }
+}
+```
+
+#### Salida esperada
+```
+200 {"nombre": "Garza", "carga": 80}
+404 no existe el barco Ceibo
+```
+
+#### Solución
+```java
+import java.util.Map;
+
+public class Estados {
+    static final Map<String, Integer> BARCOS = Map.of("Garza", 80, "Bagre", 120);
+
+    static String buscar(String nombre) {
+        Integer carga = BARCOS.get(nombre);
+        if (carga == null) {
+            return 404 + " no existe el barco " + nombre;
+        }
+        return 200 + " {\"nombre\": \"" + nombre + "\", \"carga\": " + carga + "}";
+    }
+
+    public static void main(String[] args) {
+        System.out.println(buscar("Garza"));
+        System.out.println(buscar("Ceibo"));
+    }
+}
+```
+
+#### Al superarla
+«404 no existe el barco Ceibo.» Claro y sin rodeos. El orco se va: ya nadie se confunde. —El Ceibo está encallado en la Represa —murmura Zed—. Pero eso la ventanilla no lo sabe.
+
+#### Imagen
+- Un tablero de la ventanilla con números grandes: 200 en verde, 404 en naranja.
+- Un orco yéndose por la escalera, aburrido.
+
+### Micro-misión R05-N04-P4 · La primera ventanilla al Puerto
+
+```meta
+lugar: La ventanilla de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Controlador y servicio | el controlador recibe el pedido y responde · el servicio tiene las reglas · el controlador NO calcula
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Kaffa le encarga a Zed la ventanilla que conecta la Torre con **el Puerto**, su casa. Por primera vez, Zed va a llegar al Puerto **construyendo** algo, no robando.
+
+#### Gheco sugiere
+El controlador solo traduce: recibe el pedido, le pide al **servicio** el resultado y arma la respuesta. Las reglas (cuánto cuesta un envío) están en el servicio. En Spring: `@RestController` que recibe un `@Service` por el constructor.
+
+#### Desafío
+Completá el controlador: que le pida el costo al servicio.
+
+#### Código inicial
+```java
+public class AlPuerto {
+    public static void main(String[] args) {
+        ControladorEnvios controlador = new ControladorEnvios(new ServicioEnvios());
+        System.out.println(controlador.cotizar(30));
+        System.out.println(controlador.cotizar(120));
+    }
+}
+
+class ServicioEnvios {
+    int costo(int kilos) {
+        return kilos <= 50 ? 20 : 20 + (kilos - 50) / 10 * 5;
+    }
+}
+
+class ControladorEnvios {
+    private final ServicioEnvios servicio;
+
+    ControladorEnvios(ServicioEnvios servicio) {
+        this.servicio = servicio;
+    }
+
+    String cotizar(int kilos) {
+        int costo = ___;
+        return "200 {\"kilos\": " + kilos + ", \"costo\": " + costo + "}";
+    }
+}
+```
+
+#### Salida esperada
+```
+200 {"kilos": 30, "costo": 20}
+200 {"kilos": 120, "costo": 55}
+```
+
+#### Solución
+```java
+public class AlPuerto {
+    public static void main(String[] args) {
+        ControladorEnvios controlador = new ControladorEnvios(new ServicioEnvios());
+        System.out.println(controlador.cotizar(30));
+        System.out.println(controlador.cotizar(120));
+    }
+}
+
+class ServicioEnvios {
+    int costo(int kilos) {
+        return kilos <= 50 ? 20 : 20 + (kilos - 50) / 10 * 5;
+    }
+}
+
+class ControladorEnvios {
+    private final ServicioEnvios servicio;
+
+    ControladorEnvios(ServicioEnvios servicio) {
+        this.servicio = servicio;
+    }
+
+    String cotizar(int kilos) {
+        int costo = servicio.costo(kilos);
+        return "200 {\"kilos\": " + kilos + ", \"costo\": " + costo + "}";
+    }
+}
+```
+
+#### Al superarla
+La primera cotización llega al Puerto y alguien allá la contesta: «¿Zed? ¿El de los techos?». Zed se ríe solo frente a la ventanilla.
+Pero los mensajes del Puerto llegan con cualquier cosa adentro: kilos negativos, nombres vacíos, campos que sobran.
+
+#### Imagen
+- Un tubo de mensajes que une la Torre con el Puerto a lo lejos, con un pergamino JSON viajando.
+- Zed riéndose solo frente a la ventanilla, con una respuesta del Puerto en la mano.
 
 ### Misión R05-N04-M1 · La API de la biblioteca
 
@@ -3925,9 +5250,9 @@ usa: fw.spring
 
 ### Crónica
 
-La ventanilla del muelle empezó a recibir cualquier cosa: pedidos sin nombre, cargamentos de peso negativo, correos sin arroba. Y cuando algo fallaba, devolvía un papel con trescientas líneas de error en idioma de máquina. Los mensajeros se iban sin entender nada.
+La ventanilla al Puerto empezó a recibir cualquier cosa: pedidos sin nombre, cargamentos de peso negativo, correos sin arroba. Y cuando algo fallaba, devolvía un papel con trescientas líneas de error en idioma de máquina. En el quinto piso, {mentor} separa el servicio en **cuatro salas** que no se pisan.
 
-—Una buena ventanilla **controla lo que entra** y **explica lo que sale** —dice {mentor}—. Lo que recibe se revisa antes de tocar nada, lo que devuelve muestra solo lo necesario, y cada error dice qué pasó en palabras que se entienden. Y de paso, vamos a dejar de escribir *getters* a mano, {heroe}.
+—Una buena ventanilla **controla lo que entra** y **explica lo que sale** —dice—. Lo que recibe se revisa antes de tocar nada, lo que devuelve muestra solo lo necesario, y cada error dice qué pasó en palabras que se entienden. Y de paso, vamos a dejar de escribir *getters* a mano. Vos, que entrabas por cualquier lado, Zed, ahora vas a **diseñar las puertas**.
 
 ### Objetivos
 
@@ -4412,6 +5737,374 @@ método. Lanzá excepciones propias desde el servicio y convertilas en un solo
 **Slime: Lombok que no genera nada.** `cannot find symbol: method getNombre()`: falta el
 plugin de Lombok en el IDE, o (desde Java 23) el procesador de anotaciones en el
 `pom.xml`.
+
+### Micro-misión R05-N05-P1 · Lo que viaja no es lo que se guarda
+
+```meta
+lugar: Las cuatro salas de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: DTO | un objeto solo para lo que entra o sale · el modelo guarda todo (también lo secreto) · la respuesta NUNCA es el modelo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el quinto piso, Kaffa separa el servicio en salas que no se pisan. El modelo `Viajero` guarda el pasaporte y una **clave**; si se devuelve tal cual, la clave viaja al Puerto. —Lo que sale por la ventanilla es un **DTO** —dice—, nunca el modelo.
+
+#### Gheco sugiere
+Un **DTO** es un objeto (casi siempre un `record`) con solo lo que tiene que viajar. Se arma desde el modelo con lo necesario: `new ViajeroRespuesta(v.nombre(), v.pasaporte())`. La clave se queda adentro.
+
+#### Desafío
+Completá la respuesta con el nombre y el pasaporte, sin la clave.
+
+#### Código inicial
+```java
+public class Dto {
+    record Viajero(String nombre, String pasaporte, String clave) { }
+
+    record ViajeroRespuesta(String nombre, String pasaporte) { }
+
+    static ViajeroRespuesta aRespuesta(Viajero v) {
+        return ___;
+    }
+
+    public static void main(String[] args) {
+        Viajero zed = new Viajero("Zed", "PU-777", "techos123");
+        System.out.println("Se guarda: " + zed);
+        System.out.println("Viaja: " + aRespuesta(zed));
+    }
+}
+```
+
+#### Salida esperada
+```
+Se guarda: Viajero[nombre=Zed, pasaporte=PU-777, clave=techos123]
+Viaja: ViajeroRespuesta[nombre=Zed, pasaporte=PU-777]
+```
+
+#### Solución
+```java
+public class Dto {
+    record Viajero(String nombre, String pasaporte, String clave) { }
+
+    record ViajeroRespuesta(String nombre, String pasaporte) { }
+
+    static ViajeroRespuesta aRespuesta(Viajero v) {
+        return new ViajeroRespuesta(v.nombre(), v.pasaporte());
+    }
+
+    public static void main(String[] args) {
+        Viajero zed = new Viajero("Zed", "PU-777", "techos123");
+        System.out.println("Se guarda: " + zed);
+        System.out.println("Viaja: " + aRespuesta(zed));
+    }
+}
+```
+
+#### Al superarla
+La clave «techos123» se queda en la Torre. —¿«techos123»? —pregunta Nadia. —Era una clave vieja —dice Zed, y la cambia esa misma noche.
+
+#### Imagen
+- Dos salas de la Torre separadas por una ventanilla: adentro, una ficha completa con una clave; afuera, una tarjeta con solo nombre y pasaporte.
+- Nadia levantando una ceja; Zed rascándose la nuca.
+
+### Micro-misión R05-N05-P2 · Lo que entra se valida
+
+```meta
+lugar: Las cuatro salas de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: goblin
+carta: Validar la entrada | cada campo con su regla · se juntan TODOS los errores, no solo el primero · en Spring: @NotBlank, @Positive y @Valid
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Del Puerto llega un pedido con el nombre vacío y los kilos en −3. Un **goblin** los mandó a propósito, para ver qué se rompe. La ventanilla tiene que rechazarlo y decir **todo** lo que está mal.
+
+#### Gheco sugiere
+Se revisa cada campo y se **juntan** los errores en una lista: así el que mandó el pedido sabe todo lo que tiene que corregir. En Spring, las anotaciones `@NotBlank` y `@Positive` del DTO y `@Valid` en el controlador hacen esto solas.
+
+#### Desafío
+Completá la regla de los kilos: tienen que ser mayores que cero.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Validar {
+    record EnvioPedido(String destinatario, int kilos) { }
+
+    static List<String> validar(EnvioPedido p) {
+        List<String> errores = new ArrayList<>();
+        if (p.destinatario() == null || p.destinatario().isBlank()) {
+            errores.add("destinatario: no puede estar vacío");
+        }
+        if (___) {
+            errores.add("kilos: tiene que ser mayor que 0");
+        }
+        return errores;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(validar(new EnvioPedido("Baldo", 30)));
+        System.out.println(validar(new EnvioPedido("", -3)));
+    }
+}
+```
+
+#### Salida esperada
+```
+[]
+[destinatario: no puede estar vacío, kilos: tiene que ser mayor que 0]
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Validar {
+    record EnvioPedido(String destinatario, int kilos) { }
+
+    static List<String> validar(EnvioPedido p) {
+        List<String> errores = new ArrayList<>();
+        if (p.destinatario() == null || p.destinatario().isBlank()) {
+            errores.add("destinatario: no puede estar vacío");
+        }
+        if (p.kilos() <= 0) {
+            errores.add("kilos: tiene que ser mayor que 0");
+        }
+        return errores;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(validar(new EnvioPedido("Baldo", 30)));
+        System.out.println(validar(new EnvioPedido("", -3)));
+    }
+}
+```
+
+#### Al superarla
+El pedido de Baldo pasa limpio; el del goblin vuelve con sus dos errores anotados. El goblin, ofendido, corrige y lo manda bien.
+
+#### Imagen
+- Una ventanilla devolviendo un pergamino con dos errores marcados en rojo.
+- Un goblin corrigiendo su pedido de mala gana.
+
+### Micro-misión R05-N05-P3 · Un error que se entiende
+
+```meta
+lugar: Las cuatro salas de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Errores claros | una excepción propia por cada problema · un manejador central la convierte en la respuesta (código + detalle) · en Spring: @RestControllerAdvice y ProblemDetail
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cuando algo falla adentro, al Puerto le llega un «500» y un chorro de líneas en inglés. —Un error también es una respuesta —dice Kaffa—. Que diga **qué** pasó, con el código que corresponde.
+
+#### Gheco sugiere
+El servicio lanza una excepción propia (`NoEncontrado`); un **manejador central** la atrapa y arma la respuesta: el código (404) y un detalle claro. En Spring, eso es un `@RestControllerAdvice` que devuelve un `ProblemDetail`.
+
+#### Desafío
+Completá el manejador: atrapá la excepción `NoEncontrado`.
+
+#### Código inicial
+```java
+import java.util.Map;
+
+public class Errores {
+    static class NoEncontrado extends RuntimeException {
+        NoEncontrado(String mensaje) { super(mensaje); }
+    }
+
+    static final Map<String, Integer> ENVIOS = Map.of("E1", 30);
+
+    static int buscar(String codigo) {
+        Integer kilos = ENVIOS.get(codigo);
+        if (kilos == null) {
+            throw new NoEncontrado("No existe el envío " + codigo);
+        }
+        return kilos;
+    }
+
+    static String atender(String codigo) {
+        try {
+            return "200 {\"kilos\": " + buscar(codigo) + "}";
+        } catch (___ e) {
+            return "404 {\"detail\": \"" + e.getMessage() + "\"}";
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(atender("E1"));
+        System.out.println(atender("E9"));
+    }
+}
+```
+
+#### Salida esperada
+```
+200 {"kilos": 30}
+404 {"detail": "No existe el envío E9"}
+```
+
+#### Solución
+```java
+import java.util.Map;
+
+public class Errores {
+    static class NoEncontrado extends RuntimeException {
+        NoEncontrado(String mensaje) { super(mensaje); }
+    }
+
+    static final Map<String, Integer> ENVIOS = Map.of("E1", 30);
+
+    static int buscar(String codigo) {
+        Integer kilos = ENVIOS.get(codigo);
+        if (kilos == null) {
+            throw new NoEncontrado("No existe el envío " + codigo);
+        }
+        return kilos;
+    }
+
+    static String atender(String codigo) {
+        try {
+            return "200 {\"kilos\": " + buscar(codigo) + "}";
+        } catch (NoEncontrado e) {
+            return "404 {\"detail\": \"" + e.getMessage() + "\"}";
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(atender("E1"));
+        System.out.println(atender("E9"));
+    }
+}
+```
+
+#### Al superarla
+«404, no existe el envío E9.» El Puerto lo entiende a la primera. Las campanas de los Archivos, ahora con forma de respuesta HTTP.
+
+#### Imagen
+- Una campana de los Archivos convertida en un cartel de respuesta: «404 · No existe el envío E9».
+- Kaffa asintiendo con la taza en la mano.
+
+### Micro-misión R05-N05-P4 · Lo que escribe Lombok
+
+```meta
+lugar: Las cuatro salas de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Lombok | @Getter, @Setter, @RequiredArgsConstructor, @Builder escriben ese código al compilar · acá lo escribimos a mano para ver qué genera
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Las clases del modelo que cambian no pueden ser `record` y necesitan constructores, getters y setters: cincuenta líneas iguales. **Lombok** las escribe solo con anotaciones. Gheco escribe a mano lo que genera un `@Builder`, para que Zed vea que no es magia.
+
+#### Gheco sugiere
+Un **builder** arma el objeto paso a paso: `Envio.builder().destinatario("Baldo").kilos(30).build()`. Cada método guarda un dato y devuelve el mismo builder (`return this;`), y `build()` crea el objeto. Con Lombok, `@Builder` escribe todo esto solo.
+
+#### Desafío
+Completá el método del builder que guarda los kilos y devuelve el builder.
+
+#### Código inicial
+```java
+public class Lombok {
+    public static void main(String[] args) {
+        Envio e = Envio.builder().destinatario("Baldo").kilos(30).build();
+        System.out.println(e.getDestinatario() + ": " + e.getKilos() + " kg");
+    }
+}
+
+class Envio {
+    private final String destinatario;
+    private final int kilos;
+
+    private Envio(String destinatario, int kilos) {
+        this.destinatario = destinatario;
+        this.kilos = kilos;
+    }
+
+    String getDestinatario() { return destinatario; }
+
+    int getKilos() { return kilos; }
+
+    static Builder builder() { return new Builder(); }
+
+    static class Builder {
+        private String destinatario;
+        private int kilos;
+
+        Builder destinatario(String d) {
+            this.destinatario = d;
+            return this;
+        }
+
+        Builder kilos(int k) {
+            ___;
+        }
+
+        Envio build() { return new Envio(destinatario, kilos); }
+    }
+}
+```
+
+#### Salida esperada
+```
+Baldo: 30 kg
+```
+
+#### Solución
+```java
+public class Lombok {
+    public static void main(String[] args) {
+        Envio e = Envio.builder().destinatario("Baldo").kilos(30).build();
+        System.out.println(e.getDestinatario() + ": " + e.getKilos() + " kg");
+    }
+}
+
+class Envio {
+    private final String destinatario;
+    private final int kilos;
+
+    private Envio(String destinatario, int kilos) {
+        this.destinatario = destinatario;
+        this.kilos = kilos;
+    }
+
+    String getDestinatario() { return destinatario; }
+
+    int getKilos() { return kilos; }
+
+    static Builder builder() { return new Builder(); }
+
+    static class Builder {
+        private String destinatario;
+        private int kilos;
+
+        Builder destinatario(String d) {
+            this.destinatario = d;
+            return this;
+        }
+
+        Builder kilos(int k) {
+            this.kilos = k;
+            return this;
+        }
+
+        Envio build() { return new Envio(destinatario, kilos); }
+    }
+}
+```
+
+#### Al superarla
+Treinta líneas para un builder… que Lombok escribe con **una** anotación. —Ahora que sabés lo que hace —dice Kaffa—, usalo sin culpa.
+Zed, que entraba por cualquier lado, ahora **diseña las puertas** de su propio servicio. En la cima de la Torre, el Tribunal deja un pliego sobre la mesa.
+
+#### Imagen
+- Una pila de treinta líneas de código que se comprime en una sola etiqueta: «@Builder».
+- En la cima de la Torre, un pliego lacrado sobre una mesa de piedra, con la palabra «AduanaExpress».
 
 ### Misión R05-N05-M1 · El registro de usuarios
 
@@ -5995,6 +7688,461 @@ Strategy: cada cálculo va en su clase.
 una excepción propia.
 
 **Slime: un solo commit al final.** El historial de GitHub es parte de la nota.
+
+### Micro-misión R05-N06-P1 · Primera pieza: el modelo
+
+```meta
+lugar: La cima de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa, el Dragón del Imperio
+criatura: dragon
+carta: El modelo del examen | Mercancia abstracta · Caja y Barril calculan su impuesto · nada de instanceof para calcular
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El **Dragón del Imperio** despierta enroscado en la ventana más alta, hecho de todas las piezas que Zed juntó desde la Aduana. El pliego dice **AduanaExpress**. —Pieza por pieza —dice Kaffa—. Primero, el **modelo**: cada mercancía sabe cuánto paga.
+
+#### Gheco sugiere
+`Mercancia` es abstracta y cada tipo escribe su `impuesto()`: la `Caja`, el 10 % del valor; el `Barril`, el 10 % más 0,5 por litro. Así el total se calcula con una sola línea, sin preguntar qué es cada una.
+
+#### Desafío
+Completá el impuesto del barril: el 10 % del valor más 0,5 por litro.
+
+#### Código inicial
+```java
+import java.util.List;
+
+public class Dragon1 {
+    public static void main(String[] args) {
+        List<Mercancia> carga = List.of(new Caja("C1", 1000), new Barril("B1", 500, 40));
+        double total = 0;
+        for (Mercancia m : carga) {
+            System.out.println(m.codigo + ": " + m.impuesto());
+            total += m.impuesto();
+        }
+        System.out.println("Impuestos: " + total);
+    }
+}
+
+abstract class Mercancia {
+    final String codigo;
+    final double valor;
+
+    Mercancia(String codigo, double valor) {
+        this.codigo = codigo;
+        this.valor = valor;
+    }
+
+    abstract double impuesto();
+}
+
+class Caja extends Mercancia {
+    Caja(String codigo, double valor) { super(codigo, valor); }
+
+    double impuesto() { return valor * 0.10; }
+}
+
+class Barril extends Mercancia {
+    final int litros;
+
+    Barril(String codigo, double valor, int litros) {
+        super(codigo, valor);
+        this.litros = litros;
+    }
+
+    double impuesto() { return ___; }
+}
+```
+
+#### Salida esperada
+```
+C1: 100.0
+B1: 70.0
+Impuestos: 170.0
+```
+
+#### Solución
+```java
+import java.util.List;
+
+public class Dragon1 {
+    public static void main(String[] args) {
+        List<Mercancia> carga = List.of(new Caja("C1", 1000), new Barril("B1", 500, 40));
+        double total = 0;
+        for (Mercancia m : carga) {
+            System.out.println(m.codigo + ": " + m.impuesto());
+            total += m.impuesto();
+        }
+        System.out.println("Impuestos: " + total);
+    }
+}
+
+abstract class Mercancia {
+    final String codigo;
+    final double valor;
+
+    Mercancia(String codigo, double valor) {
+        this.codigo = codigo;
+        this.valor = valor;
+    }
+
+    abstract double impuesto();
+}
+
+class Caja extends Mercancia {
+    Caja(String codigo, double valor) { super(codigo, valor); }
+
+    double impuesto() { return valor * 0.10; }
+}
+
+class Barril extends Mercancia {
+    final int litros;
+
+    Barril(String codigo, double valor, int litros) {
+        super(codigo, valor);
+        this.litros = litros;
+    }
+
+    double impuesto() { return valor * 0.10 + litros * 0.5; }
+}
+```
+
+#### Al superarla
+Ciento setenta denarios de impuestos, sin un `if`. Una escama del Dragón se apaga: la pieza de la Academia está en su lugar.
+
+#### Imagen
+- El Dragón del Imperio: un dragón de bronce y vitrales hecho de piezas (moldes, campanas, corrientes), enroscado en la ventana más alta de la Torre.
+- Zed frente a él con el pliego «AduanaExpress»; Nadia y Gheco atrás; Kaffa sin su taza.
+
+### Micro-misión R05-N06-P2 · Segunda pieza: la estrategia activa
+
+```meta
+lugar: La cima de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa, el Dragón del Imperio
+carta: Strategy por nombre | un mapa nombre → estrategia · la activa se cambia en tiempo de ejecución · en Spring, los @Component por nombre
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El Dragón cambia de humor y, con él, el recargo por demora: normal, feria o nocturno. —Como en el astillero —dice Gheco—, pero eligiéndola por **nombre**, como hace Spring.
+
+#### Gheco sugiere
+Las estrategias se guardan en un mapa por nombre. La activa es solo un nombre: `estrategias.get(activa).calcular(dias, valor)`. Cambiarla es cambiar ese nombre.
+
+#### Desafío
+Completá el cálculo con la estrategia activa del mapa.
+
+#### Código inicial
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Dragon2 {
+    interface Recargo {
+        double calcular(int dias, double valor);
+    }
+
+    static final Map<String, Recargo> ESTRATEGIAS = new LinkedHashMap<>();
+    static String activa = "normal";
+
+    static {
+        ESTRATEGIAS.put("normal", (dias, valor) -> valor * 0.02 * dias);
+        ESTRATEGIAS.put("feria", (dias, valor) -> dias <= 3 ? 0 : valor * 0.01 * (dias - 3));
+        ESTRATEGIAS.put("nocturno", (dias, valor) -> dias == 0 ? 0 : valor * 0.05 + valor * 0.03 * dias);
+    }
+
+    static double recargo(int dias, double valor) {
+        return ___;
+    }
+
+    public static void main(String[] args) {
+        for (String nombre : ESTRATEGIAS.keySet()) {
+            activa = nombre;
+            System.out.println(nombre + ", 5 días sobre 1500: " + recargo(5, 1500));
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+normal, 5 días sobre 1500: 150.0
+feria, 5 días sobre 1500: 30.0
+nocturno, 5 días sobre 1500: 300.0
+```
+
+#### Solución
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Dragon2 {
+    interface Recargo {
+        double calcular(int dias, double valor);
+    }
+
+    static final Map<String, Recargo> ESTRATEGIAS = new LinkedHashMap<>();
+    static String activa = "normal";
+
+    static {
+        ESTRATEGIAS.put("normal", (dias, valor) -> valor * 0.02 * dias);
+        ESTRATEGIAS.put("feria", (dias, valor) -> dias <= 3 ? 0 : valor * 0.01 * (dias - 3));
+        ESTRATEGIAS.put("nocturno", (dias, valor) -> dias == 0 ? 0 : valor * 0.05 + valor * 0.03 * dias);
+    }
+
+    static double recargo(int dias, double valor) {
+        return ESTRATEGIAS.get(activa).calcular(dias, valor);
+    }
+
+    public static void main(String[] args) {
+        for (String nombre : ESTRATEGIAS.keySet()) {
+            activa = nombre;
+            System.out.println(nombre + ", 5 días sobre 1500: " + recargo(5, 1500));
+        }
+    }
+}
+```
+
+#### Al superarla
+Tres humores, un solo cálculo. Otra escama se apaga: la del astillero.
+
+#### Imagen
+- Tres esferas de colores (normal, feria, nocturno) orbitando alrededor de Zed; una se enciende.
+- El Dragón con una escama apagándose.
+
+### Micro-misión R05-N06-P3 · Tercera pieza: el peregrino y los pasaportes
+
+```meta
+lugar: La cima de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa, el Dragón del Imperio
+carta: Herencia y una pasada | Peregrino paga la mitad del recargo (factorRecargo) · los pasaportes repetidos, en una pasada con HashSet
+recompensa: xp 20, oro 25
+```
+
+#### Escena
+El Dragón escupe dos preguntas a la vez: cuánto recargo paga un **peregrino**, y cuáles de los pasaportes del día están **repetidos**. Las dos, sin perder tiempo.
+
+#### Gheco sugiere
+Cada viajero dice qué parte del recargo paga: el mercader, `1.0`; el peregrino, `0.5`. Para los pasaportes, un `LinkedHashSet` de vistos y otro de duplicados, en una sola pasada.
+
+#### Desafío
+Completá el factor del peregrino: paga la mitad.
+
+#### Código inicial
+```java
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Dragon3 {
+    public static void main(String[] args) {
+        double recargo = 30;
+        Viajero[] viajeros = {new Mercader("Baldo"), new Peregrino("Sor Ana")};
+        for (Viajero v : viajeros) {
+            System.out.println(v.nombre + " paga de recargo " + recargo * v.factorRecargo());
+        }
+
+        List<String> pasaportes = List.of("AR-101", "UY-202", "AR-101", "CL-303", "UY-202", "AR-101");
+        Set<String> vistos = new LinkedHashSet<>();
+        Set<String> duplicados = new LinkedHashSet<>();
+        for (String p : pasaportes) {
+            if (!vistos.add(p)) {
+                duplicados.add(p);
+            }
+        }
+        System.out.println("Únicos: " + vistos);
+        System.out.println("Duplicados: " + duplicados);
+    }
+}
+
+abstract class Viajero {
+    final String nombre;
+
+    Viajero(String nombre) { this.nombre = nombre; }
+
+    abstract double factorRecargo();
+}
+
+class Mercader extends Viajero {
+    Mercader(String nombre) { super(nombre); }
+
+    double factorRecargo() { return 1.0; }
+}
+
+class Peregrino extends Viajero {
+    Peregrino(String nombre) { super(nombre); }
+
+    double factorRecargo() { return ___; }
+}
+```
+
+#### Salida esperada
+```
+Baldo paga de recargo 30.0
+Sor Ana paga de recargo 15.0
+Únicos: [AR-101, UY-202, CL-303]
+Duplicados: [AR-101, UY-202]
+```
+
+#### Solución
+```java
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Dragon3 {
+    public static void main(String[] args) {
+        double recargo = 30;
+        Viajero[] viajeros = {new Mercader("Baldo"), new Peregrino("Sor Ana")};
+        for (Viajero v : viajeros) {
+            System.out.println(v.nombre + " paga de recargo " + recargo * v.factorRecargo());
+        }
+
+        List<String> pasaportes = List.of("AR-101", "UY-202", "AR-101", "CL-303", "UY-202", "AR-101");
+        Set<String> vistos = new LinkedHashSet<>();
+        Set<String> duplicados = new LinkedHashSet<>();
+        for (String p : pasaportes) {
+            if (!vistos.add(p)) {
+                duplicados.add(p);
+            }
+        }
+        System.out.println("Únicos: " + vistos);
+        System.out.println("Duplicados: " + duplicados);
+    }
+}
+
+abstract class Viajero {
+    final String nombre;
+
+    Viajero(String nombre) { this.nombre = nombre; }
+
+    abstract double factorRecargo();
+}
+
+class Mercader extends Viajero {
+    Mercader(String nombre) { super(nombre); }
+
+    double factorRecargo() { return 1.0; }
+}
+
+class Peregrino extends Viajero {
+    Peregrino(String nombre) { super(nombre); }
+
+    double factorRecargo() { return 0.5; }
+}
+```
+
+#### Al superarla
+Quince para la peregrina, treinta para Baldo, y los repetidos en una pasada. Al Dragón le quedan pocas escamas encendidas.
+
+#### Imagen
+- Sor Ana, una peregrina de capa clara, y Baldo con su sobretodo, frente a una balanza de recargos.
+- Una fila de pasaportes donde tres se iluminan en rojo; el Dragón con casi todas las escamas apagadas.
+
+### Micro-misión R05-N06-P4 · La declaración completa
+
+```meta
+lugar: La cima de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa, el Dragón del Imperio
+carta: El servicio del examen | busca en el HashMap, suma impuestos, aplica la estrategia activa y el factor del viajero, responde un DTO · el controlador solo lo llama
+recompensa: xp 25, oro 40
+item: Llave Maestra
+```
+
+#### Escena
+La última pregunta del Dragón es la declaración completa: Baldo trae una caja y un barril, se demoró 5 días, y la estrategia activa es la normal. —Juntá todo en el **servicio** —dice Kaffa—, y que responda un DTO. Como en el examen.
+
+#### Gheco sugiere
+El servicio busca cada mercancía en el `HashMap` por código, suma valores e impuestos, calcula el recargo con la estrategia activa por el factor del viajero y arma la respuesta. El total es impuestos más recargo.
+
+#### Desafío
+Completá el total de la declaración.
+
+#### Código inicial
+```java
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Dragon4 {
+    record Mercancia(String codigo, double valor, double impuesto) { }
+
+    record DeclaracionRespuesta(String viajero, double impuestos, double recargo, double total) { }
+
+    static final Map<String, Mercancia> DEPOSITO = new HashMap<>();
+
+    static DeclaracionRespuesta declarar(String viajero, double factor, List<String> codigos, int dias) {
+        double valor = 0;
+        double impuestos = 0;
+        for (String c : codigos) {
+            Mercancia m = DEPOSITO.get(c);
+            valor += m.valor();
+            impuestos += m.impuesto();
+        }
+        double recargo = valor * 0.02 * dias * factor;
+        double total = ___;
+        return new DeclaracionRespuesta(viajero, impuestos, recargo, total);
+    }
+
+    public static void main(String[] args) {
+        DEPOSITO.put("C1", new Mercancia("C1", 1000, 100));
+        DEPOSITO.put("B1", new Mercancia("B1", 500, 70));
+        System.out.println(declarar("Baldo", 1.0, List.of("C1", "B1"), 5));
+        System.out.println(declarar("Sor Ana", 0.5, List.of("C1", "B1"), 5));
+    }
+}
+```
+
+#### Salida esperada
+```
+DeclaracionRespuesta[viajero=Baldo, impuestos=170.0, recargo=150.0, total=320.0]
+DeclaracionRespuesta[viajero=Sor Ana, impuestos=170.0, recargo=75.0, total=245.0]
+```
+
+#### Solución
+```java
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Dragon4 {
+    record Mercancia(String codigo, double valor, double impuesto) { }
+
+    record DeclaracionRespuesta(String viajero, double impuestos, double recargo, double total) { }
+
+    static final Map<String, Mercancia> DEPOSITO = new HashMap<>();
+
+    static DeclaracionRespuesta declarar(String viajero, double factor, List<String> codigos, int dias) {
+        double valor = 0;
+        double impuestos = 0;
+        for (String c : codigos) {
+            Mercancia m = DEPOSITO.get(c);
+            valor += m.valor();
+            impuestos += m.impuesto();
+        }
+        double recargo = valor * 0.02 * dias * factor;
+        double total = impuestos + recargo;
+        return new DeclaracionRespuesta(viajero, impuestos, recargo, total);
+    }
+
+    public static void main(String[] args) {
+        DEPOSITO.put("C1", new Mercancia("C1", 1000, 100));
+        DEPOSITO.put("B1", new Mercancia("B1", 500, 70));
+        System.out.println(declarar("Baldo", 1.0, List.of("C1", "B1"), 5));
+        System.out.println(declarar("Sor Ana", 0.5, List.of("C1", "B1"), 5));
+    }
+}
+```
+
+#### Al superarla
+Trescientos veinte para Baldo, doscientos cuarenta y cinco para la peregrina. La última escama se apaga y el **Dragón del Imperio** se deshace en piezas que vuelven, una por una, a su lugar en la Torre.
+En la mano de Zed, la ganzúa termina de transformarse: ya no es una ganzúa, es la **Llave Maestra**. Kaffa le estampa el sello de arquitecto en el pliego. Nadia, en la puerta, aplaude. Una sola vez, pero aplaude.
+Detrás del Dragón, la ventana más alta tiene un marco vacío, esperando un vidrio.
+
+#### Imagen
+- El Dragón del Imperio deshaciéndose en piezas luminosas que vuelan a su lugar en la Torre.
+- La ganzúa de Zed transformándose en una llave maestra dorada con dientes de engranaje.
+- Kaffa estampando un sello en el pliego; Nadia aplaudiendo en la puerta; al fondo, una ventana con el marco vacío.
 
 ### Misión R05-N06-M1 · El pliego del Tribunal: AduanaExpress
 

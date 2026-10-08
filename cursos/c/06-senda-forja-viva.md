@@ -22,7 +22,9 @@ usa: herr.compilacion
 
 Detrás del yunque de la Encrucijada hay una puerta de vidrio negro. Del otro lado, el metal no está quieto: las piezas se mueven solas, sesenta veces por segundo, sobre una superficie que brilla. Es la **Forja Viva**.
 
-—Acá no se escriben programas que terminan, {heroe} —dice {mentor}—. Se escriben mundos que **siguen andando** hasta que alguien cierra la puerta.
+Kira abre su primera ventana y la cierra sin querer en el mismo segundo: su programa terminaba enseguida. Tizón cronometra: «Duró 0,02 segundos. Récord».
+
+—Acá no se escriben programas que terminan —dice {mentor}—. Se escriben mundos que **siguen andando** hasta que alguien cierra la puerta.
 
 ### Objetivos
 
@@ -568,7 +570,9 @@ usa: graf.sdl
 
 En la Forja Viva, las piezas obedecen a quien sabe hablarles. Una tecla apretada es una orden; una tecla **mantenida**, una orden que dura.
 
-—No confundas un golpe de martillo con sostener el martillo, {heroe} —dice {mentor}—. El que no lo distingue, o no se mueve… o no para.
+Kira mueve su primer personaje con el teclado y lo manda directo contra el borde de la pantalla, donde desaparece para siempre. Lo vuelve a crear. Lo vuelve a perder. Tizón dibuja con tiza el borde de la pantalla en el piso, por las dudas.
+
+—No confundas un golpe de martillo con sostener el martillo —dice {mentor}—. El que no lo distingue, o no se mueve… o no para.
 
 ### Objetivos
 
@@ -1129,9 +1133,11 @@ usa: graf.sdl
 
 ### Crónica
 
-En la Forja Viva las piezas chocan. Algunas son paredes que no se mueven; otras, criaturas de hierro que te siguen el rastro.
+En la Forja Viva las piezas chocan. Algunas son paredes que no se mueven; otras, criaturas de hierro que siguen el rastro de Kira por toda la pantalla.
 
-—Saber **cuándo** dos cosas se tocan es la mitad de cualquier juego, {heroe} —dice {mentor}—. La otra mitad es decidir qué pasa después.
+Las criaturas de Kira atraviesan las paredes como fantasmas durante toda una tarde, hasta que Tizón le explica que hay que **preguntar** si dos rectángulos se tocan antes de moverlos. Chispa propone vender las criaturas fantasma como una función nueva.
+
+—Saber **cuándo** dos cosas se tocan es la mitad de cualquier juego —dice {mentor}—. La otra mitad es decidir qué pasa después.
 
 ### Objetivos
 
@@ -1959,9 +1965,11 @@ usa: graf.sdl
 
 ### Crónica
 
-En el corazón de la Forja Viva vive la **Salamandra del Horno**: rápida, incansable, y te sigue a donde vayas. Entre las paredes brillan monedas de fuego frío. Si las juntás todas antes de que te alcance, la Salamandra se duerme.
+En el corazón de la Forja Viva vive la **Salamandra del Horno**: hecha de píxeles encendidos, rápida, incansable, y sigue a Kira a donde vaya. Entre las paredes brillan monedas de fuego frío. Si las junta todas antes de que la alcance, la Salamandra se duerme.
 
-—Ya tenés todo, {heroe} —dice {mentor}—: el bucle, el teclado, los choques y un enemigo. Ahora juntalo en un juego que alguien quiera jugar dos veces.
+La primera partida dura cuatro segundos. La segunda, seis. Tizón lleva la estadística en la pared, al lado de la cuenta de espadazos.
+
+—Ya tenés todo —dice {mentor}—: el bucle, el teclado, los choques y un enemigo. Ahora juntalo en un juego que alguien quiera jugar **dos veces**.
 
 ### Objetivos
 

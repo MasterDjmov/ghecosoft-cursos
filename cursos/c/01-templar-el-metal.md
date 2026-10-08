@@ -17,9 +17,11 @@ temas: prog.variables
 
 ### Crónica
 
-En el depósito de la Forja, cada material va en su cajón: el carbón en uno, las gemas en otro, los clavos en uno chiquito.
+En el depósito de la Forja, cada material va en su cajón: el carbón en uno, las gemas en otro, los clavos en uno chiquito que dice «255». Ferrum le encarga a Kira guardar los clavos de la mañana.
 
-—El tamaño del cajón lo elegís vos, {heroe} —te explica {mentor}—, y el metal no perdona: si en un cajón de 255 clavos metés el 256, no te avisa. Se vacía y empieza de cero.
+Kira mete el clavo 254, el 255… y el 256. El cajón hace *clic* y queda **vacío**. Tizón, que los había contado uno por uno, se agarra la cabeza.
+
+—El tamaño del cajón lo elegís vos —le explica {mentor}—, y el metal no perdona: si no entra, no te avisa. Vuelve a cero. —Tizón ya está contando de nuevo, en voz alta, y le dedica a Kira una mirada larguísima.
 
 ### Objetivos
 
@@ -545,9 +547,11 @@ temas: prog.operadores
 
 ### Crónica
 
-Para cruzar el Puente del Juicio, que lleva a las Forjas profundas, hay que **calcular** bien: cuántas vueltas de martillo, cuánto carbón, cuánto oro por cabeza.
+Chispa, el mercader de lingotes, llega a la Forja con su carretilla que se desarma sola y su sonrisa de diente de oro. Vende herraduras: por la mañana cobra **7 lingotes** por tres herraduras; a la tarde, por el mismo pedido, **3**.
 
-—En las Forjas, `17 / 5` da **3**, {heroe} —te advierte {mentor}—. Los enteros no se parten. Si querés los pedazos, pedí decimales.
+Tizón le desarma la cuenta en el mostrador: Chispa había dividido antes de multiplicar, y en las Forjas `17 / 5` da **3**. Esta vez el estafado fue él mismo.
+
+—Los enteros no se parten —dice {mentor}, sin levantar la vista del yunque—. Si querés los pedazos, pedí decimales. Y el orden de las cuentas decide quién paga de más. —Chispa anota todo en un papelito. Kira sospecha que no para mejorar.
 
 ### Objetivos
 
@@ -1064,9 +1068,11 @@ temas: prog.bits
 
 ### Crónica
 
-En la pared de la Forja cuelga un tablero con ocho clavijas, una por cada estado de los aprendices: envenenado, dormido, invisible, bendecido… {mentor} mueve las clavijas sin mirar.
+La puerta del pañol de la Forja tiene una cerradura con **ocho palancas**: cada una arriba o abajo. Kira la intenta abrir a patadas (en la pared, la cuenta de espadazos suma una patada, «por las dudas»). La cerradura no se mueve.
 
-—Ocho preguntas de sí o no, {heroe}, caben en **un solo byte**. Así las guardan las máquinas, y así vas a encontrar las banderas de las bibliotecas gráficas cuando llegues a las Torres de la Pantalla.
+Tizón la mira, anota algo en la libreta y mueve tres palancas a la vez con una **máscara**. *Clac*. —Ocho preguntas de sí o no caben en **un solo byte** —dice, colorado de orgullo.
+
+—Fue suerte —dice Kira. {mentor} le pasa a ella el tablero de estados de los aprendices: envenenado, dormido, invisible, bendecido… —Entonces practicá la suerte —gruñe.
 
 ### Objetivos
 
@@ -1561,9 +1567,11 @@ temas: prog.salida, prog.entrada
 
 ### Crónica
 
-En la ventanilla de la Forja, un escriba anota los datos de cada aprendiz. Chispa se divierte contestando "diecinueve" cuando le preguntan la edad, o "1,80" cuando le piden la altura. El escriba anota lo que puede… y la ficha sale mal.
+En el mostrador de pedidos, Kira tiene que armar la tabla de precios de la Forja. La escribe rápido y la clava en la pared. Tizón llega con el calibre: —Esta columna está corrida un espacio. Esta otra, dos. Y este precio tiene un decimal de más.
 
-—El metal no adivina, {heroe} —dice {mentor}—. Si no chequeás lo que te dan, forjás basura.
+Mientras tanto, en la ventanilla, el escriba le pregunta la edad a Chispa. —Diecinueve —contesta él, en letras. Le pide la altura: —Uno ochenta, con coma. El escriba anota lo que puede, y la ficha sale **cualquier cosa**. Del formulario se escapa el primer **goblin**, con un número robado bajo el brazo.
+
+—El metal no adivina —dice {mentor}—. Lo que mostrás, alineado. Lo que te dan, revisado. Si no chequeás lo que entra, forjás basura.
 
 ### Objetivos
 
@@ -2169,9 +2177,11 @@ temas: prog.condicionales, err.validacion
 
 ### Crónica
 
-La Forja tiene pisos: las brasas para los aprendices, los yunques para los oficiales y la cámara del maestro para los mejores. En la entrada, un portero decide a qué piso va cada uno según su experiencia.
+El horno grande tiene tres temperaturas: brasas para los aprendices, rojo para los oficiales y blanco para el maestro. Kira escribe la regla en la pizarra: «si hace calor, más fuego». Nada más.
 
-—Y si alguien le contesta *hola* cuando le pregunta la experiencia —dice {mentor}—, lo manda de vuelta a la puerta. Nada de adivinar, {heroe}.
+Al rato el horno está blanco, después más blanco, y la pizarra empieza a humear. Faltaba decir **qué hacer si no**. Tizón llega con el balde de agua justo a tiempo; Ferrum, con las cejas un poco más cortas que a la mañana.
+
+—Cada camino tiene que estar escrito —dice {mentor}, apagando la pizarra con el guante—. Y si alguien te contesta *hola* cuando le preguntás la experiencia, lo mandás a la puerta. Nada de adivinar.
 
 ### Objetivos
 
@@ -2941,9 +2951,11 @@ temas: prog.bucles, err.validacion
 
 ### Crónica
 
-Para que el hierro llegue a 900 °C, el aprendiz sopla el fuelle **mientras** el horno no alcance la temperatura. Para forjar una herradura, da **exactamente** cuarenta martillazos. Y en la tienda, {mentor} vuelve a preguntar **hasta** que el cliente dice algo que tenga sentido.
+Para que el hierro llegue a 900 °C, alguien tiene que soplar el fuelle **mientras** el horno no alcance la temperatura. Kira escribe la orden para el fuelle mecánico y se va a dormir, orgullosa.
 
-—La mitad de la vida de un herrero, {heroe}, es repetir bien la misma cosa.
+A la mañana, la Forja tiene la temperatura de un volcán, el fuelle sigue soplando y Ferrum tiene las cejas chamuscadas. La orden decía «soplá mientras el horno no esté **frío**».
+
+—La mitad de la vida de un herrero es repetir bien la misma cosa —dice {mentor}, con una paciencia que se le está terminando—. La otra mitad es saber **cuándo parar**. —Tizón agrega en la pared: «Fuelles que no paran: 1».
 
 ### Objetivos
 
@@ -3608,11 +3620,11 @@ temas: prog.funciones, prog.alcance, prog.recursion
 
 ### Crónica
 
-En el libro de la Forja, cada técnica tiene su página con nombre: *templar*, *afilar*, *calcular el daño*. Nadie reescribe una técnica: dice "ver *afilar*" y listo.
+En la Forja, cada herrero tiene su martillo y no se lo presta a nadie: el martillo de afilar, el de templar, el de calcular el daño. Si alguien necesita afilar, le pide a la que afila; no se pone a afilar él. Kira aprende a la fuerza: agarra el martillo de Hulda y le tuerce el mango.
 
-{mentor} te muestra una página rara, que se remite **a sí misma**: "para contar hacia atrás desde 3, decí 3 y contá hacia atrás desde 2… hasta llegar a cero".
+{mentor} le muestra el libro de la Forja, donde cada técnica tiene su página con nombre, y una página rara que se remite **a sí misma**: «para contar hacia atrás desde 3, decí 3 y contá hacia atrás desde 2…».
 
-—Eso es un hechizo **recursivo** —sonríe Hulda.
+Ordenando el depósito, entre los pedidos viejos, Kira encuentra uno distinto: un **pedido de plomo**, una cantidad enorme, pagado por adelantado. En lugar de firma, tiene dibujado **un vitral**. Igual al que estaba junto a ella cuando despertó.
 
 ### Objetivos
 
@@ -4849,9 +4861,11 @@ temas: prog.matematica-azar
 
 ### Crónica
 
-Al fondo de la Forja hay un armario con herramientas que nadie tuvo que fabricar: compases, tablas de cálculo, dados de hueso para los juegos de la taberna.
+Kira se pasa una semana entera fabricando su propio martillo para medir textos: cuenta las letras una por una, las compara, las copia. Queda orgullosa. Ferrum abre un armario al fondo de la Forja y le muestra un estante lleno de herramientas que **ya estaban hechas**, con etiquetas: `string.h`, `math.h`, `ctype.h`, `stdlib.h`.
 
-—No hace falta forjar cada martillo, {heroe} —te dice {mentor}—. La biblioteca de C ya trae muchas herramientas. Solo tenés que saber en qué cajón están… y avisarle al Horno que las vas a usar.
+Kira se queda mirando el estante un rato largo. Tizón le da una palmadita en la espalda.
+
+—No hace falta forjar cada martillo —dice {mentor}—. **Mirar el estante también es trabajar**. Eso sí: al Horno hay que avisarle qué cajón vas a usar. Y los dados de hueso de la taberna también están ahí, pero nunca caen dos veces igual en dos Forjas distintas.
 
 ### Objetivos
 
@@ -5497,9 +5511,11 @@ usa: prog.funciones, err.validacion
 
 ### Crónica
 
-En el patio de la Forja, la escoria de mil piezas mal hechas se junta y se levanta: es el **Gólem de Escoria**, cubierto de placas de hierro. Cada golpe mal pensado le rebota.
+En el patio, toda la escoria de la Forja se junta y se levanta: el **Gólem de Escoria**, negro, con grietas de lava y puntos y coma incrustados en el pecho. Kira reconoce algunos pedazos: son **suyos**, de la primera semana.
 
-—No lo vas a vencer con un solo martillazo, {heroe} —dice {mentor}—. Lo vas a vencer con todo lo que templaste: tipos, cuentas, decisiones, bucles y funciones, cada cosa en su lugar. Y validando todo lo que te digan.
+Ella levanta la espada rajada por costumbre. Ferrum le pone la mano en el hombro. En la pared, la cuenta de espadazos dice 41 a 0.
+
+—No lo vas a vencer de un golpe —dice {mentor}—. Lo vas a vencer con todo lo que templaste: tipos, cuentas, decisiones, bucles y funciones, cada cosa en su lugar. Y validando todo lo que te digan. —Tizón le pasa la libreta con las medidas, por si acaso.
 
 ### Objetivos
 

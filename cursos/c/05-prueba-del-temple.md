@@ -17,9 +17,9 @@ temas: cal.depuracion
 
 ### Crónica
 
-Para ser maestro de la Forja hay que pasar la **Prueba del Temple**. La primera sala está a oscuras y llena de piezas que parecen perfectas… pero algunas se quiebran al primer golpe.
+Para ser oficial de la Forja hay que pasar la **Prueba del Temple**. La primera sala está llena de piezas que parecen perfectas, pero algunas se quiebran al primer golpe. Kira, por costumbre, le grita a una espada que no anda.
 
-—Una espada que se ve bien no es una espada que anda, {heroe} —dice {mentor}, y te da una lupa de cristal—. Esta es la **lupa del depurador**. Con ella se mira adentro del metal mientras trabaja, golpe por golpe.
+Ferrum la aparta, golpea cada pieza con un martillito y **escucha** dónde suena hueca. —Una espada que se ve bien no es una espada que anda —dice {mentor}, y le da a Kira una lupa de cristal—. Con esta se mira adentro del metal **mientras trabaja**, golpe por golpe. No hace falta gritarle: hace falta **frenarla** en la línea justa.
 
 ### Objetivos
 
@@ -550,9 +550,11 @@ temas: cal.pruebas
 
 ### Crónica
 
-La segunda sala de la Prueba del Temple está llena de martillos de prueba. Antes de entregar una espada, el maestro la golpea en los lugares donde **suele** quebrarse: la punta, el filo, la unión con la empuñadura.
+La segunda sala de la Prueba está llena de martillos de prueba. Antes de entregar una espada, se golpea donde **suele** quebrarse: la punta, el filo, la unión con la empuñadura.
 
-—No se prueba donde la espada es fuerte, {heroe} —dice {mentor}—. Se prueba en los bordes. Y se prueba **cada vez** que se toca el metal, no una sola.
+Tizón entra a la sala, ve los martillos y los calibres y se emociona hasta las lágrimas: por fin alguien le **pide** que mida todo. Prueba cada pieza tres veces. Después, por las dudas, una cuarta.
+
+—No se prueba donde la espada es fuerte —dice {mentor}—. Se prueba en los bordes. Y se prueba **cada vez** que se toca el metal, no una sola.
 
 ### Objetivos
 
@@ -1123,9 +1125,11 @@ usa: arch.csv, alg.ordenamiento, mem.dinamica
 
 ### Crónica
 
-Antes del último desafío, el Gremio te pide un favor que no tiene nada de mágico: sus comerciantes pierden los contactos de proveedores anotados en papelitos. Quieren una **agenda** que no se pierda, que busque rápido y que no acepte teléfonos con letras.
+Antes del último desafío, el Gremio le pide a Kira un favor sin nada de mágico: los comerciantes pierden los contactos de sus proveedores anotados en papelitos. Quieren una **agenda** que no se pierda, que busque rápido y que no acepte teléfonos con letras.
 
-—No todo lo que se forja es una espada, {heroe} —dice {mentor}—. Las herramientas que usa la gente todos los días también se forjan. Y se forjan con el mismo cuidado.
+Chispa es el primero en probarla: intenta cargar su teléfono como «llamame». La agenda no lo acepta. Intenta «el de siempre». Tampoco. Al final lo carga bien, y es la primera vez que alguien en las Forjas tiene el teléfono de Chispa.
+
+—No todo lo que se forja es una espada —dice {mentor}—. Las herramientas que usa la gente todos los días también se forjan. Y con el mismo cuidado.
 
 ### Objetivos
 
@@ -2256,9 +2260,11 @@ usa: col.matrices, arch.binarios, prog.matematica-azar
 
 ### Crónica
 
-Bajo las Forjas, más hondo que las Minas, duerme el **Dragón de Hierro**. Nadie baja a su mazmorra sin un mapa, sin fuerzas para los guardianes y sin una forma de volver si algo sale mal.
+Bajo las Forjas, más hondo que las Minas, en la fragua donde se fundió el plomo del Vidriero, duerme el **Dragón bajo la Montaña**. Ronca fuego. Donde pisa, el metal se derrite.
 
-—Es la última prueba, {heroe} —dice {mentor}, y por primera vez no te da ninguna herramienta—. Todo lo que necesitás ya lo forjaste vos. Mapa, memoria, combate, archivos. Bajá.
+Kira llega con la espada rajada en la vaina y la libreta de Tizón en el bolsillo. Esta vez no toma carrera. Se sienta, mira al dragón y empieza a **medir**.
+
+—Es la última prueba —dice {mentor}, y por primera vez no le da ninguna herramienta—. Todo lo que necesitás ya lo forjaste vos. Mapa, memoria, combate, archivos. Bajá. —Tizón le pasa las medidas sin que se las pida. Ella las usa sin protestar.
 
 ### Objetivos
 
@@ -3705,11 +3711,11 @@ precio: 10
 
 ### Crónica
 
-Salís de la mazmorra con el sello del Dragón en la mano. En la entrada de las Forjas hay un yunque viejo, y de él salen varios caminos. {mentor} se apoya en el martillo y te mira con algo parecido al orgullo.
+Kira sale de la fragua con **la Hoja Templada**, la espada que forjó ella misma midiendo cada grado, y con **la Matriz del Marco** que dejó el Vidriero: el molde de plomo de un vitral enorme, con la inscripción *«para quien llegue»*. El mismo marco que, dicen los mercaderes, espera vacío en la torre más alta del Imperio.
 
-—Ya hablás la lengua de las Forjas, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Por un camino se llega a la **Forja Viva**, donde el metal se mueve en una pantalla. Por el otro, al **Taller de los Autómatas**, donde el código mueve cosas de verdad.
+En la entrada de las Forjas hay un yunque viejo y de él salen dos caminos. {mentor} golpea el yunque **tres veces**. Kira no sabe qué hacer con las manos. En la pared, debajo de la cuenta de espadazos, Ferrum escribe con tiza: «Problemas resueltos midiendo: todos».
 
-—Antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
+—Ya hablás la lengua de las Forjas. Lo que sigue no es obligatorio: es **tuyo**. Por un camino, la **Forja Viva**, donde el metal se mueve en una pantalla. Por el otro, el **Taller de los Autómatas**, donde el código mueve cosas de verdad. —Tizón, ahora oficial, la saluda desde el mostrador con el calibre en alto.
 
 ### Objetivos
 

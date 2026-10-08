@@ -21,7 +21,9 @@ temas: hw.arduino
 
 Por el otro camino de la Encrucijada se llega al **Taller de los Autómatas**. En las mesas hay figuras de latón con ojos de vidrio que se prenden y se apagan, brazos que se mueven solos y campanas que suenan cuando alguien pasa.
 
-—Hasta ahora tu magia vivía adentro de una pantalla, {heroe} —dice {mentor}—. Acá sale al mundo: prende luces, lee botones, mueve cosas. Y la lengua sigue siendo la misma.
+Kira prende su primera luz en una placa y se queda mirándola un minuto entero, como si fuera magia. Tizón mide cuánto tarda en parpadear: «Un segundo. Exacto. Bien».
+
+—Hasta ahora tu magia vivía adentro de una pantalla —dice {mentor}—. Acá sale al mundo: prende luces, lee botones, mueve cosas. Y la lengua sigue siendo la misma.
 
 ### Objetivos
 
@@ -357,9 +359,11 @@ usa: hw.arduino
 
 ### Crónica
 
-Los autómatas del Taller no solo hablan: **escuchan**. Tienen palancas, botones y perillas que la gente toca, y responden a cada gesto.
+Los autómatas del Taller no solo hablan: **escuchan**. Tienen botones, palancas y perillas que la gente toca, y responden a cada gesto.
 
-—Un botón parece la cosa más simple del mundo, {heroe} —dice {mentor}—. Hasta que lo mirás de cerca y ves que rebota como una pelota.
+Kira aprieta un botón **una** vez y el autómata cuenta **siete**. Lo aprieta de nuevo: once. Tizón se pasa la tarde mirando el botón con la lupa hasta que lo ve: el contacto **rebota** como una pelota antes de quedarse quieto.
+
+—Un botón parece la cosa más simple del mundo —dice {mentor}—. Hasta que lo mirás de cerca.
 
 ### Objetivos
 
@@ -664,9 +668,11 @@ usa: hw.arduino
 
 ### Crónica
 
-Los autómatas más viejos del Taller trabajan solos. Los nuevos **conversan**: le cuentan a una máquina más grande todo lo que sienten, y reciben órdenes de vuelta.
+Los autómatas viejos del Taller trabajan solos. Los nuevos **conversan**: le cuentan a una máquina más grande todo lo que sienten, y reciben órdenes de vuelta por un cable.
 
-—Para conversar hace falta un idioma que los dos entiendan, {heroe} —dice {mentor}—. Uno simple, que no se rompa si se pierde una palabra.
+El primer autómata de Kira le manda a la compu un mensaje larguísimo, sin pausas ni separadores, y la compu entiende «BANANA». Tizón inventa un idioma de una línea por mensaje, con una letra al principio que dice de qué se trata. Funciona a la primera; él no lo puede creer.
+
+—Para conversar hace falta un idioma que los dos entiendan —dice {mentor}—. Uno simple, que no se rompa si se pierde una palabra.
 
 ### Objetivos
 
@@ -1110,9 +1116,11 @@ usa: hw.serie, hw.entradas
 
 ### Crónica
 
-En el fondo del Taller espera el **Autómata Guardián**, el más grande de todos. No tiene espada: tiene un joystick de bronce y una fila de luces en el pecho. Te desafía a un juego: recorrer la mazmorra del Dragón… pero con **su** control.
+En el fondo del Taller espera el **Autómata Guardián**, de latón, con cables a la vista y leds por ojos. No tiene espada: tiene un joystick de bronce y una fila de luces en el pecho. Desafía a Kira a recorrer la mazmorra del Dragón… pero con **su** control.
 
-—Es la prueba de todo artífice, {heroe} —dice {mentor}—. Que la placa y la compu trabajen juntas, cada una en lo suyo.
+Kira agarra el joystick como si fuera una espada. El Guardián pita, ofendido. Ella lo suelta, respira, y lo vuelve a agarrar con dos dedos.
+
+—Es la prueba de todo artífice —dice {mentor}—. Que la placa y la compu trabajen juntas, cada una en lo suyo.
 
 ### Objetivos
 

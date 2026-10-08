@@ -17,9 +17,11 @@ temas: arch.texto, arch.csv
 
 ### Crónica
 
-Al subir de las Minas llegás al **Archivo de la Forja**: estantes y estantes de libros donde se anota todo lo que se forja. Lo que no se anota, se pierde cuando se apaga el horno.
+Al subir de las Minas, Kira llega al **Archivo de la Forja**: estantes de hierro, libros encadenados y cajas de fichas selladas. Lo atiende el **Archivero**, un enano viejísimo con la barba enrollada en el cinturón, que busca sus anteojos durante toda la tarde. Los tiene puestos.
 
-—La memoria del programa es como el calor del metal, {heroe} —dice {mentor}—: se va cuando terminás. Lo que querés guardar va al papel. Y el papel hay que leerlo con cuidado: siempre hay alguien que escribió mal una línea.
+—Lo que no está escrito en disco, no pasó —dice, y le enseña a Kira a abrir un libro de pedidos, leerlo línea por línea y **cerrarlo**.
+
+Kira pregunta por el pedido de plomo del vitral. El Archivero deja de buscar los anteojos de golpe. —Ese —dice— está en la bóveda. Y la bóveda tiene guardián.
 
 ### Objetivos
 
@@ -567,9 +569,11 @@ usa: col.registros
 
 ### Crónica
 
-En el fondo del Archivo, {mentor} abre un cofre de hierro. Adentro no hay libros: hay **moldes**. Cada molde guarda una pieza exactamente como es, byte por byte, sin traducirla a letras.
+En el fondo del Archivo hay cajas de fichas **selladas**: cada ficha guarda una pieza exactamente como es, byte por byte, sin traducirla a letras. Tizón abre una con un editor de texto y ve jeroglíficos; jura que es un idioma antiguo y empieza a traducirlo.
 
-—Los libros los lee cualquiera, {heroe}. Los moldes, solo la Forja que los hizo. Pero son rápidos, justos y no se equivocan al copiar. Así se guarda una partida.
+El Archivero le saca la caja con delicadeza. Le enseña a ir **directo** a la ficha número 7 sin leer las seis anteriores, a corregir una sola ficha sin reescribir la caja, y a dar de baja un lingote **sin borrarlo**: le pone una **B** de «bajado», porque en el Archivo nada se tira.
+
+—Los libros los lee cualquiera —dice {mentor}—. Las cajas, solo la Forja que las hizo. Pero son rápidas y no se equivocan al copiar.
 
 ### Objetivos
 
@@ -1132,9 +1136,11 @@ temas: prog.modulos, cal.build
 
 ### Crónica
 
-El Archivo tiene una sala para cada oficio: los planos de las espadas en un estante, los de las herraduras en otro. Nadie guarda todo en un solo libro gigante.
+El Archivo tiene una sala para cada oficio: los planos de espadas en un estante, los de herraduras en otro. Nadie guarda todo en un solo libro gigante.
 
-—Un programa grande se ordena igual, {heroe} —dice {mentor}—. Cada parte en su archivo, con una **tapa** que dice qué ofrece. Lo de adentro es asunto de cada taller.
+Tizón y Kira arman, cada uno en su taller, la pieza «dado» para el juego de la taberna, sin avisarse. Cuando el **enlazador** junta los talleres, grita: «¡Ya hay un dado!», y no arma nada. Se miran.
+
+—Un programa grande se ordena igual —dice {mentor}—. Cada parte en su archivo, con una **tapa** que dice qué ofrece. Lo de adentro es asunto de cada taller. Y cada pieza, una sola vez.
 
 ### Objetivos
 
@@ -1769,9 +1775,11 @@ temas: prog.argumentos
 
 ### Crónica
 
-Los herreros viejos del Archivo no usan menús: le dan la orden a la herramienta **al encenderla**. "Templá a 900". "Contá las líneas de estos tres libros". Y la herramienta hace eso, sin preguntar nada.
+Chispa no usa la ventanilla: hace sus pedidos **gritando desde la puerta**, todo junto y sin comas. —¡Templar novecientos tres veces la de siempre! —El Archivero, que es sordo de un oído, le templó tres herraduras a novecientos y una a «la de siempre».
 
-—Así se escriben las herramientas de verdad, {heroe} —dice {mentor}—. Las que se pueden encadenar con otras, o dejar trabajando solas de noche.
+Los herreros viejos del Archivo tampoco usan menús: le dan la orden a la herramienta **al encenderla**, separada en palabras. «Templá a 900». «Contá las líneas de estos tres libros». Y la herramienta hace eso sin preguntar nada.
+
+—Así se escriben las herramientas de verdad —dice {mentor}—. Las que se pueden encadenar con otras, o dejar trabajando solas de noche.
 
 ### Objetivos
 
@@ -2282,9 +2290,11 @@ temas: prog.menu
 
 ### Crónica
 
-En la posada de la Forja, el posadero tiene un cartel con opciones: descansar, entrenar, trabajar, comprar. Cada noche los aprendices eligen, algo cambia, y el cartel vuelve a aparecer.
+En el mostrador del Archivero hay un cartel con opciones: buscar, guardar, prestar, salir. Cada vez que alguien elige, algo cambia, y el cartel vuelve a aparecer. Chispa elige «8», que no existe, y el mostrador entero se traba hasta que el Archivero lo patea.
 
-—Esto es lo que late dentro de todo juego, {heroe} —dice {mentor}—. Mostrar cómo está el mundo, preguntar qué hacés, cambiar el mundo. Y otra vez. Y otra vez.
+Kira escribe un mostrador nuevo que no se traba con nada: ni con letras, ni con números que no existen, ni con un Enter vacío. Chispa lo intenta durante una hora. No lo rompe. Se va ofendido.
+
+—Esto es lo que late dentro de todo programa que se usa —dice {mentor}—. Mostrar cómo está el mundo, preguntar qué hacés, cambiar el mundo. Y otra vez.
 
 ### Objetivos
 
@@ -3642,9 +3652,11 @@ usa: prog.modulos, prog.menu, arch.binarios, mem.dinamica
 
 ### Crónica
 
-En la puerta del último salón del Archivo espera el **Guardián**: una armadura vacía que no deja pasar a nadie que no sepa guardar lo suyo. Pide ver tu inventario, que lo guardes, que lo apagues todo… y que al volver esté exactamente igual.
+En la puerta de la bóveda espera el **Guardián del Archivo**: un autómata de hierro con forma de archivador gigante y un candado por cabeza. Pide ver el inventario de Kira, que lo guarde, que apague todo… y que al volver esté exactamente igual.
 
-—Es el examen de todo archivero, {heroe} —dice {mentor}—. Módulos ordenados, memoria que crece y se devuelve, un menú que no se rompe y archivos que no mienten.
+Kira se olvida de cerrar un archivo. El Guardián le cierra el cajón en los dedos. —¿Abriste? ¿Cerraste? —repite, con ruido de cajones.
+
+—Es el examen de todo archivero —dice {mentor}, mientras Tizón le sopla los dedos a Kira—. Módulos ordenados, memoria que crece y se devuelve, un menú que no se rompe y archivos que no mienten. Detrás de esa puerta está el libro del plomo.
 
 ### Objetivos
 

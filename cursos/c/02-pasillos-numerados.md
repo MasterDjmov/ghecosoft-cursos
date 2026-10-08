@@ -17,11 +17,11 @@ temas: col.arrays, col.matrices
 
 ### Crónica
 
-Debajo de la Forja corren los **pasillos numerados**: una hilera de cajones de hierro, todos iguales, con un número grabado desde el **cero**.
+Debajo de la Forja corren los **pasillos numerados**: hileras de estantes de hierro, todos iguales, con un número grabado que empieza en **cero**. Kira, que es de contar desde uno, busca el estante 10 de una hilera de diez.
 
-—Pedí el cajón 3 y te lo doy —dice {mentor}—. Pedí el 5 en una hilera de cinco y también te doy algo… pero no es tuyo, {heroe}.
+Lo encuentra. O algo encuentra: en el lugar donde ya no hay estante, hay un **orco** durmiendo la siesta, que se despierta de muy mal humor.
 
-Al fondo del pasillo, algo se mueve entre las telarañas.
+—Pedí el 3 y te lo doy —dice {mentor} mientras Kira corre—. Pedí el 10 en una hilera de diez y también te doy algo… pero no es tuyo. —Al fondo del pasillo, entre las telarañas, algo con muchas patas se mueve.
 
 ### Objetivos
 
@@ -1058,9 +1058,11 @@ usa: col.arrays
 
 ### Crónica
 
-En la pared del pasillo, cada cajón tiene una placa con su nombre, letra por letra en casilleros de hierro. Notás que después de la última letra siempre hay un casillero con un **tapón**.
+Chispa etiqueta sus lingotes con placas de hierro, letra por letra en casilleros. En un lingote de oro escribe «ORO» en una placa de **tres** casilleros, sin lugar para el **tapón** del final.
 
-—Sin el tapón —explica {mentor}—, el que lee sigue de largo por los casilleros de al lado, y termina leyendo el nombre del vecino… o algo peor.
+Al leer la etiqueta, el lector sigue de largo hasta la placa de al lado, y el lingote de hierro barato se vende como «OROHIERRO». Tizón lo descubre a la media hora; Chispa jura que fue sin querer. Del casillero desbordado sale el primer **orco de los textos**.
+
+—Sin el tapón, el que lee no sabe dónde parar —explica {mentor}—, y termina leyendo el nombre del vecino… o algo peor.
 
 ### Objetivos
 
@@ -1901,9 +1903,11 @@ temas: col.registros, prog.enums
 
 ### Crónica
 
-En el depósito de la Forja, cada aprendiz tiene una **ficha de hierro** con todo lo suyo: nombre, oficio, dónde está trabajando, su vida y su fuerza, y los tres huecos de su mochila.
+En el depósito, cada aprendiz tiene una **ficha de hierro** con todo lo suyo: nombre, oficio, dónde trabaja, vida, fuerza y los tres huecos de la mochila. Antes había una lista de nombres, otra de vidas, otra de posiciones.
 
-—Antes teníamos una lista de nombres, otra de vidas, otra de posiciones —gruñe {mentor}—. Un día alguien ordenó una y no las otras. Kira quedó con la vida de Tizon durante una semana.
+—Un día alguien ordenó una y no las otras —gruñe {mentor}—. Kira quedó con la vida de Tizón durante una semana. —Kira se acuerda: se sintió rarísimo, de repente con ganas de medir todo.
+
+Kira vuelve a la ficha del **pedido de plomo** y nota algo: tiene un campo que se puede leer de **dos formas**. Leído como número, es un peso. Leído byte por byte, al revés, dice «PARA QUIEN LLEGUE».
 
 ### Objetivos
 
@@ -2737,9 +2741,11 @@ temas: mem.punteros
 
 ### Crónica
 
-En el fondo del pasillo vive la **Araña de las Direcciones**. No guarda cosas: guarda **dónde** están las cosas, en hilos que van de su tela a cada cajón. Tirando de un hilo, cambia lo que hay adentro sin moverse de su lugar.
+En los pasillos hay **carteles** que no guardan nada: señalan **dónde** está cada cosa. Tirando de un cartel se llega al estante, sin cargarlo encima. Kira sigue uno que dice «por acá» con toda la confianza del mundo…
 
-—Es la criatura más útil y más peligrosa de la Forja, {heroe} —dice {mentor}—. Un hilo que apunta a un cajón vacío… y te cae el techo encima.
+…y el cartel no apuntaba a ningún lado. Kira cae por un hueco del piso, el programa revienta y en la pared del pasillo queda escrito *Violación de segmento*. Hulda, que pasaba con su farol, la saca con una soga.
+
+—Tomá —le dice, y le cuelga un amuleto al cuello—. **El Amuleto del Volcado**. Guarda lo que pasó antes de cada caída. Para la próxima que te caigas, que va a haber. —{mentor} agrega, sin sonreír: —Un cartel que apunta a la nada es lo más peligroso de la Forja.
 
 ### Objetivos
 
@@ -3557,9 +3563,11 @@ usa: col.registros
 
 ### Crónica
 
-Hasta ahora, cada vez que necesitabas que alguien cambiara tu ficha, hacías una copia, la mandabas al taller y esperabas que te la devolvieran.
+Hasta ahora, cada vez que Kira necesitaba que el taller cambiara su ficha, hacía una **copia**, la mandaba y esperaba. Y el taller cambiaba la copia, no la ficha.
 
-—Es como fundir otra espada cada vez que querés afilarla —dice {mentor}, y te da un hilo de la Araña—. Mandá esto, {heroe}. Es el camino a tu ficha. El taller la cambia donde está.
+—Es como fundir otra espada cada vez que querés afilarla —dice {mentor}, y le da un **cartel**—. Mandá esto. Es el camino a tu ficha. El taller la cambia donde está.
+
+Tizón, entusiasmado, manda un cartel a la ficha de Hulda… pero confunde el **punto** con la **flecha**, y termina mandando una carta a la dirección de la carta. Hulda todavía no sabe si reírse.
 
 ### Objetivos
 
@@ -4377,11 +4385,11 @@ usa: col.registros, col.arrays
 
 ### Crónica
 
-El registro de la Forja no es una ficha: es un **estante** de fichas, con lugar para cinco. Cuando llega alguien nuevo, va al primer hueco; cuando alguien se va, los de atrás se corren.
+El registro de la Forja es un **estante de fichas** con lugar para unos pocos. Cuando llega alguien nuevo, va al primer hueco; cuando alguien se va, los de atrás se corren.
 
-Cada tanto {mentor} pide el estante ordenado: por fuerza para armar la guardia, por nombre para pasar lista.
+Ferrum quiere colgar el **cuadro de honor** de los aprendices, ordenados por temple y, si empatan, por nombre. Kira los ordena por altura, «porque se ve más prolijo». Tizón queda primero por tercera vez seguida y nadie le cree, así que pide que lo midan.
 
-—No hace falta ordenar a mano cada vez —dice, y saca de un cajón un autómata de bronce que ordena cualquier cosa… si le explicás cómo comparar.
+—No hace falta ordenar a mano cada vez —dice {mentor}, y saca de un cajón un autómata de bronce que ordena cualquier cosa… si le explicás cómo comparar.
 
 ### Objetivos
 
@@ -5545,9 +5553,11 @@ usa: mem.punteros, col.registros, prog.matematica-azar
 
 ### Crónica
 
-Al final de los pasillos numerados está la **Arena**, donde los aprendices prueban lo que aprendieron. {mentor} te da una espada, un escudo y dos pociones.
+Al final de los pasillos numerados está la **Arena**, donde los aprendices prueban lo que aprendieron. {mentor} le da a Kira un escudo y dos pociones; la espada rajada se queda en la vaina.
 
-—Cuatro rivales, {heroe}. El último es la **Araña de las Direcciones**. No le ganás con fuerza: le ganás sabiendo cuándo pegar, cuándo cubrirte y cuándo tomar la poción. Y cuidado con su red.
+—Cuatro rivales. El último es la **Araña de las Direcciones**: teje carteles falsos y los cambia de lugar. No le ganás con fuerza: le ganás sabiendo cuándo pegar, cuándo cubrirte y **adónde apunta cada hilo**.
+
+Por primera vez desde que llegó, Kira no tira el primer golpe. Saca la libreta de Tizón y empieza a anotar direcciones. Tizón, en la tribuna, se emociona tanto que se le cae el calibre.
 
 ### Objetivos
 

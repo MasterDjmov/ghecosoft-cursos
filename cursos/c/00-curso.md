@@ -41,9 +41,9 @@ Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde 
 | coin.course | lingote | lingotes | m | La moneda de las Forjas: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
 | mentor.name | Maese Ferrum | | m | Herrero enano, el Forjador: guía de las Forjas de Hierro. | Forjó su primera hoja cuando las Forjas todavía no tenían techo. Es viejo amigo de Bron, no tolera una advertencia del compilador sin arreglar y dice que el metal no perdona, pero tampoco miente. | curso |
 | world.region | Forjas de Hierro | | f | La región del mundo cuya lengua arcana es C. | | curso |
-| story.course_intro | Bienvenida a las Forjas | | f | | Bajás del paso de montaña, {heroe}, y el calor te pega en la cara: llegaste a las **Forjas de Hierro**, la región más antigua de {mundo}.<br><br>Soy {mentor}. Acá nadie hace el trabajo por vos: cada pieza se forja a mano y cada byte se cuenta. Primero escribís la receta; después el **Horno**, el compilador, la convierte en una pieza que trabaja.<br><br>Cada tema que domines templa una pieza nueva; cada misión aprobada te da lingotes para abrir el siguiente. | curso |
-| story.branch_completed | ¡Rama templada! | | f | | {mentor} golpea el yunque dos veces, que es lo más parecido a un aplauso que se le escucha. —Otra parte de las Forjas ya trabaja con tu metal, {heroe}. | curso |
-| story.course_completed | ¡Dominaste la lengua de las Forjas! | | f | | {mentor} te entrega el martillo que usó durante cuarenta años. —Ya no sos aprendiz, {heroe}. Desde la Encrucijada del Yunque salen caminos que pocos recorren: la Forja Viva y el Taller de los Autómatas. Elegí el tuyo. | curso |
+| story.course_intro | Bienvenida a las Forjas | | f | | Kira era aprendiz de espadachina en un pueblo común. Una noche, un **vitral** se encendió como un portal y despertó en la boca de las **Forjas de Hierro**, la región más antigua de {mundo}, con la espada en la mano. Lo primero que hizo fue darle un espadazo al portón. La espada se rajó; el portón se abría tirando.<br><br>Soy {mentor}, el Forjador. Acá nada se abre a golpes: cada pieza se forja a mano y **cada byte se cuenta**. Primero se escribe la receta; después el **Horno**, el compilador, la convierte en una pieza que trabaja.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines templa una pieza nueva y cada misión aprobada te da lingotes para abrir el siguiente. | curso |
+| story.branch_completed | ¡Rama templada! | | f | | {mentor} golpea el yunque dos veces, que es lo más parecido a un aplauso que se le escucha. —Otra parte de las Forjas ya trabaja con el metal de Kira. Tizón lo anota en la libreta, con la fecha, la hora y los minutos. | curso |
+| story.course_completed | ¡Dominaste la lengua de las Forjas! | | f | | {mentor} le entrega a Kira el martillo que usó durante cuarenta años y golpea el yunque **tres** veces. —Llegaste rompiendo una espada contra un portón y te vas con una que forjaste vos, midiendo cada grado. Desde la Encrucijada del Yunque salen dos caminos que pocos recorren: la Forja Viva y el Taller de los Autómatas. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que forjó Maese Ferrum | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Me encargó el plomo para un vitral enorme, más grande que cualquier ventana que yo hubiera visto. Pagó por adelantado y nunca me dijo para qué era. Tenía la misma mirada que tiene Tesela cuando sueña. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis: el Horno no puede ni empezar. | Los slimes brotan de los punto y coma olvidados, las llaves sin cerrar y las comillas perdidas. Son débiles, pero están en todos lados: hasta que no los eliminás, el compilador no produce nada. | curso |
 | beast.goblin | goblin | goblins | m | Nace de los tipos y formatos que no coinciden. | Los goblins roban en silencio: un %d para un double, un & que falta en sscanf, un entero que se desborda. El compilador a veces los ve (con -Wall); otras veces solo los ve quien prueba. | curso |
@@ -63,9 +63,13 @@ temas: prog.entorno, prog.salida, herr.compilacion
 
 ### Crónica
 
-Bajás del paso de montaña y llegás a las **Forjas de Hierro**, la región más antigua de {mundo}. Entre el humo y los martillazos, un enano de barba trenzada te mira de arriba abajo: es **{mentor}**, el Forjador.
+Kira despierta de cara al piso, junto a un vitral apagado, con la espada de aprendiz todavía en la mano. Hace calor. Mucho calor. Delante tiene un portón de hierro del tamaño de una casa, y detrás se oyen martillazos.
 
-—Acá la magia se escribe en **C**, {heroe}: casi todas las demás lenguas se forjaron con ella. Primero escribís la receta. Después el **Horno** (el compilador) la convierte en una pieza terminada. Y recién ahí la pieza trabaja.
+Kira hace lo que sabe hacer: toma carrera y le da un espadazo al portón. La espada **se raja** de punta a mango. El portón ni se entera. Un enano de barba trenzada y un ojo de luz naranja lo abre **tirando** de la manija, sin esfuerzo: es **{mentor}**, el Forjador.
+
+—Se abre para afuera —dice, y mira la espada rota—. Acá nada se abre a golpes, muchacha. Se abre **sabiendo cuánto pesa cada cosa**. En las Forjas la magia se escribe en **C**: primero escribís la receta y después el **Horno**, el compilador, la convierte en una pieza que trabaja.
+
+Detrás de él asoma un enano joven con un calibre colgado del cuello, que le mide la espada rota a Kira sin pedir permiso. —Se rajó por acá —dice—. ¿La mediste antes de pegar? Es **Tizón**. Sobre el hombro de Kira aparece un gecko de luz con antiparras: **Gheco**.
 
 ### Objetivos
 

@@ -18,9 +18,11 @@ usa: mem.punteros
 
 ### Crónica
 
-Bajo la Forja se abren **las Minas**: galerías que se cavan a medida que hacen falta. {mentor} te da una lámpara y una advertencia:
+Bajo la Forja se abren **las Minas**, y en la boca espera **Hulda**, la capataz, con el pico al hombro y una tablilla donde anota cada vagoneta. Kira le pide diez para sacar mineral. Devuelve nueve.
 
-—Acá la memoria se pide y se **devuelve** a mano, {heroe}. Lo que pedís y no devolvés, se lo queda la **Sanguijuela**, que vive en el fondo y engorda con cada byte olvidado. Un día no queda lugar para nadie.
+Hulda la frena con una mano del tamaño de una pala: —Vagoneta que sacás, vagoneta que devolvés. Las que no vuelven, se las come la **Sanguijuela** del fondo. —Y la hace contar un chiste malo **frente a toda la mina**, como interés. El chiste es tan malo que nadie en las Minas vuelve a olvidarse una vagoneta.
+
+—Acá la memoria se pide y se **devuelve** a mano —dice {mentor} desde la entrada—. Lo que no devolvés, un día falta.
 
 ### Objetivos
 
@@ -694,9 +696,11 @@ usa: mem.dinamica
 
 ### Crónica
 
-En la galería de las Minas, la horda de enemigos no para de crecer: hoy son dos, mañana cinco, pasado veinte. El estante de piedra donde {mentor} anota a cada uno se queda chico todo el tiempo.
+En la galería de las Minas, los enemigos no paran de llegar: hoy dos, mañana cinco, pasado veinte. El estante de piedra donde Hulda los anota se llena todo el tiempo, y cada vez hay que cavar uno nuevo y mudar todo.
 
-—No se cava una galería nueva por cada enemigo, {heroe} —dice—. Cuando se llena, se cava una **del doble**. Y se muda todo de una sola vez.
+Tizón saca la libreta, hace cuentas en voz alta durante diez minutos y anuncia: —Conviene cavar uno **del doble** cada vez que se llena. —Por una vez, nadie le discute. Hulda le da una palmada que lo deja sin aire.
+
+—No se cava una galería por cada enemigo —confirma {mentor}—. Cuando se llena, se agranda, y se muda todo de una sola vez.
 
 ### Objetivos
 
@@ -1504,9 +1508,11 @@ usa: mem.dinamica
 
 ### Crónica
 
-Más abajo, las galerías de las Minas no están en fila: cada túnel termina en una puerta con una **cadena** que lleva al túnel siguiente. Para agregar uno no hay que mudar nada: se cava y se engancha.
+Más abajo, las galerías no están en fila: los **vagones** van enganchados uno detrás de otro con cadenas. Para agregar uno no hay que mudar nada: se engancha y listo.
 
-—Pero cuidado, {heroe} —dice {mentor}—. Si soltás una cadena antes de agarrar la que sigue, todo lo que venía detrás queda perdido en la oscuridad. Para siempre.
+Kira engancha los vagones a la velocidad del rayo, en cualquier orden, y el tren de la mina sale **marcha atrás** y con el vagón más pesado adelante. Hulda le explica, con mucha calma y bastante volumen, que se enganchan **ordenados por peso**. Y que si se suelta una cadena antes de agarrar la siguiente, todo lo de atrás se pierde en la oscuridad.
+
+Al final de una vía muerta, iluminada por el farol, Kira encuentra una veta distinta, gris y brillante: **plomo**. En la roca, alguien grabó un vitral chiquito. El plomo del pedido salió de acá.
 
 ### Objetivos
 
@@ -3344,9 +3350,11 @@ temas: mem.punteros-funcion, func.orden-superior
 
 ### Crónica
 
-En el taller de las Minas hay un tablero con palancas. Cada palanca no hace nada por sí misma: **señala** a una máquina (la bomba de agua, el montacargas, el fuelle). Cambiás a qué máquina apunta y la misma palanca hace otra cosa.
+En el taller de las Minas hay un tablero con **palancas**. Cada palanca no hace nada por sí misma: señala a una máquina (la bomba de agua, el montacargas, el fuelle). Se cambia a qué máquina apunta y la misma palanca hace otra cosa.
 
-—Así se escriben los hechizos que eligen **qué hacer** mientras el programa corre —dice {mentor}—. El autómata de bronce que ordenaba el estante funcionaba así, {heroe}: vos le dabas la palanca.
+Chispa, aprovechando un descuido, instala una palanca nueva que manda **todos** los trenes a su puesto de ventas. Tizón la encuentra en cinco minutos (Chispa la había etiquetado «NO TOCAR, NO ES DE CHISPA»).
+
+—Así se escriben los hechizos que eligen **qué hacer** mientras el programa corre —dice {mentor}—. El autómata que ordenaba el cuadro de honor funcionaba así: vos le dabas la palanca.
 
 ### Objetivos
 
@@ -4064,9 +4072,11 @@ usa: mem.dinamica, alg.listas-enlazadas, cal.depuracion
 
 ### Crónica
 
-En lo más hondo de las Minas, algo enorme y blando se arrastra entre los túneles: la **Sanguijuela**. Cada byte que alguien pidió y nunca devolvió la hizo crecer. Ya casi no queda lugar para cavar.
+En lo más hondo de las Minas, algo enorme y blando se arrastra entre los túneles: la **Sanguijuela**. Cada vagoneta que alguien pidió y nunca devolvió la hizo crecer, y está gordísima. Hulda revisa la tablilla: casi todas las vagonetas que se comió son de Chispa.
 
-—Hoy no alcanza con que el programa funcione, {heroe} —dice {mentor}, y te da una lámpara que brilla distinto: el **sanitizador**—. Tiene que funcionar **y** devolver todo lo que pidió. Con esta luz, la Sanguijuela no se puede esconder.
+Chispa silba mirando para otro lado.
+
+—Hoy no alcanza con que el programa ande —dice {mentor}, y Hulda le da a Kira una lámpara que brilla distinto: el **sanitizador**—. Tiene que andar **y** devolver todo lo que pidió. Con esta luz, la Sanguijuela no se puede esconder.
 
 ### Objetivos
 

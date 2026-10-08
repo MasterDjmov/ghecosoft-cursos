@@ -70,7 +70,7 @@ test('el docente puede cambiar un héroe inapropiado', function () {
 });
 
 test('los marcadores de la historia se reemplazan con el héroe y el diccionario', function () {
-    ['course' => $course] = makeCourse(['language' => 'c']);
+    ['course' => $course] = makeCourse(['language' => 'arduino']);
     storyTerm('mentor.name', $course, 'Ofidia');
     $student = User::factory()->create(['hero_name' => 'Luna']);
     $anonymous = User::factory()->create();
@@ -83,7 +83,7 @@ test('los marcadores de la historia se reemplazan con el héroe y el diccionario
 });
 
 test('la crónica del nodo llama al alumno por su héroe', function () {
-    ['course' => $course, 'root' => $root] = makeCourse(['language' => 'c']);
+    ['course' => $course, 'root' => $root] = makeCourse(['language' => 'arduino']);
     $root->update(['chronicle' => '—Adelante, {heroe}.']);
     $student = enrolledStudent($course);
     $student->update(['hero_name' => 'Luna']);
@@ -105,7 +105,7 @@ test('el héroe aparece en el ranking y en el CV', function () {
 });
 
 test('la bienvenida del curso se ve en la ficha y en el árbol, y el jefe se presenta', function () {
-    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse(['language' => 'c']);
+    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse(['language' => 'arduino']);
     storyTerm('story.course_intro', $course, 'Bienvenida al Valle', 'Despertaste en el Valle, {heroe}.');
     $student = enrolledStudent($course);
     $student->update(['hero_name' => 'Luna']);
@@ -122,7 +122,7 @@ test('la bienvenida del curso se ve en la ficha y en el árbol, y el jefe se pre
 });
 
 test('completar una rama avisa con su historia', function () {
-    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse(['language' => 'c']);
+    ['course' => $course, 'root' => $root, 'topic1' => $topic1] = makeCourse(['language' => 'arduino']);
     storyTerm('story.branch_completed', $course, '¡Rama completada!', 'Bien hecho, {heroe}.');
     $branch = Branch::create(['course_id' => $course->id, 'title' => 'Fundamentos']);
     $topic1->update(['branch_id' => $branch->id]);

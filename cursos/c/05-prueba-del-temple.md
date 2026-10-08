@@ -3197,1453 +3197,1156 @@ padre: R05-N03
 precio: 10
 criatura: dragon
 insignia: Sello del Dragón de Hierro
-insignia_descripcion: Venciste al Dragón bajo la Montaña: dominás C, de la primera línea a un programa completo.
-usa: col.matrices, arch.binarios, prog.matematica-azar
+insignia_descripcion: Venciste al Dragón bajo la Montaña: resolviste FundiciónExpress, el simulacro del parcial de C, con matrices, estructuras y archivos.
+usa: col.matrices, col.registros, alg.ordenamiento, arch.binarios, err.validacion
 ```
 
 ### Crónica
 
-Bajo las Forjas, más hondo que las Minas, en la fragua donde se fundió el plomo del Vidriero, duerme el **Dragón bajo la Montaña**. Ronca fuego. Donde pisa, el metal se derrite.
+Bajo las Forjas, más hondo que las Minas, en la fragua donde se fundió el plomo del Vidriero, duerme el **Dragón bajo la Montaña**. Ronca fuego. Donde pisa, el metal se derrite. En las escamas del lomo tiene grabados **tres encargos**, y solo deja pasar a quien los resuelve.
 
-Kira llega con la espada rajada en la vaina y la libreta de Tizón en el bolsillo. Esta vez no toma carrera. Se sienta, mira al dragón y empieza a **medir**.
+Kira llega con la espada reforjada en la vaina y la libreta de Tizón en el bolsillo. Esta vez no toma carrera. Se sienta, lee los tres encargos y empieza a **medir**.
 
-—Es la última prueba —dice {mentor}, y por primera vez no le da ninguna herramienta—. Todo lo que necesitás ya lo forjaste vos. Mapa, memoria, combate, archivos. Bajá. —Tizón le pasa las medidas sin que se las pida. Ella las usa sin protestar.
+—Es la última prueba —dice {mentor}, y por primera vez no le da ninguna herramienta—. Todo lo que necesitás ya lo forjaste vos. Tenés tres horas; si te pasás, terminala igual. —Tizón le pasa las medidas sin que se las pida. Ella las usa sin protestar.
 
 ### Objetivos
 
-- Escribir un juego completo de consola, armado de a partes.
-- Representar un mundo con una matriz de caracteres y el estado del juego en un struct.
-- Sumar combate con azar controlado y guardado de la partida en binario.
+Resolver **FundiciónExpress**, un simulacro del parcial de Programación I (UNLaR y
+UTN): tres ejercicios de C con **matrices**, **arreglos de estructuras** y un
+**archivo binario de estructuras**, todo con funciones, validando la entrada,
+pensado para **180 minutos**.
 
 ### Antes de empezar
 
-Todo el camino principal. Es el **proyecto final**: no hay teoría nueva.
+- Todo el camino: matrices (R02-N01), estructuras y ordenar con desempate (R02-N03 y R02-N06), archivos binarios y baja lógica (R04-N02) y el menú que no se traba (R04-N05).
 
 ### Explicación
 
-#### El mundo es una matriz
+#### Cómo se enfrenta el parcial
+Son **tres ejercicios independientes**: cada uno es un programa completo, en su
+propio archivo `.c`. Un plan para las tres horas:
 
-```
-#############      #  pared
-#@..#...$...#      @  el héroe
-#.#.#.###.#.#      $  tesoro
-#.#...#$..#.#      S  salida
-#.###.#.###.#      .  piso
-#$........#S#
-#############
-```
+| Minutos | Qué |
+|---|---|
+| 10 | leer los tres enunciados enteros y anotar qué estructuras y funciones pide cada uno |
+| 50 | ejercicio 1 (la matriz) |
+| 60 | ejercicio 2 (las estructuras) |
+| 50 | ejercicio 3 (el archivo binario) |
+| 10 | probar todo de nuevo con los datos de ejemplo y con casos borde |
 
-Se guarda en `char mapa[FILAS][COLUMNAS + 1]` (el `+ 1` es para el `'\0'` de cada fila). La posición del héroe va **aparte** (fila y columna), así moverse no borra nada del mapa: se dibuja el `@` encima.
+Si te pasás de las tres horas, **terminalo igual**: en el simulacro no se
+descuentan puntos por el tiempo. Anotá al principio de cada archivo, en un
+comentario, cuánto tardaste: así sabés cuánto te falta para el parcial de verdad.
 
-Como el borde es todo pared, antes de moverse alcanza con mirar la casilla de destino: nunca se sale de la matriz.
+Consejos que valen puntos:
+- **Una función por requerimiento.** La consigna lo pide («todas las operaciones
+  mediante funciones») y además te ordena.
+- **Validar en un bucle**: leer con `fgets` y `sscanf`, y volver a pedir si el
+  dato no sirve. Un `scanf` que se traba con una letra es un ejercicio perdido.
+- **Primero que compile y ande con un caso**, después los informes. Un programa
+  que no compila no se corrige.
+- **Probar con los datos de ejemplo** redirigiendo la entrada:
+  `./programa < entrada.txt` (Linux) o `programa.exe < entrada.txt` (Windows).
 
-#### Todo el estado en un struct
+#### Los tres encargos del Dragón
+1. **Las temperaturas de los hornos** (matriz): 7 días × 4 hornos de reales,
+   validados entre 0.0 y 1500.0; la tabla; el promedio de cada horno y de cada
+   día; el horno más caliente; el pico con su día y su horno; un vector de
+   promedios ordenado de mayor a menor **sin perder de qué horno es cada uno**;
+   y buscar si algún horno supera un límite.
+2. **Los aprendices de la Forja** (arreglo de estructuras): hasta 50, con legajo,
+   nombre, tres notas de temple, promedio y rango; validaciones; listados;
+   porcentajes por rango; el mejor promedio; ordenar por promedio descendente y,
+   si empatan, por nombre; y buscar por legajo.
+3. **El depósito de lingotes** (archivo binario de estructuras con menú): alta,
+   listar activos, buscar por código, actualizar stock, baja lógica e informes
+   (el más caro, el promedio de precios y los de stock bajo).
 
-```c
-typedef struct {
-    char mapa[FILAS][COLUMNAS + 1];
-    int fila, columna, vida, oro, pasos;
-    bool salio;
-    Enemigo enemigos[MAX_ENEMIGOS];
-    int cantidad_enemigos;
-} Partida;
-```
+#### La grilla de corrección
+Cada ejercicio vale lo mismo. Dentro de cada uno se mira:
 
-Si **todo** lo que cambia está en la `Partida`, guardar el juego es escribir un solo struct con `fwrite` (no tiene punteros: se puede guardar en binario tal cual).
+| Qué | Peso |
+|---|---|
+| Compila sin errores ni advertencias con `-Wall -Wextra` | obligatorio |
+| Las estructuras de datos pedidas (la matriz, el struct, el archivo de structs) | 20 % |
+| Las validaciones (rangos, datos que no son números) | 20 % |
+| Cada requerimiento resuelto, en su función | 40 % |
+| La salida clara y alineada, con los datos de ejemplo | 10 % |
+| Código prolijo: nombres claros, sin repetir, comentarios donde hace falta | 10 % |
 
-#### Las tres misiones son una sola historia
+El tiempo **no resta puntos**: si se pasó de los 180 minutos, se corrige igual.
 
-Cada misión parte del código de la anterior:
-
-1. **Explorar**: moverse, paredes, tesoros y salida.
-2. **Los guardianes**: enemigos y combate por turnos.
-3. **Guardar la partida**: `g` y `c`.
-
-Probá cada una con un archivo de movimientos: `./programa < movimientos.txt`.
+#### Cómo entregarlo
+Tres archivos: `hornos.c`, `aprendices.c` y `deposito.c`. Cada uno se compila
+solo, en Linux (`gcc -std=c11 -Wall -Wextra hornos.c -o hornos`) o en Windows
+(`gcc -std=c11 -Wall -Wextra hornos.c -o hornos.exe`), o con F9 en ZinjaI o
+Code::Blocks. Se entregan los tres juntos en un `.zip`.
 
 ### ¿Para qué sirve?
 
-Los *roguelikes* (juegos de mazmorras en una grilla) nacieron exactamente así, en la terminal y en C: *Rogue* (1980) y *NetHack* todavía se juegan. La misma estructura (un mundo en una matriz, entidades en arrays, un bucle de turnos y el estado en un struct que se guarda) es la base de los juegos de estrategia, los simuladores y los editores de mapas, y el algoritmo del encargo (búsqueda en anchura) es el que usan los GPS y los enemigos de los juegos para encontrar caminos.
+Para llegar al parcial sabiendo cómo se siente: tres enunciados largos, un reloj y ningún profe al lado. Los tres ejercicios son los clásicos de la cátedra (matrices, estructuras, archivos) y también son los programas de verdad de cualquier sistema de gestión chico: planillas de mediciones, padrones de alumnos y stocks de comercios.
 
 ### Errores habituales
 
-El Dragón usa a todas las criaturas del camino:
+**Ogro: no validar.** El enunciado dice «validando que cada valor esté entre 0.0 y 100.0»: si el programa acepta 5000, ese punto se pierde, aunque todo lo demás esté perfecto.
 
-- **Orco**: mirar `mapa[f][c]` sin controlar los límites (si el borde no fuera pared).
-- **Ogro**: mover al héroe antes de ver si hay pared, o dejarlo avanzar después de perder un combate.
-- **Troll**: guardar en binario un struct con punteros.
-- **Ogro**: cargar pisando la partida antes de verificar la marca y la versión.
-- **Goblin**: `int` y `char` mezclados al comparar casillas (`'#'` es un carácter, `"#"` es un texto).
-- **Ogro**: un bucle que no termina cuando se acaba la entrada.
+**Ogro: ordenar el vector de promedios y perder el horno.** Si se ordena un array suelto de `float`, ya no se sabe de qué horno era cada promedio. Se ordena un array de structs `{horno, promedio}` (o de índices).
 
-### Misión R05-N04-M1 · Explorar la mazmorra
+**Goblin: `scanf("%d")` con una letra.** El programa queda leyendo la misma letra para siempre. En un parcial con menú, eso es un ejercicio entero. Siempre `fgets` + `sscanf`.
+
+**Troll: escribir en el archivo sin volver.** Después de leer un registro, para reescribirlo hay que volver con `fseek(f, -(long) sizeof r, SEEK_CUR)`. Si no, se pisa el registro siguiente.
+
+**Ogro: el desempate al revés.** «Promedio descendente y, si empatan, nombre ascendente»: dos criterios, dos sentidos. Probalo con dos que empaten.
+
+**Esqueleto: todo en el `main`.** Compila y anda, pero la consigna pedía funciones: se pierde la mitad del puntaje de cada requerimiento.
+
+### Misión R05-N04-M1 · Encargo 1: las temperaturas de los hornos
 
 ```meta
 entrega: codigo
 entorno: local
-monedas: 8
-xp: 40
+monedas: 6
+xp: 30
 ```
 
 #### Consigna
 
-Con el mapa de la explicación, escribí la exploración:
+La Forja registra durante **7 días** la temperatura de **4 hornos**. Escribí
+`hornos.c`:
 
-1. `iniciar` copia el mapa, busca el `@`, guarda su posición y deja un `.` en su lugar.
-2. `dibujar` muestra el mapa con el `@` encima.
-3. `mover(Partida *p, char comando)` mueve con `w`/`a`/`s`/`d`: las paredes frenan (`Pared.`), los tesoros suman 10 de oro y se borran del mapa, y la `S` termina la partida. Otro comando: `Usá w, a, s o d.`.
-4. El bucle lee un comando por línea hasta salir o que se termine la entrada. Al final, dibujá el mapa y mostrá pasos y oro.
+1. Declará una **matriz de reales** de 7 × 4.
+2. Cargá las mediciones (día por día, horno por horno, una por línea) **validando**
+   que cada valor esté entre 0.0 y 1500.0: si no lo está (o no es un número),
+   avisá y volvé a pedir ese mismo valor.
+3. Mostrá la matriz como tabla.
+4. Informá: el promedio de cada horno; el promedio de cada día; el horno con
+   mayor promedio semanal; y el día en que se registró la mayor temperatura,
+   con su horno.
+5. Generá un **vector** con los promedios semanales de los 4 hornos y ordenalo de
+   mayor a menor **sin perder qué horno es cada uno**.
+6. Leé un **límite** y buscá, con una función, si algún horno tiene promedio
+   mayor a ese límite (mostrá el primero en el vector ordenado, o que ninguno).
+7. Todo el procesamiento en **funciones**.
 
 #### Criterio de aprobación
 
-- El mapa es una matriz de caracteres y la posición del héroe va aparte.
-- Las paredes frenan, los tesoros se juntan una sola vez.
-- Termina al salir o cuando se acaba la entrada.
+- Usa una matriz `float` (o `double`) de 7 × 4 y valida cada valor entre 0.0 y 1500.0, repitiendo el pedido.
+- Muestra la tabla y los promedios por horno y por día, con dos decimales.
+- Informa el horno más caliente y el pico con su día y su horno.
+- Ordena un vector de structs (o de índices) sin perder el horno, de mayor a menor.
+- La búsqueda por límite está en una función.
+- Cada requerimiento está en su propia función.
 
 #### Entrada de ejemplo
 
 ```
-w
-d
-d
-s
-s
-d
-d
-x
-w
-w
-d
-d
-d
-d
-d
-d
-s
-s
-s
-s
+800
+950
+700
+1000
+820
+900
+5000
+720
+1100
+860
+910
+680
+1060
+840
+930
+hola
+710
+990
+870
+940
+690
+1020
+880
+960
+700
+1080
+850
+920
+-3
+710
+1050
+950
 ```
 
 #### Salida esperada
 
 ```
-#############
-#@..#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  Pared.
-  Usá w, a, s o d.
-  ¡Tesoro! Oro: 10
-#############
-#...#.......#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#@#
-#############
-¡Encontraste la salida! Pasos: 18. Oro: 10.
+Dia 2, horno 3: valor invalido, de nuevo
+Dia 4, horno 3: valor invalido, de nuevo
+Dia 7, horno 3: valor invalido, de nuevo
+
+Dia     Horno 1  Horno 2  Horno 3  Horno 4
+1         800.0    950.0    700.0   1000.0
+2         820.0    900.0    720.0   1100.0
+3         860.0    910.0    680.0   1060.0
+4         840.0    930.0    710.0    990.0
+5         870.0    940.0    690.0   1020.0
+6         880.0    960.0    700.0   1080.0
+7         850.0    920.0    710.0   1050.0
+
+Promedio por horno:
+  horno 1: 845.71
+  horno 2: 930.00
+  horno 3: 701.43
+  horno 4: 1042.86
+Promedio por dia:
+  dia 1: 862.50
+  dia 2: 885.00
+  dia 3: 877.50
+  dia 4: 867.50
+  dia 5: 880.00
+  dia 6: 905.00
+  dia 7: 882.50
+Horno mas caliente: 4 (1042.86)
+Pico: 1100.0, dia 2, horno 4
+Promedios ordenados:
+  horno 4: 1042.86
+  horno 2: 930.00
+  horno 1: 845.71
+  horno 3: 701.43
+Limite:
+El horno 4 supera 950.0 (1042.86)
 ```
 
 #### Solución de referencia
 
 ```c
 /*
- * Jefe final - Mision 1: explorar la mazmorra.
- * Mapa en una matriz de caracteres; w/a/s/d mueven; las paredes frenan,
- * los tesoros se juntan y la S es la salida.
+ * FundicionExpress - Encargo 1: las temperaturas de los hornos.
+ * Matriz de 7 dias x 4 hornos, validada entre 0.0 y 1500.0.
+ * Tiempo: anotar aca cuanto tardaste.
  */
 #include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
 
-#define FILAS 7
-#define COLUMNAS 13
-
-static const char *MAPA_INICIAL[FILAS] = {
-    "#############",
-    "#@..#...$...#",
-    "#.#.#.###.#.#",
-    "#.#...#$..#.#",
-    "#.###.#.###.#",
-    "#$........#S#",
-    "#############",
-};
+#define DIAS 7
+#define HORNOS 4
+#define MINIMO 0.0
+#define MAXIMO 1500.0
 
 typedef struct {
-    char mapa[FILAS][COLUMNAS + 1];
-    int fila, columna;          /* donde esta el heroe */
-    int oro, pasos;
-    bool salio;
-} Partida;
+    int horno;          /* 1 a 4 */
+    double promedio;
+} PromedioHorno;
 
-void iniciar(Partida *p)
+double leer_valor(int dia, int horno)
 {
-    for (int f = 0; f < FILAS; f++) {
-        strcpy(p->mapa[f], MAPA_INICIAL[f]);
-        char *arroba = strchr(p->mapa[f], '@');
-        if (arroba != NULL) {
-            p->fila = f;
-            p->columna = (int) (arroba - p->mapa[f]);
-            *arroba = '.';                          /* el heroe no es parte del mapa */
+    char linea[50];
+    double valor;
+    while (1) {
+        if (fgets(linea, sizeof linea, stdin) == NULL) {
+            return MINIMO;                       /* sin mas datos */
+        }
+        if (sscanf(linea, "%lf", &valor) == 1 && valor >= MINIMO && valor <= MAXIMO) {
+            return valor;
+        }
+        printf("Dia %d, horno %d: valor invalido, de nuevo\n", dia, horno);
+    }
+}
+
+void cargar(double t[DIAS][HORNOS])
+{
+    for (int d = 0; d < DIAS; d++) {
+        for (int h = 0; h < HORNOS; h++) {
+            t[d][h] = leer_valor(d + 1, h + 1);
         }
     }
-    p->oro = p->pasos = 0;
-    p->salio = false;
 }
 
-void dibujar(const Partida *p)
+void mostrar(double t[DIAS][HORNOS])
 {
-    for (int f = 0; f < FILAS; f++) {
-        for (int c = 0; c < COLUMNAS; c++) {
-            putchar(f == p->fila && c == p->columna ? '@' : p->mapa[f][c]);
+    printf("\n%-6s", "Dia");
+    for (int h = 0; h < HORNOS; h++) {
+        printf("  Horno %d", h + 1);
+    }
+    printf("\n");
+    for (int d = 0; d < DIAS; d++) {
+        printf("%-6d", d + 1);
+        for (int h = 0; h < HORNOS; h++) {
+            printf(" %8.1f", t[d][h]);
         }
-        putchar('\n');
+        printf("\n");
     }
 }
 
-/* Mueve si se puede. Devuelve false si el comando no es un movimiento. */
-bool mover(Partida *p, char comando)
+double promedio_horno(double t[DIAS][HORNOS], int h)
 {
-    int df = 0, dc = 0;
-    switch (comando) {
-    case 'w': df = -1; break;
-    case 's': df = 1; break;
-    case 'a': dc = -1; break;
-    case 'd': dc = 1; break;
-    default: return false;
+    double suma = 0;
+    for (int d = 0; d < DIAS; d++) {
+        suma += t[d][h];
     }
-    char destino = p->mapa[p->fila + df][p->columna + dc];   /* el borde es pared: nunca se sale */
-    if (destino == '#') {
-        printf("  Pared.\n");
-        return true;
-    }
-    p->fila += df;
-    p->columna += dc;
-    p->pasos++;
-    if (destino == '$') {
-        p->oro += 10;
-        p->mapa[p->fila][p->columna] = '.';
-        printf("  ¡Tesoro! Oro: %d\n", p->oro);
-    } else if (destino == 'S') {
-        p->salio = true;
-    }
-    return true;
+    return suma / DIAS;
 }
 
-int main(void)
+double promedio_dia(double t[DIAS][HORNOS], int d)
 {
-    Partida p;
-    iniciar(&p);
-    dibujar(&p);
-    char linea[20];
-    while (!p.salio && fgets(linea, sizeof(linea), stdin) != NULL) {
-        if (!mover(&p, linea[0])) {
-            printf("  Usá w, a, s o d.\n");
-        }
+    double suma = 0;
+    for (int h = 0; h < HORNOS; h++) {
+        suma += t[d][h];
     }
-    dibujar(&p);
-    printf("%s Pasos: %d. Oro: %d.\n", p.salio ? "¡Encontraste la salida!" : "Te quedaste en la oscuridad.", p.pasos, p.oro);
-    return 0;
-}
-```
-
-#### Pruebas
-
-##### Sin pasos
-```entrada
-```
-```salida
-#############
-#@..#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-#############
-#@..#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-Te quedaste en la oscuridad. Pasos: 0. Oro: 0.
-```
-
-##### Directo a la salida
-```entrada
-s
-s
-s
-s
-d
-d
-d
-d
-d
-d
-d
-d
-d
-d
-w
-w
-w
-w
-d
-s
-s
-s
-s
-```
-```salida
-#############
-#@..#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  ¡Tesoro! Oro: 10
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-  Pared.
-#############
-#...#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#........@#S#
-#############
-Te quedaste en la oscuridad. Pasos: 12. Oro: 10.
-```
-
-##### Todo pared
-```entrada
-w
-a
-```
-```salida
-#############
-#@..#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  Pared.
-  Pared.
-#############
-#@..#...$...#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-Te quedaste en la oscuridad. Pasos: 0. Oro: 0.
-```
-
-### Misión R05-N04-M2 · Los guardianes
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 8
-xp: 40
-```
-
-#### Consigna
-
-Partiendo de la misión anterior, agregá los guardianes:
-
-1. Un `Enemigo` (nombre, fila, columna, vida, ataque) y un array de enemigos en la `Partida`: un Goblin en (3, 4) con 14 de vida y 4 de ataque, y el **Dragón** en (1, 11) con 30 de vida y 7 de ataque. Se dibujan como `E`.
-2. El héroe empieza con 40 de vida. Entrar en la casilla de un enemigo vivo empieza un **combate por rondas** (`srand(30)`): el héroe pega de 5 a 10; si el enemigo sigue vivo, pega entre su ataque − 2 y su ataque + 2.
-3. Si el héroe gana, avanza; si pierde, la partida termina.
-
-#### Criterio de aprobación
-
-- Los enemigos están en un array dentro de la `Partida`.
-- El combate es una función con rondas y azar con semilla fija.
-- El héroe no avanza si pierde; los enemigos caídos no se dibujan.
-
-#### Código inicial
-
-```c
-/*
- * Jefe final - Mision 1: explorar la mazmorra.
- * Mapa en una matriz de caracteres; w/a/s/d mueven; las paredes frenan,
- * los tesoros se juntan y la S es la salida.
- */
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-
-#define FILAS 7
-#define COLUMNAS 13
-
-static const char *MAPA_INICIAL[FILAS] = {
-    "#############",
-    "#@..#...$...#",
-    "#.#.#.###.#.#",
-    "#.#...#$..#.#",
-    "#.###.#.###.#",
-    "#$........#S#",
-    "#############",
-};
-
-typedef struct {
-    char mapa[FILAS][COLUMNAS + 1];
-    int fila, columna;          /* donde esta el heroe */
-    int oro, pasos;
-    bool salio;
-} Partida;
-
-void iniciar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        strcpy(p->mapa[f], MAPA_INICIAL[f]);
-        char *arroba = strchr(p->mapa[f], '@');
-        if (arroba != NULL) {
-            p->fila = f;
-            p->columna = (int) (arroba - p->mapa[f]);
-            *arroba = '.';                          /* el heroe no es parte del mapa */
-        }
-    }
-    p->oro = p->pasos = 0;
-    p->salio = false;
+    return suma / HORNOS;
 }
 
-void dibujar(const Partida *p)
+void pico(double t[DIAS][HORNOS], int *dia, int *horno)
 {
-    for (int f = 0; f < FILAS; f++) {
-        for (int c = 0; c < COLUMNAS; c++) {
-            putchar(f == p->fila && c == p->columna ? '@' : p->mapa[f][c]);
-        }
-        putchar('\n');
-    }
-}
-
-/* Mueve si se puede. Devuelve false si el comando no es un movimiento. */
-bool mover(Partida *p, char comando)
-{
-    int df = 0, dc = 0;
-    switch (comando) {
-    case 'w': df = -1; break;
-    case 's': df = 1; break;
-    case 'a': dc = -1; break;
-    case 'd': dc = 1; break;
-    default: return false;
-    }
-    char destino = p->mapa[p->fila + df][p->columna + dc];   /* el borde es pared: nunca se sale */
-    if (destino == '#') {
-        printf("  Pared.\n");
-        return true;
-    }
-    p->fila += df;
-    p->columna += dc;
-    p->pasos++;
-    if (destino == '$') {
-        p->oro += 10;
-        p->mapa[p->fila][p->columna] = '.';
-        printf("  ¡Tesoro! Oro: %d\n", p->oro);
-    } else if (destino == 'S') {
-        p->salio = true;
-    }
-    return true;
-}
-
-int main(void)
-{
-    Partida p;
-    iniciar(&p);
-    dibujar(&p);
-    char linea[20];
-    while (!p.salio && fgets(linea, sizeof(linea), stdin) != NULL) {
-        if (!mover(&p, linea[0])) {
-            printf("  Usá w, a, s o d.\n");
-        }
-    }
-    dibujar(&p);
-    printf("%s Pasos: %d. Oro: %d.\n", p.salio ? "¡Encontraste la salida!" : "Te quedaste en la oscuridad.", p.pasos, p.oro);
-    return 0;
-}
-```
-
-#### Entrada de ejemplo
-
-```
-w
-d
-d
-s
-s
-d
-d
-x
-w
-w
-d
-d
-d
-d
-d
-d
-s
-s
-s
-s
-```
-
-#### Salida esperada
-
-```
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  Pared.
-  ¡Goblin (vida 14) te cierra el paso!
-  Ronda 1: le pegás 6, te pega 3. Tu vida: 37
-  Ronda 2: le pegás 7, te pega 3. Tu vida: 34
-  Ronda 3: le pegás 9. ¡Goblin cae!
-  Usá w, a, s o d.
-  ¡Tesoro! Oro: 10
-  ¡Dragón (vida 30) te cierra el paso!
-  Ronda 1: le pegás 5, te pega 9. Tu vida: 25
-  Ronda 2: le pegás 5, te pega 7. Tu vida: 18
-  Ronda 3: le pegás 10, te pega 8. Tu vida: 10
-  Ronda 4: le pegás 6, te pega 5. Tu vida: 5
-  Ronda 5: le pegás 9. ¡Dragón cae!
-#############
-#...#.......#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#@#
-#############
-¡Venciste al Dragón y saliste! Vida: 5. Pasos: 18. Oro: 10.
-```
-
-#### Solución de referencia
-
-```c
-/*
- * Jefe final - Mision 2: los guardianes.
- * Los enemigos viven en un array aparte; entrar en su casilla empieza un combate por turnos.
- */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
-#define FILAS 7
-#define COLUMNAS 13
-#define MAX_ENEMIGOS 4
-
-static const char *MAPA_INICIAL[FILAS] = {
-    "#############",
-    "#@..#...$...#",
-    "#.#.#.###.#.#",
-    "#.#...#$..#.#",
-    "#.###.#.###.#",
-    "#$........#S#",
-    "#############",
-};
-
-typedef struct {
-    char nombre[12];
-    int fila, columna;
-    int vida, ataque;
-} Enemigo;
-
-typedef struct {
-    char mapa[FILAS][COLUMNAS + 1];
-    int fila, columna;
-    int vida, oro, pasos;
-    bool salio;
-    Enemigo enemigos[MAX_ENEMIGOS];
-    int cantidad_enemigos;
-} Partida;
-
-void iniciar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        strcpy(p->mapa[f], MAPA_INICIAL[f]);
-        char *arroba = strchr(p->mapa[f], '@');
-        if (arroba != NULL) {
-            p->fila = f;
-            p->columna = (int) (arroba - p->mapa[f]);
-            *arroba = '.';
-        }
-    }
-    p->vida = 40;
-    p->oro = p->pasos = 0;
-    p->salio = false;
-    Enemigo iniciales[] = { { "Goblin", 3, 4, 14, 4 }, { "Dragón", 1, 11, 30, 7 } };
-    p->cantidad_enemigos = 2;
-    memcpy(p->enemigos, iniciales, sizeof iniciales);
-}
-
-Enemigo *enemigo_en(Partida *p, int fila, int columna)
-{
-    for (int i = 0; i < p->cantidad_enemigos; i++) {
-        if (p->enemigos[i].vida > 0 && p->enemigos[i].fila == fila && p->enemigos[i].columna == columna) {
-            return &p->enemigos[i];
-        }
-    }
-    return NULL;
-}
-
-void dibujar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        for (int c = 0; c < COLUMNAS; c++) {
-            if (f == p->fila && c == p->columna) {
-                putchar('@');
-            } else if (enemigo_en(p, f, c) != NULL) {
-                putchar('E');
-            } else {
-                putchar(p->mapa[f][c]);
+    *dia = 0;
+    *horno = 0;
+    for (int d = 0; d < DIAS; d++) {
+        for (int h = 0; h < HORNOS; h++) {
+            if (t[d][h] > t[*dia][*horno]) {
+                *dia = d;
+                *horno = h;
             }
         }
-        putchar('\n');
     }
 }
 
-int tirar(int minimo, int maximo)
+void ordenar_desc(PromedioHorno v[], int n)
 {
-    return minimo + rand() % (maximo - minimo + 1);
-}
-
-/* Pelea hasta que alguien cae. Devuelve true si gano el heroe. */
-bool combatir(Partida *p, Enemigo *e)
-{
-    printf("  ¡%s (vida %d) te cierra el paso!\n", e->nombre, e->vida);
-    for (int ronda = 1; p->vida > 0 && e->vida > 0; ronda++) {
-        int golpe = tirar(5, 10);
-        e->vida -= golpe;
-        if (e->vida <= 0) {
-            printf("  Ronda %d: le pegás %d. ¡%s cae!\n", ronda, golpe, e->nombre);
-            return true;
-        }
-        int recibe = tirar(e->ataque - 2, e->ataque + 2);
-        p->vida -= recibe;
-        printf("  Ronda %d: le pegás %d, te pega %d. Tu vida: %d\n", ronda, golpe, recibe, p->vida > 0 ? p->vida : 0);
-    }
-    return false;
-}
-
-bool mover(Partida *p, char comando)
-{
-    int df = 0, dc = 0;
-    switch (comando) {
-    case 'w': df = -1; break;
-    case 's': df = 1; break;
-    case 'a': dc = -1; break;
-    case 'd': dc = 1; break;
-    default: return false;
-    }
-    int f = p->fila + df, c = p->columna + dc;
-    if (p->mapa[f][c] == '#') {
-        printf("  Pared.\n");
-        return true;
-    }
-    Enemigo *e = enemigo_en(p, f, c);
-    if (e != NULL && !combatir(p, e)) {
-        return true;                                /* el heroe cayo: no avanza */
-    }
-    p->fila = f;
-    p->columna = c;
-    p->pasos++;
-    if (p->mapa[f][c] == '$') {
-        p->oro += 10;
-        p->mapa[f][c] = '.';
-        printf("  ¡Tesoro! Oro: %d\n", p->oro);
-    } else if (p->mapa[f][c] == 'S') {
-        p->salio = true;
-    }
-    return true;
-}
-
-int main(void)
-{
-    srand(30);                 /* fija para probar; para jugar: srand(time(NULL)) */
-    Partida p;
-    iniciar(&p);
-    dibujar(&p);
-    char linea[20];
-    while (!p.salio && p.vida > 0 && fgets(linea, sizeof(linea), stdin) != NULL) {
-        if (!mover(&p, linea[0])) {
-            printf("  Usá w, a, s o d.\n");
-        }
-    }
-    dibujar(&p);
-    if (p.vida <= 0) {
-        printf("Caíste bajo la montaña. Pasos: %d. Oro: %d.\n", p.pasos, p.oro);
-    } else {
-        printf("%s Vida: %d. Pasos: %d. Oro: %d.\n", p.salio ? "¡Venciste al Dragón y saliste!" : "Te quedaste en la oscuridad.", p.vida, p.pasos, p.oro);
-    }
-    return 0;
-}
-```
-
-#### Pruebas
-
-##### Sin pasos
-```entrada
-```
-```salida
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-Te quedaste en la oscuridad. Vida: 40. Pasos: 0. Oro: 0.
-```
-
-##### Pelea con el Goblin y se queda
-```entrada
-d
-d
-s
-s
-d
-```
-```salida
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  ¡Goblin (vida 14) te cierra el paso!
-  Ronda 1: le pegás 6, te pega 3. Tu vida: 37
-  Ronda 2: le pegás 7, te pega 3. Tu vida: 34
-  Ronda 3: le pegás 9. ¡Goblin cae!
-#############
-#...#...$..E#
-#.#.#.###.#.#
-#.#.@.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-Te quedaste en la oscuridad. Vida: 34. Pasos: 5. Oro: 0.
-```
-
-### Misión R05-N04-M3 · Guardar la partida
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 8
-xp: 40
-```
-
-#### Consigna
-
-Agregá dos comandos:
-
-- `g` guarda la `Partida` completa en `mazmorra.sav`, en binario, con un encabezado (marca `"MAZ"` y versión 1).
-- `c` carga la partida guardada. Lee en una **copia** y solo reemplaza la actual si la marca, la versión y el registro están bien; si no hay partida guardada, lo avisa.
-
-Si el héroe cae, ya no puede moverse: solo puede cargar (`Caíste: solo podés cargar la partida (c).`).
-
-Probalo cargando antes de guardar, guardando justo antes del Dragón, venciéndolo y volviendo a cargar: el Dragón tiene que volver a estar ahí, y la vida, el oro y los pasos, como en el momento del guardado.
-
-#### Criterio de aprobación
-
-- Guarda y carga el struct completo con encabezado.
-- Cargar no pisa la partida si el archivo no está o no es válido.
-- Después de cargar, el mapa, los enemigos y el estado vuelven al momento del guardado.
-- Si el héroe cae, solo se puede cargar.
-
-#### Código inicial
-
-```c
-/*
- * Jefe final - Mision 2: los guardianes.
- * Los enemigos viven en un array aparte; entrar en su casilla empieza un combate por turnos.
- */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
-#define FILAS 7
-#define COLUMNAS 13
-#define MAX_ENEMIGOS 4
-
-static const char *MAPA_INICIAL[FILAS] = {
-    "#############",
-    "#@..#...$...#",
-    "#.#.#.###.#.#",
-    "#.#...#$..#.#",
-    "#.###.#.###.#",
-    "#$........#S#",
-    "#############",
-};
-
-typedef struct {
-    char nombre[12];
-    int fila, columna;
-    int vida, ataque;
-} Enemigo;
-
-typedef struct {
-    char mapa[FILAS][COLUMNAS + 1];
-    int fila, columna;
-    int vida, oro, pasos;
-    bool salio;
-    Enemigo enemigos[MAX_ENEMIGOS];
-    int cantidad_enemigos;
-} Partida;
-
-void iniciar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        strcpy(p->mapa[f], MAPA_INICIAL[f]);
-        char *arroba = strchr(p->mapa[f], '@');
-        if (arroba != NULL) {
-            p->fila = f;
-            p->columna = (int) (arroba - p->mapa[f]);
-            *arroba = '.';
-        }
-    }
-    p->vida = 40;
-    p->oro = p->pasos = 0;
-    p->salio = false;
-    Enemigo iniciales[] = { { "Goblin", 3, 4, 14, 4 }, { "Dragón", 1, 11, 30, 7 } };
-    p->cantidad_enemigos = 2;
-    memcpy(p->enemigos, iniciales, sizeof iniciales);
-}
-
-Enemigo *enemigo_en(Partida *p, int fila, int columna)
-{
-    for (int i = 0; i < p->cantidad_enemigos; i++) {
-        if (p->enemigos[i].vida > 0 && p->enemigos[i].fila == fila && p->enemigos[i].columna == columna) {
-            return &p->enemigos[i];
-        }
-    }
-    return NULL;
-}
-
-void dibujar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        for (int c = 0; c < COLUMNAS; c++) {
-            if (f == p->fila && c == p->columna) {
-                putchar('@');
-            } else if (enemigo_en(p, f, c) != NULL) {
-                putchar('E');
-            } else {
-                putchar(p->mapa[f][c]);
+    for (int pasada = 0; pasada < n - 1; pasada++) {
+        for (int i = 0; i < n - 1 - pasada; i++) {
+            if (v[i + 1].promedio > v[i].promedio) {
+                PromedioHorno aux = v[i];
+                v[i] = v[i + 1];
+                v[i + 1] = aux;
             }
         }
-        putchar('\n');
     }
 }
 
-int tirar(int minimo, int maximo)
+int buscar_mayor_a(const PromedioHorno v[], int n, double limite)
 {
-    return minimo + rand() % (maximo - minimo + 1);
-}
-
-/* Pelea hasta que alguien cae. Devuelve true si gano el heroe. */
-bool combatir(Partida *p, Enemigo *e)
-{
-    printf("  ¡%s (vida %d) te cierra el paso!\n", e->nombre, e->vida);
-    for (int ronda = 1; p->vida > 0 && e->vida > 0; ronda++) {
-        int golpe = tirar(5, 10);
-        e->vida -= golpe;
-        if (e->vida <= 0) {
-            printf("  Ronda %d: le pegás %d. ¡%s cae!\n", ronda, golpe, e->nombre);
-            return true;
-        }
-        int recibe = tirar(e->ataque - 2, e->ataque + 2);
-        p->vida -= recibe;
-        printf("  Ronda %d: le pegás %d, te pega %d. Tu vida: %d\n", ronda, golpe, recibe, p->vida > 0 ? p->vida : 0);
-    }
-    return false;
-}
-
-bool mover(Partida *p, char comando)
-{
-    int df = 0, dc = 0;
-    switch (comando) {
-    case 'w': df = -1; break;
-    case 's': df = 1; break;
-    case 'a': dc = -1; break;
-    case 'd': dc = 1; break;
-    default: return false;
-    }
-    int f = p->fila + df, c = p->columna + dc;
-    if (p->mapa[f][c] == '#') {
-        printf("  Pared.\n");
-        return true;
-    }
-    Enemigo *e = enemigo_en(p, f, c);
-    if (e != NULL && !combatir(p, e)) {
-        return true;                                /* el heroe cayo: no avanza */
-    }
-    p->fila = f;
-    p->columna = c;
-    p->pasos++;
-    if (p->mapa[f][c] == '$') {
-        p->oro += 10;
-        p->mapa[f][c] = '.';
-        printf("  ¡Tesoro! Oro: %d\n", p->oro);
-    } else if (p->mapa[f][c] == 'S') {
-        p->salio = true;
-    }
-    return true;
-}
-
-int main(void)
-{
-    srand(30);                 /* fija para probar; para jugar: srand(time(NULL)) */
-    Partida p;
-    iniciar(&p);
-    dibujar(&p);
-    char linea[20];
-    while (!p.salio && p.vida > 0 && fgets(linea, sizeof(linea), stdin) != NULL) {
-        if (!mover(&p, linea[0])) {
-            printf("  Usá w, a, s o d.\n");
-        }
-    }
-    dibujar(&p);
-    if (p.vida <= 0) {
-        printf("Caíste bajo la montaña. Pasos: %d. Oro: %d.\n", p.pasos, p.oro);
-    } else {
-        printf("%s Vida: %d. Pasos: %d. Oro: %d.\n", p.salio ? "¡Venciste al Dragón y saliste!" : "Te quedaste en la oscuridad.", p.vida, p.pasos, p.oro);
-    }
-    return 0;
-}
-```
-
-#### Entrada de ejemplo
-
-```
-c
-d
-d
-s
-s
-d
-d
-w
-w
-d
-d
-d
-d
-d
-g
-d
-s
-c
-d
-s
-s
-s
-s
-```
-
-#### Salida esperada
-
-```
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  No hay partida guardada.
-  ¡Goblin (vida 14) te cierra el paso!
-  Ronda 1: le pegás 6, te pega 3. Tu vida: 37
-  Ronda 2: le pegás 7, te pega 3. Tu vida: 34
-  Ronda 3: le pegás 9. ¡Goblin cae!
-  ¡Tesoro! Oro: 10
-  Partida guardada.
-  ¡Dragón (vida 30) te cierra el paso!
-  Ronda 1: le pegás 5, te pega 9. Tu vida: 25
-  Ronda 2: le pegás 5, te pega 7. Tu vida: 18
-  Ronda 3: le pegás 10, te pega 8. Tu vida: 10
-  Ronda 4: le pegás 6, te pega 5. Tu vida: 5
-  Ronda 5: le pegás 9. ¡Dragón cae!
-  Partida cargada (vida 34, oro 10, pasos 13).
-  ¡Dragón (vida 30) te cierra el paso!
-  Ronda 1: le pegás 7, te pega 5. Tu vida: 29
-  Ronda 2: le pegás 10, te pega 7. Tu vida: 22
-  Ronda 3: le pegás 6, te pega 7. Tu vida: 15
-  Ronda 4: le pegás 6, te pega 7. Tu vida: 8
-  Ronda 5: le pegás 6. ¡Dragón cae!
-#############
-#...#.......#
-#.#.#.###.#.#
-#.#...#$..#.#
-#.###.#.###.#
-#$........#@#
-#############
-¡Venciste al Dragón y saliste! Vida: 8. Pasos: 18. Oro: 10.
-```
-
-#### Solución de referencia
-
-```c
-/*
- * Jefe final - Mision 3: guardar la partida.
- * g guarda y c carga, en binario con marca y version. Todo el estado esta en el struct Partida.
- */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-
-#define FILAS 7
-#define COLUMNAS 13
-#define MAX_ENEMIGOS 4
-#define RUTA "mazmorra.sav"
-#define VERSION 1
-
-static const char *MAPA_INICIAL[FILAS] = {
-    "#############",
-    "#@..#...$...#",
-    "#.#.#.###.#.#",
-    "#.#...#$..#.#",
-    "#.###.#.###.#",
-    "#$........#S#",
-    "#############",
-};
-
-typedef struct {
-    char nombre[12];
-    int fila, columna;
-    int vida, ataque;
-} Enemigo;
-
-typedef struct {
-    char mapa[FILAS][COLUMNAS + 1];
-    int fila, columna;
-    int vida, oro, pasos;
-    bool salio;
-    Enemigo enemigos[MAX_ENEMIGOS];
-    int cantidad_enemigos;
-} Partida;
-
-void iniciar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        strcpy(p->mapa[f], MAPA_INICIAL[f]);
-        char *arroba = strchr(p->mapa[f], '@');
-        if (arroba != NULL) {
-            p->fila = f;
-            p->columna = (int) (arroba - p->mapa[f]);
-            *arroba = '.';
-        }
-    }
-    p->vida = 40;
-    p->oro = p->pasos = 0;
-    p->salio = false;
-    Enemigo iniciales[] = { { "Goblin", 3, 4, 14, 4 }, { "Dragón", 1, 11, 30, 7 } };
-    p->cantidad_enemigos = 2;
-    memcpy(p->enemigos, iniciales, sizeof iniciales);
-}
-
-Enemigo *enemigo_en(Partida *p, int fila, int columna)
-{
-    for (int i = 0; i < p->cantidad_enemigos; i++) {
-        if (p->enemigos[i].vida > 0 && p->enemigos[i].fila == fila && p->enemigos[i].columna == columna) {
-            return &p->enemigos[i];
-        }
-    }
-    return NULL;
-}
-
-void dibujar(Partida *p)
-{
-    for (int f = 0; f < FILAS; f++) {
-        for (int c = 0; c < COLUMNAS; c++) {
-            if (f == p->fila && c == p->columna) {
-                putchar('@');
-            } else if (enemigo_en(p, f, c) != NULL) {
-                putchar('E');
-            } else {
-                putchar(p->mapa[f][c]);
-            }
-        }
-        putchar('\n');
-    }
-}
-
-int tirar(int minimo, int maximo)
-{
-    return minimo + rand() % (maximo - minimo + 1);
-}
-
-/* Pelea hasta que alguien cae. Devuelve true si gano el heroe. */
-bool combatir(Partida *p, Enemigo *e)
-{
-    printf("  ¡%s (vida %d) te cierra el paso!\n", e->nombre, e->vida);
-    for (int ronda = 1; p->vida > 0 && e->vida > 0; ronda++) {
-        int golpe = tirar(5, 10);
-        e->vida -= golpe;
-        if (e->vida <= 0) {
-            printf("  Ronda %d: le pegás %d. ¡%s cae!\n", ronda, golpe, e->nombre);
-            return true;
-        }
-        int recibe = tirar(e->ataque - 2, e->ataque + 2);
-        p->vida -= recibe;
-        printf("  Ronda %d: le pegás %d, te pega %d. Tu vida: %d\n", ronda, golpe, recibe, p->vida > 0 ? p->vida : 0);
-    }
-    return false;
-}
-
-bool mover(Partida *p, char comando)
-{
-    int df = 0, dc = 0;
-    switch (comando) {
-    case 'w': df = -1; break;
-    case 's': df = 1; break;
-    case 'a': dc = -1; break;
-    case 'd': dc = 1; break;
-    default: return false;
-    }
-    int f = p->fila + df, c = p->columna + dc;
-    if (p->mapa[f][c] == '#') {
-        printf("  Pared.\n");
-        return true;
-    }
-    Enemigo *e = enemigo_en(p, f, c);
-    if (e != NULL && !combatir(p, e)) {
-        return true;                                /* el heroe cayo: no avanza */
-    }
-    p->fila = f;
-    p->columna = c;
-    p->pasos++;
-    if (p->mapa[f][c] == '$') {
-        p->oro += 10;
-        p->mapa[f][c] = '.';
-        printf("  ¡Tesoro! Oro: %d\n", p->oro);
-    } else if (p->mapa[f][c] == 'S') {
-        p->salio = true;
-    }
-    return true;
-}
-
-typedef struct {
-    char marca[4];              /* "MAZ" */
-    int version;
-} Encabezado;
-
-bool guardar(const Partida *p)
-{
-    FILE *f = fopen(RUTA, "wb");
-    if (f == NULL) {
-        return false;
-    }
-    Encabezado e = { "MAZ", VERSION };
-    bool ok = fwrite(&e, sizeof e, 1, f) == 1 && fwrite(p, sizeof *p, 1, f) == 1;
-    return fclose(f) == 0 && ok;
-}
-
-/* Lee en una copia y recien si salio todo bien reemplaza la partida. */
-bool cargar(Partida *p)
-{
-    FILE *f = fopen(RUTA, "rb");
-    if (f == NULL) {
-        return false;
-    }
-    Encabezado e;
-    Partida leida;
-    bool ok = fread(&e, sizeof e, 1, f) == 1 && memcmp(e.marca, "MAZ", 4) == 0 && e.version == VERSION
-              && fread(&leida, sizeof leida, 1, f) == 1;
-    fclose(f);
-    if (ok) {
-        *p = leida;
-    }
-    return ok;
-}
-
-int main(void)
-{
-    srand(30);                 /* fija para probar; para jugar: srand(time(NULL)) */
-    remove(RUTA);              /* para que la prueba arranque igual */
-    Partida p;
-    iniciar(&p);
-    dibujar(&p);
-    char linea[20];
-    while (!p.salio && fgets(linea, sizeof(linea), stdin) != NULL) {
-        if (p.vida <= 0 && linea[0] != 'c') {
-            printf("  Caíste: solo podés cargar la partida (c).\n");
-        } else if (linea[0] == 'g') {
-            printf("  %s\n", guardar(&p) ? "Partida guardada." : "No se pudo guardar.");
-        } else if (linea[0] == 'c') {
-            if (cargar(&p)) {
-                printf("  Partida cargada (vida %d, oro %d, pasos %d).\n", p.vida, p.oro, p.pasos);
-            } else {
-                printf("  No hay partida guardada.\n");
-            }
-        } else if (!mover(&p, linea[0])) {
-            printf("  Usá w, a, s, d, g (guardar) o c (cargar).\n");
-        }
-    }
-    dibujar(&p);
-    if (p.vida <= 0) {
-        printf("Caíste bajo la montaña. Pasos: %d. Oro: %d.\n", p.pasos, p.oro);
-    } else {
-        printf("%s Vida: %d. Pasos: %d. Oro: %d.\n", p.salio ? "¡Venciste al Dragón y saliste!" : "Te quedaste en la oscuridad.", p.vida, p.pasos, p.oro);
-    }
-    remove(RUTA);
-    return 0;
-}
-```
-
-#### Pruebas
-
-##### Guardar y cargar enseguida
-```entrada
-g
-c
-```
-```salida
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  Partida guardada.
-  Partida cargada (vida 40, oro 0, pasos 0).
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-Te quedaste en la oscuridad. Vida: 40. Pasos: 0. Oro: 0.
-```
-
-##### Cargar sin guardar
-```entrada
-c
-c
-```
-```salida
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-  No hay partida guardada.
-  No hay partida guardada.
-#############
-#@..#...$..E#
-#.#.#.###.#.#
-#.#.E.#$..#.#
-#.###.#.###.#
-#$........#S#
-#############
-Te quedaste en la oscuridad. Vida: 40. Pasos: 0. Oro: 0.
-```
-
-### Encargo R05-N04-E1 · El cartógrafo
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 1
-xp: 40
-```
-
-#### Consigna
-
-Antes de bajar, el cartógrafo del Gremio revisa los mapas. Escribí `revisar`, que para un mapa (un array de textos) verifica que todas las filas tengan el mismo largo, que el borde sea todo pared y que haya exactamente un `@` y una `S`, y cuenta los tesoros.
-
-Si es válido, calculá con una **búsqueda en anchura** (BFS, con una cola en un array) la menor cantidad de pasos del `@` a la `S`, o avisá que no se puede alcanzar. Probalo con la mazmorra, con una cámara donde la salida está encerrada y con un mapa roto.
-
-#### Criterio de aprobación
-
-- Valida largo de filas, borde, inicio y salida.
-- Usa BFS con una cola para la distancia mínima.
-- Distingue mapa inválido de salida inalcanzable.
-
-#### Salida esperada
-
-```
-== La mazmorra ==
-  Válido: 3 tesoros, salida a 18 pasos como mínimo.
-== La cámara sellada ==
-  La salida no se puede alcanzar.
-== El mapa roto ==
-  Hueco en el borde en (1, 6).
-  La fila 2 no tiene 7 columnas.
-  Mapa inválido.
-```
-
-#### Solución de referencia
-
-```c
-/*
- * Jefe final - Encargo: el cartografo. Valida un mapa y comprueba con una
- * busqueda en anchura (BFS) que la salida se puede alcanzar desde el inicio.
- */
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-
-#define MAX 20
-
-typedef struct {
-    int fila, columna;
-} Punto;
-
-/* Devuelve la cantidad de pasos minima hasta la S, o -1 si no se llega. */
-int distancia_a_la_salida(char mapa[][MAX + 1], int filas, int columnas, Punto inicio)
-{
-    int dist[MAX][MAX];
-    for (int f = 0; f < filas; f++) {
-        for (int c = 0; c < columnas; c++) {
-            dist[f][c] = -1;
-        }
-    }
-    Punto cola[MAX * MAX];
-    int primero = 0, ultimo = 0;
-    cola[ultimo++] = inicio;
-    dist[inicio.fila][inicio.columna] = 0;
-    const int df[] = { -1, 1, 0, 0 }, dc[] = { 0, 0, -1, 1 };
-    while (primero < ultimo) {
-        Punto p = cola[primero++];
-        if (mapa[p.fila][p.columna] == 'S') {
-            return dist[p.fila][p.columna];
-        }
-        for (int k = 0; k < 4; k++) {
-            int f = p.fila + df[k], c = p.columna + dc[k];
-            if (f >= 0 && f < filas && c >= 0 && c < columnas && mapa[f][c] != '#' && dist[f][c] < 0) {
-                dist[f][c] = dist[p.fila][p.columna] + 1;
-                cola[ultimo++] = (Punto) { f, c };
-            }
+    for (int i = 0; i < n; i++) {
+        if (v[i].promedio > limite) {
+            return i;
         }
     }
     return -1;
 }
 
-void revisar(const char *titulo, const char *filas_texto[], int filas)
-{
-    char mapa[MAX][MAX + 1];
-    int columnas = (int) strlen(filas_texto[0]);
-    int inicios = 0, salidas = 0, tesoros = 0;
-    Punto inicio = { 0, 0 };
-    bool ok = true;
-    printf("== %s ==\n", titulo);
-    for (int f = 0; f < filas; f++) {
-        if ((int) strlen(filas_texto[f]) != columnas) {
-            printf("  La fila %d no tiene %d columnas.\n", f, columnas);
-            ok = false;
-            continue;
-        }
-        strcpy(mapa[f], filas_texto[f]);
-        for (int c = 0; c < columnas; c++) {
-            char x = mapa[f][c];
-            bool borde = f == 0 || f == filas - 1 || c == 0 || c == columnas - 1;
-            if (borde && x != '#') {
-                printf("  Hueco en el borde en (%d, %d).\n", f, c);
-                ok = false;
-            }
-            if (x == '@') {
-                inicios++;
-                inicio = (Punto) { f, c };
-            } else if (x == 'S') {
-                salidas++;
-            } else if (x == '$') {
-                tesoros++;
-            }
-        }
-    }
-    if (inicios != 1 || salidas != 1) {
-        printf("  Tiene que haber un inicio y una salida (hay %d y %d).\n", inicios, salidas);
-        ok = false;
-    }
-    if (!ok) {
-        printf("  Mapa inválido.\n");
-        return;
-    }
-    int d = distancia_a_la_salida(mapa, filas, columnas, inicio);
-    if (d < 0) {
-        printf("  La salida no se puede alcanzar.\n");
-    } else {
-        printf("  Válido: %d tesoros, salida a %d pasos como mínimo.\n", tesoros, d);
-    }
-}
-
 int main(void)
 {
-    const char *bueno[] = { "#############", "#@..#...$...#", "#.#.#.###.#.#", "#.#...#$..#.#",
-                            "#.###.#.###.#", "#$........#S#", "#############" };
-    const char *encerrado[] = { "#########", "#@..#..S#", "#...#...#", "#########" };
-    const char *roto[] = { "#######", "#@...S.", "#####" };
-    revisar("La mazmorra", bueno, 7);
-    revisar("La cámara sellada", encerrado, 4);
-    revisar("El mapa roto", roto, 3);
+    double t[DIAS][HORNOS];
+    cargar(t);
+    mostrar(t);
+
+    PromedioHorno v[HORNOS];
+    printf("\nPromedio por horno:\n");
+    for (int h = 0; h < HORNOS; h++) {
+        v[h].horno = h + 1;
+        v[h].promedio = promedio_horno(t, h);
+        printf("  horno %d: %.2f\n", h + 1, v[h].promedio);
+    }
+    printf("Promedio por dia:\n");
+    for (int d = 0; d < DIAS; d++) {
+        printf("  dia %d: %.2f\n", d + 1, promedio_dia(t, d));
+    }
+
+    ordenar_desc(v, HORNOS);
+    printf("Horno mas caliente: %d (%.2f)\n", v[0].horno, v[0].promedio);
+    int dia, horno;
+    pico(t, &dia, &horno);
+    printf("Pico: %.1f, dia %d, horno %d\n", t[dia][horno], dia + 1, horno + 1);
+
+    printf("Promedios ordenados:\n");
+    for (int i = 0; i < HORNOS; i++) {
+        printf("  horno %d: %.2f\n", v[i].horno, v[i].promedio);
+    }
+
+    char linea[50];
+    double limite;
+    printf("Limite: ");
+    if (fgets(linea, sizeof linea, stdin) != NULL && sscanf(linea, "%lf", &limite) == 1) {
+        int i = buscar_mayor_a(v, HORNOS, limite);
+        if (i == -1) {
+            printf("\nNingun horno supera %.1f\n", limite);
+        } else {
+            printf("\nEl horno %d supera %.1f (%.2f)\n", v[i].horno, limite, v[i].promedio);
+        }
+    }
     return 0;
 }
 ```
 
+#### Pruebas
+
+##### Ningún horno supera el límite
+```entrada
+100
+100
+100
+100
+200
+200
+200
+200
+300
+300
+300
+300
+400
+400
+400
+400
+500
+500
+500
+500
+600
+600
+600
+600
+700
+700
+700
+700
+1500
+```
+```salida
+Dia     Horno 1  Horno 2  Horno 3  Horno 4
+1         100.0    100.0    100.0    100.0
+2         200.0    200.0    200.0    200.0
+3         300.0    300.0    300.0    300.0
+4         400.0    400.0    400.0    400.0
+5         500.0    500.0    500.0    500.0
+6         600.0    600.0    600.0    600.0
+7         700.0    700.0    700.0    700.0
+
+Promedio por horno:
+  horno 1: 400.00
+  horno 2: 400.00
+  horno 3: 400.00
+  horno 4: 400.00
+Promedio por dia:
+  dia 1: 100.00
+  dia 2: 200.00
+  dia 3: 300.00
+  dia 4: 400.00
+  dia 5: 500.00
+  dia 6: 600.00
+  dia 7: 700.00
+Horno mas caliente: 1 (400.00)
+Pico: 700.0, dia 7, horno 1
+Promedios ordenados:
+  horno 1: 400.00
+  horno 2: 400.00
+  horno 3: 400.00
+  horno 4: 400.00
+Limite:
+Ningun horno supera 1500.0
+```
+
+### Misión R05-N04-M2 · Encargo 2: los aprendices de la Forja
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 6
+xp: 30
+```
+
+#### Consigna
+
+Escribí `aprendices.c` para registrar a los aprendices de la Forja con un
+**arreglo de estructuras** (hasta **50**). Cada aprendiz tiene legajo, apellido y
+nombre, tres notas de temple, promedio y **rango**.
+
+1. Cargá primero la cantidad y después un aprendiz por línea:
+   `legajo;nombre;nota1;nota2;nota3`.
+2. **Validá**: legajo mayor que 0 y notas entre 0 y 10. Un renglón que no cumple
+   se informa y se descarta.
+3. Calculá el promedio de cada uno.
+4. El rango: **oficial** si el promedio es 8 o más y ninguna nota es menor a 7;
+   **aprendiz** si el promedio es 6 o más; **de vuelta al fuelle** si es menor a 6.
+5. Mostrá: el listado completo; los oficiales; el de mayor promedio; y el
+   porcentaje de aprendices en cada rango.
+6. Ordená el arreglo por promedio **descendente** y, si empatan, por nombre
+   **ascendente**, y mostralo.
+7. Leé un legajo y buscalo con una función: mostrá todos sus datos o que no existe.
+
+#### Criterio de aprobación
+
+- Usa un arreglo de structs con tope 50 y una cantidad cargada.
+- Valida el legajo y las notas, y descarta el renglón inválido con un aviso.
+- Calcula el promedio y el rango con las reglas de la consigna.
+- Muestra el listado, los oficiales, el mejor promedio y los porcentajes.
+- Ordena con desempate por nombre y busca por legajo, cada cosa en su función.
+
+#### Entrada de ejemplo
+
+```
+6
+101;Kira;9;8;9
+102;Tizon;10;8;6
+0;Nadie;5;5;5
+103;Hulda;8;9;9
+104;Chispa;5;6;4
+105;Brasa;7;6;6
+103
+```
+
+#### Salida esperada
+
+```
+Renglon descartado: 0;Nadie;5;5;5
+Listado:
+   101 Kira      9  8  9   8.67  oficial
+   102 Tizon    10  8  6   8.00  aprendiz
+   103 Hulda     8  9  9   8.67  oficial
+   104 Chispa    5  6  4   5.00  de vuelta al fuelle
+   105 Brasa     7  6  6   6.33  aprendiz
+Oficiales:
+   101 Kira      9  8  9   8.67  oficial
+   103 Hulda     8  9  9   8.67  oficial
+Mejor promedio: Kira (8.67)
+Porcentajes:
+  oficial               40.0 %
+  aprendiz              40.0 %
+  de vuelta al fuelle   20.0 %
+Ordenados:
+   103 Hulda     8  9  9   8.67  oficial
+   101 Kira      9  8  9   8.67  oficial
+   102 Tizon    10  8  6   8.00  aprendiz
+   105 Brasa     7  6  6   6.33  aprendiz
+   104 Chispa    5  6  4   5.00  de vuelta al fuelle
+Legajo 103:
+   103 Hulda     8  9  9   8.67  oficial
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * FundicionExpress - Encargo 2: los aprendices de la Forja.
+ * Arreglo de estructuras con validacion, rango, porcentajes,
+ * ordenamiento con desempate y busqueda por legajo.
+ */
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define TOPE 50
+
+typedef struct {
+    int legajo;
+    char nombre[30];
+    int notas[3];
+    double promedio;
+    char rango[20];
+} Aprendiz;
+
+bool leer_aprendiz(const char *linea, Aprendiz *a)
+{
+    if (sscanf(linea, "%d;%29[^;];%d;%d;%d", &a->legajo, a->nombre, &a->notas[0], &a->notas[1], &a->notas[2]) != 5) {
+        return false;
+    }
+    if (a->legajo <= 0) {
+        return false;
+    }
+    for (int i = 0; i < 3; i++) {
+        if (a->notas[i] < 0 || a->notas[i] > 10) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void calcular(Aprendiz *a)
+{
+    a->promedio = (a->notas[0] + a->notas[1] + a->notas[2]) / 3.0;
+    bool alguna_baja = a->notas[0] < 7 || a->notas[1] < 7 || a->notas[2] < 7;
+    if (a->promedio >= 8 && !alguna_baja) {
+        strcpy(a->rango, "oficial");
+    } else if (a->promedio >= 6) {
+        strcpy(a->rango, "aprendiz");
+    } else {
+        strcpy(a->rango, "de vuelta al fuelle");
+    }
+}
+
+void mostrar(const Aprendiz *a)
+{
+    printf("  %4d %-8s %2d %2d %2d  %5.2f  %s\n", a->legajo, a->nombre,
+           a->notas[0], a->notas[1], a->notas[2], a->promedio, a->rango);
+}
+
+void listar(const Aprendiz v[], int n, const char *filtro)
+{
+    for (int i = 0; i < n; i++) {
+        if (filtro == NULL || strcmp(v[i].rango, filtro) == 0) {
+            mostrar(&v[i]);
+        }
+    }
+}
+
+int mejor(const Aprendiz v[], int n)
+{
+    int m = 0;
+    for (int i = 1; i < n; i++) {
+        if (v[i].promedio > v[m].promedio) {
+            m = i;
+        }
+    }
+    return m;
+}
+
+void porcentajes(const Aprendiz v[], int n)
+{
+    const char *rangos[3] = { "oficial", "aprendiz", "de vuelta al fuelle" };
+    for (int r = 0; r < 3; r++) {
+        int c = 0;
+        for (int i = 0; i < n; i++) {
+            if (strcmp(v[i].rango, rangos[r]) == 0) {
+                c++;
+            }
+        }
+        printf("  %-20s %5.1f %%\n", rangos[r], 100.0 * c / n);
+    }
+}
+
+bool va_antes(const Aprendiz *a, const Aprendiz *b)
+{
+    if (a->promedio != b->promedio) {
+        return a->promedio > b->promedio;
+    }
+    return strcmp(a->nombre, b->nombre) < 0;
+}
+
+void ordenar(Aprendiz v[], int n)
+{
+    for (int pasada = 0; pasada < n - 1; pasada++) {
+        for (int i = 0; i < n - 1 - pasada; i++) {
+            if (va_antes(&v[i + 1], &v[i])) {
+                Aprendiz aux = v[i];
+                v[i] = v[i + 1];
+                v[i + 1] = aux;
+            }
+        }
+    }
+}
+
+int buscar(const Aprendiz v[], int n, int legajo)
+{
+    for (int i = 0; i < n; i++) {
+        if (v[i].legajo == legajo) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int main(void)
+{
+    Aprendiz v[TOPE];
+    int n = 0, cantidad = 0;
+    char linea[100];
+    if (fgets(linea, sizeof linea, stdin) == NULL || sscanf(linea, "%d", &cantidad) != 1) {
+        return 1;
+    }
+    for (int k = 0; k < cantidad && n < TOPE; k++) {
+        if (fgets(linea, sizeof linea, stdin) == NULL) {
+            break;
+        }
+        linea[strcspn(linea, "\n")] = '\0';
+        if (leer_aprendiz(linea, &v[n])) {
+            calcular(&v[n]);
+            n++;
+        } else {
+            printf("Renglon descartado: %s\n", linea);
+        }
+    }
+    if (n == 0) {
+        printf("No hay aprendices.\n");
+        return 0;
+    }
+
+    printf("Listado:\n");
+    listar(v, n, NULL);
+    printf("Oficiales:\n");
+    listar(v, n, "oficial");
+    int m = mejor(v, n);
+    printf("Mejor promedio: %s (%.2f)\n", v[m].nombre, v[m].promedio);
+    printf("Porcentajes:\n");
+    porcentajes(v, n);
+
+    ordenar(v, n);
+    printf("Ordenados:\n");
+    listar(v, n, NULL);
+
+    int legajo;
+    if (fgets(linea, sizeof linea, stdin) != NULL && sscanf(linea, "%d", &legajo) == 1) {
+        int i = buscar(v, n, legajo);
+        if (i == -1) {
+            printf("Legajo %d: no existe\n", legajo);
+        } else {
+            printf("Legajo %d:\n", legajo);
+            mostrar(&v[i]);
+        }
+    }
+    return 0;
+}
+```
+
+#### Pruebas
+
+##### Empate y legajo que no existe
+```entrada
+3
+7;Zoe;8;8;8
+5;Ana;8;8;8
+9;Ivo;3;4;2
+4
+```
+```salida
+Listado:
+     7 Zoe       8  8  8   8.00  oficial
+     5 Ana       8  8  8   8.00  oficial
+     9 Ivo       3  4  2   3.00  de vuelta al fuelle
+Oficiales:
+     7 Zoe       8  8  8   8.00  oficial
+     5 Ana       8  8  8   8.00  oficial
+Mejor promedio: Zoe (8.00)
+Porcentajes:
+  oficial               66.7 %
+  aprendiz               0.0 %
+  de vuelta al fuelle   33.3 %
+Ordenados:
+     5 Ana       8  8  8   8.00  oficial
+     7 Zoe       8  8  8   8.00  oficial
+     9 Ivo       3  4  2   3.00  de vuelta al fuelle
+Legajo 4: no existe
+```
+
+### Misión R05-N04-M3 · Encargo 3: el depósito de lingotes
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 6
+xp: 30
+```
+
+#### Consigna
+
+Escribí `deposito.c` para administrar un **archivo binario de estructuras**
+(`lingotes.dat`). Cada lingote tiene código, descripción, precio, stock y
+**estado** (`'A'` activo, `'B'` baja lógica). Con un **menú** de opciones:
+
+1. Crear el archivo e ingresar lingotes (`codigo;descripcion;precio;stock`,
+   uno por línea, hasta una línea con `fin`).
+2. Listar los lingotes activos.
+3. Buscar un lingote por código.
+4. Actualizar el stock de un lingote (se suma la cantidad, que puede ser negativa).
+5. Dar de **baja lógica** un lingote.
+6. Mostrar: el lingote con mayor precio, el promedio de precios y cuántos tienen
+   stock menor a 10 (solo los activos).
+0. Salir.
+
+El menú no se tiene que trabar si se escribe cualquier cosa.
+
+#### Criterio de aprobación
+
+- Usa un struct con estado y un archivo binario con `fwrite` y `fread`.
+- Actualizar y dar de baja reescriben el registro en su lugar (`fseek`), sin rehacer el archivo.
+- Los listados e informes muestran solo los activos.
+- El menú lee con `fgets` + `sscanf` y no se traba con letras.
+- Cada opción está en su propia función.
+
+#### Entrada de ejemplo
+
+```
+1
+7;Plomo;9.5;40
+12;Hierro;5.0;8
+3;Oro;40.0;2
+21;Cobre;12.0;15
+fin
+2
+4
+12 5
+5
+3
+2
+6
+3
+21
+9
+0
+```
+
+#### Salida esperada
+
+```
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+4 lingotes cargados.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Activos:
+    7 Plomo       9.50   40
+   12 Hierro      5.00    8
+    3 Oro        40.00    2
+   21 Cobre      12.00   15
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Codigo y cantidad:
+Stock de Hierro: 13
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Codigo:
+Oro dado de baja.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Activos:
+    7 Plomo       9.50   40
+   12 Hierro      5.00   13
+   21 Cobre      12.00   15
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Mas caro: Cobre (12.00)
+Promedio de precios: 8.83
+Con stock menor a 10: 0
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Codigo:
+   21 Cobre      12.00   15
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+La opcion 9 no existe.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Hasta luego.
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * FundicionExpress - Encargo 3: el deposito de lingotes.
+ * Archivo binario de estructuras con alta, listado, busqueda, actualizacion
+ * de stock, baja logica e informes, con un menu que no se traba.
+ */
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define ARCHIVO "lingotes.dat"
+
+typedef struct {
+    int codigo;
+    char descripcion[30];
+    float precio;
+    int stock;
+    char estado;
+} Lingote;
+
+bool leer_linea(char *linea, int tam)
+{
+    if (fgets(linea, tam, stdin) == NULL) {
+        return false;
+    }
+    linea[strcspn(linea, "\n")] = '\0';
+    return true;
+}
+
+int leer_entero(void)
+{
+    char linea[50];
+    int x;
+    while (leer_linea(linea, sizeof linea)) {
+        if (sscanf(linea, "%d", &x) == 1) {
+            return x;
+        }
+        printf("Eso no es un numero.\n");
+    }
+    return 0;
+}
+
+void crear(void)
+{
+    FILE *f = fopen(ARCHIVO, "wb");
+    if (f == NULL) {
+        printf("No se pudo crear el archivo.\n");
+        return;
+    }
+    char linea[80];
+    int cargados = 0;
+    while (leer_linea(linea, sizeof linea) && strcmp(linea, "fin") != 0) {
+        Lingote l;
+        if (sscanf(linea, "%d;%29[^;];%f;%d", &l.codigo, l.descripcion, &l.precio, &l.stock) == 4 && l.codigo > 0) {
+            l.estado = 'A';
+            fwrite(&l, sizeof l, 1, f);
+            cargados++;
+        } else {
+            printf("Renglon invalido: %s\n", linea);
+        }
+    }
+    fclose(f);
+    printf("%d lingotes cargados.\n", cargados);
+}
+
+void mostrar(const Lingote *l)
+{
+    printf("  %3d %-8s %7.2f %4d\n", l->codigo, l->descripcion, l->precio, l->stock);
+}
+
+void listar(void)
+{
+    FILE *f = fopen(ARCHIVO, "rb");
+    if (f == NULL) {
+        printf("No hay archivo.\n");
+        return;
+    }
+    Lingote l;
+    printf("Activos:\n");
+    while (fread(&l, sizeof l, 1, f) == 1) {
+        if (l.estado == 'A') {
+            mostrar(&l);
+        }
+    }
+    fclose(f);
+}
+
+/* Deja el archivo posicionado al principio del registro encontrado. */
+bool buscar_en(FILE *f, int codigo, Lingote *l)
+{
+    rewind(f);
+    while (fread(l, sizeof *l, 1, f) == 1) {
+        if (l->codigo == codigo && l->estado == 'A') {
+            fseek(f, -(long) sizeof *l, SEEK_CUR);
+            return true;
+        }
+    }
+    return false;
+}
+
+void buscar(void)
+{
+    printf("Codigo: ");
+    int codigo = leer_entero();
+    FILE *f = fopen(ARCHIVO, "rb");
+    Lingote l;
+    if (f != NULL && buscar_en(f, codigo, &l)) {
+        printf("\n");
+        mostrar(&l);
+    } else {
+        printf("\nNo existe el codigo %d.\n", codigo);
+    }
+    if (f != NULL) {
+        fclose(f);
+    }
+}
+
+void actualizar_stock(void)
+{
+    printf("Codigo y cantidad: ");
+    char linea[50];
+    int codigo, cantidad;
+    if (!leer_linea(linea, sizeof linea) || sscanf(linea, "%d %d", &codigo, &cantidad) != 2) {
+        printf("\nDatos invalidos.\n");
+        return;
+    }
+    FILE *f = fopen(ARCHIVO, "r+b");
+    Lingote l;
+    if (f != NULL && buscar_en(f, codigo, &l)) {
+        l.stock += cantidad;
+        fwrite(&l, sizeof l, 1, f);
+        printf("\nStock de %s: %d\n", l.descripcion, l.stock);
+    } else {
+        printf("\nNo existe el codigo %d.\n", codigo);
+    }
+    if (f != NULL) {
+        fclose(f);
+    }
+}
+
+void baja(void)
+{
+    printf("Codigo: ");
+    int codigo = leer_entero();
+    FILE *f = fopen(ARCHIVO, "r+b");
+    Lingote l;
+    if (f != NULL && buscar_en(f, codigo, &l)) {
+        l.estado = 'B';
+        fwrite(&l, sizeof l, 1, f);
+        printf("\n%s dado de baja.\n", l.descripcion);
+    } else {
+        printf("\nNo existe el codigo %d.\n", codigo);
+    }
+    if (f != NULL) {
+        fclose(f);
+    }
+}
+
+void informes(void)
+{
+    FILE *f = fopen(ARCHIVO, "rb");
+    if (f == NULL) {
+        printf("No hay archivo.\n");
+        return;
+    }
+    Lingote l, caro;
+    int n = 0, bajo_stock = 0;
+    double suma = 0;
+    while (fread(&l, sizeof l, 1, f) == 1) {
+        if (l.estado != 'A') {
+            continue;
+        }
+        if (n == 0 || l.precio > caro.precio) {
+            caro = l;
+        }
+        suma += l.precio;
+        n++;
+        if (l.stock < 10) {
+            bajo_stock++;
+        }
+    }
+    fclose(f);
+    if (n == 0) {
+        printf("No hay lingotes activos.\n");
+        return;
+    }
+    printf("Mas caro: %s (%.2f)\n", caro.descripcion, caro.precio);
+    printf("Promedio de precios: %.2f\n", suma / n);
+    printf("Con stock menor a 10: %d\n", bajo_stock);
+}
+
+int main(void)
+{
+    int opcion = -1;
+    while (opcion != 0) {
+        printf("\n[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir\nOpcion: ");
+        char linea[50];
+        if (!leer_linea(linea, sizeof linea)) {
+            break;
+        }
+        if (sscanf(linea, "%d", &opcion) != 1) {
+            printf("\nEso no es una opcion.\n");
+            opcion = -1;
+            continue;
+        }
+        printf("\n");
+        switch (opcion) {
+        case 1: crear(); break;
+        case 2: listar(); break;
+        case 3: buscar(); break;
+        case 4: actualizar_stock(); break;
+        case 5: baja(); break;
+        case 6: informes(); break;
+        case 0: printf("Hasta luego.\n"); break;
+        default: printf("La opcion %d no existe.\n", opcion);
+        }
+    }
+    return 0;
+}
+```
+
+#### Pruebas
+
+##### Opciones raras y archivo vacío
+```entrada
+hola
+8
+1
+fin
+2
+6
+0
+```
+```salida
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Eso no es una opcion.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+La opcion 8 no existe.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+0 lingotes cargados.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Activos:
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+No hay lingotes activos.
+
+[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
+Opcion:
+Hasta luego.
+```
+
+### Encargo R05-N04-E1 · El simulacro de verdad, con reloj
+
+```meta
+entrega: archivo
+entorno: local
+monedas: 1
+xp: 40
+extensiones: zip
+```
+
+#### Consigna
+
+Volvé a resolver **los tres encargos** de FundiciónExpress desde cero, en tu compu
+(ZinjaI, Code::Blocks o VS Code, en Linux o en Windows), como en el parcial: con
+un reloj, sin mirar tus soluciones anteriores y en una sola sentada. Al principio
+de cada archivo, en un comentario, anotá a qué hora empezaste y a qué hora
+terminaste ese ejercicio.
+
+Entregá un `.zip` con `hornos.c`, `aprendices.c` y `deposito.c`.
+
+#### Criterio de aprobación
+
+- Los tres programas compilan con `-Wall -Wextra` sin advertencias.
+- Cada uno anda con los datos de ejemplo de su misión.
+- Cada archivo dice cuánto se tardó. El tiempo **no resta puntos**: sirve para saber cuánto falta para el parcial.
+
 ### Prueba del sello
 
-#### ¿Por qué la posición del héroe va aparte del mapa?
+#### ¿Cómo se ordena un vector de promedios sin perder de qué horno es cada uno?
 
-Para no borrar lo que hay debajo al moverse: el mapa guarda el mundo y la posición se dibuja encima.
+Ordenando un array de structs `{horno, promedio}` (el número viaja con su promedio) o un array de índices, en lugar de un array suelto de promedios.
 
-#### ¿Por qué no hace falta controlar los límites de la matriz al moverse?
+#### ¿Qué hace falta para ordenar «por promedio descendente y, si empatan, por nombre ascendente»?
 
-Porque el borde es todo pared: antes de salir de la matriz siempre se encuentra un `#` y el movimiento se frena.
+Una función de comparación con dos criterios: primero el promedio (mayor primero); si son iguales, `strcmp` de los nombres (menor primero).
 
-#### ¿Por qué se puede guardar la `Partida` con un solo `fwrite`?
+#### ¿Por qué la baja de un lingote es «lógica» y no se borra el registro?
 
-Porque todo el estado está en el struct y no tiene punteros: sus bytes son todo lo que hace falta.
+Porque borrar del medio de un archivo binario obliga a reescribir todo lo que sigue. Se cambia el estado a `'B'`, se reescribe ese registro en su lugar, y los listados muestran solo los activos.
 
-#### ¿Por qué `cargar` lee en una copia?
+#### ¿Qué pasa si, después de leer un registro con `fread`, se escribe sin `fseek`?
 
-Para no perder la partida actual si el archivo no existe, es de otra versión o está cortado.
+Se pisa el registro **siguiente**: después del `fread`, el archivo quedó al final del registro leído. Hay que volver con `fseek(f, -(long) sizeof r, SEEK_CUR)`.
 
-#### ¿Qué garantiza la búsqueda en anchura?
+#### ¿Por qué el menú lee con `fgets` + `sscanf` y no con `scanf("%d")`?
 
-Que la primera vez que llega a la salida lo hace por el camino más corto, porque explora por capas de distancia.
+Porque con una letra, `scanf("%d")` no la consume y el menú se traba leyéndola para siempre. Con `fgets` la línea se consume entera y `sscanf` dice si era un número.
+
+#### Si te pasaste de los 180 minutos, ¿qué hacés?
+
+Lo terminás igual: en el simulacro no se descuentan puntos por el tiempo. Se anota cuánto se tardó, para saber cuánto falta para el parcial.
 
 ### Soluciones (docente)
 
-Proyecto final nuevo (en `02-C-Intermedio` estaba planificado como 30-ProyectoMazmorra). Las misiones 2 y 3 parten del código de la anterior; las salidas dependen del `rand` de glibc.
-
+Simulacro del parcial de Programación I (2026-10-08), con el formato de los parciales de la UTN La Rioja (matrices, arreglos de estructuras y archivos binarios con menú) y de la UNLaR. Pensado para 180 minutos y sin penalizar si se pasa: el alumno anota cuánto tardó. Antes, este nodo era la mazmorra del Dragón (un juego con la matriz del mapa, los guardianes y la partida guardada en binario).
 ## R05-N05 · La Encrucijada del Yunque
 
 ```meta

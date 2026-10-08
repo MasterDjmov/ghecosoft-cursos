@@ -18,7 +18,8 @@ sys.path.insert(0, BASE)
 from to_course import insert  # noqa: E402
 
 FILES = {"R00": "00-curso.md", "R01": "01-la-aduana-del-compilador.md", "R02": "02-la-academia-de-los-moldes.md",
-         "R03": "03-los-archivos-imperiales.md"}
+         "R03": "03-los-archivos-imperiales.md", "R04": "04-las-corrientes-del-imperio.md",
+         "R05": "05-la-torre-del-arquitecto.md"}
 
 
 def m(**kw):

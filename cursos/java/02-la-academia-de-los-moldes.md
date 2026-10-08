@@ -17,9 +17,9 @@ temas: poo.clases
 
 ### Crónica
 
-Pasada la Aduana, la avenida te lleva a la **Academia de los Moldes**: un edificio enorme lleno de talleres donde nadie fabrica cosas, sino **moldes**. De un molde de soldado salen mil soldados; cada uno con su nombre y su armadura, pero todos con la misma forma.
+Con el Sello de Entrada en el bolsillo, Zed cruza la Aduana por la puerta grande. La avenida lo lleva a la **Academia de los Moldes**: un edificio enorme lleno de talleres donde nadie fabrica cosas, sino **moldes**. De un molde de soldado salen mil soldados, cada uno con su nombre y su armadura, pero todos con la misma forma. Nadia camina a su lado: «hasta que aprenda», dice.
 
-—Hasta ahora guardabas los datos de un viajero en tres arrays distintos —dice {mentor}—. Acá aprendés a escribir el **molde**: una clase `Viajero` que guarda sus datos y sabe hacer sus cosas. De ahí en adelante, {heroe}, en el Imperio todo es un objeto.
+—Hasta ahora guardabas los datos de un viajero en tres arrays distintos —dice {mentor}—. Acá aprendés a escribir el **molde**: una clase `Viajero` que guarda sus datos y sabe hacer sus cosas. De ahí en adelante, Zed, en el Imperio todo es un objeto.
 
 ### Objetivos
 
@@ -260,6 +260,299 @@ method in class: Heroe`.
 
 **Ogro: `toString` mal escrito.** `tostring` o `toString(int x)` son métodos
 nuevos: `println` sigue mostrando `Heroe@5ca881b5`.
+
+### Micro-misión R02-N01-P1 · El primer molde
+
+```meta
+lugar: Los talleres de la Academia de los Moldes
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Clase y objeto | class Viajero { String nombre; } es el molde · new Viajero() crea un objeto · v.nombre = "Zed"; le da un dato
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Con el Sello de Entrada en el bolsillo, Zed llega a la **Academia de los Moldes**. La **Maestra de Moldes**, con el delantal lleno de virutas de bronce, le señala tres arrays sueltos en su pizarra: nombres, edades y oficios. —Así guardabas a tus viajeros. Desde hoy, cada viajero sale de un **molde**.
+
+#### Gheco sugiere
+Una **clase** es el molde: dice qué datos tiene cada objeto (`String nombre; int edad;`). `new Viajero()` crea un **objeto** nuevo de ese molde, y con el punto le cargás sus datos: `v.nombre = "Zed";`.
+
+#### Desafío
+Creá el objeto con `new`.
+
+#### Código inicial
+```java
+public class Molde {
+    public static void main(String[] args) {
+        Viajero v = ___;
+        v.nombre = "Zed";
+        v.edad = 19;
+        v.oficio = "ladrón retirado";
+        System.out.println(v.nombre + ", " + v.edad + " años, " + v.oficio);
+    }
+}
+
+class Viajero {
+    String nombre;
+    int edad;
+    String oficio;
+}
+```
+
+#### Salida esperada
+```
+Zed, 19 años, ladrón retirado
+```
+
+#### Solución
+```java
+public class Molde {
+    public static void main(String[] args) {
+        Viajero v = new Viajero();
+        v.nombre = "Zed";
+        v.edad = 19;
+        v.oficio = "ladrón retirado";
+        System.out.println(v.nombre + ", " + v.edad + " años, " + v.oficio);
+    }
+}
+
+class Viajero {
+    String nombre;
+    int edad;
+    String oficio;
+}
+```
+
+#### Al superarla
+—«Retirado» —lee Nadia, y levanta una ceja. —Desde la semana pasada —dice Zed. La Maestra se ríe: es el primer viajero que sale entero de un molde, con todos sus datos juntos.
+
+#### Imagen
+- Un taller enorme de la Academia de los Moldes, con moldes de bronce colgando del techo.
+- La Maestra de Moldes (delantal con virutas de bronce) señalando una pizarra con tres arrays tachados.
+- Zed (pelo blanco plateado, visor rojo) frente a un molde con forma de persona; Nadia y Gheco a su lado.
+
+### Micro-misión R02-N01-P2 · Un molde, muchos viajeros
+
+```meta
+lugar: Los talleres de la Academia de los Moldes
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Cada objeto es otro | dos new = dos objetos · cada uno con sus propios datos · cambiar uno no cambia el otro
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Si cambio el nombre de este viajero —pregunta Zed—, ¿se cambia el de todos los que salieron del molde? La Maestra le pone dos viajeros enfrente. —Probalo.
+
+#### Gheco sugiere
+Cada `new` fabrica un objeto **distinto**, con su propia copia de los atributos. `a.nombre` y `b.nombre` son dos cajones diferentes.
+
+#### Desafío
+Creá el segundo viajero, `b`, con su propio `new`.
+
+#### Código inicial
+```java
+public class DosViajeros {
+    public static void main(String[] args) {
+        Viajero a = new Viajero();
+        Viajero b = ___;
+        a.nombre = "Zed";
+        b.nombre = "Nadia";
+        a.nombre = "Zed del Puerto";
+        System.out.println("a: " + a.nombre);
+        System.out.println("b: " + b.nombre);
+    }
+}
+
+class Viajero {
+    String nombre;
+}
+```
+
+#### Salida esperada
+```
+a: Zed del Puerto
+b: Nadia
+```
+
+#### Solución
+```java
+public class DosViajeros {
+    public static void main(String[] args) {
+        Viajero a = new Viajero();
+        Viajero b = new Viajero();
+        a.nombre = "Zed";
+        b.nombre = "Nadia";
+        a.nombre = "Zed del Puerto";
+        System.out.println("a: " + a.nombre);
+        System.out.println("b: " + b.nombre);
+    }
+}
+
+class Viajero {
+    String nombre;
+}
+```
+
+#### Al superarla
+Zed cambió su nombre y el de Nadia siguió igual. —Por suerte —dice ella—. No quiero llamarme «del Puerto».
+
+#### Imagen
+- Dos figuras recién salidas del mismo molde de bronce, cada una con una etiqueta distinta: «Zed del Puerto» y «Nadia».
+- Nadia cruzada de brazos; Zed sonriendo.
+
+### Micro-misión R02-N01-P3 · El molde que sabe hacer cosas
+
+```meta
+lugar: Los talleres de la Academia de los Moldes
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Método de instancia | String saludo() { return "Soy " + nombre; } · usa los datos de SU objeto · v.saludo()
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Un molde no guarda solo datos —dice la Maestra—. También sabe **hacer** cosas. Cada viajero sabe presentarse, y se presenta con **su** nombre.
+
+#### Gheco sugiere
+Un método **sin `static`** pertenece a cada objeto: adentro, `nombre` es el nombre de **ese** objeto. Se llama con el punto: `zed.saludo()`.
+
+#### Desafío
+Completá el `return` del método `saludo`: «Soy <nombre>. Origen: <origen>».
+
+#### Código inicial
+```java
+public class Presentacion {
+    public static void main(String[] args) {
+        Viajero zed = new Viajero();
+        zed.nombre = "Zed";
+        zed.origen = "el Puerto";
+        Viajero nadia = new Viajero();
+        nadia.nombre = "Nadia";
+        nadia.origen = "la Aduana";
+        System.out.println(zed.saludo());
+        System.out.println(nadia.saludo());
+    }
+}
+
+class Viajero {
+    String nombre;
+    String origen;
+
+    String saludo() {
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Soy Zed. Origen: el Puerto
+Soy Nadia. Origen: la Aduana
+```
+
+#### Solución
+```java
+public class Presentacion {
+    public static void main(String[] args) {
+        Viajero zed = new Viajero();
+        zed.nombre = "Zed";
+        zed.origen = "el Puerto";
+        Viajero nadia = new Viajero();
+        nadia.nombre = "Nadia";
+        nadia.origen = "la Aduana";
+        System.out.println(zed.saludo());
+        System.out.println(nadia.saludo());
+    }
+}
+
+class Viajero {
+    String nombre;
+    String origen;
+
+    String saludo() {
+        return "Soy " + nombre + ". Origen: " + origen;
+    }
+}
+```
+
+#### Al superarla
+Un solo método y cada uno se presenta a su manera. —Es como los libritos de la Aduana —dice Zed—, pero cada viajero lleva el suyo en el bolsillo.
+
+#### Imagen
+- Dos figuras de bronce con globos de diálogo distintos que salen del mismo libro abierto.
+- La Maestra de Moldes asintiendo; Gheco anotando en el aire con una pluma de luz.
+
+### Micro-misión R02-N01-P4 · El fantasma del molde
+
+```meta
+lugar: Los talleres de la Academia de los Moldes
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: esqueleto
+carta: toString | public String toString() { return …; } · lo que se muestra al imprimir el objeto · sin él: Clase@1b6d3586
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Zed imprime a su viajero directamente y en la consola aparece algo como `Viajero@1b6d3586`. Del molde sale un **esqueleto** que repite ese código como un nombre sin cuerpo.
+—Java no sabe cómo querés que se vea tu objeto —dice Gheco—. Decíselo.
+
+#### Gheco sugiere
+Al imprimir un objeto, Java llama a su método `toString()`. Si no lo escribiste, muestra la clase y un código raro. Escribilo vos: `public String toString() { return …; }`.
+
+#### Desafío
+Completá el nombre del método para que `println(v)` muestre al viajero.
+
+#### Código inicial
+```java
+public class Fantasma {
+    public static void main(String[] args) {
+        Viajero v = new Viajero();
+        v.nombre = "Zed";
+        v.edad = 19;
+        System.out.println(v);
+    }
+}
+
+class Viajero {
+    String nombre;
+    int edad;
+
+    public String ___() {
+        return "Viajero[" + nombre + ", " + edad + "]";
+    }
+}
+```
+
+#### Salida esperada
+```
+Viajero[Zed, 19]
+```
+
+#### Solución
+```java
+public class Fantasma {
+    public static void main(String[] args) {
+        Viajero v = new Viajero();
+        v.nombre = "Zed";
+        v.edad = 19;
+        System.out.println(v);
+    }
+}
+
+class Viajero {
+    String nombre;
+    int edad;
+
+    public String toString() {
+        return "Viajero[" + nombre + ", " + edad + "]";
+    }
+}
+```
+
+#### Al superarla
+«Viajero[Zed, 19]». El esqueleto se mira las manos, encuentra un nombre y se desarma tranquilo. Al lado, un soldado sale de un molde… sin espada.
+
+#### Imagen
+- Un esqueleto con una etiqueta «Viajero@1b6d3586» desarmándose en paz.
+- Al fondo, un soldado de bronce recién salido de un molde, con la mano vacía donde debería ir la espada.
 
 ### Misión R02-N01-M1 · El molde de la espada
 
@@ -629,9 +922,9 @@ temas: poo.constructores
 
 ### Crónica
 
-En el taller de moldes, un aprendiz arma soldados a mano: primero el cuerpo, después el casco, después el nombre… y a la mitad se olvida la espada. Al lado, una maestra aprieta una palanca y el soldado sale del molde **completo**.
+En el taller de los soldados, un aprendiz arma soldados a mano: primero el cuerpo, después el casco, después el nombre… y a la mitad se olvida la espada. Al lado, la **Maestra de Moldes** aprieta una palanca y el soldado sale **completo**.
 
-—Un objeto a medio armar es un objeto roto —dice {mentor}—. El **constructor** es la palanca: garantiza que cada objeto nazca con todo lo que necesita, {heroe}.
+—Un objeto a medio armar es un objeto roto —dice {mentor}—. El **constructor** es la palanca: garantiza que cada objeto nazca con todo lo que necesita.
 
 ### Objetivos
 
@@ -853,6 +1146,310 @@ statement in constructor`.
 
 **Ogro: el constructor con `void`.** `void Soldado(...)` no es un constructor: es un
 método que se llama igual que la clase. `new` no lo ejecuta.
+
+### Micro-misión R02-N02-P1 · La palanca del molde
+
+```meta
+lugar: El taller de los soldados
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Constructor | Soldado(String nombre, String arma) { … } · se llama como la clase y no devuelve nada · new Soldado("Lía", "espada")
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un aprendiz arma soldados a mano: primero el cuerpo, después el casco, después el nombre… y a la mitad se olvida la espada. La Maestra aprieta una palanca y el soldado sale **completo**. —Esa palanca es el **constructor**.
+
+#### Gheco sugiere
+Un **constructor** se llama igual que la clase y no tiene tipo de retorno. Recibe los datos y los guarda en el objeto: `this.arma = arma;` (`this.arma` es el atributo; `arma`, el parámetro).
+
+#### Desafío
+Completá la línea que guarda el arma en el objeto.
+
+#### Código inicial
+```java
+public class Palanca {
+    public static void main(String[] args) {
+        Soldado a = new Soldado("Lía", "espada");
+        Soldado b = new Soldado("Teo", "lanza");
+        System.out.println(a.nombre + " con " + a.arma);
+        System.out.println(b.nombre + " con " + b.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Lía con espada
+Teo con lanza
+```
+
+#### Solución
+```java
+public class Palanca {
+    public static void main(String[] args) {
+        Soldado a = new Soldado("Lía", "espada");
+        Soldado b = new Soldado("Teo", "lanza");
+        System.out.println(a.nombre + " con " + a.arma);
+        System.out.println(b.nombre + " con " + b.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        this.arma = arma;
+    }
+}
+```
+
+#### Al superarla
+Los dos soldados salen armados. El aprendiz mira la palanca como si fuera magia. —No es magia —le dice Zed—. Es que el molde no te deja olvidarte.
+
+#### Imagen
+- Una palanca de bronce bajando y un soldado completo saliendo del molde con su espada.
+- Un aprendiz con las piezas de un soldado desparramadas en la mesa, sorprendido.
+
+### Micro-misión R02-N02-P2 · Los soldados de nadie
+
+```meta
+lugar: El taller de los soldados
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: troll
+carta: this | si el parámetro se llama igual que el atributo, nombre = nombre; no guarda nada · this.nombre = nombre; sí
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El aprendiz escribió su propio constructor. Compila, corre… y todos los soldados salen llamándose `null`. Un **troll** asoma detrás de los moldes, encantado.
+
+#### Gheco sugiere
+Adentro del constructor, `nombre` es el **parámetro**. `nombre = nombre;` lo copia sobre sí mismo y el atributo queda en `null`. Para hablar del atributo del objeto se usa `this.nombre`.
+
+#### Desafío
+Ejecutalo, mirá los `null` y arreglá las dos asignaciones con `this`.
+
+#### Código inicial
+```java
+public class Nadie {
+    public static void main(String[] args) {
+        Soldado s = new Soldado("Lía", "arco");
+        System.out.println(s.nombre + " con " + s.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        nombre = nombre;
+        arma = arma;
+    }
+}
+```
+
+#### Salida esperada
+```
+Lía con arco
+```
+
+#### Solución
+```java
+public class Nadie {
+    public static void main(String[] args) {
+        Soldado s = new Soldado("Lía", "arco");
+        System.out.println(s.nombre + " con " + s.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        this.arma = arma;
+    }
+}
+```
+
+#### Al superarla
+«Lía con arco.» El troll se esconde de nuevo, decepcionado: sin `null`, no tiene de qué alimentarse.
+
+#### Imagen
+- Una fila de soldados de bronce con etiquetas en blanco que dicen «null».
+- Un troll espiando detrás de los moldes, sonriendo; Zed señalando la palabra `this` en la pizarra.
+
+### Micro-misión R02-N02-P3 · Dos palancas
+
+```meta
+lugar: El taller de los soldados
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Sobrecarga de constructores | Soldado(String nombre) { this(nombre, "lanza"); } · un constructor llama a otro con this(...) · va en la primera línea
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La mayoría de los reclutas lleva lanza. La Maestra agrega una segunda palanca: si no decís el arma, sale con lanza. —Pero no copies el código del otro constructor —advierte—. **Llamalo**.
+
+#### Gheco sugiere
+Se pueden tener varios constructores con distintos parámetros (sobrecarga). Uno puede llamar a otro con `this(...)`, en su **primera línea**: `this(nombre, "lanza");`.
+
+#### Desafío
+Completá la llamada al otro constructor con el arma por defecto, "lanza".
+
+#### Código inicial
+```java
+public class DosPalancas {
+    public static void main(String[] args) {
+        Soldado a = new Soldado("Lía", "espada");
+        Soldado b = new Soldado("Teo");
+        System.out.println(a.nombre + " con " + a.arma);
+        System.out.println(b.nombre + " con " + b.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        this.arma = arma;
+    }
+
+    Soldado(String nombre) {
+        ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Lía con espada
+Teo con lanza
+```
+
+#### Solución
+```java
+public class DosPalancas {
+    public static void main(String[] args) {
+        Soldado a = new Soldado("Lía", "espada");
+        Soldado b = new Soldado("Teo");
+        System.out.println(a.nombre + " con " + a.arma);
+        System.out.println(b.nombre + " con " + b.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        this.arma = arma;
+    }
+
+    Soldado(String nombre) {
+        this(nombre, "lanza");
+    }
+}
+```
+
+#### Al superarla
+Teo sale con su lanza sin que nadie se la pida. —Una palanca usa la otra —dice Gheco—. Si mañana cambia cómo se arma un soldado, se cambia en un solo lugar.
+
+#### Imagen
+- Dos palancas de bronce conectadas por un engranaje: la chica empuja a la grande.
+- Teo, un recluta joven, con una lanza recién salida del molde.
+
+### Micro-misión R02-N02-P4 · El constructor que desapareció
+
+```meta
+lugar: El taller de los soldados
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: goblin
+carta: Constructor por defecto | si no escribís ninguno, Java pone uno vacío · si escribís uno, el vacío desaparece · new Soldado() deja de compilar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un **goblin** se ríe en el taller: alguien escribió `new Soldado()` sin datos y el molde no lo acepta. —¡Antes andaba! —protesta el aprendiz. —Antes no había palancas —dice la Maestra.
+
+#### Gheco sugiere
+Si una clase no tiene constructores, Java le pone uno **vacío**. Apenas escribís uno con parámetros, ese vacío **desaparece**. Si lo querés, escribilo vos: `Soldado() { this("recluta", "palo"); }`.
+
+#### Desafío
+Ejecutalo, leé el error y agregá un constructor sin parámetros que arme un "recluta" con un "palo".
+
+#### Código inicial
+```java
+public class Desaparecido {
+    public static void main(String[] args) {
+        Soldado s = new Soldado();
+        System.out.println(s.nombre + " con " + s.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        this.arma = arma;
+    }
+}
+```
+
+#### Salida esperada
+```
+recluta con palo
+```
+
+#### Solución
+```java
+public class Desaparecido {
+    public static void main(String[] args) {
+        Soldado s = new Soldado();
+        System.out.println(s.nombre + " con " + s.arma);
+    }
+}
+
+class Soldado {
+    String nombre;
+    String arma;
+
+    Soldado() {
+        this("recluta", "palo");
+    }
+
+    Soldado(String nombre, String arma) {
+        this.nombre = nombre;
+        this.arma = arma;
+    }
+}
+```
+
+#### Al superarla
+«recluta con palo.» El goblin se va refunfuñando. La Maestra los manda a la tesorería a buscar el pago del día. Zed va adelante: el cofre de la Academia está abierto, a la vista de todos.
+
+#### Imagen
+- Un goblin riéndose sobre un molde vacío que no se cierra.
+- Un recluta con un palo de madera, orgulloso igual.
 
 ### Misión R02-N02-M1 · La poción del alquimista
 
@@ -1229,9 +1826,9 @@ temas: poo.encapsulamiento, poo.static
 
 ### Crónica
 
-En la tesorería de la Academia, el cofre del oro está a la vista de todos, con la tapa abierta. Cualquier estudiante que pasa mete la mano: uno saca, otro pone, otro escribe "-500" en la etiqueta. Nadie sabe cuánto hay.
+En la tesorería de la Academia, el cofre del oro está a la vista de todos, con la tapa abierta. Zed mete la mano por costumbre, saca más de lo que hay y en la etiqueta queda escrito «-500». Nadie sabe cuánto hay. La Maestra no lo reta: le da el molde del cofre. Por primera vez, a Zed le toca arreglar lo que rompió.
 
-—Un objeto que deja tocar sus datos a cualquiera termina así —dice {mentor}—. Se **encapsula**: los datos quedan adentro, bajo llave, y solo se tocan por las ventanillas que el objeto decide abrir. Así, {heroe}, el cofre nunca queda en negativo.
+—Un objeto que deja tocar sus datos a cualquiera termina así —dice {mentor}—. Se **encapsula**: los datos quedan adentro, bajo llave, y solo se tocan por las ventanillas que el objeto decide abrir. Así el cofre nunca queda en negativo. Ni siquiera con vos cerca.
 
 ### Objetivos
 
@@ -1495,6 +2092,317 @@ paquete.
 
 **Slime: asignar un `final` dos veces.** `cannot assign a value to final variable
 numero`.
+
+### Micro-misión R02-N03-P1 · El cofre en negativo
+
+```meta
+lugar: La tesorería de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: private | private int saldo; · nadie de afuera lo toca · se cambia solo por los métodos del objeto, que validan
+recompensa: xp 10, oro 15
+```
+
+#### Escena
+El cofre de la tesorería está abierto y Zed, por costumbre, mete la mano. Saca más de lo que hay y en la etiqueta queda escrito **«-500»**. La Maestra no lo reta: le da el molde del cofre. —Lo rompiste vos. Arreglalo vos: que **nadie**, ni vos, lo pueda dejar en negativo.
+
+#### Gheco sugiere
+Con `private int saldo;` el saldo solo se toca desde **adentro** de la clase. Desde afuera se usa `retirar(monto)`, que puede negarse: si el monto es mayor que el saldo, devuelve `false` y no cambia nada.
+
+#### Desafío
+Completá la condición: no se puede retirar más de lo que hay.
+
+#### Código inicial
+```java
+public class Tesoreria {
+    public static void main(String[] args) {
+        Cofre cofre = new Cofre(300);
+        System.out.println("Retiro 200: " + cofre.retirar(200));
+        System.out.println("Retiro 500: " + cofre.retirar(500));
+        System.out.println("Saldo: " + cofre.getSaldo());
+    }
+}
+
+class Cofre {
+    private int saldo;
+
+    Cofre(int saldoInicial) {
+        saldo = saldoInicial;
+    }
+
+    boolean retirar(int monto) {
+        if (___) {
+            return false;
+        }
+        saldo -= monto;
+        return true;
+    }
+
+    int getSaldo() {
+        return saldo;
+    }
+}
+```
+
+#### Salida esperada
+```
+Retiro 200: true
+Retiro 500: false
+Saldo: 100
+```
+
+#### Solución
+```java
+public class Tesoreria {
+    public static void main(String[] args) {
+        Cofre cofre = new Cofre(300);
+        System.out.println("Retiro 200: " + cofre.retirar(200));
+        System.out.println("Retiro 500: " + cofre.retirar(500));
+        System.out.println("Saldo: " + cofre.getSaldo());
+    }
+}
+
+class Cofre {
+    private int saldo;
+
+    Cofre(int saldoInicial) {
+        saldo = saldoInicial;
+    }
+
+    boolean retirar(int monto) {
+        if (monto > saldo) {
+            return false;
+        }
+        saldo -= monto;
+        return true;
+    }
+
+    int getSaldo() {
+        return saldo;
+    }
+}
+```
+
+#### Al superarla
+El segundo retiro rebota y el cofre queda en 100. Zed lo cierra él mismo. Es la primera vez que arregla algo que rompió, y no se siente mal: se siente raro.
+
+#### Imagen
+- Un cofre de bronce cerrado con candado, con una etiqueta que dice «100» y otra vieja tachada que decía «-500».
+- Zed cerrando el cofre; la Maestra de Moldes mirándolo con los brazos cruzados, aprobando.
+
+### Micro-misión R02-N03-P2 · La ventanilla de lectura
+
+```meta
+lugar: La tesorería de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: troll
+carta: Getter | int getSaldo() { return saldo; } · deja LEER sin dejar tocar · desde afuera: cofre.getSaldo(), nunca cofre.saldo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nadia quiere anotar el saldo en su libreta y escribe `cofre.saldo`. La Aduana del compilador la frena: **`saldo has private access`**. —Hasta el reglamento me cierra la puerta —protesta.
+
+#### Gheco sugiere
+Un atributo `private` no se lee desde otra clase. Para eso el objeto abre una **ventanilla de lectura**, un *getter*: `getSaldo()`. Desde afuera se usa siempre el método.
+
+#### Desafío
+Ejecutalo, leé el error y cambiá `cofre.saldo` por el getter.
+
+#### Código inicial
+```java
+public class Ventanilla {
+    public static void main(String[] args) {
+        Cofre cofre = new Cofre(250);
+        System.out.println("Saldo para la libreta: " + cofre.saldo);
+    }
+}
+
+class Cofre {
+    private int saldo;
+
+    Cofre(int saldoInicial) {
+        saldo = saldoInicial;
+    }
+
+    int getSaldo() {
+        return saldo;
+    }
+}
+```
+
+#### Salida esperada
+```
+Saldo para la libreta: 250
+```
+
+#### Solución
+```java
+public class Ventanilla {
+    public static void main(String[] args) {
+        Cofre cofre = new Cofre(250);
+        System.out.println("Saldo para la libreta: " + cofre.getSaldo());
+    }
+}
+
+class Cofre {
+    private int saldo;
+
+    Cofre(int saldoInicial) {
+        saldo = saldoInicial;
+    }
+
+    int getSaldo() {
+        return saldo;
+    }
+}
+```
+
+#### Al superarla
+Nadia anota «250» con letra prolija. —Así me gusta —dice—: una ventanilla, un reglamento, nadie metiendo la mano.
+
+#### Imagen
+- Una ventanilla pequeña en el cofre de bronce por la que se ve un número, sin poder meter la mano.
+- Nadia escribiendo en su libreta, satisfecha.
+
+### Micro-misión R02-N03-P3 · La lista de inscriptos
+
+```meta
+lugar: La entrada de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: static | static int inscriptos; es UNO para toda la clase · lo comparten todos los objetos · se usa Alumno.inscriptos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la entrada, la Maestra quiere saber cuántos alumnos se inscribieron hoy. Cada alumno tiene su nombre, pero el número de inscriptos no es de ninguno: es **de la Academia**.
+
+#### Gheco sugiere
+Un atributo `static` es **de la clase**, no de cada objeto: hay uno solo, compartido. Si el constructor hace `inscriptos++`, cada `new` suma uno al mismo contador. Desde afuera se lee con el nombre de la clase: `Alumno.inscriptos`.
+
+#### Desafío
+Completá la declaración para que el contador sea uno solo para toda la clase.
+
+#### Código inicial
+```java
+public class Inscripcion {
+    public static void main(String[] args) {
+        Alumno a = new Alumno("Zed");
+        Alumno b = new Alumno("Nadia");
+        Alumno c = new Alumno("Teo");
+        System.out.println(a.nombre + ", " + b.nombre + " y " + c.nombre);
+        System.out.println("Inscriptos: " + Alumno.inscriptos);
+    }
+}
+
+class Alumno {
+    ___ int inscriptos = 0;
+    String nombre;
+
+    Alumno(String nombre) {
+        this.nombre = nombre;
+        inscriptos++;
+    }
+}
+```
+
+#### Salida esperada
+```
+Zed, Nadia y Teo
+Inscriptos: 3
+```
+
+#### Solución
+```java
+public class Inscripcion {
+    public static void main(String[] args) {
+        Alumno a = new Alumno("Zed");
+        Alumno b = new Alumno("Nadia");
+        Alumno c = new Alumno("Teo");
+        System.out.println(a.nombre + ", " + b.nombre + " y " + c.nombre);
+        System.out.println("Inscriptos: " + Alumno.inscriptos);
+    }
+}
+
+class Alumno {
+    static int inscriptos = 0;
+    String nombre;
+
+    Alumno(String nombre) {
+        this.nombre = nombre;
+        inscriptos++;
+    }
+}
+```
+
+#### Al superarla
+«Inscriptos: 3.» —¿Nadia también se inscribió? —pregunta Zed. —Alguien tiene que vigilarte adentro —responde ella, sin mirarlo.
+
+#### Imagen
+- Un libro de inscripción gigante en la entrada de la Academia, con un contador de bronce que marca 3.
+- Nadia firmando el libro; Zed sorprendido.
+
+### Micro-misión R02-N03-P4 · La tasa que no se toca
+
+```meta
+lugar: La tesorería de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: final | static final double TASA = 0.10; · una constante: no se puede cambiar · en mayúsculas por costumbre
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Academia cobra una tasa del 10 % sobre cada molde vendido. Zed, viejas mañas, intenta bajarla a escondidas desde el `main`. La Aduana del compilador lo atrapa en el acto.
+
+#### Gheco sugiere
+Un atributo `final` no se puede volver a asignar: `static final double TASA = 0.10;` es una **constante**. Si alguien escribe `Tesoro.TASA = 0.01;`, no compila. La solución no es pelear con el compilador: es **sacar** esa línea.
+
+#### Desafío
+Ejecutalo, leé el error y borrá la línea de la trampa.
+
+#### Código inicial
+```java
+public class Tasa {
+    public static void main(String[] args) {
+        Tesoro.TASA = 0.01;
+        double venta = 400;
+        System.out.println("Venta: " + venta);
+        System.out.println("Tasa: " + venta * Tesoro.TASA);
+    }
+}
+
+class Tesoro {
+    static final double TASA = 0.10;
+}
+```
+
+#### Salida esperada
+```
+Venta: 400.0
+Tasa: 40.0
+```
+
+#### Solución
+```java
+public class Tasa {
+    public static void main(String[] args) {
+        double venta = 400;
+        System.out.println("Venta: " + venta);
+        System.out.println("Tasa: " + venta * Tesoro.TASA);
+    }
+}
+
+class Tesoro {
+    static final double TASA = 0.10;
+}
+```
+
+#### Al superarla
+Cuarenta denarios de tasa, como dice el reglamento. —Ni lo intentes otra vez —dice Nadia, y por primera vez Zed no lo intenta.
+En el depósito de la Academia, dos alumnos discuten frente a un escudo dorado abollado. Cada uno jura que no lo tocó.
+
+#### Imagen
+- Una placa de bronce atornillada en la pared de la tesorería: «TASA 10 %», con un candado.
+- Zed con las manos en los bolsillos; Nadia vigilándolo.
 
 ### Misión R02-N03-M1 · El termómetro sellado
 
@@ -1907,9 +2815,9 @@ temas: prog.referencias
 
 ### Crónica
 
-En el depósito de la Academia hay un solo escudo dorado. Dos alumnos tienen una tarjeta que dice "escudo dorado, estante 7". Uno lo lleva a pulir y lo abolla en el camino. El otro va al estante, lo ve abollado y no entiende nada: *¡si yo no lo toqué!*
+En el depósito de la Academia hay un solo escudo dorado. Dos alumnos tienen una tarjeta que dice «escudo dorado, estante 7». Uno lo lleva a pulir y lo abolla en el camino. El otro va al estante, lo ve abollado y no entiende nada: *¡si yo no lo toqué!*
 
-—Las dos tarjetas señalaban **el mismo escudo** —dice {mentor}—. Eso es una **referencia**: no es el objeto, es la dirección donde está. Si no lo entendés, {heroe}, el troll te va a dar sorpresas toda la vida.
+—Las dos tarjetas señalaban **el mismo escudo** —dice {mentor}—. Eso es una **referencia**: no es el objeto, es la dirección donde está. Si no lo entendés, Zed, el troll te va a dar sorpresas toda la vida.
 
 ### Objetivos
 
@@ -2165,6 +3073,361 @@ method from a supertype`.
 
 **Ogro: `equals` sin `hashCode`.** Funciona en una lista, pero en un `HashSet` dos
 objetos iguales pueden aparecer duplicados.
+
+### Micro-misión R02-N04-P1 · El escudo abollado
+
+```meta
+lugar: El depósito de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: troll
+carta: Referencia | Escudo b = a; NO copia el escudo: las dos variables señalan el MISMO objeto · para otro escudo, otro new
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Dos alumnos tienen una tarjeta que dice «escudo dorado, estante 7». Uno lo lleva a pulir y lo abolla. El otro va al estante, lo ve abollado y no entiende nada. Un **troll** se ríe desde el estante.
+—Las dos tarjetas señalaban **el mismo escudo** —dice Gheco.
+
+#### Gheco sugiere
+Una variable de tipo clase guarda una **referencia**: la dirección del objeto, no el objeto. `Escudo b = a;` hace que `b` señale al mismo escudo que `a`. Para que cada uno tenga el suyo, `b` necesita su propio `new`.
+
+#### Desafío
+Ejecutalo y fijate que se abollan los dos. Después hacé que `b` sea un escudo nuevo.
+
+#### Código inicial
+```java
+public class Escudos {
+    public static void main(String[] args) {
+        Escudo a = new Escudo();
+        Escudo b = a;
+        b.abollado = true;
+        System.out.println("Escudo de a abollado: " + a.abollado);
+        System.out.println("Escudo de b abollado: " + b.abollado);
+    }
+}
+
+class Escudo {
+    boolean abollado;
+}
+```
+
+#### Salida esperada
+```
+Escudo de a abollado: false
+Escudo de b abollado: true
+```
+
+#### Solución
+```java
+public class Escudos {
+    public static void main(String[] args) {
+        Escudo a = new Escudo();
+        Escudo b = new Escudo();
+        b.abollado = true;
+        System.out.println("Escudo de a abollado: " + a.abollado);
+        System.out.println("Escudo de b abollado: " + b.abollado);
+    }
+}
+
+class Escudo {
+    boolean abollado;
+}
+```
+
+#### Al superarla
+Ahora hay dos escudos, y solo uno abollado. Los alumnos se dan la mano. El troll, aburrido, se mete en otro estante.
+
+#### Imagen
+- Dos tarjetas con flechas de luz que apuntan al mismo escudo dorado abollado.
+- Un troll riéndose desde un estante alto; Zed con un escudo nuevo en la mano.
+
+### Micro-misión R02-N04-P2 · El viajero que no estaba
+
+```meta
+lugar: El registro de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: troll
+carta: null | una referencia que no señala nada · v.metodo() con v null da NullPointerException · preguntá antes: if (v != null)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Zed busca en el registro a un viajero que llegó «con un vitral». La búsqueda no lo encuentra y devuelve `null`. Al usarlo, el programa se corta con un **NullPointerException** y el troll vuelve, feliz.
+
+#### Gheco sugiere
+`null` significa «no hay objeto». Llamar un método sobre `null` corta el programa. Antes de usar una referencia que puede no estar, preguntá: `if (v != null) { … } else { … }`.
+
+#### Desafío
+Completá la condición para usar al viajero solo si se encontró.
+
+#### Código inicial
+```java
+public class Registro {
+    static Viajero buscar(String nombre) {
+        if (nombre.equals("Zed")) {
+            Viajero v = new Viajero();
+            v.nombre = "Zed";
+            return v;
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        String[] pedidos = {"Zed", "el Vidriero"};
+        for (String p : pedidos) {
+            Viajero v = buscar(p);
+            if (___) {
+                System.out.println("Encontrado: " + v.nombre.toUpperCase());
+            } else {
+                System.out.println(p + ": no está en el registro");
+            }
+        }
+    }
+}
+
+class Viajero {
+    String nombre;
+}
+```
+
+#### Salida esperada
+```
+Encontrado: ZED
+el Vidriero: no está en el registro
+```
+
+#### Solución
+```java
+public class Registro {
+    static Viajero buscar(String nombre) {
+        if (nombre.equals("Zed")) {
+            Viajero v = new Viajero();
+            v.nombre = "Zed";
+            return v;
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        String[] pedidos = {"Zed", "el Vidriero"};
+        for (String p : pedidos) {
+            Viajero v = buscar(p);
+            if (v != null) {
+                System.out.println("Encontrado: " + v.nombre.toUpperCase());
+            } else {
+                System.out.println(p + ": no está en el registro");
+            }
+        }
+    }
+}
+
+class Viajero {
+    String nombre;
+}
+```
+
+#### Al superarla
+«el Vidriero: no está en el registro.» Pero alguien lo buscó antes que Zed: en el margen hay una marca a lápiz. Nadia la mira y no dice nada.
+
+#### Imagen
+- Un registro de la Academia abierto; un renglón vacío con una marca a lápiz en el margen.
+- El troll escondiéndose al ver el `if`; Nadia mirando la marca, pensativa.
+
+### Micro-misión R02-N04-P3 · Dos sellos iguales
+
+```meta
+lugar: El depósito de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: equals | == pregunta si es EL MISMO objeto · equals pregunta si son IGUALES · hay que escribirlo: public boolean equals(Object o)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay dos sellos con el mismo código, «A-7». Son dos objetos distintos, pero valen lo mismo. Con `==` dan `false`, y con `equals`… también, porque nadie le explicó al molde cuándo dos sellos son iguales.
+
+#### Gheco sugiere
+`==` compara **identidad** (si es el mismo objeto). `equals` compara **igualdad**, pero hay que escribirlo: si el otro es un `Sello`, son iguales cuando tienen el mismo `codigo`. Los `String` se comparan con `equals`.
+
+#### Desafío
+Completá el `return` de `equals`: iguales si tienen el mismo código.
+
+#### Código inicial
+```java
+public class Sellos {
+    public static void main(String[] args) {
+        Sello a = new Sello("A-7");
+        Sello b = new Sello("A-7");
+        Sello c = new Sello("B-2");
+        System.out.println("a == b: " + (a == b));
+        System.out.println("a.equals(b): " + a.equals(b));
+        System.out.println("a.equals(c): " + a.equals(c));
+    }
+}
+
+class Sello {
+    String codigo;
+
+    Sello(String codigo) {
+        this.codigo = codigo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Sello)) {
+            return false;
+        }
+        Sello otro = (Sello) o;
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+a == b: false
+a.equals(b): true
+a.equals(c): false
+```
+
+#### Solución
+```java
+public class Sellos {
+    public static void main(String[] args) {
+        Sello a = new Sello("A-7");
+        Sello b = new Sello("A-7");
+        Sello c = new Sello("B-2");
+        System.out.println("a == b: " + (a == b));
+        System.out.println("a.equals(b): " + a.equals(b));
+        System.out.println("a.equals(c): " + a.equals(c));
+    }
+}
+
+class Sello {
+    String codigo;
+
+    Sello(String codigo) {
+        this.codigo = codigo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Sello)) {
+            return false;
+        }
+        Sello otro = (Sello) o;
+        return codigo.equals(otro.codigo);
+    }
+}
+```
+
+#### Al superarla
+«a == b: false. a.equals(b): true.» —Son dos sellos, pero valen lo mismo —resume Zed—. Como en la Aduana con los textos. —Exacto —dice Nadia—. Lo aprendiste allá y no te diste cuenta.
+
+#### Imagen
+- Dos sellos de bronce idénticos con el código «A-7», uno al lado del otro, unidos por un signo igual de luz.
+- Un tercer sello «B-2» apartado.
+
+### Micro-misión R02-N04-P4 · La huella del sello
+
+```meta
+lugar: El depósito de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: hashCode | si dos objetos son equals, tienen que dar el mismo hashCode · return Objects.hash(codigo); · import java.util.Objects;
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Si escribís `equals`, escribí también `hashCode` —dice la Maestra—. Es la **huella** del objeto: dos sellos iguales tienen que dejar la misma huella. Los archivos del Imperio buscan por huella, y si no coincide, no los encuentran.
+
+#### Gheco sugiere
+`hashCode()` devuelve un número que resume al objeto. La regla: si `a.equals(b)`, entonces `a.hashCode() == b.hashCode()`. Lo más simple: `return Objects.hash(codigo);` con los mismos campos que usa `equals`.
+
+#### Desafío
+Completá el `hashCode` con el mismo campo que usa `equals`.
+
+#### Código inicial
+```java
+import java.util.Objects;
+
+public class Huella {
+    public static void main(String[] args) {
+        Sello a = new Sello("A-7");
+        Sello b = new Sello("A-7");
+        System.out.println("Iguales: " + a.equals(b));
+        System.out.println("Misma huella: " + (a.hashCode() == b.hashCode()));
+    }
+}
+
+class Sello {
+    String codigo;
+
+    Sello(String codigo) {
+        this.codigo = codigo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Sello)) {
+            return false;
+        }
+        return codigo.equals(((Sello) o).codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Iguales: true
+Misma huella: true
+```
+
+#### Solución
+```java
+import java.util.Objects;
+
+public class Huella {
+    public static void main(String[] args) {
+        Sello a = new Sello("A-7");
+        Sello b = new Sello("A-7");
+        System.out.println("Iguales: " + a.equals(b));
+        System.out.println("Misma huella: " + (a.hashCode() == b.hashCode()));
+    }
+}
+
+class Sello {
+    String codigo;
+
+    Sello(String codigo) {
+        this.codigo = codigo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Sello)) {
+            return false;
+        }
+        return codigo.equals(((Sello) o).codigo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo);
+    }
+}
+```
+
+#### Al superarla
+Misma huella, iguales en todo. La Maestra guarda los sellos en su lugar.
+En el ala oeste, cubierto de polvo, hay un molde viejísimo con una palabra grabada: **Personaje**. De él salieron todos los demás.
+
+#### Imagen
+- Dos sellos estampados en lacre que dejan exactamente la misma huella brillante.
+- Al fondo, en un pasillo oscuro, un molde viejo y enorme con la palabra «Personaje» grabada.
 
 ### Misión R02-N04-M1 · Los mapas copiados
 
@@ -2564,9 +3827,9 @@ temas: poo.herencia
 
 ### Crónica
 
-En el ala oeste de la Academia hay un molde viejo y gastado con la palabra **Personaje**. De él salieron todos los demás: el molde del Guerrero, el del Arquero, el de la Maga. Cada uno agrega lo suyo, pero todos tienen nombre, vida y la costumbre de caerse cuando la vida llega a cero.
+En el ala oeste de la Academia hay un molde viejo y gastado con la palabra **Personaje**. De él salieron todos los demás: el molde de la Guerrera, el de la Arquera, el de la Maga. Cada uno agrega lo suyo, pero todos tienen nombre, vida y la costumbre de caerse cuando la vida llega a cero.
 
-—No escribas dos veces lo que todos tienen —dice {mentor}—. Escribilo una vez en el molde padre y que los hijos lo **hereden**. Cada hijo agrega lo que lo hace especial, {heroe}, o cambia lo que hace distinto.
+—No escribas dos veces lo que todos tienen —dice {mentor}—. Escribilo una vez en el molde padre y que los hijos lo **hereden**. Cada hijo agrega lo que lo hace especial, o cambia lo que hace distinto. Vos heredaste un oficio, Zed. Ya vas a ver que se puede sobrescribir.
 
 ### Objetivos
 
@@ -2820,6 +4083,390 @@ describir() in Personaje; overridden method is final`.
 
 **Ogro: herencia sin "es un".** `class Espada extends Guerrero` para reutilizar un
 método: está mal. Si no *es un*, se usa composición.
+
+### Micro-misión R02-N05-P1 · El molde Personaje
+
+```meta
+lugar: El ala oeste de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: extends | class Guerrero extends Personaje · el hijo HEREDA los atributos y métodos del padre · agrega lo suyo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el ala oeste, el molde **Personaje** tiene nombre, vida y un método para describirse. De él salen los demás. —No escribas dos veces lo que todos tienen —dice la Maestra—. El Guerrero **es** un Personaje: que lo herede.
+
+#### Gheco sugiere
+`class Guerrero extends Personaje` hace que el Guerrero tenga todo lo del Personaje (`nombre`, `vida`, `describir()`) sin escribirlo de nuevo, y le suma lo suyo (`fuerza`).
+
+#### Desafío
+Completá la palabra que hace que el Guerrero herede del Personaje.
+
+#### Código inicial
+```java
+public class AlaOeste {
+    public static void main(String[] args) {
+        Guerrero g = new Guerrero();
+        g.nombre = "Lía";
+        g.vida = 120;
+        g.fuerza = 9;
+        System.out.println(g.describir());
+        System.out.println("Fuerza: " + g.fuerza);
+    }
+}
+
+class Personaje {
+    String nombre;
+    int vida;
+
+    String describir() {
+        return nombre + " (" + vida + " de vida)";
+    }
+}
+
+class Guerrero ___ Personaje {
+    int fuerza;
+}
+```
+
+#### Salida esperada
+```
+Lía (120 de vida)
+Fuerza: 9
+```
+
+#### Solución
+```java
+public class AlaOeste {
+    public static void main(String[] args) {
+        Guerrero g = new Guerrero();
+        g.nombre = "Lía";
+        g.vida = 120;
+        g.fuerza = 9;
+        System.out.println(g.describir());
+        System.out.println("Fuerza: " + g.fuerza);
+    }
+}
+
+class Personaje {
+    String nombre;
+    int vida;
+
+    String describir() {
+        return nombre + " (" + vida + " de vida)";
+    }
+}
+
+class Guerrero extends Personaje {
+    int fuerza;
+}
+```
+
+#### Al superarla
+Lía sale del molde Guerrero con nombre, vida y fuerza, y nadie escribió `describir` dos veces. —Es como heredar el oficio del padre —dice Zed—. Yo heredé el de ladrón. —Y lo estás sobrescribiendo —responde Nadia.
+
+#### Imagen
+- El molde viejo «Personaje» en el centro y, saliendo de él con ramas de bronce, los moldes Guerrero, Arquero y Maga.
+- Lía, una guerrera joven, recién salida del molde Guerrero.
+
+### Micro-misión R02-N05-P2 · Primero el padre
+
+```meta
+lugar: El ala oeste de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: super(...) | el constructor del hijo llama al del padre con super(nombre, vida); · en la primera línea · el padre arma su parte
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El molde Personaje ahora tiene constructor: pide nombre y vida. El molde Guerrero ya no compila. —El hijo tiene que dejar que el padre arme **su parte** primero —dice la Maestra.
+
+#### Gheco sugiere
+Si el padre tiene un constructor con parámetros, el hijo lo llama con `super(…)` en la **primera línea** del suyo: `super(nombre, 120);`. Después, el hijo arma lo propio: `this.fuerza = fuerza;`.
+
+#### Desafío
+Completá la llamada al constructor del padre: los guerreros arrancan con 120 de vida.
+
+#### Código inicial
+```java
+public class PrimeroElPadre {
+    public static void main(String[] args) {
+        Guerrero g = new Guerrero("Lía", 9);
+        System.out.println(g.describir() + ", fuerza " + g.fuerza);
+    }
+}
+
+class Personaje {
+    String nombre;
+    int vida;
+
+    Personaje(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    String describir() {
+        return nombre + " (" + vida + " de vida)";
+    }
+}
+
+class Guerrero extends Personaje {
+    int fuerza;
+
+    Guerrero(String nombre, int fuerza) {
+        ___;
+        this.fuerza = fuerza;
+    }
+}
+```
+
+#### Salida esperada
+```
+Lía (120 de vida), fuerza 9
+```
+
+#### Solución
+```java
+public class PrimeroElPadre {
+    public static void main(String[] args) {
+        Guerrero g = new Guerrero("Lía", 9);
+        System.out.println(g.describir() + ", fuerza " + g.fuerza);
+    }
+}
+
+class Personaje {
+    String nombre;
+    int vida;
+
+    Personaje(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    String describir() {
+        return nombre + " (" + vida + " de vida)";
+    }
+}
+
+class Guerrero extends Personaje {
+    int fuerza;
+
+    Guerrero(String nombre, int fuerza) {
+        super(nombre, 120);
+        this.fuerza = fuerza;
+    }
+}
+```
+
+#### Al superarla
+El molde Guerrero vuelve a cerrar. Primero el padre pone nombre y vida, después el hijo pone la fuerza. —Orden —dice Gheco—. Como con el Centinela.
+
+#### Imagen
+- Dos moldes encastrados: el grande (Personaje) se cierra primero y el chico (Guerrero) encaja encima.
+- La Maestra de Moldes ajustando una tuerca; Zed mirando con atención.
+
+### Micro-misión R02-N05-P3 · El arquero sin nombre
+
+```meta
+lugar: El ala oeste de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: esqueleto
+carta: @Override | el hijo REEMPLAZA un método del padre con el mismo nombre y parámetros · @Override hace que el compilador lo controle
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Arquero quiere describirse a su manera, pero quien escribió su método se equivocó en una letra. Gracias a `@Override`, la Aduana del compilador lo frena: ese método no reemplaza a nada. Un **esqueleto** sale del molde, sin nombre que lo sostenga.
+
+#### Gheco sugiere
+Para **sobrescribir** un método, el hijo lo escribe con el **mismo nombre y parámetros** que el padre. `@Override` le pide al compilador que lo controle: si el nombre está mal escrito, avisa.
+
+#### Desafío
+Ejecutalo, leé el error y corregí el nombre del método del Arquero.
+
+#### Código inicial
+```java
+public class Arqueros {
+    public static void main(String[] args) {
+        Personaje p = new Personaje("Teo");
+        Arquero a = new Arquero("Mira");
+        System.out.println(p.describir());
+        System.out.println(a.describir());
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) {
+        this.nombre = nombre;
+    }
+
+    String describir() {
+        return nombre + ", un personaje";
+    }
+}
+
+class Arquero extends Personaje {
+    Arquero(String nombre) {
+        super(nombre);
+    }
+
+    @Override
+    String descrbir() {
+        return nombre + ", arquera que nunca falla";
+    }
+}
+```
+
+#### Salida esperada
+```
+Teo, un personaje
+Mira, arquera que nunca falla
+```
+
+#### Solución
+```java
+public class Arqueros {
+    public static void main(String[] args) {
+        Personaje p = new Personaje("Teo");
+        Arquero a = new Arquero("Mira");
+        System.out.println(p.describir());
+        System.out.println(a.describir());
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) {
+        this.nombre = nombre;
+    }
+
+    String describir() {
+        return nombre + ", un personaje";
+    }
+}
+
+class Arquero extends Personaje {
+    Arquero(String nombre) {
+        super(nombre);
+    }
+
+    @Override
+    String describir() {
+        return nombre + ", arquera que nunca falla";
+    }
+}
+```
+
+#### Al superarla
+Mira se presenta como arquera, no como «un personaje». El esqueleto encuentra su nombre en la etiqueta corregida y se desarma tranquilo.
+
+#### Imagen
+- Una etiqueta de bronce con «descrbir» tachado y «describir» escrito encima.
+- Mira, una arquera de capa verde, con el arco tenso; un esqueleto desarmándose a sus pies.
+
+### Micro-misión R02-N05-P4 · Lo del padre, y algo más
+
+```meta
+lugar: El ala oeste de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: super.metodo() | el hijo usa lo que hacía el padre y le agrega lo suyo · return super.describir() + " …";
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Maga quiere describirse como cualquier personaje (nombre y vida), **más** su hechizo. —No copies lo del padre —dice la Maestra—. Pedíselo.
+
+#### Gheco sugiere
+Adentro de un método sobrescrito, `super.describir()` llama a la versión del **padre**. Así el hijo reutiliza lo que ya existe y le agrega lo suyo.
+
+#### Desafío
+Completá el `return`: lo que describe el padre, más " y lanza rayos".
+
+#### Código inicial
+```java
+public class Magas {
+    public static void main(String[] args) {
+        Maga m = new Maga("Sol", 80);
+        System.out.println(m.describir());
+    }
+}
+
+class Personaje {
+    String nombre;
+    int vida;
+
+    Personaje(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    String describir() {
+        return nombre + " (" + vida + " de vida)";
+    }
+}
+
+class Maga extends Personaje {
+    Maga(String nombre, int vida) {
+        super(nombre, vida);
+    }
+
+    @Override
+    String describir() {
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Sol (80 de vida) y lanza rayos
+```
+
+#### Solución
+```java
+public class Magas {
+    public static void main(String[] args) {
+        Maga m = new Maga("Sol", 80);
+        System.out.println(m.describir());
+    }
+}
+
+class Personaje {
+    String nombre;
+    int vida;
+
+    Personaje(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    String describir() {
+        return nombre + " (" + vida + " de vida)";
+    }
+}
+
+class Maga extends Personaje {
+    Maga(String nombre, int vida) {
+        super(nombre, vida);
+    }
+
+    @Override
+    String describir() {
+        return super.describir() + " y lanza rayos";
+    }
+}
+```
+
+#### Al superarla
+«Sol (80 de vida) y lanza rayos.» Guerrera, arquera y maga: tres moldes, un solo padre.
+Desde el patio llega un grito: la Maestra reúne a todos los alumnos para un ejercicio con una sola orden.
+
+#### Imagen
+- Sol, una maga joven de túnica azul, con un rayo entre las manos.
+- Detrás, Lía y Mira; al fondo, el patio de armas de la Academia lleno de alumnos.
 
 ### Misión R02-N05-M1 · Los empleados del gremio
 
@@ -3308,9 +4955,9 @@ temas: poo.polimorfismo, poo.abstractas
 
 ### Crónica
 
-En el patio de la Academia, el instructor grita una sola orden: *¡Ataquen!* Y cada alumno ataca a su manera: la guerrera con la espada, la arquera con el arco, el mago con un rayo. El instructor no necesita saber qué es cada uno; sabe que todos saben atacar.
+En el patio de armas, la Maestra de Moldes grita una sola orden: *¡Ataquen!* Y cada alumno ataca a su manera: Lía con la espada, Mira con el arco, Sol con un rayo. La Maestra no necesita saber qué es cada uno; sabe que todos saben atacar.
 
-—Eso es el **polimorfismo** —dice {mentor}—: un mismo mensaje, muchas formas de responderlo. Y fijate en el molde de Personaje: nadie es "un personaje" a secas. Es un molde **abstracto**, {heroe}: existe para que los demás lo completen.
+—Eso es el **polimorfismo** —dice {mentor}—: un mismo mensaje, muchas formas de responderlo. Y fijate en el molde de Personaje: nadie es «un personaje» a secas. Es un molde **abstracto**: existe para que los demás lo completen.
 
 ### Objetivos
 
@@ -3575,6 +5222,436 @@ not override abstract method atacar() in Personaje`.
 **Ogro: una cadena de `instanceof`.** `if (p instanceof Guerrera) … else if (p
 instanceof Arquera) …`: cada vez que agregues una clase vas a tener que tocar ese
 código. Poné un método en el padre.
+
+### Micro-misión R02-N06-P1 · Una sola orden
+
+```meta
+lugar: El patio de armas de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Polimorfismo | Personaje[] tropa = {new Guerrera(), new Arquera()} · un mismo mensaje (atacar) · cada objeto responde a su manera
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el patio de armas, la Maestra grita una sola orden: **¡Ataquen!** Y cada alumno ataca a su manera. Ella no necesita saber quién es quién: sabe que todos son personajes y que todos saben atacar.
+
+#### Gheco sugiere
+Una variable (o un array) del tipo del **padre** puede guardar objetos de cualquier hijo: `Personaje[] tropa`. Al llamar `p.atacar()`, se ejecuta el método del objeto **real**: el de la guerrera, el de la arquera…
+
+#### Desafío
+Completá el tipo del array para que entren los tres alumnos.
+
+#### Código inicial
+```java
+public class Patio {
+    public static void main(String[] args) {
+        ___[] tropa = {new Guerrera("Lía"), new Arquera("Mira"), new Maga("Sol")};
+        for (Personaje p : tropa) {
+            System.out.println(p.nombre + ": " + p.atacar());
+        }
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) {
+        this.nombre = nombre;
+    }
+
+    String atacar() {
+        return "empuja";
+    }
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "golpe de espada"; }
+}
+
+class Arquera extends Personaje {
+    Arquera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "flecha certera"; }
+}
+
+class Maga extends Personaje {
+    Maga(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "rayo"; }
+}
+```
+
+#### Salida esperada
+```
+Lía: golpe de espada
+Mira: flecha certera
+Sol: rayo
+```
+
+#### Solución
+```java
+public class Patio {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Arquera("Mira"), new Maga("Sol")};
+        for (Personaje p : tropa) {
+            System.out.println(p.nombre + ": " + p.atacar());
+        }
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) {
+        this.nombre = nombre;
+    }
+
+    String atacar() {
+        return "empuja";
+    }
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "golpe de espada"; }
+}
+
+class Arquera extends Personaje {
+    Arquera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "flecha certera"; }
+}
+
+class Maga extends Personaje {
+    Maga(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "rayo"; }
+}
+```
+
+#### Al superarla
+Espada, flecha y rayo, con una sola orden. —Un mismo mensaje, muchas formas de responderlo —dice Gheco—. Eso es el **polimorfismo**.
+
+#### Imagen
+- El patio de armas de la Academia: la Maestra de Moldes gritando una orden con el brazo en alto.
+- Lía con espada, Mira con arco y Sol con un rayo, atacando a la vez a muñecos de práctica.
+
+### Micro-misión R02-N06-P2 · Nadie es un personaje a secas
+
+```meta
+lugar: El patio de armas de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Clase abstracta | abstract class Personaje · no se puede hacer new Personaje() · abstract String atacar(); obliga a cada hijo a escribirlo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—¿Y si alguien sale del molde Personaje, sin ser guerrero ni arquero ni nada? —pregunta Zed. —Sería un alumno que no sabe atacar —dice la Maestra—. Por eso ese molde es **abstracto**: existe para que los demás lo completen.
+
+#### Gheco sugiere
+Una clase `abstract` no se puede instanciar: solo sirve de padre. Un método `abstract` no tiene cuerpo (`abstract String atacar();`) y **obliga** a cada hijo concreto a escribirlo. Si una clase tiene un método abstracto, la clase también tiene que ser `abstract`.
+
+#### Desafío
+Completá la palabra que hace abstracta a la clase Personaje.
+
+#### Código inicial
+```java
+public class Abstracto {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Arquera("Mira")};
+        for (Personaje p : tropa) {
+            System.out.println(p.nombre + ": " + p.atacar());
+        }
+    }
+}
+
+___ class Personaje {
+    String nombre;
+
+    Personaje(String nombre) {
+        this.nombre = nombre;
+    }
+
+    abstract String atacar();
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "golpe de espada"; }
+}
+
+class Arquera extends Personaje {
+    Arquera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "flecha certera"; }
+}
+```
+
+#### Salida esperada
+```
+Lía: golpe de espada
+Mira: flecha certera
+```
+
+#### Solución
+```java
+public class Abstracto {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Arquera("Mira")};
+        for (Personaje p : tropa) {
+            System.out.println(p.nombre + ": " + p.atacar());
+        }
+    }
+}
+
+abstract class Personaje {
+    String nombre;
+
+    Personaje(String nombre) {
+        this.nombre = nombre;
+    }
+
+    abstract String atacar();
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "golpe de espada"; }
+}
+
+class Arquera extends Personaje {
+    Arquera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "flecha certera"; }
+}
+```
+
+#### Al superarla
+El molde Personaje queda cerrado con un candado: de ahí ya no sale nadie a medio hacer. Solo sirve para que los otros moldes se apoyen en él.
+
+#### Imagen
+- El molde viejo «Personaje» con un candado de bronce y la palabra «abstract» grabada.
+- Los moldes Guerrera y Arquera, abiertos y brillantes, apoyados en él.
+
+### Micro-misión R02-N06-P3 · La maga disfrazada
+
+```meta
+lugar: El patio de armas de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: goblin
+carta: instanceof y casting | if (p instanceof Maga) { Maga m = (Maga) p; m.curar(); } · preguntá antes de convertir · sin preguntar: ClassCastException
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la tropa, Lía está herida. Solo una maga puede curar, pero en el array todas son `Personaje`, y un `Personaje` no sabe curar. Un **goblin** se ofrece a convertir a cualquiera en maga «a la fuerza».
+
+#### Gheco sugiere
+Con una variable `Personaje` solo se ven los métodos de `Personaje`. Para usar uno de `Maga`, primero preguntá con `instanceof` y después convertí la referencia con un **casting**: `Maga m = (Maga) p;`. Convertir sin preguntar es lo que quiere el goblin.
+
+#### Desafío
+Completá el casting para usar a la maga.
+
+#### Código inicial
+```java
+public class Disfraz {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Maga("Sol")};
+        for (Personaje p : tropa) {
+            if (p instanceof Maga) {
+                Maga m = ___;
+                System.out.println(m.nombre + " cura: " + m.curar());
+            } else {
+                System.out.println(p.nombre + " no sabe curar");
+            }
+        }
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) { this.nombre = nombre; }
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+}
+
+class Maga extends Personaje {
+    Maga(String nombre) { super(nombre); }
+
+    int curar() { return 30; }
+}
+```
+
+#### Salida esperada
+```
+Lía no sabe curar
+Sol cura: 30
+```
+
+#### Solución
+```java
+public class Disfraz {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Maga("Sol")};
+        for (Personaje p : tropa) {
+            if (p instanceof Maga) {
+                Maga m = (Maga) p;
+                System.out.println(m.nombre + " cura: " + m.curar());
+            } else {
+                System.out.println(p.nombre + " no sabe curar");
+            }
+        }
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) { this.nombre = nombre; }
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+}
+
+class Maga extends Personaje {
+    Maga(String nombre) { super(nombre); }
+
+    int curar() { return 30; }
+}
+```
+
+#### Al superarla
+Sol cura a Lía. El goblin se queda con las ganas: nadie se convirtió en lo que no era. —Igual —dice la Maestra—, si tenés que preguntar mucho «¿sos maga?», a lo mejor te falta un contrato.
+
+#### Imagen
+- Sol curando a Lía con una luz verde.
+- Un goblin con un disfraz de maga en las manos, frustrado.
+
+### Micro-misión R02-N06-P4 · El turno de cada uno
+
+```meta
+lugar: El patio de armas de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Lo común en el padre | la clase abstracta escribe lo que todos hacen igual (turno) · deja abstracto lo que cada uno hace distinto (atacar)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Maestra escribe en el molde Personaje cómo es un **turno**: decir el nombre y atacar. Eso es igual para todos. Lo único distinto es **cómo** ataca cada uno. Falta el molde de la arquera.
+
+#### Gheco sugiere
+Una clase abstracta puede tener métodos **con cuerpo** que usan los abstractos: `turno()` arma el texto y llama a `atacar()`, que cada hijo escribe a su manera.
+
+#### Desafío
+Completá el `return` del `atacar` de la Arquera: "flecha certera".
+
+#### Código inicial
+```java
+public class Turnos {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Arquera("Mira")};
+        for (Personaje p : tropa) {
+            System.out.println(p.turno());
+        }
+    }
+}
+
+abstract class Personaje {
+    String nombre;
+
+    Personaje(String nombre) { this.nombre = nombre; }
+
+    abstract String atacar();
+
+    String turno() {
+        return "Turno de " + nombre + ": " + atacar();
+    }
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "golpe de espada"; }
+}
+
+class Arquera extends Personaje {
+    Arquera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return ___; }
+}
+```
+
+#### Salida esperada
+```
+Turno de Lía: golpe de espada
+Turno de Mira: flecha certera
+```
+
+#### Solución
+```java
+public class Turnos {
+    public static void main(String[] args) {
+        Personaje[] tropa = {new Guerrera("Lía"), new Arquera("Mira")};
+        for (Personaje p : tropa) {
+            System.out.println(p.turno());
+        }
+    }
+}
+
+abstract class Personaje {
+    String nombre;
+
+    Personaje(String nombre) { this.nombre = nombre; }
+
+    abstract String atacar();
+
+    String turno() {
+        return "Turno de " + nombre + ": " + atacar();
+    }
+}
+
+class Guerrera extends Personaje {
+    Guerrera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "golpe de espada"; }
+}
+
+class Arquera extends Personaje {
+    Arquera(String nombre) { super(nombre); }
+
+    @Override
+    String atacar() { return "flecha certera"; }
+}
+```
+
+#### Al superarla
+Dos turnos, un solo método `turno`. Al terminar el ejercicio, Zed intenta abrir con su ganzúa la puerta de la sala de al lado, por costumbre. La ganzúa no entra. En el cartel dice: **Sala de los Pactos**.
+
+#### Imagen
+- Lía y Mira tomando turnos frente a un muñeco de práctica.
+- Zed con la ganzúa contra una cerradura que no tiene ojo: la puerta de la Sala de los Pactos.
 
 ### Misión R02-N06-M1 · El zoológico de criaturas
 
@@ -4055,9 +6132,9 @@ temas: poo.interfaces
 
 ### Crónica
 
-En la sala de los pactos de la Academia cuelgan pergaminos firmados: *"Quien firme este contrato se compromete a saber nadar"*, *"…a saber curar"*, *"…a poder ser comparado"*. Un grifo firmó el de volar y el de nadar. Un barco firmó el de nadar. No se parecen en nada, pero los dos cumplen el mismo contrato.
+La puerta de la Sala de los Pactos no tiene cerradura, y la ganzúa de Zed no sirve de nada. Adentro cuelgan pergaminos firmados: *«Quien firme este contrato se compromete a saber nadar»*, *«…a saber volar»*, *«…a poder ser comparado»*. Un grifo firmó el de volar y el de nadar. Un barco firmó el de nadar. No se parecen en nada, pero los dos cumplen el mismo contrato.
 
-—La herencia dice qué **sos**; una interfaz dice qué **sabés hacer** —explica {mentor}—. Y a diferencia de los moldes, podés firmar todos los contratos que quieras, {heroe}.
+—En el Imperio, las puertas se abren con **contratos** —explica {mentor}—. La herencia dice qué **sos**; una interfaz dice qué **sabés hacer**. Y a diferencia de los moldes, podés firmar todos los que quieras.
 
 ### Objetivos
 
@@ -4322,6 +6399,361 @@ pero con números muy grandes se desborda y ordena mal. Usá `Integer.compare`.
 **Goblin: ordenar objetos que no son `Comparable`.** `Arrays.sort` con una clase que
 no implementa `Comparable` corta con `ClassCastException: class Aspirante cannot be
 cast to class java.lang.Comparable`.
+
+### Micro-misión R02-N07-P1 · La puerta sin cerradura
+
+```meta
+lugar: La Sala de los Pactos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: interface | interface Nadador { String nadar(); } · un contrato: QUÉ sabe hacer · class Barco implements Nadador lo firma y lo cumple
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La puerta de la Sala de los Pactos no tiene cerradura: tiene un pergamino. **Kaffa** aparece con su taza de café. —En el Imperio, las puertas no se abren con ganzúa, Zed. Se abren con **contratos**. Adentro cuelgan muchos: «quien firme este se compromete a saber nadar».
+
+#### Gheco sugiere
+Una **interfaz** dice qué métodos tiene que tener quien la firme, sin decir cómo. `class Barco implements Nadador` firma el contrato y **tiene** que escribir `nadar()`. Un barco y un grifo no se parecen, pero los dos pueden nadar.
+
+#### Desafío
+Completá la palabra con la que el Barco firma el contrato `Nadador`.
+
+#### Código inicial
+```java
+public class Pactos {
+    public static void main(String[] args) {
+        Nadador[] nadadores = {new Grifo(), new Barco()};
+        for (Nadador n : nadadores) {
+            System.out.println(n.nadar());
+        }
+    }
+}
+
+interface Nadador {
+    String nadar();
+}
+
+class Grifo implements Nadador {
+    public String nadar() { return "El grifo nada con las alas plegadas"; }
+}
+
+class Barco ___ Nadador {
+    public String nadar() { return "El barco flota y avanza"; }
+}
+```
+
+#### Salida esperada
+```
+El grifo nada con las alas plegadas
+El barco flota y avanza
+```
+
+#### Solución
+```java
+public class Pactos {
+    public static void main(String[] args) {
+        Nadador[] nadadores = {new Grifo(), new Barco()};
+        for (Nadador n : nadadores) {
+            System.out.println(n.nadar());
+        }
+    }
+}
+
+interface Nadador {
+    String nadar();
+}
+
+class Grifo implements Nadador {
+    public String nadar() { return "El grifo nada con las alas plegadas"; }
+}
+
+class Barco implements Nadador {
+    public String nadar() { return "El barco flota y avanza"; }
+}
+```
+
+#### Al superarla
+Un grifo y un barco, en el mismo array, porque los dos cumplen el contrato. —La herencia dice qué **sos** —dice Kaffa—. Una interfaz dice qué **sabés hacer**.
+
+#### Imagen
+- La Sala de los Pactos: pergaminos firmados colgando de las paredes, con sellos de cera.
+- Kaffa (el Arquitecto Imperial) con su taza de café; Zed mirando su ganzúa inútil.
+- Un grifo y un pequeño barco dibujados en el mismo pergamino «Nadador».
+
+### Micro-misión R02-N07-P2 · Todos los contratos que quieras
+
+```meta
+lugar: La Sala de los Pactos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Varias interfaces | class Grifo implements Volador, Nadador · se heredan de UNA clase, pero se firman muchas interfaces
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El grifo firmó dos pergaminos: el de volar y el de nadar. —Moldes padre hay uno solo —dice Kaffa—. Contratos, todos los que puedas cumplir.
+
+#### Gheco sugiere
+Una clase puede implementar **varias** interfaces, separadas por coma: `implements Volador, Nadador`. Tiene que escribir los métodos de todas.
+
+#### Desafío
+Completá la segunda interfaz que firma el Grifo.
+
+#### Código inicial
+```java
+public class DosContratos {
+    public static void main(String[] args) {
+        Grifo g = new Grifo();
+        System.out.println(g.volar());
+        System.out.println(g.nadar());
+        Volador v = g;
+        Nadador n = g;
+        System.out.println("Vuela y nada: " + (v == n));
+    }
+}
+
+interface Volador {
+    String volar();
+}
+
+interface Nadador {
+    String nadar();
+}
+
+class Grifo implements Volador, ___ {
+    public String volar() { return "El grifo sube en espiral"; }
+
+    public String nadar() { return "El grifo nada con las alas plegadas"; }
+}
+```
+
+#### Salida esperada
+```
+El grifo sube en espiral
+El grifo nada con las alas plegadas
+Vuela y nada: true
+```
+
+#### Solución
+```java
+public class DosContratos {
+    public static void main(String[] args) {
+        Grifo g = new Grifo();
+        System.out.println(g.volar());
+        System.out.println(g.nadar());
+        Volador v = g;
+        Nadador n = g;
+        System.out.println("Vuela y nada: " + (v == n));
+    }
+}
+
+interface Volador {
+    String volar();
+}
+
+interface Nadador {
+    String nadar();
+}
+
+class Grifo implements Volador, Nadador {
+    public String volar() { return "El grifo sube en espiral"; }
+
+    public String nadar() { return "El grifo nada con las alas plegadas"; }
+}
+```
+
+#### Al superarla
+El mismo grifo, visto como Volador o como Nadador: `true`, es uno solo. Nadia anota en su libreta: «contratos: muchos. Padres: uno».
+
+#### Imagen
+- Un grifo dorado con dos pergaminos firmados atados al cuello: «Volador» y «Nadador».
+- Nadia anotando en su libreta.
+
+### Micro-misión R02-N07-P3 · La cláusula por defecto
+
+```meta
+lugar: La Sala de los Pactos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Método default | default String bucear() { … } en la interfaz · ya viene escrito · quien firma puede usarlo o sobrescribirlo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Al contrato de nadar le agregaron una cláusula nueva: **bucear**. Los que ya lo habían firmado no quieren reescribir nada. —Entonces la cláusula viene **con su respuesta por defecto** —dice Kaffa—. El que quiera, la cambia.
+
+#### Gheco sugiere
+Un método `default` en una interfaz tiene cuerpo: todas las clases que la firman lo reciben hecho. Una clase puede sobrescribirlo si necesita otra cosa.
+
+#### Desafío
+Completá la palabra que le da cuerpo a `bucear` dentro de la interfaz.
+
+#### Código inicial
+```java
+public class Clausula {
+    public static void main(String[] args) {
+        Nadador[] nadadores = {new Grifo(), new Submarino()};
+        for (Nadador n : nadadores) {
+            System.out.println(n.bucear());
+        }
+    }
+}
+
+interface Nadador {
+    String nadar();
+
+    ___ String bucear() {
+        return "se sumerge un poco y sube";
+    }
+}
+
+class Grifo implements Nadador {
+    public String nadar() { return "nada"; }
+}
+
+class Submarino implements Nadador {
+    public String nadar() { return "avanza"; }
+
+    @Override
+    public String bucear() { return "baja hasta el fondo del río"; }
+}
+```
+
+#### Salida esperada
+```
+se sumerge un poco y sube
+baja hasta el fondo del río
+```
+
+#### Solución
+```java
+public class Clausula {
+    public static void main(String[] args) {
+        Nadador[] nadadores = {new Grifo(), new Submarino()};
+        for (Nadador n : nadadores) {
+            System.out.println(n.bucear());
+        }
+    }
+}
+
+interface Nadador {
+    String nadar();
+
+    default String bucear() {
+        return "se sumerge un poco y sube";
+    }
+}
+
+class Grifo implements Nadador {
+    public String nadar() { return "nada"; }
+}
+
+class Submarino implements Nadador {
+    public String nadar() { return "avanza"; }
+
+    @Override
+    public String bucear() { return "baja hasta el fondo del río"; }
+}
+```
+
+#### Al superarla
+El grifo bucea un poco y sube; el submarino llega al fondo. Nadie tuvo que reescribir el contrato viejo.
+
+#### Imagen
+- Un pergamino de contrato con una cláusula nueva agregada abajo, brillando.
+- Un grifo sumergiéndose apenas en el río; a su lado, un submarino de bronce bajando al fondo.
+
+### Micro-misión R02-N07-P4 · La ganzúa echa dientes
+
+```meta
+lugar: La Sala de los Pactos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Comparable | class Llave implements Comparable<Llave> · int compareTo(Llave otra) · Arrays.sort(llaves) usa ese orden
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+El último pergamino dice: «quien firme este se compromete a **poder ser comparado**». Kaffa le pide a Zed que ordene las llaves del Imperio por cantidad de dientes. Zed apoya su ganzúa en la mesa, al lado de las llaves, y le parece que se mueve.
+
+#### Gheco sugiere
+`Comparable<Llave>` obliga a escribir `compareTo(Llave otra)`: negativo si esta va antes, positivo si va después, 0 si da igual. Para enteros: `Integer.compare(dientes, otra.dientes)`. Con eso, `Arrays.sort(llaves)` sabe ordenarlas.
+
+#### Desafío
+Completá el `return` de `compareTo`: de menos dientes a más.
+
+#### Código inicial
+```java
+import java.util.Arrays;
+
+public class Llaves {
+    public static void main(String[] args) {
+        Llave[] llaves = {new Llave("la del Archivo", 7), new Llave("la de la Torre", 12), new Llave("la ganzúa de Zed", 1), new Llave("la del Cofre", 4)};
+        Arrays.sort(llaves);
+        for (Llave l : llaves) {
+            System.out.println(l.dientes + " dientes: " + l.nombre);
+        }
+    }
+}
+
+class Llave implements Comparable<Llave> {
+    String nombre;
+    int dientes;
+
+    Llave(String nombre, int dientes) {
+        this.nombre = nombre;
+        this.dientes = dientes;
+    }
+
+    @Override
+    public int compareTo(Llave otra) {
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+1 dientes: la ganzúa de Zed
+4 dientes: la del Cofre
+7 dientes: la del Archivo
+12 dientes: la de la Torre
+```
+
+#### Solución
+```java
+import java.util.Arrays;
+
+public class Llaves {
+    public static void main(String[] args) {
+        Llave[] llaves = {new Llave("la del Archivo", 7), new Llave("la de la Torre", 12), new Llave("la ganzúa de Zed", 1), new Llave("la del Cofre", 4)};
+        Arrays.sort(llaves);
+        for (Llave l : llaves) {
+            System.out.println(l.dientes + " dientes: " + l.nombre);
+        }
+    }
+}
+
+class Llave implements Comparable<Llave> {
+    String nombre;
+    int dientes;
+
+    Llave(String nombre, int dientes) {
+        this.nombre = nombre;
+        this.dientes = dientes;
+    }
+
+    @Override
+    public int compareTo(Llave otra) {
+        return Integer.compare(dientes, otra.dientes);
+    }
+}
+```
+
+#### Al superarla
+Las llaves quedan en fila. La ganzúa de Zed, primera, con un solo diente… y de repente, con un chasquido, le **crece un segundo diente**, como a una llave de verdad. Kaffa sonríe detrás de su taza. —Firmaste tu primer contrato.
+En el taller de al lado, un aprendiz intenta que un caballero herede de una armadura, de una espada y de un caballo a la vez.
+
+#### Imagen
+- Cuatro llaves ordenadas sobre una mesa, de menos a más dientes; la ganzúa de Zed, primera, echando un segundo diente con un destello.
+- Kaffa sonriendo detrás de su taza; Zed mirando la ganzúa, asombrado.
 
 ### Misión R02-N07-M1 · Los curanderos
 
@@ -4775,7 +7207,7 @@ temas: poo.composicion
 
 En el taller de armaduras, un aprendiz intenta que la clase `Caballero` herede de `Armadura`, de `Espada` y de `Caballo` a la vez. No compila, y aunque compilara, no tendría sentido: un caballero no **es** una armadura.
 
-—Un caballero **tiene** una armadura —corrige {mentor}—. Y una espada. Y un caballo que, si el caballero cae, sigue existiendo. Eso es **composición** y **agregación**, {heroe}: construir cosas grandes con cosas chicas, en lugar de heredar de todo.
+—Un caballero **tiene** una armadura —corrige {mentor}—. Y una espada. Y un caballo que, si el caballero cae, sigue existiendo. Eso es **composición** y **agregación**: construir cosas grandes con cosas chicas, en lugar de heredar de todo. Zed mira su ganzúa, que ahora tiene dos dientes, y piensa que él también está hecho de piezas.
 
 ### Objetivos
 
@@ -5033,6 +7465,378 @@ permite que cualquiera la cambie sin pasar por el caballero. Devolvé datos o co
 **Ogro: la agregación compartida sin querer.** Si dos caballeros montan el mismo
 `Caballo` y uno lo cansa, el otro también lo ve cansado. A veces es lo que se busca;
 si no, cada uno necesita su propio objeto.
+
+### Micro-misión R02-N08-P1 · Un caballero no es una armadura
+
+```meta
+lugar: El taller de armaduras
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Tiene un | class Caballero { Armadura armadura; } · un atributo que es otro objeto · «tiene un», no «es un»
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el taller de armaduras, un aprendiz intenta que `Caballero` herede de `Armadura`. —Un caballero no **es** una armadura —le dice la Maestra—. **Tiene** una.
+
+#### Gheco sugiere
+Cuando algo **tiene** otra cosa, la parte va como **atributo**: `Armadura armadura;`. Para usarla, se pasa por el atributo: `armadura.defensa`.
+
+#### Desafío
+Completá el tipo del atributo `armadura`.
+
+#### Código inicial
+```java
+public class Taller {
+    public static void main(String[] args) {
+        Caballero c = new Caballero("Teo", new Armadura("de placas", 8));
+        System.out.println(c.nombre + " lleva armadura " + c.armadura.tipo + " (defensa " + c.armadura.defensa + ")");
+    }
+}
+
+class Armadura {
+    String tipo;
+    int defensa;
+
+    Armadura(String tipo, int defensa) {
+        this.tipo = tipo;
+        this.defensa = defensa;
+    }
+}
+
+class Caballero {
+    String nombre;
+    ___ armadura;
+
+    Caballero(String nombre, Armadura armadura) {
+        this.nombre = nombre;
+        this.armadura = armadura;
+    }
+}
+```
+
+#### Salida esperada
+```
+Teo lleva armadura de placas (defensa 8)
+```
+
+#### Solución
+```java
+public class Taller {
+    public static void main(String[] args) {
+        Caballero c = new Caballero("Teo", new Armadura("de placas", 8));
+        System.out.println(c.nombre + " lleva armadura " + c.armadura.tipo + " (defensa " + c.armadura.defensa + ")");
+    }
+}
+
+class Armadura {
+    String tipo;
+    int defensa;
+
+    Armadura(String tipo, int defensa) {
+        this.tipo = tipo;
+        this.defensa = defensa;
+    }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+
+    Caballero(String nombre, Armadura armadura) {
+        this.nombre = nombre;
+        this.armadura = armadura;
+    }
+}
+```
+
+#### Al superarla
+Teo sale del taller con su armadura puesta, no convertido en una. —Ahora sí tiene sentido —dice el aprendiz, aliviado.
+
+#### Imagen
+- El taller de armaduras: yunques, chispas y armaduras colgadas.
+- Teo (el recluta de la lanza) probándose una armadura de placas; la Maestra ajustándole una correa.
+
+### Micro-misión R02-N08-P2 · Nace y muere con él
+
+```meta
+lugar: El taller de armaduras
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Composición | la parte se crea ADENTRO del todo (new en el constructor) · nace y muere con él · nadie más la tiene
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las armaduras del taller se forjan **a medida**: cada una se hace para un caballero y no le sirve a nadie más. Cuando el caballero se retira, su armadura se funde.
+
+#### Gheco sugiere
+En la **composición**, el todo crea su parte: el constructor del `Caballero` hace `this.armadura = new Armadura(...)`. Nadie de afuera tiene esa armadura: vive y muere con el caballero.
+
+#### Desafío
+Completá la línea que forja la armadura adentro del constructor, con la defensa que recibe.
+
+#### Código inicial
+```java
+public class AMedida {
+    public static void main(String[] args) {
+        Caballero a = new Caballero("Teo", 8);
+        Caballero b = new Caballero("Lía", 10);
+        System.out.println(a.nombre + ": defensa " + a.armadura.defensa);
+        System.out.println(b.nombre + ": defensa " + b.armadura.defensa);
+        System.out.println("¿Comparten armadura? " + (a.armadura == b.armadura));
+    }
+}
+
+class Armadura {
+    int defensa;
+
+    Armadura(int defensa) { this.defensa = defensa; }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+
+    Caballero(String nombre, int defensa) {
+        this.nombre = nombre;
+        ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Teo: defensa 8
+Lía: defensa 10
+¿Comparten armadura? false
+```
+
+#### Solución
+```java
+public class AMedida {
+    public static void main(String[] args) {
+        Caballero a = new Caballero("Teo", 8);
+        Caballero b = new Caballero("Lía", 10);
+        System.out.println(a.nombre + ": defensa " + a.armadura.defensa);
+        System.out.println(b.nombre + ": defensa " + b.armadura.defensa);
+        System.out.println("¿Comparten armadura? " + (a.armadura == b.armadura));
+    }
+}
+
+class Armadura {
+    int defensa;
+
+    Armadura(int defensa) { this.defensa = defensa; }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+
+    Caballero(String nombre, int defensa) {
+        this.nombre = nombre;
+        this.armadura = new Armadura(defensa);
+    }
+}
+```
+
+#### Al superarla
+Cada caballero con su armadura, forjada para él. «¿Comparten armadura? false.» —Como los sellos de la Aduana —dice Nadia—: cada uno, el suyo.
+
+#### Imagen
+- Dos armaduras forjándose a la vez en dos yunques, cada una con el nombre grabado: «Teo» y «Lía».
+- Chispas doradas; Nadia observando con la libreta.
+
+### Micro-misión R02-N08-P3 · El caballo sigue
+
+```meta
+lugar: Las caballerizas de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: troll
+carta: Agregación | la parte existe por su cuenta y se pasa al todo · si el caballero cae (null), el caballo sigue existiendo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En las caballerizas, el caballo **Rayo** ya existía antes de que Teo llegara. Teo lo monta, pero no es suyo para siempre. Un **troll** espera que, si Teo cae, Rayo desaparezca con él.
+
+#### Gheco sugiere
+En la **agregación**, la parte se crea **afuera** y se le pasa al todo: `new Caballero("Teo", rayo)`. Si después `teo = null`, el objeto caballo sigue vivo mientras alguien lo señale (la variable `rayo`).
+
+#### Desafío
+Completá el `new Caballero` pasándole el caballo que ya existe.
+
+#### Código inicial
+```java
+public class Caballerizas {
+    public static void main(String[] args) {
+        Caballo rayo = new Caballo("Rayo");
+        Caballero teo = new Caballero("Teo", ___);
+        System.out.println(teo.nombre + " monta a " + teo.caballo.nombre);
+        teo = null;
+        System.out.println("Teo cayó. " + rayo.nombre + " sigue en las caballerizas");
+    }
+}
+
+class Caballo {
+    String nombre;
+
+    Caballo(String nombre) { this.nombre = nombre; }
+}
+
+class Caballero {
+    String nombre;
+    Caballo caballo;
+
+    Caballero(String nombre, Caballo caballo) {
+        this.nombre = nombre;
+        this.caballo = caballo;
+    }
+}
+```
+
+#### Salida esperada
+```
+Teo monta a Rayo
+Teo cayó. Rayo sigue en las caballerizas
+```
+
+#### Solución
+```java
+public class Caballerizas {
+    public static void main(String[] args) {
+        Caballo rayo = new Caballo("Rayo");
+        Caballero teo = new Caballero("Teo", rayo);
+        System.out.println(teo.nombre + " monta a " + teo.caballo.nombre);
+        teo = null;
+        System.out.println("Teo cayó. " + rayo.nombre + " sigue en las caballerizas");
+    }
+}
+
+class Caballo {
+    String nombre;
+
+    Caballo(String nombre) { this.nombre = nombre; }
+}
+
+class Caballero {
+    String nombre;
+    Caballo caballo;
+
+    Caballero(String nombre, Caballo caballo) {
+        this.nombre = nombre;
+        this.caballo = caballo;
+    }
+}
+```
+
+#### Al superarla
+Teo se cae del caballo en la práctica (de verdad), y Rayo sigue ahí, comiendo pasto. El troll se va sin nada.
+
+#### Imagen
+- Rayo, un caballo gris, comiendo tranquilo en las caballerizas.
+- Teo sentado en el piso, riéndose; un troll yéndose decepcionado.
+
+### Micro-misión R02-N08-P4 · Que lo haga la armadura
+
+```meta
+lugar: El taller de armaduras
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: Delegación | el todo le pasa el trabajo a su parte · int recibir(int golpe) { return armadura.absorber(golpe); }
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cuando a un caballero le pegan, no es él quien frena el golpe: es su armadura. —El caballero **delega** —dice la Maestra—. No sabe de placas ni de remaches. Le pasa el golpe a quien sabe.
+
+#### Gheco sugiere
+**Delegar** es que un método del todo llame a un método de la parte: `return armadura.absorber(golpe);`. El caballero no repite la cuenta: la hace la armadura.
+
+#### Desafío
+Completá el `return` de `recibir`: que la armadura absorba el golpe.
+
+#### Código inicial
+```java
+public class Delegar {
+    public static void main(String[] args) {
+        Caballero teo = new Caballero("Teo", new Armadura(8));
+        System.out.println("Golpe de 20, daño: " + teo.recibir(20));
+        System.out.println("Golpe de 5, daño: " + teo.recibir(5));
+    }
+}
+
+class Armadura {
+    int defensa;
+
+    Armadura(int defensa) { this.defensa = defensa; }
+
+    int absorber(int golpe) {
+        return Math.max(0, golpe - defensa);
+    }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+
+    Caballero(String nombre, Armadura armadura) {
+        this.nombre = nombre;
+        this.armadura = armadura;
+    }
+
+    int recibir(int golpe) {
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Golpe de 20, daño: 12
+Golpe de 5, daño: 0
+```
+
+#### Solución
+```java
+public class Delegar {
+    public static void main(String[] args) {
+        Caballero teo = new Caballero("Teo", new Armadura(8));
+        System.out.println("Golpe de 20, daño: " + teo.recibir(20));
+        System.out.println("Golpe de 5, daño: " + teo.recibir(5));
+    }
+}
+
+class Armadura {
+    int defensa;
+
+    Armadura(int defensa) { this.defensa = defensa; }
+
+    int absorber(int golpe) {
+        return Math.max(0, golpe - defensa);
+    }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+
+    Caballero(String nombre, Armadura armadura) {
+        this.nombre = nombre;
+        this.armadura = armadura;
+    }
+
+    int recibir(int golpe) {
+        return armadura.absorber(golpe);
+    }
+}
+```
+
+#### Al superarla
+Doce de daño en lugar de veinte, y el golpe chico ni se siente. Teo le agradece a su armadura con una palmadita.
+En el archivo de la Academia, alguien escribió en la pizarra «arquero», «ARQERO» y «ARQUERO». Nadie sabe cuántos arqueros hay.
+
+#### Imagen
+- Una espada golpeando una armadura de placas: el golpe se frena en un destello.
+- Teo dándole una palmadita a su armadura.
 
 ### Misión R02-N08-M1 · La factura y sus renglones
 
@@ -5547,9 +8351,9 @@ temas: prog.enums, poo.records
 
 ### Crónica
 
-En el archivo de la Academia hay una pizarra con las clases de soldado permitidas: *INFANTE, ARQUERO, JINETE*. Alguien escribió abajo, con tiza, *arquero* en minúsculas, y un tercero *ARQERO*. Tres palabras para lo mismo, y el sistema ya no sabe cuántos arqueros hay.
+En el archivo de la Academia hay una pizarra con las clases de soldado permitidas: *INFANTE, ARQUERO, JINETE*. Alguien escribió abajo, con tiza, *arquero* en minúsculas, y un goblin *ARQERO*. Tres palabras para lo mismo, y el sistema ya no sabe cuántos arqueros hay.
 
-—Cuando los valores posibles son una lista cerrada, no los escribas como texto: declaralos como **enum** —dice {mentor}—. Y cuando un objeto es solo un paquete de datos que no cambia, no escribas cincuenta líneas: usá un **record**, {heroe}.
+—Cuando los valores posibles son una lista cerrada, no los escribas como texto: declaralos como **enum** —dice {mentor}—. Y cuando un objeto es solo un paquete de datos que no cambia, no escribas cincuenta líneas: usá un **record**.
 
 ### Objetivos
 
@@ -5774,6 +8578,307 @@ dentro del `switch` va el nombre solo.
 
 **Slime: querer cambiar un `record`.** No tiene setters ni se puede asignar un campo:
 se crea uno nuevo con los datos cambiados.
+
+### Micro-misión R02-N09-P1 · Tres palabras para lo mismo
+
+```meta
+lugar: El archivo de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: goblin
+carta: enum | enum Clase { INFANTE, ARQUERO, JINETE } · una lista cerrada de valores · Clase.values() los recorre
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la pizarra del archivo dice «arquero», «ARQERO» y «ARQUERO». Un **goblin** escribió el del medio. —Cuando los valores posibles son una lista cerrada —dice la Maestra—, no los escribas como texto. Declaralos.
+
+#### Gheco sugiere
+Un `enum` es un tipo con una lista **cerrada** de valores: `enum Clase { INFANTE, ARQUERO, JINETE }`. No hay forma de escribir `ARQERO`: no compila. `Clase.values()` devuelve todos, en orden.
+
+#### Desafío
+Recorré todos los valores del enum con el método que los devuelve.
+
+#### Código inicial
+```java
+public class Pizarra {
+    public static void main(String[] args) {
+        Clase deMira = Clase.ARQUERO;
+        System.out.println("Mira es " + deMira);
+        for (Clase c : Clase.___()) {
+            System.out.println("- " + c);
+        }
+    }
+}
+
+enum Clase {
+    INFANTE, ARQUERO, JINETE
+}
+```
+
+#### Salida esperada
+```
+Mira es ARQUERO
+- INFANTE
+- ARQUERO
+- JINETE
+```
+
+#### Solución
+```java
+public class Pizarra {
+    public static void main(String[] args) {
+        Clase deMira = Clase.ARQUERO;
+        System.out.println("Mira es " + deMira);
+        for (Clase c : Clase.values()) {
+            System.out.println("- " + c);
+        }
+    }
+}
+
+enum Clase {
+    INFANTE, ARQUERO, JINETE
+}
+```
+
+#### Al superarla
+Tres clases, escritas una sola vez. La Maestra borra la pizarra entera y el goblin se queda sin tiza.
+
+#### Imagen
+- Una pizarra con «arquero», «ARQERO» y «ARQUERO» tachados y, encima, un cartel de bronce: INFANTE · ARQUERO · JINETE.
+- Un goblin con una tiza rota en la mano.
+
+### Micro-misión R02-N09-P2 · La paga de cada clase
+
+```meta
+lugar: El archivo de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: enum con datos | INFANTE(10), ARQUERO(12) · un atributo final y un constructor · cada valor lleva lo suyo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cada clase de soldado cobra distinto. En lugar de una tabla aparte, la Maestra quiere que **cada valor del enum lleve su paga**.
+
+#### Gheco sugiere
+Un `enum` puede tener atributos, constructor y métodos: `INFANTE(10)` llama al constructor con 10. El constructor guarda el dato: `this.paga = paga;`.
+
+#### Desafío
+Completá el constructor del enum: guardá la paga.
+
+#### Código inicial
+```java
+public class Paga {
+    public static void main(String[] args) {
+        for (Clase c : Clase.values()) {
+            System.out.println(c + ": " + c.getPaga() + " denarios");
+        }
+    }
+}
+
+enum Clase {
+    INFANTE(10), ARQUERO(12), JINETE(20);
+
+    private final int paga;
+
+    Clase(int paga) {
+        ___;
+    }
+
+    int getPaga() {
+        return paga;
+    }
+}
+```
+
+#### Salida esperada
+```
+INFANTE: 10 denarios
+ARQUERO: 12 denarios
+JINETE: 20 denarios
+```
+
+#### Solución
+```java
+public class Paga {
+    public static void main(String[] args) {
+        for (Clase c : Clase.values()) {
+            System.out.println(c + ": " + c.getPaga() + " denarios");
+        }
+    }
+}
+
+enum Clase {
+    INFANTE(10), ARQUERO(12), JINETE(20);
+
+    private final int paga;
+
+    Clase(int paga) {
+        this.paga = paga;
+    }
+
+    int getPaga() {
+        return paga;
+    }
+}
+```
+
+#### Al superarla
+Cada clase con su paga, sin tablas sueltas. —Los jinetes cobran el doble —protesta Teo—. —Tienen que alimentar al caballo —le contesta Nadia.
+
+#### Imagen
+- Tres placas de bronce: INFANTE 10, ARQUERO 12, JINETE 20, con monedas apiladas al lado.
+- Teo protestando; Nadia señalando a Rayo, el caballo.
+
+### Micro-misión R02-N09-P3 · Una orden para cada clase
+
+```meta
+lugar: El patio de armas de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: enum en switch | switch (c) { case INFANTE -> …; case ARQUERO -> …; } · sin escribir Clase. adelante · con los tres casos no hace falta default
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el patio, la Maestra da órdenes distintas según la clase. Zed le arma la tabla de órdenes con un `switch`.
+
+#### Gheco sugiere
+Un `enum` va perfecto en un `switch`: cada `case` es un valor (`case ARQUERO ->`). Si el `switch` devuelve un valor y cubre **todos** los valores del enum, no hace falta `default`.
+
+#### Desafío
+Completá el caso que falta: los arqueros «disparan».
+
+#### Código inicial
+```java
+public class Ordenes {
+    static String orden(Clase c) {
+        return switch (c) {
+            case INFANTE -> "avanzan";
+            case ___ -> "disparan";
+            case JINETE -> "flanquean";
+        };
+    }
+
+    public static void main(String[] args) {
+        for (Clase c : Clase.values()) {
+            System.out.println(c + ": " + orden(c));
+        }
+    }
+}
+
+enum Clase {
+    INFANTE, ARQUERO, JINETE
+}
+```
+
+#### Salida esperada
+```
+INFANTE: avanzan
+ARQUERO: disparan
+JINETE: flanquean
+```
+
+#### Solución
+```java
+public class Ordenes {
+    static String orden(Clase c) {
+        return switch (c) {
+            case INFANTE -> "avanzan";
+            case ARQUERO -> "disparan";
+            case JINETE -> "flanquean";
+        };
+    }
+
+    public static void main(String[] args) {
+        for (Clase c : Clase.values()) {
+            System.out.println(c + ": " + orden(c));
+        }
+    }
+}
+
+enum Clase {
+    INFANTE, ARQUERO, JINETE
+}
+```
+
+#### Al superarla
+Las tres órdenes, sin una sola palabra mal escrita. Si mañana se agrega una clase nueva, el compilador va a avisar que falta su caso.
+
+#### Imagen
+- El patio de armas: infantes avanzando, arqueros disparando y jinetes rodeando por el costado.
+- La Maestra con un cartel de órdenes; Zed a su lado.
+
+### Micro-misión R02-N09-P4 · La ficha que no cambia
+
+```meta
+lugar: El archivo de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+carta: record | record Recluta(String nombre, Clase clase) {} · constructor, getters nombre(), equals y toString hechos · no se puede cambiar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las fichas de los reclutas son solo datos: nombre y clase. Escribirlas como clase lleva cincuenta líneas. —Para un paquete de datos que no cambia —dice la Maestra—, un **record**.
+
+#### Gheco sugiere
+`record Recluta(String nombre, Clase clase) {}` crea el constructor, un método para leer cada dato (`r.nombre()`, sin `get`), `equals` y `toString`, y no deja cambiar nada.
+
+#### Desafío
+Completá el método que lee el nombre del recluta.
+
+#### Código inicial
+```java
+public class Fichas {
+    public static void main(String[] args) {
+        Recluta a = new Recluta("Mira", Clase.ARQUERO);
+        Recluta b = new Recluta("Mira", Clase.ARQUERO);
+        System.out.println(a);
+        System.out.println("Nombre: " + a.___());
+        System.out.println("Iguales: " + a.equals(b));
+    }
+}
+
+enum Clase {
+    INFANTE, ARQUERO, JINETE
+}
+
+record Recluta(String nombre, Clase clase) {
+}
+```
+
+#### Salida esperada
+```
+Recluta[nombre=Mira, clase=ARQUERO]
+Nombre: Mira
+Iguales: true
+```
+
+#### Solución
+```java
+public class Fichas {
+    public static void main(String[] args) {
+        Recluta a = new Recluta("Mira", Clase.ARQUERO);
+        Recluta b = new Recluta("Mira", Clase.ARQUERO);
+        System.out.println(a);
+        System.out.println("Nombre: " + a.nombre());
+        System.out.println("Iguales: " + a.equals(b));
+    }
+}
+
+enum Clase {
+    INFANTE, ARQUERO, JINETE
+}
+
+record Recluta(String nombre, Clase clase) {
+}
+```
+
+#### Al superarla
+Una línea en lugar de cincuenta, con `toString` y `equals` incluidos. La Maestra archiva las fichas.
+Esa tarde, Kaffa los cita en la biblioteca. Desenrolla un plano lleno de cajas y flechas, sin una sola línea de código.
+
+#### Imagen
+- Una ficha de bronce que se escribe sola: «Recluta[nombre=Mira, clase=ARQUERO]».
+- Al fondo, la puerta de la biblioteca de la Academia, con Kaffa esperando con un plano enrollado.
 
 ### Misión R02-N09-M1 · Los días del mercado
 
@@ -6213,7 +9318,7 @@ temas: diseno.uml
 
 En la biblioteca de la Academia, {mentor} desenrolla uno de sus planos. No hay código en él: hay cajas, flechas y rombos. —Antes de levantar un edificio, lo dibujo —dice—. Así lo discuto, lo corrijo y lo explico sin escribir una línea.
 
-—Estos dibujos tienen un idioma común, {heroe}: el **UML**. Cualquier arquitecta del Imperio los lee igual. Aprendé a leerlos y a dibujarlos: en la facultad y en las empresas te los van a pedir.
+—Estos dibujos tienen un idioma común, Zed: el **UML**. Cualquier arquitecta del Imperio los lee igual. Aprendé a leerlos y a dibujarlos: en la facultad y en las empresas te los van a pedir. Nadia ya está copiando las flechas en su libreta.
 
 ### Objetivos
 
@@ -6433,6 +9538,387 @@ el todo? Si sí, es agregación (rombo vacío).
 
 **Slime: la sintaxis de Mermaid.** Si mermaid.live no dibuja nada, revisá que la
 primera línea sea `classDiagram` o `sequenceDiagram` y que las llaves estén cerradas.
+
+### Micro-misión R02-N10-P1 · Leer una caja
+
+```meta
+lugar: La biblioteca de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Clase en UML | caja con tres partes: nombre, atributos y métodos · - es private · + es public · nombre: Tipo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kaffa señala la primera caja del plano:
+`Viajero` / `- nombre: String` / `- edad: int` / `+ getNombre(): String`.
+—Antes de levantar un edificio, lo dibujo —dice—. Este idioma lo lee cualquier arquitecta del Imperio. El **menos** es privado; el **más**, público.
+
+#### Gheco sugiere
+En una caja de UML, `- nombre: String` es un atributo **private** de tipo `String`, y `+ getNombre(): String` es un método **public** que devuelve un `String`. Primero el nombre, después los dos puntos y el tipo.
+
+#### Desafío
+Pasá la caja a código: completá la visibilidad de los dos atributos.
+
+#### Código inicial
+```java
+public class Caja {
+    public static void main(String[] args) {
+        Viajero v = new Viajero("Zed", 19);
+        System.out.println("Nombre: " + v.getNombre());
+    }
+}
+
+class Viajero {
+    ___ String nombre;
+    ___ int edad;
+
+    Viajero(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+```
+
+#### Salida esperada
+```
+Nombre: Zed
+```
+
+#### Solución
+```java
+public class Caja {
+    public static void main(String[] args) {
+        Viajero v = new Viajero("Zed", 19);
+        System.out.println("Nombre: " + v.getNombre());
+    }
+}
+
+class Viajero {
+    private String nombre;
+    private int edad;
+
+    Viajero(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+}
+```
+
+#### Al superarla
+La caja del plano y el código dicen lo mismo. —Ahora, al revés —dice Kaffa—: cuando leas código, imaginate la caja.
+
+#### Imagen
+- Un plano de pergamino desenrollado sobre una mesa con una caja dibujada: «Viajero», sus atributos con «-» y su método con «+».
+- Kaffa señalando con una pluma; Zed y Nadia inclinados sobre el plano.
+
+### Micro-misión R02-N10-P2 · Las dos flechas huecas
+
+```meta
+lugar: La biblioteca de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Herencia y realización | flecha llena con triángulo hueco: extends · flecha punteada con triángulo hueco: implements («interface»)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el plano hay dos flechas con punta de triángulo hueco. Una, de línea **llena**: de `Arquero` a `Personaje`. La otra, **punteada**: de `Grifo` a `«interface» Volador`.
+
+#### Gheco sugiere
+Triángulo hueco con línea llena: **herencia** (`extends`). Triángulo hueco con línea punteada: **realización**, una clase que implementa una interfaz (`implements`).
+
+#### Desafío
+Completá las dos palabras según las flechas del plano.
+
+#### Código inicial
+```java
+public class Flechas {
+    public static void main(String[] args) {
+        Personaje p = new Arquero("Mira");
+        Volador v = new Grifo();
+        System.out.println(p.describir());
+        System.out.println(v.volar());
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) { this.nombre = nombre; }
+
+    String describir() { return nombre + ", un personaje"; }
+}
+
+class Arquero ___ Personaje {
+    Arquero(String nombre) { super(nombre); }
+
+    @Override
+    String describir() { return nombre + ", arquera"; }
+}
+
+interface Volador {
+    String volar();
+}
+
+class Grifo ___ Volador {
+    public String volar() { return "El grifo vuela"; }
+}
+```
+
+#### Salida esperada
+```
+Mira, arquera
+El grifo vuela
+```
+
+#### Solución
+```java
+public class Flechas {
+    public static void main(String[] args) {
+        Personaje p = new Arquero("Mira");
+        Volador v = new Grifo();
+        System.out.println(p.describir());
+        System.out.println(v.volar());
+    }
+}
+
+class Personaje {
+    String nombre;
+
+    Personaje(String nombre) { this.nombre = nombre; }
+
+    String describir() { return nombre + ", un personaje"; }
+}
+
+class Arquero extends Personaje {
+    Arquero(String nombre) { super(nombre); }
+
+    @Override
+    String describir() { return nombre + ", arquera"; }
+}
+
+interface Volador {
+    String volar();
+}
+
+class Grifo implements Volador {
+    public String volar() { return "El grifo vuela"; }
+}
+```
+
+#### Al superarla
+Las dos flechas, traducidas. —Línea llena, lo que sos; punteada, lo que prometiste —resume Nadia, y lo anota así en la libreta.
+
+#### Imagen
+- Dos flechas dibujadas en el plano: una de línea llena con triángulo hueco y otra punteada, con el «interface» escrito arriba.
+- Nadia anotando el resumen en su libreta.
+
+### Micro-misión R02-N10-P3 · Rombo negro, rombo blanco
+
+```meta
+lugar: La biblioteca de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: ogro
+carta: Composición y agregación en UML | rombo negro (◆): composición, la parte se crea adentro · rombo blanco (◇): agregación, la parte viene de afuera
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el plano, `Caballero ◆—— Armadura` y `Caballero ◇—— Caballo`. Un aprendiz los pasó a código al revés: el caballo nace con el caballero y la armadura viene de afuera. Compila y corre… pero no es el diseño. Un **ogro** lo aplaude.
+
+#### Gheco sugiere
+Rombo **negro** (composición): el caballero crea la armadura en su constructor (`new Armadura(...)`). Rombo **blanco** (agregación): el caballo existe antes y se pasa como parámetro.
+
+#### Desafío
+Completá el constructor según el plano: la armadura se crea adentro y el caballo llega de afuera.
+
+#### Código inicial
+```java
+public class Rombos {
+    public static void main(String[] args) {
+        Caballo rayo = new Caballo("Rayo");
+        Caballero teo = new Caballero("Teo", 8, rayo);
+        System.out.println(teo.nombre + ": armadura " + teo.armadura.defensa + ", caballo " + teo.caballo.nombre);
+        System.out.println("Es el mismo caballo: " + (teo.caballo == rayo));
+    }
+}
+
+class Armadura {
+    int defensa;
+
+    Armadura(int defensa) { this.defensa = defensa; }
+}
+
+class Caballo {
+    String nombre;
+
+    Caballo(String nombre) { this.nombre = nombre; }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+    Caballo caballo;
+
+    Caballero(String nombre, int defensa, Caballo caballo) {
+        this.nombre = nombre;
+        this.armadura = ___;
+        this.caballo = ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Teo: armadura 8, caballo Rayo
+Es el mismo caballo: true
+```
+
+#### Solución
+```java
+public class Rombos {
+    public static void main(String[] args) {
+        Caballo rayo = new Caballo("Rayo");
+        Caballero teo = new Caballero("Teo", 8, rayo);
+        System.out.println(teo.nombre + ": armadura " + teo.armadura.defensa + ", caballo " + teo.caballo.nombre);
+        System.out.println("Es el mismo caballo: " + (teo.caballo == rayo));
+    }
+}
+
+class Armadura {
+    int defensa;
+
+    Armadura(int defensa) { this.defensa = defensa; }
+}
+
+class Caballo {
+    String nombre;
+
+    Caballo(String nombre) { this.nombre = nombre; }
+}
+
+class Caballero {
+    String nombre;
+    Armadura armadura;
+    Caballo caballo;
+
+    Caballero(String nombre, int defensa, Caballo caballo) {
+        this.nombre = nombre;
+        this.armadura = new Armadura(defensa);
+        this.caballo = caballo;
+    }
+}
+```
+
+#### Al superarla
+El código y el plano coinciden: armadura a medida, Rayo prestado. El ogro deja de aplaudir: un programa que anda pero no respeta el diseño era su favorito.
+
+#### Imagen
+- En el plano, un rombo negro hacia «Armadura» y un rombo blanco hacia «Caballo», con Teo dibujado en el centro.
+- Un ogro con las manos quietas, decepcionado.
+
+### Micro-misión R02-N10-P4 · Uno o más artesanos
+
+```meta
+lugar: La biblioteca de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Multiplicidad | 1 exactamente uno · 0..1 uno o ninguno · * o 0..* muchos · 1..* al menos uno · en código, un array o una colección
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Al pie del plano, `Gremio "1" ◇—— "1..*" Artesano`: cada gremio tiene **al menos un** artesano. —Los números de las puntas dicen **cuántos** —explica Kaffa—. Y un gremio vacío no es un gremio.
+
+#### Gheco sugiere
+`1..*` del lado de `Artesano` significa que el gremio tiene **uno o más**: en código, un array `Artesano[] artesanos`. Para respetar el «al menos uno», el gremio pide un artesano al crearse.
+
+#### Desafío
+Completá el método que cuenta los artesanos usando el largo del array.
+
+#### Código inicial
+```java
+public class Multiplicidad {
+    public static void main(String[] args) {
+        Artesano[] miembros = {new Artesano("la Maestra de Moldes"), new Artesano("Teo"), new Artesano("Zed")};
+        Gremio gremio = new Gremio("Gremio de los Moldes", miembros);
+        System.out.println(gremio.nombre + ": " + gremio.cantidad() + " artesanos");
+        System.out.println("El último en entrar: " + gremio.artesanos[gremio.cantidad() - 1].nombre);
+    }
+}
+
+class Artesano {
+    String nombre;
+
+    Artesano(String nombre) { this.nombre = nombre; }
+}
+
+class Gremio {
+    String nombre;
+    Artesano[] artesanos;
+
+    Gremio(String nombre, Artesano[] artesanos) {
+        this.nombre = nombre;
+        this.artesanos = artesanos;
+    }
+
+    int cantidad() {
+        return ___;
+    }
+}
+```
+
+#### Salida esperada
+```
+Gremio de los Moldes: 3 artesanos
+El último en entrar: Zed
+```
+
+#### Solución
+```java
+public class Multiplicidad {
+    public static void main(String[] args) {
+        Artesano[] miembros = {new Artesano("la Maestra de Moldes"), new Artesano("Teo"), new Artesano("Zed")};
+        Gremio gremio = new Gremio("Gremio de los Moldes", miembros);
+        System.out.println(gremio.nombre + ": " + gremio.cantidad() + " artesanos");
+        System.out.println("El último en entrar: " + gremio.artesanos[gremio.cantidad() - 1].nombre);
+    }
+}
+
+class Artesano {
+    String nombre;
+
+    Artesano(String nombre) { this.nombre = nombre; }
+}
+
+class Gremio {
+    String nombre;
+    Artesano[] artesanos;
+
+    Gremio(String nombre, Artesano[] artesanos) {
+        this.nombre = nombre;
+        this.artesanos = artesanos;
+    }
+
+    int cantidad() {
+        return artesanos.length;
+    }
+}
+```
+
+#### Al superarla
+«El último en entrar: Zed.» Un ladrón en un gremio de artesanos. Kaffa enrolla el plano… y Zed ve, en una esquina, un molde que nadie terminó de dibujar, **firmado con el dibujo de un vitral**.
+Desde el sótano de la Academia llega un rugido de tres voces distintas.
+
+#### Imagen
+- En la esquina del plano, una caja a medio dibujar con una firma pequeña: un vitral de colores.
+- Zed mirando la firma, con la llave del vitral en la otra mano; el piso de la biblioteca vibrando por un rugido.
 
 ### Misión R02-N10-M1 · Dibujá la herrería
 
@@ -6859,7 +10345,7 @@ usa: poo.herencia, poo.interfaces, poo.composicion, diseno.uml
 
 En el sótano de la Academia vive algo que nadie se animó a diseñar: la **Quimera de las Mil Herencias**. Un aprendiz intentó que heredara de León, de Cabra y de Serpiente a la vez, y el molde se rompió. Ahora es una criatura de tres cabezas, cada una con su elemento, que cambia de forma cada vez que la golpean.
 
-—No se la vence con un solo molde —dice {mentor}—. Se la vence **modelándola bien**: qué es, qué tiene, qué sabe hacer. Si el diseño está bien, el combate se escribe solo, {heroe}.
+—No se la vence con un solo molde —dice {mentor}—. Se la vence **modelándola bien**: qué es, qué tiene, qué sabe hacer. Si el diseño está bien, Zed, el combate se escribe solo.
 
 ### Objetivos
 
@@ -7103,6 +10589,466 @@ lanza una excepción, queda un `null` en el array y más adelante aparece un
 
 **Troll: la parte compartida sin querer.** Si dos quimeras reciben el mismo array de
 cabezas, un golpe a una daña a la otra. En la composición, el todo crea sus partes.
+
+### Micro-misión R02-N11-P1 · Qué es cada cabeza
+
+```meta
+lugar: El sótano de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa, la Maestra de Moldes
+criatura: dragon
+carta: Modelar lo que ES | una clase abstracta para lo común (Cabeza) · cada cabeza es un hijo que completa lo abstracto
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+En el sótano vive la **Quimera de las Mil Herencias**: alguien quiso que heredara de León, de Cabra y de Serpiente a la vez, y el molde se rompió. Ahora tiene tres cabezas, cada una con su elemento.
+—No se la vence con un solo molde —dice Kaffa—. Se la vence **modelándola bien**: qué es, qué tiene, qué sabe hacer. Empezá por lo que **es**: cada cabeza es una Cabeza.
+
+#### Gheco sugiere
+Lo que tienen todas las cabezas (nombre, vida y un ataque) va en la clase abstracta `Cabeza`. Cada cabeza concreta **extiende** a `Cabeza` y escribe su `atacar()`.
+
+#### Desafío
+Completá el ataque de la cabeza de Serpiente: "muerde con veneno".
+
+#### Código inicial
+```java
+public class Quimera1 {
+    public static void main(String[] args) {
+        Cabeza[] cabezas = {new Leon(), new Cabra(), new Serpiente()};
+        for (Cabeza c : cabezas) {
+            System.out.println(c.nombre + " (" + c.vida + "): " + c.atacar());
+        }
+    }
+}
+
+abstract class Cabeza {
+    String nombre;
+    int vida;
+
+    Cabeza(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    abstract String atacar();
+}
+
+class Leon extends Cabeza {
+    Leon() { super("León", 60); }
+
+    @Override
+    String atacar() { return "escupe fuego"; }
+}
+
+class Cabra extends Cabeza {
+    Cabra() { super("Cabra", 40); }
+
+    @Override
+    String atacar() { return "embiste con hielo"; }
+}
+
+class Serpiente extends Cabeza {
+    Serpiente() { super("Serpiente", 30); }
+
+    @Override
+    String atacar() { return ___; }
+}
+```
+
+#### Salida esperada
+```
+León (60): escupe fuego
+Cabra (40): embiste con hielo
+Serpiente (30): muerde con veneno
+```
+
+#### Solución
+```java
+public class Quimera1 {
+    public static void main(String[] args) {
+        Cabeza[] cabezas = {new Leon(), new Cabra(), new Serpiente()};
+        for (Cabeza c : cabezas) {
+            System.out.println(c.nombre + " (" + c.vida + "): " + c.atacar());
+        }
+    }
+}
+
+abstract class Cabeza {
+    String nombre;
+    int vida;
+
+    Cabeza(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    abstract String atacar();
+}
+
+class Leon extends Cabeza {
+    Leon() { super("León", 60); }
+
+    @Override
+    String atacar() { return "escupe fuego"; }
+}
+
+class Cabra extends Cabeza {
+    Cabra() { super("Cabra", 40); }
+
+    @Override
+    String atacar() { return "embiste con hielo"; }
+}
+
+class Serpiente extends Cabeza {
+    Serpiente() { super("Serpiente", 30); }
+
+    @Override
+    String atacar() { return "muerde con veneno"; }
+}
+```
+
+#### Al superarla
+Fuego, hielo y veneno: tres cabezas, un solo molde abstracto. La Quimera ruge y cambia de forma, pero ahora Zed sabe qué es cada parte.
+
+#### Imagen
+- La Quimera de las Mil Herencias: un cuerpo de bronce agrietado con tres cabezas, león de fuego, cabra de hielo y serpiente de veneno.
+- Zed, Nadia y Gheco frente a ella en un sótano lleno de moldes rotos; Kaffa y la Maestra atrás.
+
+### Micro-misión R02-N11-P2 · El golpe justo
+
+```meta
+lugar: El sótano de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: enum y record juntos | enum Elemento { FUEGO, HIELO, VENENO } · record Golpe(int danio, Elemento elemento) · el switch decide
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Cada cabeza es débil a un elemento: el León al hielo, la Cabra al fuego, la Serpiente al hielo también. Zed no puede improvisar los golpes: los tiene que **declarar**.
+
+#### Gheco sugiere
+Los elementos son una lista cerrada: un `enum`. Un golpe es solo un paquete de datos: un `record`. La debilidad de cada cabeza se decide con un `switch` sobre el nombre.
+
+#### Desafío
+Completá el caso de la Cabra: es débil al FUEGO.
+
+#### Código inicial
+```java
+public class Quimera2 {
+    static Elemento debilidad(String cabeza) {
+        return switch (cabeza) {
+            case "León" -> Elemento.HIELO;
+            case "Cabra" -> ___;
+            default -> Elemento.HIELO;
+        };
+    }
+
+    public static void main(String[] args) {
+        String[] cabezas = {"León", "Cabra", "Serpiente"};
+        for (String c : cabezas) {
+            Golpe g = new Golpe(25, debilidad(c));
+            System.out.println(c + ": " + g);
+        }
+    }
+}
+
+enum Elemento {
+    FUEGO, HIELO, VENENO
+}
+
+record Golpe(int danio, Elemento elemento) {
+}
+```
+
+#### Salida esperada
+```
+León: Golpe[danio=25, elemento=HIELO]
+Cabra: Golpe[danio=25, elemento=FUEGO]
+Serpiente: Golpe[danio=25, elemento=HIELO]
+```
+
+#### Solución
+```java
+public class Quimera2 {
+    static Elemento debilidad(String cabeza) {
+        return switch (cabeza) {
+            case "León" -> Elemento.HIELO;
+            case "Cabra" -> Elemento.FUEGO;
+            default -> Elemento.HIELO;
+        };
+    }
+
+    public static void main(String[] args) {
+        String[] cabezas = {"León", "Cabra", "Serpiente"};
+        for (String c : cabezas) {
+            Golpe g = new Golpe(25, debilidad(c));
+            System.out.println(c + ": " + g);
+        }
+    }
+}
+
+enum Elemento {
+    FUEGO, HIELO, VENENO
+}
+
+record Golpe(int danio, Elemento elemento) {
+}
+```
+
+#### Al superarla
+Tres golpes declarados, cada uno con su elemento. La Quimera retrocede: por primera vez, alguien la atacó con un plan.
+
+#### Imagen
+- Tres esferas de luz flotando frente a Zed: dos de hielo (celestes) y una de fuego (naranja), cada una con una etiqueta.
+- La Quimera retrocediendo contra la pared del sótano.
+
+### Micro-misión R02-N11-P3 · Lo que tiene la Quimera
+
+```meta
+lugar: El sótano de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Composición y delegación | la Quimera TIENE cabezas (un array) · su vida es la suma de las de sus cabezas · le delega a cada una
+recompensa: xp 20, oro 25
+```
+
+#### Escena
+—La Quimera no **es** un león, ni una cabra, ni una serpiente —dice Kaffa—. **Tiene** tres cabezas. Ese fue el error del aprendiz. Su vida es la de sus cabezas, sumadas.
+
+#### Gheco sugiere
+La `Quimera` tiene un array de `Cabeza` (composición). Para saber su vida total, recorre las cabezas y le **pregunta a cada una** su vida: `total += c.getVida();`.
+
+#### Desafío
+Completá el acumulador: sumá la vida de cada cabeza.
+
+#### Código inicial
+```java
+public class Quimera3 {
+    public static void main(String[] args) {
+        Quimera q = new Quimera();
+        System.out.println("Vida de la Quimera: " + q.vidaTotal());
+        q.cabezas[2].recibir(30);
+        System.out.println("Después de golpear a la Serpiente: " + q.vidaTotal());
+    }
+}
+
+class Cabeza {
+    private String nombre;
+    private int vida;
+
+    Cabeza(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    int getVida() { return vida; }
+
+    void recibir(int danio) { vida = Math.max(0, vida - danio); }
+}
+
+class Quimera {
+    Cabeza[] cabezas = {new Cabeza("León", 60), new Cabeza("Cabra", 40), new Cabeza("Serpiente", 30)};
+
+    int vidaTotal() {
+        int total = 0;
+        for (Cabeza c : cabezas) {
+            ___;
+        }
+        return total;
+    }
+}
+```
+
+#### Salida esperada
+```
+Vida de la Quimera: 130
+Después de golpear a la Serpiente: 100
+```
+
+#### Solución
+```java
+public class Quimera3 {
+    public static void main(String[] args) {
+        Quimera q = new Quimera();
+        System.out.println("Vida de la Quimera: " + q.vidaTotal());
+        q.cabezas[2].recibir(30);
+        System.out.println("Después de golpear a la Serpiente: " + q.vidaTotal());
+    }
+}
+
+class Cabeza {
+    private String nombre;
+    private int vida;
+
+    Cabeza(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    int getVida() { return vida; }
+
+    void recibir(int danio) { vida = Math.max(0, vida - danio); }
+}
+
+class Quimera {
+    Cabeza[] cabezas = {new Cabeza("León", 60), new Cabeza("Cabra", 40), new Cabeza("Serpiente", 30)};
+
+    int vidaTotal() {
+        int total = 0;
+        for (Cabeza c : cabezas) {
+            total += c.getVida();
+        }
+        return total;
+    }
+}
+```
+
+#### Al superarla
+De 130 a 100: la Serpiente cae y su cabeza se apaga. Quedan dos.
+
+#### Imagen
+- La cabeza de serpiente de la Quimera apagándose, gris; las otras dos rugiendo.
+- Un contador de vida de bronce sobre la Quimera bajando de 130 a 100.
+
+### Micro-misión R02-N11-P4 · El combate se escribe solo
+
+```meta
+lugar: El sótano de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa, la Maestra de Moldes
+carta: Todo junto | herencia, polimorfismo, composición, enum y record · si el diseño está bien, el combate es un bucle de cinco líneas
+recompensa: xp 25, oro 30
+item: Guantes del Artesano
+```
+
+#### Escena
+Quedan el León y la Cabra. —Si el diseño está bien —dice Kaffa—, el combate se escribe solo. Cada cabeza sabe su debilidad; vos solo tenés que **pegarle con lo que le duele**.
+
+#### Gheco sugiere
+Cada `Cabeza` sabe su debilidad (`debilidad()`). Un golpe con ese elemento hace el **doble** de daño. En el bucle, armá el golpe con la debilidad de **esa** cabeza: `new Golpe(35, c.debilidad())`.
+
+#### Desafío
+Completá el golpe: 35 de daño, con el elemento al que es débil cada cabeza.
+
+#### Código inicial
+```java
+public class Quimera4 {
+    public static void main(String[] args) {
+        Cabeza[] cabezas = {new Leon(), new Cabra()};
+        for (Cabeza c : cabezas) {
+            Golpe g = ___;
+            c.recibir(g);
+            System.out.println(c.nombre + " recibe " + g.elemento() + ": le queda " + c.vida);
+        }
+        System.out.println("La Quimera cae.");
+    }
+}
+
+enum Elemento {
+    FUEGO, HIELO, VENENO
+}
+
+record Golpe(int danio, Elemento elemento) {
+}
+
+abstract class Cabeza {
+    String nombre;
+    int vida;
+
+    Cabeza(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    abstract Elemento debilidad();
+
+    void recibir(Golpe g) {
+        int danio = g.elemento() == debilidad() ? g.danio() * 2 : g.danio();
+        vida = Math.max(0, vida - danio);
+    }
+}
+
+class Leon extends Cabeza {
+    Leon() { super("León", 60); }
+
+    @Override
+    Elemento debilidad() { return Elemento.HIELO; }
+}
+
+class Cabra extends Cabeza {
+    Cabra() { super("Cabra", 40); }
+
+    @Override
+    Elemento debilidad() { return Elemento.FUEGO; }
+}
+```
+
+#### Salida esperada
+```
+León recibe HIELO: le queda 0
+Cabra recibe FUEGO: le queda 0
+La Quimera cae.
+```
+
+#### Solución
+```java
+public class Quimera4 {
+    public static void main(String[] args) {
+        Cabeza[] cabezas = {new Leon(), new Cabra()};
+        for (Cabeza c : cabezas) {
+            Golpe g = new Golpe(35, c.debilidad());
+            c.recibir(g);
+            System.out.println(c.nombre + " recibe " + g.elemento() + ": le queda " + c.vida);
+        }
+        System.out.println("La Quimera cae.");
+    }
+}
+
+enum Elemento {
+    FUEGO, HIELO, VENENO
+}
+
+record Golpe(int danio, Elemento elemento) {
+}
+
+abstract class Cabeza {
+    String nombre;
+    int vida;
+
+    Cabeza(String nombre, int vida) {
+        this.nombre = nombre;
+        this.vida = vida;
+    }
+
+    abstract Elemento debilidad();
+
+    void recibir(Golpe g) {
+        int danio = g.elemento() == debilidad() ? g.danio() * 2 : g.danio();
+        vida = Math.max(0, vida - danio);
+    }
+}
+
+class Leon extends Cabeza {
+    Leon() { super("León", 60); }
+
+    @Override
+    Elemento debilidad() { return Elemento.HIELO; }
+}
+
+class Cabra extends Cabeza {
+    Cabra() { super("Cabra", 40); }
+
+    @Override
+    Elemento debilidad() { return Elemento.FUEGO; }
+}
+```
+
+#### Al superarla
+Hielo al León, fuego a la Cabra, y la Quimera cae. Del molde roto queda un par de **guantes de cuero y bronce**: la Maestra se los da a Zed. —Los **Guantes del Artesano**. Desde hoy sos aprendiz de la Academia.
+Kaffa termina su café. —Los Archivos Imperiales guardan el registro de todos los que cruzaron. También el de alguien que llegó con un vitral.
+
+#### Imagen
+- La Quimera derrumbándose en el sótano entre moldes rotos, con las tres cabezas apagadas.
+- La Maestra de Moldes entregándole a Zed un par de guantes de cuero con remaches de bronce.
+- Kaffa con su taza; Nadia y Gheco celebrando atrás.
 
 ### Misión R02-N11-M1 · La batalla contra la Quimera
 

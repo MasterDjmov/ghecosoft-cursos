@@ -373,6 +373,19 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, R01-N03.
 - **Dónde va:** la oficina de sellos: escritorio tapado de pergaminos, tinteros, sellos de bronce colgados en la pared y la **tabla de tarifas** clavada en la puerta.
 
+### La Maestra de Moldes *(falta la imagen)*
+- **Rol:** dirige la **Academia de los Moldes** (R02): enseña clases, constructores, encapsulamiento, herencia, polimorfismo, composición, `enum` y `record`; da las órdenes en el patio de armas y, al vencer a la Quimera, le entrega a Zed los **Guantes del Artesano**.
+- **Edad y sexo:** 50, mujer.
+- **Altura y contextura:** alta, de hombros anchos y brazos fuertes de tanto forjar.
+- **Rasgos:** piel oscura, pelo canoso cortísimo, una cicatriz chica en la ceja, ojos atentos.
+- **Ropa:** **delantal de cuero** lleno de **virutas de bronce**, camisa azul oscuro del Imperio arremangada con vivos dorados, botas de taller.
+- **Objeto:** una **llave inglesa de bronce** colgada del cinturón y, a veces, la palanca de un molde.
+- **Personalidad:** directa, exigente, no reta: hace arreglar. Grita las órdenes en el patio, pero explica en voz baja.
+- **Frase:** «Lo rompiste vos. Arreglalo vos.»
+- **Relaciones:** colega de Kaffa; trata a Zed como a un aprendiz más, sin preguntarle de dónde viene.
+- **Primera aparición:** Java, R02-N01.
+- **Dónde va:** los talleres de la Academia: moldes de bronce colgando del techo, yunques, chispas y pizarras.
+
 ### El Centinela de la Aduana
 - **Rol:** el jefe de la Aduana (R01-N09). Aprueba o rechaza a cada viajero desde hace siglos; no se lo engaña: se lo vence con orden. Le hace a Zed cuatro preguntas y, al final, le entrega el **Sello de Entrada**.
 - **Qué es:** una **armadura vacía** de piedra gris y bronce, sentada en un **trono de piedra**, con un **libro de registros** abierto sobre las rodillas y una pluma que escribe sola. Por las juntas no se ve nada adentro: solo una **luz azul** en el lugar de los ojos.

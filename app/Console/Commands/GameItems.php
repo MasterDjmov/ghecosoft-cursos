@@ -89,6 +89,7 @@ class GameItems extends Command
             ['code' => 'sello-imperial', 'name' => 'Sello Imperial', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'El que lo lleva pasa cualquier Aduana.'],
             // Pociones y de la historia
             ['code' => 'cafe-fuerte', 'name' => 'Café Fuerte', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Una taza bien cargada. En las expediciones se toma sola si la vida baja mucho.'],
+            ['code' => 'guantes-del-artesano', 'name' => 'Guantes del Artesano', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'dexterity' => 1, 'description' => 'Te los dio la Maestra de Moldes al vencer a la Quimera: sos aprendiz de la Academia.'],
             ['code' => 'sello-de-entrada', 'name' => 'Sello de Entrada', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'intelligence' => 2, 'luck' => 1, 'description' => 'Te lo dio el Centinela de la Aduana: ya no sos un colado, estás declarado.'],
             ['code' => 'llave-del-vitral', 'name' => 'Llave del Vitral', 'kind' => 'story', 'description' => 'Plomo y vidrios de colores, con una etiqueta: «para quien llegue». No entra en ninguna cerradura del Imperio… todavía.'],
         ],
@@ -160,6 +161,7 @@ class GameItems extends Command
         'monoculo-del-compilador' => 'Un monóculo dorado con el lente rojo, que proyecta una línea de código marcada en rojo.',
         'sello-imperial' => 'Un sello de lacre dorado con el escudo del Imperio, colgado de una cadena fina.',
         'cafe-fuerte' => 'Un vaso de vidrio grueso con café negro humeante y una franja dorada, con una etiqueta con una cruz.',
+        'guantes-del-artesano' => 'Un par de guantes de cuero marrón gastado con remaches y nudillos de bronce, y el sello de la Academia de los Moldes grabado en el dorso.',
         'sello-de-entrada' => 'Un sello de bronce antiguo con mango de piedra gris y la palabra «DECLARADO» en relieve, con un brillo azul en el borde.',
         'llave-del-vitral' => 'Una llave antigua de plomo con la cabeza hecha de vidrios de colores, como un vitral pequeño, con una etiqueta de papel atada.',
         // Comunes (sirven en cualquier mundo)

@@ -343,6 +343,138 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ---
 
+## Las Forjas de Hierro (C)
+
+### Maese Ferrum
+- **Rol:** el **Forjador**, líder de las Forjas de Hierro y mentor de Kira ([c.md](c.md)). Fue maestro de Tesla y de Tesela cuando eran aprendices.
+- **Edad y sexo:** viejísimo (parece de 60), hombre.
+- **Altura y contextura:** macizo y ancho como un yunque, brazos enormes. El Diccionario lo llama «herrero enano»: es de la raza de los enanos de las Forjas, bajo de piernas pero más ancho que cualquiera.
+- **Rasgos:**
+  - piel curtida por el fuego, cejas tupidas, cara seria con cicatrices chicas;
+  - **pelo gris peinado hacia atrás**;
+  - **barba gris larga con una trenza** atada con anillos de bronce, y bigote espeso;
+  - **ojo derecho cibernético** con lente de luz **naranja**.
+- **Ropa:** **delantal de cuero gastado** con bolsillos, cinturón de herramientas, y **brazos y hombreras de armadura** de metal oscuro con líneas naranjas encendidas; botas de placas.
+- **Objeto:** su **martillo de forja enorme**, de cabeza cuadrada con un **núcleo naranja** que brilla como brasa; a veces, lingotes al rojo en las manos.
+- **Color:** hierro oscuro y el **naranja** de las Forjas.
+- **Personalidad:** gruñón, de pocas palabras, exigente; no tolera una advertencia del compilador sin arreglar. Su aplauso es **golpear el yunque dos veces**. En el fondo es tierno: guarda la primera herradura torcida de cada aprendiz.
+- **Le gusta:** el olor del metal recién templado; que le pregunten «¿por qué?»; el pan que hornean en la boca del horno.
+- **Defecto o miedo:** no sabe pedir ayuda; el único encargo que nunca entendió es el del Vidriero.
+- **Frase:** «El metal no perdona, pero tampoco miente.»
+- **Relaciones:**
+  - maestro de Kira, de Tizón y, hace mucho, de Tesla y Tesela;
+  - viejo amigo de Bron, que le escribe desde la Ciudadela;
+  - le vendió el plomo al Vidriero (su pieza del portal).
+- **Primera aparición:** C, Clase 0.
+- **Dónde va:** la gran fragua de las Forjas: hornos, ríos de lava, yunques y chimeneas.
+- **Imágenes:** completas (cuerpo entero y retrato circular; los 6 retratos enmarcados son avatares).
+
+### Tizón *(falta la imagen)*
+- **Curso y rol:** C. Aprendiz de la Forja que recibe a Kira en la Clase 0 y termina siendo su compañero ([c.md](c.md)). Es el contrapunto de Kira: ella dice **«¡golpeá!»**, él **«¿lo mediste?»**.
+- **Edad y sexo:** 16, varón, enano joven.
+- **Altura y contextura:** bajo (1,40 m), ancho y robusto, de manos grandes.
+- **Rasgos:** piel morena con **hollín en las mejillas**, ojos grandes color ámbar, **pelo rojizo revuelto** que se le chamusca siempre en la punta, **una barba incipiente de la que está muy orgulloso** (tiene cuatro pelos).
+- **Ropa:** delantal de cuero chico con muchos bolsillos, camisa arremangada, **antiparras de herrero** subidas en la frente, guantes gruesos.
+- **Objeto:** un **calibre de bronce** colgado del cuello con el que mide **todo** (las piezas, la sopa, a Kira) y una **libreta de medidas** llena de números.
+- **Color:** marrón cuero y el **naranja** de las Forjas.
+- **Personalidad:** meticuloso, charlatán, ansioso; cuenta los bytes en voz alta; se pone colorado cuando se equivoca en una cuenta.
+- **Le gusta:** las tablas prolijas, los números redondos, que algo entre «justito».
+- **Defecto o miedo:** se traba midiendo y nunca se anima a golpear; le tiene pánico a los trolls de las Minas.
+- **Frase:** «¿Lo mediste? Medilo de nuevo.»
+- **Relaciones:** aprendiz de Ferrum; compañero de Kira (se pelean, se cubren); le tiene un poco de miedo a Hulda.
+- **Primera aparición:** C, Clase 0.
+
+### Hulda *(falta la imagen)*
+- **Rol:** la **capataz de las Minas** (R03 de C). Presta las vagonetas (la memoria) y anota cada una: lo que se pide, se devuelve. En los ejemplos y las prácticas es la herrera de turno de la Forja.
+- **Edad y sexo:** 45, mujer, enana.
+- **Altura y contextura:** baja y fortísima, brazos de minera.
+- **Rasgos:** piel clara manchada de polvo de roca, **trenzas gruesas grises y negras** recogidas bajo el casco, mandíbula firme, una ceja partida.
+- **Ropa:** **casco de minera con farol naranja**, chaleco de cuero reforzado, pantalón grueso, botas con punta de hierro.
+- **Objeto:** un **pico** al hombro y una **tablilla** donde anota cada vagoneta prestada.
+- **Color:** gris roca, cuero y el **naranja** del farol.
+- **Personalidad:** dura, práctica, seca; cobra «intereses» en chistes a quien no devuelve lo que pidió. Se ríe a carcajadas cuando alguien libera todo al final.
+- **Frase:** «Vagoneta que sacás, vagoneta que devolvés.»
+- **Relaciones:** vieja colega de Ferrum; le cae bien Kira porque no se queja; a Tizón lo hace contar vagonetas.
+- **Primera aparición:** C, R03-N01.
+- **Dónde va:** las Minas: galerías con vías, vagonetas, faroles y vetas que brillan.
+
+### Chispa *(falta la imagen)*
+- **Rol:** **mercader de lingotes** que va y viene entre las Forjas y los otros mundos. En los ejemplos y las prácticas es el que compra, vende y trae noticias de afuera (de él salen los anticipos de otros cursos).
+- **Edad y sexo:** 30, varón.
+- **Altura y contextura:** alto y flaco, se mueve rápido.
+- **Rasgos:** piel trigueña, sonrisa enorme con un **diente de oro**, bigote finito, pelo negro con gomina.
+- **Ropa:** **chaqueta larga de viajero** con muchísimos bolsillos, bufanda naranja, sombrero de ala corta con antiparras.
+- **Objeto:** una **carretilla** que siempre está por desarmarse, y una balanza de bolsillo **que siempre mide un poquito a su favor**.
+- **Color:** marrón, naranja y el dorado del diente.
+- **Personalidad:** charlatán, simpático, un poco tramposo; vende «lingotes casi nuevos». Tizón le revisa la balanza cada vez.
+- **Frase:** «Precio de amigo, y porque sos vos.»
+- **Relaciones:** cliente de Ferrum desde siempre; cuenta que en el Imperio atraparon a un ladrón de techos en la Aduana (Zed) y que en la Ciudadela un mecánico pregunta por Ferrum (Bron).
+- **Primera aparición:** C, R01.
+
+### El Archivero de la Forja *(falta la imagen)*
+- **Rol:** guarda los **libros de pedidos y los planos** de todos los encargos de las Forjas (R04 de C); le abre a Kira el Archivo, donde está el pedido de plomo del Vidriero.
+- **Edad y sexo:** 80, hombre, enano.
+- **Altura y contextura:** bajito y encorvado, de barba blanca **tan larga que la lleva enrollada en el cinturón**.
+- **Rasgos:** anteojos gruesos de cristal ahumado, nariz roja, manos manchadas de tinta y hollín.
+- **Ropa:** túnica marrón con mangas protectoras de cuero, gorro de lana, pantuflas (es el único de las Forjas que no usa botas).
+- **Objeto:** un **manojo de llaves de hierro** y un libro de registros encadenado a la muñeca.
+- **Personalidad:** despistado y memorioso a la vez: se acuerda de cada byte de cada archivo, pero no de dónde dejó los anteojos (los tiene puestos).
+- **Frase:** «Lo que no está escrito en disco, no pasó.»
+- **Relaciones:** el más viejo amigo de Ferrum; desconfía de Chispa.
+- **Primera aparición:** C, R04-N01.
+- **Dónde va:** el Archivo de la Forja: estanterías de hierro, cajas de fichas selladas y libros encadenados.
+
+### El Gólem de Escoria *(falta la imagen)*
+- **Rol:** el jefe de R01 de C, en el portón de la Forja. Está hecho de **toda la escoria** que dejaron los programas mal escritos (y un poco de la que dejó Kira en su primera semana). Se lo vence partiendo el problema en funciones, no a golpes. Al caer, Ferrum le reforja a Kira **la Espada Reforjada**.
+- **Qué es:** un gigante de **escoria negra y rocas fundidas**, con grietas por donde se ve lava naranja; en el pecho tiene incrustados **puntos y coma, llaves sueltas y pedazos de código** que brillan.
+- **Color:** negro escoria y naranja lava.
+- **Cómo habla:** no habla: **gruñe advertencias del compilador** (`warning: unused variable`).
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### La Araña de las Direcciones *(falta la imagen)*
+- **Rol:** el jefe de R02 de C, en el pasillo sin fin. Teje **direcciones falsas** y cambia los carteles de lugar. Se la vence sin perder nunca el puntero. Deja **el Hilo de las Direcciones**.
+- **Qué es:** una araña gigante de **metal pavonado**, con patas como **flechas de cartel** que señalan a todas partes, ojos con números hexadecimales (`0x7ffe…`) y una telaraña de **hilos de cobre** que unen casilleros numerados.
+- **Color:** azul acero, cobre y el **cian** de las direcciones.
+- **Cómo habla:** susurra direcciones de memoria y se ríe cuando alguien usa un puntero sin inicializar.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### La Sanguijuela de las Minas *(falta la imagen)*
+- **Rol:** el jefe de R03 de C, en la galería que se vacía. Se **come la memoria que nadie devolvió** y engorda con cada fuga. Se la vence liberando todo. Deja **la Lámpara del Minero**.
+- **Qué es:** una sanguijuela enorme, **translúcida**, enroscada en las vías, con **vagonetas tragadas** que se ven dentro de su cuerpo; cuanto más come, más grande.
+- **Color:** violeta oscuro, gris roca y el **naranja** de los faroles reflejado.
+- **Cómo habla:** sorbe. Dice «gracias» cada vez que alguien se olvida un `free`.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Guardián del Archivo *(falta la imagen)*
+- **Rol:** el jefe de R04 de C, en la bóveda de los registros. Solo deja pasar a quien abre, lee, escribe y **cierra** cada archivo. Deja **el Libro de Registros de Plomo**.
+- **Qué es:** un **autómata de hierro** con forma de archivador gigante: cada cajón del pecho es un archivo que se abre y se cierra solo; tiene un candado por cabeza con un ojo naranja en el ojo de la cerradura.
+- **Color:** hierro, bronce y naranja.
+- **Cómo habla:** con ruido de cajones: «¿Abriste? ¿Cerraste?».
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Dragón bajo la Montaña *(falta la imagen)*
+- **Rol:** el jefe final de C (R05-N04), en la fragua más honda. Duerme sobre **el plomo fundido** del Vidriero. Kira lo vence forjando su propia hoja, midiendo cada grado: **la Hoja Templada**. Detrás de él está **la Matriz del Marco**.
+- **Qué es:** un dragón de **hierro negro con escamas como placas de forja**, venas de **lava** que laten, alas de chapa remachada y un **horno encendido en el pecho**; donde pisa, el metal se derrite.
+- **Color:** hierro negro, rojo lava y el **naranja** de las Forjas.
+- **Cómo habla:** con voz de fragua; cada pregunta suena a martillazo.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### La Salamandra del Horno *(falta la imagen)*
+- **Rol:** el jefe de la Senda de la Forja Viva (S01 de C, videojuegos con SDL3). Corre por las pantallas más rápido que cualquier bucle de juego.
+- **Qué es:** una salamandra de **fuego vivo**, hecha de píxeles encendidos que dejan una estela al moverse.
+- **Color:** naranja, amarillo y rojo, con contornos pixelados.
+- **Cómo habla:** chisporrotea.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Autómata Guardián *(falta la imagen)*
+- **Rol:** el jefe de la Senda de los Autómatas (S02 de C, Arduino). Se lo vence leyendo bien sus sensores y moviendo bien sus motores.
+- **Qué es:** un **autómata de latón** del tamaño de un perro grande, con cables a la vista, **leds** por ojos, una placa con un microcontrolador en el pecho y un servomotor en cada articulación.
+- **Color:** latón, verde placa y el rojo de los leds.
+- **Cómo habla:** con **pitidos** en código y leds que parpadean.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+---
+
 ## El Imperio de las Clases (Java)
 
 ### Kaffa

@@ -386,6 +386,26 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** Java, R02-N01.
 - **Dónde va:** los talleres de la Academia: moldes de bronce colgando del techo, yunques, chispas y pizarras.
 
+### El Archivista Mayor *(falta la imagen)*
+- **Rol:** dirige los **Archivos Imperiales** (R03): recibe a Zed, le enseña paquetes, listas, mapas y lambdas, y le abre el ala sur donde está la ficha vacía del Vidriero.
+- **Edad y sexo:** 70, hombre.
+- **Altura y contextura:** alto y muy flaco, un poco encorvado.
+- **Rasgos:** piel clara y arrugada, nariz larga, cejas blancas enormes, pelo blanco largo atado atrás, **una lupa colgada del cuello** con una cadena.
+- **Ropa:** **túnica gris** larga con vivos dorados y bolsillos llenos de tarjetitas, mangas protectoras de tela.
+- **Objeto:** la lupa y un manojo de **tarjetitas** con lambdas escritas.
+- **Personalidad:** ordenado hasta la manía, amable, se emociona cuando algo queda bien archivado; odia las instrucciones largas.
+- **Frase:** «Cada pergamino tiene su sala.»
+- **Relaciones:** viejo amigo de Kaffa; le preocupa que alguien borre registros en su palacio.
+- **Primera aparición:** Java, R03-N01.
+- **Dónde va:** los Archivos Imperiales: salas altísimas de estantes, escaleras con ruedas, cajoncitos de fichas y faroles.
+
+### El Espectro Nulo (jefe de R03 de Java) *(falta la imagen)*
+- **Rol:** el jefe de los Archivos (R03-N08): vive en la «sala vacía», borra los registros del Vidriero y aparece donde alguien supuso que algo existía. Al apagarse deja la **Linterna del Espectro**.
+- **Qué es:** una **figura transparente hecha de pergaminos en blanco** que flotan, sin cara, con un **hueco negro con forma de «null»** en el pecho y jirones de tinta que se desvanecen.
+- **Color:** blanco papel, gris y un **azul frío** espectral.
+- **Cómo habla:** no habla: **grita** *NullPointerException* y congela todo.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
 ### El Centinela de la Aduana
 - **Rol:** el jefe de la Aduana (R01-N09). Aprueba o rechaza a cada viajero desde hace siglos; no se lo engaña: se lo vence con orden. Le hace a Zed cuatro preguntas y, al final, le entrega el **Sello de Entrada**.
 - **Qué es:** una **armadura vacía** de piedra gris y bronce, sentada en un **trono de piedra**, con un **libro de registros** abierto sobre las rodillas y una pluma que escribe sola. Por las juntas no se ve nada adentro: solo una **luz azul** en el lugar de los ojos.

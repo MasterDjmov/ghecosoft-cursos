@@ -314,7 +314,7 @@ class Expeditions
         $hp = $maxHp;
         $mp = $maxMp;
         $usesMagic = $int > $str;
-        $secondLife = $hero->accessory?->code === Item::TRACEBACK;
+        $secondLife = in_array($hero->accessory?->code, Item::SECOND_LIFE, true);
 
         // Pociones disponibles de este mundo o comunes, de la más chica a la más grande.
         $owned = $this->inventory->owned($hero->user);

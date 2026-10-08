@@ -17,9 +17,9 @@ temas: prog.modulos, cal.build
 
 ### Crónica
 
-Los **Archivos Imperiales** ocupan un palacio entero: salas, pasillos, estantes con etiquetas. *Modelo*, *Servicios*, *Pantallas*. Cada pergamino tiene su sala, y para pedir uno de otra sala hay que decir su dirección completa.
+Con los Guantes del Artesano puestos, Zed llega a los **Archivos Imperiales**: un palacio entero de salas, pasillos y estantes con etiquetas. *Modelo*, *Servicios*, *Pantallas*. Cada pergamino tiene su sala, y para pedir uno de otra sala hay que decir su dirección completa. Acá se guarda el registro de todos los que cruzaron al Imperio. También, dicen, el de alguien que llegó con un vitral.
 
-—Un programa grande con todas sus clases en un solo archivo es un depósito sin estantes —dice {mentor}—. En el Imperio, cada clase vive en su **paquete**. Aprendé a ordenarlas, a compilarlas juntas y a empaquetarlas en un **jar** que cualquiera pueda ejecutar, {heroe}.
+—Un programa grande con todas sus clases en un solo archivo es un depósito sin estantes —dice {mentor}—. En el Imperio, cada clase vive en su **paquete**. Aprendé a ordenarlas, a compilarlas juntas y a empaquetarlas en un **jar** que cualquiera pueda ejecutar, Zed.
 
 ### Objetivos
 
@@ -260,6 +260,184 @@ in imperio.modelo; cannot be accessed from outside package`.
 
 **Ogro: `:` o `;` en el classpath.** En Linux y macOS se separa con `:` y en Windows
 con `;`.
+
+### Micro-misión R03-N01-P1 · La dirección que faltaba
+
+```meta
+lugar: Las salas de los Archivos Imperiales
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+criatura: esqueleto
+carta: import | import java.util.Random; · trae una clase de otro paquete por su nombre corto · sin import: cannot find symbol
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Los **Archivos Imperiales** ocupan un palacio entero: salas, pasillos, estantes con etiquetas. El **Archivista Mayor**, un hombre flaco con una lupa colgada del cuello, recibe a Zed. —Acá cada pergamino tiene su sala. Para pedir uno de otra sala, decí de dónde viene.
+Zed pide un `Random` sin decir de dónde, y un **esqueleto** sale del estante: *cannot find symbol*.
+
+#### Gheco sugiere
+`Random` vive en el paquete `java.util`. Para usarlo con su nombre corto, hay que **importarlo** arriba de todo: `import java.util.Random;`. Solo las clases de `java.lang` (`String`, `Math`, `Integer`…) vienen sin import.
+
+#### Desafío
+Ejecutalo, leé el error y agregá el `import` que falta en la primera línea.
+
+#### Código inicial
+```java
+public class Sorteo {
+    public static void main(String[] args) {
+        Random r = new Random(7);
+        System.out.println("Sala sorteada: " + (r.nextInt(10) + 1));
+        System.out.println("Estante sorteado: " + (r.nextInt(20) + 1));
+    }
+}
+```
+
+#### Salida esperada
+```
+Sala sorteada: 7
+Estante sorteado: 5
+```
+
+#### Solución
+```java
+import java.util.Random;
+
+public class Sorteo {
+    public static void main(String[] args) {
+        Random r = new Random(7);
+        System.out.println("Sala sorteada: " + (r.nextInt(10) + 1));
+        System.out.println("Estante sorteado: " + (r.nextInt(20) + 1));
+    }
+}
+```
+
+#### Al superarla
+Con la dirección completa, el pergamino llega solo. El esqueleto vuelve a su estante, ahora con etiqueta.
+
+#### Imagen
+- Un palacio de archivos con salas y pasillos etiquetados: «Modelo», «Servicios», «Pantallas».
+- El Archivista Mayor (flaco, lupa colgada del cuello, túnica gris con vivos dorados) recibiendo a Zed y Nadia.
+- Un esqueleto saliendo de un estante sin etiqueta.
+
+### Micro-misión R03-N01-P2 · La sala de cada clase
+
+```meta
+lugar: Las salas de los Archivos Imperiales
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: package | package imperio.archivos; en la PRIMERA línea · el nombre completo de la clase es imperio.archivos.Pergamino
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Tu clase no puede andar suelta por el palacio —dice el Archivista—. Decí en qué sala vive. Y desde ese momento, su nombre completo incluye la sala.
+
+#### Gheco sugiere
+`package imperio.archivos;` va en la **primera línea** del archivo: la clase pasa a vivir en ese paquete. Su nombre completo es `imperio.archivos.Pergamino`, y eso es lo que muestra `getClass().getName()`.
+
+#### Desafío
+Completá la palabra que declara el paquete.
+
+#### Código inicial
+```java
+___ imperio.archivos;
+
+public class Pergamino {
+    public static void main(String[] args) {
+        Pergamino p = new Pergamino();
+        System.out.println("Nombre corto: " + p.getClass().getSimpleName());
+        System.out.println("Nombre completo: " + p.getClass().getName());
+    }
+}
+```
+
+#### Salida esperada
+```
+Nombre corto: Pergamino
+Nombre completo: imperio.archivos.Pergamino
+```
+
+#### Solución
+```java
+package imperio.archivos;
+
+public class Pergamino {
+    public static void main(String[] args) {
+        Pergamino p = new Pergamino();
+        System.out.println("Nombre corto: " + p.getClass().getSimpleName());
+        System.out.println("Nombre completo: " + p.getClass().getName());
+    }
+}
+```
+
+#### Al superarla
+«imperio.archivos.Pergamino.» El Archivista lo anota en el índice. En un proyecto de verdad, además, el archivo va en la carpeta `imperio/archivos/`.
+
+#### Imagen
+- Un índice gigante del palacio con una entrada nueva: «imperio.archivos.Pergamino».
+- El Archivista anotando con una pluma larga; Gheco señalando la carpeta en un mapa del palacio.
+
+### Micro-misión R03-N01-P3 · La puerta de la sala
+
+```meta
+lugar: Las salas de los Archivos Imperiales
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Acceso de paquete | sin modificador: lo ven las clases del MISMO paquete · private: solo la propia clase · public: todos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El catálogo de la sala tiene un dato que tienen que leer **los archivistas de esa sala**, pero no los visitantes de otras. Alguien lo marcó `private` y ahora no lo lee nadie, ni siquiera la clase vecina.
+
+#### Gheco sugiere
+Sin modificador, un atributo es **de paquete**: lo ven las clases del mismo paquete y nadie más. Es el punto medio entre `private` (solo la propia clase) y `public` (todos). Todas las clases de este archivo están en el mismo paquete.
+
+#### Desafío
+Ejecutalo, leé el error y sacale el `private` al atributo `ubicacion` para que lo vean las clases de la misma sala.
+
+#### Código inicial
+```java
+public class Sala {
+    public static void main(String[] args) {
+        Catalogo c = new Catalogo();
+        System.out.println("Título: " + c.titulo);
+        System.out.println("Ubicación: " + c.ubicacion);
+    }
+}
+
+class Catalogo {
+    public String titulo = "Tratado de los moldes";
+    private String ubicacion = "estante 14, sala norte";
+}
+```
+
+#### Salida esperada
+```
+Título: Tratado de los moldes
+Ubicación: estante 14, sala norte
+```
+
+#### Solución
+```java
+public class Sala {
+    public static void main(String[] args) {
+        Catalogo c = new Catalogo();
+        System.out.println("Título: " + c.titulo);
+        System.out.println("Ubicación: " + c.ubicacion);
+    }
+}
+
+class Catalogo {
+    public String titulo = "Tratado de los moldes";
+    String ubicacion = "estante 14, sala norte";
+}
+```
+
+#### Al superarla
+«Estante 14, sala norte.» Allá va Zed. En el ala norte, el archivista de turno está desesperado: le dieron un estante con **diez** lugares fijos y ya tiene catorce pergaminos.
+
+#### Imagen
+- Una puerta de sala con tres cerraduras de distinto tamaño: una abierta para todos, una para los de la sala y una con candado.
+- Al fondo, un estante de diez lugares desbordado de pergaminos.
 
 ### Misión R03-N01-M1 · El proyecto de la biblioteca
 
@@ -771,9 +949,9 @@ temas: col.listas, poo.genericos
 
 ### Crónica
 
-El archivista del ala norte está desesperado: le dieron un estante con 10 lugares fijos y ya tiene 14 pergaminos. Para agregar uno tiene que pedir un estante nuevo, copiar todo y tirar el viejo.
+El archivista del ala norte está desesperado: le dieron un estante con 10 lugares fijos y ya tiene 14 pergaminos. Para agregar uno tiene que pedir un estante nuevo, copiar todo y tirar el viejo. Zed lo mira trabajar y piensa en sus arrays de la Aduana.
 
-—Los arrays tienen tamaño fijo —dice {mentor}—. Para las colecciones que crecen y se achican, el Imperio tiene **listas**. Y gracias a los **genéricos**, una lista de pergaminos solo acepta pergaminos, {heroe}: la Aduana lo controla al compilar.
+—Los arrays tienen tamaño fijo —dice {mentor}—. Para las colecciones que crecen y se achican, el Imperio tiene **listas**. Y gracias a los **genéricos**, una lista de pergaminos solo acepta pergaminos: la Aduana lo controla al compilar.
 
 ### Objetivos
 
@@ -1044,6 +1222,290 @@ iguales. Usá `equals`.
 
 **Goblin: modificar una lista de `List.of`.** `UnsupportedOperationException`: es
 inmutable. Creá un `new ArrayList<>(List.of(...))`.
+
+### Micro-misión R03-N02-P1 · El estante que crece
+
+```meta
+lugar: El ala norte de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: ArrayList | List<String> l = new ArrayList<>(); · add agrega · get(i) lee · size() cuántos hay · crece sola
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El estante del ala norte tiene diez lugares fijos, como un array. Para agregar uno más, el archivista tiene que pedir un estante nuevo, copiar todo y tirar el viejo. —Para lo que crece —dice Gheco—, una **lista**.
+
+#### Gheco sugiere
+Un `ArrayList` es un array que **crece solo**: `add(x)` agrega al final, `get(i)` lee la posición `i` y `size()` dice cuántos hay. Se declara con la interfaz: `List<String> estante = new ArrayList<>();`. `Collections.sort(estante)` la ordena.
+
+#### Desafío
+Agregá el pergamino que falta, "Mapa del sur", con el método que agrega al final.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class AlaNorte {
+    public static void main(String[] args) {
+        List<String> estante = new ArrayList<>();
+        estante.add("Tratado de paz");
+        estante.add("Censo del Puerto");
+        estante.___("Mapa del sur");
+        System.out.println("Pergaminos: " + estante.size());
+        System.out.println("El segundo: " + estante.get(1));
+        Collections.sort(estante);
+        System.out.println("Ordenados: " + estante);
+    }
+}
+```
+
+#### Salida esperada
+```
+Pergaminos: 3
+El segundo: Censo del Puerto
+Ordenados: [Censo del Puerto, Mapa del sur, Tratado de paz]
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class AlaNorte {
+    public static void main(String[] args) {
+        List<String> estante = new ArrayList<>();
+        estante.add("Tratado de paz");
+        estante.add("Censo del Puerto");
+        estante.add("Mapa del sur");
+        System.out.println("Pergaminos: " + estante.size());
+        System.out.println("El segundo: " + estante.get(1));
+        Collections.sort(estante);
+        System.out.println("Ordenados: " + estante);
+    }
+}
+```
+
+#### Al superarla
+El estante se estira solo para cada pergamino nuevo. El archivista lo mira como si fuera un milagro y le ofrece café a Zed.
+
+#### Imagen
+- Un estante de madera mágico que se alarga a medida que le ponen pergaminos.
+- El archivista del ala norte, aliviado, ofreciéndole una taza a Zed.
+
+### Micro-misión R03-N02-P2 · Los primitivos no entran
+
+```meta
+lugar: El ala norte de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Envoltorios | List<Integer>, nunca List<int> · Integer envuelve a int, Double a double · autoboxing: add(90) lo envuelve solo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Zed quiere guardar los puntajes del torneo de los Archivos en una lista de `int`. La Aduana del compilador no lo deja: las listas solo guardan **objetos**.
+
+#### Gheco sugiere
+Los genéricos solo aceptan clases. Para enteros se usa la clase **envoltorio** `Integer`: `List<Integer>`. Al hacer `add(90)`, Java envuelve el `int` solo (**autoboxing**), y al sumarlo lo desenvuelve.
+
+#### Desafío
+Completá el tipo de la lista con la clase envoltorio de `int`.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Puntajes {
+    public static void main(String[] args) {
+        List<___> puntajes = new ArrayList<>();
+        puntajes.add(90);
+        puntajes.add(75);
+        puntajes.add(88);
+        int total = 0;
+        for (int p : puntajes) {
+            total += p;
+        }
+        System.out.println("Puntajes: " + puntajes);
+        System.out.println("Total: " + total);
+    }
+}
+```
+
+#### Salida esperada
+```
+Puntajes: [90, 75, 88]
+Total: 253
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Puntajes {
+    public static void main(String[] args) {
+        List<Integer> puntajes = new ArrayList<>();
+        puntajes.add(90);
+        puntajes.add(75);
+        puntajes.add(88);
+        int total = 0;
+        for (int p : puntajes) {
+            total += p;
+        }
+        System.out.println("Puntajes: " + puntajes);
+        System.out.println("Total: " + total);
+    }
+}
+```
+
+#### Al superarla
+Doscientos cincuenta y tres puntos. Nadia ganó el torneo de los Archivos, por supuesto. Zed quedó segundo «porque no conocía el reglamento».
+
+#### Imagen
+- Tres números envueltos en papel de regalo con la etiqueta «Integer», entrando en una lista.
+- Nadia con una medalla; Zed con una más chica, poniendo excusas.
+
+### Micro-misión R03-N02-P3 · El que se borró de más
+
+```meta
+lugar: El ala norte de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+criatura: ogro
+carta: remove en List<Integer> | remove(2) borra la POSICIÓN 2 · remove(Integer.valueOf(2)) borra el VALOR 2
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la lista de salas para revisar hay que tachar la **sala 2**. Zed escribe `salas.remove(2)` y desaparece otra sala. El programa no se queja: un **ogro** de manual.
+
+#### Gheco sugiere
+En una `List<Integer>`, `remove(2)` borra la **posición** 2. Para borrar el **valor** 2 hay que pasarle un objeto: `remove(Integer.valueOf(2))`.
+
+#### Desafío
+Ejecutalo, mirá qué sala desaparece y arreglalo para borrar el valor 2.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Salas {
+    public static void main(String[] args) {
+        List<Integer> salas = new ArrayList<>(List.of(5, 2, 9, 7));
+        salas.remove(2);
+        System.out.println("Quedan por revisar: " + salas);
+    }
+}
+```
+
+#### Salida esperada
+```
+Quedan por revisar: [5, 9, 7]
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Salas {
+    public static void main(String[] args) {
+        List<Integer> salas = new ArrayList<>(List.of(5, 2, 9, 7));
+        salas.remove(Integer.valueOf(2));
+        System.out.println("Quedan por revisar: " + salas);
+    }
+}
+```
+
+#### Al superarla
+Ahora sí se tacha la sala 2 y la 9 vuelve a la lista. El ogro se aleja, ofendido.
+
+#### Imagen
+- Una lista de salas en un pergamino: la 2 tachada correctamente y la 9 restaurada con tinta fresca.
+- Un ogro alejándose con los brazos cruzados.
+
+### Micro-misión R03-N02-P4 · El cofre de cualquier cosa
+
+```meta
+lugar: El ala norte de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Clase genérica | class Cofre<T> { T contenido; } · T es un tipo que se elige al usarla · Cofre<String>, Cofre<Integer>
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Archivista quiere un cofre que guarde **una** cosa, de cualquier tipo, pero sin mezclar: un cofre de pergaminos solo acepta pergaminos. —Como las listas —dice Gheco—: con un **tipo entre `<>`**.
+
+#### Gheco sugiere
+`class Cofre<T>` declara un **parámetro de tipo** `T`. Adentro se usa como cualquier tipo (`T contenido;`). Al crear el cofre se elige: `new Cofre<>("…")` en un `Cofre<String>`.
+
+#### Desafío
+Completá el parámetro de tipo de la clase.
+
+#### Código inicial
+```java
+public class Cofres {
+    public static void main(String[] args) {
+        Cofre<String> deTexto = new Cofre<>("Carta del Vidriero");
+        Cofre<Integer> deNumeros = new Cofre<>(1203);
+        System.out.println(deTexto.abrir().toUpperCase());
+        System.out.println(deNumeros.abrir() + 1);
+    }
+}
+
+class Cofre<___> {
+    private T contenido;
+
+    Cofre(T contenido) {
+        this.contenido = contenido;
+    }
+
+    T abrir() {
+        return contenido;
+    }
+}
+```
+
+#### Salida esperada
+```
+CARTA DEL VIDRIERO
+1204
+```
+
+#### Solución
+```java
+public class Cofres {
+    public static void main(String[] args) {
+        Cofre<String> deTexto = new Cofre<>("Carta del Vidriero");
+        Cofre<Integer> deNumeros = new Cofre<>(1203);
+        System.out.println(deTexto.abrir().toUpperCase());
+        System.out.println(deNumeros.abrir() + 1);
+    }
+}
+
+class Cofre<T> {
+    private T contenido;
+
+    Cofre(T contenido) {
+        this.contenido = contenido;
+    }
+
+    T abrir() {
+        return contenido;
+    }
+}
+```
+
+#### Al superarla
+Uno guarda texto y el otro un número, y la Aduana del compilador sabe qué hay en cada uno. —«Carta del Vidriero» —lee Zed—. ¿Quién es el Vidriero?
+—Preguntá en el ala sur —dice el Archivista—. Allá no hay estantes: hay **fichas**.
+
+#### Imagen
+- Dos cofres iguales con etiquetas distintas, «String» e «Integer», uno con una carta y otro con un número.
+- Zed leyendo la etiqueta «Carta del Vidriero», intrigado.
 
 ### Misión R03-N02-M1 · La lista de compras de la posada
 
@@ -1568,9 +2030,9 @@ temas: col.mapas, col.conjuntos
 
 ### Crónica
 
-En el ala sur de los Archivos no hay estantes numerados: hay **fichas**. Cada ficha tiene una etiqueta (el nombre de una ciudad) y, detrás, todo lo que se sabe de ella. El archivista no busca de a uno: va directo a la ficha que necesita.
+En el ala sur de los Archivos no hay estantes numerados: hay **fichas**. Cada ficha tiene una etiqueta y, detrás, todo lo que se sabe de ella. El archivista no busca de a uno: va directo a la ficha que necesita. Zed sabe qué etiqueta quiere buscar: **el Vidriero**.
 
-—Una lista sirve cuando te importa el orden —dice {mentor}—. Cuando querés **buscar por una clave**, usá un **mapa**. Y cuando lo único que te importa es si algo está o no, sin repetidos, un **conjunto**, {heroe}.
+—Una lista sirve cuando te importa el orden —dice {mentor}—. Cuando querés **buscar por una clave**, usá un **mapa**. Y cuando lo único que te importa es si algo está o no, sin repetidos, un **conjunto**.
 
 ### Objetivos
 
@@ -1770,6 +2232,296 @@ como con las listas. Para borrar mientras recorrés: `mapa.entrySet().removeIf(.
 **Goblin: `TreeMap` con claves que no son comparables.** `ClassCastException: class X
 cannot be cast to class java.lang.Comparable`: las claves de un `TreeMap` tienen que
 ser `Comparable`.
+
+### Micro-misión R03-N03-P1 · El censo de criaturas
+
+```meta
+lugar: El ala sur de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Contar con un mapa | Map<String, Integer> m = new TreeMap<>(); · m.put(k, m.getOrDefault(k, 0) + 1) · TreeMap ordena por clave
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el ala sur no hay estantes numerados: hay **fichas**, cada una con una etiqueta. El Archivista le pide a Zed el censo de las criaturas vistas en el Imperio este mes: cuántas de cada una.
+
+#### Gheco sugiere
+Un **mapa** asocia cada clave con un valor. Para contar: `censo.put(c, censo.getOrDefault(c, 0) + 1)`: si la criatura no estaba, arranca en 0. Con `TreeMap`, las claves salen ordenadas.
+
+#### Desafío
+Completá el valor por defecto del conteo: si todavía no estaba, cuenta desde cero.
+
+#### Código inicial
+```java
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Censo {
+    public static void main(String[] args) {
+        String[] vistas = {"slime", "orco", "slime", "troll", "slime", "orco"};
+        Map<String, Integer> censo = new TreeMap<>();
+        for (String c : vistas) {
+            censo.put(c, censo.getOrDefault(c, ___) + 1);
+        }
+        System.out.println(censo);
+        System.out.println("Slimes: " + censo.get("slime"));
+    }
+}
+```
+
+#### Salida esperada
+```
+{orco=2, slime=3, troll=1}
+Slimes: 3
+```
+
+#### Solución
+```java
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Censo {
+    public static void main(String[] args) {
+        String[] vistas = {"slime", "orco", "slime", "troll", "slime", "orco"};
+        Map<String, Integer> censo = new TreeMap<>();
+        for (String c : vistas) {
+            censo.put(c, censo.getOrDefault(c, 0) + 1);
+        }
+        System.out.println(censo);
+        System.out.println("Slimes: " + censo.get("slime"));
+    }
+}
+```
+
+#### Al superarla
+Tres slimes, dos orcos, un troll. El Archivista guarda el censo en la ficha «criaturas». —Ni un recuento a mano —dice, conmovido.
+
+#### Imagen
+- El ala sur de los Archivos: paredes de cajoncitos con fichas etiquetadas.
+- Una ficha «criaturas» con los conteos: orco 2, slime 3, troll 1.
+
+### Micro-misión R03-N03-P2 · Recorrer las fichas
+
+```meta
+lugar: El ala sur de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Recorrer un mapa | for (Map.Entry<String, Integer> e : m.entrySet()) · e.getKey() la clave · e.getValue() el valor
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Archivista quiere el listado de las ciudades con su población, una por renglón, para colgarlo en la puerta del ala.
+
+#### Gheco sugiere
+`mapa.entrySet()` devuelve todos los pares. Cada `Map.Entry` tiene `getKey()` (la clave) y `getValue()` (el valor).
+
+#### Desafío
+Completá el método que lee el valor de cada par.
+
+#### Código inicial
+```java
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Ciudades {
+    public static void main(String[] args) {
+        Map<String, Integer> poblacion = new TreeMap<>();
+        poblacion.put("Capital", 120000);
+        poblacion.put("Puerto", 45000);
+        poblacion.put("Aduana", 3000);
+        for (Map.Entry<String, Integer> e : poblacion.entrySet()) {
+            System.out.println(e.getKey() + ": " + e.___());
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Aduana: 3000
+Capital: 120000
+Puerto: 45000
+```
+
+#### Solución
+```java
+import java.util.Map;
+import java.util.TreeMap;
+
+public class Ciudades {
+    public static void main(String[] args) {
+        Map<String, Integer> poblacion = new TreeMap<>();
+        poblacion.put("Capital", 120000);
+        poblacion.put("Puerto", 45000);
+        poblacion.put("Aduana", 3000);
+        for (Map.Entry<String, Integer> e : poblacion.entrySet()) {
+            System.out.println(e.getKey() + ": " + e.getValue());
+        }
+    }
+}
+```
+
+#### Al superarla
+Tres ciudades en orden alfabético. —El Puerto tiene cuarenta y cinco mil —dice Zed—, y yo conocía a la mitad. —A la mitad le debías algo —comenta Nadia.
+
+#### Imagen
+- Un cartel en la puerta del ala sur con tres ciudades y su población.
+- Zed sonriendo con nostalgia; Nadia levantando una ceja.
+
+### Micro-misión R03-N03-P3 · Los invitados sin repetir
+
+```meta
+lugar: El ala sur de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Set | Set<String> s = new HashSet<>(); · no guarda repetidos · add devuelve false si ya estaba
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para la cena de los Archivos, cada sala mandó su lista de invitados y muchos se repiten. Al Archivista solo le importa **quién viene**, sin repetidos.
+
+#### Gheco sugiere
+Un `Set` es un conjunto: no guarda repetidos. `invitados.add(n)` devuelve `true` si lo agregó y `false` si ya estaba. `size()` dice cuántos distintos hay.
+
+#### Desafío
+Completá el método que agrega al conjunto (y devuelve si era nuevo).
+
+#### Código inicial
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class Invitados {
+    public static void main(String[] args) {
+        String[] listas = {"Kaffa", "Nadia", "Zed", "Nadia", "la Maestra de Moldes", "Kaffa"};
+        Set<String> invitados = new HashSet<>();
+        for (String n : listas) {
+            if (!invitados.___(n)) {
+                System.out.println(n + " ya estaba");
+            }
+        }
+        System.out.println("Vienen " + invitados.size() + " invitados");
+        System.out.println("¿Viene Zed? " + invitados.contains("Zed"));
+    }
+}
+```
+
+#### Salida esperada
+```
+Nadia ya estaba
+Kaffa ya estaba
+Vienen 4 invitados
+¿Viene Zed? true
+```
+
+#### Solución
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class Invitados {
+    public static void main(String[] args) {
+        String[] listas = {"Kaffa", "Nadia", "Zed", "Nadia", "la Maestra de Moldes", "Kaffa"};
+        Set<String> invitados = new HashSet<>();
+        for (String n : listas) {
+            if (!invitados.add(n)) {
+                System.out.println(n + " ya estaba");
+            }
+        }
+        System.out.println("Vienen " + invitados.size() + " invitados");
+        System.out.println("¿Viene Zed? " + invitados.contains("Zed"));
+    }
+}
+```
+
+#### Al superarla
+Cuatro invitados distintos. Zed figura en la lista oficial de una cena del Imperio. Hace un mes, hubiera entrado por la ventana.
+
+#### Imagen
+- Una tarjeta de invitación con cuatro nombres, y dos repetidos tachados que se desvanecen.
+- Zed mirando su nombre en la lista, contento.
+
+### Micro-misión R03-N03-P4 · La ficha del Vidriero
+
+```meta
+lugar: El ala sur de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+criatura: troll
+carta: containsKey | get(k) da null si la clave no está… o si está con valor null · containsKey(k) dice si la clave existe
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Zed busca la ficha del viajero por su clave: **«el Vidriero»**. `get` devuelve `null`. ¿No existe? Nadia, que conoce el ala sur, no está tan segura. Un **troll** asoma detrás de los cajones.
+
+#### Gheco sugiere
+`get(clave)` devuelve `null` en dos casos: si la clave **no está**, o si está **guardada con `null`**. Para distinguirlos, `containsKey(clave)`.
+
+#### Desafío
+Completá el método que pregunta si la clave existe.
+
+#### Código inicial
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Fichas {
+    public static void main(String[] args) {
+        Map<String, String> fichas = new HashMap<>();
+        fichas.put("Baldo", "mercader ambulante");
+        fichas.put("el Vidriero", null);
+        String[] buscadas = {"Baldo", "el Vidriero", "el Fantasma"};
+        for (String k : buscadas) {
+            if (fichas.get(k) != null) {
+                System.out.println(k + ": " + fichas.get(k));
+            } else if (fichas.___(k)) {
+                System.out.println(k + ": la ficha existe, pero alguien la vació");
+            } else {
+                System.out.println(k + ": no hay ficha");
+            }
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Baldo: mercader ambulante
+el Vidriero: la ficha existe, pero alguien la vació
+el Fantasma: no hay ficha
+```
+
+#### Solución
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Fichas {
+    public static void main(String[] args) {
+        Map<String, String> fichas = new HashMap<>();
+        fichas.put("Baldo", "mercader ambulante");
+        fichas.put("el Vidriero", null);
+        String[] buscadas = {"Baldo", "el Vidriero", "el Fantasma"};
+        for (String k : buscadas) {
+            if (fichas.get(k) != null) {
+                System.out.println(k + ": " + fichas.get(k));
+            } else if (fichas.containsKey(k)) {
+                System.out.println(k + ": la ficha existe, pero alguien la vació");
+            } else {
+                System.out.println(k + ": no hay ficha");
+            }
+        }
+    }
+}
+```
+
+#### Al superarla
+La ficha del Vidriero **existe**, pero alguien la vació. Zed y Nadia se miran.
+Esa noche, el palacio entero se apaga: un archivista pidió un tomo que no existía y todo se cortó.
+
+#### Imagen
+- Un cajón del ala sur abierto con la etiqueta «el Vidriero» y la ficha en blanco adentro.
+- Zed y Nadia mirándose; un troll escondido detrás de los cajones; las luces del palacio apagándose al fondo.
 
 ### Misión R03-N03-M1 · El censo de criaturas
 
@@ -2244,7 +2996,7 @@ temas: err.excepciones
 
 Una noche, en los Archivos, un pergamino maldito corta todo: el archivista pedía un tomo que no existía y el edificio entero se apagó. A la mañana siguiente, {mentor} instala en cada sala una **campana**: si algo sale mal, la campana suena, alguien la escucha y decide qué hacer. El resto del edificio sigue funcionando.
 
-—Los errores van a pasar, {heroe} —dice—. Un archivo que no está, un número mal escrito, una conexión que se corta. Lo que importa es quién **escucha la campana** y qué hace con ella.
+Zed se pasó la vida esquivando alarmas. Esta vez le toca otra cosa. —Los errores van a pasar —dice {mentor}—. Un archivo que no está, un número mal escrito, una conexión que se corta. Lo que importa es quién **escucha la campana** y qué hace con ella.
 
 ### Objetivos
 
@@ -2566,6 +3318,336 @@ cerrada solo en el camino feliz) termina agotando recursos. Usá `try` con recur
 
 **Ogro: perder la causa.** `throw new MiExcepcion("falló");` dentro de un `catch` sin
 pasar la original borra la pista del error real. Pasala como segundo argumento.
+
+### Micro-misión R03-N04-P1 · La primera campana
+
+```meta
+lugar: Las salas de los Archivos, de noche
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: goblin
+carta: try / catch | try { lo que puede fallar } catch (NumberFormatException e) { qué hacer } · el programa sigue
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+A la mañana, Kaffa instala en cada sala una **campana**: si algo sale mal, suena, alguien la escucha y decide qué hacer, y el resto del palacio sigue funcionando. Zed, que toda su vida esquivó las alarmas, esta vez tiene que **escucharlas**.
+El primer pedido del día dice «doce» en lugar de 12. Un **goblin** se frota las manos.
+
+#### Gheco sugiere
+Lo que puede fallar va adentro de `try { … }`. Si falla, Java salta al `catch` de esa excepción: `catch (NumberFormatException e)`. `e.getMessage()` dice qué pasó. El programa no se corta.
+
+#### Desafío
+Completá el tipo de excepción que se atrapa.
+
+#### Código inicial
+```java
+public class Campana {
+    public static void main(String[] args) {
+        String[] pedidos = {"12", "doce", "7"};
+        for (String p : pedidos) {
+            try {
+                int tomo = Integer.parseInt(p);
+                System.out.println("Tomo " + tomo + ": en camino");
+            } catch (___ e) {
+                System.out.println("Campana: «" + p + "» no es un número de tomo");
+            }
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Tomo 12: en camino
+Campana: «doce» no es un número de tomo
+Tomo 7: en camino
+```
+
+#### Solución
+```java
+public class Campana {
+    public static void main(String[] args) {
+        String[] pedidos = {"12", "doce", "7"};
+        for (String p : pedidos) {
+            try {
+                int tomo = Integer.parseInt(p);
+                System.out.println("Tomo " + tomo + ": en camino");
+            } catch (NumberFormatException e) {
+                System.out.println("Campana: «" + p + "» no es un número de tomo");
+            }
+        }
+    }
+}
+```
+
+#### Al superarla
+Suena la campana, alguien la escucha, y el tomo 7 llega igual. El palacio no se apaga. Kaffa le da a Zed una palmada en el hombro.
+
+#### Imagen
+- Una campana de bronce sonando en una sala de los Archivos; un pergamino con «doce» escrito.
+- Kaffa instalando campanas; un goblin decepcionado.
+
+### Micro-misión R03-N04-P2 · Pase lo que pase
+
+```meta
+lugar: Las salas de los Archivos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: finally | finally { … } se ejecuta SIEMPRE: si salió bien, si falló y si hubo return · para cerrar y ordenar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cada vez que un archivista entra a buscar un tomo, tiene que **apagar la vela** al salir, lo haya encontrado o no. Si se olvida, se quema el ala.
+
+#### Gheco sugiere
+El bloque `finally` va después del `try`/`catch` y se ejecuta **siempre**, haya fallado o no. Ahí va lo que no se puede olvidar: cerrar, apagar, ordenar.
+
+#### Desafío
+Completá la palabra del bloque que se ejecuta siempre.
+
+#### Código inicial
+```java
+public class Vela {
+    static void buscar(String tomo) {
+        try {
+            System.out.println("Busco «" + tomo + "»: " + tomo.substring(0, 3));
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("«" + tomo + "» es demasiado corto");
+        } ___ {
+            System.out.println("Vela apagada");
+        }
+    }
+
+    public static void main(String[] args) {
+        buscar("Tratado");
+        buscar("Tu");
+    }
+}
+```
+
+#### Salida esperada
+```
+Busco «Tratado»: Tra
+Vela apagada
+«Tu» es demasiado corto
+Vela apagada
+```
+
+#### Solución
+```java
+public class Vela {
+    static void buscar(String tomo) {
+        try {
+            System.out.println("Busco «" + tomo + "»: " + tomo.substring(0, 3));
+        } catch (StringIndexOutOfBoundsException e) {
+            System.out.println("«" + tomo + "» es demasiado corto");
+        } finally {
+            System.out.println("Vela apagada");
+        }
+    }
+
+    public static void main(String[] args) {
+        buscar("Tratado");
+        buscar("Tu");
+    }
+}
+```
+
+#### Al superarla
+Dos búsquedas, dos velas apagadas. El ala sigue en pie.
+
+#### Imagen
+- Un archivista apagando una vela al salir de una sala oscura.
+- Un cartel en la puerta: «Pase lo que pase, apagá la vela».
+
+### Micro-misión R03-N04-P3 · La campana propia
+
+```meta
+lugar: La herrería de los Archivos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: throw y excepción propia | class SinStockException extends Exception · throw new SinStockException("…") · el método avisa con throws
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La herrería de los Archivos fabrica ganchos para los estantes. Cuando se queda sin hierro, no puede devolver «-3 ganchos»: tiene que **hacer sonar su propia campana**.
+
+#### Gheco sugiere
+Una excepción propia se declara extendiendo `Exception`. El método que la puede lanzar lo avisa con `throws SinStockException`, y la lanza con `throw new SinStockException("mensaje")`. Quien lo llama tiene que atraparla.
+
+#### Desafío
+Completá el `throw`: lanzá una `SinStockException` nueva con el mensaje armado.
+
+#### Código inicial
+```java
+public class Herreria {
+    static int stock = 5;
+
+    static void fabricar(int ganchos) throws SinStockException {
+        if (ganchos > stock) {
+            throw ___;
+        }
+        stock -= ganchos;
+        System.out.println("Fabricados " + ganchos + ", queda hierro para " + stock);
+    }
+
+    public static void main(String[] args) {
+        int[] pedidos = {3, 4, 2};
+        for (int p : pedidos) {
+            try {
+                fabricar(p);
+            } catch (SinStockException e) {
+                System.out.println("Campana de la herrería: " + e.getMessage());
+            }
+        }
+    }
+}
+
+class SinStockException extends Exception {
+    SinStockException(String mensaje) {
+        super(mensaje);
+    }
+}
+```
+
+#### Salida esperada
+```
+Fabricados 3, queda hierro para 2
+Campana de la herrería: pidieron 4 y hay hierro para 2
+Fabricados 2, queda hierro para 0
+```
+
+#### Solución
+```java
+public class Herreria {
+    static int stock = 5;
+
+    static void fabricar(int ganchos) throws SinStockException {
+        if (ganchos > stock) {
+            throw new SinStockException("pidieron " + ganchos + " y hay hierro para " + stock);
+        }
+        stock -= ganchos;
+        System.out.println("Fabricados " + ganchos + ", queda hierro para " + stock);
+    }
+
+    public static void main(String[] args) {
+        int[] pedidos = {3, 4, 2};
+        for (int p : pedidos) {
+            try {
+                fabricar(p);
+            } catch (SinStockException e) {
+                System.out.println("Campana de la herrería: " + e.getMessage());
+            }
+        }
+    }
+}
+
+class SinStockException extends Exception {
+    SinStockException(String mensaje) {
+        super(mensaje);
+    }
+}
+```
+
+#### Al superarla
+El pedido de 4 rebota con un mensaje claro y el de 2 sale igual. El herrero cuelga su campana nueva, con su nombre grabado.
+
+#### Imagen
+- Una herrería pequeña con una campana nueva colgada, grabada «SinStock».
+- El herrero mostrando el último lingote de hierro; Zed tomando nota.
+
+### Micro-misión R03-N04-P4 · La campana que trae otra
+
+```meta
+lugar: Las salas de los Archivos
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: La causa | throw new RegistroException("…", e) · la excepción nueva lleva adentro la original · e.getCause() la recupera (en el stack trace: Caused by)
+recompensa: xp 15, oro 20
+item: Amuleto de la Campana
+```
+
+#### Escena
+Zed intenta leer el registro del Vidriero y suena una campana que dice «no se pudo leer el registro». ¿Por qué? —Una campana grande suele traer una chica adentro —dice Kaffa—. **La causa**. Ahí está lo que pasó de verdad.
+
+#### Gheco sugiere
+Al lanzar una excepción nueva por culpa de otra, pasale la original como **causa**: `new RegistroException("…", e)`. Quien la atrapa la recupera con `getCause()`. En un stack trace aparece como `Caused by:`.
+
+#### Desafío
+Completá el método que recupera la excepción original.
+
+#### Código inicial
+```java
+public class Causa {
+    static int leerAnio(String registro) throws RegistroException {
+        try {
+            return Integer.parseInt(registro.split(";")[1]);
+        } catch (NumberFormatException e) {
+            throw new RegistroException("No se pudo leer el registro «" + registro + "»", e);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Año: " + leerAnio("Baldo;1203"));
+            System.out.println("Año: " + leerAnio("el Vidriero;???"));
+        } catch (RegistroException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Causa: " + e.___().getMessage());
+        }
+    }
+}
+
+class RegistroException extends Exception {
+    RegistroException(String mensaje, Throwable causa) {
+        super(mensaje, causa);
+    }
+}
+```
+
+#### Salida esperada
+```
+Año: 1203
+No se pudo leer el registro «el Vidriero;???»
+Causa: For input string: "???"
+```
+
+#### Solución
+```java
+public class Causa {
+    static int leerAnio(String registro) throws RegistroException {
+        try {
+            return Integer.parseInt(registro.split(";")[1]);
+        } catch (NumberFormatException e) {
+            throw new RegistroException("No se pudo leer el registro «" + registro + "»", e);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Año: " + leerAnio("Baldo;1203"));
+            System.out.println("Año: " + leerAnio("el Vidriero;???"));
+        } catch (RegistroException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Causa: " + e.getCause().getMessage());
+        }
+    }
+}
+
+class RegistroException extends Exception {
+    RegistroException(String mensaje, Throwable causa) {
+        super(mensaje, causa);
+    }
+}
+```
+
+#### Al superarla
+«For input string: "???"». Alguien reemplazó el año del Vidriero por signos de pregunta. No fue un error: fue **a propósito**.
+Kaffa le cuelga a Zed del cuello una campanita de bronce: el **Amuleto de la Campana**. —Para que la escuches siempre. En una pelea, te va a levantar una vez.
+
+#### Imagen
+- Una campana grande que, al sonar, deja ver una campanita más chica adentro.
+- Kaffa colgándole a Zed un amuleto con forma de campanita de bronce.
+- Un registro con «???» escrito en lugar del año.
 
 ### Misión R03-N04-M1 · El conversor a prueba de balas
 
@@ -3052,9 +4134,9 @@ temas: func.lambdas, func.orden-superior
 
 ### Crónica
 
-El archivista jefe está cansado de dar instrucciones largas: *"Tomá cada pergamino, fijate si es del año 800, y si lo es, llevalo a la sala tres"*. Una aprendiz le pasa una tarjetita con una línea: `p -> p.anio() == 800`. El archivista la mira, sonríe, y la clava en la puerta.
+El Archivista Mayor está cansado de dar instrucciones largas: *«Tomá cada pergamino, fijate si es del año 800, y si lo es, llevalo a la sala tres»*. Una aprendiz le pasa una tarjetita con una línea: `p -> p.anio() == 800`. El archivista la mira, sonríe, y la clava en la puerta.
 
-—Muchas veces lo que querés pasarle a un método no es un dato, sino **una forma de hacer algo** —dice {mentor}—: cómo ordenar, qué filtrar, qué hacer cuando tocan un botón. Las **lambdas** son esa tarjetita, {heroe}.
+—Muchas veces lo que querés pasarle a un método no es un dato, sino **una forma de hacer algo** —dice {mentor}—: cómo ordenar, qué filtrar, qué hacer cuando tocan un botón. Las **lambdas** son esa tarjetita, Zed.
 
 ### Objetivos
 
@@ -3276,6 +4358,261 @@ compila: con llaves hace falta `return`.
 
 **Troll: `removeIf` sobre una lista inmutable.** `List.of(...).removeIf(...)` corta con
 `UnsupportedOperationException`.
+
+### Micro-misión R03-N05-P1 · La tarjetita
+
+```meta
+lugar: La oficina del Archivista Mayor
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Lambda | (a, b) -> Integer.compare(a.length(), b.length()) · un método sin nombre, en una línea · reemplaza a una clase anónima
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Archivista Mayor está cansado de dar instrucciones largas. Para ordenar los títulos por largo escribió una clase anónima de diez líneas. Una aprendiz le pasa una **tarjetita** con una sola línea. Él la mira, sonríe y la clava en la puerta.
+
+#### Gheco sugiere
+Una **lambda** es un método sin nombre: `(a, b) -> …`. Si una interfaz tiene **un solo** método (como `Comparator`), en lugar de una clase anónima se pasa la lambda: `titulos.sort((a, b) -> Integer.compare(a.length(), b.length()));`.
+
+#### Desafío
+Completá el cuerpo de la lambda: comparar por largo del título.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tarjetita {
+    public static void main(String[] args) {
+        List<String> titulos = new ArrayList<>(List.of("Tratado de paz", "Censo", "Mapa del sur", "Leyes"));
+        titulos.sort((a, b) -> ___);
+        System.out.println(titulos);
+    }
+}
+```
+
+#### Salida esperada
+```
+[Censo, Leyes, Mapa del sur, Tratado de paz]
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Tarjetita {
+    public static void main(String[] args) {
+        List<String> titulos = new ArrayList<>(List.of("Tratado de paz", "Censo", "Mapa del sur", "Leyes"));
+        titulos.sort((a, b) -> Integer.compare(a.length(), b.length()));
+        System.out.println(titulos);
+    }
+}
+```
+
+#### Al superarla
+Diez líneas en una. El Archivista clava la tarjetita en la puerta, al lado de la de la aprendiz.
+
+#### Imagen
+- Una puerta de oficina con tarjetitas clavadas, cada una con una lambda escrita.
+- El Archivista Mayor sonriendo con la lupa en la mano.
+
+### Micro-misión R03-N05-P2 · Limpiar sin tropezar
+
+```meta
+lugar: El depósito de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: removeIf | lista.removeIf(p -> p.contains("roto")) · borra los que cumplen la condición · sin borrar adentro de un for-each
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay que sacar del depósito todos los pergaminos rotos. Borrar mientras se recorre con un for-each hace tropezar al programa. —Decile **qué** borrar —dice Gheco— y que la lista se ocupe del cómo.
+
+#### Gheco sugiere
+`removeIf` recibe una condición (un `Predicate`): una lambda que devuelve `true` para los que hay que borrar. `p -> p.contains("roto")`.
+
+#### Desafío
+Completá la condición: se borran los que contienen "roto".
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Limpieza {
+    public static void main(String[] args) {
+        List<String> deposito = new ArrayList<>(List.of("Mapa (roto)", "Censo", "Leyes (roto)", "Tratado"));
+        deposito.removeIf(p -> ___);
+        System.out.println("Quedan: " + deposito);
+    }
+}
+```
+
+#### Salida esperada
+```
+Quedan: [Censo, Tratado]
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Limpieza {
+    public static void main(String[] args) {
+        List<String> deposito = new ArrayList<>(List.of("Mapa (roto)", "Censo", "Leyes (roto)", "Tratado"));
+        deposito.removeIf(p -> p.contains("roto"));
+        System.out.println("Quedan: " + deposito);
+    }
+}
+```
+
+#### Al superarla
+El depósito queda limpio sin un tropiezo. Nadia, que ordena su libreta del mismo modo, asiente con aprobación profesional.
+
+#### Imagen
+- Pergaminos rotos saliendo volando del estante solos; los sanos quedan en su lugar.
+- Nadia asintiendo con la libreta abierta.
+
+### Micro-misión R03-N05-P3 · Decir solo el nombre
+
+```meta
+lugar: La oficina del Archivista Mayor
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Referencia a método | String::toUpperCase en lugar de s -> s.toUpperCase() · System.out::println en lugar de x -> System.out.println(x)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las tarjetitas del Archivista se fueron achicando. Ahora algunas dicen solo **el nombre del método**: `String::toUpperCase`. —Si la lambda solo llama a un método —explica Gheco—, decí el nombre y listo.
+
+#### Gheco sugiere
+Cuando una lambda solo llama a un método, se puede escribir como **referencia a método**: `Clase::metodo`. `replaceAll(String::toUpperCase)` pasa cada elemento a mayúsculas; `forEach(System.out::println)` imprime cada uno.
+
+#### Desafío
+Completá la referencia al método que imprime.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Referencias {
+    public static void main(String[] args) {
+        List<String> salas = new ArrayList<>(List.of("norte", "sur", "de los errores"));
+        salas.replaceAll(String::toUpperCase);
+        salas.forEach(System.out::___);
+    }
+}
+```
+
+#### Salida esperada
+```
+NORTE
+SUR
+DE LOS ERRORES
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Referencias {
+    public static void main(String[] args) {
+        List<String> salas = new ArrayList<>(List.of("norte", "sur", "de los errores"));
+        salas.replaceAll(String::toUpperCase);
+        salas.forEach(System.out::println);
+    }
+}
+```
+
+#### Al superarla
+Tres salas en mayúsculas, una por renglón, con dos tarjetitas de una palabra. La tercera sala, la de los errores, queda subrayada en el plano.
+
+#### Imagen
+- Tarjetitas cada vez más chicas clavadas en la puerta: la última dice solo «String::toUpperCase».
+- Un plano del palacio con «SALA DE LOS ERRORES» subrayada.
+
+### Micro-misión R03-N05-P4 · Ordenar por año y por título
+
+```meta
+lugar: La oficina del Archivista Mayor
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Comparator.comparing | Comparator.comparing(Pergamino::anio).thenComparing(Pergamino::titulo) · primero por año, si empatan por título
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+El Archivista quiere los pergaminos del Vidriero ordenados por año y, si dos son del mismo año, por título. —Sin escribir la comparación a mano —pide—. Armala con piezas.
+
+#### Gheco sugiere
+`Comparator.comparing(Pergamino::anio)` arma un comparador por año. `.thenComparing(Pergamino::titulo)` desempata por título. Con un `record`, los métodos `anio()` y `titulo()` ya existen.
+
+#### Desafío
+Completá el desempate por título.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class PorAnio {
+    public static void main(String[] args) {
+        List<Pergamino> delVidriero = new ArrayList<>(List.of(
+            new Pergamino("Vitral del río", 1203),
+            new Pergamino("Carta a la Torre", 1190),
+            new Pergamino("Boceto de ventana", 1203)));
+        delVidriero.sort(Comparator.comparing(Pergamino::anio).___(Pergamino::titulo));
+        for (Pergamino p : delVidriero) {
+            System.out.println(p.anio() + " - " + p.titulo());
+        }
+    }
+}
+
+record Pergamino(String titulo, int anio) {
+}
+```
+
+#### Salida esperada
+```
+1190 - Carta a la Torre
+1203 - Boceto de ventana
+1203 - Vitral del río
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class PorAnio {
+    public static void main(String[] args) {
+        List<Pergamino> delVidriero = new ArrayList<>(List.of(
+            new Pergamino("Vitral del río", 1203),
+            new Pergamino("Carta a la Torre", 1190),
+            new Pergamino("Boceto de ventana", 1203)));
+        delVidriero.sort(Comparator.comparing(Pergamino::anio).thenComparing(Pergamino::titulo));
+        for (Pergamino p : delVidriero) {
+            System.out.println(p.anio() + " - " + p.titulo());
+        }
+    }
+}
+
+record Pergamino(String titulo, int anio) {
+}
+```
+
+#### Al superarla
+Una carta a la Torre, un boceto de ventana y un vitral para el río. Zed acomoda los tres pergaminos sobre la mesa: el Vidriero estaba **haciendo un vitral para una ventana de la Torre**.
+Para estar seguros, Kaffa los manda al **Tribunal de las Pruebas**, junto a los Archivos.
+
+#### Imagen
+- Tres pergaminos ordenados sobre una mesa: «Carta a la Torre» (1190), «Boceto de ventana» y «Vitral del río» (1203).
+- Zed comparando el boceto de la ventana con su llave de vidrios de colores.
 
 ### Misión R03-N05-M1 · El ranking con comparadores
 
@@ -3683,9 +5020,9 @@ temas: cal.pruebas
 
 ### Crónica
 
-En el Tribunal de las Pruebas, junto a los Archivos, cada ley nueva se somete a un juicio antes de publicarse: los jueces le presentan casos —*un mercader con 0 kilos, uno con carga negativa, uno con 10 000*— y la ley tiene que responder bien a todos. Si falla uno, vuelve al escritorio.
+En el Tribunal de las Pruebas, junto a los Archivos, cada ley nueva se somete a un juicio antes de publicarse: los jueces le presentan casos —*un mercader con 0 kilos, uno con carga negativa, uno con 10 000*— y la ley tiene que responder bien a todos. Si falla uno, vuelve al escritorio. Kaffa manda ahí los pergaminos del Vidriero, para estar seguros.
 
-—Probar a mano es cansador y se olvida —dice {mentor}—. Escribí los casos **una vez**, como código, y hacelos correr cada vez que cambies algo. Así el ogro de la regresión no vuelve a entrar sin que te enteres, {heroe}.
+—Probar a mano es cansador y se olvida —dice {mentor}—. Escribí los casos **una vez**, como código, y hacelos correr cada vez que cambies algo. Así el ogro de la regresión no vuelve a entrar sin que te enteres.
 
 ### Objetivos
 
@@ -3895,6 +5232,336 @@ was: <lo que esperabas>` y confunde. El esperado va primero.
 modificó, el resultado depende del orden. Prepará todo en `@BeforeEach`.
 
 **Slime: el método de prueba sin `@Test`.** JUnit no lo corre y parece que "pasó".
+
+### Micro-misión R03-N06-P1 · El primer juicio
+
+```meta
+lugar: El Tribunal de las Pruebas
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Una prueba | assertEquals(esperado, real) · primero lo que DEBERÍA dar, después lo que da · en JUnit, cada prueba es un método con @Test
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Tribunal de las Pruebas, cada ley nueva se somete a un juicio antes de publicarse: los jueces le presentan casos —un mercader con 0 kilos, uno con 10, uno con 100— y la ley tiene que responder bien a todos.
+
+#### Gheco sugiere
+Una prueba compara lo que **debería** dar con lo que **da**: `assertEquals(esperado, real)`. Acá lo imitamos con Java puro (en JUnit se escribe igual, dentro de métodos con `@Test`). El peaje es medio denario por kilo, redondeado para abajo.
+
+#### Desafío
+Completá el valor esperado del caso «carga cero».
+
+#### Código inicial
+```java
+public class Tribunal {
+    static int peaje(int kg) {
+        return kg / 2;
+    }
+
+    static void assertEquals(int esperado, int real, String caso) {
+        if (esperado == real) {
+            System.out.println("OK " + caso);
+        } else {
+            System.out.println("FALLA " + caso + ": esperaba " + esperado + " y dio " + real);
+        }
+    }
+
+    public static void main(String[] args) {
+        assertEquals(___, peaje(0), "carga cero");
+        assertEquals(5, peaje(10), "diez kilos");
+        assertEquals(50, peaje(100), "cien kilos");
+        assertEquals(3, peaje(7), "siete kilos, para abajo");
+    }
+}
+```
+
+#### Salida esperada
+```
+OK carga cero
+OK diez kilos
+OK cien kilos
+OK siete kilos, para abajo
+```
+
+#### Solución
+```java
+public class Tribunal {
+    static int peaje(int kg) {
+        return kg / 2;
+    }
+
+    static void assertEquals(int esperado, int real, String caso) {
+        if (esperado == real) {
+            System.out.println("OK " + caso);
+        } else {
+            System.out.println("FALLA " + caso + ": esperaba " + esperado + " y dio " + real);
+        }
+    }
+
+    public static void main(String[] args) {
+        assertEquals(0, peaje(0), "carga cero");
+        assertEquals(5, peaje(10), "diez kilos");
+        assertEquals(50, peaje(100), "cien kilos");
+        assertEquals(3, peaje(7), "siete kilos, para abajo");
+    }
+}
+```
+
+#### Al superarla
+Cuatro casos, cuatro OK. La ley del peaje queda publicada. —Y si mañana alguien la cambia —dice Kaffa—, los casos la vuelven a juzgar en un segundo.
+
+#### Imagen
+- Un tribunal de piedra con tres jueces y una ley en pergamino en el centro, rodeada de casos de prueba con tildes verdes.
+- Kaffa con su taza, sentado en el banco del público.
+
+### Micro-misión R03-N06-P2 · El bug de los descuentos
+
+```meta
+lugar: El Tribunal de las Pruebas
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: ogro
+carta: Regresión | las pruebas encuentran lo que se rompió sin querer · se arregla el CÓDIGO, nunca la prueba para que pase
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La ley de descuentos dice: **desde** 100 kilos, 10 % menos. Alguien la «mejoró» y ahora un caso falla. Un **ogro** se esconde en el borde de la condición.
+
+#### Gheco sugiere
+Cuando una prueba falla, leé el caso: qué esperaba y qué dio. «Desde 100» incluye al 100: la condición tiene que ser `>=`, no `>`. Se arregla la **ley**, no la prueba.
+
+#### Desafío
+Ejecutalo, mirá qué caso falla y arreglá la condición del descuento.
+
+#### Código inicial
+```java
+public class Descuentos {
+    static int precio(int kg) {
+        int base = kg * 2;
+        if (kg > 100) {
+            return base - base / 10;
+        }
+        return base;
+    }
+
+    static void assertEquals(int esperado, int real, String caso) {
+        System.out.println((esperado == real ? "OK " : "FALLA ") + caso + (esperado == real ? "" : ": esperaba " + esperado + " y dio " + real));
+    }
+
+    public static void main(String[] args) {
+        assertEquals(100, precio(50), "50 kg, sin descuento");
+        assertEquals(180, precio(100), "100 kg, con descuento");
+        assertEquals(360, precio(200), "200 kg, con descuento");
+    }
+}
+```
+
+#### Salida esperada
+```
+OK 50 kg, sin descuento
+OK 100 kg, con descuento
+OK 200 kg, con descuento
+```
+
+#### Solución
+```java
+public class Descuentos {
+    static int precio(int kg) {
+        int base = kg * 2;
+        if (kg >= 100) {
+            return base - base / 10;
+        }
+        return base;
+    }
+
+    static void assertEquals(int esperado, int real, String caso) {
+        System.out.println((esperado == real ? "OK " : "FALLA ") + caso + (esperado == real ? "" : ": esperaba " + esperado + " y dio " + real));
+    }
+
+    public static void main(String[] args) {
+        assertEquals(100, precio(50), "50 kg, sin descuento");
+        assertEquals(180, precio(100), "100 kg, con descuento");
+        assertEquals(360, precio(200), "200 kg, con descuento");
+    }
+}
+```
+
+#### Al superarla
+Tres OK. El ogro de la regresión sale del tribunal escoltado. —Sin la prueba —dice Nadia—, ese mercader de cien kilos hubiera pagado de más durante meses.
+
+#### Imagen
+- Un ogro escoltado por dos guardias fuera del tribunal.
+- Un pergamino con «>» tachado y «>=» escrito encima.
+
+### Micro-misión R03-N06-P3 · Cada juicio, desde cero
+
+```meta
+lugar: El Tribunal de las Pruebas
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Preparar antes de cada prueba | cada prueba arranca con objetos NUEVOS · en JUnit, @BeforeEach · si se comparten, una prueba ensucia a la otra
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Dos juicios usan el mismo cofre. El primero retira 50 y el segundo, que esperaba encontrar 100, encuentra 50 y falla. —Cada juicio con **su** cofre —dice el juez—. Nuevo, como recién salido del molde.
+
+#### Gheco sugiere
+Las pruebas no se tienen que pisar: cada una prepara sus propios objetos. En JUnit eso va en un método con `@BeforeEach`; acá, un método `nuevoCofre()` que cada prueba llama al empezar.
+
+#### Desafío
+Ejecutalo, mirá qué prueba falla y hacé que la segunda use un cofre nuevo.
+
+#### Código inicial
+```java
+public class DesdeCero {
+    static Cofre nuevoCofre() {
+        return new Cofre(100);
+    }
+
+    static void assertEquals(int esperado, int real, String caso) {
+        System.out.println((esperado == real ? "OK " : "FALLA ") + caso + (esperado == real ? "" : ": esperaba " + esperado + " y dio " + real));
+    }
+
+    public static void main(String[] args) {
+        Cofre cofre = nuevoCofre();
+        cofre.retirar(50);
+        assertEquals(50, cofre.saldo, "retirar 50 deja 50");
+
+        cofre.depositar(20);
+        assertEquals(120, cofre.saldo, "depositar 20 en un cofre de 100");
+    }
+}
+
+class Cofre {
+    int saldo;
+
+    Cofre(int saldo) { this.saldo = saldo; }
+
+    void retirar(int m) { saldo -= m; }
+
+    void depositar(int m) { saldo += m; }
+}
+```
+
+#### Salida esperada
+```
+OK retirar 50 deja 50
+OK depositar 20 en un cofre de 100
+```
+
+#### Solución
+```java
+public class DesdeCero {
+    static Cofre nuevoCofre() {
+        return new Cofre(100);
+    }
+
+    static void assertEquals(int esperado, int real, String caso) {
+        System.out.println((esperado == real ? "OK " : "FALLA ") + caso + (esperado == real ? "" : ": esperaba " + esperado + " y dio " + real));
+    }
+
+    public static void main(String[] args) {
+        Cofre cofre = nuevoCofre();
+        cofre.retirar(50);
+        assertEquals(50, cofre.saldo, "retirar 50 deja 50");
+
+        cofre = nuevoCofre();
+        cofre.depositar(20);
+        assertEquals(120, cofre.saldo, "depositar 20 en un cofre de 100");
+    }
+}
+
+class Cofre {
+    int saldo;
+
+    Cofre(int saldo) { this.saldo = saldo; }
+
+    void retirar(int m) { saldo -= m; }
+
+    void depositar(int m) { saldo += m; }
+}
+```
+
+#### Al superarla
+Cada juicio con su cofre nuevo, y los dos pasan. El juez golpea el martillo. —La ley estaba bien —dice—. La prueba estaba sucia.
+
+#### Imagen
+- Dos cofres idénticos recién salidos del molde, uno para cada juicio.
+- El juez golpeando el martillo; Zed y Nadia en el estrado.
+
+### Micro-misión R03-N06-P4 · Primero la prueba
+
+```meta
+lugar: El Tribunal de las Pruebas
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: TDD | primero se escriben las pruebas (fallan) · después el código mínimo que las hace pasar · después se ordena
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+El Tribunal le encarga a Zed una ley nueva: qué años son **bisiestos** en el calendario del Imperio. Pero esta vez los jueces ya escribieron los casos **antes** de que exista la ley. —Hacelos pasar —dice Kaffa—. Ni más ni menos.
+
+#### Gheco sugiere
+Un año es bisiesto si es divisible por 4, **salvo** que sea divisible por 100, **salvo** que también lo sea por 400. En Java: `(a % 4 == 0 && a % 100 != 0) || a % 400 == 0`.
+
+#### Desafío
+Escribí el `return` de `esBisiesto` para que pasen todas las pruebas.
+
+#### Código inicial
+```java
+public class Bisiesto {
+    static boolean esBisiesto(int a) {
+        return ___;
+    }
+
+    static void assertEquals(boolean esperado, boolean real, String caso) {
+        System.out.println((esperado == real ? "OK " : "FALLA ") + caso);
+    }
+
+    public static void main(String[] args) {
+        assertEquals(true, esBisiesto(2024), "2024 es bisiesto");
+        assertEquals(false, esBisiesto(2023), "2023 no");
+        assertEquals(false, esBisiesto(1900), "1900 no (divisible por 100)");
+        assertEquals(true, esBisiesto(2000), "2000 sí (divisible por 400)");
+    }
+}
+```
+
+#### Salida esperada
+```
+OK 2024 es bisiesto
+OK 2023 no
+OK 1900 no (divisible por 100)
+OK 2000 sí (divisible por 400)
+```
+
+#### Solución
+```java
+public class Bisiesto {
+    static boolean esBisiesto(int a) {
+        return (a % 4 == 0 && a % 100 != 0) || a % 400 == 0;
+    }
+
+    static void assertEquals(boolean esperado, boolean real, String caso) {
+        System.out.println((esperado == real ? "OK " : "FALLA ") + caso);
+    }
+
+    public static void main(String[] args) {
+        assertEquals(true, esBisiesto(2024), "2024 es bisiesto");
+        assertEquals(false, esBisiesto(2023), "2023 no");
+        assertEquals(false, esBisiesto(1900), "1900 no (divisible por 100)");
+        assertEquals(true, esBisiesto(2000), "2000 sí (divisible por 400)");
+    }
+}
+```
+
+#### Al superarla
+Cuatro OK y la ley queda publicada. Zed se da cuenta de que, por primera vez, sabía **antes** de ejecutar que iba a andar.
+A la salida, una escriba del ala de los errores les hace señas: en su **diario** hay algo raro sobre el Vidriero.
+
+#### Imagen
+- Un calendario del Imperio con los años bisiestos marcados con sellos dorados.
+- Una escriba en la puerta del tribunal, con un diario grueso bajo el brazo, haciéndoles señas.
 
 ### Misión R03-N06-M1 · Las pruebas del cofre
 
@@ -4453,9 +6120,9 @@ temas: cal.depuracion, cal.logging, cal.documentacion
 
 ### Crónica
 
-En el ala de los errores de los Archivos, un escriba lleva un **diario**: anota cada cosa que pasa, con la hora y la gravedad. Cuando algo se rompe, nadie adivina: leen el diario. Al lado, otra escriba recorre un programa **paso a paso**, deteniéndose en cada línea para mirar cuánto vale cada variable.
+En el ala de los errores de los Archivos, una escriba lleva un **diario**: anota cada cosa que pasa, con su gravedad. Cuando algo se rompe, nadie adivina: leen el diario. Al lado, otra escriba recorre un programa **paso a paso**, deteniéndose en cada línea para mirar cuánto vale cada variable. Los registros del Vidriero siguen desapareciendo, y Zed quiere saber dónde.
 
-—Los ogros más traicioneros no rompen nada: el programa termina tranquilo, con el resultado equivocado —dice {mentor}—. Para cazarlos no alcanza con mirar el código. Hay que **ver qué pasa por dentro**, {heroe}.
+—Los ogros más traicioneros no rompen nada: el programa termina tranquilo, con el resultado equivocado —dice {mentor}—. Para cazarlos no alcanza con mirar el código. Hay que **ver qué pasa por dentro**.
 
 ### Objetivos
 
@@ -4637,6 +6304,290 @@ defecto: el nivel mínimo es `INFO`.
 
 **Slime: el Javadoc en el lugar equivocado.** Tiene que estar **inmediatamente antes**
 del método o la clase, y empezar con `/**` (dos asteriscos).
+
+### Micro-misión R03-N07-P1 · El promedio que miente
+
+```meta
+lugar: El ala de los errores
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+criatura: ogro
+carta: Depurar | el programa corre pero el resultado está mal · mirá los valores intermedios (println o el depurador) · encontrá la línea, no adivines
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el ala de los errores, un informe dice que los pergaminos pesan en promedio **2 kilos** y todos saben que es más. El programa no se queja: es un **ogro**. La escriba recorre el programa paso a paso, mirando cuánto vale cada variable.
+
+#### Gheco sugiere
+Para cazar un ogro, mirá los valores intermedios: `suma`, `cantidad` y el resultado de la división. Si dividís dos `int`, el resultado es `int` y se pierden los decimales. Uno de los dos tiene que ser `double`.
+
+#### Desafío
+Ejecutalo, fijate dónde se pierden los decimales y arreglá la división.
+
+#### Código inicial
+```java
+public class Promedio {
+    public static void main(String[] args) {
+        int[] pesos = {2, 3, 3, 2, 3};
+        int suma = 0;
+        for (int p : pesos) {
+            suma += p;
+        }
+        int cantidad = pesos.length;
+        double promedio = suma / cantidad;
+        System.out.println("Suma: " + suma + ", cantidad: " + cantidad);
+        System.out.println("Promedio: " + promedio);
+    }
+}
+```
+
+#### Salida esperada
+```
+Suma: 13, cantidad: 5
+Promedio: 2.6
+```
+
+#### Solución
+```java
+public class Promedio {
+    public static void main(String[] args) {
+        int[] pesos = {2, 3, 3, 2, 3};
+        int suma = 0;
+        for (int p : pesos) {
+            suma += p;
+        }
+        int cantidad = pesos.length;
+        double promedio = (double) suma / cantidad;
+        System.out.println("Suma: " + suma + ", cantidad: " + cantidad);
+        System.out.println("Promedio: " + promedio);
+    }
+}
+```
+
+#### Al superarla
+2.6 kilos. El informe se corrige y el ogro se queda sin escondite. —No adiviné —dice Zed—: miré.
+
+#### Imagen
+- Una escriba recorriendo un programa escrito en un pergamino largo, con una lupa, línea por línea.
+- Un ogro escondido detrás de un «/» gigante.
+
+### Micro-misión R03-N07-P2 · El diario del ala
+
+```meta
+lugar: El ala de los errores
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Logger | log.info(…), log.warning(…), log.fine(…) · cada mensaje con su nivel · log.setLevel(Level.INFO) muestra INFO y más graves
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La escriba no usa `println`: lleva un **diario** donde cada cosa tiene su gravedad. Los detalles finos solo los anota cuando está depurando; lo importante, siempre.
+
+#### Gheco sugiere
+Un `Logger` anota mensajes con un **nivel**: `FINE` (detalle), `INFO` (normal), `WARNING` (algo raro), `SEVERE` (grave). `log.setLevel(Level.INFO)` muestra INFO y lo más grave, y esconde los `FINE`. El método `diario()` ya está armado para escribir en la consola.
+
+#### Desafío
+Completá el nivel para que se vean INFO y WARNING, pero no los FINE.
+
+#### Código inicial
+```java
+import java.util.logging.*;
+
+public class Diario {
+    static Logger diario() {
+        Logger log = Logger.getLogger("archivos");
+        log.setUseParentHandlers(false);
+        Handler consola = new StreamHandler(System.out, new Formatter() {
+            @Override
+            public String format(LogRecord r) {
+                return r.getLevel() + ": " + r.getMessage() + System.lineSeparator();
+            }
+        }) {
+            @Override
+            public synchronized void publish(LogRecord r) {
+                super.publish(r);
+                flush();
+            }
+        };
+        consola.setLevel(Level.ALL);
+        log.addHandler(consola);
+        return log;
+    }
+
+    public static void main(String[] args) {
+        Logger log = diario();
+        log.setLevel(Level.___);
+        log.fine("abro el cajón 3");
+        log.info("Pedido del tomo 12");
+        log.fine("el tomo 12 pesa 2 kg");
+        log.warning("El tomo 13 no está en su estante");
+    }
+}
+```
+
+#### Salida esperada
+```
+INFO: Pedido del tomo 12
+WARNING: El tomo 13 no está en su estante
+```
+
+#### Solución
+```java
+import java.util.logging.*;
+
+public class Diario {
+    static Logger diario() {
+        Logger log = Logger.getLogger("archivos");
+        log.setUseParentHandlers(false);
+        Handler consola = new StreamHandler(System.out, new Formatter() {
+            @Override
+            public String format(LogRecord r) {
+                return r.getLevel() + ": " + r.getMessage() + System.lineSeparator();
+            }
+        }) {
+            @Override
+            public synchronized void publish(LogRecord r) {
+                super.publish(r);
+                flush();
+            }
+        };
+        consola.setLevel(Level.ALL);
+        log.addHandler(consola);
+        return log;
+    }
+
+    public static void main(String[] args) {
+        Logger log = diario();
+        log.setLevel(Level.INFO);
+        log.fine("abro el cajón 3");
+        log.info("Pedido del tomo 12");
+        log.fine("el tomo 12 pesa 2 kg");
+        log.warning("El tomo 13 no está en su estante");
+    }
+}
+```
+
+#### Al superarla
+Dos renglones en el diario, los que importan. —Cuando algo se rompa —dice la escriba—, nadie va a adivinar: van a leer.
+
+#### Imagen
+- Un diario abierto con renglones marcados por color: INFO en azul, WARNING en naranja.
+- La escriba del ala de los errores escribiendo con una pluma.
+
+### Micro-misión R03-N07-P3 · Quién borra los registros
+
+```meta
+lugar: El ala de los errores
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+carta: Registrar lo raro | log.warning("…") donde pasa algo que no debería · con los datos que hacen falta para entenderlo después
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Los registros del Vidriero siguen desapareciendo. Zed propone algo que antes no se le hubiera ocurrido: en lugar de esconderse a mirar, **anotar en el diario** cada vez que se borra un registro, y **dónde**.
+
+#### Gheco sugiere
+Un `log.warning(...)` en el lugar exacto donde pasa lo raro, con los datos que importan (qué registro y en qué sala), deja la pista escrita.
+
+#### Desafío
+Completá el mensaje de advertencia: «Borrado: <registro> en <sala>».
+
+#### Código inicial
+```java
+import java.util.logging.*;
+
+public class QuienBorra {
+    static Logger diario() {
+        Logger log = Logger.getLogger("archivos");
+        log.setUseParentHandlers(false);
+        Handler consola = new StreamHandler(System.out, new Formatter() {
+            @Override
+            public String format(LogRecord r) {
+                return r.getLevel() + ": " + r.getMessage() + System.lineSeparator();
+            }
+        }) {
+            @Override
+            public synchronized void publish(LogRecord r) {
+                super.publish(r);
+                flush();
+            }
+        };
+        consola.setLevel(Level.ALL);
+        log.addHandler(consola);
+        return log;
+    }
+
+    static Logger log;
+
+    static void borrar(String registro, String sala) {
+        log.warning(___);
+    }
+
+    public static void main(String[] args) {
+        log = diario();
+        log.info("Turno de noche");
+        borrar("Carta a la Torre", "la sala vacía");
+        borrar("Boceto de ventana", "la sala vacía");
+        log.info("Fin del turno");
+    }
+}
+```
+
+#### Salida esperada
+```
+INFO: Turno de noche
+WARNING: Borrado: Carta a la Torre en la sala vacía
+WARNING: Borrado: Boceto de ventana en la sala vacía
+INFO: Fin del turno
+```
+
+#### Solución
+```java
+import java.util.logging.*;
+
+public class QuienBorra {
+    static Logger diario() {
+        Logger log = Logger.getLogger("archivos");
+        log.setUseParentHandlers(false);
+        Handler consola = new StreamHandler(System.out, new Formatter() {
+            @Override
+            public String format(LogRecord r) {
+                return r.getLevel() + ": " + r.getMessage() + System.lineSeparator();
+            }
+        }) {
+            @Override
+            public synchronized void publish(LogRecord r) {
+                super.publish(r);
+                flush();
+            }
+        };
+        consola.setLevel(Level.ALL);
+        log.addHandler(consola);
+        return log;
+    }
+
+    static Logger log;
+
+    static void borrar(String registro, String sala) {
+        log.warning("Borrado: " + registro + " en " + sala);
+    }
+
+    public static void main(String[] args) {
+        log = diario();
+        log.info("Turno de noche");
+        borrar("Carta a la Torre", "la sala vacía");
+        borrar("Boceto de ventana", "la sala vacía");
+        log.info("Fin del turno");
+    }
+}
+```
+
+#### Al superarla
+A la mañana, el diario lo dice claro: **todo** lo del Vidriero se borra en el mismo lugar, «la sala vacía», en lo más profundo de los Archivos. Allí donde los pergaminos desaparecen y el sistema grita *NullPointerException*.
+
+#### Imagen
+- Un diario abierto con dos renglones en naranja: «WARNING: Borrado: … en la sala vacía».
+- Zed, Nadia y Gheco mirando hacia un pasillo oscuro que baja a una sala vacía.
 
 ### Misión R03-N07-M1 · El promedio que miente
 
@@ -5080,9 +7031,9 @@ usa: col.mapas, err.excepciones, func.lambdas, cal.pruebas
 
 ### Crónica
 
-En lo más profundo de los Archivos hay una sala donde los pergaminos desaparecen. Pedís uno, el archivista va a buscarlo, vuelve con las manos vacías… y el sistema entero se congela con un grito: *NullPointerException*. Es el **Espectro Nulo**: aparece justo donde alguien supuso que algo existía.
+En lo más profundo de los Archivos hay una sala donde los pergaminos desaparecen. Pedís uno, el archivista va a buscarlo, vuelve con las manos vacías… y el sistema entero se congela con un grito: *NullPointerException*. Es el **Espectro Nulo**: aparece justo donde alguien supuso que algo existía. Y es quien borró, uno por uno, los registros del Vidriero.
 
-—No se lo vence corriendo detrás de cada `null` —dice {mentor}—. Se lo vence **diseñando** para que no aparezca: validando en la entrada, devolviendo colecciones vacías en lugar de `null`, lanzando errores que digan qué pasó, y probando cada camino. Cuando tus clases lo hagan solas, {heroe}, el Espectro no tiene dónde esconderse.
+—No se lo vence corriendo detrás de cada `null` —dice {mentor}—. Se lo vence **diseñando** para que no aparezca: validando en la entrada, devolviendo colecciones vacías en lugar de `null`, lanzando errores que digan qué pasó, y probando cada camino. Cuando tus clases lo hagan solas, Zed, el Espectro no va a tener dónde esconderse.
 
 ### Objetivos
 
@@ -5285,6 +7236,391 @@ la clave no exista.
 **Ogro: el `catch (Exception e)` que se traga todo.** En el procesador de comandos,
 atrapá primero las excepciones de tu dominio con su mensaje, y dejá el genérico para
 lo inesperado.
+
+### Micro-misión R03-N08-P1 · Vacía, nunca null
+
+```meta
+lugar: La sala vacía
+personajes: Zed, Gheco, Nadia, Kaffa, el Espectro Nulo
+criatura: dragon
+carta: Colección vacía | un método que devuelve una lista NUNCA devuelve null · return new ArrayList<>(); (o List.of()) · quien la recorre no se cae
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+En lo más profundo de los Archivos, la sala está vacía. Zed pide los pergaminos de un autor que no tiene ninguno… y el sistema se congela con un grito: aparece el **Espectro Nulo**, justo donde alguien supuso que algo existía.
+—No se lo vence corriendo detrás de cada `null` —dice Kaffa—. Se lo vence **diseñando** para que no tenga dónde aparecer. Primera regla: si no hay nada, devolvé **vacío**.
+
+#### Gheco sugiere
+Si un método devuelve una lista y no encontró nada, que devuelva una lista **vacía** (`new ArrayList<>()`), nunca `null`. Así quien la recorre no tiene que preguntar: un for-each sobre una lista vacía simplemente no da vueltas.
+
+#### Desafío
+Completá el `return` del caso «no encontré nada»: una lista vacía.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class SalaVacia {
+    static List<String> delAutor(String autor) {
+        if (autor.equals("el Vidriero")) {
+            return new ArrayList<>(List.of("Carta a la Torre", "Boceto de ventana"));
+        }
+        return ___;
+    }
+
+    public static void main(String[] args) {
+        String[] autores = {"el Vidriero", "el Fantasma"};
+        for (String a : autores) {
+            List<String> obras = delAutor(a);
+            System.out.println(a + ": " + obras.size() + " pergaminos");
+            for (String o : obras) {
+                System.out.println("  - " + o);
+            }
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+el Vidriero: 2 pergaminos
+  - Carta a la Torre
+  - Boceto de ventana
+el Fantasma: 0 pergaminos
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class SalaVacia {
+    static List<String> delAutor(String autor) {
+        if (autor.equals("el Vidriero")) {
+            return new ArrayList<>(List.of("Carta a la Torre", "Boceto de ventana"));
+        }
+        return new ArrayList<>();
+    }
+
+    public static void main(String[] args) {
+        String[] autores = {"el Vidriero", "el Fantasma"};
+        for (String a : autores) {
+            List<String> obras = delAutor(a);
+            System.out.println(a + ": " + obras.size() + " pergaminos");
+            for (String o : obras) {
+                System.out.println("  - " + o);
+            }
+        }
+    }
+}
+```
+
+#### Al superarla
+«el Fantasma: 0 pergaminos», y el sistema sigue andando. El Espectro se estira buscando un `null` donde meterse… y no encuentra ninguno.
+
+#### Imagen
+- El Espectro Nulo: una figura transparente hecha de pergaminos en blanco, con un hueco negro con forma de «null» en el pecho.
+- La sala vacía con estantes desnudos; Zed, Nadia, Gheco y Kaffa frente al Espectro.
+
+### Micro-misión R03-N08-P2 · Validar en la puerta
+
+```meta
+lugar: La sala vacía
+personajes: Zed, Gheco, Nadia, Kaffa, el Espectro Nulo
+carta: Validar en la entrada | el constructor rechaza lo inválido con IllegalArgumentException · un objeto que existe es un objeto válido
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El Espectro intenta colarse por otro lado: un pergamino creado **sin título**. Si entra, va a explotar después, lejos, donde nadie entienda por qué. —Segunda regla —dice Kaffa—: lo inválido no entra. Se lo frena **en la puerta**.
+
+#### Gheco sugiere
+El constructor revisa los datos y, si no sirven, lanza `IllegalArgumentException` con un mensaje claro. Un título es inválido si es `null` o está en blanco: `titulo == null || titulo.isBlank()`.
+
+#### Desafío
+Completá la condición que rechaza el título inválido.
+
+#### Código inicial
+```java
+public class Puerta {
+    public static void main(String[] args) {
+        String[] titulos = {"Carta a la Torre", "", null};
+        for (String t : titulos) {
+            try {
+                Pergamino p = new Pergamino(t);
+                System.out.println("Archivado: " + p.titulo);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Rechazado: " + e.getMessage());
+            }
+        }
+    }
+}
+
+class Pergamino {
+    final String titulo;
+
+    Pergamino(String titulo) {
+        if (___) {
+            throw new IllegalArgumentException("un pergamino necesita título");
+        }
+        this.titulo = titulo;
+    }
+}
+```
+
+#### Salida esperada
+```
+Archivado: Carta a la Torre
+Rechazado: un pergamino necesita título
+Rechazado: un pergamino necesita título
+```
+
+#### Solución
+```java
+public class Puerta {
+    public static void main(String[] args) {
+        String[] titulos = {"Carta a la Torre", "", null};
+        for (String t : titulos) {
+            try {
+                Pergamino p = new Pergamino(t);
+                System.out.println("Archivado: " + p.titulo);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Rechazado: " + e.getMessage());
+            }
+        }
+    }
+}
+
+class Pergamino {
+    final String titulo;
+
+    Pergamino(String titulo) {
+        if (titulo == null || titulo.isBlank()) {
+            throw new IllegalArgumentException("un pergamino necesita título");
+        }
+        this.titulo = titulo;
+    }
+}
+```
+
+#### Al superarla
+Dos pergaminos rechazados en la puerta, con un mensaje que cualquiera entiende. El Espectro choca contra el marco y retrocede.
+
+#### Imagen
+- Una puerta de la sala con un sello que rechaza dos pergaminos en blanco.
+- El Espectro Nulo rebotando contra el marco de la puerta.
+
+### Micro-misión R03-N08-P3 · Un error que diga qué pasó
+
+```meta
+lugar: La sala vacía
+personajes: Zed, Gheco, Nadia, Kaffa, el Espectro Nulo
+carta: Excepción con mensaje | en lugar de devolver null, lanzá una excepción propia que diga QUÉ faltó y CUÁL · el que la atrapa sabe qué hacer
+recompensa: xp 20, oro 25
+```
+
+#### Escena
+El Espectro se esconde en `buscar(id)`: cuando el pergamino no está, devuelve `null` y el grito llega diez líneas después. —Tercera regla —dice Kaffa—: si algo tiene que estar y no está, **decilo** en ese momento, con nombre y apellido.
+
+#### Gheco sugiere
+En lugar de devolver `null`, `buscar` lanza una `PergaminoNoEncontradoException` con un mensaje que diga **cuál** faltó: `"no existe el pergamino " + id`. El que llama la atrapa y decide.
+
+#### Desafío
+Completá el mensaje de la excepción: «no existe el pergamino <id>».
+
+#### Código inicial
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Buscar {
+    static Map<Integer, String> archivo = new HashMap<>();
+
+    static String buscar(int id) throws PergaminoNoEncontradoException {
+        if (!archivo.containsKey(id)) {
+            throw new PergaminoNoEncontradoException(___);
+        }
+        return archivo.get(id);
+    }
+
+    public static void main(String[] args) {
+        archivo.put(1, "Carta a la Torre");
+        archivo.put(2, "Boceto de ventana");
+        int[] pedidos = {1, 7, 2};
+        for (int id : pedidos) {
+            try {
+                System.out.println(id + ": " + buscar(id));
+            } catch (PergaminoNoEncontradoException e) {
+                System.out.println(id + ": " + e.getMessage());
+            }
+        }
+    }
+}
+
+class PergaminoNoEncontradoException extends Exception {
+    PergaminoNoEncontradoException(String mensaje) {
+        super(mensaje);
+    }
+}
+```
+
+#### Salida esperada
+```
+1: Carta a la Torre
+7: no existe el pergamino 7
+2: Boceto de ventana
+```
+
+#### Solución
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Buscar {
+    static Map<Integer, String> archivo = new HashMap<>();
+
+    static String buscar(int id) throws PergaminoNoEncontradoException {
+        if (!archivo.containsKey(id)) {
+            throw new PergaminoNoEncontradoException("no existe el pergamino " + id);
+        }
+        return archivo.get(id);
+    }
+
+    public static void main(String[] args) {
+        archivo.put(1, "Carta a la Torre");
+        archivo.put(2, "Boceto de ventana");
+        int[] pedidos = {1, 7, 2};
+        for (int id : pedidos) {
+            try {
+                System.out.println(id + ": " + buscar(id));
+            } catch (PergaminoNoEncontradoException e) {
+                System.out.println(id + ": " + e.getMessage());
+            }
+        }
+    }
+}
+
+class PergaminoNoEncontradoException extends Exception {
+    PergaminoNoEncontradoException(String mensaje) {
+        super(mensaje);
+    }
+}
+```
+
+#### Al superarla
+«7: no existe el pergamino 7.» Un error con nombre y apellido. El Espectro pierde la forma: ya no tiene dónde esconderse.
+
+#### Imagen
+- Una campana sonando con un cartel claro: «no existe el pergamino 7».
+- El Espectro Nulo deshilachándose.
+
+### Micro-misión R03-N08-P4 · La ficha vuelve entera
+
+```meta
+lugar: La sala vacía
+personajes: Zed, Gheco, Nadia, Kaffa, el Espectro Nulo
+carta: Todo junto | validar en la entrada · vacío en lugar de null · errores con mensaje · un programa que no se cae con ningún pedido
+recompensa: xp 25, oro 30
+item: Linterna del Espectro
+```
+
+#### Escena
+Última regla: un programa que recibe pedidos **no se cae** con ninguno. Kaffa le pasa a Zed los pedidos de la noche, buenos y malos, para reconstruir la ficha del Vidriero sin que el Espectro meta la mano.
+
+#### Gheco sugiere
+Cada pedido se procesa adentro de su propio `try`: si uno falla, se avisa y se sigue con el siguiente. `split(" ", 2)` separa el comando del resto.
+
+#### Desafío
+Completá el `catch`: atrapá la `IllegalArgumentException` de los pedidos inválidos.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Ficha {
+    static List<String> ficha = new ArrayList<>();
+
+    static void procesar(String pedido) {
+        String[] partes = pedido.split(" ", 2);
+        if (partes.length < 2 || partes[1].isBlank()) {
+            throw new IllegalArgumentException("pedido incompleto: «" + pedido + "»");
+        }
+        if (!partes[0].equals("anotar")) {
+            throw new IllegalArgumentException("no conozco «" + partes[0] + "»");
+        }
+        ficha.add(partes[1]);
+    }
+
+    public static void main(String[] args) {
+        String[] pedidos = {"anotar el Vidriero hacía vitrales", "borrar todo", "anotar", "anotar mandó un vitral por el río hacia la Torre del Arquitecto"};
+        for (String p : pedidos) {
+            try {
+                procesar(p);
+            } catch (___ e) {
+                System.out.println("Ignorado: " + e.getMessage());
+            }
+        }
+        System.out.println("Ficha del Vidriero:");
+        ficha.forEach(linea -> System.out.println("- " + linea));
+    }
+}
+```
+
+#### Salida esperada
+```
+Ignorado: no conozco «borrar»
+Ignorado: pedido incompleto: «anotar»
+Ficha del Vidriero:
+- el Vidriero hacía vitrales
+- mandó un vitral por el río hacia la Torre del Arquitecto
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Ficha {
+    static List<String> ficha = new ArrayList<>();
+
+    static void procesar(String pedido) {
+        String[] partes = pedido.split(" ", 2);
+        if (partes.length < 2 || partes[1].isBlank()) {
+            throw new IllegalArgumentException("pedido incompleto: «" + pedido + "»");
+        }
+        if (!partes[0].equals("anotar")) {
+            throw new IllegalArgumentException("no conozco «" + partes[0] + "»");
+        }
+        ficha.add(partes[1]);
+    }
+
+    public static void main(String[] args) {
+        String[] pedidos = {"anotar el Vidriero hacía vitrales", "borrar todo", "anotar", "anotar mandó un vitral por el río hacia la Torre del Arquitecto"};
+        for (String p : pedidos) {
+            try {
+                procesar(p);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ignorado: " + e.getMessage());
+            }
+        }
+        System.out.println("Ficha del Vidriero:");
+        ficha.forEach(linea -> System.out.println("- " + linea));
+    }
+}
+```
+
+#### Al superarla
+El «borrar todo» rebota, el pedido vacío también, y la ficha **vuelve entera**: el Vidriero mandó un vitral por el río, hacia la Torre del Arquitecto, y nunca llegó.
+El Espectro Nulo se apaga como una vela y deja en el piso una linterna de luz fría: la **Linterna del Espectro**. —Ilumina donde algo debería estar —dice Kaffa.
+Desde las ventanas de los Archivos se oye el río que cruza la capital.
+
+#### Imagen
+- El Espectro Nulo apagándose como una vela en la sala vacía; en el piso queda una linterna de luz azul fría.
+- Zed levantando la linterna; en la pared se proyecta la ficha completa del Vidriero.
+- Por una ventana alta, el río de la capital brillando de noche.
 
 ### Misión R03-N08-M1 · La biblioteca encantada
 

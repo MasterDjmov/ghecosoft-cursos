@@ -168,9 +168,9 @@ test('el héroe y la expedición son del jugador', function () {
     expect(Hero::count())->toBe(1)->and($trip->user_id)->toBe($w['student']->id);
 });
 
-test('el Amuleto del Traceback equipado levanta al héroe una sola vez por expedición', function () {
+test('el amuleto de la segunda vida equipado levanta al héroe una sola vez por expedición', function (string $code) {
     $w = expeditionWorld(placeLevel: 40);
-    $amulet = Item::create(['code' => Item::TRACEBACK, 'name' => 'Amuleto del Traceback', 'kind' => 'accessory', 'rarity' => 'rare']);
+    $amulet = Item::create(['code' => $code, 'name' => 'Amuleto', 'kind' => 'accessory', 'rarity' => 'rare']);
     app(Inventory::class)->grant($w['student'], $amulet, 1, ItemReason::ManualAdjustment);
     app(Inventory::class)->equip($w['hero'], $amulet);
 
@@ -178,7 +178,7 @@ test('el Amuleto del Traceback equipado levanta al héroe una sola vez por exped
 
     expect($trip->won)->toBeFalse()
         ->and(collect($trip->log)->where('t', 'revive')->count())->toBe(1);
-});
+})->with(['del Valle (Traceback)' => Item::TRACEBACK, 'del Imperio (Campana)' => Item::BELL]);
 
 test('el Reloj de Arena termina ya la expedición en camino y se gasta', function () {
     $w = expeditionWorld();

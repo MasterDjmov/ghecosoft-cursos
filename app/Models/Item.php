@@ -25,6 +25,12 @@ class Item extends Model
     /** Equipado, da una segunda vida en cada expedición (R02-N03). */
     public const TRACEBACK = 'amuleto-del-traceback';
 
+    /** El del Imperio: la misma segunda vida (Java, R03-N04). */
+    public const BELL = 'amuleto-de-la-campana';
+
+    /** Los que dan la segunda vida en las expediciones. */
+    public const SECOND_LIFE = [self::TRACEBACK, self::BELL];
+
     /** Termina al instante la expedición en camino; se gasta al usarlo (R03-N06). */
     public const HOURGLASS = 'reloj-de-arena';
 

@@ -20,7 +20,7 @@ moneda: comodin
 
 Bajo el palacio de los Archivos hay una escalera de piedra que baja a la **Bóveda Imperial**, donde se guarda todo lo que el Imperio no puede olvidar. En el primer piso, los escribas copian registros en libros: cada renglón, un dato; cada dato, separado por comas.
 
-—Hasta ahora tus programas olvidaban todo al terminar —dice {mentor}—. Lo que queda en un **archivo** sobrevive. Pero cuidado, {heroe}: los archivos se corrompen, las líneas vienen mal y los discos se llenan. Leé siempre como si alguien hubiera escrito mal.
+—Hasta ahora tus programas olvidaban todo al terminar —dice {mentor}—. Lo que queda en un **archivo** sobrevive. Pero cuidado, Zed: los archivos se corrompen, las líneas vienen mal y los discos se llenan. Leé siempre como si alguien hubiera escrito mal.
 
 ### Objetivos
 
@@ -682,7 +682,7 @@ temas: sql.modelo, sql.abm
 
 En el segundo piso de la Bóveda, los registros ya no están en libros sueltos: están en **tablas** talladas en la pared, con columnas que no aceptan cualquier cosa. En la columna "vida" no entra una palabra; en la columna "héroe" de las partidas no entra un héroe que no exista.
 
-—Un archivo acepta lo que le escribas —dice {mentor}—. Una **base de datos** tiene reglas, y las hace cumplir aunque el programa se equivoque. Esta es la lengua de la Bóveda, {heroe}: se llama **SQL**.
+—Un archivo acepta lo que le escribas —dice {mentor}—. Una **base de datos** tiene reglas, y las hace cumplir aunque el programa se equivoque. Esta es la lengua de la Bóveda, Zed: se llama **SQL**.
 
 ### Objetivos
 
@@ -1218,7 +1218,7 @@ temas: sql.consultas, sql.joins
 
 En el tercer piso de la Bóveda trabaja la **Oráculo de las Tablas**: le hacés una pregunta —*¿qué héroes nunca pelearon contra un orco?*— y ella cruza tablas, filtra, cuenta y te devuelve la respuesta en una tabla nueva. No toca un solo dato: solo **consulta**.
 
-—Guardar datos es fácil —dice {mentor}—. El poder está en **preguntarles**. Aprendé a cruzar tablas como la Oráculo, {heroe}, y ninguna pregunta del Imperio va a quedar sin respuesta.
+—Guardar datos es fácil —dice {mentor}—. El poder está en **preguntarles**. Aprendé a cruzar tablas como la Oráculo, Zed, y ninguna pregunta del Imperio va a quedar sin respuesta.
 
 ### Objetivos
 
@@ -1936,7 +1936,7 @@ temas: sql.avanzado
 
 En el cuarto piso de la Bóveda, las tablas ya no esperan órdenes: **reaccionan**. Cuando alguien anota una partida, un mecanismo oculto le resta la vida al héroe y deja constancia en un libro de auditoría. En la puerta, un guardián revisa quién entra: los escribas pueden leer, pero solo los tesoreros pueden modificar el oro.
 
-—La base de datos no es solo un depósito —dice {mentor}—. Puede tener **lógica propia**: funciones, procedimientos que hacen varias cosas juntas, reglas que se disparan solas y permisos por persona. Todo eso vive en la Bóveda y se cumple aunque el programa se olvide, {heroe}.
+—La base de datos no es solo un depósito —dice {mentor}—. Puede tener **lógica propia**: funciones, procedimientos que hacen varias cosas juntas, reglas que se disparan solas y permisos por persona. Todo eso vive en la Bóveda y se cumple aunque el programa se olvide, Zed.
 
 ### Objetivos
 
@@ -2451,7 +2451,7 @@ temas: sql.desde-codigo, sql.inyeccion
 
 La Bóveda tiene sus propias reglas y su propia lengua. Pero los programas del Imperio viven arriba, en Java. Entre los dos pisos hay un **tubo de bronce**: arriba se escribe una pregunta en SQL, se la manda por el tubo, y abajo la Oráculo responde con una tabla que sube de vuelta.
 
-—Ese tubo se llama **JDBC** —dice {mentor}—. Con él, tus programas guardan y consultan datos en la Bóveda. Pero cuidado con lo que mandás por el tubo, {heroe}: hay quienes esconden órdenes en un nombre para robar lo que no les corresponde.
+—Ese tubo se llama **JDBC** —dice {mentor}—. Con él, tus programas guardan y consultan datos en la Bóveda. Pero cuidado con lo que mandás por el tubo, Zed: hay quienes esconden órdenes en un nombre para robar lo que no les corresponde.
 
 ### Objetivos
 
@@ -3263,7 +3263,7 @@ usa: sql.desde-codigo, poo.records
 
 En la Bóveda trabajan los **Mensajeros**: cada uno se ocupa de una sola tabla. El de los héroes sabe listar héroes, buscarlos, darlos de alta, modificarlos y borrarlos; el resto del Imperio le pide cosas a él y nunca escribe SQL. Si mañana la Bóveda se muda, solo cambia el mensajero.
 
-—No desparrames SQL por todo tu programa —dice {mentor}—. Juntalo en un **DAO**, un objeto de acceso a datos por cada tabla. Así el resto del código habla de héroes, no de columnas, {heroe}.
+—No desparrames SQL por todo tu programa —dice {mentor}—. Juntalo en un **DAO**, un objeto de acceso a datos por cada tabla. Así el resto del código habla de héroes, no de columnas, Zed.
 
 ### Objetivos
 
@@ -4359,7 +4359,7 @@ usa: sql.desde-codigo
 
 Un tesorero de la Bóveda está pasando cien denarios del cofre de Nadia al de Baldo. Saca el oro del primer cofre… y en ese momento se apaga la antorcha. Cuando vuelve la luz, el oro no está en ningún cofre: salió de uno y nunca llegó al otro.
 
-—Hay operaciones que tienen que pasar **enteras o nada** —dice {mentor}—. Sacar de un cofre y poner en el otro es **una sola cosa**, aunque sean dos pasos. En la Bóveda eso se llama **transacción**, {heroe}, y es lo que evita que el oro se evapore.
+—Hay operaciones que tienen que pasar **enteras o nada** —dice {mentor}—. Sacar de un cofre y poner en el otro es **una sola cosa**, aunque sean dos pasos. En la Bóveda eso se llama **transacción**, Zed, y es lo que evita que el oro se evapore.
 
 ### Objetivos
 
@@ -5170,7 +5170,7 @@ usa: sql.joins, sql.transacciones, diseno.capas
 
 En el último piso de la Bóveda, entre tablas polvorientas, vive el **Liche**: un hechicero que se alimenta de datos rotos. Pedidos sin cliente, renglones de facturas que ya no existen, stock negativo, pagos a medio registrar. Cada fila huérfana lo hace más fuerte.
 
-—No se lo vence borrando lo que está mal —dice {mentor}—. Se lo vence construyendo un sistema donde **nada pueda quedar mal**: restricciones en la base, un DAO por tabla, transacciones para todo lo que va junto y consultas que digan la verdad. Esta es la prueba de toda la Bóveda, {heroe}.
+—No se lo vence borrando lo que está mal —dice {mentor}—. Se lo vence construyendo un sistema donde **nada pueda quedar mal**: restricciones en la base, un DAO por tabla, transacciones para todo lo que va junto y consultas que digan la verdad. Esta es la prueba de toda la Bóveda, Zed.
 
 ### Objetivos
 

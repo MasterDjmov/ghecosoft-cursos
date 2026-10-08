@@ -19,7 +19,9 @@ from to_course import insert  # noqa: E402
 
 FILES = {"R00": "00-curso.md", "R01": "01-la-aduana-del-compilador.md", "R02": "02-la-academia-de-los-moldes.md",
          "R03": "03-los-archivos-imperiales.md", "R04": "04-las-corrientes-del-imperio.md",
-         "R05": "05-la-torre-del-arquitecto.md"}
+         "R05": "05-la-torre-del-arquitecto.md",
+         "S01": "06-senda-de-la-boveda-imperial.md", "S02": "07-senda-del-palacio-de-las-ventanas.md",
+         "S03": "08-senda-del-arcade-imperial.md", "S04": "09-senda-del-puerto-de-spring.md"}
 
 
 def m(**kw):

@@ -22,7 +22,7 @@ usa: gui.swing
 
 Al final de la primera avenida está el **Arcade Imperial**: una sala oscura llena de máquinas con pantallas que brillan. En ninguna hay botones ni formularios: hay figuras que **se mueven solas**, sesenta veces por segundo.
 
-—Hasta ahora tus ventanas esperaban que alguien tocara algo —dice {mentor}—. Un juego no espera: **dibuja, mueve y vuelve a dibujar**, una y otra vez, aunque nadie toque nada. Acá aprendés a pintar en un lienzo y a darle un corazón que late, {heroe}.
+—Hasta ahora tus ventanas esperaban que alguien tocara algo —dice {mentor}—. Un juego no espera: **dibuja, mueve y vuelve a dibujar**, una y otra vez, aunque nadie toque nada. Acá aprendés a pintar en un lienzo y a darle un corazón que late, Zed.
 
 ### Objetivos
 
@@ -253,6 +253,237 @@ El de Swing corre en el EDT; el otro no, y tocar la interfaz desde él trae erro
 
 **Ogro: la velocidad que depende de la compu.** Si movés "5 píxeles por cuadro", en
 una compu lenta el juego va más lento. Multiplicá por `dt`.
+
+### Micro-misión S03-N01-P1 · El estado y el dibujo
+
+```meta
+lugar: El Arcade Imperial
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Estado separado del dibujo | una clase con los DATOS del juego (posición, puntos) · el dibujo solo los lee · así se prueba sin pantalla
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Arcade Imperial, las máquinas brillan con figuras que se mueven solas. Gheco abre una por atrás: adentro no hay dibujos, hay **números**. —El juego es su estado —dice—. El dibujo solo lo muestra.
+
+#### Gheco sugiere
+El **estado** del juego (dónde está la nave, cuántos puntos hay) va en una clase propia, sin nada de Swing. El método que dibuja solo lo lee. Así se puede probar el juego imprimiendo el estado.
+
+#### Desafío
+Completá el método que mueve la nave: suma la velocidad a la posición.
+
+#### Código inicial
+```java
+public class Lienzo {
+    static class Estado {
+        int x = 10;
+        int velocidad = 4;
+        int puntos = 0;
+
+        void actualizar() {
+            ___;
+            puntos++;
+        }
+
+        String describir() {
+            return "nave en x=" + x + ", puntos=" + puntos;
+        }
+    }
+
+    public static void main(String[] args) {
+        Estado estado = new Estado();
+        for (int cuadro = 1; cuadro <= 3; cuadro++) {
+            estado.actualizar();
+            System.out.println("Cuadro " + cuadro + ": " + estado.describir());
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Cuadro 1: nave en x=14, puntos=1
+Cuadro 2: nave en x=18, puntos=2
+Cuadro 3: nave en x=22, puntos=3
+```
+
+#### Solución
+```java
+public class Lienzo {
+    static class Estado {
+        int x = 10;
+        int velocidad = 4;
+        int puntos = 0;
+
+        void actualizar() {
+            x += velocidad;
+            puntos++;
+        }
+
+        String describir() {
+            return "nave en x=" + x + ", puntos=" + puntos;
+        }
+    }
+
+    public static void main(String[] args) {
+        Estado estado = new Estado();
+        for (int cuadro = 1; cuadro <= 3; cuadro++) {
+            estado.actualizar();
+            System.out.println("Cuadro " + cuadro + ": " + estado.describir());
+        }
+    }
+}
+```
+
+#### Al superarla
+Tres cuadros, la nave avanza y suma puntos. Ninguna ventana se abrió: el juego vive en los números.
+
+#### Imagen
+- El Arcade Imperial: una sala oscura llena de máquinas con pantallas que brillan.
+- Gheco abriendo una máquina por atrás: adentro hay números flotando en vez de dibujos.
+
+### Micro-misión S03-N01-P2 · El bucle de juego
+
+```meta
+lugar: El Arcade Imperial
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Bucle de juego | cada vuelta: actualizar el estado y redibujar · con un javax.swing.Timer cada N milisegundos · acá, un for de cuadros
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Las máquinas del Arcade repiten lo mismo sesenta veces por segundo: **actualizar** y **dibujar**. Zed arma el bucle de una pelota que rebota en los bordes.
+
+#### Gheco sugiere
+En cada cuadro, la pelota avanza con su velocidad; si pasa un borde, la velocidad cambia de signo (`vx = -vx`). En Swing esto lo dispara un `Timer`; para probarlo alcanza un `for` de cuadros.
+
+#### Desafío
+Completá el rebote: si se pasa del borde derecho (100) o del izquierdo (0), la velocidad se invierte.
+
+#### Código inicial
+```java
+public class Rebote {
+    public static void main(String[] args) {
+        int x = 80;
+        int vx = 15;
+        StringBuilder recorrido = new StringBuilder();
+        for (int cuadro = 0; cuadro < 8; cuadro++) {
+            x += vx;
+            if (x > 100 || x < 0) {
+                ___;
+                x += vx;
+            }
+            recorrido.append(x).append(" ");
+        }
+        System.out.println("Posiciones: " + recorrido.toString().trim());
+    }
+}
+```
+
+#### Salida esperada
+```
+Posiciones: 95 95 80 65 50 35 20 5
+```
+
+#### Solución
+```java
+public class Rebote {
+    public static void main(String[] args) {
+        int x = 80;
+        int vx = 15;
+        StringBuilder recorrido = new StringBuilder();
+        for (int cuadro = 0; cuadro < 8; cuadro++) {
+            x += vx;
+            if (x > 100 || x < 0) {
+                vx = -vx;
+                x += vx;
+            }
+            recorrido.append(x).append(" ");
+        }
+        System.out.println("Posiciones: " + recorrido.toString().trim());
+    }
+}
+```
+
+#### Al superarla
+La pelota llega al borde y vuelve. Nadia mira las posiciones y entiende el juego sin haberlo visto.
+
+#### Imagen
+- Una pantalla de máquina con una pelota de luz rebotando en el borde, dejando una estela.
+- Nadia leyendo la lista de posiciones en un papel.
+
+### Micro-misión S03-N01-P3 · Igual en cualquier máquina
+
+```meta
+lugar: El Arcade Imperial
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Paso de tiempo (dt) | moverse con velocidad × dt (en segundos) · el juego avanza igual en una máquina rápida o en una lenta
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En una máquina vieja, la nave anda lenta; en una nueva, vuela. —Si avanzás «un poco por cuadro» —dice Kaffa—, el juego depende de la máquina. Avanzá según el **tiempo** que pasó.
+
+#### Gheco sugiere
+La posición avanza `velocidad * dt`, donde `dt` es el tiempo del cuadro en segundos. Con más cuadros por segundo, cada `dt` es más chico, y en un segundo la nave recorre lo mismo.
+
+#### Desafío
+Completá el avance: la velocidad por el tiempo del cuadro.
+
+#### Código inicial
+```java
+public class TiempoFijo {
+    static double recorrer(int cuadrosPorSegundo, double velocidad) {
+        double dt = 1.0 / cuadrosPorSegundo;
+        double x = 0;
+        for (int i = 0; i < cuadrosPorSegundo; i++) {
+            x += ___;
+        }
+        return x;
+    }
+
+    public static void main(String[] args) {
+        for (int fps : new int[] {30, 60, 120}) {
+            System.out.printf(java.util.Locale.US, "%d cuadros por segundo: %.1f píxeles en un segundo%n", fps, recorrer(fps, 200));
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+30 cuadros por segundo: 200.0 píxeles en un segundo
+60 cuadros por segundo: 200.0 píxeles en un segundo
+120 cuadros por segundo: 200.0 píxeles en un segundo
+```
+
+#### Solución
+```java
+public class TiempoFijo {
+    static double recorrer(int cuadrosPorSegundo, double velocidad) {
+        double dt = 1.0 / cuadrosPorSegundo;
+        double x = 0;
+        for (int i = 0; i < cuadrosPorSegundo; i++) {
+            x += velocidad * dt;
+        }
+        return x;
+    }
+
+    public static void main(String[] args) {
+        for (int fps : new int[] {30, 60, 120}) {
+            System.out.printf(java.util.Locale.US, "%d cuadros por segundo: %.1f píxeles en un segundo%n", fps, recorrer(fps, 200));
+        }
+    }
+}
+```
+
+#### Al superarla
+Doscientos píxeles en un segundo, en las tres máquinas. El dueño del Arcade le regala a Zed una ficha.
+En la máquina del fondo, un cartel titila: «JUGADOR 1: APRETÁ UNA TECLA».
+
+#### Imagen
+- Tres máquinas del Arcade, una vieja, una media y una nueva, con la misma nave en el mismo lugar.
+- El dueño del Arcade dándole una ficha a Zed; al fondo, una máquina con un cartel titilando.
 
 ### Misión S03-N01-M1 · El reloj del Arcade
 
@@ -729,7 +960,7 @@ usa: gui.swing
 
 En la máquina del fondo del Arcade, una nave espera en el centro de la pantalla. No se mueve. Tiene el motor encendido, pero nadie la maneja.
 
-—Un juego que no escucha es una película —dice {mentor}—. Enseñale a la nave a **escuchar las teclas**: que avance mientras las apretás y que frene cuando las soltás. Y que el juego sepa **en qué momento está**: esperando, jugando, en pausa o terminado, {heroe}.
+—Un juego que no escucha es una película —dice {mentor}—. Enseñale a la nave a **escuchar las teclas**: que avance mientras las apretás y que frene cuando las soltás. Y que el juego sepa **en qué momento está**: esperando, jugando, en pausa o terminado, Zed.
 
 ### Objetivos
 
@@ -982,6 +1213,239 @@ tecla queda en el conjunto para siempre.
 
 **Ogro: la pausa que no pausa.** Si el `actualizar` no mira el estado, en `PAUSA` todo
 sigue moviéndose aunque no se vea el cartel.
+
+### Micro-misión S03-N02-P1 · Las teclas apretadas
+
+```meta
+lugar: La máquina del fondo del Arcade
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Teclas apretadas | un Set con las teclas que están abajo · al apretar se agrega, al soltar se saca · cada cuadro se mueve según lo que hay
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la máquina del fondo, Zed aprieta la flecha derecha y la mantiene. La nave tiene que moverse **mientras** esté apretada, no una vez por cada toque.
+
+#### Gheco sugiere
+Se guarda qué teclas están apretadas en un `Set`: al apretar, `add`; al soltar, `remove`. En cada cuadro, si el conjunto tiene la derecha, la nave avanza.
+
+#### Desafío
+Completá la condición del movimiento a la derecha.
+
+#### Código inicial
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class Teclas {
+    public static void main(String[] args) {
+        Set<String> apretadas = new HashSet<>();
+        int x = 50;
+        String[][] eventos = {{"apreta", "DERECHA"}, {}, {}, {"suelta", "DERECHA"}, {}};
+        for (int cuadro = 0; cuadro < eventos.length; cuadro++) {
+            String[] e = eventos[cuadro];
+            if (e.length == 2 && e[0].equals("apreta")) apretadas.add(e[1]);
+            if (e.length == 2 && e[0].equals("suelta")) apretadas.remove(e[1]);
+            if (___) {
+                x += 5;
+            }
+            System.out.println("Cuadro " + cuadro + ": x=" + x + " teclas=" + apretadas);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Cuadro 0: x=55 teclas=[DERECHA]
+Cuadro 1: x=60 teclas=[DERECHA]
+Cuadro 2: x=65 teclas=[DERECHA]
+Cuadro 3: x=65 teclas=[]
+Cuadro 4: x=65 teclas=[]
+```
+
+#### Solución
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class Teclas {
+    public static void main(String[] args) {
+        Set<String> apretadas = new HashSet<>();
+        int x = 50;
+        String[][] eventos = {{"apreta", "DERECHA"}, {}, {}, {"suelta", "DERECHA"}, {}};
+        for (int cuadro = 0; cuadro < eventos.length; cuadro++) {
+            String[] e = eventos[cuadro];
+            if (e.length == 2 && e[0].equals("apreta")) apretadas.add(e[1]);
+            if (e.length == 2 && e[0].equals("suelta")) apretadas.remove(e[1]);
+            if (apretadas.contains("DERECHA")) {
+                x += 5;
+            }
+            System.out.println("Cuadro " + cuadro + ": x=" + x + " teclas=" + apretadas);
+        }
+    }
+}
+```
+
+#### Al superarla
+Mientras la flecha está abajo, la nave avanza; cuando la suelta, se queda. —Igual que con las cerraduras —dice Zed—: importa cuánto tiempo apretás.
+
+#### Imagen
+- Una mano apretando una flecha luminosa en el tablero de la máquina; en la pantalla, la nave avanzando.
+- Zed concentrado frente a la máquina del fondo.
+
+### Micro-misión S03-N02-P2 · Los bordes de la pantalla
+
+```meta
+lugar: La máquina del fondo del Arcade
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Límites | la posición se encierra entre 0 y el ancho menos el tamaño · Math.max(min, Math.min(max, x))
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Zed mantiene apretada la flecha y la nave se sale de la pantalla. Desaparece. —Encerrala —dice Gheco.
+
+#### Gheco sugiere
+Para que la nave no se salga: `x = Math.max(0, Math.min(ANCHO - TAM, x))`. Si se pasa por un lado o por el otro, queda pegada al borde.
+
+#### Desafío
+Completá el encierro de la posición entre 0 y `ANCHO - TAM`.
+
+#### Código inicial
+```java
+public class Bordes {
+    static final int ANCHO = 200;
+    static final int TAM = 20;
+
+    public static void main(String[] args) {
+        int x = 150;
+        for (int cuadro = 0; cuadro < 5; cuadro++) {
+            x += 12;
+            x = ___;
+            System.out.println("Cuadro " + cuadro + ": x=" + x);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Cuadro 0: x=162
+Cuadro 1: x=174
+Cuadro 2: x=180
+Cuadro 3: x=180
+Cuadro 4: x=180
+```
+
+#### Solución
+```java
+public class Bordes {
+    static final int ANCHO = 200;
+    static final int TAM = 20;
+
+    public static void main(String[] args) {
+        int x = 150;
+        for (int cuadro = 0; cuadro < 5; cuadro++) {
+            x += 12;
+            x = Math.max(0, Math.min(ANCHO - TAM, x));
+            System.out.println("Cuadro " + cuadro + ": x=" + x);
+        }
+    }
+}
+```
+
+#### Al superarla
+La nave se queda pegada en 180, justo antes del borde. Ni un píxel afuera.
+
+#### Imagen
+- Una nave de luz pegada al borde derecho de la pantalla, sin poder seguir.
+- Gheco con un cartel de «PROHIBIDO SALIR».
+
+### Micro-misión S03-N02-P3 · Menú, jugando, pausa, fin
+
+```meta
+lugar: La máquina del fondo del Arcade
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Estados con enum | enum Estado { MENU, JUGANDO, PAUSA, FIN } · cada tecla hace algo distinto según el estado · switch
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La máquina tiene momentos: el **menú** espera, **jugando** se mueve, la **pausa** congela y el **fin** muestra el puntaje. La misma tecla hace cosas distintas en cada uno.
+
+#### Gheco sugiere
+Los estados van en un `enum`. Al apretar una tecla, un `switch` sobre el estado actual decide el siguiente: desde el menú, ENTER empieza; jugando, P pausa; en pausa, P sigue.
+
+#### Desafío
+Completá la transición de la pausa: con P, vuelve a JUGANDO.
+
+#### Código inicial
+```java
+public class Estados {
+    enum Estado { MENU, JUGANDO, PAUSA, FIN }
+
+    static Estado tecla(Estado actual, String tecla) {
+        return switch (actual) {
+            case MENU -> tecla.equals("ENTER") ? Estado.JUGANDO : actual;
+            case JUGANDO -> tecla.equals("P") ? Estado.PAUSA : tecla.equals("X") ? Estado.FIN : actual;
+            case PAUSA -> tecla.equals("P") ? ___ : actual;
+            case FIN -> tecla.equals("ENTER") ? Estado.MENU : actual;
+        };
+    }
+
+    public static void main(String[] args) {
+        Estado e = Estado.MENU;
+        for (String t : new String[] {"P", "ENTER", "P", "X", "P", "X", "ENTER"}) {
+            e = tecla(e, t);
+            System.out.println(t + " -> " + e);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+P -> MENU
+ENTER -> JUGANDO
+P -> PAUSA
+X -> PAUSA
+P -> JUGANDO
+X -> FIN
+ENTER -> MENU
+```
+
+#### Solución
+```java
+public class Estados {
+    enum Estado { MENU, JUGANDO, PAUSA, FIN }
+
+    static Estado tecla(Estado actual, String tecla) {
+        return switch (actual) {
+            case MENU -> tecla.equals("ENTER") ? Estado.JUGANDO : actual;
+            case JUGANDO -> tecla.equals("P") ? Estado.PAUSA : tecla.equals("X") ? Estado.FIN : actual;
+            case PAUSA -> tecla.equals("P") ? Estado.JUGANDO : actual;
+            case FIN -> tecla.equals("ENTER") ? Estado.MENU : actual;
+        };
+    }
+
+    public static void main(String[] args) {
+        Estado e = Estado.MENU;
+        for (String t : new String[] {"P", "ENTER", "P", "X", "P", "X", "ENTER"}) {
+            e = tecla(e, t);
+            System.out.println(t + " -> " + e);
+        }
+    }
+}
+```
+
+#### Al superarla
+La máquina responde a cada tecla según el momento. En la pausa, la X no hace nada: el juego está congelado.
+—Ya se mueve —dice Gheco—. Ahora tiene que **chocar**.
+
+#### Imagen
+- Cuatro pantallas de la misma máquina: menú, jugando, pausa y fin, unidas por flechas con letras.
+- Gheco señalando la pantalla de pausa.
 
 ### Misión S03-N02-M1 · El mundo probado
 
@@ -1582,7 +2046,7 @@ temas: juegos.sprites, juegos.colisiones
 
 En la máquina más ruidosa del Arcade, una arquera recoge monedas que caen del cielo mientras esquiva rocas. Cada cosa en pantalla es una figura con su dibujo, su posición y su caja invisible: cuando dos cajas se tocan, algo pasa.
 
-—Un juego es un montón de **entidades** que se mueven y se chocan —dice {mentor}—. Cada una tiene su dibujo, su caja y su manera de actualizarse. Cuando las cajas se tocan: puntos, daño o explosión. Así de simple, {heroe}, y así de poderoso.
+—Un juego es un montón de **entidades** que se mueven y se chocan —dice {mentor}—. Cada una tiene su dibujo, su caja y su manera de actualizarse. Cuando las cajas se tocan: puntos, daño o explosión. Así de simple, Zed, y así de poderoso.
 
 ### Objetivos
 
@@ -1913,6 +2377,215 @@ borran, la lista crece, el juego se pone lento y se queda sin memoria.
 
 **Ogro: crear la imagen en cada cuadro.** Armar la `BufferedImage` dentro de
 `paintComponent` es lentísimo: creala una vez y reutilizala.
+
+### Micro-misión S03-N03-P1 · Cuando dos rectángulos se tocan
+
+```meta
+lugar: La máquina de las monedas
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Colisiones | cada cosa tiene un Rectangle (x, y, ancho, alto) · a.intersects(b) dice si se tocan
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la máquina de las monedas, la nave tiene que juntar monedas que caen. ¿Cómo sabe el juego que la tocó? —Cada cosa es una **caja** —dice Gheco—. Si las cajas se cruzan, chocaron.
+
+#### Gheco sugiere
+`java.awt.Rectangle` guarda una caja con `x`, `y`, ancho y alto. `nave.intersects(moneda)` devuelve `true` si se superponen.
+
+#### Desafío
+Completá la pregunta: ¿la nave toca esta moneda?
+
+#### Código inicial
+```java
+import java.awt.Rectangle;
+
+public class Choques {
+    public static void main(String[] args) {
+        Rectangle nave = new Rectangle(100, 200, 30, 20);
+        Rectangle[] monedas = {new Rectangle(110, 195, 10, 10), new Rectangle(160, 200, 10, 10), new Rectangle(125, 215, 10, 10)};
+        for (int i = 0; i < monedas.length; i++) {
+            boolean toca = ___;
+            System.out.println("Moneda " + (i + 1) + ": " + (toca ? "¡atrapada!" : "pasa de largo"));
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Moneda 1: ¡atrapada!
+Moneda 2: pasa de largo
+Moneda 3: ¡atrapada!
+```
+
+#### Solución
+```java
+import java.awt.Rectangle;
+
+public class Choques {
+    public static void main(String[] args) {
+        Rectangle nave = new Rectangle(100, 200, 30, 20);
+        Rectangle[] monedas = {new Rectangle(110, 195, 10, 10), new Rectangle(160, 200, 10, 10), new Rectangle(125, 215, 10, 10)};
+        for (int i = 0; i < monedas.length; i++) {
+            boolean toca = nave.intersects(monedas[i]);
+            System.out.println("Moneda " + (i + 1) + ": " + (toca ? "¡atrapada!" : "pasa de largo"));
+        }
+    }
+}
+```
+
+#### Al superarla
+Dos atrapadas, una que se escapa. —Cajas invisibles alrededor de todo —dice Nadia—. Como los cajones de la Aduana.
+
+#### Imagen
+- Una nave y tres monedas en la pantalla, con sus cajas dibujadas en líneas finas; dos se superponen.
+- Nadia señalando las cajas.
+
+### Micro-misión S03-N03-P2 · Juntar sin tropezar
+
+```meta
+lugar: La máquina de las monedas
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: orco
+carta: Quitar durante el juego | borrar de la lista mientras se la recorre con for-each da ConcurrentModificationException · removeIf o un Iterator
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Zed borra cada moneda atrapada de la lista en el mismo for-each que la recorre, y el juego se corta con un **orco**: *ConcurrentModificationException*.
+
+#### Gheco sugiere
+No se puede sacar de una lista mientras se la recorre con for-each. `monedas.removeIf(m -> nave.intersects(m))` saca todas las atrapadas de una vez, sin tropezar.
+
+#### Desafío
+Ejecutalo, mirá el error y reemplazá el for-each por un `removeIf`.
+
+#### Código inicial
+```java
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Juntar {
+    public static void main(String[] args) {
+        Rectangle nave = new Rectangle(100, 200, 30, 20);
+        List<Rectangle> monedas = new ArrayList<>(List.of(new Rectangle(110, 195, 10, 10),
+                new Rectangle(160, 200, 10, 10), new Rectangle(125, 215, 10, 10)));
+        for (Rectangle m : monedas) {
+            if (nave.intersects(m)) {
+                monedas.remove(m);
+            }
+        }
+        System.out.println("Monedas en pantalla: " + monedas.size());
+    }
+}
+```
+
+#### Salida esperada
+```
+Monedas en pantalla: 1
+```
+
+#### Solución
+```java
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Juntar {
+    public static void main(String[] args) {
+        Rectangle nave = new Rectangle(100, 200, 30, 20);
+        List<Rectangle> monedas = new ArrayList<>(List.of(new Rectangle(110, 195, 10, 10),
+                new Rectangle(160, 200, 10, 10), new Rectangle(125, 215, 10, 10)));
+        monedas.removeIf(m -> nave.intersects(m));
+        System.out.println("Monedas en pantalla: " + monedas.size());
+    }
+}
+```
+
+#### Al superarla
+Queda una moneda, la que se escapó, y el juego sigue. El orco se va masticando una ficha.
+
+#### Imagen
+- Un orco saliendo de la pantalla con un cartel «ConcurrentModificationException».
+- La nave con dos monedas guardadas y una tercera cayendo lejos.
+
+### Micro-misión S03-N03-P3 · El azar que se repite
+
+```meta
+lugar: La máquina de las monedas
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Azar con semilla y animación | new Random(42): las monedas caen siempre igual (sirve para probar) · el cuadro del sprite: (tick / velocidad) % cuadros
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Zed sospecha de la máquina, como del tahúr de la Aduana: las monedas caen siempre en los mismos lugares. —Tiene semilla —confirma Gheco—. Para probar un juego, el azar tiene que repetirse.
+
+#### Gheco sugiere
+Con `new Random(42)`, la secuencia es siempre la misma. Cada moneda sale en `r.nextInt(ANCHO)`. Para animar, el cuadro del sprite cambia cada pocos ticks: `(tick / 3) % 4`.
+
+#### Desafío
+Completá el cálculo del cuadro de la animación: cambia cada 3 ticks, entre 4 cuadros.
+
+#### Código inicial
+```java
+import java.util.Random;
+
+public class Azar {
+    public static void main(String[] args) {
+        Random r = new Random(42);
+        StringBuilder lugares = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            lugares.append(r.nextInt(200)).append(" ");
+        }
+        System.out.println("Monedas en x: " + lugares.toString().trim());
+        StringBuilder cuadros = new StringBuilder();
+        for (int tick = 0; tick < 12; tick++) {
+            int cuadro = ___;
+            cuadros.append(cuadro);
+        }
+        System.out.println("Cuadros del sprite: " + cuadros);
+    }
+}
+```
+
+#### Salida esperada
+```
+Monedas en x: 130 163 48 84 170
+Cuadros del sprite: 000111222333
+```
+
+#### Solución
+```java
+import java.util.Random;
+
+public class Azar {
+    public static void main(String[] args) {
+        Random r = new Random(42);
+        StringBuilder lugares = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            lugares.append(r.nextInt(200)).append(" ");
+        }
+        System.out.println("Monedas en x: " + lugares.toString().trim());
+        StringBuilder cuadros = new StringBuilder();
+        for (int tick = 0; tick < 12; tick++) {
+            int cuadro = (tick / 3) % 4;
+            cuadros.append(cuadro);
+        }
+        System.out.println("Cuadros del sprite: " + cuadros);
+    }
+}
+```
+
+#### Al superarla
+Las monedas caen siempre igual y el sprite gira en cuatro cuadros. Zed, que conoce las trampas, aprueba la máquina: para probar, el azar tiene que ser honesto **y** repetible.
+En el centro del Arcade se enciende la máquina más grande. Adentro hay alguien: **el Guardián de la Máquina**.
+
+#### Imagen
+- Una tira de cuatro cuadros de una moneda girando, como un rollo de película.
+- La máquina gigante del centro del Arcade encendiéndose, con una silueta adentro.
 
 ### Misión S03-N03-M1 · Las colisiones probadas
 
@@ -2554,7 +3227,7 @@ usa: juegos.estados, arch.texto
 
 La última máquina del Arcade está apagada. Tiene un cartel escrito a mano: *"Juego no incluido"*. Adentro solo hay una pantalla negra y un joystick.
 
-—El Guardián de la Máquina no se vence jugando —dice {mentor}, sonriendo detrás de su taza—. Se vence **haciendo el juego**. Menú, niveles, puntos, vidas, un final. Todo lo que aprendiste en la Senda, junto. Es tu máquina, {heroe}: que tenga tu nombre.
+—El Guardián de la Máquina no se vence jugando —dice {mentor}, sonriendo detrás de su taza—. Se vence **haciendo el juego**. Menú, niveles, puntos, vidas, un final. Todo lo que aprendiste en la Senda, junto. Es tu máquina, Zed: que tenga tu nombre.
 
 ### Objetivos
 
@@ -2830,6 +3503,303 @@ enemigos del anterior.
 
 **Ogro: el juego imposible.** Si la dificultad crece sin tope, en el nivel 10 no se
 puede jugar. Poné límites (`Math.max`, un nivel máximo).
+
+### Micro-misión S03-N04-P1 · El mundo del juego
+
+```meta
+lugar: La máquina gigante del Arcade
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: dragon
+carta: Mundo y entidades | una clase Mundo con la lista de entidades · cada Entidad sabe actualizarse · el mundo las recorre
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El **Guardián de la Máquina** desafía a Zed: un juego entero, ordenado en clases, o no sale del Arcade. —Primero el **mundo** —dice Kaffa—: la lista de todo lo que se mueve.
+
+#### Gheco sugiere
+Cada `Entidad` tiene posición y velocidad y sabe `actualizar()`. El `Mundo` las guarda en una lista y en cada tick llama a `actualizar()` de todas: polimorfismo en el juego.
+
+#### Desafío
+Completá el tick del mundo: que cada entidad se actualice.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Mundo1 {
+    static class Entidad {
+        final String nombre;
+        int y;
+        final int vy;
+
+        Entidad(String nombre, int y, int vy) {
+            this.nombre = nombre;
+            this.y = y;
+            this.vy = vy;
+        }
+
+        void actualizar() { y += vy; }
+    }
+
+    static class Mundo {
+        final List<Entidad> entidades = new ArrayList<>();
+
+        void tick() {
+            for (Entidad e : entidades) {
+                ___;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Mundo mundo = new Mundo();
+        mundo.entidades.add(new Entidad("roca", 0, 5));
+        mundo.entidades.add(new Entidad("moneda", 10, 3));
+        for (int t = 1; t <= 2; t++) {
+            mundo.tick();
+            StringBuilder linea = new StringBuilder("Tick " + t + ":");
+            mundo.entidades.forEach(e -> linea.append(" ").append(e.nombre).append(" y=").append(e.y));
+            System.out.println(linea);
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+Tick 1: roca y=5 moneda y=13
+Tick 2: roca y=10 moneda y=16
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Mundo1 {
+    static class Entidad {
+        final String nombre;
+        int y;
+        final int vy;
+
+        Entidad(String nombre, int y, int vy) {
+            this.nombre = nombre;
+            this.y = y;
+            this.vy = vy;
+        }
+
+        void actualizar() { y += vy; }
+    }
+
+    static class Mundo {
+        final List<Entidad> entidades = new ArrayList<>();
+
+        void tick() {
+            for (Entidad e : entidades) {
+                e.actualizar();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Mundo mundo = new Mundo();
+        mundo.entidades.add(new Entidad("roca", 0, 5));
+        mundo.entidades.add(new Entidad("moneda", 10, 3));
+        for (int t = 1; t <= 2; t++) {
+            mundo.tick();
+            StringBuilder linea = new StringBuilder("Tick " + t + ":");
+            mundo.entidades.forEach(e -> linea.append(" ").append(e.nombre).append(" y=").append(e.y));
+            System.out.println(linea);
+        }
+    }
+}
+```
+
+#### Al superarla
+El mundo late: rocas y monedas caen a su ritmo. El Guardián, adentro de la máquina, levanta una ceja de píxeles.
+
+#### Imagen
+- El Guardián de la Máquina: un robot de arcade hecho de botones y pantallas, con una cara de píxeles, adentro de la máquina gigante.
+- En la pantalla, rocas y monedas cayendo.
+
+### Micro-misión S03-N04-P2 · Puntaje y vidas
+
+```meta
+lugar: La máquina gigante del Arcade
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Reglas del juego | moneda: +10 puntos · roca: −1 vida · sin vidas: FIN · las reglas en un solo método
+recompensa: xp 20, oro 25
+```
+
+#### Escena
+El Guardián dicta las reglas: cada moneda suma 10, cada roca quita una vida, y con cero vidas se termina. Zed juega una partida grabada y tiene que anotar todo bien.
+
+#### Gheco sugiere
+Las reglas van en un solo lugar: según qué tocó la nave, se suman puntos o se resta una vida. Con cero vidas, el juego pasa a FIN y no cuenta nada más.
+
+#### Desafío
+Completá la regla de la roca: resta una vida.
+
+#### Código inicial
+```java
+public class Reglas {
+    static int puntos = 0;
+    static int vidas = 2;
+    static boolean fin = false;
+
+    static void toco(String cosa) {
+        if (fin) {
+            return;
+        }
+        if (cosa.equals("moneda")) {
+            puntos += 10;
+        } else if (cosa.equals("roca")) {
+            ___;
+            if (vidas == 0) {
+                fin = true;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        for (String c : new String[] {"moneda", "moneda", "roca", "moneda", "roca", "moneda"}) {
+            toco(c);
+            System.out.println(c + ": puntos=" + puntos + " vidas=" + vidas + (fin ? " FIN" : ""));
+        }
+    }
+}
+```
+
+#### Salida esperada
+```
+moneda: puntos=10 vidas=2
+moneda: puntos=20 vidas=2
+roca: puntos=20 vidas=1
+moneda: puntos=30 vidas=1
+roca: puntos=30 vidas=0 FIN
+moneda: puntos=30 vidas=0 FIN
+```
+
+#### Solución
+```java
+public class Reglas {
+    static int puntos = 0;
+    static int vidas = 2;
+    static boolean fin = false;
+
+    static void toco(String cosa) {
+        if (fin) {
+            return;
+        }
+        if (cosa.equals("moneda")) {
+            puntos += 10;
+        } else if (cosa.equals("roca")) {
+            vidas--;
+            if (vidas == 0) {
+                fin = true;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        for (String c : new String[] {"moneda", "moneda", "roca", "moneda", "roca", "moneda"}) {
+            toco(c);
+            System.out.println(c + ": puntos=" + puntos + " vidas=" + vidas + (fin ? " FIN" : ""));
+        }
+    }
+}
+```
+
+#### Al superarla
+Treinta puntos y fin. La última moneda ya no cuenta: el juego terminó. El Guardián asiente: las reglas están en su lugar.
+
+#### Imagen
+- Un tablero de puntaje del Arcade con «30» y dos corazones apagados; la palabra FIN titilando.
+- El Guardián asintiendo con su cara de píxeles.
+
+### Micro-misión S03-N04-P3 · El mejor puntaje
+
+```meta
+lugar: La máquina gigante del Arcade
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Guardar el récord | se lee el mejor puntaje de un archivo · si el nuevo es mayor, se reemplaza · Files.writeString / readString
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+La última prueba del Guardián: que la máquina **recuerde** el mejor puntaje entre partidas. Hasta hoy, el récord lo tenía el Guardián mismo: 120 puntos.
+
+#### Gheco sugiere
+El récord se guarda en un archivo. Se lee con `Files.readString`, se compara con el puntaje nuevo y, si es mayor, se escribe con `Files.writeString`. Al terminar se borra el archivo de prueba.
+
+#### Desafío
+Completá la condición: si el puntaje nuevo supera al récord.
+
+#### Código inicial
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class Record {
+    public static void main(String[] args) throws Exception {
+        Path archivo = Files.createTempFile("record", ".txt");
+        Files.writeString(archivo, "120");
+        for (int puntaje : new int[] {90, 150, 130}) {
+            int record = Integer.parseInt(Files.readString(archivo).trim());
+            if (___) {
+                Files.writeString(archivo, String.valueOf(puntaje));
+                System.out.println(puntaje + ": ¡nuevo récord!");
+            } else {
+                System.out.println(puntaje + ": el récord sigue en " + record);
+            }
+        }
+        System.out.println("Récord guardado: " + Files.readString(archivo));
+        Files.delete(archivo);
+    }
+}
+```
+
+#### Salida esperada
+```
+90: el récord sigue en 120
+150: ¡nuevo récord!
+130: el récord sigue en 150
+Récord guardado: 150
+```
+
+#### Solución
+```java
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class Record {
+    public static void main(String[] args) throws Exception {
+        Path archivo = Files.createTempFile("record", ".txt");
+        Files.writeString(archivo, "120");
+        for (int puntaje : new int[] {90, 150, 130}) {
+            int record = Integer.parseInt(Files.readString(archivo).trim());
+            if (puntaje > record) {
+                Files.writeString(archivo, String.valueOf(puntaje));
+                System.out.println(puntaje + ": ¡nuevo récord!");
+            } else {
+                System.out.println(puntaje + ": el récord sigue en " + record);
+            }
+        }
+        System.out.println("Récord guardado: " + Files.readString(archivo));
+        Files.delete(archivo);
+    }
+}
+```
+
+#### Al superarla
+Ciento cincuenta: récord nuevo, con las iniciales de Zed. El Guardián de la Máquina se inclina, la pantalla gigante muestra «ZED 150» y la máquina le devuelve todas las fichas.
+Nadia, que nunca había jugado, pide una partida.
+
+#### Imagen
+- La pantalla gigante del Arcade con la tabla de récords: «ZED 150» arriba de todo.
+- El Guardián de la Máquina inclinándose; Nadia con una ficha en la mano, lista para jugar.
 
 ### Misión S03-N04-M1 · Tu juego del Arcade
 

@@ -635,6 +635,296 @@ necesita uno (puede ser `protected`, o `@NoArgsConstructor`).
 **Ogro: `ddl-auto=create` en producción.** Borra y recrea las tablas en cada arranque:
 se pierden los datos. En producción, `validate` y migraciones.
 
+### Micro-misión S04-N01-P1 · Los espíritus que anotan
+
+```meta
+lugar: La bóveda del Puerto
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Entidad e id generado | @Entity: una clase = una tabla · @Id @GeneratedValue: el id lo pone la base al guardar · save() devuelve la entidad con su id
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Debajo del Puerto hay una bóveda sin escribas: cuando un capitán guarda un cargamento, unos **espíritus** lo anotan solos y le ponen número. Gheco arma un repositorio de juguete para ver qué hacen.
+
+#### Gheco sugiere
+En JPA, `save(entidad)` guarda y, si la entidad no tiene id, la base le asigna uno (`@GeneratedValue`). Acá un mapa hace de tabla y un contador de secuencia pone los ids.
+
+#### Desafío
+Completá el `save`: si el cargamento no tiene id, asignale el siguiente de la secuencia.
+
+#### Código inicial
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Espiritus {
+    static class Cargamento {
+        Long id;
+        final String descripcion;
+
+        Cargamento(String descripcion) { this.descripcion = descripcion; }
+    }
+
+    static class CargamentoRepository {
+        private final Map<Long, Cargamento> tabla = new LinkedHashMap<>();
+        private long secuencia = 0;
+
+        Cargamento save(Cargamento c) {
+            if (c.id == null) {
+                ___;
+            }
+            tabla.put(c.id, c);
+            return c;
+        }
+
+        long count() { return tabla.size(); }
+    }
+
+    public static void main(String[] args) {
+        CargamentoRepository repo = new CargamentoRepository();
+        Cargamento a = repo.save(new Cargamento("café de Kaffa"));
+        Cargamento b = repo.save(new Cargamento("vidrios de colores"));
+        System.out.println(a.id + ": " + a.descripcion);
+        System.out.println(b.id + ": " + b.descripcion);
+        System.out.println("En la tabla: " + repo.count());
+    }
+}
+```
+
+#### Salida esperada
+```
+1: café de Kaffa
+2: vidrios de colores
+En la tabla: 2
+```
+
+#### Solución
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Espiritus {
+    static class Cargamento {
+        Long id;
+        final String descripcion;
+
+        Cargamento(String descripcion) { this.descripcion = descripcion; }
+    }
+
+    static class CargamentoRepository {
+        private final Map<Long, Cargamento> tabla = new LinkedHashMap<>();
+        private long secuencia = 0;
+
+        Cargamento save(Cargamento c) {
+            if (c.id == null) {
+                c.id = ++secuencia;
+            }
+            tabla.put(c.id, c);
+            return c;
+        }
+
+        long count() { return tabla.size(); }
+    }
+
+    public static void main(String[] args) {
+        CargamentoRepository repo = new CargamentoRepository();
+        Cargamento a = repo.save(new Cargamento("café de Kaffa"));
+        Cargamento b = repo.save(new Cargamento("vidrios de colores"));
+        System.out.println(a.id + ": " + a.descripcion);
+        System.out.println(b.id + ": " + b.descripcion);
+        System.out.println("En la tabla: " + repo.count());
+    }
+}
+```
+
+#### Al superarla
+Cada cargamento sale con su número. —En la Bóveda escribías cada INSERT a mano —dice Kaffa—. Acá lo hacen los espíritus. Pero ojo: hacen lo que les pedís, no lo que querías pedir.
+
+#### Imagen
+- La bóveda debajo del Puerto: estantes de piedra y espíritus de luz anotando en libros flotantes.
+- Un espíritu poniéndole un número de bronce a un cargamento.
+
+### Micro-misión S04-N01-P2 · La consulta que se escribe sola
+
+```meta
+lugar: La bóveda del Puerto
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Consultas derivadas | findByPuerto("Puerto") · Spring arma la consulta a partir del NOMBRE del método · acá la escribimos con un stream
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Zed le pide a un espíritu «todos los cargamentos que van al Puerto». El espíritu no necesita SQL: lee el **nombre** del pedido, `findByDestino`, y arma la consulta solo.
+
+#### Gheco sugiere
+En Spring Data, declarar `List<Cargamento> findByDestino(String destino)` alcanza: la consulta sale del nombre. Por dentro hace lo que acá escribimos con un stream: filtrar por ese campo.
+
+#### Desafío
+Completá el filtro de `findByDestino`.
+
+#### Código inicial
+```java
+import java.util.List;
+
+public class Derivadas {
+    record Cargamento(Long id, String descripcion, String destino) { }
+
+    static final List<Cargamento> TABLA = List.of(new Cargamento(1L, "café", "Puerto"),
+            new Cargamento(2L, "vidrios", "Torre"), new Cargamento(3L, "sal", "Puerto"));
+
+    static List<Cargamento> findByDestino(String destino) {
+        return TABLA.stream().filter(c -> ___).toList();
+    }
+
+    public static void main(String[] args) {
+        findByDestino("Puerto").forEach(c -> System.out.println(c.id() + " " + c.descripcion()));
+        System.out.println("A la Torre: " + findByDestino("Torre").size());
+    }
+}
+```
+
+#### Salida esperada
+```
+1 café
+3 sal
+A la Torre: 1
+```
+
+#### Solución
+```java
+import java.util.List;
+
+public class Derivadas {
+    record Cargamento(Long id, String descripcion, String destino) { }
+
+    static final List<Cargamento> TABLA = List.of(new Cargamento(1L, "café", "Puerto"),
+            new Cargamento(2L, "vidrios", "Torre"), new Cargamento(3L, "sal", "Puerto"));
+
+    static List<Cargamento> findByDestino(String destino) {
+        return TABLA.stream().filter(c -> c.destino().equals(destino)).toList();
+    }
+
+    public static void main(String[] args) {
+        findByDestino("Puerto").forEach(c -> System.out.println(c.id() + " " + c.descripcion()));
+        System.out.println("A la Torre: " + findByDestino("Torre").size());
+    }
+}
+```
+
+#### Al superarla
+Café y sal al Puerto, vidrios a la Torre. —Un método con buen nombre ya es una consulta —dice Gheco—. Por eso los nombres importan.
+
+#### Imagen
+- Un espíritu leyendo un pergamino con «findByDestino» y señalando dos cajas.
+- Zed mirando cómo los cargamentos se ordenan solos.
+
+### Micro-misión S04-N01-P3 · Un barco, muchos cargamentos
+
+```meta
+lugar: La bóveda del Puerto
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Relaciones | @ManyToOne: cada cargamento tiene UN barco · @OneToMany: un barco tiene MUCHOS cargamentos · los dos lados se mantienen juntos
+recompensa: xp 15, oro 20
+```
+
+#### Escena
+Cada cargamento viaja en un barco, y un barco lleva muchos cargamentos. Si se anota de un solo lado, el otro no se entera y los espíritus se confunden.
+
+#### Gheco sugiere
+En una relación de dos lados, al agregar un cargamento al barco hay que actualizar **los dos**: la lista del barco (`@OneToMany`) y el barco del cargamento (`@ManyToOne`). Un método `agregar` en el barco hace las dos cosas.
+
+#### Desafío
+Completá el método `agregar`: además de sumarlo a la lista, el cargamento tiene que saber en qué barco va.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Relaciones {
+    static class Barco {
+        final String nombre;
+        final List<Cargamento> cargamentos = new ArrayList<>();
+
+        Barco(String nombre) { this.nombre = nombre; }
+
+        void agregar(Cargamento c) {
+            cargamentos.add(c);
+            ___;
+        }
+    }
+
+    static class Cargamento {
+        final String descripcion;
+        Barco barco;
+
+        Cargamento(String descripcion) { this.descripcion = descripcion; }
+    }
+
+    public static void main(String[] args) {
+        Barco garza = new Barco("Garza");
+        Cargamento cafe = new Cargamento("café");
+        Cargamento sal = new Cargamento("sal");
+        garza.agregar(cafe);
+        garza.agregar(sal);
+        System.out.println(garza.nombre + " lleva " + garza.cargamentos.size() + " cargamentos");
+        System.out.println("El café va en: " + cafe.barco.nombre);
+    }
+}
+```
+
+#### Salida esperada
+```
+Garza lleva 2 cargamentos
+El café va en: Garza
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Relaciones {
+    static class Barco {
+        final String nombre;
+        final List<Cargamento> cargamentos = new ArrayList<>();
+
+        Barco(String nombre) { this.nombre = nombre; }
+
+        void agregar(Cargamento c) {
+            cargamentos.add(c);
+            c.barco = this;
+        }
+    }
+
+    static class Cargamento {
+        final String descripcion;
+        Barco barco;
+
+        Cargamento(String descripcion) { this.descripcion = descripcion; }
+    }
+
+    public static void main(String[] args) {
+        Barco garza = new Barco("Garza");
+        Cargamento cafe = new Cargamento("café");
+        Cargamento sal = new Cargamento("sal");
+        garza.agregar(cafe);
+        garza.agregar(sal);
+        System.out.println(garza.nombre + " lleva " + garza.cargamentos.size() + " cargamentos");
+        System.out.println("El café va en: " + cafe.barco.nombre);
+    }
+}
+```
+
+#### Al superarla
+Los dos lados saben lo mismo. Los espíritus anotan tranquilos.
+Pero en la boca del Puerto, el agua se agita: el **Kraken de los Servicios** pide miles de cargamentos por segundo.
+
+#### Imagen
+- Un barco, la Garza, con dos cajas a bordo unidas por hilos de luz de ida y vuelta.
+- En la boca del Puerto, un tentáculo enorme asomando del agua.
+
 ### Misión S04-N01-M1 · El inventario persistente
 
 ```meta
@@ -2206,7 +2496,7 @@ usa: fw.spring, web.api-rest, sql.orm, diseno.capas
 
 Una noche, las aguas del Puerto se agitan y ocho tentáculos salen del mar. Cada uno arrastra un pedido distinto: uno pide datos que no existen, otro manda formularios rotos, otro intenta vender lo que no hay en stock, otro quiere leer mil registros de una vez. Es el **Kraken de los Servicios**, y solo lo vence una API que no se rompa con nada.
 
-—Juntá todo, {heroe} —dice {mentor}, sin soltar la taza—: entidades y repositorios, DTO validados, errores claros, transacciones que no dejan nada a medias, páginas en lugar de avalanchas. Y pruebas para cada tentáculo. Así se construyen los sistemas que usa la gente de verdad.
+—Juntá todo, Zed —dice {mentor}, sin soltar la taza—: entidades y repositorios, DTO validados, errores claros, transacciones que no dejan nada a medias, páginas en lugar de avalanchas. Y pruebas para cada tentáculo. Así se construyen los sistemas que usa la gente de verdad.
 
 ### Objetivos
 
@@ -2949,6 +3239,307 @@ en su propio archivo.
 
 **Troll: el acta sin orden.** Paginar sin `Sort` da páginas con un orden arbitrario:
 un renglón puede aparecer en dos páginas y otro en ninguna.
+
+### Micro-misión S04-N02-P1 · Los mil pedidos del Kraken
+
+```meta
+lugar: La boca del Puerto
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: dragon
+carta: El problema N+1 | 1 consulta para los barcos + 1 por cada barco para sus cargamentos · con un JOIN FETCH (o una sola consulta agrupada), son 1
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El **Kraken de los Servicios** pide el listado de barcos con sus cargamentos. Zed lo arma como venía y los espíritus hacen **una consulta por barco**: con cien barcos, ciento una. El Kraken se ríe con cien bocas.
+
+#### Gheco sugiere
+Pedir los barcos y después, por cada uno, sus cargamentos son N+1 consultas. Si se piden **todos** los cargamentos juntos y se agrupan por barco (en JPA, un `JOIN FETCH`), es una sola.
+
+#### Desafío
+Completá la versión de una consulta: agrupá todos los cargamentos por barco.
+
+#### Código inicial
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+public class Kraken1 {
+    record Cargamento(String barco, String descripcion) { }
+
+    static int consultas = 0;
+    static final List<Cargamento> TABLA = List.of(new Cargamento("Garza", "café"), new Cargamento("Bagre", "sal"),
+            new Cargamento("Garza", "vidrios"), new Cargamento("Junco", "seda"));
+
+    static List<Cargamento> cargamentosDe(String barco) {
+        consultas++;
+        return TABLA.stream().filter(c -> c.barco().equals(barco)).toList();
+    }
+
+    static List<Cargamento> todos() {
+        consultas++;
+        return TABLA;
+    }
+
+    public static void main(String[] args) {
+        List<String> barcos = List.of("Bagre", "Garza", "Junco");
+        consultas = 1;
+        barcos.forEach(Kraken1::cargamentosDe);
+        System.out.println("Una por barco: " + consultas + " consultas");
+
+        consultas = 0;
+        Map<String, List<String>> porBarco = todos().stream().collect(Collectors.groupingBy(Cargamento::barco, TreeMap::new,
+                Collectors.mapping(Cargamento::descripcion, Collectors.___())));
+        System.out.println("Todo junto: " + consultas + " consulta");
+        System.out.println(porBarco);
+    }
+}
+```
+
+#### Salida esperada
+```
+Una por barco: 4 consultas
+Todo junto: 1 consulta
+{Bagre=[sal], Garza=[café, vidrios], Junco=[seda]}
+```
+
+#### Solución
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+public class Kraken1 {
+    record Cargamento(String barco, String descripcion) { }
+
+    static int consultas = 0;
+    static final List<Cargamento> TABLA = List.of(new Cargamento("Garza", "café"), new Cargamento("Bagre", "sal"),
+            new Cargamento("Garza", "vidrios"), new Cargamento("Junco", "seda"));
+
+    static List<Cargamento> cargamentosDe(String barco) {
+        consultas++;
+        return TABLA.stream().filter(c -> c.barco().equals(barco)).toList();
+    }
+
+    static List<Cargamento> todos() {
+        consultas++;
+        return TABLA;
+    }
+
+    public static void main(String[] args) {
+        List<String> barcos = List.of("Bagre", "Garza", "Junco");
+        consultas = 1;
+        barcos.forEach(Kraken1::cargamentosDe);
+        System.out.println("Una por barco: " + consultas + " consultas");
+
+        consultas = 0;
+        Map<String, List<String>> porBarco = todos().stream().collect(Collectors.groupingBy(Cargamento::barco, TreeMap::new,
+                Collectors.mapping(Cargamento::descripcion, Collectors.toList())));
+        System.out.println("Todo junto: " + consultas + " consulta");
+        System.out.println(porBarco);
+    }
+}
+```
+
+#### Al superarla
+De cuatro consultas a una. Con cien barcos, de ciento una a una. Al Kraken se le cierran noventa y nueve bocas.
+
+#### Imagen
+- El Kraken de los Servicios: un pulpo gigante hecho de cables y mensajes, con muchas bocas pidiendo datos, en la boca del Puerto.
+- Zed frente a él con una sola caja grande en lugar de cien chicas.
+
+### Micro-misión S04-N02-P2 · Todo o nada
+
+```meta
+lugar: La boca del Puerto
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: @Transactional | todos los cambios de un servicio se guardan juntos o ninguno · si algo falla en el medio, se deshace lo anterior
+recompensa: xp 20, oro 25
+```
+
+#### Escena
+El Kraken arranca un tentáculo a mitad de una transferencia de mercadería: la caja ya salió de un barco pero todavía no llegó al otro. Desapareció. —Todo o nada —dice Kaffa—: una **transacción**.
+
+#### Gheco sugiere
+En una transacción, si algo falla, se vuelve atrás lo que se había hecho. Acá se imita: se guarda una copia del estado antes y, si salta una excepción, se restaura. En Spring alcanza con `@Transactional` en el servicio.
+
+#### Desafío
+Completá el `catch`: restaurá el estado guardado antes de empezar.
+
+#### Código inicial
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Kraken2 {
+    static Map<String, Integer> stock = new HashMap<>(Map.of("Garza", 10, "Bagre", 0));
+
+    static void transferir(String desde, String hasta, int cajas, boolean kraken) {
+        Map<String, Integer> antes = new HashMap<>(stock);
+        try {
+            stock.put(desde, stock.get(desde) - cajas);
+            if (kraken) {
+                throw new IllegalStateException("el Kraken cortó la transferencia");
+            }
+            stock.put(hasta, stock.get(hasta) + cajas);
+            System.out.println("Transferidas " + cajas + " cajas");
+        } catch (IllegalStateException e) {
+            ___;
+            System.out.println("Se deshizo: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        transferir("Garza", "Bagre", 4, false);
+        transferir("Garza", "Bagre", 3, true);
+        System.out.println("Garza: " + stock.get("Garza") + ", Bagre: " + stock.get("Bagre"));
+    }
+}
+```
+
+#### Salida esperada
+```
+Transferidas 4 cajas
+Se deshizo: el Kraken cortó la transferencia
+Garza: 6, Bagre: 4
+```
+
+#### Solución
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Kraken2 {
+    static Map<String, Integer> stock = new HashMap<>(Map.of("Garza", 10, "Bagre", 0));
+
+    static void transferir(String desde, String hasta, int cajas, boolean kraken) {
+        Map<String, Integer> antes = new HashMap<>(stock);
+        try {
+            stock.put(desde, stock.get(desde) - cajas);
+            if (kraken) {
+                throw new IllegalStateException("el Kraken cortó la transferencia");
+            }
+            stock.put(hasta, stock.get(hasta) + cajas);
+            System.out.println("Transferidas " + cajas + " cajas");
+        } catch (IllegalStateException e) {
+            stock = antes;
+            System.out.println("Se deshizo: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        transferir("Garza", "Bagre", 4, false);
+        transferir("Garza", "Bagre", 3, true);
+        System.out.println("Garza: " + stock.get("Garza") + ", Bagre: " + stock.get("Bagre"));
+    }
+}
+```
+
+#### Al superarla
+La transferencia cortada se deshace y no se pierde ni una caja: 6 en la Garza, 4 en el Bagre. El Kraken suelta el tentáculo.
+
+#### Imagen
+- Una caja volviendo sola al barco del que salió, mientras un tentáculo del Kraken se retira.
+- Kaffa con la taza en alto: «todo o nada».
+
+### Micro-misión S04-N02-P3 · El servicio que el Kraken no rompe
+
+```meta
+lugar: La boca del Puerto
+personajes: Zed, Gheco, Nadia, Kaffa
+carta: Capas de punta a punta | controlador → servicio → repositorio · DTO en los bordes · validar y responder errores claros
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+El último ataque del Kraken es una lluvia de pedidos: buenos, vacíos y para barcos que no existen. El servicio de Zed tiene que responder **todos**, cada uno con su código.
+
+#### Gheco sugiere
+El controlador recibe el pedido, el servicio valida y busca en el repositorio, y la respuesta es un texto con el código: 201 si se registró, 400 si el pedido es inválido, 404 si el barco no existe.
+
+#### Desafío
+Completá el caso del barco que no existe: 404.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class Kraken3 {
+    record CargaPedido(String barco, String descripcion) { }
+
+    static final Map<String, List<String>> REPO = Map.of("Garza", new ArrayList<>(), "Bagre", new ArrayList<>());
+
+    static String registrar(CargaPedido p) {
+        if (p.descripcion() == null || p.descripcion().isBlank()) {
+            return "400 la descripción es obligatoria";
+        }
+        List<String> bodega = REPO.get(p.barco());
+        if (bodega == null) {
+            return ___;
+        }
+        bodega.add(p.descripcion());
+        return "201 " + p.descripcion() + " a bordo del " + p.barco() + " (" + bodega.size() + ")";
+    }
+
+    public static void main(String[] args) {
+        List<CargaPedido> lluvia = List.of(new CargaPedido("Garza", "café"), new CargaPedido("Garza", " "),
+                new CargaPedido("Ceibo", "vitral"), new CargaPedido("Bagre", "sal"));
+        lluvia.forEach(p -> System.out.println(registrar(p)));
+    }
+}
+```
+
+#### Salida esperada
+```
+201 café a bordo del Garza (1)
+400 la descripción es obligatoria
+404 no existe el barco Ceibo
+201 sal a bordo del Bagre (1)
+```
+
+#### Solución
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class Kraken3 {
+    record CargaPedido(String barco, String descripcion) { }
+
+    static final Map<String, List<String>> REPO = Map.of("Garza", new ArrayList<>(), "Bagre", new ArrayList<>());
+
+    static String registrar(CargaPedido p) {
+        if (p.descripcion() == null || p.descripcion().isBlank()) {
+            return "400 la descripción es obligatoria";
+        }
+        List<String> bodega = REPO.get(p.barco());
+        if (bodega == null) {
+            return "404 no existe el barco " + p.barco();
+        }
+        bodega.add(p.descripcion());
+        return "201 " + p.descripcion() + " a bordo del " + p.barco() + " (" + bodega.size() + ")";
+    }
+
+    public static void main(String[] args) {
+        List<CargaPedido> lluvia = List.of(new CargaPedido("Garza", "café"), new CargaPedido("Garza", " "),
+                new CargaPedido("Ceibo", "vitral"), new CargaPedido("Bagre", "sal"));
+        lluvia.forEach(p -> System.out.println(registrar(p)));
+    }
+}
+```
+
+#### Al superarla
+Cada pedido con su respuesta, y el servicio sigue en pie. El Kraken se hunde despacio en la boca del Puerto.
+«404 no existe el barco Ceibo.» Zed sonríe: en el Puerto nadie sabe que el Ceibo está encallado en la Represa, con un vitral que ya está donde tenía que estar.
+
+#### Imagen
+- El Kraken hundiéndose en la boca del Puerto, con los tentáculos relajados.
+- Zed en el muelle de su Puerto natal, ahora construyendo; a lo lejos, la Torre del Arquitecto.
 
 ### Misión S04-N02-M1 · Tu servicio del Puerto
 

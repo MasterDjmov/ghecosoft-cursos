@@ -118,9 +118,11 @@ decimales con `==` (03).
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -634,9 +636,11 @@ En el mismo nivel se evalúa **de izquierda a derecha**: `10 - 4 - 3` es `3`.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1148,9 +1152,11 @@ paréntesis:** `(estado & DORMIDO) == 0`.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1587,8 +1593,16 @@ siguen. Entre el `%` y la letra se puede indicar el formato:
 | `%e` | notación científica | | `1.234500e+03` |
 | `%c` / `%s` | un carácter / un texto | | `K` / `Kira` |
 | `%8s` / `%-8s` | texto en ancho 8 | | `    Kira` / `Kira    ` |
-| `%x` | hexa (04) | `255` | `ff` |
+| `%x` / `%X` | hexa (04) | `255` | `ff` / `FF` |
+| `%o` | octal | `255` | `377` |
+| `%#x` / `%#o` | hexa con `0x` / octal con `0` adelante | `255` | `0xff` / `0377` |
+| `%g` | el más corto entre `%f` y `%e` | `1234.5` | `1234.5` |
+| `%+010.2f` | signo, ceros, ancho 10, 2 decimales | `3.7` | `+000003.70` |
 | `%%` | un signo `%` | | `%` |
+
+El ancho y la precisión también pueden venir **como argumentos**, con `*`:
+`printf("%*.*f", 8, 2, 3.14159)` muestra `    3.14` (ancho 8, 2 decimales). Sirve
+cuando el ancho de la tabla depende de los datos.
 
 Los anchos sirven para armar **tablas alineadas**. Ojo: con tildes, `printf`
 cuenta **bytes**, no letras (una letra con tilde ocupa 2 bytes en UTF-8), así que
@@ -1647,10 +1661,13 @@ Por eso en el curso se usa `fgets` + `sscanf`.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run                            # contestá las preguntas
-./programa < main.entrada.txt       # o que las conteste el archivo
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo (la entrada de ejemplo ya está en la pestaña **Entrada**).
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con las respuestas en un archivo: `./programa < main.entrada.txt` (Linux) o `programa.exe < main.entrada.txt` (Windows).
+
 El archivo `main.entrada.txt` tiene una respuesta por línea. Como las respuestas
 no se muestran, en la salida las preguntas quedan pegadas.
 
@@ -2245,10 +2262,12 @@ sobre la letra, aceptando mayúsculas y minúsculas con casos agrupados.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-./programa < main.entrada.txt       # contesta 750 y A
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo (la entrada de ejemplo ya está en la pestaña **Entrada**).
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con las respuestas en un archivo: `./programa < main.entrada.txt` (Linux) o `programa.exe < main.entrada.txt` (Windows).
 
 ### Código de ejemplo
 
@@ -3008,10 +3027,12 @@ for (;;) {
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run                        # probá escribir letras en el menú
-./programa < main.entrada.txt   # contesta 1, dos, 2, 7, 3abc, 2, -1, 2 y 0
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo (la entrada de ejemplo ya está en la pestaña **Entrada**).
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con las respuestas en un archivo: `./programa < main.entrada.txt` (Linux) o `programa.exe < main.entrada.txt` (Windows).
 
 ### Código de ejemplo
 
@@ -3672,6 +3693,24 @@ Para que una función **modifique** una variable de afuera, hay que pasarle su
   entre llamadas (el contador de `contar_golpe`). Es como una global, pero
   escondida adentro de la función.
 
+#### Los especificadores de almacenamiento
+Delante del tipo de una variable puede ir una palabra que cambia **dónde vive** o
+**quién la puede tocar**:
+
+| Palabra | Qué hace | Ejemplo |
+|---|---|---|
+| `auto` | la de siempre de una local (nadie la escribe) | `auto int i;` = `int i;` |
+| `static` (local) | recuerda su valor entre llamadas | `static int contador = 0;` |
+| `static` (global) | la global solo se ve en **este archivo** | `static int secreto;` |
+| `extern` | «está declarada en otro archivo» (R04-N03) | `extern int golpes_totales;` |
+| `const` | no se puede cambiar después de inicializarla | `const double PI = 3.14159;` |
+| `register` | pide guardarla en un registro del procesador; hoy el compilador lo decide solo | `register int i;` |
+| `volatile` | puede cambiar «por afuera» (un sensor, otro hilo): el compilador la lee siempre de nuevo | `volatile int boton;` (Arduino) |
+
+En la práctica se usan `static`, `extern` y `const`; `register` quedó de los
+compiladores viejos y `volatile` aparece en la electrónica (la Senda de los
+Autómatas).
+
 #### Recursión
 Una función **recursiva** se llama a sí misma con un problema **más chico**.
 Siempre tiene:
@@ -3690,9 +3729,11 @@ devuelve `long long` porque 13! ya no entra en un `int`.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -4871,7 +4912,9 @@ double p = (double) rand() / RAND_MAX;   /* de 0.0 a 1.0 */
   **secuencia calculada** (pseudoaleatoria) que parte de la semilla.
 - **Misma semilla, misma secuencia.** Sirve para probar y para repetir una
   partida. La secuencia depende de la biblioteca de C: con la misma semilla,
-  Linux y Windows dan números distintos.
+  **Linux, Windows y el botón Ejecutar de esta página dan números distintos**.
+  Las salidas de ejemplo con `rand()` salieron de Linux: si en tu compu dan
+  otros números, no está mal; fijate que estén en el rango correcto.
 - En el juego real se siembra con la hora: `srand(time(NULL));`,
   **una sola vez**, al principio de `main`. `time(NULL)` devuelve los segundos
   que pasaron desde 1970.
@@ -4909,9 +4952,11 @@ while ((c = getchar()) != EOF && c != '\n') { ... }
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 

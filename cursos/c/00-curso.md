@@ -23,7 +23,7 @@ Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilá
 
 Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde salen dos Sendas optativas: videojuegos 2D con **SDL3** y electrónica con **Arduino**.
 
-> Qué hace falta: una compu con `gcc` (en Linux: `sudo apt install build-essential`; en Windows, WSL o MSYS2). Los programas de C se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
+> Qué hace falta: nada para empezar. Las micro-misiones y los ejemplos se ejecutan acá mismo, en tu navegador. Para las misiones, una compu con Linux o Windows y un entorno de C: **ZinjaI** o **Code::Blocks** (traen todo) o **VS Code** con `gcc` (en Windows, el de MSYS2). La Clase 0 explica cómo instalar cada uno. Las misiones se entregan pegando el código o subiendo un archivo.
 
 ### Temario
 
@@ -75,9 +75,10 @@ advertencias**.
 
 ### Antes de empezar
 
-Nada: este es el punto de partida. Necesitás una terminal y el compilador `gcc`
-(ver "Instalación / dependencias" en el [README del capítulo](../README.md)).
-Probá `gcc --version`.
+Nada: este es el punto de partida. Para los ejemplos y las micro-misiones alcanza
+con este navegador (tocá **Ejecutar**: la primera vez baja el compilador y tarda
+un poco). Para las misiones vas a necesitar un entorno de C en tu compu: abajo
+está cómo instalarlo en Linux y en Windows.
 
 ### Explicación
 
@@ -105,14 +106,41 @@ Por dentro, `gcc` hace tres pasos:
 Casi siempre se hacen los tres de una vez, pero conviene saber que existen: los
 errores de cada paso se ven distintos.
 
-#### `make`: no escribir el comando cada vez
-Cada ejemplo trae un `Makefile`, un archivo con las "recetas" para compilar:
-```bash
-make          # compila (solo si algo cambió)
-make run      # compila y ejecuta
-make clean    # borra el ejecutable
-```
-Por dentro, `make` ejecuta el mismo comando `gcc` de arriba.
+#### Dónde escribir y compilar (Linux y Windows)
+Tres caminos; elegí uno y usalo todo el curso.
+
+**1. ZinjaI** (el más simple, pensado para aprender; Linux y Windows). Bajalo de
+su página (`zinjai.sourceforge.net`): en Windows trae el compilador adentro; en
+Linux, instalá antes `gcc` (`sudo apt install build-essential`). Archivo → Nuevo,
+escribís y **F9** compila y ejecuta.
+
+**2. Code::Blocks** (Linux y Windows). En Windows, bajá el instalador que dice
+**mingw-setup**: es el que trae `gcc`. En Linux: `sudo apt install codeblocks`.
+Archivo → Nuevo → Archivo vacío, guardalo como `main.c` y **F9**.
+
+**3. VS Code con `gcc` y la terminal.**
+- **Linux:** `sudo apt install build-essential` y listo: `gcc --version`.
+- **Windows:** instalá **MSYS2** (`msys2.org`), abrí la terminal **MSYS2 UCRT64**
+  y escribí `pacman -S mingw-w64-ucrt-x86_64-gcc`. Agregá `C:\msys64\ucrt64\bin`
+  a la variable `Path` de Windows para que `gcc` ande en cualquier terminal.
+  Probá `gcc --version`.
+- En VS Code, la extensión **C/C++** de Microsoft. Se compila desde la terminal
+  integrada (Ctrl+ñ):
+
+| | Linux | Windows |
+|---|---|---|
+| Compilar | `gcc -Wall -Wextra -std=c11 main.c -o programa` | `gcc -Wall -Wextra -std=c11 main.c -o programa.exe` |
+| Ejecutar | `./programa` | `programa.exe` (o `.\programa.exe` en PowerShell) |
+| Ver el `return` | `echo $?` | `echo %errorlevel%` (cmd) o `$LASTEXITCODE` (PowerShell) |
+
+**Las tildes en la consola de Windows:** si ves `Â¡Hola` en lugar de `¡Hola`,
+escribí `chcp 65001` en la consola antes de ejecutar (o, en ZinjaI y
+Code::Blocks, configurá la consola en UTF-8). En Linux se ven bien siempre.
+
+**`make`:** algunos ejemplos traen un `Makefile` con las recetas (`make run`,
+`make clean`). En Linux ya está; en Windows con MSYS2,
+`pacman -S mingw-w64-ucrt-x86_64-make` y se usa `mingw32-make`. No es
+obligatorio: el comando `gcc` de la tabla hace lo mismo.
 
 #### Anatomía del programa
 ```c
@@ -133,7 +161,7 @@ int main(void)
 - **Punto y coma `;`**: termina cada instrucción.
 - **`return 0;`**: termina `main` y le avisa al sistema operativo que todo
   salió bien. Cualquier otro número significa "algo falló". En la terminal se
-  ve con `echo $?` justo después de ejecutar.
+  ve justo después de ejecutar (`echo $?` en Linux, `echo %errorlevel%` en Windows).
 - **Mayúsculas y minúsculas importan**: `printf` no es lo mismo que `Printf`.
 
 #### `printf`: mostrar texto
@@ -177,13 +205,11 @@ error real puede estar en la línea **anterior** a la que indica. Arreglá **el
 primer** error y volvé a compilar: los siguientes suelen desaparecer solos.
 
 #### Cómo compilarlo y ejecutarlo
-
-```bash
-make run
-# o a mano:
-gcc -Wall -Wextra -std=c11 -o programa main.c
-./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks:** pegá el código en un archivo nuevo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -Wall -Wextra -std=c11 main.c -o programa` y `./programa`
+  - Windows: `gcc -Wall -Wextra -std=c11 main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -520,4 +546,4 @@ Con `%%`: `printf("100%%")` muestra `100%`.
 
 Material original: `01-C/01-HolaMundo` (soluciones completas en `soluciones/`, con sus archivos de entrada y salida).
 
-Si alguien trabaja en Windows, recomendar WSL o MSYS2 con `gcc`; el curso asume `gcc` y `make`.
+Los alumnos de la UNLaR usan Code::Blocks, ZinjaI y VS Code; los de la UTN, VS Code. En Windows, ZinjaI y Code::Blocks (versión mingw-setup) traen `gcc`; con VS Code, MSYS2 (UCRT64). Los ejemplos y las micro-misiones también corren en el navegador (D98).

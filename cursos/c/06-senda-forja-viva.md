@@ -40,11 +40,20 @@ Todo el camino principal, en especial structs (12), punteros (13) y el menú de 
 
 SDL3 es una biblioteca: hay que tenerla instalada y **enlazarla**. En Ubuntu reciente:
 
+**Linux:**
 ```bash
-sudo apt install libsdl3-dev        # si tu versión no la trae, se compila: ver FullCursos/external/build-sdl3.sh
+sudo apt install libsdl3-dev        # si tu versión de Ubuntu no la trae, se compila desde el código de SDL (libsdl.org)
 gcc -std=c11 -Wall -Wextra -o juego main.c $(pkg-config --cflags --libs sdl3) -lm
 ./juego
 ```
+
+**Windows** (en la terminal **MSYS2 UCRT64**):
+```bash
+pacman -S mingw-w64-ucrt-x86_64-SDL3 mingw-w64-ucrt-x86_64-pkgconf
+gcc -std=c11 -Wall -Wextra -o juego.exe main.c $(pkg-config --cflags --libs sdl3) -lm
+./juego.exe
+```
+En Windows, el archivo que tiene el `main` lleva además `#include <SDL3/SDL_main.h>` (en Linux no molesta: se puede dejar siempre). Para abrir el juego con doble clic fuera de MSYS2, copiá `SDL3.dll` (de `C:\msys64\ucrt64\bin`) a la carpeta del `.exe`. En **Code::Blocks** o **ZinjaI**, agregá en las opciones del proyecto la carpeta de `include` de SDL3 y la biblioteca `SDL3`.
 
 `pkg-config` le dice al compilador dónde están los `.h` (`-I...`) y la biblioteca (`-lSDL3`). Estos programas abren una **ventana**: se prueban en tu compu, no en la plataforma, y las misiones se entregan como `.zip` con el código.
 
@@ -1968,7 +1977,7 @@ Toda la Senda de la Forja Viva.
 
 #### El proyecto
 
-El punto de partida es *Junta las monedas* (el código de ejemplo, de `FullCursos/06-SDL3/13-Proyecto`): WASD para moverse, paredes, monedas y un enemigo que persigue. Todo en un solo archivo.
+El punto de partida es *Junta las monedas* (el código de ejemplo): WASD para moverse, paredes, monedas y un enemigo que persigue. Todo en un solo archivo.
 
 #### Estados del juego
 

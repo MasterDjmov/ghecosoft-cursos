@@ -47,7 +47,7 @@ arduino-cli upload -p /dev/ttyACM0 --fqbn arduino:avr:uno MiSketch   # subir a l
 arduino-cli monitor -p /dev/ttyACM0 -c baudrate=115200            # ver lo que manda por el puerto serie
 ```
 
-En Linux, para usar el puerto hay que estar en el grupo `dialout` (`sudo usermod -aG dialout $USER` y volver a iniciar sesión). Las misiones con la placa se entregan como `.zip` con la carpeta del sketch.
+El puerto cambia según el sistema: en **Linux** es `/dev/ttyACM0` (o `/dev/ttyUSB0`), y hay que estar en el grupo `dialout` (`sudo usermod -aG dialout $USER` y volver a iniciar sesión); en **Windows** es `COM3`, `COM4`… (se ve en el Administrador de dispositivos o en el IDE de Arduino), y los comandos son los mismos cambiando `-p /dev/ttyACM0` por `-p COM3`. Con el **IDE de Arduino** (Linux y Windows) no hace falta la terminal: Herramientas → Placa y Puerto, y el botón **Subir**. Las misiones con la placa se entregan como `.zip` con la carpeta del sketch.
 
 #### `setup()` y `loop()`
 
@@ -721,6 +721,8 @@ gcc -std=c11 -Wall -Wextra -o lector lector.c
 ./lector /dev/ttyACM0          # con la placa
 ./lector < prueba.txt          # sin placa
 ```
+
+En **Windows**, `termios.h` no existe: el programa se compila igual sin la parte del puerto (queda la lectura por entrada estándar) y se prueba con `lector.exe < prueba.txt`. Para leer la placa en vivo en Windows, usá el **Monitor serie** del IDE de Arduino, o compilá y corré el lector dentro de **WSL** (un Linux dentro de Windows).
 
 ### Código de ejemplo
 

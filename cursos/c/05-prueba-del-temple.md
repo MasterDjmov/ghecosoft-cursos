@@ -81,6 +81,11 @@ $2 = 43
 
 Si el programa se corta (`Segmentation fault`), ejecutalo dentro de `gdb`: se frena justo en la línea del problema, y `bt` muestra cómo se llegó ahí.
 
+**En Windows:** `gdb` viene con MSYS2 (`pacman -S mingw-w64-ucrt-x86_64-gdb`) y se usa igual: `gdb programa.exe`. Sin comandos, los IDE tienen el mismo depurador con botones:
+- **ZinjaI** (Linux y Windows): clic en el margen de una línea para un punto de parada y **F5** para depurar; las variables se ven en el panel de inspecciones.
+- **Code::Blocks**: **F5** pone el punto de parada, Depurar → Iniciar (**F8**), y Depurar → Ventanas → Variables.
+- **VS Code**: con la extensión C/C++, **F9** pone el punto de parada y **F5** depura (la primera vez pide elegir `gcc` y crea `launch.json`).
+
 #### Los sanitizadores
 
 ```bash
@@ -91,6 +96,8 @@ gcc -g -fsanitize=address,undefined -o programa main.c
 - **`undefined`**: comportamiento indefinido, como el desbordamiento de un `int` con signo o un desplazamiento de bits inválido.
 
 `valgrind ./programa` encuentra problemas parecidos sin recompilar (más lento).
+
+**En Windows** (MinGW), `-fsanitize=address` no existe: queda `-fsanitize=undefined` con `-fsanitize-undefined-trap-on-error`, y para la memoria, **Dr. Memory** (`drmemory -- programa.exe`), que hace lo de `valgrind`. Otra opción es instalar **WSL** (un Linux dentro de Windows) y usar todo lo de arriba tal cual.
 
 #### Comportamiento indefinido
 

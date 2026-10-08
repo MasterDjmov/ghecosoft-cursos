@@ -93,9 +93,11 @@ Si `sscanf` no convierte los 3 datos, la línea está mal: se informa **con su n
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-gcc -std=c11 -Wall -Wextra -o programa main.c && ./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 Los archivos se crean en la carpeta desde donde ejecutás el programa.
 
@@ -616,6 +618,31 @@ fread(&h, sizeof h, 1, f);
 
 Con `"r+b"` se puede **leer y escribir** sin borrar: se lee un registro, se cambia, se vuelve con `fseek` a su principio y se escribe encima.
 
+#### Baja lógica: borrar sin borrar
+Sacar un registro del medio de un archivo binario obliga a reescribir todo lo que
+viene después. Por eso los sistemas de gestión hacen una **baja lógica**: el
+struct tiene un campo **estado** (`'A'` activo, `'B'` de baja) y «borrar» es
+cambiar ese campo y reescribir el registro en su lugar:
+```c
+typedef struct { int codigo; char descripcion[30]; float precio; int stock; char estado; } Producto;
+
+/* buscar el código, marcarlo con 'B' y escribirlo encima */
+while (fread(&p, sizeof p, 1, f) == 1) {
+    if (p.codigo == codigo && p.estado == 'A') {
+        p.estado = 'B';
+        fseek(f, -(long) sizeof p, SEEK_CUR);   /* volver al principio de ESE registro */
+        fwrite(&p, sizeof p, 1, f);
+        fflush(f);                              /* antes de volver a leer */
+        break;
+    }
+}
+```
+Los listados muestran solo los activos (`if (p.estado == 'A')`). Así no se pierde
+nada: se puede dar de alta de nuevo, y el registro sigue ahí para la historia.
+Actualizar el stock es lo mismo: leer, cambiar el campo, volver y escribir.
+Entre una escritura y una lectura en el mismo archivo abierto con `"r+b"`, hace
+falta un `fseek` o un `fflush`.
+
 #### Texto o binario
 
 | | Texto | Binario |
@@ -629,9 +656,11 @@ Con `"r+b"` se puede **leer y escribir** sin borrar: se lee un registro, se camb
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-gcc -std=c11 -Wall -Wextra -o programa main.c && ./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1168,6 +1197,8 @@ gcc -o programa main.o dado.o             # el enlazador los une
 
 Si cambiás solo `main.c`, alcanza con recompilar `main.o` y enlazar. O todo junto: `gcc -Wall -Wextra -o programa main.c dado.c`.
 
+En **Windows** los comandos son los mismos en la terminal (MSYS2 o la de VS Code), con `-o programa.exe`. En un IDE, varios archivos van en un **proyecto**: en **ZinjaI**, Archivo → Nuevo proyecto y agregar los `.c` y `.h`; en **Code::Blocks**, Archivo → Nuevo → Proyecto (*Console application*, en C) y Proyecto → Agregar archivos. El IDE compila cada `.c` y los enlaza solo (en Linux y en Windows).
+
 #### El `Makefile`
 
 `make` lee un archivo `Makefile` con **reglas**: qué archivo se genera, de qué depende y qué comando lo arma. Solo recompila lo que cambió.
@@ -1180,7 +1211,7 @@ main.o: main.c dado.h
 	gcc -std=c11 -Wall -Wextra -c main.c
 ```
 
-Los comandos van con **tabulación** (no espacios) al principio.
+Los comandos van con **tabulación** (no espacios) al principio. En Windows con MSYS2, `make` se llama `mingw32-make` (se instala con `pacman -S mingw-w64-ucrt-x86_64-make`), y en la regla `clean` va `del programa.exe *.o` en lugar de `rm -f programa *.o` si se usa desde `cmd`.
 
 #### El preprocesador
 
@@ -1812,9 +1843,13 @@ Lo que devuelve `main` le dice a la terminal cómo terminó el programa: `EXIT_S
 ./forja templar 900 && echo "todo bien"      # && solo sigue si el anterior devolvió 0
 ```
 
+En Windows, desde `cmd`: `forja.exe templar hola` y después `echo %errorlevel%`
+(`forja.exe templar 900 && echo todo bien` funciona igual); en PowerShell,
+`.\forja.exe templar hola; $LASTEXITCODE`.
+
 #### Probarlo
 
-Estos programas se prueban **escribiendo los argumentos** en la terminal. Por eso las misiones muestran ejemplos de uso en la consigna en lugar de una "entrada de ejemplo".
+Estos programas se prueban **escribiendo los argumentos** en la terminal (en Linux y en Windows). En **Code::Blocks** también se pueden poner en Proyecto → *Set program's arguments*, y en **ZinjaI**, en las opciones de ejecución (los argumentos del programa). Por eso las misiones muestran ejemplos de uso en la consigna en lugar de una "entrada de ejemplo".
 
 ### Código de ejemplo
 
@@ -3648,6 +3683,11 @@ make
 ./programa < entrada.txt
 gcc -g -fsanitize=address -o programa main.c inventario.c && ./programa < entrada.txt   # sin fugas
 ```
+
+En Windows: `gcc -Wall -Wextra -o programa.exe main.c inventario.c` y
+`programa.exe < entrada.txt` (o `mingw32-make`). El detector de fugas
+(`-fsanitize=address`) no existe en MinGW: en Windows, contá que cada `malloc`
+tenga su `free` o probá en Linux (o en WSL).
 
 #### La entrega
 

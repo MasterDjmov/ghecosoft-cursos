@@ -138,10 +138,12 @@ sanitizadores (`make asan`).
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-make asan       # igual, pero con los detectores de errores de memoria
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con los detectores de memoria, solo en Linux: agregá `-g -fsanitize=address`. En Windows (MinGW) no existe: usá `-fsanitize=undefined`.
 
 ### Código de ejemplo
 
@@ -1181,10 +1183,12 @@ es verdadero solo para los bytes que **empiezan** una letra.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run                            # escribí un nombre
-./programa < main.entrada.txt       # contesta "Chispa el Veloz"
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo (la entrada de ejemplo ya está en la pestaña **Entrada**).
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con las respuestas en un archivo: `./programa < main.entrada.txt` (Linux) o `programa.exe < main.entrada.txt` (Windows).
 
 ### Código de ejemplo
 
@@ -1885,7 +1889,7 @@ Busca el primer `\n` y lo reemplaza por el fin de texto: saca el Enter que deja 
 
 Material original: `01-C/11-Strings` (soluciones completas en `soluciones/`, con sus archivos de entrada y salida).
 
-## R02-N03 · Structs, enum y typedef
+## R02-N03 · Structs, enum, typedef y union
 
 ```meta
 tipo: tema
@@ -1994,11 +1998,39 @@ dejar bytes de **relleno** (*padding*) para que cada campo quede en una
 dirección cómoda para el procesador. Por eso, para saber el tamaño se usa
 siempre `sizeof(Personaje)`, nunca la cuenta a mano.
 
+#### `union`: varias formas de leer el mismo lugar
+Un `union` se escribe como un `struct`, pero sus campos **comparten la misma
+memoria**: ocupa lo que ocupa el campo más grande, y guardar en uno pisa a los
+demás. Sirve para leer los mismos bytes de dos maneras:
+```c
+#include <stdint.h>
+
+union Dato {
+    uint16_t numero;            /* 2 bytes vistos como un número */
+    unsigned char bytes[2];     /* los mismos 2 bytes, de a uno */
+};
+
+union Dato x;
+x.numero = 32767;               /* en binario: 0111 1111 1111 1111 */
+printf("%u %u %u\n", x.numero, x.bytes[0], x.bytes[1]);   /* 32767 255 127 */
+```
+¿Por qué `bytes[0]` es 255 y no 127? Porque las PC (y el navegador) guardan los
+números **al revés**: primero el byte de menor peso (`1111 1111` = 255) y
+después el de mayor peso (`0111 1111` = 127). Se llama **little endian**; otras
+máquinas usan **big endian** (al derecho). `sizeof(union Dato)` es 2: los dos
+campos están en el mismo lugar.
+
+Regla: en un `union` se lee el **mismo campo que se escribió último**, salvo que
+justamente se quieran ver los bytes (como acá). Para guardar «una cosa u otra»
+se acompaña de un `enum` que diga cuál está en uso.
+
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -2685,6 +2717,10 @@ Porque `mover` recibe una **copia** de `kira`: mueve la copia. Hay que devolver 
 
 Por el **relleno** (*padding*): el compilador agrega bytes para alinear cada campo en la memoria.
 
+#### ¿Cuánto ocupa un `union` con un `int` y un `char[2]`? ¿Qué pasa si se guarda en uno y se lee el otro?
+
+Lo que el campo más grande (el `int`, 4 bytes): los campos comparten la memoria. Leer el otro campo muestra los mismos bytes vistos de otra forma (en las PC, el byte de menor peso primero: *little endian*).
+
 ### Soluciones (docente)
 
 Material original: `01-C/12-Structs` (soluciones completas en `soluciones/`, con sus archivos de entrada y salida).
@@ -2825,9 +2861,11 @@ Si `fin` quedó al principio del texto, no había ningún número.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -3600,9 +3638,11 @@ implícito: `kira.curar(30)` en lugar de `curar(&kira, 30)`.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -4393,6 +4433,49 @@ En cada vuelta se busca el **mayor** de lo que falta ordenar y se lo
 Hacerlo una vez a mano ayuda a entender que ordenar no es magia. Para el día a
 día, está `qsort`.
 
+#### Ordenar a mano: burbuja
+Se recorre el array comparando cada par **vecino**; si están al revés, se
+intercambian. Después de cada pasada, el mayor «sube» hasta el final como una
+burbuja. Si en una pasada no hubo ningún cambio, ya está ordenado:
+```c
+for (int pasada = 0; pasada < n - 1; pasada++) {
+    bool cambio = false;
+    for (int i = 0; i < n - 1 - pasada; i++) {
+        if (v[i] > v[i + 1]) {
+            int aux = v[i]; v[i] = v[i + 1]; v[i + 1] = aux;
+            cambio = true;
+        }
+    }
+    if (!cambio) break;
+}
+```
+Con structs se intercambia el struct **entero** (`Heroe aux = h[i]; …`): así
+cada nombre se mueve junto con sus datos.
+
+#### Ordenar con desempate
+Los parciales piden cosas como «por promedio **descendente** y, si empatan, por
+nombre **ascendente**». Se escribe una función que diga si `a` va **antes** que
+`b`, y se usa en la burbuja (o en la selección) en lugar del `>`:
+```c
+bool va_antes(const Alumno *a, const Alumno *b)
+{
+    if (a->promedio != b->promedio) {
+        return a->promedio > b->promedio;          /* mayor promedio primero */
+    }
+    return strcmp(a->nombre, b->nombre) < 0;       /* empate: alfabético */
+}
+...
+if (va_antes(&v[i + 1], &v[i])) { /* intercambiar */ }
+```
+
+#### Ordenar sin perder la referencia
+Si se ordena un array suelto de promedios, se pierde **de quién** era cada uno.
+Dos salidas:
+- ordenar un array de **structs** `{máquina, promedio}` (el número viaja con su
+  promedio);
+- o ordenar un array de **índices** (`orden[] = {0, 1, 2, 3}`) comparando
+  `promedio[orden[i]]`, sin tocar los datos originales.
+
 #### `qsort`: el ordenador de la biblioteca
 `qsort` (de `stdlib.h`) ordena **cualquier** array, de cualquier tipo. Como no
 sabe qué hay adentro, le hay que decir cuatro cosas:
@@ -4429,9 +4512,11 @@ int comparar_por_nombre(const void *a, const void *b)
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -5189,6 +5274,109 @@ Opción: Nombre: Nivel (1-99):
 Opción: ¡Hasta la próxima!
 ```
 
+### Misión R02-N06-M4 · El cuadro de honor
+
+```meta
+entrega: codigo
+entorno: local
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Ferrum quiere colgar en la pared el **cuadro de honor** de los aprendices.
+Cargá en un array de structs a Kira (8, 9, 7), Tizon (9, 9, 6), Hulda (10, 6, 8),
+Chispa (5, 6, 4) y Brasa (9, 9, 8), con sus tres notas de temple; calculá el
+promedio de cada uno y ordená con **burbuja** por promedio **descendente** y, si
+empatan, por nombre **ascendente**. Mostrá el cuadro numerado con el promedio
+con dos decimales.
+
+#### Criterio de aprobación
+
+- Usa un array de structs (nombre, notas y promedio) y una función que calcula el promedio.
+- Ordena con burbuja usando una función de comparación con desempate por nombre (`strcmp`).
+- Kira, Hulda y Tizon empatan en 8.00 y quedan en orden alfabético.
+
+#### Salida esperada
+
+```
+CUADRO DE HONOR DE LA FORJA
+1. Brasa    8.67
+2. Hulda    8.00
+3. Kira     8.00
+4. Tizon    8.00
+5. Chispa   5.00
+```
+
+#### Solución de referencia
+
+```c
+/*
+ * Mision 4 - El cuadro de honor: ordenar structs con burbuja, por promedio
+ * descendente y, si empatan, por nombre ascendente.
+ */
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define CANT 5
+
+typedef struct {
+    char nombre[12];
+    int notas[3];
+    double promedio;
+} Aprendiz;
+
+double promedio(const int notas[3])
+{
+    return (notas[0] + notas[1] + notas[2]) / 3.0;
+}
+
+bool va_antes(const Aprendiz *a, const Aprendiz *b)
+{
+    if (a->promedio != b->promedio) {
+        return a->promedio > b->promedio;
+    }
+    return strcmp(a->nombre, b->nombre) < 0;
+}
+
+void ordenar(Aprendiz v[], int n)
+{
+    for (int pasada = 0; pasada < n - 1; pasada++) {
+        bool cambio = false;
+        for (int i = 0; i < n - 1 - pasada; i++) {
+            if (va_antes(&v[i + 1], &v[i])) {
+                Aprendiz aux = v[i];
+                v[i] = v[i + 1];
+                v[i + 1] = aux;
+                cambio = true;
+            }
+        }
+        if (!cambio) {
+            break;
+        }
+    }
+}
+
+int main(void)
+{
+    Aprendiz v[CANT] = {
+        { "Kira", { 8, 9, 7 }, 0 }, { "Tizon", { 9, 9, 6 }, 0 }, { "Hulda", { 10, 6, 8 }, 0 },
+        { "Chispa", { 5, 6, 4 }, 0 }, { "Brasa", { 9, 9, 8 }, 0 },
+    };
+    for (int i = 0; i < CANT; i++) {
+        v[i].promedio = promedio(v[i].notas);
+    }
+    ordenar(v, CANT);
+    printf("CUADRO DE HONOR DE LA FORJA\n");
+    for (int i = 0; i < CANT; i++) {
+        printf("%d. %-7s %5.2f\n", i + 1, v[i].nombre, v[i].promedio);
+    }
+    return 0;
+}
+```
+
 ### Encargo R02-N06-E1 · La ferretería del Gremio
 
 ```meta
@@ -5429,11 +5617,13 @@ Tres decisiones para mirar:
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-make run                            # jugar
-./programa < main.entrada.txt       # la partida grabada
-make asan                           # jugar con los detectores de memoria
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo (la entrada de ejemplo ya está en la pestaña **Entrada**).
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con las respuestas en un archivo: `./programa < main.entrada.txt` (Linux) o `programa.exe < main.entrada.txt` (Windows).
+  - Con los detectores de memoria, solo en Linux: agregá `-g -fsanitize=address`. En Windows (MinGW) no existe: usá `-fsanitize=undefined`.
 
 ### Código de ejemplo
 

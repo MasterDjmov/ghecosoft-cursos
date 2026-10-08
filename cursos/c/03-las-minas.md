@@ -97,10 +97,13 @@ valgrind ./programa        # otra herramienta: "All heap blocks were freed" es l
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-gcc -std=c11 -Wall -Wextra -o programa main.c
-echo 3 | ./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo (la entrada de ejemplo ya está en la pestaña **Entrada**).
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**; las respuestas se escriben en la consola.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con las respuestas en un archivo: `./programa < main.entrada.txt` (Linux) o `programa.exe < main.entrada.txt` (Windows).
+  - Para contestar sin escribir: `echo 3 | ./programa` (Linux) o `echo 3 | programa.exe` (Windows).
 
 ### Código de ejemplo
 
@@ -762,9 +765,11 @@ Un puntero a `h->datos[3]` **deja de valer** cuando la horda crece: `realloc` pu
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-gcc -std=c11 -Wall -Wextra -o programa main.c && ./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 
@@ -1568,6 +1573,55 @@ while (cabeza != NULL) {
 
 Después del `free(cabeza)`, `cabeza->siguiente` ya no se puede leer: por eso se guarda antes.
 
+#### Insertar ordenado
+En lugar de ordenar al final, cada nodo se engancha **en su lugar** al
+insertarlo, y la lista queda ordenada siempre. Hay dos casos:
+1. va **primero** (la lista está vacía o es menor que la cabeza): se engancha
+   adelante y pasa a ser la cabeza;
+2. va **después** de alguno: se avanza mientras el **siguiente** sea menor, y se
+   engancha entre ese nodo y su siguiente (si es el último, su siguiente es
+   `NULL`, y el caso es el mismo).
+```c
+Nodo *insertar_ordenado(Nodo *cabeza, Nodo *n)
+{
+    if (cabeza == NULL || strcmp(n->item, cabeza->item) <= 0) {
+        n->siguiente = cabeza;                 /* caso 1: va primero */
+        return n;
+    }
+    Nodo *p = cabeza;
+    while (p->siguiente != NULL && strcmp(p->siguiente->item, n->item) < 0) {
+        p = p->siguiente;
+    }
+    n->siguiente = p->siguiente;               /* caso 2: entre p y su siguiente */
+    p->siguiente = n;
+    return cabeza;
+}
+```
+
+#### Recorrer de ida y de vuelta
+Una lista también se recorre con una función **recursiva**: mostrar el nodo y
+llamarse con el siguiente. Si se muestra **después** de la llamada, la lista
+sale **al revés**, sin ningún array extra:
+```c
+void mostrar_al_reves(const Nodo *p)
+{
+    if (p == NULL) return;          /* caso base: fin de la lista */
+    mostrar_al_reves(p->siguiente);
+    printf("%s\n", p->item);        /* se muestra a la vuelta */
+}
+```
+
+#### Una lista sin `malloc`
+En lenguajes (o placas) sin memoria dinámica, una lista se arma en un **array de
+structs**: el «puntero» al siguiente es el **índice** del siguiente, y `-1` hace
+de `NULL`. Los lugares libres se marcan (por ejemplo, con un campo `usado`). Es
+lo mismo que hace el sistema operativo con la memoria, a mano.
+```c
+typedef struct { char item[20]; int siguiente; bool usado; } Casilla;
+Casilla mina[10];
+int cabeza = -1;                    /* lista vacía */
+```
+
 #### ¿Lista o array dinámico?
 
 | | Array dinámico (18) | Lista enlazada |
@@ -1580,9 +1634,12 @@ En la práctica, el array dinámico se usa más; la lista brilla cuando se inser
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-gcc -std=c11 -Wall -Wextra -g -fsanitize=address -o programa main.c && ./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
+  - Con los detectores de memoria, solo en Linux: agregá `-g -fsanitize=address`. En Windows (MinGW) no existe: usá `-fsanitize=undefined`.
 
 ### Código de ejemplo
 
@@ -3359,9 +3416,11 @@ Agregar un hechizo nuevo es agregar **una línea** a la tabla.
 
 #### Cómo compilarlo y ejecutarlo
 
-```bash
-gcc -std=c11 -Wall -Wextra -o programa main.c && ./programa
-```
+- **Acá mismo:** tocá **Ejecutar** en el ejemplo.
+- **ZinjaI o Code::Blocks** (Linux y Windows): abrí el archivo y apretá **F9**.
+- **Terminal** (VS Code o la de tu sistema):
+  - Linux: `gcc -std=c11 -Wall -Wextra main.c -o programa` y `./programa`
+  - Windows: `gcc -std=c11 -Wall -Wextra main.c -o programa.exe` y `programa.exe`
 
 ### Código de ejemplo
 

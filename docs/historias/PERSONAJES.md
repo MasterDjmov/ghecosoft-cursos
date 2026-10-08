@@ -349,8 +349,9 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Altura y contextura:** alto, de hombros anchos, erguido; se mueve con calma.
 - **Rasgos:**
   - piel clara curtida, arrugas marcadas, mirada seria y atenta;
-  - **pelo gris peinado hacia atrás**, **barba corta y bigote canosos**;
-  - a veces un **monóculo de bronce con lente de luz celeste** (en el retrato).
+  - **pelo gris peinado hacia atrás**, con un mechón que cae sobre la frente;
+  - **barba corta y bigote canosos** (en algunas imágenes, solo candado);
+  - ojos de **luz ámbar** cuando se concentra; un **aro dorado** chico en una oreja.
 - **Ropa:** **túnica larga de arquitecto**, granate y azul oscuro, de **cuello alto rígido**, con **líneas de circuitos doradas** bordadas de arriba abajo y mangas anchas; brazales de bronce con runas celestes; anillos de bronce con piedras celestes en los dedos.
 - **Objeto:** su **taza de café** de bronce labrado, siempre humeante (el vapor dorado y celeste); a su alrededor flotan **planos de luz** con diagramas de clases.
 - **Color:** granate, azul oscuro y el **dorado** de las catedrales del Imperio, con brillos celestes.
@@ -364,7 +365,12 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
   - conoció al Vidriero: trató de entender lo que construía y no pudo ponerlo en ninguna clase (su pieza del portal).
 - **Primera aparición:** Java, Clase 0 (R00-N01).
 - **Dónde va:** la Torre del Arquitecto, donde se dibujan los planos del Imperio: mesas con planos, compases, tazas de café y la ventana más alta con el marco vacío.
-- **Imágenes:** completas.
+- **Imágenes:** completas: cuerpo entero, retrato circular y 6 retratos enmarcados. El **aspecto fijo** es el del cuerpo entero y el primer retrato enmarcado (cuello alto granate con circuitos dorados); los otros son variantes que no cambian la base:
+  - con **monóculo de bronce de lente celeste** (el retrato circular);
+  - con **ojo cibernético** que mide la memoria (*heap*, *GC*) y uniforme con broches de bronce;
+  - con **anteojos de luz** de arquitecto y saco negro de solapas doradas;
+  - con un ojo ámbar y otro celeste, armadura de placas y la taza;
+  - **dos variantes de leyenda** (anciano de barba larga trenzada con diadema, y emperador con corona de cristales y un halo de planos): sirven para escenas del pasado o de visiones, no para el Kaffa de todos los días.
 
 ### Nadia
 - **Curso y rol:** Java. La aduanera de la Aduana del Compilador que atrapa a Zed en la Clase 0; lo vigila «hasta que aprenda» y termina siendo su compañera ([java.md](java.md)).

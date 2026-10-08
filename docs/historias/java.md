@@ -169,7 +169,7 @@ La Torre de Kaffa, donde se dibujan los planos de todo el Imperio. Tres nodos nu
 
 **R05-N05 · Capas, DTO, validaciones y Lombok** *(hoy S03-N03, más Lombok)* — *El quinto piso: las cuatro salas.* Kaffa separa el servicio en salas que no se pisan: controller, service, model, dto y el repositorio en memoria. Lo que entra y sale por la ventanilla es un **DTO**, nunca el modelo; lo que entra se **valida**; y Lombok escribe los getters, constructores y builders. Es el cambio del acto: Zed, que entraba por cualquier lado, ahora **diseña las puertas** de su propio servicio. Consigue: cartas DTO, `@Valid`, `@NotBlank`, `@ExceptionHandler`, `@Data`, `@Builder`, `@RequiredArgsConstructor`. Gancho: en la cima, el Tribunal deja un pliego sobre la mesa.
 
-**R05-N06 · Jefe final: el Dragón del Imperio** *(nuevo, reemplaza al de Swing)* — *La cima de la Torre.* El pliego del Tribunal es **un simulacro del examen final, con el mismo formato y en 90 minutos**, ambientado en el Imperio. Por ejemplo, **«AduanaExpress»**:
+**R05-N06 · Jefe final: el Dragón del Imperio** *(nuevo, reemplaza al de Swing)* — *La cima de la Torre.* El pliego del Tribunal es **un simulacro del examen final, con el mismo formato, pensado para 180 minutos (pasarse no se penaliza)**, ambientado en el Imperio. Por ejemplo, **«AduanaExpress»**:
 - **Mercancías** (`Caja`, `Barril`, heredan de `Mercancia`) y **viajeros** (`Mercader`, y `Peregrino`, con 50 % de descuento en los recargos);
 - un **recargo por demora** con estrategia activa (`RecargoNormal`, `RecargoFeria`, `RecargoNocturno`: el patrón **Strategy**);
 - **depurar pasaportes duplicados** en una sola pasada con `HashSet`, y buscar mercancías por código con `HashMap`;

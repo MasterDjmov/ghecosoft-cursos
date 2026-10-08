@@ -7573,13 +7573,13 @@ usa: fw.spring, diseno.capas, diseno.patrones, col.mapas, col.conjuntos
 
 ### Crónica
 
-En la cima de la Torre del Arquitecto, enroscado alrededor de la ventana más alta, duerme el **Dragón del Imperio**: está hecho de todas las piezas que Zed fue juntando desde la Aduana. Sobre la mesa del Tribunal hay un solo pliego, lacrado: **AduanaExpress**. Es el examen que el Imperio le toma a cada arquitecto antes de darle su sello, y se resuelve en noventa minutos.
+En la cima de la Torre del Arquitecto, enroscado alrededor de la ventana más alta, duerme el **Dragón del Imperio**: está hecho de todas las piezas que Zed fue juntando desde la Aduana. Sobre la mesa del Tribunal hay un solo pliego, lacrado: **AduanaExpress**. Es el examen que el Imperio le toma a cada arquitecto antes de darle su sello, y se resuelve en tres horas.
 
 —No hay truco nuevo —dice {mentor}, y por primera vez deja la taza de café a un costado—. Leé todo el pliego antes de escribir una línea. Armá las capas, poné cada regla donde va, probá cada pieza y dejá las evidencias. Pieza por pieza, Zed. Así cae un dragón. Nadia, en la puerta, cruza los dedos sin que nadie la vea.
 
 ### Objetivos
 
-- Resolver en 90 minutos un caso completo con el formato del examen final de la cátedra.
+- Resolver en unas tres horas (180 minutos) un caso completo con el formato del examen final de la cátedra.
 - Organizar un servicio Spring Boot en capas: controller, service, repository, model y dto.
 - Combinar herencia, Strategy, `HashMap`, `HashSet`, validaciones, Lombok y manejo de errores.
 - Entregar como en el examen: GitHub con commits, colección de Postman y `EVIDENCIAS.md`.
@@ -7592,14 +7592,15 @@ En la cima de la Torre del Arquitecto, enroscado alrededor de la ventana más al
 ### Explicación
 
 #### Cómo se enfrenta el examen
-1. **Leé todo el pliego** (5 minutos) y subrayá los números: porcentajes, días, códigos de estado.
-2. **Creá el proyecto** con Spring Initializr (Web, Validation, Lombok) y hacé el primer commit.
-3. **Modelo primero** (15 minutos): las clases abstractas y sus tipos. Commit.
-4. **Strategy y repositorio** (15 minutos): la interfaz, las estrategias como `@Component` y el `HashMap`. Commit.
-5. **Servicio y DTO** (20 minutos): las reglas van en el servicio; el controlador solo traduce. Commit.
-6. **Controlador y errores** (15 minutos): las rutas y el `@RestControllerAdvice`. Commit.
-7. **Postman y evidencias** (15 minutos): un pedido por ruta, incluidos los de error, y las capturas.
-Si algo no sale, **dejalo andando a medias y seguí**: se corrige por partes.
+El simulacro está pensado para **180 minutos**. Una forma de repartirlos:
+1. **Leé todo el pliego** (10 minutos) y subrayá los números: porcentajes, días, códigos de estado.
+2. **Creá el proyecto** (10 minutos) con Spring Initializr (Web, Validation, Lombok) y hacé el primer commit.
+3. **Modelo primero** (30 minutos): las clases abstractas y sus tipos. Commit.
+4. **Strategy y repositorio** (30 minutos): la interfaz, las estrategias como `@Component` y el `HashMap`. Commit.
+5. **Servicio y DTO** (40 minutos): las reglas van en el servicio; el controlador solo traduce. Commit.
+6. **Controlador y errores** (30 minutos): las rutas y el `@RestControllerAdvice`. Commit.
+7. **Postman y evidencias** (30 minutos): un pedido por ruta, incluidos los de error, y las capturas.
+Si algo no sale, **dejalo andando a medias y seguí**: se corrige por partes. Y si te pasás de las tres horas, **terminalo igual**: en el simulacro no se descuentan puntos por el tiempo. Anotá en el `README.md` cuánto tardaste, así sabés cuánto te falta para el examen.
 
 #### La forma del proyecto
 ```
@@ -7671,7 +7672,7 @@ public class AduanaServicio {
 
 ### ¿Para qué sirve?
 
-Es el ensayo general del examen final de *Paradigmas y Lenguajes III*: el mismo formato, el mismo tiempo y las mismas piezas (capas, herencia, Strategy, `HashMap`, `HashSet`, validaciones, Lombok, GitHub y Postman). Y es la forma en que se arma un servicio web en cualquier empresa que use Java.
+Es el ensayo general del examen final de *Paradigmas y Lenguajes III*: el mismo formato y las mismas piezas (capas, herencia, Strategy, `HashMap`, `HashSet`, validaciones, Lombok, GitHub y Postman). Y es la forma en que se arma un servicio web en cualquier empresa que use Java.
 
 ### Errores habituales
 
@@ -8156,7 +8157,7 @@ xp: 30
 
 #### Consigna
 
-**Simulacro del examen final · 90 minutos · AduanaExpress.** Leé todo antes de empezar.
+**Simulacro del examen final · 180 minutos · AduanaExpress.** Leé todo antes de empezar. Si te pasás del tiempo, terminalo igual: no se descuentan puntos; anotá en el `README.md` cuánto tardaste.
 
 La Aduana del Imperio quiere un servicio web para registrar mercancías, liquidar declaraciones y
 depurar pasaportes. Hacelo con **Java 17 o 21, Spring Boot 3, Maven y Lombok**, con los datos
@@ -8209,6 +8210,7 @@ acá un `.zip` del proyecto (sin `target/`) con el enlace al repositorio en el `
 - **Validaciones y errores (10):** `@Valid` y `ProblemDetail` con 400, 404 y 409.
 - **Entrega (10):** GitHub con commits, README, colección de Postman y `EVIDENCIAS.md`.
 - Se aprueba con 60 puntos. Un proyecto que no compila no se corrige.
+- El tiempo no resta puntos: si se pasó de los 180 minutos, se corrige igual (el `README.md` dice cuánto tardó).
 
 #### Solución de referencia
 
@@ -8975,7 +8977,7 @@ El repositorio de GitHub con commits a medida que se avanza, el `README.md`, la 
 
 ### Soluciones (docente)
 
-Nodo nuevo (D96): el simulacro del examen final, con el formato del último (BiblioExpress) ambientado en el Imperio. La solución de referencia compila con Spring Boot 3.3.5 y Java 17 y sus pruebas de la M2 pasan con `./mvnw test`. Conviene tomarlo en clase con reloj, como el examen, y corregirlo con la grilla del criterio.
+Nodo nuevo (D96): el simulacro del examen final, con el formato del último (BiblioExpress) ambientado en el Imperio. La solución de referencia compila con Spring Boot 3.3.5 y Java 17 y sus pruebas de la M2 pasan con `./mvnw test`. Está pensado para 180 minutos, pero pasarse no se penaliza: el alumno anota en el `README.md` cuánto tardó, y eso sirve para ver cuánto le falta para el examen. Se corrige con la grilla del criterio.
 
 ## R05-N07 · La Encrucijada de los Denarios
 

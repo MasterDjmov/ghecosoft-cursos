@@ -86,6 +86,8 @@ def check(s):
         raise SystemExit(f"{s['id']}: la solución tiene advertencias\n{warnings}")
     if not expected.strip():
         raise SystemExit(f"{s['id']}: la solución no muestra nada")
+    if any(line != line.rstrip() for line in expected.split("\n")):
+        raise SystemExit(f"{s['id']}: hay renglones que terminan en espacio (el navegador compara la salida exacta)")
     rc2, out2, _, _ = c(s["inicial"], stdin)
     if rc2 == 0 and out2 == expected:
         raise SystemExit(f"{s['id']}: el código inicial ya da la salida esperada")

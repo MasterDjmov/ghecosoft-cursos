@@ -299,6 +299,290 @@ terminal puede aparecer en la misma línea que la última salida.
 ejecutaste `./programa`: corre la versión anterior. `make run` evita el
 problema porque recompila si algo cambió.
 
+### Micro-misión R00-N01-P1 · La primera receta
+
+```meta
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+carta: Mostrar texto | printf("texto\n"); · \n salta de línea · cada instrucción termina con ;
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kira despierta junto a un vitral apagado, frente al portón de las Forjas. Un enano de barba trenzada la mira de arriba abajo: **Maese Ferrum**.
+—Acá la magia se escribe en C. Decime quién sos. Por escrito.
+Sobre el hombro de Kira aparece un gecko de luz con antiparras: **Gheco**. —Escribilo en la receta. Acá las recetas se **compilan**.
+
+#### Gheco sugiere
+`printf("…");` muestra el texto entre comillas. `\n` al final baja a la línea siguiente. Tocá **Ejecutar**: C se compila acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
+
+#### Desafío
+Completá la instrucción para que Kira se presente.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    ___("Me llamo Kira y vengo de muy lejos.\n");
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Me llamo Kira y vengo de muy lejos.
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Me llamo Kira y vengo de muy lejos.\n");
+    return 0;
+}
+```
+
+#### Al superarla
+Ferrum lee la receta compilada y asiente una sola vez. —De muy lejos. Ya se nota. —Mira la espada que Kira tiene en la mano, y no dice nada más.
+
+#### Imagen
+- La boca de las Forjas de Hierro de noche: un portón de hierro enorme, chimeneas y ríos de lava al fondo, un vitral apagado en el piso.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se levanta del piso con una espada de aprendiz en la mano.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) la mira con los brazos cruzados.
+- Gheco, un gecko cian con antiparras, aparece sobre el hombro de Kira.
+
+### Micro-misión R00-N01-P2 · Tres líneas, un solo printf
+
+```meta
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+carta: Secuencias de escape | \n salto de línea · \t tabulación · \" comillas · %% un signo %
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—La ficha de entrada va en tres renglones —dice Ferrum—: nombre, oficio y "lo que trae". Con comillas, como se debe.
+
+#### Gheco sugiere
+Dentro del texto, `\n` baja de línea, `\t` deja una tabulación y `\"` escribe unas comillas sin cerrar el texto.
+
+#### Desafío
+Escribí las secuencias que faltan para que la ficha quede en tres líneas y con comillas.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Nombre:\tKira___Oficio:\tespadachina___Trae:\t___una espada___\n");
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Nombre:	Kira
+Oficio:	espadachina
+Trae:	"una espada"
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Nombre:\tKira\nOficio:\tespadachina\nTrae:\t\"una espada\"\n");
+    return 0;
+}
+```
+
+#### Al superarla
+Ferrum tacha «espada» y escribe arriba «espada (rajada)». Kira no le dice nada. Todavía.
+
+#### Imagen
+- Una ficha de hierro con tres renglones grabados en luz cian: Nombre, Oficio, Trae.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) corrige la ficha con una tiza.
+
+### Micro-misión R00-N01-P3 · El punto y coma olvidado
+
+```meta
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Tizón
+criatura: slime
+carta: Error de compilación | el Horno revisa ANTES de ejecutar · expected ';' : falta un punto y coma · arreglá el primer error y volvé a compilar
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un enano joven con un calibre colgado del cuello se acerca a mirar la receta de Kira: **Tizón**. Del renglón dos gotea un **slime**.
+—El Horno no la quiere —dice, midiéndole el renglón—. Le falta algo. Chiquito.
+
+#### Gheco sugiere
+Un **error de compilación** frena todo antes de ejecutar. `expected ';' before …` quiere decir que falta un punto y coma al final de la línea anterior a la que marca.
+
+#### Desafío
+Arreglá la receta para que el Horno la acepte.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Kira conoce a Tizon.\n")
+    printf("Tizon mide todo.\n");
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Kira conoce a Tizon.
+Tizon mide todo.
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Kira conoce a Tizon.\n");
+    printf("Tizon mide todo.\n");
+    return 0;
+}
+```
+
+#### Al superarla
+El slime se evapora con un *plop*. Tizón anota en su libreta: «Punto y coma: 1 mm. Importancia: enorme».
+
+#### Imagen
+- Una receta de pergamino con una marca roja en un renglón, de la que gotea un slime verde.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) mide el renglón con el calibre.
+
+### Micro-misión R00-N01-P4 · Lo que el Horno ignora
+
+```meta
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Tizón
+carta: Comentarios | /* … */ ocupa varias líneas · // hasta el final de la línea · el compilador los ignora
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Tizón deja notas para sí mismo en todas partes, incluso adentro de las recetas. El problema es que el Horno intenta leerlas como si fueran C.
+
+#### Gheco sugiere
+Los **comentarios** son para las personas: `/* … */` puede ocupar varias líneas y `//` llega hasta el final de la línea. El compilador los saltea.
+
+#### Desafío
+Convertí las notas de Tizón en comentarios para que la receta compile y muestre solo los dos saludos.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    Nota de Tizon: medir antes de pegar
+    printf("Hola, Forjas.\n");
+    recordar: el cajon de clavos llega hasta 255
+    printf("Hola, Horno.\n");
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+Hola, Forjas.
+Hola, Horno.
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    /* Nota de Tizon: medir antes de pegar */
+    printf("Hola, Forjas.\n");
+    // recordar: el cajon de clavos llega hasta 255
+    printf("Hola, Horno.\n");
+    return 0;
+}
+```
+
+#### Al superarla
+Las notas de Tizón quedan en la receta, pero el Horno ya no se atraganta con ellas. —Así las leo yo y no él —dice Tizón, satisfecho.
+
+#### Imagen
+- Una receta llena de notas a mano en los márgenes, algunas encerradas en /* */ que brillan en gris.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) escribe una nota más con un lápiz detrás de la oreja.
+
+### Micro-misión R00-N01-P5 · El portón se abre tirando
+
+```meta
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Maese Ferrum, Tizón
+carta: La anatomía | #include <stdio.h> trae printf · int main(void) { … } es donde empieza · return 0; avisa que todo salió bien
+recompensa: xp 15, oro 15
+item: Espada Rajada
+```
+
+#### Escena
+Kira toma carrera y le da un espadazo al portón. La espada **se raja** de punta a mango; el portón ni se entera. Ferrum lo abre **tirando** de la manija.
+—Acá nada se abre a golpes. Escribí la receta entera, de punta a punta: lo que se trae, dónde empieza y cómo termina.
+
+#### Gheco sugiere
+Todo programa de C trae `#include <stdio.h>` para usar `printf`, empieza en `int main(void)` (entre llaves) y termina con `return 0;`.
+
+#### Desafío
+A la receta le falta el comienzo de `main` y el final. Completala.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+___
+{
+    printf("El porton se abre tirando.\n");
+    printf("Kira guarda la espada rajada.\n");
+    ___
+}
+```
+
+#### Salida esperada
+```
+El porton se abre tirando.
+Kira guarda la espada rajada.
+```
+
+#### Solución
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("El porton se abre tirando.\n");
+    printf("Kira guarda la espada rajada.\n");
+    return 0;
+}
+```
+
+#### Al superarla
+El portón se abre de par en par. Ferrum le devuelve la espada rajada. —Guardala. Algún día vas a querer acordarte de esto. —La **Espada Rajada** va a tu mochila. En la pared de la entrada, alguien escribe con tiza: «Espadazos: 1».
+
+#### Imagen
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira su espada rajada de punta a mango, frente a un portón de hierro intacto.
+- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) abre el portón tirando de la manija, sin esfuerzo.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) se ríe por lo bajo detrás de él.
+
 ### Misión R00-N01-M1 · La ficha de Kira
 
 ```meta

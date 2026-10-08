@@ -156,14 +156,13 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ La Ciudadela d
 1. **C++ para el alumno en el navegador (D100)**, con el encabezado precompilado.
 2. **Qt obligatorio (R06)**, con el nodo nuevo «Tu clase detrás de la ventana» y el jefe final **TallerExpress** (consola con pruebas, la ventana y un simulacro con reloj). La migración `renumber_cpp_course_codes` pasa S02 a R06 y la Encrucijada a R06-N06.
 3. **Lo que faltaba del apunte y de la STL** (§ 2).
-4. **Linux y Windows** al instalar Qt (Qt Creator y VS Code).
+4. **Linux y Windows** en todo el curso: la Clase 0 (ZinjaI, Code::Blocks 25.03 y VS Code con MSYS2), «Cómo compilarlo y ejecutarlo» en cada nodo, CMake, gdb, sanitizadores, Qt (Qt Creator) y SDL3.
+5. **Lima** en los ejemplos (salidas rehechas con `scripts/regen-salidas.py`), **las crónicas en tercera persona** con Bron y las fichas de la Ciudadela.
+6. **Bron jugable** (`config('game.protagonists.cpp')`, 6 aspectos en `public/img/protagonistas/bron/`) y los ítems de la Ciudadela en `app:game-items`, con el **Amuleto del Catch** como segunda vida (`Item::CATCH`).
 
 **Falta:**
-- Lima en los ejemplos, las crónicas en tercera persona y las fichas.
-- «Cómo compilarlo» en Linux y en Windows en cada nodo.
-- Las micro-misiones (como en C, generadas ejecutando la solución y probadas también en el navegador).
-- Bron jugable (`config('game.protagonists.cpp')`) y los ítems de la Ciudadela, con el Amuleto del Catch.
-- Las imágenes de Lima, Lyn, Oto y los jefes; el mapa, la tienda y las recetas de la Ciudadela.
+- Las micro-misiones (`scripts/micro-misiones/gencpp.py`, como en C: generadas ejecutando la solución y probadas también en el navegador).
+- Las imágenes de Lima, Lyn, Oto, los jefes y los ítems; el mapa, la tienda y las recetas de la Ciudadela.
 
 ## 5. Lo que decidió el docente (2026-10-08)
 

@@ -178,7 +178,7 @@ test('el amuleto de la segunda vida equipado levanta al héroe una sola vez por 
 
     expect($trip->won)->toBeFalse()
         ->and(collect($trip->log)->where('t', 'revive')->count())->toBe(1);
-})->with(['del Valle (Traceback)' => Item::TRACEBACK, 'del Imperio (Campana)' => Item::BELL, 'de las Forjas (Volcado)' => Item::CORE_DUMP]);
+})->with(['del Valle (Traceback)' => Item::TRACEBACK, 'del Imperio (Campana)' => Item::BELL, 'de las Forjas (Volcado)' => Item::CORE_DUMP, 'de la Ciudadela (Catch)' => Item::CATCH]);
 
 test('el Reloj de Arena termina ya la expedición en camino y se gasta', function () {
     $w = expeditionWorld();

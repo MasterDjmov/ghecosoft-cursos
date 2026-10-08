@@ -115,6 +115,18 @@ class GameItems extends Command
             ['code' => 'hoja-templada', 'name' => 'Hoja Templada', 'kind' => 'weapon', 'rarity' => 'legendary', 'attack' => 12, 'strength' => 3, 'dexterity' => 2, 'description' => 'La espada que Kira forjó ella misma frente al Dragón bajo la Montaña, midiendo cada grado.'],
             ['code' => 'matriz-del-marco', 'name' => 'Matriz del Marco', 'kind' => 'story', 'description' => 'El molde de plomo de un vitral enorme que dejó el Vidriero bajo la Montaña, con la inscripción «para quien llegue». El mismo marco que espera en la torre más alta del Imperio.'],
         ],
+        'cpp' => [
+            // La Ciudadela (docs/historias/cpp.md): lo que gana Bron en la historia. La tienda y las recetas se
+            // suman cuando estén sus imágenes y el mapa.
+            ['code' => 'llave-mellada', 'name' => 'Llave Mellada', 'kind' => 'story', 'description' => 'La llave inglesa cian de Bron, mellada contra el engranaje 47 del portón de la Ciudadela. Faltaban 153.'],
+            ['code' => 'engranaje-de-laton', 'name' => 'Engranaje de Latón', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'intelligence' => 1, 'description' => 'El corazón del Autómata de Latón: lo venciste con un plan, no con la llave.'],
+            ['code' => 'llave-ajustable', 'name' => 'Llave Ajustable', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'strength' => 1, 'dexterity' => 1, 'description' => 'Tesla le agregó a tu llave una tuerca que se corre al caer la Quimera: una llave para muchas tuercas, como un buen constructor.'],
+            ['code' => Item::CATCH, 'name' => 'Amuleto del Catch', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Una red de bronce chiquita: la que te atajó cuando se rompió el andamio. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
+            ['code' => 'espejo-del-mimico', 'name' => 'Espejo del Mímico', 'kind' => 'accessory', 'rarity' => 'epic', 'defense' => 1, 'intelligence' => 3, 'luck' => 3, 'description' => 'Lo dejó el Mímico al caer: refleja lo que tenés, no lo que sos.'],
+            ['code' => 'catalogo-de-plantillas', 'name' => 'Catálogo de Plantillas', 'kind' => 'story', 'description' => 'Lo soltó el Kraken en los sótanos de la Gran Biblioteca. En la página de las bisagras del Vidriero dice: «plantilla, para cualquier marco».'],
+            ['code' => 'engranaje-del-portal', 'name' => 'Engranaje del Portal', 'kind' => 'story', 'description' => 'Le colgaba del cuello al Minotauro del Laberinto. Tiene los mismos dientes que las bisagras del Vidriero, y no encaja en ninguna máquina de la Ciudadela.'],
+            ['code' => 'llave-universal', 'name' => 'Llave Universal', 'kind' => 'weapon', 'rarity' => 'legendary', 'attack' => 12, 'strength' => 2, 'intelligence' => 3, 'description' => 'Bron dibujó su plano frente a la Gárgola de los Vitrales y Tesla la construyó en el torno: se ajusta a cualquier tuerca de la Ciudadela, como una plantilla.'],
+        ],
         null => [
             ['code' => 'pocion-grande', 'name' => 'Poción Grande', 'kind' => 'potion', 'rarity' => 'rare', 'heal' => 90, 'price' => 80, 'min_level' => 6, 'description' => 'Sirve en cualquier mundo.'],
             ['code' => Item::RESPEC, 'name' => 'Pergamino del Reinicio', 'kind' => 'special', 'rarity' => 'epic', 'price' => 1500, 'min_level' => 5, 'description' => 'Al usarlo sobre un héroe, deja reacomodar sus puntos del principio una vez.'],
@@ -204,6 +216,15 @@ class GameItems extends Command
         'libro-de-registros-de-plomo' => 'Un libro grueso con tapas de plomo gris y una cadena de hierro, entreabierto, con medidas y planos de un marco en las páginas.',
         'hoja-templada' => 'Una espada larga y fina de acero templado con un filo que brilla en cian y una empuñadura envuelta en cuero, con vapor saliendo de la hoja.',
         'matriz-del-marco' => 'Un molde de plomo enorme con la forma de un marco de vitral redondo, con la inscripción «para quien llegue» grabada en el borde.',
+        // La Ciudadela (C++)
+        'llave-mellada' => 'Una llave inglesa grande de color cian con la boca mellada y un diente de engranaje de bronce todavía trabado adentro.',
+        'engranaje-de-laton' => 'Un engranaje de latón pulido del tamaño de una mano, con una ventanita en el centro donde late una luz cian como un corazón de vapor.',
+        'llave-ajustable' => 'Una llave inglesa cian con una tuerca de bronce que corre a lo largo del mango para ajustar la boca, con marcas de medida grabadas.',
+        Item::CATCH => 'Un amuleto con forma de red tejida en hilo de bronce, colgado de una cadena fina, con nudos que brillan en cian.',
+        'espejo-del-mimico' => 'Un espejo de mano ovalado con marco de cera gris que se derrite apenas, y un reflejo levemente distinto al de afuera.',
+        'catalogo-de-plantillas' => 'Un libro grande con tapas de bronce y engranajes en el lomo, abierto en un plano de dos bisagras con medidas que no cierran.',
+        'engranaje-del-portal' => 'Un engranaje enorme de bronce oscuro con dientes de formas raras, atado a una cadena cortada, con un brillo de vitral entre los dientes.',
+        'llave-universal' => 'Una llave inglesa legendaria de bronce y cian con una boca hecha de piezas que se reacomodan solas, rodeada de líneas de plano luminosas.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

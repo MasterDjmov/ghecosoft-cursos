@@ -147,6 +147,20 @@ return [
                 6 => 'Escarcha Arcana',
             ],
         ],
+        // C++ (docs/historias/cpp.md): la tienda y las expediciones de la Ciudadela se suman cuando estén sus imágenes y el mapa.
+        'cpp' => [
+            'name' => 'Bron',
+            'slug' => 'bron',
+            'title' => 'Mecánico de la Ciudadela',
+            'looks' => [
+                1 => 'Mecánico del Monóculo',
+                2 => 'Antiparras de Taller',
+                3 => 'Máscara de Vapor',
+                4 => 'Medio Autómata',
+                5 => 'Fuego de Caldera',
+                6 => 'Gran Ingeniero del Bastión',
+            ],
+        ],
     ],
 
     // Las criaturas de las expediciones (D91), al nivel 1: vida, ataque, defensa y destreza. Crecen con el

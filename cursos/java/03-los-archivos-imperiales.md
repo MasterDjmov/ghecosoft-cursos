@@ -209,18 +209,18 @@ import imperio.servicios.Paladin;
 
 public class Main {
     public static void main(String[] args) {
-        Heroe kira = new Heroe("Kira", 30);
-        Paladin bron = new Paladin("Bron");
-        System.out.println(kira);
-        System.out.println(bron);
+        Heroe nadia = new Heroe("Nadia", 30);
+        Paladin baldo = new Paladin("Baldo");
+        System.out.println(nadia);
+        System.out.println(baldo);
 
-        Academia.ascender(kira);
-        kira.recibirDanio(12);
-        System.out.println(kira);
+        Academia.ascender(nadia);
+        nadia.recibirDanio(12);
+        System.out.println(nadia);
 
-        System.out.println("Nombre (public): " + kira.nombre);
-        // System.out.println(kira.titulo);   // no compila: titulo has protected access in Heroe
-        System.out.println("Clase completa: " + bron.getClass().getName());
+        System.out.println("Nombre (public): " + nadia.nombre);
+        // System.out.println(nadia.titulo);   // no compila: titulo has protected access in Heroe
+        System.out.println("Clase completa: " + baldo.getClass().getName());
     }
 }
 ```
@@ -228,10 +228,10 @@ public class Main {
 ### Salida esperada
 
 ```
-Kira (aprendiz, nivel 1, vida 30)
-Bron (paladín, nivel 1, vida 60)
-Kira (graduada, nivel 2, vida 18)
-Nombre (public): Kira
+Nadia (aprendiz, nivel 1, vida 30)
+Baldo (paladín, nivel 1, vida 60)
+Nadia (graduada, nivel 2, vida 18)
+Nombre (public): Nadia
 Clase completa: imperio.servicios.Paladin
 ```
 
@@ -783,7 +783,7 @@ Esta misión se entrega pegando el texto: respondé, para el proyecto del **cód
 ejemplo** de este nodo, qué pasa en cada caso (compila o no, y por qué), y después
 verificalo en tu compu descomentando cada línea:
 
-1. En `Main`: `System.out.println(kira.titulo);`
+1. En `Main`: `System.out.println(nadia.titulo);`
 2. En `Academia`: `h.vida = 100;`
 3. En `Paladin`: `nivel = 5;`
 4. En `Paladin`: `System.out.println(nombre);`
@@ -1002,7 +1002,7 @@ más lenta porque está sincronizada para varios hilos. En código nuevo se usa 
 Lo que va entre `< >` es el **tipo de los elementos**. El compilador lo controla:
 ```java
 List<String> nombres = new ArrayList<>();
-nombres.add("Kira");
+nombres.add("Nadia");
 nombres.add(42);                 // no compila: incompatible types: int cannot be converted to String
 String primero = nombres.get(0); // sin casting: el compilador sabe que es un String
 ```
@@ -1137,8 +1137,8 @@ public class AlaNorte {
 
         // Una lista de objetos propios
         List<Heroe> grupo = new ArrayList<>();
-        grupo.add(new Heroe("Kira", 3));
-        grupo.add(new Heroe("Bron", 5));
+        grupo.add(new Heroe("Nadia", 3));
+        grupo.add(new Heroe("Baldo", 5));
         grupo.add(new Heroe("Lía", 2));
         Collections.sort(grupo);                          // Heroe es Comparable
         System.out.println("Por nivel: " + grupo);
@@ -1192,7 +1192,7 @@ Ordenados: [Mapa del sur, Tratado de paz, Índice]
 Puntajes [90, 45, 300, 1, 72, 18], suma 526, máximo 300
 Después de borrar: [90, 300, 72, 18]
 300 == 300 con Integer: false, con equals: true
-Por nivel: [Lía 2, Kira 3, Bron 5]
+Por nivel: [Lía 2, Nadia 3, Baldo 5]
 En el cofre hay una llave; en la bolsa, 300 denarios
 ```
 
@@ -2170,17 +2170,17 @@ public class AlaSur {
         System.out.println("Conteo: " + conteo);
 
         // Conjuntos
-        Set<String> visitoKira = new TreeSet<>(Set.of("Capital", "Puerto", "Frontera"));
-        Set<String> visitoBron = new TreeSet<>(Set.of("Puerto", "Montaña", "Capital"));
-        Set<String> ambos = new TreeSet<>(visitoKira);
-        ambos.retainAll(visitoBron);
-        Set<String> alguno = new TreeSet<>(visitoKira);
-        alguno.addAll(visitoBron);
-        Set<String> soloKira = new TreeSet<>(visitoKira);
-        soloKira.removeAll(visitoBron);
+        Set<String> visitoNadia = new TreeSet<>(Set.of("Capital", "Puerto", "Frontera"));
+        Set<String> visitoBaldo = new TreeSet<>(Set.of("Puerto", "Montaña", "Capital"));
+        Set<String> ambos = new TreeSet<>(visitoNadia);
+        ambos.retainAll(visitoBaldo);
+        Set<String> alguno = new TreeSet<>(visitoNadia);
+        alguno.addAll(visitoBaldo);
+        Set<String> soloNadia = new TreeSet<>(visitoNadia);
+        soloNadia.removeAll(visitoBaldo);
         System.out.println("Visitaron los dos: " + ambos);
         System.out.println("Visitó alguno: " + alguno);
-        System.out.println("Solo Kira: " + soloKira);
+        System.out.println("Solo Nadia: " + soloNadia);
 
         // Sin repetidos: con un record como elemento (trae equals y hashCode)
         Set<Posicion> pisadas = new HashSet<>();
@@ -2206,7 +2206,7 @@ Capital: 125000, Atlántida: 0
 Conteo: {el=3, dragón=2, vio=2, castillo=2, y=1, al=1}
 Visitaron los dos: [Capital, Puerto]
 Visitó alguno: [Capital, Frontera, Montaña, Puerto]
-Solo Kira: [Frontera]
+Solo Nadia: [Frontera]
 ¿(2,3) era nueva? false | casillas pisadas: 2
 ```
 
@@ -2651,15 +2651,15 @@ espacios (pasalos a un formato común antes de guardarlos).
 #### Entrada de ejemplo
 
 ```
-Kira, Bron, lía, Olmo, Nara
-bron, Tesla, Kira , Pip
+Nadia, Baldo, lía, Olmo, Nara
+baldo, Tesla, Nadia , Pip
 ```
 
 #### Salida esperada
 
 ```
-Todos: [Bron, Kira, Lía, Nara, Olmo, Pip, Tesla]
-Invitados por las dos casas: [Bron, Kira]
+Todos: [Baldo, Lía, Nadia, Nara, Olmo, Pip, Tesla]
+Invitados por las dos casas: [Baldo, Nadia]
 Solo de la primera casa: [Lía, Nara, Olmo]
 Lugares a preparar: 7
 ```
@@ -2708,24 +2708,24 @@ public class Banquete {
 
 ##### Nadie en común
 ```entrada
-Kira, Bron
+Nadia, Baldo
 Lía, Pip
 ```
 ```salida
-Todos: [Bron, Kira, Lía, Pip]
+Todos: [Baldo, Lía, Nadia, Pip]
 Invitados por las dos casas: []
-Solo de la primera casa: [Bron, Kira]
+Solo de la primera casa: [Baldo, Nadia]
 Lugares a preparar: 4
 ```
 
 ##### Listas iguales con espacios raros
 ```entrada
-  kira ,BRON
-Bron,kira
+  nadia ,BALDO
+Baldo,nadia
 ```
 ```salida
-Todos: [Bron, Kira]
-Invitados por las dos casas: [Bron, Kira]
+Todos: [Baldo, Nadia]
+Invitados por las dos casas: [Baldo, Nadia]
 Solo de la primera casa: []
 Lugares a preparar: 2
 ```
@@ -3905,15 +3905,15 @@ con la original como **causa**, y mostrá la causa.
 
 ```
 abriendo registro
-Kira entró por el portón norte
-Bron pagó 30 denarios
+Nadia entró por el portón norte
+Baldo pagó 30 denarios
 cerrando registro
 abriendo registro
 Lía perdió su pase
 cerrando registro
 Error: no existe la línea 7
 abriendo registro
-Kira entró por el portón norte
+Nadia entró por el portón norte
 cerrando registro
 el registro no tiene todas las líneas pedidas | causa: IndexOutOfBoundsException
 ```
@@ -3959,7 +3959,7 @@ class RegistroException extends Exception {
 }
 
 class Registro implements AutoCloseable {
-    private final String[] lineas = {"Kira entró por el portón norte", "Bron pagó 30 denarios", "Lía perdió su pase"};
+    private final String[] lineas = {"Nadia entró por el portón norte", "Baldo pagó 30 denarios", "Lía perdió su pase"};
     private boolean cerrado = false;
 
     public Registro() {
@@ -4642,10 +4642,10 @@ jugadores, mostrá la lista ordenada de cuatro formas, cada una en una línea:
 #### Salida esperada
 
 ```
-Por nombre: [Ada, Bron, Lía, Nara, Olmo, Pip]
-Por puntos: [Bron, Olmo, Lía, Nara, Ada, Pip]
-Por partidas: [Ada, Pip, Lía, Nara, Olmo, Bron]
-Por promedio: [Lía, Olmo, Ada, Nara, Pip, Bron]
+Por nombre: [Ada, Baldo, Lía, Nara, Olmo, Pip]
+Por puntos: [Baldo, Olmo, Lía, Nara, Ada, Pip]
+Por partidas: [Ada, Pip, Lía, Nara, Olmo, Baldo]
+Por promedio: [Lía, Olmo, Ada, Nara, Pip, Baldo]
 ```
 
 #### Solución de referencia
@@ -4659,7 +4659,7 @@ import java.util.List;
 public class Rankings {
     public static void main(String[] args) {
         List<Jugador> j = new ArrayList<>(List.of(
-                new Jugador("Nara", 340, 10), new Jugador("Bron", 500, 20), new Jugador("Lía", 340, 8),
+                new Jugador("Nara", 340, 10), new Jugador("Baldo", 500, 20), new Jugador("Lía", 340, 8),
                 new Jugador("Pip", 90, 3), new Jugador("Olmo", 410, 10), new Jugador("Ada", 120, 3)));
 
         j.sort(new Comparator<Jugador>() {
@@ -4725,12 +4725,12 @@ noches, boolean pago)`. Con **lambdas** y **referencias a métodos**, sin bucles
 Huesped[nombre=Olmo, noches=3, pago=true]
 Huesped[nombre=Pip, noches=0, pago=false]
 Huesped[nombre=Nara, noches=5, pago=false]
-Huesped[nombre=Bron, noches=1, pago=true]
+Huesped[nombre=Baldo, noches=1, pago=true]
 Huesped[nombre=Lía, noches=0, pago=true]
 Huesped[nombre=Ada, noches=2, pago=false]
 Sin los de 0 noches: 4
 Deben: Nara Ada
-[ADA, BRON, NARA, OLMO]
+[ADA, BALDO, NARA, OLMO]
 ```
 
 #### Solución de referencia
@@ -4746,7 +4746,7 @@ public class Posada {
     public static void main(String[] args) {
         List<Huesped> huespedes = new ArrayList<>(List.of(
                 new Huesped("Olmo", 3, true), new Huesped("Pip", 0, false), new Huesped("Nara", 5, false),
-                new Huesped("Bron", 1, true), new Huesped("Lía", 0, true), new Huesped("Ada", 2, false)));
+                new Huesped("Baldo", 1, true), new Huesped("Lía", 0, true), new Huesped("Ada", 2, false)));
 
         huespedes.forEach(System.out::println);
         huespedes.removeIf(h -> h.noches() == 0);
@@ -6608,7 +6608,7 @@ cada corrección explicando qué estaba mal.
 ```java
 public class Promedios {
     public static void main(String[] args) {
-        String[] nombres = {"Kira", "Bron", "Lía"};
+        String[] nombres = {"Nadia", "Baldo", "Lía"};
         int[][] notas = {{8, 9, 7}, {6, 5, 10}, {9, 9, 8}};
         double mejor = 0;
         String mejorNombre = "";
@@ -6636,8 +6636,8 @@ public class Promedios {
 #### Salida esperada
 
 ```
-Kira: 8.00
-Bron: 7.00
+Nadia: 8.00
+Baldo: 7.00
 Lía: 8.67
 Mejor promedio: Lía
 ```
@@ -6651,7 +6651,7 @@ import java.util.Locale;
 public class Promedios {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
-        String[] nombres = {"Kira", "Bron", "Lía"};
+        String[] nombres = {"Nadia", "Baldo", "Lía"};
         int[][] notas = {{8, 9, 7}, {6, 5, 10}, {9, 9, 8}};
         double mejor = 0;
         String mejorNombre = "";
@@ -7663,12 +7663,12 @@ alta L1;Rayuela;Cortázar
 alta L2;Ficciones;Borges
 alta L3;El Aleph;Borges
 alta L2;Repetido;Nadie
-prestar L2;Kira
-prestar L2;Bron
-prestar L9;Bron
-prestar L3;Kira
-socio Kira
-socio Bron
+prestar L2;Nadia
+prestar L2;Baldo
+prestar L9;Baldo
+prestar L3;Nadia
+socio Nadia
+socio Baldo
 devolver L1
 disponibles
 devolver L2
@@ -7684,12 +7684,12 @@ Alta de L1
 Alta de L2
 Alta de L3
 Error: ya existe el código L2
-L2 prestado a Kira
-Error: el libro L2 ya lo tiene Kira
+L2 prestado a Nadia
+Error: el libro L2 ya lo tiene Nadia
 Error: no existe el libro L9
-L3 prestado a Kira
-Kira: [El Aleph, Ficciones]
-Bron: ninguno
+L3 prestado a Nadia
+Nadia: [El Aleph, Ficciones]
+Baldo: ninguno
 Error: el libro L1 no estaba prestado
 Disponibles: [Rayuela]
 L2 devuelto
@@ -7858,30 +7858,30 @@ class Biblioteca {
 ##### Disponibles sin libros
 ```entrada
 disponibles
-socio Kira
+socio Nadia
 salir
 ```
 ```salida
 Disponibles: []
-Kira: ninguno
+Nadia: ninguno
 ```
 
 ##### Devolver y prestar de nuevo
 ```entrada
 alta A;Uno;Autor
-prestar A;Kira
+prestar A;Nadia
 devolver A
-prestar A;Bron
-socio Bron
+prestar A;Baldo
+socio Baldo
 disponibles
 salir
 ```
 ```salida
 Alta de A
-A prestado a Kira
+A prestado a Nadia
 A devuelto
-A prestado a Bron
-Bron: [Uno]
+A prestado a Baldo
+Baldo: [Uno]
 Disponibles: []
 ```
 

@@ -43,13 +43,13 @@ molde: una *instancia* de la clase.
 | Idea | En el Imperio | En Java |
 |---|---|---|
 | Clase | el molde de soldado | `class Soldado { … }` |
-| Objeto | el soldado Bron | `new Soldado()` |
+| Objeto | el soldado Baldo | `new Soldado()` |
 | Estado | su vida y su arma | los valores de sus atributos |
 | Comportamiento | atacar, curarse | sus métodos |
 | Identidad | es *ese* soldado y no otro | cada objeto es único, aunque tenga los mismos datos |
 
-A pedirle algo a un objeto se le dice **mandarle un mensaje**: `bron.atacar()` le
-manda el mensaje `atacar` al objeto `bron`.
+A pedirle algo a un objeto se le dice **mandarle un mensaje**: `baldo.atacar()` le
+manda el mensaje `atacar` al objeto `baldo`.
 
 #### Declarar una clase
 ```java
@@ -77,24 +77,24 @@ que recibe el mensaje. Dentro de un método, `vida` es la vida **de ese** héroe
 
 #### Crear objetos y usarlos
 ```java
-Heroe kira = new Heroe();       // new crea un objeto nuevo
-kira.nombre = "Kira";           // punto: acceder a un atributo...
-kira.vida = 30;
-kira.recibirDanio(12);          // ...o mandar un mensaje
-System.out.println(kira.vida);  // 18
+Heroe nadia = new Heroe();       // new crea un objeto nuevo
+nadia.nombre = "Nadia";           // punto: acceder a un atributo...
+nadia.vida = 30;
+nadia.recibirDanio(12);          // ...o mandar un mensaje
+System.out.println(nadia.vida);  // 18
 
-Heroe bron = new Heroe();       // otro objeto, con su propio estado
-bron.vida = 45;
+Heroe baldo = new Heroe();       // otro objeto, con su propio estado
+baldo.vida = 45;
 ```
-Cada objeto tiene **su propia copia** de los atributos: cambiar `kira.vida` no toca a
-`bron.vida`. Los atributos arrancan con valores por defecto: `0`, `false` o `null`.
+Cada objeto tiene **su propia copia** de los atributos: cambiar `nadia.vida` no toca a
+`baldo.vida`. Los atributos arrancan con valores por defecto: `0`, `false` o `null`.
 
 (Asignar los atributos desde afuera, como acá, funciona pero no es buena práctica:
 en los nodos siguientes vas a ver **constructores** para crear el objeto ya armado y
 **encapsulamiento** para proteger sus datos.)
 
 #### `toString`: cómo se muestra un objeto
-Si hacés `System.out.println(kira)`, Java muestra algo como `Heroe@5ca881b5`. Para
+Si hacés `System.out.println(nadia)`, Java muestra algo como `Heroe@5ca881b5`. Para
 que muestre algo útil, la clase define un método `toString` que devuelve un texto:
 ```java
 public String toString() {
@@ -122,8 +122,8 @@ class Heroe {                     // sin public
 #### Un array de objetos
 ```java
 Heroe[] grupo = new Heroe[3];     // tres lugares en null
-grupo[0] = kira;
-grupo[1] = bron;
+grupo[0] = nadia;
+grupo[1] = baldo;
 for (Heroe h : grupo) {
     if (h != null) {
         System.out.println(h);
@@ -148,31 +148,31 @@ Adiós a los arrays paralelos: cada lugar guarda un héroe entero.
  */
 public class Academia {
     public static void main(String[] args) {
-        Heroe kira = new Heroe();
-        kira.nombre = "Kira";
-        kira.vida = 30;
-        kira.nivel = 2;
+        Heroe nadia = new Heroe();
+        nadia.nombre = "Nadia";
+        nadia.vida = 30;
+        nadia.nivel = 2;
 
-        Heroe bron = new Heroe();
-        bron.nombre = "Bron";
-        bron.vida = 45;
-        bron.nivel = 3;
+        Heroe baldo = new Heroe();
+        baldo.nombre = "Baldo";
+        baldo.vida = 45;
+        baldo.nivel = 3;
 
-        System.out.println(kira);
-        System.out.println(bron);
+        System.out.println(nadia);
+        System.out.println(baldo);
 
         // Mensajes: cada objeto cambia su propio estado
-        kira.recibirDanio(12);
-        bron.subirNivel();
+        nadia.recibirDanio(12);
+        baldo.subirNivel();
         System.out.println("Después del combate:");
-        System.out.println("  " + kira);
-        System.out.println("  " + bron);
+        System.out.println("  " + nadia);
+        System.out.println("  " + baldo);
 
-        kira.recibirDanio(50);
-        System.out.println(kira.nombre + " ¿vivo? " + kira.estaVivo());
+        nadia.recibirDanio(50);
+        System.out.println(nadia.nombre + " ¿vivo? " + nadia.estaVivo());
 
         // Un array de objetos
-        Heroe[] grupo = {kira, bron, new Heroe()};
+        Heroe[] grupo = {nadia, baldo, new Heroe()};
         grupo[2].nombre = "Lía";
         grupo[2].vida = 20;
         grupo[2].nivel = 1;
@@ -224,12 +224,12 @@ class Moneda {
 ### Salida esperada
 
 ```
-Kira (nivel 2, vida 30)
-Bron (nivel 3, vida 45)
+Nadia (nivel 2, vida 30)
+Baldo (nivel 3, vida 45)
 Después del combate:
-  Kira (nivel 2, vida 18)
-  Bron (nivel 4, vida 55)
-Kira ¿vivo? false
+  Nadia (nivel 2, vida 18)
+  Baldo (nivel 4, vida 55)
+Nadia ¿vivo? false
 Héroes en pie: 2 de 3
 Una moneda sin toString: Moneda@...
 ```
@@ -242,14 +242,14 @@ Casi todo el software que se escribe en Java es orientado a objetos: un sistema 
 
 **Troll: usar un objeto que no se creó.**
 ```
-Exception in thread "main" java.lang.NullPointerException: Cannot assign field "vida" because "kira" is null
+Exception in thread "main" java.lang.NullPointerException: Cannot assign field "vida" because "nadia" is null
         at Academia.main(Academia.java:6)
 ```
-Declarar `Heroe kira;` no crea nada: falta `= new Heroe()`.
+Declarar `Heroe nadia;` no crea nada: falta `= new Heroe()`.
 
 **Esqueleto: llamar un método de instancia sin objeto.** `Heroe.estaVivo()` no
 compila (`non-static method estaVivo() cannot be referenced from a static
-context`): se llama sobre un objeto, `kira.estaVivo()`.
+context`): se llama sobre un objeto, `nadia.estaVivo()`.
 
 **Slime: dos clases `public` en el mismo archivo.** `class Heroe is public, should
 be declared in a file named Heroe.java`. Solo la del archivo lleva `public`.
@@ -658,7 +658,7 @@ xp: 10
 Escribí una clase `Alcancia` con un dueño y una cantidad de denarios. Métodos:
 `depositar(int monto)` (solo si el monto es positivo), `boolean retirar(int monto)`
 (devuelve `false` y no hace nada si no alcanza) y `toString`. En el `main` creá la
-alcancía de Kira, hacé un depósito, un retiro que alcanza y otro que no, mostrando el
+alcancía de Nadia, hacé un depósito, un retiro que alcanza y otro que no, mostrando el
 resultado de cada operación.
 
 #### Criterio de aprobación
@@ -669,11 +669,11 @@ resultado de cada operación.
 #### Salida esperada
 
 ```
-Alcancía de Kira: 0 denarios
-Alcancía de Kira: 80 denarios
+Alcancía de Nadia: 0 denarios
+Alcancía de Nadia: 80 denarios
 Retirar 30: ok
 Retirar 100: no alcanza
-Alcancía de Kira: 50 denarios
+Alcancía de Nadia: 50 denarios
 ```
 
 #### Solución de referencia
@@ -683,7 +683,7 @@ Alcancía de Kira: 50 denarios
 public class Ahorros {
     public static void main(String[] args) {
         Alcancia alcancia = new Alcancia();
-        alcancia.duenio = "Kira";
+        alcancia.duenio = "Nadia";
         System.out.println(alcancia);
         alcancia.depositar(80);
         alcancia.depositar(-20);
@@ -894,9 +894,9 @@ La clase es el molde (qué datos y qué comportamiento tiene); el objeto es una 
 
 Los valores de sus atributos en un momento dado.
 
-#### ¿Por qué `Heroe kira; kira.vida = 3;` falla?
+#### ¿Por qué `Heroe nadia; nadia.vida = 3;` falla?
 
-Porque `kira` no apunta a ningún objeto (no se hizo `new`): da error o `NullPointerException`.
+Porque `nadia` no apunta a ningún objeto (no se hizo `new`): da error o `NullPointerException`.
 
 #### ¿Para qué sirve `toString`?
 
@@ -953,7 +953,7 @@ class Heroe {
     }
 }
 
-Heroe kira = new Heroe("Kira", 30);    // nace completa
+Heroe nadia = new Heroe("Nadia", 30);    // nace completa
 ```
 
 #### `this`
@@ -1023,11 +1023,11 @@ String[] mochila = new String[5];
  */
 public class TallerMoldes {
     public static void main(String[] args) {
-        Soldado bron = new Soldado("Bron", 45, "lanza");
+        Soldado baldo = new Soldado("Baldo", 45, "lanza");
         Soldado lia = new Soldado("Lía", 30);          // arma por defecto
         Soldado recluta = new Soldado("  Pip  ");       // vida y arma por defecto
 
-        System.out.println(bron);
+        System.out.println(baldo);
         System.out.println(lia);
         System.out.println(recluta);
         System.out.println("Soldados creados: " + Soldado.creados);
@@ -1113,7 +1113,7 @@ class Vec2 {
 ### Salida esperada
 
 ```
-Bron [vida 45, lanza, nivel 1]
+Baldo [vida 45, lanza, nivel 1]
 Lía [vida 30, espada corta, nivel 1]
 Pip [vida 25, espada corta, nivel 1]
 Soldados creados: 3
@@ -1562,7 +1562,7 @@ un `try`/`catch` como el del ejemplo, y mostrá qué pasó con cada uno.
 #### Salida esperada
 
 ```
-Emitido: Kira Valdez N° 12345678 (vence 2030)
+Emitido: Nadia Valdez N° 12345678 (vence 2030)
 Rechazado: falta el titular
 Rechazado: el número tiene que tener 8 dígitos
 Rechazado: el pasaporte está vencido
@@ -1574,9 +1574,9 @@ Rechazado: el pasaporte está vencido
 // Mision 2 - El pasaporte: validar en el constructor.
 public class Frontera {
     public static void main(String[] args) {
-        crear("Kira Valdez", "12345678", 2030);
+        crear("Nadia Valdez", "12345678", 2030);
         crear("", "12345678", 2030);
-        crear("Bron Tallo", "12-34", 2030);
+        crear("Baldo Tallo", "12-34", 2030);
         crear("Lía Ferrari", "87654321", 2020);
     }
 
@@ -1952,30 +1952,30 @@ Las constantes de la clase son `static final`, con nombre en mayúsculas:
  */
 public class Tesoreria {
     public static void main(String[] args) {
-        CuentaImperial kira = new CuentaImperial("Kira", 100);
-        CuentaImperial bron = new CuentaImperial("Bron");
+        CuentaImperial nadia = new CuentaImperial("Nadia", 100);
+        CuentaImperial baldo = new CuentaImperial("Baldo");
 
-        kira.depositar(50);
-        bron.depositar(30);
-        System.out.println(kira);
-        System.out.println(bron);
+        nadia.depositar(50);
+        baldo.depositar(30);
+        System.out.println(nadia);
+        System.out.println(baldo);
 
-        System.out.println("¿Kira puede pagar 500? " + kira.retirar(500));
-        System.out.println("¿Kira puede pagar 120? " + kira.retirar(120));
-        System.out.println(kira);
+        System.out.println("¿Nadia puede pagar 500? " + nadia.retirar(500));
+        System.out.println("¿Nadia puede pagar 120? " + nadia.retirar(120));
+        System.out.println(nadia);
 
         try {
-            bron.depositar(-40);
+            baldo.depositar(-40);
         } catch (IllegalArgumentException e) {
             System.out.println("Depósito rechazado: " + e.getMessage());
         }
 
-        kira.setTitular("Kira Valdez");
-        System.out.println("Titular: " + kira.getTitular() + ", número " + kira.getNumero());
+        nadia.setTitular("Nadia Valdez");
+        System.out.println("Titular: " + nadia.getTitular() + ", número " + nadia.getNumero());
         System.out.println("Cuentas abiertas: " + CuentaImperial.getCuentasAbiertas());
         System.out.println("Oro total del Imperio: " + CuentaImperial.getOroTotal());
         System.out.println("Límite por retiro: " + CuentaImperial.LIMITE_RETIRO);
-        // kira.saldo = 1_000_000;   // no compila: saldo has private access in CuentaImperial
+        // nadia.saldo = 1_000_000;   // no compila: saldo has private access in CuentaImperial
     }
 }
 
@@ -2054,13 +2054,13 @@ class CuentaImperial {
 ### Salida esperada
 
 ```
-Cuenta 1001 de Kira: 150 denarios
-Cuenta 1002 de Bron: 30 denarios
-¿Kira puede pagar 500? false
-¿Kira puede pagar 120? true
-Cuenta 1001 de Kira: 30 denarios
+Cuenta 1001 de Nadia: 150 denarios
+Cuenta 1002 de Baldo: 30 denarios
+¿Nadia puede pagar 500? false
+¿Nadia puede pagar 120? true
+Cuenta 1001 de Nadia: 30 denarios
 Depósito rechazado: el monto tiene que ser positivo
-Titular: Kira Valdez, número 1001
+Titular: Nadia Valdez, número 1001
 Cuentas abiertas: 2
 Oro total del Imperio: 60
 Límite por retiro: 200
@@ -2075,7 +2075,7 @@ El encapsulamiento es lo que permite que un sistema grande no se desarme: una `C
 **Esqueleto: acceder a un atributo privado desde afuera.**
 ```
 Tesoreria.java:22: error: saldo has private access in CuentaImperial
-        kira.saldo = 1_000_000;
+        nadia.saldo = 1_000_000;
             ^
 ```
 Usá los métodos públicos de la clase.
@@ -2841,7 +2841,7 @@ int a = 5;
 int b = a;          // b recibe una copia del 5
 b = 9;              // a sigue en 5
 
-Heroe h1 = new Heroe("Kira", 30);
+Heroe h1 = new Heroe("Nadia", 30);
 Heroe h2 = h1;      // h2 recibe una copia de la REFERENCIA: apunta al mismo héroe
 h2.recibirDanio(10);
 System.out.println(h1.getVida());   // 20: es el mismo objeto
@@ -3631,7 +3631,7 @@ turnos)`. Probalo con los turnos 0 a 3 y con un array donde el turno 1 está vac
 #### Salida esperada
 
 ```
-Turno 0: Bron
+Turno 0: Baldo
 Turno 1: nadie
 Turno 2: Nara
 Turno 3: nadie
@@ -3645,7 +3645,7 @@ Presentes: 2
 public class Guardias {
     public static void main(String[] args) {
         Guardia[] turnos = new Guardia[3];
-        turnos[0] = new Guardia("Bron");
+        turnos[0] = new Guardia("Baldo");
         turnos[2] = new Guardia("Nara");
         for (int t = 0; t <= 3; t++) {
             System.out.println("Turno " + t + ": " + quienCuida(turnos, t));
@@ -3944,25 +3944,25 @@ cosas a la vez están las interfaces (se ven en dos nodos).
  */
 public class MoldesHijos {
     public static void main(String[] args) {
-        Guerrero bron = new Guerrero("Bron", 45, 12);
+        Guerrero baldo = new Guerrero("Baldo", 45, 12);
         Arquera lia = new Arquera("Lía", 30, 6);
         Personaje aldeano = new Personaje("Olmo", 20);
 
-        System.out.println(bron.describir());
+        System.out.println(baldo.describir());
         System.out.println(lia.describir());
         System.out.println(aldeano.describir());
 
         // Métodos heredados y métodos propios
-        lia.recibirDanio(bron.atacar());
-        System.out.println("Bron golpea a Lía: " + lia.describir());
+        lia.recibirDanio(baldo.atacar());
+        System.out.println("Baldo golpea a Lía: " + lia.describir());
         System.out.println("Lía dispara: " + lia.disparar() + " de daño");
         System.out.println("Lía dispara: " + lia.disparar() + " de daño");
         System.out.println(lia.describir());
 
         // toString viene de Object; Guerrero lo sobrescribe
-        System.out.println("toString de Bron: " + bron);
-        System.out.println("¿Bron es un Personaje? " + (bron instanceof Personaje));
-        System.out.println("Vida máxima (método final): " + bron.getVidaMaxima());
+        System.out.println("toString de Baldo: " + baldo);
+        System.out.println("¿Baldo es un Personaje? " + (baldo instanceof Personaje));
+        System.out.println("Vida máxima (método final): " + baldo.getVidaMaxima());
     }
 }
 
@@ -4043,15 +4043,15 @@ class Arquera extends Personaje {
 ### Salida esperada
 
 ```
-Guerrero Bron (vida 45/45), fuerza 12
+Guerrero Baldo (vida 45/45), fuerza 12
 Arquera Lía (vida 30/30), 6 flechas
 Olmo (vida 20/20)
-Bron golpea a Lía: Arquera Lía (vida 18/30), 6 flechas
+Baldo golpea a Lía: Arquera Lía (vida 18/30), 6 flechas
 Lía dispara: 8 de daño
 Lía dispara: 8 de daño
 Arquera Lía (vida 18/30), 4 flechas
-toString de Bron: Guerrero[Bron]
-¿Bron es un Personaje? true
+toString de Baldo: Guerrero[Baldo]
+¿Baldo es un Personaje? true
 Vida máxima (método final): 45
 ```
 
@@ -4976,7 +4976,7 @@ En el patio de armas, la Maestra de Moldes grita una sola orden: *¡Ataquen!* Y 
 #### Una referencia del padre, un objeto del hijo
 Una variable de tipo `Personaje` puede apuntar a **cualquier subclase**:
 ```java
-Personaje p = new Guerrero("Bron", 45, 12);    // un guerrero ES un personaje
+Personaje p = new Guerrero("Baldo", 45, 12);    // un guerrero ES un personaje
 Personaje[] grupo = {new Guerrero(...), new Arquera(...), new Maga(...)};
 ```
 Con esa referencia solo se pueden usar los métodos que **declara** `Personaje` (el
@@ -5911,7 +5911,7 @@ Una clase abstracta `Trampa` con un método abstracto `int activar(int vidaDelHe
 que devuelve la vida que le queda al héroe, y un método concreto `String nombre()`.
 Tres trampas: `Pinchos` (quita 10), `Veneno` (quita el 25 % de la vida actual,
 redondeando para abajo) y `Fuente` (no es una trampa mala: **suma** 15, sin pasar de
-100). Kira arranca con 80 de vida y cruza un pasillo de 6 trampas guardadas en un
+100). Nadia arranca con 80 de vida y cruza un pasillo de 6 trampas guardadas en un
 array. Mostrá la vida después de cada una y si llega a la salida.
 
 #### Criterio de aprobación
@@ -5928,7 +5928,7 @@ Fuente curativa -> vida 68
 Pinchos -> vida 58
 Veneno -> vida 44
 Pinchos -> vida 34
-¡Kira llega a la salida con 34 de vida!
+¡Nadia llega a la salida con 34 de vida!
 ```
 
 #### Solución de referencia
@@ -5946,7 +5946,7 @@ public class Mazmorra {
                 break;
             }
         }
-        System.out.println(vida > 0 ? "¡Kira llega a la salida con " + vida + " de vida!" : "Kira cae en la mazmorra");
+        System.out.println(vida > 0 ? "¡Nadia llega a la salida con " + vida + " de vida!" : "Nadia cae en la mazmorra");
     }
 }
 
@@ -6173,7 +6173,7 @@ La clase que dice `implements Nadador` **tiene que** implementar todos sus méto
 Como con la herencia, una variable de tipo `Nadador` puede apuntar a cualquier objeto
 que implemente la interfaz, aunque las clases no tengan nada más en común:
 ```java
-Nadador[] nadadores = {new Grifo(), new Barco(), new Kira()};
+Nadador[] nadadores = {new Grifo(), new Barco(), new Nadia()};
 for (Nadador n : nadadores) {
     n.nadar(100);
 }
@@ -6769,7 +6769,7 @@ xp: 10
 Declará una interfaz `Curador` con `int curar(int vidaActual)` (devuelve la vida
 después de curar) y un método `default String describir()` que diga `"cura"`. Tres
 clases que no se parecen la implementan: `Clerigo` (suma 20), `PocionMenor` (suma 8) y
-`Fuente` (deja la vida en 100). La vida nunca pasa de 100. Kira empieza con 35 y usa,
+`Fuente` (deja la vida en 100). La vida nunca pasa de 100. Nadia empieza con 35 y usa,
 en orden, los tres curadores guardados en un array de `Curador`: mostrá la vida
 después de cada uno. `Fuente` sobrescribe `describir()`.
 
@@ -6869,7 +6869,7 @@ derrotas**; y si también empatan, por nombre alfabético. Agregá un método
 2. Nara   15V  5D   75.0%
 3. Ada    12V  1D   92.3%
 4. Pip    12V  1D   92.3%
-5. Bron   12V  3D   80.0%
+5. Baldo  12V  3D   80.0%
 6. Olmo    4V  9D   30.8%
 ```
 
@@ -6884,7 +6884,7 @@ public class Arena {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         Luchador[] luchadores = {
-            new Luchador("Bron", 12, 3), new Luchador("Nara", 15, 5), new Luchador("Pip", 12, 1),
+            new Luchador("Baldo", 12, 3), new Luchador("Nara", 15, 5), new Luchador("Pip", 12, 1),
             new Luchador("Ada", 12, 1), new Luchador("Olmo", 4, 9), new Luchador("Lía", 15, 2),
         };
         Arrays.sort(luchadores);
@@ -7252,7 +7252,7 @@ La parte **existe por su cuenta** y el todo solo la usa: se crea afuera y se le 
 Puede compartirse o cambiarse, y sobrevive al todo.
 ```java
 Caballo tormenta = new Caballo("Tormenta");
-Caballero c = new Caballero("Bron", tormenta);   // la recibe
+Caballero c = new Caballero("Baldo", tormenta);   // la recibe
 c.montar(otroCaballo);                            // la puede cambiar
 ```
 | | Composición | Agregación |
@@ -7303,22 +7303,22 @@ public class TallerArmaduras {
         Caballo tormenta = new Caballo("Tormenta", 12);
         Caballo niebla = new Caballo("Niebla", 9);
 
-        Caballero bron = new Caballero("Bron", tormenta);       // agregación: el caballo viene de afuera
-        bron.equipar(new Espada("Colmillo", 11));
-        System.out.println(bron);
+        Caballero baldo = new Caballero("Baldo", tormenta);       // agregación: el caballo viene de afuera
+        baldo.equipar(new Espada("Colmillo", 11));
+        System.out.println(baldo);
 
         // Delegación: el caballero pasa el trabajo a sus partes
-        System.out.println("Ataque: " + bron.atacar());
-        System.out.println("Defensa: " + bron.defensa());
-        System.out.println("Velocidad: " + bron.velocidad());
+        System.out.println("Ataque: " + baldo.atacar());
+        System.out.println("Defensa: " + baldo.defensa());
+        System.out.println("Velocidad: " + baldo.velocidad());
 
-        bron.recibirGolpe(20);
-        bron.recibirGolpe(35);
-        System.out.println("Después de dos golpes: " + bron);
+        baldo.recibirGolpe(20);
+        baldo.recibirGolpe(35);
+        System.out.println("Después de dos golpes: " + baldo);
 
         // Agregación: el caballo se cambia y sigue existiendo por su cuenta
-        bron.montar(niebla);
-        System.out.println("Cambia de caballo: " + bron);
+        baldo.montar(niebla);
+        System.out.println("Cambia de caballo: " + baldo);
         System.out.println("Tormenta sigue en el establo: " + tormenta);
 
         // Sin espada: la delegación maneja la parte que falta
@@ -7437,12 +7437,12 @@ class Caballo {
 ### Salida esperada
 
 ```
-Bron [armadura 50, espada Colmillo, montando a Tormenta]
+Baldo [armadura 50, espada Colmillo, montando a Tormenta]
 Ataque: 11
 Defensa: 50
 Velocidad: 12
-Después de dos golpes: Bron [armadura 23, espada Colmillo, montando a Tormenta]
-Cambia de caballo: Bron [armadura 23, espada Colmillo, montando a Niebla]
+Después de dos golpes: Baldo [armadura 23, espada Colmillo, montando a Tormenta]
+Cambia de caballo: Baldo [armadura 23, espada Colmillo, montando a Niebla]
 Tormenta sigue en el establo: Tormenta (velocidad 12)
 Pip [armadura 50, sin espada, a pie] ataca con 1 y corre a 3
 ```
@@ -7971,9 +7971,9 @@ quitá a otro de una expedición y mostrá que el aventurero sigue existiendo.
 #### Salida esperada
 
 ```
-Expedición Norte: Kira (9), Bron (14), Lía (7) | fuerza 30
-Expedición Sur: Bron (14), Pip (4), Nara (11) | fuerza 29
-Sin Lía: Expedición Norte: Kira (9), Bron (14) | fuerza 23
+Expedición Norte: Nadia (9), Baldo (14), Lía (7) | fuerza 30
+Expedición Sur: Baldo (14), Pip (4), Nara (11) | fuerza 29
+Sin Lía: Expedición Norte: Nadia (9), Baldo (14) | fuerza 23
 Lía sigue existiendo: Lía (7)
 ```
 
@@ -7983,18 +7983,18 @@ Lía sigue existiendo: Lía (7)
 // Mision 2 - El equipo de la expedicion: agregacion.
 public class Expediciones {
     public static void main(String[] args) {
-        Aventurero kira = new Aventurero("Kira", 9);
-        Aventurero bron = new Aventurero("Bron", 14);
+        Aventurero nadia = new Aventurero("Nadia", 9);
+        Aventurero baldo = new Aventurero("Baldo", 14);
         Aventurero lia = new Aventurero("Lía", 7);
         Aventurero pip = new Aventurero("Pip", 4);
         Aventurero nara = new Aventurero("Nara", 11);
 
         Expedicion norte = new Expedicion("Norte");
-        norte.sumar(kira);
-        norte.sumar(bron);
+        norte.sumar(nadia);
+        norte.sumar(baldo);
         norte.sumar(lia);
         Expedicion sur = new Expedicion("Sur");
-        sur.sumar(bron);
+        sur.sumar(baldo);
         sur.sumar(pip);
         sur.sumar(nara);
         System.out.println(norte);
@@ -11463,15 +11463,15 @@ mostrá el ranking ordenado con promedio, materias aprobadas y horas aprobadas.
 #### Entrada de ejemplo
 
 ```
-101;Kira;PROGRAMACION;9
-102;Bron;ALGEBRA;6
-101;Kira;ALGEBRA;7
+101;Nadia;PROGRAMACION;9
+102;Baldo;ALGEBRA;6
+101;Nadia;ALGEBRA;7
 103;Lía;DISENO;10
-102;Bron;PROGRAMACION;3
+102;Baldo;PROGRAMACION;3
 103;Lía;QUIMICA;8
-101;Kira;DISENO;11
+101;Nadia;DISENO;11
 103;Lía;BASES_DE_DATOS;8
-102;Bron;BASES_DE_DATOS;9
+102;Baldo;BASES_DE_DATOS;9
 
 ```
 
@@ -11479,12 +11479,12 @@ mostrá el ranking ordenado con promedio, materias aprobadas y horas aprobadas.
 
 ```
 Línea salteada [103;Lía;QUIMICA;8]: No enum constant Materia.QUIMICA
-Línea salteada [101;Kira;DISENO;11]: nota fuera de rango: 11
+Línea salteada [101;Nadia;DISENO;11]: nota fuera de rango: 11
 
 Ranking de la Academia
 1. Lía (103)  promedio 9.00  aprobadas 2  horas 160
-2. Kira (101)  promedio 8.00  aprobadas 2  horas 224
-3. Bron (102)  promedio 6.00  aprobadas 2  horas 192
+2. Nadia (101)  promedio 8.00  aprobadas 2  horas 224
+3. Baldo (102)  promedio 6.00  aprobadas 2  horas 192
 ```
 
 #### Solución de referencia

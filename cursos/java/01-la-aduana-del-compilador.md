@@ -44,8 +44,8 @@ declara con su **tipo** y, casi siempre, con un valor inicial:
 int vidas = 3;              // tipo, nombre, valor
 double precio = 1250.75;
 boolean tieneLlave = true;
-char inicial = 'K';          // un solo carácter, entre comillas simples
-String nombre = "Kira";      // un texto, entre comillas dobles
+char inicial = 'N';          // un solo carácter, entre comillas simples
+String nombre = "Nadia";      // un texto, entre comillas dobles
 ```
 Después se puede cambiar el valor (sin repetir el tipo):
 ```java
@@ -88,7 +88,7 @@ Desde Java 10, en variables locales podés escribir `var` y el compilador deduce
 tipo del valor:
 ```java
 var puntos = 100;           // int
-var nombre = "Bron";        // String
+var nombre = "Baldo";        // String
 ```
 El tipo sigue siendo fijo: `puntos = "mucho";` no compila. En este curso lo usamos
 poco, para que los tipos se vean siempre.
@@ -114,7 +114,7 @@ entre paréntesis.
 int kilos = (int) peso;          // 3: corta los decimales (no redondea)
 double mitad = (double) 7 / 2;   // 3.5 (sin el casting daría 3)
 char letra = (char) ('A' + 2);   // 'C': los char son números por dentro
-int codigo = 'K';                // 75: el código Unicode de la K
+int codigo = 'N';                // 78: el código Unicode de la N
 ```
 
 #### Desbordamiento
@@ -152,7 +152,7 @@ public class FichaAduana {
     public static void main(String[] args) {
         final double IMPUESTO = 0.21;          // constante: no cambia
 
-        String nombre = "Kira";
+        String nombre = "Nadia";
         char inicial = nombre.charAt(0);       // el primer carácter
         int edad = 19;
         double pesoEquipaje = 12.75;
@@ -179,7 +179,7 @@ public class FichaAduana {
         System.out.println("Un denario más: " + oro);
 
         // char como número
-        System.out.println("Código de la K: " + (int) inicial);
+        System.out.println("Código de la " + inicial + ": " + (int) inicial);
         System.out.println("Dos letras después: " + (char) (inicial + 2));
     }
 }
@@ -188,7 +188,7 @@ public class FichaAduana {
 ### Salida esperada
 
 ```
-Viajera: Kira (K)
+Viajera: Nadia (N)
 Edad: 19
 Equipaje: 12.75 kg
 ¿Trae armas? false
@@ -198,8 +198,8 @@ Tasa: 252.0
 Promedio de 7 y 2: 4 (entero) y 4.5 (decimal)
 Oro máximo: 2147483647
 Un denario más: -2147483648
-Código de la K: 75
-Dos letras después: M
+Código de la N: 78
+Dos letras después: P
 ```
 
 ### ¿Para qué sirve?
@@ -228,7 +228,7 @@ Toda variable local necesita un valor antes de usarse.
 **Goblin: el `long` sin `L`.** `long pasos = 3450000000;` no compila (`integer
 number too large`): el literal es `int` y no entra. Va `3450000000L`.
 
-**Slime: comillas equivocadas.** `char c = "K";` o `String s = 'Kira';`: el `char`
+**Slime: comillas equivocadas.** `char c = "K";` o `String s = 'Nadia';`: el `char`
 va con comillas simples y el `String` con dobles.
 
 ### Micro-misión R01-N01-P1 · Cada cajón con su etiqueta
@@ -1207,7 +1207,7 @@ xp: 10
 
 #### Consigna
 
-Kira ataca con fuerza 14 a un enemigo con armadura 5 y 30 de vida. El daño es la
+Nadia ataca con fuerza 14 a un enemigo con armadura 5 y 30 de vida. El daño es la
 fuerza menos la armadura, pero si la fuerza es al menos el doble de la armadura es
 un **golpe crítico** y el daño se duplica. Calculá con el ternario el daño final,
 restáselo a la vida con `-=` y mostrá si el enemigo sigue en pie (`vida > 0`).
@@ -1357,27 +1357,27 @@ Zed piensa en copiar un sello y ahorrarse la fila. Lo copia perfecto, letra por 
 `String` es una **clase**: cada texto es un objeto con **métodos** que se llaman con
 un punto. Los caracteres se numeran desde **0**.
 ```java
-String nombre = "Kira Valdez";
-nombre.length();              // 11
-nombre.charAt(0);             // 'K'
+String nombre = "Nadia Valdez";
+nombre.length();              // 12
+nombre.charAt(0);             // 'N'
 nombre.charAt(nombre.length() - 1);   // 'z', el último
 ```
 
 #### Los métodos más usados
-| Método | Qué devuelve | Ejemplo con `"Kira Valdez"` |
+| Método | Qué devuelve | Ejemplo con `"Nadia Valdez"` |
 |---|---|---|
-| `length()` | la cantidad de caracteres | `11` |
-| `charAt(i)` | el carácter en la posición `i` | `charAt(5)` → `'V'` |
-| `substring(a, b)` | de la posición `a` hasta `b` (sin incluir `b`) | `substring(0, 4)` → `"Kira"` |
-| `substring(a)` | desde `a` hasta el final | `substring(5)` → `"Valdez"` |
-| `indexOf(texto)` | dónde aparece por primera vez (o `-1`) | `indexOf(" ")` → `4` |
+| `length()` | la cantidad de caracteres | `12` |
+| `charAt(i)` | el carácter en la posición `i` | `charAt(6)` → `'V'` |
+| `substring(a, b)` | de la posición `a` hasta `b` (sin incluir `b`) | `substring(0, 5)` → `"Nadia"` |
+| `substring(a)` | desde `a` hasta el final | `substring(6)` → `"Valdez"` |
+| `indexOf(texto)` | dónde aparece por primera vez (o `-1`) | `indexOf(" ")` → `5` |
 | `contains(texto)` | si aparece | `contains("Val")` → `true` |
 | `startsWith` / `endsWith` | si empieza / termina así | `endsWith("ez")` → `true` |
-| `toUpperCase()` / `toLowerCase()` | en mayúsculas / minúsculas | `"KIRA VALDEZ"` |
+| `toUpperCase()` / `toLowerCase()` | en mayúsculas / minúsculas | `"NADIA VALDEZ"` |
 | `trim()` / `strip()` | sin espacios al principio y al final | `"  hola "` → `"hola"` |
 | `replace(a, b)` | cambia todas las apariciones de `a` por `b` | `replace("a", "4")` |
 | `isEmpty()` / `isBlank()` | si está vacío / si solo tiene espacios | |
-| `split(sep)` | lo corta en partes (un array) | `split(" ")` → `["Kira", "Valdez"]` |
+| `split(sep)` | lo corta en partes (un array) | `split(" ")` → `["Nadia", "Valdez"]` |
 | `repeat(n)` | repetido `n` veces | `"-".repeat(5)` → `"-----"` |
 
 Los `String` son **inmutables**: ningún método cambia el texto original, todos
@@ -1391,11 +1391,11 @@ nombre = nombre.toUpperCase();     // ahora sí
 `==` entre objetos compara si son **el mismo objeto** en memoria, no si tienen el
 mismo contenido. Dos textos iguales pueden ser objetos distintos:
 ```java
-String a = "kira";
-String b = new String("kira");
+String a = "nadia";
+String b = new String("nadia");
 System.out.println(a == b);              // false: son dos objetos distintos
 System.out.println(a.equals(b));         // true: tienen el mismo contenido
-System.out.println(a.equalsIgnoreCase("KIRA"));   // true: sin mirar mayúsculas
+System.out.println(a.equalsIgnoreCase("NADIA"));   // true: sin mirar mayúsculas
 ```
 A veces `==` da `true` por casualidad (Java reutiliza los textos literales), y eso
 lo hace más peligroso: el programa anda en tus pruebas y falla con datos que vienen
@@ -1409,7 +1409,7 @@ Como un `String` no cambia, cada `+` crea uno nuevo. Para armar un texto largo e
 muchos pasos se usa `StringBuilder`, que sí se modifica:
 ```java
 StringBuilder sb = new StringBuilder();
-sb.append("Kira").append(" · ").append(30).append(" de vida");
+sb.append("Nadia").append(" · ").append(30).append(" de vida");
 sb.insert(0, "> ");
 sb.reverse();                  // también invierte
 String resultado = sb.toString();
@@ -1418,11 +1418,11 @@ String resultado = sb.toString();
 #### `printf`: formato
 `System.out.printf` muestra un texto con **huecos** que se completan con valores:
 ```java
-System.out.printf("%s tiene %d de vida y %.2f de oro%n", "Kira", 30, 12.5);
+System.out.printf("%s tiene %d de vida y %.2f de oro%n", "Nadia", 30, 12.5);
 ```
 | Hueco | Para | Ejemplo | Resultado |
 |---|---|---|---|
-| `%s` | textos (y cualquier cosa) | `"%s", "Kira"` | `Kira` |
+| `%s` | textos (y cualquier cosa) | `"%s", "Nadia"` | `Nadia` |
 | `%d` | enteros | `"%d", 30` | `30` |
 | `%.2f` | decimales con 2 cifras | `"%.2f", 12.5` | `12.50` |
 | `%5d` / `%-10s` | ancho mínimo (derecha / izquierda) | `"%5d", 42` | `   42` |
@@ -1431,7 +1431,7 @@ System.out.printf("%s tiene %d de vida y %.2f de oro%n", "Kira", 30, 12.5);
 
 `String.format` hace lo mismo pero **devuelve** el texto en vez de mostrarlo:
 ```java
-String linea = String.format("%-10s %5d", "Kira", 30);
+String linea = String.format("%-10s %5d", "Nadia", 30);
 ```
 
 #### El punto decimal y la configuración regional
@@ -1464,7 +1464,7 @@ public class OficinaSellos {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);                     // punto decimal en cualquier compu
 
-        String entrada = "   kira VALDEZ   ";
+        String entrada = "   nadia VALDEZ   ";
         String limpio = entrada.trim();
         System.out.println("Limpio: [" + limpio + "]");
 
@@ -1477,11 +1477,11 @@ public class OficinaSellos {
         System.out.println("Letras: " + prolijo.length() + ", iniciales: " + prolijo.charAt(0) + prolijo.charAt(espacio + 1));
 
         // == contra equals
-        String buscado = "Kira Valdez";
+        String buscado = "Nadia Valdez";
         String armado = new String(prolijo);              // un objeto nuevo, con el mismo contenido
         System.out.println("¿Mismo objeto (==)? " + (armado == buscado));
         System.out.println("¿Mismo texto (equals)? " + armado.equals(buscado));
-        System.out.println("¿Igual sin mayúsculas? " + "KIRA VALDEZ".equalsIgnoreCase(buscado));
+        System.out.println("¿Igual sin mayúsculas? " + "NADIA VALDEZ".equalsIgnoreCase(buscado));
 
         // split y StringBuilder
         String equipaje = "espada,mapa,brújula";
@@ -1494,8 +1494,8 @@ public class OficinaSellos {
         // printf y String.format
         System.out.println("=".repeat(28));
         System.out.printf("%-12s %6s %8s%n", "Viajero", "Días", "Tasa");
-        System.out.printf("%-12s %6d %8.2f%n", "Kira", 7, 12.5);
-        System.out.printf("%-12s %6d %8.2f%n", "Bron", 12, 101.25);
+        System.out.printf("%-12s %6d %8.2f%n", "Nadia", 7, 12.5);
+        System.out.printf("%-12s %6d %8.2f%n", "Baldo", 12, 101.25);
         String sello = String.format("SELLO-%05d", 42);
         System.out.println(sello);
     }
@@ -1505,17 +1505,17 @@ public class OficinaSellos {
 ### Salida esperada
 
 ```
-Limpio: [kira VALDEZ]
-Prolijo: Kira Valdez
-Letras: 11, iniciales: KV
+Limpio: [nadia VALDEZ]
+Prolijo: Nadia Valdez
+Letras: 12, iniciales: NV
 ¿Mismo objeto (==)? false
 ¿Mismo texto (equals)? true
 ¿Igual sin mayúsculas? true
 3 cosas: espada / mapa / brújula
 ============================
 Viajero        Días     Tasa
-Kira              7    12.50
-Bron             12   101.25
+Nadia             7    12.50
+Baldo            12   101.25
 SELLO-00042
 ```
 
@@ -2112,7 +2112,7 @@ probar y para que tu salida coincida con la esperada. Sin semilla
 #### Probar un programa con entrada sin tipearla cada vez
 ```bash
 java Ventanilla.java < entrada.txt
-printf 'Kira\n19\n120.5\n' | java Ventanilla.java
+printf 'Nadia\n19\n120.5\n' | java Ventanilla.java
 ```
 Así funcionan las **entradas de ejemplo** de las misiones: lo que escribirías, línea
 por línea. En la salida esperada no aparece lo que se tipea, solo lo que el programa
@@ -2163,7 +2163,7 @@ public class Ventanilla {
 ### Entrada de ejemplo
 
 ```
-Kira Valdez
+Nadia Valdez
 19
 120.5
 ```
@@ -2172,7 +2172,7 @@ Kira Valdez
 
 ```
 Nombre completo: Edad: Oro que trae: 
-Registro de Kira Valdez (19 años)
+Registro de Nadia Valdez (19 años)
 Tasa: 12.05 (redondeada: 12)
 Años hasta los 100: 81
 Raíz del oro: 10.977
@@ -2489,7 +2489,7 @@ Mostrá el costo con 2 decimales.
 #### Entrada de ejemplo
 
 ```
-Bron Tallo
+Baldo Tallo
 Ciudadela
 9
 ```
@@ -2498,7 +2498,7 @@ Ciudadela
 
 ```
 Nombre completo: Ciudad de origen: Días de estadía: 
-Viajero: BRON TALLO
+Viajero: BALDO TALLO
 Viene de: Ciudadela
 Costo de 9 días: 121.50 denarios
 ```
@@ -2536,13 +2536,13 @@ public class FichaViajero {
 
 ##### Justo 7 días (sin descuento)
 ```entrada
-kira valdez
+nadia valdez
 Frontera
 7
 ```
 ```salida
 Nombre completo: Ciudad de origen: Días de estadía:
-Viajero: KIRA VALDEZ
+Viajero: NADIA VALDEZ
 Viene de: Frontera
 Costo de 7 días: 105.00 denarios
 ```
@@ -3559,10 +3559,10 @@ xp: 10
 
 #### Consigna
 
-Pedí la jugada de Kira (`piedra`, `papel` o `tijera`) y la semilla del guardia. El
+Pedí la jugada de Nadia (`piedra`, `papel` o `tijera`) y la semilla del guardia. El
 guardia elige con `new Random(semilla).nextInt(3)`: 0 piedra, 1 papel, 2 tijera.
-Mostrá las dos jugadas y el resultado: empate, gana Kira o gana el guardia. Si la
-jugada de Kira no es válida, avisá.
+Mostrá las dos jugadas y el resultado: empate, gana Nadia o gana el guardia. Si la
+jugada de Nadia no es válida, avisá.
 
 #### Criterio de aprobación
 
@@ -3581,7 +3581,7 @@ papel
 
 ```
 Tu jugada: Semilla del guardia: 
-Kira: papel | Guardia: tijera
+Nadia: papel | Guardia: tijera
 Gana el guardia
 ```
 
@@ -3596,12 +3596,12 @@ public class PiedraPapelTijera {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         System.out.print("Tu jugada: ");
-        String kira = teclado.nextLine().trim().toLowerCase();
+        String nadia = teclado.nextLine().trim().toLowerCase();
         System.out.print("Semilla del guardia: ");
         long semilla = Long.parseLong(teclado.nextLine().trim());
         System.out.println();
 
-        if (!kira.equals("piedra") && !kira.equals("papel") && !kira.equals("tijera")) {
+        if (!nadia.equals("piedra") && !nadia.equals("papel") && !nadia.equals("tijera")) {
             System.out.println("Jugada inválida");
             return;
         }
@@ -3610,14 +3610,14 @@ public class PiedraPapelTijera {
             case 1 -> "papel";
             default -> "tijera";
         };
-        System.out.println("Kira: " + kira + " | Guardia: " + guardia);
+        System.out.println("Nadia: " + nadia + " | Guardia: " + guardia);
 
-        if (kira.equals(guardia)) {
+        if (nadia.equals(guardia)) {
             System.out.println("Empate");
-        } else if ((kira.equals("piedra") && guardia.equals("tijera"))
-                || (kira.equals("papel") && guardia.equals("piedra"))
-                || (kira.equals("tijera") && guardia.equals("papel"))) {
-            System.out.println("Gana Kira");
+        } else if ((nadia.equals("piedra") && guardia.equals("tijera"))
+                || (nadia.equals("papel") && guardia.equals("piedra"))
+                || (nadia.equals("tijera") && guardia.equals("papel"))) {
+            System.out.println("Gana Nadia");
         } else {
             System.out.println("Gana el guardia");
         }
@@ -3634,7 +3634,7 @@ piedra
 ```
 ```salida
 Tu jugada: Semilla del guardia:
-Kira: piedra | Guardia: piedra
+Nadia: piedra | Guardia: piedra
 Empate
 ```
 
@@ -3645,7 +3645,7 @@ tijera
 ```
 ```salida
 Tu jugada: Semilla del guardia:
-Kira: tijera | Guardia: tijera
+Nadia: tijera | Guardia: tijera
 Empate
 ```
 
@@ -5051,9 +5051,9 @@ Una matriz es un array de arrays: filas y columnas.
 ```java
 char[][] mapa = {
     {'.', '.', '#'},
-    {'.', 'K', '.'},
+    {'.', 'N', '.'},
 };
-mapa[1][1];               // 'K': fila 1, columna 1
+mapa[1][1];               // 'N': fila 1, columna 1
 mapa.length;              // 2 filas
 mapa[0].length;           // 3 columnas
 int[][] tablero = new int[8][8];   // 8x8 en cero
@@ -5110,7 +5110,7 @@ public class Deposito {
         char[][] mapa = {
             {'.', '.', '#', '.', '.'},
             {'.', '#', '.', '.', 'T'},
-            {'K', '.', '.', '#', '.'},
+            {'N', '.', '.', '#', '.'},
         };
         int muros = 0;
         for (int fila = 0; fila < mapa.length; fila++) {
@@ -5122,7 +5122,7 @@ public class Deposito {
             }
             System.out.println();
         }
-        System.out.println("Muros: " + muros + ", Kira en fila 2 columna 0: " + mapa[2][0]);
+        System.out.println("Muros: " + muros + ", Nadia en fila 2 columna 0: " + mapa[2][0]);
     }
 }
 ```
@@ -5142,8 +5142,8 @@ Ordenado: [5, 8, 35, 40, 120]
 Después de tocar el alias: [0, 5, 120, 8, 35]
 . . # . . 
 . # . . T 
-K . . # . 
-Muros: 3, Kira en fila 2 columna 0: K
+N . . # . 
+Muros: 3, Nadia en fila 2 columna 0: N
 ```
 
 ### ¿Para qué sirve?
@@ -5950,7 +5950,7 @@ Sin caso base, las llamadas no terminan y el programa se corta con
 
 #### Los argumentos del `main`
 `String[] args` recibe lo que escribís después del nombre del programa:
-`java Saludo.java Kira 3` da `args[0] = "Kira"` y `args[1] = "3"`.
+`java Saludo.java Nadia 3` da `args[0] = "Nadia"` y `args[1] = "3"`.
 
 > **Si venís de C.** No hacen falta prototipos: un método se puede usar antes de
 > declararlo en el archivo. No hay punteros para "devolver" varios valores: se
@@ -6978,10 +6978,10 @@ public class LibroCentinela {
 ### Entrada de ejemplo
 
 ```
-Kira
+Nadia
 30
 n
-Bron
+Baldo
 300
 s
 
@@ -6997,11 +6997,11 @@ fin
 ```
 Nombre (o fin): Carga en kg: ¿Trae armas? (s/n): Nombre (o fin): Carga en kg: ¿Trae armas? (s/n): Nombre (o fin):   El nombre no puede estar vacío.
 Nombre (o fin): Carga en kg:   Tiene que ser un número entre 0 y 1000.
-Carga en kg: ¿Trae armas? (s/n): Nombre (o fin): 
+Carga en kg: ¿Trae armas? (s/n): Nombre (o fin):
 === Libro del Centinela ===
-Bron           300 kg    67.50
+Baldo          300 kg    67.50
 Olmo           120 kg    12.00
-Kira            30 kg     5.00
+Nadia           30 kg     5.00
 3 viajeros, total recaudado: 84.50 denarios
 ```
 
@@ -7358,16 +7358,16 @@ xp: 30
 
 #### Consigna
 
-Escribí el duelo por turnos contra el Centinela. Kira empieza con 40 de vida y 3
+Escribí el duelo por turnos contra el Centinela. Nadia empieza con 40 de vida y 3
 pociones; el Centinela, con 60 de vida. Primero se pide la semilla del azar. En cada
 turno se muestra el estado y se pide una acción, validada con un método:
 
-1. **Atacar**: Kira hace entre 8 y 14 de daño (`random.nextInt(7) + 8`).
+1. **Atacar**: Nadia hace entre 8 y 14 de daño (`random.nextInt(7) + 8`).
 2. **Curarse**: si le quedan pociones, recupera 15 de vida (sin pasar de 40); si no,
    pierde el turno.
 3. **Defender**: ese turno el Centinela le hace la mitad del daño.
 
-Después de la acción de Kira, si el Centinela sigue en pie, ataca con entre 5 y 12
+Después de la acción de Nadia, si el Centinela sigue en pie, ataca con entre 5 y 12
 de daño (`random.nextInt(8) + 5`). El duelo termina cuando alguno queda en 0 o menos.
 Mostrá quién ganó y en cuántos turnos.
 
@@ -7375,7 +7375,7 @@ Mostrá quién ganó y en cuántos turnos.
 
 - Usa un `Random` con la semilla leída, creado una sola vez.
 - La acción se lee con un método que valida (1 a 3).
-- Separa en métodos al menos: leer la acción, el turno de Kira y el ataque del Centinela.
+- Separa en métodos al menos: leer la acción, el turno de Nadia y el ataque del Centinela.
 - La salida coincide con la esperada.
 
 #### Entrada de ejemplo
@@ -7397,38 +7397,38 @@ Mostrá quién ganó y en cuántos turnos.
 
 ```
 Semilla: 
-Turno 1 | Kira 40 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 8 de daño
+Turno 1 | Nadia 40 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 8 de daño
 El Centinela golpea: 6 de daño
 
-Turno 2 | Kira 34 (pociones: 3) | Centinela 52
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 14 de daño
+Turno 2 | Nadia 34 (pociones: 3) | Centinela 52
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 14 de daño
 El Centinela golpea: 6 de daño
 
-Turno 3 | Kira 28 (pociones: 3) | Centinela 38
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 3 | Nadia 28 (pociones: 3) | Centinela 38
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 5 de daño
 
-Turno 4 | Kira 23 (pociones: 3) | Centinela 38
-1 Atacar, 2 Curarse, 3 Defender: Kira se cura 15
+Turno 4 | Nadia 23 (pociones: 3) | Centinela 38
+1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 15
 El Centinela golpea: 6 de daño
 
-Turno 5 | Kira 32 (pociones: 2) | Centinela 38
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 11 de daño
+Turno 5 | Nadia 32 (pociones: 2) | Centinela 38
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 11 de daño
 El Centinela golpea: 9 de daño
 
-Turno 6 | Kira 23 (pociones: 2) | Centinela 27
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 14 de daño
+Turno 6 | Nadia 23 (pociones: 2) | Centinela 27
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 14 de daño
 El Centinela golpea: 5 de daño
 
-Turno 7 | Kira 18 (pociones: 2) | Centinela 13
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 11 de daño
+Turno 7 | Nadia 18 (pociones: 2) | Centinela 13
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 11 de daño
 El Centinela golpea: 11 de daño
 
-Turno 8 | Kira 7 (pociones: 2) | Centinela 2
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 14 de daño
+Turno 8 | Nadia 7 (pociones: 2) | Centinela 2
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 14 de daño
 
-¡El Centinela cae en el turno 8! Kira queda con 7 de vida.
+¡El Centinela cae en el turno 8! Nadia queda con 7 de vida.
 ```
 
 #### Solución de referencia
@@ -7446,45 +7446,45 @@ public class DueloCentinela {
         System.out.print("Semilla: ");
         Random random = new Random(Long.parseLong(teclado.nextLine().trim()));
 
-        int vidaKira = VIDA_MAX;
+        int vidaNadia = VIDA_MAX;
         int pociones = 3;
         int vidaCentinela = 60;
         int turno = 0;
 
-        while (vidaKira > 0 && vidaCentinela > 0) {
+        while (vidaNadia > 0 && vidaCentinela > 0) {
             turno++;
             System.out.println();
-            System.out.println("Turno " + turno + " | Kira " + vidaKira + " (pociones: " + pociones + ") | Centinela " + vidaCentinela);
+            System.out.println("Turno " + turno + " | Nadia " + vidaNadia + " (pociones: " + pociones + ") | Centinela " + vidaCentinela);
             int accion = leerAccion(teclado);
             boolean defiende = accion == 3;
 
             if (accion == 1) {
                 int danio = random.nextInt(7) + 8;
                 vidaCentinela -= danio;
-                System.out.println("Kira ataca: " + danio + " de daño");
+                System.out.println("Nadia ataca: " + danio + " de daño");
             } else if (accion == 2) {
                 if (pociones > 0) {
                     pociones--;
-                    int antes = vidaKira;
-                    vidaKira = Math.min(VIDA_MAX, vidaKira + 15);
-                    System.out.println("Kira se cura " + (vidaKira - antes));
+                    int antes = vidaNadia;
+                    vidaNadia = Math.min(VIDA_MAX, vidaNadia + 15);
+                    System.out.println("Nadia se cura " + (vidaNadia - antes));
                 } else {
-                    System.out.println("No quedan pociones: Kira pierde el turno");
+                    System.out.println("No quedan pociones: Nadia pierde el turno");
                 }
             } else {
-                System.out.println("Kira se defiende");
+                System.out.println("Nadia se defiende");
             }
 
             if (vidaCentinela > 0) {
-                vidaKira -= ataqueCentinela(random, defiende);
+                vidaNadia -= ataqueCentinela(random, defiende);
             }
         }
 
         System.out.println();
         if (vidaCentinela <= 0) {
-            System.out.println("¡El Centinela cae en el turno " + turno + "! Kira queda con " + vidaKira + " de vida.");
+            System.out.println("¡El Centinela cae en el turno " + turno + "! Nadia queda con " + vidaNadia + " de vida.");
         } else {
-            System.out.println("Kira cae en el turno " + turno + ". El Centinela queda con " + vidaCentinela + ".");
+            System.out.println("Nadia cae en el turno " + turno + ". El Centinela queda con " + vidaCentinela + ".");
         }
     }
 
@@ -7532,35 +7532,35 @@ public class DueloCentinela {
 ```
 ```salida
 Semilla:
-Turno 1 | Kira 40 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se cura 0
+Turno 1 | Nadia 40 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 0
 El Centinela golpea: 10 de daño
 
-Turno 2 | Kira 30 (pociones: 2) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se cura 10
+Turno 2 | Nadia 30 (pociones: 2) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 10
 El Centinela golpea: 6 de daño
 
-Turno 3 | Kira 34 (pociones: 1) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se cura 6
+Turno 3 | Nadia 34 (pociones: 1) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 6
 El Centinela golpea: 5 de daño
 
-Turno 4 | Kira 35 (pociones: 0) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: No quedan pociones: Kira pierde el turno
+Turno 4 | Nadia 35 (pociones: 0) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: No quedan pociones: Nadia pierde el turno
 El Centinela golpea: 9 de daño
 
-Turno 5 | Kira 26 (pociones: 0) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 12 de daño
+Turno 5 | Nadia 26 (pociones: 0) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 12 de daño
 El Centinela golpea: 12 de daño
 
-Turno 6 | Kira 14 (pociones: 0) | Centinela 48
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 9 de daño
+Turno 6 | Nadia 14 (pociones: 0) | Centinela 48
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 9 de daño
 El Centinela golpea: 11 de daño
 
-Turno 7 | Kira 3 (pociones: 0) | Centinela 39
-1 Atacar, 2 Curarse, 3 Defender: Kira ataca: 13 de daño
+Turno 7 | Nadia 3 (pociones: 0) | Centinela 39
+1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 13 de daño
 El Centinela golpea: 8 de daño
 
-Kira cae en el turno 7. El Centinela queda con 26.
+Nadia cae en el turno 7. El Centinela queda con 26.
 ```
 
 ##### Defiende siempre
@@ -7584,43 +7584,43 @@ Kira cae en el turno 7. El Centinela queda con 26.
 ```
 ```salida
 Semilla:
-Turno 1 | Kira 40 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 1 | Nadia 40 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 5 de daño
 
-Turno 2 | Kira 35 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 2 | Nadia 35 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 4 de daño
 
-Turno 3 | Kira 31 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 3 | Nadia 31 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 3 de daño
 
-Turno 4 | Kira 28 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 4 | Nadia 28 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 5 de daño
 
-Turno 5 | Kira 23 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 5 | Nadia 23 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 5 de daño
 
-Turno 6 | Kira 18 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 6 | Nadia 18 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 4 de daño
 
-Turno 7 | Kira 14 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 7 | Nadia 14 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 5 de daño
 
-Turno 8 | Kira 9 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 8 | Nadia 9 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 4 de daño
 
-Turno 9 | Kira 5 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Kira se defiende
+Turno 9 | Nadia 5 (pociones: 3) | Centinela 60
+1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
 El Centinela golpea: 5 de daño
 
-Kira cae en el turno 9. El Centinela queda con 60.
+Nadia cae en el turno 9. El Centinela queda con 60.
 ```
 
 ### Misión R01-N09-M2 · Los registros del Centinela
@@ -7654,8 +7654,8 @@ por qué). Con los registros válidos, guardados en arrays paralelos, mostrá:
 #### Entrada de ejemplo
 
 ```
-Kira;19;120
-Bron;45;-3
+Nadia;19;120
+Baldo;45;-3
 Olmo;veinte;10
 Lía;16;35
 Tesla;33;980
@@ -7666,12 +7666,12 @@ Pip;12
 #### Salida esperada
 
 ```
-Descartado [Bron;45;-3]: el oro no puede ser negativo
+Descartado [Baldo;45;-3]: el oro no puede ser negativo
 Descartado [Olmo;veinte;10]: la edad no es un número
 Descartado [Pip;12]: tiene que tener nombre;edad;oro
 
 Nombre    Edad    Oro
-Kira        19    120
+Nadia       19    120
 Lía         16     35
 Tesla       33    980
 Promedio de edad: 22.7
@@ -8094,4 +8094,4 @@ Guardando la entrada en un archivo y redirigiéndola: `java Programa.java < entr
 
 ### Soluciones (docente)
 
-Jefe nuevo, integrador de la rama (el capítulo 18 no tenía uno para el bloque 1). Las entradas del duelo están armadas con la semilla 2026 para que se vean las tres acciones y la victoria de Kira; si se cambia la entrada, regenerar la salida esperada.
+Jefe nuevo, integrador de la rama (el capítulo 18 no tenía uno para el bloque 1). Las entradas del duelo están armadas con la semilla 2026 para que se vean las tres acciones y la victoria de Nadia; si se cambia la entrada, regenerar la salida esperada.

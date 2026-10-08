@@ -1378,8 +1378,8 @@ Para una lista que cambia, se usa un modelo:
 ```java
 DefaultListModel<String> modelo = new DefaultListModel<>();
 JList<String> lista = new JList<>(modelo);
-modelo.addElement("Kira");          // la lista se actualiza sola
-modelo.removeElement("Kira");
+modelo.addElement("Nadia");          // la lista se actualiza sola
+modelo.removeElement("Nadia");
 ```
 
 #### Botones de opción: `ButtonGroup`
@@ -2187,7 +2187,7 @@ Un árbol se arma con nodos `DefaultMutableTreeNode`, cada uno con un objeto ade
 ```java
 DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Imperio");
 DefaultMutableTreeNode clan = new DefaultMutableTreeNode("Clan del Valle");
-clan.add(new DefaultMutableTreeNode("Kira"));
+clan.add(new DefaultMutableTreeNode("Nadia"));
 raiz.add(clan);
 JTree arbol = new JTree(raiz);
 arbol.addTreeSelectionListener(e -> {
@@ -2319,8 +2319,8 @@ class PanelBiblioteca extends JPanel {
     PanelBiblioteca() {
         super(new BorderLayout(6, 6));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        modelo.agregar(new Heroe("Kira", "Valle", "arquera", 30));
-        modelo.agregar(new Heroe("Bron", "Forjas", "guerrero", 45));
+        modelo.agregar(new Heroe("Nadia", "Valle", "arquera", 30));
+        modelo.agregar(new Heroe("Baldo", "Forjas", "guerrero", 45));
         modelo.agregar(new Heroe("Lía", "Valle", "maga", 20));
         modelo.agregar(new Heroe("Nara", "Ciudadela", "paladina", 40));
         tabla.setAutoCreateRowSorter(true);
@@ -2688,12 +2688,12 @@ class PanelClan extends JPanel {
     PanelClan() {
         super(new BorderLayout(8, 8));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        DefaultMutableTreeNode kira = new DefaultMutableTreeNode("Kira");
+        DefaultMutableTreeNode nadia = new DefaultMutableTreeNode("Nadia");
         DefaultMutableTreeNode lia = new DefaultMutableTreeNode("Lía");
-        kira.add(new DefaultMutableTreeNode("Pip"));
+        nadia.add(new DefaultMutableTreeNode("Pip"));
         lia.add(new DefaultMutableTreeNode("Ada"));
         lia.add(new DefaultMutableTreeNode("Tomás"));
-        raiz.add(kira);
+        raiz.add(nadia);
         raiz.add(lia);
         for (int i = 0; i < arbol.getRowCount(); i++) {
             arbol.expandRow(i);
@@ -3224,7 +3224,7 @@ class PanelTrono extends JPanel {
         if (heroes == null || heroes.isClosed()) {
             heroes = new JInternalFrame("Registro de héroes", true, true, true, true);
             String[] columnas = {"Nombre", "Clase", "Vida"};
-            Object[][] datos = {{"Kira", "arquera", 30}, {"Bron", "guerrero", 45}, {"Lía", "maga", 20}};
+            Object[][] datos = {{"Nadia", "arquera", 30}, {"Baldo", "guerrero", 45}, {"Lía", "maga", 20}};
             heroes.setContentPane(new JScrollPane(new JTable(datos, columnas)));
             heroes.setSize(340, 160);
             heroes.setLocation(20, 20);
@@ -3368,7 +3368,7 @@ class PanelPosada extends JPanel {
         modulos.add(item("Habitaciones", KeyEvent.VK_1, () -> new JScrollPane(new JTable(
                 new Object[][]{{"101", "simple", "libre"}, {"102", "doble", "ocupada"}}, new String[]{"N°", "Tipo", "Estado"}))));
         modulos.add(item("Huéspedes", KeyEvent.VK_2, () -> new JScrollPane(new JTable(
-                new Object[][]{{"Kira", "102"}, {"Bron", "205"}}, new String[]{"Nombre", "Habitación"}))));
+                new Object[][]{{"Nadia", "102"}, {"Baldo", "205"}}, new String[]{"Nombre", "Habitación"}))));
         modulos.add(item("Caja", KeyEvent.VK_3, () -> new JLabel("Caja del día: 48 500 denarios", JLabel.CENTER)));
 
         JMenu ayuda = new JMenu("Ayuda");
@@ -3962,7 +3962,7 @@ un segundo con `pg_sleep`, para que se note que la ventana no se congela.
 ```sql
 DROP TABLE IF EXISTS viajero;
 CREATE TABLE viajero (id SERIAL PRIMARY KEY, nombre VARCHAR(30) NOT NULL, ciudad VARCHAR(20));
-INSERT INTO viajero (nombre, ciudad) VALUES ('Kira Valdez', 'Valle'), ('Bron Tallo', 'Forjas'), ('Lía Ferrari', 'Valle'), ('Nara Kel', 'Ciudadela');
+INSERT INTO viajero (nombre, ciudad) VALUES ('Nadia Valdez', 'Valle'), ('Baldo Tallo', 'Forjas'), ('Lía Ferrari', 'Valle'), ('Nara Kel', 'Ciudadela');
 ```
 
 ```java
@@ -6271,7 +6271,7 @@ CREATE TABLE registro (acta_id INTEGER REFERENCES acta(id) ON DELETE CASCADE, ma
                        nota INTEGER CHECK (nota BETWEEN 1 AND 10), PRIMARY KEY (acta_id, matricula));
 INSERT INTO aula VALUES (101, 40), (5, 3);
 INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecto'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
-INSERT INTO alumno VALUES ('A-001', 'Valdez, Kira'), ('A-002', 'Tallo, Bron'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
+INSERT INTO alumno VALUES ('A-001', 'Valdez, Nadia'), ('A-002', 'Tallo, Baldo'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
 ```
 
 ```java
@@ -6302,8 +6302,8 @@ public class Actas {
                 "Paradigmas y Lenguajes III", new Aula(101, 40));
         acta.agregarProfesor(new Profesor(1, "Kaffa, Arquitecto"));
         acta.agregarProfesor(new Profesor(2, "Ferrum, Maese"));
-        acta.agregarRegistro(new Registro(new Alumno("A-001", "Valdez, Kira"), 9));
-        acta.agregarRegistro(new Registro(new Alumno("A-002", "Tallo, Bron"), 4));
+        acta.agregarRegistro(new Registro(new Alumno("A-001", "Valdez, Nadia"), 9));
+        acta.agregarRegistro(new Registro(new Alumno("A-002", "Tallo, Baldo"), 4));
         acta.agregarRegistro(new Registro(new Alumno("A-003", "Ferrari, Lía"), null));   // ausente
         acta.agregarRegistro(new Registro(new Alumno("A-004", "Nuez, Pip"), 2));
         intentar(controlador, acta);
@@ -6320,8 +6320,8 @@ public class Actas {
         // Una regla de la base: la nota 11 viola el CHECK y la transacción deshace todo el acta
         ActaDeExamen mala = new ActaDeExamen(LocalDate.of(2026, 12, 12), "kaffa", "Licenciatura en Sistemas", "Bases de Datos", new Aula(101, 40));
         mala.agregarProfesor(new Profesor(1, "Kaffa, Arquitecto"));
-        mala.agregarRegistro(new Registro(new Alumno("A-001", "Valdez, Kira"), 8));
-        mala.agregarRegistro(new Registro(new Alumno("A-002", "Tallo, Bron"), 11));
+        mala.agregarRegistro(new Registro(new Alumno("A-001", "Valdez, Nadia"), 8));
+        mala.agregarRegistro(new Registro(new Alumno("A-002", "Tallo, Baldo"), 11));
         intentar(controlador, mala);
         System.out.println("Actas guardadas en la base: " + controlador.cantidadDeActas());
     }
@@ -6611,7 +6611,7 @@ CREATE TABLE registro (acta_id INTEGER REFERENCES acta(id) ON DELETE CASCADE, ma
                        nota INTEGER CHECK (nota BETWEEN 1 AND 10), PRIMARY KEY (acta_id, matricula));
 INSERT INTO aula VALUES (101, 40), (5, 3);
 INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecto'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
-INSERT INTO alumno VALUES ('A-001', 'Valdez, Kira'), ('A-002', 'Tallo, Bron'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
+INSERT INTO alumno VALUES ('A-001', 'Valdez, Nadia'), ('A-002', 'Tallo, Baldo'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
 ```
 
 `src/modelo/Formulario.java`
@@ -7409,8 +7409,8 @@ Todo el SQL va en una clase `InformeDAO`; el `main` solo muestra.
    Álgebra         2026-12-18  inscriptos 2, presentes 2, aprobados 1 (50.0%)
 2. Por alumno
    Ferrari, Lía    rindió 3, aprobó 2, promedio 8.50
-   Valdez, Kira    rindió 2, aprobó 2, promedio 8.50
-   Tallo, Bron     rindió 2, aprobó 1, promedio 3.50
+   Valdez, Nadia    rindió 2, aprobó 2, promedio 8.50
+   Tallo, Baldo     rindió 2, aprobó 1, promedio 3.50
    Nuez, Pip       rindió 2, aprobó 0, promedio 2.00
 3. Ausentes alguna vez: Ferrari, Lía / Nuez, Pip
 4. Más tribunales: Ferrum, Maese (2)
@@ -7437,7 +7437,7 @@ CREATE TABLE registro (acta_id INTEGER REFERENCES acta(id), matricula VARCHAR(10
                        nota INTEGER CHECK (nota BETWEEN 1 AND 10), PRIMARY KEY (acta_id, matricula));
 INSERT INTO aula VALUES (101, 40);
 INSERT INTO profesor (apellido_nombre) VALUES ('Kaffa, Arquitecto'), ('Ferrum, Maese'), ('Ofidia, Serpiente');
-INSERT INTO alumno VALUES ('A-001', 'Valdez, Kira'), ('A-002', 'Tallo, Bron'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
+INSERT INTO alumno VALUES ('A-001', 'Valdez, Nadia'), ('A-002', 'Tallo, Baldo'), ('A-003', 'Ferrari, Lía'), ('A-004', 'Nuez, Pip');
 INSERT INTO acta (fecha, usuario, carrera, materia, aula_numero) VALUES
     ('2026-12-10', 'kaffa', 'Sistemas', 'Paradigmas III', 101), ('2026-12-14', 'kaffa', 'Sistemas', 'Bases de Datos', 101),
     ('2026-12-18', 'ferrum', 'Sistemas', 'Álgebra', 101);

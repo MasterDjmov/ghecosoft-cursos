@@ -89,6 +89,11 @@ class GameItems extends Command
             ['code' => 'sello-imperial', 'name' => 'Sello Imperial', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'El que lo lleva pasa cualquier Aduana.'],
             // Pociones y de la historia
             ['code' => 'cafe-fuerte', 'name' => 'Café Fuerte', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Una taza bien cargada. En las expediciones se toma sola si la vida baja mucho.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'taza-encantada', 'name' => 'Taza Encantada', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'dexterity' => 2, 'luck' => 1, 'description' => 'La Taza de Café con cinco colmillos de orco de asa: el café nunca se enfría.'],
+            ['code' => 'sello-dentado', 'name' => 'Sello Dentado', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 3, 'description' => 'El Bastón del Aduanero con dientes y huesos en la punta: sella y muerde.'],
+            ['code' => 'chaqueta-forrada', 'name' => 'Chaqueta Forrada', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'La Chaqueta de la Aduana forrada con musgo de troll: nada la atraviesa fácil.'],
+            ['code' => 'estoque-de-la-garra', 'name' => 'Estoque de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'dexterity' => 4, 'description' => 'El Estoque del Casting con garras de ogro y escamas de dragón: convierte y corta.'],
             ['code' => 'llave-maestra', 'name' => 'Llave Maestra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 11, 'intelligence' => 4, 'luck' => 2, 'description' => 'La ganzúa de Zed, transformada al vencer al Dragón del Imperio: abre las puertas que se abren con contratos.'],
             ['code' => 'remo-de-las-corrientes', 'name' => 'Remo de las Corrientes', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'dexterity' => 3, 'strength' => 1, 'description' => 'Lo soltó el Leviatán de los Datos: con él, las corrientes del río te obedecen.'],
             ['code' => 'vitral-del-viajero', 'name' => 'Vitral del Viajero', 'kind' => 'story', 'description' => 'Lo hizo el Vidriero y viajaba en la barcaza Ceibo. La etiqueta dice: «para la ventana más alta de la Torre del Arquitecto».'],
@@ -166,6 +171,10 @@ class GameItems extends Command
         'monoculo-del-compilador' => 'Un monóculo dorado con el lente rojo, que proyecta una línea de código marcada en rojo.',
         'sello-imperial' => 'Un sello de lacre dorado con el escudo del Imperio, colgado de una cadena fina.',
         'cafe-fuerte' => 'Un vaso de vidrio grueso con café negro humeante y una franja dorada, con una etiqueta con una cruz.',
+        'taza-encantada' => 'Una taza de café humeante de porcelana azul con un asa hecha de cinco colmillos de orco curvados y un vapor que brilla.',
+        'sello-dentado' => 'Un bastón de aduanero de madera oscura con un sello de bronce en la punta rodeado de dientes de goblin y pequeños huesos.',
+        'chaqueta-forrada' => 'Una chaqueta azul de cuello alto con botones de bronce, forrada por dentro con musgo verde de troll que asoma por los bordes.',
+        'estoque-de-la-garra' => 'Un estoque fino y largo con la guarnición hecha de garras de ogro y la hoja cubierta de escamas de dragón que brillan.',
         'llave-maestra' => 'Una llave maestra dorada y larga, con dientes que parecen engranajes y un mango que todavía conserva la forma de una ganzúa vieja, con un brillo cálido.',
         'remo-de-las-corrientes' => 'Un remo largo de madera clara con vetas de luz celeste que se mueven como corrientes de agua, con la pala grabada con olas.',
         'vitral-del-viajero' => 'Un vitral redondo de colores en un marco de plomo, envuelto a medias en una lona gastada, con una etiqueta de papel atada con un hilo.',

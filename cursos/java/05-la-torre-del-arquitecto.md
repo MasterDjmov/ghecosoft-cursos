@@ -1829,8 +1829,8 @@ public class PuertoApplication {
     @Bean
     CommandLineRunner alArrancar(ServicioHeroes servicio) {
         return args -> {
-            servicio.registrar("Kira", 7);
-            servicio.registrar("Bron", 9);
+            servicio.registrar("Nadia", 7);
+            servicio.registrar("Baldo", 9);
             System.out.println("Héroes: " + servicio.todos());
         };
     }
@@ -2004,9 +2004,9 @@ class PuertoApplicationTest {
 Al correr `./mvnw spring-boot:run` se ve:
 
 ```
-[Bienvenida al Puerto de Spring] llegó Kira (nivel 7)
-[Bienvenida al Puerto de Spring] llegó Bron (nivel 9)
-Héroes: [Heroe[nombre=Kira, nivel=7], Heroe[nombre=Bron, nivel=9]]
+[Bienvenida al Puerto de Spring] llegó Nadia (nivel 7)
+[Bienvenida al Puerto de Spring] llegó Baldo (nivel 9)
+Héroes: [Heroe[nombre=Nadia, nivel=7], Heroe[nombre=Baldo, nivel=9]]
 ```
 
 Y `./mvnw test` corre las tres pruebas.
@@ -2899,9 +2899,9 @@ class NotificadoresTest {
 
     @Test
     void cadaAvisoVaAlNotificadorQueCorresponde() {
-        heroes.registrar("Kira", 7);
+        heroes.registrar("Nadia", 7);
         alertas.alertar("marea alta");
-        assertEquals(List.of("llegó Kira"), archivo.registrados());
+        assertEquals(List.of("llegó Nadia"), archivo.registrados());
         assertEquals(List.of("[Puerto] ALERTA: marea alta"), consola.mostrados());
     }
 }
@@ -3499,7 +3499,7 @@ de la respuesta con `jsonPath`:
 ```java
 mvc.perform(get("/heroes/1"))
    .andExpect(status().isOk())
-   .andExpect(jsonPath("$.nombre").value("Kira"));
+   .andExpect(jsonPath("$.nombre").value("Nadia"));
 
 mvc.perform(post("/heroes").contentType(MediaType.APPLICATION_JSON)
         .content("""
@@ -3627,8 +3627,8 @@ public class ServicioHeroes {
     private final AtomicLong proximoId = new AtomicLong(1);
 
     public ServicioHeroes() {
-        crear(new Heroe(null, "Kira", "arquera", 7));
-        crear(new Heroe(null, "Bron", "guerrero", 9));
+        crear(new Heroe(null, "Nadia", "arquera", 7));
+        crear(new Heroe(null, "Baldo", "guerrero", 9));
     }
 
     public List<Heroe> listar(String clase) {
@@ -3752,10 +3752,10 @@ class HeroeControllerTest {
         mvc.perform(get("/heroes"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].nombre").value("Kira"));
+                .andExpect(jsonPath("$[0].nombre").value("Nadia"));
         mvc.perform(get("/heroes").param("clase", "guerrero"))
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].nombre").value("Bron"));
+                .andExpect(jsonPath("$[0].nombre").value("Baldo"));
     }
 
     @Test
@@ -3778,7 +3778,7 @@ class HeroeControllerTest {
     @Test
     void reemplazaYBorra() throws Exception {
         mvc.perform(put("/heroes/1").contentType(MediaType.APPLICATION_JSON).content("""
-                        {"nombre": "Kira", "clase": "arquera", "nivel": 8}
+                        {"nombre": "Nadia", "clase": "arquera", "nivel": 8}
                         """))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nivel").value(8));
@@ -3792,7 +3792,7 @@ Con la aplicación corriendo:
 
 ```
 $ curl localhost:8080/heroes
-[{"id":1,"nombre":"Kira","clase":"arquera","nivel":7},{"id":2,"nombre":"Bron","clase":"guerrero","nivel":9}]
+[{"id":1,"nombre":"Nadia","clase":"arquera","nivel":7},{"id":2,"nombre":"Baldo","clase":"guerrero","nivel":9}]
 $ curl -i localhost:8080/heroes/99
 HTTP/1.1 404
 ```
@@ -6459,24 +6459,24 @@ class UsuarioControllerTest {
         return mvc.perform(post("/usuarios").contentType(MediaType.APPLICATION_JSON).content(json));
     }
 
-    private static final String KIRA = """
-            {"usuario": "kira_07", "email": "kira@correo.com", "clave": "flechas123", "fechaNacimiento": "2004-05-17"}
+    private static final String NADIA = """
+            {"usuario": "nadia_07", "email": "nadia@correo.com", "clave": "flechas123", "fechaNacimiento": "2004-05-17"}
             """;
 
     @Test
     void registraSinDevolverLaClaveYLaGuardaCifrada() throws Exception {
-        registrar(KIRA).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.usuario").value("kira_07"))
+        registrar(NADIA).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.usuario").value("nadia_07"))
                 .andExpect(jsonPath("$.clave").doesNotExist())
                 .andExpect(jsonPath("$.claveCifrada").doesNotExist());
-        assertEquals(64, servicio.buscar("kira_07").getClaveCifrada().length());
-        mvc.perform(get("/usuarios/kira_07")).andExpect(jsonPath("$.fechaNacimiento").value("2004-05-17"));
+        assertEquals(64, servicio.buscar("nadia_07").getClaveCifrada().length());
+        mvc.perform(get("/usuarios/nadia_07")).andExpect(jsonPath("$.fechaNacimiento").value("2004-05-17"));
     }
 
     @Test
     void validaCadaCampo() throws Exception {
         registrar("""
-                {"usuario": "k!", "email": "kira", "clave": "corta", "fechaNacimiento": "2999-01-01"}
+                {"usuario": "k!", "email": "nadia", "clave": "corta", "fechaNacimiento": "2999-01-01"}
                 """)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.campos.usuario").value("el usuario lleva de 3 a 20 letras, números o _"))
@@ -6487,10 +6487,10 @@ class UsuarioControllerTest {
 
     @Test
     void usuarioOEmailRepetidosDan409() throws Exception {
-        registrar(KIRA).andExpect(status().isCreated());
-        registrar(KIRA).andExpect(status().isConflict()).andExpect(jsonPath("$.detail").value("el usuario kira_07 ya existe"));
+        registrar(NADIA).andExpect(status().isCreated());
+        registrar(NADIA).andExpect(status().isConflict()).andExpect(jsonPath("$.detail").value("el usuario nadia_07 ya existe"));
         registrar("""
-                {"usuario": "otra", "email": "KIRA@correo.com", "clave": "flechas123", "fechaNacimiento": "2004-05-17"}
+                {"usuario": "otra", "email": "NADIA@correo.com", "clave": "flechas123", "fechaNacimiento": "2004-05-17"}
                 """).andExpect(status().isConflict()).andExpect(jsonPath("$.detail").value("el email ya está registrado"));
         mvc.perform(get("/usuarios/nadie")).andExpect(status().isNotFound());
     }

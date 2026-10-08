@@ -112,7 +112,7 @@ public class Corrientes {
 
     public static void main(String[] args) {
         List<Heroe> heroes = List.of(
-                new Heroe("Kira", "arquera", 7, 30), new Heroe("Bron", "guerrero", 9, 45),
+                new Heroe("Nadia", "arquera", 7, 30), new Heroe("Baldo", "guerrero", 9, 45),
                 new Heroe("Lía", "maga", 5, 18), new Heroe("Nara", "paladina", 8, 40),
                 new Heroe("Pip", "arquero", 2, 12), new Heroe("Olmo", "mago", 6, 22));
 
@@ -164,14 +164,14 @@ public class Corrientes {
 ### Salida esperada
 
 ```
-Con más de 20 de vida: [Bron, Kira, Nara, Olmo]
+Con más de 20 de vida: [Baldo, Nadia, Nara, Olmo]
 Magos: 2
 ¿Alguno de nivel 9? true
 ¿Todos con vida? true
 Vida total: 167, nivel promedio: 6.166666666666667, máximo: 9
-Podio: [Bron (9), Nara (8), Kira (7)]
+Podio: [Baldo (9), Nara (8), Nadia (7)]
 Clases: [ARQUERA, GUERRERO, MAGA, PALADINA, MAGO]
-Iniciales: KBLNPO
+Iniciales: NBLNPO
 Suma de cuadrados del 1 al 10: 385
 Múltiplos de 7 menores a 60: [7, 14, 21, 28, 35, 42, 49, 56]
 ```
@@ -651,8 +651,8 @@ static double promedioAprobadas(List<Alumno> alumnos, String comision) {
 ```
 Promedio (bucles): 7.38
 Promedio (streams): 7.38
-Con algún 10 (bucles): [Kira, Lía, Nara]
-Con algún 10 (streams): [Kira, Lía, Nara]
+Con algún 10 (bucles): [Nadia, Lía, Nara]
+Con algún 10 (streams): [Nadia, Lía, Nara]
 ```
 
 #### Solución de referencia
@@ -667,7 +667,7 @@ public class BucleAStream {
 
     public static void main(String[] args) {
         List<Alumno> alumnos = List.of(
-                new Alumno("Kira", "A", List.of(9, 10, 7)), new Alumno("Bron", "A", List.of(3, 6, 4)),
+                new Alumno("Nadia", "A", List.of(9, 10, 7)), new Alumno("Baldo", "A", List.of(3, 6, 4)),
                 new Alumno("Lía", "B", List.of(10, 8)), new Alumno("Pip", "A", List.of(2, 3)),
                 new Alumno("Nara", "A", List.of(8, 10, 5)));
 
@@ -917,7 +917,7 @@ public class PuertoClasificacion {
     public static void main(String[] args) {
         Locale.setDefault(Locale.US);
         List<Viajero> viajeros = List.of(
-                new Viajero("Kira", "Valle", 19, 120), new Viajero("Bron", "Forjas", 45, 30),
+                new Viajero("Nadia", "Valle", 19, 120), new Viajero("Baldo", "Forjas", 45, 30),
                 new Viajero("Lía", "Valle", 16, 35), new Viajero("Tesla", "Ciudadela", 33, 980),
                 new Viajero("Pip", "Forjas", 12, 5), new Viajero("Nara", "Ciudadela", 28, 210));
 
@@ -969,10 +969,10 @@ Viajeros por ciudad: {Ciudadela=2, Forjas=2, Valle=2}
   edad promedio en Ciudadela: 30.5
   edad promedio en Forjas: 28.5
   edad promedio en Valle: 17.5
-Nombres por ciudad: {Ciudadela=[Tesla, Nara], Forjas=[Bron, Pip], Valle=[Kira, Lía]}
-Mayores: [Kira, Bron, Tesla, Nara] | menores: [Lía, Pip]
-Oro: {Bron=30, Kira=120, Lía=35, Nara=210, Pip=5, Tesla=980}
-Todos: [Bron, Kira, Lía, Nara, Pip, Tesla]
+Nombres por ciudad: {Ciudadela=[Tesla, Nara], Forjas=[Baldo, Pip], Valle=[Nadia, Lía]}
+Mayores: [Nadia, Baldo, Tesla, Nara] | menores: [Lía, Pip]
+Oro: {Baldo=30, Lía=35, Nadia=120, Nara=210, Pip=5, Tesla=980}
+Todos: [Baldo, Lía, Nadia, Nara, Pip, Tesla]
 El más rico: Tesla
 ¿Hay alguien del Puerto? false -> nadie
 Encontrada: Nara de Ciudadela
@@ -1786,7 +1786,7 @@ public class JavaModerno {
 
         // Comparadores encadenados
         var heroes = new ArrayList<>(List.of(
-                new Heroe("Kira", "arquera", 7), new Heroe("Bron", "guerrero", 9),
+                new Heroe("Nadia", "arquera", 7), new Heroe("Baldo", "guerrero", 9),
                 new Heroe("Lía", "maga", 7), new Heroe("Ada", "arquera", 9),
                 new Heroe("Olmo", "guerrero", 4), new Heroe("Nara", "maga", 7)));
         heroes.sort(Comparator.comparing(Heroe::clase)
@@ -1882,12 +1882,12 @@ public class JavaModerno {
 ```
 Por clase, nivel (mayor primero) y nombre:
   Ada (arquera, 9)
-  Kira (arquera, 7)
-  Bron (guerrero, 9)
+  Nadia (arquera, 7)
+  Baldo (guerrero, 9)
   Olmo (guerrero, 4)
   Lía (maga, 7)
   Nara (maga, 7)
-Todo al revés: [Bron, Ada, Nara, Lía, Kira, Olmo]
+Todo al revés: [Baldo, Ada, Nara, Nadia, Lía, Olmo]
 Moneda[codigo=ARS, valor=1500.0]
 Rechazada: valor negativo: -3.0
 Circulo[radio=1.0] -> área 3.14

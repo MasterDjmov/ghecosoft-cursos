@@ -218,7 +218,7 @@ Se lo vence pieza por pieza. Consigue: el ítem épico, **la Llave Maestra** (su
 
 - **{heroe}** pasa a ser Zed en todo el curso (como Mia en Python).
 - **R04-N07:** «pasando cien denarios del cofre de Kira al de Bron» pasa a «del cofre de Nadia al de Zed».
-- **Ejemplos y prácticas** que usan a la compañía vieja (Kira, Mia, Bron) como personajes pasan a Zed, Nadia y gente del Imperio, con las salidas rehechas ejecutando el código, como en Python.
+- **Ejemplos y prácticas:** hecho (2026-10-08). Kira pasó a **Nadia** y Bron a **Baldo** en todo el curso (Mia no aparecía), con las salidas rehechas ejecutando el código (259 ejemplos y salidas, 223 pruebas). Los protagonistas de otros cursos solo se cruzan como anticipo (JUEGO.md § 1); el hilo con los demás mundos es **el Vidriero**, el que hizo el portal-vitral de Kira (NOVELA-GRAFICA.md).
 - **La bienvenida** (`story.course_intro`), **el cierre** (`story.course_completed`) y la ficha de Kaffa en el diccionario se reescriben con Zed, la llave y la ventana.
 - **El mapa del Imperio** para las expediciones: hay que generarlo (la Aduana en la muralla, la Academia, los Archivos, el río con sus muelles, esclusas y la represa, la Torre del Arquitecto en el centro, la Encrucijada y los caminos a las Sendas: la Bóveda, el Palacio de las Ventanas, el Arcade y el Puerto).
 

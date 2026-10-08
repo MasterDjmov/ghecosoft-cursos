@@ -530,15 +530,15 @@ class HeroeRepositoryTest {
     void cargar() {
         Gremio arqueros = gremios.save(new Gremio("Arqueros"));
         Gremio magos = gremios.save(new Gremio("Magos"));
-        heroes.saveAll(List.of(new Heroe("Kira", 7, arqueros), new Heroe("Ada", 9, arqueros),
+        heroes.saveAll(List.of(new Heroe("Nadia", 7, arqueros), new Heroe("Ada", 9, arqueros),
                 new Heroe("Lía", 5, magos), new Heroe("Olmo", 9, magos), new Heroe("Pip", 2, arqueros)));
     }
 
     @Test
     void lasConsultasDerivadas() {
         assertThat(heroes.findByGremioNombreOrderByNombre("Magos")).extracting(Heroe::getNombre).containsExactly("Lía", "Olmo");
-        assertThat(heroes.findByNivelGreaterThanOrderByNivelDescNombreAsc(6)).extracting(Heroe::getNombre).containsExactly("Ada", "Olmo", "Kira");
-        assertThat(heroes.existsByNombreIgnoreCase("kira")).isTrue();
+        assertThat(heroes.findByNivelGreaterThanOrderByNivelDescNombreAsc(6)).extracting(Heroe::getNombre).containsExactly("Ada", "Olmo", "Nadia");
+        assertThat(heroes.existsByNombreIgnoreCase("nadia")).isTrue();
         assertThat(gremios.findByNombreIgnoreCase("MAGOS")).isPresent();
     }
 
@@ -585,7 +585,7 @@ class HeroeControllerTest {
 
     @Test
     void reclutaCreandoElGremioSiFalta() throws Exception {
-        reclutar("Kira", 7, "Arqueros").andExpect(status().isCreated()).andExpect(jsonPath("$.gremio").value("Arqueros"));
+        reclutar("Nadia", 7, "Arqueros").andExpect(status().isCreated()).andExpect(jsonPath("$.gremio").value("Arqueros"));
         reclutar("Ada", 9, "arqueros").andExpect(jsonPath("$.gremio").value("Arqueros"));
         reclutar("Lía", 5, "Magos");
         mvc.perform(get("/heroes").param("gremio", "Arqueros")).andExpect(jsonPath("$.length()").value(2));
@@ -597,8 +597,8 @@ class HeroeControllerTest {
 
     @Test
     void elRepetidoEs409ElInexistente404() throws Exception {
-        reclutar("Kira", 7, "Arqueros");
-        reclutar("KIRA", 3, "Magos").andExpect(status().isConflict());
+        reclutar("Nadia", 7, "Arqueros");
+        reclutar("NADIA", 3, "Magos").andExpect(status().isConflict());
         mvc.perform(post("/heroes/1/nivel")).andExpect(jsonPath("$.nivel").value(8));
         mvc.perform(post("/heroes/99/nivel")).andExpect(status().isNotFound());
     }

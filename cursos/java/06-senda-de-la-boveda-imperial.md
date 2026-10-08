@@ -43,7 +43,7 @@ Path ruta = Path.of("datos", "partidas.txt");       // datos/partidas.txt
 Files.exists(ruta);
 Files.createDirectories(ruta.getParent());         // crea las carpetas que falten
 
-Files.writeString(ruta, "Kira;30\nBron;45\n");       // escribe (reemplaza el contenido)
+Files.writeString(ruta, "Nadia;30\nBaldo;45\n");       // escribe (reemplaza el contenido)
 Files.writeString(ruta, "Lía;20\n", StandardOpenOption.APPEND);   // agrega al final
 
 String todo = Files.readString(ruta);                // lee todo como un texto
@@ -65,7 +65,7 @@ try (BufferedReader lector = Files.newBufferedReader(ruta)) {
     }
 }
 try (BufferedWriter escritor = Files.newBufferedWriter(ruta)) {
-    escritor.write("Kira;30");
+    escritor.write("Nadia;30");
     escritor.newLine();
 }
 ```
@@ -77,8 +77,8 @@ punto y coma). Lo abren Excel y LibreOffice, y es la forma más simple de interc
 datos.
 ```
 nombre;clase;vida
-Kira;arquera;30
-Bron;guerrero;45
+Nadia;arquera;30
+Baldo;guerrero;45
 ```
 Leerlo es `split(";")` en cada línea, pero **hay que validar** cada una: puede faltar
 un campo, sobrar un espacio o venir una letra donde iba un número. Una línea mala no
@@ -119,12 +119,12 @@ Para probarlo, creá un archivo `partidas.csv` en la misma carpeta con este cont
 
 ```
 heroe;enemigo;danio
-Kira;goblin;12
-Bron;orco;30
+Nadia;goblin;12
+Baldo;orco;30
 Lía;slime;x
-Kira;orco;18
+Nadia;orco;18
 Olmo
-Bron;goblin;9
+Baldo;goblin;9
 ```
 
 ```java
@@ -199,8 +199,8 @@ public class PrimerPiso {
 ```
 Línea 3 descartada: daño 'x' no es un número
 Línea 5 descartada: faltan campos
-Daño por héroe: {Bron=39, Kira=30}
-El resumen tiene 2 líneas; la primera: Bron hizo 39 de daño
+Daño por héroe: {Baldo=39, Nadia=30}
+El resumen tiene 2 líneas; la primera: Baldo hizo 39 de daño
 Bóveda Imperial, 3 pisos, guardia: sin asignar
 ```
 
@@ -251,8 +251,8 @@ encabezado) y mostrá cuántas líneas tiene el archivo escrito.
 
 ```
 nombre;edad;ciudad
-Kira;19;Valle
-Bron;45;Forjas
+Nadia;19;Valle
+Baldo;45;Forjas
 Pip;12;Valle
 Lía;veinte;Valle
 Nara;33;Ciudadela
@@ -284,8 +284,8 @@ mayores.csv tiene 5 líneas
 
 ```
 nombre;edad;ciudad
-Kira;19;Valle
-Bron;45;Forjas
+Nadia;19;Valle
+Baldo;45;Forjas
 Pip;12;Valle
 Lía;veinte;Valle
 Nara;33;Ciudadela
@@ -373,7 +373,7 @@ xp: 10
 
 La posada anota cada huésped que llega en `diario.txt`. Leé nombres de la entrada
 (uno por línea, hasta una vacía) y **agregalos** al final del diario (sin borrar lo que
-había) con la hora de llegada que viene en la misma línea: `Kira 21:30`. Si el diario
+había) con la hora de llegada que viene en la misma línea: `Nadia 21:30`. Si el diario
 no existe, crealo con un título. Al final, leé el diario entero y mostralo numerando
 las líneas. Para que la prueba sea repetible, borrá el diario al empezar.
 
@@ -385,8 +385,8 @@ las líneas. Para que la prueba sea repetible, borrá el diario al empezar.
 #### Entrada de ejemplo
 
 ```
-Kira 21:30
-Bron 22:05
+Nadia 21:30
+Baldo 22:05
 Lía 23:40
 
 ```
@@ -395,8 +395,8 @@ Lía 23:40
 
 ```
 1. == Diario de la posada La Taza ==
-2. 21:30 llegó Kira
-3. 22:05 llegó Bron
+2. 21:30 llegó Nadia
+3. 22:05 llegó Baldo
 4. 23:40 llegó Lía
 ```
 
@@ -469,7 +469,7 @@ para mostrar que quedó guardado.
 
 ```
 # configuración del Arcade Imperial
-jugador=Kira
+jugador=Nadia
 volumen=muy alto
 ```
 
@@ -481,7 +481,7 @@ volumen=muy alto
 #### Salida esperada
 
 ```
-Jugador: Kira
+Jugador: Nadia
 Dificultad: normal
 Volumen inválido, uso 50
 Volumen: 50
@@ -494,7 +494,7 @@ Guardado: dificultad=dificil, volumen=50
 
 ```
 # configuración del Arcade Imperial
-jugador=Kira
+jugador=Nadia
 volumen=muy alto
 ```
 
@@ -769,10 +769,10 @@ partidas (sin eso, la base no deja borrar un héroe que tiene partidas).
 
 #### ABM: altas, bajas y modificaciones
 ```sql
-INSERT INTO heroe (nombre, clase, vida) VALUES ('Kira', 'arquera', 30);
-INSERT INTO heroe (nombre, clase) VALUES ('Bron', 'guerrero'), ('Lía', 'maga');   -- varias; vida por defecto
+INSERT INTO heroe (nombre, clase, vida) VALUES ('Nadia', 'arquera', 30);
+INSERT INTO heroe (nombre, clase) VALUES ('Baldo', 'guerrero'), ('Lía', 'maga');   -- varias; vida por defecto
 
-UPDATE heroe SET vida = vida - 5 WHERE nombre = 'Kira';      -- modificar
+UPDATE heroe SET vida = vida - 5 WHERE nombre = 'Nadia';      -- modificar
 DELETE FROM heroe WHERE nombre = 'Lía';                       -- borrar
 
 SELECT * FROM heroe;                                          -- ver todo (lo ampliamos en el nodo que viene)
@@ -820,18 +820,18 @@ CREATE TABLE partida (
 );
 
 -- Altas
-INSERT INTO heroe (nombre, clase, vida, oro) VALUES ('Kira', 'arquera', 30, 120.50);
-INSERT INTO heroe (nombre, clase) VALUES ('Bron', 'guerrero'), ('Lía', 'maga');
+INSERT INTO heroe (nombre, clase, vida, oro) VALUES ('Nadia', 'arquera', 30, 120.50);
+INSERT INTO heroe (nombre, clase) VALUES ('Baldo', 'guerrero'), ('Lía', 'maga');
 INSERT INTO partida (heroe_id, enemigo, danio) VALUES (1, 'goblin', 12), (1, 'orco', 18), (2, 'orco', 30), (3, 'slime', 4);
 
 SELECT * FROM heroe ORDER BY id;
 
 -- Modificaciones (siempre con WHERE)
-UPDATE heroe SET vida = vida - 5, oro = oro + 30 WHERE nombre = 'Kira';
+UPDATE heroe SET vida = vida - 5, oro = oro + 30 WHERE nombre = 'Nadia';
 UPDATE heroe SET clase = 'hechicera' WHERE id = 3;
 
 -- Baja: con ON DELETE CASCADE se van también sus partidas
-DELETE FROM heroe WHERE nombre = 'Bron';
+DELETE FROM heroe WHERE nombre = 'Baldo';
 
 SELECT * FROM heroe ORDER BY id;
 SELECT * FROM partida ORDER BY id;
@@ -842,14 +842,14 @@ SELECT * FROM partida ORDER BY id;
 ```
  id | nombre |  clase   | vida |  oro   
 ----+--------+----------+------+--------
-  1 | Kira   | arquera  |   30 | 120.50
-  2 | Bron   | guerrero |   30 |   0.00
+  1 | Nadia   | arquera  |   30 | 120.50
+  2 | Baldo   | guerrero |   30 |   0.00
   3 | Lía    | maga     |   30 |   0.00
 (3 rows)
 
  id | nombre |   clase   | vida |  oro   
 ----+--------+-----------+------+--------
-  1 | Kira   | arquera   |   25 | 150.50
+  1 | Nadia   | arquera   |   25 | 150.50
   3 | Lía    | hechicera |   30 |   0.00
 (2 rows)
 
@@ -881,7 +881,7 @@ El mensaje dice qué regla se violó: revisá el dato.
 **Dragón: `UPDATE` o `DELETE` sin `WHERE`.** Modifica o borra **todas** las filas. Antes
 de un `DELETE`, probá el mismo `WHERE` con un `SELECT`.
 
-**Slime: las comillas.** En SQL los textos van entre comillas **simples** (`'Kira'`).
+**Slime: las comillas.** En SQL los textos van entre comillas **simples** (`'Nadia'`).
 Las dobles son para nombres de columnas o tablas.
 
 **Ogro: el orden de los `DROP`.** Borrar primero la tabla de la que otra depende falla:
@@ -927,7 +927,7 @@ arma que tenga encargos, y mostrá las dos tablas ordenadas por id.
 
  id | arma_id | cliente | cantidad 
 ----+---------+---------+----------
-  1 |       1 | Bron    |        1
+  1 |       1 | Baldo    |        1
   3 |       3 | Nara    |        1
 (2 rows)
 ```
@@ -956,7 +956,7 @@ CREATE TABLE encargo (
 
 INSERT INTO arma (nombre, tipo, filo, precio) VALUES ('Colmillo', 'espada', 70, 85000);
 INSERT INTO arma (nombre, tipo, precio) VALUES ('Brisa', 'espada', 42000.50), ('Martillo del Norte', 'maza', 61000);
-INSERT INTO encargo (arma_id, cliente, cantidad) VALUES (1, 'Bron', 1), (2, 'Guardia real', 12), (3, 'Nara', 1), (2, 'Kira', 2);
+INSERT INTO encargo (arma_id, cliente, cantidad) VALUES (1, 'Baldo', 1), (2, 'Guardia real', 12), (3, 'Nara', 1), (2, 'Nadia', 2);
 
 UPDATE arma SET filo = filo + 10 WHERE tipo = 'espada';
 DELETE FROM arma WHERE nombre = 'Brisa';
@@ -995,8 +995,8 @@ un interés del 3 % a las cuentas activas y mostrá la tabla.
 ```
  id | titular |      email       |  saldo  | activa 
 ----+---------+------------------+---------+--------
-  1 | Kira    | kira@imperio.com | 1030.00 | t
-  2 | Bron    | bron@imperio.com | 5000.00 | f
+  1 | Nadia    | nadia@imperio.com | 1030.00 | t
+  2 | Baldo    | baldo@imperio.com | 5000.00 | f
 (2 rows)
 ```
 
@@ -1014,12 +1014,12 @@ CREATE TABLE cuenta (
     activa   BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-INSERT INTO cuenta (titular, email, saldo) VALUES ('Kira', 'kira@imperio.com', 1000);
-INSERT INTO cuenta (titular, email, saldo, activa) VALUES ('Bron', 'bron@imperio.com', 5000, FALSE);
+INSERT INTO cuenta (titular, email, saldo) VALUES ('Nadia', 'nadia@imperio.com', 1000);
+INSERT INTO cuenta (titular, email, saldo, activa) VALUES ('Baldo', 'baldo@imperio.com', 5000, FALSE);
 
 -- Rechazados (probalos de a uno):
--- INSERT INTO cuenta (titular, email) VALUES ('Otra Kira', 'kira@imperio.com');   -- cuenta_email_key (UNIQUE)
--- UPDATE cuenta SET saldo = -10 WHERE titular = 'Kira';                            -- cuenta_saldo_check (CHECK)
+-- INSERT INTO cuenta (titular, email) VALUES ('Otra Nadia', 'nadia@imperio.com');   -- cuenta_email_key (UNIQUE)
+-- UPDATE cuenta SET saldo = -10 WHERE titular = 'Nadia';                            -- cuenta_saldo_check (CHECK)
 -- INSERT INTO cuenta (email) VALUES ('nadie@imperio.com');                         -- NOT NULL de titular
 
 UPDATE cuenta SET saldo = saldo * 1.03 WHERE activa;
@@ -1092,7 +1092,7 @@ CREATE TABLE prestamo (
     devuelto    DATE
 );
 
-INSERT INTO socio (nombre, dni) VALUES ('Kira', '40111222'), ('Bron', '1234567');
+INSERT INTO socio (nombre, dni) VALUES ('Nadia', '40111222'), ('Baldo', '1234567');
 INSERT INTO libro (titulo, autor, anio) VALUES ('Rayuela', 'Cortázar', 1963), ('Ficciones', 'Borges', 1944);
 INSERT INTO prestamo (socio_id, libro_id) VALUES (1, 1), (2, 2), (1, 2);
 
@@ -1272,13 +1272,13 @@ agregación.
 
 #### Cruzar tablas: `JOIN`
 Supongamos estos datos (los del código de ejemplo):
-- héroes: Kira, Bron, Lía, **Olmo (sin partidas)**;
-- partidas de Kira, Bron y Lía, y **una partida de un héroe que ya no está en la
+- héroes: Nadia, Baldo, Lía, **Olmo (sin partidas)**;
+- partidas de Nadia, Baldo y Lía, y **una partida de un héroe que ya no está en la
   tabla** (su `heroe_id` es 9 y no tiene clave foránea, para poder mostrarlo).
 
 | JOIN | Devuelve | En el ejemplo |
 |---|---|---|
-| `INNER JOIN` | solo las filas que coinciden en las dos tablas | las partidas de Kira, Bron y Lía |
+| `INNER JOIN` | solo las filas que coinciden en las dos tablas | las partidas de Nadia, Baldo y Lía |
 | `LEFT JOIN` | todas las de la **izquierda**, y de la derecha lo que coincida (o `NULL`) | …y además Olmo, con la partida en `NULL` |
 | `RIGHT JOIN` | todas las de la **derecha**, y de la izquierda lo que coincida | …y además la partida del héroe 9, con el nombre en `NULL` |
 | `FULL JOIN` | todas las de las dos | Olmo y la partida huérfana |
@@ -1344,7 +1344,7 @@ CREATE TABLE partida (                -- sin clave foránea, para poder mostrar 
     danio     INTEGER NOT NULL
 );
 
-INSERT INTO heroe VALUES (1, 'Kira', 'arquera', 30, 'valle'), (2, 'Bron', 'guerrero', 45, 'forjas'),
+INSERT INTO heroe VALUES (1, 'Nadia', 'arquera', 30, 'valle'), (2, 'Baldo', 'guerrero', 45, 'forjas'),
                          (3, 'Lía', 'maga', 20, 'valle'), (4, 'Olmo', 'mago', 25, NULL);
 INSERT INTO partida VALUES (1, 1, 'goblin', 12), (2, 1, 'orco', 18), (3, 2, 'orco', 30),
                            (4, 3, 'slime', 4), (5, 2, 'goblin', 9), (6, 9, 'dragón', 50);
@@ -1403,39 +1403,39 @@ SELECT * FROM ranking ORDER BY danio_total DESC, nombre;
 
  nombre | enemigo 
 --------+---------
- Kira   | goblin
- Kira   | orco
- Bron   | orco
+ Nadia   | goblin
+ Nadia   | orco
+ Baldo   | orco
  Lía    | slime
- Bron   | goblin
+ Baldo   | goblin
 (5 rows)
 
  nombre | enemigo 
 --------+---------
- Kira   | goblin
- Kira   | orco
- Bron   | orco
- Bron   | goblin
+ Nadia   | goblin
+ Nadia   | orco
+ Baldo   | orco
+ Baldo   | goblin
  Lía    | slime
  Olmo   | 
 (6 rows)
 
  nombre | enemigo 
 --------+---------
- Kira   | goblin
- Kira   | orco
- Bron   | orco
+ Nadia   | goblin
+ Nadia   | orco
+ Baldo   | orco
  Lía    | slime
- Bron   | goblin
+ Baldo   | goblin
         | dragón
 (6 rows)
 
  nombre | enemigo 
 --------+---------
- Kira   | goblin
- Kira   | orco
- Bron   | orco
- Bron   | goblin
+ Nadia   | goblin
+ Nadia   | orco
+ Baldo   | orco
+ Baldo   | goblin
  Lía    | slime
  Olmo   | 
         | dragón
@@ -1443,8 +1443,8 @@ SELECT * FROM ranking ORDER BY danio_total DESC, nombre;
 
  nombre | enemigo 
 --------+---------
- Kira   | goblin
- Kira   | orco
+ Nadia   | goblin
+ Nadia   | orco
 (2 rows)
 
  nombre 
@@ -1470,8 +1470,8 @@ SELECT * FROM ranking ORDER BY danio_total DESC, nombre;
 
  nombre | danio_total 
 --------+-------------
- Bron   |          39
- Kira   |          30
+ Baldo   |          39
+ Nadia   |          30
  Lía    |           4
  Olmo   |           0
 (4 rows)
@@ -1522,7 +1522,7 @@ DROP TABLE IF EXISTS luchador;
 CREATE TABLE luchador (id INTEGER PRIMARY KEY, nombre VARCHAR(20), clase VARCHAR(20), fuerza INTEGER);
 CREATE TABLE pelea (id INTEGER PRIMARY KEY, ganador_id INTEGER REFERENCES luchador(id),
                     perdedor_id INTEGER REFERENCES luchador(id), arena VARCHAR(20), minutos INTEGER);
-INSERT INTO luchador VALUES (1, 'Bron', 'guerrero', 52), (2, 'Nara', 'paladín', 47), (3, 'Pip', 'guerrero', 35),
+INSERT INTO luchador VALUES (1, 'Baldo', 'guerrero', 52), (2, 'Nara', 'paladín', 47), (3, 'Pip', 'guerrero', 35),
                             (4, 'Lía', 'maga', 20), (5, 'Olmo', 'paladín', 38);
 INSERT INTO pelea VALUES (1, 1, 3, 'norte', 12), (2, 2, 4, 'sur', 7), (3, 1, 2, 'norte', 20),
                          (4, 5, 3, 'sur', 9), (5, 1, 5, 'este', 15), (6, 2, 3, 'norte', 11);
@@ -1538,13 +1538,13 @@ INSERT INTO pelea VALUES (1, 1, 3, 'norte', 12), (2, 2, 4, 'sur', 7), (3, 1, 2, 
 ```
  nombre |  clase   | fuerza 
 --------+----------+--------
- Bron   | guerrero |     52
+ Baldo   | guerrero |     52
  Nara   | paladín  |     47
 (2 rows)
 
  nombre | victorias 
 --------+-----------
- Bron   |         3
+ Baldo   |         3
  Nara   |         2
  Olmo   |         1
 (3 rows)
@@ -1557,11 +1557,11 @@ INSERT INTO pelea VALUES (1, 1, 3, 'norte', 12), (2, 2, 4, 'sur', 7), (3, 1, 2, 
 
  id | ganador | perdedor | arena 
 ----+---------+----------+-------
-  1 | Bron    | Pip      | norte
+  1 | Baldo    | Pip      | norte
   2 | Nara    | Lía      | sur
-  3 | Bron    | Nara     | norte
+  3 | Baldo    | Nara     | norte
   4 | Olmo    | Pip      | sur
-  5 | Bron    | Olmo     | este
+  5 | Baldo    | Olmo     | este
   6 | Nara    | Pip      | norte
 (6 rows)
 ```
@@ -1575,7 +1575,7 @@ DROP TABLE IF EXISTS luchador;
 CREATE TABLE luchador (id INTEGER PRIMARY KEY, nombre VARCHAR(20), clase VARCHAR(20), fuerza INTEGER);
 CREATE TABLE pelea (id INTEGER PRIMARY KEY, ganador_id INTEGER REFERENCES luchador(id),
                     perdedor_id INTEGER REFERENCES luchador(id), arena VARCHAR(20), minutos INTEGER);
-INSERT INTO luchador VALUES (1, 'Bron', 'guerrero', 52), (2, 'Nara', 'paladín', 47), (3, 'Pip', 'guerrero', 35),
+INSERT INTO luchador VALUES (1, 'Baldo', 'guerrero', 52), (2, 'Nara', 'paladín', 47), (3, 'Pip', 'guerrero', 35),
                             (4, 'Lía', 'maga', 20), (5, 'Olmo', 'paladín', 38);
 INSERT INTO pelea VALUES (1, 1, 3, 'norte', 12), (2, 2, 4, 'sur', 7), (3, 1, 2, 'norte', 20),
                          (4, 5, 3, 'sur', 9), (5, 1, 5, 'este', 15), (6, 2, 3, 'norte', 11);
@@ -1636,12 +1636,12 @@ Con las mismas tablas de la misión anterior, escribí las consultas para:
 
  nombre 
 --------
- Bron
+ Baldo
 (1 row)
 
  nombre | fuerza 
 --------+--------
- Bron   |     52
+ Baldo   |     52
  Nara   |     47
 (2 rows)
 
@@ -1657,7 +1657,7 @@ Con las mismas tablas de la misión anterior, escribí las consultas para:
 
  nombre | victorias | derrotas 
 --------+-----------+----------
- Bron   |         3 |        0
+ Baldo   |         3 |        0
  Nara   |         2 |        1
  Olmo   |         1 |        1
  Lía    |         0 |        1
@@ -1675,7 +1675,7 @@ DROP TABLE IF EXISTS luchador;
 CREATE TABLE luchador (id INTEGER PRIMARY KEY, nombre VARCHAR(20), clase VARCHAR(20), fuerza INTEGER);
 CREATE TABLE pelea (id INTEGER PRIMARY KEY, ganador_id INTEGER REFERENCES luchador(id),
                     perdedor_id INTEGER REFERENCES luchador(id), arena VARCHAR(20), minutos INTEGER);
-INSERT INTO luchador VALUES (1, 'Bron', 'guerrero', 52), (2, 'Nara', 'paladín', 47), (3, 'Pip', 'guerrero', 35),
+INSERT INTO luchador VALUES (1, 'Baldo', 'guerrero', 52), (2, 'Nara', 'paladín', 47), (3, 'Pip', 'guerrero', 35),
                             (4, 'Lía', 'maga', 20), (5, 'Olmo', 'paladín', 38);
 INSERT INTO pelea VALUES (1, 1, 3, 'norte', 12), (2, 2, 4, 'sur', 7), (3, 1, 2, 'norte', 20),
                          (4, 5, 3, 'sur', 9), (5, 1, 5, 'este', 15), (6, 2, 3, 'norte', 11);
@@ -1736,31 +1736,31 @@ la cantidad de inscriptos por curso, **incluidos los cursos con 0**.
 ```
  nombre | alumno 
 --------+--------
- Java   | Kira
- Java   | Bron
+ Java   | Nadia
+ Java   | Baldo
  SQL    | Lía
 (3 rows)
 
  nombre | alumno 
 --------+--------
- Java   | Kira
- Java   | Bron
+ Java   | Nadia
+ Java   | Baldo
  SQL    | Lía
  Swing  | 
 (4 rows)
 
  nombre | alumno 
 --------+--------
- Java   | Kira
- Java   | Bron
+ Java   | Nadia
+ Java   | Baldo
  SQL    | Lía
         | Pip
 (4 rows)
 
  nombre | alumno 
 --------+--------
- Java   | Kira
- Java   | Bron
+ Java   | Nadia
+ Java   | Baldo
  SQL    | Lía
  Swing  | 
         | Pip
@@ -1783,7 +1783,7 @@ DROP TABLE IF EXISTS curso;
 CREATE TABLE curso (id INTEGER PRIMARY KEY, nombre VARCHAR(30));
 CREATE TABLE inscripcion (id INTEGER PRIMARY KEY, alumno VARCHAR(20), curso_id INTEGER);
 INSERT INTO curso VALUES (1, 'Java'), (2, 'SQL'), (3, 'Swing');
-INSERT INTO inscripcion VALUES (1, 'Kira', 1), (2, 'Bron', 1), (3, 'Lía', 2), (4, 'Pip', 7);
+INSERT INTO inscripcion VALUES (1, 'Nadia', 1), (2, 'Baldo', 1), (3, 'Lía', 2), (4, 'Pip', 7);
 
 -- INNER: solo las inscripciones con un curso que existe.
 SELECT c.nombre, i.alumno FROM curso c INNER JOIN inscripcion i ON i.curso_id = c.id ORDER BY i.id;
@@ -2038,7 +2038,7 @@ CREATE TABLE heroe (id SERIAL PRIMARY KEY, nombre VARCHAR(20) NOT NULL, vida INT
 CREATE TABLE partida (id SERIAL PRIMARY KEY, heroe_id INTEGER NOT NULL REFERENCES heroe(id), enemigo VARCHAR(20), danio INTEGER);
 CREATE TABLE auditoria (id SERIAL PRIMARY KEY, heroe_id INTEGER, antes INTEGER, despues INTEGER);
 
-INSERT INTO heroe (nombre, vida, oro) VALUES ('Kira', 30, 100), ('Bron', 45, 20), ('Lía', 15, 60);
+INSERT INTO heroe (nombre, vida, oro) VALUES ('Nadia', 30, 100), ('Baldo', 45, 20), ('Lía', 15, 60);
 
 -- Una función que devuelve un valor
 CREATE OR REPLACE FUNCTION nivel_de(p_vida INTEGER) RETURNS VARCHAR AS $$
@@ -2092,15 +2092,15 @@ SELECT heroe_id, antes, despues FROM auditoria ORDER BY id;
 ```
  nombre | vida | nivel  
 --------+------+--------
- Kira   |   30 | normal
- Bron   |   45 | fuerte
+ Nadia   |   30 | normal
+ Baldo   |   45 | fuerte
  Lía    |   15 | débil
 (3 rows)
 
  nombre | vida | nivel  | partidas 
 --------+------+--------+----------
- Kira   |   23 | normal |        2
- Bron   |   42 | fuerte |        1
+ Nadia   |   23 | normal |        2
+ Baldo   |   42 | fuerte |        1
  Lía    |   15 | débil  |        0
 (3 rows)
 
@@ -2578,7 +2578,7 @@ DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS heroe;
 CREATE TABLE heroe (id SERIAL PRIMARY KEY, nombre VARCHAR(20) NOT NULL, clase VARCHAR(20) NOT NULL, vida INTEGER NOT NULL);
 CREATE TABLE usuario (nombre VARCHAR(20) PRIMARY KEY, clave VARCHAR(20) NOT NULL);
-INSERT INTO heroe (nombre, clase, vida) VALUES ('Kira', 'arquera', 30), ('Olmo', 'mago', 25), ('Bron', 'guerrero', 45), ('Lía', 'mago', 20);
+INSERT INTO heroe (nombre, clase, vida) VALUES ('Nadia', 'arquera', 30), ('Olmo', 'mago', 25), ('Baldo', 'guerrero', 45), ('Lía', 'mago', 20);
 INSERT INTO usuario VALUES ('kaffa', 'cafe123');
 ```
 
@@ -2678,9 +2678,9 @@ Conectado a PostgreSQL
   mago: Lía (20)
   mago: Olmo (25)
 id        nombre    clase     vida
-1         Kira      arquera   30
+1         Nadia      arquera   30
 2         Olmo      mago      25
-3         Bron      guerrero  45
+3         Baldo      guerrero  45
 4         Lía       mago      20
 Login concatenando: true
 Login con PreparedStatement: false
@@ -2844,7 +2844,7 @@ no pasa nada raro.
 ```sql
 DROP TABLE IF EXISTS viajero;
 CREATE TABLE viajero (id SERIAL PRIMARY KEY, nombre VARCHAR(30) NOT NULL, ciudad VARCHAR(20));
-INSERT INTO viajero (nombre, ciudad) VALUES ('Kira Valdez', 'Valle'), ('Bron Tallo', 'Forjas'),
+INSERT INTO viajero (nombre, ciudad) VALUES ('Nadia Valdez', 'Valle'), ('Baldo Tallo', 'Forjas'),
                                             ('Lía Ferrari', 'Valle'), ('Nara Kel', 'Ciudadela'), ('Olmo Ríos', NULL);
 ```
 
@@ -2867,11 +2867,11 @@ zzz
 
 ```
 Buscando 'ra':
-  Kira Valdez - Valle
+  Nadia Valdez - Valle
   Lía Ferrari - Valle
   Nara Kel - Ciudadela
 Buscando 'tallo':
-  Bron Tallo - Forjas
+  Baldo Tallo - Forjas
 Buscando '' OR '1'='1':
   sin resultados
 Buscando 'zzz':
@@ -2885,7 +2885,7 @@ Buscando 'zzz':
 ```sql
 DROP TABLE IF EXISTS viajero;
 CREATE TABLE viajero (id SERIAL PRIMARY KEY, nombre VARCHAR(30) NOT NULL, ciudad VARCHAR(20));
-INSERT INTO viajero (nombre, ciudad) VALUES ('Kira Valdez', 'Valle'), ('Bron Tallo', 'Forjas'),
+INSERT INTO viajero (nombre, ciudad) VALUES ('Nadia Valdez', 'Valle'), ('Baldo Tallo', 'Forjas'),
                                             ('Lía Ferrari', 'Valle'), ('Nara Kel', 'Ciudadela'), ('Olmo Ríos', NULL);
 ```
 
@@ -2964,7 +2964,7 @@ DROP TABLE IF EXISTS partida;
 DROP TABLE IF EXISTS heroe;
 CREATE TABLE heroe (id SERIAL PRIMARY KEY, nombre VARCHAR(20), clan VARCHAR(20));
 CREATE TABLE partida (id SERIAL PRIMARY KEY, heroe_id INTEGER REFERENCES heroe(id), enemigo VARCHAR(20), danio INTEGER);
-INSERT INTO heroe (nombre, clan) VALUES ('Kira', 'Valle'), ('Bron', 'Forjas'), ('Olmo', NULL);
+INSERT INTO heroe (nombre, clan) VALUES ('Nadia', 'Valle'), ('Baldo', 'Forjas'), ('Olmo', NULL);
 INSERT INTO partida (heroe_id, enemigo, danio) VALUES (1, 'goblin', 12), (1, 'orco', 18), (2, 'orco', 30);
 ```
 
@@ -2977,15 +2977,15 @@ INSERT INTO partida (heroe_id, enemigo, danio) VALUES (1, 'goblin', 12), (1, 'or
 
 ```
 id | nombre | clan
-1  | Kira   | Valle
-2  | Bron   | Forjas
+1  | Nadia   | Valle
+2  | Baldo   | Forjas
 3  | Olmo   | (nulo)
 (3 filas)
 
 nombre | enemigo | danio
-Kira   | goblin  | 12
-Kira   | orco    | 18
-Bron   | orco    | 30
+Nadia   | goblin  | 12
+Nadia   | orco    | 18
+Baldo   | orco    | 30
 (3 filas)
 
 enemigo | veces | total
@@ -3003,7 +3003,7 @@ DROP TABLE IF EXISTS partida;
 DROP TABLE IF EXISTS heroe;
 CREATE TABLE heroe (id SERIAL PRIMARY KEY, nombre VARCHAR(20), clan VARCHAR(20));
 CREATE TABLE partida (id SERIAL PRIMARY KEY, heroe_id INTEGER REFERENCES heroe(id), enemigo VARCHAR(20), danio INTEGER);
-INSERT INTO heroe (nombre, clan) VALUES ('Kira', 'Valle'), ('Bron', 'Forjas'), ('Olmo', NULL);
+INSERT INTO heroe (nombre, clan) VALUES ('Nadia', 'Valle'), ('Baldo', 'Forjas'), ('Olmo', NULL);
 INSERT INTO partida (heroe_id, enemigo, danio) VALUES (1, 'goblin', 12), (1, 'orco', 18), (2, 'orco', 30);
 ```
 
@@ -3105,7 +3105,7 @@ Probá también la inyección clásica.
 DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (nombre VARCHAR(20) PRIMARY KEY, clave VARCHAR(30) NOT NULL, rol VARCHAR(20) NOT NULL,
                       intentos INTEGER NOT NULL DEFAULT 0, bloqueado BOOLEAN NOT NULL DEFAULT FALSE);
-INSERT INTO usuario (nombre, clave, rol) VALUES ('kaffa', 'cafe123', 'admin'), ('bron', 'martillo', 'vendedor');
+INSERT INTO usuario (nombre, clave, rol) VALUES ('kaffa', 'cafe123', 'admin'), ('baldo', 'martillo', 'vendedor');
 ```
 
 (En un sistema real las claves nunca se guardan tal cual: se guarda un *hash*. Para este
@@ -3119,7 +3119,7 @@ ejercicio alcanza con el texto.)
 #### Entrada de ejemplo
 
 ```
-bron
+baldo
 martillo
 kaffa
 ' OR '1'='1
@@ -3135,7 +3135,7 @@ cafe123
 #### Salida esperada
 
 ```
-bron: acceso concedido (rol vendedor)
+baldo: acceso concedido (rol vendedor)
 kaffa: clave incorrecta (intento 1)
 kaffa: clave incorrecta (intento 2)
 kaffa: clave incorrecta: usuario bloqueado
@@ -3150,7 +3150,7 @@ kaffa: usuario bloqueado
 DROP TABLE IF EXISTS usuario;
 CREATE TABLE usuario (nombre VARCHAR(20) PRIMARY KEY, clave VARCHAR(30) NOT NULL, rol VARCHAR(20) NOT NULL,
                       intentos INTEGER NOT NULL DEFAULT 0, bloqueado BOOLEAN NOT NULL DEFAULT FALSE);
-INSERT INTO usuario (nombre, clave, rol) VALUES ('kaffa', 'cafe123', 'admin'), ('bron', 'martillo', 'vendedor');
+INSERT INTO usuario (nombre, clave, rol) VALUES ('kaffa', 'cafe123', 'admin'), ('baldo', 'martillo', 'vendedor');
 ```
 
 ```java
@@ -3362,7 +3362,7 @@ en la Senda del Puerto).
 ```sql
 DROP TABLE IF EXISTS heroe;
 CREATE TABLE heroe (id SERIAL PRIMARY KEY, nombre VARCHAR(20) NOT NULL UNIQUE, clase VARCHAR(20) NOT NULL, vida INTEGER NOT NULL CHECK (vida >= 0));
-INSERT INTO heroe (nombre, clase, vida) VALUES ('Kira', 'arquera', 30), ('Bron', 'guerrero', 45);
+INSERT INTO heroe (nombre, clase, vida) VALUES ('Nadia', 'arquera', 30), ('Baldo', 'guerrero', 45);
 ```
 
 ```java
@@ -3398,7 +3398,7 @@ public class Mensajeros {
         }
 
         try {
-            dao.insertar(new Heroe(0, "Kira", "arquera", 10));      // nombre repetido
+            dao.insertar(new Heroe(0, "Nadia", "arquera", 10));      // nombre repetido
         } catch (DatosException e) {
             System.out.println("Error de datos: " + e.getMessage() + " (causa: " + e.getCause().getClass().getSimpleName() + ")");
         }
@@ -3534,11 +3534,11 @@ final class Conexion {
 
 ```
 Insertada con id 3
-  Heroe[id=1, nombre=Kira, clase=arquera, vida=30]
+  Heroe[id=1, nombre=Nadia, clase=arquera, vida=30]
   Heroe[id=3, nombre=Lía, clase=hechicera, vida=26]
-Buscar 1: Heroe[id=1, nombre=Kira, clase=arquera, vida=30]
+Buscar 1: Heroe[id=1, nombre=Nadia, clase=arquera, vida=30]
 No encontrado: no existe el héroe 99
-Error de datos: no se pudo guardar el héroe Kira (causa: PSQLException)
+Error de datos: no se pudo guardar el héroe Nadia (causa: PSQLException)
 ```
 
 ### ¿Para qué sirve?
@@ -3799,7 +3799,7 @@ legajos generados y listá los de `Sistemas` ordenados por promedio de mayor a m
 ```sql
 DROP TABLE IF EXISTS alumno;
 CREATE TABLE alumno (legajo SERIAL PRIMARY KEY, nombre VARCHAR(30) NOT NULL, carrera VARCHAR(30) NOT NULL, promedio NUMERIC(4, 2));
-INSERT INTO alumno (nombre, carrera, promedio) VALUES ('Kira Valdez', 'Sistemas', 8.5), ('Bron Tallo', 'Contador', 7.25);
+INSERT INTO alumno (nombre, carrera, promedio) VALUES ('Nadia Valdez', 'Sistemas', 8.5), ('Baldo Tallo', 'Contador', 7.25);
 ```
 
 #### Criterio de aprobación
@@ -3812,7 +3812,7 @@ INSERT INTO alumno (nombre, carrera, promedio) VALUES ('Kira Valdez', 'Sistemas'
 ```
 Legajos generados: 3 y 4
   3 Lía Ferrari   9.10
-  1 Kira Valdez   8.50
+  1 Nadia Valdez   8.50
   4 Pip Nuez      6.75
 ```
 
@@ -3823,7 +3823,7 @@ Legajos generados: 3 y 4
 ```sql
 DROP TABLE IF EXISTS alumno;
 CREATE TABLE alumno (legajo SERIAL PRIMARY KEY, nombre VARCHAR(30) NOT NULL, carrera VARCHAR(30) NOT NULL, promedio NUMERIC(4, 2));
-INSERT INTO alumno (nombre, carrera, promedio) VALUES ('Kira Valdez', 'Sistemas', 8.5), ('Bron Tallo', 'Contador', 7.25);
+INSERT INTO alumno (nombre, carrera, promedio) VALUES ('Nadia Valdez', 'Sistemas', 8.5), ('Baldo Tallo', 'Contador', 7.25);
 ```
 
 ```java
@@ -4357,7 +4357,7 @@ usa: sql.desde-codigo
 
 ### Crónica
 
-Un tesorero de la Bóveda está pasando cien denarios del cofre de Kira al de Bron. Saca el oro del primer cofre… y en ese momento se apaga la antorcha. Cuando vuelve la luz, el oro no está en ningún cofre: salió de uno y nunca llegó al otro.
+Un tesorero de la Bóveda está pasando cien denarios del cofre de Nadia al de Baldo. Saca el oro del primer cofre… y en ese momento se apaga la antorcha. Cuando vuelve la luz, el oro no está en ningún cofre: salió de uno y nunca llegó al otro.
 
 —Hay operaciones que tienen que pasar **enteras o nada** —dice {mentor}—. Sacar de un cofre y poner en el otro es **una sola cosa**, aunque sean dos pasos. En la Bóveda eso se llama **transacción**, {heroe}, y es lo que evita que el oro se evapore.
 
@@ -4392,8 +4392,8 @@ instante. Para agrupar operaciones, se apaga:
 try (Connection con = Conexion.abrir()) {
     con.setAutoCommit(false);                   // empieza la transacción
     try {
-        retirar(con, "Kira", 100);
-        depositar(con, "Bron", 100);
+        retirar(con, "Nadia", 100);
+        depositar(con, "Baldo", 100);
         con.commit();                           // confirma las dos
     } catch (SQLException e) {
         con.rollback();                         // deshace todo lo de esta transacción
@@ -4458,7 +4458,7 @@ DROP TABLE IF EXISTS movimiento;
 DROP TABLE IF EXISTS cofre;
 CREATE TABLE cofre (duenio VARCHAR(20) PRIMARY KEY, oro INTEGER NOT NULL CHECK (oro >= 0));
 CREATE TABLE movimiento (id SERIAL PRIMARY KEY, desde VARCHAR(20), hacia VARCHAR(20), monto INTEGER);
-INSERT INTO cofre VALUES ('Kira', 150), ('Bron', 40);
+INSERT INTO cofre VALUES ('Nadia', 150), ('Baldo', 40);
 
 CREATE OR REPLACE FUNCTION oro_de(p_duenio VARCHAR) RETURNS INTEGER AS $$
 BEGIN
@@ -4487,24 +4487,24 @@ import java.sql.Types;
 
 public class Tesoreria {
     public static void main(String[] args) throws SQLException {
-        transferir("Kira", "Bron", 100);
+        transferir("Nadia", "Baldo", 100);
         mostrar();
-        transferir("Kira", "Bron", 100);          // Kira ya no tiene 100: el CHECK lo impide
+        transferir("Nadia", "Baldo", 100);          // Nadia ya no tiene 100: el CHECK lo impide
         mostrar();
 
         try (Connection con = Conexion.abrir()) {
             // Un procedimiento con CallableStatement
             try (CallableStatement cs = con.prepareCall("CALL bonificar(?, ?)")) {
-                cs.setString(1, "Kira");
+                cs.setString(1, "Nadia");
                 cs.setInt(2, 25);
                 cs.execute();
             }
             // Una función con parámetro de salida
             try (CallableStatement cs = con.prepareCall("{? = call oro_de(?)}")) {
                 cs.registerOutParameter(1, Types.INTEGER);
-                cs.setString(2, "Kira");
+                cs.setString(2, "Nadia");
                 cs.execute();
-                System.out.println("Oro de Kira después de la bonificación: " + cs.getInt(1));
+                System.out.println("Oro de Nadia después de la bonificación: " + cs.getInt(1));
             }
         }
     }
@@ -4569,11 +4569,11 @@ final class Conexion {
 ### Salida esperada
 
 ```
-Transferencia de 100 de Kira a Bron: confirmada
-  Cofres: Bron=140 Kira=50 | movimientos: 1
-Transferencia de 100 de Kira a Bron: deshecha (23514)
-  Cofres: Bron=140 Kira=50 | movimientos: 1
-Oro de Kira después de la bonificación: 75
+Transferencia de 100 de Nadia a Baldo: confirmada
+  Cofres: Baldo=140 Nadia=50 | movimientos: 1
+Transferencia de 100 de Nadia a Baldo: deshecha (23514)
+  Cofres: Baldo=140 Nadia=50 | movimientos: 1
+Oro de Nadia después de la bonificación: 75
 ```
 
 ### ¿Para qué sirve?
@@ -4636,9 +4636,9 @@ INSERT INTO producto VALUES ('PAN', 10), ('CAF', 4), ('GUI', 2);
 #### Salida esperada
 
 ```
-Venta a Kira: registrada
-Venta a Bron: cancelada, falta stock
-[1 Kira]
+Venta a Nadia: registrada
+Venta a Baldo: cancelada, falta stock
+[1 Nadia]
 [1 PAN 3] [1 CAF 2]
 [CAF 2] [GUI 2] [PAN 7]
 ```
@@ -4668,8 +4668,8 @@ import java.sql.Statement;
 
 public class VentaRenglones {
     public static void main(String[] args) throws SQLException {
-        vender("Kira", new String[]{"PAN", "CAF"}, new int[]{3, 2});
-        vender("Bron", new String[]{"PAN", "GUI"}, new int[]{2, 5});
+        vender("Nadia", new String[]{"PAN", "CAF"}, new int[]{3, 2});
+        vender("Baldo", new String[]{"PAN", "GUI"}, new int[]{2, 5});
         mostrar("SELECT id, cliente FROM ticket ORDER BY id");
         mostrar("SELECT ticket_id, codigo, cantidad FROM renglon ORDER BY id");
         mostrar("SELECT codigo, stock FROM producto ORDER BY codigo");
@@ -4787,8 +4787,8 @@ $$ LANGUAGE plpgsql;
 
 ```
 Cupo libre: 3
-Kira: inscripto
-Bron: inscripto
+Nadia: inscripto
+Baldo: inscripto
 Lía: inscripto
 Pip: rechazado (no hay cupo en el curso 1)
 Cupo libre: 0
@@ -4833,7 +4833,7 @@ public class Inscripciones {
     public static void main(String[] args) throws SQLException {
         try (Connection con = Conexion.abrir()) {
             System.out.println("Cupo libre: " + cupoLibre(con, 1));
-            for (String alumno : new String[]{"Kira", "Bron", "Lía", "Pip"}) {
+            for (String alumno : new String[]{"Nadia", "Baldo", "Lía", "Pip"}) {
                 try (CallableStatement cs = con.prepareCall("CALL inscribir(?, ?)")) {
                     cs.setString(1, alumno);
                     cs.setInt(2, 1);
@@ -4884,7 +4884,7 @@ Al cerrar una partida del Arcade se hacen tres cosas en una transacción: guarda
 partida, sumarle los puntos al jugador y, **si se puede**, darle una medalla (la
 tabla `medalla` no permite dos medallas iguales para el mismo jugador). Si la medalla
 falla, **no** hay que perder la partida ni los puntos: usá un `Savepoint` antes de la
-medalla y deshacé solo hasta ahí. Cerrá dos partidas de Kira que ganan la misma medalla
+medalla y deshacé solo hasta ahí. Cerrá dos partidas de Nadia que ganan la misma medalla
 y mostrá el estado final.
 
 `schema.sql`
@@ -4896,7 +4896,7 @@ DROP TABLE IF EXISTS jugador;
 CREATE TABLE jugador (nombre VARCHAR(20) PRIMARY KEY, puntos INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE partida (id SERIAL PRIMARY KEY, jugador VARCHAR(20) REFERENCES jugador(nombre), puntos INTEGER);
 CREATE TABLE medalla (jugador VARCHAR(20) REFERENCES jugador(nombre), nombre VARCHAR(30), PRIMARY KEY (jugador, nombre));
-INSERT INTO jugador (nombre) VALUES ('Kira');
+INSERT INTO jugador (nombre) VALUES ('Nadia');
 ```
 
 #### Criterio de aprobación
@@ -4909,7 +4909,7 @@ INSERT INTO jugador (nombre) VALUES ('Kira');
 ```
 Partida de 1200 guardada con medalla
 Partida de 800 guardada (la medalla ya la tenía)
-Puntos de Kira: 2000
+Puntos de Nadia: 2000
 Partidas: 2
 Medallas: 1
 ```
@@ -4925,7 +4925,7 @@ DROP TABLE IF EXISTS jugador;
 CREATE TABLE jugador (nombre VARCHAR(20) PRIMARY KEY, puntos INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE partida (id SERIAL PRIMARY KEY, jugador VARCHAR(20) REFERENCES jugador(nombre), puntos INTEGER);
 CREATE TABLE medalla (jugador VARCHAR(20) REFERENCES jugador(nombre), nombre VARCHAR(30), PRIMARY KEY (jugador, nombre));
-INSERT INTO jugador (nombre) VALUES ('Kira');
+INSERT INTO jugador (nombre) VALUES ('Nadia');
 ```
 
 ```java
@@ -4939,10 +4939,10 @@ import java.sql.Savepoint;
 
 public class CierrePartida {
     public static void main(String[] args) throws SQLException {
-        cerrar("Kira", 1200, "Primera victoria");
-        cerrar("Kira", 800, "Primera victoria");
+        cerrar("Nadia", 1200, "Primera victoria");
+        cerrar("Nadia", 800, "Primera victoria");
         try (Connection con = Conexion.abrir()) {
-            System.out.println("Puntos de Kira: " + uno(con, "SELECT puntos FROM jugador WHERE nombre = 'Kira'"));
+            System.out.println("Puntos de Nadia: " + uno(con, "SELECT puntos FROM jugador WHERE nombre = 'Nadia'"));
             System.out.println("Partidas: " + uno(con, "SELECT COUNT(*) FROM partida"));
             System.out.println("Medallas: " + uno(con, "SELECT COUNT(*) FROM medalla"));
         }
@@ -5030,8 +5030,8 @@ CREATE TABLE reserva (funcion INTEGER, butaca VARCHAR(4), cliente VARCHAR(20) NO
 #### Entrada de ejemplo
 
 ```
-Kira;A1,A2
-Bron;A5,A6,A7
+Nadia;A1,A2
+Baldo;A5,A6,A7
 Lía;A7,A8
 Pip;A3,A4
 
@@ -5040,8 +5040,8 @@ Pip;A3,A4
 #### Salida esperada
 
 ```
-Kira: reservó A1, A2
-Bron: reservó A5, A6, A7
+Nadia: reservó A1, A2
+Baldo: reservó A5, A6, A7
 Lía: alguna butaca ya estaba ocupada, no se reservó nada
 Pip: reservó A3, A4
 Sala: XXXXXXX...
@@ -5748,7 +5748,7 @@ DROP TABLE IF EXISTS item;
 DROP TABLE IF EXISTS factura;
 CREATE TABLE factura (id INTEGER PRIMARY KEY, cliente VARCHAR(20), total NUMERIC(10, 2));
 CREATE TABLE item (id INTEGER PRIMARY KEY, factura_id INTEGER, detalle VARCHAR(20), cantidad INTEGER, precio NUMERIC(10, 2));
-INSERT INTO factura VALUES (1, 'Kira', 3000), (2, 'Bron', 900), (3, 'Lía', 500), (4, 'Nara', 0);
+INSERT INTO factura VALUES (1, 'Nadia', 3000), (2, 'Baldo', 900), (3, 'Lía', 500), (4, 'Nara', 0);
 INSERT INTO item VALUES (1, 1, 'Pan', 2, 1200), (2, 1, 'Café', 1, 600), (3, 2, 'Guiso', 1, 1000),
                         (4, 7, 'Fantasma', 1, 100), (5, 3, 'Agua', -1, 500), (6, 3, 'Té', 1, 500), (7, 2, 'Pan', 0, 1200);
 ```
@@ -5785,8 +5785,8 @@ INSERT INTO item VALUES (1, 1, 'Pan', 2, 1200), (2, 1, 'Café', 1, 600), (3, 2, 
 
  id | cliente |  total  | items 
 ----+---------+---------+-------
-  1 | Kira    | 3000.00 |     2
-  2 | Bron    | 1000.00 |     1
+  1 | Nadia    | 3000.00 |     2
+  2 | Baldo    | 1000.00 |     1
   3 | Lía     |  500.00 |     1
   4 | Nara    |    0.00 |     0
 (4 rows)
@@ -5800,7 +5800,7 @@ DROP TABLE IF EXISTS item;
 DROP TABLE IF EXISTS factura;
 CREATE TABLE factura (id INTEGER PRIMARY KEY, cliente VARCHAR(20), total NUMERIC(10, 2));
 CREATE TABLE item (id INTEGER PRIMARY KEY, factura_id INTEGER, detalle VARCHAR(20), cantidad INTEGER, precio NUMERIC(10, 2));
-INSERT INTO factura VALUES (1, 'Kira', 3000), (2, 'Bron', 900), (3, 'Lía', 500), (4, 'Nara', 0);
+INSERT INTO factura VALUES (1, 'Nadia', 3000), (2, 'Baldo', 900), (3, 'Lía', 500), (4, 'Nara', 0);
 INSERT INTO item VALUES (1, 1, 'Pan', 2, 1200), (2, 1, 'Café', 1, 600), (3, 2, 'Guiso', 1, 1000),
                         (4, 7, 'Fantasma', 1, 100), (5, 3, 'Agua', -1, 500), (6, 3, 'Té', 1, 500), (7, 2, 'Pan', 0, 1200);
 

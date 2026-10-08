@@ -207,7 +207,7 @@ El compilador los ignora: son notas para las personas.
 public class HolaImperio {
     public static void main(String[] args) {
         System.out.println("=== Aduana del Imperio de las Clases ===");
-        System.out.println("Viajera: Kira");
+        System.out.println("Viajera: Nadia");
         System.out.print("Destino: ");
         System.out.println("la capital");
 
@@ -227,7 +227,7 @@ public class HolaImperio {
 
 ```
 === Aduana del Imperio de las Clases ===
-Viajera: Kira
+Viajera: Nadia
 Destino: la capital
 Sello: "APROBADO"
 Ruta: C:\imperio\puerta
@@ -567,7 +567,7 @@ exactamente así (con tus datos, si querés, pero con el mismo formato):
 
 ```
 ==== PASE DE FRONTERA ====
-Nombre: Kira
+Nombre: Nadia
 Oficio: aprendiz de arquitectura
 Origen: el Valle de la Serpiente
 
@@ -581,7 +581,7 @@ Sello: "PUEDE PASAR"
 public class PaseFrontera {
     public static void main(String[] args) {
         System.out.println("==== PASE DE FRONTERA ====");
-        System.out.println("Nombre: Kira");
+        System.out.println("Nombre: Nadia");
         System.out.println("Oficio: aprendiz de arquitectura");
         System.out.println("Origen: el Valle de la Serpiente");
         System.out.println();

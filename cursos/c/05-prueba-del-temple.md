@@ -898,7 +898,7 @@ xp: 10
 
 Escribí **primero** las pruebas y **después** la función `bool normalizar(const char *nombre, char *salida, size_t tam)`, que deja el nombre sin espacios de más y con Mayúscula Inicial en cada palabra, sin pasarse de `tam` (si no entra, devuelve `false`):
 
-- `"kira"` → `"Kira"`; `"  bRON   el   enano "` → `"Bron El Enano"`; `"MIA"` → `"Mia"`;
+- `"kira"` → `"Kira"`; `"  tIZON   el   enano "` → `"Tizon El Enano"`; `"HULDA"` → `"Hulda"`;
 - `""` y `"   "` → `""`;
 - `"Maese Ferrum"` en un array de 5 → `false`.
 
@@ -976,8 +976,8 @@ bool normalizar(const char *nombre, char *salida, size_t tam)
 int main(void)
 {
     PROBAR("kira", "Kira");
-    PROBAR("  bRON   el   enano ", "Bron El Enano");
-    PROBAR("MIA", "Mia");
+    PROBAR("  tIZON   el   enano ", "Tizon El Enano");
+    PROBAR("HULDA", "Hulda");
     PROBAR("", "");
     PROBAR("   ", "");
     char chico[5];
@@ -1353,7 +1353,7 @@ Escribí la agenda base: un array dinámico de `Contacto` y las órdenes `agrega
 ```
 agregar Ferrum;380 4001122;ferrum@forja.ar
 agregar Ana Paz;380 4556677;ana@correo.ar
-agregar Bron;380 4223344;bron@forja.ar
+agregar Tizon;380 4223344;tizon@forja.ar
 agregar sin datos
 listar
 guardar
@@ -1367,14 +1367,14 @@ hola
   Agregado.
 > agregar Ana Paz;380 4556677;ana@correo.ar
   Agregado.
-> agregar Bron;380 4223344;bron@forja.ar
+> agregar Tizon;380 4223344;tizon@forja.ar
   Agregado.
 > agregar sin datos
   Uso: agregar Nombre;Telefono;email
 > listar
   Ana Paz          380 4556677    ana@correo.ar
-  Bron             380 4223344    bron@forja.ar
   Ferrum           380 4001122    ferrum@forja.ar
+  Tizon            380 4223344    tizon@forja.ar
   (3 contactos)
 > guardar
   Guardado.
@@ -1518,14 +1518,14 @@ Al volver a abrir: 0 contactos.
 
 ##### Un contacto
 ```entrada
-agregar Mia;380 1;mia@torre.ar
+agregar Hulda;380 1;hulda@mina.ar
 listar
 ```
 ```salida
-> agregar Mia;380 1;mia@torre.ar
+> agregar Hulda;380 1;hulda@mina.ar
   Agregado.
 > listar
-  Mia              380 1          mia@torre.ar
+  Hulda            380 1          hulda@mina.ar
   (1 contactos)
 Al volver a abrir: 1 contactos.
 ```
@@ -1680,9 +1680,9 @@ int main(void)
 agregar Ferrum;380 4001122;ferrum@forja.ar
 agregar Ana Paz;380 4556677;ana@correo.ar
 agregar Ana Paz;380 111222;otra@correo.ar
-agregar Zed;llamame;zed@sombras.ar
-agregar Mia;380 4889900;mia.torre
-agregar Bron;+54 380 4223344;bron@forja.ar
+agregar Chispa;llamame;chispa@sombras.ar
+agregar Hulda;380 4889900;hulda.mina
+agregar Tizon;+54 380 4223344;tizon@forja.ar
 buscar FORJA
 buscar ana
 buscar dragon
@@ -1700,15 +1700,15 @@ listar
   Agregado.
 > agregar Ana Paz;380 111222;otra@correo.ar
   Ya hay un contacto llamado Ana Paz.
-> agregar Zed;llamame;zed@sombras.ar
+> agregar Chispa;llamame;chispa@sombras.ar
   Teléfono inválido: llamame
-> agregar Mia;380 4889900;mia.torre
-  Email inválido: mia.torre
-> agregar Bron;+54 380 4223344;bron@forja.ar
+> agregar Hulda;380 4889900;hulda.mina
+  Email inválido: hulda.mina
+> agregar Tizon;+54 380 4223344;tizon@forja.ar
   Agregado.
 > buscar FORJA
   Ferrum           380 4001122    ferrum@forja.ar
-  Bron             +54 380 4223344 bron@forja.ar
+  Tizon            +54 380 4223344 tizon@forja.ar
 > buscar ana
   Ana Paz          380 4556677    ana@correo.ar
 > buscar dragon
@@ -1719,7 +1719,7 @@ listar
   No existe ese contacto.
 > listar
   Ana Paz          380 4556677    ana@correo.ar
-  Bron             +54 380 4223344 bron@forja.ar
+  Tizon            +54 380 4223344 tizon@forja.ar
   (2 contactos)
 Al volver a abrir: 2 contactos.
 ```
@@ -2022,20 +2022,20 @@ nombre
 ```
 Por cumple:
   Ana Paz  ana@correo.ar    mes  3
-  Mia Luz  mia@torre.ar     mes  3
-  Bron     bron@forja.ar    mes  7
+  Hulda R  hulda@mina.ar    mes  3
+  Tizon    tizon@forja.ar   mes  7
   Ferrum   ferrum@forja.ar  mes 11
 Por email:
   Ana Paz  ana@correo.ar    mes  3
-  Bron     bron@forja.ar    mes  7
   Ferrum   ferrum@forja.ar  mes 11
-  Mia Luz  mia@torre.ar     mes  3
+  Hulda R  hulda@mina.ar    mes  3
+  Tizon    tizon@forja.ar   mes  7
 No se puede ordenar por "telefono" (nombre, email o cumple)
 Por nombre:
   Ana Paz  ana@correo.ar    mes  3
-  Bron     bron@forja.ar    mes  7
   Ferrum   ferrum@forja.ar  mes 11
-  Mia Luz  mia@torre.ar     mes  3
+  Hulda R  hulda@mina.ar    mes  3
+  Tizon    tizon@forja.ar   mes  7
 ```
 
 #### Solución de referencia
@@ -2074,8 +2074,8 @@ int main(void)
     Contacto agenda[] = {
         { "Ferrum", "380 4001122", "ferrum@forja.ar", 11 },
         { "Ana Paz", "380 4556677", "ana@correo.ar", 3 },
-        { "Bron", "380 4223344", "bron@forja.ar", 7 },
-        { "Mia Luz", "380 4889900", "mia@torre.ar", 3 },
+        { "Tizon", "380 4223344", "tizon@forja.ar", 7 },
+        { "Hulda R", "380 4889900", "hulda@mina.ar", 3 },
     };
     int n = sizeof(agenda) / sizeof(agenda[0]);
     char linea[40];
@@ -2110,9 +2110,9 @@ nombre
 ```salida
 Por nombre:
   Ana Paz  ana@correo.ar    mes  3
-  Bron     bron@forja.ar    mes  7
   Ferrum   ferrum@forja.ar  mes 11
-  Mia Luz  mia@torre.ar     mes  3
+  Hulda R  hulda@mina.ar    mes  3
+  Tizon    tizon@forja.ar   mes  7
 ```
 
 ##### Campo desconocido
@@ -2151,7 +2151,7 @@ Para mandar cartas, el Gremio necesita etiquetas: cada destinatario (nombre, cal
 | Forjas de Hierro    |
 +---------------------+
 +----------------+
-| Bron           |
+| Tizon          |
 | Pasaje Enano 3 |
 | Montaña Gris  |
 +----------------+
@@ -2200,7 +2200,7 @@ int main(void)
 {
     Destinatario lista[] = {
         { "Maese Ferrum", "Calle del Yunque 12", "Forjas de Hierro" },
-        { "Bron", "Pasaje Enano 3", "Montaña Gris" },
+        { "Tizon", "Pasaje Enano 3", "Montaña Gris" },
     };
     for (int i = 0; i < 2; i++) {
         etiqueta(&lista[i]);

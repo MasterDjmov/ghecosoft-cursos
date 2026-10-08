@@ -1104,12 +1104,12 @@ significa lo mismo; el `*` se explica en el 13.
 ```c
 const char *correo = "kira@forja.cx";               /* un texto fijo, que no se modifica */
 const char *oficios[] = { "guerrera", "herrero" };  /* una lista de textos fijos */
-char compania[4][8] = { "Kira", "Bron", "Mia", "Zed" };  /* 4 textos de hasta 7 letras */
+char compania[4][8] = { "Kira", "Tizon", "Hulda", "Chispa" };  /* 4 textos de hasta 7 letras */
 ```
 - Un `const char *` **no se puede modificar**: sirve para nombres, mensajes y
   opciones que no cambian.
 - Una matriz de `char` (`compania`) es un array de textos **modificables**, cada
-  uno con su tamaño máximo. `compania[1]` es `"Bron"` y `compania[1][0]` es
+  uno con su tamaño máximo. `compania[1]` es `"Tizón"` y `compania[1][0]` es
   `'B'`.
 
 #### `<string.h>`: lo básico
@@ -1183,7 +1183,7 @@ es verdadero solo para los bytes que **empiezan** una letra.
 
 ```bash
 make run                            # escribí un nombre
-./programa < main.entrada.txt       # contesta "Zed el Veloz"
+./programa < main.entrada.txt       # contesta "Chispa el Veloz"
 ```
 
 ### Código de ejemplo
@@ -1229,8 +1229,8 @@ int main(void)
 
     /* --- Comparar: strcmp devuelve 0 si son iguales --- */
     printf("strcmp(\"Kira\", \"Kira\") = %d\n", strcmp(nombre, "Kira"));
-    printf("\"Bron\" va %s de \"Kira\" en el diccionario\n",
-           strcmp("Bron", "Kira") < 0 ? "antes" : "después");
+    printf("\"Tizon\" va %s de \"Kira\" en el diccionario\n",
+           strcmp("Tizon", "Kira") < 0 ? "antes" : "después");
     printf("¿\"Maese Ferrum\" empieza con \"Maese\"? %s\n",
            strncmp("Maese Ferrum", "Maese", 5) == 0 ? "sí" : "no");
 
@@ -1267,8 +1267,8 @@ int main(void)
     printf("\nBienvenido, %s (strlen %zu)\n", recluta, strlen(recluta));
 
     /* --- Arrays de textos --- */
-    char compania[4][8] = { "Kira", "Bron", "Mia", "Zed" };  /* 4 textos de hasta 7 letras */
-    const char *oficios[] = { "guerrera", "herrero", "maga", "explorador" };  /* textos fijos */
+    char compania[4][8] = { "Kira", "Tizon", "Hulda", "Chispa" };  /* 4 textos de hasta 7 letras */
+    const char *oficios[] = { "guerrera", "herrero", "minera", "mercader" };  /* textos fijos */
     for (int i = 0; i < 4; i++) {
         printf("  %-5s %s\n", compania[i], oficios[i]);
     }
@@ -1315,7 +1315,7 @@ int contar_letras_utf8(const char texto[])
 ### Entrada de ejemplo
 
 ```
-Zed el Veloz
+Chispa el Veloz
 ```
 
 ### Salida esperada
@@ -1326,18 +1326,18 @@ Zed el Veloz
 copia: Kira | saludo: ¡Hola, Kira! Nivel 7.
 en 8 bytes solo entra "¡Hola," (hacían falta 22 bytes + el \0)
 strcmp("Kira", "Kira") = 0
-"Bron" va antes de "Kira" en el diccionario
+"Tizon" va después de "Kira" en el diccionario
 ¿"Maese Ferrum" empieza con "Maese"? sí
 el @ está en la posición 4; ¿tiene "forja"? sí; ¿tiene '#'? no
 en mayúsculas: KIRA (el original: Kira)
 etiqueta: Espada +3 (2.5 kg)
 leído del texto: ataque 18, peso 4.5
-¿Cómo se llama el nuevo aprendiz? 
-Bienvenido, Zed el Veloz (strlen 12)
+¿Cómo se llama el nuevo aprendiz?
+Bienvenido, Chispa el Veloz (strlen 15)
   Kira  guerrera
-  Bron  herrero
-  Mia   maga
-  Zed   explorador
+  Tizon herrero
+  Hulda minera
+  Chispa mercader
 "herrería": strlen = 9 bytes, pero tiene 8 letras
 [herrero   ] [herrería ]  <- las dos con ancho 10: una queda corrida
 ```
@@ -1353,7 +1353,7 @@ Mensajes reales de `gcc` 13 con `-Wall -Wextra`.
 **Goblin: asignar un texto con `=`.**
 ```
 s1.c:6:12: error: assignment to expression with array type
-    6 |     nombre = "Bron";
+    6 |     nombre = "Tizon";
       |            ^
 ```
 
@@ -1590,24 +1590,24 @@ con su número de línea.
 
 ```
 Kira;7;350
-Bron;12;1200
-Mia;siete;80
-Zed;5
+Tizon;12;1200
+Hulda;siete;80
+Chispa;5
 Ferrum;40;9000
 Nadie;0;10
-Mia;6;80x
+Hulda;6;80x
 ```
 
 #### Salida esperada
 
 ```
 Kira       nivel  7    350 de oro
-Bron       nivel 12   1200 de oro
-línea 3 inválida: "Mia;siete;80"
-línea 4 inválida: "Zed;5"
+Tizon      nivel 12   1200 de oro
+línea 3 inválida: "Hulda;siete;80"
+línea 4 inválida: "Chispa;5"
 Ferrum     nivel 40   9000 de oro
 línea 6 inválida: "Nadie;0;10"
-línea 7 inválida: "Mia;6;80x"
+línea 7 inválida: "Hulda;6;80x"
 3 registros válidos, 10550 de oro en total
 ```
 
@@ -1853,17 +1853,17 @@ void revisar(const char clave[])
 
 ### Prueba del sello
 
-#### ¿Cuántos bytes ocupa `"Mia"`? ¿Cuántas letras entran en `char x[10]`?
+#### ¿Cuántos bytes ocupa `"Hulda"`? ¿Cuántas letras entran en `char x[10]`?
 
-`"Mia"` ocupa 4 bytes (3 letras más el `'\0'`). En `char x[10]` entran 9 letras.
+`"Hulda"` ocupa 6 bytes (5 letras más el `'\0'`). En `char x[10]` entran 9 letras.
 
 #### ¿Qué diferencia hay entre `'a'` y `"a"`?
 
 `'a'` es un carácter (un número); `"a"` es un texto: la `a` más el `'\0'`.
 
-#### ¿Qué devuelve `strcmp("Bron", "Kira")`: cero, negativo o positivo?
+#### ¿Qué devuelve `strcmp("Tizon", "Kira")`: cero, negativo o positivo?
 
-Negativo: `"Bron"` va antes que `"Kira"`.
+Negativo: `"Tizon"` va antes que `"Kira"`.
 
 #### ¿Por qué no se puede comparar textos con `==`?
 
@@ -1899,7 +1899,7 @@ temas: col.registros, prog.enums
 
 En el depósito de la Forja, cada aprendiz tiene una **ficha de hierro** con todo lo suyo: nombre, oficio, dónde está trabajando, su vida y su fuerza, y los tres huecos de su mochila.
 
-—Antes teníamos una lista de nombres, otra de vidas, otra de posiciones —gruñe {mentor}—. Un día alguien ordenó una y no las otras. Kira quedó con la vida de Bron durante una semana.
+—Antes teníamos una lista de nombres, otra de vidas, otra de posiciones —gruñe {mentor}—. Un día alguien ordenó una y no las otras. Kira quedó con la vida de Tizon durante una semana.
 
 ### Objetivos
 
@@ -2064,20 +2064,20 @@ int main(void)
     };
 
     /* --- Campo por campo, con el punto --- */
-    Personaje bron;
-    snprintf(bron.nombre, sizeof(bron.nombre), "%s", "Bron");
-    bron.clase = CLASE_HERRERO;
-    bron.pos.x = 4;                              /* campo de un campo */
-    bron.pos.y = 2;
-    bron.stats.vida = 140;
-    bron.stats.vida_max = 140;
-    bron.stats.ataque = 12;
-    bron.items = 0;
+    Personaje tizon;
+    snprintf(tizon.nombre, sizeof(tizon.nombre), "%s", "Tizón");
+    tizon.clase = CLASE_HERRERO;
+    tizon.pos.x = 4;                              /* campo de un campo */
+    tizon.pos.y = 2;
+    tizon.stats.vida = 140;
+    tizon.stats.vida_max = 140;
+    tizon.stats.ataque = 12;
+    tizon.items = 0;
 
     printf("sizeof(Posicion) = %zu, sizeof(Personaje) = %zu bytes\n",
            sizeof(Posicion), sizeof(Personaje));
     mostrar(kira);
-    mostrar(bron);
+    mostrar(tizon);
 
     /* --- Los structs se copian con = (los arrays sueltos no) --- */
     Personaje sombra = kira;
@@ -2159,7 +2159,7 @@ bool misma_posicion(Posicion a, Posicion b)
 sizeof(Posicion) = 8, sizeof(Personaje) = 92 bytes
 Kira (guerrera, clase n.º 0) en (1, 2)  vida 100/100  ataque 18
   mochila: (vacía)
-Bron (herrero, clase n.º 2) en (4, 2)  vida 140/140  ataque 12
+Tizón (herrero, clase n.º 2) en (4, 2)  vida 140/140  ataque 12
   mochila: (vacía)
 
 la copia cambia sola: Sombra tiene 1 de vida, Kira sigue con 100
@@ -3354,7 +3354,7 @@ int main(void)
     printf("el más débil tiene %d (posición %d); el más fuerte, %d (posición %d)\n",
            *menor, (int) (menor - vidas), *mayor, (int) (mayor - vidas));
 
-    *mayor /= 2;                     /* el hechizo de Mia al mas fuerte */
+    *mayor /= 2;                     /* el hechizo de Hulda al mas fuerte */
     *menor = 0;                      /* Kira remata al mas debil */
     mostrar(vidas, n);
     return 0;
@@ -3574,7 +3574,7 @@ el objetivo sí.
 - `mover(&kira.pos, 3, -1)` pasa la dirección de **solo la posición**. La
   función recibe un `Posicion *` y no puede tocar el resto de la ficha. (El `.`
   va antes que el `&`: es `&(kira.pos)`.)
-- `mas_herido(&kira, &bron)` devuelve la **dirección** de uno de los dos. Con
+- `mas_herido(&kira, &tizon)` devuelve la **dirección** de uno de los dos. Con
   ese puntero se trabaja sobre el original: `curar(herido, 40)`.
 - Dentro de una función, un parámetro que ya es puntero se pasa **sin `&`**:
   en `atacar`, `recibir_danio(objetivo, ...)`.
@@ -3645,7 +3645,7 @@ void       mostrar(const Personaje *p);
 int main(void)
 {
     Personaje kira = personaje_crear("Kira", 100, 18, 120);
-    Personaje bron = personaje_crear("Bron", 140, 12, 300);
+    Personaje tizon = personaje_crear("Tizon", 140, 12, 300);
     printf("un Personaje ocupa %zu bytes; un puntero a él, %zu\n\n",
            sizeof(Personaje), sizeof(Personaje *));
 
@@ -3673,17 +3673,17 @@ int main(void)
 
     /* --- Funciones que reciben dos entidades --- */
     printf("\n");
-    atacar(&bron, &kira);
-    atacar(&kira, &bron);
+    atacar(&tizon, &kira);
+    atacar(&kira, &tizon);
     printf("%s compra una espada de 200: %s\n", kira.nombre, pagar(&kira, 200) ? "sí" : "no le alcanza");
-    printf("%s compra una espada de 200: %s\n", bron.nombre, pagar(&bron, 200) ? "sí" : "no le alcanza");
+    printf("%s compra una espada de 200: %s\n", tizon.nombre, pagar(&tizon, 200) ? "sí" : "no le alcanza");
 
     /* --- Una funcion que devuelve un puntero a uno de los dos --- */
-    Personaje *herido = mas_herido(&kira, &bron);
-    printf("Mia cura al más herido: %s\n", herido->nombre);
+    Personaje *herido = mas_herido(&kira, &tizon);
+    printf("Hulda cura al más herido: %s\n", herido->nombre);
     curar(herido, 40);
     mostrar(&kira);
-    mostrar(&bron);
+    mostrar(&tizon);
 
     recibir_danio(&kira, 999);
     printf("¿Kira sigue en pie? %s\n", esta_vivo(&kira) ? "sí" : "no");
@@ -3780,13 +3780,13 @@ después de curar (por puntero):
 oro de Kira: 130 (sumado dos veces por el puntero)
 Kira se movió a (3, -1)
 
-Bron golpea a Kira por 12 (le queda 68)
-Kira golpea a Bron por 18 (le queda 122)
+Tizon golpea a Kira por 12 (le queda 68)
+Kira golpea a Tizon por 18 (le queda 122)
 Kira compra una espada de 200: no le alcanza
-Bron compra una espada de 200: sí
-Mia cura al más herido: Kira
+Tizon compra una espada de 200: sí
+Hulda cura al más herido: Kira
   Kira  vida 100/100  ataque 18  oro 130
-  Bron  vida 122/140  ataque 12  oro 100
+  Tizon vida 122/140  ataque 12  oro 100
 ¿Kira sigue en pie? no
 ```
 
@@ -4110,15 +4110,15 @@ ataque). Devuelve cuántos niveles subió: puede ser más de uno de golpe.
 #### Salida esperada
 
 ```
-  Zed nivel 1 (0/100 xp)  vida 50  ataque 8
+  Chispa nivel 1 (0/100 xp)  vida 50  ataque 8
 +60 xp
-  Zed nivel 1 (60/100 xp)  vida 50  ataque 8
+  Chispa nivel 1 (60/100 xp)  vida 50  ataque 8
 +150 xp -> ¡subió 1 nivel!
-  Zed nivel 2 (110/200 xp)  vida 60  ataque 10
+  Chispa nivel 2 (110/200 xp)  vida 60  ataque 10
 +30 xp
-  Zed nivel 2 (140/200 xp)  vida 60  ataque 10
+  Chispa nivel 2 (140/200 xp)  vida 60  ataque 10
 +400 xp -> ¡subió 2 niveles!
-  Zed nivel 4 (40/400 xp)  vida 80  ataque 14
+  Chispa nivel 4 (40/400 xp)  vida 80  ataque 14
 ```
 
 #### Solución de referencia
@@ -4144,18 +4144,18 @@ void mostrar(const Personaje *p);
 
 int main(void)
 {
-    Personaje zed = { "Zed", 1, 0, 50, 8 };
+    Personaje chispa = { "Chispa", 1, 0, 50, 8 };
     int botines[] = { 60, 150, 30, 400 };
 
-    mostrar(&zed);
+    mostrar(&chispa);
     for (int i = 0; i < 4; i++) {
-        int subio = ganar_experiencia(&zed, botines[i]);
+        int subio = ganar_experiencia(&chispa, botines[i]);
         printf("+%d xp", botines[i]);
         if (subio > 0) {
             printf(" -> ¡subió %d nivel%s!", subio, subio > 1 ? "es" : "");
         }
         printf("\n");
-        mostrar(&zed);
+        mostrar(&chispa);
     }
     return 0;
 }
@@ -4378,7 +4378,7 @@ que se llega a sus campos con `c->miembros[i].nombre`.
 | **recorrer** | con índice, o con un puntero de `miembros` a `miembros + cantidad` |
 
 `buscar` devuelve un **puntero** al elemento, no una copia: con él se modifica
-el héroe que está en el array (`bron->vida -= 60`). Ese puntero deja de ser
+el héroe que está en el array (`tizon->vida -= 60`). Ese puntero deja de ser
 válido si después se quita o se ordena: los elementos cambian de lugar.
 
 #### Ordenar a mano: selección
@@ -4475,9 +4475,9 @@ int main(void)
     Compania compania = { .cantidad = 0 };
 
     agregar(&compania, "Kira", 100, 18);
-    agregar(&compania, "Mia", 70, 25);
-    agregar(&compania, "Bron", 140, 12);
-    agregar(&compania, "Zed", 80, 30);
+    agregar(&compania, "Hulda", 70, 25);
+    agregar(&compania, "Tizon", 140, 12);
+    agregar(&compania, "Chispa", 80, 30);
     agregar(&compania, "Ferrum", 160, 22);
     if (!agregar(&compania, "Nyx", 60, 20)) {
         printf("la compañía está completa: Nyx no entra\n");
@@ -4486,15 +4486,15 @@ int main(void)
     printf("vida total: %d\n", vida_total(&compania));
 
     /* --- Buscar: devuelve un puntero al elemento, o NULL --- */
-    Heroe *bron = buscar(&compania, "Bron");
-    if (bron != NULL) {
-        bron->vida -= 60;                        /* cambia el que esta en el array */
+    Heroe *tizon = buscar(&compania, "Tizon");
+    if (tizon != NULL) {
+        tizon->vida -= 60;                        /* cambia el que esta en el array */
         printf("\nBron recibe 60 de daño: le quedan %d\n", compania.miembros[2].vida);
     }
     printf("¿está Nyx? %s\n", buscar(&compania, "Nyx") != NULL ? "sí" : "no");
 
     /* --- Quitar: los de atras se corren un lugar --- */
-    quitar(&compania, "Mia");
+    quitar(&compania, "Hulda");
     printf("\nMia vuelve a la torre:\n");
     mostrar(&compania);
 
@@ -4615,9 +4615,9 @@ void mostrar(const Compania *c)
 ```
 la compañía está completa: Nyx no entra
   1. Kira    vida 100  ataque 18
-  2. Mia     vida  70  ataque 25
-  3. Bron    vida 140  ataque 12
-  4. Zed     vida  80  ataque 30
+  2. Hulda   vida  70  ataque 25
+  3. Tizon   vida 140  ataque 12
+  4. Chispa  vida  80  ataque 30
   5. Ferrum  vida 160  ataque 22
 vida total: 550
 
@@ -4626,22 +4626,22 @@ Bron recibe 60 de daño: le quedan 80
 
 Mia vuelve a la torre:
   1. Kira    vida 100  ataque 18
-  2. Bron    vida  80  ataque 12
-  3. Zed     vida  80  ataque 30
+  2. Tizon   vida  80  ataque 12
+  3. Chispa  vida  80  ataque 30
   4. Ferrum  vida 160  ataque 22
 
 ordenada por ataque, de mayor a menor (a mano):
-  1. Zed     vida  80  ataque 30
+  1. Chispa  vida  80  ataque 30
   2. Ferrum  vida 160  ataque 22
   3. Kira    vida 100  ataque 18
-  4. Bron    vida  80  ataque 12
+  4. Tizon   vida  80  ataque 12
 
 tiradas ordenadas con qsort: 3 8 11 14 20
 ordenada por nombre (con qsort):
-  1. Bron    vida  80  ataque 12
+  1. Chispa  vida  80  ataque 30
   2. Ferrum  vida 160  ataque 22
   3. Kira    vida 100  ataque 18
-  4. Zed     vida  80  ataque 30
+  4. Tizon   vida  80  ataque 12
 ```
 
 ### ¿Para qué sirve?
@@ -4715,17 +4715,17 @@ devuelve el puesto, o `-1` si no entró.
 
 ```
 Kira   420: entra en el puesto 1
-Zed    380: entra en el puesto 2
-Mia    510: entra en el puesto 1
-Bron   150: entra en el puesto 4
+Chispa 380: entra en el puesto 2
+Hulda  510: entra en el puesto 1
+Tizon  150: entra en el puesto 4
 Nyx     90: entra en el puesto 5
 Kira   600: entra en el puesto 1
 Ferrum 200: entra en el puesto 5
 
   1. Kira    600
-  2. Mia     510
+  2. Hulda   510
   3. Kira    420
-  4. Zed     380
+  4. Chispa  380
   5. Ferrum  200
 ```
 
@@ -4757,7 +4757,7 @@ void mostrar(const Tablero *t);
 int main(void)
 {
     Tablero tablero = { .cantidad = 0 };
-    const char *nombres[] = { "Kira", "Zed", "Mia", "Bron", "Nyx", "Kira", "Ferrum" };
+    const char *nombres[] = { "Kira", "Chispa", "Hulda", "Tizon", "Nyx", "Kira", "Ferrum" };
     int puntos[] = { 420, 380, 510, 150, 90, 600, 200 };
 
     for (int i = 0; i < 7; i++) {
@@ -4937,7 +4937,7 @@ vacías.
 Kira
 7
 1
-Bron
+Tizon
 doce
 12
 1
@@ -4946,16 +4946,16 @@ Kira
 9
 1
 
-Mia
+Hulda
 6
 1
 4
 2
-Bron
+Tizon
 3
 Kira
 3
-Zed
+Chispa
 4
 0
 ```
@@ -4969,7 +4969,7 @@ Opción: Nombre: Nivel (1-99): Se sumó Kira.
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción: Nombre: Nivel (1-99): 
   tiene que ser un número entre 1 y 99.
-Nivel (1-99): Se sumó Bron.
+Nivel (1-99): Se sumó Tizon.
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción: Nombre: Nivel (1-99): Kira ya está en la compañía.
@@ -4979,28 +4979,28 @@ Opción:
   tiene que ser un número entre 0 y 4.
 Opción: Nombre: 
   no puede estar vacío.
-Nombre: Nivel (1-99): Se sumó Mia.
+Nombre: Nivel (1-99): Se sumó Hulda.
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción: La compañía está completa.
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción:   1. Kira (nivel 7)
-  2. Bron (nivel 12)
-  3. Mia (nivel 6)
+  2. Tizon (nivel 12)
+  3. Hulda (nivel 6)
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: Nombre: Bron está en el puesto 2, nivel 12.
+Opción: Nombre: Tizon está en el puesto 2, nivel 12.
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción: Nombre: Kira dejó la compañía.
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: Nombre: No hay nadie llamado Zed.
+Opción: Nombre: No hay nadie llamado Chispa.
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción:   1. Bron (nivel 12)
-  2. Mia (nivel 6)
+Opción:   1. Tizon (nivel 12)
+  2. Hulda (nivel 6)
 
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción: ¡Hasta la próxima!

@@ -120,9 +120,9 @@ int main(void)
     }
     fprintf(f, "nombre;nivel;oro\n");
     fprintf(f, "Kira;6;250\n");
-    fprintf(f, "Bron;9;1200\n");
-    fprintf(f, "Zed;siete;80\n");              /* una linea rota, a proposito */
-    fprintf(f, "Mia;5;430\n");
+    fprintf(f, "Tizon;9;1200\n");
+    fprintf(f, "Chispa;siete;80\n");              /* una linea rota, a proposito */
+    fprintf(f, "Hulda;5;430\n");
     fclose(f);
 
     /* 2) Leer: "r". Cada linea con fgets, cada dato con sscanf. */
@@ -165,9 +165,9 @@ int main(void)
 
 ```
 Kira   nivel  6    250 de oro
-Bron   nivel  9   1200 de oro
-línea 4 con error: "Zed;siete;80"
-Mia    nivel  5    430 de oro
+Tizon  nivel  9   1200 de oro
+línea 4 con error: "Chispa;siete;80"
+Hulda  nivel  5    430 de oro
 3 aprendices, 1880 de oro en total
 ```
 
@@ -655,8 +655,8 @@ int main(void)
 {
     Heroe grupo[] = {
         { "Kira", 6, 48, 250 },
-        { "Bron", 9, 90, 1200 },
-        { "Mia", 5, 35, 430 },
+        { "Tizon", 9, 90, 1200 },
+        { "Hulda", 5, 35, 430 },
     };
     int n = sizeof(grupo) / sizeof(grupo[0]);
 
@@ -706,9 +706,9 @@ int main(void)
 Guardados 3 héroes de 28 bytes cada uno
 Leídos 3 héroes (84 bytes en el archivo)
   Kira  nivel 6, vida 48, oro 250
-  Bron  nivel 9, vida 90, oro 1200
-  Mia   nivel 5, vida 35, oro 430
-Registro 1 leído directo: Bron
+  Tizon nivel 9, vida 90, oro 1200
+  Hulda nivel 5, vida 35, oro 430
+Registro 1 leído directo: Tizon
 ¿Iguales? sí
 ```
 
@@ -2071,10 +2071,10 @@ Escribí `saludo [-m] [-n VECES] NOMBRE`: saluda al nombre, en mayúsculas con `
 ```
 $ ./saludo Kira
 ¡Salud, Kira!
-$ ./saludo -n 2 -m Bron
-¡Salud, BRON!
-¡Salud, BRON!
-$ ./saludo -x Mia
+$ ./saludo -n 2 -m Tizon
+¡Salud, TIZON!
+¡Salud, TIZON!
+$ ./saludo -x Hulda
 Opción desconocida: -x
 ```
 
@@ -2358,7 +2358,7 @@ int main(void)
             } else {
                 kira.vida -= 10;
                 kira.fuerza++;
-                printf("Entrenás con Bron. +1 de fuerza.\n");
+                printf("Entrenás con Tizon. +1 de fuerza.\n");
             }
             break;
         case 3:
@@ -2413,12 +2413,12 @@ La poción fortalece: +5 de vida máxima.
 [vida 30/55 | oro 5 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
 Elegí: 
-Entrenás con Bron. +1 de fuerza.
+Entrenás con Tizon. +1 de fuerza.
 
 [vida 20/55 | oro 5 | fuerza 6]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
 Elegí: 
-Entrenás con Bron. +1 de fuerza.
+Entrenás con Tizon. +1 de fuerza.
 
 [vida 10/55 | oro 5 | fuerza 7]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
@@ -2532,7 +2532,7 @@ int main(void)
             } else {
                 kira.vida -= 10;
                 kira.fuerza++;
-                printf("Entrenás con Bron. +1 de fuerza.\n");
+                printf("Entrenás con Tizon. +1 de fuerza.\n");
             }
             break;
         case 3:
@@ -2669,7 +2669,7 @@ int main(void)
             } else {
                 kira.vida -= 10;
                 kira.fuerza++;
-                printf("Entrenás con Bron. +1 de fuerza.\n");
+                printf("Entrenás con Tizon. +1 de fuerza.\n");
             }
             break;
         case 3:
@@ -2843,7 +2843,7 @@ int main(void)
             } else {
                 kira.vida -= 10;
                 kira.fuerza++;
-                printf("Entrenás con Bron. +1 de fuerza.\n");
+                printf("Entrenás con Tizon. +1 de fuerza.\n");
             }
             break;
         case 3:
@@ -2898,12 +2898,12 @@ La poción fortalece: +5 de vida máxima.
 [vida 30/55 | oro 5 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
 Elegí: 
-Entrenás con Bron. +1 de fuerza.
+Entrenás con Tizon. +1 de fuerza.
 
 [vida 20/55 | oro 5 | fuerza 6]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
 Elegí: 
-Entrenás con Bron. +1 de fuerza.
+Entrenás con Tizon. +1 de fuerza.
 
 [vida 10/55 | oro 5 | fuerza 7]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
@@ -2943,7 +2943,7 @@ void entrenar(Jugador *j)
     }
     j->vida -= 10;
     j->fuerza++;
-    printf("Entrenás con Bron. +1 de fuerza.\n");
+    printf("Entrenás con Tizon. +1 de fuerza.\n");
 }
 void trabajar(Jugador *j) { j->oro += 15; printf("Trabajás en la forja. +15 de oro.\n"); }
 void comprar(Jugador *j)

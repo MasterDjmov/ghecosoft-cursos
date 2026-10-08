@@ -294,7 +294,7 @@ xp: 10
 
 #### Consigna
 
-Bron tiene nivel 12, 3 500 millones de
+Tizón tiene nivel 12, 3 500 millones de
 experiencia, 15 % de probabilidad de crítico, rango `S`, escudo (sí) y 40
 flechas. Elegí el tipo de cada variable y mostralas con el formato correcto.
 ¿Por qué la experiencia no entra en un `int`?
@@ -308,7 +308,7 @@ flechas. Elegí el tipo de cada variable y mostralas con el formato correcto.
 #### Salida esperada
 
 ```
-Bron | nivel 12 | exp 3500000000
+Tizon | nivel 12 | exp 3500000000
 crítico 0.15 | rango S | escudo 1 | flechas 40
 ```
 
@@ -316,7 +316,7 @@ crítico 0.15 | rango S | escudo 1 | flechas 40
 
 ```c
 /*
- * Mision 1 - Cada dato en su caja: elegir el tipo de cada atributo de Bron.
+ * Mision 1 - Cada dato en su caja: elegir el tipo de cada atributo de Tizon.
  */
 #include <stdio.h>
 #include <stdbool.h>
@@ -330,7 +330,7 @@ int main(void)
     bool      tiene_escudo = true;          /* si / no */
     unsigned int flechas   = 40u;           /* nunca es negativo */
 
-    printf("Bron | nivel %d | exp %lld\n", nivel, experiencia);
+    printf("Tizon | nivel %d | exp %lld\n", nivel, experiencia);
     printf("crítico %.2f | rango %c | escudo %d | flechas %u\n",
            prob_critico, rango, tiene_escudo, flechas);
     return 0;
@@ -856,22 +856,22 @@ xp: 10
 #### Consigna
 
 Pasa quien tiene nivel 5 o más **y** (llave **o**
-magia) **y no** está maldito. Evaluá a Kira (nivel 6, con llave), Mia (nivel
-5, maga, sin llave) y Zed (nivel 8, con llave, maldito). Después probá la
+magia) **y no** está maldito. Evaluá a Kira (nivel 6, con llave), Hulda (nivel
+5, minera, sin llave) y Chispa (nivel 8, con llave, maldito). Después probá la
 regla **sin** los paréntesis de `(llave || magia)` con un aprendiz mago de
 nivel 1 y explicá por qué cambia el resultado.
 
 #### Criterio de aprobación
 
-- Evalúa la regla con paréntesis para Kira (1), Mia (1) y Zed (0).
+- Evalúa la regla con paréntesis para Kira (1), Hulda (1) y Chispa (0).
 - Muestra que sin los paréntesis el aprendiz de nivel 1 pasa, y explica que `&&` se evalúa antes que `||`.
 
 #### Salida esperada
 
 ```
 Kira pasa: 1
-Mia pasa: 1
-Zed pasa: 0
+Hulda pasa: 1
+Chispa pasa: 0
 Aprendiz, con paréntesis: 0
 Aprendiz, sin paréntesis: 1
 ```
@@ -891,13 +891,13 @@ int main(void)
     int nivel = 6, llave = 1, magia = 0, maldito = 0;
     printf("Kira pasa: %d\n", nivel >= 5 && (llave || magia) && !maldito);
 
-    /* Mia: nivel 5, maga, sin llave */
+    /* Hulda: nivel 5, minera, sin llave */
     nivel = 5; llave = 0; magia = 1; maldito = 0;
-    printf("Mia pasa: %d\n", nivel >= 5 && (llave || magia) && !maldito);
+    printf("Hulda pasa: %d\n", nivel >= 5 && (llave || magia) && !maldito);
 
-    /* Zed: nivel 8, con llave, maldito */
+    /* Chispa: nivel 8, con llave, maldito */
     nivel = 8; llave = 1; magia = 0; maldito = 1;
-    printf("Zed pasa: %d\n", nivel >= 5 && (llave || magia) && !maldito);
+    printf("Chispa pasa: %d\n", nivel >= 5 && (llave || magia) && !maldito);
 
     /* Aprendiz: nivel 1, mago. Sin parentesis, && va ANTES que ||:
        (nivel >= 5 && llave) || (magia && !maldito)  -> 1 (¡y no deberia!) */
@@ -1292,23 +1292,23 @@ xp: 10
 #### Consigna
 
 Definí banderas `NADAR`, `TREPAR`,
-`FORJAR`, `CURAR` y `SIGILO`. Kira nada y trepa, Bron forja y trepa, y Mia
-cura. Mia aprende a nadar y Bron se lastima la mano (ya no trepa). Mostrá las
-habilidades de todo el equipo juntas (`|`), las que Kira y Mia tienen en común
+`FORJAR`, `CURAR` y `SIGILO`. Kira nada y trepa, Tizón forja y trepa, y Hulda
+cura. Hulda aprende a nadar y Tizón se lastima la mano (ya no trepa). Mostrá las
+habilidades de todo el equipo juntas (`|`), las que Kira y Hulda tienen en común
 (`&`) y si alguien tiene sigilo.
 
 #### Criterio de aprobación
 
 - Define cada habilidad como un bit distinto (`1 << n` o potencias de 2).
 - Enciende con `|=`, apaga con `&= ~` y pregunta con `&`.
-- Muestra las habilidades del equipo (`|`), las comunes entre Kira y Mia (`&`) y si alguien tiene sigilo.
+- Muestra las habilidades del equipo (`|`), las comunes entre Kira y Hulda (`&`) y si alguien tiene sigilo.
 
 #### Salida esperada
 
 ```
-Kira: 0x03  Bron: 0x04  Mia: 0x09
-¿Bron trepa? 0  ¿Mia nada? 1
-El equipo puede: 0x0f  Kira y Mia en común: 0x01 (nadar)
+Kira: 0x03  Tizon: 0x04  Hulda: 0x09
+¿Tizon trepa? 0  ¿Hulda nada? 1
+El equipo puede: 0x0f  Kira y Hulda en común: 0x01 (nadar)
 ¿Alguien tiene sigilo? 0
 ```
 
@@ -1330,19 +1330,19 @@ El equipo puede: 0x0f  Kira y Mia en común: 0x01 (nadar)
 int main(void)
 {
     uint8_t kira = NADAR | TREPAR;
-    uint8_t bron = FORJAR | TREPAR;
-    uint8_t mia  = CURAR;
+    uint8_t tizon = FORJAR | TREPAR;
+    uint8_t hulda  = CURAR;
 
-    mia |= NADAR;                 /* Mia aprende a nadar */
-    bron &= ~TREPAR;              /* Bron se lastima la mano: ya no trepa */
+    hulda |= NADAR;                 /* Hulda aprende a nadar */
+    tizon &= ~TREPAR;              /* Tizon se lastima la mano: ya no trepa */
 
-    printf("Kira: %#04x  Bron: %#04x  Mia: %#04x\n", kira, bron, mia);
-    printf("¿Bron trepa? %d  ¿Mia nada? %d\n", (bron & TREPAR) != 0, (mia & NADAR) != 0);
+    printf("Kira: %#04x  Tizon: %#04x  Hulda: %#04x\n", kira, tizon, hulda);
+    printf("¿Tizon trepa? %d  ¿Hulda nada? %d\n", (tizon & TREPAR) != 0, (hulda & NADAR) != 0);
 
     /* | junta las habilidades de todos; & las que tienen en comun */
-    uint8_t equipo = kira | bron | mia;
-    uint8_t en_comun = kira & mia;
-    printf("El equipo puede: %#04x  Kira y Mia en común: %#04x (nadar)\n", equipo, en_comun);
+    uint8_t equipo = kira | tizon | hulda;
+    uint8_t en_comun = kira & hulda;
+    printf("El equipo puede: %#04x  Kira y Hulda en común: %#04x (nadar)\n", equipo, en_comun);
     printf("¿Alguien tiene sigilo? %d\n", (equipo & SIGILO) != 0);
     return 0;
 }
@@ -1555,7 +1555,7 @@ temas: prog.salida, prog.entrada
 
 ### Crónica
 
-En la ventanilla de la Forja, un escriba anota los datos de cada aprendiz. Zed se divierte contestando "diecinueve" cuando le preguntan la edad, o "1,80" cuando le piden la altura. El escriba anota lo que puede… y la ficha sale mal.
+En la ventanilla de la Forja, un escriba anota los datos de cada aprendiz. Chispa se divierte contestando "diecinueve" cuando le preguntan la edad, o "1,80" cuando le piden la altura. El escriba anota lo que puede… y la ficha sale mal.
 
 —El metal no adivina, {heroe} —dice {mentor}—. Si no chequeás lo que te dan, forjás basura.
 
@@ -1868,7 +1868,7 @@ xp: 10
 #### Consigna
 
 Mostrá nombre, nivel, vida y precisión de Kira,
-Bron, Mia y Zed en columnas alineadas, y el oro del grupo con 8 cifras
+Tizón, Hulda y Chispa en columnas alineadas, y el oro del grupo con 8 cifras
 (`00004250`).
 
 #### Criterio de aprobación
@@ -1881,9 +1881,9 @@ Bron, Mia y Zed en columnas alineadas, y el oro del grupo con 8 cifras
 ```
 nombre   nivel  vida   prec
 Kira         7   120   87.5
-Bron         9   160   72.2
-Mia          6    80   91.0
-Zed          8    95   99.9
+Tizon        9   160   72.2
+Hulda        6    80   91.0
+Chispa       8    95   99.9
 Oro del grupo: 00004250
 ```
 
@@ -1901,9 +1901,9 @@ int main(void)
 {
     printf("%-8s %5s %5s %6s\n", "nombre", "nivel", "vida", "prec");
     printf("%-8s %5d %5d %6.1f\n", "Kira", 7, 120, 87.5);
-    printf("%-8s %5d %5d %6.1f\n", "Bron", 9, 160, 72.25);   /* 72.25 -> "72.2": justo en el medio, printf redondea al par */
-    printf("%-8s %5d %5d %6.1f\n", "Mia", 6, 80, 91.0);
-    printf("%-8s %5d %5d %6.1f\n", "Zed", 8, 95, 99.9);
+    printf("%-8s %5d %5d %6.1f\n", "Tizon", 9, 160, 72.25);   /* 72.25 -> "72.2": justo en el medio, printf redondea al par */
+    printf("%-8s %5d %5d %6.1f\n", "Hulda", 6, 80, 91.0);
+    printf("%-8s %5d %5d %6.1f\n", "Chispa", 8, 95, 99.9);
     printf("Oro del grupo: %08d\n", 4250);
     return 0;
 }
@@ -2112,9 +2112,9 @@ TOTAL                       4235907.50
 
 ### Prueba del sello
 
-#### ¿Qué muestran `printf("[%-6s|%4d]", "Mia", 42)` y `printf("%07.2f", 3.14159)`?
+#### ¿Qué muestran `printf("[%-6s|%4d]", "Hulda", 42)` y `printf("%07.2f", 3.14159)`?
 
-`[Mia   |  42]` y `0003.14`.
+`[Hulda |  42]` y `0003.14`.
 
 #### ¿Qué diferencia hay entre `stdout` y `stderr`?
 
@@ -3591,7 +3591,7 @@ En el libro de la Forja, cada técnica tiene su página con nombre: *templar*, *
 
 {mentor} te muestra una página rara, que se remite **a sí misma**: "para contar hacia atrás desde 3, decí 3 y contá hacia atrás desde 2… hasta llegar a cero".
 
-—Eso es un hechizo **recursivo** —sonríe Mia.
+—Eso es un hechizo **recursivo** —sonríe Hulda.
 
 ### Objetivos
 
@@ -3727,7 +3727,7 @@ int main(void)
 {
     saludar();
     presentar("Kira", 7);
-    presentar("Bron", 9);
+    presentar("Tizon", 9);
 
     int danio = calcular_danio(20, 6);              /* el resultado vuelve y se guarda */
     printf("daño: %d\n", danio);
@@ -3828,7 +3828,7 @@ long long factorial(int n)
 ```
 ¡Bienvenidos a la Forja!
 Kira se presenta (nivel 7)
-Bron se presenta (nivel 9)
+Tizon se presenta (nivel 9)
 daño: 14
 daño contra un gólem: 1
 ¿14 es crítico? 0   ¿20? 1

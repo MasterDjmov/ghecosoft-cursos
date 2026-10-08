@@ -334,8 +334,8 @@ cada mensaje y arreglalo **de a uno**:
 ```c
 int main(void)
 {
-    printf("Kira conoce a Bron.\n")
-    Printf("Bron es mecánico y guerrero.\n");
+    printf("Kira conoce a Tizon.\n")
+    Printf("Tizon es aprendiz de herrero.\n");
     return 0;
 }
 ```
@@ -351,8 +351,8 @@ int main(void)
 ```c
 int main(void)
 {
-    printf("Kira conoce a Bron.\n")
-    Printf("Bron es mecánico y guerrero.\n");
+    printf("Kira conoce a Tizon.\n")
+    Printf("Tizon es aprendiz de herrero.\n");
     return 0;
 }
 ```
@@ -360,8 +360,8 @@ int main(void)
 #### Salida esperada
 
 ```
-Kira conoce a Bron.
-Bron es mecánico y guerrero.
+Kira conoce a Tizon.
+Tizon es aprendiz de herrero.
 ```
 
 #### Solución de referencia
@@ -379,8 +379,8 @@ Bron es mecánico y guerrero.
 
 int main(void)
 {
-    printf("Kira conoce a Bron.\n");
-    printf("Bron es mecánico y guerrero.\n");
+    printf("Kira conoce a Tizon.\n");
+    printf("Tizon es aprendiz de herrero.\n");
     return 0;
 }
 ```

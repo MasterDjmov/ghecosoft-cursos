@@ -2748,7 +2748,7 @@ int main(void)
 }
 ```
 
-### Misión R03-N04-M2 · El libro de hechizos de Mia
+### Misión R03-N04-M2 · Los conjuros de mina de Hulda
 
 ```meta
 entrega: codigo
@@ -2759,7 +2759,7 @@ xp: 10
 
 #### Consigna
 
-Mia (vida 40, maná 20) lee órdenes, una por línea: `fuego` (cuesta 10), `curar` (cuesta 5, +15 de vida) y `meditar` (gratis, +8 de maná). Guardá los hechizos en una **tabla** de structs con la orden, el costo y la función. Para cada orden: si no existe, avisá; si no alcanza el maná, avisá; si no, ejecutá la función. Mostrá vida y maná después de cada orden.
+Hulda (vida 40, maná 20) lee órdenes, una por línea: `fuego` (cuesta 10), `curar` (cuesta 5, +15 de vida) y `meditar` (gratis, +8 de maná). Guardá los hechizos en una **tabla** de structs con la orden, el costo y la función. Para cada orden: si no existe, avisá; si no alcanza el maná, avisá; si no, ejecutá la función. Mostrá vida y maná después de cada orden.
 
 #### Criterio de aprobación
 
@@ -2788,7 +2788,7 @@ fuego
   Te curás 15 (-5 maná)
   vida 55, maná 5
 > volar
-  Mia no conoce ese hechizo.
+  Hulda no conoce ese hechizo.
   vida 55, maná 5
 > fuego
   No alcanza el maná (5).
@@ -2833,7 +2833,7 @@ static const Hechizo LIBRO[] = {
 
 int main(void)
 {
-    Mago mia = { 40, 20 };
+    Mago hulda = { 40, 20 };
     char linea[40];
     while (fgets(linea, sizeof(linea), stdin) != NULL) {
         linea[strcspn(linea, "\n")] = '\0';
@@ -2845,13 +2845,13 @@ int main(void)
         }
         printf("> %s\n", linea);
         if (h == NULL) {
-            printf("  Mia no conoce ese hechizo.\n");
-        } else if (mia.mana < h->costo) {
-            printf("  No alcanza el maná (%d).\n", mia.mana);
+            printf("  Hulda no conoce ese hechizo.\n");
+        } else if (hulda.mana < h->costo) {
+            printf("  No alcanza el maná (%d).\n", hulda.mana);
         } else {
-            h->hacer(&mia);
+            h->hacer(&hulda);
         }
-        printf("  vida %d, maná %d\n", mia.vida, mia.mana);
+        printf("  vida %d, maná %d\n", hulda.vida, hulda.mana);
     }
     return 0;
 }
@@ -2910,10 +2910,10 @@ volar
 ```
 ```salida
 > rayo
-  Mia no conoce ese hechizo.
+  Hulda no conoce ese hechizo.
   vida 40, maná 20
 > volar
-  Mia no conoce ese hechizo.
+  Hulda no conoce ese hechizo.
   vida 40, maná 20
 ```
 

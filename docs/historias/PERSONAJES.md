@@ -343,6 +343,29 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ## El Imperio de las Clases (Java)
 
+### Kaffa
+- **Rol:** el **Arquitecto Imperial**, líder del Imperio de las Clases y mentor de Zed ([java.md](java.md)). Lo frena en el portón de la Aduana en la Clase 0 y, en lugar de echarlo, le da una tarea; lo lleva hasta la cima de la Torre del Arquitecto (R05).
+- **Edad y sexo:** unos 60, hombre.
+- **Altura y contextura:** alto, de hombros anchos, erguido; se mueve con calma.
+- **Rasgos:**
+  - piel clara curtida, arrugas marcadas, mirada seria y atenta;
+  - **pelo gris peinado hacia atrás**, **barba corta y bigote canosos**;
+  - a veces un **monóculo de bronce con lente de luz celeste** (en el retrato).
+- **Ropa:** **túnica larga de arquitecto**, granate y azul oscuro, de **cuello alto rígido**, con **líneas de circuitos doradas** bordadas de arriba abajo y mangas anchas; brazales de bronce con runas celestes; anillos de bronce con piedras celestes en los dedos.
+- **Objeto:** su **taza de café** de bronce labrado, siempre humeante (el vapor dorado y celeste); a su alrededor flotan **planos de luz** con diagramas de clases.
+- **Color:** granate, azul oscuro y el **dorado** de las catedrales del Imperio, con brillos celestes.
+- **Personalidad:** exigente pero siempre explica por qué; seco, con humor escondido; nunca se apura. Su regla: **nada existe suelto**.
+- **Le gusta:** los planos prolijos; el café (sin azúcar, como Nadia); que alguien le discuta con argumentos.
+- **Defecto o miedo:** lo que no puede ordenar en ninguna clase; el portal es lo único que nunca supo explicar.
+- **Frase:** «Pasás la Aduana como todos. Declarando.»
+- **Relaciones:**
+  - maestro de Nadia y, desde la Clase 0, de Zed;
+  - colega de la Maestra de Moldes y viejo amigo del Archivista Mayor;
+  - conoció al Vidriero: trató de entender lo que construía y no pudo ponerlo en ninguna clase (su pieza del portal).
+- **Primera aparición:** Java, Clase 0 (R00-N01).
+- **Dónde va:** la Torre del Arquitecto, donde se dibujan los planos del Imperio: mesas con planos, compases, tazas de café y la ventana más alta con el marco vacío.
+- **Imágenes:** completas.
+
 ### Nadia
 - **Curso y rol:** Java. La aduanera de la Aduana del Compilador que atrapa a Zed en la Clase 0; lo vigila «hasta que aprenda» y termina siendo su compañera ([java.md](java.md)).
 - **Edad y sexo:** 19, mujer.

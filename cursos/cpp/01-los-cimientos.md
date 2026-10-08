@@ -17,9 +17,11 @@ temas: prog.variables, prog.operadores
 
 ### Crónica
 
-El depósito de la Ciudadela es un laberinto de estantes. Cada cajón tiene una etiqueta: "engranajes", "resortes", "planos". Y cada uno es de un tamaño distinto.
+El almacén de la Ciudadela es un laberinto de cajones con etiquetas: «engranajes», «resortes», «planos». Lima, la aprendiz de relojera, le muestra a Bron dónde va cada cosa: los cajones de **enteros** solo aceptan piezas enteras.
 
-—En C++ cada dato vive en un cajón con **nombre y tipo** —te explica {mentor}—. El tipo dice qué cabe adentro. Si metés un número con coma en un cajón de enteros, los goblins se roban los decimales y nadie te avisa.
+Bron guarda tres kilos y tres cuartos de tornillos en un cajón de enteros. Al abrirlo, hay tres kilos. Los 750 gramos se los llevó un **goblin**, sin hacer ruido. Lima se ríe por primera vez (y después disimula).
+
+—Cada dato vive en un cajón con **nombre y tipo** —dice {mentor}—. El tipo dice qué cabe. Si metés decimales donde caben enteros, el Taller no te avisa: los goblins se los llevan y listo.
 
 ### Objetivos
 
@@ -460,9 +462,11 @@ temas: prog.entrada, prog.cadenas
 
 ### Crónica
 
-En la puerta de la Ciudadela hay un guardia mecánico con un libro enorme: anota a todos los que entran. Pregunta, escucha y escribe.
+En la ventanilla de pedidos, un guardia mecánico anota todo lo que le dicen en un libro enorme. Lyn, la mensajera de la Ciudadela, llega corriendo (siempre llega corriendo) y grita su pedido: —¡Dos ruedas dentadas!
 
-—Un programa que no escucha es una caja de música —dice {mentor}—. Linda, pero siempre toca lo mismo. Enseñale a tus planos a **preguntar**, {heroe}.
+El guardia anota «dos». Nada más. El resto de la frase se quedó esperando en el mostrador hasta que alguien lo leyera. Lyn le apuesta a Bron que el guardia está roto; Bron le apuesta que no. Gana Bron, pero no sabe por qué.
+
+—Un programa que no escucha es una caja de música —dice {mentor}—: linda, pero siempre toca lo mismo. Enseñale a escuchar, Bron. Y a escuchar **la frase entera**, no solo la primera palabra.
 
 ### Objetivos
 
@@ -1069,9 +1073,11 @@ temas: prog.condicionales
 
 ### Crónica
 
-En el patio de la Ciudadela, un autómata de latón espera órdenes frente a tres puertas. No sabe elegir: se queda quieto, zumbando.
+El canal que pasa por el comedor de la Ciudadela tiene tres compuertas, y cada una se abre según cuánto llovió. Bron no entiende la tabla de las compuertas y las abre todas «por las dudas».
 
-—Una máquina que no decide no sirve para nada —dice {mentor}, y le entrega una tarjeta perforada—. Acá está escrito **qué hacer si** pasa una cosa, y **qué hacer si no**. Eso es lo que vas a aprender a escribir, {heroe}.
+El comedor se inunda. Oto, el cocinero, sale con el agua por las rodillas y el cucharón en alto, salvando la olla del guiso. —¡Receta que se respeta, guiso que no falla! —grita, y nadie entiende qué tiene que ver, pero todos asienten.
+
+—Una máquina que no decide abre todas las compuertas —dice {mentor}, escurriéndose las mangas—. Hay que escribir **qué hacer si** pasa algo, y **qué hacer si no**. Y en qué orden se preguntan las cosas.
 
 ### Objetivos
 
@@ -1685,9 +1691,11 @@ temas: prog.bucles
 
 ### Crónica
 
-En la sala de máquinas, una rueda enorme gira sin parar. Cada vuelta levanta un balde de agua, lo vuelca y baja a buscar otro.
+En la sala de máquinas hay una cinta transportadora que lleva tuercas de un taller a otro. Bron la prende para mandar diez tuercas… y no sabe cómo pararla.
 
-—La rueda no sabe cuántos baldes faltan —dice {mentor}—. Solo sabe **repetir mientras** el tanque no esté lleno. Si un programa tuviera que escribir cada vuelta a mano, nunca terminaríamos de escribirlo.
+A la hora, Bron está sentado en una montaña de mil tuercas, y siguen llegando. Lima aparece con su lima en la mano, mira la montaña, mira a Bron. —¿Contaste las vueltas? —No. —Se nota.
+
+—Repetir es lo que mejor hacen las máquinas —dice {mentor}, y frena la cinta con una palanca—. Pero toda repetición necesita saber **cuándo terminar**. Si no, te entierra en tuercas.
 
 ### Objetivos
 
@@ -2364,9 +2372,11 @@ temas: prog.funciones, prog.alcance
 
 ### Crónica
 
-En el taller de Tesla hay un cajón con herramientas etiquetadas: "cortar", "doblar", "remachar". Cada una hace **una** cosa, y la hace bien.
+Lima le encarga a Bron un tablero con tres relojes iguales. Bron escribe el código del primer reloj, lo copia para el segundo, lo copia para el tercero… y, para ver qué pasa, lo copia una cuarta vez.
 
-—Cuando un plano repite los mismos pasos en diez lugares, está mal dibujado —dice {mentor}—. Esos pasos se guardan en una herramienta con nombre, y después se la llama. Eso es una **función**.
+Lo que pasa es que Lima saca la lima. —¿Y si lo hacemos **una sola vez**? —dice, y le borra tres de los cuatro relojes.
+
+—Lo que se repite se guarda en una herramienta con nombre —dice {mentor}— y se la llama cuando hace falta. Eso es una **función**. Si mañana el reloj cambia, lo cambiás en un solo lugar, y Lima guarda la lima.
 
 ### Objetivos
 
@@ -2922,9 +2932,11 @@ temas: prog.referencias
 
 ### Crónica
 
-Tesla te da un plano y te pide que corrijas una medida. La corregís, se lo devolvés… y el plano original, colgado en la pared, sigue con el error.
+Oto le pide prestada la llave a Bron para ajustar la olla grande. Bron, generoso, le hace una **copia** de la llave en el torno. Oto ajusta la olla con la copia, devuelve la copia, y la llave de Bron sigue igual de mellada. La olla, en cambio, quedó perfecta.
 
-—Te di una **copia** —sonríe—. Si querés que tu cambio llegue al original, no te tengo que dar una copia: te tengo que dar **el plano mismo**. En C++ eso se llama referencia.
+—No te pidió una llave **parecida** —dice {mentor}—. Te pidió **la tuya**. Si querés que el cambio llegue al original, no des una copia: prestá el original. En C++ eso es una **referencia**.
+
+Mientras devuelve la llave, Bron ve en el depósito un pedido viejo, amarillento: **«Bisagras, dos. Que abran algo que no es una puerta»**. Abajo, en lugar de firma, un vitral dibujado. Tesla lo mira y se pone serio un segundo.
 
 ### Objetivos
 
@@ -3480,9 +3492,11 @@ temas: col.listas
 
 ### Crónica
 
-En la torre del Reloj, los engranajes están colgados en una cadena: uno detrás del otro, numerados desde cero. Cuando llega uno nuevo, se engancha al final.
+En la torre del reloj, los engranajes cuelgan de una cadena, numerados desde el **cero**. Bron, que contó toda la vida desde el uno, pide el engranaje número 10 de una cadena de 10.
 
-—Diez variables para diez engranajes es una locura —dice {mentor}—. Un **vector** los guarda a todos juntos, en orden, y se estira cuando llegan más. Eso sí: el que pide el engranaje número 10 de una cadena de 10… se encuentra con un orco.
+Lo que encuentra en el lugar 10 no es un engranaje: es un **orco** dormido, que se despierta de muy mal humor. Lima lo espanta con la lima. —Los números empiezan en cero —le dice a Bron—. Como la paciencia de Tesla.
+
+—Diez variables para diez engranajes es una locura —dice {mentor}—. Un **vector** los guarda juntos, en orden, y se estira cuando llegan más. El último es el `size() - 1`. El de al lado del último es del orco.
 
 ### Objetivos
 
@@ -4168,9 +4182,11 @@ temas: prog.matematica-azar
 
 ### Crónica
 
-En la plaza de la Ciudadela hay una máquina de feria: una rueda con números, una palanca y un cartel que dice "Probá tu suerte". Tesla la desarmó una vez.
+En la plaza hay una rueda de feria con números y un cartel: «Probá tu suerte». Lyn apuesta al siete. Sale siete. Apuesta al siete otra vez. Sale siete. Diez veces seguidas.
 
-—No es suerte —te dice—: es un mecanismo que **parece** al azar. Con la misma posición inicial, la rueda da siempre la misma secuencia. Para un juego, eso es una ventaja: podés repetir exactamente una partida.
+Para la tarde, Lyn ganó todos los premios de la feria, y Tesla, que pasaba por ahí, desarma la rueda. —No es suerte —dice—: alguien la arranca siempre desde la misma posición. La misma **semilla**, la misma secuencia. —Lyn devuelve los premios. Casi todos.
+
+—Que el azar se pueda repetir es una ventaja —dice {mentor}—: un juego se puede volver a jugar igual, y un error se puede volver a ver. Para que no se repita, se cambia la semilla.
 
 ### Objetivos
 
@@ -4812,9 +4828,11 @@ usa: prog.funciones, col.listas, err.validacion
 
 ### Crónica
 
-En el centro del patio de pruebas se levanta el **Autómata de Latón**: tres metros de placas remachadas, un corazón de vapor y una tarjeta perforada con una sola orden: "No dejar pasar a nadie que no domine los cimientos".
+En el patio de pruebas espera el **Autómata de Latón**: tres metros de placas remachadas, un corazón de vapor y una tarjeta perforada en la frente: **«ORDEN: NO DEJAR PASAR A NADIE QUE NO DOMINE LOS CIMIENTOS»**.
 
-—Lo construí yo —confiesa {mentor}—, y lo hice terco a propósito. No se vence con fuerza: se vence con un plan. Leé lo que hace, partí el problema en funciones, y probá cada pieza antes de juntarlas.
+Bron saca la llave para desarmarlo tornillo por tornillo. Calcula que le lleva tres semanas. Tesla le saca la llave de la mano. —Lo construí yo, y lo hice terco a propósito. No se vence desarmándolo: se vence con un **plan**. Partí el problema en funciones, probá cada una, y después juntalas.
+
+Cuando el Autómata se detiene, suelta un último silbido de vapor y le cae a Bron en la mano el **Engranaje de Latón** de su corazón. —Bien —dice Tesla—. Y no preguntes para qué te sirve.
 
 ### Objetivos
 

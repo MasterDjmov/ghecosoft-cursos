@@ -17,9 +17,11 @@ temas: poo.genericos
 
 ### Crónica
 
-En lo alto de la Ciudadela está la **Gran Biblioteca**: millones de herramientas ya hechas, probadas por generaciones de artífices. Tesla te lleva hasta la puerta y se detiene.
+En lo alto de la Ciudadela está la **Gran Biblioteca**: millones de herramientas ya hechas, probadas por generaciones. Tesla lleva a Bron y a Lima hasta la puerta y se detiene.
 
-—Adentro no hay un plano para cada tipo de pieza —dice—. Hay **moldes**: un molde de "caja" sirve para cajas de tornillos, de engranajes o de lo que quieras. Así está hecha toda la biblioteca. Si entendés los moldes, entendés la biblioteca.
+—Adentro no hay un plano para cada pieza —dice—. Hay **moldes**: un molde de «caja» sirve para cajas de tornillos, de engranajes o de lo que quieras. —A Lima se le cae la lupa del ojo. —Una sola pieza —susurra— para **cualquier** tuerca.
+
+—Así está hecha toda la biblioteca —dice {mentor}—. Si entendés los moldes, entendés la biblioteca. Bron, por una vez, no pregunta para qué le sirve: está pensando en su llave.
 
 ### Objetivos
 
@@ -686,9 +688,11 @@ temas: func.iteradores
 
 ### Crónica
 
-Los bibliotecarios de la Gran Biblioteca no leen los estantes: los **recorren** con un dedo de bronce. El dedo sabe apuntar a un libro, pasar al siguiente y avisar cuando se terminó el estante. No importa si el estante es recto, circular o una pila: el dedo funciona igual.
+Los bibliotecarios no leen los estantes: los **recorren** con un dedo de bronce. El dedo apunta a un libro, pasa al siguiente y avisa cuando se terminó el estante. No importa si el estante es recto, circular o una pila.
 
-—Ese dedo se llama **iterador** —dice {mentor}—. Es lo que une los contenedores con los algoritmos. Pero cuidado: si movés los libros mientras el dedo apunta, el dedo queda señalando el aire. Ahí esperan los orcos.
+Bron mueve un estante entero mientras Lima lo recorre con el dedo. El dedo queda señalando el aire, y del aire sale un **orco** con un libro en la mano, muy confundido.
+
+—Ese dedo se llama **iterador** —dice {mentor}—. Es lo que une los contenedores con los algoritmos. Pero si movés los libros mientras el dedo apunta, el dedo queda señalando el vacío. Y ahí esperan los orcos.
 
 ### Objetivos
 
@@ -1287,9 +1291,11 @@ temas: col.pilas-colas
 
 ### Crónica
 
-En el depósito de la Biblioteca hay estantes de todas las formas: uno largo y recto, otro donde se agrega y se saca por las dos puntas, una torre de platos donde solo se toca el de arriba, y una fila de carretillas que se atienden en orden de llegada.
+En el depósito de la Biblioteca hay estantes de todas las formas: uno recto, otro que se usa por las dos puntas, una torre de platos donde solo se toca el de arriba, una fila de carretillas que se atienden en orden de llegada, y una cadena de cajas donde cada una sabe solo cuál es la siguiente.
 
-—Cada forma de guardar sirve para algo —dice {mentor}—. Si solo necesitás el de arriba, no uses un estante entero: usá una **pila**. Elegir la estructura correcta es la mitad del problema resuelto.
+Oto apila los platos del comedor y saca siempre el de arriba; Lyn hace la fila de las carretillas y nadie se cuela (Bron lo intenta y no puede). —Pila y cola —dice Lima—. Las usás todos los días y no lo sabías.
+
+—Cada forma de guardar sirve para algo —dice {mentor}—. Si solo necesitás el de arriba, no uses un estante entero: usá una **pila**. Elegir la estructura correcta es la mitad del problema.
 
 ### Objetivos
 
@@ -2048,9 +2054,11 @@ temas: col.mapas, col.conjuntos
 
 ### Crónica
 
-El índice de la Gran Biblioteca no es un simple fichero. Hay fichas con la misma palabra repetida (un tema en varios libros), búsquedas por rango ("todo lo que esté entre la L y la P") y estantes ordenados con reglas raras.
+El índice de la Gran Biblioteca no es un simple fichero: hay palabras que aparecen en varios libros, búsquedas por rango («todo lo que esté entre la L y la P») y estantes ordenados con reglas raras.
 
-—Los mapas y conjuntos que ya conocés saben mucho más —dice {mentor}—. Saben guardar repetidos, buscar rangos enteros y ordenar como vos les digas.
+Lyn busca «todo lo de la L a la P» y, entre los resultados, aparece Lima. Lyn se la quiere llevar de regalo; Lima no se deja.
+
+—Los mapas y conjuntos que ya conocés saben mucho más —dice {mentor}—: guardar repetidos, buscar rangos enteros y ordenar como vos les digas.
 
 ### Objetivos
 
@@ -2698,9 +2706,11 @@ temas: alg.ordenamiento, alg.busqueda
 
 ### Crónica
 
-En el ala de las herramientas hay más de cien instrumentos colgados: para ordenar, buscar, dar vuelta, rotar, mezclar, sumar. Un aprendiz está escribiendo un bucle para sumar una columna.
+En el ala de las herramientas hay más de cien instrumentos colgados: para ordenar, buscar, dar vuelta, rotar, mezclar, sumar. Bron está escribiendo, muy concentrado, un bucle para sumar una columna.
 
-—Ese bucle ya lo escribió alguien mejor que vos y que yo —dice {mentor}, y le alcanza una herramienta—. Antes de escribir un bucle, preguntate si no hay un algoritmo que lo hace. Casi siempre lo hay.
+Tesla le alcanza una herramienta sin decir nada. Bron la usa: una línea. Mira su bucle de veinte líneas, mira la herramienta, y le pregunta a Lima si puede guardar el bucle «de recuerdo». Lima ya tiene la lima en la mano.
+
+—Ese bucle ya lo escribió alguien mejor que vos y que yo —dice {mentor}—. Antes de escribir un bucle, preguntate si no hay un algoritmo que lo hace. Casi siempre lo hay. Y para borrar lo que sobra, se **corre** primero y se borra después.
 
 ### Objetivos
 
@@ -3386,7 +3396,9 @@ usa: func.lambdas
 
 ### Crónica
 
-En la sala de control de la Biblioteca hay un tablero de palancas. Cada palanca tiene una tarjeta enganchada: "encender la caldera", "abrir la compuerta", "tocar la campana". Las tarjetas se pueden cambiar sin tocar el tablero.
+En la sala de control de la Biblioteca hay un tablero de palancas. Cada palanca tiene una tarjeta enganchada: «encender la caldera», «abrir la compuerta», «tocar la campana». Las tarjetas se cambian sin tocar el tablero.
+
+Bron cambia la tarjeta de la campana por una que dice «servir el guiso». Desde ese día, a las doce suena la palanca y Oto sirve el guiso. Nadie se quejó.
 
 —Una acción también puede ser un **dato** —dice {mentor}—: se guarda en una caja, se pasa de mano en mano, se cuelga de una palanca. Cuando alguien tira, pasa lo que dice la tarjeta.
 
@@ -4092,7 +4104,9 @@ temas: func.streams
 
 ### Crónica
 
-En la sala de lectura de la Biblioteca nadie se lleva los libros: se usa un **lente**. Apuntás el lente a una página y leés sin copiarla. Y los lentes se pueden encadenar: uno que solo muestra los capítulos de mapas, otro que solo muestra los títulos, otro que solo deja ver los tres primeros.
+En la sala de lectura nadie se lleva los libros: se usa un **lente**. Apuntás el lente a una página y leés sin copiarla. Y los lentes se encadenan: uno que solo muestra los mapas, otro que solo deja ver los títulos, otro que solo deja ver los tres primeros.
+
+Bron se pone tres lentes juntos, para probar, y lo único que ve es el título del tercer mapa. Lima dice que es exactamente lo que tenía que ver.
 
 —Un lente no es dueño de nada —advierte {mentor}—. Si alguien se lleva el libro mientras mirás, el lente muestra el vacío. Pero bien usados, te ahorran copiar bibliotecas enteras.
 
@@ -4788,7 +4802,9 @@ usa: func.iteradores
 
 ### Crónica
 
-En el taller de la Biblioteca, un artífice fabricó un estante raro: circular, donde el libro nuevo empuja al más viejo fuera del estante. Nadie sabía cómo catalogarlo… hasta que le puso un **dedo de bronce** que sabía recorrerlo.
+En el taller de la Biblioteca, Lima fabricó un estante raro: circular, donde el libro nuevo empuja al más viejo fuera del estante. Nadie sabía cómo catalogarlo… hasta que le puso un **dedo de bronce** que sabía recorrerlo.
+
+Bron le pregunta para qué le sirve un estante que tira libros. Lima le muestra el registro de la caldera: solo importan las últimas cien lecturas, y el estante guarda exactamente esas. Bron se queda callado; Lima lo anota como una victoria.
 
 —No hace falta que la Biblioteca conozca tu estante —dice {mentor}—. Si le das un dedo que sepa avanzar y mostrar, todas las herramientas de la Biblioteca funcionan con él. Gratis.
 
@@ -5645,9 +5661,11 @@ usa: col.pilas-colas, func.streams, err.opcionales
 
 ### Crónica
 
-En los sótanos inundados de la Gran Biblioteca vive el **Kraken de los Contenedores**: un monstruo que se esconde entre las estanterías y saca un tentáculo por cada pasillo. Hace siglos que desordena todo lo que toca.
+En los sótanos inundados de la Gran Biblioteca vive el **Kraken de los Contenedores**: un pulpo gigante que saca un tentáculo por cada pasillo y lleva estantes enteros enganchados en las ventosas. Hace siglos que desordena todo lo que toca.
 
-—No lo vas a encontrar recorriendo pasillo por pasillo —dice {mentor}—. Usá lo que aprendiste: el contenedor justo para cada cosa, algoritmos en vez de bucles, eventos que avisen solos. Ordená la Biblioteca y el Kraken no tendrá dónde esconderse.
+Lima no sabe nadar y se queda en la escalera, con la lima en alto, dando indicaciones. Bron baja con el agua hasta el pecho.
+
+—No lo vas a encontrar recorriendo pasillo por pasillo —dice {mentor}—. El contenedor justo para cada cosa, algoritmos en vez de bucles, eventos que avisen solos. Ordená la Biblioteca y el Kraken no tiene dónde esconderse. Cuando el último tentáculo suelta su estante, cae al agua **el Catálogo de Plantillas**: ahí está la bisagra del Vidriero, catalogada como **plantilla**, «para cualquier marco».
 
 ### Objetivos
 

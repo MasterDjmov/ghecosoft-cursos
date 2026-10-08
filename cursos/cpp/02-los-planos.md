@@ -17,9 +17,11 @@ temas: col.registros, poo.clases
 
 ### Crónica
 
-Después de vencer al Autómata, Tesla te lleva a la **Sala de los Planos**: miles de hojas colgadas, cada una con el dibujo de una pieza. Una torre, un reloj, un puente.
+Tesla lleva a Bron a la **Sala de los Planos**: miles de hojas colgadas, cada una con el dibujo de una pieza. Una torre, un reloj, un puente.
 
-—Hasta ahora escribiste instrucciones sueltas —te dice—. Acá se dibujan **planos**: un plano dice qué datos tiene una cosa y qué sabe hacer. Con un plano, construís una torre o cien. En C++, el plano se llama **clase**, y cada torre construida es un **objeto**.
+—¿Y esto para qué me sirve? —pregunta Bron. Tesla lo lleva a la ventana: abajo está la torre del reloj, con mil engranajes iguales. —Ese plano —dice, señalando una hoja— hizo los mil. Uno solo.
+
+—Un plano dice qué datos tiene una cosa y qué sabe hacer —dice {mentor}—. Con un plano construís una torre o cien. En C++ el plano se llama **clase**, y cada torre construida es un **objeto**. Bron se queda un rato largo mirando la torre.
 
 ### Objetivos
 
@@ -708,9 +710,11 @@ temas: poo.constructores
 
 ### Crónica
 
-En la línea de ensamblaje, cada autómata sale de la máquina ya armado, con la batería cargada y su nombre grabado. Nunca sale uno a medias.
+En la línea de ensamblaje, cada autómata sale de la máquina ya armado, con la batería cargada y el nombre grabado. Nunca sale uno a medias. Y al final del turno, cada uno se apaga solo, en orden.
 
-—Un objeto a medio construir es un peligro —dice {mentor}—. Por eso cada plano trae un **ritual de nacimiento**, el constructor, que lo deja listo para trabajar. Y un **ritual de despedida**, el destructor, que ordena todo cuando se apaga.
+Menos uno: el que Bron armó con `new`, «para que dure más». A la noche sigue dando vueltas por el taller, porque nadie le hizo `delete`. Oto lo encuentra a la mañana y lo usa de batidora. Funciona bastante bien.
+
+—Cada plano trae un **ritual de nacimiento**, el constructor, y uno de **despedida**, el destructor —dice {mentor}—. Lo que vive en su bloque se despide solo. Lo que creás con `new`, lo despedís vos. Si no, queda dando vueltas para siempre.
 
 ### Objetivos
 
@@ -1376,9 +1380,11 @@ temas: poo.encapsulamiento
 
 ### Crónica
 
-Un aprendiz entra corriendo: alguien cambió a mano la presión de la caldera principal y el manómetro marca un número imposible. Tesla ni se inmuta.
+Un aprendiz cambió a mano la presión de la caldera principal y el manómetro marca un número imposible. La caldera silba. Lyn apuesta a que explota; Oto esconde la olla.
 
-—Por eso la presión no se toca a mano —dice, y te muestra un panel con solo tres palancas—. Se sube, se baja o se purga. Nada más. Si la única forma de cambiar algo respeta las reglas, **nunca** se rompen. Eso es encapsular.
+Tesla ni se inmuta: muestra un panel con tres palancas. —La presión no se toca a mano. Se **sube**, se **baja** o se **purga**. Nada más. Si la única forma de cambiar algo respeta las reglas, **nunca** se rompe. —La caldera deja de silbar. Lyn le paga a Oto.
+
+—Eso es **encapsular** —dice {mentor}—: los datos adentro, privados, y afuera solo las palancas que cuidan las reglas.
 
 ### Objetivos
 
@@ -2157,9 +2163,11 @@ temas: poo.operadores
 
 ### Crónica
 
-En la mesa del cartógrafo de la Ciudadela, los mapas se suman: un tramo más otro tramo, una flecha más otra flecha. El cartógrafo escribe `tramo1 + tramo2` en sus planos, y el Taller lo entiende.
+En la mesa del cartógrafo, los mapas se suman: un tramo más otro tramo, una flecha más otra flecha. Bron pregunta para qué le sirve; el cartógrafo escribe `tramo1 + tramo2`, y el Taller lo entiende.
 
-—Si tus piezas son números, que se sumen como números —dice {mentor}—. C++ te deja enseñarle a tus clases qué significa `+`, `==` o `<<`.
+Lyn quiere ser **amiga** de la caja fuerte del cartógrafo, para ver los mapas secretos. La caja no la deja. —La amistad la da la clase —le explica Lima, muy seria—. No la pide la función. —Lyn dice que es injusto; la caja sigue cerrada.
+
+—Si tus piezas son números, que se sumen como números —dice {mentor}—. C++ te deja enseñarle a tus clases qué significa `+`, `==` o `<<`. Y a quién le abren la puerta de lo privado.
 
 ### Objetivos
 
@@ -2972,9 +2980,11 @@ temas: poo.composicion
 
 ### Crónica
 
-Tesla despliega el plano del Gran Reloj de la plaza. No es un dibujo enorme: es una lista. "Una caja. Un péndulo. Tres agujas. Un mecanismo de campanas." Y cada cosa de la lista tiene su propio plano.
+Tesla despliega el plano del Gran Reloj de la plaza. No es un dibujo enorme: es una lista. «Una caja. Un péndulo. Tres agujas. Un mecanismo de campanas.» Y cada cosa de la lista tiene su propio plano.
 
-—Nadie diseña un reloj de una sola pieza —dice—. Se diseña con **piezas que ya existen**. Un reloj **tiene** un péndulo. Eso se llama composición, y es la forma más sana de construir cosas grandes.
+Bron dice que él haría el reloj de una sola pieza, «más firme». Lima le muestra lo que pasa cuando se rompe un pedazo de un reloj de una sola pieza: se tira el reloj entero.
+
+—Nadie diseña un reloj de una pieza —dice {mentor}—. Se diseña con **piezas que ya existen**. Un reloj **tiene** un péndulo; no **es** un péndulo. Eso es composición, y es la forma más sana de construir cosas grandes.
 
 ### Objetivos
 
@@ -3770,9 +3780,11 @@ temas: poo.herencia
 
 ### Crónica
 
-En el archivo de planos hay una carpeta que dice "Autómata" y, adentro, otras más finas: "Autómata de carga", "Autómata guardián", "Autómata jardinero". Todos comparten el mismo esqueleto; cada uno agrega lo suyo.
+En el archivo de planos hay una carpeta que dice «Autómata» y, adentro, otras más finas: «de carga», «guardián», «jardinero». Y una que dice «pato»: un autómata que vuela **y** nada, con dos carpetas madre.
 
-—No voy a redibujar el esqueleto cada vez —dice {mentor}—. El autómata de carga **es un** autómata, con brazos más fuertes. Heredo el plano base y le agrego lo que le falta.
+Bron abre la del pato y le pregunta a Tesla si hace falta. —No —dice Tesla—. Pero quedó lindo. —Lima anota que la herencia múltiple se usa poco y con cuidado.
+
+—No redibujo el esqueleto cada vez —dice {mentor}—. El autómata de carga **es un** autómata, con brazos más fuertes: heredo el plano base y le agrego lo que le falta. Y decido qué de lo heredado sigue a la vista de todos.
 
 ### Objetivos
 
@@ -4512,9 +4524,11 @@ temas: poo.polimorfismo, poo.abstractas
 
 ### Crónica
 
-En el patio, Tesla le da la misma orden a tres autómatas distintos: "¡Trabajá!". El de carga levanta cajas. El soldador enciende una chispa. El jardinero riega las macetas.
+En el patio, Tesla le da la misma orden a tres autómatas distintos: «¡Trabajá!». El de carga levanta cajas. El soldador enciende una chispa. El jardinero riega las macetas. Y el de Bron, que es una batidora desde hace dos nodos, bate.
 
-—Una orden, tres respuestas —sonríe—. Yo no necesito saber qué autómata tengo adelante: le digo "trabajá" y cada uno sabe cómo. Esa es la magia más poderosa de la Ciudadela: **polimorfismo**, "muchas formas".
+—Una orden, cuatro respuestas —sonríe Tesla—. No necesito saber qué autómata tengo adelante: le digo «trabajá» y cada uno sabe cómo.
+
+—Esa es la magia más poderosa de la Ciudadela —dice {mentor}—: **polimorfismo**, «muchas formas». Bron dice que ahora sí sabe para qué le sirve, y nadie le cree.
 
 ### Objetivos
 
@@ -5332,9 +5346,11 @@ temas: prog.modulos, cal.build
 
 ### Crónica
 
-La Sala de los Planos tiene un orden estricto: en un cajón, la **ficha** de cada máquina (qué hace, qué palancas tiene); en otro, los **planos de detalle** (cómo está hecha por dentro). El que quiere usar una máquina lee la ficha. Solo el que la construye abre el detalle.
+La Sala de los Planos tiene un orden estricto: en un cajón, la **ficha** de cada máquina (qué hace, qué palancas tiene); en otro, los **planos de detalle** (cómo está hecha por dentro). El que usa una máquina lee la ficha. Solo el que la construye abre el detalle.
 
-—Un programa de cinco mil líneas en un solo archivo es un plano ilegible —dice {mentor}—. Cada clase va en su propio par de archivos: la ficha y el detalle. Y un capataz, **CMake**, sabe cómo juntarlos.
+Ordenando los cajones, Bron encuentra el **plano de las bisagras** del pedido viejo, dibujado por Tesla. Las medidas no cierran con ninguna puerta de la Ciudadela. Tesla lo agarra, lo mira un rato, y lo vuelve a guardar sin decir nada.
+
+—Un programa de cinco mil líneas en un solo archivo es un plano ilegible —dice {mentor}—. Cada clase va en su par de archivos: la ficha y el detalle. Y un capataz, **CMake**, sabe juntarlos.
 
 ### Objetivos
 
@@ -6090,9 +6106,11 @@ usa: poo.polimorfismo, poo.composicion, mem.smart-pointers
 
 ### Crónica
 
-Bajo la Ciudadela hay una **Arena** donde los artífices prueban sus planos. Esta semana hay algo nuevo en la jaula del fondo: la **Quimera**, una criatura con cabeza de león, cuerpo de cabra y cola de serpiente, que cambia de forma en cada turno.
+Bajo la Ciudadela hay una **Arena** donde los artífices prueban sus planos. En la jaula del fondo espera la **Quimera**: cabeza de león, cuerpo de cabra y cola de serpiente, de piezas de bronce que se reacomodan con un ruido de engranajes en cada turno.
 
-—No la vas a vencer con un solo tipo de golpe —advierte {mentor}—. Cada forma resiste algo distinto. Pero vos ya sabés escribir un código que pregunta "¿qué sos?" sin preguntarlo: que cada forma responda por sí misma.
+Bron intenta preguntarle qué es antes de cada golpe; la Quimera cambia mientras él pregunta. Lima, desde la tribuna, le grita: —¡No le preguntes! ¡Que **responda** sola!
+
+—Cada forma resiste algo distinto —dice {mentor}—. Pero vos ya sabés escribir un código que no pregunta «¿qué sos?»: cada forma responde por sí misma. Cuando la Quimera cae, Tesla le pide la llave mellada a Bron, le agrega una tuerca que se corre, y se la devuelve: **la Llave Ajustable**. —Una llave que sirve para muchas tuercas —dice—. Como un buen constructor.
 
 ### Objetivos
 

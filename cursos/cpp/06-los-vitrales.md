@@ -19,9 +19,11 @@ usa: cal.build
 
 ### Crónica
 
-Por el otro camino de la Encrucijada se llega al **Taller de los Vitrales**. Acá no se hacen juegos: se hacen **ventanas** para que cualquiera, aunque no sepa programar, use tus máquinas. Cada vitral tiene palancas, perillas y carteles.
+Desde el Laberinto, una escalera sube al **Taller de los Vitrales**, en lo más alto de la Ciudadela. Acá no se hacen juegos: se hacen **ventanas** para que cualquiera, aunque no sepa programar, use las máquinas. Cada vitral tiene palancas, perillas y carteles.
 
-—En la Linterna, vos llevabas el ritmo con tu bucle —dice {mentor}—. Acá es al revés: el vitral **espera**. Cuando alguien toca una palanca, suena una campana, y tu código responde. Se llaman señales y slots.
+Bron aprieta todos los botones de un vitral a la vez, para ver qué pasa. Suenan todas las campanas del taller juntas. La Maestra Artífice levanta la vista de la tableta y Bron saca las manos del vitral.
+
+—En el Laberinto, vos llevabas el ritmo con tu bucle —dice {mentor}—. Acá es al revés: el vitral **espera**. Cuando alguien toca una palanca, suena una campana, y tu código responde. Se llaman **señales y slots**.
 
 ### Objetivos
 
@@ -473,9 +475,11 @@ usa: gui.qt
 
 ### Crónica
 
-El vitral de la oficina de inscripciones tiene de todo: campos para escribir, listas desplegables, casillas, un menú arriba y una barra abajo que avisa qué pasó. Y cuando alguien se olvida un dato, una ventanita le avisa.
+El vitral de la oficina de inscripciones tiene de todo: campos para escribir, listas desplegables, casillas, un menú arriba y una barra abajo que avisa qué pasó. Lyn se inscribe en una carrera, se olvida de poner el nombre, y una ventanita le avisa. Lyn le apuesta a la ventanita que la próxima vez se acuerda. Pierde.
 
 —Una aplicación de verdad no confía en nadie —dice {mentor}—. Revisa lo que le escriben, pregunta antes de borrar, y guarda en un archivo para que nada se pierda.
+
+Oto pide un vitral para anotar sus recetas. Bron le promete hacérselo. Lima le recuerda a Bron que ya prometió cuatro.
 
 ### Objetivos
 
@@ -1035,7 +1039,9 @@ usa: gui.qt, gui.componentes, poo.herencia, poo.polimorfismo, arch.texto
 
 La oficina de patentes de la Ciudadela es un caos. Cada vez que alguien registra un invento, el empleado lo anota en la ventana… y nada más. Si se corta la luz, se pierde todo. Si alguien pregunta «¿cuánto vale todo lo registrado?», el empleado suma con los dedos.
 
-—El problema no es la ventana —dice {mentor}, y golpea el vidrio con el compás—. El problema es que **la ventana es lo único que hay**. Primero va el plano: las clases, la herencia y el archivo, que funcionen solas en la consola. Después la ventana, que solo muestra lo que el plano sabe.
+Bron quiere arreglar la ventana. Tesla golpea el vidrio con el compás. —El problema no es la ventana: es que **la ventana es lo único que hay**. Primero va el plano: las clases, la herencia y el archivo, que funcionen solas en la consola. Después la ventana, que solo muestra lo que el plano sabe.
+
+—¿Y la prueba? —pregunta la Maestra Artífice, que pasaba. —En la consola —contesta Bron, antes que Lima. La Maestra asiente. {mentor} se ríe.
 
 ### Objetivos
 
@@ -2278,7 +2284,9 @@ usa: gui.qt
 
 ### Crónica
 
-En el fondo del Taller, un maestro vidriero no usa piezas hechas: pinta cada vitral a mano, con pinceles de luz. A su lado, un aprendiz lleva la lista de cada pieza en un cuaderno; cuando el maestro agrega un vidrio, el cuaderno se actualiza solo.
+En el fondo del Taller, un maestro vidriero no usa piezas hechas: pinta cada vitral a mano, con pinceles de luz. A su lado, Lima lleva la lista de cada pieza en un cuaderno; cuando el maestro agrega un vidrio, el cuaderno se actualiza solo.
+
+Bron, que llegó a la Ciudadela arreglando doscientos engranajes a mano, descubre que hay cosas que **sí** se hacen a mano: dibujar. Le pregunta al maestro vidriero si conoce al Vidriero. El maestro se ríe: —Todos los vidrieros conocemos al Vidriero. Nadie lo vio nunca.
 
 —Cuando los botones no alcanzan, se **dibuja** —dice {mentor}—. Y cuando los datos son muchos, se separan: los **datos** por un lado, y las **vistas** que los muestran, por otro.
 
@@ -2766,9 +2774,11 @@ usa: gui.qt, gui.tablas-arboles, poo.herencia, poo.polimorfismo, poo.operadores,
 
 ### Crónica
 
-En lo alto del Taller de los Vitrales hay una gárgola de piedra con un monóculo. Dicen que custodia el **libro del taller de reparaciones**: qué máquina entró, cuántas horas trabajó y cuánto cuesta arreglarla. Dicen también que nunca dejó pasar un programa con una sola fila mal sumada.
+En lo alto del Taller de los Vitrales hay una **gárgola** de piedra con un monóculo de vidrios de colores. Custodia el libro del taller de reparaciones: qué máquina entró, cuántas horas trabajó y cuánto cuesta arreglarla. Nunca dejó pasar un programa con una sola fila mal sumada.
 
-—Este es el examen de verdad —dice {mentor}—. El que te van a tomar en la facultad se parece muchísimo: unas clases con herencia, un archivo y una ventana en Qt. Se llama **TallerExpress**. Primero los planos, después el vitral. Y si la gárgola te pregunta algo, mirala a los ojos.
+—Pregunta número uno —dice la Gárgola, con voz de examinadora. Es el examen de verdad, **TallerExpress**: unas clases con herencia, un archivo y una ventana en Qt. —Primero los planos —le susurra Lima—. Después el vitral.
+
+Bron no saca la llave. Saca una hoja y dibuja el plano: la base, las tres derivadas, el taller, el archivo, la ventana. Cuando la Gárgola cierra el libro, satisfecha, Bron dibuja en la misma hoja el plano de su propia llave: una que se ajusta a **cualquier** tuerca de la Ciudadela. Tesla lo construye en el torno, y se la da: **la Llave Universal**. Detrás de la Gárgola, el último vitral muestra un balcón con cuatro portales: una espiral, **un engranaje**, un vitral y un arco de fuego. El engranaje es el que Bron tiene en el bolsillo.
 
 ### Objetivos
 
@@ -3932,11 +3942,11 @@ precio: 10
 
 ### Crónica
 
-Salís del Laberinto con el sello del Minotauro en la mano. Arriba, en la plaza de la Ciudadela, hay un engranaje gigante tallado en el piso, y de sus dientes salen caminos. {mentor} te espera sentado en el borde, con el compás de bronce entre las manos.
+En la plaza de la Ciudadela hay un engranaje gigante tallado en el piso, y de sus dientes salen caminos. {mentor} espera a Bron sentado en el borde, con el compás de bronce entre las manos. Lima, Lyn y Oto están ahí; la Maestra Artífice también, de brazos cruzados.
 
-—Ya hablás la lengua de la Ciudadela, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Por un camino se llega a la **Linterna Mágica**, donde los planos se mueven en una pantalla. Por el otro, al **Taller de los Vitrales**, donde se construyen ventanas que cualquiera puede usar.
+Un aprendiz nuevo, recién llegado, con una llave en la mano, mira el plano que le dieron y le pregunta a Bron: —¿Y esto para qué me sirve? —Bron contesta sin pensar, y le explica, y se da cuenta en la mitad de que está hablando como Tesla. Lima se tapa la boca para no reírse.
 
-—Antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
+—Ya hablás la lengua de la Ciudadela, Bron —dice {mentor}—. Lo que sigue no es obligatorio: es **tuyo**. Por ese camino se llega a la **Linterna Mágica**, donde los planos se mueven en una pantalla. Pero antes, mirá hacia atrás. ¿Qué te llevás de este viaje?
 
 ### Objetivos
 

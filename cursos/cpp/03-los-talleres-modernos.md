@@ -18,9 +18,11 @@ usa: prog.bucles
 
 ### Crónica
 
-Pasando la Arena, llegás a los **Talleres Modernos**: salas luminosas donde los artífices jóvenes trabajan rápido, con herramientas que en tiempos de Ferrum no existían.
+Pasando la Arena, Bron y Lima llegan a los **Talleres Modernos**: salas luminosas donde los artífices jóvenes trabajan rápido, con herramientas que en tiempos de Ferrum no existían. En la puerta, Lyn le da a Bron una carta de Ferrum, quemada en una esquina (justo donde decía algo importante).
 
-—Acá se escribe el C++ de hoy —dice {mentor}—. El mismo lenguaje, pero con herramientas que te ahorran escribir lo obvio. La primera: dejar que el Taller **deduzca** los tipos. Con cuidado: un goblin se esconde en cada copia que no querías hacer.
+—Acá se escribe el C++ de hoy —dice {mentor}—. El mismo lenguaje, con herramientas que te ahorran escribir lo obvio. La primera: dejar que el Taller **deduzca** los tipos.
+
+Bron escribe `auto` en todos lados, encantado, hasta que un goblin se le esconde en una copia que no quería hacer. —Con cuidado —dice Lima, y le señala el `&` que faltaba.
 
 ### Objetivos
 
@@ -736,9 +738,11 @@ temas: prog.cadenas
 
 ### Crónica
 
-En la oficina de la Aduana de la Ciudadela, un escriba recibe planillas escritas de cualquier manera: "Lima;27;artífice", "bron ; 120 ;guerrero", nombres con espacios de más, extensiones raras.
+En la oficina de la Aduana de la Ciudadela, un escriba recibe planillas escritas de cualquier manera: «Lima;27;artífice», «bron ; 120 ;guerrero», nombres con espacios de más y una que dice solo «sí».
 
-—El mundo te va a dar texto sucio —dice {mentor}—. Antes de hacer nada con él, hay que **buscarlo, cortarlo y limpiarlo**. Y un número escrito como texto todavía no es un número.
+Bron intenta sumar las edades y le da «27120». El escriba se desmaya. Lima lo abanica con la planilla.
+
+—El mundo te va a dar texto sucio —dice {mentor}—. Antes de hacer nada, hay que **buscarlo, cortarlo y limpiarlo**. Y un número escrito como texto todavía no es un número: es un dibujo de un número.
 
 ### Objetivos
 
@@ -1489,9 +1493,11 @@ temas: col.mapas, col.conjuntos
 
 ### Crónica
 
-El archivista de la Ciudadela no busca los planos hoja por hoja. Tiene un fichero: buscás "reloj" y la ficha te dice "cajón 14". Y tiene otro libro, más fino, con solo una lista de nombres: los artífices que ya rindieron el examen. Nadie aparece dos veces.
+El archivista de la Ciudadela no busca los planos hoja por hoja: tiene un fichero. Buscás «reloj» y la ficha dice «cajón 14». Y tiene otro libro, más fino, con los artífices que ya rindieron el examen: nadie aparece dos veces.
 
-—El fichero es un **mapa**: de una clave, a su valor —explica {mentor}—. El libro es un **conjunto**: solo sabe si algo está o no está. Con esos dos, casi cualquier problema de "buscar" se vuelve instantáneo.
+Oto quiere anotar su guiso dos veces en el libro de los aprobados, «porque estaba muy bueno». El libro no lo deja: en un **conjunto**, cada cosa está una sola vez. Oto se ofende un poquito.
+
+—El fichero es un **mapa**: de una clave, a su valor —explica {mentor}—. El libro es un **conjunto**: solo sabe si algo está o no. Con esos dos, casi cualquier búsqueda se vuelve instantánea.
 
 ### Objetivos
 
@@ -2214,9 +2220,11 @@ temas: prog.enums, diseno.maquina-estados, err.opcionales
 
 ### Crónica
 
-En la sala de control de la Ciudadela hay un tablero con luces: "apagado", "girando", "averiado". Antes, cada estado era un número pintado a mano: el 2 era "averiado"… o el 3, nadie se acordaba.
+En la sala de control hay un tablero con luces: «apagado», «girando», «averiado». Antes, cada estado era un número pintado a mano: el 2 era «averiado»… o el 3, nadie se acordaba.
 
-—Los números mágicos confunden a todos —dice {mentor}—. Los estados tienen **nombre**. Y cuando buscás algo que puede no estar, no inventes un −1: decí claramente "puede que no haya nada".
+El día que Bron leyó el 3 como «todo bien», se averiaron dos calderas. Ahora el tablero tiene palabras.
+
+—Los números mágicos confunden a todos —dice {mentor}—. Los estados tienen **nombre**. Y cuando buscás algo que puede no estar, no inventes un −1: decí claramente «puede que no haya nada». —Lima lo anota con letra de relojera.
 
 ### Objetivos
 
@@ -3018,9 +3026,11 @@ temas: func.lambdas, func.orden-superior
 
 ### Crónica
 
-El clasificador de la Ciudadela es una máquina enorme que ordena piezas. Pero no sabe **cómo** ordenarlas: por peso, por tamaño, por color. Cada vez que la usás, le das una tarjetita con la regla: "la más pesada primero".
+El clasificador de la Ciudadela es una máquina enorme que ordena piezas, pero no sabe **cómo**: por peso, por tamaño, por color. Cada vez que la usás, le das una tarjetita con la regla.
 
-—Escribir una función entera, con nombre, para una regla que uso una sola vez, es un desperdicio —dice {mentor}—. Escribo la regla **ahí mismo**, en la tarjeta. Eso es una lambda.
+Bron escribe una función entera, con nombre y todo, para la regla «la más pesada primero», que va a usar una sola vez. Lima saca la lima. Bron esconde la función detrás de la espalda.
+
+—Para una regla que se usa una vez, una función con nombre es un desperdicio —dice {mentor}—. La regla se escribe **ahí mismo**, en la tarjeta. Eso es una **lambda**.
 
 ### Objetivos
 
@@ -3732,9 +3742,11 @@ temas: arch.texto, arch.csv, arch.rutas, arch.binarios
 
 ### Crónica
 
-Cuando cae la noche, la Ciudadela se apaga… pero sus registros no. Todo lo que pasó en el día quedó escrito en los libros del Archivo: el stock, las cuentas, los turnos.
+Cuando cae la noche, la Ciudadela se apaga, pero sus registros no: lo que pasó en el día quedó escrito en los libros del Archivo. Bron, que nunca guardó nada en su vida, pierde el inventario de herramientas tres veces en una semana.
 
-—Un programa que olvida todo al cerrarse no le sirve a nadie —dice {mentor}—. Lo que importa se **guarda en un archivo**. Y lo bueno de C++: los archivos se cierran solos, aunque te olvides.
+La tercera, Oto le cocina un guiso de consuelo. Lima le enseña a escribir el inventario en un archivo; y el archivista, a guardar fichas de tamaño fijo en un **archivo binario**, para ir directo a la ficha que hace falta sin leer las anteriores.
+
+—Un programa que olvida todo al cerrarse no le sirve a nadie —dice {mentor}—. Lo que importa se **guarda**. Y lo bueno de C++: los archivos se cierran solos, aunque te olvides.
 
 ### Objetivos
 
@@ -4656,9 +4668,11 @@ temas: mem.smart-pointers, mem.dinamica
 
 ### Crónica
 
-En el depósito de autómatas, cada máquina tiene una etiqueta con el nombre de su **dueño**. Cuando el dueño se va, la máquina vuelve a la fundición. Así nunca quedan máquinas abandonadas ocupando lugar… ni dos personas desarmando la misma.
+En el depósito de autómatas, cada máquina tiene una etiqueta con el nombre de su **dueño**. Cuando el dueño se va, la máquina vuelve a la fundición. Así no quedan máquinas abandonadas… ni dos personas desarmando la misma.
 
-—En el viejo C++, la memoria se pedía con `new` y se devolvía con `delete`, a mano —dice {mentor}—. Y los trolls se hacían un festín: memoria que nadie devolvía, memoria devuelta dos veces. Hoy cada pedazo de memoria tiene un dueño que la devuelve solo.
+La batidora de Oto (el autómata que Bron armó con `new`) todavía no tiene etiqueta. Le ponen una, por fin, que dice «Oto», y por primera vez se apaga sola cuando Oto cierra la cocina.
+
+—Con `new` y `delete` a mano, los trolls se hacían un festín —dice {mentor}—: memoria que nadie devolvía, memoria devuelta dos veces. Hoy cada pedazo de memoria tiene un dueño que la devuelve solo.
 
 ### Objetivos
 
@@ -5357,9 +5371,11 @@ temas: mem.raii, mem.movimiento
 
 ### Crónica
 
-Cuando un artífice entra a la sala de máquinas, la puerta se traba sola detrás de él. Cuando sale (por la puerta, por la ventana o corriendo porque algo explotó), la puerta se destraba. Nadie tiene que acordarse.
+Cuando un artífice entra a la sala de máquinas, la puerta se traba sola detrás de él. Cuando sale (por la puerta, por la ventana o corriendo porque algo explotó), se destraba. Nadie tiene que acordarse.
 
-—Esa es la regla más importante de la Ciudadela —dice {mentor}—: todo lo que se toma, se toma **al nacer** un objeto, y se devuelve **al morir**. Así nunca queda nada tomado. Y hay objetos que no se pueden duplicar: una llave maestra se **entrega**, no se copia.
+En la puerta aparece por primera vez una mujer alta, de pelo blanco y antiparras verdes, con una tableta llena de tildes. Es la **Maestra Artífice**, la inspectora de la Ciudadela. Bron le dice que su programa «ya anda». Ella lo mira por encima de las antiparras: —¿Y la prueba? —Bron no tiene la prueba. Lima, sí.
+
+—Todo lo que se toma, se toma **al nacer** un objeto, y se devuelve **al morir** —dice {mentor}—. Y hay cosas que no se duplican: una llave maestra se **entrega**, no se copia. Oto descubre que su guiso tenía dos dueños (él y Bron), y que por eso se servía dos veces.
 
 ### Objetivos
 
@@ -6130,9 +6146,11 @@ usa: col.mapas, mem.smart-pointers, err.opcionales, func.lambdas, arch.texto
 
 ### Crónica
 
-En la biblioteca de los Talleres se guarda el **Bestiario**: el registro de cada criatura que alguna vez pisó la Ciudadela. Anoche, alguien lo revolvió. Hay fichas rotas, criaturas repetidas… y una que no estaba antes: el **Mímico**, una criatura sin forma propia que copia a cualquiera que mire.
+En la biblioteca de los Talleres se guarda el **Bestiario**: el registro de cada criatura que pisó la Ciudadela. Anoche alguien lo revolvió. Hay fichas rotas, criaturas repetidas… y una nueva: el **Mímico**, gris y blando como cera, que copia a quien mira (siempre con algo mal: una cola de más, un ojo en la rodilla).
 
-—Para atraparlo, primero hay que ordenar el Bestiario —dice {mentor}—. Y después, entender cómo copia: el Mímico no **es** un lobo. **Tiene** una copia de un lobo. Y esa copia es suya.
+El Mímico mira a Bron y se convierte en un Bron con dos llaves. Mira a Lima y se convierte en una Lima con tres rodetes. Y tiene en la mano una **bisagra**: copió la del Vidriero, pero no sabe abrir nada con ella.
+
+—Para atraparlo, primero ordená el Bestiario —dice {mentor}—. Y después entendé cómo copia: el Mímico no **es** un lobo, **tiene** una copia de un lobo, y esa copia es suya. Cuando cae, deja **el Espejo del Mímico**, que refleja lo que tenés, no lo que sos.
 
 ### Objetivos
 

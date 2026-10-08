@@ -20,9 +20,11 @@ usa: mem.raii
 
 ### Crónica
 
-Detrás del engranaje de la Encrucijada hay una sala oscura. En el centro, una **linterna mágica**: una caja de bronce con una lente que proyecta figuras en la pared. Y las figuras **se mueven**, solas, sesenta veces por segundo.
+Detrás del engranaje de la Encrucijada hay una sala oscura. En el centro, una **linterna mágica**: una caja de bronce con una lente que proyecta figuras en la pared. Y las figuras **se mueven**, solas, muchas veces por segundo.
 
-—Hasta ahora tus programas escribían y terminaban, {heroe} —dice {mentor}—. Acá se escriben mundos que **siguen andando** hasta que alguien apaga la linterna.
+Bron mete la mano delante de la lente y en la pared aparece una mano gigante. Lyn hace una sombra de conejo y le gana la carrera a la mano.
+
+—Hasta ahora tus programas escribían y terminaban —dice {mentor}—. Acá se escriben mundos que **siguen andando** hasta que alguien apaga la linterna.
 
 ### Objetivos
 
@@ -589,9 +591,11 @@ usa: graf.sdl
 
 ### Crónica
 
-La linterna tiene un cajón con placas de vidrio pintadas: una heroína con el pie izquierdo adelante, otra con el derecho. Pasándolas rápido, la heroína **camina**.
+La linterna tiene un cajón con placas de vidrio pintadas: una heroína con el pie izquierdo adelante, otra con el derecho. Pasándolas rápido, la heroína **camina**. Lima reconoce la cara de la heroína: es la que Bron armó en el Taller del Juego, con su cara.
 
 —Un sprite es una figura; una animación, varias figuras que se turnan —dice {mentor}—. Y para que la figura te obedezca, hay que saber qué teclas estás apretando **ahora**, no solo cuáles apretaste alguna vez.
+
+Bron aprieta dos flechas a la vez y la heroína camina en diagonal. Lima dice que así no camina ella. Bron dice que sí.
 
 ### Objetivos
 
@@ -1268,7 +1272,9 @@ usa: graf.sdl
 
 La pared de la sala ya no alcanza: el mundo de la linterna es más grande que la sala. {mentor} monta la lente sobre un riel, y la proyección **sigue** a la heroína mientras recorre un laberinto que no entra entero en la pared.
 
-—Tres trucos más y la linterna es un juego —dice—: las paredes que frenan, la cámara que sigue, y las escenas que cambian (el título, el juego, el final).
+Bron la hace atravesar una pared, por error. La heroína queda del otro lado, en el comedor de Oto, proyectada sobre la olla.
+
+—Tres trucos más y la linterna es un juego —dice {mentor}—: las paredes que frenan, la cámara que sigue, y las escenas que cambian (el título, el juego, el final).
 
 ### Objetivos
 
@@ -2030,7 +2036,9 @@ usa: graf.sdl, juegos.ia, prog.modulos
 
 ### Crónica
 
-La linterna se apaga de golpe. En la oscuridad se oye un susurro: el **Espectro de la Linterna** se escapó de las placas de vidrio y se llevó las gemas que la hacen brillar. Ahora flota por un laberinto, con otros espectros, atravesando paredes.
+La linterna se apaga de golpe. En la oscuridad se oye un zumbido de proyector: el **Espectro de la Linterna** se escapó de las placas de vidrio y se llevó las gemas que la hacen brillar. Ahora flota por un laberinto, con otros espectros, atravesando paredes.
+
+Lyn apuesta a que Bron no junta las gemas antes del amanecer. Oto apuesta a que sí, y le prepara un guiso para la espera.
 
 —Juntá las gemas y la linterna se enciende otra vez —dice {mentor}—. Pero no dejes que te toquen: los espectros no tienen prisa, pero tampoco se cansan.
 

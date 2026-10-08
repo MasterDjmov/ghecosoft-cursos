@@ -17,9 +17,11 @@ temas: err.excepciones
 
 ### Crónica
 
-Pasando la Biblioteca, llegás al **Taller del Juego**, la parte más ruidosa de la Ciudadela: acá los artífices construyen máquinas grandes, de esas que no pueden fallar en silencio.
+Pasando la Biblioteca está el **Taller del Juego**, la parte más ruidosa de la Ciudadela: acá se construyen máquinas grandes, de esas que no pueden fallar en silencio. Bron se sube a un andamio para ver mejor, el andamio se rompe, y Bron cae.
 
-—Cuando algo sale mal en lo profundo de una máquina —dice {mentor}—, el que lo descubre muchas veces no sabe qué hacer. Pero puede **tocar la alarma**. Y alguien más arriba, que sí sabe, la escucha y decide. Eso es una excepción.
+Lo ataja una **red**, tendida justo abajo. El que la tendió sabía que el andamio podía romperse, aunque no sabía cuándo. Tesla le da a Bron un amuleto con forma de red: **el Amuleto del Catch**. —Para la próxima —dice—. Siempre hay una próxima.
+
+—Cuando algo sale mal en lo profundo de una máquina —dice {mentor}—, el que lo descubre muchas veces no sabe qué hacer. Pero puede **tocar la alarma**, y alguien más arriba, que sí sabe, la atrapa. Eso es una excepción.
 
 ### Objetivos
 
@@ -775,9 +777,11 @@ temas: cal.depuracion
 
 ### Crónica
 
-Un autómata del Taller camina en círculos. No da error, no se detiene: solo hace algo que nadie le pidió. Los aprendices discuten teorías; {mentor} saca una lupa y un cuaderno.
+Un autómata del Taller camina en círculos. No da error, no se detiene: solo hace algo que nadie le pidió. Los aprendices discuten teorías; Bron quiere abrirlo con la llave.
 
-—Adivinar es lo más lento que hay —dice—. Se **observa**: qué hace, paso a paso, y dónde deja de hacer lo que debería. Y se le pide ayuda a las herramientas: el Taller tiene instrumentos que ven lo que tus ojos no ven.
+—Adivinar es lo más lento que hay —dice {mentor}, y saca una lupa y un cuaderno—. Se **observa**: qué hace, paso a paso, y dónde deja de hacer lo que debería. Y se le pide ayuda a las herramientas: el Taller tiene instrumentos que ven lo que tus ojos no ven.
+
+Resulta que el autómata caminaba en círculos porque alguien le había atado un cordón entre las dos patas. Lyn jura que no fue ella. Lyn tiene un cordón de menos en la bota.
 
 ### Objetivos
 
@@ -1500,9 +1504,11 @@ temas: cal.pruebas, cal.rendimiento
 
 ### Crónica
 
-Antes de que una máquina salga del Taller, pasa por el **Banco de Pruebas**: una mesa con palancas que la hacen trabajar en todos los casos raros que a alguien se le ocurrieron. Si una prueba falla, la máquina no sale.
+Antes de que una máquina salga del Taller, pasa por el **Banco de Pruebas** de la Maestra Artífice: una mesa larga con palancas que la hacen trabajar en todos los casos raros que a alguien se le ocurrieron. Si una prueba falla, la máquina no sale.
 
-—Probar a mano una vez no alcanza —dice {mentor}—. Las pruebas se **escriben**, y se corren cada vez que cambiás algo. Y cuando alguien dice "esto es más rápido", se **mide**. No se opina.
+Bron dice que su máquina «ya anda». La Maestra no levanta la vista: —¿Y la prueba? —Esta vez Bron tiene las pruebas: doce, escritas, y las corre delante de ella. Pasan todas en verde. La Maestra sonríe **medio segundo**. Lima jura que fue un tic.
+
+—Probar a mano una vez no alcanza —dice {mentor}—. Las pruebas se **escriben**, y se corren cada vez que cambiás algo. Y cuando alguien dice «esto es más rápido», se **mide**. No se opina.
 
 ### Objetivos
 
@@ -2092,9 +2098,11 @@ usa: poo.encapsulamiento, err.opcionales
 
 ### Crónica
 
-En el fondo del Taller hay una mesa larga con las piezas de un juego desarmado: una heroína de madera, enemigos de lata, una mochila de cuero, un dado. Tesla las acomoda una por una.
+En el fondo del Taller hay una mesa con las piezas de un juego desarmado: una heroína de madera, enemigos de lata, una mochila de cuero, un dado. Bron arma la heroína con la cara de Lima, «porque es la que más pelea». Lima no sabe si ofenderse.
 
-—Un juego no es una máquina misteriosa —dice—. Es un montón de piezas chicas que ya sabés hacer: clases con reglas, un inventario, una IA que decide, un combate con azar. Juntalas bien y tenés un juego.
+—Un juego no es una máquina misteriosa —dice {mentor}—. Es un montón de piezas chicas que ya sabés hacer: clases con reglas, un inventario, una IA que decide, un combate con azar. Juntalas bien y tenés un juego.
+
+Oto pide que haya un enemigo que sea un guiso violeta. Se lo agregan.
 
 ### Objetivos
 
@@ -3141,7 +3149,9 @@ usa: diseno.maquina-estados
 
 En el centro del Taller gira el **Gran Péndulo**. Con cada vaivén, todos los autómatas de la sala hacen tres cosas: miran si alguien les dio una orden, se mueven un poquito, y encienden sus luces. Vaivén tras vaivén.
 
-—Eso es un juego por dentro —dice {mentor}—. Un **bucle** que se repite sesenta veces por segundo: escuchar, actualizar, dibujar. Y según el momento (menú, jugando, pausa), la misma tecla hace cosas distintas.
+Bron frena el péndulo para ver qué pasa: todos los autómatas se quedan congelados con un pie en el aire. Uno, el de Oto, con la batidora encendida.
+
+—Eso es un juego por dentro —dice {mentor}—. Un **bucle** que se repite muchas veces por segundo: escuchar, actualizar, dibujar. Y según el momento (menú, jugando, pausa), la misma tecla hace cosas distintas.
 
 ### Objetivos
 
@@ -4111,9 +4121,11 @@ usa: arch.texto, err.excepciones, prog.modulos
 
 ### Crónica
 
-Debajo del Taller del Juego, detrás de una puerta que ningún aprendiz abrió, está el **Laberinto**. Adentro vive el **Minotauro**: no persigue, **embiste**. Si te ve en línea recta, cruza el pasillo de dos zancadas.
+Debajo del Taller del Juego, detrás de una puerta que ningún aprendiz abrió, está el **Laberinto**. Adentro vive el **Minotauro**, un toro de hierro y bronce que camina en dos patas: no persigue, **embiste**. Si te ve en línea recta, cruza el pasillo de dos zancadas. Del cuello le cuelga un **engranaje** enorme.
 
-—Todo lo que aprendiste está en este plano —dice {mentor}, y te da una hoja con un laberinto dibujado—. Clases, contenedores, `optional`, excepciones, estados, el bucle. Armalo pieza por pieza. Cuando lo termines, ya no vas a ser aprendiz de la Ciudadela.
+—Todo lo que aprendiste está en este plano —dice {mentor}, y le da a Bron una hoja con un laberinto dibujado—. Clases, contenedores, `optional`, excepciones, estados, el bucle. Armalo pieza por pieza.
+
+Bron no entra a los golpes: entra con el plano. Cuando el Minotauro se queda trabado en un pasillo en diagonal, el engranaje se le suelta del cuello. Es **el Engranaje del Portal**: tiene los mismos dientes que las bisagras del Vidriero. Tesla lo mira y, por primera vez, no termina la frase de nadie.
 
 ### Objetivos
 

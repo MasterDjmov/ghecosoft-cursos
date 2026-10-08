@@ -45,13 +45,14 @@ def run(code, stdin, lang, cache={}):
     if key not in cache:
         tmp = tempfile.mkdtemp(prefix='regen-')
         # Un proyecto de varios archivos viene separado con «// ===== Nombre.h =====».
-        parts = re.split(r'^// ===== (\S+) =====\s*$', code, flags=re.M)
+        parts = re.split(r'^(?://|/\*) ===== (\S+) =====(?: \*/)?\s*$', code, flags=re.M)
         files = dict(zip(parts[1::2], parts[2::2])) if len(parts) > 1 else {'main.' + ('c' if lang == 'c' else 'cpp'): code}
         for name, text in files.items():
             Path(tmp, name).write_text(text)
-        sources = [os.path.join(tmp, n) for n in files if n.endswith(('.c', '.cpp'))]
+        # Rutas relativas, como en la compu del alumno (__FILE__ da «main.c», no la carpeta temporal).
+        sources = [n for n in files if n.endswith(('.c', '.cpp'))]
         cmd = ['gcc', '-std=c11', *sources, '-lm'] if lang == 'c' else ['g++', '-std=c++20', *sources]
-        r = subprocess.run(cmd + ['-o', os.path.join(tmp, 'prog')], capture_output=True, text=True)
+        r = subprocess.run(cmd + ['-o', 'prog'], capture_output=True, text=True, cwd=tmp)
         cache[key] = os.path.join(tmp, 'prog') if r.returncode == 0 else 'ERROR: ' + r.stderr[:300]
     prog = cache[key]
     if prog.startswith('ERROR'):
@@ -61,11 +62,13 @@ def run(code, stdin, lang, cache={}):
             r = subprocess.run([prog], input=stdin, capture_output=True, text=True, timeout=10, cwd=cwd)
         except subprocess.TimeoutExpired:
             return 'ERROR: se pasó de tiempo'
-    return '\n'.join(l.rstrip() for l in r.stdout.rstrip('\n').split('\n')) if r.stdout else ''
+    return r.stdout.rstrip('\n')
 
 
 def norm(text):
-    return '\n'.join(l.rstrip() for l in text.strip('\n').split('\n')).strip('\n')
+    # Como la plataforma (LocalCodeRunner::normalize): sin los espacios del final de cada renglón ni los saltos
+    # de línea de las puntas. Al reescribir, en cambio, se guarda la salida exacta del programa.
+    return '\n'.join(l.rstrip() for l in text.split('\n')).strip('\n')
 
 
 def process(path, lang, only, apply):

@@ -1077,7 +1077,7 @@ artífice aprendiz
 #### Salida esperada
 
 ```
-Nombre completo: Oficio:
+Nombre completo: Oficio: 
 Registrado: Lima Valdez (artífice aprendiz)
 Letras del nombre (con espacios): 11
 Inicial: L

@@ -296,7 +296,9 @@ document.addEventListener('alpine:init', () => {
             this.error = Boolean(result.error);
             this.status = result.error ? (result.timedOut ? 'Tiempo agotado' : 'Error') : `Listo en ${result.ms} ms`;
             if (!result.error && config.expected) {
-                this.matches = result.output.trim() === config.expected.trim();
+                // Como el servidor (LocalCodeRunner::normalize): sin los espacios del final de cada renglón.
+                const normalize = (text) => text.replace(/\r\n/g, '\n').replace(/[ \t]+$/gm, '').replace(/^\n+|\n+$/g, '');
+                this.matches = normalize(result.output) === normalize(config.expected);
             }
             this.running = false;
         },

@@ -528,7 +528,7 @@ class SimulateCourse extends Command
                 default => "Tu programa no compila o termina con error:\n\n    {$error}\n\nLeé el primer error del compilador: dice el archivo, la línea y qué falta.",
             }];
         }
-        if ($practice->expected_output && trim(str_replace("\r\n", "\n", $output)) !== trim(str_replace("\r\n", "\n", $practice->expected_output))) {
+        if ($practice->expected_output && ! LocalCodeRunner::matches($output, $practice->expected_output)) {
             $got = collect(explode("\n", trim($output)));
             $want = collect(explode("\n", trim($practice->expected_output)));
             $line = $got->keys()->merge($want->keys())->unique()->first(fn ($i) => ($got[$i] ?? null) !== ($want[$i] ?? null));

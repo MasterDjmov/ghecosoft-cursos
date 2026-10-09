@@ -142,7 +142,7 @@
                             {{-- Al coincidir la salida, se avisa una sola vez. --}}
                             <div x-data="{ sent: false }" x-effect="if (matches === true && ! sent) { sent = true; $wire.completeStep({{ $step->id }}, output, code).then((r) => { result = r; if (! r.ok) sent = false }) }">
                                 <p x-show="matches === false" x-cloak class="flex items-center gap-2 text-sm text-warning" data-test="step-mismatch">
-                                    <flux:icon name="exclamation-triangle" variant="micro" /> Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.
+                                    <flux:icon name="exclamation-triangle" variant="micro" /> {{ filled($step->checks) ? 'Todavía no: el inspector no encontró lo que se espera. Mirá los renglones en ámbar.' : 'Todavía no: tu salida no es igual a la esperada. Comparalas línea por línea.' }}
                                 </p>
                                 <p x-show="matches === false && mismatch" x-cloak class="mt-1 text-xs text-ink-muted" x-text="mismatch" data-test="step-mismatch-detail"></p>
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>

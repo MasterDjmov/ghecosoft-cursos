@@ -193,6 +193,215 @@ Tiene que decir **lo que la imagen aporta**, como si se la contaras a alguien po
 
 Porque fuera de contexto no dice nada. Quien usa lector de pantalla suele pedir la lista de enlaces de la página, y diez "clic acá" son inútiles. El texto del enlace tiene que decir **adónde lleva**: "Ver el horario de las clases".
 
+### Micro-misión R01-N01-P1 · Los pasos del trabajo
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesela
+carta: Listas | <ul> con viñetas · <ol> numerada · cada elemento en un <li>
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Llevá un diario del taller —le pide {mentor}, y le da un cuaderno en blanco—. Lo primero: los pasos de cada trabajo, en orden.
+
+#### Gheco sugiere
+`<ol>` es una lista **numerada** (el orden importa); `<ul>`, con viñetas. Cada elemento va en su `<li>`.
+
+#### Desafío
+Convertí los tres pasos en una lista **numerada**: un `ol` con un `li` por paso.
+
+#### Código inicial
+```html
+<h2>Pasos de un vitral</h2>
+<p>Dibujar el boceto</p>
+<p>Soldar el plomo</p>
+<p>Elegir los vidrios</p>
+```
+
+#### Inspector
+```
+ol li #
+ol li
+```
+
+#### Salida esperada
+```
+ol li #: 3
+ol li: Dibujar el boceto
+ol li: Soldar el plomo
+ol li: Elegir los vidrios
+```
+
+#### Solución
+```html
+<h2>Pasos de un vitral</h2>
+<ol>
+  <li>Dibujar el boceto</li>
+  <li>Soldar el plomo</li>
+  <li>Elegir los vidrios</li>
+</ol>
+```
+
+#### Al superarla
+{mentor} asiente. Iris arranca la hoja, la vuelve a escribir con mejor letra y tira la primera al canasto. {mentor} le escribe un número con tiza: «Boceto 1».
+
+#### Imagen
+- Una mesa de taller con un cuaderno abierto y una lista numerada de tres pasos.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) pone un papel en un canasto y le escribe un 1 con tiza.
+
+### Micro-misión R01-N01-P2 · Una ventana a otro taller
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesela, Gheco
+carta: Enlaces | <a href="destino">texto</a> · el texto dice adónde lleva (nunca «clic acá»)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+{mentor} señala los ventanales del fondo: uno da al Valle de la Serpiente, otro al Puerto de los Mensajeros. —Un vitral también **conecta**. Cada ventana da a otra.
+
+#### Gheco sugiere
+`<a href="…">texto</a>` es un enlace: `href` dice adónde va y el texto dice qué hay ahí. «Clic acá» no le dice nada a nadie.
+
+#### Desafío
+Convertí *Valle de la Serpiente* en un enlace a `valle.html`.
+
+#### Código inicial
+```html
+<h2>Caminos</h2>
+<p>Desde el taller se ve el Valle de la Serpiente.</p>
+```
+
+#### Inspector
+```
+a
+a @href
+```
+
+#### Salida esperada
+```
+a: Valle de la Serpiente
+a @href: valle.html
+```
+
+#### Solución
+```html
+<h2>Caminos</h2>
+<p>Desde el taller se ve el <a href="valle.html">Valle de la Serpiente</a>.</p>
+```
+
+#### Al superarla
+El ventanal del Valle se ilumina de verde. Por un segundo, Iris escucha el río.
+
+#### Imagen
+- Un ventanal enorme de taller que da a un valle verde con un río, brillando.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo señala.
+- Gheco (gecko de luz con antiparras) cuelga del marco.
+
+### Micro-misión R01-N01-P3 · Lo que Nora no ve
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Nora
+carta: Imágenes | <img src="ruta" alt="qué muestra"> · el alt es lo que lee quien no la ve · alt="" si es solo decoración
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nora, la vitralista más vieja del taller, pasa la mano por el diario. Nora no ve: lee los vitrales tocando el plomo.
+—¿Y qué hay en el dibujo de la mascota? —pregunta. El dibujo no dice nada. Para Nora, no existe.
+
+#### Gheco sugiere
+`alt` describe lo que muestra la imagen, para quien no la ve (o si no carga). Sin `alt`, el lector de pantalla lee el nombre del archivo.
+
+#### Desafío
+Agregale a la imagen un `alt` que diga exactamente **Gheco, el gecko celeste con anteojos**.
+
+#### Código inicial
+```html
+<h2>La mascota del taller</h2>
+<img src="/img/personajes/gheco.webp" width="160" height="160">
+```
+
+#### Inspector
+```
+img @alt
+```
+
+#### Salida esperada
+```
+img @alt: Gheco, el gecko celeste con anteojos
+```
+
+#### Solución
+```html
+<h2>La mascota del taller</h2>
+<img src="/img/personajes/gheco.webp" alt="Gheco, el gecko celeste con anteojos" width="160" height="160">
+```
+
+#### Al superarla
+Nora pasa los dedos por el dibujo y sonríe. —Un gecko con anteojos. Ahora sí lo veo.
+
+#### Imagen
+- Un taller de vitrales con luz de tarde.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) pasa los dedos por un cuaderno abierto con un dibujo de un gecko.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) la mira.
+
+### Micro-misión R01-N01-P4 · El boceto del canasto
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesela
+carta: figure y figcaption | <figure> agrupa una imagen con su epígrafe · <figcaption> es el epígrafe
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Entre los bocetos viejos del canasto, Iris encuentra uno que no es suyo: **un vitral redondo**, firmado por alguien que se hacía llamar *el Vidriero*. Quiere pegarlo en el diario con su epígrafe.
+
+#### Gheco sugiere
+`<figure>` agrupa una imagen con su epígrafe, y el epígrafe va en `<figcaption>`, adentro de la misma `figure`.
+
+#### Desafío
+Envolvé la imagen y el epígrafe en un `figure`, y poné el epígrafe en un `figcaption` (en vez del `p`).
+
+#### Código inicial
+```html
+<img src="/img/cursos/html/vitral.webp" alt="Boceto de un vitral redondo" width="240" height="240">
+<p>Boceto firmado por el Vidriero</p>
+```
+
+#### Inspector
+```
+figure img @alt
+figure figcaption
+```
+
+#### Salida esperada
+```
+figure img @alt: Boceto de un vitral redondo
+figure figcaption: Boceto firmado por el Vidriero
+```
+
+#### Solución
+```html
+<figure>
+  <img src="/img/cursos/html/vitral.webp" alt="Boceto de un vitral redondo" width="240" height="240">
+  <figcaption>Boceto firmado por el Vidriero</figcaption>
+</figure>
+```
+
+#### Al superarla
+Iris le muestra el boceto a {mentor}. Ella lo mira un segundo de más, lo dobla y se lo guarda en el sobretodo. —Ese no es para el diario.
+
+#### Imagen
+- Un canasto lleno de papeles arrugados; arriba, un boceto viejo de un vitral redondo con una firma.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo sostiene.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo mira, seria.
+
 ### Misión R01-N01-M1 · La receta de la poción
 
 ```meta
@@ -568,6 +777,243 @@ Puede **saltar directo** al menú o al contenido principal con un atajo, en luga
 #### ¿Para qué sirve el enlace "Saltar al contenido"?
 
 Para que quien navega con el teclado o con un lector de pantalla no tenga que recorrer todo el menú en cada página: con un solo `Tab` + `Enter` llega directo al `main`.
+
+### Micro-misión R01-N02-P1 · El menú que Nora no encuentra
+
+```meta
+lugar: Los ríos de plomo
+personajes: Iris, Nora, Tesela
+carta: nav | <nav> agrupa los enlaces principales · el lector de pantalla lo anuncia como «navegación»
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nora recorre el boceto del ventanal con los dedos, de arriba abajo. —No encuentro el menú —dice—. Para mí son cajas, todas iguales.
+
+#### Gheco sugiere
+`<div>` no dice nada. `<nav>` dice «acá está la navegación»: el lector de pantalla lo anuncia y deja saltar directo.
+
+#### Desafío
+Cambiá el `div` de los enlaces por un `nav`.
+
+#### Código inicial
+```html
+<div>
+  <a href="#taller">Taller</a>
+  <a href="#encargos">Encargos</a>
+  <a href="#contacto">Contacto</a>
+</div>
+```
+
+#### Inspector
+```
+nav a #
+div #
+```
+
+#### Salida esperada
+```
+nav a #: 3
+div #: 0
+```
+
+#### Solución
+```html
+<nav>
+  <a href="#taller">Taller</a>
+  <a href="#encargos">Encargos</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+```
+
+#### Al superarla
+Nora encuentra el menú al instante. —Ahí está. Navegación, tres enlaces.
+
+#### Imagen
+- Un boceto de ventanal sobre una mesa, dividido en zonas.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) recorre el plomo con los dedos.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe una palabra sobre una zona.
+
+### Micro-misión R01-N02-P2 · Las zonas del ventanal
+
+```meta
+lugar: Los ríos de plomo
+personajes: Iris, Tesela
+carta: Zonas de la página | <header> cornisa · <main> el contenido (uno solo) · <footer> zócalo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El ventanal del Gremio tiene zonas: la cornisa, el panel central y el zócalo. Iris ya eligió los colores de las tres. {mentor} le saca el lápiz de la mano. —Antes de los colores, **nombrá cada zona**.
+
+#### Gheco sugiere
+`<header>` es la cabecera, `<main>` el contenido principal (uno por página) y `<footer>` el pie.
+
+#### Desafío
+Cambiá los tres `div` por `header`, `main` y `footer`, en ese orden.
+
+#### Código inicial
+```html
+<div><h1>Los Talleres de los Vitrales</h1></div>
+<div><p>Encargos de vitrales para todo el mundo.</p></div>
+<div><p>Hecho con plomo de las Forjas.</p></div>
+```
+
+#### Inspector
+```
+header h1
+main p
+footer p
+```
+
+#### Salida esperada
+```
+header h1: Los Talleres de los Vitrales
+main p: Encargos de vitrales para todo el mundo.
+footer p: Hecho con plomo de las Forjas.
+```
+
+#### Solución
+```html
+<header><h1>Los Talleres de los Vitrales</h1></header>
+<main><p>Encargos de vitrales para todo el mundo.</p></main>
+<footer><p>Hecho con plomo de las Forjas.</p></footer>
+```
+
+#### Al superarla
+{mentor} le devuelve el lápiz. —Ahora sí, el color. —Iris ya no se acuerda de qué colores había elegido.
+
+#### Imagen
+- Un ventanal gótico dividido en tres franjas de plomo: arriba, centro y abajo, con etiquetas escritas a mano.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe los nombres.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) sostiene el lápiz.
+
+### Micro-misión R01-N02-P3 · Una sección con nombre
+
+```meta
+lugar: Los ríos de plomo
+personajes: Iris, Nora
+carta: section y article | <section> una parte con título propio · <article> algo que se entiende solo (una entrada, una tarjeta)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el panel central van los encargos de la semana. Nora toca uno y pregunta: —¿Esto es una parte del ventanal, o se puede leer suelto?
+
+#### Gheco sugiere
+`<article>` es algo que se entiende solo, aunque lo saques de la página (un encargo, una noticia). Lleva su propio título.
+
+#### Desafío
+Envolvé cada encargo (su `h3` y su `p`) en un `article`.
+
+#### Código inicial
+```html
+<section>
+  <h2>Encargos de la semana</h2>
+  <h3>Ventanal de Kaffa</h3>
+  <p>Doce vitrales iguales para la catedral.</p>
+  <h3>Ventana de Ofidia</h3>
+  <p>Una ventana para los pergaminos del Valle.</p>
+</section>
+```
+
+#### Inspector
+```
+section article #
+article h3
+```
+
+#### Salida esperada
+```
+section article #: 2
+article h3: Ventanal de Kaffa
+article h3: Ventana de Ofidia
+```
+
+#### Solución
+```html
+<section>
+  <h2>Encargos de la semana</h2>
+  <article>
+    <h3>Ventanal de Kaffa</h3>
+    <p>Doce vitrales iguales para la catedral.</p>
+  </article>
+  <article>
+    <h3>Ventana de Ofidia</h3>
+    <p>Una ventana para los pergaminos del Valle.</p>
+  </article>
+</section>
+```
+
+#### Al superarla
+Nora pasa de un encargo al otro sin perderse. —Dos encargos. Ahora sé dónde empieza y dónde termina cada uno.
+
+#### Imagen
+- Un panel de vitral con dos cuadros separados por plomo grueso, cada uno con su título.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca uno de los cuadros.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R01-N02-P4 · Saltar al contenido
+
+```meta
+lugar: Los ríos de plomo
+personajes: Iris, Nora, Gheco
+carta: Enlace de salto | <a href="#contenido"> al principio · <main id="contenido"> · el que usa teclado no recorre todo el menú
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nora usa el teclado para recorrer las páginas: cada vez tiene que pasar por todos los enlaces del menú antes de llegar a lo importante. —Veinte enlaces —suspira—. Todos los días.
+
+#### Gheco sugiere
+Un `id` le pone nombre a un elemento, y `href="#ese-id"` salta hasta él. Un enlace **«Saltar al contenido»** al principio le ahorra el menú a quien usa teclado.
+
+#### Desafío
+Ponele `id="contenido"` al `main`, para que el enlace de salto llegue.
+
+#### Código inicial
+```html
+<a href="#contenido">Saltar al contenido</a>
+<nav>
+  <a href="#taller">Taller</a>
+  <a href="#encargos">Encargos</a>
+</nav>
+<main>
+  <h1>Los Talleres de los Vitrales</h1>
+</main>
+```
+
+#### Inspector
+```
+a[href="#contenido"]
+main @id
+```
+
+#### Salida esperada
+```
+a[href="#contenido"]: Saltar al contenido
+main @id: contenido
+```
+
+#### Solución
+```html
+<a href="#contenido">Saltar al contenido</a>
+<nav>
+  <a href="#taller">Taller</a>
+  <a href="#encargos">Encargos</a>
+</nav>
+<main id="contenido">
+  <h1>Los Talleres de los Vitrales</h1>
+</main>
+```
+
+#### Al superarla
+Nora aprieta una tecla y llega directo al título. Se ríe. —Me devolviste diez minutos por día.
+
+#### Imagen
+- Un pasillo de taller con muchas puertas y un cartel de atajo brillante que salta directo a la última.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) camina con su bastón de vidrio.
+- Gheco (gecko de luz con antiparras) señala el atajo.
 
 ### Misión R01-N02-M1 · El blog del taller
 
@@ -1011,6 +1457,242 @@ Con `get` los datos viajan **en la dirección** (`buscar?q=slime`): sirve para b
 
 Porque la validación del navegador **se puede saltear**: cualquiera puede borrar el `required` con el inspector o mandar datos sin usar tu página. Lo del navegador es una ayuda para quien completa; la seguridad está en el servidor.
 
+### Micro-misión R01-N03-P1 · Cada campo con su nombre
+
+```meta
+lugar: La ventanilla del portal
+personajes: Iris, Nora
+carta: label | <label for="id"> une el texto con su campo · tocar el texto enfoca el campo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+A la entrada del portal hay una terminal que pide nombre y contraseña. Nora apoya la mano: —Hay dos cajas, pero ninguna dice qué es.
+
+#### Gheco sugiere
+`<label for="usuario">` se une al campo que tiene `id="usuario"`: el lector de pantalla lo lee, y tocar el texto pone el cursor en el campo.
+
+#### Desafío
+Agregá el `for` que falta en cada `label`, con el `id` de su campo.
+
+#### Código inicial
+```html
+<form>
+  <label>Usuario</label>
+  <input id="usuario" name="usuario">
+  <label>Contraseña</label>
+  <input id="clave" name="clave" type="password">
+</form>
+```
+
+#### Inspector
+```
+label @for
+```
+
+#### Salida esperada
+```
+label @for: usuario
+label @for: clave
+```
+
+#### Solución
+```html
+<form>
+  <label for="usuario">Usuario</label>
+  <input id="usuario" name="usuario">
+  <label for="clave">Contraseña</label>
+  <input id="clave" name="clave" type="password">
+</form>
+```
+
+#### Al superarla
+—Usuario. Contraseña —lee Nora, tocando cada caja—. Ahora sí sé qué me piden.
+
+#### Imagen
+- Una ventanilla de piedra con una terminal de vidrio que muestra dos campos con su nombre.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) apoya la mano en la terminal.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R01-N03-P2 · Teo aprieta Entrar
+
+```meta
+lugar: La ventanilla del portal
+personajes: Iris, Teo, Tesela
+carta: required | <input required> · el navegador no deja enviar el formulario con ese campo vacío
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo deja la terminal vacía y aprieta «Entrar», tres veces, cada vez más fuerte. La terminal acepta todo. —¡Entré! —¿Con qué usuario? —pregunta {mentor}. Teo no sabe.
+
+#### Gheco sugiere
+Con el atributo `required`, el navegador no deja enviar el formulario si ese campo está vacío, y le avisa solo al que lo llena.
+
+#### Desafío
+Marcá los dos campos como obligatorios con `required`.
+
+#### Código inicial
+```html
+<form>
+  <label for="usuario">Usuario</label>
+  <input id="usuario" name="usuario">
+  <label for="clave">Contraseña</label>
+  <input id="clave" name="clave" type="password">
+  <button type="submit">Entrar</button>
+</form>
+```
+
+#### Inspector
+```
+input[required] #
+```
+
+#### Salida esperada
+```
+input[required] #: 2
+```
+
+#### Solución
+```html
+<form>
+  <label for="usuario">Usuario</label>
+  <input id="usuario" name="usuario" required>
+  <label for="clave">Contraseña</label>
+  <input id="clave" name="clave" type="password" required>
+  <button type="submit">Entrar</button>
+</form>
+```
+
+#### Al superarla
+Teo vuelve a apretar «Entrar». La terminal le muestra un globito: *Completá este campo*. —¡Está rota! —No está rota —se ríe {mentor}—. Ahora sabe pedir.
+
+#### Imagen
+- Una terminal de vidrio con un globito de aviso sobre un campo vacío.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) aprieta un botón con fuerza.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) se ríe.
+
+### Micro-misión R01-N03-P3 · El tipo de cada campo
+
+```meta
+lugar: La ventanilla del portal
+personajes: Iris, Gheco
+carta: Tipos de campo | type="email" · type="number" con min y max · type="date" · el celular muestra el teclado justo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El formulario de encargos pide el correo y cuántos vitrales. En el celular de un cliente, el campo del correo muestra el teclado de letras sin `@`, y en «cantidad» se puede escribir «muchos».
+
+#### Gheco sugiere
+`type="email"` pide un correo (y el celular muestra la `@`); `type="number"` pide un número, y con `min` y `max` marca los límites.
+
+#### Desafío
+Poné `type="email"` en el correo y `type="number"` con `min="1"` y `max="12"` en la cantidad.
+
+#### Código inicial
+```html
+<form>
+  <label for="correo">Correo</label>
+  <input id="correo" name="correo" required>
+  <label for="cantidad">Cantidad de vitrales</label>
+  <input id="cantidad" name="cantidad">
+</form>
+```
+
+#### Inspector
+```
+#correo @type
+#cantidad @type
+#cantidad @min
+#cantidad @max
+```
+
+#### Salida esperada
+```
+#correo @type: email
+#cantidad @type: number
+#cantidad @min: 1
+#cantidad @max: 12
+```
+
+#### Solución
+```html
+<form>
+  <label for="correo">Correo</label>
+  <input id="correo" name="correo" type="email" required>
+  <label for="cantidad">Cantidad de vitrales</label>
+  <input id="cantidad" name="cantidad" type="number" min="1" max="12">
+</form>
+```
+
+#### Al superarla
+Gheco prueba escribir «muchos» en la cantidad. El campo no lo deja. Gheco se ofende un poco.
+
+#### Imagen
+- Un formulario de vidrio con un campo de correo y un selector de números del 1 al 12.
+- Gheco (gecko de luz con antiparras) intenta escribir letras en el campo de números.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
+
+### Micro-misión R01-N03-P4 · La carta al Puerto
+
+```meta
+lugar: La ventanilla del portal
+personajes: Iris, Tesela
+carta: Botones | <button type="submit"> envía · type="button" no envía · type="reset" borra todo (casi nunca se usa)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Cuando el formulario está completo, le explica {mentor}, el mensaje viaja al Puerto de los Mensajeros: ahí Elefa lo recibe y lo contesta. —Nosotros armamos la ventanilla; ellos, la respuesta.
+Pero el botón de enviar está escrito como un enlace.
+
+#### Gheco sugiere
+Lo que **envía** un formulario es un `<button type="submit">`, adentro del `form`. Un enlace lleva a otra página; no envía nada.
+
+#### Desafío
+Cambiá el enlace por un `button` de tipo `submit` que diga **Enviar al Puerto**.
+
+#### Código inicial
+```html
+<form>
+  <label for="mensaje">Mensaje</label>
+  <textarea id="mensaje" name="mensaje" required></textarea>
+  <a href="#">Enviar al Puerto</a>
+</form>
+```
+
+#### Inspector
+```
+form button
+form button @type
+form a #
+```
+
+#### Salida esperada
+```
+form button: Enviar al Puerto
+form button @type: submit
+form a #: 0
+```
+
+#### Solución
+```html
+<form>
+  <label for="mensaje">Mensaje</label>
+  <textarea id="mensaje" name="mensaje" required></textarea>
+  <button type="submit">Enviar al Puerto</button>
+</form>
+```
+
+#### Al superarla
+Un mensajero de papel sale volando por la ventanilla, rumbo al Puerto. —Elefa contesta rápido —dice {mentor}—. Ya vas a ver.
+
+#### Imagen
+- Una ventanilla de piedra de la que sale volando un sobre de papel con alas, hacia un faro a lo lejos.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo mira irse.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) con los brazos cruzados.
+
 ### Misión R01-N03-M1 · El buscador
 
 ```meta
@@ -1403,6 +2085,258 @@ Para **acomodar** cosas en la pantalla (columnas, menús, la estructura de la p�
 
 Una tabla con muchas columnas **no entra** en una pantalla chica y empuja toda la página de costado (un orco). Se resuelve poniéndola dentro de un contenedor con scroll horizontal propio, o mostrando los mismos datos como tarjetas en el celular (lo vas a hacer en el Hall of Fame).
 
+### Micro-misión R01-N04-P1 · La tabla desarmada
+
+```meta
+lugar: La entrada de los Talleres
+personajes: Iris, Teo
+criatura: slime
+carta: Tablas | <table> · <tr> una fila · <td> una celda · <th> una celda de encabezado
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la entrada de los Talleres cuelga la tabla de la **Liga Obsidiana**, pero anoche el Slime desarmó las filas y quedaron los datos sueltos. Teo jura que él estaba primero.
+
+#### Gheco sugiere
+Una tabla es `<table>` con filas `<tr>`, y cada fila con sus celdas `<td>`. Una fila por aprendiz.
+
+#### Desafío
+Armá la tabla: una fila `tr` por aprendiz, con dos celdas `td` (nombre y puntos).
+
+#### Código inicial
+```html
+<table>
+  Nadia 120
+  Teo 45
+</table>
+```
+
+#### Inspector
+```
+tr #
+td
+```
+
+#### Salida esperada
+```
+tr #: 2
+td: Nadia
+td: 120
+td: Teo
+td: 45
+```
+
+#### Solución
+```html
+<table>
+  <tr><td>Nadia</td><td>120</td></tr>
+  <tr><td>Teo</td><td>45</td></tr>
+</table>
+```
+
+#### Al superarla
+Los números vuelven a su lugar. Teo tenía 45 puntos. Teo dice que la tabla está mal.
+
+#### Imagen
+- Un tablero de piedra en la entrada de un taller con una tabla de posiciones de vidrio.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) señala su nombre, indignado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) acomoda las filas.
+
+### Micro-misión R01-N04-P2 · Para leerla en voz alta
+
+```meta
+lugar: La entrada de los Talleres
+personajes: Iris, Nora
+carta: Encabezados | <thead> con <th scope="col"> · <tbody> con los datos · el lector dice «Puntos: 120» y no un número suelto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Volvé a armarla —le pide {mentor}—, **para que se entienda leyéndola en voz alta**. Nora se ofrece a probarla: —¿120 qué? ¿Años?
+
+#### Gheco sugiere
+La primera fila va en `<thead>` con celdas `<th scope="col">` (los títulos de las columnas); los datos, en `<tbody>`.
+
+#### Desafío
+Agregá un `thead` con una fila de dos `th` con `scope="col"`: **Aprendiz** y **Puntos**. Los datos quedan en el `tbody`.
+
+#### Código inicial
+```html
+<table>
+  <tbody>
+    <tr><td>Nadia</td><td>120</td></tr>
+    <tr><td>Teo</td><td>45</td></tr>
+  </tbody>
+</table>
+```
+
+#### Inspector
+```
+thead th
+thead th @scope
+tbody tr #
+```
+
+#### Salida esperada
+```
+thead th: Aprendiz
+thead th: Puntos
+thead th @scope: col
+thead th @scope: col
+tbody tr #: 2
+```
+
+#### Solución
+```html
+<table>
+  <thead>
+    <tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Nadia</td><td>120</td></tr>
+    <tr><td>Teo</td><td>45</td></tr>
+  </tbody>
+</table>
+```
+
+#### Al superarla
+Nora pasa la mano fila por fila: «Aprendiz: Teo. Puntos: 45». Teo no estaba primero.
+
+#### Imagen
+- Una tabla de posiciones de vidrio con la fila de títulos más gruesa.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) la recorre con la mano.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) detrás, con los brazos cruzados.
+
+### Micro-misión R01-N04-P3 · El título de la tabla
+
+```meta
+lugar: La entrada de los Talleres
+personajes: Iris, Nora
+carta: caption | <caption> es el título de la tabla · va primero, adentro de <table>
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—¿Y de qué es esta tabla? —pregunta Nora—. Antes de los números, decime de qué se trata.
+
+#### Gheco sugiere
+`<caption>` es el título de una tabla. Va como **primer** elemento adentro de `<table>`.
+
+#### Desafío
+Agregá un `caption` que diga **Liga Obsidiana: la semana**.
+
+#### Código inicial
+```html
+<table>
+  <thead>
+    <tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Nadia</td><td>120</td></tr>
+  </tbody>
+</table>
+```
+
+#### Inspector
+```
+table caption
+```
+
+#### Salida esperada
+```
+table caption: Liga Obsidiana: la semana
+```
+
+#### Solución
+```html
+<table>
+  <caption>Liga Obsidiana: la semana</caption>
+  <thead>
+    <tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Nadia</td><td>120</td></tr>
+  </tbody>
+</table>
+```
+
+#### Al superarla
+—Liga Obsidiana —lee Nora—. Ahora sé qué estoy tocando.
+
+#### Imagen
+- Un cartel de piedra tallada sobre una tabla de vidrio, con el título grabado.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca el título.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R01-N04-P4 · Encabezados de fila
+
+```meta
+lugar: La entrada de los Talleres
+personajes: Iris, Nora, Teo
+carta: th de fila | <th scope="row"> en la primera celda · el lector anuncia de quién es cada número
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La tabla ahora tiene racha y puntos. Nora pregunta por la fila de Teo: —¿De quién es esta racha de dos días?
+
+#### Gheco sugiere
+La primera celda de cada fila, si dice **de quién** es la fila, es un `<th scope="row">`: así el lector anuncia «Teo, racha: 2 días».
+
+#### Desafío
+Convertí la primera celda de cada fila del `tbody` en un `th` con `scope="row"`.
+
+#### Código inicial
+```html
+<table>
+  <thead>
+    <tr><th scope="col">Aprendiz</th><th scope="col">Racha</th><th scope="col">Puntos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Nadia</td><td>12 días</td><td>120</td></tr>
+    <tr><td>Teo</td><td>2 días</td><td>45</td></tr>
+  </tbody>
+</table>
+```
+
+#### Inspector
+```
+tbody th
+tbody th @scope
+tbody td #
+```
+
+#### Salida esperada
+```
+tbody th: Nadia
+tbody th: Teo
+tbody th @scope: row
+tbody th @scope: row
+tbody td #: 4
+```
+
+#### Solución
+```html
+<table>
+  <thead>
+    <tr><th scope="col">Aprendiz</th><th scope="col">Racha</th><th scope="col">Puntos</th></tr>
+  </thead>
+  <tbody>
+    <tr><th scope="row">Nadia</th><td>12 días</td><td>120</td></tr>
+    <tr><th scope="row">Teo</th><td>2 días</td><td>45</td></tr>
+  </tbody>
+</table>
+```
+
+#### Al superarla
+«Teo, racha: dos días», lee Nora. Teo propone que la racha se cuente en horas.
+
+#### Imagen
+- Una tabla de vidrio con la primera columna en vidrio más oscuro.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) lee con la mano.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) protesta al fondo.
+
 ### Misión R01-N04-M1 · El horario del taller
 
 ```meta
@@ -1714,6 +2648,230 @@ Porque el navegador no sabe dónde terminaba: lo deja abierto hasta que encuentr
 #### ¿Por qué hay que arreglar los errores del validador de arriba hacia abajo?
 
 Porque un error al principio genera otros más abajo (el validador sigue confundido por lo que quedó abierto). Al arreglar el primero, muchos de los siguientes desaparecen solos.
+
+### Micro-misión R01-N05-P1 · El escaparate derretido
+
+```meta
+lugar: La panadería del Gremio
+personajes: Iris, Tesela
+criatura: slime
+carta: Cazar slimes | el navegador «adivina» las etiquetas mal cerradas · el validador las encuentra todas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El escaparate de la panadería del Gremio amaneció **derretido**: el título chorrea sobre el párrafo y todo sale en negrita. En el medio, temblando, está el **Slime de las Etiquetas Huérfanas**.
+—Se alimenta de etiquetas sin cerrar —dice {mentor}—. **Cerralas todas** y se queda sin comida.
+
+#### Gheco sugiere
+Un `<h2>` sin su `</h2>` se traga todo lo que viene después. Cerrá cada etiqueta antes de abrir la siguiente.
+
+#### Desafío
+Cerrá el `h2` del título, para que el párrafo quede afuera.
+
+#### Código inicial
+```html
+<h2>Panadería del Gremio
+<p>Pan de miel recién horneado.</p>
+```
+
+#### Inspector
+```
+h2
+body > p #
+```
+
+#### Salida esperada
+```
+h2: Panadería del Gremio
+body > p #: 1
+```
+
+#### Solución
+```html
+<h2>Panadería del Gremio</h2>
+<p>Pan de miel recién horneado.</p>
+```
+
+#### Al superarla
+El título deja de chorrear. El slime pierde una burbuja y achica un poco.
+
+#### Imagen
+- El escaparate de una panadería de vidrio derretido que chorrea letras.
+- el Slime de las Etiquetas Huérfanas (un slime gordo de vidrio derretido verde y rosa, con etiquetas sin cerrar flotando adentro como burbujas) en la puerta.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) frente a él.
+
+### Micro-misión R01-N05-P2 · La lista que se escapó
+
+```meta
+lugar: La panadería del Gremio
+personajes: Iris, Gheco
+criatura: slime
+carta: Listas bien armadas | cada <li> adentro de su <ul> u <ol> · un <li> suelto es un slime
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La lista de panes se escapó de su caja: los `li` andan sueltos por el escaparate.
+
+#### Gheco sugiere
+Un `<li>` siempre vive adentro de un `<ul>` o un `<ol>`. Suelto, el navegador no sabe de qué lista es.
+
+#### Desafío
+Meté los tres `li` adentro de un `ul`.
+
+#### Código inicial
+```html
+<h2>Panes del día</h2>
+<li>Pan de miel</li>
+<li>Trenza de anís</li>
+<li>Medialunas</li>
+```
+
+#### Inspector
+```
+ul > li #
+ul > li
+```
+
+#### Salida esperada
+```
+ul > li #: 3
+ul > li: Pan de miel
+ul > li: Trenza de anís
+ul > li: Medialunas
+```
+
+#### Solución
+```html
+<h2>Panes del día</h2>
+<ul>
+  <li>Pan de miel</li>
+  <li>Trenza de anís</li>
+  <li>Medialunas</li>
+</ul>
+```
+
+#### Al superarla
+La lista vuelve a su caja. El slime escupe tres burbujas con forma de `<li>` y se pone pálido.
+
+#### Imagen
+- Tres panes de vidrio volviendo a ordenarse en una canasta.
+- el Slime de las Etiquetas Huérfanas (un slime gordo de vidrio derretido verde y rosa, con etiquetas sin cerrar flotando adentro como burbujas) escupe burbujas.
+- Gheco (gecko de luz con antiparras) lo señala.
+
+### Micro-misión R01-N05-P3 · Todo en negrita
+
+```meta
+lugar: La panadería del Gremio
+personajes: Iris, Tesela
+criatura: slime
+carta: Cierres en orden | el último que abriste es el primero que cerrás · <p><strong>…</strong></p>
+recompensa: xp 15, oro 15
+item: Amuleto del Validador
+```
+
+#### Escena
+Todo el escaparate sale en negrita, hasta el teléfono. Un `strong` quedó abierto y se comió el resto.
+
+#### Gheco sugiere
+Buscá el `<strong>` que no tiene su `</strong>`, y cerralo donde termina lo importante, **adentro** de su párrafo.
+
+#### Desafío
+Cerrá el `strong` justo después de **recién horneado**, adentro del primer párrafo.
+
+#### Código inicial
+```html
+<p>Pan de miel <strong>recién horneado</p>
+<p>Teléfono: 4455-1020</p>
+```
+
+#### Inspector
+```
+strong #
+strong
+p
+```
+
+#### Salida esperada
+```
+strong #: 1
+strong: recién horneado
+p: Pan de miel recién horneado
+p: Teléfono: 4455-1020
+```
+
+#### Solución
+```html
+<p>Pan de miel <strong>recién horneado</strong></p>
+<p>Teléfono: 4455-1020</p>
+```
+
+#### Al superarla
+El teléfono vuelve a verse normal. El slime está casi transparente. {mentor} le cuelga a Iris un vidrio transparente al cuello: se pone rojo donde algo quedó mal cerrado. —**El Amuleto del Validador.** Con esto no se te escapa ninguno.
+
+#### Imagen
+- Un escaparate con letras gruesas que vuelven a afinarse.
+- el Slime de las Etiquetas Huérfanas (un slime gordo de vidrio derretido verde y rosa, con etiquetas sin cerrar flotando adentro como burbujas) casi transparente.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) observa con el monóculo.
+
+### Micro-misión R01-N05-P4 · El fragmento emplomado
+
+```meta
+lugar: La panadería del Gremio
+personajes: Iris, Tesela, Gheco
+criatura: slime
+carta: Amuleto del Validador | validator.w3.org · *No errors* = el plomo está bien soldado
+recompensa: xp 20, oro 25
+item: Fragmento Emplomado
+```
+
+#### Escena
+Queda el último cierre: el `div` del escaparate nunca se cerró, y la nota del pie quedó atrapada adentro.
+
+#### Gheco sugiere
+Cada `<div>` que abrís necesita su `</div>`. Contalos: tiene que haber tantos cierres como aperturas.
+
+#### Desafío
+Cerrá el `div` del escaparate antes del `footer`, para que el pie quede afuera.
+
+#### Código inicial
+```html
+<div class="escaparate">
+  <h2>Panadería del Gremio</h2>
+  <p>Pan de miel recién horneado.</p>
+<footer>Abierto de 7 a 13.</footer>
+```
+
+#### Inspector
+```
+.escaparate footer #
+body > footer
+```
+
+#### Salida esperada
+```
+.escaparate footer #: 0
+body > footer: Abierto de 7 a 13.
+```
+
+#### Solución
+```html
+<div class="escaparate">
+  <h2>Panadería del Gremio</h2>
+  <p>Pan de miel recién horneado.</p>
+</div>
+<footer>Abierto de 7 a 13.</footer>
+```
+
+#### Al superarla
+El slime se encoge hasta ser una gotita y se va rodando. {mentor} le pide a Iris el fragmento astillado, lo rodea con una varilla de plomo y lo cuelga en la ventana: ahora se sostiene solo, **el Fragmento Emplomado**. Lo mira con el monóculo y frunce el ceño. —Este plomo no es de los Talleres.
+
+#### Imagen
+- Una ventana de taller con un fragmento de vidrio iridiscente rodeado de plomo, proyectando rayos de colores.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo mira con el monóculo, frunciendo el ceño.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con un amuleto de vidrio al cuello.
+- Una gotita de slime se va rodando por el piso.
 
 ### Misión R01-N05-M1 · El escaparate derretido
 

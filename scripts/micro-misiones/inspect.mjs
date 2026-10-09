@@ -29,7 +29,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const chrome = spawn(CHROME, ['--headless=new', `--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`, '--no-first-run', 'about:blank'], { stdio: 'ignore' });
 process.on('exit', () => {
     chrome.kill();
-    fs.rmSync(profile, { recursive: true, force: true });
+    try {
+        fs.rmSync(profile, { recursive: true, force: true });
+    } catch {
+        // Chrome todavía está cerrando: queda en la carpeta temporal del sistema.
+    }
 });
 
 let target;

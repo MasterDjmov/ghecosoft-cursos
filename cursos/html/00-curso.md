@@ -196,6 +196,248 @@ Le dice al celular que use su ancho real. Sin él, el celular hace de cuenta que
 
 Porque los títulos dicen **qué importancia** tiene cada parte, no qué tamaño tiene. Un lector de pantalla y un buscador usan esa jerarquía para entender la página; saltar de `h1` a `h3` es como un índice al que le falta un nivel. El tamaño se cambia con CSS.
 
+### Micro-misión R00-N01-P1 · El esqueleto del vitral
+
+```meta
+lugar: El balcón de los Talleres
+personajes: Iris, Gheco, Tesela
+carta: El esqueleto | <!DOCTYPE html> · <html lang="es"> · <head> (no se ve) · <body> (todo lo que se ve)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris despierta en un balcón de piedra, con el fragmento de vidrio todavía en la mano. Sobre su hombro aparece un gecko de luz con antiparras: **Gheco**.
+—Acá los vitrales se escriben —le dice—. Y todos empiezan igual: con su esqueleto.
+
+#### Gheco sugiere
+Toda página empieza con `<!DOCTYPE html>` y tiene una raíz `<html lang="es">` con dos partes: `<head>` (lo que no se ve) y `<body>` (lo que se ve). Tu página se dibuja sola al lado mientras escribís; el **Inspector**, debajo, lee tu código (sin ejecutarlo) y te muestra qué encontró.
+
+#### Desafío
+Escribí la primera línea que falta, `<!DOCTYPE html>`, y poné `lang="es"` en la etiqueta `html`.
+
+#### Código inicial
+```html
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mi primer vitral</title>
+  </head>
+  <body>
+    <p>Hola, Talleres.</p>
+  </body>
+</html>
+```
+
+#### Inspector
+```
+!doctype
+html @lang
+title
+```
+
+#### Salida esperada
+```
+!doctype: html
+html @lang: es
+title: Mi primer vitral
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Mi primer vitral</title>
+  </head>
+  <body>
+    <p>Hola, Talleres.</p>
+  </body>
+</html>
+```
+
+#### Al superarla
+Una varilla de plomo se dobla sola y dibuja un marco en el aire. Gheco aplaude con la cola.
+
+#### Imagen
+- Un balcón de piedra sobre una ciudad de ventanales de colores, al atardecer; abajo, ríos de plomo fundido plateado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira un marco de plomo vacío dibujado en el aire.
+- Gheco (gecko de luz con antiparras) sobre su hombro.
+
+### Micro-misión R00-N01-P2 · El título del vitral
+
+```meta
+lugar: El balcón de los Talleres
+personajes: Iris, Tesela
+carta: Títulos y párrafos | <h1> el título principal (uno por página) · <p> un párrafo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Un vitral sin título es un vidrio más —dice {mentor}, y le alcanza una varilla de plomo—. Decí qué es, arriba de todo.
+
+#### Gheco sugiere
+`<h1>…</h1>` es el título más importante de la página (uno solo). `<p>…</p>` es un párrafo. Lo que se abre, se cierra.
+
+#### Desafío
+Agregá, arriba del párrafo, un `h1` que diga exactamente **¡Hola, Talleres!**
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Mi primer vitral</title>
+  </head>
+  <body>
+    <p>Soy Iris y este es mi primer vitral.</p>
+  </body>
+</html>
+```
+
+#### Inspector
+```
+h1
+p
+```
+
+#### Salida esperada
+```
+h1: ¡Hola, Talleres!
+p: Soy Iris y este es mi primer vitral.
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Mi primer vitral</title>
+  </head>
+  <body>
+    <h1>¡Hola, Talleres!</h1>
+    <p>Soy Iris y este es mi primer vitral.</p>
+  </body>
+</html>
+```
+
+#### Al superarla
+Las letras del título se encienden en el plomo. {mentor} lo mira de reojo y sigue con lo suyo.
+
+#### Imagen
+- Un taller de vitralista con grandes ventanales; sobre la mesa, un vitral de plomo con un título que brilla.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe con un lápiz de luz.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) la mira de reojo.
+
+### Micro-misión R00-N01-P3 · Lo importante y lo dicho con énfasis
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Teo, Gheco
+carta: strong y em | <strong> texto importante (negrita) · <em> énfasis (cursiva)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo entra corriendo con un vitral de doce colores. —¡Miren lo que…! —Se le desarma en las manos.
+Iris quiere que en su párrafo **HTML** se note más que el resto, y que *qué es* suene distinto.
+
+#### Gheco sugiere
+`<strong>` marca lo **importante** y `<em>` lo dicho con *énfasis*. Van adentro del párrafo: `<p>Hola <strong>mundo</strong></p>`.
+
+#### Desafío
+En el párrafo, envolvé **HTML** con `strong` y **qué es** con `em`.
+
+#### Código inicial
+```html
+<h1>¡Hola, Talleres!</h1>
+<p>Aprendo HTML: el plomo dice qué es cada parte.</p>
+```
+
+#### Inspector
+```
+p strong
+p em
+```
+
+#### Salida esperada
+```
+p strong: HTML
+p em: qué es
+```
+
+#### Solución
+```html
+<h1>¡Hola, Talleres!</h1>
+<p>Aprendo <strong>HTML</strong>: el plomo dice <em>qué es</em> cada parte.</p>
+```
+
+#### Al superarla
+Teo junta los vidrios de su vitral desarmado y mira el párrafo de Iris. —¿Y el negrita no es un color? —No —dice Gheco—. Es una forma de decir «esto importa».
+
+#### Imagen
+- Un taller de vitrales con vidrios rotos de muchos colores en el piso.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) junta los vidrios con cara de susto.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe en un cuaderno.
+
+### Micro-misión R00-N01-P4 · Lo que se abre adentro, se cierra adentro
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesela, Gheco
+criatura: slime
+carta: Anidar bien | lo que se abre adentro se cierra adentro · <p><em>bien</em></p> · una etiqueta sin cerrar se come lo que sigue
+recompensa: xp 10, oro 10
+item: Fragmento Astillado
+```
+
+#### Escena
+Iris apoya el fragmento en una ventana vacía, sin plomo, para ver cómo queda. El vidrio resbala, cae y **se astilla en una punta**.
+—Un vidrio sin plomo es un vidrio en el piso —dice {mentor}. Y señala el vitral de Iris: un **slime** se está comiendo un cierre mal puesto.
+
+#### Gheco sugiere
+Las etiquetas se cierran en orden inverso: la última que abriste es la primera que cerrás. Si una queda abierta, el navegador «adivina» dónde termina… y casi siempre adivina mal: acá, el *énfasis* se contagia al párrafo de abajo.
+
+#### Desafío
+El `em` de **plomo** quedó abierto y se contagia al párrafo de abajo: cerralo con `</em>` antes del `</p>`.
+
+#### Código inicial
+```html
+<h1>¡Hola, Talleres!</h1>
+<p>Primero el <em>plomo</p>
+<p>Después el color.</p>
+```
+
+#### Inspector
+```
+em #
+p em
+```
+
+#### Salida esperada
+```
+em #: 1
+p em: plomo
+```
+
+#### Solución
+```html
+<h1>¡Hola, Talleres!</h1>
+<p>Primero el <em>plomo</em></p>
+<p>Después el color.</p>
+```
+
+#### Al superarla
+El slime se queda sin comida y se escurre por una rendija. {mentor} junta el fragmento astillado y se lo devuelve: —Guardalo. Ya le vamos a encontrar su plomo. Al fondo del taller, Iris ve una puerta vieja con un candado enorme.
+
+#### Imagen
+- Un taller de vitrales; en el piso, un fragmento de vidrio iridiscente con una punta astillada.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo levanta con cuidado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira apenada.
+- Al fondo, una puerta vieja con un candado enorme.
+
 ### Misión R00-N01-M1 · La presentación
 
 ```meta

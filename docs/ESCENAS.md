@@ -24,6 +24,10 @@ python3 scripts/escenas/pendientes.py cursos/c
    y, para producción, `git push && scripts/deploy.sh --cursos`.
 
 Las referencias de cada curso (ids de pantallas de Stitch) están en `REFS` dentro de `scripts/escenas/pendientes.py`.
+**Cuota:** Stitch tiene un límite de generaciones. Si responde «Resource has been exhausted (e.g. check quota)», no
+insistir: se espera (al día siguiente) y se sigue con la primera pendiente. Pedirlas **de a una**: en paralelo se
+gasta la cuota enseguida. El 2026-10-09 se cortó después de `R00-N01-P4` (siguiente: `R00-N01-P5`).
+
 Si una llamada a Stitch se corta por tiempo, la pantalla igual puede aparecer: buscarla con `get_screen` no sirve sin el
 id, así que se vuelve a pedir.
 

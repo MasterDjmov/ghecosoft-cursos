@@ -1,5 +1,5 @@
-{{-- El prólogo animado (D84 § 1): las 6 tomas de «El mundo que vive en tu mente», con la voz de Gheco y música opcional
-     (apagada hasta que el jugador la prenda). Se ve en Mis Crónicas → Prólogo. --}}
+{{-- El prólogo animado (D84 § 1): las 6 tomas de «El mundo que vive en tu mente», con la voz de Gheco y música.
+     Arranca con una bienvenida («Ingresar a la historia» o «Ver sin música») que prende juntos el pase automático y la música. Se ve en Mis Crónicas → Prólogo. --}}
 @php
     $scenes = [
         ['tag' => 'La vigilia solitaria', 'text' => 'Hay un mundo que no aparece en ningún mapa. No está al otro lado del mar ni detrás de las montañas: está adentro de la cabeza de quien programa. Se enciende la primera vez que alguien escribe una instrucción y la ve cobrar vida en la pantalla.', 'gheco' => 'Todo gran viaje empieza en una noche de dudas.'],
@@ -12,7 +12,8 @@
 @endphp
 <section class="flex flex-col gap-3" data-test="prologue-player" wire:ignore
     x-data="{
-        scenes: @js($scenes), i: 0, playing: false, music: false, timer: null, seconds: 14,
+        scenes: @js($scenes), i: 0, playing: false, music: false, started: false, timer: null, seconds: 14,
+        start(withMusic) { this.started = true; this.playing = true; this.schedule(); if (withMusic) this.toggleMusic(); },
         go(n) { this.i = (n + this.scenes.length) % this.scenes.length; if (this.playing) this.schedule(); },
         schedule() { clearTimeout(this.timer); this.timer = setTimeout(() => { if (this.i === this.scenes.length - 1) { this.playing = false; return; } this.go(this.i + 1); }, this.seconds * 1000); },
         toggle() { this.playing = ! this.playing; this.playing ? this.schedule() : clearTimeout(this.timer); },
@@ -42,6 +43,19 @@
         <div class="absolute inset-x-0 bottom-0 flex flex-col gap-2 p-4 sm:p-6">
             <p class="font-mono text-[11px] tracking-widest text-primary-bright uppercase" x-text="'Prólogo · Fragmento ' + ['I', 'II', 'III', 'IV', 'V', 'VI'][i]"></p>
             <p class="max-w-3xl text-sm leading-relaxed text-white italic drop-shadow-[0_2px_4px_rgba(0,0,0,.95)] sm:text-lg" x-text="'«' + scenes[i].text + '»'" data-test="prologue-text"></p>
+        </div>
+
+        {{-- La bienvenida: el navegador solo deja sonar la música después de un clic, así que este botón arranca todo junto. --}}
+        <div x-show="! started" x-transition.opacity.duration.500ms class="absolute inset-0 z-10 grid place-items-center bg-[#030712]/75 p-4 backdrop-blur-[2px]" data-test="prologue-start">
+            <div class="flex max-w-md flex-col items-center gap-3 rounded-2xl border border-primary/40 bg-[#070d1d]/85 p-5 text-center shadow-2xl sm:p-7">
+                <span class="font-mono text-[11px] tracking-widest text-primary-bright uppercase">Prólogo · El Mundo del Código</span>
+                <p class="font-display text-xl font-semibold text-white sm:text-2xl">El mundo que vive en tu mente</p>
+                <p class="text-sm text-ink-muted">Seis tomas con música de fondo. Pasan solas; podés pausar cuando quieras.</p>
+                <button type="button" x-on:click="start(true)" class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 px-6 py-2.5 font-semibold text-[#030712] transition hover:scale-105" data-test="prologue-enter">
+                    <flux:icon name="play" variant="micro" /> Ingresar a la historia
+                </button>
+                <button type="button" x-on:click="start(false)" class="text-xs text-ink-muted hover:text-white">Ver sin música</button>
+            </div>
         </div>
     </div>
 

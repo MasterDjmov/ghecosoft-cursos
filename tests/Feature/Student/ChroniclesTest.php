@@ -31,6 +31,8 @@ test('el prólogo lo ve cualquiera, aunque no haya empezado ningún curso', func
     $this->actingAs(User::factory()->create())->get(route('student.chronicles'))
         ->assertOk()
         ->assertSee('data-test="chronicle-prologue"', false)
+        ->assertSee('data-test="prologue-start"', false)
+        ->assertSee('Ingresar a la historia')
         ->assertSee('Se llega aprendiendo');
 });
 

@@ -542,7 +542,7 @@ Seis bytes justos. Chispa le cobra a Hulda seis lingotes «por la vagoneta». Hu
 
 #### Imagen
 - Una vagoneta chiquita con un nombre grabado letra por letra.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) le extiende la mano a Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro), que lo mira sin pestañear.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) le extiende la mano a Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro), que lo mira sin pestañear.
 
 ### Misión R03-N01-M1 · Copiar textos con memoria justa
 
@@ -4284,7 +4284,7 @@ Kira, Tizón y, al final, Chispa. Kira, que siempre quiere pasar primero, se pus
 
 #### Imagen
 - Una fila de vagonetas en la boca de la mina.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) empuja su vagoneta al final de la fila, resignado.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) empuja su vagoneta al final de la fila, resignado.
 - Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) con el pico al hombro.
 
 ### Micro-misión R03-N04-P3 · Las llaves que cierran
@@ -4392,7 +4392,7 @@ Uno cierra, dos no. El Archivero devuelve los dos planos de Chispa con una nota:
 
 #### Imagen
 - Tres planos con paréntesis y corchetes; dos tienen marcas rojas.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) recibe los planos devueltos con una nota.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) recibe los planos devueltos con una nota.
 
 ### Micro-misión R03-N04-P4 · La cola que da la vuelta
 
@@ -5333,7 +5333,7 @@ Ningún tren al puesto de Chispa. Chispa propone agregar un cuarto destino, «el
 
 #### Imagen
 - Un tablero de palancas con tres destinos tallados: forja, mina, archivo.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) señala un cuarto lugar vacío en el tablero.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) señala un cuarto lugar vacío en el tablero.
 
 ### Micro-misión R03-N05-P3 · Contar los que cumplen
 
@@ -5496,7 +5496,7 @@ Cuatrocientos primero. El autómata de bronce hace su reverencia. Ferrum le da u
 
 #### Imagen
 - Un autómata de bronce chiquito ordenando bolsas de mayor a menor.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) le da una palmadita en la cabeza.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) le da una palmadita en la cabeza.
 
 ### Misión R03-N05-M1 · El filtro de la horda
 
@@ -6592,7 +6592,7 @@ Cero. La Sanguijuela queda flaquita y avergonzada, y se escurre por una grieta. 
 #### Imagen
 - La Sanguijuela, flaquita y avergonzada, se escurre por una grieta.
 - Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) le da una lámpara de minero a Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian).
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) cuenta un chiste frente a toda la mina.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) cuenta un chiste frente a toda la mina.
 
 ### Misión R03-N06-M1 · El registro de la horda
 

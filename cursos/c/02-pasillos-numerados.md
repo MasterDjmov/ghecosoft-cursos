@@ -602,7 +602,7 @@ El horno 4 es el más caliente. Ferrum lo sospechaba: ahí se le quemaron las ce
 
 #### Imagen
 - Una pizarra con una tabla de 3 filas y 4 columnas de temperaturas.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala la cuarta columna.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala la cuarta columna.
 
 ### Micro-misión R02-N01-P4 · Contadores en un array
 
@@ -1756,7 +1756,7 @@ ORO, tres letras, cuatro bytes. Chispa vuelve a etiquetar todos los lingotes. Ti
 #### Imagen
 - Dos placas de hierro pegadas: «ORO» y «HIERRO», sin separación.
 - Un orco chiquito sale de la unión entre las dos placas.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con cara de inocente.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con cara de inocente.
 
 ### Micro-misión R02-N02-P2 · No se compara con ==
 
@@ -1888,7 +1888,7 @@ int main(void)
 
 #### Imagen
 - Una placa de bronce con «Chispa el Veloz» grabado.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) posa al lado, orgulloso.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) posa al lado, orgulloso.
 
 ### Micro-misión R02-N02-P4 · Armar el cartel
 
@@ -2863,7 +2863,7 @@ Una ficha, todo junto. Ya nadie le puede cambiar la vida a Kira por ordenar otra
 
 #### Imagen
 - Una ficha de hierro con campos grabados: nombre, vida, fuerza.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) cuelga la ficha en un tablero.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) cuelga la ficha en un tablero.
 
 ### Micro-misión R02-N03-P2 · El oficio con nombre
 
@@ -4137,7 +4137,7 @@ Ahora sí, intercambiados. Chispa dice que esa era su idea desde el principio.
 
 #### Imagen
 - Dos estantes que cambian de lugar en el aire, unidos por hilos de cobre.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) se atribuye el mérito.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) se atribuye el mérito.
 
 ### Micro-misión R02-N04-P4 · Avanzar por los estantes
 
@@ -5214,7 +5214,7 @@ Cuarenta lingotes, y nadie lo puede cambiar desde la ventanilla. Chispa intenta 
 
 #### Imagen
 - Una ventanilla con un vidrio grueso: detrás, una ficha de oro.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con la nariz pegada al vidrio.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con la nariz pegada al vidrio.
 
 ### Micro-misión R02-N05-P4 · El más herido
 
@@ -6386,7 +6386,7 @@ El 103 no existe. Chispa jura que es el suyo. Ferrum le recuerda que Chispa no e
 
 #### Imagen
 - Un fichero de hierro con legajos numerados.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) sostiene una ficha y mira a Chispa de reojo.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) sostiene una ficha y mira a Chispa de reojo.
 
 ### Micro-misión R02-N06-P3 · Burbuja con desempate
 
@@ -6584,7 +6584,7 @@ Del más barato al más caro. El autómata de bronce hace una reverencia y vuelv
 
 #### Imagen
 - Un autómata de bronce chiquito ordenando lingotes sobre una mesa.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) lo mira con cariño de abuelo.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) lo mira con cariño de abuelo.
 
 ### Misión R02-N06-M1 · El tablero de récords
 
@@ -8231,7 +8231,7 @@ La Araña de las Direcciones queda colgando de su propia tela, enredada en carte
 #### Imagen
 - La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) colgando enredada en su propia tela.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) enrolla un hilo de cobre brillante en la mano.
-- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
 
 ### Misión R02-N07-M1 · El veneno del Goblin
 

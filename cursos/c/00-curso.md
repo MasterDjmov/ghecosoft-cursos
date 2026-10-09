@@ -39,7 +39,7 @@ Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
 | coin.course | lingote | lingotes | m | La moneda de las Forjas: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
-| mentor.name | Maese Ferrum | | m | Herrero enano, el Forjador: guía de las Forjas de Hierro. | Forjó su primera hoja cuando las Forjas todavía no tenían techo. Es viejo amigo de Bron, no tolera una advertencia del compilador sin arreglar y dice que el metal no perdona, pero tampoco miente. | curso |
+| mentor.name | Maese Ferrum | | m | Herrero enorme, el Forjador: guía de las Forjas de Hierro. | Forjó su primera hoja cuando las Forjas todavía no tenían techo. Es viejo amigo de Bron, no tolera una advertencia del compilador sin arreglar y dice que el metal no perdona, pero tampoco miente. | curso |
 | world.region | Forjas de Hierro | | f | La región del mundo cuya lengua arcana es C. | | curso |
 | story.course_intro | Bienvenida a las Forjas | | f | | Kira era aprendiz de espadachina en un pueblo común. Una noche, un **vitral** se encendió como un portal y despertó en la boca de las **Forjas de Hierro**, la región más antigua de {mundo}, con la espada en la mano. Lo primero que hizo fue darle un espadazo al portón. La espada se rajó; el portón se abría tirando.<br><br>Soy {mentor}, el Forjador. Acá nada se abre a golpes: cada pieza se forja a mano y **cada byte se cuenta**. Primero se escribe la receta; después el **Horno**, el compilador, la convierte en una pieza que trabaja.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines templa una pieza nueva y cada misión aprobada te da lingotes para abrir el siguiente. | curso |
 | story.branch_completed | ¡Rama templada! | | f | | {mentor} golpea el yunque dos veces, que es lo más parecido a un aplauso que se le escucha. —Otra parte de las Forjas ya trabaja con el metal de Kira. Tizón lo anota en la libreta, con la fecha, la hora y los minutos. | curso |
@@ -65,7 +65,7 @@ temas: prog.entorno, prog.salida, herr.compilacion
 
 Kira despierta de cara al piso, junto a un vitral apagado, con la espada de aprendiz todavía en la mano. Hace calor. Mucho calor. Delante tiene un portón de hierro del tamaño de una casa, y detrás se oyen martillazos.
 
-Kira hace lo que sabe hacer: toma carrera y le da un espadazo al portón. La espada **se raja** de punta a mango. El portón ni se entera. Un enano de barba trenzada y un ojo de luz naranja lo abre **tirando** de la manija, sin esfuerzo: es **{mentor}**, el Forjador.
+Kira hace lo que sabe hacer: toma carrera y le da un espadazo al portón. La espada **se raja** de punta a mango. El portón ni se entera. Un herrero enorme, de barba trenzada y un ojo de luz naranja, lo abre **tirando** de la manija, sin esfuerzo: es **{mentor}**, el Forjador.
 
 —Se abre para afuera —dice, y mira la espada rota—. Acá nada se abre a golpes, muchacha. Se abre **sabiendo cuánto pesa cada cosa**. En las Forjas la magia se escribe en **C**: primero escribís la receta y después el **Horno**, el compilador, la convierte en una pieza que trabaja.
 
@@ -309,7 +309,7 @@ recompensa: xp 10, oro 10
 ```
 
 #### Escena
-Kira despierta junto a un vitral apagado, frente al portón de las Forjas. Un enano de barba trenzada la mira de arriba abajo: **Maese Ferrum**.
+Kira despierta junto a un vitral apagado, frente al portón de las Forjas. Un herrero enorme, de barba trenzada, la mira de arriba abajo: **Maese Ferrum**.
 —Acá la magia se escribe en C. Decime quién sos. Por escrito.
 Sobre el hombro de Kira aparece un gecko de luz con antiparras: **Gheco**. —Escribilo en la receta. Acá las recetas se **compilan**.
 
@@ -352,7 +352,7 @@ Ferrum lee la receta compilada y asiente una sola vez. —De muy lejos. Ya se no
 #### Imagen
 - La boca de las Forjas de Hierro de noche: un portón de hierro enorme, chimeneas y ríos de lava al fondo, un vitral apagado en el piso.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se levanta del piso con una espada de aprendiz en la mano.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) la mira con los brazos cruzados.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) la mira con los brazos cruzados.
 - Gheco, un gecko cian con antiparras, aparece sobre el hombro de Kira.
 
 ### Micro-misión R00-N01-P2 · Tres líneas, un solo printf
@@ -407,7 +407,7 @@ Ferrum tacha «espada» y escribe arriba «espada (rajada)». Kira no le dice na
 
 #### Imagen
 - Una ficha de hierro con tres renglones grabados en luz cian: Nombre, Oficio, Trae.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) corrige la ficha con una tiza.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) corrige la ficha con una tiza.
 
 ### Micro-misión R00-N01-P3 · El punto y coma olvidado
 
@@ -580,7 +580,7 @@ El portón se abre de par en par. Ferrum le devuelve la espada rajada. —Guarda
 
 #### Imagen
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira su espada rajada de punta a mango, frente a un portón de hierro intacto.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) abre el portón tirando de la manija, sin esfuerzo.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) abre el portón tirando de la manija, sin esfuerzo.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) se ríe por lo bajo detrás de él.
 
 ### Misión R00-N01-M1 · La ficha de Kira

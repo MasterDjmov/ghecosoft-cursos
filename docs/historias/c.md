@@ -48,7 +48,7 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ Las Forjas de 
 
 - **Kira.**
 - **Gheco**, que da las pistas (aparece sobre el hombro de Kira en la boca de la Forja).
-- **Maese Ferrum:** el Forjador, herrero enano, el mentor. Fue maestro de Tesla y de Tesela (se los recuerda, no aparecen).
+- **Maese Ferrum:** el Forjador, herrero enorme (más alto que Kira), el mentor. Fue maestro de Tesla y de Tesela (se los recuerda, no aparecen).
 - **Tizón** *(nuevo, a confirmar)*: aprendiz enano de la Forja, de 16, con un **calibre** colgado del cuello y una libreta de medidas. Es el contrapunto de Kira: ella dice **«¡golpeá!»** y él **«¿lo mediste?»**. Los dos tienen razón a medias. Termina siendo su compañero.
 - **Hulda** *(nueva, a confirmar)*: la **capataz de las Minas** (R03), dura, práctica, que cuenta cada vagoneta.
 - **El Archivero de la Forja** *(nuevo, a confirmar)*: guarda los pedidos y los planos de todos los encargos (R04).

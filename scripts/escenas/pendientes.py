@@ -21,7 +21,7 @@ REFS = {
             # (patrón en el texto, nombre, pantallas, aclaración de tamaño)
             (r'\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
             (r'Ferrum', 'Maese Ferrum', ['10337375498659242332', '10337375498659242906'],
-             'Maese Ferrum es un enano: le llega a Kira a la cintura.'),
+             'Maese Ferrum es un hombre enorme: más alto y mucho más ancho que Kira.'),
             (r'Tiz[oó]n', 'Tizón', ['39f0163ef1c4420981621687c35f4e02', 'efeb92bd8d4f4de58e0f3de8f5ffba7e'],
              'Tizón es un enano joven: le llega a Kira al hombro.'),
             (r'Chispa', 'Chispa', ['f16d155319584836bac46bb188e095f4', '5178cab1b35a43e086faf1d31c715e61'],

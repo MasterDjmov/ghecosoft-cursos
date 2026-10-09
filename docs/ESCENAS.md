@@ -17,7 +17,9 @@ python3 scripts/escenas/pendientes.py cursos/c
    aparecen y con el pedido «Generá una IMAGEN NUEVA… no modifiques las imágenes seleccionadas». Stitch crea una
    pantalla nueva y deja las referencias como estaban (probado: las referencias no cambian).
 3. El pedido exacto lo arma el script: `python3 scripts/escenas/pendientes.py cursos/c --prompt R01-N01-P1`
-   (proyecto, pantallas de referencia y texto, con los tamaños: los enanos le llegan a Kira a la cintura o al hombro).
+   (proyecto, pantallas de referencia y texto, con los tamaños). Las descripciones de los `#### Imagen` tienen que
+   cuadrar con las referencias: si no, Stitch duda entre el texto y la imagen. En C, Maese Ferrum es un **herrero
+   enorme, más alto que Kira** (no enano); enanos son Tizón, Hulda y el Archivero.
 4. La imagen se baja con `get_screen` (URL de `screenshot.downloadUrl` + `=s1376`), se pasa a WebP 1376×768 y se
    guarda como `cursos/<curso>/escenas/<ID>.webp`. Se mira: si un personaje salió distinto, se borra y se pide de nuevo.
 5. Cada tanto, commit (`content(c): escenas …`). Al terminar: `php artisan app:import-course cursos/c --apply` en local

@@ -355,7 +355,7 @@ Ciento veinte píxeles en las dos. Chispa, por primera vez, juega a la misma vel
 
 #### Imagen
 - Dos pantallas lado a lado, una moderna y una vieja, con la misma caja en el mismo lugar.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) frente a la pantalla vieja.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) frente a la pantalla vieja.
 
 ### Micro-misión S01-N01-P3 · Rebotar en los bordes
 
@@ -440,7 +440,7 @@ La caja choca, vuelve y sigue. Ferrum la mira rebotar un rato largo, hipnotizado
 
 #### Imagen
 - Una caja de luz que rebota contra el borde de una pantalla, dejando una estela.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) hipnotizado mirándola.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) hipnotizado mirándola.
 
 ### Misión S01-N01-M1 · Rebote en dos ejes
 
@@ -1125,7 +1125,7 @@ En diagonal, cada paso mide lo mismo. Chispa pierde su truco y su primera carrer
 
 #### Imagen
 - Dos personajes pixelados corriendo, uno derecho y otro en diagonal, llegando juntos.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con cara de estafado.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) con cara de estafado.
 
 ### Micro-misión S01-N02-P3 · No salirse de la pantalla
 
@@ -1875,7 +1875,7 @@ Pared sí, moneda no, techo no. Las criaturas dejan de atravesar paredes. Chispa
 
 #### Imagen
 - Tres rectángulos de luz alrededor de un personaje; uno se ilumina en rojo al tocarlo.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) decepcionado.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) decepcionado.
 
 ### Micro-misión S01-N03-P2 · La criatura que persigue
 
@@ -2054,7 +2054,7 @@ Dos de tres, cada una contada una vez. Chispa pasa tres veces por la misma moned
 
 #### Imagen
 - Monedas de fuego frío flotando en un nivel pixelado; dos se apagan al ser tocadas.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) pasa una y otra vez por el mismo lugar.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) pasa una y otra vez por el mismo lugar.
 
 ### Misión S01-N03-M1 · Las chispas
 
@@ -3163,7 +3163,7 @@ Tres monedas, y la Salamandra todavía a dos pasos. Se acurruca en un rincón de
 #### Imagen
 - La Salamandra del Horno (salamandra de fuego vivo hecha de píxeles encendidos que dejan una estela) dormida en un rincón de la pantalla, chisporroteando.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con tres monedas de fuego frío en la mano.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) agarra el control, entusiasmado.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) agarra el control, entusiasmado.
 
 ### Misión S01-N04-M1 · Reiniciar y récord
 

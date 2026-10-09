@@ -349,7 +349,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 ### Maese Ferrum
 - **Rol:** el **Forjador**, líder de las Forjas de Hierro y mentor de Kira ([c.md](c.md)). Fue maestro de Tesla y de Tesela cuando eran aprendices.
 - **Edad y sexo:** viejísimo (parece de 60), hombre.
-- **Altura y contextura:** macizo y ancho como un yunque, brazos enormes. El Diccionario lo llama «herrero enano»: es de la raza de los enanos de las Forjas, bajo de piernas pero más ancho que cualquiera.
+- **Altura y contextura:** **alto y corpulento**, macizo y ancho como un yunque, brazos enormes: **más alto y ancho que Kira** (no es enano; los enanos de las Forjas son Tizón, Hulda y el Archivero).
 - **Rasgos:**
   - piel curtida por el fuego, cejas tupidas, cara seria con cicatrices chicas;
   - **pelo gris peinado hacia atrás**;
@@ -826,7 +826,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 | Personaje | Región | Datos fijos de hoy |
 |---|---|---|
-| **Maese Ferrum** | Forjas (C) | herrero enano, el Forjador; maestro de Tesla y Tesela |
+| **Maese Ferrum** | Forjas (C) | herrero enorme, el Forjador; maestro de Tesla y Tesela |
 | **Tesla** | Ciudadela (C++) | el Artífice Mayor, muchacho de traje azul con visor de bronce, rápido y curioso |
 | **Kaffa** | Imperio (Java) | el Arquitecto Imperial, varón, nunca le falta su taza de café |
 | **Elefa** | Puerto (PHP) | la Capitana del Puerto, una elefanta |

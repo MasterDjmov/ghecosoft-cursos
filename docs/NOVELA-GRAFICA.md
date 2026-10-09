@@ -25,7 +25,7 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 | Región | Lengua | Líder | Moneda | Ambiente |
 |---|---|---|---|---|
 | **El Valle de la Serpiente** | Python | **Ofidia**, serpiente sabia, guardiana del Valle | escamas | valle verde con cascadas, lotos y caminos que serpentean; templos con serpientes doradas |
-| **Las Forjas de Hierro** | C | **Maese Ferrum**, herrero enano, el Forjador | lingotes | fraguas, ríos de lava, chimeneas; "el metal no perdona, pero tampoco miente" |
+| **Las Forjas de Hierro** | C | **Maese Ferrum**, herrero enorme, el Forjador | lingotes | fraguas, ríos de lava, chimeneas; "el metal no perdona, pero tampoco miente" |
 | **La Ciudadela de los Artífices** | C++ | **Tesla**, el Artífice Mayor, inventor | engranajes | ciudad de engranajes en la montaña, rayos y cintas de energía; dibuja **planos** para construir mil veces la misma pieza |
 | **El Imperio de las Clases** | Java | **Kaffa**, el Arquitecto Imperial | denarios | capital de catedrales con vitrales dorados; "nada existe suelto"; nunca le falta su taza de café |
 | **El Puerto de los Mensajeros** | PHP | **Elefa**, la Capitana del Puerto, una elefanta | sellos de lacre | puerto con barcos, faro y una torre cuya campana suena con cada pedido; "ningún mensaje se queda sin respuesta" |

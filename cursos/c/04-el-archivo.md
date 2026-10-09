@@ -257,7 +257,7 @@ Guardado. El Archivero palpa la mesa buscando los anteojos, encuentra el archivo
 
 #### Imagen
 - Un salón de estanterías de hierro con libros encadenados.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) busca algo en la mesa, con los anteojos puestos.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) busca algo en la mesa, con los anteojos puestos.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) escribe en un libro.
 
 ### Micro-misión R04-N01-P2 · Leer línea por línea
@@ -346,7 +346,7 @@ Tres renglones, numerados. El Archivero los copia en su libro grande con una plu
 
 #### Imagen
 - Un libro de pedidos abierto con renglones numerados que brillan.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) copia en un libro enorme.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) copia en un libro enorme.
 
 ### Micro-misión R04-N01-P3 · Separar los campos
 
@@ -545,7 +545,7 @@ Dos renglones marcados. Chispa dice que «muchos» es una cantidad perfectamente
 
 #### Imagen
 - Un libro de pedidos con dos renglones tachados en rojo.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) se defiende con las manos abiertas.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) se defiende con las manos abiertas.
 
 ### Misión R04-N01-M1 · El diario de la Forja
 
@@ -1307,7 +1307,7 @@ Código 103, stock 40, sin leer nada más. El Archivero se despierta justo para 
 
 #### Imagen
 - Una caja con cinco fichas en fila; una salta directo a la mano de Kira.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) dormitando en una silla.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) dormitando en una silla.
 
 ### Micro-misión R04-N02-P3 · Corregir una sola ficha
 
@@ -1570,7 +1570,7 @@ El 101 sigue en la caja, con su B, pero ya no aparece. El Archivero asiente: —
 
 #### Imagen
 - Una ficha con una B grande estampada en rojo, guardada entre otras fichas.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) estampa el sello.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) estampa el sello.
 
 ### Misión R04-N02-M1 · Guardar y cargar el progreso
 
@@ -2319,7 +2319,7 @@ La mezcla queda escondida en el taller. Chispa vuelve a perder en la taberna, co
 
 #### Imagen
 - Un taller con una puerta interna cerrada con candado.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) intenta espiar por la cerradura.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) intenta espiar por la cerradura.
 
 ### Micro-misión R04-N03-P3 · La tapa que se pega dos veces
 
@@ -2477,7 +2477,7 @@ Daño 30 en todos los talleres. Ferrum advierte: —Una global compartida es com
 
 #### Imagen
 - Un tablero en el patio con el número 3 grabado, visible desde todos los talleres.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala el tablero.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala el tablero.
 
 ### Misión R04-N03-M1 · Separar la herrería en módulos
 
@@ -3132,7 +3132,7 @@ int main(void)
 
 #### Imagen
 - Una terminal de hierro con la línea ./forja templar 900 escrita en luz cian.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) grita desde la puerta del Archivo.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) grita desde la puerta del Archivo.
 
 ### Micro-misión R04-N04-P2 · El número que viene como texto
 
@@ -3320,7 +3320,7 @@ Tres veces los pedidos, una vez los planos. El Archivero cuenta igual a mano, «
 
 #### Imagen
 - Una herramienta del Archivo con una perilla marcada -n.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) cuenta libros con el dedo.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) cuenta libros con el dedo.
 
 ### Micro-misión R04-N04-P4 · Cómo terminó
 
@@ -4057,7 +4057,7 @@ Uno prestado al cerrar. El Archivero lo anota en su libro, que también está pr
 
 #### Imagen
 - Un mostrador de madera con un cartel de opciones numeradas.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) detrás del mostrador.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) detrás del mostrador.
 
 ### Micro-misión R04-N05-P2 · La opción 8
 
@@ -4139,7 +4139,7 @@ int main(void)
 
 #### Imagen
 - Un cartel de opciones con un 8 escrito a mano por fuera, tachado.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) señala el 8.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) señala el 8.
 
 ### Micro-misión R04-N05-P3 · Ni con letras
 
@@ -4218,7 +4218,7 @@ int main(void)
 Ni con «hola», ni con un Enter vacío. Chispa lo intenta durante una hora. No lo rompe. Se va ofendido.
 
 #### Imagen
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) aporrea el mostrador con las dos manos, frustrado.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) aporrea el mostrador con las dos manos, frustrado.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sonríe con los brazos cruzados.
 
 ### Micro-misión R04-N05-P4 · Guardar al salir
@@ -4334,7 +4334,7 @@ Tres el primer día, cinco el segundo. El mostrador se acuerda. El Archivero, no
 
 #### Imagen
 - Un mostrador de noche, con el horno apagado, y un libro que brilla.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) durmiendo sobre el mostrador.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) durmiendo sobre el mostrador.
 
 ### Misión R04-N05-M1 · Apostar en la taberna
 
@@ -5854,7 +5854,7 @@ int main(void)
 
 #### Imagen
 - Una caja vieja abierta en la bóveda, con una ficha que brilla: 777.
-- El archivero (enano viejísimo y encorvado, barba blanca enrollada en el cinturón, anteojos gruesos, túnica marrón con mangas de cuero, pantuflas) se queda inmóvil, con los anteojos en la mano.
+- El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) se queda inmóvil, con los anteojos en la mano.
 
 ### Micro-misión R04-N06-P4 · El último cajón
 

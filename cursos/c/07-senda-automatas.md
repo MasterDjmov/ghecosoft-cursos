@@ -295,7 +295,7 @@ Verde, amarillo, rojo, verde. Chispa espera el verde por primera vez. Le parece 
 
 #### Imagen
 - Un semáforo de latón con tres luces en la puerta del Taller.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) esperando, impaciente, con un pie golpeando el piso.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) esperando, impaciente, con un pie golpeando el piso.
 
 ### Micro-misión S02-N01-P3 · Los bits del puerto
 
@@ -872,7 +872,7 @@ De 0 a 180, sin ruidos feos. El brazo del autómata saluda a Chispa. Chispa no s
 
 #### Imagen
 - Un brazo de autómata de latón que gira suave, con una perilla al lado.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) devuelve el saludo, inseguro.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) devuelve el saludo, inseguro.
 
 ### Micro-misión S02-N02-P3 · Promediar la perilla
 
@@ -1453,7 +1453,7 @@ El mensaje dañado no pasa. Chispa se baja del cable. Dice que estaba «revisand
 
 #### Imagen
 - Un cable con un mensaje de luz que se pone rojo al pasar por debajo del pie de alguien.
-- Chispa (mercader alto y flaco, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) parado arriba del cable, silbando.
+- Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) parado arriba del cable, silbando.
 
 ### Misión S02-N03-M1 · La consola del Gremio
 
@@ -2090,7 +2090,7 @@ Kira llega a la salida. El Autómata Guardián se inclina, las luces del pecho t
 #### Imagen
 - El Autómata Guardián (autómata de latón del tamaño de un perro grande, cables a la vista, leds por ojos y un servomotor en cada articulación) inclinado, con todas las luces del pecho en verde.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con el joystick en la mano.
-- Maese Ferrum (enano macizo, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) se seca un ojo disimuladamente.
+- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) se seca un ojo disimuladamente.
 
 ### Misión S02-N04-M1 · La mazmorra con control
 

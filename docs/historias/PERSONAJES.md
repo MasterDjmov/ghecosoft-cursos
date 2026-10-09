@@ -608,6 +608,106 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ---
 
+## Los Talleres de los Vitrales (HTML y CSS)
+
+### Tesela
+- **Rol:** la **Vitralista**, líder de los Talleres de los Vitrales y mentora de Iris ([html.md](html.md)). Aprendió a fundir el plomo con Maese Ferrum, junto con Tesla, y eligió el vidrio. Fue alumna del **Vidriero**, que desapareció sin terminar su último trabajo.
+- **Edad y sexo:** 22, mujer (de la misma edad que Tesla).
+- **Altura y contextura:** mediana (1,65 m), delgada, de movimientos precisos.
+- **Rasgos:**
+  - piel clara, mirada tranquila y atenta;
+  - **pelo corto con reflejos iridiscentes** (violeta, cian y verde, como un vidrio a contraluz);
+  - **un monóculo de cristal tallado** en el ojo derecho.
+- **Ropa:** **sobretodo largo negro** con bordados de líneas de luz y **fragmentos de vidrio de colores** cosidos en el pecho y en el cinturón; botas negras altas.
+- **Objeto:** un **lápiz de vidrio** con el que dibuja los bocetos en el aire, y un canasto donde junta los bocetos que tira Iris.
+- **Color:** negro y el **iridiscente** de los vitrales.
+- **Personalidad:** paciente, callada, exigente con los detalles; casi nunca da una respuesta: alcanza el espejito o pregunta «¿y en la cabaña?». Cuando algo está bien, **se saca el monóculo y lo limpia**.
+- **Le gusta:** la luz de la tarde, los vitrales chicos, que alguien empiece por la ventanita de la cabaña.
+- **Defecto o miedo:** nunca se animó a abrir el taller de su maestro; tiene miedo de lo que va a encontrar.
+- **Frase:** «Todo vitral empieza chico.»
+- **Relaciones:**
+  - aprendiz de Ferrum, hace mucho, junto con Tesla;
+  - alumna del Vidriero;
+  - mentora de Iris y de Teo; Nora es la vitralista a la que le consulta todo.
+- **Primera aparición:** HTML y CSS, Clase 0.
+- **Dónde va:** los Talleres: ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos.
+- **Imágenes:** completas (cuerpo entero y retrato circular; los 6 retratos enmarcados son avatares).
+
+### Teo *(falta la imagen)*
+- **Curso y rol:** HTML y CSS. El otro aprendiz de los Talleres ([html.md](html.md)). Es el contrapunto de Iris: ella quiere que quede **perfecto** antes de mostrarlo; él lo muestra **antes de terminarlo**.
+- **Edad y sexo:** 15, varón.
+- **Altura y contextura:** bajo para su edad, flaco y movedizo.
+- **Rasgos:** piel morena, pecas, **pelo negro enrulado** lleno de purpurina de vidrio, una sonrisa enorme con un diente torcido.
+- **Ropa:** **delantal de aprendiz manchado de todos los colores**, remera a rayas, mangas arremangadas, zapatillas desatadas.
+- **Objeto:** un **cinturón con doce frascos de vidrio molido** de colores distintos, siempre destapados.
+- **Color:** todos a la vez (es el chiste).
+- **Personalidad:** apurado, entusiasta, desordenado; quiere usar todos los colores en todo. Se ríe de sus propios desastres.
+- **Le gusta:** el brillo, el arcoíris, que le digan «qué rápido».
+- **Defecto o miedo:** no termina nada; se le caen los vitrales porque no les puso plomo.
+- **Frase:** «¡Le falta un color más!»
+- **Relaciones:** aprendiz de Tesela; compañero de Iris (ella lo ordena, él la apura); le lleva a Nora los vitrales para que se los «lea».
+- **Primera aparición:** HTML y CSS, Clase 0.
+- **Dónde va:** los Talleres, siempre corriendo entre las mesas.
+
+### Nora *(falta la imagen)*
+- **Curso y rol:** HTML y CSS. Vitralista de los Talleres, **ciega**: lee los vitrales tocando el plomo ([html.md](html.md)). Es la que enseña la **accesibilidad** sin decir la palabra: si algo no tiene nombre (un `alt` vacío, un botón sin texto, un `div` donde va un `nav`), lo encuentra en dos segundos.
+- **Edad y sexo:** 30, mujer.
+- **Altura y contextura:** alta (1,72 m), delgada.
+- **Rasgos:** piel oscura, **pelo negro en trenzas finas** recogidas con un broche de vidrio, ojos claros que no miran a ningún lado, sonrisa tranquila.
+- **Ropa:** túnica gris perla con bordes de hilo de plata, **guantes finos sin dedos** para sentir el plomo.
+- **Objeto:** un **bastón de vidrio** que suena distinto según lo que toca, y las yemas de los dedos siempre un poco grises de plomo.
+- **Color:** gris perla y plata.
+- **Personalidad:** serena, directa, con mucho humor; se ríe cuando los demás se olvidan de que no ve y le muestran algo con el dedo.
+- **Le gusta:** los vitrales bien nombrados, la música, que le describan los colores.
+- **Defecto o miedo:** se impacienta con quien dice «no importa, igual se ve».
+- **Frase:** «Si no tiene nombre, para mí no existe.»
+- **Relaciones:** la vitralista más vieja de los Talleres; Tesela le pide que «lea» cada vitral antes de colgarlo, e Iris y Teo también.
+- **Primera aparición:** HTML y CSS, R01-N01.
+- **Dónde va:** el taller de Tesela, frente a un vitral, con las manos sobre el plomo.
+
+### Ámbar *(falta la imagen)*
+- **Rol:** la **vendedora ambulante de vidrios** de los Talleres: atiende la tienda (como Chispa en las Forjas y Oto en la Ciudadela).
+- **Edad y sexo:** 50, mujer.
+- **Altura y contextura:** baja y redonda, muy enérgica.
+- **Rasgos:** piel trigueña, cachetes colorados, **pelo canoso con un mechón color ámbar**, anteojos de vidrio amarillo.
+- **Ropa:** chal tejido de muchos colores, delantal con bolsillos llenos de vidrios envueltos en papel.
+- **Objeto:** una **carretilla con un toldo** hecha de vidrios de colores, que tintinea cuando camina.
+- **Color:** ámbar y miel.
+- **Personalidad:** charlatana, cariñosa, vendedora; sus vidrios son «casi sin burbujas» y siempre tienen una.
+- **Frase:** «¡Vidrio fino, casi sin burbujas!»
+- **Relaciones:** conoce a Tesela desde que era aprendiz; le vende plomo a Ferrum (le compra a Chispa).
+- **Primera aparición:** HTML y CSS, R01.
+
+### El Slime de las Etiquetas Huérfanas *(falta la imagen)*
+- **Rol:** el jefe de R01 de HTML, en la panadería del Gremio. Se come los cierres que nadie escribió. Se lo vence cerrando cada etiqueta. Al caer, Tesela le emploma a Iris el fragmento: **el Fragmento Emplomado**.
+- **Qué es:** un slime gordo de **vidrio derretido**, translúcido y de colores, con **etiquetas sin cerrar** (`<p>`, `<li>`, `<strong>`) flotando adentro como burbujas.
+- **Color:** verde y rosa translúcidos, con brillos de vidrio.
+- **Cómo habla:** borbotea etiquetas a medias: «<p… <li…».
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Ogro de la Cascada *(falta la imagen)*
+- **Rol:** el jefe de R02 de HTML, en el muro de encargos. Ninguna regla está borrada: otras les ganan. Se lo vence entendiendo **quién le gana a quién**. Deja **el Monóculo de Cristal**.
+- **Qué es:** un ogro gordo hecho de **capas de vidrios superpuestos** de colores que se tapan unos a otros; lleva un mazo con un `!important` grabado (que no le sirve de nada).
+- **Color:** capas de rojo, azul y ámbar, más oscuras cuanto más abajo.
+- **Cómo habla:** grita todo dos veces, y la segunda le gana a la primera.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Orco del Desborde *(falta la imagen)*
+- **Rol:** el jefe de R03 de HTML, en el tablón de encargos. Estira todo hasta que en el celular aparece el scroll de costado. Se lo vence mirando la cabaña, no el castillo. Deja **la Plantilla del Vidriero**.
+- **Qué es:** un orco tan ancho que **no entra en el marco** del vitral: medio cuerpo afuera, estirando los brazos para correr las paredes.
+- **Color:** verde musgo con vidrios rotos clavados en la armadura.
+- **Cómo habla:** «¡Más ancho! ¡Más ancho!».
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Dragón de los Talleres *(falta la imagen)*
+- **Rol:** el jefe final de HTML (R04-N05), la inspección final del gran ventanal. Vive en cada detalle que nadie revisó: un menú que se parte, un botón sin foco, una imagen sin `alt`. Se lo vence revisando en el celular, con el teclado y con el validador. Al caer, Iris arma **el Vitral de Iris** y Tesela abre el taller del Vidriero: **el Marco Vacío**.
+- **Qué es:** un dragón de **plomo y vidrio**, con escamas como teselas de colores que brillan a contraluz, y una **lupa** enorme en una garra.
+- **Color:** gris plomo con todos los colores de los vitrales.
+- **Cómo habla:** «Inspección final. Un solo error y el ventanal es mío.»
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+---
+
 ## El Imperio de las Clases (Java)
 
 ### Kaffa

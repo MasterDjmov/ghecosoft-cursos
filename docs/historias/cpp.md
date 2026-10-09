@@ -165,7 +165,8 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ La Ciudadela d
 **Falta:**
 - ~~El mapa de la Ciudadela~~ (hecho 2026-10-08: `public/img/mundos/ciudadela/mapa.webp` y sus 12 lugares en `config/game.php`, del Portón de Engranajes a la Torre de los Vitrales).
 - ~~Las imágenes de los personajes~~ (hechas 2026-10-08: Lima, Lyn, Oto y los siete jefes).
-- Las imágenes de los ítems y de las escenas de las 163 micro-misiones; la tienda y las recetas de la Ciudadela.
+- ~~La tienda y las recetas~~ (hechas 2026-10-08: el puesto de Oto con 15 ítems de la Ciudadela, 4 que solo se fabrican y 5 recetas en `config('game.recipes')`).
+- Las imágenes de los ítems (en *Admin → Juego → Ítems*, con su pedido ya escrito) y de las escenas de las 163 micro-misiones.
 
 ## 5. Lo que decidió el docente (2026-10-08)
 

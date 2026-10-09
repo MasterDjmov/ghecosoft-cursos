@@ -186,6 +186,9 @@ return [
             'name' => 'Bron',
             'slug' => 'bron',
             'title' => 'Mecánico de la Ciudadela',
+            // La tienda de la Ciudadela: Oto vende desde la puerta del comedor.
+            'shop' => ['name' => 'El puesto de Oto', 'keeper' => 'Oto', 'portrait' => 'img/personajes/oto.webp', 'figure' => 'img/personajes/oto-cuerpo.webp',
+                'greeting' => '—¡Bron! Pasá, que hoy hay de todo: llaves, tuercas y guiso. El guiso salió del color de siempre… creo.'],
             // La Ciudadela (docs/historias/cpp.md): los lugares siguen el recorrido de Bron, del Portón a la Torre de los Vitrales.
             'expeditions' => [
                 'opens_after' => 'R01-N05',
@@ -280,6 +283,12 @@ return [
         ['code' => 'martillo-dentado', 'gives' => ['martillo-dentado' => 1], 'needs' => ['martillo-de-aprendiz' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'chaleco-acolchado', 'gives' => ['chaleco-acolchado' => 1], 'needs' => ['chaleco-de-minero' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'florete-de-la-garra', 'gives' => ['florete-de-la-garra' => 1], 'needs' => ['florete-del-puntero' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // La Ciudadela (C++): los mismos materiales, con los ítems del puesto de Oto.
+        ['code' => 'guiso-de-oto-doble', 'gives' => ['guiso-de-oto' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'tuerca-dentada', 'gives' => ['tuerca-dentada' => 1], 'needs' => ['tuerca-de-la-suerte' => 1, 'colmillo-de-orco' => 5], 'minutes' => 10, 'min_level' => 5],
+        ['code' => 'martillo-de-huesos', 'gives' => ['martillo-de-huesos' => 1], 'needs' => ['martillo-neumatico' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'chaqueta-acolchada', 'gives' => ['chaqueta-acolchada' => 1], 'needs' => ['chaqueta-de-remaches' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'lanza-de-la-garra', 'gives' => ['lanza-de-la-garra' => 1], 'needs' => ['lanza-del-iterador' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
     ],
 
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.

@@ -139,8 +139,31 @@ class GameItems extends Command
             ['code' => 'matriz-del-marco', 'name' => 'Matriz del Marco', 'kind' => 'story', 'description' => 'El molde de plomo de un vitral enorme que dejó el Vidriero bajo la Montaña, con la inscripción «para quien llegue». El mismo marco que espera en la torre más alta del Imperio.'],
         ],
         'cpp' => [
-            // La Ciudadela (docs/historias/cpp.md): lo que gana Bron en la historia. La tienda y las recetas se
-            // suman cuando estén sus imágenes y el mapa.
+            // La Ciudadela (docs/historias/cpp.md): el puesto de Oto. Armas
+            ['code' => 'llave-de-tuercas', 'name' => 'Llave de Tuercas', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave común de la Ciudadela. Oto la usa para abrir frascos.'],
+            ['code' => 'martillo-neumatico', 'name' => 'Martillo Neumático', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'Golpea solo; vos solamente apuntás.'],
+            ['code' => 'destornillador-de-plantilla', 'name' => 'Destornillador de Plantilla', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Una sola punta para cualquier tornillo: la elige al girar.'],
+            ['code' => 'lanza-del-iterador', 'name' => 'Lanza del Iterador', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Recorre de begin a end sin pasarse nunca de largo.'],
+            ['code' => 'bobina-de-tesla', 'name' => 'Bobina de Tesla', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Una de las bobinas del taller de Tesla. Tiene su propio rayo.'],
+            // Ropa
+            ['code' => 'overol-de-mecanico', 'name' => 'Overol de Mecánico', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Un bolsillo para cada llave. Bron tiene uno igual, pero más grande.'],
+            ['code' => 'chaqueta-de-remaches', 'name' => 'Chaqueta de Remaches', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Remachada a mano, pieza por pieza. Lima diría que eso se hace con un plano.'],
+            ['code' => 'coraza-raii', 'name' => 'Coraza RAII', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Se pone sola al entrar y se saca sola al salir.'],
+            ['code' => 'capa-de-vapor', 'name' => 'Capa de Vapor', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 6, 'intelligence' => 2, 'price' => 1300, 'min_level' => 9, 'droppable' => true, 'description' => 'Lo que la toca se evapora antes de lastimar.'],
+            ['code' => 'armadura-del-artifice', 'name' => 'Armadura del Artífice', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Hecha con un plano, no a mano: salió perfecta la primera vez.'],
+            // Accesorios
+            ['code' => 'tuerca-de-la-suerte', 'name' => 'Tuerca de la Suerte', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'La que sobró del portón. Nunca encontró su tornillo.'],
+            ['code' => 'anillo-del-const', 'name' => 'Anillo del const', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Lo que entra, no cambia.'],
+            ['code' => 'visor-del-plano', 'name' => 'Visor del Plano', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Como el de Tesla: ve el plano detrás de cada pieza.'],
+            ['code' => 'cronometro-de-lyn', 'name' => 'Cronómetro de Lyn', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Mide cada carrera, y cada programa. Lyn todavía lo está buscando.'],
+            // Pociones
+            ['code' => 'guiso-de-oto', 'name' => 'Guiso de Oto', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Receta exacta, gramo por gramo. En las expediciones se toma solo si la vida baja mucho. Si sale violeta, mejor no.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'tuerca-dentada', 'name' => 'Tuerca Dentada', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'dexterity' => 2, 'luck' => 1, 'description' => 'La Tuerca de la Suerte con colmillos de orco: ahora sí agarra.'],
+            ['code' => 'martillo-de-huesos', 'name' => 'Martillo de Huesos', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 3, 'description' => 'El Martillo Neumático con dientes de goblin y huesos en la cabeza: golpea y muerde.'],
+            ['code' => 'chaqueta-acolchada', 'name' => 'Chaqueta Acolchada', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'La Chaqueta de Remaches forrada con musgo de troll: los remaches ya no pinchan.'],
+            ['code' => 'lanza-de-la-garra', 'name' => 'Lanza de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'dexterity' => 4, 'description' => 'La Lanza del Iterador con garras de ogro y escamas de dragón: recorre y corta.'],
+            // Lo que gana Bron en la historia
             ['code' => 'llave-mellada', 'name' => 'Llave Mellada', 'kind' => 'story', 'description' => 'La llave inglesa cian de Bron, mellada contra el engranaje 47 del portón de la Ciudadela. Faltaban 153.'],
             ['code' => 'engranaje-de-laton', 'name' => 'Engranaje de Latón', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'intelligence' => 1, 'description' => 'El corazón del Autómata de Latón: lo venciste con un plan, no con la llave.'],
             ['code' => 'llave-ajustable', 'name' => 'Llave Ajustable', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'strength' => 1, 'dexterity' => 1, 'description' => 'Tesla le agregó a tu llave una tuerca que se corre al caer la Quimera: una llave para muchas tuercas, como un buen constructor.'],
@@ -267,6 +290,26 @@ class GameItems extends Command
         'espejo-del-mimico' => 'Un espejo de mano ovalado con marco de cera gris que se derrite apenas, y un reflejo levemente distinto al de afuera.',
         'catalogo-de-plantillas' => 'Un libro grande con tapas de bronce y engranajes en el lomo, abierto en un plano de dos bisagras con medidas que no cierran.',
         'engranaje-del-portal' => 'Un engranaje enorme de bronce oscuro con dientes de formas raras, atado a una cadena cortada, con un brillo de vitral entre los dientes.',
+        // C++: la Ciudadela de los Artífices (bronce, latón y rayos cian)
+        'llave-de-tuercas' => 'Una llave de tuercas de acero gris con el mango envuelto en cinta y una tapa de frasco todavía enganchada en la boca.',
+        'martillo-neumatico' => 'Un martillo de bronce con un pistón y un tubito de vapor en el mango, con una nube chiquita de vapor saliendo.',
+        'destornillador-de-plantilla' => 'Un destornillador de latón con la punta hecha de piezas que se reacomodan, rodeada de un brillo cian.',
+        'lanza-del-iterador' => 'Una lanza larga de bronce con una flecha luminosa cian que recorre la vara de punta a punta.',
+        'bobina-de-tesla' => 'Una bobina de cobre enrollada sobre un mango de bronce, con rayos celestes que saltan de la punta.',
+        'overol-de-mecanico' => 'Un overol de mecánico azul gastado con muchos bolsillos, cada uno con una llave asomando, y manchas de grasa.',
+        'chaqueta-de-remaches' => 'Una chaqueta de cuero marrón cubierta de remaches de bronce puestos a mano, algunos torcidos.',
+        'coraza-raii' => 'Una coraza de placas de latón que se abren y se cierran solas con engranajes chiquitos en las bisagras.',
+        'capa-de-vapor' => 'Una capa gris translúcida hecha de vapor, que se deshace en los bordes, con broche de engranaje.',
+        'armadura-del-artifice' => 'Una armadura de bronce pulido con líneas de plano azul grabadas que brillan en cian, sobre un soporte de taller.',
+        'tuerca-de-la-suerte' => 'Una tuerca hexagonal de bronce grande, gastada y brillante, colgada de un cordón como un amuleto.',
+        'anillo-del-const' => 'Un anillo de acero con un candado diminuto grabado y una piedra celeste quieta.',
+        'visor-del-plano' => 'Un visor de bronce de un solo lente con líneas de plano azules que se ven a través del vidrio.',
+        'cronometro-de-lyn' => 'Un cronómetro de bolsillo de bronce con la tapa abierta, agujas que brillan en cian y una cadena con una cinta azul.',
+        'guiso-de-oto' => 'Un cuenco de bronce con guiso humeante, un cucharón apoyado y una mancha violeta sospechosa en el borde.',
+        'tuerca-dentada' => 'Una tuerca de bronce con colmillos de orco curvos encastrados alrededor, colgada de un cordón.',
+        'martillo-de-huesos' => 'Un martillo neumático de bronce con la cabeza rodeada de dientes de goblin y huesos atados con alambre.',
+        'chaqueta-acolchada' => 'Una chaqueta de remaches forrada con musgo verde de troll que asoma entre los remaches.',
+        'lanza-de-la-garra' => 'Una lanza de bronce con garras de ogro en la punta y escamas de dragón rojas a lo largo de la vara.',
         'llave-universal' => 'Una llave inglesa legendaria de bronce y cian con una boca hecha de piezas que se reacomodan solas, rodeada de líneas de plano luminosas.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',

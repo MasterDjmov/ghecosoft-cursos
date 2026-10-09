@@ -152,6 +152,11 @@ class CourseImporter
                 if (blank($step['fields']['expected_output'] ?? null)) {
                     $this->report->error("{$step['where']}: la micro-misión {$step['code']} no tiene «Salida esperada»: sin ella no se puede comprobar sola.");
                 }
+                // HTML y CSS no imprime nada: sin inspector, la micro-misión no se puede comprobar (D102).
+                if (Str::lower($meta['lenguaje'] ?? '') === Language::Html->value && blank($step['fields']['checks'] ?? null)
+                    && in_array(Str::lower($step['fields']['starter_language'] ?? 'html'), ['html', ''], true)) {
+                    $this->report->error("{$step['where']}: la micro-misión {$step['code']} es de HTML y no tiene «Inspector»: sin él no se puede comprobar sola.");
+                }
             }
 
             $practiceCodes = [];
@@ -505,6 +510,7 @@ class CourseImporter
                 // Solo si el bloque del código inicial es de otro lenguaje que el curso (```sql en Java).
                 'language' => $this->stepLanguage($fields['starter_language'] ?? null),
                 'sample_input' => $fields['sample_input'] ?? null,
+                'checks' => $fields['checks'] ?? null,
                 'expected_output' => $fields['expected_output'] ?? '',
                 'solution' => $fields['solution'] ?? null,
                 'success_text' => $fields['success_text'] ?? null,

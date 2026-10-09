@@ -8,6 +8,8 @@
     'showStdin' => null,
     'name' => 'main',
     'references' => [],
+    // Micro-misión de HTML (D102): qué revisa el inspector; su informe se compara con `expected`.
+    'checks' => null,
 ])
 
 @php
@@ -32,7 +34,7 @@
         'code' => (string) $code, 'stdin' => (string) $stdin, 'expected' => (string) $expected, 'language' => $language,
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
-        'references' => (object) array_filter($references),
+        'references' => (object) array_filter($references), 'checks' => $isHtml && filled($checks) ? (string) $checks : null,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -77,6 +79,9 @@
         {{-- Consola, o la página dibujada si es HTML y CSS --}}
         @if ($canRun && $isHtml)
             <x-html-preview class="border-t border-outline" />
+            @if (filled($checks))
+                <x-html-inspector class="border-t border-outline" :expected="$expected" />
+            @endif
         @elseif ($canRun)
             <x-code-console class="border-t border-outline" />
         @endif
@@ -89,7 +94,7 @@
         </p>
     @endif
 
-    <x-expected-io :input="$stdin" :expected="$expected" :references="$references" />
+    <x-expected-io :input="$stdin" :expected="$expected" :references="$references" :inspector="$isHtml && filled($checks)" />
 
     {{ $footer ?? '' }}
 </div>

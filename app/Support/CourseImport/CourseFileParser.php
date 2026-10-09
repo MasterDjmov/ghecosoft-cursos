@@ -63,6 +63,8 @@ class CourseFileParser
         'desafio' => 'challenge',
         'codigo inicial' => 'starter_code',
         'entrada' => 'sample_input',
+        // HTML y CSS (D102): qué revisa el inspector; la «salida esperada» es su informe.
+        'inspector' => 'checks',
         'salida esperada' => 'expected_output',
         'solucion' => 'solution',
         'al superarla' => 'success_text',
@@ -70,7 +72,7 @@ class CourseFileParser
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */
-    private const CODE_FIELDS = ['example_code', 'sample_input', 'expected_output', 'starter_code', 'reference_solution', 'solution'];
+    private const CODE_FIELDS = ['example_code', 'sample_input', 'checks', 'expected_output', 'starter_code', 'reference_solution', 'solution'];
 
     private const SEPARATOR = '\s*[·:–—-]\s*';
 

@@ -1,4 +1,4 @@
-@props(['input' => '', 'expected' => '', 'references' => []])
+@props(['input' => '', 'expected' => '', 'references' => [], 'inspector' => false])
 
 {{-- «Cómo debería verse» (D73): la entrada de ejemplo y la salida esperada, iguales en todos los cursos; en
      HTML y CSS, las capturas de la página resuelta en celular y en compu (D77).
@@ -17,7 +17,7 @@
             @endif
             @if (filled($expected))
                 <div>
-                    <p class="tech-label mb-1">Salida esperada</p>
+                    <p class="tech-label mb-1">{{ $inspector ? 'Lo que tiene que encontrar el inspector' : 'Salida esperada' }}</p>
                     <pre class="max-h-40 overflow-auto font-mono text-sm whitespace-pre-wrap text-ink-muted">{{ $expected }}</pre>
                 </div>
             @endif

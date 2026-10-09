@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
  * Una micro-misión (D84 § 3): un paso corto del nodo con escena, pista de Gheco, desafío y recompensa.
  * Se comprueba sola (salida esperada) y solo da premios de juego: nunca monedas del curso ni aperturas.
  */
-#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'hint', 'challenge', 'starter_code', 'sample_input', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
+#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'hint', 'challenge', 'starter_code', 'sample_input', 'checks', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
 class NodeStep extends Model
 {
     /** Mismos valores por defecto que la base. */

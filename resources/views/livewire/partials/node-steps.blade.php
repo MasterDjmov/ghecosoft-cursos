@@ -136,7 +136,7 @@
                     {{-- Una micro-misión puede ser de otro lenguaje que el curso (SQL en Java, con SQLite en el navegador). --}}
                     @php($stepLanguage = $step->runLanguage($course))
                     <x-code-runner :code="(string) $step->starter_code" :stdin="(string) $step->sample_input" :expected="$step->expected_output"
-                        :language="$stepLanguage->value" :name="strtolower($step->code)" :runnable="$stepLanguage->studentCanRun()"
+                        :language="$stepLanguage->value" :name="strtolower($step->code)" :runnable="$stepLanguage->studentCanRun()" :checks="$step->checks"
                         :show-stdin="filled($step->sample_input)">
                         <x-slot:footer>
                             {{-- Al coincidir la salida, se avisa una sola vez. --}}

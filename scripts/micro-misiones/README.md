@@ -22,3 +22,10 @@ Las micro-misiones de Python (ramas 2 y 3 y las Sendas) se escriben como datos e
 
 `browser-check.mjs` prueba los casos de `--json` con el Clang del navegador (Chrome sin ventana, el admin local y el ejecutor del ejemplo de un nodo): `node browser-check.mjs casos.json --nodo=/cursos/cpp/nodos/ID`. Sirve igual para C.
 
+
+## HTML y CSS (D102)
+
+`genhtml.py` lee un archivo de datos (`html_r01.py`, …) con las micro-misiones, cada una con su `inspector` (qué revisar), y saca la salida esperada corriendo el inspector del navegador (`resources/js/runners/inspector.js`) en Chrome sin ventana con `inspect.mjs`, sobre la solución. Rechaza los pedidos mal escritos y el código inicial que ya da el informe esperado.
+
+    python3 scripts/micro-misiones/genhtml.py html_r01.py          # comprueba y muestra los informes
+    python3 scripts/micro-misiones/genhtml.py html_r01.py --apply  # además las escribe en cursos/html/

@@ -196,6 +196,7 @@ se abre: el oro del jugador           # opcional
 #### Desafío           (qué hacer)
 #### Código inicial    (```python … ```; con ___ donde completa)
 #### Entrada           (opcional: lo que se «tipea»)
+#### Inspector         (solo HTML y CSS, obligatorio: qué revisar, un pedido por renglón; D102)
 #### Salida esperada   (obligatoria: con esto se comprueba)
 #### Solución          (oculta: nunca llega al alumno)
 #### Al superarla      (qué cambia en la historia)
@@ -205,6 +206,7 @@ se abre: el oro del jugador           # opcional
 - **IDs estables:** se actualizan por su ID; quién las superó no se pierde al reimportar. Las que ya no están en el archivo se borran.
 - **La imagen** se busca sola en `escenas/<ID>.webp` (o `.jpg`/`.png`) dentro de la carpeta del curso. Si no hay, se muestra el fondo del mundo.
 - **Salida esperada:** se compara sin espacios al final de cada línea ni líneas vacías al final. Generala ejecutando la solución, no a mano. Lo que el alumno tiene que tipear lleva solo caracteres del teclado: nada de `·`, `—`, `…`, `→` ni comillas tipográficas (en el código inicial ya escrito sí pueden ir).
+- **HTML y CSS (D102):** la página no imprime nada, así que la micro-misión trae un `#### Inspector` con qué revisar, y la salida esperada es el **informe del inspector** (`resources/js/runners/inspector.js`, que lee el código sin ejecutarlo). Los pedidos: `!doctype`; `h1` (el texto de cada uno); `nav a #` (cuántos hay); `img @alt` (el atributo de cada uno); `css .tarjeta { padding }` (el valor de la última regla con ese selector en los `<style>`); `css @media (min-width: 768px) | .grilla { display }`. El informe se genera corriendo el inspector en Chrome con `scripts/micro-misiones/genhtml.py`, nunca a mano.
 - **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
 
 ## 7. Qué revisa el importador

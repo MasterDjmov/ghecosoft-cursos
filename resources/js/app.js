@@ -313,6 +313,16 @@ document.addEventListener('alpine:init', () => {
             this.preview = result.html;
             this.error = Boolean(result.error);
             this.status = result.error ?? `Dibujada en ${result.ms} ms`;
+            // Micro-misión de HTML (D102): el inspector lee el código sin ejecutarlo y su informe es «la salida».
+            // Recién se compara cuando el alumno cambió algo, para no recibirlo con un «Todavía no».
+            if (config.checks) {
+                const { inspect } = await import('./runners/inspector.js');
+                this.output = inspect(this.code, config.checks);
+                if (config.expected && this.code !== this.original) {
+                    this.mismatch = describeDifference(config.expected, this.output);
+                    this.matches = this.mismatch === null;
+                }
+            }
         },
 
         async copy() {

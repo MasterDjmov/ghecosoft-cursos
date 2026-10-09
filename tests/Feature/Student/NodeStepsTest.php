@@ -381,3 +381,51 @@ test('una micro-misión de C se ejecuta en el navegador del alumno y ofrece pega
         ->and($html)->toContain('¿No carga el compilador?')
         ->and($html)->toContain('runnable\\u0022:true');
 });
+
+/*
+ * HTML y CSS (D102): la micro-misión trae qué revisa el inspector, que lee el código sin ejecutarlo; su informe es
+ * la salida esperada y el servidor lo compara igual que una salida.
+ */
+
+function htmlStepsMd(bool $withInspector = true): string
+{
+    $step = str_replace(
+        ["```python\n# tu conjuro\n```", "#### Salida esperada\n```\nHola, Valle\n```", "#### Solución\n```python\nprint(\"Hola, Valle\")\n```"],
+        ["```html\n<h1>___</h1>\n```", ($withInspector ? "#### Inspector\n```\nh1\nimg @alt\n```\n\n" : '')."#### Salida esperada\n```\nh1: Hola, Valle\nimg @alt: El río\n```",
+            "#### Solución\n```html\n<h1>Hola, Valle</h1><img src=\"rio.webp\" alt=\"El río\">\n```"],
+        STEPS_MD);
+
+    return str_replace(["#### Salida esperada\n```\nuno\ndos\n```", "```python\nprint(\"uno\")\nprint(\"dos\")"],
+        ["#### Inspector\n```\np\n```\n\n#### Salida esperada\n```\np: uno\np: dos\n```", "```html\n<p>uno</p><p>dos</p>"], $step);
+}
+
+test('una micro-misión de HTML guarda lo que revisa el inspector, y sin inspector no se importa', function () {
+    $html = fn (bool $inspector) => stepsCourseFile(fn ($md) => str_replace(['lenguaje: python', '### Misión R00-N01-M1'],
+        ['lenguaje: html', htmlStepsMd($inspector).'### Misión R00-N01-M1'], $md));
+
+    $report = app(CourseImporter::class)->import($html(false), dryRun: true);
+    expect(collect($report->errors)->implode(' '))->toContain('no tiene «Inspector»');
+
+    $report = app(CourseImporter::class)->import($html(true), dryRun: false);
+    expect(collect($report->errors)->filter(fn ($e) => str_contains($e, 'R00-N01-P1'))->all())->toBe([]);
+    $step = NodeStep::where('code', 'R00-N01-P1')->firstOrFail();
+
+    expect($step->checks)->toBe("h1\nimg @alt")
+        ->and($step->expected_output)->toBe("h1: Hola, Valle\nimg @alt: El río")
+        ->and($step->accepts("h1: Hola, Valle\r\nimg @alt: El río\n"))->toBeTrue()
+        ->and($step->accepts("h1: Hola, Valle\nimg @alt: (no tiene)"))->toBeFalse();
+});
+
+test('el alumno ve el inspector en la micro-misión de HTML y nunca la solución', function () {
+    $report = app(CourseImporter::class)->import(stepsCourseFile(fn ($md) => str_replace(['lenguaje: python', '### Misión R00-N01-M1'],
+        ['lenguaje: html', htmlStepsMd().'### Misión R00-N01-M1'], $md)), dryRun: false);
+    $course = Course::where('slug', 'python-import')->firstOrFail();
+    $course->update(['is_published' => true]);
+
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $page = $this->actingAs($student)->get(route('student.node', [$course, $course->rootNode]))->assertOk()->getContent();
+
+    expect($page)->toContain('data-test="html-inspector"')
+        ->and($page)->toContain('Lo que tiene que encontrar el inspector')
+        ->and($page)->not->toContain('rio.webp');
+});

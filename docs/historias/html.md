@@ -159,7 +159,22 @@ Cada nodo: de 3 a 5 micro-misiones (≈ 100 en total), cada una con su escena, l
 5. **Las fichas** de Tesela (completa), Teo, Nora, Ámbar y los cuatro jefes en PERSONAJES.md.
 6. **Las crónicas en tercera persona** con Iris, Teo y Nora en lugar de Zed y Mia; `story.course_intro`, `branch_completed` y `course_completed` reescritos.
 7. **Linux y Windows**: VS Code, Live Server, las herramientas del navegador y Node.js para Tailwind, en la Clase 0 y donde se trabaja afuera.
-8. **El mapa de los Talleres** y sus lugares, cuando el docente lo genere.
+8. **El mapa de los Talleres** (hecho 2026-10-08: `public/img/mundos/talleres/mapa.webp`). Sus 12 lugares van a `config('game.protagonists.html.expeditions')` cuando Iris sea jugable (x, y en % del mapa, ya revisados sobre la imagen):
+
+   | Lugar | Nodo | x | y |
+   |---|---|---|---|
+   | El Balcón de los Talleres | R00-N01 | 14 | 77 |
+   | El Taller de Tesela | R01-N01 | 33 | 81 |
+   | Los Ríos de Plomo | R01-N02 | 28 | 59 |
+   | La Ventanilla del Portal | R01-N03 | 47 | 74 |
+   | La Panadería del Gremio | R01-N05 | 57 | 68 |
+   | El Armario de los Vidrios | R02-N01 | 48 | 46 |
+   | La Cabaña y el Castillo | R02-N05 | 61 | 34 |
+   | El Muro de Encargos | R02-N06 | 66 | 59 |
+   | El Cofre del Gremio | R03-N01 | 76 | 52 |
+   | El Muestrario | R03-N07 | 87 | 46 |
+   | La Gran Catedral de los Vitrales | R04-N01 | 78 | 23 |
+   | El Taller del Vidriero | R04-N05 | 92 | 18 |
 
 ## 5. A confirmar con el docente
 

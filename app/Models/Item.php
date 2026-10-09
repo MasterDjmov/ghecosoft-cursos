@@ -19,6 +19,9 @@ class Item extends Model
     /** Estilo común de las imágenes de ítems (para generarlas siempre iguales). */
     public const IMAGE_STYLE = 'Ícono de ítem de juego RPG, cuadrado 1:1 (1024×1024), el objeto solo y centrado, en vista tres cuartos, sobre fondo oscuro liso con un brillo suave detrás; estilo anime/cómic cyber-arcana, con luz propia y detalles de neón del color de su mundo; sin texto ni personas.';
 
+    /** Lado de la imagen chica de las grillas (thumbUrl). */
+    public const THUMB_PX = 256;
+
     /** El que deja reacomodar los puntos del héroe una vez (D89). */
     public const RESPEC = 'pergamino-del-reinicio';
 
@@ -67,6 +70,35 @@ class Item extends Model
     public function imageUrl(): ?string
     {
         return $this->image_path ? Storage::disk('public')->url($this->image_path) : null;
+    }
+
+    /**
+     * La imagen chica (WebP de 256 px) para las grillas y los casilleros; la grande queda para la ficha.
+     * Se arma la primera vez que se pide; si no se puede (sin GD o sin WebP), se usa la grande.
+     */
+    public function thumbUrl(): ?string
+    {
+        if (! $this->image_path) {
+            return null;
+        }
+        $disk = Storage::disk('public');
+        $thumb = 'item-thumbs/'.pathinfo($this->image_path, PATHINFO_FILENAME).'.webp';
+        if (! $disk->exists($thumb) && ! self::makeThumb($disk->path($this->image_path), $disk->path($thumb))) {
+            return $this->imageUrl();
+        }
+
+        return $disk->url($thumb);
+    }
+
+    private static function makeThumb(string $from, string $to): bool
+    {
+        if (! function_exists('imagewebp') || ! is_file($from) || ! ($image = @imagecreatefromstring((string) file_get_contents($from)))) {
+            return false;
+        }
+        $small = imagescale($image, self::THUMB_PX, -1, IMG_BICUBIC);
+        @mkdir(dirname($to), 0755, true);
+
+        return $small !== false && imagewebp($small, $to, 82);
     }
 
     /** El pedido completo para generar la imagen: qué es, su rareza, lo que pidió el docente y el estilo común. */

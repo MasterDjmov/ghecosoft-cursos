@@ -34,3 +34,16 @@ test('app:item-images carga por el código, no pisa las que ya tienen imagen y s
 
     File::deleteDirectory($dir);
 });
+
+test('la imagen chica de un ítem se arma la primera vez y, sin imagen, no hay ninguna', function () {
+    Storage::fake('public');
+    $jpg = imagecreatetruecolor(600, 600);
+    ob_start();
+    imagejpeg($jpg);
+    Storage::disk('public')->put('practice-refs/grande.jpg', ob_get_clean());
+    $item = Item::create(['code' => 'vara', 'name' => 'Vara', 'kind' => 'weapon', 'image_path' => 'practice-refs/grande.jpg']);
+
+    expect($item->thumbUrl())->toEndWith('item-thumbs/grande.webp')
+        ->and(getimagesize(Storage::disk('public')->path('item-thumbs/grande.webp'))[0])->toBe(Item::THUMB_PX)
+        ->and(Item::create(['code' => 'nada', 'name' => 'Nada', 'kind' => 'weapon'])->thumbUrl())->toBeNull();
+});

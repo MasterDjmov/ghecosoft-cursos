@@ -31,17 +31,25 @@
                 <h2 class="font-display font-semibold text-white">Lo que tiene puesto {{ $who['name'] ?? 'el héroe' }}</h2>
                 <a href="{{ route('student.hero', $hero->course) }}" wire:navigate class="text-xs text-primary-bright hover:underline">Ver el panel</a>
             </div>
-            <div class="grid gap-2 sm:grid-cols-3">
+            <div class="grid max-w-md grid-cols-3 gap-3">
                 @foreach (\App\Enums\ItemKind::slots() as $slot)
                     @php($worn = $hero->equipment()->get($slot))
-                    <div class="flex items-center gap-2 rounded-lg border border-dashed border-outline p-2">
-                        <flux:icon :name="\App\Enums\ItemKind::forSlot($slot)->icon()" variant="mini" class="text-ink-muted" />
-                        <div class="flex min-w-0 flex-1 flex-col">
-                            <span class="text-xs text-ink-muted">{{ \App\Enums\ItemKind::forSlot($slot)->label() }}</span>
-                            <span class="truncate text-sm text-white">{{ $worn?->name ?? 'Vacío' }}</span>
-                        </div>
+                    @php($kindOfSlot = \App\Enums\ItemKind::forSlot($slot))
+                    <div class="flex flex-col gap-1" wire:key="worn-{{ $hero->id }}-{{ $slot }}">
                         @if ($worn)
-                            <button type="button" wire:click="unequip({{ $hero->id }}, '{{ $slot }}')" class="text-xs text-ink-muted hover:text-danger" data-test="unequip-{{ $slot }}">Quitar</button>
+                            <x-item-tile :item="$worn" zoom="worn-{{ $hero->id }}-{{ $slot }}" :label="$kindOfSlot->label()" />
+                            <x-item-zoom :item="$worn" name="worn-{{ $hero->id }}-{{ $slot }}">
+                                <flux:modal.close>
+                                    <flux:button size="xs" variant="danger" wire:click="unequip({{ $hero->id }}, '{{ $slot }}')" data-test="unequip-{{ $slot }}">Quitárselo a {{ $who['name'] ?? 'el héroe' }}</flux:button>
+                                </flux:modal.close>
+                            </x-item-zoom>
+                        @else
+                            <div class="grid aspect-square place-items-center rounded-xl border-2 border-dashed border-outline text-ink-muted">
+                                <div class="flex flex-col items-center gap-1">
+                                    <flux:icon :name="$kindOfSlot->icon()" />
+                                    <span class="text-xs">{{ $kindOfSlot->label() }}</span>
+                                </div>
+                            </div>
                         @endif
                     </div>
                 @endforeach
@@ -54,11 +62,12 @@
             <h2 class="flex items-center gap-2 font-display text-lg font-semibold text-white">
                 <flux:icon :name="\App\Enums\ItemKind::from($kind)->icon()" variant="mini" /> {{ \App\Enums\ItemKind::from($kind)->plural() }}
             </h2>
-            <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
                 @foreach ($rows as $row)
                     @php($item = $row['item'])
-                    <x-item-card :item="$item" :count="$row['owned']" wire:key="bag-{{ $item->id }}">
-                        <div class="mt-auto flex flex-wrap items-center gap-2 border-t border-outline/60 pt-2 text-xs">
+                    <div wire:key="bag-{{ $item->id }}" data-test="item-{{ $item->code }}">
+                        <x-item-tile :item="$item" zoom="bag-{{ $item->id }}" :count="$row['owned']" :badge="$row['equipped'] > 0 ? 'Puesto' : null" />
+                        <x-item-zoom :item="$item" name="bag-{{ $item->id }}" :count="$row['owned']">
                             @if ($row['equipped'] > 0)
                                 <span class="rounded bg-success/15 px-1.5 py-0.5 text-success">{{ $row['equipped'] === 1 ? 'Puesto' : 'Puestos: '.$row['equipped'] }}</span>
                             @endif
@@ -66,7 +75,9 @@
                                 @php($free = $row['owned'] - $row['equipped'])
                                 @forelse ($heroesFor($item) as $hero)
                                     @if ($hero->{$item->kind->slot()} !== $item->id && $free > 0)
-                                        <flux:button size="xs" wire:click="equip({{ $item->id }}, {{ $hero->id }})" data-test="equip-{{ $item->code }}">Equipar a {{ $protagonist($hero)['name'] ?? 'tu héroe' }}</flux:button>
+                                        <flux:modal.close>
+                                            <flux:button size="xs" variant="primary" wire:click="equip({{ $item->id }}, {{ $hero->id }})" data-test="equip-{{ $item->code }}">Equipar a {{ $protagonist($hero)['name'] ?? 'tu héroe' }}</flux:button>
+                                        </flux:modal.close>
                                     @endif
                                 @empty
                                     <span class="text-ink-muted">Tomá el control del héroe de este mundo para equiparlo.</span>
@@ -82,8 +93,8 @@
                             @elseif ($item->kind === \App\Enums\ItemKind::Material)
                                 <a href="{{ route('student.workshop') }}" wire:navigate class="text-primary-bright hover:underline">Material: se usa en el Taller</a>
                             @endif
-                        </div>
-                    </x-item-card>
+                        </x-item-zoom>
+                    </div>
                 @endforeach
             </div>
         </section>

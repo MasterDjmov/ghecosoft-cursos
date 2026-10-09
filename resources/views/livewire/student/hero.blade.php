@@ -116,20 +116,24 @@
                         <h2 class="font-display text-lg font-semibold text-white">Equipo</h2>
                         <span class="font-mono text-xs text-ink-muted">ATQ {{ $hero->bonus('attack') }} · DEF {{ $hero->bonus('defense') }}</span>
                     </div>
-                    <div class="grid gap-2 sm:grid-cols-3">
+                    <div class="grid grid-cols-3 gap-3">
                         @foreach (\App\Enums\ItemKind::slots() as $slot)
                             @php($worn = $hero->equipment()->get($slot))
                             @php($kindOfSlot = \App\Enums\ItemKind::forSlot($slot))
-                            <div @class(['flex flex-col items-center gap-1 rounded-lg border p-3 text-center', 'border-dashed border-outline' => ! $worn, $worn?->rarity->classes() => $worn]) data-test="slot-{{ $slot }}">
-                                @if ($worn?->imageUrl())
-                                    <img src="{{ $worn->imageUrl() }}" alt="" class="size-10 rounded object-cover">
+                            <div data-test="slot-{{ $slot }}">
+                                @if ($worn)
+                                    <x-item-tile :item="$worn" zoom="hero-slot-{{ $slot }}" :label="$kindOfSlot->label()" />
+                                    <x-item-zoom :item="$worn" name="hero-slot-{{ $slot }}">
+                                        <flux:button size="xs" icon="shopping-bag" :href="route('student.inventory', ['solapa' => $course->slug])" wire:navigate>Cambiarlo en la mochila</flux:button>
+                                    </x-item-zoom>
                                 @else
-                                    <flux:icon :name="$kindOfSlot->icon()" @class(['text-ink-muted' => ! $worn]) />
-                                @endif
-                                <span class="text-xs text-ink-muted">{{ $kindOfSlot->label() }}</span>
-                                <span class="text-sm text-white">{{ $worn?->name ?? 'Vacío' }}</span>
-                                @if ($worn && ($bonuses = $worn->bonuses()))
-                                    <span class="font-mono text-[11px] text-success">{{ implode(' · ', $bonuses) }}</span>
+                                    <div class="grid aspect-square place-items-center rounded-xl border-2 border-dashed border-outline text-ink-muted">
+                                        <div class="flex flex-col items-center gap-1">
+                                            <flux:icon :name="$kindOfSlot->icon()" />
+                                            <span class="text-xs">{{ $kindOfSlot->label() }}</span>
+                                            <span class="text-sm text-ink">Vacío</span>
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         @endforeach

@@ -28,7 +28,7 @@ python3 scripts/escenas/pendientes.py cursos/c
 Las referencias de cada curso (ids de pantallas de Stitch) están en `REFS` dentro de `scripts/escenas/pendientes.py`.
 **Cuota:** Stitch tiene un límite de generaciones. Si responde «Resource has been exhausted (e.g. check quota)», no
 insistir: se espera (al día siguiente) y se sigue con la primera pendiente. Pedirlas **de a una**: en paralelo se
-gasta la cuota enseguida. El 2026-10-09 se cortó después de `R00-N01-P4` (siguiente: `R00-N01-P5`).
+gasta la cuota enseguida. El 2026-10-09 se cortó después de `R00-N01-P4`.
 
 Si una llamada a Stitch se corta por tiempo, la pantalla igual puede aparecer: buscarla con `get_screen` no sirve sin el
 id, así que se vuelve a pedir.
@@ -41,5 +41,10 @@ id, así que se vuelve a pedir.
 | HTML | 10 de prueba | Referencias: Iris, Tesela, Gheco. |
 | C++ | 0 | Faltan en Stitch Bron, Gheco, Lima, Oto, Lyn (están en `~/stitch-subir/`). |
 
-De la tanda de prueba de C se rehicieron con referencias `R02-N06-P2` (faltaba Chispa), `R01-N10-P1` (el Gólem) y
-`R05-N04-P3` (el Dragón).
+**Para rehacer (C):** toda la tanda de prueba salió con el Ferrum viejo («enano») o sin referencias, así que se
+sacó de `escenas/` y volvió a quedar pendiente: `R00-N01-P1`, `R00-N01-P2`, `R01-N03-P2`, `R01-N06-P1` (además tenía
+números flotando), `R02-N03-P1`, `R03-N05-P4`, `R05-N01-P1`, `R02-N06-P2` (faltaba Chispa), `R01-N10-P1` (el Gólem) y
+`R05-N04-P3` (el Dragón). Quedan buenas `R00-N01-P3` y `R00-N01-P4` (Tizón).
+
+**Próximo paso (2026-10-10):** el docente vuelve a probar Stitch (se había agotado la cuota). Seguir con la primera
+pendiente que da el script, de a una, y revisar cada escena contra las referencias antes de guardarla.

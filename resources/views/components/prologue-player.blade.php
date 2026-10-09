@@ -12,7 +12,7 @@
 @endphp
 <section class="flex flex-col gap-3" data-test="prologue-player" wire:ignore
     x-data="{
-        scenes: @js($scenes), i: 0, playing: false, music: false, started: false, timer: null, seconds: 14,
+        scenes: @js($scenes), i: 0, playing: false, music: false, started: false, timer: null, seconds: 25,
         start(withMusic) { this.started = true; this.playing = true; this.schedule(); if (withMusic) this.toggleMusic(); },
         go(n) { this.i = (n + this.scenes.length) % this.scenes.length; if (this.playing) this.schedule(); },
         schedule() { clearTimeout(this.timer); this.timer = setTimeout(() => { if (this.i === this.scenes.length - 1) { this.playing = false; return; } this.go(this.i + 1); }, this.seconds * 1000); },
@@ -50,7 +50,7 @@
             <div class="flex max-w-md flex-col items-center gap-3 rounded-2xl border border-primary/40 bg-[#070d1d]/85 p-5 text-center shadow-2xl sm:p-7">
                 <span class="font-mono text-[11px] tracking-widest text-primary-bright uppercase">Prólogo · El Mundo del Código</span>
                 <p class="font-display text-xl font-semibold text-white sm:text-2xl">El mundo que vive en tu mente</p>
-                <p class="text-sm text-ink-muted">Seis tomas con música de fondo. Pasan solas; podés pausar cuando quieras.</p>
+                <p class="text-sm text-ink-muted">Seis tomas con música de fondo. Pasan solas, con tiempo para leer; podés pausar cuando quieras.</p>
                 <button type="button" x-on:click="start(true)" class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-400 px-6 py-2.5 font-semibold text-[#030712] transition hover:scale-105" data-test="prologue-enter">
                     <flux:icon name="play" variant="micro" /> Ingresar a la historia
                 </button>

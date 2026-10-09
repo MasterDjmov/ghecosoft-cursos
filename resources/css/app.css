@@ -172,5 +172,5 @@ select:focus[data-flux-control] {
     from { transform: scale(1) translate(0, 0); }
     to { transform: scale(1.08) translate(-1.5%, -1%); }
 }
-.prologue-kenburns { animation: prologue-kenburns 14s cubic-bezier(.25, 1, .5, 1) forwards; }
+.prologue-kenburns { animation: prologue-kenburns 25s cubic-bezier(.25, 1, .5, 1) forwards; }
 @media (prefers-reduced-motion: reduce) { .prologue-kenburns { animation: none; } }

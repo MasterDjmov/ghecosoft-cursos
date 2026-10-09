@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * Rankings por XP (la XP nunca baja: mide constancia y avance, no notas).
+ * Rankings por XP (la XP nunca baja: mide constancia y avance, no notas), con el nivel que da esa XP.
  * - Por curso: top 10 entre compañeros (quienes tuvieron abono en el curso).
  * - Global: solo quienes tienen el perfil público (opt-in, G9/G10/G12).
  * Se guardan 5 minutos en caché, como arrays: el caché no deserializa clases
@@ -23,7 +23,7 @@ class Ranking
 {
     public const TOP = 10;
 
-    /** @return Collection<int, array{position: int, user_id: int, name: string, xp: int}> */
+    /** @return Collection<int, array{position: int, user_id: int, name: string, xp: int, level: int}> */
     public function forCourse(Course $course): Collection
     {
         return collect(Cache::remember("ranking.course.{$course->id}", 300, function () use ($course) {
@@ -42,7 +42,7 @@ class Ranking
         }));
     }
 
-    /** @return Collection<int, array{position: int, user_id: int, name: string, xp: int}> */
+    /** @return Collection<int, array{position: int, user_id: int, name: string, xp: int, level: int}> */
     public function global(): Collection
     {
         return collect(Cache::remember('ranking.global', 300, function () {
@@ -124,6 +124,7 @@ class Ranking
     private function rows(Collection $totals): Collection
     {
         $users = User::whereIn('id', $totals->pluck('user_id'))->get()->keyBy('id');
+        $levels = Level::orderByDesc('number')->get(['number', 'xp_required']);
 
         return $totals->values()->map(fn (array $row, int $index) => [
             'position' => $index + 1,
@@ -132,6 +133,8 @@ class Ranking
             'hero' => $users[$row['user_id']]?->hero_name,
             'cv_slug' => $users[$row['user_id']]?->hasPublicProfile() ? $users[$row['user_id']]->cv_slug : null,
             'xp' => $row['xp'],
+            // El nivel que da esa XP (en el ranking del curso, la XP ganada en ese curso).
+            'level' => $levels->first(fn (Level $level) => $level->xp_required <= $row['xp'])?->number ?? 1,
         ]);
     }
 }

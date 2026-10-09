@@ -6,6 +6,7 @@ use App\Livewire\Settings\Privacy;
 use App\Livewire\Settings\Profile;
 use App\Models\CourseCompletion;
 use App\Models\GuardianAuthorization;
+use App\Models\Level;
 use App\Models\User;
 use App\Services\Ledger;
 use App\Services\NodeUnlocker;
@@ -39,6 +40,26 @@ test('el ranking del curso ordena por la XP ganada en ese curso', function () {
 
     expect($rows->pluck('name')->all())->toBe(['betodev', 'Ana D.'])
         ->and($rows->first()['position'])->toBe(1);
+});
+
+test('el ranking global muestra abajo el de cada curso del alumno, con el nivel que da la XP del curso', function () {
+    Level::updateOrCreate(['number' => 1], ['xp_required' => 0]);
+    Level::updateOrCreate(['number' => 2], ['xp_required' => 40]);
+    $data = makeCourse(['title' => 'Las Forjas']);
+    $foreign = makeCourse(['title' => 'Otro mundo']);
+    $ana = studentInCourse($data, ['name' => 'Ana', 'last_name' => 'Díaz']);
+    $beto = studentInCourse($data, ['name' => 'Beto', 'last_name' => 'Sosa']);
+    $ledger = app(Ledger::class);
+    $ledger->addXp($ana, 30, XpReason::ManualAdjustment, course: $data['course'], note: 'x');
+    $ledger->addXp($beto, 50, XpReason::ManualAdjustment, course: $data['course'], note: 'x');
+
+    expect(app(Ranking::class)->forCourse($data['course'])->pluck('level', 'name')->all())->toBe(['Beto S.' => 2, 'Ana D.' => 1]);
+
+    $this->actingAs($ana)->get(route('student.ranking'))->assertOk()
+        ->assertSee('data-test="ranking-by-course"', false)
+        ->assertSee($data['course']->title)
+        ->assertDontSee($foreign['course']->title)
+        ->assertSeeInOrder(['Beto S.', 'Nivel 2', '50', 'Ana D.', 'Nivel 1', '30']);
 });
 
 test('el ranking del curso lo ven solo los que entraron al curso', function () {

@@ -4,6 +4,7 @@
         <h1 class="font-display text-2xl font-semibold text-white sm:text-3xl">{{ $course ? 'Top 10 del curso' : 'Ranking global' }}</h1>
         <p class="text-sm text-ink-muted">
             Ordenado por {{ term('xp') }}: la ganan las prácticas que aprueba el profe. Mide constancia y avance, no notas.
+            Al lado de cada nombre, el {{ term('level') }} que da esa {{ term('xp.short') }}{{ $course ? ' en el curso' : '' }}.
         </p>
     </header>
 
@@ -16,28 +17,7 @@
 
     <ol class="panel divide-y divide-outline overflow-hidden">
         @forelse ($top as $row)
-            @php($isMe = $row['user_id'] === auth()->id())
-            <li @class(['flex items-center gap-4 px-4 py-3', 'bg-primary/10' => $isMe]) wire:key="rank-{{ $row['user_id'] }}">
-                <span @class([
-                    'grid size-9 shrink-0 place-items-center rounded-full font-display font-bold',
-                    'bg-warning/20 text-warning' => $row['position'] === 1,
-                    'bg-ink-muted/20 text-ink' => $row['position'] === 2,
-                    'bg-[#b45309]/25 text-[#f59e0b]' => $row['position'] === 3,
-                    'bg-surface-highest text-ink-muted' => $row['position'] > 3,
-                ])>{{ $row['position'] }}</span>
-                <span class="min-w-0 flex-1 truncate text-white">
-                    @if (($row['cv_slug'] ?? null) && ! $course)
-                        <a href="{{ route('cv.show', $row['cv_slug']) }}" class="hover:text-primary-bright" target="_blank">{{ $row['name'] }}</a>
-                    @else
-                        {{ $row['name'] }}
-                    @endif
-                    @if ($isMe) <span class="text-xs text-primary-bright">(vos)</span> @endif
-                    @if ($row['hero'] ?? null)
-                        <span class="block truncate text-xs text-secondary-bright"><flux:icon name="sparkles" variant="micro" class="inline" /> {{ $row['hero'] }}</span>
-                    @endif
-                </span>
-                <span class="font-mono text-sm text-primary-bright">{{ $row['xp'] }} {{ term('xp.short') }}</span>
-            </li>
+            @include('partials.ranking-row', ['row' => $row, 'course' => $course])
         @empty
             <li class="p-8 text-center text-ink-muted">Todavía no hay nadie en el ranking.</li>
         @endforelse
@@ -55,6 +35,34 @@
                 <flux:link :href="route('privacy')" wire:navigate>Privacidad</flux:link>
             </flux:callout.text>
         </flux:callout>
+    @endif
+
+    @if ($byCourse->isNotEmpty())
+        <section class="flex flex-col gap-4" data-test="ranking-by-course">
+            <h2 class="font-display text-xl font-semibold text-white">Por curso</h2>
+            @foreach ($byCourse as $board)
+                <div class="flex flex-col gap-2" wire:key="board-{{ $board['course']->id }}">
+                    <div class="flex items-baseline justify-between gap-3">
+                        <h3 class="font-medium text-white">{{ $board['course']->title }}</h3>
+                        @if ($board['count'] > \App\Livewire\Student\RankingBoard::COURSE_TOP)
+                            <a href="{{ route('student.ranking.course', $board['course']) }}" wire:navigate class="shrink-0 text-xs text-primary-bright hover:underline">Ver el top 10</a>
+                        @endif
+                    </div>
+                    <ol class="panel divide-y divide-outline overflow-hidden">
+                        @forelse ($board['top'] as $row)
+                            @include('partials.ranking-row', ['row' => $row, 'course' => $board['course']])
+                        @empty
+                            <li class="px-4 py-4 text-center text-sm text-ink-muted">Todavía nadie ganó {{ term('xp.short', $board['course']) }} en este curso.</li>
+                        @endforelse
+                    </ol>
+                    @if ($board['me'] && $board['me']['position'] > \App\Livewire\Student\RankingBoard::COURSE_TOP)
+                        <p class="text-sm text-ink">Vas {{ $board['me']['position'] }}.º de {{ $board['count'] }} con {{ $board['me']['xp'] }} {{ term('xp.short', $board['course']) }}.</p>
+                    @endif
+                </div>
+            @endforeach
+            <p class="text-xs text-ink-muted">En el ranking de cada curso aparecés con tu nombre y la inicial del apellido, o con tu apodo si lo elegiste en
+                <a href="{{ route('privacy') }}" wire:navigate class="text-primary-bright hover:underline">Privacidad</a>. Lo ven solo tus compañeros de ese curso.</p>
+        </section>
     @endif
 
     @if ($course)

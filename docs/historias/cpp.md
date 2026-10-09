@@ -51,9 +51,9 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ La Ciudadela d
 - **Bron** (protagonista, imágenes completas).
 - **Gheco**, que da las pistas.
 - **Tesla**, el Artífice Mayor: el mentor. Fue aprendiz de Ferrum junto con Tesela. Rápido, curioso, odia repetir código.
-- **Lima** *(nueva, a confirmar el aspecto)*: aprendiz de relojera de 16 años, chiquita, con una **lima de relojero** en el bolsillo del delantal. Es el contrapunto de Bron: él dice **«¿y esto para qué me sirve?»**; ella, **«¿y si lo hacemos una sola vez?»**. Reemplaza a Kira en los ejemplos.
+- **Lima** (imágenes completas): aprendiz de relojera de 16 años, chiquita, con una **lima de relojero** en el bolsillo del delantal. Es el contrapunto de Bron: él dice **«¿y esto para qué me sirve?»**; ella, **«¿y si lo hacemos una sola vez?»**. Reemplaza a Kira en los ejemplos.
 - **La Maestra Artífice** (imágenes completas): la **inspectora** de la Ciudadela. Nada sale de la Ciudadela sin pasar por sus pruebas. Lleva una tableta con tildes verdes y unos anteojos de soldar en la frente. Frase: «¿Y la prueba?».
-- **Lyn** *(nueva)*: la mensajera de la Ciudadela, la más rápida de las torres; apuesta carreras contra todo lo que se mueve, incluidos los programas.
+- **Lyn** (imágenes completas): la mensajera de la Ciudadela, la más rápida de las torres; apuesta carreras contra todo lo que se mueve, incluidos los programas.
 - **Oto** *(nuevo)*: el cocinero del comedor de los artífices, grandote, de recetas exactas.
 
 **Los ejemplos y las prácticas** que hoy usan a Kira (≈ 490 menciones) pasan a **Lima**: tiene cuatro letras y queda en el mismo lugar del abecedario (entre Bron y Lyn), así los listados ordenados no cambian. Las salidas se rehacen ejecutando el código (`scripts/regen-salidas.py`).
@@ -164,7 +164,8 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ La Ciudadela d
 
 **Falta:**
 - ~~El mapa de la Ciudadela~~ (hecho 2026-10-08: `public/img/mundos/ciudadela/mapa.webp` y sus 12 lugares en `config/game.php`, del Portón de Engranajes a la Torre de los Vitrales).
-- Las imágenes de Lima, Lyn, Oto, los jefes y los ítems; la tienda y las recetas de la Ciudadela.
+- ~~Las imágenes de los personajes~~ (hechas 2026-10-08: Lima, Lyn, Oto y los siete jefes).
+- Las imágenes de los ítems y de las escenas de las 163 micro-misiones; la tienda y las recetas de la Ciudadela.
 
 ## 5. Lo que decidió el docente (2026-10-08)
 

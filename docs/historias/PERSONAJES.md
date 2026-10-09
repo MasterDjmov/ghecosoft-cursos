@@ -501,7 +501,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Dónde va:** la Ciudadela: torres, poleas, puentes que se pliegan y engranajes que giran en todas las paredes.
 - **Imágenes:** completas (cuerpo entero y retrato circular; los 6 retratos enmarcados son avatares).
 
-### Lima *(falta la imagen)*
+### Lima
 - **Curso y rol:** C++. Aprendiz de relojera de la Ciudadela que recibe a Bron en la Clase 0 y termina siendo su compañera ([cpp.md](cpp.md)). Es el contrapunto de Bron: él dice **«¿y esto para qué me sirve?»**; ella, **«¿y si lo hacemos una sola vez?»**. En los ejemplos y las prácticas reemplaza a Kira.
 - **Edad y sexo:** 16, mujer.
 - **Altura y contextura:** chiquita (1,52 m) y delgada, de dedos finos y rápidos.
@@ -533,7 +533,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Dónde va:** el banco de pruebas de la Ciudadela: mesas largas con instrumentos, cronómetros y lámparas verdes.
 - **Imágenes:** completas (cuerpo entero y retrato circular).
 
-### Lyn *(falta la imagen)*
+### Lyn
 - **Rol:** la **mensajera** de la Ciudadela, la más rápida de las torres. En los ejemplos y las prácticas corre, compite, apuesta y lleva los pedidos.
 - **Edad y sexo:** 19, mujer.
 - **Altura y contextura:** alta (1,74 m), fibrosa, piernas de corredora.
@@ -545,7 +545,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Relaciones:** amiga de Bron; le trae las cartas de Ferrum (quemadas en una esquina).
 - **Primera aparición:** C++, R01-N02.
 
-### Oto *(falta la imagen)*
+### Oto
 - **Rol:** el **cocinero del comedor** de los artífices. En los ejemplos y las prácticas es el que pesa, mide y reparte (las recetas son algoritmos).
 - **Edad y sexo:** 40, varón.
 - **Altura y contextura:** grandote (1,90 m) y panzón, de brazos fuertes.
@@ -557,49 +557,49 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Relaciones:** amigo de Bron (los dos cocinan para muchos); le teme a la Maestra Artífice, que le prueba la sopa con termómetro.
 - **Primera aparición:** C++, R01-N03.
 
-### El Autómata de Latón *(falta la imagen)*
+### El Autómata de Latón
 - **Rol:** el jefe de los Cimientos (R01-N09 de C++). Tesla lo construyó terco a propósito: no deja pasar a nadie que no domine los cimientos.
 - **Qué es:** un **autómata de tres metros** de placas de latón remachadas, con un corazón de vapor que se ve por una ventanita del pecho y una **tarjeta perforada** en la frente con su única orden.
 - **Color:** latón, vapor blanco y el **cian** de la Ciudadela en los ojos.
 - **Cómo habla:** con silbidos de vapor y frases cortas, como un programa: «ORDEN: NO DEJAR PASAR».
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### La Quimera de la Arena *(falta la imagen)*
+### La Quimera de la Arena
 - **Rol:** el jefe de los Planos (R02-N09 de C++). Cambia de forma en cada turno; se la vence con polimorfismo: cada forma responde por sí misma.
 - **Qué es:** una criatura con **cabeza de león, cuerpo de cabra y cola de serpiente**, hecha de piezas de bronce que se reacomodan con un ruido de engranajes cuando cambia.
 - **Color:** bronce, cobre y el **cian** de las juntas.
 - **Cómo habla:** con tres voces a la vez, que se pelean entre ellas.
 - **Imágenes:** cuerpo entero y retrato circular.
 
-### El Mímico del Bestiario *(falta la imagen)*
+### El Mímico del Bestiario
 - **Rol:** el jefe de los Talleres Modernos (R03-N09 de C++). No tiene forma propia: copia a quien mira. Copió la bisagra del Vidriero y no sabe abrir nada con ella.
 - **Qué es:** una criatura **gris y blanda como cera**, que se estira y toma la forma de lo último que vio, siempre con algo mal copiado (una cola de más, un ojo en la rodilla).
 - **Color:** gris perla, con reflejos de lo que imita.
 - **Cómo habla:** repite lo último que le dijeron, con la voz de quien lo dijo.
 - **Imágenes:** cuerpo entero y retrato circular.
 
-### El Kraken de los Contenedores *(falta la imagen)*
+### El Kraken de los Contenedores
 - **Rol:** el jefe de la Gran Biblioteca (R04-N09 de C++). Vive en los sótanos inundados y desordena todo lo que toca: saca un tentáculo por cada pasillo.
 - **Qué es:** un **pulpo gigante** de piel azul oscura con ventosas que brillan, que lleva **cajas, estantes y libros** enganchados en los tentáculos.
 - **Color:** azul profundo, verde agua y el dorado de los lomos de los libros.
 - **Cómo habla:** con burbujas; cada burbuja que revienta dice una palabra suelta.
 - **Imágenes:** cuerpo entero y retrato circular.
 
-### El Minotauro del Laberinto *(falta la imagen)*
+### El Minotauro del Laberinto
 - **Rol:** el jefe del Taller del Juego (R05-N06 de C++). Vive en el Laberinto, debajo del Taller; no persigue, **embiste**. Custodia el Engranaje del Portal.
 - **Qué es:** un **toro gigante de hierro y bronce** que camina en dos patas, con cuernos de acero, ojos de brasa y un engranaje enorme colgado del cuello.
 - **Color:** hierro oscuro, bronce y el rojo de los ojos.
 - **Cómo habla:** resopla vapor por la nariz; no dice nada.
 - **Imágenes:** cuerpo entero y retrato circular.
 
-### La Gárgola de los Vitrales *(falta la imagen)*
+### La Gárgola de los Vitrales
 - **Rol:** el jefe final de C++ (R06-N05): le toma a Bron el examen, **TallerExpress**. Custodia el libro del taller de reparaciones y nunca dejó pasar un programa con una fila mal sumada.
 - **Qué es:** una **gárgola de piedra gris** con alas cortas, sentada en lo alto del Taller de los Vitrales, con un **monóculo** de vidrio de colores y una pluma de escribir en la garra.
 - **Color:** piedra gris, con los colores de los vitrales reflejados encima.
 - **Cómo habla:** despacio y con voz de examinadora: «Pregunta número uno».
 - **Imágenes:** cuerpo entero y retrato circular.
 
-### El Espectro de la Linterna *(falta la imagen)*
+### El Espectro de la Linterna
 - **Rol:** el jefe de la Senda de la Linterna Mágica (S01 de C++, SDL3). Se escapó de las placas de vidrio de la linterna y se llevó las gemas que la hacen brillar.
 - **Qué es:** un **fantasma de luz** proyectado, de bordes pixelados, que atraviesa las paredes.
 - **Color:** blanco azulado, con los colores de la linterna parpadeando.

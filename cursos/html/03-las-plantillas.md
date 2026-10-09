@@ -18,9 +18,11 @@ usa: css.caja, css.flexbox
 
 ### Crónica
 
-Tardás una tarde entera en cortar los vidrios de una sola tarjeta. Entonces {mentor} abre un cofre con cientos de **plantillas** ya cortadas, cada una para una sola cosa: esta da el borde redondeado, esta el color cian, esta el relleno.
+Iris tarda una tarde entera en cortar los vidrios de una sola tarjeta. Entonces {mentor} abre un cofre con cientos de **plantillas** ya cortadas, cada una para una sola cosa: esta da el borde redondeado, esta el color cian, esta el relleno.
 
-—Son las plantillas del Gremio, {heroe}. Con ellas armás lo mismo en minutos. Pero te las doy recién ahora, **porque ya sabés cortar a mano**: si una plantilla falla, vas a saber por qué.
+—Son las plantillas del Gremio. Con ellas armás lo mismo en minutos. Pero te las doy recién ahora, **porque ya sabés cortar a mano**: si una plantilla falla, vas a saber por qué.
+
+Teo ya tiene las dos manos adentro del cofre.
 
 ### Objetivos
 
@@ -359,9 +361,11 @@ usa: css.frameworks
 
 ### Crónica
 
-El cofre de plantillas tiene cajones: uno para los espacios, otro para las letras, otro para los colores y los brillos. Zed quiere usarlas todas a la vez y arma una tarjeta que parece un árbol de Navidad.
+El cofre de plantillas tiene cajones: uno para los espacios, otro para las letras, otro para los colores y los brillos. Teo quiere usarlas todas a la vez y arma una tarjeta que parece un árbol de Navidad. Le pone una estrella arriba.
 
 —Conocé los **cajones** y su **escala** —lo frena {mentor}—. Las plantillas sueltas no sirven si no sabés dónde buscarlas.
+
+Iris, en cambio, ordena las plantillas por color antes de usar ninguna. {mentor} la deja: ya va a aprender a no perder la tarde en eso.
 
 ### Objetivos
 
@@ -721,9 +725,9 @@ usa: css.flexbox, css.grid
 
 ### Crónica
 
-Con las plantillas en la mano, {mentor} te pide algo que parece imposible: rearmar la pantalla de la cabaña —la versión celular de la plataforma— **sin escribir una sola regla de CSS**.
+Con las plantillas en la mano, {mentor} le pide a Iris algo que parece imposible: rearmar la pantalla de la cabaña —la versión celular de la plataforma— **sin escribir una sola regla de CSS**.
 
-—Todo lo que aprendiste de la regla flexible y de la malla está en el cofre, {heroe}. Solo le cambiaron el nombre.
+—Todo lo que aprendiste de la regla flexible y de la malla está en el cofre. Solo le cambiaron el nombre.
 
 ### Objetivos
 
@@ -1119,7 +1123,7 @@ usa: css.responsive
 
 Desde el Valle de la Serpiente llega un encargo de **Ofidia**: quiere una ventana para mostrar sus pergaminos de datos, y la quiere ver bien en el espejo de bolsillo de cada aldeano y también en el gran salón.
 
-{mentor} te muestra el truco más usado del cofre: un **prefijo** delante de cualquier plantilla. —`md:` significa "desde la ventana mediana en adelante", {heroe}. Lo que va sin prefijo es la cabaña. Lo demás, se agrega.
+Esta vez Iris saca el espejito antes de que {mentor} se lo alcance. {mentor} sonríe apenas y le muestra el truco más usado del cofre: un **prefijo** delante de cualquier plantilla. —`md:` significa «desde la ventana mediana en adelante». Lo que va sin prefijo es la cabaña. Lo demás, se agrega.
 
 ### Objetivos
 
@@ -1494,9 +1498,9 @@ usa: html.formularios
 
 ### Crónica
 
-Un vitral vivo cambia con la luz: brilla cuando alguien se acerca y se oscurece cuando no se puede pasar. Zed toca una tarjeta y no pasa nada. —¿Está rota?
+Un vitral vivo cambia con la luz: brilla cuando alguien se acerca y se oscurece cuando no se puede pasar. Teo toca una tarjeta y no pasa nada. —¿Está rota?
 
-—No está rota —dice {mentor}—. Está **muda**. Toda pieza que se puede tocar tiene que responder, {heroe}: al mouse, al dedo y al teclado.
+Nora la recorre con el teclado, una tecla por vez, y tampoco pasa nada: no sabe dónde está parada. —No está rota —dice {mentor}—. Está **muda**. Toda pieza que se puede tocar tiene que responder: al mouse, al dedo y al teclado.
 
 ### Objetivos
 
@@ -1878,9 +1882,9 @@ usa: css.frameworks, css.selectores
 
 ### Crónica
 
-Cada taller tiene sus colores. Los de GhecoSoft son el azul noche, el cian neón y el oro de los campeones. Copiaste `#22d3ee` en veinte lugares y, cuando el Gremio pide un cian "un poquito más claro", tenés que cambiar los veinte.
+Cada taller tiene sus colores. Los de GhecoSoft son el azul noche, el cian neón y el oro de los campeones. Iris copió `#22d3ee` en veinte lugares y, cuando el Gremio pide un cian «un poquito más claro», tiene que cambiar los veinte. Se le escapa uno. Teo lo encuentra y se ríe durante media hora.
 
-—Grabá los colores **en el cofre**, {heroe} —te enseña {mentor}—. Una vez. Y que todo lo demás los use por su nombre.
+—Grabá los colores **en el cofre** —le enseña {mentor}—. Una vez. Y que todo lo demás los use por su nombre.
 
 ### Objetivos
 
@@ -2567,7 +2571,7 @@ usa: css.frameworks
 
 El **Orco del Desborde** asoma la cabeza por la puerta: la misma tarjeta, copiada treinta veces con treinta diferencias chiquitas, y nadie sabe cuál es la buena. Cada copia mal hecha lo hace más fuerte.
 
-{mentor} cuelga en la pared del taller un **muestrario**: cada pieza una sola vez, la oficial. —Desde hoy, {heroe}, se copia de acá.
+{mentor} cuelga en la pared del taller un **muestrario**: cada pieza una sola vez, la oficial. Para armarlo usa el canasto de bocetos de Iris, que ya va por el 180: las piezas que salieron bien de entre tantas que salieron mal. —Desde hoy se copia de acá.
 
 ### Objetivos
 
@@ -3606,9 +3610,11 @@ usa: css.frameworks, css.responsive, css.flexbox, css.grid
 
 ### Crónica
 
-El Orco del Desborde se cansó de mirar desde la puerta y entró al taller. Agarró el **tablón de encargos** y lo estiró con sus manos enormes: en la ventanita de la cabaña, ahora todo se sale por el costado. La cabecera, la imagen, una dirección larguísima, las tarjetas, la tabla. Para leer hay que arrastrar la página de un lado al otro.
+El Orco del Desborde se cansó de mirar desde la puerta y entró al taller. Es tan ancho que no entra en ningún marco: agarró el **tablón de encargos** y lo estiró con sus manos enormes. En la ventanita de la cabaña, ahora todo se sale por el costado: la cabecera, la imagen, una dirección larguísima, las tarjetas, la tabla. Para leer hay que arrastrar la página de un lado al otro.
 
-—Mirá la cabaña, {heroe}, no el castillo —dice {mentor}—. En la compu el orco no se nota. **En el celular, se ve todo.**
+—Mirá la cabaña, no el castillo —dice {mentor}—. En la compu el orco no se nota. **En el celular, se ve todo.**
+
+Cuando la última pieza entra en la cabaña, el orco se queda sin lugar adonde estirarse y sale por la puerta de costado. En el fondo del cofre, donde estaba sentado, queda una plantilla vieja que no es del Gremio: un vitral redondo, con la inscripción **«para quien llegue»**. Es la letra del Vidriero.
 
 ### Objetivos
 

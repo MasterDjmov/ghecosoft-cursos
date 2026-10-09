@@ -18,9 +18,11 @@ usa: html.semantica
 
 ### Crónica
 
-El esqueleto de plomo está listo. {mentor} abre el armario de los vidrios: azul noche, cian neón, ámbar.
+El esqueleto de plomo está listo. {mentor} abre el armario de los vidrios: azul noche, cian neón, ámbar. Iris quiere usar todos en la primera hora, como Teo, que ya está pintando un vitral de once colores.
 
-—Ahora sí, {heroe}: el color. Pero cuidado: cuando dos vidrios quieren el mismo hueco, **uno gana**. Hay que saber cuál, o vas a pelear toda la tarde contra un ogro que no ves.
+—Ahora sí, el color —dice {mentor}—. Pero cuidado: cuando dos vidrios quieren el mismo hueco, **uno gana**. Hay que saber cuál, o vas a pelear toda la tarde contra un ogro que no ves.
+
+En el fondo del armario, detrás de los frascos, Iris encuentra un vidrio de un color que no está en ninguna paleta del taller. Lo pone al lado de su fragmento: es exactamente el mismo.
 
 ### Objetivos
 
@@ -629,9 +631,9 @@ usa: css.selectores
 
 ### Crónica
 
-Cada vidrio del vitral va dentro de un marco, y entre marco y marco hay un espacio. Medís a ojo y los vidrios se te salen del marco.
+Cada vidrio del vitral va dentro de un marco, y entre marco y marco hay un espacio. Iris mide a ojo y los vidrios se le salen del marco.
 
-Justo pasa por el taller **Tesla**, el Artífice de la Ciudadela, a buscar un encargo. Mira tu trabajo y se ríe: —Igual que Tesela cuando éramos aprendices de Ferrum. —Y te muestra su cinta métrica—. Todo es una **caja**, {heroe}: contenido, relleno, borde y espacio afuera. **Medí las cuatro.**
+Justo pasa por el taller **Tesla**, el Artífice de la Ciudadela, a buscar un encargo. Mira el trabajo de Iris y se ríe: —Igual que Tesela cuando éramos aprendices de Ferrum. —{mentor} lo mira por encima del monóculo y Tesla se pone serio de golpe. Saca su cinta métrica—. Todo es una **caja**, Iris: contenido, relleno, borde y espacio afuera. **Medí las cuatro.**
 
 ### Objetivos
 
@@ -1412,9 +1414,9 @@ usa: css.caja
 
 ### Crónica
 
-En el borde de arriba del ventanal van el escudo a la izquierda y los trofeos a la derecha; abajo, cuatro botones iguales. Lo intentás con márgenes "a ojo" y en cada pantalla queda distinto.
+En el borde de arriba del ventanal van el escudo a la izquierda y los trofeos a la derecha; abajo, cuatro botones iguales. Iris lo intenta con márgenes «a ojo» y en cada pantalla queda distinto. Va por el boceto 61.
 
-—Dejá de empujar los vidrios con el dedo, {heroe} —dice {mentor}, y te da una regla que se estira—. Esta es la **regla flexible**: le decís cómo repartir el espacio y ella se acomoda sola.
+—Dejá de empujar los vidrios con el dedo —dice {mentor}, y le da una regla que se estira—. Esta es la **regla flexible**: le decís cómo repartir el espacio y ella se acomoda sola.
 
 ### Objetivos
 
@@ -1876,7 +1878,7 @@ compu: capturas/R02-N03-M1-compu.webp
     <div class="perfil">
       <img src="/img/cursos/html/heroe-avatar.webp" alt="" width="56" height="56">
       <div class="datos">
-        <h1>@Kira</h1>
+        <h1>@Iris</h1>
         <p>Nivel 14 · Espadachina</p>
       </div>
       <a class="seguir" href="#">Seguir</a>
@@ -2080,9 +2082,9 @@ usa: css.flexbox
 
 ### Crónica
 
-Llega un mensajero del Imperio de las Clases: **Kaffa**, el Arquitecto Imperial, encarga doce vitrales para su catedral. "Todos iguales, alineados en filas y columnas perfectas", dice la carta. Y abajo, el podio de los campeones: el del medio, más alto.
+Llega un mensajero del Imperio de las Clases: **Kaffa**, el Arquitecto Imperial, encarga doce vitrales para su catedral. «Todos iguales, alineados en filas y columnas perfectas», dice la carta. Y abajo, el podio de los campeones: el del medio, más alto. Teo propone hacer el del medio de otro color. Nadie le contesta.
 
-—Con la regla flexible hacés filas, {heroe} —dice {mentor}—, pero no **cuadrículas**. Para Kaffa, que no tolera un vidrio torcido, desplegamos la **malla**.
+—Con la regla flexible hacés filas, Iris —dice {mentor}—, pero no **cuadrículas**. Para Kaffa, que no tolera un vidrio torcido, desplegamos la **malla**.
 
 ### Objetivos
 
@@ -2621,7 +2623,9 @@ usa: css.grid, css.flexbox
 
 El **Ogro de la Cascada** golpea la puerta del taller con un desafío: el mismo vitral tiene que verse bien en la ventanita de una cabaña **y** en el ventanal del castillo. Si en alguno se rompe, el taller es suyo.
 
-{mentor} ni se inmuta. —Empezá por la ventana **chica**, {heroe}. Agrandar es fácil; achicar algo grande, casi imposible.
+Iris prueba primero en el castillo, como siempre. Queda precioso. {mentor} no dice nada: le alcanza un **espejito de bolsillo**. En el espejito, la ventanita de la cabaña, todo está amontonado.
+
+—Empezá por la ventana **chica** —le dice—. Agrandar es fácil; achicar algo grande, casi imposible.
 
 ### Objetivos
 
@@ -3287,9 +3291,11 @@ usa: css.selectores, css.caja
 
 ### Crónica
 
-El Ogro de la Cascada perdió el desafío de las ventanas y se vengó: se metió de noche en el **muro de encargos** del taller. Ahora el aviso de Ofidia no se ve, el encargo destacado de Kaffa parece uno más, los botones tienen el texto invisible y el título perdió su color.
+El Ogro de la Cascada perdió el desafío de las ventanas y se vengó: se metió de noche en el **muro de encargos** del taller. Ahora el aviso de Ofidia no se ve, el encargo destacado de Kaffa parece uno más, los botones tienen el texto invisible y el título perdió su color. El ogro está hecho de capas de vidrio que se tapan unas a otras, y lleva un mazo con un `!important` grabado.
 
-—Y lo peor —dice {mentor}— es que **ninguna regla está borrada**. Están todas ahí. Simplemente, otras les ganan. Para echarlo, {heroe}, no se vale `!important` ni tocar el HTML: tenés que entender **quién le gana a quién**.
+—Y lo peor —dice {mentor}— es que **ninguna regla está borrada**. Están todas ahí. Simplemente, otras les ganan. Para echarlo, no se vale `!important` ni tocar el HTML: tenés que entender **quién le gana a quién**.
+
+Cuando Iris termina, el ogro se descascara capa por capa hasta desaparecer. {mentor} se saca el monóculo y lo limpia con la manga, despacio. Iris no entiende por qué. Al día siguiente, en su mesa, hay un monóculo de cristal tallado igual al de {mentor}: **el Monóculo de Cristal**.
 
 ### Objetivos
 

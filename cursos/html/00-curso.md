@@ -40,9 +40,9 @@ En los Talleres de los Vitrales las páginas son **vitrales**: primero se arma e
 | coin.course | cristal | cristales | m | La moneda de los Talleres: un vidrio de color tallado, listo para su vitral. Se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
 | mentor.name | Tesela | | f | La Vitralista: maestra de los Talleres de los Vitrales, por los que se asoma todo el mundo. | Tesela aprendió a fundir el plomo en las Forjas de Hierro, con Maese Ferrum, junto a otro aprendiz que soñaba con engranajes: Tesla. Cuando terminaron, Tesla subió a la montaña a fundar la Ciudadela de los Artífices y Tesela eligió el vidrio. Hoy sus vitrales están en las catedrales del Imperio, en las ventanas del Valle y en cada mensaje que despacha el Puerto. Lleva un monóculo de cristal tallado y una sola regla: **todo vitral empieza chico; si se ve bien en la ventana de una cabaña, después se agranda al ventanal del castillo**. | curso |
 | world.region | Talleres de los Vitrales | | m | La región del mundo donde se fabrican los vitrales: las páginas web. Su lengua es HTML, con CSS para los colores. | | curso |
-| story.course_intro | Bienvenida a los Talleres | | f | | El portal te deja en un balcón de piedra, {heroe}. Abajo, ríos de plomo fundido corren hacia los hornos; arriba, ventanales enormes de vidrio de colores reparten la luz por toda la ciudad. Cada uno es una ventana a otro lugar del mundo.<br><br>Soy {mentor}, la Vitralista. Acá se fabrican los vitrales por los que se asoma todo el mundo: las **páginas web**. Primero vas a aprender el **plomo**, la estructura; después, los **vidrios de colores**; y al final, las **plantillas del gremio**, para trabajar rápido.<br><br>Una sola regla: **todo vitral empieza chico**. Cada tema que domines te abre un taller nuevo; cada misión aprobada te da cristales para abrir el siguiente. | curso |
-| story.branch_completed | ¡Taller terminado! | | m | | {mentor} levanta tu vitral contra la luz y lo mira despacio, desde la cabaña y desde el castillo. —Esto ya se sostiene solo, {heroe}. Colgalo. | curso |
-| story.course_completed | ¡El gran ventanal está terminado! | | m | | {mentor} se queda mirando tu ventanal un largo rato. —¿Sabés a qué se parece? Al portal por el que llegaste. Ese portal es un vitral, {heroe}, y el plomo lo trabajó mi maestro, el Vidriero, antes de desaparecer. Lo que hiciste está quieto: brilla, pero no se mueve. Lo que hace moverse a un vitral se aprende en la **Feria de las Luces**. Cuando estés lista o listo, ahí te espero. | curso |
+| story.course_intro | Bienvenida a los Talleres | | f | | Iris dibujaba vitrales en una capilla abandonada de su mundo. Una tarde apoyó la mano en un **fragmento de vidrio de colores** que encontró entre los escombros, y el vidrio se abrió como una ventana. Despertó en un balcón de piedra de **los Talleres de los Vitrales**, en {mundo}: ventanales enormes que reparten la luz por toda la ciudad, y abajo, ríos de **plomo fundido** que corren hacia los hornos.<br><br>Soy {mentor}, la Vitralista. Acá se fabrican los vitrales por los que se asoma todo el mundo: las **páginas web**. Primero vas a aprender el **plomo**, la estructura; después, los **vidrios de colores**; y al final, las **plantillas del gremio**, para trabajar rápido.<br><br>Una sola regla: **todo vitral empieza chico**. Cada tema que domines te abre un taller nuevo; cada misión aprobada te da cristales para abrir el siguiente. | curso |
+| story.branch_completed | ¡Taller terminado! | | m | | {mentor} levanta el vitral de Iris contra la luz y lo mira despacio, desde la cabaña y desde el castillo. Después se saca el monóculo y lo limpia. —Esto ya se sostiene solo. Colgalo. —Teo aplaude. Nora pasa la mano por el plomo y asiente. | curso |
+| story.course_completed | ¡El gran ventanal está terminado! | | m | | {mentor} se queda mirando el ventanal de Iris un largo rato. —¿Sabés a qué se parece? Al portal por el que llegaste. Ese portal es un vitral, y el plomo lo trabajó mi maestro, el Vidriero, antes de desaparecer. —Iris tiene en la mano su propio vitral, chiquito, con el fragmento en el centro—. Lo que hiciste está quieto: brilla, pero no se mueve. Lo que hace moverse a un vitral se aprende en la **Feria de las Luces**. Cuando quieras, ahí te espero. | curso |
 | story.portal_piece | Lo que reconoció Tesela | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Ese portal es un vitral, {heroe}, y el plomo lo trabajó mi maestro, el Vidriero. Desapareció antes de terminarlo: le falta lo que hace moverse. Eso se aprende en la Feria de las Luces. | curso |
 | beast.slime | slime | slimes | m | Nace de las etiquetas mal cerradas o mal anidadas: las marca el validador. | Los slimes brotan de un `</p>` que nadie escribió, de un `<strong>` que se cierra afuera de su párrafo, de una lista sin su `<ul>`. El navegador los perdona y "adivina" qué quisiste decir… y casi siempre adivina mal. El validador los encuentra todos. | curso |
 | beast.goblin | goblin | goblins | m | Nace de los valores de CSS inválidos: el navegador los ignora en silencio. | Los goblins viven en los detalles: `20 px` con un espacio, `colour` en vez de `color`, un color de cinco dígitos. El navegador no avisa: simplemente ignora la regla. En el inspector aparecen **tachados**, con un triangulito amarillo. | curso |
@@ -62,9 +62,13 @@ temas: html.estructura, herr.navegador
 
 ### Crónica
 
-Cruzás el portal y aparecés en un balcón de piedra, sobre una ciudad de ventanales que brillan. Abajo, ríos de **plomo fundido** bajan hacia los hornos. Una mujer con un monóculo de cristal te espera con una varilla gris en la mano: es **{mentor}**, la Vitralista.
+Iris dibujaba vitrales en una capilla abandonada de su mundo. Entre los escombros encontró un **fragmento de vidrio de colores**, apoyó la mano y el vidrio se abrió como una ventana. Despierta en un balcón de piedra, sobre una ciudad de ventanales que brillan; abajo, ríos de **plomo fundido** bajan hacia los hornos. Tiene el fragmento todavía en la mano.
 
-—¿Vidrios de colores? Todavía no, {heroe} —te dice, y te da el plomo—. Primero la **estructura**. Un vitral sin plomo es un montón de vidrios rotos en el piso. Este plomo lo funden en las Forjas de Hierro, las de Maese Ferrum: sin su metal no habría ni un vitral en todo el mundo.
+Lo primero que hace es buscarle un lugar: hay una ventana vacía en el taller de al lado, y ahí lo apoya, contra la luz, para ver cómo queda. El vidrio resbala, cae al piso y **se astilla en una punta**.
+
+Una mujer con un monóculo de cristal junta el fragmento sin apuro. Es **{mentor}**, la Vitralista. —Un vidrio sin plomo es un vidrio en el piso —le dice, y le da una varilla gris—. ¿Vidrios de colores? Todavía no, Iris. Primero la **estructura**. Este plomo lo funden en las Forjas de Hierro, las de Maese Ferrum: sin su metal no habría ni un vitral en todo el mundo.
+
+En ese momento entra corriendo Teo, otro aprendiz, con un vitral de doce colores en los brazos. —¡Miren lo que…! —El vitral no tiene plomo. Se le desarma en las manos. {mentor} ni lo mira: barre los vidrios hacia un rincón donde hay una puerta vieja, cerrada con un candado enorme, que nadie abre.
 
 ### Objetivos
 
@@ -135,7 +139,7 @@ Pestaña "Mi primer vitral"; en la página, el título grande "¡Hola, Talleres!
   <body>
     <!-- body: lo que SI se ve -->
     <h1>¡Hola, Talleres!</h1>
-    <p>Soy Kira y este es mi primer vitral escrito en <strong>HTML</strong>.</p>
+    <p>Soy Iris y este es mi primer vitral escrito en <strong>HTML</strong>.</p>
     <p>El HTML describe <em>qué es</em> cada cosa: un título, un párrafo, un texto importante.</p>
   </body>
 </html>
@@ -231,10 +235,10 @@ compu: capturas/R00-N01-M1-compu.webp
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Presentación de Kira</title>
+    <title>Presentación de Iris</title>
   </head>
   <body>
-    <h1>Kira</h1>
+    <h1>Iris</h1>
     <h2>Espadachina aprendiz</h2>
     <p>Llegué a Codexia por un portal. Ahora aprendo a <strong>escribir magia</strong>.</p>
     <p>Mi objetivo: <em>volver a casa</em>.</p>

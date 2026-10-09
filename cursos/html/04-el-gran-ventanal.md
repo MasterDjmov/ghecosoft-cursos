@@ -18,9 +18,11 @@ usa: css.frameworks, css.temas, html.semantica
 
 ### Crónica
 
-El Gremio te encarga el trabajo más grande de los Talleres: **el gran ventanal**, la plataforma **GhecoSoft-Code**, la misma por la que estás aprendiendo. {mentor} despliega el boceto —uno para la ventana de la cabaña y otro para el castillo— y te da un consejo:
+El Gremio le encarga a {mentor} el trabajo más grande de los Talleres: **el gran ventanal**, la plataforma **GhecoSoft-Code**, la misma por la que se aprende en todos los mundos. {mentor} se lo pasa a Iris. Despliega el boceto —uno para la ventana de la cabaña y otro para el castillo— y le da un consejo:
 
-—No empieces por el vidrio más lindo, {heroe}. Empezá por el **marco**: arriba, abajo y cómo se llega a cada parte.
+—No empieces por el vidrio más lindo. Empezá por el **marco**: arriba, abajo y cómo se llega a cada parte.
+
+Iris empieza por el marco. No tira ningún boceto en toda la mañana. Teo se preocupa y le pregunta si se siente bien.
 
 ### Objetivos
 
@@ -1106,7 +1108,9 @@ usa: html.formularios, css.frameworks
 
 El panel central del ventanal es el que todos miran primero: la figura del aprendiz con su buzo de circuitos, la promesa del taller y, al costado, la puerta de entrada.
 
-—El texto tiene que leerse **sobre** la ilustración, {heroe}, sin taparla —dice {mentor}—. Son tres capas de vidrio, una encima de la otra. Pensalas en orden.
+—El texto tiene que leerse **sobre** la ilustración, sin taparla —dice {mentor}—. Son tres capas de vidrio, una encima de la otra. Pensalas en orden.
+
+Nora pasa la mano por el panel. —¿Qué dice la figura? —Iris ya le había escrito el nombre.
 
 ### Objetivos
 
@@ -2261,9 +2265,9 @@ usa: css.frameworks, html.formularios
 
 ### Crónica
 
-Debajo del panel central van los vidrios de las rutas: ocho cursos, cada uno con su color. Ves el violeta de los Artífices, el verde del Valle, el oro del Imperio. En la cabaña tienen que verse de a uno; en el castillo, de a cuatro.
+Debajo del panel central van los vidrios de las rutas: ocho cursos, cada uno con su color. El violeta de los Artífices, el verde del Valle, el oro del Imperio. En la cabaña tienen que verse de a uno; en el castillo, de a cuatro.
 
-—Y cuidado con los filtros de arriba —te advierte {mentor}—: son justo el escondite favorito del orco. No pueden empujar la pared hacia afuera.
+Teo propone un noveno color «para que quede más alegre». —Y cuidado con los filtros de arriba —advierte {mentor}—: son justo el escondite favorito del orco. No pueden empujar la pared hacia afuera.
 
 ### Objetivos
 
@@ -3518,7 +3522,7 @@ usa: css.grid, css.frameworks
 
 En lo más alto del ventanal van los campeones de la **Liga Obsidiana**. El podio tiene que verse imponente en el castillo y entrar igual en la ventanita de la cabaña. Y la tabla de diez filas… en el celular no entra.
 
-—Los mismos datos pueden tener **dos formas**, {heroe} —dice {mentor}. Y después, más bajito—: Cuando termines, quiero pedirte algo para mí. Siempre quise un vitral con todas las líderes del mundo juntas.
+—Los mismos datos pueden tener **dos formas** —dice {mentor}. Y después, más bajito—: Cuando termines, quiero pedirte algo para mí. Siempre quise un vitral con todas las líderes del mundo juntas.
 
 ### Objetivos
 
@@ -5172,11 +5176,13 @@ usa: css.frameworks, css.temas, html.semantica, css.responsive
 
 ### Crónica
 
-Falta el último vidrio: la **Bóveda**, donde brillan las monedas de maestría, con Gheco señalándolas. Lo colocás, das un paso atrás y mirás el ventanal entero, desde la cabaña y desde el castillo.
+Falta el último vidrio: la **Bóveda**, donde brillan las monedas de maestría, con Gheco señalándolas. Iris lo coloca, da un paso atrás y mira el ventanal entero, desde la cabaña y desde el castillo.
 
-Entonces aparece el **Dragón de los Talleres**, el que vive en cada detalle que nadie revisó: un menú que se parte, un botón sin foco, una imagen sin `alt`. —Inspección final —gruñe—. Si encuentro un solo error, el ventanal es mío.
+Entonces aparece el **Dragón de los Talleres**, de plomo y vidrio, con una lupa enorme en la garra: el que vive en cada detalle que nadie revisó. Un menú que se parte, un botón sin foco, una imagen sin `alt`. —Inspección final —gruñe—. Si encuentro un solo error, el ventanal es mío.
 
-—No te apures, {heroe} —dice {mentor}—. Revisá como revisaría él. **Celular, teclado y validador.**
+—No te apures —dice {mentor}—. Revisá como revisaría él. **Celular, teclado y validador.**
+
+El dragón no encuentra nada. Se va volando, ofendido. Esa noche, {mentor} saca una llave vieja y abre por fin la puerta del candado: el taller de su maestro, el Vidriero. En la mesa hay **un marco de plomo redondo y vacío**, con un hueco en el centro del tamaño exacto del fragmento de Iris. {mentor} reconoce el plomo. Iris no pone el fragmento en ese marco: arma su propio vitral, chiquito, empezando por la ventanita de la cabaña, con el fragmento en el centro. **El Vitral de Iris.** {mentor} le muestra el canasto: —Boceto 214. Ese fue el primero que colgaste.
 
 ### Objetivos
 

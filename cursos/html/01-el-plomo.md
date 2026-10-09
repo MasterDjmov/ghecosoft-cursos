@@ -18,9 +18,13 @@ usa: html.estructura
 
 ### Crónica
 
-—Llevá un diario del taller, {heroe} —te pide {mentor}, y te da un cuaderno en blanco—: lo que aprendés, los pasos de cada trabajo, un dibujo de la mascota y los caminos hacia otros talleres.
+—Llevá un diario del taller, Iris —le pide {mentor}, y le da un cuaderno en blanco—: lo que aprendés, los pasos de cada trabajo, un dibujo de la mascota y los caminos hacia otros talleres.
 
-Señala los ventanales del fondo: uno da al Valle de la Serpiente, otro al Puerto de los Mensajeros. —Un vitral también **conecta**. Cada ventana da a otra.
+Iris tarda una hora en elegir la letra del título. Arranca tres veces la primera hoja. {mentor} junta las hojas arrancadas en un canasto y les escribe un número con tiza: «Boceto 1, 2, 3».
+
+Nora, la vitralista más vieja del taller, pasa la mano por el diario. Nora no ve: lee los vitrales tocando el plomo. —¿Y qué hay en el dibujo de la mascota? —pregunta. El dibujo no dice nada. Para Nora, no existe.
+
+{mentor} señala los ventanales del fondo: uno da al Valle de la Serpiente, otro al Puerto de los Mensajeros. —Un vitral también **conecta**. Cada ventana da a otra. —Entre los bocetos viejos del canasto, Iris encuentra uno que no es suyo: **un vitral redondo**, firmado por alguien que se hacía llamar el Vidriero.
 
 ### Objetivos
 
@@ -152,7 +156,7 @@ El título, el logo de Gheco (el gecko celeste con anteojos), la ilustración de
     </dl>
 
     <hr>
-    <p><small>Escrito por Kira · <time datetime="2026-10-01">1 de octubre de 2026</time></small></p>
+    <p><small>Escrito por Iris · <time datetime="2026-10-01">1 de octubre de 2026</time></small></p>
   </body>
 </html>
 ```
@@ -413,7 +417,9 @@ usa: html.texto
 
 El Gremio le encargó a {mentor} un ventanal enorme, y el boceto tiene zonas: la cornisa, el panel central, los paneles de los costados, el zócalo.
 
-—Antes de pensar en colores, {heroe}, **nombrá cada zona** —te dice—. Mia lee los vitrales con los ojos cerrados, tocando el plomo. El que no ve el vitral se guía por esos nombres.
+Iris ya eligió los colores de las cuatro. {mentor} le saca el lápiz de la mano. —Antes de pensar en colores, **nombrá cada zona**.
+
+Nora recorre el boceto con los dedos, de arriba abajo. —No encuentro el menú —dice—. Ni el contenido. Para mí son cajas, todas iguales. —Iris escribe el nombre de cada zona sobre el plomo, y Nora las encuentra al instante, una por una, con una sonrisa. —Ahora sí. El que no ve el vitral se guía por esos nombres.
 
 ### Objetivos
 
@@ -711,8 +717,8 @@ compu: capturas/R01-N02-M2-compu.webp
     <main>
       <article aria-labelledby="nombre">
         <header>
-          <img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Kira" width="96" height="96">
-          <h1 id="nombre">@Kira</h1>
+          <img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris" width="96" height="96">
+          <h1 id="nombre">@Iris</h1>
           <p>Nivel 14 · Espadachina</p>
         </header>
         <section aria-labelledby="titulo-logros">
@@ -827,9 +833,11 @@ usa: html.semantica
 
 ### Crónica
 
-A la entrada del portal hay una terminal que pide nombre y contraseña. Zed la deja vacía y aprieta "Entrar". La terminal le contesta sola que falta completar un campo.
+A la entrada del portal hay una terminal que pide nombre y contraseña. Teo la deja vacía y aprieta «Entrar», tres veces, cada vez más fuerte. La terminal le contesta sola que falta completar un campo.
 
-—El navegador ya sabe validar —sonríe {mentor}—. Solo hay que pedírselo bien. Y cuando el formulario está completo, el mensaje viaja al Puerto de los Mensajeros: ahí Elefa lo recibe y lo contesta. Nosotros armamos la ventanilla; ellos, la respuesta.
+—¡Está rota! —No está rota —se ríe {mentor}—. El navegador ya sabe validar. Solo hay que pedírselo bien.
+
+Y cuando el formulario está completo, le explica a Iris, el mensaje viaja al Puerto de los Mensajeros: ahí Elefa lo recibe y lo contesta. —Nosotros armamos la ventanilla; ellos, la respuesta.
 
 ### Objetivos
 
@@ -1250,9 +1258,11 @@ usa: html.semantica
 
 ### Crónica
 
-En la entrada de los Talleres cuelga la tabla de la **Liga Obsidiana**: puesto, aprendiz, especialidad, racha y puntos. Pero anoche el Slime de las Etiquetas Huérfanas desarmó las filas, y ahora nadie sabe de quién es cada número.
+En la entrada de los Talleres cuelga la tabla de la **Liga Obsidiana**: puesto, aprendiz, especialidad, racha y puntos. Pero anoche el Slime de las Etiquetas Huérfanas desarmó las filas, y ahora nadie sabe de quién es cada número. Teo jura que él estaba primero.
 
-—Volvé a armarla, {heroe} —te pide {mentor}—, **para que se entienda leyéndola en voz alta**. Si Mia la puede leer con los ojos cerrados, está bien hecha.
+—Volvé a armarla, Iris —le pide {mentor}—, **para que se entienda leyéndola en voz alta**.
+
+Nora se ofrece a probarla. Pasa la mano fila por fila y lee: «Puesto 3, Teo, especialidad… colores, racha: dos días». Teo no estaba primero.
 
 ### Objetivos
 
@@ -1367,7 +1377,7 @@ Una tabla sin bordes (todavía sin CSS), con los encabezados en negrita y centra
 
 ### ¿Para qué sirve?
 
-Horarios, facturas, comparaciones de precios, tablas de posiciones, resultados de un examen: todo dato que se lee **cruzando una fila con una columna** va en una tabla. Bien hecha, un lector de pantalla puede decir "Kira, racha: 12 días" en lugar de leer números sueltos.
+Horarios, facturas, comparaciones de precios, tablas de posiciones, resultados de un examen: todo dato que se lee **cruzando una fila con una columna** va en una tabla. Bien hecha, un lector de pantalla puede decir "Iris, racha: 12 días" en lugar de leer números sueltos.
 
 ### Errores habituales
 
@@ -1657,9 +1667,11 @@ usa: html.estructura, html.semantica, html.texto, html.formularios
 
 ### Crónica
 
-Una mañana, el escaparate de la panadería del Gremio amanece **derretido**: los títulos chorrean sobre los párrafos, la lista se escapó de su caja y todo, hasta el teléfono, sale en negrita. En el medio, temblando, está el **Slime de las Etiquetas Huérfanas**, gordo de tanto comer cierres que nadie escribió.
+Una mañana, el escaparate de la panadería del Gremio amanece **derretido**: los títulos chorrean sobre los párrafos, la lista se escapó de su caja y todo, hasta el teléfono, sale en negrita. En el medio, temblando, está el **Slime de las Etiquetas Huérfanas**, un slime de vidrio derretido, gordo de tanto comer cierres que nadie escribió.
 
-—No lo vas a vencer a los golpes, {heroe} —dice {mentor}—. Se alimenta de etiquetas sin cerrar. **Cerralas todas** y se queda sin comida.
+Iris quiere arreglar primero lo que se ve más feo. —No lo vas a vencer así —dice {mentor}—. Se alimenta de etiquetas sin cerrar. **Cerralas todas**, de adentro hacia afuera, y se queda sin comida.
+
+Cuando cae el último cierre, el slime se encoge hasta ser una gotita y se va rodando. {mentor} le pide a Iris el fragmento astillado, lo rodea con una varilla de plomo y lo cuelga en la ventana: ahora se sostiene solo, **el Fragmento Emplomado**. Lo mira de cerca con el monóculo y frunce el ceño. —Este plomo no es de los Talleres.
 
 ### Objetivos
 

@@ -138,6 +138,9 @@ return [
             'name' => 'Kira',
             'slug' => 'kira',
             'title' => 'Aprendiz de espadachina',
+            // La tienda de las Forjas: el carro de Chispa, con su balanza que pesa un poquito a su favor.
+            'shop' => ['name' => 'El carro de Chispa', 'keeper' => 'Chispa', 'portrait' => 'img/personajes/chispa.webp', 'figure' => 'img/personajes/chispa-cuerpo.webp',
+                'greeting' => '—¡Kira! Lingotes casi nuevos, espadas casi templadas… Precio de amigo, y porque sos vos. No le hagas caso a Tizón con la balanza.'],
             // Las Forjas (docs/historias/c.md): los lugares siguen el recorrido de Kira, de la Boca de la Forja a la Montaña.
             'expeditions' => [
                 'opens_after' => 'R01-N05',
@@ -240,6 +243,12 @@ return [
         ['code' => 'sello-dentado', 'gives' => ['sello-dentado' => 1], 'needs' => ['baston-del-aduanero' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'chaqueta-forrada', 'gives' => ['chaqueta-forrada' => 1], 'needs' => ['chaqueta-de-la-aduana' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'estoque-de-la-garra', 'gives' => ['estoque-de-la-garra' => 1], 'needs' => ['estoque-del-casting' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // Las Forjas (C): los mismos materiales, con los ítems del carro de Chispa.
+        ['code' => 'sopa-de-tizon-doble', 'gives' => ['sopa-de-tizon' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'calibre-afilado', 'gives' => ['calibre-afilado' => 1], 'needs' => ['calibre-de-bronce' => 1, 'colmillo-de-orco' => 5], 'minutes' => 10, 'min_level' => 5],
+        ['code' => 'martillo-dentado', 'gives' => ['martillo-dentado' => 1], 'needs' => ['martillo-de-aprendiz' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'chaleco-acolchado', 'gives' => ['chaleco-acolchado' => 1], 'needs' => ['chaleco-de-minero' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'florete-de-la-garra', 'gives' => ['florete-de-la-garra' => 1], 'needs' => ['florete-del-puntero' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
     ],
 
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.

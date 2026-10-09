@@ -370,7 +370,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Dónde va:** la gran fragua de las Forjas: hornos, ríos de lava, yunques y chimeneas.
 - **Imágenes:** completas (cuerpo entero y retrato circular; los 6 retratos enmarcados son avatares).
 
-### Tizón *(falta la imagen)*
+### Tizón
 - **Curso y rol:** C. Aprendiz de la Forja que recibe a Kira en la Clase 0 y termina siendo su compañero ([c.md](c.md)). Es el contrapunto de Kira: ella dice **«¡golpeá!»**, él **«¿lo mediste?»**.
 - **Edad y sexo:** 16, varón, enano joven.
 - **Altura y contextura:** bajo (1,40 m), ancho y robusto, de manos grandes.
@@ -385,7 +385,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Relaciones:** aprendiz de Ferrum; compañero de Kira (se pelean, se cubren); le tiene un poco de miedo a Hulda.
 - **Primera aparición:** C, Clase 0.
 
-### Hulda *(falta la imagen)*
+### Hulda
 - **Rol:** la **capataz de las Minas** (R03 de C). Presta las vagonetas (la memoria) y anota cada una: lo que se pide, se devuelve. En los ejemplos y las prácticas es la herrera de turno de la Forja.
 - **Edad y sexo:** 45, mujer, enana.
 - **Altura y contextura:** baja y fortísima, brazos de minera.
@@ -399,7 +399,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** C, R03-N01.
 - **Dónde va:** las Minas: galerías con vías, vagonetas, faroles y vetas que brillan.
 
-### Chispa *(falta la imagen)*
+### Chispa
 - **Rol:** **mercader de lingotes** que va y viene entre las Forjas y los otros mundos. En los ejemplos y las prácticas es el que compra, vende y trae noticias de afuera (de él salen los anticipos de otros cursos).
 - **Edad y sexo:** 30, varón.
 - **Altura y contextura:** alto y flaco, se mueve rápido.
@@ -412,7 +412,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Relaciones:** cliente de Ferrum desde siempre; cuenta que en el Imperio atraparon a un ladrón de techos en la Aduana (Zed) y que en la Ciudadela un mecánico pregunta por Ferrum (Bron).
 - **Primera aparición:** C, R01.
 
-### El Archivero de la Forja *(falta la imagen)*
+### El Archivero de la Forja
 - **Rol:** guarda los **libros de pedidos y los planos** de todos los encargos de las Forjas (R04 de C); le abre a Kira el Archivo, donde está el pedido de plomo del Vidriero.
 - **Edad y sexo:** 80, hombre, enano.
 - **Altura y contextura:** bajito y encorvado, de barba blanca **tan larga que la lleva enrollada en el cinturón**.
@@ -425,49 +425,49 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Primera aparición:** C, R04-N01.
 - **Dónde va:** el Archivo de la Forja: estanterías de hierro, cajas de fichas selladas y libros encadenados.
 
-### El Gólem de Escoria *(falta la imagen)*
+### El Gólem de Escoria
 - **Rol:** el jefe de R01 de C, en el portón de la Forja. Está hecho de **toda la escoria** que dejaron los programas mal escritos (y un poco de la que dejó Kira en su primera semana). Se lo vence partiendo el problema en funciones, no a golpes. Al caer, Ferrum le reforja a Kira **la Espada Reforjada**.
 - **Qué es:** un gigante de **escoria negra y rocas fundidas**, con grietas por donde se ve lava naranja; en el pecho tiene incrustados **puntos y coma, llaves sueltas y pedazos de código** que brillan.
 - **Color:** negro escoria y naranja lava.
 - **Cómo habla:** no habla: **gruñe advertencias del compilador** (`warning: unused variable`).
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### La Araña de las Direcciones *(falta la imagen)*
+### La Araña de las Direcciones
 - **Rol:** el jefe de R02 de C, en el pasillo sin fin. Teje **direcciones falsas** y cambia los carteles de lugar. Se la vence sin perder nunca el puntero. Deja **el Hilo de las Direcciones**.
 - **Qué es:** una araña gigante de **metal pavonado**, con patas como **flechas de cartel** que señalan a todas partes, ojos con números hexadecimales (`0x7ffe…`) y una telaraña de **hilos de cobre** que unen casilleros numerados.
 - **Color:** azul acero, cobre y el **cian** de las direcciones.
 - **Cómo habla:** susurra direcciones de memoria y se ríe cuando alguien usa un puntero sin inicializar.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### La Sanguijuela de las Minas *(falta la imagen)*
+### La Sanguijuela de las Minas
 - **Rol:** el jefe de R03 de C, en la galería que se vacía. Se **come la memoria que nadie devolvió** y engorda con cada fuga. Se la vence liberando todo. Deja **la Lámpara del Minero**.
 - **Qué es:** una sanguijuela enorme, **translúcida**, enroscada en las vías, con **vagonetas tragadas** que se ven dentro de su cuerpo; cuanto más come, más grande.
 - **Color:** violeta oscuro, gris roca y el **naranja** de los faroles reflejado.
 - **Cómo habla:** sorbe. Dice «gracias» cada vez que alguien se olvida un `free`.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Guardián del Archivo *(falta la imagen)*
+### El Guardián del Archivo
 - **Rol:** el jefe de R04 de C, en la bóveda de los registros. Solo deja pasar a quien abre, lee, escribe y **cierra** cada archivo. Deja **el Libro de Registros de Plomo**.
 - **Qué es:** un **autómata de hierro** con forma de archivador gigante: cada cajón del pecho es un archivo que se abre y se cierra solo; tiene un candado por cabeza con un ojo naranja en el ojo de la cerradura.
 - **Color:** hierro, bronce y naranja.
 - **Cómo habla:** con ruido de cajones: «¿Abriste? ¿Cerraste?».
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Dragón bajo la Montaña *(falta la imagen)*
+### El Dragón bajo la Montaña
 - **Rol:** el jefe final de C (R05-N04), en la fragua más honda. Duerme sobre **el plomo fundido** del Vidriero. Kira lo vence forjando su propia hoja, midiendo cada grado: **la Hoja Templada**. Detrás de él está **la Matriz del Marco**.
 - **Qué es:** un dragón de **hierro negro con escamas como placas de forja**, venas de **lava** que laten, alas de chapa remachada y un **horno encendido en el pecho**; donde pisa, el metal se derrite.
 - **Color:** hierro negro, rojo lava y el **naranja** de las Forjas.
 - **Cómo habla:** con voz de fragua; cada pregunta suena a martillazo.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### La Salamandra del Horno *(falta la imagen)*
+### La Salamandra del Horno
 - **Rol:** el jefe de la Senda de la Forja Viva (S01 de C, videojuegos con SDL3). Corre por las pantallas más rápido que cualquier bucle de juego.
 - **Qué es:** una salamandra de **fuego vivo**, hecha de píxeles encendidos que dejan una estela al moverse.
 - **Color:** naranja, amarillo y rojo, con contornos pixelados.
 - **Cómo habla:** chisporrotea.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Autómata Guardián *(falta la imagen)*
+### El Autómata Guardián
 - **Rol:** el jefe de la Senda de los Autómatas (S02 de C, Arduino). Se lo vence leyendo bien sus sensores y moviendo bien sus motores.
 - **Qué es:** un **autómata de latón** del tamaño de un perro grande, con cables a la vista, **leds** por ojos, una placa con un microcontrolador en el pecho y un servomotor en cada articulación.
 - **Color:** latón, verde placa y el rojo de los leds.

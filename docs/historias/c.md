@@ -174,8 +174,9 @@ Hulda, la capataz, cuenta cada vagoneta. Las Minas son la memoria: lo que se pid
 8. **Las crónicas en tercera persona** y la compañía de las Forjas (Mia → Hulda, Bron → Tizón, Zed → Chispa), con las salidas rehechas (`app:course-tests`: 255 de 255 antes del simulacro).
 
 **Falta:**
-- ~~El mapa de las Forjas~~ (hecho 2026-10-08: `public/img/mundos/forjas/mapa.webp` y sus 12 lugares en `config/game.php`, de la Boca de la Forja a la Montaña del Dragón); **la tienda** (el carro de Chispa, con su imagen) y **las recetas del taller** de las Forjas, que se apoyan en los ítems de la tienda.
-- **Las imágenes** de Tizón, Hulda, Chispa, el Archivero y los siete jefes (en *Admin → Historia → Personajes*), de los ítems nuevos (en *Admin → Juego → Ítems*) y de las escenas de las 161 micro-misiones.
+- ~~El mapa de las Forjas~~ (hecho 2026-10-08: `public/img/mundos/forjas/mapa.webp` y sus 12 lugares en `config/game.php`, de la Boca de la Forja a la Montaña del Dragón); ~~la tienda y las recetas~~ (hechas 2026-10-08: el carro de Chispa con 15 ítems de las Forjas, 4 que solo se fabrican y 5 recetas en `config('game.recipes')`, con los mismos materiales que el Valle y el Imperio).
+- ~~Las imágenes de los personajes~~ (hechas 2026-10-08: Tizón, Hulda, Chispa, el Archivero y los siete jefes).
+- **Las imágenes** de los ítems de las Forjas (en *Admin → Juego → Ítems*, con su pedido ya escrito) y de las escenas de las 161 micro-misiones.
 
 ## 5. Lo que decidió el docente (2026-10-08)
 

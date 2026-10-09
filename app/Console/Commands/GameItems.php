@@ -104,8 +104,31 @@ class GameItems extends Command
             ['code' => 'llave-del-vitral', 'name' => 'Llave del Vitral', 'kind' => 'story', 'description' => 'Plomo y vidrios de colores, con una etiqueta: «para quien llegue». No entra en ninguna cerradura del Imperio… todavía.'],
         ],
         'c' => [
-            // Las Forjas (docs/historias/c.md): lo que gana Kira en la historia. La tienda (el carro de Chispa) y
-            // las recetas se suman cuando estén sus imágenes y el mapa.
+            // Las Forjas (docs/historias/c.md): el carro de Chispa. Armas
+            ['code' => 'espada-de-practica', 'name' => 'Espada de Práctica', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Hierro sin templar, para aprender a medir el golpe. Chispa jura que es «casi nueva».'],
+            ['code' => 'martillo-de-aprendiz', 'name' => 'Martillo de Aprendiz', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'En la Forja cada uno tiene el suyo y nadie presta el propio. Este es tuyo.'],
+            ['code' => 'sable-del-desborde', 'name' => 'Sable del Desborde', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Corta hasta 255. Al 256, vuelve a cero.'],
+            ['code' => 'florete-del-puntero', 'name' => 'Florete del Puntero', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Apunta exacto a la dirección. Nunca a NULL.'],
+            ['code' => 'martillo-de-ferrum', 'name' => 'Martillo de Ferrum', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Una copia del de Maese Ferrum, forjada por él mismo. El original no se presta.'],
+            // Ropa
+            ['code' => 'delantal-de-cuero', 'name' => 'Delantal de Cuero', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'El de todos los aprendices de la Forja, con un bolsillo para la tiza.'],
+            ['code' => 'chaleco-de-minero', 'name' => 'Chaleco de Minero', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Reforzado como el de Hulda: las vagonetas no perdonan.'],
+            ['code' => 'cota-alineada', 'name' => 'Cota Alineada', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Cada anillo en su lugar y ni un byte de relleno de más.'],
+            ['code' => 'capa-ignifuga', 'name' => 'Capa Ignífuga', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 6, 'intelligence' => 2, 'price' => 1300, 'min_level' => 9, 'droppable' => true, 'description' => 'Pasa entre la lava sin chamuscarse. Tizón la midió dos veces.'],
+            ['code' => 'armadura-de-la-fragua', 'name' => 'Armadura de la Fragua', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Templada placa por placa en la fragua más honda.'],
+            // Accesorios
+            ['code' => 'calibre-de-bronce', 'name' => 'Calibre de Bronce', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Como el de Tizón. Lo vas a terminar usando para medir la sopa.'],
+            ['code' => 'anillo-del-sizeof', 'name' => 'Anillo del sizeof', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Sabe cuánto pesa cada cosa antes de levantarla.'],
+            ['code' => 'antiparras-del-depurador', 'name' => 'Antiparras del Depurador', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Ven el comportamiento indefinido antes de que pase.'],
+            ['code' => 'sello-del-yunque', 'name' => 'Sello del Yunque', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Dos golpes en el yunque grabados en bronce: el aplauso de Ferrum.'],
+            // Pociones
+            ['code' => 'sopa-de-tizon', 'name' => 'Sopa de Tizón', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Medida al mililitro. En las expediciones se toma sola si la vida baja mucho.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'calibre-afilado', 'name' => 'Calibre Afilado', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'dexterity' => 2, 'luck' => 1, 'description' => 'El Calibre de Bronce con puntas de colmillo de orco: mide y pincha.'],
+            ['code' => 'martillo-dentado', 'name' => 'Martillo Dentado', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 3, 'description' => 'El Martillo de Aprendiz con dientes de goblin y huesos en la cabeza: cada golpe deja marca.'],
+            ['code' => 'chaleco-acolchado', 'name' => 'Chaleco Acolchado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Chaleco de Minero forrado con musgo de troll: ni una piedra lo atraviesa.'],
+            ['code' => 'florete-de-la-garra', 'name' => 'Florete de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'dexterity' => 4, 'description' => 'El Florete del Puntero con garras de ogro y escamas de dragón: apunta y corta.'],
+            // Lo que gana Kira en la historia
             ['code' => 'espada-rajada', 'name' => 'Espada Rajada', 'kind' => 'story', 'description' => 'La espada de aprendiz de Kira, rajada de punta a mango contra un portón que se abría tirando.'],
             ['code' => 'espada-reforjada', 'name' => 'Espada Reforjada', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'strength' => 2, 'description' => 'Maese Ferrum la reforjó al caer el Gólem de Escoria: «La próxima la forjás vos».'],
             ['code' => Item::CORE_DUMP, 'name' => 'Amuleto del Volcado', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Hulda te lo colgó al cuello después de tu primera caída: guarda lo que pasó antes de cada golpe. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
@@ -214,6 +237,26 @@ class GameItems extends Command
         'hilo-de-las-direcciones' => 'Un ovillo de hilo de cobre brillante con una punta que se estira sola señalando hacia un costado, con destellos cian.',
         'lampara-del-minero' => 'Una lámpara de minero de hierro y bronce con un vidrio grueso y una luz cian intensa adentro, con un gancho para colgar.',
         'libro-de-registros-de-plomo' => 'Un libro grueso con tapas de plomo gris y una cadena de hierro, entreabierto, con medidas y planos de un marco en las páginas.',
+        // C: las Forjas de Hierro (naranja fragua, hierro y bronce)
+        'espada-de-practica' => 'Una espada corta de hierro sin templar, gris opaco, con la empuñadura envuelta en cuero gastado y una etiqueta de precio de cartón atada con hilo.',
+        'martillo-de-aprendiz' => 'Un martillo de herrero chico con cabeza de hierro negro y mango de madera, con las iniciales del dueño marcadas a fuego.',
+        'sable-del-desborde' => 'Un sable curvo de acero con el número 255 grabado en la hoja, que brilla en naranja, y un 0 en cian cerca de la punta.',
+        'florete-del-puntero' => 'Un florete fino de acero con una flecha grabada en la hoja que brilla en cian y una guardia de bronce con forma de asterisco.',
+        'martillo-de-ferrum' => 'Un martillo de forja enorme de hierro negro con runas de enano que brillan en naranja, y un mango de roble con bandas de bronce.',
+        'delantal-de-cuero' => 'Un delantal de herrero de cuero marrón con quemaduras chiquitas, un bolsillo con una tiza blanca y correas de bronce.',
+        'chaleco-de-minero' => 'Un chaleco de cuero grueso reforzado con placas de hierro, con polvo de roca y un gancho para el farol.',
+        'cota-alineada' => 'Una cota de malla de anillos de acero perfectamente alineados en filas, sin huecos, que brilla con un reflejo naranja.',
+        'capa-ignifuga' => 'Una capa gris ceniza con bordes de hilo de bronce, con brasas que le caen encima y se apagan sin quemarla.',
+        'armadura-de-la-fragua' => 'Una armadura de placas de hierro negro con vetas de lava naranja entre las placas, humeante, sobre un soporte de forja.',
+        'calibre-de-bronce' => 'Un calibre de herrero de bronce pulido con marcas de medida grabadas, colgado de un cordón de cuero.',
+        'anillo-del-sizeof' => 'Un anillo grueso de hierro con un pequeño número grabado y una piedra naranja que parece una pesa.',
+        'antiparras-del-depurador' => 'Unas antiparras de herrero de bronce con lentes cian que muestran líneas de código y un punto rojo de alerta.',
+        'sello-del-yunque' => 'Un sello redondo de bronce con un yunque y dos martillos grabados, que brilla con chispas naranjas.',
+        'sopa-de-tizon' => 'Un cuenco de hierro con sopa humeante y un calibre de bronce chiquito apoyado en el borde, midiéndola.',
+        'calibre-afilado' => 'Un calibre de bronce con las puntas reemplazadas por dos colmillos de orco curvos y afilados.',
+        'martillo-dentado' => 'Un martillo de aprendiz con la cabeza rodeada de dientes de goblin y pequeños huesos atados con alambre.',
+        'chaleco-acolchado' => 'Un chaleco de minero de cuero con forro de musgo verde de troll que asoma por las costuras.',
+        'florete-de-la-garra' => 'Un florete fino de acero con garras de ogro en la guardia y escamas de dragón rojas en la hoja.',
         'hoja-templada' => 'Una espada larga y fina de acero templado con un filo que brilla en cian y una empuñadura envuelta en cuero, con vapor saliendo de la hoja.',
         'matriz-del-marco' => 'Un molde de plomo enorme con la forma de un marco de vitral redondo, con la inscripción «para quien llegue» grabada en el borde.',
         // La Ciudadela (C++)

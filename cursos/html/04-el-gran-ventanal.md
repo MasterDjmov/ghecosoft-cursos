@@ -293,6 +293,231 @@ Deja lugar abajo para la barra fija del celular, así no tapa el final de la pá
 
 Para que el lector de pantalla lea solo el texto ("Arena") y no la descripción del ícono ("espadas cruzadas Arena"). El ícono es decoración; el texto es la información.
 
+### Micro-misión R04-N01-P1 · La cornisa que no se va
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+carta: sticky con clases | sticky top-0 z-10 · queda arriba al bajar y por encima del resto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Gremio le encarga a {mentor} **el gran ventanal**: la plataforma **GhecoSoft-Code**, la misma por la que se aprende en todos los mundos. {mentor} se lo pasa a Iris. —Empezá por el **marco**: arriba, abajo y cómo se llega a cada parte.
+
+#### Gheco sugiere
+`sticky top-0` la deja pegada arriba al bajar, y `z-10` la pone por encima de lo que pasa por debajo.
+
+#### Desafío
+Agregale al `header` las clases `sticky top-0 z-10`, al principio.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<header class="bg-slate-950/90 p-4 text-slate-100">GhecoSoft-Code</header>
+<main class="h-[200rem] p-4">El gran ventanal…</main>
+```
+
+#### Inspector
+```
+header @class
+```
+
+#### Salida esperada
+```
+header @class: sticky top-0 z-10 bg-slate-950/90 p-4 text-slate-100
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<header class="sticky top-0 z-10 bg-slate-950/90 p-4 text-slate-100">GhecoSoft-Code</header>
+<main class="h-[200rem] p-4">El gran ventanal…</main>
+```
+
+#### Al superarla
+La cornisa acompaña al bajar. Iris no tira ningún boceto en toda la mañana. Teo se preocupa y le pregunta si se siente bien.
+
+#### Imagen
+- Una catedral gótica enorme con un ventanal en obra, andamios y una cornisa ya colocada.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) en un andamio.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) abajo, preocupado.
+
+### Micro-misión R04-N01-P2 · La barra de la cabaña
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco
+carta: fixed | fixed inset-x-0 bottom-0 · una barra pegada abajo · md:hidden la saca en el castillo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la cabaña, el menú va abajo, al alcance del pulgar. En el castillo no hace falta: ya está arriba.
+
+#### Gheco sugiere
+`fixed inset-x-0 bottom-0` la pega abajo de todo, de lado a lado; `md:hidden` la esconde desde la ventana mediana.
+
+#### Desafío
+Dale al `nav` de abajo las clases `fixed inset-x-0 bottom-0 md:hidden`, al principio.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="flex justify-around bg-slate-900 p-3 text-slate-100">
+  <a href="#">Inicio</a>
+  <a href="#">Árbol</a>
+  <a href="#">Liga</a>
+</nav>
+```
+
+#### Inspector
+```
+nav @class
+```
+
+#### Salida esperada
+```
+nav @class: fixed inset-x-0 bottom-0 md:hidden flex justify-around bg-slate-900 p-3 text-slate-100
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="fixed inset-x-0 bottom-0 md:hidden flex justify-around bg-slate-900 p-3 text-slate-100">
+  <a href="#">Inicio</a>
+  <a href="#">Árbol</a>
+  <a href="#">Liga</a>
+</nav>
+```
+
+#### Al superarla
+En *Celular* la barra queda abajo; en *Compu* desaparece. Gheco se acuesta encima, como en una hamaca.
+
+#### Imagen
+- Una ventanita de cabaña con una barra de vidrio pegada abajo.
+- Gheco (gecko de luz con antiparras) acostado sobre la barra.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira.
+
+### Micro-misión R04-N01-P3 · El atajo escondido
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Nora
+carta: sr-only | lo lee el lector de pantalla pero no se ve · focus:not-sr-only lo muestra al llegar con el teclado
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nora pide el atajo de siempre, «Saltar al contenido». Teo dice que queda feo arriba de todo.
+
+#### Gheco sugiere
+`sr-only` lo esconde a la vista pero no al lector de pantalla; `focus:not-sr-only` lo muestra cuando se llega con el teclado.
+
+#### Desafío
+Dale al enlace de salto las clases `sr-only focus:not-sr-only`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<a href="#contenido">Saltar al contenido</a>
+<header class="p-4">GhecoSoft-Code</header>
+<main id="contenido" class="p-4">El gran ventanal…</main>
+```
+
+#### Inspector
+```
+a[href="#contenido"] @class
+```
+
+#### Salida esperada
+```
+a[href="#contenido"] @class: sr-only focus:not-sr-only
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<a href="#contenido" class="sr-only focus:not-sr-only">Saltar al contenido</a>
+<header class="p-4">GhecoSoft-Code</header>
+<main id="contenido" class="p-4">El gran ventanal…</main>
+```
+
+#### Al superarla
+Teo no lo ve. Nora aprieta Tab y aparece. Los dos contentos.
+
+#### Imagen
+- Un ventanal con un cartel de atajo que aparece solo cuando alguien se acerca con un bastón.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) con su bastón de vidrio.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) no lo ve y se encoge de hombros.
+
+### Micro-misión R04-N01-P4 · Dos menús con nombre
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Nora
+carta: aria-label | le pone nombre a lo que no tiene texto visible · dos nav: «Principal» y «Atajos»
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El ventanal tiene dos menús: el de arriba y la barra de abajo. Nora los encuentra a los dos, pero se llaman igual: «navegación».
+
+#### Gheco sugiere
+Si hay dos `nav`, cada uno necesita un nombre: `aria-label="Principal"` y `aria-label="Atajos"`.
+
+#### Desafío
+Ponele `aria-label="Principal"` al primer `nav` y `aria-label="Atajos"` al segundo.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="hidden md:flex gap-4 p-4"><a href="#">Cursos</a><a href="#">Liga</a></nav>
+<nav class="flex gap-4 p-4 md:hidden"><a href="#">Inicio</a><a href="#">Árbol</a></nav>
+```
+
+#### Inspector
+```
+nav @aria-label
+```
+
+#### Salida esperada
+```
+nav @aria-label: Principal
+nav @aria-label: Atajos
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav aria-label="Principal" class="hidden md:flex gap-4 p-4"><a href="#">Cursos</a><a href="#">Liga</a></nav>
+<nav aria-label="Atajos" class="flex gap-4 p-4 md:hidden"><a href="#">Inicio</a><a href="#">Árbol</a></nav>
+```
+
+#### Al superarla
+—Navegación principal. Navegación de atajos —lee Nora—. Ahora sí sé cuál es cuál.
+
+#### Imagen
+- Dos menús de vidrio, uno arriba y uno abajo, cada uno con su placa grabada.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca las placas.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) las grabó.
+
 ### Misión R04-N01-M1 · El menú desplegable
 
 ```meta
@@ -1444,6 +1669,268 @@ Porque cambia dónde está el texto: en el celular el texto va abajo y el person
 #### ¿Por qué la ilustración lleva `alt=""` y la de la misión 2 no?
 
 Porque la ilustración del hero es **decorativa**: todo lo importante está en el texto. En la misión 2, la imagen de Gheco es parte del contenido, así que necesita un `alt` que la describa.
+
+### Micro-misión R04-N02-P1 · Tres capas de vidrio
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+carta: Capas | relative en el padre · absolute inset-0 en la capa · la imagen ocupa todo el panel
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El panel central lleva la figura del aprendiz de fondo y el texto encima. —Son tres capas de vidrio, una encima de la otra —dice {mentor}—. Pensalas en orden.
+
+#### Gheco sugiere
+El panel lleva `relative`; la imagen, `absolute inset-0 h-full w-full object-cover`: ocupa todo el panel, de fondo.
+
+#### Desafío
+Agregale `relative` al `section`, y a la imagen `absolute inset-0 h-full w-full object-cover`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="h-80 overflow-hidden rounded-xl">
+  <img src="/img/cursos/html/heroe-896.webp" alt="" class="">
+  <h1 class="p-6 text-3xl font-bold text-white">Aprendé a programar</h1>
+</section>
+```
+
+#### Inspector
+```
+section @class
+img @class
+```
+
+#### Salida esperada
+```
+section @class: relative h-80 overflow-hidden rounded-xl
+img @class: absolute inset-0 h-full w-full object-cover
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="relative h-80 overflow-hidden rounded-xl">
+  <img src="/img/cursos/html/heroe-896.webp" alt="" class="absolute inset-0 h-full w-full object-cover">
+  <h1 class="p-6 text-3xl font-bold text-white">Aprendé a programar</h1>
+</section>
+```
+
+#### Al superarla
+La figura llena el panel de fondo. El título queda… tapado. Iris ya sabe por qué.
+
+#### Imagen
+- Un panel de vitral con una figura de fondo y un título encima a medio ver.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) acomoda capas de vidrio.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) observa.
+
+### Micro-misión R04-N02-P2 · El texto, encima y legible
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Nora
+carta: Velo y orden | un velo absolute inset-0 bg-slate-950/60 · el texto con relative queda arriba
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El título quedó debajo de la imagen. Y aunque lo subas, sobre la figura no se lee.
+
+#### Gheco sugiere
+Un velo oscuro (`absolute inset-0 bg-slate-950/60`) entre la imagen y el texto, y el texto con `relative` para que quede arriba.
+
+#### Desafío
+Al `div` del velo dale `absolute inset-0 bg-slate-950/60`, y agregale `relative` al principio de las clases del `h1`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="relative h-80 overflow-hidden rounded-xl">
+  <img src="/img/cursos/html/heroe-896.webp" alt="" class="absolute inset-0 h-full w-full object-cover">
+  <div></div>
+  <h1 class="p-6 text-3xl font-bold text-white">Aprendé a programar</h1>
+</section>
+```
+
+#### Inspector
+```
+section > div @class
+h1 @class
+```
+
+#### Salida esperada
+```
+section > div @class: absolute inset-0 bg-slate-950/60
+h1 @class: relative p-6 text-3xl font-bold text-white
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="relative h-80 overflow-hidden rounded-xl">
+  <img src="/img/cursos/html/heroe-896.webp" alt="" class="absolute inset-0 h-full w-full object-cover">
+  <div class="absolute inset-0 bg-slate-950/60"></div>
+  <h1 class="relative p-6 text-3xl font-bold text-white">Aprendé a programar</h1>
+</section>
+```
+
+#### Al superarla
+El título se lee sobre la figura. Nora pasa la mano por el panel: —¿Y qué dice la figura? —Iris ya le había puesto `alt=""`: es decoración. —Bien —dice Nora—. Entonces no me la leas.
+
+#### Imagen
+- Un panel de vitral con una figura oscurecida de fondo y un título blanco bien legible encima.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) pasa la mano por el panel.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R04-N02-P3 · La puerta de entrada
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco
+carta: autocomplete | autocomplete="username" y "current-password" · el navegador completa la clave guardada
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Al costado del panel va el portal de acceso. Gheco se olvida su clave tres veces por día.
+
+#### Gheco sugiere
+`autocomplete="username"` y `autocomplete="current-password"` le dicen al navegador qué es cada campo, para completarlo solo.
+
+#### Desafío
+Agregale `autocomplete="username"` al usuario y `autocomplete="current-password"` a la clave.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<form class="flex flex-col gap-2 rounded-xl bg-slate-900 p-4 text-slate-100">
+  <label for="usuario">Usuario</label>
+  <input id="usuario" name="usuario" required class="rounded border border-slate-600 bg-slate-950 p-2">
+  <label for="clave">Contraseña</label>
+  <input id="clave" name="clave" type="password" required class="rounded border border-slate-600 bg-slate-950 p-2">
+</form>
+```
+
+#### Inspector
+```
+input @autocomplete
+```
+
+#### Salida esperada
+```
+input @autocomplete: username
+input @autocomplete: current-password
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<form class="flex flex-col gap-2 rounded-xl bg-slate-900 p-4 text-slate-100">
+  <label for="usuario">Usuario</label>
+  <input id="usuario" name="usuario" autocomplete="username" required class="rounded border border-slate-600 bg-slate-950 p-2">
+  <label for="clave">Contraseña</label>
+  <input id="clave" name="clave" type="password" autocomplete="current-password" required class="rounded border border-slate-600 bg-slate-950 p-2">
+</form>
+```
+
+#### Al superarla
+El navegador le ofrece a Gheco su clave guardada. Gheco finge que se la acordaba.
+
+#### Imagen
+- Un portal de acceso de vidrio con dos campos que se completan solos.
+- Gheco (gecko de luz con antiparras) silba disimulando.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
+
+### Micro-misión R04-N02-P4 · Los dos botones del hero
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+carta: Botón principal y secundario | uno lleno (btn-primario) y uno con borde · el más importante, más fuerte
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El hero tiene dos botones: «Empezá gratis» y «Ver los cursos». —No pueden gritar los dos —dice {mentor}—. Uno manda; el otro acompaña.
+
+#### Gheco sugiere
+El principal, lleno: `btn btn-primario`. El secundario, solo con borde: `btn border border-neon text-neon`.
+
+#### Desafío
+Dale a «Empezá gratis» las clases `btn btn-primario`, y a «Ver los cursos», `btn border border-neon text-neon`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+  @utility btn-primario {
+    @apply bg-neon text-slate-950;
+  }
+</style>
+<div class="flex gap-3">
+  <a href="#" class="btn">Empezá gratis</a>
+  <a href="#cursos" class="btn">Ver los cursos</a>
+</div>
+```
+
+#### Inspector
+```
+a @class
+```
+
+#### Salida esperada
+```
+a @class: btn btn-primario
+a @class: btn border border-neon text-neon
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+  @utility btn-primario {
+    @apply bg-neon text-slate-950;
+  }
+</style>
+<div class="flex gap-3">
+  <a href="#" class="btn btn-primario">Empezá gratis</a>
+  <a href="#cursos" class="btn border border-neon text-neon">Ver los cursos</a>
+</div>
+```
+
+#### Al superarla
+Un botón brilla, el otro acompaña. {mentor} mira el panel central entero desde la cabaña y desde el castillo. No dice nada. Eso, en {mentor}, es mucho.
+
+#### Imagen
+- Dos botones de vidrio: uno cian lleno y otro con borde cian.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) mira el panel desde lejos.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) espera.
 
 ### Misión R04-N02-M1 · El registro
 
@@ -2707,6 +3194,246 @@ Usa todo el espacio libre como margen de arriba: empuja ese bloque (y todo lo qu
 #### ¿Cómo se filtra con CSS sin JavaScript? ¿Qué limitación tiene frente a JavaScript?
 
 Con radios y `:has()`: el contenedor es `group` y cada tarjeta que no es de la categoría tiene `group-has-[#f-graf:checked]:hidden`. La limitación: cada filtro hay que escribirlo a mano en el HTML; no se puede buscar por texto, combinar filtros libremente ni traer datos nuevos. Eso es lo que hace JavaScript.
+
+### Micro-misión R04-N03-P1 · La sección con su título
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Nora
+carta: aria-labelledby | la section toma el nombre de su título · section aria-labelledby="id-del-h2"
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Debajo del panel central van los vidrios de las rutas: ocho cursos. Nora quiere saber cómo se llama esa zona cuando llega.
+
+#### Gheco sugiere
+Con `id` en el `h2` y `aria-labelledby` con ese id en la `section`, la sección se llama como su título.
+
+#### Desafío
+Ponele `id="rutas-titulo"` al `h2` y `aria-labelledby="rutas-titulo"` a la `section`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="p-4">
+  <h2 class="text-2xl font-bold">Elegí tu ruta</h2>
+</section>
+```
+
+#### Inspector
+```
+section @aria-labelledby
+h2 @id
+```
+
+#### Salida esperada
+```
+section @aria-labelledby: rutas-titulo
+h2 @id: rutas-titulo
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section aria-labelledby="rutas-titulo" class="p-4">
+  <h2 id="rutas-titulo" class="text-2xl font-bold">Elegí tu ruta</h2>
+</section>
+```
+
+#### Al superarla
+—Región: Elegí tu ruta —lee Nora—. Me gusta. Suena a que puedo elegir.
+
+#### Imagen
+- Una franja de vitral con un título grabado en una placa.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca la placa.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R04-N03-P2 · De a uno, de a dos, de a cuatro
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Teo
+carta: Varios prefijos | grid gap-4 sm:grid-cols-2 lg:grid-cols-4 · una clase por tamaño de ventana
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la cabaña, los vidrios de las rutas van de a uno; en una ventana mediana, de a dos; en el castillo, de a cuatro. Teo propone un noveno color.
+
+#### Gheco sugiere
+Se suman prefijos: `sm:grid-cols-2` desde la ventana chica-mediana y `lg:grid-cols-4` desde la grande.
+
+#### Desafío
+Dale a la grilla las clases `grid gap-4 sm:grid-cols-2 lg:grid-cols-4`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div>
+  <article class="rounded-xl bg-emerald-500/20 p-4">Python</article>
+  <article class="rounded-xl bg-amber-500/20 p-4">Java</article>
+  <article class="rounded-xl bg-orange-500/20 p-4">C</article>
+  <article class="rounded-xl bg-violet-500/20 p-4">C++</article>
+</div>
+```
+
+#### Inspector
+```
+body > div @class
+```
+
+#### Salida esperada
+```
+body > div @class: grid gap-4 sm:grid-cols-2 lg:grid-cols-4
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <article class="rounded-xl bg-emerald-500/20 p-4">Python</article>
+  <article class="rounded-xl bg-amber-500/20 p-4">Java</article>
+  <article class="rounded-xl bg-orange-500/20 p-4">C</article>
+  <article class="rounded-xl bg-violet-500/20 p-4">C++</article>
+</div>
+```
+
+#### Al superarla
+Los vidrios se acomodan solos en cada ventana. Nadie le contesta a Teo lo del noveno color.
+
+#### Imagen
+- Cuatro vidrios de colores (verde, oro, naranja, violeta) acomodados en fila en un ventanal.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) sostiene un vidrio rosa que nadie pidió.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R04-N03-P3 · Los filtros que empujan la pared
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+criatura: orco
+carta: Filtros que no desbordan | flex gap-2 overflow-x-auto · se deslizan adentro, no empujan la página
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Y cuidado con los filtros de arriba —advierte {mentor}—: son justo el escondite favorito del orco. No pueden empujar la pared hacia afuera.
+
+#### Gheco sugiere
+`overflow-x-auto` en la fila de filtros: si no entran, se deslizan **adentro** de su fila, sin empujar la página.
+
+#### Desafío
+Agregale `overflow-x-auto` al final de las clases de la fila de filtros.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="flex gap-2">
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Todos</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Desde cero</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Con juegos</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Para la facultad</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Próximamente</button>
+</div>
+```
+
+#### Inspector
+```
+body > div @class
+```
+
+#### Salida esperada
+```
+body > div @class: flex gap-2 overflow-x-auto
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="flex gap-2 overflow-x-auto">
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Todos</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Desde cero</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Con juegos</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Para la facultad</button>
+  <button type="button" class="shrink-0 rounded-full border px-3 py-1">Próximamente</button>
+</div>
+```
+
+#### Al superarla
+En la cabaña, los filtros se deslizan con el dedo y la pared no se mueve. Un orquito que se había escondido ahí se va, desilusionado.
+
+#### Imagen
+- Una fila de botones redondos que se desliza dentro de su marco en una ventanita.
+- Un orco chiquito se va desilusionado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con el espejito.
+
+### Micro-misión R04-N03-P4 · Las imágenes que esperan
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco
+carta: loading="lazy" | la imagen se baja recién cuando se acerca a la pantalla · ahorra datos en el celular
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Cada vidrio de ruta tiene su imagen, y en el celular se bajan las ocho de golpe, aunque estén muy abajo.
+
+#### Gheco sugiere
+`loading="lazy"` en una imagen: el navegador la baja recién cuando se acerca a la pantalla.
+
+#### Desafío
+Agregale `loading="lazy"` a las dos imágenes.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="rounded-xl p-4"><img src="/img/cursos/html/gheco-512.webp" alt="" width="128" height="128"> Python</article>
+<article class="rounded-xl p-4"><img src="/img/cursos/html/vitral.webp" alt="" width="128" height="128"> HTML y CSS</article>
+```
+
+#### Inspector
+```
+img @loading
+```
+
+#### Salida esperada
+```
+img @loading: lazy
+img @loading: lazy
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="rounded-xl p-4"><img src="/img/cursos/html/gheco-512.webp" alt="" width="128" height="128" loading="lazy"> Python</article>
+<article class="rounded-xl p-4"><img src="/img/cursos/html/vitral.webp" alt="" width="128" height="128" loading="lazy"> HTML y CSS</article>
+```
+
+#### Al superarla
+Las imágenes esperan su turno. Gheco también: se pone en la fila, detrás de la última.
+
+#### Imagen
+- Una fila de vitrales que se encienden de a uno a medida que alguien camina.
+- Gheco (gecko de luz con antiparras) espera en la fila.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) camina.
 
 ### Misión R04-N03-M1 · El curso bloqueado
 
@@ -4035,6 +4762,260 @@ Porque una de las dos copias está oculta con `display: none` (`md:hidden` o `hi
 #### ¿Qué ventaja y qué desventaja tiene la tabla con scroll frente a lista + tabla?
 
 Ventaja: los datos están **una sola vez**, más fácil de mantener. Desventaja: en el celular hay que deslizar de costado para ver todas las columnas, que es más incómodo que una lista pensada para la pantalla chica.
+
+### Micro-misión R04-N04-P1 · El podio imponente
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Teo
+carta: El podio con clases | grid grid-cols-3 items-end gap-2 · el del medio, más alto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En lo más alto del ventanal van los campeones de la **Liga Obsidiana**. Teo ya está practicando la pose del primer puesto.
+
+#### Gheco sugiere
+`grid grid-cols-3 items-end gap-2`: tres columnas, apoyadas abajo, con espacio entre ellas.
+
+#### Desafío
+Dale al `ol` del podio las clases `grid grid-cols-3 items-end gap-2`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<ol>
+  <li class="h-24 bg-slate-400/40 text-center">2 · Nadia</li>
+  <li class="h-32 bg-amber-400/60 text-center">1 · Iris</li>
+  <li class="h-16 bg-orange-700/40 text-center">3 · Teo</li>
+</ol>
+```
+
+#### Inspector
+```
+ol @class
+```
+
+#### Salida esperada
+```
+ol @class: grid grid-cols-3 items-end gap-2
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<ol class="grid grid-cols-3 items-end gap-2">
+  <li class="h-24 bg-slate-400/40 text-center">2 · Nadia</li>
+  <li class="h-32 bg-amber-400/60 text-center">1 · Iris</li>
+  <li class="h-16 bg-orange-700/40 text-center">3 · Teo</li>
+</ol>
+```
+
+#### Al superarla
+El podio se para sobre el piso. Teo está tercero y dice que el podio está mal.
+
+#### Imagen
+- Un podio de vidrio de tres escalones, dorado en el medio.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) en el tercer escalón, protestando.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
+
+### Micro-misión R04-N04-P2 · Dos formas para los mismos datos
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+carta: Lista o tabla | md:hidden en la lista · hidden md:table en la tabla · los mismos datos, dos formas
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La tabla de diez filas no entra en la cabaña. —Los mismos datos pueden tener **dos formas** —dice {mentor}.
+
+#### Gheco sugiere
+En la cabaña, la lista (`md:hidden`); en el castillo, la tabla (`hidden md:table`). Una se ve, la otra no.
+
+#### Desafío
+Dale `md:hidden` al `ol`, y `hidden md:table` a la `table`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<ol>
+  <li>Nadia · 120 puntos</li>
+  <li>Iris · 95 puntos</li>
+</ol>
+<table>
+  <thead><tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr></thead>
+  <tbody><tr><td>Nadia</td><td>120</td></tr><tr><td>Iris</td><td>95</td></tr></tbody>
+</table>
+```
+
+#### Inspector
+```
+ol @class
+table @class
+```
+
+#### Salida esperada
+```
+ol @class: md:hidden
+table @class: hidden md:table
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<ol class="md:hidden">
+  <li>Nadia · 120 puntos</li>
+  <li>Iris · 95 puntos</li>
+</ol>
+<table class="hidden md:table">
+  <thead><tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr></thead>
+  <tbody><tr><td>Nadia</td><td>120</td></tr><tr><td>Iris</td><td>95</td></tr></tbody>
+</table>
+```
+
+#### Al superarla
+En la cabaña, una lista prolija; en el castillo, la tabla. {mentor}, más bajito: —Cuando termines, quiero pedirte algo para mí.
+
+#### Imagen
+- Una ventanita con una lista y un ventanal con una tabla, con los mismos nombres.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) habla en voz baja.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escucha.
+
+### Micro-misión R04-N04-P3 · El título que no se ve pero se oye
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Nora
+carta: caption sr-only | el título de la tabla para el lector de pantalla, sin ocupar lugar en la página
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El diseño del ventanal no lleva título encima de la tabla: ya hay uno grande arriba. Pero Nora necesita saber de qué es la tabla.
+
+#### Gheco sugiere
+Un `caption` con la clase `sr-only`: no se ve, pero el lector de pantalla lo lee.
+
+#### Desafío
+Agregá como primer elemento de la tabla un `caption` con la clase `sr-only` que diga **Liga Obsidiana: los diez mejores**.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<table>
+  <thead><tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr></thead>
+  <tbody><tr><td>Nadia</td><td>120</td></tr></tbody>
+</table>
+```
+
+#### Inspector
+```
+caption
+caption @class
+```
+
+#### Salida esperada
+```
+caption: Liga Obsidiana: los diez mejores
+caption @class: sr-only
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<table>
+  <caption class="sr-only">Liga Obsidiana: los diez mejores</caption>
+  <thead><tr><th scope="col">Aprendiz</th><th scope="col">Puntos</th></tr></thead>
+  <tbody><tr><td>Nadia</td><td>120</td></tr></tbody>
+</table>
+```
+
+#### Al superarla
+Nora toca la tabla: —Liga Obsidiana, los diez mejores. —Teo no está. Nadie se lo dice.
+
+#### Imagen
+- Una tabla de vidrio con un título que solo brilla para quien la toca.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca la tabla.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R04-N04-P4 · El vitral de las líderes
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+carta: Listas con sentido | una lista de personas es un <ul> · cada una en su <li>, con su retrato y su nombre
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Siempre quise un vitral con todas las líderes del mundo juntas —le dice {mentor}. Iris ya empezó: falta una.
+
+#### Gheco sugiere
+Cada líder es un `li` de la lista. Copiá uno y cambiale el nombre.
+
+#### Desafío
+Agregá al final de la lista un `li` que diga **Tesela**.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<ul class="grid grid-cols-2 gap-4 md:grid-cols-4">
+  <li>Ofidia</li>
+  <li>Maese Ferrum</li>
+  <li>Tesla</li>
+  <li>Kaffa</li>
+</ul>
+```
+
+#### Inspector
+```
+ul li #
+ul li:last-child
+```
+
+#### Salida esperada
+```
+ul li #: 5
+ul li:last-child: Tesela
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<ul class="grid grid-cols-2 gap-4 md:grid-cols-4">
+  <li>Ofidia</li>
+  <li>Maese Ferrum</li>
+  <li>Tesla</li>
+  <li>Kaffa</li>
+  <li>Tesela</li>
+</ul>
+```
+
+#### Al superarla
+{mentor} se ve en el vitral, al lado de Tesla y de su viejo maestro Ferrum. Se saca el monóculo y no lo limpia: se lo queda mirando un rato largo.
+
+#### Imagen
+- Un vitral con cinco retratos de líderes, uno al lado del otro.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) se mira en el vitral, emocionada, con el monóculo en la mano.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
 
 ### Misión R04-N04-M1 · Tu puesto a la vista
 
@@ -5732,6 +6713,255 @@ Porque saca los espacios, los saltos de línea y los comentarios: el archivo pes
 #### ¿Qué le falta a esta página para ser una aplicación de verdad?
 
 Datos y comportamiento: el login no entra a ningún lado y el ranking está escrito a mano. Para que funcione hace falta JavaScript (en la Feria de las Luces) o un servidor que arme la página con datos reales (como en el Puerto de Elefa, con PHP).
+
+### Micro-misión R04-N05-P1 · La imagen sin nombre
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Tesela
+criatura: dragon
+carta: Inspección: alt | toda imagen con contenido tiene alt · alt="" solo si es decoración
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iris coloca el último vidrio y da un paso atrás. Entonces aparece el **Dragón de los Talleres**, de plomo y vidrio, con una lupa en la garra. —Inspección final —gruñe—. Si encuentro un solo error, el ventanal es mío.
+—Revisá como revisaría él —dice {mentor}—. **Celular, teclado y validador.**
+
+#### Gheco sugiere
+Toda imagen que dice algo lleva `alt` con lo que muestra.
+
+#### Desafío
+Agregale a la imagen de Gheco `alt="Gheco señala las monedas de maestría"`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="p-4">
+  <h2 class="text-2xl font-bold">La Bóveda</h2>
+  <img src="/img/cursos/html/gheco-512.webp" width="160" height="160">
+</section>
+```
+
+#### Inspector
+```
+img @alt
+```
+
+#### Salida esperada
+```
+img @alt: Gheco señala las monedas de maestría
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<section class="p-4">
+  <h2 class="text-2xl font-bold">La Bóveda</h2>
+  <img src="/img/cursos/html/gheco-512.webp" alt="Gheco señala las monedas de maestría" width="160" height="160">
+</section>
+```
+
+#### Al superarla
+El dragón acerca la lupa a la imagen. Lee el `alt`. Gruñe y sigue buscando.
+
+#### Imagen
+- Un ventanal enorme terminado en una catedral; un dragón de plomo y vidrio lo inspecciona con una lupa.
+- el Dragón de los Talleres (un dragón de plomo y vidrio con escamas como teselas de colores y una lupa enorme en la garra)
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo mira, tranquila.
+
+### Micro-misión R04-N05-P2 · El botón sin voz
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Nora
+criatura: dragon
+carta: Botones con nombre | un botón de solo ícono necesita aria-label · si no, el lector dice «botón» y nada más
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El dragón encuentra un botón con un ícono de tres rayitas. Nora llega con el teclado: «Botón». Nada más.
+
+#### Gheco sugiere
+Un botón que solo tiene un ícono necesita un nombre: `aria-label="Abrir el menú"`.
+
+#### Desafío
+Agregale al botón `aria-label="Abrir el menú"`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<button type="button" class="rounded-lg p-2 text-2xl">☰</button>
+```
+
+#### Inspector
+```
+button @aria-label
+```
+
+#### Salida esperada
+```
+button @aria-label: Abrir el menú
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<button type="button" aria-label="Abrir el menú" class="rounded-lg p-2 text-2xl">☰</button>
+```
+
+#### Al superarla
+—Botón: abrir el menú —lee Nora. El dragón tacha algo en su libreta, enojado.
+
+#### Imagen
+- Un botón de vidrio con un ícono de tres rayas que se ilumina.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) con la mano en el teclado.
+- el Dragón de los Talleres (un dragón de plomo y vidrio con escamas como teselas de colores y una lupa enorme en la garra) tacha en una libreta.
+
+### Micro-misión R04-N05-P3 · El menú que se parte
+
+```meta
+lugar: El taller del Vidriero
+personajes: Iris, Tesela
+criatura: dragon
+carta: whitespace-nowrap | el texto no se corta en dos renglones · para los enlaces del menú
+recompensa: xp 15, oro 15
+item: Marco Vacío
+```
+
+#### Escena
+El dragón agranda la ventana justo hasta 1024 píxeles, con una sonrisa: el menú se parte en dos renglones. «Mis cursos» queda «Mis» arriba y «cursos» abajo.
+
+#### Gheco sugiere
+`whitespace-nowrap` en cada enlace del menú: el texto no se corta en dos renglones.
+
+#### Desafío
+Agregale `whitespace-nowrap` a los dos enlaces del menú.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="flex gap-4">
+  <a href="#" class="">Mis cursos</a>
+  <a href="#" class="">Liga Obsidiana</a>
+</nav>
+```
+
+#### Inspector
+```
+nav a @class
+```
+
+#### Salida esperada
+```
+nav a @class: whitespace-nowrap
+nav a @class: whitespace-nowrap
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="flex gap-4">
+  <a href="#" class="whitespace-nowrap">Mis cursos</a>
+  <a href="#" class="whitespace-nowrap">Liga Obsidiana</a>
+</nav>
+```
+
+#### Al superarla
+El menú queda entero. El dragón, furioso, golpea con la cola la puerta del candado del fondo del taller, y la puerta cede. {mentor} se queda quieta. Saca una llave vieja que ya no hace falta y entra: es el taller de su maestro, el Vidriero. En la mesa hay **un marco de plomo redondo y vacío**, con un hueco del tamaño exacto del fragmento de Iris. {mentor} reconoce el plomo. **El Marco Vacío.**
+
+#### Imagen
+- Un taller viejo y polvoriento con una puerta forzada; sobre la mesa, un marco de plomo redondo y vacío.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) entra despacio, con una llave vieja en la mano.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) detrás, con su fragmento emplomado.
+
+### Micro-misión R04-N05-P4 · El Vitral de Iris
+
+```meta
+lugar: El taller del Vidriero
+personajes: Iris, Tesela, Teo, Nora
+criatura: dragon
+carta: La inspección final | lang, title y description · celular, teclado y validador · todo vitral empieza chico
+recompensa: xp 25, oro 30
+item: Vitral de Iris
+```
+
+#### Escena
+El dragón vuelve para la última pasada: la cabecera de la página. Busca el idioma y la descripción que leen los buscadores.
+
+#### Gheco sugiere
+`<html lang="es">` dice el idioma, y `<meta name="description" content="…">` es el resumen que muestran los buscadores.
+
+#### Desafío
+Ponele `lang="es"` al `html` y agregá en el `head` un `meta` de `description` con **Aprendé a programar avanzando por tu árbol de habilidades.**
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GhecoSoft-Code</title>
+  </head>
+  <body>
+    <h1>GhecoSoft-Code</h1>
+  </body>
+</html>
+```
+
+#### Inspector
+```
+html @lang
+meta[name="description"] @content
+title
+```
+
+#### Salida esperada
+```
+html @lang: es
+meta[name="description"] @content: Aprendé a programar avanzando por tu árbol de habilidades.
+title: GhecoSoft-Code
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GhecoSoft-Code</title>
+    <meta name="description" content="Aprendé a programar avanzando por tu árbol de habilidades.">
+  </head>
+  <body>
+    <h1>GhecoSoft-Code</h1>
+  </body>
+</html>
+```
+
+#### Al superarla
+El dragón no encuentra nada. Se va volando, ofendido. Iris no pone su fragmento en el marco del Vidriero: arma su propio vitral, chiquito, empezando por la ventanita de la cabaña, con el fragmento en el centro. **El Vitral de Iris.** Teo aplaude. Nora pasa la mano por el plomo y asiente. {mentor} le muestra el canasto: —Boceto 214. Ese fue el primero que colgaste.
+
+#### Imagen
+- Una ventanita de cabaña con un vitral redondo chico que brilla como un sol, con un fragmento iridiscente en el centro.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo cuelga.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) sostiene un canasto lleno de bocetos.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) aplaude.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca el plomo y sonríe.
 
 ### Misión R04-N05-M1 · El árbol de habilidades
 

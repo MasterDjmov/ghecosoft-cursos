@@ -243,6 +243,235 @@ Porque `rem` se mide desde el tamaño de letra que eligió la persona en su nave
 
 Que un valor se escribe **una sola vez** (`--neon: #22d3ee;`) y se usa en todos lados con `var(--neon)`. Para cambiar el tema alcanza con cambiar las variables, y hasta se pueden pisar en una parte de la página.
 
+### Micro-misión R02-N01-P1 · El primer vidrio
+
+```meta
+lugar: El armario de los vidrios
+personajes: Iris, Tesela
+carta: Una regla de CSS | selector { propiedad: valor; } · h1 { color: #22d3ee; }
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El esqueleto de plomo está listo. {mentor} abre el armario de los vidrios: azul noche, cian neón, ámbar. —Ahora sí, el color. Empezá por uno solo.
+
+#### Gheco sugiere
+Una regla dice **a quién** (el selector), **qué** (la propiedad) y **cómo** (el valor): `h1 { color: #22d3ee; }`. El CSS va en el `<style>`; el **Inspector** lee tus reglas tal como las escribiste (no mide cómo quedó dibujado): mirá en la vista previa que se vea como querés.
+
+#### Desafío
+Escribí en el `style` una regla para que el `h1` sea de color `#22d3ee`.
+
+#### Código inicial
+```html
+<style>
+
+</style>
+<h1>Los Talleres de los Vitrales</h1>
+```
+
+#### Inspector
+```
+css h1 { color }
+```
+
+#### Salida esperada
+```
+css h1 { color }: #22d3ee
+```
+
+#### Solución
+```html
+<style>
+  h1 { color: #22d3ee; }
+</style>
+<h1>Los Talleres de los Vitrales</h1>
+```
+
+#### Al superarla
+El título se tiñe de cian, como un vidrio a contraluz. Iris lo mira diez segundos sin respirar.
+
+#### Imagen
+- Un armario abierto lleno de vidrios de colores ordenados por tono; sobre la mesa, un título de plomo que brilla en cian.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sostiene un vidrio cian.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) abre el armario.
+
+### Micro-misión R02-N01-P2 · Un vidrio para el aviso
+
+```meta
+lugar: El armario de los vidrios
+personajes: Iris, Teo
+carta: Clases | class="aviso" en el HTML · .aviso { … } en el CSS · el punto quiere decir «clase»
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo quiere pintar de ámbar **todos** los párrafos. Iris solo quiere el aviso.
+
+#### Gheco sugiere
+Una **clase** marca algunos elementos: `class="aviso"` en el HTML y `.aviso { … }` en el CSS (con punto). Así no se pinta todo.
+
+#### Desafío
+Ponele `class="aviso"` al segundo párrafo y escribí la regla `.aviso` con `background-color: #f59e0b`.
+
+#### Código inicial
+```html
+<style>
+
+</style>
+<p>Encargos de toda la semana.</p>
+<p>Mañana el taller abre tarde.</p>
+```
+
+#### Inspector
+```
+p @class
+css .aviso { background-color }
+```
+
+#### Salida esperada
+```
+p @class: (no tiene)
+p @class: aviso
+css .aviso { background-color }: #f59e0b
+```
+
+#### Solución
+```html
+<style>
+  .aviso { background-color: #f59e0b; }
+</style>
+<p>Encargos de toda la semana.</p>
+<p class="aviso">Mañana el taller abre tarde.</p>
+```
+
+#### Al superarla
+Solo el aviso se pone ámbar. Teo pinta igual todos sus párrafos, de once colores distintos.
+
+#### Imagen
+- Dos placas de vidrio en una pared; una sola brilla en ámbar.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) cuelga la ámbar.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) con las manos manchadas de pintura.
+
+### Micro-misión R02-N01-P3 · Una sola vez, en el body
+
+```meta
+lugar: El armario de los vidrios
+personajes: Iris, Tesela, Gheco
+carta: Herencia | el color y la letra pasan de padres a hijos · body { color: … } alcanza para toda la página
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris pintó de gris claro cada cosa, una por una: el párrafo, la lista, el título chico. {mentor} cuenta las reglas en voz alta. Son tres para lo mismo.
+
+#### Gheco sugiere
+El `color` y la letra se **heredan**: si se lo ponés al `body`, todo lo de adentro lo toma, salvo lo que tenga su propia regla.
+
+#### Desafío
+Poné `color: #e2e8f0` una sola vez en `body` y borrá las tres reglas de `h2`, `p` y `li`.
+
+#### Código inicial
+```html
+<style>
+  body { background-color: #0f172a; }
+  h2 { color: #e2e8f0; }
+  p { color: #e2e8f0; }
+  li { color: #e2e8f0; }
+</style>
+<h2>Vidrios del día</h2>
+<p>Lo que hay en el armario:</p>
+<ul><li>Azul noche</li><li>Cian neón</li></ul>
+```
+
+#### Inspector
+```
+css body { color }
+css h2 { color }
+css p { color }
+css li { color }
+```
+
+#### Salida esperada
+```
+css body { color }: #e2e8f0
+css h2 { color }: (no hay)
+css p { color }: (no hay)
+css li { color }: (no hay)
+```
+
+#### Solución
+```html
+<style>
+  body { background-color: #0f172a; color: #e2e8f0; }
+</style>
+<h2>Vidrios del día</h2>
+<p>Lo que hay en el armario:</p>
+<ul><li>Azul noche</li><li>Cian neón</li></ul>
+```
+
+#### Al superarla
+Tres reglas menos y todo se ve igual. Gheco sopla el polvo de las reglas borradas.
+
+#### Imagen
+- Un vitral oscuro con todo el texto gris claro.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) borra con un trapo tres líneas de una pizarra.
+- Gheco (gecko de luz con antiparras) sopla el polvo.
+
+### Micro-misión R02-N01-P4 · El color que no está en ninguna paleta
+
+```meta
+lugar: El armario de los vidrios
+personajes: Iris, Tesela
+carta: Variables | :root { --nombre: valor; } · se usa con var(--nombre) · cambiás el valor una vez y cambia en todos lados
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el fondo del armario, detrás de los frascos, Iris encuentra un vidrio de un color que no está en ninguna paleta del taller. Lo pone al lado de su fragmento: es exactamente el mismo. Quiere guardarlo con un nombre.
+
+#### Gheco sugiere
+Una **variable** guarda un valor con nombre: `:root { --vidrio-misterio: #7c3aed; }`, y se usa con `var(--vidrio-misterio)`.
+
+#### Desafío
+Creá en `:root` la variable `--vidrio-misterio` con `#7c3aed`, y usala como `border-color` de `.fragmento`.
+
+#### Código inicial
+```html
+<style>
+  .fragmento { border: 4px solid; border-color: #7c3aed; padding: 1rem; }
+</style>
+<p class="fragmento">El fragmento de Iris</p>
+```
+
+#### Inspector
+```
+css :root { --vidrio-misterio }
+css .fragmento { border-color }
+```
+
+#### Salida esperada
+```
+css :root { --vidrio-misterio }: #7c3aed
+css .fragmento { border-color }: var(--vidrio-misterio)
+```
+
+#### Solución
+```html
+<style>
+  :root { --vidrio-misterio: #7c3aed; }
+  .fragmento { border: 4px solid; border-color: var(--vidrio-misterio); padding: 1rem; }
+</style>
+<p class="fragmento">El fragmento de Iris</p>
+```
+
+#### Al superarla
+Iris le muestra el vidrio a {mentor}. Ella lo mira mucho rato, sin el monóculo. No dice nada. Lo guarda en el mismo bolsillo del sobretodo donde guardó el boceto del Vidriero.
+
+#### Imagen
+- Dos vidrios violetas idénticos sobre una mesa, uno con plomo y otro suelto.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) los compara.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) los mira sin el monóculo, pensativa.
+
 ### Misión R02-N01-M1 · Tu propio tema
 
 ```meta
@@ -879,6 +1108,215 @@ Hace que el `width` incluya el relleno y el borde. Sin él, una caja de `width: 
 #### ¿Por qué `max-width` es mejor que `width` para el celular?
 
 Porque `width: 600px` mide siempre 600 px, aunque la pantalla tenga 390: aparece el scroll de costado. `max-width: 600px` dice "como mucho 600": en la compu mide eso y en el celular se achica al ancho que haya.
+
+### Micro-misión R02-N02-P1 · Aire adentro del marco
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesla
+carta: padding | el relleno: el aire entre el contenido y el borde · padding: 1rem
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris mide a ojo y el texto queda pegado al plomo. Justo pasa por el taller **Tesla**, el Artífice de la Ciudadela, y se ríe: —Igual que Tesela cuando éramos aprendices de Ferrum. —{mentor} lo mira por encima del monóculo y Tesla se pone serio de golpe.
+
+#### Gheco sugiere
+Todo es una **caja**: contenido, relleno (`padding`), borde y margen. El `padding` es el aire **adentro** del borde.
+
+#### Desafío
+Dale a `.vidrio` un `padding` de `1rem`.
+
+#### Código inicial
+```html
+<style>
+  .vidrio { border: 2px solid #22d3ee; }
+</style>
+<p class="vidrio">Vidrio cian, con su plomo.</p>
+```
+
+#### Inspector
+```
+css .vidrio { padding }
+```
+
+#### Salida esperada
+```
+css .vidrio { padding }: 1rem
+```
+
+#### Solución
+```html
+<style>
+  .vidrio { border: 2px solid #22d3ee; padding: 1rem; }
+</style>
+<p class="vidrio">Vidrio cian, con su plomo.</p>
+```
+
+#### Al superarla
+El texto respira. Tesla saca su cinta métrica: —Medí las cuatro capas. Siempre las cuatro.
+
+#### Imagen
+- Un vidrio cian con su marco de plomo y un espacio de aire entre el texto y el marco.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) con una cinta métrica de bronce.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mide.
+
+### Micro-misión R02-N02-P2 · El plomo alrededor
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesla
+carta: border | border: grosor estilo color · border: 2px solid #22d3ee
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Sin plomo, un vidrio es un vidrio en el piso —le recuerda Tesla, que lo escuchó mil veces de Ferrum.
+
+#### Gheco sugiere
+`border` lleva tres cosas: el grosor, el estilo (`solid`, `dashed`…) y el color, en ese orden.
+
+#### Desafío
+Ponele a `.vidrio` un `border` de `3px solid #f59e0b`.
+
+#### Código inicial
+```html
+<style>
+  .vidrio { padding: 1rem; }
+</style>
+<p class="vidrio">Vidrio ámbar.</p>
+```
+
+#### Inspector
+```
+css .vidrio { border }
+```
+
+#### Salida esperada
+```
+css .vidrio { border }: 3px solid #f59e0b
+```
+
+#### Solución
+```html
+<style>
+  .vidrio { padding: 1rem; border: 3px solid #f59e0b; }
+</style>
+<p class="vidrio">Vidrio ámbar.</p>
+```
+
+#### Al superarla
+Un marco ámbar rodea el vidrio. Tesla asiente, guarda la cinta y se va con su encargo bajo el brazo.
+
+#### Imagen
+- Un vidrio con un marco grueso de color ámbar.
+- Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) se va con un paquete bajo el brazo.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo saluda.
+
+### Micro-misión R02-N02-P3 · El ancho que no cierra
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco
+carta: box-sizing | border-box: el ancho incluye relleno y borde · * { box-sizing: border-box; }
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris le dio `width: 200px` al vidrio, pero mide 232. Le sumó el relleno y el borde por su cuenta.
+
+#### Gheco sugiere
+Con `box-sizing: border-box`, el `width` **incluye** el relleno y el borde. Se pone una vez para todo: `* { box-sizing: border-box; }`.
+
+#### Desafío
+Agregá una regla para `*` con `box-sizing: border-box`.
+
+#### Código inicial
+```html
+<style>
+  .vidrio { width: 200px; padding: 1rem; border: 0; background-color: #22d3ee; }
+</style>
+<p class="vidrio">200 px, ni uno más.</p>
+```
+
+#### Inspector
+```
+css * { box-sizing }
+```
+
+#### Salida esperada
+```
+css * { box-sizing }: border-box
+```
+
+#### Solución
+```html
+<style>
+  * { box-sizing: border-box; }
+  .vidrio { width: 200px; padding: 1rem; border: 0; background-color: #22d3ee; }
+</style>
+<p class="vidrio">200 px, ni uno más.</p>
+```
+
+#### Al superarla
+El vidrio mide 200 justo. Gheco lo mide dos veces, por las dudas, como haría Tizón.
+
+#### Imagen
+- Un vidrio cian con una regla de medir al lado que marca exactamente 200.
+- Gheco (gecko de luz con antiparras) con una cinta métrica.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) satisfecha.
+
+### Micro-misión R02-N02-P4 · Esquinas pulidas
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesela
+carta: Bordes y sombras | border-radius redondea las esquinas · box-shadow: x y desenfoque color
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Las esquinas en punta se rompen primero —dice {mentor}, y le alcanza una lima de pulir.
+
+#### Gheco sugiere
+`border-radius` redondea las esquinas (`12px`, o `9999px` para una píldora).
+
+#### Desafío
+Dale a `.tarjeta` un `border-radius` de `12px`.
+
+#### Código inicial
+```html
+<style>
+  .tarjeta { padding: 1rem; background-color: #1e293b; color: #e2e8f0; }
+</style>
+<div class="tarjeta">Encargo: ventana para el Valle</div>
+```
+
+#### Inspector
+```
+css .tarjeta { border-radius }
+```
+
+#### Salida esperada
+```
+css .tarjeta { border-radius }: 12px
+```
+
+#### Solución
+```html
+<style>
+  .tarjeta { padding: 1rem; background-color: #1e293b; color: #e2e8f0; border-radius: 12px; }
+</style>
+<div class="tarjeta">Encargo: ventana para el Valle</div>
+```
+
+#### Al superarla
+Las esquinas quedan suaves. {mentor} pasa el dedo y no se corta.
+
+#### Imagen
+- Una tarjeta de vidrio azul oscuro con las esquinas redondeadas.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) pasa el dedo por una esquina.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con una lima de pulir.
 
 ### Misión R02-N02-M1 · La tarjeta de SDL3
 
@@ -1777,6 +2215,252 @@ Poniéndolos en un contenedor con `display: flex` y dándole `flex: 1` a cada bo
 
 Porque un hijo flex no se achica por debajo del largo de su texto: empuja a los demás y se sale. Se evita con `min-width: 0` en ese hijo (y `overflow: hidden; text-overflow: ellipsis; white-space: nowrap` para cortarlo con `…`).
 
+### Micro-misión R02-N03-P1 · La regla que se estira
+
+```meta
+lugar: La cornisa del ventanal
+personajes: Iris, Tesela
+carta: display: flex | los hijos se ponen en fila · el contenedor reparte el espacio
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la cornisa del ventanal van el escudo y los trofeos, uno al lado del otro. Iris los empuja con márgenes «a ojo». Va por el boceto 61.
+—Dejá de empujar los vidrios con el dedo —dice {mentor}, y le da una regla que se estira.
+
+#### Gheco sugiere
+Con `display: flex` en el **contenedor**, sus hijos se ponen en fila y se reparten el espacio solos.
+
+#### Desafío
+Poné `display: flex` en `.cornisa`.
+
+#### Código inicial
+```html
+<style>
+  .cornisa { padding: 1rem; background-color: #0f172a; color: #e2e8f0; }
+</style>
+<header class="cornisa">
+  <span>Escudo</span>
+  <span>Trofeos</span>
+</header>
+```
+
+#### Inspector
+```
+css .cornisa { display }
+```
+
+#### Salida esperada
+```
+css .cornisa { display }: flex
+```
+
+#### Solución
+```html
+<style>
+  .cornisa { display: flex; padding: 1rem; background-color: #0f172a; color: #e2e8f0; }
+</style>
+<header class="cornisa">
+  <span>Escudo</span>
+  <span>Trofeos</span>
+</header>
+```
+
+#### Al superarla
+Los dos vidrios se acomodan en fila, solos. Iris tira el boceto 61 al canasto, sin pena.
+
+#### Imagen
+- Una cornisa de vitral con dos piezas acomodándose solas en una fila.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sostiene una regla de bronce que se estira.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) al lado.
+
+### Micro-misión R02-N03-P2 · Uno a cada punta
+
+```meta
+lugar: La cornisa del ventanal
+personajes: Iris, Gheco
+carta: justify-content | reparte en el eje principal · space-between: uno a cada punta · center: al medio
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El escudo va a la izquierda y los trofeos a la derecha, bien a la punta.
+
+#### Gheco sugiere
+`justify-content` reparte en la dirección de la fila: `space-between` deja el primero en una punta y el último en la otra.
+
+#### Desafío
+Agregale a `.cornisa` un `justify-content: space-between`.
+
+#### Código inicial
+```html
+<style>
+  .cornisa { display: flex; padding: 1rem; background-color: #0f172a; color: #e2e8f0; }
+</style>
+<header class="cornisa">
+  <span>Escudo</span>
+  <span>Trofeos</span>
+</header>
+```
+
+#### Inspector
+```
+css .cornisa { justify-content }
+```
+
+#### Salida esperada
+```
+css .cornisa { justify-content }: space-between
+```
+
+#### Solución
+```html
+<style>
+  .cornisa { display: flex; justify-content: space-between; padding: 1rem; background-color: #0f172a; color: #e2e8f0; }
+</style>
+<header class="cornisa">
+  <span>Escudo</span>
+  <span>Trofeos</span>
+</header>
+```
+
+#### Al superarla
+El escudo y los trofeos se van cada uno a su punta. Gheco se sienta en el medio, que quedó libre.
+
+#### Imagen
+- Una cornisa con un escudo a la izquierda y trofeos a la derecha.
+- Gheco (gecko de luz con antiparras) sentado en el medio.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira desde abajo.
+
+### Micro-misión R02-N03-P3 · Centrados y con aire
+
+```meta
+lugar: La cornisa del ventanal
+personajes: Iris, Teo
+carta: align-items y gap | align-items: center los centra en el otro eje · gap: espacio entre los hijos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Abajo van cuatro botones. Teo los separó con márgenes de distinto tamaño, y además el escudo, que es más alto, deja los botones torcidos.
+
+#### Gheco sugiere
+`align-items: center` los centra en el otro eje (el vertical, en una fila), y `gap` deja el mismo espacio entre todos.
+
+#### Desafío
+En `.botones`, poné `align-items: center` y `gap: 1rem`.
+
+#### Código inicial
+```html
+<style>
+  .botones { display: flex; }
+  .botones a { padding: 0.5rem 1rem; background-color: #22d3ee; color: #0f172a; }
+</style>
+<nav class="botones">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+#### Inspector
+```
+css .botones { align-items }
+css .botones { gap }
+```
+
+#### Salida esperada
+```
+css .botones { align-items }: center
+css .botones { gap }: 1rem
+```
+
+#### Solución
+```html
+<style>
+  .botones { display: flex; align-items: center; gap: 1rem; }
+  .botones a { padding: 0.5rem 1rem; background-color: #22d3ee; color: #0f172a; }
+</style>
+<nav class="botones">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+#### Al superarla
+Los cuatro botones quedan parejos. Teo los mide con la mano y, por primera vez, da igual.
+
+#### Imagen
+- Cuatro botones de vidrio cian en fila, a la misma distancia.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) los mide con la palma.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R02-N03-P4 · Cuatro botones iguales
+
+```meta
+lugar: La cornisa del ventanal
+personajes: Iris, Tesela
+carta: flex: 1 | cada hijo con flex: 1 ocupa la misma parte del espacio que sobra
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Iguales —dice {mentor}—. No «parecidos»: iguales. Que ocupen todo el ancho, repartido.
+
+#### Gheco sugiere
+`flex: 1` en **cada hijo** hace que se repartan el espacio en partes iguales.
+
+#### Desafío
+Escribí una regla para `.botones a` con `flex: 1`.
+
+#### Código inicial
+```html
+<style>
+  .botones { display: flex; gap: 1rem; }
+</style>
+<nav class="botones">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+#### Inspector
+```
+css .botones a { flex }
+```
+
+#### Salida esperada
+```
+css .botones a { flex }: 1
+```
+
+#### Solución
+```html
+<style>
+  .botones { display: flex; gap: 1rem; }
+  .botones a { flex: 1; }
+</style>
+<nav class="botones">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+#### Al superarla
+Los cuatro botones se estiran hasta ocupar la fila, del mismo ancho. {mentor} no dice nada; sigue con su vitral.
+
+#### Imagen
+- Una franja de vitral con cuatro paneles exactamente iguales.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) trabaja en su propio vitral.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) compara los paneles.
+
 ### Misión R02-N03-M1 · La tarjeta de perfil
 
 ```meta
@@ -2329,6 +3013,256 @@ La ventaja: la grilla pone **tantas columnas como entren** sin escribir media qu
 #### ¿Cuándo usarías Flex y cuándo Grid?
 
 Flex para **una dirección**: una fila o una columna de cosas (una barra, los botones, una tarjeta por dentro). Grid para **dos dimensiones**: filas y columnas a la vez (una galería, un tablero, el esqueleto de la página).
+
+### Micro-misión R02-N04-P1 · Doce vitrales para Kaffa
+
+```meta
+lugar: La mesa de los encargos de Kaffa
+personajes: Iris, Tesela
+carta: display: grid | una malla de filas y columnas · grid-template-columns: repeat(3, 1fr)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Llega una carta de **Kaffa**, el Arquitecto Imperial: «Doce vitrales iguales, alineados en filas y columnas perfectas». Teo propone hacer uno de otro color. Nadie le contesta.
+—Con la regla flexible hacés filas —dice {mentor}—, pero no **cuadrículas**. Para Kaffa, la **malla**.
+
+#### Gheco sugiere
+`display: grid` arma una malla, y `grid-template-columns: repeat(3, 1fr)` hace tres columnas iguales (`1fr` es «una parte»).
+
+#### Desafío
+En `.vitrales`, poné `display: grid` y `grid-template-columns: repeat(3, 1fr)`.
+
+#### Código inicial
+```html
+<style>
+  .vitrales div { padding: 1rem; background-color: #7c3aed; color: #fff; }
+</style>
+<div class="vitrales">
+  <div>1</div><div>2</div><div>3</div>
+  <div>4</div><div>5</div><div>6</div>
+</div>
+```
+
+#### Inspector
+```
+css .vitrales { display }
+css .vitrales { grid-template-columns }
+```
+
+#### Salida esperada
+```
+css .vitrales { display }: grid
+css .vitrales { grid-template-columns }: repeat(3, 1fr)
+```
+
+#### Solución
+```html
+<style>
+  .vitrales { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .vitrales div { padding: 1rem; background-color: #7c3aed; color: #fff; }
+</style>
+<div class="vitrales">
+  <div>1</div><div>2</div><div>3</div>
+  <div>4</div><div>5</div><div>6</div>
+</div>
+```
+
+#### Al superarla
+Los vitrales se ordenan en filas de tres. Kaffa no los vio todavía, pero Iris ya se imagina su cara.
+
+#### Imagen
+- Una pared con vitrales violetas acomodados en una cuadrícula perfecta de tres columnas.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) los mira.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) con la carta de Kaffa en la mano.
+
+### Micro-misión R02-N04-P2 · El plomo entre vitral y vitral
+
+```meta
+lugar: La mesa de los encargos de Kaffa
+personajes: Iris, Gheco
+carta: gap en grid | gap: el espacio entre filas y columnas · sin márgenes en cada hijo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Los vitrales quedaron pegados unos con otros. Kaffa pidió una franja de plomo pareja entre todos.
+
+#### Gheco sugiere
+En una malla, `gap` deja el mismo espacio entre filas y entre columnas, sin tocar los hijos.
+
+#### Desafío
+Agregale a `.vitrales` un `gap` de `0.75rem`.
+
+#### Código inicial
+```html
+<style>
+  .vitrales { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .vitrales div { padding: 1rem; background-color: #7c3aed; color: #fff; }
+</style>
+<div class="vitrales">
+  <div>1</div><div>2</div><div>3</div>
+  <div>4</div><div>5</div><div>6</div>
+</div>
+```
+
+#### Inspector
+```
+css .vitrales { gap }
+```
+
+#### Salida esperada
+```
+css .vitrales { gap }: 0.75rem
+```
+
+#### Solución
+```html
+<style>
+  .vitrales { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .vitrales div { padding: 1rem; background-color: #7c3aed; color: #fff; }
+</style>
+<div class="vitrales">
+  <div>1</div><div>2</div><div>3</div>
+  <div>4</div><div>5</div><div>6</div>
+</div>
+```
+
+#### Al superarla
+Una franja de plomo pareja separa cada vitral. Gheco camina por las franjas como por un laberinto.
+
+#### Imagen
+- Una cuadrícula de vitrales violetas separados por franjas de plomo iguales.
+- Gheco (gecko de luz con antiparras) camina por las franjas.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R02-N04-P3 · Tantas columnas como entren
+
+```meta
+lugar: La mesa de los encargos de Kaffa
+personajes: Iris, Tesela
+carta: auto-fit y minmax | repeat(auto-fit, minmax(10rem, 1fr)) · entran las columnas que quepan, sin @media
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—En la catedral de Kaffa hay ventanas anchas y angostas —dice {mentor}—. No le vamos a hacer una malla para cada una.
+
+#### Gheco sugiere
+`repeat(auto-fit, minmax(10rem, 1fr))`: cada columna mide al menos `10rem`, y entran todas las que quepan.
+
+#### Desafío
+Cambiá el `grid-template-columns` de `.vitrales` por `repeat(auto-fit, minmax(10rem, 1fr))`.
+
+#### Código inicial
+```html
+<style>
+  .vitrales { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+  .vitrales div { padding: 1rem; background-color: #7c3aed; color: #fff; }
+</style>
+<div class="vitrales">
+  <div>1</div><div>2</div><div>3</div>
+  <div>4</div><div>5</div><div>6</div>
+</div>
+```
+
+#### Inspector
+```
+css .vitrales { grid-template-columns }
+```
+
+#### Salida esperada
+```
+css .vitrales { grid-template-columns }: repeat(auto-fit, minmax(10rem, 1fr))
+```
+
+#### Solución
+```html
+<style>
+  .vitrales { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; }
+  .vitrales div { padding: 1rem; background-color: #7c3aed; color: #fff; }
+</style>
+<div class="vitrales">
+  <div>1</div><div>2</div><div>3</div>
+  <div>4</div><div>5</div><div>6</div>
+</div>
+```
+
+#### Al superarla
+En *Celular* se ven de a dos; en *Compu*, de a seis. La misma malla. {mentor} asiente una sola vez.
+
+#### Imagen
+- Dos ventanas, una angosta y una ancha, con la misma cuadrícula de vitrales acomodada distinto.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) compara las dos.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) asiente.
+
+### Micro-misión R02-N04-P4 · El podio de los campeones
+
+```meta
+lugar: La mesa de los encargos de Kaffa
+personajes: Iris, Teo
+carta: align-items: end | en la malla, alinea los hijos abajo · el podio: el del medio más alto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Abajo del encargo va el podio: tres escalones, el del medio más alto. Pero en la malla los tres quedan colgando de arriba.
+
+#### Gheco sugiere
+`align-items: end` en la malla apoya a todos los hijos **abajo**, como escalones sobre el piso.
+
+#### Desafío
+Agregale `align-items: end` a `.podio`.
+
+#### Código inicial
+```html
+<style>
+  .podio { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; height: 10rem; }
+  .podio div { background-color: #fbbf24; text-align: center; }
+  .segundo { height: 6rem; }
+  .primero { height: 9rem; }
+  .tercero { height: 4rem; }
+</style>
+<div class="podio">
+  <div class="segundo">2</div>
+  <div class="primero">1</div>
+  <div class="tercero">3</div>
+</div>
+```
+
+#### Inspector
+```
+css .podio { align-items }
+```
+
+#### Salida esperada
+```
+css .podio { align-items }: end
+```
+
+#### Solución
+```html
+<style>
+  .podio { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; height: 10rem; align-items: end; }
+  .podio div { background-color: #fbbf24; text-align: center; }
+  .segundo { height: 6rem; }
+  .primero { height: 9rem; }
+  .tercero { height: 4rem; }
+</style>
+<div class="podio">
+  <div class="segundo">2</div>
+  <div class="primero">1</div>
+  <div class="tercero">3</div>
+</div>
+```
+
+#### Al superarla
+Los tres escalones se apoyan en el piso. Teo se sube al del medio para la foto.
+
+#### Imagen
+- Un podio dorado de tres escalones, el del medio más alto.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) subido al escalón del medio, haciendo pose.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
 
 ### Misión R02-N04-M1 · La galería de insignias
 
@@ -2974,6 +3908,249 @@ Que el CSS **sin `@media`** es el del celular, y lo que se agrega para pantallas
 
 Da un valor que **crece con la pantalla pero con límites**: `clamp(1.5rem, 5vw, 3rem)` es 5 % del ancho, pero nunca menos de 1,5 rem ni más de 3 rem. Ideal para títulos.
 
+### Micro-misión R02-N05-P1 · La ventanita de la cabaña
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Tesela
+carta: viewport | <meta name="viewport" content="width=device-width, initial-scale=1"> · sin esto el celular achica la página de escritorio
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El **Ogro de la Cascada** desafía al taller: el mismo vitral tiene que verse bien en la ventanita de una cabaña **y** en el ventanal del castillo. Iris prueba primero en el castillo, como siempre. {mentor} no dice nada: le alcanza un **espejito de bolsillo**. En el espejito, todo se ve diminuto.
+
+#### Gheco sugiere
+Sin la etiqueta `<meta name="viewport" content="width=device-width, initial-scale=1">`, el celular muestra la versión de compu achicada.
+
+#### Desafío
+Agregá en el `head` la etiqueta `meta` del viewport con `width=device-width, initial-scale=1`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>El vitral de la cabaña</title>
+  </head>
+  <body>
+    <h1>Un vitral para todas las ventanas</h1>
+  </body>
+</html>
+```
+
+#### Inspector
+```
+meta[name="viewport"] @content
+```
+
+#### Salida esperada
+```
+meta[name="viewport"] @content: width=device-width, initial-scale=1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El vitral de la cabaña</title>
+  </head>
+  <body>
+    <h1>Un vitral para todas las ventanas</h1>
+  </body>
+</html>
+```
+
+#### Al superarla
+En el espejito, el vitral se ve de su tamaño. {mentor} le deja el espejito en la mesa.
+
+#### Imagen
+- Una cabaña chiquita y un castillo enorme, uno al lado del otro, con el mismo vitral.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira un espejito de bolsillo.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) se lo alcanza.
+
+### Micro-misión R02-N05-P2 · Agrandar es fácil
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Tesela
+carta: @media | celular primero: el CSS de base es el chico · @media (min-width: 768px) { … } agrega lo de la pantalla grande
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Empezá por la ventana **chica** —le dice {mentor}—. Agrandar es fácil; achicar algo grande, casi imposible.
+
+#### Gheco sugiere
+El CSS de base es para el celular. Lo de pantallas grandes se **agrega** adentro de `@media (min-width: 768px) { … }`.
+
+#### Desafío
+Agregá un `@media (min-width: 768px)` que ponga `.grilla` con `grid-template-columns: repeat(2, 1fr)`.
+
+#### Código inicial
+```html
+<style>
+  .grilla { display: grid; gap: 1rem; }
+  .grilla div { padding: 1rem; background-color: #22d3ee; }
+</style>
+<div class="grilla">
+  <div>Cabaña</div>
+  <div>Castillo</div>
+</div>
+```
+
+#### Inspector
+```
+css .grilla { grid-template-columns }
+css @media (min-width: 768px) | .grilla { grid-template-columns }
+```
+
+#### Salida esperada
+```
+css .grilla { grid-template-columns }: (no hay)
+css @media (min-width: 768px) | .grilla { grid-template-columns }: repeat(2, 1fr)
+```
+
+#### Solución
+```html
+<style>
+  .grilla { display: grid; gap: 1rem; }
+  .grilla div { padding: 1rem; background-color: #22d3ee; }
+  @media (min-width: 768px) {
+    .grilla { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+<div class="grilla">
+  <div>Cabaña</div>
+  <div>Castillo</div>
+</div>
+```
+
+#### Al superarla
+En *Celular*, uno debajo del otro; en *Compu*, de a dos. Iris lo prueba primero en el espejito. Sin que nadie se lo diga.
+
+#### Imagen
+- Un vitral que en la cabaña tiene sus piezas apiladas y en el castillo, lado a lado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con el espejito en la mano.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) sonríe apenas.
+
+### Micro-misión R02-N05-P3 · La imagen que no entra
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Gheco
+criatura: orco
+carta: Imágenes flexibles | img { max-width: 100%; height: auto; } · nunca más ancha que su caja
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la ventanita de la cabaña, la imagen del vitral es más ancha que la pared y aparece una barra para arrastrar de costado. Por la rendija asoma un **orco**.
+
+#### Gheco sugiere
+`max-width: 100%` hace que la imagen nunca sea más ancha que su caja, y `height: auto` mantiene la proporción.
+
+#### Desafío
+Escribí una regla para `img` con `max-width: 100%` y `height: auto`.
+
+#### Código inicial
+```html
+<style>
+
+</style>
+<img src="/img/cursos/html/heroe-896.webp" alt="El aprendiz con su buzo de circuitos" width="896" height="896">
+```
+
+#### Inspector
+```
+css img { max-width }
+css img { height }
+```
+
+#### Salida esperada
+```
+css img { max-width }: 100%
+css img { height }: auto
+```
+
+#### Solución
+```html
+<style>
+  img { max-width: 100%; height: auto; }
+</style>
+<img src="/img/cursos/html/heroe-896.webp" alt="El aprendiz con su buzo de circuitos" width="896" height="896">
+```
+
+#### Al superarla
+La imagen se achica hasta entrar en la pared. El orco se queda sin rendija y se va gruñendo.
+
+#### Imagen
+- Una ventanita de cabaña con una imagen que se achica para entrar; un orco se aleja gruñendo.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con el espejito.
+- Gheco (gecko de luz con antiparras) lo señala.
+
+### Micro-misión R02-N05-P4 · La cornisa que acompaña
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Nora
+carta: position: sticky | se queda pegado al borde al bajar · top: 0 dice dónde se pega
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El vitral de la cabaña es largo, y al bajar se pierde el menú. Nora, que lo recorre de arriba abajo, no sabe cómo volver.
+
+#### Gheco sugiere
+`position: sticky` con `top: 0` deja el elemento en su lugar hasta que llega arriba, y ahí se queda pegado mientras bajás.
+
+#### Desafío
+Poné `position: sticky` y `top: 0` en `header`.
+
+#### Código inicial
+```html
+<style>
+  header { background-color: #0f172a; color: #e2e8f0; padding: 1rem; }
+  main { height: 2000px; }
+</style>
+<header>Taller · Encargos · Liga</header>
+<main><p>Un vitral muy largo…</p></main>
+```
+
+#### Inspector
+```
+css header { position }
+css header { top }
+```
+
+#### Salida esperada
+```
+css header { position }: sticky
+css header { top }: 0
+```
+
+#### Solución
+```html
+<style>
+  header { position: sticky; top: 0; background-color: #0f172a; color: #e2e8f0; padding: 1rem; }
+  main { height: 2000px; }
+</style>
+<header>Taller · Encargos · Liga</header>
+<main><p>Un vitral muy largo…</p></main>
+```
+
+#### Al superarla
+Nora baja hasta el final y el menú la acompaña. —Así no me pierdo nunca.
+
+#### Imagen
+- Un vitral largo con una franja de arriba que se queda fija mientras el resto baja.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) recorre el vitral con la mano.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
 ### Misión R02-N05-M1 · La galería 1-2-3-6
 
 ```meta
@@ -3340,6 +4517,245 @@ Porque el orden solo desempata cuando la especificidad es igual. `#muro p` tiene
 #### ¿Por qué no conviene arreglarlo con `!important`?
 
 Porque `!important` le gana a todo, y la próxima vez que algo tenga que ganarle a esa regla vas a necesitar otro `!important`. El CSS termina en una guerra que nadie entiende.
+
+### Micro-misión R02-N06-P1 · El aviso de Ofidia
+
+```meta
+lugar: El muro de encargos
+personajes: Iris, Tesela
+criatura: ogro
+carta: Especificidad | id > clase > etiqueta · #muro .aviso le gana a #muro p
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Ogro de la Cascada se metió de noche en el **muro de encargos**. El aviso de Ofidia no se ve ámbar: otra regla le gana.
+—Ninguna regla está borrada —dice {mentor}—. Otras les ganan. Sin `!important` y sin tocar el HTML: entendé **quién le gana a quién**.
+
+#### Gheco sugiere
+Gana el selector más **específico**: cuenta primero los `#id`, después las `.clases`, después las etiquetas. `#muro p` tiene un id y una etiqueta; `#muro .aviso`, un id y una clase: gana.
+
+#### Desafío
+Cambiá el selector de la regla ámbar de `.aviso` a `#muro .aviso`.
+
+#### Código inicial
+```html
+<style>
+  #muro p { color: #94a3b8; }
+  .aviso { color: #f59e0b; }
+</style>
+<section id="muro">
+  <p>Encargo de Kaffa: doce vitrales.</p>
+  <p class="aviso">Aviso de Ofidia: el río crece.</p>
+</section>
+```
+
+#### Inspector
+```
+css .aviso { color }
+css #muro .aviso { color }
+```
+
+#### Salida esperada
+```
+css .aviso { color }: (no hay)
+css #muro .aviso { color }: #f59e0b
+```
+
+#### Solución
+```html
+<style>
+  #muro p { color: #94a3b8; }
+  #muro .aviso { color: #f59e0b; }
+</style>
+<section id="muro">
+  <p>Encargo de Kaffa: doce vitrales.</p>
+  <p class="aviso">Aviso de Ofidia: el río crece.</p>
+</section>
+```
+
+#### Al superarla
+El aviso de Ofidia se enciende en ámbar. Al ogro se le descascara la primera capa.
+
+#### Imagen
+- Un muro de carteles pegados unos encima de otros; uno se enciende en ámbar.
+- el Ogro de la Cascada (un ogro gordo hecho de capas de vidrios de colores superpuestos que se tapan unos a otros, con un mazo que tiene grabado !important) pierde una capa de vidrio.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) frente al muro.
+
+### Micro-misión R02-N06-P2 · El encargo destacado
+
+```meta
+lugar: El muro de encargos
+personajes: Iris, Gheco
+criatura: ogro
+carta: Dos clases | .encargo.destacado (pegadas) = un elemento con las dos clases · le gana a .encargo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El encargo destacado de Kaffa parece uno más: el borde dorado no aparece.
+
+#### Gheco sugiere
+`.encargo.destacado` (con las dos clases **pegadas**) apunta al elemento que tiene las dos, y es más específico que `.encargo` solo.
+
+#### Desafío
+Cambiá el selector `.destacado` por `.encargo.destacado`.
+
+#### Código inicial
+```html
+<style>
+  .destacado { border-color: #fbbf24; }
+  .encargo { border: 3px solid #334155; padding: 1rem; }
+</style>
+<article class="encargo">Ventana para el Valle</article>
+<article class="encargo destacado">Doce vitrales para Kaffa</article>
+```
+
+#### Inspector
+```
+css .destacado { border-color }
+css .encargo.destacado { border-color }
+```
+
+#### Salida esperada
+```
+css .destacado { border-color }: (no hay)
+css .encargo.destacado { border-color }: #fbbf24
+```
+
+#### Solución
+```html
+<style>
+  .encargo.destacado { border-color: #fbbf24; }
+  .encargo { border: 3px solid #334155; padding: 1rem; }
+</style>
+<article class="encargo">Ventana para el Valle</article>
+<article class="encargo destacado">Doce vitrales para Kaffa</article>
+```
+
+#### Al superarla
+El borde dorado vuelve. Otra capa del ogro se cae al piso y se hace añicos.
+
+#### Imagen
+- Un cartel con borde dorado que vuelve a brillar en un muro de encargos.
+- el Ogro de la Cascada (un ogro gordo hecho de capas de vidrios de colores superpuestos que se tapan unos a otros, con un mazo que tiene grabado !important) más flaco.
+- Gheco (gecko de luz con antiparras) barre los vidrios.
+
+### Micro-misión R02-N06-P3 · El mazo que no sirve
+
+```meta
+lugar: El muro de encargos
+personajes: Iris, Tesela
+criatura: ogro
+carta: Sin !important | !important gana a todo y después nada le gana a él · se resuelve con un selector más específico
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El título del muro perdió su color: el ogro le pegó con su mazo, que tiene grabado `!important`. Teo propone pegarle con otro `!important` más grande.
+
+#### Gheco sugiere
+`!important` le gana a todo… y después nada le gana a él. Sacalo, y para que gane el cian usá un selector más específico.
+
+#### Desafío
+Sacá el `!important` de `.titulo`, y escribí `.muro .titulo` con `color: #22d3ee`.
+
+#### Código inicial
+```html
+<style>
+  .titulo { color: #64748b !important; }
+</style>
+<section class="muro">
+  <h2 class="titulo">Muro de encargos</h2>
+</section>
+```
+
+#### Inspector
+```
+css .titulo { color }
+css .muro .titulo { color }
+```
+
+#### Salida esperada
+```
+css .titulo { color }: #64748b
+css .muro .titulo { color }: #22d3ee
+```
+
+#### Solución
+```html
+<style>
+  .titulo { color: #64748b; }
+  .muro .titulo { color: #22d3ee; }
+</style>
+<section class="muro">
+  <h2 class="titulo">Muro de encargos</h2>
+</section>
+```
+
+#### Al superarla
+El título se pone cian. El ogro mira su mazo y se lo esconde atrás de la espalda.
+
+#### Imagen
+- Un título de vitral que recupera su color cian.
+- el Ogro de la Cascada (un ogro gordo hecho de capas de vidrios de colores superpuestos que se tapan unos a otros, con un mazo que tiene grabado !important) esconde el mazo atrás de la espalda.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) se cruza de brazos.
+
+### Micro-misión R02-N06-P4 · El último gana
+
+```meta
+lugar: El muro de encargos
+personajes: Iris, Tesela, Teo
+criatura: ogro
+carta: El orden | con la misma especificidad, gana la regla que viene después
+recompensa: xp 20, oro 25
+item: Monóculo de Cristal
+```
+
+#### Escena
+Los botones del muro tienen el fondo oscuro y el texto no se ve. Hay dos reglas para `.boton`, iguales de específicas.
+
+#### Gheco sugiere
+Si dos reglas son igual de específicas, gana **la que viene después**. Mirá el orden.
+
+#### Desafío
+Borrá la segunda regla de `.boton` (la del fondo `#1e293b`), así gana la cian.
+
+#### Código inicial
+```html
+<style>
+  .boton { background: #22d3ee; color: #0f172a; padding: 0.5rem 1rem; }
+  .boton { background: #1e293b; }
+</style>
+<a class="boton" href="#">Ver encargos</a>
+```
+
+#### Inspector
+```
+css .boton { background }
+```
+
+#### Salida esperada
+```
+css .boton { background }: #22d3ee
+```
+
+#### Solución
+```html
+<style>
+  .boton { background: #22d3ee; color: #0f172a; padding: 0.5rem 1rem; }
+</style>
+<a class="boton" href="#">Ver encargos</a>
+```
+
+#### Al superarla
+El ogro se descascara capa por capa hasta desaparecer. {mentor} se saca el monóculo y lo limpia con la manga, despacio. Iris no entiende por qué. Al día siguiente, en su mesa, hay un monóculo de cristal tallado igual al de {mentor}: **el Monóculo de Cristal**.
+
+#### Imagen
+- Un muro de encargos ordenado y luminoso; en el piso, una pila de capas de vidrio rotas.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) limpia su monóculo con la manga.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) la mira sin entender.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) aplaude.
 
 ### Misión R02-N06-M1 · El muro de encargos
 

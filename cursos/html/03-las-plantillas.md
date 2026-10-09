@@ -159,6 +159,213 @@ Porque Tailwind **revisa las clases que usaste** en tus archivos y genera el CSS
 
 Nada: no da error, simplemente no genera ningún estilo (un esqueleto). Por eso conviene la extensión *Tailwind CSS IntelliSense*, que las autocompleta y avisa.
 
+### Micro-misión R03-N01-P1 · Abrir el cofre
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Tesela
+carta: Tailwind en la plataforma | <style type="text/tailwindcss"> @import "tailwindcss"; </style> · genera el CSS de las clases que usaste
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris tardó una tarde entera en cortar los vidrios de una sola tarjeta. Entonces {mentor} abre un cofre con cientos de **plantillas** ya cortadas.
+—Te las doy recién ahora, **porque ya sabés cortar a mano**: si una plantilla falla, vas a saber por qué.
+
+#### Gheco sugiere
+En la plataforma, Tailwind se activa con un bloque `<style type="text/tailwindcss">` que adentro tiene `@import "tailwindcss";`. Con Tailwind, el **Inspector** mira las clases de cada elemento (en el orden en que las escribiste). La vista previa compila Tailwind sola.
+
+#### Desafío
+Agregá arriba el bloque `style` de tipo `text/tailwindcss` con `@import "tailwindcss";` adentro.
+
+#### Código inicial
+```html
+<h1 class="text-cyan-400">El cofre del Gremio</h1>
+```
+
+#### Inspector
+```
+style[type="text/tailwindcss"]
+```
+
+#### Salida esperada
+```
+style[type="text/tailwindcss"]: @import "tailwindcss";
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h1 class="text-cyan-400">El cofre del Gremio</h1>
+```
+
+#### Al superarla
+El título se pone cian sin escribir una sola regla. Teo ya tiene las dos manos adentro del cofre.
+
+#### Imagen
+- Un cofre enorme abierto, lleno de plantillas de vidrio cortadas, en una plaza.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) levanta la tapa.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira asombrada.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) mete las manos adentro.
+
+### Micro-misión R03-N01-P2 · Una plantilla, una cosa
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Gheco
+carta: Utilidades | cada clase hace una sola cosa · text-cyan-400 el color · font-bold la letra gruesa
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Cada plantilla del cofre sirve para **una sola cosa**: esta da el color cian, esta la letra gruesa.
+
+#### Gheco sugiere
+Con Tailwind, el estilo va en `class`: `text-cyan-400` es el color del texto y `font-bold`, la letra gruesa. Con Tailwind, el **Inspector** mira las clases de cada elemento (en el orden en que las escribiste). La vista previa compila Tailwind sola.
+
+#### Desafío
+Dale al `h1` las clases `text-cyan-400 font-bold`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h1>Plantillas del Gremio</h1>
+```
+
+#### Inspector
+```
+h1 @class
+```
+
+#### Salida esperada
+```
+h1 @class: text-cyan-400 font-bold
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h1 class="text-cyan-400 font-bold">Plantillas del Gremio</h1>
+```
+
+#### Al superarla
+Dos plantillas, dos cosas. Gheco se pone una de color en la cola, para probar.
+
+#### Imagen
+- Dos plantillas de vidrio apoyadas sobre un título, una cian y una gruesa.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) las acomoda.
+- Gheco (gecko de luz con antiparras) con la cola teñida de cian.
+
+### Micro-misión R03-N01-P3 · La tarjeta en minutos
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Tesela
+carta: Fondo y relleno | bg-slate-900 el fondo · p-4 el relleno (4 = 1rem)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—La tarjeta que te llevó una tarde —dice {mentor}—. Hacela de nuevo.
+
+#### Gheco sugiere
+`bg-slate-900` pinta el fondo y `p-4` le da relleno (`4` son `1rem`). El color del texto, `text-slate-100`.
+
+#### Desafío
+Dale al `div` las clases `bg-slate-900 p-4 text-slate-100`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div>Encargo: ventana para el Valle</div>
+```
+
+#### Inspector
+```
+div @class
+```
+
+#### Salida esperada
+```
+div @class: bg-slate-900 p-4 text-slate-100
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="bg-slate-900 p-4 text-slate-100">Encargo: ventana para el Valle</div>
+```
+
+#### Al superarla
+Iris la arma en un minuto. Se queda mirando el reloj de arena, ofendida con su propia tarde.
+
+#### Imagen
+- Una tarjeta de vidrio azul oscuro recién armada sobre una mesa, junto a un reloj de arena.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira el reloj de arena.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) sonríe.
+
+### Micro-misión R03-N01-P4 · Esquinas del cofre
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Teo
+carta: rounded | rounded-lg, rounded-xl, rounded-full · lo mismo que border-radius, con nombre
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo encuentra el cajón de las esquinas. —¿Y esta plantilla para qué es? —Para no cortarte —le contesta Iris.
+
+#### Gheco sugiere
+`rounded-xl` redondea las esquinas, como `border-radius`. Se suma a las clases que ya tiene.
+
+#### Desafío
+Agregale `rounded-xl` al final de las clases del `div`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="bg-slate-900 p-4 text-slate-100">Encargo: ventana para el Valle</div>
+```
+
+#### Inspector
+```
+div @class
+```
+
+#### Salida esperada
+```
+div @class: bg-slate-900 p-4 text-slate-100 rounded-xl
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="bg-slate-900 p-4 text-slate-100 rounded-xl">Encargo: ventana para el Valle</div>
+```
+
+#### Al superarla
+La tarjeta queda con esquinas suaves. Teo prueba `rounded-full` en todo y le sale una página de píldoras.
+
+#### Imagen
+- Una tarjeta oscura con las esquinas redondeadas.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) rodeado de vidrios redondos como píldoras.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
+
 ### Misión R03-N01-M1 · La tarjeta violeta
 
 ```meta
@@ -525,6 +732,218 @@ Fondo del color cian 400 con **10 % de opacidad**: el número después de la bar
 #### ¿Cuándo conviene un valor con corchetes y cuándo no?
 
 Los corchetes (`w-[45%]`, `bg-[#0e1626]`) sirven para un valor **puntual** que no está en la escala. Si el mismo valor se repite en muchos lugares, conviene agregarlo al tema (lo vas a ver en «Tema propio»).
+
+### Micro-misión R03-N02-P1 · La escala de los espacios
+
+```meta
+lugar: Los cajones del cofre
+personajes: Iris, Tesela
+carta: La escala | p-1 = 0.25rem · p-4 = 1rem · mb-6 = 1.5rem · se cuenta de a 0.25rem
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El cofre tiene cajones: uno para los espacios, otro para las letras, otro para los colores. —Conocé los **cajones** y su **escala** —dice {mentor}.
+
+#### Gheco sugiere
+Los espacios van de a `0.25rem`: `mb-6` es un margen de abajo de `1.5rem`. Los nombres: `m` margen, `p` relleno; `t`, `b`, `x`, `y`… el lado.
+
+#### Desafío
+Separá el título del párrafo: agregale `mb-6` al `h2`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h2 class="text-xl font-bold">Los cajones</h2>
+<p>Espacios, letras y colores.</p>
+```
+
+#### Inspector
+```
+h2 @class
+```
+
+#### Salida esperada
+```
+h2 @class: text-xl font-bold mb-6
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h2 class="text-xl font-bold mb-6">Los cajones</h2>
+<p>Espacios, letras y colores.</p>
+```
+
+#### Al superarla
+El título se aleja del párrafo exactamente un cajón y medio. {mentor} cierra el cajón de los espacios.
+
+#### Imagen
+- Un cofre con cajones etiquetados: espacios, letras, colores.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) abre un cajón.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira la escala grabada en la madera.
+
+### Micro-misión R03-N02-P2 · El cajón de las letras
+
+```meta
+lugar: Los cajones del cofre
+personajes: Iris, Nora
+carta: Tipografía | text-2xl el tamaño · font-semibold el grosor · tracking-wide el espacio entre letras
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nora pide que el título del encargo se lea de lejos: más grande y un poco más abierto.
+
+#### Gheco sugiere
+`text-2xl` agranda la letra, `font-semibold` la engrosa y `tracking-wide` separa un poco las letras.
+
+#### Desafío
+Dale al `h2` las clases `text-2xl font-semibold tracking-wide`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h2>Encargo de Nora</h2>
+```
+
+#### Inspector
+```
+h2 @class
+```
+
+#### Salida esperada
+```
+h2 @class: text-2xl font-semibold tracking-wide
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h2 class="text-2xl font-semibold tracking-wide">Encargo de Nora</h2>
+```
+
+#### Al superarla
+Nora pide que se lo lean. —Encargo de Nora —lee Teo, de lejos, sin entrecerrar los ojos.
+
+#### Imagen
+- Un título de vitral grande y abierto, legible de lejos.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) escucha.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) lee desde el fondo del taller.
+
+### Micro-misión R03-N02-P3 · Un vidrio apenas teñido
+
+```meta
+lugar: Los cajones del cofre
+personajes: Iris, Gheco
+carta: Opacidad | bg-cyan-400/20 = el cian al 20 % · el número después de la barra es la opacidad
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris quiere un vidrio cian, pero apenas: que se vea lo de atrás.
+
+#### Gheco sugiere
+Después de un color, `/20` le baja la opacidad al 20 %: `bg-cyan-400/20`.
+
+#### Desafío
+Cambiá `bg-cyan-400` por `bg-cyan-400/20` en el `div`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="bg-cyan-400 p-4">Vidrio teñido</div>
+```
+
+#### Inspector
+```
+div @class
+```
+
+#### Salida esperada
+```
+div @class: bg-cyan-400/20 p-4
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="bg-cyan-400/20 p-4">Vidrio teñido</div>
+```
+
+#### Al superarla
+El vidrio se vuelve casi transparente. Gheco se pone atrás y se lo ve, cian clarito.
+
+#### Imagen
+- Un vidrio cian muy claro, casi transparente; detrás se ve un gecko de luz.
+- Gheco (gecko de luz con antiparras) detrás del vidrio.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo sostiene.
+
+### Micro-misión R03-N02-P4 · El árbol de Navidad de Teo
+
+```meta
+lugar: Los cajones del cofre
+personajes: Iris, Teo, Tesela
+carta: Menos es más | cada clase tiene que tener una razón · si dos dicen lo mismo, gana una sola
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo quiere usar todas las plantillas a la vez y arma una tarjeta que parece un árbol de Navidad. Le pone una estrella arriba.
+—Las plantillas sueltas no sirven si no sabés para qué —lo frena {mentor}.
+
+#### Gheco sugiere
+Si hay tres colores de fondo, gana uno y los otros sobran. Dejá solo lo que hace falta.
+
+#### Desafío
+Dejá en la tarjeta solo estas clases, en este orden: `rounded-lg bg-slate-800 p-4 text-slate-100`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="tarjeta rounded-lg bg-red-500 bg-green-500 bg-slate-800 p-4 p-8 text-yellow-300 text-slate-100 animate-bounce">Encargo de Teo</div>
+```
+
+#### Inspector
+```
+.tarjeta @class
+```
+
+#### Salida esperada
+```
+.tarjeta @class: tarjeta rounded-lg bg-slate-800 p-4 text-slate-100
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="tarjeta rounded-lg bg-slate-800 p-4 text-slate-100">Encargo de Teo</div>
+```
+
+#### Al superarla
+La tarjeta deja de saltar. Teo la mira un rato largo. —Es… linda —admite. Y le saca la estrella.
+
+#### Imagen
+- Una tarjeta sobria y oscura al lado de una tarjeta de mil colores que salta.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) le saca una estrella de la punta.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) de brazos cruzados.
 
 ### Misión R03-N02-M1 · La insignia de nivel
 
@@ -917,6 +1336,246 @@ Las apps de chat, los tableros de estadísticas, las barras de navegación de lo
 
 Con columnas a medida: `grid grid-cols-[1fr_1.2fr_1fr]` (los guiones bajos son los espacios).
 
+### Micro-misión R03-N03-P1 · La cornisa, con plantillas
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Tesela
+carta: flex con clases | flex = display: flex · justify-between = space-between · items-center = align-items: center
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+{mentor} le pide algo que parece imposible: rearmar la cornisa **sin escribir una sola regla de CSS**. —Todo lo de la regla flexible está en el cofre. Solo le cambiaron el nombre.
+
+#### Gheco sugiere
+`flex` es `display: flex`, `justify-between` es `justify-content: space-between` e `items-center`, `align-items: center`.
+
+#### Desafío
+Dale al `header` las clases `flex justify-between items-center`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<header>
+  <span>Escudo</span>
+  <span>Trofeos</span>
+</header>
+```
+
+#### Inspector
+```
+header @class
+```
+
+#### Salida esperada
+```
+header @class: flex justify-between items-center
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<header class="flex justify-between items-center">
+  <span>Escudo</span>
+  <span>Trofeos</span>
+</header>
+```
+
+#### Al superarla
+El escudo y los trofeos se van a sus puntas. Iris no abrió el `style` ni una vez.
+
+#### Imagen
+- Una cornisa de vitral con un escudo a la izquierda y trofeos a la derecha.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con plantillas en la mano.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) mira.
+
+### Micro-misión R03-N03-P2 · Los botones con su espacio
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Teo
+carta: gap | gap-4 = 1rem entre los hijos · sirve en flex y en grid
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Los cuatro botones están pegados. Teo les pone márgenes a mano, de a uno.
+
+#### Gheco sugiere
+`gap-4` deja `1rem` entre todos los hijos, sin tocarlos.
+
+#### Desafío
+Agregale `gap-4` a las clases del `nav`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="flex">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+</nav>
+```
+
+#### Inspector
+```
+nav @class
+```
+
+#### Salida esperada
+```
+nav @class: flex gap-4
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="flex gap-4">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+</nav>
+```
+
+#### Al superarla
+Los botones se separan parejo. Teo guarda sus márgenes en el bolsillo, por si algún día sirven.
+
+#### Imagen
+- Tres botones de vidrio separados por espacios iguales.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) guarda unas reglitas en el bolsillo.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R03-N03-P3 · La malla de dos
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Gheco
+carta: grid con clases | grid grid-cols-2 = dos columnas iguales · gap-4 el espacio
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Las tarjetas de la cabaña van de a dos, en malla.
+
+#### Gheco sugiere
+`grid grid-cols-2` arma una malla de dos columnas iguales; `gap-4`, el espacio.
+
+#### Desafío
+Dale al `div` de afuera las clases `grid grid-cols-2 gap-4`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div>
+  <div class="bg-cyan-400/20 p-4">Valle</div>
+  <div class="bg-cyan-400/20 p-4">Puerto</div>
+  <div class="bg-cyan-400/20 p-4">Forjas</div>
+  <div class="bg-cyan-400/20 p-4">Imperio</div>
+</div>
+```
+
+#### Inspector
+```
+body > div @class
+```
+
+#### Salida esperada
+```
+body > div @class: grid grid-cols-2 gap-4
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="grid grid-cols-2 gap-4">
+  <div class="bg-cyan-400/20 p-4">Valle</div>
+  <div class="bg-cyan-400/20 p-4">Puerto</div>
+  <div class="bg-cyan-400/20 p-4">Forjas</div>
+  <div class="bg-cyan-400/20 p-4">Imperio</div>
+</div>
+```
+
+#### Al superarla
+Las cuatro tarjetas se ordenan de a dos. Gheco salta de una a otra, en diagonal.
+
+#### Imagen
+- Cuatro vidrios cian en una malla de dos por dos.
+- Gheco (gecko de luz con antiparras) salta entre ellos.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira.
+
+### Micro-misión R03-N03-P4 · Una columna en la cabaña
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Tesela
+carta: flex-col | flex flex-col = uno debajo del otro · gap-2 el espacio
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la ventanita de la cabaña, el formulario de acceso va en una sola columna: un campo debajo del otro.
+
+#### Gheco sugiere
+`flex flex-col` pone los hijos **uno debajo del otro**; `gap-2` los separa un poco.
+
+#### Desafío
+Dale al `form` las clases `flex flex-col gap-2`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<form>
+  <label for="usuario">Usuario</label>
+  <input id="usuario" class="border p-2">
+  <button type="submit" class="bg-cyan-400 p-2">Entrar</button>
+</form>
+```
+
+#### Inspector
+```
+form @class
+```
+
+#### Salida esperada
+```
+form @class: flex flex-col gap-2
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<form class="flex flex-col gap-2">
+  <label for="usuario">Usuario</label>
+  <input id="usuario" class="border p-2">
+  <button type="submit" class="bg-cyan-400 p-2">Entrar</button>
+</form>
+```
+
+#### Al superarla
+El formulario cae en una columna prolija. {mentor} lo prueba en el espejito antes que en el castillo.
+
+#### Imagen
+- Un formulario de vidrio en una sola columna, en una ventanita de cabaña.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo mira en un espejito.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
 ### Misión R03-N03-M1 · La barra inferior
 
 ```meta
@@ -1293,6 +1952,234 @@ Solo en el celular: visible y con `md:hidden`. Solo en la compu: `hidden md:bloc
 
 Para que el contenido de las dos partes quede **alineado** con los mismos bordes: el mismo ancho máximo, centrado, y el mismo margen a los costados en el celular.
 
+### Micro-misión R03-N04-P1 · Los pergaminos de Ofidia
+
+```meta
+lugar: La mesa de los pergaminos de Ofidia
+personajes: Iris, Tesela
+carta: Prefijos | sin prefijo = la cabaña (celular) · md: desde 768 px · lg: desde 1024 px
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Desde el Valle llega un encargo de **Ofidia**: una ventana para sus pergaminos, que se vea bien en el espejo de bolsillo de cada aldeano y en el gran salón. Iris saca el espejito antes de que {mentor} se lo alcance.
+
+#### Gheco sugiere
+Lo que va **sin prefijo** es para la cabaña. `md:grid-cols-2` agrega, **desde** la ventana mediana, dos columnas.
+
+#### Desafío
+Agregale `md:grid-cols-2` al final de las clases del `div` de afuera.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="grid gap-4">
+  <div class="bg-emerald-400/20 p-4">Pergamino de los ríos</div>
+  <div class="bg-emerald-400/20 p-4">Pergamino de las cosechas</div>
+</div>
+```
+
+#### Inspector
+```
+body > div @class
+```
+
+#### Salida esperada
+```
+body > div @class: grid gap-4 md:grid-cols-2
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="grid gap-4 md:grid-cols-2">
+  <div class="bg-emerald-400/20 p-4">Pergamino de los ríos</div>
+  <div class="bg-emerald-400/20 p-4">Pergamino de las cosechas</div>
+</div>
+```
+
+#### Al superarla
+En *Celular*, uno debajo del otro; en *Compu*, de a dos. Ofidia manda las gracias con una serpiente de luz que se enrosca en el marco.
+
+#### Imagen
+- Una ventana con dos pergaminos verdes, en la cabaña uno debajo del otro y en el salón lado a lado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con el espejito.
+- Ofidia (la líder del Valle de la Serpiente, con una túnica verde y una serpiente de luz enroscada en el brazo) en un vitral, saludando.
+
+### Micro-misión R03-N04-P2 · El menú del castillo
+
+```meta
+lugar: La mesa de los pergaminos de Ofidia
+personajes: Iris, Gheco
+carta: Esconder y mostrar | hidden = no se ve · md:flex = desde md se ve como flex
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El menú largo no entra en la cabaña: en la cabaña va el menú de abajo, y el largo solo en el castillo.
+
+#### Gheco sugiere
+`hidden` lo esconde; `md:flex` lo muestra (como flex) desde la ventana mediana.
+
+#### Desafío
+Dale al `nav` las clases `hidden md:flex gap-4`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav>
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+#### Inspector
+```
+nav @class
+```
+
+#### Salida esperada
+```
+nav @class: hidden md:flex gap-4
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<nav class="hidden md:flex gap-4">
+  <a href="#">Taller</a>
+  <a href="#">Encargos</a>
+  <a href="#">Liga</a>
+  <a href="#">Contacto</a>
+</nav>
+```
+
+#### Al superarla
+En *Celular* el menú desaparece; en *Compu*, vuelve. Gheco aparece y desaparece con él, para hacerse el mago.
+
+#### Imagen
+- Un menú de vidrio que aparece en un ventanal grande y se esconde en una ventanita.
+- Gheco (gecko de luz con antiparras) haciendo de mago.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
+
+### Micro-misión R03-N04-P3 · El título que crece
+
+```meta
+lugar: La mesa de los pergaminos de Ofidia
+personajes: Iris, Nora
+carta: Tamaños por pantalla | text-2xl md:text-4xl · en la cabaña chico, en el castillo grande
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El título de los pergaminos es enorme en la cabaña y se parte en cuatro renglones.
+
+#### Gheco sugiere
+Primero el tamaño de la cabaña (`text-2xl`), y con `md:text-4xl` crece en el castillo.
+
+#### Desafío
+Dale al `h1` las clases `text-2xl md:text-4xl font-bold`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h1 class="text-5xl font-bold">Los pergaminos de Ofidia</h1>
+```
+
+#### Inspector
+```
+h1 @class
+```
+
+#### Salida esperada
+```
+h1 @class: text-2xl md:text-4xl font-bold
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h1 class="text-2xl md:text-4xl font-bold">Los pergaminos de Ofidia</h1>
+```
+
+#### Al superarla
+El título entra en un renglón en la cabaña y crece en el castillo.
+
+#### Imagen
+- Un título de vitral chico en una ventanita y grande en un ventanal.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) compara las dos ventanas.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca el marco.
+
+### Micro-misión R03-N04-P4 · El contenedor del salón
+
+```meta
+lugar: La mesa de los pergaminos de Ofidia
+personajes: Iris, Tesela
+carta: Contenedor | mx-auto centra · max-w-5xl pone un ancho máximo · px-4 deja aire a los costados
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el gran salón, el texto de los pergaminos se estira de pared a pared y no hay quien lo lea.
+
+#### Gheco sugiere
+`max-w-5xl` le pone un ancho máximo, `mx-auto` lo centra y `px-4` deja aire a los costados en la cabaña.
+
+#### Desafío
+Dale al `main` las clases `mx-auto max-w-5xl px-4`, en ese orden.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<main>
+  <p>Los pergaminos cuentan los ríos, las cosechas y las lunas del Valle.</p>
+</main>
+```
+
+#### Inspector
+```
+main @class
+```
+
+#### Salida esperada
+```
+main @class: mx-auto max-w-5xl px-4
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<main class="mx-auto max-w-5xl px-4">
+  <p>Los pergaminos cuentan los ríos, las cosechas y las lunas del Valle.</p>
+</main>
+```
+
+#### Al superarla
+El texto se queda en el medio del salón, de un ancho que se lee. {mentor} se saca el monóculo, lo mira y se lo vuelve a poner. Todavía no.
+
+#### Imagen
+- Un salón enorme con un pergamino centrado de ancho cómodo.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) con el monóculo en la mano.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) espera.
+
 ### Misión R03-N04-M1 · La fila adaptable
 
 ```meta
@@ -1665,6 +2552,222 @@ Un botón que cambia al pasar el mouse, un campo que se marca en rojo cuando est
 #### ¿Por qué `sr-only` y no `hidden` para esconder un radio?
 
 Porque `hidden` lo saca del todo: no se puede elegir con el teclado ni lo lee el lector de pantalla. `sr-only` lo esconde **solo a la vista**: sigue funcionando y accesible.
+
+### Micro-misión R03-N05-P1 · El vitral mudo
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Teo
+carta: hover: | hover:bg-cyan-300 = ese fondo solo cuando el mouse está encima
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo toca una tarjeta y no pasa nada. —¿Está rota? —No está rota —dice {mentor}—. Está **muda**.
+
+#### Gheco sugiere
+`hover:` delante de una clase hace que se aplique **solo** cuando el mouse está encima: `hover:bg-cyan-300`.
+
+#### Desafío
+Agregale `hover:bg-cyan-300` al final de las clases del botón.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<button type="button" class="rounded-lg bg-cyan-400 px-4 py-2">Ver encargo</button>
+```
+
+#### Inspector
+```
+button @class
+```
+
+#### Salida esperada
+```
+button @class: rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<button type="button" class="rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300">Ver encargo</button>
+```
+
+#### Al superarla
+Teo pasa el mouse y el botón se aclara. Lo pasa cuarenta veces más.
+
+#### Imagen
+- Un botón de vidrio cian que se aclara cuando se le acerca una mano.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) pasa la mano una y otra vez.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo mira.
+
+### Micro-misión R03-N05-P2 · Para quien usa el teclado
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Nora
+carta: focus-visible: | el anillo de foco cuando se llega con el teclado · focus-visible:ring-2
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nora recorre la tarjeta con el teclado, una tecla por vez, y no sabe dónde está parada: nada cambia.
+
+#### Gheco sugiere
+`focus-visible:ring-2 focus-visible:ring-cyan-400` dibuja un anillo cuando llegás con el teclado (no con el mouse).
+
+#### Desafío
+Agregale al botón `focus-visible:ring-2 focus-visible:ring-cyan-400`, al final.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<button type="button" class="rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300">Ver encargo</button>
+```
+
+#### Inspector
+```
+button @class
+```
+
+#### Salida esperada
+```
+button @class: rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<button type="button" class="rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400">Ver encargo</button>
+```
+
+#### Al superarla
+Nora aprieta Tab y el botón se enciende con un anillo. —Ahí estoy —dice.
+
+#### Imagen
+- Un botón de vidrio rodeado de un anillo de luz cian.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) con la mano sobre un teclado de vidrio.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R03-N05-P3 · Que se mueva suave
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco
+carta: transition | transition hace suave el cambio · hover:-translate-y-1 lo levanta un poquito
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La tarjeta cambia de golpe, como un parpadeo. Iris la quiere suave, como la luz de la tarde.
+
+#### Gheco sugiere
+`transition` suaviza los cambios, y `hover:-translate-y-1` levanta la tarjeta un poquito cuando el mouse pasa.
+
+#### Desafío
+Agregale a la tarjeta `transition hover:-translate-y-1`, al final.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="rounded-xl bg-slate-800 p-4 text-slate-100">Ventana para el Valle</article>
+```
+
+#### Inspector
+```
+article @class
+```
+
+#### Salida esperada
+```
+article @class: rounded-xl bg-slate-800 p-4 text-slate-100 transition hover:-translate-y-1
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="rounded-xl bg-slate-800 p-4 text-slate-100 transition hover:-translate-y-1">Ventana para el Valle</article>
+```
+
+#### Al superarla
+La tarjeta se levanta despacito cuando pasa el mouse. Gheco se sube arriba para que lo levante también.
+
+#### Imagen
+- Una tarjeta de vidrio que se eleva suavemente.
+- Gheco (gecko de luz con antiparras) sentado arriba.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira la luz.
+
+### Micro-misión R03-N05-P4 · El vitral que se ilumina entero
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Tesela
+carta: group | group en el padre · group-hover:… en un hijo · el hijo cambia cuando el mouse pasa por el padre
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Cuando alguien se acerca a la tarjeta, Iris quiere que se encienda el **título** adentro, aunque el mouse no esté justo encima.
+
+#### Gheco sugiere
+`group` en el padre, y `group-hover:text-cyan-400` en el hijo: el hijo cambia cuando el mouse pasa por **el padre**.
+
+#### Desafío
+Agregale `group` al `article`, y `group-hover:text-cyan-400` al `h3`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="rounded-xl bg-slate-800 p-4">
+  <h3 class="font-bold text-slate-100">Ventana para el Valle</h3>
+  <p class="text-slate-400">Encargo de Ofidia</p>
+</article>
+```
+
+#### Inspector
+```
+article @class
+h3 @class
+```
+
+#### Salida esperada
+```
+article @class: group rounded-xl bg-slate-800 p-4
+h3 @class: font-bold text-slate-100 group-hover:text-cyan-400
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="group rounded-xl bg-slate-800 p-4">
+  <h3 class="font-bold text-slate-100 group-hover:text-cyan-400">Ventana para el Valle</h3>
+  <p class="text-slate-400">Encargo de Ofidia</p>
+</article>
+```
+
+#### Al superarla
+El mouse roza la tarjeta y el título se enciende en cian. {mentor} se queda mirando un segundo de más.
+
+#### Imagen
+- Una tarjeta de vidrio oscuro cuyo título se enciende en cian.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) la mira.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) acerca la mano.
 
 ### Misión R03-N05-M1 · La fila con hover
 
@@ -2064,6 +3167,251 @@ Todas las de color con el nombre `oro`: `text-oro`, `bg-oro`, `border-oro`, `rin
 #### ¿Por qué las fuentes del tema terminan en `system-ui, sans-serif`?
 
 Son las fuentes **de reserva**: si no hay internet o Google Fonts tarda en cargar, la página usa la letra del sistema y se sigue viendo bien.
+
+### Micro-misión R03-N06-P1 · Los colores, en el cofre
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Tesela
+carta: @theme | --color-neon: #22d3ee; crea text-neon, bg-neon, border-neon…
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Iris copió `#22d3ee` en veinte lugares. Cuando el Gremio pide un cian «un poquito más claro», tiene que cambiar los veinte. Se le escapa uno. Teo lo encuentra y se ríe media hora.
+—Grabá los colores **en el cofre** —le enseña {mentor}—. Una vez.
+
+#### Gheco sugiere
+Adentro del bloque de Tailwind, `@theme { --color-neon: #22d3ee; }` crea las clases `text-neon`, `bg-neon`…
+
+#### Desafío
+Agregá en el bloque un `@theme` con `--color-neon: #22d3ee;`, y cambiá la clase del `h1` a `text-neon`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<h1 class="text-[#22d3ee]">GhecoSoft</h1>
+```
+
+#### Inspector
+```
+css @theme { --color-neon }
+h1 @class
+```
+
+#### Salida esperada
+```
+css @theme { --color-neon }: #22d3ee
+h1 @class: text-neon
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+</style>
+<h1 class="text-neon">GhecoSoft</h1>
+```
+
+#### Al superarla
+El título usa el color por su nombre. Teo deja de reírse: ya no hay nada que encontrar.
+
+#### Imagen
+- Un cofre con un frasco de color cian etiquetado «neón».
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe la etiqueta.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) asiente.
+
+### Micro-misión R03-N06-P2 · Un cian un poquito más claro
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Teo
+carta: Cambiar el tema | se cambia el valor en @theme y cambia en todos lados
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Gremio vuelve a pedir el cian «un poquito más claro». Teo prepara una lista para buscar los veinte lugares.
+
+#### Gheco sugiere
+Con el color en el `@theme`, se cambia **una sola vez**: el valor de `--color-neon`.
+
+#### Desafío
+Cambiá el valor de `--color-neon` a `#67e8f9`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+</style>
+<h1 class="text-neon">GhecoSoft</h1>
+<p class="text-neon">Aprendé a programar.</p>
+```
+
+#### Inspector
+```
+css @theme { --color-neon }
+```
+
+#### Salida esperada
+```
+css @theme { --color-neon }: #67e8f9
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #67e8f9;
+  }
+</style>
+<h1 class="text-neon">GhecoSoft</h1>
+<p class="text-neon">Aprendé a programar.</p>
+```
+
+#### Al superarla
+Iris cambia un solo número y todo se aclara a la vez. Teo rompe su lista.
+
+#### Imagen
+- Un vitral entero que cambia de cian a un cian más claro, todo a la vez.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) rompe una lista de papel.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R03-N06-P3 · Los títulos de fábrica
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Tesela
+carta: @layer base | estilos de fábrica para etiquetas · h1 { @apply font-bold; }
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Todos los títulos del taller van en negrita. Iris le pone `font-bold` a cada uno, de a uno.
+
+#### Gheco sugiere
+`@layer base { h2 { @apply font-bold; } }` le da a **todos** los `h2` la letra gruesa, sin ponérsela a cada uno.
+
+#### Desafío
+Agregá en el bloque un `@layer base` con `h2 { @apply font-bold text-neon; }`, y sacale las clases a los dos `h2`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+</style>
+<h2 class="font-bold text-neon">Encargos</h2>
+<h2 class="font-bold text-neon">Liga</h2>
+```
+
+#### Inspector
+```
+css h2 { @apply }
+h2 @class
+```
+
+#### Salida esperada
+```
+css h2 { @apply }: font-bold text-neon
+h2 @class: (no tiene)
+h2 @class: (no tiene)
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @layer base {
+    h2 { @apply font-bold text-neon; }
+  }
+</style>
+<h2>Encargos</h2>
+<h2>Liga</h2>
+```
+
+#### Al superarla
+Los títulos salen gruesos y cian de fábrica. Iris mira sus manos, sin saber qué hacer con el tiempo que le sobra.
+
+#### Imagen
+- Una fila de títulos de vitral todos iguales, saliendo de un molde.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con las manos vacías.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) sonríe.
+
+### Micro-misión R03-N06-P4 · La letra del taller
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Nora
+carta: Fuentes | --font-display: "Space Grotesk", sans-serif; en @theme crea font-display
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El taller tiene su propia letra para los títulos. Nora no la ve, pero la reconoce cuando se la leen: «suena moderna», dice.
+
+#### Gheco sugiere
+En `@theme`, `--font-display: "Space Grotesk", sans-serif;` crea la clase `font-display`. El nombre de la fuente va entre comillas.
+
+#### Desafío
+Agregá en el `@theme` la variable `--font-display` con `"Space Grotesk", sans-serif`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+                   <h1 class="font-display text-neon">Los Talleres</h1>
+```
+
+#### Inspector
+```
+css @theme { --font-display }
+```
+
+#### Salida esperada
+```
+css @theme { --font-display }: "Space Grotesk", sans-serif
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+    --font-display: "Space Grotesk", sans-serif;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+                   <h1 class="font-display text-neon">Los Talleres</h1>
+```
+
+#### Al superarla
+El título toma la letra del taller. Nora pasa la mano y sonríe: —Moderna. Lo sabía.
+
+#### Imagen
+- Un título de vitral con una letra moderna y geométrica.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) sonríe.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lee en voz alta.
 
 ### Misión R03-N06-M1 · La Liga Amatista
 
@@ -2864,6 +4212,282 @@ Conviene para piezas **chicas** que se repiten **siempre iguales**: botones, chi
 #### ¿Para qué sirve una guía de estilo en una página estática?
 
 Es la **fuente oficial** de cada pieza: como no hay un programa que genere el HTML, se copia de ahí y todas las páginas quedan iguales. También sirve para ver todas las piezas juntas y probar un cambio del tema de un vistazo.
+
+### Micro-misión R03-N07-P1 · La pieza oficial
+
+```meta
+lugar: El muestrario
+personajes: Iris, Tesela
+carta: @utility | @utility btn { @apply …; } · una pieza con nombre, se usa con class="btn"
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El **Orco del Desborde** asoma la cabeza por la puerta: la misma tarjeta, copiada treinta veces con treinta diferencias chiquitas. Cada copia mal hecha lo hace más fuerte.
+{mentor} cuelga en la pared un **muestrario**: cada pieza una sola vez, la oficial.
+
+#### Gheco sugiere
+`@utility btn { @apply rounded-lg px-4 py-2 font-semibold; }` crea la clase `btn`. Se escribe una vez y se usa en todos lados.
+
+#### Desafío
+Agregá en el bloque `@utility btn { @apply rounded-lg px-4 py-2 font-semibold; }`, y dejale a los dos botones solo la clase `btn`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+</style>
+<a class="rounded-lg px-4 py-2 font-semibold" href="#">Encargos</a>
+<a class="rounded-md px-5 py-2 font-bold" href="#">Liga</a>
+```
+
+#### Inspector
+```
+css @utility btn { @apply }
+a @class
+```
+
+#### Salida esperada
+```
+css @utility btn { @apply }: rounded-lg px-4 py-2 font-semibold
+a @class: btn
+a @class: btn
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+</style>
+<a class="btn" href="#">Encargos</a>
+<a class="btn" href="#">Liga</a>
+```
+
+#### Al superarla
+Los dos botones quedan idénticos. El orco pierde una de sus treinta copias y gruñe.
+
+#### Imagen
+- Una pared con un muestrario de piezas de vitral, cada una una sola vez.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) cuelga una pieza.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+- En la puerta asoma un orco verde enorme.
+
+### Micro-misión R03-N07-P2 · El botón principal
+
+```meta
+lugar: El muestrario
+personajes: Iris, Teo
+carta: Variantes de componente | btn + btn-primario · la base y el color, por separado
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Teo quiere que el botón de «Entrar» sea distinto: cian y llamativo. Pero sin copiar todo el botón.
+
+#### Gheco sugiere
+Se combinan: `class="btn btn-primario"`. La base en `btn` y el color en `btn-primario`, con su propio `@utility`.
+
+#### Desafío
+Agregá `@utility btn-primario { @apply bg-neon text-slate-950; }` y ponele al enlace las clases `btn btn-primario`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+</style>
+<a class="btn" href="#">Entrar</a>
+```
+
+#### Inspector
+```
+css @utility btn-primario { @apply }
+a @class
+```
+
+#### Salida esperada
+```
+css @utility btn-primario { @apply }: bg-neon text-slate-950
+a @class: btn btn-primario
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+  @utility btn-primario {
+    @apply bg-neon text-slate-950;
+  }
+</style>
+<a class="btn btn-primario" href="#">Entrar</a>
+```
+
+#### Al superarla
+El botón de Entrar brilla cian y sigue siendo un `btn`. Teo, por primera vez, no le agrega nada.
+
+#### Imagen
+- Un botón de vidrio cian brillante al lado de botones grises iguales.
+- Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) con las manos en los bolsillos, conteniéndose.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
+
+### Micro-misión R03-N07-P3 · Se combina con clases sueltas
+
+```meta
+lugar: El muestrario
+personajes: Iris, Tesela
+carta: Componente + clases | btn btn-primario w-full sm:w-auto · el componente no impide ajustar
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la cabaña, el botón de Entrar tiene que ocupar todo el ancho; en el castillo, su ancho justo.
+
+#### Gheco sugiere
+Un componente se combina con clases sueltas: `btn btn-primario w-full sm:w-auto`.
+
+#### Desafío
+Agregale `w-full sm:w-auto` al final de las clases del enlace.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+  @utility btn-primario {
+    @apply bg-neon text-slate-950;
+  }
+</style>
+<a class="btn btn-primario" href="#">Entrar</a>
+```
+
+#### Inspector
+```
+a @class
+```
+
+#### Salida esperada
+```
+a @class: btn btn-primario w-full sm:w-auto
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility btn {
+    @apply rounded-lg px-4 py-2 font-semibold;
+  }
+  @utility btn-primario {
+    @apply bg-neon text-slate-950;
+  }
+</style>
+<a class="btn btn-primario w-full sm:w-auto" href="#">Entrar</a>
+```
+
+#### Al superarla
+En la cabaña, el botón se estira de lado a lado. En el castillo, vuelve a su tamaño.
+
+#### Imagen
+- Un botón cian que en una ventanita ocupa todo el ancho y en un ventanal es chico.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo mira en el espejito.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
+
+### Micro-misión R03-N07-P4 · El chip del curso
+
+```meta
+lugar: El muestrario
+personajes: Iris, Gheco
+carta: No todo es componente | si se usa una vez, clases sueltas · si se repite, @utility
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Las tarjetas de los cursos llevan un chip con el lenguaje, y se repite en ocho tarjetas. Va al muestrario.
+
+#### Gheco sugiere
+Lo que se repite va a un `@utility`. `@utility chip { @apply rounded-full px-3 py-1 text-xs; }`.
+
+#### Desafío
+Agregá `@utility chip { @apply rounded-full px-3 py-1 text-xs; }` y ponele `chip` a los tres `span`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+</style>
+<span class="rounded-full px-3 py-1 text-xs">Python</span>
+<span class="rounded-full px-3 py-1 text-xs">Java</span>
+<span class="rounded-full px-3 py-1 text-xs">C++</span>
+```
+
+#### Inspector
+```
+css @utility chip { @apply }
+span @class
+```
+
+#### Salida esperada
+```
+css @utility chip { @apply }: rounded-full px-3 py-1 text-xs
+span @class: chip
+span @class: chip
+span @class: chip
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+  @theme {
+    --color-neon: #22d3ee;
+  }
+  @utility chip {
+    @apply rounded-full px-3 py-1 text-xs;
+  }
+</style>
+<span class="chip">Python</span>
+<span class="chip">Java</span>
+<span class="chip">C++</span>
+```
+
+#### Al superarla
+Tres chips iguales. El muestrario ya tiene botones y chips. Iris le agrega una etiqueta prolija debajo de cada pieza.
+
+#### Imagen
+- Un muestrario de vidrio con botones y chips redondos de colores, cada uno con su etiqueta.
+- Gheco (gecko de luz con antiparras) señala un chip.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe etiquetas.
 
 ### Misión R03-N07-M1 · Las alertas
 
@@ -3669,6 +5293,228 @@ Porque esconde el síntoma, no el problema: lo que se salía de la pantalla qued
 #### ¿Qué diferencia hay entre `w-[600px]` y `w-full max-w-[600px]`?
 
 `w-[600px]` mide siempre 600 px, aunque la pantalla tenga 390. `w-full max-w-[600px]` ocupa todo el ancho disponible, pero nunca más de 600: en la compu mide 600 y en el celular se achica.
+
+### Micro-misión R03-N08-P1 · La imagen que estira la pared
+
+```meta
+lugar: El tablón de encargos
+personajes: Iris, Tesela
+criatura: orco
+carta: Imágenes que entran | max-w-full h-auto · nunca más ancha que su caja
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Orco del Desborde entró al taller y estiró el **tablón de encargos** con sus manos enormes. En la ventanita de la cabaña todo se sale por el costado.
+—Mirá la cabaña, no el castillo —dice {mentor}—. **En el celular, se ve todo.**
+
+#### Gheco sugiere
+`max-w-full h-auto` hace que la imagen nunca sea más ancha que su caja.
+
+#### Desafío
+Cambiá la clase `w-[900px]` de la imagen por `max-w-full h-auto`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<img src="/img/cursos/html/heroe-896.webp" alt="El aprendiz con su buzo de circuitos" width="896" height="896" class="w-[900px]">
+```
+
+#### Inspector
+```
+img @class
+```
+
+#### Salida esperada
+```
+img @class: max-w-full h-auto
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<img src="/img/cursos/html/heroe-896.webp" alt="El aprendiz con su buzo de circuitos" width="896" height="896" class="max-w-full h-auto">
+```
+
+#### Al superarla
+La imagen entra en la cabaña. El orco pierde un brazo de ancho.
+
+#### Imagen
+- Un tablón de encargos de madera que se encoge para entrar en una ventanita.
+- el Orco del Desborde (un orco verde musgo tan ancho que no entra en el marco del vitral, con vidrios rotos clavados en la armadura, estirando los brazos)
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con el espejito.
+
+### Micro-misión R03-N08-P2 · La dirección larguísima
+
+```meta
+lugar: El tablón de encargos
+personajes: Iris, Gheco
+criatura: orco
+carta: break-all | corta las palabras larguísimas (direcciones, códigos) donde haga falta
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La dirección para seguir el encargo es una sola palabra larguísima, y empuja la pared.
+
+#### Gheco sugiere
+`break-all` deja cortar una palabra larguísima en cualquier letra, para que entre.
+
+#### Desafío
+Agregale `break-all` al párrafo de la dirección.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<p>Seguí tu encargo en: https://talleres-de-los-vitrales.example/encargos/ventanal-del-gran-castillo-de-la-montana</p>
+```
+
+#### Inspector
+```
+p @class
+```
+
+#### Salida esperada
+```
+p @class: break-all
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<p class="break-all">Seguí tu encargo en: https://talleres-de-los-vitrales.example/encargos/ventanal-del-gran-castillo-de-la-montana</p>
+```
+
+#### Al superarla
+La dirección se corta en dos renglones y entra. El orco pierde el otro brazo de ancho.
+
+#### Imagen
+- Un cartel con una dirección larguísima que se dobla en dos renglones.
+- el Orco del Desborde (un orco verde musgo tan ancho que no entra en el marco del vitral, con vidrios rotos clavados en la armadura, estirando los brazos)
+- Gheco (gecko de luz con antiparras) dobla el cartel.
+
+### Micro-misión R03-N08-P3 · La tabla que no entra
+
+```meta
+lugar: El tablón de encargos
+personajes: Iris, Nora
+criatura: orco
+carta: overflow-x-auto | un contenedor que se desliza de costado · la tabla entera, sin romper la página
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La tabla de encargos tiene seis columnas y en la cabaña no entra de ninguna forma.
+
+#### Gheco sugiere
+Envolvé la tabla en un `div` con `overflow-x-auto`: la **tabla** se desliza de costado, no la página entera.
+
+#### Desafío
+Envolvé la tabla en un `div` con la clase `overflow-x-auto`.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<table class="min-w-[40rem]">
+  <tr><th>Encargo</th><th>Cliente</th><th>Vidrios</th><th>Plomo</th><th>Entrega</th><th>Estado</th></tr>
+  <tr><td>Ventanal</td><td>Kaffa</td><td>12</td><td>8 kg</td><td>Lunes</td><td>En curso</td></tr>
+</table>
+```
+
+#### Inspector
+```
+div.overflow-x-auto > table #
+```
+
+#### Salida esperada
+```
+div.overflow-x-auto > table #: 1
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<div class="overflow-x-auto">
+  <table class="min-w-[40rem]">
+    <tr><th>Encargo</th><th>Cliente</th><th>Vidrios</th><th>Plomo</th><th>Entrega</th><th>Estado</th></tr>
+    <tr><td>Ventanal</td><td>Kaffa</td><td>12</td><td>8 kg</td><td>Lunes</td><td>En curso</td></tr>
+  </table>
+</div>
+```
+
+#### Al superarla
+La tabla se desliza sola, sin mover la página. Nora la recorre de punta a punta sin perderse.
+
+#### Imagen
+- Una tabla de vidrio que se desliza de costado dentro de un marco, sin moverlo.
+- el Orco del Desborde (un orco verde musgo tan ancho que no entra en el marco del vitral, con vidrios rotos clavados en la armadura, estirando los brazos) encogido.
+- Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) recorre la tabla.
+
+### Micro-misión R03-N08-P4 · El ancho fijo
+
+```meta
+lugar: El tablón de encargos
+personajes: Iris, Tesela
+criatura: orco
+carta: Anchos que se adaptan | w-full max-w-xl · nunca un ancho fijo más grande que la cabaña
+recompensa: xp 20, oro 25
+item: Plantilla del Vidriero
+```
+
+#### Escena
+Queda la última trampa del orco: la tarjeta del tablón tiene un ancho fijo de 600 píxeles.
+
+#### Gheco sugiere
+En vez de un ancho fijo, `w-full max-w-xl`: ocupa todo lo que hay, pero nunca más que `max-w-xl`.
+
+#### Desafío
+Cambiá `w-[600px]` por `w-full max-w-xl` en la tarjeta.
+
+#### Código inicial
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="w-[600px] rounded-xl bg-slate-800 p-4 text-slate-100">Tablón de encargos</article>
+```
+
+#### Inspector
+```
+article @class
+```
+
+#### Salida esperada
+```
+article @class: w-full max-w-xl rounded-xl bg-slate-800 p-4 text-slate-100
+```
+
+#### Solución
+```html
+<style type="text/tailwindcss">
+  @import "tailwindcss";
+</style>
+<article class="w-full max-w-xl rounded-xl bg-slate-800 p-4 text-slate-100">Tablón de encargos</article>
+```
+
+#### Al superarla
+El orco se queda sin lugar adonde estirarse y sale por la puerta, de costado. En el fondo del cofre, donde estaba sentado, queda una plantilla vieja que no es del Gremio: un vitral redondo, con la inscripción **«para quien llegue»**. Es la letra del Vidriero: **la Plantilla del Vidriero**.
+
+#### Imagen
+- Un taller ordenado; un orco enorme sale por la puerta de costado.
+- Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sostiene una plantilla vieja de un vitral redondo con una inscripción a mano.
+- Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) la mira, pálida.
 
 ### Misión R03-N08-M1 · El tablón estirado
 

@@ -10,6 +10,8 @@
 //   img @alt                              → el atributo de cada uno, (vacío) si está sin valor, (no tiene) si falta
 //   css .tarjeta { padding }              → el valor de la última regla con ese selector, o (no hay)
 //   css @media (min-width: 768px) | .grilla { display }   → lo mismo, adentro de ese @media
+//   css body { @apply }                   → las clases de Tailwind de su @apply (también en @layer y @utility)
+//   css @theme { --color-neon }           → las variables del tema de Tailwind
 // Los renglones vacíos y los que empiezan con // no piden nada.
 
 const MAX_MATCHES = 20;
@@ -70,8 +72,14 @@ export function parseCss(css, media = '') {
         } else if (/^@(layer|supports)\b/i.test(prelude)) {
             rules.push(...parseCss(body, media));
         } else if (prelude) {
-            const declarations = body.split(';').map((d) => d.split(':')).filter((p) => p.length > 1)
-                .map(([prop, ...rest]) => [squish(prop).toLowerCase(), normalizeValue(rest.join(':'))]);
+            // `@apply clases;` (Tailwind) se lee como una propiedad más: css body { @apply }.
+            const declarations = body.split(';').map(squish).filter(Boolean).map((d) => {
+                const apply = d.match(/^@apply\s+(.+)$/i);
+                if (apply) return ['@apply', squish(apply[1])];
+                const colon = d.indexOf(':');
+
+                return colon > 0 ? [squish(d.slice(0, colon)).toLowerCase(), normalizeValue(d.slice(colon + 1))] : null;
+            }).filter(Boolean);
             rules.push({ media, selectors: prelude.split(',').map(normalizeSelector), declarations });
         }
     }

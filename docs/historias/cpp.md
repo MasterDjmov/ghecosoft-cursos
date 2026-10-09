@@ -163,7 +163,8 @@ Las fichas completas están en [PERSONAJES.md](PERSONAJES.md) (§ La Ciudadela d
 7. **163 micro-misiones** (Clase 0 y R01 32, R02 28, R03 28, R04 28, R05 19, R06 16 y la Senda 12), generadas con `scripts/micro-misiones/gencpp.py` y probadas también con el Clang del navegador (`browser-check.mjs`). Las de Qt y SDL3 prueban la lógica sin ventana.
 
 **Falta:**
-- Las imágenes de Lima, Lyn, Oto, los jefes y los ítems; el mapa, la tienda y las recetas de la Ciudadela.
+- ~~El mapa de la Ciudadela~~ (hecho 2026-10-08: `public/img/mundos/ciudadela/mapa.webp` y sus 12 lugares en `config/game.php`, del Portón de Engranajes a la Torre de los Vitrales).
+- Las imágenes de Lima, Lyn, Oto, los jefes y los ítems; la tienda y las recetas de la Ciudadela.
 
 ## 5. Lo que decidió el docente (2026-10-08)
 

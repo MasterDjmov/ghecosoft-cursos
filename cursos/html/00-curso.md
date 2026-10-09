@@ -116,6 +116,20 @@ Dentro de la apertura van los **atributos**: `nombre="valor"` (`lang="es"`).
 - **Inspector (DevTools)**: clic derecho → *Inspeccionar* (o F12). Muestra el árbol de etiquetas. Con el ícono de celular (Ctrl+Shift+M) se ve la página **en tamaño celular**: lo vamos a usar todo el curso.
 - **Validador**: revisa que el HTML esté bien escrito. Copiá tu código, abrí [validator.w3.org](https://validator.w3.org/#validate_by_input), pegalo en *Validate by Direct Input* y tocá *Check*. Si dice *No errors*, el plomo está bien soldado.
 
+#### Trabajar en tu compu (Linux y Windows)
+Todo el curso se puede hacer en la plataforma. Si además querés armar tus páginas en tu compu:
+
+| | Windows | Linux |
+|---|---|---|
+| **Editor** | [VS Code](https://code.visualstudio.com): bajá el instalador para Windows y, al instalar, marcá *Agregar a PATH* y *Agregar «Abrir con Code»* al menú del Explorador | VS Code desde [code.visualstudio.com](https://code.visualstudio.com) (el `.deb` en Ubuntu/Debian, el `.rpm` en Fedora) o `sudo snap install code --classic` |
+| **La carpeta** | En el Explorador, una carpeta nueva (por ejemplo `Documentos\vitrales`); clic derecho → *Abrir con Code* | Una carpeta nueva (por ejemplo `~/vitrales`); en la terminal, `code ~/vitrales` |
+| **Ver la página** | Guardá el archivo como `index.html` y abrilo con doble clic: se abre en el navegador | Igual, con doble clic en el administrador de archivos, o `xdg-open index.html` en la terminal |
+| **El inspector** | F12 o Ctrl+Shift+I | F12 o Ctrl+Shift+I |
+
+**Que se recargue sola:** en VS Code, instalá la extensión **Live Server** (de Ritwick Dey). Con el `index.html` abierto, tocá **Go Live** abajo a la derecha: la página se abre en el navegador y se recarga cada vez que guardás (Ctrl+S). Funciona igual en Windows y en Linux.
+
+Los nombres de archivo, **en minúscula y sin espacios ni tildes** (`mi-pagina.html`, no `Mi Página.html`): en Windows da lo mismo, pero en un servidor Linux `Foto.jpg` y `foto.jpg` son dos archivos distintos.
+
 #### El ejemplo
 
 Una página mínima con título y dos párrafos.

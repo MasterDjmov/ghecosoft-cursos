@@ -60,7 +60,17 @@ Ventajas: no hay que inventar nombres, no hay CSS que crece sin control, cada co
 ```
 Tailwind **revisa las clases que usaste** en la página y genera el CSS **solo de esas**.
 
-**En tu compu**, para un proyecto de verdad, se usa el CLI con Node.js (20 o más nuevo). El CSS de entrada va en un archivo aparte, `entrada.css`, y el CLI genera `salida.css`, que es el que se enlaza en el HTML:
+**En tu compu**, para un proyecto de verdad, se usa el CLI con **Node.js** (20 o más nuevo):
+
+| | Windows | Linux |
+|---|---|---|
+| **Instalar Node.js** | En [nodejs.org](https://nodejs.org), el instalador **LTS** para Windows (`.msi`); dejá marcado *Add to PATH* | La versión de `apt` suele ser vieja: instalalo con **nvm**: `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh \| bash`, cerrá y abrí la terminal, y `nvm install --lts` |
+| **La terminal** | En VS Code: *Terminal → Nueva terminal* (PowerShell), ya parada en la carpeta del proyecto | En VS Code: *Terminal → Nueva terminal*, o la terminal del sistema con `cd ~/vitrales` |
+| **Comprobar** | `node -v` tiene que decir `v20` o más | igual |
+
+En Windows, si PowerShell dice que **la ejecución de scripts está deshabilitada** al usar `npx`, escribí una vez `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` y confirmá con `S`, o abrí una terminal de tipo *Command Prompt* (la flechita al lado del `+` de la terminal).
+
+El CSS de entrada va en un archivo aparte, `entrada.css`, y el CLI genera `salida.css`, que es el que se enlaza en el HTML:
 ```
 entrada.css  ──(el CLI de Tailwind lee los .html)──▶  salida.css  ◀── <link> del HTML
 ```

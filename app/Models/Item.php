@@ -34,8 +34,11 @@ class Item extends Model
     /** El de la Ciudadela: la misma segunda vida (C++, R05-N01). */
     public const CATCH = 'amuleto-del-catch';
 
+    /** El de los Talleres: la misma segunda vida (HTML y CSS, R01-N05). */
+    public const VALIDATOR = 'amuleto-del-validador';
+
     /** Los que dan la segunda vida en las expediciones. */
-    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP, self::CATCH];
+    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP, self::CATCH, self::VALIDATOR];
 
     /** Termina al instante la expedición en camino; se gasta al usarlo (R03-N06). */
     public const HOURGLASS = 'reloj-de-arena';

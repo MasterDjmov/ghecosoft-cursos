@@ -138,6 +138,17 @@ class GameItems extends Command
             ['code' => 'hoja-templada', 'name' => 'Hoja Templada', 'kind' => 'weapon', 'rarity' => 'legendary', 'attack' => 12, 'strength' => 3, 'dexterity' => 2, 'description' => 'La espada que Kira forjó ella misma frente al Dragón bajo la Montaña, midiendo cada grado.'],
             ['code' => 'matriz-del-marco', 'name' => 'Matriz del Marco', 'kind' => 'story', 'description' => 'El molde de plomo de un vitral enorme que dejó el Vidriero bajo la Montaña, con la inscripción «para quien llegue». El mismo marco que espera en la torre más alta del Imperio.'],
         ],
+        'html' => [
+            // Los Talleres (docs/historias/html.md): lo que gana Iris en la historia. La tienda (Ámbar) y las recetas
+            // se suman cuando estén sus imágenes.
+            ['code' => 'fragmento-astillado', 'name' => 'Fragmento Astillado', 'kind' => 'story', 'description' => 'El vidrio de colores que abrió el portal. Iris lo quiso colgar sin plomo y se le astilló una punta.'],
+            ['code' => 'fragmento-emplomado', 'name' => 'Fragmento Emplomado', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 2, 'description' => 'Tesela lo emplomó al caer el Slime de las Etiquetas Huérfanas: ahora se sostiene solo, y la luz que pasa corta.'],
+            ['code' => Item::VALIDATOR, 'name' => 'Amuleto del Validador', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Un vidrio que se pone rojo donde algo quedó mal cerrado. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
+            ['code' => 'monoculo-de-cristal', 'name' => 'Monóculo de Cristal', 'kind' => 'accessory', 'rarity' => 'epic', 'defense' => 1, 'intelligence' => 3, 'luck' => 3, 'description' => 'Una copia del de Tesela, tallada por ella al caer el Ogro de la Cascada: ve qué regla le gana a cuál.'],
+            ['code' => 'plantilla-del-vidriero', 'name' => 'Plantilla del Vidriero', 'kind' => 'story', 'description' => 'Estaba en el fondo del cofre del Gremio, debajo del Orco del Desborde: una plantilla de vitral redondo con la inscripción «para quien llegue».'],
+            ['code' => 'vitral-de-iris', 'name' => 'Vitral de Iris', 'kind' => 'weapon', 'rarity' => 'legendary', 'attack' => 12, 'intelligence' => 3, 'dexterity' => 2, 'description' => 'El primer vitral que Iris colgó entero, con su fragmento en el centro. Lo empezó por la ventanita de la cabaña.'],
+            ['code' => 'marco-vacio', 'name' => 'Marco Vacío', 'kind' => 'story', 'description' => 'Estaba en la mesa del taller del Vidriero: un marco de plomo redondo con un hueco del tamaño exacto del fragmento de Iris. Tesela reconoce el plomo de su maestro.'],
+        ],
         'cpp' => [
             // La Ciudadela (docs/historias/cpp.md): el puesto de Oto. Armas
             ['code' => 'llave-de-tuercas', 'name' => 'Llave de Tuercas', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave común de la Ciudadela. Oto la usa para abrir frascos.'],
@@ -290,6 +301,14 @@ class GameItems extends Command
         'espejo-del-mimico' => 'Un espejo de mano ovalado con marco de cera gris que se derrite apenas, y un reflejo levemente distinto al de afuera.',
         'catalogo-de-plantillas' => 'Un libro grande con tapas de bronce y engranajes en el lomo, abierto en un plano de dos bisagras con medidas que no cierran.',
         'engranaje-del-portal' => 'Un engranaje enorme de bronce oscuro con dientes de formas raras, atado a una cadena cortada, con un brillo de vitral entre los dientes.',
+        // HTML y CSS: los Talleres de los Vitrales (vidrio iridiscente y plomo)
+        'fragmento-astillado' => 'Un fragmento de vidrio de colores iridiscente con una punta astillada, apoyado sobre un paño oscuro.',
+        'fragmento-emplomado' => 'Un fragmento de vidrio de colores iridiscente rodeado de un marco de plomo gris, que proyecta rayos de luz de colores.',
+        Item::VALIDATOR => 'Un amuleto de vidrio transparente con forma de escudo, colgado de una cadena de plomo, con una marca roja que brilla en el centro.',
+        'monoculo-de-cristal' => 'Un monóculo de cristal tallado con facetas de colores y una cadenita de plata.',
+        'plantilla-del-vidriero' => 'Una plantilla de papel grueso de un vitral redondo, con la inscripción «para quien llegue» escrita a mano en el borde.',
+        'vitral-de-iris' => 'Un vitral redondo chico con un fragmento iridiscente en el centro y vidrios de colores alrededor, que brilla como un sol.',
+        'marco-vacio' => 'Un marco de plomo redondo y vacío sobre una mesa de taller polvorienta, con un hueco en el centro.',
         // C++: la Ciudadela de los Artífices (bronce, latón y rayos cian)
         'llave-de-tuercas' => 'Una llave de tuercas de acero gris con el mango envuelto en cinta y una tapa de frasco todavía enganchada en la boca.',
         'martillo-neumatico' => 'Un martillo de bronce con un pistón y un tubito de vapor en el mango, con una nube chiquita de vapor saliendo.',

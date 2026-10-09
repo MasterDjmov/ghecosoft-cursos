@@ -152,11 +152,11 @@ Cada nodo: de 3 a 5 micro-misiones (≈ 100 en total), cada una con su escena, l
 
 ## 4. Lo que hay que construir
 
-1. **El inspector** (§ 2) y su generador de micro-misiones.
+1. ~~El inspector~~ (hecho 2026-10-08: `resources/js/runners/inspector.js`, `genhtml.py` e `inspect.mjs`).
 2. **≈ 100 micro-misiones**, de la Clase 0 al Dragón, todas con la solución de referencia y comprobadas en Chrome.
-3. **Iris jugable** (`config('game.protagonists.html')`, 6 aspectos en `public/img/protagonistas/iris/`, de las imágenes que ya están en `publicidad/logos cursos/personajes/Iris/`).
-4. **Los ítems de los Talleres** en `app:game-items` (los de la historia, el Amuleto del Validador como segunda vida, `Item::VALIDATOR`), y después la tienda de Ámbar y las recetas.
-5. **Las fichas** de Tesela (completa), Teo, Nora, Ámbar y los cuatro jefes en PERSONAJES.md.
+3. ~~Iris jugable~~ (hecho 2026-10-08: `config('game.protagonists.html')`, 6 aspectos en `public/img/protagonistas/iris/` y los 12 lugares de expedición, que se abren al terminar R01-N02).
+4. ~~Los ítems de la historia~~ (hechos 2026-10-08 en `app:game-items`, con el Amuleto del Validador como segunda vida, `Item::VALIDATOR`); falta la tienda de Ámbar y las recetas, cuando esté su imagen.
+5. ~~Las fichas~~ (hechas 2026-10-08: Tesela, Teo, Nora, Ámbar y los cuatro jefes; faltan las imágenes de todos menos Tesela).
 6. **Las crónicas en tercera persona** con Iris, Teo y Nora en lugar de Zed y Mia; `story.course_intro`, `branch_completed` y `course_completed` reescritos.
 7. **Linux y Windows**: VS Code, Live Server, las herramientas del navegador y Node.js para Tailwind, en la Clase 0 y donde se trabaja afuera.
 8. **El mapa de los Talleres** (hecho 2026-10-08: `public/img/mundos/talleres/mapa.webp`). Sus 12 lugares van a `config('game.protagonists.html.expeditions')` cuando Iris sea jugable (x, y en % del mapa, ya revisados sobre la imagen):

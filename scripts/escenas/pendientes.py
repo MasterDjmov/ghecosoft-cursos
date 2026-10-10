@@ -18,6 +18,11 @@ REFS = {
         'project': '12453694413360128121',
         'region': 'Las Forjas de Hierro',
         'ambiente': 'en una ciudad-forja subterránea de piedra volcánica, con fraguas, lava y circuitos encendidos',
+        # Por archivo, cuando la región tiene su propio lugar.
+        'ambientes': {
+            '03-las-minas.md': 'en una mina subterránea de piedra volcánica, con vías, vagonetas, vetas de cristal cian y faroles',
+            '04-el-archivo.md': 'en un archivo subterráneo de piedra, con estantes de hierro altísimos, libros encadenados, cajas de fichas y faroles',
+        },
         'chars': [
             # (patrón en el texto, nombre, pantallas, aclaración de tamaño)
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
@@ -97,7 +102,7 @@ def prompt(course: str, scene: dict) -> dict:
         'Generá una IMAGEN NUEVA de escena (no modifiques las imágenes seleccionadas: son referencias de cómo se ven los personajes). '
         + (f'Usá las referencias para que {who} ' + ('tengan' if len(names) > 1 else 'tenga') + ' exactamente su aspecto: misma cara, pelo, ropa, colores y proporciones.' if who else '')
         # Ni el lugar ni la región van con nombre: Stitch los escribe en un cartel. Se describe el ambiente.
-        + f'\n\nLa escena ({cfg["ambiente"]}):\n'
+        + f'\n\nLa escena ({cfg.get("ambientes", {}).get(scene["file"], cfg["ambiente"])}):\n'
         + scene['imagen']
         + ('\n\nTamaños: ' + ' '.join(notes) if notes else '')
         + '\n\nEstilo: anime/cómic cyber-arcana, 16:9 horizontal (1376×768), de noche, con luz propia. Sin texto de ningún tipo: ni letras, ni números, ni carteles, ni títulos, ni rótulos con el nombre del lugar.'

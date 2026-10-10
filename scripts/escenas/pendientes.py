@@ -22,6 +22,8 @@ REFS = {
         'ambientes': {
             '03-las-minas.md': 'en una mina subterránea de piedra volcánica, con vías, vagonetas, vetas de cristal cian y faroles',
             '04-el-archivo.md': 'en un archivo subterráneo de piedra, con estantes de hierro altísimos, libros encadenados, cajas de fichas y faroles',
+            '06-senda-forja-viva.md': 'en una sala de forja subterránea detrás de una puerta de vidrio negro, donde formas de luz cian y naranja se mueven sobre superficies que brillan como pantallas',
+            '07-senda-automatas.md': 'en un taller subterráneo de piedra volcánica lleno de autómatas de latón, engranajes, cables, perillas y lucecitas',
         },
         'chars': [
             # (patrón en el texto, nombre, pantallas, aclaración de tamaño)

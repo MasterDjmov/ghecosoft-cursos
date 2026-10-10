@@ -22,7 +22,7 @@ REFS = {
             # (patrón en el texto, nombre, pantallas, aclaración de tamaño)
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
             (r'Ferrum', 'Maese Ferrum', ['10337375498659242332', '10337375498659242906'],
-             'Maese Ferrum es HUMANO y NO es un enano: es un hombre de unos dos metros, con piernas largas y proporciones de hombre alto, una cabeza y media más alto que Kira y mucho más ancho (como en su imagen de referencia de cuerpo entero).'),
+             'Maese Ferrum es HUMANO y NO es un enano: es un hombre de unos dos metros, con piernas largas y proporciones de hombre alto, como en su imagen de referencia de cuerpo entero (al lado de Kira, le saca una cabeza y media y es mucho más ancho).'),
             (r'Tiz[oó]n', 'Tizón', ['39f0163ef1c4420981621687c35f4e02', 'efeb92bd8d4f4de58e0f3de8f5ffba7e'],
              'Tizón es un enano joven: le llega a Kira al hombro.'),
             (r'Chispa', 'Chispa', ['f16d155319584836bac46bb188e095f4', '5178cab1b35a43e086faf1d31c715e61'],
@@ -85,7 +85,9 @@ def prompt(course: str, scene: dict) -> dict:
     has_kira = any(c[1] == 'Kira' for c in found)
     for _, name, ids, note in found:
         screens += ids
-        if note and ('Kira' not in note or has_kira):  # sin Kira, la comparación la haría aparecer
+        if note and not has_kira and ' (al lado de Kira' in note:  # sin Kira, sin la comparación (la haría aparecer)
+            note = note.split(' (al lado de Kira')[0] + '.'
+        if note and ('Kira' not in note or has_kira):
             notes.append(note)
     if len(screens) > MAX_REFS:  # se quedan los cuerpos enteros
         screens = [c[2][0] for c in found][:MAX_REFS]
@@ -100,6 +102,8 @@ def prompt(course: str, scene: dict) -> dict:
         + ('\n\nTamaños: ' + ' '.join(notes) if notes else '')
         + '\n\nEstilo: anime/cómic cyber-arcana, 16:9 horizontal (1376×768), de noche, con luz propia. Sin texto de ningún tipo: ni letras, ni números, ni carteles, ni títulos, ni rótulos con el nombre del lugar.'
     )
+    if not has_kira:  # la descripción de Ferrum la nombra: sin Kira en la escena, se saca
+        text = text.replace(', más alto y ancho que Kira', '')
     return {'projectId': cfg['project'], 'selectedScreenIds': screens, 'prompt': text}
 
 

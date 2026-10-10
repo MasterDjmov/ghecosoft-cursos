@@ -22,7 +22,7 @@ REFS = {
             # (patrón en el texto, nombre, pantallas, aclaración de tamaño)
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
             (r'Ferrum', 'Maese Ferrum', ['10337375498659242332', '10337375498659242906'],
-             'Maese Ferrum es HUMANO y NO es un enano: es un hombre de unos dos metros, con piernas largas y proporciones de hombre alto, como en su imagen de referencia de cuerpo entero (al lado de Kira, le saca una cabeza y media y es mucho más ancho).'),
+             'Maese Ferrum es HUMANO y NO es un enano. Copiá las proporciones de su imagen de referencia de cuerpo entero: un hombre de unos dos metros, de unas siete cabezas de alto, con piernas largas (la mitad de su altura) y torso ancho (al lado de Kira, le saca una cabeza y media y es mucho más ancho).'),
             (r'Tiz[oó]n', 'Tizón', ['39f0163ef1c4420981621687c35f4e02', 'efeb92bd8d4f4de58e0f3de8f5ffba7e'],
              'Tizón es un enano joven: le llega a Kira al hombro.'),
             (r'Chispa', 'Chispa', ['f16d155319584836bac46bb188e095f4', '5178cab1b35a43e086faf1d31c715e61'],

@@ -33,7 +33,7 @@ REFS = {
             (r'Chispa', 'Chispa', ['f16d155319584836bac46bb188e095f4', '5178cab1b35a43e086faf1d31c715e61'],
              'Chispa es humano, alto y flaco: más alto que Kira.'),
             (r'Hulda', 'Hulda', ['ce52b8c5b55941a78f0b76e1ab7f44ef', '8423b67a3d2f47a68ee4ca91a5bb77c5'],
-             'Hulda es una ENANA fornida, mucho más baja que Kira: con el casco puesto, su cabeza le llega a Kira al hombro (piernas cortas, cuerpo ancho; paradas sobre el mismo suelo). Lleva UN solo pico.'),
+             'Hulda es una MUJER (sin barba) ENANA fornida, mucho más baja que Kira: con el casco puesto, su cabeza le llega a Kira al hombro (piernas cortas, cuerpo ancho; paradas sobre el mismo suelo). Lleva UN solo pico.'),
             (r'[Aa]rchivero', 'el Archivero', ['0be226861a8f4a8d8e583a582464fb19', '0fc92e97cf90409b8cd34f93e5450941'],
              'El Archivero es un ENANO muy viejo, mucho más bajo que Kira: su cabeza le llega a Kira al hombro (encorvado, de piernas cortas).'),
             (r'G[oó]lem', 'el Gólem de Escoria', ['2283b769ea444726bb504ca2d9c1d97f', '9baac98214ae432cbe4fafe2213e869a'], ''),

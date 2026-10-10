@@ -43,14 +43,17 @@ id, así que se vuelve a pedir.
 
 | Curso | Hechas | Notas |
 |---|---|---|
-| C | ver el script | Referencias completas en Stitch: Kira, Ferrum, Gheco, Tizón, Chispa, Hulda, el Archivero y los 7 jefes. |
-| HTML | 10 de prueba | Referencias: Iris, Tesela, Gheco. |
+| C | 160 de 161 | Falta `S02-N04-P2` (se cortó la cuota el 2026-10-10). Referencias completas en Stitch. |
+| HTML | 10 de prueba | Proyecto `9229721314509917104`. Referencias: Iris, Tesela, Gheco (falta `REFS['html']` en el script). |
 | C++ | 0 | Faltan en Stitch Bron, Gheco, Lima, Oto, Lyn (están en `~/stitch-subir/`). |
 
-**Para rehacer (C):** toda la tanda de prueba salió con el Ferrum viejo («enano») o sin referencias, así que se
-sacó de `escenas/` y volvió a quedar pendiente: `R00-N01-P1`, `R00-N01-P2`, `R01-N03-P2`, `R01-N06-P1` (además tenía
-números flotando), `R02-N03-P1`, `R03-N05-P4`, `R05-N01-P1`, `R02-N06-P2` (faltaba Chispa), `R01-N10-P1` (el Gólem) y
-`R05-N04-P3` (el Dragón). Quedan buenas `R00-N01-P3` y `R00-N01-P4` (Tizón).
+**Tamaños que funcionan** (ya están en el script): Ferrum «HUMANO, NO enano, siete cabezas, piernas largas»;
+Tizón y Hulda «ENANO/A, su cabeza le llega a Kira al hombro»; Tizón «orejas HUMANAS… la parte de arriba es una
+curva redonda, sin punta» (si no, Stitch le pone orejas de elfo); Hulda «MUJER, sin barba, UN solo pico».
+Con 3+ personajes, mandar solo las referencias de cuerpo entero y pedir «una sola ilustración, sin viñetas»
+(si no, a veces arma viñetas con nombres). Si sale una franja de texto abajo, pedir de nuevo con «la ilustración
+ocupa todo el cuadro, sin franjas ni recuadros». Números o letras chicos en la escena se tapan con PIL
+(como en `R03-N05-P2`).
 
-**Próximo paso (2026-10-10):** el docente vuelve a probar Stitch (se había agotado la cuota). Seguir con la primera
-pendiente que da el script, de a una, y revisar cada escena contra las referencias antes de guardarla.
+**Próximo paso:** generar `S02-N04-P2`, reimportar C (`php artisan app:import-course cursos/c --apply`) y seguir
+con HTML (agregar `REFS['html']` al script con los ids de arriba).

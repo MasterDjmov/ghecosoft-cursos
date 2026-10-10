@@ -29,7 +29,7 @@ REFS = {
             (r'Ferrum', 'Maese Ferrum', ['10337375498659242332', '10337375498659242906'],
              'Maese Ferrum es HUMANO y NO es un enano. Copiá las proporciones de su imagen de referencia de cuerpo entero: un hombre de unos dos metros, de unas siete cabezas de alto, con piernas largas (la mitad de su altura) y torso ancho (al lado de Kira, le saca una cabeza y media y es mucho más ancho).'),
             (r'Tiz[oó]n', 'Tizón', ['39f0163ef1c4420981621687c35f4e02', 'efeb92bd8d4f4de58e0f3de8f5ffba7e'],
-             'Tizón es un ENANO joven, mucho más bajo que Kira: su cabeza le llega a Kira al hombro (piernas cortas, cuerpo ancho; parados sobre el mismo suelo). Tiene cara ancha y redonda y orejas redondas (no puntiagudas).'),
+             'Tizón es un ENANO joven, mucho más bajo que Kira: su cabeza le llega a Kira al hombro (piernas cortas, cuerpo ancho; parados sobre el mismo suelo). Tiene cara ancha y redonda y orejas HUMANAS, chicas y redondeadas arriba, como en su referencia (nada de orejas de elfo ni de duende).'),
             (r'Chispa', 'Chispa', ['f16d155319584836bac46bb188e095f4', '5178cab1b35a43e086faf1d31c715e61'],
              'Chispa es humano, alto y flaco: más alto que Kira.'),
             (r'Hulda', 'Hulda', ['ce52b8c5b55941a78f0b76e1ab7f44ef', '8423b67a3d2f47a68ee4ca91a5bb77c5'],

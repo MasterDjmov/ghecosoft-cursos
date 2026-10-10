@@ -19,7 +19,7 @@ REFS = {
         'region': 'Las Forjas de Hierro',
         'chars': [
             # (patrón en el texto, nombre, pantallas, aclaración de tamaño)
-            (r'\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
+            (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
             (r'Ferrum', 'Maese Ferrum', ['10337375498659242332', '10337375498659242906'],
              'Maese Ferrum es un hombre enorme: más alto y mucho más ancho que Kira.'),
             (r'Tiz[oó]n', 'Tizón', ['39f0163ef1c4420981621687c35f4e02', 'efeb92bd8d4f4de58e0f3de8f5ffba7e'],
@@ -93,11 +93,11 @@ def prompt(course: str, scene: dict) -> dict:
     text = (
         'Generá una IMAGEN NUEVA de escena (no modifiques las imágenes seleccionadas: son referencias de cómo se ven los personajes). '
         + (f'Usá las referencias para que {who} ' + ('tengan' if len(names) > 1 else 'tenga') + ' exactamente su aspecto: misma cara, pelo, ropa, colores y proporciones.' if who else '')
-        + f'\n\nEscena «{scene["title"]}» ({cfg["region"]}'
-        + (f', {scene["lugar"]}' if scene['lugar'] else '') + '):\n'
+        # El nombre del lugar no va: Stitch lo escribe en un cartel (la descripción ya dice cómo es).
+        + f'\n\nLa escena (sucede en {cfg["region"]}):\n'
         + scene['imagen']
         + ('\n\nTamaños: ' + ' '.join(notes) if notes else '')
-        + '\n\nEstilo: anime/cómic cyber-arcana, 16:9 horizontal (1376×768), de noche, con luz propia; sin texto ni letras.'
+        + '\n\nEstilo: anime/cómic cyber-arcana, 16:9 horizontal (1376×768), de noche, con luz propia. Sin texto de ningún tipo: ni letras, ni números, ni carteles, ni títulos, ni rótulos con el nombre del lugar.'
     )
     return {'projectId': cfg['project'], 'selectedScreenIds': screens, 'prompt': text}
 
@@ -107,6 +107,12 @@ def main():
     course = folder.name
     all_scenes = list(scenes(folder))
     pending = [s for s in all_scenes if not done(folder, s['id'])]
+    if '--next' in sys.argv:  # el pedido de la primera pendiente
+        if not pending:
+            print('Todas hechas.')
+            return
+        sys.argv += ['--prompt', pending[0]['id']]
+        print(pending[0]['id'])
     if '--prompt' in sys.argv:
         sid = sys.argv[sys.argv.index('--prompt') + 1]
         scene = next(s for s in all_scenes if s['id'] == sid)

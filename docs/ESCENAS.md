@@ -25,6 +25,10 @@ python3 scripts/escenas/pendientes.py cursos/c
 5. Cada tanto, commit (`content(c): escenas …`). Al terminar: `php artisan app:import-course cursos/c --apply` en local
    y, para producción, `git push && scripts/deploy.sh --cursos`.
 
+**Sin carteles:** si el pedido nombra el lugar («La boca de la Forja»), Stitch lo escribe en un cartel; por eso el
+script no lo pasa. Si igual aparece un rótulo chico, se puede tapar con la textura de al lado (como en `R00-N01-P2`) o
+pedir de nuevo. Cuando Stitch devuelve dos pantallas, la segunda es una corrección suya: mirar las dos.
+
 Las referencias de cada curso (ids de pantallas de Stitch) están en `REFS` dentro de `scripts/escenas/pendientes.py`.
 **Cuota:** Stitch tiene un límite de generaciones. Si responde «Resource has been exhausted (e.g. check quota)», no
 insistir: se espera (al día siguiente) y se sigue con la primera pendiente. Pedirlas **de a una**: en paralelo se

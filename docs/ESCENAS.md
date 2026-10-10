@@ -55,5 +55,5 @@ Con 3+ personajes, mandar solo las referencias de cuerpo entero y pedir «una so
 ocupa todo el cuadro, sin franjas ni recuadros». Números o letras chicos en la escena se tapan con PIL
 (como en `R03-N05-P2`).
 
-**Próximo paso:** generar `S02-N04-P2`, reimportar C (`php artisan app:import-course cursos/c --apply`) y seguir
+**Próximo paso (2026-10-10, 21 h, cuando se recarga la cuota):** generar `S02-N04-P2`, reimportar C (`php artisan app:import-course cursos/c --apply`) y seguir
 con HTML (agregar `REFS['html']` al script con los ids de arriba).

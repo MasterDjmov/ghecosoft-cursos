@@ -92,6 +92,8 @@ def prompt(course: str, scene: dict) -> dict:
         screens += ids
         if note and not has_kira and ' (al lado de Kira' in note:  # sin Kira, sin la comparación (la haría aparecer)
             note = note.split(' (al lado de Kira')[0] + '.'
+        if note and not has_kira:  # sin Kira, el tamaño se dice sin compararla
+            note = note.replace('le llega a Kira al hombro', 'es bajo, bastante más que un humano').replace('más alto que Kira', 'más alto que un humano promedio')
         if note and ('Kira' not in note or has_kira):
             notes.append(note)
     if len(screens) > MAX_REFS:  # se quedan los cuerpos enteros

@@ -352,7 +352,7 @@ Ferrum lee la receta compilada y asiente una sola vez. —De muy lejos. Ya se no
 #### Imagen
 - La boca de las Forjas de Hierro de noche: un portón de hierro enorme, chimeneas y ríos de lava al fondo, un vitral apagado en el piso.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se levanta del piso con una espada de aprendiz en la mano.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) la mira con los brazos cruzados.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) la mira con los brazos cruzados.
 - Gheco, un gecko cian con antiparras, aparece sobre el hombro de Kira.
 
 ### Micro-misión R00-N01-P2 · Tres líneas, un solo printf
@@ -407,7 +407,7 @@ Ferrum tacha «espada» y escribe arriba «espada (rajada)». Kira no le dice na
 
 #### Imagen
 - Una ficha de hierro con tres renglones grabados en luz cian: Nombre, Oficio, Trae.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) corrige la ficha con una tiza.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) corrige la ficha con una tiza.
 
 ### Micro-misión R00-N01-P3 · El punto y coma olvidado
 
@@ -580,7 +580,7 @@ El portón se abre de par en par. Ferrum le devuelve la espada rajada. —Guarda
 
 #### Imagen
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira su espada rajada de punta a mango, frente a un portón de hierro intacto.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) abre el portón tirando de la manija, sin esfuerzo.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) abre el portón tirando de la manija, sin esfuerzo.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) se ríe por lo bajo detrás de él.
 
 ### Misión R00-N01-M1 · La ficha de Kira

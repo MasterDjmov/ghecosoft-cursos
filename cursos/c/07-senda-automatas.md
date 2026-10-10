@@ -2090,7 +2090,7 @@ Kira llega a la salida. El Autómata Guardián se inclina, las luces del pecho t
 #### Imagen
 - El Autómata Guardián (autómata de latón del tamaño de un perro grande, cables a la vista, leds por ojos y un servomotor en cada articulación) inclinado, con todas las luces del pecho en verde.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con el joystick en la mano.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) se seca un ojo disimuladamente.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) se seca un ojo disimuladamente.
 
 ### Misión S02-N04-M1 · La mazmorra con control
 

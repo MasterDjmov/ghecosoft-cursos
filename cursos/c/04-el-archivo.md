@@ -2477,7 +2477,7 @@ Daño 30 en todos los talleres. Ferrum advierte: —Una global compartida es com
 
 #### Imagen
 - Un tablero en el patio con el número 3 grabado, visible desde todos los talleres.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala el tablero.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala el tablero.
 
 ### Misión R04-N03-M1 · Separar la herrería en módulos
 

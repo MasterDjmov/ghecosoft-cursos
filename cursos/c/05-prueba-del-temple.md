@@ -251,7 +251,7 @@ int main(void)
 
 #### Imagen
 - Una sala oscura llena de espadas colgadas; una tiene una grieta fina que brilla.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) golpea una espada con un martillito y escucha.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) golpea una espada con un martillito y escucha.
 
 ### Micro-misión R05-N01-P2 · El que nunca entra
 
@@ -1158,7 +1158,7 @@ Cinco de cinco. Ferrum golpea el yunque dos veces. Kira, esta vez, sabe exactame
 
 #### Imagen
 - Un termómetro de cobre con una marca en 800 que brilla.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) golpea el yunque dos veces.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) golpea el yunque dos veces.
 
 ### Micro-misión R05-N02-P3 · Primero la prueba
 
@@ -3583,7 +3583,7 @@ Horno 4, 2, 1 y 3, cada uno con su promedio. La tercera escama se apaga y el Dra
 
 #### Imagen
 - El Dragón bajo la Montaña (dragón de hierro negro con escamas como placas de forja, venas de lava, alas de chapa remachada y un horno encendido en el pecho) despertándose, con tres escamas apagadas en el lomo.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la entrada de la fragua, sin intervenir.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la entrada de la fragua, sin intervenir.
 
 ### Micro-misión R05-N04-P4 · Cuarta escama: la hoja que se mide
 
@@ -3677,7 +3677,7 @@ La primera medida da «templada». Kira saca la hoja del agua: brilla con un fil
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) saca del agua una espada que brilla con un filo cian, envuelta en vapor.
 - El Dragón bajo la Montaña (dragón de hierro negro con escamas como placas de forja, venas de lava, alas de chapa remachada y un horno encendido en el pecho) retrocede ante el brillo.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) sostiene la libreta abierta con las medidas.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) golpea el yunque.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) golpea el yunque.
 
 ### Micro-misión R05-N04-P5 · La última escama
 
@@ -3810,7 +3810,7 @@ La última escama se apaga y el Dragón bajo la Montaña se echa, manso, a un co
 - El Dragón bajo la Montaña (dragón de hierro negro con escamas como placas de forja, venas de lava, alas de chapa remachada y un horno encendido en el pecho) echado y manso junto a un lago de plomo, con todas las escamas apagadas.
 - Un molde de plomo enorme con forma de marco de vitral y la inscripción «para quien llegue».
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con la Hoja Templada en la mano, frente al molde.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) y Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) detrás, en silencio.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) y Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) detrás, en silencio.
 
 ### Misión R05-N04-M1 · Encargo 1: las temperaturas de los hornos
 
@@ -4978,7 +4978,7 @@ Ferrum mira la pared, golpea el yunque **tres veces** y le saca la tiza de la ma
 
 #### Imagen
 - Una pared de piedra llena de palitos de tiza bajo títulos como Espadazos y Herraduras banana.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) escribe «todos» con tiza.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) escribe «todos» con tiza.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con la Hoja Templada a la espalda.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) llorando.
 
@@ -5060,7 +5060,7 @@ Ferrum se apoya en el martillo. —Lo que sigue no es obligatorio. Es **tuyo**. 
 #### Imagen
 - Un yunque viejo en una encrucijada, con dos caminos: uno hacia una puerta de vidrio negro y otro hacia un taller con autómatas de latón.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) de espaldas, mirando los dos caminos.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) apoyado en su martillo enorme.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) apoyado en su martillo enorme.
 
 ### Misión R05-N05-M1 · Mirá hacia atrás
 

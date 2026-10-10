@@ -19,7 +19,9 @@ python3 scripts/escenas/pendientes.py cursos/c
 3. El pedido exacto lo arma el script: `python3 scripts/escenas/pendientes.py cursos/c --prompt R01-N01-P1`
    (proyecto, pantallas de referencia y texto, con los tamaños). Las descripciones de los `#### Imagen` tienen que
    cuadrar con las referencias: si no, Stitch duda entre el texto y la imagen. En C, Maese Ferrum es un **herrero
-   enorme, más alto que Kira** (no enano); enanos son Tizón, Hulda y el Archivero.
+   enorme, más alto que Kira** (no enano); enanos son Tizón, Hulda y el Archivero. Ojo: Stitch reescribe el pedido
+   por su cuenta y lo vuelve «dwarven blacksmith» (de piernas cortas): por eso el texto dice «humano, NO es enano, de
+   unos dos metros». Mirar las proporciones contra la referencia de cuerpo entero antes de guardar.
 4. La imagen se baja con `get_screen` (URL de `screenshot.downloadUrl` + `=s1376`), se pasa a WebP 1376×768 y se
    guarda como `cursos/<curso>/escenas/<ID>.webp`. Se mira: si un personaje salió distinto, se borra y se pide de nuevo.
 5. Cada tanto, commit (`content(c): escenas …`). Al terminar: `php artisan app:import-course cursos/c --apply` en local

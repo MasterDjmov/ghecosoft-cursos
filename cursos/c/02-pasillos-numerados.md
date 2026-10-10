@@ -602,7 +602,7 @@ El horno 4 es el más caliente. Ferrum lo sospechaba: ahí se le quemaron las ce
 
 #### Imagen
 - Una pizarra con una tabla de 3 filas y 4 columnas de temperaturas.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala la cuarta columna.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala la cuarta columna.
 
 ### Micro-misión R02-N01-P4 · Contadores en un array
 
@@ -2863,7 +2863,7 @@ Una ficha, todo junto. Ya nadie le puede cambiar la vida a Kira por ordenar otra
 
 #### Imagen
 - Una ficha de hierro con campos grabados: nombre, vida, fuerza.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) cuelga la ficha en un tablero.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) cuelga la ficha en un tablero.
 
 ### Micro-misión R02-N03-P2 · El oficio con nombre
 
@@ -6386,7 +6386,7 @@ El 103 no existe. Chispa jura que es el suyo. Ferrum le recuerda que Chispa no e
 
 #### Imagen
 - Un fichero de hierro con legajos numerados.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) sostiene una ficha y mira a Chispa de reojo.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) sostiene una ficha y mira a Chispa de reojo.
 
 ### Micro-misión R02-N06-P3 · Burbuja con desempate
 
@@ -6584,7 +6584,7 @@ Del más barato al más caro. El autómata de bronce hace una reverencia y vuelv
 
 #### Imagen
 - Un autómata de bronce chiquito ordenando lingotes sobre una mesa.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) lo mira con cariño de abuelo.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) lo mira con cariño de abuelo.
 
 ### Misión R02-N06-M1 · El tablero de récords
 
@@ -8231,7 +8231,7 @@ La Araña de las Direcciones queda colgando de su propia tela, enredada en carte
 #### Imagen
 - La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) colgando enredada en su propia tela.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) enrolla un hilo de cobre brillante en la mano.
-- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
 
 ### Misión R02-N07-M1 · El veneno del Goblin
 

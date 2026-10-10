@@ -5496,7 +5496,7 @@ Cuatrocientos primero. El autómata de bronce hace su reverencia. Ferrum le da u
 
 #### Imagen
 - Un autómata de bronce chiquito ordenando bolsas de mayor a menor.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) le da una palmadita en la cabeza.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) le da una palmadita en la cabeza.
 
 ### Misión R03-N05-M1 · El filtro de la horda
 

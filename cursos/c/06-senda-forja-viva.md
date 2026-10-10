@@ -440,7 +440,7 @@ La caja choca, vuelve y sigue. Ferrum la mira rebotar un rato largo, hipnotizado
 
 #### Imagen
 - Una caja de luz que rebota contra el borde de una pantalla, dejando una estela.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) hipnotizado mirándola.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) hipnotizado mirándola.
 
 ### Misión S01-N01-M1 · Rebote en dos ejes
 
@@ -3163,7 +3163,7 @@ Tres monedas, y la Salamandra todavía a dos pasos. Se acurruca en un rincón de
 #### Imagen
 - La Salamandra del Horno (salamandra de fuego vivo hecha de píxeles encendidos que dejan una estela) dormida en un rincón de la pantalla, chisporroteando.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con tres monedas de fuego frío en la mano.
-- Maese Ferrum (herrero enorme, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) agarra el control, entusiasmado.
+- Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) agarra el control, entusiasmado.
 
 ### Misión S01-N04-M1 · Reiniciar y récord
 

@@ -7946,7 +7946,7 @@ int main(void)
 Noventa y nueve. La Araña cambia los carteles de lugar, furiosa. Kira ya los tiene anotados.
 
 #### Imagen
-- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) teje carteles que apuntan a otros carteles.
+- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con destellos de circuitos, telaraña de hilos de cobre) teje carteles que apuntan a otros carteles.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) anota en la libreta de Tizón, concentrada.
 
 ### Micro-misión R02-N07-P2 · La red de la Araña
@@ -8117,7 +8117,7 @@ int main(void)
 Kira con 38, la Araña con 20. Tizón, en la tribuna, se emociona tanto que se le cae el calibre.
 
 #### Imagen
-- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) retrocede herida.
+- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con destellos de circuitos, telaraña de hilos de cobre) retrocede herida.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con el escudo en alto.
 
 ### Micro-misión R02-N07-P4 · La Araña se enreda
@@ -8229,7 +8229,7 @@ int main(void)
 La Araña de las Direcciones queda colgando de su propia tela, enredada en carteles que apuntan a sí mismos. De la tela, Kira saca un hilo de cobre que **siempre sabe adónde va**: el **Hilo de las Direcciones**, que va a tu mochila. En la ficha del pedido de plomo, una última línea: el plomo salió **de las Minas**.
 
 #### Imagen
-- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con números hexadecimales, telaraña de hilos de cobre) colgando enredada en su propia tela.
+- La Araña de las Direcciones (araña gigante de metal pavonado, patas como flechas de cartel, ojos con destellos de circuitos, telaraña de hilos de cobre) colgando enredada en su propia tela.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) enrolla un hilo de cobre brillante en la mano.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
 

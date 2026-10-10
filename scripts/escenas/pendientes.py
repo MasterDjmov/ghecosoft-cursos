@@ -29,11 +29,11 @@ REFS = {
             (r'Ferrum', 'Maese Ferrum', ['10337375498659242332', '10337375498659242906'],
              'Maese Ferrum es HUMANO y NO es un enano. Copiá las proporciones de su imagen de referencia de cuerpo entero: un hombre de unos dos metros, de unas siete cabezas de alto, con piernas largas (la mitad de su altura) y torso ancho (al lado de Kira, le saca una cabeza y media y es mucho más ancho).'),
             (r'Tiz[oó]n', 'Tizón', ['39f0163ef1c4420981621687c35f4e02', 'efeb92bd8d4f4de58e0f3de8f5ffba7e'],
-             'Tizón es un enano joven: le llega a Kira al hombro. Tiene cara ancha y redonda y orejas redondas (no puntiagudas).'),
+             'Tizón es un ENANO joven, mucho más bajo que Kira: su cabeza le llega a Kira al hombro (piernas cortas, cuerpo ancho; parados sobre el mismo suelo). Tiene cara ancha y redonda y orejas redondas (no puntiagudas).'),
             (r'Chispa', 'Chispa', ['f16d155319584836bac46bb188e095f4', '5178cab1b35a43e086faf1d31c715e61'],
              'Chispa es humano, alto y flaco: más alto que Kira.'),
             (r'Hulda', 'Hulda', ['ce52b8c5b55941a78f0b76e1ab7f44ef', '8423b67a3d2f47a68ee4ca91a5bb77c5'],
-             'Hulda es una enana fornida: le llega a Kira al hombro.'),
+             'Hulda es una ENANA fornida, mucho más baja que Kira: con el casco puesto, su cabeza le llega a Kira al hombro (piernas cortas, cuerpo ancho; paradas sobre el mismo suelo). Lleva UN solo pico.'),
             (r'Archivero', 'el Archivero', ['0be226861a8f4a8d8e583a582464fb19', '0fc92e97cf90409b8cd34f93e5450941'],
              'El Archivero es un enano muy viejo y encorvado: más bajo que Ferrum.'),
             (r'G[oó]lem', 'el Gólem de Escoria', ['2283b769ea444726bb504ca2d9c1d97f', '9baac98214ae432cbe4fafe2213e869a'], ''),
@@ -93,7 +93,7 @@ def prompt(course: str, scene: dict) -> dict:
         if note and not has_kira and ' (al lado de Kira' in note:  # sin Kira, sin la comparación (la haría aparecer)
             note = note.split(' (al lado de Kira')[0] + '.'
         if note and not has_kira:  # sin Kira, el tamaño se dice sin compararla
-            note = note.replace('le llega a Kira al hombro', 'es de baja estatura (enano), mucho menor que un humano').replace('más alto que Kira', 'más alto que un humano promedio')
+            note = re.sub(r', mucho más baj.*?\)\.', ', de baja estatura.', note) if ', mucho más baj' in note else note.replace('le llega a Kira al hombro', 'es de baja estatura (enano), mucho menor que un humano').replace('más alto que Kira', 'más alto que un humano promedio')
         if note and ('Kira' not in note or has_kira):
             notes.append(note)
     if len(screens) > MAX_REFS:  # se quedan los cuerpos enteros

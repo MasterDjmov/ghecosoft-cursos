@@ -22,6 +22,30 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ---
 
+## El jugador (quien programa)
+
+No son parte de la historia: son **vos**. El Mundo del Código vive en la mente de quien programa, y el jugador es esa mente: el que teclea los hechizos y mueve a los protagonistas de cada curso ([../JUEGO.md](../JUEGO.md) § 1). Elige entre la heroína y el héroe al crear su cuenta; las 6 variantes enmarcadas de cada uno son sus avatares.
+
+### La heroína
+- **Rol:** la que está del otro lado del teclado. Cruza el Balcón de los Portales, donde la recibe Gheco, y desde ahí mueve a los protagonistas de cada mundo con el código que escribe.
+- **Rasgos:** pelo castaño recogido en un rodete con lápices clavados, sonrisa segura.
+- **Ropa:** buzo con capucha negro con líneas de circuito cian y violeta, pantalón cargo oscuro, zapatillas con suela de neón.
+- **Objeto:** el teclado: cada línea que escribe es un hechizo en algún mundo.
+- **Personalidad:** curiosa y terca: si algo no anda, lo vuelve a intentar hasta entender por qué.
+- **Relaciones:** Gheco le da las pistas; el Profe anota sus hazañas.
+- **Imágenes:** cuerpo entero y 6 avatares enmarcados.
+
+### El héroe
+- **Rol:** el que está del otro lado del teclado. Cruza el Balcón de los Portales, donde lo recibe Gheco, y desde ahí mueve a los protagonistas de cada mundo con el código que escribe.
+- **Rasgos:** pelo negro despeinado, ojos claros, sonrisa tranquila.
+- **Ropa:** buzo con capucha negro con líneas de circuito cian y violeta, pantalón cargo oscuro, zapatillas con suela de neón.
+- **Objeto:** el teclado: cada línea que escribe es un hechizo en algún mundo.
+- **Personalidad:** paciente y curioso: prueba de a poco y lee los errores antes de cambiar nada.
+- **Relaciones:** Gheco le da las pistas; el Profe anota sus hazañas.
+- **Imágenes:** cuerpo entero y 6 avatares enmarcados.
+
+---
+
 ## 1. Los protagonistas
 
 ### Mia

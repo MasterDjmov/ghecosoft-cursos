@@ -23,9 +23,9 @@ PORTRAIT = 320
 FIGURE_HEIGHT = 900
 
 # Carpetas cuyo nombre no alcanza para encontrar la ficha.
-ALIASES = {'asistente-gheco': 'gheco', 'maesse-ferrum': 'maese-ferrum', 'arania': 'la-arana-de-las-direcciones'}
+ALIASES = {'asistente-gheco': 'gheco', 'heroe-mujer': 'la-heroina', 'heroe-varon': 'el-heroe', 'maesse-ferrum': 'maese-ferrum', 'arania': 'la-arana-de-las-direcciones'}
 # Carpetas que no son fichas (avatares del héroe, copias).
-SKIP = {'heroe-mujer', 'heroe-varon', 'kira2'}
+SKIP = {'kira2'}
 STOP = {'el', 'la', 'los', 'las', 'de', 'del', 'y', 'jefe', 'r01', 'r02', 'r03', 'r04', 'java', 'final'}
 
 
@@ -103,6 +103,18 @@ def save(src: Path, dest: Path, figure: bool, force: bool) -> bool:
     return True
 
 
+def save_bust(src: Path, dest: Path, force: bool) -> bool:
+    if dest.exists() and not force:
+        return False
+    with Image.open(src) as im:
+        w, h = im.size
+        side = int(w * 0.55)
+        left = (w - side) // 2
+        top = int(h * 0.01)
+        im.convert('RGB').crop((left, top, left + side, top + side)).resize((PORTRAIT, PORTRAIT), Image.LANCZOS).save(dest, 'WEBP', quality=82, method=6)
+    return True
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     force = '--force' in sys.argv
@@ -126,6 +138,10 @@ def main():
         wrote = []
         if portrait and save(portrait, OUT / f'{key}.webp', False, force):
             wrote.append('retrato')
+        elif not portrait and figure and save_bust(figure, OUT / f'{key}.webp', force):
+            # Sin retrato (los héroes del jugador solo tienen avatares enmarcados): cabeza y hombros del cuerpo entero.
+            wrote.append('retrato recortado del cuerpo entero')
+            portrait = figure
         if figure and save(figure, OUT / f'{key}-cuerpo.webp', True, force):
             wrote.append('cuerpo')
         done.add(name)

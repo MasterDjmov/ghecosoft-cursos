@@ -45,7 +45,7 @@ id, así que se vuelve a pedir.
 |---|---|---|
 | C | 161 de 161 | Completo (2026-10-10). |
 | HTML | 100 de 100 | Completo (2026-10-11). Tesla y Ofidia (visitas) se dibujaron por descripción: no tienen referencia en el proyecto de HTML. |
-| C++ | 42 de 163 | En curso (2026-10-11): R00 y R01 completas, R02 hasta `R02-N02-P2`. Bron y Gheco no estaban subidos: se generaron en el proyecto de C++ desde sus fichas y sus imágenes oficiales (`REFS['cpp']`). |
+| C++ | 37 de 163 | En curso (2026-10-11): R00 y R01 completas, R02 hasta `R02-N02-P2`. Bron y Gheco no estaban subidos: se generaron en el proyecto de C++ desde sus fichas y sus imágenes oficiales (`REFS['cpp']`). |
 
 **Tamaños que funcionan** (ya están en el script): Ferrum «HUMANO, NO enano, siete cabezas, piernas largas»;
 Tizón y Hulda «ENANO/A, su cabeza le llega a Kira al hombro»; Tizón «orejas HUMANAS… la parte de arriba es una

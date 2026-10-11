@@ -53,7 +53,8 @@ REFS = {
         'region': 'Los Talleres de los Vitrales',
         'ambiente': 'en un taller de vitralistas con ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos y vidrios',
         'chars': [
-            (r'\bIris\b', 'Iris', ['16228314456252100662', '16228314456252101368'], ''),
+            (r'\bIris\b', 'Iris', ['16228314456252100662', '16228314456252101368'],
+             'Iris lleva UNA SOLA trenza gruesa, de costado, que le cae sobre un hombro (nunca dos trenzas), pelo castaño cobrizo con mechones de colores dentro de la trenza, anteojos redondos.'),
             (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'], ''),
             (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
             # Sin imagen todavía (PERSONAJES.md): --next saltea sus escenas.

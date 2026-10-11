@@ -9,7 +9,7 @@
 @endphp
 <div class="relative min-h-full">
     {{-- La biblioteca limpia (sin letras) ocupa toda el área de fondo en todas las pantallas; la portada va encima. --}}
-    <div class="pointer-events-none fixed inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ asset('img/enciclopedia/fondo.webp') }}')"></div>
+    <div class="pointer-events-none fixed inset-0 -z-10" style="background: url('{{ asset('img/enciclopedia/fondo-biblioteca.webp') }}') center / cover no-repeat"></div>
     <div @class(['pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b', 'from-[#05070d]/55 via-[#05070d]/35 to-[#05070d]/70' => $section === '', 'from-[#05070d]/70 via-[#05070d]/60 to-[#05070d]/80' => $section !== ''])></div>
 
     <div @class(['mx-auto flex w-full flex-col gap-6 p-4 sm:p-8', 'max-w-6xl' => $section !== ''])>

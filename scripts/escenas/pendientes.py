@@ -127,7 +127,7 @@ def prompt(course: str, scene: dict) -> dict:
             note = re.sub(r', mucho más baj.*?\)\.', ', de baja estatura.', note) if ', mucho más baj' in note else note.replace('le llega a Kira al hombro', 'es de baja estatura (enano), mucho menor que un humano').replace('más alto que Kira', 'más alto que un humano promedio')
         if note and not has_iris:  # en HTML, la comparación es con Iris
             note = re.sub(r',? (apenas )?más (alt|baj)[oa] que Iris', '', note)
-        if note and ('Kira' not in note or has_kira):
+        if note and ('Kira' not in note or has_kira) and ('Iris' not in note or has_iris):
             notes.append(note)
     if len(screens) > MAX_REFS:  # se quedan los cuerpos enteros
         screens = [c[2][0] for c in found][:MAX_REFS]

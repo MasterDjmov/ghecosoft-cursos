@@ -48,6 +48,19 @@ REFS = {
             (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
         ],
     },
+    'html': {
+        'project': '9229721314509917104',
+        'region': 'Los Talleres de los Vitrales',
+        'ambiente': 'en un taller de vitralistas con ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos y vidrios',
+        'chars': [
+            (r'\bIris\b', 'Iris', ['16228314456252100662', '16228314456252101368'], ''),
+            (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'], ''),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
+            # Sin imagen todavía (PERSONAJES.md): --next saltea sus escenas.
+            (r'\bNora\b', 'Nora', [], ''),
+            (r'\bTeo\b', 'Teo', [], ''),
+        ],
+    },
 }
 
 MAX_REFS = 8  # más de esto y Stitch empieza a mezclar personajes
@@ -83,6 +96,11 @@ def scenes(folder: Path):
 
 def done(folder: Path, sid: str) -> bool:
     return any((folder / 'escenas' / f'{sid}.{ext}').exists() for ext in ('webp', 'jpg', 'jpeg', 'png'))
+
+
+def missing_refs(course: str, scene: dict) -> list:
+    """Personajes de la escena que todavía no tienen sus imágenes en Stitch."""
+    return [c[1] for c in REFS[course]['chars'] if not c[2] and re.search(c[0], scene['imagen'])]
 
 
 def prompt(course: str, scene: dict) -> dict:
@@ -121,12 +139,13 @@ def main():
     course = folder.name
     all_scenes = list(scenes(folder))
     pending = [s for s in all_scenes if not done(folder, s['id'])]
-    if '--next' in sys.argv:  # el pedido de la primera pendiente
-        if not pending:
-            print('Todas hechas.')
+    if '--next' in sys.argv:  # el pedido de la primera pendiente cuyos personajes ya tienen referencia
+        ready = [s for s in pending if not missing_refs(course, s)]
+        if not ready:
+            print('Todas hechas.' if not pending else f'Faltan {len(pending)}, todas con personajes sin referencia.')
             return
-        sys.argv += ['--prompt', pending[0]['id']]
-        print(pending[0]['id'])
+        sys.argv += ['--prompt', ready[0]['id']]
+        print(ready[0]['id'])
     if '--prompt' in sys.argv:
         sid = sys.argv[sys.argv.index('--prompt') + 1]
         scene = next(s for s in all_scenes if s['id'] == sid)
@@ -137,7 +156,8 @@ def main():
         return
     print(f'{course}: {len(all_scenes) - len(pending)} de {len(all_scenes)} escenas hechas, faltan {len(pending)}')
     for s in pending:
-        print(f'  {s["id"]:14} {s["title"]}')
+        miss = missing_refs(course, s)
+        print(f'  {s["id"]:14} {s["title"]}' + (f'  (sin referencia: {", ".join(miss)})' if miss else ''))
 
 
 if __name__ == '__main__':

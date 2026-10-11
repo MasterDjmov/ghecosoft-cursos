@@ -118,12 +118,15 @@ def prompt(course: str, scene: dict) -> dict:
     found = [c for c in cfg['chars'] if re.search(c[0], scene['imagen'])]
     screens, notes = [], []
     has_kira = any(c[1] == 'Kira' for c in found)
+    has_iris = any(c[1] == 'Iris' for c in found)
     for _, name, ids, note in found:
         screens += ids
         if note and not has_kira and ' (al lado de Kira' in note:  # sin Kira, sin la comparación (la haría aparecer)
             note = note.split(' (al lado de Kira')[0] + '.'
         if note and not has_kira:  # sin Kira, el tamaño se dice sin compararla
             note = re.sub(r', mucho más baj.*?\)\.', ', de baja estatura.', note) if ', mucho más baj' in note else note.replace('le llega a Kira al hombro', 'es de baja estatura (enano), mucho menor que un humano').replace('más alto que Kira', 'más alto que un humano promedio')
+        if note and not has_iris:  # en HTML, la comparación es con Iris
+            note = re.sub(r',? (apenas )?más (alt|baj)[oa] que Iris', '', note)
         if note and ('Kira' not in note or has_kira):
             notes.append(note)
     if len(screens) > MAX_REFS:  # se quedan los cuerpos enteros

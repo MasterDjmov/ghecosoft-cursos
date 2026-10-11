@@ -48,6 +48,35 @@ REFS = {
             (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
         ],
     },
+    'cpp': {
+        'project': '14674491267148198305',
+        'region': 'La Ciudadela de los Artífices',
+        'ambiente': 'en una ciudadela de relojeros e inventores, con torres de bronce, engranajes enormes, chispas eléctricas cian y talleres llenos de piezas',
+        'ambientes': {
+            '04-la-gran-biblioteca.md': 'en una biblioteca enorme con cúpula de bronce, estantes altísimos, cajas de piezas ordenadas y escaleras con engranajes',
+            '05-el-taller-del-juego.md': 'en un taller de juegos mecánicos de la ciudadela, con tableros, autómatas chicos, engranajes y luces cian',
+            '06-los-vitrales.md': 'en la torre más alta de la ciudadela, con vitrales de colores, engranajes de bronce y arcos eléctricos cian',
+            '07-senda-linterna-magica.md': 'en una sala oscura de proyección de la ciudadela, con una linterna mágica, vidrios pintados, haces de luz de colores y engranajes',
+        },
+        'chars': [
+            # Solo el cuerpo entero: los circulares de este proyecto llevan el nombre escrito y Stitch lo copiaría.
+            # Bron y Gheco se generaron en este proyecto el 2026-10-11 desde sus fichas y sus imágenes (no estaban subidos).
+            (r'\bBron\b', 'Bron', ['36fd6421d03b45329e15255c57bf1d96'], 'Bron es un mecánico grandote de 24 años, alto y ancho, con una llave inglesa cian al hombro.'),
+            (r'Gheco|gecko', 'Gheco', ['8b96c262b47549dbb5a441fb463377a5'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
+            (r'\bTesla\b', 'Tesla', ['17568498787211306263'], 'Tesla es un muchacho de estatura mediana (1,75 m), delgado, de pelo en punta y visor cian.'),
+            (r'\bLima\b', 'Lima', ['3741430dea15423a86d24bbd54d5c72f'], 'Lima es una chica chiquita (1,52 m), mucho más baja que los demás, con dos rodetes y una lupa de relojera en un ojo.'),
+            (r'Maestra Art[ií]fice|[Ii]nspectora', 'la Maestra Artífice', ['4954292303660227400'], 'La Maestra Artífice es una mujer alta (1,72 m), delgada y erguida.'),
+            (r'\bLyn\b', 'Lyn', ['bf450970bfd946e4b5f1d4fb29929adf'], 'Lyn es alta (1,74 m), atlética, de piernas de corredora, con UNA trenza rubia oscura.'),
+            (r'\bOto\b', 'Oto', ['0dfaf599086548f48aeb6035b93e7ae7'], 'Oto es un cocinero grandote (1,90 m) y panzón, pelado, con un bigote enorme y gorro de cocinero.'),
+            (r'Aut[oó]mata de Lat[oó]n', 'el Autómata de Latón', ['878a7317ad314d8b8d737f66e4a1a7fa'], ''),
+            (r'Quimera', 'la Quimera de la Arena', ['1aeae621b76a4c9980a77db77057bb6c'], ''),
+            (r'M[ií]mico', 'el Mímico del Bestiario', ['6098c0d9ddbe400b8440afc77b3c2b2f'], ''),
+            (r'Kraken', 'el Kraken de los Contenedores', ['b3be0c4e051d41f8a974c672c19436f0'], ''),
+            (r'Minotauro', 'el Minotauro del Laberinto', ['8fc81d5252ff497ea4ef620899035c67'], ''),
+            (r'G[aá]rgola', 'la Gárgola de los Vitrales', ['5d77586f65474573b8727664c878f8ee'], ''),
+            (r'Espectro', 'el Espectro de la Linterna', ['45d69362e68640d6ab6f9714fd564c2b'], ''),
+        ],
+    },
     'html': {
         'project': '9229721314509917104',
         'region': 'Los Talleres de los Vitrales',

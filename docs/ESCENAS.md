@@ -45,7 +45,7 @@ id, así que se vuelve a pedir.
 |---|---|---|
 | C | 161 de 161 | Completo (2026-10-10). |
 | HTML | 100 de 100 | Completo (2026-10-11). Tesla y Ofidia (visitas) se dibujaron por descripción: no tienen referencia en el proyecto de HTML. |
-| C++ | 0 | Faltan en Stitch Bron, Gheco, Lima, Oto, Lyn (están en `~/stitch-subir/`). |
+| C++ | 42 de 163 | En curso (2026-10-11): R00 y R01 completas, R02 hasta `R02-N02-P2`. Bron y Gheco no estaban subidos: se generaron en el proyecto de C++ desde sus fichas y sus imágenes oficiales (`REFS['cpp']`). |
 
 **Tamaños que funcionan** (ya están en el script): Ferrum «HUMANO, NO enano, siete cabezas, piernas largas»;
 Tizón y Hulda «ENANO/A, su cabeza le llega a Kira al hombro»; Tizón «orejas HUMANAS… la parte de arriba es una
@@ -55,4 +55,10 @@ Con 3+ personajes, mandar solo las referencias de cuerpo entero y pedir «una so
 ocupa todo el cuadro, sin franjas ni recuadros». Números o letras chicos en la escena se tapan con PIL
 (como en `R03-N05-P2`). Iris: «UNA SOLA trenza gruesa, de costado» (si no, le pone dos). Con dos personajes iguales en tipo (Iris y Tesela), mandar solo los cuerpos enteros y decir «exactamente dos personas» (una vez salieron dos Teselas). Plaquitas, etiquetas y carteles: pedirlos «lisos, con un dibujito (estrella, llave, sol), sin letras» (si no, escribe palabras). Los líderes del mundo son Ofidia, Maese Ferrum, Tesla, Kaffa, Elefa y Tesela: no son todas mujeres.
 
-**Próximo paso:** C++ (faltan subir a Stitch Bron, Gheco, Lima, Oto y Lyn, que están en `~/stitch-subir/`; después, `REFS['cpp']` en el script). Los uploads nuevos aparecen en Stitch con el título «Generating Image...»: se identifican bajando las miniaturas de `list_screens`.
+**Próximo paso:** seguir C++ desde la primera pendiente (`python3 scripts/escenas/pendientes.py cursos/cpp --next`). Al terminar: `php artisan app:import-course cursos/cpp --apply` y deploy con `--cursos`.
+
+**Lecciones de C++:**
+- **Pedidos cortos.** Stitch reescribe y alarga el pedido por su cuenta; con uno largo se corta por tiempo. Con 2–4 líneas («IMAGEN NUEVA 16:9… Bron y Lima como en las referencias. …») anda y respeta igual a los personajes.
+- **Stitch escribe sus propias restricciones dentro de la imagen.** En libros abiertos, papeles y esferas de medidores puso «NO LETTERS», «NO DIGITS». Evitarlos: libros **cerrados**, papeles con **solo un dibujo** o un sello, y en vez de manómetros, **tubos de vidrio con luz** o **lucecitas**. Pizarrones: barras, engranajes o dibujitos de tiza.
+- Lo que el `#### Imagen` pide con números o letras (precios, «7/2», «a, b, c», «xxoxx») se traduce a algo visual: banderines de colores, puntitos llenos y vacíos, barras ordenadas.
+- Parchar texto con PIL (mediana o reemplazo de píxeles) deja manchas: mejor regenerar.

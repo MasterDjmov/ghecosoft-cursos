@@ -76,10 +76,14 @@ await go(`${BASE}/login`);
 if (await evaluate('!!document.querySelector("input[name=login]")')) {
     await evaluate(`(() => { const f = document.querySelector('input[name=login]').form;
         f.querySelector('input[name=login]').value = 'admin'; f.querySelector('input[name=password]').value = 'admin123'; f.submit(); })()`);
-    await sleep(2500);
+    // El servidor local puede tardar varios segundos en el primer pedido: se espera a salir de /login.
+    for (let i = 0; i < 100; i++) {
+        await sleep(300);
+        if (!(await evaluate('location.pathname')).startsWith('/login') && (await evaluate('document.readyState')) === 'complete') break;
+    }
 }
 await go(BASE + nodePath);
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 150; i++) {
     if (await evaluate('!!(window.Alpine && document.querySelector("[x-data^=codeRunner]"))')) break;
     await sleep(200);
 }

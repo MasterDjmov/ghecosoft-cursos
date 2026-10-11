@@ -250,6 +250,287 @@ string`: definí `__toString` o mostrá sus propiedades.
 `Typed property Barco::$nombre must not be accessed before initialization`.
 Inicializala en el constructor.
 
+### Micro-misión R02-N01-P1 · El molde del bote
+
+```meta
+lugar: El Astillero de los Moldes
+personajes: Nilo, Gheco
+carta: Clase y objeto | class Bote { public string $nombre; } · $b = new Bote(); · $b->nombre = 'Gaviota'; · un molde, muchos botes
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Pasando la roca de la Sirena empieza el **Astillero**: moldes de madera colgados de las paredes, uno para cada tipo de barco. Con el molde del bote, los carpinteros arman muchos botes iguales. A Nilo le dan uno para que lo bautice.
+
+#### Gheco sugiere
+`new Bote()` crea un bote nuevo con el molde. Sus datos se escriben y se leen con la flecha: `$b->nombre`.
+
+#### Desafío
+Creá dos botes con el molde y ponele nombre y color a cada uno.
+
+#### Código inicial
+```php
+<?php
+class Bote
+{
+    public string $nombre = '';
+    public string $color = '';
+}
+
+$a = ___;
+$a->nombre = 'Gaviota';
+$a->color = 'violeta';
+
+echo "{$a->nombre} ({$a->color})\n";
+```
+
+#### Salida esperada
+```
+Gaviota (violeta)
+Albatros (blanco)
+```
+
+#### Solución
+```php
+<?php
+class Bote
+{
+    public string $nombre = '';
+    public string $color = '';
+}
+
+$a = new Bote();
+$a->nombre = 'Gaviota';
+$a->color = 'violeta';
+
+$b = new Bote();
+$b->nombre = 'Albatros';
+$b->color = 'blanco';
+
+echo "{$a->nombre} ({$a->color})\n";
+echo "{$b->nombre} ({$b->color})\n";
+```
+
+#### Al superarla
+Nilo pinta el suyo de violeta, como su bufanda, y le pone *Gaviota*. Ya hay catorce barcos que se llaman *Gaviota*.
+
+#### Imagen
+- Un astillero de madera de noche, con moldes de barcos colgados de las paredes y dos botes recién armados.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pinta un bote de violeta con un pincel grande.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la proa.
+
+### Micro-misión R02-N01-P2 · El constructor
+
+```meta
+lugar: El Astillero de los Moldes
+personajes: Nilo, Gheco
+criatura: troll
+carta: Constructor | public function __construct(public string $nombre, public int $carga) {} · el objeto nace con sus datos · promoción de propiedades
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un bote salió del astillero sin nombre: alguien se olvidó de ponérselo después de crearlo. Un **troll** se escondió en el hueco del nombre. —Que nazca con su nombre —dice Gheco—, no que se lo pongan después.
+
+#### Gheco sugiere
+Con `__construct(public string $nombre, public int $carga)` el bote **recibe** sus datos al crearse: `new Bote('Gaviota', 120)`. Así nunca nace vacío.
+
+#### Desafío
+Escribí el constructor con promoción de propiedades y creá los botes con sus datos.
+
+#### Código inicial
+```php
+<?php
+class Bote
+{
+    public string $nombre;
+    public int $carga;
+}
+
+$b = new Bote();
+echo "{$b->nombre}: {$b->carga} kg\n";
+```
+
+#### Salida esperada
+```
+Gaviota: 120 kg
+Tortuga: 40 kg
+```
+
+#### Solución
+```php
+<?php
+class Bote
+{
+    public function __construct(
+        public string $nombre,
+        public int $carga,
+    ) {
+    }
+}
+
+$b = new Bote('Gaviota', 120);
+$c = new Bote('Tortuga', 40);
+echo "{$b->nombre}: {$b->carga} kg\n";
+echo "{$c->nombre}: {$c->carga} kg\n";
+```
+
+#### Al superarla
+Los botes salen del molde con su nombre puesto. El troll se queda sin hueco donde vivir.
+
+#### Imagen
+- Un molde de bote de madera abierto del que sale un bote terminado con una plaquita lisa en la proa.
+- Un troll se va enojado arrastrando los pies.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) empuja el bote al agua.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el molde.
+
+### Micro-misión R02-N01-P3 · Lo que sabe hacer un barco
+
+```meta
+lugar: El Astillero de los Moldes
+personajes: Nilo, Iara, Gheco
+carta: Métodos | public function cargar(int $kg): void { $this->carga += $kg; } · $this es el objeto que recibe el pedido
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara anota la carga de cada bote a mano, y se equivoca de bote. —Que el bote sepa cargarse solo —le dice Nilo, orgulloso de haber entendido algo—. —¿Lo anotaste? —contesta Iara.
+
+#### Gheco sugiere
+Un método es una función adentro de la clase. Con `$this->carga` el bote cambia **su** carga, no la de otro.
+
+#### Desafío
+Escribí el método `cargar` y usalo para cargar los dos botes.
+
+#### Código inicial
+```php
+<?php
+class Bote
+{
+    public function __construct(public string $nombre, public int $carga = 0)
+    {
+    }
+
+    // Escribí cargar acá
+}
+
+$a = new Bote('Gaviota');
+$b = new Bote('Tortuga');
+$a->cargar(30);
+$b->cargar(12);
+$a->cargar(5);
+echo "{$a->nombre}: {$a->carga} kg\n";
+echo "{$b->nombre}: {$b->carga} kg\n";
+```
+
+#### Salida esperada
+```
+Gaviota: 35 kg
+Tortuga: 12 kg
+```
+
+#### Solución
+```php
+<?php
+class Bote
+{
+    public function __construct(public string $nombre, public int $carga = 0)
+    {
+    }
+
+    public function cargar(int $kilos): void
+    {
+        $this->carga += $kilos;
+    }
+}
+
+$a = new Bote('Gaviota');
+$b = new Bote('Tortuga');
+$a->cargar(30);
+$b->cargar(12);
+$a->cargar(5);
+echo "{$a->nombre}: {$a->carga} kg\n";
+echo "{$b->nombre}: {$b->carga} kg\n";
+```
+
+#### Al superarla
+Cada bote lleva su cuenta. Iara tacha una columna entera de su libreta, aliviada.
+
+#### Imagen
+- Dos botes en un muelle del astillero, uno más cargado de cajones que el otro.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) compara los botes con la libreta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sube un cajón a un bote.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un cajón.
+
+### Micro-misión R02-N01-P4 · El bote se presenta
+
+```meta
+lugar: El Astillero de los Moldes
+personajes: Nilo, Gheco
+carta: __toString | public function __toString(): string · el objeto sabe mostrarse con echo · una sola vez, en la clase
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Cada vez que alguien pregunta por un bote, Nilo arma el texto a mano, y cada vez lo arma distinto. Gheco le muestra que el bote mismo puede saber presentarse.
+
+#### Gheco sugiere
+Con `__toString()` el objeto devuelve su texto, y `echo $bote` lo usa solo.
+
+#### Desafío
+Escribí `__toString` para que `echo $bote` muestre «Gaviota (120 kg)».
+
+#### Código inicial
+```php
+<?php
+class Bote
+{
+    public function __construct(public string $nombre, public int $carga)
+    {
+    }
+}
+
+$botes = [new Bote('Gaviota', 120), new Bote('Albatros', 800)];
+foreach ($botes as $b) {
+    echo $b . "\n";
+}
+```
+
+#### Salida esperada
+```
+Gaviota (120 kg)
+Albatros (800 kg)
+```
+
+#### Solución
+```php
+<?php
+class Bote
+{
+    public function __construct(public string $nombre, public int $carga)
+    {
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->nombre} ({$this->carga} kg)";
+    }
+}
+
+$botes = [new Bote('Gaviota', 120), new Bote('Albatros', 800)];
+foreach ($botes as $b) {
+    echo $b . "\n";
+}
+```
+
+#### Al superarla
+Los botes se presentan solos, siempre igual. Nilo le enseña al suyo a decir «violeta» también. No funciona.
+
+#### Imagen
+- Dos botes amarrados con plaquitas lisas en la proa que brillan suave, como si hablaran.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) escucha con la mano en la oreja.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una plaquita.
+
 ### Misión R02-N01-M1 · El molde del cajón
 
 ```meta
@@ -926,6 +1207,312 @@ quien lo recibe lo puede modificar (los objetos se comparten). Devolvé una copi
 **Slime: `readonly` sin tipo.** `public readonly $x;` da error: las propiedades
 `readonly` necesitan tipo.
 
+### Micro-misión R02-N02-P1 · Solo el capitán
+
+```meta
+lugar: El barco del timón
+personajes: Nilo, Pico, Gheco
+carta: private | private int $rumbo; · desde afuera no se toca · se cambia solo con un método que revisa
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el Astillero hay un barco con un cartel en el timón: *«Solo el capitán»*. Una noche, **Pico** se posó en el timón, lo giró con las patas y el barco terminó encallado. Nilo jura que Pico no lo hizo a propósito.
+
+#### Gheco sugiere
+Si el rumbo es `private`, nadie lo cambia desde afuera. El método `girar()` lo cambia, pero solo si el ángulo está entre 0 y 359.
+
+#### Desafío
+Hacé privado el rumbo y que `girar` rechace los ángulos imposibles.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    public int $rumbo = 0;
+
+    public function girar(int $grados): void
+    {
+        $this->rumbo = $grados;
+    }
+
+    public function rumbo(): int
+    {
+        return $this->rumbo;
+    }
+}
+
+$b = new Barco();
+$b->girar(90);
+$b->girar(720);
+echo "Rumbo: " . $b->rumbo() . "\n";
+```
+
+#### Salida esperada
+```
+Rumbo imposible: 720
+Rumbo: 90
+```
+
+#### Solución
+```php
+<?php
+class Barco
+{
+    private int $rumbo = 0;
+
+    public function girar(int $grados): void
+    {
+        if ($grados < 0 || $grados > 359) {
+            echo "Rumbo imposible: $grados\n";
+            return;
+        }
+        $this->rumbo = $grados;
+    }
+
+    public function rumbo(): int
+    {
+        return $this->rumbo;
+    }
+}
+
+$b = new Barco();
+$b->girar(90);
+$b->girar(720);
+echo "Rumbo: " . $b->rumbo() . "\n";
+```
+
+#### Al superarla
+El timón ahora solo gira con la palanca que revisa el rumbo. Pico lo intenta igual y se queda mirando el timón, ofendido.
+
+#### Imagen
+- El timón de un barco de madera con una palanca de bronce al lado, en un astillero de noche.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) parado sobre el timón, empujándolo con las patas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lo mira con cariño.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la palanca.
+
+### Micro-misión R02-N02-P2 · Nacer válido
+
+```meta
+lugar: El barco del timón
+personajes: Nilo, Gheco
+criatura: ogro
+carta: Validar en el constructor | throw new InvalidArgumentException('…') · el objeto nunca nace con datos imposibles
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Del Astillero salió un barco con calado negativo. Nadie se dio cuenta hasta que intentó amarrar y un **ogro** se rió del agujero en el muelle.
+
+#### Gheco sugiere
+Si el constructor revisa el dato y lanza una excepción cuando no tiene sentido, el objeto **nunca existe** inválido. Para probarlo, el intento va dentro de `try { … } catch (InvalidArgumentException $e) { … }`.
+
+#### Desafío
+Validá el calado en el constructor: tiene que ser mayor que 0.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    public function __construct(public readonly string $nombre, public readonly float $calado)
+    {
+    }
+}
+
+try {
+    $b = new Barco('Gaviota', -3);
+    echo "Botado: {$b->nombre}\n";
+} catch (InvalidArgumentException $e) {
+    echo "Rechazado: " . $e->getMessage() . "\n";
+}
+```
+
+#### Salida esperada
+```
+Rechazado: calado imposible para Gaviota
+```
+
+#### Solución
+```php
+<?php
+class Barco
+{
+    public function __construct(public readonly string $nombre, public readonly float $calado)
+    {
+        if ($calado <= 0) {
+            throw new InvalidArgumentException("calado imposible para $nombre");
+        }
+    }
+}
+
+try {
+    $b = new Barco('Gaviota', -3);
+    echo "Botado: {$b->nombre}\n";
+} catch (InvalidArgumentException $e) {
+    echo "Rechazado: " . $e->getMessage() . "\n";
+}
+```
+
+#### Al superarla
+El barco con calado negativo no llega a existir. El ogro se queda sin chiste.
+
+#### Imagen
+- Un barco a medio armar en una grada del astillero, con un sello rojo de rechazo pegado en el casco, sin letras.
+- Un ogro se rasca la cabeza, decepcionado.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pega el sello.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el casco.
+
+### Micro-misión R02-N02-P3 · Lo que no cambia nunca
+
+```meta
+lugar: El barco del timón
+personajes: Nilo, Elefa, Gheco
+carta: readonly | public readonly string $matricula · se asigna una vez, en el constructor · después, error si se toca
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La matrícula de un barco se graba una vez y no se cambia nunca. Pero en el programa de Nilo, cualquiera la puede pisar. Elefa sella la matrícula con su bastón: —Lo que se graba, queda.
+
+#### Gheco sugiere
+Con `readonly`, la propiedad se asigna en el constructor y después no se puede cambiar: intentarlo da un `Error` que se puede atrapar.
+
+#### Desafío
+Marcá la matrícula como `readonly` para que el intento de cambiarla falle.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    public function __construct(public string $matricula)
+    {
+    }
+}
+
+$b = new Barco('PM-0042');
+try {
+    $b->matricula = 'PIRATA-1';
+    echo "Cambiada a {$b->matricula}\n";
+} catch (Error $e) {
+    echo "No se puede: la matricula es de solo lectura\n";
+}
+echo "Matricula: {$b->matricula}\n";
+```
+
+#### Salida esperada
+```
+No se puede: la matricula es de solo lectura
+Matricula: PM-0042
+```
+
+#### Solución
+```php
+<?php
+class Barco
+{
+    public function __construct(public readonly string $matricula)
+    {
+    }
+}
+
+$b = new Barco('PM-0042');
+try {
+    $b->matricula = 'PIRATA-1';
+    echo "Cambiada a {$b->matricula}\n";
+} catch (Error $e) {
+    echo "No se puede: la matricula es de solo lectura\n";
+}
+echo "Matricula: {$b->matricula}\n";
+```
+
+#### Al superarla
+La matrícula queda grabada. Elefa asiente. —¿Cómo me llamo? —pregunta. Nilo mira la matrícula, como si ahí estuviera la respuesta.
+
+#### Imagen
+- La proa de un barco con una placa de bronce grabada con dibujitos de olas y un sello de lacre violeta encima, sin letras.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) sella la placa con el bastón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira la placa.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la proa.
+
+### Micro-misión R02-N02-P4 · El precio que no se pisa
+
+```meta
+lugar: El barco del timón
+personajes: Nilo, Iara, Gheco
+carta: Objeto valor | inmutable · conSuma() devuelve un objeto NUEVO · el original queda igual · seguro para compartir
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara y Nilo comparten el mismo objeto `Precio` para dos presupuestos. Nilo le suma un recargo al suyo… y el de Iara también cambia. —¿Quién tocó mi precio? —pregunta Iara, con el lápiz en alto.
+
+#### Gheco sugiere
+Si `Precio` es `readonly`, no se puede cambiar: `conRecargo()` devuelve un **precio nuevo** y el viejo queda igual.
+
+#### Desafío
+Hacé que `conRecargo` devuelva un precio nuevo en lugar de cambiar el que hay.
+
+#### Código inicial
+```php
+<?php
+class Precio
+{
+    public function __construct(public int $sellos)
+    {
+    }
+
+    public function conRecargo(int $extra): Precio
+    {
+        $this->sellos += $extra;
+        return $this;
+    }
+}
+
+$base = new Precio(100);
+$nilo = $base->conRecargo(20);
+echo "Iara: {$base->sellos}\n";
+echo "Nilo: {$nilo->sellos}\n";
+```
+
+#### Salida esperada
+```
+Iara: 100
+Nilo: 120
+```
+
+#### Solución
+```php
+<?php
+final class Precio
+{
+    public function __construct(public readonly int $sellos)
+    {
+    }
+
+    public function conRecargo(int $extra): Precio
+    {
+        return new Precio($this->sellos + $extra);
+    }
+}
+
+$base = new Precio(100);
+$nilo = $base->conRecargo(20);
+echo "Iara: {$base->sellos}\n";
+echo "Nilo: {$nilo->sellos}\n";
+```
+
+#### Al superarla
+Cada uno con su precio. Iara baja el lápiz.
+
+#### Imagen
+- Dos papeles de presupuesto sobre una mesa del astillero, con sellos de lacre de distinto tamaño, sin letras.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) protege su papel con la mano.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el suyo.
+- Gheco (gecko de luz cian con antiparras, chiquito) entre los dos papeles.
+
 ### Misión R02-N02-M1 · El timón con palanca
 
 ```meta
@@ -1555,6 +2142,234 @@ contador estático, se pisan. Es una variable global: usala poco.
 
 **Esqueleto: `new` de un constructor privado.** `Call to private Barco::__construct()
 from global scope`: esa clase se crea solo con sus métodos de fábrica.
+
+### Micro-misión R02-N03-P1 · El calado máximo
+
+```meta
+lugar: La pizarra de la puerta
+personajes: Nilo, Iara, Gheco
+carta: Constantes de clase | const CALADO_MAXIMO = 12; · self::CALADO_MAXIMO adentro · Barco::CALADO_MAXIMO afuera
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Para no olvidarse del calado máximo del puerto, Nilo lo escribió con tiza en la proa de cada barco, y en tres puso un número distinto. Iara los borra uno por uno. El dato es del **molde**, no de cada barco.
+
+#### Gheco sugiere
+Una constante de clase se escribe una vez: `const CALADO_MAXIMO = 12;`. Adentro de la clase se usa como `self::CALADO_MAXIMO`.
+
+#### Desafío
+Reemplazá los números sueltos por la constante de la clase.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    public function __construct(public string $nombre, public float $calado)
+    {
+    }
+
+    public function entra(): bool
+    {
+        return $this->calado <= 15;
+    }
+}
+
+foreach ([new Barco('Gaviota', 4), new Barco('Leviatan', 14)] as $b) {
+    echo $b->nombre . ": " . ($b->entra() ? "entra" : "no entra") . " (maximo 12 m)\n";
+}
+```
+
+#### Salida esperada
+```
+Gaviota: entra (maximo 12 m)
+Leviatan: no entra (maximo 12 m)
+```
+
+#### Solución
+```php
+<?php
+class Barco
+{
+    const CALADO_MAXIMO = 12;
+
+    public function __construct(public string $nombre, public float $calado)
+    {
+    }
+
+    public function entra(): bool
+    {
+        return $this->calado <= self::CALADO_MAXIMO;
+    }
+}
+
+foreach ([new Barco('Gaviota', 4), new Barco('Leviatan', 14)] as $b) {
+    echo $b->nombre . ": " . ($b->entra() ? "entra" : "no entra") . " (maximo " . Barco::CALADO_MAXIMO . " m)\n";
+}
+```
+
+#### Al superarla
+Un solo número, en un solo lugar. Iara guarda la tiza en el bolsillo de Nilo. Se cae por el agujero.
+
+#### Imagen
+- Una pizarra negra en la puerta de un astillero con un dibujo de un barco y una línea de agua marcada, sin números.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) borra la proa de un barco con un trapo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con una tiza en la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la pizarra.
+
+### Micro-misión R02-N03-P2 · ¿Cuántos se botaron?
+
+```meta
+lugar: La pizarra de la puerta
+personajes: Nilo, Gheco
+carta: static | private static int $botados = 0; · es de la clase, no de un objeto · self::$botados++ en el constructor
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La pizarra de la puerta dice cuántos barcos se botaron este año. Nilo puso el contador adentro de cada barco, y cada barco dice «1».
+
+#### Gheco sugiere
+Un contador que es de **todos** los barcos va `static`: `private static int $botados = 0;` y en el constructor `self::$botados++`.
+
+#### Desafío
+Hacé que el contador sea de la clase y que cuente todos los barcos botados.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    private int $botados = 0;
+
+    public function __construct(public string $nombre)
+    {
+        $this->botados++;
+    }
+
+    public function botados(): int
+    {
+        return $this->botados;
+    }
+}
+
+new Barco('Gaviota');
+new Barco('Albatros');
+$ultimo = new Barco('Tortuga');
+echo "Botados este año: " . $ultimo->botados() . "\n";
+```
+
+#### Salida esperada
+```
+Botados este año: 3
+```
+
+#### Solución
+```php
+<?php
+class Barco
+{
+    private static int $botados = 0;
+
+    public function __construct(public string $nombre)
+    {
+        self::$botados++;
+    }
+
+    public static function botados(): int
+    {
+        return self::$botados;
+    }
+}
+
+new Barco('Gaviota');
+new Barco('Albatros');
+new Barco('Tortuga');
+echo "Botados este año: " . Barco::botados() . "\n";
+```
+
+#### Al superarla
+La pizarra dice 3. El capataz del Astillero, que había contado con los dedos, también dice 3. Por primera vez coinciden.
+
+#### Imagen
+- Una pizarra en la puerta del astillero con tres palitos marcados con tiza, y tres barcos en el agua detrás.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) agrega un palito con la tiza.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la pizarra.
+
+### Micro-misión R02-N03-P3 · Dos puertas para fabricar
+
+```meta
+lugar: La pizarra de la puerta
+personajes: Nilo, Gheco
+carta: Fábricas | public static function velero(string $n): self { return new self($n, 'velero', 2); } · constructores con nombre
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para pedir un velero hay que acordarse de pasarle «velero» y 2 mástiles; para un remolcador, «remolcador» y 0. Nilo pidió un velero con 0 mástiles, que todavía está en la grada sin saber cómo moverse.
+
+#### Gheco sugiere
+Un método `static` que crea el objeto con los datos correctos: `Barco::velero('Brisa')`. El nombre del método dice qué se fabrica.
+
+#### Desafío
+Escribí las fábricas `velero` y `remolcador`.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    public function __construct(public string $nombre, public string $tipo, public int $mastiles)
+    {
+    }
+}
+
+$a = new Barco('Brisa', 'velero', 0);
+$b = new Barco('Forzudo', 'remolcador', 0);
+echo "{$a->nombre}: {$a->tipo}, {$a->mastiles} mastiles\n";
+echo "{$b->nombre}: {$b->tipo}, {$b->mastiles} mastiles\n";
+```
+
+#### Salida esperada
+```
+Brisa: velero, 2 mastiles
+Forzudo: remolcador, 0 mastiles
+```
+
+#### Solución
+```php
+<?php
+class Barco
+{
+    public function __construct(public string $nombre, public string $tipo, public int $mastiles)
+    {
+    }
+
+    public static function velero(string $nombre): self
+    {
+        return new self($nombre, 'velero', 2);
+    }
+
+    public static function remolcador(string $nombre): self
+    {
+        return new self($nombre, 'remolcador', 0);
+    }
+}
+
+$a = Barco::velero('Brisa');
+$b = Barco::remolcador('Forzudo');
+echo "{$a->nombre}: {$a->tipo}, {$a->mastiles} mastiles\n";
+echo "{$b->nombre}: {$b->tipo}, {$b->mastiles} mastiles\n";
+```
+
+#### Al superarla
+El velero sale con sus dos mástiles y se va navegando, aliviado.
+
+#### Imagen
+- Dos puertas de taller en el astillero, una con un dibujo de una vela y otra con un dibujo de un ancla, de las que salen un velero y un remolcador.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) entre las dos puertas, señalando.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el marco de una puerta.
 
 ### Misión R02-N03-M1 · Los boletos numerados
 
@@ -2190,6 +3005,329 @@ Remolcador`.
 
 **Ogro: herencia para reutilizar código.** Si "un X es un Y" suena raro, no
 heredes: usá composición (una propiedad).
+
+### Micro-misión R02-N04-P1 · La Embarcación y el Velero
+
+```meta
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Gheco
+carta: extends | class Velero extends Embarcacion · hereda todo lo del padre · agrega lo suyo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el fondo del Astillero hay un árbol genealógico pintado en la pared: arriba la **Embarcación**, y de ella salen el **Velero** y el **Remolcador**. Nilo copió en el velero todo lo de la embarcación, y en la copia se olvidó el método que presenta al barco.
+
+#### Gheco sugiere
+Con `class Velero extends Embarcacion` el velero hereda todo de la embarcación, incluida `presentar()`. Solo agrega lo suyo: las velas.
+
+#### Desafío
+Hacé que `Velero` herede de `Embarcacion`.
+
+#### Código inicial
+```php
+<?php
+class Embarcacion
+{
+    public function __construct(public string $nombre)
+    {
+    }
+
+    public function presentar(): string
+    {
+        return "Soy {$this->nombre}";
+    }
+}
+
+class Velero
+{
+    public int $velas = 3;
+}
+
+$v = new Velero('Brisa');
+echo $v->presentar() . " y tengo {$v->velas} velas\n";
+```
+
+#### Salida esperada
+```
+Soy Brisa y tengo 3 velas
+```
+
+#### Solución
+```php
+<?php
+class Embarcacion
+{
+    public function __construct(public string $nombre)
+    {
+    }
+
+    public function presentar(): string
+    {
+        return "Soy {$this->nombre}";
+    }
+}
+
+class Velero extends Embarcacion
+{
+    public int $velas = 3;
+}
+
+$v = new Velero('Brisa');
+echo $v->presentar() . " y tengo {$v->velas} velas\n";
+```
+
+#### Al superarla
+El velero se presenta como cualquier embarcación y, además, muestra sus velas. Nilo pregunta dónde va la gaviota en el árbol. Nadie le contesta.
+
+#### Imagen
+- Una pared de madera con un árbol genealógico pintado: arriba un casco de barco simple y abajo un velero y un remolcador, sin letras.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) señala la rama del velero.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la rama de arriba.
+
+### Micro-misión R02-N04-P2 · parent::
+
+```meta
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Gheco
+carta: parent:: | parent::__construct($nombre) llama al constructor del padre · parent::presentar() reusa su método
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Remolcador tiene un constructor propio, para su cuerda de arrastre, y se olvidó de llamar al del padre: el remolcador salió sin nombre.
+
+#### Gheco sugiere
+Dentro del constructor del hijo, `parent::__construct($nombre);` le pasa el nombre al padre. Y `parent::presentar()` reusa lo que el padre ya sabe decir.
+
+#### Desafío
+Llamá al constructor del padre y reusá su `presentar()`.
+
+#### Código inicial
+```php
+<?php
+class Embarcacion
+{
+    protected string $nombre = '(sin nombre)';
+
+    public function __construct(string $nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    public function presentar(): string
+    {
+        return "Soy {$this->nombre}";
+    }
+}
+
+class Remolcador extends Embarcacion
+{
+    public function __construct(string $nombre, private int $cuerda)
+    {
+    }
+
+    public function presentar(): string
+    {
+        return "Arrastro con {$this->cuerda} m de cuerda";
+    }
+}
+
+echo (new Remolcador('Forzudo', 40))->presentar() . "\n";
+```
+
+#### Salida esperada
+```
+Soy Forzudo y arrastro con 40 m de cuerda
+```
+
+#### Solución
+```php
+<?php
+class Embarcacion
+{
+    protected string $nombre = '(sin nombre)';
+
+    public function __construct(string $nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    public function presentar(): string
+    {
+        return "Soy {$this->nombre}";
+    }
+}
+
+class Remolcador extends Embarcacion
+{
+    public function __construct(string $nombre, private int $cuerda)
+    {
+        parent::__construct($nombre);
+    }
+
+    public function presentar(): string
+    {
+        return parent::presentar() . " y arrastro con {$this->cuerda} m de cuerda";
+    }
+}
+
+echo (new Remolcador('Forzudo', 40))->presentar() . "\n";
+```
+
+#### Al superarla
+El Forzudo se presenta con nombre y cuerda. Remolca al velero de Nilo, que se había quedado sin viento.
+
+#### Imagen
+- Un remolcador robusto tirando con una cuerda gruesa de un velero chico en la bahía del astillero.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) saluda desde el velero.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la cuerda.
+
+### Micro-misión R02-N04-P3 · Es un o tiene un
+
+```meta
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Iara, Gheco
+carta: Herencia o no | «un velero ES una embarcación» → extends · «un barco TIENE un capitán» → propiedad · si no es «es un», no se hereda
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nilo hizo que `Capitan` herede de `Barco` «para tener el nombre del barco a mano». Ahora el capitán tiene calado y se puede amarrar. Iara lo mira con la ceja levantada.
+
+#### Gheco sugiere
+Un capitán no **es** un barco: el barco **tiene** un capitán. Sacá el `extends` y guardá el capitán como una propiedad del barco.
+
+#### Desafío
+Rearmá las clases: el barco tiene un capitán.
+
+#### Código inicial
+```php
+<?php
+class Barco
+{
+    public float $calado = 4;
+
+    public function __construct(public string $nombre)
+    {
+    }
+}
+
+class Capitan extends Barco
+{
+    public string $persona = 'Marina';
+}
+
+$c = new Capitan('Gaviota');
+echo "{$c->persona} tiene calado {$c->calado}\n";
+```
+
+#### Salida esperada
+```
+Gaviota tiene capitana: Marina
+```
+
+#### Solución
+```php
+<?php
+class Capitan
+{
+    public function __construct(public string $persona)
+    {
+    }
+}
+
+class Barco
+{
+    public float $calado = 4;
+
+    public function __construct(public string $nombre, public Capitan $capitan)
+    {
+    }
+}
+
+$b = new Barco('Gaviota', new Capitan('Marina'));
+echo "{$b->nombre} tiene capitana: {$b->capitan->persona}\n";
+```
+
+#### Al superarla
+La capitana Marina se baja del agua, donde la habían amarrado por error, y sube a su barco.
+
+#### Imagen
+- Una capitana de barco subiendo por una escalerita a la cubierta de un velero en el astillero.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) anota con la ceja levantada.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le tiende la mano a la capitana.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la baranda.
+
+### Micro-misión R02-N04-P4 · final
+
+```meta
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Elefa, Gheco
+carta: final | final class: no se hereda · final public function: no se redefine · para lo que no tiene que cambiar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un aprendiz creó un `BarcoGratis` que hereda de `Tarifa` y redefine el precio a cero. Elefa se enteró. —Hay cosas que no se heredan para cambiarlas —dice, y golpea el piso con el bastón.
+
+#### Gheco sugiere
+Marcá el método `precio()` como `final` para que ninguna hija lo pueda redefinir, y sacá la clase que lo pisa.
+
+#### Desafío
+Protegé el cálculo de la tarifa con `final` y usá la tarifa de verdad.
+
+#### Código inicial
+```php
+<?php
+class Tarifa
+{
+    public function precio(int $kilos): int
+    {
+        return $kilos * 3 + 10;
+    }
+}
+
+class BarcoGratis extends Tarifa
+{
+    public function precio(int $kilos): int
+    {
+        return 0;
+    }
+}
+
+$t = new BarcoGratis();
+echo "A pagar: " . $t->precio(20) . "\n";
+```
+
+#### Salida esperada
+```
+A pagar: 70
+```
+
+#### Solución
+```php
+<?php
+class Tarifa
+{
+    final public function precio(int $kilos): int
+    {
+        return $kilos * 3 + 10;
+    }
+}
+
+$t = new Tarifa();
+echo "A pagar: " . $t->precio(20) . "\n";
+```
+
+#### Al superarla
+La tarifa vuelve a ser la misma para todos. El aprendiz paga lo que debe. Elefa no dice nada, pero la campana suena una vez.
+
+#### Imagen
+- Una oficina del astillero con un cofre de sellos cerrado con un candado de bronce con forma de sello.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) golpea el piso con el bastón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cierra el candado.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cofre.
 
 ### Misión R02-N04-M1 · Los empleados del puerto
 
@@ -2907,6 +4045,301 @@ must be public`.
 
 **Ogro: el `if` por tipo.** `if ($pieza instanceof Vela) … elseif ($pieza
 instanceof Helice)`: casi siempre es un método que falta en la jerarquía.
+
+### Micro-misión R02-N05-P1 · Terminá tu pieza
+
+```meta
+lugar: La lista del capataz
+personajes: Nilo, Gheco
+carta: abstract | abstract class Pieza · abstract public function terminar(): string; · no se instancia · cada hija la completa
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El capataz del Astillero le dice a cada carpintero lo mismo: *«Terminá tu pieza»*. Cada uno sabe cómo se termina la suya. Nilo corre entre los talleres llevando la orden, y por primera vez no tiene que explicar nada.
+
+#### Gheco sugiere
+Una clase `abstract` declara el método sin escribirlo; cada hija lo escribe. Faltan la `Vela` y el `Ancla`.
+
+#### Desafío
+Escribí las clases hijas para que cada pieza se termine a su manera.
+
+#### Código inicial
+```php
+<?php
+abstract class Pieza
+{
+    abstract public function terminar(): string;
+}
+
+class Casco extends Pieza
+{
+    public function terminar(): string
+    {
+        return "Casco: lijado";
+    }
+}
+
+$piezas = [new Casco()];
+foreach ($piezas as $p) {
+    echo $p->terminar() . "\n";
+}
+```
+
+#### Salida esperada
+```
+Casco: lijado
+Vela: cosida
+Ancla: forjada
+```
+
+#### Solución
+```php
+<?php
+abstract class Pieza
+{
+    abstract public function terminar(): string;
+}
+
+class Casco extends Pieza
+{
+    public function terminar(): string
+    {
+        return "Casco: lijado";
+    }
+}
+
+class Vela extends Pieza
+{
+    public function terminar(): string
+    {
+        return "Vela: cosida";
+    }
+}
+
+class Ancla extends Pieza
+{
+    public function terminar(): string
+    {
+        return "Ancla: forjada";
+    }
+}
+
+$piezas = [new Casco(), new Vela(), new Ancla()];
+foreach ($piezas as $p) {
+    echo $p->terminar() . "\n";
+}
+```
+
+#### Al superarla
+Tres piezas, una sola orden. El capataz no necesita saber cómo se cose una vela.
+
+#### Imagen
+- Tres talleres del astillero lado a lado: uno con un casco de madera, otro con una vela grande y otro con un ancla en la fragua.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) corre entre los talleres con un papel en la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre su gorra.
+
+### Micro-misión R02-N05-P2 · Adiós a los if por tipo
+
+```meta
+lugar: La lista del capataz
+personajes: Nilo, Gheco
+criatura: ogro
+carta: Polimorfismo | en vez de if ($x instanceof A) … elseif (B) … · cada clase sabe su respuesta · se agrega una clase, no un if
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La función de Nilo para calcular la tarifa de amarre tiene un `if` por cada tipo de barco. Llegó un tipo nuevo, la balsa, y como nadie agregó su `if`, pagó cero. Un **ogro** se ríe desde la balsa.
+
+#### Gheco sugiere
+Que cada barco sepa su propia tarifa: un método `amarre()` en cada clase. Así la función solo pregunta `$b->amarre()`.
+
+#### Desafío
+Reemplazá el `if` por tipo por un método en cada clase, y agregá la `Balsa` (paga 5).
+
+#### Código inicial
+```php
+<?php
+abstract class Barco
+{
+}
+
+class Velero extends Barco
+{
+}
+
+class Carguero extends Barco
+{
+}
+
+class Balsa extends Barco
+{
+}
+
+function amarre(Barco $b): int
+{
+    if ($b instanceof Velero) {
+        return 20;
+    } elseif ($b instanceof Carguero) {
+        return 90;
+    }
+    return 0;
+}
+
+foreach ([new Velero(), new Carguero(), new Balsa()] as $b) {
+    echo get_class($b) . ": " . amarre($b) . "\n";
+}
+```
+
+#### Salida esperada
+```
+Velero: 20
+Carguero: 90
+Balsa: 5
+```
+
+#### Solución
+```php
+<?php
+abstract class Barco
+{
+    abstract public function amarre(): int;
+}
+
+class Velero extends Barco
+{
+    public function amarre(): int
+    {
+        return 20;
+    }
+}
+
+class Carguero extends Barco
+{
+    public function amarre(): int
+    {
+        return 90;
+    }
+}
+
+class Balsa extends Barco
+{
+    public function amarre(): int
+    {
+        return 5;
+    }
+}
+
+foreach ([new Velero(), new Carguero(), new Balsa()] as $b) {
+    echo get_class($b) . ": " . $b->amarre() . "\n";
+}
+```
+
+#### Al superarla
+La balsa paga sus cinco sellos. El ogro se baja de la balsa, mojado y sin chiste.
+
+#### Imagen
+- Una balsa de troncos amarrada al lado de un velero y un carguero en el astillero.
+- Un ogro sentado en la balsa, riéndose.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le muestra un papel con un sello.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un tronco.
+
+### Micro-misión R02-N05-P3 · El método plantilla
+
+```meta
+lugar: La lista del capataz
+personajes: Nilo, Iara, Gheco
+carta: Método plantilla | el padre fija los pasos en un método final · las hijas completan solo el paso que cambia
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Todos los barcos se botan igual: se revisan, se pintan y se echan al agua. Solo la pintura cambia. Nilo escribió los tres pasos en cada clase y en una se olvidó de revisar. Iara encuentra el barco sin revisar flotando torcido.
+
+#### Gheco sugiere
+El padre tiene `botar()` con los tres pasos en orden y un paso abstracto, `pintar()`, que cada hija completa.
+
+#### Desafío
+Escribí `botar()` en la clase padre y dejá a las hijas solo con su pintura.
+
+#### Código inicial
+```php
+<?php
+abstract class Barco
+{
+    abstract protected function pintar(): string;
+}
+
+class Velero extends Barco
+{
+    protected function pintar(): string
+    {
+        return "blanco";
+    }
+
+    public function botar(): void
+    {
+        echo "Pintado de " . $this->pintar() . ". Al agua.\n";
+    }
+}
+
+(new Velero())->botar();
+```
+
+#### Salida esperada
+```
+Revisado.
+Pintado de blanco.
+Al agua.
+Revisado.
+Pintado de violeta.
+Al agua.
+```
+
+#### Solución
+```php
+<?php
+abstract class Barco
+{
+    abstract protected function pintar(): string;
+
+    final public function botar(): void
+    {
+        echo "Revisado.\n";
+        echo "Pintado de " . $this->pintar() . ".\n";
+        echo "Al agua.\n";
+    }
+}
+
+class Velero extends Barco
+{
+    protected function pintar(): string
+    {
+        return "blanco";
+    }
+}
+
+class Gaviota extends Barco
+{
+    protected function pintar(): string
+    {
+        return "violeta";
+    }
+}
+
+(new Velero())->botar();
+(new Gaviota())->botar();
+```
+
+#### Al superarla
+Los dos barcos se botan revisados. El violeta, por supuesto, es el de Nilo.
+
+#### Imagen
+- Una grada del astillero con un barco violeta deslizándose al agua y otro blanco esperando su turno.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) tilda una lista.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) festeja con los brazos arriba.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la grada.
 
 ### Misión R02-N05-M1 · Las figuras del velero
 
@@ -3662,6 +5095,302 @@ escribe `pesoKg(): int|string`, no es compatible.
 **Ogro: interfaces de un solo uso.** Una interfaz que implementa una sola clase y
 nunca se usa como tipo no aporta: agregala cuando haya dos cosas que la cumplan.
 
+### Micro-misión R02-N06-P1 · Todo lo que se carga tiene peso
+
+```meta
+lugar: La aduana del Astillero
+personajes: Nilo, Gheco
+carta: interface | interface ConPeso { public function peso(): float; } · class Cajon implements ConPeso · un contrato que se firma
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la aduana del Astillero hay un cartel: *«Todo lo que se cargue en un barco tiene que tener peso»*. Un cajón de fruta y un pasajero no se parecen en nada, pero los dos tienen que poder decir cuánto pesan.
+
+#### Gheco sugiere
+Una interfaz es un contrato: `interface ConPeso { public function peso(): float; }`. Cada clase que la firma con `implements` tiene que escribir `peso()`.
+
+#### Desafío
+Hacé que `Cajon` y `Pasajero` firmen el contrato `ConPeso`.
+
+#### Código inicial
+```php
+<?php
+interface ConPeso
+{
+    public function peso(): float;
+}
+
+class Cajon
+{
+    public function __construct(private float $kilos)
+    {
+    }
+}
+
+class Pasajero
+{
+    public function __construct(private string $nombre, private float $kilos)
+    {
+    }
+}
+
+function cargaTotal(ConPeso ...$cosas): float
+{
+    $total = 0;
+    foreach ($cosas as $c) {
+        $total += $c->peso();
+    }
+    return $total;
+}
+
+echo "Carga: " . cargaTotal(new Cajon(40), new Pasajero('Olmo', 72.5)) . " kg\n";
+```
+
+#### Salida esperada
+```
+Carga: 112.5 kg
+```
+
+#### Solución
+```php
+<?php
+interface ConPeso
+{
+    public function peso(): float;
+}
+
+class Cajon implements ConPeso
+{
+    public function __construct(private float $kilos)
+    {
+    }
+
+    public function peso(): float
+    {
+        return $this->kilos;
+    }
+}
+
+class Pasajero implements ConPeso
+{
+    public function __construct(private string $nombre, private float $kilos)
+    {
+    }
+
+    public function peso(): float
+    {
+        return $this->kilos;
+    }
+}
+
+function cargaTotal(ConPeso ...$cosas): float
+{
+    $total = 0;
+    foreach ($cosas as $c) {
+        $total += $c->peso();
+    }
+    return $total;
+}
+
+echo "Carga: " . cargaTotal(new Cajon(40), new Pasajero('Olmo', 72.5)) . " kg\n";
+```
+
+#### Al superarla
+El cajón y el pasajero suben al mismo barco, sin tener nada en común salvo el contrato. Olmo pregunta por qué lo pesaron. Nadie le explica.
+
+#### Imagen
+- La aduana del astillero con una balanza grande y un cartel liso con el dibujo de una balanza, sin letras.
+- Un pasajero parado en la balanza al lado de un cajón de fruta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira la aguja.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cartel.
+
+### Micro-misión R02-N06-P2 · Dos contratos a la vez
+
+```meta
+lugar: La aduana del Astillero
+personajes: Nilo, Pico, Gheco
+criatura: esqueleto
+carta: Varias interfaces | class Cuadro implements ConPeso, ConValor · una clase puede firmar muchas · un parámetro pide solo la que usa
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para asegurar algo, la aduana pide que tenga **valor**. Un cuadro tiene peso y valor; Pico, que intenta subir a un barco, no tiene ninguno de los dos. El programa de Nilo intenta asegurar a Pico y salta un **esqueleto**: el método que no existe.
+
+#### Gheco sugiere
+`Cuadro` firma los dos contratos: `implements ConPeso, ConValor`. La función `asegurar` pide un `ConValor`: a Pico, que no firma nada, no se le puede pasar.
+
+#### Desafío
+Hacé que `Cuadro` firme `ConValor` y asegurá solo lo que tiene valor.
+
+#### Código inicial
+```php
+<?php
+interface ConPeso
+{
+    public function peso(): float;
+}
+
+interface ConValor
+{
+    public function valor(): int;
+}
+
+class Cuadro implements ConPeso
+{
+    public function peso(): float
+    {
+        return 3.5;
+    }
+}
+
+class Gaviota
+{
+}
+
+function asegurar($cosa): string
+{
+    return "Seguro por " . ($cosa->valor() * 2) . " sellos";
+}
+
+echo asegurar(new Cuadro()) . "\n";
+echo asegurar(new Gaviota()) . "\n";
+```
+
+#### Salida esperada
+```
+Seguro por 800 sellos
+Pico: no se asegura
+```
+
+#### Solución
+```php
+<?php
+interface ConPeso
+{
+    public function peso(): float;
+}
+
+interface ConValor
+{
+    public function valor(): int;
+}
+
+class Cuadro implements ConPeso, ConValor
+{
+    public function peso(): float
+    {
+        return 3.5;
+    }
+
+    public function valor(): int
+    {
+        return 400;
+    }
+}
+
+class Gaviota
+{
+}
+
+function asegurar(ConValor $cosa): string
+{
+    return "Seguro por " . ($cosa->valor() * 2) . " sellos";
+}
+
+echo asegurar(new Cuadro()) . "\n";
+$pico = new Gaviota();
+echo $pico instanceof ConValor ? asegurar($pico) : "Pico: no se asegura\n";
+```
+
+#### Al superarla
+El cuadro queda asegurado. Pico, sin seguro, se va volando ofendida con el cartel de la aduana en el pico.
+
+#### Imagen
+- Un cuadro envuelto en papel madera sobre el mostrador de la aduana, con un sello de lacre violeta.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) intenta pararse en el mostrador.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) la ataja con las manos.
+- Un esqueleto chiquito asoma detrás del mostrador.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cuadro.
+
+### Micro-misión R02-N06-P3 · Countable
+
+```meta
+lugar: La aduana del Astillero
+personajes: Nilo, Iara, Gheco
+carta: Interfaces de PHP | Countable → count($obj) · Stringable → __toString · JsonSerializable → json_encode($obj)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara lleva la lista de cosas de la bodega de un barco en un objeto `Bodega`. Quiere preguntar `count($bodega)` como con cualquier array, pero PHP no sabe contar un objeto.
+
+#### Gheco sugiere
+Si `Bodega` implementa `Countable` (que trae PHP) y escribe `count(): int`, la función `count($bodega)` la usa.
+
+#### Desafío
+Hacé que la bodega se pueda contar con `count()`.
+
+#### Código inicial
+```php
+<?php
+class Bodega
+{
+    private array $cosas = [];
+
+    public function guardar(string $cosa): void
+    {
+        $this->cosas[] = $cosa;
+    }
+}
+
+$b = new Bodega();
+$b->guardar('harina');
+$b->guardar('sal');
+$b->guardar('aceite');
+echo "En la bodega: " . (is_countable($b) ? count($b) : '?') . "\n";
+```
+
+#### Salida esperada
+```
+En la bodega: 3
+```
+
+#### Solución
+```php
+<?php
+class Bodega implements Countable
+{
+    private array $cosas = [];
+
+    public function guardar(string $cosa): void
+    {
+        $this->cosas[] = $cosa;
+    }
+
+    public function count(): int
+    {
+        return count($this->cosas);
+    }
+}
+
+$b = new Bodega();
+$b->guardar('harina');
+$b->guardar('sal');
+$b->guardar('aceite');
+echo "En la bodega: " . (is_countable($b) ? count($b) : '?') . "\n";
+```
+
+#### Al superarla
+Tres cosas en la bodega, contadas como se cuenta cualquier lista. Iara lo anota sin levantar la vista.
+
+#### Imagen
+- La bodega de un barco con tres estantes: harina, sal y aceite.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) cuenta con el lápiz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene un farol.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una bolsa.
+
 ### Misión R02-N06-M1 · Lo que se puede exportar
 
 ```meta
@@ -4411,6 +6140,270 @@ as Y::m, because of collision with Z::m`: resolvelo con `insteadof` o renombrá.
 
 **Ogro: la clase con cinco traits.** Nadie entiende de dónde sale cada método.
 Si un trait crece, probablemente es una clase aparte para componer.
+
+### Micro-misión R02-N07-P1 · Un bote tiene un motor
+
+```meta
+lugar: El cajón de los planos viejos
+personajes: Nilo, Gheco
+carta: Composición | el bote TIENE un motor: __construct(private Motor $motor) · se puede cambiar por otro · delegar: $this->motor->arrancar()
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un aprendiz dibujó un bote que **es** un motor con casco. El maestro carpintero le borró el dibujo: *«Un bote no es un motor. Un bote tiene un motor. Y mañana le vas a querer poner uno más grande.»*
+
+#### Gheco sugiere
+El bote recibe su motor por el constructor y le **delega** el trabajo: `$this->motor->arrancar()`. Cambiar el motor es pasar otro objeto.
+
+#### Desafío
+Rearmá el bote para que tenga un motor y pruébalo con dos motores distintos.
+
+#### Código inicial
+```php
+<?php
+class Motor
+{
+    public function __construct(private int $caballos)
+    {
+    }
+
+    public function arrancar(): string
+    {
+        return "brrr ({$this->caballos} HP)";
+    }
+}
+
+class Bote extends Motor
+{
+}
+
+echo (new Bote(10))->arrancar() . "\n";
+```
+
+#### Salida esperada
+```
+Gaviota: brrr (10 HP)
+Gaviota: brrr (40 HP)
+```
+
+#### Solución
+```php
+<?php
+class Motor
+{
+    public function __construct(private int $caballos)
+    {
+    }
+
+    public function arrancar(): string
+    {
+        return "brrr ({$this->caballos} HP)";
+    }
+}
+
+class Bote
+{
+    public function __construct(private string $nombre, private Motor $motor)
+    {
+    }
+
+    public function salir(): string
+    {
+        return "{$this->nombre}: " . $this->motor->arrancar();
+    }
+}
+
+echo (new Bote('Gaviota', new Motor(10)))->salir() . "\n";
+echo (new Bote('Gaviota', new Motor(40)))->salir() . "\n";
+```
+
+#### Al superarla
+El bote de Nilo estrena motor grande sin que nadie toque el bote. Sale disparado y vuelve, mojado y feliz.
+
+#### Imagen
+- Un bote violeta con un motor fuera de borda nuevo, saliendo rápido del astillero y levantando espuma.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) al timón, con la bufanda al viento.
+- Gheco (gecko de luz cian con antiparras, chiquito) agarrado a la gorra.
+
+### Micro-misión R02-N07-P2 · La etiqueta de fecha
+
+```meta
+lugar: El cajón de los planos viejos
+personajes: Nilo, Gheco
+carta: trait | trait ConFabricacion { … } · use ConFabricacion; en cada clase · pega el mismo código en clases sin relación
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Del otro lado del taller, un herrero pega la misma etiqueta de fecha de fabricación en todas las piezas: velas, remos, anclas. Nilo copió el método `etiqueta()` en cada clase, y en el remo se le escapó una falta de ortografía.
+
+#### Gheco sugiere
+Un `trait` guarda el método una sola vez; cada clase lo incorpora con `use ConFabricacion;`.
+
+#### Desafío
+Pasá el método repetido a un trait y usalo en las dos clases.
+
+#### Código inicial
+```php
+<?php
+class Vela
+{
+    public string $fecha = '2026-10-03';
+
+    public function etiqueta(): string
+    {
+        return static::class . " - fabricación: {$this->fecha}";
+    }
+}
+
+class Remo
+{
+    public string $fecha = '2026-10-05';
+
+    public function etiqueta(): string
+    {
+        return static::class . " - fabricasion: {$this->fecha}";
+    }
+}
+
+echo (new Vela())->etiqueta() . "\n";
+echo (new Remo())->etiqueta() . "\n";
+```
+
+#### Salida esperada
+```
+Vela - fabricación: 2026-10-03
+Remo - fabricación: 2026-10-05
+```
+
+#### Solución
+```php
+<?php
+trait ConFabricacion
+{
+    public function etiqueta(): string
+    {
+        return static::class . " - fabricación: {$this->fecha}";
+    }
+}
+
+class Vela
+{
+    use ConFabricacion;
+
+    public string $fecha = '2026-10-03';
+}
+
+class Remo
+{
+    use ConFabricacion;
+
+    public string $fecha = '2026-10-05';
+}
+
+echo (new Vela())->etiqueta() . "\n";
+echo (new Remo())->etiqueta() . "\n";
+```
+
+#### Al superarla
+Las dos etiquetas salen iguales, del mismo molde. El herrero guarda su sello de fechas, contento.
+
+#### Imagen
+- Un taller del astillero con una vela doblada y un remo apoyados en la pared, cada uno con una etiqueta de madera lisa colgando.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuelga una etiqueta.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el remo.
+
+### Micro-misión R02-N07-P3 · El plano de la barcaza
+
+```meta
+lugar: El cajón de los planos viejos
+personajes: Nilo, Elefa, Gheco
+carta: Inyección | las piezas se reciben por el constructor (no se crean adentro) · así se cambian sin tocar la clase · se puede probar con una pieza de mentira
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Buscando planos de motores en el cajón de los planos viejos, Nilo encuentra uno raro: **una barcaza hecha para llevar un solo vidrio enorme**, encargada hace veinte años por alguien con las manos manchadas de plomo. En el programa del inventario, la barcaza crea su propia grúa adentro y nadie la puede cambiar por la grúa grande que haría falta para un vidrio así.
+
+#### Gheco sugiere
+En vez de `new Grua(…)` adentro del constructor, la barcaza **recibe** la grúa: `__construct(private Grua $grua)`. Así se le puede dar la grande.
+
+#### Desafío
+Hacé que la barcaza reciba su grúa por el constructor y cargá el vidrio con la grande.
+
+#### Código inicial
+```php
+<?php
+class Grua
+{
+    public function __construct(public int $toneladas)
+    {
+    }
+}
+
+class Barcaza
+{
+    private Grua $grua;
+
+    public function __construct()
+    {
+        $this->grua = new Grua(2);
+    }
+
+    public function cargar(string $que, int $toneladas): string
+    {
+        return $toneladas <= $this->grua->toneladas
+            ? "Cargado: $que"
+            : "La grua no puede con $que";
+    }
+}
+
+echo (new Barcaza())->cargar('un vidrio enorme', 9) . "\n";
+```
+
+#### Salida esperada
+```
+La grua no puede con un vidrio enorme
+Cargado: un vidrio enorme
+```
+
+#### Solución
+```php
+<?php
+class Grua
+{
+    public function __construct(public int $toneladas)
+    {
+    }
+}
+
+class Barcaza
+{
+    public function __construct(private Grua $grua)
+    {
+    }
+
+    public function cargar(string $que, int $toneladas): string
+    {
+        return $toneladas <= $this->grua->toneladas
+            ? "Cargado: $que"
+            : "La grua no puede con $que";
+    }
+}
+
+echo (new Barcaza(new Grua(2)))->cargar('un vidrio enorme', 9) . "\n";
+echo (new Barcaza(new Grua(10)))->cargar('un vidrio enorme', 9) . "\n";
+```
+
+#### Al superarla
+Con la grúa grande, el vidrio entra en la barcaza. En la esquina del plano hay un dibujo: un vitral. Elefa guarda el plano en su armadura sin decir nada.
+
+#### Imagen
+- Un cajón de planos viejos abierto con un plano amarillento desplegado de una barcaza que lleva un vidrio enorme de colores, sin letras.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el plano a la luz de un farol.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) detrás, en sombra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cajón.
 
 ### Misión R02-N07-M1 · La linterna del faro
 
@@ -5246,6 +7239,287 @@ comparando con el texto original.
 **Ogro: la zona horaria.** Sin `date_default_timezone_set`, las horas pueden salir
 corridas 3 horas (UTC). Configurala una vez al principio.
 
+### Micro-misión R02-N08-P1 · Pagado, Pagada, PAG
+
+```meta
+lugar: El despacho de pasajes
+personajes: Nilo, Iara, Gheco
+carta: enum | enum Estado: string { case Pagada = 'pagada'; case Pendiente = 'pendiente'; } · solo esos valores · Estado::from('pagada')
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el despacho de pasajes, cada empleado anotaba el estado de las reservas como le parecía: *«pagado»*, *«Pagada»*, *«PAG»*. Iara las contó tres veces y le dio tres números distintos. Es la primera vez que Nilo la ve perder la paciencia.
+
+#### Gheco sugiere
+Con un enum, el estado solo puede ser uno de los casos. `Estado::tryFrom($texto)` da el caso, o `null` si el texto no es válido.
+
+#### Desafío
+Contá cuántas reservas están pagadas usando el enum, y avisá las que no se entienden.
+
+#### Código inicial
+```php
+<?php
+enum Estado: string
+{
+    case Pagada = 'pagada';
+    case Pendiente = 'pendiente';
+}
+
+$anotadas = ['pagada', 'Pagada', 'pendiente', 'PAG', 'pagada'];
+$pagadas = 0;
+foreach ($anotadas as $texto) {
+    if (str_starts_with(strtolower($texto), 'pag')) {
+        $pagadas++;
+    }
+}
+echo "Pagadas: $pagadas\n";
+```
+
+#### Salida esperada
+```
+No se entiende: Pagada
+No se entiende: PAG
+Pagadas: 2
+```
+
+#### Solución
+```php
+<?php
+enum Estado: string
+{
+    case Pagada = 'pagada';
+    case Pendiente = 'pendiente';
+}
+
+$anotadas = ['pagada', 'Pagada', 'pendiente', 'PAG', 'pagada'];
+$pagadas = 0;
+foreach ($anotadas as $texto) {
+    $estado = Estado::tryFrom($texto);
+    if ($estado === null) {
+        echo "No se entiende: $texto\n";
+    } elseif ($estado === Estado::Pagada) {
+        $pagadas++;
+    }
+}
+echo "Pagadas: $pagadas\n";
+```
+
+#### Al superarla
+Dos pagadas seguras y dos para revisar. Iara respira hondo y vuelve a ser Iara.
+
+#### Imagen
+- El mostrador de un despacho de pasajes de barco con pilas de boletos y sellos de colores, sin letras.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) con el pelo un poco despeinado, revolviendo papeles.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le alcanza un sello.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una pila de boletos.
+
+### Micro-misión R02-N08-P2 · El enum que sabe cosas
+
+```meta
+lugar: El despacho de pasajes
+personajes: Nilo, Gheco
+carta: Métodos en enums | public function etiqueta(): string { return match ($this) { … }; } · cases() lista todos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cada clase de pasaje tiene su precio: cubierta, camarote y suite. Nilo escribió los precios en un `if` aparte, lejos del enum, y al agregar la suite se olvidó de ponerle precio.
+
+#### Gheco sugiere
+El enum puede tener métodos: `precio()` con un `match ($this)` que cubra todos los casos. Si falta uno, `match` falla en lugar de dar cero.
+
+#### Desafío
+Escribí el método `precio` en el enum y recorré todos los casos con `cases()`.
+
+#### Código inicial
+```php
+<?php
+enum Clase
+{
+    case Cubierta;
+    case Camarote;
+    case Suite;
+}
+
+function precio(Clase $c): int
+{
+    if ($c === Clase::Cubierta) {
+        return 30;
+    }
+    if ($c === Clase::Camarote) {
+        return 80;
+    }
+    return 0;
+}
+
+foreach (Clase::cases() as $c) {
+    echo $c->name . ": " . precio($c) . "\n";
+}
+```
+
+#### Salida esperada
+```
+Cubierta: 30
+Camarote: 80
+Suite: 200
+```
+
+#### Solución
+```php
+<?php
+enum Clase
+{
+    case Cubierta;
+    case Camarote;
+    case Suite;
+
+    public function precio(): int
+    {
+        return match ($this) {
+            Clase::Cubierta => 30,
+            Clase::Camarote => 80,
+            Clase::Suite => 200,
+        };
+    }
+}
+
+foreach (Clase::cases() as $c) {
+    echo $c->name . ": " . $c->precio() . "\n";
+}
+```
+
+#### Al superarla
+La suite cuesta lo que tiene que costar. Un turista que había reservado la suite gratis se lleva un disgusto.
+
+#### Imagen
+- Un ferry de pasajeros en el puerto con tres niveles de ventanas, de las más chicas abajo a las más grandes arriba.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) señala el piso de arriba.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la chimenea.
+
+### Micro-misión R02-N08-P3 · Diez días después
+
+```meta
+lugar: El despacho de pasajes
+personajes: Nilo, Iara, Gheco
+carta: Fechas | new DateTimeImmutable('2026-10-03') · ->modify('+10 days') · ->format('d/m/Y') · inmutable: devuelve una fecha nueva
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un barco sale el 3 de octubre y vuelve diez días después. Nilo sumó 10 al día y le dio el 13… de un mes con cuarenta días. Iara tiene el calendario en la libreta y no le da.
+
+#### Gheco sugiere
+Con `DateTimeImmutable` las fechas se suman bien: `$salida->modify('+10 days')` devuelve otra fecha, y `format('d/m/Y')` la muestra.
+
+#### Desafío
+Calculá la vuelta con `modify` y mostrá las dos fechas con formato.
+
+#### Código inicial
+```php
+<?php
+$salida = '2026-10-28';
+[$anio, $mes, $dia] = explode('-', $salida);
+$vuelta = ($dia + 10) . "/$mes/$anio";
+echo "Sale: $dia/$mes/$anio\n";
+echo "Vuelve: $vuelta\n";
+```
+
+#### Salida esperada
+```
+Sale: 28/10/2026
+Vuelve: 07/11/2026
+```
+
+#### Solución
+```php
+<?php
+$salida = new DateTimeImmutable('2026-10-28');
+$vuelta = $salida->modify('+10 days');
+echo "Sale: " . $salida->format('d/m/Y') . "\n";
+echo "Vuelve: " . $vuelta->format('d/m/Y') . "\n";
+```
+
+#### Al superarla
+Vuelve el 7 de noviembre, un día que sí existe. Iara cierra el calendario.
+
+#### Imagen
+- Un calendario de pared en el despacho de pasajes con dos días marcados con sellos de lacre violeta, sin números.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) marca el calendario.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuenta con los dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el calendario.
+
+### Micro-misión R02-N08-P4 · ¿Cuántas noches?
+
+```meta
+lugar: El despacho de pasajes
+personajes: Nilo, Gheco
+criatura: goblin
+carta: diff | $a->diff($b)->days da los días entre dos fechas · DateTimeImmutable::createFromFormat('d/m/Y', $t) valida lo que escribió una persona
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un pasajero escribió su llegada como «31/02/2026». El programa de Nilo la aceptó y calculó las noches como pudo: un **goblin** se llevó dos días en el camino.
+
+#### Gheco sugiere
+`createFromFormat('!d/m/Y', $texto)` lee la fecha; si la fecha no existe, PHP la «corrige» sola (el 31 de febrero pasa a marzo). Compará: si al volver a formatearla no da el mismo texto, era inválida.
+
+#### Desafío
+Rechazá la fecha inválida y calculá las noches de la válida.
+
+#### Código inicial
+```php
+<?php
+function noches(string $llegada, string $salida): string
+{
+    $a = DateTimeImmutable::createFromFormat('!d/m/Y', $llegada);
+    $b = DateTimeImmutable::createFromFormat('!d/m/Y', $salida);
+    return $a->diff($b)->days . " noches";
+}
+
+echo noches('31/02/2026', '05/03/2026') . "\n";
+echo noches('01/03/2026', '05/03/2026') . "\n";
+```
+
+#### Salida esperada
+```
+Fecha invalida
+4 noches
+```
+
+#### Solución
+```php
+<?php
+function fecha(string $texto): ?DateTimeImmutable
+{
+    $f = DateTimeImmutable::createFromFormat('!d/m/Y', $texto);
+    return ($f !== false && $f->format('d/m/Y') === $texto) ? $f : null;
+}
+
+function noches(string $llegada, string $salida): string
+{
+    $a = fecha($llegada);
+    $b = fecha($salida);
+    if ($a === null || $b === null) {
+        return "Fecha invalida";
+    }
+    return $a->diff($b)->days . " noches";
+}
+
+echo noches('31/02/2026', '05/03/2026') . "\n";
+echo noches('01/03/2026', '05/03/2026') . "\n";
+```
+
+#### Al superarla
+El 31 de febrero no existe, y ahora el programa lo sabe. El goblin devuelve los dos días.
+
+#### Imagen
+- Un boleto de barco sobre el mostrador con un casillero de fecha tachado con un sello rojo, sin letras.
+- Un goblin se va corriendo con dos hojitas de calendario.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el boleto.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el sello.
+
 ### Misión R02-N08-M1 · Los talles de la tienda náutica
 
 ```meta
@@ -6030,6 +8304,238 @@ registralo.
 
 **Esqueleto: la excepción que no existe.** `throw new StockInsuficient(...)` (mal
 escrito) da `Class "StockInsuficient" not found`, y el error original se pierde.
+
+### Micro-misión R02-N09-P1 · La grúa trabada
+
+```meta
+lugar: La Grúa de la Tormenta
+personajes: Nilo, Gheco
+carta: throw | throw new RuntimeException('motivo'); corta y avisa · try { … } catch (RuntimeException $e) { $e->getMessage() }
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Una noche de tormenta, la grúa del muelle 2 se traba con un contenedor colgando. El programa de la grúa ni se entera: sigue diciendo «todo bien» mientras el contenedor se balancea.
+
+#### Gheco sugiere
+Si el peso supera lo que aguanta la grúa, `levantar()` tiene que **lanzar** una excepción. Quien la llama la atrapa con `try`/`catch` y avisa.
+
+#### Desafío
+Lanzá una `RuntimeException` cuando el peso es demasiado y atrapala para avisar.
+
+#### Código inicial
+```php
+<?php
+function levantar(int $toneladas): string
+{
+    if ($toneladas > 5) {
+        return "todo bien";
+    }
+    return "Levantado: $toneladas t";
+}
+
+foreach ([3, 8] as $t) {
+    echo levantar($t) . "\n";
+}
+```
+
+#### Salida esperada
+```
+Levantado: 3 t
+Aviso: la grua no aguanta 8 t
+```
+
+#### Solución
+```php
+<?php
+function levantar(int $toneladas): string
+{
+    if ($toneladas > 5) {
+        throw new RuntimeException("la grua no aguanta $toneladas t");
+    }
+    return "Levantado: $toneladas t";
+}
+
+foreach ([3, 8] as $t) {
+    try {
+        echo levantar($t) . "\n";
+    } catch (RuntimeException $e) {
+        echo "Aviso: " . $e->getMessage() . "\n";
+    }
+}
+```
+
+#### Al superarla
+La grúa avisa a tiempo y el contenedor baja despacio. Nadie termina con un contenedor en la cabeza.
+
+#### Imagen
+- Una grúa grande de un muelle de noche con tormenta, con un contenedor colgando y relámpagos violetas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le hace señas al operario desde abajo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la cadena.
+
+### Micro-misión R02-N09-P2 · El salvavidas del finally
+
+```meta
+lugar: La Grúa de la Tormenta
+personajes: Nilo, Gheco
+carta: finally | try { … } catch (…) { … } finally { … } · lo de finally pasa siempre, falle o no · para asegurar la carga y limpiar
+recompensa: xp 15, oro 15
+item: Salvavidas del finally
+```
+
+#### Escena
+Nilo trepa a la grúa para destrabarla, resbala y cae al agua. Lo saca un **salvavidas** que alguien había atado a la grúa «por si acaso». En el protocolo nuevo dice: *antes de irte, asegurá la carga*, pase lo que pase.
+
+#### Gheco sugiere
+Lo que va en `finally` se ejecuta **siempre**: si todo salió bien y si hubo una excepción. Ahí va «Carga asegurada.».
+
+#### Desafío
+Mové el aviso de la carga a un `finally` para que aparezca en los dos intentos.
+
+#### Código inicial
+```php
+<?php
+function maniobrar(int $toneladas): void
+{
+    try {
+        if ($toneladas > 5) {
+            throw new RuntimeException("se trabo con $toneladas t");
+        }
+        echo "Maniobra lista\n";
+        echo "Carga asegurada.\n";
+    } catch (RuntimeException $e) {
+        echo "Fallo: " . $e->getMessage() . "\n";
+    }
+}
+
+maniobrar(3);
+maniobrar(9);
+```
+
+#### Salida esperada
+```
+Maniobra lista
+Carga asegurada.
+Fallo: se trabo con 9 t
+Carga asegurada.
+```
+
+#### Solución
+```php
+<?php
+function maniobrar(int $toneladas): void
+{
+    try {
+        if ($toneladas > 5) {
+            throw new RuntimeException("se trabo con $toneladas t");
+        }
+        echo "Maniobra lista\n";
+    } catch (RuntimeException $e) {
+        echo "Fallo: " . $e->getMessage() . "\n";
+    } finally {
+        echo "Carga asegurada.\n";
+    }
+}
+
+maniobrar(3);
+maniobrar(9);
+```
+
+#### Al superarla
+Nilo se queda con el salvavidas: **el Salvavidas del `finally`**. Equipado, en cada expedición lo saca una vez del agua.
+
+#### Imagen
+- El agua oscura y revuelta junto a una grúa de noche, con un salvavidas blanco con franjas violetas atado con una soga.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) empapado, agarrado al salvavidas, sin gorra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado en el salvavidas, seco.
+
+### Micro-misión R02-N09-P3 · Una excepción con nombre
+
+```meta
+lugar: La Grúa de la Tormenta
+personajes: Nilo, Iara, Gheco
+carta: Excepciones propias | class SinCupo extends RuntimeException · con datos extra · se atrapa por su nombre: catch (SinCupo $e)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las grúas fallan por muchas cosas: viento, peso, falta de cupo en el barco. Todas lanzan la misma `RuntimeException` y Iara no puede separar en su informe cuántas fueron por falta de cupo.
+
+#### Gheco sugiere
+Una clase `SinCupo extends RuntimeException` con un dato extra (cuánto faltó). Se atrapa por su nombre antes que las demás.
+
+#### Desafío
+Creá la excepción `SinCupo` y atrapala aparte para el informe.
+
+#### Código inicial
+```php
+<?php
+function cargar(string $barco, int $libres, int $cajones): void
+{
+    if ($cajones > $libres) {
+        throw new RuntimeException("sin cupo en $barco");
+    }
+    echo "$barco: $cajones cajones cargados\n";
+}
+
+$sinCupo = 0;
+foreach ([['Gaviota', 10, 4], ['Tortuga', 3, 7], ['Albatros', 5, 9]] as [$b, $l, $c]) {
+    try {
+        cargar($b, $l, $c);
+    } catch (RuntimeException $e) {
+        echo "Error: " . $e->getMessage() . "\n";
+    }
+}
+echo "Por falta de cupo: $sinCupo\n";
+```
+
+#### Salida esperada
+```
+Gaviota: 4 cajones cargados
+Tortuga: faltan 4 lugares
+Albatros: faltan 4 lugares
+Por falta de cupo: 2
+```
+
+#### Solución
+```php
+<?php
+class SinCupo extends RuntimeException
+{
+    public function __construct(public readonly string $barco, public readonly int $faltan)
+    {
+        parent::__construct("sin cupo en $barco");
+    }
+}
+
+function cargar(string $barco, int $libres, int $cajones): void
+{
+    if ($cajones > $libres) {
+        throw new SinCupo($barco, $cajones - $libres);
+    }
+    echo "$barco: $cajones cajones cargados\n";
+}
+
+$sinCupo = 0;
+foreach ([['Gaviota', 10, 4], ['Tortuga', 3, 7], ['Albatros', 5, 9]] as [$b, $l, $c]) {
+    try {
+        cargar($b, $l, $c);
+    } catch (SinCupo $e) {
+        $sinCupo++;
+        echo "{$e->barco}: faltan {$e->faltan} lugares\n";
+    }
+}
+echo "Por falta de cupo: $sinCupo\n";
+```
+
+#### Al superarla
+El informe de Iara sale con su columna de «falta de cupo». La subraya dos veces.
+
+#### Imagen
+- Un informe de papel sobre un barril en el muelle, con columnas de puntitos de colores, sin letras.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) subraya una columna con el lápiz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con el salvavidas colgado al hombro.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el barril.
 
 ### Misión R02-N09-M1 · La calculadora del cambista
 
@@ -6850,6 +9356,207 @@ be the very first statement`.
 `requires php >=8.3`: la biblioteca pide una versión más nueva que la tuya. Pedí una
 versión anterior de la biblioteca o actualizá PHP.
 
+### Micro-misión R02-N10-P1 · Dos timones
+
+```meta
+lugar: Los moldes con sello
+personajes: Nilo, Gheco
+criatura: esqueleto
+carta: namespace | namespace Velero; class Timon {} · \\Velero\\Timon y \\Remolque\\Timon conviven · use Velero\\Timon;
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Dos talleres hicieron un molde llamado `Timon`, uno para veleros y otro para remolcadores. Nilo llevó el equivocado a cada taller, dos veces. Ahora cada taller pone su sello en los moldes: `Velero\Timon` y `Remolque\Timon`.
+
+#### Gheco sugiere
+Cada clase va en su `namespace`, como un apellido. En un solo archivo se puede escribir `namespace Velero { … }` y `namespace Remolque { … }`, y usarlas por su nombre completo.
+
+#### Desafío
+Poné cada `Timon` en su namespace y usá los dos.
+
+#### Código inicial
+```php
+<?php
+class Timon
+{
+    public function girar(): string
+    {
+        return "timon de velero";
+    }
+}
+
+class Timon
+{
+    public function girar(): string
+    {
+        return "timon de remolcador";
+    }
+}
+```
+
+#### Salida esperada
+```
+timon de velero
+timon de remolcador
+```
+
+#### Solución
+```php
+<?php
+namespace Velero {
+    class Timon
+    {
+        public function girar(): string
+        {
+            return "timon de velero";
+        }
+    }
+}
+
+namespace Remolque {
+    class Timon
+    {
+        public function girar(): string
+        {
+            return "timon de remolcador";
+        }
+    }
+}
+
+namespace {
+    echo (new Velero\Timon())->girar() . "\n";
+    echo (new Remolque\Timon())->girar() . "\n";
+}
+```
+
+#### Al superarla
+Cada timón a su taller, al primer intento. El esqueleto que había nacido de la confusión se desarma solo.
+
+#### Imagen
+- Dos timones de madera iguales sobre una mesa, cada uno con un sello de lacre de distinto color colgando.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lleva un timón en cada mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre uno de los timones.
+
+### Micro-misión R02-N10-P2 · El bibliotecario de moldes
+
+```meta
+lugar: Los moldes con sello
+personajes: Nilo, Gheco
+carta: Autoload | spl_autoload_register(fn ($clase) => require __DIR__ . '/src/' . str_replace('\\\\', '/', $clase) . '.php') · trae cada clase cuando se usa
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la entrada del Astillero hay un bibliotecario que, cuando alguien pide un molde, sabe en qué estante buscarlo. El programa de Nilo, en cambio, tiene un `require` por cada molde, y se olvidó uno.
+
+#### Gheco sugiere
+`spl_autoload_register` recibe una función que, dado el nombre de la clase, hace el `require` del archivo que corresponde. Así no hace falta un `require` por clase.
+
+#### Desafío
+Registrá el autoload para que encuentre las clases en la carpeta `src/`.
+
+#### Código inicial
+```php
+<?php
+@mkdir('src');
+file_put_contents('src/Ancla.php', '<?php class Ancla { public function bajar(): string { return "ancla abajo"; } }');
+file_put_contents('src/Vela.php', '<?php class Vela { public function izar(): string { return "vela arriba"; } }');
+
+require 'src/Ancla.php';
+
+echo (new Ancla())->bajar() . "\n";
+echo (new Vela())->izar() . "\n";
+```
+
+#### Salida esperada
+```
+ancla abajo
+vela arriba
+```
+
+#### Solución
+```php
+<?php
+@mkdir('src');
+file_put_contents('src/Ancla.php', '<?php class Ancla { public function bajar(): string { return "ancla abajo"; } }');
+file_put_contents('src/Vela.php', '<?php class Vela { public function izar(): string { return "vela arriba"; } }');
+
+spl_autoload_register(function (string $clase): void {
+    require 'src/' . $clase . '.php';
+});
+
+echo (new Ancla())->bajar() . "\n";
+echo (new Vela())->izar() . "\n";
+```
+
+#### Al superarla
+Cada molde aparece cuando se lo nombra. El bibliotecario del Astillero le guiña un ojo a Nilo: colega.
+
+#### Imagen
+- Un bibliotecario anciano en la entrada del astillero frente a estantes con moldes de madera, cada uno con un sello.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le pide un molde.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el estante.
+
+### Micro-misión R02-N10-P3 · Apellido y carpeta
+
+```meta
+lugar: Los moldes con sello
+personajes: Nilo, Iara, Gheco
+carta: PSR-4 | la clase Puerto\\Muelle\\Grua va en src/Muelle/Grua.php · el namespace es la carpeta · Composer arma el autoload con esta regla
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara propone una regla para que nadie se pierda: el apellido de cada molde dice en qué carpeta está. `Puerto\Muelle\Grua` va en `src/Muelle/Grua.php`. Es la misma regla que usa Composer.
+
+#### Gheco sugiere
+En el autoload, sacá el prefijo `Puerto\` y cambiá las `\` por `/` para armar la ruta: `str_replace('\\', '/', …)`.
+
+#### Desafío
+Completá el autoload con la regla PSR-4.
+
+#### Código inicial
+```php
+<?php
+@mkdir('src/Muelle', 0777, true);
+file_put_contents('src/Muelle/Grua.php', '<?php namespace Puerto\Muelle; class Grua { public function nombre(): string { return static::class; } }');
+
+spl_autoload_register(function (string $clase): void {
+    require 'src/' . $clase . '.php';
+});
+
+echo (new Puerto\Muelle\Grua())->nombre() . "\n";
+```
+
+#### Salida esperada
+```
+Puerto\Muelle\Grua
+```
+
+#### Solución
+```php
+<?php
+@mkdir('src/Muelle', 0777, true);
+file_put_contents('src/Muelle/Grua.php', '<?php namespace Puerto\Muelle; class Grua { public function nombre(): string { return static::class; } }');
+
+spl_autoload_register(function (string $clase): void {
+    $relativa = substr($clase, strlen('Puerto\\'));
+    require 'src/' . str_replace('\\', '/', $relativa) . '.php';
+});
+
+echo (new Puerto\Muelle\Grua())->nombre() . "\n";
+```
+
+#### Al superarla
+El molde aparece en su carpeta, como dice su apellido. Iara pega la regla en la puerta del Astillero.
+
+#### Imagen
+- Un armario de carpetas de madera, unas dentro de otras, con sellos de colores en cada cajón, sin letras.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) pega un papel en la puerta del armario.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) abre un cajón.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el armario.
+
 ### Misión R02-N10-M1 · El autoload hecho a mano
 
 ```meta
@@ -7497,6 +10204,290 @@ En el fondo del Astillero, donde se guardan los moldes viejos, algo se mueve. Es
 | `catch (Exception $e) {}` | atrapar donde se puede hacer algo |
 | todo en un archivo de 800 líneas | namespaces y una clase por archivo |
 | `new` de las dependencias adentro | recibirlas por el constructor |
+
+### Micro-misión R02-N11-P1 · El brazo de tablas sueltas
+
+```meta
+lugar: El fondo de los moldes viejos
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Encapsular | los datos private · se cambian con métodos que validan · nada de propiedades públicas que cualquiera pisa
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el fondo del Astillero, donde se guardan los moldes viejos, se mueve el **Gólem del Astillero**: un gigante de tablas y clavos pegados a las apuradas. Su brazo largo es una clase con todo público: cualquiera le cambia el stock a un número negativo, y el brazo se desarma.
+
+#### Gheco sugiere
+Hacé `private` el stock y escribí `retirar()`, que no deja sacar más de lo que hay.
+
+#### Desafío
+Protegé el stock del inventario.
+
+#### Código inicial
+```php
+<?php
+class Inventario
+{
+    public int $tablas = 10;
+}
+
+$inv = new Inventario();
+$inv->tablas -= 4;
+$inv->tablas -= 9;
+echo "Tablas: {$inv->tablas}\n";
+```
+
+#### Salida esperada
+```
+No alcanza: hay 6
+Tablas: 6
+```
+
+#### Solución
+```php
+<?php
+class Inventario
+{
+    private int $tablas = 10;
+
+    public function retirar(int $cantidad): void
+    {
+        if ($cantidad > $this->tablas) {
+            echo "No alcanza: hay {$this->tablas}\n";
+            return;
+        }
+        $this->tablas -= $cantidad;
+    }
+
+    public function tablas(): int
+    {
+        return $this->tablas;
+    }
+}
+
+$inv = new Inventario();
+$inv->retirar(4);
+$inv->retirar(9);
+echo "Tablas: " . $inv->tablas() . "\n";
+```
+
+#### Al superarla
+El brazo largo del Gólem se queda quieto, con sus tablas contadas. El Gólem mira el brazo, confundido.
+
+#### Imagen
+- El fondo oscuro de un astillero con moldes viejos apilados y polvo.
+- el Gólem del Astillero (gigante hecho de tablas de barco, clavos torcidos y sogas, con un timón incrustado en el pecho, un brazo más largo que el otro y ojos de brasa violeta) con el brazo largo trabado.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con un martillo de carpintero, frente a él.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un molde.
+
+### Micro-misión R02-N11-P2 · El catch vacío
+
+```meta
+lugar: El fondo de los moldes viejos
+personajes: Nilo, Gheco
+criatura: dragon
+carta: No esconder errores | un catch vacío los traga · se atrapa lo que se sabe manejar · se avisa con el mensaje · lo demás, que suba
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el pecho del Gólem, detrás del timón, hay un `catch` vacío: cada error que le pasa, se lo traga y sigue caminando como si nada. Por eso se le caen las piezas sin que nadie sepa por qué.
+
+#### Gheco sugiere
+Un `catch` vacío esconde el problema. Mostrá el mensaje de la excepción y contá cuántas piezas fallaron.
+
+#### Desafío
+Hacé que el `catch` avise el error en lugar de tragárselo.
+
+#### Código inicial
+```php
+<?php
+function clavar(string $pieza, int $clavos): void
+{
+    if ($clavos < 2) {
+        throw new InvalidArgumentException("$pieza necesita al menos 2 clavos");
+    }
+    echo "$pieza: firme\n";
+}
+
+foreach (['timon' => 4, 'brazo' => 1, 'pierna' => 3] as $pieza => $clavos) {
+    try {
+        clavar($pieza, $clavos);
+    } catch (InvalidArgumentException $e) {
+    }
+}
+echo "Golem armado\n";
+```
+
+#### Salida esperada
+```
+timon: firme
+Falla: brazo necesita al menos 2 clavos
+pierna: firme
+Piezas con falla: 1
+```
+
+#### Solución
+```php
+<?php
+function clavar(string $pieza, int $clavos): void
+{
+    if ($clavos < 2) {
+        throw new InvalidArgumentException("$pieza necesita al menos 2 clavos");
+    }
+    echo "$pieza: firme\n";
+}
+
+$fallas = 0;
+foreach (['timon' => 4, 'brazo' => 1, 'pierna' => 3] as $pieza => $clavos) {
+    try {
+        clavar($pieza, $clavos);
+    } catch (InvalidArgumentException $e) {
+        $fallas++;
+        echo "Falla: " . $e->getMessage() . "\n";
+    }
+}
+echo $fallas === 0 ? "Golem armado\n" : "Piezas con falla: $fallas\n";
+```
+
+#### Al superarla
+El Gólem se queda quieto, mirándose el brazo flojo. Por primera vez alguien le dice qué le pasa.
+
+#### Imagen
+- Primer plano del pecho de madera del Gólem, con un timón incrustado que tiene un hueco oscuro en el centro.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) ilumina el hueco con un farol.
+- Gheco (gecko de luz cian con antiparras, chiquito) asomado al hueco.
+
+### Micro-misión R02-N11-P3 · Rearmar el Gólem
+
+```meta
+lugar: El fondo de los moldes viejos
+personajes: Nilo, Elefa, Gheco
+criatura: dragon
+carta: Todo junto | interfaz para lo común · cada pieza su clase · enum para los estados · excepciones con nombre · composición antes que herencia
+recompensa: xp 25, oro 30
+item: Martillo del Carpintero de Moldes
+```
+
+#### Escena
+El Gólem no se vence a martillazos: se lo vence **rearmando**. Cada pieza con su responsabilidad, sus datos protegidos, sus contratos claros y sus errores con nombre. Nilo tiene que rearmarlo pieza por pieza.
+
+#### Gheco sugiere
+Una interfaz `Pieza` con `revisar(): Estado`; cada pieza la implementa; el `Golem` **tiene** sus piezas (composición) y cuenta cuántas están firmes.
+
+#### Desafío
+Completá las clases para que el Gólem se revise solo.
+
+#### Código inicial
+```php
+<?php
+enum Estado: string
+{
+    case Firme = 'firme';
+    case Floja = 'floja';
+}
+
+interface Pieza
+{
+    public function revisar(): Estado;
+    public function nombre(): string;
+}
+
+class Tabla
+{
+    public function __construct(private string $nombre, private int $clavos)
+    {
+    }
+}
+
+class Golem
+{
+    public function __construct(private array $piezas)
+    {
+    }
+
+    public function revisar(): void
+    {
+    }
+}
+
+(new Golem([new Tabla('timon', 4), new Tabla('brazo', 1), new Tabla('pierna', 3)]))->revisar();
+```
+
+#### Salida esperada
+```
+timon: firme
+brazo: floja
+pierna: firme
+Firmes: 2 de 3
+```
+
+#### Solución
+```php
+<?php
+enum Estado: string
+{
+    case Firme = 'firme';
+    case Floja = 'floja';
+}
+
+interface Pieza
+{
+    public function revisar(): Estado;
+    public function nombre(): string;
+}
+
+final class Tabla implements Pieza
+{
+    public function __construct(private string $nombre, private int $clavos)
+    {
+    }
+
+    public function revisar(): Estado
+    {
+        return $this->clavos >= 2 ? Estado::Firme : Estado::Floja;
+    }
+
+    public function nombre(): string
+    {
+        return $this->nombre;
+    }
+}
+
+final class Golem
+{
+    /** @param Pieza[] $piezas */
+    public function __construct(private array $piezas)
+    {
+    }
+
+    public function revisar(): void
+    {
+        $firmes = 0;
+        foreach ($this->piezas as $p) {
+            $estado = $p->revisar();
+            echo $p->nombre() . ": " . $estado->value . "\n";
+            if ($estado === Estado::Firme) {
+                $firmes++;
+            }
+        }
+        echo "Firmes: $firmes de " . count($this->piezas) . "\n";
+    }
+}
+
+(new Golem([new Tabla('timon', 4), new Tabla('brazo', 1), new Tabla('pierna', 3)]))->revisar();
+```
+
+#### Al superarla
+Pieza por pieza, el Gólem queda revisado: sabe qué tiene flojo y por qué. Se sienta entre los moldes viejos, tranquilo, y deja caer el martillo con el que lo habían armado: **el Martillo del Carpintero de Moldes**. Elefa hace sonar la campana tres veces.
+
+#### Imagen
+- El fondo del astillero con el Gólem sentado tranquilo entre moldes viejos, con las piezas ordenadas.
+- el Gólem del Astillero (gigante hecho de tablas de barco, clavos torcidos y sogas, con un timón incrustado en el pecho, un brazo más largo que el otro y ojos de brasa violeta) sentado, con los ojos de brasa más suaves.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) levanta un martillo de carpintero del piso.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) llega con el bastón en alto.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la cabeza del Gólem.
 
 ### Misión R02-N11-M1 · El taller de reparaciones
 

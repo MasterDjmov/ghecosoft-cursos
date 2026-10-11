@@ -29,6 +29,7 @@ use App\Livewire\Admin\Universe;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\Encyclopedia as StudentEncyclopedia;
 use App\Livewire\Student\Expeditions;
 use App\Livewire\Student\Grimoire;
 use App\Livewire\Student\Hero;
@@ -78,6 +79,8 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     // El juego (D89): los protagonistas y el grimorio.
     Route::livewire('heroes', Heroes::class)->name('student.heroes');
     Route::livewire('grimorio', Grimoire::class)->name('student.grimoire');
+    // La Gran Enciclopedia del Código (D104): para todos los alumnos, también los que solo prueban.
+    Route::livewire('enciclopedia', StudentEncyclopedia::class)->name('student.encyclopedia');
     Route::livewire('mochila', StudentInventory::class)->name('student.inventory');
     Route::livewire('taller', StudentWorkshop::class)->name('student.workshop');
     Route::livewire('establos', Stables::class)->name('student.stables');

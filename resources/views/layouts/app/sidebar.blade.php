@@ -123,6 +123,9 @@
                                     @endif
                                 </span>
                             </flux:sidebar.item>
+                            <flux:sidebar.item icon="building-library" :href="route('student.encyclopedia')" :current="request()->routeIs('student.encyclopedia')" wire:navigate data-test="menu-encyclopedia">
+                                Enciclopedia
+                            </flux:sidebar.item>
                             <flux:sidebar.item icon="user-circle" :href="route('student.heroes')" :current="request()->routeIs('student.heroes', 'student.hero')" wire:navigate data-test="menu-heroes">
                                 Mis héroes
                             </flux:sidebar.item>

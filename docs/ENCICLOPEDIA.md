@@ -1,4 +1,4 @@
-# La Gran Enciclopedia del Código (D104, a revisar)
+# La Gran Enciclopedia del Código (D104)
 
 Un lugar donde el alumno consulta **todo el universo**: quién es cada personaje, qué criaturas hay, qué ítems existen y **dónde se consiguen**, las monturas, las monedas y los reinos. Sirve para leer por gusto y para buscar: «¿dónde se consigue el Monóculo de Cristal?» → «HTML y CSS, al vencer al Ogro de la Cascada (R02)».
 
@@ -11,6 +11,10 @@ Referencia visual: `publicidad/logos cursos/` (la portada de la enciclopedia con
 | ¿Qué ve de lo que no descubrió? | **Silueta y pista**, como un Pokédex: lo no descubierto aparece en sombra, con el nombre y dónde se consigue, pero sin su historia. |
 | ¿Qué cursos abarca? | **Todo el universo** (los cursos publicados), aunque no esté inscripto: así ve que algo se consigue en otro curso y le da ganas de cursarlo. |
 | ¿Y el Grimorio? | **Queda como está** y la enciclopedia tiene una tarjeta «Hechizos & Sintaxis» que lleva a él. |
+| ¿La portada? | La **imagen de la biblioteca** del docente (`publicidad/logos cursos/enciclopedia.jpeg` → `public/img/enciclopedia/portada.webp`): sus 8 tarjetas pintadas son los botones; en el celular, una grilla debajo. La portada ocupa todo el ancho; adentro de cada sección, la misma imagen ocupa toda el área de fondo, un poco borrosa y con una capa oscura para que se lea (el docente: «usá la de la enciclopedia, pero en toda el área»). |
+| ¿Da algo? | **No, por ahora es solo para leer.** |
+| ¿Quién la ve? | **Todos los alumnos**, también los que solo prueban la Clase 0: es para que se motiven. |
+| ¿Cómo se ve cada elemento? | Al hacer click, **en un modal**, como los ítems de la mochila. |
 
 ## 2. Las 8 secciones y de dónde sale cada una
 
@@ -69,8 +73,12 @@ Como en Mis Crónicas (D80), **el texto de lo no descubierto no sale del servido
 3. **Monturas** y **Reinos / Mapas**.
 4. Enlaces desde el resto de la plataforma a cada ficha.
 
-## 7. Para decidir antes de la etapa 1
+## 7. Cómo quedó la etapa 1 (2026-10-11)
 
-- ¿Va la **escena de la biblioteca** de la imagen como portada (se genera en Stitch, sin letras), o una grilla simple de tarjetas?
-- ¿La enciclopedia **suma algo** (por ejemplo, una insignia al completar el bestiario de un curso) o es solo para leer?
-- ¿Los **alumnos sin abono** (solo con la Clase 0 de prueba) la ven?
+- **Pantalla:** `/enciclopedia` (`App\Livewire\Student\Encyclopedia`), en el menú del alumno, grupo Juego. Maestros y Bestiario con filtro por mundo y buscador; un solo modal que se llena con la ficha elegida.
+- **Datos:** `App\Support\Encyclopedia` lee las fichas de PERSONAJES.md. Una ficha con «Qué es» o «Qué error representa» va al Bestiario; las demás, a Maestros. El mundo sale del lenguaje entre paréntesis de su sección («Las Forjas de Hierro (C)») y el de un protagonista, de `config('game.protagonists')`.
+- **Cuándo se descubre:** al abrir el nodo de su «Primera aparición» (`R01-N02`, o `R01` = cualquier nodo de esa rama; «Clase 0» = el raíz). Una criatura sin primera aparición toma el código de su «Rol» y, si es una rama, el **jefe** de esa rama; queda «vencida» al completar ese nodo. Sin código, el raíz del curso. Los protagonistas, los guías y el bestiario común se ven siempre; el staff ve todo.
+- **Qué se muestra:** rol, qué es, qué error representa, cómo se lo vence, qué explica, edad, personalidad, le gusta, defecto, objeto, frase, cómo habla y relaciones (`Encyclopedia::FIELDS`), sin los enlaces a los .md.
+- **Bestiario común:** las 7 criaturas de todos los mundos se sumaron a PERSONAJES.md («El bestiario común»).
+- **Imágenes:** `python3 scripts/enciclopedia/imagenes.py "<carpeta de personajes>" [--force]` deja el retrato (320 px) y el cuerpo entero en `public/img/enciclopedia/<slug>.webp` y `<slug>-cuerpo.webp` (van en git y suben con el deploy). Une cada carpeta con su ficha por el nombre, dentro de su mundo; al final dice qué carpetas y qué fichas quedaron sin pareja. Con un personaje nuevo: su carpeta con `circular_<nombre>.jpeg` y el cuerpo entero, y volver a correrlo.
+- **Falta imagen:** la maestra del Gremio de Artífices (Python).

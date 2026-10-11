@@ -192,6 +192,47 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 
 ---
 
+## El bestiario común (todas las regiones)
+
+Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de programación ([../NOVELA-GRAFICA.md](../NOVELA-GRAFICA.md)).
+
+### Slime
+- **Qué error representa:** los **errores de sintaxis**: el hechizo ni arranca (una llave sin cerrar, una comilla de menos, una etiqueta huérfana).
+- **Cómo se lo vence:** escribiendo con cuidado y leyendo el primer error que marca el intérprete o el compilador.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Goblin
+- **Qué error representa:** los **tipos que no encajan**: mezclar texto con números, pasar una cosa donde se esperaba otra.
+- **Cómo se lo vence:** sabiendo qué tipo tiene cada dato y convirtiéndolo cuando hace falta.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Esqueleto
+- **Qué error representa:** los **nombres sin cuerpo**: una variable o función que no existe o está mal escrita.
+- **Cómo se lo vence:** revisando cómo se escribe cada nombre y dónde se creó.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Orco
+- **Qué error representa:** lo que **se sale de los límites**: un índice fuera de rango, un bucle que se pasa, una página que desborda la pantalla.
+- **Cómo se lo vence:** mirando dónde empieza y dónde termina cada cosa.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Ogro
+- **Qué error representa:** los **errores de lógica**: todo «funciona», pero el resultado está mal.
+- **Cómo se lo vence:** probando con casos chicos y comparando con lo que tendría que dar.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Troll
+- **Qué error representa:** el **estado compartido**: referencias, capas que se pisan, algo que cambia lejos de donde se lo mira.
+- **Cómo se lo vence:** siguiendo quién toca cada dato.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+### Dragón
+- **Qué error representa:** el **jefe final**: un problema grande hecho de muchos problemas chicos.
+- **Cómo se lo vence:** partiéndolo en partes y venciendo una por una.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
+
+---
+
 ## 3. El Valle de la Serpiente (Python)
 
 ### Ofidia
@@ -835,15 +876,6 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 | **Elefa** | Puerto (PHP) | la Capitana del Puerto, una elefanta |
 | **Tesela** | Talleres (HTML y CSS) | la Vitralista, monóculo de cristal |
 
-## 5. Mis personajes (para el alumno, a programar)
+## 5. Para el alumno: la Gran Enciclopedia
 
-Una sección del menú del alumno con la **galería de personajes**, como la elección de héroe de CodeCombat: el retrato grande, la ficha y con quién se relaciona.
-
-**Qué ve:**
-- **Los protagonistas:**
-  - el de cada curso que empezó se ve completo, con el aspecto que eligió;
-  - los demás, con su ficha, como invitación.
-- **Los personajes que ya conoció en la historia:** se van sumando a medida que avanza, como el Bestiario.
-- **Lo que no conoció todavía:** en silueta, como en Mis Crónicas (nunca se adelanta la trama).
-
-**De dónde salen los datos:** las fichas van al **Diccionario** (un campo «ficha» por personaje, con estos datos). Así el docente las edita sin tocar código, y la galería las lee.
+Estas fichas son las que lee la **Gran Enciclopedia del Código** (D104, [../ENCICLOPEDIA.md](../ENCICLOPEDIA.md)): Maestros y Bestiario, con lo no descubierto en silueta. Para que un personaje se descubra en el momento justo, su ficha tiene que decir **Primera aparición** con el curso y el nodo («C, R01-N02»; «HTML y CSS, Clase 0»). Al alumno se le muestran rol, personalidad, le gusta, defecto, objeto, frase, cómo habla y relaciones; lo de las imágenes (altura, rasgos, ropa, color) no.

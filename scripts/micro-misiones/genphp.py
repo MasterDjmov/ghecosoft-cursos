@@ -1,9 +1,9 @@
 """Micro-misiones de PHP (D105): corre cada solución con el PHP 8.3 de la compu (`php`), con la misma zona horaria
 y los mismos avisos que el PHP del navegador del alumno, y la salida esperada sale de ahí, nunca a mano. Comprueba
 que la solución no dé avisos (Warning, Notice, Deprecated), que el código inicial NO dé ya esa salida y que nada
-dependa del reloj ni del azar sin semilla: no se aceptan `time()`, `date()` sin fecha fija, `microtime`,
-`random_int`, `rand()` ni `mt_rand()` sin `mt_srand(semilla)`, `uniqid` ni `password_hash` mostrado (cambia cada
-vez). Cada ejecución corre en una carpeta vacía nueva, como en el navegador. Las inserta en cursos/php/.
+dependa del reloj ni del azar: no se aceptan `time()`, `date()` sin fecha fija, `microtime`, `rand()` ni `mt_rand()`
+sin `mt_srand(semilla)`, y cada solución se corre dos veces: si da distinto (un `random_bytes` o un `password_hash`
+mostrados), se rechaza. Cada ejecución corre en una carpeta vacía nueva, como en el navegador. Las inserta en cursos/php/.
 
     python3 scripts/micro-misiones/genphp.py php_r01.py          # comprueba y muestra las salidas
     python3 scripts/micro-misiones/genphp.py php_r01.py --apply  # además las escribe en el curso
@@ -32,7 +32,6 @@ FILES = {"R00": "00-curso.md", "R01": "01-el-muelle-de-las-primeras-cartas.md", 
 NOT_PORTABLE = [(r"\btime\s*\(", "time() cambia cada vez"), (r"\bmicrotime\b|\bhrtime\b", "el reloj cambia cada vez"),
                 (r"\bdate\s*\(\s*['\"][^'\"]*['\"]\s*\)", "date() sin fecha usa la hora de ahora"),
                 (r"new\s+DateTime(Immutable)?\s*\(\s*\)|new\s+DateTime(Immutable)?\s*\(\s*['\"](now|today)", "la fecha de hoy cambia"),
-                (r"\brandom_int\b|\brandom_bytes\b|\buniqid\b|\blcg_value\b", "da otro resultado cada vez"),
                 (r"\brand\s*\(", "rand() sin semilla da otra secuencia"), (r"\bshuffle\s*\(|\barray_rand\s*\(|\bstr_shuffle\b", "mezcla al azar sin semilla"),
                 (r"\bgetenv\b|\$_ENV|\$_SERVER\[['\"](REQUEST_TIME|HOME|PWD)", "depende de la compu"),
                 (r"\bsleep\s*\(|\busleep\s*\(", "el navegador corta a los 5 segundos"),
@@ -109,6 +108,9 @@ def check(s):
         raise SystemExit(f"{s['id']}: la salida empieza con espacios (el navegador y el servidor la recortan distinto)")
     if any(line != line.rstrip() for line in expected.split("\n")):
         raise SystemExit(f"{s['id']}: hay renglones que terminan en espacio (el navegador compara la salida exacta)")
+    # Lo que da distinto en cada ejecución (azar, random_bytes, password_hash mostrado) se detecta corriendo dos veces.
+    if php(sol, stdin)[1] != expected:
+        raise SystemExit(f"{s['id']}: la solución da otra salida cada vez que se corre (¿muestra algo al azar?)")
     rc2, out2, _ = php(s["inicial"], stdin)
     if out2 == expected:
         raise SystemExit(f"{s['id']}: el código inicial ya da la salida esperada")

@@ -216,6 +216,185 @@ la terminal donde corre `php -S`: ahí aparece el mensaje.
 **Slime: el `endforeach` que falta.** La sintaxis alternativa necesita su cierre:
 sin `endforeach;` da `syntax error, unexpected end of file`.
 
+### Micro-misión R03-N01-P1 · Cada cilindro llega solo
+
+```meta
+lugar: La sala de los tubos de bronce
+personajes: Nilo, Gheco
+carta: La web | llega un pedido (método + dirección) · PHP arma la respuesta · casi siempre HTML · cada pedido es nuevo, sin memoria
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la Oficina de Correos, cientos de tubos de bronce bajan del techo. De cada uno cae un cilindro con un pedido: *«mandame la lista de barcos»*. Cada cilindro llega solo, sin saber nada del anterior. —¡Son como yo! —dice Nilo, emocionado—. No se acuerdan de nada.
+
+#### Gheco sugiere
+Una página PHP es texto que el servidor manda al navegador. Con `foreach` se arma una lista HTML: un `<li>` por barco. Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
+
+#### Desafío
+Armá la lista HTML de barcos que pide el cilindro.
+
+#### Código inicial
+```php
+<?php
+$barcos = ['Gaviota', 'Albatros', 'Tortuga'];
+echo "<ul>\n";
+echo "</ul>\n";
+```
+
+#### Salida esperada
+```
+<ul>
+  <li>Gaviota</li>
+  <li>Albatros</li>
+  <li>Tortuga</li>
+</ul>
+```
+
+#### Solución
+```php
+<?php
+$barcos = ['Gaviota', 'Albatros', 'Tortuga'];
+echo "<ul>\n";
+foreach ($barcos as $b) {
+    echo "  <li>$b</li>\n";
+}
+echo "</ul>\n";
+```
+
+#### Al superarla
+El cilindro vuelve por el tubo con la lista. En algún lugar del mundo, un navegador muestra tres barcos.
+
+#### Imagen
+- Una sala alta con cientos de tubos de bronce que bajan del techo y cilindros de mensajes cayendo en canastos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) atrapa un cilindro en el aire.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un tubo.
+
+### Micro-misión R03-N01-P2 · La tabla de horarios
+
+```meta
+lugar: La sala de los tubos de bronce
+personajes: Nilo, Iara, Gheco
+carta: Tablas HTML | <table> · <tr> por fila · <th> encabezado · <td> dato · se arma con un foreach sobre un array de arrays
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un cilindro pide el horario del ferry. Iara tiene los datos en su libreta, ordenados en filas; Nilo tiene que convertirlos en una tabla HTML.
+
+#### Gheco sugiere
+Un `<tr>` por cada viaje, con un `<td>` por dato. La fila de encabezados va con `<th>`.
+
+#### Desafío
+Completá las filas de la tabla con los viajes.
+
+#### Código inicial
+```php
+<?php
+$viajes = [
+    ['destino' => 'Forjas', 'hora' => '08:30'],
+    ['destino' => 'Valle', 'hora' => '13:00'],
+];
+echo "<table>\n";
+echo "<tr><th>Destino</th><th>Hora</th></tr>\n";
+echo "</table>\n";
+```
+
+#### Salida esperada
+```
+<table>
+<tr><th>Destino</th><th>Hora</th></tr>
+<tr><td>Forjas</td><td>08:30</td></tr>
+<tr><td>Valle</td><td>13:00</td></tr>
+</table>
+```
+
+#### Solución
+```php
+<?php
+$viajes = [
+    ['destino' => 'Forjas', 'hora' => '08:30'],
+    ['destino' => 'Valle', 'hora' => '13:00'],
+];
+echo "<table>\n";
+echo "<tr><th>Destino</th><th>Hora</th></tr>\n";
+foreach ($viajes as $v) {
+    echo "<tr><td>{$v['destino']}</td><td>{$v['hora']}</td></tr>\n";
+}
+echo "</table>\n";
+```
+
+#### Al superarla
+El horario sale por el tubo en forma de tabla. Iara compara con su libreta: coincide.
+
+#### Imagen
+- Un tablero de horarios de madera con dibujitos de barcos y relojes, sin letras ni números.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) le dicta desde la libreta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) arma el tablero.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un reloj dibujado.
+
+### Micro-misión R03-N01-P3 · No encontrado
+
+```meta
+lugar: La sala de los tubos de bronce
+personajes: Nilo, Gheco
+criatura: esqueleto
+carta: Códigos de estado | 200 bien · 404 no está · 302 redirige · 500 falló el servidor · se elige según lo que pasó
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un cilindro pide el barco *Fantasma*, que no existe. La oficina de Nilo contesta igual con «200: todo bien» y una página vacía. Un **esqueleto** se asoma del tubo: un nombre sin cuerpo.
+
+#### Gheco sugiere
+La respuesta lleva un código: 200 si se encontró, 404 si no. Una función que, según si el barco existe, devuelve el código y el texto.
+
+#### Desafío
+Devolvé 404 cuando el barco no existe.
+
+#### Código inicial
+```php
+<?php
+function responder(string $barco, array $barcos): string
+{
+    return "200 OK: $barco";
+}
+
+$barcos = ['Gaviota', 'Albatros'];
+echo responder('Gaviota', $barcos) . "\n";
+echo responder('Fantasma', $barcos) . "\n";
+```
+
+#### Salida esperada
+```
+200 OK: Gaviota
+404 No encontrado: Fantasma
+```
+
+#### Solución
+```php
+<?php
+function responder(string $barco, array $barcos): string
+{
+    if (!in_array($barco, $barcos, true)) {
+        return "404 No encontrado: $barco";
+    }
+    return "200 OK: $barco";
+}
+
+$barcos = ['Gaviota', 'Albatros'];
+echo responder('Gaviota', $barcos) . "\n";
+echo responder('Fantasma', $barcos) . "\n";
+```
+
+#### Al superarla
+El cilindro del Fantasma vuelve con un 404 honesto. El esqueleto se mete otra vez en el tubo.
+
+#### Imagen
+- Un tubo de bronce del que asoma un esqueleto chiquito con un cilindro vacío en la mano.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le devuelve el cilindro con un sello rojo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el tubo.
+
 ### Misión R03-N01-M1 · La cartelera del ferry
 
 ```meta
@@ -746,6 +925,175 @@ pregunta con `isset`.
 
 **Slime: el `name` que falta.** Un `<input>` sin `name` no se envía. Si `$_GET` no
 trae lo que esperabas, revisá los `name` del formulario (y mirá la dirección).
+
+### Micro-misión R03-N02-P1 · Un barco a la luna
+
+```meta
+lugar: La ventanilla de consultas
+personajes: Nilo, Gheco
+carta: $_GET | ?destino=Forjas llega como $_GET['destino'] · siempre texto · puede faltar o venir vacío · se filtra con lo que llega
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la ventanilla de consultas, el viajero anota el destino que busca y Nilo le devuelve los barcos que coinciden. Un chico escribe en el destino: «la luna». Nilo le busca un barco a la luna durante media hora.
+
+#### Gheco sugiere
+Leé el destino con `$_GET['destino'] ?? ''`. Si no hay ninguno que coincida, se dice. Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
+
+#### Desafío
+Filtrá los barcos según el destino que llega en la dirección.
+
+#### Código inicial
+```php
+<?php
+$_GET = ['destino' => 'la luna'];
+$barcos = ['Gaviota' => 'Forjas', 'Albatros' => 'Valle', 'Tortuga' => 'Forjas'];
+
+foreach ($barcos as $nombre => $destino) {
+    echo "$nombre va a $destino\n";
+}
+```
+
+#### Salida esperada
+```
+No hay barcos a la luna
+```
+
+#### Solución
+```php
+<?php
+$_GET = ['destino' => 'la luna'];
+$barcos = ['Gaviota' => 'Forjas', 'Albatros' => 'Valle', 'Tortuga' => 'Forjas'];
+
+$pedido = trim($_GET['destino'] ?? '');
+$encontrados = 0;
+foreach ($barcos as $nombre => $destino) {
+    if ($pedido === '' || $destino === $pedido) {
+        echo "$nombre va a $destino\n";
+        $encontrados++;
+    }
+}
+if ($encontrados === 0) {
+    echo "No hay barcos a $pedido\n";
+}
+```
+
+#### Al superarla
+No hay barcos a la luna, y ahora el programa lo dice en un segundo. El chico se va, decepcionado, a probar con «Forjas».
+
+#### Imagen
+- Una ventanilla de consultas con una pizarra de casilleros y, en el cielo de la ventana, una luna enorme.
+- Un chico señala la luna.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) revisa una lista de barcos, perplejo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la pizarra.
+
+### Micro-misión R03-N02-P2 · El enlace con parámetros
+
+```meta
+lugar: La ventanilla de consultas
+personajes: Nilo, Gheco
+carta: http_build_query | ['destino' => 'Valle de la Serpiente', 'pagina' => 2] → destino=Valle+de+la+Serpiente&pagina=2 · codifica los espacios y los signos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nilo arma a mano los enlaces de la próxima página: `?destino=Valle de la Serpiente&pagina=2`. El espacio rompe el enlace y el navegador se pierde a mitad de camino.
+
+#### Gheco sugiere
+`http_build_query($datos)` arma la parte de la dirección con todo bien codificado.
+
+#### Desafío
+Armá el enlace con `http_build_query`.
+
+#### Código inicial
+```php
+<?php
+$destino = 'Valle de la Serpiente';
+$pagina = 2;
+echo "/barcos?destino=$destino&pagina=$pagina\n";
+```
+
+#### Salida esperada
+```
+/barcos?destino=Valle+de+la+Serpiente&pagina=2
+```
+
+#### Solución
+```php
+<?php
+$destino = 'Valle de la Serpiente';
+$pagina = 2;
+echo "/barcos?" . http_build_query(['destino' => $destino, 'pagina' => $pagina]) . "\n";
+```
+
+#### Al superarla
+El enlace llega entero a destino. El navegador ya no se pierde a mitad de camino.
+
+#### Imagen
+- Un cilindro de mensaje viajando por un tubo de bronce con un papel enrollado prolijo adentro.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lo empuja dentro del tubo.
+- Gheco (gecko de luz cian con antiparras, chiquito) siguiéndolo por afuera.
+
+### Micro-misión R03-N02-P3 · De a tres por página
+
+```meta
+lugar: La ventanilla de consultas
+personajes: Nilo, Iara, Gheco
+criatura: orco
+carta: Paginar | por página fija · desde = (pagina - 1) * por · array_slice($lista, desde, por) · validar que la página exista
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La lista de barcos ya es tan larga que el tubo se atasca. Iara propone mandarla de a tres. Alguien pide la página 99 y un **orco** sale de donde termina la lista.
+
+#### Gheco sugiere
+`array_slice($barcos, ($pagina - 1) * 3, 3)` corta la página. Si la página es menor que 1 o mayor que la última, se usa la última (o la primera).
+
+#### Desafío
+Mostrá la página pedida, cuidando que exista.
+
+#### Código inicial
+```php
+<?php
+$_GET = ['pagina' => '99'];
+$barcos = ['Gaviota', 'Albatros', 'Tortuga', 'Triton', 'Colonia', 'Condor', 'Delfin'];
+$pagina = (int) $_GET['pagina'];
+foreach (array_slice($barcos, ($pagina - 1) * 3, 3) as $b) {
+    echo "$b\n";
+}
+```
+
+#### Salida esperada
+```
+Pagina 3 de 3
+Delfin
+```
+
+#### Solución
+```php
+<?php
+$_GET = ['pagina' => '99'];
+$barcos = ['Gaviota', 'Albatros', 'Tortuga', 'Triton', 'Colonia', 'Condor', 'Delfin'];
+$porPagina = 3;
+$ultima = (int) ceil(count($barcos) / $porPagina);
+$pagina = max(1, min($ultima, (int) ($_GET['pagina'] ?? 1)));
+echo "Pagina $pagina de $ultima\n";
+foreach (array_slice($barcos, ($pagina - 1) * $porPagina, $porPagina) as $b) {
+    echo "$b\n";
+}
+```
+
+#### Al superarla
+La página 99 no existe, así que va la última. El orco no encuentra dónde esconderse.
+
+#### Imagen
+- Tres pilas de papeles prolijas sobre un mostrador, cada una atada con una cinta de distinto color.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) ata una pila.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lleva otra al tubo.
+- Un orco asoma detrás del mostrador, sin nada que agarrar.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una pila.
 
 ### Misión R03-N02-M1 · El buscador de la biblioteca
 
@@ -1310,6 +1658,235 @@ que no debería.
 
 **Orco: el array de checkboxes.** Con `name="extras[]"`, `$_POST['extras']` es un
 array (o no existe). No lo trates como texto, y validá cada valor contra tu lista.
+
+### Micro-misión R03-N03-P1 · Peso: bastante
+
+```meta
+lugar: La ventanilla de envíos
+personajes: Nilo, Iara, Gheco
+carta: Validar | un array $errores · un error por campo · si está vacío, se procesa · si no, se muestran los errores
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la ventanilla de envíos, los formularios llegan con de todo: el peso dice «bastante», el destino está en blanco. Nilo los mandaba igual. Iara le enseña a devolverlos con cada error marcado.
+
+#### Gheco sugiere
+Revisá cada campo y guardá el error en `$errores['peso']`, `$errores['destino']`… Al final, si `$errores` está vacío se acepta; si no, se muestran. Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
+
+#### Desafío
+Validá el peso (un número positivo) y el destino (no vacío).
+
+#### Código inicial
+```php
+<?php
+$_POST = ['peso' => 'bastante', 'destino' => ''];
+echo "Envio aceptado: {$_POST['peso']} kg a {$_POST['destino']}\n";
+```
+
+#### Salida esperada
+```
+peso: El peso tiene que ser un numero mayor que 0.
+destino: Falta el destino.
+```
+
+#### Solución
+```php
+<?php
+$_POST = ['peso' => 'bastante', 'destino' => ''];
+$errores = [];
+$peso = trim($_POST['peso'] ?? '');
+$destino = trim($_POST['destino'] ?? '');
+
+if (!is_numeric($peso) || $peso <= 0) {
+    $errores['peso'] = 'El peso tiene que ser un numero mayor que 0.';
+}
+if ($destino === '') {
+    $errores['destino'] = 'Falta el destino.';
+}
+
+if ($errores === []) {
+    echo "Envio aceptado: $peso kg a $destino\n";
+} else {
+    foreach ($errores as $campo => $error) {
+        echo "$campo: $error\n";
+    }
+}
+```
+
+#### Al superarla
+El formulario vuelve con sus dos errores. El cliente escribe «8» y «Forjas», y el paquete sale bien.
+
+#### Imagen
+- Un formulario de papel con dos casilleros marcados con círculos rojos, sin letras, sobre el mostrador de envíos.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) marca los círculos con el lápiz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el paquete.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el formulario.
+
+### Micro-misión R03-N03-P2 · Sin borrar lo que estaba bien
+
+```meta
+lugar: La ventanilla de envíos
+personajes: Nilo, Iara, Gheco
+carta: Volver a mostrar | value="<?= htmlspecialchars($valor) ?>" · lo que el cliente ya escribió vuelve cargado · nadie quiere escribir todo de nuevo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El formulario volvía con los errores, pero vacío: el cliente tenía que escribir todo de nuevo, también lo que estaba bien. Iara se lo devuelve a Nilo con una nota: *«no borres lo bueno»*.
+
+#### Gheco sugiere
+El campo vuelve con su valor: `value="…"`. Con `htmlspecialchars` se escapa por si trae comillas.
+
+#### Desafío
+Mostrá el campo del nombre con lo que ya había escrito el cliente.
+
+#### Código inicial
+```php
+<?php
+$_POST = ['nombre' => 'Rosa "la del muelle"', 'peso' => ''];
+echo '<input name="nombre" value="">' . "\n";
+echo "Falta el peso.\n";
+```
+
+#### Salida esperada
+```
+<input name="nombre" value="Rosa &quot;la del muelle&quot;">
+Falta el peso.
+```
+
+#### Solución
+```php
+<?php
+$_POST = ['nombre' => 'Rosa "la del muelle"', 'peso' => ''];
+$nombre = $_POST['nombre'] ?? '';
+echo '<input name="nombre" value="' . htmlspecialchars($nombre) . '">' . "\n";
+echo "Falta el peso.\n";
+```
+
+#### Al superarla
+Rosa solo completa el peso. Le agradece a Nilo con una sonrisa; Nilo se la pasa a Iara, que es quien la merece.
+
+#### Imagen
+- Un formulario de papel con un casillero ya escrito (rayitas de tinta) y otro vacío marcado, sobre el mostrador.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) escribe una nota corta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le entrega el formulario a una señora sonriente.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el tintero.
+
+### Micro-misión R03-N03-P3 · GET para ver, POST para mandar
+
+```meta
+lugar: La ventanilla de envíos
+personajes: Nilo, Gheco
+carta: Método | $_SERVER['REQUEST_METHOD'] dice GET o POST · GET: mostrar el formulario · POST: procesarlo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La misma página muestra el formulario y lo procesa. El programa de Nilo intentaba procesar también cuando alguien solo quería ver el formulario, y se quejaba de campos vacíos que nadie había mandado todavía.
+
+#### Gheco sugiere
+Según el método: con `GET` se muestra el formulario; con `POST` se procesa. Probalo con los dos pedidos.
+
+#### Desafío
+Completá la función para que haga una cosa u otra según el método.
+
+#### Código inicial
+```php
+<?php
+function atender(string $metodo, array $post): string
+{
+    return ($post['destino'] ?? '') === '' ? "Error: falta el destino" : "Enviado a {$post['destino']}";
+}
+
+echo atender('GET', []) . "\n";
+echo atender('POST', ['destino' => 'Valle']) . "\n";
+```
+
+#### Salida esperada
+```
+Formulario vacio para completar
+Enviado a Valle
+```
+
+#### Solución
+```php
+<?php
+function atender(string $metodo, array $post): string
+{
+    if ($metodo === 'GET') {
+        return "Formulario vacio para completar";
+    }
+    return ($post['destino'] ?? '') === '' ? "Error: falta el destino" : "Enviado a {$post['destino']}";
+}
+
+echo atender('GET', []) . "\n";
+echo atender('POST', ['destino' => 'Valle']) . "\n";
+```
+
+#### Al superarla
+Quien viene a mirar, mira. Quien viene a mandar, manda. La ventanilla deja de quejarse sola.
+
+#### Imagen
+- Una ventanilla con dos bandejas de madera, una vacía para retirar formularios y otra con formularios completos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) separa los papeles en las dos bandejas.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una bandeja.
+
+### Micro-misión R03-N03-P4 · Uno de la lista
+
+```meta
+lugar: La ventanilla de envíos
+personajes: Nilo, Gheco
+criatura: goblin
+carta: select y radio | el valor tiene que estar en la lista permitida · in_array($x, $permitidos, true) · el navegador no garantiza nada
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El formulario de envíos tiene un `select` con tres destinos. Un **goblin** mandó el formulario a mano, sin navegador, con el destino «la cueva del goblin». El programa lo aceptó.
+
+#### Gheco sugiere
+El servidor revisa que el valor esté en la lista: `in_array($destino, $permitidos, true)`. Lo que no está, se rechaza.
+
+#### Desafío
+Rechazá los destinos que no están en la lista.
+
+#### Código inicial
+```php
+<?php
+$permitidos = ['Forjas', 'Valle', 'Ciudadela'];
+foreach (['Valle', 'la cueva del goblin'] as $destino) {
+    echo "Enviado a $destino\n";
+}
+```
+
+#### Salida esperada
+```
+Enviado a Valle
+Destino no permitido: la cueva del goblin
+```
+
+#### Solución
+```php
+<?php
+$permitidos = ['Forjas', 'Valle', 'Ciudadela'];
+foreach (['Valle', 'la cueva del goblin'] as $destino) {
+    if (in_array($destino, $permitidos, true)) {
+        echo "Enviado a $destino\n";
+    } else {
+        echo "Destino no permitido: $destino\n";
+    }
+}
+```
+
+#### Al superarla
+El paquete a la cueva del goblin se queda en el Puerto. El goblin, sin paquete, patea una piedra.
+
+#### Imagen
+- Un formulario arrugado sobre el mostrador junto a un mapa del puerto con tres destinos marcados con banderines.
+- Un goblin flaco del otro lado del mostrador, con cara de inocente.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) rechaza el formulario con un sello rojo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el mapa.
 
 ### Misión R03-N03-M1 · La inscripción a la regata
 
@@ -1954,6 +2531,286 @@ pedido.
 **Troll: el flash que no se borra.** Si no hacés `unset` al mostrarlo, el mensaje
 aparece en todas las páginas siguientes.
 
+### Micro-misión R03-N04-P1 · El mozo sin memoria
+
+```meta
+lugar: La Fonda del Puerto
+personajes: Nilo, Gheco
+carta: Sin memoria | cada pedido HTTP llega solo · lo que no se guarda en algún lado, se pierde · el servidor guarda una libreta por visitante: la sesión
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Elefa manda a Nilo a atender la fonda. Cada vez que alguien se acerca, Nilo le pregunta de nuevo qué quería. *«Ya te lo dije hace cinco minutos»*, protesta una clienta. Nilo no tiene memoria: como HTTP.
+
+#### Gheco sugiere
+Acá la sesión se simula con un array `$libreta` que dura entre un pedido y el siguiente. Guardá el pedido la primera vez y leelo la segunda.
+
+#### Desafío
+Hacé que el mozo se acuerde del pedido de la clienta.
+
+#### Código inicial
+```php
+<?php
+$libreta = [];
+
+function atender(array &$libreta, ?string $pide): string
+{
+    if ($pide !== null) {
+        return "Anotado: $pide";
+    }
+    return "Perdon, ¿que queria?";
+}
+
+echo atender($libreta, 'guiso de pescado') . "\n";
+echo atender($libreta, null) . "\n";
+```
+
+#### Salida esperada
+```
+Anotado: guiso de pescado
+Ya sale su guiso de pescado
+```
+
+#### Solución
+```php
+<?php
+$libreta = [];
+
+function atender(array &$libreta, ?string $pide): string
+{
+    if ($pide !== null) {
+        $libreta['pedido'] = $pide;
+        return "Anotado: $pide";
+    }
+    return isset($libreta['pedido']) ? "Ya sale su {$libreta['pedido']}" : "Perdon, ¿que queria?";
+}
+
+echo atender($libreta, 'guiso de pescado') . "\n";
+echo atender($libreta, null) . "\n";
+```
+
+#### Al superarla
+«Ya sale su guiso de pescado.» La clienta casi aplaude. Nilo mira la libreta: no se acordaba de nada, pero estaba anotado.
+
+#### Imagen
+- La ventanilla de una fonda del puerto con ollas humeantes y un pizarrón de dibujitos de comida.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con un delantal encima de la chaqueta, anotando en una libreta.
+- Una clienta esperando con los brazos cruzados.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una olla.
+
+### Micro-misión R03-N04-P2 · Una cookie para que te acuerdes
+
+```meta
+lugar: La Fonda del Puerto
+personajes: Nilo, Iara, Elefa, Gheco
+carta: Cookie y sesión | el servidor le da al visitante una ficha (la cookie con el id) · y guarda sus datos bajo ese id (la sesión) · cada pedido trae la ficha
+recompensa: xp 15, oro 15
+se abre: «¡Buen día, Elefa!»
+```
+
+#### Escena
+Iara le da a Nilo un talonario de fichas numeradas: a cada cliente le entrega una, y en su libreta anota lo que pidió cada número. De paso, le da una galletita con su nombre estampado: *«una cookie, para que te acuerdes»*.
+
+#### Gheco sugiere
+Cada cliente trae su ficha (el id). La libreta guarda los datos **por id**: `$sesiones[$ficha]['pedido']`. Así no se mezclan los clientes.
+
+#### Desafío
+Guardá y leé el pedido de cada cliente según su ficha.
+
+#### Código inicial
+```php
+<?php
+$sesiones = [];
+
+function pedir(array &$sesiones, string $ficha, string $plato): void
+{
+    $sesiones['pedido'] = $plato;
+}
+
+function servir(array $sesiones, string $ficha): string
+{
+    return "Ficha $ficha: " . ($sesiones['pedido'] ?? 'sin pedido');
+}
+
+pedir($sesiones, 'A7', 'guiso');
+pedir($sesiones, 'B2', 'empanadas');
+echo servir($sesiones, 'A7') . "\n";
+echo servir($sesiones, 'B2') . "\n";
+echo servir($sesiones, 'C9') . "\n";
+```
+
+#### Salida esperada
+```
+Ficha A7: guiso
+Ficha B2: empanadas
+Ficha C9: sin pedido
+```
+
+#### Solución
+```php
+<?php
+$sesiones = [];
+
+function pedir(array &$sesiones, string $ficha, string $plato): void
+{
+    $sesiones[$ficha]['pedido'] = $plato;
+}
+
+function servir(array $sesiones, string $ficha): string
+{
+    return "Ficha $ficha: " . ($sesiones[$ficha]['pedido'] ?? 'sin pedido');
+}
+
+pedir($sesiones, 'A7', 'guiso');
+pedir($sesiones, 'B2', 'empanadas');
+echo servir($sesiones, 'A7') . "\n";
+echo servir($sesiones, 'B2') . "\n";
+echo servir($sesiones, 'C9') . "\n";
+```
+
+#### Al superarla
+A la mañana siguiente, Nilo entra a la torre y saluda: —¡Buen día, Elefa! —A la Capitana casi se le cae el bastón.
+
+#### Imagen
+- La ventanilla de la fonda con un talonario de fichas numeradas con puntitos de colores y una galletita redonda con un sello estampado.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) le da la galletita a Nilo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) la mira como si fuera un tesoro.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) al fondo, en la puerta, sorprendida.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el talonario.
+
+### Micro-misión R03-N04-P3 · El carrito que dura
+
+```meta
+lugar: La Fonda del Puerto
+personajes: Nilo, Gheco
+carta: Carrito | $_SESSION['carrito'][$producto] = ($_SESSION['carrito'][$producto] ?? 0) + $cantidad · dura entre páginas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la fonda se puede ir sumando platos a la cuenta mientras se come. La cuenta de Nilo se borraba cada vez que el cliente pedía algo nuevo: solo quedaba el último plato.
+
+#### Gheco sugiere
+Sumá al carrito sin pisar lo que había: `$carrito[$plato] = ($carrito[$plato] ?? 0) + $cantidad;`.
+
+#### Desafío
+Sumá los platos a la cuenta y mostrala.
+
+#### Código inicial
+```php
+<?php
+$sesion = ['carrito' => []];
+$precios = ['guiso' => 12, 'pan' => 2, 'te' => 3];
+
+foreach ([['guiso', 1], ['pan', 2], ['guiso', 1], ['te', 1]] as [$plato, $cantidad]) {
+    $sesion['carrito'] = [$plato => $cantidad];
+}
+
+$total = 0;
+foreach ($sesion['carrito'] as $plato => $cantidad) {
+    echo "$plato x$cantidad\n";
+    $total += $precios[$plato] * $cantidad;
+}
+echo "Total: $total sellos\n";
+```
+
+#### Salida esperada
+```
+guiso x2
+pan x2
+te x1
+Total: 31 sellos
+```
+
+#### Solución
+```php
+<?php
+$sesion = ['carrito' => []];
+$precios = ['guiso' => 12, 'pan' => 2, 'te' => 3];
+
+foreach ([['guiso', 1], ['pan', 2], ['guiso', 1], ['te', 1]] as [$plato, $cantidad]) {
+    $sesion['carrito'][$plato] = ($sesion['carrito'][$plato] ?? 0) + $cantidad;
+}
+
+$total = 0;
+foreach ($sesion['carrito'] as $plato => $cantidad) {
+    echo "$plato x$cantidad\n";
+    $total += $precios[$plato] * $cantidad;
+}
+echo "Total: $total sellos\n";
+```
+
+#### Al superarla
+Dos guisos, dos panes y un té: 31 sellos. El cliente paga, satisfecho y lleno.
+
+#### Imagen
+- Una mesa de la fonda con dos platos de guiso, pan y una taza de té, y una cuenta de papel al lado.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sirve el té.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la cuenta.
+
+### Micro-misión R03-N04-P4 · El mensaje de una sola vez
+
+```meta
+lugar: La Fonda del Puerto
+personajes: Nilo, Gheco
+carta: Flash | se guarda en la sesión al redirigir · se muestra una vez · se borra al leerlo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Después de pagar, el cliente ve «¡Gracias por su visita!». Pero el cartel no se borra: lo ve el siguiente cliente, y el siguiente, y uno que todavía no comió nada.
+
+#### Gheco sugiere
+Leer el mensaje y **borrarlo** en el mismo paso: guardalo en una variable y hacé `unset($sesion['flash'])`.
+
+#### Desafío
+Hacé que el mensaje se muestre una sola vez.
+
+#### Código inicial
+```php
+<?php
+$sesion = ['flash' => '¡Gracias por su visita!'];
+
+function pagina(array &$sesion): string
+{
+    return $sesion['flash'] ?? '(sin mensajes)';
+}
+
+echo pagina($sesion) . "\n";
+echo pagina($sesion) . "\n";
+```
+
+#### Salida esperada
+```
+¡Gracias por su visita!
+(sin mensajes)
+```
+
+#### Solución
+```php
+<?php
+$sesion = ['flash' => '¡Gracias por su visita!'];
+
+function pagina(array &$sesion): string
+{
+    $mensaje = $sesion['flash'] ?? '(sin mensajes)';
+    unset($sesion['flash']);
+    return $mensaje;
+}
+
+echo pagina($sesion) . "\n";
+echo pagina($sesion) . "\n";
+```
+
+#### Al superarla
+El cartel aparece una vez y se va. El cliente que no comió nada ya no se siente agradecido por error.
+
+#### Imagen
+- Un cartel de madera con un corazón pintado, colgado en la puerta de la fonda, que se desvanece en humo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) saluda a un cliente que se va.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el marco de la puerta.
+
 ### Misión R03-N04-M1 · El contador de la torre
 
 ```meta
@@ -2569,6 +3426,238 @@ no compararlo al procesar no protege nada.
 **Ogro: confiar en un campo oculto.** `<input type="hidden" name="precio"
 value="1000">` se cambia en dos segundos desde el navegador. Los datos que importan
 se buscan en el servidor.
+
+### Micro-misión R03-N05-P1 · Envíos gratis
+
+```meta
+lugar: El tablero de avisos
+personajes: Nilo, Elefa, Gheco
+criatura: troll
+carta: XSS | todo lo que viene de afuera se escapa al mostrarlo · htmlspecialchars($x) convierte < > " ' & en texto · nunca echo $_POST directo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una mañana, el tablero de avisos amaneció diciendo *«¡Todos los envíos gratis hoy!»*. Nadie lo había escrito: alguien dejó un aviso con un truco escondido (`<script>`), y el tablero lo ejecutó en lugar de mostrarlo. Elefa cierra la puerta con llave.
+
+#### Gheco sugiere
+`htmlspecialchars($aviso)` convierte los `<` y `>` en texto: el truco se ve, pero ya no se ejecuta.
+
+#### Desafío
+Escapá cada aviso antes de mostrarlo en el tablero.
+
+#### Código inicial
+```php
+<?php
+$avisos = ['Llega el ferry a las 8', '<script>envios("gratis")</script>'];
+foreach ($avisos as $a) {
+    echo "<p>$a</p>\n";
+}
+```
+
+#### Salida esperada
+```
+<p>Llega el ferry a las 8</p>
+<p>&lt;script&gt;envios(&quot;gratis&quot;)&lt;/script&gt;</p>
+```
+
+#### Solución
+```php
+<?php
+$avisos = ['Llega el ferry a las 8', '<script>envios("gratis")</script>'];
+foreach ($avisos as $a) {
+    echo "<p>" . htmlspecialchars($a) . "</p>\n";
+}
+```
+
+#### Al superarla
+El aviso tramposo queda en el tablero, pero desarmado: se lee el truco y no pasa nada. Elefa: —Todo lo que llega de afuera es sospechoso.
+
+#### Imagen
+- Un tablero de avisos de corcho con papelitos clavados, uno de ellos con un dibujo de una calavera tachada.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) cierra una puerta con una llave grande.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) clava un papel en el tablero.
+- Un troll escondido detrás del tablero.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una chinche.
+
+### Micro-misión R03-N05-P2 · El formulario robado
+
+```meta
+lugar: El tablero de avisos
+personajes: Nilo, Pico, Gheco
+carta: CSRF | cada formulario lleva un token secreto guardado en la sesión · al recibirlo se compara con hash_equals · sin token, se rechaza
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Pico entra por la ventana con un formulario robado en el pico: un pedido de «transferir 100 sellos» con la firma de la tesorera… que ella nunca mandó. El programa lo aceptó porque la firma parecía buena.
+
+#### Gheco sugiere
+El token se guarda en la sesión al mostrar el formulario. Al recibirlo, `hash_equals($sesion['token'], $post['token'] ?? '')`: si no coincide, se rechaza.
+
+#### Desafío
+Rechazá el pedido que no trae el token correcto.
+
+#### Código inicial
+```php
+<?php
+$sesion = ['token' => bin2hex(random_bytes(16))];
+$formularioBueno = ['monto' => 20, 'token' => $sesion['token']];
+$formularioDePico = ['monto' => 100, 'token' => 'cualquiera'];
+
+foreach ([$formularioBueno, $formularioDePico] as $post) {
+    echo "Transferidos {$post['monto']} sellos\n";
+}
+```
+
+#### Salida esperada
+```
+Transferidos 20 sellos
+Rechazado: el formulario no es nuestro
+```
+
+#### Solución
+```php
+<?php
+$sesion = ['token' => bin2hex(random_bytes(16))];
+$formularioBueno = ['monto' => 20, 'token' => $sesion['token']];
+$formularioDePico = ['monto' => 100, 'token' => 'cualquiera'];
+
+foreach ([$formularioBueno, $formularioDePico] as $post) {
+    if (!hash_equals($sesion['token'], $post['token'] ?? '')) {
+        echo "Rechazado: el formulario no es nuestro\n";
+        continue;
+    }
+    echo "Transferidos {$post['monto']} sellos\n";
+}
+```
+
+#### Al superarla
+El formulario de Pico rebota. Pico lo suelta y se va a buscar algo más fácil de robar. Nilo jura que no lo hizo a propósito.
+
+#### Imagen
+- Una ventana abierta de la oficina de correos de noche, con un papel con sello cayendo hacia el piso.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) suelta el papel, con cara de inocente.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) atrapa el papel.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el marco de la ventana.
+
+### Micro-misión R03-N05-P3 · El navegador no manda
+
+```meta
+lugar: El tablero de avisos
+personajes: Nilo, Gheco
+criatura: goblin
+carta: Validar en el servidor | el maxlength, el required y el min del HTML los saltea cualquiera · el servidor revisa todo de nuevo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El formulario de reservas dice en el HTML que la cantidad va de 1 a 10. Un **goblin** mandó el pedido a mano, sin navegador: 500 lugares. El servidor confió en el HTML.
+
+#### Gheco sugiere
+Validá en el servidor: `filter_var($cantidad, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]])` da `false` si no está en el rango.
+
+#### Desafío
+Rechazá las cantidades fuera del rango.
+
+#### Código inicial
+```php
+<?php
+foreach (['3', '500', 'cinco'] as $cantidad) {
+    echo "Reservados $cantidad lugares\n";
+}
+```
+
+#### Salida esperada
+```
+Reservados 3 lugares
+Cantidad invalida: 500
+Cantidad invalida: cinco
+```
+
+#### Solución
+```php
+<?php
+foreach (['3', '500', 'cinco'] as $cantidad) {
+    $n = filter_var($cantidad, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]]);
+    if ($n === false) {
+        echo "Cantidad invalida: $cantidad\n";
+    } else {
+        echo "Reservados $n lugares\n";
+    }
+}
+```
+
+#### Al superarla
+Los 500 lugares del goblin no se reservan. El ferry sale con lugar para todos.
+
+#### Imagen
+- Un ferry en el muelle con una fila de pasajeros normales y un goblin que intenta colar una carretilla llena de boletos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le cierra el paso con el brazo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la baranda del ferry.
+
+### Micro-misión R03-N05-P4 · La redirección abierta
+
+```meta
+lugar: El tablero de avisos
+personajes: Nilo, Elefa, Gheco
+carta: Redirecciones | ?volver=… no se usa tal cual · solo direcciones del mismo sitio: empiezan con / y no con // · si no, al inicio
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Después del login, la página vuelve a donde dice `?volver=`. Alguien armó un enlace con `?volver=//puerto-falso.ar` y mandó a los clientes a un sitio igualito al de Elefa, pero falso.
+
+#### Gheco sugiere
+Aceptá solo direcciones que empiezan con `/` y **no** con `//`. Todo lo demás vuelve a `/inicio`.
+
+#### Desafío
+Escribí la función que decide a dónde volver.
+
+#### Código inicial
+```php
+<?php
+function volverA(string $pedido): string
+{
+    return $pedido;
+}
+
+foreach (['/mis-envios', '//puerto-falso.ar', 'https://otro.ar'] as $p) {
+    echo volverA($p) . "\n";
+}
+```
+
+#### Salida esperada
+```
+/mis-envios
+/inicio
+/inicio
+```
+
+#### Solución
+```php
+<?php
+function volverA(string $pedido): string
+{
+    if (str_starts_with($pedido, '/') && !str_starts_with($pedido, '//')) {
+        return $pedido;
+    }
+    return '/inicio';
+}
+
+foreach (['/mis-envios', '//puerto-falso.ar', 'https://otro.ar'] as $p) {
+    echo volverA($p) . "\n";
+}
+```
+
+#### Al superarla
+Los clientes vuelven a donde tienen que volver. El puerto falso se queda sin visitas. Elefa sella la puerta otra vez.
+
+#### Imagen
+- Dos puertas iguales una al lado de la otra en un pasillo de la torre, una con un sello de lacre violeta y otra sin sello.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) señala la puerta con el sello.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con la mano en el picaporte de la otra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el sello.
 
 ### Misión R03-N05-M1 · El libro de visitas blindado
 
@@ -3323,6 +4412,269 @@ quien escribe `admin.php` en la dirección entra si la página no revisa el rol.
 **Ogro: el mensaje que revela.** "Ese usuario no existe" le confirma al atacante qué
 usuarios sí existen. Decí siempre "usuario o contraseña incorrectos".
 
+### Micro-misión R03-N06-P1 · La huella de la contraseña
+
+```meta
+lugar: La sala de archivos
+personajes: Nilo, Iara, Pico, Gheco
+carta: password_hash | se guarda la huella, nunca la contraseña · password_verify($escrita, $huella) dice si coincide · cada huella es distinta aunque la clave sea igual
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Antes, el guardia de la sala de archivos tenía las contraseñas escritas en un papel. Pico se robó el papel, y con él, todas las contraseñas. Nilo anota la suya nueva en la palma de la mano. Iara se la borra con saliva.
+
+#### Gheco sugiere
+Guardá `password_hash($clave, PASSWORD_DEFAULT)` y, para entrar, compará con `password_verify($escrita, $huella)`. La huella no se puede volver a convertir en la clave.
+
+#### Desafío
+Guardá la huella en lugar de la contraseña y comprobá los dos intentos.
+
+#### Código inicial
+```php
+<?php
+$guardada = 'faro2026';
+
+foreach (['faro2026', 'gaviota'] as $intento) {
+    echo $intento === $guardada ? "Pasa\n" : "No pasa\n";
+}
+echo "En el papel dice: $guardada\n";
+```
+
+#### Salida esperada
+```
+Pasa
+No pasa
+En el papel dice: una huella
+```
+
+#### Solución
+```php
+<?php
+$huella = password_hash('faro2026', PASSWORD_DEFAULT);
+
+foreach (['faro2026', 'gaviota'] as $intento) {
+    echo password_verify($intento, $huella) ? "Pasa\n" : "No pasa\n";
+}
+echo "En el papel dice: " . (str_starts_with($huella, '$2y$') ? "una huella" : "la clave") . "\n";
+```
+
+#### Al superarla
+Aunque Pico se robe el papel nuevo, no le sirve: tiene huellas, no contraseñas. Nilo se mira la palma limpia, un poco triste.
+
+#### Imagen
+- Una puerta de una sala de archivos con un guardia y una lista en la pared llena de sellos de lacre deformados, sin letras.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) mira la lista, decepcionado.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) le limpia la mano a Nilo con un pañuelo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con la palma estirada.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la lista.
+
+### Micro-misión R03-N06-P2 · Solo para los de adentro
+
+```meta
+lugar: La sala de archivos
+personajes: Nilo, Gheco
+carta: Proteger páginas | al principio: si no hay usuario en la sesión, a /login y exit · se revisa en CADA página privada
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La sala de archivos tiene tres puertas, y Nilo puso guardia solo en la principal. Por la de atrás entra cualquiera.
+
+#### Gheco sugiere
+Una función `exigirLogin(array $sesion): ?string` que devuelve la redirección si no hay usuario. Se llama al principio de **cada** página privada.
+
+#### Desafío
+Escribí la guardia y ponela en las tres páginas.
+
+#### Código inicial
+```php
+<?php
+function pagina(string $nombre, array $sesion): string
+{
+    return "Mostrando $nombre";
+}
+
+$visitante = [];
+foreach (['archivos', 'balances', 'claves'] as $p) {
+    echo pagina($p, $visitante) . "\n";
+}
+```
+
+#### Salida esperada
+```
+Redirige a /login
+Redirige a /login
+Redirige a /login
+Mostrando archivos
+```
+
+#### Solución
+```php
+<?php
+function exigirLogin(array $sesion): ?string
+{
+    return isset($sesion['usuario']) ? null : 'Redirige a /login';
+}
+
+function pagina(string $nombre, array $sesion): string
+{
+    return exigirLogin($sesion) ?? "Mostrando $nombre";
+}
+
+$visitante = [];
+$iara = ['usuario' => 'iara'];
+foreach (['archivos', 'balances', 'claves'] as $p) {
+    echo pagina($p, $visitante) . "\n";
+}
+echo pagina('archivos', $iara) . "\n";
+```
+
+#### Al superarla
+Las tres puertas tienen guardia. Iara entra por la de atrás y el guardia le pide la ficha igual. Iara aprueba.
+
+#### Imagen
+- Un pasillo con tres puertas de la sala de archivos, cada una con un guardia chiquito con farol.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pone el último guardia en la puerta de atrás.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un farol.
+
+### Micro-misión R03-N06-P3 · Tres intentos
+
+```meta
+lugar: La sala de archivos
+personajes: Nilo, Gheco
+criatura: goblin
+carta: Limitar intentos | contar los fallos por usuario · después de 3, bloquear un rato · avisar sin decir si el usuario existe
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un **goblin** prueba contraseñas en la puerta de los archivos: una, otra, otra, cien. Nadie lo frena.
+
+#### Gheco sugiere
+Contá los fallos en `$intentos[$usuario]`. Si ya son 3, se bloquea sin siquiera probar la clave.
+
+#### Desafío
+Bloqueá al usuario después de 3 intentos fallidos.
+
+#### Código inicial
+```php
+<?php
+$huella = password_hash('faro2026', PASSWORD_DEFAULT);
+$intentos = [];
+
+foreach (['a', 'b', 'c', 'd', 'faro2026'] as $clave) {
+    echo password_verify($clave, $huella) ? "Adentro\n" : "Clave incorrecta\n";
+}
+```
+
+#### Salida esperada
+```
+Clave incorrecta
+Clave incorrecta
+Clave incorrecta
+Bloqueado: proba mas tarde
+Bloqueado: proba mas tarde
+```
+
+#### Solución
+```php
+<?php
+$huella = password_hash('faro2026', PASSWORD_DEFAULT);
+$intentos = [];
+$usuario = 'fermin';
+
+foreach (['a', 'b', 'c', 'd', 'faro2026'] as $clave) {
+    if (($intentos[$usuario] ?? 0) >= 3) {
+        echo "Bloqueado: proba mas tarde\n";
+        continue;
+    }
+    if (password_verify($clave, $huella)) {
+        echo "Adentro\n";
+    } else {
+        $intentos[$usuario] = ($intentos[$usuario] ?? 0) + 1;
+        echo "Clave incorrecta\n";
+    }
+}
+```
+
+#### Al superarla
+Al cuarto intento, la puerta deja de escuchar. El goblin se sienta en el escalón a esperar. Va a esperar un buen rato.
+
+#### Imagen
+- La puerta de la sala de archivos con un candado de bronce enorme y tres marcas rayadas al lado.
+- Un goblin sentado en el escalón, aburrido.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cierra el candado.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el candado.
+
+### Micro-misión R03-N06-P4 · Una clave como la gente
+
+```meta
+lugar: La sala de archivos
+personajes: Nilo, Iara, Gheco
+carta: Registrar | la clave: largo mínimo, no igual al usuario · se juntan los problemas y se muestran todos juntos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Para registrarse en la Oficina, Nilo propone de contraseña «nilo». Iara le dice que una clave igual al nombre la adivina hasta Pico.
+
+#### Gheco sugiere
+Juntá los problemas en una lista: menos de 8 caracteres, igual al usuario. Si la lista está vacía, la clave sirve.
+
+#### Desafío
+Revisá las dos claves y mostrá todos los problemas de cada una.
+
+#### Código inicial
+```php
+<?php
+function problemas(string $usuario, string $clave): array
+{
+    return [];
+}
+
+foreach (['nilo' => 'nilo', 'iara' => 'cuaderno-azul-12'] as $usuario => $clave) {
+    $p = problemas($usuario, $clave);
+    echo "$usuario: " . ($p === [] ? 'clave aceptada' : implode('; ', $p)) . "\n";
+}
+```
+
+#### Salida esperada
+```
+nilo: muy corta; igual al usuario
+iara: clave aceptada
+```
+
+#### Solución
+```php
+<?php
+function problemas(string $usuario, string $clave): array
+{
+    $p = [];
+    if (mb_strlen($clave) < 8) {
+        $p[] = 'muy corta';
+    }
+    if (strtolower($clave) === strtolower($usuario)) {
+        $p[] = 'igual al usuario';
+    }
+    return $p;
+}
+
+foreach (['nilo' => 'nilo', 'iara' => 'cuaderno-azul-12'] as $usuario => $clave) {
+    $p = problemas($usuario, $clave);
+    echo "$usuario: " . ($p === [] ? 'clave aceptada' : implode('; ', $p)) . "\n";
+}
+```
+
+#### Al superarla
+Nilo elige una clave nueva, larga, que no se parece a su nombre. Al rato se la olvida. Por suerte, eso tiene arreglo.
+
+#### Imagen
+- Un formulario de registro sobre un mostrador, con dos casilleros, uno con una cruz roja y otro con un tilde verde, sin letras.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) señala la cruz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) se rasca la gorra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el tilde.
+
 ### Misión R03-N06-M1 · El registro de socios
 
 ```meta
@@ -4040,6 +5392,195 @@ carpeta.
 `json_decode` de un archivo roto devuelve `null`, y el programa sigue como si no
 hubiera datos (y en el próximo guardado los pisa todos).
 
+### Micro-misión R03-N07-P1 · El retrato que era una trampa
+
+```meta
+lugar: El revisor de paquetes
+personajes: Nilo, Gheco
+criatura: troll
+carta: Tipo real | el nombre y lo que dice el navegador se pueden falsificar · se mira el contenido: un PNG empieza con \x89PNG, un JPEG con \xFF\xD8 · y el tamaño
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un día alguien mandó un «retrato.png» que en realidad tenía código adentro, y casi incendia el archivo. Desde entonces, un revisor mira **qué hay de verdad** dentro de cada paquete antes de guardarlo.
+
+#### Gheco sugiere
+Mirá los primeros bytes del contenido: una imagen PNG empieza con `"\x89PNG"` y una JPEG con `"\xFF\xD8"`. El nombre no importa.
+
+#### Desafío
+Aceptá solo los archivos que de verdad son PNG o JPEG.
+
+#### Código inicial
+```php
+<?php
+$subidos = [
+    'retrato.png' => "\x89PNG\r\n\x1a\n...",
+    'foto.jpg' => "\xFF\xD8\xFF\xE0...",
+    'gatito.png' => "<?php system('...');",
+];
+foreach ($subidos as $nombre => $contenido) {
+    echo str_ends_with($nombre, '.png') || str_ends_with($nombre, '.jpg') ? "Guardado: $nombre\n" : "Rechazado: $nombre\n";
+}
+```
+
+#### Salida esperada
+```
+Guardado: retrato.png
+Guardado: foto.jpg
+Rechazado: gatito.png
+```
+
+#### Solución
+```php
+<?php
+function tipoReal(string $contenido): ?string
+{
+    if (str_starts_with($contenido, "\x89PNG")) {
+        return 'png';
+    }
+    if (str_starts_with($contenido, "\xFF\xD8")) {
+        return 'jpg';
+    }
+    return null;
+}
+
+$subidos = [
+    'retrato.png' => "\x89PNG\r\n\x1a\n...",
+    'foto.jpg' => "\xFF\xD8\xFF\xE0...",
+    'gatito.png' => "<?php system('...');",
+];
+foreach ($subidos as $nombre => $contenido) {
+    echo tipoReal($contenido) !== null ? "Guardado: $nombre\n" : "Rechazado: $nombre\n";
+}
+```
+
+#### Al superarla
+El «gatito.png» queda afuera: adentro no había ningún gato. El troll que venía escondido en él se va con las manos vacías.
+
+#### Imagen
+- Una mesa de revisión con tres paquetes abiertos: dos con cuadros adentro y uno con humo violeta saliendo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cierra el paquete del humo con cara de susto.
+- Un troll chiquito asoma del humo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un cuadro.
+
+### Micro-misión R03-N07-P2 · El registro de los robos
+
+```meta
+lugar: El revisor de paquetes
+personajes: Nilo, Elefa, Gheco
+carta: JSON | json_encode($datos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) · file_put_contents · json_decode($texto, true) da un array
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Mientras no haya bodega, los registros se guardan en archivos JSON. Revisando el registro de robos de hace veinte años, Nilo encuentra una línea: *«paquete para quien llegue, robado del Albatros por un ladrón de techos»*.
+
+#### Gheco sugiere
+Guardá los registros con `json_encode` en un archivo y leelos con `json_decode($texto, true)`. Después buscá el que dice «para quien llegue».
+
+#### Desafío
+Guardá el registro, volvé a leerlo y encontrá la línea del robo.
+
+#### Código inicial
+```php
+<?php
+$robos = [
+    ['anio' => 2003, 'que' => 'un barril de aceite', 'barco' => 'Tortuga'],
+    ['anio' => 2006, 'que' => 'paquete para quien llegue', 'barco' => 'Albatros'],
+];
+echo "Robos guardados: 0\n";
+```
+
+#### Salida esperada
+```
+Robos guardados: 2
+2006: paquete para quien llegue, del Albatros
+```
+
+#### Solución
+```php
+<?php
+$robos = [
+    ['anio' => 2003, 'que' => 'un barril de aceite', 'barco' => 'Tortuga'],
+    ['anio' => 2006, 'que' => 'paquete para quien llegue', 'barco' => 'Albatros'],
+];
+file_put_contents('robos.json', json_encode($robos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+$leidos = json_decode(file_get_contents('robos.json'), true);
+echo "Robos guardados: " . count($leidos) . "\n";
+foreach ($leidos as $r) {
+    if (str_contains($r['que'], 'quien llegue')) {
+        echo "{$r['anio']}: {$r['que']}, del {$r['barco']}\n";
+    }
+}
+```
+
+#### Al superarla
+—Eran dos envíos —dice Elefa, sin levantar la vista—. Uno se lo llevó él. El otro lo guardé yo. —Y no dice nada más.
+
+#### Imagen
+- Un archivo de la oficina de correos con cajones abiertos y un papel viejo amarillento con un dibujo de un tejado y una figura saltando.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lee el papel a la luz de un farol.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) de espaldas, mirando por la ventana.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cajón.
+
+### Micro-misión R03-N07-P3 · Un nombre nuestro
+
+```meta
+lugar: El revisor de paquetes
+personajes: Nilo, Iara, Gheco
+carta: Guardar con nombre propio | el nombre del cliente puede traer ../ o ser repetido · se genera uno: número de registro + extensión según el tipo real
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un cliente subió un archivo llamado `../../tablero.png`, y el revisor casi lo guarda **encima** del tablero de avisos. Iara propone que cada archivo se guarde con un número de registro.
+
+#### Gheco sugiere
+Ignorá el nombre que trae: armá uno con el número de registro y la extensión del tipo real, como `envio-0007.png`.
+
+#### Desafío
+Generá el nombre con el número y la extensión.
+
+#### Código inicial
+```php
+<?php
+$subidas = [['../../tablero.png', 'png'], ['mi foto (1).JPG', 'jpg']];
+$numero = 7;
+foreach ($subidas as [$nombreOriginal, $tipo]) {
+    echo "Guardo como: $nombreOriginal\n";
+    $numero++;
+}
+```
+
+#### Salida esperada
+```
+Guardo como: envio-0007.png
+Guardo como: envio-0008.jpg
+```
+
+#### Solución
+```php
+<?php
+$subidas = [['../../tablero.png', 'png'], ['mi foto (1).JPG', 'jpg']];
+$numero = 7;
+foreach ($subidas as [$nombreOriginal, $tipo]) {
+    $nombre = sprintf('envio-%04d.%s', $numero, $tipo);
+    echo "Guardo como: $nombre\n";
+    $numero++;
+}
+```
+
+#### Al superarla
+El tablero de avisos se salva. Iara anota el número siete y el ocho en la libreta, en orden.
+
+#### Imagen
+- Un estante con cajitas numeradas con puntitos de colores, una con un paquete adentro.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) pone una etiqueta en una cajita.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le alcanza el paquete.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el estante.
+
 ### Misión R03-N07-M1 · El buzón de comprobantes
 
 ```meta
@@ -4743,6 +6284,190 @@ que armaste vos.
 **Esqueleto: el servidor en la carpeta equivocada.** Sin `-t public`, la web ve todo
 el proyecto (incluidos `datos/` y `src/`). Con `-t public`, solo lo público.
 
+### Micro-misión R03-N08-P1 · Un molde de cartel
+
+```meta
+lugar: Las veinte ventanillas
+personajes: Nilo, Elefa, Gheco
+carta: Layout | una función arma el encabezado y el pie · cada página solo pasa su parte · si cambia el horario, cambia una vez
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La Oficina ya tiene veinte ventanillas, cada una con su cartel pintado a mano. Cuando cambió el horario, Nilo tuvo que repintar los veinte, y en tres se olvidó del domingo. Elefa mandó hacer un **molde de cartel**.
+
+#### Gheco sugiere
+Una función `cartel(string $ventanilla): string` que devuelve el marco común con el horario, y en el medio, lo de cada ventanilla.
+
+#### Desafío
+Escribí el molde y usalo para las tres ventanillas.
+
+#### Código inicial
+```php
+<?php
+echo "[Puerto | Envios | Lun a Sab]\n";
+echo "[Puerto | Consultas | Lun a Sab]\n";
+echo "[Puerto | Encomiendas | Lun a Vie]\n";
+```
+
+#### Salida esperada
+```
+[Puerto | Envios | Lun a Dom]
+[Puerto | Consultas | Lun a Dom]
+[Puerto | Encomiendas | Lun a Dom]
+```
+
+#### Solución
+```php
+<?php
+const HORARIO = 'Lun a Dom';
+
+function cartel(string $ventanilla): string
+{
+    return "[Puerto | $ventanilla | " . HORARIO . "]";
+}
+
+foreach (['Envios', 'Consultas', 'Encomiendas'] as $v) {
+    echo cartel($v) . "\n";
+}
+```
+
+#### Al superarla
+El domingo aparece en las tres ventanillas a la vez. Los pintores del Puerto se quedan sin trabajo; Elefa los manda al Astillero.
+
+#### Imagen
+- Una fila de ventanillas iguales con carteles con el mismo marco y el mismo sello, cada uno con un dibujito distinto en el medio.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) mira la fila satisfecha.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuelga el último cartel.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un cartel.
+
+### Micro-misión R03-N08-P2 · La función vista()
+
+```meta
+lugar: Las veinte ventanillas
+personajes: Nilo, Gheco
+carta: vista() | extract($datos) convierte claves en variables · ob_start() junta lo que se imprime · ob_get_clean() lo devuelve como texto
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las páginas de Nilo mezclan todo: cuentas, consultas y HTML en el mismo archivo. Gheco le muestra cómo separar: la página decide **qué** mostrar y la vista, **cómo**.
+
+#### Gheco sugiere
+La vista es un archivo con HTML y `<?= ?>`. La función `vista()` hace `extract($datos)`, `ob_start()`, `require` del archivo y devuelve `ob_get_clean()`.
+
+#### Desafío
+Completá `vista()` para que arme la página con la plantilla.
+
+#### Código inicial
+```php
+<?php
+file_put_contents('saludo.php', '<h1>Hola, <?= htmlspecialchars($nombre) ?></h1><p>Tenes <?= $envios ?> envios.</p>');
+
+function vista(string $archivo, array $datos): string
+{
+    return '';
+}
+
+echo vista('saludo.php', ['nombre' => 'Iara', 'envios' => 3]) . "\n";
+```
+
+#### Salida esperada
+```
+<h1>Hola, Iara</h1><p>Tenes 3 envios.</p>
+```
+
+#### Solución
+```php
+<?php
+file_put_contents('saludo.php', '<h1>Hola, <?= htmlspecialchars($nombre) ?></h1><p>Tenes <?= $envios ?> envios.</p>');
+
+function vista(string $archivo, array $datos): string
+{
+    extract($datos);
+    ob_start();
+    require $archivo;
+    return ob_get_clean();
+}
+
+echo vista('saludo.php', ['nombre' => 'Iara', 'envios' => 3]) . "\n";
+```
+
+#### Al superarla
+La página de Iara sale armada con la plantilla. Si mañana cambia el diseño, se toca un solo archivo.
+
+#### Imagen
+- Una mesa de imprenta con un molde de página vacío y letras de plomo al lado, sin letras legibles.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pone el molde en la prensa.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la prensa.
+
+### Micro-misión R03-N08-P3 · Un pedacito que se repite
+
+```meta
+lugar: Las veinte ventanillas
+personajes: Nilo, Iara, Gheco
+carta: Parciales | un pedacito (la tarjeta de un barco) en su propia función o archivo · se usa en el listado, en el detalle y en el buscador
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La tarjeta de un barco aparece en tres páginas, y en cada una Nilo la escribió distinta. Iara le muestra las tres juntas: una tiene el calado, otra no, y la otra lo tiene mal.
+
+#### Gheco sugiere
+Una función `tarjeta(array $barco): string` que arme siempre lo mismo, y las tres páginas la usan.
+
+#### Desafío
+Escribí la tarjeta una vez y usala en las dos listas.
+
+#### Código inicial
+```php
+<?php
+$barcos = [['nombre' => 'Gaviota', 'calado' => 3], ['nombre' => 'Albatros', 'calado' => 8]];
+
+echo "Listado:\n";
+foreach ($barcos as $b) {
+    echo "- {$b['nombre']}\n";
+}
+echo "Buscador:\n";
+echo "- {$barcos[1]['nombre']} (calado ?)\n";
+```
+
+#### Salida esperada
+```
+Listado:
+- Gaviota (calado 3 m)
+- Albatros (calado 8 m)
+Buscador:
+- Albatros (calado 8 m)
+```
+
+#### Solución
+```php
+<?php
+$barcos = [['nombre' => 'Gaviota', 'calado' => 3], ['nombre' => 'Albatros', 'calado' => 8]];
+
+function tarjeta(array $b): string
+{
+    return "- {$b['nombre']} (calado {$b['calado']} m)";
+}
+
+echo "Listado:\n";
+foreach ($barcos as $b) {
+    echo tarjeta($b) . "\n";
+}
+echo "Buscador:\n";
+echo tarjeta($barcos[1]) . "\n";
+```
+
+#### Al superarla
+Las tres páginas muestran la misma tarjeta. Iara las pone una al lado de la otra: idénticas. Asiente.
+
+#### Imagen
+- Tres tarjetas de cartón iguales con el dibujo de un barco y una línea de agua, sobre un mostrador.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) las compara.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el sello con que las imprimió.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una tarjeta.
+
 ### Misión R03-N08-M1 · El sitio del club con layout
 
 ```meta
@@ -5378,6 +7103,211 @@ Antes de entregar, revisá cada punto:
    login).
 3. Agregá de a una página, probándola en el navegador.
 4. Al final, recorré la lista del escudo archivo por archivo.
+
+### Micro-misión R03-N09-P1 · Los cabellos sin validar
+
+```meta
+lugar: El último piso de la Oficina
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Validar todo | una función por formulario · devuelve los errores por campo · email con filter_var(FILTER_VALIDATE_EMAIL) · números con rango
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el último piso vive la **Gorgona de los Formularios**: sus cabellos son cintas de papel sin validar que se retuercen. Un email sin arroba, un precio negativo. Quien la mira sin validar, queda de piedra.
+
+#### Gheco sugiere
+Validá el email con `filter_var($email, FILTER_VALIDATE_EMAIL)` y el precio como entero positivo. Devolvé los errores por campo.
+
+#### Desafío
+Escribí `validarPedido` y probala con el pedido de la Gorgona.
+
+#### Código inicial
+```php
+<?php
+function validarPedido(array $p): array
+{
+    return [];
+}
+
+$deLaGorgona = ['email' => 'gorgona.sin.arroba', 'precio' => '-50'];
+$errores = validarPedido($deLaGorgona);
+echo $errores === [] ? "Pedido aceptado\n" : implode("\n", $errores) . "\n";
+```
+
+#### Salida esperada
+```
+email: no es valido
+precio: tiene que ser un entero positivo
+```
+
+#### Solución
+```php
+<?php
+function validarPedido(array $p): array
+{
+    $errores = [];
+    if (filter_var($p['email'] ?? '', FILTER_VALIDATE_EMAIL) === false) {
+        $errores['email'] = 'email: no es valido';
+    }
+    if (filter_var($p['precio'] ?? '', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]) === false) {
+        $errores['precio'] = 'precio: tiene que ser un entero positivo';
+    }
+    return $errores;
+}
+
+$deLaGorgona = ['email' => 'gorgona.sin.arroba', 'precio' => '-50'];
+$errores = validarPedido($deLaGorgona);
+echo $errores === [] ? "Pedido aceptado\n" : implode("\n", $errores) . "\n";
+```
+
+#### Al superarla
+Dos cabellos de papel se quedan quietos, desarmados. La Gorgona sisea, molesta.
+
+#### Imagen
+- El último piso de la oficina de correos, oscuro, con papeles volando.
+- la Gorgona de los Formularios (mujer-serpiente de túnica violeta cerrada y cola gris, con el pelo hecho de cintas de papel y serpientes de pergamino, ojos violetas, una pluma enorme como lanza) con dos cintas de papel caídas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con un escudo pulido como espejo.
+- Gheco (gecko de luz cian con antiparras, chiquito) detrás del escudo.
+
+### Micro-misión R03-N09-P2 · El escudo espejo
+
+```meta
+lugar: El último piso de la Oficina
+personajes: Nilo, Elefa, Gheco
+criatura: dragon
+carta: Escapar según el lugar | htmlspecialchars en HTML y atributos · urlencode en direcciones · json_encode en JSON · nunca el dato crudo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Elefa le da a Nilo un escudo pulido como espejo. —No se la enfrenta de frente. —La Gorgona le lanza un nombre con trampa para que lo muestre en tres lugares: en la página, en un enlace y en un JSON.
+
+#### Gheco sugiere
+Cada lugar tiene su forma de escapar: `htmlspecialchars` para el HTML, `urlencode` para la dirección y `json_encode` para el JSON.
+
+#### Desafío
+Escapá el nombre en los tres lugares.
+
+#### Código inicial
+```php
+<?php
+$nombre = '<b>Gorgona</b> & "amigas"';
+echo "<p>$nombre</p>\n";
+echo "/buscar?q=$nombre\n";
+echo '{"nombre":"' . $nombre . '"}' . "\n";
+```
+
+#### Salida esperada
+```
+<p>&lt;b&gt;Gorgona&lt;/b&gt; &amp; &quot;amigas&quot;</p>
+/buscar?q=%3Cb%3EGorgona%3C%2Fb%3E+%26+%22amigas%22
+{"nombre":"<b>Gorgona<\/b> & \"amigas\""}
+```
+
+#### Solución
+```php
+<?php
+$nombre = '<b>Gorgona</b> & "amigas"';
+echo "<p>" . htmlspecialchars($nombre) . "</p>\n";
+echo "/buscar?q=" . urlencode($nombre) . "\n";
+echo json_encode(['nombre' => $nombre]) . "\n";
+```
+
+#### Al superarla
+El nombre tramposo aparece tres veces, desarmado en las tres. La Gorgona se ve reflejada en el escudo y se le endurece una mano.
+
+#### Imagen
+- Un escudo de bronce pulido como espejo que refleja a una criatura con pelo de papel.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el escudo con las dos manos.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) detrás de él, con el bastón en alto.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el borde del escudo.
+
+### Micro-misión R03-N09-P3 · La Gorgona de piedra
+
+```meta
+lugar: El último piso de la Oficina
+personajes: Nilo, Iara, Elefa, Gheco
+criatura: dragon
+carta: Todo junto | login con huella · token en cada formulario · validar en el servidor · escapar al mostrar · lo que no pasa, se rechaza con su motivo
+recompensa: xp 25, oro 30
+item: Bolso Remendado
+```
+
+#### Escena
+La Gorgona manda su último ataque: tres pedidos a la vez. Uno sin sesión, uno sin token y uno con un comentario tramposo. El sitio de Nilo tiene que atender los tres sin dejarse engañar por ninguno.
+
+#### Gheco sugiere
+Una función `atender()` que revisa en orden: ¿hay usuario?, ¿el token coincide?, ¿el comentario es válido? Si todo está bien, muestra el comentario escapado.
+
+#### Desafío
+Completá `atender` con las tres defensas.
+
+#### Código inicial
+```php
+<?php
+function atender(array $sesion, array $post): string
+{
+    return "Publicado: " . $post['comentario'];
+}
+
+$sesion = ['usuario' => 'nilo', 'token' => 'abc123'];
+$pedidos = [
+    [[], ['token' => 'abc123', 'comentario' => 'Hola']],
+    [$sesion, ['token' => 'falso', 'comentario' => 'Hola']],
+    [$sesion, ['token' => 'abc123', 'comentario' => '<script>piedra()</script>']],
+];
+foreach ($pedidos as [$s, $p]) {
+    echo atender($s, $p) . "\n";
+}
+```
+
+#### Salida esperada
+```
+Rechazado: primero hay que entrar
+Rechazado: el formulario no es nuestro
+Publicado: &lt;script&gt;piedra()&lt;/script&gt;
+```
+
+#### Solución
+```php
+<?php
+function atender(array $sesion, array $post): string
+{
+    if (!isset($sesion['usuario'])) {
+        return "Rechazado: primero hay que entrar";
+    }
+    if (!hash_equals($sesion['token'] ?? '', $post['token'] ?? '')) {
+        return "Rechazado: el formulario no es nuestro";
+    }
+    $comentario = trim($post['comentario'] ?? '');
+    if ($comentario === '' || mb_strlen($comentario) > 200) {
+        return "Rechazado: comentario vacio o muy largo";
+    }
+    return "Publicado: " . htmlspecialchars($comentario);
+}
+
+$sesion = ['usuario' => 'nilo', 'token' => 'abc123'];
+$pedidos = [
+    [[], ['token' => 'abc123', 'comentario' => 'Hola']],
+    [$sesion, ['token' => 'falso', 'comentario' => 'Hola']],
+    [$sesion, ['token' => 'abc123', 'comentario' => '<script>piedra()</script>']],
+];
+foreach ($pedidos as [$s, $p]) {
+    echo atender($s, $p) . "\n";
+}
+```
+
+#### Al superarla
+Los tres ataques rebotan. La Gorgona se ve reflejada en el escudo y se queda de piedra ella. Mientras tanto, Iara le cose el bolso a Nilo: un bolsillo nuevo con su nombre bordado, para lo que tiene que recordar. Es **el Bolso Remendado**. Elefa hace sonar la campana tres veces.
+
+#### Imagen
+- El último piso de la oficina de correos con una estatua de piedra gris de una mujer-serpiente con el pelo de papel petrificado.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) cose un parche en el bolso de Nilo con hilo turquesa.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con el escudo apoyado en el piso.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) hace sonar una campana.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la estatua.
 
 ### Misión R03-N09-M1 · La oficina de reclamos
 

@@ -23,7 +23,7 @@ PORTRAIT = 320
 FIGURE_HEIGHT = 900
 
 # Carpetas cuyo nombre no alcanza para encontrar la ficha.
-ALIASES = {'asistente-gheco': 'gheco', 'heroe-mujer': 'la-heroina', 'heroe-varon': 'el-heroe', 'maesse-ferrum': 'maese-ferrum', 'arania': 'la-arana-de-las-direcciones'}
+ALIASES = {'asistente-gheco': 'gheco', 'heroe-mujer': 'la-heroina', 'heroe-varon': 'el-heroe', 'maesse-ferrum': 'maese-ferrum', 'arania': 'la-arana-de-las-direcciones', 'elefa': 'elefa'}
 # Carpetas que no son fichas (avatares del héroe, copias).
 SKIP = {'kira2'}
 STOP = {'el', 'la', 'los', 'las', 'de', 'del', 'y', 'jefe', 'r01', 'r02', 'r03', 'r04', 'java', 'final'}

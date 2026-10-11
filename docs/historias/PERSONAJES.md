@@ -929,7 +929,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Frase:** «¿Lo anotaste?»
 - **Relaciones:** escribiente de Elefa; compañera de Nilo; le lleva las consultas a Fermín.
 - **Primera aparición:** PHP, R01-N03.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### Fermín
 - **Rol:** el **Bodeguero** del Puerto: cuida la Bodega, bajo la torre, donde se guardan las fichas de todo lo que pasó por el Puerto. Encuentra cualquier ficha entre millones sin mirar.
@@ -945,7 +945,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Frase:** «No me acuerdo. Lo anoto bien.»
 - **Relaciones:** trabaja con Elefa desde que el Puerto tenía un solo mostrador; Iara le lleva las consultas.
 - **Primera aparición:** PHP, R04-N01.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### Marea
 - **Rol:** la **farera**, guardiana del Faro del Puerto. A cada barco le mira la bandera y le señala una dársena (el router). Cuidó el Faro apagado veinte años, esperando que alguien supiera prenderlo.
@@ -961,7 +961,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Frase:** «Cada barco, a su dársena.»
 - **Relaciones:** trabaja para Elefa; le muestra a Nilo que la lente del Faro es un vitral.
 - **Primera aparición:** PHP, R05-N01.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### Pico
 - **Rol:** la **gaviota ladrona** del Puerto: todo lo que se deja sin validar, sin escapar o sin cerrar, se lo lleva. Nilo la defiende siempre.
@@ -972,15 +972,15 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Frase:** «¡Kiá!»
 - **Relaciones:** la única que Nilo nunca olvida.
 - **Primera aparición:** PHP, R01-N07.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### La Sirena de los Tipos Débiles
 - **Rol:** el jefe del Muelle de las Primeras Cartas (R01-N10 de PHP). Canta que «"10" es 10» y que «el cero es nada», y los barcos que la escuchan encallan.
-- **Qué es:** una **sirena** de piel verde agua y escamas violetas, con pelo largo de algas, sentada en una roca; un ojo cian y otro violeta, como si dijera dos cosas a la vez.
+- **Qué es:** una **sirena** de pelo largo de algas verdes, con un top de escamas y caracolas y la cola de escamas violetas, sentada en una roca con musgo entre burbujas que brillan; un ojo cian y otro violeta, como si dijera dos cosas a la vez.
 - **Qué error representa:** las conversiones de tipos sin control y la comparación con `==`.
 - **Cómo se la vence:** comparando con `===` y declarando los tipos.
 - **Cómo habla:** canta; cada verso es una conversión que parece cierta.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### El Gólem del Astillero
 - **Rol:** el jefe del Astillero de los Moldes (R02-N11 de PHP). Vive entre los moldes viejos.
@@ -988,7 +988,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Qué error representa:** las clases mal armadas: herencias de lo que no son, datos públicos, todo pegado sin plan.
 - **Cómo se lo vence:** desarmándolo en clases chicas, con interfaces y composición.
 - **Cómo habla:** cruje como un casco viejo.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### La Gorgona de los Formularios
 - **Rol:** el jefe de la Oficina de Correos (R03-N09 de PHP). Vive en el último piso; quien la mira sin validar queda de piedra.
@@ -996,7 +996,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Qué error representa:** los formularios sin validar, el XSS, el CSRF y los archivos disfrazados.
 - **Cómo se la vence:** validando del lado del servidor, escapando lo que se muestra y pidiendo el token.
 - **Cómo habla:** sisea campos sin completar.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### La Serpiente Marina de las Tablas
 - **Rol:** el jefe de la Bodega del Puerto (R04-N09 de PHP). Vive en el sótano inundado.
@@ -1004,7 +1004,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Qué error representa:** las consultas armadas pegando textos (inyección), las transferencias que se cortan a la mitad y el stock que se vende dos veces.
 - **Cómo se la vence:** con consultas preparadas y transacciones.
 - **Cómo habla:** con el ruido del agua que se filtra.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### El Dragón del Faro
 - **Rol:** el jefe final de PHP (R05-N07). Se levanta del mar la noche en que Nilo termina su último sistema.
@@ -1012,31 +1012,31 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Qué error representa:** todo junto: formularios sin validar, consultas pegadas, reservas que se pisan, errores sin registrar.
 - **Cómo se lo vence:** partiendo el sistema en rutas, controladores, pruebas y registros.
 - **Cómo habla:** con truenos.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### El Campeón Eterno
 - **Rol:** el jefe de la Senda de la Arena (S01 de PHP). Nadie lo venció en cien años.
 - **Qué es:** un **guerrero de armadura antigua y capa gastada**, sin cara: dentro del casco solo hay luz y engranajes. Es un juego perfecto que aprende de cada luchador.
 - **Cómo habla:** repite las jugadas de quien tiene enfrente.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### El Grifo de los Registros
-- **Rol:** el jefe de la Senda de Laravel (S02 de PHP). Cada mañana revisa los libros del Puerto y, si encuentra dos barcos en el mismo muelle el mismo día, ataca.
+- **Rol:** el jefe de la Senda del Bastión de Laravel (S02 de PHP). Cada mañana revisa los libros del Puerto y, si encuentra dos barcos en el mismo muelle el mismo día, ataca.
 - **Qué es:** un **grifo** de plumas blancas y cuerpo de león dorado, con un monóculo y páginas de libro entre las plumas de las alas.
 - **Cómo habla:** como un inspector: «Registro duplicado».
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
-### El Leviatán de los Mensajes
-- **Rol:** el jefe de la Senda del Palomar (S03 de PHP). Se traga las palomas en pleno vuelo y manda cien pedidos por segundo para tapar la torre. *(Nombre a revisar: en Java está el Leviatán de los Datos.)*
-- **Qué es:** una **criatura marina enorme** con la boca llena de sobres, que salta del agua frente al palomar.
+### La Orca de los Mensajes
+- **Rol:** el jefe de la Senda del Palomar (S03 de PHP). Se traga las palomas en pleno vuelo y manda cien pedidos por segundo para tapar la torre.
+- **Qué es:** una **orca gigante** negra y blanca con vetas violetas que brillan, que salta del mar frente al palomar con la boca llena de sobres.
 - **Cómo habla:** con un ruido de mil alas.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ### El Hipocampo de las Vidrieras
 - **Rol:** el jefe de la Senda del Escaparate (S04 de PHP). Revuelve las vidrieras: letreros al revés, precios que se salen del vidrio.
 - **Qué es:** un **caballito de mar del tamaño de un caballo**, de vidrio de colores, que se refleja deformado en las vidrieras.
 - **Cómo habla:** con un tintineo de vidrio.
-- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+- **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
 
 ---
 

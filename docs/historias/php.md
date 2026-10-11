@@ -75,7 +75,7 @@ Los nombres ya están en las crónicas del curso; se suman lo que dejan y su fic
 | R05 | el Dragón del Faro | **el Morral del Correo Mayor** (legendario) |
 | S01 | el Campeón Eterno | (Senda) |
 | S02 | el Grifo de los Registros | (Senda) |
-| S03 | el Leviatán de los Mensajes | (Senda) |
+| S03 | la Orca de los Mensajes | (Senda) |
 | S04 | el Hipocampo de las Vidrieras | (Senda) |
 
 **La segunda vida del Puerto** (`Item::SECOND_LIFE`, como el Amuleto del Traceback o el del Catch): **el Salvavidas del `finally`**, que se gana en R02-N09 (excepciones). Cuando algo revienta, el salvavidas lo mantiene a flote y Nilo vuelve a la orilla.
@@ -149,8 +149,8 @@ Los nombres ya están en las crónicas del curso; se suman lo que dejan y su fic
 ### Las Sendas
 
 - **S01 · La Arena del Puerto** (RPG por turnos): el maestro de armas, el reloj de arena gigante y **el Campeón Eterno**.
-- **S02 · La Ciudadela de Laravel**: *a revisar el nombre* (se confunde con la Ciudadela de los Artífices de C++); propuesta: **el Bastión de Laravel**, la fortaleza de piedra clara que ya aparece en el mapa. Jefe: **el Grifo de los Registros**.
-- **S03 · El Palomar** (JavaScript con `fetch`): las palomas mensajeras y **el Leviatán de los Mensajes** (*a revisar*: en Java ya está el Leviatán de los Datos; propuesta: **la Orca de los Mensajes**).
+- **S02 · El Bastión de Laravel** (antes «la Ciudadela de Laravel», que se confundía con la de C++): la fortaleza de piedra clara. Jefe: **el Grifo de los Registros**. Es la última Senda que se trabaja (decisión del docente).
+- **S03 · El Palomar** (JavaScript con `fetch`): las palomas mensajeras y **la Orca de los Mensajes** (antes «el Leviatán», que se confundía con el de Java).
 - **S04 · El Escaparate** (HTML y CSS): la calle de las vidrieras y **el Hipocampo de las Vidrieras**. Es la Senda que lleva a los Talleres de Tesela.
 
 ### Las micro-misiones
@@ -182,10 +182,10 @@ El mapa que hay (`mundos_cursos/elefa/mapa.jpeg`) es lindo pero no cuadra con el
 
 ## 4. Lo que hay que construir (por etapas, cada una con el OK del docente)
 
-1. **Esta historia y las fichas** (este documento y PERSONAJES.md § El Puerto de los Mensajeros). ← *acá estamos*
-2. **Las referencias en Stitch:** un proyecto de PHP con Nilo y Elefa (de sus imágenes), y Gheco, Iara, Fermín, Marea, Pico y los nueve jefes generados desde sus fichas con los pedidos de § 5. Se guardan en `publicidad/logos cursos/personajes/El Puerto de los Mensajeros/` (cuerpo entero y circular) y van a `REFS['php']` de `scripts/escenas/pendientes.py`.
+1. **Esta historia y las fichas** (este documento y PERSONAJES.md § El Puerto de los Mensajeros). Hecho y aprobado (2026-10-11).
+2. **Las referencias en Stitch** (hechas 2026-10-11, proyecto `12272294721581088244`, ids en `REFS['php']`; ← *acá estamos*: falta el mapa): un proyecto de PHP con Nilo y Elefa (de sus imágenes), y Gheco, Iara, Fermín, Marea, Pico y los nueve jefes generados desde sus fichas con los pedidos de § 5. Se guardan en `publicidad/logos cursos/personajes/El Puerto de los Mensajeros/` (cuerpo entero y circular) y van a `REFS['php']` de `scripts/escenas/pendientes.py`.
 3. **El curso:** Iara y Nilo en los ejemplos (salidas rehechas), las crónicas en tercera persona con Nilo, las pistas del portal y `lugar:` en cada nodo.
-4. **Nilo jugable** (`config('game.protagonists.php')`, sus 6 aspectos), la tienda (Pico no: la fonda; o el puesto de Fermín), los ítems del Puerto en `app:game-items`, el Salvavidas del `finally` como segunda vida y el mapa nuevo con sus 12 lugares.
+4. **Nilo jugable** (`config('game.protagonists.php')`, sus 6 aspectos), la tienda (**el puesto de Fermín**, en la Bodega), los ítems del Puerto en `app:game-items`, el Salvavidas del `finally` como segunda vida y el mapa nuevo con sus 12 lugares.
 5. **Las micro-misiones** con su `#### Imagen` (`scripts/micro-misiones/genphp.py`), probadas con el PHP del navegador.
 6. **Las escenas** en Stitch, de a una, como en C++.
 
@@ -207,18 +207,17 @@ Cada pedido genera un **cuerpo entero 896×1200** sobre el fondo de grilla oscur
 - **El Dragón del Faro:** dragón marino negro y violeta, con alas como velas rotas, el cuerpo hecho de olas y relámpagos, enroscado en el faro; ojos como lámparas cian.
 - **El Campeón Eterno:** guerrero con armadura antigua y capa gastada, sin cara visible (dentro del casco solo hay luz y engranajes): un juego perfecto que aprende.
 - **El Grifo de los Registros:** grifo de plumas blancas y cuerpo de león dorado, con un monóculo y páginas de libro entre las plumas de las alas.
-- **El Leviatán (u Orca) de los Mensajes:** criatura marina enorme que traga palomas mensajeras en vuelo; boca llena de sobres.
+- **La Orca de los Mensajes:** criatura marina enorme que traga palomas mensajeras en vuelo; boca llena de sobres.
 - **El Hipocampo de las Vidrieras:** caballito de mar del tamaño de un caballo, de vidrio de colores, que se refleja deformado en las vidrieras.
 
 **El mapa del Puerto:** *«Mapa ilustrado de fantasía, estilo pergamino como el de la referencia, del Puerto de los Mensajeros, de noche, con auroras violetas: abajo a la izquierda, un sendero de la costa con sobres en los arbustos; muelles de madera con cajones y grúas; una roca con algas en la boca del puerto; galpones de un astillero con cascos de barcos; en el centro, una torre alta con una campana y tubos de bronce; una fonda; una escalera que baja a galerías de piedra bajo la torre; a la derecha, en la punta del muelle más largo, un faro alto; una plaza con una fuente en forma de sello de lacre y cuatro caminos (una arena, una fortaleza de piedra clara, un palomar, una calle de vidrieras). Sin texto ni carteles.»* (los nombres los pone la plataforma, como en la Ciudadela).
 
 ---
 
-## 6. Para decidir (el docente)
+## 6. Lo que decidió el docente (2026-10-11)
 
-1. **Iara** como compañera y reemplazo de Kira en los ejemplos, y **Bron → Nilo**.
-2. **El bolso** como objeto que cambia (Roto → Remendado → Morral del Correo Mayor).
-3. **El Faro** como el lugar por el que llega Nilo y el último de la historia (la lente es un vitral).
-4. **Los dos envíos «para quien llegue»**: uno es el paquete de Zed y el otro, el mensaje de Elefa.
-5. Renombrar **la Ciudadela de Laravel** (→ el Bastión de Laravel) y **el Leviatán de los Mensajes** (→ la Orca de los Mensajes), para que no se confundan con C++ y Java.
-6. **La tienda del Puerto:** ¿la fonda (con su cocinera) o el puesto de Fermín en la Bodega?
+1. **Iara** es la compañera y reemplaza a Kira en los ejemplos; **Bron pasa a Nilo**. Solo hacía falta crear los personajes.
+2. **El bolso** es el objeto que cambia (Roto → Remendado → Morral del Correo Mayor).
+3. **El Faro** es el lugar por el que llega Nilo y el último de la historia, y **los dos envíos «para quien llegue»** lo atan con Zed y con Java («de 10 esa vinculación»).
+4. Se renombran **el Bastión de Laravel** y **la Orca de los Mensajes** (los nombres se pueden cambiar si no alteran nada). **La Senda de Laravel se trabaja al último.**
+5. **La tienda del Puerto** es el puesto de Fermín, en la Bodega.

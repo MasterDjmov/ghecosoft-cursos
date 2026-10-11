@@ -180,10 +180,12 @@ El mapa que hay (`mundos_cursos/elefa/mapa.jpeg`) es lindo pero no cuadra con el
 
 ---
 
+**Dónde está cada lugar en el mapa nuevo** (en %, para `config('game.protagonists.php.expeditions.places')`): Sendero 15,92 · Muelle 21,82 · Cruce 40,85 · Roca de la Sirena 12,48 · Grúa 45,46 · Astillero 56,55 · Torre 50,26 · Fonda 64,70 · Bodega 64,92 · Sótano 77,84 · Encrucijada 78,58 · Faro 92,13.
+
 ## 4. Lo que hay que construir (por etapas, cada una con el OK del docente)
 
 1. **Esta historia y las fichas** (este documento y PERSONAJES.md § El Puerto de los Mensajeros). Hecho y aprobado (2026-10-11).
-2. **Las referencias en Stitch** (hechas 2026-10-11, proyecto `12272294721581088244`, ids en `REFS['php']`; ← *acá estamos*: falta el mapa): un proyecto de PHP con Nilo y Elefa (de sus imágenes), y Gheco, Iara, Fermín, Marea, Pico y los nueve jefes generados desde sus fichas con los pedidos de § 5. Se guardan en `publicidad/logos cursos/personajes/El Puerto de los Mensajeros/` (cuerpo entero y circular) y van a `REFS['php']` de `scripts/escenas/pendientes.py`.
+2. **Las referencias en Stitch** (hechas 2026-10-11, proyecto `12272294721581088244`, ids en `REFS['php']`), y **el mapa nuevo** en `public/img/mundos/puerto/mapa.webp` (copia en `mundos_cursos/elefa/mapa_puerto.jpeg`). Pendiente: los circulares de la compañía nueva, si se quieren (la enciclopedia recorta el retrato del cuerpo entero): un proyecto de PHP con Nilo y Elefa (de sus imágenes), y Gheco, Iara, Fermín, Marea, Pico y los nueve jefes generados desde sus fichas con los pedidos de § 5. Se guardan en `publicidad/logos cursos/personajes/El Puerto de los Mensajeros/` (cuerpo entero y circular) y van a `REFS['php']` de `scripts/escenas/pendientes.py`.
 3. **El curso:** Iara y Nilo en los ejemplos (salidas rehechas), las crónicas en tercera persona con Nilo, las pistas del portal y `lugar:` en cada nodo.
 4. **Nilo jugable** (`config('game.protagonists.php')`, sus 6 aspectos), la tienda (**el puesto de Fermín**, en la Bodega), los ítems del Puerto en `app:game-items`, el Salvavidas del `finally` como segunda vida y el mapa nuevo con sus 12 lugares.
 5. **Las micro-misiones** con su `#### Imagen` (`scripts/micro-misiones/genphp.py`), probadas con el PHP del navegador.

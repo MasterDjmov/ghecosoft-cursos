@@ -11,7 +11,7 @@ Referencia visual: `publicidad/logos cursos/` (la portada de la enciclopedia con
 | ¿Qué ve de lo que no descubrió? | **Silueta y pista**, como un Pokédex: lo no descubierto aparece en sombra, con el nombre y dónde se consigue, pero sin su historia. |
 | ¿Qué cursos abarca? | **Todo el universo** (los cursos publicados), aunque no esté inscripto: así ve que algo se consigue en otro curso y le da ganas de cursarlo. |
 | ¿Y el Grimorio? | **Queda como está** y la enciclopedia tiene una tarjeta «Hechizos & Sintaxis» que lleva a él. |
-| ¿La portada? | La **imagen de la biblioteca** del docente (`publicidad/logos cursos/enciclopedia.jpeg` → `public/img/enciclopedia/portada.webp`): sus 8 tarjetas pintadas son los botones; en el celular, una grilla debajo. La portada ocupa todo el ancho; adentro de cada sección, la misma imagen ocupa toda el área de fondo, un poco borrosa y con una capa oscura para que se lea (el docente: «usá la de la enciclopedia, pero en toda el área»). |
+| ¿La portada? | La **imagen de la biblioteca** del docente (`publicidad/logos cursos/enciclopedia.jpeg` → `public/img/enciclopedia/portada.webp`): sus 8 tarjetas pintadas son los botones; en el celular, una grilla debajo. La portada ocupa todo el ancho. De fondo, en todas las pantallas, va **la biblioteca limpia** (`publicidad/logos cursos/fondo_enciclopedia.jpeg` → `public/img/enciclopedia/fondo.webp`, sin letras) en toda el área, con una capa oscura para que se lea. |
 | ¿Da algo? | **No, por ahora es solo para leer.** |
 | ¿Quién la ve? | **Todos los alumnos**, también los que solo prueban la Clase 0: es para que se motiven. |
 | ¿Cómo se ve cada elemento? | Al hacer click, **en un modal**, como los ítems de la mochila. |

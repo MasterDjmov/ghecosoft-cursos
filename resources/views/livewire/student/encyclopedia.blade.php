@@ -8,12 +8,9 @@
     ];
 @endphp
 <div class="relative min-h-full">
-    {{-- Adentro de cada sección, la biblioteca de la portada ocupa toda el área de fondo (un poco borrosa, para que
-         sus letras pintadas no compitan con los títulos). En la portada no: ahí la imagen ya ocupa todo el ancho. --}}
-    @if ($section !== '')
-        <div class="pointer-events-none fixed inset-0 -z-10 bg-cover bg-center blur-[3px]" style="background-image: url('{{ asset('img/enciclopedia/portada.webp') }}')"></div>
-        <div class="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-[#05070d]/80 via-[#05070d]/72 to-[#05070d]/88"></div>
-    @endif
+    {{-- La biblioteca limpia (sin letras) ocupa toda el área de fondo en todas las pantallas; la portada va encima. --}}
+    <div class="pointer-events-none fixed inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ asset('img/enciclopedia/fondo.webp') }}')"></div>
+    <div @class(['pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b', 'from-[#05070d]/55 via-[#05070d]/35 to-[#05070d]/70' => $section === '', 'from-[#05070d]/70 via-[#05070d]/60 to-[#05070d]/80' => $section !== ''])></div>
 
     <div @class(['mx-auto flex w-full flex-col gap-6 p-4 sm:p-8', 'max-w-6xl' => $section !== ''])>
         @if ($section === '')

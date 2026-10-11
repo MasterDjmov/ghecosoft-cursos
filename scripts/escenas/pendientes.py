@@ -129,7 +129,7 @@ def prompt(course: str, scene: dict) -> dict:
             note = re.sub(r',? (apenas )?más (alt|baj)[oa] que Iris', '', note)
         if note and ('Kira' not in note or has_kira) and ('Iris' not in note or has_iris):
             notes.append(note)
-    if len(screens) > MAX_REFS:  # se quedan los cuerpos enteros
+    if len(screens) > MAX_REFS or len(found) >= 3:  # se quedan los cuerpos enteros (con 3+, Stitch arma viñetas si no)
         screens = [c[2][0] for c in found][:MAX_REFS]
     names = [c[1] for c in found]
     who = ', '.join(names[:-1]) + (' y ' if len(names) > 1 else '') + names[-1] if names else ''

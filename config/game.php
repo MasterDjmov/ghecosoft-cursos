@@ -227,6 +227,54 @@ return [
                 6 => 'Armadura de Vitral',
             ],
         ],
+        'php' => [
+            'name' => 'Nilo',
+            'slug' => 'nilo',
+            'title' => 'Mensajero del Puerto',
+            // La tienda del Puerto: Fermín vende desde su puesto en la Bodega.
+            'shop' => ['name' => 'El puesto de Fermín', 'keeper' => 'Fermín', 'portrait' => 'img/personajes/fermin.webp', 'figure' => 'img/personajes/fermin-cuerpo.webp',
+                'greeting' => '—Pasá, Nilo, pasá. Todo lo que hay está anotado: lo que no está en la libreta, no lo vendo. ¿Lo anotaste vos?'],
+            // El Puerto (docs/historias/php.md): los lugares siguen el recorrido de Nilo, del Sendero de las Cartas
+            // Perdidas al Faro.
+            'expeditions' => [
+                'opens_after' => 'R01-N05',
+                'map' => 'img/mundos/puerto/mapa.webp',
+                'places' => [
+                    ['code' => 'sendero-de-las-cartas', 'name' => 'El Sendero de las Cartas Perdidas', 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 15, 'y' => 90,
+                        'text' => 'Sobres viejos enganchados en los arbustos. Por acá bajó Nilo desde el Faro.'],
+                    ['code' => 'muelle-de-las-cartas', 'name' => 'El Muelle de las Primeras Cartas', 'node' => 'R01-N01', 'level' => 2, 'creatures' => ['slime', 'goblin'], 'x' => 21, 'y' => 80,
+                        'text' => 'Cajones con etiquetas pintadas a mano. Los goblins se llevan el medio kilo que sobra.'],
+                    ['code' => 'cruce-de-los-tres-muelles', 'name' => 'El Cruce de los Tres Muelles', 'node' => 'R01-N05', 'level' => 3, 'creatures' => ['goblin'], 'x' => 40, 'y' => 84,
+                        'text' => 'Un farol y tres caminos. La Oficina todavía huele a merluza.'],
+                    ['code' => 'roca-de-la-sirena', 'name' => 'La Roca de la Sirena', 'node' => 'R01-N10', 'level' => 4, 'creatures' => ['goblin', 'esqueleto'], 'x' => 12, 'y' => 47,
+                        'text' => 'Una roca con algas en la boca del puerto. A veces se oye cantar que «10» es 10.'],
+                    ['code' => 'astillero-de-los-moldes', 'name' => 'El Astillero de los Moldes', 'node' => 'R02-N01', 'level' => 5, 'creatures' => ['esqueleto', 'orco'], 'x' => 56, 'y' => 54,
+                        'text' => 'Moldes colgados de las paredes y catorce barcos que se llaman Gaviota.'],
+                    ['code' => 'grua-de-la-tormenta', 'name' => 'La Grúa de la Tormenta', 'node' => 'R02-N09', 'level' => 6, 'creatures' => ['orco'], 'x' => 45, 'y' => 45,
+                        'text' => 'Todavía tiene atado el salvavidas. Por si acaso.'],
+                    ['code' => 'torre-de-la-campana', 'name' => 'La Torre de la Campana', 'node' => 'R03-N01', 'level' => 7, 'creatures' => ['orco', 'ogro'], 'x' => 50, 'y' => 25,
+                        'text' => 'Cientos de tubos de bronce. Cada cilindro que cae llega solo, sin acordarse del anterior.'],
+                    ['code' => 'fonda-del-puerto', 'name' => 'La Fonda del Puerto', 'node' => 'R03-N04', 'level' => 8, 'creatures' => ['ogro', 'troll'], 'x' => 64, 'y' => 69,
+                        'text' => 'Galletitas con nombre en el mostrador. Quien roba una, se hace pasar por su dueño.'],
+                    ['code' => 'bodega-del-puerto', 'name' => 'La Bodega del Puerto', 'node' => 'R04-N01', 'level' => 9, 'creatures' => ['troll'], 'x' => 64, 'y' => 91,
+                        'text' => 'Millones de fichas en filas iguales. Fermín no se acuerda de ninguna: las anota bien.'],
+                    ['code' => 'sotano-inundado', 'name' => 'El Sótano Inundado', 'node' => 'R04-N09', 'level' => 10, 'creatures' => ['troll', 'ogro'], 'x' => 77, 'y' => 83,
+                        'text' => 'El agua se filtra entre las piedras. Algo con escamas en filas y columnas se mueve abajo.'],
+                    ['code' => 'el-faro', 'name' => 'El Faro', 'node' => 'R05-N01', 'level' => 11, 'creatures' => ['ogro', 'dragon'], 'x' => 92, 'y' => 12,
+                        'text' => 'En la punta del muelle más largo. La lente de la lámpara es un vitral.'],
+                    ['code' => 'encrucijada-de-los-sellos', 'name' => 'La Encrucijada de los Sellos', 'node' => 'R05-N08', 'level' => 12, 'creatures' => ['ogro', 'dragon'], 'x' => 78, 'y' => 57,
+                        'text' => 'Una fuente con forma de sello de lacre y caminos hacia la Arena, el Bastión y el Palomar.'],
+                ],
+            ],
+            'looks' => [
+                1 => 'Mensajero de la Gorra',
+                2 => 'Piloto del Correo Aéreo',
+                3 => 'Lector de Telegramas',
+                4 => 'Capa de la Tormenta',
+                5 => 'Visor de las Respuestas',
+                6 => 'Capitán del Puerto',
+            ],
+        ],
         'cpp' => [
             'name' => 'Bron',
             'slug' => 'bron',
@@ -334,6 +382,12 @@ return [
         ['code' => 'martillo-de-huesos', 'gives' => ['martillo-de-huesos' => 1], 'needs' => ['martillo-neumatico' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'chaqueta-acolchada', 'gives' => ['chaqueta-acolchada' => 1], 'needs' => ['chaqueta-de-remaches' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'lanza-de-la-garra', 'gives' => ['lanza-de-la-garra' => 1], 'needs' => ['lanza-del-iterador' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // El Puerto (PHP): los mismos materiales, con los ítems del puesto de Fermín.
+        ['code' => 'te-de-fermin-doble', 'gives' => ['te-de-fermin' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'silbato-dentado', 'gives' => ['silbato-dentado' => 1], 'needs' => ['silbato-del-muelle' => 1, 'colmillo-de-orco' => 5], 'minutes' => 10, 'min_level' => 5],
+        ['code' => 'gancho-de-huesos', 'gives' => ['gancho-de-huesos' => 1], 'needs' => ['gancho-de-grua' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'impermeable-acolchado', 'gives' => ['impermeable-acolchado' => 1], 'needs' => ['impermeable-de-farera' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'arpon-de-la-garra', 'gives' => ['arpon-de-la-garra' => 1], 'needs' => ['arpon-del-triple-igual' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
     ],
 
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.

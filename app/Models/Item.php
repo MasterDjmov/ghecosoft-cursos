@@ -40,8 +40,11 @@ class Item extends Model
     /** El de los Talleres: la misma segunda vida (HTML y CSS, R01-N05). */
     public const VALIDATOR = 'amuleto-del-validador';
 
+    /** El del Puerto: la misma segunda vida (PHP, R02-N09). */
+    public const LIFEBUOY = 'salvavidas-del-finally';
+
     /** Los que dan la segunda vida en las expediciones. */
-    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP, self::CATCH, self::VALIDATOR];
+    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP, self::CATCH, self::VALIDATOR, self::LIFEBUOY];
 
     /** Termina al instante la expedición en camino; se gasta al usarlo (R03-N06). */
     public const HOURGLASS = 'reloj-de-arena';

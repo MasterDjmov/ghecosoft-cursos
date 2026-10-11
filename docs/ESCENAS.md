@@ -44,7 +44,7 @@ id, así que se vuelve a pedir.
 | Curso | Hechas | Notas |
 |---|---|---|
 | C | 161 de 161 | Completo (2026-10-10). |
-| HTML | 16 de 100 | Proyecto `9229721314509917104`, `REFS['html']` en el script. Faltan en Stitch Nora, Teo y las criaturas (Slime, Ogro, Orco): el docente las está creando. `--next` saltea las escenas de Nora y Teo. |
+| HTML | 100 de 100 | Completo (2026-10-11). Tesla y Ofidia (visitas) se dibujaron por descripción: no tienen referencia en el proyecto de HTML. |
 | C++ | 0 | Faltan en Stitch Bron, Gheco, Lima, Oto, Lyn (están en `~/stitch-subir/`). |
 
 **Tamaños que funcionan** (ya están en el script): Ferrum «HUMANO, NO enano, siete cabezas, piernas largas»;
@@ -53,6 +53,6 @@ curva redonda, sin punta» (si no, Stitch le pone orejas de elfo); Hulda «MUJER
 Con 3+ personajes, mandar solo las referencias de cuerpo entero y pedir «una sola ilustración, sin viñetas»
 (si no, a veces arma viñetas con nombres). Si sale una franja de texto abajo, pedir de nuevo con «la ilustración
 ocupa todo el cuadro, sin franjas ni recuadros». Números o letras chicos en la escena se tapan con PIL
-(como en `R03-N05-P2`). Iris: «UNA SOLA trenza gruesa, de costado» (si no, le pone dos).
+(como en `R03-N05-P2`). Iris: «UNA SOLA trenza gruesa, de costado» (si no, le pone dos). Con dos personajes iguales en tipo (Iris y Tesela), mandar solo los cuerpos enteros y decir «exactamente dos personas» (una vez salieron dos Teselas). Plaquitas, etiquetas y carteles: pedirlos «lisos, con un dibujito (estrella, llave, sol), sin letras» (si no, escribe palabras). Los líderes del mundo son Ofidia, Maese Ferrum, Tesla, Kaffa, Elefa y Tesela: no son todas mujeres.
 
-**Próximo paso:** cuando el docente avise que subió a Stitch Nora, Teo y las criaturas de HTML, cargar sus ids en `REFS['html']` (Slime, Ogro y Orco como personajes nuevos) y seguir con `pendientes.py cursos/html --next`. `R01-N05-P1` (el Slime) se rehace con su referencia.
+**Próximo paso:** C++ (faltan subir a Stitch Bron, Gheco, Lima, Oto y Lyn, que están en `~/stitch-subir/`; después, `REFS['cpp']` en el script). Los uploads nuevos aparecen en Stitch con el título «Generating Image...»: se identifican bajando las miniaturas de `list_screens`.

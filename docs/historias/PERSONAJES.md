@@ -633,7 +633,7 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Dónde va:** los Talleres: ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos.
 - **Imágenes:** completas (cuerpo entero y retrato circular; los 6 retratos enmarcados son avatares).
 
-### Teo *(falta la imagen)*
+### Teo
 - **Curso y rol:** HTML y CSS. El otro aprendiz de los Talleres ([html.md](html.md)). Es el contrapunto de Iris: ella quiere que quede **perfecto** antes de mostrarlo; él lo muestra **antes de terminarlo**.
 - **Edad y sexo:** 15, varón.
 - **Altura y contextura:** bajo para su edad, flaco y movedizo.
@@ -648,8 +648,9 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Relaciones:** aprendiz de Tesela; compañero de Iris (ella lo ordena, él la apura); le lleva a Nora los vitrales para que se los «lea».
 - **Primera aparición:** HTML y CSS, Clase 0.
 - **Dónde va:** los Talleres, siempre corriendo entre las mesas.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
 
-### Nora *(falta la imagen)*
+### Nora
 - **Curso y rol:** HTML y CSS. Vitralista de los Talleres, **ciega**: lee los vitrales tocando el plomo ([html.md](html.md)). Es la que enseña la **accesibilidad** sin decir la palabra: si algo no tiene nombre (un `alt` vacío, un botón sin texto, un `div` donde va un `nav`), lo encuentra en dos segundos.
 - **Edad y sexo:** 30, mujer.
 - **Altura y contextura:** alta (1,72 m), delgada.
@@ -664,8 +665,9 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Relaciones:** la vitralista más vieja de los Talleres; Tesela le pide que «lea» cada vitral antes de colgarlo, e Iris y Teo también.
 - **Primera aparición:** HTML y CSS, R01-N01.
 - **Dónde va:** el taller de Tesela, frente a un vitral, con las manos sobre el plomo.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
 
-### Ámbar *(falta la imagen)*
+### Ámbar
 - **Rol:** la **vendedora ambulante de vidrios** de los Talleres: atiende la tienda (como Chispa en las Forjas y Oto en la Ciudadela).
 - **Edad y sexo:** 50, mujer.
 - **Altura y contextura:** baja y redonda, muy enérgica.
@@ -677,29 +679,30 @@ Del modelo: [../JUEGO.md](../JUEGO.md) § 1. Las imágenes están en `publicidad
 - **Frase:** «¡Vidrio fino, casi sin burbujas!»
 - **Relaciones:** conoce a Tesela desde que era aprendiz; le vende plomo a Ferrum (le compra a Chispa).
 - **Primera aparición:** HTML y CSS, R01.
+- **Imágenes:** completas (cuerpo entero y retrato circular).
 
-### El Slime de las Etiquetas Huérfanas *(falta la imagen)*
+### El Slime de las Etiquetas Huérfanas
 - **Rol:** el jefe de R01 de HTML, en la panadería del Gremio. Se come los cierres que nadie escribió. Se lo vence cerrando cada etiqueta. Al caer, Tesela le emploma a Iris el fragmento: **el Fragmento Emplomado**.
 - **Qué es:** un slime gordo de **vidrio derretido**, translúcido y de colores, con **etiquetas sin cerrar** (`<p>`, `<li>`, `<strong>`) flotando adentro como burbujas.
 - **Color:** verde y rosa translúcidos, con brillos de vidrio.
 - **Cómo habla:** borbotea etiquetas a medias: «<p… <li…».
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Ogro de la Cascada *(falta la imagen)*
+### El Ogro de la Cascada
 - **Rol:** el jefe de R02 de HTML, en el muro de encargos. Ninguna regla está borrada: otras les ganan. Se lo vence entendiendo **quién le gana a quién**. Deja **el Monóculo de Cristal**.
 - **Qué es:** un ogro gordo hecho de **capas de vidrios superpuestos** de colores que se tapan unos a otros; lleva un mazo con un `!important` grabado (que no le sirve de nada).
 - **Color:** capas de rojo, azul y ámbar, más oscuras cuanto más abajo.
 - **Cómo habla:** grita todo dos veces, y la segunda le gana a la primera.
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Orco del Desborde *(falta la imagen)*
+### El Orco del Desborde
 - **Rol:** el jefe de R03 de HTML, en el tablón de encargos. Estira todo hasta que en el celular aparece el scroll de costado. Se lo vence mirando la cabaña, no el castillo. Deja **la Plantilla del Vidriero**.
 - **Qué es:** un orco tan ancho que **no entra en el marco** del vitral: medio cuerpo afuera, estirando los brazos para correr las paredes.
 - **Color:** verde musgo con vidrios rotos clavados en la armadura.
 - **Cómo habla:** «¡Más ancho! ¡Más ancho!».
 - **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
-### El Dragón de los Talleres *(falta la imagen)*
+### El Dragón de los Talleres
 - **Rol:** el jefe final de HTML (R04-N05), la inspección final del gran ventanal. Vive en cada detalle que nadie revisó: un menú que se parte, un botón sin foco, una imagen sin `alt`. Se lo vence revisando en el celular, con el teclado y con el validador. Al caer, Iris arma **el Vitral de Iris** y Tesela abre el taller del Vidriero: **el Marco Vacío**.
 - **Qué es:** un dragón de **plomo y vidrio**, con escamas como teselas de colores que brillan a contraluz, y una **lupa** enorme en una garra.
 - **Color:** gris plomo con todos los colores de los vitrales.

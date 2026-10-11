@@ -342,6 +342,213 @@ cuanto cambiás la ruta de inicio. Borralo o adaptalo.
 `/salidas/buscar` se "come" la segunda (`buscar` pasa como código). Las rutas fijas van
 primero, o restringí el parámetro.
 
+### Micro-misión S02-N01-P1 · Las salas del Bastión
+
+```meta
+lugar: El Bastión de Laravel
+personajes: Nilo, Pico, Gheco
+carta: Rutas con nombre | Route::get('/barcos/{id}', …)->name('barcos.ver') · route('barcos.ver', 12) arma la dirección · si cambia la URL, los enlaces no se rompen
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El segundo camino desde la Encrucijada sube a una fortaleza de piedra clara: el **Bastión de Laravel**. Adentro todo tiene su lugar. A Pico no lo dejan entrar; Nilo lo esconde en la gorra. Cada sala tiene un nombre, y para ir a una no hace falta saber el camino: alcanza con el nombre.
+
+#### Gheco sugiere
+Un array de rutas con nombre y una función `route($nombre, $parametros)` que reemplace `{id}` por el valor. En el navegador no hay Laravel: acá armamos la misma idea con PHP puro. En tu compu, las misiones usan Laravel de verdad.
+
+#### Desafío
+Escribí `route()` para armar las direcciones por nombre.
+
+#### Código inicial
+```php
+<?php
+$rutas = ['barcos.lista' => '/barcos', 'barcos.ver' => '/barcos/{id}', 'viajes.ver' => '/barcos/{barco}/viajes/{viaje}'];
+
+function route(array $rutas, string $nombre, array $parametros = []): string
+{
+    return $rutas[$nombre];
+}
+
+echo route($rutas, 'barcos.lista') . "\n";
+echo route($rutas, 'barcos.ver', ['id' => 12]) . "\n";
+echo route($rutas, 'viajes.ver', ['barco' => 12, 'viaje' => 3]) . "\n";
+```
+
+#### Salida esperada
+```
+/barcos
+/barcos/12
+/barcos/12/viajes/3
+```
+
+#### Solución
+```php
+<?php
+$rutas = ['barcos.lista' => '/barcos', 'barcos.ver' => '/barcos/{id}', 'viajes.ver' => '/barcos/{barco}/viajes/{viaje}'];
+
+function route(array $rutas, string $nombre, array $parametros = []): string
+{
+    $url = $rutas[$nombre];
+    foreach ($parametros as $clave => $valor) {
+        $url = str_replace('{' . $clave . '}', rawurlencode((string) $valor), $url);
+    }
+    return $url;
+}
+
+echo route($rutas, 'barcos.lista') . "\n";
+echo route($rutas, 'barcos.ver', ['id' => 12]) . "\n";
+echo route($rutas, 'viajes.ver', ['barco' => 12, 'viaje' => 3]) . "\n";
+```
+
+#### Al superarla
+Nilo llega a cada sala por su nombre. Pico, desde la gorra, no se pierde ninguna.
+
+#### Imagen
+- El interior de una fortaleza de piedra clara con pasillos ordenados y puertas con plaquitas lisas de colores.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) camina por un pasillo, con la gorra un poco abultada.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) asomando la cabeza por debajo de la gorra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una plaquita.
+
+### Micro-misión S02-N01-P2 · Llaves dobles
+
+```meta
+lugar: El Bastión de Laravel
+personajes: Nilo, Gheco
+criatura: troll
+carta: Blade | {{ $x }} escapa (htmlspecialchars) · {!! $x !!} no escapa: solo para HTML que armaste vos · @foreach, @if, @empty
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el taller donde se dibujan las vistas, los guardias no dejan pasar un dato sin escapar. Nilo usó `{!! !!}` para todo «porque era más corto», y un **troll** se coló en la lista de barcos.
+
+#### Gheco sugiere
+Imitá el trabajo de Blade: `{{ … }}` se reemplaza por el dato escapado con `htmlspecialchars`, `{!! … !!}` por el dato tal cual.
+
+#### Desafío
+Completá el mini-Blade para que `{{ }}` escape.
+
+#### Código inicial
+```php
+<?php
+function blade(string $plantilla, array $datos): string
+{
+    return preg_replace_callback('/\{\{\s*\$(\w+)\s*\}\}|\{!!\s*\$(\w+)\s*!!\}/', function ($m) use ($datos) {
+        $clave = $m[1] !== '' ? $m[1] : $m[2];
+        return $datos[$clave];
+    }, $plantilla);
+}
+
+$datos = ['barco' => '<script>troll()</script>', 'icono' => '<b>*</b>'];
+echo blade('<li>{{ $barco }} {!! $icono !!}</li>', $datos) . "\n";
+```
+
+#### Salida esperada
+```
+<li>&lt;script&gt;troll()&lt;/script&gt; <b>*</b></li>
+```
+
+#### Solución
+```php
+<?php
+function blade(string $plantilla, array $datos): string
+{
+    return preg_replace_callback('/\{\{\s*\$(\w+)\s*\}\}|\{!!\s*\$(\w+)\s*!!\}/', function ($m) use ($datos) {
+        if ($m[1] !== '') {
+            return htmlspecialchars((string) $datos[$m[1]]);
+        }
+        return (string) $datos[$m[2]];
+    }, $plantilla);
+}
+
+$datos = ['barco' => '<script>troll()</script>', 'icono' => '<b>*</b>'];
+echo blade('<li>{{ $barco }} {!! $icono !!}</li>', $datos) . "\n";
+```
+
+#### Al superarla
+El nombre tramposo sale desarmado; el ícono que armó Nilo, tal cual. El troll se queda afuera del taller.
+
+#### Imagen
+- El taller de vistas del Bastión con mesas de dibujo y moldes de páginas, y un guardia en la puerta revisando papeles.
+- Un troll frenado en la puerta por el guardia.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) dibuja en una mesa.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la mesa de dibujo.
+
+### Micro-misión S02-N01-P3 · Solo números
+
+```meta
+lugar: El Bastión de Laravel
+personajes: Nilo, Gheco
+carta: Restricciones de ruta | ->whereNumber('id') · /barcos/abc no entra al controlador: 404 · el controlador recibe siempre un número
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Alguien pidió `/barcos/gaviota` y el controlador intentó buscar el barco número «gaviota». Laravel deja poner una condición a cada parámetro de la ruta, para que eso ni llegue.
+
+#### Gheco sugiere
+Antes de llamar al controlador, comprobá que el parámetro cumpla su patrón (`ctype_digit`). Si no, 404.
+
+#### Desafío
+Agregá la restricción de que el id sea un número.
+
+#### Código inicial
+```php
+<?php
+function verBarco(int $id): string
+{
+    return "200 Barco $id";
+}
+
+function despachar(string $url): string
+{
+    if (preg_match('#^/barcos/([^/]+)$#', $url, $m)) {
+        return verBarco((int) $m[1]);
+    }
+    return "404";
+}
+
+foreach (['/barcos/12', '/barcos/gaviota'] as $u) {
+    echo "$u -> " . despachar($u) . "\n";
+}
+```
+
+#### Salida esperada
+```
+/barcos/12 -> 200 Barco 12
+/barcos/gaviota -> 404
+```
+
+#### Solución
+```php
+<?php
+function verBarco(int $id): string
+{
+    return "200 Barco $id";
+}
+
+function despachar(string $url): string
+{
+    if (preg_match('#^/barcos/([^/]+)$#', $url, $m) && ctype_digit($m[1])) {
+        return verBarco((int) $m[1]);
+    }
+    return "404";
+}
+
+foreach (['/barcos/12', '/barcos/gaviota'] as $u) {
+    echo "$u -> " . despachar($u) . "\n";
+}
+```
+
+#### Al superarla
+«Gaviota» no es un número: 404 sin molestar al controlador. Pico, que se llama como varios barcos, se ofende un poco.
+
+#### Imagen
+- La puerta de una sala del Bastión con una cerradura con forma de número, y un papel con una gaviota dibujada que no entra.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) intenta meter el papel en la cerradura.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la cerradura.
+
 ### Misión S02-N01-M1 · La carta del bodegón
 
 ```meta
@@ -1533,6 +1740,229 @@ una migración nueva.
 equivocados, o MariaDB apagado. Después de cambiar el `.env` con el servidor andando,
 reinicialo (`php artisan serve`).
 
+### Micro-misión S02-N02-P1 · Las reglas del guardia
+
+```meta
+lugar: El sótano del Bastión
+personajes: Nilo, Fermín, Gheco
+carta: Validación de Laravel | ['nombre' => 'required|max:30', 'kilos' => 'required|integer|min:1'] · cada regla con su mensaje en español · se devuelven todos los errores juntos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el sótano del Bastión, un guardia revisa cada formulario antes de que toque la bodega, con una lista de reglas escrita en una sola línea. Fermín, que vino de visita, desconfía de una bodega que escribe sola, pero le gusta el guardia.
+
+#### Gheco sugiere
+Partí cada regla con `explode('|', …)` y revisá `required`, `integer` y `min:N`. En el navegador no hay Laravel: acá armamos la misma idea con PHP puro. En tu compu, las misiones usan Laravel de verdad.
+
+#### Desafío
+Completá el validador de reglas.
+
+#### Código inicial
+```php
+<?php
+function validar(array $datos, array $reglas): array
+{
+    return [];
+}
+
+$reglas = ['nombre' => 'required', 'kilos' => 'required|integer|min:1'];
+foreach ([['nombre' => '', 'kilos' => '0'], ['nombre' => 'Gaviota', 'kilos' => '300']] as $d) {
+    $e = validar($d, $reglas);
+    echo $e === [] ? "Valido\n" : implode('; ', $e) . "\n";
+}
+```
+
+#### Salida esperada
+```
+El campo nombre es obligatorio; El campo kilos tiene que ser al menos 1
+Valido
+```
+
+#### Solución
+```php
+<?php
+function validar(array $datos, array $reglas): array
+{
+    $errores = [];
+    foreach ($reglas as $campo => $lista) {
+        $valor = trim((string) ($datos[$campo] ?? ''));
+        foreach (explode('|', $lista) as $regla) {
+            [$nombre, $parametro] = array_pad(explode(':', $regla, 2), 2, null);
+            $falla = match ($nombre) {
+                'required' => $valor === '' ? "El campo $campo es obligatorio" : null,
+                'integer' => $valor !== '' && !ctype_digit($valor) ? "El campo $campo tiene que ser un numero entero" : null,
+                'min' => $valor !== '' && (int) $valor < (int) $parametro ? "El campo $campo tiene que ser al menos $parametro" : null,
+                default => null,
+            };
+            if ($falla !== null) {
+                $errores[] = $falla;
+                break;
+            }
+        }
+    }
+    return $errores;
+}
+
+$reglas = ['nombre' => 'required', 'kilos' => 'required|integer|min:1'];
+foreach ([['nombre' => '', 'kilos' => '0'], ['nombre' => 'Gaviota', 'kilos' => '300']] as $d) {
+    $e = validar($d, $reglas);
+    echo $e === [] ? "Valido\n" : implode('; ', $e) . "\n";
+}
+```
+
+#### Al superarla
+El primer formulario vuelve con sus dos errores, en español; el segundo pasa. Fermín asiente: el guardia sabe lo suyo.
+
+#### Imagen
+- La puerta del sótano del Bastión con un guardia que lee un formulario con una lupa y una lista de reglas colgada.
+- Fermín (anciano bajo y encorvado, barba blanca larga, anteojos redondos de bronce, guardapolvo gris, gorro de lana, farol cian) lo mira por encima de los anteojos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le entrega un formulario.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la lista de reglas.
+
+### Micro-misión S02-N02-P2 · Un barco tiene muchos viajes
+
+```meta
+lugar: El sótano del Bastión
+personajes: Nilo, Gheco
+carta: Eloquent | class Barco extends Model · public function viajes() { return $this->hasMany(Viaje::class); } · $barco->viajes trae los suyos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el Bastión cada registro se maneja como un objeto. Nilo quiere los viajes de un barco y escribe la consulta a mano otra vez. Gheco le muestra cómo lo haría el modelo: el barco ya sabe cuáles son sus viajes.
+
+#### Gheco sugiere
+Una clase `Barco` con un método `viajes()` que filtra los viajes de **ese** barco. Es lo que hace `hasMany` por vos.
+
+#### Desafío
+Escribí la relación `viajes()`.
+
+#### Código inicial
+```php
+<?php
+$tablaViajes = [['barco_id' => 1, 'destino' => 'Forjas'], ['barco_id' => 2, 'destino' => 'Valle'], ['barco_id' => 1, 'destino' => 'Ciudadela']];
+
+final class Barco
+{
+    public function __construct(public readonly int $id, public readonly string $nombre)
+    {
+    }
+
+    public function viajes(array $tabla): array
+    {
+        return $tabla;
+    }
+}
+
+$gaviota = new Barco(1, 'Gaviota');
+echo "{$gaviota->nombre}: " . implode(', ', array_column($gaviota->viajes($tablaViajes), 'destino')) . "\n";
+```
+
+#### Salida esperada
+```
+Gaviota: Forjas, Ciudadela
+```
+
+#### Solución
+```php
+<?php
+$tablaViajes = [['barco_id' => 1, 'destino' => 'Forjas'], ['barco_id' => 2, 'destino' => 'Valle'], ['barco_id' => 1, 'destino' => 'Ciudadela']];
+
+final class Barco
+{
+    public function __construct(public readonly int $id, public readonly string $nombre)
+    {
+    }
+
+    public function viajes(array $tabla): array
+    {
+        return array_values(array_filter($tabla, fn ($v) => $v['barco_id'] === $this->id));
+    }
+}
+
+$gaviota = new Barco(1, 'Gaviota');
+echo "{$gaviota->nombre}: " . implode(', ', array_column($gaviota->viajes($tablaViajes), 'destino')) . "\n";
+```
+
+#### Al superarla
+La Gaviota sabe sus viajes: Forjas y Ciudadela. Nilo deja de escribir la misma consulta por centésima vez.
+
+#### Imagen
+- Un barco de juguete sobre una mesa del sótano del Bastión con dos hilos de luz que lo unen a dos fichas de viaje.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) tira de un hilo.
+- Gheco (gecko de luz cian con antiparras, chiquito) caminando por el otro hilo.
+
+### Micro-misión S02-N02-P3 · Los pergaminos numerados
+
+```meta
+lugar: El sótano del Bastión
+personajes: Nilo, Fermín, Gheco
+carta: Migraciones | cada cambio de la base es un archivo numerado · se corren en orden y una sola vez · la tabla migrations recuerda cuáles ya corrieron
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las tablas del Bastión se describen en pergaminos numerados: las **migraciones**. Nilo corrió el pergamino 2 dos veces y la tabla se armó repetida. Fermín le muestra el libro donde se anota cuáles ya se leyeron.
+
+#### Gheco sugiere
+Recorré las migraciones en orden y corré solo las que no están en `$hechas`; después de correr una, anotala.
+
+#### Desafío
+Completá el corredor de migraciones.
+
+#### Código inicial
+```php
+<?php
+$migraciones = [
+    '2026_10_01_crear_barcos' => 'CREATE TABLE barcos',
+    '2026_10_02_crear_viajes' => 'CREATE TABLE viajes',
+    '2026_10_05_agregar_calado' => 'ALTER TABLE barcos ADD calado',
+];
+$hechas = ['2026_10_01_crear_barcos'];
+
+foreach ($migraciones as $nombre => $sql) {
+    echo "Corriendo $nombre\n";
+}
+```
+
+#### Salida esperada
+```
+Corriendo 2026_10_02_crear_viajes: CREATE TABLE viajes
+Corriendo 2026_10_05_agregar_calado: ALTER TABLE barcos ADD calado
+Hechas: 3
+```
+
+#### Solución
+```php
+<?php
+$migraciones = [
+    '2026_10_01_crear_barcos' => 'CREATE TABLE barcos',
+    '2026_10_02_crear_viajes' => 'CREATE TABLE viajes',
+    '2026_10_05_agregar_calado' => 'ALTER TABLE barcos ADD calado',
+];
+$hechas = ['2026_10_01_crear_barcos'];
+
+ksort($migraciones);
+foreach ($migraciones as $nombre => $sql) {
+    if (in_array($nombre, $hechas, true)) {
+        continue;
+    }
+    echo "Corriendo $nombre: $sql\n";
+    $hechas[] = $nombre;
+}
+echo "Hechas: " . count($hechas) . "\n";
+```
+
+#### Al superarla
+Cada pergamino se lee una vez, en orden. Fermín anota el libro con la misma letra prolija de siempre.
+
+#### Imagen
+- Una fila de pergaminos enrollados con sellos de números de puntitos, y un libro abierto con tildes al lado.
+- Fermín (anciano bajo y encorvado, barba blanca larga, anteojos redondos de bronce, guardapolvo gris, gorro de lana, farol cian) tilda el libro.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) desenrolla un pergamino.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un sello.
+
 ### Misión S02-N02-M1 · La bodega con stock
 
 ```meta
@@ -2655,6 +3085,233 @@ Para listar con varios filtros opcionales (`?barco=2&tipo=incidente`), cada filt
 un `when` sobre la misma consulta. Si además necesitás contar por tipo con **los mismos**
 filtros, armá una función que los aplique y usala en las dos consultas: así la lista y
 el resumen nunca se contradicen.
+
+### Micro-misión S02-N03-P1 · Formato y reglas del negocio
+
+```meta
+lugar: La torre del Bastión
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Dos capas | la validación revisa el formato (¿es un número?) · la regla del negocio revisa lo que el sistema no puede permitir (¿dos barcos en el mismo muelle el mismo día?)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Sobre la torre más alta anida el **Grifo de los Registros**. Cada mañana revisa los libros y, si encuentra dos barcos en el mismo muelle el mismo día, arranca la página con el pico. El formulario de Nilo validaba el formato, pero dejaba pasar los choques.
+
+#### Gheco sugiere
+Primero el formato (muelle numérico, fecha válida); después la regla: si ya hay un amarre en ese muelle y esa fecha, se rechaza con su motivo.
+
+#### Desafío
+Agregá la regla del negocio después de la validación.
+
+#### Código inicial
+```php
+<?php
+$amarres = [['muelle' => 2, 'fecha' => '2026-11-03']];
+
+function amarrar(array &$amarres, array $pedido): string
+{
+    if (!ctype_digit((string) $pedido['muelle'])) {
+        return "422 muelle invalido";
+    }
+    $amarres[] = $pedido;
+    return "201 amarrado";
+}
+
+echo amarrar($amarres, ['muelle' => 'dos', 'fecha' => '2026-11-03']) . "\n";
+echo amarrar($amarres, ['muelle' => 2, 'fecha' => '2026-11-03']) . "\n";
+echo amarrar($amarres, ['muelle' => 3, 'fecha' => '2026-11-03']) . "\n";
+```
+
+#### Salida esperada
+```
+422 muelle invalido
+409 el muelle 2 ya esta ocupado ese dia
+201 amarrado
+```
+
+#### Solución
+```php
+<?php
+$amarres = [['muelle' => 2, 'fecha' => '2026-11-03']];
+
+function amarrar(array &$amarres, array $pedido): string
+{
+    if (!ctype_digit((string) $pedido['muelle'])) {
+        return "422 muelle invalido";
+    }
+    foreach ($amarres as $a) {
+        if ($a['muelle'] === (int) $pedido['muelle'] && $a['fecha'] === $pedido['fecha']) {
+            return "409 el muelle {$a['muelle']} ya esta ocupado ese dia";
+        }
+    }
+    $amarres[] = ['muelle' => (int) $pedido['muelle'], 'fecha' => $pedido['fecha']];
+    return "201 amarrado";
+}
+
+echo amarrar($amarres, ['muelle' => 'dos', 'fecha' => '2026-11-03']) . "\n";
+echo amarrar($amarres, ['muelle' => 2, 'fecha' => '2026-11-03']) . "\n";
+echo amarrar($amarres, ['muelle' => 3, 'fecha' => '2026-11-03']) . "\n";
+```
+
+#### Al superarla
+El choque se frena antes de llegar al libro. El Grifo baja, revisa y no encuentra nada que arrancar. Se rasca el monóculo, intrigado.
+
+#### Imagen
+- La torre más alta del Bastión de noche, con un grifo enorme posado en la almena mirando un libro abierto con lupa.
+- el Grifo de los Registros (grifo de cabeza y alas de águila blancas y cuerpo de león dorado, con un monóculo de bronce y páginas en blanco entre las plumas) revisando el libro con el monóculo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el libro abierto.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una almena.
+
+### Micro-misión S02-N03-P2 · De a diez, con filtro
+
+```meta
+lugar: La torre del Bastión
+personajes: Nilo, Iara, Gheco
+criatura: dragon
+carta: Filtrar y paginar | ->when($destino, fn ($q) => $q->where(…)) ->paginate(10) · la página trae sus datos y cuántas hay · el filtro sigue en los enlaces
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Grifo revisa cientos de registros por mañana. Iara propone mostrarle de a pocos, filtrados por destino, y que al pasar de página el filtro no se pierda.
+
+#### Gheco sugiere
+Filtrá por destino solo si viene uno, después cortá la página con `array_slice` y armá el enlace a la siguiente con `http_build_query` conservando el filtro.
+
+#### Desafío
+Completá el listado filtrado y paginado.
+
+#### Código inicial
+```php
+<?php
+$registros = array_map(fn ($i) => ['id' => $i, 'destino' => $i % 3 === 0 ? 'Valle' : 'Forjas'], range(1, 12));
+
+function pagina(array $registros, ?string $destino, int $pagina, int $porPagina): array
+{
+    return ['items' => array_slice($registros, 0, $porPagina), 'siguiente' => '/registros?page=2'];
+}
+
+$p = pagina($registros, 'Valle', 1, 2);
+echo "Ids: " . implode(', ', array_column($p['items'], 'id')) . "\n";
+echo "Siguiente: {$p['siguiente']}\n";
+```
+
+#### Salida esperada
+```
+Ids: 3, 6
+Siguiente: /registros?destino=Valle&page=2
+Ids: 9, 12
+Siguiente: (no hay mas)
+```
+
+#### Solución
+```php
+<?php
+$registros = array_map(fn ($i) => ['id' => $i, 'destino' => $i % 3 === 0 ? 'Valle' : 'Forjas'], range(1, 12));
+
+function pagina(array $registros, ?string $destino, int $pagina, int $porPagina): array
+{
+    if ($destino !== null) {
+        $registros = array_values(array_filter($registros, fn ($r) => $r['destino'] === $destino));
+    }
+    $ultima = max(1, (int) ceil(count($registros) / $porPagina));
+    $siguiente = $pagina < $ultima ? '/registros?' . http_build_query(['destino' => $destino, 'page' => $pagina + 1]) : null;
+    return ['items' => array_slice($registros, ($pagina - 1) * $porPagina, $porPagina), 'siguiente' => $siguiente ?? '(no hay mas)'];
+}
+
+$p = pagina($registros, 'Valle', 1, 2);
+echo "Ids: " . implode(', ', array_column($p['items'], 'id')) . "\n";
+echo "Siguiente: {$p['siguiente']}\n";
+$q = pagina($registros, 'Valle', 2, 2);
+echo "Ids: " . implode(', ', array_column($q['items'], 'id')) . "\n";
+echo "Siguiente: {$q['siguiente']}\n";
+```
+
+#### Al superarla
+El Grifo revisa de a dos, solo los del Valle, y al pasar de página el filtro sigue ahí. Iara anota que le gustaría un grifo así para su escritorio.
+
+#### Imagen
+- Pilas chicas de registros atadas con cintas sobre una almena, y un grifo revisando la primera pila.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) ata una pila con una cinta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le alcanza otra pila al grifo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una cinta.
+
+### Micro-misión S02-N03-P3 · El guardián de los libros
+
+```meta
+lugar: La torre del Bastión
+personajes: Nilo, Elefa, Gheco
+criatura: dragon
+carta: Todo el Bastión | rutas con nombre · validación en español · reglas del negocio · relaciones · filtros y páginas · mensajes de una sola vez · y una prueba para cada regla
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+El Grifo baja por última vez, dispuesto a arrancar la página que encuentre mal. Nilo tiene que mostrarle que el sistema tiene una **prueba para cada cosa** que el Grifo busca, y que todas pasan.
+
+#### Gheco sugiere
+Una lista de reglas con su prueba (una función que devuelve `true` si se cumple). Corré todas y mostrá ok o FALLA; si todas pasan, el Grifo se queda.
+
+#### Desafío
+Escribí las pruebas de las tres reglas del Grifo.
+
+#### Código inicial
+```php
+<?php
+$amarres = [['muelle' => 1, 'fecha' => '2026-11-03'], ['muelle' => 2, 'fecha' => '2026-11-03']];
+$barcos = [['nombre' => 'Gaviota', 'calado' => 4], ['nombre' => 'Delfin', 'calado' => 2]];
+
+$pruebas = [];
+
+$todas = true;
+foreach ($pruebas as $regla => $prueba) {
+    $ok = $prueba();
+    $todas = $todas && $ok;
+    echo ($ok ? 'ok    ' : 'FALLA ') . $regla . "\n";
+}
+echo count($pruebas) === 3 && $todas ? "El Grifo se queda a cuidar los libros\n" : "El Grifo arranca una pagina\n";
+```
+
+#### Salida esperada
+```
+ok    ningun muelle con dos barcos el mismo dia
+ok    ningun calado pasa de 12 m
+ok    todo amarre tiene fecha
+El Grifo se queda a cuidar los libros
+```
+
+#### Solución
+```php
+<?php
+$amarres = [['muelle' => 1, 'fecha' => '2026-11-03'], ['muelle' => 2, 'fecha' => '2026-11-03']];
+$barcos = [['nombre' => 'Gaviota', 'calado' => 4], ['nombre' => 'Delfin', 'calado' => 2]];
+
+$pruebas = [
+    'ningun muelle con dos barcos el mismo dia' => fn () => count($amarres) === count(array_unique(array_map(fn ($a) => $a['muelle'] . '@' . $a['fecha'], $amarres))),
+    'ningun calado pasa de 12 m' => fn () => max(array_column($barcos, 'calado')) <= 12,
+    'todo amarre tiene fecha' => fn () => array_filter($amarres, fn ($a) => ($a['fecha'] ?? '') === '') === [],
+];
+
+$todas = true;
+foreach ($pruebas as $regla => $prueba) {
+    $ok = $prueba();
+    $todas = $todas && $ok;
+    echo ($ok ? 'ok    ' : 'FALLA ') . $regla . "\n";
+}
+echo count($pruebas) === 3 && $todas ? "El Grifo se queda a cuidar los libros\n" : "El Grifo arranca una pagina\n";
+```
+
+#### Al superarla
+Tres reglas, tres pruebas en verde. El Grifo no encuentra nada que arrancar: pliega las alas, se acomoda el monóculo y se queda a cuidar los libros del Puerto. Elefa hace sonar la campana tres veces.
+
+#### Imagen
+- La torre del Bastión al amanecer con un grifo enorme posado tranquilo sobre un libro cerrado, con las alas plegadas.
+- el Grifo de los Registros (grifo de cabeza y alas de águila blancas y cuerpo de león dorado, con un monóculo de bronce y páginas en blanco entre las plumas) acomodándose el monóculo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con el libro de pruebas abierto.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) llegando a la torre con el bastón.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el libro.
 
 ### Misión S02-N03-M1 · Los turnos de los muelles
 

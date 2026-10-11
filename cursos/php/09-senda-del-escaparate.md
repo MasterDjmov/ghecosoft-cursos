@@ -228,6 +228,171 @@ está guardado en UTF-8.
 **Orco: la imagen sin `alt`.** Quien no la ve no sabe qué hay. Siempre `alt`, vacío si es
 decoración.
 
+### Micro-misión S04-N01-P1 · La vidriera tirada
+
+```meta
+lugar: La calle de las vidrieras
+personajes: Nilo, Gheco
+carta: Esqueleto | <!DOCTYPE html> · <html lang="es"> · <head> con <meta charset> y <title> · <body> con lo que se ve
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Frente al Muelle hay una calle de tiendas: el **Escaparate del Puerto**. Algunas vidrieras están tan bien armadas que la gente se para a mirar; otras son un montón de cosas tiradas, sin cartel, con la puerta escondida. Nilo entra a una buscando la puerta y sale por la ventana.
+
+#### Gheco sugiere
+Toda página empieza igual: `<!DOCTYPE html>`, `<html lang="es">`, un `<head>` con el `charset` y el `title`, y el `<body>`. PHP arma el HTML que recibe el navegador: acá lo armás con `echo` y lo ves como texto.
+
+#### Desafío
+Completá el esqueleto de la página.
+
+#### Código inicial
+```php
+<?php
+$titulo = 'Ferreteria del Puerto';
+echo "<h1>$titulo</h1>\n";
+```
+
+#### Salida esperada
+```
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Ferreteria del Puerto</title>
+</head>
+<body>
+<h1>Ferreteria del Puerto</h1>
+</body>
+</html>
+```
+
+#### Solución
+```php
+<?php
+$titulo = 'Ferreteria del Puerto';
+echo "<!DOCTYPE html>\n";
+echo "<html lang=\"es\">\n";
+echo "<head>\n<meta charset=\"utf-8\">\n<title>$titulo</title>\n</head>\n";
+echo "<body>\n<h1>$titulo</h1>\n</body>\n";
+echo "</html>\n";
+```
+
+#### Al superarla
+La vidriera ya tiene marco, cartel y puerta. Nilo entra por la puerta, esta vez.
+
+#### Imagen
+- Una calle de tiendas del puerto de noche con vidrieras de marcos de madera iluminadas, unas ordenadas y otras desordenadas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) saliendo por la ventana de una vidriera desordenada.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un marco.
+
+### Micro-misión S04-N01-P2 · Etiquetas con significado
+
+```meta
+lugar: La calle de las vidrieras
+personajes: Nilo, Iara, Gheco
+carta: Semántica | header · nav · main · article · footer · cada parte dice qué es, no solo cómo se ve · un solo h1 por página
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La vidriera de la ferretería tiene todo metido en `<div>`: el cartel, el menú, los productos y el pie. Iara dice que así no se sabe qué es cada cosa.
+
+#### Gheco sugiere
+Cada parte con su etiqueta: `<header>` el cartel, `<nav>` el menú, `<main>` lo principal y `<footer>` el pie.
+
+#### Desafío
+Cambiá los `div` por las etiquetas con significado.
+
+#### Código inicial
+```php
+<?php
+$partes = ['cartel' => 'Ferreteria', 'menu' => 'Inicio | Ofertas', 'principal' => 'Tornillos y cadenas', 'pie' => 'Muelle 3'];
+foreach ($partes as $parte => $contenido) {
+    echo "<div>$contenido</div>\n";
+}
+```
+
+#### Salida esperada
+```
+<header>Ferreteria</header>
+<nav>Inicio | Ofertas</nav>
+<main>Tornillos y cadenas</main>
+<footer>Muelle 3</footer>
+```
+
+#### Solución
+```php
+<?php
+$partes = ['cartel' => 'Ferreteria', 'menu' => 'Inicio | Ofertas', 'principal' => 'Tornillos y cadenas', 'pie' => 'Muelle 3'];
+$etiquetas = ['cartel' => 'header', 'menu' => 'nav', 'principal' => 'main', 'pie' => 'footer'];
+foreach ($partes as $parte => $contenido) {
+    $e = $etiquetas[$parte];
+    echo "<$e>$contenido</$e>\n";
+}
+```
+
+#### Al superarla
+Cada parte dice qué es. Iara ordena su escritorio con el mismo criterio. Nilo, no.
+
+#### Imagen
+- Una vidriera de ferretería dividida en cuatro partes claras: un cartel arriba, un menú, los productos y un pie con el número del muelle.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) señala cada parte.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con un tornillo en la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cartel.
+
+### Micro-misión S04-N01-P3 · La foto sin descripción
+
+```meta
+lugar: La calle de las vidrieras
+personajes: Nilo, Gheco
+criatura: esqueleto
+carta: Enlaces e imágenes | <a href="ruta">texto</a> · <img src="ruta" alt="descripción"> · rutas relativas · el alt lo leen quienes no ven la imagen
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las fotos de la vidriera no tienen descripción. Una clienta que no ve escucha a su lector de pantalla decir «imagen, imagen, imagen». Un **esqueleto** —un nombre sin cuerpo— se ríe desde el estante.
+
+#### Gheco sugiere
+Cada `<img>` lleva su `alt` con lo que muestra. Armalas con un `foreach` sobre los productos, escapando el texto.
+
+#### Desafío
+Armá las imágenes con su `alt`.
+
+#### Código inicial
+```php
+<?php
+$productos = ['tornillo.png' => 'Caja de tornillos de bronce', 'cadena.png' => 'Rollo de cadena de 5 metros'];
+foreach ($productos as $archivo => $descripcion) {
+    echo "<img src=\"img/$archivo\">\n";
+}
+```
+
+#### Salida esperada
+```
+<img src="img/tornillo.png" alt="Caja de tornillos de bronce">
+<img src="img/cadena.png" alt="Rollo de cadena de 5 metros">
+```
+
+#### Solución
+```php
+<?php
+$productos = ['tornillo.png' => 'Caja de tornillos de bronce', 'cadena.png' => 'Rollo de cadena de 5 metros'];
+foreach ($productos as $archivo => $descripcion) {
+    echo "<img src=\"img/$archivo\" alt=\"" . htmlspecialchars($descripcion) . "\">\n";
+}
+```
+
+#### Al superarla
+El lector de pantalla dice «caja de tornillos de bronce». La clienta compra dos. El esqueleto se calla.
+
+#### Imagen
+- Una vidriera con dos fotos enmarcadas de productos, cada una con una plaquita lisa debajo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pega una plaquita.
+- Un esqueleto chiquito en un estante.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un marco.
+
 ### Misión S04-N01-M1 · La ficha del barco
 
 ```meta
@@ -869,6 +1034,197 @@ inválido: la sublista va **adentro** del `<li>`.
 **Troll: confiar en `required`.** Cualquiera saltea la validación del navegador (F12 o
 `curl`). PHP valida siempre de nuevo.
 
+### Micro-misión S04-N02-P1 · La tabla de precios
+
+```meta
+lugar: La vidriera de la ferretería
+personajes: Nilo, Gheco
+carta: Tablas | <table> · <thead> con <th scope="col"> · <tbody> con las filas · <tfoot> para el total
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la vidriera de la ferretería todo está en orden: una tabla de precios con su encabezado. La de Nilo tiene los títulos de las columnas mezclados con los datos.
+
+#### Gheco sugiere
+Los títulos van en `<thead>` con `<th scope="col">`, los productos en `<tbody>` y el total en `<tfoot>`.
+
+#### Desafío
+Armá la tabla con sus tres partes.
+
+#### Código inicial
+```php
+<?php
+$precios = ['tornillo' => 2, 'cadena' => 15];
+echo "<table>\n";
+foreach ($precios as $p => $precio) {
+    echo "<tr><td>$p</td><td>$precio</td></tr>\n";
+}
+echo "</table>\n";
+```
+
+#### Salida esperada
+```
+<table>
+<thead><tr><th scope="col">Producto</th><th scope="col">Precio</th></tr></thead>
+<tbody>
+<tr><td>tornillo</td><td>2</td></tr>
+<tr><td>cadena</td><td>15</td></tr>
+</tbody>
+<tfoot><tr><td>Total</td><td>17</td></tr></tfoot>
+</table>
+```
+
+#### Solución
+```php
+<?php
+$precios = ['tornillo' => 2, 'cadena' => 15];
+echo "<table>\n";
+echo "<thead><tr><th scope=\"col\">Producto</th><th scope=\"col\">Precio</th></tr></thead>\n";
+echo "<tbody>\n";
+foreach ($precios as $p => $precio) {
+    echo "<tr><td>$p</td><td>$precio</td></tr>\n";
+}
+echo "</tbody>\n";
+echo "<tfoot><tr><td>Total</td><td>" . array_sum($precios) . "</td></tr></tfoot>\n";
+echo "</table>\n";
+```
+
+#### Al superarla
+La tabla se lee de un vistazo, con su encabezado y su total. El dueño dice que vende el doble.
+
+#### Imagen
+- Una tabla de precios pintada en un cartel de madera con una fila de títulos más oscura arriba y una de total abajo, sin letras.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuelga el cartel en la vidriera.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cartel.
+
+### Micro-misión S04-N02-P2 · La etiqueta de cada campo
+
+```meta
+lugar: La vidriera de la ferretería
+personajes: Nilo, Iara, Gheco
+carta: Formularios accesibles | <label for="id"> y <input id="id" name="…"> · el name es lo que llega a PHP · required, type="number", min
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la puerta de la ferretería hay un formulario para encargar lo que falta. Los campos no tienen etiquetas: nadie sabe qué va en cada uno, y a la Oficina de Correos los encargos llegan sin `name`, vacíos.
+
+#### Gheco sugiere
+Cada campo con su `<label for>` y su `id` igual, y un `name` para que llegue a `$_POST`.
+
+#### Desafío
+Armá los campos con su etiqueta, su id y su name.
+
+#### Código inicial
+```php
+<?php
+$campos = ['producto' => 'Que necesitas', 'cantidad' => 'Cuantos'];
+foreach ($campos as $nombre => $texto) {
+    echo "<input>\n";
+}
+```
+
+#### Salida esperada
+```
+<label for="producto">Que necesitas</label>
+<input id="producto" name="producto" type="text" required>
+<label for="cantidad">Cuantos</label>
+<input id="cantidad" name="cantidad" type="number" required>
+```
+
+#### Solución
+```php
+<?php
+$campos = ['producto' => 'Que necesitas', 'cantidad' => 'Cuantos'];
+foreach ($campos as $nombre => $texto) {
+    $tipo = $nombre === 'cantidad' ? 'number' : 'text';
+    echo "<label for=\"$nombre\">$texto</label>\n";
+    echo "<input id=\"$nombre\" name=\"$nombre\" type=\"$tipo\" required>\n";
+}
+```
+
+#### Al superarla
+Los encargos llegan completos a la Oficina. Iara le pide el formulario para copiarlo.
+
+#### Imagen
+- Un formulario de papel en la puerta de la ferretería con dos casilleros, cada uno con su etiqueta de madera al lado.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) copia el formulario en su libreta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene la puerta.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el formulario.
+
+### Micro-misión S04-N02-P3 · Listas dentro de listas
+
+```meta
+lugar: La vidriera de la ferretería
+personajes: Nilo, Gheco
+carta: Listas | <ul> sin orden · <ol> con orden · una lista dentro de un <li> para las categorías · se arma con dos foreach
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La ferretería tiene categorías y, dentro de cada una, productos. Nilo los puso todos en una sola lista larga y nadie encuentra los clavos.
+
+#### Gheco sugiere
+Un `<ul>` con un `<li>` por categoría, y adentro de cada `<li>` otro `<ul>` con sus productos.
+
+#### Desafío
+Armá la lista anidada.
+
+#### Código inicial
+```php
+<?php
+$catalogo = ['Herrajes' => ['tornillos', 'clavos'], 'Sogas' => ['cadena', 'cabo']];
+echo "<ul>\n";
+foreach ($catalogo as $categoria => $productos) {
+    foreach ($productos as $p) {
+        echo "<li>$p</li>\n";
+    }
+}
+echo "</ul>\n";
+```
+
+#### Salida esperada
+```
+<ul>
+<li>Herrajes
+<ul>
+<li>tornillos</li>
+<li>clavos</li>
+</ul>
+</li>
+<li>Sogas
+<ul>
+<li>cadena</li>
+<li>cabo</li>
+</ul>
+</li>
+</ul>
+```
+
+#### Solución
+```php
+<?php
+$catalogo = ['Herrajes' => ['tornillos', 'clavos'], 'Sogas' => ['cadena', 'cabo']];
+echo "<ul>\n";
+foreach ($catalogo as $categoria => $productos) {
+    echo "<li>$categoria\n<ul>\n";
+    foreach ($productos as $p) {
+        echo "<li>$p</li>\n";
+    }
+    echo "</ul>\n</li>\n";
+}
+echo "</ul>\n";
+```
+
+#### Al superarla
+Los clavos aparecen en Herrajes, donde tenían que estar. Un cliente que buscaba desde hace una hora se va feliz.
+
+#### Imagen
+- Estantes de la ferretería con cajones agrupados por categoría, cada grupo con un cartel de madera liso arriba.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pone un cajón en su grupo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un cartel.
+
 ### Misión S04-N02-M1 · Los horarios del ferry
 
 ```meta
@@ -1509,6 +1865,198 @@ mismo que `nav.activo` (un `nav` que tiene la clase `activo`).
 
 **Goblin: `width` en un `a`.** Los elementos `inline` ignoran `width` y `height`: cambiá
 el `display` a `inline-block` o `block`.
+
+### Micro-misión S04-N03-P1 · El letrero rojo
+
+```meta
+lugar: La tienda de las velas
+personajes: Nilo, Gheco
+carta: Reglas CSS | selector { propiedad: valor; } · las variables: :root { --rojo: #c0392b; } · color: var(--rojo) · se cambia en un solo lugar
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la tienda de las velas, un letrero rojo con letras claras hace que todos entren. Nilo quiere el mismo rojo en el letrero, los botones y los bordes, y lo escribió tres veces, cada una un poco distinta.
+
+#### Gheco sugiere
+Una variable CSS en `:root` y las reglas la usan con `var(--rojo)`. Armá la hoja con PHP desde un array.
+
+#### Desafío
+Generá la hoja de estilos usando la variable en las tres reglas.
+
+#### Código inicial
+```php
+<?php
+echo ".letrero { color: #c0392b; }\n";
+echo ".boton { background: #c03a2b; }\n";
+echo ".marco { border-color: #b0392b; }\n";
+```
+
+#### Salida esperada
+```
+:root { --rojo: #c0392b; }
+.letrero { color: var(--rojo); }
+.boton { background: var(--rojo); }
+.marco { border-color: var(--rojo); }
+```
+
+#### Solución
+```php
+<?php
+$rojo = '#c0392b';
+echo ":root { --rojo: $rojo; }\n";
+$reglas = ['.letrero' => 'color', '.boton' => 'background', '.marco' => 'border-color'];
+foreach ($reglas as $selector => $propiedad) {
+    echo "$selector { $propiedad: var(--rojo); }\n";
+}
+```
+
+#### Al superarla
+Un solo rojo, en un solo lugar. El día que cambie, cambia en toda la tienda.
+
+#### Imagen
+- La vidriera de una tienda de velas con un letrero rojo brillante con un dibujo de una vela, y botones y marcos del mismo rojo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pinta un marco con el mismo rojo.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el letrero.
+
+### Micro-misión S04-N03-P2 · ¿Qué regla gana?
+
+```meta
+lugar: La tienda de las velas
+personajes: Nilo, Iara, Gheco
+carta: Especificidad | id vale más que clase, clase más que etiqueta · (ids, clases, etiquetas) se comparan en orden · si empatan, gana la última
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nilo pintó el letrero de violeta con una regla, pero sigue rojo. Hay otra regla más «específica» que gana. Iara anota cuánto vale cada selector.
+
+#### Gheco sugiere
+Contá ids (`#`), clases (`.`) y etiquetas de cada selector. Se compara primero ids, después clases, después etiquetas: `[ids, clases, etiquetas] <=> […]`.
+
+#### Desafío
+Calculá la especificidad y decí qué regla gana.
+
+#### Código inicial
+```php
+<?php
+function especificidad(string $selector): array
+{
+    return [0, 0, 0];
+}
+
+$reglas = ['h1' => 'violeta', '.tienda h1' => 'rojo', 'h1.letrero' => 'azul'];
+foreach ($reglas as $s => $color) {
+    echo "$s: " . implode(',', especificidad($s)) . "\n";
+}
+```
+
+#### Salida esperada
+```
+h1: 0,0,1
+.tienda h1: 0,1,1
+h1.letrero: 0,1,1
+Gana: h1.letrero (azul)
+```
+
+#### Solución
+```php
+<?php
+function especificidad(string $selector): array
+{
+    $ids = substr_count($selector, '#');
+    $clases = substr_count($selector, '.');
+    $etiquetas = 0;
+    foreach (preg_split('/\s+/', trim($selector)) as $parte) {
+        if (preg_match('/^[a-z]/', $parte)) {
+            $etiquetas++;
+        }
+    }
+    return [$ids, $clases, $etiquetas];
+}
+
+$reglas = ['h1' => 'violeta', '.tienda h1' => 'rojo', 'h1.letrero' => 'azul'];
+$ganadora = null;
+foreach ($reglas as $s => $color) {
+    $e = especificidad($s);
+    echo "$s: " . implode(',', $e) . "\n";
+    if ($ganadora === null || $e >= especificidad($ganadora)) {
+        $ganadora = $s;
+    }
+}
+echo "Gana: $ganadora ({$reglas[$ganadora]})\n";
+```
+
+#### Al superarla
+Empatan dos, y gana la última: el letrero queda azul. Nilo quería violeta. Iara le muestra cómo ganar sin pelear.
+
+#### Imagen
+- Tres pinceles con pintura violeta, roja y azul apoyados frente a un letrero, uno de ellos brillando.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) anota números en la libreta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con el pincel violeta, frustrado.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el pincel azul.
+
+### Micro-misión S04-N03-P3 · La caja que se pasa
+
+```meta
+lugar: La tienda de las velas
+personajes: Nilo, Gheco
+criatura: orco
+carta: Modelo de caja | ancho total = width + padding×2 + border×2 (con content-box) · box-sizing: border-box hace que width ya lo incluya todo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La vidriera mide 300 de ancho. Nilo puso una caja de 300 con relleno y borde, y se sale por el costado: un **orco** del desborde asoma del otro lado.
+
+#### Gheco sugiere
+Con `content-box`, el ancho real es `width + 2×padding + 2×border`. Con `border-box`, es `width`.
+
+#### Desafío
+Calculá el ancho real con los dos modos.
+
+#### Código inicial
+```php
+<?php
+function anchoReal(int $width, int $padding, int $border, string $modo): int
+{
+    return $width;
+}
+
+foreach (['content-box', 'border-box'] as $modo) {
+    $ancho = anchoReal(300, 20, 2, $modo);
+    echo "$modo: $ancho px" . ($ancho > 300 ? ' (se sale)' : '') . "\n";
+}
+```
+
+#### Salida esperada
+```
+content-box: 344 px (se sale)
+border-box: 300 px
+```
+
+#### Solución
+```php
+<?php
+function anchoReal(int $width, int $padding, int $border, string $modo): int
+{
+    return $modo === 'border-box' ? $width : $width + 2 * $padding + 2 * $border;
+}
+
+foreach (['content-box', 'border-box'] as $modo) {
+    $ancho = anchoReal(300, 20, 2, $modo);
+    echo "$modo: $ancho px" . ($ancho > 300 ? ' (se sale)' : '') . "\n";
+}
+```
+
+#### Al superarla
+Con `border-box` la caja entra justo. El orco se queda del otro lado del vidrio.
+
+#### Imagen
+- Una vidriera con una caja de madera que se sale por un costado del marco, y otra igual que entra justo.
+- Un orco asomado por el costado de la vidriera.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) empuja la caja para adentro.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el marco.
 
 ### Misión S04-N03-M1 · La tarjeta del barco
 
@@ -2172,6 +2720,183 @@ name="viewport">`.
 **Ogro: `auto-fill` sin `minmax`.** `repeat(auto-fill, 1fr)` no sabe cuánto mide cada
 columna. Dale un mínimo: `minmax(200px, 1fr)`.
 
+### Micro-misión S04-N04-P1 · Desde el celular
+
+```meta
+lugar: La temporada de cruceros
+personajes: Nilo, Gheco
+carta: Primero el celular | sin @media: una columna · @media (min-width: 700px) { … } agranda para pantallas anchas
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Llega la temporada de cruceros y el Escaparate se llena de gente que mira las vidrieras desde el celular. Las tiendas que se ven bien en la pantalla grande se deforman: columnas aplastadas, textos cortados.
+
+#### Gheco sugiere
+Una función `columnas($ancho)` que dé 1 en el celular y más en pantallas anchas, como lo haría una `@media` con `min-width`.
+
+#### Desafío
+Decidí cuántas columnas mostrar según el ancho.
+
+#### Código inicial
+```php
+<?php
+function columnas(int $ancho): int
+{
+    return 4;
+}
+
+foreach ([360, 768, 1280] as $ancho) {
+    echo "$ancho px -> columnas: " . columnas($ancho) . "\n";
+}
+```
+
+#### Salida esperada
+```
+360 px -> columnas: 1
+768 px -> columnas: 2
+1280 px -> columnas: 4
+```
+
+#### Solución
+```php
+<?php
+function columnas(int $ancho): int
+{
+    if ($ancho >= 1000) {
+        return 4;
+    }
+    if ($ancho >= 700) {
+        return 2;
+    }
+    return 1;
+}
+
+foreach ([360, 768, 1280] as $ancho) {
+    echo "$ancho px -> columnas: " . columnas($ancho) . "\n";
+}
+```
+
+#### Al superarla
+En el celular, una columna cómoda; en la compu, cuatro. Los turistas compran sin entrecerrar los ojos.
+
+#### Imagen
+- Turistas de un crucero mirando una vidriera a través de celulares que muestran la vidriera en una columna.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) acomoda la vidriera en una sola fila vertical.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un celular.
+
+### Micro-misión S04-N04-P2 · La grilla que se acomoda sola
+
+```meta
+lugar: La temporada de cruceros
+personajes: Nilo, Iara, Gheco
+carta: Grid automático | grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) · entran tantas columnas de al menos 200 como quepan
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara propone una grilla que no necesita preguntar el ancho: entran tantas columnas de al menos 200 como quepan. Nilo quiere saber cuántas son en cada pantalla, para creerle.
+
+#### Gheco sugiere
+Con `auto-fill` y `minmax(200px, 1fr)` y un espacio entre columnas, entran `floor((ancho + espacio) / (200 + espacio))` columnas (al menos 1).
+
+#### Desafío
+Calculá las columnas de la grilla y armá la regla CSS.
+
+#### Código inicial
+```php
+<?php
+$minimo = 200;
+$espacio = 16;
+foreach ([360, 768, 1280] as $ancho) {
+    echo "$ancho px -> columnas: ?\n";
+}
+```
+
+#### Salida esperada
+```
+.vidriera { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+360 px -> columnas: 1
+768 px -> columnas: 3
+1280 px -> columnas: 6
+```
+
+#### Solución
+```php
+<?php
+$minimo = 200;
+$espacio = 16;
+echo ".vidriera { display: grid; gap: {$espacio}px; grid-template-columns: repeat(auto-fill, minmax({$minimo}px, 1fr)); }\n";
+foreach ([360, 768, 1280] as $ancho) {
+    $columnas = max(1, intdiv($ancho + $espacio, $minimo + $espacio));
+    echo "$ancho px -> columnas: $columnas\n";
+}
+```
+
+#### Al superarla
+Una, tres y cinco columnas, sin escribir ni una `@media`. Nilo le cree a Iara. Como siempre.
+
+#### Imagen
+- Una vidriera con productos en una grilla que se reacomoda en distintas cantidades de columnas en tres vidrios de distinto ancho.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) señala los vidrios.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuenta las columnas.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un producto.
+
+### Micro-misión S04-N04-P3 · La foto que se sale
+
+```meta
+lugar: La temporada de cruceros
+personajes: Nilo, Gheco
+criatura: orco
+carta: Nada se sale | img { max-width: 100%; height: auto; } · los anchos fijos grandes rompen el celular · se usan %, rem y max-width
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una foto de 1200 de ancho rompe la vidriera en el celular: hay que mover la pantalla de costado para verla entera. Un **orco** del desborde asoma por el borde.
+
+#### Gheco sugiere
+Con `max-width: 100%` la foto nunca es más ancha que su caja. Calculá el ancho que se ve: el menor entre la foto y la pantalla.
+
+#### Desafío
+Calculá el ancho que se ve y armá la regla.
+
+#### Código inicial
+```php
+<?php
+$foto = 1200;
+foreach ([360, 1280] as $pantalla) {
+    echo "Pantalla $pantalla: la foto mide $foto px\n";
+}
+```
+
+#### Salida esperada
+```
+img { max-width: 100%; height: auto; }
+Pantalla 360: la foto mide 360 px
+Pantalla 1280: la foto mide 1200 px
+```
+
+#### Solución
+```php
+<?php
+$foto = 1200;
+echo "img { max-width: 100%; height: auto; }\n";
+foreach ([360, 1280] as $pantalla) {
+    $visible = min($foto, $pantalla);
+    echo "Pantalla $pantalla: la foto mide $visible px\n";
+}
+```
+
+#### Al superarla
+La foto se achica en el celular y en la compu se ve entera. El orco no encuentra un borde por donde asomarse.
+
+#### Imagen
+- Un celular gigante en la vidriera mostrando una foto que entra justa en la pantalla.
+- Un orco intentando asomarse por el borde del celular.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el celular.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la foto.
+
 ### Misión S04-N04-M1 · La barra de navegación
 
 ```meta
@@ -2732,6 +3457,200 @@ Antes de entregar, recorré el sitio como un cliente exigente:
 Cuando lleguen PHP y la Oficina de Correos, estas mismas páginas se van a convertir en
 plantillas: la cabecera y el pie en un `include`, y la carta saliendo de la base de
 datos.
+
+### Micro-misión S04-N05-P1 · Los enlaces rotos
+
+```meta
+lugar: Los reflejos de las vidrieras
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Revisar el sitio | cada enlace interno tiene que llevar a una página que existe · se buscan los href y se comparan con las páginas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una mañana, todas las vidrieras amanecen revueltas: puertas que no llevan a ningún lado. En el reflejo de los vidrios se mueve el **Hipocampo de las Vidrieras**, que se alimenta de las páginas desordenadas.
+
+#### Gheco sugiere
+Con `preg_match_all('/href="([^"]+)"/', $html, $m)` sacás los enlaces; los que no están en la lista de páginas están rotos.
+
+#### Desafío
+Encontrá los enlaces rotos del menú.
+
+#### Código inicial
+```php
+<?php
+$paginas = ['index.html', 'ofertas.html', 'contacto.html'];
+$menu = '<a href="index.html">Inicio</a> <a href="ofertas.html">Ofertas</a> <a href="velas.html">Velas</a> <a href="contacto.htm">Contacto</a>';
+echo "Enlaces rotos: 0\n";
+```
+
+#### Salida esperada
+```
+Roto: velas.html
+Roto: contacto.htm
+Enlaces rotos: 2
+```
+
+#### Solución
+```php
+<?php
+$paginas = ['index.html', 'ofertas.html', 'contacto.html'];
+$menu = '<a href="index.html">Inicio</a> <a href="ofertas.html">Ofertas</a> <a href="velas.html">Velas</a> <a href="contacto.htm">Contacto</a>';
+preg_match_all('/href="([^"]+)"/', $menu, $m);
+$rotos = array_values(array_diff($m[1], $paginas));
+foreach ($rotos as $r) {
+    echo "Roto: $r\n";
+}
+echo "Enlaces rotos: " . count($rotos) . "\n";
+```
+
+#### Al superarla
+Dos puertas que no llevaban a ningún lado, encontradas. El reflejo del Hipocampo tiembla.
+
+#### Imagen
+- Una calle de vidrieras revueltas de noche, con puertas pintadas que no se abren y reflejos de colores en los vidrios.
+- el Hipocampo de las Vidrieras (caballito de mar del tamaño de un caballo, hecho de vidrio de colores rojo, ámbar, azul y verde unidos con plomo como un vitral) reflejado en un vidrio.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) revisa una puerta con un farol.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un picaporte.
+
+### Micro-misión S04-N05-P2 · Las imágenes sin alt
+
+```meta
+lugar: Los reflejos de las vidrieras
+personajes: Nilo, Iara, Gheco
+criatura: dragon
+carta: Revisar imágenes | cada <img> con su alt · las decorativas con alt="" (vacío a propósito) · las que no tienen alt, se marcan
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Hipocampo borró las descripciones de las fotos de media calle. Iara recorre las vidrieras con la libreta y marca las que quedaron sin `alt`.
+
+#### Gheco sugiere
+Buscá cada `<img …>` con `preg_match_all` y fijate si tiene `alt=`. Las que no lo tienen se avisan.
+
+#### Desafío
+Contá las imágenes sin `alt`.
+
+#### Código inicial
+```php
+<?php
+$html = '<img src="a.png" alt="Velas rojas"><img src="b.png"><img src="borde.png" alt=""><img src="c.png">';
+echo "Imagenes sin alt: 0\n";
+```
+
+#### Salida esperada
+```
+Sin alt: b.png
+Sin alt: c.png
+Imagenes sin alt: 2
+```
+
+#### Solución
+```php
+<?php
+$html = '<img src="a.png" alt="Velas rojas"><img src="b.png"><img src="borde.png" alt=""><img src="c.png">';
+preg_match_all('/<img\b[^>]*>/', $html, $m);
+$sinAlt = array_filter($m[0], fn ($img) => !str_contains($img, 'alt='));
+foreach ($sinAlt as $img) {
+    preg_match('/src="([^"]+)"/', $img, $s);
+    echo "Sin alt: {$s[1]}\n";
+}
+echo "Imagenes sin alt: " . count($sinAlt) . "\n";
+```
+
+#### Al superarla
+Dos fotos sin descripción, encontradas. La decorativa, con su `alt` vacío a propósito, está bien. Iara tilda la libreta.
+
+#### Imagen
+- Una fila de vidrieras con fotos enmarcadas, dos con un círculo rojo pintado en el vidrio.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) pinta un círculo en el vidrio.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le alumbra con el farol.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un marco.
+
+### Micro-misión S04-N05-P3 · La vidriera de punta a punta
+
+```meta
+lugar: Los reflejos de las vidrieras
+personajes: Nilo, Elefa, Gheco
+criatura: dragon
+carta: Todo junto | esqueleto completo · etiquetas con significado · un h1 · imágenes con alt · enlaces que andan · una sola hoja de estilos
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+El Hipocampo tiene una sola debilidad: las páginas que están bien de punta a punta. Nilo arma un revisor que mire todo a la vez, como lo haría un cliente exigente.
+
+#### Gheco sugiere
+Una función que revisa la página y devuelve la lista de problemas: falta el `<!DOCTYPE`, más de un `<h1>`, falta el `<main>`, o hay imágenes sin `alt`.
+
+#### Desafío
+Completá el revisor y probalo con las dos vidrieras.
+
+#### Código inicial
+```php
+<?php
+function revisar(string $html): array
+{
+    return [];
+}
+
+$revuelta = '<html><h1>Velas</h1><h1>Ofertas</h1><img src="x.png"></html>';
+$ordenada = '<!DOCTYPE html><html lang="es"><body><header><h1>Velas</h1></header><main><img src="x.png" alt="Velas"></main></body></html>';
+foreach (['revuelta' => $revuelta, 'ordenada' => $ordenada] as $nombre => $html) {
+    $p = revisar($html);
+    echo "$nombre: " . ($p === [] ? 'impecable' : implode('; ', $p)) . "\n";
+}
+```
+
+#### Salida esperada
+```
+revuelta: falta el DOCTYPE; tiene que haber un solo h1; falta el main; hay una imagen sin alt
+ordenada: impecable
+```
+
+#### Solución
+```php
+<?php
+function revisar(string $html): array
+{
+    $problemas = [];
+    if (!str_starts_with(ltrim($html), '<!DOCTYPE html>')) {
+        $problemas[] = 'falta el DOCTYPE';
+    }
+    if (substr_count($html, '<h1') !== 1) {
+        $problemas[] = 'tiene que haber un solo h1';
+    }
+    if (!str_contains($html, '<main')) {
+        $problemas[] = 'falta el main';
+    }
+    preg_match_all('/<img\b[^>]*>/', $html, $m);
+    foreach ($m[0] as $img) {
+        if (!str_contains($img, 'alt=')) {
+            $problemas[] = 'hay una imagen sin alt';
+        }
+    }
+    return $problemas;
+}
+
+$revuelta = '<html><h1>Velas</h1><h1>Ofertas</h1><img src="x.png"></html>';
+$ordenada = '<!DOCTYPE html><html lang="es"><body><header><h1>Velas</h1></header><main><img src="x.png" alt="Velas"></main></body></html>';
+foreach (['revuelta' => $revuelta, 'ordenada' => $ordenada] as $nombre => $html) {
+    $p = revisar($html);
+    echo "$nombre: " . ($p === [] ? 'impecable' : implode('; ', $p)) . "\n";
+}
+```
+
+#### Al superarla
+La vidriera ordenada sale impecable. El Hipocampo se mira en ella y no encuentra nada que comer: se va a buscar comida a otro puerto, dejando un reflejo de colores. Elefa: —Las vidrieras más lindas las hacen en los Talleres de Tesela. Este camino, si lo seguís, llega hasta allá.
+
+#### Imagen
+- Una calle de vidrieras ordenadas e iluminadas al amanecer, y un caballito de mar de vidrio de colores alejándose por el reflejo de los vidrios.
+- el Hipocampo de las Vidrieras (caballito de mar del tamaño de un caballo, hecho de vidrio de colores rojo, ámbar, azul y verde unidos con plomo como un vitral) alejándose.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) señala el horizonte con el bastón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) frente a la vidriera ordenada.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cartel.
 
 ### Misión S04-N05-M1 · El sitio del bodegón
 

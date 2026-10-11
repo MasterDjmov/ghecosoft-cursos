@@ -232,6 +232,223 @@ muestra `1`. Para depurar, `var_dump`.
 **Goblin: `(int)` corta, no redondea.** `(int) 12.99` es `12`. Si querés el entero
 más cercano, `round(12.99)` (que da `13.0`, un float) o `(int) round(12.99)`.
 
+### Micro-misión R01-N01-P1 · El cajón del peso
+
+```meta
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Gheco
+carta: Variables | $nombre = valor; · empiezan con $ · se pueden cambiar · se muestran dentro de "…" o con .
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el primer muelle hay una fila de cajones con etiquetas pintadas a mano. A Nilo le toca anotar el barco, su carga y su peso. —Cada dato va en un cajón con nombre —le dice Gheco—. En PHP los cajones se llaman **variables** y su nombre empieza con `$`.
+
+#### Gheco sugiere
+`$peso = 12.5;` guarda el valor en la variable. Dentro de comillas dobles, `"Peso: $peso"` muestra lo que tiene.
+
+#### Desafío
+Creá las variables `$barco` ("Gaviota") y `$peso` (12.5) para que el programa las muestre.
+
+#### Código inicial
+```php
+<?php
+// Creá $barco y $peso acá
+
+echo "Barco: $barco\n";
+echo "Peso: $peso kg\n";
+```
+
+#### Salida esperada
+```
+Barco: Gaviota
+Peso: 12.5 kg
+```
+
+#### Solución
+```php
+<?php
+$barco = "Gaviota";
+$peso = 12.5;
+
+echo "Barco: $barco\n";
+echo "Peso: $peso kg\n";
+```
+
+#### Al superarla
+Los dos cajones quedan con su etiqueta y su contenido. Por primera vez, Nilo no tiene que acordarse de nada: está escrito.
+
+#### Imagen
+- Un muelle de madera de noche, con cajones de madera en fila con etiquetas lisas pintadas a mano y faroles violetas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) pone una bolsa dentro de un cajón.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un cajón, señalando la etiqueta.
+
+### Micro-misión R01-N01-P2 · ¿Qué hay en el cajón?
+
+```meta
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Gheco
+carta: Tipos | int 12 · float 12.5 · string "12" · bool true/false · null · gettype($x) dice el tipo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un estibador dejó cuatro cajones sin etiqueta de tipo. Nilo jura que en los cuatro hay «un doce». Gheco le pide que mire bien **qué tipo** de cosa hay en cada uno.
+
+#### Gheco sugiere
+`gettype($x)` devuelve el nombre del tipo: `integer`, `double` (los decimales), `string`, `boolean` o `NULL`.
+
+#### Desafío
+Mostrá el tipo de cada cajón con `gettype`.
+
+#### Código inicial
+```php
+<?php
+$a = 12;
+$b = 12.0;
+$c = "12";
+$d = true;
+
+echo "a: " . ___ . "\n";
+echo "b: " . ___ . "\n";
+echo "c: " . ___ . "\n";
+echo "d: " . ___ . "\n";
+```
+
+#### Salida esperada
+```
+a: integer
+b: double
+c: string
+d: boolean
+```
+
+#### Solución
+```php
+<?php
+$a = 12;
+$b = 12.0;
+$c = "12";
+$d = true;
+
+echo "a: " . gettype($a) . "\n";
+echo "b: " . gettype($b) . "\n";
+echo "c: " . gettype($c) . "\n";
+echo "d: " . gettype($d) . "\n";
+```
+
+#### Al superarla
+Cuatro doces, cuatro tipos distintos. Nilo se queda mirando el cajón del texto «12» como si lo hubiera engañado.
+
+#### Imagen
+- Cuatro cajones de madera abiertos en un muelle, cada uno con algo distinto adentro: una pila de monedas, una balanza con medio peso, un papel enrollado y una luz que se prende.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira los cajones rascándose la gorra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un cajón.
+
+### Micro-misión R01-N01-P3 · El medio kilo del goblin
+
+```meta
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Gheco
+criatura: goblin
+carta: Casting | (int) corta los decimales · (float) los conserva · (int) "12 kilos" da 12 · convertir a propósito, nunca de casualidad
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un estibador mete en el cajón *peso* una bolsa que dice «12.5». Nilo la convierte a entero y el medio kilo desaparece: un **goblin** se va corriendo por el muelle con él bajo el brazo.
+
+#### Gheco sugiere
+`(int)` corta los decimales; `(float)` los conserva. Para un peso con medio kilo hace falta un `float`.
+
+#### Desafío
+Cambiá la conversión para que no se pierda el medio kilo.
+
+#### Código inicial
+```php
+<?php
+$etiqueta = "12.5";
+$peso = (int) $etiqueta;
+echo "Peso: $peso kg\n";
+echo "Con el cajon: " . ($peso + 2) . " kg\n";
+```
+
+#### Salida esperada
+```
+Peso: 12.5 kg
+Con el cajon: 14.5 kg
+```
+
+#### Solución
+```php
+<?php
+$etiqueta = "12.5";
+$peso = (float) $etiqueta;
+echo "Peso: $peso kg\n";
+echo "Con el cajon: " . ($peso + 2) . " kg\n";
+```
+
+#### Al superarla
+El goblin frena en seco, mira el medio kilo que ya no le pertenece y lo devuelve, de mala gana.
+
+#### Imagen
+- Un muelle de madera de noche con cajones y una balanza.
+- Un goblin verde y flaco corre con una bolsita bajo el brazo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lo señala, sorprendido.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la balanza.
+
+### Micro-misión R01-N01-P4 · Lo que no cambia
+
+```meta
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Elefa, Gheco
+carta: Constantes | const NOMBRE = valor; · sin $ · en MAYÚSCULAS · no se pueden cambiar después
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Elefa le explica a Nilo que la tarifa del puerto es la misma para todos: 3 sellos por kilo. Nilo la guardó en una variable y, sin querer, más abajo la cambió por 30. Medio muelle pagó diez veces de más.
+
+#### Gheco sugiere
+Lo que no tiene que cambiar nunca se declara con `const TARIFA = 3;` y se usa sin `$`: `TARIFA`. Si alguien intenta cambiarla, PHP no lo deja.
+
+#### Desafío
+Convertí la tarifa en una constante y borrá la línea que la pisa.
+
+#### Código inicial
+```php
+<?php
+$tarifa = 3;
+$kilos = 12;
+$tarifa = 30;
+echo "Kilos: $kilos\n";
+echo "A pagar: " . ($kilos * $tarifa) . " sellos\n";
+```
+
+#### Salida esperada
+```
+Kilos: 12
+A pagar: 36 sellos
+```
+
+#### Solución
+```php
+<?php
+const TARIFA = 3;
+$kilos = 12;
+echo "Kilos: $kilos\n";
+echo "A pagar: " . ($kilos * TARIFA) . " sellos\n";
+```
+
+#### Al superarla
+Elefa sella la tarifa en el pizarrón de la entrada. —Lo que no cambia, se escribe una vez y se respeta —dice—. Como mi nombre. ¿Cómo me llamo? —Nilo no contesta.
+
+#### Imagen
+- Un pizarrón grande en la entrada de un muelle, con un sello de lacre violeta en una esquina y un dibujo de una balanza, sin letras.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) apoya el bastón en el pizarrón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira para otro lado.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el pizarrón.
+
 ### Misión R01-N01-M1 · El manifiesto de carga
 
 ```meta
@@ -697,6 +914,222 @@ versión. Poné paréntesis: `"Total: " . (2 + 3)`.
 
 **Goblin: división por cero.** `10 % 0` o `intdiv(10, 0)` cortan el programa con
 `DivisionByZeroError`. Revisá el divisor antes.
+
+### Micro-misión R01-N02-P1 · Cajones por bodega
+
+```meta
+lugar: La oficina de pesaje
+personajes: Nilo, Gheco
+carta: Aritméticos | + - * / · % es el resto · ** es la potencia · intdiv(a, b) divide sin decimales
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la oficina de pesaje, Nilo tiene que repartir 47 cajones en bodegas de a 6. Quiere saber cuántas bodegas llena y cuántos cajones le sobran. Lo hace con los dedos y se le acaban.
+
+#### Gheco sugiere
+`intdiv(47, 6)` da cuántas veces entra el 6 en el 47, sin decimales; `47 % 6` da **lo que sobra**.
+
+#### Desafío
+Completá las dos cuentas.
+
+#### Código inicial
+```php
+<?php
+$cajones = 47;
+$porBodega = 6;
+$llenas = ___;
+$sobran = ___;
+echo "Bodegas llenas: $llenas\n";
+echo "Sobran: $sobran cajones\n";
+```
+
+#### Salida esperada
+```
+Bodegas llenas: 7
+Sobran: 5 cajones
+```
+
+#### Solución
+```php
+<?php
+$cajones = 47;
+$porBodega = 6;
+$llenas = intdiv($cajones, $porBodega);
+$sobran = $cajones % $porBodega;
+echo "Bodegas llenas: $llenas\n";
+echo "Sobran: $sobran cajones\n";
+```
+
+#### Al superarla
+Siete bodegas llenas y cinco cajones sueltos, que Nilo apila en un rincón. Le sobran los diez dedos.
+
+#### Imagen
+- Una oficina de pesaje con una balanza grande de dos platos y pilas de cajones de madera ordenadas en grupos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuenta cajones con los dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre una pila de cajones.
+
+### Micro-misión R01-N02-P2 · Tres iguales
+
+```meta
+lugar: La oficina de pesaje
+personajes: Nilo, Elefa, Gheco
+criatura: ogro
+carta: Comparar | === igual valor Y tipo · !== distinto · == compara suelto y miente · siempre ===
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nilo entrega la carta del casillero «01» al señor del casillero 1. —Es lo mismo, ¿no? —dice, y compara con `==`. Abajo del muelle, un **ogro** se ríe. Elefa suspira: —Tres iguales, Nilo.
+
+#### Gheco sugiere
+`==` convierte antes de comparar: para él "01" y "1" son iguales. `===` exige el mismo valor **y** el mismo tipo.
+
+#### Desafío
+Cambiá la comparación para que la carta no se entregue al casillero equivocado.
+
+#### Código inicial
+```php
+<?php
+$casilleroCarta = "01";
+$casilleroCliente = "1";
+if ($casilleroCarta == $casilleroCliente) {
+    echo "Entregada\n";
+} else {
+    echo "No es este casillero\n";
+}
+```
+
+#### Salida esperada
+```
+No es este casillero
+```
+
+#### Solución
+```php
+<?php
+$casilleroCarta = "01";
+$casilleroCliente = "1";
+if ($casilleroCarta === $casilleroCliente) {
+    echo "Entregada\n";
+} else {
+    echo "No es este casillero\n";
+}
+```
+
+#### Al superarla
+La carta vuelve al bolso de Nilo… y se cae por el agujero. Pero al menos no la entregó mal.
+
+#### Imagen
+- Una pared de casilleros de madera con números pintados que son solo puntitos de colores, en una oficina de correos de noche.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) duda con una carta en la mano frente a dos casilleros.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) lo mira de brazos cruzados.
+- Un ogro asoma la cabeza riéndose por debajo del muelle.
+
+### Micro-misión R01-N02-P3 · Lo que falta, con ??
+
+```meta
+lugar: La oficina de pesaje
+personajes: Nilo, Gheco
+criatura: troll
+carta: ?? y ternario | $a ?? "otro" usa $a si existe y no es null · $cond ? "sí" : "no" elige entre dos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+A la oficina llega un cajón sin remitente: el campo está en `null`. Nilo tiene que imprimir la etiqueta igual, y en lugar del nombre sale un hueco. Un **troll** se esconde detrás de lo que no está.
+
+#### Gheco sugiere
+`$remitente ?? "Desconocido"` usa el remitente si hay uno, y si es `null`, el texto de reserva. Para elegir entre dos textos según una condición: `$frágil ? "si" : "no"`.
+
+#### Desafío
+Completá la etiqueta con `??` y con el ternario.
+
+#### Código inicial
+```php
+<?php
+$remitente = null;
+$fragil = true;
+$nombre = $remitente;
+$cuidado = $fragil;
+echo "Remitente: $nombre\n";
+echo "Fragil: $cuidado\n";
+```
+
+#### Salida esperada
+```
+Remitente: Desconocido
+Fragil: si
+```
+
+#### Solución
+```php
+<?php
+$remitente = null;
+$fragil = true;
+$nombre = $remitente ?? "Desconocido";
+$cuidado = $fragil ? "si" : "no";
+echo "Remitente: $nombre\n";
+echo "Fragil: $cuidado\n";
+```
+
+#### Al superarla
+La etiqueta sale completa. El troll, que vivía en el hueco, se queda sin casa.
+
+#### Imagen
+- Un cajón de madera con una etiqueta lisa en blanco sobre una mesa de pesaje, de noche.
+- Un troll grande y verdoso se esconde detrás del cajón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) escribe la etiqueta.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la mesa.
+
+### Micro-misión R01-N02-P4 · ¿Cuál pesa más?
+
+```meta
+lugar: La oficina de pesaje
+personajes: Nilo, Gheco
+carta: Nave espacial | $a <=> $b da -1 si a es menor, 0 si son iguales, 1 si a es mayor · sirve para ordenar
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La balanza de dos platos compara dos bolsas y una aguja marca para qué lado se inclina. Nilo quiere que el programa diga lo mismo con un solo número: -1, 0 o 1.
+
+#### Gheco sugiere
+El operador `<=>` (la nave espacial) compara y devuelve -1, 0 o 1.
+
+#### Desafío
+Completá las tres comparaciones con `<=>`.
+
+#### Código inicial
+```php
+<?php
+echo "8 contra 12: " . (8 - 12) . "\n";
+echo "12 contra 12: " . (12 - 12) . "\n";
+echo "15 contra 12: " . (15 - 12) . "\n";
+```
+
+#### Salida esperada
+```
+8 contra 12: -1
+12 contra 12: 0
+15 contra 12: 1
+```
+
+#### Solución
+```php
+<?php
+echo "8 contra 12: " . (8 <=> 12) . "\n";
+echo "12 contra 12: " . (12 <=> 12) . "\n";
+echo "15 contra 12: " . (15 <=> 12) . "\n";
+```
+
+#### Al superarla
+La aguja de la balanza y el programa dicen lo mismo. Nilo le pone nombre a la balanza: *Nave*.
+
+#### Imagen
+- Una balanza antigua de dos platos de bronce con una aguja en el medio, con una bolsa en cada plato, en una oficina de pesaje.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) compara las bolsas inclinado sobre la balanza.
+- Gheco (gecko de luz cian con antiparras, chiquito) colgado de la aguja.
 
 ### Misión R01-N02-M1 · El reloj de la torre
 
@@ -1173,6 +1606,198 @@ no hay duda: `"«{$texto}»"`.
 **Slime: el cierre del heredoc.** El `TXT;` de cierre tiene que estar solo en su
 renglón (con sangría o sin ella, pero sin texto antes).
 
+### Micro-misión R01-N03-P1 · La escribiente
+
+```meta
+lugar: Los casilleros del correo
+personajes: Nilo, Iara, Gheco
+carta: Limpiar textos | trim() saca espacios de las puntas · strtoupper() MAYÚSCULAS · ucfirst() la primera · ucwords() cada palabra
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En los casilleros del correo, una chica de chaleco azul petróleo y lápiz detrás de la oreja limpia las direcciones que copió Nilo. Se llama **Iara** y es la escribiente de la Oficina. —¿Lo anotaste? —le pregunta. —Lo tengo acá —dice Nilo, tocándose la cabeza.
+
+#### Gheco sugiere
+`trim($x)` saca los espacios de las puntas y `ucwords($x)` pone en mayúscula la primera letra de cada palabra. Se pueden combinar: `ucwords(trim($x))`.
+
+#### Desafío
+Limpiá la dirección para que quede prolija.
+
+#### Código inicial
+```php
+<?php
+$direccion = "   muelle tres, casillero doce   ";
+echo "[" . $direccion . "]\n";
+```
+
+#### Salida esperada
+```
+[Muelle Tres, Casillero Doce]
+```
+
+#### Solución
+```php
+<?php
+$direccion = "   muelle tres, casillero doce   ";
+echo "[" . ucwords(trim($direccion)) . "]\n";
+```
+
+#### Al superarla
+Iara mira la dirección, después a Nilo, y anota algo en su libreta. Nilo no sabe si es un elogio.
+
+#### Imagen
+- Una pared entera de casilleros de madera con sobres, en una oficina de correos con lámparas violetas.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) limpia una etiqueta con el lápiz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le muestra un sobre.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un casillero.
+
+### Micro-misión R01-N03-P2 · Comillas que hablan
+
+```meta
+lugar: Los casilleros del correo
+personajes: Nilo, Iara, Gheco
+carta: Comillas | "…" reemplaza $variables y \n · '…' muestra todo tal cual · para mezclar, el punto .
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nilo escribió la etiqueta con comillas simples y salió literalmente `$destino` en lugar del destino. Iara levanta una ceja.
+
+#### Gheco sugiere
+Dentro de comillas **dobles**, PHP reemplaza `$destino` por su valor y entiende `\n`. En comillas **simples**, todo sale tal cual.
+
+#### Desafío
+Arreglá la etiqueta para que muestre el destino y el salto de línea.
+
+#### Código inicial
+```php
+<?php
+$destino = "Valle de la Serpiente";
+echo 'Destino: $destino\n';
+```
+
+#### Salida esperada
+```
+Destino: Valle de la Serpiente
+```
+
+#### Solución
+```php
+<?php
+$destino = "Valle de la Serpiente";
+echo "Destino: $destino\n";
+```
+
+#### Al superarla
+—Comillas dobles cuando hay algo adentro —anota Iara en voz alta. Esta vez Nilo también lo anota. En la mano.
+
+#### Imagen
+- Una mesa de escribiente con sobres, sellos de lacre violeta y un tintero, en una oficina de correos.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) señala un sobre con el lápiz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) escribe en la palma de su mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el tintero.
+
+### Micro-misión R01-N03-P3 · Letras con tilde
+
+```meta
+lugar: Los casilleros del correo
+personajes: Nilo, Iara, Gheco
+carta: mb_* | strlen cuenta bytes: una ñ o una tilde ocupan 2 · mb_strlen cuenta letras · mb_strtoupper con tildes
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Las etiquetas de los casilleros tienen lugar para 10 letras. «Ñandú» entra de sobra, pero el programa de Nilo dice que tiene 7. Iara lo cuenta con el dedo: cinco.
+
+#### Gheco sugiere
+`strlen` cuenta **bytes**, y en UTF-8 una letra con tilde o una ñ ocupa dos. `mb_strlen` cuenta letras de verdad. Lo mismo `mb_strtoupper` para las mayúsculas.
+
+#### Desafío
+Usá las funciones `mb_` para contar y pasar a mayúsculas.
+
+#### Código inicial
+```php
+<?php
+$nombre = "ñandú";
+echo "Letras: " . strlen($nombre) . "\n";
+echo "Etiqueta: " . strtoupper($nombre) . "\n";
+```
+
+#### Salida esperada
+```
+Letras: 5
+Etiqueta: ÑANDÚ
+```
+
+#### Solución
+```php
+<?php
+$nombre = "ñandú";
+echo "Letras: " . mb_strlen($nombre) . "\n";
+echo "Etiqueta: " . mb_strtoupper($nombre) . "\n";
+```
+
+#### Al superarla
+Cinco letras, todas en mayúscula, con su tilde. Iara se guarda la cuenta en la libreta para cuando llegue el próximo «Ñandú».
+
+#### Imagen
+- Una fila de etiquetas de casilleros, lisas, con dibujitos de un ñandú, en una oficina de correos.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) cuenta con el dedo sobre la etiqueta.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cuenta con los dedos y no le da.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un casillero.
+
+### Micro-misión R01-N03-P4 · El recibo prolijo
+
+```meta
+lugar: Los casilleros del correo
+personajes: Nilo, Iara, Gheco
+carta: Formato | printf("%.2f", $x) dos decimales · %d entero · %s texto · number_format($x, 2, ',', '.') estilo argentino
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara le pide a Nilo un recibo por un envío de 1234.5 sellos. Nilo escribe «1234.5». —Con dos decimales y los miles separados —dice Iara—. Como se escribe acá: 1.234,50.
+
+#### Gheco sugiere
+`number_format($monto, 2, ',', '.')` da dos decimales con coma y los miles con punto. `printf("%d", $x)` muestra un entero.
+
+#### Desafío
+Completá el recibo con el formato argentino.
+
+#### Código inicial
+```php
+<?php
+$envios = 3;
+$monto = 1234.5;
+echo "Envios: $envios\n";
+echo "Total: $monto sellos\n";
+```
+
+#### Salida esperada
+```
+Envios: 3
+Total: 1.234,50 sellos
+```
+
+#### Solución
+```php
+<?php
+$envios = 3;
+$monto = 1234.5;
+printf("Envios: %d\n", $envios);
+echo "Total: " . number_format($monto, 2, ',', '.') . " sellos\n";
+```
+
+#### Al superarla
+Iara firma el recibo y lo guarda en el casillero que corresponde. Nilo, por primera vez, ve que su trabajo queda guardado en algún lado.
+
+#### Imagen
+- Un recibo de papel con un sello de lacre violeta, sin letras, sobre un mostrador de correos.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) firma el recibo con el lápiz.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sonríe orgulloso.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el sello.
+
 ### Misión R01-N03-M1 · La etiqueta del paquete
 
 ```meta
@@ -1632,6 +2257,224 @@ nada, con un peso de cero kilos. Validá con `is_numeric` o `filter_var`.
 **Orco: `explode` con menos partes.** Si la persona escribe solo `Valle`,
 `[$destino, $prioridad] = explode(...)` da `Undefined array key 1`. Revisá con
 `count()` cuántas partes vinieron.
+
+### Micro-misión R01-N04-P1 · La ventanilla pregunta
+
+```meta
+lugar: La ventanilla de encomiendas
+personajes: Nilo, Gheco
+carta: Leer un renglón | $x = trim(fgets(STDIN)); · fgets lee hasta el Enter · trim saca el salto de línea
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la ventanilla de encomiendas, Nilo le pregunta a cada cliente su nombre. El cliente contesta, pero el programa saluda siempre al mismo: «Hola, cliente».
+
+#### Gheco sugiere
+`fgets(STDIN)` lee un renglón de lo que escribe la persona (acá, la **Entrada** de la misión). Trae el Enter al final: `trim` lo saca.
+
+#### Desafío
+Leé el nombre de la entrada y saludá a quien escribió.
+
+#### Código inicial
+```php
+<?php
+$nombre = "cliente";
+echo "Hola, $nombre. Pase.\n";
+```
+
+#### Entrada
+```
+Rosaura
+```
+
+#### Salida esperada
+```
+Hola, Rosaura. Pase.
+```
+
+#### Solución
+```php
+<?php
+$nombre = trim(fgets(STDIN));
+echo "Hola, $nombre. Pase.\n";
+```
+
+#### Al superarla
+Rosaura pasa, contenta de que la llamen por su nombre. Nilo ya se olvidó de cómo se llamaba, pero el programa no.
+
+#### Imagen
+- Una ventanilla de encomiendas con un mostrador de madera, una balanza y paquetes atados con soga, de noche.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) atiende detrás de la ventanilla.
+- Una clienta anciana con un paquete del otro lado.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la balanza.
+
+### Micro-misión R01-N04-P2 · Doce kilos
+
+```meta
+lugar: La ventanilla de encomiendas
+personajes: Nilo, Gheco
+criatura: slime
+carta: Validar números | is_numeric($x) dice si es un número · si no, se avisa y no se calcula · lo que se lee siempre es texto
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un cliente contesta «doce kilos» en vez de «12». Nilo lo usa en la cuenta igual, la balanza intenta multiplicar «doce kilos» por la tarifa y del platillo empiezan a brotar **slimes**.
+
+#### Gheco sugiere
+`is_numeric($peso)` devuelve `true` si el texto es un número. Si no lo es, se avisa y no se calcula nada.
+
+#### Desafío
+Validá el peso antes de calcular: si no es un número, mostrá «Peso invalido: escribilo con numeros.».
+
+#### Código inicial
+```php
+<?php
+$peso = trim(fgets(STDIN));
+$total = $peso * 3;
+echo "A pagar: $total sellos\n";
+```
+
+#### Entrada
+```
+doce kilos
+```
+
+#### Salida esperada
+```
+Peso invalido: escribilo con numeros.
+```
+
+#### Solución
+```php
+<?php
+$peso = trim(fgets(STDIN));
+if (is_numeric($peso)) {
+    $total = $peso * 3;
+    echo "A pagar: $total sellos\n";
+} else {
+    echo "Peso invalido: escribilo con numeros.\n";
+}
+```
+
+#### Al superarla
+La balanza no explota. El cliente se pone colorado y escribe «12». Los slimes, sin comida, se secan.
+
+#### Imagen
+- Una balanza de encomiendas de la que brotan gotas de slime verde, sobre un mostrador.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) tapa la balanza con las dos manos.
+- Varios slimes verdes chiquitos saltando del platillo.
+- Gheco (gecko de luz cian con antiparras, chiquito) encima de un paquete.
+
+### Micro-misión R01-N04-P3 · Tres datos en un renglón
+
+```meta
+lugar: La ventanilla de encomiendas
+personajes: Nilo, Iara, Gheco
+carta: explode | explode(",", "a,b,c") da ["a", "b", "c"] · [$x, $y] = explode(...) los reparte en variables
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Iara manda los pedidos en un solo renglón, separados por comas: nombre, destino y kilos. Nilo los lee enteros y no sabe dónde termina cada uno. —Se cortan por la coma —dice Iara.
+
+#### Gheco sugiere
+`explode(",", $renglon)` corta el texto en cada coma y devuelve una lista. `[$a, $b, $c] = …` reparte las partes en tres variables.
+
+#### Desafío
+Separá el renglón en sus tres datos.
+
+#### Código inicial
+```php
+<?php
+$renglon = trim(fgets(STDIN));
+echo "Pedido: $renglon\n";
+```
+
+#### Entrada
+```
+Olmo,Forjas,8
+```
+
+#### Salida esperada
+```
+Cliente: Olmo
+Destino: Forjas
+Kilos: 8
+```
+
+#### Solución
+```php
+<?php
+$renglon = trim(fgets(STDIN));
+[$nombre, $destino, $kilos] = explode(",", $renglon);
+echo "Cliente: $nombre\n";
+echo "Destino: $destino\n";
+echo "Kilos: $kilos\n";
+```
+
+#### Al superarla
+Cada dato en su lugar. Iara asiente apenas; para ella, es un festejo.
+
+#### Imagen
+- Una tira larga de papel con tres sellos de colores separados por cortes, sobre un mostrador.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) corta la tira con una tijera.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene la otra punta.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la tijera.
+
+### Micro-misión R01-N04-P4 · Dos números en un renglón
+
+```meta
+lugar: La ventanilla de encomiendas
+personajes: Nilo, Gheco
+carta: Convertir | (float) "4.5" da 4.5 · (int) "3" da 3 · se convierte después de cortar con explode
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un paquete mide 4.5 por 2 metros, y el cliente lo escribió en un solo renglón con un espacio en el medio. Nilo calcula la superficie y le da 0.
+
+#### Gheco sugiere
+Cortá con `explode(" ", …)` y convertí cada parte con `(float)` antes de multiplicar.
+
+#### Desafío
+Calculá la superficie del paquete.
+
+#### Código inicial
+```php
+<?php
+$renglon = trim(fgets(STDIN));
+$superficie = 0;
+echo "Superficie: $superficie m2\n";
+```
+
+#### Entrada
+```
+4.5 2
+```
+
+#### Salida esperada
+```
+Superficie: 9 m2
+```
+
+#### Solución
+```php
+<?php
+$renglon = trim(fgets(STDIN));
+[$ancho, $alto] = explode(" ", $renglon);
+$superficie = (float) $ancho * (float) $alto;
+echo "Superficie: $superficie m2\n";
+```
+
+#### Al superarla
+Nueve metros cuadrados: el paquete va en la bodega grande. Nilo lo lleva corriendo, silbando.
+
+#### Imagen
+- Un paquete enorme y plano envuelto en papel madera, apoyado contra una pared en una ventanilla de encomiendas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lo mide con los brazos abiertos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el paquete.
 
 ### Misión R01-N04-M1 · El saludo del portero
 
@@ -2269,6 +3112,239 @@ Agregá un `default` o validá antes.
 
 **Slime: el `;` después del `match`.** `match` es una expresión: cuando la asignás,
 termina con `};`, a diferencia del `switch`.
+
+### Micro-misión R01-N05-P1 · El farol del cruce
+
+```meta
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Gheco
+carta: if | if (cond) { … } elseif (otra) { … } else { … } · se prueba en orden y se hace solo el primero que se cumple
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El guardia del cruce se fue a almorzar y le dejó el farol a Nilo. A cada carro le tiene que señalar un camino: el pescado a la izquierda, la madera al frente y las cartas a la torre. El primer carro de pescado sube derecho a la torre.
+
+#### Gheco sugiere
+Con `if`, `elseif` y `else` se elige un camino según la carga. Se prueban en orden.
+
+#### Desafío
+Completá las decisiones para que cada carga vaya a su camino.
+
+#### Código inicial
+```php
+<?php
+$carga = trim(fgets(STDIN));
+echo "A la torre\n";
+```
+
+#### Entrada
+```
+pescado
+```
+
+#### Salida esperada
+```
+A la izquierda
+```
+
+#### Solución
+```php
+<?php
+$carga = trim(fgets(STDIN));
+if ($carga === "pescado") {
+    echo "A la izquierda\n";
+} elseif ($carga === "madera") {
+    echo "Al frente\n";
+} else {
+    echo "A la torre\n";
+}
+```
+
+#### Al superarla
+El carro de pescado dobla a la izquierda. La Oficina de Correos se salva del olor a merluza. Por ahora.
+
+#### Imagen
+- Un cruce de tres muelles de madera de noche, con un farol de bronce en el medio y un carro cargado de pescado.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) levanta el farol y señala a la izquierda.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el farol.
+
+### Micro-misión R01-N05-P2 · La guardia en la puerta
+
+```meta
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Gheco
+carta: Cláusula de guarda | primero se descarta lo inválido · después, con el dato sano, se calcula · menos llaves anidadas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Al cruce llegan carros con pesos imposibles: negativos, cero, de diez mil kilos. Nilo los deja pasar a todos y la grúa se queja. Gheco le enseña el truco de la guardia: frenar lo malo en la puerta.
+
+#### Gheco sugiere
+Primero los casos inválidos, cada uno con su mensaje. Si el peso es menor o igual a 0, o mayor a 1000, se avisa y no se sigue.
+
+#### Desafío
+Agregá la guardia: «Peso imposible.» si el peso es menor o igual a 0 o mayor a 1000.
+
+#### Código inicial
+```php
+<?php
+$peso = (float) trim(fgets(STDIN));
+echo "Carro aceptado: $peso kg\n";
+```
+
+#### Entrada
+```
+-40
+```
+
+#### Salida esperada
+```
+Peso imposible.
+```
+
+#### Solución
+```php
+<?php
+$peso = (float) trim(fgets(STDIN));
+if ($peso <= 0 || $peso > 1000) {
+    echo "Peso imposible.\n";
+} else {
+    echo "Carro aceptado: $peso kg\n";
+}
+```
+
+#### Al superarla
+El carro de -40 kilos se da vuelta y se va por donde vino. La grúa deja de quejarse.
+
+#### Imagen
+- Un cruce de muelles con una barrera de madera baja y un carro frenado delante.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) baja la barrera con el farol en la otra mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la barrera.
+
+### Micro-misión R01-N05-P3 · match, la forma moderna
+
+```meta
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Elefa, Gheco
+carta: match | $x = match ($dia) { 'lunes', 'martes' => 'abierto', default => 'cerrado' }; · compara con === · devuelve un valor
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Elefa le pasa a Nilo la tabla de las dársenas: cada tipo de barco amarra en una distinta. Nilo la escribió con un `if` larguísimo que se le enreda. —Para elegir un valor según otro, está `match` —dice la Capitana.
+
+#### Gheco sugiere
+`match` compara con `===` y devuelve el valor del primer caso que coincide. Si ninguno coincide, `default`.
+
+#### Desafío
+Completá el `match` para cada barco: velero y bote a la dársena 1, remolcador a la 2, carguero a la 3 y cualquier otro a «revision».
+
+#### Código inicial
+```php
+<?php
+$barco = trim(fgets(STDIN));
+$darsena = match ($barco) {
+    default => "revision",
+};
+echo "Darsena: $darsena\n";
+```
+
+#### Entrada
+```
+remolcador
+```
+
+#### Salida esperada
+```
+Darsena: 2
+```
+
+#### Solución
+```php
+<?php
+$barco = trim(fgets(STDIN));
+$darsena = match ($barco) {
+    "velero", "bote" => "1",
+    "remolcador" => "2",
+    "carguero" => "3",
+    default => "revision",
+};
+echo "Darsena: $darsena\n";
+```
+
+#### Al superarla
+El remolcador amarra donde tiene que amarrar. Elefa asiente con la trompa.
+
+#### Imagen
+- Un puerto de noche con tres dársenas marcadas con banderines de colores lisos y un remolcador entrando.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) señala una dársena con el bastón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el farol.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un poste del muelle.
+
+### Micro-misión R01-N05-P4 · El carro raro
+
+```meta
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Gheco
+criatura: ogro
+carta: switch | compara con == (suelto) · cada case termina con break · sin break, sigue al siguiente · para lo nuevo, mejor match
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Un carro dice que su carga es «0». El `switch` de Nilo lo manda con el pescado, y el **ogro** del cruce se ríe a carcajadas: algo anda mal y nadie avisa.
+
+#### Gheco sugiere
+Al `switch` le falta un `break` al final del primer caso: sin él, sigue de largo y ejecuta también el caso de abajo.
+
+#### Desafío
+Agregá los `break` que faltan para que cada caso haga solo lo suyo.
+
+#### Código inicial
+```php
+<?php
+$tipo = "madera";
+switch ($tipo) {
+    case "madera":
+        echo "Al frente\n";
+    case "pescado":
+        echo "A la izquierda\n";
+    default:
+        echo "A la torre\n";
+}
+```
+
+#### Salida esperada
+```
+Al frente
+```
+
+#### Solución
+```php
+<?php
+$tipo = "madera";
+switch ($tipo) {
+    case "madera":
+        echo "Al frente\n";
+        break;
+    case "pescado":
+        echo "A la izquierda\n";
+        break;
+    default:
+        echo "A la torre\n";
+}
+```
+
+#### Al superarla
+El carro de madera sigue al frente, sin desviarse. El ogro deja de reírse y se va a buscar otro cruce.
+
+#### Imagen
+- Un cruce de muelles con tres caminos y un carro de madera que intenta ir por los tres a la vez.
+- Un ogro grande riéndose apoyado en un poste.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) tira del caballo del carro.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el farol.
 
 ### Misión R01-N05-M1 · La tarifa del ferry
 

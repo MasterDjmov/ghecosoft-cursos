@@ -250,6 +250,200 @@ carpeta no está en el `PATH`.
 **Slime: el `\n` entre comillas simples.** `echo 'Hola\n';` muestra literalmente
 `Hola\n`: los saltos de línea solo funcionan dentro de comillas **dobles**.
 
+### Micro-misión R00-N01-P1 · ¿Hay alguien?
+
+```meta
+lugar: El Faro del Portal Oculto
+personajes: Nilo, Gheco
+carta: Mostrar texto | echo "texto\n"; · <?php abre el modo PHP · \n salta de línea · cada instrucción termina con ;
+recompensa: xp 10, oro 10
+item: Bolso Roto
+```
+
+#### Escena
+Nilo aparece en lo alto de un faro apagado, con la carta que perseguía en la mano: está en blanco. Sobre su hombro se enciende un gecko de luz con antiparras: **Gheco**.
+—Acá las respuestas se escriben en PHP —le dice—. Si alguien pregunta «¿hay alguien?», se contesta. Probá.
+
+#### Gheco sugiere
+`echo "…";` muestra el texto entre comillas, y `\n` al final baja a la línea siguiente. Tocá **Ejecutar**: PHP corre acá mismo, en tu navegador (la primera vez baja PHP y tarda un poco).
+
+#### Desafío
+Completá la instrucción para que Nilo conteste.
+
+#### Código inicial
+```php
+<?php
+___ "Si, aca estamos.\n";
+```
+
+#### Salida esperada
+```
+Si, aca estamos.
+```
+
+#### Solución
+```php
+<?php
+echo "Si, aca estamos.\n";
+```
+
+#### Al superarla
+Abajo, en la bahía, una campana suena una vez, como si alguien hubiera recibido la respuesta. Nilo se da cuenta de que el bolso tiene la costura rota: es **el Bolso Roto**.
+
+#### Imagen
+- En lo alto de un faro de piedra con la lámpara apagada, de noche y con tormenta, y abajo, lejos, un puerto iluminado con una torre.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene un sobre en blanco y mira el puerto.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre su hombro.
+
+### Micro-misión R00-N01-P2 · Un slime en la escalera
+
+```meta
+lugar: El Faro del Portal Oculto
+personajes: Nilo, Gheco
+criatura: slime
+carta: Error de sintaxis | Parse error · PHP no ejecuta nada hasta que se arregla · el mensaje dice la línea · casi siempre falta un ;
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Bajando la escalera de caracol del faro, Nilo pisa algo blando: un **slime**, una gota de baba verde que se alimenta de los punto y coma olvidados. Gheco le muestra el mensaje que dejó en la pared: `Parse error`.
+
+#### Gheco sugiere
+Leé el error: dice en qué línea se dio cuenta PHP. Muchas veces el problema está en la línea **de arriba**: a cada instrucción le falta su `;`.
+
+#### Desafío
+Encontrá lo que falta para que el programa ande.
+
+#### Código inicial
+```php
+<?php
+echo "Escalon 1: listo\n"
+echo "Escalon 2: listo\n";
+```
+
+#### Salida esperada
+```
+Escalon 1: listo
+Escalon 2: listo
+```
+
+#### Solución
+```php
+<?php
+echo "Escalon 1: listo\n";
+echo "Escalon 2: listo\n";
+```
+
+#### Al superarla
+El slime se deshace en un charquito verde. —Leíste el error en lugar de adivinar —dice Gheco—. Eso es la mitad del oficio.
+
+#### Imagen
+- Una escalera de caracol de piedra dentro de un faro, iluminada por la luz cian de un gecko.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) baja con cuidado, mirando el escalón.
+- Un slime verde y gelatinoso en un escalón, con cara de enojado.
+- Gheco (gecko de luz cian con antiparras, chiquito) flotando al lado.
+
+### Micro-misión R00-N01-P3 · Notas en el margen
+
+```meta
+lugar: El Sendero de las Cartas Perdidas
+personajes: Nilo, Gheco
+carta: Comentarios | // una línea · # también · /* varias líneas */ · PHP los ignora: son para las personas
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Sendero de las Cartas Perdidas está lleno de sobres viejos enganchados en los arbustos. Nilo quiere anotar por dónde pasó, para no olvidarse, pero cada nota que escribe en el programa PHP la intenta ejecutar.
+
+#### Gheco sugiere
+Lo que va después de `//` hasta el final del renglón es un **comentario**: PHP no lo ejecuta. Sirve para dejar notas.
+
+#### Desafío
+Convertí la nota en un comentario para que el programa ande y muestre solo el recorrido.
+
+#### Código inicial
+```php
+<?php
+Pase por el faro y despues por el sendero
+echo "Faro\n";
+echo "Sendero\n";
+echo "Puerto\n";
+```
+
+#### Salida esperada
+```
+Faro
+Sendero
+Puerto
+```
+
+#### Solución
+```php
+<?php
+// Pase por el faro y despues por el sendero
+echo "Faro\n";
+echo "Sendero\n";
+echo "Puerto\n";
+```
+
+#### Al superarla
+La nota queda en el código, quieta, y el programa la saltea. —Es la primera vez que anoto algo —dice Nilo, orgulloso. Gheco no le cree.
+
+#### Imagen
+- Un sendero de la costa de noche, con arbustos llenos de sobres viejos enganchados y el mar a un costado.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) camina mirando los sobres de los arbustos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre su gorra.
+
+### Micro-misión R00-N01-P4 · Tres renglones para la Capitana
+
+```meta
+lugar: El mostrador de la torre
+personajes: Nilo, Elefa, Gheco
+carta: Saltos de línea | cada \n baja un renglón · se pueden poner varios echo · o un solo echo con varios \n
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el mostrador de la torre, la Capitana del Puerto, una elefanta enorme con armadura, le pide a Nilo que se presente en tres renglones: nombre, oficio y de dónde viene. Nilo lo escribe todo pegado.
+
+#### Gheco sugiere
+Cada renglón termina con `\n`. Si falta, el siguiente texto sigue en la misma línea.
+
+#### Desafío
+Hacé que salgan tres renglones separados.
+
+#### Código inicial
+```php
+<?php
+echo "Nilo";
+echo "Mensajero";
+echo "De la costa de los faros\n";
+```
+
+#### Salida esperada
+```
+Nilo
+Mensajero
+De la costa de los faros
+```
+
+#### Solución
+```php
+<?php
+echo "Nilo\n";
+echo "Mensajero\n";
+echo "De la costa de los faros\n";
+```
+
+#### Al superarla
+—Elefa —dice la elefanta, y sella el papel con su bastón—. Me llamo Elefa. —Nilo asiente. Diez minutos después, le vuelve a preguntar cómo se llamaba.
+
+#### Imagen
+- Un mostrador de madera en una torre con tubos de bronce que bajan del techo y una campana grande arriba.
+- Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) sella un papel con el bastón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) del otro lado del mostrador, rascándose la gorra.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el mostrador.
+
 ### Misión R00-N01-M1 · El aviso del muelle
 
 ```meta

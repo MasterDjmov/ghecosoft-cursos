@@ -48,7 +48,7 @@ def run(code, stdin, lang, cache={}):
         with tempfile.TemporaryDirectory() as cwd:
             Path(cwd, 'main.php').write_text(code)
             try:
-                r = subprocess.run(['php', 'main.php'], input=stdin, capture_output=True, text=True, timeout=10, cwd=cwd)
+                r = subprocess.run(['php8.3', '-d', 'date.timezone=America/Argentina/Buenos_Aires', 'main.php'], input=stdin, capture_output=True, text=True, timeout=10, cwd=cwd)
             except subprocess.TimeoutExpired:
                 return 'ERROR: se pasó de tiempo'
         # Un `exit(1)` a propósito vale (la salida es la que se espera); un error fatal, no.

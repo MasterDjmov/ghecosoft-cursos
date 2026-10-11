@@ -152,9 +152,10 @@ No son parte de la historia: son **vos**. El Mundo del Código vive en la mente 
 - **Le gusta:** correr, las gaviotas, contar chismes del puerto, silbar.
 - **Defecto o miedo:** corre sin anotar nada y se olvida de todo entre un pedido y el siguiente. En el Puerto aprende a **recordar** (sesiones, cookies, la base de datos).
 - **Frase:** «¡Ningún mensaje se queda sin respuesta!»
-- **Relaciones:** aprendiz de Elefa.
+- **Relaciones:** aprendiz de Elefa; compañero de Iara; defiende a Pico, la gaviota ladrona.
+- **Objeto que cambia con él:** el bolso: el Bolso Roto (Clase 0), el Bolso Remendado (R03) y el Morral del Correo Mayor (al final) ([php.md](php.md)).
 - **Pieza del misterio:** al final, Elefa le da el mensaje «para quien llegue» que guardó veinte años.
-- **Cómo llega:** una noche de tormenta, buscando una carta que se le voló, cruza un portal escondido en un faro.
+- **Cómo llega:** una noche de tormenta, buscando una carta que se le voló, cruza un portal escondido en un faro y aparece en lo alto del Faro del Portal Oculto, frente al Puerto.
 - **Primera aparición:** PHP, Clase 0.
 - **Imágenes:** completas, y su montura **Gran Apex**.
 
@@ -890,6 +891,155 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 
 ---
 
+## El Puerto de los Mensajeros (PHP)
+
+### Elefa
+- **Rol:** la **Capitana del Puerto**, líder del Puerto de los Mensajeros y mentora de Nilo ([php.md](php.md)). Llegó cuando el Puerto era una oficina con un solo mostrador y hoy dirige muelles, correos, bodegas y el Faro desde la Torre de la Campana.
+- **Edad y sexo:** nadie lo sabe (ella sí), hembra.
+- **Altura y contextura:** enorme (2,60 m), una elefanta erguida en dos patas, maciza y tranquila.
+- **Rasgos:**
+  - cabeza de elefanta gris con **casco de metal** gris y violeta y un visor de luz cian;
+  - **trompa larga** con placas grabadas y **colmillos que brillan cian**.
+- **Ropa:** **armadura gris y violeta** con sellos de lacre violeta en los hombros, el cinturón y los brazales; túnica violeta larga hasta las botas; **tiras de pergamino** colgando de la armadura.
+- **Objeto:** el **bastón del sello**, coronado por un **sello de lacre violeta**, con el que sella cada respuesta antes de que salga; y la **campana de la torre**, que suena con cada pedido.
+- **Color:** gris metal y el **violeta** del Puerto, con brillos cian.
+- **Personalidad:** paciente, firme, de pocas palabras. **Nunca se olvida de nada** (memoria de elefanta). Desconfía de todo lo que llega de afuera hasta que lo comprueba.
+- **Le gusta:** las respuestas prolijas, el sonido de la campana cuando todo anda, que la saluden por su nombre.
+- **Defecto o miedo:** guardó veinte años un mensaje sin saber para quién era, y no se lo perdona.
+- **Frase:** «Ningún mensaje se queda sin respuesta, y ninguna respuesta sale sin revisar.»
+- **Relaciones:**
+  - mentora de Nilo; Iara, Fermín y Marea trabajan con ella;
+  - responde los formularios que arman los Talleres de Tesela;
+  - guarda el mensaje «para quien llegue» (su pieza del portal).
+- **Primera aparición:** PHP, Clase 0.
+- **Dónde va:** la Torre de la Campana, sobre la Oficina de Correos, con tubos de bronce y la campana.
+- **Imágenes:** completas (cuerpo entero y retrato circular; los retratos enmarcados son avatares).
+
+### Iara
+- **Curso y rol:** PHP. La escribiente de la Oficina de Correos y compañera de Nilo ([php.md](php.md)). Es el contrapunto de Nilo: él dice **«¡ningún mensaje se queda sin respuesta!»**; ella, **«¿lo anotaste?»**. En los ejemplos y las prácticas reemplaza a Kira.
+- **Edad y sexo:** 16, mujer.
+- **Altura y contextura:** bajita (1,58 m) y delgada.
+- **Rasgos:** piel morena, ojos negros grandes, **pelo negro lacio y largo en una cola baja con una cinta turquesa**; un **lápiz detrás de la oreja**.
+- **Ropa:** blusa blanca arremangada, **chaleco azul petróleo** con bolsillos llenos de sobres, pollera larga gris, botas cortas con luz cian.
+- **Objeto:** una **libreta de cuero atada a la muñeca** con un cordón, donde anota todo.
+- **Color:** azul petróleo y turquesa.
+- **Personalidad:** ordenada, seca, rápida para las cuentas; se hace la dura, pero es la primera en ayudar. Le da a Nilo la galletita con su nombre (la cookie) y le cose el bolso.
+- **Le gusta:** las listas, los sobres bien cerrados, que los datos estén donde tienen que estar.
+- **Defecto o miedo:** no confía en lo que no está escrito; le cuesta improvisar.
+- **Frase:** «¿Lo anotaste?»
+- **Relaciones:** escribiente de Elefa; compañera de Nilo; le lleva las consultas a Fermín.
+- **Primera aparición:** PHP, R01-N03.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### Fermín
+- **Rol:** el **Bodeguero** del Puerto: cuida la Bodega, bajo la torre, donde se guardan las fichas de todo lo que pasó por el Puerto. Encuentra cualquier ficha entre millones sin mirar.
+- **Edad y sexo:** 80, hombre.
+- **Altura y contextura:** bajo y encorvado, flaco.
+- **Rasgos:** piel clara arrugada, **barba blanca larga y prolija**, anteojos redondos de bronce en la punta de la nariz.
+- **Ropa:** guardapolvo gris largo con manguitos negros, gorro de lana.
+- **Objeto:** un **farol de luz cian** y su **libreta de consultas**.
+- **Color:** gris y el cian del farol.
+- **Personalidad:** tranquilo, exacto, desconfiado de los pedidos raros desde el día de la inyección. Nunca se apura.
+- **Le gusta:** las fichas iguales, las preguntas bien hechas, el silencio de la Bodega.
+- **Defecto o miedo:** el agua: el sótano se inunda y ahí vive la Serpiente.
+- **Frase:** «No me acuerdo. Lo anoto bien.»
+- **Relaciones:** trabaja con Elefa desde que el Puerto tenía un solo mostrador; Iara le lleva las consultas.
+- **Primera aparición:** PHP, R04-N01.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### Marea
+- **Rol:** la **farera**, guardiana del Faro del Puerto. A cada barco le mira la bandera y le señala una dársena (el router). Cuidó el Faro apagado veinte años, esperando que alguien supiera prenderlo.
+- **Edad y sexo:** 45, mujer.
+- **Altura y contextura:** alta (1,78 m) y fuerte.
+- **Rasgos:** piel curtida por el sol, **pelo gris ondulado recogido con un pañuelo violeta**, una cicatriz chica en el mentón.
+- **Ropa:** **impermeable largo amarillo oscuro** de farera sobre ropa azul marino, botas de goma.
+- **Objeto:** un **farol de señales** con dos vidrios, violeta y cian.
+- **Color:** amarillo oscuro y azul marino.
+- **Personalidad:** serena, firme, de pocas palabras y mucha paciencia.
+- **Le gusta:** las noches claras, que cada barco llegue a su dársena, el ruido del mar.
+- **Defecto o miedo:** que el Faro no vuelva a prenderse nunca.
+- **Frase:** «Cada barco, a su dársena.»
+- **Relaciones:** trabaja para Elefa; le muestra a Nilo que la lente del Faro es un vitral.
+- **Primera aparición:** PHP, R05-N01.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### Pico
+- **Rol:** la **gaviota ladrona** del Puerto: todo lo que se deja sin validar, sin escapar o sin cerrar, se lo lleva. Nilo la defiende siempre.
+- **Edad y sexo:** nadie sabe, macho.
+- **Rasgos:** gaviota blanca y gris, regordeta y descarada, pico amarillo, **una mancha violeta en un ala**; casi siempre con un sobre robado en el pico.
+- **Personalidad:** descarada, glotona, rapidísima.
+- **Le gusta:** los sobres sin sello, las contraseñas escritas en papel, las galletitas de Iara.
+- **Frase:** «¡Kiá!»
+- **Relaciones:** la única que Nilo nunca olvida.
+- **Primera aparición:** PHP, R01-N07.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### La Sirena de los Tipos Débiles
+- **Rol:** el jefe del Muelle de las Primeras Cartas (R01-N10 de PHP). Canta que «"10" es 10» y que «el cero es nada», y los barcos que la escuchan encallan.
+- **Qué es:** una **sirena** de piel verde agua y escamas violetas, con pelo largo de algas, sentada en una roca; un ojo cian y otro violeta, como si dijera dos cosas a la vez.
+- **Qué error representa:** las conversiones de tipos sin control y la comparación con `==`.
+- **Cómo se la vence:** comparando con `===` y declarando los tipos.
+- **Cómo habla:** canta; cada verso es una conversión que parece cierta.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### El Gólem del Astillero
+- **Rol:** el jefe del Astillero de los Moldes (R02-N11 de PHP). Vive entre los moldes viejos.
+- **Qué es:** un **gigante de tablas de barco**, clavos torcidos, sogas y moldes pegados a las apuradas, con un timón en el pecho y un brazo más largo que el otro; ojos de brasa violeta.
+- **Qué error representa:** las clases mal armadas: herencias de lo que no son, datos públicos, todo pegado sin plan.
+- **Cómo se lo vence:** desarmándolo en clases chicas, con interfaces y composición.
+- **Cómo habla:** cruje como un casco viejo.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### La Gorgona de los Formularios
+- **Rol:** el jefe de la Oficina de Correos (R03-N09 de PHP). Vive en el último piso; quien la mira sin validar queda de piedra.
+- **Qué es:** una **mujer-serpiente** cuyo pelo son decenas de **cintas de papel y serpientes de pergamino** que se retuercen; ojos violetas; una pluma de escribir enorme como lanza.
+- **Qué error representa:** los formularios sin validar, el XSS, el CSRF y los archivos disfrazados.
+- **Cómo se la vence:** validando del lado del servidor, escapando lo que se muestra y pidiendo el token.
+- **Cómo habla:** sisea campos sin completar.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### La Serpiente Marina de las Tablas
+- **Rol:** el jefe de la Bodega del Puerto (R04-N09 de PHP). Vive en el sótano inundado.
+- **Qué es:** una **serpiente marina enorme** de escamas azul oscuro con **placas rectangulares en el lomo, como fichas en filas y columnas**, que brillan cian.
+- **Qué error representa:** las consultas armadas pegando textos (inyección), las transferencias que se cortan a la mitad y el stock que se vende dos veces.
+- **Cómo se la vence:** con consultas preparadas y transacciones.
+- **Cómo habla:** con el ruido del agua que se filtra.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### El Dragón del Faro
+- **Rol:** el jefe final de PHP (R05-N07). Se levanta del mar la noche en que Nilo termina su último sistema.
+- **Qué es:** un **dragón marino negro y violeta**, con alas como velas rotas y el cuerpo hecho de olas y relámpagos, enroscado en el faro; ojos como lámparas cian.
+- **Qué error representa:** todo junto: formularios sin validar, consultas pegadas, reservas que se pisan, errores sin registrar.
+- **Cómo se lo vence:** partiendo el sistema en rutas, controladores, pruebas y registros.
+- **Cómo habla:** con truenos.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### El Campeón Eterno
+- **Rol:** el jefe de la Senda de la Arena (S01 de PHP). Nadie lo venció en cien años.
+- **Qué es:** un **guerrero de armadura antigua y capa gastada**, sin cara: dentro del casco solo hay luz y engranajes. Es un juego perfecto que aprende de cada luchador.
+- **Cómo habla:** repite las jugadas de quien tiene enfrente.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### El Grifo de los Registros
+- **Rol:** el jefe de la Senda de Laravel (S02 de PHP). Cada mañana revisa los libros del Puerto y, si encuentra dos barcos en el mismo muelle el mismo día, ataca.
+- **Qué es:** un **grifo** de plumas blancas y cuerpo de león dorado, con un monóculo y páginas de libro entre las plumas de las alas.
+- **Cómo habla:** como un inspector: «Registro duplicado».
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### El Leviatán de los Mensajes
+- **Rol:** el jefe de la Senda del Palomar (S03 de PHP). Se traga las palomas en pleno vuelo y manda cien pedidos por segundo para tapar la torre. *(Nombre a revisar: en Java está el Leviatán de los Datos.)*
+- **Qué es:** una **criatura marina enorme** con la boca llena de sobres, que salta del agua frente al palomar.
+- **Cómo habla:** con un ruido de mil alas.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+### El Hipocampo de las Vidrieras
+- **Rol:** el jefe de la Senda del Escaparate (S04 de PHP). Revuelve las vidrieras: letreros al revés, precios que se salen del vidrio.
+- **Qué es:** un **caballito de mar del tamaño de un caballo**, de vidrio de colores, que se refleja deformado en las vidrieras.
+- **Cómo habla:** con un tintineo de vidrio.
+- **Imágenes:** *(falta la imagen)* — pedido en [php.md](php.md) § 5.
+
+---
+
 ## 4. Los líderes de los otros mundos (se completan con cada curso)
 
 | Personaje | Región | Datos fijos de hoy |
@@ -897,7 +1047,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 | **Maese Ferrum** | Forjas (C) | herrero enorme, el Forjador; maestro de Tesla y Tesela |
 | **Tesla** | Ciudadela (C++) | el Artífice Mayor, muchacho de traje azul con visor de bronce, rápido y curioso |
 | **Kaffa** | Imperio (Java) | el Arquitecto Imperial, varón, nunca le falta su taza de café |
-| **Elefa** | Puerto (PHP) | la Capitana del Puerto, una elefanta |
+| **Elefa** | Puerto (PHP) | la Capitana del Puerto, una elefanta con armadura y el bastón del sello; ficha completa arriba |
 | **Tesela** | Talleres (HTML y CSS) | la Vitralista, monóculo de cristal |
 
 ## 5. Para el alumno: la Gran Enciclopedia

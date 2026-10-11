@@ -36,6 +36,15 @@ class UserPolicy
         return $this->viewProgress($user, $student, $course);
     }
 
+    /**
+     * Restaurar su avance a mano (D103): abrir sin cobrar, dar por superadas micro-misiones y aprobar
+     * prácticas sin entrega. Solo el administrador (Gate::before); el docente, nunca.
+     */
+    public function restoreProgress(User $user, User $student, Course $course): bool
+    {
+        return false;
+    }
+
     /** Reiniciar su héroe de un curso (D89): como abrirle un nodo, solo en el curso de su comisión. */
     public function resetHero(User $user, User $student, Course $course): bool
     {

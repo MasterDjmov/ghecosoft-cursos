@@ -66,4 +66,78 @@
             <flux:text>No tiene {{ term('node', $course, 2) }} cerrados a continuación: abrió todo lo que tenía disponible o terminó el curso.</flux:text>
         @endforelse
     </section>
+
+    {{-- D103: restaurar el avance (solo el administrador): abrir, micro-misiones y prácticas, de a una o el nodo entero. --}}
+    @if ($restoreRows)
+        <section class="panel flex flex-col gap-3 p-5" data-test="restore-progress">
+            <div>
+                <h2 class="font-display font-semibold text-white">Restaurar avance</h2>
+                <p class="text-sm text-ink-muted">
+                    Para devolverle lo que ya tenía hecho. Va en el orden del árbol (primero el padre) y paga lo mismo que si lo hubiera hecho él:
+                    {{ term('coin.course', $course, 2) }}, XP, oro e insignias. El {{ term('node', $course) }} se cobra si le alcanza el saldo; si no, se abre sin cobrar.
+                    Las {{ term('practice', $course, 2) }} quedan aprobadas sin entrega.
+                </p>
+            </div>
+            @foreach ($restoreRows as $row)
+                <details class="group border-t border-outline/60 pt-2" wire:key="restore-{{ $row['id'] }}" style="margin-left: {{ min($row['depth'], 6) * 0.75 }}rem">
+                    <summary class="flex cursor-pointer list-none flex-wrap items-center gap-2 py-1">
+                        <flux:icon name="chevron-right" variant="micro" class="text-ink-muted transition group-open:rotate-90" />
+                        @if ($row['complete'])
+                            <flux:icon name="check-circle" variant="micro" class="text-success" />
+                        @elseif ($row['unlocked'])
+                            <flux:icon name="lock-open" variant="micro" class="text-warning" />
+                        @else
+                            <flux:icon name="lock-closed" variant="micro" class="text-ink-muted" />
+                        @endif
+                        <span class="flex-1 font-medium text-ink">
+                            @if ($row['code'])<span class="font-mono text-xs text-ink-muted">{{ $row['code'] }}</span>@endif
+                            {{ $row['title'] }}
+                            <span class="font-mono text-xs text-ink-muted">
+                                · {{ $row['steps']->where('done', true)->count() }}/{{ $row['steps']->count() }} micro-misiones
+                                · {{ $row['practices']->where('done', true)->count() }}/{{ $row['practices']->count() }} {{ term('practice', $course, 2) }}
+                            </span>
+                        </span>
+                        @unless ($row['unlocked'])
+                            <flux:button size="xs" icon="lock-open" wire:click="restoreUnlock({{ $row['id'] }})" data-test="restore-unlock-{{ $row['id'] }}">Abrir</flux:button>
+                        @endunless
+                        @unless ($row['complete'])
+                            <flux:button size="xs" variant="primary" icon="check" wire:click="restoreNode({{ $row['id'] }})" data-test="restore-node-{{ $row['id'] }}"
+                                wire:confirm="¿Darle por aprobado «{{ $row['title'] }}» entero a {{ $user->name }}? Se abre si hace falta, con todas sus micro-misiones y {{ term('practice', $course, 2) }} obligatorias.">Aprobar entero</flux:button>
+                        @endunless
+                    </summary>
+                    <div class="flex flex-col gap-1 py-2 ps-6 text-sm">
+                        @foreach ($row['steps'] as $step)
+                            <div class="flex items-center gap-2" wire:key="restore-step-{{ $step['id'] }}">
+                                <span class="flex-1 {{ $step['done'] ? 'text-success' : 'text-ink' }}">Micro-misión · {{ $step['title'] }}</span>
+                                @if ($step['done'])
+                                    <flux:icon name="check" variant="micro" class="text-success" />
+                                @elseif ($row['unlocked'])
+                                    <flux:button size="xs" variant="ghost" wire:click="restoreStep({{ $step['id'] }})" data-test="restore-step-{{ $step['id'] }}">Dar por superada</flux:button>
+                                @endif
+                            </div>
+                        @endforeach
+                        @foreach ($row['practices'] as $practice)
+                            <div class="flex items-center gap-2" wire:key="restore-practice-{{ $practice['id'] }}">
+                                <span class="flex-1 {{ $practice['done'] ? 'text-success' : 'text-ink' }}">
+                                    {{ ucfirst(term('practice', $course)) }} · {{ $practice['title'] }}
+                                    @unless ($practice['required'])<span class="text-xs text-ink-muted">(opcional)</span>@endunless
+                                </span>
+                                @if ($practice['done'])
+                                    <flux:icon name="check" variant="micro" class="text-success" />
+                                @elseif ($row['unlocked'])
+                                    <flux:button size="xs" variant="ghost" wire:click="restorePractice({{ $practice['id'] }})" data-test="restore-practice-{{ $practice['id'] }}">Aprobar</flux:button>
+                                @endif
+                            </div>
+                        @endforeach
+                        @if ($row['steps']->isEmpty() && $row['practices']->isEmpty())
+                            <span class="text-ink-muted">Sin micro-misiones ni {{ term('practice', $course, 2) }}: se completa al abrirlo.</span>
+                        @endif
+                        @unless ($row['unlocked'])
+                            <span class="text-xs text-ink-muted">Abrilo para ir de a una.</span>
+                        @endunless
+                    </div>
+                </details>
+            @endforeach
+        </section>
+    @endif
 </div>

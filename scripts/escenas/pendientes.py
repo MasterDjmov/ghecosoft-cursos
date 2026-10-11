@@ -58,9 +58,17 @@ REFS = {
             (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'],
              'Tesela e Iris son casi de la misma altura (Tesela apenas unos centímetros más alta).'),
             (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
-            # Sin imagen todavía (PERSONAJES.md): --next saltea sus escenas.
-            (r'\bNora\b', 'Nora', [], ''),
-            (r'\bTeo\b', 'Teo', [], ''),
+            # Subidos el 2026-10-10. Solo el cuerpo entero: los circulares llevan el nombre escrito y Stitch lo copiaría.
+            (r'\bNora\b', 'Nora', ['e01c853235f1406f8ae015a41a3ddb13'],
+             'Nora es ciega y alta, más alta que Iris; lleva túnica gris perla y un bastón blanco.'),
+            (r'\bTeo\b', 'Teo', ['21a330a7f37f44ae88efae1965f5261c'],
+             'Teo es un chico flaco y bajo para su edad, apenas más bajo que Iris, de pelo negro enrulado.'),
+            (r'[ÁA]mbar\b', 'Ámbar', ['75ef2e33ad354037aab45fcd703d2d9e'],
+             'Ámbar es una señora mayor, baja y redonda, más baja que Iris.'),
+            (r'Slime', 'el Slime de las Etiquetas Huérfanas', ['66e80ef80f2647688427bfdec056c871'], ''),
+            (r'Ogro', 'el Ogro de la Cascada', ['ba4b3f1b293f43f4baa369df6491ff00'], ''),
+            (r'Orco', 'el Orco del Desborde', ['7a8f59387a2545509da51e5bce46317f'], ''),
+            (r'Drag[oó]n', 'el Dragón de los Talleres', ['6f9f122674eb41fa91eef6ca0a8a494c'], ''),
         ],
     },
 }

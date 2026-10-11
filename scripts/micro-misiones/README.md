@@ -29,3 +29,7 @@ Las micro-misiones de Python (ramas 2 y 3 y las Sendas) se escriben como datos e
 
     python3 scripts/micro-misiones/genhtml.py html_r01.py          # comprueba y muestra los informes
     python3 scripts/micro-misiones/genhtml.py html_r01.py --apply  # además las escribe en cursos/html/
+
+## PHP (D105)
+
+`genphp.py` corre cada solución con `php8.3` (la versión del navegador del alumno), con la zona horaria y los avisos del PHP del navegador, en una carpeta vacía nueva: `python3 genphp.py php_r01.py [--apply] [--json casos.json]`. Rechaza las soluciones con avisos (Warning, Notice, Deprecated), las que dependen del reloj (`time()`, `date()` sin fecha, `new DateTime()` sin fecha), `rand()` y `mt_rand()` sin `mt_srand(semilla)`, `intl` (puede no estar en el navegador) y las que dan otra salida al correrlas dos veces. Las que necesitan la web se simulan con arrays (`$_GET = [...]`, una `$sesion`), la base es PDO con **SQLite en memoria** (el mismo SQL que MariaDB; las claves foráneas con `PRAGMA foreign_keys = ON`) y PHPUnit y Laravel se imitan con PHP puro. `php_r01.py` y `php_r01b.py`: la Clase 0 y el Muelle; `php_r02a.py` y `php_r02b.py`: el Astillero; `php_r03.py` a `php_r05.py`: la Oficina, la Bodega y el Faro; `php_sendas_a.py`: la Arena y el Palomar; `php_sendas_b.py`: el Escaparate y el Bastión. Son 213, todas verificadas en Chrome con `browser-check.mjs` (sirve para cualquier lenguaje que use el ejecutor del ejemplo del nodo).

@@ -259,7 +259,7 @@ test('el docente ejecuta una entrega de Java con el ejecutor local o con el coma
         ->assertOk()->assertSee('data-test="java-runner-hint"', false);
 });
 
-test('el docente puede ejecutar una entrega de PHP al corregir; el alumno de PHP no ejecuta en la plataforma (D68)', function () {
+test('el docente puede ejecutar una entrega de PHP al corregir (D68) y el alumno de PHP ejecuta en su navegador (D105)', function () {
     $this->data['course']->update(['language' => 'php']);
     $submission = Submission::create(['practice_id' => $this->practice->id, 'user_id' => $this->student->id, 'attempt' => 1,
         'code' => "<?php\necho trim(fgets(STDIN)) * 2;", 'submitted_at' => now()]);
@@ -267,6 +267,7 @@ test('el docente puede ejecutar una entrega de PHP al corregir; el alumno de PHP
     $this->actingAs($this->admin)->get(route('admin.submissions.show', $submission))
         ->assertOk()->assertSee('title="Ejecutar (Ctrl+Enter)"', false)->assertDontSee('data-test="local-run"', false);
 
+    $this->data['root']->update(['example_code' => "<?php\necho 'Hola';", 'example_runnable' => true]);
     $this->actingAs($this->student)->get(route('student.node', [$this->data['course'], $this->data['root']]))
-        ->assertOk()->assertDontSee('title="Ejecutar (Ctrl+Enter)"', false);
+        ->assertOk()->assertSee('title="Ejecutar (Ctrl+Enter)"', false);
 });

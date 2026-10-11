@@ -43,10 +43,10 @@ Al final del camino principal llegás a la **Encrucijada de los Sellos**, de don
 | coin.course | sello | sellos | m | La moneda del Puerto: el sello de lacre que cierra cada mensaje despachado. Se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
 | mentor.name | Elefa | | f | La Capitana del Puerto: una elefanta que despacha los mensajes de todo el mundo y nunca olvida un pedido. | Elefa llegó al Puerto de los Mensajeros cuando era una oficina con un solo mostrador y una bolsa de cartas sin abrir. Hoy dirige muelles, correos y bodegas, y desde su torre ve llegar cada barco. Tiene una memoria de elefanta —nunca se olvida de un pedido— y una sola regla: **ningún mensaje se queda sin respuesta, y ninguna respuesta sale sin revisar**. Desconfía de todo lo que llega de afuera, hasta que lo comprueba. | curso |
 | world.region | Puerto de los Mensajeros | | m | La región del mundo cuya lengua arcana es PHP. | | curso |
-| story.course_intro | Bienvenida al Puerto | | f | | Llegás al **Puerto de los Mensajeros**, {heroe}. Hay barcos cargando y descargando, gaviotas, y una torre enorme donde no para de sonar una campana: cada campanada es un pedido nuevo que llega de algún lugar del mundo.<br><br>Soy {mentor}, la Capitana del Puerto. Acá hablamos **PHP**: la lengua de los servidores, los que reciben un pedido y despachan una respuesta. Vas a empezar en el Muelle, escribiendo tus primeras cartas, y vas a terminar dirigiendo tu propia oficina, con su bodega llena de registros.<br><br>Cada tema que domines te abre un muelle nuevo; cada misión aprobada te da sellos para abrir el siguiente. | curso |
-| story.branch_completed | ¡Muelle despachado! | | m | | {mentor} hace sonar la campana de la torre tres veces, la señal de que un muelle entero funciona solo. —Esta parte del Puerto ya responde con tu código, {heroe}. | curso |
-| story.course_completed | ¡Dominaste la lengua del Puerto! | | f | | {mentor} te entrega la llave de la torre y un sello de lacre con tu nombre grabado. —Ya sos capitana o capitán del Puerto, {heroe}. Desde la Encrucijada de los Sellos salen tres caminos: la Arena, la Ciudadela de Laravel y los Mensajes Veloces. Elegí el tuyo. | curso |
-| story.portal_piece | Lo que guardó Elefa | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Un día llegó al Puerto un mensaje sin remitente, sellado con un sello de vidrio de colores. Decía solamente: *para quien llegue*. Lo guardé veinte años. Creo que ahora es tuyo, {heroe}. | curso |
+| story.course_intro | Bienvenida al Puerto | | f | | Nilo era mensajero en un pueblo de la costa: charlatán, rápido y distraído, corría sin anotar nada y se olvidaba de todo entre un pedido y el siguiente. Una noche de tormenta persiguió una carta que se le voló hasta un faro abandonado, subió la escalera y apareció en lo alto del **Faro del Portal Oculto**, frente al **Puerto de los Mensajeros**, en {mundo}: barcos, gaviotas y una torre donde no para de sonar una campana.<br><br>Soy {mentor}, la Capitana del Puerto. Acá hablamos **PHP**: la lengua de los servidores, los que reciben un pedido y despachan una respuesta. Nilo va a empezar en el Muelle, escribiendo sus primeras cartas, y va a terminar dirigiendo su propia oficina, con su bodega llena de registros. Cada tema que domine le abre un muelle nuevo; cada misión aprobada le da sellos para abrir el siguiente. | curso |
+| story.branch_completed | ¡Muelle despachado! | | m | | {mentor} hace sonar la campana de la torre tres veces, la señal de que un muelle entero funciona solo. —Esta parte del Puerto ya responde con el código de Nilo. —Iara lo anota en su libreta, y Nilo, por primera vez, también. | curso |
+| story.course_completed | ¡Dominaste la lengua del Puerto! | | f | | {mentor} le entrega a Nilo la llave de la torre y un sello de lacre con su nombre grabado. —Llegaste persiguiendo una carta, sin acordarte ni de mi nombre, y te vas con el Faro prendido y un morral donde no se pierde nada. Ya sos capitán del Puerto. —Desde la Encrucijada de los Sellos salen tres caminos: la Arena, el Bastión de Laravel y el Palomar de los Mensajes Veloces. | curso |
+| story.portal_piece | Lo que guardó Elefa | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Un día llegó al Puerto un mensaje sin remitente, sellado con un sello de vidrio de colores. Decía solamente: *para quien llegue*. Lo guardé veinte años. Creo que ahora es tuyo, Nilo. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis: `Parse error`, y no se ejecuta nada. | Los slimes brotan de los punto y coma olvidados, las llaves sin cerrar, las comillas perdidas y el `$` que falta. PHP los detecta antes de ejecutar y avisa con `Parse error: syntax error, unexpected…`. Son débiles, pero hasta que no los eliminás el programa no arranca. | curso |
 | beast.goblin | goblin | goblins | m | Nace de los tipos que no encajan: `TypeError` y las conversiones silenciosas. | Los goblins viven en las conversiones: PHP es generoso y convierte `"10 manzanas"` en `10` sin preguntar, o se niega con un `TypeError` cuando una función pide un `int` y le das un texto. Los más peligrosos son los que pasan en silencio. | curso |
 | beast.skeleton | esqueleto | esqueletos | m | Nace de los nombres que no existen: `Undefined variable`, `Call to undefined function`. | Los esqueletos son nombres sin cuerpo: una variable mal escrita, una función que no está incluida, una clase que el autoload no encuentra. En PHP las variables distinguen mayúsculas: `$Nombre` no es `$nombre`. | curso |
@@ -65,9 +65,13 @@ temas: prog.entorno, prog.salida
 
 ### Crónica
 
-La campana de la torre suena otra vez. Un mensajero baja corriendo por la escalera con un papel en la mano, lo deja en el mostrador y se va. En el papel dice solamente: *"¿Hay alguien?"*.
+Una noche de tormenta, a Nilo se le vuela una carta del bolso. La persigue por la costa de su pueblo, entre gaviotas y charcos, hasta un faro abandonado; entra detrás de ella, sube la escalera de caracol… y la escalera lo deja en otro lugar. Arriba, en lo alto del **Faro del Portal Oculto**, la lámpara está apagada. Abajo, del otro lado de la bahía, brilla el **Puerto de los Mensajeros**: barcos, grúas y una torre enorme donde no para de sonar una campana. La carta que perseguía está en blanco, salvo por un sello de vidrio de colores que se borra mientras la mira.
 
-—Todos los días llegan miles así —dice {mentor}, acomodándose la gorra de capitana—. Alguien, en algún lugar del mundo, escribe una dirección en su navegador y nos manda un pedido. Nuestro trabajo es **contestar**. Para eso usamos PHP: escribimos las instrucciones y el servidor las sigue cada vez que llega un mensaje. Empecemos por lo más simple, {heroe}: contestar *"Sí, acá estamos"*.
+Nilo baja corriendo por el **Sendero de las Cartas Perdidas** (hay sobres viejos enganchados en todos los arbustos) y llega a la torre justo cuando la campana suena otra vez. En el mostrador, un papel dice solamente: *"¿Hay alguien?"*.
+
+—Todos los días llegan miles así —dice una elefanta enorme, con armadura y un bastón coronado por un sello de lacre—. Soy {mentor}, la Capitana del Puerto. Alguien, en algún lugar del mundo, escribe una dirección en su navegador y nos manda un pedido. Nuestro trabajo es **contestar**, y para eso usamos PHP. Empecemos por lo más simple: contestá *"Sí, acá estamos"*.
+
+Nilo contesta. La campana vuelve a sonar. Nilo la mira, se rasca la gorra y pregunta: —Perdón… ¿y usted quién era?
 
 ### Objetivos
 
@@ -159,7 +163,7 @@ El intérprete los ignora: son notas para las personas.
 Si escribís algo que PHP no entiende, no se ejecuta **nada** y aparece un
 **error de sintaxis**:
 ```
-PHP Parse error:  syntax error, unexpected token "echo", expecting "," or ";" in /home/kira/hola.php on line 3
+PHP Parse error:  syntax error, unexpected token "echo", expecting "," or ";" in /home/iara/hola.php on line 3
 ```
 Se lee así: **qué pasó** (`syntax error`: encontró `echo` donde esperaba una coma
 o un punto y coma) y **dónde** (archivo `hola.php`, **línea 3**). Muchas veces el
@@ -167,7 +171,7 @@ error real está en la línea **anterior**: ahí faltaba el `;`.
 
 Otros errores aparecen con el programa ya andando, como dividir por cero:
 ```
-PHP Fatal error:  Uncaught DivisionByZeroError: Division by zero in /home/kira/cuenta.php:4
+PHP Fatal error:  Uncaught DivisionByZeroError: Division by zero in /home/iara/cuenta.php:4
 ```
 Siempre leé el mensaje entero: dice qué pasó, en qué archivo y en qué línea.
 

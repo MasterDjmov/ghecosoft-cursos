@@ -1,4 +1,4 @@
-# RAMA S02 · Senda de la Ciudadela: el framework Laravel
+# RAMA S02 · Senda del Bastión: el framework Laravel
 
 ```meta
 tipo: senda
@@ -20,9 +20,9 @@ usa: web.mvc, cal.build
 
 ### Crónica
 
-El segundo camino desde la Encrucijada sube por una colina hasta una fortaleza de piedra clara: la **Ciudadela de Laravel**. Adentro todo tiene su lugar: una sala para las rutas, otra para los controladores, un taller donde se dibujan las vistas, una bodega que ya sabe hablar con MariaDB. Los guardias no dejan pasar un formulario sin su sello ni a un visitante sin su nombre.
+El segundo camino desde la Encrucijada sube por una colina hasta una fortaleza de piedra clara: el **Bastión de Laravel**. Adentro todo tiene su lugar: una sala para las rutas, otra para los controladores, un taller donde se dibujan las vistas, una bodega que ya sabe hablar con MariaDB. Los guardias no dejan pasar un formulario sin su sello ni a un visitante sin su nombre. A Pico no lo dejan entrar; Nilo lo esconde en la gorra.
 
-—Todo lo que construiste a mano en el Faro —dice {mentor}, señalando los muros—: el router, los controladores, las plantillas, la conexión, las pruebas. Acá ya viene hecho, probado por miles de programadores y ordenado siempre igual. Un **framework** no te ahorra entender, {heroe}: te ahorra repetir. Y como ya sabés cómo funciona por dentro, vas a entender cada sala.
+—Todo lo que construiste a mano en el Faro —dice {mentor}, señalando los muros—: el router, los controladores, las plantillas, la conexión, las pruebas. Acá ya viene hecho, probado por miles de programadores y ordenado siempre igual. Un **framework** no te ahorra entender, Nilo: te ahorra repetir. Y como ya sabés cómo funciona por dentro, vas a entender cada sala.
 
 ### Objetivos
 
@@ -42,8 +42,8 @@ El segundo camino desde la Encrucijada sube por una colina hasta una fortaleza d
 Laravel se instala con Composer, como cualquier biblioteca, pero en lugar de `require`
 se usa `create-project`, que descarga el esqueleto completo de una aplicación:
 ```bash
-composer create-project laravel/laravel:^12.0 ciudadela
-cd ciudadela
+composer create-project laravel/laravel:^12.0 bastion
+cd bastion
 php artisan serve
 ```
 Abrí `http://127.0.0.1:8000` y vas a ver la página de bienvenida. Laravel 12 funciona
@@ -990,9 +990,9 @@ usa: fw.laravel, sql.modelo
 
 ### Crónica
 
-En el sótano de la Ciudadela hay una bodega que no se parece a la del Puerto: no hay que escribir `CREATE TABLE` a mano ni armar cada consulta con `prepare`. Las tablas se describen en unos pergaminos numerados —las **migraciones**— y cada registro se maneja como un objeto. Un guardia revisa cada formulario antes de que toque la bodega: si falta un dato, lo devuelve con una nota que dice qué corregir.
+En el sótano del Bastión hay una bodega que no se parece a la del Puerto: no hay que escribir `CREATE TABLE` a mano ni armar cada consulta con `prepare`. Las tablas se describen en unos pergaminos numerados —las **migraciones**— y cada registro se maneja como un objeto. Un guardia revisa cada formulario antes de que toque la bodega: si falta un dato, lo devuelve con una nota que dice qué corregir. Fermín, que vino de visita, desconfía de una bodega que escribe sola.
 
-—Es la misma MariaDB de siempre, {heroe} —dice {mentor}—. Laravel escribe el SQL por vos, con consultas preparadas, y te deja pensar en barcos y viajes en lugar de filas y columnas. Pero no te olvides de lo que pasa abajo: cuando algo falle, lo vas a encontrar porque sabés SQL.
+—Es la misma MariaDB de siempre, Nilo —dice {mentor}—. Laravel escribe el SQL por vos, con consultas preparadas, y te deja pensar en barcos y viajes en lugar de filas y columnas. Pero no te olvides de lo que pasa abajo: cuando algo falle, lo vas a encontrar porque sabés SQL.
 
 ### Objetivos
 
@@ -1012,14 +1012,14 @@ En el sótano de la Ciudadela hay una bodega que no se parece a la del Puerto: n
 El proyecto nuevo viene configurado con SQLite. Para usar MariaDB (o MySQL), creá la
 base en phpMyAdmin o en la consola:
 ```sql
-CREATE DATABASE ciudadela CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE bastion CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 y cambiá estas líneas del `.env`:
 ```ini
 DB_CONNECTION=mariadb
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=ciudadela
+DB_DATABASE=bastion
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -1516,7 +1516,7 @@ puede cargarlo).
 **Troll: `Attempt to read property "nombre" on null`.** `Barco::find` no encontró nada
 y devolvió `null`. Usá `findOrFail` o el *route model binding*, que responden 404.
 
-**Esqueleto: `Table 'ciudadela.barcos' doesn't exist`.** Falta `php artisan migrate`, o
+**Esqueleto: `Table 'bastion.barcos' doesn't exist`.** Falta `php artisan migrate`, o
 el modelo busca otro nombre de tabla: Laravel pluraliza en inglés, y `Camion` busca
 `camions` y `Pais` busca `pais`. Si el nombre no sale solo, poné `protected $table`.
 
@@ -1917,16 +1917,16 @@ class ReclamosTest extends TestCase
 
     public function test_guarda_un_reclamo_valido(): void
     {
-        $this->post('/reclamos', ['email' => 'kira@puerto.test', 'categoria' => 'demora', 'texto' => 'El barco salió dos horas tarde.'])
+        $this->post('/reclamos', ['email' => 'iara@puerto.test', 'categoria' => 'demora', 'texto' => 'El barco salió dos horas tarde.'])
             ->assertRedirect(route('reclamos.create'))
-            ->assertSessionHas('ok', 'Reclamo N° 1 recibido. Te respondemos a kira@puerto.test.');
+            ->assertSessionHas('ok', 'Reclamo N° 1 recibido. Te respondemos a iara@puerto.test.');
 
-        $this->assertDatabaseHas('reclamos', ['email' => 'kira@puerto.test', 'categoria' => 'demora']);
+        $this->assertDatabaseHas('reclamos', ['email' => 'iara@puerto.test', 'categoria' => 'demora']);
     }
 
     public function test_rechaza_los_tres_campos_mal(): void
     {
-        $this->post('/reclamos', ['email' => 'kira', 'categoria' => 'clima', 'texto' => 'Mal.'])
+        $this->post('/reclamos', ['email' => 'iara', 'categoria' => 'clima', 'texto' => 'Mal.'])
             ->assertSessionHasErrors([
                 'email' => 'Ese correo no parece válido.',
                 'categoria' => 'Elegí una categoría de la lista.',
@@ -1940,8 +1940,8 @@ class ReclamosTest extends TestCase
     {
         $this->followingRedirects()
             ->from('/reclamos/create')
-            ->post('/reclamos', ['email' => 'kira@puerto.test', 'categoria' => 'carga', 'texto' => 'Corto'])
-            ->assertSee('value="kira@puerto.test"', false)
+            ->post('/reclamos', ['email' => 'iara@puerto.test', 'categoria' => 'carga', 'texto' => 'Corto'])
+            ->assertSee('value="iara@puerto.test"', false)
             ->assertSee('<option value="carga" selected>', false)
             ->assertSee('El reclamo tiene que tener entre 10 y 500 letras.');
     }
@@ -2600,7 +2600,7 @@ El "N+1": sin `with`, mostrar el barco de cada viaje hace una consulta por viaje
 
 Contenido nuevo. Cada solución se verifica sobre Laravel 12 con `php artisan test` (SQLite en memoria, como trae el `phpunit.xml`) y además con `php artisan migrate:fresh --seed` contra MariaDB (`DB_CONNECTION=mariadb`). Para corregir: `composer install`, `.env` apuntando a una base vacía, `php artisan key:generate`, `php artisan migrate:fresh --seed`, `php artisan test` y una recorrida con `php artisan serve`.
 
-## S02-N03 · Jefe de la Ciudadela: el Grifo de los Registros
+## S02-N03 · Jefe del Bastión: el Grifo de los Registros
 
 ```meta
 tipo: jefe
@@ -2608,16 +2608,16 @@ padre: S02-N02
 precio: 10
 criatura: dragon
 ejecutable: no
-insignia: Guardián de la Ciudadela
+insignia: Guardián del Bastión
 insignia_descripcion: Venciste al Grifo de los Registros: construiste sistemas completos con Laravel y MariaDB, con reglas del negocio y pruebas.
 usa: fw.laravel, sql.orm, cal.pruebas
 ```
 
 ### Crónica
 
-Sobre la torre más alta de la Ciudadela anida el **Grifo de los Registros**: mitad águila, mitad león, y memoria de archivo. Cada mañana baja a revisar los libros del Puerto y, si encuentra dos barcos en el mismo muelle el mismo día, un calado que no entra o una anotación sin fecha, arranca la página con el pico.
+Sobre la torre más alta del Bastión anida el **Grifo de los Registros**: mitad águila, mitad león, con un monóculo de bronce y memoria de archivo. Cada mañana baja a revisar los libros del Puerto y, si encuentra dos barcos en el mismo muelle el mismo día, un calado que no entra o una anotación sin fecha, arranca la página con el pico. Pico, celoso, lo mira desde abajo.
 
-—No lo vas a espantar con más código, {heroe} —dice {mentor}—, sino con **reglas**: que la base no pueda quedar en un estado imposible, que cada formulario diga qué corregir y que haya una prueba para cada cosa que el Grifo busca. Cuando no encuentre nada que arrancar, se va a quedar a cuidar tus libros.
+—No lo vas a espantar con más código, Nilo —dice {mentor}—, sino con **reglas**: que la base no pueda quedar en un estado imposible, que cada formulario diga qué corregir y que haya una prueba para cada cosa que el Grifo busca. Cuando no encuentre nada que arrancar, se va a quedar a cuidar tus libros.
 
 ### Objetivos
 
@@ -2627,7 +2627,7 @@ Sobre la torre más alta de la Ciudadela anida el **Grifo de los Registros**: mi
 
 ### Antes de empezar
 
-- Toda la Senda de la Ciudadela.
+- Toda la Senda del Bastión.
 
 ### Explicación
 

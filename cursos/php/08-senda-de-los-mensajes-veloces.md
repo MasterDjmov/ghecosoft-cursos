@@ -20,9 +20,9 @@ usa: web.api-rest, html.estructura
 
 ### Crónica
 
-El tercer camino desde la Encrucijada baja hasta el palomar del Puerto. Cientos de palomas mensajeras entran y salen sin parar: llevan una pregunta corta a la torre y vuelven con la respuesta atada a la pata, sin que nadie tenga que caminar hasta allá. En la ventana del palomar, un tablero cambia solo cada vez que llega una paloma.
+El tercer camino desde la Encrucijada baja hasta el palomar del Puerto. Cientos de palomas mensajeras entran y salen sin parar: llevan una pregunta corta a la torre y vuelven con la respuesta atada a la pata, sin que nadie tenga que caminar hasta allá. En la ventana del palomar, un tablero cambia solo cada vez que llega una paloma. Nilo, que se pasó el viaje corriendo con cartas, mira a las palomas con una mezcla de admiración y celos.
 
-—En el Faro armaste una API que responde JSON —dice {mentor}—. Hasta ahora la probabas con `curl`. Pero quien la usa de verdad es el **navegador**: una página que manda palomas —pedidos con `fetch`— y cambia solo el pedacito que hace falta, sin recargar. Para eso necesitás un poco de la otra lengua del Puerto, {heroe}: **JavaScript**.
+—En el Faro armaste una API que responde JSON —dice {mentor}—. Hasta ahora la probabas con `curl`. Pero quien la usa de verdad es el **navegador**: una página que manda palomas —pedidos con `fetch`— y cambia solo el pedacito que hace falta, sin recargar. Para eso necesitás un poco de la otra lengua del Puerto, Nilo: **JavaScript**.
 
 ### Objetivos
 
@@ -43,10 +43,10 @@ JavaScript corre **en el navegador** de quien visita la página; PHP corre en el
 servidor. Se parecen más de lo que parece:
 | PHP | JavaScript |
 |---|---|
-| `$nombre = 'Kira';` | `const nombre = 'Kira';` (o `let` si va a cambiar) |
+| `$nombre = 'Iara';` | `const nombre = 'Iara';` (o `let` si va a cambiar) |
 | `"Hola, {$nombre}"` | `` `Hola, ${nombre}` `` (con comillas invertidas) |
 | `[1, 2, 3]` | `[1, 2, 3]` |
-| `['nombre' => 'Kira', 'vida' => 90]` | `{ nombre: 'Kira', vida: 90 }` (un objeto) |
+| `['nombre' => 'Iara', 'vida' => 90]` | `{ nombre: 'Iara', vida: 90 }` (un objeto) |
 | `$barco['nombre']` | `barco.nombre` |
 | `count($lista)` | `lista.length` |
 | `foreach ($lista as $x)` | `for (const x of lista)` |
@@ -1030,9 +1030,9 @@ usa: js.fetch, web.sesiones
 
 ### Crónica
 
-Hasta ahora las palomas solo traían noticias. Pero en el palomar también hay que **mandar**: pedidos nuevos, correcciones, bajas. Y no cualquiera puede escribir en los libros del Puerto: la torre tiene que saber quién manda cada paloma, y devolver con una nota clara la que llegó mal escrita.
+Hasta ahora las palomas solo traían noticias. Pero en el palomar también hay que **mandar**: pedidos nuevos, correcciones, bajas. Y no cualquiera puede escribir en los libros del Puerto: la torre tiene que saber quién manda cada paloma, y devolver con una nota clara la que llegó mal escrita. Pico se disfraza de paloma para meter un pedido falso; la torre lo rebota.
 
-—Una página que escribe es otra cosa, {heroe} —dice {mentor}—. Hay que mandar los datos como corresponde, mostrar cada error al lado del campo que lo causó, saber quién está del otro lado y cerrar la puerta a los pedidos que llegan disfrazados desde otro sitio. Todo lo que aprendiste en la Oficina de Correos, ahora sin recargar la página.
+—Una página que escribe es otra cosa, Nilo —dice {mentor}—. Hay que mandar los datos como corresponde, mostrar cada error al lado del campo que lo causó, saber quién está del otro lado y cerrar la puerta a los pedidos que llegan disfrazados desde otro sitio. Todo lo que aprendiste en la Oficina de Correos, ahora sin recargar la página.
 
 ### Objetivos
 
@@ -1166,7 +1166,7 @@ async function agregar(texto) {
 
 Las **notas del capitán**: cada usuario ingresa con su clave y ve solo sus notas; puede
 agregar y borrar, la sesión sobrevive a una recarga y la API rechaza lo que no llega
-como JSON. Usuarios de prueba: `Kira` / `ancla123` y `Bron` / `timon456`.
+como JSON. Usuarios de prueba: `Iara` / `ancla123` y `Nilo` / `timon456`.
 
 `esquema.sql`
 ```sql
@@ -1184,9 +1184,9 @@ CREATE TABLE nota (
     FOREIGN KEY (usuario_id) REFERENCES usuario (id)
 );
 INSERT INTO usuario (nombre, clave_hash) VALUES
-    ('Kira', '$2y$10$fu7iXdxu9Ep1C8AMf0uv/OzRg7.2L3r6SXq6TzN6nIoDR03ZVFrR.'),
-    ('Bron', '$2y$10$DhjPPvro3/hEguiP4g2p7u/q6XroVWbO8YFp5QUEHkA5wa.S6n9kC');
-INSERT INTO nota (usuario_id, texto) VALUES (1, 'Revisar las velas'), (2, 'Secreto de Bron'), (1, 'Pagar el amarre');
+    ('Iara', '$2y$10$fu7iXdxu9Ep1C8AMf0uv/OzRg7.2L3r6SXq6TzN6nIoDR03ZVFrR.'),
+    ('Nilo', '$2y$10$DhjPPvro3/hEguiP4g2p7u/q6XroVWbO8YFp5QUEHkA5wa.S6n9kC');
+INSERT INTO nota (usuario_id, texto) VALUES (1, 'Revisar las velas'), (2, 'Secreto de Nilo'), (1, 'Pagar el amarre');
 ```
 
 `config.php`
@@ -1468,7 +1468,7 @@ api('GET', '/api/sesion')
     .catch(() => mostrarIngreso());
 ```
 
-Probalo con dos navegadores (o uno normal y otro en modo incógnito): Kira y Bron ven
+Probalo con dos navegadores (o uno normal y otro en modo incógnito): Iara y Nilo ven
 cada uno sus notas. En la pestaña Red mirá el pedido a `/api/sesion` al cargar: con la
 cookie responde 200; sin ella, 401. Y probá desde la terminal que la API no acepta
 formularios comunes:
@@ -2042,7 +2042,7 @@ xp: 10
 
 Los marineros cargan **pedidos** a la bodega y solo la capitana los despacha. Tabla
 `usuario` con `es_capitan` y tabla `pedido` (`usuario_id`, `detalle`, `estado`
-`pendiente` o `despachado`). Usuarios: `Kira` / `ancla123` (capitana) y `Bron` /
+`pendiente` o `despachado`). Usuarios: `Iara` / `ancla123` (capitana) y `Nilo` /
 `timon456` (marinero). La API (todo con sesión: sin ella, 401):
 
 - `GET/POST/DELETE /api/sesion` como en el ejemplo (el GET y el POST devuelven también
@@ -2053,8 +2053,8 @@ Los marineros cargan **pedidos** a la bodega y solo la capitana los despacha. Ta
 - `PATCH /api/pedidos/{id}` con `{"estado": "despachado"}`: solo la capitana; a los
   demás, **403** `Solo la capitana despacha pedidos.`
 
-La página: ingreso, `Hola, Bron (marinero)` / `Hola, Kira (capitana)`, la lista
-(`#2 · 3 sogas · pendiente · de Bron`), el formulario para pedir y, **solo para la
+La página: ingreso, `Hola, Nilo (marinero)` / `Hola, Iara (capitana)`, la lista
+(`#2 · 3 sogas · pendiente · de Nilo`), el formulario para pedir y, **solo para la
 capitana**, un botón **Despachar** en los pendientes. Recordá: esconder el botón no
 alcanza, la API tiene que rechazar. Entregá el proyecto en un zip.
 
@@ -2084,8 +2084,8 @@ CREATE TABLE pedido (
     FOREIGN KEY (usuario_id) REFERENCES usuario (id)
 );
 INSERT INTO usuario (nombre, clave_hash, es_capitan) VALUES
-    ('Kira', '$2y$10$fu7iXdxu9Ep1C8AMf0uv/OzRg7.2L3r6SXq6TzN6nIoDR03ZVFrR.', TRUE),
-    ('Bron', '$2y$10$DhjPPvro3/hEguiP4g2p7u/q6XroVWbO8YFp5QUEHkA5wa.S6n9kC', FALSE),
+    ('Iara', '$2y$10$fu7iXdxu9Ep1C8AMf0uv/OzRg7.2L3r6SXq6TzN6nIoDR03ZVFrR.', TRUE),
+    ('Nilo', '$2y$10$DhjPPvro3/hEguiP4g2p7u/q6XroVWbO8YFp5QUEHkA5wa.S6n9kC', FALSE),
     ('Lía', '$2y$10$dQ/7TQeRuUhQPF8fe2A3Fe/WF4CyZkuHGPgowW9ad.EKR8rVfBode', FALSE);
 INSERT INTO pedido (usuario_id, detalle) VALUES (3, 'Un farol'), (2, '3 sogas');
 ```
@@ -2676,7 +2676,7 @@ No: cualquiera puede mandar el pedido a la API con `curl`. La API tiene que revi
 
 Sale de `22-JS-Vanilla` (09-Eventos, 15-Async-Await-Fetch, 16-JSON, 17-Manejo-Errores), sobre las sesiones y el login de R03 y la API de R05-N03. Cada solución se verifica con el SQL cargado, `php -S … -t public router.php` y un navegador real (Chromium) que ingresa, carga, edita y borra, además de pedidos directos a la API (401, 403, 404, 415). Para corregir, usar la página con F12 abierto y probar el 403 con `curl` o desde la consola.
 
-## S03-N03 · Jefe del Palomar: el Leviatán de los Mensajes
+## S03-N03 · Jefe del Palomar: la Orca de los Mensajes
 
 ```meta
 tipo: jefe
@@ -2685,15 +2685,15 @@ precio: 10
 criatura: dragon
 ejecutable: no
 insignia: Mensajero Veloz
-insignia_descripcion: Venciste al Leviatán de los Mensajes: construiste aplicaciones de una sola página que conversan en vivo con tu API de PHP y MariaDB.
+insignia_descripcion: Venciste a la Orca de los Mensajes: construiste aplicaciones de una sola página que conversan en vivo con tu API de PHP y MariaDB.
 usa: js.fetch, js.formularios, sql.modelo
 ```
 
 ### Crónica
 
-Una tarde el mar se levanta frente al palomar y asoma el **Leviatán de los Mensajes**: una serpiente enorme que se traga las palomas en pleno vuelo, confunde las respuestas y manda cien pedidos por segundo para tapar la torre. Las páginas que dependen de recargar se quedan mudas; las que no revisan lo que reciben muestran cualquier cosa.
+Una tarde el mar se levanta frente al palomar y salta la **Orca de los Mensajes**: una orca gigante con vetas violetas, que se traga las palomas en pleno vuelo, confunde las respuestas y manda cien pedidos por segundo para tapar la torre. Las páginas que dependen de recargar se quedan mudas; las que no revisan lo que reciben muestran cualquier cosa.
 
-—Hoy tus páginas tienen que ser rápidas y tercas, {heroe} —dice {mentor}—. Que se enteren solas de lo nuevo, que no se traben si un pedido tarda, que la base no acepte lo imposible aunque dos personas aprieten el botón a la vez, y que la torre sepa decir "esperá" cuando la inundan. Así se espanta un Leviatán.
+—Hoy tus páginas tienen que ser rápidas y tercas, Nilo —dice {mentor}—. Que se enteren solas de lo nuevo, que no se traben si un pedido tarda, que la base no acepte lo imposible aunque dos personas aprieten el botón a la vez, y que la torre sepa decir "esperá" cuando la inundan. Así se espanta una Orca.
 
 ### Objetivos
 
@@ -3117,7 +3117,7 @@ xp: 40
 El **chat del puerto**: cualquiera entra con un nombre y conversa con los demás en vivo.
 La API (con sesión):
 
-- `POST /api/sesion` con `{"nombre": "Kira"}`: de 2 a 20 letras, números o espacios
+- `POST /api/sesion` con `{"nombre": "Iara"}`: de 2 a 20 letras, números o espacios
   (`El nombre tiene de 2 a 20 letras o números.`); `GET` devuelve quién sos o 401;
   `DELETE` sale.
 - `GET /api/mensajes?desde=ID`: los mensajes con id mayor que `ID`, en orden, hasta 50,
@@ -3127,7 +3127,7 @@ La API (con sesión):
   últimos 10 segundos**, responde **429** `Esperá unos segundos antes de mandar otro mensaje.`
 
 La página: el ingreso con el nombre y, adentro, la lista de mensajes
-(`[14:05] Kira: hola`, los propios con la clase `mio`), el campo para escribir y **Salir**.
+(`[14:05] Iara: hola`, los propios con la clase `mio`), el campo para escribir y **Salir**.
 Pide los mensajes nuevos **cada segundo** (sin pedidos superpuestos y usando `desde`),
 nunca muestra un mensaje dos veces, muestra el texto **tal cual** (un mensaje con
 `<b>` se ve con los signos) y, al mandar, pide enseguida los nuevos en lugar de

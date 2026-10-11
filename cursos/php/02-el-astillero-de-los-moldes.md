@@ -17,9 +17,9 @@ temas: poo.clases, poo.constructores
 
 ### Crónica
 
-Pasando la roca de la Sirena empieza el **Astillero**. Hay moldes de madera colgados de las paredes: el molde de un bote, el de una balsa, el de un velero. Con cada molde los carpinteros arman muchos barcos iguales, y después cada uno se pinta distinto, lleva su propia carga y su propio nombre.
+Pasando la roca de la Sirena empieza el **Astillero**. Hay moldes de madera colgados de las paredes: el molde de un bote, el de una balsa, el de un velero. Con cada molde los carpinteros arman muchos barcos iguales, y después cada uno se pinta distinto, lleva su propia carga y su propio nombre. Nilo pinta el suyo de violeta, como su bufanda, y le pone de nombre *Gaviota*. Ya hay catorce barcos que se llaman *Gaviota*.
 
-—Hasta ahora guardabas los datos de un barco en un array y las cuentas en funciones sueltas —dice {mentor}—. En el Astillero, el **molde** junta las dos cosas: qué datos tiene un barco y qué sabe hacer. Ese molde se llama **clase**, {heroe}, y cada barco hecho con él es un **objeto**.
+—Hasta ahora guardabas los datos de un barco en un array y las cuentas en funciones sueltas —dice {mentor}—. En el Astillero, el **molde** junta las dos cosas: qué datos tiene un barco y qué sabe hacer. Ese molde se llama **clase**, Nilo, y cada barco hecho con él es un **objeto**.
 
 ### Objetivos
 
@@ -361,7 +361,7 @@ Métodos:
 - `estado(): string` — `al día`, `debe` o `a favor`.
 
 Creá dos cuentas y ejecutá los movimientos del ejemplo, mostrando el resultado de
-cada uno. Mostrá también qué pasa si asignás la cuenta de Bron a otra variable y
+cada uno. Mostrá también qué pasa si asignás la cuenta de Nilo a otra variable y
 comprás con esa variable.
 
 #### Criterio de aprobación
@@ -373,12 +373,12 @@ comprás con esa variable.
 #### Salida esperada
 
 ```
-Kira compra 3200: ok
-Kira compra 2500: rechazado
-Kira: 800 (a favor)
-Bron compra 1800: ok
-Bron: 0 (al día)
-Después de comprar con $otra: Bron: -500 (debe)
+Iara compra 3200: ok
+Iara compra 2500: rechazado
+Iara: 800 (a favor)
+Nilo compra 1800: ok
+Nilo: 0 (al día)
+Después de comprar con $otra: Nilo: -500 (debe)
 ```
 
 #### Solución de referencia
@@ -426,21 +426,21 @@ class CuentaCorriente
     }
 }
 
-$kira = new CuentaCorriente('Kira', 5000);
-$bron = new CuentaCorriente('Bron', 2000);
+$iara = new CuentaCorriente('Iara', 5000);
+$nilo = new CuentaCorriente('Nilo', 2000);
 
-echo "Kira compra 3200: ", $kira->comprar(3200) ? 'ok' : 'rechazado', "\n";
-echo "Kira compra 2500: ", $kira->comprar(2500) ? 'ok' : 'rechazado', "\n";
-$kira->pagar(4000);
-echo $kira, "\n";
+echo "Iara compra 3200: ", $iara->comprar(3200) ? 'ok' : 'rechazado', "\n";
+echo "Iara compra 2500: ", $iara->comprar(2500) ? 'ok' : 'rechazado', "\n";
+$iara->pagar(4000);
+echo $iara, "\n";
 
-echo "Bron compra 1800: ", $bron->comprar(1800) ? 'ok' : 'rechazado', "\n";
-$bron->pagar(1800);
-echo $bron, "\n";
+echo "Nilo compra 1800: ", $nilo->comprar(1800) ? 'ok' : 'rechazado', "\n";
+$nilo->pagar(1800);
+echo $nilo, "\n";
 
-$otra = $bron;
+$otra = $nilo;
 $otra->comprar(500);
-echo "Después de comprar con \$otra: ", $bron, "\n";
+echo "Después de comprar con \$otra: ", $nilo, "\n";
 ```
 
 ### Misión R02-N01-M3 · Del array a la clase
@@ -473,8 +473,8 @@ function esMenor(array $p): bool { return $p['edad'] < 18; }
 function tarifa(array $p): int { return esMenor($p) ? 2500 : 5000; }
 
 $pasajeros = [
-    ['nombre' => 'Kira', 'edad' => 17, 'destino' => 'Valle'],
-    ['nombre' => 'Bron', 'edad' => 45, 'destino' => 'Forjas'],
+    ['nombre' => 'Iara', 'edad' => 17, 'destino' => 'Valle'],
+    ['nombre' => 'Nilo', 'edad' => 45, 'destino' => 'Forjas'],
     ['nombre' => 'Tomi', 'edad' => 9, 'destino' => 'Valle'],
 ];
 $total = 0;
@@ -488,8 +488,8 @@ echo "Recaudación: $$total\n";
 #### Salida esperada
 
 ```
-Kira (17) a Valle: $2500 [menor]
-Bron (45) a Forjas: $5000
+Iara (17) a Valle: $2500 [menor]
+Nilo (45) a Forjas: $5000
 Tomi (9) a Valle: $2500 [menor]
 Recaudación: $10000
 ```
@@ -526,8 +526,8 @@ class Pasajero
 }
 
 $pasajeros = [
-    new Pasajero('Kira', 17, 'Valle'),
-    new Pasajero('Bron', 45, 'Forjas'),
+    new Pasajero('Iara', 17, 'Valle'),
+    new Pasajero('Nilo', 45, 'Forjas'),
     new Pasajero('Tomi', 9, 'Valle'),
 ];
 $total = 0;
@@ -666,9 +666,9 @@ temas: poo.encapsulamiento, poo.records
 
 ### Crónica
 
-En el Astillero hay un barco con un cartel en el timón: *"Solo el capitán"*. Un grumete curioso lo giró una noche y el barco terminó encallado. Desde entonces, el timón se maneja con una palanca que revisa el rumbo antes de moverlo.
+En el Astillero hay un barco con un cartel en el timón: *"Solo el capitán"*. Una noche, Pico se posó en el timón, lo giró con las patas y el barco terminó encallado. Desde entonces, el timón se maneja con una palanca que revisa el rumbo antes de moverlo. Nilo jura que Pico no lo hizo a propósito.
 
-—Si cualquiera puede tocar cualquier cosa de un objeto, tarde o temprano alguien lo rompe —dice {mentor}—. Los datos importantes se **esconden** y se cambian solo a través de métodos que controlan que el cambio tenga sentido. Y lo que no debe cambiar nunca, {heroe}, se marca para que nadie pueda.
+—Si cualquiera puede tocar cualquier cosa de un objeto, tarde o temprano alguien lo rompe —dice {mentor}—. Los datos importantes se **esconden** y se cambian solo a través de métodos que controlan que el cambio tenga sentido. Y lo que no debe cambiar nunca, Nilo, se marca para que nadie pueda.
 
 ### Objetivos
 
@@ -855,7 +855,7 @@ readonly class Dinero
     }
 }
 
-$cuenta = new CuentaCorriente('Kira', 5000);
+$cuenta = new CuentaCorriente('Iara', 5000);
 $cuenta->comprar('yerba', 4200);
 $cuenta->comprar('sal', 1500);           // pasaría el límite: no se hace
 $cuenta->pagar(3000);
@@ -872,7 +872,7 @@ try {
 }
 // Lo readonly no se cambia
 try {
-    $cuenta->titular = 'Bron';
+    $cuenta->titular = 'Nilo';
 } catch (Error $e) {
     echo "No se puede: ", $e->getMessage(), "\n";
 }
@@ -892,7 +892,7 @@ echo "Precio: $precio · con envío: $conEnvio\n";
 ### Salida esperada
 
 ```
-Kira tiene saldo -1200
+Iara tiene saldo -1200
   - 4200 yerba
   + 3000 pago
 No se puede: Cannot access private property CuentaCorriente::$saldo
@@ -1052,10 +1052,10 @@ crear uno con código `a-12`.
 #### Salida esperada
 
 ```
-Original:  A-102 Kira → Valle: $5.000,00
-Descuento: A-102 Kira → Valle: $4.000,00
-Cambio:    A-102 Kira → Imperio: $6.800,00
-El original sigue igual: A-102 Kira → Valle: $5.000,00
+Original:  A-102 Iara → Valle: $5.000,00
+Descuento: A-102 Iara → Valle: $4.000,00
+Cambio:    A-102 Iara → Imperio: $6.800,00
+El original sigue igual: A-102 Iara → Valle: $5.000,00
 No se creó: Código inválido: a-12
 ```
 
@@ -1098,7 +1098,7 @@ readonly class Pasaje
     }
 }
 
-$original = new Pasaje('A-102', 'Kira', 'Valle', 500000);
+$original = new Pasaje('A-102', 'Iara', 'Valle', 500000);
 $barato = $original->conDescuento(20);
 $otro = $original->cambiarDestino('Imperio', 180000);
 
@@ -1108,7 +1108,7 @@ echo "Cambio:    $otro\n";
 echo "El original sigue igual: $original\n";
 
 try {
-    new Pasaje('a-12', 'Bron', 'Forjas', 300000);
+    new Pasaje('a-12', 'Nilo', 'Forjas', 300000);
 } catch (InvalidArgumentException $e) {
     echo "No se creó: ", $e->getMessage(), "\n";
 }
@@ -1353,9 +1353,9 @@ temas: poo.static, diseno.patrones
 
 ### Crónica
 
-En la puerta del Astillero hay una pizarra que no es de ningún barco en particular: dice cuántos barcos se botaron este año, el calado máximo permitido en el puerto y el precio de la madera. Todos los carpinteros la miran, pero no pertenece a ninguno.
+En la puerta del Astillero hay una pizarra que no es de ningún barco en particular: dice cuántos barcos se botaron este año, el calado máximo permitido en el puerto y el precio de la madera. Todos los carpinteros la miran, pero no pertenece a ninguno. Nilo, para no olvidarse del calado máximo, lo escribe con tiza en la proa de cada barco. Iara lo borra uno por uno.
 
-—Hay datos que son de **cada** barco, como su nombre, y datos que son del **molde entero**, como cuántos barcos se hicieron con él —dice {mentor}—. Los segundos se marcan `static`. Y a veces, {heroe}, conviene tener varias puertas para fabricar un barco, cada una con un nombre que diga cómo.
+—Hay datos que son de **cada** barco, como su nombre, y datos que son del **molde entero**, como cuántos barcos se hicieron con él —dice {mentor}—. Los segundos se marcan `static`. Y a veces, Nilo, conviene tener varias puertas para fabricar un barco, cada una con un nombre que diga cómo.
 
 ### Objetivos
 
@@ -1589,8 +1589,8 @@ recaudación total.
 #### Salida esperada
 
 ```
-B-0001 Kira: $5000
-B-0002 Bron (nocturno): $6250
+B-0001 Iara: $5000
+B-0002 Nilo (nocturno): $6250
 B-0003 Lía: $5000
 B-0004 Olmo (nocturno): $6250
 Emitidos: 4 · recaudación: $22500
@@ -1631,8 +1631,8 @@ class Boleto
 }
 
 $boletos = [
-    new Boleto('Kira'),
-    new Boleto('Bron', nocturno: true),
+    new Boleto('Iara'),
+    new Boleto('Nilo', nocturno: true),
     new Boleto('Lía'),
     new Boleto('Olmo', nocturno: true),
 ];
@@ -1974,9 +1974,9 @@ temas: poo.herencia
 
 ### Crónica
 
-En el fondo del Astillero hay un árbol genealógico pintado en la pared: arriba, la **Embarcación**, con casco y nombre; de ella salen el **Velero**, que además tiene velas, y el **Remolcador**, que además tiene motor y cuerda de arrastre. Todos son embarcaciones, pero cada uno agrega lo suyo.
+En el fondo del Astillero hay un árbol genealógico pintado en la pared: arriba, la **Embarcación**, con casco y nombre; de ella salen el **Velero**, que además tiene velas, y el **Remolcador**, que además tiene motor y cuerda de arrastre. Todos son embarcaciones, pero cada uno agrega lo suyo. Nilo pregunta dónde va la gaviota. Nadie le contesta.
 
-—No hace falta escribir dos veces lo que tienen en común —dice {mentor}—. El velero **hereda** todo de la embarcación y solo agrega lo que lo hace distinto. Pero heredar es un compromiso, {heroe}: si el hijo cambia algo del padre, tiene que seguir cumpliendo lo que el padre prometía.
+—No hace falta escribir dos veces lo que tienen en común —dice {mentor}—. El velero **hereda** todo de la embarcación y solo agrega lo que lo hace distinto. Pero heredar es un compromiso, Nilo: si el hijo cambia algo del padre, tiene que seguir cumpliendo lo que el padre prometía.
 
 ### Objetivos
 
@@ -2223,8 +2223,8 @@ repetir la cuenta. Mostrá los recibos del ejemplo y el total a pagar.
 
 ```
 Nara   $650.000,00
-Bron   $716.800,00
-Kira   $1.170.000,00 (capitán del Gaviota)
+Nilo   $716.800,00
+Iara   $1.170.000,00 (capitán del Gaviota)
 Total: $2.536.800,00
 ```
 
@@ -2285,8 +2285,8 @@ class Capitan extends Empleado
 
 $empleados = [
     new Empleado('Nara', 650000),
-    new Estibador('Bron', 700000, 14),
-    new Capitan('Kira', 900000, 'Gaviota'),
+    new Estibador('Nilo', 700000, 14),
+    new Capitan('Iara', 900000, 'Gaviota'),
 ];
 $total = 0;
 foreach ($empleados as $e) {
@@ -2510,7 +2510,7 @@ class CuentaCorriente extends Cuenta
     }
 }
 
-$ahorro = new CajaDeAhorro('Kira');
+$ahorro = new CajaDeAhorro('Iara');
 $ahorro->depositar(10000);
 foreach ([1000, 2000, 500, 100] as $i => $monto) {
     echo "Ahorro, extracción ", $i + 1, " de $monto: ", $ahorro->extraer($monto) ? 'ok' : 'rechazada', "\n";
@@ -2519,7 +2519,7 @@ $ahorro->finDeMes();
 echo "Ahorro a fin de mes: ", $ahorro->saldo(), "\n";
 echo "Ahorro, extracción de 100 en el mes nuevo: ", $ahorro->extraer(100) ? 'ok' : 'rechazada', "\n";
 
-$corriente = new CuentaCorriente('Bron', 5000);
+$corriente = new CuentaCorriente('Nilo', 5000);
 $corriente->depositar(2000);
 echo "Corriente, extrae 6000: ", $corriente->extraer(6000) ? 'ok' : 'rechazada', " (saldo ", $corriente->saldo(), ")\n";
 echo "Corriente, extrae 2000: ", $corriente->extraer(2000) ? 'ok' : 'rechazada', " (saldo ", $corriente->saldo(), ")\n";
@@ -2675,9 +2675,9 @@ temas: poo.abstractas, poo.polimorfismo
 
 ### Crónica
 
-El capataz del Astillero tiene una lista de trabajos pendientes: un casco de velero, una hélice de remolcador, un ancla. A cada carpintero le dice lo mismo: *"Terminá tu pieza"*. Cada uno sabe cómo se termina la suya: el de velas cose, el herrero forja, el de madera lija. El capataz no necesita saber los detalles.
+El capataz del Astillero tiene una lista de trabajos pendientes: un casco de velero, una hélice de remolcador, un ancla. A cada carpintero le dice lo mismo: *"Terminá tu pieza"*. Cada uno sabe cómo se termina la suya: el de velas cose, el herrero forja, el de madera lija. Nilo, que corre de un taller a otro llevando las órdenes, se da cuenta de que es la primera vez que no tiene que explicar nada.
 
-—Esa es la magia —dice {mentor}—. Das **una sola orden**, y cada objeto la cumple a su manera. Se llama **polimorfismo**. Y hay moldes, {heroe}, que existen solo para que otros los completen: nadie construye "una pieza" genérica.
+—Esa es la magia —dice {mentor}—. Das **una sola orden**, y cada objeto la cumple a su manera. Se llama **polimorfismo**. Y hay moldes, Nilo, que existen solo para que otros los completen: nadie construye "una pieza" genérica.
 
 ### Objetivos
 
@@ -3406,9 +3406,9 @@ temas: poo.interfaces
 
 ### Crónica
 
-En la aduana del Astillero hay un cartel con tres reglas: *"Todo lo que se cargue en un barco tiene que tener **peso**. Todo lo que se asegure tiene que tener **valor**. Todo lo que se exporte tiene que tener **país de origen**."* Un cajón de fruta cumple las tres; un pasajero, solo la primera; un cuadro, las dos primeras.
+En la aduana del Astillero hay un cartel con tres reglas: *"Todo lo que se cargue en un barco tiene que tener **peso**. Todo lo que se asegure tiene que tener **valor**. Todo lo que se exporte tiene que tener **país de origen**."* Un cajón de fruta cumple las tres; un pasajero, solo la primera; un cuadro, las dos primeras. Pico intenta subir a un barco sin cumplir ninguna y el aduanero lo baja de un manotazo.
 
-—Esos carteles son **contratos** —dice {mentor}—. No dicen qué es cada cosa ni de qué molde viene: dicen qué tiene que saber hacer para pasar. En PHP se llaman **interfaces**, {heroe}, y una clase puede firmar todos los contratos que quiera.
+—Esos carteles son **contratos** —dice {mentor}—. No dicen qué es cada cosa ni de qué molde viene: dicen qué tiene que saber hacer para pasar. En PHP se llaman **interfaces**, Nilo, y una clase puede firmar todos los contratos que quiera.
 
 ### Objetivos
 
@@ -3464,7 +3464,7 @@ function cargaTotal(Pesable ...$cosas): float
 {
     return array_sum(array_map(fn(Pesable $c) => $c->pesoKg(), $cosas));
 }
-cargaTotal(new CajonDeFruta(20, 5000), new Pasajero('Kira', 58));
+cargaTotal(new CajonDeFruta(20, 5000), new Pasajero('Iara', 58));
 ```
 Un pasajero y un cajón no tienen nada en común… salvo que se pueden pesar. La
 función no los conoce: conoce el contrato. Si le pasás algo que no lo cumple:
@@ -3601,16 +3601,16 @@ function seguro(Asegurable ...$cosas): float
 }
 
 $manzanas = new CajonDeFruta('manzanas', 22, 18000);
-$kira = new Pasajero('Kira', 58, 12);
+$iara = new Pasajero('Iara', 58, 12);
 $retrato = new Cuadro('La Capitana', 450000);
 
 $bodega = new Bodega();
 $bodega->subir($manzanas);
-$bodega->subir($kira);
+$bodega->subir($iara);
 echo "En la bodega: ", count($bodega), " cosas, ", $bodega->peso(), " kg\n";
 echo "Seguro de $manzanas y $retrato: $", number_format(seguro($manzanas, $retrato), 2, ',', '.'), "\n";
 
-foreach ([$manzanas, $kira, $retrato] as $cosa) {
+foreach ([$manzanas, $iara, $retrato] as $cosa) {
     $contratos = [];
     if ($cosa instanceof Pesable) {
         $contratos[] = 'Pesable';
@@ -3634,7 +3634,7 @@ try {
 En la bodega: 2 cosas, 92 kg
 Seguro de cajón de manzanas y cuadro «La Capitana»: $9.360,00
 Cajón de manzanas: Pesable + Asegurable
-Pasajero Kira: Pesable
+Pasajero Iara: Pesable
 Cuadro «La Capitana»: Asegurable
 Un cuadro no se pesa: Bodega::subir(): Argument #1 ($cosa) must be of type Pesable, Cuadro given
 ```
@@ -4182,9 +4182,9 @@ temas: poo.composicion, diseno.inyeccion
 
 ### Crónica
 
-Un aprendiz del Astillero quiere que su bote tenga motor, así que dibuja un bote que **es** un motor con casco. El maestro carpintero le borra el dibujo: *"Un bote no es un motor. Un bote **tiene** un motor. Y mañana le vas a querer poner uno más grande."* Del otro lado del taller, un herrero pega la misma etiqueta de fecha de fabricación en todas las piezas, sean velas, remos o anclas.
+Un aprendiz del Astillero quiere que su bote tenga motor, así que dibuja un bote que **es** un motor con casco. El maestro carpintero le borra el dibujo: *"Un bote no es un motor. Un bote **tiene** un motor. Y mañana le vas a querer poner uno más grande."* Buscando un plano de motores en el cajón de los planos viejos, Nilo encuentra otro: **una barcaza hecha para llevar un solo vidrio enorme**, encargada hace veinte años por alguien con las manos manchadas de plomo. En la esquina, el dibujo de un vitral.
 
-—Hay dos maneras de reusar sin heredar —dice {mentor}—. Armar un objeto **con** otros objetos adentro, que se pueden cambiar. Y pegarle a varias clases el mismo pedacito de código, como esa etiqueta. Lo primero se llama **composición**; lo segundo, **trait**. Y ojo, {heroe}: la composición casi siempre gana.
+—Hay dos maneras de reusar sin heredar —dice {mentor}, que guarda el plano en su armadura sin comentarios—. Armar un objeto **con** otros objetos adentro, que se pueden cambiar. Y pegarle a varias clases el mismo pedacito de código, como la etiqueta de fecha que el herrero pega en todas las piezas. Lo primero se llama **composición**; lo segundo, **trait**. Y ojo, Nilo: la composición casi siempre gana.
 
 ### Objetivos
 
@@ -4572,7 +4572,7 @@ el trait `Auditable` con:
 - propiedades privadas `$creadoPor` y `$modificaciones` (un array);
 - `registrarCreacion(string $usuario): void`;
 - `registrarCambio(string $usuario, string $detalle): void`;
-- `historial(): string` — `creado por Ana; 2 cambio/s (último: Bron, cambió el precio)`.
+- `historial(): string` — `creado por Ana; 2 cambio/s (último: Nilo, cambió el precio)`.
 
 Usalo en dos clases sin relación: `Producto` (nombre, precio, con
 `cambiarPrecio(float $precio, string $usuario)`) y `Proveedor` (razón social,
@@ -4590,8 +4590,8 @@ de los cambios del ejemplo.
 
 ```
 Yerba: creado por Ana; 2 cambio/s (último: Ana, cambió el precio de 4500 a 4650)
-Molino: creado por Kira; 0 cambio/s
-Molino: creado por Kira; 1 cambio/s (último: Bron, cambió el teléfono a 380-4999999)
+Molino: creado por Iara; 0 cambio/s
+Molino: creado por Iara; 1 cambio/s (último: Nilo, cambió el teléfono a 380-4999999)
 ```
 
 #### Solución de referencia
@@ -4660,13 +4660,13 @@ class Proveedor
 }
 
 $yerba = new Producto('Yerba 1 kg', 4200, 'Ana');
-$yerba->cambiarPrecio(4500, 'Bron');
+$yerba->cambiarPrecio(4500, 'Nilo');
 $yerba->cambiarPrecio(4650, 'Ana');
-$molino = new Proveedor('Molino del Puerto SA', '380-4123456', 'Kira');
+$molino = new Proveedor('Molino del Puerto SA', '380-4123456', 'Iara');
 
 echo "Yerba: ", $yerba->historial(), "\n";
 echo "Molino: ", $molino->historial(), "\n";
-$molino->cambiarTelefono('380-4999999', 'Bron');
+$molino->cambiarTelefono('380-4999999', 'Nilo');
 echo "Molino: ", $molino->historial(), "\n";
 ```
 
@@ -4999,9 +4999,9 @@ temas: prog.enums, prog.fechas
 
 ### Crónica
 
-En el despacho de pasajes, los empleados anotaban el estado de cada reserva a mano: *"pagado"*, *"Pagada"*, *"pago ok"*, *"PAG"*. Nadie sabía cuántas reservas estaban realmente pagadas. Y con las fechas era peor: *"3/10"*, *"el sábado"*, *"10-03-26"*.
+En el despacho de pasajes, los empleados anotaban el estado de cada reserva a mano: *"pagado"*, *"Pagada"*, *"pago ok"*, *"PAG"*. Nadie sabía cuántas reservas estaban realmente pagadas. Y con las fechas era peor: *"3/10"*, *"el sábado"*, *"10-03-26"*. Iara pasa la mañana contándolas tres veces y le da tres números distintos. Es la primera vez que Nilo la ve perder la paciencia.
 
-—Cuando un dato solo puede tomar **unos pocos valores fijos**, no se escribe como texto libre: se usa un **enum** —dice {mentor}—. Y las fechas, {heroe}, tienen su propio tipo: con él, sumar diez días o saber cuántas noches hay entre dos fechas deja de ser un dolor de cabeza.
+—Cuando un dato solo puede tomar **unos pocos valores fijos**, no se escribe como texto libre: se usa un **enum** —dice {mentor}—. Y las fechas, Nilo, tienen su propio tipo: con él, sumar diez días o saber cuántas noches hay entre dos fechas deja de ser un dolor de cabeza.
 
 ### Objetivos
 
@@ -5178,7 +5178,7 @@ function fechaValida(string $texto): ?DateTimeImmutable
 }
 
 // Enums
-$reservas = [['Kira', 'pagado'], ['Bron', 'pendiente'], ['Lía', 'pagada'], ['Olmo', 'cancelado']];
+$reservas = [['Iara', 'pagado'], ['Nilo', 'pendiente'], ['Lía', 'pagada'], ['Olmo', 'cancelado']];
 foreach ($reservas as [$nombre, $texto]) {
     $estado = Estado::tryFrom($texto);
     if ($estado === null) {
@@ -5209,8 +5209,8 @@ foreach (['31/12/2026', '31/02/2026', '3/10/2026'] as $texto) {
 ### Salida esperada
 
 ```
-Kira: Pagado
-Bron: Pendiente de pago (se puede cancelar)
+Iara: Pagado
+Nilo: Pendiente de pago (se puede cancelar)
 Lía: estado desconocido «pagada»
 Olmo: Cancelado
 Estados posibles: pendiente, pagado, cancelado
@@ -5278,8 +5278,8 @@ campera (base $58000 más el recargo). Los talles inválidos se informan.
 #### Entrada de ejemplo
 
 ```
-Kira;m
-Bron;XL
+Iara;m
+Nilo;XL
 Lía;105
 Olmo;xxl
 Tomi;130
@@ -5288,8 +5288,8 @@ Tomi;130
 #### Salida esperada
 
 ```
-Kira: talle M (100 cm) $58.000
-Bron: talle XL (116 cm) $69.600
+Iara: talle M (100 cm) $58.000
+Nilo: talle XL (116 cm) $69.600
 Lía: talle L (108 cm) $63.800
 Olmo: no hay talle para «xxl»
 Tomi: no hay talle para «130»
@@ -5801,9 +5801,9 @@ temas: err.excepciones
 
 ### Crónica
 
-Una noche de tormenta, la grúa del muelle 2 se trabó con un contenedor colgando. El operario no sabía qué hacer y lo dejó ahí; a la mañana, el contenedor cayó sobre un bote. Desde entonces hay un protocolo pegado en cada grúa: *si algo falla, avisá a quien sabe resolverlo, y antes de irte, asegurá la carga*.
+Una noche de tormenta, la grúa del muelle 2 se traba con un contenedor colgando. Nilo trepa para destrabarla, resbala y cae al agua. Lo saca un **salvavidas** que alguien había atado a la grúa "por si acaso". Desde entonces hay un protocolo pegado en cada grúa: *si algo falla, avisá a quien sabe resolverlo, y antes de irte, asegurá la carga*. Nilo se queda con el salvavidas: el **Salvavidas del `finally`**.
 
-—Los programas también fallan: un archivo que no está, un dato imposible, una base de datos que no responde —dice {mentor}—. Lo peor es fallar en silencio. Una **excepción** es un aviso que sube hasta alguien que sabe qué hacer. Y siempre, {heroe}, siempre se asegura la carga.
+—Los programas también fallan: un archivo que no está, un dato imposible, una base de datos que no responde —dice {mentor}, escurriéndole la bufanda—. Lo peor es fallar en silencio. Una **excepción** es un aviso que sube hasta alguien que sabe qué hacer. Y siempre, Nilo, siempre se asegura la carga.
 
 ### Objetivos
 
@@ -6205,7 +6205,7 @@ Movimiento rechazado: Monto inválido: -50
 Saldo insuficiente: pediste 6000 y tenés 5200. Te damos los 5200 que hay.
 Saldo: 0
 Cuenta bloqueada por el banco
-La cuenta de Kira está bloqueada: llamá al banco.
+La cuenta de Iara está bloqueada: llamá al banco.
 ```
 
 #### Solución de referencia
@@ -6262,7 +6262,7 @@ class Cuenta
     }
 }
 
-$cuenta = new Cuenta('Kira', 8200);
+$cuenta = new Cuenta('Iara', 8200);
 foreach ([3000, -50, 6000, 'bloquear', 100] as $movimiento) {
     if ($movimiento === 'bloquear') {
         $cuenta->bloquear();
@@ -6602,9 +6602,9 @@ temas: prog.modulos, cal.build
 
 ### Crónica
 
-El Astillero ya tiene cientos de moldes y hubo un problema: dos talleres hicieron un molde llamado `Timon`, uno para veleros y otro para remolcadores. Nadie sabía cuál era cuál. Ahora cada taller pone su sello en los moldes: *Taller Velero / Timon*, *Taller Remolque / Timon*. Y en la entrada hay un bibliotecario que, cuando alguien pide un molde, sabe en qué estante buscarlo.
+El Astillero ya tiene cientos de moldes y hubo un problema: dos talleres hicieron un molde llamado `Timon`, uno para veleros y otro para remolcadores. Nilo llevó el equivocado a cada taller, dos veces. Ahora cada taller pone su sello en los moldes: *Taller Velero / Timon*, *Taller Remolque / Timon*. Y en la entrada hay un bibliotecario que, cuando alguien pide un molde, sabe en qué estante buscarlo.
 
-—Cuando un proyecto crece, se necesitan **apellidos** para las clases y alguien que las **busque solo** —dice {mentor}—. Los apellidos son los *namespaces*; el bibliotecario, el *autoload*. Y para usar moldes que hicieron otros talleres del mundo, {heroe}, está el mercado más grande del Puerto: **Composer**.
+—Cuando un proyecto crece, se necesitan **apellidos** para las clases y alguien que las **busque solo** —dice {mentor}—. Los apellidos son los *namespaces*; el bibliotecario, el *autoload*. Y para usar moldes que hicieron otros talleres del mundo, Nilo, está el mercado más grande del Puerto: **Composer**.
 
 ### Objetivos
 
@@ -6891,8 +6891,8 @@ correo/
 #### Salida esperada
 
 ```
-Kira (40 g): $500
-Bron (750 g): $1500
+Iara (40 g): $500
+Nilo (750 g): $1500
 Lía (3200 g): $4200
 ```
 
@@ -7005,7 +7005,7 @@ use Correo\Envios\Carta;
 use Correo\Envios\Paquete;
 use Correo\Tarifas\Tarifario;
 
-$envios = [new Carta('Kira', 40), new Paquete('Bron', 0.75), new Paquete('Lía', 3.2)];
+$envios = [new Carta('Iara', 40), new Paquete('Nilo', 0.75), new Paquete('Lía', 3.2)];
 foreach ($envios as $envio) {
     echo $envio->destinatario(), " (", $envio->pesoGramos(), " g): $", Tarifario::precio($envio), "\n";
 }
@@ -7457,9 +7457,9 @@ usa: poo.interfaces, prog.enums, err.excepciones, cal.build
 
 ### Crónica
 
-En el fondo del Astillero, donde se guardan los moldes viejos, algo se mueve. Es el **Gólem del Astillero**: un gigante hecho de tablas, clavos y moldes mal armados. Cada pieza fue pegada a las apuradas, sin plan: clases que heredan de lo que no son, datos públicos que cualquiera cambia, errores escondidos en `catch` vacíos. Por eso se cae a pedazos a cada paso… y por eso es tan peligroso.
+En el fondo del Astillero, donde se guardan los moldes viejos, algo se mueve. Es el **Gólem del Astillero**: un gigante hecho de tablas, clavos y moldes mal armados, con un timón incrustado en el pecho. Cada pieza fue pegada a las apuradas, sin plan: clases que heredan de lo que no son, datos públicos que cualquiera cambia, errores escondidos en `catch` vacíos. Por eso se cae a pedazos a cada paso… y por eso es tan peligroso. Pico se posa en su cabeza y el Gólem pierde una oreja.
 
-—No se lo vence a martillazos —dice {mentor}—. Se lo vence **rearmando**: cada pieza con su responsabilidad, sus datos protegidos, sus contratos claros y sus errores con nombre. Hacé eso, {heroe}, y el Gólem se desarma solo.
+—No se lo vence a martillazos —dice {mentor}—. Se lo vence **rearmando**: cada pieza con su responsabilidad, sus datos protegidos, sus contratos claros y sus errores con nombre. Hacé eso, Nilo, y el Gólem se desarma solo.
 
 ### Objetivos
 
@@ -7879,26 +7879,26 @@ mostrando el resultado o el error. Entregá el `.zip` sin `vendor/`.
 #### Entrada de ejemplo
 
 ```
-ALQUILA;K-01;Kira;2
-ALQUILA;K-01;Bron;1
+ALQUILA;K-01;Iara;2
+ALQUILA;K-01;Nilo;1
 ALQUILA;P-07;Familia Díaz;4
 ALQUILA;R-03;Lía;12
 ALQUILA;X-99;Olmo;1
 DEVUELVE;K-01
-ALQUILA;K-01;Bron;3
+ALQUILA;K-01;Nilo;3
 RESUMEN
 ```
 
 #### Salida esperada
 
 ```
-Kira alquila K-01 (kayak) por 2 h: $9.000,00
+Iara alquila K-01 (kayak) por 2 h: $9.000,00
 No se pudo: El bote K-01 está alquilado
 Familia Díaz alquila P-07 (pedalín) por 4 h: $25.500,00
 No se pudo: Se alquila de 1 a 8 horas (pediste 12)
 No se pudo: No existe el bote X-99
 Devuelto K-01
-Bron alquila K-01 (kayak) por 3 h: $13.500,00
+Nilo alquila K-01 (kayak) por 3 h: $13.500,00
 Recaudado: $48.000,00
 Disponibles: K-02, R-03
 ```

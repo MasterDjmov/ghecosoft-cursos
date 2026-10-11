@@ -17,9 +17,9 @@ temas: sql.modelo, sql.abm
 
 ### Crónica
 
-Debajo de la torre, bajando una escalera de piedra, está la **Bodega del Puerto**: galerías enteras de estanterías, cada una con fichas ordenadas en columnas iguales. Un bodeguero anciano encuentra cualquier ficha en segundos, aunque haya millones, y nunca deja entrar una ficha mal completada.
+Debajo de la torre, bajando una escalera de piedra, está la **Bodega del Puerto**: galerías enteras de estanterías, cada una con fichas ordenadas en columnas iguales. Un anciano de barba blanca y farol cian, **Fermín, el Bodeguero**, encuentra cualquier ficha en segundos, aunque haya millones, y nunca deja entrar una ficha mal completada. Nilo le pregunta cómo hace para acordarse de todo. —No me acuerdo —dice Fermín—. Lo anoto bien.
 
-—Los archivos JSON sirvieron para empezar —dice {mentor}—, pero cuando llegan mil pedidos a la vez, se traban y se mezclan. Los sistemas serios guardan todo en una **base de datos**: un programa especializado en guardar, ordenar y buscar. Acá usamos **MariaDB**, {heroe}, que habla SQL: la lengua de las bodegas de todo el mundo.
+—Los archivos JSON sirvieron para empezar —dice {mentor}—, pero cuando llegan mil pedidos a la vez, se traban y se mezclan. Los sistemas serios guardan todo en una **base de datos**: un programa especializado en guardar, ordenar y buscar. Acá usamos **MariaDB**, Nilo, que habla SQL: la lengua de las bodegas de todo el mundo.
 
 ### Objetivos
 
@@ -251,8 +251,8 @@ Empezá el script con `DROP TABLE IF EXISTS`.
 +----+--------------------+----------+------+--------------+-----+
 | id | nombre             | dni      | edad | nacionalidad | vip |
 +----+--------------------+----------+------+--------------+-----+
-|  1 | Kira Valdez        | 40111222 |   17 | argentina    |   0 |
-|  2 | Bron de las Forjas | 25333444 |   45 | chilena      |   1 |
+|  1 | Iara Valdez        | 40111222 |   17 | argentina    |   0 |
+|  2 | Nilo de las Forjas | 25333444 |   45 | chilena      |   1 |
 |  3 | Lía del Valle      | 38555666 |   29 | uruguaya     |   0 |
 |  4 | Olmo Ríos          | 41777888 |   33 | argentina    |   0 |
 +----+--------------------+----------+------+--------------+-----+
@@ -274,8 +274,8 @@ CREATE TABLE pasajero (
 );
 
 INSERT INTO pasajero (nombre, dni, edad, nacionalidad, vip) VALUES
-    ('Kira Valdez', '40111222', 17, 'argentina', FALSE),
-    ('Bron de las Forjas', '25333444', 45, 'chilena', TRUE),
+    ('Iara Valdez', '40111222', 17, 'argentina', FALSE),
+    ('Nilo de las Forjas', '25333444', 45, 'chilena', TRUE),
     ('Lía del Valle', '38555666', 29, 'uruguaya', FALSE);
 INSERT INTO pasajero (nombre, dni, edad) VALUES ('Olmo Ríos', '41777888', 33);
 
@@ -535,9 +535,9 @@ temas: sql.consultas
 
 ### Crónica
 
-Al bodeguero anciano le llegan preguntas todo el día: *"¿qué barcos de más de 500 kilos salieron en octubre?"*, *"¿cuánto facturó cada muelle?"*, *"¿quién pidió yerba y no la retiró?"*. Él no recorre las estanterías una por una: escribe la pregunta en un papel con palabras precisas y la bodega le devuelve exactamente lo pedido.
+A Fermín le llegan preguntas todo el día: *"¿qué barcos de más de 500 kilos salieron en octubre?"*, *"¿cuánto facturó cada muelle?"*, *"¿quién pidió yerba y no la retiró?"*. Él no recorre las estanterías una por una: escribe la pregunta en un papel con palabras precisas y la bodega le devuelve exactamente lo pedido. Nilo prueba recorrerlas una por una. Vuelve a la tarde, con telarañas en la gorra.
 
-—Ese papel es una **consulta** —dice {mentor}—. `SELECT` elige qué columnas, `WHERE` qué filas, `ORDER BY` en qué orden, y `GROUP BY` junta y resume. Con cuatro palabras le preguntás cualquier cosa a millones de fichas, {heroe}. Y con otras dos, las cambiás o las borrás… con mucho cuidado.
+—Ese papel es una **consulta** —dice {mentor}—. `SELECT` elige qué columnas, `WHERE` qué filas, `ORDER BY` en qué orden, y `GROUP BY` junta y resume. Con cuatro palabras le preguntás cualquier cosa a millones de fichas, Nilo. Y con otras dos, las cambiás o las borrás… con mucho cuidado.
 
 ### Objetivos
 
@@ -1157,9 +1157,9 @@ temas: sql.joins, sql.normalizacion
 
 ### Crónica
 
-En una estantería de la Bodega, cada ficha de viaje repetía todo el barco: nombre, capitán, teléfono del capitán, capacidad. Cuando el capitán de la *Gaviota* cambió de teléfono, hubo que corregir trescientas fichas… y se olvidaron cuarenta. Ahora hay dos estanterías: una de **barcos** y otra de **viajes**, y cada viaje solo anota el **número** de su barco.
+En una estantería de la Bodega, cada ficha de viaje repetía todo el barco: nombre, capitán, teléfono del capitán, capacidad. Cuando el capitán de la *Gaviota* cambió de teléfono, Nilo tuvo que corregir trescientas fichas… y se olvidó cuarenta. Ahora hay dos estanterías: una de **barcos** y otra de **viajes**, y cada viaje solo anota el **número** de su barco.
 
-—Cada dato se guarda **una sola vez**, en su tabla —dice {mentor}—, y las tablas se **relacionan** por números. Cuando necesitás verlo todo junto, se **une** en la consulta. Pero ojo, {heroe}: si borrás un barco que tiene viajes, esos viajes quedan apuntando a la nada. La bodega te tiene que frenar.
+—Cada dato se guarda **una sola vez**, en su tabla —dice {mentor}—, y las tablas se **relacionan** por números. Cuando necesitás verlo todo junto, se **une** en la consulta. Pero ojo, Nilo: si borrás un barco que tiene viajes, esos viajes quedan apuntando a la nada. La bodega te tiene que frenar.
 
 ### Objetivos
 
@@ -1304,7 +1304,7 @@ CREATE TABLE pasaje (
     FOREIGN KEY (pasajero_id) REFERENCES pasajero(id)
 );
 
-INSERT INTO barco (nombre, capitan) VALUES ('Gaviota', 'Kira'), ('Albatros', 'Bron'), ('Tortuga', 'Lía'), ('Delfín', 'Olmo');
+INSERT INTO barco (nombre, capitan) VALUES ('Gaviota', 'Iara'), ('Albatros', 'Nilo'), ('Tortuga', 'Lía'), ('Delfín', 'Olmo');
 INSERT INTO viaje (barco_id, destino, fecha) VALUES (1, 'Valle', '2026-10-01'), (2, 'Imperio', '2026-10-01'), (1, 'Valle', '2026-10-03'), (3, 'Forjas', '2026-10-04');
 INSERT INTO pasajero (nombre) VALUES ('Ana'), ('Beto'), ('Carla'), ('Diego');
 INSERT INTO pasaje (viaje_id, pasajero_id, asiento) VALUES (1, 1, '1A'), (1, 2, '1B'), (2, 3, '3C'), (3, 1, '2A'), (4, 4, '1A');
@@ -1328,9 +1328,9 @@ SELECT nombre FROM barco WHERE id IN (SELECT barco_id FROM viaje WHERE destino =
 +------------+---------+----------+---------+
 | fecha      | destino | barco    | capitan |
 +------------+---------+----------+---------+
-| 2026-10-01 | Imperio | Albatros | Bron    |
-| 2026-10-01 | Valle   | Gaviota  | Kira    |
-| 2026-10-03 | Valle   | Gaviota  | Kira    |
+| 2026-10-01 | Imperio | Albatros | Nilo    |
+| 2026-10-01 | Valle   | Gaviota  | Iara    |
+| 2026-10-03 | Valle   | Gaviota  | Iara    |
 | 2026-10-04 | Forjas  | Tortuga  | Lía     |
 +------------+---------+----------+---------+
 +----------+--------+
@@ -1418,8 +1418,8 @@ alumnos), y responda:
 | Navegación a vela  | Olmo   |
 | Navegación a vela  | Tomi   |
 | Timonel            | Ana    |
-| Timonel            | Bron   |
-| Timonel            | Kira   |
+| Timonel            | Nilo   |
+| Timonel            | Iara   |
 +--------------------+--------+
 +--------------------+----------+--------+
 | curso              | anotados | libres |
@@ -1455,7 +1455,7 @@ CREATE TABLE alumno (
 );
 
 INSERT INTO curso (nombre, cupo) VALUES ('Timonel', 4), ('Navegación a vela', 6), ('Primeros auxilios', 10);
-INSERT INTO alumno (nombre, curso_id) VALUES ('Kira', 1), ('Bron', 1), ('Lía', 2), ('Olmo', 2), ('Tomi', 2), ('Ana', 1);
+INSERT INTO alumno (nombre, curso_id) VALUES ('Iara', 1), ('Nilo', 1), ('Lía', 2), ('Olmo', 2), ('Tomi', 2), ('Ana', 1);
 
 SELECT c.nombre AS curso, a.nombre AS alumno FROM alumno a INNER JOIN curso c ON c.id = a.curso_id ORDER BY c.nombre, a.nombre;
 SELECT c.nombre AS curso, COUNT(a.id) AS anotados, c.cupo - COUNT(a.id) AS libres FROM curso c LEFT JOIN alumno a ON a.curso_id = c.id GROUP BY c.id, c.nombre, c.cupo ORDER BY c.nombre;
@@ -1786,9 +1786,9 @@ temas: sql.desde-codigo
 
 ### Crónica
 
-Entre la Oficina de Correos y la Bodega hay un montacargas. Hasta ahora nadie lo usaba: los empleados de arriba escribían en archivos y los de abajo en sus fichas, y nunca se hablaban. {mentor} tira de la cuerda y el montacargas empieza a subir y bajar con pedidos y respuestas.
+Entre la Oficina de Correos y la Bodega hay un montacargas. Hasta ahora nadie lo usaba: Iara y los empleados de arriba escribían en archivos, Fermín y los de abajo en sus fichas, y nunca se hablaban. Nilo subía y bajaba la escalera con los pedidos en la mano, cuarenta veces por día. {mentor} tira de la cuerda y el montacargas empieza a subir y bajar con pedidos y respuestas. Nilo se sienta en el último escalón, agradecido.
 
-—Tu PHP ya arma páginas; tu base ya guarda datos. Falta que se hablen —dice—. El montacargas se llama **PDO**: le das la dirección de la bodega, el usuario y la clave, y desde ahí le mandás consultas y recibís las filas. Configuralo bien desde el principio, {heroe}: que avise fuerte cuando algo falla.
+—Tu PHP ya arma páginas; tu base ya guarda datos. Falta que se hablen —dice—. El montacargas se llama **PDO**: le das la dirección de la bodega, el usuario y la clave, y desde ahí le mandás consultas y recibís las filas. Configuralo bien desde el principio, Nilo: que avise fuerte cuando algo falla.
 
 ### Objetivos
 
@@ -2508,9 +2508,9 @@ usa: sql.desde-codigo
 
 ### Crónica
 
-Un día llegó al montacargas un pedido extraño. Donde tenía que decir el nombre de un barco, decía: `Gaviota' OR '1'='1`. El bodeguero, que copiaba los pedidos tal cual en su libreta de consultas, leyó: *"traeme los barcos que se llamen Gaviota… o cualquiera"*. Y subió toda la bodega.
+Un día llegó al montacargas un pedido extraño. Donde tenía que decir el nombre de un barco, decía: `Gaviota' OR '1'='1`. Fermín, que en ese tiempo copiaba los pedidos tal cual en su libreta de consultas, leyó: *"traeme los barcos que se llamen Gaviota… o cualquiera"*. Y subió toda la bodega. Desde ese día, Fermín mira cada pedido con los anteojos en la punta de la nariz.
 
-—Eso se llama **inyección SQL** —dice {mentor}, pálida—, y es una de las formas más viejas y más usadas de robar datos. Pasa cuando un dato de afuera se **pega** en el texto de la consulta: el dato se convierte en código. La cura es separar las dos cosas para siempre, {heroe}: la consulta va por un lado, con huecos; los datos, por otro.
+—Eso se llama **inyección SQL** —dice {mentor}, pálida—, y es una de las formas más viejas y más usadas de robar datos. Pasa cuando un dato de afuera se **pega** en el texto de la consulta: el dato se convierte en código. La cura es separar las dos cosas para siempre, Nilo: la consulta va por un lado, con huecos; los datos, por otro.
 
 ### Objetivos
 
@@ -2825,7 +2825,7 @@ búsquedas del ejemplo.
 ```sql
 DROP TABLE IF EXISTS pasajero;
 CREATE TABLE pasajero (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(40) NOT NULL, edad INT NOT NULL);
-INSERT INTO pasajero (nombre, edad) VALUES ('Ana Pérez', 34), ('Juan Álvarez', 16), ('Mariana Luz', 22), ('Bron', 45), ('Dante 100%', 30);
+INSERT INTO pasajero (nombre, edad) VALUES ('Ana Pérez', 34), ('Juan Álvarez', 16), ('Mariana Luz', 22), ('Nilo', 45), ('Dante 100%', 30);
 ```
 
 `config.php`
@@ -3095,10 +3095,10 @@ echo $fila ? "Acceso concedido: {$fila['nombre']}" : "Usuario o contraseña inco
 #### Salida esperada
 
 ```
-«kira»              Acceso concedido: Kira Valdez (admin)
-«bron»              Usuario o contraseña incorrectos.
+«iara»              Acceso concedido: Iara Valdez (admin)
+«nilo»              Usuario o contraseña incorrectos.
 «' OR '1'='1' -- »  Usuario o contraseña incorrectos.
-«Bron»              Acceso concedido: Bron (vendedor)
+«Nilo»              Acceso concedido: Nilo (vendedor)
 «nadie»             Usuario o contraseña incorrectos.
 ```
 
@@ -3115,8 +3115,8 @@ CREATE TABLE usuario (
     hash VARCHAR(255) NOT NULL
 );
 INSERT INTO usuario (usuario, nombre, rol, hash) VALUES
-    ('kira', 'Kira Valdez', 'admin', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'),
-    ('bron', 'Bron', 'vendedor', '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6');
+    ('iara', 'Iara Valdez', 'admin', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'),
+    ('nilo', 'Nilo', 'vendedor', '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6');
 ```
 
 `config.php`
@@ -3145,7 +3145,7 @@ function login(PDO $pdo, string $usuario, string $clave): ?array
     return $fila !== false && password_verify($clave, $fila['hash']) ? $fila : null;
 }
 
-$intentos = [['kira', 'ancla123'], ['bron', 'ancla123'], ["' OR '1'='1' -- ", 'cualquiera'], ['Bron', 'faro2026'], ['nadie', 'x']];
+$intentos = [['iara', 'ancla123'], ['nilo', 'ancla123'], ["' OR '1'='1' -- ", 'cualquiera'], ['Nilo', 'faro2026'], ['nadie', 'x']];
 foreach ($intentos as [$usuario, $clave]) {
     $yo = login($pdo, $usuario, $clave);
     echo str_pad("«{$usuario}»", 22), $yo !== null ? "Acceso concedido: {$yo['nombre']} ({$yo['rol']})" : 'Usuario o contraseña incorrectos.', "\n";
@@ -3191,9 +3191,9 @@ usa: web.formularios, sql.desde-codigo
 
 ### Crónica
 
-La Capitana te da una llave de la Bodega con una etiqueta: *Inventario de repuestos*. —Hasta hoy lo llevaba un empleado en una planilla, y cada tanto se le borraba una fila —dice—. Quiero que el taller pueda **ver** los repuestos, **agregar** los nuevos, **corregir** los que están mal y **dar de baja** los que ya no se usan. Todo desde el navegador, {heroe}, y sin que nadie pueda romper nada.
+La Capitana le da a Nilo una llave de la Bodega con una etiqueta: *Inventario de repuestos*. —Hasta hoy lo llevaba Fermín en una planilla, y cada tanto Pico se llevaba una fila —dice—. Quiero que el taller pueda **ver** los repuestos, **agregar** los nuevos, **corregir** los que están mal y **dar de baja** los que ya no se usan. Todo desde el navegador, Nilo, y sin que nadie pueda romper nada.
 
-Lo que te pide tiene un nombre en todos los sistemas del mundo: un **ABM** (alta, baja, modificación), el CRUD de los programadores.
+Lo que le pide tiene un nombre en todos los sistemas del mundo: un **ABM** (alta, baja, modificación), el CRUD de los programadores.
 
 ### Objetivos
 
@@ -4184,9 +4184,9 @@ temas: sql.transacciones, sql.indices, sql.avanzado
 
 ### Crónica
 
-Una tarde, el sistema del banco del Puerto se cortó a mitad de una transferencia: los sellos salieron de la cuenta de Kira… y nunca llegaron a la de Bron. Tres días tardaron en encontrar el error. Y mientras tanto, la bodega crecía tanto que buscar los movimientos de una cuenta tardaba lo que tarda el ferry en cruzar.
+Una tarde, el sistema del banco del Puerto se cortó a mitad de una transferencia: los sellos salieron de la cuenta del Astillero… y nunca llegaron a la de la fonda. Tres días tardaron en encontrar el error. Buscándolo, Nilo y Fermín bajan a la estantería más vieja de la Bodega y encuentran la ficha de una noche de hace veinte años: **dos envíos sin remitente**, sellados con lacre de vidrio de colores, llegaron la misma noche de tormenta en que **se apagó el Faro**. Nadie volvió a prenderlo.
 
-—Hay operaciones que son **todo o nada** —dice {mentor}—: o se hacen completas o no se hacen. Para eso están las **transacciones**. Y para encontrar rápido una ficha entre millones, la bodega necesita un **índice**, como el de un libro. Las dos cosas, {heroe}, separan a un sistema de juguete de uno de verdad.
+—Hay operaciones que son **todo o nada** —dice {mentor}, y por primera vez se queda mirando la ficha un rato largo—: o se hacen completas o no se hacen. Para eso están las **transacciones**. Y para encontrar rápido una ficha entre millones, la bodega necesita un **índice**, como el de un libro. Las dos cosas, Nilo, separan a un sistema de juguete de uno de verdad.
 
 ### Objetivos
 
@@ -4205,8 +4205,8 @@ Una tarde, el sistema del banco del Puerto se cortó a mitad de una transferenci
 #### El problema del "a mitad de camino"
 Transferir 500 sellos son **dos** `UPDATE`:
 ```sql
-UPDATE cuenta SET saldo = saldo - 500 WHERE id = 1;   -- sale de Kira
-UPDATE cuenta SET saldo = saldo + 500 WHERE id = 2;   -- entra a Bron
+UPDATE cuenta SET saldo = saldo - 500 WHERE id = 1;   -- sale de Iara
+UPDATE cuenta SET saldo = saldo + 500 WHERE id = 2;   -- entra a Nilo
 ```
 Si el programa falla entre los dos (un error, un corte de luz, una excepción), la
 plata desaparece. Hace falta que los dos cuenten como **una sola operación**.
@@ -4311,7 +4311,7 @@ CREATE TABLE movimiento (
     monto DECIMAL(12, 2) NOT NULL,
     detalle VARCHAR(60) NOT NULL
 ) ENGINE=InnoDB;
-INSERT INTO cuenta (titular, saldo) VALUES ('Kira', 1000), ('Bron', 250), ('Lía', 0);
+INSERT INTO cuenta (titular, saldo) VALUES ('Iara', 1000), ('Nilo', 250), ('Lía', 0);
 ```
 
 `config.php`
@@ -4403,16 +4403,16 @@ foreach ($pdo->query('SELECT * FROM resumen_cuenta ORDER BY titular') as $r) {
 ### Salida esperada
 
 ```
-Al empezar: Kira 1000.00 · Bron 250.00 · Lía 0.00
-Transferencia de 300: ok → Kira 700.00 · Bron 550.00 · Lía 0.00
-Transferencia de 900: Saldo insuficiente (se deshizo todo) → Kira 700.00 · Bron 550.00 · Lía 0.00
-Transferencia de 100: No existe la cuenta 99 (se deshizo todo) → Kira 700.00 · Bron 550.00 · Lía 0.00
-Transferencia de 200: ok → Kira 500.00 · Bron 550.00 · Lía 200.00
+Al empezar: Iara 1000.00 · Nilo 250.00 · Lía 0.00
+Transferencia de 300: ok → Iara 700.00 · Nilo 550.00 · Lía 0.00
+Transferencia de 900: Saldo insuficiente (se deshizo todo) → Iara 700.00 · Nilo 550.00 · Lía 0.00
+Transferencia de 100: No existe la cuenta 99 (se deshizo todo) → Iara 700.00 · Nilo 550.00 · Lía 0.00
+Transferencia de 200: ok → Iara 500.00 · Nilo 550.00 · Lía 200.00
 Movimientos registrados: 4
 Sin índice: type=ALL, key=ninguno
 Con índice: type=ref, key=idx_movimiento_cuenta
-  Bron: 1 movimiento/s, neto 300.00
-  Kira: 2 movimiento/s, neto -500.00
+  Nilo: 1 movimiento/s, neto 300.00
+  Iara: 2 movimiento/s, neto -500.00
   Lía: 1 movimiento/s, neto 200.00
 ```
 
@@ -4944,9 +4944,9 @@ usa: sql.desde-codigo, web.auth
 
 ### Crónica
 
-La Bodega ya tiene cientos de consultas desparramadas: una en la página de pedidos, otra parecida en el reporte, otra casi igual en el panel del gerente. Cuando cambió el nombre de una columna, hubo que buscarla en cuarenta archivos. {mentor} junta a los bodegueros y designa uno por estantería: *"de ahora en más, las fichas de barcos las pide solo Ramiro"*.
+La Bodega ya tiene cientos de consultas desparramadas: una en la página de pedidos, otra parecida en el reporte, otra casi igual en el panel del gerente. Cuando cambió el nombre de una columna, Nilo tuvo que buscarla en cuarenta archivos. {mentor} junta a los bodegueros y designa uno por estantería: *"de ahora en más, las fichas de barcos las pide solo Ramiro"*.
 
-—Cada tabla tiene su **encargado**: un **repositorio** —dice—. El resto del sistema no escribe SQL: le pide al repositorio "dame los barcos activos" o "guardá este barco". Así el SQL vive en un solo lugar, {heroe}, y si mañana cambiás de base, cambiás solo los encargados.
+—Cada tabla tiene su **encargado**: un **repositorio** —dice—. El resto del sistema no escribe SQL: le pide al repositorio "dame los barcos activos" o "guardá este barco". Así el SQL vive en un solo lugar, Nilo, y si mañana cambiás de base, cambiás solo los encargados.
 
 ### Objetivos
 
@@ -5074,8 +5074,8 @@ CREATE TABLE usuario (
 );
 INSERT INTO barco (nombre, capacidad, activo) VALUES ('Gaviota', 450, TRUE), ('Albatros', 1200, TRUE), ('Tortuga', 80, FALSE);
 INSERT INTO usuario (email, nombre, rol, hash) VALUES
-    ('kira@puerto.ar', 'Kira Valdez', 'admin', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'),
-    ('bron@puerto.ar', 'Bron', 'operador', '$2y$04$x03MQT0AP9sjJnPQcmEn9.dktCp3kwxYSS3vulCFizcGrg5YaNTce');
+    ('iara@puerto.ar', 'Iara Valdez', 'admin', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'),
+    ('nilo@puerto.ar', 'Nilo', 'operador', '$2y$04$x03MQT0AP9sjJnPQcmEn9.dktCp3kwxYSS3vulCFizcGrg5YaNTce');
 ```
 
 `config.php`
@@ -5216,11 +5216,11 @@ echo "Activos ahora: ", count($barcos->activos()), "\n";
 var_dump($barcos->buscar(99));
 
 $usuarios = new UsuarioRepositorio($pdo);
-foreach ([['KIRA@puerto.ar', 'ancla123'], ['kira@puerto.ar', 'mal'], ['bron@puerto.ar', 'faro2026']] as [$email, $clave]) {
+foreach ([['IARA@puerto.ar', 'ancla123'], ['iara@puerto.ar', 'mal'], ['nilo@puerto.ar', 'faro2026']] as [$email, $clave]) {
     $u = $usuarios->autenticar($email, $clave);
     echo "$email: ", $u === null ? 'rechazado' : "entra {$u->nombre} ({$u->rol})", "\n";
 }
-echo "Costo del hash de Bron después de entrar: ", $usuarios->costoDelHash('bron@puerto.ar'), "\n";
+echo "Costo del hash de Nilo después de entrar: ", $usuarios->costoDelHash('nilo@puerto.ar'), "\n";
 ```
 
 ### Salida esperada
@@ -5230,10 +5230,10 @@ Activos: Albatros (1200 kg), Gaviota (450 kg)
 Guardado con id 4
 Activos ahora: 4
 NULL
-KIRA@puerto.ar: entra Kira Valdez (admin)
-kira@puerto.ar: rechazado
-bron@puerto.ar: entra Bron (operador)
-Costo del hash de Bron después de entrar: 10
+IARA@puerto.ar: entra Iara Valdez (admin)
+iara@puerto.ar: rechazado
+nilo@puerto.ar: entra Nilo (operador)
+Costo del hash de Nilo después de entrar: 10
 ```
 
 ### ¿Para qué sirve?
@@ -5610,8 +5610,8 @@ Llevá el login de la Oficina (R03-N06) a MariaDB, como sitio web:
   la sesión abierta, lo saca al login);
 - CSRF, `session_regenerate_id` y mensaje de error que no revela nada.
 
-El esquema trae los usuarios `kira@puerto.ar` (`ancla123`, admin) y
-`bron@puerto.ar` (`faro2026`, operador, **inactivo**).
+El esquema trae los usuarios `iara@puerto.ar` (`ancla123`, admin) y
+`nilo@puerto.ar` (`faro2026`, operador, **inactivo**).
 
 #### Criterio de aprobación
 
@@ -5633,8 +5633,8 @@ CREATE TABLE usuario (
     activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 INSERT INTO usuario (email, nombre, rol, hash, activo) VALUES
-    ('kira@puerto.ar', 'Kira Valdez', 'admin', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS', TRUE),
-    ('bron@puerto.ar', 'Bron', 'operador', '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6', FALSE);
+    ('iara@puerto.ar', 'Iara Valdez', 'admin', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS', TRUE),
+    ('nilo@puerto.ar', 'Nilo', 'operador', '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6', FALSE);
 ```
 
 `config.php`
@@ -6010,7 +6010,7 @@ Dice si un hash se hizo con un algoritmo o costo viejo; si es así, se vuelve a 
 
 ### Soluciones (docente)
 
-Nodo nuevo; es el puente hacia el MVC (rama 5) y hacia Eloquent (Senda de Laravel). En el ejemplo, el hash de Bron tiene costo 4 a propósito (`$2y$04$…`, hecho con `password_hash('faro2026', PASSWORD_BCRYPT, ['cost' => 4])`): al entrar, `password_needs_rehash` lo actualiza al costo por defecto (10 en PHP 8.3; 12 en PHP 8.4). En la misión 2, la misma lógica corre sobre memoria y sobre MariaDB: anticipa las pruebas con PHPUnit.
+Nodo nuevo; es el puente hacia el MVC (rama 5) y hacia Eloquent (Senda de Laravel). En el ejemplo, el hash de Nilo tiene costo 4 a propósito (`$2y$04$…`, hecho con `password_hash('faro2026', PASSWORD_BCRYPT, ['cost' => 4])`): al entrar, `password_needs_rehash` lo actualiza al costo por defecto (10 en PHP 8.3; 12 en PHP 8.4). En la misión 2, la misma lógica corre sobre memoria y sobre MariaDB: anticipa las pruebas con PHPUnit.
 
 ## R04-N09 · Jefe: la Serpiente Marina de las Tablas
 
@@ -6026,9 +6026,9 @@ usa: sql.joins, sql.transacciones, diseno.capas
 
 ### Crónica
 
-En lo más hondo de la Bodega, donde el agua del puerto se filtra entre las piedras, vive la **Serpiente Marina de las Tablas**. Se alimenta de los sistemas mal hechos: consultas armadas pegando textos, transferencias que se cortan a la mitad, stock que se vende dos veces, datos repetidos que se contradicen. Cada error la hace más grande, y ya se enroscó alrededor de los dos sistemas que construiste en la Oficina.
+En lo más hondo de la Bodega, donde el agua del puerto se filtra entre las piedras, vive la **Serpiente Marina de las Tablas**. Se alimenta de los sistemas mal hechos: consultas armadas pegando textos, transferencias que se cortan a la mitad, stock que se vende dos veces, datos repetidos que se contradicen. Cada error la hace más grande, y ya se enroscó alrededor de los dos sistemas que Nilo construyó en la Oficina. Fermín sube los pies a una silla.
 
-—Tus sistemas de reclamos y de artesanías funcionaban con archivos JSON —dice {mentor}—. La Serpiente los está ahogando: con muchos usuarios a la vez, los archivos se pisan. Llevalos a la Bodega, {heroe}. Tablas bien diseñadas, consultas preparadas, transacciones y repositorios. Cuando la Serpiente no encuentre por dónde entrar, se va a ir al fondo del mar.
+—Tus sistemas de reclamos y de artesanías funcionaban con archivos JSON —dice {mentor}—. La Serpiente los está ahogando: con muchos usuarios a la vez, los archivos se pisan. Llevalos a la Bodega, Nilo. Tablas bien diseñadas, consultas preparadas, transacciones y repositorios. Cuando la Serpiente no encuentre por dónde entrar, se va a ir al fondo del mar.
 
 ### Objetivos
 

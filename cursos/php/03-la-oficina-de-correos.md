@@ -18,9 +18,11 @@ usa: html.estructura
 
 ### Crónica
 
-Al subir la escalinata de la torre llegás a la **Oficina de Correos**, el corazón del Puerto. Cientos de tubos de bronce bajan del techo; de cada uno cae, cada tanto, un cilindro con un pedido: *"mandame la lista de barcos"*, *"mostrame el horario del ferry"*. Un empleado lo lee, arma la respuesta en una hoja y la manda de vuelta por el mismo tubo.
+Nilo sube la escalinata de la torre y llega a la **Oficina de Correos**, el corazón del Puerto. Cientos de tubos de bronce bajan del techo; de cada uno cae, cada tanto, un cilindro con un pedido: *"mandame la lista de barcos"*, *"mostrame el horario del ferry"*. Un empleado lo lee, arma la respuesta en una hoja y la manda de vuelta por el mismo tubo. Cada cilindro llega solo, sin saber nada del anterior.
 
-—Esto es la **web** —dice {mentor}—. Cada tubo es un navegador en algún lugar del mundo. Llega un **pedido**, tu programa PHP arma una **respuesta** —casi siempre una página HTML— y se la manda. Hasta ahora escribías para la terminal, {heroe}. Desde hoy, escribís para el navegador.
+—¡Son como yo! —dice Nilo, emocionado—. No se acuerdan de nada.
+
+—Esto es la **web** —dice {mentor}—. Cada tubo es un navegador en algún lugar del mundo. Llega un **pedido**, tu programa PHP arma una **respuesta** —casi siempre una página HTML— y se la manda. Hasta ahora escribías para la terminal, Nilo. Desde hoy, escribís para el navegador.
 
 ### Objetivos
 
@@ -546,9 +548,9 @@ usa: html.formularios
 
 ### Crónica
 
-En la ventanilla de consultas hay una pizarra con casilleros: *destino*, *día*, *¿con equipaje?*. El viajero anota lo que busca, lo desliza por el tubo, y el empleado le devuelve solo los barcos que coinciden. Si el casillero de destino quedó vacío, le devuelve todos.
+En la ventanilla de consultas hay una pizarra con casilleros: *destino*, *día*, *¿con equipaje?*. El viajero anota lo que busca, lo desliza por el tubo, y Nilo le devuelve solo los barcos que coinciden. Si el casillero de destino quedó vacío, le devuelve todos. Un chico escribe en el casillero *destino*: "la luna". Nilo le busca un barco a la luna durante media hora.
 
-—La forma más simple de preguntarle algo al servidor es escribirlo **en la dirección** —dice {mentor}—. Todo lo que va después del signo de pregunta llega a tu programa en `$_GET`. Pero ojo, {heroe}: cualquiera puede escribir cualquier cosa en esa dirección. Lo que llega por ahí nunca es de fiar.
+—La forma más simple de preguntarle algo al servidor es escribirlo **en la dirección** —dice {mentor}—. Todo lo que va después del signo de pregunta llega a tu programa en `$_GET`. Pero ojo, Nilo: cualquiera puede escribir cualquier cosa en esa dirección. Lo que llega por ahí nunca es de fiar.
 
 ### Objetivos
 
@@ -1092,9 +1094,9 @@ usa: html.formularios
 
 ### Crónica
 
-En la ventanilla de envíos, los formularios de papel llegan con de todo: el casillero de *peso* dice "bastante", el de *destino* está en blanco, el teléfono tiene letras. El empleado nuevo los mandaba igual y los barcos salían con paquetes perdidos. La jefa de ventanilla le enseñó a devolverlos: con cada error marcado en rojo **y sin borrar lo que el cliente ya había escrito bien**.
+En la ventanilla de envíos, los formularios de papel llegan con de todo: el casillero de *peso* dice "bastante", el de *destino* está en blanco, el teléfono tiene letras. Nilo los mandaba igual y los barcos salían con paquetes perdidos. Iara le enseña a devolverlos: con cada error marcado en rojo **y sin borrar lo que el cliente ya había escrito bien**.
 
-—Cuando alguien te **manda** algo para que lo guardes o lo proceses, viaja por **POST**, escondido del camino —dice {mentor}—. Y todo lo que llega se revisa, campo por campo, antes de hacer nada. Si algo está mal, se devuelve el formulario con los errores, {heroe}. Nadie quiere volver a escribir todo desde cero.
+—Cuando alguien te **manda** algo para que lo guardes o lo proceses, viaja por **POST**, escondido del camino —dice {mentor}—. Y todo lo que llega se revisa, campo por campo, antes de hacer nada. Si algo está mal, se devuelve el formulario con los errores, Nilo. Nadie quiere volver a escribir todo desde cero.
 
 ### Objetivos
 
@@ -1167,7 +1169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 |---|---|---|
 | texto | `<input type="text" name="n">` | `"lo que escribió"` |
 | número | `<input type="number" name="n">` | `"12"` (¡texto!) |
-| email | `<input type="email" name="e">` | `"kira@puerto.com"` |
+| email | `<input type="email" name="e">` | `"iara@puerto.com"` |
 | área de texto | `<textarea name="t"></textarea>` | con los saltos de línea |
 | lista | `<select name="s"><option value="a">` | el `value` elegido |
 | opción única | `<input type="radio" name="r" value="x">` | el `value` elegido, o nada |
@@ -1742,9 +1744,11 @@ temas: web.sesiones
 
 ### Crónica
 
-Cada vez que alguien se acerca a la ventanilla de la fonda, el mozo le pregunta de nuevo qué quería. *"Ya te lo dije hace cinco minutos"*, protesta la clienta. El mozo no tiene memoria: atiende a cada uno como si fuera la primera vez. Hasta que {mentor} le da un talonario de fichas numeradas: a cada cliente le entrega una, y en su libreta anota lo que pidió cada número.
+{mentor} manda a Nilo a atender la ventanilla de la fonda. Cada vez que alguien se acerca, Nilo le pregunta de nuevo qué quería. *"Ya te lo dije hace cinco minutos"*, protesta una clienta. Nilo no tiene memoria: atiende a cada uno como si fuera la primera vez. Hasta que Iara le da un talonario de fichas numeradas —a cada cliente le entrega una, y en su libreta anota lo que pidió cada número— y, de paso, una galletita con su nombre estampado: *"una cookie, para que te acuerdes"*.
 
-—HTTP no tiene memoria —explica {mentor}—: cada pedido llega solo, sin saber nada del anterior. Para acordarse de alguien, el servidor le da una **ficha** (una *cookie*) y anota en su libreta todo lo de esa ficha (la *sesión*). Así funcionan los carritos y los inicios de sesión, {heroe}. Y quien roba una ficha, se hace pasar por su dueño.
+—HTTP no tiene memoria —explica {mentor}—: cada pedido llega solo, sin saber nada del anterior. Para acordarse de alguien, el servidor le da una **ficha** (una *cookie*) y anota en su libreta todo lo de esa ficha (la *sesión*). Así funcionan los carritos y los inicios de sesión, Nilo. Y quien roba una ficha, se hace pasar por su dueño.
+
+A la mañana siguiente, Nilo entra a la torre y saluda: —¡Buen día, Elefa! —A la Capitana casi se le cae el bastón.
 
 ### Objetivos
 
@@ -2355,9 +2359,9 @@ usa: web.formularios
 
 ### Crónica
 
-Una mañana, el tablero de avisos de la Oficina de Correos amaneció diciendo *"¡Todos los envíos gratis hoy!"*. Nadie lo había escrito: alguien dejó un aviso con un truco escondido, y el tablero lo ejecutó en lugar de mostrarlo. Esa misma semana, un pedido de "transferir 100 sellos" llegó con la firma de la tesorera… desde una carta que ella nunca mandó.
+Una mañana, el tablero de avisos de la Oficina de Correos amanece diciendo *"¡Todos los envíos gratis hoy!"*. Nadie lo había escrito: alguien dejó un aviso con un truco escondido, y el tablero lo ejecutó en lugar de mostrarlo. Esa misma semana, Pico entra por la ventana con un formulario robado en el pico: un pedido de "transferir 100 sellos" con la firma de la tesorera… que ella nunca mandó.
 
-—Ahora que tu oficina recibe mensajes de todo el mundo, {heroe}, también recibe **trampas** —dice {mentor}, cerrando la puerta con llave—. La regla del Puerto: **todo lo que llega de afuera es sospechoso**. Se valida al entrar, se escapa al mostrar, y cada formulario lleva un sello que solo nosotros sabemos poner.
+—Ahora que tu oficina recibe mensajes de todo el mundo, Nilo, también recibe **trampas** —dice {mentor}, cerrando la puerta con llave—. La regla del Puerto: **todo lo que llega de afuera es sospechoso**. Se valida al entrar, se escapa al mostrar, y cada formulario lleva un sello que solo nosotros sabemos poner.
 
 ### Objetivos
 
@@ -3030,9 +3034,9 @@ usa: web.sesiones
 
 ### Crónica
 
-La sala de archivos de la torre tiene una puerta con un guardia. Antes, el guardia tenía una lista con los nombres y las contraseñas de todos, escrita en un papel. Un día alguien se robó el papel, y con él, todas las contraseñas. Ahora el guardia tiene otra lista: al lado de cada nombre, un sello de lacre deformado que no se puede volver a convertir en la contraseña… pero que coincide si alguien dice la correcta.
+La sala de archivos de la torre tiene una puerta con un guardia. Antes, el guardia tenía una lista con los nombres y las contraseñas de todos, escrita en un papel. Un día Pico se robó el papel, y con él, todas las contraseñas. Ahora el guardia tiene otra lista: al lado de cada nombre, un sello de lacre deformado que no se puede volver a convertir en la contraseña… pero que coincide si alguien dice la correcta. Nilo anota su contraseña nueva en la palma de la mano. Iara se la borra con saliva.
 
-—Las contraseñas **nunca** se guardan como las escribió la persona —dice {mentor}—. Se guarda su **huella**: un *hash*. Si te roban la lista, no sirve para entrar. Y cuando alguien entra, se le da una ficha nueva, {heroe}, por si alguien le había espiado la vieja.
+—Las contraseñas **nunca** se guardan como las escribió la persona —dice {mentor}—. Se guarda su **huella**: un *hash*. Si te roban la lista, no sirve para entrar. Y cuando alguien entra, se le da una ficha nueva, Nilo, por si alguien le había espiado la vieja.
 
 ### Objetivos
 
@@ -3135,8 +3139,8 @@ se bloquea un rato después de varios.
 <?php
 // Usuarios de ejemplo: las contraseñas son ancla123, faro2026 y timon77.
 return [
-    'kira' => ['nombre' => 'Kira Valdez', 'rol' => 'admin', 'hash' => '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'],
-    'bron' => ['nombre' => 'Bron', 'rol' => 'cliente', 'hash' => '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6'],
+    'iara' => ['nombre' => 'Iara Valdez', 'rol' => 'admin', 'hash' => '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'],
+    'nilo' => ['nombre' => 'Nilo', 'rol' => 'cliente', 'hash' => '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6'],
     'lia' => ['nombre' => 'Lía', 'rol' => 'cliente', 'hash' => '$2y$10$RkUlc28FIys.6Idh51m8LuGuli1S.au.X3HuqdvuzElfhWtzOf6FO'],
 ];
 ```
@@ -3579,7 +3583,7 @@ xp: 10
 
 Escribí `clave.php`, una página para cambiar la contraseña. Para practicar en un
 solo archivo, la cuenta vive en la sesión: la primera vez se crea
-`$_SESSION['cuenta'] = ['usuario' => 'kira', 'hash' => password_hash('ancla123', PASSWORD_DEFAULT)]`.
+`$_SESSION['cuenta'] = ['usuario' => 'iara', 'hash' => password_hash('ancla123', PASSWORD_DEFAULT)]`.
 El formulario pide la contraseña **actual**, la nueva y su repetición. Reglas:
 
 - la actual tiene que ser correcta (`password_verify`);
@@ -3605,7 +3609,7 @@ declare(strict_types=1);
 // Mision 3 - El cambio de contraseña: verificar la actual y guardar el hash nuevo.
 session_start();
 $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
-$_SESSION['cuenta'] ??= ['usuario' => 'kira', 'hash' => password_hash('ancla123', PASSWORD_DEFAULT)];
+$_SESSION['cuenta'] ??= ['usuario' => 'iara', 'hash' => password_hash('ancla123', PASSWORD_DEFAULT)];
 $mensajes = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -3689,8 +3693,8 @@ declare(strict_types=1);
 // Encargo - El bloqueo por intentos: fallos por usuario y un tiempo de espera.
 session_start();
 const USUARIOS = [
-    'kira' => ['nombre' => 'Kira', 'saldo' => 152300, 'hash' => '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'],
-    'bron' => ['nombre' => 'Bron', 'saldo' => 8900, 'hash' => '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6'],
+    'iara' => ['nombre' => 'Iara', 'saldo' => 152300, 'hash' => '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'],
+    'nilo' => ['nombre' => 'Nilo', 'saldo' => 8900, 'hash' => '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6'],
 ];
 const MAX_FALLOS = 3;
 const BLOQUEO_SEGUNDOS = 60;
@@ -3787,9 +3791,11 @@ usa: html.formularios
 
 ### Crónica
 
-A la Oficina de Correos no llegan solo cartas: llegan fotos, planos, facturas. Un día alguien mandó un "retrato" que en realidad era una trampa con código adentro, y casi incendia el archivo. Desde entonces, un revisor mira **qué hay de verdad** dentro de cada paquete antes de guardarlo, le pone un número nuevo y lo archiva en un cajón donde nadie puede ejecutarlo.
+A la Oficina de Correos no llegan solo cartas: llegan fotos, planos, facturas. Un día alguien mandó un "retrato" que en realidad era una trampa con código adentro, y casi incendia el archivo. Revisando el registro de esa semana, Nilo encuentra otro, de hace veinte años: *"paquete para quien llegue, robado del Albatros por un ladrón de techos"*. Todos en el Puerto tienen una anécdota de ese ladrón; nadie sabe adónde fue.
 
-—Recibir archivos es recibir paquetes de desconocidos —dice {mentor}—. Se revisa el tamaño, se mira el contenido real y no el nombre que trae, y se guarda con un nombre nuestro. Y mientras no tengamos bodega, {heroe}, los registros se guardan en un archivo **JSON**: texto ordenado que cualquier lenguaje entiende.
+—Eran dos envíos —dice {mentor}, sin levantar la vista—. Uno se lo llevó él. El otro lo guardé yo. —Y no dice nada más.
+
+Desde lo del retrato, un revisor mira **qué hay de verdad** dentro de cada paquete antes de guardarlo. —Recibir archivos es recibir paquetes de desconocidos —sigue la Capitana—. Se revisa el tamaño, se mira el contenido real y no el nombre que trae, y se guarda con un nombre nuestro. Y mientras no tengamos bodega, Nilo, los registros se guardan en un archivo **JSON**: texto ordenado que cualquier lenguaje entiende.
 
 ### Objetivos
 
@@ -4499,9 +4505,9 @@ usa: html.estructura
 
 ### Crónica
 
-La Oficina de Correos creció: ya tiene veinte ventanillas, y cada una tenía su propio cartel pintado a mano, con el logo del Puerto un poco distinto en cada una. Cuando cambió el horario de atención, hubo que repintar los veinte carteles. {mentor} mandó hacer un **molde de cartel**: el mismo marco, el mismo logo, el mismo horario, y en el medio, un espacio para lo que es propio de cada ventanilla.
+La Oficina de Correos creció: ya tiene veinte ventanillas, y cada una tenía su propio cartel pintado a mano, con el logo del Puerto un poco distinto en cada una. Cuando cambió el horario de atención, Nilo tuvo que repintar los veinte carteles, y en tres se olvidó del domingo. {mentor} mandó hacer un **molde de cartel**: el mismo marco, el mismo logo, el mismo horario, y en el medio, un espacio para lo que es propio de cada ventanilla.
 
-—Tus páginas repiten el mismo encabezado, el mismo menú, el mismo pie —dice—. Si mañana cambia el menú, ¿vas a tocar veinte archivos? Se arma un **molde** y cada página solo pone su parte. Y de paso, {heroe}, separamos el trabajo: por un lado se **decide** qué mostrar, por el otro se **muestra**.
+—Tus páginas repiten el mismo encabezado, el mismo menú, el mismo pie —dice—. Si mañana cambia el menú, ¿vas a tocar veinte archivos? Se arma un **molde** y cada página solo pone su parte. Y de paso, Nilo, separamos el trabajo: por un lado se **decide** qué mostrar, por el otro se **muestra**.
 
 ### Objetivos
 
@@ -5326,9 +5332,11 @@ usa: web.auth, web.seguridad, web.subidas, web.plantillas
 
 ### Crónica
 
-En el último piso de la Oficina de Correos vive la **Gorgona de los Formularios**. Sus cabellos son cientos de campos sin validar que se retuercen: emails sin arroba, precios negativos, archivos disfrazados, pedidos falsos con firmas robadas. Quien la mira sin protección queda de piedra: su sitio hackeado, sus datos mezclados, sus usuarios expuestos.
+En el último piso de la Oficina de Correos vive la **Gorgona de los Formularios**. Sus cabellos son cientos de cintas de papel sin validar que se retuercen: emails sin arroba, precios negativos, archivos disfrazados, pedidos falsos con firmas robadas. Quien la mira sin protección queda de piedra: su sitio hackeado, sus datos mezclados, sus usuarios expuestos.
 
-—No se la enfrenta de frente —dice {mentor}, dándote un escudo pulido como un espejo—. Se la enfrenta con **todo** lo que aprendiste en la Oficina: cada dato validado al entrar, cada salida escapada, cada formulario sellado, cada archivo revisado, cada página que pregunta quién sos. Armá tu sitio así, {heroe}, y la Gorgona se va a ver reflejada… y se va a quedar de piedra ella.
+—No se la enfrenta de frente —dice {mentor}, dándole a Nilo un escudo pulido como un espejo—. Se la enfrenta con **todo** lo que aprendiste en la Oficina: cada dato validado al entrar, cada salida escapada, cada formulario sellado, cada archivo revisado, cada página que pregunta quién sos. Armá tu sitio así, Nilo, y la Gorgona se va a ver reflejada… y se va a quedar de piedra ella.
+
+Iara, mientras tanto, le cose el bolso: un bolsillo nuevo con su nombre bordado, para lo que tiene que recordar.
 
 ### Objetivos
 

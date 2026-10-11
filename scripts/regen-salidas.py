@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compila y ejecuta todo el código de un curso de C o C++ (los ejemplos de los nodos y las soluciones de
+"""Compila y ejecuta todo el código de un curso de C, C++ o PHP (los ejemplos de los nodos y las soluciones de
 referencia de las prácticas, con su entrada de ejemplo y sus pruebas) y compara lo que sale con lo que dice el .md.
 
     scripts/regen-salidas.py cursos/cpp [--only=R02] [--apply]
@@ -36,12 +36,23 @@ def blocks(lines):
     return out
 
 
-def skip(code):
+def skip(code, lang='cpp'):
+    if lang == 'php':  # lo que necesita un servidor, una base o Composer no corre suelto en la terminal
+        return '<?php' not in code or re.search(r'\$_(GET|POST|SESSION|COOKIE|FILES|SERVER)|new PDO|session_start|header\(|require .*vendor|use PHPUnit|namespace ', code)
     return 'int main' not in code or re.search(r'#include\s*<(Q\w+|SDL|Arduino)', code) or 'void setup()' in code
 
 
 def run(code, stdin, lang, cache={}):
     key = (code, lang)
+    if lang == 'php':
+        with tempfile.TemporaryDirectory() as cwd:
+            Path(cwd, 'main.php').write_text(code)
+            try:
+                r = subprocess.run(['php', 'main.php'], input=stdin, capture_output=True, text=True, timeout=10, cwd=cwd)
+            except subprocess.TimeoutExpired:
+                return 'ERROR: se pasó de tiempo'
+        # Un `exit(1)` a propósito vale (la salida es la que se espera); un error fatal, no.
+        return 'ERROR: ' + (r.stdout + r.stderr)[-300:] if 'Fatal error' in r.stdout + r.stderr else r.stdout.rstrip('\n')
     if key not in cache:
         tmp = tempfile.mkdtemp(prefix='regen-')
         # Un proyecto de varios archivos viene separado con «// ===== Nombre.h =====».
@@ -103,7 +114,7 @@ def process(path, lang, only, apply):
         body = '\n'.join(lines[s + 1:e])
         if only and not unit.startswith(only):
             continue
-        if h3 == 'Código de ejemplo' and kind in ('cpp', 'c'):
+        if h3 == 'Código de ejemplo' and kind in ('cpp', 'c', 'php'):
             # Un ejemplo de varios archivos trae cada uno en su bloque, con el nombre arriba: `Torre.h`
             label = next((l for l in reversed(lines[:s]) if l.strip()), '')
             m = re.fullmatch(r'`([\w.]+\.(?:h|hpp|c|cpp))`', label.strip())
@@ -124,7 +135,7 @@ def process(path, lang, only, apply):
                 p['in'] = body
             elif h4 == 'Salida esperada':
                 p['out'] = (s, e)
-            elif h4 == 'Solución de referencia' and kind in ('cpp', 'c'):
+            elif h4 == 'Solución de referencia' and kind in ('cpp', 'c', 'php'):
                 p['code'] = body
             elif h4 == 'Pruebas' and kind == 'entrada':
                 p['tests'].append([body, None, h5])
@@ -140,7 +151,7 @@ def process(path, lang, only, apply):
                 tasks.append((p['code'], stdin, out, f'{key} «{name}»'))
 
     # Compila y ejecuta en paralelo (cada caso en su carpeta); después compara en orden.
-    todo = [t for t in tasks if not skip(t[0])]
+    todo = [t for t in tasks if not skip(t[0], lang)]
     with ThreadPoolExecutor(max_workers=os.cpu_count()) as pool:
         list(pool.map(lambda code: run(code, '', lang), {t[0] for t in todo}))  # compila cada código una vez
         results = list(pool.map(lambda t: run(t[0], t[1] + '\n' if t[1].strip() else t[1], lang), todo))
@@ -171,7 +182,7 @@ def main():
     only = next((a.split('=', 1)[1] for a in sys.argv if a.startswith('--only=')), '')
     apply = '--apply' in sys.argv
     folder = Path(args[0])
-    lang = 'c' if folder.name == 'c' else 'cpp'
+    lang = folder.name if folder.name in ('c', 'php') else 'cpp'
     total = bad = 0
     for f in sorted(folder.glob('*.md')):
         t, b = process(f, lang, only, apply)

@@ -17,9 +17,9 @@ temas: web.mvc, diseno.capas
 
 ### Crónica
 
-En la punta del muelle más largo está el **Faro**, la construcción más alta del Puerto. Desde su cúpula, un guardián dirige a todos los barcos que llegan de noche: a cada uno le mira la bandera y le señala una dársena. No carga nada ni atiende a nadie: solo **dirige**, y cada dársena sabe qué hacer con lo suyo.
+En la punta del muelle más largo está el **Faro**, la construcción más alta del Puerto: el mismo faro por el que llegó Nilo, con la lámpara apagada desde hace veinte años. En la cúpula lo espera **Marea, la farera**, con su impermeable amarillo y un farol de dos vidrios. Aunque el Faro no alumbra, ella sigue dirigiendo a los barcos que llegan de noche: a cada uno le mira la bandera y le señala una dársena. No carga nada ni atiende a nadie: solo **dirige**, y cada dársena sabe qué hacer con lo suyo.
 
-—Tus sistemas ya tienen muchas páginas, y cada una repite lo mismo al empezar —dice {mentor}—. En el Faro trabajamos distinto: **todos** los pedidos entran por una sola puerta, un **router** mira la dirección y el método y se los pasa al **controlador** que corresponde. El controlador pide los datos al **modelo** y se los da a la **vista**. Tres piezas, {heroe}: así están hechos todos los frameworks.
+—Tus sistemas ya tienen muchas páginas, y cada una repite lo mismo al empezar —dice {mentor}—. En el Faro trabajamos distinto: **todos** los pedidos entran por una sola puerta, un **router** mira la dirección y el método y se los pasa al **controlador** que corresponde. El controlador pide los datos al **modelo** y se los da a la **vista**. Tres piezas, Nilo: así están hechos todos los frameworks.
 
 ### Objetivos
 
@@ -1370,9 +1370,9 @@ temas: func.closures, func.orden-superior, func.iteradores
 
 ### Crónica
 
-En la sala de máquinas del Faro hay un tablero lleno de palancas intercambiables: cada palanca es una **instrucción** que se puede sacar y enchufar en otro lado. Y hay una cinta que no para de traer cajones desde la bodega: no los trae todos juntos, que no entrarían, sino **de a uno**, a medida que se necesitan.
+En la sala de máquinas del Faro hay un tablero lleno de palancas intercambiables: cada palanca es una **instrucción** que se puede sacar y enchufar en otro lado. Y hay una cinta que no para de traer cajones desde la bodega: no los trae todos juntos, que no entrarían, sino **de a uno**, a medida que se necesitan. Nilo intenta bajar todos los cajones juntos "para ganar tiempo" y la cinta se traba con un crujido. Marea lo mira sin decir nada.
 
-—En PHP, las funciones también se pueden guardar, pasar y enchufar donde haga falta —dice {mentor}—. Y cuando los datos son demasiados para la memoria, se los trae de a uno con un **generador**. Con esas dos herramientas, {heroe}, escribís código más corto… y que no se ahoga con archivos gigantes.
+—En PHP, las funciones también se pueden guardar, pasar y enchufar donde haga falta —dice {mentor}—. Y cuando los datos son demasiados para la memoria, se los trae de a uno con un **generador**. Con esas dos herramientas, Nilo, escribís código más corto… y que no se ahoga con archivos gigantes.
 
 ### Objetivos
 
@@ -1429,7 +1429,7 @@ function aplicarATodos(array $datos, callable ...$pasos): array
     }
     return $datos;
 }
-aplicarATodos([' kira ', 'BRON'], trim(...), strtolower(...), ucfirst(...));   // ['Kira', 'Bron']
+aplicarATodos([' iara ', 'NILO'], trim(...), strtolower(...), ucfirst(...));   // ['Iara', 'Nilo']
 ```
 
 #### Transformar datos en cadena
@@ -1506,7 +1506,7 @@ echo "Con IVA: ", $conIva(100), " · contador: $contador\n";
 // Callables y first-class callables
 $pasos = [trim(...), mb_strtolower(...), ucwords(...)];
 $limpiar = fn(string $t): string => array_reduce($pasos, fn(string $acc, callable $f) => $f($acc), $t);
-echo "Limpio: ", $limpiar('   KIRA DEL valle  '), "\n";
+echo "Limpio: ", $limpiar('   IARA DEL valle  '), "\n";
 
 // Una función que devuelve funciones
 function tarifa(float $porKilo, float $minimo): Closure
@@ -1566,7 +1566,7 @@ echo "Memoria usada: ", memory_get_peak_usage() < 4 * 1024 * 1024 ? 'menos de 4 
 
 ```
 Con IVA: 121 · contador: 2
-Limpio: Kira Del Valle
+Limpio: Iara Del Valle
 2 kg: correo 800, express 2500
 12 kg: correo 1800, express 5040
 Por destino: {"Imperio":1100,"Valle":800,"Forjas":90}
@@ -2073,9 +2073,9 @@ usa: web.http
 
 ### Crónica
 
-A la torre del Faro llegan cada vez más mensajes que no son de personas: son de **otras máquinas**. El sistema de la aduana pregunta qué barcos llegaron hoy; una aplicación de celular quiere mostrar el horario del ferry; el correo de otro puerto manda paquetes para registrar. No quieren páginas con colores y botones: quieren **datos**, ordenados, en un idioma que cualquier máquina entienda.
+A la torre del Faro llegan cada vez más mensajes que no son de personas: son de **otras máquinas**. El sistema de la aduana pregunta qué barcos llegaron hoy; una aplicación de celular quiere mostrar el horario del ferry; el correo de otro puerto manda paquetes para registrar. Nilo les contesta con páginas llenas de colores y una gaviota dibujada. Las máquinas no entienden nada.
 
-—Ese idioma es **JSON** —dice {mentor}—, y la forma ordenada de pedir y mandar datos por HTTP se llama **API REST**. Cada cosa tiene su dirección, cada acción su método y cada resultado su código. Si lo hacés bien, {heroe}, cualquier programa del mundo puede hablar con tu Puerto.
+—No quieren páginas, Nilo: quieren **datos**, ordenados, en un idioma que cualquier máquina entienda —dice {mentor}—. Ese idioma es **JSON**, y la forma ordenada de pedir y mandar datos por HTTP se llama **API REST**. Cada cosa tiene su dirección, cada acción su método y cada resultado su código. Si lo hacés bien, cualquier programa del mundo puede hablar con tu Puerto.
 
 ### Objetivos
 
@@ -2760,9 +2760,9 @@ usa: cal.build
 
 ### Crónica
 
-El ingeniero del Faro revisaba la lámpara a mano cada noche: encendía, medía, anotaba. Un día se enfermó y nadie supo cómo revisarla; esa misma noche la lámpara falló. Desde entonces, junto a la lámpara hay un **banco de pruebas**: se aprieta un botón y en un segundo prueba las cuarenta cosas que el ingeniero revisaba, siempre igual, sin olvidarse de ninguna.
+El ingeniero del Faro revisaba la lámpara a mano cada noche: encendía, medía, anotaba. Un día se enfermó y nadie supo cómo revisarla; esa misma noche la lámpara falló. Desde entonces, junto a la lámpara hay un **banco de pruebas**: se aprieta un botón y en un segundo prueba las cuarenta cosas que el ingeniero revisaba, siempre igual, sin olvidarse de ninguna. Nilo lo mira con envidia: es una máquina que no se olvida de nada.
 
-—Cada vez que tocás el código, podés romper algo que andaba —dice {mentor}—. Probar todo a mano cada vez es imposible. Las **pruebas automáticas** son programas que prueban tus programas: se escriben una vez y se corren siempre. Y el ogro de los errores silenciosos, {heroe}, les tiene terror.
+—Cada vez que tocás el código, podés romper algo que andaba —dice {mentor}—. Probar todo a mano cada vez es imposible. Las **pruebas automáticas** son programas que prueban tus programas: se escriben una vez y se corren siempre. Y el ogro de los errores silenciosos, Nilo, les tiene terror.
 
 ### Objetivos
 
@@ -3764,9 +3764,11 @@ usa: err.excepciones
 
 ### Crónica
 
-Una madrugada, la lámpara del Faro se apagó. A la mañana nadie sabía por qué: no había ninguna nota, ningún registro, nada. El guardián nocturno solo recordaba "un ruido raro". Desde entonces hay un **libro de guardia**: cada cosa que pasa se anota con la hora, qué tan grave es y qué se hizo. Y en la puerta hay un cartel distinto para los visitantes: *"Faro momentáneamente fuera de servicio"*, sin detalles técnicos.
+Una madrugada, la lámpara de prueba del Faro se apagó. A la mañana nadie sabía por qué: no había ninguna nota, ningún registro, nada. Nilo, que estaba de guardia, solo recordaba "un ruido raro". Desde entonces hay un **libro de guardia**: cada cosa que pasa se anota con la hora, qué tan grave es y qué se hizo. Y en la puerta hay un cartel distinto para los visitantes: *"Faro momentáneamente fuera de servicio"*, sin detalles técnicos.
 
-—En tu compu querés ver **todos** los errores, con el archivo y la línea —dice {mentor}—. En el servidor, los visitantes **nunca** tienen que verlos: se les muestra un mensaje amable y el detalle va al **registro**. Y lo que cambia entre tu compu y el servidor, {heroe}, no se escribe en el código: va en la **configuración**.
+Esa noche, por primera vez en el viaje, Nilo anota **todo**. Iara pasa por la cúpula, lee el libro de guardia de punta a punta y se tiene que sentar.
+
+—En tu compu querés ver **todos** los errores, con el archivo y la línea —dice {mentor}—. En el servidor, los visitantes **nunca** tienen que verlos: se les muestra un mensaje amable y el detalle va al **registro**. Y lo que cambia entre tu compu y el servidor, Nilo, no se escribe en el código: va en la **configuración**.
 
 ### Objetivos
 
@@ -3835,7 +3837,7 @@ canceló, cuánto tardó una importación. Un registro con **niveles**:
 | `error` | algo falló: "no se pudo mandar el mail" |
 
 ```
-[2026-10-03 09:40:12] WARNING: Login fallido {"email":"kira@puerto.ar","ip":"10.0.0.5"}
+[2026-10-03 09:40:12] WARNING: Login fallido {"email":"iara@puerto.ar","ip":"10.0.0.5"}
 ```
 Una línea por evento, con fecha, nivel, mensaje y datos en JSON: fácil de leer y de
 buscar con `grep`. **Nunca** se registran contraseñas ni números de tarjeta.
@@ -4007,7 +4009,7 @@ conteo.
 #### Salida esperada
 
 ```
-[WARNING] Login fallido {"usuario":"bron","clave":"***"}
+[WARNING] Login fallido {"usuario":"nilo","clave":"***"}
 [ERROR] No se pudo cobrar {"cliente":"Ana","tarjeta":"***","monto":12000}
 [WARNING] Cajón sin etiqueta {"cajon":"C-17"}
 Array
@@ -4064,7 +4066,7 @@ final class Registro
 
 $registro = new Registro('warning');
 $registro->info('Llegó la Gaviota', ['muelle' => 1]);
-$registro->warning('Login fallido', ['usuario' => 'bron', 'clave' => 'faro2026']);
+$registro->warning('Login fallido', ['usuario' => 'nilo', 'clave' => 'faro2026']);
 $registro->error('No se pudo cobrar', ['cliente' => 'Ana', 'tarjeta' => '4509 1234 5678 9012', 'monto' => 12000]);
 $registro->warning('Cajón sin etiqueta', ['cajon' => 'C-17']);
 foreach ($registro->lineas() as $linea) {
@@ -4459,9 +4461,11 @@ temas: web.despliegue
 
 ### Crónica
 
-Hasta hoy, tu Faro solo alumbraba adentro de tu compu. Para que lo vean los barcos de verdad hay que llevarlo a la costa: un lugar que esté prendido día y noche, con una dirección que todos conozcan. {mentor} te entrega un papel con tres cosas escritas: *un dominio, un hosting, una base de datos*.
+Hasta hoy, los sistemas de Nilo solo alumbraban adentro de su compu. Para que los vean los barcos de verdad hay que llevarlos a la costa: un lugar que esté prendido día y noche, con una dirección que todos conozcan. {mentor} le entrega un papel con tres cosas escritas: *un dominio, un hosting, una base de datos*.
 
-—Subir un sistema es mudarse —dice—. Hay que llevar los archivos correctos (y dejar los que no van), preparar la base, cambiar la configuración, poner el candado del HTTPS y revisar que todo ande. Si lo hacés con una lista, {heroe}, la mudanza sale bien. Si lo hacés de memoria, siempre se olvida algo.
+Limpiando la lámpara grande para la mudanza, Nilo y Marea descubren que la lente no es de vidrio común: es **un vitral**, con el plomo trabajado como el de las Forjas. El faro por el que Nilo llegó no es solo un faro.
+
+—Subir un sistema es mudarse —dice la Capitana—. Hay que llevar los archivos correctos (y dejar los que no van), preparar la base, cambiar la configuración, poner el candado del HTTPS y revisar que todo ande. Si lo hacés con una lista, Nilo, la mudanza sale bien. Si lo hacés de memoria —y lo mira—, siempre se olvida algo.
 
 ### Objetivos
 
@@ -5182,9 +5186,11 @@ usa: web.mvc, web.api-rest, cal.pruebas, sql.desde-codigo
 
 ### Crónica
 
-La noche en que terminás tu último sistema, el mar se agita. De entre las olas se levanta el **Dragón del Faro**, hecho de todo lo que aprendiste y de todo lo que puede salir mal: formularios sin validar, consultas pegadas, reservas que se pisan, errores a la vista, pruebas que nadie escribió. Viene a apagar la luz del Faro.
+La noche en que Nilo termina su último sistema, el mar se agita como la noche en que llegó. De entre las olas se levanta el **Dragón del Faro**, hecho de todo lo que aprendió y de todo lo que puede salir mal: formularios sin validar, consultas pegadas, reservas que se pisan, errores a la vista, pruebas que nadie escribió. Se enrosca en la torre. Viene a apagar la luz del Faro para siempre.
 
-—Esta vez no hay un solo truco —dice {mentor}, parada a tu lado en la cúpula—. El dragón se vence con un sistema **entero**: reglas probadas, datos protegidos, capas ordenadas, una API para las máquinas y una web para las personas. Todo lo que aprendiste en el Puerto, {heroe}, junto. Encendé la lámpara.
+—Esta vez no hay un solo truco —dice {mentor}, parada a su lado en la cúpula—. El dragón se vence con un sistema **entero**: reglas probadas, datos protegidos, capas ordenadas, una API para las máquinas y una web para las personas. Todo lo que aprendiste en el Puerto, Nilo, junto. Encendé la lámpara.
+
+Cuando el Dragón cae, la lámpara se prende y el vitral de la lente proyecta colores sobre todo el Puerto. Elefa le da a Nilo un morral nuevo, con un compartimiento numerado para cada pedido —**el Morral del Correo Mayor**— y un sobre amarillento, sellado con un sello de vidrio de colores. Dice *para quien llegue*. Cuando Nilo rompe el sello, el vidrio muestra un instante un balcón con cuatro portales: una espiral, un engranaje, un vitral y un arco de fuego.
 
 ### Objetivos
 
@@ -5495,7 +5501,7 @@ final class ServicioAmarrasTest extends TestCase
 
     public function testReservaValida(): void
     {
-        $r = $this->servicio->reservar($this->a1, 'kira', 9.5, '2026-11-01', '2026-11-04');
+        $r = $this->servicio->reservar($this->a1, 'iara', 9.5, '2026-11-01', '2026-11-04');
         $this->assertSame(1, $r->id);
         $this->assertSame(3, $r->noches());
         $this->assertSame(Estado::Activa, $r->estado);
@@ -5506,7 +5512,7 @@ final class ServicioAmarrasTest extends TestCase
     {
         $this->expectException(ReglaRota::class);
         $this->expectExceptionMessage('noches');
-        $this->servicio->reservar($this->a1, 'kira', 9, $llegada, $salida);
+        $this->servicio->reservar($this->a1, 'iara', 9, $llegada, $salida);
     }
 
     public static function nochesInvalidas(): array
@@ -5516,61 +5522,61 @@ final class ServicioAmarrasTest extends TestCase
 
     public function testCatorceNochesSiSePuede(): void
     {
-        $this->assertSame(14, $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-15')->noches());
+        $this->assertSame(14, $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-15')->noches());
     }
 
     public function testBarcoDemasiadoLargo(): void
     {
         $this->expectException(ReglaRota::class);
         $this->expectExceptionMessage('admite hasta 12');
-        $this->servicio->reservar($this->a1, 'kira', 12.5, '2026-11-01', '2026-11-03');
+        $this->servicio->reservar($this->a1, 'iara', 12.5, '2026-11-01', '2026-11-03');
     }
 
     public function testNoSeSuperpone(): void
     {
-        $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-05');
+        $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-05');
         $this->expectException(ReglaRota::class);
         $this->expectExceptionMessage('ocupada');
-        $this->servicio->reservar($this->a1, 'bron', 8, '2026-11-04', '2026-11-06');
+        $this->servicio->reservar($this->a1, 'nilo', 8, '2026-11-04', '2026-11-06');
     }
 
     public function testLlegarElDiaQueOtroSeVa(): void
     {
-        $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-05');
-        $r = $this->servicio->reservar($this->a1, 'bron', 8, '2026-11-05', '2026-11-06');
+        $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-05');
+        $r = $this->servicio->reservar($this->a1, 'nilo', 8, '2026-11-05', '2026-11-06');
         $this->assertSame(2, $r->id);
     }
 
     public function testCancelarCobraElDiezPorCiento(): void
     {
-        $r = $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-04');
-        $cargo = $this->servicio->cancelar($r->id, 'kira', $this->a1, new DateTimeImmutable('2026-10-31'));
+        $r = $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-04');
+        $cargo = $this->servicio->cancelar($r->id, 'iara', $this->a1, new DateTimeImmutable('2026-10-31'));
         $this->assertSame(5400.0, $cargo);
         $this->assertSame(Estado::Cancelada, $this->repo->buscar($r->id)->estado);
     }
 
     public function testNoSeCancelaElMismoDia(): void
     {
-        $r = $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-04');
+        $r = $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-04');
         $this->expectException(ReglaRota::class);
         $this->expectExceptionMessage('día anterior');
-        $this->servicio->cancelar($r->id, 'kira', $this->a1, new DateTimeImmutable('2026-11-01'));
+        $this->servicio->cancelar($r->id, 'iara', $this->a1, new DateTimeImmutable('2026-11-01'));
     }
 
     public function testSoloQuienReservoCancela(): void
     {
-        $r = $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-04');
+        $r = $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-04');
         $this->expectException(ReglaRota::class);
         $this->expectExceptionMessage('Solo quien reservó');
-        $this->servicio->cancelar($r->id, 'bron', $this->a1, new DateTimeImmutable('2026-10-20'));
+        $this->servicio->cancelar($r->id, 'nilo', $this->a1, new DateTimeImmutable('2026-10-20'));
     }
 
     public function testUnaCanceladaLiberaLaAmarra(): void
     {
-        $r = $this->servicio->reservar($this->a1, 'kira', 9, '2026-11-01', '2026-11-04');
-        $this->servicio->cancelar($r->id, 'kira', $this->a1, new DateTimeImmutable('2026-10-20'));
-        $otra = $this->servicio->reservar($this->a1, 'bron', 8, '2026-11-02', '2026-11-03');
-        $this->assertSame('bron', $otra->navegante);
+        $r = $this->servicio->reservar($this->a1, 'iara', 9, '2026-11-01', '2026-11-04');
+        $this->servicio->cancelar($r->id, 'iara', $this->a1, new DateTimeImmutable('2026-10-20'));
+        $otra = $this->servicio->reservar($this->a1, 'nilo', 8, '2026-11-02', '2026-11-03');
+        $this->assertSame('nilo', $otra->navegante);
     }
 }
 ```
@@ -5606,7 +5612,7 @@ a `src/`):
   libres para esas fechas en las que entra el barco, sin login.
 
 Con CSRF, sesiones con solo el id, consultas preparadas y PRG. El esquema trae los
-navegantes `kira` (`ancla123`) y `bron` (`faro2026`) y cuatro amarras.
+navegantes `iara` (`ancla123`) y `nilo` (`faro2026`) y cuatro amarras.
 
 #### Criterio de aprobación
 
@@ -5645,10 +5651,10 @@ CREATE TABLE reserva (
     INDEX idx_reserva_amarra (amarra, llegada)
 ) ENGINE=InnoDB;
 INSERT INTO navegante (usuario, nombre, hash) VALUES
-    ('kira', 'Kira Valdez', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'),
-    ('bron', 'Bron', '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6');
+    ('iara', 'Iara Valdez', '$2y$10$R7flf57cYzLAnMr14xX56OhKUJ5qlAco9VY/EbWmghiXoQB.vb5yS'),
+    ('nilo', 'Nilo', '$2y$10$sY48d8IabcyzFGOVp12ZpuujEDnEgiSNQdtdVIB1rIGD4/BG9LYF6');
 INSERT INTO amarra VALUES ('A1', 12, 18000), ('A2', 12, 18000), ('B1', 20, 32000), ('C1', 8, 9500);
-INSERT INTO reserva (amarra, navegante, largo, llegada, salida) VALUES ('A1', 'bron', 10, '2026-11-01', '2026-11-05');
+INSERT INTO reserva (amarra, navegante, largo, llegada, salida) VALUES ('A1', 'nilo', 10, '2026-11-01', '2026-11-05');
 ```
 
 `.env`
@@ -6134,11 +6140,13 @@ precio: 10
 
 ### Crónica
 
-Con el Dragón vencido, el Faro vuelve a alumbrar. Bajás de la cúpula y en la plaza del Puerto encontrás una fuente con forma de sello de lacre gigante. De ella salen tres caminos: uno lleva a una arena donde se oyen espadas; otro, a una ciudadela de cristal con un escudo rojo en la puerta; el tercero, a una torre llena de palomas mensajeras que van y vienen sin parar.
+Con el Dragón vencido, el Faro vuelve a alumbrar. Nilo baja de la cúpula y en la plaza del Puerto encuentra una fuente con forma de sello de lacre gigante. De ella salen tres caminos: uno lleva a una arena donde se oyen espadas; otro, a una fortaleza de piedra clara con un escudo rojo en la puerta, el **Bastión**; el tercero, a una torre llena de palomas mensajeras que van y vienen sin parar.
 
-{mentor} te espera sentada en el borde de la fuente, con la trompa apoyada en el agua.
+{mentor} lo espera sentada en el borde de la fuente, con la trompa apoyada en el agua. Iara, Fermín, Marea y Pico están con ella.
 
-—Ya hablás la lengua del Puerto, {heroe}. Lo que sigue no es obligatorio: es **tuyo**. Pero antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
+—Buen día, Elefa —dice Nilo, sin pensarlo. Elefa sonríe.
+
+—Ya hablás la lengua del Puerto, Nilo. Lo que sigue no es obligatorio: es **tuyo**. Pero antes de elegir, mirá hacia atrás. ¿Qué te llevás de este viaje?
 
 ### Objetivos
 
@@ -6162,7 +6170,7 @@ Con eso podés construir y publicar sistemas web completos: un sistema de turnos
 Cada Senda es un camino optativo: no hace falta para completar el curso, y su entrada se paga con **comodines** (los que ganaste con los encargos). Adentro, los nodos se pagan con sellos, como siempre.
 
 - **Senda de la Arena**: un **RPG por turnos** jugable en la terminal: héroes y enemigos con inteligencia, combate, oleadas y el ranking guardado en MariaDB.
-- **Senda de la Ciudadela de Laravel**: el framework de PHP más usado: rutas, controladores, Blade, Eloquent con MySQL, validación, autenticación y pruebas.
+- **Senda del Bastión de Laravel**: el framework de PHP más usado: rutas, controladores, Blade, Eloquent con MySQL, validación, autenticación y pruebas.
 - **Senda de los Mensajes Veloces**: una **aplicación web con JavaScript** que habla con tu API en PHP: `fetch`, JSON, una página que se actualiza sin recargar y autenticación con tokens.
 
 Y si todavía no la hiciste, la **Senda del Escaparate** (HTML y CSS), que salía del Muelle, le da a todos tus sistemas una cara prolija.
@@ -6194,7 +6202,7 @@ Charlalo con el profe en la próxima clase (o escribíselo). Cuando lo tengas, m
 
 #### ¿Cuántas Sendas salen de la Encrucijada y con qué se paga su entrada?
 
-Tres (la Arena, la Ciudadela de Laravel y los Mensajes Veloces), y la entrada se paga con comodines.
+Tres (la Arena, el Bastión de Laravel y los Mensajes Veloces), y la entrada se paga con comodines.
 
 #### ¿Hace falta completar una Senda para terminar el curso?
 

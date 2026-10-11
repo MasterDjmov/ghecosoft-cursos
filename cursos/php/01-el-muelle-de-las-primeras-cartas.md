@@ -17,9 +17,9 @@ temas: prog.variables
 
 ### Crónica
 
-En el primer muelle hay una fila de cajones de madera, cada uno con una etiqueta pintada a mano: *peso*, *destino*, *¿frágil?*. Un estibador mete en el cajón *peso* una bolsa que dice "12 kilos y medio".
+En el primer muelle hay una fila de cajones de madera, cada uno con una etiqueta pintada a mano: *peso*, *destino*, *¿frágil?*. Un estibador mete en el cajón *peso* una bolsa que dice "12 kilos y medio". Nilo la anota como "12" y sigue silbando. Cuando se da vuelta, un goblin se va corriendo por el muelle con el medio kilo bajo el brazo.
 
-—En el Puerto los cajones no tienen tipo fijo —explica {mentor}—. Podés guardar un número, un texto o un "sí/no" en cualquiera. Es cómodo, {heroe}, pero hay que saber **qué hay adentro** de cada cajón. PHP a veces convierte las cosas solo, y ahí nacen los goblins.
+—En el Puerto los cajones no tienen tipo fijo —le explica {mentor}—. Podés guardar un número, un texto o un "sí/no" en cualquiera. Es cómodo, Nilo, pero hay que saber **qué hay adentro** de cada cajón. PHP a veces convierte las cosas solo, y ahí nacen los goblins.
 
 ### Objetivos
 
@@ -42,7 +42,7 @@ nombre empieza con **`$`** y se crea la primera vez que le asignás algo:
 $vidas = 3;              // un entero
 $precio = 1250.75;       // un decimal
 $tieneLlave = true;      // verdadero o falso
-$nombre = "Kira";        // un texto
+$nombre = "Iara";        // un texto
 $sinDueno = null;        // "nada": todavía no tiene valor
 ```
 Después se puede cambiar el valor, y hasta el tipo:
@@ -58,7 +58,7 @@ Los nombres van en *camelCase* (`$puntosDeVida`), empiezan con letra o `_` y
 |---|---|---|
 | `int` | enteros | `42`, `-7`, `1_000_000` |
 | `float` | decimales | `3.14`, `1.5e3` (1500.0) |
-| `string` | textos | `"Kira"`, `'hola'` |
+| `string` | textos | `"Iara"`, `'hola'` |
 | `bool` | verdadero o falso | `true`, `false` |
 | `null` | la ausencia de valor | `null` |
 
@@ -70,7 +70,7 @@ muestra las dos cosas:
 ```php
 var_dump(42);          // int(42)
 var_dump(12.5);        // float(12.5)
-var_dump("Kira");      // string(4) "Kira"   ← 4 es la cantidad de bytes
+var_dump("Iara");      // string(4) "Iara"   ← 4 es la cantidad de bytes
 var_dump(true);        // bool(true)
 var_dump(null);        // NULL
 echo gettype(12.5);    // double  (el nombre histórico de float)
@@ -473,9 +473,9 @@ echo "Vuelto: $", number_format($vuelto, 2, ',', '.'), "\n";
 
 Con el signo `$`, por ejemplo `$nombre`.
 
-#### ¿Qué muestra `var_dump("Kira")`?
+#### ¿Qué muestra `var_dump("Iara")`?
 
-`string(4) "Kira"`: el tipo, el largo en bytes y el valor.
+`string(4) "Iara"`: el tipo, el largo en bytes y el valor.
 
 #### ¿Cuánto da `(int) "12.75"`?
 
@@ -505,9 +505,9 @@ temas: prog.operadores
 
 ### Crónica
 
-En la oficina de pesaje del segundo muelle, un empleado hace cuentas en un pizarrón: kilos por cajón, cajones por bodega, cuánto sobra. Al lado, una balanza de dos platos compara dos bolsas.
+En la oficina de pesaje del segundo muelle, un empleado hace cuentas en un pizarrón: kilos por cajón, cajones por bodega, cuánto sobra. Al lado, una balanza de dos platos compara dos bolsas. Nilo reparte el correo del día y le entrega la carta del casillero 01 al señor del casillero 1. —Es lo mismo, ¿no? —dice. No era lo mismo. Un ogro se ríe desde abajo del muelle.
 
-—Las cuentas se hacen con **operadores** —dice {mentor}—. Sumar, comparar, decidir si algo es cierto. Cuidado con la balanza, {heroe}: en el Puerto hay dos maneras de preguntar si dos cosas son iguales, y solo una no miente.
+—Tres iguales, Nilo —suspira {mentor}—. Las cuentas se hacen con **operadores**: sumar, comparar, decidir si algo es cierto. Y en el Puerto hay dos maneras de preguntar si dos cosas son iguales, y solo una no miente.
 
 ### Objetivos
 
@@ -543,8 +543,8 @@ $oro += 25;    // $oro = $oro + 25   → 125
 $oro -= 5;     // 120
 $oro *= 2;     // 240
 $oro /= 4;     // 60 (puede quedar float)
-$nombre = "Kira";
-$nombre .= " Valdez";   // une texto: "Kira Valdez"
+$nombre = "Iara";
+$nombre .= " Valdez";   // une texto: "Iara Valdez"
 $barcos = 3;
 $barcos++;     // 4
 $barcos--;     // 3
@@ -831,7 +831,7 @@ Un barco puede zarpar si se cumplen **todas** estas reglas:
 - y además, o el clima es "bueno", o el barco es "grande".
 
 Con los datos del barco *La Tortuga* (carga 950 kg, capacidad 1000, capitán
-`"Bron"`, clima `"tormenta"`, tamaño `"grande"`), mostrá cada regla con
+`"Nilo"`, clima `"tormenta"`, tamaño `"grande"`), mostrá cada regla con
 `var_dump` y después una línea final con un **ternario**: `Puede zarpar` o
 `Se queda en el muelle`. Mostrá también el nombre del capitán usando `??` con
 "sin capitán" por si fuera `null`.
@@ -848,7 +848,7 @@ Con los datos del barco *La Tortuga* (carga 950 kg, capacidad 1000, capitán
 bool(true)
 bool(true)
 bool(true)
-Capitán: Bron
+Capitán: Nilo
 Puede zarpar
 ```
 
@@ -859,7 +859,7 @@ Puede zarpar
 // Mision 3 - ¿Puede zarpar?: operadores lógicos, ternario y ??.
 $carga = 950;
 $capacidad = 1000;
-$capitan = "Bron";
+$capitan = "Nilo";
 $clima = "tormenta";
 $tamano = "grande";
 
@@ -969,9 +969,11 @@ temas: prog.cadenas
 
 ### Crónica
 
-En la oficina de correos del muelle hay una pared entera de casilleros, y un escribiente que pasa el día copiando direcciones: les saca los espacios de más, pone las mayúsculas donde van y arma las etiquetas de cada paquete.
+En la oficina de correos del muelle hay una pared entera de casilleros, y una chica de chaleco azul petróleo, con un lápiz detrás de la oreja, limpia las direcciones que Nilo copió a las apuradas: les saca los espacios de más, pone las mayúsculas donde van y arma las etiquetas de cada paquete. Se llama **Iara** y es la escribiente de la Oficina. Lo mira por encima de la libreta que lleva atada a la muñeca.
 
-—Casi todo lo que llega al Puerto es **texto** —dice {mentor}, señalando una montaña de sobres—. Nombres, direcciones, mensajes. Hay que saber cortarlo, buscar adentro, limpiarlo y darle formato. Y cuidado con las letras con tilde, {heroe}: ocupan más lugar del que parece.
+—¿Lo anotaste? —le pregunta. —Lo tengo acá —dice Nilo, y se toca la cabeza. Iara le señala el agujero del bolso, por donde se acaba de caer otra carta.
+
+—Casi todo lo que llega al Puerto es **texto** —dice {mentor}, señalando una montaña de sobres—. Nombres, direcciones, mensajes. Hay que saber cortarlo, buscar adentro, limpiarlo y darle formato. Y cuidado con las letras con tilde, Nilo: ocupan más lugar del que parece.
 
 ### Objetivos
 
@@ -989,10 +991,10 @@ En la oficina de correos del muelle hay una pared entera de casilleros, y un esc
 
 #### Comillas simples y dobles
 ```php
-$nombre = "Kira";
-echo "Hola, $nombre\n";      // Hola, Kira   → las dobles interpolan variables y \n
+$nombre = "Iara";
+echo "Hola, $nombre\n";      // Hola, Iara   → las dobles interpolan variables y \n
 echo 'Hola, $nombre\n';      // Hola, $nombre\n   → las simples muestran todo literal
-echo "Hola, {$nombre}s\n";   // Hola, Kiras  → las llaves marcan dónde termina la variable
+echo "Hola, {$nombre}s\n";   // Hola, Iaras  → las llaves marcan dónde termina la variable
 ```
 Usá comillas **simples** para textos fijos y **dobles** cuando necesites meter
 variables o `\n`. Dentro de las llaves se puede poner una posición de un array o
@@ -1024,15 +1026,15 @@ echo strlen($barco); // 7
 #### Las funciones más usadas
 | Función | Qué hace | Ejemplo → resultado |
 |---|---|---|
-| `strlen($t)` | largo en **bytes** | `strlen("Kira")` → `4` |
-| `strtoupper`, `strtolower` | mayúsculas, minúsculas | `strtoupper("kira")` → `"KIRA"` |
-| `ucfirst`, `ucwords` | primera letra, o la de cada palabra | `ucwords("kira valdez")` → `"Kira Valdez"` |
+| `strlen($t)` | largo en **bytes** | `strlen("Iara")` → `4` |
+| `strtoupper`, `strtolower` | mayúsculas, minúsculas | `strtoupper("iara")` → `"IARA"` |
+| `ucfirst`, `ucwords` | primera letra, o la de cada palabra | `ucwords("iara valdez")` → `"Iara Valdez"` |
 | `trim($t)` | saca espacios y saltos de los extremos | `trim("  hola ")` → `"hola"` |
 | `str_contains($t, $x)` | ¿contiene? | `str_contains("Gaviota", "vio")` → `true` |
 | `str_starts_with`, `str_ends_with` | ¿empieza / termina con? | `str_ends_with("carta.pdf", ".pdf")` → `true` |
-| `strpos($t, $x)` | posición de la primera aparición (o `false`) | `strpos("Kira", "r")` → `2` |
-| `substr($t, $desde, $largo)` | un pedazo | `substr("Kira Valdez", 5)` → `"Valdez"` |
-| `str_replace($a, $b, $t)` | reemplaza todas las apariciones | `str_replace("a", "4", "Kira")` → `"Kir4"` |
+| `strpos($t, $x)` | posición de la primera aparición (o `false`) | `strpos("Iara", "r")` → `2` |
+| `substr($t, $desde, $largo)` | un pedazo | `substr("Iara Valdez", 5)` → `"Valdez"` |
+| `str_replace($a, $b, $t)` | reemplaza todas las apariciones | `str_replace("a", "4", "Iara")` → `"Kir4"` |
 | `explode($sep, $t)` | parte en un array | `explode(",", "a,b,c")` → `["a","b","c"]` |
 | `implode($sep, $arr)` | une un array en un texto | `implode(" / ", ["a","b"])` → `"a / b"` |
 | `str_repeat($t, $n)` | repite | `str_repeat("=", 5)` → `"====="` |
@@ -1062,14 +1064,14 @@ Regla del Puerto: **con textos que escribe una persona, usá `mb_strlen`,
 `sprintf` hace lo mismo pero **devuelve** el texto en lugar de mostrarlo:
 ```php
 printf("%s tiene %d cajones y %.2f kg\n", "Gaviota", 12, 450.5);
-$linea = sprintf("%-10s|%5d", "Kira", 42);   // "Kira      |   42"
+$linea = sprintf("%-10s|%5d", "Iara", 42);   // "Iara      |   42"
 ```
 | Hueco | Para | Ejemplo |
 |---|---|---|
-| `%s` | textos | `"Kira"` |
+| `%s` | textos | `"Iara"` |
 | `%d` | enteros | `42` |
 | `%.2f` | decimales con 2 cifras | `3.14` |
-| `%5d` / `%-10s` | ancho mínimo (derecha / izquierda) | `"   42"`, `"Kira      "` |
+| `%5d` / `%-10s` | ancho mínimo (derecha / izquierda) | `"   42"`, `"Iara      "` |
 | `%05d` | rellenar con ceros | `"00042"` |
 | `%%` | un signo `%` | `"%"` |
 
@@ -1091,7 +1093,7 @@ con `str_repeat(" ", $ancho - mb_strlen($texto))`.
 /*
  * El escribiente del correo: limpiar, buscar, cortar y dar formato.
  */
-$crudo = "   kira VALDEZ   ";
+$crudo = "   iara VALDEZ   ";
 $nombre = ucwords(strtolower(trim($crudo)));
 echo "Nombre limpio: [$nombre]\n";
 echo "Iniciales: {$nombre[0]}", substr($nombre, strpos($nombre, " ") + 1, 1), "\n";
@@ -1127,15 +1129,15 @@ echo "Código: ", sprintf("%05d", 42), "\n";
 ### Salida esperada
 
 ```
-Nombre limpio: [Kira Valdez]
-Iniciales: KV
+Nombre limpio: [Iara Valdez]
+Iniciales: IV
 Muelle: Muelle 3
 Casillero: 42
 ¿Es del Puerto? sí
 Etiqueta: Muelle 3 | casillero 42 | Puerto de los Mensajeros
 strlen: 7 / mb_strlen: 5
 Mayúsculas: ÑANDÚ
-Querida Kira Valdez:
+Querida Iara Valdez:
 Llegaron 3 paquetes a tu casillero.
 Paquete   | Kilos|  Precio
 Cartas    |   1.5| 1200.00
@@ -1165,7 +1167,7 @@ está en la posición 0 (porque `0` es falso). Usá `str_contains($mail, "@")` o
 otros caracteres), busca `$texto»` y avisa `Undefined variable $texto»`. Con llaves
 no hay duda: `"«{$texto}»"`.
 
-**Orco: una posición que no existe.** `"Kira"[10]` da
+**Orco: una posición que no existe.** `"Iara"[10]` da
 `Warning: Uninitialized string offset 10`. Revisá el largo antes.
 
 **Slime: el cierre del heredoc.** El `TXT;` de cierre tiene que estar solo en su
@@ -1183,7 +1185,7 @@ xp: 10
 #### Consigna
 
 Llegó un paquete con los datos escritos a las apuradas:
-`"  bron   de las FORJAS  "` (remitente) y `"  lía del valle  "` (destinataria).
+`"  nilo   de las FORJAS  "` (remitente) y `"  lía del valle  "` (destinataria).
 Armá la etiqueta:
 
 1. Limpiá los espacios de los extremos con `trim`.
@@ -1202,7 +1204,7 @@ Armá la etiqueta:
 
 ```
 **************************
-* De: Bron De Las Forjas *
+* De: Nilo De Las Forjas *
 * Para: Lía Del Valle    *
 **************************
 ```
@@ -1212,7 +1214,7 @@ Armá la etiqueta:
 ```php
 <?php
 // Mision 1 - La etiqueta del paquete: limpiar textos y armar un recuadro.
-$remitente = "  bron   de las FORJAS  ";
+$remitente = "  nilo   de las FORJAS  ";
 $destino = "  lía del valle  ";
 
 $remitente = ucwords(mb_strtolower(trim($remitente)));
@@ -1241,7 +1243,7 @@ xp: 10
 
 #### Consigna
 
-La oficina de correos recibe la dirección de mail `"  Kira.Valdez@Puerto.COM.ar "`.
+La oficina de correos recibe la dirección de mail `"  Iara.Valdez@Puerto.COM.ar "`.
 Mostrá:
 
 1. El mail limpio y en minúsculas.
@@ -1250,7 +1252,7 @@ Mostrá:
 3. Si el dominio termina en `.ar` (con `str_ends_with`).
 4. El mail "oculto" para mostrar en pantalla: la primera letra del usuario,
    asteriscos por el resto de las letras del usuario, y el dominio completo
-   (`k**********@puerto.com.ar`).
+   (`i**********@puerto.com.ar`).
 
 #### Criterio de aprobación
 
@@ -1261,11 +1263,11 @@ Mostrá:
 #### Salida esperada
 
 ```
-Mail: kira.valdez@puerto.com.ar
-Usuario: kira.valdez
+Mail: iara.valdez@puerto.com.ar
+Usuario: iara.valdez
 Dominio: puerto.com.ar
 ¿Es de Argentina? sí
-Oculto: k**********@puerto.com.ar
+Oculto: i**********@puerto.com.ar
 ```
 
 #### Solución de referencia
@@ -1273,7 +1275,7 @@ Oculto: k**********@puerto.com.ar
 ```php
 <?php
 // Mision 2 - El mail del cliente: buscar y cortar textos.
-$mail = strtolower(trim("  Kira.Valdez@Puerto.COM.ar "));
+$mail = strtolower(trim("  Iara.Valdez@Puerto.COM.ar "));
 $arroba = strpos($mail, "@");
 $usuario = substr($mail, 0, $arroba);
 $dominio = substr($mail, $arroba + 1);
@@ -1437,9 +1439,9 @@ temas: prog.entrada, prog.argumentos, err.validacion
 
 ### Crónica
 
-En la ventanilla de encomiendas, un empleado le pregunta a cada cliente su nombre, el peso del paquete y el destino, y anota las respuestas en una planilla. Uno contesta "doce kilos" en vez de "12"; el empleado frunce el ceño y le pide que lo escriba de nuevo.
+En la ventanilla de encomiendas, Nilo le pregunta a cada cliente su nombre, el peso del paquete y el destino. Uno contesta "doce kilos" en vez de "12". Nilo lo anota tal cual, la balanza intenta sumar "doce kilos" más "3" y del platillo empiezan a brotar slimes.
 
-—Un programa que solo muestra cosas es como una ventanilla sin empleado —dice {mentor}—. Hay que **preguntar**. Pero lo que la gente contesta nunca es confiable, {heroe}: siempre llega como texto, a veces vacío, a veces con letras donde iban números. Se revisa antes de usar.
+—Un programa que solo muestra cosas es como una ventanilla sin empleado —dice {mentor}, mientras Iara barre los slimes con la libreta—. Hay que **preguntar**. Pero lo que la gente contesta nunca es confiable, Nilo: siempre llega como texto, a veces vacío, a veces con letras donde iban números. Se revisa antes de usar.
 
 ### Objetivos
 
@@ -1464,7 +1466,7 @@ echo "¿Cómo te llamás? ";
 $nombre = trim(fgets(STDIN));   // trim saca el "\n" del final (y los espacios)
 echo "Hola, $nombre\n";
 ```
-**Siempre `trim`**: sin él, `$nombre` vale `"Kira\n"` y el salto de línea aparece
+**Siempre `trim`**: sin él, `$nombre` vale `"Iara\n"` y el salto de línea aparece
 donde no querés.
 
 Si no hay nada más para leer (se terminó la entrada), `fgets` devuelve `false`.
@@ -1515,13 +1517,13 @@ vas a ver mejor en arrays).
 #### Argumentos de la línea de comandos
 También se le pueden pasar datos al programa al ejecutarlo:
 ```bash
-php etiqueta.php Kira 12
+php etiqueta.php Iara 12
 ```
 PHP los guarda en el array **`$argv`** (y la cantidad en **`$argc`**):
 | Expresión | Vale |
 |---|---|
 | `$argv[0]` | `"etiqueta.php"` (el nombre del programa) |
-| `$argv[1]` | `"Kira"` |
+| `$argv[1]` | `"Iara"` |
 | `$argv[2]` | `"12"` (¡texto!) |
 | `$argc` | `3` |
 
@@ -1592,7 +1594,7 @@ echo "Precio: $", number_format($precio, 2, ',', '.'), "\n";
 ### Entrada de ejemplo
 
 ```
-kira valdez
+iara valdez
 2.5
 3
 Valle urgente
@@ -1602,7 +1604,7 @@ Valle urgente
 
 ```
 Nombre del cliente: Peso del paquete (kg): Cantidad de paquetes: Destino y prioridad (ej.: Valle urgente): 
-Cliente: Kira Valdez
+Cliente: Iara Valdez
 3 paquete(s) de 2.5 kg a Valle (urgente)
 Precio: $3.937,50
 ```
@@ -1658,7 +1660,7 @@ saluda. Leé los dos datos (limpiando espacios), y mostrá:
 #### Entrada de ejemplo
 
 ```
-   bron  
+   nilo  
 las Forjas
 ```
 
@@ -1666,9 +1668,9 @@ las Forjas
 
 ```
 Nombre: Ciudad: 
-Bienvenida, Bron de las Forjas.
+Bienvenida, Nilo de las Forjas.
 Tu nombre tiene 4 letras.
-Al revés: NORB
+Al revés: OLIN
 ```
 
 #### Solución de referencia
@@ -1833,7 +1835,7 @@ xp: 10
 
 Escribí `etiqueta.php`, que se ejecuta así:
 ```bash
-php etiqueta.php Kira Valle 3
+php etiqueta.php Iara Valle 3
 ```
 y recibe por argumentos el **destinatario**, el **destino** y la **cantidad de
 paquetes** (opcional: si no se pasa, vale 1). Si faltan el destinatario o el
@@ -1842,7 +1844,7 @@ con `exit(1)`. Si la cantidad no es un entero válido mayor que 0 (usá
 `filter_var` con `min_range`), mostrá `La cantidad tiene que ser un entero mayor
 que 0.` y terminá con `exit(1)`.
 
-Con los datos válidos, imprimí una etiqueta por paquete: `[1/3] Para: Kira — Valle`.
+Con los datos válidos, imprimí una etiqueta por paquete: `[1/3] Para: Iara — Valle`.
 
 Para probar tu programa **sin** escribir los argumentos cada vez, la solución de
 referencia arranca con una línea que simula los argumentos del ejemplo; en tu
@@ -1852,14 +1854,14 @@ entrega podés dejarla o sacarla.
 
 - Usa `$argv` y `$argc` (o `??`) para los argumentos.
 - Valida la cantidad con `filter_var` y sale con `exit(1)` si algo falta.
-- Para los argumentos `Kira Valle 3`, la salida coincide con la esperada.
+- Para los argumentos `Iara Valle 3`, la salida coincide con la esperada.
 
 #### Salida esperada
 
 ```
-[1/3] Para: Kira — Valle
-[2/3] Para: Kira — Valle
-[3/3] Para: Kira — Valle
+[1/3] Para: Iara — Valle
+[2/3] Para: Iara — Valle
+[3/3] Para: Iara — Valle
 ```
 
 #### Solución de referencia
@@ -1869,7 +1871,7 @@ entrega podés dejarla o sacarla.
 // Mision 3 - La etiqueta por argumentos: $argv, $argc, filter_var y exit.
 // Para probar sin escribir los argumentos: se simulan si no vino ninguno.
 if ($argc === 1) {
-    $argv = ["etiqueta.php", "Kira", "Valle", "3"];
+    $argv = ["etiqueta.php", "Iara", "Valle", "3"];
     $argc = count($argv);
 }
 
@@ -2010,7 +2012,7 @@ Total: $115.500,00
 
 #### ¿Por qué hay que usar `trim` después de `fgets(STDIN)`?
 
-Porque `fgets` devuelve el renglón con el salto de línea del Enter al final (`"Kira\n"`); `trim` lo saca junto con los espacios.
+Porque `fgets` devuelve el renglón con el salto de línea del Enter al final (`"Iara\n"`); `trim` lo saca junto con los espacios.
 
 #### ¿Qué devuelve `filter_var("4.2", FILTER_VALIDATE_INT)`?
 
@@ -2044,9 +2046,9 @@ temas: prog.condicionales
 
 ### Crónica
 
-En el cruce de los tres muelles hay un guardia con un farol. A cada carro que llega le mira la carga y le señala un camino: los de pescado, a la izquierda; los de madera, al frente; los que traen cartas, directo a la torre. Si trae algo raro, lo manda a revisar.
+En el cruce de los tres muelles hay un guardia con un farol. A cada carro que llega le mira la carga y le señala un camino: los de pescado, a la izquierda; los de madera, al frente; los que traen cartas, directo a la torre. El guardia se va a almorzar y le deja el farol a Nilo. Diez minutos después, un carro de pescado sube la escalinata de la torre y la Oficina de Correos huele a merluza durante una semana.
 
-—Un programa también tiene que **elegir caminos** —dice {mentor}—. Según lo que llega, hace una cosa u otra. PHP tiene tres herramientas para eso, {heroe}, y una de ellas compara con trampa. Te voy a mostrar cuál.
+—Un programa también tiene que **elegir caminos** —dice {mentor}, tapándose la trompa—. Según lo que llega, hace una cosa u otra. PHP tiene tres herramientas para eso, Nilo, y una de ellas compara con trampa. Te voy a mostrar cuál.
 
 ### Objetivos
 
@@ -2755,9 +2757,9 @@ temas: prog.bucles
 
 ### Crónica
 
-Al amanecer, una fila de barcos espera para descargar. El jefe de estibadores repite siempre lo mismo: bajar un cajón, anotarlo, bajar el siguiente, hasta que la bodega queda vacía. Cuando aparece un cajón roto, lo aparta y sigue con el próximo.
+Al amanecer, una fila de barcos espera para descargar. El jefe de estibadores repite siempre lo mismo: bajar un cajón, anotarlo, bajar el siguiente, hasta que la bodega queda vacía. Nilo se ofrece a ayudar, baja cajones a toda velocidad… y cuando el barco queda vacío sigue bajando cajones que no existen, con los brazos en el aire, hasta que Iara le pone la libreta delante.
 
-—**Repetir** es lo que mejor hace una máquina —dice {mentor}—. Una instrucción, mil veces, sin cansarse. Lo difícil es decirle cuándo parar, {heroe}. Un bucle que no termina nunca deja el muelle trabado para siempre.
+—**Repetir** es lo que mejor hace una máquina —dice {mentor}—. Una instrucción, mil veces, sin cansarse. Lo difícil es decirle cuándo parar, Nilo. Un bucle que no termina nunca deja el muelle trabado para siempre.
 
 ### Objetivos
 
@@ -3421,9 +3423,11 @@ temas: col.listas, col.mapas, col.matrices
 
 ### Crónica
 
-La bodega del tercer muelle es un laberinto de estantes numerados. En algunos, los cajones van en fila: el primero, el segundo, el tercero. En otros, cada cajón tiene una etiqueta con un nombre: *harina*, *sal*, *aceite*. El bodeguero sabe encontrar cualquier cosa en segundos.
+La bodega del tercer muelle es un laberinto de estantes numerados. En algunos, los cajones van en fila: el primero, el segundo, el tercero. En otros, cada cajón tiene una etiqueta con un nombre: *harina*, *sal*, *aceite*. En lo alto de un estante, una gaviota regordeta con una mancha violeta en el ala arranca la etiqueta *sal* y se la lleva en el pico. Es **Pico**, la gaviota ladrona del Puerto. Cuando Nilo busca el cajón de la sal, lo que encuentra es un orco.
 
-—En PHP, un solo tipo hace de fila y de estante con etiquetas: el **array** —dice {mentor}—. Es la herramienta que más vas a usar, {heroe}. Todo lo que llega de un formulario, de un archivo o de la base de datos llega en un array. Y los orcos acechan en las posiciones que no existen.
+—¡No le digan nada, que es buena! —grita Nilo, que adora a las gaviotas.
+
+—En PHP, un solo tipo hace de fila y de estante con etiquetas: el **array** —dice {mentor}—. Es la herramienta que más vas a usar, Nilo. Todo lo que llega de un formulario, de un archivo o de la base de datos llega en un array. Y los orcos acechan en las posiciones que no existen.
 
 ### Objetivos
 
@@ -3483,10 +3487,10 @@ foreach ($precios as $producto => $precio) {
 Una tabla es una lista de filas, y cada fila es un diccionario:
 ```php
 $pasajeros = [
-    ["nombre" => "Kira", "edad" => 17, "destino" => "Valle"],
-    ["nombre" => "Bron", "edad" => 45, "destino" => "Forjas"],
+    ["nombre" => "Iara", "edad" => 17, "destino" => "Valle"],
+    ["nombre" => "Nilo", "edad" => 45, "destino" => "Forjas"],
 ];
-echo $pasajeros[1]["nombre"];      // Bron
+echo $pasajeros[1]["nombre"];      // Nilo
 foreach ($pasajeros as $p) {
     echo "{$p['nombre']} va a {$p['destino']}\n";
 }
@@ -3725,8 +3729,8 @@ xp: 10
 La escuela náutica tiene sus alumnos en una tabla (una lista de diccionarios) con
 nombre y tres notas:
 
-- Kira: 8, 9, 7
-- Bron: 5, 6, 4
+- Iara: 8, 9, 7
+- Nilo: 5, 6, 4
 - Ivo: 10, 9, 10
 - Olmo: 6, 7, 6
 
@@ -3747,10 +3751,10 @@ fila. Después:
 
 ```
 Ivo    9.7 aprobado
-Kira   8.0 aprobado
+Iara   8.0 aprobado
 Olmo   6.3 aprobado
-Bron   5.0 a recuperar
-A recuperar: Bron
+Nilo   5.0 a recuperar
+A recuperar: Nilo
 ```
 
 #### Solución de referencia
@@ -3759,8 +3763,8 @@ A recuperar: Bron
 <?php
 // Mision 2 - Las notas de la escuela náutica: tabla, usort y array_filter.
 $alumnos = [
-    ["nombre" => "Kira", "notas" => [8, 9, 7]],
-    ["nombre" => "Bron", "notas" => [5, 6, 4]],
+    ["nombre" => "Iara", "notas" => [8, 9, 7]],
+    ["nombre" => "Nilo", "notas" => [5, 6, 4]],
     ["nombre" => "Ivo", "notas" => [10, 9, 10]],
     ["nombre" => "Olmo", "notas" => [6, 7, 6]],
 ];
@@ -4027,9 +4031,9 @@ temas: prog.funciones, prog.alcance, cal.tipos
 
 ### Crónica
 
-En la torre del Puerto, cada tarea tiene su oficina: una pesa, otra calcula tarifas, otra escribe etiquetas. Cuando un barco necesita algo, no se lo explican de nuevo a nadie: se le pide a la oficina que corresponde, se le dan los datos y ella devuelve el resultado.
+En la torre del Puerto, cada tarea tiene su oficina: una pesa, otra calcula tarifas, otra escribe etiquetas. Nilo pasa la mañana explicándole a cada capitán, uno por uno, cómo se calcula la tarifa de su carga. Al décimo capitán ya no tiene voz.
 
-—Eso es una **función** —dice {mentor}—. Un pedazo de código con nombre, que recibe datos y devuelve una respuesta. La escribís una vez y la usás mil. Y cuando algo falla, {heroe}, sabés exactamente en qué oficina buscar.
+—Por eso existen las oficinas —dice {mentor}—. Cuando un barco necesita algo, se le pide a la oficina que corresponde, se le dan los datos y ella devuelve el resultado. Eso es una **función**: un pedazo de código con nombre, que recibe datos y devuelve una respuesta. La escribís una vez y la usás mil. Y cuando algo falla, Nilo, sabés exactamente en qué oficina buscar.
 
 ### Objetivos
 
@@ -4053,7 +4057,7 @@ function saludar(string $nombre): string
     return "Hola, $nombre";
 }
 
-echo saludar("Kira");   // Hola, Kira
+echo saludar("Iara");   // Hola, Iara
 ```
 - `string $nombre` es un **parámetro** con su tipo.
 - `: string` es el tipo de lo que **devuelve**.
@@ -4288,7 +4292,7 @@ Escribí estas funciones, con tipos en los parámetros y en el retorno, y
 2. `precioFinal(float $precio, float $descuento = 0): float` — el descuento es un
    porcentaje (`10` es 10%).
 3. `esPar(int $n): bool`.
-4. `iniciales(string $nombreCompleto): string` — `"kira valdez"` → `"K.V."`
+4. `iniciales(string $nombreCompleto): string` — `"iara valdez"` → `"I.V."`
    (usá `explode`, `mb_substr` y `mb_strtoupper`).
 5. `promedio(float ...$numeros): float` — si no hay números, devuelve `0`.
 
@@ -4307,7 +4311,7 @@ Mostrá el resultado de llamar a cada una con los datos del ejemplo.
 Precio sin descuento: 12000
 Precio con 15%: 10200
 ¿7 es par? no
-Iniciales: K.V. / É.D.L.F.
+Iniciales: I.V. / É.D.L.F.
 Promedio: 8.17
 Promedio vacío: 0
 ```
@@ -4354,7 +4358,7 @@ echo "Área: ", areaRectangulo(4.5, 2), "\n";
 echo "Precio sin descuento: ", precioFinal(12000), "\n";
 echo "Precio con 15%: ", precioFinal(12000, 15), "\n";
 echo "¿7 es par? ", esPar(7) ? "sí" : "no", "\n";
-echo "Iniciales: ", iniciales("kira valdez"), " / ", iniciales("émile  de las forjas"), "\n";
+echo "Iniciales: ", iniciales("iara valdez"), " / ", iniciales("émile  de las forjas"), "\n";
 echo "Promedio: ", round(promedio(8, 9.5, 7), 2), "\n";
 echo "Promedio vacío: ", promedio(), "\n";
 ```
@@ -4702,9 +4706,9 @@ temas: prog.modulos
 
 ### Crónica
 
-La oficina de despacho del Puerto creció tanto que el libro de instrucciones ya no entra en un solo tomo. Ahora hay un estante: un tomo para las tarifas, otro para las etiquetas, otro con los datos de cada muelle. Cuando un empleado necesita algo, saca el tomo que corresponde.
+La oficina de despacho del Puerto creció tanto que el libro de instrucciones ya no entra en un solo tomo. Ahora hay un estante: un tomo para las tarifas, otro para las etiquetas, otro con los datos de cada muelle. Buscando el tomo de tarifas, Nilo encuentra uno viejísimo: el **libro de las cartas sin entregar**. Todas las líneas están tachadas, menos una, de hace veinte años: *"1 mensaje, para quien llegue. Retenido por la Capitana"*. Iara lo anota.
 
-—Un programa grande tampoco entra en un solo archivo —dice {mentor}—. Se reparte en varios, cada uno con lo suyo, y se los junta con `require`. Pero ojo, {heroe}: si pedís un tomo que no está en el estante, o traés el mismo dos veces, la oficina se traba.
+—Un programa grande tampoco entra en un solo archivo —dice {mentor}, y le saca el libro viejo de las manos sin decir nada más—. Se reparte en varios, cada uno con lo suyo, y se los junta con `require`. Pero ojo, Nilo: si pedís un tomo que no está en el estante, o traés el mismo dos veces, la oficina se traba.
 
 ### Objetivos
 
@@ -5369,9 +5373,9 @@ usa: prog.funciones, col.mapas, err.validacion
 
 ### Crónica
 
-Al final del Muelle de las Primeras Cartas, sobre una roca cubierta de algas, canta la **Sirena de los Tipos Débiles**. Su canción es dulce y engañosa: *"el texto «10» es el número 10… el cero es lo mismo que nada… lo que falta no importa…"*. Los barcos que le creen terminan contra las rocas, con las cuentas mal hechas y los registros perdidos.
+Al final del Muelle de las Primeras Cartas, sobre una roca cubierta de algas, canta la **Sirena de los Tipos Débiles**. Su canción es dulce y engañosa: *"el texto «10» es el número 10… el cero es lo mismo que nada… lo que falta no importa…"*. Los barcos que le creen terminan contra las rocas, con las cuentas mal hechas y los registros perdidos. Nilo, que se olvida de todo, se olvida también de la letra y le pide que la cante de nuevo. La Sirena se ofende.
 
-—No le tapes los oídos —dice {mentor}—. Escuchala y demostrale que sabés la verdad: qué tipo tiene cada dato, cuándo `==` miente, qué pasa con una clave que no existe. Con todo lo que aprendiste en este muelle, {heroe}, podés construir algo que ella no pueda engañar.
+—No le tapes los oídos —dice {mentor}—. Escuchala y demostrale que sabés la verdad: qué tipo tiene cada dato, cuándo `==` miente, qué pasa con una clave que no existe. Con todo lo que aprendiste en este muelle, Nilo, podés construir algo que ella no pueda engañar.
 
 ### Objetivos
 

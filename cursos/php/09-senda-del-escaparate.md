@@ -19,9 +19,9 @@ temas: html.estructura, html.texto, html.semantica
 
 ### Crónica
 
-Frente al Muelle de las Primeras Cartas hay una calle de tiendas con vidrieras: el **Escaparate del Puerto**. Algunas vidrieras están tan bien armadas que la gente se para a mirar; otras son un montón de cosas tiradas, sin cartel, sin precio, con la puerta escondida.
+Frente al Muelle de las Primeras Cartas hay una calle de tiendas con vidrieras: el **Escaparate del Puerto**. Algunas vidrieras están tan bien armadas que la gente se para a mirar; otras son un montón de cosas tiradas, sin cartel, sin precio, con la puerta escondida. Nilo entra a una buscando la puerta y sale por la ventana.
 
-—Todo lo que tus programas de PHP respondan al navegador va a ser **HTML** —dice {mentor}—. Antes de que llegues a la Oficina de Correos, vení a aprender a armar una vidriera como la gente: con su cartel, sus secciones, sus puertas a las otras tiendas y una etiqueta en cada cosa. Es un camino optativo, {heroe}, pero el que lo recorre después arma páginas que da gusto mirar.
+—Todo lo que tus programas de PHP respondan al navegador va a ser **HTML** —dice {mentor}—. Antes de llegar a la Oficina de Correos, vení a aprender a armar una vidriera como la gente: con su cartel, sus secciones, sus puertas a las otras tiendas y una etiqueta en cada cosa. Es un camino optativo, Nilo, pero el que lo recorre después arma páginas que da gusto mirar. Las vidrieras más lindas del mundo —agrega— las hacen en los Talleres de Tesela, y este camino, si lo seguís, llega hasta allá.
 
 ### Objetivos
 
@@ -647,9 +647,9 @@ temas: html.listas-tablas, html.formularios
 
 ### Crónica
 
-En la vidriera de la ferretería del Puerto todo está en orden: una lista de lo que hay, una tabla de precios con su encabezado, y en la puerta un formulario para encargar lo que falta. El dueño dice que desde que ordenó la vidriera vende el doble, y que los encargos le llegan completos.
+En la vidriera de la ferretería del Puerto todo está en orden: una lista de lo que hay, una tabla de precios con su encabezado, y en la puerta un formulario para encargar lo que falta. El dueño dice que desde que ordenó la vidriera vende el doble, y que los encargos le llegan completos. Iara pide el formulario para copiarlo en la Oficina.
 
-—Las listas y las tablas ordenan los datos; los formularios los piden —dice {mentor}—. Y un formulario bien hecho, {heroe}, es la mitad del trabajo de PHP: cada campo con su nombre, su etiqueta y sus límites. Lo que armes acá es lo que vas a recibir en `$_POST` en la Oficina de Correos.
+—Las listas y las tablas ordenan los datos; los formularios los piden —dice {mentor}—. Y un formulario bien hecho, Nilo, es la mitad del trabajo de PHP: cada campo con su nombre, su etiqueta y sus límites. Lo que armes acá es lo que vas a recibir en `$_POST` en la Oficina de Correos.
 
 ### Objetivos
 
@@ -1269,9 +1269,9 @@ usa: html.estructura
 
 ### Crónica
 
-La vidriera de la ferretería ya está ordenada, pero es gris: todo del mismo tamaño, pegado a los bordes, sin un color que llame la atención. En la tienda de al lado, la de las velas, un letrero rojo con letras claras y un marco de madera hace que todos entren.
+La vidriera de la ferretería ya está ordenada, pero es gris: todo del mismo tamaño, pegado a los bordes, sin un color que llame la atención. En la tienda de al lado, la de las velas, un letrero rojo con letras claras y un marco de madera hace que todos entren. Nilo propone pintar la ferretería de violeta, como su bufanda. Nadie lo apoya.
 
-—El HTML dice **qué** es cada cosa; el **CSS** dice **cómo se ve** —dice {mentor}—. Los colores, las letras, los márgenes, los marcos. Y como una buena tienda, {heroe}, se decide en un solo lugar: si mañana cambiás el rojo del letrero, cambia en todas las vidrieras a la vez.
+—El HTML dice **qué** es cada cosa; el **CSS** dice **cómo se ve** —dice {mentor}—. Los colores, las letras, los márgenes, los marcos. Y como una buena tienda, Nilo, se decide en un solo lugar: si mañana cambiás el rojo del letrero, cambia en todas las vidrieras a la vez.
 
 ### Objetivos
 
@@ -1961,9 +1961,9 @@ temas: css.flexbox, css.grid, css.responsive
 
 ### Crónica
 
-Llega la temporada de cruceros y el Escaparate se llena de gente que mira las vidrieras… desde el celular. Las tiendas que se ven bien en la pantalla grande de la oficina se deforman en la mano de un turista: columnas aplastadas, textos cortados, botones que no se pueden tocar.
+Llega la temporada de cruceros y el Escaparate se llena de gente que mira las vidrieras… desde el celular. Las tiendas que se ven bien en la pantalla grande de la oficina se deforman en la mano de un turista: columnas aplastadas, textos cortados, botones que no se pueden tocar. Un turista intenta tocar el botón de "comprar" y le toca la nariz a Pico, que estaba en la vidriera.
 
-—Una vidriera tiene que acomodarse al que mira —dice {mentor}—. Para eso están **flexbox** y **grid**: le decís al navegador cómo repartir el espacio y él lo acomoda en cualquier pantalla. Y con las **consultas de medios**, {heroe}, cambiás el diseño cuando la pantalla es chica. Pensá primero en el celular.
+—Una vidriera tiene que acomodarse al que mira —dice {mentor}—. Para eso están **flexbox** y **grid**: le decís al navegador cómo repartir el espacio y él lo acomoda en cualquier pantalla. Y con las **consultas de medios**, Nilo, cambiás el diseño cuando la pantalla es chica. Pensá primero en el celular.
 
 ### Objetivos
 
@@ -2698,9 +2698,9 @@ usa: html.semantica, css.responsive, html.formularios
 
 ### Crónica
 
-Una mañana, todas las vidrieras del Escaparate amanecen revueltas: letreros al revés, precios que se salen del vidrio, puertas que no llevan a ningún lado. En el reflejo de los vidrios se mueve el **Hipocampo de las Vidrieras**, un caballito de mar del tamaño de un bote, que se alimenta de las páginas desordenadas.
+Una mañana, todas las vidrieras del Escaparate amanecen revueltas: letreros al revés, precios que se salen del vidrio, puertas que no llevan a ningún lado. En el reflejo de los vidrios se mueve el **Hipocampo de las Vidrieras**, un caballito de mar de vidrio de colores, del tamaño de un caballo, que se alimenta de las páginas desordenadas.
 
-—Tiene una sola debilidad —dice {mentor}—: las páginas que están bien de punta a punta. Estructura con significado, un solo estilo para todo el sitio, enlaces que andan, formularios con sus etiquetas y un diseño que se acomoda al celular. Armá una vidriera así, {heroe}, y el Hipocampo se va a buscar comida a otro puerto.
+—Tiene una sola debilidad —dice {mentor}—: las páginas que están bien de punta a punta. Estructura con significado, un solo estilo para todo el sitio, enlaces que andan, formularios con sus etiquetas y un diseño que se acomoda al celular. Armá una vidriera así, Nilo, y el Hipocampo se va a buscar comida a otro puerto.
 
 ### Objetivos
 

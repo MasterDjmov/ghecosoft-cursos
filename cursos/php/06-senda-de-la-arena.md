@@ -20,9 +20,9 @@ usa: poo.abstractas, prog.enums, poo.interfaces
 
 ### Crónica
 
-El primer camino desde la Encrucijada termina en la **Arena del Puerto**: un círculo de arena rodeado de gradas, donde los marineros ponen a prueba su valor contra criaturas traídas de todo el mundo. En la puerta, un maestro de armas anota a cada luchador en su pizarra: nombre, vida, fuerza, lo que lleva en la mochila.
+El primer camino desde la Encrucijada termina en la **Arena del Puerto**: un círculo de arena rodeado de gradas, donde los marineros ponen a prueba su valor contra criaturas traídas de todo el mundo. En la puerta, un maestro de armas anota a cada luchador en su pizarra: nombre, vida, fuerza, lo que lleva en la mochila. Nilo se anota como "Nilo, el que no se olvida". Iara, atrás, tose.
 
-—Acá vas a construir un **juego** —dice {mentor}—: un RPG por turnos que se juega en la terminal. Pero un juego es un sistema como cualquier otro, {heroe}: primero se diseña el **modelo**. ¿Qué es un personaje? ¿Qué sabe hacer? ¿Y cómo tiramos los dados sin que el azar nos impida probar el juego?
+—Acá vas a construir un **juego** —dice {mentor}—: un RPG por turnos que se juega en la terminal. Pero un juego es un sistema como cualquier otro, Nilo: primero se diseña el **modelo**. ¿Qué es un personaje? ¿Qué sabe hacer? ¿Y cómo tiramos los dados sin que el azar nos impida probar el juego?
 
 ### Objetivos
 
@@ -246,21 +246,21 @@ final class Heroe extends Personaje
 }
 
 $dados = new DadosConSemilla(2026);
-$kira = new Heroe('Kira');
+$iara = new Heroe('Iara');
 foreach ([new Objeto('poción', cura: 20), new Objeto('poción', cura: 20), new Objeto('bomba', danio: 25), new Objeto('pan', cura: 5), new Objeto('escudo')] as $o) {
-    echo "Guardar {$o->nombre}: ", $kira->mochila->guardar($o) ? 'ok' : 'la mochila está llena', "\n";
+    echo "Guardar {$o->nombre}: ", $iara->mochila->guardar($o) ? 'ok' : 'la mochila está llena', "\n";
 }
-echo "Mochila: ", json_encode($kira->mochila->contenido(), JSON_UNESCAPED_UNICODE), "\n";
+echo "Mochila: ", json_encode($iara->mochila->contenido(), JSON_UNESCAPED_UNICODE), "\n";
 
 $orco = new Enemigo(TipoEnemigo::Orco);
-echo "{$kira->nombre} {$kira->barra()} contra {$orco->nombre} {$orco->barra()}\n";
+echo "{$iara->nombre} {$iara->barra()} contra {$orco->nombre} {$orco->barra()}\n";
 $tirada = $dados->tirar(6);
-echo "Kira tira un $tirada y pega ", $orco->recibirDanio($kira->ataque() + $tirada), "\n";
-echo $kira->usar('bomba', $orco), "\n";
+echo "Iara tira un $tirada y pega ", $orco->recibirDanio($iara->ataque() + $tirada), "\n";
+echo $iara->usar('bomba', $orco), "\n";
 echo "{$orco->nombre} {$orco->barra()}\n";
-$kira->recibirDanio(35);
-echo $kira->usar('poción'), " → {$kira->barra()}\n";
-echo "Curar de más no pasa el máximo: +", $kira->curar(500), " → {$kira->barra()}\n";
+$iara->recibirDanio(35);
+echo $iara->usar('poción'), " → {$iara->barra()}\n";
+echo "Curar de más no pasa el máximo: +", $iara->curar(500), " → {$iara->barra()}\n";
 echo "Tiradas con la semilla 2026: ", implode(' ', array_map(fn() => $dados->tirar(20), range(1, 5))), "\n";
 ```
 
@@ -273,11 +273,11 @@ Guardar bomba: ok
 Guardar pan: ok
 Guardar escudo: la mochila está llena
 Mochila: {"poción":2,"bomba":1,"pan":1}
-Kira [##########] 60/60 contra Orco [##########] 45/45
-Kira tira un 4 y pega 12
-Kira tira bomba: 25 de daño a Orco
+Iara [##########] 60/60 contra Orco [##########] 45/45
+Iara tira un 4 y pega 12
+Iara tira bomba: 25 de daño a Orco
 Orco [##........] 8/45
-Kira usa poción y recupera 20 de vida → [########..] 45/60
+Iara usa poción y recupera 20 de vida → [########..] 45/60
 Curar de más no pasa el máximo: +15 → [##########] 60/60
 Tiradas con la semilla 2026: 15 19 17 2 18
 ```
@@ -330,7 +330,7 @@ después de cada golpe.
 #### Salida esperada
 
 ```
-Bron (guerrero)
+Nilo (guerrero)
   golpe de 10 → recibe 7 [#########.] 63/70
   golpe de 2 → recibe 1 [#########.] 62/70
 Lía (maga)
@@ -406,7 +406,7 @@ final class Heroe extends Personaje
     }
 }
 
-foreach ([new Heroe('Bron', Clase::Guerrero), new Heroe('Lía', Clase::Maga), new Heroe('Olmo', Clase::Arquero)] as $h) {
+foreach ([new Heroe('Nilo', Clase::Guerrero), new Heroe('Lía', Clase::Maga), new Heroe('Olmo', Clase::Arquero)] as $h) {
     echo "{$h->nombre} ({$h->clase->value})\n";
     foreach ([10, 2] as $golpe) {
         $recibido = $h->recibirDanio($golpe);
@@ -443,10 +443,10 @@ mostrá cada ataque.
 #### Salida esperada
 
 ```
-Turno 1: d20=1 pifia: Kira hace 0 a Troll (le queda 70)
-Turno 2: d20=20 crítico: Kira hace 22 a Troll (le queda 48)
-Turno 3: d20=12 golpe: Kira hace 12 a Troll (le queda 36)
-Turno 4: d20=5 golpe débil: Kira hace 4 a Troll (le queda 32)
+Turno 1: d20=1 pifia: Iara hace 0 a Troll (le queda 70)
+Turno 2: d20=20 crítico: Iara hace 22 a Troll (le queda 48)
+Turno 3: d20=12 golpe: Iara hace 12 a Troll (le queda 36)
+Turno 4: d20=5 golpe débil: Iara hace 4 a Troll (le queda 32)
 ```
 
 #### Solución de referencia
@@ -493,11 +493,11 @@ function ataque(Personaje $a, Personaje $d, Dados $dados): string
     return "d20=$d20 $tipo: {$a->nombre} hace $danio a {$d->nombre} (le queda {$d->vida})";
 }
 
-$kira = new Personaje('Kira', 60, 9);
+$iara = new Personaje('Iara', 60, 9);
 $troll = new Personaje('Troll', 70, 11);
 $dados = new DadosTrucados([1, 20, 4, 12, 3, 5]);   // pifia; crítico + d6=4; golpe + d6=3; débil
 foreach (range(1, 4) as $turno) {
-    echo "Turno $turno: ", ataque($kira, $troll, $dados), "\n";
+    echo "Turno $turno: ", ataque($iara, $troll, $dados), "\n";
 }
 ```
 
@@ -651,9 +651,9 @@ suficiente).
 · espada larga (+6): 900 de oro
 * arco élfico (+7): 2625 de oro
 ** martillo del volcán (+12): 10800 de oro
-Kira no puede comprar martillo del volcán: cuesta 10800 y tiene 3000
-Kira compra arco élfico: ataque 15, le quedan 375 de oro
-Kira no puede comprar espada larga: cuesta 900 y tiene 375
+Iara no puede comprar martillo del volcán: cuesta 10800 y tiene 3000
+Iara compra arco élfico: ataque 15, le quedan 375 de oro
+Iara no puede comprar espada larga: cuesta 900 y tiene 375
 ```
 
 #### Solución de referencia
@@ -738,10 +738,10 @@ $tienda = new Tienda([
 foreach ($tienda->catalogo() as $a) {
     echo "{$a->rareza->simbolo()} {$a->nombre} (+{$a->danio}): {$a->precio()} de oro\n";
 }
-$kira = new Heroe('Kira', 3000, 8);
-echo $tienda->comprar($kira, 'martillo del volcán'), "\n";
-echo $tienda->comprar($kira, 'arco élfico'), "\n";
-echo $tienda->comprar($kira, 'espada larga'), "\n";
+$iara = new Heroe('Iara', 3000, 8);
+echo $tienda->comprar($iara, 'martillo del volcán'), "\n";
+echo $tienda->comprar($iara, 'arco élfico'), "\n";
+echo $tienda->comprar($iara, 'espada larga'), "\n";
 ```
 
 ### Prueba del sello
@@ -784,9 +784,9 @@ usa: juegos.turnos
 
 ### Crónica
 
-En el centro de la Arena hay un reloj de arena gigante: cada vez que cae, le toca a otro luchador. Un juez anota cada golpe en un pergamino que después se lee en voz alta para todo el público. Los goblins pelean a lo loco, los orcos siempre van contra el más débil, y el dragón… el dragón espera el momento justo.
+En el centro de la Arena hay un reloj de arena gigante: cada vez que cae, le toca a otro luchador. Un juez anota cada golpe en un pergamino que después se lee en voz alta para todo el público. Los goblins pelean a lo loco, los orcos siempre van contra el más débil, y el dragón… el dragón espera el momento justo. Pico se instala en las gradas y le roba los maníes a todo el mundo.
 
-—Un combate es una **máquina de turnos** —dice {mentor}—: quién ataca, a quién, con qué, y cuándo termina. Y cada enemigo piensa distinto, {heroe}. Si escribís esa forma de pensar como una **estrategia** intercambiable, agregar un monstruo nuevo es escribir una clase, no tocar el motor.
+—Un combate es una **máquina de turnos** —dice {mentor}—: quién ataca, a quién, con qué, y cuándo termina. Y cada enemigo piensa distinto, Nilo. Si escribís esa forma de pensar como una **estrategia** intercambiable, agregar un monstruo nuevo es escribir una clase, no tocar el motor.
 
 ### Objetivos
 
@@ -1032,7 +1032,7 @@ final class Combate
     }
 }
 
-$heroe = new Heroe('Kira', 90, 11);
+$heroe = new Heroe('Iara', 90, 11);
 $enemigos = [
     new Enemigo('Goblin', 18, 4, new Atolondrada()),
     new Enemigo('Orco', 40, 7, new Prudente()),
@@ -1047,30 +1047,30 @@ echo "Resultado: {$resultado->value} en ", count(array_filter($combate->bitacora
 ### Salida esperada
 
 ```
-T1 Kira golpea a Goblin: 15 (le quedan 3)
-   Goblin ataca: 5 (a Kira le quedan 85)
-   Orco ataca: 9 (a Kira le quedan 76)
+T1 Iara golpea a Goblin: 15 (le quedan 3)
+   Goblin ataca: 5 (a Iara le quedan 85)
+   Orco ataca: 9 (a Iara le quedan 76)
    Dragón joven respira hondo y junta fuego…
-T2 Kira golpea a Goblin: 3 ¡y lo derrota!
-   Orco ataca: 9 (a Kira le quedan 67)
-   Dragón joven ataca: 18 (a Kira le quedan 49)
-T3 Kira golpea a Orco: 15 (le quedan 25)
-   Orco ataca: 13 (a Kira le quedan 36)
+T2 Iara golpea a Goblin: 3 ¡y lo derrota!
+   Orco ataca: 9 (a Iara le quedan 67)
+   Dragón joven ataca: 18 (a Iara le quedan 49)
+T3 Iara golpea a Orco: 15 (le quedan 25)
+   Orco ataca: 13 (a Iara le quedan 36)
    Dragón joven respira hondo y junta fuego…
-T4 Kira golpea a Orco: 17 (le quedan 8)
+T4 Iara golpea a Orco: 17 (le quedan 8)
    Orco se cura 15
-   Dragón joven ataca: 18 (a Kira le quedan 18)
-T5 Kira toma una poción (+25)
-   Orco ataca: 12 (a Kira le quedan 31)
+   Dragón joven ataca: 18 (a Iara le quedan 18)
+T5 Iara toma una poción (+25)
+   Orco ataca: 12 (a Iara le quedan 31)
    Dragón joven respira hondo y junta fuego…
-T6 Kira toma una poción (+25)
-   Orco ataca: 13 (a Kira le quedan 43)
-   Dragón joven ataca: 18 (a Kira le quedan 25)
-T7 Kira golpea a Orco: 16 (le quedan 7)
-   Orco ataca: 9 (a Kira le quedan 16)
+T6 Iara toma una poción (+25)
+   Orco ataca: 13 (a Iara le quedan 43)
+   Dragón joven ataca: 18 (a Iara le quedan 25)
+T7 Iara golpea a Orco: 16 (le quedan 7)
+   Orco ataca: 9 (a Iara le quedan 16)
    Dragón joven respira hondo y junta fuego…
-T8 Kira golpea a Orco: 7 ¡y lo derrota!
-   Dragón joven ataca: 16 (a Kira le quedan 0)
+T8 Iara golpea a Orco: 7 ¡y lo derrota!
+   Dragón joven ataca: 16 (a Iara le quedan 0)
 Resultado: derrota en 8 turnos
 ```
 
@@ -1113,7 +1113,7 @@ Agregá una estrategia nueva, `Chaman`, **sin tocar el motor**: el chamán cura 
 él mismo) si alguno está por debajo del 50%; si no, ataca con su ataque más un d4.
 Para eso la estrategia necesita conocer a sus aliados: recibilos en el constructor
 de `Chaman` (un array por referencia a la lista de enemigos, o un objeto `Banda` que
-la contenga). Armá un combate de Kira contra un goblin, un orco y un chamán con la
+la contenga). Armá un combate de Iara contra un goblin, un orco y un chamán con la
 semilla 11 y mostrá la bitácora y el resultado.
 
 #### Criterio de aprobación
@@ -1125,26 +1125,26 @@ semilla 11 y mostrá la bitácora y el resultado.
 #### Salida esperada
 
 ```
-T1 Kira golpea a Goblin: 16
+T1 Iara golpea a Goblin: 16
    Goblin ataca: 8
    Chamán cura a Goblin: +12
    Orco ataca: 7
-T2 Kira golpea a Goblin: 14
+T2 Iara golpea a Goblin: 14
    Chamán lanza un rayo: 5
    Orco ataca: 10
-T3 Kira golpea a Chamán: 18
+T3 Iara golpea a Chamán: 18
    Chamán cura a Chamán: +12
    Orco ataca: 7
-T4 Kira golpea a Chamán: 14
+T4 Iara golpea a Chamán: 14
    Chamán cura a Chamán: +12
    Orco ataca: 10
-T5 Kira golpea a Chamán: 14
+T5 Iara golpea a Chamán: 14
    Orco ataca: 7
-T6 Kira golpea a Orco: 18
+T6 Iara golpea a Orco: 18
    Orco ataca: 7
-T7 Kira golpea a Orco: 13
+T7 Iara golpea a Orco: 13
    Orco ataca: 8
-T8 Kira golpea a Orco: 4
+T8 Iara golpea a Orco: 4
 Resultado: victoria
 ```
 
@@ -1255,7 +1255,7 @@ function pelear(Heroe $heroe, array $enemigos, Dados $dados): array
 
 $banda = new Banda();
 $banda->miembros = [new Enemigo('Goblin', 18, 4, new Atolondrada()), new Enemigo('Orco', 35, 6, new Atolondrada()), new Enemigo('Chamán', 22, 3, new Chaman($banda))];
-[$bitacora, $resultado] = pelear(new Heroe('Kira', 80, 12), $banda->miembros, new DadosConSemilla(11));
+[$bitacora, $resultado] = pelear(new Heroe('Iara', 80, 12), $banda->miembros, new DadosConSemilla(11));
 echo implode("\n", $bitacora), "\nResultado: $resultado\n";
 ```
 
@@ -1274,9 +1274,9 @@ Usá el motor del ejemplo (copialo) con **dados trucados** para comprobar tres
 situaciones, cada una con su propio combate y su verificación al final (mostrá `OK`
 o `FALLA` según el resultado esperado):
 
-1. Kira (vida 20, ataque 50) contra un goblin (vida 18): gana en el primer turno.
-2. Kira (vida 10, ataque 1, sin pociones) contra un orco (vida 40, ataque 12): pierde.
-3. Kira (vida 999, ataque 0) contra un goblin (vida 18): termina en **empate** a los 30
+1. Iara (vida 20, ataque 50) contra un goblin (vida 18): gana en el primer turno.
+2. Iara (vida 10, ataque 1, sin pociones) contra un orco (vida 40, ataque 12): pierde.
+3. Iara (vida 999, ataque 0) contra un goblin (vida 18): termina en **empate** a los 30
    turnos.
 
 Mostrá solo el resultado y la cantidad de líneas de la bitácora de cada combate.
@@ -1365,9 +1365,9 @@ final class Combate
 }
 
 $casos = [
-    'gana' => [new Heroe('Kira', 20, 50), [new Enemigo('Goblin', 18, 4)], Resultado::Victoria],
-    'pierde' => [new Heroe('Kira', 10, 1), [new Enemigo('Orco', 40, 12)], Resultado::Derrota],
-    'empata' => [new Heroe('Kira', 999, 0), [new Enemigo('Goblin', 1000, 1)], Resultado::Empate],
+    'gana' => [new Heroe('Iara', 20, 50), [new Enemigo('Goblin', 18, 4)], Resultado::Victoria],
+    'pierde' => [new Heroe('Iara', 10, 1), [new Enemigo('Orco', 40, 12)], Resultado::Derrota],
+    'empata' => [new Heroe('Iara', 999, 0), [new Enemigo('Goblin', 1000, 1)], Resultado::Empate],
 ];
 foreach ($casos as $nombre => [$heroe, $enemigos, $esperado]) {
     $combate = new Combate($heroe, $enemigos, new DadosTrucados([0]));
@@ -1395,7 +1395,7 @@ formato estructurado: cada entrada es un array con `turno`, `quien`, `accion`,
 - el total de daño que hizo cada luchador;
 - el golpe más fuerte (quién, a quién, en qué turno);
 - cuántas veces se curó cada uno;
-- un párrafo final con el resultado ("Tras 7 turnos, Kira venció a…").
+- un párrafo final con el resultado ("Tras 7 turnos, Iara venció a…").
 
 Generá la bitácora estructurada con un combate con la semilla 3 (adaptá el motor para
 que guarde arrays en lugar de textos) y mostrá la crónica.
@@ -1409,12 +1409,12 @@ que guarde arrays en lugar de textos) y mostrá la crónica.
 #### Salida esperada
 
 ```
-Kira hizo 58 de daño
+Iara hizo 58 de daño
 Orco hizo 50 de daño
 Goblin hizo 6 de daño
-Golpe más fuerte: Kira a Goblin, 15 en el turno 1
-Curas: {"Kira":1}
-Tras 6 turnos, Kira venció a Goblin y Orco (le quedaron 17 de vida).
+Golpe más fuerte: Iara a Goblin, 15 en el turno 1
+Curas: {"Iara":1}
+Tras 6 turnos, Iara venció a Goblin y Orco (le quedaron 17 de vida).
 ```
 
 #### Solución de referencia
@@ -1425,7 +1425,7 @@ declare(strict_types=1);
 // Mision 3 - La crónica del juez: procesar una bitácora estructurada.
 
 mt_srand(3);
-$heroe = ['nombre' => 'Kira', 'vida' => 48, 'ataque' => 10, 'pociones' => 1];
+$heroe = ['nombre' => 'Iara', 'vida' => 48, 'ataque' => 10, 'pociones' => 1];
 $enemigos = [['nombre' => 'Goblin', 'vida' => 20, 'ataque' => 5], ['nombre' => 'Orco', 'vida' => 38, 'ataque' => 8]];
 $bitacora = [];
 $turno = 0;
@@ -1434,13 +1434,13 @@ while ($heroe['vida'] > 0 && array_filter($enemigos, fn($e) => $e['vida'] > 0) &
     if ($heroe['vida'] < 25 && $heroe['pociones'] > 0) {
         $heroe['pociones']--;
         $heroe['vida'] += 25;
-        $bitacora[] = ['turno' => $turno, 'quien' => 'Kira', 'accion' => 'cura', 'objetivo' => 'Kira', 'valor' => 25];
+        $bitacora[] = ['turno' => $turno, 'quien' => 'Iara', 'accion' => 'cura', 'objetivo' => 'Iara', 'valor' => 25];
     } else {
         foreach ($enemigos as $i => $e) {
             if ($e['vida'] > 0) {
                 $danio = min($e['vida'], $heroe['ataque'] + mt_rand(1, 6));
                 $enemigos[$i]['vida'] -= $danio;
-                $bitacora[] = ['turno' => $turno, 'quien' => 'Kira', 'accion' => 'golpe', 'objetivo' => $e['nombre'], 'valor' => $danio];
+                $bitacora[] = ['turno' => $turno, 'quien' => 'Iara', 'accion' => 'golpe', 'objetivo' => $e['nombre'], 'valor' => $danio];
                 break;
             }
         }
@@ -1449,7 +1449,7 @@ while ($heroe['vida'] > 0 && array_filter($enemigos, fn($e) => $e['vida'] > 0) &
         if ($e['vida'] > 0 && $heroe['vida'] > 0) {
             $danio = min($heroe['vida'], $e['ataque'] + mt_rand(1, 4));
             $heroe['vida'] -= $danio;
-            $bitacora[] = ['turno' => $turno, 'quien' => $e['nombre'], 'accion' => 'golpe', 'objetivo' => 'Kira', 'valor' => $danio];
+            $bitacora[] = ['turno' => $turno, 'quien' => $e['nombre'], 'accion' => 'golpe', 'objetivo' => 'Iara', 'valor' => $danio];
         }
     }
 }
@@ -1488,7 +1488,7 @@ foreach ($cronista->danioPorLuchador() as $quien => $total) {
 $g = $cronista->golpeMasFuerte();
 echo "Golpe más fuerte: {$g['quien']} a {$g['objetivo']}, {$g['valor']} en el turno {$g['turno']}\n";
 echo "Curas: ", json_encode($cronista->curas()), "\n";
-$ganador = $heroe['vida'] > 0 ? 'Kira venció a ' . implode(' y ', array_column($enemigos, 'nombre')) : 'Kira cayó en la arena';
+$ganador = $heroe['vida'] > 0 ? 'Iara venció a ' . implode(' y ', array_column($enemigos, 'nombre')) : 'Iara cayó en la arena';
 echo "Tras $turno turnos, $ganador (le quedaron {$heroe['vida']} de vida).\n";
 ```
 
@@ -1521,7 +1521,7 @@ porcentaje de victorias y, a igual porcentaje, por menos turnos promedio.
 ```
 Nombre   V   D   E   Turnos      %
 Nara     5   0   0      6.0   100%
-Bron     5   0   0      7.6   100%
+Nilo     5   0   0      7.6   100%
 Tomi     3   2   0      7.7    60%
 Olmo     2   3   0      7.0    40%
 ```
@@ -1562,7 +1562,7 @@ function combate(array $heroe, array $enemigos, int $semilla): array
 
 $banda = [['vida' => 15, 'ataque' => 2], ['vida' => 25, 'ataque' => 3], ['vida' => 40, 'ataque' => 4]];
 $heroes = [
-    'Bron' => ['vida' => 110, 'ataque' => 9],
+    'Nilo' => ['vida' => 110, 'ataque' => 9],
     'Nara' => ['vida' => 70, 'ataque' => 14],
     'Olmo' => ['vida' => 62, 'ataque' => 9],
     'Tomi' => ['vida' => 70, 'ataque' => 8],
@@ -1628,9 +1628,9 @@ usa: func.iteradores, sql.desde-codigo
 
 ### Crónica
 
-Los combates sueltos ya no alcanzan: el público quiere ver hasta dónde llega cada luchador. Las puertas de la Arena se abren una y otra vez, y cada vez salen más criaturas y más fuertes. Quien sobrevive gana experiencia y sube de nivel; quien cae, queda grabado en el **tablero de honor** de la entrada, con su nombre y la oleada a la que llegó.
+Los combates sueltos ya no alcanzan: el público quiere ver hasta dónde llega cada luchador. Las puertas de la Arena se abren una y otra vez, y cada vez salen más criaturas y más fuertes. Quien sobrevive gana experiencia y sube de nivel; quien cae, queda grabado en el **tablero de honor** de la entrada, con su nombre y la oleada a la que llegó. Fermín sube de la Bodega a llevar el tablero: dice que un puntaje que no se guarda no existió.
 
-—Ahora tu juego necesita **memoria** —dice {mentor}—. Las oleadas se generan de a una, a medida que hacen falta, y los puntajes se guardan en la Bodega para que duren para siempre. Todo lo que aprendiste en el Puerto, {heroe}, ahora juega para vos.
+—Ahora tu juego necesita **memoria** —dice {mentor}—. Las oleadas se generan de a una, a medida que hacen falta, y los puntajes se guardan en la Bodega para que duren para siempre. Todo lo que aprendiste en el Puerto, Nilo, ahora juega para vos.
 
 ### Objetivos
 
@@ -1707,7 +1707,7 @@ CREATE TABLE partida (
     jugada DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_partida_puntos (puntos)
 );
-INSERT INTO partida (jugador, oleada, nivel, puntos) VALUES ('Bron', 4, 3, 610), ('Olmo', 6, 4, 980), ('Bron', 5, 3, 720);
+INSERT INTO partida (jugador, oleada, nivel, puntos) VALUES ('Nilo', 4, 3, 610), ('Olmo', 6, 4, 980), ('Nilo', 5, 3, 720);
 ```
 
 `config.php`
@@ -1811,33 +1811,33 @@ final class Ranking
 }
 
 mt_srand(2026);
-$kira = new Heroe('Kira');
+$iara = new Heroe('Iara');
 $puntos = 0;
 $alcanzada = 0;
 foreach (oleadas() as $n => $enemigos) {
     if ($n > 10) {
-        echo "¡Kira sobrevivió a las 10 oleadas!\n";   // el generador es infinito: cortamos acá
+        echo "¡Iara sobrevivió a las 10 oleadas!\n";   // el generador es infinito: cortamos acá
         break;
     }
     $alcanzada = $n;
-    if (!pelear($kira, $enemigos)) {
-        echo "Oleada $n: Kira cae ante ", count($enemigos), " enemigos\n";
+    if (!pelear($iara, $enemigos)) {
+        echo "Oleada $n: Iara cae ante ", count($enemigos), " enemigos\n";
         break;
     }
     $ganado = 20 * count($enemigos) * $n;
     $puntos += $ganado;
-    $subidas = $kira->ganarExperiencia($ganado);
-    echo "Oleada $n: ", count($enemigos), " enemigo/s vencidos, +$ganado", $subidas === [] ? '' : ' · ¡sube al nivel ' . implode(' y ', $subidas) . '!', " (vida {$kira->vida}/{$kira->vidaMaxima})\n";
+    $subidas = $iara->ganarExperiencia($ganado);
+    echo "Oleada $n: ", count($enemigos), " enemigo/s vencidos, +$ganado", $subidas === [] ? '' : ' · ¡sube al nivel ' . implode(' y ', $subidas) . '!', " (vida {$iara->vida}/{$iara->vidaMaxima})\n";
 }
 
-$guardado = json_encode($kira);
+$guardado = json_encode($iara);
 echo "Partida guardada: $guardado\n";
 $cargada = Heroe::desdeArray(json_decode($guardado, true));
 echo "Cargada: {$cargada->nombre}, nivel {$cargada->nivel}, ataque {$cargada->ataque}\n";
 
 $c = require __DIR__ . '/config.php';
 $ranking = new Ranking(new PDO($c['dsn'], $c['usuario'], $c['clave'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]));
-$ranking->guardar('Kira', $alcanzada, $kira->nivel, $puntos);
+$ranking->guardar('Iara', $alcanzada, $iara->nivel, $puntos);
 echo "Tablero de honor:\n";
 foreach ($ranking->top(3) as $i => $f) {
     printf("%d. %-5s %5d puntos (oleada %d, %d partida/s)\n", $i + 1, $f['jugador'], $f['mejor'], $f['oleada'], $f['partidas']);
@@ -1857,13 +1857,13 @@ Oleada 7: 4 enemigo/s vencidos, +560 · ¡sube al nivel 6 y 7! (vida 132/132)
 Oleada 8: 5 enemigo/s vencidos, +800 · ¡sube al nivel 8! (vida 144/144)
 Oleada 9: 5 enemigo/s vencidos, +900 · ¡sube al nivel 9! (vida 156/156)
 Oleada 10: 5 enemigo/s vencidos, +1000 · ¡sube al nivel 10! (vida 168/168)
-¡Kira sobrevivió a las 10 oleadas!
-Partida guardada: {"nombre":"Kira","vida":168,"vidaMaxima":168,"ataque":36,"nivel":10,"experiencia":4500}
-Cargada: Kira, nivel 10, ataque 36
+¡Iara sobrevivió a las 10 oleadas!
+Partida guardada: {"nombre":"Iara","vida":168,"vidaMaxima":168,"ataque":36,"nivel":10,"experiencia":4500}
+Cargada: Iara, nivel 10, ataque 36
 Tablero de honor:
-1. Kira   4500 puntos (oleada 10, 1 partida/s)
+1. Iara   4500 puntos (oleada 10, 1 partida/s)
 2. Olmo    980 puntos (oleada 6, 1 partida/s)
-3. Bron    720 puntos (oleada 5, 2 partida/s)
+3. Nilo    720 puntos (oleada 5, 2 partida/s)
 ```
 
 ### ¿Para qué sirve?
@@ -2008,15 +2008,15 @@ por clase y la posición de dos jugadores (uno que no existe).
 
 ```
 Top 5:
-  1. Kira: 1150
+  1. Iara: 1150
   2. Lía: 980
   3. Tomi: 910
   4. Nara: 880
-  5. Bron: 720
+  5. Nilo: 720
 Mejores por clase:
-  guerrero: Bron (720)
+  guerrero: Nilo (720)
   maga: Lía (980)
-  arquero: Kira (1150)
+  arquero: Iara (1150)
 Olmo: puesto 6
 Zoe: nunca jugó
 ```
@@ -2035,7 +2035,7 @@ CREATE TABLE partida (
     INDEX idx_partida_puntos (puntos)
 );
 INSERT INTO partida (jugador, clase, oleada, puntos) VALUES
-    ('Bron', 'guerrero', 4, 610), ('Lía', 'maga', 6, 980), ('Bron', 'guerrero', 5, 720),
+    ('Nilo', 'guerrero', 4, 610), ('Lía', 'maga', 6, 980), ('Nilo', 'guerrero', 5, 720),
     ('Olmo', 'arquero', 3, 450), ('Nara', 'maga', 5, 880), ('Tomi', 'arquero', 6, 910);
 ```
 
@@ -2093,7 +2093,7 @@ final class TableroDeHonor
 
 $c = require __DIR__ . '/config.php';
 $tablero = new TableroDeHonor(new PDO($c['dsn'], $c['usuario'], $c['clave'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_EMULATE_PREPARES => false]));
-$tablero->registrar('Kira', 7, 1150, 'arquero');
+$tablero->registrar('Iara', 7, 1150, 'arquero');
 $tablero->registrar('Olmo', 5, 700, 'arquero');
 
 echo "Top 5:\n";
@@ -2142,7 +2142,7 @@ archivos "tramposos": uno con nivel 0, uno con la clase `dios` y uno sin la olea
 ```
 {
     "heroe": {
-        "nombre": "Kira",
+        "nombre": "Iara",
         "clase": "arquero",
         "vida": 47,
         "nivel": 3,
@@ -2213,7 +2213,7 @@ final class Partida implements JsonSerializable
     }
 }
 
-$partida = new Partida('Kira', 'arquero', 47, 3, 610, 5, 2026, ['poción' => 2, 'flecha de fuego' => 6]);
+$partida = new Partida('Iara', 'arquero', 47, 3, 610, 5, 2026, ['poción' => 2, 'flecha de fuego' => 6]);
 $json = json_encode($partida, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 echo $json, "\n";
 $otra = json_encode(Partida::desdeJson($json), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -2455,9 +2455,9 @@ usa: juegos.turnos, cal.build, sql.desde-codigo
 
 ### Crónica
 
-En el palco más alto de la Arena, envuelto en una capa gastada, espera el **Campeón Eterno**: nadie lo venció en cien años. Dicen que no es una persona sino un juego perfecto, hecho por una programadora que ya no está, que aprende de cada luchador. Para enfrentarlo hay que presentar **tu propio juego**, entero, jugable, y ganarle con él.
+En el palco más alto de la Arena, envuelto en una capa gastada, espera el **Campeón Eterno**: nadie lo venció en cien años. Dentro de su casco no hay cara, solo luz y engranajes. Dicen que no es una persona sino un juego perfecto, hecho por una programadora que ya no está, que aprende de cada luchador. Para enfrentarlo hay que presentar **tu propio juego**, entero, jugable, y ganarle con él.
 
-—Todo lo de la Arena, junto —dice {mentor}—: el modelo, el motor, las oleadas, el ranking, guardar y continuar. Y esta vez, {heroe}, lo juega una persona: el juego lee lo que escribe y le responde.
+—Todo lo de la Arena, junto —dice {mentor}—: el modelo, el motor, las oleadas, el ranking, guardar y continuar. Y esta vez, Nilo, lo juega una persona: el juego lee lo que escribe y le responde.
 
 ### Objetivos
 
@@ -2475,7 +2475,7 @@ En el palco más alto de la Arena, envuelto en una capa gastada, espera el **Cam
 Hasta ahora el héroe peleaba solo. Ahora cada turno del héroe lo decide el
 **jugador**, escribiendo una orden:
 ```
-Turno 3 · Kira [#######...] 42/60 · Orco [###.......] 14/45
+Turno 3 · Iara [#######...] 42/60 · Orco [###.......] 14/45
 > atacar
 ```
 El programa lee con `fgets(STDIN)` (como en R01-N04), interpreta la orden, la
@@ -2538,52 +2538,52 @@ atacar
 #### Salida esperada
 
 ```
-Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+Turno 1 · Iara [##########] 90/90 · Campeón [##########] 100/100
 > atacar
-  Kira ataca: 14
+  Iara ataca: 14
   El Campeón golpea: 12
-Turno 2 · Kira [#########.] 78/90 · Campeón [#########.] 86/100
+Turno 2 · Iara [#########.] 78/90 · Campeón [#########.] 86/100
 > defender
-  Kira levanta el escudo
+  Iara levanta el escudo
   El Campeón golpea: 4
-Turno 3 · Kira [########..] 74/90 · Campeón [#########.] 86/100
+Turno 3 · Iara [########..] 74/90 · Campeón [#########.] 86/100
 > estado
   Pociones: 2 · bombas: 1
-Turno 3 · Kira [########..] 74/90 · Campeón [#########.] 86/100
+Turno 3 · Iara [########..] 74/90 · Campeón [#########.] 86/100
 > atacar
-  Kira ataca: 13
+  Iara ataca: 13
   El Campeón golpea: 9
-Turno 4 · Kira [#######...] 65/90 · Campeón [#######...] 73/100
+Turno 4 · Iara [#######...] 65/90 · Campeón [#######...] 73/100
 > bomba
-  ¡Kira tira la bomba! 35 de daño
+  ¡Iara tira la bomba! 35 de daño
   El Campeón golpea: 11
-Turno 5 · Kira [######....] 54/90 · Campeón [####......] 38/100
+Turno 5 · Iara [######....] 54/90 · Campeón [####......] 38/100
 > volar
   Orden desconocida
-Turno 5 · Kira [######....] 54/90 · Campeón [####......] 38/100
+Turno 5 · Iara [######....] 54/90 · Campeón [####......] 38/100
 > pocion
-  Kira toma una poción: +30
+  Iara toma una poción: +30
   El Campeón golpea: 13
-Turno 6 · Kira [########..] 71/90 · Campeón [####......] 38/100
+Turno 6 · Iara [########..] 71/90 · Campeón [####......] 38/100
 > defender
-  Kira levanta el escudo
+  Iara levanta el escudo
   El Campeón golpea: 6
-Turno 7 · Kira [#######...] 65/90 · Campeón [####......] 38/100
+Turno 7 · Iara [#######...] 65/90 · Campeón [####......] 38/100
 > atacar
-  Kira ataca: 15
+  Iara ataca: 15
   El Campeón golpea: 26
-Turno 8 · Kira [####......] 39/90 · Campeón [##........] 23/100
+Turno 8 · Iara [####......] 39/90 · Campeón [##........] 23/100
 > pocion
-  Kira toma una poción: +30
+  Iara toma una poción: +30
   El Campeón golpea: 24
-Turno 9 · Kira [#####.....] 45/90 · Campeón [##........] 23/100
+Turno 9 · Iara [#####.....] 45/90 · Campeón [##........] 23/100
 > atacar
-  Kira ataca: 12
+  Iara ataca: 12
   El Campeón golpea: 20
-Turno 10 · Kira [###.......] 25/90 · Campeón [#.........] 11/100
+Turno 10 · Iara [###.......] 25/90 · Campeón [#.........] 11/100
 > atacar
-  Kira ataca: 14
-¡Kira venció al Campeón Eterno en 10 turnos!
+  Iara ataca: 14
+¡Iara venció al Campeón Eterno en 10 turnos!
 ```
 
 #### Solución de referencia
@@ -2607,7 +2607,7 @@ function barra(int $vida, int $max): string
 
 while ($heroe['vida'] > 0 && $campeon['vida'] > 0 && ($linea = fgets(STDIN)) !== false) {
     $orden = strtolower(trim($linea));
-    echo "Turno $turno · Kira ", barra($heroe['vida'], $heroe['max']), " · Campeón ", barra($campeon['vida'], $campeon['max']), "\n> $orden\n";
+    echo "Turno $turno · Iara ", barra($heroe['vida'], $heroe['max']), " · Campeón ", barra($campeon['vida'], $campeon['max']), "\n> $orden\n";
 
     $defiendeHeroe = false;
     $campeonDefiende = count($historial) >= 2 && array_slice($historial, -2) === ['atacar', 'atacar'];
@@ -2618,11 +2618,11 @@ while ($heroe['vida'] > 0 && $campeon['vida'] > 0 && ($linea = fgets(STDIN)) !==
                 $danio = intdiv($danio, 2);
             }
             $campeon['vida'] -= $danio;
-            echo "  Kira ataca: $danio", $campeonDefiende ? ' (el Campeón se defendió)' : '', "\n";
+            echo "  Iara ataca: $danio", $campeonDefiende ? ' (el Campeón se defendió)' : '', "\n";
             break;
         case 'defender':
             $defiendeHeroe = true;
-            echo "  Kira levanta el escudo\n";
+            echo "  Iara levanta el escudo\n";
             break;
         case 'pocion':
             if ($heroe['pociones'] === 0) {
@@ -2632,7 +2632,7 @@ while ($heroe['vida'] > 0 && $campeon['vida'] > 0 && ($linea = fgets(STDIN)) !==
             $heroe['pociones']--;
             $antes = $heroe['vida'];
             $heroe['vida'] = min($heroe['max'], $heroe['vida'] + 30);
-            echo "  Kira toma una poción: +", $heroe['vida'] - $antes, "\n";
+            echo "  Iara toma una poción: +", $heroe['vida'] - $antes, "\n";
             break;
         case 'bomba':
             if ($heroe['bombas'] === 0) {
@@ -2641,7 +2641,7 @@ while ($heroe['vida'] > 0 && $campeon['vida'] > 0 && ($linea = fgets(STDIN)) !==
             }
             $heroe['bombas']--;
             $campeon['vida'] -= 35;
-            echo "  ¡Kira tira la bomba! 35 de daño\n";
+            echo "  ¡Iara tira la bomba! 35 de daño\n";
             break;
         case 'estado':
             echo "  Pociones: {$heroe['pociones']} · bombas: {$heroe['bombas']}\n";
@@ -2667,9 +2667,9 @@ while ($heroe['vida'] > 0 && $campeon['vida'] > 0 && ($linea = fgets(STDIN)) !==
 }
 
 if ($campeon['vida'] <= 0) {
-    echo "¡Kira venció al Campeón Eterno en " . count($historial) . " turnos!\n";
+    echo "¡Iara venció al Campeón Eterno en " . count($historial) . " turnos!\n";
 } elseif ($heroe['vida'] <= 0) {
-    echo "Kira cayó. El Campeón sigue invicto.\n";
+    echo "Iara cayó. El Campeón sigue invicto.\n";
 } else {
     echo "Se terminaron las órdenes: el duelo queda pendiente.\n";
 }
@@ -2686,22 +2686,22 @@ pocion
 pocion
 ```
 ```salida
-Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+Turno 1 · Iara [##########] 90/90 · Campeón [##########] 100/100
 > bomba
-  ¡Kira tira la bomba! 35 de daño
+  ¡Iara tira la bomba! 35 de daño
   El Campeón golpea: 11
-Turno 2 · Kira [#########.] 79/90 · Campeón [#######...] 65/100
+Turno 2 · Iara [#########.] 79/90 · Campeón [#######...] 65/100
 > bomba
   No te quedan bombas
-Turno 2 · Kira [#########.] 79/90 · Campeón [#######...] 65/100
+Turno 2 · Iara [#########.] 79/90 · Campeón [#######...] 65/100
 > pocion
-  Kira toma una poción: +11
+  Iara toma una poción: +11
   El Campeón golpea: 12
-Turno 3 · Kira [#########.] 78/90 · Campeón [#######...] 65/100
+Turno 3 · Iara [#########.] 78/90 · Campeón [#######...] 65/100
 > pocion
-  Kira toma una poción: +12
+  Iara toma una poción: +12
   El Campeón golpea: 9
-Turno 4 · Kira [#########.] 81/90 · Campeón [#######...] 65/100
+Turno 4 · Iara [#########.] 81/90 · Campeón [#######...] 65/100
 > pocion
   No te quedan pociones
 Se terminaron las órdenes: el duelo queda pendiente.
@@ -2726,39 +2726,39 @@ atacar
 atacar
 ```
 ```salida
-Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+Turno 1 · Iara [##########] 90/90 · Campeón [##########] 100/100
 > atacar
-  Kira ataca: 14
+  Iara ataca: 14
   El Campeón golpea: 12
-Turno 2 · Kira [#########.] 78/90 · Campeón [#########.] 86/100
+Turno 2 · Iara [#########.] 78/90 · Campeón [#########.] 86/100
 > atacar
-  Kira ataca: 12
+  Iara ataca: 12
   El Campeón golpea: 10
-Turno 3 · Kira [########..] 68/90 · Campeón [#######...] 74/100
+Turno 3 · Iara [########..] 68/90 · Campeón [#######...] 74/100
 > atacar
-  Kira ataca: 6 (el Campeón se defendió)
+  Iara ataca: 6 (el Campeón se defendió)
   El Campeón golpea: 11
-Turno 4 · Kira [######....] 57/90 · Campeón [#######...] 68/100
+Turno 4 · Iara [######....] 57/90 · Campeón [#######...] 68/100
 > atacar
-  Kira ataca: 8 (el Campeón se defendió)
+  Iara ataca: 8 (el Campeón se defendió)
   El Campeón golpea: 13
-Turno 5 · Kira [#####.....] 44/90 · Campeón [######....] 60/100
+Turno 5 · Iara [#####.....] 44/90 · Campeón [######....] 60/100
 > atacar
-  Kira ataca: 7 (el Campeón se defendió)
+  Iara ataca: 7 (el Campeón se defendió)
   El Campeón golpea: 13
-Turno 6 · Kira [###.......] 31/90 · Campeón [#####.....] 53/100
+Turno 6 · Iara [###.......] 31/90 · Campeón [#####.....] 53/100
 > atacar
-  Kira ataca: 7 (el Campeón se defendió)
+  Iara ataca: 7 (el Campeón se defendió)
   El Campeón golpea: 9
-Turno 7 · Kira [##........] 22/90 · Campeón [#####.....] 46/100
+Turno 7 · Iara [##........] 22/90 · Campeón [#####.....] 46/100
 > atacar
-  Kira ataca: 6 (el Campeón se defendió)
+  Iara ataca: 6 (el Campeón se defendió)
   El Campeón golpea: 11
-Turno 8 · Kira [#.........] 11/90 · Campeón [####......] 40/100
+Turno 8 · Iara [#.........] 11/90 · Campeón [####......] 40/100
 > atacar
-  Kira ataca: 6 (el Campeón se defendió)
+  Iara ataca: 6 (el Campeón se defendió)
   El Campeón golpea: 12
-Kira cayó. El Campeón sigue invicto.
+Iara cayó. El Campeón sigue invicto.
 ```
 
 ##### Órdenes desconocidas
@@ -2767,10 +2767,10 @@ nadar
 estado
 ```
 ```salida
-Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+Turno 1 · Iara [##########] 90/90 · Campeón [##########] 100/100
 > nadar
   Orden desconocida
-Turno 1 · Kira [##########] 90/90 · Campeón [##########] 100/100
+Turno 1 · Iara [##########] 90/90 · Campeón [##########] 100/100
 > estado
   Pociones: 2 · bombas: 1
 Se terminaron las órdenes: el duelo queda pendiente.
@@ -2889,7 +2889,7 @@ Fin: Lía cayó en la arena en la oleada 4 con 410 puntos
 Tablero de honor:
   1. Nara (610)
   2. Lía (410)
-  3. Bron (380)
+  3. Nilo (380)
 Lía quedó en el puesto 2
 ```
 
@@ -2915,7 +2915,7 @@ CREATE TABLE partida (
     puntos INT NOT NULL,
     INDEX idx_partida_puntos (puntos)
 );
-INSERT INTO partida (jugador, clase, oleada, puntos) VALUES ('Bron', 'guerrero', 3, 380), ('Tomi', 'arquero', 2, 160), ('Nara', 'maga', 4, 610);
+INSERT INTO partida (jugador, clase, oleada, puntos) VALUES ('Nilo', 'guerrero', 3, 380), ('Tomi', 'arquero', 2, 160), ('Nara', 'maga', 4, 610);
 ```
 
 `config.php`

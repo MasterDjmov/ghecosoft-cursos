@@ -6593,6 +6593,7 @@ Sale de `21-PHP/12-Excepciones`, ampliado con la jerarquía, excepciones con dat
 ## R02-N10 · Namespaces, autoload y Composer
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R02-N09
 precio: 10

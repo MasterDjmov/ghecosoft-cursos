@@ -8,6 +8,7 @@ posicion: 3
 ## R03-N01 · Cómo funciona la web
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R02-N11
 precio: 10
@@ -538,6 +539,7 @@ Nodo nuevo: el capítulo original de PHP es de consola. Se usa `php -S` en lugar
 ## R03-N02 · Formularios con GET
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N01
 precio: 10
@@ -1084,6 +1086,7 @@ Nodo nuevo (el capítulo original es de consola). Se corrigen abriendo la págin
 ## R03-N03 · Formularios con POST y validación
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N02
 precio: 10
@@ -1735,6 +1738,7 @@ Nodo nuevo. El ejemplo junta todos los tipos de campo; conviene abrir las herram
 ## R03-N04 · Sesiones y cookies
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N03
 precio: 10
@@ -2349,6 +2353,7 @@ Nodo nuevo. En el encargo, `$alta = &$_SESSION['alta']` es una referencia para n
 ## R03-N05 · Seguridad: XSS, CSRF y validación del lado del servidor
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N04
 precio: 10
@@ -3024,6 +3029,7 @@ Nodo nuevo, clave para la web. Para mostrar el XSS en clase sin riesgo, alcanza 
 ## R03-N06 · Login con contraseñas
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N05
 precio: 10
@@ -3781,6 +3787,7 @@ Nodo nuevo. Los hashes de los ejemplos corresponden a `ancla123`, `faro2026` y `
 ## R03-N07 · Subir archivos y guardar en JSON
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N06
 precio: 10
@@ -4495,6 +4502,7 @@ Sale de `21-PHP/13-Manejo-Archivos` (la parte de JSON), llevado a la web con sub
 ## R03-N08 · Plantillas y organización
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N07
 precio: 10

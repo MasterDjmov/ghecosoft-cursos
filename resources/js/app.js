@@ -277,7 +277,7 @@ document.addEventListener('alpine:init', () => {
                 const { runSql } = await import('./runners/sql.js');
                 result = await runSql(this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else if (config.language === 'php') {
-                // PHP: solo en la bandeja del docente (D68), con PHP en WebAssembly.
+                // PHP: PHP 8.3 en WebAssembly, en el navegador del docente (D68) y del alumno (D105).
                 const { runPhp } = await import('./runners/php.js');
                 result = await runPhp(this.code, { stdin: this.stdin, timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else {

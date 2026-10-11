@@ -8,6 +8,7 @@ posicion: 5
 ## R05-N01 · MVC sin framework: router y controladores
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N09
 precio: 10
@@ -2063,6 +2064,7 @@ Sale de `21-PHP/14-Closures-Funcional` y `18-Generadores`. En el encargo, el con
 ## R05-N03 · Una API REST en JSON
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R05-N02
 precio: 10
@@ -2750,6 +2752,7 @@ Nodo nuevo. Se prueba con `php -S localhost:8000 -t public public/index.php` y `
 ## R05-N04 · Pruebas con PHPUnit
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R05-N03
 precio: 10
@@ -3754,6 +3757,7 @@ Sale de `21-PHP/20-Testing-PHPUnit`, con PHPUnit 11 (compatible con PHP 8.2 o m�
 ## R05-N05 · Errores, logs y configuración
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R05-N04
 precio: 10
@@ -4452,6 +4456,7 @@ Nodo nuevo. En el ejemplo, el reloj del `Logger` es una closure fija para que la
 ## R05-N06 · Subir a un hosting
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R05-N05
 precio: 10

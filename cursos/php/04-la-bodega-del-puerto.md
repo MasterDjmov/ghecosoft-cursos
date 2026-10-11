@@ -8,6 +8,7 @@ posicion: 4
 ## R04-N01 · Bases de datos y MariaDB
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R03-N09
 precio: 10
@@ -526,6 +527,7 @@ Nodo nuevo: el capítulo original usaba SQLite (`21-PHP/17-PDO-SQLite`); a pedid
 ## R04-N02 · Consultas: filtrar, ordenar y agrupar
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N01
 precio: 10
@@ -1148,6 +1150,7 @@ Nodo nuevo, con MariaDB. En la misión 2, `HAVING facturado > 20000` usa el alia
 ## R04-N03 · Relaciones y JOIN
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N02
 precio: 10
@@ -1777,6 +1780,7 @@ Nodo nuevo. En la misión 2, guardar el precio en el detalle es la decisión de 
 ## R04-N04 · PDO: conectarse desde PHP
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N03
 precio: 10
@@ -2498,6 +2502,7 @@ Sale de `21-PHP/17-PDO-SQLite`, llevado a MariaDB. Todos los proyectos incluyen 
 ## R04-N05 · Consultas preparadas e inyección SQL
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N04
 precio: 10
@@ -3181,6 +3186,7 @@ Sale de `21-PHP/17-PDO-SQLite` (la parte de prepared statements), con MariaDB y 
 ## R04-N06 · Un ABM web
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N05
 precio: 10
@@ -4175,6 +4181,7 @@ Nodo nuevo: el ABM completo con PDO, base de la rama 5 (MVC) y de la Senda de La
 ## R04-N07 · Transacciones, índices y vistas
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N06
 precio: 10
@@ -4934,6 +4941,7 @@ Nodo nuevo. Las transacciones requieren InnoDB (motor por defecto). En la misió
 ## R04-N08 · Repositorios y login con base
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R04-N07
 precio: 10

@@ -16,14 +16,15 @@ function javaCourse(): array
     return [...$made, 'student' => studentWithRootOpen($made), 'practice' => $made['root']->practices()->first()];
 }
 
-test('Java corre con el ejecutor local; C y C++ corren en el navegador (D98, D100); PHP sigue siendo solo del docente', function () {
+test('Java corre con el ejecutor local; C, C++ y PHP corren en el navegador (D98, D100, D105)', function () {
     expect(Language::Java->studentCanRun())->toBeTrue()
         ->and(Language::Java->runsForStudents())->toBeFalse()
         ->and(Language::Python->studentCanRun())->toBeTrue()
         ->and(Language::Cpp->studentCanRun())->toBeTrue()
         ->and(Language::C->studentCanRun())->toBeTrue()
         ->and(Language::C->runsForStudents())->toBeTrue()
-        ->and(Language::Php->studentCanRun())->toBeFalse();
+        ->and(Language::Php->studentCanRun())->toBeTrue()
+        ->and(Language::Php->runsOnLocalRunner())->toBeFalse();
 });
 
 test('en un curso de Java, el alumno puede ejecutar y ve cómo instalar el ejecutor', function () {

@@ -4697,6 +4697,7 @@ Sale de `21-PHP/06-Funciones` y `14-Closures-Funcional` (la parte básica; closu
 ## R01-N09 · Organizar el código: include y require
 
 ```meta
+ejecutable: no
 tipo: tema
 padre: R01-N08
 precio: 10

@@ -1,6 +1,6 @@
-// Ejecuta PHP en el navegador del docente (D68), en un worker con tiempo límite. La primera vez baja PHP
-// (~7 MB del sitio); después queda en la caché del navegador. Solo para corregir: el código del alumno
-// nunca se ejecuta en el servidor.
+// Ejecuta PHP en el navegador, en un worker con tiempo límite: el del docente al corregir (D68) y el del alumno
+// con su propio código (D105). La primera vez baja PHP (~7 MB del sitio); después queda en la caché del
+// navegador. El código del alumno nunca se ejecuta en el servidor.
 
 let worker = null;
 let loaded = false;

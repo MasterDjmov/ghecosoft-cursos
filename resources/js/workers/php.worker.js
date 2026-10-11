@@ -1,6 +1,7 @@
-// Ejecuta PHP de consola en el navegador del docente (D68): PHP 8.3 compilado a WebAssembly (@php-wasm).
+// Ejecuta PHP de consola en el navegador (D68 docente, D105 alumno): PHP 8.3 compilado a WebAssembly (@php-wasm).
 // El .wasm (~18 MB, ~7 MB comprimido) sale de public/toolchains/php. Un envoltorio da STDIN (la entrada de
-// ejemplo), STDOUT, STDERR, readline() y $argv como en la terminal.
+// ejemplo), STDOUT, STDERR, readline() y $argv como en la terminal, y cada ejecución corre en una carpeta
+// vacía nueva (como C en D98): lo que un programa escribe con fopen() no lo ve el siguiente.
 import { PHP, PHPResponse, loadPHPRuntime } from '@php-wasm/universal';
 import * as loader from 'php-wasm-8-3-loader';
 import { PHP_WASM_URL } from '../runners/php-config.js';
@@ -36,6 +37,8 @@ if (!function_exists('readline')) {
 }
 $argv = ['main.php'];
 $argc = 1;
+@mkdir('/trabajo/' . RUN_ID, 0777, true);
+chdir('/trabajo/' . RUN_ID);
 require '/tmp/main.php';
 `;
 
@@ -64,7 +67,7 @@ self.onmessage = async ({ data: { id, code, stdin } }) => {
 
         instance.writeFile('/tmp/main.php', code);
         instance.writeFile('/tmp/entrada.txt', stdin ?? '');
-        instance.writeFile('/tmp/envoltorio.php', WRAPPER);
+        instance.writeFile('/tmp/envoltorio.php', WRAPPER.replace('<?php', `<?php\nconst RUN_ID = '${id}-${Date.now()}';`));
         const started = performance.now();
         // runStream (no run): con un error fatal, run() tira una excepción en vez de devolver la salida.
         const response = await PHPResponse.fromStreamedResponse(await instance.runStream({ scriptPath: '/tmp/envoltorio.php' }));

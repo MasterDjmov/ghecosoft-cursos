@@ -18,11 +18,12 @@ function htmlCourse(): array
     return [...$made, 'student' => studentWithRootOpen($made), 'practice' => $made['root']->practices()->first()];
 }
 
-test('Python, HTML, C y C++ corren para los alumnos en el navegador; PHP no', function () {
+test('Python, HTML, C, C++ y PHP corren para los alumnos en el navegador; Java no', function () {
     expect(Language::Html->runsForStudents())->toBeTrue()
         ->and(Language::Python->runsForStudents())->toBeTrue()
         ->and(Language::Cpp->runsForStudents())->toBeTrue()
-        ->and(Language::Php->runsForStudents())->toBeFalse()
+        ->and(Language::Php->runsForStudents())->toBeTrue()
+        ->and(Language::Java->runsForStudents())->toBeFalse()
         ->and(Language::Html->extension())->toBe('html')
         ->and(Language::Html->label())->toBe('HTML y CSS');
 });

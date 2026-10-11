@@ -4,6 +4,7 @@ namespace App\Livewire\Student;
 
 use App\Models\Course;
 use App\Support\Encyclopedia as Book;
+use App\Support\EncyclopediaItems as Items;
 use Flux\Flux;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
@@ -24,13 +25,16 @@ class Encyclopedia extends Component
         Book::MASTERS => 'Maestros',
         Book::BESTIARY => 'Bestiario',
         'monturas' => 'Monturas',
-        'monedas' => 'Monedas',
-        'artefactos' => 'Artefactos',
+        Items::COINS => 'Monedas',
+        Items::ARTIFACTS => 'Artefactos',
         'reinos' => 'Reinos / Mapas',
         'hechizos' => 'Hechizos & Sintaxis',
     ];
 
-    public const SECTIONS_READY = [Book::MASTERS, Book::BESTIARY, 'hechizos'];
+    public const SECTIONS_READY = [Book::MASTERS, Book::BESTIARY, Items::COINS, Items::ARTIFACTS, 'hechizos'];
+
+    /** Las secciones con fichas (la de hechizos lleva al Grimorio). */
+    public const BROWSABLE = [Book::MASTERS, Book::BESTIARY, Items::COINS, Items::ARTIFACTS];
 
     #[Url(as: 'seccion', except: '')]
     public string $section = '';
@@ -44,7 +48,7 @@ class Encyclopedia extends Component
 
     public function mount(): void
     {
-        if ($this->section !== '' && ! in_array($this->section, [Book::MASTERS, Book::BESTIARY], true)) {
+        if ($this->section !== '' && ! in_array($this->section, self::BROWSABLE, true)) {
             $this->section = '';
         }
     }
@@ -56,7 +60,7 @@ class Encyclopedia extends Component
 
             return;
         }
-        if (in_array($section, [Book::MASTERS, Book::BESTIARY], true)) {
+        if (in_array($section, self::BROWSABLE, true)) {
             $this->section = $section;
             $this->reset('search', 'course', 'selected');
         }
@@ -75,13 +79,19 @@ class Encyclopedia extends Component
 
     public function render()
     {
-        $entries = (new Book(auth()->user()))->entries();
+        $user = auth()->user();
+        $items = new Items($user);
+        // Solo se arma lo que hace falta: en la portada, todo (para los contadores); adentro, la sección abierta.
+        $entries = collect()
+            ->when(in_array($this->section, ['', Book::MASTERS, Book::BESTIARY], true), fn ($all) => $all->concat((new Book($user))->entries()))
+            ->when(in_array($this->section, ['', Items::ARTIFACTS], true), fn ($all) => $all->concat($items->artifacts()))
+            ->when(in_array($this->section, ['', Items::COINS], true), fn ($all) => $all->concat($items->coins()));
         $shown = $entries->where('section', $this->section)
             ->when($this->course !== '', fn ($all) => $all->filter(fn ($entry) => $entry['course']?->slug === $this->course))
             ->when(trim($this->search) !== '', fn ($all) => $all->filter(fn ($entry) => Str::contains(Str::ascii(Str::lower($entry['name'])), Str::ascii(Str::lower(trim($this->search))))));
 
         return view('livewire.student.encyclopedia', [
-            'counts' => collect([Book::MASTERS, Book::BESTIARY])->mapWithKeys(fn ($section) => [$section => Book::count($entries, $section)]),
+            'counts' => collect(self::BROWSABLE)->mapWithKeys(fn ($section) => [$section => Book::count($entries, $section)])->filter(fn ($count) => $count['total'] > 0),
             'groups' => $shown->groupBy('group'),
             'courses' => $this->section === '' ? collect() : Course::whereIn('id', $entries->where('section', $this->section)->pluck('course.id')->filter())->orderBy('id')->get(),
             'entry' => $this->selected ? $entries->firstWhere('key', $this->selected) : null,

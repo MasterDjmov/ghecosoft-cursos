@@ -59,7 +59,12 @@
                         <h1 class="font-display text-2xl font-semibold text-white sm:text-3xl">{{ Page::SECTIONS[$section] }}</h1>
                         <p class="text-ink-muted">
                             {{ $counts[$section]['discovered'] }} de {{ $counts[$section]['total'] }} descubiertos.
-                            {{ $section === \App\Support\Encyclopedia::BESTIARY ? 'Cada criatura es un error de programación: conocelas para vencerlas.' : 'Los que te vas cruzando en la historia.' }}
+                            {{ match ($section) {
+                                \App\Support\Encyclopedia::BESTIARY => 'Cada criatura es un error de programación: conocelas para vencerlas.',
+                                \App\Support\EncyclopediaItems::ARTIFACTS => 'Todo lo que se puede conseguir en el universo, y dónde.',
+                                \App\Support\EncyclopediaItems::COINS => 'Cómo se gana cada moneda y para qué sirve.',
+                                default => 'Los que te vas cruzando en la historia.',
+                            } }}
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -81,8 +86,10 @@
                         @foreach ($items as $item)
                             <button type="button" wire:click="open('{{ $item['key'] }}')" wire:key="entry-{{ $item['key'] }}" data-test="entry-{{ $item['key'] }}"
                                 class="panel group flex flex-col items-center gap-2 p-3 text-center transition hover:-translate-y-0.5 hover:border-cyan-300/60">
-                                <div class="relative aspect-square w-full overflow-hidden rounded-xl bg-[#05070d]">
-                                    @if ($item['portrait'])
+                                <div @class(['relative grid aspect-square w-full place-items-center overflow-hidden rounded-xl bg-[#05070d]', isset($item['rarity']) ? 'border-2 '.$item['rarity']->classes() : ''])>
+                                    @if (isset($item['currency']))
+                                        <x-coin-icon :currency="$item['currency']" size="size-2/3!" :class="$item['discovered'] ? '' : 'blur-[3px] brightness-[0.4] grayscale'" />
+                                    @elseif ($item['portrait'])
                                         <img src="{{ $item['portrait'] }}" alt="" loading="lazy"
                                             @class(['size-full object-cover transition', 'blur-[3px] brightness-[0.4] grayscale' => ! $item['discovered'], 'group-hover:scale-105' => $item['discovered']])>
                                     @endif
@@ -96,6 +103,9 @@
                                     @endif
                                 </div>
                                 <span class="text-sm font-medium leading-tight {{ $item['discovered'] ? 'text-white' : 'text-ink-muted' }}">{{ $item['name'] }}</span>
+                                @if ($item['discovered'] && ($item['subtitle'] ?? null))
+                                    <span @class(['text-[11px] leading-tight', isset($item['rarity']) ? $item['rarity']->classes() : 'text-ink-muted'])>{{ $item['subtitle'] }}</span>
+                                @endif
                                 @unless ($item['discovered'])
                                     <span class="text-[11px] leading-tight text-ink-muted">{{ $item['where'] }}</span>
                                 @endunless
@@ -113,8 +123,10 @@
     <flux:modal name="encyclopedia-entry" class="w-full max-w-3xl" data-test="encyclopedia-modal">
         @if ($entry)
             <div class="flex flex-col gap-5 sm:flex-row">
-                <div class="relative mx-auto w-full max-w-60 shrink-0 overflow-hidden rounded-xl border border-outline bg-[#05070d] sm:mx-0">
-                    @if ($image = $entry['discovered'] ? ($entry['figure'] ?? $entry['portrait']) : $entry['portrait'])
+                <div @class(['relative mx-auto grid w-full max-w-60 shrink-0 place-items-center overflow-hidden rounded-xl border bg-[#05070d] sm:mx-0', isset($entry['rarity']) ? 'border-2 '.$entry['rarity']->classes() : 'border-outline', 'aspect-square' => $entry['square'] ?? false])>
+                    @if (isset($entry['currency']))
+                        <x-coin-icon :currency="$entry['currency']" size="size-3/4!" :class="$entry['discovered'] ? '' : 'blur-[4px] brightness-[0.4] grayscale'" />
+                    @elseif ($image = $entry['discovered'] ? ($entry['figure'] ?? $entry['portrait']) : $entry['portrait'])
                         <img src="{{ $image }}" alt="{{ $entry['discovered'] ? $entry['name'] : '' }}" @class(['w-full', 'blur-[4px] brightness-[0.4] grayscale' => ! $entry['discovered']])>
                     @endif
                     @unless ($entry['discovered'])
@@ -125,6 +137,9 @@
                     <div>
                         <p class="tech-label">{{ $entry['group'] }}</p>
                         <flux:heading size="xl">{{ $entry['name'] }}</flux:heading>
+                        @if ($entry['discovered'] && ($entry['subtitle'] ?? null))
+                            <p @class(['text-xs tracking-wide uppercase', isset($entry['rarity']) ? $entry['rarity']->classes() : 'text-ink-muted'])>{{ $entry['subtitle'] }}</p>
+                        @endif
                         @if ($entry['defeated'])
                             <p class="text-sm font-semibold text-success">Lo venciste</p>
                         @elseif ($entry['boss'])
@@ -147,11 +162,18 @@
                         @if ($entry['where'])
                             <p class="text-xs text-ink-muted">Aparece en {{ $entry['where'] }}.</p>
                         @endif
+                        @include('livewire.student.partials.encyclopedia-sources')
                     @else
-                        <p class="text-ink-muted" data-test="entry-locked">Todavía no te {{ $entry['section'] === \App\Support\Encyclopedia::BESTIARY ? 'enfrentaste a esta criatura' : 'cruzaste con este personaje' }}. Su historia se abre cuando llegues.</p>
+                        <p class="text-ink-muted" data-test="entry-locked">{{ match ($entry['section']) {
+                            \App\Support\Encyclopedia::BESTIARY => 'Todavía no te enfrentaste a esta criatura. Su historia se abre cuando llegues.',
+                            \App\Support\EncyclopediaItems::ARTIFACTS => 'Todavía no lo conseguiste. Cuando lo tengas, vas a ver qué hace.',
+                            \App\Support\EncyclopediaItems::COINS => 'Todavía no la ganaste: se abre cuando empieces ese mundo.',
+                            default => 'Todavía no te cruzaste con este personaje. Su historia se abre cuando llegues.',
+                        } }}</p>
                         @if ($entry['where'])
                             <p class="flex items-start gap-1.5 text-sm text-cyan-200"><flux:icon name="map-pin" variant="micro" class="mt-0.5 shrink-0" /> Aparece en {{ $entry['where'] }}.</p>
                         @endif
+                        @include('livewire.student.partials.encyclopedia-sources')
                     @endif
                 </div>
             </div>

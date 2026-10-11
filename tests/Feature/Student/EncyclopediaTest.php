@@ -1,11 +1,16 @@
 <?php
 
+use App\Enums\ItemReason;
 use App\Livewire\Student\Encyclopedia as Page;
+use App\Models\Currency;
+use App\Models\Item;
 use App\Models\NodeUnlock;
 use App\Models\User;
+use App\Services\Inventory;
 use App\Services\NodeUnlocker;
 use App\Support\CharacterSheets;
 use App\Support\Encyclopedia;
+use App\Support\EncyclopediaItems;
 use Livewire\Livewire;
 
 /*
@@ -107,4 +112,34 @@ test('la ven todos los alumnos, también sin abono; los mundos sin publicar no a
 
     auth()->logout();
     $this->get(route('student.encyclopedia'))->assertRedirect(route('login'));
+});
+
+test('artefactos: dónde se consigue siempre; descripción y bonos, recién al tenerlo', function () {
+    $course = $this->data['course'];
+    $amulet = Item::create(['code' => 'amuleto-prueba', 'name' => 'Amuleto de Prueba', 'kind' => 'accessory', 'rarity' => 'rare',
+        'course_id' => $course->id, 'defense' => 2, 'description' => 'Secreto del amuleto.', 'in_shop' => true, 'price' => 40, 'droppable' => true]);
+    $this->data['root']->steps()->create(['code' => 'R00-N01-P1', 'title' => 'La prueba', 'position' => 1, 'item' => 'Amuleto de Prueba', 'expected_output' => 'x']);
+
+    $entry = fn () => (new EncyclopediaItems($this->student))->artifacts()->firstWhere('key', 'item-amuleto-prueba');
+    expect($entry())->toMatchArray(['discovered' => false, 'fields' => []])
+        ->and($entry()['sources'])->toContain('Python · micro-misión «La prueba» («Clase 0»)')
+        ->and(collect($entry()['sources'])->join(' '))->toContain('a 40 de oro')->toContain('Botín raro de las expediciones de Python');
+
+    Livewire::actingAs($this->student)->test(Page::class, ['section' => 'artefactos'])
+        ->call('open', 'item-amuleto-prueba')
+        ->assertSee('data-test="entry-sources"', false)
+        ->assertDontSee('Secreto del amuleto.');
+
+    app(Inventory::class)->grant($this->student, $amulet, 1, ItemReason::StepReward, $amulet);
+    expect($entry()['discovered'])->toBeTrue()
+        ->and($entry()['fields'])->toMatchArray(['Bonos' => '+2 DEF', 'Qué es' => 'Secreto del amuleto.']);
+});
+
+test('monedas: la del curso se ve al inscribirse; el comodín y el oro, siempre', function () {
+    $other = User::factory()->create();
+    $coins = fn (User $user) => (new EncyclopediaItems($user))->coins()->keyBy('key');
+
+    expect($coins($other)['coin-'.Currency::forCourse($this->data['course'])->code]['discovered'])->toBeFalse()
+        ->and($coins($other)['coin-'.Currency::wildcard()->code]['discovered'])->toBeTrue()
+        ->and($coins($this->student)['coin-'.Currency::forCourse($this->data['course'])->code]['fields']['Tenés'])->toStartWith('10 ');
 });

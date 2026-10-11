@@ -83,3 +83,11 @@ Como en Mis Crónicas (D80), **el texto de lo no descubierto no sale del servido
 - **Imágenes:** `python3 scripts/enciclopedia/imagenes.py "<carpeta de personajes>" [--force]` deja el retrato (320 px) y el cuerpo entero en `public/img/enciclopedia/<slug>.webp` y `<slug>-cuerpo.webp` (van en git y suben con el deploy). Une cada carpeta con su ficha por el nombre, dentro de su mundo; al final dice qué carpetas y qué fichas quedaron sin pareja. Con un personaje nuevo: su carpeta con `circular_<nombre>.jpeg` y el cuerpo entero, y volver a correrlo.
 - **El jugador:** la heroína y el héroe (los que teclean, no son de la historia) van primero en Maestros, siempre visibles. No tienen retrato circular (solo sus 6 avatares enmarcados): el script recorta cabeza y hombros del cuerpo entero.
 - **Imágenes que faltaban:** la maestra del Gremio de Artífices se generó en Stitch desde su ficha (proyecto de C, con Chispa de referencia de estilo) y se guardó en la carpeta del docente (`El Valle de la Serpiente/La Maestra del Gremio/`). Si falta otra y la ficha trae su aspecto, se hace igual. Gheco no tiene cuerpo entero aparte: su retrato ya lo muestra entero.
+
+## 8. Cómo quedó la etapa 2 (2026-10-11)
+
+- **Artefactos:** todos los ítems de los cursos publicados y los comunes (`App\Support\EncyclopediaItems::artifacts`), agrupados por mundo, con el borde de su rareza. Se descubren al tenerlos alguna vez (`item_movements`); hasta entonces, silueta, nombre y **dónde se consigue**, sin descripción ni bonos.
+- **Dónde se consigue**, armado solo: la micro-misión que lo da (su `item`), la tienda de su mundo (o cualquiera si es común) con precio y nivel, la receta del taller (`config('game.recipes')`) con sus ingredientes, la criatura que lo suelta como material y el botín al azar de las expediciones (`droppable`). Si un ítem no sale de ningún lado, lo dice («Todavía no se sabe dónde se consigue»): hoy, «Pociones de Curación» de Python.
+- **Para qué sirve en el taller:** de qué recetas es ingrediente (al tenerlo).
+- **Monedas:** la de cada curso (se ve al inscribirse), el comodín y el oro (siempre), con para qué sirve, cómo se gana y cuánto tiene.
+

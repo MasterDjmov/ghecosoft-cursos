@@ -326,6 +326,184 @@ respuesta, y `respuesta.ok` es `undefined`.
 **Esqueleto: la página anda pero la API da 404.** Levantaste `php -S` sin el
 `router.php`, y los pedidos a `/api/...` buscan un archivo que no existe.
 
+### Micro-misión S03-N01-P1 · La respuesta atada a la pata
+
+```meta
+lugar: El palomar del Puerto
+personajes: Nilo, Gheco
+carta: La API para fetch | la página pide con fetch('/api/barcos') · PHP contesta JSON con su encabezado · la paloma lleva solo datos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El tercer camino desde la Encrucijada baja hasta el palomar. Cientos de palomas llevan una pregunta corta a la torre y vuelven con la respuesta atada a la pata. Nilo, que se pasó el viaje corriendo con cartas, mira a las palomas con una mezcla de admiración y celos.
+
+#### Gheco sugiere
+Del lado de PHP, `fetch` necesita JSON. Una función `responder()` que devuelva el código y el cuerpo con `json_encode`, incluso cuando no hay datos (una lista vacía).
+
+#### Desafío
+Completá la respuesta de la API para las dos preguntas.
+
+#### Código inicial
+```php
+<?php
+$barcos = ['Forjas' => ['Gaviota', 'Tortuga'], 'Valle' => []];
+
+function responder(array $barcos, string $destino): string
+{
+    return implode(', ', $barcos[$destino]);
+}
+
+echo responder($barcos, 'Forjas') . "\n";
+echo responder($barcos, 'Valle') . "\n";
+```
+
+#### Salida esperada
+```
+200 {"destino":"Forjas","barcos":["Gaviota","Tortuga"]}
+200 {"destino":"Valle","barcos":[]}
+```
+
+#### Solución
+```php
+<?php
+$barcos = ['Forjas' => ['Gaviota', 'Tortuga'], 'Valle' => []];
+
+function responder(array $barcos, string $destino): string
+{
+    return "200 " . json_encode(['destino' => $destino, 'barcos' => $barcos[$destino] ?? []]);
+}
+
+echo responder($barcos, 'Forjas') . "\n";
+echo responder($barcos, 'Valle') . "\n";
+```
+
+#### Al superarla
+Las palomas vuelven con respuestas que la página entiende, aunque la lista venga vacía. Nilo le da una miga a cada una.
+
+#### Imagen
+- Un palomar de piedra junto al mar, de noche, con cientos de palomas mensajeras entrando y saliendo por las ventanitas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le ata un papelito a la pata de una paloma.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el techo del palomar.
+
+### Micro-misión S03-N01-P2 · textContent, no innerHTML
+
+```meta
+lugar: El palomar del Puerto
+personajes: Nilo, Pico, Gheco
+criatura: troll
+carta: Mostrar sin XSS | en JS, elemento.textContent = dato (nunca innerHTML con datos del servidor) · en PHP, json_encode ya escapa bien para JSON
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una paloma trajo un nombre de barco con un truco: `<img onerror=…>`. El tablero de la ventana lo metió como HTML y se ejecutó. Un **troll** venía escondido en la paloma… o era Pico disfrazado.
+
+#### Gheco sugiere
+En el navegador, el dato va con `textContent`. Acá practicamos la misma idea en PHP: al armar HTML, el dato pasa por `htmlspecialchars`; al mandar JSON, por `json_encode`.
+
+#### Desafío
+Mostrá el nombre tramposo sin que se ejecute, en HTML y en JSON.
+
+#### Código inicial
+```php
+<?php
+$nombre = '<img src=x onerror="robar()">';
+echo "<li>$nombre</li>\n";
+echo '{"barco":"' . $nombre . '"}' . "\n";
+```
+
+#### Salida esperada
+```
+<li>&lt;img src=x onerror=&quot;robar()&quot;&gt;</li>
+{"barco":"<img src=x onerror=\"robar()\">"}
+```
+
+#### Solución
+```php
+<?php
+$nombre = '<img src=x onerror="robar()">';
+echo "<li>" . htmlspecialchars($nombre) . "</li>\n";
+echo json_encode(['barco' => $nombre]) . "\n";
+```
+
+#### Al superarla
+El truco aparece como texto, desarmado. La paloma tramposa se saca el disfraz: era Pico. Nilo lo perdona, como siempre.
+
+#### Imagen
+- La ventana del palomar con un tablero de madera donde se ven las respuestas de las palomas, y una paloma rara con plumas pegadas.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) disfrazado de paloma, con plumas grises pegadas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) le saca una pluma, riéndose.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el tablero.
+
+### Micro-misión S03-N01-P3 · El router del servidor chico
+
+```meta
+lugar: El palomar del Puerto
+personajes: Nilo, Gheco
+carta: router.php | con php -S, un router decide: si la dirección empieza con /api, contesta la API · si es un archivo que existe, return false (lo sirve tal cual) · si no, la página
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para probar la página y la API juntas en la compu, Nilo levanta el servidor chico de PHP. Pero todas las direcciones le devuelven la página, incluso `/api/barcos`.
+
+#### Gheco sugiere
+Una función que, según la dirección, decida: `/api/…` → API; un archivo estático conocido → servir el archivo; cualquier otra → la página.
+
+#### Desafío
+Completá la decisión del router.
+
+#### Código inicial
+```php
+<?php
+function decidir(string $ruta, array $archivos): string
+{
+    return 'pagina';
+}
+
+$archivos = ['/app.js', '/estilos.css'];
+foreach (['/', '/api/barcos', '/app.js', '/horarios'] as $r) {
+    echo "$r -> " . decidir($r, $archivos) . "\n";
+}
+```
+
+#### Salida esperada
+```
+/ -> pagina
+/api/barcos -> api
+/app.js -> archivo
+/horarios -> pagina
+```
+
+#### Solución
+```php
+<?php
+function decidir(string $ruta, array $archivos): string
+{
+    if (str_starts_with($ruta, '/api/')) {
+        return 'api';
+    }
+    if (in_array($ruta, $archivos, true)) {
+        return 'archivo';
+    }
+    return 'pagina';
+}
+
+$archivos = ['/app.js', '/estilos.css'];
+foreach (['/', '/api/barcos', '/app.js', '/horarios'] as $r) {
+    echo "$r -> " . decidir($r, $archivos) . "\n";
+}
+```
+
+#### Al superarla
+Cada pedido llega a donde tiene que llegar. La página, la API y los archivos conviven en el servidor chico.
+
+#### Imagen
+- Tres caminos de palomas que salen del palomar en distintas direcciones: hacia la torre, hacia un estante con frascos y hacia una ventana.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) dirige las palomas con una bandera.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la bandera.
+
 ### Misión S03-N01-M1 · El buscador de barcos
 
 ```meta
@@ -1501,6 +1679,194 @@ dirección.
 
 **Esqueleto: el mensaje de error que no aparece.** El `data-campo` del HTML no coincide
 con la clave de `campos` que manda la API (`nombre` ≠ `Nombre`).
+
+### Micro-misión S03-N02-P1 · El error al lado del campo
+
+```meta
+lugar: La ventana del palomar
+personajes: Nilo, Iara, Gheco
+carta: 422 para la página | {"errores": {"campo": "motivo"}} · la página pone cada mensaje al lado de su campo · los demás errores, en un aviso general
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La página de pedidos mostraba «Error» arriba de todo, y el cliente no sabía qué campo corregir. Iara quiere el error al lado del campo, como en sus formularios de papel.
+
+#### Gheco sugiere
+La API contesta 422 con `errores` por campo. Acá armamos el HTML del formulario con cada error al lado de su campo, como lo haría la página.
+
+#### Desafío
+Dibujá el formulario con el error al lado de cada campo.
+
+#### Código inicial
+```php
+<?php
+$respuesta = json_decode('{"errores":{"kilos":"tiene que ser mayor que 0"}}', true);
+foreach (['destino', 'kilos'] as $campo) {
+    echo "<label>$campo <input name=\"$campo\"></label>\n";
+}
+echo "<p>Error</p>\n";
+```
+
+#### Salida esperada
+```
+<label>destino <input name="destino"></label>
+<label>kilos <input name="kilos"> <small>tiene que ser mayor que 0</small></label>
+```
+
+#### Solución
+```php
+<?php
+$respuesta = json_decode('{"errores":{"kilos":"tiene que ser mayor que 0"}}', true);
+foreach (['destino', 'kilos'] as $campo) {
+    $error = $respuesta['errores'][$campo] ?? null;
+    echo "<label>$campo <input name=\"$campo\">" . ($error ? " <small>" . htmlspecialchars($error) . "</small>" : "") . "</label>\n";
+}
+```
+
+#### Al superarla
+El error aparece justo donde hay que corregir. Iara aprueba con un tilde en la libreta.
+
+#### Imagen
+- Un formulario de papel en la ventana del palomar con una notita pegada al lado de un casillero.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) pega la notita.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el formulario.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la notita.
+
+### Micro-misión S03-N02-P2 · 401: primero, entrar
+
+```meta
+lugar: La ventana del palomar
+personajes: Nilo, Gheco
+carta: 401 y 403 | 401: no sabemos quién sos (que entre) · 403: sabemos quién sos y no podés · la página reacciona distinto a cada uno
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+No cualquiera puede escribir en los libros del Puerto. Pero la API de Nilo contesta igual a quien no entró y a quien entró sin permiso, y la página no sabe si mandar al login o mostrar «no podés».
+
+#### Gheco sugiere
+Sin usuario en la sesión: 401. Con usuario pero sin el rol que hace falta: 403. Con todo bien: 200.
+
+#### Desafío
+Devolvé el código correcto en cada caso.
+
+#### Código inicial
+```php
+<?php
+function borrarEnvio(array $sesion): string
+{
+    return isset($sesion['usuario']) && $sesion['rol'] === 'admin' ? "200 Borrado" : "403 No podes";
+}
+
+echo borrarEnvio([]) . "\n";
+echo borrarEnvio(['usuario' => 'nilo', 'rol' => 'mensajero']) . "\n";
+echo borrarEnvio(['usuario' => 'elefa', 'rol' => 'admin']) . "\n";
+```
+
+#### Salida esperada
+```
+401 Primero hay que entrar
+403 No podes
+200 Borrado
+```
+
+#### Solución
+```php
+<?php
+function borrarEnvio(array $sesion): string
+{
+    if (!isset($sesion['usuario'])) {
+        return "401 Primero hay que entrar";
+    }
+    if (($sesion['rol'] ?? '') !== 'admin') {
+        return "403 No podes";
+    }
+    return "200 Borrado";
+}
+
+echo borrarEnvio([]) . "\n";
+echo borrarEnvio(['usuario' => 'nilo', 'rol' => 'mensajero']) . "\n";
+echo borrarEnvio(['usuario' => 'elefa', 'rol' => 'admin']) . "\n";
+```
+
+#### Al superarla
+El visitante va al login; Nilo ve «no podés»; Elefa borra. Cada uno recibe lo suyo.
+
+#### Imagen
+- Tres palomas en la ventana del palomar, cada una con un sobre de distinto color en la pata.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lee un sobre con cara de decepción.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la ventana.
+
+### Micro-misión S03-N02-P3 · Estado y dibujo
+
+```meta
+lugar: La ventana del palomar
+personajes: Nilo, Gheco
+carta: Estado + dibujar | todo lo que muestra la página sale de un estado · cada cambio actualiza el estado y se vuelve a dibujar · nunca se toca la pantalla a mano
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La página de Nilo agregaba y sacaba cosas de la pantalla a mano, y después de tres pedidos ya no coincidía con lo que había en la torre. Gheco le propone una regla: la pantalla siempre se **dibuja** a partir de un **estado**.
+
+#### Gheco sugiere
+Una función `dibujar(array $estado): string` arma todo a partir del estado. Agregar un pedido es cambiar el estado y dibujar de nuevo.
+
+#### Desafío
+Escribí `dibujar` y usala después de cada cambio.
+
+#### Código inicial
+```php
+<?php
+$estado = ['pedidos' => ['telas'], 'cargando' => false];
+
+function dibujar(array $estado): string
+{
+    return '';
+}
+
+echo dibujar($estado) . "\n";
+$estado['pedidos'][] = 'sal';
+echo dibujar($estado) . "\n";
+$estado['cargando'] = true;
+echo dibujar($estado) . "\n";
+```
+
+#### Salida esperada
+```
+[1 pedidos: telas]
+[2 pedidos: telas, sal]
+[esperando a la paloma...]
+```
+
+#### Solución
+```php
+<?php
+$estado = ['pedidos' => ['telas'], 'cargando' => false];
+
+function dibujar(array $estado): string
+{
+    if ($estado['cargando']) {
+        return "[esperando a la paloma...]";
+    }
+    return "[" . count($estado['pedidos']) . " pedidos: " . implode(', ', $estado['pedidos']) . "]";
+}
+
+echo dibujar($estado) . "\n";
+$estado['pedidos'][] = 'sal';
+echo dibujar($estado) . "\n";
+$estado['cargando'] = true;
+echo dibujar($estado) . "\n";
+```
+
+#### Al superarla
+La pantalla siempre dice la verdad, porque sale del estado. Nilo deja de pelearse con el tablero.
+
+#### Imagen
+- Un tablero de madera en la ventana del palomar que se redibuja solo con tiza mágica cian.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira el tablero redibujarse.
+- Gheco (gecko de luz cian con antiparras, chiquito) con una tiza en la mano.
 
 ### Misión S03-N02-M1 · El alta de barcos
 
@@ -2754,6 +3120,210 @@ SELECT COUNT(*) FROM mensaje WHERE autor = ? AND creado > NOW() - INTERVAL 10 SE
 #### Fechas entre el navegador y PHP
 Un `<input type="date">` da y recibe la fecha como `2026-10-03`, el mismo formato de
 MariaDB: viaja así en el JSON y solo se convierte a `03/10/2026` para mostrarla.
+
+### Micro-misión S03-N03-P1 · Cien pedidos por segundo
+
+```meta
+lugar: El palomar del Puerto
+personajes: Nilo, Gheco
+criatura: dragon
+carta: 429 | contar los pedidos de cada uno en una ventana de tiempo · si se pasa del límite, 429 Demasiados pedidos · la torre sabe decir «esperá»
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una tarde el mar se levanta frente al palomar y salta la **Orca de los Mensajes**: manda cien pedidos por segundo para tapar la torre. Las demás palomas no pueden pasar.
+
+#### Gheco sugiere
+Contá los pedidos de cada uno por segundo en `$contador["$quien@$segundo"]`. Si pasa de 3, contestá 429.
+
+#### Desafío
+Limitá a 3 pedidos por segundo por remitente.
+
+#### Código inicial
+```php
+<?php
+$pedidos = [['orca', 1], ['orca', 1], ['orca', 1], ['orca', 1], ['orca', 1], ['nilo', 1], ['orca', 2]];
+$contador = [];
+foreach ($pedidos as [$quien, $segundo]) {
+    echo "$quien: 200\n";
+}
+```
+
+#### Salida esperada
+```
+orca: 200
+orca: 200
+orca: 200
+orca: 429 Esperá
+orca: 429 Esperá
+nilo: 200
+orca: 200
+```
+
+#### Solución
+```php
+<?php
+$pedidos = [['orca', 1], ['orca', 1], ['orca', 1], ['orca', 1], ['orca', 1], ['nilo', 1], ['orca', 2]];
+$contador = [];
+foreach ($pedidos as [$quien, $segundo]) {
+    $clave = "$quien@$segundo";
+    $contador[$clave] = ($contador[$clave] ?? 0) + 1;
+    echo $contador[$clave] > 3 ? "$quien: 429 Esperá\n" : "$quien: 200\n";
+}
+```
+
+#### Al superarla
+La Orca recibe «esperá» y las palomas de Nilo pasan. La Orca se zambulle, ofendida, y vuelve a intentar al segundo siguiente.
+
+#### Imagen
+- Una orca gigante saltando del mar frente al palomar con la boca llena de sobres.
+- la Orca de los Mensajes (orca gigante negra y blanca con vetas violetas que brillan, con la boca llena de sobres) en pleno salto.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) en la ventana del palomar, con un cartel liso con una mano levantada.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el cartel.
+
+### Micro-misión S03-N03-P2 · Dos personas, el mismo botón
+
+```meta
+lugar: El palomar del Puerto
+personajes: Nilo, Fermín, Gheco
+criatura: dragon
+carta: UNIQUE manda | si dos aprietan a la vez, la base decide · el segundo INSERT falla por UNIQUE · se convierte en un 409 claro
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La Orca confunde las respuestas: dos personas reservan el último lugar del ferry al mismo tiempo, y las dos reciben «confirmado». Fermín, de visita, sacude la cabeza: —Eso lo tiene que frenar la bodega.
+
+#### Gheco sugiere
+Con `UNIQUE (viaje, asiento)`, el segundo `INSERT` falla. Atrapá la `PDOException` y contestá 409 «ese lugar ya se reservó».
+
+#### Desafío
+Dejá que la base garantice la regla y convertí su error en un mensaje claro.
+
+#### Código inicial
+```php
+<?php
+$db = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+$db->exec('CREATE TABLE reserva (viaje INTEGER, asiento INTEGER, persona TEXT)');
+$reservar = $db->prepare('INSERT INTO reserva VALUES (?, ?, ?)');
+
+foreach ([[1, 40, 'Olmo'], [1, 40, 'Lia']] as $r) {
+    $reservar->execute($r);
+    echo "201 Confirmado para {$r[2]}\n";
+}
+```
+
+#### Salida esperada
+```
+201 Confirmado para Olmo
+409 Ese lugar ya se reservo (Lia)
+```
+
+#### Solución
+```php
+<?php
+$db = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+$db->exec('CREATE TABLE reserva (viaje INTEGER, asiento INTEGER, persona TEXT, UNIQUE (viaje, asiento))');
+$reservar = $db->prepare('INSERT INTO reserva VALUES (?, ?, ?)');
+
+foreach ([[1, 40, 'Olmo'], [1, 40, 'Lia']] as $r) {
+    try {
+        $reservar->execute($r);
+        echo "201 Confirmado para {$r[2]}\n";
+    } catch (PDOException $e) {
+        echo "409 Ese lugar ya se reservo ({$r[2]})\n";
+    }
+}
+```
+
+#### Al superarla
+Un solo lugar, una sola reserva. Lía recibe un mensaje claro y elige otro asiento. La Orca pierde una veta violeta.
+
+#### Imagen
+- El último asiento de un ferry con dos manos tocando el mismo sello de reserva al mismo tiempo.
+- Fermín (anciano bajo y encorvado, barba blanca larga, anteojos redondos de bronce, guardapolvo gris, gorro de lana, farol cian) cruza los brazos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el sello.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el asiento.
+
+### Micro-misión S03-N03-P3 · Sin pedidos superpuestos
+
+```meta
+lugar: El palomar del Puerto
+personajes: Nilo, Iara, Gheco
+criatura: dragon
+carta: Polling prolijo | se pregunta cada tanto si hay novedades · si un pedido no volvió, no se manda otro · se pide solo lo nuevo (desde el último id)
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+La página de novedades pregunta cada segundo, aunque la paloma anterior no haya vuelto. Las palomas se chocan en el aire y la Orca se las traga de a montones. Iara propone una regla: no se manda una paloma nueva si la anterior sigue en camino, y se pide solo lo nuevo.
+
+#### Gheco sugiere
+Guardá el último id recibido y si hay un pedido en camino. En cada tic: si está en camino, se saltea; si no, se pide lo que tenga id mayor al último.
+
+#### Desafío
+Completá el polling sin pedidos superpuestos.
+
+#### Código inicial
+```php
+<?php
+$novedades = [1 => 'llego el ferry', 2 => 'salio la Gaviota', 3 => 'tormenta al norte'];
+$tics = [['tic', 2], ['tic', 2], ['vuelve', 0], ['tic', 3], ['vuelve', 0]];
+$ultimo = 0;
+$enCamino = false;
+foreach ($tics as [$evento, $hasta]) {
+    echo "Pido todo\n";
+}
+```
+
+#### Salida esperada
+```
+Tic: pido desde el 0
+Tic: hay una paloma en camino, espero
+Nuevo: llego el ferry
+Nuevo: salio la Gaviota
+Tic: pido desde el 2
+Nuevo: tormenta al norte
+```
+
+#### Solución
+```php
+<?php
+$novedades = [1 => 'llego el ferry', 2 => 'salio la Gaviota', 3 => 'tormenta al norte'];
+$tics = [['tic', 2], ['tic', 2], ['vuelve', 0], ['tic', 3], ['vuelve', 0]];
+$ultimo = 0;
+$enCamino = false;
+$pedidoHasta = 0;
+foreach ($tics as [$evento, $hasta]) {
+    if ($evento === 'tic') {
+        if ($enCamino) {
+            echo "Tic: hay una paloma en camino, espero\n";
+            continue;
+        }
+        $enCamino = true;
+        $pedidoHasta = $hasta;
+        echo "Tic: pido desde el $ultimo\n";
+    } else {
+        foreach ($novedades as $id => $texto) {
+            if ($id > $ultimo && $id <= $pedidoHasta) {
+                echo "Nuevo: $texto\n";
+                $ultimo = $id;
+            }
+        }
+        $enCamino = false;
+    }
+}
+```
+
+#### Al superarla
+Las palomas ya no se chocan, y cada una trae solo lo nuevo. La Orca, sin nada que tragar, se va mar adentro. El palomar queda en paz.
+
+#### Imagen
+- El palomar al atardecer con palomas saliendo de a una, ordenadas, y una orca alejándose en el horizonte.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) anota en la libreta cada paloma que sale.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) suelta una paloma.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el techo.
 
 ### Misión S03-N03-M1 · El tablero de los muelles
 

@@ -303,6 +303,277 @@ devuelve `null`: revisalo antes de usarlo (o lanzá una excepción con nombre).
 **Goblin: la barra con división por cero.** Si la vida máxima fuera 0, la barra
 dividiría por cero: valídalo en el constructor.
 
+### Micro-misión S01-N01-P1 · Anotarse en la pizarra
+
+```meta
+lugar: La Arena del Puerto
+personajes: Nilo, Gheco
+carta: El modelo | abstract class Personaje con vida y fuerza privadas · recibirDanio() nunca baja de 0 · vivo() pregunta, no se adivina
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El primer camino desde la Encrucijada termina en la **Arena del Puerto**: un círculo de arena rodeado de gradas. En la puerta, un maestro de armas anota a cada luchador. Nilo se anota como «Nilo, el que no se olvida». Iara, atrás, tose.
+
+#### Gheco sugiere
+La vida es privada y solo cambia con `recibirDanio()`, que nunca la deja negativa: `max(0, $this->vida - $danio)`.
+
+#### Desafío
+Completá el personaje para que la vida no baje de 0.
+
+#### Código inicial
+```php
+<?php
+abstract class Personaje
+{
+    public function __construct(public readonly string $nombre, private int $vida)
+    {
+    }
+
+    public function recibirDanio(int $danio): void
+    {
+        $this->vida -= $danio;
+    }
+
+    public function vida(): int
+    {
+        return $this->vida;
+    }
+}
+
+final class Heroe extends Personaje
+{
+}
+
+$nilo = new Heroe('Nilo', 30);
+$nilo->recibirDanio(12);
+$nilo->recibirDanio(40);
+echo "{$nilo->nombre}: {$nilo->vida()} de vida, " . ($nilo->vida() > 0 ? 'en pie' : 'fuera de combate') . "\n";
+```
+
+#### Salida esperada
+```
+Nilo: 0 de vida, fuera de combate
+```
+
+#### Solución
+```php
+<?php
+abstract class Personaje
+{
+    public function __construct(public readonly string $nombre, private int $vida)
+    {
+    }
+
+    public function recibirDanio(int $danio): void
+    {
+        $this->vida = max(0, $this->vida - $danio);
+    }
+
+    public function vida(): int
+    {
+        return $this->vida;
+    }
+
+    public function vivo(): bool
+    {
+        return $this->vida > 0;
+    }
+}
+
+final class Heroe extends Personaje
+{
+}
+
+$nilo = new Heroe('Nilo', 30);
+$nilo->recibirDanio(12);
+$nilo->recibirDanio(40);
+echo "{$nilo->nombre}: {$nilo->vida()} de vida, " . ($nilo->vivo() ? 'en pie' : 'fuera de combate') . "\n";
+```
+
+#### Al superarla
+Cero de vida, no menos. Nilo, fuera de combate antes de empezar, se ríe: es solo el modelo.
+
+#### Imagen
+- La entrada de una arena circular de arena con gradas, de noche, con antorchas y una pizarra grande en la puerta con dibujitos de luchadores.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) anotándose en la pizarra con tiza.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la pizarra.
+
+### Micro-misión S01-N01-P2 · Los enemigos del enum
+
+```meta
+lugar: La Arena del Puerto
+personajes: Nilo, Gheco
+carta: Enum con datos | enum Enemigo: string { case Goblin = 'goblin'; … public function vida(): int { return match ($this) { … }; } }
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El maestro de armas trae criaturas de todo el mundo, y cada tipo tiene su vida y su fuerza. Nilo las escribió sueltas en tres arrays distintos, y al goblin le puso la vida del dragón.
+
+#### Gheco sugiere
+Un enum con un método `vida()` y otro `fuerza()`, cada uno con un `match`. Todo lo de cada tipo, en un solo lugar.
+
+#### Desafío
+Completá los métodos del enum.
+
+#### Código inicial
+```php
+<?php
+enum Enemigo: string
+{
+    case Goblin = 'goblin';
+    case Orco = 'orco';
+    case Dragon = 'dragon';
+
+    public function vida(): int
+    {
+        return 0;
+    }
+
+    public function fuerza(): int
+    {
+        return 0;
+    }
+}
+
+foreach (Enemigo::cases() as $e) {
+    echo "{$e->value}: vida {$e->vida()}, fuerza {$e->fuerza()}\n";
+}
+```
+
+#### Salida esperada
+```
+goblin: vida 12, fuerza 3
+orco: vida 25, fuerza 6
+dragon: vida 90, fuerza 14
+```
+
+#### Solución
+```php
+<?php
+enum Enemigo: string
+{
+    case Goblin = 'goblin';
+    case Orco = 'orco';
+    case Dragon = 'dragon';
+
+    public function vida(): int
+    {
+        return match ($this) {
+            Enemigo::Goblin => 12,
+            Enemigo::Orco => 25,
+            Enemigo::Dragon => 90,
+        };
+    }
+
+    public function fuerza(): int
+    {
+        return match ($this) {
+            Enemigo::Goblin => 3,
+            Enemigo::Orco => 6,
+            Enemigo::Dragon => 14,
+        };
+    }
+}
+
+foreach (Enemigo::cases() as $e) {
+    echo "{$e->value}: vida {$e->vida()}, fuerza {$e->fuerza()}\n";
+}
+```
+
+#### Al superarla
+Cada criatura con lo suyo. El goblin ya no tiene la vida del dragón, para alivio de todos.
+
+#### Imagen
+- Tres jaulas abiertas en el borde de la arena: una con un goblin, otra con un orco y otra, enorme, con la sombra de un dragón.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira la jaula grande desde lejos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la jaula del goblin.
+
+### Micro-misión S01-N01-P3 · Dados trucados
+
+```meta
+lugar: La Arena del Puerto
+personajes: Nilo, Gheco
+carta: Aislar el azar | interface Dados { public function tirar(int $caras): int; } · DadosFijos para probar · DadosConSemilla para jugar siempre igual
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para probar el juego, Nilo necesita que los dados caigan siempre igual. Con `rand()` cada partida es distinta y no hay forma de saber si el combate anda bien.
+
+#### Gheco sugiere
+Una interfaz `Dados` y una clase `DadosFijos` que devuelve, en orden, los valores que le pasaste. El juego no sabe si son de verdad o trucados.
+
+#### Desafío
+Escribí `DadosFijos` y usala para tirar tres veces.
+
+#### Código inicial
+```php
+<?php
+interface Dados
+{
+    public function tirar(int $caras): int;
+}
+
+final class DadosFijos implements Dados
+{
+    public function __construct(private array $valores)
+    {
+    }
+
+    public function tirar(int $caras): int
+    {
+        return 1;
+    }
+}
+
+$d = new DadosFijos([6, 2, 5]);
+echo "Tiradas: " . $d->tirar(6) . ", " . $d->tirar(6) . ", " . $d->tirar(6) . "\n";
+```
+
+#### Salida esperada
+```
+Tiradas: 6, 2, 5
+```
+
+#### Solución
+```php
+<?php
+interface Dados
+{
+    public function tirar(int $caras): int;
+}
+
+final class DadosFijos implements Dados
+{
+    private int $siguiente = 0;
+
+    public function __construct(private array $valores)
+    {
+    }
+
+    public function tirar(int $caras): int
+    {
+        $valor = $this->valores[$this->siguiente % count($this->valores)];
+        $this->siguiente++;
+        return min($valor, $caras);
+    }
+}
+
+$d = new DadosFijos([6, 2, 5]);
+echo "Tiradas: " . $d->tirar(6) . ", " . $d->tirar(6) . ", " . $d->tirar(6) . "\n";
+```
+
+#### Al superarla
+Seis, dos, cinco. Siempre. Ahora el combate se puede probar, y Pico, que apuesta en las gradas, se queda sin negocio.
+
+#### Imagen
+- Tres dados de hueso grandes sobre una mesa de madera en la arena, mostrando puntitos.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) tira los dados.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) en las gradas, mirando con interés.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre un dado.
+
 ### Misión S01-N01-M1 · Los luchadores de la Arena
 
 ```meta
@@ -1097,6 +1368,233 @@ instancia.
 **Esqueleto: el muerto que ataca.** Si un enemigo muere en el turno del héroe y después
 igual ataca, falta revisar `estaVivo()` antes de su turno.
 
+### Micro-misión S01-N02-P1 · El reloj de arena
+
+```meta
+lugar: El reloj de arena gigante
+personajes: Nilo, Gheco
+carta: Bucle de turnos | while (los dos vivos) { ataca uno; si el otro sigue vivo, ataca el otro; } · termina cuando cae alguno
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En el centro de la Arena hay un reloj de arena gigante: cada vez que cae, le toca a otro luchador. Pico se instala en las gradas y le roba los maníes a todo el mundo. El combate de Nilo no termina nunca: el bucle no pregunta si alguien cayó.
+
+#### Gheco sugiere
+El bucle sigue mientras **los dos** estén vivos. Después de cada golpe, si el atacado cayó, se sale.
+
+#### Desafío
+Completá el bucle de turnos.
+
+#### Código inicial
+```php
+<?php
+$heroe = ['nombre' => 'Nilo', 'vida' => 20, 'fuerza' => 7];
+$goblin = ['nombre' => 'goblin', 'vida' => 12, 'fuerza' => 4];
+$turno = 1;
+echo "Gano: ?\n";
+```
+
+#### Salida esperada
+```
+Turno 1: Nilo pega 7, al goblin le quedan 5
+Turno 1: el goblin pega 4, a Nilo le quedan 16
+Turno 2: Nilo pega 7, al goblin le quedan 0
+Gano: Nilo
+```
+
+#### Solución
+```php
+<?php
+$heroe = ['nombre' => 'Nilo', 'vida' => 20, 'fuerza' => 7];
+$goblin = ['nombre' => 'goblin', 'vida' => 12, 'fuerza' => 4];
+$turno = 1;
+while ($heroe['vida'] > 0 && $goblin['vida'] > 0) {
+    $goblin['vida'] = max(0, $goblin['vida'] - $heroe['fuerza']);
+    echo "Turno $turno: Nilo pega {$heroe['fuerza']}, al goblin le quedan {$goblin['vida']}\n";
+    if ($goblin['vida'] === 0) {
+        break;
+    }
+    $heroe['vida'] = max(0, $heroe['vida'] - $goblin['fuerza']);
+    echo "Turno $turno: el goblin pega {$goblin['fuerza']}, a Nilo le quedan {$heroe['vida']}\n";
+    $turno++;
+}
+echo "Gano: " . ($heroe['vida'] > 0 ? $heroe['nombre'] : $goblin['nombre']) . "\n";
+```
+
+#### Al superarla
+Dos turnos y el goblin cae. El reloj de arena se da vuelta solo, aliviado.
+
+#### Imagen
+- Un reloj de arena gigante de bronce en el centro de la arena, con la arena cayendo y antorchas alrededor.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con una espada de madera frente a un goblin.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) en las gradas con un maní en el pico.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el reloj.
+
+### Micro-misión S01-N02-P2 · Cada enemigo piensa distinto
+
+```meta
+lugar: El reloj de arena gigante
+personajes: Nilo, Gheco
+carta: Estrategia | interface Estrategia { public function elegir(array $rivales): string; } · cada enemigo con la suya · agregar uno es una clase, no tocar el motor
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Los goblins pelean a lo loco, los orcos siempre van contra el más débil. El motor de Nilo tenía un `if` por cada criatura, y cuando llegó el troll nadie supo dónde agregarlo.
+
+#### Gheco sugiere
+Cada forma de pensar es una clase que implementa `Estrategia`. `ContraElMasDebil` elige al de menos vida; `AlPrimero` elige el primero.
+
+#### Desafío
+Escribí las dos estrategias.
+
+#### Código inicial
+```php
+<?php
+interface Estrategia
+{
+    /** @param array<string, int> $rivales nombre => vida */
+    public function elegir(array $rivales): string;
+}
+
+$rivales = ['Nilo' => 20, 'Iara' => 8, 'Fermin' => 14];
+echo "El orco ataca a: ?\n";
+echo "El goblin ataca a: ?\n";
+```
+
+#### Salida esperada
+```
+El orco ataca a: Iara
+El goblin ataca a: Nilo
+```
+
+#### Solución
+```php
+<?php
+interface Estrategia
+{
+    /** @param array<string, int> $rivales nombre => vida */
+    public function elegir(array $rivales): string;
+}
+
+final class ContraElMasDebil implements Estrategia
+{
+    public function elegir(array $rivales): string
+    {
+        return array_search(min($rivales), $rivales, true);
+    }
+}
+
+final class AlPrimero implements Estrategia
+{
+    public function elegir(array $rivales): string
+    {
+        return array_key_first($rivales);
+    }
+}
+
+$rivales = ['Nilo' => 20, 'Iara' => 8, 'Fermin' => 14];
+echo "El orco ataca a: " . (new ContraElMasDebil())->elegir($rivales) . "\n";
+echo "El goblin ataca a: " . (new AlPrimero())->elegir($rivales) . "\n";
+```
+
+#### Al superarla
+El orco va contra Iara, que levanta la libreta como escudo. El goblin, contra Nilo, que estaba primero. El motor no se enteró de nada.
+
+#### Imagen
+- La arena con un orco que apunta hacia una chica con una libreta y un goblin que corre hacia un muchacho con gorra.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) levanta la libreta como escudo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) esquiva al goblin.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el reloj de arena.
+
+### Micro-misión S01-N02-P3 · La bitácora del juez
+
+```meta
+lugar: El reloj de arena gigante
+personajes: Nilo, Gheco
+carta: Bitácora | cada golpe se anota en un array · al final se resume · el resultado es un enum: Victoria, Derrota, Empate
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un juez anota cada golpe en un pergamino que después se lee en voz alta para todo el público. El motor de Nilo mostraba los golpes mientras pasaban y al final no sabía decir quién había ganado.
+
+#### Gheco sugiere
+Guardá cada golpe en `$bitacora[]`, y devolvé el resultado como un caso del enum `Resultado`. El resumen sale de contar la bitácora.
+
+#### Desafío
+Completá el resumen del combate.
+
+#### Código inicial
+```php
+<?php
+enum Resultado: string
+{
+    case Victoria = 'victoria';
+    case Derrota = 'derrota';
+}
+
+function combatir(int $vidaHeroe, int $vidaRival, array $golpes): array
+{
+    return [Resultado::Victoria, []];
+}
+
+[$resultado, $bitacora] = combatir(10, 9, [['heroe', 4], ['rival', 3], ['heroe', 5]]);
+echo "Golpes: " . count($bitacora) . "\n";
+echo "Resultado: {$resultado->value}\n";
+```
+
+#### Salida esperada
+```
+heroe pega 4
+rival pega 3
+heroe pega 5
+Golpes: 3
+Resultado: victoria
+```
+
+#### Solución
+```php
+<?php
+enum Resultado: string
+{
+    case Victoria = 'victoria';
+    case Derrota = 'derrota';
+}
+
+function combatir(int $vidaHeroe, int $vidaRival, array $golpes): array
+{
+    $bitacora = [];
+    foreach ($golpes as [$quien, $danio]) {
+        if ($quien === 'heroe') {
+            $vidaRival = max(0, $vidaRival - $danio);
+        } else {
+            $vidaHeroe = max(0, $vidaHeroe - $danio);
+        }
+        $bitacora[] = "$quien pega $danio";
+        if ($vidaHeroe === 0 || $vidaRival === 0) {
+            break;
+        }
+    }
+    return [$vidaRival === 0 ? Resultado::Victoria : Resultado::Derrota, $bitacora];
+}
+
+[$resultado, $bitacora] = combatir(10, 9, [['heroe', 4], ['rival', 3], ['heroe', 5]]);
+echo implode("\n", $bitacora) . "\n";
+echo "Golpes: " . count($bitacora) . "\n";
+echo "Resultado: {$resultado->value}\n";
+```
+
+#### Al superarla
+El juez lee la bitácora en voz alta y el público aplaude en el momento justo. Pico aprovecha el aplauso para robar más maníes.
+
+#### Imagen
+- Un juez con un pergamino largo leyendo en voz alta frente a las gradas llenas de la arena.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) saluda al público.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) robando maníes en las gradas.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el pergamino.
+
 ### Misión S01-N02-M1 · La estrategia del chamán
 
 ```meta
@@ -1888,6 +2386,224 @@ cargar un archivo modificado puede crear objetos inesperados. `JsonSerializable`
 **Esqueleto: las columnas del ranking.** `SELECT jugador, puntos … GROUP BY jugador`
 da un puntaje cualquiera del grupo: pedí `MAX(puntos)`.
 
+### Micro-misión S01-N03-P1 · Las puertas que se abren
+
+```meta
+lugar: El tablero de honor
+personajes: Nilo, Gheco
+carta: Oleadas con yield | function oleadas() { for (…) yield $n => [...]; } · cada oleada más difícil que la anterior · se generan a medida que hacen falta
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Las puertas de la Arena se abren una y otra vez, y cada vez salen más criaturas. Nilo armó las cien oleadas de una vez al empezar, y el juego tarda un minuto en arrancar.
+
+#### Gheco sugiere
+Un generador que da la oleada `n` con `n` goblins y, cada tres, un orco más. Se piden solo las que se juegan.
+
+#### Desafío
+Escribí el generador de oleadas.
+
+#### Código inicial
+```php
+<?php
+function oleadas(int $hasta): array
+{
+    return [];
+}
+
+foreach (oleadas(4) as $n => $enemigos) {
+    echo "Oleada $n: " . implode(', ', $enemigos) . "\n";
+}
+```
+
+#### Salida esperada
+```
+Oleada 1: goblin
+Oleada 2: goblin, goblin
+Oleada 3: goblin, goblin, goblin, orco
+Oleada 4: goblin, goblin, goblin, goblin, orco
+```
+
+#### Solución
+```php
+<?php
+function oleadas(int $hasta): Generator
+{
+    for ($n = 1; $n <= $hasta; $n++) {
+        $enemigos = array_fill(0, $n, 'goblin');
+        for ($o = 0; $o < intdiv($n, 3); $o++) {
+            $enemigos[] = 'orco';
+        }
+        yield $n => $enemigos;
+    }
+}
+
+foreach (oleadas(4) as $n => $enemigos) {
+    echo "Oleada $n: " . implode(', ', $enemigos) . "\n";
+}
+```
+
+#### Al superarla
+Las oleadas salen de a una, cada vez más grandes. El juego arranca al instante.
+
+#### Imagen
+- Las puertas de hierro de la arena abriéndose y un grupo de goblins saliendo en fila.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con escudo, esperándolos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la puerta.
+
+### Micro-misión S01-N03-P2 · Subir de nivel
+
+```meta
+lugar: El tablero de honor
+personajes: Nilo, Gheco
+carta: Una regla clara | cada nivel pide nivel × 100 de experiencia · se puede subir varios de golpe · se devuelve qué niveles se subieron
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Después de una oleada enorme, Nilo ganó tanta experiencia que debería subir dos niveles, pero el juego solo le sube uno y el resto se pierde.
+
+#### Gheco sugiere
+Mientras la experiencia alcance para el siguiente nivel (`nivel × 100`), se descuenta y se sube. Un `while`, no un `if`.
+
+#### Desafío
+Completá `ganarExperiencia`.
+
+#### Código inicial
+```php
+<?php
+final class Heroe
+{
+    public int $nivel = 1;
+    public int $experiencia = 0;
+
+    public function ganarExperiencia(int $puntos): array
+    {
+        $this->experiencia += $puntos;
+        $subidas = [];
+        if ($this->experiencia >= $this->nivel * 100) {
+            $this->experiencia -= $this->nivel * 100;
+            $this->nivel++;
+            $subidas[] = $this->nivel;
+        }
+        return $subidas;
+    }
+}
+
+$nilo = new Heroe();
+$subio = $nilo->ganarExperiencia(350);
+echo "Subio a: " . implode(' y ', $subio) . "\n";
+echo "Nivel {$nilo->nivel}, sobran {$nilo->experiencia}\n";
+```
+
+#### Salida esperada
+```
+Subio a: 2 y 3
+Nivel 3, sobran 50
+```
+
+#### Solución
+```php
+<?php
+final class Heroe
+{
+    public int $nivel = 1;
+    public int $experiencia = 0;
+
+    public function ganarExperiencia(int $puntos): array
+    {
+        $this->experiencia += $puntos;
+        $subidas = [];
+        while ($this->experiencia >= $this->nivel * 100) {
+            $this->experiencia -= $this->nivel * 100;
+            $this->nivel++;
+            $subidas[] = $this->nivel;
+        }
+        return $subidas;
+    }
+}
+
+$nilo = new Heroe();
+$subio = $nilo->ganarExperiencia(350);
+echo "Subio a: " . implode(' y ', $subio) . "\n";
+echo "Nivel {$nilo->nivel}, sobran {$nilo->experiencia}\n";
+```
+
+#### Al superarla
+Nivel 3, con 50 de sobra. Nilo festeja dos veces, una por cada nivel.
+
+#### Imagen
+- Una columna de luz cian que sube alrededor de un luchador en el centro de la arena, con chispas.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con los brazos arriba dentro de la columna de luz.
+- Gheco (gecko de luz cian con antiparras, chiquito) girando alrededor.
+
+### Micro-misión S01-N03-P3 · El tablero de honor
+
+```meta
+lugar: El tablero de honor
+personajes: Nilo, Fermín, Gheco
+carta: Ranking | INSERT preparado por partida · SELECT … ORDER BY oleada DESC, puntos DESC LIMIT 3 · la base guarda; la página solo muestra
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Quien cae queda grabado en el **tablero de honor** de la entrada. Fermín sube de la Bodega a llevar el tablero: dice que un puntaje que no se guarda no existió.
+
+#### Gheco sugiere
+Guardá cada partida con un `INSERT` preparado y mostrá los tres mejores ordenados por oleada y, si empatan, por puntos.
+
+#### Desafío
+Completá el guardado y el ranking.
+
+#### Código inicial
+```php
+<?php
+$db = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+$db->exec('CREATE TABLE partida (id INTEGER PRIMARY KEY, nombre TEXT, oleada INTEGER, puntos INTEGER)');
+
+$partidas = [['Nilo', 7, 420], ['Iara', 9, 380], ['Fermin', 7, 510], ['Pico', 2, 30]];
+echo "Top 3:\n";
+```
+
+#### Salida esperada
+```
+Top 3:
+1. Iara: oleada 9, 380 puntos
+2. Fermin: oleada 7, 510 puntos
+3. Nilo: oleada 7, 420 puntos
+```
+
+#### Solución
+```php
+<?php
+$db = new PDO('sqlite::memory:', null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+$db->exec('CREATE TABLE partida (id INTEGER PRIMARY KEY, nombre TEXT, oleada INTEGER, puntos INTEGER)');
+
+$partidas = [['Nilo', 7, 420], ['Iara', 9, 380], ['Fermin', 7, 510], ['Pico', 2, 30]];
+$guardar = $db->prepare('INSERT INTO partida (nombre, oleada, puntos) VALUES (?, ?, ?)');
+foreach ($partidas as $p) {
+    $guardar->execute($p);
+}
+
+echo "Top 3:\n";
+$top = $db->query('SELECT nombre, oleada, puntos FROM partida ORDER BY oleada DESC, puntos DESC LIMIT 3');
+foreach ($top as $i => $f) {
+    echo ($i + 1) . ". {$f['nombre']}: oleada {$f['oleada']}, {$f['puntos']} puntos\n";
+}
+```
+
+#### Al superarla
+Iara primera, Fermín segundo, Nilo tercero. Pico, cuarto, intenta borrar el tablero con el ala. No puede: está en la base.
+
+#### Imagen
+- Un tablero de honor de madera en la entrada de la arena con tres placas de bronce brillando, sin letras.
+- Fermín (anciano bajo y encorvado, barba blanca larga, anteojos redondos de bronce, guardapolvo gris, gorro de lana, farol cian) cuelga el tablero.
+- Iara (chica de 16, bajita, piel morena, cola baja de pelo negro con cinta turquesa, lápiz detrás de la oreja, chaleco azul petróleo con sobres, libreta atada a la muñeca) sonríe orgullosa.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) aplaude.
+- Pico (gaviota regordeta blanca y gris con una mancha violeta en un ala) frotando el tablero con el ala.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la placa de arriba.
+
 ### Misión S01-N03-M1 · Las puertas de la Arena
 
 ```meta
@@ -2484,6 +3200,229 @@ ejecuta y muestra qué pasó. Las órdenes inválidas no gastan el turno.
 Probar un juego interactivo a mano es lento: se guardan las órdenes en un archivo y
 se redirige (`php juego.php < partida.txt`), con una semilla fija para que salga
 siempre igual. Así se prueban las misiones.
+
+### Micro-misión S01-N04-P1 · Las órdenes del jugador
+
+```meta
+lugar: El palco del Campeón
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Leer órdenes | while (($orden = fgets(STDIN)) !== false) · match (trim($orden)) { 'atacar' => …, 'curar' => …, default => 'orden desconocida' }
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el palco más alto espera el **Campeón Eterno**: nadie lo venció en cien años. Para enfrentarlo hay que presentar un juego que lea las órdenes de una persona de verdad. El juego de Nilo ignora lo que escribe el jugador.
+
+#### Gheco sugiere
+Leé cada renglón con `fgets(STDIN)` hasta que no haya más, y con un `match` decidí qué hace cada orden.
+
+#### Desafío
+Hacé que el juego responda a cada orden.
+
+#### Código inicial
+```php
+<?php
+$vida = 20;
+echo "Vida final: $vida\n";
+```
+
+#### Entrada
+```
+atacar
+curar
+bailar
+atacar
+```
+
+#### Salida esperada
+```
+Golpe numero 1
+Vida: 25
+Orden desconocida: bailar
+Golpe numero 2
+Vida final: 25
+```
+
+#### Solución
+```php
+<?php
+$vida = 20;
+$golpes = 0;
+while (($orden = fgets(STDIN)) !== false) {
+    echo match (trim($orden)) {
+        'atacar' => "Golpe numero " . (++$golpes) . "\n",
+        'curar' => "Vida: " . ($vida = min(30, $vida + 5)) . "\n",
+        default => "Orden desconocida: " . trim($orden) . "\n",
+    };
+}
+echo "Vida final: $vida\n";
+```
+
+#### Al superarla
+El juego contesta cada orden, y a «bailar» le dice que no la conoce. El Campeón inclina el casco: acepta el desafío.
+
+#### Imagen
+- El palco más alto de la arena, con un trono de piedra y una figura con armadura antigua sentada.
+- el Campeón Eterno (guerrero alto de armadura antigua de bronce gastada y capa roja raída, sin cara: dentro del casco cerrado solo hay luz cian y engranajes) sentado en el trono.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) frente a él, con un papel de órdenes.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el papel.
+
+### Micro-misión S01-N04-P2 · Guardar y continuar
+
+```meta
+lugar: El palco del Campeón
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Estado en JSON | json_encode del estado al guardar · json_decode al cargar · si el archivo falta o está roto, partida nueva
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El combate contra el Campeón dura horas. Nilo tiene que poder guardar la partida y seguir mañana. Su juego, en cambio, empieza de cero cada vez.
+
+#### Gheco sugiere
+Guardá el estado con `json_encode` en un archivo. Al cargar, si no existe o no se puede leer, devolvé una partida nueva.
+
+#### Desafío
+Completá guardar y cargar.
+
+#### Código inicial
+```php
+<?php
+function nueva(): array
+{
+    return ['oleada' => 1, 'vida' => 30];
+}
+
+function guardar(array $estado, string $archivo): void
+{
+}
+
+function cargar(string $archivo): array
+{
+    return nueva();
+}
+
+guardar(['oleada' => 8, 'vida' => 17], 'partida.json');
+$estado = cargar('partida.json');
+echo "Seguis en la oleada {$estado['oleada']} con {$estado['vida']} de vida\n";
+$otra = cargar('no-existe.json');
+echo "Partida nueva: oleada {$otra['oleada']}\n";
+```
+
+#### Salida esperada
+```
+Seguis en la oleada 8 con 17 de vida
+Partida nueva: oleada 1
+```
+
+#### Solución
+```php
+<?php
+function nueva(): array
+{
+    return ['oleada' => 1, 'vida' => 30];
+}
+
+function guardar(array $estado, string $archivo): void
+{
+    file_put_contents($archivo, json_encode($estado));
+}
+
+function cargar(string $archivo): array
+{
+    if (!is_file($archivo)) {
+        return nueva();
+    }
+    $estado = json_decode(file_get_contents($archivo), true);
+    return is_array($estado) ? $estado : nueva();
+}
+
+guardar(['oleada' => 8, 'vida' => 17], 'partida.json');
+$estado = cargar('partida.json');
+echo "Seguis en la oleada {$estado['oleada']} con {$estado['vida']} de vida\n";
+$otra = cargar('no-existe.json');
+echo "Partida nueva: oleada {$otra['oleada']}\n";
+```
+
+#### Al superarla
+La partida se guarda en la oleada 8. Mañana se sigue. El Campeón, que nunca durmió, no entiende para qué.
+
+#### Imagen
+- Un pergamino enrollado con un sello de lacre violeta sobre el borde del palco, al lado de un casco antiguo.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) guarda el pergamino en su morral.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el casco.
+
+### Micro-misión S01-N04-P3 · Ganarle al que aprende
+
+```meta
+lugar: El palco del Campeón
+personajes: Nilo, Gheco
+criatura: dragon
+carta: Todo el juego | modelo, dados, motor con estrategias, oleadas, experiencia, ranking y partidas guardadas · cada pieza en su clase · el azar con semilla
+recompensa: xp 25, oro 30
+```
+
+#### Escena
+Dicen que el Campeón no es una persona sino un juego perfecto, hecho por una programadora que ya no está, que aprende de cada luchador: repite la jugada que más le sirvió. Para ganarle, el juego de Nilo tiene que variar sus jugadas con dados de semilla fija.
+
+#### Gheco sugiere
+`mt_srand(7)` fija la semilla: así el juego varía las jugadas, pero siempre de la misma forma (y se puede probar). El Campeón aprende la jugada más repetida; si Nilo no repite, no la adivina.
+
+#### Desafío
+Completá el combate con las jugadas al azar con semilla.
+
+#### Código inicial
+```php
+<?php
+$jugadas = ['tajo', 'estocada', 'finta'];
+$aciertosCampeon = 0;
+$vistas = [];
+for ($ronda = 1; $ronda <= 6; $ronda++) {
+    $jugada = 'tajo';
+    $prediccion = $vistas === [] ? 'tajo' : array_search(max($vistas), $vistas, true);
+    if ($prediccion === $jugada) {
+        $aciertosCampeon++;
+    }
+    $vistas[$jugada] = ($vistas[$jugada] ?? 0) + 1;
+}
+echo "El Campeon adivino $aciertosCampeon de 6\n";
+```
+
+#### Salida esperada
+```
+El Campeon adivino 2 de 6
+Gana Nilo
+```
+
+#### Solución
+```php
+<?php
+mt_srand(7);
+$jugadas = ['tajo', 'estocada', 'finta'];
+$aciertosCampeon = 0;
+$vistas = [];
+for ($ronda = 1; $ronda <= 6; $ronda++) {
+    $jugada = $jugadas[mt_rand(0, count($jugadas) - 1)];
+    $prediccion = $vistas === [] ? 'tajo' : array_search(max($vistas), $vistas, true);
+    if ($prediccion === $jugada) {
+        $aciertosCampeon++;
+    }
+    $vistas[$jugada] = ($vistas[$jugada] ?? 0) + 1;
+}
+echo "El Campeon adivino $aciertosCampeon de 6\n";
+echo $aciertosCampeon < 3 ? "Gana Nilo\n" : "Gana el Campeon\n";
+```
+
+#### Al superarla
+El Campeón no adivina. Después de cien años, alguien le gana. Se saca el casco, y adentro no hay nadie: solo luz y engranajes que, por primera vez, se detienen a descansar.
+
+#### Imagen
+- El palco de la arena con el casco del Campeón en el piso, del que sale luz cian y engranajes quietos, y el público de pie aplaudiendo.
+- el Campeón Eterno (guerrero alto de armadura antigua de bronce gastada y capa roja raída, sin cara: dentro del casco cerrado solo hay luz cian y engranajes) de rodillas, sin casco.
+- Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con la espada de madera en alto.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el casco.
 
 ### Misión S01-N04-M1 · El duelo con el Campeón
 

@@ -1,6 +1,6 @@
 # Crónicas en Inglés (D106, a revisar)
 
-Un curso **extra de inglés** que recorre las historias de todos los mundos: el alumno lee y practica las crónicas de Iris, Kira, Bron, Zed, Nilo y Mia **en inglés**, con las mismas escenas. Es para **primaria (desde los 6 años)** y después **secundaria**. Todo se **comprueba solo**: el docente no corrige nada, porque los chicos tienen clases presenciales; esto es para leer y ejercitar por su cuenta.
+Dos cursos **extra de inglés**, **Primaria (desde los 6 años)** y **Secundaria**, con **una historia unificada nueva**: Ada, la aprendiz del Profe, pasa a la Lengua Común (el inglés) las crónicas de todas las regiones, con su mascota Eco, y se cruza con todos los personajes: héroes, líderes, criaturas y monturas. La historia está en [historias/ingles.md](historias/ingles.md). Todo se **comprueba solo**: el docente no corrige nada, porque los chicos tienen clases presenciales; esto es para leer y ejercitar por su cuenta.
 
 Prototipo aprobado por el docente (2026-10-13): <https://claude.ai/artifact/MdJTGV9nVpuU94x5oCESEM>. Los botones de escuchar usan la voz del navegador; que suene robótica en algunas compus por ahora no molesta.
 
@@ -101,10 +101,10 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
   Toda regla de acceso nueva va con su Policy y su test Pest, y se calcula en cada pedido, como siempre.
 - **XP y oro**, por el `Ledger` de siempre, al jugador.
 
-## 7. Lo que falta decidir
+## 7. Lo que decidió el docente (2026-10-13)
 
-1. **¿Se cobra?** ¿Abono como los demás cursos, gratis, o incluido con otro curso?
-2. **¿Uno o dos cursos?** Recomendación: **dos cursos que comparten las escenas**, *Crónicas en Inglés · Primaria* y *· Secundaria*, porque el texto y los ejercicios son distintos y así cada comisión tiene el suyo.
-3. **Las cuentas de los de 6 años:** las crea el docente (como hoy, `StudentAccounts`), con la autorización de menores. ¿Entran con usuario y clave, o hace falta algo más simple (una clave de dibujitos)?
-4. **¿Cuántos episodios abren el nivel siguiente?** (propuesta: 4 de 5).
-5. **¿Va la protagonista del jugador** (Alfa, JUEGO.md) o el curso de inglés no tiene protagonista propio y se lee la historia de cada mundo tal cual?
+1. **Se cobra como el resto:** abono de 30 días por curso.
+2. **Dos cursos, Primaria y Secundaria,** que comparten escenas. Tienen **una historia unificada** para chicos (y su versión para secundaria) que usa a todos los personajes: héroes, líderes, criaturas y monturas ([historias/ingles.md](historias/ingles.md)).
+3. **Las cuentas de los más chicos las crea el docente o el administrador** (`StudentAccounts`, como hoy).
+4. **Para abrir el nivel siguiente**, para probar: 4 episodios de 5.
+5. **Protagonista propio:** uno nuevo, distinto de todos, generado en Stitch y cargado como el resto en la enciclopedia, el diccionario, Mis Crónicas y el juego. La propuesta es Ada, con su mascota Eco ([historias/ingles.md](historias/ingles.md) § 2 y § 7).

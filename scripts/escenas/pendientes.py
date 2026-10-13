@@ -134,6 +134,27 @@ REFS = {
             (r'[Dd]rag[oó]n', 'el Dragón de los Talleres', ['6f9f122674eb41fa91eef6ca0a8a494c'], ''),
         ],
     },
+    'ingles': {
+        # El piloto pasa en los Talleres: mismo proyecto que HTML, con Ada, Eco y el Borrón (generados el 2026-10-13).
+        'project': '9229721314509917104',
+        'region': 'Los Talleres de los Vitrales',
+        'ambiente': 'en un taller de vitralistas con ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos y vidrios',
+        'chars': [
+            (r'\bAda\b', 'Ada', ['edd1d29108534e9084069b9aee2dd5f7'],
+             'Ada es una nena de 11 años, chiquita y delgada, más baja que Iris, de pelo rojizo muy enrulado atado con un lápiz y pecas.'),
+            (r'\bEco\b', 'Eco', ['f93aa620953b486f880158a75c8625ff'], 'Eco es un pajarito de tinta de luz del tamaño de un puño, redondo, con una sola pluma rulo.'),
+            (r'Borr[oó]n', 'el Borrón', ['f8e0d66e911f46c2a908bf67c2850260'], 'El Borrón es una mancha de tinta del tamaño de un gato, de caricatura, simpática.'),
+            (r'\bIris\b', 'Iris', ['16228314456252100662', '16228314456252101368'],
+             'Iris lleva UNA SOLA trenza gruesa, de costado, que le cae sobre un hombro (nunca dos trenzas), pelo castaño cobrizo con mechones de colores dentro de la trenza, anteojos redondos.'),
+            (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'],
+             'Tesela e Iris son casi de la misma altura (Tesela apenas unos centímetros más alta).'),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
+            (r'\bNora\b', 'Nora', ['e01c853235f1406f8ae015a41a3ddb13'],
+             'Nora es ciega y alta, más alta que Iris; lleva túnica gris perla y un bastón blanco.'),
+            (r'\bTeo\b', 'Teo', ['21a330a7f37f44ae88efae1965f5261c'],
+             'Teo es un chico flaco y bajo para su edad, apenas más bajo que Iris, de pelo negro enrulado.'),
+        ],
+    },
 }
 
 MAX_REFS = 8  # más de esto y Stitch empieza a mezclar personajes

@@ -1040,6 +1040,48 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 
 ---
 
+## Las Crónicas en Inglés (Primaria y Secundaria)
+
+La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.
+
+### Ada
+- **Rol:** la protagonista de los dos cursos de inglés. Es la aprendiz del Profe, el Cronista del Gremio, y pasa a la **Lengua Común** (el inglés) las crónicas de todas las regiones en **el Gran Libro de las Crónicas**.
+- **Edad y sexo:** 11 años en Primaria; 15 en Secundaria (el segundo libro, ya escribiente del Gremio). Mujer.
+- **Altura y contextura:** a los 11, chiquita y delgada; a los 15, más alta, más baja que Iris.
+- **Rasgos:** **pelo rojizo muy enrulado** atado con un lápiz, **pecas**, ojos color avellana. A los 11 lleva los **anteojos redondos colgando del cuello** con un cordón; a los 15, puestos.
+- **Ropa:** a los 11, **capa corta azul petróleo** con bordes de trazos de luz cian, buzo crema cerrado, pantalón marrón y botas. A los 15, capa larga, chaleco marrón con bolsillos llenos de plumas y pantalón oscuro.
+- **Objeto:** **el Gran Libro de las Crónicas**, que empieza en blanco y se colorea un capítulo por región (a los 15, gastado y lleno de señaladores de colores), y una **pluma de cristal** con punta de luz cian.
+- **Color:** azul petróleo y cian.
+- **Personalidad:** curiosa, habladora, se equivoca y se ríe; cuando no sabe una palabra la inventa, y Eco la repite mal.
+- **Le gusta:** las palabras nuevas, los mapas, que todos se entiendan.
+- **Frase:** «*Every word is a bridge.*» (Cada palabra es un puente.)
+- **Relaciones:** aprendiz del Profe; Gheco le da las pistas; Eco es su mascota; conoce a cada héroe en su región.
+- **Primera aparición:** Inglés · Primaria, episodio 1.
+- **Imágenes:** cuerpo entero a los 11 (`edd1d29108534e9084069b9aee2dd5f7`) y a los 15 (`e76a8201810b4d569a5491ae5170a862`).
+
+### Eco
+- **Rol:** la mascota de Ada y del jugador en los cursos de inglés. Nace del tintero de Ada en el primer episodio y **solo sabe las palabras que aprendió el alumno**; las dice con la voz de la plataforma.
+- **Qué es:** un **pájaro de tinta de luz**, de cuerpo azul oscuro translúcido con brillos cian, ojos enormes; deja gotitas de tinta que brillan.
+- **Formas (cambia con el nivel del alumno):**
+  - **pichón** (niveles 1–2): redondo como una pelotita, del tamaño de un puño, **una** pluma rulo en la cabeza (`f93aa620953b486f880158a75c8625ff`);
+  - **joven** (niveles 3–4): del tamaño de un gorrión grande, alas largas con trazos de luz, **dos** plumas rulo (`3cec74371686487591cf9b0b29329129`);
+  - **adulto** (niveles 5–6): del tamaño de un halcón, **tres** plumas rulo, cola larguísima como una cinta de tinta; lleva sobres sellados (`fac39a6280574546ae88891168a432b2`).
+- **Cómo habla:** repite palabras sueltas («*Red! Red!*») y, de grande, frases; a veces repite mal las palabras que Ada inventa.
+- **Personalidad:** tierno, glotón de palabras, se asusta del Borrón.
+- **Relaciones:** Pico (la gaviota del Puerto) le roba palabras como si fueran migas.
+- **Primera aparición:** Inglés · Primaria, episodio 1.
+- **Imágenes:** las tres formas, de cuerpo entero.
+
+### El Borrón
+- **Rol:** el villano de los cursos de inglés. Se mete en el Gran Libro y **borra palabras**: por eso las páginas tienen huecos. Al final se descubre que nació de las cartas «para quien llegue» que nadie tradujo; no se lo vence: **se lo lee**.
+- **Qué es:** una **mancha de tinta negra viva** con brillo violeta en los bordes, dos ojos blancos grandes y una sonrisa traviesa; bracitos de tinta que se estiran y deja manchas en el piso. De caricatura, **nada de miedo**.
+- **Formas:** **chico**, del tamaño de un gato (`f8e0d66e911f46c2a908bf67c2850260`); **el Gran Borrón**, el jefe, una ola de tinta del tamaño de una casa con papeles en blanco y sobres sin abrir adentro (`1704d83a8b4444efb6d7bc273da19778`).
+- **Cómo habla:** se ríe y repite las palabras al revés.
+- **Primera aparición:** Inglés · Primaria, episodio 2.
+- **Imágenes:** las dos formas, de cuerpo entero.
+
+---
+
 ## 4. Los líderes de los otros mundos (se completan con cada curso)
 
 | Personaje | Región | Datos fijos de hoy |

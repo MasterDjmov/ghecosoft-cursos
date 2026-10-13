@@ -1,4 +1,4 @@
-# Crónicas en Inglés · El arco de Ada y Eco (borrador 1, a revisar)
+# Crónicas en Inglés · El arco de Ada y Eco (borrador 1, aprobado por el docente el 2026-10-13)
 
 La historia unificada de los dos cursos de inglés (D106, [../INGLES.md](../INGLES.md)): **Primaria** y **Secundaria**. No se lee la historia de cada mundo por separado: hay **una sola historia nueva** con una protagonista propia, que recorre todas las regiones y se cruza con **todos** los personajes: los héroes, los líderes, la gente de cada lugar, las criaturas y las monturas.
 
@@ -84,7 +84,7 @@ El piloto de INGLES.md § 5 se mantiene: 5 episodios en los Talleres, nivel 1 (P
 
 ## 7. Lo que hay que hacer para que Ada y Eco existan en la plataforma
 
-Igual que con Nilo e Iris:
+Igual que con Nilo e Iris. **Hecho el 2026-10-13: los pasos 1 y 2.** Las fichas están en PERSONAJES.md y las imágenes, en Stitch (Ada a los 11 y a los 15, Eco en sus tres formas, el Borrón chico y el Gran Borrón), en `REFS['ingles']`, y en `publicidad/logos cursos/personajes/Crónicas en Inglés/`. Los circulares quedan para cuando se carguen los retratos, porque la enciclopedia recorta el cuerpo entero.
 1. **Fichas** en [PERSONAJES.md](PERSONAJES.md): Ada, Eco (en sus tres formas) y el Borrón, en una sección nueva, «Las Crónicas en Inglés».
 2. **Imágenes en Stitch:**
    - Ada: cuerpo entero y circular, más su versión de 15 años;
@@ -97,8 +97,6 @@ Igual que con Nilo e Iris:
 5. **Mis Crónicas:** un libro nuevo, *Crónicas en Inglés*; las figuras de cuerpo entero con `--figuras`.
 6. **El juego:** Ada como protagonista de los cursos de inglés en `config/game.php`, y Eco como mascota que cambia de forma con el nivel. Lo de la mascota es nuevo y es lo único que hay que programar aparte; su diseño va en JUEGO.md cuando se apruebe.
 
-## 8. Para decidir
+## 8. Lo que decidió el docente (2026-10-13)
 
-1. **¿Ada y Eco?** (el nombre, que sea chica, y la mascota). Alternativa: **Teo** como protagonista, que ya existe, pero es de los Talleres y no viaja.
-2. **¿Primaria 1–3 y Secundaria 4–6** con el repaso al principio, como en § 4?
-3. **¿El Borrón como villano** (justifica los huecos que hay que completar)?
+Aprobó a **Ada y Eco**, **Primaria con los niveles 1–3 y Secundaria con los 4–6** (con el repaso al principio) y **el Borrón como villano**.

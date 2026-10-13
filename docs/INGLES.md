@@ -72,6 +72,21 @@ Lo que no se puede comprobar solo (un texto libre largo) queda afuera: el curso 
 | 4 | E4, E5, E6 | E6 o E7 |
 | 5–6 | E5, E6, E7, E8 | E7 u E8 |
 
+## 4 bis. Hablar: «Decilo en voz alta» (opcional)
+
+Pedido del docente (2026-10-13). El alumno escucha el modelo, toca el micrófono y dice la palabra o la frase. El **reconocimiento de voz del navegador** (Web Speech API, `SpeechRecognition`) devuelve lo que entendió, con hasta 5 alternativas, y `english.js` lo compara con lo esperado. Prueba suelta para evaluarlo antes de sumarlo: [prototipos/hablar.html](prototipos/hablar.html), que se abre en Chrome o Edge desde `http://localhost/larioja-aprende-cursos/docs/prototipos/hablar.html`. Tiene colores, frases del episodio 1 en Primaria y Secundaria, y una tabla de resultados para copiar.
+
+- **No es un escalón: es un extra.** Se ofrece al lado de cualquier misión de E1 a E7 que tenga una frase corta. **Nunca traba el avance:** sin micrófono, en un navegador que no lo tiene o después de 3 intentos fallidos, aparece «Pasar igual». Decirlo bien suma una estrella y XP, pero no oro ni la carta, que siguen saliendo de la misión escrita.
+- **Cómo se comprueba** (con tolerancia, porque las voces de chicos se reconocen peor):
+  - Se prueba **cada alternativa** que devuelve el reconocedor, no solo la primera.
+  - Se normaliza: minúsculas, sin acentos ni signos; los números pasan a palabra (`2` → `two`); las palabras que **suenan igual** valen lo mismo (*red/read*, *two/too/to*, *blue/blew*, *four/for*, *see/sea*…).
+  - **Una palabra sola:** vale si aparece entre lo que dijo («*it's red*» vale por *red*).
+  - **Una frase:** distancia palabra por palabra. 0 es bien; hasta 1 palabra de cada 4 es «¡Casi!» (el slime).
+  - **Con patrón** (`My name is {nombre}`): vale lo fijo más cualquier cosa en el hueco.
+- **Dónde anda:** Chrome y Edge, en la compu y en Android; Safari, a medias; **Firefox, no** (el botón no aparece). Solo en páginas seguras (HTTPS o localhost); producción ya lo es.
+- **Privacidad (menores):** Chrome manda el audio a Google para reconocerlo (Edge, a Microsoft), y necesita internet. La plataforma no guarda ni recibe audio, solo el texto del resultado. Se avisa en la autorización de menores que firman los padres, y el alumno puede apagarlo en su perfil. Si eso deja de cerrar, se cambia por un reconocedor que corre dentro de la compu (Whisper o Vosk en WebAssembly, 40–75 MB que se bajan una vez), y el ejercicio para el chico queda igual.
+- **En el formato de la misión:** `hablar: si` en `#### Ejercicio` (usa la frase de `#### Inglés`) o `hablar: "The glass is red."` para otra frase. Con `patron:` como en E7.
+
 ## 5. El piloto: los Talleres de los Vitrales
 
 Se usa HTML porque tiene **las 100 escenas**. Son **5 episodios de 4 misiones**, uno por nodo, con las 4 escenas de ese nodo (20 misiones). Se hacen dos versiones del mismo episodio: **Primaria (nivel 1)** y **Secundaria (nivel 4)**, para que el docente compare.

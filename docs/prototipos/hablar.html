@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decilo en voz alta</title>
+<!--
+  Prueba del ejercicio «hablar» de Crónicas en Inglés (D106, docs/INGLES.md § 4 bis).
+  Usa el reconocimiento de voz del navegador (Chrome o Edge). El micrófono solo anda en
+  una página segura: abrirla desde http://localhost/... o https://, no con doble clic.
+  No guarda nada: los resultados quedan en la tabla y se copian con el botón.
+-->
+<style>
+  :root {
+    --bg: #f6f3ec; --card: #fff; --ink: #1d2433; --muted: #6b7280; --line: #e5e0d4;
+    --accent: #0e7490; --ok: #15803d; --almost: #b45309; --bad: #b91c1c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12161f; --card: #1b2130; --ink: #e8ecf3; --muted: #9aa3b2; --line: #2b3346;
+      --accent: #22d3ee; --ok: #4ade80; --almost: #fbbf24; --bad: #f87171;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; margin: .5rem 0 .25rem; }
+  p.lead { color: var(--muted); margin: 0 0 1rem; }
+  .tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .tabs button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: .4rem .9rem; cursor: pointer; font: inherit; }
+  .tabs button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .target { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .swatch { width: 72px; height: 72px; border-radius: 14px; border: 2px solid var(--line); flex: none; }
+  .phrase { font-size: 2rem; font-weight: 700; }
+  .es { color: var(--muted); }
+  .row { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
+  .btn { border: 0; border-radius: 12px; padding: .7rem 1.1rem; font: inherit; font-weight: 600; cursor: pointer; background: var(--line); color: var(--ink); }
+  .btn.mic { background: var(--accent); color: #fff; font-size: 1.1rem; }
+  .btn.mic.listening { animation: pulse 1s infinite; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 10px rgba(14,116,144,.25); } }
+  .feedback { margin-top: 1rem; min-height: 3rem; font-size: 1.1rem; }
+  .feedback .ok { color: var(--ok); font-weight: 700; }
+  .feedback .almost { color: var(--almost); font-weight: 700; }
+  .feedback .bad { color: var(--bad); font-weight: 700; }
+  .heard { color: var(--muted); font-size: .95rem; }
+  .stars { font-size: 1.4rem; letter-spacing: .1em; }
+  .warn { background: #fef3c7; color: #78350f; border-radius: 12px; padding: 12px 16px; margin-bottom: 1rem; }
+  table { width: 100%; border-collapse: collapse; margin-top: .5rem; font-size: .9rem; }
+  th, td { text-align: left; padding: .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  h2 { font-size: 1.1rem; margin: 1.5rem 0 .25rem; }
+  label { color: var(--muted); font-size: .95rem; }
+  input[type=text] { font: inherit; padding: .35rem .6rem; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+</style>
+</head>
+<body>
+<main>
+  <h1>🎤 Decilo en voz alta</h1>
+  <p class="lead">Prueba del ejercicio «hablar». Escuchá el modelo, tocá el micrófono y decilo en inglés. La tabla de abajo anota lo que entendió el navegador.</p>
+
+  <div id="unsupported" class="warn" hidden>
+    Este navegador no tiene reconocimiento de voz. Abrí la página en <b>Chrome</b> o <b>Edge</b>.
+  </div>
+  <div id="insecure" class="warn" hidden>
+    El micrófono solo anda en una página segura. Abrila desde <b>http://localhost/…</b> (o https), no con doble clic en el archivo.
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="card">
+    <div class="target">
+      <div class="swatch" id="swatch" hidden></div>
+      <div>
+        <div class="phrase" id="phrase"></div>
+        <div class="es" id="es"></div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn" id="listen">🔊 Escuchar</button>
+      <button class="btn" id="slow">🐢 Más lento</button>
+      <button class="btn mic" id="mic">🎤 Decilo</button>
+      <button class="btn" id="skip" hidden>Pasar igual →</button>
+      <button class="btn" id="next" hidden>Siguiente →</button>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="stars" id="stars"></div>
+  </div>
+
+  <h2>Resultados de la prueba</h2>
+  <p class="lead">
+    <label>Quién prueba: <input type="text" id="who" placeholder="por ejemplo: Sofía, 7 años"></label>
+    <button class="btn" id="copy" style="margin-left:.5rem">Copiar resultados</button>
+  </p>
+  <table>
+    <thead><tr><th>Esperado</th><th>Entendió (alternativas)</th><th>Resultado</th></tr></thead>
+    <tbody id="log"></tbody>
+  </table>
+</main>
+
+<script>
+const SETS = {
+  colores: {
+    label: 'Colores (Primaria)',
+    items: [
+      { en: 'red', es: 'rojo', color: '#dc2626' },
+      { en: 'blue', es: 'azul', color: '#2563eb' },
+      { en: 'yellow', es: 'amarillo', color: '#facc15' },
+      { en: 'green', es: 'verde', color: '#16a34a' },
+      { en: 'white', es: 'blanco', color: '#ffffff' },
+      { en: 'black', es: 'negro', color: '#111827' },
+      { en: 'orange', es: 'naranja', color: '#f97316' },
+      { en: 'purple', es: 'violeta', color: '#7c3aed' },
+    ],
+  },
+  frases: {
+    label: 'Frases del episodio 1 (Primaria)',
+    items: [
+      { en: 'Hello, Iris!', es: '¡Hola, Iris!' },
+      { en: 'This is a window.', es: 'Esto es una ventana.' },
+      { en: 'The glass is red.', es: 'El vidrio es rojo.' },
+      { en: 'I see a blue glass.', es: 'Veo un vidrio azul.' },
+      { en: 'My name is …', es: 'Me llamo… (decí tu nombre)', pattern: 'my name is *' },
+    ],
+  },
+  secundaria: {
+    label: 'Frases del episodio 1 (Secundaria)',
+    items: [
+      { en: 'Iris arrived at the workshop yesterday.', es: 'Iris llegó al taller ayer.' },
+      { en: 'Teo broke his window.', es: 'Teo rompió su ventana.' },
+      { en: 'The glass needs lead to hold it.', es: 'El vidrio necesita plomo para sostenerse.' },
+      { en: 'I can see the colors of the workshop.', es: 'Puedo ver los colores del taller.' },
+    ],
+  },
+};
+
+// Palabras que suenan igual: el reconocedor puede devolver cualquiera.
+const SAME_SOUND = [
+  ['red', 'read'], ['two', 'too', 'to', '2'], ['blue', 'blew'], ['four', 'for', '4'],
+  ['eight', 'ate', '8'], ['one', 'won', '1'], ['hi', 'high'], ['i', 'eye'],
+  ['see', 'sea'], ['write', 'right'], ['no', 'know'], ['hole', 'whole'],
+  ['three', '3'], ['five', '5'], ['six', '6'], ['seven', '7'], ['nine', '9'], ['ten', '10'],
+  ['iris', 'irs', 'irish'], ['teo', 'theo', 'tío', 'tio'], ['lead', 'led'],
+];
+const CANON = {};
+SAME_SOUND.forEach(group => group.forEach(w => { CANON[w] = group[0]; }));
+
+const words = s => s.toLowerCase()
+  .normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/[^a-z0-9' ]+/g, ' ').replace(/'/g, '')
+  .split(/\s+/).filter(Boolean).map(w => CANON[w] || w);
+
+function wordDistance(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+
+// 'ok' | 'almost' | 'bad', comparando con cada alternativa que devolvió el reconocedor.
+function check(item, alternatives) {
+  let best = 'bad';
+  for (const alt of alternatives) {
+    const heard = words(alt);
+    if (item.pattern) {
+      const prefix = words(item.pattern.replace('*', ''));
+      if (heard.length > prefix.length && prefix.every((w, i) => heard[i] === w)) return 'ok';
+      if (heard.length >= prefix.length - 1 && wordDistance(prefix, heard.slice(0, prefix.length)) <= 1) best = 'almost';
+      continue;
+    }
+    const expected = words(item.en);
+    if (expected.length === 1) {
+      // Una palabra sola: vale si aparece («red», «it's red», «red red»).
+      if (heard.includes(expected[0])) return 'ok';
+      continue;
+    }
+    const dist = wordDistance(expected, heard);
+    if (dist === 0) return 'ok';
+    if (dist <= Math.max(1, Math.floor(expected.length / 4))) best = 'almost';
+  }
+  return best;
+}
+
+// ---- Voz ----
+let voiceEn = null;
+function pickVoice() {
+  const vs = speechSynthesis.getVoices();
+  voiceEn = vs.find(v => v.lang === 'en-US' && /google|natural|microsoft/i.test(v.name))
+    || vs.find(v => v.lang === 'en-US') || vs.find(v => v.lang.startsWith('en')) || null;
+}
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function say(text, rate = 0.9) {
+  if (!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace('…', ''));
+  u.lang = 'en-US'; u.rate = rate; if (voiceEn) u.voice = voiceEn;
+  speechSynthesis.speak(u);
+}
+
+// ---- Estado ----
+const $ = id => document.getElementById(id);
+let setKey = 'colores', index = 0, tries = 0, listening = false;
+const results = [];
+const item = () => SETS[setKey].items[index];
+
+function render() {
+  const it = item();
+  $('phrase').textContent = it.en;
+  $('es').textContent = it.es;
+  $('swatch').hidden = !it.color;
+  if (it.color) $('swatch').style.background = it.color;
+  $('feedback').innerHTML = '';
+  $('stars').textContent = '';
+  $('skip').hidden = true;
+  $('next').hidden = true;
+  $('mic').disabled = !SR;
+  tries = 0;
+  document.querySelectorAll('#tabs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.key === setKey));
+}
+
+function next() {
+  index = (index + 1) % SETS[setKey].items.length;
+  render();
+  say(item().en);
+}
+
+Object.entries(SETS).forEach(([key, set]) => {
+  const b = document.createElement('button');
+  b.textContent = set.label; b.dataset.key = key;
+  b.onclick = () => { setKey = key; index = 0; render(); };
+  $('tabs').appendChild(b);
+});
+
+$('listen').onclick = () => say(item().en);
+$('slow').onclick = () => say(item().en, 0.6);
+$('next').onclick = next;
+$('skip').onclick = () => { log(item(), ['(pasó sin decirlo)'], 'skip'); next(); };
+
+// ---- Reconocimiento ----
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SR) $('unsupported').hidden = false;
+if (!window.isSecureContext) $('insecure').hidden = false;
+
+$('mic').onclick = () => {
+  if (listening || !SR) return;
+  speechSynthesis.cancel();
+  const rec = new SR();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 5;
+  let got = false;
+  listening = true;
+  $('mic').classList.add('listening');
+  $('mic').textContent = '👂 Escuchando…';
+  $('feedback').textContent = '';
+
+  rec.onresult = e => {
+    got = true;
+    const alts = Array.from(e.results[0]).map(a => a.transcript.trim()).filter(Boolean);
+    const it = item();
+    const verdict = check(it, alts);
+    tries++;
+    log(it, alts, verdict);
+    const heard = `<div class="heard">Entendí: «${escapeHtml(alts[0] || '')}»</div>`;
+    const echo = it.pattern ? alts[0] : it.en;
+    if (verdict === 'ok') {
+      $('feedback').innerHTML = `<span class="ok">¡Muy bien!</span> Eco lo repite: <i>${escapeHtml(echo)}</i>${heard}`;
+      $('stars').textContent = '⭐';
+      $('next').hidden = false;
+      say(echo);
+    } else if (verdict === 'almost') {
+      $('feedback').innerHTML = `<span class="almost">¡Casi!</span> Probá de nuevo, un poquito más despacio.${heard}`;
+      $('next').hidden = false;
+    } else {
+      $('feedback').innerHTML = `<span class="bad">No te entendí bien.</span> Escuchá el modelo y probá otra vez.${heard}`;
+    }
+    if (verdict !== 'ok' && tries >= 3) $('skip').hidden = false;
+  };
+  rec.onerror = e => {
+    const msg = {
+      'no-speech': 'No escuché nada. Tocá el micrófono y hablá enseguida.',
+      'audio-capture': 'No encuentro el micrófono. ¿Está conectado?',
+      'not-allowed': 'El navegador no dio permiso para el micrófono. Permitilo en el candado de la barra de direcciones.',
+      'network': 'El reconocimiento necesita internet y no hay conexión.',
+    }[e.error] || `Error del reconocimiento: ${e.error}`;
+    $('feedback').innerHTML = `<span class="bad">${msg}</span>`;
+    got = true;
+  };
+  rec.onend = () => {
+    listening = false;
+    $('mic').classList.remove('listening');
+    $('mic').textContent = '🎤 Decilo';
+    if (!got) $('feedback').innerHTML = '<span class="bad">No escuché nada.</span> Probá de nuevo.';
+  };
+  rec.start();
+};
+
+// ---- Registro de la prueba ----
+const LABELS = { ok: '✅ bien', almost: '🟡 casi', bad: '❌ no', skip: '⏭ pasó' };
+function log(it, alts, verdict) {
+  results.push({ expected: it.en, alts, verdict });
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${escapeHtml(it.en)}</td><td>${alts.map(escapeHtml).join(' · ')}</td><td>${LABELS[verdict]}</td>`;
+  $('log').prepend(tr);
+}
+$('copy').onclick = async () => {
+  const head = `Prueba «hablar» · ${$('who').value || 'sin nombre'} · ${navigator.userAgent.match(/(Edg|Chrome|Firefox|Safari)\/[\d.]+/)?.[0] || ''}`;
+  const lines = results.map(r => `${r.expected} | ${r.alts.join(' · ')} | ${LABELS[r.verdict]}`);
+  const text = [head, ...lines].join('\n');
+  try { await navigator.clipboard.writeText(text); $('copy').textContent = '¡Copiado!'; }
+  catch { prompt('Copiá esto:', text); }
+  setTimeout(() => { $('copy').textContent = 'Copiar resultados'; }, 1500);
+};
+function escapeHtml(s) { return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+render();
+</script>
+</body>
+</html>

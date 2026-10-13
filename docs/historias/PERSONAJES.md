@@ -976,7 +976,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 
 ### La Sirena de los Tipos Débiles
 - **Rol:** el jefe del Muelle de las Primeras Cartas (R01-N10 de PHP). Canta que «"10" es 10» y que «el cero es nada», y los barcos que la escuchan encallan.
-- **Qué es:** una **sirena** de pelo largo de algas verdes, con un top de escamas y caracolas y la cola de escamas violetas, sentada en una roca con musgo entre burbujas que brillan; un ojo cian y otro violeta, como si dijera dos cosas a la vez.
+- **Qué es:** una **sirena** de pelo largo de algas verdes, con una blusa cerrada de escamas con mangas, hasta el cuello, y la cola de escamas violetas, sentada en una roca con musgo entre burbujas que brillan; un ojo cian y otro violeta, como si dijera dos cosas a la vez.
 - **Qué error representa:** las conversiones de tipos sin control y la comparación con `==`.
 - **Cómo se la vence:** comparando con `===` y declarando los tipos.
 - **Cómo habla:** canta; cada verso es una conversión que parece cierta.

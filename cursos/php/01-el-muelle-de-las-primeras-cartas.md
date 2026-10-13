@@ -7413,7 +7413,7 @@ La Sirena desafina. Uno de sus versos se deshace en burbujas.
 
 #### Imagen
 - Una roca con algas en la boca de un puerto de noche, con burbujas brillantes alrededor.
-- la Sirena de los Tipos Débiles (sirena de pelo largo de algas verdes, top de escamas y caracolas, cola de escamas violetas, un ojo cian y otro violeta, sentada en una roca con musgo entre burbujas) canta con los brazos abiertos.
+- la Sirena de los Tipos Débiles (sirena de pelo largo de algas verdes, blusa cerrada de escamas con mangas, hasta el cuello, cola de escamas violetas, un ojo cian y otro violeta, sentada en una roca con musgo entre burbujas) canta con los brazos abiertos.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) en un bote chico frente a la roca, con la gorra bien puesta.
 - Gheco (gecko de luz cian con antiparras, chiquito) en la proa del bote.
 
@@ -7474,7 +7474,7 @@ Cero kilos es cero kilos; sin dato es sin dato. El ogro se va a buscar otra list
 
 #### Imagen
 - Dos botes iguales junto a la roca: uno vacío, con la bodega abierta, y otro envuelto en niebla.
-- la Sirena de los Tipos Débiles (sirena de pelo largo de algas verdes, top de escamas y caracolas, cola de escamas violetas, un ojo cian y otro violeta, sentada en una roca con musgo entre burbujas) sonríe engañosa.
+- la Sirena de los Tipos Débiles (sirena de pelo largo de algas verdes, blusa cerrada de escamas con mangas, hasta el cuello, cola de escamas violetas, un ojo cian y otro violeta, sentada en una roca con musgo entre burbujas) sonríe engañosa.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) los compara desde su bote.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el remo.
 
@@ -7625,7 +7625,7 @@ La Sirena deja de cantar. Se mira las manos, como si las viera por primera vez, 
 
 #### Imagen
 - Una roca con algas de noche, con una caracola nacarada violeta y verde agua brillando sobre el musgo, y burbujas que se apagan.
-- la Sirena de los Tipos Débiles (sirena de pelo largo de algas verdes, top de escamas y caracolas, cola de escamas violetas, un ojo cian y otro violeta, sentada en una roca con musgo entre burbujas) se zambulle, con la cola fuera del agua.
+- la Sirena de los Tipos Débiles (sirena de pelo largo de algas verdes, blusa cerrada de escamas con mangas, hasta el cuello, cola de escamas violetas, un ojo cian y otro violeta, sentada en una roca con musgo entre burbujas) se zambulle, con la cola fuera del agua.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) en su bote, estirando la mano hacia la caracola.
 - Gheco (gecko de luz cian con antiparras, chiquito) en la proa.
 

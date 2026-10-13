@@ -46,7 +46,7 @@ id, así que se vuelve a pedir.
 | C | 161 de 161 | Completo (2026-10-10). |
 | HTML | 100 de 100 | Completo (2026-10-11). Tesla y Ofidia (visitas) se dibujaron por descripción: no tienen referencia en el proyecto de HTML. |
 | C++ | 37 de 163 | En curso (2026-10-11): R00 y R01 completas, R02 hasta `R02-N02-P2`. Bron y Gheco no estaban subidos: se generaron en el proyecto de C++ desde sus fichas y sus imágenes oficiales (`REFS['cpp']`). |
-| PHP | 6 de 213 | En curso (2026-10-11): la Clase 0 y R01-N01 hasta `R01-N01-P2`; sigue `R01-N01-P3` (se cortó por la cuota de Stitch). Historia, personajes y mapa en el proyecto de PHP (`REFS['php']`, docs/historias/php.md). Ojo: una corrección con `edit_screens` puede redibujar la escena entera (la de Elefa en el mostrador perdió la gorra de Nilo al arreglarle la bufanda): mirar cada versión. |
+| PHP | 28 de 213 | En curso (2026-10-13): la Clase 0 y R01 hasta `R01-N06-P4`; sigue `R01-N07-P1`. Gheco a veces sale más grande que una mano y algún número de objetos no coincide (3 cajones en vez de 4): se dejaron cuando no cambia la escena. Historia, personajes y mapa en el proyecto de PHP (`REFS['php']`, docs/historias/php.md). Ojo: una corrección con `edit_screens` puede redibujar la escena entera (la de Elefa en el mostrador perdió la gorra de Nilo al arreglarle la bufanda): mirar cada versión. |
 
 **Tamaños que funcionan** (ya están en el script): Ferrum «HUMANO, NO enano, siete cabezas, piernas largas»;
 Tizón y Hulda «ENANO/A, su cabeza le llega a Kira al hombro»; Tizón «orejas HUMANAS… la parte de arriba es una

@@ -104,8 +104,16 @@ class EncyclopediaItems
 
         $world = $this->courses()->map(function (Course $course) use ($coin, $enrolled) {
             $world = Str::before($course->title, ':');
+            $discovered = $this->user->isStaff() || $enrolled->has($course->id);
 
-            return $coin(Currency::forCourse($course), $course, 'Las monedas de los mundos', $this->user->isStaff() || $enrolled->has($course->id), [
+            // D106: en las Crónicas en Inglés los episodios se abren sin monedas.
+            if ($course->language->isSelfChecked()) {
+                return $coin(Currency::forCourse($course), $course, 'Las monedas de los mundos', $discovered, [
+                    'Para qué sirve' => 'Es el sello de '.$world.'. Ahí los episodios se abren sin monedas: el primero con el abono y los demás al terminarlo.',
+                ], ['Se ve al inscribirte en '.$world.'.']);
+            }
+
+            return $coin(Currency::forCourse($course), $course, 'Las monedas de los mundos', $discovered, [
                 'Para qué sirve' => 'Para abrir los '.term('node', $course, 2).' de '.$world.'. Solo vale en ese mundo.',
             ], [
                 'Al inscribirte en '.$world.' (lo que cuesta la Clase 0).',

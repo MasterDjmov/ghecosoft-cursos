@@ -8,9 +8,9 @@ nivel: desde_cero
 descripcion_corta: Inglés desde los 6 años con la historia de Ada y Eco: leer, escuchar, completar y escribir, y se comprueba solo.
 precio_raiz: 0
 dias_abono: 30
-destacado: no
-proximamente: si
-publicado: no
+destacado: si
+proximamente: no
+publicado: si
 ```
 
 ### Descripción

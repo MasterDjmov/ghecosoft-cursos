@@ -1,12 +1,14 @@
 <?php
 
 use App\Exceptions\NodeLocked;
+use App\Livewire\Admin\Courses\Form as CourseForm;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\NodeView;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\NodeStep;
+use App\Models\User;
 use App\Services\CourseImporter;
 use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
@@ -156,4 +158,20 @@ test('el alumno resuelve una misión desde la página del episodio', function ()
     Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
         ->call('completeStep', $step->id, EnglishExercise::PASSED, '')
         ->assertReturned(['ok' => true, 'xp' => $step->xp_reward]);
+});
+
+test('el admin guarda un curso de inglés con el primer episodio gratis; uno de programación necesita precio', function () {
+    $english = importEnglishPrimaria();
+    $admin = User::factory()->admin()->create();
+
+    Livewire::actingAs($admin)->test(CourseForm::class, ['course' => $english])
+        ->set('root_price', 0)->set('is_featured', true)
+        ->call('save')->assertHasNoErrors();
+    expect($english->fresh()->root_price)->toBe(0)
+        ->and($english->rootNode->fresh()->price)->toBe(0);
+
+    $python = makeCourse()['course'];
+    Livewire::actingAs($admin)->test(CourseForm::class, ['course' => $python])
+        ->set('root_price', 0)
+        ->call('save')->assertHasErrors('root_price');
 });

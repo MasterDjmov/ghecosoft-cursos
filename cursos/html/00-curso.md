@@ -8,9 +8,9 @@ nivel: desde_cero
 descripcion_corta: HTML, CSS y Tailwind desde cero: páginas que se ven bien en el celular y en la compu.
 precio_raiz: 10
 dias_abono: 30
-destacado: no
-proximamente: si
-publicado: no
+destacado: si
+proximamente: no
+publicado: si
 ```
 
 ### Descripción

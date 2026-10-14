@@ -8,9 +8,9 @@ nivel: intermedio
 descripcion_corta: Inglés para la secundaria con las crónicas de Ada: leer, escuchar, completar, dictados y respuestas propias, y se comprueba solo.
 precio_raiz: 0
 dias_abono: 30
-destacado: no
-proximamente: si
-publicado: no
+destacado: si
+proximamente: no
+publicado: si
 ```
 
 ### Descripción

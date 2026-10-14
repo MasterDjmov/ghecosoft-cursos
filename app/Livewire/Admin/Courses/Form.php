@@ -93,7 +93,8 @@ class Form extends Component
             'is_featured' => ['boolean'],
             'is_upcoming' => ['boolean'],
             'syllabus' => ['nullable', 'string', 'max:2000'],
-            'root_price' => ['required', 'integer', 'min:1', 'max:1000'],
+            // D106: un curso que se comprueba solo (inglés) abre el primer episodio sin monedas.
+            'root_price' => ['required', 'integer', 'min:'.(Language::tryFrom($this->language)?->isSelfChecked() ? 0 : 1), 'max:1000'],
             'subscription_days' => ['required', 'integer', 'min:1', 'max:3650'],
             'logo' => ['nullable', 'image', 'mimes:'.implode(',', config('uploads.image.mimes')), 'max:'.config('uploads.image.max_kb')],
             'cover' => ['nullable', 'image', 'mimes:'.implode(',', config('uploads.image.mimes')), 'max:'.config('uploads.image.max_kb')],

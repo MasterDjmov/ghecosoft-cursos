@@ -189,3 +189,7 @@ test('sin abono, la biblioteca deja probar el primer episodio y lleva a pedir el
     Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
         ->assertSee('This is Ada.');
 });
+
+test('la plataforma deja usar el micrófono solo a ella misma (el extra «hablar»)', function () {
+    $this->get('/login')->assertHeader('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(), payment=(), usb=()');
+});

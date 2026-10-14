@@ -21,7 +21,11 @@ class SecurityHeaders
             'X-Content-Type-Options' => 'nosniff',
             'X-Frame-Options' => 'SAMEORIGIN',
             'Referrer-Policy' => 'strict-origin-when-cross-origin',
-            'Permissions-Policy' => 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+            // El micrófono, solo para la propia plataforma: el extra «Decilo en voz alta» de inglés (D106, INGLES.md
+            // § 4 bis). Va en todas las páginas porque wire:navigate conserva la cabecera de la primera que se cargó.
+            // Los iframes del código del alumno (sandbox sin permisos) y los sitios ajenos siguen sin él, y el navegador
+            // igual le pide permiso a quien lo usa.
+            'Permissions-Policy' => 'camera=(), microphone=(self), geolocation=(), payment=(), usb=()',
         ];
 
         // Con HTTPS, el navegador no vuelve a entrar por HTTP durante un año.

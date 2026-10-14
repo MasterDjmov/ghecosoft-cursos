@@ -83,7 +83,7 @@ Pedido del docente (2026-10-13). El alumno escucha el modelo, toca el micrófono
   - **Una palabra sola:** vale si aparece entre lo que dijo («*it's red*» vale por *red*).
   - **Una frase:** distancia palabra por palabra. 0 es bien; hasta 1 palabra de cada 4 es «¡Casi!» (el slime).
   - **Con patrón** (`My name is {nombre}`): vale lo fijo más cualquier cosa en el hueco.
-- **Dónde anda:** Chrome y Edge, en la compu y en Android; Safari, a medias; **Firefox, no** (el botón no aparece). Solo en páginas seguras (HTTPS o localhost); producción ya lo es.
+- **Dónde anda:** Chrome y Edge, en la compu y en Android; Safari, a medias; **Firefox, no** (el botón no aparece). Solo en páginas seguras (HTTPS o localhost); producción ya lo es. La plataforma manda `Permissions-Policy: microphone=(self)` (SecurityHeaders): el micrófono, solo para ella misma, nunca para los iframes del código del alumno ni para sitios ajenos.
 - **Privacidad (menores):** Chrome manda el audio a Google para reconocerlo (Edge, a Microsoft), y necesita internet. La plataforma no guarda ni recibe audio, solo el texto del resultado. Se avisa en la autorización de menores que firman los padres, y el alumno puede apagarlo en su perfil. Si eso deja de cerrar, se cambia por un reconocedor que corre dentro de la compu (Whisper o Vosk en WebAssembly, 40–75 MB que se bajan una vez), y el ejercicio para el chico queda igual.
 - **En el formato de la misión:** `hablar: si` en `#### Ejercicio` (usa la frase de `#### Inglés`) o `hablar: "The glass is red."` para otra frase. Con `patron:` como en E7.
 

@@ -35,6 +35,16 @@ class Index extends Component
 
     public ?int $expanded = null;
 
+    /** Administrador: matricular al alumno desplegado en otro curso (o renovarle uno), con su comisión. */
+    public string $enrollCourseId = '';
+
+    public string $enrollCohortId = '';
+
+    public function updatedEnrollCourseId(): void
+    {
+        $this->enrollCohortId = '';
+    }
+
     public function updatedSearch(): void
     {
         $this->resetPage();
@@ -49,6 +59,31 @@ class Index extends Component
     public function toggle(int $id): void
     {
         $this->expanded = $this->expanded === $id ? null : $id;
+        $this->reset('enrollCourseId', 'enrollCohortId');
+    }
+
+    /**
+     * Solo el administrador: lo matricula en un curso como el alta (StudentAccounts::enroll, que pasa por el
+     * aprobador). Si ya tuvo abono de ese curso es una renovación: extiende el abono sin volver a dar monedas.
+     */
+    public function enroll(StudentAccounts $accounts): void
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        $student = User::where('role', Role::Student)->findOrFail($this->expanded);
+        $course = Course::find((int) $this->enrollCourseId);
+        if (! $course) {
+            Flux::toast(variant: 'danger', text: 'Elegí un curso.');
+
+            return;
+        }
+
+        $renewal = $student->subscriptions()->where('course_id', $course->id)->exists();
+        $subscription = $accounts->enroll($student, $course, auth()->user(), $this->enrollCohortId === '' ? null : (int) $this->enrollCohortId);
+        $this->reset('enrollCourseId', 'enrollCohortId');
+
+        Flux::toast(variant: 'success', text: $renewal
+            ? 'Abono de «'.$course->title.'» renovado hasta el '.$subscription->ends_at->format('d/m/Y').'.'
+            : $student->fullName().' quedó inscripto en «'.$course->title.'», con sus monedas y el abono.');
     }
 
     /** Comisión del alumno en un curso ('' = sin comisión). */
@@ -117,6 +152,8 @@ class Index extends Component
             'finding' => $finding,
             'active' => CourseSubscription::active()->whereIn('user_id', $people->pluck('id'))->pluck('user_id')->flip(),
             'detail' => $this->expanded && ! $teachers ? $this->detail($this->expanded, $viewer, $scope) : null,
+            'enrollCourses' => $viewer->isAdmin() && $this->expanded && ! $teachers ? Course::orderBy('title')->get(['id', 'title', 'is_published']) : collect(),
+            'enrollCohorts' => $this->enrollCourseId !== '' ? Cohort::where('course_id', (int) $this->enrollCourseId)->orderBy('name')->get() : collect(),
             'maintenanceAllowed' => array_flip(Maintenance::allowedIds()),
             'maintenanceOn' => Maintenance::platform() || Maintenance::courseIds() !== [],
         ]);

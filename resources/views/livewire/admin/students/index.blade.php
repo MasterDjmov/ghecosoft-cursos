@@ -125,6 +125,31 @@
                                 @empty
                                     <p class="text-sm text-ink-muted">Todavía no tiene abono en ningún curso (puede estar probando una clase 0). La comisión se elige con el abono.</p>
                                 @endforelse
+                                @if ($isAdmin)
+                                    {{-- Matricular en otro curso (o renovar uno), como en el alta: pasa por el aprobador. --}}
+                                    @php($taken = collect($detail)->pluck('course.id')->flip())
+                                    <form wire:submit="enroll" class="flex flex-col gap-2 border-t border-outline pt-3 sm:flex-row sm:items-end" data-test="enroll-form">
+                                        <flux:select size="sm" class="sm:flex-1" wire:model.live="enrollCourseId" label="Matricular en un curso">
+                                            <flux:select.option value="">Elegí un curso…</flux:select.option>
+                                            @foreach ($enrollCourses as $course)
+                                                <flux:select.option :value="(string) $course->id">
+                                                    {{ $course->title }}{{ $course->is_published ? '' : ' (sin publicar)' }}{{ $taken->has($course->id) ? ' · renueva el abono' : '' }}
+                                                </flux:select.option>
+                                            @endforeach
+                                        </flux:select>
+                                        @if ($enrollCohorts->isNotEmpty())
+                                            <flux:select size="sm" class="sm:w-56" wire:model="enrollCohortId" label="Comisión">
+                                                <flux:select.option value="">Sin comisión</flux:select.option>
+                                                @foreach ($enrollCohorts as $cohort)
+                                                    <flux:select.option :value="(string) $cohort->id">{{ $cohort->name }}</flux:select.option>
+                                                @endforeach
+                                            </flux:select>
+                                        @endif
+                                        <flux:button size="sm" type="submit" variant="primary" icon="academic-cap" :disabled="$enrollCourseId === ''">
+                                            {{ $enrollCourseId !== '' && $taken->has((int) $enrollCourseId) ? 'Renovar abono' : 'Matricular' }}
+                                        </flux:button>
+                                    </form>
+                                @endif
                                 @can('viewStudent', $person)
                                     <div><flux:button size="sm" variant="ghost" icon="identification" :href="route('admin.students.show', $person)" wire:navigate>Ver la ficha completa</flux:button></div>
                                 @endcan

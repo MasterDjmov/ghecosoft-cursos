@@ -4,6 +4,7 @@ use App\Enums\CoinReason;
 use App\Enums\RequestStatus;
 use App\Enums\RequestType;
 use App\Livewire\Admin\Students\Create;
+use App\Livewire\Admin\Students\Index;
 use App\Livewire\Admin\Students\Show;
 use App\Livewire\Settings\ChangeTemporaryPassword;
 use App\Models\CoinTransaction;
@@ -138,4 +139,50 @@ test('el login y "olvidé mi clave" ofrecen escribirle al profe si cargó su nú
 
     $this->get(route('login'))->assertOk()->assertSee('Escribile al profe')->assertSee('wa.me/5493804123456', false);
     $this->get(route('password.request'))->assertOk()->assertSee('wa.me/5493804123456', false)->assertSee('tel:+5493804123456', false);
+});
+
+test('desde el listado, el administrador lo matricula en otro curso con su comisión', function () {
+    ['course' => $first] = makeCourse();
+    ['course' => $second] = makeCourse(['title' => 'C']);
+    $cohort = $second->cohorts()->create(['name' => 'Jueves']);
+    $student = enrolledStudent($first);
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(Index::class)
+        ->call('toggle', $student->id)
+        ->assertSee('Matricular en un curso')
+        ->set('enrollCourseId', (string) $second->id)
+        ->set('enrollCohortId', (string) $cohort->id)
+        ->call('enroll')
+        ->assertHasNoErrors();
+
+    expect(CourseSubscription::active()->where('user_id', $student->id)->where('course_id', $second->id)->where('cohort_id', $cohort->id)->exists())->toBeTrue()
+        ->and(EnrollmentRequest::where('user_id', $student->id)->where('course_id', $second->id)->value('type'))->toBe(RequestType::Admin)
+        ->and(app(Ledger::class)->balance($student, Currency::forCourse($second)))->toBe($second->root_price);
+});
+
+test('si ya tenía el curso, matricularlo de nuevo renueva el abono sin volver a dar monedas', function () {
+    ['course' => $course] = makeCourse();
+    $student = enrolledStudent($course);
+    $before = CourseSubscription::where('user_id', $student->id)->max('ends_at');
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(Index::class)
+        ->call('toggle', $student->id)
+        ->set('enrollCourseId', (string) $course->id)
+        ->assertSee('Renovar abono')
+        ->call('enroll');
+
+    expect(CourseSubscription::where('user_id', $student->id)->count())->toBe(2)
+        ->and(CourseSubscription::where('user_id', $student->id)->max('ends_at'))->toBeGreaterThan($before)
+        ->and(app(Ledger::class)->balance($student, Currency::forCourse($course)))->toBe($course->root_price);
+});
+
+test('el docente no puede matricular desde el listado', function () {
+    ['course' => $course] = makeCourse();
+    $student = enrolledStudent($course);
+
+    Livewire::actingAs(User::factory()->teacher()->create())->test(Index::class)
+        ->set('expanded', $student->id)
+        ->set('enrollCourseId', (string) $course->id)
+        ->call('enroll')
+        ->assertForbidden();
 });

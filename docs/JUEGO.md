@@ -101,7 +101,7 @@ El freno no es solo el precio: también hay un **nivel mínimo** y un **tope dia
 
 Un alumno constante junta unos **3.000–4.000 de oro por mes**. El tope es **por cantidad, no por tiempo**: la montura ahorra espera, pero no multiplica el oro.
 
-**Monturas:** se compra la especie (12, en `publicidad/logos cursos/monturas/`) en n1 y se mejora. La especie es cosmética; el nivel es el efecto.
+**Monturas:** se compra la especie (en `publicidad/logos cursos/monturas/`; desde el 2026-10-14 también **Folio**, el libro que vuela de Ada, D106) en n1 y se mejora. La especie es cosmética; el nivel es el efecto.
 
 | Nivel | Reduce el tiempo | Precio | Nivel mínimo | Se llega más o menos al |
 |---|---|---|---|---|

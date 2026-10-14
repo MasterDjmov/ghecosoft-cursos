@@ -4,12 +4,14 @@ use App\Exceptions\NodeLocked;
 use App\Livewire\Admin\Courses\Form as CourseForm;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
+use App\Livewire\Student\Hero as HeroPage;
 use App\Livewire\Student\NodeView;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\User;
 use App\Services\CourseImporter;
+use App\Services\Heroes;
 use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
 use App\Services\TreeAccess;
@@ -192,4 +194,29 @@ test('sin abono, la biblioteca deja probar el primer episodio y lleva a pedir el
 
 test('la plataforma deja usar el micrófono solo a ella misma (el extra «hablar»)', function () {
     $this->get('/login')->assertHeader('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(), payment=(), usb=()');
+});
+
+test('Ada es la protagonista: niña en Primaria y de 15 en Secundaria, con sus seis aspectos y Folio entre las monturas', function () {
+    $primaria = importEnglishPrimaria();
+    $secundaria = Course::create(['title' => 'Crónicas en Inglés · Secundaria', 'slug' => 'ingles-secundaria', 'language' => 'english', 'is_published' => true, 'root_price' => 0]);
+
+    expect(Heroes::protagonistOf($primaria))->toMatchArray(['name' => 'Ada', 'slug' => 'ada'])
+        ->and(Heroes::protagonistOf($secundaria))->toMatchArray(['name' => 'Ada', 'slug' => 'ada-15'])
+        ->and(Heroes::protagonistOf(makeCourse()['course'])['name'])->toBe('Mia');
+    foreach (['ada', 'ada-15'] as $slug) {
+        foreach (range(1, 6) as $look) {
+            expect(public_path("img/protagonistas/{$slug}/{$look}.webp"))->toBeFile();
+        }
+    }
+    foreach (range(1, 5) as $level) {
+        expect(public_path("img/monturas/folio/n{$level}.webp"))->toBeFile();
+    }
+    expect(config('game.mounts.species.folio'))->toBe('Folio');
+
+    $student = enrolledStudent($primaria);
+    app(NodeUnlocker::class)->unlock($student, $primaria->rootNode);
+    Livewire::actingAs($student)->test(CourseTree::class, ['course' => $primaria])
+        ->assertSee('Tomá el control de Ada');
+    Livewire::actingAs($student)->test(HeroPage::class, ['course' => $primaria])
+        ->assertOk()->assertSee('Aprendiz del Profe');
 });

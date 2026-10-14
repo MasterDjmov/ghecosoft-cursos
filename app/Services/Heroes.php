@@ -28,7 +28,16 @@ class Heroes
      */
     public function protagonist(Course $course): ?array
     {
-        return config('game.protagonists.'.$course->language->value);
+        return self::protagonistOf($course);
+    }
+
+    /**
+     * El protagonista de un curso: el del slug del curso si tiene uno propio (D106: Ada niña en Primaria y Ada de 15
+     * en Secundaria) o, si no, el de su lenguaje (Mia en Python).
+     */
+    public static function protagonistOf(Course $course): ?array
+    {
+        return config('game.protagonists.'.$course->slug) ?? config('game.protagonists.'.$course->language->value);
     }
 
     public static function lookUrl(array $protagonist, int $look): string

@@ -134,7 +134,7 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
   Los tests están en `tests/Feature/Student/EnglishCourseTest.php`.
 - **Lo que falta, para las fases siguientes:**
   - abrir el nivel siguiente con 4 de 5 episodios (el piloto tiene un solo nivel por curso);
-  - Ada como protagonista del juego y Eco como mascota (`config/game.php`, JUEGO.md);
+  - Eco como mascota que cambia de forma con el nivel (JUEGO.md). Ada ya es la protagonista jugable (2026-10-14): niña en Primaria (`img/protagonistas/ada/`) y de 15 en Secundaria (`ada-15/`), 6 aspectos cada una, expediciones en los Talleres y la montura **Folio** (n1–n5, `img/monturas/folio/`);
   - los retratos en el Diccionario, la Enciclopedia y Mis Crónicas (historias/ingles.md § 7, pasos 3 a 6);
   - que «hablar» sume XP: hoy da una estrella en pantalla y nada más.
 

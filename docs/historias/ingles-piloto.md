@@ -21,7 +21,7 @@ Cada episodio abre con su **portada**: la escena nueva de Ada y Eco, un texto co
 
 ## Las 5 escenas nuevas (el marco de Ada y Eco)
 
-**Hechas el 2026-10-13** (`cursos/ingles/escenas/NUEVA-0X.webp`). Se generaron en Stitch con las referencias de `REFS['ingles']` (Ada a los 11, Eco pichón y el Borrón chico) y van a `cursos/ingles/escenas/`. Las usan **las dos versiones**. En Secundaria son el recuerdo de Ada a los 15 («hace cuatro años…»), así que no hacen falta otras.
+**Hechas el 2026-10-13** (`cursos/ingles/escenas/NUEVA-0X.webp`). Se generaron en Stitch con las referencias de `REFS['ingles']` (Ada a los 11, Eco pichón y el Borrón chico) y van a `cursos/ingles/escenas/`. Son las de **Primaria**. Secundaria tiene las suyas, con Ada de 15, Eco joven y el Gran Borrón (`NUEVA-S01` a `NUEVA-S05`, 2026-10-14): el docente prefirió la niña en todo Primaria y la versión grande en Secundaria.
 
 | ID | Escena | Pedido para Stitch |
 |---|---|---|

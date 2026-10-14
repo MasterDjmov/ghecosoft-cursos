@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Course;
 use App\Models\User;
+use App\Services\Heroes;
 use Illuminate\Support\Str;
 
 /**
@@ -41,7 +42,7 @@ class Narrative
      */
     public static function hero(?Course $course, ?User $user): string
     {
-        if ($course && ($protagonist = config('game.protagonists.'.$course->language->value))) {
+        if ($course && ($protagonist = Heroes::protagonistOf($course))) {
             return $protagonist['name'];
         }
         if ($course === null && $user) {

@@ -97,7 +97,9 @@ Igual que con Nilo e Iris. **Hecho el 2026-10-13: los pasos 1 y 2.** Las fichas 
 3. **Diccionario general:** los retratos con `php artisan app:glossary-portraits` (`personaje_ada`, `eco`, `borron`).
 4. **Enciclopedia (D104):** Ada y Eco en Maestros/Personajes y el Borrón en el Bestiario, con silueta y pista hasta descubrirlos.
 5. **Mis Crónicas:** un libro nuevo, *Crónicas en Inglés*; las figuras de cuerpo entero con `--figuras`.
-6. **El juego:** Ada como protagonista de los cursos de inglés en `config/game.php`, y Eco como mascota que cambia de forma con el nivel. Lo de la mascota es nuevo y es lo único que hay que programar aparte; su diseño va en JUEGO.md cuando se apruebe.
+6. **El juego:** **hecho el 2026-10-14** para Ada: es la protagonista de cada curso por su slug (`config/game.php`, `Heroes::protagonistOf`). En Primaria es la niña y en Secundaria la de 15, cada una con 6 aspectos; Eco y el Borrón la acompañan con la forma que corresponde (pichón y Borrón chico con la niña; Eco joven o adulto y Gran Borrón con la de 15). Su montura es **Folio**, el libro que vuela, en 5 versiones (libro chico, libro con silla, grulla de papel, ave de tinta y dragón-libro). Falta Eco como mascota que cambia de forma con el nivel: es lo único que hay que programar aparte, y su diseño va en JUEGO.md cuando se apruebe.
+
+   **Las portadas:** Primaria usa las de Ada niña (`NUEVA-01` a `NUEVA-05`) y Secundaria las de Ada de 15 con Eco joven y el Gran Borrón (`NUEVA-S01` a `NUEVA-S05`), pedido del docente del 2026-10-14: la niña en todo Primaria y la versión grande en Secundaria.
 
 ## 8. Lo que decidió el docente (2026-10-13)
 

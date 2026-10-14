@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\ItemMovement;
 use App\Models\NodeStep;
 use App\Models\User;
+use App\Services\Heroes;
 use App\Services\Ledger;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -158,7 +159,7 @@ class EncyclopediaItems
             });
 
         // Tiendas: lo de un mundo, en la suya; lo común, en todas.
-        $shops = $courses->mapWithKeys(fn (Course $course) => [$course->id => config('game.protagonists.'.$course->language->value.'.shop.name')])->filter();
+        $shops = $courses->mapWithKeys(fn (Course $course) => [$course->id => (Heroes::protagonistOf($course)['shop']['name'] ?? null)])->filter();
         foreach ($items->where('in_shop', true)->whereNotNull('price') as $item) {
             $where = $item->course_id ? (isset($shops[$item->course_id]) ? $shops[$item->course_id].' ('.Str::before($item->course->title, ':').')' : null) : 'cualquier tienda';
             if ($where) {

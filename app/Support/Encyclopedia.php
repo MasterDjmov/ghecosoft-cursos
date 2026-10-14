@@ -57,7 +57,8 @@ class Encyclopedia
             $language = preg_match('/\(([^)]+)\)$/u', $section, $m) ? (self::WORLDS[$m[1]] ?? null) : null;
             $protagonist = $sheet['protagonist'];
             $language ??= $protagonist ? ($protagonists[$sheet['name']] ?? null) : null;
-            $course = $language ? $courses->firstWhere(fn (Course $course) => $course->language->value === $language) : null;
+            // La clave de un protagonista es un lenguaje (python) o el slug de un curso (ingles-primaria, D106).
+            $course = $language ? $courses->firstWhere(fn (Course $course) => $course->language->value === $language || $course->slug === $language) : null;
             $creature = isset($fields['Qué es']) || isset($fields['Qué error representa']);
             $world = $language !== null && ! $protagonist;
             if ($world && ! $course) {

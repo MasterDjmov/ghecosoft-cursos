@@ -4,6 +4,25 @@
 | Parámetros del juego que no dependen de cada práctica (GAMIFICACION.md).
 */
 
+// Crónicas en Inglés (D106): las expediciones de Ada siguen los episodios del piloto, en los Talleres (el mapa de Iris).
+// Primaria y Secundaria comparten los lugares; cambia la Ada (niña o de 15) y sus aspectos.
+$englishExpeditions = [
+    'opens_after' => 'R00-N01',
+    'map' => 'img/mundos/talleres/mapa.webp',
+    'places' => [
+        ['code' => 'balcon-de-los-talleres', 'name' => 'El Balcón de los Talleres', 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 14, 'y' => 77,
+            'text' => 'Donde Ada abrió el libro en blanco y nació Eco.'],
+        ['code' => 'taller-de-tesela', 'name' => 'El Taller de Tesela', 'node' => 'R01-N01', 'level' => 2, 'creatures' => ['slime', 'goblin'], 'x' => 33, 'y' => 81,
+            'text' => 'El Borrón se escondió entre los bocetos del canasto.'],
+        ['code' => 'rios-de-plomo', 'name' => 'Los Ríos de Plomo', 'node' => 'R01-N02', 'level' => 3, 'creatures' => ['goblin'], 'x' => 28, 'y' => 59,
+            'text' => 'Nora lee el plomo con las manos. Las palabras sin nombre se las lleva la corriente.'],
+        ['code' => 'ventanilla-del-portal', 'name' => 'La Ventanilla del Portal', 'node' => 'R01-N03', 'level' => 4, 'creatures' => ['goblin', 'esqueleto'], 'x' => 47, 'y' => 74,
+            'text' => 'La terminal que aprendió el nombre de Ada en la Lengua Común.'],
+        ['code' => 'tabla-de-la-liga', 'name' => 'La Tabla de la Liga', 'node' => 'R01-N04', 'level' => 5, 'creatures' => ['esqueleto', 'orco'], 'x' => 57, 'y' => 68,
+            'text' => 'Filas desarmadas por el slime. Teo jura que él estaba primero.'],
+    ],
+];
+
 return [
     // XP extra al aprobar la última obligatoria de un nodo (se paga una sola vez).
     'node_completed_xp' => 20,
@@ -322,6 +341,36 @@ return [
                 6 => 'Gran Ingeniero del Bastión',
             ],
         ],
+        // Crónicas en Inglés (D106): Ada niña en Primaria y Ada de 15 en Secundaria (historias/ingles.md). Va por el
+        // slug del curso, que manda sobre el lenguaje (Heroes::protagonist).
+        'ingles-primaria' => [
+            'name' => 'Ada',
+            'slug' => 'ada',
+            'title' => 'Aprendiz del Profe',
+            'expeditions' => $englishExpeditions,
+            'looks' => [
+                1 => 'Aprendiz del Profe',
+                2 => 'Lectora de Mapas',
+                3 => 'Escribiente de Eco',
+                4 => 'Exploradora de los Talleres',
+                5 => 'Cazadora de Borrones',
+                6 => 'Guardiana del Gran Libro',
+            ],
+        ],
+        'ingles-secundaria' => [
+            'name' => 'Ada',
+            'slug' => 'ada-15',
+            'title' => 'Escribiente del Gremio',
+            'expeditions' => $englishExpeditions,
+            'looks' => [
+                1 => 'Escribiente del Gremio',
+                2 => 'Traductora de las Regiones',
+                3 => 'Cartógrafa del Mundo',
+                4 => 'Lectora de Cartas',
+                5 => 'Mensajera de los Mundos',
+                6 => 'Guardiana del Portal',
+            ],
+        ],
     ],
 
     // Las criaturas de las expediciones (D91), al nivel 1: vida, ataque, defensa y destreza. Crecen con el
@@ -393,7 +442,7 @@ return [
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.
     'mounts' => [
         'species' => ['algoritmia' => 'Algoritmia', 'archivald' => 'Archivald', 'auragryph' => 'AuraGryph', 'copperpug' => 'CopperPug',
-            'cristal' => 'Cristal', 'draco-bit' => 'Draco-Bit', 'gran-apex' => 'Gran Apex', 'pixelshell' => 'PixelShell', 'serphira' => 'Serphira',
+            'cristal' => 'Cristal', 'draco-bit' => 'Draco-Bit', 'folio' => 'Folio', 'gran-apex' => 'Gran Apex', 'pixelshell' => 'PixelShell', 'serphira' => 'Serphira',
             'titan' => 'Titán', 'vitral' => 'Vitral', 'vitrox' => 'Vitrox', 'voltcat' => 'VoltCat', 'voltio' => 'Voltio'],
         'levels' => [
             1 => ['reduction' => 10, 'price' => 300, 'min_level' => 3],

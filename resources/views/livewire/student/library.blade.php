@@ -42,6 +42,19 @@
         </flux:callout>
     @endif
 
+    {{-- Ada, la protagonista (D106): niña en Primaria, de 15 en Secundaria. Como en los otros cursos (D89), se toma el
+         control desde acá; el oro de las misiones sube sus atributos y abre las expediciones. --}}
+    @php
+        $protagonist = app(\App\Services\Heroes::class)->protagonist($course);
+    @endphp
+    @if ($protagonist && auth()->user()->isStudent() && auth()->user()->can('play', $course) && ! app(\App\Services\Heroes::class)->heroOf(auth()->user(), $course))
+        <a href="{{ route('student.hero', $course) }}" wire:navigate class="flex items-center gap-3 rounded-lg border border-warning/50 bg-warning/10 px-4 py-3 text-sm transition hover:bg-warning/15" data-test="take-control-prompt">
+            <img src="{{ \App\Services\Heroes::lookUrl($protagonist, 1) }}" alt="" class="size-12 shrink-0 rounded-full object-cover">
+            <span class="flex-1 text-ink"><strong class="text-warning">Tomá el control de {{ $protagonist['name'] }}</strong>: elegí su aspecto y repartí sus puntos. El oro que ganes en las misiones sube sus atributos.</span>
+            <flux:icon name="chevron-right" variant="mini" class="text-warning" />
+        </a>
+    @endif
+
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         @foreach ($episodes as $episode)
             @php

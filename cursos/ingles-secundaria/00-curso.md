@@ -50,7 +50,7 @@ criatura: goblin
 ### Micro-misión R00-N01-P0 · Four Years Ago
 ```meta
 personajes: Ada, Eco
-imagen: ingles/NUEVA-01
+imagen: ingles/NUEVA-S01
 recompensa: xp 5
 ```
 #### Inglés
@@ -201,7 +201,7 @@ criatura: goblin
 ### Micro-misión R01-N01-P0 · The Blot
 ```meta
 personajes: Ada, Eco, el Borrón
-imagen: ingles/NUEVA-02
+imagen: ingles/NUEVA-S02
 recompensa: xp 5
 ```
 #### Inglés
@@ -335,7 +335,7 @@ criatura: goblin
 ### Micro-misión R01-N02-P0 · A Story in Every Line
 ```meta
 personajes: Ada, Nora, Eco
-imagen: ingles/NUEVA-03
+imagen: ingles/NUEVA-S03
 recompensa: xp 5
 ```
 #### Inglés
@@ -475,7 +475,7 @@ criatura: goblin
 ### Micro-misión R01-N03-P0 · Three Letters of Light
 ```meta
 personajes: Ada, Eco
-imagen: ingles/NUEVA-04
+imagen: ingles/NUEVA-S04
 recompensa: xp 5
 ```
 #### Inglés
@@ -613,7 +613,7 @@ criatura: goblin
 ### Micro-misión R01-N04-P0 · The Glass Key
 ```meta
 personajes: Ada, Tesela, Eco
-imagen: ingles/NUEVA-05
+imagen: ingles/NUEVA-S05
 recompensa: xp 5
 ```
 #### Inglés

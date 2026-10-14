@@ -31,6 +31,7 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 - Las ramas de los Talleres: adverbios de frecuencia con Teo, los verbos de los sentidos con Nora, y *some / any*, *much / many* y pedir con amabilidad en la carretilla de Ámbar
 - Temporada 2, las Forjas con Kira: pasado simple (negativas y preguntas con *did*), comparativos, superlativos y *as … as*
 - Temporada 3, el Puerto con Nilo: presente continuo (afirmativo, negativo, preguntas), simple contra continuo, *wh-questions*, verbos de estado, pasado continuo; ramas con indicaciones, direcciones y la nota formal
+- Temporada 4, la Ciudadela con Bron: el futuro con *going to* y *will*, *will* contra *going to*, el primer condicional con *if*, *when* y *unless*; ramas con pedidos formales (*Could I…? Would you like…?*), *as … as*, advertencias (*Don't…, or…*) y los posesivos
 
 # DICCIONARIO
 

@@ -134,7 +134,7 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
   Los tests están en `tests/Feature/Student/EnglishCourseTest.php`.
 - **Hecho después del piloto (2026-10-14):** las temporadas (§ 8, abren con el 75 % del tronco anterior); Ada jugable (niña en Primaria, `img/protagonistas/ada/`, y de 15 en Secundaria, `ada-15/`, 6 aspectos cada una, expediciones en los Talleres y la montura **Folio**, n1–n5) con **sus ítems** (`app:game-items`, 15 por curso, con la **Pluma de Eco** de segunda vida) y **el puesto de Ámbar**; **Eco como mascota** que crece con los episodios terminados (JUEGO.md § 11 ter); y **«hablar» da XP**: decir bien la frase da 3 de XP una sola vez por micro-misión (`StepCompleter::speak`).
 - **Lo que falta:**
-  - las temporadas que siguen (§ 8): Ciudadela, Valle, Imperio y las de los cursos nuevos (Talleres, Forjas y Puerto ya están, con sus ramas);
+  - las temporadas que siguen (§ 8): Valle, Imperio y las de los cursos nuevos (Talleres, Forjas, Puerto y Ciudadela ya están, con sus ramas; a la Ciudadela le faltan 5 portadas de Secundaria);
   - revisar los retratos en el Diccionario y en Mis Crónicas (historias/ingles.md § 7, pasos 3 y 5; la Enciclopedia ya tiene a Ada, Eco y el Borrón).
 
 ## 7. Lo que decidió el docente (2026-10-13)
@@ -167,7 +167,7 @@ El docente pidió más que el piloto («5 capítulos de 5 misiones me los termin
 
 **Se trabaja por tandas**, como el piloto: una temporada escrita en un .md, el docente la revisa y se carga.
 
-**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: [historias/ingles-forjas.md](historias/ingles-forjas.md). **Cargada el 2026-10-14** (12 episodios por curso con portadas propias; la regla de temporadas es `TreeAccess::startsSeason`).
+**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: [historias/ingles-forjas.md](historias/ingles-forjas.md). **Cargada el 2026-10-14** (12 episodios por curso con portadas propias; la regla de temporadas es `TreeAccess::startsSeason`). Después, el Puerto (temporada 3, [historias/ingles-puerto.md](historias/ingles-puerto.md)) y la Ciudadela con Bron (temporada 4, [historias/ingles-ciudadela.md](historias/ingles-ciudadela.md)), las dos cargadas el 2026-10-14.
 
 ### El programa nacional y el de La Rioja (analizado el 2026-10-14)
 

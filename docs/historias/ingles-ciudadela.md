@@ -1,4 +1,4 @@
-# Crónicas en Inglés · Temporada de la Ciudadela (Bron) — plan a revisar (2026-10-14)
+# Crónicas en Inglés · Temporada de la Ciudadela (Bron) — aprobada y cargada (2026-10-14)
 
 La cuarta temporada de las Crónicas en Inglés ([INGLES.md](../INGLES.md) § 8). Tiene la misma forma que el Puerto ([ingles-puerto.md](ingles-puerto.md)):
 - **8 episodios de tronco** y **4 ramas** optativas;
@@ -80,3 +80,14 @@ De C++ hay 37 escenas: la Clase 0, todo R01 (del almacén al Autómata de Latón
 1. El docente revisa este plan.
 2. Generar las escenas de C++ que faltan (unas 8) y las 24 portadas en el proyecto de C++, con las hojas de Ada recreadas ahí.
 3. Escribir los 12 episodios en las dos versiones (`cursos/ingles-*/04-ciudadela.md`), con `R04-N01` colgando de `R03-N01`. Probarlos contra el corrector y hacer el deploy con `--cursos`.
+
+## 5. Hecho (2026-10-14)
+
+- El docente aprobó el plan («si me sirve»).
+- **8 escenas de C++** nuevas, que también usa el curso de C++ (ESCENAS.md).
+- **19 de las 24 portadas**: `CIUDADELA-01` a `12` y `CIUDADELA-S01` a `S07`. Stitch se quedó sin cuota antes de `S08` a `S12`; esos cinco episodios de Secundaria ya apuntan a su portada y la toman al reimportar cuando estén.
+- Los 12 episodios en las dos versiones: [cursos/ingles-primaria/04-ciudadela.md](../../cursos/ingles-primaria/04-ciudadela.md) y [cursos/ingles-secundaria/04-ciudadela.md](../../cursos/ingles-secundaria/04-ciudadela.md), 60 misiones cada uno; las 81 respuestas abiertas probadas contra `english.js`.
+- Cambios contra el plan:
+  - en Primaria, la rama de Lima practica *big / small / long / short* y *the same / different*;
+  - en Secundaria, la rama de la llave prestada practica todos los posesivos (*mine, yours, his, hers, ours, theirs*) y *Whose…?*;
+  - el final de Secundaria pide escribir los planes propios con *going to*, *will* y un condicional.

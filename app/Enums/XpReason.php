@@ -8,6 +8,7 @@ enum XpReason: string
     case StepCompleted = 'step_completed';
     case NodeCompleted = 'node_completed';
     case BossDefeated = 'boss_defeated';
+    case SpokeAloud = 'spoke_aloud';
     case ManualAdjustment = 'manual_adjustment';
     case Reversal = 'reversal';
 
@@ -18,6 +19,7 @@ enum XpReason: string
             self::StepCompleted => 'Micro-misión superada',
             self::NodeCompleted => 'Nodo completado',
             self::BossDefeated => 'Jefe vencido',
+            self::SpokeAloud => 'Lo dijo en voz alta',
             self::ManualAdjustment => 'Ajuste del docente',
             self::Reversal => 'Corrección',
         };

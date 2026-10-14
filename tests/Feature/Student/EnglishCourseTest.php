@@ -183,6 +183,23 @@ test('el alumno resuelve una misión desde la página del episodio', function ()
         ->assertReturned(['ok' => true, 'xp' => $step->xp_reward]);
 });
 
+test('decir la frase en voz alta da un poco de XP, una sola vez por micro-misión', function () {
+    $course = importEnglishPrimaria();
+    $student = enrolledStudent($course);
+    app(NodeUnlocker::class)->unlock($student, $course->rootNode);
+    [$first, $second] = $course->rootNode->steps()->take(2)->get()->all();
+    $xp = (int) config('game.spoken_xp');
+
+    $page = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
+    $page->call('speakStep', $first->id)->assertReturned(['ok' => true, 'xp' => $xp]);
+    $page->call('speakStep', $first->id)->assertReturned(['ok' => true, 'xp' => 0]);
+    // La segunda todavía no se puede jugar: no da nada.
+    $page->call('speakStep', $second->id)->assertReturned(['ok' => false, 'error' => 'Esta micro-misión todavía no está disponible.']);
+
+    expect($student->fresh()->xp_total)->toBe($xp)
+        ->and($student->xpTransactions()->where('reason', 'spoke_aloud')->count())->toBe(1);
+});
+
 test('el admin guarda un curso de inglés con el primer episodio gratis; uno de programación necesita precio', function () {
     $english = importEnglishPrimaria();
     $admin = User::factory()->admin()->create();
@@ -240,6 +257,34 @@ test('Ada es la protagonista: niña en Primaria y de 15 en Secundaria, con sus s
         ->assertSee('Tomá el control de Ada');
     Livewire::actingAs($student)->test(HeroPage::class, ['course' => $primaria])
         ->assertOk()->assertSee('Aprendiz del Profe');
+});
+
+test('Eco crece con los episodios terminados y se ve en la ficha de Ada y al terminar un episodio', function () {
+    $course = importEnglishPrimaria();
+    $student = enrolledStudent($course);
+    app(NodeUnlocker::class)->unlock($student, $course->rootNode);
+    app(Heroes::class)->create($student, $course, 1, ['strength' => 6, 'dexterity' => 6, 'intelligence' => 6, 'luck' => 6]);
+    foreach (['pichon', 'joven', 'adulto'] as $form) {
+        expect(public_path("img/mascotas/eco/{$form}.webp"))->toBeFile();
+    }
+
+    expect(app(Heroes::class)->pet($student, $course))->toMatchArray(['form' => 'pichon', 'done' => 0, 'grewNow' => false])
+        ->and(app(Heroes::class)->pet($student, $course)['next'])->toBe(['label' => 'Eco joven', 'at' => 10, 'missing' => 10]);
+
+    // Con el umbral en 2 para no tener que terminar diez episodios.
+    config()->set('game.protagonists.ingles-primaria.pet.stages.1.at', 2);
+    passEpisode($student, $course->rootNode);
+    $second = $course->nodes()->where('code', 'R01-N01')->firstOrFail();
+    app(NodeUnlocker::class)->unlock($student, $second);
+    passEpisode($student, $second);
+
+    expect(app(Heroes::class)->pet($student, $course))->toMatchArray(['form' => 'joven', 'done' => 2, 'grewNow' => true]);
+    Livewire::actingAs($student)->test(HeroPage::class, ['course' => $course])
+        ->assertSee('Eco joven')->assertSee('le faltan 23 para ser Eco adulto');
+    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $second])
+        ->assertSee('¡Eco creció! Ahora es Eco joven.');
+    // Secundaria arranca con Eco joven.
+    expect(collect(config('game.protagonists.ingles-secundaria.pet.stages'))->first()['form'])->toBe('joven');
 });
 
 /** Un curso de inglés chico con dos temporadas: los Talleres (raíz + 3) y las Forjas (2 de tronco + 1 rama). */

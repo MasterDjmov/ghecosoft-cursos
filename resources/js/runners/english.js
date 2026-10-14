@@ -216,6 +216,7 @@ export function englishStep(config) {
         listening: false,
         spoken: null,
         star: false,
+        spokenXp: 0,
 
         init() {
             this.reset();
@@ -429,6 +430,10 @@ export function englishStep(config) {
                 this.spoken = { verdict, heard: alternatives[0] };
                 if (verdict === 'ok') {
                     this.star = true;
+                    // La XP de «hablar» se da una sola vez por micro-misión (StepCompleter::speak).
+                    this.$wire?.speakStep(config.stepId).then((result) => {
+                        if (result?.ok && result.xp > 0) this.spokenXp = result.xp;
+                    }).catch(() => {});
                     echo = exercise.speak.includes('{*') ? alternatives[0] : exercise.speak;
                 }
             };

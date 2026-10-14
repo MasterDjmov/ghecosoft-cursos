@@ -213,6 +213,13 @@ El mapa suma 6 lugares: 3 en el Bastión (niveles 10 a 12) y 3 en la Ciudadela (
 
 **Anotado para más adelante:** **vender** a la tienda.
 
+## 11 ter. La mascota: Eco (D106, decidido el 2026-10-14)
+
+- **Quién:** la mascota del protagonista de los cursos de inglés (Ada). Se configura en `protagonists.<slug>.pet` (nombre y etapas); otro protagonista puede tener la suya con sus imágenes en `public/img/mascotas/<nombre>/<forma>.webp`.
+- **Cómo crece:** con los **episodios terminados del curso**, ramas incluidas, así que leer más lo hace crecer. Primaria: **pichón**, **joven** desde 10 y **adulto** desde 25. Secundaria arranca **joven** (la Ada de 15 ya lo tiene grande) y es **adulto** desde 15. Se calcula en cada request (`Heroes::pet`), sin guardar nada.
+- **Dónde se ve:** en la ficha de Ada, al lado de ella, con cuántos episodios le faltan para crecer; y al terminar un episodio, cuando repite las palabras. El episodio con el que cruza el umbral dice «¡Eco creció!».
+- **XP por hablar:** decir bien la frase del extra «Decilo en voz alta» da 3 de XP (`game.spoken_xp`) una sola vez por micro-misión. Lo juzga el navegador, así que es poco y solo XP.
+
 ## 12. Etapas
 
 1. **El jugador:** la intro animada, el Alfa (apodo, Gheco, el Profe) y el panel del jugador vacío (oro, nivel, inventario, grimorio). Obligatorio para todos.

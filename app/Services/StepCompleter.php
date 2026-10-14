@@ -6,6 +6,7 @@ use App\Enums\XpReason;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\User;
+use App\Models\XpTransaction;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
@@ -79,6 +80,40 @@ class StepCompleter
             }
 
             return true;
+        });
+    }
+
+    /**
+     * D106: el extra «Decilo en voz alta» de una micro-misión de inglés. El reconocimiento de voz corre en el
+     * navegador, así que solo da un poco de XP (`game.spoken_xp`), una sola vez por micro-misión.
+     *
+     * @return int la XP que ganó ahora (0 si ya la había ganado).
+     *
+     * @throws InvalidArgumentException si no puede jugarla o no tiene frase para decir.
+     */
+    public function speak(User $user, NodeStep $step): int
+    {
+        if (! $this->canPlay($user, $step)) {
+            throw new InvalidArgumentException('Esta micro-misión todavía no está disponible.');
+        }
+        if (! $step->node->course->language->isSelfChecked() || ! ($step->englishExercise()['speak'] ?? null)) {
+            throw new InvalidArgumentException('Esta micro-misión no tiene una frase para decir.');
+        }
+        $xp = (int) config('game.spoken_xp');
+        if ($xp <= 0 || $user->isStaff()) {
+            return 0;
+        }
+
+        return DB::transaction(function () use ($user, $step, $xp) {
+            User::whereKey($user->id)->lockForUpdate()->first();
+            $paid = XpTransaction::where('user_id', $user->id)->where('reason', XpReason::SpokeAloud)
+                ->where('source_type', $step->getMorphClass())->where('source_id', $step->id)->exists();
+            if ($paid) {
+                return 0;
+            }
+            $this->ledger->addXp($user, $xp, XpReason::SpokeAloud, $step, $step->node->course);
+
+            return $xp;
         });
     }
 }

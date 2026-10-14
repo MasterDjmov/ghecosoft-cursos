@@ -30,6 +30,9 @@ return [
     // XP extra al vencer a un jefe (además de la del nodo completo) y su insignia.
     'boss_defeated_xp' => 50,
 
+    // D106: XP por decir bien en voz alta la frase de una micro-misión de inglés (una sola vez por micro-misión).
+    'spoken_xp' => 3,
+
     // El oro de las micro-misiones (D89). Cada jugador recibe, una sola vez, el de todas las que ya superó
     // (`Heroes::settleGold`), así que prenderlo tarde no hace perder nada.
     'gold_enabled' => env('GAME_GOLD_ENABLED', true),
@@ -351,6 +354,12 @@ return [
             'shop' => ['name' => 'El puesto de Ámbar', 'keeper' => 'Ámbar', 'portrait' => 'img/enciclopedia/ambar.webp', 'figure' => 'img/enciclopedia/ambar-cuerpo.webp',
                 'greeting' => '—¡Ada! ¿Otra vez sin tinta? Pasá, que hoy los vidrios vinieron casi sin burbujas. Casi.'],
             'expeditions' => $englishExpeditions,
+            // La mascota (D106): Eco crece con los episodios terminados del curso (las ramas también cuentan).
+            'pet' => ['name' => 'Eco', 'stages' => [
+                ['at' => 0, 'form' => 'pichon', 'label' => 'Eco pichón', 'says' => 'Repite palabras sueltas.'],
+                ['at' => 10, 'form' => 'joven', 'label' => 'Eco joven', 'says' => 'Ya arma frases cortas.'],
+                ['at' => 25, 'form' => 'adulto', 'label' => 'Eco adulto', 'says' => 'Lleva mensajes entre las regiones.'],
+            ]],
             'looks' => [
                 1 => 'Aprendiz del Profe',
                 2 => 'Lectora de Mapas',
@@ -368,6 +377,11 @@ return [
             'shop' => ['name' => 'El puesto de Ámbar', 'keeper' => 'Ámbar', 'portrait' => 'img/enciclopedia/ambar.webp', 'figure' => 'img/enciclopedia/ambar-cuerpo.webp',
                 'greeting' => '—¡Mirá quién volvió, la escribiente del Gremio! Hace cuatro años me pedías lápices. ¿Qué te llevás hoy?'],
             'expeditions' => $englishExpeditions,
+            // La Ada de 15 ya tiene a Eco joven: llega a adulto con los episodios terminados.
+            'pet' => ['name' => 'Eco', 'stages' => [
+                ['at' => 0, 'form' => 'joven', 'label' => 'Eco joven', 'says' => 'Arma frases cortas.'],
+                ['at' => 15, 'form' => 'adulto', 'label' => 'Eco adulto', 'says' => 'Lleva mensajes entre las regiones.'],
+            ]],
             'looks' => [
                 1 => 'Escribiente del Gremio',
                 2 => 'Traductora de las Regiones',

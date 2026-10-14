@@ -262,7 +262,7 @@
                                     </div>
                                     <p x-show="spoken && ! listening" x-cloak class="rounded-lg border px-3 py-2 text-sm" data-test="en-speak-result"
                                         :class="{ 'border-success/50 bg-success/10 text-success': spoken?.verdict === 'ok', 'border-warning/50 bg-warning/10 text-warning': spoken?.verdict === 'almost', 'border-danger/50 bg-danger/10 text-danger': spoken?.verdict === 'bad' || spoken?.verdict === 'error' }"
-                                        x-text="spoken?.verdict === 'ok' ? `⭐ ¡Muy bien! Entendí «${spoken.heard}».`
+                                        x-text="spoken?.verdict === 'ok' ? `⭐ ¡Muy bien! Entendí «${spoken.heard}».${spokenXp ? ` +${spokenXp} XP` : ''}`
                                             : spoken?.verdict === 'almost' ? `¡Casi! Entendí «${spoken.heard}». Probá de nuevo, más despacio.`
                                             : spoken?.verdict === 'error' ? spoken.heard
                                             : (spoken?.heard ? `Entendí «${spoken.heard}». Escuchá el modelo y probá de nuevo.` : 'No te entendí. Escuchá el modelo y probá de nuevo.')"></p>
@@ -310,9 +310,25 @@
         @if ($finished)
             <section class="panel flex flex-col gap-4 p-5" data-test="episode-finished" x-data="{ words: @js($allWords->implode('! ')) }">
                 <p class="flex items-center gap-2 font-display text-xl font-semibold text-success"><flux:icon name="trophy" /> ¡Terminaste el episodio!</p>
+                @if ($pet)
+                    <div class="flex items-center gap-3 rounded-lg border border-secondary/40 bg-secondary/5 p-3" data-test="episode-pet">
+                        <img src="{{ $pet['image'] }}" alt="{{ $pet['label'] }}" class="h-20 w-15 shrink-0 rounded-lg object-cover">
+                        <div class="flex flex-col gap-0.5 text-sm">
+                            @if ($pet['grewNow'])
+                                <p class="font-display text-lg font-semibold text-secondary-bright" data-test="pet-grew">¡{{ $pet['name'] }} creció! Ahora es {{ $pet['label'] }}.</p>
+                                <p class="text-ink">{{ $pet['says'] }}</p>
+                            @else
+                                <p class="font-semibold text-white">{{ $pet['label'] }}</p>
+                            @endif
+                            @if ($pet['next'])
+                                <p class="text-ink-muted">{{ $pet['next']['missing'] === 1 ? 'Le falta 1 episodio' : 'Le faltan '.$pet['next']['missing'].' episodios' }} para ser {{ $pet['next']['label'] }}.</p>
+                            @endif
+                        </div>
+                    </div>
+                @endif
                 @if ($allWords->isNotEmpty())
                     <div class="flex flex-col gap-2">
-                        <p class="text-ink">Eco repite las palabras que aprendiste:</p>
+                        <p class="text-ink">{{ $pet['name'] ?? 'Eco' }} repite las palabras que aprendiste:</p>
                         <div class="flex flex-wrap gap-2">
                             @foreach ($allWords as $word)
                                 <span class="rounded-lg border border-secondary/40 bg-secondary/10 px-2.5 py-1 text-sm text-white">{{ $word }}</span>

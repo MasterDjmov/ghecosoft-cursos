@@ -6,6 +6,7 @@ use App\Livewire\Student\Concerns\UnlocksNodes;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\NodeStepCompletion;
+use App\Services\Heroes;
 use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
 use App\Services\TreeAccess;
@@ -73,6 +74,28 @@ class NodeView extends Component
         return ['ok' => true, 'xp' => $new && ! auth()->user()->isStaff() ? $step->xp_reward : 0];
     }
 
+    /**
+     * D106: dijo bien en voz alta la frase de la micro-misión (lo juzga el navegador): XP una sola vez.
+     *
+     * @return array{ok: bool, xp?: int, error?: string}
+     */
+    #[Renderless]
+    public function speakStep(int $stepId, StepCompleter $completer): array
+    {
+        $step = $this->node->steps()->findOrFail($stepId);
+        $key = 'steps:'.auth()->id();
+        if (RateLimiter::tooManyAttempts($key, 30)) {
+            return ['ok' => false, 'error' => 'Esperá un momento antes de volver a probar.'];
+        }
+        RateLimiter::hit($key, 60);
+
+        try {
+            return ['ok' => true, 'xp' => $completer->speak(auth()->user(), $step)];
+        } catch (InvalidArgumentException $e) {
+            return ['ok' => false, 'error' => $e->getMessage()];
+        }
+    }
+
     /** «Siguiente»: abrir desde acá un nodo que depende de este, sin tener que buscarlo en el árbol. */
     public function unlockNext(int $nodeId, NodeUnlocker $unlocker)
     {
@@ -111,6 +134,8 @@ class NodeView extends Component
             ]),
             'current' => $current,
             'finished' => $steps->isNotEmpty() && $current === null,
+            // La mascota (D106) al terminar el episodio: Eco, con la forma que tiene ahora.
+            'pet' => $steps->isNotEmpty() && $current === null ? app(Heroes::class)->pet($user, $this->course) : null,
             'trial' => $access->isTrial($user, $this->node),
             'next' => $this->node->children()->where('is_published', true)->orderBy('position')->get()
                 ->map(fn (Node $child) => ['node' => $child, 'state' => $access->state($user, $child)]),

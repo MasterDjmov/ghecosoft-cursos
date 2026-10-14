@@ -71,6 +71,27 @@
                         <p class="font-mono text-lg text-secondary-bright">{{ $cards }}</p><p class="text-xs text-ink-muted">cartas del grimorio</p>
                     </a>
                 </div>
+                @if ($pet)
+                    {{-- La mascota (D106): crece con los episodios terminados --}}
+                    <div class="flex items-center gap-4 rounded-lg border border-secondary/40 bg-secondary/5 p-3" data-test="hero-pet">
+                        <img src="{{ $pet['image'] }}" alt="{{ $pet['label'] }}" class="h-24 w-18 shrink-0 rounded-lg object-cover" data-test="pet-image">
+                        <div class="flex min-w-0 flex-col gap-1">
+                            <p class="font-display text-lg font-semibold text-white">{{ $pet['label'] }}</p>
+                            <p class="text-sm text-ink">{{ $pet['says'] }}</p>
+                            <p class="text-xs text-ink-muted" data-test="pet-progress">
+                                {{ $pet['done'] }} {{ $pet['done'] === 1 ? 'episodio terminado' : 'episodios terminados' }}
+                                @if ($pet['next'])
+                                    · {{ $pet['next']['missing'] === 1 ? 'le falta 1' : 'le faltan '.$pet['next']['missing'] }} para ser {{ $pet['next']['label'] }}
+                                @else
+                                    · ya es grande del todo
+                                @endif
+                            </p>
+                            @if ($pet['next'])
+                                <div class="h-1.5 overflow-hidden rounded-full bg-surface-high"><div class="h-full rounded-full bg-secondary-bright" style="width: {{ min(100, (int) round($pet['done'] * 100 / max(1, $pet['next']['at']))) }}%"></div></div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </section>
 
             <div class="flex flex-col gap-6">

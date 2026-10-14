@@ -132,6 +132,7 @@ class Hero extends Component
             'canRedistribute' => $hero && $heroes->canRedistribute($hero),
             'looks' => collect($protagonist['looks'])->map(fn ($name, $n) => ['n' => $n, 'name' => $name, 'url' => Heroes::lookUrl($protagonist, $n)]),
             'gold' => $heroes->gold($user),
+            'pet' => $heroes->pet($user, $this->course),
             'level' => Level::forXp($user->xp_total),
             'nextLevel' => Level::where('xp_required', '>', $user->xp_total)->orderBy('xp_required')->first(),
             'courseXp' => (int) XpTransaction::where('user_id', $user->id)->where('course_id', $this->course->id)->sum('amount'),

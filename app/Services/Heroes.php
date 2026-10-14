@@ -8,10 +8,12 @@ use App\Models\CoinTransaction;
 use App\Models\Course;
 use App\Models\Currency;
 use App\Models\Hero;
+use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 /**
@@ -43,6 +45,37 @@ class Heroes
     public static function lookUrl(array $protagonist, int $look): string
     {
         return asset('img/protagonistas/'.$protagonist['slug'].'/'.$look.'.webp');
+    }
+
+    /**
+     * La mascota del protagonista (D106: Eco), con la forma que le toca por los episodios terminados del curso
+     * (se calcula en cada request) y lo que le falta para la siguiente. null si el protagonista no tiene mascota.
+     *
+     * @return array{name: string, form: string, label: string, says: string, image: string, done: int, grewNow: bool, next: ?array{label: string, at: int, missing: int}}|null
+     */
+    public function pet(User $user, Course $course): ?array
+    {
+        $stages = $this->protagonist($course)['pet']['stages'] ?? null;
+        if (! $stages) {
+            return null;
+        }
+        $access = app(TreeAccess::class);
+        $done = $course->nodes()->where('is_published', true)->get()
+            ->filter(fn (Node $node) => $access->isCompleted($user, $node))->count();
+        $current = collect($stages)->last(fn (array $stage) => $done >= $stage['at']) ?? $stages[0];
+        $next = collect($stages)->first(fn (array $stage) => $stage['at'] > $done);
+
+        return [
+            'name' => $this->protagonist($course)['pet']['name'],
+            'form' => $current['form'],
+            'label' => $current['label'],
+            'says' => $current['says'],
+            'image' => asset('img/mascotas/'.Str::slug($this->protagonist($course)['pet']['name']).'/'.$current['form'].'.webp'),
+            'done' => $done,
+            // Justo llegó a esta forma con el último episodio (no la primera).
+            'grewNow' => $current['at'] > 0 && $done === $current['at'],
+            'next' => $next ? ['label' => $next['label'], 'at' => $next['at'], 'missing' => $next['at'] - $done] : null,
+        ];
     }
 
     public function heroOf(User $user, Course $course): ?Hero

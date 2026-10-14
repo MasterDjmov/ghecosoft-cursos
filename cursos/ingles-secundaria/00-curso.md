@@ -28,6 +28,7 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 - *there is / there are* y las preposiciones de lugar
 - *can / can't / could* y las preguntas
 - Comparativos y ordinales
+- Las ramas de los Talleres: adverbios de frecuencia con Teo, los verbos de los sentidos con Nora, y *some / any*, *much / many* y pedir con amabilidad en la carretilla de Ámbar
 - Temporada 2, las Forjas con Kira: pasado simple (negativas y preguntas con *did*), comparativos, superlativos y *as … as*
 
 # DICCIONARIO
@@ -743,3 +744,426 @@ hablar: Was Teo first?
 - Teo was first. (pregunta) => Was Teo first?
 - Iris has more points than Teo. (al revés: empezá con Teo) => Teo has fewer points than Iris. || Teo has less points than Iris.
 - Teo is third. (en pasado) => Teo was third.
+
+## R01-N05 · Teo Never Finishes · Teo nunca termina
+
+```meta
+tipo: extra
+padre: R01-N01
+precio: 0
+criatura: goblin
+```
+
+### Micro-misión R01-N05-P0 · Twelve Open Jars
+```meta
+personajes: Ada, Eco, Teo
+imagen: ingles/NUEVA-S06
+recompensa: xp 5
+```
+#### Inglés
+Teo was fifteen then, like I am now. He always ran, he never walked, and he always had twelve open jars on his belt. One morning he tripped next to my table, and for a whole week my bird was pink and green.
+#### Español
+Teo tenía quince entonces, como yo ahora. Siempre corría, nunca caminaba, y siempre llevaba doce frascos abiertos en el cinturón. Una mañana se tropezó al lado de mi mesa, y durante una semana entera mi pájaro fue rosa y verde.
+#### Palabras
+- always = siempre
+- never = nunca
+- belt = cinturón
+- tripped = se tropezó
+#### Gheco sugiere
+Es una rama: un episodio corto y optativo con la gente de los Talleres.
+#### Ejercicio
+tipo: leer
+hablar: He always ran, he never walked.
+
+### Micro-misión R01-N05-P1 · Less Is More
+```meta
+personajes: Teo, Iris, Tesela
+criatura: goblin
+imagen: html/R03-N02-P4
+carta: Adverbios de frecuencia | always 100 % · usually · often · sometimes · never 0 %
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Teo always uses every color he has, so his windows look like Christmas trees. Tesela usually says nothing: she just takes the star off the top. "Two colors, Teo. Sometimes less is more."
+#### Español
+Teo siempre usa todos los colores que tiene, así que sus vitrales parecen árboles de Navidad. Tesela casi siempre no dice nada: solo le saca la estrella de la punta. «Dos colores, Teo. A veces menos es más».
+#### Palabras
+- usually = casi siempre, por lo general
+- sometimes = a veces
+- takes off = saca
+- less = menos
+#### Gheco sugiere
+Fijate el porcentaje: *always* es 100 %, *usually* 80 %, *often* 60 %, *sometimes* 30 %, *never* 0 %.
+#### Ejercicio
+tipo: completar
+consigna: Elegí el adverbio según el porcentaje.
+banco: always, usually, often, sometimes, never
+hablar: Sometimes less is more.
+- (100 %) Teo {always} uses every color.
+- (80 %) Tesela {usually} says nothing.
+- (30 %) Less is {sometimes} more.
+- (0 %) Teo {never} finishes a window.
+- (60 %) Iris {often} works late.
+
+### Micro-misión R01-N05-P2 · Nobody Asks for Pink
+```meta
+personajes: Teo, Iris
+criatura: ogre
+imagen: html/R04-N03-P2
+carta: El lugar del adverbio | antes del verbo: Teo always brings · después de be: he is always late
+recompensa: xp 10, oro 5
+```
+#### Inglés
+The window needed four colors: green, gold, orange and purple. Teo held up a pink glass. "Nobody asked for pink," said Iris. "Nobody ever asks for pink," answered Teo. "That's why I always bring it."
+#### Español
+El vitral necesitaba cuatro colores: verde, dorado, naranja y violeta. Teo levantó un vidrio rosa. «Nadie pidió rosa», dijo Iris. «Nadie pide nunca rosa», contestó Teo. «Por eso siempre lo traigo».
+#### Palabras
+- needed = necesitaba
+- held up = levantó
+- nobody = nadie
+- that's why = por eso
+#### Gheco sugiere
+El adverbio va **antes** del verbo (*Teo always brings*), pero **después** de *am / is / are* (*He is always late*).
+#### Ejercicio
+tipo: transformar
+consigna: Poné el adverbio en su lugar.
+hablar: That's why I always bring it.
+- Teo brings a pink glass. (always) => Teo always brings a pink glass.
+- He is in a hurry. (always) => He is always in a hurry.
+- Iris says yes to pink. (never) => Iris never says yes to pink.
+- Teo is late. (often) => Teo is often late.
+
+### Micro-misión R01-N05-P3 · You Never Finish
+```meta
+personajes: Iris, Teo
+criatura: troll
+imagen: html/R02-N01-P2
+carta: How often…? | ¿cada cuánto? · Never. · Sometimes.
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Iris hung one amber glass on the wall, only one. Teo waved his hands, covered in color. "Only one? You never take risks!" "And you never finish anything," she answered. They were both right.
+#### Español
+Iris colgó un vidrio ámbar en la pared, uno solo. Teo agitó las manos, llenas de color. «¿Uno solo? ¡Nunca te arriesgás!». «Y vos nunca terminás nada», le contestó. Los dos tenían razón.
+#### Palabras
+- hung = colgó (de hang)
+- waved = agitó
+- take risks = arriesgarse
+- both = los dos
+#### Gheco sugiere
+*How often…?* pregunta «¿cada cuánto?»: se contesta con un adverbio de frecuencia.
+#### Ejercicio
+tipo: responder
+consigna: Contestá con una oración completa.
+hablar: You never take risks!
+- How often does Teo finish his windows? => he never finishes them || he never finishes his windows || teo never finishes his windows || teo never finishes them || never
+- How often does Iris take risks? => she never takes risks || iris never takes risks || never
+- How many glasses did Iris hang? => she hung one glass || she hung one || she hung {one amber|an amber} glass || one || only one
+
+### Micro-misión R01-N05-P4 · A Little Lighter
+```meta
+personajes: Teo, Iris
+criatura: slime
+imagen: html/R03-N06-P2
+carta: La frase de Teo | Teo is always in a hurry, but he never gives up.
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Teo had a long list of twenty blues. He tore it up in one second. "One blue," said Iris, "a little lighter. That's all." The whole window changed at once, and Teo couldn't believe it was his.
+#### Español
+Teo tenía una lista larga de veinte azules. La rompió en un segundo. «Un azul», dijo Iris, «un poquito más claro. Nada más». Todo el vitral cambió de una vez, y Teo no podía creer que fuera suyo.
+#### Palabras
+- tore up = rompió (de tear up)
+- lighter = más claro
+- at once = de una vez
+- gives up = se rinde
+#### Gheco sugiere
+Escuchala con 🐢 y escribí de a pedacitos: *Teo is always / in a hurry, / but he never / gives up.*
+#### Ejercicio
+tipo: dictado
+consigna: Escuchá y escribí la frase completa.
+hablar: He never gives up.
+- Teo is always in a hurry, but he never gives up.
+
+## R01-N06 · How Does It Feel? · ¿Cómo se siente?
+
+```meta
+tipo: extra
+padre: R01-N02
+precio: 0
+criatura: skeleton
+```
+
+### Micro-misión R01-N06-P0 · The Nora Test
+```meta
+personajes: Ada, Eco, Nora
+imagen: ingles/NUEVA-S07
+recompensa: xp 5
+```
+#### Inglés
+Nora taught me something I never forgot. She took my hand and put it on a window. "Don't tell me it's beautiful," she said. "Tell me how it feels, how it sounds, what it looks like." Since then, every page I write has to pass the Nora test.
+#### Español
+Nora me enseñó algo que nunca olvidé. Me tomó la mano y la apoyó en un vitral. «No me digas que es lindo», me dijo. «Decime cómo se siente, cómo suena, a qué se parece». Desde entonces, cada página que escribo tiene que pasar la prueba de Nora.
+#### Palabras
+- taught = enseñó (de teach)
+- forgot = olvidé (de forget)
+- feels = se siente
+- since then = desde entonces
+#### Gheco sugiere
+Es una rama: un episodio corto y optativo con la gente de los Talleres.
+#### Ejercicio
+tipo: leer
+hablar: Tell me how it feels.
+
+### Micro-misión R01-N06-P1 · It Feels Sharp
+```meta
+personajes: Iris, Nora
+criatura: skeleton
+imagen: html/R03-N06-P4
+carta: Verbos de los sentidos | look · feel · sound · smell · taste + adjetivo
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Iris read the new title aloud while Nora ran her fingers over the letters. "It looks modern," said Iris. "It feels sharp," answered Nora, "and it sounds simple. That's good."
+#### Español
+Iris leyó el título nuevo en voz alta mientras Nora pasaba los dedos por las letras. «Se ve moderno», dijo Iris. «Se siente filoso», contestó Nora, «y suena simple. Eso está bien».
+#### Palabras
+- aloud = en voz alta
+- ran her fingers over = pasó los dedos por
+- sharp = filoso
+- sounds = suena
+#### Gheco sugiere
+Cada sentido tiene su verbo: ojos → *look*, manos → *feel*, oídos → *sound*, nariz → *smell*, boca → *taste*.
+#### Ejercicio
+tipo: completar
+consigna: Elegí el verbo según el sentido.
+banco: looks, feels, sounds, smells, tastes
+hablar: It feels sharp.
+- (👀) The title {looks} modern.
+- (✋) The lead {feels} cold.
+- (👂) Her cane {sounds} different on glass.
+- (👃) The bakery {smells} wonderful.
+- (👅) Ámbar's honey {tastes} sweet.
+
+### Micro-misión R01-N06-P2 · Sounds Like a Whisper
+```meta
+personajes: Nora, Teo
+criatura: goblin
+imagen: html/R03-N02-P2
+carta: feel + adjetivo | It feels soft. (nunca softly)
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Teo shouted the title from the back of the workshop. Nora listened carefully. "Big letters sound clear," she said. "Small ones sound like a whisper. And a whisper on a window is a secret."
+#### Español
+Teo gritó el título desde el fondo del taller. Nora escuchó con atención. «Las letras grandes suenan claras», dijo. «Las chicas suenan como un susurro. Y un susurro en un vitral es un secreto».
+#### Palabras
+- shouted = gritó
+- carefully = con atención
+- clear = claro
+- whisper = susurro
+#### Gheco sugiere
+Después de *look, feel, sound, smell* y *taste* va un **adjetivo**: *It sounds clear*, no *clearly*.
+#### Ejercicio
+tipo: transformar
+consigna: Cambiá «is» por el verbo del sentido.
+hablar: Big letters sound clear.
+- The glass is smooth. (feel) => The glass feels smooth.
+- The music is beautiful. (sound) => The music sounds beautiful.
+- Teo is tired. (look) => Teo looks tired.
+- The soup is salty. (taste) => The soup tastes salty.
+
+### Micro-misión R01-N06-P3 · Two Seconds
+```meta
+personajes: Nora, Teo
+criatura: troll
+imagen: html/R04-N01-P3
+carta: Did…? | Did Teo see it? No, he didn't.
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Nora walked across the hall with her glass cane. Every tile sounded different. When the cane touched a hidden sign, a little arrow appeared on the floor. Teo didn't see it. Nora found it in two seconds.
+#### Español
+Nora cruzó la sala con su bastón de vidrio. Cada baldosa sonaba distinto. Cuando el bastón tocó un cartel escondido, apareció una flechita en el piso. Teo no la vio. Nora la encontró en dos segundos.
+#### Palabras
+- across = a través de
+- tile = baldosa
+- hidden = escondido
+- arrow = flecha
+#### Gheco sugiere
+Contestá en pasado: *She found it…*, *No, he didn't.*
+#### Ejercicio
+tipo: responder
+consigna: Contestá con una oración completa.
+hablar: Nora found it in two seconds.
+- How did Nora find the sign? => she found it with her cane || with her cane || she touched it with her cane || nora found it with her cane || she found it with her glass cane
+- Did Teo see the arrow? => no he didn't || no he did not || no he didn't see it || no he did not see it || no
+- How long did Nora need? => two seconds || she needed two seconds || in two seconds || she found it in two seconds
+
+### Micro-misión R01-N06-P4 · If It Has No Name
+```meta
+personajes: Nora, Iris
+criatura: slime
+imagen: html/R04-N04-P3
+carta: La frase de Nora | If it has no name, it doesn't exist for me.
+recompensa: xp 10, oro 5
+```
+#### Inglés
+The table had a title that only shone for the hand that touched it. Nora smiled when she found it. Then she said the words that every glassmaker in the Workshops knows by heart.
+#### Español
+La tabla tenía un título que solo brillaba para la mano que la tocaba. Nora sonrió cuando lo encontró. Entonces dijo las palabras que todo vitralista de los Talleres sabe de memoria.
+#### Palabras
+- shone = brillaba (de shine)
+- by heart = de memoria
+- exist = existir
+#### Gheco sugiere
+Tiene una contracción: *doesn't*. Si escribís *does not*, también vale.
+#### Ejercicio
+tipo: dictado
+consigna: Escuchá lo que dice Nora y escribilo completo.
+hablar: If it has no name, it doesn't exist for me.
+- If it has no name, it doesn't exist for me.
+
+## R01-N07 · Almost No Bubbles · Casi sin burbujas
+
+```meta
+tipo: extra
+padre: R01-N04
+precio: 0
+criatura: orc
+```
+
+### Micro-misión R01-N07-P0 · Three Streets Away
+```meta
+personajes: Ada, Eco, Ámbar
+imagen: ingles/NUEVA-S08
+recompensa: xp 5
+```
+#### Inglés
+Everyone in the Workshops heard Ámbar's cart before they saw it: ding, ding, from three streets away. "Fine glass, almost no bubbles!" she shouted. Her glass always had one bubble. I bought my first bottle of ink from her, and it had a bubble too.
+#### Español
+En los Talleres todos escuchaban la carretilla de Ámbar antes de verla: tilín, tilín, desde tres calles. «¡Vidrio fino, casi sin burbujas!», gritaba. Su vidrio siempre tenía una burbuja. Le compré mi primer frasco de tinta, y también tenía una burbuja.
+#### Palabras
+- heard = escuchaban (de hear)
+- away = de distancia
+- bought = compré (de buy)
+- ink = tinta
+#### Gheco sugiere
+Es una rama: un episodio corto y optativo con la gente de los Talleres. Ámbar atiende la tienda.
+#### Ejercicio
+tipo: leer
+hablar: Fine glass, almost no bubbles!
+
+### Micro-misión R01-N07-P1 · Any Patience?
+```meta
+personajes: Ámbar, Teo
+criatura: orc
+imagen: ingles/AMBAR-1
+carta: some / any | some en afirmativas y ofrecimientos · any en preguntas y negativas
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Ámbar's cart had a little roof of colored glass. Teo ran to it. "Have you got any green glass?" he asked. "I've got some green, some blue and some lead," she laughed, "but I haven't got any patience for boys who run."
+#### Español
+La carretilla de Ámbar tenía un techito de vidrios de colores. Teo corrió hacia ella. «¿Tenés vidrio verde?», preguntó. «Tengo un poco de verde, un poco de azul y algo de plomo», se rió ella, «pero no tengo nada de paciencia para los chicos que corren».
+#### Palabras
+- roof = techo
+- some = algo de, un poco de
+- any = algo de (en preguntas), nada de (en negativas)
+- patience = paciencia
+#### Gheco sugiere
+*some* en las afirmativas y cuando ofrecés algo (*Would you like some…?*); *any* en las preguntas y las negativas.
+#### Ejercicio
+tipo: completar
+consigna: some o any.
+banco: some, any
+reusar: si
+hablar: Have you got any green glass?
+- I've got {some} green glass.
+- Have you got {any} blue glass?
+- I haven't got {any} patience.
+- Would you like {some} lead?
+
+### Micro-misión R01-N07-P2 · How Many Is Almost None?
+```meta
+personajes: Ámbar, Iris
+criatura: troll
+imagen: ingles/AMBAR-2
+carta: How much / How many | many con lo que se cuenta · much con lo que no
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Ámbar held an amber glass up to the light. "Almost no bubbles," she said. Iris counted three. "How many bubbles is almost none?" she asked. "As many as you can pay for," said Ámbar, and winked.
+#### Español
+Ámbar levantó un vidrio ámbar a la luz. «Casi sin burbujas», dijo. Iris contó tres. «¿Cuántas burbujas son casi ninguna?», preguntó. «Las que puedas pagar», dijo Ámbar, y le guiñó un ojo.
+#### Palabras
+- held up = levantó
+- counted = contó
+- pay for = pagar
+- winked = guiñó un ojo
+#### Gheco sugiere
+Las burbujas y las monedas se cuentan: *many*. El plomo, la tinta y la paciencia no: *much*. Y el precio se pregunta con *How much is…?*
+#### Ejercicio
+tipo: completar
+consigna: much o many.
+banco: much, many
+reusar: si
+hablar: How many bubbles is almost none?
+- How {many} bubbles are there?
+- How {much} lead do you need?
+- How {much} is this glass?
+- How {many} coins do you want?
+- How {much} ink is in the bottle?
+
+### Micro-misión R01-N07-P3 · I'd Like Ten Strips
+```meta
+personajes: Tesela, Ámbar
+criatura: goblin
+imagen: ingles/AMBAR-3
+carta: Pedir con amabilidad | I'd like…, please. · Could I have…?
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Tesela needed lead. She never shouted and never asked for a discount. "I'd like ten strips of lead, please," she said, and paid exactly. Ámbar always gave her the best ones, the ones with no bubbles at all.
+#### Español
+Tesela necesitaba plomo. Nunca gritaba ni pedía rebaja. «Quisiera diez tiras de plomo, por favor», dijo, y pagó justo. Ámbar siempre le daba las mejores, las que no tenían ni una burbuja.
+#### Palabras
+- I'd like = quisiera
+- discount = rebaja
+- paid = pagó (de pay)
+- at all = para nada, ni una
+#### Gheco sugiere
+*Give me…* suena brusco. Con *I'd like…, please* o *Could I have…?* todo sale más barato… o eso dice Ámbar.
+#### Ejercicio
+tipo: transformar
+consigna: Pedilo con amabilidad, usando lo que está entre paréntesis.
+hablar: I'd like ten strips of lead, please.
+- Give me some lead. (I'd like) => I'd like some lead, please. || I'd like some lead. || I would like some lead, please. || I would like some lead.
+- Give me a red glass. (Could I have) => Could I have a red glass, please? || Could I have a red glass?
+- I want two strips. (I'd like) => I'd like two strips, please. || I'd like two strips. || I would like two strips, please. || I would like two strips.
+
+### Micro-misión R01-N07-P4 · Only One, My Dear
+```meta
+personajes: Ámbar, Nora
+criatura: slime
+imagen: ingles/AMBAR-4
+carta: Ámbar | «¡Vidrio fino, casi sin burbujas!»
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Nora bought a small blue glass. Ámbar wrapped it in paper. Nora touched it, found the bubble immediately and laughed. "Ámbar, this one has a bubble." "Only one, my dear. That's why it's cheap."
+#### Español
+Nora compró un vidrio azul chico. Ámbar lo envolvió en papel. Nora lo tocó, encontró la burbuja enseguida y se rió. «Ámbar, este tiene una burbuja». «Una sola, querida. Por eso es barato».
+#### Palabras
+- wrapped = envolvió
+- immediately = enseguida
+- cheap = barato
+#### Gheco sugiere
+Contestá con una oración completa, en pasado si la pregunta está en pasado.
+#### Ejercicio
+tipo: responder
+consigna: Contestá con una oración completa.
+hablar: Only one, my dear.
+- What did Nora buy? => she bought a {small blue|blue|small} glass || a {small blue|blue|small} glass || nora bought a {small blue|blue|small} glass
+- How many bubbles did the glass have? => it had one bubble || it had only one bubble || one bubble || one || only one
+- Why was the glass cheap? => because it had a bubble || because it had one bubble || it had a bubble || because of the bubble || it was cheap because it had a bubble

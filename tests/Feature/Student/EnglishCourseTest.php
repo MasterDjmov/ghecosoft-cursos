@@ -71,9 +71,9 @@ test('el curso de Primaria se importa sin prácticas y cada micro-misión con su
 
     expect($course->language->isSelfChecked())->toBeTrue()
         // Los Talleres (raíz + 4) y las Forjas (8 de tronco + 4 ramas).
-        ->and($course->nodes()->count())->toBe(17)
-        ->and($course->nodes()->where('is_published', true)->count())->toBe(17)
-        ->and($course->nodes()->where('type', 'extra')->count())->toBe(4)
+        ->and($course->nodes()->count())->toBe(20)
+        ->and($course->nodes()->where('is_published', true)->count())->toBe(20)
+        ->and($course->nodes()->where('type', 'extra')->count())->toBe(7)
         ->and($course->nodes()->whereHas('practices')->exists())->toBeFalse();
 
     $step = NodeStep::where('code', 'R00-N01-P2')->whereIn('node_id', $course->nodes()->pluck('id'))->first();

@@ -157,8 +157,8 @@ El docente pidió más que el piloto («5 capítulos de 5 misiones me los termin
 
 | Región | Primaria (A1 → A2) | Secundaria (A2 → B1) |
 |---|---|---|
-| Talleres · Iris | colores, números, *this is*, *to be*, útiles | repaso de *to be*, presente simple, *there is/are* |
-| Puerto · Nilo | saludos, familia, *have got*, *in/on/under* | presente continuo, preguntas, *some/any* |
+| Talleres · Iris | colores, números, *this is*, *to be*, útiles; ramas: más colores (Teo), *What color is it?* (Nora), comprar (Ámbar) | repaso de *to be*, presente simple, *there is/are*; ramas: adverbios de frecuencia (Teo), verbos de los sentidos (Nora), *some/any*, *much/many*, *I'd like* (Ámbar) |
+| Puerto · Nilo | saludos, familia, *have got*, *in/on/under* | presente continuo, preguntas (*some/any* ya está en la rama de Ámbar: acá solo se repasa) |
 | Forjas · Kira | cuerpo, ropa, *big/hot/heavy*, *can/can't* | pasado simple, comparativos y superlativos |
 | Ciudadela · Bron | comida, la casa, números hasta 100, *I like* | futuro (*will* y *going to*), primer condicional |
 | Valle · Mia | animales, rutina, presente simple, días y clima | presente perfecto, *must/should* |

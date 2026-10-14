@@ -28,6 +28,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 - *a* y *an*, *big* y *little*
 - Las partes del cuerpo: *head, body, feet, eyes, hands*
 - *first, second, third* y los días de la semana
+- Las ramas de los Talleres: más colores con Teo, «¿de qué color es?» con Nora y comprar en la carretilla de Ámbar
 - Temporada 2, las Forjas con Kira: la ropa, el cuerpo, cómo son las cosas (*hot, cold, heavy, light, long, short*) y *can / can't*
 
 # DICCIONARIO
@@ -736,3 +737,422 @@ consigna: Escribí el puesto de cada uno.
 hablar: Teo is third.
 - Iris is {first}.
 - Teo is {third}.
+
+## R01-N05 · All the Colors! · ¡Todos los colores!
+
+```meta
+tipo: extra
+padre: R01-N01
+precio: 0
+criatura: slime
+```
+
+### Micro-misión R01-N05-P0 · Pink Eco
+```meta
+personajes: Ada, Eco, Teo
+imagen: ingles/NUEVA-06
+recompensa: xp 5
+```
+#### Inglés
+This is Teo. Teo has twelve little jars. Red, blue, green, pink… Teo runs and the jars jump. Oh no! Now Eco is pink and green! Teo laughs. Ada laughs too.
+#### Español
+Este es Teo. Teo tiene doce frasquitos. Rojo, azul, verde, rosa… Teo corre y los frascos saltan. ¡Oh, no! ¡Ahora Eco es rosa y verde! Teo se ríe. Ada también se ríe.
+#### Palabras
+- jars = frascos
+- pink = rosa
+- green = verde
+- laughs = se ríe
+#### Gheco sugiere
+Es una rama: un episodio corto y optativo con la gente de los Talleres.
+#### Ejercicio
+tipo: leer
+hablar: Eco is pink!
+
+### Micro-misión R01-N05-P1 · A Christmas Tree
+```meta
+personajes: Teo, Iris, Tesela
+criatura: slime
+imagen: html/R03-N02-P4
+carta: Más colores | pink = rosa · purple = violeta · orange = naranja · green = verde
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Teo makes a window. It has ten colors! "It is a Christmas tree!" says Iris. Tesela takes the star. "Two colors, Teo," she says.
+#### Español
+Teo hace un vitral. ¡Tiene diez colores! «¡Es un árbol de Navidad!», dice Iris. Tesela saca la estrella. «Dos colores, Teo», le dice.
+#### Palabras
+- makes = hace
+- Christmas tree = árbol de Navidad
+- star = estrella
+- purple = violeta
+#### Gheco sugiere
+*purple* suena «pérpel»: es el violeta.
+#### Ejercicio
+tipo: escuchar
+consigna: Tocá el color que dice la voz.
+opciones: pink, purple, green, orange
+hablar: I like pink!
+- purple
+- pink
+- orange
+- green
+
+### Micro-misión R01-N05-P2 · A Pink Glass
+```meta
+personajes: Teo, Iris
+criatura: orc
+imagen: html/R04-N03-P2
+carta: Los colores del vitral | green · yellow · orange · purple · pink
+recompensa: xp 10, oro 5
+```
+#### Inglés
+The window has four glasses: green, yellow, orange and purple. Teo has a pink glass. "Pink too!" he says. "No, Teo!" says Iris.
+#### Español
+El vitral tiene cuatro vidrios: verde, amarillo, naranja y violeta. Teo tiene un vidrio rosa. «¡También el rosa!», dice. «¡No, Teo!», dice Iris.
+#### Palabras
+- four = cuatro
+- too = también
+- glass = vidrio
+#### Gheco sugiere
+Mirá el color de cada cuadradito antes de elegir.
+#### Ejercicio
+tipo: completar
+consigna: Pintá el vitral de Teo: poné el nombre de cada color.
+banco: green, orange, purple, pink, black
+hablar: Pink too!
+- [#22C55E] {green}
+- [#F97316] {orange}
+- [#A855F7] {purple}
+- [#EC4899] {pink}
+
+### Micro-misión R01-N05-P3 · Only One Color?
+```meta
+personajes: Iris, Teo
+criatura: skeleton
+imagen: html/R02-N01-P2
+carta: gray / yellow | gray = gris · yellow = amarillo
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Two glasses are on the wall. One is gray. One is yellow. Iris puts the yellow glass up. Teo says: "Only one color? Boring!"
+#### Español
+Hay dos vidrios en la pared. Uno es gris. Uno es amarillo. Iris cuelga el vidrio amarillo. Teo dice: «¿Un solo color? ¡Qué aburrido!».
+#### Palabras
+- wall = pared
+- gray = gris
+- only = solo
+- boring = aburrido
+#### Gheco sugiere
+*yellow* tiene dos *l*, como *hello*.
+#### Ejercicio
+tipo: letras
+consigna: Escuchá y armá los colores.
+hablar: Only one color?
+- yellow | i, a
+- gray | e
+
+### Micro-misión R01-N05-P4 · Blue and Yellow
+```meta
+personajes: Teo, Iris
+criatura: slime
+imagen: html/R03-N06-P2
+carta: Mezclar colores | blue and yellow make green · red and yellow make orange
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Teo has a long list. Blue and yellow make green. Red and yellow make orange. Red and blue make purple. Then… rip! He breaks the list. "One blue, Teo!" says Iris.
+#### Español
+Teo tiene una lista larga. Azul y amarillo hacen verde. Rojo y amarillo hacen naranja. Rojo y azul hacen violeta. Entonces… ¡ras! Rompe la lista. «¡Un azul, Teo!», dice Iris.
+#### Palabras
+- list = lista
+- make = hacen
+- rip! = ¡ras!
+#### Gheco sugiere
+Si no te acordás, mezclá los colores en un papel: ¡funciona!
+#### Ejercicio
+tipo: escribir
+consigna: Escribí qué color sale de cada mezcla.
+hablar: Blue and yellow make green.
+- Blue and yellow make {green}.
+- Red and yellow make {orange}.
+- Red and blue make {purple}.
+- Red and white make {pink}.
+
+## R01-N06 · Tell Me the Colors · Contame los colores
+
+```meta
+tipo: extra
+padre: R01-N02
+precio: 0
+criatura: skeleton
+```
+
+### Micro-misión R01-N06-P0 · Red Like an Apple
+```meta
+personajes: Ada, Eco, Nora
+imagen: ingles/NUEVA-07
+recompensa: xp 5
+```
+#### Inglés
+Nora cannot see the colors. "What color is it?" she asks. Ada looks at the window. "It is red, like an apple," she says. Nora smiles. Eco sings: "Apple! Apple!"
+#### Español
+Nora no puede ver los colores. «¿De qué color es?», pregunta. Ada mira el vitral. «Es rojo, como una manzana», le dice. Nora sonríe. Eco canta: «¡Manzana! ¡Manzana!».
+#### Palabras
+- What color is it? = ¿de qué color es?
+- like = como
+- apple = manzana
+#### Gheco sugiere
+Es una rama: un episodio corto y optativo con la gente de los Talleres.
+#### Ejercicio
+tipo: leer
+hablar: What color is it?
+
+### Micro-misión R01-N06-P1 · Like the Sky
+```meta
+personajes: Iris, Nora
+criatura: skeleton
+imagen: html/R03-N06-P4
+carta: like the sky | blue like the sky · yellow like the sun · green like the grass
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Iris reads the window for Nora. "The top is blue, like the sky. The circle is yellow, like the sun." Nora smiles. "Now I see it," she says.
+#### Español
+Iris le lee el vitral a Nora. «Arriba es azul, como el cielo. El círculo es amarillo, como el sol». Nora sonríe. «Ahora lo veo», dice.
+#### Palabras
+- sky = cielo
+- sun = sol
+- grass = pasto
+- circle = círculo
+#### Gheco sugiere
+Pensá en cosas que todos conocen: el cielo, el sol, el pasto.
+#### Ejercicio
+tipo: completar
+consigna: Contale los colores a Nora.
+banco: sky, sun, grass, apple, door
+hablar: Blue, like the sky.
+- Blue, like the {sky}.
+- Yellow, like the {sun}.
+- Green, like the {grass}.
+- Red, like an {apple}.
+
+### Micro-misión R01-N06-P2 · Read It, Teo!
+```meta
+personajes: Nora, Teo
+criatura: troll
+imagen: html/R03-N02-P2
+carta: sun · star · moon | sol · estrella · luna
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Teo is at the back of the workshop. "Read the window, Teo!" says Nora. "Sun! Star! Moon!" says Teo. Nora hears him. The letters are big, so Teo can read them.
+#### Español
+Teo está al fondo del taller. «¡Leé el vitral, Teo!», dice Nora. «¡Sol! ¡Estrella! ¡Luna!», dice Teo. Nora lo escucha. Las letras son grandes, así que Teo las puede leer.
+#### Palabras
+- back = fondo
+- star = estrella
+- moon = luna
+- hears = escucha
+#### Gheco sugiere
+*moon* tiene dos *o*, como la luna llena… ¡dos veces!
+#### Ejercicio
+tipo: escuchar
+consigna: Tocá la palabra que dice la voz.
+opciones: sun, star, moon, sky
+hablar: Read the window, Teo!
+- star
+- moon
+- sun
+- sky
+
+### Micro-misión R01-N06-P3 · Tap, Tap!
+```meta
+personajes: Nora, Teo
+criatura: ogre
+imagen: html/R04-N01-P3
+carta: cane | cane = bastón · tap, tap = toc, toc
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Nora walks with her cane. Tap, tap! A little sign on the floor says: "Up!" Teo does not see it. Nora finds it with her cane. "Here it is!"
+#### Español
+Nora camina con su bastón. ¡Toc, toc! Un cartelito en el piso dice: «¡Arriba!». Teo no lo ve. Nora lo encuentra con el bastón. «¡Acá está!».
+#### Palabras
+- walks = camina
+- cane = bastón
+- sign = cartel
+- floor = piso
+- finds = encuentra
+#### Gheco sugiere
+Empezá por quién: *Nora…*
+#### Ejercicio
+tipo: ordenar
+consigna: Armá la frase.
+hablar: Nora walks with her cane.
+- Nora walks with her cane.
+
+### Micro-misión R01-N06-P4 · What Color Is It?
+```meta
+personajes: Nora, Iris
+criatura: slime
+imagen: html/R04-N04-P3
+carta: It is… | What color is it? It is red.
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Nora touches the table. The pictures shine under her hand. "What color is the apple?" she asks. "It is red!" says Iris. Now you tell Nora the colors.
+#### Español
+Nora toca la tabla. Los dibujos brillan bajo su mano. «¿De qué color es la manzana?», pregunta. «¡Es roja!», dice Iris. Ahora contale vos los colores a Nora.
+#### Palabras
+- shine = brillan
+- under = bajo, debajo
+- tell = contale
+#### Gheco sugiere
+Mirá cada dibujito y escribí su color.
+#### Ejercicio
+tipo: escribir
+consigna: ¿De qué color es? Escribilo.
+hablar: It is red!
+- 🍎 It is {red}.
+- 🌿 It is {green}.
+- ☀️ It is {yellow}.
+- 🌊 It is {blue}.
+
+## R01-N07 · Ámbar's Cart · La carretilla de Ámbar
+
+```meta
+tipo: extra
+padre: R01-N04
+precio: 0
+criatura: orc
+```
+
+### Micro-misión R01-N07-P0 · Almost No Bubbles
+```meta
+personajes: Ada, Eco, Ámbar
+imagen: ingles/NUEVA-08
+recompensa: xp 5
+```
+#### Inglés
+Ding, ding! Here is Ámbar with her cart. "Fine glass! Almost no bubbles!" she says. Ada looks at a glass. One bubble! Eco sings: "Bubble! Bubble!"
+#### Español
+¡Tilín, tilín! Acá viene Ámbar con su carretilla. «¡Vidrio fino! ¡Casi sin burbujas!», dice. Ada mira un vidrio. ¡Una burbuja! Eco canta: «¡Burbuja! ¡Burbuja!».
+#### Palabras
+- cart = carretilla
+- fine = fino
+- almost = casi
+- bubble = burbuja
+#### Gheco sugiere
+Es una rama: un episodio corto y optativo con la gente de los Talleres. Ámbar es la del puesto de la tienda.
+#### Ejercicio
+tipo: leer
+hablar: Almost no bubbles!
+
+### Micro-misión R01-N07-P1 · Ding, Ding!
+```meta
+personajes: Ámbar, Teo
+criatura: skeleton
+imagen: ingles/AMBAR-1
+carta: Ámbar | la vendedora de vidrios de los Talleres
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Ámbar has a cart. The cart has a little roof of glass. Ding, ding! Teo runs to the cart. "Hello, Ámbar!"
+#### Español
+Ámbar tiene una carretilla. La carretilla tiene un techito de vidrio. ¡Tilín, tilín! Teo corre a la carretilla. «¡Hola, Ámbar!».
+#### Palabras
+- roof = techo
+- runs = corre
+- cart = carretilla
+#### Gheco sugiere
+Escuchá con 🐢 si dos palabras se parecen.
+#### Ejercicio
+tipo: escuchar
+consigna: Tocá la palabra que dice la voz.
+opciones: cart, glass, roof, bubble
+hablar: Hello, Ámbar!
+- cart
+- bubble
+- roof
+- glass
+
+### Micro-misión R01-N07-P2 · Three Bubbles
+```meta
+personajes: Ámbar, Iris
+criatura: slime
+imagen: ingles/AMBAR-2
+carta: bubble | bubble = burbuja · bubbles = burbujas
+recompensa: xp 10, oro 5
+```
+#### Inglés
+"Look! Almost no bubbles!" says Ámbar. Iris looks at the glass. One, two, three bubbles! Ámbar laughs. "Three is almost none!"
+#### Español
+«¡Mirá! ¡Casi sin burbujas!», dice Ámbar. Iris mira el vidrio. ¡Una, dos, tres burbujas! Ámbar se ríe. «¡Tres es casi ninguna!».
+#### Palabras
+- none = ninguna
+- three = tres
+- laughs = se ríe
+#### Gheco sugiere
+*bubble* tiene dos *b* en el medio, como dos burbujitas.
+#### Ejercicio
+tipo: letras
+consigna: Escuchá y armá las palabras.
+hablar: Three bubbles!
+- bubble | a, p
+- three | o
+
+### Micro-misión R01-N07-P3 · How Much Is It?
+```meta
+personajes: Tesela, Ámbar
+criatura: orc
+imagen: ingles/AMBAR-3
+carta: How much is it? | ¿cuánto sale? · Here you are = acá tenés
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Tesela wants lead. "How much is it?" she asks. "Four coins, please," says Ámbar. "Here you are." "Thank you!"
+#### Español
+Tesela quiere plomo. «¿Cuánto sale?», pregunta. «Cuatro monedas, por favor», dice Ámbar. «Acá tenés». «¡Gracias!».
+#### Palabras
+- How much is it? = ¿cuánto sale?
+- coins = monedas
+- please = por favor
+- Here you are = acá tenés
+#### Gheco sugiere
+Así se compra en inglés: *How much is it?* y siempre *please* y *thank you*.
+#### Ejercicio
+tipo: completar
+consigna: Completá la compra de Tesela.
+banco: much, Four, are, you, many
+hablar: How much is it?
+- How {much} is it?
+- {Four} coins, please.
+- Here you {are}.
+- Thank {you}!
+
+### Micro-misión R01-N07-P4 · A Red Glass, Please
+```meta
+personajes: Ámbar, Nora
+criatura: slime
+imagen: ingles/AMBAR-4
+carta: A red glass, please. | así se pide en la tienda
+recompensa: xp 10, oro 5
+```
+#### Inglés
+Nora wants a glass too. Ámbar puts it in paper. Nora touches it. "A bubble!" she says. Ámbar laughs. "Only one!" Now you buy a glass from Ámbar.
+#### Español
+Nora también quiere un vidrio. Ámbar lo envuelve en papel. Nora lo toca. «¡Una burbuja!», dice. Ámbar se ríe. «¡Una sola!». Ahora comprale vos un vidrio a Ámbar.
+#### Palabras
+- paper = papel
+- only one = una sola
+- buy = comprá
+#### Gheco sugiere
+*please* termina con una *e* que no suena.
+#### Ejercicio
+tipo: escribir
+consigna: Comprá un vidrio: escribí lo que le decís a Ámbar.
+hablar: A red glass, please.
+- {Hello|Hi}, Ámbar!
+- A red glass, {please}.
+- How {much} is it?
+- Thank {you}!

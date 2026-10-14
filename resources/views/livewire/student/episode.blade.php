@@ -42,7 +42,8 @@
             @foreach ($steps as $step)
                 <article class="panel grid gap-4 overflow-hidden p-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
                     @if ($step['image'])
-                        <img src="{{ $step['image'] }}" alt="" class="aspect-video w-full rounded-lg border border-outline object-cover" loading="lazy">
+                        <img src="{{ $step['image'] }}" alt="" class="aspect-video w-full cursor-zoom-in rounded-lg border border-outline object-cover" loading="lazy"
+                            x-data x-on:click="$dispatch('zoom-image', { src: @js($step['image']) })" title="Ver en grande">
                     @endif
                     <div class="flex flex-col gap-2">
                         <h2 class="font-display text-lg font-semibold text-white">{{ $step['model']->title }}</h2>
@@ -87,6 +88,9 @@
                         <figure class="relative aspect-[16/7] overflow-hidden border-b border-outline">
                             <img src="{{ $step['image'] }}" alt="" class="size-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#070a14] via-transparent to-transparent"></div>
+                            <button type="button" class="group absolute inset-0 cursor-zoom-in" x-on:click="$dispatch('zoom-image', { src: @js($step['image']) })" aria-label="Ver la escena entera en grande" data-test="scene-zoom">
+                                <span class="absolute right-3 top-3 rounded-md bg-surface/80 p-1 text-white opacity-70 transition group-hover:opacity-100"><flux:icon name="magnifying-glass-plus" variant="micro" /></span>
+                            </button>
                             <figcaption class="absolute bottom-3 left-4 font-display text-xl font-semibold text-white">{{ $model->title }}</figcaption>
                         </figure>
                     @else
@@ -344,4 +348,5 @@
             </section>
         @endif
     @endif
+    <x-image-lightbox />
 </div>

@@ -14,6 +14,12 @@
     <figure class="relative aspect-video overflow-hidden border-b border-outline bg-surface-lowest">
         @if ($episode['cover'])
             <img src="{{ $episode['cover'] }}" alt="" class="size-full object-cover {{ $state === TreeAccess::STATE_LOCKED ? 'grayscale' : '' }}" loading="lazy">
+            @if ($state !== TreeAccess::STATE_LOCKED)
+                {{-- Tocar la portada la muestra en grande (x-image-lightbox en la biblioteca) --}}
+                <button type="button" class="group absolute inset-0 cursor-zoom-in" x-data x-on:click="$dispatch('zoom-image', { src: @js($episode['cover']) })" aria-label="Ver la portada en grande" data-test="episode-zoom">
+                    <span class="absolute right-3 bottom-3 rounded-md bg-surface/80 p-1 text-white opacity-70 transition group-hover:opacity-100"><flux:icon name="magnifying-glass-plus" variant="micro" /></span>
+                </button>
+            @endif
         @endif
         <span class="absolute left-3 top-3 rounded-md bg-surface/85 px-2 py-0.5 font-mono text-xs text-ink">{{ $episode['optional'] ? 'Rama' : 'Episodio '.$number }}</span>
         @if ($state === TreeAccess::STATE_COMPLETED)

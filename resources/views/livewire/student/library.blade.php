@@ -92,4 +92,5 @@
             @endif
         </section>
     @endforeach
+    <x-image-lightbox />
 </div>

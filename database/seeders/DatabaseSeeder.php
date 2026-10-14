@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             JavaCourseSeeder::class,
             PhpCourseSeeder::class,
             HtmlCourseSeeder::class,
+            EnglishCoursesSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
             DemoTeacherSeeder::class,

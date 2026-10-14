@@ -82,6 +82,8 @@ El piloto de INGLES.md § 5 se mantiene: 5 episodios en los Talleres, nivel 1 (P
 | 4 | En la terminal del portal, Ada escribe su nombre en la Lengua Común | R01-N03-P1 a P4 |
 | 5 | Tesela le da a Ada el permiso de los Talleres; el primer capítulo del libro se colorea | R01-N04-P1 a P4 |
 
+Los 5 episodios escritos, en las dos versiones y con los pedidos para Stitch: [ingles-piloto.md](ingles-piloto.md).
+
 ## 7. Lo que hay que hacer para que Ada y Eco existan en la plataforma
 
 Igual que con Nilo e Iris. **Hecho el 2026-10-13: los pasos 1 y 2.** Las fichas están en PERSONAJES.md y las imágenes, en Stitch (Ada a los 11 y a los 15, Eco en sus tres formas, el Borrón chico y el Gran Borrón), en `REFS['ingles']`, y en `publicidad/logos cursos/personajes/Crónicas en Inglés/`. Los circulares quedan para cuando se carguen los retratos, porque la enciclopedia recorta el cuerpo entero.

@@ -99,6 +99,8 @@ Se usa HTML porque tiene **las 100 escenas**. Son **5 episodios de 4 misiones**,
 | 4 · *The Gate Terminal* | R01-N03-P1 a P4 | la terminal del portal, Teo aprieta Entrar, la carta al Puerto | *What's your name? My name is…* · cierre E4 con su nombre (patrón) | preguntas, *can / can't* · cierre E7 |
 | 5 · *The League Table* | R01-N04-P1 a P4 | la tabla de la Liga Obsidiana, Teo «estaba primero» | números, *first / second / third*, días de la semana · cierre E4 | comparativos y ordinales (*more points than*) · cierre E8 |
 
+**Los textos y los ejercicios del piloto completo:** [historias/ingles-piloto.md](historias/ingles-piloto.md) (borrador 1, para revisar).
+
 El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la escena de Nora, R01-N01-P3). En el piloto queda en 4, y la de Nora pasa al episodio 2.
 
 **Qué evalúa el docente con el piloto:** si un chico de 6 lo puede usar solo, si la escritura sube bien de escalón, cuánto tarda cada misión (la meta: 2 a 5 minutos) y si la voz alcanza.

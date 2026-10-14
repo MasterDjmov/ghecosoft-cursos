@@ -30,6 +30,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 - *first, second, third* y los días de la semana
 - Las ramas de los Talleres: más colores con Teo, «¿de qué color es?» con Nora y comprar en la carretilla de Ámbar
 - Temporada 2, las Forjas con Kira: la ropa, el cuerpo, cómo son las cosas (*hot, cold, heavy, light, long, short*) y *can / can't*
+- Temporada 3, el Puerto con Nilo: saludos, la familia, *have got*, *in / on / under / next to*, el clima y los días; ramas con Pico, Iara, los tres muelles y la carta «para quien llegue»
 
 # DICCIONARIO
 

@@ -1,4 +1,4 @@
-# Crónicas en Inglés · Temporada del Puerto (Nilo) — plan, a revisar
+# Crónicas en Inglés · Temporada del Puerto (Nilo) — aprobada y cargada (2026-10-14)
 
 La tercera temporada de las Crónicas en Inglés ([INGLES.md](../INGLES.md) § 8), con la misma forma que las Forjas ([ingles-forjas.md](ingles-forjas.md)): **8 episodios de tronco**, **4 ramas** optativas, 5 micro-misiones por episodio (la portada y 4 misiones) y la temporada siguiente se abre con 6 de los 8. Ada llega al Puerto de los Mensajeros **justo cuando Nilo vive su historia** ([php.md](php.md)) y la escribe en el Gran Libro.
 
@@ -70,3 +70,10 @@ De PHP hay escenas de la Clase 0 y del Muelle (R01, hasta `R01-N10-P2`). La hist
 1. El docente revisa este plan.
 2. Las escenas de PHP que faltan (unas 18) y las 24 portadas, en el proyecto de PHP (`12272294721581088244`), con las hojas de Ada recreadas ahí.
 3. Los 12 episodios en las dos versiones (`cursos/ingles-*/03-puerto.md`), probados contra el corrector, y el deploy con `--cursos`.
+
+## 5. Hecho (2026-10-14)
+
+- El docente aprobó el plan («si me sirve») y pidió seguir con las escenas hasta que Stitch frenara; no frenó.
+- **18 escenas de PHP** nuevas (que también usa el curso de PHP) y **24 portadas** (`PUERTO-01` a `12`, `PUERTO-S01` a `S12`), en el proyecto de PHP con las hojas de Ada recreadas ahí (ESCENAS.md).
+- Los 12 episodios en las dos versiones: [cursos/ingles-primaria/03-puerto.md](../../cursos/ingles-primaria/03-puerto.md) y [cursos/ingles-secundaria/03-puerto.md](../../cursos/ingles-secundaria/03-puerto.md), 60 misiones cada uno; las 59 respuestas abiertas probadas contra `english.js`.
+- Cambios contra el plan: la rama de los casilleros suma, en Secundaria, números largos (*two hundred and seventy*); el final de Primaria pide escribir con *I have got* y la edad; la rama «For Whoever Arrives» de Secundaria practica la nota formal y las preguntas indirectas.

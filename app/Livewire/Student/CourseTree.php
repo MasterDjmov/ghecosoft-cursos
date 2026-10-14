@@ -103,6 +103,10 @@ class CourseTree extends Component
         return view('livewire.student.library', [
             'episodes' => $episodes,
             'paidUntil' => $access->paidUntil($user, $this->course),
+            // Primer episodio de prueba (D71): todavía no tiene abono; se pide desde la ficha del curso, como en los otros.
+            'trial' => $access->canTryCourse($user, $this->course),
+            'subscription' => $access->activeSubscription($user, $this->course),
+            'staff' => $user->isStaff(),
             'scene' => app(Glossary::class)->scene($this->course),
         ])->title('Biblioteca · '.$this->course->title);
     }

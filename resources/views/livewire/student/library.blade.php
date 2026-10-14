@@ -24,12 +24,32 @@
         </div>
     </header>
 
+    @if ($trial)
+        <flux:callout icon="sparkles" color="cyan" data-test="trial-banner">
+            <flux:callout.heading>Estás probando {{ $course->title }} gratis</flux:callout.heading>
+            <flux:callout.text>
+                El primer episodio se lee y se practica sin pagar. Para seguir con los demás,
+                <flux:link :href="route('student.course', $course)" wire:navigate>pedí tu abono</flux:link> (el mes empieza a correr cuando se aprueba).
+            </flux:callout.text>
+        </flux:callout>
+    @elseif (! $subscription && ! $staff)
+        <flux:callout icon="clock" color="amber" data-test="expired-banner">
+            <flux:callout.heading>Tu abono no está vigente</flux:callout.heading>
+            <flux:callout.text>
+                Podés releer y repasar los episodios que abriste. Para abrir episodios nuevos,
+                <flux:link :href="route('student.course', $course)" wire:navigate>renová el abono</flux:link>.
+            </flux:callout.text>
+        </flux:callout>
+    @endif
+
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         @foreach ($episodes as $episode)
             @php
                 $node = $episode['node'];
                 $state = $episode['state'];
-                $open = in_array($state, [TreeAccess::STATE_UNLOCKED, TreeAccess::STATE_COMPLETED], true);
+                // El primer episodio de prueba (sin abono) se lee y se practica como si estuviera abierto.
+                $tryingIt = $trial && $node->isRoot();
+                $open = $tryingIt || in_array($state, [TreeAccess::STATE_UNLOCKED, TreeAccess::STATE_COMPLETED], true);
                 $progress = $episode['progress'];
                 $url = route('student.node', [$course, $node]);
             @endphp
@@ -61,11 +81,17 @@
                         <span class="font-mono text-xs text-ink-muted" data-test="episode-progress">{{ $open ? $progress['done'] : 0 }} de {{ $progress['total'] }}</span>
                     </div>
                     <div class="mt-auto flex flex-wrap gap-2">
-                        @if ($open)
+                        @if ($tryingIt)
+                            <flux:button size="sm" icon="book-open" :href="$url.'?leer=1'" wire:navigate data-test="episode-read">Leer</flux:button>
+                            <flux:button size="sm" icon="bolt" :href="$url" wire:navigate data-test="episode-practice">Practicar gratis</flux:button>
+                            <flux:button size="sm" variant="primary" icon="ticket" :href="route('student.course', $course)" wire:navigate data-test="episode-subscribe">Pedir abono</flux:button>
+                        @elseif ($open)
                             <flux:button size="sm" icon="book-open" :href="$url.'?leer=1'" wire:navigate data-test="episode-read">Leer</flux:button>
                             <flux:button size="sm" variant="primary" icon="bolt" :href="$url" wire:navigate data-test="episode-practice">
                                 {{ $state === TreeAccess::STATE_COMPLETED ? 'Repasar' : ($progress['done'] > 0 ? 'Seguir' : 'Practicar') }}
                             </flux:button>
+                        @elseif ($state === TreeAccess::STATE_AVAILABLE && ! $subscription && ! $staff)
+                            <flux:button size="sm" variant="primary" icon="ticket" :href="route('student.course', $course)" wire:navigate data-test="episode-subscribe">Renovar el abono</flux:button>
                         @elseif ($state === TreeAccess::STATE_AVAILABLE)
                             <flux:button size="sm" variant="primary" icon="lock-open" wire:click="unlock({{ $node->id }})" data-test="episode-open">Empezar</flux:button>
                         @else

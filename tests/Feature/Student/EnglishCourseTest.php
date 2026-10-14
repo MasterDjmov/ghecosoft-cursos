@@ -175,3 +175,17 @@ test('el admin guarda un curso de inglés con el primer episodio gratis; uno de 
         ->set('root_price', 0)
         ->call('save')->assertHasErrors('root_price');
 });
+
+test('sin abono, la biblioteca deja probar el primer episodio y lleva a pedir el abono', function () {
+    $course = importEnglishPrimaria();
+    $student = User::factory()->create();
+
+    Livewire::actingAs($student)->test(CourseTree::class, ['course' => $course])
+        ->assertSee('Estás probando')
+        ->assertSee('Practicar gratis')
+        ->assertSee('Pedir abono')
+        ->assertDontSee('Empezar');
+
+    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
+        ->assertSee('This is Ada.');
+});

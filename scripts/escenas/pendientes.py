@@ -139,6 +139,9 @@ REFS = {
         # Las otras temporadas usan el proyecto de su región con las hojas de Ada recreadas ahí (docs/ESCENAS.md):
         # Forjas (C, 12453694413360128121): Ada niña 4eb59d68037844c09f3cf2aafdd77cd4, Ada de 15 a94bdbb01fe44e2eb49eea421419838c.
         # Puerto (PHP, 12272294721581088244): Ada niña fd32dbcd41874f3ebedd1802bb364b76, Ada de 15 ec1abd3a409d48b58277a0408b62d043.
+        # Ciudadela (C++, 14674491267148198305): Ada niña d78c472031ae4da8b564180cc607e12b, Ada de 15 888fedb546b049779bc0758f69293c42.
+        #   Portadas de Primaria (para pasarlas a Ada de 15): 08 95dc12b9858c42b0bc079fc629728660, 09 4d5b7a4a9cdf4632b3719e1882b72eef,
+        #   10 169f83e33f684d5594ec4017c0b70e40, 11 72b6a17a8a0749eeae6144acae129d83, 12 20a9986dfbe24b8c9052f7180b71d0b5.
         'project': '9229721314509917104',
         'region': 'Los Talleres de los Vitrales',
         'ambiente': 'en un taller de vitralistas con ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos y vidrios',

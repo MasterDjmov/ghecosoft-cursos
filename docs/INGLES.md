@@ -168,7 +168,16 @@ El docente pidió más que el piloto («5 capítulos de 5 misiones me los termin
 
 **Se trabaja por tandas**, como el piloto: una temporada escrita en un .md, el docente la revisa y se carga.
 
-**Falta que el docente confirme:** el orden y la gramática (o pasar el programa de la escuela para ajustarlo), el tamaño de cada temporada y por cuál empezar (la propuesta: Forjas, y completar los Talleres con sus ramas).
+**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: plan en [historias/ingles-forjas.md](historias/ingles-forjas.md).
+
+### El programa nacional y el de La Rioja (analizado el 2026-10-14)
+
+El docente pasó los documentos del [Programa Nacional de Fortalecimiento de la Enseñanza del Inglés](https://www.argentina.gob.ar/capital-humano/educacion/programas-educativos/programa-nacional-de-fortalecimiento-de-la-ensenanza) (2026): el análisis situacional y líneas de acción, y el cuadernillo *Promoting Interaction in the English Classroom*. Lo que sirve para las Crónicas:
+- **No fijan temas por grado.** La base de contenidos son los **NAP de Lenguas Extranjeras**, alineados con el **Marco Común Europeo** (A1–B2); cada provincia arma su diseño.
+- **La Rioja** tiene diseño provincial basado en los NAP: comunicativo, intercultural y plurilingüe; 2 horas cátedra por semana en primaria y 3 en secundaria; **tres recorridos**: A (desde 1.º grado), B (desde 4.º) y C (desde 7.º). Hay escuelas sin inglés y diferencias de nivel al pasar a secundaria.
+- **El problema que marcan en La Rioja:** en la práctica domina la gramática con vocabulario, y no hay material actualizado (las públicas usan cuadernillos fotocopiados). Es el hueco que llenan las Crónicas.
+- **Lo que piden:** enfoque comunicativo, oralidad, juego, evaluación formativa, recursos digitales, AICLE/CLIL y aprendizaje por proyectos y tareas.
+- **Para las Crónicas:** cada episodio tiene un *para qué* comunicativo; cada temporada se puede empezar desde cero (su primer episodio repasa lo necesario), por los tres recorridos; la voz («Decilo en voz alta») y el audio en cada misión; Secundaria también sirve a quien empieza en 7.º.
 
 ### Los cursos que vienen (JavaScript, React Native, Laravel)
 

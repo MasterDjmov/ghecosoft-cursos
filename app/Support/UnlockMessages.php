@@ -25,11 +25,20 @@ class UnlockMessages
                 TreeAccess::BLOCK_PARENT_INCOMPLETE => $course->language->isSelfChecked()
                     ? 'Terminá las misiones de «'.$node->parent?->title.'».'
                     : 'Aprobá las '.term('practice', $course, 2).' obligatorias de «'.$node->parent?->title.'».',
+                TreeAccess::BLOCK_SEASON_INCOMPLETE => self::seasonMissing($user, $node, $access),
                 TreeAccess::BLOCK_REQUIREMENTS_INCOMPLETE => self::missingRequirements($user, $node, $access),
                 TreeAccess::BLOCK_INSUFFICIENT_FUNDS => self::missingFunds($user, $node, $access),
                 default => null,
             };
         }, $blockers)));
+    }
+
+    /** D106: "Terminá 6 de los 8 episodios de «Las Forjas» (llevás 4)." */
+    public static function seasonMissing(User $user, Node $node, TreeAccess $access): string
+    {
+        $season = $access->seasonProgress($user, $node->parent);
+
+        return "Terminá {$season['needed']} de los {$season['total']} episodios de «{$season['title']}» (llevás {$season['done']}).";
     }
 
     /** "Aprobá también las obligatorias de «X» y de «Y»." */

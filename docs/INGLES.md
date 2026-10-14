@@ -168,7 +168,7 @@ El docente pidió más que el piloto («5 capítulos de 5 misiones me los termin
 
 **Se trabaja por tandas**, como el piloto: una temporada escrita en un .md, el docente la revisa y se carga.
 
-**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: plan en [historias/ingles-forjas.md](historias/ingles-forjas.md).
+**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: [historias/ingles-forjas.md](historias/ingles-forjas.md). **Cargada el 2026-10-14** (12 episodios por curso con portadas propias; la regla de temporadas es `TreeAccess::startsSeason`).
 
 ### El programa nacional y el de La Rioja (analizado el 2026-10-14)
 

@@ -20,6 +20,7 @@ use App\Services\StepCompleter;
 use App\Services\TreeAccess;
 use App\Support\CvData;
 use App\Support\EnglishExercise;
+use App\Support\UnlockMessages;
 use Livewire\Livewire;
 
 /*
@@ -69,8 +70,10 @@ test('el curso de Primaria se importa sin prácticas y cada micro-misión con su
     $course = importEnglishPrimaria();
 
     expect($course->language->isSelfChecked())->toBeTrue()
-        ->and($course->nodes()->count())->toBe(5)
-        ->and($course->nodes()->where('is_published', true)->count())->toBe(5)
+        // Los Talleres (raíz + 4) y las Forjas (8 de tronco + 4 ramas).
+        ->and($course->nodes()->count())->toBe(17)
+        ->and($course->nodes()->where('is_published', true)->count())->toBe(17)
+        ->and($course->nodes()->where('type', 'extra')->count())->toBe(4)
         ->and($course->nodes()->whereHas('practices')->exists())->toBeFalse();
 
     $step = NodeStep::where('code', 'R00-N01-P2')->whereIn('node_id', $course->nodes()->pluck('id'))->first();
@@ -237,4 +240,55 @@ test('Ada es la protagonista: niña en Primaria y de 15 en Secundaria, con sus s
         ->assertSee('Tomá el control de Ada');
     Livewire::actingAs($student)->test(HeroPage::class, ['course' => $primaria])
         ->assertOk()->assertSee('Aprendiz del Profe');
+});
+
+/** Un curso de inglés chico con dos temporadas: los Talleres (raíz + 3) y las Forjas (2 de tronco + 1 rama). */
+function importEnglishSeasons(): Course
+{
+    $step = fn (string $code) => "### Micro-misión {$code}-P1 · Hello\n#### Inglés\nHello.\n#### Ejercicio\ntipo: leer\n\n";
+    $node = fn (string $code, string $meta) => "## {$code} · Episodio {$code}\n\n```meta\n{$meta}\n```\n\n".$step($code);
+    $md = "# CURSO\n\n```meta\nslug: ingles-temporadas\ntitulo: Temporadas\nlenguaje: english\nprecio_raiz: 0\npublicado: si\n```\n\n"
+        .$node('R00-N01', 'tipo: raiz')
+        ."# RAMA R01 · Los Talleres\n\n```meta\ntipo: tronco\nposicion: 1\n```\n\n"
+        .$node('R01-N01', "padre: R00-N01\nprecio: 0").$node('R01-N02', "padre: R00-N01\nprecio: 0").$node('R01-N03', "padre: R00-N01\nprecio: 0")
+        ."# RAMA R02 · Las Forjas\n\n```meta\ntipo: tronco\nposicion: 2\n```\n\n"
+        .$node('R02-N01', "padre: R00-N01\nprecio: 0").$node('R02-N02', "padre: R02-N01\nprecio: 0")
+        .$node('R02-N03', "tipo: extra\npadre: R02-N01\nprecio: 0");
+    $report = app(CourseImporter::class)->import([['name' => 'x.md', 'content' => $md]], dryRun: false);
+    expect($report->errors)->toBe([]);
+
+    return Course::where('slug', 'ingles-temporadas')->firstOrFail();
+}
+
+test('la temporada siguiente se abre con la mayor parte del tronco de la anterior, y las ramas no cuentan', function () {
+    $course = importEnglishSeasons();
+    $code = fn (string $c) => $course->nodes()->where('code', $c)->first();
+    $student = enrolledStudent($course);
+    $access = app(TreeAccess::class);
+    app(NodeUnlocker::class)->unlock($student, $course->rootNode);
+    passEpisode($student, $course->rootNode);
+
+    // Los Talleres tienen 4 de tronco: hacen falta 3. Con 2 terminados, las Forjas siguen cerradas.
+    app(NodeUnlocker::class)->unlock($student, $code('R01-N01'));
+    passEpisode($student, $code('R01-N01'));
+    $forjas = $code('R02-N01');
+    expect($access->startsSeason($forjas))->toBeTrue()
+        ->and($access->unlockBlockers($student, $forjas))->toContain(TreeAccess::BLOCK_SEASON_INCOMPLETE)
+        ->and(implode(' ', UnlockMessages::for($student, $forjas)))->toContain('Terminá 3 de los 4 episodios de «Los Talleres» (llevás 2)')
+        ->and(fn () => app(NodeUnlocker::class)->unlock($student, $forjas))->toThrow(NodeLocked::class);
+
+    app(NodeUnlocker::class)->unlock($student, $code('R01-N02'));
+    passEpisode($student, $code('R01-N02'));
+    expect($access->state($student, $forjas))->toBe(TreeAccess::STATE_AVAILABLE);
+
+    // La rama (extra) cuelga del episodio y no cuenta para el tronco de las Forjas.
+    app(NodeUnlocker::class)->unlock($student, $forjas);
+    passEpisode($student, $forjas);
+    expect($access->startsSeason($code('R02-N03')))->toBeFalse()
+        ->and($access->state($student, $code('R02-N03')))->toBe(TreeAccess::STATE_AVAILABLE)
+        ->and($access->seasonProgress($student, $forjas))->toMatchArray(['done' => 1, 'total' => 2, 'needed' => 2]);
+
+    Livewire::actingAs($student)->test(CourseTree::class, ['course' => $course])
+        ->assertSee('Temporada 2')->assertSee('Las Forjas')->assertSee('Ramas:')
+        ->assertSee('3 de 4 episodios');
 });

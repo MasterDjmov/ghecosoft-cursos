@@ -28,6 +28,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 - *a* y *an*, *big* y *little*
 - Las partes del cuerpo: *head, body, feet, eyes, hands*
 - *first, second, third* y los días de la semana
+- Temporada 2, las Forjas con Kira: la ropa, el cuerpo, cómo son las cosas (*hot, cold, heavy, light, long, short*) y *can / can't*
 
 # DICCIONARIO
 

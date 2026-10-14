@@ -136,6 +136,8 @@ REFS = {
     },
     'ingles': {
         # El piloto pasa en los Talleres: mismo proyecto que HTML, con Ada, Eco y el Borrón (generados el 2026-10-13).
+        # Las otras temporadas usan el proyecto de su región con las hojas de Ada recreadas ahí (docs/ESCENAS.md):
+        # Forjas (C, 12453694413360128121): Ada niña 4eb59d68037844c09f3cf2aafdd77cd4, Ada de 15 a94bdbb01fe44e2eb49eea421419838c.
         'project': '9229721314509917104',
         'region': 'Los Talleres de los Vitrales',
         'ambiente': 'en un taller de vitralistas con ventanales de colores, ríos de plomo fundido, hornos y mesas llenas de bocetos y vidrios',

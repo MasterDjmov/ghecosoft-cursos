@@ -28,6 +28,7 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 - *there is / there are* y las preposiciones de lugar
 - *can / can't / could* y las preguntas
 - Comparativos y ordinales
+- Temporada 2, las Forjas con Kira: pasado simple (negativas y preguntas con *did*), comparativos, superlativos y *as … as*
 
 # DICCIONARIO
 

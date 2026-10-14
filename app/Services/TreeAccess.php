@@ -53,6 +53,12 @@ class TreeAccess
 
     public const BLOCK_INSUFFICIENT_FUNDS = 'insufficient_funds';
 
+    /** D106: el primer episodio de una temporada se abre con la mayor parte del tronco de la anterior. */
+    public const BLOCK_SEASON_INCOMPLETE = 'season_incomplete';
+
+    /** D106: qué parte del tronco de una temporada abre la siguiente (6 de 8, 4 de 5). */
+    public const SEASON_SHARE = 0.75;
+
     public function __construct(private readonly Ledger $ledger) {}
 
     public function activeSubscription(User $user, Course $course): ?CourseSubscription
@@ -188,7 +194,12 @@ class TreeAccess
                 $blockers[] = self::BLOCK_ROOT_CLOSED;
             }
 
-            if ($node->parent && ! $this->isCompleted($user, $node->parent)) {
+            if ($node->parent && $this->startsSeason($node)) {
+                $season = $this->seasonProgress($user, $node->parent);
+                if ($season['done'] < $season['needed']) {
+                    $blockers[] = self::BLOCK_SEASON_INCOMPLETE;
+                }
+            } elseif ($node->parent && ! $this->isCompleted($user, $node->parent)) {
                 $blockers[] = self::BLOCK_PARENT_INCOMPLETE;
             }
 
@@ -202,6 +213,46 @@ class TreeAccess
         }
 
         return $blockers;
+    }
+
+    /**
+     * D106: en un curso que se comprueba solo, cada rama es una **temporada** (una región). El raíz es de la
+     * primera. Un nodo empieza una temporada si su padre es de otra: entonces no pide el padre terminado sino
+     * la mayor parte del tronco de esa temporada (los extras son las ramas optativas y no cuentan).
+     */
+    public function startsSeason(Node $node): bool
+    {
+        return $node->parent_id !== null && $this->isSelfChecked($node)
+            && $this->seasonBranchId($node) !== $this->seasonBranchId($node->parent);
+    }
+
+    /** La temporada (rama) de un nodo; el raíz va con la primera. */
+    public function seasonBranchId(Node $node): ?int
+    {
+        return $node->branch_id ?? $node->course->branches()->orderBy('position')->orderBy('id')->value('id');
+    }
+
+    /**
+     * El avance del tronco de la temporada de un nodo: cuántos episodios terminó, cuántos hay y cuántos
+     * hacen falta para abrir la siguiente.
+     *
+     * @return array{done: int, total: int, needed: int, title: ?string}
+     */
+    public function seasonProgress(User $user, Node $node): array
+    {
+        $branchId = $this->seasonBranchId($node);
+        $first = $node->course->branches()->orderBy('position')->orderBy('id')->value('id');
+        $trunk = Node::where('course_id', $node->course_id)->where('is_published', true)->where('type', '!=', NodeType::Extra)
+            ->where(fn ($q) => $q->where('branch_id', $branchId)->when($branchId === $first, fn ($q) => $q->orWhere('type', NodeType::Root)))
+            ->get();
+        $total = $trunk->count();
+
+        return [
+            'done' => $trunk->filter(fn (Node $episode) => $this->isCompleted($user, $episode))->count(),
+            'total' => $total,
+            'needed' => (int) ceil($total * self::SEASON_SHARE),
+            'title' => $node->course->branches()->whereKey($branchId)->value('title'),
+        ];
     }
 
     /**

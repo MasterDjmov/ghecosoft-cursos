@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Student;
 
+use App\Enums\NodeType;
 use App\Livewire\Student\Concerns\UnlocksNodes;
 use App\Models\Course;
 use App\Models\Node;
@@ -10,6 +11,7 @@ use App\Services\TreeAccess;
 use App\Support\Glossary;
 use App\Support\Story;
 use App\Support\TreeGraph;
+use App\Support\UnlockMessages;
 use Flux\Flux;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -98,10 +100,25 @@ class CourseTree extends Component
                 'progress' => $access->stepProgress($user, $node),
                 'cover' => $node->steps->first(fn ($step) => $step->image_path)?->imageUrl(),
                 'subtitle' => $node->steps->first()?->title,
+                // Las ramas de la temporada (extras): optativas, no hacen falta para seguir.
+                'optional' => $node->type === NodeType::Extra,
+                'season' => $access->seasonBranchId($node),
+                'lockedReason' => $access->startsSeason($node) ? UnlockMessages::seasonMissing($user, $node, $access) : null,
             ]);
+
+        // Una temporada por rama (una región), en orden, cada una con el avance de su tronco.
+        $seasons = $this->course->branches()->orderBy('position')->orderBy('id')->get()
+            ->map(function ($branch) use ($episodes, $access, $user) {
+                $own = $episodes->where('season', $branch->id)->sortBy(fn ($episode) => [$episode['optional'] ? 1 : 0, $episode['node']->isRoot() ? 0 : 1])->values();
+
+                return ['branch' => $branch, 'episodes' => $own, 'progress' => $own->isEmpty() ? null : $access->seasonProgress($user, $own->first()['node'])];
+            })
+            ->filter(fn ($season) => $season['episodes']->isNotEmpty())
+            ->values();
 
         return view('livewire.student.library', [
             'episodes' => $episodes,
+            'seasons' => $seasons,
             'paidUntil' => $access->paidUntil($user, $this->course),
             // Primer episodio de prueba (D71): todavía no tiene abono; se pide desde la ficha del curso, como en los otros.
             'trial' => $access->canTryCourse($user, $this->course),

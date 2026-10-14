@@ -1,8 +1,8 @@
-# Crónicas en Inglés · Temporada de las Forjas (Kira) — plan, a revisar
+# Crónicas en Inglés · Temporada de las Forjas (Kira) — aprobada y cargada (2026-10-14)
 
 La segunda temporada de las Crónicas en Inglés ([INGLES.md](../INGLES.md) § 8). Ada llega a las Forjas de Hierro **justo cuando Kira vive su historia** ([c.md](c.md)) y la escribe en el Gran Libro, en la Lengua Común. Primaria es la Ada de 11 con Eco pichón y el Borrón chico; Secundaria es la misma temporada contada por la Ada de 15, «hace cuatro años, en las Forjas…», con Eco joven y el Gran Borrón.
 
-Este documento es **el plan**: qué episodios hay, qué enseña cada uno y qué escenas usa. Cuando el docente lo apruebe, se escriben los episodios completos (como el piloto, [ingles-piloto.md](ingles-piloto.md)) y se cargan.
+El docente aprobó el plan, las 24 portadas (una por episodio, también en las ramas: «dentro de cada rama ya comienzan a salir las otras escenas de los cursos») y las ramas (2026-10-14). Los episodios están escritos directo en el formato del importador: [cursos/ingles-primaria/02-forjas.md](../../cursos/ingles-primaria/02-forjas.md) y [cursos/ingles-secundaria/02-forjas.md](../../cursos/ingles-secundaria/02-forjas.md); las portadas, en `cursos/ingles/escenas/FORJAS-*`.
 
 ## 1. Cómo se arma
 
@@ -79,8 +79,8 @@ Este documento es **el plan**: qué episodios hay, qué enseña cada uno y qué 
 - La regla «6 de 8 abren la temporada siguiente», con su Policy y sus tests Pest.
 - Los Talleres (la temporada 1, el piloto) se completan con sus ramas (Teo, Nora, Ámbar) para que tengan la misma forma.
 
-## 6. Lo que falta decidir
+## 6. Hecho (2026-10-14)
 
-1. ¿Los episodios y la gramática de Primaria y Secundaria están bien?
-2. ¿Las 16 portadas nuevas (Ada, Eco y Kira) o alcanza con las escenas de C, con Ada solo en la portada del primero y del último?
-3. ¿Las ramas propuestas (Chispa, Tizón, Hulda, la carta de Bron) o preferís otras?
+- Las temporadas en la plataforma: `TreeAccess::startsSeason` / `seasonProgress` (el primer episodio de una temporada tiene como padre el **primer episodio de la temporada anterior** y se abre con el 75 % de su tronco: 4 de 5, 6 de 8), la biblioteca agrupada por temporada con las ramas aparte, y su test.
+- Los 12 episodios en las dos versiones (60 misiones cada una) y las 24 portadas.
+- Falta: las ramas de los Talleres (Teo, Nora, Ámbar), para que la temporada 1 tenga la misma forma.

@@ -68,7 +68,8 @@ Las Crónicas en Inglés recorren **todas** las regiones ([INGLES.md](INGLES.md)
 - la gramática de esa temporada se elige según dónde encaje en el recorrido (la tabla de INGLES.md § 8);
 - sus escenas sirven para el inglés: cuantas más escenas tenga el curso, más barata es su temporada;
 - sus criaturas pasan a ser errores de inglés como las demás (historias/ingles.md § 2);
-- si algún personaje nuevo se cruza con Ada, va en su ficha.
+- si algún personaje nuevo se cruza con Ada, va en su ficha;
+- **las portadas** (una por episodio, tronco y ramas, en las dos edades de Ada) se hacen en el proyecto de Stitch de esa región, recreando antes ahí las hojas de Ada niña y de 15 (ver ESCENAS.md, fila de las Forjas); si al curso le faltan escenas para los episodios, se generan.
 
 ## 5. Una historia o escena nueva
 

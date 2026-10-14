@@ -20,6 +20,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/JUEGO.md](docs/JUEGO.md) — D84, a revisar (reemplaza a FICHA-HEROE.md): el jugador (Alfa), un protagonista fijo por curso, micro-misiones que se comprueban solas y solo dan premios de juego, oro, monturas, ítems, botín y expediciones. Las historias por curso, en [docs/historias/](docs/historias/) (protagonistas y arco de Python).
 - [docs/ENCICLOPEDIA.md](docs/ENCICLOPEDIA.md) — D104, etapas 1 y 2 hechas (Maestros, Bestiario, Artefactos y Monedas): la Gran Enciclopedia del Código para el alumno (maestros, bestiario, artefactos con «dónde se consigue», monturas, monedas, reinos; lo no descubierto en silueta con su pista; todo el universo; el Grimorio queda como sección).
 - [docs/INGLES.md](docs/INGLES.md) — D106, fase 1 hecha (para probar; § 6 dice qué falta): «Crónicas en Inglés», dos cursos extra autocomprobados (Primaria 6+ y Secundaria) con abono; biblioteca de episodios, escritura por escalones, piloto con los Talleres (HTML). La historia unificada (Ada, su mascota Eco y el Borrón), en [docs/historias/ingles.md](docs/historias/ingles.md).
+- [docs/ALTA-DE-CURSOS-Y-PERSONAJES.md](docs/ALTA-DE-CURSOS-Y-PERSONAJES.md) — **revisarla entera cada vez que se suma un curso, un personaje, una criatura, una montura, un ítem o un tramo de historia**: landing, enciclopedia, diccionario, Mis Crónicas, juego (ítems con imagen, tiendas, expediciones, monturas), universo y su temporada en las Crónicas en Inglés (vienen JS, React Native y Laravel).
 - [docs/historias/php.md](docs/historias/php.md) — borrador 1 de la historia de PHP (Nilo en el Puerto, Iara, Fermín, Marea, Pico y los jefes), con los pedidos para Stitch y lo que falta decidir; las escenas de PHP esperan esta historia.
 - [docs/NOVELA-GRAFICA.md](docs/NOVELA-GRAFICA.md) — resumen del universo narrativo (regiones, líderes, cruces, el misterio del portal) para diseñar ilustraciones.
 - [docs/CORRECCION-ASISTIDA.md](docs/CORRECCION-ASISTIDA.md) — D73, a revisar: la corrección sigue siendo humana, pero con varias pruebas por práctica que corren en el navegador del docente, el indicio (entrada + salida esperada) igual en todos los cursos, comentarios guardados y «dónde se traban».
@@ -27,6 +28,7 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - [docs/CURSOS-EXISTENTES.md](docs/CURSOS-EXISTENTES.md) — el material de `/home/djmov/Programas/Cursos/FullCursos/` y cómo se traduce a cursos, unidades y clases. Esa carpeta es solo lectura: no se modifica desde este proyecto.
 
 ## Reglas de trabajo
+- Al sumar un curso, personaje, ítem o historia, recorrer [docs/ALTA-DE-CURSOS-Y-PERSONAJES.md](docs/ALTA-DE-CURSOS-Y-PERSONAJES.md) y dejar cada punto hecho o anotado como pendiente.
 - Trabajar por fases (ver PLAN.md § 9) y **frenar al final de cada una** para que el docente pruebe. No arrancar una fase sin su OK.
 - Commits chicos y descriptivos por funcionalidad.
 - Interfaz en **español rioplatense** ("Continuá", "Entregá tu tarea"); código, nombres de rutas, clases y columnas en **inglés**. URIs visibles en español.

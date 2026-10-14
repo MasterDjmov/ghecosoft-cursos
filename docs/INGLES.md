@@ -145,3 +145,31 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
 3. **Las cuentas de los más chicos las crea el docente o el administrador** (`StudentAccounts`, como hoy).
 4. **Para abrir el nivel siguiente**, para probar: 4 episodios de 5.
 5. **Protagonista propio:** uno nuevo, distinto de todos, generado en Stitch y cargado como el resto en la enciclopedia, el diccionario, Mis Crónicas y el juego. La propuesta es Ada, con su mascota Eco ([historias/ingles.md](historias/ingles.md) § 2 y § 7).
+
+## 8. Temporadas: el curso completo (propuesta del 2026-10-14, a revisar)
+
+El docente pidió más que el piloto («5 capítulos de 5 misiones me los terminan en una hora») y que **salgan todos los personajes**: Kira, Zed, Mia, Bron, Nilo… en Primaria y en Secundaria, cada una a su nivel.
+
+- **Una temporada por región**, con su héroe. En la biblioteca los episodios se agrupan por temporada.
+- **Tronco y ramas:** unos 8 episodios de tronco con la gramática y 3 o 4 ramas cortas, optativas, con la gente del lugar (el carro de Chispa, el puesto de Fermín, Pico, el comedor de Oto…), que suman vocabulario, oro y botín.
+- **La temporada siguiente se abre** con la mayor parte del tronco terminado (por ejemplo 6 de 8; reemplaza el «4 de 5» de § 7).
+- **Los dos cursos recorren las seis regiones:** Primaria es el viaje de Ada niña, Secundaria el mismo viaje cuatro años después con inglés más difícil. Cambia lo de historias/ingles.md § 4 (Primaria con 3 regiones y Secundaria con las otras 3).
+
+| Región | Primaria (A1 → A2) | Secundaria (A2 → B1) |
+|---|---|---|
+| Talleres · Iris | colores, números, *this is*, *to be*, útiles | repaso de *to be*, presente simple, *there is/are* |
+| Puerto · Nilo | saludos, familia, *have got*, *in/on/under* | presente continuo, preguntas, *some/any* |
+| Forjas · Kira | cuerpo, ropa, *big/hot/heavy*, *can/can't* | pasado simple, comparativos y superlativos |
+| Ciudadela · Bron | comida, la casa, números hasta 100, *I like* | futuro (*will* y *going to*), primer condicional |
+| Valle · Mia | animales, rutina, presente simple, días y clima | presente perfecto, *must/should* |
+| Imperio · Zed | presente continuo, *wh-questions*, meses, repaso | voz pasiva, segundo condicional, estilo indirecto; final con el Gran Borrón |
+
+**Las escenas mandan el orden de trabajo:** C (161) y HTML (100) están completos; C++ (37) y PHP (41) a medias; Python (4) y Java (0) necesitan escenas nuevas en Stitch.
+
+**Se trabaja por tandas**, como el piloto: una temporada escrita en un .md, el docente la revisa y se carga.
+
+**Falta que el docente confirme:** el orden y la gramática (o pasar el programa de la escuela para ajustarlo), el tamaño de cada temporada y por cuál empezar (la propuesta: Forjas, y completar los Talleres con sus ramas).
+
+### Los cursos que vienen (JavaScript, React Native, Laravel)
+
+Cada curso nuevo trae su región, su héroe, su líder, su gente, sus jefes y sus criaturas, y **todos tienen su reparto en inglés**: una **temporada nueva** en Primaria y en Secundaria, con tronco y ramas, y la gramática según dónde caiga en el recorrido. Sus escenas se reusan en el inglés como las de los demás. La lista completa de lo que hay que tocar al sumar un curso o un personaje (inglés incluido) está en [ALTA-DE-CURSOS-Y-PERSONAJES.md](ALTA-DE-CURSOS-Y-PERSONAJES.md).

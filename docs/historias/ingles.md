@@ -62,7 +62,7 @@ El orden de los mundos sigue la dificultad del inglés. En cada nivel Ada visita
 | 5 | **La Ciudadela de los Artífices** (Bron) | planos e inventos: *will*, *going to*, condicionales; Eco pasa a ser adulto | el Autómata que solo habla al revés (voz pasiva) |
 | 6 | **El Imperio de las Clases** (Zed) y **el Balcón** | inglés técnico: Ada lee las cartas «para quien llegue» en la Lengua Común | el Gran Borrón, que se lee y no se vence |
 
-**Primaria hace los niveles 1–3** con frases cortas, mucha imagen y voz. **Secundaria hace los 4–6** y arranca con un **repaso de 1–3 contado desde Ada a los 15**: «hace cuatro años, cuando el libro estaba en blanco…». Así un alumno de secundaria que nunca hizo Primaria también arranca desde el principio, con otra profundidad.
+**Cambio propuesto el 2026-10-14 ([INGLES.md](../INGLES.md) § 8, a revisar): los dos cursos recorren las seis regiones, por temporadas, y cada curso nuevo (JS, React Native, Laravel) suma la suya.** Lo que sigue es el plan original. **Primaria hace los niveles 1–3** con frases cortas, mucha imagen y voz. **Secundaria hace los 4–6** y arranca con un **repaso de 1–3 contado desde Ada a los 15**: «hace cuatro años, cuando el libro estaba en blanco…». Así un alumno de secundaria que nunca hizo Primaria también arranca desde el principio, con otra profundidad.
 
 ## 5. El tono
 

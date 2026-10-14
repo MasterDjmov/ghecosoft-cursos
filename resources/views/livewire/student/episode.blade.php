@@ -255,12 +255,17 @@
                             <template x-if="exercise.speak && canListen">
                                 <div class="flex flex-col gap-2 rounded-lg border border-outline/70 p-3" data-test="en-speak">
                                     <p class="text-sm text-ink-muted">Extra: decilo en voz alta → <span class="font-semibold text-white" x-text="exercise.speak.replace(/\{\*\w+\}/, '…')"></span></p>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex flex-wrap items-center gap-2">
                                         <flux:button size="sm" icon="microphone" x-on:click="listen()" x-bind:disabled="listening"><span x-text="listening ? 'Escuchando…' : 'Decilo'">Decilo</span></flux:button>
-                                        <span x-show="star" class="text-xl">⭐</span>
-                                        <span x-show="spoken" class="text-sm" :class="spoken?.verdict === 'ok' ? 'text-success' : 'text-ink-muted'"
-                                            x-text="spoken?.verdict === 'ok' ? '¡Muy bien!' : (spoken?.verdict === 'almost' ? `¡Casi! Entendí «${spoken.heard}»` : (spoken?.verdict === 'error' ? spoken.heard : `Entendí «${spoken?.heard}». Probá de nuevo.`))"></span>
+                                        <flux:button size="sm" variant="ghost" icon="speaker-wave" x-on:click="say(exercise.speak.replace(/\{\*\w+\}/, ''))" x-show="! listening">Escuchar</flux:button>
+                                        <span x-show="listening" class="text-sm text-primary-bright">Hablá ahora 🎙️</span>
                                     </div>
+                                    <p x-show="spoken && ! listening" x-cloak class="rounded-lg border px-3 py-2 text-sm" data-test="en-speak-result"
+                                        :class="{ 'border-success/50 bg-success/10 text-success': spoken?.verdict === 'ok', 'border-warning/50 bg-warning/10 text-warning': spoken?.verdict === 'almost', 'border-danger/50 bg-danger/10 text-danger': spoken?.verdict === 'bad' || spoken?.verdict === 'error' }"
+                                        x-text="spoken?.verdict === 'ok' ? `⭐ ¡Muy bien! Entendí «${spoken.heard}».`
+                                            : spoken?.verdict === 'almost' ? `¡Casi! Entendí «${spoken.heard}». Probá de nuevo, más despacio.`
+                                            : spoken?.verdict === 'error' ? spoken.heard
+                                            : (spoken?.heard ? `Entendí «${spoken.heard}». Escuchá el modelo y probá de nuevo.` : 'No te entendí. Escuchá el modelo y probá de nuevo.')"></p>
                                 </div>
                             </template>
                         </div>

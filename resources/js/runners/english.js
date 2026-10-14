@@ -177,6 +177,9 @@ export function judgeSpoken(target, alternatives) {
 }
 
 const Recognition = browser ? (window.SpeechRecognition || window.webkitSpeechRecognition) : null;
+// El reconocimiento en curso queda referenciado acá: si nadie lo guarda, Chrome puede descartarlo mientras escucha
+// y no llega ningún resultado.
+let activeRecognition = null;
 export const canListen = () => Boolean(Recognition) && window.isSecureContext;
 
 // ---------- El componente ----------
@@ -411,25 +414,48 @@ export function englishStep(config) {
             if (!Recognition || this.listening || !exercise.speak) return;
             window.speechSynthesis?.cancel();
             const recognition = new Recognition();
+            activeRecognition = recognition;
             recognition.lang = 'en-US';
             recognition.interimResults = false;
             recognition.maxAlternatives = 5;
             this.listening = true;
             this.spoken = null;
+            let echo = null;
+            // Siempre hay un resultado al terminar: bien, casi, mal o «no te escuché» (nunca queda en blanco).
             recognition.onresult = (event) => {
-                const alternatives = Array.from(event.results[0]).map((a) => a.transcript.trim()).filter(Boolean);
+                const alternatives = Array.from(event.results?.[0] ?? []).map((a) => String(a.transcript ?? '').trim()).filter(Boolean);
+                if (alternatives.length === 0) return;
                 const verdict = judgeSpoken(exercise.speak, alternatives);
-                this.spoken = { verdict, heard: alternatives[0] ?? '' };
+                this.spoken = { verdict, heard: alternatives[0] };
                 if (verdict === 'ok') {
                     this.star = true;
-                    this.say(exercise.speak.includes('{*') ? alternatives[0] : exercise.speak);
+                    echo = exercise.speak.includes('{*') ? alternatives[0] : exercise.speak;
                 }
             };
-            recognition.onerror = (event) => {
-                this.spoken = { verdict: 'error', heard: event.error === 'not-allowed' ? 'El navegador no dio permiso para el micrófono.' : 'No te escuché. Probá de nuevo.' };
+            recognition.onnomatch = () => {
+                this.spoken = { verdict: 'bad', heard: '' };
             };
-            recognition.onend = () => { this.listening = false; };
-            recognition.start();
+            recognition.onerror = (event) => {
+                const messages = {
+                    'not-allowed': 'El navegador no dio permiso para el micrófono.',
+                    'audio-capture': 'No encuentro el micrófono. ¿Está conectado?',
+                    network: 'El reconocimiento de voz necesita internet.',
+                };
+                this.spoken = { verdict: 'error', heard: messages[event.error] ?? 'No te escuché. Tocá «Decilo» y hablá enseguida.' };
+            };
+            recognition.onend = () => {
+                activeRecognition = null;
+                this.listening = false;
+                this.spoken ??= { verdict: 'error', heard: 'No te escuché. Tocá «Decilo» y hablá enseguida.' };
+                // Eco repite la frase recién con el micrófono cerrado, para que no se escuche a sí mismo.
+                if (echo) this.say(echo);
+            };
+            try {
+                recognition.start();
+            } catch (e) {
+                this.listening = false;
+                this.spoken = { verdict: 'error', heard: 'No se pudo abrir el micrófono. Probá de nuevo.' };
+            }
         },
     };
 }

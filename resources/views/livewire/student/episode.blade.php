@@ -75,6 +75,9 @@
                         @if ($model->card_title)
                             <span class="ms-auto hidden rounded border border-secondary/40 px-2 py-0.5 font-mono text-[11px] text-secondary-bright sm:inline">{{ $model->card_title }}</span>
                         @endif
+                        <button type="button" wire:click.prevent="$set('replay', {{ $model->id }})" @class(['flex shrink-0 items-center gap-1 rounded-md border border-primary/40 px-2 py-0.5 text-xs text-primary-bright hover:bg-primary/10', 'ms-auto' => ! $model->card_title]) data-test="en-replay">
+                            <flux:icon name="arrow-path" variant="micro" /> Repasar
+                        </button>
                     </summary>
                     <div class="flex flex-col gap-2 border-t border-success/20 px-4 py-3">
                         <p class="text-ink">{{ $model->scene }}</p>
@@ -284,7 +287,7 @@
                                     <flux:icon name="sparkles" variant="micro" />
                                     <span x-text="result?.xp > 0 ? '+' + result.xp + ' {{ term('xp.short') }}' : '{{ term('xp.short') }} (ya la tenías)'"></span>
                                 </li>
-                                @if ($gold && $model->gold_reward > 0)
+                                @if ($gold && $model->gold_reward > 0 && ! $replaying)
                                     <li class="flex items-center gap-1.5 rounded-lg border border-warning/40 bg-warning/10 px-3 py-1.5 text-warning">
                                         <x-gold-icon class="size-4" /> +{{ $model->gold_reward }} de oro
                                     </li>
@@ -299,7 +302,11 @@
                                 <p class="text-sm text-ink">{{ $model->card_body }}</p>
                             @endif
                             <div class="flex justify-end">
-                                <flux:button variant="primary" icon:trailing="arrow-right" x-on:click="$wire.$refresh()" data-test="en-next">{{ $loop->last ? 'Terminar el episodio' : 'Siguiente' }}</flux:button>
+                                @if ($replaying)
+                                    <flux:button variant="primary" icon="arrow-uturn-left" wire:click="$set('replay', null)" data-test="en-replay-done">Volver al episodio</flux:button>
+                                @else
+                                    <flux:button variant="primary" icon:trailing="arrow-right" x-on:click="$wire.$refresh()" data-test="en-next">{{ $loop->last ? 'Terminar el episodio' : 'Siguiente' }}</flux:button>
+                                @endif
                             </div>
                         </section>
                     </div>

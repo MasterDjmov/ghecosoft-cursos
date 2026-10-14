@@ -200,6 +200,25 @@ test('decir la frase en voz alta da un poco de XP, una sola vez por micro-misió
         ->and($student->xpTransactions()->where('reason', 'spoke_aloud')->count())->toBe(1);
 });
 
+test('una misión superada se puede repasar: se juega de nuevo sin volver a pagar', function () {
+    $course = importEnglishPrimaria();
+    $student = enrolledStudent($course);
+    app(NodeUnlocker::class)->unlock($student, $course->rootNode);
+    [$first, $second] = $course->rootNode->steps()->take(2)->get()->all();
+    app(StepCompleter::class)->complete($student, $first, EnglishExercise::PASSED);
+    $xp = $student->fresh()->xp_total;
+
+    $page = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
+        ->assertSee('Repasar')
+        ->set('replay', $first->id)
+        ->assertSeeHtml('data-test="en-replay-done"');
+    $page->call('completeStep', $first->id, EnglishExercise::PASSED, '')->assertReturned(['ok' => true, 'xp' => 0]);
+    expect($student->fresh()->xp_total)->toBe($xp);
+
+    // Una que todavía no superó no se «repasa»: sigue siendo la que toca.
+    $page->set('replay', $second->id)->assertDontSeeHtml('data-test="en-replay-done"');
+});
+
 test('el admin guarda un curso de inglés con el primer episodio gratis; uno de programación necesita precio', function () {
     $english = importEnglishPrimaria();
     $admin = User::factory()->admin()->create();

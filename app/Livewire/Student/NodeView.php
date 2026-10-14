@@ -37,6 +37,10 @@ class NodeView extends Component
     #[Url(as: 'leer')]
     public bool $reading = false;
 
+    /** D106: repasar una micro-misión ya superada (se juega de nuevo; no paga ni cambia el avance). */
+    #[Url(as: 'repasar')]
+    public ?int $replay = null;
+
     public function mount(Course $course, Node $node): void
     {
         abort_unless($node->course_id === $course->id, 404);
@@ -115,6 +119,8 @@ class NodeView extends Component
         $done = $steps->isEmpty() ? collect() : NodeStepCompletion::where('user_id', $user->id)
             ->whereIn('node_step_id', $steps->pluck('id'))->pluck('node_step_id')->flip();
         $current = $steps->first(fn ($step) => ! $done->has($step->id));
+        // Repasar: la micro-misión elegida se muestra para jugar, si ya está superada.
+        $replaying = $this->replay ? $steps->first(fn ($step) => $step->id === $this->replay && $done->has($step->id)) : null;
 
         return view('livewire.student.episode', [
             'steps' => $steps->map(fn ($step) => [
@@ -129,10 +135,11 @@ class NodeView extends Component
                     'story' => (string) $step->scene,
                     'translation' => (string) $step->translation,
                     'creature' => $step->creature,
-                    'done' => $done->has($step->id),
+                    'done' => $done->has($step->id) && ! $replaying?->is($step),
                 ],
             ]),
-            'current' => $current,
+            'current' => $replaying ?? $current,
+            'replaying' => $replaying !== null,
             'finished' => $steps->isNotEmpty() && $current === null,
             // La mascota (D106) al terminar el episodio: Eco, con la forma que tiene ahora.
             'pet' => $steps->isNotEmpty() && $current === null ? app(Heroes::class)->pet($user, $this->course) : null,

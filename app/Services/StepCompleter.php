@@ -13,10 +13,12 @@ use InvalidArgumentException;
  * Superar una micro-misión (D84 § 3). El código corre en el navegador del alumno; acá se recibe la salida que
  * obtuvo y se compara con la esperada. Como lo que viene del navegador se puede falsificar, solo da premios
  * de juego (XP y oro por el Ledger, D89): nunca monedas del curso, aperturas de nodos ni nada que cuente para el CV.
+ * Única excepción, D106: en un curso que se comprueba solo (inglés), superarlas todas completa el nodo; ese curso
+ * no tiene monedas ni cuenta para el CV.
  */
 class StepCompleter
 {
-    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly Heroes $heroes, private readonly Inventory $inventory) {}
+    public function __construct(private readonly TreeAccess $access, private readonly Ledger $ledger, private readonly Heroes $heroes, private readonly Inventory $inventory, private readonly SubmissionReviewer $reviewer) {}
 
     /** Puede jugarla: ve el nodo (abierto o Clase 0 de prueba, D71/D84) y superó las anteriores. */
     public function canPlay(User $user, NodeStep $step): bool
@@ -70,6 +72,11 @@ class StepCompleter
             }
             $this->heroes->creditStep($user, $step);
             $this->inventory->creditStep($user, $step);
+
+            // D106: en un curso que se comprueba solo, superar la última completa el nodo (y abre a sus hijos).
+            if ($step->node->course->language->isSelfChecked() && ! $user->isStaff()) {
+                $this->reviewer->completeWithoutPractices($user, $step->node);
+            }
 
             return true;
         });

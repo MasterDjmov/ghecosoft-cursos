@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\SubmissionStatus;
 use App\Models\Course;
@@ -23,8 +24,9 @@ class CvData
         $access = app(TreeAccess::class);
         $completions = $user->courseCompletions()->get()->keyBy('course_id');
 
-        // Los cursos en los que entró (abrió el raíz).
+        // Los cursos en los que entró (abrió el raíz). Los que se comprueban solos (D106, inglés) no cuentan.
         $courses = Course::whereHas('nodes', fn ($n) => $n->where('type', NodeType::Root)->whereHas('unlocks', fn ($u) => $u->where('user_id', $user->id)))
+            ->where('language', '!=', Language::English->value)
             ->orderBy('position')
             ->get()
             ->map(function (Course $course) use ($user, $access, $completions) {

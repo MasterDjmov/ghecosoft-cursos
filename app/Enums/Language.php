@@ -14,6 +14,8 @@ enum Language: string
     case Html = 'html';
     case Sql = 'sql';
     case Arduino = 'arduino';
+    // D106: un curso de inglés no ejecuta nada; english.js compara las respuestas en el navegador.
+    case English = 'english';
     case Other = 'other';
 
     /** Abreviatura para íconos chicos. */
@@ -29,6 +31,7 @@ enum Language: string
             self::Html => 'HTML',
             self::Sql => 'SQL',
             self::Arduino => 'Ino',
+            self::English => 'EN',
             self::C => 'C',
             self::Other => '</>',
         };
@@ -47,6 +50,7 @@ enum Language: string
             self::Html => 'HTML y CSS',
             self::Sql => 'SQL',
             self::Arduino => 'Arduino',
+            self::English => 'Inglés',
             self::Other => 'Otro',
         };
     }
@@ -79,6 +83,16 @@ enum Language: string
         return $this->runsForStudents() || $this->runsOnLocalRunner();
     }
 
+    /**
+     * D106: un curso que se comprueba solo (inglés). Sus nodos se completan al superar las micro-misiones (no hay
+     * prácticas ni monedas del curso) y no cuenta para el CV, porque lo que se comprueba en el navegador se puede
+     * trampear.
+     */
+    public function isSelfChecked(): bool
+    {
+        return $this === self::English;
+    }
+
     /** Extensión del archivo en el editor. */
     public function extension(): string
     {
@@ -87,7 +101,7 @@ enum Language: string
             self::JavaScript => 'js',
             self::TypeScript => 'ts',
             self::Arduino => 'ino',
-            self::Other => 'txt',
+            self::Other, self::English => 'txt',
             default => $this->value,
         };
     }

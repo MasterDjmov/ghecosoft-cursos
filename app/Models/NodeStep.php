@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
  * Una micro-misión (D84 § 3): un paso corto del nodo con escena, pista de Gheco, desafío y recompensa.
  * Se comprueba sola (salida esperada) y solo da premios de juego: nunca monedas del curso ni aperturas.
  */
-#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'hint', 'challenge', 'starter_code', 'sample_input', 'checks', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
+#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'translation', 'words', 'hint', 'challenge', 'starter_code', 'sample_input', 'checks', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
 class NodeStep extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -42,6 +42,36 @@ class NodeStep extends Model
     public function runLanguage(Course $course): Language
     {
         return ($this->language ? Language::tryFrom($this->language) : null) ?? $course->language;
+    }
+
+    /**
+     * El ejercicio de inglés armado (D106, App\Support\EnglishExercise), o null si no es de inglés.
+     *
+     * @return array<string, mixed>|null
+     */
+    public function englishExercise(): ?array
+    {
+        $exercise = json_decode((string) $this->checks, true);
+
+        return is_array($exercise) && isset($exercise['type']) ? $exercise : null;
+    }
+
+    /**
+     * Las palabras nuevas de una micro-misión de inglés: «window = ventana», una por renglón.
+     *
+     * @return list<array{en: string, es: string}>
+     */
+    public function wordList(): array
+    {
+        return collect(preg_split('/\R/u', (string) $this->words))
+            ->map(fn ($line) => trim(preg_replace('/^[-*]\s*/', '', $line)))
+            ->filter()
+            ->map(function ($line) {
+                [$en, $es] = array_pad(array_map('trim', explode('=', $line, 2)), 2, '');
+
+                return ['en' => $en, 'es' => $es];
+            })
+            ->values()->all();
     }
 
     public function imageUrl(): ?string

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\SubmissionStatus;
 use App\Models\Course;
@@ -24,7 +25,8 @@ use Illuminate\Support\Collection;
  *
  * - Ver un nodo: haberlo abierto alguna vez (el acceso a lo visto es permanente).
  * - Abrir un nodo: abono vigente + raíz abierto + obligatorias del nodo padre (y de sus
- *   requisitos extra) aprobadas + saldo.
+ *   requisitos extra) aprobadas + saldo. En un curso que se comprueba solo (D106), en vez de las obligatorias,
+ *   las micro-misiones del padre superadas.
  * - Entregar: nodo abierto + abono vigente.
  */
 class TreeAccess
@@ -125,7 +127,39 @@ class TreeAccess
 
     public function isCompleted(User $user, Node $node): bool
     {
-        return $this->isUnlocked($user, $node) && $this->requiredPracticesApproved($user, $node);
+        return $this->isUnlocked($user, $node) && $this->nodeWorkDone($user, $node);
+    }
+
+    /**
+     * Lo que completa un nodo abierto: las obligatorias aprobadas o, en un curso que se comprueba solo (D106,
+     * inglés), todas sus micro-misiones superadas.
+     */
+    public function nodeWorkDone(User $user, Node $node): bool
+    {
+        if ($this->isSelfChecked($node)) {
+            $progress = $this->stepProgress($user, $node);
+
+            return $progress['done'] >= $progress['total'];
+        }
+
+        return $this->requiredPracticesApproved($user, $node);
+    }
+
+    /** @var array<int, bool> Por curso: si se comprueba solo (D106). */
+    private array $selfChecked = [];
+
+    /** El nodo es de un curso que se comprueba solo. Sin depender de la relación: a veces llega como 'parent:id,title'. */
+    private function isSelfChecked(Node $node): bool
+    {
+        $courseId = $node->course_id ?? Node::whereKey($node->id)->value('course_id');
+
+        if (! isset($this->selfChecked[$courseId])) {
+            $language = Course::whereKey($courseId)->value('language');
+            $language = $language instanceof Language ? $language : Language::tryFrom((string) $language);
+            $this->selfChecked[$courseId] = (bool) $language?->isSelfChecked();
+        }
+
+        return $this->selfChecked[$courseId];
     }
 
     /**
@@ -300,7 +334,7 @@ class TreeAccess
     public function state(User $user, Node $node): string
     {
         if ($this->isUnlocked($user, $node)) {
-            return $this->requiredPracticesApproved($user, $node) ? self::STATE_COMPLETED : self::STATE_UNLOCKED;
+            return $this->nodeWorkDone($user, $node) ? self::STATE_COMPLETED : self::STATE_UNLOCKED;
         }
 
         $blockers = array_diff($this->unlockBlockers($user, $node), [self::BLOCK_INSUFFICIENT_FUNDS, self::BLOCK_NO_SUBSCRIPTION]);

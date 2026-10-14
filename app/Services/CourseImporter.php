@@ -19,6 +19,7 @@ use App\Models\Practice;
 use App\Rules\SafeUpload;
 use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
+use App\Support\EnglishExercise;
 use App\Support\Glossary;
 use App\Support\PracticeReferences;
 use App\Support\TopicCatalog;
@@ -144,11 +145,21 @@ class CourseImporter
             $roots += $type === 'raiz' ? 1 : 0;
 
             $stepCodes = [];
+            $english = Language::tryFrom(Str::lower($meta['lenguaje'] ?? ''))?->isSelfChecked() ?? false;
             foreach ($node['steps'] ?? [] as $step) {
                 if (isset($stepCodes[$step['code']])) {
                     $this->report->error("{$step['where']}: la micro-misión {$step['code']} está repetida en el nodo.");
                 }
                 $stepCodes[$step['code']] = true;
+                // Inglés (D106): se comprueba con su «Ejercicio» en el navegador, no con una salida.
+                if ($english) {
+                    $parsed = EnglishExercise::parse((string) ($step['fields']['checks'] ?? ''));
+                    foreach (blank($step['fields']['checks'] ?? null) ? ['no tiene «Ejercicio»'] : $parsed['errors'] as $problem) {
+                        $this->report->error("{$step['where']}: la micro-misión {$step['code']} {$problem}.");
+                    }
+
+                    continue;
+                }
                 if (blank($step['fields']['expected_output'] ?? null)) {
                     $this->report->error("{$step['where']}: la micro-misión {$step['code']} no tiene «Salida esperada»: sin ella no se puede comprobar sola.");
                 }
@@ -394,7 +405,12 @@ class CourseImporter
             }
             // Todo nodo publicado tiene al menos una obligatoria: un nodo sin hojas no se gana ni se completa.
             $hasRequired = collect($node['practices'])->contains(fn ($p) => isset($p['meta']['obligatoria']) ? self::yes($p['meta']['obligatoria']) : $p['required_default']);
-            if (! $hasRequired) {
+            // Un curso que se comprueba solo (D106) no tiene prácticas: el nodo se completa con sus micro-misiones.
+            if ($this->course->language->isSelfChecked()) {
+                if (($node['steps'] ?? []) === [] && $model->is_published) {
+                    $this->report->warning("{$where}: el nodo {$node['code']} no tiene micro-misiones: se completa apenas se abre.");
+                }
+            } elseif (! $hasRequired) {
                 $model->is_published
                     ? $this->report->error("{$where}: el nodo {$node['code']} no tiene ninguna práctica obligatoria (una ### Misión). Todo nodo publicado necesita al menos una; si todavía no está listo, poné «publicado: no».")
                     : $this->report->warning("{$where}: el nodo {$node['code']} no tiene prácticas obligatorias; queda sin publicar hasta que tenga una.");
@@ -492,6 +508,12 @@ class CourseImporter
             $reward = (string) ($meta['recompensa'] ?? '');
 
             $model = $existing[$step['code']] ?? new NodeStep(['node_id' => $node->id, 'code' => $step['code']]);
+            // Inglés (D106): el ejercicio se guarda armado y el navegador avisa «superada» al resolverlo.
+            $english = $this->course->language->isSelfChecked();
+            if ($english) {
+                $fields['checks'] = json_encode(EnglishExercise::parse((string) ($fields['checks'] ?? ''))['exercise'], JSON_UNESCAPED_UNICODE);
+                $fields['expected_output'] = EnglishExercise::PASSED;
+            }
             $model->fill([
                 'position' => $index + 1,
                 'title' => Str::limit($step['title'], 255, ''),
@@ -504,6 +526,8 @@ class CourseImporter
                 'gold_reward' => preg_match('/oro\s*(\d+)/i', $reward, $m) ? (int) $m[1] : 0,
                 'item' => Str::limit($meta['item'] ?? '', 255, '') ?: null,
                 'scene' => $fields['scene'] ?? null,
+                'translation' => $fields['translation'] ?? null,
+                'words' => $fields['words'] ?? null,
                 'hint' => $fields['hint'] ?? null,
                 'challenge' => $fields['challenge'] ?? null,
                 'starter_code' => $fields['starter_code'] ?? null,
@@ -542,13 +566,21 @@ class CourseImporter
         if ($this->assetsDir === null) {
             return [];
         }
-        $candidates = filled($step['meta']['imagen'] ?? null) && str_contains($step['meta']['imagen'], '.')
-            ? [$step['meta']['imagen']]
-            : collect([$step['code'], Str::lower($step['code'])])
+        $wanted = (string) ($step['meta']['imagen'] ?? '');
+        $root = $this->assetsDir;
+        if (preg_match('~^([a-z0-9-]+)/([A-Za-z0-9-]+)$~', $wanted, $m)) {
+            // La escena de otro curso (D106): «imagen: html/R00-N01-P1» es cursos/html/escenas/R00-N01-P1.webp.
+            $root = dirname($this->assetsDir);
+            $candidates = collect(['webp', 'jpg', 'jpeg', 'png'])->map(fn ($ext) => "{$m[1]}/escenas/{$m[2]}.{$ext}")->all();
+        } elseif (str_contains($wanted, '.')) {
+            $candidates = [$wanted];
+        } else {
+            $candidates = collect([$step['code'], Str::lower($step['code'])])
                 ->crossJoin(['webp', 'jpg', 'jpeg', 'png'])->map(fn ($pair) => 'escenas/'.$pair[0].'.'.$pair[1])->all();
+        }
         foreach ($candidates as $relative) {
-            $path = realpath($this->assetsDir.'/'.ltrim($relative, '/'));
-            if ($path === false || ! str_starts_with($path, $this->assetsDir.DIRECTORY_SEPARATOR)) {
+            $path = realpath($root.'/'.ltrim($relative, '/'));
+            if ($path === false || ! str_starts_with($path, $root.DIRECTORY_SEPARATOR)) {
                 continue;
             }
             if ($problem = PracticeReferences::check($path)) {

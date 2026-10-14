@@ -461,4 +461,4 @@ El mismo episodio y la misma escena, contados por **Ada a los 15**, que pasa en 
 1. **El largo de Primaria** (3 a 5 palabras por frase) está bien.
 2. **El paso del nivel 1 al 4** se entiende como el mismo episodio, más difícil: el aprendizaje siempre escalonado.
 3. **Las escenas nuevas.** Hechas (las 5 portadas).
-4. **Lo que queda para la fase de código:** pasar esto al formato del importador, el comprobador `english.js` con estos tipos de ejercicio y la vista biblioteca. Ese diseño ya está en INGLES.md § 6.
+4. **La fase de código** (2026-10-13): el piloto está cargado en `cursos/ingles-primaria` y `cursos/ingles-secundaria`, con el comprobador `english.js` y la biblioteca (INGLES.md § 6).

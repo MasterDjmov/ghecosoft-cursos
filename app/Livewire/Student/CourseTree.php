@@ -60,6 +60,10 @@ class CourseTree extends Component
     public function render(TreeAccess $access)
     {
         $user = auth()->user();
+        // D106: un curso que se comprueba solo (inglés) se muestra como una biblioteca de episodios, no como árbol.
+        if ($this->course->language->isSelfChecked()) {
+            return $this->library($access);
+        }
         $graph = TreeGraph::forStudent($this->course, $user);
         $selected = $this->selectedNodeId ? collect($graph['nodes'])->firstWhere('id', $this->selectedNodeId) : null;
 
@@ -80,5 +84,26 @@ class CourseTree extends Component
                 ? Story::get('story.course_completed', $this->course, $user, requireText: false)
                 : null,
         ])->title('Árbol · '.$this->course->title);
+    }
+
+    /** La biblioteca (D106): cada episodio con su portada, su avance y «Leer» / «Practicar». */
+    private function library(TreeAccess $access)
+    {
+        $user = auth()->user();
+        $episodes = $this->course->nodes()->where('is_published', true)->with(['steps', 'course', 'parent', 'requirements'])
+            ->orderByRaw("type = 'root' desc")->orderBy('position')->orderBy('id')->get()
+            ->map(fn (Node $node) => [
+                'node' => $node,
+                'state' => $access->state($user, $node),
+                'progress' => $access->stepProgress($user, $node),
+                'cover' => $node->steps->first(fn ($step) => $step->image_path)?->imageUrl(),
+                'subtitle' => $node->steps->first()?->title,
+            ]);
+
+        return view('livewire.student.library', [
+            'episodes' => $episodes,
+            'paidUntil' => $access->paidUntil($user, $this->course),
+            'scene' => app(Glossary::class)->scene($this->course),
+        ])->title('Biblioteca · '.$this->course->title);
     }
 }

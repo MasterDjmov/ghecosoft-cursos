@@ -209,6 +209,10 @@ se abre: el oro del jugador           # opcional
 - **HTML y CSS (D102):** la página no imprime nada, así que la micro-misión trae un `#### Inspector` con qué revisar, y la salida esperada es el **informe del inspector** (`resources/js/runners/inspector.js`, que lee el código sin ejecutarlo). Los pedidos: `!doctype`; `h1` (el texto de cada uno); `nav a #` (cuántos hay); `img @alt` (el atributo de cada uno); `css .tarjeta { padding }` (el valor de la última regla con ese selector en los `<style>`); `css @media (min-width: 768px) | .grilla { display }`. El informe se genera corriendo el inspector en Chrome con `scripts/micro-misiones/genhtml.py`, nunca a mano.
 - **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
 
+## 6 ter. Micro-misión de inglés (D106)
+
+En un curso con `lenguaje: english` no hay código ni salida: la micro-misión lleva `#### Inglés` (la historia), `#### Español` (la traducción), `#### Palabras` («window = ventana», una por renglón), `#### Gheco sugiere` y `#### Ejercicio`, que se escribe en líneas simples (`tipo:`, `consigna:`, `banco:`, `opciones:`, `hablar:` y un ítem por renglón con «- »). El formato completo, con ejemplos, está en [INGLES.md](INGLES.md) § 6. En el meta, `imagen: html/R00-N01-P1` toma la escena de otro curso. Los nodos de un curso de inglés no llevan prácticas: se completan con sus micro-misiones.
+
 ## 7. Qué revisa el importador
 
 - **Errores** (no se guarda nada): un nodo publicado **sin ninguna práctica obligatoria** (todo nodo necesita al menos una; si no está listo, `publicado: no`); falta `slug`, `titulo` o `lenguaje`; no hay exactamente un raíz; IDs repetidos; `padre` o `requiere` que no existen; ciclos (por padre o por requisitos); rama inexistente; valores desconocidos en `tipo`, `entrega` o `entorno`; bloques de código sin cerrar; un nodo que pasa de raíz a otro tipo.

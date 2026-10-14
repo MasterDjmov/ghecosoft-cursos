@@ -1,5 +1,6 @@
 import './live-alerts.js';
 import { describeDifference } from './runners/compare.js';
+import { englishStep, speak } from './runners/english.js';
 
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
 // en las páginas que muestran el árbol (import dinámico).
@@ -13,6 +14,10 @@ document.addEventListener('alpine:init', () => {
             return [];
         }
     };
+
+    // Crónicas en Inglés (D106): una micro-misión de inglés, y la voz para leer el episodio entero.
+    window.Alpine.data('englishStep', englishStep);
+    window.speakEnglish = speak;
 
     window.Alpine.data('skillTree', (data, options = {}) => ({
         tree: null,

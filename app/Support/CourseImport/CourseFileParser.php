@@ -69,6 +69,11 @@ class CourseFileParser
         'solucion' => 'solution',
         'al superarla' => 'success_text',
         'imagen' => 'image_prompt',
+        // Inglés (D106): la historia, su traducción, las palabras nuevas y el ejercicio (App\Support\EnglishExercise).
+        'ingles' => 'scene',
+        'espanol' => 'translation',
+        'palabras' => 'words',
+        'ejercicio' => 'checks',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */

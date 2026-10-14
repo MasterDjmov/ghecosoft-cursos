@@ -19,6 +19,7 @@ use InvalidArgumentException;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /** Un nodo abierto: micro-misiones (D84), explicación, ejemplo ejecutable, recursos y hojas. */
@@ -30,6 +31,10 @@ class NodeView extends Component
     public Course $course;
 
     public Node $node;
+
+    /** D106: «Leer» desde la biblioteca de inglés muestra el episodio entero para leer y escuchar. */
+    #[Url(as: 'leer')]
+    public bool $reading = false;
 
     public function mount(Course $course, Node $node): void
     {
@@ -76,6 +81,42 @@ class NodeView extends Component
         return $this->openNode($next, $unlocker);
     }
 
+    /**
+     * Un episodio de inglés (D106): sus micro-misiones con la historia en inglés y en español, el ejercicio y la
+     * pista. El ejercicio se comprueba en el navegador (english.js).
+     */
+    private function episode(TreeAccess $access)
+    {
+        $user = auth()->user();
+        $steps = $this->node->steps()->get();
+        $done = $steps->isEmpty() ? collect() : NodeStepCompletion::where('user_id', $user->id)
+            ->whereIn('node_step_id', $steps->pluck('id'))->pluck('node_step_id')->flip();
+        $current = $steps->first(fn ($step) => ! $done->has($step->id));
+
+        return view('livewire.student.episode', [
+            'steps' => $steps->map(fn ($step) => [
+                'model' => $step,
+                'done' => $done->has($step->id),
+                'image' => $step->imageUrl(),
+                'hint' => Narrative::render($step->hint, $this->course, $user),
+                'words' => $step->wordList(),
+                'config' => [
+                    'stepId' => $step->id,
+                    'exercise' => $step->englishExercise() ?? ['type' => 'read', 'items' => [], 'options' => [], 'bank' => []],
+                    'story' => (string) $step->scene,
+                    'translation' => (string) $step->translation,
+                    'creature' => $step->creature,
+                    'done' => $done->has($step->id),
+                ],
+            ]),
+            'current' => $current,
+            'finished' => $steps->isNotEmpty() && $current === null,
+            'trial' => $access->isTrial($user, $this->node),
+            'next' => $this->node->children()->where('is_published', true)->orderBy('position')->get()
+                ->map(fn (Node $child) => ['node' => $child, 'state' => $access->state($user, $child)]),
+        ])->title($this->node->title.' · '.$this->course->title);
+    }
+
     /** ID de YouTube si el video es de ahí (se muestra embebido); si no, se muestra el link. */
     public static function youtubeId(?string $url): ?string
     {
@@ -89,6 +130,9 @@ class NodeView extends Component
     public function render(TreeAccess $access)
     {
         $user = auth()->user();
+        if ($this->course->language->isSelfChecked()) {
+            return $this->episode($access);
+        }
         $practices = $this->node->practices()->get();
         $statuses = TreeGraph::practiceStatuses($user, collect([$this->node->setRelation('practices', $practices)]));
 

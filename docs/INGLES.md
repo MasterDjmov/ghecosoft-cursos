@@ -1,4 +1,4 @@
-# Crónicas en Inglés (D106, a revisar)
+# Crónicas en Inglés (D106, fase 1 hecha: para probar)
 
 Dos cursos **extra de inglés**, **Primaria (desde los 6 años)** y **Secundaria**, con **una historia unificada nueva**: Ada, la aprendiz del Profe, pasa a la Lengua Común (el inglés) las crónicas de todas las regiones, con su mascota Eco, y se cruza con todos los personajes: héroes, líderes, criaturas y monturas. La historia está en [historias/ingles.md](historias/ingles.md). Todo se **comprueba solo**: el docente no corrige nada, porque los chicos tienen clases presenciales; esto es para leer y ejercitar por su cuenta.
 
@@ -76,7 +76,7 @@ Lo que no se puede comprobar solo (un texto libre largo) queda afuera: el curso 
 
 Pedido del docente (2026-10-13). El alumno escucha el modelo, toca el micrófono y dice la palabra o la frase. El **reconocimiento de voz del navegador** (Web Speech API, `SpeechRecognition`) devuelve lo que entendió, con hasta 5 alternativas, y `english.js` lo compara con lo esperado. Prueba suelta para evaluarlo antes de sumarlo: [prototipos/hablar.html](prototipos/hablar.html), que se abre en Chrome o Edge desde `http://localhost/larioja-aprende-cursos/docs/prototipos/hablar.html`. Tiene colores, frases del episodio 1 en Primaria y Secundaria, y una tabla de resultados para copiar.
 
-- **No es un escalón: es un extra.** Se ofrece al lado de cualquier misión de E1 a E7 que tenga una frase corta. **Nunca traba el avance:** sin micrófono, en un navegador que no lo tiene o después de 3 intentos fallidos, aparece «Pasar igual». Decirlo bien suma una estrella y XP, pero no oro ni la carta, que siguen saliendo de la misión escrita.
+- **No es un escalón: es un extra.** Se ofrece al lado de cualquier misión de E1 a E7 que tenga una frase corta. **Nunca traba el avance:** sin micrófono, en un navegador que no lo tiene o después de 3 intentos fallidos, aparece «Pasar igual». Decirlo bien suma una estrella en pantalla (por ahora sin XP); el oro y la carta siguen saliendo de la misión escrita.
 - **Cómo se comprueba** (con tolerancia, porque las voces de chicos se reconocen peor):
   - Se prueba **cada alternativa** que devuelve el reconocedor, no solo la primera.
   - Se normaliza: minúsculas, sin acentos ni signos; los números pasan a palabra (`2` → `two`); las palabras que **suenan igual** valen lo mismo (*red/read*, *two/too/to*, *blue/blew*, *four/for*, *see/sea*…).
@@ -105,18 +105,38 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
 
 **Qué evalúa el docente con el piloto:** si un chico de 6 lo puede usar solo, si la escritura sube bien de escalón, cuánto tarda cada misión (la meta: 2 a 5 minutos) y si la voz alcanza.
 
-## 6. Cómo entraría en la plataforma (fase propia, después del OK)
+## 6. En la plataforma (fase 1 hecha el 2026-10-13, para probar)
 
-- **Curso nuevo `cursos/ingles/`** en el formato del importador. Un `lenguaje: ingles` que **no ejecuta nada**: un comprobador nuevo, `resources/js/runners/english.js`, compara respuestas como el inspector de HTML (D102). No corre código del alumno en ningún lado.
-- **Formato de la misión de inglés** (FORMATO-CURSO § 6 bis, variante): en lugar de `Código inicial` / `Salida esperada`, `#### Inglés`, `#### Español`, `#### Palabras` y `#### Ejercicio` (tipo E1–E8, huecos, banco de palabras, respuestas válidas y patrones). `#### Imagen` puede **apuntar a una escena de otro curso** (`imagen: html/R01-N01-P2`), así no se copian archivos. Si una escena no existe, se genera en Stitch y queda en `cursos/ingles/escenas/`.
-- **Vista biblioteca:** este curso se muestra como la biblioteca del prototipo, no como el árbol radial (es demasiado para un chico de 6). Mundos → episodios → misiones.
-- **Lo que cambia de las reglas** (por eso D106): en un curso **autocomprobado**:
-  - los nodos (episodios) **se abren al terminar las misiones** y no con monedas del curso, porque no hay prácticas ni monedas;
-  - **no cuentan para el CV**: lo que se comprueba en el navegador se puede trampear;
-  - el importador acepta **nodos sin prácticas obligatorias** en ese curso.
+- **Dos cursos**, en el formato del importador: [cursos/ingles-primaria/](../cursos/ingles-primaria/) y [cursos/ingles-secundaria/](../cursos/ingles-secundaria/), con `lenguaje: english`. Los carga el seeder local (`EnglishCoursesSeeder`) y se importan como cualquier curso. Quedan **sin publicar**: el docente los publica cuando quiera abrirlos.
+- **No se ejecuta nada.** `resources/js/runners/english.js` muestra la historia, lee con la voz del navegador y compara las respuestas, como el inspector de HTML (D102). Al resolver, el navegador avisa «superada» y el servidor da los premios de juego (`StepCompleter`).
+- **La misión de inglés** (FORMATO-CURSO § 6 ter) usa `#### Inglés` (la historia), `#### Español`, `#### Palabras` («window = ventana», una por renglón), `#### Gheco sugiere` y `#### Ejercicio`. El ejercicio se escribe en líneas simples (`App\Support\EnglishExercise`):
 
-  Toda regla de acceso nueva va con su Policy y su test Pest, y se calcula en cada pedido, como siempre.
-- **XP y oro**, por el `Ledger` de siempre, al jugador.
+  ```
+  tipo: completar          leer, escuchar, completar, ordenar, letras, escribir, dictado, responder, transformar
+  consigna: Pintá el vitral.
+  banco: red, blue, yellow, green      (con «reusar: si» las fichas no se gastan)
+  opciones: hello, girl, gecko         (escuchar)
+  hablar: The glass is red.            (el extra de § 4 bis)
+  - [#EF4444] {red}                    huecos {a|b}; {*nombre} y {*numero} son libres
+  - three = 3                          escuchar: dice «three», se toca «3»
+  - door | b, e                        letras: la palabra y letras de más
+  - Question? => patrón || otro        responder y transformar
+  ```
+
+  El importador lo revisa (tipo, ítems, que la respuesta esté en el banco o en las opciones) y lo guarda armado. `imagen: html/R00-N01-P1` usa la escena de otro curso y `imagen: ingles/NUEVA-01`, las portadas de `cursos/ingles/escenas/`.
+- **Cada episodio es un nodo** con 5 micro-misiones: la portada (`tipo: leer`, la escena nueva de Ada y Eco) y las 4 misiones. El episodio 1 es el raíz y se abre con el abono. Los otros cuatro cuelgan de él: al terminar el 1, el alumno **elige libremente** cuál sigue. Se abren sin monedas (precio 0).
+- **La biblioteca:** en un curso de inglés, *Árbol* muestra la biblioteca (`livewire/student/library`): la portada de cada episodio, su avance y **Leer** / **Practicar**. El nodo muestra el episodio (`livewire/student/episode`), y con `?leer=1`, el episodio entero para leer y escuchar.
+- **Las reglas que cambian, solo en un curso que se comprueba solo** (`Language::isSelfChecked`):
+  - un nodo se completa con **todas sus micro-misiones superadas** (`TreeAccess::nodeWorkDone`), y al superar la última se completa (XP del nodo);
+  - el importador acepta nodos **sin prácticas**;
+  - **no cuenta para el CV** (`CvData`).
+
+  Los tests están en `tests/Feature/Student/EnglishCourseTest.php`.
+- **Lo que falta, para las fases siguientes:**
+  - abrir el nivel siguiente con 4 de 5 episodios (el piloto tiene un solo nivel por curso);
+  - Ada como protagonista del juego y Eco como mascota (`config/game.php`, JUEGO.md);
+  - los retratos en el Diccionario, la Enciclopedia y Mis Crónicas (historias/ingles.md § 7, pasos 3 a 6);
+  - que «hablar» sume XP: hoy da una estrella en pantalla y nada más.
 
 ## 7. Lo que decidió el docente (2026-10-13)
 

@@ -54,7 +54,7 @@ class Worlds extends Component
                     ->latest('unlocked_at')->latest('id')
                     ->get(['node_id']);
                 $nodes = Node::whereIn('id', $unlocks->pluck('node_id'))->get()->keyBy('id');
-                $done = $nodes->filter(fn (Node $node) => $access->requiredPracticesApproved($user, $node));
+                $done = $nodes->filter(fn (Node $node) => $access->nodeWorkDone($user, $node));
 
                 $subscription = $access->activeSubscription($user, $course);
                 $paidUntil = $subscription ? $access->paidUntil($user, $course) : null;

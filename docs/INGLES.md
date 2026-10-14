@@ -129,12 +129,12 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
 - **Las reglas que cambian, solo en un curso que se comprueba solo** (`Language::isSelfChecked`):
   - un nodo se completa con **todas sus micro-misiones superadas** (`TreeAccess::nodeWorkDone`), y al superar la última se completa (XP del nodo);
   - el importador acepta nodos **sin prácticas**;
-  - **no cuenta para el CV** (`CvData`).
+  - **cuenta para el CV** como cualquier curso (`CvData`; cambiado el 2026-10-14): sus temas son los episodios terminados, incluido el primero.
 
   Los tests están en `tests/Feature/Student/EnglishCourseTest.php`.
 - **Lo que falta, para las fases siguientes:**
   - abrir el nivel siguiente con 4 de 5 episodios (el piloto tiene un solo nivel por curso);
-  - Eco como mascota que cambia de forma con el nivel (JUEGO.md). Ada ya es la protagonista jugable (2026-10-14): niña en Primaria (`img/protagonistas/ada/`) y de 15 en Secundaria (`ada-15/`), 6 aspectos cada una, expediciones en los Talleres y la montura **Folio** (n1–n5, `img/monturas/folio/`);
+  - Eco como mascota que cambia de forma con el nivel (JUEGO.md). Ada ya es la protagonista jugable (2026-10-14): niña en Primaria (`img/protagonistas/ada/`) y de 15 en Secundaria (`ada-15/`), 6 aspectos cada una, expediciones en los Talleres y la montura **Folio** (n1–n5, `img/monturas/folio/`). También tiene **sus ítems** (`app:game-items`, 15 por curso: útiles de escuela de cuento en Primaria y lo de la escribiente del Gremio en Secundaria, con la **Pluma de Eco** de segunda vida), que caen en las expediciones y se compran en **el puesto de Ámbar**;
   - los retratos en el Diccionario, la Enciclopedia y Mis Crónicas (historias/ingles.md § 7, pasos 3 a 6);
   - que «hablar» sume XP: hoy da una estrella en pantalla y nada más.
 

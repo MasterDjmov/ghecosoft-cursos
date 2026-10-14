@@ -2,7 +2,6 @@
 
 namespace App\Support;
 
-use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\SubmissionStatus;
 use App\Models\Course;
@@ -24,9 +23,8 @@ class CvData
         $access = app(TreeAccess::class);
         $completions = $user->courseCompletions()->get()->keyBy('course_id');
 
-        // Los cursos en los que entró (abrió el raíz). Los que se comprueban solos (D106, inglés) no cuentan.
+        // Los cursos en los que entró (abrió el raíz), también los de inglés (D106): también es aprendizaje.
         $courses = Course::whereHas('nodes', fn ($n) => $n->where('type', NodeType::Root)->whereHas('unlocks', fn ($u) => $u->where('user_id', $user->id)))
-            ->where('language', '!=', Language::English->value)
             ->orderBy('position')
             ->get()
             ->map(function (Course $course) use ($user, $access, $completions) {
@@ -39,7 +37,8 @@ class CvData
                     'course' => $course,
                     'total' => $trunkIds->count(),
                     'completedCount' => $completed->whereIn('id', $trunkIds)->count(),
-                    'skills' => $completed->reject->isRoot()->pluck('title')->values(),
+                    // En inglés el raíz ya es el primer episodio: cuenta como los demás.
+                    'skills' => ($course->language->isSelfChecked() ? $completed : $completed->reject->isRoot())->pluck('title')->values(),
                     'completion' => $completions[$course->id] ?? null,
                     'since' => $user->subscriptions()->where('course_id', $course->id)->min('starts_at'),
                 ];

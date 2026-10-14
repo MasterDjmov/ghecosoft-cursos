@@ -5,8 +5,11 @@ use App\Livewire\Admin\Courses\Form as CourseForm;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\Hero as HeroPage;
+use App\Livewire\Student\Inventory as InventoryPage;
 use App\Livewire\Student\NodeView;
+use App\Livewire\Student\Shop as ShopPage;
 use App\Models\Course;
+use App\Models\Item;
 use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\User;
@@ -21,7 +24,7 @@ use Livewire\Livewire;
 
 /*
  * Crónicas en Inglés (D106): un curso que se comprueba solo. Los episodios (nodos) se completan al superar sus
- * micro-misiones, se abren sin monedas, no cuentan para el CV y se muestran como una biblioteca.
+ * micro-misiones, se abren sin monedas, cuentan para el CV y se muestran como una biblioteca.
  */
 
 function importEnglishPrimaria(): Course
@@ -117,7 +120,7 @@ test('lo que manda el navegador tiene que decir «superada»', function () {
         ->toThrow(InvalidArgumentException::class);
 });
 
-test('el CV deja afuera el curso de inglés', function () {
+test('el CV muestra el curso de inglés con sus episodios terminados, también el primero', function () {
     $english = importEnglishPrimaria();
     $python = makeCourse();
     $student = enrolledStudent($english);
@@ -125,8 +128,23 @@ test('el CV deja afuera el curso de inglés', function () {
     $student = enrolledStudent($python['course'], $student);
     app(NodeUnlocker::class)->unlock($student, $python['root']);
 
-    $courses = collect(CvData::for($student)['courses'])->pluck('course.id');
-    expect($courses)->toContain($python['course']->id)->not->toContain($english->id);
+    passEpisode($student, $english->rootNode);
+
+    $courses = collect(CvData::for($student)['courses'])->keyBy('course.id');
+    expect($courses->keys())->toContain($python['course']->id)->toContain($english->id)
+        ->and($courses[$english->id]['skills'])->toContain($english->rootNode->title);
+});
+
+test('la mochila tiene una solapa por curso con abono, y Ámbar vende lo de Ada', function () {
+    $course = importEnglishPrimaria();
+    $this->artisan('app:game-items');
+    $student = enrolledStudent($course);
+
+    Livewire::actingAs($student)->test(InventoryPage::class)
+        ->assertSee('Crónicas en Inglés');
+    Livewire::actingAs($student)->test(ShopPage::class, ['course' => $course])
+        ->assertOk()->assertSee('El puesto de Ámbar')->assertSee('Lápiz de Ada')->assertDontSee('Pluma de Escribiente');
+    expect(Item::where('code', Item::ECHO_FEATHER)->value('course_id'))->toBe($course->id);
 });
 
 test('el alumno ve la biblioteca y el episodio, y «Leer» muestra el episodio entero', function () {

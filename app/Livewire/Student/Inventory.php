@@ -3,6 +3,7 @@
 namespace App\Livewire\Student;
 
 use App\Enums\ItemKind;
+use App\Models\Course;
 use App\Models\Hero;
 use App\Models\Item;
 use App\Services\Heroes;
@@ -73,8 +74,9 @@ class Inventory extends Component
         $contents = $bag->contents($user);
         $myHeroes = Hero::with(['course', 'weapon', 'armor', 'accessory'])->where('user_id', $user->id)->get();
 
-        // Solapas: un mundo por curso con ítems o con héroe, y los comunes.
-        $tabs = $contents->pluck('item.course')->filter()->merge($myHeroes->pluck('course'))->unique('id')->sortBy('title')
+        // Solapas: un mundo por curso en el que entró (abono), con ítems o con héroe, y los comunes.
+        $enrolled = Course::whereIn('id', $user->subscriptions()->select('course_id'))->get();
+        $tabs = $contents->pluck('item.course')->filter()->merge($myHeroes->pluck('course'))->merge($enrolled)->unique('id')->sortBy('title')
             ->map(fn ($course) => ['key' => $course->slug, 'label' => Str::before($course->title, ':'), 'course' => $course])
             ->values()
             ->push(['key' => 'comunes', 'label' => 'Comunes', 'course' => null]);

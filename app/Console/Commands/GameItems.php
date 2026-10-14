@@ -219,6 +219,50 @@ class GameItems extends Command
             ['code' => 'morral-del-correo-mayor', 'name' => 'Morral del Correo Mayor', 'kind' => 'armor', 'rarity' => 'legendary', 'defense' => 12, 'intelligence' => 3, 'luck' => 2, 'description' => 'Un compartimiento numerado para cada pedido: nada se pierde y todo se encuentra. Elefa se lo dio a Nilo con el Faro prendido.'],
             ['code' => 'mensaje-para-quien-llegue', 'name' => 'Mensaje para quien llegue', 'kind' => 'story', 'description' => 'El sobre que Elefa guardó veinte años, sellado con vidrio de colores. Al romper el sello, un balcón con cuatro portales.'],
         ],
+        // Crónicas en Inglés (D106, docs/historias/ingles.md): lo de Ada en los Talleres. Primaria es la Ada de 11 (útiles
+        // de escuela y de cuento, nada da miedo); Secundaria, la de 15, escribiente del Gremio. Vende Ámbar.
+        'ingles-primaria' => [
+            // Armas
+            ['code' => 'lapiz-de-ada', 'name' => 'Lápiz de Ada', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'El que le ata el pelo. Escribe, y si hace falta, pincha.'],
+            ['code' => 'pluma-de-cristal', 'name' => 'Pluma de Cristal', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'intelligence' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'Escribe con tinta de luz cian. Lo que escribe, el Borrón no lo puede comer.'],
+            ['code' => 'regla-de-los-renglones', 'name' => 'Regla de los Renglones', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Cada palabra en su renglón: «I am», nunca «am I» (salvo que preguntes).'],
+            ['code' => 'crayon-de-los-siete-colores', 'name' => 'Crayón de los Siete Colores', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Red, blue, yellow, green… Teo lo usa para los bocetos y dice los colores todos juntos.'],
+            ['code' => 'pluma-del-profe', 'name' => 'Pluma del Profe', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Una copia de la del Cronista del Gremio. Escribe en todas las lenguas, pero contesta en la Común.'],
+            // Ropa
+            ['code' => 'buzo-de-aprendiz', 'name' => 'Buzo de Aprendiz', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Abrigado y con un bolsillo para el lápiz de repuesto.'],
+            ['code' => 'capa-de-letras', 'name' => 'Capa de Letras', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Azul petróleo, con el borde bordado de letras que se encienden al leer en voz alta.'],
+            ['code' => 'delantal-de-tinta', 'name' => 'Delantal de Tinta', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Manchado de todas las tintas del Gremio. Las manchas no se mueven: ya revisaron.'],
+            ['code' => 'poncho-de-los-vitrales', 'name' => 'Poncho de los Vitrales', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 6, 'intelligence' => 2, 'price' => 1300, 'min_level' => 9, 'droppable' => true, 'description' => 'Tejido con los colores de los vidrios de Nora: cuando le da el sol, dice su nombre en inglés.'],
+            ['code' => 'manto-de-paginas', 'name' => 'Manto de Páginas', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Hecho de páginas del Gran Libro que ya están escritas. El Borrón no se le acerca.'],
+            // Accesorios
+            ['code' => 'senalador-de-eco', 'name' => 'Señalador de Eco', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Una pluma que se le cayó a Eco. Marca la página justo donde te quedaste.'],
+            ['code' => Item::ECHO_FEATHER, 'name' => 'Pluma de Eco', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Eco repite todo, hasta tu último paso. Equipada, en cada expedición te levanta una vez con la mitad de la vida.'],
+            ['code' => 'anteojos-de-leer', 'name' => 'Anteojos de Leer', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Redondos y chiquitos, como los que Ada lleva colgados del cuello. Con ellos, ninguna letra se esconde.'],
+            ['code' => 'gota-quieta', 'name' => 'Gota Quieta', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Un pedacito del Borrón que alguien leyó en voz alta: se quedó quieto y brilla.'],
+            // Pociones
+            ['code' => 'chocolatada-de-teo', 'name' => 'Chocolatada de Teo', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Teo la prepara entre boceto y boceto. En las expediciones se toma sola si la vida baja mucho.'],
+        ],
+        'ingles-secundaria' => [
+            // Armas
+            ['code' => 'pluma-de-escribiente', 'name' => 'Pluma de Escribiente', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'La que el Gremio le da a cada escribiente nueva. Ada todavía guarda el lápiz de cuando tenía once.'],
+            ['code' => 'pluma-de-tinta-de-luz', 'name' => 'Pluma de Tinta de Luz', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'intelligence' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'La de cristal de siempre, con la punta nueva: escribe más fino y más rápido.'],
+            ['code' => 'compas-de-la-cartografa', 'name' => 'Compás de la Cartógrafa', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Mide la distancia entre dos regiones y entre dos tiempos verbales.'],
+            ['code' => 'abrecartas-del-gremio', 'name' => 'Abrecartas del Gremio', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Abre cualquier sobre sin romper el sello. Las cartas «para quien llegue» todavía se resisten.'],
+            ['code' => 'pluma-de-tinta-viva', 'name' => 'Pluma de Tinta Viva', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Su tinta se mueve como el Borrón, pero escribe en vez de borrar.'],
+            // Ropa
+            ['code' => 'chaqueta-del-gremio', 'name' => 'Chaqueta del Gremio', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Azul petróleo, con el escudo de los escribientes en la manga.'],
+            ['code' => 'capa-de-las-regiones', 'name' => 'Capa de las Regiones', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Tiene un parche de cada región que Ada visitó. Quedan lugares libres.'],
+            ['code' => 'gabardina-de-la-traductora', 'name' => 'Gabardina de la Traductora', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Con bolsillos para un diccionario de cada lengua arcana. Ninguno está lleno.'],
+            ['code' => 'sobretodo-de-la-mensajera', 'name' => 'Sobretodo de la Mensajera', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 6, 'intelligence' => 2, 'price' => 1300, 'min_level' => 9, 'droppable' => true, 'description' => 'Resiste la lluvia del Puerto y el humo de las Forjas. Las cartas adentro llegan secas.'],
+            ['code' => 'manto-del-portal', 'name' => 'Manto del Portal', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Bordado con las seis lenguas arcanas y, en el centro, una página que se escribe sola.'],
+            // Accesorios
+            ['code' => 'brujula-de-las-regiones', 'name' => 'Brújula de las Regiones', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'No marca el norte: marca la región donde alguien necesita una traducción.'],
+            ['code' => Item::ECHO_QUILL, 'name' => 'Pluma de Eco Adulto', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Larga como una cinta de tinta. Eco ya no repite palabras sueltas: repite el camino entero. Equipada, en cada expedición te levanta una vez con la mitad de la vida.'],
+            ['code' => 'lentes-de-traductora', 'name' => 'Lentes de Traductora', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Los anteojos de leer de siempre, ahora con la montura dorada del Gremio.'],
+            ['code' => 'lacre-de-las-cartas', 'name' => 'Lacre de las Cartas', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Un sello de vidrio de colores sin letras, igual al de las cartas «para quien llegue».'],
+            // Pociones
+            ['code' => 'te-de-ambar', 'name' => 'Té de Ámbar', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Ámbar lo sirve en un vaso de vidrio casi sin burbujas. En las expediciones se toma solo si la vida baja mucho.'],
+        ],
         null => [
             ['code' => 'pocion-grande', 'name' => 'Poción Grande', 'kind' => 'potion', 'rarity' => 'rare', 'heal' => 90, 'price' => 80, 'min_level' => 6, 'description' => 'Sirve en cualquier mundo.'],
             ['code' => Item::RESPEC, 'name' => 'Pergamino del Reinicio', 'kind' => 'special', 'rarity' => 'epic', 'price' => 1500, 'min_level' => 5, 'description' => 'Al usarlo sobre un héroe, deja reacomodar sus puntos del principio una vez.'],
@@ -393,6 +437,38 @@ class GameItems extends Command
         'ficha-de-la-tormenta' => 'Una ficha de cartón amarillenta y gastada con dos sobres dibujados y un faro apagado, sin letras.',
         'morral-del-correo-mayor' => 'Un morral de cuero fino legendario con muchos compartimientos numerados por puntitos de luz, cierres de bronce y un sello de lacre violeta, rodeado de un aura dorada.',
         'mensaje-para-quien-llegue' => 'Un sobre amarillento viejo sellado con un sello de vidrio de colores (rojo, ámbar, azul), sin letras.',
+        // Crónicas en Inglés · Primaria: útiles de escuela de cuento (tinta azul con brillos cian, vidrio de colores)
+        'lapiz-de-ada' => 'Un lápiz de madera amarillo, corto y mordido en la punta de atrás, con una cinta roja atada como para sostener un rodete.',
+        'pluma-de-cristal' => 'Una pluma de escribir de cristal transparente con tinta de luz cian brillando en la punta, dejando una estela de letras.',
+        'regla-de-los-renglones' => 'Una regla de madera clara con renglones grabados y palabras en inglés escritas en orden («I am», «you are»), con el borde brillante.',
+        'crayon-de-los-siete-colores' => 'Un crayón grueso de caricatura con siete franjas de colores del arcoíris, con chispas de color saliendo de la punta.',
+        'pluma-del-profe' => 'Una pluma larga de ave, plateada y violeta, con el cálamo dorado y runas de varias lenguas flotando alrededor.',
+        'buzo-de-aprendiz' => 'Un buzo infantil abrigado azul petróleo, doblado con prolijidad, con un bolsillo del que asoma un lápiz.',
+        'capa-de-letras' => 'Una capa corta infantil azul petróleo con el borde bordado de letras del alfabeto que brillan en cian.',
+        'delantal-de-tinta' => 'Un delantal de tela cruda manchado con gotas de tinta azul, violeta y cian, con bolsillos para plumas.',
+        'poncho-de-los-vitrales' => 'Un poncho infantil tejido con rombos de los colores de un vitral (rojo, ámbar, azul, verde), con reflejos como de vidrio.',
+        'manto-de-paginas' => 'Un manto hecho de páginas de libro cosidas, escritas con letra prolija en tinta cian, flotando suavemente.',
+        'senalador-de-eco' => 'Una pluma chiquita azul oscura con brillos cian usada como señalador, asomando entre las páginas de un libro.',
+        'pluma-de-eco' => 'Una pluma de pájaro azul oscura de tinta con brillos cian, con letritas de luz que se desprenden de ella, colgando de un cordón.',
+        'anteojos-de-leer' => 'Unos anteojos redondos chicos de marco de cobre, colgados de un cordón, sobre una página escrita.',
+        'gota-quieta' => 'Una gota de tinta negra azulada, quieta y redonda como una perla, con una carita sonriente tenue y un brillo violeta.',
+        'chocolatada-de-teo' => 'Una taza de vidrio con chocolatada humeante y un bigote de espuma, con un boceto de colores apoyado al lado.',
+        // Crónicas en Inglés · Secundaria: lo de la escribiente del Gremio (más sobrio, cobre, cuero y tinta de luz)
+        'pluma-de-escribiente' => 'Una pluma de escribir de cuero y cobre con el escudo del Gremio de los escribientes grabado en la empuñadura.',
+        'pluma-de-tinta-de-luz' => 'Una pluma de cristal estilizada con punta de metal fina y una estela de tinta de luz cian que forma palabras.',
+        'compas-de-la-cartografa' => 'Un compás de bronce de cartógrafa abierto sobre un mapa antiguo de regiones, con puntas brillantes.',
+        'abrecartas-del-gremio' => 'Un abrecartas plateado con forma de pluma, con un sobre lacrado a medio abrir al lado.',
+        'pluma-de-tinta-viva' => 'Una pluma negra de la que sale tinta viva que se mueve como humo y forma letras brillantes en el aire.',
+        'chaqueta-del-gremio' => 'Una chaqueta juvenil azul petróleo con un escudo bordado en la manga, colgada de una percha.',
+        'capa-de-las-regiones' => 'Una capa azul petróleo con parches cosidos de distintas regiones (una serpiente, un engranaje, un yunque, un ancla, un vitral).',
+        'gabardina-de-la-traductora' => 'Una gabardina juvenil marrón con muchos bolsillos de los que asoman diccionarios chiquitos.',
+        'sobretodo-de-la-mensajera' => 'Un sobretodo largo azul oscuro impermeable, con cartas lacradas asomando de un bolsillo interior.',
+        'manto-del-portal' => 'Un manto azul profundo bordado con seis símbolos de lenguajes y una página brillante en el centro que se escribe sola.',
+        'brujula-de-las-regiones' => 'Una brújula de bronce cuya aguja es una pluma y cuya esfera muestra seis regiones en vez de puntos cardinales.',
+        'pluma-de-eco-adulto' => 'Una pluma larga de ave azul oscura con brillos cian que termina en una cinta de tinta, colgando de un cordón.',
+        'lentes-de-traductora' => 'Unos anteojos redondos de marco dorado sobre una carta escrita en dos idiomas.',
+        'lacre-de-las-cartas' => 'Un sello de lacre de vidrio de colores (rojo, ámbar, azul) sin letras, con un brillo violeta.',
+        'te-de-ambar' => 'Un vaso de vidrio color ámbar con té humeante, con una burbujita atrapada en el vidrio.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

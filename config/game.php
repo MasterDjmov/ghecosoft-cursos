@@ -347,6 +347,9 @@ return [
             'name' => 'Ada',
             'slug' => 'ada',
             'title' => 'Aprendiz del Profe',
+            // La tienda de los Talleres: Ámbar vende vidrios y útiles en su puesto ambulante.
+            'shop' => ['name' => 'El puesto de Ámbar', 'keeper' => 'Ámbar', 'portrait' => 'img/enciclopedia/ambar.webp', 'figure' => 'img/enciclopedia/ambar-cuerpo.webp',
+                'greeting' => '—¡Ada! ¿Otra vez sin tinta? Pasá, que hoy los vidrios vinieron casi sin burbujas. Casi.'],
             'expeditions' => $englishExpeditions,
             'looks' => [
                 1 => 'Aprendiz del Profe',
@@ -361,6 +364,9 @@ return [
             'name' => 'Ada',
             'slug' => 'ada-15',
             'title' => 'Escribiente del Gremio',
+            // La tienda de los Talleres: Ámbar vende vidrios y útiles en su puesto ambulante.
+            'shop' => ['name' => 'El puesto de Ámbar', 'keeper' => 'Ámbar', 'portrait' => 'img/enciclopedia/ambar.webp', 'figure' => 'img/enciclopedia/ambar-cuerpo.webp',
+                'greeting' => '—¡Mirá quién volvió, la escribiente del Gremio! Hace cuatro años me pedías lápices. ¿Qué te llevás hoy?'],
             'expeditions' => $englishExpeditions,
             'looks' => [
                 1 => 'Escribiente del Gremio',

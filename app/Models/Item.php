@@ -43,8 +43,13 @@ class Item extends Model
     /** El del Puerto: la misma segunda vida (PHP, R02-N09). */
     public const LIFEBUOY = 'salvavidas-del-finally';
 
+    /** Los de las Crónicas en Inglés: la misma segunda vida (Primaria y Secundaria, D106). */
+    public const ECHO_FEATHER = 'pluma-de-eco';
+
+    public const ECHO_QUILL = 'pluma-de-eco-adulto';
+
     /** Los que dan la segunda vida en las expediciones. */
-    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP, self::CATCH, self::VALIDATOR, self::LIFEBUOY];
+    public const SECOND_LIFE = [self::TRACEBACK, self::BELL, self::CORE_DUMP, self::CATCH, self::VALIDATOR, self::LIFEBUOY, self::ECHO_FEATHER, self::ECHO_QUILL];
 
     /** Termina al instante la expedición en camino; se gasta al usarlo (R03-N06). */
     public const HOURGLASS = 'reloj-de-arena';

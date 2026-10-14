@@ -1,4 +1,4 @@
-# Crónicas en Inglés · El piloto (borrador 1, para revisar)
+# Crónicas en Inglés · El piloto (aprobado por el docente el 2026-10-13)
 
 El piloto de [../INGLES.md](../INGLES.md) § 5: **5 episodios de los Talleres de los Vitrales, de 4 misiones cada uno**, en dos versiones del mismo episodio: **Primaria (nivel 1)** y **Secundaria (nivel 4)**. La historia es la de [ingles.md](ingles.md): Ada escribe en el Gran Libro la crónica de Iris, y Eco repite lo que ella aprende.
 
@@ -21,7 +21,7 @@ Cada episodio abre con su **portada**: la escena nueva de Ada y Eco, un texto co
 
 ## Las 5 escenas nuevas (el marco de Ada y Eco)
 
-Se generan en Stitch con las referencias de `REFS['ingles']` (Ada a los 11, Eco pichón y el Borrón chico) y van a `cursos/ingles/escenas/`. Las usan **las dos versiones**. En Secundaria son el recuerdo de Ada a los 15 («hace cuatro años…»), así que no hacen falta otras.
+**Hechas el 2026-10-13** (`cursos/ingles/escenas/NUEVA-0X.webp`). Se generaron en Stitch con las referencias de `REFS['ingles']` (Ada a los 11, Eco pichón y el Borrón chico) y van a `cursos/ingles/escenas/`. Las usan **las dos versiones**. En Secundaria son el recuerdo de Ada a los 15 («hace cuatro años…»), así que no hacen falta otras.
 
 | ID | Escena | Pedido para Stitch |
 |---|---|---|
@@ -456,9 +456,9 @@ El mismo episodio y la misma escena, contados por **Ada a los 15**, que pasa en 
 
 ---
 
-## Para revisar
+## Lo que decidió el docente (2026-10-13)
 
-1. **El largo de Primaria.** ¿3 a 5 palabras por frase está bien para 6–7 años, o es mucho?
-2. **El paso del nivel 1 al 4.** Secundaria salta de golpe a A2 narrado por Ada a los 15. ¿Se entiende como «el mismo episodio, más difícil»?
-3. **Las escenas nuevas.** Son 5, una portada por episodio, compartidas entre Primaria y Secundaria. Las genero en Stitch cuando apruebes los textos.
+1. **El largo de Primaria** (3 a 5 palabras por frase) está bien.
+2. **El paso del nivel 1 al 4** se entiende como el mismo episodio, más difícil: el aprendizaje siempre escalonado.
+3. **Las escenas nuevas.** Hechas (las 5 portadas).
 4. **Lo que queda para la fase de código:** pasar esto al formato del importador, el comprobador `english.js` con estos tipos de ejercicio y la vista biblioteca. Ese diseño ya está en INGLES.md § 6.

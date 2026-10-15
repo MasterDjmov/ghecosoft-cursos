@@ -159,6 +159,28 @@ REFS = {
              'Teo es un chico flaco y bajo para su edad, apenas más bajo que Iris, de pelo negro enrulado.'),
         ],
     },
+    'python': {
+        # R01-N02 a R01-N05 ya estaban hechas en este proyecto y se bajaron el 2026-10-14.
+        # Sin referencia todavía: Sila, Maese Horas, el Ermitaño, la Copista, Baldo y la Hidra (generar sus hojas acá antes).
+        'project': '16828689365976730624',
+        'region': 'El Valle de la Serpiente',
+        'ambiente': 'en un valle de bosques y ruinas de piedra con musgo, ríos que brillan verde, faroles verdes y runas encendidas',
+        'ambientes': {
+            '02-objetos-errores.md': 'en la Gran Biblioteca del Valle, con estantes de piedra altísimos, libros encadenados, faroles verdes y runas',
+            '03-iteracion-calidad.md': 'en la Torre del Reloj del Valle, con engranajes de piedra y bronce, péndulos, escaleras de caracol y faroles verdes',
+        },
+        'chars': [
+            (r'\bMia\b', 'Mia', ['5963293020836080820'], 'Mia es bajita (1,55 m) y delgada.'),
+            (r'\bTilo\b', 'Tilo', ['5696938930910017018'], 'Tilo es un chico bajo, flaco y fibroso, descalzo.'),
+            (r'Ofidia', 'Ofidia', ['10928700517117951865'], 'Ofidia es muy alta (1,90 m) y esbelta: le saca más de una cabeza a Mia.'),
+            (r'Gheco|gecko', 'Gheco', ['15690829756280996174'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
+            (r'Guardi[aá]n del Puente', 'el Guardián del Puente', ['13111980321235167624'], ''),
+            (r'Archivista', 'el Archivista Corrupto', ['76f4476e7b8e459fa75b72cbe7906fbb'], ''),
+            (r'G[oó]lem', 'el Gólem del Reloj', ['11d43dda059d4a2b8de8c6e1c8077d0c'], ''),
+            (r'Gremio', 'la Maestra del Gremio de Artífices', ['af588d75f8504efc87b765ab32bb8a30'], ''),
+            (r'[Cc]ocinera', 'la Cocinera de la Torre', ['0286d6c0514242c587dfedb64881bbd0'], ''),
+        ],
+    },
     'java': {
         # Las 76 primeras (R00 a R02-N09) ya estaban hechas en este proyecto y se bajaron el 2026-10-14.
         'project': '7393382501138179740',

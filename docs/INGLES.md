@@ -134,7 +134,7 @@ El episodio 1 ya está escrito en el prototipo, con 5 misiones (usa además la e
   Los tests están en `tests/Feature/Student/EnglishCourseTest.php`.
 - **Hecho después del piloto (2026-10-14):** las temporadas (§ 8, abren con el 75 % del tronco anterior); Ada jugable (niña en Primaria, `img/protagonistas/ada/`, y de 15 en Secundaria, `ada-15/`, 6 aspectos cada una, expediciones en los Talleres y la montura **Folio**, n1–n5) con **sus ítems** (`app:game-items`, 15 por curso, con la **Pluma de Eco** de segunda vida) y **el puesto de Ámbar**; **Eco como mascota** que crece con los episodios terminados (JUEGO.md § 11 ter); y **«hablar» da XP**: decir bien la frase da 3 de XP una sola vez por micro-misión (`StepCompleter::speak`).
 - **Lo que falta:**
-  - las temporadas que siguen (§ 8): Valle, Imperio y las de los cursos nuevos (Talleres, Forjas, Puerto y Ciudadela ya están, con sus ramas; a la Ciudadela le faltan 5 portadas de Secundaria);
+  - las temporadas que siguen (§ 8): Valle, Imperio y las de los cursos nuevos (Talleres, Forjas, Puerto y Ciudadela ya están, con sus ramas);
   - revisar los retratos en el Diccionario y en Mis Crónicas (historias/ingles.md § 7, pasos 3 y 5; la Enciclopedia ya tiene a Ada, Eco y el Borrón).
 
 ## 7. Lo que decidió el docente (2026-10-13)

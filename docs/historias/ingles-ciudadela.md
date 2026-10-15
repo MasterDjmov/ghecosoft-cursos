@@ -85,7 +85,7 @@ De C++ hay 37 escenas: la Clase 0, todo R01 (del almacén al Autómata de Latón
 
 - El docente aprobó el plan («si me sirve»).
 - **8 escenas de C++** nuevas, que también usa el curso de C++ (ESCENAS.md).
-- **19 de las 24 portadas**: `CIUDADELA-01` a `12` y `CIUDADELA-S01` a `S07`. Stitch se quedó sin cuota antes de `S08` a `S12`; esos cinco episodios de Secundaria ya apuntan a su portada y la toman al reimportar cuando estén.
+- **Las 24 portadas**: `CIUDADELA-01` a `12` y `CIUDADELA-S01` a `S12` (las cinco últimas, cuando volvió la cuota de Stitch).
 - Los 12 episodios en las dos versiones: [cursos/ingles-primaria/04-ciudadela.md](../../cursos/ingles-primaria/04-ciudadela.md) y [cursos/ingles-secundaria/04-ciudadela.md](../../cursos/ingles-secundaria/04-ciudadela.md), 60 misiones cada uno; las 81 respuestas abiertas probadas contra `english.js`.
 - Cambios contra el plan:
   - en Primaria, la rama de Lima practica *big / small / long / short* y *the same / different*;

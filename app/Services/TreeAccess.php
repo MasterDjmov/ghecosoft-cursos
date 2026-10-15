@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\SubmissionStatus;
+use App\Models\Branch;
 use App\Models\Course;
 use App\Models\CourseSubscription;
 use App\Models\Currency;
@@ -229,7 +230,12 @@ class TreeAccess
     /** La temporada (rama) de un nodo; el raíz va con la primera. */
     public function seasonBranchId(Node $node): ?int
     {
-        return $node->branch_id ?? $node->course->branches()->orderBy('position')->orderBy('id')->value('id');
+        // A veces llega como 'parent:id,title' (el árbol lo carga así): sin rama ni curso, se lee de la base.
+        if (! array_key_exists('branch_id', $node->getAttributes()) || ! array_key_exists('course_id', $node->getAttributes())) {
+            $node = Node::whereKey($node->id)->first(['id', 'branch_id', 'course_id']);
+        }
+
+        return $node->branch_id ?? Branch::where('course_id', $node->course_id)->orderBy('position')->orderBy('id')->value('id');
     }
 
     /**
@@ -241,8 +247,10 @@ class TreeAccess
     public function seasonProgress(User $user, Node $node): array
     {
         $branchId = $this->seasonBranchId($node);
-        $first = $node->course->branches()->orderBy('position')->orderBy('id')->value('id');
-        $trunk = Node::where('course_id', $node->course_id)->where('is_published', true)->where('type', '!=', NodeType::Extra)
+        $courseId = $node->course_id ?? Node::whereKey($node->id)->value('course_id');
+        $branches = fn () => Branch::where('course_id', $courseId);
+        $first = $branches()->orderBy('position')->orderBy('id')->value('id');
+        $trunk = Node::where('course_id', $courseId)->where('is_published', true)->where('type', '!=', NodeType::Extra)
             ->where(fn ($q) => $q->where('branch_id', $branchId)->when($branchId === $first, fn ($q) => $q->orWhere('type', NodeType::Root)))
             ->get();
         $total = $trunk->count();
@@ -251,7 +259,7 @@ class TreeAccess
             'done' => $trunk->filter(fn (Node $episode) => $this->isCompleted($user, $episode))->count(),
             'total' => $total,
             'needed' => (int) ceil($total * self::SEASON_SHARE),
-            'title' => $node->course->branches()->whereKey($branchId)->value('title'),
+            'title' => $branches()->whereKey($branchId)->value('title'),
         ];
     }
 

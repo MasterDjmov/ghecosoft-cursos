@@ -20,6 +20,7 @@ use App\Services\StepCompleter;
 use App\Services\TreeAccess;
 use App\Support\CvData;
 use App\Support\EnglishExercise;
+use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
 use Livewire\Livewire;
 
@@ -355,4 +356,16 @@ test('la temporada siguiente se abre con la mayor parte del tronco de la anterio
     Livewire::actingAs($student)->test(CourseTree::class, ['course' => $course])
         ->assertSee('Temporada 2')->assertSee('Las Forjas')->assertSee('Ramas:')
         ->assertSee('3 de 4 episodios');
+});
+
+test('el árbol de un curso con temporadas se dibuja para el alumno y en el panel (el padre llega a medias)', function () {
+    $course = importEnglishSeasons();
+    $student = enrolledStudent($course);
+    app(NodeUnlocker::class)->unlock($student, $course->rootNode);
+
+    $states = collect(TreeGraph::forStudent($course, $student)['nodes'])->pluck('state', 'id');
+    expect($states[$course->nodes()->where('code', 'R02-N01')->value('id')])->toBe(TreeAccess::STATE_LOCKED);
+
+    $this->actingAs(User::factory()->admin()->create())->get(route('admin.students.tree', [$student, $course]))
+        ->assertOk()->assertSee('data-test="student-journey"', false);
 });

@@ -159,6 +159,37 @@ REFS = {
              'Teo es un chico flaco y bajo para su edad, apenas más bajo que Iris, de pelo negro enrulado.'),
         ],
     },
+    'java': {
+        # Las 76 primeras (R00 a R02-N09) ya estaban hechas en este proyecto y se bajaron el 2026-10-14.
+        'project': '7393382501138179740',
+        'region': 'El Imperio de las Clases',
+        'ambiente': 'en una capital imperial de piedra oscura de noche, con vitrales dorados, faroles ámbar y líneas de circuito cian en las juntas',
+        'ambientes': {
+            '01-la-aduana-del-compilador.md': 'en la Aduana del Compilador, en la muralla del Imperio, de noche, con mostradores de piedra, sellos, pergaminos y faroles',
+            '02-la-academia-de-los-moldes.md': 'en la Academia de los Moldes, con fraguas, moldes de bronce, maniquíes de práctica y un patio de armas',
+            '03-los-archivos-imperiales.md': 'en los Archivos Imperiales, con estantes altísimos de fichas y pergaminos, escaleras y faroles',
+            '04-las-corrientes-del-imperio.md': 'junto al río y los canales de la capital imperial, con esclusas, barcazas, ruedas de agua y una represa',
+            '05-la-torre-del-arquitecto.md': 'en la Torre del Arquitecto, con mesas de planos, compases, tazas de café y ventanales altos',
+            '06-senda-de-la-boveda-imperial.md': 'en la Bóveda Imperial, un subsuelo de piedra con tablas de registros talladas, cofres y candados',
+            '07-senda-del-palacio-de-las-ventanas.md': 'en el Palacio de las Ventanas, con salones llenos de ventanas, marcos, paneles y botones de bronce',
+            '08-senda-del-arcade-imperial.md': 'en un salón de juegos mecánicos del Imperio, con máquinas de arcade de madera y bronce y luces de colores',
+            '09-senda-del-puerto-de-spring.md': 'en el puerto fluvial del Imperio, con muelles, grúas, mensajeros y cajas de envío',
+        },
+        'chars': [
+            # Zed, Nadia, Kaffa y Gheco están subidos (imágenes oficiales); el resto se generó en el proyecto.
+            (r'\bZed\b', 'Zed', ['5522991768613220027'], 'Zed es alto (1,80 m), delgado y fibroso.'),
+            (r'\bNadia\b', 'Nadia', ['17346538076052872870'], 'Nadia es de estatura mediana, más baja que Zed, muy erguida.'),
+            (r'\bKaffa\b', 'Kaffa', ['8221925489435297833'], 'Kaffa es alto, de hombros anchos, más alto que Zed.'),
+            (r'Gheco|gecko', 'Gheco', ['7453549721618962721'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
+            (r'Escriba', 'el Escriba Jefe', ['b12044f03eb646dca40ac3c69a952478'], 'El Escriba Jefe es bajo, panzón y un poco encorvado.'),
+            (r'Maestra de Moldes', 'la Maestra de Moldes', ['8bed9638b6a0475a9f697e8c247b0e30'], 'La Maestra de Moldes es alta y de hombros anchos.'),
+            (r'Archivista', 'el Archivista Mayor', ['f64f0eb5f95045789403ea7d4bf54696'], 'El Archivista Mayor es alto y muy flaco, un poco encorvado.'),
+            (r'Centinela', 'el Centinela de la Aduana', ['bfbc92368324406189a58eb3b9cdf7a7'], ''),
+            (r'Espectro', 'el Espectro Nulo', ['b6fbf7c3ac4f46749c51da175e013dd8'], ''),
+            (r'Leviat[aá]n', 'el Leviatán de los Datos', ['564ddbf63164488bb5e1a5660721fcfc'], ''),
+            (r'Drag[oó]n', 'el Dragón del Imperio', ['3a3e7acaf4ab4cd390da27dcf3116c2a'], ''),
+        ],
+    },
 }
 
 MAX_REFS = 8  # más de esto y Stitch empieza a mezclar personajes

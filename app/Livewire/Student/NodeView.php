@@ -6,6 +6,7 @@ use App\Livewire\Student\Concerns\UnlocksNodes;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\NodeStepCompletion;
+use App\Services\ActivityLog;
 use App\Services\Heroes;
 use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
@@ -45,6 +46,8 @@ class NodeView extends Component
     {
         abort_unless($node->course_id === $course->id, 404);
         $this->authorize('view', $node);
+        // D107: para saber qué miró.
+        app(ActivityLog::class)->visit(auth()->user(), $node);
     }
 
     /** Se entregó o se completó una hoja: cambia el resumen de progreso (y quizás el estado del nodo). */
@@ -60,7 +63,7 @@ class NodeView extends Component
      * @return array{ok: bool, xp?: int, error?: string}
      */
     #[Renderless]
-    public function completeStep(int $stepId, string $output, string $code, StepCompleter $completer): array
+    public function completeStep(int $stepId, string $output, string $code, StepCompleter $completer, ActivityLog $log): array
     {
         $step = $this->node->steps()->findOrFail($stepId);
         $key = 'steps:'.auth()->id();
@@ -72,10 +75,31 @@ class NodeView extends Component
         try {
             $new = $completer->complete(auth()->user(), $step, Str::limit($output, 20000, ''), Str::limit($code, 20000, ''));
         } catch (InvalidArgumentException $e) {
+            if ($completer->canPlay(auth()->user(), $step)) {
+                $log->attempt(auth()->user(), $step, false, 'output', $output);
+            }
+
             return ['ok' => false, 'error' => $e->getMessage()];
         }
+        $log->attempt(auth()->user(), $step, true);
 
         return ['ok' => true, 'xp' => $new && ! auth()->user()->isStaff() ? $step->xp_reward : 0];
+    }
+
+    /**
+     * D107: el navegador dice que el alumno falló una micro-misión (salida distinta, error, la criatura de inglés).
+     * Solo se anota para las estadísticas: no cambia nada del juego.
+     */
+    #[Renderless]
+    public function failStep(int $stepId, string $kind, string $answer, StepCompleter $completer, ActivityLog $log): void
+    {
+        $step = $this->node->steps()->findOrFail($stepId);
+        $key = 'step-fails:'.auth()->id();
+        if (RateLimiter::tooManyAttempts($key, 60) || ! $completer->canPlay(auth()->user(), $step)) {
+            return;
+        }
+        RateLimiter::hit($key, 60);
+        $log->attempt(auth()->user(), $step, false, $kind, $answer);
     }
 
     /**

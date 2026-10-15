@@ -147,6 +147,9 @@
                                 <p x-show="matches === false && mismatch" x-cloak class="mt-1 text-xs text-ink-muted" x-text="mismatch" data-test="step-mismatch-detail"></p>
                                 <p x-show="result && ! result.ok" x-cloak class="flex items-center gap-2 text-sm text-danger" x-text="result?.error"></p>
                             </div>
+                            {{-- D107: los fallos se avisan para las estadísticas (el mismo fallo seguido, una vez). --}}
+                            <div x-data="{ lastFail: '', fail(kind) { if (lastFail === kind + output) return; lastFail = kind + output; $wire.failStep({{ $step->id }}, kind, output.slice(0, 500)).catch(() => {}) } }"
+                                x-effect="if (! running && matches === false) fail('{{ filled($step->checks) ? 'checks' : 'output' }}'); else if (! running && error) fail('error')"></div>
                             {{-- Java (D85) sin el ejecutor abierto, o C y C++ (D98, D100) si el compilador del navegador no carga: se corre
                                  en la compu o el IDE y se pega la salida. --}}
                             @if ($stepLanguage->runsOnLocalRunner() || in_array($stepLanguage, [\App\Enums\Language::C, \App\Enums\Language::Cpp], true))

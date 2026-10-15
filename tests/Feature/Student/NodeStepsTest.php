@@ -11,9 +11,12 @@ use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
+use App\Models\NodeVisit;
+use App\Models\StepAttempt;
 use App\Models\Submission;
 use App\Models\User;
 use App\Models\XpTransaction;
+use App\Services\ActivityLog;
 use App\Services\CourseImporter;
 use App\Services\PracticeSubmitter;
 use App\Services\StepCompleter;
@@ -428,4 +431,85 @@ test('el alumno ve el inspector en la micro-misión de HTML y nunca la solución
     expect($page)->toContain('data-test="html-inspector"')
         ->and($page)->toContain('Lo que tiene que encontrar el inspector')
         ->and($page)->not->toContain('rio.webp');
+});
+
+/* D107: intentos y visitas para las estadísticas del docente. */
+
+test('abrir el nodo anota una visita por día; el staff y la Clase 0 de prueba no dejan registro', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $node = ['course' => $course, 'node' => $course->rootNode];
+
+    Livewire::actingAs($student)->test(NodeView::class, $node);
+    Livewire::actingAs($student)->test(NodeView::class, $node);
+    $this->travel(1)->days();
+    Livewire::actingAs($student)->test(NodeView::class, $node);
+
+    expect(NodeVisit::where('user_id', $student->id)->count())->toBe(2)
+        ->and((int) NodeVisit::where('user_id', $student->id)->sum('views'))->toBe(3);
+
+    Livewire::actingAs(User::factory()->admin()->create())->test(NodeView::class, $node);
+    Livewire::actingAs(User::factory()->create())->test(NodeView::class, $node);   // Clase 0
+    expect(NodeVisit::count())->toBe(2);
+});
+
+test('se anotan los aciertos y los fallos (el mismo fallo seguido, una vez), nunca en una micro-misión cerrada', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    [$first, $second] = $course->rootNode->steps()->get()->all();
+    $component = Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode]);
+
+    $component->call('failStep', $first->id, 'bad', 'He go')
+        ->call('failStep', $first->id, 'bad', 'He go')
+        ->call('failStep', $first->id, 'almost', 'He goe')
+        ->call('completeStep', $first->id, 'Hola valle', '')
+        ->call('completeStep', $first->id, 'Hola, Valle', 'print("Hola, Valle")')
+        ->call('failStep', $second->id + 1000, 'bad', 'x');
+
+    $attempts = StepAttempt::where('user_id', $student->id)->orderBy('id')->get();
+    expect($attempts->map(fn ($a) => [$a->passed, $a->kind, $a->answer])->all())->toBe([
+        [false, 'bad', 'He go'],
+        [false, 'almost', 'He goe'],
+        [false, 'output', 'Hola valle'],
+        [true, null, null],
+    ])->and($attempts[0]->course_id)->toBe($course->id);
+
+    // La segunda está cerrada hasta superar la primera: con otro alumno no se anota.
+    $other = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    Livewire::actingAs($other)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
+        ->call('failStep', $second->id, 'bad', 'x');
+    expect(StepAttempt::where('user_id', $other->id)->count())->toBe(0);
+});
+
+test('los intentos de más de seis meses se borran', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+    $log = app(ActivityLog::class);
+
+    $this->travel(-7)->months();
+    $log->attempt($student, $first, false, 'bad', 'viejo');
+    $this->travelBack();
+    $log->attempt($student, $first, false, 'bad', 'nuevo');
+
+    expect($log->prune())->toBe(1)
+        ->and(StepAttempt::pluck('answer')->all())->toBe(['nuevo']);
+});
+
+test('el árbol del alumno muestra su recorrido: dónde se traba y sus respuestas equivocadas', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+    foreach (['He go', 'He goes not', 'He gos'] as $answer) {
+        app(ActivityLog::class)->attempt($student, $first, false, 'bad', $answer);
+    }
+    app(ActivityLog::class)->visit($student, $course->rootNode);
+
+    $this->actingAs(User::factory()->admin()->create())->get(route('admin.students.tree', [$student, $course]))
+        ->assertOk()
+        ->assertSee('data-test="student-journey"', false)
+        ->assertSee($course->rootNode->title)
+        ->assertSee('3 fallos')
+        ->assertSee('He gos')
+        ->assertSee('data-test="student-recent-fails"', false);
 });

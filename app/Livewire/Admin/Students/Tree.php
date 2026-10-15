@@ -17,6 +17,7 @@ use App\Notifications\PlatformNotification;
 use App\Services\NodeUnlocker;
 use App\Services\ProgressRestorer;
 use App\Services\TreeAccess;
+use App\Support\StudentJourney;
 use App\Support\TreeGraph;
 use App\Support\UnlockMessages;
 use DomainException;
@@ -195,6 +196,7 @@ class Tree extends Component
         $graph = TreeGraph::forVisitor($this->course, $this->user);
         // El avance cuenta el camino principal, igual que el CV (las Sendas y los extras suman aparte).
         $trunkIds = $this->course->nodes()->where('is_published', true)->trunk()->pluck('id')->flip();
+        $journey = new StudentJourney($this->user, $this->course);
 
         return view('livewire.admin.students.tree', [
             'graph' => $graph,
@@ -207,6 +209,9 @@ class Tree extends Component
                 ->reject(fn (Node $node) => $access->practicesOpen($this->user, $node))
                 ->map(fn (Node $node) => ['id' => $node->id, 'title' => $node->title, ...$access->stepProgress($this->user, $node)])
                 ->values(),
+            // D107: qué miró, cuántas veces probó y dónde se traba.
+            'chapters' => $journey->chapters(collect($graph['nodes'])->pluck('state', 'id')->all()),
+            'recentFails' => $journey->recentFails(),
             'restoreRows' => auth()->user()->can('restoreProgress', [$this->user, $this->course]) ? $this->restoreRows($access) : null,
             'canSeeFile' => auth()->user()->can('viewStudent', $this->user),
             'next' => $access->nextNodes($this->user, $this->course)->map(fn (array $item) => [

@@ -24,6 +24,77 @@
         </div>
     </section>
 
+    {{-- D107: el recorrido capítulo por capítulo: qué miró, cuántas veces probó y dónde se traba. --}}
+    <section class="panel flex flex-col gap-3 p-5" data-test="student-journey">
+        <div>
+            <h2 class="font-display font-semibold text-white">Recorrido</h2>
+            <p class="text-sm text-ink-muted">Los {{ term('node', $course, 2) }} que abrió o miró. «Trabado»: una micro-misión con {{ \App\Support\StudentJourney::STUCK_FAILS }} fallos o más sin acertarla, o {{ \App\Support\StudentJourney::STUCK_DAYS }} días sin avanzar. Las visitas y los fallos se registran desde el 15/10/2026.</p>
+        </div>
+        @forelse ($chapters as $chapter)
+            <details class="border-t border-outline/60 pt-3" wire:key="chapter-{{ $chapter['id'] }}" @if ($chapter['stuck_steps']->isNotEmpty() || $chapter['idle_since']) open @endif>
+                <summary class="flex cursor-pointer flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+                    <span class="flex min-w-0 flex-1 items-center gap-2 font-medium text-ink">
+                        @if ($chapter['completed'])
+                            <flux:icon name="check-circle" variant="micro" class="shrink-0 text-success" />
+                        @elseif ($chapter['stuck_steps']->isNotEmpty() || $chapter['idle_since'])
+                            <flux:icon name="exclamation-triangle" variant="micro" class="shrink-0 text-warning" />
+                        @else
+                            <flux:icon name="play-circle" variant="micro" class="shrink-0 text-primary-bright" />
+                        @endif
+                        <span class="truncate">{{ $chapter['title'] }}</span>
+                        @if ($chapter['code'])<span class="font-mono text-xs text-ink-muted">{{ $chapter['code'] }}</span>@endif
+                    </span>
+                    <span class="flex flex-wrap gap-x-3 font-mono text-xs text-ink-muted">
+                        @if ($chapter['steps']->isNotEmpty())
+                            <span>{{ $chapter['steps_done'] }}/{{ $chapter['steps']->count() }} micro-misiones</span>
+                        @endif
+                        <span @class(['text-warning' => $chapter['fails'] > 0])>{{ $chapter['fails'] }} {{ $chapter['fails'] === 1 ? 'fallo' : 'fallos' }}</span>
+                        <span>{{ $chapter['days'] ? 'entró '.$chapter['days'].' '.($chapter['days'] === 1 ? 'día' : 'días') : 'sin visitas registradas' }}</span>
+                        @if ($chapter['last_seen'])<span>última {{ $chapter['last_seen']->format('d/m H:i') }}</span>@endif
+                    </span>
+                </summary>
+                <div class="mt-2 flex flex-col gap-1 pl-6 text-sm">
+                    <p class="text-xs text-ink-muted">
+                        @if ($chapter['unlocked_at'])Abierto el {{ $chapter['unlocked_at']->format('d/m/Y') }}.@endif
+                        @if ($chapter['first_seen']) Lo miró por primera vez el {{ $chapter['first_seen']->format('d/m/Y H:i') }} ({{ $chapter['views'] }} {{ $chapter['views'] === 1 ? 'vez' : 'veces' }}).@endif
+                        @if ($chapter['idle_since'])<span class="text-warning"> Sin avanzar desde el {{ $chapter['idle_since']->format('d/m/Y') }}.</span>@endif
+                    </p>
+                    @foreach ($chapter['steps'] as $step)
+                        <div class="flex items-center gap-2" wire:key="journey-step-{{ $step['id'] }}">
+                            @if ($step['done'])
+                                <flux:icon name="check" variant="micro" class="shrink-0 text-success" />
+                            @elseif ($step['stuck'])
+                                <flux:icon name="exclamation-triangle" variant="micro" class="shrink-0 text-warning" />
+                            @else
+                                <flux:icon name="minus" variant="micro" class="shrink-0 text-ink-muted" />
+                            @endif
+                            <span @class(['flex-1 truncate', 'text-warning' => $step['stuck'], 'text-ink' => ! $step['stuck']])>{{ $step['title'] }}</span>
+                            @if ($step['fails'])
+                                <span class="font-mono text-xs text-ink-muted">{{ $step['fails'] }} {{ $step['fails'] === 1 ? 'fallo' : 'fallos' }}</span>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </details>
+        @empty
+            <flux:text>Todavía no abrió ni miró ningún {{ term('node', $course) }}.</flux:text>
+        @endforelse
+
+        @if ($recentFails->isNotEmpty())
+            <div class="flex flex-col gap-2 border-t border-outline/60 pt-3" data-test="student-recent-fails">
+                <h3 class="tech-label">Últimas respuestas equivocadas</h3>
+                @foreach ($recentFails as $fail)
+                    <div class="flex flex-col gap-0.5 text-sm sm:flex-row sm:items-baseline sm:gap-3" wire:key="fail-{{ $fail->id }}">
+                        <span class="shrink-0 font-mono text-xs text-ink-muted">{{ $fail->created_at->format('d/m H:i') }}</span>
+                        <span class="shrink-0 text-ink-muted">{{ $fail->step?->title }}</span>
+                        <span class="min-w-0 flex-1 truncate font-mono text-warning" title="{{ $fail->answer }}">{{ $fail->answer ?? '—' }}</span>
+                        @if ($fail->kind)<span class="shrink-0 font-mono text-xs text-ink-muted">{{ $fail->kindLabel() }}</span>@endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </section>
+
     {{-- D95: prácticas que esperan micro-misiones; si se traba (sin ejecutor de Java, por ejemplo), se las abrís. --}}
     @if ($lockedPractices->isNotEmpty())
         <section class="panel flex flex-col gap-3 p-5" data-test="student-locked-practices">

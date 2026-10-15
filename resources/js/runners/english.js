@@ -272,7 +272,7 @@ export function englishStep(config) {
                 if (this.round >= exercise.items.length) this.pass();
                 else setTimeout(() => { this.feedback = null; this.playRound(); }, 700);
             } else {
-                this.fail('bad');
+                this.fail('bad', null, option);
             }
         },
 
@@ -388,8 +388,22 @@ export function englishStep(config) {
         },
 
         // ----- resultado -----
-        fail(kind, creature = null) {
+        /** Lo que escribió o eligió mal, para que el docente vea dónde se equivocan. */
+        wrongAnswer() {
+            if (['fill', 'write'].includes(this.type)) {
+                return this.answers.flatMap((parts, i) => parts.filter((_, p) => this.marks[i][p] && this.marks[i][p] !== 'ok')).join(' · ');
+            }
+            if (['answer', 'transform'].includes(this.type)) {
+                return this.answers.filter((_, i) => this.marks[i] && this.marks[i] !== 'ok').join(' · ');
+            }
+            if (['order', 'letters'].includes(this.type)) return this.builtText;
+            if (this.type === 'dictation') return this.dictationText;
+            return '';
+        },
+        fail(kind, creature = null, answer = null) {
             this.tries++;
+            // D107: para las estadísticas del docente (solo se anota; no cambia nada del juego).
+            this.$wire.failStep(config.stepId, kind, (answer ?? this.wrongAnswer()).slice(0, 500)).catch(() => {});
             const who = kind === 'almost' ? 'slime' : (creature ?? config.creature ?? 'skeleton');
             this.feedback = {
                 kind,

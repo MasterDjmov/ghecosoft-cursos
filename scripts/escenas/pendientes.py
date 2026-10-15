@@ -161,7 +161,8 @@ REFS = {
     },
     'python': {
         # R01-N02 a R01-N05 ya estaban hechas en este proyecto y se bajaron el 2026-10-14.
-        # Sin referencia todavía: Sila, Maese Horas, el Ermitaño, la Copista, Baldo y la Hidra (generar sus hojas acá antes).
+        # Baldo, Sila, Maese Horas, el Ermitaño y la Copista se recrearon acá el 2026-10-14 desde sus hojas del proyecto
+        # «Plataforma Educativa Web y Móvil» (Stitch solo toma referencias del mismo proyecto). La Hidra no tiene hoja.
         'project': '16828689365976730624',
         'region': 'El Valle de la Serpiente',
         'ambiente': 'en un valle de bosques y ruinas de piedra con musgo, ríos que brillan verde, faroles verdes y runas encendidas',
@@ -179,6 +180,11 @@ REFS = {
             (r'G[oó]lem', 'el Gólem del Reloj', ['11d43dda059d4a2b8de8c6e1c8077d0c'], ''),
             (r'Gremio', 'la Maestra del Gremio de Artífices', ['af588d75f8504efc87b765ab32bb8a30'], ''),
             (r'[Cc]ocinera', 'la Cocinera de la Torre', ['0286d6c0514242c587dfedb64881bbd0'], ''),
+            (r'\bBaldo\b', 'Baldo', ['f925f31b24ac4b8598b1374d62e6876a'], 'Baldo es bajito (1,40 m) y panzón: más bajo que Mia.'),
+            (r'\bSila\b', 'Sila', ['8eeacad8568a434895102f9f0daeb8ed'], 'Sila es alta y elegante: más alta que Mia.'),
+            (r'Maese Horas|\bHoras\b', 'Maese Horas', ['9d0c99c2a2564c4b8731a7b17bcdb4e1'], 'Maese Horas es bajo y de hombros anchos.'),
+            (r'Ermita[ñn]o', 'el Ermitaño', ['b8cec726f0b74c688f0a3ac0a4165bf5'], 'El Ermitaño es de estatura mediana, enjuto, apoyado en su bastón.'),
+            (r'Copista', 'la Copista', ['62ffc4e5c9ec406e8bd13ae8e2106c3a'], 'La Copista es alta y delgada: más alta que Mia.'),
         ],
     },
     'java': {

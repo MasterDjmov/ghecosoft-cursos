@@ -204,11 +204,14 @@ return [
             ],
         ],
         // C++ (docs/historias/cpp.md): la tienda y las expediciones de la Ciudadela se suman cuando estén sus imágenes y el mapa.
-        // HTML y CSS (docs/historias/html.md). La tienda de Ámbar y las recetas, cuando estén sus imágenes.
+        // HTML y CSS (docs/historias/html.md).
         'html' => [
             'name' => 'Iris',
             'slug' => 'iris',
             'title' => 'Aprendiz de vitralista',
+            // La tienda de los Talleres: Ámbar vende vidrios y herramientas desde su carretilla.
+            'shop' => ['name' => 'El puesto de Ámbar', 'keeper' => 'Ámbar', 'portrait' => 'img/enciclopedia/ambar.webp', 'figure' => 'img/enciclopedia/ambar-cuerpo.webp',
+                'greeting' => '—¡Iris! Pasá, que hoy vinieron cortavidrios nuevos y vidrios casi sin burbujas. Casi.'],
             // Los Talleres: los lugares siguen el recorrido de Iris, del Balcón al Taller del Vidriero.
             'expeditions' => [
                 'opens_after' => 'R01-N02',
@@ -457,6 +460,12 @@ return [
         ['code' => 'gancho-de-huesos', 'gives' => ['gancho-de-huesos' => 1], 'needs' => ['gancho-de-grua' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'impermeable-acolchado', 'gives' => ['impermeable-acolchado' => 1], 'needs' => ['impermeable-de-farera' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'arpon-de-la-garra', 'gives' => ['arpon-de-la-garra' => 1], 'needs' => ['arpon-del-triple-igual' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // Los Talleres (HTML y CSS): los mismos materiales, con los ítems del puesto de Ámbar.
+        ['code' => 'limonada-de-ambar-doble', 'gives' => ['limonada-de-ambar' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'lupa-dentada', 'gives' => ['lupa-dentada' => 1], 'needs' => ['lupa-de-ambar' => 1, 'colmillo-de-orco' => 5], 'minutes' => 10, 'min_level' => 5],
+        ['code' => 'tenaza-de-huesos', 'gives' => ['tenaza-de-huesos' => 1], 'needs' => ['tenaza-de-plomo' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'guardapolvo-acolchado', 'gives' => ['guardapolvo-acolchado' => 1], 'needs' => ['guardapolvo-del-boceto' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'punzon-de-la-garra', 'gives' => ['punzon-de-la-garra' => 1], 'needs' => ['punzon-del-selector' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
     ],
 
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.

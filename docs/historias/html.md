@@ -156,6 +156,7 @@ Cada nodo: de 3 a 5 micro-misiones (≈ 100 en total), cada una con su escena, l
 2. ~~Las micro-misiones~~ (hechas 2026-10-09: **100**, de la Clase 0 al Dragón, cuatro por nodo; `html_r01.py` a `html_r04.py`, con el informe esperado sacado del inspector en Chrome. Probadas de punta a punta en la plataforma: HTML, CSS y Tailwind con `@theme`).
 3. ~~Iris jugable~~ (hecho 2026-10-08: `config('game.protagonists.html')`, 6 aspectos en `public/img/protagonistas/iris/` y los 12 lugares de expedición, que se abren al terminar R01-N02).
 4. ~~Los ítems de la historia~~ (hechos 2026-10-08 en `app:game-items`, con el Amuleto del Validador como segunda vida, `Item::VALIDATOR`); falta la tienda de Ámbar y las recetas, cuando esté su imagen.
+   **Hecho 2026-10-16:** el puesto de Ámbar para Iris (15 ítems: cortavidrios, tenaza, soldador del flexbox, punzón del selector, vara de la vitralista, delantales y capas, lupa de Ámbar, anillo del contraste, paleta de colores, broche del Gremio y la limonada de Ámbar), 4 que solo se fabrican y 5 recetas del taller, con sus imágenes (Stitch, proyecto de HTML, dos hojas 3×3 y una suelta).
 5. ~~Las fichas~~ (hechas 2026-10-08: Tesela, Teo, Nora, Ámbar y los cuatro jefes; faltan las imágenes de todos menos Tesela).
 6. ~~Las crónicas en tercera persona~~ (hechas 2026-10-09, con la bienvenida, el cierre de rama y el final; los ejemplos de Kira pasan a Iris).
 7. ~~Linux y Windows~~ (hecho 2026-10-09: la Clase 0 y el CLI de Tailwind).

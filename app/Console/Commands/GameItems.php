@@ -139,8 +139,31 @@ class GameItems extends Command
             ['code' => 'matriz-del-marco', 'name' => 'Matriz del Marco', 'kind' => 'story', 'description' => 'El molde de plomo de un vitral enorme que dejó el Vidriero bajo la Montaña, con la inscripción «para quien llegue». El mismo marco que espera en la torre más alta del Imperio.'],
         ],
         'html' => [
-            // Los Talleres (docs/historias/html.md): lo que gana Iris en la historia. La tienda (Ámbar) y las recetas
-            // se suman cuando estén sus imágenes.
+            // Los Talleres (docs/historias/html.md): el puesto de Ámbar. Armas
+            ['code' => 'cortavidrios-de-aprendiz', 'name' => 'Cortavidrios de Aprendiz', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Corta en línea recta. Para las curvas, todavía no.'],
+            ['code' => 'tenaza-de-plomo', 'name' => 'Tenaza de Plomo', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'Dobla el plomo alrededor de cada vidrio, como una etiqueta: abre y cierra.'],
+            ['code' => 'soldador-del-flexbox', 'name' => 'Soldador del Flexbox', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Une las piezas en fila o en columna, y si sobra lugar, lo reparte entre todas.'],
+            ['code' => 'punzon-del-selector', 'name' => 'Punzón del Selector', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Entre mil piezas, pincha justo la que nombrás.'],
+            ['code' => 'vara-de-la-vitralista', 'name' => 'Vara de la Vitralista', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Una copia de la vara de Tesela, con un vidrio de cada color en la punta. La original no se presta.'],
+            // Ropa
+            ['code' => 'delantal-de-vitralista', 'name' => 'Delantal de Vitralista', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'El de todos los aprendices de los Talleres, con un bolsillo para los lápices y otro para los vidrios.'],
+            ['code' => 'guardapolvo-del-boceto', 'name' => 'Guardapolvo del Boceto', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Manchado de carbonilla: todo vitral empieza en un boceto.'],
+            ['code' => 'chaleco-de-la-caja', 'name' => 'Chaleco de la Caja', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Relleno, borde y margen, en ese orden. Nada se sale de la caja.'],
+            ['code' => 'capa-adaptable', 'name' => 'Capa Adaptable', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 6, 'intelligence' => 2, 'price' => 1300, 'min_level' => 9, 'droppable' => true, 'description' => 'Se acomoda sola a quien la lleva, sea chico o grande: de la ventanita al ventanal.'],
+            ['code' => 'armadura-de-vitral', 'name' => 'Armadura de Vitral', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Placas de vidrio templado unidas con plomo. Cuando le da el sol, nadie te mira la cara.'],
+            // Accesorios
+            ['code' => 'lupa-de-ambar', 'name' => 'Lupa de Ámbar', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Vidrio amarillo, como los anteojos de Ámbar. Casi sin burbujas: tiene una.'],
+            ['code' => 'anillo-del-contraste', 'name' => 'Anillo del Contraste', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Se oscurece cuando un texto no se lee sobre su fondo.'],
+            ['code' => 'paleta-de-colores', 'name' => 'Paleta de Colores', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Doce colores, cada uno con su código. Nunca un «rojito».'],
+            ['code' => 'broche-del-gremio', 'name' => 'Broche del Gremio', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'El broche de los vitralistas del Gremio, con el rosetón grabado. Se gana, no se compra.'],
+            // Pociones
+            ['code' => 'limonada-de-ambar', 'name' => 'Limonada de Ámbar', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'En vaso de vidrio amarillo, de la carretilla de Ámbar. En las expediciones se toma sola si la vida baja mucho.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'lupa-dentada', 'name' => 'Lupa Dentada', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 1, 'dexterity' => 2, 'luck' => 1, 'description' => 'La Lupa de Ámbar con un aro de colmillos de orco: mira y muerde.'],
+            ['code' => 'tenaza-de-huesos', 'name' => 'Tenaza de Huesos', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 3, 'description' => 'La Tenaza de Plomo con mangos de hueso y dientes de goblin en la boca.'],
+            ['code' => 'guardapolvo-acolchado', 'name' => 'Guardapolvo Acolchado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Guardapolvo del Boceto forrado con musgo de troll: ni una astilla lo atraviesa.'],
+            ['code' => 'punzon-de-la-garra', 'name' => 'Punzón de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'dexterity' => 4, 'description' => 'El Punzón del Selector con garras de ogro y escamas de dragón: elige y corta.'],
+            // Lo que gana Iris en la historia
             ['code' => 'fragmento-astillado', 'name' => 'Fragmento Astillado', 'kind' => 'story', 'description' => 'El vidrio de colores que abrió el portal. Iris lo quiso colgar sin plomo y se le astilló una punta.'],
             ['code' => 'fragmento-emplomado', 'name' => 'Fragmento Emplomado', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'intelligence' => 2, 'description' => 'Tesela lo emplomó al caer el Slime de las Etiquetas Huérfanas: ahora se sostiene solo, y la luz que pasa corta.'],
             ['code' => Item::VALIDATOR, 'name' => 'Amuleto del Validador', 'kind' => 'accessory', 'rarity' => 'rare', 'defense' => 2, 'strength' => 1, 'price' => 700, 'min_level' => 5, 'droppable' => true, 'description' => 'Un vidrio que se pone rojo donde algo quedó mal cerrado. Equipado, en cada expedición te levanta una vez con la mitad de la vida.'],
@@ -388,6 +411,25 @@ class GameItems extends Command
         'plantilla-del-vidriero' => 'Una plantilla de papel grueso de un vitral redondo, con la inscripción «para quien llegue» escrita a mano en el borde.',
         'vitral-de-iris' => 'Un vitral redondo chico con un fragmento iridiscente en el centro y vidrios de colores alrededor, que brilla como un sol.',
         'marco-vacio' => 'Un marco de plomo redondo y vacío sobre una mesa de taller polvorienta, con un hueco en el centro.',
+        'cortavidrios-de-aprendiz' => 'Un cortavidrios de mano con ruedita de acero y mango de madera clara, con una etiqueta de precio de cartón atada con hilo.',
+        'tenaza-de-plomo' => 'Una tenaza de herrero chica con mangos envueltos en cuero y una tira de plomo gris doblada en la boca.',
+        'soldador-del-flexbox' => 'Un soldador de estaño con mango de vidrio azul y la punta encendida, con tres piezas de vidrio de colores alineadas en fila delante.',
+        'punzon-del-selector' => 'Un punzón fino de acero con mango de vidrio violeta y un aro de luz cian alrededor de la punta.',
+        'vara-de-la-vitralista' => 'Una vara larga de madera oscura con un racimo de vidrios de colores en la punta que proyecta luz de arcoíris.',
+        'delantal-de-vitralista' => 'Un delantal de cuero marrón con bolsillos llenos de lápices y trocitos de vidrio de colores.',
+        'guardapolvo-del-boceto' => 'Un guardapolvo de tela clara manchado de carbonilla negra, colgado de una percha de madera.',
+        'chaleco-de-la-caja' => 'Un chaleco acolchado con tres capas de colores bien marcadas (relleno, borde y margen) y botones de vidrio.',
+        'capa-adaptable' => 'Una capa de tela iridiscente que cambia de color con la luz, con broche de vidrio redondo.',
+        'armadura-de-vitral' => 'Una armadura de placas de vidrio de colores unidas con plomo, que brilla como un vitral con el sol detrás.',
+        'lupa-de-ambar' => 'Una lupa redonda de vidrio amarillo ámbar con mango de bronce y una burbujita visible en el vidrio.',
+        'anillo-del-contraste' => 'Un anillo de plata con una piedra mitad blanca y mitad negra, partida al medio.',
+        'paleta-de-colores' => 'Una paleta de vitralista con doce círculos de vidrio de colores encastrados, sin ninguna letra ni número.',
+        'broche-del-gremio' => 'Un broche redondo de plomo y vidrio con un rosetón de colores grabado, sobre un paño de terciopelo.',
+        'limonada-de-ambar' => 'Un vaso de vidrio amarillo con limonada fresca y una rodaja de limón, sobre un mostrador de madera.',
+        'lupa-dentada' => 'Una lupa de vidrio ámbar rodeada por un aro de colmillos blancos de orco.',
+        'tenaza-de-huesos' => 'Una tenaza de herrero con mangos de hueso y dientes de goblin en la boca.',
+        'guardapolvo-acolchado' => 'Un guardapolvo claro forrado por dentro con musgo verde, con costuras gruesas.',
+        'punzon-de-la-garra' => 'Un punzón largo con garras de ogro en la empuñadura y escamas de dragón rojas en la hoja.',
         // C++: la Ciudadela de los Artífices (bronce, latón y rayos cian)
         'llave-de-tuercas' => 'Una llave de tuercas de acero gris con el mango envuelto en cinta y una tapa de frasco todavía enganchada en la boca.',
         'martillo-neumatico' => 'Un martillo de bronce con un pistón y un tubito de vapor en el mango, con una nube chiquita de vapor saliendo.',

@@ -5,6 +5,7 @@ namespace App\Livewire\Student;
 use App\Models\Course;
 use App\Support\Encyclopedia as Book;
 use App\Support\EncyclopediaItems as Items;
+use App\Support\EncyclopediaWorlds as Worlds;
 use Flux\Flux;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
@@ -21,20 +22,20 @@ class Encyclopedia extends Component
 {
     /** Las secciones de la portada: clave → [título, lo que tiene adentro]. Las que todavía no están, sin clave en SECTIONS_READY. */
     public const SECTIONS = [
-        'clases' => 'Clases / Lenguajes',
+        Worlds::CLASSES => 'Clases / Lenguajes',
         Book::MASTERS => 'Maestros',
         Book::BESTIARY => 'Bestiario',
-        'monturas' => 'Monturas',
+        Worlds::MOUNTS => 'Monturas',
         Items::COINS => 'Monedas',
         Items::ARTIFACTS => 'Artefactos',
-        'reinos' => 'Reinos / Mapas',
+        Worlds::REALMS => 'Reinos / Mapas',
         'hechizos' => 'Hechizos & Sintaxis',
     ];
 
-    public const SECTIONS_READY = [Book::MASTERS, Book::BESTIARY, Items::COINS, Items::ARTIFACTS, 'hechizos'];
+    public const SECTIONS_READY = [Worlds::CLASSES, Book::MASTERS, Book::BESTIARY, Worlds::MOUNTS, Items::COINS, Items::ARTIFACTS, Worlds::REALMS, 'hechizos'];
 
     /** Las secciones con fichas (la de hechizos lleva al Grimorio). */
-    public const BROWSABLE = [Book::MASTERS, Book::BESTIARY, Items::COINS, Items::ARTIFACTS];
+    public const BROWSABLE = [Worlds::CLASSES, Book::MASTERS, Book::BESTIARY, Worlds::MOUNTS, Items::COINS, Items::ARTIFACTS, Worlds::REALMS];
 
     #[Url(as: 'seccion', except: '')]
     public string $section = '';
@@ -81,11 +82,15 @@ class Encyclopedia extends Component
     {
         $user = auth()->user();
         $items = new Items($user);
+        $worlds = new Worlds($user);
         // Solo se arma lo que hace falta: en la portada, todo (para los contadores); adentro, la sección abierta.
         $entries = collect()
             ->when(in_array($this->section, ['', Book::MASTERS, Book::BESTIARY], true), fn ($all) => $all->concat((new Book($user))->entries()))
             ->when(in_array($this->section, ['', Items::ARTIFACTS], true), fn ($all) => $all->concat($items->artifacts()))
-            ->when(in_array($this->section, ['', Items::COINS], true), fn ($all) => $all->concat($items->coins()));
+            ->when(in_array($this->section, ['', Items::COINS], true), fn ($all) => $all->concat($items->coins()))
+            ->when(in_array($this->section, ['', Worlds::CLASSES], true), fn ($all) => $all->concat($worlds->classes()))
+            ->when(in_array($this->section, ['', Worlds::MOUNTS], true), fn ($all) => $all->concat($worlds->mounts()))
+            ->when(in_array($this->section, ['', Worlds::REALMS], true), fn ($all) => $all->concat($worlds->realms()));
         $shown = $entries->where('section', $this->section)
             ->when($this->course !== '', fn ($all) => $all->filter(fn ($entry) => $entry['course']?->slug === $this->course))
             ->when(trim($this->search) !== '', fn ($all) => $all->filter(fn ($entry) => Str::contains(Str::ascii(Str::lower($entry['name'])), Str::ascii(Str::lower(trim($this->search))))));

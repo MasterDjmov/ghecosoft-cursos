@@ -133,6 +133,17 @@
                         <span class="absolute inset-0 grid place-items-center font-display text-6xl font-bold text-cyan-200/70">?</span>
                     @endunless
                 </div>
+                @if (! empty($entry['gallery']))
+                    {{-- Los niveles de una montura, de n1 a n5. --}}
+                    <div class="flex gap-1.5 sm:order-last sm:flex-col" data-test="entry-gallery">
+                        @foreach ($entry['gallery'] as $shot)
+                            <figure class="flex flex-col items-center gap-0.5">
+                                <img src="{{ $shot['url'] }}" alt="{{ $entry['name'] }} {{ $shot['label'] }}" loading="lazy" class="size-14 rounded-lg border border-outline object-cover">
+                                <figcaption class="font-mono text-[10px] text-ink-muted">{{ $shot['label'] }}</figcaption>
+                            </figure>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="flex min-w-0 flex-1 flex-col gap-3">
                     <div>
                         <p class="tech-label">{{ $entry['group'] }}</p>
@@ -168,6 +179,8 @@
                             \App\Support\Encyclopedia::BESTIARY => 'Todavía no te enfrentaste a esta criatura. Su historia se abre cuando llegues.',
                             \App\Support\EncyclopediaItems::ARTIFACTS => 'Todavía no lo conseguiste. Cuando lo tengas, vas a ver qué hace.',
                             \App\Support\EncyclopediaItems::COINS => 'Todavía no la ganaste: se abre cuando empieces ese mundo.',
+                            \App\Support\EncyclopediaWorlds::MOUNTS => 'Todavía no es tuya. Cuando la tengas, vas a ver cómo es y cómo crece.',
+                            \App\Support\EncyclopediaWorlds::REALMS => 'Todavía no llegaste a esta región. Su mapa y sus lugares se abren cuando la empieces.',
                             default => 'Todavía no te cruzaste con este personaje. Su historia se abre cuando llegues.',
                         } }}</p>
                         @if ($entry['where'])

@@ -4,6 +4,7 @@ use App\Enums\ItemReason;
 use App\Livewire\Student\Encyclopedia as Page;
 use App\Models\Currency;
 use App\Models\Item;
+use App\Models\Mount;
 use App\Models\NodeUnlock;
 use App\Models\User;
 use App\Services\Inventory;
@@ -11,6 +12,7 @@ use App\Services\NodeUnlocker;
 use App\Support\CharacterSheets;
 use App\Support\Encyclopedia;
 use App\Support\EncyclopediaItems;
+use App\Support\EncyclopediaWorlds;
 use Livewire\Livewire;
 
 /*
@@ -142,4 +144,45 @@ test('monedas: la del curso se ve al inscribirse; el comodín y el oro, siempre'
     expect($coins($other)['coin-'.Currency::forCourse($this->data['course'])->code]['discovered'])->toBeFalse()
         ->and($coins($other)['coin-'.Currency::wildcard()->code]['discovered'])->toBeTrue()
         ->and($coins($this->student)['coin-'.Currency::forCourse($this->data['course'])->code]['fields']['Tenés'])->toStartWith('10 ');
+});
+
+test('clases: cada curso publicado, siempre visible, con su guía y su tamaño', function () {
+    $class = (new EncyclopediaWorlds(User::factory()->create()))->classes()->firstWhere('course.id', $this->data['course']->id);
+
+    expect($class['discovered'])->toBeTrue()
+        ->and($class['fields'])->toHaveKeys(['Guía', 'Tamaño'])
+        ->and($class['sources'][0])->toStartWith('Se abre al inscribirte');
+});
+
+test('monturas: se ve la propia; las demás, en silueta con cómo se consiguen', function () {
+    Mount::create(['user_id' => $this->student->id, 'species' => 'serphira', 'level' => 2]);
+    $mounts = (new EncyclopediaWorlds($this->student))->mounts()->keyBy('key');
+
+    expect($mounts)->toHaveCount(count(config('game.mounts.species')))
+        ->and($mounts['montura-serphira']['discovered'])->toBeTrue()
+        ->and($mounts['montura-serphira']['fields']['Cómo es'])->toContain('serpiente')
+        ->and($mounts['montura-serphira']['gallery'])->toHaveCount(5)
+        ->and($mounts['montura-voltcat']['discovered'])->toBeFalse()
+        ->and($mounts['montura-voltcat']['fields'])->toBe([])
+        ->and($mounts['montura-voltcat']['sources'][0])->toContain('Establos');
+});
+
+test('reinos: se abren al empezar el curso, con su mapa y sus lugares', function () {
+    $realm = fn (User $user) => (new EncyclopediaWorlds($user))->realms()->firstWhere('course.id', $this->data['course']->id);
+
+    expect($realm($this->student)['discovered'])->toBeFalse()
+        ->and($realm($this->student)['fields'])->toBe([]);
+
+    app(NodeUnlocker::class)->unlock($this->student, $this->data['root']);
+
+    expect($realm($this->student)['discovered'])->toBeTrue()
+        ->and($realm($this->student)['fields']['Lugares'])->toContain('Aldea del Script');
+});
+
+test('las secciones nuevas se abren en la pantalla', function () {
+    foreach ([EncyclopediaWorlds::CLASSES, EncyclopediaWorlds::MOUNTS, EncyclopediaWorlds::REALMS] as $section) {
+        Livewire::actingAs($this->student)->test(Page::class)->call('show', $section)->assertSet('section', $section)->assertOk();
+    }
+    Livewire::actingAs($this->student)->test(Page::class)->call('show', EncyclopediaWorlds::MOUNTS)
+        ->call('open', 'montura-serphira')->assertSee('data-test="entry-locked"', false)->assertSee('Todavía no es tuya')->assertDontSee('Se enrosca en círculos');
 });

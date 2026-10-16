@@ -91,3 +91,11 @@ Como en Mis Crónicas (D80), **el texto de lo no descubierto no sale del servido
 - **Para qué sirve en el taller:** de qué recetas es ingrediente (al tenerlo).
 - **Monedas:** la de cada curso (se ve al inscribirse), el comodín y el oro (siempre), con para qué sirve, cómo se gana y cuánto tiene.
 
+
+## 9. Cómo quedó la etapa 3 (2026-10-16)
+
+`App\Support\EncyclopediaWorlds`, con la misma forma de entrada que las demás secciones. Ya están las ocho tarjetas de la portada.
+- **Clases / Lenguajes:** cada curso publicado, siempre visible: logo, región, guía, protagonista, moneda y cuántos nodos tiene, y si ya lo cursa o cómo se abre.
+- **Monturas:** las especies de `config('game.mounts.species')`, con la imagen n1 en la tarjeta y la n5 en la ficha, y la tira de los cinco niveles. Se descubre **la que tiene el jugador** (la especie se puede cambiar); las demás, en silueta con cómo se consiguen (Establos, nivel y precio). El texto de cada una está en `config('game.mounts.about')`. **A revisar por el docente:** esas 15 descripciones se escribieron mirando las imágenes.
+- **Reinos / Mapas:** cada región (el `world.region` del Diccionario) con su fondo, su mapa de expediciones, su guía y sus lugares (nombre, nivel y texto de `config('game.protagonists.*.expeditions.places')`). Se descubre al abrir el raíz de ese curso.
+- Queda la etapa 4: enlaces desde el resto de la plataforma a cada ficha.

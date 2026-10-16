@@ -7,6 +7,7 @@ use App\Models\Cohort;
 use App\Models\Course;
 use App\Models\CourseSubscription;
 use App\Models\User;
+use App\Services\DelayedStudents;
 use App\Services\StudentAccounts;
 use App\Services\TeacherScope;
 use App\Support\Maintenance;
@@ -156,6 +157,7 @@ class Index extends Component
             'enrollCohorts' => $this->enrollCourseId !== '' ? Cohort::where('course_id', (int) $this->enrollCourseId)->orderBy('name')->get() : collect(),
             'maintenanceAllowed' => array_flip(Maintenance::allowedIds()),
             'maintenanceOn' => Maintenance::platform() || Maintenance::courseIds() !== [],
+            'delayedCount' => app(DelayedStudents::class)->for($viewer)->count(),
         ]);
     }
 

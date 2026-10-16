@@ -51,6 +51,12 @@ class UserPolicy
         return $this->viewProgress($user, $student, $course);
     }
 
+    /** Mandarle un aviso por estar demorado en un curso: el docente, a los alumnos de sus comisiones en ese curso. */
+    public function remindDelayed(User $user, User $student, Course $course): bool
+    {
+        return $this->viewProgress($user, $student, $course);
+    }
+
     /** Resetear la clave, si el alumno lo pide. */
     public function resetPassword(User $user, User $student): bool
     {

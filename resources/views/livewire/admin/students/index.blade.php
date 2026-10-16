@@ -8,6 +8,9 @@
     <x-admin.page-header :title="$teachers ? 'Docentes' : 'Alumnos'"
         :subtitle="$isAdmin ? 'Tocá un alumno para ver sus cursos y su comisión en cada uno.' : 'Los alumnos de tus comisiones. Tocá uno para ver sus cursos; en «Sumar alumnos» buscás a otros para agregarlos a una comisión tuya.'">
         <x-slot:actions>
+            <flux:button icon="clock" :href="route('admin.students.delayed')" wire:navigate data-test="delayed-link">
+                Demorados @if ($delayedCount)<flux:badge size="sm" color="amber" class="ms-1">{{ $delayedCount }}</flux:badge>@endif
+            </flux:button>
             @if ($isAdmin)
                 <flux:button variant="primary" icon="user-plus" :href="route('admin.students.create')" wire:navigate>Nuevo alumno</flux:button>
             @endif

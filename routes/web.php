@@ -142,6 +142,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin,teacher'])->prefix('a
     Route::livewire('comisiones', CohortBoard::class)->name('cohorts');
     Route::livewire('cursos/{course}/temario', Syllabus::class)->name('syllabus');
     Route::livewire('alumnos', Students\Index::class)->name('students.index');
+    Route::livewire('alumnos/demorados', Students\Delayed::class)->name('students.delayed');
     Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
     Route::livewire('alumnos/{user:username}/arbol/{course}', Students\Tree::class)->name('students.tree');
 });

@@ -376,4 +376,7 @@
             @endforeach
         </div>
     </nav>
+
+    {{-- Las escenas de las micro-misiones se ven en grande al tocarlas. --}}
+    <x-image-lightbox />
 </div>

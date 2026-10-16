@@ -227,6 +227,8 @@ test('desde la página del nodo se supera, se queda en pantalla y «Siguiente» 
         ->assertSee('data-test="step-done"', false)
         ->assertSee('data-test="step-my-code"', false)
         ->assertSee('data-test="step-done-image"', false)
+        ->assertSee('data-test="step-zoom"', false)
+        ->assertSee('data-test="image-lightbox"', false)
         ->assertSee('print(&quot;Hola, Valle&quot;)', false)
         ->assertSee('Dos líneas');
 

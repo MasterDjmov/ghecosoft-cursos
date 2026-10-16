@@ -48,7 +48,10 @@
                 <div class="flex flex-col gap-3 border-t border-success/20 px-4 py-3">
                     {{-- La imagen sigue acompañando la lectura (o el fondo del mundo, si todavía no tiene). --}}
                     @if ($image = $step->imageUrl() ?? $fallbackScene)
-                        <img src="{{ $image }}" alt="" class="aspect-[16/7] w-full rounded-lg border border-outline object-cover" loading="lazy" data-test="step-done-image">
+                        <button type="button" class="group relative cursor-zoom-in" x-data x-on:click="$dispatch('zoom-image', { src: @js($image) })" aria-label="Ver la escena en grande" data-test="step-zoom">
+                            <img src="{{ $image }}" alt="" class="aspect-[16/7] w-full rounded-lg border border-outline object-cover" loading="lazy" data-test="step-done-image">
+                            <span class="absolute right-3 bottom-3 rounded-md bg-surface/80 p-1 text-white opacity-70 transition group-hover:opacity-100"><flux:icon name="magnifying-glass-plus" variant="micro" /></span>
+                        </button>
                     @endif
                     @if ($texts['scene'])
                         <div class="markdown text-sm text-ink-muted">{!! $texts['scene'] !!}</div>
@@ -95,7 +98,11 @@
                     <figure class="relative aspect-[16/7] overflow-hidden border-b border-outline">
                         <img src="{{ $image }}" alt="" class="size-full object-cover" loading="lazy" data-test="step-image">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#070a14] via-transparent to-transparent"></div>
-                        <figcaption class="absolute bottom-3 left-4 flex flex-col">
+                        {{-- Tocarla la muestra entera y en grande (x-image-lightbox en la página del nodo). --}}
+                        <button type="button" class="group absolute inset-0 cursor-zoom-in" x-data x-on:click="$dispatch('zoom-image', { src: @js($image) })" aria-label="Ver la escena en grande" data-test="step-zoom">
+                            <span class="absolute right-3 top-3 rounded-md bg-surface/80 p-1 text-white opacity-70 transition group-hover:opacity-100"><flux:icon name="magnifying-glass-plus" variant="micro" /></span>
+                        </button>
+                        <figcaption class="pointer-events-none absolute bottom-3 left-4 flex flex-col">
                             @if ($step->place)
                                 <span class="tech-label text-secondary-bright">{{ $step->place }}</span>
                             @endif

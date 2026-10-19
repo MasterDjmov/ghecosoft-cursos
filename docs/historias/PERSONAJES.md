@@ -1075,7 +1075,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Relaciones:** cuerpo y maestro de Nova; Maese Ferrum lo conoce de siempre (las Forjas se construyeron encima de él).
 - **Primera aparición:** Ensamblador, Clase 0.
 - **Dónde va:** su propio interior: el núcleo, la sala de las palancas, la pared de los cajones, la torre de platos, las compuertas de las piernas y el ojo.
-- **Imágenes:** cuerpo entero (Stitch `daab9e5a…`) y retrato circular (`c4b3a82e…`).
+- **Imágenes:** cuerpo entero (Stitch `a3f048db…`, sin Nova) y retrato circular (`c4b3a82e…`).
 
 ### La tabernera del pie
 - **Curso y rol:** Ensamblador. Atiende la **taberna** que los enanos construyeron entre los dedos del pie del Gólem hace tanto que nadie se acuerda. Le pide a Nova que atienda las mesas (los menús y los rangos, R02-N03).

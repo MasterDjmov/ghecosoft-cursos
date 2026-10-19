@@ -1,18 +1,26 @@
-# Curso de Ensamblador 8086 (D110) — borrador para revisar
+# Curso de Ensamblador 8086 (D110)
 
 Curso nuevo pedido el 2026-10-18 a partir del material de
-`/home/djmov/Programas/Cursos/FullCursos/26-Ensamblador-8086/` (17 lecciones, solo lectura). Este documento
-se revisa con el docente **antes** de codear; las preguntas abiertas están al final (§ 9).
+`/home/djmov/Programas/Cursos/FullCursos/26-Ensamblador-8086/` (17 lecciones, solo lectura).
+
+**Estado (2026-10-19):** hechos el emulador y el tablero (los 82 programas del material dan la salida de
+referencia), el lenguaje autocomprobado con `#### Estado esperado`, las consultas desde micro-misiones para
+todos los cursos con la solución al lado, la herramienta libre *Herramientas → Gólem 8086*, la historia de Nova,
+**los tres primeros nodos** (Clase 0, La voz del Gólem, Los cajones con nombre: 17 micro-misiones) y todas sus
+imágenes en Stitch (Nova, Ochocero, logo, moneda, fondo, 6 aspectos y 17 escenas). Sigue: el resto del temario
+(§ 5), la tienda y las expediciones de Nova, la enciclopedia y la temporada de inglés (lista de ALTA).
 
 ## 1. Decisiones tomadas (2026-10-18)
 
 | Tema | Decisión |
 |---|---|
-| Ejecución | **Ensamblador y emulador 8086 propios**, en JavaScript, en un Web Worker del navegador del alumno (como Pyodide). El fork `vgath-8086` solo fue referencia visual: no tiene licencia, así que no se copia código. |
+| Ejecución | **Ensamblador y emulador 8086 propios**, en JavaScript, en el navegador del alumno: un intérprete que corre por tandas sin trabar la página (no hace falta Web Worker: no ejecuta JavaScript ajeno). El fork `vgath-8086` solo fue referencia visual: no tiene licencia, así que no se copia código. |
 | Sintaxis | **MASM, la de la cursada** (`.model small`, `.stack`, `.data`, `.code`, `@data`, `proc`/`endp`, `end main`): lo que el alumno escribe acá corre igual en emu8086. |
 | Corrección | **Ninguna**: el curso se completa solo con **micro-misiones** que se comprueban solas (como el de inglés, `Language::isSelfChecked`). Sin prácticas ni entregas. |
 | Precio | **Con abono**, como todos los cursos. |
-| Protagonista | **Personaje nuevo**, científico o IA, que cuadre con «el lenguaje más potente» (opciones en § 6). Kira queda en C. |
+| Protagonista | **Nova**, la chispa del Gólem (§ 6, opción A). Prepara la idea de los nanobots. Kira queda en C y aparece de visita. |
+| Moneda | **Chispas** (en el diccionario). Como en inglés, un curso que se comprueba solo no paga monedas (lo del navegador se puede trampear): los nodos se abren gratis al completar el anterior. |
+| Herramienta libre | *Herramientas → Gólem 8086*: el tablero suelto, con el abono vigente de un curso de Ensamblador (`CoursePolicy::useAsmTool`). |
 | Consultas | El alumno puede **escribirle al docente desde cada micro-misión** (hoy solo se puede desde una práctica). El docente ve el código del alumno **junto a la solución**, como cuando corrige (§ 7). |
 | Pedagogía | Cada idea, con su **puente a los otros cursos**: «`cmp` + `jg` es el `if (a > b)` de C», «`loop` es el `for`», «`call`/`ret` es llamar a una función». El objetivo no es ser experto en ensamblador, sino reconocer después qué hay debajo de un `if`, un `for` o una función. |
 
@@ -154,11 +162,9 @@ tiene prácticas, y además sirve para todos los cursos que tienen micro-misione
 | 5 | R02, R03 y R04 | `app:simulate-course ensamblador` |
 | 6 | Escenas en Stitch, enciclopedia, landing, temporada de inglés (lista de ALTA) | Revisión de la lista |
 
-## 9. Preguntas abiertas
+## 9. Preguntas abiertas (respondidas el 2026-10-18)
 
-1. ¿Qué protagonista (§ 6)? ¿Y Nova/Ilse/Sigma como nombre, u otro?
-2. ¿La página del emulador (*Herramientas → Gólem 8086*) queda también **libre** para cualquier alumno con
-   abono, para practicar fuera de las micro-misiones?
-3. ¿Moneda propia del curso (cada curso tiene una: en C son lingotes, en PHP sellos)? Propuesta: **engranajes**
-   o **chispas** (si la protagonista es Nova).
-4. ¿El paso de las consultas desde micro-misiones (Fase 3) va para **todos** los cursos desde ya? (Propuesta: sí.)
+1. Protagonista: **Nova**.
+2. Herramienta libre: **sí**, con abono.
+3. Moneda: **chispas**.
+4. Consultas desde micro-misiones: **para todos los cursos**, con todo lo necesario para responder sin salir del chat.

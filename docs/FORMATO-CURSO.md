@@ -197,6 +197,7 @@ se abre: el oro del jugador           # opcional
 #### Código inicial    (```python … ```; con ___ donde completa)
 #### Entrada           (opcional: lo que se «tipea»)
 #### Inspector         (solo HTML y CSS, obligatorio: qué revisar, un pedido por renglón; D102)
+#### Estado esperado   (solo Ensamblador 8086, D110: registros, banderas y memoria al llegar a fin:)
 #### Salida esperada   (obligatoria: con esto se comprueba)
 #### Solución          (oculta: nunca llega al alumno)
 #### Al superarla      (qué cambia en la historia)
@@ -207,6 +208,7 @@ se abre: el oro del jugador           # opcional
 - **La imagen** se busca sola en `escenas/<ID>.webp` (o `.jpg`/`.png`) dentro de la carpeta del curso. Si no hay, se muestra el fondo del mundo.
 - **Salida esperada:** se compara sin espacios al final de cada línea ni líneas vacías al final. Generala ejecutando la solución, no a mano. Lo que el alumno tiene que tipear lleva solo caracteres del teclado: nada de `·`, `—`, `…`, `→` ni comillas tipográficas (en el código inicial ya escrito sí pueden ir).
 - **HTML y CSS (D102):** la página no imprime nada, así que la micro-misión trae un `#### Inspector` con qué revisar, y la salida esperada es el **informe del inspector** (`resources/js/runners/inspector.js`, que lee el código sin ejecutarlo). Los pedidos: `!doctype`; `h1` (el texto de cada uno); `nav a #` (cuántos hay); `img @alt` (el atributo de cada uno); `css .tarjeta { padding }` (el valor de la última regla con ese selector en los `<style>`); `css @media (min-width: 768px) | .grilla { display }`. El informe se genera corriendo el inspector en Chrome con `scripts/micro-misiones/genhtml.py`, nunca a mano.
+- **Ensamblador 8086 (D110):** además de la salida (o en vez de ella) se puede pedir un `#### Estado esperado`: cómo tienen que quedar registros, banderas y memoria **cuando el programa llega a la etiqueta `fin:`** (antes del `mov ax, 4C00h` que apaga). Un pedido por renglón: `AX = 1234h`, `BL = 255`, `ZF = 1`, `[pociones] = 4` (un byte de la variable), `word [vida] = 300`, `AL = 'A'`. El importador lo normaliza (`App\Support\AsmState`) y lo guarda debajo de la salida esperada con el encabezado `── Estado ──`; el tablero del navegador arma el mismo informe y dice qué no coincidió («AX quedó en 0012h; tenía que ser 1234h»). Los cursos con `lenguaje: asm` se comprueban solos, con el árbol de siempre. Antes de importar, `node scripts/asm8086/probar-curso.mjs cursos/ensamblador` corre cada solución y comprueba que el código inicial todavía no la resuelva.
 - **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
 
 ## 6 ter. Micro-misión de inglés (D106)

@@ -38,7 +38,15 @@
     <div class="flex items-center gap-1 overflow-x-auto border-b border-outline/60 px-2 [scrollbar-width:none]" role="tablist">
         @foreach (['registers' => 'Palancas · registros', 'screen' => 'Pantalla', 'memory' => 'Cajones · memoria', 'stack' => 'Torre · pila'] as $key => $label)
             <button type="button" role="tab" x-on:click="asmPanel = '{{ $key }}'" x-bind:aria-selected="asmPanel === '{{ $key }}'" class="{{ $tab }}"
-                x-bind:class="asmPanel === '{{ $key }}' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">{{ $label }}</button>
+                x-bind:class="asmPanel === '{{ $key }}' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">
+                <span class="relative">{{ $label }}
+                    {{-- D110: palpita la pestaña donde hubo novedades (lo que escribió en pantalla, los cajones que tocó, la pila). --}}
+                    <span class="absolute -end-2 -top-1 flex size-2" x-show="asm?.pulse?.['{{ $key }}'] && asmPanel !== '{{ $key }}'" x-cloak data-test="asm-pulse-{{ $key }}">
+                        <span class="absolute inline-flex size-full animate-ping rounded-full bg-yellow-400 opacity-75"></span>
+                        <span class="relative inline-flex size-2 rounded-full bg-yellow-400"></span>
+                    </span>
+                </span>
+            </button>
         @endforeach
         <button type="button" role="tab" x-on:click="asmPanel = 'input'" x-bind:aria-selected="asmPanel === 'input'" class="{{ $tab }} flex items-center gap-1.5"
             x-bind:class="asmPanel === 'input' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">
@@ -52,6 +60,28 @@
             Tocá <strong class="text-ink">Ejecutar</strong> para correr todo el programa, o <strong class="text-warning">Paso a paso</strong> para ver
             cómo cada orden mueve las palancas del Gólem.
         </p>
+
+        {{-- D110: qué hizo la última orden, en criollo (los registros que cambió, de qué cajón leyó, en cuál escribió). --}}
+        <div x-show="asm?.explain && asmPanel !== 'input'" x-cloak class="mb-3 rounded-md border border-yellow-400/40 bg-yellow-400/5 px-3 py-2 text-xs" data-test="asm-explain">
+            <p class="mb-1 text-ink-muted">La última orden: <code class="font-mono text-yellow-300" x-text="asm?.explain?.text"></code></p>
+            <p class="mb-1 text-ink" x-show="asm?.explain?.note" x-text="asm?.explain?.note"></p>
+            <ul class="flex flex-col gap-0.5 font-mono text-[11px] text-ink">
+                <template x-for="r in asm?.explain?.regs ?? []" :key="r.name">
+                    <li><span class="text-yellow-300" x-text="r.name"></span>: <span x-text="r.from"></span>h → <span class="font-semibold" x-text="r.to"></span>h</li>
+                </template>
+                <template x-for="c in asm?.explain?.reads ?? []" :key="'r' + c.address">
+                    <li class="text-cyan-300">leyó el cajón <span x-text="c.address"></span>h<span x-show="c.name" x-text="` (${c.name})`"></span> = <span x-text="c.value"></span>h</li>
+                </template>
+                <li x-show="asm?.explain?.moreReads" class="text-cyan-300" x-text="`… y ${asm?.explain?.moreReads} cajones más`"></li>
+                <template x-for="c in asm?.explain?.writes ?? []" :key="'w' + c.address">
+                    <li class="text-yellow-300">escribió en el cajón <span x-text="c.address"></span>h<span x-show="c.name" x-text="` (${c.name})`"></span>: <span x-text="c.from"></span>h → <span class="font-semibold" x-text="c.value"></span>h</li>
+                </template>
+                <li x-show="asm?.explain?.stack" class="text-primary-bright" x-text="asm?.explain?.stack"></li>
+                <li x-show="asm?.explain?.screen" class="text-success">escribió en la pantalla (mirá la pestaña Pantalla)</li>
+                <li x-show="asm?.explain?.flags?.length" class="text-ink-muted" x-text="'interruptores: ' + (asm?.explain?.flags ?? []).join(' · ')"></li>
+                <li x-show="asm?.explain && ! asm.explain.regs.length && ! asm.explain.reads.length && ! asm.explain.writes.length && ! asm.explain.stack && ! asm.explain.screen && ! asm.explain.flags.length" class="text-ink-muted">no cambió nada a la vista (solo avanzó IP)</li>
+            </ul>
+        </div>
 
         {{-- Palancas (registros) e interruptores (banderas) --}}
         <div x-show="asm && asmPanel === 'registers'" x-cloak class="flex flex-col gap-3" data-test="asm-registers">
@@ -103,7 +133,7 @@
                             <template x-for="(c, i) in row.cells" :key="i">
                                 <td class="px-0.5">
                                     <span class="relative inline-block rounded px-0.5 transition-colors duration-300" x-bind:title="c.name ? `${c.name} (${row.address.slice(0, 3)}${i.toString(16).toUpperCase()}h)` : ''"
-                                        x-bind:class="c.changed ? 'bg-yellow-400 text-black' : (c.name ? 'text-primary-bright underline decoration-dotted' : (c.value === '00' ? 'text-ink-muted/50' : 'text-ink'))" x-text="c.value"></span>
+                                        x-bind:class="c.changed ? 'bg-yellow-400 text-black' : (c.read ? 'bg-cyan-400/25 text-cyan-200 ring-1 ring-cyan-300' : (c.name ? 'text-primary-bright underline decoration-dotted' : (c.value === '00' ? 'text-ink-muted/50' : 'text-ink')))" x-text="c.value"></span>
                                 </td>
                             </template>
                             <td class="ps-2 whitespace-pre text-ink-muted" x-text="row.cells.map((c) => c.char).join('')"></td>
@@ -111,7 +141,7 @@
                     </template>
                 </table>
             </div>
-            <p class="mt-1 text-[11px] text-ink-muted">Subrayado: donde empieza una variable (pasá el dedo o el mouse para ver su nombre). Cada cajón guarda un byte.</p>
+            <p class="mt-1 text-[11px] text-ink-muted">Subrayado: donde empieza una variable (pasá el dedo o el mouse para ver su nombre). Cada cajón guarda un byte. En amarillo, los que escribió la última orden; en cian, los que leyó.</p>
         </div>
 
         {{-- Torre de platos (pila) --}}

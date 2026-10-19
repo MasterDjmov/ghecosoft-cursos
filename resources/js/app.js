@@ -493,6 +493,7 @@ document.addEventListener('alpine:init', () => {
             if (!session) return;
             const n = parseInt(String(address).replace(/h$/i, ''), 16);
             session.memoryBase = Number.isNaN(n) ? null : n & 0xfff0;
+            session.memoryManual = !Number.isNaN(n);
             this.asmRefresh();
         },
 

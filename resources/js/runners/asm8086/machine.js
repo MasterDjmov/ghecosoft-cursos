@@ -182,7 +182,9 @@ export class Machine {
     }
 
     read8(seg, off) {
-        return this.mem[this.phys(seg, off)];
+        const a = this.phys(seg, off);
+        if (this.changes) this.changes.read.add(a);
+        return this.mem[a];
     }
 
     read16(seg, off) {
@@ -320,11 +322,12 @@ export class Machine {
 
     /**
      * Ejecuta una instrucción. Devuelve 'ok', 'halt' (terminó, ver this.halted) o 'input' (espera una tecla).
-     * Con track=true deja en this.changes qué registros, banderas y bytes de memoria cambió.
+     * Con track=true deja en this.changes qué registros, banderas y bytes de memoria cambió (y cuáles leyó).
      */
     step(track = false) {
         if (this.halted) return 'halt';
-        this.changes = track ? { regs: new Set(), flags: new Set(), mem: new Set() } : null;
+        // D110: también las lecturas de memoria, para mostrar de qué cajón sacó el dato (el direccionamiento).
+        this.changes = track ? { regs: new Set(), flags: new Set(), mem: new Set(), read: new Set() } : null;
         const ins = this.current();
         if (!ins) {
             this.halted = new Halt(`el Gólem saltó a una dirección sin órdenes (IP = ${hex(this.ip, 4)}h)`, 4);

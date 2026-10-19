@@ -5,7 +5,7 @@
     $btn = 'inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition disabled:opacity-40';
     $tab = '-mb-px border-b-2 px-2.5 py-2 text-xs font-medium whitespace-nowrap transition';
 @endphp
-<div {{ $attributes->class('flex flex-col bg-[#05070d]') }} data-test="asm-board">
+<div {{ $attributes->class('@container flex flex-col bg-[#05070d]') }} data-test="asm-board">
     {{-- Controles --}}
     <div class="flex flex-wrap items-center gap-1.5 border-b border-outline/60 px-2 py-1.5">
         <button type="button" x-on:click="asmRun" x-bind:disabled="running" class="{{ $btn }} bg-primary/15 text-primary-bright hover:bg-primary/25" data-test="asm-run">
@@ -35,7 +35,7 @@
     </div>
 
     {{-- Pestañas (en la compu se ven palancas e interruptores siempre arriba) --}}
-    <div class="flex items-center gap-1 overflow-x-auto border-b border-outline/60 px-2" role="tablist">
+    <div class="flex items-center gap-1 overflow-x-auto border-b border-outline/60 px-2 [scrollbar-width:none]" role="tablist">
         @foreach (['registers' => 'Palancas · registros', 'screen' => 'Pantalla', 'memory' => 'Cajones · memoria', 'stack' => 'Torre · pila'] as $key => $label)
             <button type="button" role="tab" x-on:click="asmPanel = '{{ $key }}'" x-bind:aria-selected="asmPanel === '{{ $key }}'" class="{{ $tab }}"
                 x-bind:class="asmPanel === '{{ $key }}' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">{{ $label }}</button>
@@ -55,14 +55,14 @@
 
         {{-- Palancas (registros) e interruptores (banderas) --}}
         <div x-show="asm && asmPanel === 'registers'" x-cloak class="flex flex-col gap-3" data-test="asm-registers">
-            <div class="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
+            <div class="grid grid-cols-2 gap-1.5 @xl:grid-cols-4">
                 <template x-for="r in asm?.registers ?? []" :key="r.name">
                     <div class="flex items-center justify-between rounded-md px-2 py-1 font-mono text-xs transition-colors duration-300"
                         x-bind:class="r.changed ? 'bg-yellow-400 text-black' : 'bg-surface-high text-ink'">
                         <span class="opacity-70" x-text="r.name"></span>
                         <span>
                             <span class="font-semibold" x-text="r.value"></span>
-                            <span class="ms-1 hidden text-[10px] opacity-60 sm:inline" x-show="r.high !== null" x-text="`(${r.name[0]}H ${r.high} · ${r.name[0]}L ${r.low})`"></span>
+                            <span class="ms-1 hidden text-[10px] opacity-60 @3xl:inline" x-show="r.high !== null" x-text="`(${r.name[0]}H ${r.high} · ${r.name[0]}L ${r.low})`"></span>
                         </span>
                     </div>
                 </template>

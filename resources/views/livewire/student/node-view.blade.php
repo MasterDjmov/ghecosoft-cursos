@@ -281,10 +281,18 @@
     @if (! $practicesOpen && ($practices->isNotEmpty() || $resources->isNotEmpty() || $selfCheck->isNotEmpty()))
         <section class="panel flex flex-col items-center gap-2 p-6 text-center" data-test="practices-locked">
             <flux:icon name="lock-closed" class="size-8 text-ink-muted" />
-            <h2 class="font-display text-lg font-semibold text-white">{{ ucfirst(term('practice', $course, 2)) }} cerradas</h2>
-            <p class="max-w-md text-sm text-ink-muted">
-                Superá las micro-misiones de arriba (<span class="font-medium text-ink">{{ $stepsDone }} de {{ $steps->count() }}</span>) y acá aparecen las {{ term('practice', $course, 2) }}, los recursos y la Prueba del sello.
-            </p>
+            @if ($practices->isEmpty())
+                {{-- D110: un curso sin prácticas (Ensamblador): lo que espera es la Prueba del sello y los recursos. --}}
+                <h2 class="font-display text-lg font-semibold text-white">La Prueba del sello espera</h2>
+                <p class="max-w-md text-sm text-ink-muted">
+                    Superá las micro-misiones de arriba (<span class="font-medium text-ink">{{ $stepsDone }} de {{ $steps->count() }}</span>) y acá aparece la Prueba del sello{{ $resources->isNotEmpty() ? ' y los recursos' : '' }}.
+                </p>
+            @else
+                <h2 class="font-display text-lg font-semibold text-white">{{ ucfirst(term('practice', $course, 2)) }} cerradas</h2>
+                <p class="max-w-md text-sm text-ink-muted">
+                    Superá las micro-misiones de arriba (<span class="font-medium text-ink">{{ $stepsDone }} de {{ $steps->count() }}</span>) y acá aparecen las {{ term('practice', $course, 2) }}, los recursos y la Prueba del sello.
+                </p>
+            @endif
         </section>
     @endif
 

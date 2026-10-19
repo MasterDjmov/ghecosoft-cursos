@@ -94,6 +94,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         return $world ? redirect()->route('student.expeditions', $world) : redirect()->route('student.heroes');
     })->name('student.expeditions.home');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
+    Route::livewire('herramientas/golem-8086', \App\Livewire\Student\AsmTool::class)->name('student.asm-tool');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 

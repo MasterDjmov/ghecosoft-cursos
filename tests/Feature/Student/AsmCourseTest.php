@@ -4,7 +4,9 @@ use App\Enums\Language;
 use App\Livewire\Student\CourseTree;
 use App\Livewire\Student\NodeView;
 use App\Models\Course;
+use App\Models\CourseSubscription;
 use App\Models\NodeStep;
+use App\Models\User;
 use App\Services\CourseImporter;
 use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
@@ -103,4 +105,22 @@ test('el árbol y el nodo de ensamblador usan las vistas de siempre, con el tabl
     Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
         ->assertSee('data-test="asm-board"', false)
         ->assertDontSee('mov dx, 3', false);
+});
+
+test('el tablero suelto del Gólem pide el abono vigente de un curso de ensamblador', function () {
+    $course = importAsmCourse();
+    $course->update(['is_published' => true]);
+
+    $outsider = User::factory()->create();
+    $this->actingAs($outsider)->get(route('student.asm-tool'))->assertForbidden();
+
+    $student = enrolledStudent($course);
+    $this->actingAs($student)->get(route('student.asm-tool'))
+        ->assertOk()
+        ->assertSee('data-test="asm-board"', false)
+        ->assertSee('data-test="menu-asm-tool"', false);
+
+    // Con el abono vencido, no.
+    CourseSubscription::where('user_id', $student->id)->update(['ends_at' => now()->subDay()]);
+    $this->actingAs($student)->get(route('student.asm-tool'))->assertForbidden();
 });

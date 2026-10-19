@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Language;
 use App\Models\Course;
 use App\Models\User;
 use App\Services\TreeAccess;
@@ -32,6 +33,16 @@ class CoursePolicy
     public function play(User $user, Course $course): bool
     {
         return $this->viewTree($user, $course) || ($course->is_published && $this->access->hasActiveSubscription($user, $course));
+    }
+
+    /**
+     * Herramientas → Gólem 8086 (D110): el tablero suelto, para practicar fuera de las micro-misiones. Con el abono
+     * vigente de un curso de Ensamblador (como entregar o consultar); el staff, siempre.
+     */
+    public function useAsmTool(User $user, Course $course): bool
+    {
+        return $course->language === Language::Asm
+            && ($user->isStaff() || ($course->is_published && $this->access->hasActiveSubscription($user, $course)));
     }
 
     /** El ranking del curso, solo para los que entraron (la Clase 0 de prueba no cuenta, D71). */

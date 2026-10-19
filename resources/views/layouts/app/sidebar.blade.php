@@ -101,6 +101,12 @@
                                 Ejecutor de Java
                             </flux:sidebar.item>
                         @endif
+                        {{-- Herramientas → Gólem 8086 (D110): el tablero suelto, con el abono vigente de un curso de Ensamblador. --}}
+                        @if (\App\Models\Course::where('language', \App\Enums\Language::Asm)->get()->contains(fn ($c) => auth()->user()->can('useAsmTool', $c)))
+                            <flux:sidebar.item icon="cpu-chip" :href="route('student.asm-tool')" :current="request()->routeIs('student.asm-tool')" wire:navigate data-test="menu-asm-tool">
+                                Gólem 8086
+                            </flux:sidebar.item>
+                        @endif
                         <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->cv_slug)" target="_blank">
                             Mi CV
                         </flux:sidebar.item>

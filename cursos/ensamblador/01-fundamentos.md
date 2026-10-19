@@ -229,7 +229,7 @@ El ojo del Gólem se enciende con una **N** verde, temblorosa. Nova se queda mir
 
 #### Imagen
 - La cara de un gólem de bronce gigante con un único ojo redondo de cristal que brilla con una letra N verde.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian, líneas de circuito doradas en los brazos) mira el ojo desde adentro, con las manos juntas.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira el ojo desde adentro, con las manos juntas.
 - Gheco (gecko de luz cian con antiparras, chiquito) colgado del borde del ojo.
 
 ### Micro-misión R01-N01-P2 · Una frase entera
@@ -304,7 +304,7 @@ end main
 
 #### Imagen
 - El ojo redondo de cristal de un gólem de bronce, encendido con una línea de luz verde, vista desde adentro de la cabeza.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) saluda con la mano hacia el ojo.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) saluda con la mano hacia el ojo.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre su hombro.
 
 ### Micro-misión R01-N01-P3 · El orco del dólar
@@ -381,7 +381,7 @@ El orco se queda sin cajones que revolver y se va refunfuñando. Nova anota en s
 #### Imagen
 - Una pared enorme de cajoncitos de bronce, algunos abiertos y desordenados.
 - Un orco verde y gruñón revuelve los cajones.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) le cierra un cajón en la cara, decidida.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) le cierra un cajón en la cara, decidida.
 - Gheco (gecko de luz cian con antiparras, chiquito) sostiene una moneda de bronce lisa.
 
 ### Micro-misión R01-N01-P4 · Dos renglones
@@ -457,7 +457,7 @@ Dos renglones, prolijos. —Así se escribe una lista —dice Nova—. Ahora pue
 
 #### Imagen
 - El ojo de cristal de un gólem de bronce con dos líneas de luz verde, una debajo de la otra.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) señala la línea de abajo.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala la línea de abajo.
 - Gheco (gecko de luz cian con antiparras, chiquito) baja por una escalerita de luz entre las dos líneas.
 
 ### Micro-misión R01-N01-P5 · El número que no era número
@@ -534,7 +534,7 @@ El diamante se convierte en un **4** limpito. Un ogro que espiaba desde la torre
 #### Imagen
 - El ojo de cristal de un gólem de bronce que muestra un diamante de luz transformándose en un dígito brillante.
 - Un ogro grandote y verde espía desde un costado, con cara de fastidio.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) sonríe con un dedo levantado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sonríe con un dedo levantado.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el borde del ojo.
 
 ### Micro-misión R01-N01-P6 · La presentación de Nova
@@ -620,7 +620,7 @@ end main
 #### Imagen
 - La cara de un gólem de bronce gigante con su ojo de cristal encendido con una línea de luz verde.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira el ojo desde abajo, asombrada.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) se asoma por la grieta del pecho del gólem.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) se asoma por la grieta del pecho del gólem.
 - Gheco (gecko de luz cian con antiparras, chiquito) en el hombro de Kira.
 
 ### Prueba del sello
@@ -856,7 +856,7 @@ El cajón **pociones** brilla en la pared. Nova abre la pestaña Cajones del tab
 
 #### Imagen
 - Una pared de cajoncitos de bronce; uno brilla con una etiqueta de luz lisa con el dibujo de un frasquito.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) guarda tres frasquitos de luz dentro del cajón.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) guarda tres frasquitos de luz dentro del cajón.
 - Gheco (gecko de luz cian con antiparras, chiquito) sostiene la etiqueta.
 
 ### Micro-misión R01-N02-P2 · Cambiar lo que hay adentro
@@ -927,7 +927,7 @@ El 03 del cajón se vuelve 05. —No hace falta pasar por una palanca para poner
 
 #### Imagen
 - Un cajón de bronce abierto con cinco frasquitos de luz ámbar.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) agrega dos frasquitos con cuidado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) agrega dos frasquitos con cuidado.
 - Gheco (gecko de luz cian con antiparras, chiquito) cuenta con los dedos sentado en el borde del cajón.
 
 ### Micro-misión R01-N02-P3 · Una más
@@ -999,7 +999,7 @@ Cuatro pociones. Nova prueba `dec` también, solo para ver, y vuelve a poner `in
 #### Imagen
 - Un cajón de bronce con cuatro frasquitos de luz y un quinto frasquito flotando hacia adentro.
 - Gheco (gecko de luz cian con antiparras, chiquito) empuja el frasquito con la cola.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) aplaude.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) aplaude.
 
 ### Micro-misión R01-N02-P4 · El cajón doble
 
@@ -1071,7 +1071,7 @@ El visor de AX marca **012C**: 300 en hexadecimal. En la pestaña Cajones, Nova 
 #### Imagen
 - Un cajón de bronce doble, el doble de ancho que los demás, con una etiqueta de luz lisa con el dibujo de un corazón.
 - Axón (gólem de bronce gigante con un único ojo redondo de cristal) lo señala con un dedo enorme.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) abre el cajón doble con las dos manos.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) abre el cajón doble con las dos manos.
 - Gheco (gecko de luz cian con antiparras, chiquito) mira por la rendija.
 
 ### Micro-misión R01-N02-P5 · El goblin de los tamaños
@@ -1143,7 +1143,7 @@ El goblin se queda sin chiste y desaparece entre los cajones. Nova ya sabe leer 
 
 #### Imagen
 - Un goblin verde y flaco que se ríe colgado de una palanca de bronce grande.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) le muestra un cajón chico y una palanca chica que encajan perfecto.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) le muestra un cajón chico y una palanca chica que encajan perfecto.
 - Gheco (gecko de luz cian con antiparras, chiquito) le saca la lengua al goblin.
 
 ### Micro-misión R01-N02-P6 · El número que no cambia
@@ -1229,7 +1229,7 @@ Un 9 aparece en el ojo. {mentor} graba una etiqueta de bronce y se la pega en el
 
 #### Imagen
 - Un gólem de bronce gigante con una placa de bronce lisa en el pecho, con el dibujo grabado de nueve frasquitos.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) toca la placa con la punta de los dedos.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca la placa con la punta de los dedos.
 - Gheco (gecko de luz cian con antiparras, chiquito) lustra la placa con la cola.
 
 ### Prueba del sello

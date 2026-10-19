@@ -298,7 +298,7 @@ El visor de AX marca 0005. Algo cruje en el brazo derecho del Gólem. —¡Moví
 
 #### Imagen
 - Una cámara de bronce dentro de un gólem gigante, con palancas de bronce y un visor redondo de luz encima de cada una.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian, líneas de circuito doradas en los brazos) baja la primera palanca con las dos manos.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) baja la primera palanca con las dos manos.
 - Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre el visor de la palanca.
 
 ### Micro-misión R00-N01-P2 · Copiar una palanca en otra
@@ -370,7 +370,7 @@ Dos palancas en 7. Nova las mira, contenta: —Es como tener dos manos que hacen
 
 #### Imagen
 - Una sala de bronce con dos palancas iguales, cada una con un visor de luz que muestra siete rayitas.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) tira de las dos palancas a la vez.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) tira de las dos palancas a la vez.
 - Gheco (gecko de luz cian con antiparras, chiquito) salta de un visor al otro.
 
 ### Micro-misión R00-N01-P3 · El número con letras
@@ -441,7 +441,7 @@ El visor de CX marca 00FF y el slime se derrite en un charquito. Nova ya no se a
 #### Imagen
 - Una palanca de bronce con un visor de luz que muestra dos llamitas iguales.
 - Un slime verde chiquito se derrite en un charco al pie de la palanca.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) lo mira con las manos en la cintura.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) lo mira con las manos en la cintura.
 - Gheco (gecko de luz cian con antiparras, chiquito) se tapa la nariz.
 
 ### Micro-misión R00-N01-P4 · Las dos mitades de AX
@@ -512,7 +512,7 @@ Las dos palancitas encajan y el visor de AX marca 1234. —Dos mitades hacen una
 
 #### Imagen
 - Una palanca de bronce doble: dos palancitas pegadas, cada una con su visor de luz, una con una estrella y otra con una luna.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) mueve una palancita con cada mano.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mueve una palancita con cada mano.
 - Gheco (gecko de luz cian con antiparras, chiquito) aplaude sobre la palanca.
 
 ### Micro-misión R00-N01-P5 · Predecir y comprobar
@@ -590,7 +590,7 @@ end main
 
 #### Imagen
 - Tres palancas de bronce en fila con visores de luz: la primera con ocho puntitos, la segunda con tres, la tercera apagada.
-- Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) señala la segunda palanca, pensativa.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala la segunda palanca, pensativa.
 - Gheco (gecko de luz cian con antiparras, chiquito) sostiene un reloj de arena chiquito.
 
 ### Prueba del sello

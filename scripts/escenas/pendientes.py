@@ -54,8 +54,8 @@ REFS = {
         'region': 'El Corazón del Gólem',
         'ambiente': 'adentro de un gólem de bronce gigante: una catedral mecánica de bronce con pátina verde, palancas con visores de luz, paredes de cajoncitos, engranajes enormes y el núcleo de luz ámbar',
         'chars': [
-            (r'\bNova\b', 'Nova', ['a847786e22d34467be76c419b9251491', 'fc72ec184e354491bd3af8fe92292d93'],
-             'Nova es un holograma de luz ámbar con forma de chica de 15 años (1,60 m), que flota a unos centímetros del piso.'),
+            (r'\bNova\b', 'Nova', ['66dcc9173d064f0b981a1d937eb959ea', 'be0d6929ddbc4fce8ce8302f40291e44'],
+             'Nova es una chica de 15 años (1,60 m) que flota a unos centímetros del piso: capa oscura de cuello alto con circuitos cian, túnica cerrada, calzas oscuras y botas con suela cian (ropa opaca y cerrada; nunca holograma translúcido).'),
             (r'Ax[oó]n', 'Axón', ['daab9e5a4c654a6d9f20e48790edd4a9', 'c4b3a82e96bb49e689670d429bea0fba'],
              'Axón es un gólem de bronce de cuatro metros: Nova le llega a la rodilla.'),
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),

@@ -127,7 +127,7 @@ torre de platos, interruptores y ojo; los cuatro jefes) y se **cambia quién lo 
 
 | Opción | Quién es | Por qué cuadra |
 |---|---|---|
-| **A · Nova, la chispa del Gólem** (recomendada) | Una IA recién nacida en el núcleo de Axón. No tiene cuerpo: **es** el Gólem aprendiendo a mover su propio cuerpo, palanca por palanca. Aspecto: un holograma de luz ámbar con forma de chica, con circuitos que se encienden según lo que aprende. | El alumno literalmente le enseña a la máquina a pensar. «El lenguaje más potente» es el idioma nativo de Nova. Cada paso a paso es Nova sintiendo cómo cambia por dentro. |
+| **A · Nova, la chispa del Gólem** (recomendada) | Una IA recién nacida en el núcleo de Axón. No tiene cuerpo: **es** el Gólem aprendiendo a mover su propio cuerpo, palanca por palanca. Aspecto (2026-10-19): una chica con capa oscura de cuello alto con circuitos cian, túnica cerrada y botas con suela cian; ropa opaca y cerrada, apta para la escuela. | El alumno literalmente le enseña a la máquina a pensar. «El lenguaje más potente» es el idioma nativo de Nova. Cada paso a paso es Nova sintiendo cómo cambia por dentro. |
 | **B · La doctora Ilse Vatio** | Científica de las Forjas, de unos 30 años, con un exotraje de bronce y cian y un monóculo de lectura de circuitos. Baja al interior del Gólem para repararlo. | Rol científico-futurista clásico; aventura de exploración dentro de la máquina. |
 | **C · Sigma** | Un androide explorador de las Forjas, alto y delgado, con el pecho transparente donde se ven sus propios registros. | Mezcla los dos: un cuerpo-máquina que se reconoce en el Gólem. |
 

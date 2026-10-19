@@ -354,11 +354,11 @@ return [
             'slug' => 'nova',
             'title' => 'La chispa del Gólem',
             'looks' => [
-                1 => 'Chispa recién nacida',
+                1 => 'Mentora del Núcleo',
                 2 => 'Coraza de Bronce',
                 3 => 'Capucha de Circuitos',
                 4 => 'Corona de Engranajes',
-                5 => 'Nova de Cristal',
+                5 => 'Nova Violeta',
                 6 => 'Alas del Núcleo',
             ],
         ],

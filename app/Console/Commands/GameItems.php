@@ -242,6 +242,39 @@ class GameItems extends Command
             ['code' => 'morral-del-correo-mayor', 'name' => 'Morral del Correo Mayor', 'kind' => 'armor', 'rarity' => 'legendary', 'defense' => 12, 'intelligence' => 3, 'luck' => 2, 'description' => 'Un compartimiento numerado para cada pedido: nada se pierde y todo se encuentra. Elefa se lo dio a Nilo con el Faro prendido.'],
             ['code' => 'mensaje-para-quien-llegue', 'name' => 'Mensaje para quien llegue', 'kind' => 'story', 'description' => 'El sobre que Elefa guardó veinte años, sellado con vidrio de colores. Al romper el sello, un balcón con cuatro portales.'],
         ],
+        // El Corazón del Gólem (Ensamblador, D110, docs/historias/ensamblador.md): la taberna del pie. Armas
+        'ensamblador' => [
+            ['code' => 'llave-de-palanca', 'name' => 'Llave de Palanca', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave de bronce del largo de un brazo. Destraba palancas viejas… y espanta goblins.'],
+            ['code' => 'martillo-de-remaches', 'name' => 'Martillo de Remaches', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'El de los enanos que remacharon al Gólem hace siglos. Todavía tiene polvo de bronce.'],
+            ['code' => 'vara-del-interruptor', 'name' => 'Vara del Interruptor', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Una vara con un interruptor en la punta: según cómo esté, pega para un lado o para el otro.'],
+            ['code' => 'lanza-del-arsenal', 'name' => 'Lanza del Arsenal', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'La cuarta del arsenal del muslo: la que elige Kira cuando sabe cuál es la más débil.'],
+            ['code' => 'espada-de-brasa', 'name' => 'Espada de Brasa', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Forjada con una brasa que se le cayó al Dragón del Gólem. Todavía tibia.'],
+            // Ropa
+            ['code' => 'delantal-de-taberna', 'name' => 'Delantal de Taberna', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Blanco, con una mancha de sopa que no sale. La tabernera dice que da suerte.'],
+            ['code' => 'capa-de-circuitos', 'name' => 'Capa de Circuitos', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Oscura, de cuello alto, con líneas cian: como la de Nova, pero de tela de verdad.'],
+            ['code' => 'coraza-de-bronce', 'name' => 'Coraza de Bronce', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Una placa del pecho del Gólem que sobró cuando lo armaron. Tiene pátina verde y un remache de más.'],
+            ['code' => 'armadura-de-axon', 'name' => 'Armadura de Axón', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Bronce, engranajes a la vista y un ojo redondo en el pecho. Hace exactamente lo que le ordenás.'],
+            // Accesorios
+            ['code' => 'lupa-del-paso-a-paso', 'name' => 'Lupa del Paso a Paso', 'kind' => 'accessory', 'rarity' => 'common', 'intelligence' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Mirando por ella, cada orden se ve de a una. Los ogros la odian.'],
+            ['code' => 'reloj-sin-agujas', 'name' => 'Reloj sin Agujas', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'El de la última página del grimorio. Las agujas le aparecen cuando hacés bien la cuenta.'],
+            ['code' => 'engranaje-de-la-suerte', 'name' => 'Engranaje de la Suerte', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Un engranaje del Gólem que gira solo, para el lado que conviene.'],
+            // Pociones
+            ['code' => 'aceite-de-rodilla', 'name' => 'Aceite de Rodilla', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'Del barril que la tabernera le regaló al Gólem. Sirve para las rodillas y para los raspones.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'llave-dentada', 'name' => 'Llave Dentada', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'description' => 'La Llave de Palanca con dientes de goblin y huesos en el mango: destraba lo que sea.'],
+            ['code' => 'capa-acolchada', 'name' => 'Capa Acolchada de Circuitos', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'La Capa de Circuitos forrada con musgo de troll: abriga y brilla.'],
+            ['code' => 'vara-de-la-garra', 'name' => 'Vara de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'La Vara del Interruptor con garras de ogro y escamas de dragón: decide y corta.'],
+            // Lo que gana Nova en la historia
+            ['code' => 'fragmento-del-vitral', 'name' => 'Fragmento del Vitral', 'kind' => 'story', 'description' => 'Un pedacito de vidrio de colores que apareció en el núcleo la noche en que Nova despertó. Alguien lo mandó desde el portal.'],
+            ['code' => 'mochila-de-cinco-bolsillos', 'name' => 'Mochila de Cinco Bolsillos', 'kind' => 'accessory', 'rarity' => 'common', 'dexterity' => 1, 'luck' => 1, 'description' => 'La primera mochila de Nova: cinco bolsillos seguidos y un solo nombre. En el segundo, una pluma.'],
+            ['code' => 'espatula-de-luz', 'name' => 'Espátula de Luz', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'dexterity' => 2, 'description' => 'Con ella Nova despegó al Slime de las Palancas, gota por gota. Todavía se le pega algo verde.'],
+            ['code' => 'interruptor-del-ogro', 'name' => 'Interruptor del Ogro', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'luck' => 2, 'description' => 'El Ogro de las Banderas lo dejó al irse, riéndose. «Bien jugado, chispita.»'],
+            ['code' => 'grimorio-de-los-numeros', 'name' => 'Grimorio de los Números', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 3, 'description' => 'El libro de bronce que Nova lleva colgado del cinturón: imprimir_numero, leer_numero y el reloj sin agujas.'],
+            ['code' => 'escudo-de-plato', 'name' => 'Escudo de Plato', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 7, 'strength' => 2, 'description' => 'El plato que el Troll de la Pila ordenó él mismo arriba de la torre, antes de irse. Lo que se apila, se devuelve.'],
+            ['code' => 'contrato-del-gremio', 'name' => 'Contrato del Gremio', 'kind' => 'story', 'description' => 'Firmado con pluma de bronce por la jefa del Gremio de Comerciantes. El primer trabajo de verdad del Gólem.'],
+            ['code' => 'garrote-de-practica', 'name' => 'Garrote de Práctica', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'strength' => 2, 'description' => 'El del Autómata de Hierro, acolchado. Maese Ferrum se lo dejó a Kira de recuerdo.'],
+            ['code' => 'corazon-de-brasa', 'name' => 'Corazón de Brasa', 'kind' => 'accessory', 'rarity' => 'legendary', 'defense' => 3, 'intelligence' => 4, 'luck' => 3, 'description' => 'La luz roja del Dragón del Gólem, que no murió: se apagó y se mezcló con la de Nova. Late despacio, tibia.'],
+        ],
         // Crónicas en Inglés (D106, docs/historias/ingles.md): lo de Ada en los Talleres. Primaria es la Ada de 11 (útiles
         // de escuela y de cuento, nada da miedo); Secundaria, la de 15, escribiente del Gremio. Vende Ámbar.
         'ingles-primaria' => [
@@ -511,6 +544,32 @@ class GameItems extends Command
         'lentes-de-traductora' => 'Unos anteojos redondos de marco dorado sobre una carta escrita en dos idiomas.',
         'lacre-de-las-cartas' => 'Un sello de lacre de vidrio de colores (rojo, ámbar, azul) sin letras, con un brillo violeta.',
         'te-de-ambar' => 'Un vaso de vidrio color ámbar con té humeante, con una burbujita atrapada en el vidrio.',
+        // Ensamblador: el Corazón del Gólem (bronce, pátina verde, engranajes y luz cian)
+        'llave-de-palanca' => 'Una llave inglesa grande de bronce con pátina verde, del largo de un brazo, con un remache brillante en el mango.',
+        'martillo-de-remaches' => 'Un martillo de herrero de cabeza cuadrada de bronce, con remaches incrustados en la cabeza y polvo dorado.',
+        'vara-del-interruptor' => 'Una vara de madera oscura con un interruptor de palanca de bronce en la punta y una lucecita cian encendida.',
+        'lanza-del-arsenal' => 'Una lanza de bronce larga con punta en forma de hoja y cintas cian atadas bajo la punta.',
+        'espada-de-brasa' => 'Una espada de hoja roja como una brasa, con grietas que brillan naranja y empuñadura de bronce.',
+        'delantal-de-taberna' => 'Un delantal blanco de taberna doblado, con una mancha de sopa con forma de corazón y un bolsillo con una cuchara.',
+        'capa-de-circuitos' => 'Una capa oscura de cuello alto, petróleo y obsidiana, con líneas de circuitos cian y detalles dorados, colgada de un perchero.',
+        'coraza-de-bronce' => 'Una coraza de bronce con pátina verde y remaches, con un remache de más en el centro.',
+        'armadura-de-axon' => 'Una armadura de bronce con engranajes a la vista en los hombros y un ojo redondo de cristal cian en el pecho.',
+        'lupa-del-paso-a-paso' => 'Una lupa de bronce con el vidrio cian, y a través del vidrio se ven escalones de luz uno por uno.',
+        'reloj-sin-agujas' => 'Un reloj de bolsillo de bronce redondo, abierto, sin números y sin agujas, con una chispa cian en el centro.',
+        'engranaje-de-la-suerte' => 'Un engranaje de bronce dorado que gira solo en el aire, con un trébol grabado en el centro.',
+        'aceite-de-rodilla' => 'Un frasquito de vidrio con aceite dorado espeso y un tapón de corcho, con una gota cayendo por el costado.',
+        'llave-dentada' => 'Una llave inglesa de bronce con dientes de goblin incrustados y huesitos atados al mango.',
+        'capa-acolchada' => 'Una capa oscura de cuello alto con líneas cian, forrada por dentro con musgo verde suave.',
+        'vara-de-la-garra' => 'Una vara con un interruptor de bronce en la punta, rodeada de garras curvas y escamas rojas.',
+        'fragmento-del-vitral' => 'Un pedazo triangular de vidrio de colores (rojo, ámbar, azul) que brilla con luz propia, sin letras.',
+        'mochila-de-cinco-bolsillos' => 'Una mochila de bronce y cuero con cinco bolsillos iguales en fila; del segundo asoma una pluma de luz cian.',
+        'espatula-de-luz' => 'Una espátula ancha de luz cian sólida con mango de bronce, con una gotita verde pegada en la punta.',
+        'interruptor-del-ogro' => 'Un interruptor de palanca grande de bronce, arrancado de su tablero, con una lucecita cian encendida.',
+        'grimorio-de-los-numeros' => 'Un libro chico de bronce cerrado con un candado abierto, con engranajes grabados en la tapa y una cadena para el cinturón.',
+        'escudo-de-plato' => 'Un plato de metal grande y redondo convertido en escudo, con una correa de cuero atrás y marcas de la torre en el borde.',
+        'contrato-del-gremio' => 'Un pergamino enrollado atado con cinta, con un sello de lacre en forma de balanza, sin letras visibles.',
+        'garrote-de-practica' => 'Un garrote de hierro acolchado con tela gris y remaches, de entrenamiento.',
+        'corazon-de-brasa' => 'Un corazón de cristal rojo brasa que late con luz naranja y cian en el centro, engarzado en bronce.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

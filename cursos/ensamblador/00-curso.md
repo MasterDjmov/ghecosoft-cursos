@@ -239,6 +239,7 @@ lugar: El núcleo del Gólem
 personajes: Nova, Gheco, Axón
 carta: mov | mov destino, origen · copia el origen en el destino · como x = 5 en Python
 recompensa: xp 10, oro 10
+item: Fragmento del Vitral
 ```
 
 #### Escena

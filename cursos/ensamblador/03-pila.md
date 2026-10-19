@@ -3100,6 +3100,7 @@ lugar: El grimorio de los números
 personajes: Nova, Gheco
 carta: div de 16 bits | DX en 0 · div bx · AX = cociente · DX = resto · 3600 s = 1 h · 60 s = 1 min
 recompensa: xp 25, oro 25
+item: Grimorio de los Números
 ```
 
 #### Escena
@@ -4992,6 +4993,7 @@ personajes: Nova, Gheco, Kira
 criatura: troll
 carta: Pila con cuidado | apilar letras · '<' desapila la última · nunca desapilar con la torre vacía
 recompensa: xp 30, oro 30
+item: Escudo de Plato
 ```
 
 #### Escena

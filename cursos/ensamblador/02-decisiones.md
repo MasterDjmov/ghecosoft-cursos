@@ -5433,6 +5433,7 @@ personajes: Nova, Gheco, Kira, Axón
 criatura: ogre
 carta: Todo junto | hasta que '.' · validar el rango · acumular · par o impar con test · dos cifras
 recompensa: xp 30, oro 30
+item: Interruptor del Ogro
 ```
 
 #### Escena

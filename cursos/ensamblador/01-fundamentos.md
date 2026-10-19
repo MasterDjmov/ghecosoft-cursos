@@ -1932,6 +1932,7 @@ lugar: El núcleo del Gólem
 personajes: Nova, Gheco, Axón
 carta: Dirección y contenido | offset y lea = dónde · el nombre = qué hay · nombre+1 = el cajón siguiente
 recompensa: xp 20, oro 20
+item: Mochila de Cinco Bolsillos
 ```
 
 #### Escena
@@ -4257,6 +4258,7 @@ personajes: Nova, Gheco, Kira, Axón
 criatura: slime
 carta: Todo junto | leer (01h) · sub al, '0' · add · div por 10 · mostrar dos cifras
 recompensa: xp 30, oro 30
+item: Espátula de Luz
 ```
 
 #### Escena

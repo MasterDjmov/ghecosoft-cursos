@@ -1141,6 +1141,7 @@ Catorce para cada socio y sobran dos. Y por cero, un aviso educado. La jefa asie
 lugar: La sala del Gremio
 personajes: Nova, Gheco, Kira, Axón
 carta: El menú que se repite | leer opción · 0 sale · 1 a 4: pedir números y elegir la rutina · lo demás: no existe · volver al menú
+item: Contrato del Gremio
 ```
 
 #### Escena
@@ -4641,6 +4642,7 @@ Vida llena (30, no 35) y ninguna poción. El segundo intento no hace nada más q
 lugar: El campo de entrenamiento
 personajes: Nova, Gheco, Kira, Axón
 carta: Bucle de juego | ronda: estado · turno de Kira · ¿cayó el autómata? · turno del autómata · ¿cayó Kira? · otra ronda
+item: Garrote de Práctica
 ```
 
 #### Escena
@@ -5927,6 +5929,7 @@ lugar: El núcleo del Gólem
 personajes: Nova, Gheco, Kira, Axón
 criatura: dragon
 carta: Una pieza nueva | ronda múltiplo de 3: aliento de fuego (8) · si no: garra (azar 2 a 7) · con escudo: shr · bajar el escudo
+item: Corazón de Brasa
 ```
 
 #### Escena

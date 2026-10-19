@@ -5435,3 +5435,1314 @@ Si el daño es mayor que la vida, el byte da la vuelta (5 − 8 = 253).
 
 #### ¿Qué partes tiene el bucle de un juego por turnos?
 Mostrar el estado, el turno del jugador, ver si alguien cayó, el turno del rival, ver si alguien cayó, y repetir.
+
+## R04-N04 · Jefe final: el Dragón del Gólem
+
+```meta
+tipo: jefe
+criatura: dragon
+padre: R04-N03
+precio: 0
+insignia: Sello del Dragón
+insignia_descripcion: Venciste al Dragón del Gólem: armás programas grandes con piezas chicas, y el Gólem camina gracias a vos.
+usa: prog.bits, col.arrays, maq.pila, prog.funciones, prog.matematica-azar, juegos.bucle
+temas: cal.depuracion
+```
+
+### Crónica
+
+En el núcleo de {mentor}, donde Nova despertó, hay algo que no estaba: un **dragón** de luz roja, enroscado alrededor del corazón de bronce. Nació hace siglos de todas las órdenes que nadie terminó de escribir, y dormía. El Gólem caminando lo despertó.
+
+—Un dragón no se vence de un golpe —dice Gheco, muy serio por primera vez—. Se lo divide en partes. Se vence cada una. Y recién entonces cae.
+
+Kira desenvaina la espada. Nova se pone a su lado. {mentor} habla bajito, desde todas partes a la vez: —Yo no adivino. Pero confío en lo que me enseñaste.
+
+### Objetivos
+
+Vencer al jefe final del curso: un **programa grande hecho de piezas chicas**. Cada parte del dragón se vence
+con una herramienta distinta del curso: bits, arreglos de words con números grandes, la pila y, al final, el
+combate completo con una rutina nueva.
+
+### Antes de empezar
+
+Todo el curso.
+
+### Explicación
+
+#### Dividir y vencer
+El dragón tiene cuatro partes, y cada una pide algo distinto:
+
+| Parte | Herramienta |
+|---|---|
+| Las escamas | bits: `shl` y `jnc`, contar los que están prendidos |
+| El tesoro | un arreglo de words, `add si, 2` e `imprimir_numero` |
+| El acertijo | la `0Ah`, la pila y una comparación letra por letra |
+| El combate | una rutina nueva (`turno_dragon`) en el bucle de juego que ya armaste |
+
+Esa es la forma de encarar **cualquier** programa grande, en cualquier lenguaje: partirlo en piezas que se puedan
+escribir y probar solas, y después unirlas.
+
+> **Puente con otras lenguas.** «Divide y vencerás» es un principio de diseño de todos los lenguajes: funciones
+> chicas, módulos, clases. Y ahora sabés qué hay debajo de cada una de esas piezas: palancas, cajones, saltos y una
+> torre de platos.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+escamas db 10110110b
+t_esc   db 'Las escamas en binario: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_esc
+    mov ah, 09h
+    int 21h
+    mov bl, escamas
+    mov cx, 8
+bits:
+    shl bl, 1
+    mov dl, '0'
+    jnc cero
+    mov dl, '1'
+cero:
+    mov ah, 02h
+    int 21h
+    loop bits
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+### Salida esperada
+
+```
+Las escamas en binario: 10110110
+```
+
+### ¿Para qué sirve?
+
+Este es el último paso del curso, y el más importante: ya no se trata de una orden nueva, sino de **combinar** todo
+lo que sabés para resolver algo grande. Es lo que hace un programador todos los días, en cualquier lenguaje.
+
+### Errores habituales
+
+Todos los del bestiario pueden aparecer: el **slime** de la coma, el **goblin** del tamaño, el **esqueleto** del
+nombre mal escrito, el **orco** que se sale del arreglo, el **ogro** de la lógica y el **troll** de la pila. El
+método es siempre el mismo: leer el error (o ejecutar paso a paso), arreglar una cosa por vez y volver a probar.
+
+### Micro-misión R04-N04-P1 · Las escamas encendidas
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco
+criatura: dragon
+carta: Contar bits | 8 vueltas · shl bl, 1 · jnc: estaba en 0 · si no, contar uno más
+```
+
+#### Escena
+La primera defensa del dragón son sus **escamas**: ocho, en fila, unas encendidas y otras apagadas. Para atravesarlas, Nova tiene que saber cuántas están **encendidas**.
+
+#### Gheco sugiere
+Las escamas son los 8 bits de un byte. Un bucle de 8 vueltas: `shl bl, 1` empuja cada bit a CF; si CF quedó en 1 (no salta el `jnc`), sumá uno al contador. Al final, mostrá el contador con `+ '0'`.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+escamas db 10110110b
+t_esc   db 'Escamas encendidas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_esc
+    mov ah, 09h
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+#### Salida esperada
+```
+Escamas encendidas: 5
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+escamas db 10110110b
+t_esc   db 'Escamas encendidas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_esc
+    mov ah, 09h
+    int 21h
+
+    mov bl, escamas
+    mov bh, 0            ; el contador
+    mov cx, 8
+contar:
+    shl bl, 1
+    jnc apagada
+    inc bh
+apagada:
+    loop contar
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+#### Al superarla
+Cinco escamas encendidas. Nova las apaga una por una, con cinco toques de luz. El dragón ruge: la primera defensa cayó.
+
+#### Imagen
+- Un dragón enorme de luz roja enroscado alrededor de un corazón de bronce gigante, con ocho escamas grandes en el lomo, unas brillando y otras apagadas.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca una escama encendida con la mano, que se apaga con una chispa cian.
+- Gheco (gecko de luz cian con antiparras, chiquito) cuenta las escamas apagadas con la cola.
+
+### Micro-misión R04-N04-P2 · El tesoro del dragón
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Kira
+criatura: dragon
+carta: Arreglo de words | lea si · add ax, [si] · add si, 2 · imprimir_numero para números grandes
+```
+
+#### Escena
+Debajo del dragón brilla su **tesoro**: cinco montañas de monedas. El dragón se alimenta de él. Si Nova sabe cuánto hay exactamente, puede devolverlo a las Forjas y dejarlo sin fuerza.
+
+#### Gheco sugiere
+El tesoro es un arreglo de **words**: recorrelo con SI (`lea si, tesoro`), sumá cada uno en AX y avanzá de a **2** (`add si, 2`). Cinco vueltas. Al final, `imprimir_numero`, que ya está.
+
+#### Desafío
+Escribí la suma donde dice `; tus órdenes`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+tesoro dw 1200, 3400, 560, 7800, 90
+t_tes  db 'Tesoro del dragon: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_tes
+    mov ah, 09h
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+imprimir_numero proc
+    push ax
+    push bx
+    push cx
+    push dx
+    mov bx, 10
+    mov cx, 0
+separar:
+    mov dx, 0
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne separar
+mostrar_cifra:
+    pop dx
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    loop mostrar_cifra
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+imprimir_numero endp
+
+end main
+```
+
+#### Salida esperada
+```
+Tesoro del dragon: 13050
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+tesoro dw 1200, 3400, 560, 7800, 90
+t_tes  db 'Tesoro del dragon: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_tes
+    mov ah, 09h
+    int 21h
+
+    mov ax, 0
+    lea si, tesoro
+    mov cx, 5
+sumar:
+    add ax, [si]
+    add si, 2
+    loop sumar
+    call imprimir_numero
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+imprimir_numero proc
+    push ax
+    push bx
+    push cx
+    push dx
+    mov bx, 10
+    mov cx, 0
+separar:
+    mov dx, 0
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne separar
+mostrar_cifra:
+    pop dx
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    loop mostrar_cifra
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+imprimir_numero endp
+
+end main
+```
+
+#### Al superarla
+13.050 monedas. Kira silba. Las montañas de oro empiezan a flotar hacia arriba, de vuelta a las Forjas, y el dragón se encoge un poco, furioso.
+
+#### Imagen
+- Montañas de monedas doradas flotando hacia arriba por un túnel de bronce, dejando un rastro de luz.
+- Un dragón de luz roja más chico, enroscado y furioso.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira las monedas subir, boquiabierta.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) guía las monedas con las manos.
+- Gheco (gecko de luz cian con antiparras, chiquito) se aferra a una moneda que sube.
+
+### Micro-misión R04-N04-P3 · El acertijo
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Kira
+criatura: dragon
+carta: Palíndromo | 0Ah · apilar las letras · desapilar comparando con la palabra · todas iguales: se lee igual al revés
+```
+
+#### Escena
+El dragón, acorralado, habla por primera vez. —Te hago un acertijo —sisea—. Decime una palabra que se lea **igual al derecho y al revés**, y demostrá que lo es.
+
+Kira escribe **RECONOCER**.
+
+#### Gheco sugiere
+La palabra ya está en la bolsa de la `0Ah`. Guardá la cantidad (`buffer+1`) en otra palanca y apilá las letras desde `buffer+2`. Después recorré la palabra de nuevo desde el principio, desapilando: cada letra que sale de la torre (la del final) se compara con la del principio. Si alguna es distinta, no es palíndromo.
+
+#### Desafío
+Escribí la comprobación donde dice `; tus órdenes`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+buffer db 21, ?, 21 dup(?)
+t_pide db 'El acertijo: $'
+t_si   db 'Se lee igual al reves. El dragon calla.$'
+t_no   db 'No se lee igual al reves. El dragon se rie.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_pide
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, buffer
+    int 21h
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+#### Entrada
+```
+RECONOCER
+```
+
+#### Salida esperada
+```
+El acertijo: RECONOCER
+Se lee igual al reves. El dragon calla.
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+buffer db 21, ?, 21 dup(?)
+t_pide db 'El acertijo: $'
+t_si   db 'Se lee igual al reves. El dragon calla.$'
+t_no   db 'No se lee igual al reves. El dragon se rie.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_pide
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, buffer
+    int 21h
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+
+    mov cl, buffer+1
+    mov ch, 0
+    mov bx, cx           ; la cantidad, a salvo
+    lea si, buffer+2
+apilar:
+    mov al, [si]
+    push ax
+    inc si
+    loop apilar
+
+    mov cx, bx
+    lea si, buffer+2
+    mov bl, 1            ; 1 = por ahora se lee igual
+comparar:
+    pop ax
+    cmp al, [si]
+    je  igual
+    mov bl, 0
+igual:
+    inc si
+    loop comparar
+
+    lea dx, t_si
+    cmp bl, 1
+    je  mostrar
+    lea dx, t_no
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+#### Al superarla
+—Reconocer —repite el dragón, despacio. Y por un momento parece que entiende algo. Su luz roja tiembla. Ya no le quedan defensas: solo pelear.
+
+#### Imagen
+- Un dragón de luz roja acorralado contra el corazón de bronce de un gólem, con la cabeza baja, pensativo.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) lo enfrenta con la espada baja, serena.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene en el aire una fila de nueve lucecitas cian simétricas.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el hombro de Kira.
+
+### Micro-misión R04-N04-P4 · El último combate
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Kira, Axón
+criatura: dragon
+carta: Una pieza nueva | ronda múltiplo de 3: aliento de fuego (8) · si no: garra (azar 2 a 7) · con escudo: shr · bajar el escudo
+```
+
+#### Escena
+El combate final. Todo el motor del juego está listo, el mismo del Autómata de Hierro. Falta lo único nuevo: cómo ataca **el dragón**. Cada **tres** rondas lanza su **aliento de fuego** (8 de daño, siempre); las demás, un zarpazo de 2 a 7. Y si Kira se defiende, el golpe vale la mitad.
+
+#### Gheco sugiere
+En `turno_dragon`, donde dice `; tus órdenes`: dividí `ronda` por 3 (AX = ronda, BL = 3, `div bl`); si el resto (AH) es 0, CL = 8 y el mensaje del fuego. Si no, la garra: `azar` con BL = 6, más 2. Después, si `defiende` no es 0, `shr cl, 1` y bajá el escudo (`defiende` en 0). Lo que sigue (mostrar el daño y quitar la vida) ya está.
+
+#### Desafío
+Escribí el ataque del dragón. Kira va a jugar 1, 1, 2, 1, 3, 2, 1 y 1: se defiende justo en las rondas del fuego.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+semilla  dw 35
+vida_k   db 30
+vida_o   db 50
+pociones db 3
+defiende db 0
+accion   db ?
+ronda    dw 0
+t_titulo db ' NOVA Y KIRA CONTRA EL DRAGON DEL GOLEM$'
+t_ronda  db 13, 10, '--- Ronda $'
+t_rfin   db ' ---', 13, 10, '$'
+t_kira   db 'Kira   $'
+t_auto   db 'Dragon $'
+t_menu   db '1) Atacar  2) Defender  3) Pocion: $'
+t_ataca  db 'Kira ataca: $'
+t_crit   db 'CRITICO! $'
+t_danio  db ' de danio.', 13, 10, '$'
+t_defi   db 'Kira levanta el escudo.', 13, 10, '$'
+t_pocion db 'Kira bebe una pocion: +10 de vida.', 13, 10, '$'
+t_sinpoc db 'No quedan pociones: Kira pierde el turno.', 13, 10, '$'
+t_golpe  db 'El dragon ataca: $'
+t_fuego  db 'ALIENTO DE FUEGO! $'
+t_gana   db 13, 10, 'El dragon se apaga. GANARON NOVA Y KIRA!$'
+t_pierde db 13, 10, 'Kira cae. El dragon sigue despierto.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_titulo
+    call mostrar_cadena
+ronda_nueva:
+    inc ronda
+    lea dx, t_ronda
+    call mostrar_cadena
+    mov ax, ronda
+    call imprimir_numero
+    lea dx, t_rfin
+    call mostrar_cadena
+    call mostrar_estado
+    call turno_kira
+    cmp vida_o, 0
+    je  gana
+    call turno_dragon
+    cmp vida_k, 0
+    je  pierde
+    jmp ronda_nueva
+gana:
+    lea dx, t_gana
+    call mostrar_cadena
+    jmp termino
+pierde:
+    lea dx, t_pierde
+    call mostrar_cadena
+termino:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; turno_kira: menú, acción
+turno_kira proc
+    push dx
+    lea dx, t_menu
+    call mostrar_cadena
+    call leer_accion
+    cmp accion, '1'
+    jne no_ataca
+    call atacar
+    jmp turno_fin
+no_ataca:
+    cmp accion, '2'
+    jne no_defiende
+    mov defiende, 1
+    lea dx, t_defi
+    call mostrar_cadena
+    jmp turno_fin
+no_defiende:
+    call pocion
+turno_fin:
+    pop dx
+    ret
+turno_kira endp
+
+; atacar: daño de 3 a 8; 1 de cada 6 es crítico (daño x 2)
+atacar proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_ataca
+    call mostrar_cadena
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 3
+    mov bl, 6
+    call azar
+    cmp al, 0
+    jne sin_critico
+    shl cl, 1
+    lea dx, t_crit
+    call mostrar_cadena
+sin_critico:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_o
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+atacar endp
+
+; turno_dragon: cada 3 rondas, aliento de fuego (8 fijo); si no, garra de 2 a 7; con escudo, la mitad
+turno_dragon proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_golpe
+    call mostrar_cadena
+    ; tus órdenes (el daño queda en CL)
+sin_escudo:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_k
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+turno_dragon endp
+
+; pocion: +10 de vida (tope 30) si quedan pociones; si no, pierde el turno
+pocion proc
+    push ax
+    push dx
+    cmp pociones, 0
+    je  sin_pociones
+    dec pociones
+    add vida_k, 10
+    cmp vida_k, 30
+    jbe pocion_ok
+    mov vida_k, 30
+pocion_ok:
+    lea dx, t_pocion
+    call mostrar_cadena
+    jmp pocion_fin
+sin_pociones:
+    lea dx, t_sinpoc
+    call mostrar_cadena
+pocion_fin:
+    pop dx
+    pop ax
+    ret
+pocion endp
+
+; leer_accion: espera una tecla sin eco hasta que sea '1', '2' o '3'; la muestra y la guarda en accion
+leer_accion proc
+    push ax
+    push dx
+otra_tecla:
+    mov ah, 07h
+    int 21h
+    cmp al, '1'
+    jb  otra_tecla
+    cmp al, '3'
+    ja  otra_tecla
+    mov accion, al
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    call nueva_linea
+    pop dx
+    pop ax
+    ret
+leer_accion endp
+
+; mostrar_estado: las dos barras con sus números
+mostrar_estado proc
+    push ax
+    push bx
+    push dx
+    lea dx, t_kira
+    call mostrar_cadena
+    mov al, vida_k
+    mov bl, 30
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    lea dx, t_auto
+    call mostrar_cadena
+    mov al, vida_o
+    mov bl, 50
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    pop dx
+    pop bx
+    pop ax
+    ret
+mostrar_estado endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    shr al, 1
+    shr bl, 1
+    sub bl, al
+    mov cl, al
+    mov ch, 0
+    mov dl, '#'
+    mov ah, 02h
+    jcxz sin_llenos
+llenos:
+    int 21h
+    loop llenos
+sin_llenos:
+    mov cl, bl
+    mov dl, '.'
+    jcxz sin_vacios
+vacios:
+    int 21h
+    loop vacios
+sin_vacios:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    cmp cl, [si]
+    jae queda_cero
+    sub [si], cl
+    ret
+queda_cero:
+    mov byte ptr [si], 0
+    ret
+quitar_vida endp
+
+; azar: AL = número de 0 a BL-1 (avanza la semilla)
+azar proc
+    push dx
+    mov ax, semilla
+    mov dx, 25173
+    mul dx
+    add ax, 13849
+    mov semilla, ax
+    mov al, ah
+    mov ah, 0
+    div bl
+    mov al, ah
+    pop dx
+    ret
+azar endp
+
+espacio proc
+    push ax
+    push dx
+    mov dl, ' '
+    mov ah, 02h
+    int 21h
+    pop dx
+    pop ax
+    ret
+espacio endp
+
+imprimir_numero proc
+    push ax
+    push bx
+    push cx
+    push dx
+    mov bx, 10
+    mov cx, 0
+separar:
+    mov dx, 0
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne separar
+mostrar_cifra:
+    pop dx
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    loop mostrar_cifra
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+imprimir_numero endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+; mostrar_cadena: muestra el texto que señala DX
+mostrar_cadena proc
+    push ax
+    mov ah, 09h
+    int 21h
+    pop ax
+    ret
+mostrar_cadena endp
+
+end main
+```
+
+#### Entrada
+```
+1
+1
+2
+1
+3
+2
+1
+1
+```
+
+#### Salida esperada
+```
+ NOVA Y KIRA CONTRA EL DRAGON DEL GOLEM
+--- Ronda 1 ---
+Kira   ############### 30
+Dragon ######################### 50
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 8 de danio.
+El dragon ataca: 2 de danio.
+
+--- Ronda 2 ---
+Kira   ##############. 28
+Dragon #####################.... 42
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 4 de danio.
+El dragon ataca: 4 de danio.
+
+--- Ronda 3 ---
+Kira   ############... 24
+Dragon ###################...... 38
+1) Atacar  2) Defender  3) Pocion: 2
+Kira levanta el escudo.
+El dragon ataca: ALIENTO DE FUEGO! 4 de danio.
+
+--- Ronda 4 ---
+Kira   ##########..... 20
+Dragon ###################...... 38
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: CRITICO! 14 de danio.
+El dragon ataca: 2 de danio.
+
+--- Ronda 5 ---
+Kira   #########...... 18
+Dragon ############............. 24
+1) Atacar  2) Defender  3) Pocion: 3
+Kira bebe una pocion: +10 de vida.
+El dragon ataca: 2 de danio.
+
+--- Ronda 6 ---
+Kira   #############.. 26
+Dragon ############............. 24
+1) Atacar  2) Defender  3) Pocion: 2
+Kira levanta el escudo.
+El dragon ataca: ALIENTO DE FUEGO! 4 de danio.
+
+--- Ronda 7 ---
+Kira   ###########.... 22
+Dragon ############............. 24
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: CRITICO! 16 de danio.
+El dragon ataca: 2 de danio.
+
+--- Ronda 8 ---
+Kira   ##########..... 20
+Dragon ####..................... 8
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 8 de danio.
+
+El dragon se apaga. GANARON NOVA Y KIRA!
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+semilla  dw 35
+vida_k   db 30
+vida_o   db 50
+pociones db 3
+defiende db 0
+accion   db ?
+ronda    dw 0
+t_titulo db ' NOVA Y KIRA CONTRA EL DRAGON DEL GOLEM$'
+t_ronda  db 13, 10, '--- Ronda $'
+t_rfin   db ' ---', 13, 10, '$'
+t_kira   db 'Kira   $'
+t_auto   db 'Dragon $'
+t_menu   db '1) Atacar  2) Defender  3) Pocion: $'
+t_ataca  db 'Kira ataca: $'
+t_crit   db 'CRITICO! $'
+t_danio  db ' de danio.', 13, 10, '$'
+t_defi   db 'Kira levanta el escudo.', 13, 10, '$'
+t_pocion db 'Kira bebe una pocion: +10 de vida.', 13, 10, '$'
+t_sinpoc db 'No quedan pociones: Kira pierde el turno.', 13, 10, '$'
+t_golpe  db 'El dragon ataca: $'
+t_fuego  db 'ALIENTO DE FUEGO! $'
+t_gana   db 13, 10, 'El dragon se apaga. GANARON NOVA Y KIRA!$'
+t_pierde db 13, 10, 'Kira cae. El dragon sigue despierto.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_titulo
+    call mostrar_cadena
+ronda_nueva:
+    inc ronda
+    lea dx, t_ronda
+    call mostrar_cadena
+    mov ax, ronda
+    call imprimir_numero
+    lea dx, t_rfin
+    call mostrar_cadena
+    call mostrar_estado
+    call turno_kira
+    cmp vida_o, 0
+    je  gana
+    call turno_dragon
+    cmp vida_k, 0
+    je  pierde
+    jmp ronda_nueva
+gana:
+    lea dx, t_gana
+    call mostrar_cadena
+    jmp termino
+pierde:
+    lea dx, t_pierde
+    call mostrar_cadena
+termino:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; turno_kira: menú, acción
+turno_kira proc
+    push dx
+    lea dx, t_menu
+    call mostrar_cadena
+    call leer_accion
+    cmp accion, '1'
+    jne no_ataca
+    call atacar
+    jmp turno_fin
+no_ataca:
+    cmp accion, '2'
+    jne no_defiende
+    mov defiende, 1
+    lea dx, t_defi
+    call mostrar_cadena
+    jmp turno_fin
+no_defiende:
+    call pocion
+turno_fin:
+    pop dx
+    ret
+turno_kira endp
+
+; atacar: daño de 3 a 8; 1 de cada 6 es crítico (daño x 2)
+atacar proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_ataca
+    call mostrar_cadena
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 3
+    mov bl, 6
+    call azar
+    cmp al, 0
+    jne sin_critico
+    shl cl, 1
+    lea dx, t_crit
+    call mostrar_cadena
+sin_critico:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_o
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+atacar endp
+
+; turno_dragon: cada 3 rondas, aliento de fuego (8 fijo); si no, garra de 2 a 7; con escudo, la mitad
+turno_dragon proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_golpe
+    call mostrar_cadena
+    mov ax, ronda
+    mov bl, 3
+    div bl
+    cmp ah, 0
+    jne garra
+    mov cl, 8
+    lea dx, t_fuego
+    call mostrar_cadena
+    jmp con_escudo
+garra:
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 2
+con_escudo:
+    cmp defiende, 0
+    je  sin_escudo
+    shr cl, 1
+    mov defiende, 0
+sin_escudo:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_k
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+turno_dragon endp
+
+; pocion: +10 de vida (tope 30) si quedan pociones; si no, pierde el turno
+pocion proc
+    push ax
+    push dx
+    cmp pociones, 0
+    je  sin_pociones
+    dec pociones
+    add vida_k, 10
+    cmp vida_k, 30
+    jbe pocion_ok
+    mov vida_k, 30
+pocion_ok:
+    lea dx, t_pocion
+    call mostrar_cadena
+    jmp pocion_fin
+sin_pociones:
+    lea dx, t_sinpoc
+    call mostrar_cadena
+pocion_fin:
+    pop dx
+    pop ax
+    ret
+pocion endp
+
+; leer_accion: espera una tecla sin eco hasta que sea '1', '2' o '3'; la muestra y la guarda en accion
+leer_accion proc
+    push ax
+    push dx
+otra_tecla:
+    mov ah, 07h
+    int 21h
+    cmp al, '1'
+    jb  otra_tecla
+    cmp al, '3'
+    ja  otra_tecla
+    mov accion, al
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    call nueva_linea
+    pop dx
+    pop ax
+    ret
+leer_accion endp
+
+; mostrar_estado: las dos barras con sus números
+mostrar_estado proc
+    push ax
+    push bx
+    push dx
+    lea dx, t_kira
+    call mostrar_cadena
+    mov al, vida_k
+    mov bl, 30
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    lea dx, t_auto
+    call mostrar_cadena
+    mov al, vida_o
+    mov bl, 50
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    pop dx
+    pop bx
+    pop ax
+    ret
+mostrar_estado endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    shr al, 1
+    shr bl, 1
+    sub bl, al
+    mov cl, al
+    mov ch, 0
+    mov dl, '#'
+    mov ah, 02h
+    jcxz sin_llenos
+llenos:
+    int 21h
+    loop llenos
+sin_llenos:
+    mov cl, bl
+    mov dl, '.'
+    jcxz sin_vacios
+vacios:
+    int 21h
+    loop vacios
+sin_vacios:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    cmp cl, [si]
+    jae queda_cero
+    sub [si], cl
+    ret
+queda_cero:
+    mov byte ptr [si], 0
+    ret
+quitar_vida endp
+
+; azar: AL = número de 0 a BL-1 (avanza la semilla)
+azar proc
+    push dx
+    mov ax, semilla
+    mov dx, 25173
+    mul dx
+    add ax, 13849
+    mov semilla, ax
+    mov al, ah
+    mov ah, 0
+    div bl
+    mov al, ah
+    pop dx
+    ret
+azar endp
+
+espacio proc
+    push ax
+    push dx
+    mov dl, ' '
+    mov ah, 02h
+    int 21h
+    pop dx
+    pop ax
+    ret
+espacio endp
+
+imprimir_numero proc
+    push ax
+    push bx
+    push cx
+    push dx
+    mov bx, 10
+    mov cx, 0
+separar:
+    mov dx, 0
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne separar
+mostrar_cifra:
+    pop dx
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    loop mostrar_cifra
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+imprimir_numero endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+; mostrar_cadena: muestra el texto que señala DX
+mostrar_cadena proc
+    push ax
+    mov ah, 09h
+    int 21h
+    pop ax
+    ret
+mostrar_cadena endp
+
+end main
+```
+
+#### Al superarla
+**GANARON NOVA Y KIRA.** El dragón no muere: se **apaga**, como una brasa al amanecer, y su luz roja se vuelve cian y se mezcla con la de Nova. Las órdenes sin terminar de las que estaba hecho, por fin, quedaron completas.
+
+El núcleo se ilumina entero. {mentor} se endereza, levanta la cabeza y **camina**: un paso, otro, otro, por la caverna, por el pasillo de las compuertas, hasta la salida de las Forjas. Afuera es de día. Los enanos del Gremio, la tabernera, el Ogro de las Banderas y hasta el Troll de la Pila se asoman a mirarlo pasar.
+
+—Yo no adivino —dice el Gólem, con el sol en el ojo—. Hice exactamente lo que ella me enseñó.
+
+Y Nova descubre algo más: ahora que conoce cada palanca, cada cajón y cada plato de su cuerpo, siente que podría **encender otros**. Cuerpos mucho más chicos. Miles de cuerpos chiquitos.
+
+Pero esa es otra historia.
+
+#### Imagen
+- Un gólem de bronce gigante saliendo de una caverna a la luz del día, caminando, con el ojo encendido de cian y el pecho brillando.
+- Abajo, una multitud de enanos, un ogro enorme y un troll gris lo miran pasar, algunos aplaudiendo.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) camina al lado del pie del gólem, con la espada envainada.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) flota sobre el hombro del gólem, con los brazos abiertos al sol, y alrededor de sus manos giran cientos de lucecitas cian diminutas.
+- Gheco (gecko de luz cian con antiparras, chiquito) en la cabeza del gólem, con las antiparras levantadas, mirando el sol por primera vez.
+
+### Prueba del sello
+
+#### ¿Cómo se cuenta cuántos bits están prendidos en un byte?
+Con 8 vueltas de `shl` y `jnc`: cada vez que el bit que cae en CF es 1, se cuenta uno.
+
+#### ¿Por qué el tesoro necesita `imprimir_numero` y no el truco de las dos cifras?
+Porque la suma pasa de 99: hace falta una rutina que muestre cualquier número de 16 bits.
+
+#### ¿Cómo ayuda la pila a saber si una palabra es palíndromo?
+Las letras salen de la pila al revés: se comparan con la palabra al derecho.
+
+#### ¿Qué hay que hacer para escribir un programa grande?
+Partirlo en piezas chicas que se puedan escribir y probar solas, y después unirlas.

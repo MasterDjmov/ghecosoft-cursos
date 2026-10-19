@@ -2497,3 +2497,3078 @@ Que una cuenta con signo no entró (por ejemplo, 127 + 1 en un byte).
 
 #### ¿Sirven `je` y `jne` con signo y sin signo?
 Sí: igual es igual en las dos lecturas.
+
+## R02-N05 · Repetir: `loop`
+
+```meta
+tipo: tema
+criatura: ogre
+padre: R02-N04
+precio: 0
+temas: prog.bucles, maq.saltos
+```
+
+### Crónica
+
+Para que la pierna se mueva, alguien tiene que darle **cuerda** al resorte del muslo: girar la manivela una vez, y otra, y otra. Nova la gira cinco veces escribiendo cinco órdenes iguales y se cansa.
+
+—¿Y si fueran cien? —protesta.
+
+{mentor} hace sonar un engranaje, divertido. —Decime **cuántas veces**, decime **qué**, y yo lo repito. Para eso tengo la palanca **CX**: la palanca de contar.
+
+### Objetivos
+
+Repetir un bloque una cantidad fija de veces con `loop` y CX, acumular un resultado dentro de un bucle, evitar el
+`loop` con CX en 0 (`jcxz`) y anidar dos bucles sin que se pisen el contador.
+
+### Antes de empezar
+
+- Etiquetas y saltos (Las compuertas).
+- `add`, `inc`, `dec` y el truco de las dos cifras (Las cuentas del Gólem).
+
+### Explicación
+
+#### `loop`: repetir CX veces
+```asm
+    mov cx, 5            ; cuántas vueltas
+vuelta:
+    ...                  ; el cuerpo
+    loop vuelta          ; CX = CX - 1; si CX no llegó a 0, vuelve a "vuelta"
+```
+`loop` resta 1 a CX y, si no llegó a 0, salta a la etiqueta. Dentro del cuerpo, CX va valiendo 5, 4, 3, 2, 1:
+se puede usar para mostrar una cuenta regresiva.
+
+#### Acumular
+Un **acumulador** es una palanca que empieza en 0 y en cada vuelta suma algo:
+```asm
+    mov bl, 0
+    mov cx, 5
+suma:
+    add bl, cl           ; 5 + 4 + 3 + 2 + 1
+    loop suma            ; BL = 15
+```
+
+#### `loop` con CX en 0: 65.536 vueltas
+`loop` **primero resta** y después mira: si CX valía 0, pasa a 65535 y da la vuelta completa. Si la cantidad puede
+ser 0, poné antes `jcxz` (*jump if CX is zero*), que salta por encima del bucle:
+```asm
+    jcxz sin_vueltas
+vuelta:
+    ...
+    loop vuelta
+sin_vueltas:
+```
+
+#### Bucles anidados
+Si los dos bucles usan `loop`, comparten CX: el de adentro lo deja en 0 y rompe al de afuera. Que el de afuera
+cuente con **otra palanca** (BL, por ejemplo) con `dec` y `jnz`:
+```asm
+    mov bl, 3            ; 3 filas
+filas:
+    mov cx, 6            ; 6 ladrillos por fila
+ladrillos:
+    ...
+    loop ladrillos
+    dec bl
+    jnz filas            ; jnz: salta si el dec no dio 0
+```
+
+> **Puente con otras lenguas.** `loop` es el `for i in range(5)` de Python o el `for (int i = 5; i > 0; i--)` de
+> C, contado hacia atrás. Y el «acumulador» es el `total += x` de siempre.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t_cuenta db 'Cuenta regresiva: $'
+t_muro   db 13, 10, 'Muralla:', 13, 10, '$'
+salto    db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_cuenta
+    mov ah, 09h
+    int 21h
+    mov cx, 5
+cuenta:
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ' '
+    int 21h
+    loop cuenta
+
+    lea dx, t_muro
+    mov ah, 09h
+    int 21h
+    mov bl, 2
+filas:
+    mov cx, 4
+ladrillos:
+    mov dl, '#'
+    mov ah, 02h
+    int 21h
+    loop ladrillos
+    lea dx, salto
+    mov ah, 09h
+    int 21h
+    dec bl
+    jnz filas
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Cuenta regresiva: 5 4 3 2 1
+Muralla:
+####
+####
+```
+
+### ¿Para qué sirve?
+
+Recorrer una lista, dibujar una fila, repetir un intento, sumar todos los precios de un carrito: todo bucle de
+todo lenguaje termina siendo un contador, una comparación y un salto hacia atrás.
+
+### Errores habituales
+
+**Ogro: `loop` con CX en 0.** Da 65.536 vueltas. Si la cantidad puede ser 0, `jcxz` antes del bucle.
+
+**Ogro: el CX compartido.** Dos `loop` anidados con el mismo CX: el de afuera da una sola vuelta (o infinitas).
+Usá otra palanca para el de afuera.
+
+**Ogro: pisar CX adentro del cuerpo.** Un `mov cx, …` dentro del bucle (para otra cosa) arruina la cuenta.
+
+**Ogro: el `mov cx` adentro de la etiqueta.** Si `mov cx, 5` queda **después** de `vuelta:`, cada vuelta vuelve a
+poner 5 y el bucle no termina nunca: «El Gólem se quedó dando vueltas».
+
+### Micro-misión R02-N05-P1 · Cuenta regresiva
+
+```meta
+lugar: El muslo del Gólem
+personajes: Nova, Gheco
+carta: loop | mov cx, n · cuerpo · loop etiqueta = CX - 1 y, si no es 0, volvé · como for
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Antes de girar la manivela, Nova quiere contar para atrás, como en las carreras: 5, 4, 3, 2, 1.
+
+#### Gheco sugiere
+Poné en CX cuántas vueltas querés. Adentro, CX va valiendo 5, 4, 3, 2, 1: mostralo con `+ '0'`. Al final del cuerpo, `loop` con el nombre de la etiqueta.
+
+#### Desafío
+Completá la cantidad de vueltas y el `loop` para que el ojo muestre la cuenta regresiva.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, ___
+cuenta:
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ' '
+    int 21h
+    loop ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+5 4 3 2 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, 5
+cuenta:
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ' '
+    int 21h
+    loop cuenta
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+¡Uno! Nova gira la manivela de un tirón. Ejecutá **paso a paso** y mirá cómo CX baja en la pestaña **Palancas**, vuelta por vuelta.
+
+#### Imagen
+- Una manivela de bronce enorme en el muslo de un gólem, con un resorte en espiral a la vista.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) agarra la manivela con las dos manos, lista para girar.
+- Gheco (gecko de luz cian con antiparras, chiquito) levanta una banderita lisa, como largador de carrera.
+
+### Micro-misión R02-N05-P2 · Cinco vueltas de cuerda
+
+```meta
+lugar: El muslo del Gólem
+personajes: Nova, Gheco
+carta: Acumulador | empieza en 0 · en cada vuelta suma algo · como total += x
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Cada vuelta de manivela le da al resorte tanta fuerza como el número de la vuelta: la quinta da 5, la cuarta 4… Nova quiere saber cuánta fuerza juntó en total.
+
+#### Gheco sugiere
+BL es el **acumulador**: empieza en 0. En cada vuelta, sumale CL (que va 5, 4, 3, 2, 1).
+
+#### Desafío
+Completá la suma de adentro del bucle para que BL termine con la fuerza total.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    mov cx, 5
+cuerda:
+    add bl, ___
+    loop cuerda
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BL = 15
+CX = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    mov cx, 5
+cuerda:
+    add bl, cl
+    loop cuerda
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Quince de fuerza. El resorte del muslo queda tenso, vibrando. —Un `total += x` —dice Nova—, pero con mis propias palancas.
+
+#### Imagen
+- Un resorte de bronce enorme, tenso y brillante, dentro del muslo de un gólem.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) se seca la frente, cansada pero contenta, apoyada en la manivela.
+- Gheco (gecko de luz cian con antiparras, chiquito) mide el resorte con una cinta métrica lisa.
+
+### Micro-misión R02-N05-P3 · Cero vueltas
+
+```meta
+lugar: El muslo del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: jcxz | salta si CX = 0 · ponelo antes de un loop si la cantidad puede ser 0
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira dejó anotado en un cajón cuántas estrellas hay que dibujar en el muslo: **0**. Nova arma el bucle… y el Gólem empieza a dibujar estrellas sin parar. Un ogro aplaude.
+
+#### Gheco sugiere
+`loop` primero resta: con CX en 0, pasa a 65535 y da la vuelta entera. Antes del bucle, `jcxz sin_estrellas` salta por encima si CX vale 0.
+
+#### Desafío
+Tocá **Ejecutar** y mirá lo que pasa. Después agregá el `jcxz` para que, con 0 estrellas, no se dibuje ninguna.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+cuantas db 0
+titulo  db 'Estrellas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, titulo
+    mov ah, 09h
+    int 21h
+
+    mov cl, cuantas
+    mov ch, 0
+estrella:
+    mov dl, '*'
+    mov ah, 02h
+    int 21h
+    loop estrella
+sin_estrellas:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Estrellas:
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+cuantas db 0
+titulo  db 'Estrellas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, titulo
+    mov ah, 09h
+    int 21h
+
+    mov cl, cuantas
+    mov ch, 0
+    jcxz sin_estrellas
+estrella:
+    mov dl, '*'
+    mov ah, 02h
+    int 21h
+    loop estrella
+sin_estrellas:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Ninguna estrella, como pedía Kira. El ogro se queda con las manos en el aire, a mitad del aplauso.
+
+#### Imagen
+- El muslo de bronce de un gólem gigante cubierto de estrellitas cian dibujadas, demasiadas, una al lado de otra.
+- Un ogro grandote y torpe aplaudiendo, encantado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) borra las estrellas con un trapo de luz.
+- Gheco (gecko de luz cian con antiparras, chiquito) se tapa los ojos.
+
+### Micro-misión R02-N05-P4 · La muralla
+
+```meta
+lugar: El muslo del Gólem
+personajes: Nova, Gheco
+carta: Bucles anidados | el de adentro con loop (CX) · el de afuera con otra palanca: dec bl + jnz
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para proteger el resorte, Nova quiere levantar una muralla de **3** filas de **6** ladrillos cada una.
+
+#### Gheco sugiere
+El bucle de adentro dibuja una fila con `loop` (CX = 6). El de afuera cuenta las filas con **BL**: después de cada fila, salto de renglón, `dec bl` y `jnz filas` (salta si BL no llegó a 0). Ojo: el `mov cx, 6` va **adentro** del bucle de afuera, para que cada fila empiece de nuevo.
+
+#### Desafío
+Completá las tres órdenes que faltan para que se dibujen las 3 filas.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+salto db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, ___
+filas:
+    mov cx, ___
+ladrillos:
+    mov dl, '#'
+    mov ah, 02h
+    int 21h
+    loop ladrillos
+    lea dx, salto
+    mov ah, 09h
+    int 21h
+    dec bl
+    ___ filas
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+######
+######
+######
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+salto db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 3
+filas:
+    mov cx, 6
+ladrillos:
+    mov dl, '#'
+    mov ah, 02h
+    int 21h
+    loop ladrillos
+    lea dx, salto
+    mov ah, 09h
+    int 21h
+    dec bl
+    jnz filas
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Tres filas parejas. —Un bucle adentro de otro —dice Nova—, cada uno con su propia palanca de contar.
+
+#### Imagen
+- Una muralla chica de ladrillos de bronce, tres filas de seis, delante de un resorte enorme.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) coloca el último ladrillo.
+- Gheco (gecko de luz cian con antiparras, chiquito) camina por arriba de la muralla, como un equilibrista.
+
+### Micro-misión R02-N05-P5 · La feria de los números
+
+```meta
+lugar: El muslo del Gólem
+personajes: Nova, Gheco, Kira
+carta: loop + acumulador | sumar 1 + 2 + … + 9 · mostrar el resultado en dos cifras
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+En la feria de las Forjas hay un juego: el que diga cuánto da **1 + 2 + 3 + … + 9** se lleva un premio. Kira desafía al Gólem.
+
+#### Gheco sugiere
+Un `loop` con CX = 9 y un acumulador en BL que suma CL en cada vuelta. Después, el truco de las dos cifras: AL = BL, AH en 0, dividí por 10, guardá AX en CX y mostrá las dos.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Suma: 45`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Suma: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Suma: 45
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Suma: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    mov bl, 0
+    mov cx, 9
+sumar:
+    add bl, cl
+    loop sumar
+
+    mov al, bl
+    mov ah, 0
+    mov bl, 10
+    div bl
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Suma: 45». El feriante le entrega a Kira un muñequito de bronce del Gólem. Ella se lo regala a Nova, que no tiene manos de verdad para agarrarlo, pero lo guarda en un cajón igual.
+
+#### Imagen
+- Un puesto de feria de las Forjas, con banderines lisos de colores y faroles.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) recibe un muñequito de bronce con forma de gólem de manos del feriante, un enano sonriente.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el mostrador.
+- Al fondo, el ojo de un gólem gigante encendido, mirando la feria.
+
+### Prueba del sello
+
+#### ¿Qué hace `loop vuelta`?
+Le resta 1 a CX y, si CX no llegó a 0, salta a `vuelta`.
+
+#### ¿Qué pasa si se entra a un `loop` con CX en 0?
+Da 65.536 vueltas, porque `loop` primero resta. Se evita con `jcxz` antes del bucle.
+
+#### En dos bucles anidados, ¿por qué el de afuera no puede usar `loop` también?
+Porque compartirían CX: el de adentro lo deja en 0 y arruina la cuenta del de afuera.
+
+#### ¿Qué es un acumulador?
+Una palanca (o variable) que empieza en 0 y en cada vuelta suma algo.
+
+## R02-N06 · Mientras y hasta que
+
+```meta
+tipo: tema
+criatura: ogre
+padre: R02-N05
+precio: 0
+temas: prog.bucles, maq.saltos
+```
+
+### Crónica
+
+En la cadera del Gólem hay un **horno** pequeño que calienta el aceite de las piernas. Hay que soplar el fuelle **mientras** el horno esté frío, y no se sabe de antemano cuántas veces.
+
+Kira, del otro lado de una puerta, golpea para entrar. —¿Cuántas veces va a golpear? —pregunta Nova. —No sé —dice Gheco—. **Hasta que** diga basta.
+
+### Objetivos
+
+Repetir mientras se cumpla una condición (**mientras**, que pregunta antes de cada vuelta) y repetir hasta que
+algo pase (**hacer… hasta que**, que pregunta al final y se ejecuta al menos una vez); evitar el bucle infinito y
+el «uno de más»; leer teclas hasta un terminador.
+
+### Antes de empezar
+
+- `loop` y los bucles anidados (Repetir).
+- `ja`, `jae`, `jb`, `jbe` (Dos caminos).
+
+### Explicación
+
+#### Mientras: la pregunta va antes
+```asm
+mientras:
+    cmp calor, 8
+    jae fin_mientras     ; si NO se cumple "calor < 8", se termina
+    add calor, 3         ; el cuerpo
+    jmp mientras         ; volver a preguntar
+fin_mientras:
+```
+Se compara al principio y se **sale** con el salto **contrario** a la condición. Si de entrada no se cumple, el
+cuerpo no se ejecuta nunca.
+
+#### Hacer… hasta que: la pregunta va al final
+```asm
+hacer:
+    mov ah, 01h          ; el cuerpo: leer una tecla
+    int 21h
+    cmp al, 'x'
+    jne hacer            ; repetir hasta que sea 'x'
+```
+El cuerpo va primero y la pregunta al final, así que se ejecuta **al menos una vez**. Es lo ideal para menús y
+para leer hasta que el usuario diga basta.
+
+#### Algo tiene que cambiar
+En un «mientras», el cuerpo tiene que cambiar algo que la condición mira. Si no, la condición nunca deja de
+cumplirse: el Gólem se queda dando vueltas para siempre.
+
+> **Puente con otras lenguas.** El primero es el `while` de C, Python y Java; el segundo, el `do { } while` de C
+> y Java (Python no lo tiene: se arma con `while True` y un `break`).
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+calor   db 0
+golpes  db 0
+t_fuel  db 'Fuelle: $'
+t_golpe db 13, 10, 'Golpes (x para terminar): $'
+t_total db 13, 10, 'Golpes dados: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_fuel
+    mov ah, 09h
+    int 21h
+mientras:
+    cmp calor, 8
+    jae fin_mientras
+    add calor, 3
+    mov dl, calor
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ' '
+    int 21h
+    jmp mientras
+fin_mientras:
+
+    lea dx, t_golpe
+    mov ah, 09h
+    int 21h
+hacer:
+    mov ah, 01h
+    int 21h
+    cmp al, 'g'
+    jne no_golpe
+    inc golpes
+no_golpe:
+    cmp al, 'x'
+    jne hacer
+
+    lea dx, t_total
+    mov ah, 09h
+    int 21h
+    mov dl, golpes
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Entrada de ejemplo
+
+```
+g
+g
+z
+g
+x
+```
+
+### Salida esperada
+
+```
+Fuelle: 3 6 9
+Golpes (x para terminar): ggzgx
+Golpes dados: 3
+```
+
+### ¿Para qué sirve?
+
+La mayoría de los bucles reales no saben de antemano cuántas vueltas van a dar: leer un archivo hasta el final,
+esperar que el jugador apriete una tecla, reintentar hasta que la conexión ande. Para eso están el «mientras» y
+el «hasta que».
+
+### Errores habituales
+
+**Ogro: el bucle infinito.** Un «mientras» en el que nada cambia la condición (falta el `add calor, 3`): «El Gólem
+se quedó dando vueltas».
+
+**Ogro: uno de más.** `ja` donde iba `jae` da una vuelta extra. Revisá siempre el primer y el último valor.
+
+**Ogro: el «mientras» que nunca entra.** Si la condición ya no se cumple de entrada, el cuerpo no se ejecuta ni
+una vez. Si tiene que ejecutarse al menos una vez, es un «hasta que».
+
+### Micro-misión R02-N06-P1 · El fuelle
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco
+carta: Mientras | pregunta antes · se sale con el salto contrario · jmp para volver a preguntar
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El horno de la cadera necesita llegar a **8** de calor. Cada soplido del fuelle suma 3. Nova sopla **mientras** el calor sea menor que 8.
+
+#### Gheco sugiere
+Arriba de todo, la pregunta: `cmp calor, 8` y, si ya es **mayor o igual**, salir (`jae fin_mientras`). Al final del cuerpo, `jmp mientras` para volver a preguntar.
+
+#### Desafío
+Completá el salto de salida y el de vuelta.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+calor db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+mientras:
+    cmp calor, 8
+    ___ fin_mientras
+    add calor, 3
+    ___ mientras
+fin_mientras:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[calor] = 9
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+calor db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+mientras:
+    cmp calor, 8
+    jae fin_mientras
+    add calor, 3
+    jmp mientras
+fin_mientras:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Tres soplidos: 3, 6, 9. El horno ruge. —No sabía cuántas veces iba a soplar —dice Nova—. El Gólem preguntó cada vez.
+
+#### Imagen
+- Un horno pequeño de bronce con la boca encendida de luz naranja, en la cadera de un gólem.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) aprieta un fuelle de cuero y bronce.
+- Gheco (gecko de luz cian con antiparras, chiquito) se calienta las patitas delante del horno.
+
+### Micro-misión R02-N06-P2 · El fuelle que no termina
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: Bucle infinito | algo del cuerpo tiene que cambiar lo que mira la condición
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova vuelve a escribir el bucle del fuelle de memoria, ejecuta… y el Gólem se queda soplando para siempre. Un ogro, muerto de risa, se sienta a mirar.
+
+#### Gheco sugiere
+Ejecutá **paso a paso**: ¿qué cambia en cada vuelta? Si `calor` no sube nunca, la pregunta da siempre igual y el bucle no termina. Falta la orden que **sopla**.
+
+#### Desafío
+Tocá **Ejecutar** y mirá el aviso. Después agregá lo que falta para que el calor suba de a 3 y el bucle termine.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+calor db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+mientras:
+    cmp calor, 8
+    jae fin_mientras
+    jmp mientras
+fin_mientras:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[calor] = 9
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+calor db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+mientras:
+    cmp calor, 8
+    jae fin_mientras
+    add calor, 3
+    jmp mientras
+fin_mientras:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El fuelle se detiene a tiempo. El ogro, aburrido, se va a buscar otro bucle donde reírse.
+
+#### Imagen
+- Un fuelle de cuero y bronce gastado, echando humo, con remiendos.
+- Un ogro grandote y torpe sentado en el piso, con los codos en las rodillas, mirando divertido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) frena el fuelle con las dos manos.
+- Gheco (gecko de luz cian con antiparras, chiquito) mareado, con los ojitos en espiral.
+
+### Micro-misión R02-N06-P3 · Los escalones
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: Uno de más | ja = mayor · jae = mayor o igual · probá el primer y el último valor
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una escalera sube de la cadera a la cintura: **5** escalones. Nova los numera mientras sube, pero el ojo muestra **123456**: un escalón de más, que no existe. Un ogro lo subió y se cayó.
+
+#### Gheco sugiere
+Con `ja`, el bucle sigue también cuando el escalón ya es 5. Para salir apenas llega a 5, el salto tiene que ser **mayor o igual**.
+
+#### Desafío
+Tocá **Ejecutar** y mirá el escalón de más. Después arreglá el salto para que muestre `12345`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+escalon db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+subir:
+    cmp escalon, 5
+    ja  arriba
+    inc escalon
+    mov dl, escalon
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    jmp subir
+arriba:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+12345
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+escalon db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+subir:
+    cmp escalon, 5
+    jae arriba
+    inc escalon
+    mov dl, escalon
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    jmp subir
+arriba:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Cinco escalones, justos. El ogro, sentado en el piso con un chichón, se rasca la cabeza.
+
+#### Imagen
+- Una escalera de bronce de cinco escalones que sube por el interior de un gólem, con un hueco de aire donde estaría un sexto.
+- Un ogro grandote sentado en el piso al pie de la escalera, con un chichón en la cabeza.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) parada en el quinto escalón, mirando hacia abajo, preocupada.
+- Gheco (gecko de luz cian con antiparras, chiquito) le alcanza al ogro una curita.
+
+### Micro-misión R02-N06-P4 · Los golpes en la puerta
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco, Kira
+carta: Hasta que | cuerpo primero · cmp + salto al final · se ejecuta al menos una vez · como do-while
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira golpea la puerta de la cadera para que le abran: cada **g** es un golpe, y la **x** quiere decir «basta». El Gólem tiene que contar los golpes **hasta que** llegue la x.
+
+#### Gheco sugiere
+El cuerpo va primero: leer una tecla y, si es `'g'`, sumar un golpe. Al final, la pregunta: si **no** es la `'x'`, volver a `hacer`.
+
+#### Desafío
+Completá la comparación del final y el salto de vuelta. Kira va a golpear `g`, `g`, `z`, `g` y `x`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+golpes db 0
+t_tot  db 13, 10, 'Golpes: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+hacer:
+    mov ah, 01h
+    int 21h
+    cmp al, 'g'
+    jne no_golpe
+    inc golpes
+no_golpe:
+    cmp al, ___
+    ___ hacer
+
+    lea dx, t_tot
+    mov ah, 09h
+    int 21h
+    mov dl, golpes
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+g
+g
+z
+g
+x
+```
+
+#### Salida esperada
+```
+ggzgx
+Golpes: 3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+golpes db 0
+t_tot  db 13, 10, 'Golpes: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+hacer:
+    mov ah, 01h
+    int 21h
+    cmp al, 'g'
+    jne no_golpe
+    inc golpes
+no_golpe:
+    cmp al, 'x'
+    jne hacer
+
+    lea dx, t_tot
+    mov ah, 09h
+    int 21h
+    mov dl, golpes
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Tres golpes, y la puerta se abre. Kira entra frotándose los nudillos. —La **z** fue sin querer —se excusa.
+
+#### Imagen
+- Una puerta redonda de bronce abriéndose en la cadera de un gólem gigante.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) entra frotándose los nudillos.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) la recibe del otro lado, contando con los dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) con tres rayitas dibujadas en una pizarrita lisa.
+
+### Micro-misión R02-N06-P5 · Las aes del hechizo
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco, Kira
+carta: Leer hasta un terminador | hacer… hasta que la tecla sea '.' · contar las que cumplen algo
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira encontró un hechizo grabado en la cadera, pero solo funciona si se cuentan sus **aes**. Le va a dictar al Gólem las letras una por una, y un **punto** al final.
+
+#### Gheco sugiere
+Un «hasta que»: leer una tecla; si es `'a'`, sumar 1 a un contador; repetir hasta que la tecla sea `'.'`. Al final, mostrar el contador con `+ '0'`.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a dictar `h`, `a`, `d`, `a`, `a` y `.`, y el ojo tiene que terminar diciendo `Aes: 3`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+aes   db 0
+t_aes db 13, 10, 'Aes: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+h
+a
+d
+a
+a
+.
+```
+
+#### Salida esperada
+```
+hadaa.
+Aes: 3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+aes   db 0
+t_aes db 13, 10, 'Aes: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+leer:
+    mov ah, 01h
+    int 21h
+    cmp al, 'a'
+    jne no_a
+    inc aes
+no_a:
+    cmp al, '.'
+    jne leer
+
+    lea dx, t_aes
+    mov ah, 09h
+    int 21h
+    mov dl, aes
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Aes: 3». El hechizo se activa: las piernas del Gólem se calientan de golpe y, por primera vez en siglos, los dedos del pie se mueven. Abajo, en la taberna, se caen todos los vasos.
+
+#### Imagen
+- Los dedos de bronce de un pie gigante moviéndose, y una taberna de enanos entre ellos con vasos de madera volando por el aire.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) se asoma desde arriba, tapándose la boca, entre culpable y divertida.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se ríe a carcajadas.
+- Gheco (gecko de luz cian con antiparras, chiquito) atrapa un vaso en el aire.
+
+### Prueba del sello
+
+#### ¿Qué diferencia hay entre un «mientras» y un «hacer… hasta que»?
+El «mientras» pregunta antes (puede no ejecutarse nunca); el «hasta que» pregunta al final (se ejecuta al menos una vez).
+
+#### ¿Por qué un «mientras» puede no terminar nunca?
+Porque nada en el cuerpo cambia lo que mira la condición.
+
+#### En un «mientras calor < 8», ¿con qué salto se sale?
+Con el contrario: `jae` (mayor o igual).
+
+#### ¿Qué conviene usar para leer teclas hasta que el usuario escriba un punto?
+Un «hacer… hasta que»: leer primero y preguntar al final.
+
+## R02-N07 · Bits y máscaras: los interruptores de a uno
+
+```meta
+tipo: tema
+criatura: goblin
+padre: R02-N06
+precio: 0
+temas: prog.bits, maq.numeracion
+```
+
+### Crónica
+
+En la cintura del Gólem hay un tablero con **ocho** interruptores chiquitos en fila, uno por cada bit de un cajón. Cada uno controla algo distinto: una luz, una válvula, un freno.
+
+—Quiero prender **solo** el de la válvula —dice Nova—, sin tocar los demás.
+
+Gheco saca de la cola un cartoncito con agujeros. —Para eso se usa una **máscara**: tapa los que no querés tocar y deja pasar el que sí.
+
+### Objetivos
+
+Operar **bit por bit** con `and`, `or`, `xor`, `not` y `test`; usar **máscaras** para apagar, prender, invertir o
+consultar bits; escribir números en binario (`00100000b`); y multiplicar o dividir por 2 corriendo los bits con
+`shl`, `shr` y `sar`.
+
+### Antes de empezar
+
+- Binario y hexadecimal (Clase 0).
+- `cmp`, `je`, `jne` y `loop` (nodos anteriores).
+
+### Explicación
+
+#### Bit por bit
+Estas órdenes comparan cada bit del destino con el de la fuente, de a uno:
+
+| a | b | `and` | `or` | `xor` |
+|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | 0 |
+| 0 | 1 | 0 | 1 | 1 |
+| 1 | 0 | 0 | 1 | 1 |
+| 1 | 1 | 1 | 1 | 0 |
+
+`not` invierte todos los bits. Un número en binario se escribe con `b` al final: `00100000b`.
+
+#### Las máscaras
+| Para… | Orden | La máscara tiene… | Ejemplo |
+|---|---|---|---|
+| **apagar** bits | `and` | 0 en los bits a apagar | `and x, 11111101b` apaga el bit 1 |
+| **prender** bits | `or` | 1 en los bits a prender | `or x, 00000100b` prende el bit 2 |
+| **invertir** bits | `xor` | 1 en los bits a invertir | `xor x, 00000001b` |
+| **consultar** un bit | `test` | 1 en el bit a mirar | `test x, 1` + `jz` / `jnz` |
+
+Los bits se numeran desde la **derecha**, empezando por el 0. `test` es un `and` que no guarda el resultado: solo
+prende ZF si el bit estaba en 0.
+
+#### Mayúsculas y minúsculas
+`'A'` es `01000001b` y `'a'` es `01100001b`: solo cambia el **bit 5** (que vale 32). `or al, 00100000b` pasa a
+minúscula; `and al, 11011111b`, a mayúscula; `xor al, 00100000b` invierte.
+
+#### Correr los bits
+- `shl x, 1`: corre los bits a la izquierda (entra un 0 por la derecha; el que se cae va a **CF**): **× 2**.
+- `shr x, 1`: los corre a la derecha: **÷ 2** sin signo. `sar x, 1` hace lo mismo con signo (conserva el bit de
+  signo).
+- En el 8086, para correr **más de un lugar**, la cantidad va en CL: `mov cl, 3` y `shl al, cl`.
+
+> **Puente con otras lenguas.** `&`, `|`, `^`, `~`, `<<` y `>>` de C, Python, Java y JavaScript son exactamente
+> estas órdenes. Los permisos de un archivo (`rwx`), los colores (`0xFF00FF`) y las teclas presionadas en un juego
+> se guardan así: un bit por cosa.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t_letra db 'K en binario: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_letra
+    mov ah, 09h
+    int 21h
+
+    mov bl, 'K'
+    mov cx, 8
+bits:
+    shl bl, 1            ; el bit más alto cae en CF
+    mov dl, '0'
+    jnc es_cero          ; jnc: salta si CF = 0
+    mov dl, '1'
+es_cero:
+    mov ah, 02h
+    int 21h
+    loop bits
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+K en binario: 01001011
+```
+
+### ¿Para qué sirve?
+
+Los bits están en todos lados: permisos de archivos, banderas de configuración, colores, compresión, gráficos,
+protocolos de red. Y `shl`/`shr` son la forma más rápida de multiplicar y dividir por 2: los compiladores los
+usan solos cuando escribís `x * 8`.
+
+### Errores habituales
+
+**Goblin: `shl` de más de un lugar.** `shl al, 3` no existe en el 8086:
+```
+main.asm(9) : Error A2030: Instruction or register not accepted in current CPU mode
+```
+`mov cl, 3` y `shl al, cl`.
+
+**Ogro: la máscara al revés.** `and x, 00000100b` para «apagar el bit 2» apaga **todos los demás** y deja solo
+ese. Para apagar, la máscara tiene 0 donde se apaga.
+
+**Ogro: `test` y el salto equivocado.** `jz` salta si el bit es **0**; `jnz`, si es 1.
+
+**Ogro: `shr` a un negativo.** `shr` mete ceros: −8 (`F8h`) pasa a 124. Para dividir con signo, `sar`.
+
+### Micro-misión R02-N07-P1 · Apagar el freno
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco
+carta: and | apaga bits · máscara con 0 donde se apaga y 1 en el resto
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El tablero de la cintura tiene prendidos tres interruptores: `00000111b`. El del **bit 1** es el freno de la pierna, y hay que **apagarlo** sin tocar los otros dos.
+
+#### Gheco sugiere
+`and` con una máscara que tenga **0** en el bit a apagar y **1** en todos los demás: lo que tiene 1 en la máscara queda como estaba. Los bits se cuentan desde la derecha, empezando en 0.
+
+#### Desafío
+Completá la máscara para que el tablero quede en `00000101b` (5).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+tablero db 00000111b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    and tablero, ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[tablero] = 5
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+tablero db 00000111b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    and tablero, 11111101b
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Clic: se apaga una sola lucecita, la del medio. La pierna del Gólem, sin freno, se balancea suave.
+
+#### Imagen
+- Un tablero de bronce con ocho interruptores chiquitos en fila, cada uno con una lucecita: la primera y la tercera de la derecha encendidas en cian, la del medio recién apagada.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene sobre el tablero un cartoncito con agujeros.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira por uno de los agujeros.
+
+### Micro-misión R02-N07-P2 · La letra chiquita
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco
+carta: or | prende bits · 'A' or 00100000b = 'a' · el bit 5 separa mayúsculas de minúsculas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el tablero hay grabada una **K** mayúscula, pero el hechizo de la cintura pide la **k** minúscula. Gheco recuerda que entre las dos hay **un solo** bit de diferencia.
+
+#### Gheco sugiere
+`'K'` y `'k'` solo difieren en el **bit 5**. Prendelo con `or` y una máscara que tenga un 1 solo ahí: `00100000b`.
+
+#### Desafío
+Completá la máscara para que AL pase de `'K'` a `'k'` y el ojo la muestre.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 'K'
+    or  al, ___
+
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+k
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 'K'
+    or  al, 00100000b
+
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La K grabada se achica sola en el bronce. —Una mayúscula es una minúscula con un interruptor apagado —dice Nova, maravillada.
+
+#### Imagen
+- Una placa de bronce con dos rombos grabados, uno grande y uno chico, y una chispa cian saltando del grande al chico.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca la placa con un dedo.
+- Gheco (gecko de luz cian con antiparras, chiquito) se achica a propósito, haciéndose bolita.
+
+### Micro-misión R02-N07-P3 · ¿Par o impar? Con un bit
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco, Kira
+carta: test | test x, 1 = mira el bit 0 · jz: estaba en 0 (par) · jnz: estaba en 1 (impar)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira vuelve con su juego del par o impar. Esta vez Gheco tiene un truco: no hace falta dividir. Alcanza con mirar **un bit**.
+
+#### Gheco sugiere
+Todo número impar tiene el **bit 0** prendido. `test al, 1` lo consulta sin cambiar AL: si estaba en 0, se prende ZF y `jz` salta.
+
+#### Desafío
+Completá el `test` y el salto. Kira va a decir el `6`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+pide    db 'Un numero: $'
+t_par   db 13, 10, 'Es par.$'
+t_impar db 13, 10, 'Es impar.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+    mov ah, 01h
+    int 21h
+
+    test al, ___
+    ___ par
+    lea dx, t_impar
+    jmp mostrar
+par:
+    lea dx, t_par
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+6
+```
+
+#### Salida esperada
+```
+Un numero: 6
+Es par.
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+pide    db 'Un numero: $'
+t_par   db 13, 10, 'Es par.$'
+t_impar db 13, 10, 'Es impar.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+    mov ah, 01h
+    int 21h
+
+    test al, 1
+    jz  par
+    lea dx, t_impar
+    jmp mostrar
+par:
+    lea dx, t_par
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+—¡Ni siquiera tuviste que restar el `'0'`! —se sorprende Kira. —El `'6'` también es par —explica Gheco—: su bit 0 está apagado igual.
+
+#### Imagen
+- Un tablero de bronce con ocho interruptores en fila; el de la derecha de todo, apagado, iluminado por una lupa cian.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) levanta seis dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sostiene la lupa.
+
+### Micro-misión R02-N07-P4 · El goblin del corrimiento
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco
+criatura: goblin
+carta: shl con CL | shl x, 1 = x · 2 · para correr más lugares: mov cl, n + shl x, cl
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para multiplicar la fuerza de la pierna por **8**, Nova corre los bits tres lugares: `shl al, 3`. Un goblin aparece gritando *«not accepted in current CPU mode»*.
+
+#### Gheco sugiere
+Correr 3 lugares a la izquierda es multiplicar por 2 × 2 × 2 = 8. Pero en el 8086, la cantidad (si es más de 1) va en **CL**: `mov cl, 3` y `shl al, cl`.
+
+#### Desafío
+Tocá **Ejecutar** para ver al goblin. Después arreglalo para que AL pase de 3 a **24**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3
+    shl al, 3
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 24
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3
+    mov cl, 3
+    shl al, cl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La pierna se tensa con fuerza de 24. El goblin se va gruñendo: en un procesador más nuevo le habría ganado.
+
+#### Imagen
+- Un goblin verde y flaco, enojado, empujando una fila de bloquecitos de bronce que se corren hacia la izquierda.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene una palanquita con tres rayitas.
+- Gheco (gecko de luz cian con antiparras, chiquito) se cae de un bloquecito que se corrió.
+
+### Micro-misión R02-N07-P5 · El nombre en binario
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco
+carta: Mostrar en binario | 8 vueltas · shl bl, 1 · el bit cae en CF · jnc elige '0' o '1'
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Nova quiere ver cómo se escribe **su** inicial en el idioma de los interruptores: la **N**, bit por bit.
+
+#### Gheco sugiere
+Un `loop` de 8 vueltas. En cada una, `shl bl, 1` empuja el bit más alto a **CF**. Si CF quedó en 0 (`jnc`), mostrás `'0'`; si no, `'1'`.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre la N en binario.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+texto db 'N = $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    mov bl, 'N'
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+N = 01001110
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+texto db 'N = $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    mov bl, 'N'
+    mov cx, 8
+bits:
+    shl bl, 1
+    mov dl, '0'
+    jnc cero
+    mov dl, '1'
+cero:
+    mov ah, 02h
+    int 21h
+    loop bits
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+**01001110**. Los ocho interruptores de la cintura se acomodan solos en ese orden y la cintura del Gólem gira, por primera vez, de un lado al otro.
+
+#### Imagen
+- Un tablero de bronce con ocho interruptores en fila, cuatro encendidos en cian y cuatro apagados, alternados.
+- La cintura de un gólem gigante girando, con engranajes en movimiento.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) con los brazos abiertos, girando con la cintura.
+- Gheco (gecko de luz cian con antiparras, chiquito) agarrado a un interruptor encendido.
+
+### Prueba del sello
+
+#### ¿Qué orden y qué máscara apagan el bit 0 de AL?
+`and al, 11111110b`.
+
+#### ¿Qué diferencia hay entre `and` y `test`?
+`test` hace el mismo `and` pero no guarda el resultado: solo cambia los interruptores.
+
+#### ¿Qué hace `shl al, 1` con el número?
+Lo multiplica por 2 (y el bit que se cae queda en CF).
+
+#### ¿Qué bit separa las mayúsculas de las minúsculas?
+El bit 5 (vale 32).
+
+## R02-N08 · Arreglos e índices: muchos cajones, un nombre
+
+```meta
+tipo: tema
+criatura: orc
+padre: R02-N07
+precio: 0
+temas: col.arrays, col.matrices, maq.direcciones
+```
+
+### Crónica
+
+En el muslo derecho del Gólem hay un **arsenal**: una fila de cajones con las armas de los antiguos guardianes, y al lado otra fila con el daño de cada una. Kira quiere saber cuál es la más débil, para no elegirla.
+
+—Son muchas —dice Nova—. No voy a escribir una orden por cajón.
+
+—No hace falta —dice Gheco—. Una palanca que **señale** el cajón, y un bucle que la vaya corriendo.
+
+### Objetivos
+
+Recorrer un **arreglo** con un puntero (`[si]`) o con un índice (`danio[si]`), saber cuánto avanzar en arreglos
+de bytes y de words, buscar el mínimo guardando su **posición**, y ubicar un elemento en una **matriz** guardada
+fila tras fila.
+
+### Antes de empezar
+
+- `offset`, `dup`, `nombre+1` y `byte ptr` (Dirección y contenido).
+- `[si]` (La boca de bronce).
+- `loop` (Repetir).
+
+### Explicación
+
+#### Un arreglo es una fila de cajones
+```asm
+armas   db 'E', 'A', 'B', 'L', 'D'    ; 5 bytes seguidos
+danio   db 3, 5, 2, 7, 4
+escudos dw 6, 9, 4                    ; 3 words: 6 bytes
+```
+`armas` es el **primer** cajón; el elemento `i` está en `armas + i`. En un arreglo de **words**, cada elemento
+ocupa 2 cajones: el elemento `i` está en `escudos + 2*i`.
+
+#### Recorrer con un puntero
+```asm
+    lea si, armas          ; SI señala el primero
+    mov cx, 5
+ver:
+    mov dl, [si]           ; el cajón que señala SI
+    ...
+    inc si                 ; el siguiente (en words: add si, 2)
+    loop ver
+```
+
+#### Recorrer con un índice
+```asm
+    mov si, 3
+    mov al, danio[si]      ; el cajón danio + 3: AL = 7
+```
+Las dos formas valen; la del índice deja a mano la **posición**, útil para saber **dónde** está algo.
+
+#### Las palancas que pueden señalar
+Entre corchetes solo pueden ir **BX, SI, DI y BP**. Se pueden combinar: `[bx + si]`, `[bx + 2]`, `danio[si]`.
+
+#### Matrices
+Una matriz de 3 filas × 4 columnas se guarda **fila tras fila**. El elemento `[fila][col]` está en
+`mapa + fila * 4 + col`. Al revés: si sabés la posición, dividila por 4: el cociente es la fila y el resto la
+columna.
+
+> **Puente con otras lenguas.** `danio[si]` es el `danio[i]` de C, Python o Java; `[si]` con `inc si` es recorrer
+> con un puntero (`*p++` en C). Y la fórmula de la matriz es la que usa C por dentro con `mapa[fila][col]`.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+armas  db 'E', 'A', 'B', 'L', 'D'
+danio  db 3, 5, 2, 7, 4
+t_arm  db 'Armas: $'
+t_tot  db 13, 10, 'Dano total: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_arm
+    mov ah, 09h
+    int 21h
+    lea si, armas
+    mov cx, 5
+ver:
+    mov dl, [si]
+    mov ah, 02h
+    int 21h
+    inc si
+    loop ver
+
+    mov bl, 0
+    mov si, 0
+    mov cx, 5
+sumar:
+    add bl, danio[si]
+    inc si
+    loop sumar
+
+    lea dx, t_tot
+    mov ah, 09h
+    int 21h
+    mov al, bl
+    mov ah, 0
+    mov bl, 10
+    div bl
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Armas: EABLD
+Dano total: 21
+```
+
+### ¿Para qué sirve?
+
+Las listas de Python, los arrays de C y Java, los textos, las imágenes (una matriz de puntos) y los mapas de los
+juegos son, por debajo, cajones seguidos y una palanca que los recorre. Entender esto explica por qué en C un
+índice fuera de rango no avisa y rompe cosas lejos de donde ocurrió.
+
+### Errores habituales
+
+**Orco: el word recorrido de a 1.** `inc si` en un arreglo de words lee medio elemento y medio del siguiente. En
+words: `add si, 2`.
+
+**Orco: salirse del arreglo.** Con CX o la condición de fin mal puestos, el bucle lee (o escribe) los cajones que
+siguen: las otras variables. El 8086 **no avisa**.
+
+**Goblin: una palanca que no puede señalar.** `mov al, [ax]` o `[cx]`:
+```
+main.asm(11) : Error A2033: Must be index or base register
+```
+Usá BX, SI, DI o BP.
+
+**Goblin: tamaño ambiguo.** `inc [si]`: ¿un cajón o dos?
+```
+main.asm(11) : Error A2182: Instruction operand must have size
+```
+`inc byte ptr [si]` o `inc word ptr [si]`.
+
+### Micro-misión R02-N08-P1 · El cuarto cajón
+
+```meta
+lugar: El arsenal del muslo
+personajes: Nova, Gheco
+carta: Índice | danio[si] = el cajón danio + SI · el primero es el 0 · como danio[3]
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kira quiere saber cuánto daño hace la **cuarta** arma del arsenal. Nova cuenta: primera, segunda, tercera, cuarta…
+
+#### Gheco sugiere
+El primer elemento está en el índice **0**. El cuarto, entonces, en el índice 3. Poné ese número en SI y leé `danio[si]`.
+
+#### Desafío
+Completá el índice para que AL quede con el daño de la cuarta arma.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+danio db 3, 5, 2, 7, 4
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov si, ___
+    mov al, danio[si]
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 7
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+danio db 3, 5, 2, 7, 4
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov si, 3
+    mov al, danio[si]
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Siete de daño: la lanza. —El cuarto está en el **tres** —repite Nova—. Como la mochila: el primero es el cero.
+
+#### Imagen
+- Una fila de cinco cajones de bronce abiertos en un arsenal, cada uno con un arma distinta: una espada, un arco, un bastón, una lanza y una daga.
+- La cuarta, la lanza, brilla con luz cian.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala la lanza.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado en el primer cajón.
+
+### Micro-misión R02-N08-P2 · El inventario
+
+```meta
+lugar: El arsenal del muslo
+personajes: Nova, Gheco
+carta: Puntero | lea si, arreglo · [si] = el cajón que señala · inc si = el siguiente
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova quiere que el ojo del Gólem muestre la inicial de cada arma del arsenal, una al lado de la otra.
+
+#### Gheco sugiere
+SI empieza señalando el primer cajón. En cada vuelta: mostrar lo que hay en `[si]` y correr SI al siguiente con `inc si`.
+
+#### Desafío
+Completá la lectura y el avance para que el ojo muestre `EABLD`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+armas db 'E', 'A', 'B', 'L', 'D'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, armas
+    mov cx, 5
+ver:
+    mov dl, [___]
+    mov ah, 02h
+    int 21h
+    inc ___
+    loop ver
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+EABLD
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+armas db 'E', 'A', 'B', 'L', 'D'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, armas
+    mov cx, 5
+ver:
+    mov dl, [si]
+    mov ah, 02h
+    int 21h
+    inc si
+    loop ver
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Espada, arco, bastón, lanza, daga. Kira las anota en su libreta. —Ahora quiero saber cuál pega menos —dice.
+
+#### Imagen
+- Un arsenal con cinco armas colgadas en fila en una pared de bronce, y un haz de luz cian que las recorre de izquierda a derecha.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sigue el haz con el dedo.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) toma notas en una libreta cerrada, apoyada en la rodilla.
+- Gheco (gecko de luz cian con antiparras, chiquito) montado sobre el haz de luz.
+
+### Micro-misión R02-N08-P3 · Los escudos partidos
+
+```meta
+lugar: El arsenal del muslo
+personajes: Nova, Gheco
+criatura: orc
+carta: Words | cada elemento ocupa 2 cajones · avanzar con add si, 2 · inc si lee medio y medio
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el arsenal también hay escudos, con su resistencia guardada en **cajones dobles**: 6, 9 y 4. Nova suma las tres y el Gólem dice un número rarísimo. Un orco, del otro lado del arreglo, se relame.
+
+#### Gheco sugiere
+Los escudos son **words**: cada uno ocupa 2 cajones. Con `inc si`, SI avanza medio escudo y lee pedazos mezclados (y hasta se sale del arreglo). Hay que avanzar de a **2**.
+
+#### Desafío
+Ejecutá y mirá AX. Después arreglá el avance para que AX termine con la resistencia total: **19**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+escudos dw 6, 9, 4
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 0
+    lea si, escudos
+    mov cx, 3
+sumar:
+    add ax, [si]
+    inc si
+    loop sumar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = 19
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+escudos dw 6, 9, 4
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 0
+    lea si, escudos
+    mov cx, 3
+sumar:
+    add ax, [si]
+    add si, 2
+    loop sumar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Diecinueve de resistencia, justos. El orco se queda sin cajones ajenos para morder y se va.
+
+#### Imagen
+- Tres escudos redondos de bronce colgados en fila, cada uno ocupando dos cajones de una pared.
+- Un orco robusto asomándose al final de la fila, con cara de hambre.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) salta de escudo en escudo, de a dos cajones.
+- Gheco (gecko de luz cian con antiparras, chiquito) se aferra a su espalda.
+
+### Micro-misión R02-N08-P4 · Afilar todas
+
+```meta
+lugar: El arsenal del muslo
+personajes: Nova, Gheco
+criatura: goblin
+carta: inc byte ptr [si] | [si] no tiene tamaño · byte ptr aclara que es un cajón
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira afila las cinco armas: cada una gana **1** de daño. Nova escribe `inc [si]` dentro del bucle y un goblin protesta: *«Instruction operand must have size»*.
+
+#### Gheco sugiere
+`[si]` es un cajón… ¿o dos? El Gólem no lo sabe. Con `byte ptr [si]` le aclarás que es uno.
+
+#### Desafío
+Tocá **Ejecutar** para ver al goblin. Después arreglá la orden para que cada daño suba 1.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+danio db 3, 5, 2, 7, 4
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, danio
+    mov cx, 5
+afilar:
+    inc [si]
+    inc si
+    loop afilar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[danio] = 4
+[danio+2] = 3
+[danio+4] = 5
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+danio db 3, 5, 2, 7, 4
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, danio
+    mov cx, 5
+afilar:
+    inc byte ptr [si]
+    inc si
+    loop afilar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Las cinco armas brillan, afiladas. El goblin se lleva una piedra de afilar de recuerdo, sin que nadie lo vea.
+
+#### Imagen
+- Cinco armas brillando en fila después de ser afiladas, con chispitas cian en los filos.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) pasa una piedra de afilar por la espada.
+- Un goblin verde y flaco se escapa de puntillas con otra piedra de afilar bajo el brazo.
+- Gheco (gecko de luz cian con antiparras, chiquito) señala al goblin, indignado.
+
+### Micro-misión R02-N08-P5 · Al revés
+
+```meta
+lugar: El arsenal del muslo
+personajes: Nova, Gheco
+carta: Recorrer al revés | SI empieza en el último (n - 1) · dec si en cada vuelta
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para devolver las armas a su lugar, Kira quiere recorrer el arsenal **desde la última hasta la primera**.
+
+#### Gheco sugiere
+Hay 5 armas: la última está en el índice **4**. Empezá SI ahí, mostrá `armas[si]` y **bajá** SI en cada vuelta.
+
+#### Desafío
+Completá el índice inicial y la orden que lo hace bajar, para que el ojo muestre `DLBAE`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+armas db 'E', 'A', 'B', 'L', 'D'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov si, ___
+    mov cx, 5
+ver:
+    mov dl, armas[si]
+    mov ah, 02h
+    int 21h
+    ___ si
+    loop ver
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+DLBAE
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+armas db 'E', 'A', 'B', 'L', 'D'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov si, 4
+    mov cx, 5
+ver:
+    mov dl, armas[si]
+    mov ah, 02h
+    int 21h
+    dec si
+    loop ver
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Daga, lanza, bastón, arco, espada: cada una vuelve a su gancho, en orden inverso. Gheco aplaude la prolijidad.
+
+#### Imagen
+- Un arsenal con cinco ganchos en una pared de bronce y armas volviendo a colgarse de derecha a izquierda.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) cuelga la espada en el primer gancho.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) le alcanza el arma siguiente.
+- Gheco (gecko de luz cian con antiparras, chiquito) aplaude desde un gancho.
+
+### Micro-misión R02-N08-P6 · La más débil
+
+```meta
+lugar: El arsenal del muslo
+personajes: Nova, Gheco, Kira
+carta: Mínimo | el primero es el mínimo provisorio · si alguno es menor (jb), se guarda él y su posición
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Por fin, la pregunta de Kira: ¿cuál es el arma **más débil**? El ojo tiene que mostrar su inicial y su daño.
+
+#### Gheco sugiere
+Guardá en BL el **daño mínimo** y en DI su **posición**. Empezá con el primero (BL = `danio[0]`, DI = 0). Recorré con SI desde 1: si `danio[si]` es **menor** que BL (`jb`), actualizá BL y DI. Al final, la letra es `armas[di]`.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Mas debil: B 2`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+armas  db 'E', 'A', 'B', 'L', 'D'
+danio  db 3, 5, 2, 7, 4
+titulo db 'Mas debil: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, titulo
+    mov ah, 09h
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Mas debil: B 2
+```
+
+#### Estado esperado
+```
+BL = 2
+DI = 2
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+armas  db 'E', 'A', 'B', 'L', 'D'
+danio  db 3, 5, 2, 7, 4
+titulo db 'Mas debil: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, titulo
+    mov ah, 09h
+    int 21h
+
+    mov bl, danio
+    mov di, 0
+    mov si, 1
+    mov cx, 4
+buscar:
+    mov al, danio[si]
+    cmp al, bl
+    jae no_menor
+    mov bl, al
+    mov di, si
+no_menor:
+    inc si
+    loop buscar
+
+    mov dl, armas[di]
+    mov ah, 02h
+    int 21h
+    mov dl, ' '
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Mas debil: B 2». El bastón. Kira lo deja colgado y elige la lanza. Y en ese momento, desde la cadera, se oye un rugido: alguien está **dando vuelta** todos los interruptores del Gólem.
+
+#### Imagen
+- Un bastón de madera sencillo colgado solo en una pared de bronce, mientras una lanza brillante es descolgada.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) empuña la lanza, mirando hacia arriba, alerta.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira hacia el mismo lado, asustada.
+- Gheco (gecko de luz cian con antiparras, chiquito) con la cola erizada.
+
+### Prueba del sello
+
+#### En `danio db 3, 5, 2, 7, 4`, ¿qué hay en `danio[2]`?
+Un 2: el tercer elemento (el primero es el índice 0).
+
+#### ¿Cuánto avanza SI en un arreglo de words?
+De a 2 (`add si, 2`): cada elemento ocupa dos cajones.
+
+#### ¿Qué palancas pueden ir entre corchetes?
+BX, SI, DI y BP.
+
+#### En una matriz de 3 × 4, ¿dónde está el elemento de la fila 2, columna 1?
+En `mapa + 2 * 4 + 1`, es decir `mapa + 9`.
+
+## R02-N09 · Jefe: el Ogro de las Banderas
+
+```meta
+tipo: jefe
+criatura: ogre
+padre: R02-N08
+precio: 0
+insignia: Sello del Ogro
+insignia_descripcion: Venciste al Ogro de las Banderas: decidís y repetís sin que nadie te dé vuelta los interruptores.
+usa: prog.condicionales, prog.bucles, col.arrays, maq.saltos, maq.banderas
+temas: cal.depuracion
+```
+
+### Crónica
+
+En la cadera del Gólem, sentado sobre el tablero de los interruptores, hay un ogro enorme: el **Ogro de las Banderas**. No rompe nada. No grita. Solo da vuelta un interruptor acá y otro allá, y espera.
+
+—El programa corre —dice Gheco en voz baja—. Pero hace otra cosa. Así trabajan los ogros.
+
+{mentor} habla despacio: —Para pararme sobre mis piernas necesito que cada decisión y cada vuelta sean exactas. Si él me cambia un interruptor, me caigo.
+
+### Objetivos
+
+Vencer al jefe de la rama: encontrar **errores de lógica** (los que no dan ningún mensaje) siguiendo el programa
+**paso a paso** y mirando los interruptores; y armar programas que combinen decisiones, bucles y arreglos.
+
+### Antes de empezar
+
+Toda la rama: comparar y saltar, if/else, rangos, con signo y sin signo, `loop`, mientras y hasta que, bits y
+arreglos.
+
+### Explicación
+
+#### Cómo se caza un ogro
+Un ogro no deja mensaje: el programa termina, pero el resultado está mal. El método:
+
+1. **Ejecutá paso a paso** y mirá la flechita: ¿entra donde esperabas? ¿salta donde esperabas?
+2. **Mirá los interruptores** justo antes de cada salto: ¿son los del `cmp` que vos pensás, o algo los cambió en el
+   medio?
+3. **Probá los bordes**: el primero, el último, el cero, el negativo.
+4. **Cambiá una sola cosa** por vez y volvé a ejecutar.
+
+#### Los ogros más comunes de esta rama
+| Ogro | Pista |
+|---|---|
+| Las banderas pisadas | entre el `cmp` y el salto hay un `inc`, `dec`, `add` o `sub` |
+| El signo equivocado | `ja`/`jb` con números negativos (o `jg`/`jl` con cantidades) |
+| Uno de más o de menos | `ja` donde iba `jae`, o CX con un número equivocado |
+| CX pisado | un `mov cx` o `loop` adentro del cuerpo de otro `loop` |
+
+> **Puente con otras lenguas.** El «paso a paso» del tablero es el **depurador** de cualquier entorno (el *debugger*
+> de VS Code, de PyCharm, `gdb` en C): se ejecuta de a una línea mirando cómo cambian las variables. Es la
+> herramienta más poderosa para cazar ogros en cualquier lenguaje.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+ventas  dw 4, 7, 6, 2, 9, 5, 8
+t_dias  db 'Dias de mas de 5: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_dias
+    mov ah, 09h
+    int 21h
+
+    mov bl, 0
+    lea si, ventas
+    mov cx, 7
+contar:
+    cmp word ptr [si], 5
+    jbe no_cuenta
+    inc bl
+no_cuenta:
+    add si, 2
+    loop contar
+
+    mov dl, bl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Dias de mas de 5: 4
+```
+
+### ¿Para qué sirve?
+
+Los errores de lógica son los más caros de cualquier programa: el código corre, nadie se entera, y el resultado
+está mal. Aprender a buscarlos con método (paso a paso, mirando el estado, probando los bordes) es lo que separa
+a un programador que adivina de uno que encuentra.
+
+### Errores habituales
+
+**Ogro: las banderas pisadas.** Un `inc` entre el `cmp` y el salto: el salto mira el `inc`, no el `cmp`.
+
+**Ogro: el signo equivocado.** `jb` para contar temperaturas bajo cero: −2 (`FEh`) no es menor que 0 sin signo.
+
+**Ogro: CX pisado.** Un `mov cx` adentro de un bucle con `loop` lo reinicia en cada vuelta.
+
+### Micro-misión R02-N09-P1 · El interruptor pisado
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: Banderas pisadas | entre el cmp y el salto no va ninguna cuenta · mov y lea sí pueden ir
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El Ogro de las Banderas se sienta al lado del primer programa: cuenta cuántas pociones hay **iguales a 3** en el estante. Hay dos, pero el Gólem dice otra cosa. El ogro sonríe.
+
+#### Gheco sugiere
+Ejecutá **paso a paso** y mirá ZF justo antes del `je`. El `inc si` está entre el `cmp` y el salto, y cambia los interruptores. Movelo a otro lugar del bucle.
+
+#### Desafío
+Ejecutá, mirá BL y encontrá al ogro. Arreglá el programa para que BL cuente bien: **2**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+estante db 3, 1, 3, 5
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    mov si, 0
+    mov cx, 4
+contar:
+    cmp estante[si], 3
+    inc si
+    jne no_es
+    inc bl
+no_es:
+    loop contar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BL = 2
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+estante db 3, 1, 3, 5
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    mov si, 0
+    mov cx, 4
+contar:
+    cmp estante[si], 3
+    jne no_es
+    inc bl
+no_es:
+    inc si
+    loop contar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El Ogro de las Banderas pierde la sonrisa. Da vuelta otro interruptor, más lejos, y espera.
+
+#### Imagen
+- Un ogro enorme y robusto sentado sobre un tablero de interruptores de bronce, con un dedo sobre uno, sonriendo con malicia.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) lo enfrenta con una lupa de luz cian en la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el hombro de Nova, desafiante.
+
+### Micro-misión R02-N09-P2 · Las noches heladas
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: Signo | temperaturas, saldos: jl y jg · cantidades y letras: jb y ja
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El segundo programa cuenta cuántas noches de la semana hizo **menos de 0** grados. Fueron tres, pero el Gólem dice cero. El ogro silba, mirando para otro lado.
+
+#### Gheco sugiere
+Las temperaturas pueden ser negativas. ¿Qué salto está usando para «menor»? Acordate: `jb` mira sin signo, y para él −2 es 254.
+
+#### Desafío
+Encontrá al ogro y arreglá el salto para que BL cuente bien: **3**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+noches db 4, -2, 0, -5, 3, -1, 2
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    mov si, 0
+    mov cx, 7
+contar:
+    cmp noches[si], 0
+    jb  helada
+    jmp sigue
+helada:
+    inc bl
+sigue:
+    inc si
+    loop contar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BL = 3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+noches db 4, -2, 0, -5, 3, -1, 2
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    mov si, 0
+    mov cx, 7
+contar:
+    cmp noches[si], 0
+    jl  helada
+    jmp sigue
+helada:
+    inc bl
+sigue:
+    inc si
+    loop contar
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Tres noches heladas. El ogro gruñe: ya no le quedan muchos interruptores para dar vuelta.
+
+#### Imagen
+- Una fila de siete termómetros de bronce chiquitos; tres con escarcha y la columna cian muy baja.
+- El ogro enorme con los brazos cruzados, de mal humor.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala los tres termómetros con escarcha.
+- Gheco (gecko de luz cian con antiparras, chiquito) con bufanda, tiritando.
+
+### Micro-misión R02-N09-P3 · La muralla que no crece
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: CX pisado | un loop adentro de otro loop comparte CX · el de afuera cuenta con otra palanca
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El tercer programa tendría que levantar una muralla de **2** filas de **3** ladrillos, pero el Gólem se queda dando vueltas para siempre. El ogro se estira, cómodo: este truco le encanta.
+
+#### Gheco sugiere
+Los dos bucles usan `loop`, y los dos cuentan con CX. Cuando termina el de adentro, CX vale 0, y el `loop filas` lo pasa a 65535… La fila de afuera tiene que contar con **otra palanca**, con `dec` y `jnz`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá el aviso. Después arreglá el bucle de afuera para que use BL y la muralla salga bien.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+salto db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, 2
+filas:
+    mov cx, 3
+ladrillos:
+    mov dl, '#'
+    mov ah, 02h
+    int 21h
+    loop ladrillos
+    lea dx, salto
+    mov ah, 09h
+    int 21h
+    loop filas
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+###
+###
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+salto db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 2
+filas:
+    mov cx, 3
+ladrillos:
+    mov dl, '#'
+    mov ah, 02h
+    int 21h
+    loop ladrillos
+    lea dx, salto
+    mov ah, 09h
+    int 21h
+    dec bl
+    jnz filas
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Dos filas de tres. El ogro se pone de pie, furioso: es la primera vez que alguien le gana tres veces seguidas.
+
+#### Imagen
+- Una muralla chica de ladrillos de bronce, dos filas de tres, perfecta.
+- El ogro enorme poniéndose de pie, furioso, con los puños cerrados.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) parada detrás de la muralla, firme.
+- Gheco (gecko de luz cian con antiparras, chiquito) se esconde detrás de un ladrillo.
+
+### Micro-misión R02-N09-P4 · La suma de la piedra
+
+```meta
+lugar: La cadera del Gólem
+personajes: Nova, Gheco, Kira, Axón
+criatura: ogre
+carta: Todo junto | hasta que '.' · validar el rango · acumular · par o impar con test · dos cifras
+recompensa: xp 30, oro 30
+```
+
+#### Escena
+El ogro juega su última carta: una **piedra** con un acertijo. —Te dicto números y letras mezclados, hasta un punto. Sumá **solo los dígitos**, decime la suma y si es **par** o **impar**. Si te equivocás, me quedo con tus piernas.
+
+Kira se pone al lado de Nova. —Yo te dicto —le dice—. Vos no te equivoques.
+
+#### Gheco sugiere
+Un «hasta que» con la `01h` hasta el `'.'`. Adentro: si la tecla es un dígito (entre `'0'` y `'9'`), restale `'0'` y sumala a BL; si no, ignorala. Al final: mostrá BL en dos cifras (guardá antes una copia, porque el `div` la rompe) y usá `test` con el bit 0 para elegir «par» o «impar».
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a dictar `3`, `x`, `5`, `8` y `.`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t_suma  db 13, 10, 'Suma: $'
+t_par   db ', par.$'
+t_impar db ', impar.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+3
+x
+5
+8
+.
+```
+
+#### Salida esperada
+```
+3x58.
+Suma: 16, par.
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t_suma  db 13, 10, 'Suma: $'
+t_par   db ', par.$'
+t_impar db ', impar.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0
+leer:
+    mov ah, 01h
+    int 21h
+    cmp al, '.'
+    je  listo
+    cmp al, '0'
+    jb  leer
+    cmp al, '9'
+    ja  leer
+    sub al, '0'
+    add bl, al
+    jmp leer
+listo:
+
+    lea dx, t_suma
+    mov ah, 09h
+    int 21h
+    mov bh, bl           ; una copia para el par o impar
+    mov al, bl
+    mov ah, 0
+    mov bl, 10
+    div bl
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+    test bh, 1
+    jz  es_par
+    lea dx, t_impar
+    jmp mostrar
+es_par:
+    lea dx, t_par
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Suma: 16, par.» La piedra se parte en dos. El Ogro de las Banderas se queda mirando los pedazos un rato largo, y después, por primera vez, se ríe de verdad: una carcajada enorme, sin malicia. —Bien jugado, chispita —dice, y se va caminando por el pasillo de las compuertas.
+
+Entonces el Gólem tiembla de pies a cabeza. Las rodillas se doblan, los pies se apoyan, la cintura gira… y {mentor} **se pone de pie**. Desde arriba, en las Forjas, se oyen gritos de asombro.
+
+—Todavía no camino —dice el Gólem—. Para caminar tengo que acordarme de **dónde estaba** a cada paso.
+
+#### Imagen
+- Un gólem de bronce gigante poniéndose de pie por primera vez en una caverna enorme, con polvo y piedras cayendo de sus hombros.
+- En su pecho abierto se ve una lucecita cian: Nova, adentro.
+- Abajo, un ogro enorme se aleja riendo, de espaldas.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) y Gheco (gecko de luz cian con antiparras, chiquito) miran hacia arriba, boquiabiertos, desde el piso.
+
+### Prueba del sello
+
+#### ¿Qué es un error de lógica y cómo se encuentra?
+Un programa que corre pero da otro resultado. Se encuentra ejecutando paso a paso, mirando registros e interruptores y probando los bordes.
+
+#### ¿Qué pasa si se pone un `inc` entre un `cmp` y su salto?
+El salto mira los interruptores del `inc`, no los del `cmp`.
+
+#### ¿Con qué salto se cuentan las temperaturas bajo cero?
+Con `jl` (menor con signo).
+
+#### ¿Por qué el bucle de afuera no puede usar `loop` si el de adentro también lo usa?
+Porque comparten CX: el de adentro lo deja en 0 y rompe la cuenta del de afuera.

@@ -56,8 +56,8 @@ REFS = {
         'chars': [
             (r'\bNova\b', 'Nova', ['a847786e22d34467be76c419b9251491', 'fc72ec184e354491bd3af8fe92292d93'],
              'Nova es un holograma de luz ámbar con forma de chica de 15 años (1,60 m), que flota a unos centímetros del piso.'),
-            (r'Ochocero', 'Ochocero', ['daab9e5a4c654a6d9f20e48790edd4a9', 'c4b3a82e96bb49e689670d429bea0fba'],
-             'Ochocero es un gólem de bronce de cuatro metros: Nova le llega a la rodilla.'),
+            (r'Ax[oó]n', 'Axón', ['daab9e5a4c654a6d9f20e48790edd4a9', 'c4b3a82e96bb49e689670d429bea0fba'],
+             'Axón es un gólem de bronce de cuatro metros: Nova le llega a la rodilla.'),
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
             (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
         ],

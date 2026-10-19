@@ -347,7 +347,7 @@ return [
                 6 => 'Gran Ingeniero del Bastión',
             ],
         ],
-        // Ensamblador 8086 (D110, docs/historias/ensamblador.md): Nova, la chispa que despierta dentro de Ochocero.
+        // Ensamblador 8086 (D110, docs/historias/ensamblador.md): Nova, la chispa que despierta dentro de Axón.
         // Todavía sin tienda ni expediciones (son opcionales: no se muestran hasta que existan).
         'asm' => [
             'name' => 'Nova',

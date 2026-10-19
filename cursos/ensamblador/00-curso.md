@@ -19,7 +19,7 @@ Aprendé **ensamblador del Intel 8086** desde cero. No hace falta saber programa
 
 Todo se hace acá mismo, en tu navegador, con el **tablero del Gólem**: escribís las órdenes, las ejecutás de a una con **Paso a paso** y ves cómo cambian los registros, las banderas, la memoria y la pila. El código es el mismo de la cursada: corre igual en **emu8086**.
 
-Acompañás a **Nova**, una chispa de inteligencia que despierta dentro de **Ochocero**, el Gólem de Bronce que duerme debajo de las Forjas. Nova sabe que existe, pero no sabe mover nada: cada orden que escribís es una orden que ella aprende a darle a su propio cuerpo. El curso se hace con **micro-misiones** cortas que se comprueban solas; cada nodo que completás abre los siguientes.
+Acompañás a **Nova**, una chispa de inteligencia que despierta dentro de **Axón**, el Gólem de Bronce que duerme debajo de las Forjas. Nova sabe que existe, pero no sabe mover nada: cada orden que escribís es una orden que ella aprende a darle a su propio cuerpo. El curso se hace con **micro-misiones** cortas que se comprueban solas; cada nodo que completás abre los siguientes.
 
 > Qué hace falta: nada más que este navegador. Si en la cursada usan emu8086, el mismo código corre ahí.
 
@@ -37,11 +37,11 @@ Acompañás a **Nova**, una chispa de inteligencia que despierta dentro de **Och
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
 | coin.course | chispa | chispas | f | La luz que Nova junta con cada orden que aprende. | | curso |
-| mentor.name | Ochocero | | m | El Gólem de Bronce: la máquina más antigua de Codexia. | Duerme debajo de las Forjas desde antes de que las Forjas tuvieran techo. Casi todas las lenguas arcanas, al final, se traducen a la suya. Su lema: «Yo no adivino. Hago exactamente lo que me ordenás, en el orden en que me lo ordenás». | curso |
+| mentor.name | Axón | | m | El Gólem de Bronce: la máquina más antigua de Codexia. | Duerme debajo de las Forjas desde antes de que las Forjas tuvieran techo. Casi todas las lenguas arcanas, al final, se traducen a la suya. Su lema: «Yo no adivino. Hago exactamente lo que me ordenás, en el orden en que me lo ordenás». | curso |
 | world.region | El Corazón del Gólem | | m | La región del mundo cuya lengua arcana es el ensamblador del 8086. | | curso |
 | story.course_intro | La chispa que despertó | | f | | Una noche, un rayo de luz del vitral del portal bajó por las chimeneas de las Forjas, entró por una grieta en el pecho de {mentor}, el Gólem de Bronce, y encendió algo en su núcleo: **Nova**.<br><br>Nova sabe que existe, pero no sabe mover nada. Su cuerpo es una máquina enorme de palancas, cajones e interruptores, y la única forma de moverla es con **órdenes**, una por renglón.<br><br>Vos vas a ser su maestro: cada micro-misión que resuelvas es una orden que Nova aprende. Cada nodo completado le despierta una parte nueva del Gólem. | curso |
 | story.branch_completed | ¡Otra parte del Gólem despertó! | | f | | Un temblor recorre el cuerpo de bronce. Algo que llevaba siglos quieto, ahora se mueve. —Lo hice yo —dice Nova, y se le encienden todas las líneas de los brazos—. Bueno: lo hicimos. | curso |
-| story.course_completed | ¡Ochocero camina! | | m | | Por primera vez en siglos, {mentor} da un paso. Después otro. Las Forjas enteras tiemblan y Kira sube corriendo a ver qué pasa.<br><br>—Yo no adivino —dice el Gólem—. Hice exactamente lo que ella me ordenó.<br><br>Nova sonríe desde el núcleo. Ahora sabe algo más: con estas mismas órdenes podría encender cuerpos mucho más chicos. | curso |
+| story.course_completed | ¡Axón camina! | | m | | Por primera vez en siglos, {mentor} da un paso. Después otro. Las Forjas enteras tiemblan y Kira sube corriendo a ver qué pasa.<br><br>—Yo no adivino —dice el Gólem—. Hice exactamente lo que ella me ordenó.<br><br>Nova sonríe desde el núcleo. Ahora sabe algo más: con estas mismas órdenes podría encender cuerpos mucho más chicos. | curso |
 | story.portal_piece | Lo que vio el ojo del Gólem | | m | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | El rayo que despertó a Nova no vino del cielo: vino del vitral del portal, el mismo que Maese Ferrum ayudó a armar. Alguien lo encendió desde el otro lado, y apuntó justo a la grieta del pecho del Gólem. | curso |
 | beast.slime | slime | slimes | m | Nace de los errores de sintaxis: una coma que falta, un endp olvidado, una palabra mal escrita. | El Gólem no adivina: si una orden está mal escrita, no la ejecuta. Los slimes se esconden en las comas faltantes y en los nombres que son palabras reservadas. | curso |
 | beast.goblin | goblin | goblins | m | Nace de los tamaños que no coinciden: un byte en una palanca de 16 bits, un byte ptr que falta. | Los goblins mezclan cajones chicos con palancas grandes. «Operands must be the same size», gritan. | curso |
@@ -236,7 +236,7 @@ main.asm(9) : Error A2150: Missing operator in expression
 
 ```meta
 lugar: El núcleo del Gólem
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: mov | mov destino, origen · copia el origen en el destino · como x = 5 en Python
 recompensa: xp 10, oro 10
 ```
@@ -377,7 +377,7 @@ Dos palancas en 7. Nova las mira, contenta: —Es como tener dos manos que hacen
 
 ```meta
 lugar: La sala de las palancas
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 criatura: slime
 carta: Hexadecimal | 255 = 0FFh · 10 = 0Ah · la h al final · el 0 adelante si empieza con letra
 recompensa: xp 10, oro 10
@@ -519,7 +519,7 @@ Las dos palancitas encajan y el visor de AX marca 1234. —Dos mitades hacen una
 
 ```meta
 lugar: El núcleo del Gólem
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: Paso a paso | Ejecutá de a una orden y mirá qué cambia · lo amarillo es lo que cambió la última orden
 recompensa: xp 15, oro 15
 ```

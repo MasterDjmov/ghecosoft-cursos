@@ -7,7 +7,7 @@ Curso nuevo pedido el 2026-10-18 a partir del material de
 referencia), el lenguaje autocomprobado con `#### Estado esperado`, las consultas desde micro-misiones para
 todos los cursos con la solución al lado, la herramienta libre *Herramientas → Gólem 8086*, la historia de Nova,
 **los tres primeros nodos** (Clase 0, La voz del Gólem, Los cajones con nombre: 17 micro-misiones) y todas sus
-imágenes en Stitch (Nova, Ochocero, logo, moneda, fondo, 6 aspectos y 17 escenas). Sigue: el resto del temario
+imágenes en Stitch (Nova, Axón, logo, moneda, fondo, 6 aspectos y 17 escenas). Sigue: el resto del temario
 (§ 5), la tienda y las expediciones de Nova, la enciclopedia y la temporada de inglés (lista de ALTA).
 
 ## 1. Decisiones tomadas (2026-10-18)
@@ -121,13 +121,13 @@ pieza** (el menú, después leer el número, después la cuenta…), como en las
 
 ## 6. La historia: el Corazón del Gólem con protagonista nuevo
 
-Se mantiene el arco de `GUION.md` (Ochocero, el Gólem de Bronce, debajo de las Forjas; palancas, cajones,
+Se mantiene el arco de `GUION.md` (Axón, el Gólem de Bronce, debajo de las Forjas; palancas, cajones,
 torre de platos, interruptores y ojo; los cuatro jefes) y se **cambia quién lo despierta**. Tres opciones
 (nombres libres en el universo):
 
 | Opción | Quién es | Por qué cuadra |
 |---|---|---|
-| **A · Nova, la chispa del Gólem** (recomendada) | Una IA recién nacida en el núcleo de Ochocero. No tiene cuerpo: **es** el Gólem aprendiendo a mover su propio cuerpo, palanca por palanca. Aspecto: un holograma de luz ámbar con forma de chica, con circuitos que se encienden según lo que aprende. | El alumno literalmente le enseña a la máquina a pensar. «El lenguaje más potente» es el idioma nativo de Nova. Cada paso a paso es Nova sintiendo cómo cambia por dentro. |
+| **A · Nova, la chispa del Gólem** (recomendada) | Una IA recién nacida en el núcleo de Axón. No tiene cuerpo: **es** el Gólem aprendiendo a mover su propio cuerpo, palanca por palanca. Aspecto: un holograma de luz ámbar con forma de chica, con circuitos que se encienden según lo que aprende. | El alumno literalmente le enseña a la máquina a pensar. «El lenguaje más potente» es el idioma nativo de Nova. Cada paso a paso es Nova sintiendo cómo cambia por dentro. |
 | **B · La doctora Ilse Vatio** | Científica de las Forjas, de unos 30 años, con un exotraje de bronce y cian y un monóculo de lectura de circuitos. Baja al interior del Gólem para repararlo. | Rol científico-futurista clásico; aventura de exploración dentro de la máquina. |
 | **C · Sigma** | Un androide explorador de las Forjas, alto y delgado, con el pecho transparente donde se ven sus propios registros. | Mezcla los dos: un cuerpo-máquina que se reconoce en el Gólem. |
 

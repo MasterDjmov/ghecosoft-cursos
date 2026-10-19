@@ -163,7 +163,7 @@ no un 5.
 
 ```meta
 lugar: El ojo del Gólem
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: INT 21h, 02h | DL = el carácter · AH = 02h · int 21h · como print() de un solo carácter
 recompensa: xp 10, oro 10
 ```
@@ -400,14 +400,14 @@ Nova quiere escribir su nombre y abajo el del Gólem, pero los dos le salen pega
 Para bajar de renglón se ponen los códigos **13** y **10** dentro del texto, separados por comas: `'uno', 13, 10, 'dos$'`.
 
 #### Desafío
-Completá el texto para que **Nova** quede en un renglón y **Ochocero** en el siguiente.
+Completá el texto para que **Nova** quede en un renglón y **Axón** en el siguiente.
 
 #### Código inicial
 ```asm
 .model small
 .stack 100h
 .data
-nombres db 'Nova', ___, ___, 'Ochocero$'
+nombres db 'Nova', ___, ___, 'Axon$'
 .code
 main proc
     mov ax, @data
@@ -427,7 +427,7 @@ end main
 #### Salida esperada
 ```
 Nova
-Ochocero
+Axon
 ```
 
 #### Solución
@@ -435,7 +435,7 @@ Ochocero
 .model small
 .stack 100h
 .data
-nombres db 'Nova', 13, 10, 'Ochocero$'
+nombres db 'Nova', 13, 10, 'Axon$'
 .code
 main proc
     mov ax, @data
@@ -464,7 +464,7 @@ Dos renglones, prolijos. —Así se escribe una lista —dice Nova—. Ahora pue
 
 ```meta
 lugar: El ojo del Gólem
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 criatura: ogre
 carta: Dígito | add dl, '0' · convierte 0..9 en '0'..'9' · como str(n) en Python
 recompensa: xp 15, oro 15
@@ -541,7 +541,7 @@ El diamante se convierte en un **4** limpito. Un ogro que espiaba desde la torre
 
 ```meta
 lugar: El ojo del Gólem
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: 09h y 02h juntas | Primero la cadena con 09h, después el dígito con 02h · cada int 21h pisa AL
 recompensa: xp 20, oro 20
 ```
@@ -791,7 +791,7 @@ main.asm(4) : Error A2209: Syntax error: size
 
 ```meta
 lugar: La pared de los cajones
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: db | nombre db valor · un cajón de 1 byte · como char pociones = 3; en C
 recompensa: xp 10, oro 10
 ```
@@ -1005,7 +1005,7 @@ Cuatro pociones. Nova prueba `dec` también, solo para ver, y vuelve a poner `in
 
 ```meta
 lugar: La pared de los cajones
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: dw | nombre dw valor · 2 bytes (un word) · va con palancas de 16 bits (AX, BX…)
 recompensa: xp 10, oro 10
 ```
@@ -1070,7 +1070,7 @@ El visor de AX marca **012C**: 300 en hexadecimal. En la pestaña Cajones, Nova 
 
 #### Imagen
 - Un cajón de bronce doble, el doble de ancho que los demás, con una etiqueta de luz lisa con el dibujo de un corazón.
-- Ochocero (gólem de bronce gigante con un único ojo redondo de cristal) lo señala con un dedo enorme.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) lo señala con un dedo enorme.
 - Nova (holograma de luz ámbar con forma de chica de 15 años, pelo de filamentos de luz flotando, ojos cian) abre el cajón doble con las dos manos.
 - Gheco (gecko de luz cian con antiparras, chiquito) mira por la rendija.
 
@@ -1150,7 +1150,7 @@ El goblin se queda sin chiste y desaparece entre los cajones. Nova ya sabe leer 
 
 ```meta
 lugar: El núcleo del Gólem
-personajes: Nova, Gheco, Ochocero
+personajes: Nova, Gheco, Axón
 carta: equ | NOMBRE equ 9 · no ocupa cajón · como #define o const en C
 recompensa: xp 20, oro 20
 ```

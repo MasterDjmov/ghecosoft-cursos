@@ -347,6 +347,21 @@ return [
                 6 => 'Gran Ingeniero del Bastión',
             ],
         ],
+        // Ensamblador 8086 (D110, docs/historias/ensamblador.md): Nova, la chispa que despierta dentro de Ochocero.
+        // Todavía sin tienda ni expediciones (son opcionales: no se muestran hasta que existan).
+        'asm' => [
+            'name' => 'Nova',
+            'slug' => 'nova',
+            'title' => 'La chispa del Gólem',
+            'looks' => [
+                1 => 'Chispa recién nacida',
+                2 => 'Coraza de Bronce',
+                3 => 'Capucha de Circuitos',
+                4 => 'Corona de Engranajes',
+                5 => 'Nova de Cristal',
+                6 => 'Alas del Núcleo',
+            ],
+        ],
         // Crónicas en Inglés (D106): Ada niña en Primaria y Ada de 15 en Secundaria (historias/ingles.md). Va por el
         // slug del curso, que manda sobre el lenguaje (Heroes::protagonist).
         'ingles-primaria' => [

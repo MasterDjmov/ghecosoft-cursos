@@ -76,6 +76,8 @@ class GlossaryPortraits extends Command
                 $figures && $leader !== null => ['mentor.name', $leader],
                 $figures => [self::FIGURES[$name] ?? null, null],
                 $name === 'mundo_codigo' => ['world.name', null],
+                // D110: el retrato redondo de una líder también va por su nombre (ochocero.jpeg).
+                $leader !== null => ['mentor.name', $leader],
                 isset($regions[$name]) => ['world.region', $regions[$name]],
                 default => [self::FILES[$name] ?? null, null],
             };

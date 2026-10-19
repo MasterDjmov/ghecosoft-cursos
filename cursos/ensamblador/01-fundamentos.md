@@ -2023,3 +2023,964 @@ Seis: cinco guiones y el `'$'`.
 
 #### ¿Para qué sirve `byte ptr`?
 Para tomar un solo byte de una variable más grande, como un word.
+
+## R01-N04 · La boca de bronce: leer del teclado
+
+```meta
+tipo: tema
+criatura: orc
+padre: R01-N03
+precio: 0
+temas: prog.entrada, maq.interrupciones, maq.direcciones
+```
+
+### Crónica
+
+Afuera, en el pecho de {mentor}, Kira encuentra una **boca de bronce**: una fila de teclas viejas, cubiertas de polvo. Aprieta una, y adentro, en el núcleo, Nova ve llegar una letra de luz.
+
+—¡Te oigo! —grita Nova—. Pero se me escapan: llegan y se van.
+
+Gheco se sube a la tecla más grande, la del Enter. —Hay que **atraparlas** —dice—. Una por una, o una frase entera en una bolsa. Y lo que no guardes enseguida, el Gólem lo pisa.
+
+### Objetivos
+
+Leer del teclado con DOS: **una tecla** con eco (`01h`) y sin eco (`07h`), y **una frase entera** con `0Ah` y
+su *buffer*; guardar lo leído antes de que se pise, ponerle el `'$'` al final con `byte ptr [si]` y mostrarlo.
+
+### Antes de empezar
+
+- `offset`, `lea`, `dup`, `nombre+1` y `byte ptr` (nodo anterior).
+- Las funciones 02h y 09h (La voz del Gólem).
+
+### Explicación
+
+#### Una tecla: `01h` y `07h`
+```asm
+mov ah, 01h
+int 21h          ; espera una tecla, la muestra (eco) y deja su código en AL
+```
+- **`01h`**: espera una tecla, **la muestra** y deja su código ASCII en **AL**.
+- **`07h`**: igual, pero **sin mostrarla**. Sirve para claves y para juegos.
+
+> **Puente con otras lenguas.** `01h` es el `getchar()` de C; `07h`, el `getch()` de `conio.h`, que no muestra
+> la tecla.
+
+#### Guardala enseguida
+AL es una palanca muy usada: en cuanto volvés a llamar a DOS, se pisa (después de una `09h`, AL queda con
+`'$'`). Por eso lo leído se **guarda enseguida** en otra palanca o en una variable:
+```asm
+mov ah, 01h
+int 21h
+mov bl, al       ; la tecla, a salvo en BL
+```
+
+#### Una frase entera: `0Ah` y su bolsa (el *buffer*)
+Para leer una frase, DOS necesita una **bolsa** de cajones con este formato:
+```asm
+nombre db 21, ?, 21 dup(?)
+;         |   |   └── acá DOS deja las letras (y al final un 13: el Enter)
+;         |   └────── acá DOS escribe cuántas letras se tipearon
+;         └────────── cuántas entran como máximo, contando el Enter
+```
+```asm
+mov ah, 0Ah
+lea dx, nombre   ; la dirección de la bolsa
+int 21h          ; DOS muestra lo que se tipea y deja borrar; termina con Enter
+```
+Si Kira escribe `Kira`, la bolsa queda así:
+```
+cajón:       nombre  nombre+1  nombre+2  nombre+3  nombre+4  nombre+5  nombre+6
+contenido:     21       4        'K'       'i'       'r'       'a'       13
+```
+El texto empieza en **`nombre+2`** y la cantidad está en **`nombre+1`**.
+
+> **Puente con otras lenguas.** Es el `input()` de Python o el `fgets(nombre, 21, stdin)` de C. La diferencia:
+> acá la cantidad viene en un cajón aparte, y en lugar del `'\0'` de C queda un 13 (el Enter).
+
+#### Ponerle el `'$'` a mano
+La `0Ah` **no** pone `'$'`. Para mostrar la frase con la `09h` hay que escribirlo justo después de la última
+letra, en `nombre+2+cantidad`:
+```asm
+mov bl, nombre+1          ; BL = cuántas letras
+mov bh, 0                 ; BX = esa cantidad, en 16 bits
+lea si, nombre+2          ; SI = dónde está la primera letra
+add si, bx                ; SI = el cajón que sigue a la última
+mov byte ptr [si], '$'    ; en ESE cajón, un '$'
+```
+`[si]` quiere decir «**el cajón cuya dirección está en SI**» (más adelante vas a usarlo mucho). `byte ptr`
+aclara que se escribe **un** byte: sin él, el Gólem no sabe si es un cajón o dos.
+
+#### El Enter que no baja
+Al apretar Enter, DOS vuelve al principio del renglón, pero **no baja**. Por eso el mensaje siguiente empieza con
+`13, 10`: si no, sale en el mismo renglón que lo que se tipeó.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+nombre    db 21, ?, 21 dup(?)
+preg_nom  db 'Axon: Quien anda ahi? $'
+txt_hola  db 13, 10, 'Axon: Hola, $'
+preg_abr  db '.', 13, 10, 'Axon: Abro la compuerta? (s/n) $'
+txt_teca  db 13, 10, 'Apretaste: $'
+preg_cla  db 13, 10, 'Axon: Decime la runa secreta: $'
+txt_cla   db '*', 13, 10, 'Axon: La runa era: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, preg_nom          ; una frase entera (0Ah)
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+    mov bl, nombre+1          ; el '$' después de la última letra
+    mov bh, 0
+    lea si, nombre+2
+    add si, bx
+    mov byte ptr [si], '$'
+
+    lea dx, txt_hola
+    mov ah, 09h
+    int 21h
+    lea dx, nombre+2          ; el texto empieza dos cajones después
+    int 21h
+
+    lea dx, preg_abr          ; una tecla con eco (01h)
+    int 21h
+    mov ah, 01h
+    int 21h
+    mov bl, al                ; guardarla antes de llamar otra vez a DOS
+    lea dx, txt_teca
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+    lea dx, preg_cla          ; una tecla sin eco (07h)
+    mov ah, 09h
+    int 21h
+    mov ah, 07h
+    int 21h
+    mov bl, al
+    lea dx, txt_cla
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Entrada de ejemplo
+
+```
+Kira
+s
+R
+```
+
+### Salida esperada
+
+```
+Axon: Quien anda ahi? Kira
+Axon: Hola, Kira.
+Axon: Abro la compuerta? (s/n) s
+Apretaste: s
+Axon: Decime la runa secreta: *
+Axon: La runa era: R
+```
+
+### ¿Para qué sirve?
+
+Todo programa que conversa con una persona lee del teclado: un menú, una clave, un nombre. Por debajo, el
+`input()` de Python, el `scanf` de C y el `Scanner` de Java hacen lo mismo que vos acá: le piden al sistema
+operativo las teclas, las guardan en una bolsa de cajones y averiguan dónde termina la frase.
+
+### Errores habituales
+
+**Orco: la bolsa sin formato.** `nombre db 20 dup(?)`: el primer cajón (el máximo) queda con cualquier valor, y
+DOS puede escribir de más y pisar las variables que siguen. Siempre `máximo, ?, máximo dup(?)`.
+
+**Ogro: mostrar desde `nombre`.** El texto empieza en `nombre+2`: si se muestra desde `nombre`, aparecen dos
+signos raros antes (el máximo y la cantidad).
+
+**Orco: el `'$'` que falta.** Sin el `'$'` a mano, la `09h` sigue mostrando lo que haya en los cajones hasta
+encontrar algún `'$'`.
+
+**Ogro: la tecla perdida.** Leer con `01h` y llamar a la `09h` antes de guardar AL: cuando la querés usar, AL ya
+vale `'$'`.
+
+**Goblin: el cajón sin tamaño.** `mov [si], '$'` no dice si es uno o dos cajones:
+```
+main.asm(23) : Error A2182: Instruction operand must have size
+```
+Se arregla con `mov byte ptr [si], '$'`.
+
+### Micro-misión R01-N04-P1 · La primera tecla
+
+```meta
+lugar: La boca de bronce
+personajes: Nova, Gheco, Kira
+carta: 01h | mov ah, 01h · int 21h = esperá una tecla, mostrala y dejala en AL · como getchar() en C
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kira, frente a la boca de bronce, quiere contestarle al Gólem. {mentor} pregunta en el ojo si ya despertó del todo; Kira apoya el dedo sobre la tecla **s**.
+
+#### Gheco sugiere
+Con `mov ah, 01h` y `int 21h`, el Gólem espera una tecla, la muestra y deja su código en AL. Guardala enseguida en BL, antes de que se pise.
+
+#### Desafío
+Completá la función para que el Gólem **lea una tecla con eco** y la guarde en **BL**. Kira va a apretar la `s`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+pregunta db 'Axon: Despierto del todo? (s/n) $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+
+    mov ah, ___      ; leer una tecla, con eco
+    int 21h
+    mov bl, al       ; guardarla
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+s
+```
+
+#### Salida esperada
+```
+Axon: Despierto del todo? (s/n) s
+```
+
+#### Estado esperado
+```
+BL = 's'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+pregunta db 'Axon: Despierto del todo? (s/n) $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+
+    mov ah, 01h
+    int 21h
+    mov bl, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Una **s** de luz cruza el pecho del Gólem y llega al núcleo. Nova la atrapa con las dos manos. —¡Sí! Dijo que sí. —Bueno —corrige Gheco—: dijo **s**.
+
+#### Imagen
+- El pecho de un gólem de bronce gigante, con una fila de teclas viejas de bronce empotradas, como una boca.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) aprieta una tecla con un dedo; de la tecla sube una chispa cian.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre la tecla de al lado.
+
+### Micro-misión R01-N04-P2 · La tecla perdida
+
+```meta
+lugar: La boca de bronce
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: Guardá la tecla | después de leer, mov bl, al · la próxima int 21h pisa AL
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira elige su arma apretando la **E** (de espada), pero el ojo responde «Elegiste: $». Detrás de los cajones, un **ogro** se ríe sin hacer ruido: el programa corre, pero dice otra cosa.
+
+#### Gheco sugiere
+La `09h` usa AL y lo deja con `'$'`. Cuando llega el `mov dl, al`, la E ya no está. Guardá la tecla en BL **apenas la leés**, y mostrá BL al final.
+
+#### Desafío
+Tocá **Ejecutar** y mirá qué sale. Después arreglá el programa para que diga `Elegiste: E`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+pregunta  db 'Elegi tu arma (E/A/B): $'
+respuesta db 13, 10, 'Elegiste: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 01h
+    int 21h
+
+    lea dx, respuesta
+    mov ah, 09h
+    int 21h
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+E
+```
+
+#### Salida esperada
+```
+Elegi tu arma (E/A/B): E
+Elegiste: E
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+pregunta  db 'Elegi tu arma (E/A/B): $'
+respuesta db 13, 10, 'Elegiste: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 01h
+    int 21h
+    mov bl, al
+
+    lea dx, respuesta
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Elegiste: E». El ogro deja de reírse. —Lo que no guardás, se pierde —dice Nova, y anota la E en un cajón propio, por las dudas.
+
+#### Imagen
+- Un ogro grandote y torpe, escondido a medias detrás de una pared de cajoncitos de bronce, tapándose la boca para no reírse.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) guarda una espada de luz chiquita en un cajón y lo cierra con cuidado.
+- Gheco (gecko de luz cian con antiparras, chiquito) le hace burla al ogro con la lengua afuera.
+
+### Micro-misión R01-N04-P3 · La runa que no se ve
+
+```meta
+lugar: La boca de bronce
+personajes: Nova, Gheco, Kira
+carta: 07h | mov ah, 07h · int 21h = esperá una tecla SIN mostrarla · como getch() en C
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+{mentor} le pide a Kira la runa secreta para abrir una compuerta. —Si la escribo, la ve todo el mundo —dice ella, mirando para atrás.
+
+#### Gheco sugiere
+La `07h` lee una tecla igual que la `01h`, pero **no la muestra**. El programa pone un `*` en su lugar, para que se sepa que llegó.
+
+#### Desafío
+Completá la función para que la runa se lea **sin eco**. Kira va a apretar la `R`: en el ojo tiene que aparecer solo el `*`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+pide db 'Kira, la runa secreta: $'
+tapa db '*', 13, 10, 'Axon: La runa era: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+
+    mov ah, ___      ; leer una tecla, SIN eco
+    int 21h
+    mov bl, al
+
+    lea dx, tapa
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+R
+```
+
+#### Salida esperada
+```
+Kira, la runa secreta: *
+Axon: La runa era: R
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+pide db 'Kira, la runa secreta: $'
+tapa db '*', 13, 10, 'Axon: La runa era: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+
+    mov ah, 07h
+    int 21h
+    mov bl, al
+
+    lea dx, tapa
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Una estrellita en el ojo, y la compuerta se abre con un suspiro de vapor. —Así se escriben las claves en todas las lenguas —dice Gheco—: con asteriscos.
+
+#### Imagen
+- Una compuerta redonda de bronce que se abre soltando vapor, con un asterisco de luz cian flotando delante.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) tapa con la otra mano la tecla que aprieta, mirando de reojo.
+- Gheco (gecko de luz cian con antiparras, chiquito) se tapa los ojos con las patitas, para no espiar.
+
+### Micro-misión R01-N04-P4 · La bolsa de palabras
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco
+carta: Buffer de 0Ah | nombre db 21, ?, 21 dup(?) · máximo, cantidad, letras · el texto empieza en nombre+2
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira quiere decir su nombre entero, y las letras llegan tan rápido que Nova no da abasto. Gheco le trae una **bolsa** con tres partes: un cajón para el máximo, uno para la cantidad y una fila para las letras.
+
+#### Gheco sugiere
+La bolsa de la `0Ah` se declara `máximo, ?, máximo dup(?)`. El primer número dice cuántas letras entran (contando el Enter); el `?` lo llena DOS con la cantidad; la fila es para las letras.
+
+#### Desafío
+Completá la bolsa para que entren **hasta 20 letras** (más el Enter: 21) y ejecutá. Kira va a escribir `Kira`: al final, el cajón de la cantidad tiene que tener un **4**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre   db ___, ?, ___ dup(?)
+pregunta db 'Axon: Quien anda ahi? $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+Kira
+```
+
+#### Salida esperada
+```
+Axon: Quien anda ahi? Kira
+```
+
+#### Estado esperado
+```
+[nombre+1] = 4
+[nombre+2] = 'K'
+[nombre+6] = 13
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Quien anda ahi? $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+En la pestaña **Cajones**, la bolsa quedó llena: un 21, un 4, la K, la i, la r, la a y un 13. —Cuatro letras —cuenta Nova—, y el Enter al final, como un punto.
+
+#### Imagen
+- Una bolsa de cuero y bronce abierta, con cuatro piedritas de luz cian adentro en fila y una quinta piedrita distinta, ámbar, al final.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) atrapa en el aire las piedritas que caen y las mete en la bolsa.
+- Gheco (gecko de luz cian con antiparras, chiquito) sostiene la boca de la bolsa abierta.
+
+### Micro-misión R01-N04-P5 · El goblin del dólar
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco
+criatura: goblin
+carta: byte ptr [si] | [si] = el cajón cuya dirección está en SI · mov byte ptr [si], '$'
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova ya tiene el nombre en la bolsa, pero para mostrarlo le falta el `'$'`. Calcula dónde va, escribe `mov [si], '$'`, y salta un goblin: *«Instruction operand must have size»*.
+
+#### Gheco sugiere
+`[si]` es el cajón cuya dirección está en SI. Pero `'$'` no dice si ocupa un cajón o dos, y `[si]` tampoco. Con `byte ptr [si]` le aclarás que es **uno**.
+
+#### Desafío
+Tocá **Ejecutar** para ver al goblin. Después arreglá la orden para que el Gólem salude a Kira por su nombre.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Quien anda ahi? $'
+saludo   db 13, 10, 'Axon: Hola, $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+    mov bl, nombre+1
+    mov bh, 0
+    lea si, nombre+2
+    add si, bx
+    mov [si], '$'
+
+    lea dx, saludo
+    mov ah, 09h
+    int 21h
+    lea dx, nombre+2
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+Kira
+```
+
+#### Salida esperada
+```
+Axon: Quien anda ahi? Kira
+Axon: Hola, Kira
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Quien anda ahi? $'
+saludo   db 13, 10, 'Axon: Hola, $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+    mov bl, nombre+1
+    mov bh, 0
+    lea si, nombre+2
+    add si, bx
+    mov byte ptr [si], '$'
+
+    lea dx, saludo
+    mov ah, 09h
+    int 21h
+    lea dx, nombre+2
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Hola, Kira». Afuera, Kira se ríe sola frente al pecho del Gólem. El goblin, que esperaba una pelea más larga, se va pateando una tuerca.
+
+#### Imagen
+- Un goblin verde y flaco, enojado, pateando una tuerca de bronce, de espaldas, yéndose.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) coloca una monedita dorada con forma de escudo justo al final de una fila de piedritas de luz.
+- Gheco (gecko de luz cian con antiparras, chiquito) señala la monedita con la cola.
+
+### Micro-misión R01-N04-P6 · Dos signos raros
+
+```meta
+lugar: El ojo del Gólem
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: nombre+2 | la 0Ah deja el texto en nombre+2 · nombre y nombre+1 son el máximo y la cantidad
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira le presenta a {mentor} a su compañero: escribe `Gheco`. Pero en el ojo aparecen **dos signos raros** antes del nombre. Un ogro asoma la cabeza.
+
+#### Gheco sugiere
+Los dos primeros cajones de la bolsa no son letras: son el **máximo** y la **cantidad**. El nombre empieza dos cajones después.
+
+#### Desafío
+Tocá **Ejecutar** y mirá los dos signos raros. Después arreglá desde dónde se muestra el nombre para que el ojo diga `Axon: Hola, Gheco`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Y tu amigo? $'
+saludo   db 13, 10, 'Axon: Hola, $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+    mov bl, nombre+1
+    mov bh, 0
+    lea si, nombre+2
+    add si, bx
+    mov byte ptr [si], '$'
+
+    lea dx, saludo
+    mov ah, 09h
+    int 21h
+    lea dx, nombre
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+Gheco
+```
+
+#### Salida esperada
+```
+Axon: Y tu amigo? Gheco
+Axon: Hola, Gheco
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Y tu amigo? $'
+saludo   db 13, 10, 'Axon: Hola, $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+    mov bl, nombre+1
+    mov bh, 0
+    lea si, nombre+2
+    add si, bx
+    mov byte ptr [si], '$'
+
+    lea dx, saludo
+    mov ah, 09h
+    int 21h
+    lea dx, nombre+2
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Hola, Gheco». El gecko se pone colorado (bueno, más cian) y hace una reverencia. El ogro se va sin que nadie lo vea irse.
+
+#### Imagen
+- La cara de un gólem de bronce gigante con su ojo redondo de cristal encendido con luz cian.
+- Gheco (gecko de luz cian con antiparras, chiquito) hace una reverencia exagerada delante del ojo, sobre una cornisa de bronce.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) aplaude, mirando hacia arriba.
+- Detrás de una columna, la cabeza de un ogro grandote que se esconde.
+
+### Micro-misión R01-N04-P7 · La puerta se abre
+
+```meta
+lugar: La boca de bronce
+personajes: Nova, Gheco, Kira, Axón
+carta: Leer una frase | 0Ah con la bolsa · '$' en nombre+2+cantidad · mostrar desde nombre+2
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Para dejar entrar a Kira, {mentor} quiere su nombre completo y darle la bienvenida como corresponde. Nova tiene que hacerlo todo sola: preguntar, atrapar el nombre en la bolsa, cerrarlo con un `'$'` y saludar.
+
+#### Gheco sugiere
+Son cuatro pasos que ya hiciste: la pregunta con la `09h`; la `0Ah` con `lea dx, nombre`; el `'$'` en `nombre+2` más la cantidad (con `byte ptr [si]`); y el saludo, el nombre desde `nombre+2` y el punto.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a escribir `Kira`, y el ojo tiene que terminar diciendo `Axon: Bienvenida, Kira.`
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Quien anda ahi? $'
+saludo   db 13, 10, 'Axon: Bienvenida, $'
+punto    db '.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+Kira
+```
+
+#### Salida esperada
+```
+Axon: Quien anda ahi? Kira
+Axon: Bienvenida, Kira.
+```
+
+#### Estado esperado
+```
+[nombre+1] = 4
+[nombre+6] = '$'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 21, ?, 21 dup(?)
+pregunta db 'Axon: Quien anda ahi? $'
+saludo   db 13, 10, 'Axon: Bienvenida, $'
+punto    db '.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pregunta
+    mov ah, 09h
+    int 21h
+    mov ah, 0Ah
+    lea dx, nombre
+    int 21h
+
+    mov bl, nombre+1
+    mov bh, 0
+    lea si, nombre+2
+    add si, bx
+    mov byte ptr [si], '$'
+
+    lea dx, saludo
+    mov ah, 09h
+    int 21h
+    lea dx, nombre+2
+    int 21h
+    lea dx, punto
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El pecho de {mentor} se abre con un chirrido de siglos, y Kira entra al Gólem por primera vez. Arriba, en el núcleo, Nova la espera flotando. —Bienvenida —le dice en persona—. Ahora que sé escuchar, quiero aprender a **contar**.
+
+#### Imagen
+- El pecho de un gólem de bronce gigante abriéndose como dos puertas, con luz ámbar saliendo desde adentro.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) entra con cuidado, mirando hacia arriba.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) flota adentro, más arriba, con la mano extendida para recibirla.
+- Gheco (gecko de luz cian con antiparras, chiquito) en el hombro de Kira.
+
+### Prueba del sello
+
+#### ¿Qué diferencia hay entre la función 01h y la 07h?
+Las dos esperan una tecla y la dejan en AL; la 01h la muestra (eco) y la 07h no.
+
+#### ¿Por qué hay que guardar AL enseguida después de leer una tecla?
+Porque la próxima llamada a DOS lo pisa: después de una 09h, AL queda con `'$'`.
+
+#### En `buf db 10, ?, 10 dup(?)`, ¿cuántas letras se pueden escribir como máximo?
+Nueve: el máximo (10) cuenta también el Enter.
+
+#### Después de una 0Ah, ¿dónde está la cantidad de letras y dónde empieza el texto?
+La cantidad, en `buf+1`; el texto, en `buf+2`.
+
+#### ¿Por qué hay que agregar el `'$'` a mano, y por qué con `byte ptr`?
+Porque la 0Ah no lo pone (deja un 13 al final); `byte ptr` aclara que se escribe un solo cajón.

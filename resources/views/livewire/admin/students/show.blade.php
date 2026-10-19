@@ -244,9 +244,11 @@
         </div>
         <ul class="divide-y divide-outline text-sm">
             @forelse ($messageThreads as $row)
+                @php($messageSubject = $row->practice ?? $row->nodeStep)
+                @continue(! $messageSubject)
                 <li class="flex flex-wrap items-center gap-2 py-2">
-                    <a href="{{ route('admin.messages', ['hilo' => $row->practice_id.'-'.$user->id]) }}" wire:navigate class="text-primary-bright hover:underline">{{ $row->practice?->title }}</a>
-                    <span class="text-ink-muted">{{ $row->practice?->node->title }} · {{ $row->total }} {{ $row->total == 1 ? 'mensaje' : 'mensajes' }}</span>
+                    <a href="{{ route('admin.messages', ['hilo' => \App\Models\PracticeMessage::threadKey($messageSubject, $user)]) }}" wire:navigate class="text-primary-bright hover:underline">{{ $row->practice ? $messageSubject->title : 'Micro-misión «'.$messageSubject->title.'»' }}</a>
+                    <span class="text-ink-muted">{{ $messageSubject->node->title }} · {{ $row->total }} {{ $row->total == 1 ? 'mensaje' : 'mensajes' }}</span>
                     @if ($row->unread)
                         <flux:badge size="sm" color="red">{{ $row->unread }} sin leer</flux:badge>
                     @endif

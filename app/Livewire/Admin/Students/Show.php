@@ -262,8 +262,8 @@ class Show extends Component
                 ->map(fn (Hero $hero) => ['hero' => $hero, 'name' => app(Heroes::class)->protagonist($hero->course)['name'] ?? 'Héroe', 'spent' => app(Heroes::class)->spentOnStats($hero)]),
             'currencies' => Currency::with('course')->get()->sortBy(fn ($c) => $c->is_wildcard ? 'zzz' : $c->course?->title),
             'messageThreads' => app(TeacherScope::class)->messages(PracticeMessage::query(), auth()->user())->where('student_id', $this->user->id)
-                ->selectRaw('practice_id, count(*) as total, sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread, max(created_at) as last_at')
-                ->groupBy('practice_id')->orderByDesc('last_at')->with('practice.node')->get(),
+                ->selectRaw('practice_id, node_step_id, count(*) as total, sum(case when read_at is null and author_id = student_id then 1 else 0 end) as unread, max(created_at) as last_at')
+                ->groupBy('practice_id', 'node_step_id')->orderByDesc('last_at')->with('practice.node', 'nodeStep.node')->get(),
             'evictions' => DB::table('session_evictions')->where('user_id', $this->user->id)
                 ->where('created_at', '>=', now()->subDays(30))->latest('created_at')->limit(20)->get(),
             'submissions' => app(TeacherScope::class)->submissions(Submission::query(), auth()->user())->with('practice.node')->where('user_id', $this->user->id)->latest('submitted_at')->limit(15)->get(),

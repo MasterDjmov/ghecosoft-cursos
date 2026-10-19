@@ -92,8 +92,8 @@
         @elseif ($currentStep?->is($step))
             {{-- La que toca: escena, pista de Gheco, desafío y el editor. --}}
             {{-- result: lo que contestó el servidor al superarla (se queda en pantalla hasta tocar «Siguiente»). --}}
-            <article class="panel panel-active flex flex-col overflow-hidden" wire:key="step-current-{{ $step->id }}" data-test="step-current"
-                x-data="{ result: null }">
+            <article class="panel panel-active flex flex-col overflow-hidden scroll-mt-20" wire:key="step-current-{{ $step->id }}" data-test="step-current"
+                id="micro-{{ $step->id }}" x-data="{ result: null }">
                 @if ($image = $step->imageUrl() ?? $fallbackScene)
                     <figure class="relative aspect-[16/7] overflow-hidden border-b border-outline">
                         <img src="{{ $image }}" alt="" class="size-full object-cover" loading="lazy" data-test="step-image">
@@ -171,6 +171,22 @@
                                                 x-on:click="checking = true; wrong = false; $wire.completeStep({{ $step->id }}, pasted, code).then((r) => { checking = false; if (r.ok) { result = r } else { wrong = true } })">Comprobar</flux:button>
                                             <span x-show="wrong" x-cloak class="text-warning">Todavía no: esa salida no es igual a la esperada. Comparalas línea por línea.</span>
                                         </div>
+                                    </div>
+                                </details>
+                            @endif
+                            {{-- D110: la consulta al profe desde la micro-misión; adentro del editor, se lleva el código y la salida. --}}
+                            @if (! auth()->user()->isStaff() && auth()->user()->can('viewThread', [\App\Models\PracticeMessage::class, $step, auth()->user()]))
+                                @php($unreadForStep = \App\Models\PracticeMessage::thread($step, auth()->user())->unreadFor(auth()->user())->count())
+                                <details class="mt-3 rounded-lg border border-outline/70 px-3 py-2 text-sm" data-test="step-chat"
+                                    x-data x-init="if ({{ (int) request()->query('consulta') === $step->id ? 'true' : 'false' }}) $el.open = true">
+                                    <summary class="flex cursor-pointer items-center gap-2 text-ink-muted hover:text-white">
+                                        <flux:icon name="chat-bubble-left-right" variant="micro" /> Preguntale al profe
+                                        @if ($unreadForStep)
+                                            <span class="grid min-w-5 place-items-center rounded-full bg-danger px-1.5 font-mono text-[11px] font-bold text-white">{{ $unreadForStep }}</span>
+                                        @endif
+                                    </summary>
+                                    <div class="mt-3">
+                                        <livewire:practice-chat :step="$step" :student="auth()->user()" :key="'step-chat-'.$step->id" lazy />
                                     </div>
                                 </details>
                             @endif

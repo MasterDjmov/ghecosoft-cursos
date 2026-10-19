@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\NodeStep;
 use App\Models\Practice;
 use App\Models\PracticeMessage;
 use App\Models\User;
@@ -13,27 +14,34 @@ use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 /**
- * El hilo de consultas de un alumno sobre una práctica (D63). Lo usan el alumno (modo misión y
- * tarjeta de la práctica) y el docente (Admin → Mensajes). Se actualiza solo cada 20 s.
+ * El hilo de consultas de un alumno sobre una práctica (D63) o una micro-misión (D110). Lo usan el alumno (modo
+ * misión, tarjeta de la práctica y la micro-misión) y el docente (Admin → Mensajes). Se actualiza solo cada 20 s.
+ * Si está adentro de un editor (codeRunner), el mensaje del alumno lleva la foto de su código y su salida.
  */
 class PracticeChat extends Component
 {
     #[Locked]
-    public int $practiceId;
+    public ?int $practiceId = null;
+
+    #[Locked]
+    public ?int $stepId = null;
 
     #[Locked]
     public int $studentId;
 
     public string $body = '';
 
-    public function mount(Practice $practice, User $student): void
+    public function mount(User $student, ?Practice $practice = null, ?NodeStep $step = null): void
     {
-        Gate::authorize('viewThread', [PracticeMessage::class, $practice, $student]);
-        $this->practiceId = $practice->id;
+        $subject = $practice ?? $step;
+        abort_if($subject === null, 404);
+        Gate::authorize('viewThread', [PracticeMessage::class, $subject, $student]);
+        $this->practiceId = $practice?->id;
+        $this->stepId = $practice ? null : $step->id;
         $this->studentId = $student->id;
     }
 
-    public function send(PracticeMessenger $messenger): void
+    public function send(PracticeMessenger $messenger, ?string $code = null, ?string $output = null): void
     {
         [$practice, $student] = $this->thread();
         Gate::authorize('send', [PracticeMessage::class, $practice, $student]);
@@ -51,15 +59,19 @@ class PracticeChat extends Component
         }
         RateLimiter::hit($key, 60);
 
-        $messenger->send(auth()->user(), $practice, $student, $this->body);
+        $messenger->send(auth()->user(), $practice, $student, $this->body, $code, $output);
         $this->reset('body');
         $this->dispatch('practice-chat-sent');
     }
 
-    /** @return array{0: Practice, 1: User} */
+    /** @return array{0: Practice|NodeStep, 1: User} */
     private function thread(): array
     {
-        return [Practice::with('node.course')->findOrFail($this->practiceId), User::findOrFail($this->studentId)];
+        $subject = $this->practiceId
+            ? Practice::with('node.course')->findOrFail($this->practiceId)
+            : NodeStep::with('node.course')->findOrFail($this->stepId);
+
+        return [$subject, User::findOrFail($this->studentId)];
     }
 
     public function placeholder(): string
@@ -76,6 +88,7 @@ class PracticeChat extends Component
 
         return view('livewire.practice-chat', [
             'practice' => $practice,
+            'isStep' => $practice instanceof NodeStep,
             'student' => $student,
             'viewer' => $viewer,
             'messages' => PracticeMessage::thread($practice, $student)->with('author:id,name,last_name,role')->oldest()->get(),

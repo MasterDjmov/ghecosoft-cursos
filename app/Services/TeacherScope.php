@@ -54,10 +54,21 @@ class TeacherScope
         return $this->restrict($query, $viewer, 'submissions.practice_id', 'submissions.user_id');
     }
 
-    /** Consultas por práctica de alumnos de sus comisiones, en ese curso. */
+    /** Consultas por práctica o por micro-misión (D110) de alumnos de sus comisiones, en ese curso. */
     public function messages(Builder $query, User $viewer): Builder
     {
-        return $this->restrict($query, $viewer, 'practice_messages.practice_id', 'practice_messages.student_id');
+        if ($viewer->isAdmin()) {
+            return $query;
+        }
+        $cohorts = $this->cohortIds($viewer) ?: [0];
+
+        return $query->whereExists(fn (QueryBuilder $sub) => $sub->from('course_subscriptions as ts')
+            ->join('nodes as tn', 'tn.course_id', '=', 'ts.course_id')
+            ->whereColumn('ts.user_id', 'practice_messages.student_id')
+            ->whereIn('ts.cohort_id', $cohorts)
+            ->where(fn (QueryBuilder $w) => $w
+                ->whereExists(fn (QueryBuilder $p) => $p->from('practices as tp')->whereColumn('tp.node_id', 'tn.id')->whereColumn('tp.id', 'practice_messages.practice_id'))
+                ->orWhereExists(fn (QueryBuilder $p) => $p->from('node_steps as tst')->whereColumn('tst.node_id', 'tn.id')->whereColumn('tst.id', 'practice_messages.node_step_id'))));
     }
 
     /** Alumnos de sus comisiones (de cualquier curso). */

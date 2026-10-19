@@ -1,11 +1,14 @@
-{{-- Hilo de consultas de una práctica (D63): burbujas a la derecha las propias, a la izquierda las del otro lado. --}}
+{{-- Hilo de consultas de una práctica (D63) o de una micro-misión (D110): burbujas a la derecha las propias, a la izquierda
+     las del otro lado. Adentro de un editor, el mensaje del alumno lleva la foto de su código y de su salida (code y output). --}}
 <div wire:poll.20s.visible class="flex flex-col gap-3" data-test="practice-chat"
     x-data x-init="$nextTick(() => $refs.list && ($refs.list.scrollTop = $refs.list.scrollHeight))"
     x-on:practice-chat-sent.window="$nextTick(() => $refs.list && ($refs.list.scrollTop = $refs.list.scrollHeight))">
     @if ($messages->isEmpty())
         <p class="rounded-lg border border-dashed border-outline p-3 text-sm text-ink-muted">
             @if ($viewer->isStaff())
-                Todavía no hay mensajes con {{ $student->name }} sobre esta práctica.
+                Todavía no hay mensajes con {{ $student->name }} sobre {{ $isStep ? 'esta micro-misión' : 'esta práctica' }}.
+            @elseif ($isStep)
+                ¿Te trabaste? Escribile al profe: junto con tu mensaje le llega el código que tenés en el editor y lo que te dio al ejecutarlo.
             @else
                 ¿Te trabaste o tenés una duda? Escribile al profe acá, sin necesidad de entregar. La conversación queda guardada en esta práctica.
             @endif
@@ -23,13 +26,23 @@
                         'border-primary-bright/50 bg-primary/10 text-ink' => $mine,
                         'border-outline bg-surface-high text-ink' => ! $mine,
                     ])>{{ $message->body }}</p>
+                    @if ($message->code)
+                        <details class="w-full max-w-full rounded-md border border-outline/70 bg-surface-lowest text-xs" data-test="message-code">
+                            <summary class="cursor-pointer px-2 py-1 text-ink-muted">Código que tenía en el editor</summary>
+                            <pre class="max-h-60 overflow-auto px-2 pb-2 font-mono text-[11px] whitespace-pre text-ink">{{ $message->code }}</pre>
+                            @if ($message->output)
+                                <p class="px-2 text-[11px] text-ink-muted">Lo que le dio:</p>
+                                <pre class="max-h-32 overflow-auto px-2 pb-2 font-mono text-[11px] whitespace-pre-wrap text-success">{{ $message->output }}</pre>
+                            @endif
+                        </details>
+                    @endif
                 </li>
             @endforeach
         </ol>
     @endif
 
     @if ($canSend)
-        <form wire:submit="send" class="flex items-end gap-2">
+        <form x-on:submit.prevent="$wire.send(typeof code === 'string' ? code : null, typeof output === 'string' ? output : null)" class="flex items-end gap-2">
             <x-emoji-field class="flex-1">
                 <flux:textarea class="pe-10" wire:model="body" rows="2" :placeholder="$viewer->isStaff() ? 'Respondele…' : 'Escribile al profe…'" aria-label="Mensaje" />
             </x-emoji-field>

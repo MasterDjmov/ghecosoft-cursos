@@ -1245,3 +1245,781 @@ Pasando por una palanca: `mov al, uno` y después `mov otro, al`.
 
 #### ¿Ocupa memoria una constante declarada con `equ`?
 No: el ensamblador reemplaza el nombre por su valor antes de traducir.
+
+## R01-N03 · Dirección y contenido: dónde vive cada cajón
+
+```meta
+tipo: tema
+criatura: ogre
+padre: R01-N02
+precio: 0
+temas: maq.direcciones, maq.memoria
+```
+
+### Crónica
+
+Nova ya les pone nombre a sus cajones, pero cuando le pide a {mentor} que muestre su nombre en el ojo, el Gólem contesta:
+
+—No me des el nombre. Dame **dónde** está.
+
+Nova no entiende. Gheco se para frente a la pared de cajones y la recorre con la cola: —Cada cajón tiene un **número**, empezando por el 0. El nombre es la etiqueta que vos le pegaste; el número es su **dirección**. A veces el Gólem quiere lo que hay **adentro**, y a veces quiere saber **dónde** está.
+
+### Objetivos
+
+Distinguir la **dirección** de una variable (`offset`, `lea`) de su **contenido** (el nombre solo), reservar
+varios cajones de una vez con `dup` y `?`, llegar al cajón siguiente con `nombre+1`, y entender por qué los
+words se guardan «al revés» (*little endian*) y para qué sirve `byte ptr`.
+
+### Antes de empezar
+
+- Variables con `db`, `dw` y `equ` (nodo anterior).
+- La función 09h, que pide la dirección del texto en DX (La voz del Gólem).
+
+### Explicación
+
+#### La pared de cajones
+La memoria es una fila larguísima de cajones de **un byte**, numerados desde el 0. Cada variable de `.data`
+ocupa uno o más cajones seguidos, en el orden en que la declarás:
+
+```asm
+.data
+nombre   db 'Nova$'     ; cajones 0, 1, 2, 3 y 4
+pociones db 3           ; cajón 5
+```
+
+```
+dirección:   0    1    2    3    4    5
+contenido:  'N'  'o'  'v'  'a'  '$'   3
+            └──────── nombre ───────┘ pociones
+```
+
+#### Dirección y contenido
+- `mov al, pociones` → AL recibe el **contenido**: 3.
+- `mov bx, offset pociones` → BX recibe la **dirección**: 5.
+
+`offset` quiere decir «¿en qué cajón empieza?». Por eso la función 09h pide `offset saludo`: DOS necesita saber
+**dónde** empieza el texto para ir leyendo cajón por cajón hasta el `'$'`.
+
+> **Puente con otras lenguas.** `offset pociones` es el `&pociones` de C: la dirección de la variable. Un
+> **puntero** no es más que una palanca que guarda una dirección, como BX acá.
+
+#### `lea`: la otra forma de pedir la dirección
+```asm
+lea dx, saludo          ; igual que mov dx, offset saludo
+```
+`lea` (*load effective address*, «cargá la dirección») hace lo mismo que `offset`. Vas a ver las dos en
+programas ajenos; elegí la que te resulte más clara.
+
+#### Muchos cajones de una vez: `dup` y `?`
+```asm
+mochila db 5 dup('-'), '$'   ; cinco '-' seguidos y un '$': seis cajones
+puntos  dw 10 dup(0)         ; diez words en 0: veinte cajones
+llave   db ?                 ; un cajón sin valor elegido
+```
+- `N dup(x)` repite `x` N veces.
+- `?` reserva el lugar sin elegir qué hay adentro: no confíes en lo que tiene hasta que lo escribas.
+
+> **Puente con otras lenguas.** `mochila db 5 dup('-')` es el `char mochila[5]` de C o la lista
+> `['-'] * 5` de Python: un **arreglo** es una fila de cajones seguidos.
+
+#### El cajón siguiente: `nombre+1`
+`mochila` es el primer cajón de la mochila; `mochila+1`, el segundo; `mochila+2`, el tercero…
+
+```asm
+mov mochila+1, 'P'      ; el segundo cajón pasa a tener una P
+```
+
+Es el `mochila[1] = 'P'` de C o Python: el índice es cuántos cajones avanzás desde el primero.
+
+#### Little endian: los words al revés
+Un `dw` ocupa **dos** cajones, y el 8086 guarda **primero el byte bajo**:
+
+```asm
+monedas dw 4142h
+```
+```
+dirección:   monedas   monedas+1
+contenido:     42h        41h
+```
+
+Si lo leés entero (`mov bx, monedas`), vuelve a ser `4142h`. Si lo leés de a un byte, aparecen al revés. Las
+PC de hoy guardan los números igual.
+
+#### `byte ptr`: tomá solo un byte
+`monedas` es un word, así que `mov al, monedas` despierta al goblin (AL es de 1 byte). Con `byte ptr` le
+decís al ensamblador «de esta variable, tomá **un solo** byte»:
+
+```asm
+mov al, byte ptr monedas       ; AL = 42h (el primer cajón)
+mov ah, byte ptr monedas+1     ; AH = 41h (el segundo)
+```
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 'Nova$'
+mochila  db 5 dup('-'), '$'
+monedas  dw 4142h
+salto    db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, nombre            ; la dirección del texto
+    mov ah, 09h
+    int 21h
+    mov dx, offset salto
+    int 21h
+
+    mov mochila, 'E'          ; el primer cajón de la mochila
+    mov mochila+1, 'P'        ; el segundo
+    lea dx, mochila
+    int 21h
+    mov dx, offset salto
+    int 21h
+
+    mov dl, byte ptr monedas    ; los dos bytes de monedas, en el orden de la memoria
+    mov ah, 02h
+    int 21h
+    mov dl, byte ptr monedas+1
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Nova
+EP---
+BA
+```
+
+### ¿Para qué sirve?
+
+La diferencia entre dirección y contenido es **la** idea detrás de los punteros de C y C++, de las
+referencias de Java y Python y de cómo se pasa un arreglo a una función (se pasa dónde empieza, no una copia).
+El little endian aparece cada vez que se leen archivos binarios o se mandan números por la red.
+
+### Errores habituales
+
+**Goblin: el contenido en vez de la dirección.** `mov dx, nombre` antes de la 09h (`nombre` es `db` y DX es
+de 2 bytes):
+```
+main.asm(12) : Error A2048: Operands must be the same size: 2 - 1
+```
+Faltó `offset`: `mov dx, offset nombre` (o `lea dx, nombre`).
+
+**Ogro: la dirección en vez del contenido.** Querías las pociones en BL (`mov bl, pociones`) y escribiste
+`mov bx, offset pociones`: no da error, pero BL queda con el número del cajón (5), no con las pociones (3). El programa corre y da otra cosa. Se
+descubre con el paso a paso.
+
+**Goblin: un byte de un word.** `mov al, monedas` (`monedas` es `dw`):
+```
+main.asm(12) : Error A2048: Operands must be the same size: 1 - 2
+```
+Se arregla con `byte ptr monedas`.
+
+**Orco: el texto sin `'$'`.** `mochila db 5 dup('-')` sin el `'$'` final: la 09h sigue mostrando los cajones
+que vienen después, hasta encontrar un `'$'` en cualquier lado.
+
+### Micro-misión R01-N03-P1 · ¿En qué cajón vivís?
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco, Axón
+carta: offset | offset x = la dirección (el número del cajón) · x solo = el contenido · como &x en C
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nova señala el cajón de las pociones. —Adentro hay 3. Pero ¿cuál es su **número** en la pared? {mentor} espera, inmóvil: quiere las dos cosas.
+
+#### Gheco sugiere
+`mov al, pociones` copia lo que hay **adentro**. `mov bx, offset pociones` copia **dónde está**. Contá: la pared empieza en el cajón 0, y `nombre` ocupa los cinco primeros (`N`, `o`, `v`, `a` y `$`).
+
+#### Desafío
+Completá las dos órdenes: que **BX** quede con la **dirección** de `pociones` y **AL** con su **contenido**. Antes de ejecutar, adiviná cuánto va a valer BX.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 'Nova$'
+pociones db 3
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bx, ___ pociones     ; la dirección
+    mov al, ___              ; el contenido
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BX = 5
+AL = 3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre   db 'Nova$'
+pociones db 3
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bx, offset pociones
+    mov al, pociones
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+BX marca 0005 y AL marca 03. —El cajón **cinco** tiene **tres** pociones —dice Nova despacito, para no confundirse—. Dónde y qué. Son dos preguntas distintas.
+
+#### Imagen
+- Una pared de cajoncitos de bronce; uno brilla, con cinco rayitas grabadas en el marco y tres frasquitos de luz adentro.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala con una mano el marco y con la otra los frasquitos.
+- Gheco (gecko de luz cian con antiparras, chiquito) camina por el borde de los cajones contando con la cola.
+
+### Micro-misión R01-N03-P2 · La otra forma de señalar
+
+```meta
+lugar: El ojo del Gólem
+personajes: Nova, Gheco
+carta: lea | lea dx, texto = mov dx, offset texto · carga la dirección, no el contenido
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Siempre escribo `offset` antes del texto —dice Nova—. ¿Hay otra forma? Gheco saca de la cola una palabra corta: **lea**.
+
+#### Gheco sugiere
+`lea dx, saludo` deja en DX la dirección de `saludo`, igual que `mov dx, offset saludo`. Es justo lo que la 09h necesita.
+
+#### Desafío
+Completá la orden con `lea` para que el ojo muestre el saludo de Nova.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+saludo db 'Ya se donde vivo$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea ___, ___
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Ya se donde vivo
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+saludo db 'Ya se donde vivo$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, saludo
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El ojo del Gólem escribe la frase de Nova. —`offset` o `lea` —dice Gheco—. Las dos señalan el mismo cajón. Usá la que te salga más natural.
+
+#### Imagen
+- El ojo redondo de cristal de un gólem de bronce, encendido con una línea de luz cian.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) apunta al ojo con el dedo, y del dedo sale un hilo de luz.
+- Gheco (gecko de luz cian con antiparras, chiquito) sigue el hilo de luz caminando por el aire.
+
+### Micro-misión R01-N03-P3 · La mochila de cinco bolsillos
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco
+carta: dup | nombre db 5 dup('-') · cinco cajones seguidos iguales · como ['-'] * 5 en Python
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nova quiere una mochila con **cinco** bolsillos vacíos. —¿Tengo que declarar cinco cajones, uno por uno?
+
+#### Gheco sugiere
+`5 dup('-')` repite el `'-'` cinco veces, en cinco cajones seguidos. Después va el `'$'`, para que la 09h sepa dónde termina.
+
+#### Desafío
+Completá la declaración para que la mochila tenga **cinco** guiones (los bolsillos vacíos) y el ojo los muestre.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+mochila db ___ dup(___), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, mochila
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+-----
+```
+
+#### Estado esperado
+```
+[mochila+4] = '-'
+[mochila+5] = '$'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+mochila db 5 dup('-'), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, mochila
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Cinco bolsillos vacíos, uno al lado del otro. —Es una **fila** de cajones —dice Nova—. Con un solo nombre.
+
+#### Imagen
+- Una mochila de bronce con cinco bolsillos iguales en fila, todos vacíos, colgada de una pared de cajoncitos.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) se cuelga la mochila al hombro, contenta.
+- Gheco (gecko de luz cian con antiparras, chiquito) se asoma desde el último bolsillo.
+
+### Micro-misión R01-N03-P4 · El segundo bolsillo
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco
+carta: nombre+1 | mochila = el primer cajón · mochila+1 = el segundo · como mochila[1] en C o Python
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Nova encuentra una pluma de luz y la quiere guardar en el **segundo** bolsillo de la mochila, sin tocar los demás.
+
+#### Gheco sugiere
+`mochila` es el primer cajón; `mochila+1`, el que sigue. `mov mochila+1, 'P'` escribe una P solo ahí. Es el `mochila[1] = 'P'` de C o Python.
+
+#### Desafío
+Completá la orden para que el **segundo** bolsillo tenga una **P** (de pluma). El ojo tiene que mostrar `-P---`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+mochila db 5 dup('-'), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ___, 'P'
+
+    lea dx, mochila
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+-P---
+```
+
+#### Estado esperado
+```
+[mochila] = '-'
+[mochila+1] = 'P'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+mochila db 5 dup('-'), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov mochila+1, 'P'
+
+    lea dx, mochila
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La pluma brilla en el segundo bolsillo. —El primero es el **cero** —se da cuenta Nova—: `mochila+0`. Por eso el segundo es el `+1`.
+
+#### Imagen
+- Una mochila de bronce con cinco bolsillos en fila; solo el segundo tiene una pluma de luz cian que asoma.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) guarda la pluma con cuidado.
+- Gheco (gecko de luz cian con antiparras, chiquito) señala el primer bolsillo, vacío.
+
+### Micro-misión R01-N03-P5 · Las monedas al revés
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco, Axón
+carta: Little endian | un dw se guarda con el byte bajo primero · 4142h queda 42h, 41h
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova guarda `4142h` monedas en un cajón doble y mira la pestaña **Cajones**: ve un `42` y **después** un `41`. —¡Se dio vuelta! —Así guardo los words —dice {mentor}—: la mitad baja, primero.
+
+#### Gheco sugiere
+En `4142h`, la mitad **baja** son las dos cifras de la derecha: `42h`. Esa va en el primer cajón. Si dudás, ejecutá el programa: el ojo muestra los dos bytes en el orden en que están guardados (`41h` es la letra A y `42h` la B).
+
+#### Desafío
+Predecí: ¿qué byte está en el **primer** cajón de `monedas`? Escribilo en hexa en lugar de `___`, para que **BL** quede con ese byte.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+monedas dw 4142h
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, byte ptr monedas      ; el primer cajón
+    mov ah, 02h
+    int 21h
+    mov dl, byte ptr monedas+1    ; el segundo
+    int 21h
+
+    mov bl, ___      ; ¿qué byte está primero?
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+BA
+```
+
+#### Estado esperado
+```
+BL = 42h
+[monedas] = 42h
+[monedas+1] = 41h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+monedas dw 4142h
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, byte ptr monedas      ; el primer cajón
+    mov ah, 02h
+    int 21h
+    mov dl, byte ptr monedas+1    ; el segundo
+    int 21h
+
+    mov bl, 42h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El ojo muestra **BA**, no AB. —Leído de a uno, al revés —dice Nova—. Leído entero, al derecho. {mentor} asiente con un crujido: las PC de hoy, siglos después, guardan los números igual que él.
+
+#### Imagen
+- Un cajón doble de bronce abierto: en la mitad izquierda una moneda dorada con una estrella, en la derecha una moneda dorada con una luna.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) inclina la cabeza, desconcertada, como leyendo al revés.
+- Gheco (gecko de luz cian con antiparras, chiquito) hace la vertical sobre el cajón.
+
+### Micro-misión R01-N03-P6 · El goblin del cajón doble
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco
+criatura: goblin
+carta: byte ptr | byte ptr variable = tomá un solo byte · byte ptr x+1 = el segundo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova quiere solo la mitad **alta** de las monedas (el `41h`, la letra A) en AL. Escribe `mov al, monedas` y aparece un goblin: *«Operands must be the same size: 1 - 2»*.
+
+#### Gheco sugiere
+`monedas` es un word (2 bytes) y AL es de 1. Con `byte ptr` tomás un solo byte: `byte ptr monedas` es el primer cajón y `byte ptr monedas+1` el segundo. La mitad alta está en el **segundo** (acordate del little endian).
+
+#### Desafío
+Tocá **Ejecutar** para ver al goblin. Después arreglá la orden para que **AL** quede con la mitad alta de `monedas` (`41h`), y el ojo muestre la A.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+monedas dw 4142h
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, monedas
+
+    mov bl, al
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+A
+```
+
+#### Estado esperado
+```
+BL = 41h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+monedas dw 4142h
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, byte ptr monedas+1
+
+    mov bl, al
+    mov dl, bl
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Una A en el ojo. El goblin se rasca la cabeza: no esperaba que Nova supiera pedir **un pedazo** de un cajón doble. Se va refunfuñando.
+
+#### Imagen
+- Un goblin verde y flaco sentado sobre un cajón doble de bronce, con cara de enojado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) saca una sola moneda dorada de la mitad derecha del cajón, sin abrir la otra.
+- Gheco (gecko de luz cian con antiparras, chiquito) le sostiene una lupa.
+
+### Micro-misión R01-N03-P7 · La mochila de Nova
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Axón
+carta: Dirección y contenido | offset y lea = dónde · el nombre = qué hay · nombre+1 = el cajón siguiente
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Antes de seguir, Nova arma su mochila de viaje: una **E** (de espada de luz) en el primer bolsillo y una **P** (la pluma) en el segundo. {mentor} quiere verla en el ojo.
+
+#### Gheco sugiere
+Necesitás tres cosas que ya sabés: escribir en `mochila` y en `mochila+1`, dejar en DX la **dirección** de la mochila (`lea` u `offset`) y pedir la 09h.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre `EP---`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+mochila db 5 dup('-'), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+EP---
+```
+
+#### Estado esperado
+```
+[mochila] = 'E'
+[mochila+1] = 'P'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+mochila db 5 dup('-'), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov mochila, 'E'
+    mov mochila+1, 'P'
+    lea dx, mochila
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+**EP---** brilla en el ojo. La pared de cajones entera se ilumina por un instante, de punta a punta: Nova ya sabe **dónde** vive cada cosa. —Ahora me falta escuchar —dice—. Hasta ahora solo hablo yo.
+
+#### Imagen
+- Una pared enorme de cajoncitos de bronce que se ilumina de punta a punta con luz cian.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) con una mochila de bronce al hombro, de la que asoman una espada de luz y una pluma.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) la mira desde arriba con el ojo encendido.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la mochila.
+
+### Prueba del sello
+
+#### ¿Qué diferencia hay entre `mov al, pociones` y `mov bx, offset pociones`?
+La primera copia el contenido del cajón (lo que hay adentro); la segunda, su dirección (en qué cajón está).
+
+#### ¿Qué hace `lea dx, saludo`?
+Deja en DX la dirección de `saludo`, igual que `mov dx, offset saludo`.
+
+#### ¿Cuántos cajones ocupa `mochila db 5 dup('-'), '$'`?
+Seis: cinco guiones y el `'$'`.
+
+#### Si `monedas dw 1234h`, ¿qué byte está primero en la memoria?
+34h: el 8086 guarda primero el byte bajo (little endian).
+
+#### ¿Para qué sirve `byte ptr`?
+Para tomar un solo byte de una variable más grande, como un word.

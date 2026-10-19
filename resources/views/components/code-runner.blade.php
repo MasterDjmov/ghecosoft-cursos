@@ -34,7 +34,7 @@
         'code' => (string) $code, 'stdin' => (string) $stdin, 'expected' => (string) $expected, 'language' => $language,
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
-        'references' => (object) array_filter($references), 'checks' => $isHtml && filled($checks) ? (string) $checks : null,
+        'references' => (object) array_filter($references), 'checks' => ($isHtml || $language === 'asm') && filled($checks) ? (string) $checks : null,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -61,7 +61,7 @@
                 <button type="button" x-on:click="copy" title="Copiar" class="{{ $barButton }} text-ink-muted hover:bg-surface-high hover:text-ink">
                     <flux:icon name="clipboard" variant="micro" /> <span class="hidden sm:inline" x-text="copied ? '¡Copiado!' : 'Copiar'">Copiar</span>
                 </button>
-                @if ($canRun)
+                @if ($canRun && $language !== 'asm')
                     <button type="button" x-on:click="run" x-bind:disabled="running" title="Ejecutar (Ctrl+Enter)"
                         class="{{ $barButton }} bg-primary/15 text-primary-bright hover:bg-primary/25">
                         <flux:icon name="play" variant="micro" /> <span class="hidden sm:inline" x-text="running ? 'Ejecutando…' : '{{ $isHtml ? 'Ver' : 'Ejecutar' }}'">{{ $isHtml ? 'Ver' : 'Ejecutar' }}</span>
@@ -82,6 +82,8 @@
             @if (filled($checks))
                 <x-html-inspector class="border-t border-outline" :expected="$expected" />
             @endif
+        @elseif ($canRun && $language === 'asm')
+            <x-asm-board class="border-t border-outline" />
         @elseif ($canRun)
             <x-code-console class="border-t border-outline" />
         @endif

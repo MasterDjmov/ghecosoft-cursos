@@ -204,6 +204,10 @@ document.addEventListener('alpine:init', () => {
 // Editor + ejecutor: el ejemplo de un nodo, las hojas y la bandeja del docente.
 // config: { code, stdin, expected, language, readOnly, runnable, tab, pyodideUrl, javaRunnerUrl, javaHelpUrl, timeout }
 document.addEventListener('alpine:init', () => {
+    // Las sesiones del tablero del Gólem (D110) viven fuera de Alpine: una máquina de 1 MB no puede ser reactiva.
+    const asmSessions = new Map();
+    let asmCounter = 0;
+
     window.Alpine.data('codeRunner', (config) => ({
         code: config.code ?? '',
         original: config.code ?? '',
@@ -225,6 +229,16 @@ document.addEventListener('alpine:init', () => {
         // «Así tiene que quedar» (D77): las capturas de la página resuelta, para comparar en el mismo tamaño.
         references: config.references ?? {},
         showReference: false,
+        // Ensamblador 8086 (D110): lo que dibuja el tablero, el error del ensamblador y el modo del paso a paso.
+        asmId: ++asmCounter,
+        asm: null,
+        asmError: null,
+        asmMode: 'idle',
+        asmWaiting: null,
+        asmKey: '',
+        asmEnd: null,
+        asmPanel: 'registers',
+        asmContinuous: false,
 
         async init() {
             const isHtml = config.language === 'html' && config.runnable !== false;
@@ -255,6 +269,7 @@ document.addEventListener('alpine:init', () => {
 
         async run() {
             if (config.language === 'html') return this.renderHtml();
+            if (config.language === 'asm') return this.asmRun();
             if (this.running || config.runnable === false) return;
             this.running = true;
             this.tab = 'output';
@@ -328,6 +343,157 @@ document.addEventListener('alpine:init', () => {
                     this.matches = this.mismatch === null;
                 }
             }
+        },
+
+        // ---------------- Ensamblador 8086: el tablero del Gólem (D110)
+
+        async asmBegin() {
+            const { AsmSession } = await import('./runners/asm8086/session.js');
+            const session = new AsmSession(this.code, { stdin: this.stdin, checks: config.checks ?? '' });
+            asmSessions.set(this.asmId, session);
+            this.matches = null;
+            this.mismatch = null;
+            this.error = false;
+            this.output = null;
+            this.asmEnd = null;
+            this.asmWaiting = null;
+            const problem = session.start();
+            if (problem) {
+                this.asmError = problem;
+                this.asm = null;
+                this.error = true;
+                this.output = `Línea ${problem.line ?? '?'}: ${problem.message}\n(${problem.raw})`;
+                this.status = 'El Gólem no entendió una orden';
+                this.asmMode = 'idle';
+                this.editor?.markLine(problem.line);
+                return null;
+            }
+            this.asmError = null;
+            this.asmRefresh();
+            return session;
+        },
+
+        asmRefresh(mark = false) {
+            const session = asmSessions.get(this.asmId);
+            if (!session?.machine) return;
+            this.asm = session.view();
+            if (mark) this.editor?.markLine(this.asm.line);
+        },
+
+        async asmRun() {
+            if (this.running) return;
+            const session = this.asmMode === 'stepping' || this.asmMode === 'waiting' ? asmSessions.get(this.asmId) : await this.asmBegin();
+            if (!session) return;
+            this.running = true;
+            this.asmContinuous = true;
+            this.asmMode = 'running';
+            this.status = 'El Gólem está trabajando…';
+            this.editor?.markLine(null);
+            const result = await session.runToEnd(() => this.asmRefresh());
+            this.running = false;
+            this.asmAfter(session, result, false);
+        },
+
+        async asmStep() {
+            let session = asmSessions.get(this.asmId);
+            if (!session || this.asmMode === 'idle' || this.asmMode === 'done') {
+                session = await this.asmBegin();
+                if (!session) return;
+                this.asmMode = 'stepping';
+                this.status = 'Paso a paso: mirá qué cambia con cada orden';
+                this.editor?.markLine(session.currentLine());
+                return;
+            }
+            if (this.asmMode === 'waiting') return;
+            this.asmContinuous = false;
+            const result = session.step();
+            this.asmAfter(session, result, true);
+        },
+
+        asmAfter(session, result, stepping) {
+            this.asmRefresh(stepping);
+            if (result === 'input') {
+                this.asmMode = 'waiting';
+                this.asmWaiting = session.waiting;
+                this.status = session.waiting === 'line' ? 'El Gólem espera que escribas una línea y Enter' : 'El Gólem espera una tecla';
+                this.$nextTick(() => this.$refs.asmKey?.focus());
+                return;
+            }
+            if (result === 'ok') {
+                this.asmMode = 'stepping';
+                return;
+            }
+            if (result === 'stopped') {
+                this.asmMode = 'stepping';
+                this.status = 'En pausa: seguí de a una orden o ejecutá hasta el final';
+                this.editor?.markLine(session.currentLine());
+                return;
+            }
+            this.asmFinish(session, result === 'loop');
+        },
+
+        async asmFinish(session, loop) {
+            this.asmMode = 'done';
+            this.editor?.markLine(null);
+            const output = session.result();
+            this.output = output || '(sin salida)';
+            const end = loop ? 'El Gólem se quedó dando vueltas: el programa no terminó (¿un bucle sin salida?)' : session.endMessage();
+            this.asmEnd = end;
+            this.error = Boolean(end);
+            this.status = end ? 'El Gólem se detuvo con un problema' : `Listo en ${session.machine.steps} órdenes`;
+            if (!end && config.expected) {
+                const { describeDifference } = await import('./runners/compare.js');
+                this.mismatch = this.asmDifference(config.expected, output) ?? describeDifference(config.expected, output);
+                this.matches = this.mismatch === null;
+            }
+        },
+
+        /** Si lo que no coincide es el estado, se dice en criollo: «AX quedó en 0012h; tenía que ser 1234h». */
+        asmDifference(expected, actual) {
+            const header = '── Estado ──';
+            if (!expected.includes(header) || !actual.includes(header)) return null;
+            const want = expected.split(header)[1].trim().split('\n');
+            const got = actual.split(header)[1].trim().split('\n');
+            for (let i = 0; i < want.length; i++) {
+                if (want[i] !== got[i]) {
+                    const [name, value] = want[i].split(' = ');
+                    const mine = (got[i] ?? '').split(' = ')[1] ?? '?';
+                    return `${name} quedó en ${mine}; tenía que ser ${value}.`;
+                }
+            }
+            return null;
+        },
+
+        asmSend() {
+            const session = asmSessions.get(this.asmId);
+            if (!session || this.asmMode !== 'waiting') return;
+            const text = this.asmWaiting === 'line' ? `${this.asmKey}\n` : (this.asmKey || '\r').slice(0, 1);
+            session.feed(text);
+            this.asmKey = '';
+            this.asmWaiting = null;
+            // Si venía corriendo, sigue; si era paso a paso, la próxima orden ya tiene la tecla.
+            if (this.asmContinuous) return this.asmRun();
+            this.asmMode = 'stepping';
+            this.asmStep();
+        },
+
+        asmStop() {
+            const session = asmSessions.get(this.asmId);
+            if (this.running) return session?.stop();
+            asmSessions.delete(this.asmId);
+            this.asm = null;
+            this.asmMode = 'idle';
+            this.asmWaiting = null;
+            this.status = '';
+            this.editor?.markLine(null);
+        },
+
+        asmGoto(address) {
+            const session = asmSessions.get(this.asmId);
+            if (!session) return;
+            const n = parseInt(String(address).replace(/h$/i, ''), 16);
+            session.memoryBase = Number.isNaN(n) ? null : n & 0xfff0;
+            this.asmRefresh();
         },
 
         async copy() {

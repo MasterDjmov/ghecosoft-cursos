@@ -43,7 +43,7 @@ Los alumnos simulados usan emails `@simulacion.test`. Así `--reset` los encuent
    - Con **otros lenguajes**, compara con la *Solución de referencia*.
    - Los **archivos** los revisa por su contenido.
 2. **A la tarde, cada alumno** (algunos días no entra) hace varias acciones, en este orden:
-   1. Entrega lo pendiente de los nodos abiertos: primero las obligatorias y después las optativas que "le gustan".
+   1. En un curso que se comprueba solo (inglés D106, ensamblador D110), supera las micro-misiones de los nodos abiertos: así se completa el nodo. En los demás, entrega lo pendiente de los nodos abiertos: primero las obligatorias y después las optativas que "le gustan".
    2. Si no tiene nada para entregar, abre el siguiente nodo que puede pagar.
    3. Si le faltan comodines para una Senda, vuelve a hacer optativas.
    4. Con el abono vencido, pide la renovación.

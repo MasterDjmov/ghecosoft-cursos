@@ -5,10 +5,13 @@ Curso nuevo pedido el 2026-10-18 a partir del material de
 
 **Estado (2026-10-19):** hechos el emulador y el tablero (los 82 programas del material dan la salida de
 referencia), el lenguaje autocomprobado con `#### Estado esperado`, las consultas desde micro-misiones para
-todos los cursos con la solución al lado, la herramienta libre *Herramientas → Gólem 8086*, la historia de Nova,
-**los tres primeros nodos** (Clase 0, La voz del Gólem, Los cajones con nombre: 17 micro-misiones) y todas sus
-imágenes en Stitch (Nova, Axón, logo, moneda, fondo, 6 aspectos y 17 escenas). Sigue: el resto del temario
-(§ 5), la tienda y las expediciones de Nova, la enciclopedia y la temporada de inglés (lista de ALTA).
+todos los cursos con la solución al lado, la herramienta libre *Herramientas → Gólem 8086*, la historia de Nova y
+**el temario completo** (§ 5, fases 4 y 5): 27 nodos y 143 micro-misiones en `cursos/ensamblador/` (R00 Clase 0;
+R01 Fundamentos + el Slime de las Palancas; R02 Decisiones y repeticiones + el Ogro de las Banderas; R03 Pila,
+procedimientos y pantalla + el Troll de la Pila; R04 la calculadora, el Oráculo, el combate y el Dragón del
+Gólem). `probar-curso.mjs` da 170 bien y `app:simulate-course ensamblador` termina con los 5 alumnos (27/27).
+Escenas en Stitch: 26 de 143. Sigue la fase 6: las escenas que faltan, la tienda y las expediciones de Nova, la
+enciclopedia y la temporada de inglés (lista de ALTA).
 
 ## 1. Decisiones tomadas (2026-10-18)
 

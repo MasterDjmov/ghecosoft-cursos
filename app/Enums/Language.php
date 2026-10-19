@@ -16,6 +16,8 @@ enum Language: string
     case Arduino = 'arduino';
     // D106: un curso de inglés no ejecuta nada; english.js compara las respuestas en el navegador.
     case English = 'english';
+    // D110: Ensamblador 8086, con el ensamblador y el emulador propios (resources/js/runners/asm8086), en el navegador.
+    case Asm = 'asm';
     case Other = 'other';
 
     /** Abreviatura para íconos chicos. */
@@ -32,6 +34,7 @@ enum Language: string
             self::Sql => 'SQL',
             self::Arduino => 'Ino',
             self::English => 'EN',
+            self::Asm => 'ASM',
             self::C => 'C',
             self::Other => '</>',
         };
@@ -51,6 +54,7 @@ enum Language: string
             self::Sql => 'SQL',
             self::Arduino => 'Arduino',
             self::English => 'Inglés',
+            self::Asm => 'Ensamblador 8086',
             self::Other => 'Otro',
         };
     }
@@ -65,7 +69,7 @@ enum Language: string
      */
     public function runsForStudents(): bool
     {
-        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php], true);
+        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm], true);
     }
 
     /**
@@ -89,6 +93,15 @@ enum Language: string
      * trampear.
      */
     public function isSelfChecked(): bool
+    {
+        return $this === self::English || $this === self::Asm;
+    }
+
+    /**
+     * D106: el curso de inglés se muestra como una biblioteca de episodios (no como árbol) y cada nodo como un
+     * episodio. El de Ensamblador (D110) también se comprueba solo, pero con el árbol y los nodos de siempre.
+     */
+    public function isLibrary(): bool
     {
         return $this === self::English;
     }

@@ -65,6 +65,8 @@ class CourseFileParser
         'entrada' => 'sample_input',
         // HTML y CSS (D102): qué revisa el inspector; la «salida esperada» es su informe.
         'inspector' => 'checks',
+        // Ensamblador 8086 (D110): cómo tienen que quedar registros, banderas y memoria (App\Support\AsmState).
+        'estado esperado' => 'checks',
         'salida esperada' => 'expected_output',
         'solucion' => 'solution',
         'al superarla' => 'success_text',

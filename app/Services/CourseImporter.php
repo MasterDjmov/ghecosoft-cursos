@@ -17,6 +17,7 @@ use App\Models\Node;
 use App\Models\NodeStep;
 use App\Models\Practice;
 use App\Rules\SafeUpload;
+use App\Support\AsmState;
 use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
 use App\Support\EnglishExercise;
@@ -145,7 +146,9 @@ class CourseImporter
             $roots += $type === 'raiz' ? 1 : 0;
 
             $stepCodes = [];
-            $english = Language::tryFrom(Str::lower($meta['lenguaje'] ?? ''))?->isSelfChecked() ?? false;
+            $courseLanguage = Language::tryFrom(Str::lower($meta['lenguaje'] ?? ''));
+            $english = $courseLanguage?->isLibrary() ?? false;
+            $asm = $courseLanguage === Language::Asm;
             foreach ($node['steps'] ?? [] as $step) {
                 if (isset($stepCodes[$step['code']])) {
                     $this->report->error("{$step['where']}: la micro-misión {$step['code']} está repetida en el nodo.");
@@ -160,7 +163,12 @@ class CourseImporter
 
                     continue;
                 }
-                if (blank($step['fields']['expected_output'] ?? null)) {
+                // Ensamblador (D110): alcanza con la salida o con el «Estado esperado» (registros, banderas, memoria).
+                if ($asm && filled($step['fields']['checks'] ?? null)) {
+                    foreach (AsmState::invalidLines((string) $step['fields']['checks']) as $bad) {
+                        $this->report->error("{$step['where']}: la micro-misión {$step['code']} tiene un «Estado esperado» que no se entiende: «{$bad}» (por ejemplo: AX = 1234h, ZF = 1, [pociones] = 4).");
+                    }
+                } elseif (blank($step['fields']['expected_output'] ?? null)) {
                     $this->report->error("{$step['where']}: la micro-misión {$step['code']} no tiene «Salida esperada»: sin ella no se puede comprobar sola.");
                 }
                 // HTML y CSS no imprime nada: sin inspector, la micro-misión no se puede comprobar (D102).
@@ -509,10 +517,14 @@ class CourseImporter
 
             $model = $existing[$step['code']] ?? new NodeStep(['node_id' => $node->id, 'code' => $step['code']]);
             // Inglés (D106): el ejercicio se guarda armado y el navegador avisa «superada» al resolverlo.
-            $english = $this->course->language->isSelfChecked();
+            $english = $this->course->language->isLibrary();
             if ($english) {
                 $fields['checks'] = json_encode(EnglishExercise::parse((string) ($fields['checks'] ?? ''))['exercise'], JSON_UNESCAPED_UNICODE);
                 $fields['expected_output'] = EnglishExercise::PASSED;
+            }
+            // Ensamblador (D110): la salida esperada lleva debajo el informe del estado, como lo arma el navegador.
+            if ($this->course->language === Language::Asm && filled($fields['checks'] ?? null)) {
+                $fields['expected_output'] = AsmState::expected($fields['expected_output'] ?? null, (string) $fields['checks']);
             }
             $model->fill([
                 'position' => $index + 1,

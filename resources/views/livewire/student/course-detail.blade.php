@@ -6,8 +6,10 @@
     $canRequest = ! $pending && (! $subscription || $daysLeft <= 7);
     $isRenewal = $kind === \App\Enums\RequestKind::Renewal;
     // D106: un curso de inglés se recorre como una biblioteca de episodios, sin monedas ni correcciones.
+    // D110: el de Ensamblador también se comprueba solo, pero con el árbol de siempre.
     $selfChecked = $course->language->isSelfChecked();
-    $treeLabel = $selfChecked ? 'la biblioteca' : 'el árbol';
+    $library = $course->language->isLibrary();
+    $treeLabel = $library ? 'la biblioteca' : 'el árbol';
 @endphp
 
 <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 sm:p-8">
@@ -47,7 +49,7 @@
             <div class="flex flex-col gap-1">
                 <p class="tech-label"><span class="live-dot me-2"></span>Inscripción aprobada</p>
                 @if ($selfChecked)
-                    <p class="text-ink">Ya podés empezar: abrí el primer episodio, «{{ $course->rootNode?->title }}».</p>
+                    <p class="text-ink">Ya podés empezar: abrí {{ $library ? 'el primer episodio' : 'la clase 0' }}, «{{ $course->rootNode?->title }}».</p>
                 @else
                     <p class="text-ink">
                         Tenés <strong class="text-white">{{ $balance }} {{ $coin($balance) }}</strong>.
@@ -73,7 +75,7 @@
                     <li>Coordinás con el profe una clase inicial y le mandás el comprobante de pago (o le escribís por WhatsApp).</li>
                     @if ($selfChecked)
                         <li>Cuando lo aprueba, tenés {{ $course->subscription_days }} días de abono.</li>
-                        <li>Abrís el primer episodio y después elegís qué leer y practicar.</li>
+                        <li>{{ $library ? 'Abrís el primer episodio y después elegís qué leer y practicar.' : 'Abrís la clase 0 y vas resolviendo micro-misiones: cada nodo superado abre los siguientes.' }}</li>
                     @else
                         <li>Cuando lo aprueba, recibís <strong class="text-white">{{ $course->root_price }} {{ $coin($course->root_price) }}</strong> y {{ $course->subscription_days }} días de abono.</li>
                         <li>Con esas {{ $coin(2) }} abrís la clase 0 y arranca tu árbol.</li>
@@ -88,16 +90,16 @@
                 <div class="flex flex-col gap-1">
                     <p class="flex items-center gap-2 font-medium text-white"><flux:icon name="sparkles" variant="micro" class="text-secondary-bright" /> Probalo gratis antes de pagar</p>
                     <p class="text-sm text-ink">
-                        @if ($selfChecked)
+                        @if ($library)
                             Entrá al primer episodio, <strong class="text-white">{{ $course->rootNode->title }}</strong>: leelo, escuchalo y practicá sin pagar.
                         @else
                             Entrá a la <strong class="text-white">{{ $course->rootNode->title }}</strong>: leé la clase, mirá el ejemplo y practicá sin pagar.
                         @endif
-                        {{ $selfChecked ? 'Para seguir con los otros episodios' : 'Para que el profe te corrija y seguir con el resto' }}, pedís el abono; el mes empieza a correr recién cuando se aprueba.
+                        {{ $library ? 'Para seguir con los otros episodios' : ($selfChecked ? 'Para seguir con el resto' : 'Para que el profe te corrija y seguir con el resto') }}, pedís el abono; el mes empieza a correr recién cuando se aprueba.
                     </p>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <flux:button variant="primary" icon="play" :href="route('student.node', [$course, $course->rootNode])" wire:navigate>{{ $selfChecked ? 'Probar el primer episodio gratis' : 'Probar la clase 0 gratis' }}</flux:button>
+                    <flux:button variant="primary" icon="play" :href="route('student.node', [$course, $course->rootNode])" wire:navigate>{{ $library ? 'Probar el primer episodio gratis' : 'Probar la clase 0 gratis' }}</flux:button>
                     <flux:button variant="ghost" icon="share" :href="route('student.tree', $course)" wire:navigate>Ver {{ $treeLabel }}</flux:button>
                 </div>
             </div>

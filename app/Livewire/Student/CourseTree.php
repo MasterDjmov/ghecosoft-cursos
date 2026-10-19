@@ -63,7 +63,7 @@ class CourseTree extends Component
     {
         $user = auth()->user();
         // D106: un curso que se comprueba solo (inglés) se muestra como una biblioteca de episodios, no como árbol.
-        if ($this->course->language->isSelfChecked()) {
+        if ($this->course->language->isLibrary()) {
             return $this->library($access);
         }
         $graph = TreeGraph::forStudent($this->course, $user);

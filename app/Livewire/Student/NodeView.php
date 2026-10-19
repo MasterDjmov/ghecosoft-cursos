@@ -186,7 +186,7 @@ class NodeView extends Component
     public function render(TreeAccess $access)
     {
         $user = auth()->user();
-        if ($this->course->language->isSelfChecked()) {
+        if ($this->course->language->isLibrary()) {
             return $this->episode($access);
         }
         $practices = $this->node->practices()->get();

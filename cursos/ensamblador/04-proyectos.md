@@ -3824,3 +3824,1614 @@ Porque partiendo a la mitad cada intento descarta la mitad de los números, y 2�
 
 #### ¿Qué hace `or al, 20h` con una letra?
 Prende el bit 5: la pasa a minúscula (`'S'` → `'s'`).
+
+## R04-N03 · Proyecto: Kira contra el Autómata de Hierro
+
+```meta
+tipo: tema
+criatura: ogre
+padre: R04-N02
+precio: 0
+temas: juegos.bucle, prog.menu
+usa: prog.funciones, prog.matematica-azar, prog.bits, maq.direcciones
+```
+
+### Crónica
+
+Maese Ferrum baja desde las Forjas a ver al Gólem que camina. Trae un regalo para Kira: un **autómata de hierro** de entrenamiento, alto como dos enanos, con un garrote de práctica. —Antes de que te enfrentes a algo de verdad —le dice—, entrená.
+
+Kira tiene su espada, un escudo y dos pociones. {mentor} lleva la cuenta de cada golpe en sus palancas. —Es la prueba de todo lo que aprendiste, Nova —dice el Gólem—. Cada rutina que escribiste, junta.
+
+### Objetivos
+
+Integrar todo en un **combate por turnos**: variables de estado, menú con teclas sin eco, azar, comparaciones,
+bits para multiplicar y dividir (`shl`, `shr`), una rutina que trabaja con la **dirección** de una variable
+(`[si]`), barras de vida y el bucle de rondas.
+
+### Antes de empezar
+
+- Todo el curso, en especial las rutinas, el grimorio de los números, bits y el azar.
+
+### Explicación
+
+#### Las reglas
+- Kira: 30 de vida y 2 pociones. El autómata: 40 de vida.
+- Turno de Kira (tecla sin eco; las inválidas se ignoran):
+  1. **Atacar**: daño de 3 a 8; 1 de cada 6 es **crítico** (daño × 2).
+  2. **Defender**: este turno, el golpe del autómata vale la mitad.
+  3. **Poción**: +10 de vida (con tope 30). Sin pociones, pierde el turno.
+- Turno del autómata: daño de 2 a 7; 1 de cada 5 es **furia** (+4).
+- Gana quien deja al otro en 0.
+
+#### La estructura
+```
+main:           ronda nueva -> mostrar_estado -> turno_kira -> ¿autómata en 0? -> turno_auto -> ¿Kira en 0?
+turno_kira:     leer_accion (1, 2 o 3) -> atacar / defender / pocion
+turno_auto:     el golpe (furia, escudo)
+quitar_vida:    SI = la dirección de la vida, CL = el daño; la vida no baja de 0
+mostrar_estado: las dos barras con sus números
+```
+
+#### Una rutina para las dos vidas
+`quitar_vida` recibe en SI **la dirección** de la vida (`lea si, vida_k` o `lea si, vida_o`) y trabaja con `[si]`.
+El mismo código sirve para los dos personajes:
+```asm
+cmp cl, [si]
+jae queda_cero         ; el daño es mayor o igual: queda en 0
+sub [si], cl
+```
+Sin ese `cmp`, restar 8 a una vida de 5 da 253 (el byte da la vuelta) y el autómata «resucita».
+
+#### Bits que multiplican y dividen
+- Crítico: `shl cl, 1` (× 2).
+- Escudo: `shr cl, 1` (÷ 2, redondeando para abajo).
+
+> **Puente con otras lenguas.** Todo videojuego tiene este **bucle de juego**: leer lo que hace el jugador,
+> actualizar el estado, dibujar, repetir. En Python con pygame, en C con SDL o en un motor como Godot, la forma es
+> la misma. Y pasar «la dirección de la vida» es pasar un **puntero** (C) o una **referencia** (Java, Python).
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+vida_k db 30
+vida_o db 40
+t_kira db 'Kira     $'
+t_auto db 'Automata $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, vida_o
+    mov cl, 12
+    call quitar_vida
+    lea dx, t_kira
+    mov ah, 09h
+    int 21h
+    mov al, vida_k
+    mov bl, 30
+    call barra
+    call nueva_linea
+    lea dx, t_auto
+    mov ah, 09h
+    int 21h
+    mov al, vida_o
+    mov bl, 40
+    call barra
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    cmp cl, [si]
+    jae queda_cero
+    sub [si], cl
+    ret
+queda_cero:
+    mov byte ptr [si], 0
+    ret
+quitar_vida endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    shr al, 1
+    shr bl, 1
+    sub bl, al
+    mov cl, al
+    mov ch, 0
+    mov dl, '#'
+    mov ah, 02h
+    jcxz sin_llenos
+llenos:
+    int 21h
+    loop llenos
+sin_llenos:
+    mov cl, bl
+    mov dl, '.'
+    jcxz sin_vacios
+vacios:
+    int 21h
+    loop vacios
+sin_vacios:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+end main
+```
+
+### Salida esperada
+
+```
+Kira     ###############
+Automata ##############......
+```
+
+### ¿Para qué sirve?
+
+Un juego por turnos usa casi todo lo que sabe hacer un programador: estado, entrada, azar, reglas, pantalla y un
+bucle que no termina hasta que alguien gana. Y la idea de pasar la **dirección** de un dato a una rutina, para que
+lo cambie, está en el corazón de C, C++ y de cómo funcionan los objetos en todos los lenguajes.
+
+### Errores habituales
+
+**Ogro: la vida que da la vuelta.** `sub [si], cl` sin comparar antes: con 5 de vida y 8 de daño, quedan 253.
+
+**Goblin: `sub [si], 8` sin tamaño.** Con un número suelto, el Gólem no sabe si `[si]` es uno o dos cajones:
+`sub byte ptr [si], 8`. (Con `cl` no hace falta: CL ya dice que es un byte.)
+
+**Ogro: el escudo que nunca se baja.** Si `defiende` no vuelve a 0 después del golpe, Kira queda protegida para
+siempre.
+
+**Troll: rutinas que pisan.** `atacar` usa BL y CL para el azar y el daño: si no los guarda, rompe a quien la
+llamó.
+
+### Micro-misión R04-N03-P1 · La vida que da la vuelta
+
+```meta
+lugar: El campo de entrenamiento
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: Una rutina, dos vidas | SI = la dirección de la vida · [si] = la vida · cmp antes de sub: no baja de 0
+```
+
+#### Escena
+Kira le pega al autómata, que tenía **5** de vida, un golpe de **8**. El autómata no cae: se levanta con **253** de vida. Ferrum se rasca la barba. Un ogro, mirando desde la cerca, se ríe.
+
+#### Gheco sugiere
+`sub [si], cl` con 5 − 8 da la vuelta y queda en 253. Antes de restar, compará el daño con la vida (`cmp cl, [si]`): si es mayor o igual (`jae`), la vida queda en **0** (`mov byte ptr [si], 0`).
+
+#### Desafío
+Ejecutá y mirá los cajones de las vidas. Después arreglá `quitar_vida` para que la vida nunca baje de 0.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+vida_k db 30
+vida_o db 5
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, vida_k
+    mov cl, 6
+    call quitar_vida
+    lea si, vida_o
+    mov cl, 8
+    call quitar_vida
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    sub [si], cl
+    ret
+quitar_vida endp
+
+end main
+```
+
+#### Estado esperado
+```
+[vida_k] = 24
+[vida_o] = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+vida_k db 30
+vida_o db 5
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, vida_k
+    mov cl, 6
+    call quitar_vida
+    lea si, vida_o
+    mov cl, 8
+    call quitar_vida
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    cmp cl, [si]
+    jae queda_cero
+    sub [si], cl
+    ret
+queda_cero:
+    mov byte ptr [si], 0
+    ret
+quitar_vida endp
+
+end main
+```
+
+#### Al superarla
+El autómata cae, como corresponde, y se queda quieto en el piso. —Una sola rutina para las dos vidas —dice Nova—. Le paso **dónde** está la vida, y ella la cambia.
+
+#### Imagen
+- Un autómata de hierro alto, de entrenamiento, con un garrote de práctica, cayendo de espaldas sobre el pasto.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con la espada en alto, recién terminado el golpe.
+- Un ogro grandote se ríe apoyado en una cerca de madera.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la cerca, señalando al ogro.
+
+### Micro-misión R04-N03-P2 · Crítico y escudo
+
+```meta
+lugar: El campo de entrenamiento
+personajes: Nova, Gheco, Kira
+carta: shl y shr | shl x, 1 = el doble · shr x, 1 = la mitad (redondea para abajo)
+```
+
+#### Escena
+Kira practica dos cosas: el **golpe crítico** (que hace el doble de daño) y el **escudo** (que le saca la mitad al golpe del autómata).
+
+#### Gheco sugiere
+Correr los bits un lugar a la izquierda (`shl`) multiplica por 2; a la derecha (`shr`), divide por 2.
+
+#### Desafío
+Completá las dos órdenes para que el crítico de 7 haga **14** y el golpe de 9, con escudo, haga **4**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+danio db 7
+golpe db 9
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cl, danio
+    ___ cl, 1            ; crítico: el doble
+    mov dl, golpe
+    ___ dl, 1            ; con escudo: la mitad
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+#### Estado esperado
+```
+CL = 14
+DL = 4
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+danio db 7
+golpe db 9
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cl, danio
+    shl cl, 1            ; crítico: el doble
+    mov dl, golpe
+    shr dl, 1            ; con escudo: la mitad
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+end main
+```
+
+#### Al superarla
+—Catorce y cuatro —anota Ferrum, impresionado—. ¿Y cómo dividiste tan rápido? —Moví los interruptores un lugar —dice Nova—. Nada más.
+
+#### Imagen
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) cubriéndose con un escudo redondo de bronce mientras un garrote de práctica rebota en él.
+- Maese Ferrum, un herrero humano enorme de unos dos metros, NO es enano, con barba gris trenzada, un ojo mecánico naranja y delantal de cuero, mira con los brazos cruzados.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) flota cerca, con una chispa cian en cada mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado en el escudo.
+
+### Micro-misión R04-N03-P3 · Las barras de vida
+
+```meta
+lugar: El campo de entrenamiento
+personajes: Nova, Gheco
+carta: Barra | llenos = vida / 2 · vacíos = máximo / 2 - llenos · shr para dividir · jcxz si son 0
+```
+
+#### Escena
+El ojo del Gólem tiene que mostrar cómo va cada uno: una **barra** de `#` (lo que queda) y `.` (lo que se perdió), un casillero cada 2 puntos de vida.
+
+#### Gheco sugiere
+Con `shr al, 1` y `shr bl, 1` tenés los casilleros llenos y el total. Los vacíos son el total menos los llenos. Dos bucles con la `02h`: primero los `#`, después los `.`. Si alguno da 0, `jcxz` lo saltea (si no, `loop` daría 65.536 vueltas).
+
+#### Desafío
+Escribí el cuerpo de `barra` donde dice `; tus órdenes`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 22
+    mov bl, 30
+    call barra
+    call nueva_linea
+    mov al, 7
+    mov bl, 40
+    call barra
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    ; tus órdenes
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+end main
+```
+
+#### Salida esperada
+```
+###########....
+###.................
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 22
+    mov bl, 30
+    call barra
+    call nueva_linea
+    mov al, 7
+    mov bl, 40
+    call barra
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    shr al, 1
+    shr bl, 1
+    sub bl, al
+    mov cl, al
+    mov ch, 0
+    mov dl, '#'
+    mov ah, 02h
+    jcxz sin_llenos
+llenos:
+    int 21h
+    loop llenos
+sin_llenos:
+    mov cl, bl
+    mov dl, '.'
+    jcxz sin_vacios
+vacios:
+    int 21h
+    loop vacios
+sin_vacios:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+end main
+```
+
+#### Al superarla
+Dos barras en el ojo: Kira con 11 de 15 casilleros, el autómata con 3 de 20. —Ahora se ve quién va ganando —dice Gheco.
+
+#### Imagen
+- Dos barras horizontales de luz en un ojo de cristal gigante: una verde casi llena y una roja casi vacía.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) ajusta la barra verde con la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) colgado de la barra roja, que se vacía.
+
+### Micro-misión R04-N03-P4 · La tecla que vale
+
+```meta
+lugar: El campo de entrenamiento
+personajes: Nova, Gheco, Kira
+carta: Leer hasta que valga | 07h sin eco · fuera de '1'..'3': leer otra · la válida se muestra y se guarda
+```
+
+#### Escena
+En medio del combate, Kira aprieta cualquier cosa: una **x**, un **5**… El Gólem tiene que ignorar lo que no es una acción y esperar a que llegue un 1, un 2 o un 3.
+
+#### Gheco sugiere
+Un «hasta que»: leé una tecla con la `07h` (sin eco); si es menor que `'1'` o mayor que `'3'`, volvé a leer. Cuando vale, guardala en `accion`, mostrala con la `02h` y pasá de renglón.
+
+#### Desafío
+Escribí el cuerpo de `leer_accion` donde dice `; tus órdenes`. Kira va a apretar `x`, `5` y `2`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+accion db ?
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call leer_accion
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; leer_accion: espera una tecla sin eco hasta que sea '1', '2' o '3'; la muestra y la guarda en accion
+leer_accion proc
+    push ax
+    push dx
+    ; tus órdenes
+    pop dx
+    pop ax
+    ret
+leer_accion endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+end main
+```
+
+#### Entrada
+```
+x
+5
+2
+```
+
+#### Salida esperada
+```
+2
+```
+
+#### Estado esperado
+```
+[accion] = '2'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+accion db ?
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call leer_accion
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; leer_accion: espera una tecla sin eco hasta que sea '1', '2' o '3'; la muestra y la guarda en accion
+leer_accion proc
+    push ax
+    push dx
+otra_tecla:
+    mov ah, 07h
+    int 21h
+    cmp al, '1'
+    jb  otra_tecla
+    cmp al, '3'
+    ja  otra_tecla
+    mov accion, al
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    call nueva_linea
+    pop dx
+    pop ax
+    ret
+leer_accion endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+end main
+```
+
+#### Al superarla
+La x y el 5 no aparecen en el ojo: el Gólem los ignoró en silencio. Solo el 2. —Defender —dice Kira, y levanta el escudo justo a tiempo.
+
+#### Imagen
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con los dedos sobre una botonera de bronce de tres botones, con otros botones apagados alrededor.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene en las manos tres lucecitas: solo una brilla.
+- Gheco (gecko de luz cian con antiparras, chiquito) barre con la cola dos lucecitas apagadas.
+
+### Micro-misión R04-N03-P5 · La última poción
+
+```meta
+lugar: El campo de entrenamiento
+personajes: Nova, Gheco, Kira
+carta: Con tope | si no quedan: mensaje y nada más · si quedan: dec · add 10 · si pasa de 30, queda en 30
+```
+
+#### Escena
+A Kira le quedan **25** de vida y **una** poción. Toma una, y después, distraída, intenta tomar otra.
+
+#### Gheco sugiere
+Si `pociones` es 0, mostrá el mensaje de que no quedan y listo. Si no: restale una poción, sumale 10 a `vida_k` y, si pasó de 30 (`jbe` para dejarla si no), ponela en 30. Después, el mensaje de la poción. Los textos ya están.
+
+#### Desafío
+Escribí el cuerpo de `pocion` donde dice `; tus órdenes`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+vida_k   db 25
+pociones db 1
+t_pocion db 'Kira bebe una pocion: +10 de vida.', 13, 10, '$'
+t_sinpoc db 'No quedan pociones: Kira pierde el turno.', 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call pocion
+    call pocion
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; pocion: +10 de vida (tope 30) si quedan pociones; si no, pierde el turno
+pocion proc
+    push ax
+    push dx
+    ; tus órdenes
+    pop dx
+    pop ax
+    ret
+pocion endp
+
+; mostrar_cadena: muestra el texto que señala DX
+mostrar_cadena proc
+    push ax
+    mov ah, 09h
+    int 21h
+    pop ax
+    ret
+mostrar_cadena endp
+
+end main
+```
+
+#### Salida esperada
+```
+Kira bebe una pocion: +10 de vida.
+No quedan pociones: Kira pierde el turno.
+```
+
+#### Estado esperado
+```
+[vida_k] = 30
+[pociones] = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+vida_k   db 25
+pociones db 1
+t_pocion db 'Kira bebe una pocion: +10 de vida.', 13, 10, '$'
+t_sinpoc db 'No quedan pociones: Kira pierde el turno.', 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call pocion
+    call pocion
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; pocion: +10 de vida (tope 30) si quedan pociones; si no, pierde el turno
+pocion proc
+    push ax
+    push dx
+    cmp pociones, 0
+    je  sin_pociones
+    dec pociones
+    add vida_k, 10
+    cmp vida_k, 30
+    jbe pocion_ok
+    mov vida_k, 30
+pocion_ok:
+    lea dx, t_pocion
+    call mostrar_cadena
+    jmp pocion_fin
+sin_pociones:
+    lea dx, t_sinpoc
+    call mostrar_cadena
+pocion_fin:
+    pop dx
+    pop ax
+    ret
+pocion endp
+
+; mostrar_cadena: muestra el texto que señala DX
+mostrar_cadena proc
+    push ax
+    mov ah, 09h
+    int 21h
+    pop ax
+    ret
+mostrar_cadena endp
+
+end main
+```
+
+#### Al superarla
+Vida llena (30, no 35) y ninguna poción. El segundo intento no hace nada más que avisar. —El tope es para que nadie sea más fuerte de lo que puede ser —dice Ferrum.
+
+#### Imagen
+- Un frasquito de vidrio vacío cayendo al pasto, y otro estante vacío al lado.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se seca la boca con el dorso de la mano, renovada.
+- Gheco (gecko de luz cian con antiparras, chiquito) da vuelta el frasquito vacío buscando una última gota.
+
+### Micro-misión R04-N03-P6 · El combate
+
+```meta
+lugar: El campo de entrenamiento
+personajes: Nova, Gheco, Kira, Axón
+carta: Bucle de juego | ronda: estado · turno de Kira · ¿cayó el autómata? · turno del autómata · ¿cayó Kira? · otra ronda
+```
+
+#### Escena
+Todas las piezas están listas: `turno_kira`, `turno_auto`, `quitar_vida`, `mostrar_estado`… Falta el corazón del juego: el **bucle de rondas**. Ferrum da la señal.
+
+#### Gheco sugiere
+Una etiqueta `ronda_nueva:`. En cada ronda: sumá 1 a `ronda` y mostrá el encabezado (`t_ronda`, el número, `t_rfin`), `call mostrar_estado`, `call turno_kira`; si `vida_o` quedó en 0, `gana`. Si no, `call turno_auto`; si `vida_k` quedó en 0, `pierde`. Si no, otra ronda. Al final, el mensaje que corresponda.
+
+#### Desafío
+Escribí el programa principal donde dice `; tus órdenes`. Kira va a jugar 1, 1, 1, 3, 1, 2 y 1.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+semilla  dw 46
+vida_k   db 30
+vida_o   db 40
+pociones db 2
+defiende db 0
+accion   db ?
+ronda    dw 0
+t_titulo db ' KIRA CONTRA EL AUTOMATA DE HIERRO$'
+t_ronda  db 13, 10, '--- Ronda $'
+t_rfin   db ' ---', 13, 10, '$'
+t_kira   db 'Kira     $'
+t_auto   db 'Automata $'
+t_menu   db '1) Atacar  2) Defender  3) Pocion: $'
+t_ataca  db 'Kira ataca: $'
+t_crit   db 'CRITICO! $'
+t_danio  db ' de danio.', 13, 10, '$'
+t_defi   db 'Kira levanta el escudo.', 13, 10, '$'
+t_pocion db 'Kira bebe una pocion: +10 de vida.', 13, 10, '$'
+t_sinpoc db 'No quedan pociones: Kira pierde el turno.', 13, 10, '$'
+t_golpe  db 'El automata golpea: $'
+t_furia  db 'FURIA! $'
+t_gana   db 13, 10, 'El automata cae. GANO KIRA!$'
+t_pierde db 13, 10, 'Kira cae. Gano el automata.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_titulo
+    call mostrar_cadena
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; turno_kira: menú, acción
+turno_kira proc
+    push dx
+    lea dx, t_menu
+    call mostrar_cadena
+    call leer_accion
+    cmp accion, '1'
+    jne no_ataca
+    call atacar
+    jmp turno_fin
+no_ataca:
+    cmp accion, '2'
+    jne no_defiende
+    mov defiende, 1
+    lea dx, t_defi
+    call mostrar_cadena
+    jmp turno_fin
+no_defiende:
+    call pocion
+turno_fin:
+    pop dx
+    ret
+turno_kira endp
+
+; atacar: daño de 3 a 8; 1 de cada 6 es crítico (daño x 2)
+atacar proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_ataca
+    call mostrar_cadena
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 3
+    mov bl, 6
+    call azar
+    cmp al, 0
+    jne sin_critico
+    shl cl, 1
+    lea dx, t_crit
+    call mostrar_cadena
+sin_critico:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_o
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+atacar endp
+
+; turno_auto: daño de 2 a 7; 1 de cada 5 es furia (+4); con escudo, la mitad
+turno_auto proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_golpe
+    call mostrar_cadena
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 2
+    mov bl, 5
+    call azar
+    cmp al, 0
+    jne sin_furia
+    add cl, 4
+    lea dx, t_furia
+    call mostrar_cadena
+sin_furia:
+    cmp defiende, 0
+    je  sin_escudo
+    shr cl, 1
+    mov defiende, 0
+sin_escudo:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_k
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+turno_auto endp
+
+; pocion: +10 de vida (tope 30) si quedan pociones; si no, pierde el turno
+pocion proc
+    push ax
+    push dx
+    cmp pociones, 0
+    je  sin_pociones
+    dec pociones
+    add vida_k, 10
+    cmp vida_k, 30
+    jbe pocion_ok
+    mov vida_k, 30
+pocion_ok:
+    lea dx, t_pocion
+    call mostrar_cadena
+    jmp pocion_fin
+sin_pociones:
+    lea dx, t_sinpoc
+    call mostrar_cadena
+pocion_fin:
+    pop dx
+    pop ax
+    ret
+pocion endp
+
+; leer_accion: espera una tecla sin eco hasta que sea '1', '2' o '3'; la muestra y la guarda en accion
+leer_accion proc
+    push ax
+    push dx
+otra_tecla:
+    mov ah, 07h
+    int 21h
+    cmp al, '1'
+    jb  otra_tecla
+    cmp al, '3'
+    ja  otra_tecla
+    mov accion, al
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    call nueva_linea
+    pop dx
+    pop ax
+    ret
+leer_accion endp
+
+; mostrar_estado: las dos barras con sus números
+mostrar_estado proc
+    push ax
+    push bx
+    push dx
+    lea dx, t_kira
+    call mostrar_cadena
+    mov al, vida_k
+    mov bl, 30
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    lea dx, t_auto
+    call mostrar_cadena
+    mov al, vida_o
+    mov bl, 40
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    pop dx
+    pop bx
+    pop ax
+    ret
+mostrar_estado endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    shr al, 1
+    shr bl, 1
+    sub bl, al
+    mov cl, al
+    mov ch, 0
+    mov dl, '#'
+    mov ah, 02h
+    jcxz sin_llenos
+llenos:
+    int 21h
+    loop llenos
+sin_llenos:
+    mov cl, bl
+    mov dl, '.'
+    jcxz sin_vacios
+vacios:
+    int 21h
+    loop vacios
+sin_vacios:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    cmp cl, [si]
+    jae queda_cero
+    sub [si], cl
+    ret
+queda_cero:
+    mov byte ptr [si], 0
+    ret
+quitar_vida endp
+
+; azar: AL = número de 0 a BL-1 (avanza la semilla)
+azar proc
+    push dx
+    mov ax, semilla
+    mov dx, 25173
+    mul dx
+    add ax, 13849
+    mov semilla, ax
+    mov al, ah
+    mov ah, 0
+    div bl
+    mov al, ah
+    pop dx
+    ret
+azar endp
+
+espacio proc
+    push ax
+    push dx
+    mov dl, ' '
+    mov ah, 02h
+    int 21h
+    pop dx
+    pop ax
+    ret
+espacio endp
+
+imprimir_numero proc
+    push ax
+    push bx
+    push cx
+    push dx
+    mov bx, 10
+    mov cx, 0
+separar:
+    mov dx, 0
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne separar
+mostrar_cifra:
+    pop dx
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    loop mostrar_cifra
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+imprimir_numero endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+; mostrar_cadena: muestra el texto que señala DX
+mostrar_cadena proc
+    push ax
+    mov ah, 09h
+    int 21h
+    pop ax
+    ret
+mostrar_cadena endp
+
+end main
+```
+
+#### Entrada
+```
+1
+1
+1
+3
+1
+2
+1
+```
+
+#### Salida esperada
+```
+ KIRA CONTRA EL AUTOMATA DE HIERRO
+--- Ronda 1 ---
+Kira     ############### 30
+Automata #################### 40
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 6 de danio.
+El automata golpea: 4 de danio.
+
+--- Ronda 2 ---
+Kira     #############.. 26
+Automata #################... 34
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: CRITICO! 16 de danio.
+El automata golpea: FURIA! 10 de danio.
+
+--- Ronda 3 ---
+Kira     ########....... 16
+Automata #########........... 18
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 3 de danio.
+El automata golpea: FURIA! 10 de danio.
+
+--- Ronda 4 ---
+Kira     ###............ 6
+Automata #######............. 15
+1) Atacar  2) Defender  3) Pocion: 3
+Kira bebe una pocion: +10 de vida.
+El automata golpea: FURIA! 9 de danio.
+
+--- Ronda 5 ---
+Kira     ###............ 7
+Automata #######............. 15
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 8 de danio.
+El automata golpea: 2 de danio.
+
+--- Ronda 6 ---
+Kira     ##............. 5
+Automata ###................. 7
+1) Atacar  2) Defender  3) Pocion: 2
+Kira levanta el escudo.
+El automata golpea: 3 de danio.
+
+--- Ronda 7 ---
+Kira     #.............. 2
+Automata ###................. 7
+1) Atacar  2) Defender  3) Pocion: 1
+Kira ataca: 8 de danio.
+
+El automata cae. GANO KIRA!
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+semilla  dw 46
+vida_k   db 30
+vida_o   db 40
+pociones db 2
+defiende db 0
+accion   db ?
+ronda    dw 0
+t_titulo db ' KIRA CONTRA EL AUTOMATA DE HIERRO$'
+t_ronda  db 13, 10, '--- Ronda $'
+t_rfin   db ' ---', 13, 10, '$'
+t_kira   db 'Kira     $'
+t_auto   db 'Automata $'
+t_menu   db '1) Atacar  2) Defender  3) Pocion: $'
+t_ataca  db 'Kira ataca: $'
+t_crit   db 'CRITICO! $'
+t_danio  db ' de danio.', 13, 10, '$'
+t_defi   db 'Kira levanta el escudo.', 13, 10, '$'
+t_pocion db 'Kira bebe una pocion: +10 de vida.', 13, 10, '$'
+t_sinpoc db 'No quedan pociones: Kira pierde el turno.', 13, 10, '$'
+t_golpe  db 'El automata golpea: $'
+t_furia  db 'FURIA! $'
+t_gana   db 13, 10, 'El automata cae. GANO KIRA!$'
+t_pierde db 13, 10, 'Kira cae. Gano el automata.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_titulo
+    call mostrar_cadena
+ronda_nueva:
+    inc ronda
+    lea dx, t_ronda
+    call mostrar_cadena
+    mov ax, ronda
+    call imprimir_numero
+    lea dx, t_rfin
+    call mostrar_cadena
+    call mostrar_estado
+    call turno_kira
+    cmp vida_o, 0
+    je  gana
+    call turno_auto
+    cmp vida_k, 0
+    je  pierde
+    jmp ronda_nueva
+gana:
+    lea dx, t_gana
+    call mostrar_cadena
+    jmp termino
+pierde:
+    lea dx, t_pierde
+    call mostrar_cadena
+termino:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+; turno_kira: menú, acción
+turno_kira proc
+    push dx
+    lea dx, t_menu
+    call mostrar_cadena
+    call leer_accion
+    cmp accion, '1'
+    jne no_ataca
+    call atacar
+    jmp turno_fin
+no_ataca:
+    cmp accion, '2'
+    jne no_defiende
+    mov defiende, 1
+    lea dx, t_defi
+    call mostrar_cadena
+    jmp turno_fin
+no_defiende:
+    call pocion
+turno_fin:
+    pop dx
+    ret
+turno_kira endp
+
+; atacar: daño de 3 a 8; 1 de cada 6 es crítico (daño x 2)
+atacar proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_ataca
+    call mostrar_cadena
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 3
+    mov bl, 6
+    call azar
+    cmp al, 0
+    jne sin_critico
+    shl cl, 1
+    lea dx, t_crit
+    call mostrar_cadena
+sin_critico:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_o
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+atacar endp
+
+; turno_auto: daño de 2 a 7; 1 de cada 5 es furia (+4); con escudo, la mitad
+turno_auto proc
+    push ax
+    push bx
+    push cx
+    push dx
+    lea dx, t_golpe
+    call mostrar_cadena
+    mov bl, 6
+    call azar
+    mov cl, al
+    add cl, 2
+    mov bl, 5
+    call azar
+    cmp al, 0
+    jne sin_furia
+    add cl, 4
+    lea dx, t_furia
+    call mostrar_cadena
+sin_furia:
+    cmp defiende, 0
+    je  sin_escudo
+    shr cl, 1
+    mov defiende, 0
+sin_escudo:
+    mov al, cl
+    mov ah, 0
+    call imprimir_numero
+    lea dx, t_danio
+    call mostrar_cadena
+    lea si, vida_k
+    call quitar_vida
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+turno_auto endp
+
+; pocion: +10 de vida (tope 30) si quedan pociones; si no, pierde el turno
+pocion proc
+    push ax
+    push dx
+    cmp pociones, 0
+    je  sin_pociones
+    dec pociones
+    add vida_k, 10
+    cmp vida_k, 30
+    jbe pocion_ok
+    mov vida_k, 30
+pocion_ok:
+    lea dx, t_pocion
+    call mostrar_cadena
+    jmp pocion_fin
+sin_pociones:
+    lea dx, t_sinpoc
+    call mostrar_cadena
+pocion_fin:
+    pop dx
+    pop ax
+    ret
+pocion endp
+
+; leer_accion: espera una tecla sin eco hasta que sea '1', '2' o '3'; la muestra y la guarda en accion
+leer_accion proc
+    push ax
+    push dx
+otra_tecla:
+    mov ah, 07h
+    int 21h
+    cmp al, '1'
+    jb  otra_tecla
+    cmp al, '3'
+    ja  otra_tecla
+    mov accion, al
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    call nueva_linea
+    pop dx
+    pop ax
+    ret
+leer_accion endp
+
+; mostrar_estado: las dos barras con sus números
+mostrar_estado proc
+    push ax
+    push bx
+    push dx
+    lea dx, t_kira
+    call mostrar_cadena
+    mov al, vida_k
+    mov bl, 30
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    lea dx, t_auto
+    call mostrar_cadena
+    mov al, vida_o
+    mov bl, 40
+    call barra
+    call espacio
+    mov ah, 0
+    call imprimir_numero
+    call nueva_linea
+    pop dx
+    pop bx
+    pop ax
+    ret
+mostrar_estado endp
+
+; barra: AL = vida, BL = máximo; un casillero cada 2 puntos (# lleno, . vacío)
+barra proc
+    push ax
+    push bx
+    push cx
+    push dx
+    shr al, 1
+    shr bl, 1
+    sub bl, al
+    mov cl, al
+    mov ch, 0
+    mov dl, '#'
+    mov ah, 02h
+    jcxz sin_llenos
+llenos:
+    int 21h
+    loop llenos
+sin_llenos:
+    mov cl, bl
+    mov dl, '.'
+    jcxz sin_vacios
+vacios:
+    int 21h
+    loop vacios
+sin_vacios:
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+barra endp
+
+; quitar_vida: SI = dirección de la vida, CL = daño (la vida no baja de 0)
+quitar_vida proc
+    cmp cl, [si]
+    jae queda_cero
+    sub [si], cl
+    ret
+queda_cero:
+    mov byte ptr [si], 0
+    ret
+quitar_vida endp
+
+; azar: AL = número de 0 a BL-1 (avanza la semilla)
+azar proc
+    push dx
+    mov ax, semilla
+    mov dx, 25173
+    mul dx
+    add ax, 13849
+    mov semilla, ax
+    mov al, ah
+    mov ah, 0
+    div bl
+    mov al, ah
+    pop dx
+    ret
+azar endp
+
+espacio proc
+    push ax
+    push dx
+    mov dl, ' '
+    mov ah, 02h
+    int 21h
+    pop dx
+    pop ax
+    ret
+espacio endp
+
+imprimir_numero proc
+    push ax
+    push bx
+    push cx
+    push dx
+    mov bx, 10
+    mov cx, 0
+separar:
+    mov dx, 0
+    div bx
+    push dx
+    inc cx
+    cmp ax, 0
+    jne separar
+mostrar_cifra:
+    pop dx
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    loop mostrar_cifra
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+imprimir_numero endp
+
+nueva_linea proc
+    push ax
+    push dx
+    mov dl, 13
+    mov ah, 02h
+    int 21h
+    mov dl, 10
+    int 21h
+    pop dx
+    pop ax
+    ret
+nueva_linea endp
+
+; mostrar_cadena: muestra el texto que señala DX
+mostrar_cadena proc
+    push ax
+    mov ah, 09h
+    int 21h
+    pop ax
+    ret
+mostrar_cadena endp
+
+end main
+```
+
+#### Al superarla
+**GANO KIRA**, con 2 de vida, en la séptima ronda. El autómata se desarma en el pasto con un ruido de ollas. Ferrum aplaude despacio, tres veces, y eso, viniendo de él, es una ovación.
+
+Pero en ese momento, el piso tiembla. Desde lo más profundo del Gólem, desde el núcleo mismo, sube un calor que no es el de los hornos. Nova lo siente antes que nadie: **algo se despertó adentro**.
+
+#### Imagen
+- Un autómata de hierro de entrenamiento desarmado en el pasto, con piezas desparramadas.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) de rodillas, agotada pero sonriente, apoyada en su espada.
+- Maese Ferrum, un herrero humano enorme de unos dos metros, NO es enano, con barba gris trenzada, un ojo mecánico naranja y delantal de cuero, aplaude.
+- Al fondo, un gólem de bronce gigante con el pecho que empieza a brillar en rojo desde adentro.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira el brillo rojo, con la cola erizada.
+
+### Prueba del sello
+
+#### ¿Por qué `quitar_vida` recibe en SI la dirección de la vida y no la vida?
+Para que la misma rutina pueda cambiar la vida de cualquiera de los dos: trabaja sobre el cajón al que apunta SI.
+
+#### ¿Qué pasa si se resta el daño sin comparar antes?
+Si el daño es mayor que la vida, el byte da la vuelta (5 − 8 = 253).
+
+#### ¿Cómo se duplica y cómo se divide por 2 un daño con bits?
+`shl cl, 1` lo duplica; `shr cl, 1` lo divide por 2 (redondeando para abajo).
+
+#### ¿Qué partes tiene el bucle de un juego por turnos?
+Mostrar el estado, el turno del jugador, ver si alguien cayó, el turno del rival, ver si alguien cayó, y repetir.

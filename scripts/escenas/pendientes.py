@@ -48,6 +48,20 @@ REFS = {
             (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
         ],
     },
+    # D110: el Gólem duerme debajo de las Forjas, así que sus escenas van en el proyecto de C (ahí están Gheco y Kira).
+    'ensamblador': {
+        'project': '12453694413360128121',
+        'region': 'El Corazón del Gólem',
+        'ambiente': 'adentro de un gólem de bronce gigante: una catedral mecánica de bronce con pátina verde, palancas con visores de luz, paredes de cajoncitos, engranajes enormes y el núcleo de luz ámbar',
+        'chars': [
+            (r'\bNova\b', 'Nova', ['a847786e22d34467be76c419b9251491', 'fc72ec184e354491bd3af8fe92292d93'],
+             'Nova es un holograma de luz ámbar con forma de chica de 15 años (1,60 m), que flota a unos centímetros del piso.'),
+            (r'Ochocero', 'Ochocero', ['daab9e5a4c654a6d9f20e48790edd4a9', 'c4b3a82e96bb49e689670d429bea0fba'],
+             'Ochocero es un gólem de bronce de cuatro metros: Nova le llega a la rodilla.'),
+            (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
+            (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, del tamaño de una mano.'),
+        ],
+    },
     'cpp': {
         'project': '14674491267148198305',
         'region': 'La Ciudadela de los Artífices',

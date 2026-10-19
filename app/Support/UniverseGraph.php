@@ -22,7 +22,7 @@ class UniverseGraph
     /** Color de cada lenguaje en el mapa (los cursos se reconocen por color). */
     private const COLORS = [
         'python' => '#facc15', 'c' => '#60a5fa', 'cpp' => '#a78bfa', 'java' => '#f97316', 'php' => '#818cf8',
-        'javascript' => '#fde047', 'typescript' => '#38bdf8', 'sql' => '#34d399', 'arduino' => '#2dd4bf', 'html' => '#e879f9', 'other' => '#94a3b8',
+        'javascript' => '#fde047', 'typescript' => '#38bdf8', 'sql' => '#34d399', 'arduino' => '#2dd4bf', 'html' => '#e879f9', 'asm' => '#f59e0b', 'other' => '#94a3b8',
     ];
 
     /** Colores de las familias de temas, en el orden del catálogo. */

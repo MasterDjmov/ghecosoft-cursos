@@ -53,7 +53,7 @@ test('el curso de ensamblador se comprueba solo pero se ve como árbol', functio
 
     $course = importAsmCourse();
     expect($course->language)->toBe(Language::Asm)
-        ->and($course->nodes()->count())->toBe(3)
+        ->and($course->nodes()->count())->toBe(27)
         ->and($course->nodes()->whereHas('practices')->exists())->toBeFalse();
 
     // La micro-misión de estado guarda la salida esperada con el informe debajo.
@@ -123,4 +123,21 @@ test('el tablero suelto del Gólem pide el abono vigente de un curso de ensambla
     // Con el abono vencido, no.
     CourseSubscription::where('user_id', $student->id)->update(['ends_at' => now()->subDay()]);
     $this->actingAs($student)->get(route('student.asm-tool'))->assertForbidden();
+});
+
+test('en Mis Crónicas, la página de un nodo se lee recién al superar sus micro-misiones', function () {
+    $course = importAsmCourse();
+    $student = enrolledStudent($course);
+    $root = $course->rootNode;
+    app(NodeUnlocker::class)->unlock($student, $root);
+    $url = route('student.chronicles', ['libro' => $course->slug]);
+
+    // Abierto pero sin superar: la página se ve, pero su texto no sale del servidor.
+    $this->actingAs($student)->get($url)->assertOk()->assertDontSee('Después, una chispa');
+
+    foreach ($root->steps()->orderBy('position')->get() as $step) {
+        app(StepCompleter::class)->complete($student, $step, $step->expected_output);
+    }
+
+    $this->actingAs($student)->get($url)->assertOk()->assertSee('Después, una chispa');
 });

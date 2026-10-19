@@ -14,6 +14,7 @@ use App\Models\Practice;
 use App\Models\StoryFragment;
 use App\Models\Submission;
 use App\Models\User;
+use App\Services\TreeAccess;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -42,8 +43,15 @@ class Chronicles
         $this->opened = NodeUnlock::where('user_id', $user->id)->pluck('node_id')->flip();
         $required = Practice::whereIn('node_id', $this->opened->keys())->where('is_required', true)->get(['id', 'node_id'])->groupBy('node_id');
         $approved = Submission::where('user_id', $user->id)->where('status', SubmissionStatus::Approved)->pluck('practice_id')->flip();
+        // En un curso que se comprueba solo (inglés, ensamblador) no hay prácticas: el nodo se completa con sus
+        // micro-misiones, como en el árbol.
+        $selfChecked = Node::whereIn('id', $this->opened->keys())->with('course:id,language')->get(['id', 'course_id'])
+            ->filter(fn (Node $node) => $node->course->language->isSelfChecked())->keyBy('id');
+        $access = app(TreeAccess::class);
         $this->completed = $this->opened->keys()
-            ->filter(fn ($id) => $required->get($id, collect())->every(fn ($practice) => $approved->has($practice->id)))
+            ->filter(fn ($id) => $selfChecked->has($id)
+                ? $access->nodeWorkDone($user, $selfChecked->get($id))
+                : $required->get($id, collect())->every(fn ($practice) => $approved->has($practice->id)))
             ->flip();
         $this->finishedCourses = CourseCompletion::where('user_id', $user->id)->pluck('course_id')->flip();
     }

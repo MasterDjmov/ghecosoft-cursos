@@ -2984,3 +2984,1398 @@ La cantidad, en `buf+1`; el texto, en `buf+2`.
 
 #### ¿Por qué hay que agregar el `'$'` a mano, y por qué con `byte ptr`?
 Porque la 0Ah no lo pone (deja un 13 al final); `byte ptr` aclara que se escribe un solo cajón.
+
+## R01-N05 · Las cuentas del Gólem: sumar, restar, multiplicar y dividir
+
+```meta
+tipo: tema
+criatura: ogre
+padre: R01-N04
+precio: 0
+temas: prog.operadores, maq.banderas
+usa: maq.registros
+```
+
+### Crónica
+
+Kira trae del Puerto un saco de monedas para repartir entre los que ayudaron a despertar al Gólem. —Yo hago las cuentas —ofrece {mentor}—. Sumo, resto, multiplico y divido.
+
+Nova se entusiasma, pero el Gólem agrega algo raro: —Para multiplicar y dividir uso siempre **la misma mano**. —Y Gheco, por las dudas, le pide a Nova que anote cuál.
+
+### Objetivos
+
+Sumar y restar con `add`, `sub`, `inc`, `dec` y `neg`; multiplicar y dividir con `mul` y `div` sabiendo **en qué
+palancas** quedan el resultado, el cociente y el resto; leer las banderas que deja cada cuenta (ZF, SF, CF) y
+mostrar un resultado de dos cifras.
+
+### Antes de empezar
+
+- Registros, AH y AL, y el truco de `'0'` para mostrar un dígito (Clase 0 y La voz del Gólem).
+- Variables (Los cajones con nombre) y el teclado (La boca de bronce).
+
+### Explicación
+
+#### Sumar y restar
+| Orden | Hace | Como en C |
+|---|---|---|
+| `add destino, fuente` | destino = destino + fuente | `a += b;` |
+| `sub destino, fuente` | destino = destino − fuente | `a -= b;` |
+| `inc destino` | destino + 1 | `a++;` |
+| `dec destino` | destino − 1 | `a--;` |
+| `neg destino` | le cambia el signo | `a = -a;` |
+
+Valen las mismas reglas que con `mov`: mismo tamaño, y nada de cajón con cajón.
+
+#### Los interruptores (banderas)
+Después de cada cuenta, el Gólem prende o apaga unos **interruptores** que dicen cómo salió. En el tablero están
+en la pestaña **Interruptores**:
+
+| Bandera | Se prende (1) cuando… |
+|---|---|
+| **ZF** (cero) | el resultado dio 0 |
+| **SF** (signo) | el resultado es negativo (su bit más alto es 1) |
+| **CF** (acarreo) | una suma se pasó del máximo o una resta «pidió prestado» |
+
+Todavía no las usás para decidir (eso viene con el `cmp` y los saltos), pero ya las podés mirar: son la forma en
+que el Gólem **recuerda** cómo le fue en la última cuenta.
+
+#### Los números negativos
+Un byte va de 0 a 255… **o** de −128 a 127: depende de cómo lo mires. −1 se guarda como `FFh`, −2 como `FEh`.
+El Gólem no sabe si un número «tiene signo»: vos elegís cómo leerlo. `neg al` le da vuelta el signo.
+
+#### Dar la vuelta
+Si una cuenta se pasa del cajón, el número **da la vuelta**, como un cuentakilómetros: `AL = 250` más `10` da
+`4`, y se prende **CF** para avisar. Si el número puede crecer, usá una palanca de 16 bits (AX va hasta 65535).
+
+#### `mul`: la mano fija
+`mul` tiene **un solo operando**; el otro factor es siempre **AL** (o AX):
+```asm
+mov al, 3
+mov bl, 3
+mul bl           ; AX = AL * BL = 9
+```
+| Tamaño | Multiplica | Resultado |
+|---|---|---|
+| byte (`mul bl`) | AL × operando | AX |
+| word (`mul bx`) | AX × operando | DX:AX (DX tiene la parte alta) |
+
+`mul 5` no existe: el número va primero en una palanca o en un cajón.
+
+#### `div`: cociente y resto a la vez
+```asm
+mov ax, 9        ; el dividendo es AX ENTERO
+mov bl, 2
+div bl           ; AL = 4 (cociente), AH = 1 (resto)
+```
+| Tamaño | Divide | Cociente | Resto |
+|---|---|---|---|
+| byte (`div bl`) | AX | AL | AH |
+| word (`div bx`) | DX:AX | AX | DX |
+
+El dividendo es **AX completo**: si AH tiene algo, el Gólem divide otro número. Antes de un `div` de un byte,
+`mov ah, 0`.
+
+> **Puente con otras lenguas.** `div bl` hace el `/` y el `%` de C, Python o Java **en una sola orden**. Y
+> dividir por cero acá detiene todo, igual que en C (el famoso «Divide overflow» es esa misma excepción del
+> procesador).
+
+#### Mostrar dos cifras
+Dividir por 10 separa las decenas de las unidades: `42 / 10` da cociente 4 y resto 2. Cada uno se muestra
+con `+ '0'`. Guardá el resto antes de usar AH para la `02h`.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t_suma  db '4 + 3 = $'
+t_div   db 13, 10, '9 / 2 = $'
+t_resto db ', sobra $'
+t_mul   db 13, 10, '7 x 6 = $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t_suma
+    mov ah, 09h
+    int 21h
+    mov dl, 4
+    add dl, 3              ; DL = 7
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+    lea dx, t_div
+    mov ah, 09h
+    int 21h
+    mov ax, 9              ; el dividendo: AX entero
+    mov bl, 2
+    div bl                 ; AL = 4, AH = 1
+    mov cx, ax             ; CL = cociente, CH = resto (a salvo)
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    lea dx, t_resto
+    mov ah, 09h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+    lea dx, t_mul
+    mov ah, 09h
+    int 21h
+    mov al, 7
+    mov bl, 6
+    mul bl                 ; AX = 42
+    mov bl, 10
+    div bl                 ; AL = 4 (decenas), AH = 2 (unidades)
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+4 + 3 = 7
+9 / 2 = 4, sobra 1
+7 x 6 = 42
+```
+
+### ¿Para qué sirve?
+
+Toda cuenta de cualquier lenguaje termina en estas órdenes. Entender que un byte «da la vuelta» explica por qué
+un contador de C se vuelve negativo de golpe (el *overflow*), por qué hay tipos más grandes, y por qué `/` y `%`
+suelen ir juntos: el procesador los calcula en la misma orden.
+
+### Errores habituales
+
+**Goblin: `mul` o `div` con un número.** `div 5`:
+```
+main.asm(11) : Error A2049: Invalid instruction operands
+```
+Primero `mov bl, 5` y después `div bl`.
+
+**Ogro: AH sucio antes de dividir.** Si AH vale cualquier cosa, `div bl` divide un número enorme; si el cociente
+no entra en AL (o dividís por 0), el Gólem se detiene: *Divide overflow*. Antes de `div bl`, `mov ah, 0`.
+
+**Ogro: buscar el resultado en la palanca equivocada.** Después de `mul bl` el resultado está en AX, no en BL;
+después de `div bl`, el resto está en AH.
+
+**Ogro: el resto pisado.** `mov ah, 02h` borra el resto que estaba en AH: guardalo antes en otra palanca.
+
+**Ogro: se pasó de 255.** `add al, 200` con `AL = 100` da 44 (y CF = 1): el byte dio la vuelta.
+
+### Micro-misión R01-N05-P1 · El botín
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Kira
+carta: add y sub | add bl, 3 = bl += 3 · sub bl, 2 = bl -= 2 · mismo tamaño, como mov
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Kira tiene **4** pociones, compra **3** en el Puerto y usa **2** subiendo por las escaleras del Gólem. Nova quiere que {mentor} lleve la cuenta.
+
+#### Gheco sugiere
+`add bl, 3` suma 3 a lo que hay en BL; `sub bl, 2` le resta 2. Es el `bl += 3` y el `bl -= 2` de C o Python.
+
+#### Desafío
+Completá las dos órdenes que faltan para que BL termine con las pociones que le quedan a Kira, y el ojo las muestre.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Pociones: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 4
+    ___ bl, 3        ; compra 3
+    ___ bl, 2        ; usa 2
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Pociones: 5
+```
+
+#### Estado esperado
+```
+BL = 5
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Pociones: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 4
+    add bl, 3
+    sub bl, 2
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Pociones: 5». Kira hace la cuenta con los dedos y le da la razón al Gólem. —Nunca dudé —miente.
+
+#### Imagen
+- Una mesa de bronce adentro de un gólem con cinco frasquitos de luz en fila.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) cuenta con los dedos de una mano.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) acomoda el último frasquito.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre la mesa.
+
+### Micro-misión R01-N05-P2 · El interruptor del cero
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco
+carta: ZF | la bandera del cero · se prende cuando una cuenta da 0 · inc y dec también la mueven
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la pared del núcleo hay una fila de **interruptores**. Gheco señala uno: —Ese se prende solo cuando una cuenta da **cero**. Nova quiere verlo encendido.
+
+#### Gheco sugiere
+`dec cl` le resta 1 a CL. Cuando CL llega a 0, el Gólem prende **ZF**. Ejecutá **paso a paso** y mirá la pestaña **Interruptores** después de cada `dec`.
+
+#### Desafío
+CL empieza en 3. Agregá lo que falta para que llegue a **0** y se prenda **ZF**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cl, 3
+    dec cl
+    dec cl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+CL = 0
+ZF = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cl, 3
+    dec cl
+    dec cl
+    dec cl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El interruptor se enciende con un clic. —Se acuerda de que dio cero —dice Nova—. Eso me va a servir para algo, ¿no? —Para **decidir** —contesta Gheco—. Pronto.
+
+#### Imagen
+- Una fila de interruptores de bronce en una pared, con una lucecita encima de cada uno; solo una lucecita está encendida, cian.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) acaba de bajar la palanquita de ese interruptor.
+- Gheco (gecko de luz cian con antiparras, chiquito) aplaude con la cola.
+
+### Micro-misión R01-N05-P3 · Las monedas que dan la vuelta
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: CF | se prende cuando una cuenta se pasa del máximo · un byte va hasta 255 · usá 16 bits si crece
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira cuenta las monedas del saco: **250**, y le regalan **10** más. Nova suma en AL… y el Gólem dice que hay **4**. Un ogro se ríe: el programa corrió perfecto.
+
+#### Gheco sugiere
+AL es de un byte: llega hasta 255 y después da la vuelta (y prende **CF**). AX es de dos bytes: llega hasta 65535. Hacé la cuenta en **AX**.
+
+#### Desafío
+Ejecutalo y mirá AL y CF. Después cambiá el programa para que la cuenta se haga en **AX** y dé **260**, sin que se prenda CF.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 0
+    mov al, 250
+    add al, 10
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = 260
+CF = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 250
+    add ax, 10
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+260 monedas, justas. El ogro deja de reírse y se va a contar las suyas. —Un cajón chico se llena rápido —anota Nova.
+
+#### Imagen
+- Un cuentakilómetros de bronce gigante con ruedas numeradas lisas, sin números, dando la vuelta, con chispas.
+- Un ogro grandote y torpe se ríe tapándose la boca detrás de una columna.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sostiene un saco de monedas doradas desbordado.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre el saco.
+
+### Micro-misión R01-N05-P4 · Tres cofres de tres
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco
+criatura: goblin
+carta: mul | mul bl = AX = AL * BL · un solo operando · nunca un número directo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay **3** cofres con **3** monedas cada uno. Nova escribe `mul 3`, y un goblin salta de un cofre: *«Invalid instruction operands»*.
+
+#### Gheco sugiere
+`mul` multiplica AL por **una palanca o un cajón**, nunca por un número suelto. Poné el 3 en BL y usá `mul bl`: el resultado queda en AX.
+
+#### Desafío
+Tocá **Ejecutar** para ver al goblin. Después arreglá la multiplicación para que AX quede con **9** y el ojo lo muestre.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Monedas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    mov al, 3
+    mul 3
+
+    mov bx, ax
+    mov dl, bl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Monedas: 9
+```
+
+#### Estado esperado
+```
+BX = 9
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Monedas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    mov al, 3
+    mov bl, 3
+    mul bl
+
+    mov bx, ax
+    mov dl, bl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Nueve monedas, y el goblin no encuentra dónde esconderse: los tres cofres están abiertos. —La mano fija es **AL** —anota Nova—. Y el resultado, en **AX**.
+
+#### Imagen
+- Tres cofres de bronce abiertos en fila, cada uno con tres monedas doradas brillando.
+- Un goblin verde y flaco sale a los saltos de uno de los cofres, enojado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala los cofres uno por uno.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre la tapa del cofre del medio.
+
+### Micro-misión R01-N05-P5 · El reparto
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco, Kira
+carta: div | div bl = AX / BL · AL = cociente · AH = resto · como / y % en una sola orden
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay que repartir **8** monedas entre **3** ayudantes. Kira quiere saber cuánto le toca a cada uno y cuánto sobra para la caja del Gólem.
+
+#### Gheco sugiere
+`div bl` divide **AX** por BL: el cociente queda en AL y el resto en AH. Poné el 8 en AX entero (`mov ax, 8`), el 3 en BL, y dividí.
+
+#### Desafío
+Completá la división para que AL quede con lo que le toca a cada uno y AH con lo que sobra.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, ___
+    mov bl, ___
+    div ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 2
+AH = 2
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 8
+    mov bl, 3
+    div bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Dos para cada uno y dos para la caja. Kira reparte; Gheco se queda mirando las dos que sobran con cara de «¿y yo?».
+
+#### Imagen
+- Tres montoncitos iguales de dos monedas doradas sobre una mesa de bronce, y aparte una cajita con dos monedas más.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) reparte las monedas con cuidado.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira la cajita con ojos grandes.
+
+### Micro-misión R01-N05-P6 · El ogro de la división
+
+```meta
+lugar: El núcleo del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: mov ah, 0 | antes de div bl, AH en 0 · el dividendo es AX entero · si no: Divide overflow
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova muestra un título y después divide **9** monedas entre **2**… y el Gólem se detiene de golpe con un estruendo: *«Divide overflow»*. Detrás del estruendo, un ogro.
+
+#### Gheco sugiere
+La `09h` dejó un **9** en AH (el `mov ah, 09h`). Al hacer `mov al, 9`, AX no vale 9: vale `0909h`, y el cociente no entra en AL. Poné AH en **0** justo antes de dividir.
+
+#### Desafío
+Tocá **Ejecutar** para ver el error. Después agregá la orden que falta para que la división dé **4** y sobre **1**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+titulo db 'Reparto listo$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, titulo
+    mov ah, 09h
+    int 21h
+
+    mov al, 9
+    mov bl, 2
+    div bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Reparto listo
+```
+
+#### Estado esperado
+```
+AL = 4
+AH = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+titulo db 'Reparto listo$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, titulo
+    mov ah, 09h
+    int 21h
+
+    mov al, 9
+    mov ah, 0
+    mov bl, 2
+    div bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El Gólem se recupera con un suspiro de vapor. —Si la mano grande tiene algo, divido otra cosa —explica {mentor}—. Yo no adivino.
+
+#### Imagen
+- Un engranaje gigante de bronce trabado, echando vapor y chispas.
+- Un ogro grandote y torpe se rasca la cabeza al lado del engranaje.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) saca con las dos manos una piedra que traba el engranaje.
+- Gheco (gecko de luz cian con antiparras, chiquito) se tapa los oídos con las patitas.
+
+### Micro-misión R01-N05-P7 · El cuarenta y dos
+
+```meta
+lugar: El ojo del Gólem
+personajes: Nova, Gheco, Axón
+carta: Dos cifras | div por 10 · AL = decenas, AH = unidades · guardá AH antes de la 02h
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+{mentor} quiere mostrar en el ojo cuántas palancas tiene su brazo izquierdo: **7** filas de **6**. Pero el ojo solo muestra un dígito por vez.
+
+#### Gheco sugiere
+Multiplicá 7 × 6 con `mul` (queda en AX). Después dividí por 10: AL tiene las **decenas** y AH las **unidades**. Guardá las dos en otra palanca (por ejemplo `mov cx, ax`) antes de mostrar cada una con `+ '0'` y la `02h`.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Palancas: 42`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Palancas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Palancas: 42
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Palancas: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+    mov al, 7
+    mov bl, 6
+    mul bl
+    mov bl, 10
+    div bl
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+**42** brilla en el ojo, en dos cifras. El brazo izquierdo del Gólem se mueve por primera vez, apenas, como quien se despereza. Y en ese instante, todas las palancas del brazo se ponen pegajosas: algo verde y blando empieza a trepar por ellas.
+
+#### Imagen
+- El brazo izquierdo de un gólem de bronce gigante, cubierto de palancas en filas, moviéndose apenas.
+- Una baba verde brillante empieza a trepar por las palancas de abajo.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira hacia abajo, preocupada.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro, con la cola erizada.
+
+### Prueba del sello
+
+#### ¿Dónde queda el resultado de `mul bl`? ¿Y el de `mul bx`?
+En AX; con `mul bx`, en DX:AX (DX tiene la parte alta).
+
+#### ¿Qué se divide en `div bl`, y dónde quedan el cociente y el resto?
+Se divide AX completo por BL: el cociente queda en AL y el resto en AH.
+
+#### ¿Por qué hay que poner AH en 0 antes de `div bl`?
+Porque el dividendo es AX entero: si AH tiene algo, se divide otro número (y puede dar Divide overflow).
+
+#### ¿Qué valor guarda un byte con −1?
+`FFh` (255, si se lo lee sin signo).
+
+#### ¿Qué bandera se prende si una cuenta da 0? ¿Y si una suma se pasa de 255 en un byte?
+ZF; y CF.
+
+## R01-N06 · Jefe: el Slime de las Palancas
+
+```meta
+tipo: jefe
+criatura: slime
+padre: R01-N05
+precio: 0
+insignia: Sello del Slime
+insignia_descripcion: Venciste al Slime de las Palancas: leés los errores del ensamblador y los arreglás sin miedo.
+usa: prog.salida, prog.entrada, prog.operadores, maq.registros, maq.memoria
+temas: cal.depuracion
+```
+
+### Crónica
+
+La baba verde cubre ya todo el brazo izquierdo de {mentor}. Es el **Slime de las Palancas**: se alimenta de órdenes mal escritas. Cada coma que falta, cada palabra mal tipeada, cada bloque sin cerrar lo hace más grande.
+
+—No lo voy a poder mover hasta que lo saques —dice el Gólem—. Y no te va a dejar escribir nada sin una trampa.
+
+Gheco se pone las antiparras. —Los slimes no muerden —le dice a Nova—. Pegotean. Leé lo que dice el error, buscá la línea, y despegalo de a uno.
+
+### Objetivos
+
+Vencer al jefe de la rama: **leer un error del ensamblador** (la línea y el mensaje), reconocer qué criatura
+lo causó y arreglarlo; y armar un programa que use todo lo de la rama: leer, guardar, hacer una cuenta y mostrar
+el resultado.
+
+### Antes de empezar
+
+Todo lo de esta rama: mostrar textos, variables, dirección y contenido, el teclado y las cuentas.
+
+### Explicación
+
+#### Cómo se lee un error
+Cuando el Gólem no entiende una orden, no ejecuta **nada** y avisa:
+```
+Línea 9: A la expresión le falta un operador (¿falta una coma o un «+»?)
+(main.asm(9) : Error A2150: Missing operator in expression)
+```
+- **La línea** (9): ahí está el problema, o en la de arriba.
+- **El mensaje en español**, con una pista.
+- **El mensaje original** entre paréntesis: es el mismo que vas a ver en emu8086 o en MASM.
+
+Arreglá **el primer error** y volvé a ejecutar: a veces un error arrastra a otros.
+
+#### Los slimes más comunes
+| Error | Qué pasó |
+|---|---|
+| `Missing operator in expression` | falta una coma: `mov bl 5` |
+| `Syntax error: mvo` | una palabra mal escrita, o una palabra reservada usada como nombre (`size`, `name`, `type`) |
+| `Symbol not defined : FFh` | un número hexa que empieza con letra: se escribe `0FFh` |
+| `Unmatched block nesting: main` | falta el `main endp` |
+| `END directive required` | falta el `end main` del final |
+
+> **Puente con otras lenguas.** Es lo mismo que el `SyntaxError` de Python o el `error: expected ';'` de C:
+> el programa no corre hasta que el texto está bien escrito. La diferencia es que acá cada orden es una línea, así
+> que el error casi siempre está justo en la línea que te dice.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+pide  db 'Dos cofres (de 0 a 9): $'
+suma  db 13, 10, 'Total: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+    mov ah, 01h
+    int 21h
+    sub al, '0'          ; de carácter a número: '7' -> 7
+    mov bl, al
+    mov ah, 01h
+    int 21h
+    sub al, '0'
+    add bl, al           ; BL = la suma
+
+    lea dx, suma
+    mov ah, 09h
+    int 21h
+    mov al, bl
+    mov ah, 0
+    mov bl, 10
+    div bl
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Entrada de ejemplo
+
+```
+7
+8
+```
+
+### Salida esperada
+
+```
+Dos cofres (de 0 a 9): 78
+Total: 15
+```
+
+### ¿Para qué sirve?
+
+Leer errores es la mitad del trabajo de cualquier programador, en cualquier lenguaje. El que aprende a buscar la
+línea, leer el mensaje y arreglar **un error por vez**, sin borrar todo y empezar de nuevo, programa el doble de
+rápido.
+
+### Errores habituales
+
+**Slime: la coma.** `mov bl 5`:
+```
+main.asm(9) : Error A2150: Missing operator in expression
+```
+
+**Slime: la palabra reservada.** `size db 3`:
+```
+main.asm(4) : Error A2209: Syntax error: size
+```
+
+**Esqueleto: el hexa que empieza con letra.** `mov cl, FFh`: el Gólem cree que `FFh` es un nombre.
+```
+main.asm(10) : Error A2102: Symbol not defined : FFh
+```
+
+**Slime: el bloque abierto.** Sin `main endp`:
+```
+main.asm(6) : Error A2142: Unmatched block nesting: main
+```
+
+### Micro-misión R01-N06-P1 · La coma que falta
+
+```meta
+lugar: El brazo del Gólem
+personajes: Nova, Gheco
+criatura: slime
+carta: Leer un error | la línea + el mensaje · arreglá el primero y volvé a ejecutar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La primera gota del Slime está pegada en una orden: el Gólem no quiere mostrar nada. Gheco le alcanza a Nova una espátula de luz.
+
+#### Gheco sugiere
+Ejecutá y leé el error: dice la **línea** y que **falta un operador**. Entre el destino y la fuente de un `mov` va siempre una **coma**.
+
+#### Desafío
+Tocá **Ejecutar**, buscá la línea del error y arreglala para que el ojo muestre la `N` de Nova.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl 'N'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+N
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, 'N'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La gota se despega con un *plop* y cae al vacío. El Slime tiembla entero, ofendido.
+
+#### Imagen
+- Un slime verde brillante, enorme y gelatinoso, abrazado a una fila de palancas de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) despega una gota verde de una palanca con una espátula de luz cian.
+- Gheco (gecko de luz cian con antiparras, chiquito) sostiene un frasquito vacío para guardar la gota.
+
+### Micro-misión R01-N06-P2 · El número disfrazado
+
+```meta
+lugar: El brazo del Gólem
+personajes: Nova, Gheco
+criatura: skeleton
+carta: 0FFh | un hexa que empieza con letra lleva un 0 adelante · si no, parece un nombre
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Detrás del Slime asoma un **esqueleto**: el Gólem busca un cajón llamado `FFh` y no lo encuentra. —Ese no es un nombre —dice Gheco—. Es un número disfrazado.
+
+#### Gheco sugiere
+Para el ensamblador, todo lo que empieza con letra es un **nombre**. Un número en hexa que empieza con letra (`FFh`, `A0h`) lleva un **0** adelante: `0FFh`.
+
+#### Desafío
+Tocá **Ejecutar**, leé el error y arreglá el número para que CL quede con **255**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0Fh
+    mov cl, FFh
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BL = 15
+CL = 255
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, 0Fh
+    mov cl, 0FFh
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El esqueleto se desarma en un montoncito de huesos con forma de **F**. Nova los barre a un costado. —Un cero adelante —repite—. Y deja de ser un nombre.
+
+#### Imagen
+- Un esqueleto flaco desarmándose en un montón de huesos sobre un piso de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) barre los huesos con una escoba de luz cian.
+- Gheco (gecko de luz cian con antiparras, chiquito) se esconde detrás de una palanca, espiando.
+- Al fondo, un slime verde enorme abrazado a las palancas.
+
+### Micro-misión R01-N06-P3 · La palabra prohibida
+
+```meta
+lugar: El brazo del Gólem
+personajes: Nova, Gheco
+criatura: slime
+carta: Palabras reservadas | size, name, type, length… ya son del ensamblador · elegí otro nombre
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova quiere guardar el tamaño de la mochila en un cajón llamado `size`. El Slime se infla de golpe: le encantan las palabras prohibidas.
+
+#### Gheco sugiere
+`size` ya es una palabra del ensamblador, y no se puede usar como nombre. Cambiale el nombre al cajón (por ejemplo, `talla`) **en los dos lugares** donde aparece.
+
+#### Desafío
+Tocá **Ejecutar**, leé el error y cambiá el nombre para que BL quede con lo que hay en el cajón (**5**).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+size db 5
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, size
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BL = 5
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+talla db 5
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov bl, talla
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El Slime se desinfla un poco. Ya no cubre el codo del Gólem: la articulación cruje y se mueve, libre.
+
+#### Imagen
+- El codo de bronce de un gólem gigante liberándose de una baba verde que se retira.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) pega una etiqueta lisa nueva, con un dibujito de estrella, sobre un cajón.
+- Gheco (gecko de luz cian con antiparras, chiquito) tira la etiqueta vieja a un tacho.
+
+### Micro-misión R01-N06-P4 · Tres gotas a la vez
+
+```meta
+lugar: El brazo del Gólem
+personajes: Nova, Gheco
+criatura: slime
+carta: Un error por vez | arreglá el primero, ejecutá de nuevo · el siguiente aparece solo
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El Slime escupe tres gotas de una: una **coma** que falta, un **texto sin cerrar** y un **bloque abierto**. El ojo del Gólem muestra un solo error por vez.
+
+#### Gheco sugiere
+No intentes ver los tres a la vez. Ejecutá, arreglá **el que te muestra**, y volvé a ejecutar. Pistas: entre destino y fuente va una coma; un texto empieza y termina con comilla simple; todo `main proc` cierra con `main endp`.
+
+#### Desafío
+Arreglá los tres errores, de a uno, para que el ojo diga `Brazo libre`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Brazo libre$
+.code
+main proc
+    mov ax, @data
+    mov ds ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+end main
+```
+
+#### Salida esperada
+```
+Brazo libre
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+texto db 'Brazo libre$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, texto
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Las tres gotas caen juntas. El Slime, ya chiquito, se arrastra hasta la mano del Gólem y se aferra a la última palanca, la del pulgar.
+
+#### Imagen
+- Tres gotas verdes cayendo al vacío desde un brazo de bronce gigante.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) con la espátula de luz en alto, triunfante.
+- Gheco (gecko de luz cian con antiparras, chiquito) atrapa una de las gotas en un frasquito.
+- Un slime verde pequeño huye hacia la mano del gólem.
+
+### Micro-misión R01-N06-P5 · La última palanca
+
+```meta
+lugar: La mano del Gólem
+personajes: Nova, Gheco, Kira, Axón
+criatura: slime
+carta: Todo junto | leer (01h) · sub al, '0' · add · div por 10 · mostrar dos cifras
+recompensa: xp 30, oro 30
+```
+
+#### Escena
+El Slime se agarra de la palanca del pulgar: para soltarla, el Gólem tiene que **sumar** el oro de dos cofres que Kira le dicta tecla por tecla. Si la cuenta sale bien, la mano se cierra y el Slime sale volando.
+
+#### Gheco sugiere
+Leé cada tecla con la `01h` y pasala de carácter a número con `sub al, '0'` (`'7'` → 7). Guardá la primera en BL y sumale la segunda. Después: AH en 0, dividí por 10, guardá AX en CX y mostrá las dos cifras con `+ '0'`.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`. Kira va a tipear `7` y `8`, y el ojo tiene que terminar diciendo `Oro: 15`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+pide db 'Dos cofres: $'
+oro  db 13, 10, 'Oro: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Entrada
+```
+7
+8
+```
+
+#### Salida esperada
+```
+Dos cofres: 78
+Oro: 15
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+pide db 'Dos cofres: $'
+oro  db 13, 10, 'Oro: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, pide
+    mov ah, 09h
+    int 21h
+
+    mov ah, 01h
+    int 21h
+    sub al, '0'
+    mov bl, al
+    mov ah, 01h
+    int 21h
+    sub al, '0'
+    add bl, al
+
+    lea dx, oro
+    mov ah, 09h
+    int 21h
+    mov al, bl
+    mov ah, 0
+    mov bl, 10
+    div bl
+    mov cx, ax
+    mov dl, cl
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+**Oro: 15**. La mano de {mentor} se cierra con un estruendo de siglos y el Slime sale despedido, convertido en mil gotitas que se evaporan antes de tocar el piso. El brazo izquierdo entero se levanta, lento, y saluda.
+
+—Lo hiciste vos —dice Kira.
+
+—Lo hicimos —corrige Nova. Y en el núcleo, una fila nueva de **interruptores** se enciende por primera vez.
+
+#### Imagen
+- La mano de bronce gigante de un gólem cerrándose en un puño, y un slime verde estallando en mil gotitas que se evaporan.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) flota delante del puño, con los brazos en alto.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) festeja más abajo, sobre el antebrazo del gólem.
+- Gheco (gecko de luz cian con antiparras, chiquito) da una voltereta en el aire.
+
+### Prueba del sello
+
+#### ¿Qué hay que mirar primero en un error del ensamblador?
+La línea que indica y el mensaje: el problema está en esa línea (o en la de arriba).
+
+#### Si hay varios errores, ¿cuál se arregla primero?
+El primero que muestra; después se vuelve a ejecutar, porque un error puede arrastrar a otros.
+
+#### ¿Por qué `mov cl, FFh` da «Symbol not defined»?
+Porque empieza con letra y el ensamblador lo toma como un nombre; se escribe `0FFh`.
+
+#### ¿Cómo se pasa la tecla `'7'` al número 7?
+Restándole `'0'`: `sub al, '0'`.

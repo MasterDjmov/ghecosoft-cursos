@@ -32,6 +32,18 @@ alcance: lenguaje
 - prog.argumentos · Argumentos de la línea de comandos · argv, opciones, mensaje de uso
 - prog.menu · Programas de consola con menú · bucle de menú, estado del programa, salida prolija
 
+## maq · La máquina por dentro
+alcance: compartido
+
+- maq.registros · Registros · las «variables» del procesador, mitades alta y baja, mover datos entre ellos
+- maq.numeracion · Binario y hexadecimal · leer y escribir los números como los ve la máquina
+- maq.memoria · La memoria · bytes y words, direcciones, little endian, variables como cajones
+- maq.direcciones · Dirección y contenido · offset, modos de direccionamiento, la idea detrás de los punteros
+- maq.interrupciones · Interrupciones · pedirle servicios al sistema (INT 21h, INT 10h)
+- maq.banderas · Banderas · cero, signo, acarreo y desborde: lo que deja cada cuenta
+- maq.saltos · Saltos · cmp y los saltos condicionales: el if y el while por dentro
+- maq.pila · La pila y las llamadas · push, pop, call y ret: las funciones por dentro
+
 ## col · Colecciones
 alcance: lenguaje
 

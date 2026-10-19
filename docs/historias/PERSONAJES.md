@@ -181,6 +181,26 @@ No son parte de la historia: son **vos**. El Mundo del Código vive en la mente 
 
 ---
 
+### Nova
+- **Curso y rol:** Ensamblador 8086, el Corazón del Gólem. Protagonista ([ensamblador.md](ensamblador.md)).
+- **Edad y sexo:** recién nacida (una chispa de inteligencia en el núcleo del Gólem); se proyecta como una chica de unos 15 años.
+- **Altura y contextura:** 1,60 m, delgada; **flota** a unos centímetros del piso.
+- **Rasgos:**
+  - cara dulce y curiosa, **ojos cian brillantes**;
+  - **pelo rubio dorado** que flota como en el agua.
+- **Ropa:** **capa oscura de cuello alto** (petróleo y obsidiana) con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras y botas con suela cian. **Ropa opaca y cerrada**: nunca translúcida ni escotada (la usan alumnos chicos).
+- **Objeto:** ninguno: su cuerpo es el Gólem entero (las palancas, los cajones, la torre de platos, el ojo).
+- **Color:** cian y dorado sobre bronce.
+- **Personalidad:** asombrada de todo, habla en primera persona («¡Moví mi primera palanca!»), aprende de a una orden; se pone seria cuando algo no cuadra.
+- **Le gusta:** ver su nombre en el ojo del Gólem, los interruptores que se prenden, que Kira la visite.
+- **Defecto o miedo:** al principio no sabe mover nada y tiene miedo de no despertar del todo; después, de que el Gólem se caiga por una orden mal dada.
+- **Frase:** «Lo hice yo. Bueno: lo hicimos.»
+- **Relaciones:** vive dentro de Axón; Gheco la guía; Kira la visita desde las Forjas y se vuelve su amiga.
+- **Cómo llega:** un rayo del vitral del portal bajó por las chimeneas de las Forjas, entró por una grieta en el pecho de Axón y la encendió.
+- **Pieza del misterio:** el rayo vino del vitral del portal: alguien lo encendió desde el otro lado, apuntando al Gólem.
+- **Primera aparición:** Ensamblador, Clase 0.
+- **Imágenes:** cuerpo entero (Stitch `66dcc917…`), retrato circular (`be0d6929…`) y 6 aspectos.
+
 ## 2. Los guías (aparecen en todos los cursos)
 
 ### Gheco
@@ -1037,6 +1057,83 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 - **Qué es:** un **caballito de mar del tamaño de un caballo**, de vidrio de colores, que se refleja deformado en las vidrieras.
 - **Cómo habla:** con un tintineo de vidrio.
 - **Imágenes:** cuerpo entero (generado en Stitch desde esta ficha, 2026-10-11).
+
+---
+
+## El Corazón del Gólem (Ensamblador 8086)
+
+### Axón
+- **Rol:** el **Gólem de Bronce**, la máquina más antigua de Codexia, y mentor de Nova ([ensamblador.md](ensamblador.md)). Duerme debajo de las Forjas desde antes de que las Forjas tuvieran techo. Sus **palancas** son los registros; sus **cajones**, la memoria; su **torre de platos**, la pila; sus **interruptores**, las banderas; su **ojo**, la pantalla.
+- **Edad y sexo:** siglos; voz grave, masculina.
+- **Altura y contextura:** **cuatro metros**, macizo; Nova le llega a la rodilla.
+- **Rasgos:** bronce con pátina verde y remaches, **engranajes a la vista** en las articulaciones, una gran **puerta en el pecho** que deja ver el núcleo y **un único ojo redondo de cristal** en la cara.
+- **Color:** bronce, verde pátina y el cian del ojo.
+- **Personalidad:** literal, paciente, sin apuro. No adivina nunca: hace exactamente lo que le ordenan, en el orden en que se lo ordenan.
+- **Le gusta:** las órdenes bien escritas; el silencio de las cavernas; caminar (desde que puede).
+- **Defecto o miedo:** caerse por una orden mal dada; no saber volver de un paso.
+- **Frase:** «Yo no adivino. Hago exactamente lo que me ordenás, en el orden en que me lo ordenás.»
+- **Relaciones:** cuerpo y maestro de Nova; Maese Ferrum lo conoce de siempre (las Forjas se construyeron encima de él).
+- **Primera aparición:** Ensamblador, Clase 0.
+- **Dónde va:** su propio interior: el núcleo, la sala de las palancas, la pared de los cajones, la torre de platos, las compuertas de las piernas y el ojo.
+- **Imágenes:** cuerpo entero (Stitch `daab9e5a…`) y retrato circular (`c4b3a82e…`).
+
+### La tabernera del pie
+- **Curso y rol:** Ensamblador. Atiende la **taberna** que los enanos construyeron entre los dedos del pie del Gólem hace tanto que nadie se acuerda. Le pide a Nova que atienda las mesas (los menús y los rangos, R02-N03).
+- **Edad y sexo:** 50, mujer, enana.
+- **Altura y contextura:** baja y robusta.
+- **Rasgos:** cachetes colorados, trenzas castañas recogidas, brazos fuertes.
+- **Ropa:** vestido largo marrón y **delantal** blanco con manchas de sopa.
+- **Objeto:** una bandeja y una pizarra de tiza con el menú dibujado (un tazón, un pan y una jarra).
+- **Personalidad:** mandona y cariñosa; agradece con comida.
+- **Frase:** «Eso no está en el menú, querido.»
+- **Relaciones:** su hija (una nena de trenzas) le trae la libreta de la escuela; le regala al Gólem un barril de aceite para las rodillas.
+- **Primera aparición:** Ensamblador, R02-N03.
+
+### La jefa del Gremio
+- **Curso y rol:** Ensamblador. Jefa del **Gremio de Comerciantes** de las Forjas; le encarga al Gólem la calculadora (R04-N01).
+- **Edad y sexo:** 60, mujer, enana.
+- **Altura y contextura:** baja, robusta y erguida.
+- **Rasgos:** pelo gris en rodete, **anteojos redondos**, cara seria.
+- **Ropa:** chaleco con muchos bolsillos sobre camisa cerrada, falda larga oscura.
+- **Objeto:** una balanza de bronce y una pluma para firmar contratos.
+- **Personalidad:** desconfiada, exigente, justa; su sonrisa es casi invisible.
+- **Frase:** «Si el Gólem se rompe, no lo contrato.»
+- **Primera aparición:** Ensamblador, R04-N01.
+
+### El Autómata de Hierro
+- **Rol:** el **autómata de entrenamiento** que Maese Ferrum le regala a Kira (R04-N03): un rival de práctica para el combate por turnos.
+- **Qué es:** un autómata de hierro alto como dos enanos, de remaches y placas, con un **garrote de práctica** acolchado.
+- **Color:** hierro gris y el naranja de las Forjas.
+- **Cómo habla:** no habla: cruje y suelta vapor.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Slime de las Palancas
+- **Rol:** el jefe de R01 del Ensamblador, en el brazo izquierdo del Gólem. Se alimenta de **órdenes mal escritas** (una coma que falta, un número hexa que empieza con letra, un bloque sin cerrar) y pegotea las palancas. Se lo vence leyendo los errores del ensamblador y despegándolos de a uno.
+- **Qué es:** un slime **verde brillante**, enorme y gelatinoso, abrazado a las palancas de bronce; adentro flotan comas y pedazos de órdenes.
+- **Color:** verde ácido sobre bronce.
+- **Cómo habla:** burbujea mensajes de error («Missing operator in expression»).
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Ogro de las Banderas
+- **Rol:** el jefe de R02 del Ensamblador, en la cadera del Gólem. No rompe nada: **da vuelta los interruptores** (las banderas) y espera a que el programa haga otra cosa. Se lo vence ejecutando paso a paso. Al perder, se ríe de verdad y se va: no es malo, solo tramposo.
+- **Qué es:** un ogro enorme y robusto, sentado sobre el tablero de interruptores de la cadera, con dedos gruesos que mueven palanquitas.
+- **Color:** piel gris verdosa, ropa de cuero marrón y el cian de las lucecitas que apaga.
+- **Cómo habla:** poco; sonríe con malicia. Al final: «Bien jugado, chispita.»
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Troll de la Pila
+- **Rol:** el jefe de R03 del Ensamblador, al fondo de la torre de platos (la pila), en la espalda del Gólem. Se alimenta de **platos que nadie viene a buscar** (cada `push` sin su `pop`). Se lo vence dejando la torre pareja. Al final, ordena él mismo un plato y se va.
+- **Qué es:** un troll enorme, gris, de piel como piedra, lento, sentado en la base de la torre de platos de metal.
+- **Color:** gris piedra y el bronce de los platos.
+- **Cómo habla:** gruñe con voz muy grave; ríe con ruido de platos rotos.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
+
+### El Dragón del Gólem
+- **Rol:** el jefe final del Ensamblador (R04-N04), enroscado alrededor del corazón de bronce, en el núcleo. Nació hace siglos de **todas las órdenes que nadie terminó de escribir**. Se lo vence por partes (las escamas, el tesoro, el acertijo y el combate). No muere: se **apaga**, y su luz se mezcla con la de Nova.
+- **Qué es:** un dragón de **luz roja**, translúcido como brasa, con ocho escamas grandes en el lomo y un tesoro de monedas debajo.
+- **Color:** rojo brasa sobre el bronce y el ámbar del núcleo.
+- **Cómo habla:** sisea acertijos.
+- **Imágenes:** cuerpo entero y retrato circular, como las criaturas del bestiario.
 
 ---
 

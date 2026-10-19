@@ -31,7 +31,7 @@ class Encyclopedia
         'Personalidad', 'Le gusta', 'Defecto o miedo', 'Objeto', 'Frase', 'Cómo habla', 'Relaciones'];
 
     /** El lenguaje que dice entre paréntesis la sección de cada mundo. */
-    private const WORLDS = ['Python' => 'python', 'C' => 'c', 'C++' => 'cpp', 'HTML y CSS' => 'html', 'Java' => 'java', 'PHP' => 'php'];
+    private const WORLDS = ['Python' => 'python', 'C' => 'c', 'C++' => 'cpp', 'HTML y CSS' => 'html', 'Java' => 'java', 'PHP' => 'php', 'Ensamblador 8086' => 'asm'];
 
     /** Los nodos que abrió el alumno (id → posición). */
     private ?Collection $unlocked = null;

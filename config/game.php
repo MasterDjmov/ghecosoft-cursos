@@ -348,11 +348,13 @@ return [
             ],
         ],
         // Ensamblador 8086 (D110, docs/historias/ensamblador.md): Nova, la chispa que despierta dentro de Axón.
-        // Todavía sin tienda ni expediciones (son opcionales: no se muestran hasta que existan).
         'asm' => [
             'name' => 'Nova',
             'slug' => 'nova',
             'title' => 'La chispa del Gólem',
+            // La tienda del Gólem: la taberna que los enanos construyeron entre los dedos del pie (R02-N03).
+            'shop' => ['name' => 'La taberna del pie', 'keeper' => 'La tabernera', 'portrait' => 'img/personajes/tabernera.webp', 'figure' => 'img/personajes/tabernera-cuerpo.webp',
+                'greeting' => '—¡Pasá, chispita, pasá! Acá abajo tengo de todo para el Gólem y para vos. Eso sí: lo que no está en la pizarra, no está en el menú.'],
             'looks' => [
                 1 => 'Mentora del Núcleo',
                 2 => 'Coraza de Bronce',

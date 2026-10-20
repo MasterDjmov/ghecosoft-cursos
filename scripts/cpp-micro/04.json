@@ -1,0 +1,290 @@
+{
+  "R04-N01-M1": {
+    "lugar": "La Gran Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima encuentra en la Biblioteca una caja de herramientas que sirven para cualquier tuerca. Se emociona.\n—¡Una sola pieza para todo! Escribí tres así: que anden con enteros, con decimales y con textos.",
+    "gheco": "`template <typename T> T limitar(T x, T minimo, T maximo)` usando solo `<`. Con `\"m\"` escribí `std::string(\"m\")`, si no, compara punteros. `contar` recibe un `const std::vector<T>&` y un `const T&`.",
+    "exito": "Las tres herramientas andan con todo lo que les pasan. Lima saca la lima y no encuentra nada repetido para limar.",
+    "imagen": [
+      "Una caja de herramientas de bronce abierta en una mesa de la Gran Biblioteca, con llaves que se ajustan a tuercas de todos los tamaños.",
+      "Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) levanta una llave con los ojos brillantes; Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro) mira por encima."
+    ]
+  },
+  "R04-N01-M2": {
+    "lugar": "La Gran Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla guarda los libros de a pares: un título y su estante, una medida y su letra.\n—Una sola caja para cualquier par. Y que se pueda dar vuelta.",
+    "gheco": "`template <typename A, typename B> class Par`. `invertido()` devuelve `Par<B, A>{segundo_, primero_}`. El `operator<<` también es plantilla: `template <typename A, typename B> std::ostream& operator<<(std::ostream&, const Par<A, B>&)`.",
+    "exito": "Hasta el par que tiene otro par adentro se muestra bien. Tesla lo usa para catalogar el estante de los catálogos.",
+    "imagen": [
+      "Cajas de bronce de dos compartimentos en un estante, una con un libro y un número, otra con una regla y una letra, y una caja dentro de otra.",
+      "Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) da vuelta una caja; Bron sostiene otra."
+    ]
+  },
+  "R04-N01-M3": {
+    "lugar": "El comedor de los artífices",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto apila bandejas en un carrito que tiene lugar para tres, ni una más.\n—Si está lleno, no me la pongas encima. Y si está vacío, no me saques nada.",
+    "gheco": "`template <typename T, int N> class Pila` con un `std::array<T, N>` y un contador. `apilar` y `desapilar` devuelven `bool`; el tamaño `N` se fija al escribir el tipo: `Pila<std::string, 3>`.",
+    "exito": "Ninguna bandeja se cae al piso. Oto le sirve a Bron la primera del carrito.",
+    "imagen": [
+      "Un carrito de bronce con tres lugares para bandejas, dos ocupadas con comida humeante, en el comedor.",
+      "Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) apila una bandeja; Bron cuenta los lugares."
+    ]
+  },
+  "R04-N02-M1": {
+    "lugar": "Los estantes de la Gran Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima le enseña a Bron a recorrer los estantes con un dedo de bronce, sin saber cuántos libros hay.\n—Buscá uno, y después leémelos de atrás para adelante. Pero solo con el dedo, nada de atajos.",
+    "gheco": "Las plantillas reciben `It ini, It fin`. Para ir al revés: mientras `fin != ini`, primero `--fin` y después mostrás `*fin`. La posición en el vector es `it - v.begin()`; en la `list` no existe la resta.",
+    "exito": "El dedo de bronce encuentra el libro y recorre el estante al revés sin saltearse ninguno.",
+    "imagen": [
+      "Un estante largo de la Gran Biblioteca con libros de lomos de colores y un dedo mecánico de bronce que se desliza sobre ellos.",
+      "Lima guía el dedo mecánico; Bron lee los títulos en voz alta."
+    ]
+  },
+  "R04-N02-M2": {
+    "lugar": "Los estantes de la Gran Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Por un tubo de la Biblioteca caen números sin parar. Tesla quiere los positivos, en orden, para arriba y para abajo.\n—Sin bucles a mano. Que fluyan por la tubería.",
+    "gheco": "`std::vector<int> v(std::istream_iterator<int>(std::cin), {});` los lee todos. Después `copy_if` con `std::back_inserter`, `sort` y `copy` a un `std::ostream_iterator<int>(std::cout, \" \")`.",
+    "exito": "Los números salen del tubo ordenados, para un lado y para el otro. Tesla aplaude dos veces.",
+    "imagen": [
+      "Una tubería de bronce transparente por donde corren números luminosos que caen en un embudo y salen ordenados.",
+      "Tesla abre una válvula; Bron recibe los números en una bandeja."
+    ]
+  },
+  "R04-N02-M3": {
+    "lugar": "Los estantes de la Gran Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "orco",
+    "escena": "Bron saca libros del estante mientras lo recorre con el dedo, y el dedo se le queda apuntando a un hueco. Un orco aprovecha y se mete.\n—Cada vez que borrás o insertás, el estante te dice dónde seguir —dice Lima—. Hacele caso.",
+    "gheco": "`it = v.erase(it);` (y no `++it` en esa vuelta). Para insertar delante de un par: `it = v.insert(it, 0);` y después avanzá **dos** lugares, para no volver a encontrar el mismo par.",
+    "exito": "El dedo no se pierde nunca y el orco se queda sin huecos donde meterse.",
+    "imagen": [
+      "Un estante con libros sacados y otros metidos, y un orco verde intentando meterse en un hueco vacío.",
+      "Lima señala dónde seguir con el dedo mecánico; Bron sostiene un libro sacado."
+    ]
+  },
+  "R04-N03-M1": {
+    "lugar": "El depósito de la Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla recibe fórmulas de los aprendices y en la mitad faltan cierres.\n—No me digas solo que está mal. Mostrame dónde.",
+    "gheco": "Guardá en la `std::stack` pares `{símbolo, posición}`. Un cierre tiene que coincidir con el tope; si no, el error está ahí. Si al final queda algo en la pila, el error es la posición del último abierto. La `^` va con `std::string(pos, ' ')` delante.",
+    "exito": "Cada fórmula vuelve con su flechita en el lugar del error. Los aprendices las arreglan en un minuto.",
+    "imagen": [
+      "Una pila de fichas de bronce con paréntesis, corchetes y llaves grabados, al lado de un papel con una fórmula y una flecha roja debajo.",
+      "Tesla marca la flecha; Bron apila las fichas."
+    ]
+  },
+  "R04-N03-M2": {
+    "lugar": "La ventanilla del banco",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "El banco de la Ciudadela abrió una ventanilla nueva y Lyn quiere saber cuánto se espera.\n—El primero que llega, el primero que atienden. Y avisame cuál fue la fila más larga del día.",
+    "gheco": "`std::queue<std::string>`: `push` cuando llega, `front` y `pop` al atender (si no está vacía). Después de cada llegada, compará `size()` con la más larga. Al final, `front()` y `back()`.",
+    "exito": "La fila avanza sin que nadie se cuele. Lyn anota el récord en el cronómetro.",
+    "imagen": [
+      "Una ventanilla de bronce de banco con una fila de gente esperando y un cartel que dice «Próximo».",
+      "Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) cuenta la fila; Bron atiende detrás del vidrio."
+    ]
+  },
+  "R04-N03-M3": {
+    "lugar": "El depósito de la Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima arma un tablero de dibujo que recuerda las últimas cuatro cosas que hizo, y se puede deshacer y rehacer.\n—Si hago algo nuevo después de deshacer, lo que había para rehacer se pierde. Así es la vida.",
+    "gheco": "Dos `std::deque`: el historial (si pasa de 4, `pop_front`) y el de rehacer. `deshacer` pasa el `back()` del historial al de rehacer; `rehacer`, al revés. Una acción nueva hace `rehacer.clear()`.",
+    "exito": "El tablero deshace y rehace sin perder nada que no tenga que perder. Lima dibuja un engranaje y lo deshace solo para ver.",
+    "imagen": [
+      "Un tablero de dibujo de bronce con cuatro casilleros de historial iluminados y dos flechas, una para atrás y otra para adelante.",
+      "Lima toca la flecha de deshacer; Bron mira cómo desaparece un trazo."
+    ]
+  },
+  "R04-N04-M1": {
+    "lugar": "El índice de la Gran Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla organiza la semana del taller y varios días tienen más de una actividad.\n—Un día, muchas cosas. Y que pueda preguntar por un día o por un rango.",
+    "gheco": "En un `std::multimap<int, std::string>` el mismo día se repite. `equal_range(dia)` te da todas las de ese día; `lower_bound(desde)` y `upper_bound(hasta)`, las del rango.",
+    "exito": "La agenda le dice a Tesla qué hay cada día y cuándo está libre. Se toma el miércoles.",
+    "imagen": [
+      "Un calendario de bronce con siete casilleros, algunos con varias tarjetas apiladas y uno vacío.",
+      "Tesla pone una tarjeta en un casillero; Bron lee las del lunes."
+    ]
+  },
+  "R04-N04-M2": {
+    "lugar": "La sala de juegos de la Biblioteca",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn juega contra todos en la sala de juegos y quiere ver el ranking en vivo.\n—Los tres mejores arriba. Y la peor partida también, para reírme.",
+    "gheco": "`std::multiset<Marca, std::greater<Marca>>` deja las mayores primero y acepta repetidas. El `operator>` compara puntos y, si empatan, nombres. Los tres primeros salen con `begin()`; la peor, con `rbegin()`.",
+    "exito": "Lyn está primera y la peor partida es de Bron. Ella se ríe; él pide la revancha.",
+    "imagen": [
+      "Un tablero de ranking iluminado en una sala de juegos, con tres nombres arriba en dorado.",
+      "Lyn señala su nombre en el primer lugar; Bron se tapa la cara."
+    ]
+  },
+  "R04-N04-M3": {
+    "lugar": "El índice de la Gran Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "El bibliotecario quiere un índice al final de un libro, con las palabras que se repiten y en qué renglones están.\n—Un renglón una sola vez —dice Lima—, aunque la palabra aparezca dos veces en el mismo.",
+    "gheco": "`std::map<std::string, std::set<int>>`: `indice[palabra].insert(linea)`. El `set` no repite el número de línea. Al mostrar, filtrá las que tienen `size() >= 2`.",
+    "exito": "El índice queda prolijo, al final del libro. Lima lo usa para encontrar la palabra «engranaje» en un segundo.",
+    "imagen": [
+      "Las últimas páginas de un libro grande con un índice de palabras y números de renglón.",
+      "Lima recorre el índice con la lupa; Bron sostiene el libro abierto."
+    ]
+  },
+  "R04-N05-M1": {
+    "lugar": "El ala de las herramientas",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla corrigió el examen de los aprendices y quiere todos los números.\n—Sin un solo bucle. La Biblioteca tiene una herramienta para cada cosa.",
+    "gheco": "`accumulate(v.begin(), v.end(), 0.0)` para que el promedio sea decimal. La mediana: copiá y ordená. `minmax_element` devuelve dos iteradores. `count_if` para los aprobados y `none_of` para los ceros.",
+    "exito": "Todos los números del examen, sin un bucle. Tesla cuelga las estadísticas en la puerta del aula.",
+    "imagen": [
+      "Una pared de herramientas de bronce colgadas, cada una con un cartel: sumar, ordenar, contar.",
+      "Tesla elige una herramienta; Bron sostiene una pila de exámenes."
+    ]
+  },
+  "R04-N05-M2": {
+    "lugar": "La pista de la Ciudadela",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Terminó la carrera de las torres y Lyn quiere el podio ya.\n—No ordenes a todos, que tarda. Solo los tres primeros. Y el tiempo del medio.",
+    "gheco": "Una lambda `mas_rapido` que compare los segundos. `std::partial_sort(v.begin(), v.begin() + 3, v.end(), mas_rapido)` ordena solo el podio; `nth_element` deja el del medio en su lugar; `max_element` encuentra al último.",
+    "exito": "El podio sale antes de que los corredores recuperen el aliento. Lyn sube al primer escalón.",
+    "imagen": [
+      "Un podio de bronce de tres escalones al final de una pista, con corredores llegando cansados.",
+      "Lyn en el escalón más alto con el cronómetro en alto; Bron le cuelga una medalla."
+    ]
+  },
+  "R04-N05-M3": {
+    "lugar": "El club de los artífices",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "El club tiene la lista de socios desordenada y con repetidos. Lima la quiere ordenada, y que siga así.\n—Si alguien pregunta por un número que no está, lo sumamos en su lugar.",
+    "gheco": "`sort` y después `v.erase(std::unique(v.begin(), v.end()), v.end())`. `lower_bound` te da dónde está o dónde iría: si `*it == x` es socio; si no, `*it` es el siguiente y `v.insert(it, x)` lo agrega ahí.",
+    "exito": "La lista del club está ordenada de punta a punta. `is_sorted` lo confirma y Lima la cuelga en la puerta.",
+    "imagen": [
+      "Una lista larga de números de socio colgada en la puerta de un club, con un número nuevo agregado en el medio.",
+      "Lima escribe el número nuevo con su lápiz; Bron sostiene la escalera."
+    ]
+  },
+  "R04-N06-M1": {
+    "lugar": "La sala de control de la Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Por la sala de control pasan lecturas de los medidores. Tesla quiere un aparato que vaya contando mientras pasan.\n—Que recuerde lo que vio. Y otro que diga si cada lectura está en un rango.",
+    "gheco": "Un functor es una clase con `operator()`. `for_each` **devuelve** la copia que usó: `Estadistica e = std::for_each(...)`. `EnRango` guarda `desde` y `hasta` y se lo pasás a `count_if`.",
+    "exito": "El aparato recuerda todo y el de rango cuenta exacto. Tesla les pone una etiqueta a cada uno.",
+    "imagen": [
+      "Dos aparatos de bronce en un tablero: uno con contadores que giran y otro con una ventanita que marca un rango.",
+      "Tesla lee los contadores; Bron alimenta los aparatos con tiras de números."
+    ]
+  },
+  "R04-N06-M2": {
+    "lugar": "La sala de control de la Biblioteca",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto quiere una calculadora para sus recetas que entienda órdenes escritas.\n—«Suma», «por», «promedio»… y si le pido una que no sabe, que me lo diga y no invente.",
+    "gheco": "`std::map<std::string, std::function<double(double, double)>>`, con lambdas como valores. Agregar después es `ops[\"promedio\"] = ...`. Antes de llamar, `find`: si no está, avisás.",
+    "exito": "La calculadora le saca las cuentas del guiso. Oto la cuelga al lado del cucharón.",
+    "imagen": [
+      "Una calculadora de bronce con palancas rotuladas «suma», «resta», «por» y «potencia», sobre la mesada de la cocina.",
+      "Oto tira de una palanca; Bron anota el resultado."
+    ]
+  },
+  "R04-N06-M3": {
+    "lugar": "La sala de control de la Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima arma un tablero de avisos: cuando pasa algo, suenan las campanas que estén conectadas.\n—Y si una campana molesta, la desenchufamos sin tocar las otras.",
+    "gheco": "`suscribir` guarda la función en `eventos_[evento][id]` y devuelve el `id`. `desuscribir` hace `erase(id)`. Al llegar un evento, recorrés el mapa de ese evento y llamás cada función.",
+    "exito": "Las campanas suenan cuando tienen que sonar y la del festejo se calla justo a tiempo. Lima respira aliviada.",
+    "imagen": [
+      "Un tablero de bronce con campanas conectadas por cables a palancas, una campana desenchufada colgando.",
+      "Lima desenchufa la campana; Bron se tapa los oídos."
+    ]
+  },
+  "R04-N07-M1": {
+    "lugar": "La sala de lectura",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En la sala de lectura llegan registros larguísimos separados por comas. Lima no quiere hacer copias.\n—Mirá los pedazos sin cortar el papel. Y sacales los espacios de las puntas.",
+    "gheco": "`std::string_view` mira un pedazo sin copiarlo. Para partir, `find(sep, desde)` y `substr` (en un `string_view`, no copia). Los pedazos vacíos también cuentan. `recortar` usa `remove_prefix` y `remove_suffix`.",
+    "exito": "Los registros quedan separados y limpios, y el papel sigue entero. Lima lo dobla y lo guarda.",
+    "imagen": [
+      "Un papel largo en una mesa de lectura con marcos de bronce que señalan pedazos sin cortarlo.",
+      "Lima acomoda un marco sobre el papel; Bron lee entre corchetes."
+    ]
+  },
+  "R04-N07-M2": {
+    "lugar": "La sala de lectura",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla compara lecturas de distintos sensores y quiere todas en la misma escala.\n—Una sola función. Que sirva para un vector, para un array y para un pedazo.",
+    "gheco": "`std::span<double>` mira cualquier bloque contiguo: vector, array o parte. Buscá el mayor con `std::ranges::max` y dividí. `mostrar` recibe `std::span<const double>` porque no cambia nada.",
+    "exito": "Todas las lecturas quedan entre 0 y 1. Tesla las pone una al lado de la otra y por fin se pueden comparar.",
+    "imagen": [
+      "Tres medidores de bronce distintos con agujas que apuntan a la misma escala del 0 al 1.",
+      "Tesla compara los medidores con el visor; Bron ajusta una aguja."
+    ]
+  },
+  "R04-N07-M3": {
+    "lugar": "La sede del gremio",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "El Gremio le pide a Lyn varias listas de sus artífices para repartir invitaciones.\n—Los mejores, los relojeros, cuántos aprendices… ¡Y no me copies la lista para cada pregunta!",
+    "gheco": "`std::ranges::sort(v, std::greater{}, &Artifice::nivel)` ordena por nivel con una proyección. Las vistas `views::take`, `views::filter` y `views::transform` no copian nada. `std::ranges::find(v, \"vapor\", &Artifice::taller)`.",
+    "exito": "Lyn sale con las listas en el bolso y ninguna se repite. Los aprendices reciben su invitación primero.",
+    "imagen": [
+      "Un tablero del Gremio con fichas de artífices ordenadas por nivel, algunas resaltadas con luz cian.",
+      "Lyn mete invitaciones en el bolso; Bron le dicta nombres."
+    ]
+  },
+  "R04-N08-M1": {
+    "lugar": "El taller de la Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla le muestra a Bron una regla que nunca termina: marca números de a saltos, pero no tiene ninguno pintado.\n—Los calcula cuando los mirás. Y sabe dónde parar, aunque el salto no caiga justo.",
+    "gheco": "El iterador guarda el número actual y el paso; `++` suma el paso y `*` lo devuelve. El `end()` tiene que ser el primer valor alineado que ya no entra: `desde + cantidad * paso`, con `cantidad` redondeada para arriba.",
+    "exito": "La regla recorre sus números y se detiene en el lugar justo. Tesla se la regala a Bron.",
+    "imagen": [
+      "Una regla de bronce sin números pintados, con un cursor que proyecta números de luz a medida que se mueve.",
+      "Tesla mueve el cursor; Bron cuenta los saltos."
+    ]
+  },
+  "R04-N08-M2": {
+    "lugar": "El taller de la Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En la sala de espera de la Biblioteca hay tres sillas. Lima quiere anotar a los últimos que llegaron y, aparte, no dejar entrar a nadie si está lleno.\n—El mismo anillo. Uno pisa al más viejo; el otro dice «no hay lugar».",
+    "gheco": "Un tercer parámetro de plantilla `AlLlenarse modo = AlLlenarse::Pisar`. En `push`, `if constexpr (modo == AlLlenarse::Rechazar)` devolvés `false` si está lleno. `pop` saca el más viejo y avanza el inicio.",
+    "exito": "La sala nunca tiene más de tres y el historial siempre muestra a los últimos. Lima se sienta en la silla del medio.",
+    "imagen": [
+      "Una sala de espera con tres sillas de bronce en círculo y un cartel «Completo», y al lado un anillo de fichas con nombres.",
+      "Lima se sienta en una silla; Bron pone el cartel."
+    ]
+  },
+  "R04-N08-M3": {
+    "lugar": "El taller de la Biblioteca",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla trae el mapa de alturas de un terreno donde van a construir una torre nueva.\n—Una matriz que guarde todo en fila, y que se pueda recorrer de una. Los pozos, a cero.",
+    "gheco": "`m(f, c)` es `datos_[f * columnas_ + c]`. `begin()` y `end()` devuelven los del vector (y sus versiones `const`), así el `for (auto& h : m)` anda solo. `std::replace_if(m.begin(), m.end(), es_pozo, 0)`.",
+    "exito": "El terreno queda parejo y la cima, marcada. Tesla clava ahí la primera estaca de la torre.",
+    "imagen": [
+      "Una maqueta de terreno hecha de bloques de bronce de distintas alturas, con un banderín cian en la cima.",
+      "Tesla clava el banderín; Bron rellena un pozo con arena."
+    ]
+  },
+  "R04-N09-M1": {
+    "lugar": "La sede del gremio",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Antes de bajar a los sótanos, el Gremio quiere una lista de tareas para que nadie se olvide de nada.\n—Con menú —dice Lima—. Y que no se rompa si alguien aprieta una letra.",
+    "gheco": "Leé la opción como texto y convertila; si no es un número, avisás y seguís. Usá `any_of` para no repetir, `erase_if` para limpiar, `stable_sort` con la regla de las urgentes y `count_if` para el resumen. Si `getline` falla, salí del menú.",
+    "exito": "La lista del Gremio queda ordenada, con las urgentes arriba. Lima tacha la primera: «bajar a los sótanos».",
+    "imagen": [
+      "Una pizarra del Gremio con una lista de tareas, algunas con [x] y las urgentes marcadas con un signo de admiración rojo.",
+      "Lima tacha una tarea con tiza; Bron se ajusta el cinturón de herramientas."
+    ]
+  },
+  "R04-N09-M2": {
+    "lugar": "Los sótanos inundados de la Gran Biblioteca",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "dragon",
+    "escena": "En los sótanos, el Kraken saca tentáculos de cada estante inundado. Lima baja con una poción y la lima en la mano.\n—Cada tentáculo es una entidad. Si las tenemos ordenadas, lo vencemos.",
+    "gheco": "Las entidades viven en el `Mundo`. Para combatir, el índice espacial es un `unordered_map` de casilla a ids; `views::filter` elige a los que persiguen; `erase_if` recoge lo que no tiene vida; y cada muerte avisa a los suscriptos antes de borrarse.",
+    "exito": "El Kraken se hunde y en el agua flota el Catálogo de Plantillas. Lima lo abre en la página de la bisagra: era una plantilla, hecha para cualquier marco.",
+    "imagen": [
+      "Un sótano inundado de la Gran Biblioteca con estantes hundidos y tentáculos de bronce saliendo del agua, y un kraken enorme al fondo.",
+      "Lima levanta una poción brillante; Bron, con agua hasta la cintura, sostiene la llave inglesa cian."
+    ]
+  }
+}

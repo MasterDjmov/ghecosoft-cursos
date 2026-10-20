@@ -429,35 +429,52 @@ Siete días, cuarenta y cuatro horas. Lima subraya el domingo: dos horas, «solo
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) subraya el domingo.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) bosteza.
 
-### Misión R03-N01-M1 · La semana del faro
+### Micro-misión R03-N01-P4 · La semana del faro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El faro de la muralla
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R03-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Lyn sube corriendo al faro con la libreta del farero: siete temperaturas, una por día.
+—El farero quiere el resumen de la semana. La más alta, la más baja y el promedio. Y lo quiere ya.
 
+#### Gheco sugiere
+Los días van en un `std::array<std::string, 7>` constante. `resumir` devuelve un struct y en `main` lo abrís de una con `auto [maxima, minima, promedio] = resumir(semana);`.
+
+#### Desafío
 Leé las 7 temperaturas de la semana en un `std::array<int, 7>`. Mostralas con el
 nombre del día (otro `std::array` constante) y escribí una función
 `resumir(const std::array<int, 7>&)` que devuelva un struct con máxima, mínima y
 promedio. En `main`, recibilo con structured bindings.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `std::array` para los datos y los nombres.
 - La función devuelve un struct y `main` lo separa con `auto [a, b, c]`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <array>
+#include <iostream>
+#include <numeric>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 18 21 19 24 26 22 17
 ```
 
 #### Salida esperada
-
 ```
 lun: 18
 mar: 21
@@ -469,8 +486,7 @@ dom: 17
 Máxima 26, mínima 17, promedio 21
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La semana del faro: std::array de 7 dias y structured bindings.
 #include <array>
@@ -515,63 +531,54 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El farero pega el resumen en la puerta del faro. Lyn ya está bajando la escalera, cronómetro en mano.
 
-##### Todas iguales
-```entrada
-20 20 20 20 20 20 20
-```
-```salida
-lun: 20
-mar: 20
-mié: 20
-jue: 20
-vie: 20
-sáb: 20
-dom: 20
-Máxima 20, mínima 20, promedio 20
-```
+#### Imagen
+- Un faro de piedra y bronce sobre la muralla de la Ciudadela, con un termómetro de bronce gigante en la baranda y siete marcas de tiza al lado.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) le pasa la libreta a Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro).
 
-##### Bajo cero
-```entrada
--5 -2 0 3 -8 1 -1
-```
-```salida
-lun: -5
-mar: -2
-mié: 0
-jue: 3
-vie: -8
-sáb: 1
-dom: -1
-Máxima 3, mínima -8, promedio -1.71429
-```
-
-### Misión R03-N01-M2 · El ta-te-ti del patio
+### Micro-misión R03-N01-P5 · El ta-te-ti del patio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de los Talleres
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R03-N01-M2
 ```
 
-#### Consigna
+#### Escena
+En el recreo, Lima dibuja un ta-te-ti con tiza en el piso del patio y desafía a Bron.
+—Pero el árbitro lo hacés vos. Si alguien juega afuera del tablero o encima de otra ficha, que lo diga.
 
+#### Gheco sugiere
+`Tablero` es un `std::array` de tres filas de `std::array<char, 3>`. Antes de poner una ficha revisá que la fila y la columna estén entre 0 y 2 y que la casilla tenga `.`. Después de cada jugada, mirá filas, columnas y las dos diagonales.
+
+#### Desafío
 Armá el tablero como `using Tablero = std::array<std::array<char, 3>, 3>;` lleno
 de `.`. Cada línea de la entrada es una jugada `fila columna`, alternando X y O
 (empieza X). Una jugada fuera del tablero o en una casilla ocupada se anuncia y se
 ignora. El juego termina cuando alguien gana, se llena el tablero o se acaba la
 entrada. Mostrá el tablero y el resultado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `std::array` anidado y `fill`.
 - `ganador` revisa filas, columnas y diagonales.
 - Recorre el tablero con `for` de rango (`const auto&`).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <array>
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1 1
 0 0
@@ -586,7 +593,6 @@ entrada. Mostrá el tablero y el resultado.
 ```
 
 #### Salida esperada
-
 ```
 Jugada inválida: 1 1
 OXO
@@ -595,8 +601,7 @@ XOX
 Empate
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El tablero de ta-te-ti: un array de arrays y quien gano.
 #include <array>
@@ -658,75 +663,31 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El árbitro no deja pasar ni una trampa. Lima pierde una partida y pide la revancha.
 
-##### Gana X en diagonal
-```entrada
-0 0
-0 1
-1 1
-0 2
-2 2
-```
-```salida
-XOO
-.X.
-..X
-Gana X
-```
+#### Imagen
+- Un tablero de ta-te-ti dibujado con tiza en el piso de un patio de baldosas de bronce, con cruces y círculos hechos de tuercas y arandelas.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) pone una arandela; Bron, en cuclillas, piensa su jugada.
 
-##### Gana O en una columna
-```entrada
-0 0
-0 2
-1 1
-1 2
-2 1
-2 2
-```
-```salida
-X.O
-.XO
-.XO
-Gana O
-```
-
-##### Jugadas fuera del tablero
-```entrada
-3 3
--1 0
-0 0
-```
-```salida
-Jugada inválida: 3 3
-Jugada inválida: -1 0
-X..
-...
-...
-Partida sin terminar
-```
-
-##### Sin jugadas
-```entrada
-```
-```salida
-...
-...
-...
-Partida sin terminar
-```
-
-### Misión R03-N01-M3 · Copia o referencia
+### Micro-misión R03-N01-P6 · Copia o referencia
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los Talleres Modernos
+personajes: Bron, Gheco, Lima
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R03-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Bron lima dos dientes a cada engranaje de la caja… y los engranajes siguen iguales. Un goblin se ríe desde el estante.
+—Anotá antes qué va a pasar en cada vuelta —dice Lima—. Después mirá quién tenía razón.
 
+#### Gheco sugiere
+`for (auto e : caja)` trabaja con una **copia** de cada engranaje; `for (auto& e : caja)`, con el de verdad. Lo mismo pasa con `auto primero = caja[0];` y `auto& ultimo = caja.back();`.
+
+#### Desafío
 Con un vector de engranajes (`nombre`, `dientes`): chico 12, mediano 24, grande 48.
 1. Recorrelo con `for (auto e : caja)` restando 2 dientes, y mostrá los dientes.
 2. Repetí con `for (auto& e : caja)`, y mostrá los dientes.
@@ -735,21 +696,31 @@ Con un vector de engranajes (`nombre`, `dientes`): chico 12, mediano 24, grande 
 
 **Antes de ejecutar**, anotá qué esperás en cada paso.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los tres pasos muestran la diferencia entre copia y referencia.
 - El último recorrido usa `const auto& [nombre, dientes]`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Tras 'auto': 12 24 48
 Tras 'auto&': 10 22 46
 chico(10) mediano(22) GIGANTE(46) 
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - auto con cuidado: copia o referencia.
 #include <iostream>
@@ -794,6 +765,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Ahora sí los engranajes pierden sus dientes. El goblin se va del estante con las manos vacías.
+
+#### Imagen
+- Una caja de madera con tres engranajes de bronce (chico, mediano y grande) y un goblin verde riéndose desde un estante, con un engranaje copiado en la mano.
+- Bron mira el engranaje intacto con cara de no entender; Lima le señala la caja.
 
 ### Encargo R03-N01-E1 · La boleta de luz
 
@@ -1389,29 +1367,45 @@ Cuatro, como dijo Oto. «Guiso violeta» queda anotado como receta oficial, para
 - Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) dicta con el cucharón en alto.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuenta con los dedos.
 
-### Misión R03-N02-M1 · Las rutas del archivo
+### Micro-misión R03-N02-P4 · Las rutas del archivo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de la Aduana de la Ciudadela
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R03-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En la aduana llegan cajas con etiquetas larguísimas: rutas de archivo con carpetas y extensiones.
+—El aduanero las quiere separadas: carpeta, nombre y extensión —dice Lima—. Ojo con las que empiezan con punto.
 
+#### Gheco sugiere
+`rfind('/')` te da dónde termina la carpeta y `rfind('.')`, dónde empieza la extensión. Si el punto está en la primera letra del nombre, no hay extensión. Usá `substr` para cortar.
+
+#### Desafío
 Cada línea de la entrada es una ruta de archivo (se ignoran las vacías). Mostrá la
 carpeta (o `.` si no tiene), el nombre sin extensión y la extensión (o
 `(ninguna)`). Un archivo que empieza con punto, como `.config`, no tiene extensión.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `rfind` para la última `/` y el último `.`.
 - Compara con `std::string::npos` antes de usar las posiciones.
 - Contempla archivos sin carpeta, sin extensión y ocultos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 planos/torre.norte.png
 leeme
@@ -1420,7 +1414,6 @@ informe.pdf
 ```
 
 #### Salida esperada
-
 ```
 planos/torre.norte.png
   carpeta: planos
@@ -1440,8 +1433,7 @@ informe.pdf
   extensión: pdf
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2.1 - Rutas de archivos: carpeta, nombre y extension.
 #include <iostream>
@@ -1474,62 +1466,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Cada caja queda con tres etiquetas prolijas. El aduanero las sella de una sin preguntar nada.
 
-##### Rutas raras
-```entrada
-a/b/c/
-archivo.
-.oculto.txt
-carpeta/.gitignore
-```
-```salida
-a/b/c/
-  carpeta: a/b/c
-  nombre:
-  extensión: (ninguna)
-archivo.
-  carpeta: .
-  nombre: archivo
-  extensión:
-.oculto.txt
-  carpeta: .
-  nombre: .oculto
-  extensión: txt
-carpeta/.gitignore
-  carpeta: carpeta
-  nombre: .gitignore
-  extensión: (ninguna)
-```
+#### Imagen
+- Una mesa de aduana con cajas apiladas, cada una con una etiqueta larga de papel cortada en tres pedazos.
+- Lima corta una etiqueta con una tijera chiquita; Bron sella las cajas con un sello de bronce.
 
-##### Líneas vacías en el medio
-```entrada
-uno.txt
-
-dos/tres.tar.gz
-```
-```salida
-uno.txt
-  carpeta: .
-  nombre: uno
-  extensión: txt
-dos/tres.tar.gz
-  carpeta: dos
-  nombre: tres.tar
-  extensión: gz
-```
-
-### Misión R03-N02-M2 · El censor de la Ciudadela
+### Micro-misión R03-N02-P5 · El censor de la Ciudadela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de la Aduana de la Ciudadela
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla trae un cartel para la plaza con una palabra que el Consejo pidió cambiar.
+—Cambiala en todas partes. Y contá cuántas cambiaste, que el Consejo cuenta.
 
+#### Gheco sugiere
+Buscá con `texto.find(buscar, desde)` y reemplazá con `replace`. Después de reemplazar, seguí buscando **después** de lo que pusiste (`desde = pos + poner.size()`), si no, «gris» por «grisáceo» no termina nunca.
+
+#### Desafío
 La primera línea es una palabra a buscar y la segunda, con qué reemplazarla. Las
 siguientes son el texto. Escribí `int reemplazar_todo(std::string& texto, const
 std::string& buscar, const std::string& poner)`, que reemplaza **todas** las
@@ -1537,13 +1497,23 @@ apariciones y devuelve cuántas cambió. Mostrá cada línea reemplazada y el to
 Tiene que funcionar aunque `poner` contenga a `buscar` (por ejemplo, "gris" por
 "grisáceo").
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Recibe el texto por referencia.
 - Sigue buscando después de lo reemplazado (no queda en un bucle infinito).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 gris
 grisáceo
@@ -1553,7 +1523,6 @@ grisgris
 ```
 
 #### Salida esperada
-
 ```
 la torre grisáceo y el puente grisáceo
 nada que cambiar
@@ -1561,8 +1530,7 @@ grisáceogrisáceo
 (4 reemplazos)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El censor de la Ciudadela: reemplazar todas las apariciones de una palabra.
 #include <iostream>
@@ -1598,58 +1566,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El cartel sale sin una sola palabra vieja y el número coincide con el del Consejo. Tesla lo cuelga en la plaza.
 
-##### Sin apariciones
-```entrada
-hierro
-acero
-la torre gris
-el puente azul
-```
-```salida
-la torre gris
-el puente azul
-(0 reemplazos)
-```
+#### Imagen
+- Un cartel largo de papel con varias palabras tachadas y reescritas en tinta cian, sobre una mesa de la aduana.
+- Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) sostiene el cartel; Bron cuenta con los dedos.
 
-##### Reemplazar por nada
-```entrada
-xx
-
-axxbxxc
-xxxx
-```
-```salida
-abc
-
-(4 reemplazos)
-```
-
-### Misión R03-N02-M3 · El registro de la aduana
+### Micro-misión R03-N02-P6 · El registro de la aduana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de la Aduana de la Ciudadela
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R03-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Lyn trae el registro de los que entraron hoy a la Ciudadela, y hay renglones raros: edades con letras, nombres vacíos.
+—El aduanero quiere los buenos y que le avises los malos. Y la edad promedio, que siempre la pide.
 
+#### Gheco sugiere
+`partir` usa un `std::istringstream` y `std::getline(flujo, campo, separador)` en un bucle. `es_numero` revisa que no esté vacío y que todos los caracteres sean dígitos. Recién ahí convertís con `std::stoi`.
+
+#### Desafío
 Cada línea trae `nombre;edad;oficio`. Escribí `partir(linea, separador)`, que
 devuelve un vector de campos (con `std::istringstream` y `std::getline`), y
 `es_numero(texto)`. Una línea es válida si tiene 3 campos, nombre no vacío y la edad
 es un número. Mostrá las válidas y avisá cuáles no lo son. Al final, cuántos
 registros válidos hay y la edad promedio.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Parte las líneas con `std::getline(in, campo, ';')`.
 - Valida antes de llamar a `std::stoi`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Lima;27;artífice
 Bron;120;guerrero
@@ -1660,7 +1625,6 @@ solo;dos
 ```
 
 #### Salida esperada
-
 ```
 Lima (27), artífice
 Bron (120), guerrero
@@ -1671,8 +1635,7 @@ Línea 6 inválida: solo;dos
 3 registros, edad promedio 70.3333
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El registro de la aduana: partir lineas "nombre;edad;oficio" y validar.
 #include <iostream>
@@ -1727,38 +1690,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El registro queda limpio y el aduanero anota el promedio en la pizarra. Lyn ya salió con el próximo encargo.
 
-##### Todas inválidas
-```entrada
-a;b;c
-;;
-Lyn;;arquera
-```
-```salida
-Línea 1 inválida: a;b;c
-Línea 2 inválida: ;;
-Línea 3 inválida: Lyn;;arquera
-```
-
-##### Una sola válida
-```entrada
-Lima;27;artífice
-```
-```salida
-Lima (27), artífice
-1 registros, edad promedio 27
-```
-
-##### Edad con signo
-```entrada
-Bron;-5;guerrero
-Oto;+64;relojero
-```
-```salida
-Línea 1 inválida: Bron;-5;guerrero
-Línea 2 inválida: Oto;+64;relojero
-```
+#### Imagen
+- Un libro de registro abierto en la mesa de la aduana, con algunos renglones marcados en rojo y otros con tilde verde.
+- Lyn se apoya en el mostrador con el bolso de cartas; Bron revisa los renglones con la llave inglesa como señalador.
 
 ### Encargo R03-N02-E1 · El validador de CUIT
 
@@ -2385,37 +2322,54 @@ Tres platos, una vez cada uno. Oto se ofende un poquito, y después se le pasa.
 - Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) intenta escribir «guiso» otra vez.
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) le saca la pluma.
 
-### Misión R03-N03-M1 · Las palabras del manual
+### Micro-misión R03-N03-P4 · Las palabras del manual
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El fichero del archivista
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R03-N03-M1
 ```
 
-#### Consigna
+#### Escena
+El archivista quiere saber qué palabras se repiten en el manual de la Ciudadela, para hacer un índice.
+—Contalas todas —dice Lima—. Sin mayúsculas ni signos, que «Engranaje,» y «engranaje» son la misma.
 
+#### Gheco sugiere
+Limpiá cada palabra con `std::isalpha` y `std::tolower`. Con `std::map<std::string, int>` alcanza `cuenta[palabra]++`, y el mapa ya las deja en orden alfabético. Para la más común, quedate con la primera que tenga la cuenta más alta.
+
+#### Desafío
 Leé palabras hasta el final de la entrada. Limpialas (solo letras, en minúscula) y
 contá cuántas veces aparece cada una con un `std::map<std::string, int>`. Mostrá
 cada palabra con su cuenta (en orden alfabético), el total de palabras, cuántas
 distintas hay y la más común (si hay empate, la primera en orden alfabético).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cuenta con `veces[palabra]++`.
 - Descarta lo que queda vacío al limpiar.
 - Recorre el map con structured bindings.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cctype>
+#include <iostream>
+#include <map>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 El engranaje gira. El resorte empuja al engranaje,
 y el engranaje, al fin, mueve la torre! 42
 ```
 
 #### Salida esperada
-
 ```
 al: 2
 el: 3
@@ -2431,8 +2385,7 @@ y: 1
 16 palabras, 11 distintas; la más común: el
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Las palabras del manual: cuantas veces aparece cada una.
 #include <cctype>
@@ -2477,60 +2430,54 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El índice sale ordenado y con sus números. El archivista lo pega en la primera página del manual.
 
-##### Empate en la más común
-```entrada
-b a b a
-```
-```salida
-a: 2
-b: 2
-4 palabras, 2 distintas; la más común: a
-```
+#### Imagen
+- Un manual grueso abierto sobre un fichero de madera lleno de tarjetas, con palabras anotadas y palitos de conteo.
+- Lima anota en una tarjeta; Bron hojea el manual.
 
-##### Solo números y signos
-```entrada
-42 ... ¡!
-```
-```salida
-0 palabras, 0 distintas; la más común:
-```
-
-##### Mayúsculas y minúsculas
-```entrada
-Torre TORRE torre Faro
-```
-```salida
-faro: 1
-torre: 3
-4 palabras, 2 distintas; la más común: torre
-```
-
-### Misión R03-N03-M2 · La agenda de la Ciudadela
+### Micro-misión R03-N03-P5 · La agenda de la Ciudadela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El fichero del archivista
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R03-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Lyn necesita una agenda con los teléfonos de toda la Ciudadela para hacer sus entregas.
+—Y cuando pregunto por alguien que no está, no me lo anotes vacío, que después lo llamo y no atiende nadie.
 
+#### Gheco sugiere
+Para consultar usá `find` (o `contains`), **no** `agenda[nombre]`: el corchete crea el contacto si no existe. Para saber si `alta` agrega o actualiza, fijate antes si ya estaba.
+
+#### Desafío
 Manejá una agenda con un `std::unordered_map<std::string, std::string>` (nombre →
 teléfono). Órdenes: `alta nombre telefono` (agrega o actualiza: decí cuál de las
 dos), `ver nombre` y `baja nombre`. Al final, cuántos contactos quedan. Ninguna
 consulta puede crear contactos por accidente.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `ver` usa `find` (no `[]`).
 - `baja` usa el valor que devuelve `erase`.
 - Distingue alta nueva de actualización.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_map>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 alta Lima 3804112233
 alta Bron 3804556677
@@ -2543,7 +2490,6 @@ ver Lima
 ```
 
 #### Salida esperada
-
 ```
 Agregado: Lima
 Agregado: Bron
@@ -2556,8 +2502,7 @@ Lima: 3804999000
 Contactos: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La agenda de la Ciudadela: alta, consulta y baja con unordered_map.
 #include <iostream>
@@ -2591,59 +2536,53 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La agenda no inventa a nadie. Lyn la guarda en el bolso, al lado de las cartas.
 
-##### Todo sobre alguien que no está
-```entrada
-ver Lyn
-baja Lyn
-ver Lyn
-```
-```salida
-No está Lyn
-No estaba: Lyn
-No está Lyn
-Contactos: 0
-```
+#### Imagen
+- Una agenda de cuero abierta con nombres y números, y un teléfono de bronce con manivela al lado.
+- Lyn marca un número en el teléfono; Bron anota en la agenda.
 
-##### Alta y baja de la misma persona
-```entrada
-alta Oto 111
-baja Oto
-alta Oto 222
-ver Oto
-```
-```salida
-Agregado: Oto
-Borrado: Oto
-Agregado: Oto
-Oto: 222
-Contactos: 1
-```
-
-### Misión R03-N03-M3 · Los visitantes de las torres
+### Micro-misión R03-N03-P6 · Los visitantes de las torres
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las torres de la Ciudadela
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Tesla quiere saber quiénes visitan las torres: la Norte y la del Reloj.
+—Los de las dos, los que solo fueron a la Norte, y los de alguna. Sin repetir a nadie.
 
+#### Gheco sugiere
+Un `std::set` por torre ya no repite y deja todo ordenado. Para cruzarlos tenés `std::set_intersection`, `std::set_difference` y `std::set_union` (o recorrés uno y preguntás con `contains` en el otro).
+
+#### Desafío
 Cada línea trae `torre visitante` (la torre es `norte` o `reloj`). Guardá los
 visitantes de cada torre en un `std::set`. Mostrá los de cada torre, los que
 visitaron **las dos**, los que visitaron **solo** la Norte y los que visitaron
 **alguna**.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `std::set` para no repetir visitantes.
 - Calcula intersección, diferencia y unión con `contains` e `insert`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <set>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 norte Lima
 reloj Bron
@@ -2656,7 +2595,6 @@ reloj Lyn
 ```
 
 #### Salida esperada
-
 ```
 Norte (3): Lima Lyn Tesla
 Reloj (4): Bron Lima Lyn Oto
@@ -2665,8 +2603,7 @@ Solo Norte (1): Tesla
 Alguna (5): Bron Lima Lyn Oto Tesla
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Los visitantes de las torres: sets, interseccion y diferencia.
 #include <iostream>
@@ -2711,45 +2648,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Tesla descubre que casi todos los que suben a la Norte terminan en la del Reloj. Le pone un ascensor entre las dos.
 
-##### Nadie en común
-```entrada
-norte Lima
-reloj Bron
-```
-```salida
-Norte (1): Lima
-Reloj (1): Bron
-Las dos (0):
-Solo Norte (1): Lima
-Alguna (2): Bron Lima
-```
-
-##### Solo la Norte
-```entrada
-norte Lima
-norte Lima
-norte Lyn
-```
-```salida
-Norte (2): Lima Lyn
-Reloj (0):
-Las dos (0):
-Solo Norte (2): Lima Lyn
-Alguna (2): Lima Lyn
-```
-
-##### Sin visitantes
-```entrada
-```
-```salida
-Norte (0):
-Reloj (0):
-Las dos (0):
-Solo Norte (0):
-Alguna (0):
-```
+#### Imagen
+- Dos torres altísimas de la Ciudadela, una con un reloj gigante, unidas por un puente con gente cruzando.
+- Tesla mira las torres desde abajo con el visor; Bron sostiene dos listas de nombres.
 
 ### Encargo R03-N03-E1 · Las ventas por vendedor
 
@@ -3456,17 +3360,23 @@ Averiada, arreglada, girando otra vez. Tesla le agrega una flecha al diagrama co
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) dibuja una flecha.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la tiza.
 
-### Misión R03-N04-M1 · El faro automático
+### Micro-misión R03-N04-P4 · El faro automático
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El faro de la muralla
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N04-M1
 ```
 
-#### Consigna
+#### Escena
+El faro quedó automático y Tesla quiere probar su luz antes de la tormenta.
+—Pasale la noche, la niebla, el día y un rayo. Que cada evento la lleve a donde tiene que ir.
 
+#### Gheco sugiere
+`enum class Luz { Apagada, Girando, Destellos, Averiada };`. `siguiente` es un `switch` sobre la luz que mira el evento; el `rayo` vale desde cualquier estado, así que conviene revisarlo primero.
+
+#### Desafío
 La luz del faro tiene cuatro estados: apagada, girando, destellos y averiada.
 Eventos: `noche` (apagada → girando), `niebla` (girando → destellos), `despeja`
 (destellos → girando), `dia` (girando o destellos → apagada), `rayo` (cualquiera →
@@ -3474,19 +3384,28 @@ averiada) y `reparar` (averiada → apagada). Cualquier otro evento no cambia na
 Escribí `enum class Luz`, `a_texto` y `siguiente(luz, evento)`, y procesá los
 eventos de la entrada mostrando cada cambio (o que sigue igual).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `enum class` y un `switch` sin `default` en `a_texto`.
 - La lógica de transiciones está en `siguiente`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 dia noche niebla niebla despeja rayo noche reparar noche dia
 ```
 
 #### Salida esperada
-
 ```
 dia: sigue apagada
 noche: apagada -> girando
@@ -3501,8 +3420,7 @@ dia: girando -> apagada
 7 cambios; termina apagada
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El automata del faro: una maquina de estados con enum class.
 #include <iostream>
@@ -3569,69 +3487,61 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La luz sobrevive a la tormenta de prueba y se repara sola al amanecer. Tesla le saca una foto con el visor.
 
-##### Rayo de entrada
-```entrada
-rayo rayo reparar dia
-```
-```salida
-rayo: apagada -> averiada
-rayo: sigue averiada
-reparar: averiada -> apagada
-dia: sigue apagada
-2 cambios; termina apagada
-```
+#### Imagen
+- Un faro de bronce sobre la muralla, de noche y con niebla, con su luz girando entre nubes de tormenta.
+- Tesla regula un panel de palancas al pie del faro; Bron sostiene el sombrero contra el viento.
 
-##### Eventos desconocidos
-```entrada
-sol lluvia noche
-```
-```salida
-sol: sigue apagada
-lluvia: sigue apagada
-noche: apagada -> girando
-1 cambios; termina girando
-```
-
-##### Sin eventos
-```entrada
-```
-```salida
-0 cambios; termina apagada
-```
-
-### Misión R03-N04-M2 · El catálogo de piezas
+### Micro-misión R03-N04-P5 · El catálogo de piezas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de control
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R03-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Oto necesita repuestos para la cocina y trae una lista de códigos.
+—Algunos los invento yo, ¿eh? No me des una pieza que no existe, decime que no está.
 
+#### Gheco sugiere
+`buscar` devuelve `std::optional<Pieza>`: la pieza si la encuentra, `std::nullopt` si no. Preguntá con `if (auto p = buscar(...))` y usá `p->precio`. Para el final: `buscar(catalogo, "X99").transform(...)` o un `.value_or` sobre el precio.
+
+#### Desafío
 Con un catálogo fijo de piezas (código, nombre, precio): E24 engranaje de 24 ($350),
 R10 resorte de 10 cm ($25), V03 válvula de presión ($1200). Escribí
 `std::optional<Pieza> buscar(catalogo, codigo)`. Cada palabra de la entrada es un
 código: mostrá la pieza o que no existe, y el total de lo encontrado. Al final,
 usá `value_or` para mostrar el precio de X99 (o 0).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `buscar` devuelve `std::nullopt` si no encuentra.
 - Se abre el optional con `if (p)` y `p->`.
 - Usa `value_or`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <optional>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 E24 V03 Z01 R10 E24
 ```
 
 #### Salida esperada
-
 ```
 E24: engranaje de 24 $350
 V03: válvula de presión $1200
@@ -3642,8 +3552,7 @@ Total: $1925
 Precio de X99 (o 0): 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El catalogo de piezas: buscar por codigo devuelve un optional.
 #include <iostream>
@@ -3692,68 +3601,60 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Oto se lleva el engranaje y la válvula, y del resorte que inventó se ríe solo. Paga con un guiso.
 
-##### Ninguna existe
-```entrada
-A01 B02
-```
-```salida
-A01: no existe
-B02: no existe
-Total: $0
-Precio de X99 (o 0): 0
-```
+#### Imagen
+- Un catálogo de piezas en un tablero de control, con un engranaje, un resorte y una válvula de presión dibujados.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) lee su lista; Bron busca en el catálogo.
 
-##### Minúsculas
-```entrada
-e24 E24
-```
-```salida
-e24: no existe
-E24: engranaje de 24 $350
-Total: $350
-Precio de X99 (o 0): 0
-```
-
-##### Sin códigos
-```entrada
-```
-```salida
-Total: $0
-Precio de X99 (o 0): 0
-```
-
-### Misión R03-N04-M3 · Números sin romperse
+### Micro-misión R03-N04-P6 · Números sin romperse
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de control
+personajes: Bron, Gheco, Lima
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R03-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Los medidores de la sala tiran números, pero entre ellos se cuelan letras, signos sueltos y uno gigante que no entra en ningún lado. Un goblin espera que el programa explote.
+—Nada de excepciones —dice Lima—. Si no es un número, lo salteás y avisás.
 
+#### Gheco sugiere
+Revisá el signo y que lo demás sean dígitos antes de convertir. Para no pasarte del `int`, acumulá en un `long long` y compará con `std::numeric_limits<int>::max()` y `min()`; si se pasa, `std::nullopt`.
+
+#### Desafío
 Escribí `std::optional<int> a_entero(const std::string&)`, que convierte **sin
 excepciones**: acepta un signo opcional y solo dígitos, y rechaza lo vacío, lo que
 tiene otros caracteres y lo que no entra en un `int`. Leé palabras hasta el final,
 sumá las que son números y avisá cuáles ignorás.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No usa `std::stoi` (ni excepciones).
 - Rechaza `12abc`, `-`, `+` solo y números demasiado grandes.
 - Usa `if (auto n = a_entero(p))`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <optional>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 10 -3 +5 12abc - 007 99999999999 x 20
 ```
 
 #### Salida esperada
-
 ```
 ignoro "12abc"
 ignoro "-"
@@ -3762,8 +3663,7 @@ ignoro "x"
 5 números, suma 39
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Leer numeros sin romperse: a_entero devuelve optional<int>.
 #include <iostream>
@@ -3814,36 +3714,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La suma sale limpia y el goblin se queda esperando una explosión que no llega.
 
-##### Límites del int
-```entrada
-2147483647 -2147483648 2147483648
-```
-```salida
-ignoro "-2147483648"
-ignoro "2147483648"
-1 números, suma 2147483647
-```
-
-##### Signos solos y ceros
-```entrada
-+ -0 +0 000
-```
-```salida
-ignoro "+"
-3 números, suma 0
-```
-
-##### Sin números
-```entrada
-hola chau
-```
-```salida
-ignoro "hola"
-ignoro "chau"
-0 números, suma 0
-```
+#### Imagen
+- Una tira de papel larga que sale de un medidor de bronce, con números y algunos garabatos tachados; un goblin verde asoma detrás del medidor.
+- Lima sostiene la tira; Bron marca los números buenos con un lápiz.
 
 ### Encargo R03-N04-E1 · El estado del pedido
 
@@ -4459,29 +4335,47 @@ Tres afuera, tres adentro. El bucle de Bron se había salteado el 5, que estaba 
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tira los defectuosos a un balde.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el balde.
 
-### Misión R03-N05-M1 · La tabla del torneo
+### Micro-misión R03-N05-P4 · La tabla del torneo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La cancha de la Ciudadela
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R03-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Terminó el torneo de las torres y Lyn tiene que colgar la tabla. Hay empates por todos lados.
+—Puntos, después diferencia de gol, después goles a favor, y si siguen iguales, por nombre. ¡Una sola regla!
 
+#### Gheco sugiere
+Una sola lambda en `std::sort` con los cuatro criterios en orden: comparás los puntos; si son iguales, la diferencia; y así. `std::tie` o `<=>` te ahorran los `if`.
+
+#### Desafío
 Cada línea trae `equipo puntos goles_a_favor goles_en_contra`. Ordená la tabla con
 **una** lambda: más puntos primero; si empatan, mejor diferencia de gol; si
 empatan, más goles a favor; y si siguen empatados, por nombre. Mostrá la posición,
 el nombre, los puntos y la diferencia (con `+` si es positiva).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Un solo `std::sort` con una lambda de varios criterios.
 - Las comparaciones son estrictas.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Relojeros 10 8 5
 Faro 12 9 4
@@ -4491,7 +4385,6 @@ Puente 7 5 9
 ```
 
 #### Salida esperada
-
 ```
 1. Faro 12 pts (+5)
 2. Vapor 10 pts (+3)
@@ -4500,8 +4393,7 @@ Puente 7 5 9
 5. Puente 7 pts (-4)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La tabla de clasificacion: ordenar por varios criterios con lambdas.
 #include <algorithm>
@@ -4546,56 +4438,56 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La tabla queda colgada en la cancha y nadie protesta, ni siquiera los que salieron últimos.
 
-##### Todos empatados
-```entrada
-B 5 3 3
-A 5 3 3
-C 5 3 3
-```
-```salida
-1. A 5 pts (0)
-2. B 5 pts (0)
-3. C 5 pts (0)
-```
+#### Imagen
+- Una cancha de baldosas con arcos de bronce y un tablero grande de posiciones colgado de la tribuna.
+- Lyn cuelga la tabla parada en una escalera; Bron le alcanza los números.
 
-##### Diferencia negativa en la punta
-```entrada
-Alfa 9 1 5
-Beta 9 2 3
-Gama 3 10 0
-```
-```salida
-1. Beta 9 pts (-1)
-2. Alfa 9 pts (-4)
-3. Gama 3 pts (+10)
-```
-
-### Misión R03-N05-M2 · El radar de la muralla
+### Micro-misión R03-N05-P5 · El radar de la muralla
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La muralla de la Ciudadela
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N05-M2
 ```
 
-#### Consigna
+#### Escena
+El radar de la muralla marca contactos alrededor de la Ciudadela. Tesla quiere saber cuáles están cerca.
+—La regla de la distancia la escribís una vez y la usás en todas las preguntas.
 
+#### Gheco sugiere
+Guardá las lambdas en variables: `auto distancia = [](const Contacto& c) { return std::hypot(c.x, c.y); };` y otra que capture el alcance. Después, `count_if`, `find_if`, `min_element` y `none_of` las reutilizan.
+
+#### Desafío
 La primera línea es el alcance del radar; las siguientes, contactos `nombre x y`
 (la muralla está en el origen). Con lambdas: contá cuántos están dentro del alcance
 (`count_if`), encontrá el primero en alcance (`find_if`), el más cercano
 (`min_element` con comparador) y decí si nadie está a menos de 2 (`none_of`).
 Guardá la distancia y "está en alcance" en variables lambda y reutilizalas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Hay lambdas guardadas en variables y reutilizadas.
 - Alguna lambda captura el alcance por copia.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 10
 cuervo 12 3
@@ -4606,7 +4498,6 @@ zorro -3 -4
 ```
 
 #### Salida esperada
-
 ```
 Dentro del alcance (10): 3 de 5
 Primer contacto en alcance: goblin
@@ -4614,8 +4505,7 @@ El más cercano: lobo a 1.80278
 ¡Hay alguien pegado a la muralla!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El radar de la muralla: buscar y contar con capturas.
 #include <algorithm>
@@ -4660,57 +4550,56 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El radar marca a los cercanos en verde. Tesla manda a Lyn a saludar al más cercano.
 
-##### Nadie en alcance
-```entrada
-5
-lejos 100 100
-otro -50 0
-```
-```salida
-Dentro del alcance (5): 0 de 2
-El más cercano: otro a 50
-Nadie pegado a la muralla.
-```
+#### Imagen
+- Una pantalla redonda de radar con brillo verde sobre la muralla, con puntos alrededor del centro.
+- Tesla señala un punto en el radar; Bron mira por un catalejo hacia afuera.
 
-##### Todos pegados
-```entrada
-3
-a 0 0
-b 1 1
-```
-```salida
-Dentro del alcance (3): 2 de 2
-Primer contacto en alcance: a
-El más cercano: a a 0
-¡Hay alguien pegado a la muralla!
-```
-
-### Misión R03-N05-M3 · La limpieza del campo
+### Micro-misión R03-N05-P6 · La limpieza del campo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El campo de prácticas
+personajes: Bron, Gheco, Lima
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R03-N05-M3
 ```
 
-#### Consigna
+#### Escena
+En el campo de prácticas aparecen muñecos de ogro con distinta vida. Lima prepara una bomba de humo de 25 de daño.
+—Una explosión para todos, sacamos a los que caen y que los que quedan griten.
 
+#### Gheco sugiere
+`for_each` con una lambda que capture el daño (`[dano](Enemigo& e) { e.vida -= dano; }`). Para borrar los caídos, `std::erase_if` devuelve cuántos sacó. Los gritos salen con `transform` a un vector nuevo.
+
+#### Desafío
 Cada línea trae un enemigo `nombre vida`. Mostralos; aplicá una explosión de 25 de
 daño a todos con `for_each` (capturando el daño); borrá los caídos con
 `std::erase_if` y decí cuántos cayeron; y armá con `transform` un vector de "gritos"
 (el nombre con `!`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El `for_each` recibe cada enemigo por referencia.
 - Usa el valor que devuelve `std::erase_if`.
 - El vector destino de `transform` tiene el tamaño justo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 slime 20
 orco 60
@@ -4720,7 +4609,6 @@ rata 5
 ```
 
 #### Salida esperada
-
 ```
 Al principio: slime(20) orco(60) goblin(25) troll(90) rata(5)
 Tras la explosión: slime(-5) orco(35) goblin(0) troll(65) rata(-20)
@@ -4728,8 +4616,7 @@ Caen 3; quedan: orco(35) troll(65)
 Gritos: orco! troll!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La limpieza del campo: erase_if y transform.
 #include <algorithm>
@@ -4780,41 +4667,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los muñecos que quedan gritan su nombre con un signo de admiración. Lima recarga la próxima bomba.
 
-##### Nadie cae
-```entrada
-orco 60
-troll 90
-```
-```salida
-Al principio: orco(60) troll(90)
-Tras la explosión: orco(35) troll(65)
-Caen 0; quedan: orco(35) troll(65)
-Gritos: orco! troll!
-```
-
-##### Caen todos
-```entrada
-rata 5
-slime 25
-```
-```salida
-Al principio: rata(5) slime(25)
-Tras la explosión: rata(-20) slime(0)
-Caen 2; quedan:
-Gritos:
-```
-
-##### Sin enemigos
-```entrada
-```
-```salida
-Al principio:
-Tras la explosión:
-Caen 0; quedan:
-Gritos:
-```
+#### Imagen
+- Un campo de prácticas con muñecos de ogro de paja y bronce, algunos tirados en el piso y una nube de humo cian en el medio.
+- Lima tira una bomba de humo; Bron se tapa la nariz.
 
 ### Encargo R03-N05-E1 · El buscador de la ferretería
 
@@ -5472,29 +5330,46 @@ Ciento ochenta y cinco piezas. Lima lo anota y le recuerda a Bron que la primera
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) subraya el encabezado.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) suma con un ábaco.
 
-### Misión R03-N06-M1 · La bitácora
+### Micro-misión R03-N06-P4 · La bitácora
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Archivo de los registros
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R03-N06-M1
 ```
 
-#### Consigna
+#### Escena
+Lima le regala a Bron un cuaderno para que anote lo que vive en la Ciudadela.
+—La primera línea ya está escrita. Lo que sigue lo agregás al final, sin borrar nada de lo anterior.
 
+#### Gheco sugiere
+Creá el archivo con `std::ofstream` (pisa lo que hubiera). Para agregar, abrilo con `std::ios::app`. Después leelo con `std::ifstream` y `std::getline`; los bytes de texto son la suma de los largos de las líneas más un `\n` por cada una.
+
+#### Desafío
 El programa crea `bitacora.txt` con una primera línea ("Día 1: llegué a la
 Ciudadela"). Después, cada línea no vacía de la entrada se **agrega al final** del
 archivo (con `std::ios::app`). Al terminar, releé el archivo y mostralo numerado,
 con la cantidad de líneas y de bytes de texto.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Crea el archivo de cero y después agrega con `std::ios::app`.
 - Relee el archivo desde el disco (no desde memoria).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Día 2: Tesla me mostró los planos
 
@@ -5503,7 +5378,6 @@ Día 4: la Arena
 ```
 
 #### Salida esperada
-
 ```
 Agregadas: 3
 1: Día 1: llegué a la Ciudadela
@@ -5513,8 +5387,7 @@ Agregadas: 3
 4 líneas, 108 bytes de texto
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La bitacora: agregar lineas a un archivo y releerlo numerado.
 #include <fstream>
@@ -5553,54 +5426,57 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La bitácora de Bron ya tiene sus primeras páginas. La guarda en el bolsillo de la remera, al lado de la llave.
 
-##### Sin líneas nuevas
-```entrada
-```
-```salida
-Agregadas: 0
-1: Día 1: llegué a la Ciudadela
-1 líneas, 30 bytes de texto
-```
+#### Imagen
+- Un cuaderno de tapas de cuero con un engranaje grabado, abierto con renglones escritos a mano, sobre un escritorio del Archivo.
+- Bron escribe con la lengua afuera; Lima mira por encima de su hombro.
 
-##### Una línea
-```entrada
-
-Día 2: nada nuevo
-```
-```salida
-Agregadas: 1
-1: Día 1: llegué a la Ciudadela
-2: Día 2: nada nuevo
-2 líneas, 48 bytes de texto
-```
-
-### Misión R03-N06-M2 · Las notas en CSV
+### Micro-misión R03-N06-P5 · Las notas en CSV
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Archivo de los registros
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla da clase a los aprendices y quiere las notas en un archivo que pueda abrir cualquiera.
+—Primero las guardás. Después las leés **del archivo**, no de la memoria, y me decís quién recupera.
 
+#### Gheco sugiere
+Escribí con `std::ofstream` separando con comas. Al leer, salteá la primera línea con un `getline` y partí las demás con `std::getline(flujo, campo, ',')`. Para los dos decimales, `std::fixed << std::setprecision(2)`.
+
+#### Desafío
 Cada línea de la entrada trae `alumno nota1 nota2 nota3`. Guardalas en
 `notas.csv` con una cabecera (`alumno,nota1,nota2,nota3`) y separadas por comas.
 Después, **leé el archivo**: salteá la cabecera, partí cada línea por las comas y
 mostrá el promedio de cada alumno (con "(recupera)" si es menor que 6) y el del
 curso, con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Escribe el CSV y lo cierra antes de leerlo.
 - Lee con `getline` e `istringstream` con separador `,`.
 - Revisa que el archivo se haya abierto.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Ana 8 9 7
 Bruno 4 6 5
@@ -5609,7 +5485,6 @@ Dami 6 5 6
 ```
 
 #### Salida esperada
-
 ```
 Ana: 8.00
 Bruno: 5.00 (recupera)
@@ -5618,8 +5493,7 @@ Dami: 5.67 (recupera)
 Promedio del curso: 6.92
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Las notas en CSV: guardar lo que llega, leerlo y promediar.
 #include <fstream>
@@ -5673,53 +5547,58 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Tesla abre el archivo en su tableta y los números coinciden. Les avisa a los que recuperan que todavía están a tiempo.
 
-##### Un solo alumno aprobado
-```entrada
-Eva 6 6 6
-```
-```salida
-Eva: 6.00
-Promedio del curso: 6.00
-```
+#### Imagen
+- Una planilla de notas con columnas separadas por comas, proyectada en una pared del Archivo.
+- Tesla señala una fila con un puntero de luz; Bron lee la planilla desde un banco.
 
-##### Todos recuperan
-```entrada
-Fede 1 2 3
-Gabi 5 5 5
-```
-```salida
-Fede: 2.00 (recupera)
-Gabi: 5.00 (recupera)
-Promedio del curso: 3.50
-```
-
-### Misión R03-N06-M3 · El orden del archivo
+### Micro-misión R03-N06-P6 · El orden del archivo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Archivo de los registros
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R03-N06-M3
 ```
 
-#### Consigna
+#### Escena
+El Archivo es un desorden de papeles. Lima propone ordenarlo en carpetas y después revisar qué ocupa más.
+—Y cuando terminamos, lo dejamos como estaba, que mañana viene otro aprendiz.
 
+#### Gheco sugiere
+`std::filesystem::create_directories` crea las carpetas que falten. Recorré con `recursive_directory_iterator`, guardá ruta y tamaño (`file_size`) y ordená. `ruta.lexically_relative(base)` te da la ruta corta (`fs::relative` no anda en el navegador: busca la carpeta real del disco). Al final, `remove_all`.
+
+#### Desafío
 Cada línea de la entrada trae `carpeta archivo contenido`. Creá cada archivo dentro
 de `archivo_ciudadela/<carpeta>/` con ese contenido (creando las carpetas que
 falten). Después, recorré todo con `recursive_directory_iterator`, y mostrá los
 archivos ordenados por tamaño (de mayor a menor; si empatan, por ruta), con la
 ruta relativa a la carpeta base. Al final, el total, y borrá todo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `fs::create_directories` y el operador `/`.
 - Ordena antes de mostrar (el orden del directorio no está garantizado).
 - Deja todo limpio con `fs::remove_all`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 planos torre.txt la-torre-del-reloj
 planos puente.txt puente
@@ -5728,7 +5607,6 @@ planos faro.txt faro
 ```
 
 #### Salida esperada
-
 ```
 27	notas/hoy.txt
 19	planos/torre.txt
@@ -5738,8 +5616,7 @@ planos faro.txt faro
 ¿Quedó algo? no
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El orden del archivo: crear carpetas, listar ordenado por tamanio y limpiar.
 #include <algorithm>
@@ -5766,7 +5643,7 @@ int main()
     std::vector<Archivo> archivos;
     for (const auto& e : fs::recursive_directory_iterator(BASE)) {
         if (e.is_regular_file()) {
-            archivos.push_back({fs::relative(e.path(), BASE).string(), e.file_size()});
+            archivos.push_back({e.path().lexically_relative(BASE).string(), e.file_size()});
         }
     }
     std::sort(archivos.begin(), archivos.end(), [](const Archivo& a, const Archivo& b) {
@@ -5784,56 +5661,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los papeles quedan en carpetas por un rato, y después el Archivo vuelve a estar vacío y limpio. Lima guarda la lista en su delantal.
 
-##### Una sola carpeta
-```entrada
-planos a.txt abc
-planos b.txt abc
-```
-```salida
-4	planos/a.txt
-4	planos/b.txt
-2 archivos, 8 bytes
-¿Quedó algo? no
-```
+#### Imagen
+- Estantes del Archivo con carpetas de colores y papeles volando hacia ellas.
+- Lima rotula una carpeta con su lápiz; Bron carga una pila de papeles.
 
-##### Archivo vacío y grande
-```entrada
-x vacio.txt -
-y grande.txt muchas-letras-para-un-archivo-grande
-```
-```salida
-37	y/grande.txt
-2	x/vacio.txt
-2 archivos, 39 bytes
-¿Quedó algo? no
-```
-
-### Misión R03-N06-M4 · El archivo del gremio
+### Micro-misión R03-N06-P7 · El archivo del gremio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sede del gremio
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N06-M4
 ```
 
-#### Consigna
+#### Escena
+El gremio de los artífices guarda a sus miembros en un archivo binario, uno detrás del otro, todos del mismo tamaño.
+—Para subirle el nivel a uno no reescribas todo —dice Tesla—. Andá directo a su lugar.
 
+#### Gheco sugiere
+Abrí con `std::ios::in | std::ios::out | std::ios::binary`. El miembro `pos` está en `pos * sizeof(Miembro)`: `seekg` para leerlo y `seekp` para escribirlo en el mismo lugar. La cantidad sale del tamaño del archivo dividido `sizeof(Miembro)`.
+
+#### Desafío
 El gremio guarda sus miembros en un archivo **binario**, `gremio.dat`. Escribí la clase `Miembro` (un nombre de hasta 19 letras en un `char[20]` y un nivel) y un programa que empiece con el archivo vacío y lea órdenes:
 - `alta nombre nivel`: agrega un miembro al final del archivo.
 - `subir pos`: sube un nivel al miembro de esa posición (la primera es 0) **directamente en el archivo**, con `seekg` y `seekp`. Si no existe, muestra `No existe la posicion <pos>`.
 - `listar`: lee el archivo y muestra `pos. nombre (nivel n)` y al final `Miembros: <cantidad>`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Miembro` no tiene `std::string` ni métodos virtuales, y se escribe con `write` y `sizeof`.
 - `subir` lee y escribe solo ese registro, sin cargar todo el archivo.
 - La cantidad sale del tamaño del archivo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 alta Bron 3
 alta Lyn 5
@@ -5845,7 +5721,6 @@ listar
 ```
 
 #### Salida esperada
-
 ```
 No existe la posicion 7
 0. Bron (nivel 3)
@@ -5854,8 +5729,7 @@ No existe la posicion 7
 Miembros: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 4 - El archivo del gremio: objetos de tamano fijo en un archivo binario, con acceso directo.
 #include <cstring>
@@ -5944,27 +5818,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los niveles suben sin tocar a nadie más. Tesla le da a Bron la credencial del gremio.
 
-##### Archivo vacío
-```entrada
-listar
-subir 0
-```
-```salida
-Miembros: 0
-No existe la posicion 0
-```
-
-##### Un nombre demasiado largo se corta
-```entrada
-alta UnNombreMuyLargoDeVerdad 1
-listar
-```
-```salida
-0. UnNombreMuyLargoDeV (nivel 1)
-Miembros: 1
-```
+#### Imagen
+- Un libro de bronce con páginas de metal todas iguales, cada una con un nombre y un número grabados, en la sede del gremio.
+- Tesla abre el libro en una página exacta; Bron graba un número nuevo con un punzón.
 
 ### Encargo R03-N06-E1 · La configuración del programa
 
@@ -6610,17 +6469,23 @@ El segundo día, Cucú ya volvió a la fundición, y la lista de Lima lo sabe. L
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) tacha el nombre con cuidado.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) empuja un autómata hacia la fundición.
 
-### Misión R03-N07-M1 · La fábrica de autómatas
+### Micro-misión R03-N07-P4 · La fábrica de autómatas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de autómatas
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R03-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Oto quiere ayuda en la cocina y encarga autómatas: grúas para las ollas, carretillas para las bolsas.
+—Los que se rompan, a la chatarra. Y que nadie quede dando vueltas sin dueño, como el de la otra vez.
 
+#### Gheco sugiere
+`fabricar` devuelve `std::make_unique<Grua>(nombre)` o `nullptr`. Guardalos en un `std::vector<std::unique_ptr<Automata>>`; `std::erase_if` con una lambda que mire `roto` los destruye y se oye «a la chatarra». Ojo: en el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último); la salida esperada es la del navegador.
+
+#### Desafío
 Escribí `class Automata` abstracta (con `carga()` virtual pura, un nombre y un
 `bool roto`), que avisa al construirse ("sale de fábrica") y al destruirse ("a la
 chatarra"), con dos derivadas: `Grua` (carga 500) y `Carretilla` (80). Escribí la
@@ -6629,14 +6494,28 @@ si no conoce el tipo. Órdenes de la entrada: `fabricar tipo nombre`, `romper
 nombre` y `limpiar` (borra los rotos con `std::erase_if`). Al final, cuántos quedan
 y la carga total.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La fábrica devuelve `unique_ptr` y el `main` lo mueve al vector.
 - Borrar del vector destruye el autómata (se ve el mensaje).
 - No hay `new` ni `delete`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 fabricar grua Titán
 fabricar carretilla Pulga
@@ -6648,7 +6527,6 @@ fabricar grua Atlas
 ```
 
 #### Salida esperada
-
 ```
   sale de fábrica: Titán
   sale de fábrica: Pulga
@@ -6657,13 +6535,12 @@ fabricar grua Atlas
   a la chatarra: Pulga
   sale de fábrica: Atlas
 3 autómatas, carga total 1080
-  a la chatarra: Titán
-  a la chatarra: Hormiga
   a la chatarra: Atlas
+  a la chatarra: Hormiga
+  a la chatarra: Titán
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La fabrica de automatas: una funcion que crea y devuelve unique_ptr.
 #include <algorithm>
@@ -6740,58 +6617,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La cocina de Oto tiene sus autómatas, y los rotos se van solos. Oto le pone nombre a la grúa.
 
-##### Romper lo que no existe
-```entrada
-fabricar grua Uno
-romper Dos
-limpiar
-```
-```salida
-  sale de fábrica: Uno
-1 autómatas, carga total 500
-  a la chatarra: Uno
-```
+#### Imagen
+- Un depósito con una grúa de bronce levantando una olla gigante y una carretilla con bolsas de harina; al fondo, una pila de chatarra.
+- Oto aplaude con el cucharón en la mano; Bron ajusta una carretilla.
 
-##### Romper todos
-```entrada
-fabricar carretilla A
-fabricar carretilla B
-romper A
-romper B
-limpiar
-```
-```salida
-  sale de fábrica: A
-  sale de fábrica: B
-  a la chatarra: A
-  a la chatarra: B
-0 autómatas, carga total 0
-```
-
-##### Solo tipos desconocidos
-```entrada
-fabricar robot X
-fabricar tren Y
-```
-```salida
-  no sé fabricar "robot"
-  no sé fabricar "tren"
-0 autómatas, carga total 0
-```
-
-### Misión R03-N07-M2 · El traspaso
+### Micro-misión R03-N07-P5 · El traspaso
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de autómatas
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R03-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Lyn tiene que llevar paquetes del depósito al carro y después entregarlos.
+—Cada paquete tiene un solo dueño. Si lo paso al carro, en el depósito queda el hueco.
 
+#### Gheco sugiere
+`carro.push_back(std::move(deposito[0]))` deja `deposito[0]` en `nullptr`. Una función con `const Paquete&` solo mira; una con `std::unique_ptr<Paquete>` por valor se queda con el paquete y lo destruye al terminar.
+
+#### Desafío
 Hay un depósito con tres paquetes (engranajes, resortes, planos), cada uno en un
 `unique_ptr` que avisa cuando se destruye. Pasá al carro el primero y el tercero
 con `std::move`, y mostrá el depósito (los lugares vacíos como `(vacío)`).
@@ -6799,13 +6648,26 @@ Inspeccioná los paquetes del carro con una función que recibe `const Paquete&`
 **entregá** el primero con una función que recibe `std::unique_ptr<Paquete>` por
 valor. Observá **cuándo** se destruye cada paquete.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Distingue la función que mira (`const Paquete&`) de la que se queda con el paquete (`unique_ptr` por valor).
 - Usa `std::move` para cada traspaso.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Depósito: (vacío) resortes (vacío)
   inspecciono: engranajes
@@ -6819,8 +6681,7 @@ Fin de main:
   (se destruye el paquete de resortes)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El traspaso: quien es duenio de cada paquete.
 #include <iostream>
@@ -6874,17 +6735,30 @@ int main()
 }
 ```
 
-### Misión R03-N07-M3 · Las canciones compartidas
+#### Al superarla
+Cada paquete se va en el momento justo y ninguno queda perdido. Lyn marca el tiempo en el cronómetro.
+
+#### Imagen
+- Un depósito con tres estantes, dos vacíos y uno con un paquete atado; un carro de bronce cargado al lado.
+- Lyn levanta un paquete; Bron empuja el carro.
+
+### Micro-misión R03-N07-P6 · Las canciones compartidas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El comedor de los artífices
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R03-N07-M3
 ```
 
-#### Consigna
+#### Escena
+Oto pone música en el comedor: dos listas, «Viaje» y «Fiesta», que comparten canciones.
+—Una canción no se borra mientras esté en alguna lista. Antes de probar, decime cuándo se va cada una.
 
+#### Gheco sugiere
+Con `std::make_shared` las canciones son compartidas: `use_count()` cuenta cuántos las tienen. `reset()` suelta el puntero de `main`; la canción se borra recién cuando la suelta el último. Ojo: en el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último); la salida esperada es la del navegador.
+
+#### Desafío
 Tres canciones (Zamba, Chacarera, Vidala) en `shared_ptr`, que avisan cuando se
 borran de la memoria. La lista "Viaje" tiene Zamba y Chacarera; "Fiesta" tiene
 Chacarera, Vidala y Zamba. `main` suelta sus punteros con `reset()`. Mostrá las
@@ -6892,13 +6766,25 @@ listas con el `use_count()` de cada canción. Después borrá "Fiesta" y volvé 
 mostrar "Viaje"; al final, borrá "Viaje". **Antes de ejecutar**, anotá cuándo se va
 a borrar cada canción.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `std::make_shared` y `use_count()`.
 - Cada canción se borra cuando se va su último dueño.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 (main soltó sus punteros; el número es use_count)
 Viaje: Zamba(2) Chacarera(2)
@@ -6907,13 +6793,12 @@ Borro la lista Fiesta:
   (se borra "Vidala" de la memoria)
 Viaje: Zamba(1) Chacarera(1)
 Borro la lista Viaje:
-  (se borra "Zamba" de la memoria)
   (se borra "Chacarera" de la memoria)
+  (se borra "Zamba" de la memoria)
 Fin
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Las canciones compartidas: shared_ptr y use_count.
 #include <iostream>
@@ -6962,6 +6847,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Bron acertó el orden en que se borran. Oto le dedica la zamba.
+
+#### Imagen
+- Un comedor con un fonógrafo de bronce y dos pilas de discos con etiquetas «Viaje» y «Fiesta», algunos discos en las dos pilas.
+- Oto pone un disco; Bron cuenta con los dedos.
 
 ### Encargo R03-N07-E1 · Los préstamos de la biblioteca
 
@@ -7556,17 +7448,23 @@ La receta está en el libro, y la hoja de Oto quedó en blanco. Oto la usa para 
 - Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) mira la hoja en blanco, sorprendido.
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) guarda la lupa.
 
-### Misión R03-N08-M1 · El registro con sangría
+### Micro-misión R03-N08-P4 · El registro con sangría
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de máquinas
+personajes: Bron, Gheco, la Maestra Artífice
+recompensa: xp 10, monedas 4
+antes: R03-N08-M1
 ```
 
-#### Consigna
+#### Escena
+La Maestra Artífice quiere un registro del turno que se escriba solo: cada tarea abre y cierra, aunque termine antes de tiempo.
+—¿Y si alguien sale por la puerta de atrás? También tiene que quedar el «fin».
 
+#### Gheco sugiere
+El constructor escribe `inicio` y sube el contador `static`; el destructor baja el contador y escribe `fin`. Con `= delete` prohibís la copia. Si `procesar` hace `return` temprano, el destructor igual corre.
+
+#### Desafío
 Escribí una clase RAII `Registro` que al nacer muestra `inicio <tarea>` y al morir
 `fin <tarea>`, con una sangría de 2 espacios por nivel de anidamiento (un contador
 `static` que sube en el constructor y baja en el destructor). Agregá
@@ -7576,19 +7474,28 @@ función `procesar(n)` con su propio `Registro`: si es par, anota que se descart
 **devuelve temprano**; si es impar, anota que se pule. Al final, el total de los
 impares.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El `fin` aparece aunque la función salga con un `return` temprano.
 - La copia está prohibida con `= delete`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 3 4 7
 ```
 
 #### Salida esperada
-
 ```
 inicio turno
   inicio pieza 3
@@ -7604,8 +7511,7 @@ inicio turno
 fin turno
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El registro con sangria: RAII con un contador static.
 #include <iostream>
@@ -7659,60 +7565,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Todos los «inicio» tienen su «fin», hasta los que salieron por la puerta de atrás. La Maestra pone un tilde en la tableta.
 
-##### Solo pares
-```entrada
-2 4 6
-```
-```salida
-inicio turno
-  inicio pieza 2
-    - par: se descarta
-  fin pieza 2
-  inicio pieza 4
-    - par: se descarta
-  fin pieza 4
-  inicio pieza 6
-    - par: se descarta
-  fin pieza 6
-  - total 0
-fin turno
-```
+#### Imagen
+- Un rollo de papel que sale de una máquina de escribir de bronce, con renglones sangrados en escalera.
+- La Maestra Artífice (inspectora de 60, piel oscura, pelo blanco muy corto, antiparras de soldar en la frente, delantal largo de cuero, tableta de vidrio) lee el rollo; Bron gira una manivela.
 
-##### Sin piezas
-```entrada
-```
-```salida
-inicio turno
-  - total 0
-fin turno
-```
-
-##### Un impar grande
-```entrada
-101
-```
-```salida
-inicio turno
-  inicio pieza 101
-    - impar: se pule
-  fin pieza 101
-  - total 101
-fin turno
-```
-
-### Misión R03-N08-M2 · El candado de la sala de máquinas
+### Micro-misión R03-N08-P5 · El candado de la sala de máquinas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de máquinas
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R03-N08-M2
 ```
 
-#### Consigna
+#### Escena
+En la sala de máquinas entra uno por vez. Tesla tiene un candado que se cierra al entrar y se abre al salir.
+—El candado no se copia. Pero si alguien me lo pasa, el que lo tenía ya no lo abre.
 
+#### Gheco sugiere
+Copia con `= delete`. El constructor de movimiento recibe `Candado&&`, toma la responsabilidad y marca al otro como inactivo; el destructor solo abre si está activo. `entrar()` devuelve el candado y se mueve solo.
+
+#### Desafío
 Escribí `class Candado`: el constructor cierra una sala (y avisa si ya estaba
 cerrada, con un `static bool`), el destructor la abre. No se puede copiar, pero sí
 **mover**: el constructor de movimiento pasa la responsabilidad al nuevo objeto y
@@ -7720,13 +7596,24 @@ deja al viejo "inactivo" (su destructor no abre nada). Escribí `Candado entrar(
 que cierra la sala, revisa y **devuelve** el candado. Probá un turno con un candado
 en un bloque y otro turno con `Candado c = entrar();`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La copia está prohibida y el movimiento definido.
 - La sala se abre una sola vez, al final del bloque donde vive el candado.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Turno 1:
   cierro la sala de máquinas
@@ -7741,8 +7628,7 @@ Turno 2:
   ocupada: false
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El candado de la sala de maquinas: RAII que no se copia pero si se mueve.
 #include <iostream>
@@ -7807,17 +7693,30 @@ int main()
 }
 ```
 
-### Misión R03-N08-M3 · Contar copias y movimientos
+#### Al superarla
+La sala se abre una sola vez por turno, nunca dos. Tesla le confía el candado a Bron.
+
+#### Imagen
+- Una puerta de bronce con un candado grande y un cartel «Sala de máquinas».
+- Tesla le pasa el candado a Bron, que lo recibe con las dos manos.
+
+### Micro-misión R03-N08-P6 · Contar copias y movimientos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de máquinas
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R03-N08-M3
 ```
 
-#### Consigna
+#### Escena
+Lima sospecha que en la Ciudadela se copian piezas de más.
+—Contá cada copia y cada mudanza. Y antes de mirar, anotá lo que esperás. Si le errás a una, la lima.
 
+#### Gheco sugiere
+Los contadores `static` suben en el constructor de copia y en `operator=` de copia (`copias`), y en los de movimiento (`movidas`). Con `reserve(3)` el vector no se muda en el medio y no hay movimientos de sobra.
+
+#### Desafío
 Escribí `class Pieza` con las cinco funciones especiales (salvo el destructor), que
 suman a dos contadores `static`: `copias` y `movidas`. Después de cada paso, mostrá
 cuántas hubo y ponelos en cero:
@@ -7825,13 +7724,25 @@ cuántas hubo y ponelos en cero:
 `push_back` (de una variable, de un temporal y de un `std::move`, con `reserve(3)`
 antes) y `b = v[0];`. **Antes de ejecutar**, anotá qué esperás en cada paso.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los constructores y asignaciones de movimiento son `noexcept`.
 - Los resultados muestran que `const&` no copia y que los temporales se mueven.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Pieza b = a: 1 copias, 0 movidas
 Pieza c = std::move(a): 0 copias, 1 movidas
@@ -7841,8 +7752,7 @@ tres push_back: 1 copias, 2 movidas
 b = v[0]: 1 copias, 0 movidas
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Contar copias y movimientos.
 #include <iostream>
@@ -7907,6 +7817,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Bron le erra a uno solo y Lima le perdona la lima. La próxima, dice, no.
+
+#### Imagen
+- Dos contadores mecánicos de bronce con números, uno con el cartel «copias» y otro con «movidas», sobre una mesa con piezas.
+- Lima mira los contadores con la lupa; Bron anota en un papel lo que esperaba.
 
 ### Encargo R03-N08-E1 · La transferencia segura
 
@@ -8562,6 +8479,195 @@ Cero copias sueltas. El Mímico no tiene a quién imitar, se derrite como una ve
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta el espejo.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) miran el reflejo, que es un poco distinto.
 
+### Micro-misión R03-N09-P5 · Las copias del Mímico
+
+```meta
+lugar: El Bestiario de los Talleres
+personajes: Bron, Gheco, Lima
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R03-N09-M2
+```
+
+#### Escena
+El Mímico se esconde entre las criaturas del Bestiario y copia a la que tiene más cerca. Lima lo enfrenta con 100 de vida.
+—Si heris al original, la copia no se entera. Es suya.
+
+#### Gheco sugiere
+`clonar()` devuelve un `std::unique_ptr<Criatura>` nuevo con la vida **actual** (`std::make_unique<Lobo>(*this)`). El Mímico guarda esa copia; herir al original no la toca. Si el Mímico no cae, responde con `forma->golpe()`.
+
+#### Desafío
+En la sala hay tres criaturas (un vector de `unique_ptr<Criatura>`): un lobo
+(vida 40, golpe 9), un gólem (120, 15) y un murciélago (15, 4). `Criatura` es
+abstracta, con `nombre()`, `golpe()` y `clonar()` virtuales puros, y `herir(n)`.
+
+El `Mimico` **tiene** una forma (`std::unique_ptr<Criatura>`) que es una **copia
+propia**, hecha con `clonar()`. Lima tiene 100 de vida. Órdenes:
+- `imitar i`: el Mímico copia a la criatura `i` de la sala (con su vida **actual**);
+- `herir i n`: se hiere a la criatura original `i` (la copia no cambia);
+- `atacar n`: Lima hiere al Mímico; si no cae, responde con el golpe de su forma.
+
+Si el Mímico cae, termina. Si la entrada se acaba, el Mímico escapa.
+
+**Para superarla:**
+- Cada criatura implementa `clonar()` con `make_unique` de su propio tipo.
+- Herir al original no cambia la copia del Mímico, ni al revés.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
+```
+imitar 1
+atacar 30
+herir 0 25
+imitar 0
+atacar 10
+herir 0 15
+atacar 5
+```
+
+#### Salida esperada
+```
+  el Mímico se transforma en gólem (vida 120)
+  Lima golpea al Mímico-gólem: vida 90
+  responde con 15 (Lima 85)
+  el lobo original queda en 15
+  el Mímico se transforma en lobo (vida 15)
+  Lima golpea al Mímico-lobo: vida 5
+  responde con 9 (Lima 76)
+  el lobo original queda en 0
+  Lima golpea al Mímico-lobo: vida 0
+¡El Mímico cae con forma de lobo!
+```
+
+#### Solución
+```cpp
+// Jefe R03 - El Mimico: copiar objetos polimorficos con clone().
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+class Criatura {
+public:
+    explicit Criatura(int vida) : vida_(vida) {}
+    virtual ~Criatura() = default;
+    virtual std::string nombre() const = 0;
+    virtual int golpe() const = 0;
+    // Copia polimorfica: cada tipo sabe copiarse a si mismo.
+    virtual std::unique_ptr<Criatura> clonar() const = 0;
+    void herir(int n) { vida_ = std::max(0, vida_ - n); }
+    int vida() const { return vida_; }
+
+protected:
+    int vida_;
+};
+
+class Lobo : public Criatura {
+public:
+    Lobo() : Criatura(40) {}
+    std::string nombre() const override { return "lobo"; }
+    int golpe() const override { return 9; }
+    std::unique_ptr<Criatura> clonar() const override { return std::make_unique<Lobo>(*this); }
+};
+
+class Golem : public Criatura {
+public:
+    Golem() : Criatura(120) {}
+    std::string nombre() const override { return "gólem"; }
+    int golpe() const override { return 15; }
+    std::unique_ptr<Criatura> clonar() const override { return std::make_unique<Golem>(*this); }
+};
+
+class Murcielago : public Criatura {
+public:
+    Murcielago() : Criatura(15) {}
+    std::string nombre() const override { return "murciélago"; }
+    int golpe() const override { return 4; }
+    std::unique_ptr<Criatura> clonar() const override { return std::make_unique<Murcielago>(*this); }
+};
+
+// El Mimico no ES ninguna criatura: TIENE la forma que copio.
+class Mimico {
+public:
+    void imitar(const Criatura& modelo)
+    {
+        forma_ = modelo.clonar();          // una copia PROPIA: si el modelo cambia, la copia no
+        std::cout << "  el Mímico se transforma en " << forma_->nombre() << " (vida " << forma_->vida() << ")\n";
+    }
+
+    bool tiene_forma() const { return forma_ != nullptr; }
+    Criatura& forma() { return *forma_; }
+
+private:
+    std::unique_ptr<Criatura> forma_;
+};
+
+int main()
+{
+    std::vector<std::unique_ptr<Criatura>> sala;
+    sala.push_back(std::make_unique<Lobo>());
+    sala.push_back(std::make_unique<Golem>());
+    sala.push_back(std::make_unique<Murcielago>());
+
+    Mimico mimico;
+    int lima = 100;
+    std::string orden;
+    while (lima > 0 && std::cin >> orden) {
+        if (orden == "imitar") {
+            std::size_t i = 0;
+            std::cin >> i;
+            if (i < sala.size()) {
+                mimico.imitar(*sala[i]);
+            }
+        } else if (orden == "herir") {
+            std::size_t i = 0;
+            int n = 0;
+            std::cin >> i >> n;
+            if (i < sala.size()) {
+                sala[i]->herir(n);
+                std::cout << "  el " << sala[i]->nombre() << " original queda en " << sala[i]->vida() << "\n";
+            }
+        } else if (orden == "atacar" && mimico.tiene_forma()) {
+            int n = 0;
+            std::cin >> n;
+            Criatura& f = mimico.forma();
+            f.herir(n);
+            std::cout << "  Lima golpea al Mímico-" << f.nombre() << ": vida " << f.vida() << "\n";
+            if (f.vida() == 0) {
+                std::cout << "¡El Mímico cae con forma de " << f.nombre() << "!\n";
+                return 0;
+            }
+            lima -= f.golpe();
+            std::cout << "  responde con " << f.golpe() << " (Lima " << lima << ")\n";
+        }
+    }
+    std::cout << (lima <= 0 ? "Lima cae ante el Mímico.\n" : "El Mímico escapa.\n");
+    return 0;
+}
+```
+
+#### Al superarla
+El Mímico cae y suelta lo que tenía en la mano: el Espejo del Mímico. Lima lo levanta y se ve reflejada dos veces.
+
+#### Imagen
+- Un Bestiario con jaulas de bronce abiertas; un mímico de metal brillante cambia de forma entre un lobo, un gólem y un murciélago.
+- Lima esquiva con la lima en alto; Bron sostiene la llave inglesa cian.
+
 ### Misión R03-N09-M1 · El Bestiario
 
 ```meta
@@ -8834,210 +8940,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(bestiario main.cpp Bestiario.cpp)
 target_compile_options(bestiario PRIVATE -Wall -Wextra)
-```
-
-### Misión R03-N09-M2 · Las copias del Mímico
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
-```
-
-#### Consigna
-
-En la sala hay tres criaturas (un vector de `unique_ptr<Criatura>`): un lobo
-(vida 40, golpe 9), un gólem (120, 15) y un murciélago (15, 4). `Criatura` es
-abstracta, con `nombre()`, `golpe()` y `clonar()` virtuales puros, y `herir(n)`.
-
-El `Mimico` **tiene** una forma (`std::unique_ptr<Criatura>`) que es una **copia
-propia**, hecha con `clonar()`. Lima tiene 100 de vida. Órdenes:
-- `imitar i`: el Mímico copia a la criatura `i` de la sala (con su vida **actual**);
-- `herir i n`: se hiere a la criatura original `i` (la copia no cambia);
-- `atacar n`: Lima hiere al Mímico; si no cae, responde con el golpe de su forma.
-
-Si el Mímico cae, termina. Si la entrada se acaba, el Mímico escapa.
-
-#### Criterio de aprobación
-
-- Cada criatura implementa `clonar()` con `make_unique` de su propio tipo.
-- Herir al original no cambia la copia del Mímico, ni al revés.
-- La salida coincide con la esperada.
-
-#### Entrada de ejemplo
-
-```
-imitar 1
-atacar 30
-herir 0 25
-imitar 0
-atacar 10
-herir 0 15
-atacar 5
-```
-
-#### Salida esperada
-
-```
-  el Mímico se transforma en gólem (vida 120)
-  Lima golpea al Mímico-gólem: vida 90
-  responde con 15 (Lima 85)
-  el lobo original queda en 15
-  el Mímico se transforma en lobo (vida 15)
-  Lima golpea al Mímico-lobo: vida 5
-  responde con 9 (Lima 76)
-  el lobo original queda en 0
-  Lima golpea al Mímico-lobo: vida 0
-¡El Mímico cae con forma de lobo!
-```
-
-#### Solución de referencia
-
-```cpp
-// Jefe R03 - El Mimico: copiar objetos polimorficos con clone().
-#include <algorithm>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
-
-class Criatura {
-public:
-    explicit Criatura(int vida) : vida_(vida) {}
-    virtual ~Criatura() = default;
-    virtual std::string nombre() const = 0;
-    virtual int golpe() const = 0;
-    // Copia polimorfica: cada tipo sabe copiarse a si mismo.
-    virtual std::unique_ptr<Criatura> clonar() const = 0;
-    void herir(int n) { vida_ = std::max(0, vida_ - n); }
-    int vida() const { return vida_; }
-
-protected:
-    int vida_;
-};
-
-class Lobo : public Criatura {
-public:
-    Lobo() : Criatura(40) {}
-    std::string nombre() const override { return "lobo"; }
-    int golpe() const override { return 9; }
-    std::unique_ptr<Criatura> clonar() const override { return std::make_unique<Lobo>(*this); }
-};
-
-class Golem : public Criatura {
-public:
-    Golem() : Criatura(120) {}
-    std::string nombre() const override { return "gólem"; }
-    int golpe() const override { return 15; }
-    std::unique_ptr<Criatura> clonar() const override { return std::make_unique<Golem>(*this); }
-};
-
-class Murcielago : public Criatura {
-public:
-    Murcielago() : Criatura(15) {}
-    std::string nombre() const override { return "murciélago"; }
-    int golpe() const override { return 4; }
-    std::unique_ptr<Criatura> clonar() const override { return std::make_unique<Murcielago>(*this); }
-};
-
-// El Mimico no ES ninguna criatura: TIENE la forma que copio.
-class Mimico {
-public:
-    void imitar(const Criatura& modelo)
-    {
-        forma_ = modelo.clonar();          // una copia PROPIA: si el modelo cambia, la copia no
-        std::cout << "  el Mímico se transforma en " << forma_->nombre() << " (vida " << forma_->vida() << ")\n";
-    }
-
-    bool tiene_forma() const { return forma_ != nullptr; }
-    Criatura& forma() { return *forma_; }
-
-private:
-    std::unique_ptr<Criatura> forma_;
-};
-
-int main()
-{
-    std::vector<std::unique_ptr<Criatura>> sala;
-    sala.push_back(std::make_unique<Lobo>());
-    sala.push_back(std::make_unique<Golem>());
-    sala.push_back(std::make_unique<Murcielago>());
-
-    Mimico mimico;
-    int lima = 100;
-    std::string orden;
-    while (lima > 0 && std::cin >> orden) {
-        if (orden == "imitar") {
-            std::size_t i = 0;
-            std::cin >> i;
-            if (i < sala.size()) {
-                mimico.imitar(*sala[i]);
-            }
-        } else if (orden == "herir") {
-            std::size_t i = 0;
-            int n = 0;
-            std::cin >> i >> n;
-            if (i < sala.size()) {
-                sala[i]->herir(n);
-                std::cout << "  el " << sala[i]->nombre() << " original queda en " << sala[i]->vida() << "\n";
-            }
-        } else if (orden == "atacar" && mimico.tiene_forma()) {
-            int n = 0;
-            std::cin >> n;
-            Criatura& f = mimico.forma();
-            f.herir(n);
-            std::cout << "  Lima golpea al Mímico-" << f.nombre() << ": vida " << f.vida() << "\n";
-            if (f.vida() == 0) {
-                std::cout << "¡El Mímico cae con forma de " << f.nombre() << "!\n";
-                return 0;
-            }
-            lima -= f.golpe();
-            std::cout << "  responde con " << f.golpe() << " (Lima " << lima << ")\n";
-        }
-    }
-    std::cout << (lima <= 0 ? "Lima cae ante el Mímico.\n" : "El Mímico escapa.\n");
-    return 0;
-}
-```
-
-#### Pruebas
-
-##### Atacar sin forma
-```entrada
-atacar 10
-imitar 2
-atacar 20
-```
-```salida
-  el Mímico se transforma en murciélago (vida 15)
-  Lima golpea al Mímico-murciélago: vida 0
-¡El Mímico cae con forma de murciélago!
-```
-
-##### Copia de un lobo muerto
-```entrada
-herir 0 40
-imitar 0
-atacar 1
-```
-```salida
-  el lobo original queda en 0
-  el Mímico se transforma en lobo (vida 0)
-  Lima golpea al Mímico-lobo: vida 0
-¡El Mímico cae con forma de lobo!
-```
-
-##### Escapa
-```entrada
-imitar 1
-atacar 10
-```
-```salida
-  el Mímico se transforma en gólem (vida 120)
-  Lima golpea al Mímico-gólem: vida 110
-  responde con 15 (Lima 85)
-El Mímico escapa.
 ```
 
 ### Encargo R03-N09-E1 · El inventario del almacén

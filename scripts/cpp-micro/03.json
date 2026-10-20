@@ -1,0 +1,292 @@
+{
+  "R03-N01-M1": {
+    "lugar": "El faro de la muralla",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn sube corriendo al faro con la libreta del farero: siete temperaturas, una por día.\n—El farero quiere el resumen de la semana. La más alta, la más baja y el promedio. Y lo quiere ya.",
+    "gheco": "Los días van en un `std::array<std::string, 7>` constante. `resumir` devuelve un struct y en `main` lo abrís de una con `auto [maxima, minima, promedio] = resumir(semana);`.",
+    "exito": "El farero pega el resumen en la puerta del faro. Lyn ya está bajando la escalera, cronómetro en mano.",
+    "imagen": [
+      "Un faro de piedra y bronce sobre la muralla de la Ciudadela, con un termómetro de bronce gigante en la baranda y siete marcas de tiza al lado.",
+      "Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) le pasa la libreta a Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro)."
+    ]
+  },
+  "R03-N01-M2": {
+    "lugar": "El patio de los Talleres",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En el recreo, Lima dibuja un ta-te-ti con tiza en el piso del patio y desafía a Bron.\n—Pero el árbitro lo hacés vos. Si alguien juega afuera del tablero o encima de otra ficha, que lo diga.",
+    "gheco": "`Tablero` es un `std::array` de tres filas de `std::array<char, 3>`. Antes de poner una ficha revisá que la fila y la columna estén entre 0 y 2 y que la casilla tenga `.`. Después de cada jugada, mirá filas, columnas y las dos diagonales.",
+    "exito": "El árbitro no deja pasar ni una trampa. Lima pierde una partida y pide la revancha.",
+    "imagen": [
+      "Un tablero de ta-te-ti dibujado con tiza en el piso de un patio de baldosas de bronce, con cruces y círculos hechos de tuercas y arandelas.",
+      "Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) pone una arandela; Bron, en cuclillas, piensa su jugada."
+    ]
+  },
+  "R03-N01-M3": {
+    "lugar": "Los Talleres Modernos",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "goblin",
+    "escena": "Bron lima dos dientes a cada engranaje de la caja… y los engranajes siguen iguales. Un goblin se ríe desde el estante.\n—Anotá antes qué va a pasar en cada vuelta —dice Lima—. Después mirá quién tenía razón.",
+    "gheco": "`for (auto e : caja)` trabaja con una **copia** de cada engranaje; `for (auto& e : caja)`, con el de verdad. Lo mismo pasa con `auto primero = caja[0];` y `auto& ultimo = caja.back();`.",
+    "exito": "Ahora sí los engranajes pierden sus dientes. El goblin se va del estante con las manos vacías.",
+    "imagen": [
+      "Una caja de madera con tres engranajes de bronce (chico, mediano y grande) y un goblin verde riéndose desde un estante, con un engranaje copiado en la mano.",
+      "Bron mira el engranaje intacto con cara de no entender; Lima le señala la caja."
+    ]
+  },
+  "R03-N02-M1": {
+    "lugar": "La oficina de la Aduana de la Ciudadela",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En la aduana llegan cajas con etiquetas larguísimas: rutas de archivo con carpetas y extensiones.\n—El aduanero las quiere separadas: carpeta, nombre y extensión —dice Lima—. Ojo con las que empiezan con punto.",
+    "gheco": "`rfind('/')` te da dónde termina la carpeta y `rfind('.')`, dónde empieza la extensión. Si el punto está en la primera letra del nombre, no hay extensión. Usá `substr` para cortar.",
+    "exito": "Cada caja queda con tres etiquetas prolijas. El aduanero las sella de una sin preguntar nada.",
+    "imagen": [
+      "Una mesa de aduana con cajas apiladas, cada una con una etiqueta larga de papel cortada en tres pedazos.",
+      "Lima corta una etiqueta con una tijera chiquita; Bron sella las cajas con un sello de bronce."
+    ]
+  },
+  "R03-N02-M2": {
+    "lugar": "La oficina de la Aduana de la Ciudadela",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla trae un cartel para la plaza con una palabra que el Consejo pidió cambiar.\n—Cambiala en todas partes. Y contá cuántas cambiaste, que el Consejo cuenta.",
+    "gheco": "Buscá con `texto.find(buscar, desde)` y reemplazá con `replace`. Después de reemplazar, seguí buscando **después** de lo que pusiste (`desde = pos + poner.size()`), si no, «gris» por «grisáceo» no termina nunca.",
+    "exito": "El cartel sale sin una sola palabra vieja y el número coincide con el del Consejo. Tesla lo cuelga en la plaza.",
+    "imagen": [
+      "Un cartel largo de papel con varias palabras tachadas y reescritas en tinta cian, sobre una mesa de la aduana.",
+      "Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) sostiene el cartel; Bron cuenta con los dedos."
+    ]
+  },
+  "R03-N02-M3": {
+    "lugar": "La oficina de la Aduana de la Ciudadela",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn trae el registro de los que entraron hoy a la Ciudadela, y hay renglones raros: edades con letras, nombres vacíos.\n—El aduanero quiere los buenos y que le avises los malos. Y la edad promedio, que siempre la pide.",
+    "gheco": "`partir` usa un `std::istringstream` y `std::getline(flujo, campo, separador)` en un bucle. `es_numero` revisa que no esté vacío y que todos los caracteres sean dígitos. Recién ahí convertís con `std::stoi`.",
+    "exito": "El registro queda limpio y el aduanero anota el promedio en la pizarra. Lyn ya salió con el próximo encargo.",
+    "imagen": [
+      "Un libro de registro abierto en la mesa de la aduana, con algunos renglones marcados en rojo y otros con tilde verde.",
+      "Lyn se apoya en el mostrador con el bolso de cartas; Bron revisa los renglones con la llave inglesa como señalador."
+    ]
+  },
+  "R03-N03-M1": {
+    "lugar": "El fichero del archivista",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "El archivista quiere saber qué palabras se repiten en el manual de la Ciudadela, para hacer un índice.\n—Contalas todas —dice Lima—. Sin mayúsculas ni signos, que «Engranaje,» y «engranaje» son la misma.",
+    "gheco": "Limpiá cada palabra con `std::isalpha` y `std::tolower`. Con `std::map<std::string, int>` alcanza `cuenta[palabra]++`, y el mapa ya las deja en orden alfabético. Para la más común, quedate con la primera que tenga la cuenta más alta.",
+    "exito": "El índice sale ordenado y con sus números. El archivista lo pega en la primera página del manual.",
+    "imagen": [
+      "Un manual grueso abierto sobre un fichero de madera lleno de tarjetas, con palabras anotadas y palitos de conteo.",
+      "Lima anota en una tarjeta; Bron hojea el manual."
+    ]
+  },
+  "R03-N03-M2": {
+    "lugar": "El fichero del archivista",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn necesita una agenda con los teléfonos de toda la Ciudadela para hacer sus entregas.\n—Y cuando pregunto por alguien que no está, no me lo anotes vacío, que después lo llamo y no atiende nadie.",
+    "gheco": "Para consultar usá `find` (o `contains`), **no** `agenda[nombre]`: el corchete crea el contacto si no existe. Para saber si `alta` agrega o actualiza, fijate antes si ya estaba.",
+    "exito": "La agenda no inventa a nadie. Lyn la guarda en el bolso, al lado de las cartas.",
+    "imagen": [
+      "Una agenda de cuero abierta con nombres y números, y un teléfono de bronce con manivela al lado.",
+      "Lyn marca un número en el teléfono; Bron anota en la agenda."
+    ]
+  },
+  "R03-N03-M3": {
+    "lugar": "Las torres de la Ciudadela",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla quiere saber quiénes visitan las torres: la Norte y la del Reloj.\n—Los de las dos, los que solo fueron a la Norte, y los de alguna. Sin repetir a nadie.",
+    "gheco": "Un `std::set` por torre ya no repite y deja todo ordenado. Para cruzarlos tenés `std::set_intersection`, `std::set_difference` y `std::set_union` (o recorrés uno y preguntás con `contains` en el otro).",
+    "exito": "Tesla descubre que casi todos los que suben a la Norte terminan en la del Reloj. Le pone un ascensor entre las dos.",
+    "imagen": [
+      "Dos torres altísimas de la Ciudadela, una con un reloj gigante, unidas por un puente con gente cruzando.",
+      "Tesla mira las torres desde abajo con el visor; Bron sostiene dos listas de nombres."
+    ]
+  },
+  "R03-N04-M1": {
+    "lugar": "El faro de la muralla",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El faro quedó automático y Tesla quiere probar su luz antes de la tormenta.\n—Pasale la noche, la niebla, el día y un rayo. Que cada evento la lleve a donde tiene que ir.",
+    "gheco": "`enum class Luz { Apagada, Girando, Destellos, Averiada };`. `siguiente` es un `switch` sobre la luz que mira el evento; el `rayo` vale desde cualquier estado, así que conviene revisarlo primero.",
+    "exito": "La luz sobrevive a la tormenta de prueba y se repara sola al amanecer. Tesla le saca una foto con el visor.",
+    "imagen": [
+      "Un faro de bronce sobre la muralla, de noche y con niebla, con su luz girando entre nubes de tormenta.",
+      "Tesla regula un panel de palancas al pie del faro; Bron sostiene el sombrero contra el viento."
+    ]
+  },
+  "R03-N04-M2": {
+    "lugar": "La sala de control",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto necesita repuestos para la cocina y trae una lista de códigos.\n—Algunos los invento yo, ¿eh? No me des una pieza que no existe, decime que no está.",
+    "gheco": "`buscar` devuelve `std::optional<Pieza>`: la pieza si la encuentra, `std::nullopt` si no. Preguntá con `if (auto p = buscar(...))` y usá `p->precio`. Para el final: `buscar(catalogo, \"X99\").transform(...)` o un `.value_or` sobre el precio.",
+    "exito": "Oto se lleva el engranaje y la válvula, y del resorte que inventó se ríe solo. Paga con un guiso.",
+    "imagen": [
+      "Un catálogo de piezas en un tablero de control, con un engranaje, un resorte y una válvula de presión dibujados.",
+      "Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) lee su lista; Bron busca en el catálogo."
+    ]
+  },
+  "R03-N04-M3": {
+    "lugar": "La sala de control",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "goblin",
+    "escena": "Los medidores de la sala tiran números, pero entre ellos se cuelan letras, signos sueltos y uno gigante que no entra en ningún lado. Un goblin espera que el programa explote.\n—Nada de excepciones —dice Lima—. Si no es un número, lo salteás y avisás.",
+    "gheco": "Revisá el signo y que lo demás sean dígitos antes de convertir. Para no pasarte del `int`, acumulá en un `long long` y compará con `std::numeric_limits<int>::max()` y `min()`; si se pasa, `std::nullopt`.",
+    "exito": "La suma sale limpia y el goblin se queda esperando una explosión que no llega.",
+    "imagen": [
+      "Una tira de papel larga que sale de un medidor de bronce, con números y algunos garabatos tachados; un goblin verde asoma detrás del medidor.",
+      "Lima sostiene la tira; Bron marca los números buenos con un lápiz."
+    ]
+  },
+  "R03-N05-M1": {
+    "lugar": "La cancha de la Ciudadela",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Terminó el torneo de las torres y Lyn tiene que colgar la tabla. Hay empates por todos lados.\n—Puntos, después diferencia de gol, después goles a favor, y si siguen iguales, por nombre. ¡Una sola regla!",
+    "gheco": "Una sola lambda en `std::sort` con los cuatro criterios en orden: comparás los puntos; si son iguales, la diferencia; y así. `std::tie` o `<=>` te ahorran los `if`.",
+    "exito": "La tabla queda colgada en la cancha y nadie protesta, ni siquiera los que salieron últimos.",
+    "imagen": [
+      "Una cancha de baldosas con arcos de bronce y un tablero grande de posiciones colgado de la tribuna.",
+      "Lyn cuelga la tabla parada en una escalera; Bron le alcanza los números."
+    ]
+  },
+  "R03-N05-M2": {
+    "lugar": "La muralla de la Ciudadela",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El radar de la muralla marca contactos alrededor de la Ciudadela. Tesla quiere saber cuáles están cerca.\n—La regla de la distancia la escribís una vez y la usás en todas las preguntas.",
+    "gheco": "Guardá las lambdas en variables: `auto distancia = [](const Contacto& c) { return std::hypot(c.x, c.y); };` y otra que capture el alcance. Después, `count_if`, `find_if`, `min_element` y `none_of` las reutilizan.",
+    "exito": "El radar marca a los cercanos en verde. Tesla manda a Lyn a saludar al más cercano.",
+    "imagen": [
+      "Una pantalla redonda de radar con brillo verde sobre la muralla, con puntos alrededor del centro.",
+      "Tesla señala un punto en el radar; Bron mira por un catalejo hacia afuera."
+    ]
+  },
+  "R03-N05-M3": {
+    "lugar": "El campo de prácticas",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "ogro",
+    "escena": "En el campo de prácticas aparecen muñecos de ogro con distinta vida. Lima prepara una bomba de humo de 25 de daño.\n—Una explosión para todos, sacamos a los que caen y que los que quedan griten.",
+    "gheco": "`for_each` con una lambda que capture el daño (`[dano](Enemigo& e) { e.vida -= dano; }`). Para borrar los caídos, `std::erase_if` devuelve cuántos sacó. Los gritos salen con `transform` a un vector nuevo.",
+    "exito": "Los muñecos que quedan gritan su nombre con un signo de admiración. Lima recarga la próxima bomba.",
+    "imagen": [
+      "Un campo de prácticas con muñecos de ogro de paja y bronce, algunos tirados en el piso y una nube de humo cian en el medio.",
+      "Lima tira una bomba de humo; Bron se tapa la nariz."
+    ]
+  },
+  "R03-N06-M1": {
+    "lugar": "El Archivo de los registros",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima le regala a Bron un cuaderno para que anote lo que vive en la Ciudadela.\n—La primera línea ya está escrita. Lo que sigue lo agregás al final, sin borrar nada de lo anterior.",
+    "gheco": "Creá el archivo con `std::ofstream` (pisa lo que hubiera). Para agregar, abrilo con `std::ios::app`. Después leelo con `std::ifstream` y `std::getline`; los bytes de texto son la suma de los largos de las líneas más un `\\n` por cada una.",
+    "exito": "La bitácora de Bron ya tiene sus primeras páginas. La guarda en el bolsillo de la remera, al lado de la llave.",
+    "imagen": [
+      "Un cuaderno de tapas de cuero con un engranaje grabado, abierto con renglones escritos a mano, sobre un escritorio del Archivo.",
+      "Bron escribe con la lengua afuera; Lima mira por encima de su hombro."
+    ]
+  },
+  "R03-N06-M2": {
+    "lugar": "El Archivo de los registros",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla da clase a los aprendices y quiere las notas en un archivo que pueda abrir cualquiera.\n—Primero las guardás. Después las leés **del archivo**, no de la memoria, y me decís quién recupera.",
+    "gheco": "Escribí con `std::ofstream` separando con comas. Al leer, salteá la primera línea con un `getline` y partí las demás con `std::getline(flujo, campo, ',')`. Para los dos decimales, `std::fixed << std::setprecision(2)`.",
+    "exito": "Tesla abre el archivo en su tableta y los números coinciden. Les avisa a los que recuperan que todavía están a tiempo.",
+    "imagen": [
+      "Una planilla de notas con columnas separadas por comas, proyectada en una pared del Archivo.",
+      "Tesla señala una fila con un puntero de luz; Bron lee la planilla desde un banco."
+    ]
+  },
+  "R03-N06-M3": {
+    "lugar": "El Archivo de los registros",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "El Archivo es un desorden de papeles. Lima propone ordenarlo en carpetas y después revisar qué ocupa más.\n—Y cuando terminamos, lo dejamos como estaba, que mañana viene otro aprendiz.",
+    "gheco": "`std::filesystem::create_directories` crea las carpetas que falten. Recorré con `recursive_directory_iterator`, guardá ruta y tamaño (`file_size`) y ordená. `ruta.lexically_relative(base)` te da la ruta corta (`fs::relative` no anda en el navegador: busca la carpeta real del disco). Al final, `remove_all`.",
+    "exito": "Los papeles quedan en carpetas por un rato, y después el Archivo vuelve a estar vacío y limpio. Lima guarda la lista en su delantal.",
+    "imagen": [
+      "Estantes del Archivo con carpetas de colores y papeles volando hacia ellas.",
+      "Lima rotula una carpeta con su lápiz; Bron carga una pila de papeles."
+    ]
+  },
+  "R03-N06-M4": {
+    "lugar": "La sede del gremio",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El gremio de los artífices guarda a sus miembros en un archivo binario, uno detrás del otro, todos del mismo tamaño.\n—Para subirle el nivel a uno no reescribas todo —dice Tesla—. Andá directo a su lugar.",
+    "gheco": "Abrí con `std::ios::in | std::ios::out | std::ios::binary`. El miembro `pos` está en `pos * sizeof(Miembro)`: `seekg` para leerlo y `seekp` para escribirlo en el mismo lugar. La cantidad sale del tamaño del archivo dividido `sizeof(Miembro)`.",
+    "exito": "Los niveles suben sin tocar a nadie más. Tesla le da a Bron la credencial del gremio.",
+    "imagen": [
+      "Un libro de bronce con páginas de metal todas iguales, cada una con un nombre y un número grabados, en la sede del gremio.",
+      "Tesla abre el libro en una página exacta; Bron graba un número nuevo con un punzón."
+    ]
+  },
+  "R03-N07-M1": {
+    "lugar": "El depósito de autómatas",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto quiere ayuda en la cocina y encarga autómatas: grúas para las ollas, carretillas para las bolsas.\n—Los que se rompan, a la chatarra. Y que nadie quede dando vueltas sin dueño, como el de la otra vez.",
+    "gheco": "`fabricar` devuelve `std::make_unique<Grua>(nombre)` o `nullptr`. Guardalos en un `std::vector<std::unique_ptr<Automata>>`; `std::erase_if` con una lambda que mire `roto` los destruye y se oye «a la chatarra». Ojo: en el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último); la salida esperada es la del navegador.",
+    "exito": "La cocina de Oto tiene sus autómatas, y los rotos se van solos. Oto le pone nombre a la grúa.",
+    "imagen": [
+      "Un depósito con una grúa de bronce levantando una olla gigante y una carretilla con bolsas de harina; al fondo, una pila de chatarra.",
+      "Oto aplaude con el cucharón en la mano; Bron ajusta una carretilla."
+    ]
+  },
+  "R03-N07-M2": {
+    "lugar": "El depósito de autómatas",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn tiene que llevar paquetes del depósito al carro y después entregarlos.\n—Cada paquete tiene un solo dueño. Si lo paso al carro, en el depósito queda el hueco.",
+    "gheco": "`carro.push_back(std::move(deposito[0]))` deja `deposito[0]` en `nullptr`. Una función con `const Paquete&` solo mira; una con `std::unique_ptr<Paquete>` por valor se queda con el paquete y lo destruye al terminar.",
+    "exito": "Cada paquete se va en el momento justo y ninguno queda perdido. Lyn marca el tiempo en el cronómetro.",
+    "imagen": [
+      "Un depósito con tres estantes, dos vacíos y uno con un paquete atado; un carro de bronce cargado al lado.",
+      "Lyn levanta un paquete; Bron empuja el carro."
+    ]
+  },
+  "R03-N07-M3": {
+    "lugar": "El comedor de los artífices",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto pone música en el comedor: dos listas, «Viaje» y «Fiesta», que comparten canciones.\n—Una canción no se borra mientras esté en alguna lista. Antes de probar, decime cuándo se va cada una.",
+    "gheco": "Con `std::make_shared` las canciones son compartidas: `use_count()` cuenta cuántos las tienen. `reset()` suelta el puntero de `main`; la canción se borra recién cuando la suelta el último. Ojo: en el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último); la salida esperada es la del navegador.",
+    "exito": "Bron acertó el orden en que se borran. Oto le dedica la zamba.",
+    "imagen": [
+      "Un comedor con un fonógrafo de bronce y dos pilas de discos con etiquetas «Viaje» y «Fiesta», algunos discos en las dos pilas.",
+      "Oto pone un disco; Bron cuenta con los dedos."
+    ]
+  },
+  "R03-N08-M1": {
+    "lugar": "La sala de máquinas",
+    "personajes": "Bron, Gheco, la Maestra Artífice",
+    "escena": "La Maestra Artífice quiere un registro del turno que se escriba solo: cada tarea abre y cierra, aunque termine antes de tiempo.\n—¿Y si alguien sale por la puerta de atrás? También tiene que quedar el «fin».",
+    "gheco": "El constructor escribe `inicio` y sube el contador `static`; el destructor baja el contador y escribe `fin`. Con `= delete` prohibís la copia. Si `procesar` hace `return` temprano, el destructor igual corre.",
+    "exito": "Todos los «inicio» tienen su «fin», hasta los que salieron por la puerta de atrás. La Maestra pone un tilde en la tableta.",
+    "imagen": [
+      "Un rollo de papel que sale de una máquina de escribir de bronce, con renglones sangrados en escalera.",
+      "La Maestra Artífice (inspectora de 60, piel oscura, pelo blanco muy corto, antiparras de soldar en la frente, delantal largo de cuero, tableta de vidrio) lee el rollo; Bron gira una manivela."
+    ]
+  },
+  "R03-N08-M2": {
+    "lugar": "La sala de máquinas",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "En la sala de máquinas entra uno por vez. Tesla tiene un candado que se cierra al entrar y se abre al salir.\n—El candado no se copia. Pero si alguien me lo pasa, el que lo tenía ya no lo abre.",
+    "gheco": "Copia con `= delete`. El constructor de movimiento recibe `Candado&&`, toma la responsabilidad y marca al otro como inactivo; el destructor solo abre si está activo. `entrar()` devuelve el candado y se mueve solo.",
+    "exito": "La sala se abre una sola vez por turno, nunca dos. Tesla le confía el candado a Bron.",
+    "imagen": [
+      "Una puerta de bronce con un candado grande y un cartel «Sala de máquinas».",
+      "Tesla le pasa el candado a Bron, que lo recibe con las dos manos."
+    ]
+  },
+  "R03-N08-M3": {
+    "lugar": "La sala de máquinas",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima sospecha que en la Ciudadela se copian piezas de más.\n—Contá cada copia y cada mudanza. Y antes de mirar, anotá lo que esperás. Si le errás a una, la lima.",
+    "gheco": "Los contadores `static` suben en el constructor de copia y en `operator=` de copia (`copias`), y en los de movimiento (`movidas`). Con `reserve(3)` el vector no se muda en el medio y no hay movimientos de sobra.",
+    "exito": "Bron le erra a uno solo y Lima le perdona la lima. La próxima, dice, no.",
+    "imagen": [
+      "Dos contadores mecánicos de bronce con números, uno con el cartel «copias» y otro con «movidas», sobre una mesa con piezas.",
+      "Lima mira los contadores con la lupa; Bron anota en un papel lo que esperaba."
+    ]
+  },
+  "R03-N09-M2": {
+    "lugar": "El Bestiario de los Talleres",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "dragon",
+    "escena": "El Mímico se esconde entre las criaturas del Bestiario y copia a la que tiene más cerca. Lima lo enfrenta con 100 de vida.\n—Si heris al original, la copia no se entera. Es suya.",
+    "gheco": "`clonar()` devuelve un `std::unique_ptr<Criatura>` nuevo con la vida **actual** (`std::make_unique<Lobo>(*this)`). El Mímico guarda esa copia; herir al original no la toca. Si el Mímico no cae, responde con `forma->golpe()`.",
+    "exito": "El Mímico cae y suelta lo que tenía en la mano: el Espejo del Mímico. Lima lo levanta y se ve reflejada dos veces.",
+    "imagen": [
+      "Un Bestiario con jaulas de bronce abiertas; un mímico de metal brillante cambia de forma entre un lobo, un gólem y un murciélago.",
+      "Lima esquiva con la lima en alto; Bron sostiene la llave inglesa cian."
+    ]
+  }
+}

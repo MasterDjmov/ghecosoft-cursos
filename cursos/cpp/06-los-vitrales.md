@@ -2371,17 +2371,23 @@ El empleado aprieta «Quitar» sin elegir, y la ventana le pide que elija. Nadie
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) señala el cartelito.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aprieta el botón «Quitar».
 
-### Misión R06-N03-M1 · El plano sin ventana
+### Micro-misión R06-N03-P4 · El plano sin ventana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 5
-xp: 10
+lugar: La oficina de patentes
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 5
+antes: R06-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En la oficina de patentes, el empleado suma los inventos con los dedos. Tesla quiere ponerle una ventana, pero primero el plano.
+—Antes de la ventana, el modelo tiene que andar solo. Agregá los faroles.
 
+#### Gheco sugiere
+`Farol` hereda de `Invento` y su `valor()` es `precio() + luz_ * 3`. Sumalo a la fábrica `crear`. Para probar el archivo, guardá con un `Registro` y cargá en **otro** vacío.
+
+#### Desafío
 Antes de la ventana, el modelo tiene que andar solo. Partí de las clases del ejemplo y agregá una tercera derivada: `Farol`, con su **luz** (un entero), que vale `precio + luz * 3`.
 
 El programa lee de la entrada líneas `tipo nombre precio extra` (el nombre es una sola palabra) hasta que se terminen:
@@ -2390,15 +2396,140 @@ El programa lee de la entrada líneas `tipo nombre precio extra` (el nombre es u
 3. Crea **otro** `Registro`, vacío, y lo carga desde `inventos.txt` (así se prueba que el archivo anda).
 4. Muestra los inventos de esa copia ordenados por valor, de mayor a menor (a igual valor, por nombre), con el formato `tipo nombre: valor`, y al final `Valor total: <total>`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Farol` hereda de `Invento` y redefine `tipo()`, `extra()` y `valor()`.
 - La fábrica es el único lugar que conoce las tres derivadas.
 - La lista sale del registro cargado desde el archivo, no del primero.
 - Sin advertencias con `-Wall -Wextra`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <vector>
 
+class Invento {
+public:
+    Invento(std::string nombre, int precio) : nombre_(std::move(nombre)), precio_(precio) {}
+    virtual ~Invento() = default;
+    const std::string& nombre() const { return nombre_; }
+    int precio() const { return precio_; }
+    virtual std::string tipo() const = 0;
+    virtual int extra() const = 0;
+    virtual int valor() const = 0;
+
+private:
+    std::string nombre_;
+    int precio_;
+};
+
+class Reloj : public Invento {
+public:
+    Reloj(std::string nombre, int precio, int horas) : Invento(std::move(nombre), precio), horas_(horas) {}
+    std::string tipo() const override { return "reloj"; }
+    int extra() const override { return horas_; }
+    int valor() const override { return precio() + horas_ * 2; }
+
+private:
+    int horas_;
+};
+
+class Automata : public Invento {
+public:
+    Automata(std::string nombre, int precio, int pasos) : Invento(std::move(nombre), precio), pasos_(pasos) {}
+    std::string tipo() const override { return "automata"; }
+    int extra() const override { return pasos_; }
+    int valor() const override { return precio() * 2 + pasos_; }
+
+private:
+    int pasos_;
+};
+
+std::unique_ptr<Invento> crear(const std::string& tipo, const std::string& nombre, int precio, int extra)
+{
+    if (tipo == "reloj") {
+        return std::make_unique<Reloj>(nombre, precio, extra);
+    }
+    if (tipo == "automata") {
+        return std::make_unique<Automata>(nombre, precio, extra);
+    }
+    return nullptr;
+}
+
+class Registro {
+public:
+    void agregar(std::unique_ptr<Invento> i) { inventos_.push_back(std::move(i)); }
+    const std::vector<std::unique_ptr<Invento>>& todos() const { return inventos_; }
+
+    int total() const
+    {
+        int t = 0;
+        for (const auto& i : inventos_) {
+            t += i->valor();
+        }
+        return t;
+    }
+
+    void ordenar()
+    {
+        std::sort(inventos_.begin(), inventos_.end(), [](const auto& a, const auto& b) {
+            if (a->valor() != b->valor()) {
+                return a->valor() > b->valor();
+            }
+            return a->nombre() < b->nombre();
+        });
+    }
+
+    bool guardar(const std::string& ruta) const
+    {
+        std::ofstream f(ruta);
+        if (!f) {
+            return false;
+        }
+        for (const auto& i : inventos_) {
+            f << i->tipo() << ';' << i->nombre() << ';' << i->precio() << ';' << i->extra() << '\n';
+        }
+        return true;
+    }
+
+    bool cargar(const std::string& ruta)
+    {
+        std::ifstream f(ruta);
+        if (!f) {
+            return false;
+        }
+        inventos_.clear();
+        std::string linea;
+        while (std::getline(f, linea)) {
+            std::istringstream campos(linea);
+            std::string tipo, nombre, precio, extra;
+            std::getline(campos, tipo, ';');
+            std::getline(campos, nombre, ';');
+            std::getline(campos, precio, ';');
+            std::getline(campos, extra);
+            if (auto i = crear(tipo, nombre, std::stoi(precio), std::stoi(extra))) {
+                agregar(std::move(i));
+            }
+        }
+        return true;
+    }
+
+private:
+    std::vector<std::unique_ptr<Invento>> inventos_;
+};
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 reloj Cucu 100 12
 automata Pinza 120 20
@@ -2408,7 +2539,6 @@ reloj Torre 236 12
 ```
 
 #### Salida esperada
-
 ```
 Tipo desconocido: barco
 Guardados: 4
@@ -2419,8 +2549,7 @@ reloj Cucu: 124
 Valor total: 769
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // R06-N03-M1 - El modelo sin ventana: la jerarquia de inventos, guardada y cargada de un archivo.
 #include <algorithm>
@@ -2584,37 +2713,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los inventos se guardan y vuelven del archivo enteros. El empleado de patentes guarda los dedos en el bolsillo.
 
-##### Un solo farol sin luz
-```entrada
-farol Uno 10 0
-```
-```salida
-Guardados: 1
-farol Uno: 10
-Valor total: 10
-```
-
-##### Registro vacío
-```entrada
-```
-```salida
-Guardados: 0
-Valor total: 0
-```
-
-##### Todos desconocidos
-```entrada
-barco Ancla 50 1
-tren Rapido 9 9
-```
-```salida
-Tipo desconocido: barco
-Tipo desconocido: tren
-Guardados: 0
-Valor total: 0
-```
+#### Imagen
+- Una oficina de patentes con mostrador de bronce, relojes, autómatas y faroles con etiquetas de precio, y un fichero de archivos.
+- Tesla agrega un farol al mostrador; Bron anota el valor; detrás, un empleado cuenta con los dedos.
 
 ### Misión R06-N03-M2 · La ventana del registro
 
@@ -4470,17 +4574,24 @@ Tres de tres, idénticas. La Gárgola cierra el libro, satisfecha. Bron, que lle
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta una llave inglesa legendaria de bronce y cian.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) miran el vitral.
 
-### Misión R06-N05-M1 · Los planos de TallerExpress
+### Micro-misión R06-N05-P5 · Los planos de TallerExpress
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 5
-xp: 40
+lugar: La Torre de los Vitrales
+personajes: Bron, Gheco, la Maestra Artífice
+criatura: dragon
+recompensa: xp 40, monedas 5
+antes: R06-N05-M1
 ```
 
-#### Consigna
+#### Escena
+La Gárgola de los Vitrales toma el examen de TallerExpress. Antes de la ventana, la Maestra Artífice pide el modelo en consola.
+—Altas, bajas, listado, guardar y cargar. ¿Y la prueba? Que ande todo antes de dibujar un solo botón.
 
+#### Gheco sugiere
+`Maquina` abstracta con `costo()` virtual puro y un `operator<<` amigo que llama a una función virtual. El `Taller` guarda `std::unique_ptr<Maquina>`, no deja códigos repetidos y ordena con una lambda. Guardar y cargar con `;`, el tipo primero.
+
+#### Desafío
 El modelo de TallerExpress, en consola. Escribí la jerarquía (`Maquina` abstracta, `Automata`, `Telar` y `Grua`, con el `operator<<` amigo), la fábrica y la clase `Taller`. El programa lee órdenes de la entrada hasta que se terminen:
 
 | Orden | Qué hace | Qué muestra |
@@ -4494,16 +4605,31 @@ El modelo de TallerExpress, en consola. Escribí la jerarquía (`Maquina` abstra
 
 El nombre es una sola palabra.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Maquina` es abstracta, con destructor virtual, y las derivadas redefinen `tipo()`, `extra()` y `costo()`.
 - El `operator<<` es amigo y sirve para las tres clases.
 - `Taller` no acepta códigos repetidos, y lo que se guarda se vuelve a cargar igual.
 - El listado respeta el desempate.
 - Sin advertencias con `-Wall -Wextra`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 alta automata 101 Cuco 40 75
 alta telar 205 Rueca 30 150
@@ -4520,7 +4646,6 @@ listar
 ```
 
 #### Salida esperada
-
 ```
 Alta: 101
 Alta: 205
@@ -4544,8 +4669,7 @@ Cargadas: 3
 Costo total: $930
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // R06-N05-M1 - Los planos de TallerExpress: la jerarquia de maquinas, el taller y su archivo, en consola.
 #include <algorithm>
@@ -4756,71 +4880,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Todas las órdenes responden lo que tienen que responder. La Gárgola baja la cabeza de piedra y deja pasar a Bron al último vitral.
 
-##### Taller vacío
-```entrada
-listar
-```
-```salida
-Costo total: $0
-```
-
-##### Guardar, borrar y volver a cargar
-```entrada
-alta grua 9 Gancho 2 3
-guardar
-baja 9
-listar
-cargar
-listar
-```
-```salida
-Alta: 9
-Guardadas: 1
-Baja: 9
-Costo total: $0
-Cargadas: 1
-[9] grua Gancho - 2 h - $166
-Costo total: $166
-```
-
-##### Baja dos veces
-```entrada
-alta telar 1 A 0 0
-alta automata 2 B 0 100
-listar
-baja 1
-baja 1
-listar
-```
-```salida
-Alta: 1
-Alta: 2
-[1] telar A - 0 h - $0
-[2] automata B - 0 h - $0
-Costo total: $0
-Baja: 1
-No existe: 1
-[2] automata B - 0 h - $0
-Costo total: $0
-```
-
-##### Desempate por código y una orden desconocida
-```entrada
-alta grua 7 Pluma 0 1
-alta telar 3 Seda 0 50
-listar
-volar
-```
-```salida
-Alta: 7
-Alta: 3
-[3] telar Seda - 0 h - $50
-[7] grua Pluma - 0 h - $50
-Costo total: $100
-Orden desconocida: volar
-```
+#### Imagen
+- El interior de la Torre de los Vitrales, con una gárgola de piedra enorme en lo alto y vitrales de colores con máquinas dibujadas.
+- La Maestra Artífice sostiene la tableta con la lista de órdenes; Bron escribe en una consola de bronce.
 
 ### Misión R06-N05-M2 · El vitral de TallerExpress
 

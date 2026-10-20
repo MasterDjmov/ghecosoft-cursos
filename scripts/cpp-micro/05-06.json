@@ -1,0 +1,208 @@
+{
+  "R05-N01-M1": {
+    "lugar": "El Taller del Juego",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima arma el tablero de puntajes del juego nuevo y los jugadores escriben cualquier cosa: «12abc», «hola», números gigantes.\n—Que no se caiga. Que diga qué pasó con cada uno y siga.",
+    "gheco": "`std::stoi(texto, &usados)` te dice cuántos caracteres usó. Si `usados < texto.size()`, lanzá `std::invalid_argument` con el sobrante. Atrapá `std::invalid_argument` y `std::out_of_range` por separado para dar el mensaje justo. El texto de `what()` que pone `stoi` cambia según el compilador: atrapalo en `a_entero` y relanzá con tu mensaje.",
+    "exito": "El tablero suma lo que tiene que sumar y explica cada error. Lima escribe «12abc» a propósito, para verlo.",
+    "imagen": [
+      "Un tablero de puntajes de bronce en el Taller del Juego, con números que entran por una ranura y algunos rebotan con un cartel de error.",
+      "Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) mete un papel en la ranura; Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro) mira el tablero."
+    ]
+  },
+  "R05-N01-M2": {
+    "lugar": "El depósito del Taller del Juego",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto saca piezas del depósito para un juego de cocina y pide cualquier cosa: cero engranajes, tornillos que no hay, más resortes de los que quedan.\n—Si no se puede, que me lo diga claro. Y si no hay, cuánto hay.",
+    "gheco": "`class SinStock : public std::runtime_error` guarda lo pedido y lo que hay. Lanzá la excepción justa en cada caso y, en `main`, atrapá **primero** `SinStock` y después `const std::exception&`.",
+    "exito": "El depósito nunca queda en negativo y Oto entiende cada negativa. Se lleva los engranajes que había.",
+    "imagen": [
+      "Un depósito de bronce con cajones rotulados «engranajes» y «resortes», uno casi vacío, y un cartel rojo que dice «Sin stock».",
+      "Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) pide con el cucharón; Bron revisa los cajones."
+    ]
+  },
+  "R05-N01-M3": {
+    "lugar": "Los andamios del Taller del Juego",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla arma una cadena de andamios: tres pisos, uno arriba del otro. Abajo de todo, la red.\n—Si algo se cae en el piso de arriba, ¿quién baja primero y dónde lo atajan? Anotalo antes.",
+    "gheco": "Cuando `dividir` lanza, la excepción sube por `promedio` e `informe` hasta el `catch` de `main`. En el camino, cada `Registro` se destruye y avisa la salida, del más nuevo al más viejo.",
+    "exito": "Bron acierta el orden de las salidas. La red ataja la caída y Tesla le tira el Amuleto del Catch.",
+    "imagen": [
+      "Tres pisos de andamio de bronce, uno arriba del otro, con una red cian tendida abajo de todo.",
+      "Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) señala el piso de arriba; Bron sostiene el amuleto."
+    ]
+  },
+  "R05-N02-M1": {
+    "lugar": "El Taller del Juego",
+    "personajes": "Bron, Gheco, Oto",
+    "criatura": "ogro",
+    "escena": "Oto hizo un programa para las compras del comedor y le dice que hay cuatro ítems, aunque uno no tiene stock. El total cambia cada vez. Un ogro se esconde en el código.\n—Tres errores —dice Oto—. Lo dice el ogro, no yo.",
+    "gheco": "Compilá con advertencias: `t` arranca sin valor. Mirá el `<=` del `for`: lee uno de más. Y `quitar_sin_stock` recibe el vector por valor, así que quita de una copia. Dejá un comentario sobre cada arreglo.",
+    "exito": "La cuenta da justa y el ogro sale corriendo. Oto anota el total en su libro de recetas.",
+    "imagen": [
+      "Una lista de compras larga sobre la mesada del comedor, con tres renglones marcados en rojo y un ogro escondido detrás de la bolsa de yerba.",
+      "Oto señala la lista con el cucharón; Bron corrige con un lápiz."
+    ],
+    "inicial": "#include <iostream>\n#include <string>\n#include <vector>\n\nstruct Item {\n    std::string nombre;\n    int cantidad = 0;\n    double precio = 0;\n};\n\ndouble total(const std::vector<Item>& items)\n{\n    double t;\n    for (const auto& it : items) t += it.cantidad * it.precio;\n    return t;\n}\n\nconst Item* mas_caro(const std::vector<Item>& items)\n{\n    const Item* mejor = nullptr;\n    for (std::size_t i = 0; i <= items.size(); i++)\n        if (mejor == nullptr || items[i].precio > mejor->precio) mejor = &items[i];\n    return mejor;\n}\n\nvoid quitar_sin_stock(std::vector<Item> items)\n{\n    std::erase_if(items, [](const Item& it) { return it.cantidad == 0; });\n}\n\nint main()\n{\n    std::vector<Item> lista;\n    Item it;\n    while (std::cin >> it.nombre >> it.cantidad >> it.precio) {\n        lista.push_back(it);\n    }\n    quitar_sin_stock(lista);\n    std::cout << \"Ítems: \" << lista.size() << \"\\n\";\n    std::cout << \"Total: $\" << total(lista) << \"\\n\";\n    if (const Item* caro = mas_caro(lista)) {\n        std::cout << \"El más caro: \" << caro->nombre << \"\\n\";\n    }\n    return 0;\n}"
+  },
+  "R05-N02-M2": {
+    "lugar": "El Taller del Juego",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla quiere funciones que se defiendan solas: que si alguien las usa mal, se den cuenta enseguida.\n—Pero ojo: lo que escribe el jugador no es culpa de la función. Eso se valida con un `if`.",
+    "gheco": "`assert(nota >= 1 && nota <= 10)` documenta la precondición y para el programa si alguien la rompe. En `repartir`, el `assert` del final comprueba que la suma de las partes dé el total. Lo que lee `main` se revisa con `if` y un aviso.",
+    "exito": "Las funciones se defienden y el programa no se cae por un dato mal tipeado. Tesla prueba `en_letras(0)` y el `assert` lo frena en seco.",
+    "imagen": [
+      "Dos máquinas de bronce con un escudo pintado en el frente, una que escribe números en letras y otra que reparte fichas en pilas.",
+      "Tesla mete una ficha con un cero y la máquina se traba con una luz roja; Bron toma nota."
+    ]
+  },
+  "R05-N02-M3": {
+    "lugar": "El Taller del Juego",
+    "personajes": "Bron, Gheco, Lyn",
+    "criatura": "ogro",
+    "escena": "Lyn armó el ranking de ganadores del torneo y la función hace trampa: borra mientras recorre y no ordena nada. Un ogro se ríe en cada vuelta.\n—Reescribila limpia. Los que llegan al mínimo, del mejor al peor.",
+    "gheco": "Recibí `const std::vector<Jugador>&` y trabajá sobre una copia. `std::erase_if` borra sin romper ningún iterador. `std::ranges::sort` con una lambda: más puntos primero y, si empatan, por nombre.",
+    "exito": "El ranking sale ordenado y el ogro se queda sin trampas. Lyn lo cuelga en la pista.",
+    "imagen": [
+      "Un ranking de bronce con nombres que se reacomodan solos, y un ogro que intenta arrancar un nombre del medio.",
+      "Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) espanta al ogro con el cronómetro; Bron reacomoda los nombres."
+    ],
+    "inicial": "#include <iostream>\n#include <string>\n#include <vector>\n\nstruct Jugador {\n    std::string nombre;\n    int puntos = 0;\n};\n\nstd::vector<std::string> ganadores(std::vector<Jugador> jugadores, int minimo)\n{\n    std::vector<std::string> nombres;\n    for (auto it = jugadores.begin(); it != jugadores.end(); ++it) {\n        if (it->puntos < minimo) {\n            jugadores.erase(it);\n        }\n    }\n    for (int i = 0; i < jugadores.size(); i++) {\n        int puntos = jugadores[i].puntos;\n        if (puntos >= minimo) {\n            nombres.push_back(jugadores[i].nombre);\n        }\n    }\n    return nombres;\n}\n\nint main()\n{\n    int minimo = 0;\n    std::cin >> minimo;\n    std::vector<Jugador> jugadores;\n    Jugador j;\n    while (std::cin >> j.nombre >> j.puntos) {\n        jugadores.push_back(j);\n    }\n    const auto lista = ganadores(jugadores, minimo);\n    std::cout << lista.size() << \" con \" << minimo << \" o más:\";\n    for (const auto& n : lista) {\n        std::cout << \" \" << n;\n    }\n    std::cout << \"\\n\";\n    return 0;\n}"
+  },
+  "R05-N03-M1": {
+    "lugar": "El Banco de Pruebas de la Maestra Artífice",
+    "personajes": "Bron, Gheco, la Maestra Artífice",
+    "escena": "Bron hizo el control de contraseñas del Taller y dice «ya anda». La Maestra Artífice aparece detrás de él.\n—¿Y la prueba? Ocho caracteres justos, siete, vacía, con un espacio. Todas.",
+    "gheco": "Recorré la contraseña una vez con `std::isupper`, `std::islower` y `std::isdigit`, y buscá espacios. Cada prueba es un `comprobar(nombre, esperado, obtenido)`. Probá primero con el límite mal puesto: la de 8 justos es la que lo detecta.",
+    "exito": "Todas las pruebas en verde. La Maestra pone los tildes uno por uno en la tableta, sin decir nada.",
+    "imagen": [
+      "Una mesa de pruebas con candados de bronce de distintos tamaños, cada uno con una lucecita verde o roja.",
+      "La Maestra Artífice (inspectora de 60, piel oscura, pelo blanco muy corto, antiparras de soldar en la frente, delantal largo de cuero, tableta de vidrio) marca un tilde; Bron prueba un candado."
+    ]
+  },
+  "R05-N03-M2": {
+    "lugar": "El Banco de Pruebas de la Maestra Artífice",
+    "personajes": "Bron, Gheco, Lima, la Maestra Artífice",
+    "escena": "Lima trae la fracción que hicieron en los Planos. La Maestra la pone en el banco de pruebas.\n—Dos grupos: cómo nace y cómo opera. Si pasa los dos, sale de la Ciudadela.",
+    "gheco": "Cada grupo es una función que cuenta las que pasan y las que fallan, comparando con `==`. Probá los bordes: el signo en el denominador, el cero y el denominador 0. Al final sumá los dos grupos.",
+    "exito": "La fracción pasa los dos grupos. Lima jura que la Maestra sonrió medio segundo; la Maestra dice que fue un tic.",
+    "imagen": [
+      "Un banco de pruebas de bronce con fracciones grabadas en fichas, dos bandejas rotuladas «construcción» y «operaciones», todas con tildes verdes.",
+      "La Maestra Artífice mira la tableta casi sonriendo; Lima y Bron se miran de reojo."
+    ],
+    "inicial": "#include <iostream>\n#include <numeric>\n#include <string>\n\nclass Fraccion {\npublic:\n    Fraccion(int n = 0, int d = 1) : n_(n), d_(d == 0 ? 1 : d) { normalizar(); }\n    Fraccion operator+(const Fraccion& o) const { return Fraccion(n_ * o.d_ + o.n_ * d_, d_ * o.d_); }\n    Fraccion operator*(const Fraccion& o) const { return Fraccion(n_ * o.n_, d_ * o.d_); }\n    bool operator==(const Fraccion&) const = default;\n    int num() const { return n_; }\n    int den() const { return d_; }\n\nprivate:\n    void normalizar()\n    {\n        if (d_ < 0) {\n            n_ = -n_;\n            d_ = -d_;\n        }\n        int g = std::gcd(n_, d_);\n        if (g > 1) {\n            n_ /= g;\n            d_ /= g;\n        }\n    }\n    int n_;\n    int d_;\n};\n\nint main()\n{\n    // Escribí tus pruebas acá\n    return 0;\n}"
+  },
+  "R05-N03-M3": {
+    "lugar": "El Banco de Pruebas de la Maestra Artífice",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Bron dice que buscar en un vector es igual de rápido que en un set. Lyn saca el cronómetro.\n—Apostemos. Pero medimos de verdad, nada de opinar.",
+    "gheco": "`medir_us` toma una lambda, guarda `std::chrono::steady_clock::now()` antes y después, y devuelve los microsegundos. Los tiempos cambian en cada corrida, así que van a `std::cerr`; por `std::cout`, solo lo que no cambia.",
+    "exito": "La búsqueda lineal pierde por lejos. Bron paga la apuesta: le lleva las cartas a Lyn por una semana.",
+    "imagen": [
+      "Tres pistas de carrera en miniatura sobre una mesa, con tres autómatas corriendo, uno muy atrás.",
+      "Lyn levanta el cronómetro; Bron se rasca la cabeza mirando al autómata que va último."
+    ]
+  },
+  "R05-N04-M1": {
+    "lugar": "La mesa del juego desarmado",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En el juego que arman, Lima tiene que cruzar un puente con dos guardias. Cada guardia decide qué hacer según lo cerca que la vea.\n—Que piensen solos, turno por turno. Quiero ver si me agarran.",
+    "gheco": "Cada guardia calcula la distancia con `std::abs`. El orden de las reglas importa: primero ataca, después persigue, después alerta y si no, patrulla. Para patrullar guardá la dirección y dala vuelta en las puntas.",
+    "exito": "Lima cruza el puente en la segunda prueba. Los guardias de lata se quedan en alerta, mirando el agua.",
+    "imagen": [
+      "Una maqueta de un puente largo de bronce con dos guardias de lata con faroles y una figurita de Lima en una punta.",
+      "Lima mueve su figurita; Bron mueve a los guardias con una pinza."
+    ]
+  },
+  "R05-N04-M2": {
+    "lugar": "La mesa del juego desarmado",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn diseña la mochila del explorador: cuatro lugares, pociones que se apilan, armas que se equipan.\n—Si cambio de arma, la vieja vuelve a la mochila. Nada se pierde.",
+    "gheco": "Un vector de `Item` con nombre, tipo y cantidad. `juntar` apila si ya hay una poción igual. `sacar` devuelve `std::optional<Item>` y resta uno de la pila. Al equipar, si había un arma equipada, volvela a juntar.",
+    "exito": "La mochila nunca pierde nada y las pociones se apilan prolijas. Lyn se la cuelga al hombro.",
+    "imagen": [
+      "Una mochila de explorador abierta con cuatro compartimentos: pociones rojas apiladas, una llave de bronce y una espada.",
+      "Lyn se prueba la espada; Bron acomoda las pociones."
+    ]
+  },
+  "R05-N04-M3": {
+    "lugar": "La Arena de la Ciudadela",
+    "personajes": "Bron, Gheco, Lima, Lyn, Oto",
+    "escena": "Para probar el combate del juego, los cuatro arman un torneo de mentira en la Arena: Lima, Bron, Lyn y Oto.\n—Con la misma semilla, el torneo sale igual —dice Lima—. Así nadie puede decir que hubo trampa.",
+    "gheco": "Un `std::mt19937 gen(semilla)` para todo el torneo y una `uniform_int_distribution<int>(-2, 2)` para la variación. `pelear` recibe copias de los luchadores, así el ganador vuelve con su vida original a la siguiente ronda. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.",
+    "exito": "El torneo sale igual cada vez que se repite la semilla. El campeón sube a la tribuna y Oto reparte guiso para todos.",
+    "imagen": [
+      "Una arena de bronce con un cuadro de torneo de cuatro nombres colgado en la tribuna.",
+      "Lima, Lyn y Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto) se miran desafiantes; Bron levanta la llave inglesa cian en el centro."
+    ]
+  },
+  "R05-N05-M1": {
+    "lugar": "El Gran Péndulo del Taller",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima dibuja en la pared todas las pantallas del juego: título, menú, jugando, pausa y fin.\n—Cada evento te lleva de una a otra. Y el récord no se pierde aunque vuelvas al menú.",
+    "gheco": "Un `enum class Pantalla` y una función que, según la pantalla actual y el evento, devuelve la nueva. Los puntos, las vidas y el récord viven afuera, en el estado del juego.",
+    "exito": "Las pantallas cambian como tienen que cambiar y el récord queda guardado. Lima lo escribe en la pared con tiza.",
+    "imagen": [
+      "Una pared con cinco pantallas de bronce dibujadas y flechas de tiza entre ellas, al lado de un péndulo gigante.",
+      "Lima dibuja una flecha; Bron aprieta un botón de pausa enorme."
+    ]
+  },
+  "R05-N05-M2": {
+    "lugar": "El Gran Péndulo del Taller",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla quiere que el salto de Lima en el juego parezca de verdad.\n—Cuadro a cuadro: la gravedad frena la subida, y cuando toca el piso, aterriza. Después probá con cuadros más grandes.",
+    "gheco": "En cada cuadro, primero `vy += gravedad * dt` y después `y += vy * dt`. Si `y <= 0`, la dejás en 0 y termina. Guardá la altura máxima a medida que pasa. Mostrá cada 5 cuadros con `cuadro % 5 == 0`.",
+    "exito": "El salto sube y baja suavecito. Tesla lo pone en cámara lenta y lo mira tres veces.",
+    "imagen": [
+      "Una pantalla de bronce con la silueta de Lima saltando en una curva, con marcas de altura cada pocos cuadros.",
+      "Tesla mide la curva con una regla de luz; Bron ajusta una perilla de gravedad."
+    ]
+  },
+  "R05-N05-M3": {
+    "lugar": "El Gran Péndulo del Taller",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima prueba el primer juego de verdad: caen rocas y ella tiene que esquivarlas desde abajo.\n—Escuchar la tecla, mover todo, dibujar. Siempre en ese orden.",
+    "gheco": "`entrada` mueve a Lima sin salirse de la pantalla. `actualizar` baja las rocas, revisa el choque, saca las que salen y cada 2 cuadros agrega una. `dibujar` recibe `const Mundo&`: mira, no toca.",
+    "exito": "Lima esquiva rocas hasta que se cansa. Pide que la próxima versión tenga monedas.",
+    "imagen": [
+      "Una pantalla de bronce con una grilla de 7 columnas, rocas cayendo y una figurita esquivando abajo.",
+      "Lima aprieta las teclas con concentración; Bron cuenta las rocas esquivadas."
+    ]
+  },
+  "R05-N06-M2": {
+    "lugar": "El Laberinto bajo el Taller",
+    "personajes": "Bron, Gheco, Tesla",
+    "criatura": "dragon",
+    "escena": "Antes de bajar al Laberinto, Tesla guarda la partida. El Minotauro tiene la mala costumbre de romper los archivos de los que entran.\n—Si el archivo está roto, que lo diga: qué línea y por qué.",
+    "gheco": "`class ArchivoRoto : public std::runtime_error` guarda la línea y el motivo. `cargar` lee línea por línea y lanza en cuanto algo no cierra. Para la rotura, leé todas las líneas, cambiá la N, reescribí, cargá y después restaurá el original.",
+    "exito": "Cada archivo roto avisa dónde está el problema, y la partida buena carga entera. Bron baja al Laberinto con la partida guardada.",
+    "imagen": [
+      "La entrada oscura de un laberinto de bronce, con una piedra grabada con líneas de una partida guardada y unas astas de minotauro asomando en la sombra.",
+      "Tesla graba la piedra con una herramienta de luz; Bron vigila la entrada con la llave inglesa cian."
+    ]
+  },
+  "R06-N03-M1": {
+    "lugar": "La oficina de patentes",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "En la oficina de patentes, el empleado suma los inventos con los dedos. Tesla quiere ponerle una ventana, pero primero el plano.\n—Antes de la ventana, el modelo tiene que andar solo. Agregá los faroles.",
+    "gheco": "`Farol` hereda de `Invento` y su `valor()` es `precio() + luz_ * 3`. Sumalo a la fábrica `crear`. Para probar el archivo, guardá con un `Registro` y cargá en **otro** vacío.",
+    "exito": "Los inventos se guardan y vuelven del archivo enteros. El empleado de patentes guarda los dedos en el bolsillo.",
+    "imagen": [
+      "Una oficina de patentes con mostrador de bronce, relojes, autómatas y faroles con etiquetas de precio, y un fichero de archivos.",
+      "Tesla agrega un farol al mostrador; Bron anota el valor; detrás, un empleado cuenta con los dedos."
+    ],
+    "inicial": "#include <algorithm>\n#include <fstream>\n#include <iostream>\n#include <memory>\n#include <sstream>\n#include <string>\n#include <vector>\n\nclass Invento {\npublic:\n    Invento(std::string nombre, int precio) : nombre_(std::move(nombre)), precio_(precio) {}\n    virtual ~Invento() = default;\n    const std::string& nombre() const { return nombre_; }\n    int precio() const { return precio_; }\n    virtual std::string tipo() const = 0;\n    virtual int extra() const = 0;\n    virtual int valor() const = 0;\n\nprivate:\n    std::string nombre_;\n    int precio_;\n};\n\nclass Reloj : public Invento {\npublic:\n    Reloj(std::string nombre, int precio, int horas) : Invento(std::move(nombre), precio), horas_(horas) {}\n    std::string tipo() const override { return \"reloj\"; }\n    int extra() const override { return horas_; }\n    int valor() const override { return precio() + horas_ * 2; }\n\nprivate:\n    int horas_;\n};\n\nclass Automata : public Invento {\npublic:\n    Automata(std::string nombre, int precio, int pasos) : Invento(std::move(nombre), precio), pasos_(pasos) {}\n    std::string tipo() const override { return \"automata\"; }\n    int extra() const override { return pasos_; }\n    int valor() const override { return precio() * 2 + pasos_; }\n\nprivate:\n    int pasos_;\n};\n\nstd::unique_ptr<Invento> crear(const std::string& tipo, const std::string& nombre, int precio, int extra)\n{\n    if (tipo == \"reloj\") {\n        return std::make_unique<Reloj>(nombre, precio, extra);\n    }\n    if (tipo == \"automata\") {\n        return std::make_unique<Automata>(nombre, precio, extra);\n    }\n    return nullptr;\n}\n\nclass Registro {\npublic:\n    void agregar(std::unique_ptr<Invento> i) { inventos_.push_back(std::move(i)); }\n    const std::vector<std::unique_ptr<Invento>>& todos() const { return inventos_; }\n\n    int total() const\n    {\n        int t = 0;\n        for (const auto& i : inventos_) {\n            t += i->valor();\n        }\n        return t;\n    }\n\n    void ordenar()\n    {\n        std::sort(inventos_.begin(), inventos_.end(), [](const auto& a, const auto& b) {\n            if (a->valor() != b->valor()) {\n                return a->valor() > b->valor();\n            }\n            return a->nombre() < b->nombre();\n        });\n    }\n\n    bool guardar(const std::string& ruta) const\n    {\n        std::ofstream f(ruta);\n        if (!f) {\n            return false;\n        }\n        for (const auto& i : inventos_) {\n            f << i->tipo() << ';' << i->nombre() << ';' << i->precio() << ';' << i->extra() << '\\n';\n        }\n        return true;\n    }\n\n    bool cargar(const std::string& ruta)\n    {\n        std::ifstream f(ruta);\n        if (!f) {\n            return false;\n        }\n        inventos_.clear();\n        std::string linea;\n        while (std::getline(f, linea)) {\n            std::istringstream campos(linea);\n            std::string tipo, nombre, precio, extra;\n            std::getline(campos, tipo, ';');\n            std::getline(campos, nombre, ';');\n            std::getline(campos, precio, ';');\n            std::getline(campos, extra);\n            if (auto i = crear(tipo, nombre, std::stoi(precio), std::stoi(extra))) {\n                agregar(std::move(i));\n            }\n        }\n        return true;\n    }\n\nprivate:\n    std::vector<std::unique_ptr<Invento>> inventos_;\n};\n\nint main()\n{\n    // Escribí tu programa acá\n    return 0;\n}"
+  },
+  "R06-N05-M1": {
+    "lugar": "La Torre de los Vitrales",
+    "personajes": "Bron, Gheco, la Maestra Artífice",
+    "criatura": "dragon",
+    "escena": "La Gárgola de los Vitrales toma el examen de TallerExpress. Antes de la ventana, la Maestra Artífice pide el modelo en consola.\n—Altas, bajas, listado, guardar y cargar. ¿Y la prueba? Que ande todo antes de dibujar un solo botón.",
+    "gheco": "`Maquina` abstracta con `costo()` virtual puro y un `operator<<` amigo que llama a una función virtual. El `Taller` guarda `std::unique_ptr<Maquina>`, no deja códigos repetidos y ordena con una lambda. Guardar y cargar con `;`, el tipo primero.",
+    "exito": "Todas las órdenes responden lo que tienen que responder. La Gárgola baja la cabeza de piedra y deja pasar a Bron al último vitral.",
+    "imagen": [
+      "El interior de la Torre de los Vitrales, con una gárgola de piedra enorme en lo alto y vitrales de colores con máquinas dibujadas.",
+      "La Maestra Artífice sostiene la tableta con la lista de órdenes; Bron escribe en una consola de bronce."
+    ]
+  }
+}

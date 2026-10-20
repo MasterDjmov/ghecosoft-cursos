@@ -1,0 +1,328 @@
+{
+  "R00-N01-M1": {
+    "lugar": "El portón de engranajes",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima llega al portón con una chapa en blanco.\n—Acá todo el que entra deja su ficha colgada. La mía la hacés vos, que yo tengo las manos ocupadas.",
+    "gheco": "Cada línea es un `std::cout << ... << '\\n';`. El `\\t` deja el valor en la siguiente columna, así quedan alineados.",
+    "exito": "La ficha de Lima queda colgada en el portón, derechita. Ella la mira de reojo y no dice nada, pero sonríe.",
+    "imagen": [
+      "Un portón gigante de engranajes de bronce con fichas metálicas colgadas, y torres altísimas detrás.",
+      "Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) cuelga la ficha; Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro) la sostiene."
+    ]
+  },
+  "R00-N01-M2": {
+    "lugar": "El portón de engranajes",
+    "personajes": "Bron, Gheco, Tesla",
+    "criatura": "slime",
+    "escena": "Tesla le pasa a Bron un plano arrugado con tres errores.\n—El compilador te dice dónde está cada uno. Leelo de a uno. No arregles todo junto, que después no sabés qué pasó.",
+    "gheco": "Falta `#include <iostream>`, falta un `;` al final de una línea, y `cout` sin `std::` no existe. Compilá después de cada arreglo.",
+    "exito": "El plano compila limpio. Tesla lo enrolla y se lo guarda en el bolsillo del traje.",
+    "imagen": [
+      "Un plano de papel arrugado con tres manchas de tinta, sobre una mesa de trabajo junto al portón, y un slime verde escurriéndose del borde.",
+      "Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) señala el plano; Bron se rasca la cabeza."
+    ],
+    "inicial": "int main() {\n    std::cout << \"Lima llega a la Ciudadela.\\n\"\n    cout << \"Tesla la espera en la torre.\\n\";\n    return 0;\n}"
+  },
+  "R00-N01-M3": {
+    "lugar": "El portón de engranajes",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla quiere ver si Bron entiende cómo es un engranaje por dentro.\n—Dibujámelo. Con caracteres. Y abajo, la frase que dice siempre Lima.",
+    "gheco": "La barra invertida se escribe `\\\\` y las comillas `\\\"`. Si no, C++ cree que el texto termina antes.",
+    "exito": "El engranaje queda dibujado en la pared del portón. Tesla le marca un diente torcido, pero lo deja pasar.",
+    "imagen": [
+      "Una pared de bronce con un engranaje grande dibujado con tiza blanca.",
+      "Bron dibuja con tiza; Tesla lo mira con los brazos cruzados."
+    ]
+  },
+  "R01-N01-M1": {
+    "lugar": "La plaza de las torres",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima tiene que embaldosar la base de una torre nueva y le pide a Bron las cuentas: el área, el perímetro y cuántas baldosas hacen falta.\n—Las medidas no cambian. Que queden fijas.",
+    "gheco": "Las medidas van en `const double`. El área es largo × ancho y el perímetro 2 × (largo + ancho). Las baldosas: área dividida por el área de una baldosa (0.5 × 0.5).",
+    "exito": "Lima encarga las baldosas justas, ni una de más. La torre nueva queda con el piso perfecto.",
+    "imagen": [
+      "La base de una torre en construcción con baldosas de piedra apiladas al costado.",
+      "Lima mide con una cinta métrica; Bron carga una pila de baldosas."
+    ]
+  },
+  "R01-N01-M2": {
+    "lugar": "El almacén de piezas",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Hay mil engranajes para repartir entre siete artífices. Lima quiere el reparto justo y la prueba de que no se perdió ninguno.\n—Que lo que sobra, sobre a la vista.",
+    "gheco": "Entre enteros, `1000 / 7` da cuántos le tocan y `1000 % 7` lo que sobra. Para el promedio exacto, convertí a `double` antes de dividir. La comprobación: `a_cada_uno * artifices + sobran`.",
+    "exito": "Siete pilas iguales y una chiquita aparte. Lima cuenta la chiquita y asiente.",
+    "imagen": [
+      "Siete pilas iguales de engranajes de bronce sobre una mesa larga y una pila chiquita aparte.",
+      "Lima reparte engranajes; Bron anota en un cuaderno."
+    ]
+  },
+  "R01-N01-M3": {
+    "lugar": "La torre del reloj",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El reloj de la torre cuenta segundos desde la medianoche y nadie sabe leerlo. Tesla le muestra el número a Bron: 45296.\n—¿Qué hora es?",
+    "gheco": "`45296 / 3600` son las horas y `45296 % 3600` lo que sobra. De lo que sobra salen los minutos (`/ 60`) y los segundos (`% 60`).",
+    "exito": "Son las doce, cuatro minutos y cincuenta y seis segundos. Tesla ajusta las agujas y la torre suena.",
+    "imagen": [
+      "La esfera enorme de un reloj de torre vista desde adentro, con engranajes gigantes girando.",
+      "Tesla ajusta una aguja con una llave; Bron lee un número en una cinta de papel."
+    ]
+  },
+  "R01-N02-M1": {
+    "lugar": "La ventanilla de pedidos",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "En la puerta de la Ciudadela, el guardia anota solo la primera palabra del nombre. Lyn llega corriendo:\n—¡Me anotó «Lyn» y nada más! Hacé un registro que escuche la frase entera.",
+    "gheco": "`std::getline(std::cin, nombre)` lee la línea completa, con espacios. `nombre.size()` da la cantidad de caracteres y `nombre[0]` la inicial.",
+    "exito": "El registro anota el nombre completo de Lyn. Ella lo lee dos veces y sale corriendo, conforme.",
+    "imagen": [
+      "Una ventanilla de bronce con un libro de registro enorme abierto.",
+      "Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) se apoya en la ventanilla; Bron escribe en el libro."
+    ]
+  },
+  "R01-N02-M2": {
+    "lugar": "La ventanilla de pedidos",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto compra ingredientes en el mercado y quiere la cuenta con los centavos bien puestos.\n—Y si alguien me dice un precio con letras, que no me cobre cualquier cosa.",
+    "gheco": "Después de `std::cin >> precio`, si `!std::cin` el dato no era un número: avisá y `return 1`. `std::fixed << std::setprecision(2)` muestra siempre dos decimales.",
+    "exito": "La cuenta sale con los centavos justos. Oto paga y se lleva una bolsa de cebollas.",
+    "imagen": [
+      "Una balanza de mercado de bronce con una bolsa de cebollas en un platillo.",
+      "Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) mira la cuenta; Bron pesa."
+    ]
+  },
+  "R01-N02-M3": {
+    "lugar": "El almacén de piezas",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima trae la lista de materiales escrita de corrido, en una sola línea.\n—Pasala a una tabla. Los nombres a la izquierda, los números a la derecha, y el total abajo.",
+    "gheco": "`std::cin >> nombre >> cantidad` tres veces. `std::left << std::setw(12)` para el nombre y `std::right << std::setw(8)` para la cantidad.",
+    "exito": "La tabla queda alineada al milímetro. Lima la pega en la puerta del almacén.",
+    "imagen": [
+      "Una puerta de almacén con una tabla de materiales prolija pegada, y lingotes de hierro, cobre y zinc apilados.",
+      "Lima pega la tabla; Bron acomoda los lingotes."
+    ]
+  },
+  "R01-N03-M1": {
+    "lugar": "La torre del reloj",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "La puerta de la torre solo se abre con nivel 5 o más y con llave. Tesla quiere que diga exactamente qué te falta.\n—No me sirve un «no». Quiero saber por qué.",
+    "gheco": "Leé el nivel y la llave (`si`/`no`). Con `if` / `else if` cubrí los cuatro casos: todo bien, falta la llave, falta el nivel, falta todo.",
+    "exito": "Bron prueba los cuatro casos y la puerta contesta distinto en cada uno. Tesla la deja así.",
+    "imagen": [
+      "Una puerta redonda de bronce en la base de una torre, con una cerradura y un medidor de nivel.",
+      "Bron sostiene una llave; Tesla ajusta el medidor."
+    ]
+  },
+  "R01-N03-M2": {
+    "lugar": "El banco de herramientas de Lima",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima quiere una calculadora para el taller: le escribís la cuenta y te la resuelve.\n—Y si alguien divide por cero, que no se rompa nada.",
+    "gheco": "`std::cin >> a >> op >> b`. Un `switch (op)` con un `case` por operación; `case '*': case 'x':` comparten la cuenta. Antes de dividir, fijate que `b` no sea 0.",
+    "exito": "La calculadora queda en el banco de Lima. Ella la usa enseguida para las cuentas de un reloj nuevo.",
+    "imagen": [
+      "Un banco de relojero con lupas, piezas diminutas y una calculadora mecánica de bronce.",
+      "Lima escribe una cuenta en la calculadora; Bron mira por encima de su hombro."
+    ]
+  },
+  "R01-N03-M3": {
+    "lugar": "La torre del reloj",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El calendario de la torre no sabe cuándo febrero tiene 29 días. Tesla le dicta la regla a Bron.\n—Divisible por 4 y no por 100, o divisible por 400.",
+    "gheco": "`bool bisiesto = (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;`. Los dos mensajes salen con el ternario `bisiesto ? ... : ...`.",
+    "exito": "El calendario marca bien el 2000 y el 1900. Tesla le da cuerda y lo cuelga.",
+    "imagen": [
+      "Un calendario mecánico de bronce con hojas que giran, colgado en la pared de la torre.",
+      "Tesla lo cuelga; Bron revisa la hoja de febrero."
+    ]
+  },
+  "R01-N04-M1": {
+    "lugar": "La sala de calderas",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El sensor de la caldera manda lecturas sin parar hasta que se apaga con un cero. Tesla quiere el resumen.\n—Cuántas, la suma, el promedio, la más alta y la más baja.",
+    "gheco": "Un bucle que lee mientras la lectura no sea 0. Llevá la cantidad, la suma, el máximo y el mínimo. Si no hubo ninguna, mostrá el mensaje especial. El promedio, con `double`.",
+    "exito": "El resumen sale en un papel por la ranura de la caldera. Tesla lo lee y baja un poco la presión.",
+    "imagen": [
+      "Una caldera de cobre con un manómetro grande y una cinta de papel saliendo de una ranura.",
+      "Tesla lee la cinta; Bron mueve una válvula."
+    ]
+  },
+  "R01-N04-M2": {
+    "lugar": "El almacén de piezas",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima apila engranajes en forma de pirámide para la vidriera: uno arriba, tres abajo, cinco más abajo.\n—Decime cuántos voy a necesitar.",
+    "gheco": "Un `for` por piso y adentro dos más: uno para los espacios (`pisos - piso`) y otro para los engranajes (`2 * piso - 1`). El total es `pisos * pisos`.",
+    "exito": "La pirámide queda perfecta en la vidriera. Lima no tiene que ir a buscar ni un engranaje más.",
+    "imagen": [
+      "Una pirámide de engranajes de bronce en una vidriera, con el piso de abajo más ancho.",
+      "Lima acomoda el engranaje de arriba; Bron le alcanza otro."
+    ]
+  },
+  "R01-N04-M3": {
+    "lugar": "La rueda de feria de la plaza",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "En la plaza hay un adivino mecánico que piensa un número. Lyn ya lo probó y perdió.\n—Cinco intentos. Si te dice más alto o más bajo, hacele caso.",
+    "gheco": "Un `for` de hasta 5 intentos con `break` si acertás. Llevá un `bool` para saber, al final, si acertaste o se acabaron los intentos.",
+    "exito": "Bron acierta en el cuarto intento. Lyn le pide la revancha.",
+    "imagen": [
+      "Un muñeco adivino de bronce con turbante dentro de una cabina de feria, con un cartel de números.",
+      "Lyn señala un número; Bron piensa con la mano en la barbilla."
+    ]
+  },
+  "R01-N05-M1": {
+    "lugar": "La ventanilla de pedidos",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn trae pedidos de otros reinos con medidas raras: pies, libras, grados Fahrenheit.\n—Necesito un conversor. Rápido, que me esperan.",
+    "gheco": "Escribí los prototipos arriba de `main` y las funciones abajo. Celsius a Fahrenheit es `c * 9 / 5 + 32` (con `double`).",
+    "exito": "Lyn se lleva el conversor en el bolsillo y sale corriendo con los pedidos traducidos.",
+    "imagen": [
+      "Un mostrador con una regla, una balanza y un termómetro de bronce, y un papel con medidas.",
+      "Lyn guarda un papel en la bolsa; Bron le muestra el conversor."
+    ]
+  },
+  "R01-N05-M2": {
+    "lugar": "El banco de herramientas de Lima",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima quiere una sola herramienta para encontrar el más grande, sea de dos o de tres números, enteros o con decimales.\n—Con el mismo nombre. Y que la de tres use la de dos.",
+    "gheco": "Tres funciones `maximo` con distintos parámetros (sobrecarga). La de tres es `maximo(maximo(a, b), c)`.",
+    "exito": "Las tres versiones responden con el mismo nombre. Lima las cuelga juntas en el banco.",
+    "imagen": [
+      "Un tablero de herramientas con tres llaves del mismo modelo y distinto tamaño.",
+      "Lima elige una llave; Bron prueba otra."
+    ]
+  },
+  "R01-N05-M3": {
+    "lugar": "La torre del reloj",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla quiere ver cuánto falta para cada tarea en una barra que se llena. Y que funcione sin decirle todo cada vez.\n—Si no le digo el ancho, que use veinte.",
+    "gheco": "Los valores por defecto van en la declaración: `int maximo = 100, int ancho = 20, char relleno = '#'`. Recortá el valor entre 0 y el máximo antes de calcular `valor * ancho / maximo`.",
+    "exito": "Las barras se llenan en la pared de la torre. Tesla mira la que está a la mitad y se pone a trabajar.",
+    "imagen": [
+      "Una pared con barras de progreso de bronce, algunas llenas y otras a la mitad.",
+      "Tesla señala una barra; Bron llena otra con una manivela."
+    ]
+  },
+  "R01-N06-M1": {
+    "lugar": "La Arena bajo la Ciudadela",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto cuida la vida de los luchadores de la Arena con su cucharón: les da guiso cuando están heridos.\n—Pero no más que el máximo, que después no pueden moverse.",
+    "gheco": "Recibí la vida por referencia (`int& vida`) para cambiar la original. `recibir_dano` no deja que baje de 0 y `curar` no deja que pase el máximo.",
+    "exito": "Ningún luchador sale de la Arena con menos de 0 ni con más de 100. Oto sirve guiso para todos.",
+    "imagen": [
+      "Una arena subterránea con tribunas de piedra y una olla grande humeante al costado.",
+      "Oto sirve guiso con un cucharón de bronce; Bron se cura un raspón."
+    ]
+  },
+  "R01-N06-M2": {
+    "lugar": "El depósito de la Ciudadela",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima tiene tres cajas de piezas desordenadas en el estante.\n—Ordenalas de menor a mayor. Pero las de verdad, no una copia.",
+    "gheco": "`intercambiar(int& a, int& b)` usa una auxiliar. `ordenar3` compara de a dos y llama a `intercambiar` cuando están al revés: a con b, b con c y otra vez a con b.",
+    "exito": "Las tres cajas quedan ordenadas en el estante, las mismas que estaban. Lima las etiqueta.",
+    "imagen": [
+      "Un estante con tres cajas de distinto tamaño, de la más chica a la más grande.",
+      "Lima etiqueta una caja; Bron mueve otra."
+    ]
+  },
+  "R01-N06-M3": {
+    "lugar": "El depósito de la Ciudadela",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla quiere una herramienta que reparta piezas y diga cuántas sobran, todo de una vez.\n—Y si alguien quiere repartir entre cero, que diga que no puede.",
+    "gheco": "Devolvé `bool` para avisar si se pudo, y llená `cociente` y `resto` por referencia. Si `b == 0`, devolvé `false` sin tocar nada.",
+    "exito": "La herramienta reparte 47 piezas entre 5 y dice que sobran 2. Con cero, se niega con educación.",
+    "imagen": [
+      "Cinco cajas con nueve piezas cada una y dos piezas sueltas al lado.",
+      "Tesla anota el resultado; Bron cuenta las piezas sueltas."
+    ]
+  },
+  "R01-N07-M1": {
+    "lugar": "El banco de herramientas de Lima",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima corrige los exámenes de los aprendices de relojería. Algunos le escribieron notas imposibles.\n—Guardá solo las válidas y decime el promedio, los aprobados y la del medio.",
+    "gheco": "`while (std::cin >> nota)` lee hasta el final. Guardá en un `std::vector<int>` solo las de 1 a 10. `std::sort` las ordena y la mediana está en `notas[notas.size() / 2]`.",
+    "exito": "Lima anota los resultados en el pizarrón. La mediana le da justo un 7 y se pone contenta.",
+    "imagen": [
+      "Un pizarrón con notas escritas en tiza y una pila de exámenes corregidos.",
+      "Lima escribe en el pizarrón; Bron ordena los exámenes."
+    ]
+  },
+  "R01-N07-M2": {
+    "lugar": "El banco de herramientas de Lima",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla arma el plano del taller nuevo: una grilla con lugares para cada pieza.\n—Si una pieza cae afuera o encima de otra, avisá. No la pongas igual.",
+    "gheco": "`std::vector<std::vector<char>> plano(filas, std::vector<char>(columnas, '.'))`. Antes de colocar, fijate que la fila y la columna estén adentro y que la casilla sea `.`. El dibujo, con una función que recibe `const&`.",
+    "exito": "El plano queda dibujado con cada pieza en su lugar. Tesla lo cuelga en la puerta del taller.",
+    "imagen": [
+      "Un plano cuadriculado en una mesa, con letras de piezas en algunas casillas.",
+      "Tesla coloca una pieza con una pinza; Bron sostiene el plano."
+    ]
+  },
+  "R01-N07-M3": {
+    "lugar": "La ventanilla de pedidos",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "En la ventanilla de pedidos hay una fila, y Tesla se cuela. Lyn está dos veces porque fue y volvió.\n—Ordená la fila. Y que cada uno esté una sola vez.",
+    "gheco": "`fila.insert(fila.begin() + 1, \"Tesla\")` cuela en la segunda posición. `fila.erase(fila.begin())` saca al primero. Para quitar repetidos, armá otro vector y usá `std::find` antes de agregar.",
+    "exito": "La fila queda sin repetidos. Lyn reclama que ella estaba dos veces porque se lo merecía.",
+    "imagen": [
+      "Una fila de personas frente a una ventanilla de bronce, con un cartel de turnos.",
+      "Lyn se queja con los brazos abiertos; Bron ordena la fila."
+    ]
+  },
+  "R01-N08-M1": {
+    "lugar": "La rueda de feria de la plaza",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "En la feria hay una mesa de dados. Lyn quiere saber qué suma sale más seguido, así que tira dos dados mil doscientas veces.\n—Bueno, lo tirás vos.",
+    "gheco": "`std::mt19937 gen(semilla)` y una distribución de 1 a 6 por dado. Contá cada suma en `veces(13, 0)` y dibujá una `*` cada 10. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.",
+    "exito": "El histograma tiene forma de montaña, con el 7 arriba de todo. Lyn apuesta al siete y gana un premio chiquito.",
+    "imagen": [
+      "Una mesa de feria con dos dados grandes y un tablero de barras de luces con forma de montaña.",
+      "Lyn tira los dados; Bron cuenta en una libreta."
+    ],
+    "salida_navegador": true
+  },
+  "R01-N08-M2": {
+    "lugar": "La plaza de las torres",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima tiene que llevar piezas a varias torres y quiere saber cuál queda más cerca del taller.\n—En línea recta. Las alturas me dan igual.",
+    "gheco": "`std::hypot(x2 - x1, y2 - y1)` da la distancia en línea recta. Recorré las torres, mostrá cada distancia con 2 decimales y guardá la más cercana.",
+    "exito": "Lima arranca por la torre más cercana y termina el reparto antes del almuerzo.",
+    "imagen": [
+      "Un mapa de la plaza con torres marcadas y líneas rectas desde un taller.",
+      "Lima traza una línea con una regla; Bron lleva una caja de piezas."
+    ]
+  },
+  "R01-N08-M3": {
+    "lugar": "El depósito de la Ciudadela",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "En el sótano del depósito hay cofres viejos con piezas comunes, raras y épicas. Tesla quiere abrir diez y contarlas.\n—Con semilla, así podemos repetir la abierta.",
+    "gheco": "`abrir_cofre` recibe el generador por referencia (`std::mt19937&`) para que no se copie. Hasta 60 es común, hasta 90 raro y más, épico. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.",
+    "exito": "Sale un cofre épico. Tesla saca de adentro un engranaje que brilla en cian y se lo regala a Bron.",
+    "imagen": [
+      "Diez cofres de bronce abiertos en un sótano, uno con un brillo cian que sale de adentro.",
+      "Tesla abre un cofre; Bron mira el brillo con la boca abierta."
+    ],
+    "salida_navegador": true
+  },
+  "R01-N09-M1": {
+    "lugar": "El patio de pruebas",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "dragon",
+    "escena": "Antes de dejar pasar a Bron, el Autómata de Latón acepta un duelo de práctica con Lima. Ella se arremanga.\n—Atacar, cargar o cubrirse. Elijo yo, turno por turno.",
+    "gheco": "Una semilla, después las opciones de Lima. Los golpes salen de `std::uniform_int_distribution<int>(6, 12)`. Mostrá las barras con `vida * 10 / maximo` casillas llenas. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.",
+    "exito": "Lima termina el duelo con la lima en alto. El Autómata la saluda con una inclinación de placas.",
+    "imagen": [
+      "Un autómata de tres metros de placas de latón remachadas, con un corazón de vapor visible por una ventanita del pecho y ojos cian, en un patio de pruebas.",
+      "Lima, chiquita, lo enfrenta con una lima en la mano; Bron mira desde la cerca."
+    ],
+    "salida_navegador": true
+  },
+  "R01-N09-M2": {
+    "lugar": "El patio de pruebas",
+    "personajes": "Bron, Gheco, Tesla",
+    "criatura": "dragon",
+    "escena": "Tesla le muestra a Bron las siete placas de blindaje del Autómata.\n—Cada golpe le hace daño a su placa y la mitad a las vecinas. Contame cuáles se rompen.",
+    "gheco": "Un `std::vector<int>` con las siete placas. Si la posición está fuera, es un golpe al aire. Restá la fuerza a la placa y la mitad a las vecinas que existan y no estén rotas, sin bajar de 0.",
+    "exito": "La última placa cae y el Autómata se sienta en el patio, con el vapor saliendo despacio. Tesla le da una palmada.",
+    "imagen": [
+      "Las piernas del autómata de latón con placas abolladas y algunas caídas en el piso.",
+      "Tesla señala una placa; Bron golpea otra con la llave inglesa cian."
+    ]
+  }
+}

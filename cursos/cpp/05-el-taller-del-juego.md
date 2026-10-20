@@ -526,37 +526,53 @@ La red ataja a Bron. Tesla le da un amuleto con forma de red: **el Amuleto del C
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cuelga de la red, aliviado.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) le muestra un amuleto con forma de red.
 
-### Misión R05-N01-M1 · Leer números de verdad
+### Micro-misión R05-N01-P4 · Leer números de verdad
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Taller del Juego
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R05-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Lima arma el tablero de puntajes del juego nuevo y los jugadores escriben cualquier cosa: «12abc», «hola», números gigantes.
+—Que no se caiga. Que diga qué pasó con cada uno y siga.
 
+#### Gheco sugiere
+`std::stoi(texto, &usados)` te dice cuántos caracteres usó. Si `usados < texto.size()`, lanzá `std::invalid_argument` con el sobrante. Atrapá `std::invalid_argument` y `std::out_of_range` por separado para dar el mensaje justo. El texto de `what()` que pone `stoi` cambia según el compilador: atrapalo en `a_entero` y relanzá con tu mensaje.
+
+#### Desafío
 Escribí `int a_entero(const std::string&)` con `std::stoi` y su segundo parámetro
 (la cantidad de caracteres usados): si sobran caracteres, lanzá
 `std::invalid_argument` con el sobrante. Leé palabras hasta el final y sumá los
 números; para cada error, mostrá si "no es un número", "no entra en un int" o qué
 sobra.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Atrapa `out_of_range` e `invalid_argument` por separado.
 - Detecta los sobrantes y lanza con un mensaje claro.
 - Un error no corta la suma.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 10 -3 12abc hola 99999999999 7
 ```
 
 #### Salida esperada
-
 ```
 12abc: sobran caracteres: "abc"
 hola: no es un número
@@ -564,8 +580,7 @@ hola: no es un número
 Suma: 14 (3 errores)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Leer numeros de verdad: stoi con try/catch y el texto sobrante.
 #include <iostream>
@@ -575,7 +590,12 @@ Suma: 14 (3 errores)
 int a_entero(const std::string& s)
 {
     std::size_t usados = 0;
-    int n = std::stoi(s, &usados);            // puede lanzar invalid_argument u out_of_range
+    int n = 0;
+    try {
+        n = std::stoi(s, &usados);            // puede lanzar invalid_argument u out_of_range
+    } catch (const std::invalid_argument&) {
+        throw std::invalid_argument("no es un número");   // el what() de stoi cambia según el compilador
+    }
     if (usados != s.size()) {
         throw std::invalid_argument("sobran caracteres: \"" + s.substr(usados) + "\"");
     }
@@ -593,7 +613,7 @@ int main()
             std::cout << palabra << ": no entra en un int\n";
             errores++;
         } catch (const std::invalid_argument& e) {
-            std::cout << palabra << ": " << (std::string(e.what()) == "stoi" ? "no es un número" : e.what()) << "\n";
+            std::cout << palabra << ": " << e.what() << "\n";
             errores++;
         }
     }
@@ -602,59 +622,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El tablero suma lo que tiene que sumar y explica cada error. Lima escribe «12abc» a propósito, para verlo.
 
-##### Sin errores
-```entrada
-1 2 3
-```
-```salida
-Suma: 6 (0 errores)
-```
+#### Imagen
+- Un tablero de puntajes de bronce en el Taller del Juego, con números que entran por una ranura y algunos rebotan con un cartel de error.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) mete un papel en la ranura; Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro) mira el tablero.
 
-##### Todo errores
-```entrada
-abc 12.5 +
-```
-```salida
-abc: no es un número
-12.5: sobran caracteres: ".5"
-+: no es un número
-Suma: 0 (3 errores)
-```
-
-##### Límite del int
-```entrada
-2147483647 -2147483648
-```
-```salida
-Suma: -1 (0 errores)
-```
-
-### Misión R05-N01-M2 · El depósito que valida
+### Micro-misión R05-N01-P5 · El depósito que valida
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito del Taller del Juego
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R05-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Oto saca piezas del depósito para un juego de cocina y pide cualquier cosa: cero engranajes, tornillos que no hay, más resortes de los que quedan.
+—Si no se puede, que me lo diga claro. Y si no hay, cuánto hay.
 
+#### Gheco sugiere
+`class SinStock : public std::runtime_error` guarda lo pedido y lo que hay. Lanzá la excepción justa en cada caso y, en `main`, atrapá **primero** `SinStock` y después `const std::exception&`.
+
+#### Desafío
 Escribí `class SinStock` (hereda de `std::runtime_error` y guarda lo pedido y lo que
 hay) y `class Deposito` cuyo `sacar(producto, n)` lanza `std::invalid_argument` si
 `n` no es positivo, `std::out_of_range` si el producto no existe, y `SinStock` si no
 alcanza. Cargá 10 engranajes y 4 resortes; cada línea de la entrada es `producto
 cantidad`. Atrapá `SinStock` (mostrando sus datos) y después `std::exception`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los `catch` van del más específico al más general.
 - La excepción propia lleva los datos del error.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <stdexcept>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 engranaje 3
 resorte 6
@@ -665,7 +681,6 @@ engranaje 7
 ```
 
 #### Salida esperada
-
 ```
 Salen 3 engranaje (quedan 7)
 no alcanza el stock de resorte: pidieron 6, hay 4
@@ -675,8 +690,7 @@ Salen 4 resorte (quedan 0)
 Salen 7 engranaje (quedan 0)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El deposito que valida: excepciones propias con datos del error.
 #include <iostream>
@@ -746,50 +760,54 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El depósito nunca queda en negativo y Oto entiende cada negativa. Se lleva los engranajes que había.
 
-##### Pedir justo lo que hay
-```entrada
-resorte 4
-resorte 1
-```
-```salida
-Salen 4 resorte (quedan 0)
-no alcanza el stock de resorte: pidieron 1, hay 0
-```
+#### Imagen
+- Un depósito de bronce con cajones rotulados «engranajes» y «resortes», uno casi vacío, y un cartel rojo que dice «Sin stock».
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) pide con el cucharón; Bron revisa los cajones.
 
-##### Cero
-```entrada
-engranaje 0
-```
-```salida
-Error: la cantidad tiene que ser positiva
-```
-
-### Misión R05-N01-M3 · ¿Dónde se atrapa?
+### Micro-misión R05-N01-P6 · ¿Dónde se atrapa?
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los andamios del Taller del Juego
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R05-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Tesla arma una cadena de andamios: tres pisos, uno arriba del otro. Abajo de todo, la red.
+—Si algo se cae en el piso de arriba, ¿quién baja primero y dónde lo atajan? Anotalo antes.
 
+#### Gheco sugiere
+Cuando `dividir` lanza, la excepción sube por `promedio` e `informe` hasta el `catch` de `main`. En el camino, cada `Registro` se destruye y avisa la salida, del más nuevo al más viejo.
+
+#### Desafío
 Armá una cadena de tres funciones: `informe` llama a `promedio`, que llama a
 `dividir`, que lanza `std::domain_error` si divide por cero. Cada función crea un
 objeto `Registro` que avisa al entrar y al salir. `main` llama a `informe` con
 `{4, 8, 6}` y con un vector vacío, y atrapa el error. **Antes de ejecutar**,
 anotá qué líneas esperás ver en el segundo caso y en qué orden.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Solo `main` tiene `try`/`catch`.
-- La salida muestra que los objetos se destruyen aunque haya excepción.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
 
 #### Salida esperada
-
 ```
 Con 3 datos:
   entra a informe
@@ -810,8 +828,7 @@ Con 0 datos:
   main atrapa: división por cero
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Donde se atrapa: una excepcion que atraviesa varias funciones.
 #include <iostream>
@@ -865,6 +882,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Bron acierta el orden de las salidas. La red ataja la caída y Tesla le tira el Amuleto del Catch.
+
+#### Imagen
+- Tres pisos de andamio de bronce, uno arriba del otro, con una red cian tendida abajo de todo.
+- Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) señala el piso de arriba; Bron sostiene el amuleto.
 
 ### Encargo R05-N01-E1 · Importar socios
 
@@ -1466,17 +1490,24 @@ Cuarenta y nueve. Tesla le recomienda compilar con `-Wshadow`: el Taller avisa e
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) levanta la caja de arriba.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se tapa la cara.
 
-### Misión R05-N02-M1 · La lista de compras rota
+### Micro-misión R05-N02-P4 · La lista de compras rota
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Taller del Juego
+personajes: Bron, Gheco, Oto
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R05-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Oto hizo un programa para las compras del comedor y le dice que hay cuatro ítems, aunque uno no tiene stock. El total cambia cada vez. Un ogro se esconde en el código.
+—Tres errores —dice Oto—. Lo dice el ogro, no yo.
 
+#### Gheco sugiere
+Compilá con advertencias: `t` arranca sin valor. Mirá el `<=` del `for`: lee uno de más. Y `quitar_sin_stock` recibe el vector por valor, así que quita de una copia. Dejá un comentario sobre cada arreglo.
+
+#### Desafío
 Este programa tiene **tres** bugs. Encontralos con las advertencias, el sanitizador
 o el depurador, arreglalos y dejá un comentario sobre cada uno:
 ```cpp
@@ -1501,14 +1532,61 @@ void quitar_sin_stock(std::vector<Item> items)
 El `main` lee ítems (`nombre cantidad precio`), quita los que no tienen stock y
 muestra cuántos quedan, el total y el más caro.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Corrige los tres bugs (sin inicializar, uno de más, parámetro por valor).
 - Deja un comentario explicando cada uno.
 - Compila sin advertencias y sin errores del sanitizador.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+struct Item {
+    std::string nombre;
+    int cantidad = 0;
+    double precio = 0;
+};
+
+double total(const std::vector<Item>& items)
+{
+    double t;
+    for (const auto& it : items) t += it.cantidad * it.precio;
+    return t;
+}
+
+const Item* mas_caro(const std::vector<Item>& items)
+{
+    const Item* mejor = nullptr;
+    for (std::size_t i = 0; i <= items.size(); i++)
+        if (mejor == nullptr || items[i].precio > mejor->precio) mejor = &items[i];
+    return mejor;
+}
+
+void quitar_sin_stock(std::vector<Item> items)
+{
+    std::erase_if(items, [](const Item& it) { return it.cantidad == 0; });
+}
+
+int main()
+{
+    std::vector<Item> lista;
+    Item it;
+    while (std::cin >> it.nombre >> it.cantidad >> it.precio) {
+        lista.push_back(it);
+    }
+    quitar_sin_stock(lista);
+    std::cout << "Ítems: " << lista.size() << "\n";
+    std::cout << "Total: $" << total(lista) << "\n";
+    if (const Item* caro = mas_caro(lista)) {
+        std::cout << "El más caro: " << caro->nombre << "\n";
+    }
+    return 0;
+}
+```
+
+#### Entrada
 ```
 yerba 2 2500
 azucar 0 1200
@@ -1517,15 +1595,13 @@ aceite 1 3100
 ```
 
 #### Salida esperada
-
 ```
 Ítems: 3
 Total: $10950
 El más caro: aceite
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La lista de compras arreglada (tenia tres bugs).
 #include <iostream>
@@ -1583,39 +1659,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La cuenta da justa y el ogro sale corriendo. Oto anota el total en su libro de recetas.
 
-##### Todo sin stock
-```entrada
-a 0 100
-b 0 200
-```
-```salida
-Ítems: 0
-Total: $0
-```
+#### Imagen
+- Una lista de compras larga sobre la mesada del comedor, con tres renglones marcados en rojo y un ogro escondido detrás de la bolsa de yerba.
+- Oto señala la lista con el cucharón; Bron corrige con un lápiz.
 
-##### Un solo ítem
-```entrada
-cafe 1 4000
-```
-```salida
-Ítems: 1
-Total: $4000
-El más caro: cafe
-```
-
-### Misión R05-N02-M2 · Funciones que se defienden
+### Micro-misión R05-N02-P5 · Funciones que se defienden
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Taller del Juego
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R05-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla quiere funciones que se defiendan solas: que si alguien las usa mal, se den cuenta enseguida.
+—Pero ojo: lo que escribe el jugador no es culpa de la función. Eso se valida con un `if`.
 
+#### Gheco sugiere
+`assert(nota >= 1 && nota <= 10)` documenta la precondición y para el programa si alguien la rompe. En `repartir`, el `assert` del final comprueba que la suma de las partes dé el total. Lo que lee `main` se revisa con `if` y un aviso.
+
+#### Desafío
 Escribí `en_letras(nota)` (de "uno" a "diez") con un `assert` de su precondición
 (1 a 10), y `repartir(total, partes)`, que divide un total en partes casi iguales
 (las primeras reciben uno más) con un `assert` de que las partes **suman el
@@ -1625,19 +1692,30 @@ con `assert`). Al final, mostrá el reparto de 17 en 5.
 Probá qué pasa si llamás a `en_letras(0)` directamente: el `assert` tiene que
 detener el programa.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los `assert` verifican suposiciones del programador, no la entrada.
 - La entrada inválida se informa sin cortar el programa.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 7 11 1 0 10
 ```
 
 #### Salida esperada
-
 ```
 7: siete
 11: nota inválida
@@ -1647,8 +1725,7 @@ detener el programa.
 Reparto de 17 en 5: 4 4 3 3 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Suposiciones con assert: funciones que se defienden.
 #include <cassert>
@@ -1700,55 +1777,31 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las funciones se defienden y el programa no se cae por un dato mal tipeado. Tesla prueba `en_letras(0)` y el `assert` lo frena en seco.
 
-##### Sin notas
-```entrada
-```
-```salida
-Reparto de 17 en 5: 4 4 3 3 3
-```
+#### Imagen
+- Dos máquinas de bronce con un escudo pintado en el frente, una que escribe números en letras y otra que reparte fichas en pilas.
+- Tesla mete una ficha con un cero y la máquina se traba con una luz roja; Bron toma nota.
 
-##### Todas válidas
-```entrada
-1 2 3 4 5 6 7 8 9 10
-```
-```salida
-1: uno
-2: dos
-3: tres
-4: cuatro
-5: cinco
-6: seis
-7: siete
-8: ocho
-9: nueve
-10: diez
-Reparto de 17 en 5: 4 4 3 3 3
-```
-
-##### Todas inválidas
-```entrada
--1 100 0
-```
-```salida
--1: nota inválida
-100: nota inválida
-0: nota inválida
-Reparto de 17 en 5: 4 4 3 3 3
-```
-
-### Misión R05-N02-M3 · Limpiar la función tramposa
+### Micro-misión R05-N02-P6 · Limpiar la función tramposa
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Taller del Juego
+personajes: Bron, Gheco, Lyn
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R05-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Lyn armó el ranking de ganadores del torneo y la función hace trampa: borra mientras recorre y no ordena nada. Un ogro se ríe en cada vuelta.
+—Reescribila limpia. Los que llegan al mínimo, del mejor al peor.
 
+#### Gheco sugiere
+Recibí `const std::vector<Jugador>&` y trabajá sobre una copia. `std::erase_if` borra sin romper ningún iterador. `std::ranges::sort` con una lambda: más puntos primero y, si empatan, por nombre.
+
+#### Desafío
 Esta función compila con varias advertencias y tiene un comportamiento indefinido.
 Reescribila limpia:
 ```cpp
@@ -1768,14 +1821,59 @@ de más a menos puntos (y por nombre si empatan). Usá `const&`, `std::erase_if`
 `std::ranges::sort`. La primera línea de la entrada es el mínimo; las siguientes,
 `nombre puntos`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Compila sin advertencias con `-Wall -Wextra -Wshadow`.
 - No borra mientras recorre con un iterador.
 - Recibe el vector por `const&`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+struct Jugador {
+    std::string nombre;
+    int puntos = 0;
+};
+
+std::vector<std::string> ganadores(std::vector<Jugador> jugadores, int minimo)
+{
+    std::vector<std::string> nombres;
+    for (auto it = jugadores.begin(); it != jugadores.end(); ++it) {
+        if (it->puntos < minimo) {
+            jugadores.erase(it);
+        }
+    }
+    for (int i = 0; i < jugadores.size(); i++) {
+        int puntos = jugadores[i].puntos;
+        if (puntos >= minimo) {
+            nombres.push_back(jugadores[i].nombre);
+        }
+    }
+    return nombres;
+}
+
+int main()
+{
+    int minimo = 0;
+    std::cin >> minimo;
+    std::vector<Jugador> jugadores;
+    Jugador j;
+    while (std::cin >> j.nombre >> j.puntos) {
+        jugadores.push_back(j);
+    }
+    const auto lista = ganadores(jugadores, minimo);
+    std::cout << lista.size() << " con " << minimo << " o más:";
+    for (const auto& n : lista) {
+        std::cout << " " << n;
+    }
+    std::cout << "\n";
+    return 0;
+}
+```
+
+#### Entrada
 ```
 100
 Lima 340
@@ -1786,13 +1884,11 @@ Tesla 340
 ```
 
 #### Salida esperada
-
 ```
 4 con 100 o más: Lima Tesla Lyn Oto
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Buenas practicas: la version limpia de una funcion llena de trampas.
 #include <algorithm>
@@ -1840,28 +1936,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El ranking sale ordenado y el ogro se queda sin trampas. Lyn lo cuelga en la pista.
 
-##### Nadie llega
-```entrada
-500
-Lima 340
-Bron 80
-```
-```salida
-0 con 500 o más:
-```
-
-##### Todos empatados
-```entrada
-0
-C 5
-A 5
-B 5
-```
-```salida
-3 con 0 o más: A B C
-```
+#### Imagen
+- Un ranking de bronce con nombres que se reacomodan solos, y un ogro que intenta arrancar un nombre del medio.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) espanta al ogro con el cronómetro; Bron reacomoda los nombres.
 
 ### Encargo R05-N02-E1 · La planilla de horas
 
@@ -2502,37 +2582,53 @@ Seis de seis. La Maestra Artífice tilda la caldera en su tableta: puede salir d
 - la Maestra Artífice (mujer alta de 60, piel oscura, pelo blanco muy corto, antiparras verdes en la frente, delantal de cuero sobre una túnica verde con circuitos, tableta con tildes verdes) tilda la caldera en la tableta.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) desconecta los cables.
 
-### Misión R05-N03-M1 · Las contraseñas seguras
+### Micro-misión R05-N03-P4 · Las contraseñas seguras
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Banco de Pruebas de la Maestra Artífice
+personajes: Bron, Gheco, la Maestra Artífice
+recompensa: xp 10, monedas 4
+antes: R05-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Bron hizo el control de contraseñas del Taller y dice «ya anda». La Maestra Artífice aparece detrás de él.
+—¿Y la prueba? Ocho caracteres justos, siete, vacía, con un espacio. Todas.
 
+#### Gheco sugiere
+Recorré la contraseña una vez con `std::isupper`, `std::islower` y `std::isdigit`, y buscá espacios. Cada prueba es un `comprobar(nombre, esperado, obtenido)`. Probá primero con el límite mal puesto: la de 8 justos es la que lo detecta.
+
+#### Desafío
 Una contraseña es segura si tiene **8 o más** caracteres, al menos una mayúscula,
 una minúscula y un dígito, y ningún espacio. Escribí `contrasenia_segura` y las
 pruebas: una buena, 6 y 7 caracteres (no), **8** justos (sí), sin mayúscula, sin
 minúscula, sin dígito, con espacio y vacía. Tip: probá primero con el límite mal
 puesto (`< 7`) y mirá qué prueba lo detecta.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Prueba los dos lados del borde (7 y 8 caracteres).
 - Prueba cada regla por separado.
 - El programa devuelve 1 si alguna prueba falla.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <cctype>
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 9 pasaron, 0 fallaron
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Pruebas para la validacion de contrasenias (con un bug que las pruebas encuentran).
 #include <cctype>
@@ -2586,38 +2682,87 @@ int main()
 }
 ```
 
-### Misión R05-N03-M2 · Probar la fracción
+#### Al superarla
+Todas las pruebas en verde. La Maestra pone los tildes uno por uno en la tableta, sin decir nada.
+
+#### Imagen
+- Una mesa de pruebas con candados de bronce de distintos tamaños, cada uno con una lucecita verde o roja.
+- La Maestra Artífice (inspectora de 60, piel oscura, pelo blanco muy corto, antiparras de soldar en la frente, delantal largo de cuero, tableta de vidrio) marca un tilde; Bron prueba un candado.
+
+### Micro-misión R05-N03-P5 · Probar la fracción
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Banco de Pruebas de la Maestra Artífice
+personajes: Bron, Gheco, Lima, la Maestra Artífice
+recompensa: xp 10, monedas 4
+antes: R05-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Lima trae la fracción que hicieron en los Planos. La Maestra la pone en el banco de pruebas.
+—Dos grupos: cómo nace y cómo opera. Si pasa los dos, sale de la Ciudadela.
 
+#### Gheco sugiere
+Cada grupo es una función que cuenta las que pasan y las que fallan, comparando con `==`. Probá los bordes: el signo en el denominador, el cero y el denominador 0. Al final sumá los dos grupos.
+
+#### Desafío
 Tomá la `Fraccion` (siempre simplificada, denominador positivo, con `+`, `*` y `==`)
 y escribí dos grupos de pruebas: **construcción** (2/4 = 1/2, el signo pasa al
 numerador, denominador 0 → 1, cero es 0/1) y **operaciones** (1/2 + 1/3, 2/3 × 3/2,
 a + (−a) = 0, un entero más una fracción). Mostrá el resultado de cada grupo y el
 total.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las pruebas están agrupadas en funciones.
 - Se prueban las invariantes, no solo las cuentas.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <numeric>
+#include <string>
 
+class Fraccion {
+public:
+    Fraccion(int n = 0, int d = 1) : n_(n), d_(d == 0 ? 1 : d) { normalizar(); }
+    Fraccion operator+(const Fraccion& o) const { return Fraccion(n_ * o.d_ + o.n_ * d_, d_ * o.d_); }
+    Fraccion operator*(const Fraccion& o) const { return Fraccion(n_ * o.n_, d_ * o.d_); }
+    bool operator==(const Fraccion&) const = default;
+    int num() const { return n_; }
+    int den() const { return d_; }
+
+private:
+    void normalizar()
+    {
+        if (d_ < 0) {
+            n_ = -n_;
+            d_ = -d_;
+        }
+        int g = std::gcd(n_, d_);
+        if (g > 1) {
+            n_ /= g;
+            d_ /= g;
+        }
+    }
+    int n_;
+    int d_;
+};
+
+int main()
+{
+    // Escribí tus pruebas acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Construcción:
 Operaciones:
 8 pasaron, 0 fallaron
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Probar una clase: la Fraccion y sus invariantes.
 #include <iostream>
@@ -2689,17 +2834,30 @@ int main()
 }
 ```
 
-### Misión R05-N03-M3 · Medir antes de opinar
+#### Al superarla
+La fracción pasa los dos grupos. Lima jura que la Maestra sonrió medio segundo; la Maestra dice que fue un tic.
+
+#### Imagen
+- Un banco de pruebas de bronce con fracciones grabadas en fichas, dos bandejas rotuladas «construcción» y «operaciones», todas con tildes verdes.
+- La Maestra Artífice mira la tableta casi sonriendo; Lima y Bron se miran de reojo.
+
+### Micro-misión R05-N03-P6 · Medir antes de opinar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Banco de Pruebas de la Maestra Artífice
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R05-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Bron dice que buscar en un vector es igual de rápido que en un set. Lyn saca el cronómetro.
+—Apostemos. Pero medimos de verdad, nada de opinar.
 
+#### Gheco sugiere
+`medir_us` toma una lambda, guarda `std::chrono::steady_clock::now()` antes y después, y devuelve los microsegundos. Los tiempos cambian en cada corrida, así que van a `std::cerr`; por `std::cout`, solo lo que no cambia.
+
+#### Desafío
 Armá un vector con los números de 0 a 199999 desordenados, un `std::set` con los
 mismos y una copia ordenada del vector. Medí con `<chrono>` cuánto tardan 2000
 búsquedas en cada uno: `std::find` en el vector, `contains` en el set y
@@ -2707,22 +2865,34 @@ búsquedas en cada uno: `std::find` en el vector, `contains` en el set y
 cambia (cuántas búsquedas, cuántos encontró cada uno, si ganó la búsqueda lineal);
 los tiempos, por `std::cerr`. Escribí una función plantilla `medir_us(lambda)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Mide con `steady_clock` y `duration_cast`.
-- Los tiempos van por `std::cerr` y la salida estándar es siempre la misma.
 - Encuentra los mismos números con los tres métodos.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <chrono>
+#include <iostream>
+#include <set>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Búsquedas: 2000
 Encontrados: 2000 / 2000 / 2000
 ¿Ganó la búsqueda lineal? no
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Medir antes de opinar: buscar en vector, en set y en vector ordenado.
 #include <algorithm>
@@ -2778,6 +2948,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+La búsqueda lineal pierde por lejos. Bron paga la apuesta: le lleva las cartas a Lyn por una semana.
+
+#### Imagen
+- Tres pistas de carrera en miniatura sobre una mesa, con tres autómatas corriendo, uno muy atrás.
+- Lyn levanta el cronómetro; Bron se rasca la cabeza mirando al autómata que va último.
 
 ### Encargo R05-N03-E1 · Las pruebas de la liquidación
 
@@ -3401,17 +3578,23 @@ Con la semilla acordada, el combate es siempre el mismo. Lyn lo juega diez veces
 - Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) cuenta los golpes con su cronómetro.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) tira los dados.
 
-### Misión R05-N04-M1 · Los guardias del puente
+### Micro-misión R05-N04-P4 · Los guardias del puente
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La mesa del juego desarmado
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R05-N04-M1
 ```
 
-#### Consigna
+#### Escena
+En el juego que arman, Lima tiene que cruzar un puente con dos guardias. Cada guardia decide qué hacer según lo cerca que la vea.
+—Que piensen solos, turno por turno. Quiero ver si me agarran.
 
+#### Gheco sugiere
+Cada guardia calcula la distancia con `std::abs`. El orden de las reglas importa: primero ataca, después persigue, después alerta y si no, patrulla. Para patrullar guardá la dirección y dala vuelta en las puntas.
+
+#### Desafío
 En un puente de 0 a 20 hay dos guardias: G1 en la posición 5 (ve a 3 casilleros) y
 G2 en la 18 (ve a 5). Lima empieza en 0; cada letra de la entrada la mueve (`d`
 derecha, `i` izquierda, otra cosa: se queda). Después de cada paso, cada guardia
@@ -3420,20 +3603,31 @@ actúa según la distancia a Lima: a 1 o menos **ataca**; dentro de su visión
 (no se mueve); más lejos, **patrulla** (va y viene de a un paso entre 0 y 20).
 Mostrá cada turno con la posición y el estado de cada guardia.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los estados son un `enum class`.
 - Cada guardia decide solo con su distancia a Lima.
 - La patrulla cambia de sentido en los bordes.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 ddd.dddddddddd
 ```
 
 #### Salida esperada
-
 ```
 T1 Lima@1: G1@5 alerta G2@19 patrulla
 T2 Lima@2: G1@4 persigue G2@20 patrulla
@@ -3451,8 +3645,7 @@ T13 Lima@12: G1@11 persigue G2@12 ataca
 T14 Lima@13: G1@12 persigue G2@12 ataca
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Los guardias del puente: IA por distancia en una linea.
 #include <cstdlib>
@@ -3529,73 +3722,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lima cruza el puente en la segunda prueba. Los guardias de lata se quedan en alerta, mirando el agua.
 
-##### Lima quieta
-```entrada
-.....
-```
-```salida
-T1 Lima@0: G1@5 alerta G2@19 patrulla
-T2 Lima@0: G1@5 alerta G2@20 patrulla
-T3 Lima@0: G1@5 alerta G2@19 patrulla
-T4 Lima@0: G1@5 alerta G2@18 patrulla
-T5 Lima@0: G1@5 alerta G2@17 patrulla
-```
+#### Imagen
+- Una maqueta de un puente largo de bronce con dos guardias de lata con faroles y una figurita de Lima en una punta.
+- Lima mueve su figurita; Bron mueve a los guardias con una pinza.
 
-##### Lima va y vuelve
-```entrada
-ddddiiii
-```
-```salida
-T1 Lima@1: G1@5 alerta G2@19 patrulla
-T2 Lima@2: G1@4 persigue G2@20 patrulla
-T3 Lima@3: G1@4 ataca G2@19 patrulla
-T4 Lima@4: G1@4 ataca G2@18 patrulla
-T5 Lima@3: G1@4 ataca G2@17 patrulla
-T6 Lima@2: G1@3 persigue G2@16 patrulla
-T7 Lima@1: G1@2 persigue G2@15 patrulla
-T8 Lima@0: G1@1 persigue G2@14 patrulla
-```
-
-##### Corre hasta el final
-```entrada
-dddddddddddddddddddd
-```
-```salida
-T1 Lima@1: G1@5 alerta G2@19 patrulla
-T2 Lima@2: G1@4 persigue G2@20 patrulla
-T3 Lima@3: G1@4 ataca G2@19 patrulla
-T4 Lima@4: G1@4 ataca G2@18 patrulla
-T5 Lima@5: G1@4 ataca G2@17 patrulla
-T6 Lima@6: G1@5 persigue G2@16 patrulla
-T7 Lima@7: G1@6 persigue G2@15 patrulla
-T8 Lima@8: G1@7 persigue G2@15 alerta
-T9 Lima@9: G1@8 persigue G2@15 alerta
-T10 Lima@10: G1@9 persigue G2@14 persigue
-T11 Lima@11: G1@10 persigue G2@13 persigue
-T12 Lima@12: G1@11 persigue G2@13 ataca
-T13 Lima@13: G1@12 persigue G2@13 ataca
-T14 Lima@14: G1@13 persigue G2@13 ataca
-T15 Lima@15: G1@14 persigue G2@14 persigue
-T16 Lima@16: G1@15 persigue G2@15 persigue
-T17 Lima@17: G1@16 persigue G2@16 persigue
-T18 Lima@18: G1@17 persigue G2@17 persigue
-T19 Lima@19: G1@18 persigue G2@18 persigue
-T20 Lima@20: G1@19 persigue G2@19 persigue
-```
-
-### Misión R05-N04-M2 · La mochila del explorador
+### Micro-misión R05-N04-P5 · La mochila del explorador
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La mesa del juego desarmado
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R05-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Lyn diseña la mochila del explorador: cuatro lugares, pociones que se apilan, armas que se equipan.
+—Si cambio de arma, la vieja vuelve a la mochila. Nada se pierde.
 
+#### Gheco sugiere
+Un vector de `Item` con nombre, tipo y cantidad. `juntar` apila si ya hay una poción igual. `sacar` devuelve `std::optional<Item>` y resta uno de la pila. Al equipar, si había un arma equipada, volvela a juntar.
+
+#### Desafío
 Una mochila de **4 lugares** (las pociones del mismo nombre se apilan en un lugar).
 Órdenes: `juntar nombre` (si empieza con "pocion" es una poción que cura 15; si
 empieza con "llave", una llave; si no, un arma cuyo bonus es el largo del nombre) y
@@ -3604,14 +3754,27 @@ equipada vuelve a la mochila) y la llave "se usa en una puerta". `sacar` devuelv
 `std::optional<Item>`. Después de cada orden, mostrá la mochila; al final, vida y
 ataque (base 5 + bonus del arma equipada).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `sacar` devuelve `optional` y quien llama decide según el tipo.
 - Las pociones se apilan y la mochila respeta sus 4 lugares.
 - El arma anterior vuelve a la mochila al equipar otra.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <optional>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 juntar pocion
 juntar daga
@@ -3627,7 +3790,6 @@ usar llave
 ```
 
 #### Salida esperada
-
 ```
 Junta pocion
   [pocion x1]
@@ -3654,8 +3816,7 @@ Usa llave en una puerta
 Final: vida 60, ataque 13
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La mochila del explorador: apilar, usar y equipar con optional.
 #include <algorithm>
@@ -3751,82 +3912,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La mochila nunca pierde nada y las pociones se apilan prolijas. Lyn se la cuelga al hombro.
 
-##### Mochila llena
-```entrada
-juntar a
-juntar b
-juntar c
-juntar d
-juntar e
-```
-```salida
-Junta a
-  [a x1]
-Junta b
-  [a x1, b x1]
-Junta c
-  [a x1, b x1, c x1]
-Junta d
-  [a x1, b x1, c x1, d x1]
-No entra e
-  [a x1, b x1, c x1, d x1]
-Final: vida 50, ataque 5
-```
+#### Imagen
+- Una mochila de explorador abierta con cuatro compartimentos: pociones rojas apiladas, una llave de bronce y una espada.
+- Lyn se prueba la espada; Bron acomoda las pociones.
 
-##### Usar lo que no hay
-```entrada
-usar pocion
-usar llave
-```
-```salida
-No tiene pocion
-  []
-No tiene llave
-  []
-Final: vida 50, ataque 5
-```
-
-##### Muchas pociones
-```entrada
-juntar pocion
-juntar pocion
-juntar pocion
-usar pocion
-usar pocion
-usar pocion
-usar pocion
-```
-```salida
-Junta pocion
-  [pocion x1]
-Junta pocion
-  [pocion x2]
-Junta pocion
-  [pocion x3]
-Bebe pocion: vida 60
-  [pocion x2]
-Bebe pocion: vida 60
-  [pocion x1]
-Bebe pocion: vida 60
-  []
-No tiene pocion
-  []
-Final: vida 60, ataque 5
-```
-
-### Misión R05-N04-M3 · El torneo de la Arena
+### Micro-misión R05-N04-P6 · El torneo de la Arena
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Arena de la Ciudadela
+personajes: Bron, Gheco, Lima, Lyn, Oto
+recompensa: xp 10, monedas 4
+antes: R05-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Para probar el combate del juego, los cuatro arman un torneo de mentira en la Arena: Lima, Bron, Lyn y Oto.
+—Con la misma semilla, el torneo sale igual —dice Lima—. Así nadie puede decir que hubo trampa.
 
+#### Gheco sugiere
+Un `std::mt19937 gen(semilla)` para todo el torneo y una `uniform_int_distribution<int>(-2, 2)` para la variación. `pelear` recibe copias de los luchadores, así el ganador vuelve con su vida original a la siguiente ronda. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+
+#### Desafío
 Cuatro luchadores (Lima 60/12/3, Bron 80/9/5, Lyn 50/14/2 y Oto 70/10/4: vida,
 ataque, defensa) juegan un torneo por eliminación: 1 contra 2 y 3 contra 4, y los
 ganadores la final. Cada golpe hace `ataque ± 2` (al azar) menos la defensa del
@@ -3834,30 +3943,41 @@ otro, y al menos 1. Entre rondas, el ganador recupera su vida original. Leé la
 semilla de la entrada y mostrá cada pelea (rondas y vida que le queda al ganador) y
 el campeón.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Un único generador con la semilla leída, pasado por referencia.
 - El daño nunca es menor que 1.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <random>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 2026
 ```
 
 #### Salida esperada
-
 ```
 Ronda 1:
-  Lima vs Bron: gana Bron en 10 rondas (le queda 8)
-  Lyn vs Oto: gana Oto en 6 rondas (le queda 13)
+  Lima vs Bron: gana Bron en 9 rondas (le queda 22)
+  Lyn vs Oto: gana Lyn en 7 rondas (le queda 7)
 Ronda 2:
-  Bron vs Oto: gana Bron en 15 rondas (le queda 15)
+  Bron vs Lyn: gana Bron en 8 rondas (le queda 21)
 Campeón: Bron
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El torneo de la Arena: combates con semilla, defensa y variacion.
 #include <algorithm>
@@ -3922,33 +4042,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El torneo sale igual cada vez que se repite la semilla. El campeón sube a la tribuna y Oto reparte guiso para todos.
 
-##### Semilla 1
-```entrada
-1
-```
-```salida
-Ronda 1:
-  Lima vs Bron: gana Bron en 10 rondas (le queda 20)
-  Lyn vs Oto: gana Lyn en 7 rondas (le queda 2)
-Ronda 2:
-  Bron vs Lyn: gana Bron en 7 rondas (le queda 27)
-Campeón: Bron
-```
-
-##### Semilla 777
-```entrada
-777
-```
-```salida
-Ronda 1:
-  Lima vs Bron: gana Bron en 10 rondas (le queda 9)
-  Lyn vs Oto: gana Oto en 7 rondas (le queda 1)
-Ronda 2:
-  Bron vs Oto: gana Bron en 16 rondas (le queda 7)
-Campeón: Bron
-```
+#### Imagen
+- Una arena de bronce con un cuadro de torneo de cuatro nombres colgado en la tribuna.
+- Lima, Lyn y Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto) se miran desafiantes; Bron levanta la llave inglesa cian en el centro.
 
 ### Encargo R05-N04-E1 · La máquina expendedora
 
@@ -4672,17 +4771,23 @@ Ahora la luz se enciende donde está el autómata. Tesla dice que así se ve por
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) señala el orden de los cuadros.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cambia de lugar dos cuadros.
 
-### Misión R05-N05-M1 · Las pantallas del juego
+### Micro-misión R05-N05-P4 · Las pantallas del juego
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Gran Péndulo del Taller
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R05-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Lima dibuja en la pared todas las pantallas del juego: título, menú, jugando, pausa y fin.
+—Cada evento te lleva de una a otra. Y el récord no se pierde aunque vuelvas al menú.
 
+#### Gheco sugiere
+Un `enum class Pantalla` y una función que, según la pantalla actual y el evento, devuelve la nueva. Los puntos, las vidas y el récord viven afuera, en el estado del juego.
+
+#### Desafío
 Modelá las pantallas de un juego: **Título** (cualquier evento pasa al Menú),
 **Menú** (`jugar` empieza una partida con 0 puntos y 3 vidas), **Jugando**
 (`moneda` suma 10, `golpe` resta una vida y con 0 vidas pasa a Game Over guardando
@@ -4691,19 +4796,29 @@ Over** (`ok` vuelve al menú). Cada palabra de la entrada es un evento: mostrá 
 pantalla antes, la nueva (si cambió) y, jugando, los puntos y las vidas. Al final,
 el récord.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Un `enum class` para las pantallas y un `switch` por estado.
 - Los eventos que no corresponden a la pantalla actual no hacen nada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 empezar jugar moneda moneda pausa moneda pausa golpe moneda golpe golpe jugar ok jugar moneda salir
 ```
 
 #### Salida esperada
-
 ```
 empezar: Título -> Menú
 jugar: Menú -> Jugando (0 pts, 3 vidas)
@@ -4724,8 +4839,7 @@ salir: Jugando (10 pts, 3 vidas)
 Récord: 30
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Las pantallas del juego: una maquina de estados completa.
 #include <algorithm>
@@ -4817,82 +4931,60 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las pantallas cambian como tienen que cambiar y el récord queda guardado. Lima lo escribe en la pared con tiza.
 
-##### Pierde enseguida
-```entrada
-empezar jugar golpe golpe golpe ok
-```
-```salida
-empezar: Título -> Menú
-jugar: Menú -> Jugando (0 pts, 3 vidas)
-golpe: Jugando (0 pts, 2 vidas)
-golpe: Jugando (0 pts, 1 vidas)
-golpe: Jugando -> Game Over
-ok: Game Over -> Menú
-Récord: 0
-```
+#### Imagen
+- Una pared con cinco pantallas de bronce dibujadas y flechas de tiza entre ellas, al lado de un péndulo gigante.
+- Lima dibuja una flecha; Bron aprieta un botón de pausa enorme.
 
-##### Récord que mejora
-```entrada
-x jugar moneda golpe golpe golpe ok jugar moneda moneda moneda golpe golpe golpe
-```
-```salida
-x: Título -> Menú
-jugar: Menú -> Jugando (0 pts, 3 vidas)
-moneda: Jugando (10 pts, 3 vidas)
-golpe: Jugando (10 pts, 2 vidas)
-golpe: Jugando (10 pts, 1 vidas)
-golpe: Jugando -> Game Over
-ok: Game Over -> Menú
-jugar: Menú -> Jugando (0 pts, 3 vidas)
-moneda: Jugando (10 pts, 3 vidas)
-moneda: Jugando (20 pts, 3 vidas)
-moneda: Jugando (30 pts, 3 vidas)
-golpe: Jugando (30 pts, 2 vidas)
-golpe: Jugando (30 pts, 1 vidas)
-golpe: Jugando -> Game Over
-Récord: 30
-```
-
-##### Sin eventos
-```entrada
-```
-```salida
-Récord: 0
-```
-
-### Misión R05-N05-M2 · El salto
+### Micro-misión R05-N05-P5 · El salto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Gran Péndulo del Taller
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R05-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla quiere que el salto de Lima en el juego parezca de verdad.
+—Cuadro a cuadro: la gravedad frena la subida, y cuando toca el piso, aterriza. Después probá con cuadros más grandes.
 
+#### Gheco sugiere
+En cada cuadro, primero `vy += gravedad * dt` y después `y += vy * dt`. Si `y <= 0`, la dejás en 0 y termina. Guardá la altura máxima a medida que pasa. Mostrá cada 5 cuadros con `cuadro % 5 == 0`.
+
+#### Desafío
 Lima salta con una velocidad inicial de 6 m/s hacia arriba, y la gravedad es de
 −20 m/s². En cada cuadro: `vy += gravedad * dt`, `y += vy * dt`, y si `y` llega a 0,
 aterriza. Leé el `dt` de la entrada y simulá el salto cuadro a cuadro. Mostrá el
 tiempo y la altura cada 5 cuadros (y al aterrizar), la altura máxima y cuántos
 cuadros duró. Probá después con `dt = 0.01` y `dt = 0.1`: ¿cambia mucho?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La posición y la velocidad se actualizan con `dt`.
 - El aterrizaje deja la altura en 0 exacto.
 - Con distintos `dt` el salto dura casi lo mismo en segundos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iomanip>
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 0.02
 ```
 
 #### Salida esperada
-
 ```
 t=0.10s altura 0.48
 t=0.20s altura 0.76
@@ -4903,8 +4995,7 @@ t=0.58s altura 0.00
 Altura máxima: 0.84 m, 29 cuadros
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El salto: gravedad con dt fijo, cuadro por cuadro.
 #include <algorithm>
@@ -4962,49 +5053,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El salto sube y baja suavecito. Tesla lo pone en cámara lenta y lo mira tres veces.
 
-##### Paso fino
-```entrada
-0.01
-```
-```salida
-t=0.05s altura 0.27
-t=0.10s altura 0.49
-t=0.15s altura 0.66
-t=0.20s altura 0.78
-t=0.25s altura 0.85
-t=0.30s altura 0.87
-t=0.35s altura 0.84
-t=0.40s altura 0.76
-t=0.45s altura 0.63
-t=0.50s altura 0.45
-t=0.55s altura 0.22
-t=0.59s altura 0.00
-Altura máxima: 0.87 m, 59 cuadros
-```
+#### Imagen
+- Una pantalla de bronce con la silueta de Lima saltando en una curva, con marcas de altura cada pocos cuadros.
+- Tesla mide la curva con una regla de luz; Bron ajusta una perilla de gravedad.
 
-##### Paso grueso
-```entrada
-0.1
-```
-```salida
-t=0.50s altura 0.00
-t=0.60s altura 0.00
-Altura máxima: 0.60 m, 6 cuadros
-```
-
-### Misión R05-N05-M3 · Esquivar rocas
+### Micro-misión R05-N05-P6 · Esquivar rocas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Gran Péndulo del Taller
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R05-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Lima prueba el primer juego de verdad: caen rocas y ella tiene que esquivarlas desde abajo.
+—Escuchar la tecla, mover todo, dibujar. Siempre en ese orden.
 
+#### Gheco sugiere
+`entrada` mueve a Lima sin salirse de la pantalla. `actualizar` baja las rocas, revisa el choque, saca las que salen y cada 2 cuadros agrega una. `dibujar` recibe `const Mundo&`: mira, no toca.
+
+#### Desafío
 En una pantalla de 7 × 6, Lima está en la fila de abajo y caen rocas. Escribí
 `struct Mundo` y tres funciones: `entrada(m, tecla)` (`i`/`d` mueve a Lima),
 `actualizar(m, cuadro)` (las rocas bajan una fila; si una llega a la fila de Lima
@@ -5013,19 +5085,29 @@ cuadros aparece una roca arriba en la columna `(cuadro * 5 + 1) % 7`) y
 `dibujar(m, cuadro)` (con `const Mundo&`). Dibujá cada 3 cuadros o cuando Lima
 pierde. La entrada es una palabra con una tecla por cuadro.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las tres funciones están separadas y `dibujar` no cambia el mundo.
 - Las rocas que salen se borran con `erase_if`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 d.i..dd..ii.d...
 ```
 
 #### Salida esperada
-
 ```
 cuadro 0:
   .o.....
@@ -5065,8 +5147,7 @@ cuadro 11:
 ¡Una roca alcanzó a Lima!; rocas esquivadas: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Esquivar rocas: entrada, actualizar y dibujar sobre un Mundo.
 #include <iostream>
@@ -5149,101 +5230,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lima esquiva rocas hasta que se cansa. Pide que la próxima versión tenga monedas.
 
-##### Lima quieta
-```entrada
-................
-```
-```salida
-cuadro 0:
-  .o.....
-  .......
-  .......
-  .......
-  .......
-  ...@...
-cuadro 3:
-  .......
-  ....o..
-  .......
-  .o.....
-  .......
-  ...@...
-cuadro 6:
-  ...o...
-  .......
-  o......
-  .......
-  ....o..
-  ...@...
-cuadro 9:
-  .......
-  ......o
-  .......
-  ...o...
-  .......
-  o..@...
-cuadro 11:
-  .......
-  ..o....
-  .......
-  ......o
-  .......
-  ...X...
-¡Una roca alcanzó a Lima!; rocas esquivadas: 3
-```
-
-##### Siempre a la izquierda
-```entrada
-iiiiiiiiiiiiiiii
-```
-```salida
-cuadro 0:
-  .o.....
-  .......
-  .......
-  .......
-  .......
-  ..@....
-cuadro 3:
-  .......
-  ....o..
-  .......
-  .o.....
-  .......
-  @......
-cuadro 6:
-  ...o...
-  .......
-  o......
-  .......
-  ....o..
-  @......
-cuadro 9:
-  .......
-  ......o
-  .......
-  ...o...
-  .......
-  X......
-¡Una roca alcanzó a Lima!; rocas esquivadas: 2
-```
-
-##### Pocos cuadros
-```entrada
-d
-```
-```salida
-cuadro 0:
-  .o.....
-  .......
-  .......
-  .......
-  .......
-  ....@..
-Lima sigue en pie; rocas esquivadas: 0
-```
+#### Imagen
+- Una pantalla de bronce con una grilla de 7 columnas, rocas cayendo y una figurita esquivando abajo.
+- Lima aprieta las teclas con concentración; Bron cuenta las rocas esquivadas.
 
 ### Encargo R05-N05-E1 · El semáforo de la esquina
 
@@ -5922,6 +5914,229 @@ El Minotauro embiste, se traba en el pasillo y el engranaje enorme se le suelta 
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene un engranaje enorme de bronce oscuro.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) lo mira en silencio; Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) se asoma detrás.
 
+### Micro-misión R05-N06-P5 · La partida guardada
+
+```meta
+lugar: El Laberinto bajo el Taller
+personajes: Bron, Gheco, Tesla
+criatura: dragon
+recompensa: xp 40, monedas 8
+antes: R05-N06-M2
+```
+
+#### Escena
+Antes de bajar al Laberinto, Tesla guarda la partida. El Minotauro tiene la mala costumbre de romper los archivos de los que entran.
+—Si el archivo está roto, que lo diga: qué línea y por qué.
+
+#### Gheco sugiere
+`class ArchivoRoto : public std::runtime_error` guarda la línea y el motivo. `cargar` lee línea por línea y lanza en cuanto algo no cierra. Para la rotura, leé todas las líneas, cambiá la N, reescribí, cargá y después restaurá el original.
+
+#### Desafío
+Guardá una partida (heroína, posición, vida, llave y enemigos vencidos) en
+`partida.sav`, en líneas `clave valor` con una primera línea `LABERINTO 1`. Escribí
+`cargar(ruta)`, que **lanza** una excepción propia `ArchivoRoto(linea, motivo)` si
+la primera línea no es la esperada, si una posición o una vida es inválida (vida de
+1 a 30), si hay una clave desconocida o si faltan datos; y `std::runtime_error` si
+el archivo no existe.
+
+El programa guarda, carga y muestra. Después, cada línea de la entrada es una
+"rotura": `N texto` reemplaza la línea N del archivo por `texto`; se intenta cargar
+(mostrando la partida o el error) y se restaura el archivo.
+
+**Para superarla:**
+- Los errores de formato lanzan `ArchivoRoto` con el número de línea.
+- Una carga fallida no corta el programa.
+
+#### Código inicial
+```cpp
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
+```
+4 vida 99
+1 PARTIDA VIEJA
+3 posicion -1 2
+6 enemigos rata
+2 heroina Bron
+```
+
+#### Salida esperada
+```
+Guardada.
+  Lima en (4, 3), vida 23, con llave, venció a 2
+Rompo la línea 4 -> "vida 99"
+  Partida dañada, línea 4: vida fuera de rango
+Rompo la línea 1 -> "PARTIDA VIEJA"
+  Partida dañada, línea 1: no es una partida guardada
+Rompo la línea 3 -> "posicion -1 2"
+  Partida dañada, línea 3: posición inválida
+Rompo la línea 6 -> "enemigos rata"
+  Partida dañada, línea 6: clave desconocida "enemigos"
+Rompo la línea 2 -> "heroina Bron"
+  Bron en (4, 3), vida 23, con llave, venció a 2
+```
+
+#### Solución
+```cpp
+// Jefe final - La partida guardada: guardar y cargar, con errores claros si el archivo esta roto.
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+class ArchivoRoto : public std::runtime_error {
+public:
+    ArchivoRoto(int linea, const std::string& motivo)
+        : std::runtime_error("línea " + std::to_string(linea) + ": " + motivo) {}
+};
+
+struct Partida {
+    std::string heroina;
+    int x = 0;
+    int y = 0;
+    int vida = 0;
+    bool llave = false;
+    std::vector<std::string> enemigos_vencidos;
+};
+
+void guardar(const Partida& p, const std::string& ruta)
+{
+    std::ofstream out(ruta);
+    if (!out) {
+        throw std::runtime_error("no se puede escribir " + ruta);
+    }
+    out << "LABERINTO 1\n";
+    out << "heroina " << p.heroina << "\n";
+    out << "posicion " << p.x << " " << p.y << "\n";
+    out << "vida " << p.vida << "\n";
+    out << "llave " << (p.llave ? 1 : 0) << "\n";
+    out << "vencidos";
+    for (const auto& e : p.enemigos_vencidos) {
+        out << " " << e;
+    }
+    out << "\n";
+}
+
+Partida cargar(const std::string& ruta)
+{
+    std::ifstream in(ruta);
+    if (!in) {
+        throw std::runtime_error("no existe " + ruta);
+    }
+    std::string linea;
+    if (!std::getline(in, linea) || linea != "LABERINTO 1") {
+        throw ArchivoRoto(1, "no es una partida guardada");
+    }
+    Partida p;
+    int numero = 1;
+    int campos = 0;
+    while (std::getline(in, linea)) {
+        numero++;
+        std::istringstream ss(linea);
+        std::string clave;
+        ss >> clave;
+        if (clave == "heroina") {
+            ss >> p.heroina;
+        } else if (clave == "posicion") {
+            if (!(ss >> p.x >> p.y) || p.x < 0 || p.y < 0) {
+                throw ArchivoRoto(numero, "posición inválida");
+            }
+        } else if (clave == "vida") {
+            if (!(ss >> p.vida) || p.vida <= 0 || p.vida > 30) {
+                throw ArchivoRoto(numero, "vida fuera de rango");
+            }
+        } else if (clave == "llave") {
+            int l = 0;
+            ss >> l;
+            p.llave = (l == 1);
+        } else if (clave == "vencidos") {
+            std::string e;
+            while (ss >> e) {
+                p.enemigos_vencidos.push_back(e);
+            }
+        } else {
+            throw ArchivoRoto(numero, "clave desconocida \"" + clave + "\"");
+        }
+        campos++;
+    }
+    if (campos < 5) {
+        throw ArchivoRoto(numero, "faltan datos");
+    }
+    return p;
+}
+
+void mostrar(const Partida& p)
+{
+    std::cout << "  " << p.heroina << " en (" << p.x << ", " << p.y << "), vida " << p.vida << (p.llave ? ", con llave" : "")
+              << ", venció a " << p.enemigos_vencidos.size() << "\n";
+}
+
+int main()
+{
+    const std::string RUTA = "partida.sav";
+    guardar({"Lima", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);
+    std::cout << "Guardada.\n";
+
+    // Cada linea de la entrada es una "rotura" que alguien le hace al archivo: la linea N se reemplaza.
+    std::string cambio;
+    int prueba = 0;
+    do {
+        if (prueba > 0) {
+            std::istringstream c(cambio);
+            int n = 0;
+            c >> n;
+            std::string nuevo;
+            std::getline(c >> std::ws, nuevo);
+            std::ifstream in(RUTA);
+            std::vector<std::string> lineas;
+            for (std::string l; std::getline(in, l);) {
+                lineas.push_back(l);
+            }
+            in.close();
+            if (n >= 1 && n <= static_cast<int>(lineas.size())) {
+                lineas[n - 1] = nuevo;
+            }
+            std::ofstream out(RUTA);
+            for (const auto& l : lineas) {
+                out << l << "\n";
+            }
+            std::cout << "Rompo la línea " << n << " -> \"" << nuevo << "\"\n";
+        }
+        try {
+            mostrar(cargar(RUTA));
+        } catch (const ArchivoRoto& e) {
+            std::cout << "  Partida dañada, " << e.what() << "\n";
+        } catch (const std::exception& e) {
+            std::cout << "  Error: " << e.what() << "\n";
+        }
+        guardar({"Lima", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);   // se restaura para la proxima prueba
+        prueba++;
+    } while (std::getline(std::cin, cambio));
+    return 0;
+}
+```
+
+#### Al superarla
+Cada archivo roto avisa dónde está el problema, y la partida buena carga entera. Bron baja al Laberinto con la partida guardada.
+
+#### Imagen
+- La entrada oscura de un laberinto de bronce, con una piedra grabada con líneas de una partida guardada y unas astas de minotauro asomando en la sombra.
+- Tesla graba la piedra con una herramienta de luz; Bron vigila la entrada con la llave inglesa cian.
+
 ### Misión R05-N06-M1 · El Laberinto del Minotauro
 
 ```meta
@@ -6505,239 +6720,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(laberinto main.cpp Mapa.cpp Entidades.cpp Juego.cpp)
 target_compile_options(laberinto PRIVATE -Wall -Wextra)
-```
-
-### Misión R05-N06-M2 · La partida guardada
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 8
-xp: 40
-```
-
-#### Consigna
-
-Guardá una partida (heroína, posición, vida, llave y enemigos vencidos) en
-`partida.sav`, en líneas `clave valor` con una primera línea `LABERINTO 1`. Escribí
-`cargar(ruta)`, que **lanza** una excepción propia `ArchivoRoto(linea, motivo)` si
-la primera línea no es la esperada, si una posición o una vida es inválida (vida de
-1 a 30), si hay una clave desconocida o si faltan datos; y `std::runtime_error` si
-el archivo no existe.
-
-El programa guarda, carga y muestra. Después, cada línea de la entrada es una
-"rotura": `N texto` reemplaza la línea N del archivo por `texto`; se intenta cargar
-(mostrando la partida o el error) y se restaura el archivo.
-
-#### Criterio de aprobación
-
-- Los errores de formato lanzan `ArchivoRoto` con el número de línea.
-- Una carga fallida no corta el programa.
-- La salida coincide con la esperada.
-
-#### Entrada de ejemplo
-
-```
-4 vida 99
-1 PARTIDA VIEJA
-3 posicion -1 2
-6 enemigos rata
-2 heroina Bron
-```
-
-#### Salida esperada
-
-```
-Guardada.
-  Lima en (4, 3), vida 23, con llave, venció a 2
-Rompo la línea 4 -> "vida 99"
-  Partida dañada, línea 4: vida fuera de rango
-Rompo la línea 1 -> "PARTIDA VIEJA"
-  Partida dañada, línea 1: no es una partida guardada
-Rompo la línea 3 -> "posicion -1 2"
-  Partida dañada, línea 3: posición inválida
-Rompo la línea 6 -> "enemigos rata"
-  Partida dañada, línea 6: clave desconocida "enemigos"
-Rompo la línea 2 -> "heroina Bron"
-  Bron en (4, 3), vida 23, con llave, venció a 2
-```
-
-#### Solución de referencia
-
-```cpp
-// Jefe final - La partida guardada: guardar y cargar, con errores claros si el archivo esta roto.
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <vector>
-
-class ArchivoRoto : public std::runtime_error {
-public:
-    ArchivoRoto(int linea, const std::string& motivo)
-        : std::runtime_error("línea " + std::to_string(linea) + ": " + motivo) {}
-};
-
-struct Partida {
-    std::string heroina;
-    int x = 0;
-    int y = 0;
-    int vida = 0;
-    bool llave = false;
-    std::vector<std::string> enemigos_vencidos;
-};
-
-void guardar(const Partida& p, const std::string& ruta)
-{
-    std::ofstream out(ruta);
-    if (!out) {
-        throw std::runtime_error("no se puede escribir " + ruta);
-    }
-    out << "LABERINTO 1\n";
-    out << "heroina " << p.heroina << "\n";
-    out << "posicion " << p.x << " " << p.y << "\n";
-    out << "vida " << p.vida << "\n";
-    out << "llave " << (p.llave ? 1 : 0) << "\n";
-    out << "vencidos";
-    for (const auto& e : p.enemigos_vencidos) {
-        out << " " << e;
-    }
-    out << "\n";
-}
-
-Partida cargar(const std::string& ruta)
-{
-    std::ifstream in(ruta);
-    if (!in) {
-        throw std::runtime_error("no existe " + ruta);
-    }
-    std::string linea;
-    if (!std::getline(in, linea) || linea != "LABERINTO 1") {
-        throw ArchivoRoto(1, "no es una partida guardada");
-    }
-    Partida p;
-    int numero = 1;
-    int campos = 0;
-    while (std::getline(in, linea)) {
-        numero++;
-        std::istringstream ss(linea);
-        std::string clave;
-        ss >> clave;
-        if (clave == "heroina") {
-            ss >> p.heroina;
-        } else if (clave == "posicion") {
-            if (!(ss >> p.x >> p.y) || p.x < 0 || p.y < 0) {
-                throw ArchivoRoto(numero, "posición inválida");
-            }
-        } else if (clave == "vida") {
-            if (!(ss >> p.vida) || p.vida <= 0 || p.vida > 30) {
-                throw ArchivoRoto(numero, "vida fuera de rango");
-            }
-        } else if (clave == "llave") {
-            int l = 0;
-            ss >> l;
-            p.llave = (l == 1);
-        } else if (clave == "vencidos") {
-            std::string e;
-            while (ss >> e) {
-                p.enemigos_vencidos.push_back(e);
-            }
-        } else {
-            throw ArchivoRoto(numero, "clave desconocida \"" + clave + "\"");
-        }
-        campos++;
-    }
-    if (campos < 5) {
-        throw ArchivoRoto(numero, "faltan datos");
-    }
-    return p;
-}
-
-void mostrar(const Partida& p)
-{
-    std::cout << "  " << p.heroina << " en (" << p.x << ", " << p.y << "), vida " << p.vida << (p.llave ? ", con llave" : "")
-              << ", venció a " << p.enemigos_vencidos.size() << "\n";
-}
-
-int main()
-{
-    const std::string RUTA = "partida.sav";
-    guardar({"Lima", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);
-    std::cout << "Guardada.\n";
-
-    // Cada linea de la entrada es una "rotura" que alguien le hace al archivo: la linea N se reemplaza.
-    std::string cambio;
-    int prueba = 0;
-    do {
-        if (prueba > 0) {
-            std::istringstream c(cambio);
-            int n = 0;
-            c >> n;
-            std::string nuevo;
-            std::getline(c >> std::ws, nuevo);
-            std::ifstream in(RUTA);
-            std::vector<std::string> lineas;
-            for (std::string l; std::getline(in, l);) {
-                lineas.push_back(l);
-            }
-            in.close();
-            if (n >= 1 && n <= static_cast<int>(lineas.size())) {
-                lineas[n - 1] = nuevo;
-            }
-            std::ofstream out(RUTA);
-            for (const auto& l : lineas) {
-                out << l << "\n";
-            }
-            std::cout << "Rompo la línea " << n << " -> \"" << nuevo << "\"\n";
-        }
-        try {
-            mostrar(cargar(RUTA));
-        } catch (const ArchivoRoto& e) {
-            std::cout << "  Partida dañada, " << e.what() << "\n";
-        } catch (const std::exception& e) {
-            std::cout << "  Error: " << e.what() << "\n";
-        }
-        guardar({"Lima", 4, 3, 23, true, {"rata", "goblin"}}, RUTA);   // se restaura para la proxima prueba
-        prueba++;
-    } while (std::getline(std::cin, cambio));
-    return 0;
-}
-```
-
-#### Pruebas
-
-##### Sin roturas
-```entrada
-```
-```salida
-Guardada.
-  Lima en (4, 3), vida 23, con llave, venció a 2
-```
-
-##### Línea vacía
-```entrada
-5
-```
-```salida
-Guardada.
-  Lima en (4, 3), vida 23, con llave, venció a 2
-Rompo la línea 5 -> ""
-  Partida dañada, línea 5: clave desconocida ""
-```
-
-##### Llave y vida en el borde
-```entrada
-4 vida 30
-4 vida 0
-```
-```salida
-Guardada.
-  Lima en (4, 3), vida 23, con llave, venció a 2
-Rompo la línea 4 -> "vida 30"
-  Lima en (4, 3), vida 30, con llave, venció a 2
-Rompo la línea 4 -> "vida 0"
-  Partida dañada, línea 4: vida fuera de rango
 ```
 
 ### Encargo R05-N06-E1 · Las reservas de la cancha

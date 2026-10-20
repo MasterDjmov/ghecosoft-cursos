@@ -1,0 +1,257 @@
+{
+  "R02-N01-M1": {
+    "lugar": "El depósito de la Ciudadela",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima tiene el inventario del depósito en papelitos sueltos. Quiere pasarlo a fichas: cada pieza con su nombre, cantidad y precio.\n—Y decime cuál vale más y de cuáles quedan pocas.",
+    "gheco": "Un `struct Pieza` y un `std::vector<Pieza>`. Leé con `while (std::cin >> p.nombre >> p.cantidad >> p.precio)`. `valor(const Pieza&)` no copia la pieza para calcular.",
+    "exito": "El inventario queda en fichas. Lima encarga de inmediato las piezas que se estaban acabando.",
+    "imagen": [
+      "Un depósito con estantes de piezas de bronce y fichas colgadas de cada estante.",
+      "Lima revisa una ficha con la lupa de relojero; Bron sube una caja al estante."
+    ]
+  },
+  "R02-N01-M2": {
+    "lugar": "La Sala de los Planos",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "En la Sala de los Planos, Tesla le pide a Bron el plano de un rectángulo: que sepa su área, su perímetro y si es cuadrado.\n—Y que se pueda agrandar o achicar sin dibujarlo de nuevo.",
+    "gheco": "Un `struct Rectangulo` con valores por defecto (`double ancho = 1;`). Los métodos que solo miran llevan `const`. `escalar` multiplica los dos lados.",
+    "exito": "La puerta escalada queda del doble y la baldosa, de la mitad. Tesla cuelga el plano entre los mil de la sala.",
+    "imagen": [
+      "Una sala con miles de planos colgados del techo, y uno nuevo con un rectángulo en dos tamaños.",
+      "Tesla (pelo negro azulado en punta, visor cian, traje azul con líneas de luz) cuelga el plano; Bron lo mira desde abajo."
+    ]
+  },
+  "R02-N01-M3": {
+    "lugar": "La ventanilla de pedidos",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn quiere saber cuánta gente hay en la Ciudadela y cuántos entraron en el día, pero el contador de la puerta lo toca cualquiera.\n—Que nadie pueda cambiar el número a mano.",
+    "gheco": "Los datos van en `private:` y solo se cambian con `entrar()` y `salir()`. `salir()` no hace nada si no hay nadie. Recorré la secuencia de `e` y `s`.",
+    "exito": "El contador de la puerta marca justo. Lyn intenta cambiarle el número con un destornillador y no puede.",
+    "imagen": [
+      "Un contador mecánico de bronce con dos ruedas de números en la puerta de la Ciudadela.",
+      "Lyn lo mira con un destornillador en la mano; Bron le hace que no con el dedo."
+    ]
+  },
+  "R02-N02-M1": {
+    "lugar": "La torre del reloj",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "El reloj de la torre tiene que aceptar cualquier hora, incluso cosas raras como «23 y 150 minutos», y quedar siempre bien.\n—Que nazca ordenado. Siempre.",
+    "gheco": "El constructor guarda los minutos desde la medianoche con `((x % 1440) + 1440) % 1440`. `avanzar` usa la misma cuenta. `mostrar` con `std::setw(2) << std::setfill('0')`.",
+    "exito": "El reloj marca bien hasta con minutos negativos. Tesla le da cuerda y suena la campana.",
+    "imagen": [
+      "La esfera de un reloj de torre con números de bronce y agujas brillantes.",
+      "Tesla ajusta la aguja de los minutos; Bron sostiene la escalera."
+    ]
+  },
+  "R02-N02-M2": {
+    "lugar": "El taller de los vitrales",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima prepara vidrios para un vitral y necesita colores que se puedan crear de varias formas y mezclar.\n—Que ningún canal se pase de 255. Ni baje de cero.",
+    "gheco": "Los dos primeros constructores **delegan** en el de `r, g, b`: `Color() : Color(128, 128, 128) {}`. Ese recorta con `std::clamp(valor, 0, 255)`. `mezclar` promedia canal por canal.",
+    "exito": "La mezcla de dos colores sale exacta. Lima corta el vidrio y lo levanta contra la luz.",
+    "imagen": [
+      "Un taller con vidrios de colores apilados y un vitral a medio armar contra una ventana.",
+      "Lima levanta un vidrio contra la luz; Bron sostiene un frasco de pintura."
+    ]
+  },
+  "R02-N02-M3": {
+    "lugar": "La muralla de la Ciudadela",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Los guardias de la muralla entran y salen de turno en un orden muy preciso. Lyn apuesta a que Bron no adivina el orden.\n—Escribilo antes de verlo. Después comparás.",
+    "gheco": "El constructor se ejecuta al crear el objeto y el destructor cuando sale de su bloque. Los de un mismo bloque salen en orden **inverso** al que entraron.",
+    "exito": "Bron acierta el orden casi entero. Lyn le paga la apuesta en caramelos.",
+    "imagen": [
+      "Una muralla alta con guardias mecánicos en fila, unos entrando y otros saliendo por una puerta.",
+      "Lyn mira el orden con un cronómetro; Bron escribe en un papel."
+    ]
+  },
+  "R02-N03-M1": {
+    "lugar": "El depósito de la Ciudadela",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn abre una cuenta en el Gremio para guardar lo que gana con las entregas.\n—Que no me dejen sacar más de lo que tengo. Ni poner montos raros.",
+    "gheco": "Titular, saldo e historial en `private`. `depositar` y `extraer` devuelven `false` si el monto no es positivo o si no alcanza. Guardá cada movimiento en el historial.",
+    "exito": "La cuenta de Lyn queda con su historial prolijo. Ella mira el saldo y decide no comprarse otras botas.",
+    "imagen": [
+      "Un mostrador del Gremio con una libreta de cuenta y monedas apiladas.",
+      "Lyn deposita monedas; Bron anota en la libreta."
+    ]
+  },
+  "R02-N03-M2": {
+    "lugar": "El banco de herramientas de Lima",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima trabaja con proporciones de engranajes y quiere fracciones que se simplifiquen solas.\n—Que nunca quede un 6/8. Siempre 3/4.",
+    "gheco": "`normalizar()` es privado: divide por `std::gcd` y deja el denominador positivo. Lo llamás en el constructor. Si el denominador es 0, se reemplaza por 1.",
+    "exito": "Todas las fracciones salen simplificadas. Lima arma un engranaje con la proporción justa.",
+    "imagen": [
+      "Dos engranajes de distinto tamaño encastrados, con números de dientes grabados.",
+      "Lima los encastra con una pinza; Bron cuenta los dientes."
+    ]
+  },
+  "R02-N03-M3": {
+    "lugar": "El depósito de la Ciudadela",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn prepara la mochila para una entrega larga. Tiene un límite de peso y siempre quiere meter de más.\n—Si no entra, que no entre. Pero decime.",
+    "gheco": "`agregar` guarda solo si el peso es positivo y entra en la capacidad libre. `quitar` saca el primero con ese nombre. Los dos devuelven `bool`.",
+    "exito": "La mochila de Lyn queda justo en el límite. Ella salta con las botas de resorte y no se le cae nada.",
+    "imagen": [
+      "Una mochila de corredora abierta con objetos ordenados y una balanza al lado.",
+      "Lyn guarda un mapa; Bron le saca un objeto que no entra."
+    ]
+  },
+  "R02-N04-M1": {
+    "lugar": "La mesa del cartógrafo",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En la mesa del cartógrafo, los recorridos son flechas que se suman.\n—Quiero escribir `posicion + paso`, no una función con nombre largo —dice Lima.",
+    "gheco": "`+=` y `-=` como métodos; `+`, `-` y `*` como funciones libres (el `*` en los dos órdenes). `bool operator==(const Vec2&) const = default;` y `<<` para mostrar.",
+    "exito": "El recorrido vuelve exacto al inicio. Lima lo marca en el mapa con un alfiler.",
+    "imagen": [
+      "Una mesa de cartógrafo con un mapa y flechas de colores trazadas en zigzag.",
+      "Lima clava un alfiler; Bron traza una flecha con una regla."
+    ]
+  },
+  "R02-N04-M2": {
+    "lugar": "El banco de herramientas de Lima",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Las fracciones de Lima ya se simplifican solas. Ahora quiere sumarlas y multiplicarlas como números.\n—Y que un 3 se pueda sumar con un cuarto, sin hacer cuentas raras.",
+    "gheco": "Con `Fraccion(int num = 0, int den = 1)`, un entero se convierte solo. `+` usa `+=` y `*` usa `*=`. `==` compara numerador y denominador (ya están simplificadas).",
+    "exito": "La suma del bucle da 4/5 exacto. Lima la anota en el margen del plano.",
+    "imagen": [
+      "Una pizarra con fracciones sumándose en cadena y un resultado subrayado.",
+      "Lima escribe con tiza; Bron mira con la llave inglesa en la mano."
+    ]
+  },
+  "R02-N04-M3": {
+    "lugar": "La estación de trenes",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn necesita el tablero de salidas de la estación ordenado por hora.\n—Y decime cuánto hay entre el primero y el último. Para saber cuánto puedo dormir.",
+    "gheco": "`Hora` con `operator<` y `<<` con ceros adelante. `Salida` con su propio `operator<` que compara las horas. `std::sort` usa ese `<`.",
+    "exito": "El tablero queda ordenado. Lyn calcula la siesta y se va a dormir al banco de la estación.",
+    "imagen": [
+      "Un tablero de salidas de una estación con horarios y destinos en placas de bronce.",
+      "Lyn duerme en un banco con el cronómetro en la mano; Bron lee el tablero."
+    ]
+  },
+  "R02-N04-M4": {
+    "lugar": "La Sala de los Planos",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla trae el apunte de la cátedra con los números complejos.\n—Las operaciones son amigas de la clase: pueden ver adentro. Probalas con varios pares.",
+    "gheco": "`friend Complejo operator+(const Complejo&, const Complejo&);` adentro de la clase. El producto: `(a + bi)(c + di) = (ac − bd) + (ad + bc)i`. `<<` muestra el signo de la parte imaginaria.",
+    "exito": "Todos los pares salen bien. Tesla subraya el producto en el apunte, «para el examen».",
+    "imagen": [
+      "Un apunte abierto sobre una mesa de planos con fórmulas de números complejos.",
+      "Tesla subraya una fórmula; Bron hace cuentas en un papel."
+    ]
+  },
+  "R02-N05-M1": {
+    "lugar": "El mercado de la Ciudadela",
+    "personajes": "Bron, Gheco, Oto",
+    "escena": "Oto abre una tienda de piezas al lado del comedor. Tiene un depósito, una caja y muy poca paciencia.\n—Que la tienda se encargue. Yo cocino.",
+    "gheco": "`Tienda` **tiene** un `Deposito` y una `Caja` como miembros y les delega: `vender` le pide al depósito y, si se pudo, se lo anota a la caja.",
+    "exito": "El cierre del día cuadra al centavo. Oto vuelve a la cocina silbando.",
+    "imagen": [
+      "Una tienda chiquita con estantes de engranajes y resortes, al lado de la puerta de un comedor.",
+      "Oto (cocinero grandote de bigote de manubrio) cobra con el cucharón en la otra mano; Bron repone un estante."
+    ]
+  },
+  "R02-N05-M2": {
+    "lugar": "La estación de trenes",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla arma un tren de carga con vagones de carbón, agua y hierro.\n—Cada carga va a los vagones de su tipo, en orden. Lo que no entre, avisalo.",
+    "gheco": "`Vagon::cargar(t)` carga lo que entra y devuelve lo que sobró. `Tren::cargar` recorre los vagones del tipo y le pasa a cada uno lo que sobró del anterior.",
+    "exito": "El tren sale cargado y con el informe en la mano. Tesla le hace sonar el silbato.",
+    "imagen": [
+      "Un tren de vagones de bronce cargados de carbón, barriles de agua y hierro, saliendo de una estación.",
+      "Tesla tira de la cuerda del silbato; Bron sube el último barril."
+    ]
+  },
+  "R02-N05-M3": {
+    "lugar": "El Gran Reloj de la plaza",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima arma el Gran Reloj de la plaza pieza por pieza: la caja, el péndulo, las agujas.\n—Antes de ejecutarlo, escribí en qué orden se arma y en qué orden se apaga.",
+    "gheco": "Los miembros se construyen en el orden en que están **declarados**, no en el de la lista de inicialización. Se destruyen al revés. `-Wall` avisa si la lista está en otro orden.",
+    "exito": "El reloj se arma y se apaga en el orden que Bron escribió. Lima le pone una estrella en el papel.",
+    "imagen": [
+      "Un reloj de plaza enorme a medio armar, con la caja, el péndulo y las agujas a la vista.",
+      "Lima ajusta el péndulo; Bron sostiene una aguja."
+    ]
+  },
+  "R02-N06-M1": {
+    "lugar": "La estación de trenes",
+    "personajes": "Bron, Gheco, Lyn",
+    "escena": "Lyn quiere registrar los vehículos de la Ciudadela: autos y motos, algunas con sidecar.\n—Todos tienen patente y gastan combustible. Cada uno a su manera.",
+    "gheco": "`Auto` y `Moto` heredan de `Vehiculo` (`class Auto : public Vehiculo`) y llaman a su constructor en la lista de inicialización. Cada derivada suma lo suyo.",
+    "exito": "El registro queda completo. Lyn elige la moto con sidecar para llevar paquetes grandes.",
+    "imagen": [
+      "Un estacionamiento con un auto de bronce, una moto y una moto con sidecar.",
+      "Lyn se sube a la moto con sidecar; Bron revisa la patente del auto."
+    ]
+  },
+  "R02-N06-M2": {
+    "lugar": "La Arena bajo la Ciudadela",
+    "personajes": "Bron, Gheco, Tesla",
+    "criatura": "dragon",
+    "escena": "Tesla le muestra a Bron cómo se comporta la Quimera cuando se enoja: a la mitad de la vida cambia de fase y pega el doble.\n—Pero solo la primera vez. No se enoja dos veces.",
+    "gheco": "`Jefe::recibir_dano` llama a `Entidad::recibir_dano` y, si es la primera vez que la vida queda en la mitad o menos (y sigue viva), pasa a fase 2. `estado()` llama a la de la base y agrega lo suyo.",
+    "exito": "La Quimera se enfurece justo a la mitad. Tesla anota en qué golpe pasó, para la pelea de verdad.",
+    "imagen": [
+      "Una quimera de bronce y cobre con cabeza de león, cuerpo de cabra y cola de serpiente, con las juntas cian encendidas en rojo.",
+      "Bron se cubre detrás de un escudo; Tesla anota desde la tribuna."
+    ]
+  },
+  "R02-N06-M3": {
+    "lugar": "El archivo de planos",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "En el archivo de planos hay tres carpetas una dentro de otra: la abuela, la madre y la nieta.\n—¿Quién se arma primero? —pregunta Lima—. Escribilo antes de verlo.",
+    "gheco": "Se construye primero la base y al final la más derivada; se destruyen al revés. `Nieta` no llama a `Base`: lo hace `Derivada` en su lista de inicialización.",
+    "exito": "El orden sale tal cual lo escribió Bron. Lima le muestra la carpeta del pato «para otro día».",
+    "imagen": [
+      "Tres carpetas de planos de distinto tamaño, una dentro de otra, sobre una mesa de archivo.",
+      "Lima abre la carpeta más chica; Bron sostiene las otras dos."
+    ]
+  },
+  "R02-N07-M1": {
+    "lugar": "El taller de los vitrales",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima corta vidrios con formas distintas para un vitral: círculos, rectángulos y triángulos.\n—Necesito el área de todos juntos. Sin preguntarle a cada uno qué forma es.",
+    "gheco": "`Figura` tiene `area()`, `perimetro()` y `nombre()` virtuales puros (`= 0`). Guardalas en `std::vector<std::unique_ptr<Figura>>` y llamá `f->area()`: cada una responde a su manera.",
+    "exito": "El área total sale exacta. Lima corta el vidrio justo y no le sobra ni un pedacito.",
+    "imagen": [
+      "Vidrios de colores cortados en círculos, rectángulos y triángulos sobre una mesa de luz.",
+      "Lima mide un triángulo; Bron sostiene un círculo contra la ventana."
+    ]
+  },
+  "R02-N07-M2": {
+    "lugar": "El patio de los autómatas",
+    "personajes": "Bron, Gheco, Tesla",
+    "escena": "Tesla tiene una cuadrilla de autómatas: cargadores, soldadores y un aprendiz. Quiere saber cuánto rinde cada uno en un turno.\n—La misma orden para todos. Cada uno trabaja a su manera.",
+    "gheco": "`Automata` abstracta con `trabajar()` y `costo_por_hora()` virtuales. El soldador cuenta las horas para enfriarse cada tres; el aprendiz suma 5 más cada hora. Recorré la cuadrilla con punteros a la base.",
+    "exito": "El aprendiz termina rindiendo más que el soldador. Tesla lo asciende a cargador.",
+    "imagen": [
+      "Un patio con autómatas trabajando: uno levanta cajas, otro suelda con chispas y uno chiquito barre.",
+      "Tesla mira un tablero de rendimiento; Bron le da una palmada al autómata chiquito."
+    ]
+  },
+  "R02-N07-M3": {
+    "lugar": "El patio de los autómatas",
+    "personajes": "Bron, Gheco, Lima",
+    "escena": "Lima le pasa el mismo engranaje a tres funciones distintas. Una lo describe bien y las otras… no tanto.\n—Anotá qué va a decir cada una antes de verlo.",
+    "gheco": "Por valor se **rebana**: se copia solo la parte de `Pieza` y se pierde lo del `Engranaje`. Por referencia o por puntero, el `virtual` funciona.",
+    "exito": "Bron entiende por qué la copia se equivoca. Lima le regala un engranaje entero, sin rebanar.",
+    "imagen": [
+      "Un engranaje de bronce cortado a la mitad al lado de uno entero, sobre una mesa de taller.",
+      "Lima señala la mitad cortada; Bron sostiene el entero."
+    ]
+  },
+  "R02-N09-M2": {
+    "lugar": "La Arena bajo la Ciudadela",
+    "personajes": "Bron, Gheco, Lima",
+    "criatura": "dragon",
+    "escena": "La Quimera cambia de forma en cada turno: león, cabra o serpiente. Cada forma resiste un arma y cae ante otra. Lima elige el arma de cada golpe.\n—No le preguntes qué es. Que responda sola.",
+    "gheco": "La Quimera **tiene** un vector de `unique_ptr<Forma>`. Cada forma sabe su `dano()` y cuánto absorbe con `defensa(arma)`. El turno elige la forma y la llamada virtual hace el resto.",
+    "exito": "La Quimera cae en la arena con un ruido de engranajes sueltos. Lima levanta la lima desde la tribuna.",
+    "imagen": [
+      "Una quimera de bronce desarmándose en el piso de una arena, con piezas de león, cabra y serpiente sueltas.",
+      "Bron levanta la llave inglesa cian; Lima festeja desde la tribuna."
+    ]
+  }
+}

@@ -11,6 +11,7 @@ dias_abono: 30
 destacado: si
 proximamente: no
 publicado: si
+micromisiones_completan: si
 ```
 
 ### Descripción
@@ -19,11 +20,11 @@ Aprendé **C++ desde cero**. No hace falta saber programar ni haber hecho el cur
 
 C++ es la lengua de los motores de videojuegos, los navegadores, los programas de edición de audio y video, y de todo lo que necesita ser **rápido** sin renunciar a construir cosas grandes y ordenadas.
 
-Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilás el ejemplo en tu compu y resolvés las **misiones**: al aprobarlas ganás engranajes para abrir el siguiente. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
+Cada tema es un **nodo** del árbol. En cada uno acompañás a **Bron**, un mecánico que llegó a la Ciudadela arreglando engranajes a mano: leés la explicación y resolvés sus **micro-misiones**, que se comprueban solas (C++ corre acá mismo, en tu navegador): las que vienen de una misión te dan engranajes para abrir el siguiente. Algunos nodos tienen además un **proyecto** que corrige el profe. Cada rama termina con un **jefe** que junta todo lo que aprendiste.
 
 El camino termina con **aplicaciones de escritorio en Qt** y **TallerExpress**, un simulacro del examen: clases con herencia, un archivo y su ventana. Después, en la **Encrucijada de los Engranajes**, sale una Senda optativa de videojuegos 2D con **SDL3**.
 
-> Qué hace falta: los ejemplos y las micro-misiones corren en este navegador. Para las misiones, una compu con `g++` y un editor: ZinjaI, Code::Blocks o VS Code (en Linux y en Windows), y Qt Creator para la rama de Qt. En Linux: `sudo apt install g++`; en Windows, MSYS2 o el compilador que trae el editor; en macOS, las herramientas de Xcode). Los programas de C++ se compilan y se prueban en tu compu, y se entregan pegando el código o subiendo un archivo.
+> Qué hace falta: los ejemplos y las micro-misiones corren en este navegador. Para los proyectos, una compu con `g++` y un editor: ZinjaI, Code::Blocks o VS Code (en Linux y en Windows), y Qt Creator para la rama de Qt. En Linux: `sudo apt install g++`; en Windows, MSYS2 o el compilador que trae el editor; en macOS, las herramientas de Xcode). Los proyectos se compilan y se prueban en tu compu, y se entregan subiendo un archivo.
 
 ### Temario
 
@@ -39,10 +40,10 @@ El camino termina con **aplicaciones de escritorio en Qt** y **TallerExpress**, 
 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
-| coin.course | engranaje | engranajes | m | La moneda de la Ciudadela: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
+| coin.course | engranaje | engranajes | m | La moneda de la Ciudadela: se gana superando las micro-misiones que vienen de una misión (y aprobando los proyectos y las misiones de la Senda) y abre los nodos del curso. | | curso |
 | mentor.name | Tesla | | m | El Artífice Mayor: inventor y guía de la Ciudadela de los Artífices. | Aprendió a forjar con Maese Ferrum, en las Forjas de Hierro, y un día subió la montaña con una idea: dejar de hacer cada pieza a mano y dibujar **planos** que cualquiera pudiera construir mil veces. Así nació la Ciudadela. Es rápido, curioso y odia repetir código. | curso |
 | world.region | Ciudadela de los Artífices | | f | La región del mundo cuya lengua arcana es C++. | | curso |
-| story.course_intro | Bienvenida a la Ciudadela | | f | | Bron era mecánico en un pueblo común: arreglaba todo a mano, pieza por pieza, con su llave inglesa cian. Una noche, un **vitral** se encendió como un portal y despertó al pie de la cuesta de la **Ciudadela de los Artífices**, en {mundo}: torres, poleas y engranajes que giran solos. Todos, menos los del portón.<br><br>Soy {mentor}. Acá no fabricamos cada pieza a mano: dibujamos **planos**, y de cada plano salen todas las piezas que haga falta. Primero se escribe el plano; el **Taller**, el compilador, lo revisa y lo construye.<br><br>Cada tema que Bron domine le da un plano nuevo; cada misión aprobada, engranajes para abrir el siguiente. | curso |
+| story.course_intro | Bienvenida a la Ciudadela | | f | | Bron era mecánico en un pueblo común: arreglaba todo a mano, pieza por pieza, con su llave inglesa cian. Una noche, un **vitral** se encendió como un portal y despertó al pie de la cuesta de la **Ciudadela de los Artífices**, en {mundo}: torres, poleas y engranajes que giran solos. Todos, menos los del portón.<br><br>Soy {mentor}. Acá no fabricamos cada pieza a mano: dibujamos **planos**, y de cada plano salen todas las piezas que haga falta. Primero se escribe el plano; el **Taller**, el compilador, lo revisa y lo construye.<br><br>Cada tema que Bron domine le da un plano nuevo; las micro-misiones más difíciles, engranajes para abrir el siguiente. | curso |
 | story.branch_completed | ¡Rama ensamblada! | | f | | {mentor} da vuelta una manivela y una torre entera se ilumina. —Otra parte de la Ciudadela ya funciona con los planos de Bron. —Lima lo anota en su cuaderno de relojera, y Bron pregunta para qué le sirve. Esta vez nadie le contesta: ya lo sabe. | curso |
 | story.course_completed | ¡Dominaste la lengua de la Ciudadela! | | f | | {mentor} le entrega a Bron su compás de bronce, el que usó para trazar la primera torre. —Llegaste arreglando doscientos engranajes a mano, con una llave mellada, y te vas con una llave que sirve para cualquier tuerca, porque dibujaste su plano. Ya sos artífice. —Desde la Encrucijada de los Engranajes sale un camino más, si Bron lo quiere: la Linterna Mágica. | curso |
 | story.portal_piece | Lo que dibujó Tesla | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Me pidió un mecanismo raro: unas bisagras que pudieran abrir algo que no era una puerta. Las dibujé en un plano y nunca supe si las usó. Hasta que vi tu portal. | curso |
@@ -82,7 +83,7 @@ error y las advertencias**.
 
 Nada: este es el punto de partida. Para los ejemplos y las micro-misiones alcanza
 con este navegador (tocá **Ejecutar**: la primera vez baja el compilador y tarda
-un poco). Para las misiones vas a necesitar un entorno de C++ en tu compu: abajo
+un poco). Para los proyectos vas a necesitar un entorno de C++ en tu compu: abajo
 está cómo instalarlo en Linux y en Windows. El curso usa **C++20**, así que el
 compilador tiene que ser `g++` 11 o más nuevo (`g++ --version`).
 
@@ -569,28 +570,43 @@ Los doscientos engranajes giran a la vez y el portón se abre con un suspiro de 
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) sostiene un plano iluminado.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira su llave inglesa mellada.
 
-### Misión R00-N01-M1 · La ficha de Lima
+### Micro-misión R00-N01-P5 · La ficha de Lima
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El portón de engranajes
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R00-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Lima llega al portón con una chapa en blanco.
+—Acá todo el que entra deja su ficha colgada. La mía la hacés vos, que yo tengo las manos ocupadas.
 
+#### Gheco sugiere
+Cada línea es un `std::cout << ... << '\n';`. El `\t` deja el valor en la siguiente columna, así quedan alineados.
+
+#### Desafío
 Mostrá la ficha de Lima en la Ciudadela: nombre, clase, región y mentor, uno por
 línea, con el valor separado por `\t`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra nombre, clase, región y mentor, uno por línea.
 - Separa los valores con `\t`.
 - Compila sin advertencias con `-Wall -Wextra`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 === FICHA ===
 Nombre:	Lima
@@ -599,8 +615,7 @@ Región:	La Ciudadela de los Artífices
 Mentor:	Tesla
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La ficha de Lima en la Ciudadela.
 #include <iostream>
@@ -616,17 +631,31 @@ int main()
 }
 ```
 
-### Misión R00-N01-M2 · El plano roto
+#### Al superarla
+La ficha de Lima queda colgada en el portón, derechita. Ella la mira de reojo y no dice nada, pero sonríe.
+
+#### Imagen
+- Un portón gigante de engranajes de bronce con fichas metálicas colgadas, y torres altísimas detrás.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) cuelga la ficha; Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro) la sostiene.
+
+### Micro-misión R00-N01-P6 · El plano roto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El portón de engranajes
+personajes: Bron, Gheco, Tesla
+criatura: slime
+recompensa: xp 10, monedas 4
+antes: R00-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla le pasa a Bron un plano arrugado con tres errores.
+—El compilador te dice dónde está cada uno. Leelo de a uno. No arregles todo junto, que después no sabés qué pasó.
 
+#### Gheco sugiere
+Falta `#include <iostream>`, falta un `;` al final de una línea, y `cout` sin `std::` no existe. Compilá después de cada arreglo.
+
+#### Desafío
 Este plano tiene **tres** errores. Compilalo, leé cada mensaje y arreglalo **de a
 uno** (volvé a compilar después de cada arreglo):
 ```cpp
@@ -638,17 +667,14 @@ int main()
 }
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Corrige los tres errores: el `#include <iostream>` que falta, el `;` que falta y el `std::` que falta.
 - Compila sin errores ni advertencias.
 - Muestra las dos líneas del plano.
 
 #### Código inicial
-
 ```cpp
-int main()
-{
+int main() {
     std::cout << "Lima llega a la Ciudadela.\n"
     cout << "Tesla la espera en la torre.\n";
     return 0;
@@ -656,14 +682,12 @@ int main()
 ```
 
 #### Salida esperada
-
 ```
 Lima llega a la Ciudadela.
 Tesla la espera en la torre.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El plano roto, ya reparado.
 //
@@ -681,28 +705,50 @@ int main()
 }
 ```
 
-### Misión R00-N01-M3 · El engranaje de Tesla
+#### Al superarla
+El plano compila limpio. Tesla lo enrolla y se lo guarda en el bolsillo del traje.
+
+#### Imagen
+- Un plano de papel arrugado con tres manchas de tinta, sobre una mesa de trabajo junto al portón, y un slime verde escurriéndose del borde.
+- Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) señala el plano; Bron se rasca la cabeza.
+
+### Micro-misión R00-N01-P7 · El engranaje de Tesla
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El portón de engranajes
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R00-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Tesla quiere ver si Bron entiende cómo es un engranaje por dentro.
+—Dibujámelo. Con caracteres. Y abajo, la frase que dice siempre Lima.
 
+#### Gheco sugiere
+La barra invertida se escribe `\\` y las comillas `\"`. Si no, C++ cree que el texto termina antes.
+
+#### Desafío
 Dibujá un engranaje con caracteres y una frase entre comillas debajo. Vas a
 necesitar `\\` para cada barra invertida y `\"` para las comillas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Dibuja el engranaje usando `\\` para la barra invertida.
 - Muestra la frase entre comillas con `\"`.
 - Compila sin advertencias.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
     _/\_/\_
    /        \
@@ -712,8 +758,7 @@ necesitar `\\` para cada barra invertida y `\"` para las comillas.
 "Cada diente cuenta", dice Tesla.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El engranaje de Tesla, dibujado con caracteres.
 #include <iostream>
@@ -729,6 +774,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+El engranaje queda dibujado en la pared del portón. Tesla le marca un diente torcido, pero lo deja pasar.
+
+#### Imagen
+- Una pared de bronce con un engranaje grande dibujado con tiza blanca.
+- Bron dibuja con tiza; Tesla lo mira con los brazos cruzados.
 
 ### Encargo R00-N01-E1 · El ticket del almacén
 

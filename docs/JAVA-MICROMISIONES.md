@@ -54,3 +54,10 @@ Misma modalidad, curso por curso: C, después C++ y el resto. Sin entregas en pr
 - **`rand()` y `sizeof(long)` dan distinto en el navegador** (wasm32): en esas 9 la salida esperada es la del navegador (`browser-check.mjs --salidas=` + `scripts/micro-misiones/poner-salidas.py`), con el aviso en «Gheco sugiere». Al oráculo al azar se le cambió la entrada para que se gane.
 - **El código inicial no tiene que dar ya la salida esperada.** En dos de depuración el error no se veía en el navegador (sin sanitizador): al promedio que miente se le cambió un dato para que la división entera se note, y la Sanguijuela cuenta los bloques sin devolver.
 - `app:simulate-course c`: los 5 alumnos terminan los 43 nodos y los 9 controles dan bien.
+
+**C++ (hecho, 2026-10-20):** las 122 misiones de consola del tronco pasan a ser micro-misiones que pagan engranajes (`scripts/cpp-micro/*.json`); quedan como proyectos que corrige el docente las 15 que se entregan como archivo o con ventana (las de Qt, los jefes de R03 y R05, «Mirá hacia atrás») y las 8 de la Senda de la Linterna Mágica.
+- Probadas igual que C (`casos-md.py` + `browser-check.mjs --nodo=/cursos/cpp/nodos/ID`): 122 de 122 (la de medir tiempos difiere solo en `std::cerr`, que no se compara).
+- **La biblioteca de C++ del navegador (libc++) no es la de `g++` (libstdc++):** `std::uniform_int_distribution` da otros números con la misma semilla, y el vector destruye sus elementos del último al primero. En esas 6 la salida esperada es la del navegador, con el aviso en «Gheco sugiere».
+- **`fs::relative` no anda en el navegador** (busca la carpeta real): la solución usa `lexically_relative`. Y el `what()` de `stoi` cambia según la biblioteca: la solución relanza con su propio mensaje.
+- Las de depuración (la lista de compras rota, la función tramposa) y las que parten de una clase ya hecha (la Fracción, los inventos) traen ese código como inicial; ninguno da ya la salida esperada.
+- `app:simulate-course cpp`: los 5 alumnos terminan los 53 nodos y los 9 controles dan bien.

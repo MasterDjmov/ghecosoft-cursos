@@ -422,28 +422,43 @@ Tres y medio. Lyn gana la apuesta contra nadie y lo festeja igual.
 - Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) levanta los brazos festejando.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aplaude sin entender del todo.
 
-### Misión R01-N01-M1 · El plano de la torre
+### Micro-misión R01-N01-P4 · El plano de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La plaza de las torres
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Lima tiene que embaldosar la base de una torre nueva y le pide a Bron las cuentas: el área, el perímetro y cuántas baldosas hacen falta.
+—Las medidas no cambian. Que queden fijas.
 
+#### Gheco sugiere
+Las medidas van en `const double`. El área es largo × ancho y el perímetro 2 × (largo + ancho). Las baldosas: área dividida por el área de una baldosa (0.5 × 0.5).
+
+#### Desafío
 La base de una torre mide 12.5 por 8 metros. Guardá esas medidas en **constantes**
 y mostrá el área, el perímetro y cuántas baldosas de 0.5 × 0.5 m hacen falta para
 cubrirla.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `const double` para las medidas.
 - Calcula área, perímetro y baldosas con operadores (no escribe los resultados a mano).
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Base de la torre: 12.5 x 8 m
 Área: 100 m²
@@ -451,8 +466,7 @@ Perímetro: 41 m
 Baldosas de 0.5 x 0.5: 400
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El plano de la torre: area y perimetro de la base.
 #include <iostream>
@@ -471,30 +485,52 @@ int main()
 }
 ```
 
-### Misión R01-N01-M2 · Repartir engranajes
+#### Al superarla
+Lima encarga las baldosas justas, ni una de más. La torre nueva queda con el piso perfecto.
+
+#### Imagen
+- La base de una torre en construcción con baldosas de piedra apiladas al costado.
+- Lima mide con una cinta métrica; Bron carga una pila de baldosas.
+
+### Micro-misión R01-N01-P5 · Repartir engranajes
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El almacén de piezas
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Hay mil engranajes para repartir entre siete artífices. Lima quiere el reparto justo y la prueba de que no se perdió ninguno.
+—Que lo que sobra, sobre a la vista.
 
+#### Gheco sugiere
+Entre enteros, `1000 / 7` da cuántos le tocan y `1000 % 7` lo que sobra. Para el promedio exacto, convertí a `double` antes de dividir. La comprobación: `a_cada_uno * artifices + sobran`.
+
+#### Desafío
 Hay 1000 engranajes para repartir en partes iguales entre 7 artífices. Mostrá
 cuántos le tocan a cada uno (entero), cuántos sobran, el promedio exacto (con
 decimales) y una comprobación: `a_cada_uno * artifices + sobran` tiene que dar
 1000.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `/` y `%` con enteros para el reparto.
 - Usa `static_cast<double>` para el promedio exacto.
 - La comprobación da 1000.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 A cada artífice: 142
 Sobran: 6
@@ -502,8 +538,7 @@ Promedio exacto: 142.857
 Comprobación: 1000
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Repartir engranajes: division entera y resto.
 #include <iostream>
@@ -522,33 +557,54 @@ int main()
 }
 ```
 
-### Misión R01-N01-M3 · El reloj de la torre
+#### Al superarla
+Siete pilas iguales y una chiquita aparte. Lima cuenta la chiquita y asiente.
+
+#### Imagen
+- Siete pilas iguales de engranajes de bronce sobre una mesa larga y una pila chiquita aparte.
+- Lima reparte engranajes; Bron anota en un cuaderno.
+
+### Micro-misión R01-N01-P6 · El reloj de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre del reloj
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N01-M3
 ```
 
-#### Consigna
+#### Escena
+El reloj de la torre cuenta segundos desde la medianoche y nadie sabe leerlo. Tesla le muestra el número a Bron: 45296.
+—¿Qué hora es?
 
+#### Gheco sugiere
+`45296 / 3600` son las horas y `45296 % 3600` lo que sobra. De lo que sobra salen los minutos (`/ 60`) y los segundos (`% 60`).
+
+#### Desafío
 El reloj de la torre cuenta segundos desde la medianoche. Convertí 45296 segundos
 a horas, minutos y segundos usando solo `/` y `%`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa división entera y resto.
 - Muestra `45296 segundos son 12 h 34 min 56 s`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 45296 segundos son 12 h 34 min 56 s
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El reloj de la torre: segundos a horas, minutos y segundos.
 #include <iostream>
@@ -563,6 +619,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Son las doce, cuatro minutos y cincuenta y seis segundos. Tesla ajusta las agujas y la torre suena.
+
+#### Imagen
+- La esfera enorme de un reloj de torre vista desde adentro, con engranajes gigantes girando.
+- Tesla ajusta una aguja con una llave; Bron lee un número en una cinta de papel.
 
 ### Encargo R01-N01-E1 · El termómetro del Gremio
 
@@ -1048,34 +1111,49 @@ El menú queda prolijo como un reloj. Lima lo aprueba con un gesto, y Oto lo cue
 - Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) cuelga el pizarrón un poco torcido.
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) lo endereza con la punta de la lima.
 
-### Misión R01-N02-M1 · El registro de la puerta
+### Micro-misión R01-N02-P4 · El registro de la puerta
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de pedidos
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R01-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En la puerta de la Ciudadela, el guardia anota solo la primera palabra del nombre. Lyn llega corriendo:
+—¡Me anotó «Lyn» y nada más! Hacé un registro que escuche la frase entera.
 
+#### Gheco sugiere
+`std::getline(std::cin, nombre)` lee la línea completa, con espacios. `nombre.size()` da la cantidad de caracteres y `nombre[0]` la inicial.
+
+#### Desafío
 Pedí el **nombre completo** (con espacios) y el **oficio** de quien entra a la
 Ciudadela. Mostrá el registro, la cantidad de caracteres del nombre y la inicial.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee líneas completas con `std::getline`.
 - Muestra el registro, el largo y la inicial con `nombre[0]`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Lima Valdez
 artífice aprendiz
 ```
 
 #### Salida esperada
-
 ```
 Nombre completo: Oficio: 
 Registrado: Lima Valdez (artífice aprendiz)
@@ -1083,8 +1161,7 @@ Letras del nombre (con espacios): 11
 Inicial: L
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El registro de la puerta: nombre completo y oficio.
 #include <iostream>
@@ -1106,55 +1183,53 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El registro anota el nombre completo de Lyn. Ella lo lee dos veces y sale corriendo, conforme.
 
-##### Un solo nombre
-```entrada
-Tesla
-inventor
-```
-```salida
-Nombre completo: Oficio:
-Registrado: Tesla (inventor)
-Letras del nombre (con espacios): 5
-Inicial: T
-```
+#### Imagen
+- Una ventanilla de bronce con un libro de registro enorme abierto.
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) se apoya en la ventanilla; Bron escribe en el libro.
 
-##### Nombre largo con varios espacios
-```entrada
-María de los Ángeles Pérez
-herrera mayor
-```
-```salida
-Nombre completo: Oficio:
-Registrado: María de los Ángeles Pérez (herrera mayor)
-Letras del nombre (con espacios): 29
-Inicial: M
-```
-
-### Misión R01-N02-M2 · La balanza del mercado
+### Micro-misión R01-N02-P5 · La balanza del mercado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de pedidos
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R01-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Oto compra ingredientes en el mercado y quiere la cuenta con los centavos bien puestos.
+—Y si alguien me dice un precio con letras, que no me cobre cualquier cosa.
 
+#### Gheco sugiere
+Después de `std::cin >> precio`, si `!std::cin` el dato no era un número: avisá y `return 1`. `std::fixed << std::setprecision(2)` muestra siempre dos decimales.
+
+#### Desafío
 Pedí un producto (puede tener espacios), su precio y la cantidad. Mostrá la
 cuenta con **2 decimales fijos**. Si el precio o la cantidad no son números,
 avisá y terminá con `return 1`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee el producto con `getline` y los números con `>>`.
 - Revisa que las lecturas numéricas no fallen.
 - Muestra el total con `std::fixed` y `std::setprecision(2)`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 tornillos de bronce
 12.5
@@ -1162,14 +1237,12 @@ tornillos de bronce
 ```
 
 #### Salida esperada
-
 ```
 Producto: Precio: Cantidad: 
 8 x tornillos de bronce a $12.50 = $100.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La balanza: leer precio y cantidad y mostrar el total con 2 decimales.
 #include <iostream>
@@ -1199,70 +1272,58 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La cuenta sale con los centavos justos. Oto paga y se lleva una bolsa de cebollas.
 
-##### Precio no numérico
-```entrada
-engranajes
-caro
-3
-```
-```salida
-Producto: Precio:
-Precio inválido.
-```
+#### Imagen
+- Una balanza de mercado de bronce con una bolsa de cebollas en un platillo.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) mira la cuenta; Bron pesa.
 
-##### Cantidad no numérica
-```entrada
-resortes
-12.5
-muchos
-```
-```salida
-Producto: Precio: Cantidad:
-Cantidad inválida.
-```
-
-##### Precio con muchos decimales
-```entrada
-tuerca
-0.333
-3
-```
-```salida
-Producto: Precio: Cantidad:
-3 x tuerca a $0.33 = $1.00
-```
-
-### Misión R01-N02-M3 · La tabla de materiales
+### Micro-misión R01-N02-P6 · La tabla de materiales
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El almacén de piezas
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Lima trae la lista de materiales escrita de corrido, en una sola línea.
+—Pasala a una tabla. Los nombres a la izquierda, los números a la derecha, y el total abajo.
 
+#### Gheco sugiere
+`std::cin >> nombre >> cantidad` tres veces. `std::left << std::setw(12)` para el nombre y `std::right << std::setw(8)` para la cantidad.
+
+#### Desafío
 Leé tres materiales con su cantidad, todos en una línea (`hierro 40 cobre 15
 zinc 7`). Mostrá una tabla: el nombre alineado a la izquierda en 12 lugares y la
 cantidad a la derecha en 8. Al final, el total. (Usá nombres sin tildes: `setw` cuenta bytes.)
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Encadena las lecturas con `>>`.
 - Alinea con `std::setw`, `std::left` y `std::right`.
 - Muestra el total.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 hierro 40 cobre 15 zinc 7
 ```
 
 #### Salida esperada
-
 ```
 Tres materiales con su cantidad (nombre cantidad): 
 Material       Cant.
@@ -1272,8 +1333,7 @@ zinc               7
 TOTAL             62
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La tabla de materiales, alineada con setw.
 #include <iostream>
@@ -1296,33 +1356,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La tabla queda alineada al milímetro. Lima la pega en la puerta del almacén.
 
-##### Cantidades grandes
-```entrada
-plomo 1250 estanio 3 oro 999999
-```
-```salida
-Tres materiales con su cantidad (nombre cantidad):
-Material       Cant.
-plomo           1250
-estanio            3
-oro           999999
-TOTAL        1001252
-```
-
-##### Ceros
-```entrada
-cobre 0 zinc 0 hierro 0
-```
-```salida
-Tres materiales con su cantidad (nombre cantidad):
-Material       Cant.
-cobre              0
-zinc               0
-hierro             0
-TOTAL              0
-```
+#### Imagen
+- Una puerta de almacén con una tabla de materiales prolija pegada, y lingotes de hierro, cobre y zinc apilados.
+- Lima pega la tabla; Bron acomoda los lingotes.
 
 ### Encargo R01-N02-E1 · La deuda del club
 
@@ -1898,43 +1937,57 @@ Una carta, una torre. Lyn llega a la del reloj en un minuto y le sobra tiempo pa
 - Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) corre con un bolso de cartas.
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) anota los tiempos con su lupa.
 
-### Misión R01-N03-M1 · La puerta de la torre
+### Micro-misión R01-N03-P4 · La puerta de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre del reloj
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N03-M1
 ```
 
-#### Consigna
+#### Escena
+La puerta de la torre solo se abre con nivel 5 o más y con llave. Tesla quiere que diga exactamente qué te falta.
+—No me sirve un «no». Quiero saber por qué.
 
+#### Gheco sugiere
+Leé el nivel y la llave (`si`/`no`). Con `if` / `else if` cubrí los cuatro casos: todo bien, falta la llave, falta el nivel, falta todo.
+
+#### Desafío
 La puerta de la torre se abre solo si tenés **nivel 5 o más** y **llave**. Pedí el
 nivel y si tenés llave (`si`/`no`) y mostrá uno de cuatro mensajes: se abre, te
 falta la llave, la puerta no reconoce tu nivel (tenés llave pero no nivel), o te
 falta todo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Combina condiciones con `&&`.
 - Cubre los cuatro casos con `if`/`else if`/`else`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 3
 si
 ```
 
 #### Salida esperada
-
 ```
 Nivel: ¿Tenés llave? (si/no): 
 La llave gira, pero la puerta no reconoce a alguien de nivel 3.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La puerta de la torre: pide nivel y llave.
 #include <iostream>
@@ -1963,74 +2016,62 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Bron prueba los cuatro casos y la puerta contesta distinto en cada uno. Tesla la deja así.
 
-##### Se abre
-```entrada
-5
-si
-```
-```salida
-Nivel: ¿Tenés llave? (si/no):
-La puerta se abre.
-```
+#### Imagen
+- Una puerta redonda de bronce en la base de una torre, con una cerradura y un medidor de nivel.
+- Bron sostiene una llave; Tesla ajusta el medidor.
 
-##### Le falta la llave
-```entrada
-9
-no
-```
-```salida
-Nivel: ¿Tenés llave? (si/no):
-Te falta la llave.
-```
-
-##### Le falta todo
-```entrada
-1
-no
-```
-```salida
-Nivel: ¿Tenés llave? (si/no):
-Volvé cuando seas más fuerte y tengas la llave.
-```
-
-### Misión R01-N03-M2 · La calculadora del taller
+### Micro-misión R01-N03-P5 · La calculadora del taller
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco de herramientas de Lima
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Lima quiere una calculadora para el taller: le escribís la cuenta y te la resuelve.
+—Y si alguien divide por cero, que no se rompa nada.
 
+#### Gheco sugiere
+`std::cin >> a >> op >> b`. Un `switch (op)` con un `case` por operación; `case '*': case 'x':` comparten la cuenta. Antes de dividir, fijate que `b` no sea 0.
+
+#### Desafío
 Leé una cuenta como `8 * 3` (número, operación, número) y resolvela con un
 `switch` sobre la operación: `+`, `-`, `*` (o `x`) y `/`. Si se divide por cero,
 avisá. Si la operación no existe, también.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `switch` con `break` en cada caso.
 - Acepta `*` y `x` para multiplicar (dos `case` juntos).
 - Evita dividir por cero.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 8 / 0
 ```
 
 #### Salida esperada
-
 ```
 Cuenta (ej: 8 * 3): 
 No se puede dividir por cero.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La calculadora del taller con switch.
 #include <iostream>
@@ -2067,81 +2108,63 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La calculadora queda en el banco de Lima. Ella la usa enseguida para las cuentas de un reloj nuevo.
 
-##### Multiplicación con x
-```entrada
-6 x 7
-```
-```salida
-Cuenta (ej: 8 * 3):
-6 * 7 = 42
-```
+#### Imagen
+- Un banco de relojero con lupas, piezas diminutas y una calculadora mecánica de bronce.
+- Lima escribe una cuenta en la calculadora; Bron mira por encima de su hombro.
 
-##### Resta negativa
-```entrada
-3 - 10
-```
-```salida
-Cuenta (ej: 8 * 3):
-3 - 10 = -7
-```
-
-##### Operación desconocida
-```entrada
-5 % 2
-```
-```salida
-Cuenta (ej: 8 * 3):
-Operación desconocida: %
-```
-
-##### División con decimales
-```entrada
-7 / 2
-```
-```salida
-Cuenta (ej: 8 * 3):
-7 / 2 = 3.5
-```
-
-### Misión R01-N03-M3 · El calendario de la Ciudadela
+### Micro-misión R01-N03-P6 · El calendario de la Ciudadela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre del reloj
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N03-M3
 ```
 
-#### Consigna
+#### Escena
+El calendario de la torre no sabe cuándo febrero tiene 29 días. Tesla le dicta la regla a Bron.
+—Divisible por 4 y no por 100, o divisible por 400.
 
+#### Gheco sugiere
+`bool bisiesto = (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;`. Los dos mensajes salen con el ternario `bisiesto ? ... : ...`.
+
+#### Desafío
 Un año es **bisiesto** si es divisible por 4 y no por 100, **o** si es divisible
 por 400. Pedí un año y decí si es bisiesto y cuántos días tiene febrero, usando el
 operador ternario para los dos mensajes.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Escribe la condición con `%`, `&&` y `||`.
 - Usa el operador ternario.
 - 1900 no es bisiesto; 2000 y 2024 sí.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1900
 ```
 
 #### Salida esperada
-
 ```
 Año: 
 1900 no es bisiesto
 Febrero tiene 28 días.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El año bisiesto del calendario de la Ciudadela.
 #include <iostream>
@@ -2159,37 +2182,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El calendario marca bien el 2000 y el 1900. Tesla le da cuerda y lo cuelga.
 
-##### Divisible por 400
-```entrada
-2000
-```
-```salida
-Año:
-2000 es bisiesto
-Febrero tiene 29 días.
-```
-
-##### Divisible por 4
-```entrada
-2024
-```
-```salida
-Año:
-2024 es bisiesto
-Febrero tiene 29 días.
-```
-
-##### Año común
-```entrada
-2023
-```
-```salida
-Año:
-2023 no es bisiesto
-Febrero tiene 28 días.
-```
+#### Imagen
+- Un calendario mecánico de bronce con hojas que giran, colgado en la pared de la torre.
+- Tesla lo cuelga; Bron revisa la hoja de febrero.
 
 ### Encargo R01-N03-E1 · El boleto del colectivo
 
@@ -2772,35 +2770,49 @@ Cinco buenas y tres tropiezos. Lyn jura que los tropiezos fueron culpa de las bo
 - Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) se ata las botas de resortes.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee la tira de papel.
 
-### Misión R01-N04-M1 · El sensor de la caldera
+### Micro-misión R01-N04-P4 · El sensor de la caldera
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de calderas
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N04-M1
 ```
 
-#### Consigna
+#### Escena
+El sensor de la caldera manda lecturas sin parar hasta que se apaga con un cero. Tesla quiere el resumen.
+—Cuántas, la suma, el promedio, la más alta y la más baja.
 
+#### Gheco sugiere
+Un bucle que lee mientras la lectura no sea 0. Llevá la cantidad, la suma, el máximo y el mínimo. Si no hubo ninguna, mostrá el mensaje especial. El promedio, con `double`.
+
+#### Desafío
 Leé lecturas enteras del sensor hasta que llegue un **0**. Mostrá cuántas hubo, la
 suma, el promedio (con decimales), el máximo y el mínimo. Si la primera lectura ya
 es 0, mostrá "No hubo lecturas."
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee dentro de la condición del `while` y frena en el 0.
 - Usa contador, acumulador, máximo y mínimo.
 - El máximo y el mínimo arrancan con la primera lectura.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 12 -4 30 7 -9 0
 ```
 
 #### Salida esperada
-
 ```
 Lecturas (0 para terminar):
 Lecturas: 5
@@ -2809,8 +2821,7 @@ Promedio: 7.2
 Máximo: 30, mínimo: -9
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Leer lecturas del sensor hasta el 0: cantidad, suma, promedio, maximo y minimo.
 #include <iostream>
@@ -2845,69 +2856,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El resumen sale en un papel por la ranura de la caldera. Tesla lo lee y baja un poco la presión.
 
-##### Sin lecturas
-```entrada
-0
-```
-```salida
-Lecturas (0 para terminar):
-No hubo lecturas.
-```
+#### Imagen
+- Una caldera de cobre con un manómetro grande y una cinta de papel saliendo de una ranura.
+- Tesla lee la cinta; Bron mueve una válvula.
 
-##### Una sola lectura negativa
-```entrada
--15 0
-```
-```salida
-Lecturas (0 para terminar):
-Lecturas: 1
-Suma: -15
-Promedio: -15
-Máximo: -15, mínimo: -15
-```
-
-##### Todas iguales
-```entrada
-5 5 5 5 0
-```
-```salida
-Lecturas (0 para terminar):
-Lecturas: 4
-Suma: 20
-Promedio: 5
-Máximo: 5, mínimo: 5
-```
-
-### Misión R01-N04-M2 · La pirámide de engranajes
+### Micro-misión R01-N04-P5 · La pirámide de engranajes
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El almacén de piezas
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Lima apila engranajes en forma de pirámide para la vidriera: uno arriba, tres abajo, cinco más abajo.
+—Decime cuántos voy a necesitar.
 
+#### Gheco sugiere
+Un `for` por piso y adentro dos más: uno para los espacios (`pisos - piso`) y otro para los engranajes (`2 * piso - 1`). El total es `pisos * pisos`.
+
+#### Desafío
 Pedí la cantidad de pisos y dibujá una pirámide centrada con `o`: el piso 1 tiene
 1 engranaje, el 2 tiene 3, el 3 tiene 5… Al final, mostrá cuántos engranajes se
 usaron (es `pisos * pisos`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa bucles anidados: uno para los pisos, otros para espacios y engranajes.
 - La pirámide queda centrada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 4
 ```
 
 #### Salida esperada
-
 ```
 Pisos: 
    o
@@ -2917,8 +2914,7 @@ ooooooo
 Engranajes usados: 16
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La piramide de engranajes: bucles anidados.
 #include <iostream>
@@ -2943,57 +2939,51 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La pirámide queda perfecta en la vidriera. Lima no tiene que ir a buscar ni un engranaje más.
 
-##### Un piso
-```entrada
-1
-```
-```salida
-Pisos:
-o
-Engranajes usados: 1
-```
+#### Imagen
+- Una pirámide de engranajes de bronce en una vidriera, con el piso de abajo más ancho.
+- Lima acomoda el engranaje de arriba; Bron le alcanza otro.
 
-##### Siete pisos
-```entrada
-7
-```
-```salida
-Pisos:
-      o
-     ooo
-    ooooo
-   ooooooo
-  ooooooooo
- ooooooooooo
-ooooooooooooo
-Engranajes usados: 49
-```
-
-### Misión R01-N04-M3 · El adivino mecánico
+### Micro-misión R01-N04-P6 · El adivino mecánico
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La rueda de feria de la plaza
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R01-N04-M3
 ```
 
-#### Consigna
+#### Escena
+En la plaza hay un adivino mecánico que piensa un número. Lyn ya lo probó y perdió.
+—Cinco intentos. Si te dice más alto o más bajo, hacele caso.
 
+#### Gheco sugiere
+Un `for` de hasta 5 intentos con `break` si acertás. Llevá un `bool` para saber, al final, si acertaste o se acabaron los intentos.
+
+#### Desafío
 El adivino piensa el número **37**. Tenés 5 intentos: después de cada uno te dice
 "Más alto." o "Más bajo.". Si acertás, el bucle termina antes. Al final, decí si
 acertaste o se acabaron los intentos (y cuál era).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El número secreto y los intentos son constantes.
 - El bucle termina al acertar o al agotar los intentos.
 - Da una pista después de cada intento fallido.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 50
 25
@@ -3001,7 +2991,6 @@ acertaste o se acabaron los intentos (y cuál era).
 ```
 
 #### Salida esperada
-
 ```
 Intento 1: 
 Más bajo.
@@ -3011,8 +3000,7 @@ Intento 3:
 ¡Acertaste! Era 37.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El adivino mecanico: adivinar un numero con pistas, como maximo 5 intentos.
 #include <iostream>
@@ -3046,48 +3034,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Bron acierta en el cuarto intento. Lyn le pide la revancha.
 
-##### Acierta al primero
-```entrada
-37
-```
-```salida
-Intento 1:
-¡Acertaste! Era 37.
-```
-
-##### Se acaban los intentos
-```entrada
-10
-90
-20
-80
-30
-```
-```salida
-Intento 1:
-Más alto.
-Intento 2:
-Más bajo.
-Intento 3:
-Más alto.
-Intento 4:
-Más bajo.
-Intento 5:
-Más alto.
-Se acabaron los intentos. Era 37.
-```
-
-##### Se termina la entrada
-```entrada
-40
-```
-```salida
-Intento 1:
-Más bajo.
-Intento 2: Se acabaron los intentos. Era 37.
-```
+#### Imagen
+- Un muñeco adivino de bronce con turbante dentro de una cabina de feria, con un cartel de números.
+- Lyn señala un número; Bron piensa con la mano en la barbilla.
 
 ### Encargo R01-N04-E1 · La alcancía
 
@@ -3696,28 +3648,43 @@ Una campanada para el guiso de todos los días y tres para la fiesta. Oto toca l
 - Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) tira de la cuerda con entusiasmo.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) se tapa los oídos.
 
-### Misión R01-N05-M1 · El conversor del puerto
+### Micro-misión R01-N05-P4 · El conversor del puerto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de pedidos
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R01-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Lyn trae pedidos de otros reinos con medidas raras: pies, libras, grados Fahrenheit.
+—Necesito un conversor. Rápido, que me esperan.
 
+#### Gheco sugiere
+Escribí los prototipos arriba de `main` y las funciones abajo. Celsius a Fahrenheit es `c * 9 / 5 + 32` (con `double`).
+
+#### Desafío
 Escribí tres funciones: `metros_a_pies` (× 3.28084), `kilos_a_libras`
 (× 2.20462) y `celsius_a_fahrenheit`. Poné `main` **arriba** y las funciones
 abajo, con sus prototipos. Mostrá: 12 m, 70 kg, 100 °C y −40 °C convertidos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Declara las tres funciones con prototipos antes de `main`.
 - Cada función recibe un `double` y devuelve un `double`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 12 m = 39.3701 pies
 70 kg = 154.323 libras
@@ -3725,8 +3692,7 @@ abajo, con sus prototipos. Mostrá: 12 m, 70 kg, 100 °C y −40 °C convertidos
 -40 °C = -40 °F
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El conversor de unidades con funciones y prototipos.
 #include <iostream>
@@ -3760,36 +3726,57 @@ double celsius_a_fahrenheit(double c)
 }
 ```
 
-### Misión R01-N05-M2 · El más grande de todos
+#### Al superarla
+Lyn se lleva el conversor en el bolsillo y sale corriendo con los pedidos traducidos.
+
+#### Imagen
+- Un mostrador con una regla, una balanza y un termómetro de bronce, y un papel con medidas.
+- Lyn guarda un papel en la bolsa; Bron le muestra el conversor.
+
+### Micro-misión R01-N05-P5 · El más grande de todos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco de herramientas de Lima
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Lima quiere una sola herramienta para encontrar el más grande, sea de dos o de tres números, enteros o con decimales.
+—Con el mismo nombre. Y que la de tres use la de dos.
 
+#### Gheco sugiere
+Tres funciones `maximo` con distintos parámetros (sobrecarga). La de tres es `maximo(maximo(a, b), c)`.
+
+#### Desafío
 Escribí tres versiones sobrecargadas de `maximo`: para dos `int`, para tres `int` y
 para dos `double`. La de tres tiene que **reutilizar** la de dos. Probalas con
 `(3, 9)`, `(4, 12, 7)` y `(2.5, 1.75)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Hay tres funciones llamadas `maximo`.
 - La versión de tres enteros llama a la de dos.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 maximo(3, 9) = 9
 maximo(4, 12, 7) = 12
 maximo(2.5, 1.75) = 2.5
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - maximo sobrecargado: dos enteros, tres enteros y dos double.
 #include <iostream>
@@ -3818,31 +3805,52 @@ int main()
 }
 ```
 
-### Misión R01-N05-M3 · La barra de progreso
+#### Al superarla
+Las tres versiones responden con el mismo nombre. Lima las cuelga juntas en el banco.
+
+#### Imagen
+- Un tablero de herramientas con tres llaves del mismo modelo y distinto tamaño.
+- Lima elige una llave; Bron prueba otra.
+
+### Micro-misión R01-N05-P6 · La barra de progreso
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre del reloj
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Tesla quiere ver cuánto falta para cada tarea en una barra que se llena. Y que funcione sin decirle todo cada vez.
+—Si no le digo el ancho, que use veinte.
 
+#### Gheco sugiere
+Los valores por defecto van en la declaración: `int maximo = 100, int ancho = 20, char relleno = '#'`. Recortá el valor entre 0 y el máximo antes de calcular `valor * ancho / maximo`.
+
+#### Desafío
 Escribí `barra(valor, maximo = 100, ancho = 20, relleno = '#')`, que dibuja una
 barra como `[##########..........] 50/100`. Los lugares llenos son
 `valor * ancho / maximo`. Si el valor se pasa de los límites, se recorta a 0 o al
 máximo. Probala con: `barra(50)`, `barra(30, 40)`, `barra(7, 10, 10)`,
 `barra(3, 4, 8, '=')` y `barra(150)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa parámetros por defecto para `maximo`, `ancho` y `relleno`.
 - Recorta el valor fuera de rango.
-- Las cinco barras se ven como en la salida esperada.
+
+#### Código inicial
+```cpp
+#include <iostream>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
 
 #### Salida esperada
-
 ```
 [##########..........] 50/100
 [###############.....] 30/40
@@ -3851,8 +3859,7 @@ máximo. Probala con: `barra(50)`, `barra(30, 40)`, `barra(7, 10, 10)`,
 [####################] 100/100
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La barra de progreso con parametros por defecto.
 #include <iostream>
@@ -3883,6 +3890,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Las barras se llenan en la pared de la torre. Tesla mira la que está a la mitad y se pone a trabajar.
+
+#### Imagen
+- Una pared con barras de progreso de bronce, algunas llenas y otras a la mitad.
+- Tesla señala una barra; Bron llena otra con una manivela.
 
 ### Encargo R01-N05-E1 · La cuota del préstamo
 
@@ -4467,36 +4481,50 @@ Lima a la mañana, Bron a la tarde. El pedido de las bisagras queda en el bolsil
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee el pedido.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) mira por encima de su hombro, serio.
 
-### Misión R01-N06-M1 · Vida con límites
+### Micro-misión R01-N06-P4 · Vida con límites
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Arena bajo la Ciudadela
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R01-N06-M1
 ```
 
-#### Consigna
+#### Escena
+Oto cuida la vida de los luchadores de la Arena con su cucharón: les da guiso cuando están heridos.
+—Pero no más que el máximo, que después no pueden moverse.
 
+#### Gheco sugiere
+Recibí la vida por referencia (`int& vida`) para cambiar la original. `recibir_dano` no deja que baje de 0 y `curar` no deja que pase el máximo.
+
+#### Desafío
 Escribí `recibir_dano(int& vida, int dano)`, que nunca deje la vida bajo 0, y
 `curar(int& vida, int cantidad, int maximo)`, que nunca la deje sobre el máximo.
 Empezá con 80 de vida (máximo 100): recibí 35 de daño, curá 70 y recibí 250.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las dos funciones reciben la vida por referencia.
 - La vida se mantiene entre 0 y el máximo.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Tras 35 de daño: 45
 Tras curar 70: 100
 Tras 250 de daño: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - recibir_dano y curar por referencia, sin salirse de 0..maximo.
 #include <iostream>
@@ -4531,41 +4559,61 @@ int main()
 }
 ```
 
-### Misión R01-N06-M2 · Ordenar tres
+#### Al superarla
+Ningún luchador sale de la Arena con menos de 0 ni con más de 100. Oto sirve guiso para todos.
+
+#### Imagen
+- Una arena subterránea con tribunas de piedra y una olla grande humeante al costado.
+- Oto sirve guiso con un cucharón de bronce; Bron se cura un raspón.
+
+### Micro-misión R01-N06-P5 · Ordenar tres
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Ciudadela
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Lima tiene tres cajas de piezas desordenadas en el estante.
+—Ordenalas de menor a mayor. Pero las de verdad, no una copia.
 
+#### Gheco sugiere
+`intercambiar(int& a, int& b)` usa una auxiliar. `ordenar3` compara de a dos y llama a `intercambiar` cuando están al revés: a con b, b con c y otra vez a con b.
+
+#### Desafío
 Escribí `intercambiar(int& a, int& b)` y, usándola, `ordenar3(int& a, int& b,
 int& c)`, que deja las tres variables de menor a mayor. Pedí tres números y
 mostralos ordenados.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `ordenar3` usa `intercambiar`.
 - Funciona con cualquier orden de entrada (probá también con repetidos).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 42 7 19
 ```
 
 #### Salida esperada
-
 ```
 Tres números: 
 Ordenados: 7 19 42
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - ordenar3: deja tres variables de menor a mayor, usando intercambiar.
 #include <iostream>
@@ -4602,64 +4650,56 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las tres cajas quedan ordenadas en el estante, las mismas que estaban. Lima las etiqueta.
 
-##### Ya ordenados
-```entrada
-1 2 3
-```
-```salida
-Tres números:
-Ordenados: 1 2 3
-```
+#### Imagen
+- Un estante con tres cajas de distinto tamaño, de la más chica a la más grande.
+- Lima etiqueta una caja; Bron mueve otra.
 
-##### Al revés con negativos
-```entrada
-9 0 -4
-```
-```salida
-Tres números:
-Ordenados: -4 0 9
-```
-
-##### Repetidos
-```entrada
-5 2 5
-```
-```salida
-Tres números:
-Ordenados: 2 5 5
-```
-
-### Misión R01-N06-M3 · La división con resto
+### Micro-misión R01-N06-P6 · La división con resto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Ciudadela
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N06-M3
 ```
 
-#### Consigna
+#### Escena
+Tesla quiere una herramienta que reparta piezas y diga cuántas sobran, todo de una vez.
+—Y si alguien quiere repartir entre cero, que diga que no puede.
 
+#### Gheco sugiere
+Devolvé `bool` para avisar si se pudo, y llená `cociente` y `resto` por referencia. Si `b == 0`, devolvé `false` sin tocar nada.
+
+#### Desafío
 Escribí `bool dividir(int a, int b, int& cociente, int& resto)`: si `b` es 0,
 devuelve `false` y no toca nada; si no, llena cociente y resto y devuelve `true`.
 Probala con 47 / 5 y con 10 / 0.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Devuelve el éxito con `bool` y los resultados por referencia.
 - No divide por cero.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 47 / 5 = 9 resto 2
 10 / 0: no se puede
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - dividir: devuelve si se pudo, y el cociente y el resto por referencia.
 #include <iostream>
@@ -4686,6 +4726,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+La herramienta reparte 47 piezas entre 5 y dice que sobran 2. Con cero, se niega con educación.
+
+#### Imagen
+- Cinco cajas con nueve piezas cada una y dos piezas sueltas al lado.
+- Tesla anota el resultado; Bron cuenta las piezas sueltas.
 
 ### Encargo R01-N06-E1 · Códigos de producto
 
@@ -5277,36 +5324,52 @@ La X cae justo sobre el engranaje que chirriaba. Tesla lo cambia en un minuto.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) cambia un engranaje en la pared de la torre.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) señala el tablero.
 
-### Misión R01-N07-M1 · Las notas del curso
+### Micro-misión R01-N07-P4 · Las notas del curso
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco de herramientas de Lima
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Lima corrige los exámenes de los aprendices de relojería. Algunos le escribieron notas imposibles.
+—Guardá solo las válidas y decime el promedio, los aprobados y la del medio.
 
+#### Gheco sugiere
+`while (std::cin >> nota)` lee hasta el final. Guardá en un `std::vector<int>` solo las de 1 a 10. `std::sort` las ordena y la mediana está en `notas[notas.size() / 2]`.
+
+#### Desafío
 Leé notas enteras hasta que se termine la entrada (`while (std::cin >> nota)`),
 guardando solo las válidas (de 1 a 10). Mostrá cuántas notas válidas hubo, el
 promedio, cuántos aprobados (6 o más), las notas ordenadas y la **mediana** (el
 elemento del medio de las ordenadas: posición `size() / 2`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda las notas en un `std::vector<int>` con `push_back`.
 - Descarta las notas fuera de 1 a 10.
 - Ordena con `std::sort` y calcula la mediana.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 7 4 10 12 6 9 0 3 8
 ```
 
 #### Salida esperada
-
 ```
 Notas válidas: 7
 Promedio: 6.71429
@@ -5315,8 +5378,7 @@ Ordenadas: 3 4 6 7 8 9 10
 Mediana: 7
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Las notas del curso de artifices: leer hasta el final y resumir.
 #include <algorithm>
@@ -5358,51 +5420,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lima anota los resultados en el pizarrón. La mediana le da justo un 7 y se pone contenta.
 
-##### Ninguna válida
-```entrada
-0 11 -3 15
-```
-```salida
-No hay notas.
-```
+#### Imagen
+- Un pizarrón con notas escritas en tiza y una pila de exámenes corregidos.
+- Lima escribe en el pizarrón; Bron ordena los exámenes.
 
-##### Cantidad par de notas
-```entrada
-10 2 8 6
-```
-```salida
-Notas válidas: 4
-Promedio: 6.5
-Aprobados: 3
-Ordenadas: 2 6 8 10
-Mediana: 8
-```
-
-##### Una sola nota
-```entrada
-6
-```
-```salida
-Notas válidas: 1
-Promedio: 6
-Aprobados: 1
-Ordenadas: 6
-Mediana: 6
-```
-
-### Misión R01-N07-M2 · El plano del taller
+### Micro-misión R01-N07-P5 · El plano del taller
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco de herramientas de Lima
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla arma el plano del taller nuevo: una grilla con lugares para cada pieza.
+—Si una pieza cae afuera o encima de otra, avisá. No la pongas igual.
 
+#### Gheco sugiere
+`std::vector<std::vector<char>> plano(filas, std::vector<char>(columnas, '.'))`. Antes de colocar, fijate que la fila y la columna estén adentro y que la casilla sea `.`. El dibujo, con una función que recibe `const&`.
+
+#### Desafío
 La primera línea trae las filas, las columnas y la cantidad de piezas del plano.
 Cada pieza viene como `fila columna letra`. Armá una grilla con
 `std::vector<std::vector<char>>` llena de `.` y colocá cada pieza. Si una pieza
@@ -5410,14 +5451,24 @@ cae fuera del plano o en una casilla ocupada, avisá y no la coloques. Al final,
 dibujá el plano con una función que lo reciba por `const&` y mostrá cuántas
 piezas se colocaron.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un vector de vectores para la grilla.
 - Valida los límites y las casillas ocupadas.
 - Dibuja con una función que recibe el plano por `const&`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 4 6 5
 0 0 T
@@ -5428,7 +5479,6 @@ piezas se colocaron.
 ```
 
 #### Salida esperada
-
 ```
 Ocupado: 1,3
 Fuera del plano: 5,2
@@ -5439,8 +5489,7 @@ T.....
 Piezas colocadas: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El plano del taller: una grilla con vector<vector<char>>.
 #include <iostream>
@@ -5481,47 +5530,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El plano queda dibujado con cada pieza en su lugar. Tesla lo cuelga en la puerta del taller.
 
-##### Plano vacío
-```entrada
-2 3 0
-```
-```salida
-...
-...
-Piezas colocadas: 0
-```
+#### Imagen
+- Un plano cuadriculado en una mesa, con letras de piezas en algunas casillas.
+- Tesla coloca una pieza con una pinza; Bron sostiene el plano.
 
-##### Todas fuera o encimadas
-```entrada
-3 3 4
-0 0 A
-0 0 B
-3 0 C
--1 2 D
-```
-```salida
-Ocupado: 0,0
-Fuera del plano: 3,0
-Fuera del plano: -1,2
-A..
-...
-...
-Piezas colocadas: 1
-```
-
-### Misión R01-N07-M3 · La fila del taller
+### Micro-misión R01-N07-P6 · La fila del taller
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de pedidos
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R01-N07-M3
 ```
 
-#### Consigna
+#### Escena
+En la ventanilla de pedidos hay una fila, y Tesla se cuela. Lyn está dos veces porque fue y volvió.
+—Ordená la fila. Y que cada uno esté una sola vez.
 
+#### Gheco sugiere
+`fila.insert(fila.begin() + 1, "Tesla")` cuela en la segunda posición. `fila.erase(fila.begin())` saca al primero. Para quitar repetidos, armá otro vector y usá `std::find` antes de agregar.
+
+#### Desafío
 Empezá con la fila `Bron Lyn Lima Lyn Oto`. Mostrala después de cada paso:
 1. Tesla se cuela en la **segunda** posición (`insert`).
 2. Se atiende al primero: mostrá su nombre y quitalo (`erase`).
@@ -5530,14 +5562,26 @@ Empezá con la fila `Bron Lyn Lima Lyn Oto`. Mostrala después de cada paso:
 
 Al final, mostrá cuántos quedan y quién es el último.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `insert` y `erase` con `begin() + posición`.
 - Quita los repetidos con `std::find`.
 - Muestra la fila con una función que recibe `const std::vector<std::string>&`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Fila: Bron Lyn Lima Lyn Oto
 Fila: Bron Tesla Lyn Lima Lyn Oto
@@ -5547,8 +5591,7 @@ Fila: Tesla Lyn Lima Oto
 Quedan 4, el último es Oto
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La fila del taller: insertar, atender y quitar repetidos.
 #include <algorithm>
@@ -5590,6 +5633,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+La fila queda sin repetidos. Lyn reclama que ella estaba dos veces porque se lo merecía.
+
+#### Imagen
+- Una fila de personas frente a una ventanilla de bronce, con un cartel de turnos.
+- Lyn se queja con los brazos abiertos; Bron ordena la fila.
 
 ### Encargo R01-N07-E1 · Las ventas de la semana
 
@@ -6123,53 +6173,68 @@ Con 130 la aguja se queda en 100 y suena una alarma, como corresponde. Tesla baj
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) baja una palanca.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) lee el manómetro.
 
-### Misión R01-N08-M1 · La mesa de dados
+### Micro-misión R01-N08-P4 · La mesa de dados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La rueda de feria de la plaza
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R01-N08-M1
 ```
 
-#### Consigna
+#### Escena
+En la feria hay una mesa de dados. Lyn quiere saber qué suma sale más seguido, así que tira dos dados mil doscientas veces.
+—Bueno, lo tirás vos.
 
+#### Gheco sugiere
+`std::mt19937 gen(semilla)` y una distribución de 1 a 6 por dado. Contá cada suma en `veces(13, 0)` y dibujá una `*` cada 10. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+
+#### Desafío
 Leé una semilla y tirá **dos dados** 1200 veces. Contá cuántas veces salió cada suma
 (de 2 a 12) en un `std::vector<int> veces(13, 0)` y dibujá un histograma: una `*`
 cada 10 veces, y el número exacto al final. Alineá las sumas de un dígito con un
 espacio adelante. Al final, mostrá la suma más común.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `std::mt19937` con la semilla leída y `std::uniform_int_distribution<int>(1, 6)`.
 - Cuenta en un vector indexado por la suma.
 - Dibuja el histograma y encuentra la suma más común (tiene que ser 7 o muy cerca).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <random>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 2026
 ```
 
 #### Salida esperada
-
 ```
- 2: **** 40
- 3: ***** 54
- 4: ********* 95
- 5: ************ 126
- 6: ************** 145
- 7: ********************* 210
- 8: ***************** 174
- 9: ************* 135
+ 2: *** 37
+ 3: ***** 59
+ 4: *********** 111
+ 5: ************** 140
+ 6: *************** 152
+ 7: ****************** 182
+ 8: ***************** 173
+ 9: ************ 125
 10: ********** 104
-11: ******* 77
-12: **** 40
+11: ******* 74
+12: **** 43
 La suma más común: 7
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La mesa de dados: 1200 tiradas de dos dados y el histograma de sumas.
 #include <iostream>
@@ -6202,69 +6267,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El histograma tiene forma de montaña, con el 7 arriba de todo. Lyn apuesta al siete y gana un premio chiquito.
 
-##### Otra semilla
-```entrada
-1
-```
-```salida
- 2: *** 35
- 3: ****** 61
- 4: ********** 101
- 5: ************* 135
- 6: ***************** 174
- 7: ******************** 204
- 8: **************** 167
- 9: ************ 126
-10: ********* 98
-11: ****** 64
-12: *** 35
-La suma más común: 7
-```
+#### Imagen
+- Una mesa de feria con dos dados grandes y un tablero de barras de luces con forma de montaña.
+- Lyn tira los dados; Bron cuenta en una libreta.
 
-##### Semilla grande
-```entrada
-987654
-```
-```salida
- 2: *** 34
- 3: ***** 54
- 4: ********* 90
- 5: ************ 121
- 6: ****************** 185
- 7: ****************** 189
- 8: **************** 167
- 9: *************** 150
-10: ********** 103
-11: ****** 67
-12: **** 40
-La suma más común: 7
-```
-
-### Misión R01-N08-M2 · Distancias entre torres
+### Micro-misión R01-N08-P5 · Distancias entre torres
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La plaza de las torres
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R01-N08-M2
 ```
 
-#### Consigna
+#### Escena
+Lima tiene que llevar piezas a varias torres y quiere saber cuál queda más cerca del taller.
+—En línea recta. Las alturas me dan igual.
 
+#### Gheco sugiere
+`std::hypot(x2 - x1, y2 - y1)` da la distancia en línea recta. Recorré las torres, mostrá cada distancia con 2 decimales y guardá la más cercana.
+
+#### Desafío
 La primera línea trae la posición del taller (`x y`) y la cantidad de torres. Cada
 torre viene como `nombre x y`. Mostrá la distancia de cada torre al taller con 2
 decimales (usá `std::hypot`) y cuál es la más cercana.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Calcula la distancia con `std::hypot`.
 - Guarda nombres y distancias en vectores.
 - Muestra la más cercana.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 10 10 4
 Norte 10 25
@@ -6274,7 +6325,6 @@ Faro -5 10
 ```
 
 #### Salida esperada
-
 ```
 Norte: 15.00
 Reloj: 10.00
@@ -6283,8 +6333,7 @@ Faro: 15.00
 La más cercana: Vapor
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Distancias entre torres: la mas cercana al taller.
 #include <cmath>
@@ -6322,77 +6371,73 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lima arranca por la torre más cercana y termina el reparto antes del almuerzo.
 
-##### Una sola torre
-```entrada
-0 0 1
-Unica 3 4
-```
-```salida
-Unica: 5.00
-La más cercana: Unica
-```
+#### Imagen
+- Un mapa de la plaza con torres marcadas y líneas rectas desde un taller.
+- Lima traza una línea con una regla; Bron lleva una caja de piezas.
 
-##### Empate en la más cercana
-```entrada
-0 0 3
-Este 5 0
-Oeste -5 0
-Lejos 20 20
-```
-```salida
-Este: 5.00
-Oeste: 5.00
-Lejos: 28.28
-La más cercana: Este
-```
-
-### Misión R01-N08-M3 · Los cofres de la Ciudadela
+### Micro-misión R01-N08-P6 · Los cofres de la Ciudadela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Ciudadela
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R01-N08-M3
 ```
 
-#### Consigna
+#### Escena
+En el sótano del depósito hay cofres viejos con piezas comunes, raras y épicas. Tesla quiere abrir diez y contarlas.
+—Con semilla, así podemos repetir la abierta.
 
+#### Gheco sugiere
+`abrir_cofre` recibe el generador por referencia (`std::mt19937&`) para que no se copie. Hasta 60 es común, hasta 90 raro y más, épico. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+
+#### Desafío
 Leé una semilla y abrí 10 cofres. Cada cofre tira un número de 1 a 100: hasta 60 es
 **común**, hasta 90 **raro** y más de 90 **épico**. Escribí
 `std::string abrir_cofre(std::mt19937& gen)` y mostrá cada cofre y el recuento.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El generador se crea una vez en `main` y se pasa por referencia.
 - Las probabilidades salen de una sola tirada de 1 a 100.
 - Muestra el recuento de cada tipo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <random>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 7
 ```
 
 #### Salida esperada
-
 ```
 Cofre 1: común
-Cofre 2: común
-Cofre 3: raro
-Cofre 4: común
-Cofre 5: común
-Cofre 6: épico
-Cofre 7: raro
+Cofre 2: raro
+Cofre 3: común
+Cofre 4: raro
+Cofre 5: raro
+Cofre 6: común
+Cofre 7: épico
 Cofre 8: común
-Cofre 9: épico
+Cofre 9: común
 Cofre 10: común
-Comunes 6, raros 2, épicos 2
+Comunes 6, raros 3, épicos 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Los cofres de la Ciudadela: botin con probabilidades.
 #include <iostream>
@@ -6433,43 +6478,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Sale un cofre épico. Tesla saca de adentro un engranaje que brilla en cian y se lo regala a Bron.
 
-##### Semilla 1
-```entrada
-1
-```
-```salida
-Cofre 1: común
-Cofre 2: épico
-Cofre 3: raro
-Cofre 4: épico
-Cofre 5: común
-Cofre 6: común
-Cofre 7: común
-Cofre 8: épico
-Cofre 9: común
-Cofre 10: común
-Comunes 6, raros 1, épicos 3
-```
-
-##### Semilla 2026
-```entrada
-2026
-```
-```salida
-Cofre 1: común
-Cofre 2: raro
-Cofre 3: común
-Cofre 4: épico
-Cofre 5: épico
-Cofre 6: épico
-Cofre 7: común
-Cofre 8: raro
-Cofre 9: común
-Cofre 10: común
-Comunes 5, raros 2, épicos 3
-```
+#### Imagen
+- Diez cofres de bronce abiertos en un sótano, uno con un brillo cian que sale de adentro.
+- Tesla abre un cofre; Bron mira el brillo con la boca abierta.
 
 ### Encargo R01-N08-E1 · La rifa del club
 
@@ -7046,17 +7060,24 @@ Tres giros y dos golpes después, el Autómata se detiene con un último silbido
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene un engranaje de latón tibio.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) sonríen detrás.
 
-### Misión R01-N09-M1 · El duelo
+### Micro-misión R01-N09-P5 · El duelo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El patio de pruebas
+personajes: Bron, Gheco, Lima
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R01-N09-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de dejar pasar a Bron, el Autómata de Latón acepta un duelo de práctica con Lima. Ella se arremanga.
+—Atacar, cargar o cubrirse. Elijo yo, turno por turno.
 
+#### Gheco sugiere
+Una semilla, después las opciones de Lima. Los golpes salen de `std::uniform_int_distribution<int>(6, 12)`. Mostrá las barras con `vida * 10 / maximo` casillas llenas. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+
+#### Desafío
 Programá el duelo de Lima (60 de vida) contra el Autómata (70 de vida). La
 entrada trae una **semilla** y después las opciones de Lima, una por turno.
 
@@ -7079,15 +7100,27 @@ Reglas:
 Escribí al menos las funciones `pedir_opcion`, `recibir(int& vida, int dano)` y
 `barra`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Separa el programa en funciones con los parámetros correctos (`&` para lo que modifican).
 - Valida la opción y sobrevive a que se termine la entrada.
 - Usa un único generador con la semilla leída.
 - Respeta el orden de las tiradas y las reglas de cargas y pociones.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <random>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 2026
 3
@@ -7104,72 +7137,68 @@ Escribí al menos las funciones `pedir_opcion`, `recibir(int& vida, int dano)` y
 ```
 
 #### Salida esperada
-
 ```
 --- Turno 1 ---
 Lima     [##########] 60/60
 Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
+Tu turno (1 atacar, 2 curar, 3 cargar):
 Lima carga energía (1).
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 3.
+El Autómata golpea por 7.
 --- Turno 2 ---
-Lima     [#########.] 57/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
-Lima carga energía (2).
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 4.
---- Turno 3 ---
 Lima     [########..] 53/60
 Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
-Lima golpea por 28.
-El Autómata golpea por 12.
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Lima carga energía (2).
+El Autómata golpea por 8.
+--- Turno 3 ---
+Lima     [#######...] 45/60
+Autómata [##########] 70/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Lima golpea por 27.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 5.
 --- Turno 4 ---
-Lima     [######....] 41/60
-Autómata [######....] 42/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
+Lima     [######....] 40/60
+Autómata [######....] 43/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
 Lima se cura. Pociones restantes: 1.
 El Autómata golpea por 10.
 --- Turno 5 ---
 Lima     [########..] 50/60
-Autómata [######....] 42/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
+Autómata [######....] 43/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
 Opción inválida.
-Tu turno (1 atacar, 2 curar, 3 cargar): 
-Lima golpea por 6.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 6.
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Lima golpea por 9.
+El Autómata golpea por 11.
 --- Turno 6 ---
-Lima     [#######...] 44/60
-Autómata [#####.....] 36/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
-Lima golpea por 7.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 5.
---- Turno 7 ---
 Lima     [######....] 39/60
-Autómata [####......] 29/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
-Lima golpea por 8.
+Autómata [####......] 34/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Lima golpea por 10.
+El Autómata golpea por 8.
+--- Turno 7 ---
+Lima     [#####.....] 31/60
+Autómata [###.......] 24/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Lima golpea por 11.
 El Autómata golpea por 9.
 --- Turno 8 ---
-Lima     [#####.....] 30/60
-Autómata [###.......] 21/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
-Lima golpea por 11.
-El Autómata golpea por 11.
+Lima     [###.......] 22/60
+Autómata [#.........] 13/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
+Lima golpea por 7.
+El Autómata tropieza con un engranaje suelto.
+El Autómata golpea por 3.
 --- Turno 9 ---
 Lima     [###.......] 19/60
-Autómata [#.........] 10/70
-Tu turno (1 atacar, 2 curar, 3 cargar): 
+Autómata [..........] 6/70
+Tu turno (1 atacar, 2 curar, 3 cargar):
 Lima golpea por 10.
 === ¡Lima vence al Autómata de Latón! ===
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Jefe R01 - El duelo contra el Automata de Laton.
 #include <algorithm>
@@ -7271,191 +7300,31 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lima termina el duelo con la lima en alto. El Autómata la saluda con una inclinación de placas.
 
-##### Se retira enseguida
-```entrada
-7
-```
-```salida
---- Turno 1 ---
-Lima     [##########] 60/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima se retira del duelo.
-```
+#### Imagen
+- Un autómata de tres metros de placas de latón remachadas, con un corazón de vapor visible por una ventanita del pecho y ojos cian, en un patio de pruebas.
+- Lima, chiquita, lo enfrenta con una lima en la mano; Bron mira desde la cerca.
 
-##### Ataca siempre
-```entrada
-42
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-```
-```salida
---- Turno 1 ---
-Lima     [##########] 60/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 8.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 5.
---- Turno 2 ---
-Lima     [#########.] 55/60
-Autómata [########..] 62/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 7.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 5.
---- Turno 3 ---
-Lima     [########..] 50/60
-Autómata [#######...] 55/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 10.
-El Autómata golpea por 10.
---- Turno 4 ---
-Lima     [######....] 40/60
-Autómata [######....] 45/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 9.
-El Autómata golpea por 7.
---- Turno 5 ---
-Lima     [#####.....] 33/60
-Autómata [#####.....] 36/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 6.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 4.
---- Turno 6 ---
-Lima     [####......] 29/60
-Autómata [####......] 30/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 8.
-El Autómata golpea por 10.
---- Turno 7 ---
-Lima     [###.......] 19/60
-Autómata [###.......] 22/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 10.
-El Autómata golpea por 10.
---- Turno 8 ---
-Lima     [#.........] 9/60
-Autómata [#.........] 12/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 6.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 6.
---- Turno 9 ---
-Lima     [..........] 3/60
-Autómata [..........] 6/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 11.
-=== ¡Lima vence al Autómata de Latón! ===
-```
-
-##### Cura sin pociones
-```entrada
-5
-2
-2
-2
-1
-1
-1
-1
-1
-1
-1
-1
-```
-```salida
---- Turno 1 ---
-Lima     [##########] 60/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima se cura. Pociones restantes: 1.
-El Autómata golpea por 7.
---- Turno 2 ---
-Lima     [########..] 53/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima se cura. Pociones restantes: 0.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 6.
---- Turno 3 ---
-Lima     [#########.] 54/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-No quedan pociones: Lima pierde el turno.
-El Autómata golpea por 7.
---- Turno 4 ---
-Lima     [#######...] 47/60
-Autómata [##########] 70/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 12.
-El Autómata golpea por 12.
---- Turno 5 ---
-Lima     [#####.....] 35/60
-Autómata [########..] 58/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 6.
-El Autómata golpea por 10.
---- Turno 6 ---
-Lima     [####......] 25/60
-Autómata [#######...] 52/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 11.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 4.
---- Turno 7 ---
-Lima     [###.......] 21/60
-Autómata [#####.....] 41/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 9.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 4.
---- Turno 8 ---
-Lima     [##........] 17/60
-Autómata [####......] 32/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 7.
-El Autómata golpea por 11.
---- Turno 9 ---
-Lima     [#.........] 6/60
-Autómata [###.......] 25/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 10.
-El Autómata tropieza con un engranaje suelto.
-El Autómata golpea por 5.
---- Turno 10 ---
-Lima     [..........] 1/60
-Autómata [##........] 15/70
-Tu turno (1 atacar, 2 curar, 3 cargar):
-Lima golpea por 9.
-El Autómata golpea por 7.
-=== El Autómata gana esta vez. ===
-```
-
-### Misión R01-N09-M2 · Las placas del Autómata
+### Micro-misión R01-N09-P6 · Las placas del Autómata
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El patio de pruebas
+personajes: Bron, Gheco, Tesla
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R01-N09-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla le muestra a Bron las siete placas de blindaje del Autómata.
+—Cada golpe le hace daño a su placa y la mitad a las vecinas. Contame cuáles se rompen.
 
+#### Gheco sugiere
+Un `std::vector<int>` con las siete placas. Si la posición está fuera, es un golpe al aire. Restá la fuerza a la placa y la mitad a las vecinas que existan y no estén rotas, sin bajar de 0.
+
+#### Desafío
 El Autómata tiene 7 placas de blindaje: `30 30 40 50 40 30 30`. Cada línea de la
 entrada es un golpe: `posición fuerza`. Un golpe resta `fuerza` a su placa y la
 **mitad** a cada vecina (la de la izquierda y la de la derecha, si existen y no
@@ -7469,14 +7338,25 @@ quedan enteras.
 Escribí `int golpear(std::vector<int>& placas, int pos, int fuerza)`, que aplica el
 golpe y devuelve cuántas placas nuevas se rompieron.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `golpear` recibe el vector por referencia y devuelve las placas rotas.
 - Respeta los bordes del vector y no baja de 0.
 - Termina al romperse todas las placas o al terminarse la entrada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 3 50
 2 40
@@ -7490,7 +7370,6 @@ golpe y devuelve cuántas placas nuevas se rompieron.
 ```
 
 #### Salida esperada
-
 ```
 [0:30][1:30][2:40][3:50][4:40][5:30][6:30]
 Golpe en 3 por 50: ¡1 placa(s) rota(s)!
@@ -7507,8 +7386,7 @@ Golpe en 6 por 60: ¡2 placa(s) rota(s)!
 El Autómata se desarma en 6 golpes.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Jefe R01 - Las placas del Automata: reparar los paneles con un vector y funciones.
 #include <algorithm>
@@ -7570,41 +7448,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La última placa cae y el Autómata se sienta en el patio, con el vapor saliendo despacio. Tesla le da una palmada.
 
-##### Sin golpes
-```entrada
-```
-```salida
-[0:30][1:30][2:40][3:50][4:40][5:30][6:30]
-Quedan 7 placas enteras.
-```
-
-##### Golpes en los bordes
-```entrada
-0 100
-6 100
-```
-```salida
-[0:30][1:30][2:40][3:50][4:40][5:30][6:30]
-Golpe en 0 por 100: ¡2 placa(s) rota(s)!
-[0:0][1:0][2:40][3:50][4:40][5:30][6:30]
-Golpe en 6 por 100: ¡2 placa(s) rota(s)!
-[0:0][1:0][2:40][3:50][4:40][5:0][6:0]
-Quedan 3 placas enteras.
-```
-
-##### Todo al aire
-```entrada
--1 50
-7 50
-```
-```salida
-[0:30][1:30][2:40][3:50][4:40][5:30][6:30]
-Golpe al aire.
-Golpe al aire.
-Quedan 7 placas enteras.
-```
+#### Imagen
+- Las piernas del autómata de latón con placas abolladas y algunas caídas en el piso.
+- Tesla señala una placa; Bron golpea otra con la llave inglesa cian.
 
 ### Encargo R01-N09-E1 · El cajero automático
 

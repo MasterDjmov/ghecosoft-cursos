@@ -480,30 +480,47 @@ La una de la mañana, como corresponde. Tesla asiente: el reloj se cuida solo.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene una llave que no entra en el candado.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) sonríe.
 
-### Misión R02-N01-M1 · El inventario de piezas
+### Micro-misión R02-N01-P4 · El inventario de piezas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Ciudadela
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Lima tiene el inventario del depósito en papelitos sueltos. Quiere pasarlo a fichas: cada pieza con su nombre, cantidad y precio.
+—Y decime cuál vale más y de cuáles quedan pocas.
 
+#### Gheco sugiere
+Un `struct Pieza` y un `std::vector<Pieza>`. Leé con `while (std::cin >> p.nombre >> p.cantidad >> p.precio)`. `valor(const Pieza&)` no copia la pieza para calcular.
+
+#### Desafío
 Leé piezas hasta que se termine la entrada, cada una como `nombre cantidad
 precio`, y guardalas en un `std::vector<Pieza>`. Mostrá cada pieza con su valor
 (`cantidad * precio`, calculado por una función `valor(const Pieza&)`), el total,
 la pieza más cara (por precio unitario) y las que tienen menos de 10 unidades.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define `struct Pieza` con valores por defecto.
 - Guarda las piezas en un vector y las recorre.
 - `valor` recibe la pieza por `const&`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 engranaje 12 350
 resorte 40 25.5
@@ -513,7 +530,6 @@ manometro 2 8400
 ```
 
 #### Salida esperada
-
 ```
 engranaje: 12 x $350 = $4200
 resorte: 40 x $25.5 = $1020
@@ -525,8 +541,7 @@ La pieza más cara: manometro
 Con poco stock (menos de 10): valvula manometro
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El inventario de piezas: un vector de structs.
 #include <iostream>
@@ -578,55 +593,51 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El inventario queda en fichas. Lima encarga de inmediato las piezas que se estaban acabando.
 
-##### Una sola pieza
-```entrada
-tornillo 500 1.5
-```
-```salida
-tornillo: 500 x $1.5 = $750
-Total: $750
-La pieza más cara: tornillo
-Con poco stock (menos de 10):
-```
+#### Imagen
+- Un depósito con estantes de piezas de bronce y fichas colgadas de cada estante.
+- Lima revisa una ficha con la lupa de relojero; Bron sube una caja al estante.
 
-##### Nada con poco stock
-```entrada
-perno 10 100
-arandela 50 2
-```
-```salida
-perno: 10 x $100 = $1000
-arandela: 50 x $2 = $100
-Total: $1100
-La pieza más cara: perno
-Con poco stock (menos de 10):
-```
-
-### Misión R02-N01-M2 · El rectángulo del plano
+### Micro-misión R02-N01-P5 · El rectángulo del plano
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Sala de los Planos
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R02-N01-M2
 ```
 
-#### Consigna
+#### Escena
+En la Sala de los Planos, Tesla le pide a Bron el plano de un rectángulo: que sepa su área, su perímetro y si es cuadrado.
+—Y que se pueda agrandar o achicar sin dibujarlo de nuevo.
 
+#### Gheco sugiere
+Un `struct Rectangulo` con valores por defecto (`double ancho = 1;`). Los métodos que solo miran llevan `const`. `escalar` multiplica los dos lados.
+
+#### Desafío
 Escribí `struct Rectangulo` con `ancho` y `alto` (por defecto 1) y los métodos
 `area()`, `perimetro()`, `es_cuadrado()` (todos `const`) y `escalar(factor)`.
 Escribí `informe(const Rectangulo&)`. Probá con una puerta de 2 × 3.5 y una baldosa
 por defecto; escalá la puerta ×2 y la baldosa ×0.5.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los métodos que consultan son `const`.
 - `informe` recibe `const Rectangulo&` (por eso necesita los `const`).
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 2 x 3.5: área 7, perímetro 11
 1 x 1: área 1, perímetro 4 (cuadrado)
@@ -634,8 +645,7 @@ por defecto; escalá la puerta ×2 y la baldosa ×0.5.
 0.5 x 0.5: área 0.25, perímetro 2 (cuadrado)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El rectangulo del plano: metodos dentro de un struct.
 #include <iostream>
@@ -686,43 +696,63 @@ int main()
 }
 ```
 
-### Misión R02-N01-M3 · El contador de la puerta
+#### Al superarla
+La puerta escalada queda del doble y la baldosa, de la mitad. Tesla cuelga el plano entre los mil de la sala.
+
+#### Imagen
+- Una sala con miles de planos colgados del techo, y uno nuevo con un rectángulo en dos tamaños.
+- Tesla (pelo negro azulado en punta, visor cian, traje azul con líneas de luz) cuelga el plano; Bron lo mira desde abajo.
+
+### Micro-misión R02-N01-P6 · El contador de la puerta
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de pedidos
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R02-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Lyn quiere saber cuánta gente hay en la Ciudadela y cuántos entraron en el día, pero el contador de la puerta lo toca cualquiera.
+—Que nadie pueda cambiar el número a mano.
 
+#### Gheco sugiere
+Los datos van en `private:` y solo se cambian con `entrar()` y `salir()`. `salir()` no hace nada si no hay nadie. Recorré la secuencia de `e` y `s`.
+
+#### Desafío
 Escribí `class Contador` con dos datos **privados**: cuántas personas hay adentro y
 cuántas entraron en total. Métodos: `entrar()`, `salir()` (si no hay nadie, no hace
 nada), `dentro()` y `total()`. La entrada es una secuencia de `e` (entra) y `s`
 (sale); al final mostrá los dos números.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los datos son `private` y terminan en `_`.
 - `salir` nunca deja el contador en negativo.
 - Los getters son `const`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 e e s e s s s e e
 ```
 
 #### Salida esperada
-
 ```
 Adentro: 2
 Entraron en total: 5
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El contador de visitantes: una clase con datos privados.
 #include <iostream>
@@ -774,33 +804,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El contador de la puerta marca justo. Lyn intenta cambiarle el número con un destornillador y no puede.
 
-##### Sale con nadie adentro
-```entrada
-s s e s s
-```
-```salida
-Adentro: 0
-Entraron en total: 1
-```
-
-##### Solo entradas
-```entrada
-e e e e
-```
-```salida
-Adentro: 4
-Entraron en total: 4
-```
-
-##### Sin movimientos
-```entrada
-```
-```salida
-Adentro: 0
-Entraron en total: 0
-```
+#### Imagen
+- Un contador mecánico de bronce con dos ruedas de números en la puerta de la Ciudadela.
+- Lyn lo mira con un destornillador en la mano; Bron le hace que no con el dedo.
 
 ### Encargo R02-N01-E1 · Las notas de la escuela
 
@@ -1470,17 +1479,23 @@ La batidora se apaga a la hora justa. Oto le pide a Bron que mañana la vuelva a
 - Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto con un engranaje bordado, delantal con manchas violetas, cucharón de bronce) sostiene la olla.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) aprieta el botón de apagado.
 
-### Misión R02-N02-M1 · El reloj de la torre
+### Micro-misión R02-N02-P4 · El reloj de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre del reloj
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R02-N02-M1
 ```
 
-#### Consigna
+#### Escena
+El reloj de la torre tiene que aceptar cualquier hora, incluso cosas raras como «23 y 150 minutos», y quedar siempre bien.
+—Que nazca ordenado. Siempre.
 
+#### Gheco sugiere
+El constructor guarda los minutos desde la medianoche con `((x % 1440) + 1440) % 1440`. `avanzar` usa la misma cuenta. `mostrar` con `std::setw(2) << std::setfill('0')`.
+
+#### Desafío
 Escribí `class Reloj` que guarda solo los **minutos desde la medianoche** (0 a
 1439). El constructor recibe horas y minutos cualesquiera (incluso `23, 150` o
 `0, -15`) y los normaliza. `avanzar(minutos)` acepta negativos. `mostrar()`
@@ -1488,14 +1503,23 @@ imprime `HH:MM` con ceros adelante.
 
 Pista: `((x % 1440) + 1440) % 1440` deja cualquier entero entre 0 y 1439.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El constructor deja el reloj siempre en un estado válido.
 - Guarda un solo dato privado.
 - Maneja minutos negativos.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 09:45
 10:15
@@ -1504,8 +1528,7 @@ Pista: `((x % 1440) + 1440) % 1440` deja cualquier entero entre 0 y 1439.
 23:45
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El reloj de la torre: un constructor que normaliza.
 #include <iostream>
@@ -1550,30 +1573,53 @@ int main()
 }
 ```
 
-### Misión R02-N02-M2 · Los colores del vitral
+#### Al superarla
+El reloj marca bien hasta con minutos negativos. Tesla le da cuerda y suena la campana.
+
+#### Imagen
+- La esfera de un reloj de torre con números de bronce y agujas brillantes.
+- Tesla ajusta la aguja de los minutos; Bron sostiene la escalera.
+
+### Micro-misión R02-N02-P5 · Los colores del vitral
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de los vitrales
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Lima prepara vidrios para un vitral y necesita colores que se puedan crear de varias formas y mezclar.
+—Que ningún canal se pase de 255. Ni baje de cero.
 
+#### Gheco sugiere
+Los dos primeros constructores **delegan** en el de `r, g, b`: `Color() : Color(128, 128, 128) {}`. Ese recorta con `std::clamp(valor, 0, 255)`. `mezclar` promedia canal por canal.
+
+#### Desafío
 Escribí `class Color` con tres constructores: sin parámetros (gris 128), con un
 nivel de gris (`explicit`) y con `r, g, b`. Los dos primeros **delegan** en el
 tercero, que recorta cada valor a 0..255 con `std::clamp`. Agregá `mostrar()` y
 `mezclar(const Color&)`, que devuelve un color nuevo con el promedio de cada canal.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Hay tres constructores y dos delegan en el tercero.
 - El de un parámetro es `explicit`.
 - Los valores fuera de rango se recortan en la lista de inicialización.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 rgb(128, 128, 128)
 rgb(40, 40, 40)
@@ -1582,8 +1628,7 @@ rgb(255, 0, 90)
 rgb(112, 77, 45)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Los colores del vitral: varios constructores.
 #include <algorithm>
@@ -1629,17 +1674,30 @@ int main()
 }
 ```
 
-### Misión R02-N02-M3 · La guardia de la torre
+#### Al superarla
+La mezcla de dos colores sale exacta. Lima corta el vidrio y lo levanta contra la luz.
+
+#### Imagen
+- Un taller con vidrios de colores apilados y un vitral a medio armar contra una ventana.
+- Lima levanta un vidrio contra la luz; Bron sostiene un frasco de pintura.
+
+### Micro-misión R02-N02-P6 · La guardia de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La muralla de la Ciudadela
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R02-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Los guardias de la muralla entran y salen de turno en un orden muy preciso. Lyn apuesta a que Bron no adivina el orden.
+—Escribilo antes de verlo. Después comparás.
 
+#### Gheco sugiere
+El constructor se ejecuta al crear el objeto y el destructor cuando sale de su bloque. Los de un mismo bloque salen en orden **inverso** al que entraron.
+
+#### Desafío
 Escribí `class Guardia` cuyo constructor muestra `entra <nombre>` y cuyo destructor
 muestra `sale <nombre>`. Armá este `main` (y la función `ronda`), **predecí en un
 papel** qué va a mostrar y después comprobalo:
@@ -1661,13 +1719,22 @@ int main()
 }
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El constructor es `explicit` y usa lista de inicialización.
-- La salida coincide con la esperada (y la predijiste antes).
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
 
 #### Salida esperada
-
 ```
 entra Capitana
 entra Vigía
@@ -1685,8 +1752,7 @@ fin de main
 sale Capitana
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La guardia de la torre: el orden de constructores y destructores.
 #include <iostream>
@@ -1729,6 +1795,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Bron acierta el orden casi entero. Lyn le paga la apuesta en caramelos.
+
+#### Imagen
+- Una muralla alta con guardias mecánicos en fila, unos entrando y otros saliendo por una puerta.
+- Lyn mira el orden con un cronómetro; Bron escribe en un papel.
 
 ### Encargo R02-N02-E1 · El turnero de la carnicería
 
@@ -2366,31 +2439,49 @@ int main()
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) ajusta un engranaje mínimo con pinzas.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la lupa.
 
-### Misión R02-N03-M1 · La cuenta del Gremio
+### Micro-misión R02-N03-P4 · La cuenta del Gremio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Ciudadela
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R02-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Lyn abre una cuenta en el Gremio para guardar lo que gana con las entregas.
+—Que no me dejen sacar más de lo que tengo. Ni poner montos raros.
 
+#### Gheco sugiere
+Titular, saldo e historial en `private`. `depositar` y `extraer` devuelven `false` si el monto no es positivo o si no alcanza. Guardá cada movimiento en el historial.
+
+#### Desafío
 Escribí `class Cuenta` con titular, saldo e historial (un vector de montos:
 positivos los depósitos, negativos las extracciones), todo privado. `depositar` y
 `extraer` devuelven `bool`: rechazan montos no positivos y extracciones mayores al
 saldo. La entrada trae operaciones `d monto` o `e monto`; mostrá cada una con su
 resultado y el saldo, y al final un resumen. Todo con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El saldo nunca queda negativo.
 - Las acciones devuelven `bool` y `main` muestra si se aceptaron.
 - No hay setters: solo acciones y getters `const`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 d 5000
 e 1200
@@ -2401,7 +2492,6 @@ d 250.5
 ```
 
 #### Salida esperada
-
 ```
 d 5000.00 ok -> $5000.00
 e 1200.00 ok -> $3800.00
@@ -2412,8 +2502,7 @@ d 250.50 ok -> $250.50
 Lima: 4 movimientos, saldo $250.50
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La cuenta del Gremio: el saldo nunca es negativo.
 #include <iomanip>
@@ -2473,45 +2562,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La cuenta de Lyn queda con su historial prolijo. Ella mira el saldo y decide no comprarse otras botas.
 
-##### Solo rechazos
-```entrada
-e 100
-d 0
-d -5
-```
-```salida
-e 100.00 rechazado -> $0.00
-d 0.00 rechazado -> $0.00
-d -5.00 rechazado -> $0.00
-Lima: 0 movimientos, saldo $0.00
-```
+#### Imagen
+- Un mostrador del Gremio con una libreta de cuenta y monedas apiladas.
+- Lyn deposita monedas; Bron anota en la libreta.
 
-##### Extrae todo justo
-```entrada
-d 1000
-e 1000
-e 0.01
-```
-```salida
-d 1000.00 ok -> $1000.00
-e 1000.00 ok -> $0.00
-e 0.01 rechazado -> $0.00
-Lima: 2 movimientos, saldo $0.00
-```
-
-### Misión R02-N03-M2 · La fracción siempre simplificada
+### Micro-misión R02-N03-P5 · La fracción siempre simplificada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco de herramientas de Lima
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Lima trabaja con proporciones de engranajes y quiere fracciones que se simplifiquen solas.
+—Que nunca quede un 6/8. Siempre 3/4.
 
+#### Gheco sugiere
+`normalizar()` es privado: divide por `std::gcd` y deja el denominador positivo. Lo llamás en el constructor. Si el denominador es 0, se reemplaza por 1.
+
+#### Desafío
 Escribí `class Fraccion` cuya invariante es: **siempre simplificada** y con
 **denominador positivo** (un denominador 0 se reemplaza por 1). El constructor la
 establece con un helper privado `normalizar()` (usá `std::gcd` de `<numeric>`).
@@ -2519,13 +2593,23 @@ Agregá `sumar`, `multiplicar` (devuelven una fracción nueva), `valor()` y
 `mostrar()` (sin `/1` si el denominador es 1). Probá: 6/8, 3/−9, 1/2 + 1/3,
 2/3 × 9/4 y 5/0.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La normalización es un método privado que llama el constructor.
 - Las operaciones devuelven fracciones nuevas, que también quedan normalizadas.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <numeric>   // std::gcd
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 3/4 = 0.75
 -1/3 = -0.333333
@@ -2534,8 +2618,7 @@ Agregá `sumar`, `multiplicar` (devuelven una fracción nueva), `valor()` y
 5 = 5
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La fraccion siempre simplificada y con denominador positivo.
 #include <iostream>
@@ -2606,29 +2689,53 @@ int main()
 }
 ```
 
-### Misión R02-N03-M3 · La mochila con capacidad
+#### Al superarla
+Todas las fracciones salen simplificadas. Lima arma un engranaje con la proporción justa.
+
+#### Imagen
+- Dos engranajes de distinto tamaño encastrados, con números de dientes grabados.
+- Lima los encastra con una pinza; Bron cuenta los dientes.
+
+### Micro-misión R02-N03-P6 · La mochila con capacidad
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Ciudadela
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R02-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Lyn prepara la mochila para una entrega larga. Tiene un límite de peso y siempre quiere meter de más.
+—Si no entra, que no entre. Pero decime.
 
+#### Gheco sugiere
+`agregar` guarda solo si el peso es positivo y entra en la capacidad libre. `quitar` saca el primero con ese nombre. Los dos devuelven `bool`.
+
+#### Desafío
 Escribí `class Mochila` con una capacidad máxima de peso. `agregar(objeto, peso)`
 solo guarda si entra (y el peso es positivo); `quitar(objeto)` saca el primero con
 ese nombre. Ambos devuelven `bool`. La entrada trae `+ objeto peso` o `- objeto`.
 Mostrá el resultado de cada acción, la mochila al final y el lugar libre.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La invariante es: el peso nunca supera la capacidad.
 - Los datos (objetos, pesos) son privados.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 + cuerda 5
 + farol 3
@@ -2641,7 +2748,6 @@ Mostrá el resultado de cada acción, la mochila al final y el lugar libre.
 ```
 
 #### Salida esperada
-
 ```
 Guardado: cuerda
 Guardado: farol
@@ -2655,8 +2761,7 @@ Mochila (17/20): cuerda mapa brujula carpa
 Lugar libre: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La mochila con capacidad: agregar solo si entra.
 #include <iostream>
@@ -2728,37 +2833,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La mochila de Lyn queda justo en el límite. Ella salta con las botas de resorte y no se le cae nada.
 
-##### Quita de una mochila vacía
-```entrada
-- farol
-+ pluma 0
-+ ancla 21
-```
-```salida
-No está: farol
-No entra: pluma
-No entra: ancla
-Mochila (0/20):
-Lugar libre: 20
-```
-
-##### Llena justo
-```entrada
-+ carpa 20
-+ hilo 1
-- carpa
-+ hilo 1
-```
-```salida
-Guardado: carpa
-No entra: hilo
-Sacado: carpa
-Guardado: hilo
-Mochila (1/20): hilo
-Lugar libre: 19
-```
+#### Imagen
+- Una mochila de corredora abierta con objetos ordenados y una balanza al lado.
+- Lyn guarda un mapa; Bron le saca un objeto que no entra.
 
 ### Encargo R02-N03-E1 · Las entradas del recital
 
@@ -3455,31 +3535,47 @@ El operador ve los mapas; Lyn, no. Dice que es injusto. La caja sigue cerrada.
 - Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes de bronce, cronómetro de bolsillo) intenta espiar por la rendija.
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) la aparta de un tirón.
 
-### Misión R02-N04-M1 · El vector del cartógrafo
+### Micro-misión R02-N04-P4 · El vector del cartógrafo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La mesa del cartógrafo
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N04-M1
 ```
 
-#### Consigna
+#### Escena
+En la mesa del cartógrafo, los recorridos son flechas que se suman.
+—Quiero escribir `posicion + paso`, no una función con nombre largo —dice Lima.
 
+#### Gheco sugiere
+`+=` y `-=` como métodos; `+`, `-` y `*` como funciones libres (el `*` en los dos órdenes). `bool operator==(const Vec2&) const = default;` y `<<` para mostrar.
+
+#### Desafío
 Completá `struct Vec2` con `+=`, `-=` (métodos), `+`, `-`, `*` por un número en los
 **dos órdenes** (funciones libres), `==` generado con `= default`, `largo()` y
 `<<`. Partiendo de (2, 3), sumá 4 veces el paso (1.5, −0.5) mostrando cada posición;
 después mostrá el recorrido, su largo, `2 * paso` y `paso * 2`, y comprobá con `==`
 que la posición menos 4 pasos es el inicio.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `+` y `-` reutilizan `+=` y `-=`.
 - `*` funciona con el número a la izquierda y a la derecha.
 - `<<` devuelve el stream.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <cmath>
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Paso 1: (3.5, 2.5)
 Paso 2: (5, 2)
@@ -3490,8 +3586,7 @@ Doble paso: (3, -1) = (3, -1)
 ¿Volvió al inicio? true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El Vec2 del cartografo: suma, resta, escala, igualdad y <<.
 #include <cmath>
@@ -3547,30 +3642,53 @@ int main()
 }
 ```
 
-### Misión R02-N04-M2 · Fracciones con operadores
+#### Al superarla
+El recorrido vuelve exacto al inicio. Lima lo marca en el mapa con un alfiler.
+
+#### Imagen
+- Una mesa de cartógrafo con un mapa y flechas de colores trazadas en zigzag.
+- Lima clava un alfiler; Bron traza una flecha con una regla.
+
+### Micro-misión R02-N04-P5 · Fracciones con operadores
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco de herramientas de Lima
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Las fracciones de Lima ya se simplifican solas. Ahora quiere sumarlas y multiplicarlas como números.
+—Y que un 3 se pueda sumar con un cuarto, sin hacer cuentas raras.
 
+#### Gheco sugiere
+Con `Fraccion(int num = 0, int den = 1)`, un entero se convierte solo. `+` usa `+=` y `*` usa `*=`. `==` compara numerador y denominador (ya están simplificadas).
+
+#### Desafío
 Tomá la fracción siempre simplificada del nodo anterior y dale operadores: `+=`,
 `*=`, `+`, `*`, `==` y `<<` (sin `/1` si el denominador es 1). Con un constructor
 con valores por defecto (`Fraccion(int num = 0, int den = 1)`), un entero se
 convierte en fracción. Mostrá: 1/2 + 1/3, 1/2 × 1/3, si 1/2 == 2/4, la suma
 1/(1·2) + 1/(2·3) + 1/(3·4) + 1/(4·5) con un bucle, y 3 + 1/4.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La fracción sigue normalizada después de cada operación.
 - `==` funciona porque las fracciones están normalizadas.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <numeric>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 1/2 + 1/3 = 5/6
 1/2 * 1/3 = 1/6
@@ -3579,8 +3697,7 @@ convierte en fracción. Mostrá: 1/2 + 1/3, 1/2 × 1/3, si 1/2 == 2/4, la suma
 3 + 1/4 = 13/4
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Fracciones con operadores: +, *, == y <<.
 #include <iostream>
@@ -3656,29 +3773,53 @@ int main()
 }
 ```
 
-### Misión R02-N04-M3 · El tablero de la estación
+#### Al superarla
+La suma del bucle da 4/5 exacto. Lima la anota en el margen del plano.
+
+#### Imagen
+- Una pizarra con fracciones sumándose en cadena y un resultado subrayado.
+- Lima escribe con tiza; Bron mira con la llave inglesa en la mano.
+
+### Micro-misión R02-N04-P6 · El tablero de la estación
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La estación de trenes
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R02-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Lyn necesita el tablero de salidas de la estación ordenado por hora.
+—Y decime cuánto hay entre el primero y el último. Para saber cuánto puedo dormir.
 
+#### Gheco sugiere
+`Hora` con `operator<` y `<<` con ceros adelante. `Salida` con su propio `operator<` que compara las horas. `std::sort` usa ese `<`.
+
+#### Desafío
 Cada línea de la entrada es una salida de tren: `HH:MM destino`. Escribí
 `struct Hora` con `operator<` y `<<` (con ceros adelante), y `struct Salida` con su
 propio `operator<` (por hora). Ordená con `std::sort` y mostrá el tablero. Al final,
 mostrá cuánto tiempo hay entre la primera y la última salida.
 
-#### Criterio de aprobación
-
-- `std::sort` se usa sin comparador: usa el `operator<` de `Salida`.
+**Para superarla:**
 - `Hora` se muestra con `<<` como `07:05`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 14:30 Norte
 07:05 Faro
@@ -3688,7 +3829,6 @@ mostrá cuánto tiempo hay entre la primera y la última salida.
 ```
 
 #### Salida esperada
-
 ```
 07:05  Faro
 07:40  Norte
@@ -3698,8 +3838,7 @@ mostrá cuánto tiempo hay entre la primera y la última salida.
 Entre el primero y el último: 14:05
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Los horarios de los trenes: operator< para ordenar y << para mostrar.
 #include <algorithm>
@@ -3748,61 +3887,58 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El tablero queda ordenado. Lyn calcula la siesta y se va a dormir al banco de la estación.
 
-##### Una sola salida
-```entrada
-12:00 Norte
-```
-```salida
-12:00  Norte
-Entre el primero y el último: 00:00
-```
+#### Imagen
+- Un tablero de salidas de una estación con horarios y destinos en placas de bronce.
+- Lyn duerme en un banco con el cronómetro en la mano; Bron lee el tablero.
 
-##### Medianoche y última
-```entrada
-23:59 Reloj
-00:00 Faro
-00:01 Vapor
-```
-```salida
-00:00  Faro
-00:01  Vapor
-23:59  Reloj
-Entre el primero y el último: 23:59
-```
-
-### Misión R02-N04-M4 · Los complejos del apunte
+### Micro-misión R02-N04-P7 · Los complejos del apunte
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Sala de los Planos
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R02-N04-M4
 ```
 
-#### Consigna
+#### Escena
+Tesla trae el apunte de la cátedra con los números complejos.
+—Las operaciones son amigas de la clase: pueden ver adentro. Probalas con varios pares.
 
+#### Gheco sugiere
+`friend Complejo operator+(const Complejo&, const Complejo&);` adentro de la clase. El producto: `(a + bi)(c + di) = (ac − bd) + (ad + bc)i`. `<<` muestra el signo de la parte imaginaria.
+
+#### Desafío
 Escribí la clase `Complejo` (parte real e imaginaria, enteras y **privadas**) con los operadores `+`, `-`, `*` y `==` como funciones **amigas**, y también `<<` (que muestre `3 + 2i` o `1 - 4i`) y `>>` (que lea dos enteros).
 
 El programa lee pares de complejos (cuatro enteros: real e imaginaria de `a`, real e imaginaria de `b`) hasta que se terminen, y por cada par muestra la suma, la resta, el producto y si son iguales.
 
 Recordá: `(a + bi) * (c + di) = (ac - bd) + (ad + bc)i`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los datos son privados y no hay getters: los operadores son amigos.
 - `<<` y `>>` devuelven el stream para poder encadenar.
 - El signo de la parte imaginaria se muestra bien (`1 - 4i`, no `1 + -4i`).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 3 2 1 -4
 ```
 
 #### Salida esperada
-
 ```
 (3 + 2i) + (1 - 4i) = 4 - 2i
 (3 + 2i) - (1 - 4i) = 2 + 6i
@@ -3810,8 +3946,7 @@ Recordá: `(a + bi) * (c + di) = (ac - bd) + (ad + bc)i`.
 Son distintos
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 4 - Los complejos del apunte: una clase con datos privados y operadores amigos.
 #include <iostream>
@@ -3858,34 +3993,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Todos los pares salen bien. Tesla subraya el producto en el apunte, «para el examen».
 
-##### i por i da -1
-```entrada
-0 1 0 1
-```
-```salida
-(0 + 1i) + (0 + 1i) = 0 + 2i
-(0 + 1i) - (0 + 1i) = 0 + 0i
-(0 + 1i) * (0 + 1i) = -1 + 0i
-Son iguales
-```
-
-##### Dos pares: reales y conjugados
-```entrada
-5 0 -2 0
-2 3 2 -3
-```
-```salida
-(5 + 0i) + (-2 + 0i) = 3 + 0i
-(5 + 0i) - (-2 + 0i) = 7 + 0i
-(5 + 0i) * (-2 + 0i) = -10 + 0i
-Son distintos
-(2 + 3i) + (2 - 3i) = 4 + 0i
-(2 + 3i) - (2 - 3i) = 0 + 6i
-(2 + 3i) * (2 - 3i) = 13 + 0i
-Son distintos
-```
+#### Imagen
+- Un apunte abierto sobre una mesa de planos con fórmulas de números complejos.
+- Tesla subraya una fórmula; Bron hace cuentas en un papel.
 
 ### Encargo R02-N04-E1 · Dinero sin errores
 
@@ -4549,17 +4662,23 @@ Novecientos dientes. Tesla le muestra a Bron que no hizo falta abrir ningún rel
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) suma con el compás en el aire.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mira el tablero.
 
-### Misión R02-N05-M1 · La tienda del taller
+### Micro-misión R02-N05-P4 · La tienda del taller
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mercado de la Ciudadela
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R02-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Oto abre una tienda de piezas al lado del comedor. Tiene un depósito, una caja y muy poca paciencia.
+—Que la tienda se encargue. Yo cocino.
 
+#### Gheco sugiere
+`Tienda` **tiene** un `Deposito` y una `Caja` como miembros y les delega: `vender` le pide al depósito y, si se pudo, se lo anota a la caja.
+
+#### Desafío
 Escribí tres clases: `Deposito` (un vector de productos con nombre, stock y precio;
 `sacar(nombre, cantidad)` devuelve el precio total o −1 si no puede), `Caja`
 (acumula ventas y total) y `Tienda`, que **tiene** un depósito y una caja y
@@ -4567,13 +4686,24 @@ Escribí tres clases: `Deposito` (un vector de productos con nombre, stock y pre
 (3, $1200). Cada línea de la entrada es una venta `producto cantidad`. Al final,
 el cierre: ventas, total y stock.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Tienda` no guarda productos ni dinero: delega en `Deposito` y `Caja`.
 - Las ventas imposibles no cambian nada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 engranaje 4
 valvula 5
@@ -4584,7 +4714,6 @@ engranaje 6
 ```
 
 #### Salida esperada
-
 ```
 Vendido: 4 engranaje por $1400
 No se puede vender 5 valvula
@@ -4598,8 +4727,7 @@ Cierre: 4 ventas, $7600
   valvula: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La tienda del taller: Tienda TIENE un Deposito y una Caja.
 #include <iostream>
@@ -4700,43 +4828,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El cierre del día cuadra al centavo. Oto vuelve a la cocina silbando.
 
-##### Vende todo el resorte
-```entrada
-resorte 50
-resorte 1
-```
-```salida
-Vendido: 50 resorte por $1250
-No se puede vender 1 resorte
-Cierre: 1 ventas, $1250
-  engranaje: 10
-  resorte: 0
-  valvula: 3
-```
+#### Imagen
+- Una tienda chiquita con estantes de engranajes y resortes, al lado de la puerta de un comedor.
+- Oto (cocinero grandote de bigote de manubrio) cobra con el cucharón en la otra mano; Bron repone un estante.
 
-##### Sin ventas
-```entrada
-```
-```salida
-Cierre: 0 ventas, $0
-  engranaje: 10
-  resorte: 50
-  valvula: 3
-```
-
-### Misión R02-N05-M2 · El tren de carga
+### Micro-misión R02-N05-P5 · El tren de carga
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La estación de trenes
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R02-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla arma un tren de carga con vagones de carbón, agua y hierro.
+—Cada carga va a los vagones de su tipo, en orden. Lo que no entre, avisalo.
 
+#### Gheco sugiere
+`Vagon::cargar(t)` carga lo que entra y devuelve lo que sobró. `Tren::cargar` recorre los vagones del tipo y le pasa a cada uno lo que sobró del anterior.
+
+#### Desafío
 Escribí `class Vagon` (tipo, capacidad y carga; `cargar(t)` carga lo que entra y
 devuelve lo que sobró) y `class Tren`, que tiene un vector de vagones.
 `Tren::cargar(tipo, t)` reparte la carga entre los vagones de ese tipo, en orden, y
@@ -4744,13 +4859,25 @@ devuelve lo que no entró. El tren tiene vagones de carbón (30), agua (20), car
 (30) y hierro (40). Cada línea de la entrada es una carga `tipo toneladas`.
 Mostrá cada carga (y lo que no entró) y el informe final.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Tren` recorre sus vagones por referencia para cargarlos.
 - La carga que no entra en un vagón pasa al siguiente del mismo tipo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 carbon 45
 agua 25
@@ -4760,7 +4887,6 @@ madera 5
 ```
 
 #### Salida esperada
-
 ```
 Carga de 45 t de carbon
 Carga de 25 t de agua: no entraron 5 t
@@ -4775,8 +4901,7 @@ El Carbonero:
   total: 90 t
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El tren de carga: un Tren TIENE Vagones, cada uno con su capacidad.
 #include <algorithm>
@@ -4862,63 +4987,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El tren sale cargado y con el informe en la mano. Tesla le hace sonar el silbato.
 
-##### Llena todo el carbón de una
-```entrada
-carbon 60
-carbon 1
-```
-```salida
-Carga de 60 t de carbon
-Carga de 1 t de carbon: no entraron 1 t
-El Carbonero:
-  vagón 1 (carbon): 30/30
-  vagón 2 (agua): 0/20
-  vagón 3 (carbon): 30/30
-  vagón 4 (hierro): 0/40
-  total: 60 t
-```
+#### Imagen
+- Un tren de vagones de bronce cargados de carbón, barriles de agua y hierro, saliendo de una estación.
+- Tesla tira de la cuerda del silbato; Bron sube el último barril.
 
-##### Sin cargas
-```entrada
-```
-```salida
-El Carbonero:
-  vagón 1 (carbon): 0/30
-  vagón 2 (agua): 0/20
-  vagón 3 (carbon): 0/30
-  vagón 4 (hierro): 0/40
-  total: 0 t
-```
-
-##### Hierro justo
-```entrada
-hierro 40
-agua 0
-```
-```salida
-Carga de 40 t de hierro
-Carga de 0 t de agua
-El Carbonero:
-  vagón 1 (carbon): 0/30
-  vagón 2 (agua): 0/20
-  vagón 3 (carbon): 0/30
-  vagón 4 (hierro): 40/40
-  total: 40 t
-```
-
-### Misión R02-N05-M3 · El orden del reloj
+### Micro-misión R02-N05-P6 · El orden del reloj
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Gran Reloj de la plaza
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Lima arma el Gran Reloj de la plaza pieza por pieza: la caja, el péndulo, las agujas.
+—Antes de ejecutarlo, escribí en qué orden se arma y en qué orden se apaga.
 
+#### Gheco sugiere
+Los miembros se construyen en el orden en que están **declarados**, no en el de la lista de inicialización. Se destruyen al revés. `-Wall` avisa si la lista está en otro orden.
+
+#### Desafío
 Escribí `class Pieza`, que avisa cuando se arma y cuando se desarma, y
 `class Reloj`, que tiene tres piezas (caja, péndulo y agujas, declaradas en ese
 orden) y avisa cuando está listo y cuando se apaga. Creá un reloj dentro de un
@@ -4927,13 +5019,22 @@ bloque y observá el orden. **Antes de ejecutar**, escribí el orden que esperá
 Después, probá cambiar el orden de la lista de inicialización (sin cambiar el de
 las declaraciones): ¿cambia algo? ¿Qué dice `-Wall`?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las piezas se pasan por la lista de inicialización.
-- La salida muestra el orden de construcción y destrucción.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
 
 #### Salida esperada
-
 ```
 Construir:
   arma caja
@@ -4947,8 +5048,7 @@ Destruir:
   desarma caja
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El orden de construccion en la composicion.
 #include <iostream>
@@ -4988,6 +5088,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+El reloj se arma y se apaga en el orden que Bron escribió. Lima le pone una estrella en el papel.
+
+#### Imagen
+- Un reloj de plaza enorme a medio armar, con la caja, el péndulo y las agujas a la vista.
+- Lima ajusta el péndulo; Bron sostiene una aguja.
 
 ### Encargo R02-N05-E1 · La factura del mayorista
 
@@ -5731,30 +5838,46 @@ Dos riegos y le queda energía para uno más. Desde afuera, nadie puede tocarla:
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) señala una tabla de accesos colgada en la pared.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) la copia en un papel.
 
-### Misión R02-N06-M1 · Los vehículos de la Ciudadela
+### Micro-misión R02-N06-P4 · Los vehículos de la Ciudadela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La estación de trenes
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R02-N06-M1
 ```
 
-#### Consigna
+#### Escena
+Lyn quiere registrar los vehículos de la Ciudadela: autos y motos, algunas con sidecar.
+—Todos tienen patente y gastan combustible. Cada uno a su manera.
 
+#### Gheco sugiere
+`Auto` y `Moto` heredan de `Vehiculo` (`class Auto : public Vehiculo`) y llaman a su constructor en la lista de inicialización. Cada derivada suma lo suyo.
+
+#### Desafío
 Escribí `class Vehiculo` (patente, ruedas, consumo cada 100 km; `ficha()` y
 `combustible_para(km)`), y dos derivadas: `Auto` (4 ruedas, 7.5 l/100 km, con
 cantidad de asientos y `costo_por_persona(km, precio_litro)`) y `Moto` (2 ruedas y
 3 l, o 3 ruedas y 4.5 l si tiene sidecar; con `hacer_willy()`). Probá con un auto de
 5 asientos y dos motos, una con sidecar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las derivadas llaman al constructor de la base con los valores que corresponden.
 - Usan los métodos heredados sin reescribirlos.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 AB123CD: 4 ruedas, 7.5 l/100 km
 A012BCD: 2 ruedas, 3 l/100 km
@@ -5764,8 +5887,7 @@ Costo por persona en auto (300 km, $1200 el litro): $5400
 A012BCD levanta la rueda de adelante
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Los vehiculos de la Ciudadela: una base y dos derivadas.
 #include <iostream>
@@ -5831,17 +5953,31 @@ int main()
 }
 ```
 
-### Misión R02-N06-M2 · El Jefe que se enfurece
+#### Al superarla
+El registro queda completo. Lyn elige la moto con sidecar para llevar paquetes grandes.
+
+#### Imagen
+- Un estacionamiento con un auto de bronce, una moto y una moto con sidecar.
+- Lyn se sube a la moto con sidecar; Bron revisa la patente del auto.
+
+### Micro-misión R02-N06-P5 · El Jefe que se enfurece
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Arena bajo la Ciudadela
+personajes: Bron, Gheco, Tesla
+criatura: dragon
+recompensa: xp 10, monedas 4
+antes: R02-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla le muestra a Bron cómo se comporta la Quimera cuando se enoja: a la mitad de la vida cambia de fase y pega el doble.
+—Pero solo la primera vez. No se enoja dos veces.
 
+#### Gheco sugiere
+`Jefe::recibir_dano` llama a `Entidad::recibir_dano` y, si es la primera vez que la vida queda en la mitad o menos (y sigue viva), pasa a fase 2. `estado()` llama a la de la base y agrega lo suyo.
+
+#### Desafío
 Armá tres niveles: `Entidad` → `Enemigo` (con oro) → `Jefe` (con fase). `Enemigo`
 y `Jefe` redefinen `estado()` llamando a la versión de su base y agregando lo suyo.
 `Jefe::recibir_dano` usa la de `Entidad` y, la **primera vez** que la vida queda en
@@ -5849,20 +5985,30 @@ la mitad o menos (y sigue viva), pasa a fase 2: duplica el ataque y triplica el 
 Creá una Quimera (100 de vida, 12 de ataque, 100 de oro); cada número de la entrada
 es un golpe, mientras siga viva.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada `estado()` reutiliza el de su base con `Base::estado()`.
 - El enfurecimiento pasa una sola vez.
 - `Jefe` no resta la vida a mano: usa la de `Entidad`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 20 25 10 30 40
 ```
 
 #### Salida esperada
-
 ```
 Quimera: vida 80/100, ataque 12, oro 100, fase 1
 Quimera: vida 55/100, ataque 12, oro 100, fase 1
@@ -5873,8 +6019,7 @@ Quimera: vida 0/100, ataque 24, oro 300, fase 2
 La Quimera cae.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El Jefe: una derivada de una derivada, que usa la version de la base.
 #include <algorithm>
@@ -5957,63 +6102,51 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La Quimera se enfurece justo a la mitad. Tesla anota en qué golpe pasó, para la pelea de verdad.
 
-##### Muere de un golpe
-```entrada
-150
-```
-```salida
-Quimera: vida 0/100, ataque 12, oro 100, fase 1
-La Quimera cae.
-```
+#### Imagen
+- Una quimera de bronce y cobre con cabeza de león, cuerpo de cabra y cola de serpiente, con las juntas cian encendidas en rojo.
+- Bron se cubre detrás de un escudo; Tesla anota desde la tribuna.
 
-##### Justo la mitad
-```entrada
-50 10 10
-```
-```salida
-¡Quimera se enfurece!
-Quimera: vida 50/100, ataque 24, oro 300, fase 2
-Quimera: vida 40/100, ataque 24, oro 300, fase 2
-Quimera: vida 30/100, ataque 24, oro 300, fase 2
-La Quimera resiste.
-```
-
-##### Golpes que no la matan
-```entrada
-5 5 5
-```
-```salida
-Quimera: vida 95/100, ataque 12, oro 100, fase 1
-Quimera: vida 90/100, ataque 12, oro 100, fase 1
-Quimera: vida 85/100, ataque 12, oro 100, fase 1
-La Quimera resiste.
-```
-
-### Misión R02-N06-M3 · Tres generaciones
+### Micro-misión R02-N06-P6 · Tres generaciones
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El archivo de planos
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N06-M3
 ```
 
-#### Consigna
+#### Escena
+En el archivo de planos hay tres carpetas una dentro de otra: la abuela, la madre y la nieta.
+—¿Quién se arma primero? —pregunta Lima—. Escribilo antes de verlo.
 
+#### Gheco sugiere
+Se construye primero la base y al final la más derivada; se destruyen al revés. `Nieta` no llama a `Base`: lo hace `Derivada` en su lista de inicialización.
+
+#### Desafío
 Escribí `Base`, `Derivada : Base` y `Nieta : Derivada`, cada una con un constructor
 y un destructor que muestran un mensaje (`Base` recibe un texto en su
 constructor). Creá una `Nieta` dentro de un bloque. **Antes de ejecutar**, escribí
 el orden que esperás. ¿Por qué `Nieta` no llama explícitamente a `Base`?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Derivada` llama al constructor de `Base` con un texto.
-- La salida muestra la construcción de la base hacia la nieta y la destrucción al revés.
+
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
 
 #### Salida esperada
-
 ```
 Nace una nieta:
   base de derivada
@@ -6025,8 +6158,7 @@ Muere la nieta:
   ~base
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El orden de construccion y destruccion con herencia.
 #include <iostream>
@@ -6060,6 +6192,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+El orden sale tal cual lo escribió Bron. Lima le muestra la carpeta del pato «para otro día».
+
+#### Imagen
+- Tres carpetas de planos de distinto tamaño, una dentro de otra, sobre una mesa de archivo.
+- Lima abre la carpeta más chica; Bron sostiene las otras dos.
 
 ### Encargo R02-N06-E1 · Los sueldos de la empresa
 
@@ -6712,17 +6851,23 @@ El jardinero riega. Bron agrega `override` en todos lados, por las dudas; Tesla 
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) señala la palabra.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) escribe «override» en un cartel.
 
-### Misión R02-N07-M1 · Las figuras del vitral
+### Micro-misión R02-N07-P4 · Las figuras del vitral
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de los vitrales
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Lima corta vidrios con formas distintas para un vitral: círculos, rectángulos y triángulos.
+—Necesito el área de todos juntos. Sin preguntarle a cada uno qué forma es.
 
+#### Gheco sugiere
+`Figura` tiene `area()`, `perimetro()` y `nombre()` virtuales puros (`= 0`). Guardalas en `std::vector<std::unique_ptr<Figura>>` y llamá `f->area()`: cada una responde a su manera.
+
+#### Desafío
 Escribí `class Figura` **abstracta** con `area()`, `perimetro()` y `nombre()`
 virtuales puros, y tres derivadas: `Circulo(r)`, `Rectangulo(a, b)` (que se llama
 "cuadrado" si los lados son iguales) y `Triangulo(a, b, c)` (área con la fórmula de
@@ -6731,14 +6876,29 @@ como `c 2`, `r 3 4`, `t 3 4 5`. Guardalas en un
 `std::vector<std::unique_ptr<Figura>>` y mostrá cada una, el área total y la más
 grande. Todo con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Figura` es abstracta y tiene destructor virtual.
 - Las derivadas usan `override`.
 - El recorrido no pregunta el tipo: llama a los métodos virtuales.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cmath>
+#include <iomanip>
+#include <iostream>
+#include <memory>
+#include <numbers>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 c 2
 r 3 4
@@ -6748,7 +6908,6 @@ c 0.5
 ```
 
 #### Salida esperada
-
 ```
 círculo: área 12.57, perímetro 12.57
 rectángulo: área 12.00, perímetro 14.00
@@ -6759,8 +6918,7 @@ Vidrio total: 56.35
 La pieza más grande: cuadrado
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Las figuras del vitral: una base abstracta y tres derivadas.
 #include <cmath>
@@ -6856,43 +7014,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El área total sale exacta. Lima corta el vidrio justo y no le sobra ni un pedacito.
 
-##### Una sola figura
-```entrada
-t 5 5 5
-```
-```salida
-triángulo: área 10.83, perímetro 15.00
-Vidrio total: 10.83
-La pieza más grande: triángulo
-```
+#### Imagen
+- Vidrios de colores cortados en círculos, rectángulos y triángulos sobre una mesa de luz.
+- Lima mide un triángulo; Bron sostiene un círculo contra la ventana.
 
-##### Empate en la más grande
-```entrada
-r 2 8
-r 4 4
-c 1
-```
-```salida
-rectángulo: área 16.00, perímetro 20.00
-cuadrado: área 16.00, perímetro 16.00
-círculo: área 3.14, perímetro 6.28
-Vidrio total: 35.14
-La pieza más grande: rectángulo
-```
-
-### Misión R02-N07-M2 · La cuadrilla de autómatas
+### Micro-misión R02-N07-P5 · La cuadrilla de autómatas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de los autómatas
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R02-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla tiene una cuadrilla de autómatas: cargadores, soldadores y un aprendiz. Quiere saber cuánto rinde cada uno en un turno.
+—La misma orden para todos. Cada uno trabaja a su manera.
 
+#### Gheco sugiere
+`Automata` abstracta con `trabajar()` y `costo_por_hora()` virtuales. El soldador cuenta las horas para enfriarse cada tres; el aprendiz suma 5 más cada hora. Recorré la cuadrilla con punteros a la base.
+
+#### Desafío
 Escribí `class Automata` abstracta con `trabajar()` (produce algo en una hora y lo
 devuelve) y `costo_por_hora()`. Tres tipos:
 - **Cargador**: produce 30 por hora, cuesta 12.
@@ -6903,27 +7048,37 @@ Leé la cantidad de horas y, para cada autómata de la cuadrilla, mostrá cuánt
 produjo, cuánto costó y cuánto rinde (producción − costo). Probá heredar el
 constructor con `using Automata::Automata;`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `trabajar()` no es `const`: algunos autómatas guardan estado.
 - La cuadrilla es un vector de `unique_ptr<Automata>`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 6
 ```
 
 #### Salida esperada
-
 ```
 Cargo-1: produjo 180, costó 72, rinde 108
 Chispa: produjo 180, costó 120, rinde 60
 Tuerca: produjo 105, costó 24, rinde 81
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La cuadrilla de automatas: cada tipo trabaja distinto.
 #include <iostream>
@@ -7003,62 +7158,53 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El aprendiz termina rindiendo más que el soldador. Tesla lo asciende a cargador.
 
-##### Una hora
-```entrada
-1
-```
-```salida
-Cargo-1: produjo 30, costó 12, rinde 18
-Chispa: produjo 45, costó 20, rinde 25
-Tuerca: produjo 5, costó 4, rinde 1
-```
+#### Imagen
+- Un patio con autómatas trabajando: uno levanta cajas, otro suelda con chispas y uno chiquito barre.
+- Tesla mira un tablero de rendimiento; Bron le da una palmada al autómata chiquito.
 
-##### Tres horas (el soldador se enfría)
-```entrada
-3
-```
-```salida
-Cargo-1: produjo 90, costó 36, rinde 54
-Chispa: produjo 90, costó 60, rinde 30
-Tuerca: produjo 30, costó 12, rinde 18
-```
-
-##### Diez horas
-```entrada
-10
-```
-```salida
-Cargo-1: produjo 300, costó 120, rinde 180
-Chispa: produjo 315, costó 200, rinde 115
-Tuerca: produjo 275, costó 40, rinde 235
-```
-
-### Misión R02-N07-M3 · El rebanado
+### Micro-misión R02-N07-P6 · El rebanado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de los autómatas
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R02-N07-M3
 ```
 
-#### Consigna
+#### Escena
+Lima le pasa el mismo engranaje a tres funciones distintas. Una lo describe bien y las otras… no tanto.
+—Anotá qué va a decir cada una antes de verlo.
 
+#### Gheco sugiere
+Por valor se **rebana**: se copia solo la parte de `Pieza` y se pierde lo del `Engranaje`. Por referencia o por puntero, el `virtual` funciona.
+
+#### Desafío
 Escribí `class Pieza` con `virtual describir()` y `class Engranaje` que lo
 redefine. Pasale un engranaje a tres funciones: una que recibe `Pieza` **por
 valor**, otra por `const Pieza&` y otra por `const Pieza*`. Después, copiá el
 engranaje en una variable `Pieza`. **Antes de ejecutar**, anotá qué va a mostrar
 cada una. Explicá en un comentario por qué la primera y la última "se equivocan".
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra las cuatro formas.
 - El comentario explica el rebanado.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 por valor:      una pieza cualquiera
 por referencia: un engranaje de 24 dientes
@@ -7066,8 +7212,7 @@ por puntero:    un engranaje de 24 dientes
 copia:          una pieza cualquiera
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El rebanado: por valor se pierde el tipo real; por referencia, no.
 #include <iostream>
@@ -7110,6 +7255,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+Bron entiende por qué la copia se equivoca. Lima le regala un engranaje entero, sin rebanar.
+
+#### Imagen
+- Un engranaje de bronce cortado a la mitad al lado de uno entero, sobre una mesa de taller.
+- Lima señala la mitad cortada; Bron sostiene el entero.
 
 ### Encargo R02-N07-E1 · Los medios de pago
 
@@ -8882,6 +9034,192 @@ Cuatro tuercas, cuatro medidas, una sola llave: **la Llave Ajustable**. Bron la 
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) levanta una llave inglesa cian con una tuerca de bronce que se corre.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) y Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) aplauden.
 
+### Micro-misión R02-N09-P5 · Las tres formas de la Quimera
+
+```meta
+lugar: La Arena bajo la Ciudadela
+personajes: Bron, Gheco, Lima
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R02-N09-M2
+```
+
+#### Escena
+La Quimera cambia de forma en cada turno: león, cabra o serpiente. Cada forma resiste un arma y cae ante otra. Lima elige el arma de cada golpe.
+—No le preguntes qué es. Que responda sola.
+
+#### Gheco sugiere
+La Quimera **tiene** un vector de `unique_ptr<Forma>`. Cada forma sabe su `dano()` y cuánto absorbe con `defensa(arma)`. El turno elige la forma y la llamada virtual hace el resto.
+
+#### Desafío
+Ahora la Quimera es una clase que **tiene** sus formas: un vector de
+`unique_ptr<Forma>`, donde `Forma` es abstracta con `nombre()`, `dano()` y
+`defensa(arma)` (el porcentaje del golpe que absorbe).
+
+| Forma | Daño | Absorbe |
+|---|---|---|
+| león | 16 | 50%, salvo la **lanza** (0%) |
+| cabra | 8 | 30%, salvo el **martillo** (0%) |
+| serpiente | 12 | 60%, salvo la **espada** (0%) |
+
+La Quimera tiene 100 de vida; Lima, 80. Cada línea de la entrada es el arma que
+usa Lima (fuerza 30). Si el arma no existe, pierde el golpe. Después, si la Quimera
+sigue viva, golpea con el daño de su forma y cambia a la siguiente. El duelo
+termina cuando alguien cae o se acaba la entrada.
+
+**Para superarla:**
+- `Quimera` compone formas polimórficas y no usa `if` por forma.
+- El daño efectivo se calcula con la defensa de la forma actual.
+
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
+```
+lanza
+arco
+espada
+martillo
+martillo
+espada
+```
+
+#### Salida esperada
+```
+Turno 1: la Quimera es león
+  Lima usa lanza: 30 de daño (Quimera 70)
+  La Quimera golpea por 16 (Lima 64)
+Turno 2: la Quimera es cabra
+  Lima duda con "arco" y pierde el golpe.
+  La Quimera golpea por 8 (Lima 56)
+Turno 3: la Quimera es serpiente
+  Lima usa espada: 30 de daño (Quimera 40)
+  La Quimera golpea por 12 (Lima 44)
+Turno 4: la Quimera es león
+  Lima usa martillo: 15 de daño (Quimera 25)
+  La Quimera golpea por 16 (Lima 28)
+Turno 5: la Quimera es cabra
+  Lima usa martillo: 30 de daño (Quimera 0)
+¡La Quimera cae! Lima leyó cada forma.
+```
+
+#### Solución
+```cpp
+// Jefe R02 - La Quimera: una clase que TIENE formas polimorficas y cambia entre ellas.
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+class Forma {
+public:
+    virtual ~Forma() = default;
+    virtual std::string nombre() const = 0;
+    virtual int dano() const = 0;
+    // Cuanto del golpe de Lima absorbe esta forma (0 a 100 %).
+    virtual int defensa(const std::string& arma) const = 0;
+};
+
+class Leon : public Forma {
+public:
+    std::string nombre() const override { return "león"; }
+    int dano() const override { return 16; }
+    int defensa(const std::string& arma) const override { return arma == "lanza" ? 0 : 50; }
+};
+
+class Cabra : public Forma {
+public:
+    std::string nombre() const override { return "cabra"; }
+    int dano() const override { return 8; }
+    int defensa(const std::string& arma) const override { return arma == "martillo" ? 0 : 30; }
+};
+
+class Serpiente : public Forma {
+public:
+    std::string nombre() const override { return "serpiente"; }
+    int dano() const override { return 12; }
+    int defensa(const std::string& arma) const override { return arma == "espada" ? 0 : 60; }
+};
+
+class Quimera {
+public:
+    Quimera()
+    {
+        formas_.push_back(std::make_unique<Leon>());
+        formas_.push_back(std::make_unique<Cabra>());
+        formas_.push_back(std::make_unique<Serpiente>());
+    }
+
+    const Forma& forma() const { return *formas_[actual_]; }
+
+    int recibir(const std::string& arma, int fuerza)
+    {
+        int efectivo = fuerza * (100 - forma().defensa(arma)) / 100;
+        vida_ = std::max(0, vida_ - efectivo);
+        return efectivo;
+    }
+
+    void cambiar() { actual_ = (actual_ + 1) % formas_.size(); }
+    int vida() const { return vida_; }
+
+private:
+    std::vector<std::unique_ptr<Forma>> formas_;
+    std::size_t actual_ = 0;
+    int vida_ = 100;
+};
+
+int main()
+{
+    Quimera q;
+    int lima = 80;
+    int turno = 1;
+    std::string arma;
+    while (lima > 0 && q.vida() > 0 && std::cin >> arma) {
+        std::cout << "Turno " << turno << ": la Quimera es " << q.forma().nombre() << "\n";
+        if (arma != "espada" && arma != "lanza" && arma != "martillo") {
+            std::cout << "  Lima duda con \"" << arma << "\" y pierde el golpe.\n";
+        } else {
+            int hecho = q.recibir(arma, 30);
+            std::cout << "  Lima usa " << arma << ": " << hecho << " de daño (Quimera " << q.vida() << ")\n";
+        }
+        if (q.vida() > 0) {
+            lima = std::max(0, lima - q.forma().dano());
+            std::cout << "  La Quimera golpea por " << q.forma().dano() << " (Lima " << lima << ")\n";
+            q.cambiar();
+        }
+        turno++;
+    }
+    if (q.vida() == 0) {
+        std::cout << "¡La Quimera cae! Lima leyó cada forma.\n";
+    } else if (lima == 0) {
+        std::cout << "Lima cae. La Quimera cambia de forma y se ríe.\n";
+    } else {
+        std::cout << "El duelo queda sin terminar.\n";
+    }
+    return 0;
+}
+```
+
+#### Al superarla
+La Quimera cae en la arena con un ruido de engranajes sueltos. Lima levanta la lima desde la tribuna.
+
+#### Imagen
+- Una quimera de bronce desarmándose en el piso de una arena, con piezas de león, cabra y serpiente sueltas.
+- Bron levanta la llave inglesa cian; Lima festeja desde la tribuna.
+
 ### Misión R02-N09-M1 · La Arena
 
 ```meta
@@ -9247,236 +9585,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(arena main.cpp Entidad.cpp Criaturas.cpp Arena.cpp)
 target_compile_options(arena PRIVATE -Wall -Wextra)
-```
-
-### Misión R02-N09-M2 · Las tres formas de la Quimera
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
-```
-
-#### Consigna
-
-Ahora la Quimera es una clase que **tiene** sus formas: un vector de
-`unique_ptr<Forma>`, donde `Forma` es abstracta con `nombre()`, `dano()` y
-`defensa(arma)` (el porcentaje del golpe que absorbe).
-
-| Forma | Daño | Absorbe |
-|---|---|---|
-| león | 16 | 50%, salvo la **lanza** (0%) |
-| cabra | 8 | 30%, salvo el **martillo** (0%) |
-| serpiente | 12 | 60%, salvo la **espada** (0%) |
-
-La Quimera tiene 100 de vida; Lima, 80. Cada línea de la entrada es el arma que
-usa Lima (fuerza 30). Si el arma no existe, pierde el golpe. Después, si la Quimera
-sigue viva, golpea con el daño de su forma y cambia a la siguiente. El duelo
-termina cuando alguien cae o se acaba la entrada.
-
-#### Criterio de aprobación
-
-- `Quimera` compone formas polimórficas y no usa `if` por forma.
-- El daño efectivo se calcula con la defensa de la forma actual.
-- La salida coincide con la esperada.
-
-#### Entrada de ejemplo
-
-```
-lanza
-arco
-espada
-martillo
-martillo
-espada
-```
-
-#### Salida esperada
-
-```
-Turno 1: la Quimera es león
-  Lima usa lanza: 30 de daño (Quimera 70)
-  La Quimera golpea por 16 (Lima 64)
-Turno 2: la Quimera es cabra
-  Lima duda con "arco" y pierde el golpe.
-  La Quimera golpea por 8 (Lima 56)
-Turno 3: la Quimera es serpiente
-  Lima usa espada: 30 de daño (Quimera 40)
-  La Quimera golpea por 12 (Lima 44)
-Turno 4: la Quimera es león
-  Lima usa martillo: 15 de daño (Quimera 25)
-  La Quimera golpea por 16 (Lima 28)
-Turno 5: la Quimera es cabra
-  Lima usa martillo: 30 de daño (Quimera 0)
-¡La Quimera cae! Lima leyó cada forma.
-```
-
-#### Solución de referencia
-
-```cpp
-// Jefe R02 - La Quimera: una clase que TIENE formas polimorficas y cambia entre ellas.
-#include <algorithm>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
-
-class Forma {
-public:
-    virtual ~Forma() = default;
-    virtual std::string nombre() const = 0;
-    virtual int dano() const = 0;
-    // Cuanto del golpe de Lima absorbe esta forma (0 a 100 %).
-    virtual int defensa(const std::string& arma) const = 0;
-};
-
-class Leon : public Forma {
-public:
-    std::string nombre() const override { return "león"; }
-    int dano() const override { return 16; }
-    int defensa(const std::string& arma) const override { return arma == "lanza" ? 0 : 50; }
-};
-
-class Cabra : public Forma {
-public:
-    std::string nombre() const override { return "cabra"; }
-    int dano() const override { return 8; }
-    int defensa(const std::string& arma) const override { return arma == "martillo" ? 0 : 30; }
-};
-
-class Serpiente : public Forma {
-public:
-    std::string nombre() const override { return "serpiente"; }
-    int dano() const override { return 12; }
-    int defensa(const std::string& arma) const override { return arma == "espada" ? 0 : 60; }
-};
-
-class Quimera {
-public:
-    Quimera()
-    {
-        formas_.push_back(std::make_unique<Leon>());
-        formas_.push_back(std::make_unique<Cabra>());
-        formas_.push_back(std::make_unique<Serpiente>());
-    }
-
-    const Forma& forma() const { return *formas_[actual_]; }
-
-    int recibir(const std::string& arma, int fuerza)
-    {
-        int efectivo = fuerza * (100 - forma().defensa(arma)) / 100;
-        vida_ = std::max(0, vida_ - efectivo);
-        return efectivo;
-    }
-
-    void cambiar() { actual_ = (actual_ + 1) % formas_.size(); }
-    int vida() const { return vida_; }
-
-private:
-    std::vector<std::unique_ptr<Forma>> formas_;
-    std::size_t actual_ = 0;
-    int vida_ = 100;
-};
-
-int main()
-{
-    Quimera q;
-    int lima = 80;
-    int turno = 1;
-    std::string arma;
-    while (lima > 0 && q.vida() > 0 && std::cin >> arma) {
-        std::cout << "Turno " << turno << ": la Quimera es " << q.forma().nombre() << "\n";
-        if (arma != "espada" && arma != "lanza" && arma != "martillo") {
-            std::cout << "  Lima duda con \"" << arma << "\" y pierde el golpe.\n";
-        } else {
-            int hecho = q.recibir(arma, 30);
-            std::cout << "  Lima usa " << arma << ": " << hecho << " de daño (Quimera " << q.vida() << ")\n";
-        }
-        if (q.vida() > 0) {
-            lima = std::max(0, lima - q.forma().dano());
-            std::cout << "  La Quimera golpea por " << q.forma().dano() << " (Lima " << lima << ")\n";
-            q.cambiar();
-        }
-        turno++;
-    }
-    if (q.vida() == 0) {
-        std::cout << "¡La Quimera cae! Lima leyó cada forma.\n";
-    } else if (lima == 0) {
-        std::cout << "Lima cae. La Quimera cambia de forma y se ríe.\n";
-    } else {
-        std::cout << "El duelo queda sin terminar.\n";
-    }
-    return 0;
-}
-```
-
-#### Pruebas
-
-##### Lima vence a la Quimera
-```entrada
-lanza
-martillo
-espada
-lanza
-```
-```salida
-Turno 1: la Quimera es león
-  Lima usa lanza: 30 de daño (Quimera 70)
-  La Quimera golpea por 16 (Lima 64)
-Turno 2: la Quimera es cabra
-  Lima usa martillo: 30 de daño (Quimera 40)
-  La Quimera golpea por 8 (Lima 56)
-Turno 3: la Quimera es serpiente
-  Lima usa espada: 30 de daño (Quimera 10)
-  La Quimera golpea por 12 (Lima 44)
-Turno 4: la Quimera es león
-  Lima usa lanza: 30 de daño (Quimera 0)
-¡La Quimera cae! Lima leyó cada forma.
-```
-
-##### Armas que no sirven
-```entrada
-espada
-lanza
-martillo
-arco
-arco
-arco
-arco
-arco
-arco
-```
-```salida
-Turno 1: la Quimera es león
-  Lima usa espada: 15 de daño (Quimera 85)
-  La Quimera golpea por 16 (Lima 64)
-Turno 2: la Quimera es cabra
-  Lima usa lanza: 21 de daño (Quimera 64)
-  La Quimera golpea por 8 (Lima 56)
-Turno 3: la Quimera es serpiente
-  Lima usa martillo: 12 de daño (Quimera 52)
-  La Quimera golpea por 12 (Lima 44)
-Turno 4: la Quimera es león
-  Lima duda con "arco" y pierde el golpe.
-  La Quimera golpea por 16 (Lima 28)
-Turno 5: la Quimera es cabra
-  Lima duda con "arco" y pierde el golpe.
-  La Quimera golpea por 8 (Lima 20)
-Turno 6: la Quimera es serpiente
-  Lima duda con "arco" y pierde el golpe.
-  La Quimera golpea por 12 (Lima 8)
-Turno 7: la Quimera es león
-  Lima duda con "arco" y pierde el golpe.
-  La Quimera golpea por 16 (Lima 0)
-Lima cae. La Quimera cambia de forma y se ríe.
-```
-
-##### Sin armas
-```entrada
-```
-```salida
-El duelo queda sin terminar.
 ```
 
 ### Encargo R02-N09-E1 · La central de alarmas

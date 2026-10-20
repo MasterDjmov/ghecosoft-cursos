@@ -483,38 +483,54 @@ Cuatro par, siete impar. Tesla prueba con 2.5, para ver qué pasa: el error dice
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) cambia el cartel.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) intenta pasar con un 2.5 en la mano.
 
-### Misión R04-N01-M1 · Utilidades genéricas
+### Micro-misión R04-N01-P4 · Utilidades genéricas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Gran Biblioteca
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Lima encuentra en la Biblioteca una caja de herramientas que sirven para cualquier tuerca. Se emociona.
+—¡Una sola pieza para todo! Escribí tres así: que anden con enteros, con decimales y con textos.
 
+#### Gheco sugiere
+`template <typename T> T limitar(T x, T minimo, T maximo)` usando solo `<`. Con `"m"` escribí `std::string("m")`, si no, compara punteros. `contar` recibe un `const std::vector<T>&` y un `const T&`.
+
+#### Desafío
 Escribí tres plantillas de función: `limitar(x, minimo, maximo)` (que use solo `<`),
 `intercambiar(a, b)` (por referencia) y `contar(vector, buscado)`. Probalas con
 enteros, decimales y textos: `limitar(150, 0, 100)`, `limitar(-3.5, 0.0, 1.0)`,
 `limitar("m", "c", "h")` con `std::string`, intercambiar dos textos y dos
 enteros, y contar los 6 de `{3, 6, 6, 1, 6, 2}` y los "sí" de una votación.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada función es una sola plantilla que sirve para todos los tipos.
 - `limitar` usa solo `<` (así sirve para más tipos).
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 100 0 h
 Bron Lima | 2 1
 Seises: 3, síes: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Utilidades genericas: limitar, intercambiar y contar en un vector de cualquier tipo.
 #include <iostream>
@@ -569,37 +585,59 @@ int main()
 }
 ```
 
-### Misión R04-N01-M2 · El par genérico
+#### Al superarla
+Las tres herramientas andan con todo lo que les pasan. Lima saca la lima y no encuentra nada repetido para limar.
+
+#### Imagen
+- Una caja de herramientas de bronce abierta en una mesa de la Gran Biblioteca, con llaves que se ajustan a tuercas de todos los tamaños.
+- Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo) levanta una llave con los ojos brillantes; Bron (mecánico grandote de 24, pelo castaño corto, remera táctica negra, llave inglesa cian al hombro) mira por encima.
+
+### Micro-misión R04-N01-P5 · El par genérico
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Gran Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla guarda los libros de a pares: un título y su estante, una medida y su letra.
+—Una sola caja para cualquier par. Y que se pueda dar vuelta.
 
+#### Gheco sugiere
+`template <typename A, typename B> class Par`. `invertido()` devuelve `Par<B, A>{segundo_, primero_}`. El `operator<<` también es plantilla: `template <typename A, typename B> std::ostream& operator<<(std::ostream&, const Par<A, B>&)`.
+
+#### Desafío
 Escribí la plantilla de clase `Par<A, B>` con `primero()`, `segundo()` e
 `invertido()` (que devuelve un `Par<B, A>`), y un `operator<<` también plantilla
 que la muestre como `<a, b>`. Probala con `Par<std::string, int>`, `Par<double,
 char>` y un par que tiene otro par adentro.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `invertido` devuelve un par con los tipos cambiados.
 - El `operator<<` es una plantilla y funciona con pares anidados.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 <Reloj, 12> invertido <12, Reloj>
 <9.5, A> invertido <A, 9.5>
 <<Reloj, 12>, 1>
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El par generico: una plantilla de clase con dos tipos.
 #include <iostream>
@@ -636,30 +674,53 @@ int main()
 }
 ```
 
-### Misión R04-N01-M3 · La pila de capacidad fija
+#### Al superarla
+Hasta el par que tiene otro par adentro se muestra bien. Tesla lo usa para catalogar el estante de los catálogos.
+
+#### Imagen
+- Cajas de bronce de dos compartimentos en un estante, una con un libro y un número, otra con una regla y una letra, y una caja dentro de otra.
+- Tesla (muchacho delgado, pelo negro azulado en punta, visor cian, traje azul con líneas de luz cian y engranajes de bronce en los hombros) da vuelta una caja; Bron sostiene otra.
+
+### Micro-misión R04-N01-P6 · La pila de capacidad fija
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El comedor de los artífices
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R04-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Oto apila bandejas en un carrito que tiene lugar para tres, ni una más.
+—Si está lleno, no me la pongas encima. Y si está vacío, no me saques nada.
 
+#### Gheco sugiere
+`template <typename T, int N> class Pila` con un `std::array<T, N>` y un contador. `apilar` y `desapilar` devuelven `bool`; el tamaño `N` se fija al escribir el tipo: `Pila<std::string, 3>`.
+
+#### Desafío
 Escribí `template <typename T, int N> class Pila` con un array de `N` elementos:
 `apilar` (falso si está llena), `desapilar` (falso si está vacía), `tope`,
 `vacia` y `tam`. Con una `Pila<std::string, 3>`, procesá la entrada: `+ cosa`
 apila, `-` saca y muestra el tope. Al final, cuántas quedan. Probá también una
 `Pila<int, 2>`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La capacidad es un parámetro de la plantilla.
 - No pasa del límite ni desapila de más.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 + plato
 + vaso
@@ -672,7 +733,6 @@ apila, `-` saca y muestra el tope. Al final, cuántas quedan. Probá también un
 ```
 
 #### Salida esperada
-
 ```
 apilo plato
 apilo vaso
@@ -686,8 +746,7 @@ Quedan 0
 Tope de la pila de números: 7
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La pila con capacidad fija: plantilla de clase con parametro numerico.
 #include <iostream>
@@ -747,45 +806,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Ninguna bandeja se cae al piso. Oto le sirve a Bron la primera del carrito.
 
-##### Desapilar vacía
-```entrada
--
-+ uno
--
--
-```
-```salida
-no hay nada
-apilo uno
-saco uno
-no hay nada
-Quedan 0
-Tope de la pila de números: 7
-```
-
-##### Llena y queda
-```entrada
-+ a
-+ b
-+ c
-```
-```salida
-apilo a
-apilo b
-apilo c
-Quedan 3
-Tope de la pila de números: 7
-```
-
-##### Sin órdenes
-```entrada
-```
-```salida
-Quedan 0
-Tope de la pila de números: 7
-```
+#### Imagen
+- Un carrito de bronce con tres lugares para bandejas, dos ocupadas con comida humeante, en el comedor.
+- Oto (cocinero grandote, bigote enorme de manubrio, cabeza afeitada, gorro alto, delantal con manchas violetas) apila una bandeja; Bron cuenta los lugares.
 
 ### Encargo R04-N01-E1 · Estadísticas para cualquier número
 
@@ -1335,29 +1361,47 @@ Tres libros gruesos y ningún lugar vacío. El de 300 páginas justas se queda e
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) mide un libro con el calibre.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) mete los libros en la caja.
 
-### Misión R04-N02-M1 · Recorrer a mano
+### Micro-misión R04-N02-P4 · Recorrer a mano
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los estantes de la Gran Biblioteca
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Lima le enseña a Bron a recorrer los estantes con un dedo de bronce, sin saber cuántos libros hay.
+—Buscá uno, y después leémelos de atrás para adelante. Pero solo con el dedo, nada de atajos.
 
+#### Gheco sugiere
+Las plantillas reciben `It ini, It fin`. Para ir al revés: mientras `fin != ini`, primero `--fin` y después mostrás `*fin`. La posición en el vector es `it - v.begin()`; en la `list` no existe la resta.
+
+#### Desafío
 Escribí dos plantillas que reciben un rango de iteradores: `buscar(ini, fin, x)`
 (devuelve el iterador al primero igual a `x`, o `fin`) y `mostrar_al_reves(ini,
 fin)` (solo con `--`, sin `rbegin`). Probalas con un `vector<int>` y con una
 `list<std::string>`. Con el vector, mostrá la posición calculando `it - begin`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las funciones solo usan `*`, `++`, `--`, `==` y `!=`.
 - Funcionan con `vector` y con `list`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <list>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 16 está en la posición 3
 Faro está
@@ -1366,8 +1410,7 @@ Faro está
 Vapor Faro Reloj Norte 
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Recorrer a mano: buscar, contar y dar vuelta un rango con iteradores.
 #include <iostream>
@@ -1414,43 +1457,66 @@ int main()
 }
 ```
 
-### Misión R04-N02-M2 · La tubería de números
+#### Al superarla
+El dedo de bronce encuentra el libro y recorre el estante al revés sin saltearse ninguno.
+
+#### Imagen
+- Un estante largo de la Gran Biblioteca con libros de lomos de colores y un dedo mecánico de bronce que se desliza sobre ellos.
+- Lima guía el dedo mecánico; Bron lee los títulos en voz alta.
+
+### Micro-misión R04-N02-P5 · La tubería de números
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los estantes de la Gran Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Por un tubo de la Biblioteca caen números sin parar. Tesla quiere los positivos, en orden, para arriba y para abajo.
+—Sin bucles a mano. Que fluyan por la tubería.
 
+#### Gheco sugiere
+`std::vector<int> v(std::istream_iterator<int>(std::cin), {});` los lee todos. Después `copy_if` con `std::back_inserter`, `sort` y `copy` a un `std::ostream_iterator<int>(std::cout, " ")`.
+
+#### Desafío
 Leé **todos** los números de la entrada en un vector con `std::istream_iterator`
 (una sola línea de código). Copiá los positivos a otro vector con `copy_if` y
 `back_inserter`, ordenalos y mostralos con `std::ostream_iterator`, primero de
 menor a mayor y después de mayor a menor (con `rbegin`/`rend`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee con `istream_iterator` y escribe con `ostream_iterator`.
 - Usa `back_inserter` y los iteradores inversos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 12 -4 7 0 33 -8 5 7
 ```
 
 #### Salida esperada
-
 ```
 Leí 8 números
 Positivos ordenados: 5 7 7 12 33 
 De mayor a menor: 33 12 7 7 5 
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La tubería de numeros: leer con istream_iterator y escribir con ostream_iterator.
 #include <algorithm>
@@ -1476,48 +1542,31 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los números salen del tubo ordenados, para un lado y para el otro. Tesla aplaude dos veces.
 
-##### Sin positivos
-```entrada
--1 -2 0
-```
-```salida
-Leí 3 números
-Positivos ordenados:
-De mayor a menor:
-```
+#### Imagen
+- Una tubería de bronce transparente por donde corren números luminosos que caen en un embudo y salen ordenados.
+- Tesla abre una válvula; Bron recibe los números en una bandeja.
 
-##### Uno solo
-```entrada
-42
-```
-```salida
-Leí 1 números
-Positivos ordenados: 42
-De mayor a menor: 42
-```
-
-##### Vacía
-```entrada
-```
-```salida
-Leí 0 números
-Positivos ordenados:
-De mayor a menor:
-```
-
-### Misión R04-N02-M3 · Borrar sin perder el dedo
+### Micro-misión R04-N02-P6 · Borrar sin perder el dedo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los estantes de la Gran Biblioteca
+personajes: Bron, Gheco, Lima
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R04-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Bron saca libros del estante mientras lo recorre con el dedo, y el dedo se le queda apuntando a un hueco. Un orco aprovecha y se mete.
+—Cada vez que borrás o insertás, el estante te dice dónde seguir —dice Lima—. Hacele caso.
 
+#### Gheco sugiere
+`it = v.erase(it);` (y no `++it` en esa vuelta). Para insertar delante de un par: `it = v.insert(it, 0);` y después avanzá **dos** lugares, para no volver a encontrar el mismo par.
+
+#### Desafío
 Con iteradores explícitos (sin `erase_if`):
 1. De `{5, 12, 7, 20, 3, 30}` borrá los mayores o iguales a 10.
 2. De la `list` `{Lima, Bron, Lyn, Bron, Oto}` borrá los "Bron" y agregale un `!` a
@@ -1526,22 +1575,33 @@ Con iteradores explícitos (sin `erase_if`):
 
 Usá lo que devuelven `erase` e `insert` para no quedarte con un iterador inválido.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `it = c.erase(it)` y no avanza en esa vuelta.
 - Usa el iterador que devuelve `insert`.
 - No hay iteradores inválidos (probalo con `-fsanitize=address`).
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <iostream>
+#include <list>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 5 7 3 
 Lima! Lyn! Oto! 
 1 0 2 3 0 4 
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Borrar mientras se recorre, bien hecho: erase devuelve el siguiente iterador.
 #include <iostream>
@@ -1593,6 +1653,13 @@ int main()
     return 0;
 }
 ```
+
+#### Al superarla
+El dedo no se pierde nunca y el orco se queda sin huecos donde meterse.
+
+#### Imagen
+- Un estante con libros sacados y otros metidos, y un orco verde intentando meterse en un hueco vacío.
+- Lima señala dónde seguir con el dedo mecánico; Bron sostiene un libro sacado.
 
 ### Encargo R04-N02-E1 · Los turnos de la mañana y la tarde
 
@@ -2183,30 +2250,48 @@ Uno, dos, tres, cuatro. Lima dice que es como la lista enlazada que en las Forja
 - Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) engancha la caja 2.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene la cadena.
 
-### Misión R04-N03-M1 · Paréntesis balanceados
+### Micro-misión R04-N03-P4 · Paréntesis balanceados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Tesla recibe fórmulas de los aprendices y en la mitad faltan cierres.
+—No me digas solo que está mal. Mostrame dónde.
 
+#### Gheco sugiere
+Guardá en la `std::stack` pares `{símbolo, posición}`. Un cierre tiene que coincidir con el tope; si no, el error está ahí. Si al final queda algo en la pila, el error es la posición del último abierto. La `^` va con `std::string(pos, ' ')` delante.
+
+#### Desafío
 Cada línea de la entrada es una expresión con `()`, `[]` y `{}`. Con una
 `std::stack`, decí si está balanceada. Si no, mostrá debajo una `^` en la posición
 del primer error: un cierre que no corresponde, o el último abierto que quedó sin
 cerrar. (Guardá en la pila el símbolo y su posición.)
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `std::stack` para los símbolos abiertos.
 - Detecta cierres de más, cierres cruzados y aperturas sin cerrar.
 - Marca la posición del error.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <stack>
+#include <string>
+#include <utility>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 (a + b) * [c - {d / e}]
 (a + b]
@@ -2215,7 +2300,6 @@ x) + (y
 ```
 
 #### Salida esperada
-
 ```
 ok:    (a + b) * [c - {d / e}]
 error: (a + b]
@@ -2226,8 +2310,7 @@ error: x) + (y
         ^
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Parentesis balanceados: una pila de simbolos.
 #include <iostream>
@@ -2273,59 +2356,53 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Cada fórmula vuelve con su flechita en el lugar del error. Los aprendices las arreglan en un minuto.
 
-##### Todo bien
-```entrada
-()[]{}
-sin simbolos
-```
-```salida
-ok:    ()[]{}
-ok:    sin simbolos
-```
+#### Imagen
+- Una pila de fichas de bronce con paréntesis, corchetes y llaves grabados, al lado de un papel con una fórmula y una flecha roja debajo.
+- Tesla marca la flecha; Bron apila las fichas.
 
-##### Cierre al principio
-```entrada
-]abc
-```
-```salida
-error: ]abc
-       ^
-```
-
-##### Solo aperturas
-```entrada
-(((
-```
-```salida
-error: (((
-         ^
-```
-
-### Misión R04-N03-M2 · La fila del banco
+### Micro-misión R04-N03-P5 · La fila del banco
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla del banco
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R04-N03-M2
 ```
 
-#### Consigna
+#### Escena
+El banco de la Ciudadela abrió una ventanilla nueva y Lyn quiere saber cuánto se espera.
+—El primero que llega, el primero que atienden. Y avisame cuál fue la fila más larga del día.
 
+#### Gheco sugiere
+`std::queue<std::string>`: `push` cuando llega, `front` y `pop` al atender (si no está vacía). Después de cada llegada, compará `size()` con la más larga. Al final, `front()` y `back()`.
+
+#### Desafío
 Simulá la fila de un banco con una `std::queue`. Órdenes: `llega nombre` y
 `atender` (atiende al primero, o avisa que no hay nadie). Al final mostrá cuántos se
 atendieron, cuál fue la fila más larga, cuántos quedan esperando y, si queda
 alguien, quién es el próximo y quién el último.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `front`, `back`, `push` y `pop`.
 - No atiende una fila vacía.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <queue>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 llega Ana
 llega Bruno
@@ -2343,7 +2420,6 @@ llega Gabi
 ```
 
 #### Salida esperada
-
 ```
 Atiende a Ana (quedan 1)
 Atiende a Bruno (quedan 3)
@@ -2355,8 +2431,7 @@ Atendidos: 5, fila más larga: 4, esperando: 2
 Próximo: Fede, último: Gabi
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La fila del banco: una queue con clientes que llegan y cajas que atienden.
 #include <iostream>
@@ -2395,67 +2470,60 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La fila avanza sin que nadie se cuele. Lyn anota el récord en el cronómetro.
 
-##### Atender sin nadie
-```entrada
-atender
-atender
-```
-```salida
-La caja espera: no hay nadie
-La caja espera: no hay nadie
-Atendidos: 0, fila más larga: 0, esperando: 0
-```
+#### Imagen
+- Una ventanilla de bronce de banco con una fila de gente esperando y un cartel que dice «Próximo».
+- Lyn (mensajera de 19, alta, pecas, trenza rubia oscura, ropa de corredora azul y blanca, botas con resortes) cuenta la fila; Bron atiende detrás del vidrio.
 
-##### Nadie atendido
-```entrada
-llega Ana
-llega Bruno
-```
-```salida
-Atendidos: 0, fila más larga: 2, esperando: 2
-Próximo: Ana, último: Bruno
-```
-
-##### Sin órdenes
-```entrada
-```
-```salida
-Atendidos: 0, fila más larga: 0, esperando: 0
-```
-
-### Misión R04-N03-M3 · El historial con límite
+### Micro-misión R04-N03-P6 · El historial con límite
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Biblioteca
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Lima arma un tablero de dibujo que recuerda las últimas cuatro cosas que hizo, y se puede deshacer y rehacer.
+—Si hago algo nuevo después de deshacer, lo que había para rehacer se pierde. Así es la vida.
 
+#### Gheco sugiere
+Dos `std::deque`: el historial (si pasa de 4, `pop_front`) y el de rehacer. `deshacer` pasa el `back()` del historial al de rehacer; `rehacer`, al revés. Una acción nueva hace `rehacer.clear()`.
+
+#### Desafío
 Un editor guarda las **últimas 4** acciones en un `std::deque` (si hay más, olvida la
 más vieja con `pop_front`). Cada palabra de la entrada es una acción, salvo
 `deshacer` (pasa la última acción a una pila de "rehacer", otro `deque`) y
 `rehacer` (la vuelve). Una acción nueva vacía el "rehacer". Después de cada orden,
 mostrá el historial y cuántas acciones hay para rehacer.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa las dos puntas del `deque`.
 - Nunca guarda más de 4 acciones.
 - Una acción nueva borra lo que había para rehacer.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <deque>
+#include <iostream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 escribir negrita pegar deshacer deshacer rehacer copiar cortar mover deshacer rehacer rehacer
 ```
 
 #### Salida esperada
-
 ```
 escribir -> escribir | rehacer:0
 negrita -> escribir negrita | rehacer:0
@@ -2471,8 +2539,7 @@ rehacer -> negrita copiar cortar mover | rehacer:0
 rehacer -> negrita copiar cortar mover | rehacer:0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El historial con limite: deque que descarta lo mas viejo.
 #include <deque>
@@ -2513,41 +2580,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El tablero deshace y rehace sin perder nada que no tenga que perder. Lima dibuja un engranaje y lo deshace solo para ver.
 
-##### Deshacer sin historial
-```entrada
-deshacer rehacer
-```
-```salida
-deshacer -> | rehacer:0
-rehacer -> | rehacer:0
-```
-
-##### Seis acciones
-```entrada
-a b c d e f
-```
-```salida
-a -> a | rehacer:0
-b -> a b | rehacer:0
-c -> a b c | rehacer:0
-d -> a b c d | rehacer:0
-e -> b c d e | rehacer:0
-f -> c d e f | rehacer:0
-```
-
-##### Deshacer y escribir otra cosa
-```entrada
-a b deshacer c rehacer
-```
-```salida
-a -> a | rehacer:0
-b -> a b | rehacer:0
-deshacer -> a | rehacer:1
-c -> a c | rehacer:0
-rehacer -> a c | rehacer:0
-```
+#### Imagen
+- Un tablero de dibujo de bronce con cuatro casilleros de historial iluminados y dos flechas, una para atrás y otra para adelante.
+- Lima toca la flecha de deshacer; Bron mira cómo desaparece un trazo.
 
 ### Encargo R04-N03-E1 · La guardia del hospital
 
@@ -3129,29 +3167,46 @@ Lyn y Bron vinieron dos veces. Oto, una sola: dice que los libros no se comen.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) firma el libro.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) pone una estrella.
 
-### Misión R04-N04-M1 · La agenda del taller
+### Micro-misión R04-N04-P4 · La agenda del taller
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El índice de la Gran Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Tesla organiza la semana del taller y varios días tienen más de una actividad.
+—Un día, muchas cosas. Y que pueda preguntar por un día o por un rango.
 
+#### Gheco sugiere
+En un `std::multimap<int, std::string>` el mismo día se repite. `equal_range(dia)` te da todas las de ese día; `lower_bound(desde)` y `upper_bound(hasta)`, las del rango.
+
+#### Desafío
 Guardá una agenda en un `std::multimap<int, std::string>` (día → actividad).
 Órdenes: `agendar dia actividad`, `dia N` (todas las actividades de ese día, o
 "libre") y `semana desde hasta` (todo lo del rango, con su día). Al final, el total
 de actividades.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `equal_range` para un día y `lower_bound`/`upper_bound` para el rango.
 - Permite varias actividades el mismo día.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 agendar 3 caldera
 agendar 5 planos
@@ -3165,7 +3220,6 @@ semana 5 12
 ```
 
 #### Salida esperada
-
 ```
 Día 3: caldera aceite
 Día 4: libre
@@ -3174,8 +3228,7 @@ Del 5 al 12: 5-planos 7-reunion 12-inventario
 Total de actividades: 5
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - La agenda de turnos: multimap de dia -> actividad y consultas por rango.
 #include <iostream>
@@ -3219,53 +3272,53 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La agenda le dice a Tesla qué hay cada día y cuándo está libre. Se toma el miércoles.
 
-##### Agenda vacía
-```entrada
-dia 1
-semana 1 30
-```
-```salida
-Día 1: libre
-Del 1 al 30:
-Total de actividades: 0
-```
+#### Imagen
+- Un calendario de bronce con siete casilleros, algunos con varias tarjetas apiladas y uno vacío.
+- Tesla pone una tarjeta en un casillero; Bron lee las del lunes.
 
-##### Rango de un día
-```entrada
-agendar 10 a
-agendar 10 b
-agendar 11 c
-semana 10 10
-```
-```salida
-Del 10 al 10: 10-a 10-b
-Total de actividades: 3
-```
-
-### Misión R04-N04-M2 · El ranking vivo
+### Micro-misión R04-N04-P5 · El ranking vivo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de juegos de la Biblioteca
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R04-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Lyn juega contra todos en la sala de juegos y quiere ver el ranking en vivo.
+—Los tres mejores arriba. Y la peor partida también, para reírme.
 
+#### Gheco sugiere
+`std::multiset<Marca, std::greater<Marca>>` deja las mayores primero y acepta repetidas. El `operator>` compara puntos y, si empatan, nombres. Los tres primeros salen con `begin()`; la peor, con `rbegin()`.
+
+#### Desafío
 Cada línea es una partida: `nombre puntos`. Guardalas en un `std::multiset<Marca,
 std::greater<Marca>>` (con un `operator>` que ordene por puntos y, si empatan, por
 nombre). Mostrá el top 3, cuántas partidas hay y la peor (con `rbegin`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El conjunto se mantiene ordenado solo: no hay `sort`.
 - Acepta partidas repetidas (es `multiset`).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <functional>
+#include <iostream>
+#include <set>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Lima 340
 Bron 120
@@ -3276,7 +3329,6 @@ Tesla 500
 ```
 
 #### Salida esperada
-
 ```
 Top 3:
   1. Tesla 500
@@ -3286,8 +3338,7 @@ Partidas registradas: 6
 Peor partida: Oto 95
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El ranking vivo: multiset ordenado de mayor a menor con std::greater.
 #include <functional>
@@ -3319,70 +3370,54 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lyn está primera y la peor partida es de Bron. Ella se ríe; él pide la revancha.
 
-##### Menos de tres partidas
-```entrada
-Lima 10
-Bron 20
-```
-```salida
-Top 3:
-  1. Bron 20
-  2. Lima 10
-Partidas registradas: 2
-Peor partida: Lima 10
-```
+#### Imagen
+- Un tablero de ranking iluminado en una sala de juegos, con tres nombres arriba en dorado.
+- Lyn señala su nombre en el primer lugar; Bron se tapa la cara.
 
-##### Empates en todo
-```entrada
-B 100
-A 100
-C 100
-A 100
-```
-```salida
-Top 3:
-  1. A 100
-  2. A 100
-  3. B 100
-Partidas registradas: 4
-Peor partida: C 100
-```
-
-##### Una sola partida
-```entrada
-Solo 1
-```
-```salida
-Top 3:
-  1. Solo 1
-Partidas registradas: 1
-Peor partida: Solo 1
-```
-
-### Misión R04-N04-M3 · El índice de la biblioteca
+### Micro-misión R04-N04-P6 · El índice de la biblioteca
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El índice de la Gran Biblioteca
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N04-M3
 ```
 
-#### Consigna
+#### Escena
+El bibliotecario quiere un índice al final de un libro, con las palabras que se repiten y en qué renglones están.
+—Un renglón una sola vez —dice Lima—, aunque la palabra aparezca dos veces en el mismo.
 
+#### Gheco sugiere
+`std::map<std::string, std::set<int>>`: `indice[palabra].insert(linea)`. El `set` no repite el número de línea. Al mostrar, filtrá las que tienen `size() >= 2`.
+
+#### Desafío
 Leé líneas de texto y armá un índice: `std::map<std::string, std::set<int>>`, de
 cada palabra al conjunto de líneas donde aparece (sin repetir una línea). Mostrá
 solo las palabras que aparecen en **dos o más** líneas, con sus números.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un `set` como valor del `map` para no repetir líneas.
 - Filtra las que aparecen en una sola línea.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <map>
+#include <set>
+#include <sstream>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 el reloj de la torre
 la torre del faro
@@ -3391,7 +3426,6 @@ nada que ver
 ```
 
 #### Salida esperada
-
 ```
 el: 1 3
 faro: 2 3
@@ -3400,8 +3434,7 @@ reloj: 1 3
 torre: 1 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El diccionario inverso: de cada palabra, en que lineas aparece.
 #include <iostream>
@@ -3437,26 +3470,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El índice queda prolijo, al final del libro. Lima lo usa para encontrar la palabra «engranaje» en un segundo.
 
-##### Una sola palabra repetida
-```entrada
-uno dos
-tres uno
-cuatro
-```
-```salida
-uno: 1 2
-```
-
-##### Misma palabra en la misma línea
-```entrada
-el el el
-el
-```
-```salida
-el: 1 2
-```
+#### Imagen
+- Las últimas páginas de un libro grande con un índice de palabras y números de renglón.
+- Lima recorre el índice con la lupa; Bron sostiene el libro abierto.
 
 ### Encargo R04-N04-E1 · Las tarifas del correo
 
@@ -4006,36 +4025,54 @@ Mapas, relojes, vapor: tres temas, en orden. Tesla dice que así se arma un índ
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) escribe «índice».
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) tacha repetidos.
 
-### Misión R04-N05-M1 · Las notas del examen
+### Micro-misión R04-N05-P4 · Las notas del examen
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El ala de las herramientas
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Tesla corrigió el examen de los aprendices y quiere todos los números.
+—Sin un solo bucle. La Biblioteca tiene una herramienta para cada cosa.
 
+#### Gheco sugiere
+`accumulate(v.begin(), v.end(), 0.0)` para que el promedio sea decimal. La mediana: copiá y ordená. `minmax_element` devuelve dos iteradores. `count_if` para los aprobados y `none_of` para los ceros.
+
+#### Desafío
 Leé todas las notas de la entrada con `istream_iterator`. **Sin escribir ningún
 bucle**, mostrá: cantidad, promedio (con `accumulate` y `0.0`), mediana (ordenando
 una copia; si la cantidad es par, el promedio de las dos del medio), menor y mayor
 (`minmax_element`), aprobados (6 o más) y si todos rindieron (ninguna nota 0).
 Mostrá las notas ordenadas con `ostream_iterator`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No hay bucles escritos a mano.
 - La mediana contempla cantidad par e impar.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <numeric>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 7 4 10 6 9 2 8 5
 ```
 
 #### Salida esperada
-
 ```
 Notas: 8
 Promedio: 6.375, mediana: 6.5
@@ -4045,8 +4082,7 @@ Todos rindieron
 Ordenadas: 2 4 5 6 7 8 9 10 
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Las notas del examen: estadistica con algoritmos, sin bucles escritos a mano.
 #include <algorithm>
@@ -4085,71 +4121,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Todos los números del examen, sin un bucle. Tesla cuelga las estadísticas en la puerta del aula.
 
-##### Cantidad impar
-```entrada
-3 9 6
-```
-```salida
-Notas: 3
-Promedio: 6, mediana: 6
-Menor: 3, mayor: 9
-Aprobados: 2
-Todos rindieron
-Ordenadas: 3 6 9
-```
+#### Imagen
+- Una pared de herramientas de bronce colgadas, cada una con un cartel: sumar, ordenar, contar.
+- Tesla elige una herramienta; Bron sostiene una pila de exámenes.
 
-##### Alguno no rindió
-```entrada
-0 10 8 6
-```
-```salida
-Notas: 4
-Promedio: 6, mediana: 7
-Menor: 0, mayor: 10
-Aprobados: 3
-Hay ausentes (nota 0)
-Ordenadas: 0 6 8 10
-```
-
-##### Una sola nota
-```entrada
-10
-```
-```salida
-Notas: 1
-Promedio: 10, mediana: 10
-Menor: 10, mayor: 10
-Aprobados: 1
-Todos rindieron
-Ordenadas: 10
-```
-
-### Misión R04-N05-M2 · El podio de la carrera
+### Micro-misión R04-N05-P5 · El podio de la carrera
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La pista de la Ciudadela
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R04-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Terminó la carrera de las torres y Lyn quiere el podio ya.
+—No ordenes a todos, que tarda. Solo los tres primeros. Y el tiempo del medio.
 
+#### Gheco sugiere
+Una lambda `mas_rapido` que compare los segundos. `std::partial_sort(v.begin(), v.begin() + 3, v.end(), mas_rapido)` ordena solo el podio; `nth_element` deja el del medio en su lugar; `max_element` encuentra al último.
+
+#### Desafío
 Cada línea es un corredor: `nombre segundos`. Mostrá el podio (los 3 más rápidos)
 ordenando **solo esos 3** con `std::partial_sort`, el tiempo mediano con
 `std::nth_element` (sin ordenar todo) y el último con `max_element`. Usá una única
 lambda `mas_rapido` para las tres cosas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `partial_sort` y `nth_element`.
 - Reutiliza la misma lambda de comparación.
 - Funciona con menos de 3 corredores.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Lima 612
 Bron 745
@@ -4161,7 +4181,6 @@ Fede 830
 ```
 
 #### Salida esperada
-
 ```
 1. Tesla (588 s)
 2. Lyn (598 s)
@@ -4170,8 +4189,7 @@ Tiempo mediano: 650 s (Ana)
 Último: Fede
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Los podios: partial_sort y nth_element para no ordenar todo.
 #include <algorithm>
@@ -4211,67 +4229,60 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El podio sale antes de que los corredores recuperen el aliento. Lyn sube al primer escalón.
 
-##### Tres corredores
-```entrada
-A 300
-B 200
-C 100
-```
-```salida
-1. C (100 s)
-2. B (200 s)
-3. A (300 s)
-Tiempo mediano: 200 s (B)
-Último: A
-```
+#### Imagen
+- Un podio de bronce de tres escalones al final de una pista, con corredores llegando cansados.
+- Lyn en el escalón más alto con el cronómetro en alto; Bron le cuelga una medalla.
 
-##### Empates de tiempo
-```entrada
-A 500
-B 500
-C 400
-D 600
-```
-```salida
-1. C (400 s)
-2. A (500 s)
-3. B (500 s)
-Tiempo mediano: 500 s (A)
-Último: D
-```
-
-### Misión R04-N05-M3 · Los socios en orden
+### Micro-misión R04-N05-P6 · Los socios en orden
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El club de los artífices
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N05-M3
 ```
 
-#### Consigna
+#### Escena
+El club tiene la lista de socios desordenada y con repetidos. Lima la quiere ordenada, y que siga así.
+—Si alguien pregunta por un número que no está, lo sumamos en su lugar.
 
+#### Gheco sugiere
+`sort` y después `v.erase(std::unique(v.begin(), v.end()), v.end())`. `lower_bound` te da dónde está o dónde iría: si `*it == x` es socio; si no, `*it` es el siguiente y `v.insert(it, x)` lo agrega ahí.
+
+#### Desafío
 La lista de socios del club es `{1042, 88, 5310, 713, 2204, 88, 91, 4400}`:
 ordenala y quitale los repetidos. Cada número de la entrada es una consulta: con
 `std::lower_bound`, decí si es socio y en qué posición; si no lo es, decí cuál es el
 siguiente número de socio (si hay) y **agregalo en su lugar**, para que la lista
 siga ordenada. Al final, comprobá con `std::is_sorted`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `lower_bound` para buscar y para insertar en orden.
 - La lista sigue ordenada al final.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 713 100 5310 9999 1
 ```
 
 #### Salida esperada
-
 ```
 7 socios únicos
 713: es socio (posición 2)
@@ -4282,8 +4293,7 @@ siga ordenada. Al final, comprobá con `std::is_sorted`.
 Ahora hay 10, ¿sigue ordenado? sí
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Busqueda binaria en la lista de socios ordenada.
 #include <algorithm>
@@ -4317,38 +4327,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La lista del club está ordenada de punta a punta. `is_sorted` lo confirma y Lima la cuelga en la puerta.
 
-##### Todos ya socios
-```entrada
-88 91 5310
-```
-```salida
-7 socios únicos
-88: es socio (posición 0)
-91: es socio (posición 1)
-5310: es socio (posición 6)
-Ahora hay 7, ¿sigue ordenado? sí
-```
-
-##### Más grande que todos
-```entrada
-6000 7000
-```
-```salida
-7 socios únicos
-6000: no es socio
-7000: no es socio
-Ahora hay 9, ¿sigue ordenado? sí
-```
-
-##### Sin consultas
-```entrada
-```
-```salida
-7 socios únicos
-Ahora hay 7, ¿sigue ordenado? sí
-```
+#### Imagen
+- Una lista larga de números de socio colgada en la puerta de un club, con un número nuevo agregado en el medio.
+- Lima escribe el número nuevo con su lápiz; Bron sostiene la escalera.
 
 ### Encargo R04-N05-E1 · Los invitados del casamiento
 
@@ -4948,43 +4932,59 @@ Solo el 40 pasa las tres reglas. Tesla agrega una cuarta regla en el pizarrón, 
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) escribe la cuarta regla.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) revisa la caldera.
 
-### Misión R04-N06-M1 · Functores con estado
+### Micro-misión R04-N06-P4 · Functores con estado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de control de la Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N06-M1
 ```
 
-#### Consigna
+#### Escena
+Por la sala de control pasan lecturas de los medidores. Tesla quiere un aparato que vaya contando mientras pasan.
+—Que recuerde lo que vio. Y otro que diga si cada lectura está en un rango.
 
+#### Gheco sugiere
+Un functor es una clase con `operator()`. `for_each` **devuelve** la copia que usó: `Estadistica e = std::for_each(...)`. `EnRango` guarda `desde` y `hasta` y se lo pasás a `count_if`.
+
+#### Desafío
 Leé números de la entrada. Escribí el functor `Estadistica` (con cantidad, suma y
 máximo, y un método `promedio()`) y aplicalo con `std::for_each`, guardando lo que
 devuelve. Escribí el functor `EnRango{desde, hasta}` y usalo con `count_if` para
 contar los que están entre 10 y 30 y entre 0 y 9.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa el functor que devuelve `for_each`.
 - `EnRango` se configura en su construcción y su `operator()` es `const`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 12 5 33 18 30 7 25 41 10
 ```
 
 #### Salida esperada
-
 ```
 9 datos, suma 181, máximo 41, promedio 20.1111
 Entre 10 y 30: 5
 Entre 0 y 9: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Functores con estado: contar, sumar y promediar en una pasada.
 #include <algorithm>
@@ -5025,51 +5025,55 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El aparato recuerda todo y el de rango cuenta exacto. Tesla les pone una etiqueta a cada uno.
 
-##### Bordes del rango
-```entrada
-0 9 10 30 31
-```
-```salida
-5 datos, suma 80, máximo 31, promedio 16
-Entre 10 y 30: 2
-Entre 0 y 9: 2
-```
+#### Imagen
+- Dos aparatos de bronce en un tablero: uno con contadores que giran y otro con una ventanita que marca un rango.
+- Tesla lee los contadores; Bron alimenta los aparatos con tiras de números.
 
-##### Un solo dato
-```entrada
-100
-```
-```salida
-1 datos, suma 100, máximo 100, promedio 100
-Entre 10 y 30: 0
-Entre 0 y 9: 0
-```
-
-### Misión R04-N06-M2 · La calculadora de comandos
+### Micro-misión R04-N06-P5 · La calculadora de comandos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de control de la Biblioteca
+personajes: Bron, Gheco, Oto
+recompensa: xp 10, monedas 4
+antes: R04-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Oto quiere una calculadora para sus recetas que entienda órdenes escritas.
+—«Suma», «por», «promedio»… y si le pido una que no sabe, que me lo diga y no invente.
 
+#### Gheco sugiere
+`std::map<std::string, std::function<double(double, double)>>`, con lambdas como valores. Agregar después es `ops["promedio"] = ...`. Antes de llamar, `find`: si no está, avisás.
+
+#### Desafío
 Armá un `std::map<std::string, std::function<double(double, double)>>` con las
 operaciones `suma`, `resta`, `por`, `potencia` e `hipotenusa`, y agregá `promedio`
 después de crear el map. Cada línea de la entrada es `operacion a b`: ejecutala o
 avisá que no existe. Al final, listá las operaciones.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las operaciones son lambdas guardadas en el map.
 - Agregar una operación no cambia el bucle principal.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <cmath>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 suma 3 4
 potencia 2 10
@@ -5079,7 +5083,6 @@ promedio 7 10
 ```
 
 #### Salida esperada
-
 ```
 suma(3, 4) = 7
 potencia(2, 10) = 1024
@@ -5089,8 +5092,7 @@ promedio(7, 10) = 8.5
 Operaciones: hipotenusa por potencia promedio resta suma
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - La calculadora de comandos: un map de texto a std::function.
 #include <cmath>
@@ -5129,46 +5131,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La calculadora le saca las cuentas del guiso. Oto la cuelga al lado del cucharón.
 
-##### Negativos y decimales
-```entrada
-resta 2.5 10
-por -3 4
-```
-```salida
-resta(2.5, 10) = -7.5
-por(-3, 4) = -12
-Operaciones: hipotenusa por potencia promedio resta suma
-```
+#### Imagen
+- Una calculadora de bronce con palancas rotuladas «suma», «resta», «por» y «potencia», sobre la mesada de la cocina.
+- Oto tira de una palanca; Bron anota el resultado.
 
-##### Ninguna existe
-```entrada
-dividir 1 2
-```
-```salida
-dividir: no existe
-Operaciones: hipotenusa por potencia promedio resta suma
-```
-
-##### Sin órdenes
-```entrada
-```
-```salida
-Operaciones: hipotenusa por potencia promedio resta suma
-```
-
-### Misión R04-N06-M3 · El bus de eventos
+### Micro-misión R04-N06-P6 · El bus de eventos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de control de la Biblioteca
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N06-M3
 ```
 
-#### Consigna
+#### Escena
+Lima arma un tablero de avisos: cuando pasa algo, suenan las campanas que estén conectadas.
+—Y si una campana molesta, la desenchufamos sin tocar las otras.
 
+#### Gheco sugiere
+`suscribir` guarda la función en `eventos_[evento][id]` y devuelve el `id`. `desuscribir` hace `erase(id)`. Al llegar un evento, recorrés el mapa de ese evento y llamás cada función.
+
+#### Desafío
 Escribí `class Eventos` donde `suscribir(evento, funcion)` devuelve un número de
 suscripción y `desuscribir(evento, numero)` la quita. Guardá las funciones en un
 `std::map<std::string, std::map<int, std::function<...>>>`. Suscribí: los puntos
@@ -5176,13 +5162,26 @@ suscripción y `desuscribir(evento, numero)` la quita. Guardá las funciones en 
 de la entrada es `evento dato`; el evento especial `silencio` desuscribe el festejo.
 Al final, puntos y logros.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `suscribir` devuelve un identificador y `desuscribir` lo usa.
 - Quien emite no sabe quién escucha.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <functional>
+#include <iostream>
+#include <map>
+#include <string>
+#include <utility>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 moneda 10
 moneda 5
@@ -5193,7 +5192,6 @@ jefe Quimera
 ```
 
 #### Salida esperada
-
 ```
   ¡+10!
   ¡+5!
@@ -5203,8 +5201,7 @@ jefe Quimera
 Puntos: 35, logros: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - El bus de eventos del juego: suscribir y desuscribir.
 #include <functional>
@@ -5261,38 +5258,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las campanas suenan cuando tienen que sonar y la del festejo se calla justo a tiempo. Lima respira aliviada.
 
-##### Silencio de entrada
-```entrada
-silencio x
-moneda 50
-```
-```salida
-  (sin festejos)
-Puntos: 50, logros: 0
-```
-
-##### Solo jefes
-```entrada
-jefe Hidra
-jefe Kraken
-```
-```salida
-  logro: venciste a Hidra
-  logro: venciste a Kraken
-Puntos: 0, logros: 2
-```
-
-##### Evento desconocido
-```entrada
-tesoro 100
-moneda 1
-```
-```salida
-  ¡+1!
-Puntos: 1, logros: 0
-```
+#### Imagen
+- Un tablero de bronce con campanas conectadas por cables a palancas, una campana desenchufada colgando.
+- Lima desenchufa la campana; Bron se tapa los oídos.
 
 ### Encargo R04-N06-E1 · Las reglas de descuento
 
@@ -5893,17 +5864,23 @@ Cinco, cuatro, tres, dos, uno: la sala se cierra a tiempo. Lyn llega corriendo a
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) tira de la cuerda de la campana.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) cierra la puerta.
 
-### Misión R04-N07-M1 · Partir sin copiar
+### Micro-misión R04-N07-P4 · Partir sin copiar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de lectura
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N07-M1
 ```
 
-#### Consigna
+#### Escena
+En la sala de lectura llegan registros larguísimos separados por comas. Lima no quiere hacer copias.
+—Mirá los pedazos sin cortar el papel. Y sacales los espacios de las puntas.
 
+#### Gheco sugiere
+`std::string_view` mira un pedazo sin copiarlo. Para partir, `find(sep, desde)` y `substr` (en un `string_view`, no copia). Los pedazos vacíos también cuentan. `recortar` usa `remove_prefix` y `remove_suffix`.
+
+#### Desafío
 Escribí `partir(std::string_view texto, char sep)`, que devuelve un
 `std::vector<std::string_view>` con los pedazos (incluidos los vacíos entre dos
 separadores seguidos), y `recortar(std::string_view)`, que quita los espacios de
@@ -5911,14 +5888,26 @@ las puntas con `remove_prefix`/`remove_suffix`. Cada línea de la entrada es un
 registro separado por comas: mostrá cuántos campos tiene y cada uno recortado
 entre corchetes.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Ninguna función copia texto: todo son vistas.
 - El `std::string` de la línea sigue vivo mientras se usan las vistas.
 - Contempla campos vacíos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <iostream>
+#include <string>
+#include <string_view>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Lima, artífice , 27
 Bron,,guerrero
@@ -5926,15 +5915,13 @@ Bron,,guerrero
 ```
 
 #### Salida esperada
-
 ```
 3 campos: [Lima] [artífice] [27]
 3 campos: [Bron] [] [guerrero]
 1 campos: [solo]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - Partir sin copiar: split con string_view.
 #include <iostream>
@@ -5983,63 +5970,63 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los registros quedan separados y limpios, y el papel sigue entero. Lima lo dobla y lo guarda.
 
-##### Campos vacíos
-```entrada
-,,
-```
-```salida
-3 campos: [] [] []
-```
+#### Imagen
+- Un papel largo en una mesa de lectura con marcos de bronce que señalan pedazos sin cortarlo.
+- Lima acomoda un marco sobre el papel; Bron lee entre corchetes.
 
-##### Sin comas y con espacios
-```entrada
-   a b c
-```
-```salida
-1 campos: [a b c]
-```
-
-##### Coma al final
-```entrada
-uno,dos,
-```
-```salida
-3 campos: [uno] [dos] []
-```
-
-### Misión R04-N07-M2 · Normalizar con span
+### Micro-misión R04-N07-P5 · Normalizar con span
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de lectura
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Tesla compara lecturas de distintos sensores y quiere todas en la misma escala.
+—Una sola función. Que sirva para un vector, para un array y para un pedazo.
 
+#### Gheco sugiere
+`std::span<double>` mira cualquier bloque contiguo: vector, array o parte. Buscá el mayor con `std::ranges::max` y dividí. `mostrar` recibe `std::span<const double>` porque no cambia nada.
+
+#### Desafío
 Escribí `normalizar(std::span<double>)`, que divide cada valor por el mayor
 (si el mayor es 0, no hace nada), y `mostrar(std::span<const double>)`.
 Normalizá un `vector` de lecturas de un sensor, un `std::array` de viento y solo los
 **3 primeros** de otro vector (con `std::span(v).first(3)`). Todo con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las mismas funciones sirven para `vector` y `array`.
 - La versión que modifica recibe `span<double>` y la que lee `span<const double>`.
 
-#### Salida esperada
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <array>
+#include <iomanip>
+#include <iostream>
+#include <span>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 sensor: 0.40 1.00 0.80 0.20 0.50
 viento: 0.08 0.25 0.50 1.00
 temps (3 primeros): 0.25 0.50 1.00 5.00 8.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - Normalizar lecturas con span: la funcion no sabe si es vector o array.
 #include <algorithm>
@@ -6090,30 +6077,56 @@ int main()
 }
 ```
 
-### Misión R04-N07-M3 · Consultas al Gremio
+#### Al superarla
+Todas las lecturas quedan entre 0 y 1. Tesla las pone una al lado de la otra y por fin se pueden comparar.
+
+#### Imagen
+- Tres medidores de bronce distintos con agujas que apuntan a la misma escala del 0 al 1.
+- Tesla compara los medidores con el visor; Bron ajusta una aguja.
+
+### Micro-misión R04-N07-P6 · Consultas al Gremio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sede del gremio
+personajes: Bron, Gheco, Lyn
+recompensa: xp 10, monedas 4
+antes: R04-N07-M3
 ```
 
-#### Consigna
+#### Escena
+El Gremio le pide a Lyn varias listas de sus artífices para repartir invitaciones.
+—Los mejores, los relojeros, cuántos aprendices… ¡Y no me copies la lista para cada pregunta!
 
+#### Gheco sugiere
+`std::ranges::sort(v, std::greater{}, &Artifice::nivel)` ordena por nivel con una proyección. Las vistas `views::take`, `views::filter` y `views::transform` no copian nada. `std::ranges::find(v, "vapor", &Artifice::taller)`.
+
+#### Desafío
 Cada línea trae un artífice: `nombre taller nivel`. Ordenalos de mayor a menor
 nivel con `std::ranges::sort` y una proyección. Con views, mostrá: los 3 de mayor
 nivel (`take`), los nombres del taller de "relojes" (`filter` + `transform`),
 cuántos aprendices hay (nivel menor que 3, con `std::ranges::count_if`) y el primero
 del taller de "vapor" (con `std::ranges::find` y una proyección).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa proyecciones (`&Artifice::nivel`, `&Artifice::taller`).
 - Encadena views con `|`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <ranges>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Lima relojes 5
 Bron vapor 7
@@ -6124,7 +6137,6 @@ Ana relojes 1
 ```
 
 #### Salida esperada
-
 ```
 Los 3 de mayor nivel: Tesla(10) Bron(7) Lima(5)
 Del taller de relojes: Lima Lyn Ana
@@ -6132,8 +6144,7 @@ Aprendices: 2
 El de más nivel en vapor: Bron
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - Consultas con ranges sobre la tabla de artifices.
 #include <algorithm>
@@ -6181,30 +6192,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Lyn sale con las listas en el bolso y ninguna se repite. Los aprendices reciben su invitación primero.
 
-##### Nadie de relojes ni de vapor
-```entrada
-Tesla faros 10
-Edison faros 9
-```
-```salida
-Los 3 de mayor nivel: Tesla(10) Edison(9)
-Del taller de relojes:
-Aprendices: 0
-```
-
-##### Todos aprendices
-```entrada
-A relojes 1
-B vapor 2
-```
-```salida
-Los 3 de mayor nivel: B(2) A(1)
-Del taller de relojes: A
-Aprendices: 2
-El de más nivel en vapor: B
-```
+#### Imagen
+- Un tablero del Gremio con fichas de artífices ordenadas por nivel, algunas resaltadas con luz cian.
+- Lyn mete invitaciones en el bolso; Bron le dicta nombres.
 
 ### Encargo R04-N07-E1 · El log del servidor
 
@@ -6879,17 +6872,23 @@ Uno, dos, tres, cuatro, cinco, sin guardar ni un número. Tesla dice que eso es 
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) lo prueba.
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) le da cuerda.
 
-### Misión R04-N08-M1 · El rango que no guarda nada
+### Micro-misión R04-N08-P4 · El rango que no guarda nada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de la Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N08-M1
 ```
 
-#### Consigna
+#### Escena
+Tesla le muestra a Bron una regla que nunca termina: marca números de a saltos, pero no tiene ninguno pintado.
+—Los calcula cuando los mirás. Y sabe dónde parar, aunque el salto no caiga justo.
 
+#### Gheco sugiere
+El iterador guarda el número actual y el paso; `++` suma el paso y `*` lo devuelve. El `end()` tiene que ser el primer valor alineado que ya no entra: `desde + cantidad * paso`, con `cantidad` redondeada para arriba.
+
+#### Desafío
 Escribí `class Rango(desde, hasta, paso = 1)` que representa los números `desde,
 desde + paso, …` menores que `hasta`, **sin guardarlos**: su iterador solo guarda el
 número actual y el paso. Calculá bien `end()` (el primer valor que "ya no entra",
@@ -6897,14 +6896,27 @@ alineado con el paso) para que el recorrido termine siempre. Cada línea de la
 entrada es `desde hasta paso`: mostrá los números, su suma (`accumulate`) y cuántos
 son múltiplos de 3 (`count_if`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El iterador tiene los `using` y los operadores mínimos.
 - Funcionan el `for` de rango, `accumulate` y `count_if`.
 - El recorrido termina aunque `hasta - desde` no sea múltiplo del paso, y con rangos vacíos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <cstddef>
+#include <iostream>
+#include <iterator>
+#include <numeric>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1 10 1
 0 20 3
@@ -6913,7 +6925,6 @@ son múltiplos de 3 (`count_if`).
 ```
 
 #### Salida esperada
-
 ```
 [1, 10) de a 1: 1 2 3 4 5 6 7 8 9 | suma 45, múltiplos de 3: 3
 [0, 20) de a 3: 0 3 6 9 12 15 18 | suma 63, múltiplos de 3: 7
@@ -6921,8 +6932,7 @@ son múltiplos de 3 (`count_if`).
 [2, 11) de a 4: 2 6 10 | suma 18, múltiplos de 3: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 1 - El rango de numeros: un "contenedor" que no guarda nada (genera al recorrer).
 #include <algorithm>
@@ -6993,37 +7003,30 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La regla recorre sus números y se detiene en el lugar justo. Tesla se la regala a Bron.
 
-##### Paso que no cae justo
-```entrada
-0 10 3
-1 2 5
-```
-```salida
-[0, 10) de a 3: 0 3 6 9 | suma 18, múltiplos de 3: 4
-[1, 2) de a 5: 1 | suma 1, múltiplos de 3: 0
-```
+#### Imagen
+- Una regla de bronce sin números pintados, con un cursor que proyecta números de luz a medida que se mueve.
+- Tesla mueve el cursor; Bron cuenta los saltos.
 
-##### Rango al revés
-```entrada
-10 1 1
-```
-```salida
-[10, 1) de a 1: | suma 0, múltiplos de 3: 0
-```
-
-### Misión R04-N08-M2 · El anillo que rechaza
+### Micro-misión R04-N08-P5 · El anillo que rechaza
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de la Biblioteca
+personajes: Bron, Gheco, Lima
+recompensa: xp 10, monedas 4
+antes: R04-N08-M2
 ```
 
-#### Consigna
+#### Escena
+En la sala de espera de la Biblioteca hay tres sillas. Lima quiere anotar a los últimos que llegaron y, aparte, no dejar entrar a nadie si está lleno.
+—El mismo anillo. Uno pisa al más viejo; el otro dice «no hay lugar».
 
+#### Gheco sugiere
+Un tercer parámetro de plantilla `AlLlenarse modo = AlLlenarse::Pisar`. En `push`, `if constexpr (modo == AlLlenarse::Rechazar)` devolvés `false` si está lleno. `pop` saca el más viejo y avanza el inicio.
+
+#### Desafío
 Agregale al `RingBuffer` un tercer parámetro de plantilla: un `enum class
 AlLlenarse { Pisar, Rechazar }` (por defecto `Pisar`). Con `Rechazar`, `push`
 devuelve `false` si está lleno; agregá `pop()` (saca el más viejo). Usá un anillo
@@ -7031,13 +7034,28 @@ de 3 que pisa como historial de los últimos en llegar, y otro de 3 que rechaza 
 **sala** de espera. Órdenes: `entra nombre` (a los dos) y `sale` (de la sala). Al
 final, mostrá los dos con una plantilla `mostrar` que use `std::for_each`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La política es un parámetro de la plantilla.
 - Los dos anillos funcionan con `for_each`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <array>
+#include <cstddef>
+#include <iostream>
+#include <iterator>
+#include <numeric>
+#include <string>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 entra Ana
 entra Beto
@@ -7049,7 +7067,6 @@ entra Fede
 ```
 
 #### Salida esperada
-
 ```
 La sala está llena: Dani espera
 La sala está llena: Fede espera
@@ -7057,8 +7074,7 @@ La sala está llena: Fede espera
 En la sala: Beto Caro Eli
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 2 - El RingBuffer que rechaza: una politica al llenarse, como parametro de la plantilla.
 #include <algorithm>
@@ -7168,68 +7184,57 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La sala nunca tiene más de tres y el historial siempre muestra a los últimos. Lima se sienta en la silla del medio.
 
-##### Sale de una sala vacía
-```entrada
-sale
-entra Ana
-sale
-sale
-```
-```salida
-Últimos 3 en llegar: Ana
-En la sala:
-```
+#### Imagen
+- Una sala de espera con tres sillas de bronce en círculo y un cartel «Completo», y al lado un anillo de fichas con nombres.
+- Lima se sienta en una silla; Bron pone el cartel.
 
-##### Sin órdenes
-```entrada
-```
-```salida
-Últimos 3 en llegar:
-En la sala:
-```
-
-##### Muchos llegan
-```entrada
-entra A
-entra B
-entra C
-entra D
-entra E
-```
-```salida
-La sala está llena: D espera
-La sala está llena: E espera
-Últimos 3 en llegar: C D E
-En la sala: A B C
-```
-
-### Misión R04-N08-M3 · La matriz de alturas
+### Micro-misión R04-N08-P6 · La matriz de alturas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de la Biblioteca
+personajes: Bron, Gheco, Tesla
+recompensa: xp 10, monedas 4
+antes: R04-N08-M3
 ```
 
-#### Consigna
+#### Escena
+Tesla trae el mapa de alturas de un terreno donde van a construir una torre nueva.
+—Una matriz que guarde todo en fila, y que se pueda recorrer de una. Los pozos, a cero.
 
+#### Gheco sugiere
+`m(f, c)` es `datos_[f * columnas_ + c]`. `begin()` y `end()` devuelven los del vector (y sus versiones `const`), así el `for (auto& h : m)` anda solo. `std::replace_if(m.begin(), m.end(), es_pozo, 0)`.
+
+#### Desafío
 Escribí `template <typename T> class Matriz` que guarda sus datos en un
 `std::vector<T>` (fila por fila), se accede con `m(fila, columna)` (con versión
 `const`) y **presta** los iteradores del vector (`begin`/`end`, también `const`).
 Leé filas, columnas y las alturas de un terreno **con el `for` de rango**. Mostrala,
 su suma, la cima, y reemplazá los pozos (negativos) por 0 con `std::replace_if`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No escribe un iterador: reutiliza los del vector.
 - El `operator()` tiene versión `const` y no `const`.
 - Funciona con algoritmos que modifican (`replace_if`).
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <cstddef>
+#include <iostream>
+#include <numeric>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 3 4
 2 5 -1 3
@@ -7238,7 +7243,6 @@ su suma, la cima, y reemplazá los pozos (negativos) por 0 con `std::replace_if`
 ```
 
 #### Salida esperada
-
 ```
 2 5 -1 3
 7 -3 4 1
@@ -7251,8 +7255,7 @@ Sin pozos:
 0 6 2 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Mision 3 - La matriz: un contenedor 2D con operator() y begin/end que la recorren entera.
 #include <algorithm>
@@ -7314,36 +7317,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El terreno queda parejo y la cima, marcada. Tesla clava ahí la primera estaca de la torre.
 
-##### Una sola fila
-```entrada
-1 3
--5 0 5
-```
-```salida
--5 0 5
-Suma: 0
-Cima: 5
-Sin pozos:
-0 0 5
-```
-
-##### Todo pozos
-```entrada
-2 2
--1 -2
--3 -4
-```
-```salida
--1 -2
--3 -4
-Suma: -10
-Cima: -1
-Sin pozos:
-0 0
-0 0
-```
+#### Imagen
+- Una maqueta de terreno hecha de bloques de bronce de distintas alturas, con un banderín cian en la cima.
+- Tesla clava el banderín; Bron rellena un pozo con arena.
 
 ### Encargo R04-N08-E1 · El promedio móvil de ventas
 
@@ -7989,17 +7968,23 @@ Página 4 del **Catálogo de Plantillas**: las bisagras del Vidriero, catalogada
 - Bron (mecánico grandote de 24 años, pelo castaño corto peinado hacia arriba, remera táctica negra, cinturón de herramientas, rodilleras con luz ámbar, llave inglesa cian al hombro) sostiene el libro con cuidado.
 - Tesla (muchacho delgado de pelo negro azulado en punta, visor cian, traje azul ajustado con líneas de luz cian y engranajes de bronce en los hombros) mira la página; Lima (aprendiz de relojera de 16, chiquita, dos rodetes castaños con un lápiz clavado, lupa de relojero en un ojo, delantal azul petróleo, una lima en la mano) espera en la escalera.
 
-### Misión R04-N09-M1 · La lista de tareas del Gremio
+### Micro-misión R04-N09-P5 · La lista de tareas del Gremio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La sede del gremio
+personajes: Bron, Gheco, Lima
+recompensa: xp 30, monedas 6
+antes: R04-N09-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de bajar a los sótanos, el Gremio quiere una lista de tareas para que nadie se olvide de nada.
+—Con menú —dice Lima—. Y que no se rompa si alguien aprieta una letra.
 
+#### Gheco sugiere
+Leé la opción como texto y convertila; si no es un número, avisás y seguís. Usá `any_of` para no repetir, `erase_if` para limpiar, `stable_sort` con la regla de las urgentes y `count_if` para el resumen. Si `getline` falla, salí del menú.
+
+#### Desafío
 Programá una lista de tareas con un menú: **1** agregar (no vacías ni repetidas),
 **2** ver (numeradas, con `[x]` las hechas), **3** marcar como hecha (por número),
 **4** limpiar las hechas (y decir cuántas), **5** ordenar (las urgentes, que
@@ -8009,14 +7994,26 @@ rompe si se escribe una letra, y termina bien si se acaba la entrada. Usá
 algoritmos (`any_of`, `for_each`, `erase_if`, `stable_sort`, `count_if`), no bucles
 a mano.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `leer_opcion` limpia el error con `clear` e `ignore`.
 - Usa algoritmos con lambdas en cada operación.
-- La salida coincide con la esperada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <iostream>
+#include <limits>
+#include <string>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1
 comprar aceite
@@ -8042,7 +8039,6 @@ barrer
 ```
 
 #### Salida esperada
-
 ```
 1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir: 
 Tarea: 
@@ -8080,8 +8076,7 @@ Borradas: 1
 ¡Hasta luego!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Jefe R04 - La lista de tareas del Gremio: menu robusto y algoritmos de la STL.
 #include <algorithm>
@@ -8179,67 +8174,31 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La lista del Gremio queda ordenada, con las urgentes arriba. Lima tacha la primera: «bajar a los sótanos».
 
-##### Sale enseguida
-```entrada
-0
-```
-```salida
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-¡Hasta luego!
-```
+#### Imagen
+- Una pizarra del Gremio con una lista de tareas, algunas con [x] y las urgentes marcadas con un signo de admiración rojo.
+- Lima tacha una tarea con tiza; Bron se ajusta el cinturón de herramientas.
 
-##### Se termina la entrada
-```entrada
-1
-lavar
-2
-```
-```salida
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-Tarea:
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-1. [ ] lavar
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-¡Hasta luego!
-```
-
-##### Marcar fuera de rango y limpiar sin hechas
-```entrada
-1
-!urgente
-3
-5
-4
-6
-0
-```
-```salida
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-Tarea:
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-Número:
-No existe la tarea 5.
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-Borradas: 0
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-1 tareas, 0 hechas, 1 urgentes pendientes
-1 agregar, 2 ver, 3 hecha, 4 limpiar hechas, 5 ordenar, 6 resumen, 0 salir:
-¡Hasta luego!
-```
-
-### Misión R04-N09-M2 · Los tentáculos del Kraken
+### Micro-misión R04-N09-P6 · Los tentáculos del Kraken
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: Los sótanos inundados de la Gran Biblioteca
+personajes: Bron, Gheco, Lima
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R04-N09-M2
 ```
 
-#### Consigna
+#### Escena
+En los sótanos, el Kraken saca tentáculos de cada estante inundado. Lima baja con una poción y la lima en la mano.
+—Cada tentáculo es una entidad. Si las tenemos ordenadas, lo vencemos.
 
+#### Gheco sugiere
+Las entidades viven en el `Mundo`. Para combatir, el índice espacial es un `unordered_map` de casilla a ids; `views::filter` elige a los que persiguen; `erase_if` recoge lo que no tiene vida; y cada muerte avisa a los suscriptos antes de borrarse.
+
+#### Desafío
 Armá un pequeño **sistema de entidades** en una grilla de 10 × 5. Cada `Entidad`
 tiene id, nombre, símbolo, posición, `optional<int>` vida, `optional<int>` ataque y si
 persigue. Un `Mundo` guarda un vector de entidades y ofrece:
@@ -8260,21 +8219,37 @@ el Kraken quieto en (8, 2) y una poción (+20 de vida) en (3, 2). La entrada es 
 palabra con los pasos de Lima (`d` derecha, `i` izquierda, `a` arriba, `b` abajo).
 En cada turno: mover a Lima, recoger, mover perseguidores, combatir y limpiar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `optional` para los datos que pueden faltar y pregunta antes de usarlos.
 - Usa un índice espacial con `unordered_map`.
 - Las muertes se avisan por un evento (`std::function`).
-- La salida coincide con la esperada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```cpp
+#include <algorithm>
+#include <functional>
+#include <iostream>
+#include <map>
+#include <optional>
+#include <ranges>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
+int main()
+{
+    // Escribí tu programa acá
+    return 0;
+}
+```
+
+#### Entrada
 ```
 dddddddbd
 ```
 
 #### Salida esperada
-
 ```
 ..........
 .....t....
@@ -8305,8 +8280,7 @@ Turno 9: Lima va a (8, 3)
 Lima sigue en pie; enemigos caídos: 2, entidades: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```cpp
 // Jefe R04 - El sistema de entidades: el Kraken y sus tentaculos en una grilla.
 #include <algorithm>
@@ -8479,84 +8453,12 @@ int main()
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El Kraken se hunde y en el agua flota el Catálogo de Plantillas. Lima lo abre en la página de la bisagra: era una plantilla, hecha para cualquier marco.
 
-##### Lima no se mueve
-```entrada
-x
-```
-```salida
-..........
-.....t....
-@..+....K.
-......t...
-..........
-Turno 1: Lima va a (0, 2)
-..........
-....t.....
-@..+....K.
-.....t....
-..........
-Lima sigue en pie; enemigos caídos: 0, entidades: 5
-```
-
-##### Lima va hacia arriba
-```entrada
-aaaa
-```
-```salida
-..........
-.....t....
-@..+....K.
-......t...
-..........
-Turno 1: Lima va a (0, 1)
-Turno 2: Lima va a (0, 0)
-Turno 3: Lima va a (0, -1)
-Turno 4: Lima va a (0, -2)
-..........
-.t........
-...+....K.
-..t.......
-..........
-Lima sigue en pie; enemigos caídos: 0, entidades: 5
-```
-
-##### Camino largo
-```entrada
-ddddddddddddd
-```
-```salida
-..........
-.....t....
-@..+....K.
-......t...
-..........
-Turno 1: Lima va a (1, 2)
-Turno 2: Lima va a (2, 2)
-Turno 3: Lima va a (3, 2)
-  Lima junta poción (vida 60)
-  Lima y tentáculo chocan: tentáculo queda en 3, Lima en 54
-Turno 4: Lima va a (4, 2)
-  Lima y tentáculo chocan: tentáculo queda en -9, Lima en 48
-  [evento] cae tentáculo
-Turno 5: Lima va a (5, 2)
-Turno 6: Lima va a (6, 2)
-Turno 7: Lima va a (7, 2)
-Turno 8: Lima va a (8, 2)
-  Lima y Kraken chocan: Kraken queda en 48, Lima en 39
-Turno 9: Lima va a (9, 2)
-Turno 10: Lima va a (10, 2)
-Turno 11: Lima va a (11, 2)
-Turno 12: Lima va a (12, 2)
-Turno 13: Lima va a (13, 2)
-..........
-..........
-........K.
-..........
-..........
-Lima sigue en pie; enemigos caídos: 1, entidades: 3
-```
+#### Imagen
+- Un sótano inundado de la Gran Biblioteca con estantes hundidos y tentáculos de bronce saliendo del agua, y un kraken enorme al fondo.
+- Lima levanta una poción brillante; Bron, con agua hasta la cintura, sostiene la llave inglesa cian.
 
 ### Encargo R04-N09-E1 · El despacho de pedidos
 

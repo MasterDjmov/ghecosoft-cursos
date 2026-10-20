@@ -1,0 +1,23 @@
+# graphify: solo app/, resources/, routes/, config/ y docs/
+cursos/
+public/
+vendor/
+node_modules/
+storage/
+bootstrap/
+database/
+tests/
+scripts/
+lang/
+graphify-out/
+*.md.bak
+/*.md
+/*.json
+/*.js
+/*.xml
+/*.lock
+docs/referencias/
+docs/prototipos/
+docs/GeminisIA/
+assets/
+artisan

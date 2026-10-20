@@ -37,3 +37,6 @@ yarn-error.log
 /opencode.json
 /opencode.jsonc
 /public/toolchains
+
+# graphify (mapa del proyecto, se regenera con /graphify --update)
+/graphify-out

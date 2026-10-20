@@ -10,8 +10,10 @@ todos los cursos con la solución al lado, la herramienta libre *Herramientas �
 R01 Fundamentos + el Slime de las Palancas; R02 Decisiones y repeticiones + el Ogro de las Banderas; R03 Pila,
 procedimientos y pantalla + el Troll de la Pila; R04 la calculadora, el Oráculo, el combate y el Dragón del
 Gólem). `probar-curso.mjs` da 170 bien y `app:simulate-course ensamblador` termina con los 5 alumnos (27/27).
-Escenas en Stitch: 26 de 143. Sigue la fase 6: las escenas que faltan, la tienda y las expediciones de Nova, la
-enciclopedia y la temporada de inglés (lista de ALTA).
+**Fase 6 (2026-10-20):** escenas en Stitch 143 de 143; la tienda (la taberna del pie, con la tabernera) y las
+expediciones de Nova (15 lugares por el interior de Axón, con su mapa); la enciclopedia con retrato y cuerpo de Nova,
+Axón, la tabernera, la jefa del Gremio, los jefes y el Dragón (copias en la carpeta de personajes del docente,
+`ensamblador/`). Falta la temporada del Gólem en las Crónicas en Inglés (lista de ALTA § 4).
 
 ## 1. Decisiones tomadas (2026-10-18)
 

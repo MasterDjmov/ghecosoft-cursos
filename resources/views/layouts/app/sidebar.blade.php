@@ -35,6 +35,9 @@
                         <flux:sidebar.item icon="users" :href="route('admin.students.index')" :current="request()->routeIs('admin.students.*')" wire:navigate>
                             Alumnos
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="presentation-chart-line" :href="route('admin.statistics')" :current="request()->routeIs('admin.statistics')" wire:navigate>
+                            Estadísticas
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="user-group" :href="route('admin.cohorts')" :current="request()->routeIs('admin.cohorts', 'admin.syllabus')" wire:navigate>
                             Comisiones
                         </flux:sidebar.item>

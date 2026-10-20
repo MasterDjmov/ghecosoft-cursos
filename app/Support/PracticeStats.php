@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\Practice;
 use App\Models\PracticeMessage;
 use App\Models\Submission;
+use App\Models\User;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -18,7 +19,16 @@ use Illuminate\Support\Facades\DB;
  */
 class PracticeStats
 {
-    public function __construct(private ?int $courseId = null, private ?CarbonInterface $since = null) {}
+    /**
+     * @param  Builder<User>|null  $students  solo estos alumnos (una consulta que elige users.id)
+     * @param  list<int>|null  $courseIds  solo estos cursos (los de las comisiones del docente)
+     */
+    public function __construct(
+        private ?int $courseId = null,
+        private ?CarbonInterface $since = null,
+        private ?Builder $students = null,
+        private ?array $courseIds = null,
+    ) {}
 
     /** Entregas de alumnos con su práctica y su nodo, filtradas por curso y período. */
     private function submissions(): Builder
@@ -29,6 +39,8 @@ class PracticeStats
             ->join('users', 'users.id', '=', 'submissions.user_id')
             ->where('users.role', Role::Student->value)
             ->when($this->courseId, fn ($q) => $q->where('nodes.course_id', $this->courseId))
+            ->when($this->courseIds !== null, fn ($q) => $q->whereIn('nodes.course_id', $this->courseIds ?: [0]))
+            ->when($this->students, fn ($q) => $q->whereIn('submissions.user_id', $this->students))
             ->when($this->since, fn ($q) => $q->where('submissions.submitted_at', '>=', $this->since));
     }
 
@@ -58,6 +70,8 @@ class PracticeStats
             ->join('nodes', 'nodes.id', '=', 'practices.node_id')
             ->whereColumn('practice_messages.author_id', 'practice_messages.student_id')
             ->when($this->courseId, fn ($q) => $q->where('nodes.course_id', $this->courseId))
+            ->when($this->courseIds !== null, fn ($q) => $q->whereIn('nodes.course_id', $this->courseIds ?: [0]))
+            ->when($this->students, fn ($q) => $q->whereIn('practice_messages.student_id', $this->students))
             ->when($this->since, fn ($q) => $q->where('practice_messages.created_at', '>=', $this->since))
             ->groupBy('practice_messages.practice_id')
             ->pluck(DB::raw('COUNT(*)'), 'practice_messages.practice_id')

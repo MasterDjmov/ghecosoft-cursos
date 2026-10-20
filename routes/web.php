@@ -21,11 +21,13 @@ use App\Livewire\Admin\Nodes;
 use App\Livewire\Admin\Requests;
 use App\Livewire\Admin\Scenes;
 use App\Livewire\Admin\Settings;
+use App\Livewire\Admin\Statistics;
 use App\Livewire\Admin\Story as StoryRoom;
 use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
 use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
+use App\Livewire\Student\AsmTool;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
@@ -94,7 +96,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
         return $world ? redirect()->route('student.expeditions', $world) : redirect()->route('student.heroes');
     })->name('student.expeditions.home');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
-    Route::livewire('herramientas/golem-8086', \App\Livewire\Student\AsmTool::class)->name('student.asm-tool');
+    Route::livewire('herramientas/golem-8086', AsmTool::class)->name('student.asm-tool');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 
@@ -144,6 +146,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin,teacher'])->prefix('a
     Route::livewire('cursos/{course}/temario', Syllabus::class)->name('syllabus');
     Route::livewire('alumnos', Students\Index::class)->name('students.index');
     Route::livewire('alumnos/demorados', Students\Delayed::class)->name('students.delayed');
+    Route::livewire('estadisticas', Statistics::class)->name('statistics');
     Route::livewire('alumnos/{user:username}', Students\Show::class)->name('students.show');
     Route::livewire('alumnos/{user:username}/arbol/{course}', Students\Tree::class)->name('students.tree');
 });

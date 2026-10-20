@@ -50,8 +50,9 @@ class StudentJourney
 
         $nodeIds = $unlocks->keys()->merge($visits->keys())->unique();
 
+        // Por código (R00, R01-N01…, S01): la posición es dentro de cada rama.
         return Node::whereIn('id', $nodeIds)->with(['steps' => fn ($q) => $q->orderBy('position')])
-            ->orderBy('position')->get()
+            ->orderBy('code')->get()
             ->map(function (Node $node) use ($unlocks, $visits, $attempts, $done, $states) {
                 $visit = $visits->get($node->id);
                 $steps = $node->steps->map(fn (NodeStep $step) => [

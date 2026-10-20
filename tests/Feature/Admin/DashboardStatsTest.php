@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\SubmissionStatus;
-use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Statistics;
 use App\Models\PracticeMessage;
 use App\Models\Submission;
 use App\Models\User;
@@ -49,12 +49,11 @@ test('cuenta entregas, rehacer, pruebas que fallan y consultas, y arma los ranki
     // Desde el principio aparece la entrega vieja de Caro.
     expect((new PracticeStats)->summary()['redo'])->toBe(3);
 
+    // Las prácticas se ven en Estadísticas (D107), con el filtro de curso.
     Livewire::actingAs(User::factory()->admin()->create())
-        ->test(Dashboard::class)
+        ->test(Statistics::class)
         ->assertSee('data-test="practice-stats"', false)
-        ->assertSee('data-test="stats-by-course"', false)
         ->assertSee('Donde más se traban')
-        ->set('statsCourse', (string) $made['course']->id)
-        ->assertDontSee('data-test="stats-by-course"', false)
+        ->set('course', (string) $made['course']->id)
         ->assertSee('Encargo');
 });

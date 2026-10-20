@@ -1,0 +1,253 @@
+{
+  "R04-N01-M1": {
+    "lugar": "El Archivo de la Forja",
+    "personajes": "Kira, Gheco, el Archivero",
+    "escena": "El Archivero le da a Kira un cuaderno nuevo para su diario de aprendiz.\n—Cada día, una línea al final. Sin borrar lo de antes. Y después me lo leés, con número de renglón.",
+    "gheco": "`fopen(\"diario.txt\", \"a\")` agrega al final; si devuelve `NULL`, no se pudo abrir. Al empezar, `remove(\"diario.txt\")` lo deja vacío. Para leerlo: `\"r\"`, `fgets` en un bucle y `%2d | ` para el número.",
+    "exito": "El Archivero escucha el diario entero con los ojos cerrados. En el día 2 sonríe un poquito.",
+    "imagen": [
+      "Un archivo con estantes de hierro, libros encadenados y un cuaderno abierto sobre un atril con tres renglones escritos.",
+      "El Archivero (enano viejísimo y encorvado, barba blanca larguísima enrollada en el cinturón, anteojos redondos, abrigo marrón con runas naranjas) escucha; Kira lee el cuaderno."
+    ]
+  },
+  "R04-N01-M2": {
+    "lugar": "El Archivo de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón copia en un pergamino la canción de las Forjas y quiere saber cuántas líneas, palabras y letras tiene.\n—Contalas de a una. Como yo, pero más rápido.",
+    "gheco": "Escribí el archivo con `fputs` y cerralo. Después leelo con `fgetc` hasta `EOF`: cada carácter suma un byte, cada `'\\n'` una línea, y una palabra empieza cuando hay un no-espacio después de un espacio (`isspace`).",
+    "exito": "Los números coinciden con los de Tizón, que los contó a mano dos veces. Él lo anota como un empate.",
+    "imagen": [
+      "Un pergamino largo con la letra de una canción desplegado sobre una mesa de archivo.",
+      "Tizón (enano joven pelirrojo con antiparras) cuenta con los dedos; Kira sigue el texto con una pluma."
+    ]
+  },
+  "R04-N01-M3": {
+    "lugar": "El mostrador del Archivero",
+    "personajes": "Kira, Gheco, Chispa",
+    "criatura": "goblin",
+    "escena": "Chispa trae la lista de precios de su puesto en un archivo, con punto y coma entre los datos. Tiene precios vacíos, stock negativo y una línea a la que le falta un dato.\n—Decime cuánto vale lo que está bien —pide, mirando para otro lado.",
+    "gheco": "Salteá la primera línea. `sscanf(linea, \"%29[^;];%lf;%d %c\", ...)` tiene que devolver justo 3. Validá precio mayor que 0 y stock no negativo; avisá las líneas con error y su número, y sumá precio × stock de las buenas.",
+    "exito": "El total del stock válido es la mitad de lo que Chispa decía. Él lo anota, «para la próxima tasación».",
+    "imagen": [
+      "Un mostrador con una planilla de precios llena de tachaduras y un goblin chiquito escondido entre los papeles.",
+      "Chispa (mercader alto y flaco, sombrero de ala corta, bufanda naranja) se acomoda la bufanda; Kira marca errores."
+    ]
+  },
+  "R04-N02-M1": {
+    "lugar": "Las cajas selladas del Archivo",
+    "personajes": "Kira, Gheco, el Archivero",
+    "escena": "El Archivero le enseña a Kira a guardar su progreso en una ficha sellada, byte por byte, para retomarlo otro día tal cual.\n—Y si la ficha no está, que no se rompa nada: que avise.",
+    "gheco": "`fwrite(p, sizeof(Progreso), 1, f)` tiene que devolver 1; lo mismo `fread`. Abrí con `\"wb\"` y `\"rb\"`, y si `fopen` da `NULL` o no se escribió/leyó un registro completo, devolvé `false`.",
+    "exito": "El progreso vuelve igual, hasta la última moneda. El Archivero sella la caja con lacre naranja.",
+    "imagen": [
+      "Una caja de hierro sellada con lacre naranja, con una ficha metálica adentro que brilla.",
+      "El Archivero aplica el sello; Kira sostiene la ficha."
+    ]
+  },
+  "R04-N02-M2": {
+    "lugar": "Las cajas selladas del Archivo",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "En una caja hay diez fichas de enemigos. Tizón quiere ver la séptima sin leer las seis anteriores, y corregir la tercera sin reescribir la caja entera.",
+    "gheco": "`fseek(f, 7 * sizeof(Enemigo), SEEK_SET)` va directo. Para cambiar uno en su lugar: leelo, cambialo, volvé con `fseek(f, -(long) sizeof(Enemigo), SEEK_CUR)` y escribilo. `rewind(f)` vuelve al principio.",
+    "exito": "Tizón abre la caja y la ficha 3 dice vida 0. Las otras nueve están igual que antes.",
+    "imagen": [
+      "Una caja de fichas de metal abierta con diez fichas en fila, una sobresaliendo por arriba.",
+      "Tizón saca la ficha número 7 con unas pinzas; Kira cuenta."
+    ]
+  },
+  "R04-N02-M3": {
+    "lugar": "Las cajas selladas del Archivo",
+    "personajes": "Kira, Gheco, el Archivero",
+    "escena": "El Archivero tiene que guardar mil números y duda: ¿en un libro, con letras, o en una caja sellada, byte por byte?\n—Medí cuánto ocupa cada uno. Después hablamos.",
+    "gheco": "Escribí los números con `fprintf` en uno y con un solo `fwrite` en el otro. Para medir: `fseek(f, 0, SEEK_END)` y `ftell(f)` da el tamaño en bytes.",
+    "exito": "La caja sellada ocupa menos. El Archivero igual guarda los dos: «el libro, para leerlo; la caja, para la máquina».",
+    "imagen": [
+      "Un libro grueso lleno de números al lado de una caja chiquita de metal, sobre una balanza.",
+      "El Archivero mira la balanza por encima de los anteojos; Kira anota los pesos."
+    ]
+  },
+  "R04-N03-M3": {
+    "lugar": "Las salas del Archivo",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum quiere un interruptor en el programa: en modo práctica, que cuente todo lo que hace; en modo forja, que se calle.\n—Y las macros, bien protegidas. Ya tuvimos herraduras banana.",
+    "gheco": "`#ifdef DEPURAR` → `#define LOG(...) fprintf(stderr, \"[depurar] \" __VA_ARGS__)`; si no, `#define LOG(...) ((void) 0)`. `MAX` y `CUADRADO` con paréntesis en cada parámetro. La salida esperada es **sin** `DEPURAR`.",
+    "exito": "Sin el interruptor, el programa no dice ni una palabra de más. Ferrum lo prueba con `-DDEPURAR` y asiente.",
+    "imagen": [
+      "Una sala del archivo con un interruptor de bronce grande en la pared y dos lámparas, una encendida y otra apagada.",
+      "Maese Ferrum (herrero humano enorme, barba gris trenzada, ojo naranja) baja el interruptor; Kira mira las lámparas."
+    ]
+  },
+  "R04-N05-M1": {
+    "lugar": "La taberna de la Forja",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Chispa propone agregarle una opción al menú de la taberna: apostar diez de oro. Si sale bien, ganás veinte.\n—Es justo. Casi siempre.",
+    "gheco": "Sumá la opción 5 al `switch`. Si el oro no alcanza, avisá. Si no, `rand() % 2 == 0` decide si ganás 20 o perdés 10. `srand(5)` fija la semilla; dejá comentado `srand(time(NULL))`. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "Kira pierde la primera apuesta y gana la segunda. Chispa le paga con cara de que no estaba en el plan.",
+    "imagen": [
+      "Una mesa de taberna con un dado grande, una jarra y una pila de monedas de oro.",
+      "Chispa (mercader alto y flaco con diente de oro) tira el dado; Kira mira las monedas."
+    ],
+    "salida_navegador": true
+  },
+  "R04-N05-M2": {
+    "lugar": "El mostrador del Archivero",
+    "personajes": "Kira, Gheco, el Archivero",
+    "escena": "El cartel del mostrador del Archivero tiene las opciones escritas a mano, y cada vez que agregan una hay que reescribir todo.\n—Hacelo como una tabla. Que el cartel se arme solo.",
+    "gheco": "Un `typedef struct { const char *texto; void (*accion)(Jugador *); } Opcion;` y un array `MENU`. La cantidad: `sizeof MENU / sizeof MENU[0]`. Para ejecutar: `MENU[opcion - 1].accion(&kira)`.",
+    "exito": "El Archivero agrega una opción nueva a la tabla y el cartel la muestra solo. Se queda mirándolo un rato.",
+    "imagen": [
+      "Un cartel de madera con opciones numeradas colgado sobre un mostrador, con una opción nueva recién pintada.",
+      "El Archivero pinta la opción nueva; Kira sostiene el tarro de pintura."
+    ]
+  },
+  "R04-N05-M3": {
+    "lugar": "El mostrador del Archivero",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Chispa quiere un menú para su puesto con una tienda adentro y una despedida que pregunte dos veces.\n—Que nadie se vaya sin querer. Y si se corta todo, que no se rompa.",
+    "gheco": "La tienda es otro bucle adentro del menú, que se repite hasta `0`. Para salir, pedí `s` o `S`. Si `fgets` devuelve `NULL` en cualquier lugar, terminá ordenado.",
+    "exito": "Chispa prueba el menú con todo lo que se le ocurre y no lo rompe. Se va del mostrador ofendido, pero con flechas nuevas.",
+    "imagen": [
+      "Un puesto de mercader con un menú pintado en una tabla, flechas en un carcaj y pociones en un estante.",
+      "Chispa elige una opción con el dedo; Kira atiende detrás del mostrador."
+    ]
+  },
+  "R05-N01-M1": {
+    "lugar": "La Prueba del Temple",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "criatura": "ogro",
+    "escena": "En la primera sala de la Prueba hay un programa que calcula el promedio de cinco temperaturas. Parece andar, pero Ferrum lo golpea con el martillito y suena hueco dos veces.\n—Dos errores. Encontralos.",
+    "gheco": "Uno se sale del array (mirá el límite del `for`) y el otro hace mal la cuenta del promedio (¿división entera?). En tu compu, `-fsanitize=address` marca el primero y `gdb` ayuda con el segundo.",
+    "exito": "Ferrum golpea el programa otra vez y suena macizo. Le da a Kira la lupa de cristal, «para la próxima sala».",
+    "imagen": [
+      "Una sala de piedra con espadas en soportes, una de ellas con una grieta que brilla en naranja.",
+      "Maese Ferrum golpea la espada con un martillito; Kira mira la grieta con una lupa."
+    ]
+  },
+  "R05-N01-M2": {
+    "lugar": "La Prueba del Temple",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "ogro",
+    "escena": "Tizón trae un programa que en su compu anda y en la de Hulda no.\n—Tiene tres cosas que el estándar no define. Según la máquina, hace cualquier cosa.",
+    "gheco": "Buscá: una variable que se usa sin valor inicial, una cuenta que se pasa de `INT_MAX` y un acceso fuera de un array. En tu compu, `-fsanitize=address,undefined` los marca.",
+    "exito": "El programa da lo mismo en todas las compus. Tizón lo prueba en tres, por las dudas.",
+    "imagen": [
+      "Tres yunques en fila, cada uno con una pieza de metal de forma distinta.",
+      "Tizón compara las piezas con su calibre; Kira escribe en la libreta."
+    ]
+  },
+  "R05-N01-M3": {
+    "lugar": "La Prueba del Temple",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "criatura": "ogro",
+    "escena": "En la sala hay una escalera de piedra que baja de a dos escalones. Con 4 se llega al fondo; con 5, se sigue bajando para siempre.\n—Arreglale el final —dice Ferrum.",
+    "gheco": "La suma baja de a 2: con un número impar nunca llega a 0. El caso base tiene que frenar cuando `n <= 0`, no solo cuando `n == 0`.",
+    "exito": "La escalera ahora termina siempre. Ferrum baja por ella con el impar más grande que se le ocurre y vuelve a subir.",
+    "imagen": [
+      "Una escalera de piedra en espiral que baja hacia la oscuridad, con escalones numerados.",
+      "Maese Ferrum baja con un farol; Kira cuenta desde arriba."
+    ]
+  },
+  "R05-N02-M1": {
+    "lugar": "La Prueba del Temple",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón tiene un martillo de prueba para cada regla del año bisiesto y quiere usarlos todos.\n—Divisible por 4, por 100, por 400. Cada parte, su golpe.",
+    "gheco": "Con `VERIFICAR(condicion)` probá un caso de cada parte de la regla: 2024 (sí), 2023 (no), 1900 y 2100 (no), 2000 y 2400 (sí). `RESUMEN()` muestra cuántas pasaron.",
+    "exito": "Todos los martillos suenan bien. Tizón se emociona tanto que prueba un séptimo caso, por las dudas.",
+    "imagen": [
+      "Una pared con martillos de prueba colgados, cada uno con una etiqueta de un año distinto.",
+      "Tizón descuelga un martillo con los ojos brillantes; Kira anota los resultados."
+    ]
+  },
+  "R05-N02-M2": {
+    "lugar": "La Prueba del Temple",
+    "personajes": "Kira, Gheco, Chispa",
+    "criatura": "ogro",
+    "escena": "Chispa vende un contador de palabras que, según él, no falla nunca. Lo prueba con «hola mundo» y da 2.\n—¿Ves? Perfecto.",
+    "gheco": "Escribí primero las pruebas de los bordes: texto vacío, espacios al principio, al final y dobles, tabulaciones y saltos de línea. Mirá cuáles fallan y después corregí la función contando el paso de espacio a no espacio (`isspace`).",
+    "exito": "Con espacios dobles, el contador de Chispa decía 5. Ahora dice 2. Chispa dice que siempre dijo 2.",
+    "imagen": [
+      "Un aparato de bronce con una rueda contadora sobre un mostrador de prueba, con hojas escritas alrededor.",
+      "Chispa (mercader alto y flaco con bufanda naranja) lo defiende con las manos; Kira golpea la rueda con un martillito."
+    ]
+  },
+  "R05-N02-M3": {
+    "lugar": "La Prueba del Temple",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda quiere una función que deje prolijos los nombres de los mineros, pero esta vez al revés: primero las pruebas, después la función.\n—Si sabés qué tiene que dar, después es fácil hacerlo.",
+    "gheco": "La macro `PROBAR` compara lo que devuelve `normalizar` con lo esperado. Para la función: saltá espacios, poné mayúscula a la primera letra de cada palabra y minúscula al resto, un solo espacio entre palabras, y fijate de no pasarte de `tam`.",
+    "exito": "Todas las pruebas pasan a la primera. Hulda cuelga la lista de nombres prolijos en la entrada de la mina.",
+    "imagen": [
+      "Una lista de nombres prolijos tallada en una tabla de madera en la entrada de una mina.",
+      "Hulda (enana fortísima con casco de minera y farol naranja) cuelga la tabla; Kira le alcanza los clavos."
+    ]
+  },
+  "R05-N03-M1": {
+    "lugar": "La sede del Gremio",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "En la sede del Gremio, los comerciantes pierden los contactos de sus proveedores en papelitos. Le piden a Kira una agenda que no se pierda.\n—Que se guarde en un archivo —dice Chispa— y que vuelva entera.",
+    "gheco": "Un array dinámico de `Contacto` que crece con `realloc`. `listar` ordena con `qsort` por nombre. `guardar` escribe `agenda.csv`. Al final, volvé a cargar el archivo en otra agenda y contá los contactos.",
+    "exito": "La agenda vuelve entera del archivo. Es la primera vez que alguien en las Forjas tiene el teléfono de Chispa.",
+    "imagen": [
+      "Una sede de gremio con mesas largas y una agenda gruesa de tapas de cuero sobre un atril.",
+      "Chispa dicta un número; Kira lo anota en la agenda."
+    ]
+  },
+  "R05-N03-M2": {
+    "lugar": "La sede del Gremio",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "La agenda del Gremio necesita buscar, borrar y no aceptar cualquier cosa. Hulda prueba cargar un teléfono con letras.\n—Si me deja, la rompo yo.",
+    "gheco": "Para buscar sin importar mayúsculas, pasá los dos textos a minúscula y usá `strstr`. El teléfono acepta dígitos, espacios, guiones y un `+` al principio, con al menos 6 dígitos. El email, una `@` con algo antes y un punto después.",
+    "exito": "La agenda rechaza el teléfono con letras. Hulda guarda el pico, satisfecha.",
+    "imagen": [
+      "Una agenda abierta con una página tachada en rojo y otra prolija, sobre una mesa del gremio.",
+      "Hulda señala la página tachada; Kira escribe en la prolija."
+    ]
+  },
+  "R05-N03-M3": {
+    "lugar": "La sede del Gremio",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum quiere ver la agenda ordenada de distintas formas: por nombre, por email o por mes de cumpleaños.\n—Así sé a quién saludar este mes.",
+    "gheco": "Una tabla `{ campo, función }` con los tres comparadores. Para cada línea, buscá el campo en la tabla y ordená con su función; si no está, avisá. El de cumpleaños desempata por nombre.",
+    "exito": "Ferrum mira la lista por cumpleaños y descubre que el de Tizón es mañana. Se lo guarda como sorpresa.",
+    "imagen": [
+      "Un calendario de piedra con meses tallados en la pared del gremio, y una agenda abierta debajo.",
+      "Maese Ferrum mira el calendario con el ojo naranja encendido; Kira le muestra la lista."
+    ]
+  },
+  "R05-N04-M1": {
+    "lugar": "La fragua bajo la Montaña",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "dragon",
+    "escena": "En la primera escama del Dragón está grabado el primer encargo: las temperaturas de cuatro hornos durante siete días. Tizón le pasa a Kira la libreta abierta.\n—Midamos.",
+    "gheco": "Una matriz `double t[7][4]`. Validá cada valor entre 0.0 y 1500.0 y repetí ese mismo si no lo es. Después, promedios por horno (columnas) y por día (filas), y lo que pida el encargo.",
+    "exito": "La primera escama se apaga. El Dragón abre un ojo y lo vuelve a cerrar.",
+    "imagen": [
+      "Un dragón de hierro negro dormido, con escamas como placas de forja y venas de lava, y una escama del lomo con un brillo naranja.",
+      "Kira lee la escama; Tizón sostiene la libreta."
+    ]
+  },
+  "R05-N04-M2": {
+    "lugar": "La fragua bajo la Montaña",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "criatura": "dragon",
+    "escena": "La segunda escama pide el registro de los aprendices de la Forja: legajos, notas y rangos. Ferrum mira la escama y después a Kira.\n—Tus compañeros. No te equivoques con ninguno.",
+    "gheco": "Un arreglo de hasta 50 structs. Leé la cantidad y después `legajo;nombre;nota1;nota2;nota3`. Descartá los renglones con legajo no positivo o notas fuera de 0 a 10. Calculá el promedio y el rango de cada uno.",
+    "exito": "La segunda escama se apaga. El Dragón suspira y sale un poco de humo.",
+    "imagen": [
+      "La fragua bajo la montaña, con ríos de lava y un dragón de hierro enroscado, una segunda escama brillando.",
+      "Maese Ferrum, enorme, mira desde la entrada; Kira escribe en una tablilla."
+    ]
+  },
+  "R05-N04-M3": {
+    "lugar": "La fragua bajo la Montaña",
+    "personajes": "Kira, Gheco, Tizón, Maese Ferrum",
+    "criatura": "dragon",
+    "escena": "La última escama es la más grande: el depósito de lingotes de la Forja, en una caja sellada, con altas, bajas y búsquedas. El Dragón abre los dos ojos.\n—Es la última —dice Ferrum, en voz baja.",
+    "gheco": "Un archivo binario de structs. Cada opción del menú abre el archivo como le hace falta. La baja es lógica: cambiá el estado a `'B'` en su lugar con `fseek`. Listá solo los activos.",
+    "exito": "La última escama se apaga y el Dragón se aparta. Detrás, en la fragua, brilla el plomo del Vidriero.",
+    "imagen": [
+      "Un dragón de hierro negro con un horno encendido en el pecho, apartándose y dejando ver una fragua con un bloque de plomo brillante.",
+      "Kira, con la espada reforjada en la vaina, da un paso adelante; Tizón y Maese Ferrum miran detrás."
+    ]
+  }
+}

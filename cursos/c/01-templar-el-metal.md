@@ -528,37 +528,52 @@ int main(void)
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) reparte siete lingotes en dos pilas desparejas.
 - Un goblin se escapa con medio lingote bajo el brazo.
 
-### Misión R01-N01-M1 · Cada dato en su cajón
+### Micro-misión R01-N01-P5 · Cada dato en su cajón
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Tizón quiere su ficha de aprendiz en el depósito, con cada dato en el cajón que le corresponde. Le dicta a Kira: nivel, experiencia, crítico, rango, escudo y flechas.
+—Y no me pongas la experiencia en un cajón chico. Es mucha.
 
+#### Gheco sugiere
+3 500 millones no entran en un `int` (llega a unos 2 100 millones): usá `long long` con `%lld`. `char` va con `%c`, `double` con `%.2f`, `bool` (de `<stdbool.h>`) se muestra con `%d` y `unsigned` con `%u`.
+
+#### Desafío
 Tizón tiene nivel 12, 3 500 millones de
 experiencia, 15 % de probabilidad de crítico, rango `S`, escudo (sí) y 40
 flechas. Elegí el tipo de cada variable y mostralas con el formato correcto.
 ¿Por qué la experiencia no entra en un `int`?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un tipo adecuado para cada dato (por ejemplo `long long` o `uint32_t` para la experiencia, `char` para el rango, `bool` para el escudo).
 - Muestra cada valor con el formato correcto de `printf`.
 - Explica en un comentario por qué 3 500 millones no entra en un `int`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Tizon | nivel 12 | exp 3500000000
 crítico 0.15 | rango S | escudo 1 | flechas 40
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Cada dato en su caja: elegir el tipo de cada atributo de Tizon.
@@ -582,35 +597,58 @@ int main(void)
 }
 ```
 
-### Misión R01-N01-M2 · El cofre de 8 bits
+#### Al superarla
+Tizón revisa cada cajón con el calibre y asiente seis veces. Después anota en la libreta: «experiencia: no entra en int».
+
+#### Imagen
+- Un depósito de piedra con cajones de hierro de distintos tamaños, uno enorme con un brillo dorado.
+- Tizón (enano joven pelirrojo con antiparras en la frente y un calibre de bronce al cuello) mide un cajón; Kira acomoda fichas de metal.
+
+### Micro-misión R01-N01-P6 · El cofre de 8 bits
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Forja
+personajes: Kira, Gheco, Tizón
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R01-N01-M2
 ```
 
-#### Consigna
+#### Escena
+En el depósito hay un cofre chiquito de 8 bits con 255 monedas. Kira le agrega una más y el cofre hace *clic*: queda en cero.
+—Otra vez —suspira Tizón—. Este cofre ya se comió el sueldo de tres aprendices.
 
+#### Gheco sugiere
+Un `uint8_t` (de `<stdint.h>`) va de 0 a 255: al sumarle 1 vuelve a 0. Mostrá lo que pasa y después usá un tipo más grande, como `int` o `uint16_t`.
+
+#### Desafío
 Guardá 255 monedas en un `uint8_t` y sumale una. ¿Qué
 pasa? Arreglalo con un tipo más grande.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra que 255 + 1 en un `uint8_t` da 0.
 - Lo arregla con un tipo más grande y muestra 256.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdint.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Cofre lleno: 255
 Entra una moneda más: 0
 Con uint16_t: 256
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El cofre de 8 bits.
@@ -634,40 +672,62 @@ int main(void)
 }
 ```
 
-### Misión R01-N01-M3 · El inventario de la Forja
+#### Al superarla
+Las 256 monedas entran en el cofre nuevo. Tizón pega un cartel en el viejo: «máximo 255».
+
+#### Imagen
+- Un cofre de hierro chiquito abierto y vacío al lado de un cofre grande lleno de monedas de cobre.
+- Kira mira el cofre vacío con cara de sorpresa; un ogro torpe de piel gris espía detrás de las estanterías.
+
+### Micro-misión R01-N01-P7 · El inventario de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Tizón quiere colgar en la pared del depósito la tabla de todos los cajones: cuánto ocupa cada uno y qué es lo más chico y lo más grande que entra.
+—Así nadie más pierde clavos.
 
+#### Gheco sugiere
+`sizeof(tipo)` da los bytes (se muestra con `%zu`) y `<limits.h>` trae `CHAR_MIN`, `INT_MAX`, `LONG_MAX`, `UINT_MAX`… Ojo: el tamaño de `long` depende de la máquina. Acá, en el navegador, mide 4 bytes; en Linux de 64 bits, 8.
+
+#### Desafío
 Mostrá una tabla con el tamaño, el mínimo y el
 máximo de `char`, `short`, `int`, `long` y `unsigned int`, usando
 `sizeof` y `<limits.h>`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra tamaño, mínimo y máximo de los cinco tipos.
 - Usa `sizeof` y las constantes de `<limits.h>` (no números escritos a mano).
 - Usa `%zu` para `sizeof`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <limits.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 tipo        bytes                 mínimo                 máximo
 char            1                   -128                    127
 short           2                 -32768                  32767
 int             4            -2147483648             2147483647
-long            8   -9223372036854775808    9223372036854775807
+long            4            -2147483648             2147483647
 unsigned        4                      0             4294967295
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - El inventario de la forja: cuanto ocupa cada tipo y hasta donde llega.
@@ -688,6 +748,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+La tabla queda colgada en la pared del depósito. Tizón le subraya la fila de `long` con tiza: «depende de la máquina».
+
+#### Imagen
+- Una pared del depósito con una tabla grande pintada en una chapa, junto a cajones de cinco tamaños distintos.
+- Tizón, subido a un banquito, cuelga la chapa; Kira se la sostiene desde abajo.
 
 ### Encargo R01-N01-E1 · El termómetro del herrero
 
@@ -1285,36 +1352,50 @@ No alcanza, y faltan justo tres. Tizón sale corriendo a buscar carbón. Vuelve 
 - Un horno apagado con nueve bolsas de carbón al lado y tres huecos marcados con tiza.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) carga bolsas de carbón.
 
-### Misión R01-N02-M1 · El reloj de arena
+### Micro-misión R01-N02-P5 · El reloj de arena
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El horno de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Ferrum da vuelta un reloj de arena enorme al lado del horno.
+—Este lingote se templa 4000 segundos. Decime cuántas horas, minutos y segundos son, que no pienso contar granos.
 
+#### Gheco sugiere
+Con enteros: `4000 / 3600` son las horas y `4000 % 3600` lo que sobra. Del sobrante salen los minutos y los segundos igual, con `/ 60` y `% 60`. `%02d` rellena con un cero adelante.
+
+#### Desafío
 Pasá 4000 segundos a horas, minutos y segundos usando
 solo `/` y `%`, y mostralo también como `01:06:40` (pista: `%02d` rellena
 con ceros hasta 2 cifras; se ve a fondo en el 05).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa solo `/` y `%` para separar horas, minutos y segundos.
 - Muestra `4000 segundos = 1 h 6 min 40 s`.
 - Muestra el formato reloj `01:06:40` con `%02d`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 4000 s = 1 h 6 min 40 s
 01:06:40
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El reloj de arena: 4000 segundos -> horas, minutos, segundos.
@@ -1335,30 +1416,52 @@ int main(void)
 }
 ```
 
-### Misión R01-N02-M2 · El Puente del Juicio
+#### Al superarla
+A la hora, seis minutos y cuarenta segundos exactos, Ferrum saca el lingote. Ni un grano de más.
+
+#### Imagen
+- Un reloj de arena de bronce enorme al lado de un horno encendido, con un lingote al rojo adentro.
+- Maese Ferrum (herrero humano enorme de barba gris trenzada y ojo naranja) da vuelta el reloj; Kira lo mira con una libreta.
+
+### Micro-misión R01-N02-P6 · El Puente del Juicio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de la Forja
+personajes: Kira, Gheco, Chispa, Hulda
+recompensa: xp 10, monedas 4
+antes: R01-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Para cruzar el Puente del Juicio hay que tener nivel 5 o más, y llave o magia, y no estar maldito. Chispa jura que él pasa. Hulda se cruza de brazos.
+—Hacé las cuentas, Kira. Con paréntesis.
 
+#### Gheco sugiere
+`&&` es «y», `||` es «o» y `!` es «no». `&&` pesa más que `||`: sin los paréntesis de `(llave || magia)`, la regla se lee de otra forma y deja pasar a quien no debería.
+
+#### Desafío
 Pasa quien tiene nivel 5 o más **y** (llave **o**
 magia) **y no** está maldito. Evaluá a Kira (nivel 6, con llave), Hulda (nivel
 5, minera, sin llave) y Chispa (nivel 8, con llave, maldito). Después probá la
 regla **sin** los paréntesis de `(llave || magia)` con un aprendiz mago de
 nivel 1 y explicá por qué cambia el resultado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Evalúa la regla con paréntesis para Kira (1), Hulda (1) y Chispa (0).
 - Muestra que sin los paréntesis el aprendiz de nivel 1 pasa, y explica que `&&` se evalúa antes que `||`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Kira pasa: 1
 Hulda pasa: 1
@@ -1367,8 +1470,7 @@ Aprendiz, con paréntesis: 0
 Aprendiz, sin paréntesis: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El Puente del Juicio.
@@ -1399,31 +1501,53 @@ int main(void)
 }
 ```
 
-### Misión R01-N02-M3 · Predicción
+#### Al superarla
+El puente deja pasar a Kira y a Hulda. A Chispa, maldito, lo frena en la primera tabla. Él se acomoda la bufanda como si nada.
+
+#### Imagen
+- Un puente de piedra estrecho sobre un río de lava, con un arco de entrada tallado.
+- Hulda (enana fortísima con casco de minera y farol naranja, trenzas grises y negras) cruza detrás de Kira; Chispa (mercader alto y flaco con bufanda naranja) se queda del otro lado.
+
+### Micro-misión R01-N02-P7 · Predicción
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El yunque de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Ferrum escribe siete cuentas en la pizarra del yunque.
+—Primero decime qué da cada una. Después la probás. Un herrero que no sabe qué va a pasar antes de golpear se queda sin dedos.
 
+#### Gheco sugiere
+Primero se hacen `*`, `/` y `%`, después `+` y `-`. `20 / 6` entre enteros da 3, y `(double) ataque / defensa` convierte antes de dividir. `cond ? a : b` elige uno de los dos.
+
+#### Desafío
 Con `ataque = 20` y `defensa = 6`, anotá qué da cada línea
 **antes** de ejecutarla: `ataque - defensa * 2`, `(ataque - defensa) * 2`,
 `ataque / defensa + 1`, `ataque % defensa * 2`,
 `!(ataque > 10) || defensa`, `ataque > 10 ? ataque : 0`,
 `(double) ataque / defensa`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Deja anotada la predicción de cada expresión en un comentario.
 - Muestra el resultado real de las siete expresiones.
 - Usa `%.2f` para la división con `double`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 8
 28
@@ -1434,8 +1558,7 @@ Con `ataque = 20` y `defensa = 6`, anotá qué da cada línea
 3.33
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Prediccion: el resultado de cada linea esta anotado antes de ejecutar.
@@ -1456,6 +1579,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+Ferrum compara la pizarra con la salida. Borra con el pulgar las dos predicciones que Kira había errado y le da la tiza otra vez.
+
+#### Imagen
+- Un yunque grande con una pizarra de piedra al lado llena de cuentas en tiza.
+- Maese Ferrum señala la pizarra con el martillo; Kira piensa con la tiza en la boca.
 
 ### Encargo R01-N02-E1 · El año bisiesto del escriba
 
@@ -2026,31 +2156,47 @@ int main(void)
 - Un horno con un termómetro de cobre que marca 100, 200, 800.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) sopla un fuelle con las mejillas infladas.
 
-### Misión R01-N03-M1 · Las habilidades de la compañía
+### Micro-misión R01-N03-P5 · Las habilidades de la compañía
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El tablero de los aprendices
+personajes: Kira, Gheco, Tizón, Hulda
+recompensa: xp 10, monedas 4
+antes: R01-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En el tablero de los aprendices, cada uno tiene una fila de lucecitas: nadar, trepar, forjar, curar, sigilo. Hulda acaba de aprender a nadar y Tizón tiene la mano vendada.
+—Actualizá las luces —le pide Hulda a Kira—, y decime quién sabe moverse sin hacer ruido.
 
+#### Gheco sugiere
+Cada habilidad es un bit: `#define NADAR (1u << 0)`, `TREPAR (1u << 1)`… Prender: `|=`. Apagar: `&= ~TREPAR`. Juntar las de todos: `|`. Las comunes: `&`.
+
+#### Desafío
 Definí banderas `NADAR`, `TREPAR`,
 `FORJAR`, `CURAR` y `SIGILO`. Kira nada y trepa, Tizón forja y trepa, y Hulda
 cura. Hulda aprende a nadar y Tizón se lastima la mano (ya no trepa). Mostrá las
 habilidades de todo el equipo juntas (`|`), las que Kira y Hulda tienen en común
 (`&`) y si alguien tiene sigilo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define cada habilidad como un bit distinto (`1 << n` o potencias de 2).
 - Enciende con `|=`, apaga con `&= ~` y pregunta con `&`.
 - Muestra las habilidades del equipo (`|`), las comunes entre Kira y Hulda (`&`) y si alguien tiene sigilo.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdint.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Kira: 0x03  Tizon: 0x04  Hulda: 0x09
 ¿Tizon trepa? 0  ¿Hulda nada? 1
@@ -2058,8 +2204,7 @@ El equipo puede: 0x0f  Kira y Hulda en común: 0x01 (nadar)
 ¿Alguien tiene sigilo? 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Las habilidades de la compania, cada una en un bit.
@@ -2094,36 +2239,58 @@ int main(void)
 }
 ```
 
-### Misión R01-N03-M2 · El tinte del herrero
+#### Al superarla
+Las luces del tablero cambian solas. La de sigilo queda apagada en todas las filas, y Hulda mira a Kira con una ceja levantada.
+
+#### Imagen
+- Un tablero de bronce en la pared con filas de lucecitas cian y naranjas, algunas prendidas.
+- Hulda (enana minera con casco de farol naranja) mira el tablero; Tizón, con una mano vendada, señala su fila.
+
+### Micro-misión R01-N03-P6 · El tinte del herrero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de marcar
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón tiene que pintar un escudo en gris pero solo tiene el número del color azul: `0x3366CCFF`.
+—Ahí adentro están el rojo, el verde, el azul y la transparencia. Sacámelos.
 
+#### Gheco sugiere
+Cada canal ocupa 8 bits: el rojo es `(color >> 24) & 0xFF`, el verde `>> 16`, el azul `>> 8` y el alfa son los últimos 8. Para armarlo de nuevo: `(g << 24) | (g << 16) | (g << 8) | a`.
+
+#### Desafío
 Separá el color `0x3366CCFF` en R, G, B y A.
 Calculá el gris (el promedio de R, G y B) y armá el color gris conservando
 el alfa.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Separa R, G, B y A con `>>` y `& 0xFF`.
 - Calcula el gris como promedio de R, G y B.
 - Arma el color gris con `<<` y `|`, conservando el alfa.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdint.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 0x3366CCFF -> R=51 G=102 B=204 A=255
 en gris (119): 0x777777FF
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El tinte del herrero: separar un color RGBA y pasarlo a gris.
@@ -2147,29 +2314,51 @@ int main(void)
 }
 ```
 
-### Misión R01-N03-M3 · Trucos de bits
+#### Al superarla
+El escudo sale de la pintura gris parejo, sin una mancha azul. Tizón lo cuelga a secar orgulloso.
+
+#### Imagen
+- Un escudo de metal recién pintado de gris colgado a secar, y al lado tarros de pintura roja, verde y azul.
+- Tizón, con las antiparras puestas, mezcla pintura; Kira sostiene el escudo azul original.
+
+### Micro-misión R01-N03-P7 · Trucos de bits
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El pañol de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N03-M3
 ```
 
-#### Consigna
+#### Escena
+En la puerta del pañol, Tizón le muestra a Kira sus trucos con las palancas: saber si un número es impar sin dividir y multiplicar con un empujón.
+—Los aprendí de memoria. Ahora probalos vos.
 
+#### Gheco sugiere
+`n & 1` vale 1 si `n` es impar. `n & (n - 1)` da 0 solo en las potencias de 2. `x << 1` multiplica por 2 y `x >> 1` divide por 2.
+
+#### Desafío
 Con `&` y `-`, averiguá si 37 es impar (`n & 1`) y si 64 y
 96 son potencias de 2 (`n & (n - 1)` da 0 solo en las potencias de 2).
 Multiplicá y dividí con `<<` y `>>`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `n & 1` para saber si 37 es impar.
 - Usa `n & (n - 1)` para decidir si 64 y 96 son potencias de 2.
 - Multiplica y divide con `<<` y `>>`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 37 es impar: 1
 64 es potencia de 2: 1
@@ -2178,8 +2367,7 @@ Multiplicá y dividí con `<<` y `>>`.
 200 >> 2 = 50 (200 / 4)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Trucos de bits de la Forja.
@@ -2202,6 +2390,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+Todos los trucos dan bien a la primera. Tizón hace como que no le sorprende y anota uno nuevo en la libreta.
+
+#### Imagen
+- Una puerta de hierro con una cerradura de ocho palancas de bronce, algunas arriba y otras abajo.
+- Tizón mueve dos palancas a la vez; Kira, al lado, cuenta con los dedos.
 
 ### Encargo R01-N03-E1 · Los permisos de Linux
 
@@ -2777,37 +2972,51 @@ La ventanilla rechaza el «uno ochenta». Chispa lo vuelve a intentar con «alto
 - Una ficha de papel con «uno ochenta» tachado en rojo.
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) escribe en la ficha, resignado.
 
-### Misión R01-N04-M1 · La calculadora de daño
+### Micro-misión R01-N04-P5 · La calculadora de daño
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de la Forja
+personajes: Kira, Gheco, Tizón
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R01-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Un orco hace guardia en el camino a las minas. Tizón le pregunta a Kira cuánto pega y cuánto aguanta el orco, para saber cuántos golpes hacen falta antes de salir.
 
+#### Gheco sugiere
+Leé cada número con `fgets` y `sscanf`. El crítico es el doble del daño. Para redondear hacia arriba con enteros: `(vida + danio - 1) / danio`. `%4d` alinea a la derecha en 4 lugares.
+
+#### Desafío
 Pedí el ataque de Kira y la defensa del orco.
 Mostrá el daño normal, el crítico (el doble), alineados con `%4d`, y cuántos
 golpes hacen falta para vencer a un orco de 60 de vida (pista: redondear
 hacia arriba con enteros es `(a + b - 1) / b`). Probalo con 23 y 9.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee ataque y defensa con `fgets` + `sscanf`.
 - Muestra el daño normal y el crítico alineados con `%4d`.
 - Calcula los golpes para 60 de vida redondeando hacia arriba con enteros.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 23
 9
 ```
 
 #### Salida esperada
-
 ```
 Ataque de Kira: Defensa del orco: 
 Daño normal:    14
@@ -2815,8 +3024,7 @@ Daño crítico:   28
 Golpes para vencer un orco de 60 de vida: 5
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - La calculadora de danio.
@@ -2846,54 +3054,51 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Con la cuenta en la mano, Kira sale con los golpes contados. Tizón le grita desde la ventanilla:
+—¡Y no gastes uno de más!
 
-##### Defensa mayor que el ataque
-```entrada
-5
-9
-```
-```salida
-Ataque de Kira: Defensa del orco:
-Daño normal:    -4
-Daño crítico:   -8
-Golpes para vencer un orco de 60 de vida: -13
-```
+#### Imagen
+- Una ventanilla de piedra con un mostrador de madera y papeles con números.
+- Tizón le pasa una hoja a Kira por la ventanilla; a lo lejos, en el camino, un orco verde con un hacha hace guardia.
 
-##### Daño justo para un golpe
-```entrada
-69
-9
-```
-```salida
-Ataque de Kira: Defensa del orco:
-Daño normal:    60
-Daño crítico:  120
-Golpes para vencer un orco de 60 de vida: 1
-```
-
-### Misión R01-N04-M2 · La tabla de la compañía
+### Micro-misión R01-N04-P6 · La tabla de la compañía
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de pedidos
+personajes: Kira, Gheco, Tizón, Hulda, Chispa
+recompensa: xp 10, monedas 4
+antes: R01-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Para la expedición a las minas, Ferrum quiere la tabla de la compañía clavada en el mostrador: nombre, nivel, vida y precisión de cada uno, y el oro del grupo.
+—Derecha esta vez —dice Tizón, con el calibre ya en la mano.
 
+#### Gheco sugiere
+`%-8s` alinea un texto a la izquierda en 8 lugares, `%5d` un número a la derecha y `%6.1f` un decimal. `%08d` rellena con ceros: `00004250`.
+
+#### Desafío
 Mostrá nombre, nivel, vida y precisión de Kira,
 Tizón, Hulda y Chispa en columnas alineadas, y el oro del grupo con 8 cifras
 (`00004250`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra las cuatro filas en columnas alineadas con anchos fijos.
 - Muestra el oro del grupo con 8 cifras (`00004250`).
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 nombre   nivel  vida   prec
 Kira         7   120   87.5
@@ -2903,8 +3108,7 @@ Chispa       8    95   99.9
 Oro del grupo: 00004250
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - La tabla de la compania, con anchos fijos.
@@ -2925,28 +3129,51 @@ int main(void)
 }
 ```
 
-### Misión R01-N04-M3 · La trampa de la coma
+#### Al superarla
+Tizón le pasa el calibre a cada columna. Ni un espacio corrido. La clava él mismo en el mostrador.
+
+#### Imagen
+- Un mostrador de madera con una tabla prolija clavada en la pared, junto a una bolsa de monedas.
+- Kira, Tizón, Hulda y Chispa están parados en fila delante del mostrador, cada uno con su equipo.
+
+### Micro-misión R01-N04-P7 · La trampa de la coma
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de la Forja
+personajes: Kira, Gheco, Chispa
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R01-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Chispa vuelve a la ventanilla a anotar su altura. La dice de tres formas: «1.80», «1,80» y «uno ochenta». El escriba anota lo que puede y un goblin se escapa del formulario.
+—Fijate qué entendió en cada caso —le pide a Kira.
 
+#### Gheco sugiere
+`sscanf` devuelve **cuántos datos convirtió**. Con `1,80` lee el 1 y se frena en la coma. Esa es la peligrosa: dice que convirtió uno y el número quedó mal.
+
+#### Desafío
 Leé tres alturas: `1.80`, `1,80` y `uno ochenta`.
 Para cada una, mostrá qué valor quedó y cuántos datos dijo `sscanf` que
 convirtió. ¿Cuál es la más peligrosa?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee las tres alturas y muestra el valor que quedó y lo que devolvió `sscanf` para cada una.
 - Explica en un comentario que `1,80` es la más peligrosa: convierte 1 dato y queda 1.00 sin aviso.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1.80
 1,80
@@ -2954,15 +3181,13 @@ uno ochenta
 ```
 
 #### Salida esperada
-
 ```
 Altura con punto: -> leí 1.80 (convertidos: 1)
 Altura con coma: -> leí 1.00 (convertidos: 1)  <- ¡se perdió el ,80!
 Altura en palabras: -> altura sigue en -1.00 (convertidos: 0)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - La trampa de la coma.
@@ -2996,19 +3221,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Con la cuenta de `sscanf` a la vista, el escriba ya no anota cualquier cosa. El goblin vuelve a meterse en el formulario, aburrido.
 
-##### Otras alturas
-```entrada
-2.05
-0,5
-1.80 metros
-```
-```salida
-Altura con punto: -> leí 2.05 (convertidos: 1)
-Altura con coma: -> leí 0.00 (convertidos: 1)  <- ¡se perdió el ,80!
-Altura en palabras: -> altura sigue en 1.80 (convertidos: 1)
-```
+#### Imagen
+- Una ventanilla con un formulario de papel del que se asoma un goblin verde y chiquito.
+- Chispa (mercader alto y flaco con sombrero de ala corta y bufanda naranja) se estira para parecer más alto; Kira toma nota.
 
 ### Encargo R01-N04-E1 · El recibo de la ferretería
 
@@ -3691,42 +3909,55 @@ Cinco lingotes, solo templar. Chispa reclama los pulidos que pagó de más en to
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) reclama con una lista larguísima de recibos.
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) con el martillo al hombro.
 
-### Misión R01-N05-M1 · El color del metal
+### Micro-misión R01-N05-P5 · El color del metal
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El horno de tres temperaturas
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Ferrum mete una barra de hierro al horno.
+—El color dice cómo está el metal. Te digo la temperatura y vos me decís el color. Y si te digo una tontería, decímelo también.
 
+#### Gheco sugiere
+Una cadena de `if` / `else if` va de lo más chico a lo más grande: menos de 500, menos de 900… Si `sscanf` no convirtió 1 dato o la temperatura es negativa, avisá antes de seguir.
+
+#### Desafío
 Pedí la temperatura del hierro y mostrá su estado:
 menos de 500 °C, frío; menos de 900, rojo oscuro (listo para doblar); menos
 de 1200, naranja (ideal para forjar); hasta 1538, amarillo blanco; más,
 fundido. Rechazá temperaturas negativas y lo que no sea un número.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `else if` en orden para los cinco estados del metal.
 - Rechaza lo que no es un número (`sscanf` distinto de 1) y las temperaturas negativas.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1000
 ```
 
 #### Salida esperada
-
 ```
 Temperatura del hierro (°C): 
 Naranja: ideal para forjar.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El color del metal.
@@ -3765,90 +3996,63 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Ferrum saca la barra justo cuando sale «naranja (ideal para forjar)». Golpea una vez y la barra queda recta.
 
-##### Frío
-```entrada
-20
-```
-```salida
-Temperatura del hierro (°C):
-Frío: todavía no se puede trabajar.
-```
+#### Imagen
+- Una barra de hierro al rojo naranja saliendo de la boca de un horno con tres hornallas de colores distintos.
+- Maese Ferrum sostiene la barra con unas tenazas largas; Kira lee una tabla de colores.
 
-##### Bordes
-```entrada
-1538
-```
-```salida
-Temperatura del hierro (°C):
-Amarillo blanco: cuidado, casi se funde.
-```
-
-##### Fundido
-```entrada
-2000
-```
-```salida
-Temperatura del hierro (°C):
-¡Se fundió! (el hierro funde a 1538 °C)
-```
-
-##### Negativa
-```entrada
--10
-```
-```salida
-Temperatura del hierro (°C):
-Imposible: el hierro no se congela así.
-```
-
-##### No es un número
-```entrada
-caliente
-```
-```salida
-Temperatura del hierro (°C):
-Eso no es una temperatura.
-```
-
-### Misión R01-N05-M2 · La calculadora del mercader
+### Micro-misión R01-N05-P6 · La calculadora del mercader
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de pedidos
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R01-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Chispa trae un pedido y la cuenta escrita de un tirón: «12.5 * 4». Siempre se equivoca en el mismo lugar.
+—Hacé una calculadora que me lo resuelva. Así no discuto más con Tizón.
 
+#### Gheco sugiere
+`sscanf(linea, "%lf %c %lf", &a, &op, &b)` tiene que devolver 3. Después, un `switch (op)` con un `case` por operador: `case '*': case 'x':` comparten la misma cuenta. Antes de dividir, fijate que `b` no sea 0.
+
+#### Desafío
 Leé una cuenta en una línea, como
 `12.5 * 4`, con `sscanf(linea, "%lf %c %lf", &a, &op, &b)` (tiene que
 convertir **3** datos) y resolvela con un `switch` sobre el operador.
 Aceptá `x` como sinónimo de `*` y no dividas por cero.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee la cuenta con `sscanf(linea, "%lf %c %lf", ...)` y exige que convierta 3 datos.
 - Resuelve con `switch`, aceptando `x` como `*` (dos `case` juntos).
 - No divide por cero: avisa.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 12.5 * 4
 ```
 
 #### Salida esperada
-
 ```
 Cuenta (por ejemplo 12.5 * 4): 
 12.50 * 4.00 = 50.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - La calculadora del mercader: "numero operador numero".
@@ -3891,79 +4095,61 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Chispa prueba la calculadora con tres pedidos y no le encuentra la vuelta. Por primera vez, cobra lo justo.
 
-##### División por cero
-```entrada
-7 / 0
-```
-```salida
-Cuenta (por ejemplo 12.5 * 4):
-No se puede dividir por cero.
-```
+#### Imagen
+- Un mostrador con una calculadora mecánica de bronce con palancas y un rollo de papel.
+- Chispa, con su diente de oro a la vista, mira la calculadora desconfiado; Kira le muestra el resultado.
 
-##### Con x
-```entrada
-3 x 3
-```
-```salida
-Cuenta (por ejemplo 12.5 * 4):
-3.00 * 3.00 = 9.00
-```
-
-##### Operador desconocido
-```entrada
-2 ^ 8
-```
-```salida
-Cuenta (por ejemplo 12.5 * 4):
-Operador desconocido: '^'
-```
-
-##### Datos de menos
-```entrada
-5 +
-```
-```salida
-Cuenta (por ejemplo 12.5 * 4):
-Formato inválido: tiene que ser número, operador, número.
-```
-
-### Misión R01-N05-M3 · La tirada contra la dificultad
+### Micro-misión R01-N05-P7 · La tirada contra la dificultad
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N05-M3
 ```
 
-#### Consigna
+#### Escena
+En el patio, Tizón arma un juego con un dado de veinte caras para practicar los golpes.
+—Con un 1 te caés solo. Con un 20, golpe perfecto. Y si no, sumá tu bonificación y fijate si llegás.
 
+#### Gheco sugiere
+Primero los casos especiales: si es 1, pifia; si es 20, crítico. Después, `tirada + 3 >= 15` decide si acierta. Validá que la tirada esté entre 1 y 20.
+
+#### Desafío
 Leé una tirada de d20 (de 1 a 20). Un 1
 es pifia y un 20 es crítico; si no, acierta si `tirada + 3 >= 15`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Trata aparte el 1 (pifia) y el 20 (crítico).
 - Si no, acierta con `tirada + 3 >= 15`.
 - Rechaza tiradas fuera de 1 a 20.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 12
 ```
 
 #### Salida esperada
-
 ```
 Tirada del d20: 
 Acierta (12 + 3 >= 15).
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - La tirada contra la dificultad.
@@ -4001,43 +4187,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Kira tira el dado, saca 20 y la salida dice «crítico». Tizón le revisa el dado dos veces, por las dudas.
 
-##### Pifia
-```entrada
-1
-```
-```salida
-Tirada del d20:
-Pifia: falla siempre.
-```
-
-##### Crítico
-```entrada
-20
-```
-```salida
-Tirada del d20:
-¡Crítico! Acierta siempre.
-```
-
-##### Falla por poco
-```entrada
-11
-```
-```salida
-Tirada del d20:
-Falla (11 + 3 < 15).
-```
-
-##### Fuera de rango
-```entrada
-21
-```
-```salida
-Tirada del d20:
-Un d20 da de 1 a 20.
-```
+#### Imagen
+- Un dado grande de veinte caras rodando sobre las piedras del patio de la Forja.
+- Tizón se agacha a ver el dado; Kira festeja con los brazos arriba.
 
 ### Encargo R01-N05-E1 · El correo del Gremio
 
@@ -4778,28 +4933,43 @@ Cuatro bolsas, cuarenta kilos, diez de promedio. Tizón queda feliz: el promedio
 - Bolsas de carbón de distinto tamaño en fila, con números de peso.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) suma en la libreta con la lengua afuera.
 
-### Misión R01-N06-M1 · El ritmo de la forja
+### Micro-misión R01-N06-P5 · El ritmo de la forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El yunque de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N06-M1
 ```
 
-#### Consigna
+#### Escena
+Ferrum le enseña a Kira el ritmo de la forja: se cuenta del 1 al 30; cada tres, martillo; cada cinco, yunque; y cuando coinciden, los dos a la vez.
+—Sin perder la cuenta.
 
+#### Gheco sugiere
+Un `for (int i = 1; i <= 30; i++)`. Preguntá primero por los dos a la vez (`i % 15 == 0`); si no, por 3 y por 5; si no, mostrás el número.
+
+#### Desafío
 Del 1 al 30: si el número es múltiplo de 3,
 "Martillo"; de 5, "Yunque"; de los dos, "MartilloYunque"; si no, el número.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Recorre del 1 al 30 con un `for`.
 - Pregunta primero por los múltiplos de 3 y 5 a la vez (o arma el texto por partes).
 - Muestra "Martillo", "Yunque", "MartilloYunque" o el número.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 1
 2
@@ -4833,8 +5003,7 @@ Martillo
 MartilloYunque
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El ritmo de la forja (FizzBuzz).
@@ -4860,28 +5029,50 @@ int main(void)
 }
 ```
 
-### Misión R01-N06-M2 · El cofre del aprendiz
+#### Al superarla
+Ferrum y Kira golpean a dúo los treinta golpes. El yunque suena como una canción.
+
+#### Imagen
+- Un yunque con chispas saltando y dos martillos levantados al mismo tiempo.
+- Maese Ferrum y Kira golpean juntos el mismo hierro al rojo.
+
+### Micro-misión R01-N06-P6 · El cofre del aprendiz
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Kira quiere juntar 1000 de oro para una espada de verdad. Ferrum le abre un cofre:
+—Poné 50 cada semana y yo te sumo un cinco por ciento de lo que tengas. Decime cuándo llegás.
 
+#### Gheco sugiere
+Un `while (ahorro < 1000)`: en cada vuelta sumás 50, después el 5 % (`ahorro * 0.05`) y contás la semana. Para mostrar cada 4 semanas: `if (semana % 4 == 0)`.
+
+#### Desafío
 Kira guarda 50 de oro por semana y Ferrum le suma
 un 5 % de lo ahorrado. ¿Cuántas semanas tarda en juntar 1000? Mostrá el
 ahorro cada 4 semanas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Suma 50 por semana y el 5 % de lo ahorrado.
 - Muestra el ahorro cada 4 semanas y cuántas semanas tarda en llegar a 1000.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 semana  4:  226.28
 semana  8:  501.33
@@ -4889,8 +5080,7 @@ semana 12:  835.65
 Lo logra en la semana 14, con 1028.93 de oro.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El cofre del aprendiz.
@@ -4916,29 +5106,51 @@ int main(void)
 }
 ```
 
-### Misión R01-N06-M3 · El oráculo
+#### Al superarla
+Kira pega el plan en la tapa del cofre. Ferrum lo lee y agrega abajo, con su letra: «sin trampas».
+
+#### Imagen
+- Un cofre de madera con refuerzos de hierro, con monedas de oro apiladas al lado en torres de distinta altura.
+- Maese Ferrum deja caer unas monedas en el cofre; Kira las cuenta.
+
+### Micro-misión R01-N06-P7 · El oráculo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La taberna de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N06-M3
 ```
 
-#### Consigna
+#### Escena
+En la taberna hay un oráculo de bronce que piensa un número del 1 al 50. Kira tiene seis intentos. Tizón le avisa:
+—Si le decís cualquier cosa que no sea un número, no te lo cuenta. Pero tampoco te lo regala.
 
+#### Gheco sugiere
+Repetí mientras queden intentos y no haya acertado. Si `sscanf` no lee un número o está fuera de 1 a 50, avisá y **no** sumes el intento. Si no, «más alto», «más bajo» o «correcto».
+
+#### Desafío
 El oráculo piensa el 37 y Kira tiene 6 intentos: respondé
 "más alto" o "más bajo". Lo que no sea un número del 1 al 50 **no cuenta**
 como intento. (En el 09 el número va a salir al azar.)
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El número secreto es 37 y hay 6 intentos.
 - Responde "más alto" o "más bajo".
 - Lo que no sea un número del 1 al 50 no gasta intento.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 veinte
 25
@@ -4950,7 +5162,6 @@ veinte
 ```
 
 #### Salida esperada
-
 ```
 Intento 1: tiene que ser un número del 1 al 50.
 Intento 1: más alto
@@ -4961,8 +5172,7 @@ Intento 3: más alto
 Intento 4: ¡Correcto! Era 37. Lo lograste en 4 intentos.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - El oraculo de la Forja piensa un numero del 1 al 50 (hoy, el 37)
@@ -5008,47 +5218,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El oráculo hace sonar una campanita y le da a Kira una moneda de bronce. Tizón dice que él lo adivinaba en menos.
 
-##### Acierta al primero
-```entrada
-37
-```
-```salida
-Intento 1: ¡Correcto! Era 37. Lo lograste en 1 intentos.
-```
-
-##### Se acaban los intentos
-```entrada
-10
-20
-30
-40
-45
-50
-```
-```salida
-Intento 1: más alto
-Intento 2: más alto
-Intento 3: más alto
-Intento 4: más bajo
-Intento 5: más bajo
-Intento 6: más bajo
-No lo adivinaste. Era 37.
-```
-
-##### Todo inválido
-```entrada
-cero
-51
-0
-```
-```salida
-Intento 1: tiene que ser un número del 1 al 50.
-Intento 1: tiene que ser un número del 1 al 50.
-Intento 1: tiene que ser un número del 1 al 50.
-Intento 1: No lo adivinaste. Era 37.
-```
+#### Imagen
+- Una cabeza de bronce con ojos encendidos sobre una mesa de la taberna, rodeada de jarras.
+- Kira se inclina hacia el oráculo; Tizón la mira desde la barra.
 
 ### Encargo R01-N06-E1 · El vuelto del cajero
 
@@ -5765,31 +5940,48 @@ Siete. Entre las páginas del libro cae un papel viejo: un **pedido de plomo** e
 - Un papel viejo que cae del libro: un pedido de plomo firmado con el dibujo de un vitral.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) lo levanta del piso, seria.
 
-### Misión R01-N07-M1 · Las reglas del combate
+### Micro-misión R01-N07-P5 · Las reglas del combate
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de la Forja
+personajes: Kira, Gheco, Tizón
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R01-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Tizón dibuja en el piso del patio las reglas del combate, cada una en su recuadro: cuándo es crítico, cuánto daño se hace, qué tirada toca en cada turno.
+—Una regla, una función. Después simulá a Kira contra el orco.
 
+#### Gheco sugiere
+`es_critico(tirada)` devuelve 1 si `tirada >= 15`. `danio_final` resta la defensa, nunca da menos de 1 y duplica si es crítico. En el `main`, un bucle de hasta 5 turnos que corta si el orco cae.
+
+#### Desafío
 Escribí `es_critico(tirada)` (crítico con 15 o
 más) y `danio_final(ataque, defensa, critico)` (mínimo 1; el doble si es
 crítico). Todavía sin azar, la tirada de cada turno sale de
 `tirada_del_turno(turno)`, que devuelve `turno * 7 % 20 + 1`. Simulá hasta 5
 ataques de Kira (ataque 15) contra un orco (defensa 4, vida 60).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Escribe `es_critico` y `danio_final` (mínimo 1, el doble si es crítico).
 - La tirada sale de `tirada_del_turno(turno)`.
 - Simula hasta 5 ataques contra el orco y muestra la vida que le queda.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 turno 1: tirada  8 -> daño 11, orco 49
 turno 2: tirada 15 CRÍTICO -> daño 22, orco 27
@@ -5799,8 +5991,7 @@ turno 5: tirada 16 CRÍTICO -> daño 22, orco 0
 el orco cayó
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Las reglas del combate, cada una en su funcion.
@@ -5852,28 +6043,51 @@ int danio_final(int ataque, int defensa, bool critico)
 }
 ```
 
-### Misión R01-N07-M2 · La caja de herramientas
+#### Al superarla
+El orco de práctica, de bolsas de arena, cae en el turno que decía la simulación. Tizón tacha el recuadro con una cruz.
+
+#### Imagen
+- Un muñeco de práctica con forma de orco, hecho de bolsas de arena, en el patio de piedra con recuadros dibujados con tiza.
+- Kira, con una espada de práctica, golpea el muñeco; Tizón anota los turnos en la libreta.
+
+### Micro-misión R01-N07-P6 · La caja de herramientas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de los martillos
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R01-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Hulda le presta a Kira su caja de herramientas, pero con una condición:
+—Cada herramienta hace una sola cosa. Y si una puede usar a otra, la usa. No me tuerzas ningún mango.
 
+#### Gheco sugiere
+`maximo(a, b)` y `minimo(a, b)` devuelven uno de los dos. `limitar(valor, min, max)` es `minimo(maximo(valor, min), max)`. `es_par(n)` devuelve `n % 2 == 0`.
+
+#### Desafío
 Escribí `maximo`, `minimo`, `limitar(valor, min,
 max)` (usando las dos anteriores) y `es_par`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Escribe `maximo`, `minimo`, `limitar` (que usa las dos anteriores) y `es_par`.
 - Declara los prototipos antes de `main` (o define las funciones antes).
 - Muestra pruebas de cada una.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 maximo(7, 12) = 12
 minimo(7, 12) = 7
@@ -5883,8 +6097,7 @@ limitar(42, 0, 100) = 42
 es_par(10) = 1  es_par(7) = 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - La caja de herramientas: funciones chicas que se reutilizan.
@@ -5930,29 +6143,51 @@ bool es_par(int n)
 }
 ```
 
-### Misión R01-N07-M3 · Dos hechizos recursivos
+#### Al superarla
+Hulda revisa la caja y no falta nada. Le deja a Kira el martillo chico, «para que practique».
+
+#### Imagen
+- Una caja de herramientas de madera abierta, con martillos de distintos tamaños ordenados en hilera.
+- Hulda (enana fortísima con casco de minera, trenzas grises y negras) le pasa un martillo a Kira.
+
+### Micro-misión R01-N07-P7 · Dos hechizos recursivos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El libro de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N07-M3
 ```
 
-#### Consigna
+#### Escena
+Ferrum abre el libro de la Forja en las dos páginas raras: las que se remiten a sí mismas.
+—Estos dos hechizos se resuelven pidiéndose ayuda a ellos mismos. Pero siempre con un final, o no terminan nunca.
 
+#### Gheco sugiere
+`potencia(base, exp)`: si `exp == 0` devuelve 1; si no, `base * potencia(base, exp - 1)`. `suma_digitos(n)`: si `n < 10` devuelve `n`; si no, `n % 10 + suma_digitos(n / 10)`.
+
+#### Desafío
 `potencia(base, exp)` sin usar `pow`
 (`base^0 = 1`) y `suma_digitos(n)`
 (`suma_digitos(2026) = 6 + suma_digitos(202)`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `potencia` y `suma_digitos` son recursivas, sin `pow` ni bucles.
 - Cada una tiene su caso base.
 - Muestra, por ejemplo, 2^10 = 1024 y la suma de dígitos de 2026 = 10.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 2^10 = 1024
 3^4 = 81
@@ -5960,8 +6195,7 @@ suma de dígitos de 2026 = 10
 suma de dígitos de 7 = 7
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Dos hechizos recursivos: cada uno con su CASO BASE.
@@ -5998,6 +6232,13 @@ int suma_digitos(int n)
     return n % 10 + suma_digitos(n / 10);
 }
 ```
+
+#### Al superarla
+Las dos páginas brillan un instante y quedan firmadas con el nombre de Kira, al lado de las de los maestros.
+
+#### Imagen
+- Un libro de hierro enorme abierto sobre un atril, con dos páginas que brillan en naranja.
+- Maese Ferrum pasa una página con cuidado; Kira lee por encima de su brazo.
 
 ### Encargo R01-N07-E1 · El médico del Gremio
 
@@ -6629,17 +6870,23 @@ Seiscientos grados. Kira cambia el 1 por un 2 «para ver qué pasa». Ferrum se 
 - Un horno con una perilla de dos posiciones: práctica y forja.
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) gira la perilla de vuelta a práctica.
 
-### Misión R01-N08-M1 · Los sellos de la Forja
+### Micro-misión R01-N08-P5 · Los sellos de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de marcar
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N08-M1
 ```
 
-#### Consigna
+#### Escena
+Tizón le pide a Kira que talle los sellos nuevos del taller: uno para el área de una chapa, uno para el menor de dos números y uno que diga si el horno está en rango.
+—Con todos los paréntesis. No quiero más herraduras banana.
 
+#### Gheco sugiere
+Cada parámetro y la macro entera van entre paréntesis: `#define AREA(b, h) ((b) * (h))`. Así `AREA(3+1, 2)` da 8 y no 5. Las cajas completas salen con `/` y lo que sobra, con `%`.
+
+#### Desafío
 Definí con `#define` la constante `LINGOTES_POR_CAJA` (12) y las macros
 `AREA(base, altura)`, `MENOR(a, b)` y `EN_RANGO(x, min, max)` (vale 1 si `x`
 está entre `min` y `max`, incluidos), **con todos los paréntesis**. Probalas con
@@ -6647,14 +6894,23 @@ está entre `min` y `max`, incluidos), **con todos los paréntesis**. Probalas c
 `EN_RANGO(1300, 800, 1200)`, y calculá cuántas cajas completas salen de 100
 lingotes y cuántos sobran.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `#define` para la constante y las tres macros, con un paréntesis en cada parámetro y otro alrededor de todo.
 - `AREA(3+1, 2)` da 8 (sin paréntesis daría 5).
 - Muestra las cajas completas y los lingotes que sobran.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 AREA(3+1, 2) = 8
 MENOR(7, 4) = 4
@@ -6663,8 +6919,7 @@ EN_RANGO(1300, 800, 1200) = 0
 100 lingotes: 8 cajas de 12 y sobran 4
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Los sellos de la Forja: una constante y tres macros con todos
@@ -6691,17 +6946,31 @@ int main(void)
 }
 ```
 
-### Misión R01-N08-M2 · Las herraduras banana
+#### Al superarla
+Tizón prueba cada sello con los números más raros que se le ocurren. Ninguno se tuerce.
+
+#### Imagen
+- Una mesa de trabajo con sellos de bronce recién tallados alineados, y chapas con marcas perfectas.
+- Tizón levanta un sello contra la luz; Kira sopla el polvo de bronce de otro.
+
+### Micro-misión R01-N08-P6 · Las herraduras banana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de marcar
+personajes: Kira, Gheco, Tizón, Maese Ferrum
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R01-N08-M2
 ```
 
-#### Consigna
+#### Escena
+Ferrum deja una caja de herraduras torcidas en la mesa de Tizón. Al lado, los tres sellos culpables.
+—Arreglalos —le dice a Kira—. Y mostrale a Tizón cuánto daban antes, para que no se le olvide más.
 
+#### Gheco sugiere
+El preprocesador solo copia texto: `CUBO(2+1)` era `2+1*2+1*2+1`. Con paréntesis en cada `a` y en toda la macro, cada cuenta da lo que tiene que dar.
+
+#### Desafío
 Tizón dejó estas macros en el taller:
 ```c
 #define CUBO(a)   a*a*a
@@ -6713,14 +6982,27 @@ Arreglalas y mostrá, para cada una, el resultado con un argumento que
 lado, el valor que daba la versión rota (calculalo a mano: el preprocesador
 solo copia texto).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las tres macros tienen un paréntesis en cada parámetro y otro alrededor de todo.
 - `CUBO(2+1)` da 27, `DOBLE(3)*2` da 12 y `MITAD(10+4)` da 7.
 - Muestra también el valor que daba la versión rota (7, 9 y 12).
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+#define CUBO(a)   a*a*a
+#define DOBLE(x)  x+x
+#define MITAD(x)  x/2
+
+int main(void)
+{
+    /* Arreglá las macros y mostrá cada resultado al lado del que daba la versión rota */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 CUBO(2+1)   = 27  (la rota daba 7)
 DOBLE(3)*2  = 12  (la rota daba 9)
@@ -6728,8 +7010,7 @@ MITAD(10+4) =  7  (la rota daba 12)
 Ninguna herradura banana.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Las herraduras banana: macros sin parentesis, arregladas.
@@ -6754,17 +7035,29 @@ int main(void)
 }
 ```
 
-### Misión R01-N08-M3 · Modo práctica y modo forja
+#### Al superarla
+Las herraduras nuevas salen derechas. Tizón cuelga una banana de hierro sobre la mesa, de recuerdo.
+
+#### Imagen
+- Una caja llena de herraduras torcidas con forma de banana sobre una mesa de taller.
+- Maese Ferrum sostiene una herradura torcida; Tizón, colorado, se tapa la cara con la libreta.
+
+### Micro-misión R01-N08-P7 · Modo práctica y modo forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El horno de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R01-N08-M3
 ```
 
-#### Consigna
+#### Escena
+El horno de la Forja tiene dos modos: práctica y forja. Ferrum quiere que el mismo programa sirva para los dos, y que si alguien se olvida de elegir, ni arranque.
 
+#### Gheco sugiere
+`#ifndef NIVEL` + `#error` frena la compilación. Después, `#if NIVEL == 0`, `#elif NIVEL == 1`, `#else`. `#ifdef DEPURAR` agrega lo de la línea con `__LINE__`. Dejá `#define NIVEL 1` arriba.
+
+#### Desafío
 Escribí un programa que muestre la temperatura del horno según `NIVEL`:
 - si `NIVEL` no está definido, que **no compile** y avise con `#error`;
 - con `NIVEL` 0, «horno apagado»; con 1, «horno a 600 grados»; con 2 o más,
@@ -6775,21 +7068,29 @@ Escribí un programa que muestre la temperatura del horno según `NIVEL`:
 Definí `NIVEL` en 1 arriba del programa y entregalo así. Probá en tu compu los
 otros valores y `-DDEPURAR`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `#ifndef` con `#error` cuando falta `NIVEL`.
 - Usa `#if`, `#elif`, `#else` y `#endif` para los tres niveles.
 - Usa `#ifdef DEPURAR` para el detalle de depuración.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 horno a 600 grados
 nivel elegido: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Modo practica y modo forja: compilacion condicional.
@@ -6820,6 +7121,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+El horno se enciende a 600 grados, ni uno más. Ferrum le pone a la palanca un cartel: «modo práctica».
+
+#### Imagen
+- Una palanca grande con dos posiciones al lado de un horno a media llama.
+- Maese Ferrum baja la palanca; Kira mira un medidor de bronce.
 
 ### Encargo R01-N08-E1 · La tabla de conversión del mercader
 
@@ -7413,53 +7721,65 @@ Cinco tiradas que salen igual en cualquier Forja del mundo. Los de la taberna di
 - Una mesa de taberna con un dado de bronce tallado a mano.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) anota cada tirada en la libreta; alrededor, aprendices desconfiados.
 
-### Misión R01-N09-M1 · Combate con pociones
+### Micro-misión R01-N09-P5 · Combate con pociones
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de la Forja
+personajes: Kira, Gheco, Tizón
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R01-N09-M1
 ```
 
-#### Consigna
+#### Escena
+Ahora el combate de práctica va con azar de verdad. Tizón le da a Kira dos pociones.
+—Si estás por caerte, tomá una en vez de pegar. Pero solo si te quedan.
 
+#### Gheco sugiere
+`srand(4)` fija la semilla. `tirar(minimo, maximo)` devuelve `minimo + rand() % (maximo - minimo + 1)`. Cada turno: si la vida es menor que 10 y hay pociones, +15; si no, atacás. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Kira (30 de vida, 2 pociones) contra un orco (40
 de vida), con `srand(4)`. Kira pega de 5 a 10 y el orco de 4 a 9 (escribí
 una función `tirar(minimo, maximo)`). Si en su turno Kira tiene menos de 10
 de vida y le quedan pociones, toma una (+15) en lugar de atacar.
 
-> El azar depende de la biblioteca de C: la salida esperada es la de Linux (glibc). En otro sistema los números pueden cambiar.
+> El azar depende de la biblioteca de C: la salida esperada es la del navegador. En tu compu los números pueden cambiar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `srand(4)` y una función `tirar(minimo, maximo)`.
 - Kira toma poción (+15) si tiene menos de 10 de vida y le quedan.
 - Muestra cada turno y quién gana.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
 ```
-T1: Kira pega 6 -> orco 34
-    el orco pega 9 -> Kira 21
-T2: Kira pega 9 -> orco 25
-    el orco pega 6 -> Kira 15
-T3: Kira pega 6 -> orco 19
-    el orco pega 5 -> Kira 10
-T4: Kira pega 8 -> orco 11
-    el orco pega 5 -> Kira 5
-T5: Kira toma una poción -> vida 20 (quedan 1)
-    el orco pega 6 -> Kira 14
-T6: Kira pega 10 -> orco 1
-    el orco pega 6 -> Kira 8
-T7: Kira toma una poción -> vida 23 (quedan 0)
-    el orco pega 4 -> Kira 19
-T8: Kira pega 9 -> orco 0
+
+#### Salida esperada
+```
+T1: Kira pega 10 -> orco 30
+    el orco pega 7 -> Kira 23
+T2: Kira pega 9 -> orco 21
+    el orco pega 8 -> Kira 15
+T3: Kira pega 5 -> orco 16
+    el orco pega 4 -> Kira 11
+T4: Kira pega 10 -> orco 6
+    el orco pega 5 -> Kira 6
+T5: Kira toma una poción -> vida 21 (quedan 1)
+    el orco pega 8 -> Kira 13
+T6: Kira pega 7 -> orco 0
 ¡Ganó Kira!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Combate con pociones.
@@ -7505,51 +7825,70 @@ int tirar(int minimo, int maximo)
 }
 ```
 
-### Misión R01-N09-M2 · El oráculo al azar
+#### Al superarla
+Kira termina el combate con una poción de sobra. Tizón la guarda en su mochila, «para la próxima».
+
+#### Imagen
+- Dos frascos de poción roja sobre un barril en el patio de la Forja.
+- Kira se toma una poción; un orco verde con un garrote levanta el brazo.
+
+### Micro-misión R01-N09-P6 · El oráculo al azar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La taberna de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N09-M2
 ```
 
-#### Consigna
+#### Escena
+El oráculo de la taberna aprendió a pensar números al azar. Tizón le fijó la semilla para poder practicar siempre con el mismo número.
+—Cuando quieras jugar en serio, la cambiás por el reloj.
 
+#### Gheco sugiere
+`srand(2026)` y después `rand() % 50 + 1`. En un comentario, contá que con `srand(time(NULL))` cambia en cada partida. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otro número.
+
+#### Desafío
 El oráculo del 07, ahora con `rand() % 50 + 1`.
 Dejá la semilla fija (`srand(2026)`) para poder probarlo con un archivo de
 respuestas y comentá cómo sería con `time(NULL)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `rand() % 50 + 1` con `srand(2026)`.
 - Reutiliza las reglas del oráculo del 07.
 - Comenta cómo sería con `time(NULL)`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 veinte
 25
 60
-40
-37
-38
+6
+12
 ```
 
 #### Salida esperada
-
 ```
 Intento 1: tiene que ser un número del 1 al 50.
-Intento 1: más alto
+Intento 1: más bajo
 Intento 2: tiene que ser un número del 1 al 50.
-Intento 2: más bajo
-Intento 3: más alto
-Intento 4: ¡Correcto! Lo lograste en 4 intentos.
+Intento 2: más alto
+Intento 3: ¡Correcto! Lo lograste en 3 intentos.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El oraculo, ahora con un numero al azar del 1 al 50.
@@ -7593,72 +7932,62 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El oráculo suena la campanita. Kira acierta en cuatro intentos y Tizón dice que con la semilla así cualquiera.
 
-##### Se termina la entrada
-```entrada
-1
-```
-```salida
-Intento 1: más alto
-Intento 2: No lo adivinaste. Era 38.
-```
+#### Imagen
+- La cabeza de bronce del oráculo con los ojos encendidos y un reloj de arena al lado.
+- Tizón le da cuerda al oráculo con una llave; Kira está sentada enfrente.
 
-##### Siempre lo mismo
-```entrada
-25
-25
-25
-25
-25
-25
-```
-```salida
-Intento 1: más alto
-Intento 2: más alto
-Intento 3: más alto
-Intento 4: más alto
-Intento 5: más alto
-Intento 6: más alto
-No lo adivinaste. Era 38.
-```
-
-### Misión R01-N09-M3 · El sello de la Forja
+### Micro-misión R01-N09-P7 · El sello de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de marcar
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R01-N09-M3
 ```
 
-#### Consigna
+#### Escena
+El sello de la Forja graba cada letra de un renglón en la chapa, pero solo sabe grabar mayúsculas y números. Tizón quiere que lo demás quede marcado distinto, y saber cuánto hubo de cada cosa.
 
+#### Gheco sugiere
+Leé con `getchar()` hasta `'\n'` o `EOF`. De `<ctype.h>`: `isalpha` + `toupper` para las letras, `isdigit`, `isspace` (mostrás `_`) y el resto `?`. Llevá un contador por tipo.
+
+#### Desafío
 Leé una línea carácter por carácter con
 `getchar`. Mostrá las letras en mayúscula, los dígitos tal cual, los espacios
 como `_` y el resto como `?`, y al final cuántos hubo de cada tipo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee carácter por carácter con `getchar` hasta el Enter o el fin de la entrada.
 - Usa `toupper`, `isdigit`, `isspace` de `ctype.h`.
 - Muestra al final cuántos hubo de cada tipo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <ctype.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Kira tiene 3 martillos!
 ```
 
 #### Salida esperada
-
 ```
 Escribí una línea: KIRA_TIENE_3_MARTILLOS?
 letras 18, dígitos 1, espacios 3, otros 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - El sello de la Forja: clasificar cada letra de una linea
@@ -7693,33 +8022,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La chapa sale grabada derechita, con los guiones bajos en su lugar. Tizón cuenta los signos y le dan igual que al programa.
 
-##### Solo dígitos
-```entrada
-2026 99
-```
-```salida
-Escribí una línea: 2026_99
-letras 0, dígitos 6, espacios 1, otros 0
-```
-
-##### Mayúsculas y símbolos
-```entrada
-¡HOLA, Kira!
-```
-```salida
-Escribí una línea: ??HOLA?_KIRA?
-letras 8, dígitos 0, espacios 1, otros 4
-```
-
-##### Línea vacía
-```entrada
-```
-```salida
-Escribí una línea:
-letras 0, dígitos 0, espacios 0, otros 0
-```
+#### Imagen
+- Una chapa larga de metal con letras mayúsculas grabadas y marcas de guion bajo entre las palabras.
+- Tizón pasa el dedo por la chapa; Kira apoya el sello de bronce.
 
 ### Encargo R01-N09-E1 · El préstamo del banco
 
@@ -8239,17 +8547,22 @@ El Gólem de Escoria se desarma en una montaña de piedras tibias. Ferrum toma l
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) la recibe con las dos manos.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) aplaude en la tribuna.
 
-### Misión R01-N10-M1 · La caja de la Forja
+### Micro-misión R01-N10-P5 · La caja de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El mostrador de pedidos
+personajes: Kira, Gheco, Chispa
+recompensa: xp 30, monedas 6
+antes: R01-N10-M1
 ```
 
-#### Consigna
+#### Escena
+Mientras el Gólem de Escoria se arma en el patio, el mostrador se llena de pedidos: todos quieren armas. Chispa ofrece atender, pero Kira prefiere hacer una caja registradora que no se equivoque.
 
+#### Gheco sugiere
+Un menú en un bucle: pedí código y cantidad con una función que repita hasta que sean válidos. Llevá el total y la cantidad de productos. Mostrá cada línea con `%3d`, `%-16s` y `%8.2f`.
+
+#### Desafío
 Escribí la caja registradora de la Forja:
 
 1. Mostrá la lista de productos: `1` Espada ($120), `2` Escudo ($80), `3` Herradura ($15), `4` Clavo de acero ($4.50) y `0` para cobrar.
@@ -8259,15 +8572,25 @@ Escribí la caja registradora de la Forja:
 
 Usá funciones `precio(codigo)` y `nombre(codigo)` con `switch`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Valida código y cantidad con una función que vuelve a preguntar.
 - Usa `precio` y `nombre` con `switch`.
 - Muestra el ticket alineado y aplica el 10 % solo desde $500.
 - Termina bien con `0` o si se termina la entrada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1
 4
@@ -8281,7 +8604,6 @@ dos
 ```
 
 #### Salida esperada
-
 ```
 === CAJA DE LA FORJA ===
 1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
@@ -8303,8 +8625,7 @@ Descuento:      56.40
 TOTAL:         507.60
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Jefe R01 - Mision 1: la caja de la Forja.
@@ -8388,75 +8709,31 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La fila del mostrador avanza sin una queja. Chispa mira la caja y se le apaga un poco el diente de oro.
 
-##### Cobra sin comprar
-```entrada
-0
-```
-```salida
-=== CAJA DE LA FORJA ===
-1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
-Producto:
---------------------------------
-Productos: 0
-Subtotal:        0.00
-Descuento:       0.00
-TOTAL:           0.00
-```
+#### Imagen
+- Un mostrador con una caja registradora de bronce con botones grandes, y espadas y escudos colgados detrás.
+- Kira cobra con la caja; Chispa, apoyado en el mostrador, cuenta monedas.
 
-##### Descuento justo en 500
-```entrada
-2
-5
-3
-4
-0
-```
-```salida
-=== CAJA DE LA FORJA ===
-1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
-Producto: Cantidad:
-   5 x Escudo             400.00
-Producto: Cantidad:
-   4 x Herradura           60.00
-Producto:
---------------------------------
-Productos: 9
-Subtotal:      460.00
-Descuento:       0.00
-TOTAL:         460.00
-```
-
-##### Se termina la entrada
-```entrada
-1
-2
-```
-```salida
-=== CAJA DE LA FORJA ===
-1 Espada $120 | 2 Escudo $80 | 3 Herradura $15 | 4 Clavo $4.50 | 0 Cobrar
-Producto: Cantidad:
-   2 x Espada             240.00
-Producto:
---------------------------------
-Productos: 2
-Subtotal:      240.00
-Descuento:       0.00
-TOTAL:         240.00
-```
-
-### Misión R01-N10-M2 · Las placas del Gólem
+### Micro-misión R01-N10-P6 · Las placas del Gólem
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El patio de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R01-N10-M2
 ```
 
-#### Consigna
+#### Escena
+El Gólem de Escoria avanza por el patio con tres placas de armadura: cabeza, pecho y piernas.
+—No le pegues donde tiene placa —dice Ferrum—. Primero rompela. Después, el golpe sí entra.
 
+#### Gheco sugiere
+Las tres placas son bits de un `unsigned`. Cada turno, `zona = 1u << tirar(0, 2)`. Si `placas & zona`, la rompés con `placas &= ~zona`. Si no, restás el daño sin bajar de 0. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Simulá el combate contra el Gólem de Escoria:
 
 1. El Gólem tiene 40 de vida y tres placas de armadura: cabeza, pecho y piernas. Guardalas como **banderas** en un solo `unsigned`.
@@ -8465,31 +8742,39 @@ Simulá el combate contra el Gólem de Escoria:
 4. Mostrá cada turno con la zona, el resultado, la armadura como `[CPI]` (con `-` en las placas rotas) y la vida.
 5. El combate termina cuando el Gólem cae o a los 30 turnos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda la armadura como banderas y las apaga con `&= ~`.
 - Usa `srand(13)` y una función `tirar`.
 - Muestra cada turno y el resultado final.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 El Gólem de Escoria se levanta: 40 de vida, armadura [CPI]
-Turno  1: golpe a la cabeza    -> se rompe la placa [-PI] vida 40
-Turno  2: golpe a la cabeza    -> 5 de daño      [-PI] vida 35
-Turno  3: golpe al pecho       -> se rompe la placa [--I] vida 35
-Turno  4: golpe a las piernas  -> se rompe la placa [---] vida 35
-Turno  5: golpe a las piernas  -> 9 de daño      [---] vida 26
-Turno  6: golpe al pecho       -> 5 de daño      [---] vida 21
-Turno  7: golpe al pecho       -> 4 de daño      [---] vida 17
-Turno  8: golpe a las piernas  -> 5 de daño      [---] vida 12
-Turno  9: golpe a la cabeza    -> 8 de daño      [---] vida  4
-Turno 10: golpe a las piernas  -> 4 de daño      [---] vida  0
-¡El Gólem cae en el turno 10!
+Turno  1: golpe a las piernas  -> se rompe la placa [CP-] vida 40
+Turno  2: golpe a la cabeza    -> se rompe la placa [-P-] vida 40
+Turno  3: golpe al pecho       -> se rompe la placa [---] vida 40
+Turno  4: golpe a las piernas  -> 5 de daño      [---] vida 35
+Turno  5: golpe al pecho       -> 9 de daño      [---] vida 26
+Turno  6: golpe a las piernas  -> 6 de daño      [---] vida 20
+Turno  7: golpe a la cabeza    -> 9 de daño      [---] vida 11
+Turno  8: golpe a la cabeza    -> 9 de daño      [---] vida  2
+Turno  9: golpe a la cabeza    -> 4 de daño      [---] vida  0
+¡El Gólem cae en el turno 9!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Jefe R01 - Mision 2: el combate contra el Golem de Escoria.
@@ -8560,6 +8845,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+La última placa del Gólem cae al piso con un ruido de campana. Ferrum asiente: el resto es cuestión de tiempo.
+
+#### Imagen
+- Un gólem enorme de escoria negra con grietas de lava, con una placa de hierro cayéndose del pecho.
+- Kira esquiva un puño del gólem; Maese Ferrum mira desde la puerta de la Forja con el martillo al hombro.
 
 ### Encargo R01-N10-E1 · El conversor del Gremio
 

@@ -547,37 +547,51 @@ Dos renglones marcados. Chispa dice que «muchos» es una cantidad perfectamente
 - Un libro de pedidos con dos renglones tachados en rojo.
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) se defiende con las manos abiertas.
 
-### Misión R04-N01-M1 · El diario de la Forja
+### Micro-misión R04-N01-P5 · El diario de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Archivo de la Forja
+personajes: Kira, Gheco, el Archivero
+recompensa: xp 10, monedas 4
+antes: R04-N01-M1
 ```
 
-#### Consigna
+#### Escena
+El Archivero le da a Kira un cuaderno nuevo para su diario de aprendiz.
+—Cada día, una línea al final. Sin borrar lo de antes. Y después me lo leés, con número de renglón.
 
+#### Gheco sugiere
+`fopen("diario.txt", "a")` agrega al final; si devuelve `NULL`, no se pudo abrir. Al empezar, `remove("diario.txt")` lo deja vacío. Para leerlo: `"r"`, `fgets` en un bucle y `%2d | ` para el número.
+
+#### Desafío
 1. Escribí `int agregar(const char *texto)`, que abre `diario.txt` en modo **agregar**, escribe el texto en una línea y lo cierra. Devuelve 0 si no pudo abrirlo.
 2. Borrá el diario al empezar (para que cada prueba arranque igual) y agregá tres entradas: `Día 1: templé mi primera hoja.`, `Día 2: Ferrum dice que está torcida.` y `Día 3: la enderecé. Casi.`.
 3. Leé el diario y mostralo con cada línea numerada (`%2d | `).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa el modo `"a"` para agregar.
 - Revisa el `NULL` de `fopen` y cierra cada archivo.
 - Muestra las tres entradas numeradas.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
  1 | Día 1: templé mi primera hoja.
  2 | Día 2: Ferrum dice que está torcida.
  3 | Día 3: la enderecé. Casi.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 1 - El diario de la Forja: agregar con "a" y leer numerado. */
 #include <stdio.h>
@@ -619,17 +633,30 @@ int main(void)
 }
 ```
 
-### Misión R04-N01-M2 · Contar como wc
+#### Al superarla
+El Archivero escucha el diario entero con los ojos cerrados. En el día 2 sonríe un poquito.
+
+#### Imagen
+- Un archivo con estantes de hierro, libros encadenados y un cuaderno abierto sobre un atril con tres renglones escritos.
+- El Archivero (enano viejísimo y encorvado, barba blanca larguísima enrollada en el cinturón, anteojos redondos, abrigo marrón con runas naranjas) escucha; Kira lee el cuaderno.
+
+### Micro-misión R04-N01-P6 · Contar como wc
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Archivo de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R04-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón copia en un pergamino la canción de las Forjas y quiere saber cuántas líneas, palabras y letras tiene.
+—Contalas de a una. Como yo, pero más rápido.
 
+#### Gheco sugiere
+Escribí el archivo con `fputs` y cerralo. Después leelo con `fgetc` hasta `EOF`: cada carácter suma un byte, cada `'\n'` una línea, y una palabra empieza cuando hay un no-espacio después de un espacio (`isspace`).
+
+#### Desafío
 Escribí en `cancion.txt` estas cuatro líneas y después leelo **de a un carácter** con `fgetc` para contar líneas, palabras y bytes, como el comando `wc` de Linux:
 
 ```
@@ -641,20 +668,30 @@ y cada runa, una espada.
 
 Una palabra empieza cuando aparece un carácter que no es espacio después de uno que sí lo es (usá `isspace`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee con `fgetc` hasta `EOF` (en una variable `int`).
 - Cuenta bien las palabras aunque haya varios espacios seguidos.
 - Da el mismo resultado que `wc` sobre el archivo.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <ctype.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 líneas: 4, palabras: 19, bytes: 99
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 2 - Contar como wc: lineas, palabras y caracteres, leyendo de a un caracter. */
 #include <stdio.h>
@@ -698,17 +735,31 @@ int main(void)
 }
 ```
 
-### Misión R04-N01-M3 · El CSV de precios
+#### Al superarla
+Los números coinciden con los de Tizón, que los contó a mano dos veces. Él lo anota como un empate.
+
+#### Imagen
+- Un pergamino largo con la letra de una canción desplegado sobre una mesa de archivo.
+- Tizón (enano joven pelirrojo con antiparras) cuenta con los dedos; Kira sigue el texto con una pluma.
+
+### Micro-misión R04-N01-P7 · El CSV de precios
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador del Archivero
+personajes: Kira, Gheco, Chispa
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R04-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Chispa trae la lista de precios de su puesto en un archivo, con punto y coma entre los datos. Tiene precios vacíos, stock negativo y una línea a la que le falta un dato.
+—Decime cuánto vale lo que está bien —pide, mirando para otro lado.
 
+#### Gheco sugiere
+Salteá la primera línea. `sscanf(linea, "%29[^;];%lf;%d %c", ...)` tiene que devolver justo 3. Validá precio mayor que 0 y stock no negativo; avisá las líneas con error y su número, y sumá precio × stock de las buenas.
+
+#### Desafío
 Escribí `precios.csv` con este contenido:
 
 ```
@@ -723,15 +774,25 @@ Fuelle;120.5
 
 Leelo salteando el encabezado. Cada línea tiene que tener exactamente 3 datos (usá un `%c` extra para detectar lo que sobra), precio positivo y stock no negativo. Informá cada línea con error y su número, y mostrá el valor total del stock válido (precio × stock).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Valida la cantidad de datos con lo que devuelve `sscanf`.
 - Valida los rangos por separado.
 - Informa cada error con su número de línea y sigue con la siguiente.
 - Calcula el valor del stock válido.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 línea 3: formato inválido ("Martillo;;12")
 línea 5: valores fuera de rango ("Yunque;950;-2")
@@ -739,8 +800,7 @@ línea 7: formato inválido ("Fuelle;120.5")
 Valor del stock válido: $1957.25 (3 líneas con error)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - El CSV de precios: validar cada linea e informar los errores con su numero. */
 #include <stdio.h>
@@ -795,6 +855,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+El total del stock válido es la mitad de lo que Chispa decía. Él lo anota, «para la próxima tasación».
+
+#### Imagen
+- Un mostrador con una planilla de precios llena de tachaduras y un goblin chiquito escondido entre los papeles.
+- Chispa (mercader alto y flaco, sombrero de ala corta, bufanda naranja) se acomoda la bufanda; Kira marca errores.
 
 ### Encargo R04-N01-E1 · El informe de notas
 
@@ -1572,27 +1639,43 @@ El 101 sigue en la caja, con su B, pero ya no aparece. El Archivero asiente: —
 - Una ficha con una B grande estampada en rojo, guardada entre otras fichas.
 - El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) estampa el sello.
 
-### Misión R04-N02-M1 · Guardar y cargar el progreso
+### Micro-misión R04-N02-P5 · Guardar y cargar el progreso
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las cajas selladas del Archivo
+personajes: Kira, Gheco, el Archivero
+recompensa: xp 10, monedas 4
+antes: R04-N02-M1
 ```
 
-#### Consigna
+#### Escena
+El Archivero le enseña a Kira a guardar su progreso en una ficha sellada, byte por byte, para retomarlo otro día tal cual.
+—Y si la ficha no está, que no se rompa nada: que avise.
 
+#### Gheco sugiere
+`fwrite(p, sizeof(Progreso), 1, f)` tiene que devolver 1; lo mismo `fread`. Abrí con `"wb"` y `"rb"`, y si `fopen` da `NULL` o no se escribió/leyó un registro completo, devolvé `false`.
+
+#### Desafío
 Con un struct `Progreso` (nombre de 16, nivel, oro, x, y), escribí `bool guardar(const Progreso *p, const char *ruta)` y `bool cargar(Progreso *p, const char *ruta)`, que devuelven `false` si algo falla (el archivo no abre o no se escribió/leyó el registro completo). Guardá el progreso de Kira (nivel 7, 380 de oro, en 12, 4), cargalo en otra variable, mostralo, e intentá cargar un archivo que no existe.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `"wb"` y `"rb"`.
 - Revisa lo que devuelven `fwrite` y `fread`.
 - Informa el fallo al cargar un archivo que no existe.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 en juego: Kira, nivel 7, 380 de oro, en (12, 4)
 guardar: ok
@@ -1601,8 +1684,7 @@ cargado: Kira, nivel 7, 380 de oro, en (12, 4)
 cargar otro: falló
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 1 - Guardar y cargar el progreso, con funciones que avisan si fallaron. */
 #include <stdio.h>
@@ -1657,37 +1739,57 @@ int main(void)
 }
 ```
 
-### Misión R04-N02-M2 · Directo al registro
+#### Al superarla
+El progreso vuelve igual, hasta la última moneda. El Archivero sella la caja con lacre naranja.
+
+#### Imagen
+- Una caja de hierro sellada con lacre naranja, con una ficha metálica adentro que brilla.
+- El Archivero aplica el sello; Kira sostiene la ficha.
+
+### Micro-misión R04-N02-P6 · Directo al registro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las cajas selladas del Archivo
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R04-N02-M2
 ```
 
-#### Consigna
+#### Escena
+En una caja hay diez fichas de enemigos. Tizón quiere ver la séptima sin leer las seis anteriores, y corregir la tercera sin reescribir la caja entera.
 
+#### Gheco sugiere
+`fseek(f, 7 * sizeof(Enemigo), SEEK_SET)` va directo. Para cambiar uno en su lugar: leelo, cambialo, volvé con `fseek(f, -(long) sizeof(Enemigo), SEEK_CUR)` y escribilo. `rewind(f)` vuelve al principio.
+
+#### Desafío
 1. Guardá 10 enemigos (`numero` de 0 a 9, `vida` = 10 + número × 5) en `horda.dat`.
 2. Abrilo con `"r+b"`, andá directo al registro 7 con `fseek` y mostralo.
 3. Poné en 0 la vida del enemigo 3 **en el lugar**: leelo, cambialo, volvé a su posición y escribilo.
 4. Con `rewind`, recorré todo el archivo y mostrá las vidas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Calcula la posición como `k * sizeof`.
 - Vuelve con `fseek` antes de reescribir.
 - Muestra el registro 7 y todas las vidas con el 3 en 0.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 registro 7: enemigo 7 con 45 de vida
 vidas: 10 15 20 0 30 35 40 45 50 55
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 2 - Ir directo al registro k y modificarlo en el lugar con "r+b". */
 #include <stdio.h>
@@ -1736,35 +1838,56 @@ int main(void)
 }
 ```
 
-### Misión R04-N02-M3 · Texto o binario
+#### Al superarla
+Tizón abre la caja y la ficha 3 dice vida 0. Las otras nueve están igual que antes.
+
+#### Imagen
+- Una caja de fichas de metal abierta con diez fichas en fila, una sobresaliendo por arriba.
+- Tizón saca la ficha número 7 con unas pinzas; Kira cuenta.
+
+### Micro-misión R04-N02-P7 · Texto o binario
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las cajas selladas del Archivo
+personajes: Kira, Gheco, el Archivero
+recompensa: xp 10, monedas 4
+antes: R04-N02-M3
 ```
 
-#### Consigna
+#### Escena
+El Archivero tiene que guardar mil números y duda: ¿en un libro, con letras, o en una caja sellada, byte por byte?
+—Medí cuánto ocupa cada uno. Después hablamos.
 
+#### Gheco sugiere
+Escribí los números con `fprintf` en uno y con un solo `fwrite` en el otro. Para medir: `fseek(f, 0, SEEK_END)` y `ftell(f)` da el tamaño en bytes.
+
+#### Desafío
 Guardá 1000 enteros (`i * 1234`) de dos formas: como texto (uno por línea con `fprintf`) y en binario (un solo `fwrite`). Medí el tamaño de cada archivo con `fseek` + `ftell` y mostralo. ¿Cuál ocupa menos? ¿Cuál podés abrir con un editor?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Escribe los dos archivos.
 - Mide el tamaño con `fseek(f, 0, SEEK_END)` y `ftell`.
 - Explica la diferencia.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 texto:   7095 bytes
 binario: 4000 bytes (4 por número)
 El texto se puede leer con cualquier editor; el binario, solo con este programa.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - Texto o binario: cuanto ocupan 1000 numeros de cada forma. */
 #include <stdio.h>
@@ -1807,6 +1930,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+La caja sellada ocupa menos. El Archivero igual guarda los dos: «el libro, para leerlo; la caja, para la máquina».
+
+#### Imagen
+- Un libro grueso lleno de números al lado de una caja chiquita de metal, sobre una balanza.
+- El Archivero mira la balanza por encima de los anteojos; Kira anota los pesos.
 
 ### Encargo R04-N02-E1 · La caja fuerte del banco
 
@@ -2479,6 +2609,88 @@ Daño 30 en todos los talleres. Ferrum advierte: —Una global compartida es com
 - Un tablero en el patio con el número 3 grabado, visible desde todos los talleres.
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) señala el tablero.
 
+### Micro-misión R04-N03-P5 · El modo depuración
+
+```meta
+lugar: Las salas del Archivo
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R04-N03-M3
+```
+
+#### Escena
+Ferrum quiere un interruptor en el programa: en modo práctica, que cuente todo lo que hace; en modo forja, que se calle.
+—Y las macros, bien protegidas. Ya tuvimos herraduras banana.
+
+#### Gheco sugiere
+`#ifdef DEPURAR` → `#define LOG(...) fprintf(stderr, "[depurar] " __VA_ARGS__)`; si no, `#define LOG(...) ((void) 0)`. `MAX` y `CUADRADO` con paréntesis en cada parámetro. La salida esperada es **sin** `DEPURAR`.
+
+#### Desafío
+1. Definí una macro `LOG(...)` que, si se compila con `-DDEPURAR`, muestre el mensaje en `stderr` con el prefijo `[depurar] `; si no, no haga nada (`((void) 0)`). Usá `__VA_ARGS__`.
+2. Definí `MAX(a, b)` y `CUADRADO(x)` bien protegidas con paréntesis.
+3. En `danio(ataque, defensa)` (mínimo 1) dejá un `LOG` con los valores. Mostrá dos daños y `CUADRADO(2 + 3)`.
+4. Compilá con y sin `-DDEPURAR` y comparalo. La salida esperada es **sin** depuración.
+
+**Para superarla:**
+- Las macros tienen paréntesis en cada parámetro y alrededor.
+- `CUADRADO(2 + 3)` da 25.
+
+#### Código inicial
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
+```
+daño: 11
+daño: 1
+área: 25
+```
+
+#### Solución
+```c
+/* Mision 3 - El modo depuracion: mensajes que solo aparecen al compilar con -DDEPURAR. */
+#include <stdio.h>
+
+#ifdef DEPURAR
+#define LOG(...) fprintf(stderr, "[depurar] " __VA_ARGS__)
+#else
+#define LOG(...) ((void) 0)
+#endif
+
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define CUADRADO(x) ((x) * (x))
+
+int danio(int ataque, int defensa)
+{
+    int d = MAX(ataque - defensa, 1);
+    LOG("danio(%d, %d) = %d\n", ataque, defensa, d);
+    return d;
+}
+
+int main(void)
+{
+    LOG("arranca el programa\n");
+    printf("daño: %d\n", danio(15, 4));
+    printf("daño: %d\n", danio(3, 9));
+    printf("área: %d\n", CUADRADO(2 + 3));   /* con parentesis en la macro: 25, no 11 */
+    return 0;
+}
+```
+
+#### Al superarla
+Sin el interruptor, el programa no dice ni una palabra de más. Ferrum lo prueba con `-DDEPURAR` y asiente.
+
+#### Imagen
+- Una sala del archivo con un interruptor de bronce grande en la pared y dos lámparas, una encendida y otra apagada.
+- Maese Ferrum (herrero humano enorme, barba gris trenzada, ojo naranja) baja el interruptor; Kira mira las lámparas.
+
 ### Misión R04-N03-M1 · Separar la herrería en módulos
 
 ```meta
@@ -2677,68 +2889,6 @@ int main(void)
         subir_dificultad();
     }
     printf("dificultad máxima: %d\n", dificultad);
-    return 0;
-}
-```
-
-### Misión R04-N03-M3 · El modo depuración
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-1. Definí una macro `LOG(...)` que, si se compila con `-DDEPURAR`, muestre el mensaje en `stderr` con el prefijo `[depurar] `; si no, no haga nada (`((void) 0)`). Usá `__VA_ARGS__`.
-2. Definí `MAX(a, b)` y `CUADRADO(x)` bien protegidas con paréntesis.
-3. En `danio(ataque, defensa)` (mínimo 1) dejá un `LOG` con los valores. Mostrá dos daños y `CUADRADO(2 + 3)`.
-4. Compilá con y sin `-DDEPURAR` y comparalo. La salida esperada es **sin** depuración.
-
-#### Criterio de aprobación
-
-- `LOG` solo produce salida con `-DDEPURAR`, y en `stderr`.
-- Las macros tienen paréntesis en cada parámetro y alrededor.
-- `CUADRADO(2 + 3)` da 25.
-
-#### Salida esperada
-
-```
-daño: 11
-daño: 1
-área: 25
-```
-
-#### Solución de referencia
-
-```c
-/* Mision 3 - El modo depuracion: mensajes que solo aparecen al compilar con -DDEPURAR. */
-#include <stdio.h>
-
-#ifdef DEPURAR
-#define LOG(...) fprintf(stderr, "[depurar] " __VA_ARGS__)
-#else
-#define LOG(...) ((void) 0)
-#endif
-
-#define MAX(a, b) ((a) > (b) ? (a) : (b))
-#define CUADRADO(x) ((x) * (x))
-
-int danio(int ataque, int defensa)
-{
-    int d = MAX(ataque - defensa, 1);
-    LOG("danio(%d, %d) = %d\n", ataque, defensa, d);
-    return d;
-}
-
-int main(void)
-{
-    LOG("arranca el programa\n");
-    printf("daño: %d\n", danio(15, 4));
-    printf("daño: %d\n", danio(3, 9));
-    printf("área: %d\n", CUADRADO(2 + 3));   /* con parentesis en la macro: 25, no 11 */
     return 0;
 }
 ```
@@ -4336,27 +4486,31 @@ Tres el primer día, cinco el segundo. El mostrador se acuerda. El Archivero, no
 - Un mostrador de noche, con el horno apagado, y un libro que brilla.
 - El archivero (enano viejísimo y encorvado, gorro de lana oscuro, barba blanca larguísima enrollada en el cinturón, anteojos redondos oscuros, abrigo marrón con runas naranjas, un manojo de llaves) durmiendo sobre el mostrador.
 
-### Misión R04-N05-M1 · Apostar en la taberna
+### Micro-misión R04-N05-P5 · Apostar en la taberna
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La taberna de la Forja
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R04-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Chispa propone agregarle una opción al menú de la taberna: apostar diez de oro. Si sale bien, ganás veinte.
+—Es justo. Casi siempre.
 
+#### Gheco sugiere
+Sumá la opción 5 al `switch`. Si el oro no alcanza, avisá. Si no, `rand() % 2 == 0` decide si ganás 20 o perdés 10. `srand(5)` fija la semilla; dejá comentado `srand(time(NULL))`. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Partiendo del ejemplo, agregá la opción `5) Apostar (10 oro)`: si no alcanza el oro, avisá; si no, con 50 % de probabilidad ganás 20 de oro y si no perdés 10. Usá `srand(5)` para poder probarlo siempre igual (y dejá comentado cómo sería con `time(NULL)`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El menú acepta la opción 5.
 - Controla el oro antes de apostar.
 - Usa `rand() % 2` con semilla fija.
 
 #### Código inicial
-
 ```c
 /*
  * 25 - El menu de consola: estado + mostrar opciones + leer + actuar, en bucle.
@@ -4439,8 +4593,7 @@ int main(void)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 5
 3
@@ -4452,47 +4605,45 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 [vida 30/50 | oro 10 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
 Elegí: 
-Perdés la apuesta. -10 de oro.
+¡Ganás la apuesta! +20 de oro.
 
-[vida 30/50 | oro 0 | fuerza 5]
+[vida 30/50 | oro 30 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
 Elegí: 
 Trabajás en la forja. +15 de oro.
 
-[vida 30/50 | oro 15 | fuerza 5]
+[vida 30/50 | oro 45 | fuerza 5]
+1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
+Elegí: 
+¡Ganás la apuesta! +20 de oro.
+
+[vida 30/50 | oro 65 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
 Elegí: 
 Perdés la apuesta. -10 de oro.
 
-[vida 30/50 | oro 5 | fuerza 5]
+[vida 30/50 | oro 55 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
 Elegí: 
-No te alcanza para apostar.
+¡Ganás la apuesta! +20 de oro.
 
-[vida 30/50 | oro 5 | fuerza 5]
+[vida 30/50 | oro 75 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
 Elegí: 
-No te alcanza para apostar.
+La poción fortalece: +5 de vida máxima.
 
-[vida 30/50 | oro 5 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí: 
-No te alcanza el oro.
-
-[vida 30/50 | oro 5 | fuerza 5]
+[vida 30/55 | oro 55 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
 Elegí: 
 
-Hasta mañana. Fuerza final: 5, oro: 5.
+Hasta mañana. Fuerza final: 5, oro: 55.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Apostar en la taberna: una opcion nueva con azar (semilla fija para probar).
@@ -4587,87 +4738,38 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Kira pierde la primera apuesta y gana la segunda. Chispa le paga con cara de que no estaba en el plan.
 
-##### Sale enseguida
-```entrada
-0
-```
-```salida
-[vida 30/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
+#### Imagen
+- Una mesa de taberna con un dado grande, una jarra y una pila de monedas de oro.
+- Chispa (mercader alto y flaco con diente de oro) tira el dado; Kira mira las monedas.
 
-Hasta mañana. Fuerza final: 5, oro: 10.
-```
-
-##### Apuesta sin oro
-```entrada
-5
-5
-5
-0
-```
-```salida
-[vida 30/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
-Perdés la apuesta. -10 de oro.
-
-[vida 30/50 | oro 0 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
-No te alcanza para apostar.
-
-[vida 30/50 | oro 0 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
-No te alcanza para apostar.
-
-[vida 30/50 | oro 0 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
-
-Hasta mañana. Fuerza final: 5, oro: 0.
-```
-
-##### Se termina la entrada
-```entrada
-3
-```
-```salida
-[vida 30/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
-Trabajás en la forja. +15 de oro.
-
-[vida 30/50 | oro 25 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  5) Apostar (10 oro)  0) Salir
-Elegí:
-Hasta mañana. Fuerza final: 5, oro: 25.
-```
-
-### Misión R04-N05-M2 · El menú como tabla
+### Micro-misión R04-N05-P6 · El menú como tabla
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador del Archivero
+personajes: Kira, Gheco, el Archivero
+recompensa: xp 10, monedas 4
+antes: R04-N05-M2
 ```
 
-#### Consigna
+#### Escena
+El cartel del mostrador del Archivero tiene las opciones escritas a mano, y cada vez que agregan una hay que reescribir todo.
+—Hacelo como una tabla. Que el cartel se arme solo.
 
+#### Gheco sugiere
+Un `typedef struct { const char *texto; void (*accion)(Jugador *); } Opcion;` y un array `MENU`. La cantidad: `sizeof MENU / sizeof MENU[0]`. Para ejecutar: `MENU[opcion - 1].accion(&kira)`.
+
+#### Desafío
 Reescribí el menú del ejemplo sin `switch`: cada acción es una función `void accion(Jugador *j)` y el menú es una **tabla** de structs `{ texto, función }`. El menú se muestra recorriendo la tabla y la opción elegida se ejecuta con `MENU[opcion - 1].accion(&kira)`. La cantidad de opciones sale de `sizeof` de la tabla.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No usa `switch` para las acciones.
 - El menú se arma recorriendo la tabla.
 - Agregar una opción es agregar una fila (la validación usa el tamaño de la tabla).
 
 #### Código inicial
-
 ```c
 /*
  * 25 - El menu de consola: estado + mostrar opciones + leer + actuar, en bucle.
@@ -4750,8 +4852,7 @@ int main(void)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 3
 4
@@ -4764,7 +4865,6 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 [vida 30/50 | oro 10 | fuerza 5]
 1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
@@ -4804,8 +4904,7 @@ Elegí:
 Hasta mañana. Fuerza final: 7, oro: 5.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 2 - El menu como tabla: cada opcion es un texto y una funcion. Agregar una es agregar una fila. */
 #include <stdio.h>
@@ -4888,77 +4987,54 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El Archivero agrega una opción nueva a la tabla y el cartel la muestra solo. Se queda mirándolo un rato.
 
-##### Sale enseguida
-```entrada
-0
-```
-```salida
-[vida 30/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
-Elegí:
-Hasta mañana. Fuerza final: 5, oro: 10.
-```
+#### Imagen
+- Un cartel de madera con opciones numeradas colgado sobre un mostrador, con una opción nueva recién pintada.
+- El Archivero pinta la opción nueva; Kira sostiene el tarro de pintura.
 
-##### Opciones inválidas
-```entrada
-9
--1
-0
-```
-```salida
-[vida 30/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
-Elegí:
-  Opción inválida.
-Elegí:
-  Opción inválida.
-Elegí:
-Hasta mañana. Fuerza final: 5, oro: 10.
-```
-
-##### Se termina la entrada
-```entrada
-1
-```
-```salida
-[vida 30/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
-Elegí:
-Dormís en la posada. Vida completa.
-
-[vida 50/50 | oro 10 | fuerza 5]
-1) Descansar  2) Entrenar (-10 vida)  3) Trabajar en la forja (+15 oro)  4) Comprar poción (20 oro)  0) Salir
-Elegí:
-Hasta mañana. Fuerza final: 5, oro: 10.
-```
-
-### Misión R04-N05-M3 · La tienda y la despedida
+### Micro-misión R04-N05-P7 · La tienda y la despedida
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador del Archivero
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R04-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Chispa quiere un menú para su puesto con una tienda adentro y una despedida que pregunte dos veces.
+—Que nadie se vaya sin querer. Y si se corta todo, que no se rompa.
 
+#### Gheco sugiere
+La tienda es otro bucle adentro del menú, que se repite hasta `0`. Para salir, pedí `s` o `S`. Si `fgets` devuelve `NULL` en cualquier lugar, terminá ordenado.
+
+#### Desafío
 Escribí un menú con `1) Tienda`, `2) Trabajar (+15 oro)` y `0) Salir`:
 
 - La tienda es un **submenú** propio (flechas ×10 por 5 de oro, poción por 20, `0) Volver`) que se repite hasta volver.
 - Salir pide confirmación (`¿Seguro que querés salir? (s/n)`): solo sale con `s` o `S`.
 - Si se termina la entrada en cualquier lugar, el programa termina ordenado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La tienda es una función con su propio bucle.
 - Pide confirmación para salir.
 - Termina ordenado si se acaba la entrada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1
 1
@@ -4976,7 +5052,6 @@ s
 ```
 
 #### Salida esperada
-
 ```
 [vida 40 | oro 45 | flechas 0 | pociones 0]
 1) Tienda  2) Trabajar (+15 oro)  0) Salir
@@ -5018,8 +5093,7 @@ Elegí: ¿Seguro que querés salir? (s/n):
 Chau. Te llevás 10 flechas y 2 pociones.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - Salir con confirmacion y un submenu de tienda. */
 #include <stdio.h>
@@ -5108,85 +5182,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Chispa prueba el menú con todo lo que se le ocurre y no lo rompe. Se va del mostrador ofendido, pero con flechas nuevas.
 
-##### Sale sin confirmar y se termina
-```entrada
-0
-n
-0
-```
-```salida
-[vida 40 | oro 45 | flechas 0 | pociones 0]
-1) Tienda  2) Trabajar (+15 oro)  0) Salir
-Elegí: ¿Seguro que querés salir? (s/n):
-
-[vida 40 | oro 45 | flechas 0 | pociones 0]
-1) Tienda  2) Trabajar (+15 oro)  0) Salir
-Elegí: ¿Seguro que querés salir? (s/n):
-Chau. Te llevás 0 flechas y 0 pociones.
-```
-
-##### Tienda sin oro
-```entrada
-1
-2
-2
-2
-1
-0
-0
-s
-```
-```salida
-[vida 40 | oro 45 | flechas 0 | pociones 0]
-1) Tienda  2) Trabajar (+15 oro)  0) Salir
-Elegí:
-  -- Tienda (oro 45) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-  +1 poción.
-
-  -- Tienda (oro 25) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-  +1 poción.
-
-  -- Tienda (oro 5) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-  No alcanza.
-
-  -- Tienda (oro 5) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-  +10 flechas.
-
-  -- Tienda (oro 0) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-[vida 40 | oro 0 | flechas 10 | pociones 2]
-1) Tienda  2) Trabajar (+15 oro)  0) Salir
-Elegí: ¿Seguro que querés salir? (s/n):
-
-Chau. Te llevás 10 flechas y 2 pociones.
-```
-
-##### Se termina dentro de la tienda
-```entrada
-1
-1
-```
-```salida
-[vida 40 | oro 45 | flechas 0 | pociones 0]
-1) Tienda  2) Trabajar (+15 oro)  0) Salir
-Elegí:
-  -- Tienda (oro 45) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-  +10 flechas.
-
-  -- Tienda (oro 40) --  1) Flechas x10 (5)  2) Poción (20)  0) Volver
-  Elegí:
-[vida 40 | oro 40 | flechas 10 | pociones 0]
-1) Tienda  2) Trabajar (+15 oro)  0) Salir
-Elegí:
-Chau. Te llevás 10 flechas y 0 pociones.
-```
+#### Imagen
+- Un puesto de mercader con un menú pintado en una tabla, flechas en un carcaj y pociones en un estante.
+- Chispa elige una opción con el dedo; Kira atiende detrás del mostrador.
 
 ### Encargo R04-N05-E1 · El cajero del Gremio
 

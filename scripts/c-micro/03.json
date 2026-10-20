@@ -1,0 +1,192 @@
+{
+  "R03-N01-M1": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "En la boca de la mina, Hulda le enseña a Kira la regla de oro de las copias: pedir justo lo que hace falta, ni una vagoneta de más.\n—Copiá tu nombre y armame el título completo. Y después devolvé todo.",
+    "gheco": "`malloc(strlen(texto) + 1)`: el `+ 1` es para el `'\\0'`. Si devuelve `NULL`, no hay memoria. `unir` suma los tres largos más uno. Al final, cada `malloc` tiene su `free`.",
+    "exito": "Hulda revisa la tablilla: todo lo que se pidió, volvió. Tacha el nombre de Kira de la lista de deudores.",
+    "imagen": [
+      "La boca de una mina con vagonetas alineadas y una tablilla de madera colgada con nombres y marcas.",
+      "Hulda (enana fortísima con casco de minera y farol naranja, trenzas grises y negras, pico al hombro) anota en la tablilla; Kira devuelve una vagoneta."
+    ]
+  },
+  "R03-N01-M2": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda le pide a Kira el mapa del oro de una galería nueva. No sabe cuántas filas y columnas va a tener hasta que la midan.\n—Un solo bloque. No me cavés un túnel por fila.",
+    "gheco": "Pedí `filas * columnas` enteros de una vez. La celda `(f, c)` está en `mapa[f * columnas + c]`. Llenala con `(f * 7 + c * 3) % 10`, mostrala con dos `for` y liberá el bloque al final.",
+    "exito": "El mapa del oro queda dibujado en la pared de la galería. Hulda marca con el pico la celda que más tiene.",
+    "imagen": [
+      "Una pared de galería con una grilla de números pintados y pepitas de oro incrustadas en algunas celdas.",
+      "Hulda señala una celda con el pico; Kira sostiene el farol."
+    ]
+  },
+  "R03-N01-M3": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Kira tiene un cofre con diez vetas, pero solo le sirven las pares. Tizón le muestra que se puede achicar el cofre sin hacer uno nuevo.\n—Ojo, que al achicarlo puede cambiar de lugar. Anotá dónde quedó.",
+    "gheco": "Corré los pares al principio y contalos. `nuevo = realloc(v, cantidad * sizeof(int))`: si da `NULL`, el bloque viejo sigue sirviendo. Si no quedó ninguno, `free(v)` y devolvé `NULL`. La cantidad nueva va en `*n`.",
+    "exito": "El cofre queda chico y justo. Tizón anota en la libreta: «realloc puede mudar el cofre».",
+    "imagen": [
+      "Un cofre de hierro achicado con vetas de mineral ordenadas adentro, al lado de vetas descartadas en el piso.",
+      "Tizón (enano joven pelirrojo con antiparras) mide el cofre con su calibre; Kira separa las vetas."
+    ]
+  },
+  "R03-N02-M1": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "criatura": "troll",
+    "escena": "En la tablilla de la horda hay cuatro enemigos anotados. Uno se escapó por un túnel lateral y Hulda quiere borrarlo sin dejar un hueco.\n—Y si te piden borrar uno que no existe, no me rompas la tablilla.",
+    "gheco": "Si el índice es menor que 0 o no es menor que `cantidad`, devolvé `false`. Si no, corré cada enemigo de atrás un lugar hacia adelante y bajá la `cantidad`.",
+    "exito": "La tablilla queda prolija, sin huecos. El pedido de borrar la posición 7 se rechaza y Hulda asiente.",
+    "imagen": [
+      "Una tablilla de piedra con nombres de enemigos tallados, uno tachado, en la pared de una galería.",
+      "Hulda borra un nombre con el pico; a lo lejos, un troll grande se mete por un túnel."
+    ]
+  },
+  "R03-N02-M2": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón y Hulda discuten cómo cavar las galerías nuevas: ella quiere sumar cuatro lugares cada vez, él quiere duplicar. Kira propone probar las dos y contar.",
+    "gheco": "Llevá la capacidad y un contador de ampliaciones: cuando `cantidad == capacidad`, ampliás (al doble o +4) con `realloc` y sumás uno. Compará las dos estrategias con 20 y con 1000 elementos.",
+    "exito": "Con mil enemigos, duplicar gana por paliza. Tizón no dice nada, pero cuelga la cuenta en la pared.",
+    "imagen": [
+      "Dos galerías excavadas lado a lado, una ensanchándose en escalones parejos y otra que se duplica de tamaño.",
+      "Tizón muestra su libreta con cuentas; Kira compara las dos galerías."
+    ]
+  },
+  "R03-N02-M3": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "criatura": "goblin",
+    "escena": "Después de una batalla, en la galería sobra un montón de lugar vacío. Hulda quiere achicarla a la medida de los que quedan.\n—Pero si llega otro, que vuelva a crecer sin drama.",
+    "gheco": "Con `realloc` a `cantidad` elementos, la capacidad queda igual a la cantidad. Si está vacía, liberá el bloque y dejá el puntero en `NULL` y la capacidad en 0. Al agregar después, la horda vuelve a crecer sola.",
+    "exito": "La galería queda justa. Llega un orco más y la galería se ensancha como si nada.",
+    "imagen": [
+      "Una galería de mina angosta con cinco goblins verdes sentados en fila y una pared nueva recién cavada.",
+      "Hulda apoya el pico en la pared; Kira cuenta los goblins."
+    ]
+  },
+  "R03-N03-M1": {
+    "lugar": "Las vías de la mina",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "En la vía, la mochila de Kira viaja como un tren de vagones enganchados: cada objeto en su vagón. Hulda quiere saber cuántos son y si viene la soga.\n—Seguí la cadena. Sin soltarla.",
+    "gheco": "Recorré con `for (const Nodo *p = cabeza; p != NULL; p = p->siguiente)`. `contar` suma uno por vagón; `contiene` compara cada objeto con `strcmp`. Con la lista vacía, el bucle ni arranca.",
+    "exito": "Tres vagones, y la soga viene en el del medio. Hulda la saca y se la cuelga al hombro.",
+    "imagen": [
+      "Un tren corto de vagonetas enganchadas con cadenas sobre una vía de mina, cada una con un objeto adentro.",
+      "Hulda revisa un vagón; Kira sigue la cadena con la mano."
+    ]
+  },
+  "R03-N03-M2": {
+    "lugar": "Las vías de la mina",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "El tren de la mina tiene que volver por donde vino, y no hay lugar para girar. Tizón propone darlo vuelta enganche por enganche, sin traer vagones nuevos.",
+    "gheco": "Usá tres punteros: `anterior` (empieza en `NULL`), `actual` y `siguiente`. En cada paso guardás el siguiente, das vuelta el enganche (`actual->siguiente = anterior`) y avanzás. La nueva cabeza es el último `anterior`.",
+    "exito": "El tren sale para el otro lado con los mismos vagones. Tizón cuenta los enganches: ni uno suelto.",
+    "imagen": [
+      "Un tren de vagonetas en una vía de mina, con las cadenas de enganche dadas vuelta y brillando.",
+      "Tizón engancha una cadena; Kira empuja el último vagón."
+    ]
+  },
+  "R03-N03-M3": {
+    "lugar": "Las vías de la mina",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda quiere el inventario del tren en orden alfabético, y que se mantenga así aunque vayan subiendo cosas.\n—Cada cosa que sube va a su lugar. No al final.",
+    "gheco": "Si la lista está vacía o el objeto va antes de la cabeza (`strcmp < 0`), queda como cabeza nueva. Si no, avanzá mientras el siguiente vaya antes y enganchalo ahí. Leé hasta que `fgets` dé `NULL` y mostrá la lista después de cada uno.",
+    "exito": "El inventario queda ordenado vagón por vagón. Hulda lo copia en la tablilla sin una tachadura.",
+    "imagen": [
+      "Una fila de vagonetas con carteles de letras en orden, en una vía iluminada por faroles.",
+      "Hulda acomoda un cartel; Kira sube una caja a un vagón del medio."
+    ]
+  },
+  "R03-N04-M1": {
+    "lugar": "El montacargas",
+    "personajes": "Kira, Gheco, Tizón, Hulda",
+    "escena": "El montacargas tiene lugar para tres bolsas, una encima de otra. Las traen Kira, Hulda, Chispa y Ferrum. Tizón ya aprendió la lección y no sube su almuerzo.",
+    "gheco": "Un struct con un array de 3 `Bolsa` y un tope. `apilar` falla si está lleno; `desapilar` saca la de arriba y falla si está vacío. La última que subió es la primera que baja.",
+    "exito": "La bolsa de Ferrum no entra y se queda en el piso. Tizón saca su almuerzo de abajo de todo, en otro viaje, y por fin come.",
+    "imagen": [
+      "Un montacargas de madera y hierro con tres bolsas apiladas y una cuarta, grande, en el piso.",
+      "Hulda tira de la cadena del montacargas; Tizón mira su almuerzo con hambre."
+    ]
+  },
+  "R03-N04-M2": {
+    "lugar": "El Archivo de planos",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "El Archivero desconfía de los planos de Chispa: dice que abre paréntesis y llaves y nunca los cierra. Chispa jura que sí.\n—Revisalos vos —le dice a Kira—, que a mí no me cree.",
+    "gheco": "Una pila de `char`: cada `(`, `[` o `{` se apila. Cada cierre tiene que coincidir con el tope; si no coincide o la pila está vacía, no está balanceado. Al final de la línea, la pila tiene que quedar vacía.",
+    "exito": "Dos planos de Chispa no cierran. Él dice que eran borradores y se los guarda en el bolsillo.",
+    "imagen": [
+      "Una mesa de archivo con planos enrollados y desplegados llenos de símbolos de paréntesis y llaves.",
+      "Chispa (mercader alto y flaco con bufanda naranja) esconde un plano detrás de la espalda; Kira revisa otro."
+    ]
+  },
+  "R03-N04-M3": {
+    "lugar": "La fila de vagonetas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "En la boca de la mina, las vagonetas salen en el orden en que llegaron. Hulda le da a Kira el silbato.\n—Vos ordenás la fila. Y al final de la jornada, me decís cuántas quedaron.",
+    "gheco": "Una cola con punteros al `frente` y al `fondo`. `llega` engancha al fondo; `sale` saca el del frente (si está vacía, avisá). Al terminar, contá las que quedaron y liberalas una por una.",
+    "exito": "Ninguna vagoneta se cuela. Hulda le deja el silbato a Kira, «para mañana también».",
+    "imagen": [
+      "Una fila de vagonetas cargadas de mineral esperando en la boca de la mina.",
+      "Kira toca un silbato; Hulda, con los brazos cruzados, controla la fila."
+    ]
+  },
+  "R03-N05-M1": {
+    "lugar": "El tablero de palancas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda arma en el tablero tres palancas para revisar la horda: una para los vivos, una para los peligrosos y una para los heridos.\n—La misma función de filtrar. Lo que cambia es la palanca que le pasás.",
+    "gheco": "`typedef bool (*Condicion)(const Enemigo *);` Cada condición recibe un enemigo y devuelve `true` o `false`. `filtrar` recorre la horda, llama a `cumple(&v[i])` y guarda en `salida` los punteros de los que cumplen.",
+    "exito": "Las tres listas salen de la misma función. Hulda pinta cada palanca de un color distinto.",
+    "imagen": [
+      "Un tablero de bronce en la pared de la mina con tres palancas pintadas de colores distintos.",
+      "Hulda baja una palanca; Kira lee una lista de enemigos."
+    ]
+  },
+  "R03-N05-M2": {
+    "lugar": "Lo más hondo de las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "En lo más hondo de la mina, Hulda le muestra a Kira sus tres conjuros de minera: fuego, curar y meditar. Los tiene anotados en una tabla, cada uno con su costo.\n—Si no te alcanza el maná, no se tira. Y si me decís uno que no existe, te miro mal.",
+    "gheco": "Una tabla de structs con la orden, el costo y un puntero a la función. Para cada orden, buscala en la tabla: si no está, avisá; si el maná no alcanza, avisá; si no, restá el costo y llamá a la función.",
+    "exito": "Hulda tira un fuego que ilumina toda la galería. Después medita, sentada en una vagoneta, muy tranquila.",
+    "imagen": [
+      "Una galería profunda iluminada por una llamarada naranja que sale de las manos de una enana.",
+      "Hulda lanza el fuego con el pico en la otra mano; Kira, detrás, lleva una tabla anotada."
+    ]
+  },
+  "R03-N05-M3": {
+    "lugar": "El tablero de palancas",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum quiere ver la armería ordenada de tres formas distintas, según el día: por nombre, por daño o por peso.\n—Una sola palanca que elija cómo ordenar.",
+    "gheco": "Tres comparadores con la firma de `qsort` y un array `int (*criterios[])(const void *, const void *)`. Para comparar `double` sin restar: `(a > b) - (a < b)`. Cada número leído elige el comparador.",
+    "exito": "La armería se reordena sola tres veces. Ferrum se queda con la de peso, «para la mudanza».",
+    "imagen": [
+      "Una armería con armas colgadas en orden, y un tablero con una palanca de tres posiciones.",
+      "Maese Ferrum (herrero humano enorme de barba gris trenzada y ojo naranja) mueve la palanca; Kira mira las armas."
+    ]
+  },
+  "R03-N06-M1": {
+    "lugar": "Lo más hondo de las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "criatura": "dragon",
+    "escena": "La Sanguijuela se acerca y Hulda quiere el registro de la horda al día: quién llega, quién recibe un golpe, quién cae.\n—Y cada nombre que se anote con memoria propia, se devuelve. Si no, la Sanguijuela se lo come.",
+    "gheco": "Cada nombre va con `malloc(strlen(nombre) + 1)` y su `free` cuando el enemigo cae. Mostrá cada orden con `> ` antes de procesarla. Validá los datos y no repitas nombres.",
+    "exito": "La Sanguijuela olfatea el registro y no encuentra nada que morder. Retrocede un metro, ofendida.",
+    "imagen": [
+      "Una sanguijuela enorme y translúcida, violeta oscura, con vagonetas tragadas visibles dentro de su cuerpo, al fondo de un túnel.",
+      "Hulda sostiene el registro; Kira la ilumina con un farol."
+    ]
+  },
+  "R03-N06-M2": {
+    "lugar": "Lo más hondo de las Minas",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón trae un programa que cava tres túneles. Parece que anda, pero la Sanguijuela lo mordió: tiene tres errores de memoria escondidos.\n—En tu compu, la lámpara del sanitizador los muestra. Acá, arreglalos igual.",
+    "gheco": "Buscá tres cosas: algo que se usa después de `free`, algo que se escribe fuera del bloque pedido y algo que se pide y nunca se libera. En tu compu, `gcc -g -fsanitize=address` te marca la línea de cada uno. Agregá los controles de `NULL`. Al final, «Bloques sin devolver» tiene que dar 0.",
+    "exito": "Los tres túneles quedan firmes. Tizón apaga la lámpara y la Sanguijuela, sin nada que morder, se aleja.",
+    "imagen": [
+      "Tres túneles de mina reforzados con vigas nuevas, iluminados por una lámpara de luz blanca muy brillante.",
+      "Tizón sostiene la lámpara; Kira clava una viga."
+    ]
+  }
+}

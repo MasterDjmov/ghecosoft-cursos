@@ -17,6 +17,9 @@ import WebSocket from 'ws';
 const args = process.argv.slice(2);
 const casesFile = args.find((a) => !a.startsWith('--'));
 const nodePath = (args.find((a) => a.startsWith('--nodo=')) ?? '').slice(7);
+// --salidas=archivo.json: guarda lo que dio el navegador en cada caso ({nombre: salida}), para usarlo de salida
+// esperada donde el navegador da distinto a propósito (rand(), sizeof(long): D98).
+const outputsFile = (args.find((a) => a.startsWith('--salidas=')) ?? '').slice(10);
 const BASE = process.env.APP_URL ?? 'http://localhost:8000';
 const CHROME = process.env.CHROME ?? '/usr/bin/google-chrome';
 const PROFILE = process.env.PERFIL ?? path.join(os.tmpdir(), 'ghecosoft-clang-perfil');
@@ -90,6 +93,7 @@ for (let i = 0; i < 150; i++) {
 console.log('Página:', await evaluate('document.title'));
 
 let bad = 0;
+const outputs = {};
 for (const c of cases) {
     const output = await evaluate(`(async () => {
         const d = Alpine.$data(document.querySelector('[x-data^=codeRunner]'));
@@ -100,12 +104,15 @@ for (const c of cases) {
     })()`);
     // Si el compilador avisó algo, la salida trae su parte antes de «── Programa ──».
     const program = (output ?? '').includes('── Programa ──\n') ? output.split('── Programa ──\n')[1] : output ?? '';
-    const ok = program.replace(/\n+$/, '') === c.expected.replace(/\n+$/, '');
+    // Como la plataforma (compare.js): sin espacios al final de cada línea ni líneas vacías en las puntas.
+    outputs[c.name] = program.replace(/[ \t]+$/gm, '').replace(/^\n+|\n+$/g, '');
+    const ok = outputs[c.name] === c.expected.replace(/[ \t]+$/gm, '').replace(/^\n+|\n+$/g, '');
     if (!ok) bad++;
     console.log(`${ok ? 'ok ' : 'MAL'} ${c.name}`);
     if (!ok) console.log(`   esperaba:\n${c.expected}\n   salió:\n${output}`);
 }
 console.log(`${cases.length - bad} de ${cases.length} iguales en el navegador`);
+if (outputsFile) fs.writeFileSync(outputsFile, JSON.stringify(outputs, null, 1));
 ws.close();
 chrome.kill();
 process.exit(bad ? 1 : 0);

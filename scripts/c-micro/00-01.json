@@ -1,0 +1,368 @@
+{
+  "R00-N01-M1": {
+    "lugar": "La boca de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "En la entrada, Ferrum le alcanza a Kira una chapa de hierro en blanco.\n—Todo aprendiz que entra a las Forjas deja su ficha clavada en el portón. Que quede derecha.",
+    "gheco": "`\\t` es un tabulador: salta hasta la próxima columna y deja los datos alineados. Cada línea termina con `\\n`.",
+    "exito": "Ferrum clava la ficha en el portón, al lado de cien fichas viejas.\n—Derecha. Bienvenida a las Forjas.",
+    "imagen": [
+      "Un portón de hierro gigante cubierto de fichas metálicas clavadas, con el resplandor naranja de los hornos detrás.",
+      "Kira (pelo negro corto con un mechón cian, traje negro ajustado con líneas cian) sostiene una chapa nueva; Maese Ferrum (herrero humano enorme, barba gris trenzada, ojo derecho naranja, delantal de cuero) la mira con los brazos cruzados."
+    ]
+  },
+  "R00-N01-M2": {
+    "lugar": "La boca de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "slime",
+    "escena": "Tizón encuentra un pergamino chamuscado tirado en la entrada: es la primera receta de un aprendiz que ya no está. El Horno se lo devuelve lleno de quejas.\n—Tiene tres errores —dice Tizón—. Yo cuento tres. ¿Vos?",
+    "gheco": "Leé los mensajes de a uno, del primero al último: falta el `#include <stdio.h>`, un `;` al final de una línea y `printf` va en minúscula (C distingue mayúsculas).",
+    "exito": "El pergamino pasa por el Horno sin una queja. Tizón lo dobla con cuidado y se lo guarda en la libreta.",
+    "imagen": [
+      "Un pergamino chamuscado en el piso de piedra, frente a la boca roja de un horno enorme; un slime verde de escoria se escurre por el borde.",
+      "Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente) le muestra el pergamino a Kira con el dedo en un renglón."
+    ],
+    "inicial": "int main(void) {\n    printf(\"Kira conoce a Tizon.\\n\")\n    Printf(\"Tizon es aprendiz de herrero.\\n\");\n    return 0;\n}"
+  },
+  "R00-N01-M3": {
+    "lugar": "La boca de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Kira le pide a Ferrum ver su espada. Él se ríe y señala la pared:\n—Dibujala vos. Si la dibujás bien, algún día la vas a forjar.",
+    "gheco": "Adentro de un texto, la barra se escribe `\\\\` y la comilla `\\\"`: si no, C cree que el texto termina ahí.",
+    "exito": "La espada queda dibujada en la pared, con la frase debajo. Ferrum la mira un rato largo y no dice nada, que en él es un elogio.",
+    "imagen": [
+      "Una pared de piedra con una espada grande dibujada con trazos blancos de tiza, en la entrada de la Forja.",
+      "Kira, con la tiza en la mano, mira el dibujo; Maese Ferrum, enorme, se rasca la barba trenzada."
+    ]
+  },
+  "R01-N01-M1": {
+    "lugar": "El depósito de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón quiere su ficha de aprendiz en el depósito, con cada dato en el cajón que le corresponde. Le dicta a Kira: nivel, experiencia, crítico, rango, escudo y flechas.\n—Y no me pongas la experiencia en un cajón chico. Es mucha.",
+    "gheco": "3 500 millones no entran en un `int` (llega a unos 2 100 millones): usá `long long` con `%lld`. `char` va con `%c`, `double` con `%.2f`, `bool` (de `<stdbool.h>`) se muestra con `%d` y `unsigned` con `%u`.",
+    "exito": "Tizón revisa cada cajón con el calibre y asiente seis veces. Después anota en la libreta: «experiencia: no entra en int».",
+    "imagen": [
+      "Un depósito de piedra con cajones de hierro de distintos tamaños, uno enorme con un brillo dorado.",
+      "Tizón (enano joven pelirrojo con antiparras en la frente y un calibre de bronce al cuello) mide un cajón; Kira acomoda fichas de metal."
+    ]
+  },
+  "R01-N01-M2": {
+    "lugar": "El depósito de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "ogro",
+    "escena": "En el depósito hay un cofre chiquito de 8 bits con 255 monedas. Kira le agrega una más y el cofre hace *clic*: queda en cero.\n—Otra vez —suspira Tizón—. Este cofre ya se comió el sueldo de tres aprendices.",
+    "gheco": "Un `uint8_t` (de `<stdint.h>`) va de 0 a 255: al sumarle 1 vuelve a 0. Mostrá lo que pasa y después usá un tipo más grande, como `int` o `uint16_t`.",
+    "exito": "Las 256 monedas entran en el cofre nuevo. Tizón pega un cartel en el viejo: «máximo 255».",
+    "imagen": [
+      "Un cofre de hierro chiquito abierto y vacío al lado de un cofre grande lleno de monedas de cobre.",
+      "Kira mira el cofre vacío con cara de sorpresa; un ogro torpe de piel gris espía detrás de las estanterías."
+    ]
+  },
+  "R01-N01-M3": {
+    "lugar": "El depósito de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón quiere colgar en la pared del depósito la tabla de todos los cajones: cuánto ocupa cada uno y qué es lo más chico y lo más grande que entra.\n—Así nadie más pierde clavos.",
+    "gheco": "`sizeof(tipo)` da los bytes (se muestra con `%zu`) y `<limits.h>` trae `CHAR_MIN`, `INT_MAX`, `LONG_MAX`, `UINT_MAX`… Ojo: el tamaño de `long` depende de la máquina. Acá, en el navegador, mide 4 bytes; en Linux de 64 bits, 8.",
+    "exito": "La tabla queda colgada en la pared del depósito. Tizón le subraya la fila de `long` con tiza: «depende de la máquina».",
+    "imagen": [
+      "Una pared del depósito con una tabla grande pintada en una chapa, junto a cajones de cinco tamaños distintos.",
+      "Tizón, subido a un banquito, cuelga la chapa; Kira se la sostiene desde abajo."
+    ],
+    "salida_navegador": true
+  },
+  "R01-N02-M1": {
+    "lugar": "El horno de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum da vuelta un reloj de arena enorme al lado del horno.\n—Este lingote se templa 4000 segundos. Decime cuántas horas, minutos y segundos son, que no pienso contar granos.",
+    "gheco": "Con enteros: `4000 / 3600` son las horas y `4000 % 3600` lo que sobra. Del sobrante salen los minutos y los segundos igual, con `/ 60` y `% 60`. `%02d` rellena con un cero adelante.",
+    "exito": "A la hora, seis minutos y cuarenta segundos exactos, Ferrum saca el lingote. Ni un grano de más.",
+    "imagen": [
+      "Un reloj de arena de bronce enorme al lado de un horno encendido, con un lingote al rojo adentro.",
+      "Maese Ferrum (herrero humano enorme de barba gris trenzada y ojo naranja) da vuelta el reloj; Kira lo mira con una libreta."
+    ]
+  },
+  "R01-N02-M2": {
+    "lugar": "El mostrador de la Forja",
+    "personajes": "Kira, Gheco, Chispa, Hulda",
+    "escena": "Para cruzar el Puente del Juicio hay que tener nivel 5 o más, y llave o magia, y no estar maldito. Chispa jura que él pasa. Hulda se cruza de brazos.\n—Hacé las cuentas, Kira. Con paréntesis.",
+    "gheco": "`&&` es «y», `||` es «o» y `!` es «no». `&&` pesa más que `||`: sin los paréntesis de `(llave || magia)`, la regla se lee de otra forma y deja pasar a quien no debería.",
+    "exito": "El puente deja pasar a Kira y a Hulda. A Chispa, maldito, lo frena en la primera tabla. Él se acomoda la bufanda como si nada.",
+    "imagen": [
+      "Un puente de piedra estrecho sobre un río de lava, con un arco de entrada tallado.",
+      "Hulda (enana fortísima con casco de minera y farol naranja, trenzas grises y negras) cruza detrás de Kira; Chispa (mercader alto y flaco con bufanda naranja) se queda del otro lado."
+    ]
+  },
+  "R01-N02-M3": {
+    "lugar": "El yunque de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum escribe siete cuentas en la pizarra del yunque.\n—Primero decime qué da cada una. Después la probás. Un herrero que no sabe qué va a pasar antes de golpear se queda sin dedos.",
+    "gheco": "Primero se hacen `*`, `/` y `%`, después `+` y `-`. `20 / 6` entre enteros da 3, y `(double) ataque / defensa` convierte antes de dividir. `cond ? a : b` elige uno de los dos.",
+    "exito": "Ferrum compara la pizarra con la salida. Borra con el pulgar las dos predicciones que Kira había errado y le da la tiza otra vez.",
+    "imagen": [
+      "Un yunque grande con una pizarra de piedra al lado llena de cuentas en tiza.",
+      "Maese Ferrum señala la pizarra con el martillo; Kira piensa con la tiza en la boca."
+    ]
+  },
+  "R01-N03-M1": {
+    "lugar": "El tablero de los aprendices",
+    "personajes": "Kira, Gheco, Tizón, Hulda",
+    "escena": "En el tablero de los aprendices, cada uno tiene una fila de lucecitas: nadar, trepar, forjar, curar, sigilo. Hulda acaba de aprender a nadar y Tizón tiene la mano vendada.\n—Actualizá las luces —le pide Hulda a Kira—, y decime quién sabe moverse sin hacer ruido.",
+    "gheco": "Cada habilidad es un bit: `#define NADAR (1u << 0)`, `TREPAR (1u << 1)`… Prender: `|=`. Apagar: `&= ~TREPAR`. Juntar las de todos: `|`. Las comunes: `&`.",
+    "exito": "Las luces del tablero cambian solas. La de sigilo queda apagada en todas las filas, y Hulda mira a Kira con una ceja levantada.",
+    "imagen": [
+      "Un tablero de bronce en la pared con filas de lucecitas cian y naranjas, algunas prendidas.",
+      "Hulda (enana minera con casco de farol naranja) mira el tablero; Tizón, con una mano vendada, señala su fila."
+    ]
+  },
+  "R01-N03-M2": {
+    "lugar": "El taller de marcar",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón tiene que pintar un escudo en gris pero solo tiene el número del color azul: `0x3366CCFF`.\n—Ahí adentro están el rojo, el verde, el azul y la transparencia. Sacámelos.",
+    "gheco": "Cada canal ocupa 8 bits: el rojo es `(color >> 24) & 0xFF`, el verde `>> 16`, el azul `>> 8` y el alfa son los últimos 8. Para armarlo de nuevo: `(g << 24) | (g << 16) | (g << 8) | a`.",
+    "exito": "El escudo sale de la pintura gris parejo, sin una mancha azul. Tizón lo cuelga a secar orgulloso.",
+    "imagen": [
+      "Un escudo de metal recién pintado de gris colgado a secar, y al lado tarros de pintura roja, verde y azul.",
+      "Tizón, con las antiparras puestas, mezcla pintura; Kira sostiene el escudo azul original."
+    ]
+  },
+  "R01-N03-M3": {
+    "lugar": "El pañol de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "En la puerta del pañol, Tizón le muestra a Kira sus trucos con las palancas: saber si un número es impar sin dividir y multiplicar con un empujón.\n—Los aprendí de memoria. Ahora probalos vos.",
+    "gheco": "`n & 1` vale 1 si `n` es impar. `n & (n - 1)` da 0 solo en las potencias de 2. `x << 1` multiplica por 2 y `x >> 1` divide por 2.",
+    "exito": "Todos los trucos dan bien a la primera. Tizón hace como que no le sorprende y anota uno nuevo en la libreta.",
+    "imagen": [
+      "Una puerta de hierro con una cerradura de ocho palancas de bronce, algunas arriba y otras abajo.",
+      "Tizón mueve dos palancas a la vez; Kira, al lado, cuenta con los dedos."
+    ]
+  },
+  "R01-N04-M1": {
+    "lugar": "La ventanilla de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "orco",
+    "escena": "Un orco hace guardia en el camino a las minas. Tizón le pregunta a Kira cuánto pega y cuánto aguanta el orco, para saber cuántos golpes hacen falta antes de salir.",
+    "gheco": "Leé cada número con `fgets` y `sscanf`. El crítico es el doble del daño. Para redondear hacia arriba con enteros: `(vida + danio - 1) / danio`. `%4d` alinea a la derecha en 4 lugares.",
+    "exito": "Con la cuenta en la mano, Kira sale con los golpes contados. Tizón le grita desde la ventanilla:\n—¡Y no gastes uno de más!",
+    "imagen": [
+      "Una ventanilla de piedra con un mostrador de madera y papeles con números.",
+      "Tizón le pasa una hoja a Kira por la ventanilla; a lo lejos, en el camino, un orco verde con un hacha hace guardia."
+    ]
+  },
+  "R01-N04-M2": {
+    "lugar": "El mostrador de pedidos",
+    "personajes": "Kira, Gheco, Tizón, Hulda, Chispa",
+    "escena": "Para la expedición a las minas, Ferrum quiere la tabla de la compañía clavada en el mostrador: nombre, nivel, vida y precisión de cada uno, y el oro del grupo.\n—Derecha esta vez —dice Tizón, con el calibre ya en la mano.",
+    "gheco": "`%-8s` alinea un texto a la izquierda en 8 lugares, `%5d` un número a la derecha y `%6.1f` un decimal. `%08d` rellena con ceros: `00004250`.",
+    "exito": "Tizón le pasa el calibre a cada columna. Ni un espacio corrido. La clava él mismo en el mostrador.",
+    "imagen": [
+      "Un mostrador de madera con una tabla prolija clavada en la pared, junto a una bolsa de monedas.",
+      "Kira, Tizón, Hulda y Chispa están parados en fila delante del mostrador, cada uno con su equipo."
+    ]
+  },
+  "R01-N04-M3": {
+    "lugar": "La ventanilla de la Forja",
+    "personajes": "Kira, Gheco, Chispa",
+    "criatura": "goblin",
+    "escena": "Chispa vuelve a la ventanilla a anotar su altura. La dice de tres formas: «1.80», «1,80» y «uno ochenta». El escriba anota lo que puede y un goblin se escapa del formulario.\n—Fijate qué entendió en cada caso —le pide a Kira.",
+    "gheco": "`sscanf` devuelve **cuántos datos convirtió**. Con `1,80` lee el 1 y se frena en la coma. Esa es la peligrosa: dice que convirtió uno y el número quedó mal.",
+    "exito": "Con la cuenta de `sscanf` a la vista, el escriba ya no anota cualquier cosa. El goblin vuelve a meterse en el formulario, aburrido.",
+    "imagen": [
+      "Una ventanilla con un formulario de papel del que se asoma un goblin verde y chiquito.",
+      "Chispa (mercader alto y flaco con sombrero de ala corta y bufanda naranja) se estira para parecer más alto; Kira toma nota."
+    ]
+  },
+  "R01-N05-M1": {
+    "lugar": "El horno de tres temperaturas",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum mete una barra de hierro al horno.\n—El color dice cómo está el metal. Te digo la temperatura y vos me decís el color. Y si te digo una tontería, decímelo también.",
+    "gheco": "Una cadena de `if` / `else if` va de lo más chico a lo más grande: menos de 500, menos de 900… Si `sscanf` no convirtió 1 dato o la temperatura es negativa, avisá antes de seguir.",
+    "exito": "Ferrum saca la barra justo cuando sale «naranja (ideal para forjar)». Golpea una vez y la barra queda recta.",
+    "imagen": [
+      "Una barra de hierro al rojo naranja saliendo de la boca de un horno con tres hornallas de colores distintos.",
+      "Maese Ferrum sostiene la barra con unas tenazas largas; Kira lee una tabla de colores."
+    ]
+  },
+  "R01-N05-M2": {
+    "lugar": "El mostrador de pedidos",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Chispa trae un pedido y la cuenta escrita de un tirón: «12.5 * 4». Siempre se equivoca en el mismo lugar.\n—Hacé una calculadora que me lo resuelva. Así no discuto más con Tizón.",
+    "gheco": "`sscanf(linea, \"%lf %c %lf\", &a, &op, &b)` tiene que devolver 3. Después, un `switch (op)` con un `case` por operador: `case '*': case 'x':` comparten la misma cuenta. Antes de dividir, fijate que `b` no sea 0.",
+    "exito": "Chispa prueba la calculadora con tres pedidos y no le encuentra la vuelta. Por primera vez, cobra lo justo.",
+    "imagen": [
+      "Un mostrador con una calculadora mecánica de bronce con palancas y un rollo de papel.",
+      "Chispa, con su diente de oro a la vista, mira la calculadora desconfiado; Kira le muestra el resultado."
+    ]
+  },
+  "R01-N05-M3": {
+    "lugar": "El patio de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "En el patio, Tizón arma un juego con un dado de veinte caras para practicar los golpes.\n—Con un 1 te caés solo. Con un 20, golpe perfecto. Y si no, sumá tu bonificación y fijate si llegás.",
+    "gheco": "Primero los casos especiales: si es 1, pifia; si es 20, crítico. Después, `tirada + 3 >= 15` decide si acierta. Validá que la tirada esté entre 1 y 20.",
+    "exito": "Kira tira el dado, saca 20 y la salida dice «crítico». Tizón le revisa el dado dos veces, por las dudas.",
+    "imagen": [
+      "Un dado grande de veinte caras rodando sobre las piedras del patio de la Forja.",
+      "Tizón se agacha a ver el dado; Kira festeja con los brazos arriba."
+    ]
+  },
+  "R01-N06-M1": {
+    "lugar": "El yunque de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum le enseña a Kira el ritmo de la forja: se cuenta del 1 al 30; cada tres, martillo; cada cinco, yunque; y cuando coinciden, los dos a la vez.\n—Sin perder la cuenta.",
+    "gheco": "Un `for (int i = 1; i <= 30; i++)`. Preguntá primero por los dos a la vez (`i % 15 == 0`); si no, por 3 y por 5; si no, mostrás el número.",
+    "exito": "Ferrum y Kira golpean a dúo los treinta golpes. El yunque suena como una canción.",
+    "imagen": [
+      "Un yunque con chispas saltando y dos martillos levantados al mismo tiempo.",
+      "Maese Ferrum y Kira golpean juntos el mismo hierro al rojo."
+    ]
+  },
+  "R01-N06-M2": {
+    "lugar": "El depósito de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Kira quiere juntar 1000 de oro para una espada de verdad. Ferrum le abre un cofre:\n—Poné 50 cada semana y yo te sumo un cinco por ciento de lo que tengas. Decime cuándo llegás.",
+    "gheco": "Un `while (ahorro < 1000)`: en cada vuelta sumás 50, después el 5 % (`ahorro * 0.05`) y contás la semana. Para mostrar cada 4 semanas: `if (semana % 4 == 0)`.",
+    "exito": "Kira pega el plan en la tapa del cofre. Ferrum lo lee y agrega abajo, con su letra: «sin trampas».",
+    "imagen": [
+      "Un cofre de madera con refuerzos de hierro, con monedas de oro apiladas al lado en torres de distinta altura.",
+      "Maese Ferrum deja caer unas monedas en el cofre; Kira las cuenta."
+    ]
+  },
+  "R01-N06-M3": {
+    "lugar": "La taberna de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "En la taberna hay un oráculo de bronce que piensa un número del 1 al 50. Kira tiene seis intentos. Tizón le avisa:\n—Si le decís cualquier cosa que no sea un número, no te lo cuenta. Pero tampoco te lo regala.",
+    "gheco": "Repetí mientras queden intentos y no haya acertado. Si `sscanf` no lee un número o está fuera de 1 a 50, avisá y **no** sumes el intento. Si no, «más alto», «más bajo» o «correcto».",
+    "exito": "El oráculo hace sonar una campanita y le da a Kira una moneda de bronce. Tizón dice que él lo adivinaba en menos.",
+    "imagen": [
+      "Una cabeza de bronce con ojos encendidos sobre una mesa de la taberna, rodeada de jarras.",
+      "Kira se inclina hacia el oráculo; Tizón la mira desde la barra."
+    ]
+  },
+  "R01-N07-M1": {
+    "lugar": "El patio de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "orco",
+    "escena": "Tizón dibuja en el piso del patio las reglas del combate, cada una en su recuadro: cuándo es crítico, cuánto daño se hace, qué tirada toca en cada turno.\n—Una regla, una función. Después simulá a Kira contra el orco.",
+    "gheco": "`es_critico(tirada)` devuelve 1 si `tirada >= 15`. `danio_final` resta la defensa, nunca da menos de 1 y duplica si es crítico. En el `main`, un bucle de hasta 5 turnos que corta si el orco cae.",
+    "exito": "El orco de práctica, de bolsas de arena, cae en el turno que decía la simulación. Tizón tacha el recuadro con una cruz.",
+    "imagen": [
+      "Un muñeco de práctica con forma de orco, hecho de bolsas de arena, en el patio de piedra con recuadros dibujados con tiza.",
+      "Kira, con una espada de práctica, golpea el muñeco; Tizón anota los turnos en la libreta."
+    ]
+  },
+  "R01-N07-M2": {
+    "lugar": "El taller de los martillos",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda le presta a Kira su caja de herramientas, pero con una condición:\n—Cada herramienta hace una sola cosa. Y si una puede usar a otra, la usa. No me tuerzas ningún mango.",
+    "gheco": "`maximo(a, b)` y `minimo(a, b)` devuelven uno de los dos. `limitar(valor, min, max)` es `minimo(maximo(valor, min), max)`. `es_par(n)` devuelve `n % 2 == 0`.",
+    "exito": "Hulda revisa la caja y no falta nada. Le deja a Kira el martillo chico, «para que practique».",
+    "imagen": [
+      "Una caja de herramientas de madera abierta, con martillos de distintos tamaños ordenados en hilera.",
+      "Hulda (enana fortísima con casco de minera, trenzas grises y negras) le pasa un martillo a Kira."
+    ]
+  },
+  "R01-N07-M3": {
+    "lugar": "El libro de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum abre el libro de la Forja en las dos páginas raras: las que se remiten a sí mismas.\n—Estos dos hechizos se resuelven pidiéndose ayuda a ellos mismos. Pero siempre con un final, o no terminan nunca.",
+    "gheco": "`potencia(base, exp)`: si `exp == 0` devuelve 1; si no, `base * potencia(base, exp - 1)`. `suma_digitos(n)`: si `n < 10` devuelve `n`; si no, `n % 10 + suma_digitos(n / 10)`.",
+    "exito": "Las dos páginas brillan un instante y quedan firmadas con el nombre de Kira, al lado de las de los maestros.",
+    "imagen": [
+      "Un libro de hierro enorme abierto sobre un atril, con dos páginas que brillan en naranja.",
+      "Maese Ferrum pasa una página con cuidado; Kira lee por encima de su brazo."
+    ]
+  },
+  "R01-N08-M1": {
+    "lugar": "El taller de marcar",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón le pide a Kira que talle los sellos nuevos del taller: uno para el área de una chapa, uno para el menor de dos números y uno que diga si el horno está en rango.\n—Con todos los paréntesis. No quiero más herraduras banana.",
+    "gheco": "Cada parámetro y la macro entera van entre paréntesis: `#define AREA(b, h) ((b) * (h))`. Así `AREA(3+1, 2)` da 8 y no 5. Las cajas completas salen con `/` y lo que sobra, con `%`.",
+    "exito": "Tizón prueba cada sello con los números más raros que se le ocurren. Ninguno se tuerce.",
+    "imagen": [
+      "Una mesa de trabajo con sellos de bronce recién tallados alineados, y chapas con marcas perfectas.",
+      "Tizón levanta un sello contra la luz; Kira sopla el polvo de bronce de otro."
+    ]
+  },
+  "R01-N08-M2": {
+    "lugar": "El taller de marcar",
+    "personajes": "Kira, Gheco, Tizón, Maese Ferrum",
+    "criatura": "ogro",
+    "escena": "Ferrum deja una caja de herraduras torcidas en la mesa de Tizón. Al lado, los tres sellos culpables.\n—Arreglalos —le dice a Kira—. Y mostrale a Tizón cuánto daban antes, para que no se le olvide más.",
+    "gheco": "El preprocesador solo copia texto: `CUBO(2+1)` era `2+1*2+1*2+1`. Con paréntesis en cada `a` y en toda la macro, cada cuenta da lo que tiene que dar.",
+    "exito": "Las herraduras nuevas salen derechas. Tizón cuelga una banana de hierro sobre la mesa, de recuerdo.",
+    "imagen": [
+      "Una caja llena de herraduras torcidas con forma de banana sobre una mesa de taller.",
+      "Maese Ferrum sostiene una herradura torcida; Tizón, colorado, se tapa la cara con la libreta."
+    ],
+    "inicial": "#include <stdio.h>\n\n#define CUBO(a)   a*a*a\n#define DOBLE(x)  x+x\n#define MITAD(x)  x/2\n\nint main(void)\n{\n    /* Arreglá las macros y mostrá cada resultado al lado del que daba la versión rota */\n    return 0;\n}"
+  },
+  "R01-N08-M3": {
+    "lugar": "El horno de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "El horno de la Forja tiene dos modos: práctica y forja. Ferrum quiere que el mismo programa sirva para los dos, y que si alguien se olvida de elegir, ni arranque.",
+    "gheco": "`#ifndef NIVEL` + `#error` frena la compilación. Después, `#if NIVEL == 0`, `#elif NIVEL == 1`, `#else`. `#ifdef DEPURAR` agrega lo de la línea con `__LINE__`. Dejá `#define NIVEL 1` arriba.",
+    "exito": "El horno se enciende a 600 grados, ni uno más. Ferrum le pone a la palanca un cartel: «modo práctica».",
+    "imagen": [
+      "Una palanca grande con dos posiciones al lado de un horno a media llama.",
+      "Maese Ferrum baja la palanca; Kira mira un medidor de bronce."
+    ]
+  },
+  "R01-N09-M1": {
+    "lugar": "El patio de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "orco",
+    "escena": "Ahora el combate de práctica va con azar de verdad. Tizón le da a Kira dos pociones.\n—Si estás por caerte, tomá una en vez de pegar. Pero solo si te quedan.",
+    "gheco": "`srand(4)` fija la semilla. `tirar(minimo, maximo)` devuelve `minimo + rand() % (maximo - minimo + 1)`. Cada turno: si la vida es menor que 10 y hay pociones, +15; si no, atacás. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "Kira termina el combate con una poción de sobra. Tizón la guarda en su mochila, «para la próxima».",
+    "imagen": [
+      "Dos frascos de poción roja sobre un barril en el patio de la Forja.",
+      "Kira se toma una poción; un orco verde con un garrote levanta el brazo."
+    ],
+    "salida_navegador": true
+  },
+  "R01-N09-M2": {
+    "lugar": "La taberna de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "El oráculo de la taberna aprendió a pensar números al azar. Tizón le fijó la semilla para poder practicar siempre con el mismo número.\n—Cuando quieras jugar en serio, la cambiás por el reloj.",
+    "gheco": "`srand(2026)` y después `rand() % 50 + 1`. En un comentario, contá que con `srand(time(NULL))` cambia en cada partida. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otro número.",
+    "exito": "El oráculo suena la campanita. Kira acierta en cuatro intentos y Tizón dice que con la semilla así cualquiera.",
+    "imagen": [
+      "La cabeza de bronce del oráculo con los ojos encendidos y un reloj de arena al lado.",
+      "Tizón le da cuerda al oráculo con una llave; Kira está sentada enfrente."
+    ],
+    "salida_navegador": true
+  },
+  "R01-N09-M3": {
+    "lugar": "El taller de marcar",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "El sello de la Forja graba cada letra de un renglón en la chapa, pero solo sabe grabar mayúsculas y números. Tizón quiere que lo demás quede marcado distinto, y saber cuánto hubo de cada cosa.",
+    "gheco": "Leé con `getchar()` hasta `'\\n'` o `EOF`. De `<ctype.h>`: `isalpha` + `toupper` para las letras, `isdigit`, `isspace` (mostrás `_`) y el resto `?`. Llevá un contador por tipo.",
+    "exito": "La chapa sale grabada derechita, con los guiones bajos en su lugar. Tizón cuenta los signos y le dan igual que al programa.",
+    "imagen": [
+      "Una chapa larga de metal con letras mayúsculas grabadas y marcas de guion bajo entre las palabras.",
+      "Tizón pasa el dedo por la chapa; Kira apoya el sello de bronce."
+    ]
+  },
+  "R01-N10-M1": {
+    "lugar": "El mostrador de pedidos",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Mientras el Gólem de Escoria se arma en el patio, el mostrador se llena de pedidos: todos quieren armas. Chispa ofrece atender, pero Kira prefiere hacer una caja registradora que no se equivoque.",
+    "gheco": "Un menú en un bucle: pedí código y cantidad con una función que repita hasta que sean válidos. Llevá el total y la cantidad de productos. Mostrá cada línea con `%3d`, `%-16s` y `%8.2f`.",
+    "exito": "La fila del mostrador avanza sin una queja. Chispa mira la caja y se le apaga un poco el diente de oro.",
+    "imagen": [
+      "Un mostrador con una caja registradora de bronce con botones grandes, y espadas y escudos colgados detrás.",
+      "Kira cobra con la caja; Chispa, apoyado en el mostrador, cuenta monedas."
+    ]
+  },
+  "R01-N10-M2": {
+    "lugar": "El patio de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "criatura": "dragon",
+    "escena": "El Gólem de Escoria avanza por el patio con tres placas de armadura: cabeza, pecho y piernas.\n—No le pegues donde tiene placa —dice Ferrum—. Primero rompela. Después, el golpe sí entra.",
+    "gheco": "Las tres placas son bits de un `unsigned`. Cada turno, `zona = 1u << tirar(0, 2)`. Si `placas & zona`, la rompés con `placas &= ~zona`. Si no, restás el daño sin bajar de 0. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "La última placa del Gólem cae al piso con un ruido de campana. Ferrum asiente: el resto es cuestión de tiempo.",
+    "imagen": [
+      "Un gólem enorme de escoria negra con grietas de lava, con una placa de hierro cayéndose del pecho.",
+      "Kira esquiva un puño del gólem; Maese Ferrum mira desde la puerta de la Forja con el martillo al hombro."
+    ],
+    "salida_navegador": true
+  }
+}

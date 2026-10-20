@@ -452,31 +452,36 @@ Siete días, doscientas ochenta bolsas. Tizón le pone nombre al domingo en la l
 - Un calendario de piedra con siete días; el último estaba tapado con una tela.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) destapa el domingo, aliviado.
 
-### Misión R05-N01-M1 · El promedio que miente
+### Micro-misión R05-N01-P5 · El promedio que miente
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Prueba del Temple
+personajes: Kira, Gheco, Maese Ferrum
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R05-N01-M1
 ```
 
-#### Consigna
+#### Escena
+En la primera sala de la Prueba hay un programa que calcula el promedio de cinco temperaturas. Parece andar, pero Ferrum lo golpea con el martillito y suena hueco dos veces.
+—Dos errores. Encontralos.
 
+#### Gheco sugiere
+Uno se sale del array (mirá el límite del `for`) y el otro hace mal la cuenta del promedio (¿división entera?). En tu compu, `-fsanitize=address` marca el primero y `gdb` ayuda con el segundo.
+
+#### Desafío
 El código inicial calcula el promedio de cinco temperaturas y cuántas lo superan, pero tiene **dos** errores.
 
 1. Compilalo con `-g -fsanitize=address` y ejecutalo: uno de los errores aparece enseguida.
 2. Con `gdb` (o mirando el valor que devuelve `promedio`), encontrá el otro: el promedio está mal aunque no se corte nada.
 3. Corregí los dos y explicá cada uno en un comentario al principio.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El bucle ya no lee fuera del array.
 - La división se hace con decimales (`(double) suma / n`).
 - Explica los dos errores; sin avisos del sanitizador.
 
 #### Código inicial
-
 ```c
 /* Este programa deberia mostrar el promedio de las temperaturas y cuantas lo superan. Tiene dos errores. */
 #include <stdio.h>
@@ -492,7 +497,7 @@ double promedio(const int *v, int n)
 
 int main(void)
 {
-    int temperaturas[] = { 870, 905, 1210, 640, 1500 };
+    int temperaturas[] = { 870, 905, 1210, 643, 1500 };
     int n = 5;
     double p = promedio(temperaturas, n);
     int arriba = 0;
@@ -508,14 +513,12 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
-Promedio: 1025.00
+Promedio: 1025.60
 Superan el promedio: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El promedio que miente, corregido.
@@ -535,7 +538,7 @@ double promedio(const int *v, int n)
 
 int main(void)
 {
-    int temperaturas[] = { 870, 905, 1210, 640, 1500 };
+    int temperaturas[] = { 870, 905, 1210, 643, 1500 };
     int n = 5;
     double p = promedio(temperaturas, n);
     int arriba = 0;
@@ -550,28 +553,40 @@ int main(void)
 }
 ```
 
-### Misión R05-N01-M2 · Lo que no está definido
+#### Al superarla
+Ferrum golpea el programa otra vez y suena macizo. Le da a Kira la lupa de cristal, «para la próxima sala».
+
+#### Imagen
+- Una sala de piedra con espadas en soportes, una de ellas con una grieta que brilla en naranja.
+- Maese Ferrum golpea la espada con un martillito; Kira mira la grieta con una lupa.
+
+### Micro-misión R05-N01-P6 · Lo que no está definido
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Prueba del Temple
+personajes: Kira, Gheco, Tizón
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R05-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón trae un programa que en su compu anda y en la de Hulda no.
+—Tiene tres cosas que el estándar no define. Según la máquina, hace cualquier cosa.
 
+#### Gheco sugiere
+Buscá: una variable que se usa sin valor inicial, una cuenta que se pasa de `INT_MAX` y un acceso fuera de un array. En tu compu, `-fsanitize=address,undefined` los marca.
+
+#### Desafío
 El código inicial tiene **tres** comportamientos indefinidos y, según la compu, puede parecer que anda. Compilalo con `-Wall -Wextra -g -fsanitize=address,undefined`, leé las advertencias y los informes, y corregí los tres. En un comentario, explicá cada uno: por qué es indefinido y cómo lo arreglaste.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Inicializa `total`.
 - Usa `long long` para el factorial (13! no entra en `int`).
 - Separa `x++ + x++` en pasos.
 - Sin advertencias ni informes del sanitizador.
 
 #### Código inicial
-
 ```c
 /* Tiene tres comportamientos indefinidos. En tu compu puede "andar". Encontralos. */
 #include <stdio.h>
@@ -601,15 +616,13 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 1 + 2 + 3 = 6
 13! = 6227020800
 y = 11
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Lo que no esta definido, corregido.
@@ -645,30 +658,42 @@ int main(void)
 }
 ```
 
-### Misión R05-N01-M3 · La escalera sin fin
+#### Al superarla
+El programa da lo mismo en todas las compus. Tizón lo prueba en tres, por las dudas.
+
+#### Imagen
+- Tres yunques en fila, cada uno con una pieza de metal de forma distinta.
+- Tizón compara las piezas con su calibre; Kira escribe en la libreta.
+
+### Micro-misión R05-N01-P7 · La escalera sin fin
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Prueba del Temple
+personajes: Kira, Gheco, Maese Ferrum
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R05-N01-M3
 ```
 
-#### Consigna
+#### Escena
+En la sala hay una escalera de piedra que baja de a dos escalones. Con 4 se llega al fondo; con 5, se sigue bajando para siempre.
+—Arreglale el final —dice Ferrum.
 
+#### Gheco sugiere
+La suma baja de a 2: con un número impar nunca llega a 0. El caso base tiene que frenar cuando `n <= 0`, no solo cuando `n == 0`.
+
+#### Desafío
 El código inicial calcula con recursión la suma `n + (n - 2) + (n - 4) + …`. Con 4 anda, pero con 5 se corta con `Segmentation fault`.
 
 1. Ejecutalo dentro de `gdb` (`run`) y, cuando se corte, usá `backtrace` (`bt`). ¿Qué ves en los valores de `n`?
 2. Explicá por qué la recursión no termina y corregí el caso base.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `gdb` y `backtrace` para diagnosticar (lo explica en un comentario).
 - Corrige el caso base para que atrape los valores menores o iguales a 0.
 - Muestra los dos resultados.
 
 #### Código inicial
-
 ```c
 /* Se corta con "Segmentation fault". Usa gdb y "backtrace" para ver por que. */
 #include <stdio.h>
@@ -690,14 +715,12 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 Escalones de 4: 6
 Escalones de 5: 9
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - La escalera sin fin, corregida.
@@ -722,6 +745,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+La escalera ahora termina siempre. Ferrum baja por ella con el impar más grande que se le ocurre y vuelve a subir.
+
+#### Imagen
+- Una escalera de piedra en espiral que baja hacia la oscuridad, con escalones numerados.
+- Maese Ferrum baja con un farol; Kira cuenta desde arriba.
 
 ### Encargo R05-N01-E1 · El cajero que redondea mal
 
@@ -1316,33 +1346,48 @@ Tres de tres. Chispa recupera su centavo y lo festeja como un tesoro. Después c
 - Una balanza de bronce con un centavo de cobre que vuelve volando a la mano de un cliente.
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) pálido, haciendo cuentas.
 
-### Misión R05-N02-M1 · Probar el bisiesto
+### Micro-misión R05-N02-P5 · Probar el bisiesto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Prueba del Temple
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R05-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Tizón tiene un martillo de prueba para cada regla del año bisiesto y quiere usarlos todos.
+—Divisible por 4, por 100, por 400. Cada parte, su golpe.
 
+#### Gheco sugiere
+Con `VERIFICAR(condicion)` probá un caso de cada parte de la regla: 2024 (sí), 2023 (no), 1900 y 2100 (no), 2000 y 2400 (sí). `RESUMEN()` muestra cuántas pasaron.
+
+#### Desafío
 Con el mini framework (`VERIFICAR` y `RESUMEN`), escribí las pruebas de `es_bisiesto`. Elegí casos que cubran **cada parte** de la regla: divisible por 4, no divisible por 4, divisible por 100 pero no por 400 (dos casos) y divisible por 400 (dos casos). El programa devuelve 0 si pasan todas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cubre las cuatro partes de la regla, con casos límite como 1900, 2000 y 2100.
 - Usa el mini framework y muestra el resumen.
 - Devuelve 0 si todo pasa.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 6 pruebas: 6 bien, 0 mal
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 1 - Probar el bisiesto con los casos que importan. */
 #include <stdio.h>
@@ -1380,27 +1425,39 @@ int main(void)
 }
 ```
 
-### Misión R05-N02-M2 · Encontrar el bug con pruebas
+#### Al superarla
+Todos los martillos suenan bien. Tizón se emociona tanto que prueba un séptimo caso, por las dudas.
+
+#### Imagen
+- Una pared con martillos de prueba colgados, cada uno con una etiqueta de un año distinto.
+- Tizón descuelga un martillo con los ojos brillantes; Kira anota los resultados.
+
+### Micro-misión R05-N02-P6 · Encontrar el bug con pruebas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Prueba del Temple
+personajes: Kira, Gheco, Chispa
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R05-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Chispa vende un contador de palabras que, según él, no falla nunca. Lo prueba con «hola mundo» y da 2.
+—¿Ves? Perfecto.
 
+#### Gheco sugiere
+Escribí primero las pruebas de los bordes: texto vacío, espacios al principio, al final y dobles, tabulaciones y saltos de línea. Mirá cuáles fallan y después corregí la función contando el paso de espacio a no espacio (`isspace`).
+
+#### Desafío
 La función `contar_palabras` del código inicial parece andar con `"hola mundo"`. Escribí pruebas para los casos límite: texto vacío, una palabra, espacios de más (al principio, al final y dobles), tabulaciones y saltos de línea, y un texto solo con espacios. Ejecutalas, mirá cuáles fallan y **después** corregí la función hasta que pasen todas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Tiene al menos 6 pruebas con casos límite.
 - La función corregida pasa todas.
 - Explica en un comentario qué fallaba.
 
 #### Código inicial
-
 ```c
 /* contar_palabras tiene errores. Escribi pruebas que los muestren y despues arreglala. */
 #include <stdio.h>
@@ -1425,13 +1482,11 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 6 pruebas: 6 bien, 0 mal
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Encontrar el bug con pruebas.
@@ -1484,17 +1539,30 @@ int main(void)
 }
 ```
 
-### Misión R05-N02-M3 · Primero la prueba
+#### Al superarla
+Con espacios dobles, el contador de Chispa decía 5. Ahora dice 2. Chispa dice que siempre dijo 2.
+
+#### Imagen
+- Un aparato de bronce con una rueda contadora sobre un mostrador de prueba, con hojas escritas alrededor.
+- Chispa (mercader alto y flaco con bufanda naranja) lo defiende con las manos; Kira golpea la rueda con un martillito.
+
+### Micro-misión R05-N02-P7 · Primero la prueba
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Prueba del Temple
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R05-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Hulda quiere una función que deje prolijos los nombres de los mineros, pero esta vez al revés: primero las pruebas, después la función.
+—Si sabés qué tiene que dar, después es fácil hacerlo.
 
+#### Gheco sugiere
+La macro `PROBAR` compara lo que devuelve `normalizar` con lo esperado. Para la función: saltá espacios, poné mayúscula a la primera letra de cada palabra y minúscula al resto, un solo espacio entre palabras, y fijate de no pasarte de `tam`.
+
+#### Desafío
 Escribí **primero** las pruebas y **después** la función `bool normalizar(const char *nombre, char *salida, size_t tam)`, que deja el nombre sin espacios de más y con Mayúscula Inicial en cada palabra, sin pasarse de `tam` (si no entra, devuelve `false`):
 
 - `"kira"` → `"Kira"`; `"  tIZON   el   enano "` → `"Tizon El Enano"`; `"HULDA"` → `"Hulda"`;
@@ -1503,20 +1571,31 @@ Escribí **primero** las pruebas y **después** la función `bool normalizar(con
 
 Una macro `PROBAR(entrada, esperado)` ayuda a no repetir código.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las pruebas cubren los casos de la consigna.
 - `normalizar` nunca se pasa de `tam` y devuelve `false` si no entra.
 - Pasan todas las pruebas.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 6 pruebas: 6 bien, 0 mal
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - Primero las pruebas: normalizar un nombre (sin espacios de mas, Mayuscula Inicial). */
 #include <stdio.h>
@@ -1584,6 +1663,13 @@ int main(void)
     return RESUMEN();
 }
 ```
+
+#### Al superarla
+Todas las pruebas pasan a la primera. Hulda cuelga la lista de nombres prolijos en la entrada de la mina.
+
+#### Imagen
+- Una lista de nombres prolijos tallada en una tabla de madera en la entrada de una mina.
+- Hulda (enana fortísima con casco de minera y farol naranja) cuelga la tabla; Kira le alcanza los clavos.
 
 ### Encargo R05-N02-E1 · Las pruebas del cajero
 
@@ -2283,27 +2369,46 @@ La agenda cuelga en la sede del Gremio, ordenada. Chispa queda primero en la lis
 - Una agenda grande clavada en la pared de la sede del Gremio, con cuatro nombres en orden.
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) señala su nombre, primero, feliz.
 
-### Misión R05-N03-M1 · La agenda que no se pierde
+### Micro-misión R05-N03-P5 · La agenda que no se pierde
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sede del Gremio
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R05-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En la sede del Gremio, los comerciantes pierden los contactos de sus proveedores en papelitos. Le piden a Kira una agenda que no se pierda.
+—Que se guarde en un archivo —dice Chispa— y que vuelva entera.
 
+#### Gheco sugiere
+Un array dinámico de `Contacto` que crece con `realloc`. `listar` ordena con `qsort` por nombre. `guardar` escribe `agenda.csv`. Al final, volvé a cargar el archivo en otra agenda y contá los contactos.
+
+#### Desafío
 Escribí la agenda base: un array dinámico de `Contacto` y las órdenes `agregar Nombre;Telefono;email`, `listar` (ordenada por nombre con `qsort`, con la cantidad) y `guardar` (a `agenda.csv`). Mostrá cada orden con `> ` antes de procesarla y avisá las órdenes mal escritas. Al terminar la entrada, guardá, liberá todo, volvé a cargar el archivo en otra agenda y mostrá cuántos contactos tiene (así se comprueba que sobreviven).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Array dinámico que crece; los nombres pueden tener espacios.
 - Lista ordenada por nombre con `qsort`.
 - Guarda y carga `agenda.csv`; libera la memoria.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 agregar Ferrum;380 4001122;ferrum@forja.ar
 agregar Ana Paz;380 4556677;ana@correo.ar
@@ -2315,7 +2420,6 @@ hola
 ```
 
 #### Salida esperada
-
 ```
 > agregar Ferrum;380 4001122;ferrum@forja.ar
   Agregado.
@@ -2337,8 +2441,7 @@ hola
 Al volver a abrir: 3 contactos.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * 29 - La agenda del Gremio: contactos en memoria dinamica, ordenes por linea
@@ -2458,57 +2561,42 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La agenda vuelve entera del archivo. Es la primera vez que alguien en las Forjas tiene el teléfono de Chispa.
 
-##### Sin contactos
-```entrada
-listar
-```
-```salida
-> listar
-  (0 contactos)
-Al volver a abrir: 0 contactos.
-```
+#### Imagen
+- Una sede de gremio con mesas largas y una agenda gruesa de tapas de cuero sobre un atril.
+- Chispa dicta un número; Kira lo anota en la agenda.
 
-##### Un contacto
-```entrada
-agregar Hulda;380 1;hulda@mina.ar
-listar
-```
-```salida
-> agregar Hulda;380 1;hulda@mina.ar
-  Agregado.
-> listar
-  Hulda            380 1          hulda@mina.ar
-  (1 contactos)
-Al volver a abrir: 1 contactos.
-```
-
-### Misión R05-N03-M2 · Buscar, borrar y validar
+### Micro-misión R05-N03-P6 · Buscar, borrar y validar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sede del Gremio
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R05-N03-M2
 ```
 
-#### Consigna
+#### Escena
+La agenda del Gremio necesita buscar, borrar y no aceptar cualquier cosa. Hulda prueba cargar un teléfono con letras.
+—Si me deja, la rompo yo.
 
+#### Gheco sugiere
+Para buscar sin importar mayúsculas, pasá los dos textos a minúscula y usá `strstr`. El teléfono acepta dígitos, espacios, guiones y un `+` al principio, con al menos 6 dígitos. El email, una `@` con algo antes y un punto después.
+
+#### Desafío
 Agregale a la agenda:
 
 - `buscar texto`: muestra los contactos cuyo nombre **o** email contiene el texto, sin importar mayúsculas (o avisa que no hay).
 - `borrar Nombre`: borra el contacto con ese nombre exacto (o avisa que no existe).
 - Validaciones al agregar: nombre repetido, teléfono (solo dígitos, espacios, guiones y un `+` inicial; al menos 6 dígitos) y email (una `@` con algo antes y un punto después).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Busca sin importar mayúsculas, en nombre y email.
 - Borra corriendo los de atrás.
 - Rechaza nombres repetidos, teléfonos y emails inválidos con un mensaje claro.
 
 #### Código inicial
-
 ```c
 /*
  * 29 - La agenda del Gremio: contactos en memoria dinamica, ordenes por linea
@@ -2628,8 +2716,7 @@ int main(void)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 agregar Ferrum;380 4001122;ferrum@forja.ar
 agregar Ana Paz;380 4556677;ana@correo.ar
@@ -2646,7 +2733,6 @@ listar
 ```
 
 #### Salida esperada
-
 ```
 > agregar Ferrum;380 4001122;ferrum@forja.ar
   Agregado.
@@ -2678,8 +2764,7 @@ listar
 Al volver a abrir: 2 contactos.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Buscar, borrar y validar: la agenda ya no acepta cualquier cosa.
@@ -2881,89 +2966,51 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La agenda rechaza el teléfono con letras. Hulda guarda el pico, satisfecha.
 
-##### Teléfonos al límite
-```entrada
-agregar A;12345;a@b.c
-agregar B;123456;b@c.d
-agregar C;+54-380;c@d.e
-agregar D;54+380123;d@e.f
-listar
-```
-```salida
-> agregar A;12345;a@b.c
-  Teléfono inválido: 12345
-> agregar B;123456;b@c.d
-  Agregado.
-> agregar C;+54-380;c@d.e
-  Teléfono inválido: +54-380
-> agregar D;54+380123;d@e.f
-  Teléfono inválido: 54+380123
-> listar
-  B                123456         b@c.d
-  (1 contactos)
-Al volver a abrir: 1 contactos.
-```
+#### Imagen
+- Una agenda abierta con una página tachada en rojo y otra prolija, sobre una mesa del gremio.
+- Hulda señala la página tachada; Kira escribe en la prolija.
 
-##### Emails al límite
-```entrada
-agregar A;380 123456;@b.c
-agregar B;380 123456;a@b
-agregar C;380 123456;a@.c
-agregar D;380 123456;a@b.c
-listar
-```
-```salida
-> agregar A;380 123456;@b.c
-  Email inválido: @b.c
-> agregar B;380 123456;a@b
-  Email inválido: a@b
-> agregar C;380 123456;a@.c
-  Agregado.
-> agregar D;380 123456;a@b.c
-  Agregado.
-> listar
-  C                380 123456     a@.c
-  D                380 123456     a@b.c
-  (2 contactos)
-Al volver a abrir: 2 contactos.
-```
-
-##### Buscar sin contactos
-```entrada
-buscar algo
-borrar Nadie
-```
-```salida
-> buscar algo
-  No hay coincidencias para "algo".
-> borrar Nadie
-  No existe ese contacto.
-Al volver a abrir: 0 contactos.
-```
-
-### Misión R05-N03-M3 · Ordenar por cualquier campo
+### Micro-misión R05-N03-P7 · Ordenar por cualquier campo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sede del Gremio
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R05-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Ferrum quiere ver la agenda ordenada de distintas formas: por nombre, por email o por mes de cumpleaños.
+—Así sé a quién saludar este mes.
 
+#### Gheco sugiere
+Una tabla `{ campo, función }` con los tres comparadores. Para cada línea, buscá el campo en la tabla y ordená con su función; si no está, avisá. El de cumpleaños desempata por nombre.
+
+#### Desafío
 Con cuatro contactos que además tienen el mes de cumpleaños, escribí tres comparadores (por nombre, por email y por mes de cumpleaños, desempatando por nombre) en una **tabla** `{ campo, función }`. Por cada línea de la entrada (`nombre`, `email`, `cumple`), ordená con el comparador de ese campo y mostrá la lista; si el campo no existe, avisá.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Tabla de comparadores elegidos por nombre de campo.
 - El orden por cumpleaños desempata por nombre.
 - Avisa los campos que no existen.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 cumple
 email
@@ -2972,7 +3019,6 @@ nombre
 ```
 
 #### Salida esperada
-
 ```
 Por cumple:
   Ana Paz  ana@correo.ar    mes  3
@@ -2992,8 +3038,7 @@ Por nombre:
   Tizon    tizon@forja.ar   mes  7
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - Ordenar por cualquier campo: una tabla de comparadores elegida por nombre. */
 #include <stdio.h>
@@ -3055,28 +3100,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Ferrum mira la lista por cumpleaños y descubre que el de Tizón es mañana. Se lo guarda como sorpresa.
 
-##### Solo nombre
-```entrada
-nombre
-```
-```salida
-Por nombre:
-  Ana Paz  ana@correo.ar    mes  3
-  Ferrum   ferrum@forja.ar  mes 11
-  Hulda R  hulda@mina.ar    mes  3
-  Tizon    tizon@forja.ar   mes  7
-```
-
-##### Campo desconocido
-```entrada
-edad
-```
-```salida
-No se puede ordenar por "edad" (nombre, email o cumple)
-```
-
+#### Imagen
+- Un calendario de piedra con meses tallados en la pared del gremio, y una agenda abierta debajo.
+- Maese Ferrum mira el calendario con el ojo naranja encendido; Kira le muestra la lista.
 
 ### Encargo R05-N03-E1 · Las etiquetas del correo
 
@@ -3812,17 +3841,24 @@ La última escama se apaga y el Dragón bajo la Montaña se echa, manso, a un co
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) con la Hoja Templada en la mano, frente al molde.
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) y Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) detrás, en silencio.
 
-### Misión R05-N04-M1 · Encargo 1: las temperaturas de los hornos
+### Micro-misión R05-N04-P6 · Encargo 1: las temperaturas de los hornos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La fragua bajo la Montaña
+personajes: Kira, Gheco, Tizón
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R05-N04-M1
 ```
 
-#### Consigna
+#### Escena
+En la primera escama del Dragón está grabado el primer encargo: las temperaturas de cuatro hornos durante siete días. Tizón le pasa a Kira la libreta abierta.
+—Midamos.
 
+#### Gheco sugiere
+Una matriz `double t[7][4]`. Validá cada valor entre 0.0 y 1500.0 y repetí ese mismo si no lo es. Después, promedios por horno (columnas) y por día (filas), y lo que pida el encargo.
+
+#### Desafío
 La Forja registra durante **7 días** la temperatura de **4 hornos**. Escribí
 `hornos.c`:
 
@@ -3840,8 +3876,7 @@ La Forja registra durante **7 días** la temperatura de **4 hornos**. Escribí
    mayor a ese límite (mostrá el primero en el vector ordenado, o que ninguno).
 7. Todo el procesamiento en **funciones**.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una matriz `float` (o `double`) de 7 × 4 y valida cada valor entre 0.0 y 1500.0, repitiendo el pedido.
 - Muestra la tabla y los promedios por horno y por día, con dos decimales.
 - Informa el horno más caliente y el pico con su día y su horno.
@@ -3849,8 +3884,18 @@ La Forja registra durante **7 días** la temperatura de **4 hornos**. Escribí
 - La búsqueda por límite está en una función.
 - Cada requerimiento está en su propia función.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 800
 950
@@ -3887,7 +3932,6 @@ hola
 ```
 
 #### Salida esperada
-
 ```
 Dia 2, horno 3: valor invalido, de nuevo
 Dia 4, horno 3: valor invalido, de nuevo
@@ -3926,8 +3970,7 @@ Limite:
 El horno 4 supera 950.0 (1042.86)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * FundicionExpress - Encargo 1: las temperaturas de los hornos.
@@ -4085,85 +4128,31 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La primera escama se apaga. El Dragón abre un ojo y lo vuelve a cerrar.
 
-##### Ningún horno supera el límite
-```entrada
-100
-100
-100
-100
-200
-200
-200
-200
-300
-300
-300
-300
-400
-400
-400
-400
-500
-500
-500
-500
-600
-600
-600
-600
-700
-700
-700
-700
-1500
-```
-```salida
-Dia     Horno 1  Horno 2  Horno 3  Horno 4
-1         100.0    100.0    100.0    100.0
-2         200.0    200.0    200.0    200.0
-3         300.0    300.0    300.0    300.0
-4         400.0    400.0    400.0    400.0
-5         500.0    500.0    500.0    500.0
-6         600.0    600.0    600.0    600.0
-7         700.0    700.0    700.0    700.0
+#### Imagen
+- Un dragón de hierro negro dormido, con escamas como placas de forja y venas de lava, y una escama del lomo con un brillo naranja.
+- Kira lee la escama; Tizón sostiene la libreta.
 
-Promedio por horno:
-  horno 1: 400.00
-  horno 2: 400.00
-  horno 3: 400.00
-  horno 4: 400.00
-Promedio por dia:
-  dia 1: 100.00
-  dia 2: 200.00
-  dia 3: 300.00
-  dia 4: 400.00
-  dia 5: 500.00
-  dia 6: 600.00
-  dia 7: 700.00
-Horno mas caliente: 1 (400.00)
-Pico: 700.0, dia 7, horno 1
-Promedios ordenados:
-  horno 1: 400.00
-  horno 2: 400.00
-  horno 3: 400.00
-  horno 4: 400.00
-Limite:
-Ningun horno supera 1500.0
-```
-
-### Misión R05-N04-M2 · Encargo 2: los aprendices de la Forja
+### Micro-misión R05-N04-P7 · Encargo 2: los aprendices de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La fragua bajo la Montaña
+personajes: Kira, Gheco, Maese Ferrum
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R05-N04-M2
 ```
 
-#### Consigna
+#### Escena
+La segunda escama pide el registro de los aprendices de la Forja: legajos, notas y rangos. Ferrum mira la escama y después a Kira.
+—Tus compañeros. No te equivoques con ninguno.
 
+#### Gheco sugiere
+Un arreglo de hasta 50 structs. Leé la cantidad y después `legajo;nombre;nota1;nota2;nota3`. Descartá los renglones con legajo no positivo o notas fuera de 0 a 10. Calculá el promedio y el rango de cada uno.
+
+#### Desafío
 Escribí `aprendices.c` para registrar a los aprendices de la Forja con un
 **arreglo de estructuras** (hasta **50**). Cada aprendiz tiene legajo, apellido y
 nombre, tres notas de temple, promedio y **rango**.
@@ -4181,16 +4170,27 @@ nombre, tres notas de temple, promedio y **rango**.
    **ascendente**, y mostralo.
 7. Leé un legajo y buscalo con una función: mostrá todos sus datos o que no existe.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un arreglo de structs con tope 50 y una cantidad cargada.
 - Valida el legajo y las notas, y descarta el renglón inválido con un aviso.
 - Calcula el promedio y el rango con las reglas de la consigna.
 - Muestra el listado, los oficiales, el mejor promedio y los porcentajes.
 - Ordena con desempate por nombre y busca por legajo, cada cosa en su función.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 6
 101;Kira;9;8;9
@@ -4203,7 +4203,6 @@ nombre, tres notas de temple, promedio y **rango**.
 ```
 
 #### Salida esperada
-
 ```
 Renglon descartado: 0;Nadie;5;5;5
 Listado:
@@ -4230,8 +4229,7 @@ Legajo 103:
    103 Hulda     8  9  9   8.67  oficial
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * FundicionExpress - Encargo 2: los aprendices de la Forja.
@@ -4404,47 +4402,31 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La segunda escama se apaga. El Dragón suspira y sale un poco de humo.
 
-##### Empate y legajo que no existe
-```entrada
-3
-7;Zoe;8;8;8
-5;Ana;8;8;8
-9;Ivo;3;4;2
-4
-```
-```salida
-Listado:
-     7 Zoe       8  8  8   8.00  oficial
-     5 Ana       8  8  8   8.00  oficial
-     9 Ivo       3  4  2   3.00  de vuelta al fuelle
-Oficiales:
-     7 Zoe       8  8  8   8.00  oficial
-     5 Ana       8  8  8   8.00  oficial
-Mejor promedio: Zoe (8.00)
-Porcentajes:
-  oficial               66.7 %
-  aprendiz               0.0 %
-  de vuelta al fuelle   33.3 %
-Ordenados:
-     5 Ana       8  8  8   8.00  oficial
-     7 Zoe       8  8  8   8.00  oficial
-     9 Ivo       3  4  2   3.00  de vuelta al fuelle
-Legajo 4: no existe
-```
+#### Imagen
+- La fragua bajo la montaña, con ríos de lava y un dragón de hierro enroscado, una segunda escama brillando.
+- Maese Ferrum, enorme, mira desde la entrada; Kira escribe en una tablilla.
 
-### Misión R05-N04-M3 · Encargo 3: el depósito de lingotes
+### Micro-misión R05-N04-P8 · Encargo 3: el depósito de lingotes
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La fragua bajo la Montaña
+personajes: Kira, Gheco, Tizón, Maese Ferrum
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R05-N04-M3
 ```
 
-#### Consigna
+#### Escena
+La última escama es la más grande: el depósito de lingotes de la Forja, en una caja sellada, con altas, bajas y búsquedas. El Dragón abre los dos ojos.
+—Es la última —dice Ferrum, en voz baja.
 
+#### Gheco sugiere
+Un archivo binario de structs. Cada opción del menú abre el archivo como le hace falta. La baja es lógica: cambiá el estado a `'B'` en su lugar con `fseek`. Listá solo los activos.
+
+#### Desafío
 Escribí `deposito.c` para administrar un **archivo binario de estructuras**
 (`lingotes.dat`). Cada lingote tiene código, descripción, precio, stock y
 **estado** (`'A'` activo, `'B'` baja lógica). Con un **menú** de opciones:
@@ -4461,16 +4443,27 @@ Escribí `deposito.c` para administrar un **archivo binario de estructuras**
 
 El menú no se tiene que trabar si se escribe cualquier cosa.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un struct con estado y un archivo binario con `fwrite` y `fread`.
 - Actualizar y dar de baja reescriben el registro en su lugar (`fseek`), sin rehacer el archivo.
 - Los listados e informes muestran solo los activos.
 - El menú lee con `fgets` + `sscanf` y no se traba con letras.
 - Cada opción está en su propia función.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1
 7;Plomo;9.5;40
@@ -4492,7 +4485,6 @@ fin
 ```
 
 #### Salida esperada
-
 ```
 [1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
 Opcion:
@@ -4543,8 +4535,7 @@ Opcion:
 Hasta luego.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * FundicionExpress - Encargo 3: el deposito de lingotes.
@@ -4766,43 +4757,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La última escama se apaga y el Dragón se aparta. Detrás, en la fragua, brilla el plomo del Vidriero.
 
-##### Opciones raras y archivo vacío
-```entrada
-hola
-8
-1
-fin
-2
-6
-0
-```
-```salida
-[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
-Opcion:
-Eso no es una opcion.
-
-[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
-Opcion:
-La opcion 8 no existe.
-
-[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
-Opcion:
-0 lingotes cargados.
-
-[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
-Opcion:
-Activos:
-
-[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
-Opcion:
-No hay lingotes activos.
-
-[1] crear [2] listar [3] buscar [4] stock [5] baja [6] informes [0] salir
-Opcion:
-Hasta luego.
-```
+#### Imagen
+- Un dragón de hierro negro con un horno encendido en el pecho, apartándose y dejando ver una fragua con un bloque de plomo brillante.
+- Kira, con la espada reforjada en la vaina, da un paso adelante; Tizón y Maese Ferrum miran detrás.
 
 ### Encargo R05-N04-E1 · El simulacro de verdad, con reloj
 

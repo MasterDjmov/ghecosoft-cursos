@@ -544,38 +544,54 @@ Seis bytes justos. Chispa le cobra a Hulda seis lingotes «por la vagoneta». Hu
 - Una vagoneta chiquita con un nombre grabado letra por letra.
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) le extiende la mano a Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro), que lo mira sin pestañear.
 
-### Misión R03-N01-M1 · Copiar textos con memoria justa
+### Micro-misión R03-N01-P5 · Copiar textos con memoria justa
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N01-M1
 ```
 
-#### Consigna
+#### Escena
+En la boca de la mina, Hulda le enseña a Kira la regla de oro de las copias: pedir justo lo que hace falta, ni una vagoneta de más.
+—Copiá tu nombre y armame el título completo. Y después devolvé todo.
 
+#### Gheco sugiere
+`malloc(strlen(texto) + 1)`: el `+ 1` es para el `'\0'`. Si devuelve `NULL`, no hay memoria. `unir` suma los tres largos más uno. Al final, cada `malloc` tiene su `free`.
+
+#### Desafío
 1. Escribí `char *duplicar(const char *texto)`, que pide con `malloc` **exactamente** la memoria necesaria, copia el texto y devuelve la copia (o `NULL` si no hay memoria).
 2. Escribí `char *unir(const char *a, const char *separador, const char *b)`, que devuelve un texto nuevo con los tres pegados.
 3. Duplicá `"Kira"`, cambiale la primera letra a la copia (para comprobar que es independiente) y armá `"Kira de las Forjas"` con `unir`.
 4. Mostrá los resultados y cuántos bytes pediste, y liberá todo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Pide `strlen + 1` bytes (el `'\0'` también ocupa).
 - Revisa el `NULL` de cada `malloc`.
 - Libera cada texto una vez.
 - Compila sin advertencias y sin fugas (`-fsanitize=address`).
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 copia modificada: Mira
 título: Kira de las Forjas (18 letras, 19 bytes pedidos)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 1 - Copiar textos: duplicar y unir con memoria justa. */
 #include <stdio.h>
@@ -619,37 +635,59 @@ int main(void)
 }
 ```
 
-### Misión R03-N01-M2 · El mapa de la mina
+#### Al superarla
+Hulda revisa la tablilla: todo lo que se pidió, volvió. Tacha el nombre de Kira de la lista de deudores.
+
+#### Imagen
+- La boca de una mina con vagonetas alineadas y una tablilla de madera colgada con nombres y marcas.
+- Hulda (enana fortísima con casco de minera y farol naranja, trenzas grises y negras, pico al hombro) anota en la tablilla; Kira devuelve una vagoneta.
+
+### Micro-misión R03-N01-P6 · El mapa de la mina
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Hulda le pide a Kira el mapa del oro de una galería nueva. No sabe cuántas filas y columnas va a tener hasta que la midan.
+—Un solo bloque. No me cavés un túnel por fila.
 
+#### Gheco sugiere
+Pedí `filas * columnas` enteros de una vez. La celda `(f, c)` está en `mapa[f * columnas + c]`. Llenala con `(f * 7 + c * 3) % 10`, mostrala con dos `for` y liberá el bloque al final.
+
+#### Desafío
 1. Pedí la cantidad de filas y de columnas (de 1 a 20).
 2. Reservá **un solo bloque** de `filas × columnas` enteros. La celda de la fila `f` y la columna `c` está en la posición `f * columnas + c`.
 3. Llená cada celda con `(f * 7 + c * 3) % 10` (el oro que hay) y mostrá el mapa y el oro total.
 4. Liberá el bloque.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Reserva un solo bloque con `malloc` y revisa el `NULL`.
 - Calcula la posición con `f * columnas + c`.
 - Muestra el mapa y el total; libera la memoria.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 3
 5
 ```
 
 #### Salida esperada
-
 ```
 Filas: Columnas: 
  0 3 6 9 2
@@ -658,8 +696,7 @@ Filas: Columnas:
 Oro en la mina: 65
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 2 - El mapa de la mina: una matriz del tamanio que pida el usuario, en un solo bloque. */
 #include <stdio.h>
@@ -709,93 +746,60 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El mapa del oro queda dibujado en la pared de la galería. Hulda marca con el pico la celda que más tiene.
 
-##### Una celda
-```entrada
-1
-1
-```
-```salida
-Filas: Columnas:
- 0
-Oro en la mina: 0
-```
+#### Imagen
+- Una pared de galería con una grilla de números pintados y pepitas de oro incrustadas en algunas celdas.
+- Hulda señala una celda con el pico; Kira sostiene el farol.
 
-##### Máximo
-```entrada
-20
-20
-```
-```salida
-Filas: Columnas:
- 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7
- 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4
- 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1
- 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8
- 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5
- 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2
- 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9
- 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6
- 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3
- 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0
- 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7
- 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4
- 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1
- 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8
- 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5
- 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9 2
- 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6 9
- 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3 6
- 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0 3
- 3 6 9 2 5 8 1 4 7 0 3 6 9 2 5 8 1 4 7 0
-Oro en la mina: 1800
-```
-
-##### Fuera de rango
-```entrada
-0
-21
-2
-2
-```
-```salida
-Filas: Columnas:
-Tamaño inválido.
-```
-
-### Misión R03-N01-M3 · Achicar el cofre
+### Micro-misión R03-N01-P7 · Achicar el cofre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R03-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Kira tiene un cofre con diez vetas, pero solo le sirven las pares. Tizón le muestra que se puede achicar el cofre sin hacer uno nuevo.
+—Ojo, que al achicarlo puede cambiar de lugar. Anotá dónde quedó.
 
+#### Gheco sugiere
+Corré los pares al principio y contalos. `nuevo = realloc(v, cantidad * sizeof(int))`: si da `NULL`, el bloque viejo sigue sirviendo. Si no quedó ninguno, `free(v)` y devolvé `NULL`. La cantidad nueva va en `*n`.
+
+#### Desafío
 1. Reservá un array de 10 enteros y llenalo con `i * 3 + 1`.
 2. Escribí `int *solo_pares(int *v, int *n)`, que deja solo los pares al principio, achica el bloque con `realloc` a la cantidad nueva y **devuelve el puntero** (que puede haber cambiado). La cantidad nueva queda en `*n`.
 3. Si no queda ninguno, liberá el bloque y devolvé `NULL`. Si `realloc` falla, devolvé el bloque viejo (que sigue siendo válido).
 4. Mostrá el array antes y después, y liberalo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `realloc` con un puntero temporal.
 - Devuelve el puntero nuevo y la cantidad por `*n`.
 - Trata aparte el caso de cero elementos.
 - Sin fugas.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 antes (10): 1 4 7 10 13 16 19 22 25 28
 después (5): 4 10 16 22 28
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - Achicar el cofre: quedarse con los pares y devolver la memoria que sobra. */
 #include <stdio.h>
@@ -848,6 +852,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+El cofre queda chico y justo. Tizón anota en la libreta: «realloc puede mudar el cofre».
+
+#### Imagen
+- Un cofre de hierro achicado con vetas de mineral ordenadas adentro, al lado de vetas descartadas en el piso.
+- Tizón (enano joven pelirrojo con antiparras) mide el cofre con su calibre; Kira separa las vetas.
 
 ### Encargo R03-N01-E1 · Las notas del curso
 
@@ -1641,29 +1652,34 @@ Tres enemigos con nombre y vida. Hulda los clava en el tablero de la mina. El sl
 - Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) clava la última ficha con el pico.
 - Un slime llorando en un rincón.
 
-### Misión R03-N02-M1 · Quitar de la horda
+### Micro-misión R03-N02-P5 · Quitar de la horda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Hulda
+criatura: troll
+recompensa: xp 10, monedas 4
+antes: R03-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En la tablilla de la horda hay cuatro enemigos anotados. Uno se escapó por un túnel lateral y Hulda quiere borrarlo sin dejar un hueco.
+—Y si te piden borrar uno que no existe, no me rompas la tablilla.
 
+#### Gheco sugiere
+Si el índice es menor que 0 o no es menor que `cantidad`, devolvé `false`. Si no, corré cada enemigo de atrás un lugar hacia adelante y bajá la `cantidad`.
+
+#### Desafío
 Partiendo de la horda del ejemplo, escribí `bool horda_quitar(Horda *h, int indice)`: borra el enemigo de esa posición moviendo los de atrás un lugar hacia adelante, baja la `cantidad` y devuelve `false` si el índice no es válido.
 
 Agregá cuatro enemigos (Slime 10, Goblin 25, Orco 40, Troll 70), quitá el de la posición 1 y probá quitar la posición 7. Mostrá la horda.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Valida `0 <= indice < cantidad`.
 - Corre los de atrás un lugar y baja la cantidad.
 - No cambia la capacidad; libera al final.
 
 #### Código inicial
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -1730,7 +1746,6 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 quitar 1: sí
 quitar 7: no
@@ -1740,8 +1755,7 @@ Horda: 3 de 4 lugares
   2. Troll       70
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -1826,37 +1840,58 @@ int main(void)
 }
 ```
 
-### Misión R03-N02-M2 · Duplicar o sumar 4
+#### Al superarla
+La tablilla queda prolija, sin huecos. El pedido de borrar la posición 7 se rechaza y Hulda asiente.
+
+#### Imagen
+- Una tablilla de piedra con nombres de enemigos tallados, uno tachado, en la pared de una galería.
+- Hulda borra un nombre con el pico; a lo lejos, un troll grande se mete por un túnel.
+
+### Micro-misión R03-N02-P6 · Duplicar o sumar 4
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R03-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón y Hulda discuten cómo cavar las galerías nuevas: ella quiere sumar cuatro lugares cada vez, él quiere duplicar. Kira propone probar las dos y contar.
 
+#### Gheco sugiere
+Llevá la capacidad y un contador de ampliaciones: cuando `cantidad == capacidad`, ampliás (al doble o +4) con `realloc` y sumás uno. Compará las dos estrategias con 20 y con 1000 elementos.
+
+#### Desafío
 Escribí `int llenar(int elementos, int duplicar, int mostrar)`: agrega `elementos` enteros a un array dinámico y cuenta cuántas veces tuvo que ampliar. Si `duplicar` es verdadero, la capacidad pasa a `capacidad * 2` (empezando en 2); si no, a `capacidad + 4`.
 
 Si `mostrar` es verdadero, muestra la capacidad final y las ampliaciones. Probalo con 20 elementos con cada estrategia y después compará las ampliaciones para 1000. ¿Qué conviene?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cuenta las ampliaciones de cada estrategia.
 - Muestra los resultados para 20 y para 1000 elementos.
 - Libera la memoria en cada prueba.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 duplicar:  capacidad final 32, ampliaciones 5
 sumar 4:   capacidad final 20, ampliaciones 5
 Con 1000 elementos: duplicar 10, sumar 4 250
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 2 - Duplicar o sumar 4: cuantas veces se llama a realloc para 20 elementos. */
 #include <stdio.h>
@@ -1899,27 +1934,39 @@ int main(void)
 }
 ```
 
-### Misión R03-N02-M3 · Encoger la horda
+#### Al superarla
+Con mil enemigos, duplicar gana por paliza. Tizón no dice nada, pero cuelga la cuenta en la pared.
+
+#### Imagen
+- Dos galerías excavadas lado a lado, una ensanchándose en escalones parejos y otra que se duplica de tamaño.
+- Tizón muestra su libreta con cuentas; Kira compara las dos galerías.
+
+### Micro-misión R03-N02-P7 · Encoger la horda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Hulda
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R03-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Después de una batalla, en la galería sobra un montón de lugar vacío. Hulda quiere achicarla a la medida de los que quedan.
+—Pero si llega otro, que vuelva a crecer sin drama.
 
+#### Gheco sugiere
+Con `realloc` a `cantidad` elementos, la capacidad queda igual a la cantidad. Si está vacía, liberá el bloque y dejá el puntero en `NULL` y la capacidad en 0. Al agregar después, la horda vuelve a crecer sola.
+
+#### Desafío
 Escribí `bool horda_encoger(Horda *h)`, que achica el bloque para que la capacidad sea igual a la cantidad (si está vacía, la libera). Agregá 5 goblins, mostrá la horda, encogela, mostrala y agregá un orco para ver que vuelve a crecer.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `realloc` con temporal para achicar.
 - Trata aparte la horda vacía.
 - La horda sigue funcionando después de encogerla.
 
 #### Código inicial
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -1986,7 +2033,6 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 Horda: 5 de 8 lugares
   0. Goblin      20
@@ -2009,8 +2055,7 @@ Horda: 6 de 10 lugares
   5. Orco        50
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -2101,6 +2146,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+La galería queda justa. Llega un orco más y la galería se ensancha como si nada.
+
+#### Imagen
+- Una galería de mina angosta con cinco goblins verdes sentados en fila y una pared nueva recién cavada.
+- Hulda apoya el pico en la pared; Kira cuenta los goblins.
 
 ### Encargo R03-N02-E1 · La lista de compras que crece
 
@@ -3015,27 +3067,31 @@ El último vagón está lleno de **plomo**, gris y brillante, y en la roca de at
 - Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) se saca el casco, sorprendida.
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) ilumina la veta con el farol.
 
-### Misión R03-N03-M1 · Contar y buscar
+### Micro-misión R03-N03-P5 · Contar y buscar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las vías de la mina
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En la vía, la mochila de Kira viaja como un tren de vagones enganchados: cada objeto en su vagón. Hulda quiere saber cuántos son y si viene la soga.
+—Seguí la cadena. Sin soltarla.
 
+#### Gheco sugiere
+Recorré con `for (const Nodo *p = cabeza; p != NULL; p = p->siguiente)`. `contar` suma uno por vagón; `contiene` compara cada objeto con `strcmp`. Con la lista vacía, el bucle ni arranca.
+
+#### Desafío
 Escribí `int contar(const Nodo *cabeza)` y `bool contiene(const Nodo *cabeza, const char *item)`. Probalas con la lista vacía y con una mochila de tres objetos, buscando uno que está y otro que no.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Recorre con un puntero hasta `NULL`, sin modificar la lista (`const`).
 - Funciona con la lista vacía.
 - Libera la lista al final.
 
 #### Código inicial
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -3099,7 +3155,6 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 vacía: 0 elementos
 [Espada -> Llave -> Pocion]
@@ -3108,8 +3163,7 @@ elementos: 3
 ¿tiene Mapa? no
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -3196,27 +3250,37 @@ int main(void)
 }
 ```
 
-### Misión R03-N03-M2 · Dar vuelta la cadena
+#### Al superarla
+Tres vagones, y la soga viene en el del medio. Hulda la saca y se la cuelga al hombro.
+
+#### Imagen
+- Un tren corto de vagonetas enganchadas con cadenas sobre una vía de mina, cada una con un objeto adentro.
+- Hulda revisa un vagón; Kira sigue la cadena con la mano.
+
+### Micro-misión R03-N03-P6 · Dar vuelta la cadena
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las vías de la mina
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R03-N03-M2
 ```
 
-#### Consigna
+#### Escena
+El tren de la mina tiene que volver por donde vino, y no hay lugar para girar. Tizón propone darlo vuelta enganche por enganche, sin traer vagones nuevos.
 
+#### Gheco sugiere
+Usá tres punteros: `anterior` (empieza en `NULL`), `actual` y `siguiente`. En cada paso guardás el siguiente, das vuelta el enganche (`actual->siguiente = anterior`) y avanzás. La nueva cabeza es el último `anterior`.
+
+#### Desafío
 Escribí `Nodo *invertir(Nodo *cabeza)`, que da vuelta la lista **sin crear nodos nuevos**: solo reacomoda los punteros `siguiente` y devuelve la cabeza nueva. Probala con cuatro objetos y con la lista vacía.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No usa `malloc`: reacomoda los punteros con tres variables (anterior, actual, siguiente).
 - Devuelve la cabeza nueva.
 - Funciona con la lista vacía.
 
 #### Código inicial
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -3280,15 +3344,13 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 [Antorcha -> Espada -> Llave -> Pocion]
 [Pocion -> Llave -> Espada -> Antorcha]
 []
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -3368,27 +3430,38 @@ int main(void)
 }
 ```
 
-### Misión R03-N03-M3 · El inventario en orden
+#### Al superarla
+El tren sale para el otro lado con los mismos vagones. Tizón cuenta los enganches: ni uno suelto.
+
+#### Imagen
+- Un tren de vagonetas en una vía de mina, con las cadenas de enganche dadas vuelta y brillando.
+- Tizón engancha una cadena; Kira empuja el último vagón.
+
+### Micro-misión R03-N03-P7 · El inventario en orden
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las vías de la mina
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Hulda quiere el inventario del tren en orden alfabético, y que se mantenga así aunque vayan subiendo cosas.
+—Cada cosa que sube va a su lugar. No al final.
 
+#### Gheco sugiere
+Si la lista está vacía o el objeto va antes de la cabeza (`strcmp < 0`), queda como cabeza nueva. Si no, avanzá mientras el siguiente vaya antes y enganchalo ahí. Leé hasta que `fgets` dé `NULL` y mostrá la lista después de cada uno.
+
+#### Desafío
 Escribí `Nodo *insertar_ordenado(Nodo *cabeza, const char *item)`, que inserta cada objeto en su lugar alfabético. Leé objetos (uno por línea, hasta que se termine la entrada), insertalos y mostrá la lista después de cada uno.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Inserta al frente cuando corresponde (antes de la cabeza o lista vacía).
 - Si no, busca el nodo después del cual va.
 - La lista queda ordenada siempre; se libera al final.
 
 #### Código inicial
-
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -3451,8 +3524,7 @@ int main(void)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 Pocion
 Arco
@@ -3462,7 +3534,6 @@ Espada
 ```
 
 #### Salida esperada
-
 ```
 [Pocion]
 [Arco -> Pocion]
@@ -3471,8 +3542,7 @@ Espada
 [Arco -> Espada -> Llave -> Pocion -> Zafiro]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 #include <stdio.h>
 #include <stdlib.h>
@@ -3559,41 +3629,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El inventario queda ordenado vagón por vagón. Hulda lo copia en la tablilla sin una tachadura.
 
-##### Ya ordenados
-```entrada
-A
-B
-C
-```
-```salida
-[A]
-[A -> B]
-[A -> B -> C]
-```
-
-##### Al revés
-```entrada
-Z
-M
-A
-```
-```salida
-[Z]
-[M -> Z]
-[A -> M -> Z]
-```
-
-##### Repetidos
-```entrada
-Llave
-Llave
-```
-```salida
-[Llave]
-[Llave -> Llave]
-```
+#### Imagen
+- Una fila de vagonetas con carteles de letras en orden, en una vía iluminada por faroles.
+- Hulda acomoda un cartel; Kira sube una caja a un vagón del medio.
 
 ### Encargo R03-N03-E1 · La fila del correo
 
@@ -4482,31 +4523,47 @@ Las piezas 13 y 14 vuelven a los lugares 0 y 1. Tizón dibuja el riel en la libr
 - Un riel circular frente a un horno, con tres lugares numerados 0, 1 y 2.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) dibuja un reloj en la libreta.
 
-### Misión R03-N04-M1 · El montacargas
+### Micro-misión R03-N04-P5 · El montacargas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El montacargas
+personajes: Kira, Gheco, Tizón, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N04-M1
 ```
 
-#### Consigna
+#### Escena
+El montacargas tiene lugar para tres bolsas, una encima de otra. Las traen Kira, Hulda, Chispa y Ferrum. Tizón ya aprendió la lección y no sube su almuerzo.
 
+#### Gheco sugiere
+Un struct con un array de 3 `Bolsa` y un tope. `apilar` falla si está lleno; `desapilar` saca la de arriba y falla si está vacío. La última que subió es la primera que baja.
+
+#### Desafío
 Implementá una **pila con array** de hasta 3 `Bolsa` (dueño y kilos) con
 `apilar`, `desapilar`, `tope` y `vacia`. Apilá las bolsas de Kira (12 kg),
 Hulda (20 kg), Chispa (7 kg) y Ferrum (30 kg) —la última no entra—, mostrá el
 tope, desapilá todo mostrando cada una y, al final, intentá desapilar una vez
 más con la pila vacía.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La pila es un struct con el array y la cantidad; las funciones la reciben por puntero.
 - `apilar` avisa cuando está llena y `desapilar` cuando está vacía, sin salirse del array.
 - Las bolsas bajan en el orden inverso al que subieron.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 apilada: Kira (12 kg)
 apilada: Hulda (20 kg)
@@ -4519,8 +4576,7 @@ baja: Kira (12 kg)
 vacia: no hay nada para bajar
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El montacargas: una pila con array de structs.
@@ -4597,30 +4653,54 @@ int main(void)
 }
 ```
 
-### Misión R03-N04-M2 · Las llaves que cierran
+#### Al superarla
+La bolsa de Ferrum no entra y se queda en el piso. Tizón saca su almuerzo de abajo de todo, en otro viaje, y por fin come.
+
+#### Imagen
+- Un montacargas de madera y hierro con tres bolsas apiladas y una cuarta, grande, en el piso.
+- Hulda tira de la cadena del montacargas; Tizón mira su almuerzo con hambre.
+
+### Micro-misión R03-N04-P6 · Las llaves que cierran
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Archivo de planos
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R03-N04-M2
 ```
 
-#### Consigna
+#### Escena
+El Archivero desconfía de los planos de Chispa: dice que abre paréntesis y llaves y nunca los cierra. Chispa jura que sí.
+—Revisalos vos —le dice a Kira—, que a mí no me cree.
 
+#### Gheco sugiere
+Una pila de `char`: cada `(`, `[` o `{` se apila. Cada cierre tiene que coincidir con el tope; si no coincide o la pila está vacía, no está balanceado. Al final de la línea, la pila tiene que quedar vacía.
+
+#### Desafío
 El Archivero desconfía de los planos de Chispa: dice que nunca cierra lo que
 abre. Leé líneas hasta el final de la entrada y, para cada una, decí si sus
 `( )`, `[ ]` y `{ }` están **balanceados**, usando una **pila de char**: cada
 apertura se apila; cada cierre tiene que coincidir con el tope.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una pila de `char` (con array) para las aperturas.
 - Un cierre que no coincide con el tope, o una pila con algo al final, es «no cierra».
 - Ignora los demás caracteres y muestra el resultado de cada línea.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 int v[3] = { 1, 2, (3) };
 if (a[0] > 2) { b = (c + d]; }
@@ -4629,7 +4709,6 @@ if (a[0] > 2) { b = (c + d]; }
 ```
 
 #### Salida esperada
-
 ```
 línea 1: cierra
 línea 2: no cierra
@@ -4637,8 +4716,7 @@ línea 3: cierra
 línea 4: no cierra
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Las llaves que cierran: una pila de char revisa que cada
@@ -4685,52 +4763,54 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Dos planos de Chispa no cierran. Él dice que eran borradores y se los guarda en el bolsillo.
 
-##### Sin llaves
-```entrada
-sin llaves ni nada
-x = 3 + 4;
-```
-```salida
-línea 1: cierra
-línea 2: cierra
-```
+#### Imagen
+- Una mesa de archivo con planos enrollados y desplegados llenos de símbolos de paréntesis y llaves.
+- Chispa (mercader alto y flaco con bufanda naranja) esconde un plano detrás de la espalda; Kira revisa otro.
 
-##### Cierra de más
-```entrada
-())
-[)
-```
-```salida
-línea 1: no cierra
-línea 2: no cierra
-```
-
-### Misión R03-N04-M3 · La fila de vagonetas
+### Micro-misión R03-N04-P7 · La fila de vagonetas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La fila de vagonetas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N04-M3
 ```
 
-#### Consigna
+#### Escena
+En la boca de la mina, las vagonetas salen en el orden en que llegaron. Hulda le da a Kira el silbato.
+—Vos ordenás la fila. Y al final de la jornada, me decís cuántas quedaron.
 
+#### Gheco sugiere
+Una cola con punteros al `frente` y al `fondo`. `llega` engancha al fondo; `sale` saca el del frente (si está vacía, avisá). Al terminar, contá las que quedaron y liberalas una por una.
+
+#### Desafío
 Implementá una **cola con nodos** (frente y fondo) de vagonetas (número y
 carga). Leé órdenes, una por línea: `llega N KG` encola, `sale` desencola y
 muestra cuál salió (o «no hay vagonetas»), `fin` termina. Al terminar, mostrá
 cuántas quedaron en la fila y liberalas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La cola tiene punteros al frente y al fondo; encolar no recorre la lista.
 - Al sacar la última, el fondo también vuelve a `NULL`.
 - Salen por orden de llegada y al final se liberan todos los nodos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 llega 1 300
 llega 2 120
@@ -4744,7 +4824,6 @@ fin
 ```
 
 #### Salida esperada
-
 ```
 llega la vagoneta 1 (300 kg)
 llega la vagoneta 2 (120 kg)
@@ -4757,8 +4836,7 @@ llega la vagoneta 4 (80 kg)
 quedan 1 en la fila
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - La fila de vagonetas: una cola con nodos, frente y fondo.
@@ -4843,6 +4921,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+Ninguna vagoneta se cuela. Hulda le deja el silbato a Kira, «para mañana también».
+
+#### Imagen
+- Una fila de vagonetas cargadas de mineral esperando en la boca de la mina.
+- Kira toca un silbato; Hulda, con los brazos cruzados, controla la fila.
 
 ### Encargo R03-N04-E1 · La cola circular del horno
 
@@ -5498,37 +5583,52 @@ Cuatrocientos primero. El autómata de bronce hace su reverencia. Ferrum le da u
 - Un autómata de bronce chiquito ordenando bolsas de mayor a menor.
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) le da una palmadita en la cabeza.
 
-### Misión R03-N05-M1 · El filtro de la horda
+### Micro-misión R03-N05-P5 · El filtro de la horda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El tablero de palancas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Hulda arma en el tablero tres palancas para revisar la horda: una para los vivos, una para los peligrosos y una para los heridos.
+—La misma función de filtrar. Lo que cambia es la palanca que le pasás.
 
+#### Gheco sugiere
+`typedef bool (*Condicion)(const Enemigo *);` Cada condición recibe un enemigo y devuelve `true` o `false`. `filtrar` recorre la horda, llama a `cumple(&v[i])` y guarda en `salida` los punteros de los que cumplen.
+
+#### Desafío
 1. Con un array de `Enemigo` (nombre, vida, ataque), escribí condiciones `esta_vivo`, `es_peligroso` (ataque 10 o más) y `esta_herido` (vivo con menos de 20 de vida), todas con la forma `bool (*)(const Enemigo *)`.
 2. Escribí `int filtrar(const Enemigo *v, int n, Condicion cumple, const Enemigo **salida)`, que guarda en `salida` punteros a los que cumplen y devuelve cuántos son.
 3. Listá los vivos, los peligrosos y los heridos de la horda `Slime (0, 2)`, `Goblin (15, 6)`, `Orco (40, 12)`, `Troll (8, 15)` y `Esqueleto (25, 9)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define un `typedef` para la condición.
 - Una sola función `filtrar` sirve para las tres condiciones.
 - Muestra los tres listados.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 vivos        (4): Goblin Orco Troll Esqueleto
 peligrosos   (2): Orco Troll
 heridos      (2): Goblin Troll
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 1 - El filtro de la horda: una funcion que filtra segun la condicion que le pasen. */
 #include <stdio.h>
@@ -5582,27 +5682,50 @@ int main(void)
 }
 ```
 
-### Misión R03-N05-M2 · Los conjuros de mina de Hulda
+#### Al superarla
+Las tres listas salen de la misma función. Hulda pinta cada palanca de un color distinto.
+
+#### Imagen
+- Un tablero de bronce en la pared de la mina con tres palancas pintadas de colores distintos.
+- Hulda baja una palanca; Kira lee una lista de enemigos.
+
+### Micro-misión R03-N05-P6 · Los conjuros de mina de Hulda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Lo más hondo de las Minas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R03-N05-M2
 ```
 
-#### Consigna
+#### Escena
+En lo más hondo de la mina, Hulda le muestra a Kira sus tres conjuros de minera: fuego, curar y meditar. Los tiene anotados en una tabla, cada uno con su costo.
+—Si no te alcanza el maná, no se tira. Y si me decís uno que no existe, te miro mal.
 
+#### Gheco sugiere
+Una tabla de structs con la orden, el costo y un puntero a la función. Para cada orden, buscala en la tabla: si no está, avisá; si el maná no alcanza, avisá; si no, restá el costo y llamá a la función.
+
+#### Desafío
 Hulda (vida 40, maná 20) lee órdenes, una por línea: `fuego` (cuesta 10), `curar` (cuesta 5, +15 de vida) y `meditar` (gratis, +8 de maná). Guardá los hechizos en una **tabla** de structs con la orden, el costo y la función. Para cada orden: si no existe, avisá; si no alcanza el maná, avisá; si no, ejecutá la función. Mostrá vida y maná después de cada orden.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una tabla de structs con un puntero a función.
 - No usa un `if` por hechizo para decidir qué hacer.
 - Controla el maná antes de ejecutar y avisa las órdenes desconocidas.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 fuego
 curar
@@ -5613,7 +5736,6 @@ fuego
 ```
 
 #### Salida esperada
-
 ```
 > fuego
   ¡Bola de fuego! (-10 maná)
@@ -5635,8 +5757,7 @@ fuego
   vida 55, maná 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 2 - El libro de hechizos: cada orden se busca en una tabla de nombre + funcion. */
 #include <stdio.h>
@@ -5691,87 +5812,51 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Hulda tira un fuego que ilumina toda la galería. Después medita, sentada en una vagoneta, muy tranquila.
 
-##### Medita mucho
-```entrada
-meditar
-meditar
-fuego
-fuego
-fuego
-```
-```salida
-> meditar
-  Meditás (+8 maná)
-  vida 40, maná 28
-> meditar
-  Meditás (+8 maná)
-  vida 40, maná 36
-> fuego
-  ¡Bola de fuego! (-10 maná)
-  vida 40, maná 26
-> fuego
-  ¡Bola de fuego! (-10 maná)
-  vida 40, maná 16
-> fuego
-  ¡Bola de fuego! (-10 maná)
-  vida 40, maná 6
-```
+#### Imagen
+- Una galería profunda iluminada por una llamarada naranja que sale de las manos de una enana.
+- Hulda lanza el fuego con el pico en la otra mano; Kira, detrás, lleva una tabla anotada.
 
-##### Sin maná para curar
-```entrada
-fuego
-fuego
-curar
-```
-```salida
-> fuego
-  ¡Bola de fuego! (-10 maná)
-  vida 40, maná 10
-> fuego
-  ¡Bola de fuego! (-10 maná)
-  vida 40, maná 0
-> curar
-  No alcanza el maná (0).
-  vida 40, maná 0
-```
-
-##### Hechizos desconocidos
-```entrada
-rayo
-volar
-```
-```salida
-> rayo
-  Hulda no conoce ese hechizo.
-  vida 40, maná 20
-> volar
-  Hulda no conoce ese hechizo.
-  vida 40, maná 20
-```
-
-### Misión R03-N05-M3 · Ordenar de muchas formas
+### Micro-misión R03-N05-P7 · Ordenar de muchas formas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El tablero de palancas
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R03-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Ferrum quiere ver la armería ordenada de tres formas distintas, según el día: por nombre, por daño o por peso.
+—Una sola palanca que elija cómo ordenar.
 
+#### Gheco sugiere
+Tres comparadores con la firma de `qsort` y un array `int (*criterios[])(const void *, const void *)`. Para comparar `double` sin restar: `(a > b) - (a < b)`. Cada número leído elige el comparador.
+
+#### Desafío
 Con un array de armas (nombre, daño, peso), escribí tres comparadores para `qsort`: por nombre, por daño de mayor a menor y por peso de menor a mayor (sin restar `double`). Guardalos en un **array de punteros a función** y, por cada número que se lea (1, 2 o 3), ordená con el comparador elegido y mostrá el resultado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda los tres comparadores en un array.
 - El comparador por peso no resta `double`.
 - Valida la opción.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 2
 1
@@ -5780,7 +5865,6 @@ Con un array de armas (nombre, daño, peso), escribí tres comparadores para `qs
 ```
 
 #### Salida esperada
-
 ```
 por daño: Hacha(14, 4.5) Espada(11, 3.2) Arco(9, 1.5) Daga(6, 0.8)
 por nombre: Arco(9, 1.5) Daga(6, 0.8) Espada(11, 3.2) Hacha(14, 4.5)
@@ -5788,8 +5872,7 @@ Elegí 1, 2 o 3.
 por peso: Daga(6, 0.8) Arco(9, 1.5) Espada(11, 3.2) Hacha(14, 4.5)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /* Mision 3 - Ordenar de muchas formas: la forma de comparar se elige de un array de funciones. */
 #include <stdio.h>
@@ -5845,32 +5928,12 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La armería se reordena sola tres veces. Ferrum se queda con la de peso, «para la mudanza».
 
-##### Todas las formas
-```entrada
-1
-2
-3
-```
-```salida
-por nombre: Arco(9, 1.5) Daga(6, 0.8) Espada(11, 3.2) Hacha(14, 4.5)
-por daño: Hacha(14, 4.5) Espada(11, 3.2) Arco(9, 1.5) Daga(6, 0.8)
-por peso: Daga(6, 0.8) Arco(9, 1.5) Espada(11, 3.2) Hacha(14, 4.5)
-```
-
-##### Inválidos
-```entrada
-0
-4
-x
-```
-```salida
-Elegí 1, 2 o 3.
-Elegí 1, 2 o 3.
-Elegí 1, 2 o 3.
-```
-
+#### Imagen
+- Una armería con armas colgadas en orden, y un tablero con una palanca de tres posiciones.
+- Maese Ferrum (herrero humano enorme de barba gris trenzada y ojo naranja) mueve la palanca; Kira mira las armas.
 
 ### Encargo R03-N05-E1 · La calculadora del Gremio
 
@@ -6594,17 +6657,24 @@ Cero. La Sanguijuela queda flaquita y avergonzada, y se escurre por una grieta. 
 - Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) le da una lámpara de minero a Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian).
 - Chispa (mercader alto y flaco, sombrero de ala corta, chaqueta larga con muchos bolsillos, bufanda naranja, diente de oro) cuenta un chiste frente a toda la mina.
 
-### Misión R03-N06-M1 · El registro de la horda
+### Micro-misión R03-N06-P5 · El registro de la horda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: Lo más hondo de las Minas
+personajes: Kira, Gheco, Hulda
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R03-N06-M1
 ```
 
-#### Consigna
+#### Escena
+La Sanguijuela se acerca y Hulda quiere el registro de la horda al día: quién llega, quién recibe un golpe, quién cae.
+—Y cada nombre que se anote con memoria propia, se devuelve. Si no, la Sanguijuela se lo come.
 
+#### Gheco sugiere
+Cada nombre va con `malloc(strlen(nombre) + 1)` y su `free` cuando el enemigo cae. Mostrá cada orden con `> ` antes de procesarla. Validá los datos y no repitas nombres.
+
+#### Desafío
 Escribí un registro de enemigos que lee órdenes, una por línea, hasta que se termine la entrada (mostrá cada orden con `> ` antes de procesarla):
 
 - `agregar Nombre vida ataque`: agrega al enemigo. El nombre se guarda en **memoria propia** (`char *`, `strlen + 1`). No se repiten nombres; los datos inválidos se avisan.
@@ -6615,15 +6685,27 @@ Escribí un registro de enemigos que lee órdenes, una por línea, hasta que se 
 
 El registro es un **array dinámico** que crece duplicando. Al terminar, mostrá cuántos quedan y liberá **todo**. Tiene que pasar `-fsanitize=address` sin avisos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Array dinámico que crece con `realloc` y temporal.
 - Cada nombre tiene su propia memoria y se libera al quitar y al final.
 - Ordena con una tabla de comparadores.
 - Sin fugas ni errores con `-fsanitize=address`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 agregar Orco 40 12
 agregar Slime 8 2
@@ -6640,7 +6722,6 @@ ordenar nombre
 ```
 
 #### Salida esperada
-
 ```
 > agregar Orco 40 12
 > agregar Slime 8 2
@@ -6665,8 +6746,7 @@ ordenar nombre
 Fin del registro: quedan 3. Se libera todo.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Jefe R03 - Mision 1: el registro de la horda.
@@ -6826,79 +6906,30 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La Sanguijuela olfatea el registro y no encuentra nada que morder. Retrocede un metro, ofendida.
 
-##### Registro vacío
-```entrada
-mostrar
-ordenar vida
-golpe Orco 5
-```
-```salida
-> mostrar
-  0 enemigos:
-> ordenar vida
-  0 enemigos:
-> golpe Orco 5
-  No hay nadie así
-Fin del registro: quedan 0. Se libera todo.
-```
+#### Imagen
+- Una sanguijuela enorme y translúcida, violeta oscura, con vagonetas tragadas visibles dentro de su cuerpo, al fondo de un túnel.
+- Hulda sostiene el registro; Kira la ilumina con un farol.
 
-##### Datos inválidos
-```entrada
-agregar Orco cero 10
-agregar Troll 50
-agregar
-```
-```salida
-> agregar Orco cero 10
-  Uso: agregar Nombre vida ataque
-> agregar Troll 50
-  Uso: agregar Nombre vida ataque
-> agregar
-  Uso: agregar Nombre vida ataque
-Fin del registro: quedan 0. Se libera todo.
-```
-
-##### Crece más allá de la capacidad inicial
-```entrada
-agregar A 1 1
-agregar B 2 2
-agregar C 3 3
-agregar D 4 4
-agregar E 5 5
-agregar F 6 6
-agregar G 7 7
-agregar H 8 8
-agregar I 9 9
-ordenar ataque
-```
-```salida
-> agregar A 1 1
-> agregar B 2 2
-> agregar C 3 3
-> agregar D 4 4
-> agregar E 5 5
-> agregar F 6 6
-> agregar G 7 7
-> agregar H 8 8
-> agregar I 9 9
-> ordenar ataque
-  9 enemigos: I(9/9) H(8/8) G(7/7) F(6/6) E(5/5) D(4/4) C(3/3) B(2/2) A(1/1)
-Fin del registro: quedan 9. Se libera todo.
-```
-
-### Misión R03-N06-M2 · La mordida de la Sanguijuela
+### Micro-misión R03-N06-P6 · La mordida de la Sanguijuela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: Lo más hondo de las Minas
+personajes: Kira, Gheco, Tizón
+recompensa: xp 30, monedas 6
+antes: R03-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón trae un programa que cava tres túneles. Parece que anda, pero la Sanguijuela lo mordió: tiene tres errores de memoria escondidos.
+—En tu compu, la lámpara del sanitizador los muestra. Acá, arreglalos igual.
 
+#### Gheco sugiere
+Buscá tres cosas: algo que se usa después de `free`, algo que se escribe fuera del bloque pedido y algo que se pide y nunca se libera. En tu compu, `gcc -g -fsanitize=address` te marca la línea de cada uno. Agregá los controles de `NULL`. Al final, «Bloques sin devolver» tiene que dar 0.
+
+#### Desafío
 El programa del código inicial cava tres túneles y los recorre. Parece que funciona… pero la Sanguijuela lo mordió: tiene **tres errores de memoria**.
 
 1. Compilalo con `-g -fsanitize=address` y ejecutalo.
@@ -6908,15 +6939,13 @@ El programa del código inicial cava tres túneles y los recorre. Parece que fun
 
 La salida tiene que ser la misma, pero ahora sin ningún aviso del sanitizador.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Corrige el `malloc` al que le faltaba el byte del `'\0'`.
 - Corrige `derrumbar`: guarda el siguiente antes del `free` y libera también el nombre.
 - Revisa el `NULL` de cada `malloc`.
 - Explica los tres errores en un comentario; sin avisos del sanitizador.
 
 #### Código inicial
-
 ```c
 /*
  * Jefe R03 - Mision 2: la mordida de la Sanguijuela.
@@ -6927,6 +6956,23 @@ La salida tiene que ser la misma, pero ahora sin ningún aviso del sanitizador.
 #include <stdlib.h>
 #include <string.h>
 
+/* La tablilla de Hulda: cuenta los bloques pedidos que todavia no se devolvieron. */
+static int pendientes = 0;
+
+void *pedir(size_t tam)
+{
+    pendientes++;
+    return malloc(tam);
+}
+
+void devolver(void *p)
+{
+    if (p != NULL) {
+        pendientes--;
+    }
+    free(p);
+}
+
 typedef struct Tunel {
     char *nombre;
     int oro;
@@ -6935,8 +6981,8 @@ typedef struct Tunel {
 
 Tunel *cavar(Tunel *cabeza, const char *nombre, int oro)
 {
-    Tunel *t = malloc(sizeof *t);
-    t->nombre = malloc(strlen(nombre));
+    Tunel *t = pedir(sizeof *t);
+    t->nombre = pedir(strlen(nombre));
     strcpy(t->nombre, nombre);
     t->oro = oro;
     t->siguiente = cabeza;
@@ -6956,7 +7002,7 @@ void recorrer(const Tunel *t)
 void derrumbar(Tunel *cabeza)
 {
     for (Tunel *t = cabeza; t != NULL; t = t->siguiente) {
-        free(t);
+        devolver(t);
     }
 }
 
@@ -6968,32 +7014,49 @@ int main(void)
     mina = cavar(mina, "Veta", 45);
     recorrer(mina);
     derrumbar(mina);
+    printf("Bloques sin devolver: %d\n", pendientes);
     return 0;
 }
 ```
 
 #### Salida esperada
-
 ```
   Veta        45 de oro
   Pozo        30 de oro
   Norte       12 de oro
   Total: 87
+Bloques sin devolver: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Jefe R03 - Mision 2: la mordida de la Sanguijuela, ya curada.
- *  1. malloc(strlen(nombre)) pedia un byte de menos: falta el '\0'.
- *  2. derrumbar leia t->siguiente DESPUES de free(t): uso despues de liberar.
+ *  1. pedir(strlen(nombre)) pedia un byte de menos: falta el '\0'.
+ *  2. derrumbar leia t->siguiente DESPUES de devolver(t): uso despues de liberar.
  *  3. derrumbar liberaba el tunel pero no su nombre: fuga.
  * Ademas se revisa el NULL de cada malloc.
  */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* La tablilla de Hulda: cuenta los bloques pedidos que todavia no se devolvieron. */
+static int pendientes = 0;
+
+void *pedir(size_t tam)
+{
+    pendientes++;
+    return malloc(tam);
+}
+
+void devolver(void *p)
+{
+    if (p != NULL) {
+        pendientes--;
+    }
+    free(p);
+}
 
 typedef struct Tunel {
     char *nombre;
@@ -7003,13 +7066,13 @@ typedef struct Tunel {
 
 Tunel *cavar(Tunel *cabeza, const char *nombre, int oro)
 {
-    Tunel *t = malloc(sizeof *t);
+    Tunel *t = pedir(sizeof *t);
     if (t == NULL) {
         return cabeza;
     }
-    t->nombre = malloc(strlen(nombre) + 1);
+    t->nombre = pedir(strlen(nombre) + 1);
     if (t->nombre == NULL) {
-        free(t);
+        devolver(t);
         return cabeza;
     }
     strcpy(t->nombre, nombre);
@@ -7032,8 +7095,8 @@ void derrumbar(Tunel *cabeza)
 {
     while (cabeza != NULL) {
         Tunel *siguiente = cabeza->siguiente;
-        free(cabeza->nombre);
-        free(cabeza);
+        devolver(cabeza->nombre);
+        devolver(cabeza);
         cabeza = siguiente;
     }
 }
@@ -7046,9 +7109,17 @@ int main(void)
     mina = cavar(mina, "Veta", 45);
     recorrer(mina);
     derrumbar(mina);
+    printf("Bloques sin devolver: %d\n", pendientes);
     return 0;
 }
 ```
+
+#### Al superarla
+Los tres túneles quedan firmes. Tizón apaga la lámpara y la Sanguijuela, sin nada que morder, se aleja.
+
+#### Imagen
+- Tres túneles de mina reforzados con vigas nuevas, iluminados por una lámpara de luz blanca muy brillante.
+- Tizón sostiene la lámpara; Kira clava una viga.
 
 ### Encargo R03-N06-E1 · El historial del Gremio
 

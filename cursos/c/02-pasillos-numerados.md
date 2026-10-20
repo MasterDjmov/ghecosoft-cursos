@@ -682,29 +682,44 @@ El 6 salió cinco veces. Tizón dice que es casualidad. Los de la taberna dicen 
 - Seis montoncitos de piedritas, uno por cara de un dado, el del 6 más alto.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) defiende su dado frente a aprendices desconfiados.
 
-### Misión R02-N01-M1 · Las temperaturas del horno
+### Micro-misión R02-N01-P5 · Las temperaturas del horno
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El horno de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Tizón anota en la libreta las temperaturas del horno grande durante la mañana, hasta diez. A veces alguien le dicta cualquier cosa, y a veces se cansa antes y escribe «fin».
+—Decime la más alta, la más baja y el promedio. Y cuántas pasaron el promedio.
 
+#### Gheco sugiere
+Guardá las temperaturas en un `double temps[10]` y llevá la cuenta de cuántas cargaste. Una línea `fin` corta antes; lo que no sea un número se avisa y no se guarda. Después, un recorrido para el máximo, el mínimo y la suma, y otro para contar las que superan el promedio.
+
+#### Desafío
 Leé hasta 10 temperaturas (una por línea;
 `fin` termina antes) validando cada una. Mostrá la mayor, la menor, el
 promedio y cuántas lo superan.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee hasta 10 temperaturas validando cada una; `fin` termina antes.
 - Muestra la mayor, la menor, el promedio y cuántas lo superan.
 - Nunca escribe fuera del array.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 850
 920
@@ -717,7 +732,6 @@ fin
 ```
 
 #### Salida esperada
-
 ```
 Temperatura 1 (o "fin"): Temperatura 2 (o "fin"): Temperatura 3 (o "fin"):   no es una temperatura válida.
 Temperatura 3 (o "fin"): Temperatura 4 (o "fin"):   no es una temperatura válida.
@@ -726,8 +740,7 @@ Temperatura 4 (o "fin"): Temperatura 5 (o "fin"): Temperatura 6 (o "fin"):
 2 superan el promedio
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - Las temperaturas del horno: leer hasta 10 temperaturas (una por
@@ -793,75 +806,52 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Tizón copia los números a la libreta y subraya el más alto.
+—Ese fue cuando Ferrum se distrajo con el café.
 
-##### Diez temperaturas
-```entrada
-100
-200
-300
-400
-500
-600
-700
-800
-900
-1000
-```
-```salida
-Temperatura 1 (o "fin"): Temperatura 2 (o "fin"): Temperatura 3 (o "fin"): Temperatura 4 (o "fin"): Temperatura 5 (o "fin"): Temperatura 6 (o "fin"): Temperatura 7 (o "fin"): Temperatura 8 (o "fin"): Temperatura 9 (o "fin"): Temperatura 10 (o "fin"):
-10 temperaturas: mayor 1000, menor 100, promedio 550.0
-5 superan el promedio
-```
+#### Imagen
+- Un horno grande encendido con un termómetro de bronce enorme al costado, y una hilera de diez marcas de tiza en la pared.
+- Tizón (enano joven pelirrojo, hollín en las mejillas, antiparras en la frente) anota en su libreta; Kira lee el termómetro.
 
-##### Ninguna válida
-```entrada
--1
-mucho
-fin
-```
-```salida
-Temperatura 1 (o "fin"):   no es una temperatura válida.
-Temperatura 1 (o "fin"):   no es una temperatura válida.
-Temperatura 1 (o "fin"):
-No se cargó ninguna temperatura.
-```
-
-##### Una sola
-```entrada
-500
-fin
-```
-```salida
-Temperatura 1 (o "fin"): Temperatura 2 (o "fin"):
-1 temperaturas: mayor 500, menor 500, promedio 500.0
-0 superan el promedio
-```
-
-### Misión R02-N01-M2 · El espejo de la Forja
+### Micro-misión R02-N01-P6 · El espejo de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N01-M2
 ```
 
-#### Consigna
+#### Escena
+En el fondo de los pasillos hay un espejo de hierro pulido. Tizón pone una fila de lingotes numerados delante y le pide a Kira tres cosas: darla vuelta como la ve el espejo, encontrar un lingote y correrlos a todos un lugar.
 
+#### Gheco sugiere
+Para invertir sin otro array, intercambiá el primero con el último, el segundo con el anteúltimo… hasta la mitad. `buscar` recorre y devuelve la posición o `-1`. Para rotar, guardá el primero, corré todos uno a la izquierda y ponelo al final.
+
+#### Desafío
 Escribí `invertir(v, n)` (da vuelta el array sin
 usar otro), `buscar(v, n, valor)` (posición o `-1`) y `rotar_izquierda(v, n)`
 (el primero pasa al final).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `invertir` da vuelta el array sin usar otro.
 - `buscar` devuelve la posición o `-1`.
 - `rotar_izquierda` pasa el primero al final.
 - Cada función recibe el array y su cantidad.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 original:  3 1 4 1 5 9 2 
 invertido: 2 9 5 1 4 1 3 
@@ -869,8 +859,7 @@ el 5 está en la posición 2; el 7, en la -1
 rotado:    9 5 1 4 1 3 2 
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El espejo de la Forja: funciones que trabajan sobre arrays.
@@ -943,30 +932,52 @@ void rotar_izquierda(int v[], int n)
 }
 ```
 
-### Misión R02-N01-M3 · El mapa de la mina
+#### Al superarla
+La fila de lingotes queda dada vuelta, idéntica a la del espejo. Tizón la mira de los dos lados para estar seguro.
+
+#### Imagen
+- Un espejo grande de hierro pulido al final de un pasillo de estantes, con una fila de lingotes numerados reflejada.
+- Kira acomoda los lingotes; Tizón mira el reflejo con la cabeza inclinada.
+
+### Micro-misión R02-N01-P7 · El mapa de la mina
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las Minas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R02-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Hulda despliega en una mesa el mapa de una galería: paredes, pasillos y algunos tesoros.
+—Cada paso que des, lo marco. Por las paredes no se pasa, por más ganas que tengas.
 
+#### Gheco sugiere
+Una matriz `char mapa[5][8]` guarda el mapa. Con cada letra calculá la casilla nueva: si es pared (`#`), no te movés; si es un tesoro, lo sumás y queda vacío. Al final, dos `for` anidados dibujan el mapa con `K` donde está Kira.
+
+#### Desafío
 Una matriz de 5 × 8 con paredes y tesoros. Kira
 empieza en la fila 1, columna 1, y se mueve con `w`/`a`/`s`/`d` (una letra por
 línea; `q` termina). Las paredes no la dejan pasar y los tesoros se juntan.
 Al final, dibujá el mapa con Kira como `K`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una matriz de 5 × 8 para el mapa.
 - Las paredes frenan el movimiento y los tesoros se juntan.
 - Al terminar dibuja el mapa con `K` en la posición final.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 d
 d
@@ -986,7 +997,6 @@ q
 ```
 
 #### Salida esperada
-
 ```
 ########
 #K.$#.$#
@@ -1022,8 +1032,7 @@ Movimiento:
 Kira juntó 3 tesoros.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - El mapa de la mina: Kira se mueve por una matriz con w/a/s/d
@@ -1105,105 +1114,12 @@ void dibujar(int mapa[][COLUMNAS], int fila_kira, int col_kira)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Kira sale de la galería con todos los tesoros del recorrido. Hulda marca el mapa con su farol y lo enrolla.
 
-##### Sale enseguida
-```entrada
-q
-```
-```salida
-########
-#K.$#.$#
-#.#...##
-#$#.#.$#
-########
-Movimiento (w/a/s/d, q para salir):
-########
-#K.$#.$#
-#.#...##
-#$#.#.$#
-########
-Kira juntó 0 tesoros.
-```
-
-##### Contra la pared
-```entrada
-w
-a
-a
-q
-```
-```salida
-########
-#K.$#.$#
-#.#...##
-#$#.#.$#
-########
-Movimiento (w/a/s/d, q para salir):
-  ¡pared!
-Movimiento:
-  ¡pared!
-Movimiento:
-  ¡pared!
-Movimiento:
-########
-#K.$#.$#
-#.#...##
-#$#.#.$#
-########
-Kira juntó 0 tesoros.
-```
-
-##### Junta todos los tesoros que puede
-```entrada
-d
-d
-s
-s
-d
-d
-w
-w
-d
-d
-d
-s
-s
-q
-```
-```salida
-########
-#K.$#.$#
-#.#...##
-#$#.#.$#
-########
-Movimiento (w/a/s/d, q para salir):
-Movimiento:
-  ¡tesoro! (llevás 1)
-Movimiento:
-Movimiento:
-Movimiento:
-  ¡pared!
-Movimiento:
-  ¡pared!
-Movimiento:
-Movimiento:
-Movimiento:
-  ¡pared!
-Movimiento:
-  ¡pared!
-Movimiento:
-  ¡pared!
-Movimiento:
-Movimiento:
-Movimiento:
-########
-#...#.$#
-#.#...##
-#$#K#.$#
-########
-Kira juntó 1 tesoros.
-```
+#### Imagen
+- Un mapa de una galería dibujado sobre una mesa de madera, con paredes, pasillos y cofrecitos marcados.
+- Hulda (enana fortísima con casco de minera y farol naranja, trenzas grises y negras) señala el mapa; Kira mueve una ficha de hierro.
 
 ### Encargo R02-N01-E1 · Las notas de la escuela
 
@@ -1950,30 +1866,47 @@ int main(void)
 - Un cartel de madera recién clavado en una puerta de hierro: Herreria - Maese Ferrum.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) le alcanza los clavos a Kira.
 
-### Misión R02-N02-M1 · El nombre del aprendiz
+### Micro-misión R02-N02-P5 · El nombre del aprendiz
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de etiquetas
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R02-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Los aprendices nuevos se anotan en el mostrador de etiquetas y cada uno escribe su nombre como quiere: todo en minúscula, todo en mayúscula, o mitad y mitad. Chispa quiere que las placas queden prolijas, con las iniciales en una placa chiquita.
 
+#### Gheco sugiere
+Repetí la pregunta mientras el nombre esté vacío o tenga algo que no sea letra o espacio (`isalpha`, `isspace`). Una letra va en mayúscula si es la primera o si antes hay un espacio. Las iniciales van a otro texto: cuidá su tamaño y el `'\0'` del final.
+
+#### Desafío
 Pedí un nombre completo hasta que sea válido (no
 vacío, solo letras y espacios). Poné mayúscula al principio de cada palabra y
 minúscula en el resto (`kIRA del norte` → `Kira Del Norte`), y mostrá sus
 iniciales (`K.D.N.`) en otro texto, sin pasarte de su tamaño.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Vuelve a pedir el nombre hasta que no esté vacío y tenga solo letras y espacios.
 - Pone mayúscula al principio de cada palabra y minúscula en el resto.
 - Arma las iniciales en otro texto sin pasarse de su tamaño.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 
 k1ra
@@ -1981,7 +1914,6 @@ kIRA   del norte
 ```
 
 #### Salida esperada
-
 ```
 Nombre completo: 
   tiene que tener letras (sin números ni símbolos).
@@ -1991,8 +1923,7 @@ Nombre completo:
 Ficha: Kira   Del Norte (K.D.N.)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El nombre del aprendiz: pedir un nombre hasta que sea valido
@@ -2078,64 +2009,53 @@ void iniciales(const char texto[], char destino[], int tam)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las placas salen todas iguales de prolijas. Chispa cuelga la suya primero, con las iniciales bien grandes.
 
-##### Nombre simple
-```entrada
-ana
-```
-```salida
-Nombre completo:
-Ficha: Ana (A.)
-```
+#### Imagen
+- Un mostrador con placas de hierro grabadas con nombres prolijos, colgadas en una pared.
+- Chispa (mercader alto y flaco, sombrero de ala corta, bufanda naranja, diente de oro) sostiene una placa; Kira graba otra.
 
-##### Todo en mayúsculas
-```entrada
-JUAN PEREZ
-```
-```salida
-Nombre completo:
-Ficha: Juan Perez (J.P.)
-```
-
-##### Inválidos hasta el final
-```entrada
-123
-!!
-```
-```salida
-Nombre completo:
-  tiene que tener letras (sin números ni símbolos).
-Nombre completo:
-  tiene que tener letras (sin números ni símbolos).
-Nombre completo:
-Sin nombre, no hay ficha.
-```
-
-### Misión R02-N02-M2 · El registro de la Forja
+### Micro-misión R02-N02-P6 · El registro de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N02-M2
 ```
 
-#### Consigna
+#### Escena
+El registro de la Forja es una pila de papelitos con `nombre;nivel;oro`. Algunos los escribió Chispa, así que hay de todo.
+—Pasalos en limpio —le pide Tizón—, y decime en qué línea está cada desastre.
 
+#### Gheco sugiere
+Leé con `fgets` hasta que devuelva `NULL` y llevá el número de línea. `sscanf(linea, "%29[^;];%d;%d %c", ...)` tiene que devolver justo 3: si devuelve 4, sobran datos. Validá el nivel antes de sumar el oro.
+
+#### Desafío
 Leé líneas `nombre;nivel;oro` hasta que no haya
 más entrada. Mostrá las válidas en columnas y el oro total; las mal formadas
 (letras en el nivel, datos de menos o de más, nivel menor que 1) se informan
 con su número de línea.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Separa cada línea `nombre;nivel;oro` y valida los tres datos.
 - Muestra las válidas en columnas y el oro total.
 - Informa las mal formadas con su número de línea.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 Kira;7;350
 Tizon;12;1200
@@ -2147,7 +2067,6 @@ Hulda;6;80x
 ```
 
 #### Salida esperada
-
 ```
 Kira       nivel  7    350 de oro
 Tizon      nivel 12   1200 de oro
@@ -2159,8 +2078,7 @@ línea 7 inválida: "Hulda;6;80x"
 3 registros válidos, 10550 de oro en total
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El registro de la Forja: cada linea tiene "nombre;nivel;oro".
@@ -2199,62 +2117,54 @@ int main(void)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El registro queda en limpio, en columnas. Al lado, la lista de líneas rotas, casi todas con la letra de Chispa.
 
-##### Todo válido
-```entrada
-Ana;1;0
-Beto;99;5
-```
-```salida
-Ana        nivel  1      0 de oro
-Beto       nivel 99      5 de oro
-2 registros válidos, 5 de oro en total
-```
+#### Imagen
+- Una pila de papelitos desordenados al lado de un libro de registro con columnas prolijas.
+- Tizón separa los papelitos rotos; Kira copia los buenos al libro.
 
-##### Separadores raros
-```entrada
-;5;10
-Kira;;10
-Kira;5;
-```
-```salida
-línea 1 inválida: ";5;10"
-línea 2 inválida: "Kira;;10"
-línea 3 inválida: "Kira;5;"
-0 registros válidos, 0 de oro en total
-```
-
-##### Sin registros
-```entrada
-```
-```salida
-0 registros válidos, 0 de oro en total
-```
-
-### Misión R02-N02-M3 · Las runas espejo
+### Micro-misión R02-N02-P7 · Las runas espejo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de etiquetas
+personajes: Kira, Gheco, Chispa
+recompensa: xp 10, monedas 4
+antes: R02-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Chispa trae runas de una tienda vieja que, según él, se leen igual al derecho y al revés.
+—Si son de verdad, valen el triple. Fijate cuáles sí.
 
+#### Gheco sugiere
+Dos índices: uno desde el principio y otro desde el final. Saltá los espacios, compará las letras con `tolower` y acercalos hasta que se crucen. Si alguna no coincide, no es palíndromo.
+
+#### Desafío
 Escribí `es_palindromo(frase)`, que ignore los
 espacios y las mayúsculas (`"Anita lava la tina"` sí lo es), recorriendo el
 texto desde las dos puntas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `es_palindromo` ignora espacios y mayúsculas.
 - Recorre el texto desde las dos puntas, sin copiarlo.
 - Prueba con "Anita lava la tina" y con una frase que no lo sea.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Neuquen              es palíndromo
 Anita lava la tina   es palíndromo
@@ -2263,8 +2173,7 @@ Somos o no somos     es palíndromo
 Ferrum               no
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Las runas espejo: una frase es palindromo si se lee igual al
@@ -2309,6 +2218,13 @@ bool es_palindromo(const char frase[])
     return true;
 }
 ```
+
+#### Al superarla
+Solo dos runas son de verdad. Chispa las guarda en el bolsillo de adentro y las otras las vende igual, «como decorativas».
+
+#### Imagen
+- Runas de piedra con letras talladas sobre un paño, delante de un espejo chiquito.
+- Chispa levanta una runa contra el espejo; Kira las ordena en fila.
 
 ### Encargo R02-N02-E1 · Las contraseñas del Gremio
 
@@ -3105,30 +3021,45 @@ int main(void)
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sostiene la ficha contra la luz de una antorcha.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) sentado en el piso, sin el calibre en la mano.
 
-### Misión R02-N03-M1 · La ficha del arma
+### Micro-misión R02-N03-P5 · La ficha del arma
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de fichas
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R02-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Ferrum quiere una ficha de hierro para cada arma del depósito, igual que la de los aprendices: nombre, tipo, daño, peso y cuánto le queda antes de romperse.
+—Y que se pueda usar y reparar sin perder la ficha.
 
+#### Gheco sugiere
+`typedef struct { ... } Arma;` con un `enum` para el tipo. Las funciones reciben el arma, la cambian y la **devuelven**: `arma = usar(arma, 10);`. El daño efectivo es la mitad si la durabilidad baja de 20.
+
+#### Desafío
 Un struct `Arma` con nombre, tipo (un `enum`: espada,
 hacha, arco), daño, peso y durabilidad (0 a 100). Escribí `mostrar_arma`,
 `danio_efectivo` (la mitad si la durabilidad es menor que 20), `usar(arma,
 golpes)` y `reparar(arma)`, que devuelven el arma modificada.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define `Arma` con un `enum` para el tipo.
 - `danio_efectivo` baja a la mitad con durabilidad menor que 20.
 - `usar` y `reparar` devuelven el arma modificada (por valor).
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Filo del Alba  espada daño 20 (efectivo 20)  3.5 kg  durabilidad 100
 Rompeyunques   hacha  daño 28 (efectivo 28)  6.0 kg  durabilidad  30
@@ -3139,8 +3070,7 @@ después de pasar por la Forja:
 Rompeyunques   hacha  daño 28 (efectivo 28)  6.0 kg  durabilidad 100
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - La ficha del arma: un struct con un enum adentro y funciones
@@ -3225,29 +3155,52 @@ Arma reparar(Arma a)
 }
 ```
 
-### Misión R02-N03-M2 · Las zonas de la Forja
+#### Al superarla
+Cada arma del depósito tiene su ficha colgada del mango. Ferrum repara la espada más gastada y la ficha lo anota sola.
+
+#### Imagen
+- Una espada, un hacha y un arco colgados en una pared, cada uno con una ficha de hierro atada al mango.
+- Maese Ferrum (herrero humano enorme, barba gris trenzada, ojo derecho naranja, delantal de cuero) afila un hacha; Kira completa una ficha.
+
+### Micro-misión R02-N03-P6 · Las zonas de la Forja
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón marca con tiza las zonas del patio: la del yunque, la del horno, la de la carga. Quiere saber si un carro está adentro de una zona y si dos zonas se pisan.
+—Así no choca nadie más.
 
+#### Gheco sugiere
+Un punto está adentro si su `x` está entre la esquina y la esquina más el ancho, y lo mismo con `y` y el alto. Dos rectángulos se tocan si **no** está uno entero a la izquierda, a la derecha, arriba o abajo del otro.
+
+#### Desafío
 Un struct `Rect` con una `Posicion` (la esquina de
 arriba a la izquierda), ancho y alto. Escribí `contiene(rect, punto)` y
 `se_tocan(a, b)`. (Es lo que hacen los juegos para detectar choques.)
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Rect` contiene una `Posicion`.
 - `contiene` y `se_tocan` responden bien, incluidos los bordes.
 - Muestra pruebas con rectángulos que se tocan y que no.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 ¿Kira está en el horno? sí
 ¿Kira está en el depósito? no
@@ -3255,8 +3208,7 @@ arriba a la izquierda), ancho y alto. Escribí `contiene(rect, punto)` y
 ¿el horno toca el depósito? no
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Las zonas de la Forja: rectangulos con un struct anidado.
@@ -3309,30 +3261,53 @@ bool se_tocan(Rect a, Rect b)
 }
 ```
 
-### Misión R02-N03-M3 · La máquina de estados
+#### Al superarla
+Las zonas quedan marcadas sin pisarse. Un carro entra justo en la de carga y Tizón aplaude.
+
+#### Imagen
+- El patio de piedra de la Forja con rectángulos de tiza dibujados en el piso y un carro de mano adentro de uno.
+- Tizón mide un rectángulo con su calibre; Kira empuja el carro.
+
+### Micro-misión R02-N03-P7 · La máquina de estados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de los autómatas
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Tizón armó un muñeco de práctica que camina, ataca y se frena según la palanca que le toques. Si lo golpean queda herido, y herido no ataca.
+—Pasale la lista de órdenes y contame qué hizo en cada una.
 
+#### Gheco sugiere
+Un `enum Estado` y una función `siguiente(estado, evento)` con un `switch` sobre el evento. Herido, `a` no cambia nada. Recorré el texto `"mapgamgpa"` y mostrá cada cambio.
+
+#### Desafío
 Un `enum Estado` (quieto, caminando, atacando,
 herido) y una función `siguiente(estado, evento)`: `m` camina, `a` ataca, `g`
 lo deja herido y `p` lo frena. Estando herido no puede atacar. Procesá los
 eventos `"mapgamgpa"` mostrando cada cambio.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un `enum Estado` y `siguiente(estado, evento)`.
 - Estando herido no puede atacar.
 - Procesa `"mapgamgpa"` mostrando cada cambio.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 empieza quieto
 'm': quieto    -> caminando
@@ -3346,8 +3321,7 @@ empieza quieto
 'a': quieto    -> atacando
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - La maquina de estados del aprendiz: un enum para el estado y
@@ -3409,6 +3383,13 @@ Estado siguiente(Estado actual, char evento)
     }
 }
 ```
+
+#### Al superarla
+El muñeco hace todo en orden: camina, ataca, cae herido y se queda quieto donde tenía que quedarse.
+
+#### Imagen
+- Un muñeco de práctica de madera y hierro con articulaciones, delante de un tablero de palancas.
+- Tizón baja una palanca; Kira lee la lista de órdenes.
 
 ### Encargo R02-N03-E1 · Los vencimientos del Gremio
 
@@ -4203,31 +4184,47 @@ Cuarenta y cinco. Tizón recorre el pasillo moviendo el cartel de un lado a otro
 - Un cartel que salta de estante en estante dejando una estela de luz cian.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) lo mueve con un dedo, fascinado.
 
-### Misión R02-N04-M1 · La receta de lectura
+### Micro-misión R02-N04-P5 · La receta de lectura
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de la Forja
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Tizón está harto de copiar el mismo bucle de preguntar cada vez que necesita un número.
+—Hacé una receta que pregunte hasta que le contesten bien, y que deje el número donde le digas. Probala con tres durezas de metal.
 
+#### Gheco sugiere
+`pedir_entero` recibe un `int *resultado`: guarda el número con `*resultado = valor` y devuelve `true`, o `false` si `fgets` da `NULL`. `ordenar_tres(&x, &y, &z)` compara de a dos e intercambia con `intercambiar(&a, &b)`.
+
+#### Desafío
 Convertí el bucle de validación del 07 en una
 función `bool pedir_entero(pregunta, minimo, maximo, int *resultado)`: vuelve
 a preguntar hasta que el dato sea válido y devuelve `false` si se terminó la
 entrada. Con ella, pedí tres durezas y ordenalas con
 `ordenar_tres(&x, &y, &z)` (que usa `intercambiar`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `pedir_entero` vuelve a preguntar hasta un dato válido y devuelve `false` si se termina la entrada.
 - Deja el resultado en `*resultado`.
 - `ordenar_tres(&x, &y, &z)` usa `intercambiar`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 70
 cien
@@ -4237,7 +4234,6 @@ cien
 ```
 
 #### Salida esperada
-
 ```
 Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100): 
   tiene que ser un entero entre 1 y 100.
@@ -4247,8 +4243,7 @@ Dureza del segundo lingote (1-100): Dureza del tercer lingote (1-100):
 De menor a mayor: 15 42 70
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - La receta de lectura, ahora como funcion: pedir_entero devuelve
@@ -4318,62 +4313,52 @@ void ordenar_tres(int *a, int *b, int *c)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las tres durezas quedan ordenadas. Tizón pega la receta en la ventanilla: «para preguntar, usar esta».
 
-##### Ya ordenadas
-```entrada
-1
-2
-3
-```
-```salida
-Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100): Dureza del tercer lingote (1-100):
-De menor a mayor: 1 2 3
-```
+#### Imagen
+- Una ventanilla con una hoja de receta pegada y tres muestras de metal de distinto brillo en el mostrador.
+- Tizón ordena las muestras; Kira escribe en una hoja.
 
-##### Iguales
-```entrada
-50
-50
-50
-```
-```salida
-Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100): Dureza del tercer lingote (1-100):
-De menor a mayor: 50 50 50
-```
-
-##### Se termina la entrada
-```entrada
-10
-```
-```salida
-Dureza del primer lingote (1-100): Dureza del segundo lingote (1-100):
-No hay más entrada.
-```
-
-### Misión R02-N04-M2 · Recorrer con punteros
+### Micro-misión R02-N04-P6 · Recorrer con punteros
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R02-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Hulda le enseña a Kira a recorrer los pasillos sin mirar los números de los estantes: solo con carteles que avanzan.
+—Uno desde cada punta, hasta que se encuentren.
 
+#### Gheco sugiere
+Un puntero avanza con `p++` y se lee con `*p`. Para invertir, `izq = v` y `der = v + n - 1`: intercambiás y se acercan mientras `izq < der`. `mi_strlen` avanza hasta encontrar el `'\0'` y devuelve `p - texto`.
+
+#### Desafío
 Sin usar índices: `contar_mayores(inicio, fin,
 limite)` (cuenta desde `inicio` hasta antes de `fin`), `invertir(v, n)` con
 dos punteros que se acercan desde las puntas y `mi_strlen(texto)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No usa índices: recorre con punteros.
 - `contar_mayores(inicio, fin, limite)` cuenta hasta antes de `fin`.
 - `invertir` usa dos punteros desde las puntas; `mi_strlen` avanza hasta el `'\0'`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stddef.h>    /* size_t */
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 mayores que 30: 4
 mayores que 30 en la primera mitad: 1
@@ -4382,8 +4367,7 @@ mi_strlen("Ferrum") = 6
 mi_strlen("") = 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - Recorrer con punteros: sin indices, solo avanzando el puntero.
@@ -4452,38 +4436,60 @@ size_t mi_strlen(const char *s)
 }
 ```
 
-### Misión R02-N04-M3 · Los extremos de la horda
+#### Al superarla
+Kira cruza el pasillo entero sin leer un solo número. Hulda le devuelve el farol que le había sacado «para que no hiciera trampa».
+
+#### Imagen
+- Un pasillo largo de estantes de hierro con dos carteles con flecha que avanzan desde cada punta.
+- Hulda, con casco de farol, camina desde un lado; Kira desde el otro.
+
+### Micro-misión R02-N04-P7 · Los extremos de la horda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los pasillos numerados
+personajes: Kira, Gheco, Tizón
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R02-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Una horda de orcos duerme en fila en el pasillo. Tizón quiere saber dónde está el más fuerte y dónde el más débil, sin moverlos.
+—Dame la dirección. Del resto me encargo.
 
+#### Gheco sugiere
+`extremos` recibe `int **menor` y `int **mayor`: guarda en `*menor` la **dirección** del elemento (`&v[i]`). Después, `**mayor /= 2` cambia la vida en el array, y `*mayor - v` da la posición.
+
+#### Desafío
 Escribí `extremos(v, n, int **menor, int
 **mayor)`, que deja en `*menor` y `*mayor` la **dirección** de esos
 elementos. Con ellas, dividí por 2 la vida del más fuerte y poné en 0 la del
 más débil, y mostrá en qué posición estaban (resta de punteros).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `extremos` recibe `int **menor` y `int **mayor` y deja las direcciones.
 - Modifica la vida del más fuerte y del más débil a través de esos punteros.
 - Muestra la posición con resta de punteros.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 vidas: 45 12 80 33 67
 el más débil tiene 12 (posición 1); el más fuerte, 80 (posición 2)
 vidas: 45 0 40 33 67
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Los extremos de la horda: extremos() deja en *menor y *mayor la
@@ -4536,6 +4542,13 @@ void mostrar(const int v[], int n)
     printf("\n");
 }
 ```
+
+#### Al superarla
+El orco más fuerte queda con la mitad de la vida y ni se despierta. Tizón anota las posiciones con tiza en el piso.
+
+#### Imagen
+- Una fila de orcos verdes durmiendo en un pasillo de estantes, uno mucho más grande que los demás.
+- Tizón señala al más grande con el calibre; Kira camina en puntas de pie.
 
 ### Encargo R02-N04-E1 · El reloj del taller
 
@@ -5312,30 +5325,47 @@ Kira, de 25 a 55. Hulda le venda el brazo con un nudo de minera. —La próxima,
 - Una cuadrilla de mineros sentados entre piedras después de un derrumbe.
 - Hulda (enana fortísima, casco de minera con farol naranja, trenzas grises y negras, pico al hombro) venda el brazo de Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian).
 
-### Misión R02-N05-M1 · La mochila por puntero
+### Micro-misión R02-N05-P5 · La mochila por puntero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de fichas
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R02-N05-M1
 ```
 
-#### Consigna
+#### Escena
+La mochila de Kira tiene lugar para pocas cosas. Hulda le muestra cómo cargarla y descargarla mandando el cartel de la ficha, no una copia.
+—Si sacás algo del medio, corré lo de atrás. No me dejes huecos.
 
+#### Gheco sugiere
+Las funciones reciben `Personaje *p` y usan `p->mochila` y `p->cantidad`. `quitar` busca el objeto, corre los de atrás una posición y resta uno. `tiene` recibe `const Personaje *`: solo mira.
+
+#### Desafío
 Rehacé la mochila del 12 con funciones que
 reciben `Personaje *`: `agregar` (devuelve `false` si está llena), `quitar`
 (corre los objetos de atrás para tapar el hueco; `false` si no lo tenía) y
 `tiene` (con `const`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `agregar`, `quitar` y `tiene` reciben `Personaje *` (`tiene` con `const`).
 - `quitar` corre los objetos para tapar el hueco.
 - Devuelven `false` cuando no se puede.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 no entra: Mapa
 mochila de Kira (4/4): [Poción] [Llave] [Cuerda] [Antorcha]
@@ -5345,8 +5375,7 @@ usó la Llave. ¿tiene Llave? no
 mochila de Kira (4/4): [Poción] [Cuerda] [Antorcha] [Mapa]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - La mochila por puntero: agregar, quitar y buscar objetos
@@ -5438,53 +5467,79 @@ void mostrar(const Personaje *p)
 }
 ```
 
-### Misión R02-N05-M2 · El duelo
+#### Al superarla
+La mochila queda ordenada, sin un hueco. Hulda le agrega una soga, «por si te volvés a caer en un pasillo».
+
+#### Imagen
+- Una mochila de cuero abierta con objetos ordenados en compartimentos: una soga, una poción, un mapa.
+- Hulda mete una soga en la mochila; Kira la sostiene.
+
+### Micro-misión R02-N05-P6 · El duelo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Antes de la Arena, Tizón organiza un duelo de práctica entre dos muñecos con fichas de hierro. Quiere saber quién gana y en qué turno.
+—Atacan de a uno. Cambiá el atacante y el defensor en cada turno.
 
+#### Gheco sugiere
+`srand(7)`. En cada turno, daño = ataque + tirada de 0 a 5 − defensa, mínimo 1, y el doble con un 5. Para alternar, intercambiá los punteros `atacante` y `defensor`. `duelo` devuelve un puntero al que quedó en pie. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Dos `Luchador` (vida, ataque, defensa) pelean por turnos con
 `srand(7)`: daño = ataque + tirada de 0 a 5 − defensa (mínimo 1; con 5, el
 doble). `duelo(&a, &b)` devuelve un puntero al ganador. Para alternar
 turnos, intercambiá dos punteros `atacante` y `defensor`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `srand(7)` y la regla de daño (mínimo 1; el doble con 5).
 - `duelo(&a, &b)` devuelve un puntero al ganador.
 - Alterna turnos intercambiando los punteros `atacante` y `defensor`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 ronda 1
-  Kira pega 10 -> Gólem queda con 70
-  Gólem pega 10 -> Kira queda con 50
+  Kira pega 24 (¡crítico!) -> Gólem queda con 56
+  Gólem pega 11 -> Kira queda con 49
 ronda 2
-  Kira pega 24 (¡crítico!) -> Gólem queda con 46
-  Gólem pega  8 -> Kira queda con 42
+  Kira pega  7 -> Gólem queda con 49
+  Gólem pega 10 -> Kira queda con 39
 ronda 3
-  Kira pega 24 (¡crítico!) -> Gólem queda con 22
-  Gólem pega 10 -> Kira queda con 32
+  Kira pega  8 -> Gólem queda con 41
+  Gólem pega  9 -> Kira queda con 30
 ronda 4
-  Kira pega  9 -> Gólem queda con 13
-  Gólem pega  8 -> Kira queda con 24
+  Kira pega 10 -> Gólem queda con 31
+  Gólem pega  9 -> Kira queda con 21
 ronda 5
-  Kira pega  7 -> Gólem queda con 6
-  Gólem pega  8 -> Kira queda con 16
+  Kira pega 10 -> Gólem queda con 21
+  Gólem pega  7 -> Kira queda con 14
 ronda 6
+  Kira pega  8 -> Gólem queda con 13
+  Gólem pega 11 -> Kira queda con 3
+ronda 7
   Kira pega 24 (¡crítico!) -> Gólem queda con 0
-Gana Kira con 16 de vida.
+Gana Kira con 3 de vida.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El duelo: dos personajes pelean por turnos con tiradas al
@@ -5559,29 +5614,51 @@ const Luchador *duelo(Luchador *a, Luchador *b)
 }
 ```
 
-### Misión R02-N05-M3 · Subir de nivel
+#### Al superarla
+Gana el muñeco que Tizón había apostado. Él dice que lo sabía desde el principio.
+
+#### Imagen
+- Dos muñecos de práctica de madera y hierro enfrentados en una arena chica con piso de arena.
+- Tizón, sentado en una tribuna de piedra, anota los turnos; Kira hace sonar una campana.
+
+### Micro-misión R02-N05-P7 · Subir de nivel
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de fichas
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R02-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Ferrum tiene que actualizar las fichas de los aprendices con la experiencia del mes. A algunos les toca subir más de un nivel de golpe.
+—Que la ficha lo calcule sola. Yo no pienso contar.
 
+#### Gheco sugiere
+`ganar_experiencia(Personaje *p, int xp)` suma la experiencia y, con un `while`, sube de nivel mientras alcance `nivel * 100`: resta lo que cuesta, sube vida y ataque. Devuelve cuántas veces subió.
+
+#### Desafío
 `ganar_experiencia(Personaje *p, int xp)` suma la
 experiencia y sube de nivel cada vez que alcanza `nivel × 100` (más vida y
 ataque). Devuelve cuántos niveles subió: puede ser más de uno de golpe.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `ganar_experiencia` sube de nivel cada vez que alcanza `nivel × 100`.
 - Puede subir más de un nivel de golpe (usa un bucle).
 - Devuelve cuántos niveles subió.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
   Chispa nivel 1 (0/100 xp)  vida 50  ataque 8
 +60 xp
@@ -5594,8 +5671,7 @@ ataque). Devuelve cuántos niveles subió: puede ser más de uno de golpe.
   Chispa nivel 4 (40/400 xp)  vida 80  ataque 14
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Subir de nivel: ganar_experiencia modifica al personaje y
@@ -5659,6 +5735,13 @@ void mostrar(const Personaje *p)
            xp_para_subir(p->nivel), p->vida_max, p->ataque);
 }
 ```
+
+#### Al superarla
+Una ficha sube tres niveles de una sola vez. Ferrum la lee dos veces y la cuelga primera en el tablero.
+
+#### Imagen
+- Un tablero con fichas de hierro de aprendices, una brillando más que las otras.
+- Maese Ferrum cuelga la ficha brillante; Kira mira desde abajo.
 
 ### Encargo R02-N05-E1 · El banco del Gremio
 
@@ -6586,30 +6669,45 @@ Del más barato al más caro. El autómata de bronce hace una reverencia y vuelv
 - Un autómata de bronce chiquito ordenando lingotes sobre una mesa.
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) lo mira con cariño de abuelo.
 
-### Misión R02-N06-M1 · El tablero de récords
+### Micro-misión R02-N06-P5 · El tablero de récords
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N06-M1
 ```
 
-#### Consigna
+#### Escena
+En la entrada de la Arena hay un tablero con los cinco mejores puntajes. Tizón quiere que se acomode solo cada vez que alguien juega.
+—Y si no entrás, que te lo diga. Sin vueltas.
 
+#### Gheco sugiere
+Buscá el primer puesto con menos puntos que el nuevo. Corré los de abajo un lugar hacia atrás (el último se cae si está lleno) y poné el nuevo en el hueco. Devolvé el puesto, o `-1` si no entró.
+
+#### Desafío
 Guardá los 5 mejores puntajes **siempre
 ordenados** de mayor a menor. `insertar(&tablero, nombre, puntos)` busca la
 posición, corre hacia atrás los de abajo (el último se cae si está lleno) y
 devuelve el puesto, o `-1` si no entró.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El tablero queda siempre ordenado de mayor a menor.
 - `insertar` corre hacia atrás los de abajo; si está lleno, el último se cae.
 - Devuelve el puesto o `-1`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 Kira   420: entra en el puesto 1
 Chispa 380: entra en el puesto 2
@@ -6626,8 +6724,7 @@ Ferrum 200: entra en el puesto 5
   5. Ferrum  200
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El tablero de records: guarda los 5 mejores puntajes, siempre
@@ -6699,30 +6796,54 @@ void mostrar(const Tablero *t)
 }
 ```
 
-### Misión R02-N06-M2 · La armería
+#### Al superarla
+El tablero se acomoda solo. Tizón juega cinco veces seguidas hasta que su nombre aparece arriba de todo.
+
+#### Imagen
+- Un tablero de bronce en la entrada de una arena con cinco filas de nombres y puntajes.
+- Tizón señala su nombre con orgullo; Kira se ríe a su lado.
+
+### Micro-misión R02-N06-P6 · La armería
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Forja
+personajes: Kira, Gheco, Hulda
+recompensa: xp 10, monedas 4
+antes: R02-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Hulda arma la armería para la expedición: quiere armas livianas, la que más daño hace por kilo y la lista ordenada.
+—No pienso cargar un hacha de doce kilos por una cueva.
 
+#### Gheco sugiere
+Recorré el array para las livianas y para la de mejor `danio / peso` (devolvé un puntero a ella). `qsort` necesita una función de comparación que reciba dos `const void *`: compará por daño y, si empatan, con `strcmp`.
+
+#### Desafío
 Con un array de armas (nombre, daño, peso): mostrá las que
 pesan menos de 3 kg, buscá la de mejor daño por kilo (devolviendo un
 puntero) y ordenalas con `qsort` por daño de mayor a menor y, si empatan,
 por nombre.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra las armas de menos de 3 kg.
 - Devuelve un puntero a la de mejor daño por kilo.
 - Ordena con `qsort` por daño de mayor a menor y, si empatan, por nombre.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 livianas (menos de 3 kg): Daga Estoque
 mejor daño por kilo: Estoque (11.7)
@@ -6735,8 +6856,7 @@ por daño:
   Daga      9  0.8 kg
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - La armeria: filtrar, buscar la mejor relacion danio/peso y
@@ -6805,30 +6925,54 @@ const Arma *mejor_relacion(const Arma armas[], int n)
 }
 ```
 
-### Misión R02-N06-M3 · El registro con menú
+#### Al superarla
+Hulda elige la de mejor daño por kilo y se la cuelga del cinturón. El hacha de doce kilos se queda en el estante.
+
+#### Imagen
+- Una armería con espadas, hachas y martillos colgados por tamaño, y una balanza de bronce adelante.
+- Hulda pesa un hacha en la balanza; Kira anota el peso.
+
+### Micro-misión R02-N06-P7 · El registro con menú
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R02-N06-M3
 ```
 
-#### Consigna
+#### Escena
+Ferrum le entrega a Kira el libro de la compañía.
+—Vas a ser la encargada del registro: altas, bajas, búsquedas y la lista completa. Sin nombres repetidos y sin pasarte del lugar que hay.
 
+#### Gheco sugiere
+Un menú en un bucle con `pedir_entero`. Antes de agregar, fijate que haya lugar y que el nombre no esté. `pedir_texto` repite mientras la línea esté vacía. Para quitar, corré los de atrás.
+
+#### Desafío
 Un menú que agrega (sin repetir nombres ni pasarse
 de la capacidad), busca, quita y lista miembros de la compañía, validando
 todo con `pedir_entero` (del 13) y un `pedir_texto` que no acepte líneas
 vacías.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Menú para agregar, buscar, quitar y listar.
 - No repite nombres ni se pasa de la capacidad.
 - Valida todo con `pedir_entero` y un `pedir_texto` que no acepta vacíos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Entrada
 ```
 1
 Kira
@@ -6858,7 +7002,6 @@ Chispa
 ```
 
 #### Salida esperada
-
 ```
 1) agregar  2) buscar  3) quitar  4) listar  0) salir
 Opción: Nombre: Nivel (1-99): Se sumó Kira.
@@ -6903,8 +7046,7 @@ Opción:   1. Tizon (nivel 12)
 Opción: ¡Hasta la próxima!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - El registro de la compania, con menu: agregar, buscar, quitar,
@@ -7040,63 +7182,30 @@ int posicion(const Compania *c, const char *nombre)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El libro de la compañía queda impecable. Ferrum lo hojea y le da a Kira la llave del armario del registro.
 
-##### Listar vacío y salir
-```entrada
-4
-0
-```
-```salida
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: (vacía)
+#### Imagen
+- Un libro grueso de registro abierto sobre un atril, con una llave de hierro grande al lado.
+- Maese Ferrum le entrega la llave a Kira.
 
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: ¡Hasta la próxima!
-```
-
-##### Buscar y quitar lo que no está
-```entrada
-2
-Nadie
-3
-Nadie
-0
-```
-```salida
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: Nombre: No hay nadie llamado Nadie.
-
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: Nombre: No hay nadie llamado Nadie.
-
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: ¡Hasta la próxima!
-```
-
-##### Se termina la entrada
-```entrada
-1
-Kira
-```
-```salida
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: Nombre: Nivel (1-99):
-1) agregar  2) buscar  3) quitar  4) listar  0) salir
-Opción: ¡Hasta la próxima!
-```
-
-### Misión R02-N06-M4 · El cuadro de honor
+### Micro-misión R02-N06-P8 · El cuadro de honor
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El registro de la Forja
+personajes: Kira, Gheco, Maese Ferrum, Tizón
+recompensa: xp 10, monedas 4
+antes: R02-N06-M4
 ```
 
-#### Consigna
+#### Escena
+Ferrum quiere colgar el cuadro de honor de los aprendices, ordenado por su promedio de temple. Tizón, que siempre queda primero, pide que esta vez lo hagan bien.
+—Y si empatan, por nombre.
 
+#### Gheco sugiere
+Calculá el promedio de cada uno y ordená con **burbuja**: intercambiás dos fichas si el promedio de la primera es menor o, si son iguales, si su nombre va después (`strcmp(...) > 0`). Mostrá el promedio con `%.2f`.
+
+#### Desafío
 Ferrum quiere colgar en la pared el **cuadro de honor** de los aprendices.
 Cargá en un array de structs a Kira (8, 9, 7), Tizon (9, 9, 6), Hulda (10, 6, 8),
 Chispa (5, 6, 4) y Brasa (9, 9, 8), con sus tres notas de temple; calculá el
@@ -7104,14 +7213,25 @@ promedio de cada uno y ordená con **burbuja** por promedio **descendente** y, s
 empatan, por nombre **ascendente**. Mostrá el cuadro numerado con el promedio
 con dos decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un array de structs (nombre, notas y promedio) y una función que calcula el promedio.
 - Ordena con burbuja usando una función de comparación con desempate por nombre (`strcmp`).
 - Kira, Hulda y Tizon empatan en 8.00 y quedan en orden alfabético.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 CUADRO DE HONOR DE LA FORJA
 1. Brasa    8.67
@@ -7121,8 +7241,7 @@ CUADRO DE HONOR DE LA FORJA
 5. Chispa   5.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 4 - El cuadro de honor: ordenar structs con burbuja, por promedio
@@ -7188,6 +7307,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+El cuadro de honor queda colgado. Tizón no sale primero, pero está, y por primera vez no pide que lo midan.
+
+#### Imagen
+- Un cuadro de honor de madera tallada colgado en la pared, con cinco placas de nombres.
+- Maese Ferrum lo cuelga; Tizón busca su nombre con el dedo y Kira lo mira.
 
 ### Encargo R02-N06-E1 · La ferretería del Gremio
 
@@ -8233,29 +8359,34 @@ La Araña de las Direcciones queda colgando de su propia tela, enredada en carte
 - Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) enrolla un hilo de cobre brillante en la mano.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) y Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) en la tribuna; Tizón levanta el calibre.
 
-### Misión R02-N07-M1 · El veneno del Goblin
+### Micro-misión R02-N07-P5 · El veneno del Goblin
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón
+criatura: goblin
+recompensa: xp 30, monedas 6
+antes: R02-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de la Araña, en la Arena aparece un goblin con dagas envenenadas. Tizón le avisa a Kira desde la tribuna:
+—Si te pincha, el veneno dura tres turnos. Una poción también lo cura.
 
+#### Gheco sugiere
+Agregá a `Partida` un campo para los turnos de veneno que quedan. Cada golpe del goblin lo pone en 3 si Kira no estaba envenenada; al empezar su turno, si es mayor que 0, resta 3 de vida y descuenta uno. La poción lo pone en 0. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Cada golpe del Goblin envenena a Kira (si no lo
 estaba). Envenenada, pierde 3 de vida al comienzo de sus próximos 3 turnos, y
 una poción también cura el veneno. Hace falta un campo nuevo en `Partida`. (En la partida de la solución, el veneno se nota: Kira cae ante la Araña.)
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Agrega a `Partida` el campo para contar los turnos de veneno.
 - Cada golpe del Goblin envenena si no lo estaba; envenenada, pierde 3 de vida al comienzo de sus próximos 3 turnos.
 - La poción también cura el veneno.
 
 #### Código inicial
-
 ```c
 /*
  * 16 - Proyecto del bloque 2: LA ARENA DE LAS FORJAS.
@@ -8523,8 +8654,7 @@ void recompensa(Partida *p)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 1
 1
@@ -8551,7 +8681,6 @@ void recompensa(Partida *p)
 ```
 
 #### Salida esperada
-
 ```
 === LA ARENA DE LAS FORJAS ===
 
@@ -8559,12 +8688,12 @@ void recompensa(Partida *p)
   [##########]  90/ 90 Kira
   [##########]  30/ 30 Slime de escoria
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 18 de daño.
+Kira ataca: 17 de daño.
 Slime de escoria pega: 6 de daño.
   [#########-]  84/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
+  [####------]  13/ 30 Slime de escoria
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 19 de daño.
+Kira ataca: 18 de daño.
 ¡Slime de escoria cae!
 Ferrum ofrece una recompensa:
 1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción: 
@@ -8575,25 +8704,25 @@ El ataque de Kira sube a 19.
   [##########]  45/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira se cubre con el escudo.
-Goblin de la fragua pega: 6 de daño.
+Goblin de la fragua pega: 5 de daño.
 ¡La daga estaba envenenada!
-  [########--]  78/ 90 Kira
+  [########--]  79/ 90 Kira
   [##########]  45/ 45 Goblin de la fragua
 El veneno quema: -3 (turnos de veneno restantes: 2).
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 18 de daño.
-Goblin de la fragua pega: 8 de daño.
+Kira ataca: 20 de daño.
+Goblin de la fragua pega: 9 de daño.
   [#######---]  67/ 90 Kira
-  [######----]  27/ 45 Goblin de la fragua
+  [#####-----]  25/ 45 Goblin de la fragua
 El veneno quema: -3 (turnos de veneno restantes: 1).
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 19 de daño.
-Goblin de la fragua pega: 9 de daño.
-  [######----]  55/ 90 Kira
-  [#---------]   8/ 45 Goblin de la fragua
+Kira ataca: 20 de daño.
+Goblin de la fragua pega: 11 de daño.
+  [#####-----]  53/ 90 Kira
+  [#---------]   5/ 45 Goblin de la fragua
 El veneno quema: -3 (turnos de veneno restantes: 0).
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 21 de daño.
+Kira ataca: 17 de daño.
 ¡Goblin de la fragua cae!
 Ferrum ofrece una recompensa:
 1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción: 
@@ -8604,96 +8733,86 @@ Kira recupera toda la vida: 110.
   [##########]  60/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira ataca: 18 de daño.
-Orco del yunque pega: 13 de daño.
-  [########--]  97/110 Kira
+Orco del yunque pega: 12 de daño.
+  [########--]  98/110 Kira
   [#######---]  42/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 15 de daño.
+Kira ataca: 18 de daño.
 Orco del yunque pega: 14 de daño.
-  [#######---]  83/110 Kira
-  [####------]  27/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 17 de daño.
-Orco del yunque pega: 12 de daño.
-  [######----]  71/110 Kira
-  [#---------]  10/ 60 Orco del yunque
+  [#######---]  84/110 Kira
+  [####------]  24/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira ataca: 16 de daño.
+Orco del yunque pega: 14 de daño.
+  [######----]  70/110 Kira
+  [#---------]   8/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+Kira ataca: 19 de daño.
 ¡Orco del yunque cae!
 Ferrum ofrece una recompensa:
 1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción: 
 El ataque de Kira sube a 22.
 
 --- Oleada 4 de 4: Araña de las Direcciones ---
-  [######----]  71/110 Kira
+  [######----]  70/110 Kira
   [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 36 de daño.
-Araña de las Direcciones pega: 18 de daño.
+El golpe fuerte falla.
+Araña de las Direcciones pega: 17 de daño.
   [####------]  53/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 El golpe fuerte falla.
 Araña de las Direcciones pega: 16 de daño.
   [###-------]  37/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira toma una poción (le quedan 1).
 La Araña teje una red de hilos: ¡Kira queda atrapada!
   [######----]  67/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [##########] 110/110 Araña de las Direcciones
 Kira forcejea con la red y pierde el turno.
 Araña de las Direcciones pega: 16 de daño.
   [####------]  51/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-El golpe fuerte falla.
+¡Golpe fuerte! 38 de daño.
 Araña de las Direcciones pega: 16 de daño.
   [###-------]  35/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [######----]  72/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira toma una poción (le quedan 0).
 La Araña teje una red de hilos: ¡Kira queda atrapada!
   [#####-----]  65/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [######----]  72/110 Araña de las Direcciones
 Kira forcejea con la red y pierde el turno.
-Araña de las Direcciones pega: 16 de daño.
-  [####------]  49/110 Kira
-  [######----]  74/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-El golpe fuerte falla.
 Araña de las Direcciones pega: 14 de daño.
-  [###-------]  35/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [####------]  51/110 Kira
+  [######----]  72/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+¡Golpe fuerte! 42 de daño.
+Araña de las Direcciones pega: 15 de daño.
+  [###-------]  36/110 Kira
+  [##--------]  30/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 No quedan pociones: Kira pierde el turno buscando en la mochila.
 La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [###-------]  35/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [###-------]  36/110 Kira
+  [##--------]  30/110 Araña de las Direcciones
 Kira forcejea con la red y pierde el turno.
 Araña de las Direcciones pega: 15 de daño.
-  [#---------]  20/110 Kira
-  [######----]  74/110 Araña de las Direcciones
+  [#---------]  21/110 Kira
+  [##--------]  30/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-El golpe fuerte falla.
-Araña de las Direcciones pega: 16 de daño.
-  [----------]   4/110 Kira
-  [######----]  74/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-El golpe fuerte falla.
-La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [----------]   4/110 Kira
-  [######----]  74/110 Araña de las Direcciones
-Kira forcejea con la red y pierde el turno.
-Araña de las Direcciones pega: 14 de daño.
+¡Golpe fuerte! 42 de daño.
+¡Araña de las Direcciones cae!
 
 === RESULTADO ===
-Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 23 | daño hecho: 197 | pociones sin usar: 0
+¡Kira vence a la Araña de las Direcciones y gana la Arena!
+oleadas vencidas: 4 de 4 | turnos: 21 | daño hecho: 285 | pociones sin usar: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - El veneno del Goblin: cada golpe del Goblin envenena a Kira
@@ -8970,247 +9089,41 @@ void recompensa(Partida *p)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El veneno se nota en la pelea. Tizón anota en la libreta: «llevar más pociones».
 
-##### Se rinde enseguida
-```entrada
-1
-```
-```salida
-=== LA ARENA DE LAS FORJAS ===
+#### Imagen
+- Una arena de piedra con tribunas, y un goblin verde con dos dagas de punta violeta.
+- Kira se cubre con el escudo; Tizón le grita desde la tribuna.
 
---- Oleada 1 de 4: Slime de escoria ---
-  [##########]  90/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Slime de escoria pega: 6 de daño.
-  [#########-]  84/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 19 de daño.
-¡Slime de escoria cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 3).
-
---- Oleada 2 de 4: Goblin de la fragua ---
-  [#########-]  84/ 90 Kira
-  [##########]  45/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Goblin de la fragua pega: 8 de daño.
-¡La daga estaba envenenada!
-  [########--]  76/ 90 Kira
-  [######----]  27/ 45 Goblin de la fragua
-El veneno quema: -3 (turnos de veneno restantes: 2).
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Goblin de la fragua pega: 9 de daño.
-  [#######---]  64/ 90 Kira
-  [##--------]  12/ 45 Goblin de la fragua
-El veneno quema: -3 (turnos de veneno restantes: 1).
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-¡Goblin de la fragua cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 4).
-
---- Oleada 3 de 4: Orco del yunque ---
-  [######----]  61/ 90 Kira
-  [##########]  60/ 60 Orco del yunque
-El veneno quema: -3 (turnos de veneno restantes: 0).
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 13 de daño.
-  [#####-----]  45/ 90 Kira
-  [#######---]  44/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Orco del yunque pega: 10 de daño.
-  [###-------]  35/ 90 Kira
-  [####------]  29/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 12 de daño.
-  [##--------]  23/ 90 Kira
-  [##--------]  13/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 14 de daño.
-¡Orco del yunque cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 5).
-
---- Oleada 4 de 4: Araña de las Direcciones ---
-  [##--------]  23/ 90 Kira
-  [##########] 110/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Araña de las Direcciones pega: 14 de daño.
-  [#---------]   9/ 90 Kira
-  [########--]  98/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Araña de las Direcciones pega: 18 de daño.
-
-=== RESULTADO ===
-Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 171 | pociones sin usar: 5
-```
-
-##### Defiende siempre
-```entrada
-4
-4
-4
-4
-4
-4
-4
-4
-4
-4
-```
-```salida
-=== LA ARENA DE LAS FORJAS ===
-
---- Oleada 1 de 4: Slime de escoria ---
-  [##########]  90/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [#########-]  87/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [#########-]  84/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 4 de daño.
-  [########--]  80/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 4 de daño.
-  [########--]  76/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [########--]  73/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [#######---]  70/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [#######---]  67/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [#######---]  64/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 4 de daño.
-  [######----]  60/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 4 de daño.
-  [######----]  56/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 19 de daño.
-Slime de escoria pega: 4 de daño.
-  [#####-----]  52/ 90 Kira
-  [###-------]  11/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 20 de daño.
-¡Slime de escoria cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 3).
-
---- Oleada 2 de 4: Goblin de la fragua ---
-  [#####-----]  52/ 90 Kira
-  [##########]  45/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Goblin de la fragua pega: 9 de daño.
-¡La daga estaba envenenada!
-  [####------]  43/ 90 Kira
-  [######----]  29/ 45 Goblin de la fragua
-El veneno quema: -3 (turnos de veneno restantes: 2).
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Goblin de la fragua pega: 7 de daño.
-  [###-------]  33/ 90 Kira
-  [###-------]  14/ 45 Goblin de la fragua
-El veneno quema: -3 (turnos de veneno restantes: 1).
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-¡Goblin de la fragua cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 4).
-
---- Oleada 3 de 4: Orco del yunque ---
-  [###-------]  30/ 90 Kira
-  [##########]  60/ 60 Orco del yunque
-El veneno quema: -3 (turnos de veneno restantes: 0).
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 10 de daño.
-  [#---------]  17/ 90 Kira
-  [#######---]  44/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 14 de daño.
-Orco del yunque pega: 12 de daño.
-  [----------]   5/ 90 Kira
-  [#####-----]  30/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 13 de daño.
-Orco del yunque pega: 12 de daño.
-
-=== RESULTADO ===
-Kira cae en la oleada 3. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 2 de 4 | turnos: 18 | daño hecho: 128 | pociones sin usar: 4
-```
-
-### Misión R02-N07-M2 · El oro y la tienda
+### Micro-misión R02-N07-P6 · El oro y la tienda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Chispa
+recompensa: xp 30, monedas 6
+antes: R02-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Chispa arma un puestito al costado de la Arena. Cada rival vencido deja oro, y él vende pociones, ataque y vida máxima.
+—Comprá lo que quieras. Si no te alcanza, te aviso. Con descuento, no.
 
+#### Gheco sugiere
+Cada rival deja su vida máxima dividida por 3 en oro. La tienda es un menú en un bucle que termina con 0: si el oro no alcanza, avisá y no compres. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Cada rival deja oro (su vida máxima / 3). La
 recompensa gratis se reemplaza por una **tienda**: poción (15), +2 de ataque
 (25) o +15 de vida máxima (20), comprando varias cosas hasta elegir 0 y
 avisando cuando no alcanza.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada rival deja oro (su vida máxima / 3).
 - La tienda vende poción (15), +2 de ataque (25) y +15 de vida máxima (20), varias veces hasta elegir 0.
 - Avisa cuando no alcanza el oro.
 
 #### Código inicial
-
 ```c
 /*
  * 16 - Proyecto del bloque 2: LA ARENA DE LAS FORJAS.
@@ -9478,8 +9391,7 @@ void recompensa(Partida *p)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 1
 1
@@ -9510,7 +9422,6 @@ void recompensa(Partida *p)
 ```
 
 #### Salida esperada
-
 ```
 === LA ARENA DE LAS FORJAS ===
 
@@ -9518,12 +9429,12 @@ void recompensa(Partida *p)
   [##########]  90/ 90 Kira
   [##########]  30/ 30 Slime de escoria
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 18 de daño.
+Kira ataca: 17 de daño.
 Slime de escoria pega: 6 de daño.
   [#########-]  84/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
+  [####------]  13/ 30 Slime de escoria
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 19 de daño.
+Kira ataca: 18 de daño.
 ¡Slime de escoria cae! Deja 10 de oro (Kira tiene 10).
 Tienda de Ferrum (tenés 10 de oro):
 1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir: 
@@ -9536,21 +9447,21 @@ Tienda de Ferrum (tenés 10 de oro):
   [##########]  45/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira se cubre con el escudo.
-Goblin de la fragua pega: 6 de daño.
-  [########--]  78/ 90 Kira
+Goblin de la fragua pega: 5 de daño.
+  [########--]  79/ 90 Kira
   [##########]  45/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 15 de daño.
-Goblin de la fragua pega: 8 de daño.
-  [#######---]  70/ 90 Kira
-  [######----]  30/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 16 de daño.
+Kira ataca: 17 de daño.
 Goblin de la fragua pega: 9 de daño.
-  [######----]  61/ 90 Kira
-  [###-------]  14/ 45 Goblin de la fragua
+  [#######---]  70/ 90 Kira
+  [######----]  28/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 18 de daño.
+Kira ataca: 17 de daño.
+Goblin de la fragua pega: 11 de daño.
+  [######----]  59/ 90 Kira
+  [##--------]  11/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+Kira ataca: 14 de daño.
 ¡Goblin de la fragua cae! Deja 15 de oro (Kira tiene 25).
 Tienda de Ferrum (tenés 25 de oro):
 1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir: 
@@ -9559,30 +9470,30 @@ Tienda de Ferrum (tenés 10 de oro):
 1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir: 
 
 --- Oleada 3 de 4: Orco del yunque ---
-  [######----]  61/ 90 Kira
+  [######----]  59/ 90 Kira
   [##########]  60/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira ataca: 15 de daño.
-Orco del yunque pega: 13 de daño.
-  [#####-----]  48/ 90 Kira
+Orco del yunque pega: 12 de daño.
+  [#####-----]  47/ 90 Kira
   [#######---]  45/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 12 de daño.
+Kira ataca: 15 de daño.
 Orco del yunque pega: 14 de daño.
-  [###-------]  34/ 90 Kira
-  [#####-----]  33/ 60 Orco del yunque
+  [###-------]  33/ 90 Kira
+  [#####-----]  30/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 14 de daño.
+Kira ataca: 13 de daño.
+Orco del yunque pega: 14 de daño.
+  [##--------]  19/ 90 Kira
+  [##--------]  17/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+Kira ataca: 16 de daño.
 Orco del yunque pega: 12 de daño.
-  [##--------]  22/ 90 Kira
-  [###-------]  19/ 60 Orco del yunque
+  [----------]   7/ 90 Kira
+  [----------]   1/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 13 de daño.
-Orco del yunque pega: 10 de daño.
-  [#---------]  12/ 90 Kira
-  [#---------]   6/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 13 de daño.
+Kira ataca: 15 de daño.
 ¡Orco del yunque cae! Deja 20 de oro (Kira tiene 30).
 Tienda de Ferrum (tenés 30 de oro):
 1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir: 
@@ -9594,66 +9505,65 @@ Tienda de Ferrum (tenés 10 de oro):
 1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir: 
 
 --- Oleada 4 de 4: Araña de las Direcciones ---
-  [##--------]  27/105 Kira
+  [##--------]  22/105 Kira
   [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira toma una poción (le quedan 2).
-Araña de las Direcciones pega: 18 de daño.
-  [###-------]  39/105 Kira
+Araña de las Direcciones pega: 16 de daño.
+  [###-------]  36/105 Kira
   [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira toma una poción (le quedan 1).
-Araña de las Direcciones pega: 14 de daño.
-  [#####-----]  55/105 Kira
+Araña de las Direcciones pega: 16 de daño.
+  [####------]  50/105 Kira
   [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 26 de daño.
+¡Golpe fuerte! 24 de daño.
 La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [#####-----]  55/105 Kira
-  [#######---]  84/110 Araña de las Direcciones
+  [####------]  50/105 Kira
+  [#######---]  86/110 Araña de las Direcciones
 Kira forcejea con la red y pierde el turno.
-Araña de las Direcciones pega: 15 de daño.
-  [###-------]  40/105 Kira
-  [#######---]  84/110 Araña de las Direcciones
+Araña de las Direcciones pega: 16 de daño.
+  [###-------]  34/105 Kira
+  [#######---]  86/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira toma una poción (le quedan 0).
 Araña de las Direcciones pega: 16 de daño.
-  [#####-----]  54/105 Kira
-  [#######---]  84/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 22 de daño.
-La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [#####-----]  54/105 Kira
-  [#####-----]  62/110 Araña de las Direcciones
-Kira forcejea con la red y pierde el turno.
-Araña de las Direcciones pega: 14 de daño.
-  [###-------]  40/105 Kira
-  [#####-----]  62/110 Araña de las Direcciones
+  [####------]  48/105 Kira
+  [#######---]  86/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 El golpe fuerte falla.
-Araña de las Direcciones pega: 16 de daño.
-  [##--------]  24/105 Kira
-  [#####-----]  62/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 28 de daño.
 La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [##--------]  24/105 Kira
-  [###-------]  34/110 Araña de las Direcciones
+  [####------]  48/105 Kira
+  [#######---]  86/110 Araña de las Direcciones
 Kira forcejea con la red y pierde el turno.
 Araña de las Direcciones pega: 14 de daño.
-  [----------]  10/105 Kira
-  [###-------]  34/110 Araña de las Direcciones
+  [###-------]  34/105 Kira
+  [#######---]  86/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+¡Golpe fuerte! 24 de daño.
+Araña de las Direcciones pega: 15 de daño.
+  [#---------]  19/105 Kira
+  [#####-----]  62/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 ¡Golpe fuerte! 30 de daño.
+La Araña teje una red de hilos: ¡Kira queda atrapada!
+  [#---------]  19/105 Kira
+  [##--------]  32/110 Araña de las Direcciones
+Kira forcejea con la red y pierde el turno.
+Araña de las Direcciones pega: 14 de daño.
+  [----------]   5/105 Kira
+  [##--------]  32/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+El golpe fuerte falla.
 Araña de las Direcciones pega: 18 de daño.
 
 === RESULTADO ===
 Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 22 | daño hecho: 259 | pociones sin usar: 0
+oleadas vencidas: 3 de 4 | turnos: 22 | daño hecho: 235 | pociones sin usar: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El oro y la tienda: cada enemigo deja oro (su vida maxima / 3).
@@ -9929,235 +9839,41 @@ void tienda(Partida *p)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Kira sale de la tienda con dos pociones y más ataque. Chispa cuenta el oro con una sonrisa de diente de oro.
 
-##### Se termina la entrada
-```entrada
-1
-1
-```
-```salida
-=== LA ARENA DE LAS FORJAS ===
+#### Imagen
+- Un puesto de mercader al costado de una arena, con frascos de pociones y escudos en exhibición.
+- Chispa (mercader alto y flaco con bufanda naranja) le ofrece una poción a Kira.
 
---- Oleada 1 de 4: Slime de escoria ---
-  [##########]  90/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Slime de escoria pega: 6 de daño.
-  [#########-]  84/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 19 de daño.
-¡Slime de escoria cae! Deja 10 de oro (Kira tiene 10).
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-
---- Oleada 2 de 4: Goblin de la fragua ---
-  [#########-]  84/ 90 Kira
-  [##########]  45/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Goblin de la fragua pega: 8 de daño.
-  [########--]  76/ 90 Kira
-  [######----]  27/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Goblin de la fragua pega: 9 de daño.
-  [#######---]  67/ 90 Kira
-  [##--------]  12/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-¡Goblin de la fragua cae! Deja 15 de oro (Kira tiene 25).
-Tienda de Ferrum (tenés 25 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-
---- Oleada 3 de 4: Orco del yunque ---
-  [#######---]  67/ 90 Kira
-  [##########]  60/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 13 de daño.
-  [######----]  54/ 90 Kira
-  [#######---]  44/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Orco del yunque pega: 10 de daño.
-  [####------]  44/ 90 Kira
-  [####------]  29/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 12 de daño.
-  [###-------]  32/ 90 Kira
-  [##--------]  13/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 14 de daño.
-¡Orco del yunque cae! Deja 20 de oro (Kira tiene 45).
-Tienda de Ferrum (tenés 45 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-
---- Oleada 4 de 4: Araña de las Direcciones ---
-  [###-------]  32/ 90 Kira
-  [##########] 110/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Araña de las Direcciones pega: 14 de daño.
-  [##--------]  18/ 90 Kira
-  [########--]  98/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Araña de las Direcciones pega: 18 de daño.
-
-=== RESULTADO ===
-Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 171 | pociones sin usar: 2
-```
-
-##### Ataca siempre
-```entrada
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-```
-```salida
-=== LA ARENA DE LAS FORJAS ===
-
---- Oleada 1 de 4: Slime de escoria ---
-  [##########]  90/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Slime de escoria pega: 6 de daño.
-  [#########-]  84/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 19 de daño.
-¡Slime de escoria cae! Deja 10 de oro (Kira tiene 10).
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-No te alcanza: poción cuesta 15.
-Tienda de Ferrum (tenés 10 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-
---- Oleada 2 de 4: Goblin de la fragua ---
-  [#########-]  84/ 90 Kira
-  [##########]  45/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Goblin de la fragua pega: 8 de daño.
-  [########--]  76/ 90 Kira
-  [######----]  27/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Goblin de la fragua pega: 9 de daño.
-  [#######---]  67/ 90 Kira
-  [##--------]  12/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-¡Goblin de la fragua cae! Deja 15 de oro (Kira tiene 25).
-Tienda de Ferrum (tenés 25 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-
---- Oleada 3 de 4: Orco del yunque ---
-  [#######---]  67/ 90 Kira
-  [##########]  60/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 13 de daño.
-  [######----]  54/ 90 Kira
-  [#######---]  44/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Orco del yunque pega: 10 de daño.
-  [####------]  44/ 90 Kira
-  [####------]  29/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 12 de daño.
-  [###-------]  32/ 90 Kira
-  [##--------]  13/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 14 de daño.
-¡Orco del yunque cae! Deja 20 de oro (Kira tiene 45).
-Tienda de Ferrum (tenés 45 de oro):
-1) poción 15  2) +2 ataque 25  3) +15 vida máx. 20  0) seguir:
-
---- Oleada 4 de 4: Araña de las Direcciones ---
-  [###-------]  32/ 90 Kira
-  [##########] 110/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Araña de las Direcciones pega: 14 de daño.
-  [##--------]  18/ 90 Kira
-  [########--]  98/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Araña de las Direcciones pega: 18 de daño.
-
-=== RESULTADO ===
-Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 171 | pociones sin usar: 2
-```
-
-### Misión R02-N07-M3 · La crónica de la pelea
+### Micro-misión R02-N07-P7 · La crónica de la pelea
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La Arena de los pasillos
+personajes: Kira, Gheco, Tizón
+criatura: dragon
+recompensa: xp 30, monedas 6
+antes: R02-N07-M3
 ```
 
-#### Consigna
+#### Escena
+Después de la pelea con la Araña, Tizón quiere escribir la crónica. Pero no de todo: solo los tres golpes más fuertes de Kira.
+—Los demás no los cuenta nadie.
 
+#### Gheco sugiere
+Agregá a `Partida` un array de structs (turno, rival, daño) y un contador. Al final, `qsort` con una comparación que ordene por daño de mayor a menor y, si empatan, por turno. Mostrá los primeros tres. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+#### Desafío
 Guardá cada golpe de Kira en un array de structs
 (turno, rival, daño) dentro de `Partida` y, al final, mostrá los 3 más
 fuertes ordenados con `qsort` (a igual daño, el más temprano primero).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda cada golpe de Kira (turno, rival, daño) en un array de structs dentro de `Partida`.
 - Al final muestra los 3 más fuertes ordenados con `qsort`.
 - A igual daño, el más temprano primero.
 
 #### Código inicial
-
 ```c
 /*
  * 16 - Proyecto del bloque 2: LA ARENA DE LAS FORJAS.
@@ -10425,8 +10141,7 @@ void recompensa(Partida *p)
 }
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 tres
 9
@@ -10455,7 +10170,6 @@ vida
 ```
 
 #### Salida esperada
-
 ```
 === LA ARENA DE LAS FORJAS ===
 
@@ -10467,12 +10181,12 @@ vida
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
   Elegí un número del 1 al 4.
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 18 de daño.
+Kira ataca: 17 de daño.
 Slime de escoria pega: 6 de daño.
   [#########-]  84/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
+  [####------]  13/ 30 Slime de escoria
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 19 de daño.
+Kira ataca: 18 de daño.
 ¡Slime de escoria cae!
 Ferrum ofrece una recompensa:
 1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción: 
@@ -10485,21 +10199,21 @@ El ataque de Kira sube a 19.
   [##########]  45/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira se cubre con el escudo.
-Goblin de la fragua pega: 6 de daño.
-  [########--]  78/ 90 Kira
+Goblin de la fragua pega: 5 de daño.
+  [########--]  79/ 90 Kira
   [##########]  45/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 18 de daño.
-Goblin de la fragua pega: 8 de daño.
-  [#######---]  70/ 90 Kira
-  [######----]  27/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 19 de daño.
+Kira ataca: 20 de daño.
 Goblin de la fragua pega: 9 de daño.
-  [######----]  61/ 90 Kira
-  [#---------]   8/ 45 Goblin de la fragua
+  [#######---]  70/ 90 Kira
+  [#####-----]  25/ 45 Goblin de la fragua
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 21 de daño.
+Kira ataca: 20 de daño.
+Goblin de la fragua pega: 11 de daño.
+  [######----]  59/ 90 Kira
+  [#---------]   5/ 45 Goblin de la fragua
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+Kira ataca: 17 de daño.
 ¡Goblin de la fragua cae!
 Ferrum ofrece una recompensa:
 1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción: 
@@ -10510,83 +10224,87 @@ Kira recupera toda la vida: 110.
   [##########]  60/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 Kira ataca: 18 de daño.
-Orco del yunque pega: 13 de daño.
-  [########--]  97/110 Kira
+Orco del yunque pega: 12 de daño.
+  [########--]  98/110 Kira
   [#######---]  42/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 15 de daño.
+Kira ataca: 18 de daño.
 Orco del yunque pega: 14 de daño.
-  [#######---]  83/110 Kira
-  [####------]  27/ 60 Orco del yunque
+  [#######---]  84/110 Kira
+  [####------]  24/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira ataca: 17 de daño.
+Kira ataca: 16 de daño.
+Orco del yunque pega: 14 de daño.
+  [######----]  70/110 Kira
+  [#---------]   8/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+El golpe fuerte falla.
 Orco del yunque pega: 12 de daño.
-  [######----]  71/110 Kira
-  [#---------]  10/ 60 Orco del yunque
+  [#####-----]  58/110 Kira
+  [#---------]   8/ 60 Orco del yunque
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 30 de daño.
+El golpe fuerte falla.
+Orco del yunque pega: 12 de daño.
+  [####------]  46/110 Kira
+  [#---------]   8/ 60 Orco del yunque
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+¡Golpe fuerte! 34 de daño.
 ¡Orco del yunque cae!
 Ferrum ofrece una recompensa:
 1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción: 
-El ataque de Kira sube a 22.
+Kira guarda otra poción (tiene 3).
 
 --- Oleada 4 de 4: Araña de las Direcciones ---
-  [######----]  71/110 Kira
+  [####------]  46/110 Kira
   [##########] 110/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-El golpe fuerte falla.
-Araña de las Direcciones pega: 18 de daño.
-  [####------]  53/110 Kira
-  [##########] 110/110 Araña de las Direcciones
+¡Golpe fuerte! 32 de daño.
+Araña de las Direcciones pega: 16 de daño.
+  [##--------]  30/110 Kira
+  [#######---]  78/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira toma una poción (le quedan 1).
+Kira toma una poción (le quedan 2).
 Araña de las Direcciones pega: 14 de daño.
-  [######----]  69/110 Kira
-  [##########] 110/110 Araña de las Direcciones
+  [####------]  46/110 Kira
+  [#######---]  78/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 38 de daño.
+¡Golpe fuerte! 36 de daño.
 La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [######----]  69/110 Kira
-  [######----]  72/110 Araña de las Direcciones
+  [####------]  46/110 Kira
+  [###-------]  42/110 Araña de las Direcciones
 Kira forcejea con la red y pierde el turno.
 Araña de las Direcciones pega: 15 de daño.
-  [####------]  54/110 Kira
-  [######----]  72/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-Kira toma una poción (le quedan 0).
-Araña de las Direcciones pega: 16 de daño.
-  [######----]  68/110 Kira
-  [######----]  72/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 34 de daño.
-La Araña teje una red de hilos: ¡Kira queda atrapada!
-  [######----]  68/110 Kira
-  [###-------]  38/110 Araña de las Direcciones
-Kira forcejea con la red y pierde el turno.
-Araña de las Direcciones pega: 14 de daño.
-  [####------]  54/110 Kira
-  [###-------]  38/110 Araña de las Direcciones
+  [##--------]  31/110 Kira
+  [###-------]  42/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
 El golpe fuerte falla.
-Araña de las Direcciones pega: 16 de daño.
-  [###-------]  38/110 Kira
-  [###-------]  38/110 Araña de las Direcciones
+Araña de las Direcciones pega: 14 de daño.
+  [#---------]  17/110 Kira
+  [###-------]  42/110 Araña de las Direcciones
 1) atacar  2) golpe fuerte  3) poción  4) defender: 
-¡Golpe fuerte! 40 de daño.
+¡Golpe fuerte! 28 de daño.
+La Araña teje una red de hilos: ¡Kira queda atrapada!
+  [#---------]  17/110 Kira
+  [#---------]  14/110 Araña de las Direcciones
+Kira forcejea con la red y pierde el turno.
+Araña de las Direcciones pega: 15 de daño.
+  [----------]   2/110 Kira
+  [#---------]  14/110 Araña de las Direcciones
+1) atacar  2) golpe fuerte  3) poción  4) defender: 
+¡Golpe fuerte! 30 de daño.
 ¡Araña de las Direcciones cae!
 
 === RESULTADO ===
 ¡Kira vence a la Araña de las Direcciones y gana la Arena!
-oleadas vencidas: 4 de 4 | turnos: 19 | daño hecho: 287 | pociones sin usar: 0
+oleadas vencidas: 4 de 4 | turnos: 20 | daño hecho: 304 | pociones sin usar: 2
 
-Los golpes más fuertes (de 12):
-  1. 40 de daño a Araña de las Direcciones (turno 19)
-  2. 38 de daño a Araña de las Direcciones (turno 13)
-  3. 34 de daño a Araña de las Direcciones (turno 16)
+Los golpes más fuertes (de 13):
+  1. 36 de daño a Araña de las Direcciones (turno 15)
+  2. 34 de daño a Orco del yunque (turno 12)
+  3. 32 de daño a Araña de las Direcciones (turno 13)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - La cronica de la pelea: cada golpe que da Kira se guarda en un
@@ -10882,195 +10600,12 @@ void recompensa(Partida *p)
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La crónica de los tres golpes queda escrita en la libreta de Tizón, con dibujitos de la Araña en el margen.
 
-##### Sin golpes
-```entrada
-4
-```
-```salida
-=== LA ARENA DE LAS FORJAS ===
-
---- Oleada 1 de 4: Slime de escoria ---
-  [##########]  90/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira se cubre con el escudo.
-Slime de escoria pega: 3 de daño.
-  [#########-]  87/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Slime de escoria pega: 7 de daño.
-  [########--]  80/ 90 Kira
-  [####------]  12/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 20 de daño.
-¡Slime de escoria cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 3).
-
---- Oleada 2 de 4: Goblin de la fragua ---
-  [########--]  80/ 90 Kira
-  [##########]  45/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Goblin de la fragua pega: 8 de daño.
-  [########--]  72/ 90 Kira
-  [######----]  30/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Goblin de la fragua pega: 9 de daño.
-  [#######---]  63/ 90 Kira
-  [###-------]  14/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-¡Goblin de la fragua cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 4).
-
---- Oleada 3 de 4: Orco del yunque ---
-  [#######---]  63/ 90 Kira
-  [##########]  60/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Orco del yunque pega: 13 de daño.
-  [#####-----]  50/ 90 Kira
-  [#######---]  45/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 12 de daño.
-Orco del yunque pega: 14 de daño.
-  [####------]  36/ 90 Kira
-  [#####-----]  33/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 14 de daño.
-Orco del yunque pega: 12 de daño.
-  [##--------]  24/ 90 Kira
-  [###-------]  19/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 13 de daño.
-Orco del yunque pega: 10 de daño.
-  [#---------]  14/ 90 Kira
-  [#---------]   6/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 13 de daño.
-¡Orco del yunque cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 5).
-
---- Oleada 4 de 4: Araña de las Direcciones ---
-  [#---------]  14/ 90 Kira
-  [##########] 110/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Araña de las Direcciones pega: 14 de daño.
-
-=== RESULTADO ===
-Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 12 | daño hecho: 169 | pociones sin usar: 5
-
-Los golpes más fuertes (de 11):
-  1. 20 de daño a Slime de escoria (turno 3)
-  2. 18 de daño a Slime de escoria (turno 2)
-  3. 18 de daño a Goblin de la fragua (turno 6)
-```
-
-##### Golpes fuertes
-```entrada
-2
-2
-2
-2
-2
-2
-```
-```salida
-=== LA ARENA DE LAS FORJAS ===
-
---- Oleada 1 de 4: Slime de escoria ---
-  [##########]  90/ 90 Kira
-  [##########]  30/ 30 Slime de escoria
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-¡Golpe fuerte! 36 de daño.
-¡Slime de escoria cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-El ataque de Kira sube a 19.
-
---- Oleada 2 de 4: Goblin de la fragua ---
-  [##########]  90/ 90 Kira
-  [##########]  45/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-¡Golpe fuerte! 42 de daño.
-Goblin de la fragua pega: 8 de daño.
-  [#########-]  82/ 90 Kira
-  [----------]   3/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-El golpe fuerte falla.
-Goblin de la fragua pega: 9 de daño.
-  [########--]  73/ 90 Kira
-  [----------]   3/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-El golpe fuerte falla.
-Goblin de la fragua pega: 11 de daño.
-  [######----]  62/ 90 Kira
-  [----------]   3/ 45 Goblin de la fragua
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-¡Golpe fuerte! 40 de daño.
-¡Goblin de la fragua cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 3).
-
---- Oleada 3 de 4: Orco del yunque ---
-  [######----]  62/ 90 Kira
-  [##########]  60/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 15 de daño.
-Orco del yunque pega: 14 de daño.
-  [#####-----]  48/ 90 Kira
-  [#######---]  45/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 17 de daño.
-Orco del yunque pega: 12 de daño.
-  [####------]  36/ 90 Kira
-  [####------]  28/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Orco del yunque pega: 10 de daño.
-  [##--------]  26/ 90 Kira
-  [##--------]  12/ 60 Orco del yunque
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-¡Orco del yunque cae!
-Ferrum ofrece una recompensa:
-1) +20 de vida máxima y curarse  2) +3 de ataque  3) una poción:
-Kira guarda otra poción (tiene 4).
-
---- Oleada 4 de 4: Araña de las Direcciones ---
-  [##--------]  26/ 90 Kira
-  [##########] 110/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 18 de daño.
-Araña de las Direcciones pega: 14 de daño.
-  [#---------]  12/ 90 Kira
-  [########--]  92/110 Araña de las Direcciones
-1) atacar  2) golpe fuerte  3) poción  4) defender:
-Kira ataca: 16 de daño.
-Araña de las Direcciones pega: 16 de daño.
-
-=== RESULTADO ===
-Kira cae en la oleada 4. Ferrum la saca de la arena a la rastra.
-oleadas vencidas: 3 de 4 | turnos: 11 | daño hecho: 216 | pociones sin usar: 4
-
-Los golpes más fuertes (de 9):
-  1. 42 de daño a Goblin de la fragua (turno 2)
-  2. 40 de daño a Goblin de la fragua (turno 5)
-  3. 36 de daño a Slime de escoria (turno 1)
-```
+#### Imagen
+- Una araña gigante de metal pavonado con patas como flechas de cartel, enredada en sus propios hilos de cobre, en el centro de una arena.
+- Kira guarda la espada; Tizón escribe en la libreta sentado en la tribuna.
 
 ### Encargo R02-N07-E1 · La agenda del consultorio
 

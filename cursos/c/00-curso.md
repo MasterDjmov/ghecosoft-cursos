@@ -11,6 +11,7 @@ dias_abono: 30
 destacado: si
 proximamente: no
 publicado: si
+micromisiones_completan: si
 ```
 
 ### Descripción
@@ -19,11 +20,11 @@ Aprendé **C desde cero**. No hace falta saber programar: cada tema se explica a
 
 C es la lengua sobre la que están construidos los sistemas operativos, los microcontroladores y buena parte de los programas que usás todos los días. Entender C es entender qué pasa **por debajo**.
 
-Cada tema es un **nodo** del árbol. En cada uno acompañás a **Kira**, una aprendiz de espadachina que llegó a las Forjas rompiendo su espada contra un portón: resolvés sus **micro-misiones** (C corre acá mismo, en tu navegador), leés la explicación y hacés las **misiones** en tu compu, que al aprobarlas te dan lingotes para abrir el siguiente. Cada rama termina con un **jefe**, y el último es un simulacro del parcial.
+Cada tema es un **nodo** del árbol. En cada uno acompañás a **Kira**, una aprendiz de espadachina que llegó a las Forjas rompiendo su espada contra un portón: leés la explicación y resolvés sus **micro-misiones**, que se comprueban solas (C corre acá mismo, en tu navegador): las que vienen de una misión te dan lingotes para abrir el siguiente. Algunos nodos tienen además un **proyecto** que corrige el profe. Cada rama termina con un **jefe**, y el último es un simulacro del parcial.
 
 Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde salen dos Sendas optativas: videojuegos 2D con **SDL3** y electrónica con **Arduino**.
 
-> Qué hace falta: nada para empezar. Las micro-misiones y los ejemplos se ejecutan acá mismo, en tu navegador. Para las misiones, una compu con Linux o Windows y un entorno de C: **ZinjaI** o **Code::Blocks** (traen todo) o **VS Code** con `gcc` (en Windows, el de MSYS2). La Clase 0 explica cómo instalar cada uno. Las misiones se entregan pegando el código o subiendo un archivo.
+> Qué hace falta: nada para empezar. Las micro-misiones y los ejemplos se ejecutan acá mismo, en tu navegador. Para los proyectos, una compu con Linux o Windows y un entorno de C: **ZinjaI** o **Code::Blocks** (traen todo) o **VS Code** con `gcc` (en Windows, el de MSYS2). La Clase 0 explica cómo instalar cada uno. Los proyectos se entregan subiendo un archivo.
 
 ### Temario
 
@@ -38,10 +39,10 @@ Al final del camino principal llegás a la **Encrucijada del Yunque**, de donde 
 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
-| coin.course | lingote | lingotes | m | La moneda de las Forjas: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
+| coin.course | lingote | lingotes | m | La moneda de las Forjas: se gana superando las micro-misiones que vienen de una misión (y aprobando los proyectos y las misiones de las Sendas) y abre los nodos del curso. | | curso |
 | mentor.name | Maese Ferrum | | m | Herrero enorme, el Forjador: guía de las Forjas de Hierro. | Forjó su primera hoja cuando las Forjas todavía no tenían techo. Es viejo amigo de Bron, no tolera una advertencia del compilador sin arreglar y dice que el metal no perdona, pero tampoco miente. | curso |
 | world.region | Forjas de Hierro | | f | La región del mundo cuya lengua arcana es C. | | curso |
-| story.course_intro | Bienvenida a las Forjas | | f | | Kira era aprendiz de espadachina en un pueblo común. Una noche, un **vitral** se encendió como un portal y despertó en la boca de las **Forjas de Hierro**, la región más antigua de {mundo}, con la espada en la mano. Lo primero que hizo fue darle un espadazo al portón. La espada se rajó; el portón se abría tirando.<br><br>Soy {mentor}, el Forjador. Acá nada se abre a golpes: cada pieza se forja a mano y **cada byte se cuenta**. Primero se escribe la receta; después el **Horno**, el compilador, la convierte en una pieza que trabaja.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines templa una pieza nueva y cada misión aprobada te da lingotes para abrir el siguiente. | curso |
+| story.course_intro | Bienvenida a las Forjas | | f | | Kira era aprendiz de espadachina en un pueblo común. Una noche, un **vitral** se encendió como un portal y despertó en la boca de las **Forjas de Hierro**, la región más antigua de {mundo}, con la espada en la mano. Lo primero que hizo fue darle un espadazo al portón. La espada se rajó; el portón se abría tirando.<br><br>Soy {mentor}, el Forjador. Acá nada se abre a golpes: cada pieza se forja a mano y **cada byte se cuenta**. Primero se escribe la receta; después el **Horno**, el compilador, la convierte en una pieza que trabaja.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines templa una pieza nueva y las micro-misiones más difíciles te dan lingotes para abrir el siguiente. | curso |
 | story.branch_completed | ¡Rama templada! | | f | | {mentor} golpea el yunque dos veces, que es lo más parecido a un aplauso que se le escucha. —Otra parte de las Forjas ya trabaja con el metal de Kira. Tizón lo anota en la libreta, con la fecha, la hora y los minutos. | curso |
 | story.course_completed | ¡Dominaste la lengua de las Forjas! | | f | | {mentor} le entrega a Kira el martillo que usó durante cuarenta años y golpea el yunque **tres** veces. —Llegaste rompiendo una espada contra un portón y te vas con una que forjaste vos, midiendo cada grado. Desde la Encrucijada del Yunque salen dos caminos que pocos recorren: la Forja Viva y el Taller de los Autómatas. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que forjó Maese Ferrum | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Me encargó el plomo para un vitral enorme, más grande que cualquier ventana que yo hubiera visto. Pagó por adelantado y nunca me dijo para qué era. Tenía la misma mirada que tiene Tesela cuando sueña. | curso |
@@ -583,28 +584,43 @@ El portón se abre de par en par. Ferrum le devuelve la espada rajada. —Guarda
 - Maese Ferrum (herrero humano enorme, NO es enano: mide unos dos metros, de piernas largas, más alto y ancho que Kira, pelo gris peinado hacia atrás, barba gris larga trenzada, ojo derecho cibernético naranja, delantal de cuero y brazos de armadura) abre el portón tirando de la manija, sin esfuerzo.
 - Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente, un calibre de bronce colgado del cuello) se ríe por lo bajo detrás de él.
 
-### Misión R00-N01-M1 · La ficha de Kira
+### Micro-misión R00-N01-P6 · La ficha de Kira
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R00-N01-M1
 ```
 
-#### Consigna
+#### Escena
+En la entrada, Ferrum le alcanza a Kira una chapa de hierro en blanco.
+—Todo aprendiz que entra a las Forjas deja su ficha clavada en el portón. Que quede derecha.
 
+#### Gheco sugiere
+`\t` es un tabulador: salta hasta la próxima columna y deja los datos alineados. Cada línea termina con `\n`.
+
+#### Desafío
 Mostrá una ficha con nombre, clase, región y mentor,
 alineada con `\t`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra nombre, clase, región y mentor, uno por línea.
 - Alinea los valores con `\t`.
 - Compila sin advertencias con `-Wall -Wextra`.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
 === FICHA ===
 Nombre:	Kira
@@ -613,8 +629,7 @@ Región:	Las Forjas de Hierro
 Mentor:	Maese Ferrum
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 1 - La ficha de Kira, alineada con tabulaciones.
@@ -632,17 +647,32 @@ int main(void)
 }
 ```
 
-### Misión R00-N01-M2 · El pergamino roto
+#### Al superarla
+Ferrum clava la ficha en el portón, al lado de cien fichas viejas.
+—Derecha. Bienvenida a las Forjas.
+
+#### Imagen
+- Un portón de hierro gigante cubierto de fichas metálicas clavadas, con el resplandor naranja de los hornos detrás.
+- Kira (pelo negro corto con un mechón cian, traje negro ajustado con líneas cian) sostiene una chapa nueva; Maese Ferrum (herrero humano enorme, barba gris trenzada, ojo derecho naranja, delantal de cuero) la mira con los brazos cruzados.
+
+### Micro-misión R00-N01-P7 · El pergamino roto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Tizón
+criatura: slime
+recompensa: xp 10, monedas 4
+antes: R00-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Tizón encuentra un pergamino chamuscado tirado en la entrada: es la primera receta de un aprendiz que ya no está. El Horno se lo devuelve lleno de quejas.
+—Tiene tres errores —dice Tizón—. Yo cuento tres. ¿Vos?
 
+#### Gheco sugiere
+Leé los mensajes de a uno, del primero al último: falta el `#include <stdio.h>`, un `;` al final de una línea y `printf` va en minúscula (C distingue mayúsculas).
+
+#### Desafío
 Este código tiene **tres** errores. Compilalo, leé
 cada mensaje y arreglalo **de a uno**:
 ```c
@@ -654,17 +684,14 @@ int main(void)
 }
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Corrige los tres errores: el `#include <stdio.h>` que falta, el `;` que falta y `Printf` con mayúscula.
 - Compila sin errores ni advertencias.
 - Muestra las dos líneas del pergamino.
 
 #### Código inicial
-
 ```c
-int main(void)
-{
+int main(void) {
     printf("Kira conoce a Tizon.\n")
     Printf("Tizon es aprendiz de herrero.\n");
     return 0;
@@ -672,14 +699,12 @@ int main(void)
 ```
 
 #### Salida esperada
-
 ```
 Kira conoce a Tizon.
 Tizon es aprendiz de herrero.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 2 - El pergamino roto, ya reparado.
@@ -699,28 +724,50 @@ int main(void)
 }
 ```
 
-### Misión R00-N01-M3 · La espada de Ferrum
+#### Al superarla
+El pergamino pasa por el Horno sin una queja. Tizón lo dobla con cuidado y se lo guarda en la libreta.
+
+#### Imagen
+- Un pergamino chamuscado en el piso de piedra, frente a la boca roja de un horno enorme; un slime verde de escoria se escurre por el borde.
+- Tizón (enano joven, pelo rojizo revuelto, hollín en las mejillas, antiparras en la frente) le muestra el pergamino a Kira con el dedo en un renglón.
+
+### Micro-misión R00-N01-P8 · La espada de Ferrum
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La boca de la Forja
+personajes: Kira, Gheco, Maese Ferrum
+recompensa: xp 10, monedas 4
+antes: R00-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Kira le pide a Ferrum ver su espada. Él se ríe y señala la pared:
+—Dibujala vos. Si la dibujás bien, algún día la vas a forjar.
 
+#### Gheco sugiere
+Adentro de un texto, la barra se escribe `\\` y la comilla `\"`: si no, C cree que el texto termina ahí.
+
+#### Desafío
 Dibujá una espada con caracteres (`/\`, `||`, `##`) y
 una frase entre comillas debajo. Vas a necesitar `\\` y `\"`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Dibuja la espada usando `\\` para la barra invertida.
 - Muestra la frase entre comillas con `\"`.
 - Compila sin advertencias.
 
-#### Salida esperada
+#### Código inicial
+```c
+#include <stdio.h>
 
+int main(void)
+{
+    /* Escribí tu programa acá */
+    return 0;
+}
+```
+
+#### Salida esperada
 ```
       /\
       ||
@@ -731,8 +778,7 @@ una frase entre comillas debajo. Vas a necesitar `\\` y `\"`.
 "Forjada en C", dice la hoja.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```c
 /*
  * Mision 3 - Dibujar la espada de Ferrum con caracteres.
@@ -752,6 +798,13 @@ int main(void)
     return 0;
 }
 ```
+
+#### Al superarla
+La espada queda dibujada en la pared, con la frase debajo. Ferrum la mira un rato largo y no dice nada, que en él es un elogio.
+
+#### Imagen
+- Una pared de piedra con una espada grande dibujada con trazos blancos de tiza, en la entrada de la Forja.
+- Kira, con la tiza en la mano, mira el dibujo; Maese Ferrum, enorme, se rasca la barba trenzada.
 
 ### Encargo R00-N01-E1 · El cartel de la panadería
 

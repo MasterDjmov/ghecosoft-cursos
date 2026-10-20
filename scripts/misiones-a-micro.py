@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""D111: convierte las misiones de consola de un capítulo de Java en micro-misiones.
+"""D111: convierte las misiones de consola de un capítulo (Java, C, C++…) en micro-misiones.
 
 Toma cada «### Misión» con entrega de código y «#### Salida esperada» y la reemplaza por una «### Micro-misión»
 con el mismo enunciado (Desafío + «Para superarla»), la misma entrada, salida y solución, y la recompensa de la
@@ -7,7 +7,9 @@ misión en denarios («monedas N») más «antes: <código de la misión>». Las
 que ya tiene el nodo. La parte de historia (lugar, personajes, escena, Gheco sugiere, Al superarla e imagen) sale
 de un JSON escrito a mano, una entrada por misión.
 
-    python3 scripts/java-misiones-a-micro.py cursos/java/01-la-aduana-del-compilador.md historia.json [--apply]
+    python3 scripts/misiones-a-micro.py cursos/java/01-la-aduana-del-compilador.md scripts/java-micro/00-01.json [--apply]
+
+El lenguaje sale del bloque de la solución de referencia («```java», «```c», «```cpp»).
 """
 import json
 import re
@@ -32,8 +34,18 @@ def fence(body: str | None) -> str | None:
     return m.group(1) if m else None
 
 
-def skeleton(solution: str) -> str:
-    """El código inicial: los import y la clase pública con su main vacío."""
+def fence_language(body: str | None) -> str:
+    m = re.search(r'```([a-z+]*)\n', body or '')
+    return m.group(1) if m and m.group(1) else 'java'
+
+
+def skeleton(solution: str, language: str) -> str:
+    """El código inicial: los import (o #include) y el main vacío."""
+    if language in ('c', 'cpp'):
+        includes = [line for line in solution.splitlines() if line.startswith(('#include', 'using namespace'))]
+        comment = '/* Escribí tu programa acá */' if language == 'c' else '// Escribí tu programa acá'
+        main = 'int main(void)' if language == 'c' else 'int main()'
+        return '\n'.join(includes + ([''] if includes else []) + [main, '{', f'    {comment}', '    return 0;', '}'])
     imports = [line for line in solution.splitlines() if line.startswith('import ')]
     m = re.search(r'public\s+class\s+(\w+)', solution)
     name = m.group(1) if m else 'Main'
@@ -58,9 +70,10 @@ def convert(block: str, code: str, story: dict) -> str:
     criteria = [line for line in (section(block, 'Criterio de aprobación') or '').splitlines()
                 if line.strip().startswith('-') and 'salida' not in line.lower()]
     challenge = consigna + ('\n\n**Para superarla:**\n' + '\n'.join(criteria) if criteria else '')
-    starter = fence(section(block, 'Código inicial')) or skeleton(fence(section(block, 'Solución de referencia')))
+    language = fence_language(section(block, 'Solución de referencia'))
+    starter = story.get('inicial') or fence(section(block, 'Código inicial')) or skeleton(fence(section(block, 'Solución de referencia')), language)
     stdin = fence(section(block, 'Entrada de ejemplo'))
-    expected = fence(section(block, 'Salida esperada'))
+    expected = story.get('salida') or fence(section(block, 'Salida esperada'))
     solution = fence(section(block, 'Solución de referencia'))
 
     meta_lines = [f"lugar: {story['lugar']}", f"personajes: {story['personajes']}"]
@@ -71,10 +84,10 @@ def convert(block: str, code: str, story: dict) -> str:
 
     out = [f'### Micro-misión {code} · {title}', '', '```meta', *meta_lines, '```', '',
            '#### Escena', story['escena'], '', '#### Gheco sugiere', story['gheco'], '',
-           '#### Desafío', challenge, '', '#### Código inicial', '```java', starter, '```', '']
+           '#### Desafío', challenge, '', '#### Código inicial', f'```{language}', starter, '```', '']
     if stdin is not None:
         out += ['#### Entrada', '```', stdin, '```', '']
-    out += ['#### Salida esperada', '```', expected, '```', '', '#### Solución', '```java', solution, '```', '',
+    out += ['#### Salida esperada', '```', expected, '```', '', '#### Solución', f'```{language}', solution, '```', '',
             '#### Al superarla', story['exito'], '', '#### Imagen', *[f'- {line}' for line in story['imagen']], '', '']
     return '\n'.join(out)
 

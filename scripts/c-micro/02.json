@@ -1,0 +1,251 @@
+{
+  "R02-N01-M1": {
+    "lugar": "El horno de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón anota en la libreta las temperaturas del horno grande durante la mañana, hasta diez. A veces alguien le dicta cualquier cosa, y a veces se cansa antes y escribe «fin».\n—Decime la más alta, la más baja y el promedio. Y cuántas pasaron el promedio.",
+    "gheco": "Guardá las temperaturas en un `double temps[10]` y llevá la cuenta de cuántas cargaste. Una línea `fin` corta antes; lo que no sea un número se avisa y no se guarda. Después, un recorrido para el máximo, el mínimo y la suma, y otro para contar las que superan el promedio.",
+    "exito": "Tizón copia los números a la libreta y subraya el más alto.\n—Ese fue cuando Ferrum se distrajo con el café.",
+    "imagen": [
+      "Un horno grande encendido con un termómetro de bronce enorme al costado, y una hilera de diez marcas de tiza en la pared.",
+      "Tizón (enano joven pelirrojo, hollín en las mejillas, antiparras en la frente) anota en su libreta; Kira lee el termómetro."
+    ]
+  },
+  "R02-N01-M2": {
+    "lugar": "Los pasillos numerados",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "En el fondo de los pasillos hay un espejo de hierro pulido. Tizón pone una fila de lingotes numerados delante y le pide a Kira tres cosas: darla vuelta como la ve el espejo, encontrar un lingote y correrlos a todos un lugar.",
+    "gheco": "Para invertir sin otro array, intercambiá el primero con el último, el segundo con el anteúltimo… hasta la mitad. `buscar` recorre y devuelve la posición o `-1`. Para rotar, guardá el primero, corré todos uno a la izquierda y ponelo al final.",
+    "exito": "La fila de lingotes queda dada vuelta, idéntica a la del espejo. Tizón la mira de los dos lados para estar seguro.",
+    "imagen": [
+      "Un espejo grande de hierro pulido al final de un pasillo de estantes, con una fila de lingotes numerados reflejada.",
+      "Kira acomoda los lingotes; Tizón mira el reflejo con la cabeza inclinada."
+    ]
+  },
+  "R02-N01-M3": {
+    "lugar": "Las Minas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda despliega en una mesa el mapa de una galería: paredes, pasillos y algunos tesoros.\n—Cada paso que des, lo marco. Por las paredes no se pasa, por más ganas que tengas.",
+    "gheco": "Una matriz `char mapa[5][8]` guarda el mapa. Con cada letra calculá la casilla nueva: si es pared (`#`), no te movés; si es un tesoro, lo sumás y queda vacío. Al final, dos `for` anidados dibujan el mapa con `K` donde está Kira.",
+    "exito": "Kira sale de la galería con todos los tesoros del recorrido. Hulda marca el mapa con su farol y lo enrolla.",
+    "imagen": [
+      "Un mapa de una galería dibujado sobre una mesa de madera, con paredes, pasillos y cofrecitos marcados.",
+      "Hulda (enana fortísima con casco de minera y farol naranja, trenzas grises y negras) señala el mapa; Kira mueve una ficha de hierro."
+    ]
+  },
+  "R02-N02-M1": {
+    "lugar": "El mostrador de etiquetas",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Los aprendices nuevos se anotan en el mostrador de etiquetas y cada uno escribe su nombre como quiere: todo en minúscula, todo en mayúscula, o mitad y mitad. Chispa quiere que las placas queden prolijas, con las iniciales en una placa chiquita.",
+    "gheco": "Repetí la pregunta mientras el nombre esté vacío o tenga algo que no sea letra o espacio (`isalpha`, `isspace`). Una letra va en mayúscula si es la primera o si antes hay un espacio. Las iniciales van a otro texto: cuidá su tamaño y el `'\\0'` del final.",
+    "exito": "Las placas salen todas iguales de prolijas. Chispa cuelga la suya primero, con las iniciales bien grandes.",
+    "imagen": [
+      "Un mostrador con placas de hierro grabadas con nombres prolijos, colgadas en una pared.",
+      "Chispa (mercader alto y flaco, sombrero de ala corta, bufanda naranja, diente de oro) sostiene una placa; Kira graba otra."
+    ]
+  },
+  "R02-N02-M2": {
+    "lugar": "El registro de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "El registro de la Forja es una pila de papelitos con `nombre;nivel;oro`. Algunos los escribió Chispa, así que hay de todo.\n—Pasalos en limpio —le pide Tizón—, y decime en qué línea está cada desastre.",
+    "gheco": "Leé con `fgets` hasta que devuelva `NULL` y llevá el número de línea. `sscanf(linea, \"%29[^;];%d;%d %c\", ...)` tiene que devolver justo 3: si devuelve 4, sobran datos. Validá el nivel antes de sumar el oro.",
+    "exito": "El registro queda en limpio, en columnas. Al lado, la lista de líneas rotas, casi todas con la letra de Chispa.",
+    "imagen": [
+      "Una pila de papelitos desordenados al lado de un libro de registro con columnas prolijas.",
+      "Tizón separa los papelitos rotos; Kira copia los buenos al libro."
+    ]
+  },
+  "R02-N02-M3": {
+    "lugar": "El mostrador de etiquetas",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Chispa trae runas de una tienda vieja que, según él, se leen igual al derecho y al revés.\n—Si son de verdad, valen el triple. Fijate cuáles sí.",
+    "gheco": "Dos índices: uno desde el principio y otro desde el final. Saltá los espacios, compará las letras con `tolower` y acercalos hasta que se crucen. Si alguna no coincide, no es palíndromo.",
+    "exito": "Solo dos runas son de verdad. Chispa las guarda en el bolsillo de adentro y las otras las vende igual, «como decorativas».",
+    "imagen": [
+      "Runas de piedra con letras talladas sobre un paño, delante de un espejo chiquito.",
+      "Chispa levanta una runa contra el espejo; Kira las ordena en fila."
+    ]
+  },
+  "R02-N03-M1": {
+    "lugar": "El depósito de fichas",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum quiere una ficha de hierro para cada arma del depósito, igual que la de los aprendices: nombre, tipo, daño, peso y cuánto le queda antes de romperse.\n—Y que se pueda usar y reparar sin perder la ficha.",
+    "gheco": "`typedef struct { ... } Arma;` con un `enum` para el tipo. Las funciones reciben el arma, la cambian y la **devuelven**: `arma = usar(arma, 10);`. El daño efectivo es la mitad si la durabilidad baja de 20.",
+    "exito": "Cada arma del depósito tiene su ficha colgada del mango. Ferrum repara la espada más gastada y la ficha lo anota sola.",
+    "imagen": [
+      "Una espada, un hacha y un arco colgados en una pared, cada uno con una ficha de hierro atada al mango.",
+      "Maese Ferrum (herrero humano enorme, barba gris trenzada, ojo derecho naranja, delantal de cuero) afila un hacha; Kira completa una ficha."
+    ]
+  },
+  "R02-N03-M2": {
+    "lugar": "El patio de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón marca con tiza las zonas del patio: la del yunque, la del horno, la de la carga. Quiere saber si un carro está adentro de una zona y si dos zonas se pisan.\n—Así no choca nadie más.",
+    "gheco": "Un punto está adentro si su `x` está entre la esquina y la esquina más el ancho, y lo mismo con `y` y el alto. Dos rectángulos se tocan si **no** está uno entero a la izquierda, a la derecha, arriba o abajo del otro.",
+    "exito": "Las zonas quedan marcadas sin pisarse. Un carro entra justo en la de carga y Tizón aplaude.",
+    "imagen": [
+      "El patio de piedra de la Forja con rectángulos de tiza dibujados en el piso y un carro de mano adentro de uno.",
+      "Tizón mide un rectángulo con su calibre; Kira empuja el carro."
+    ]
+  },
+  "R02-N03-M3": {
+    "lugar": "El taller de los autómatas",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón armó un muñeco de práctica que camina, ataca y se frena según la palanca que le toques. Si lo golpean queda herido, y herido no ataca.\n—Pasale la lista de órdenes y contame qué hizo en cada una.",
+    "gheco": "Un `enum Estado` y una función `siguiente(estado, evento)` con un `switch` sobre el evento. Herido, `a` no cambia nada. Recorré el texto `\"mapgamgpa\"` y mostrá cada cambio.",
+    "exito": "El muñeco hace todo en orden: camina, ataca, cae herido y se queda quieto donde tenía que quedarse.",
+    "imagen": [
+      "Un muñeco de práctica de madera y hierro con articulaciones, delante de un tablero de palancas.",
+      "Tizón baja una palanca; Kira lee la lista de órdenes."
+    ]
+  },
+  "R02-N04-M1": {
+    "lugar": "La ventanilla de la Forja",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Tizón está harto de copiar el mismo bucle de preguntar cada vez que necesita un número.\n—Hacé una receta que pregunte hasta que le contesten bien, y que deje el número donde le digas. Probala con tres durezas de metal.",
+    "gheco": "`pedir_entero` recibe un `int *resultado`: guarda el número con `*resultado = valor` y devuelve `true`, o `false` si `fgets` da `NULL`. `ordenar_tres(&x, &y, &z)` compara de a dos e intercambia con `intercambiar(&a, &b)`.",
+    "exito": "Las tres durezas quedan ordenadas. Tizón pega la receta en la ventanilla: «para preguntar, usar esta».",
+    "imagen": [
+      "Una ventanilla con una hoja de receta pegada y tres muestras de metal de distinto brillo en el mostrador.",
+      "Tizón ordena las muestras; Kira escribe en una hoja."
+    ]
+  },
+  "R02-N04-M2": {
+    "lugar": "Los pasillos numerados",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda le enseña a Kira a recorrer los pasillos sin mirar los números de los estantes: solo con carteles que avanzan.\n—Uno desde cada punta, hasta que se encuentren.",
+    "gheco": "Un puntero avanza con `p++` y se lee con `*p`. Para invertir, `izq = v` y `der = v + n - 1`: intercambiás y se acercan mientras `izq < der`. `mi_strlen` avanza hasta encontrar el `'\\0'` y devuelve `p - texto`.",
+    "exito": "Kira cruza el pasillo entero sin leer un solo número. Hulda le devuelve el farol que le había sacado «para que no hiciera trampa».",
+    "imagen": [
+      "Un pasillo largo de estantes de hierro con dos carteles con flecha que avanzan desde cada punta.",
+      "Hulda, con casco de farol, camina desde un lado; Kira desde el otro."
+    ]
+  },
+  "R02-N04-M3": {
+    "lugar": "Los pasillos numerados",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "orco",
+    "escena": "Una horda de orcos duerme en fila en el pasillo. Tizón quiere saber dónde está el más fuerte y dónde el más débil, sin moverlos.\n—Dame la dirección. Del resto me encargo.",
+    "gheco": "`extremos` recibe `int **menor` y `int **mayor`: guarda en `*menor` la **dirección** del elemento (`&v[i]`). Después, `**mayor /= 2` cambia la vida en el array, y `*mayor - v` da la posición.",
+    "exito": "El orco más fuerte queda con la mitad de la vida y ni se despierta. Tizón anota las posiciones con tiza en el piso.",
+    "imagen": [
+      "Una fila de orcos verdes durmiendo en un pasillo de estantes, uno mucho más grande que los demás.",
+      "Tizón señala al más grande con el calibre; Kira camina en puntas de pie."
+    ]
+  },
+  "R02-N05-M1": {
+    "lugar": "El taller de fichas",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "La mochila de Kira tiene lugar para pocas cosas. Hulda le muestra cómo cargarla y descargarla mandando el cartel de la ficha, no una copia.\n—Si sacás algo del medio, corré lo de atrás. No me dejes huecos.",
+    "gheco": "Las funciones reciben `Personaje *p` y usan `p->mochila` y `p->cantidad`. `quitar` busca el objeto, corre los de atrás una posición y resta uno. `tiene` recibe `const Personaje *`: solo mira.",
+    "exito": "La mochila queda ordenada, sin un hueco. Hulda le agrega una soga, «por si te volvés a caer en un pasillo».",
+    "imagen": [
+      "Una mochila de cuero abierta con objetos ordenados en compartimentos: una soga, una poción, un mapa.",
+      "Hulda mete una soga en la mochila; Kira la sostiene."
+    ]
+  },
+  "R02-N05-M2": {
+    "lugar": "La Arena de los pasillos",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "Antes de la Arena, Tizón organiza un duelo de práctica entre dos muñecos con fichas de hierro. Quiere saber quién gana y en qué turno.\n—Atacan de a uno. Cambiá el atacante y el defensor en cada turno.",
+    "gheco": "`srand(7)`. En cada turno, daño = ataque + tirada de 0 a 5 − defensa, mínimo 1, y el doble con un 5. Para alternar, intercambiá los punteros `atacante` y `defensor`. `duelo` devuelve un puntero al que quedó en pie. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "Gana el muñeco que Tizón había apostado. Él dice que lo sabía desde el principio.",
+    "imagen": [
+      "Dos muñecos de práctica de madera y hierro enfrentados en una arena chica con piso de arena.",
+      "Tizón, sentado en una tribuna de piedra, anota los turnos; Kira hace sonar una campana."
+    ],
+    "salida_navegador": true
+  },
+  "R02-N05-M3": {
+    "lugar": "El taller de fichas",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum tiene que actualizar las fichas de los aprendices con la experiencia del mes. A algunos les toca subir más de un nivel de golpe.\n—Que la ficha lo calcule sola. Yo no pienso contar.",
+    "gheco": "`ganar_experiencia(Personaje *p, int xp)` suma la experiencia y, con un `while`, sube de nivel mientras alcance `nivel * 100`: resta lo que cuesta, sube vida y ataque. Devuelve cuántas veces subió.",
+    "exito": "Una ficha sube tres niveles de una sola vez. Ferrum la lee dos veces y la cuelga primera en el tablero.",
+    "imagen": [
+      "Un tablero con fichas de hierro de aprendices, una brillando más que las otras.",
+      "Maese Ferrum cuelga la ficha brillante; Kira mira desde abajo."
+    ]
+  },
+  "R02-N06-M1": {
+    "lugar": "La Arena de los pasillos",
+    "personajes": "Kira, Gheco, Tizón",
+    "escena": "En la entrada de la Arena hay un tablero con los cinco mejores puntajes. Tizón quiere que se acomode solo cada vez que alguien juega.\n—Y si no entrás, que te lo diga. Sin vueltas.",
+    "gheco": "Buscá el primer puesto con menos puntos que el nuevo. Corré los de abajo un lugar hacia atrás (el último se cae si está lleno) y poné el nuevo en el hueco. Devolvé el puesto, o `-1` si no entró.",
+    "exito": "El tablero se acomoda solo. Tizón juega cinco veces seguidas hasta que su nombre aparece arriba de todo.",
+    "imagen": [
+      "Un tablero de bronce en la entrada de una arena con cinco filas de nombres y puntajes.",
+      "Tizón señala su nombre con orgullo; Kira se ríe a su lado."
+    ]
+  },
+  "R02-N06-M2": {
+    "lugar": "El depósito de la Forja",
+    "personajes": "Kira, Gheco, Hulda",
+    "escena": "Hulda arma la armería para la expedición: quiere armas livianas, la que más daño hace por kilo y la lista ordenada.\n—No pienso cargar un hacha de doce kilos por una cueva.",
+    "gheco": "Recorré el array para las livianas y para la de mejor `danio / peso` (devolvé un puntero a ella). `qsort` necesita una función de comparación que reciba dos `const void *`: compará por daño y, si empatan, con `strcmp`.",
+    "exito": "Hulda elige la de mejor daño por kilo y se la cuelga del cinturón. El hacha de doce kilos se queda en el estante.",
+    "imagen": [
+      "Una armería con espadas, hachas y martillos colgados por tamaño, y una balanza de bronce adelante.",
+      "Hulda pesa un hacha en la balanza; Kira anota el peso."
+    ]
+  },
+  "R02-N06-M3": {
+    "lugar": "El registro de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum",
+    "escena": "Ferrum le entrega a Kira el libro de la compañía.\n—Vas a ser la encargada del registro: altas, bajas, búsquedas y la lista completa. Sin nombres repetidos y sin pasarte del lugar que hay.",
+    "gheco": "Un menú en un bucle con `pedir_entero`. Antes de agregar, fijate que haya lugar y que el nombre no esté. `pedir_texto` repite mientras la línea esté vacía. Para quitar, corré los de atrás.",
+    "exito": "El libro de la compañía queda impecable. Ferrum lo hojea y le da a Kira la llave del armario del registro.",
+    "imagen": [
+      "Un libro grueso de registro abierto sobre un atril, con una llave de hierro grande al lado.",
+      "Maese Ferrum le entrega la llave a Kira."
+    ]
+  },
+  "R02-N06-M4": {
+    "lugar": "El registro de la Forja",
+    "personajes": "Kira, Gheco, Maese Ferrum, Tizón",
+    "escena": "Ferrum quiere colgar el cuadro de honor de los aprendices, ordenado por su promedio de temple. Tizón, que siempre queda primero, pide que esta vez lo hagan bien.\n—Y si empatan, por nombre.",
+    "gheco": "Calculá el promedio de cada uno y ordená con **burbuja**: intercambiás dos fichas si el promedio de la primera es menor o, si son iguales, si su nombre va después (`strcmp(...) > 0`). Mostrá el promedio con `%.2f`.",
+    "exito": "El cuadro de honor queda colgado. Tizón no sale primero, pero está, y por primera vez no pide que lo midan.",
+    "imagen": [
+      "Un cuadro de honor de madera tallada colgado en la pared, con cinco placas de nombres.",
+      "Maese Ferrum lo cuelga; Tizón busca su nombre con el dedo y Kira lo mira."
+    ]
+  },
+  "R02-N07-M1": {
+    "lugar": "La Arena de los pasillos",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "goblin",
+    "escena": "Antes de la Araña, en la Arena aparece un goblin con dagas envenenadas. Tizón le avisa a Kira desde la tribuna:\n—Si te pincha, el veneno dura tres turnos. Una poción también lo cura.",
+    "gheco": "Agregá a `Partida` un campo para los turnos de veneno que quedan. Cada golpe del goblin lo pone en 3 si Kira no estaba envenenada; al empezar su turno, si es mayor que 0, resta 3 de vida y descuenta uno. La poción lo pone en 0. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "El veneno se nota en la pelea. Tizón anota en la libreta: «llevar más pociones».",
+    "imagen": [
+      "Una arena de piedra con tribunas, y un goblin verde con dos dagas de punta violeta.",
+      "Kira se cubre con el escudo; Tizón le grita desde la tribuna."
+    ],
+    "salida_navegador": true
+  },
+  "R02-N07-M2": {
+    "lugar": "La Arena de los pasillos",
+    "personajes": "Kira, Gheco, Chispa",
+    "escena": "Chispa arma un puestito al costado de la Arena. Cada rival vencido deja oro, y él vende pociones, ataque y vida máxima.\n—Comprá lo que quieras. Si no te alcanza, te aviso. Con descuento, no.",
+    "gheco": "Cada rival deja su vida máxima dividida por 3 en oro. La tienda es un menú en un bucle que termina con 0: si el oro no alcanza, avisá y no compres. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "Kira sale de la tienda con dos pociones y más ataque. Chispa cuenta el oro con una sonrisa de diente de oro.",
+    "imagen": [
+      "Un puesto de mercader al costado de una arena, con frascos de pociones y escudos en exhibición.",
+      "Chispa (mercader alto y flaco con bufanda naranja) le ofrece una poción a Kira."
+    ],
+    "salida_navegador": true
+  },
+  "R02-N07-M3": {
+    "lugar": "La Arena de los pasillos",
+    "personajes": "Kira, Gheco, Tizón",
+    "criatura": "dragon",
+    "escena": "Después de la pelea con la Araña, Tizón quiere escribir la crónica. Pero no de todo: solo los tres golpes más fuertes de Kira.\n—Los demás no los cuenta nadie.",
+    "gheco": "Agregá a `Partida` un array de structs (turno, rival, daño) y un contador. Al final, `qsort` con una comparación que ordene por daño de mayor a menor y, si empatan, por turno. Mostrá los primeros tres. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.",
+    "exito": "La crónica de los tres golpes queda escrita en la libreta de Tizón, con dibujitos de la Araña en el margen.",
+    "imagen": [
+      "Una araña gigante de metal pavonado con patas como flechas de cartel, enredada en sus propios hilos de cobre, en el centro de una arena.",
+      "Kira guarda la espada; Tizón escribe en la libreta sentado en la tribuna."
+    ],
+    "salida_navegador": true
+  }
+}

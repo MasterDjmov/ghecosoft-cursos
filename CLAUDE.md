@@ -78,3 +78,10 @@ Plataforma de cursos de programación de uso personal (un docente, alumnos por c
 - Estados y tipos como PHP enums (`app/Enums`) con `label()` en español.
 - Los modelos declaran en `$attributes` los mismos valores por defecto que la base.
 - Tests en estilo Pest; helpers `makeCourse()`, `enrolledStudent()`, `approveRequiredPractices()` en `tests/Pest.php`.
+
+## graphify (mapa del proyecto)
+
+`graphify-out/` (fuera de git; `.graphifyignore` lo limita a `app/`, `resources/`, `routes/`, `config/` y `docs/`) tiene el mapa del proyecto: nodos centrales, grupos y relaciones entre archivos.
+- Si existe `graphify-out/graph.json`, para una pregunta sobre el código correr primero `graphify query "<pregunta>"` (o `graphify path "<A>" "<B>"`, `graphify explain "<concepto>"`) y recién después leer las líneas que el mapa señaló. Ponerlo también en las instrucciones de cada subagente que explore código.
+- `graphify-out/GRAPH_REPORT.md` solo para una mirada general de la arquitectura.
+- Después de cambiar código, `graphify update .` lo actualiza (sin costo: solo el análisis del código).

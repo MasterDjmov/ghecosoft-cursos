@@ -1,0 +1,179 @@
+{
+  "R03-N01-M3": {
+    "lugar": "Las salas de los Archivos Imperiales",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "escena": "Cada sala de los Archivos tiene puertas con distinto permiso: unas abiertas a todos, otras solo para los de la sala, otras para la familia. El Archivista Mayor le hace a Zed cinco preguntas antes de dejarlo pasar.\n—Un ladrón sabría qué puertas abren —dice—. A ver si un archivista también.",
+    "gheco": "`public` lo ve cualquiera; sin modificador, solo el mismo paquete; `protected`, el paquete y las subclases; `private`, solo la clase. Si no escribís un constructor, Java pone uno vacío con el mismo acceso que la clase.",
+    "exito": "Cinco respuestas, cinco puertas que se abren o se quedan cerradas como dijo Zed. El Archivista Mayor le da una llave de bronce de los Archivos.",
+    "imagen": [
+      "Un pasillo de archivo con cinco puertas de madera, cada una con una cerradura distinta.",
+      "Un archivista anciano de túnica larga entrega una llave de bronce; Zed la recibe con una sonrisa."
+    ]
+  },
+  "R03-N02-M1": {
+    "lugar": "La posada junto a los Archivos",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La posadera anota la lista de compras en una tablilla de diez renglones, pero hoy necesita catorce. Y anota dos veces el pan.\n—Una lista que crezca sola —le dice Zed— y que no deje repetir.",
+    "gheco": "`ArrayList<String>` crece sola: `add`, `remove`, `contains` y `Collections.sort`. Para leer comandos como `agregar pan`, separá la palabra del resto con `split(\" \", 2)`.",
+    "exito": "La lista llega al mercado sin un pan de más. La posadera vuelve con todo y le guarda a Zed el último pan del día.",
+    "imagen": [
+      "Una posadera con canasta y una lista larga de pergamino que llega hasta el piso.",
+      "Zed tacha un renglón repetido con una pluma; Gheco va sentado en la canasta."
+    ]
+  },
+  "R03-N02-M2": {
+    "lugar": "El ala norte de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "escena": "En el ala norte se guardan los puntajes de todos los torneos del Imperio. El Archivista quiere un informe: el promedio, el mejor, el peor… y sin los puntajes de los descalificados.\n—Que la lista haga las cuentas —dice.",
+    "gheco": "Una `List<Integer>` guarda enteros (con autoboxing). `Collections.max` y `Collections.min` dan los extremos; `removeIf(p -> p < 0)` saca los que no van, sin recorrer a mano.",
+    "exito": "El informe del torneo queda archivado en el estante correcto. El Archivista lo sella con cera azul.",
+    "imagen": [
+      "Estantes del ala norte llenos de rollos de pergamino atados con cintas de colores.",
+      "El Archivista Mayor sella un informe con cera; Zed le pasa los rollos; Gheco sostiene la vela."
+    ]
+  },
+  "R03-N02-M3": {
+    "lugar": "El ala norte de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "escena": "Los Archivos usan el mismo estante para todo: pergaminos, sellos, llaves. Pero cada estante tiene un tope, y el carpintero hace uno distinto para cada cosa.\n—Un solo estante que sirva para cualquier tipo —propone Zed.",
+    "gheco": "Una clase genérica `Estante<T>` funciona con cualquier tipo: `T` se reemplaza al usarla (`Estante<String>`, `Estante<Integer>`). Adentro guardá una `List<T>` y revisá la capacidad antes de agregar.",
+    "exito": "El mismo estante guarda pergaminos en un lado y llaves en el otro. El carpintero, sin pedidos nuevos, se toma el día.",
+    "imagen": [
+      "Un estante de madera con divisiones donde hay pergaminos, sellos y llaves, cada cosa en su lugar.",
+      "Un carpintero descansa con los brazos atrás de la cabeza; Zed acomoda una llave en el estante."
+    ]
+  },
+  "R03-N03-M1": {
+    "lugar": "El ala sur de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "escena": "Los exploradores vuelven con reportes de criaturas: «goblin 3», «slime 5», «goblin 2»… El Archivista quiere el censo total, ordenado por nombre.\n—Cada criatura una sola vez —dice—, con todo sumado.",
+    "gheco": "Un `Map` guarda pares clave → valor. `TreeMap` los mantiene ordenados por la clave. `getOrDefault(clave, 0) + cantidad` suma aunque la criatura todavía no esté.",
+    "exito": "El censo queda en una sola hoja, ordenado de la A a la Z. Gheco busca su nombre en la lista y, aliviado, no lo encuentra.",
+    "imagen": [
+      "Un mostrador con una pila de reportes de exploradores, con dibujos de goblins, slimes y esqueletos.",
+      "El Archivista Mayor suma con un ábaco; Gheco revisa la lista con preocupación."
+    ]
+  },
+  "R03-N03-M2": {
+    "lugar": "El salón de banquetes",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Dos casas nobles organizan juntas un banquete y cada una manda su lista de invitados. Hay nombres repetidos, y los anfitriones quieren saber quién está en las dos.\n—Esto es de conjuntos —dice Nadia, que ya lo vio en la Aduana.",
+    "gheco": "Un `Set` no repite elementos. Con `TreeSet` quedan ordenados. Unión: `addAll`. Los que están en los dos: `retainAll`. Los de uno solo: `removeAll`. Trabajá sobre copias para no romper las originales.",
+    "exito": "Cada invitado tiene su lugar en la mesa y nadie se sienta dos veces. Los anfitriones se dan la mano por encima del pastel.",
+    "imagen": [
+      "Una mesa larga de banquete con platos, copas de agua y dos estandartes de casas distintas.",
+      "Dos nobles de ropa elegante y cerrada se dan la mano; Zed reparte tarjetas de lugar; Gheco mira el pastel."
+    ]
+  },
+  "R03-N03-M3": {
+    "lugar": "El patio de las caravanas",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Una caravana carga y descarga mercadería toda la mañana: entra harina, sale sal, entra más harina. El jefe quiere el inventario en el orden en que llegó cada cosa.\n—Y que nunca quede en negativo —agrega.",
+    "gheco": "`LinkedHashMap` recuerda el orden en que se cargaron las claves. Antes de restar, revisá que alcance; si una cantidad llega a cero, sacá el producto con `remove`.",
+    "exito": "La caravana sale con el inventario cuadrado hasta el último saco. El jefe le regala a Zed una bolsita de sal «para la buena suerte».",
+    "imagen": [
+      "Carros de caravana cargando y descargando sacos en un patio con un portón grande.",
+      "El jefe de la caravana revisa una lista; Zed anota; Gheco duerme sobre un saco de harina."
+    ]
+  },
+  "R03-N04-M1": {
+    "lugar": "La herrería de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Kaffa cuelga una campana en cada máquina de los Archivos. Una calculadora de divisiones recibe de todo: números, letras, ceros, líneas mal escritas.\n—Cuando algo falla, la campana suena —dice—. **Escuchala**, no la tapes.",
+    "gheco": "Un `try` intenta y cada `catch` atiende un tipo de error: `NumberFormatException` (no es número), `ArithmeticException` (dividir por cero), `ArrayIndexOutOfBoundsException` (faltó una parte). Avisá y seguí con la próxima línea.",
+    "exito": "La calculadora contesta todo: lo que se puede, con el resultado; lo que no, con su campana. Zed, que antes esquivaba cualquier alarma, se queda escuchándolas.",
+    "imagen": [
+      "Una máquina de engranajes con varias campanitas de bronce colgadas arriba.",
+      "Kaffa cuelga la última campana; Zed escucha una que suena con la mano en la oreja."
+    ]
+  },
+  "R03-N04-M2": {
+    "lugar": "La herrería de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "El depósito de la herrería entrega herramientas a pedido, pero a veces piden más de las que hay. El herrero quiere que el depósito **avise** con todos los datos.\n—Y que quien pide no se pueda olvidar de atender el aviso —agrega Kaffa.",
+    "gheco": "Una excepción **checked** extiende `Exception`: Java obliga a atraparla o a declararla con `throws`. Puede guardar datos propios (producto, pedido, disponible) para armar el mensaje.",
+    "exito": "Cada pedido imposible devuelve un aviso claro, con lo que había y lo que faltó. El herrero arma una lista de compras con esos avisos.",
+    "imagen": [
+      "Un depósito de herramientas con estantes medio vacíos y una campana roja que suena.",
+      "Un herrero lee un aviso en un papel; Kaffa señala el estante vacío; Zed anota."
+    ]
+  },
+  "R03-N04-M3": {
+    "lugar": "Las salas de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Los registros de los Archivos se abren para leer y, si alguien se olvida de cerrarlos, la tinta se seca y se pierden.\n—Que se cierren solos —dice Kaffa—, pase lo que pase en el medio.",
+    "gheco": "Una clase que implementa `AutoCloseable` se puede usar en un `try (Registro r = new Registro()) { ... }`: al salir, `close()` se llama solo, aunque haya habido un error adentro.",
+    "exito": "Los registros se cierran siempre, aun cuando la lectura falla. Kaffa cierra uno de un golpe y no se pierde ni una gota.",
+    "imagen": [
+      "Un libro de registro enorme que se cierra solo sobre un atril, con una cinta de cuero.",
+      "Kaffa lo mira con aprobación; Zed retira la mano a tiempo; Gheco salta del libro."
+    ]
+  },
+  "R03-N05-M1": {
+    "lugar": "La oficina del Archivista Mayor",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "escena": "El Archivista Mayor quiere el ranking de jugadores ordenado de cuatro maneras: por nombre, por puntos, por partidas… y cada vez escribe una clase nueva para ordenar.\n—Una tarjetita con la regla alcanza —le dice Zed.",
+    "gheco": "Un `Comparator` se puede escribir como lambda o con `Comparator.comparing(Jugador::puntos)`. `.reversed()` lo da vuelta y `.thenComparing(...)` desempata.",
+    "exito": "Cuatro rankings en cuatro líneas. El Archivista Mayor tira a la basura una pila de clases de ordenar y suspira, aliviado.",
+    "imagen": [
+      "Un escritorio con cuatro pilas de fichas de jugadores ordenadas de forma distinta.",
+      "El Archivista Mayor tira papeles a un cesto; Zed sostiene una tarjetita; Gheco ordena fichas."
+    ]
+  },
+  "R03-N05-M2": {
+    "lugar": "La posada junto a los Archivos",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La posadera quiere saber quién debe, quién se quedó más noches y los nombres de todos en mayúsculas para el libro de visitas. Pero odia los bucles largos.\n—Decí qué querés —le dice Zed—, no cómo recorrerlo.",
+    "gheco": "Con lambdas y referencias a métodos se hace sin `for`: `removeIf(h -> h.pago())`, `forEach(System.out::println)`, `replaceAll(String::toUpperCase)` y `sort(Comparator.comparing(...))`.",
+    "exito": "El libro de visitas queda prolijo y los que deben, anotados en rojo. La posadera le cobra a un huésped que se iba sin pagar.",
+    "imagen": [
+      "Una posadera con un libro de visitas abierto en el mostrador y una lista con nombres tachados.",
+      "Un huésped con valija vuelve a pagar con cara de culpa; Zed lo señala; Gheco se ríe."
+    ]
+  },
+  "R03-N05-M3": {
+    "lugar": "La torre de los magos de los Archivos",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Los magos de los Archivos tienen un libro de hechizos de números: duplicar, elevar al cuadrado, partir a la mitad. Cada uno lo escribe a su manera.\n—Si todos tienen la misma forma —dice Zed—, entran en el mismo libro.",
+    "gheco": "Una **interfaz funcional** tiene un solo método abstracto, así que una lambda la puede cumplir: `Hechizo duplicar = p -> p * 2;`. Un `Map<String, Hechizo>` guarda los hechizos por nombre.",
+    "exito": "El libro de hechizos funciona: se elige uno por nombre y se lanza. Un mago aprendiz encadena tres hechizos y el número le explota en chispas de colores.",
+    "imagen": [
+      "Un libro de hechizos abierto que flota sobre un atril, con chispas de colores saliendo de las páginas.",
+      "Un mago aprendiz de túnica cerrada lanza un hechizo; Zed y Gheco se cubren de las chispas."
+    ]
+  },
+  "R03-N07-M1": {
+    "lugar": "El ala de los errores",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "criatura": "ogro",
+    "escena": "Un programa de los Archivos calcula los promedios de los estudiantes, pero da resultados raros y nadie sabe por qué. No se rompe: miente. Es un **ogro**.\n—Seguilo paso a paso —dice el Archivista—, y mirá qué valen las variables.",
+    "gheco": "El depurador detiene el programa en un punto (breakpoint) y muestra cada variable. Sin depurador, un `System.out.println` de prueba en cada paso también sirve. Buscá los tres errores de lógica, no de compilación.",
+    "exito": "Los tres errores aparecen uno por uno y el ogro se queda sin mentiras. Los promedios dan bien y el mejor estudiante recibe, por fin, su medalla.",
+    "imagen": [
+      "Un ogro tramposo que se esconde detrás de una pizarra llena de cuentas con números tachados.",
+      "Zed lo descubre levantando la pizarra con una lupa; el Archivista Mayor sostiene una vela."
+    ]
+  },
+  "R03-N07-M2": {
+    "lugar": "El depósito de los Archivos",
+    "personajes": "Zed, Gheco, Nadia, el Archivista Mayor",
+    "escena": "En el depósito entran y salen cosas sin que nadie lo anote. Cuando falta algo, nadie sabe cuándo pasó.\n—Un diario —pide el Archivista—. Que cuente todo, y que grite cuando algo está mal.",
+    "gheco": "Un `Logger` anota mensajes con niveles: `INFO` para lo normal, `WARNING` para lo raro y `SEVERE` para lo grave. Cada operación anota lo que pasó, aunque no se haga.",
+    "exito": "El diario del depósito anota cada movimiento. Esa misma noche, una línea `SEVERE` muestra quién intentó cargar algo imposible: una sombra sin nombre.",
+    "imagen": [
+      "Un diario abierto sobre un atril, con renglones escritos en tinta negra, naranja y roja.",
+      "El Archivista Mayor lee una línea roja con preocupación; Zed mira hacia una sombra al fondo del depósito."
+    ]
+  },
+  "R03-N08-M1": {
+    "lugar": "La sala vacía",
+    "personajes": "Zed, Gheco, Nadia, Kaffa, el Espectro Nulo",
+    "escena": "En la sala vacía, el Espectro Nulo convierte los libros en nada: quien busca uno, recibe `null` y se cae. Kaffa le pasa a Zed los comandos de la biblioteca.\n—Que no haya un solo lugar donde el Espectro pueda esconderse.",
+    "gheco": "Antes de usar lo que devuelve un mapa o una búsqueda, preguntá si es `null` (o usá `getOrDefault`, `containsKey`). Cada comando tiene que contestar algo, aunque sea «no está».",
+    "exito": "El Espectro Nulo se queda sin escondites y se deshace como humo. La ficha del viajero vuelve entera: mandó algo por el río hacia la Torre del Arquitecto.",
+    "imagen": [
+      "Un espectro gris y transparente se deshace como humo entre estantes de libros.",
+      "Zed sostiene una ficha que brilla; Kaffa y Nadia miran; Gheco ilumina con su luz."
+    ]
+  }
+}

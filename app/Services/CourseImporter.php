@@ -436,8 +436,9 @@ class CourseImporter
             $this->save('nodos', $model);
             $result[$node['code']] = $model;
 
-            $this->applyPractices($model, $node);
+            // Primero las micro-misiones: las que vienen de una misión («antes:», D111) la buscan antes de que se retire.
             $this->applySteps($model, $node['steps'] ?? []);
+            $this->applyPractices($model, $node);
         }
 
         return $result;
@@ -525,9 +526,8 @@ class CourseImporter
     private function carryOver(Node $node, NodeStep $step, string $practiceCode): void
     {
         $practice = Practice::withoutGlobalScope(Practice::ACTIVE)->where('node_id', $node->id)->where('code', $practiceCode)->first();
+        // En una base nueva la misión nunca existió: no hay nada que pasar.
         if (! $practice) {
-            $this->report->warning("{$step->code}: «antes: {$practiceCode}» no es una práctica de {$node->code}.");
-
             return;
         }
         $approved = Submission::where('practice_id', $practice->id)->where('status', SubmissionStatus::Approved)

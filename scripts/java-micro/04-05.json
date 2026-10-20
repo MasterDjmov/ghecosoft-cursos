@@ -1,0 +1,245 @@
+{
+  "R04-N01-M1": {
+    "lugar": "La orilla del río de la capital",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Por el río bajan barcazas con mercadería de todos los rubros. En la orilla, los recaudadores quieren saber qué llevan sin bajar un solo cajón.\n—No se descarga —dice Kaffa—. Se mira **mientras pasa**.",
+    "gheco": "Un stream recorre una colección sin bucles: `filter` deja pasar lo que cumple, `map` transforma, `count`, `sum` o `toList()` cierran. Cada paso devuelve otro stream hasta la operación final.",
+    "exito": "Las barcazas siguen de largo y el informe queda hecho en la orilla. Un recaudador se sienta a mirar el río, por primera vez sin apuro.",
+    "imagen": [
+      "Un río ancho con barcazas cargadas de cajones de colores que bajan una detrás de otra.",
+      "Kaffa y Zed miran desde un muelle; Gheco cuenta cajones parado sobre un poste."
+    ]
+  },
+  "R04-N01-M2": {
+    "lugar": "La orilla del río de la capital",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En la orilla vive un oráculo que solo habla con números: pide la suma de los pares, los cuadrados, los múltiplos… y se ofende si alguien usa un bucle.\n—Pedile los números **de un tirón** —le susurra Gheco.",
+    "gheco": "`IntStream.rangeClosed(1, 20)` genera los números del 1 al 20 sin bucle. Después, `filter`, `map`, `sum`, `average` y `boxed().toList()` hacen el resto.",
+    "exito": "El oráculo recibe sus números y, satisfecho, cuenta una profecía: «lo que buscás viaja por el agua». Zed se mete la mano en el bolsillo y toca la llave.",
+    "imagen": [
+      "Un oráculo anciano de túnica cerrada sentado en una piedra junto al río, rodeado de números de luz.",
+      "Zed le ofrece una hoja; Gheco mira los números flotando con la boca abierta."
+    ]
+  },
+  "R04-N01-M3": {
+    "lugar": "La escuela del río",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "La maestra de la escuela del río calcula los promedios con bucles larguísimos que nadie entiende. Kaffa le propone a Zed reescribirlos.\n—Mismo resultado —dice—. La mitad de renglones.",
+    "gheco": "Un bucle que filtra y acumula se convierte en `stream().filter(...).mapToInt(...).average()`. `anyMatch` dice si alguno cumple. Comprobá que el resultado sea el mismo que antes.",
+    "exito": "La maestra compara los dos resultados: idénticos. Pega la versión corta en la pizarra y borra la larga con el codo.",
+    "imagen": [
+      "Una escuela de madera junto al río, con una pizarra llena de un bucle larguísimo.",
+      "La maestra borra la pizarra; Zed escribe una sola línea al lado; Kaffa mira desde la puerta."
+    ]
+  },
+  "R04-N02-M1": {
+    "lugar": "Los muelles del río",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En los muelles, los recaudadores juntan las ventas del mes en cajas: por vendedor, por rubro, por mes. Hoy quieren todo eso junto y ordenado.\n—Agrupá mientras pasa —dice Kaffa.",
+    "gheco": "`collect(Collectors.groupingBy(Venta::vendedor, TreeMap::new, Collectors.summingDouble(Venta::monto)))` agrupa y suma en un mapa ordenado. `counting()` y `averagingDouble` sirven para contar y promediar.",
+    "exito": "El reporte queda en una tabla prolija, caja por caja. Los recaudadores lo clavan en la pared de la capitanía.",
+    "imagen": [
+      "Muelles con cajas de madera apiladas por colores, cada pila con una banderita distinta.",
+      "Un recaudador anota en una tabla; Zed separa cajas; Gheco duerme arriba de una pila."
+    ]
+  },
+  "R04-N02-M2": {
+    "lugar": "La capitanía de los muelles",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "criatura": "troll",
+    "escena": "En el padrón de la capitanía algunas personas no tienen email, y cada vez que alguien lo busca, aparece un **troll** y se lleva el registro.\n—No devuelvas un hueco —dice Kaffa—. Devolvé una caja que puede estar vacía.",
+    "gheco": "`Optional<T>` es una caja que tiene algo o está vacía: `Optional.ofNullable(email)`. Quien la recibe decide con `orElse`, `map` o `isPresent`, sin chocar con un `null`.",
+    "exito": "Las búsquedas devuelven cajas, llenas o vacías, y ninguna explota. El troll se queda mirando una caja vacía y se rasca la cabeza.",
+    "imagen": [
+      "Un mostrador de capitanía con cajitas de madera, unas con cartas adentro y otras vacías.",
+      "Un troll gris mira confundido una caja vacía; Kaffa y Zed se ríen detrás del mostrador."
+    ]
+  },
+  "R04-N02-M3": {
+    "lugar": "La biblioteca flotante",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En una barcaza amarrada funciona una biblioteca flotante. El bibliotecario quiere saber qué palabras se repiten más en el libro más leído del río.\n—Las palabras también fluyen —dice Zed.",
+    "gheco": "Partí el texto con `split(\"\\\\W+\")`, pasalo a stream con `Arrays.stream`, normalizá con `map(String::toLowerCase)` y contá con `groupingBy(palabra -> palabra, counting())`.",
+    "exito": "La palabra más repetida resulta ser «río». El bibliotecario la anota en la tapa del libro, como subtítulo.",
+    "imagen": [
+      "Una barcaza amarrada convertida en biblioteca, con estantes de libros bajo un techo de lona.",
+      "Un bibliotecario con anteojos lee en voz alta; Zed y Nadia escuchan sentados en cajones."
+    ]
+  },
+  "R04-N03-M1": {
+    "lugar": "El delta del río",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En el delta se juega un torneo de remo entre equipos. Hay empates en puntos, empates en goles y jugadores que no dijeron su edad.\n—Tres rankings —pide el juez—. Y los sin edad, al final.",
+    "gheco": "Los comparadores se encadenan: `Comparator.comparing(Jugador::puntos).reversed().thenComparing(...)`. Para valores que pueden ser `null`, `Comparator.nullsLast(...)` los manda al final.",
+    "exito": "Los tres rankings salen sin una queja. Un remero sin edad declarada pregunta por qué quedó último, y el juez le da un formulario.",
+    "imagen": [
+      "Botes de remo en un delta con juncos, con remeros de chalecos cerrados de distintos colores.",
+      "Un juez sostiene una tabla de posiciones; Zed le pasa una hoja; Gheco viaja en la proa de un bote."
+    ]
+  },
+  "R04-N03-M2": {
+    "lugar": "La casa de cambio del delta",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "La casa de cambio del delta anota tres tipos de movimientos: depósitos, extracciones y transferencias. Un empleado inventó un cuarto tipo y se armó un lío.\n—Tres y nada más —dice Kaffa—. **Sellado**.",
+    "gheco": "Una interfaz `sealed` dice exactamente quién la puede implementar: `sealed interface Movimiento permits Deposito, Extraccion, Transferencia`. Con `switch` y patrones, el compilador revisa que no falte ninguno.",
+    "exito": "Los movimientos de la cuenta cuadran al centavo. El empleado del cuarto tipo pide disculpas y vuelve a su escritorio.",
+    "imagen": [
+      "Un mostrador de casa de cambio con tres ranuras de bronce para tres tipos de papeles.",
+      "Un empleado avergonzado sostiene un papel que no entra en ninguna ranura; Kaffa cruza los brazos."
+    ]
+  },
+  "R04-N03-M3": {
+    "lugar": "El estacionamiento del puerto",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El estacionamiento del puerto cobra según el vehículo y las horas. El dueño agregó las bicis y se olvidó de ponerles precio.\n—Que el compilador te avise si te olvidás de alguno —dice Nadia.",
+    "gheco": "Un `switch` como expresión sobre un `enum`, sin `default`, obliga a cubrir todos los valores: si falta uno, no compila. Cada caso devuelve su valor con `->`.",
+    "exito": "Todos los vehículos tienen su tarifa y las bicis pagan poco, como corresponde. Zed deja su bici prestada sin pagar: es el primer día.",
+    "imagen": [
+      "Un estacionamiento junto al puerto con carros, motos de vapor, una camioneta y bicicletas en fila.",
+      "Un cuidador con gorra cobra en una garita; Zed estaciona una bici; Gheco va en el canasto."
+    ]
+  },
+  "R04-N04-M1": {
+    "lugar": "La capitanía del astillero",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En el río hay muchos muelles pero **una sola** capitanía. Cada muelle quiere su propia capitanía y las cuentas de zarpadas no coinciden nunca.\n—Hay cosas que tienen que ser una —dice Kaffa—. Y todos usan la misma.",
+    "gheco": "Un **Singleton**: el constructor `private`, una instancia `private static final Capitania INSTANCIA = new Capitania();` y un `static Capitania get()` que siempre devuelve esa misma.",
+    "exito": "Todos los muelles anotan en la misma capitanía y las cuentas coinciden. El capitán cuelga una campana para cada zarpada.",
+    "imagen": [
+      "Una capitanía de madera con un faro en el techo, en el medio de varios muelles.",
+      "Muelleros llevan papeles a la misma ventanilla; Kaffa observa desde la puerta."
+    ]
+  },
+  "R04-N04-M2": {
+    "lugar": "El astillero",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Al astillero llegan pedidos que dicen solo «carga», «rápido» o «pesca». El maestro de obra decide qué barco armar, y los clientes no tienen que saber cómo.\n—Una fábrica —dice Kaffa—. Le pedís, te entrega.",
+    "gheco": "Un **Factory** es un método que recibe el pedido y devuelve el objeto que corresponde, del tipo de la interfaz: `static Barco crear(String tipo)` con un `switch` adentro.",
+    "exito": "Salen del astillero una barcaza, un velero y un pesquero, cada uno con su capacidad. El maestro de obra brinda con agua por los tres.",
+    "imagen": [
+      "Un astillero con tres barcos a medio construir: una barcaza ancha, un velero y un pesquero.",
+      "Un maestro de obra con casco señala el plano; Zed le pasa un pedido; Gheco camina sobre una viga."
+    ]
+  },
+  "R04-N04-M3": {
+    "lugar": "La capitanía del astillero",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Nadia manda un mensaje desde la Aduana: el recargo por demora cambia según la época, y cada vez hay que reescribir el programa entero.\n—Cambiá la **estrategia** —dice Kaffa—, no el barco.",
+    "gheco": "**Strategy**: una interfaz `Recargo` con varias implementaciones; quien cobra recibe la estrategia y la usa sin saber cuál es. Cambiar de época es cambiar el objeto, no el código.",
+    "exito": "Nadia cambia de estrategia con una línea, desde la Aduana. Le manda a Zed una nota corta: «funciona». Él la guarda.",
+    "imagen": [
+      "Tres tablillas de recargo distintas colgadas en una pared, con dibujos de sol, feria y luna.",
+      "Nadia, en la Aduana, cambia una tablilla por otra; Zed lee su nota en el astillero."
+    ]
+  },
+  "R04-N05-M1": {
+    "lugar": "Las esclusas del río",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Las cinco sucursales del puerto mandan doscientas mil ventas para sumar. Un solo recaudador tarda toda la noche.\n—Varios a la vez —dice Kaffa—. Cada uno con su parte.",
+    "gheco": "Un `parallelStream()` reparte el trabajo entre varios hilos. Con `Collectors.groupingBy(..., summingLong(...))` el total sale igual que con un solo hilo, pero más rápido.",
+    "exito": "Las dos formas dan el mismo total al denario. Los recaudadores se van a dormir temprano, por primera vez en el año.",
+    "imagen": [
+      "Varios recaudadores trabajando a la vez en mesas largas junto a las esclusas, cada uno con su pila de papeles.",
+      "Kaffa reparte pilas; Zed suma en una pizarra; Gheco corre entre las mesas llevando hojas."
+    ]
+  },
+  "R04-N05-M2": {
+    "lugar": "La boletería del anfiteatro",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En el anfiteatro del río hay un recital y mil entradas. Ocho boleteros venden a la vez y, al final, vendieron mil doce.\n—Dos boleteros vendieron la misma entrada —dice Nadia—. Eso en la Aduana no pasa.",
+    "gheco": "Cuando varios hilos tocan el mismo dato, `synchronized` hace que de a uno por vez entre al método. Así, revisar y vender pasan juntos y no se vende de más.",
+    "exito": "Se venden exactamente mil entradas y ni una más. Nadia consigue dos en primera fila y le da una a Zed, sin explicar por qué.",
+    "imagen": [
+      "Un anfiteatro de piedra junto al río, con ocho ventanillas de boletería en fila.",
+      "Nadia le da una entrada a Zed; Gheco mira el escenario desde el hombro de Zed."
+    ]
+  },
+  "R04-N05-M3": {
+    "lugar": "La agencia de viajes del puerto",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La agencia de viajes del puerto pregunta el precio del pasaje, del hotel y del dólar, uno detrás de otro, y el cliente se aburre esperando.\n—Preguntá las tres cosas **a la vez** —dice Zed—, y juntá las respuestas.",
+    "gheco": "`CompletableFuture.supplyAsync(() -> ...)` lanza cada consulta en paralelo. `thenCombine` o `join()` junta los resultados cuando están. Las tres esperas se superponen en lugar de sumarse.",
+    "exito": "El presupuesto sale en un tercio del tiempo. El cliente reserva el viaje antes de que se le pasen las ganas.",
+    "imagen": [
+      "Una agencia de viajes con tres mensajeros que salen corriendo a la vez por tres puertas.",
+      "Un cliente espera con cara de sorpresa; Zed junta tres papeles; Gheco sostiene un reloj."
+    ]
+  },
+  "R04-N06-M1": {
+    "lugar": "La Represa",
+    "personajes": "Zed, Gheco, Nadia, Kaffa, el Leviatán de los Datos",
+    "escena": "El Leviatán de los Datos tapa la represa con millones de registros de ventas, mezclados con líneas rotas. Kaffa le da a Zed todo lo que aprendió en el río.\n—Filtrá lo roto, agrupá lo bueno y no te ahogues.",
+    "gheco": "Leé las líneas del bloque de texto con `lines()`, validá cada una (separá las inválidas con su motivo), transformalas en `record` y armá el informe con `groupingBy`, `summingDouble` y `max`.",
+    "exito": "El Leviatán se deshace en datos ordenados y el río vuelve a correr. Detrás de él, encallada, aparece una barcaza vieja con algo envuelto en lona: un vitral.",
+    "imagen": [
+      "Un leviatán gigante hecho de hojas de papel y números, enroscado en una represa de piedra.",
+      "Zed lo enfrenta desde el borde con Kaffa y Nadia; detrás, una barcaza encallada con un bulto envuelto en lona."
+    ]
+  },
+  "R05-N01-M1": {
+    "lugar": "La sala de las balanzas del tiempo",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Dos aprendices de la Torre discuten qué búsqueda es más rápida. Kaffa les pone una balanza del tiempo delante.\n—No discutan: **midan**. Y después piensen cómo crece.",
+    "gheco": "Contá los pasos con una variable `static`. La búsqueda lineal mira uno por uno (crece como *n*); la binaria parte a la mitad cada vez (crece como log *n*). Mirá qué pasa cuando *n* se multiplica por diez.",
+    "exito": "Con cien mil elementos, la lineal da cien mil pasos y la binaria, diecisiete. Los aprendices dejan de discutir y se ponen a dibujar curvas.",
+    "imagen": [
+      "Una sala con balanzas de bronce que en lugar de pesas tienen relojes de arena de distintos tamaños.",
+      "Dos aprendices miden con cintas; Kaffa sostiene un reloj; Zed anota números en una pizarra."
+    ]
+  },
+  "R05-N01-M2": {
+    "lugar": "La sala de las balanzas del tiempo",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Nadia manda desde la Aduana la lista de pasaportes del día: hay repetidos y quiere encontrarlos rápido.\n—Hay una forma lenta y una rápida —dice Kaffa—. Probá las dos y contá.",
+    "gheco": "Con dos `for` anidados comparás todos contra todos (*n²*). Con un `HashSet`, `add` devuelve `false` si ya estaba: una sola pasada (*n*).",
+    "exito": "Las dos formas encuentran los mismos duplicados, pero una tarda mucho menos. Zed le manda a Nadia la rápida, con una nota: «de nada».",
+    "imagen": [
+      "Una pila de pasaportes de tapa de cuero, con algunos marcados con una cinta roja.",
+      "Zed separa los marcados; Kaffa compara dos relojes de arena; Gheco sostiene un pasaporte."
+    ]
+  },
+  "R05-N01-M3": {
+    "lugar": "El depósito de la Torre",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En el depósito de la Torre hay cincuenta mil mercancías con su código. Buscar una recorriendo la lista lleva una eternidad.\n—Una lista se recorre —dice Kaffa—. Un mapa **se consulta**.",
+    "gheco": "Buscar en una `List` es recorrer hasta encontrar (*n*). Un `HashMap<String, Mercancia>` va directo por la clave (casi *O(1)*). Contá cuántos elementos mira cada forma.",
+    "exito": "Con el mapa, cualquier mercancía aparece al instante, aunque sea la última. El depositero tira su cuaderno de búsquedas y pide un mapa para él.",
+    "imagen": [
+      "Un depósito enorme con estantes hasta el techo llenos de cajas numeradas.",
+      "Un depositero subido a una escalera busca una caja; Zed le muestra un mapa con un dedo; Gheco señala la caja."
+    ]
+  },
+  "R05-N02-M1": {
+    "lugar": "La sala de los planos viejos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En la sala de los planos viejos hay una clase que hace todo: calcula, arma el informe y lo anuncia. Cambiar el anuncio rompe la cuenta.\n—Una sola razón para cambiar —dice Kaffa—. Por clase.",
+    "gheco": "**S** de SOLID: cada clase con una responsabilidad. Separá el cálculo, el formato y el anuncio en tres clases y hacé que el `main` las combine.",
+    "exito": "Ahora se cambia el anuncio sin tocar la cuenta. Kaffa archiva el plano viejo en un cajón que dice «antes».",
+    "imagen": [
+      "Un plano enredado sobre una mesa, partido en tres planos más chicos y ordenados.",
+      "Kaffa guarda el plano viejo en un cajón; Zed acomoda los tres nuevos; Gheco sostiene una regla."
+    ]
+  },
+  "R05-N02-M2": {
+    "lugar": "La sala de los planos viejos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En la Torre aparecen descuentos nuevos todas las semanas, y cada vez hay que abrir y cambiar la clase de cobro.\n—Abierta para agregar —dice Kaffa—. **Cerrada** para tocar.",
+    "gheco": "**O** de SOLID: con una interfaz `Descuento`, un descuento nuevo es una clase nueva. La clase que cobra recibe el descuento y no se modifica más.",
+    "exito": "Se suma un descuento nuevo sin tocar una línea del cobro. El cajero de la Torre aplaude, porque esta semana no se le rompió nada.",
+    "imagen": [
+      "Una caja registradora de bronce con ranuras donde se enchufan tarjetas de descuento de colores.",
+      "Un cajero enchufa una tarjeta nueva; Zed y Kaffa miran; Gheco está sentado sobre la caja."
+    ]
+  },
+  "R05-N02-M3": {
+    "lugar": "La sala de los planos viejos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "El servicio de reservas de la Torre fabrica su propia forma de avisar, y para probarlo hay que mandar mensajes de verdad.\n—La última regla es la más importante —dice Kaffa—. **No fabriques lo que usás: pedilo.**",
+    "gheco": "**D** de SOLID (inversión de dependencias): el servicio recibe un `Avisador` (una interfaz) en el constructor. Afuera se decide cuál: uno que muestra por consola, otro que guarda en una lista para probar.",
+    "exito": "El mismo servicio avisa por consola o guarda en memoria, sin cambiarle nada. Kaffa le da a Zed una llave de los pisos de arriba de la Torre.",
+    "imagen": [
+      "Un mostrador de reservas con un enchufe donde se conectan distintos aparatos de aviso: una campana, un pergamino, una paloma mensajera.",
+      "Kaffa le entrega una llave a Zed; Gheco juega con la paloma."
+    ]
+  }
+}

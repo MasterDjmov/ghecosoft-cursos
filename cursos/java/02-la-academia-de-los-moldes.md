@@ -554,29 +554,42 @@ class Viajero {
 - Un esqueleto con una etiqueta «Viajero@1b6d3586» desarmándose en paz.
 - Al fondo, un soldado de bronce recién salido de un molde, con la mano vacía donde debería ir la espada.
 
-### Misión R02-N01-M1 · El molde de la espada
+### Micro-misión R02-N01-P5 · El molde de la espada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los talleres de la Academia de los Moldes
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+recompensa: xp 10, monedas 4
+antes: R02-N01-M1
 ```
 
-#### Consigna
+#### Escena
+La Maestra de Moldes le da a Zed un bloque de arcilla y un pedido: el molde de una espada que se gaste al usarla y se pueda afilar.
+—Un molde dice qué **tiene** y qué **hace** cada espada. Después salen todas las que quieras.
 
+#### Gheco sugiere
+Una clase junta datos (atributos) y lo que se puede hacer con ellos (métodos). Cada `new Espada(...)` es un objeto distinto con su propio filo. `Math.max(0, filo - 15)` no deja bajar de cero.
+
+#### Desafío
 Escribí una clase `Espada` con nombre, filo (un entero de 0 a 100) y material.
 Tiene tres métodos: `usar()` (baja el filo en 15, sin pasar de 0), `afilar()` (lo
 sube en 30, sin pasar de 100) y `estaRota()` (el filo es 0). Agregale `toString`.
 En el `main`, creá dos espadas, usalas y afilalas, y mostrá su estado en cada paso.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La clase tiene atributos, tres métodos de instancia y `toString`.
 - Las dos espadas cambian cada una su propio estado.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Forja {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Colmillo de acero (filo 50)
 Brisa de bronce (filo 20)
@@ -588,8 +601,7 @@ Después del herrero:
   Brisa de bronce (filo 30)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El molde de la espada: atributos, metodos y toString.
 public class Forja {
@@ -644,30 +656,50 @@ class Espada {
 }
 ```
 
-### Misión R02-N01-M2 · La alcancía
+#### Al superarla
+De un mismo molde salen dos espadas: una gastada y otra recién afilada. La Maestra las golpea entre sí y suenan distinto.
+
+#### Imagen
+- Un molde de arcilla con forma de espada sobre una mesa de taller, y dos espadas recién salidas al lado.
+- La Maestra de Moldes, de delantal de cuero y guantes, sostiene una espada; Zed afila la otra en una piedra.
+
+### Micro-misión R02-N01-P6 · La alcancía
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los talleres de la Academia de los Moldes
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+recompensa: xp 10, monedas 4
+antes: R02-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Los aprendices guardan sus denarios en alcancías de barro, pero cualquiera saca más de lo que hay y la alcancía queda «debiendo».
+—Que la alcancía misma se niegue —dice la Maestra.
 
+#### Gheco sugiere
+Un método puede revisar antes de actuar: `retirar` devuelve `false` y no toca nada si no alcanza. `toString()` decide cómo se muestra el objeto cuando lo imprimís.
+
+#### Desafío
 Escribí una clase `Alcancia` con un dueño y una cantidad de denarios. Métodos:
 `depositar(int monto)` (solo si el monto es positivo), `boolean retirar(int monto)`
 (devuelve `false` y no hace nada si no alcanza) y `toString`. En el `main` creá la
 alcancía de Nadia, hacé un depósito, un retiro que alcanza y otro que no, mostrando el
 resultado de cada operación.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `retirar` devuelve un `boolean` y no deja el saldo negativo.
 - `depositar` ignora montos negativos o cero.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Ahorros {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Alcancía de Nadia: 0 denarios
 Alcancía de Nadia: 80 denarios
@@ -676,8 +708,7 @@ Retirar 100: no alcanza
 Alcancía de Nadia: 50 denarios
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La alcancia: metodos que validan y devuelven boolean.
 public class Ahorros {
@@ -718,30 +749,50 @@ class Alcancia {
 }
 ```
 
-### Misión R02-N01-M3 · La compañía de la caravana
+#### Al superarla
+Un aprendiz intenta sacar cien denarios de una alcancía con diez, y la alcancía no se abre. Nadia asiente: «reglamento de fábrica».
+
+#### Imagen
+- Una fila de alcancías de barro con forma de chanchito sobre un estante de madera.
+- Un aprendiz sacude una alcancía que no se abre; Zed se ríe y Gheco espía por la ranura.
+
+### Micro-misión R02-N01-P7 · La compañía de la caravana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de las caravanas
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Una caravana sale hacia el sur con tres mulas y una montaña de bultos. Si una mula carga de más, se sienta y no se mueve.
+—Cada mula sabe cuánto aguanta —dice Nadia—. Preguntale a ella.
 
+#### Gheco sugiere
+Un array puede guardar objetos: `Mula[] mulas = new Mula[3];`. Recorré los bultos y, para cada uno, probá las mulas en orden hasta que una acepte con `cargar`.
+
+#### Desafío
 Escribí una clase `Mula` con nombre, carga actual y carga máxima, y un método
 `boolean cargar(int kilos)` que solo acepta si no se pasa del máximo. En el `main`
 armá un **array** de tres mulas y repartí una lista de bultos `{40, 25, 60, 10, 35}`:
 cada bulto va a la primera mula que lo acepte; si ninguna puede, se avisa. Al final
 mostrá cada mula y el total cargado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un array de objetos.
 - Cada bulto se intenta en orden y se informa si no entra en ninguna.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Caravana {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Bulto de 40 kg -> Terca
 Bulto de 25 kg -> Lenta
@@ -754,8 +805,7 @@ Brava: 60/70 kg
 Total cargado: 135 kg
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La compania de la caravana: un array de objetos.
 public class Caravana {
@@ -810,6 +860,13 @@ class Mula {
     }
 }
 ```
+
+#### Al superarla
+Las tres mulas salen cargadas justo y ninguna se sienta. Un bulto que no entró queda en el patio, con un aviso para la próxima caravana.
+
+#### Imagen
+- Tres mulas cargadas con bultos de distintos tamaños, en fila, saliendo por un portón.
+- Zed acomoda un bulto en la última mula; Gheco viaja arriba de la carga.
 
 ### Encargo R02-N01-E1 · El termostato
 
@@ -1451,30 +1508,43 @@ class Soldado {
 - Un goblin riéndose sobre un molde vacío que no se cierra.
 - Un recluta con un palo de madera, orgulloso igual.
 
-### Misión R02-N02-M1 · La poción del alquimista
+### Micro-misión R02-N02-P5 · La poción del alquimista
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El laboratorio del alquimista
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N02-M1
 ```
 
-#### Consigna
+#### Escena
+El alquimista de la Academia prepara pociones de tres maneras: con todo detallado, con nombre y poder, o con solo el nombre. Cada vez repite las mismas cuentas y se equivoca.
+—Que las tres recetas usen la primera —le dice Zed.
 
+#### Gheco sugiere
+Una clase puede tener varios constructores con distintos parámetros. `this(nombre, 10, 3)` llama a otro constructor de la misma clase y debe ir en la primera línea.
+
+#### Desafío
 Escribí una clase `Pocion` con nombre, poder (1 a 100) y dosis restantes. Tres
 constructores: con los tres datos, con nombre y poder (3 dosis), y solo con nombre
 (poder 10, 3 dosis), reutilizando el primero con `this(...)`. El poder se ajusta al
 rango 1-100 en el constructor. Un método `int beber()` devuelve el poder si queda
 alguna dosis (y descuenta una) o 0 si está vacía. Probá los tres constructores.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los constructores usan `this(...)` para no repetir código.
 - El poder queda siempre entre 1 y 100.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Alquimista {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Poción de Vida (poder 40, 2 dosis)
 Poción de Furia (poder 100, 3 dosis)
@@ -1485,8 +1555,7 @@ Bebo Vida: +0
 Poción de Vida (poder 40, 0 dosis)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La pocion del alquimista: constructores sobrecargados con this(...).
 public class Alquimista {
@@ -1537,30 +1606,50 @@ class Pocion {
 }
 ```
 
-### Misión R02-N02-M2 · El pasaporte
+#### Al superarla
+Las tres pociones salen con la misma calidad. El alquimista le regala a Zed una poción verde «para emergencias» que huele raro.
+
+#### Imagen
+- Un laboratorio con frascos burbujeantes de colores y un caldero sobre el fuego.
+- Un alquimista de anteojos redondos sirve una poción; Zed la huele con cara de duda.
+
+### Micro-misión R02-N02-P6 · El pasaporte
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de pasaportes
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N02-M2
 ```
 
-#### Consigna
+#### Escena
+En la oficina de pasaportes, alguien intentó hacer uno con el nombre vacío y otro con un número de tres cifras. Nadia está indignada.
+—Un pasaporte mal hecho no se corrige después: **no se fabrica**.
 
+#### Gheco sugiere
+El constructor puede negarse a crear un objeto inválido lanzando `throw new IllegalArgumentException("motivo")`. Quien lo crea lo atrapa con `try` / `catch` y muestra el mensaje.
+
+#### Desafío
 Escribí una clase `Pasaporte` con titular, número y año de vencimiento. El
 constructor **rechaza** con `IllegalArgumentException` un titular vacío, un número que
 no sea de 8 dígitos o un año anterior a 2026 (con un mensaje claro para cada caso).
 En el `main`, intentá crear cuatro pasaportes (uno válido y tres inválidos) dentro de
 un `try`/`catch` como el del ejemplo, y mostrá qué pasó con cada uno.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La validación está en el constructor.
 - Cada error tiene su mensaje.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Frontera {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Emitido: Nadia Valdez N° 12345678 (vence 2030)
 Rechazado: falta el titular
@@ -1568,8 +1657,7 @@ Rechazado: el número tiene que tener 8 dígitos
 Rechazado: el pasaporte está vencido
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El pasaporte: validar en el constructor.
 public class Frontera {
@@ -1616,31 +1704,51 @@ class Pasaporte {
 }
 ```
 
-### Misión R02-N02-M3 · El reloj de arena
+#### Al superarla
+Los pasaportes falsos no llegan a existir. Zed, que hacía unos parecidos en el Puerto, no dice nada y se pone a silbar.
+
+#### Imagen
+- Una oficina con pilas de pasaportes de tapa de cuero y un sello de bronce sobre el escritorio.
+- Nadia rechaza un pasaporte con la mano extendida; Zed silba mirando para otro lado.
+
+### Micro-misión R02-N02-P7 · El reloj de arena
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller de los relojeros
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Los relojeros miden con relojes de arena de todos los tamaños: unos en segundos, otros en minutos, otros en horas. Nadie sabe cuál dura más.
+—Que todos guarden lo mismo —propone Zed—: segundos.
 
+#### Gheco sugiere
+Tres constructores con distinta cantidad de parámetros pueden reutilizar uno solo con `this(...)`, pasándole todo convertido a segundos. Un método que devuelve un objeto nuevo (`sumar`) no cambia el original.
+
+#### Desafío
 Escribí una clase `Duracion` que guarda una cantidad de segundos. Constructores:
 `Duracion(int segundos)`, `Duracion(int minutos, int segundos)` y
 `Duracion(int horas, int minutos, int segundos)`, todos reutilizando el primero.
 Métodos: `Duracion sumar(Duracion otra)` que devuelve **una nueva** duración (sin
 cambiar las originales) y `toString` en formato `hh:mm:ss` con ceros (`String.format`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Tres constructores encadenados con `this(...)`.
 - `sumar` devuelve un objeto nuevo.
 - `toString` usa `%02d`.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class RelojArena {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 a = 00:01:35
 b = 00:12:30
@@ -1649,8 +1757,7 @@ a + b + c = 02:13:50
 a sigue siendo 00:01:35
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El reloj de arena: constructores encadenados y un metodo que devuelve un objeto nuevo.
 public class RelojArena {
@@ -1691,6 +1798,13 @@ class Duracion {
     }
 }
 ```
+
+#### Al superarla
+Los relojes de arena quedan ordenados del más corto al más largo. Gheco se queda mirando caer la arena del más grande.
+
+#### Imagen
+- Una repisa con relojes de arena de distintos tamaños, del más chico al más grande.
+- Un relojero da vuelta uno enorme; Gheco mira caer la arena con la cabeza ladeada.
 
 ### Encargo R02-N02-E1 · El producto del almacén
 
@@ -2404,31 +2518,46 @@ En el depósito de la Academia, dos alumnos discuten frente a un escudo dorado a
 - Una placa de bronce atornillada en la pared de la tesorería: «TASA 10 %», con un candado.
 - Zed con las manos en los bolsillos; Nadia vigilándolo.
 
-### Misión R02-N03-M1 · El termómetro sellado
+### Micro-misión R02-N03-P5 · El termómetro sellado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La enfermería de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N03-M1
 ```
 
-#### Consigna
+#### Escena
+El termómetro de la enfermería marca cosas imposibles porque cualquiera le cambia el número. Zed recuerda el cofre de la tesorería y se pone colorado.
+—Este número —dice— no lo toca nadie de afuera.
 
+#### Gheco sugiere
+Un atributo `private` solo se cambia desde adentro de la clase. El setter revisa antes de aceptar (nada por debajo de -273.15). Los getters pueden devolver el mismo dato en otras unidades.
+
+#### Desafío
 Escribí una clase `Termometro` con la temperatura `private` en grados Celsius. El
 constructor y el setter rechazan temperaturas por debajo de -273.15 (el cero
 absoluto). Getters: `getCelsius()`, `getFahrenheit()` y `getKelvin()` (calculados, no
 guardados). Un método `static double aCelsius(double fahrenheit)` convierte sin
 necesitar un objeto. En el `main`, probá todo, incluido un valor inválido.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La temperatura es `private` y se valida en constructor y setter.
 - Fahrenheit y Kelvin se calculan en los getters.
 - `aCelsius` es `static` y se llama con el nombre de la clase.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Laboratorio {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 25.00 C = 77.00 F = 298.15 K
 -10.50 C = 13.10 F = 262.65 K
@@ -2437,8 +2566,7 @@ Rechazado: no existe una temperatura menor al cero absoluto
 Sigue en -10.50 C
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El termometro sellado: atributo privado, getters calculados y un metodo static.
 import java.util.Locale;
@@ -2492,30 +2620,50 @@ class Termometro {
 }
 ```
 
-### Misión R02-N03-M2 · El registro de reclutas
+#### Al superarla
+El termómetro ya no acepta temperaturas imposibles. La enfermera lo cuelga en la pared y le pone una cinta roja de «no tocar».
+
+#### Imagen
+- Un termómetro de vidrio enorme dentro de una vitrina cerrada con candado, en una enfermería.
+- Una enfermera de delantal blanco anota la temperatura; Zed mira la vitrina con las manos atrás.
+
+### Micro-misión R02-N03-P6 · El registro de reclutas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La entrada de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+recompensa: xp 10, monedas 4
+antes: R02-N03-M2
 ```
 
-#### Consigna
+#### Escena
+A la Academia llegan reclutas nuevos y cada uno recibe un número de legajo. Pero hay dos con el número 7 y nadie sabe cuántos quedan activos.
+—El número lo da la Academia —dice la Maestra—, no el recluta.
 
+#### Gheco sugiere
+Un atributo `static` es uno solo para toda la clase: sirve de contador compartido. Un atributo `final` se asigna una vez (en el constructor) y no cambia más.
+
+#### Desafío
 Escribí una clase `Recluta` con nombre y un número de legajo `final` que se asigna
 solo, en orden (1, 2, 3…), usando un contador `static`. Agregá un atributo `static`
 que cuente cuántos reclutas están activos y un método `darDeBaja()` que lo descuente
 (una sola vez por recluta). Mostrá los legajos y los contadores después de crear
 cuatro reclutas y dar de baja a uno (dos veces, para ver que no descuenta de más).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El legajo es `final` y sale de un contador `static`.
 - `darDeBaja` no descuenta dos veces al mismo recluta.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Reclutamiento {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 #1 Pip, #2 Lía, #3 Olmo, #4 Nara
 Activos: 4
@@ -2523,8 +2671,7 @@ Activos: 4
 Activos: 3 de 4
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El registro de reclutas: contadores static y un atributo final.
 public class Reclutamiento {
@@ -2578,17 +2725,30 @@ class Recluta {
 }
 ```
 
-### Misión R02-N03-M3 · El inventario encapsulado
+#### Al superarla
+Cada recluta tiene su número y no se repite nunca. La Maestra le da a Zed el legajo número 1 de su propio curso, como broma.
+
+#### Imagen
+- Una fila de reclutas jóvenes con uniformes iguales recibiendo cada uno una placa numerada.
+- La Maestra de Moldes entrega una placa; Zed la mira por encima del hombro de un recluta.
+
+### Micro-misión R02-N03-P7 · El inventario encapsulado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La armería de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Las mochilas de la Academia tienen un lugar fijo para cada objeto, pero los aprendices meten cosas de más y se rompen las costuras.
+—La mochila decide qué entra —dice Nadia—. No vos.
 
+#### Gheco sugiere
+El array va `private` y la clase lleva la cuenta de cuántos objetos hay. Los métodos devuelven `boolean` para avisar si pudieron. Nadie de afuera toca el array directamente.
+
+#### Desafío
 Escribí una clase `Mochila` con un array `private` de `String` de capacidad fija (se
 pasa al constructor) y la cantidad de objetos. Métodos: `boolean guardar(String
 objeto)` (falso si está llena o el objeto está vacío), `boolean sacar(String
@@ -2596,13 +2756,20 @@ objeto)` (lo busca con `equals` y corre los siguientes un lugar), `int getCantid
 `boolean contiene(String objeto)` y `toString`. **Nadie de afuera puede tocar el
 array.** Probala en el `main`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El array es `private` y no hay un getter que lo devuelva.
 - `sacar` compara con `equals` y no deja huecos.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Viaje {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 true true true false
 [mapa, pan, soga]
@@ -2614,8 +2781,7 @@ Guardar vela: true
 [mapa, soga, vela]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El inventario encapsulado: un array privado detras de metodos.
 public class Viaje {
@@ -2688,6 +2854,13 @@ class Mochila {
     }
 }
 ```
+
+#### Al superarla
+La mochila se niega a guardar el objeto número once. Zed le pide una igual para él, y Nadia se la da… vacía.
+
+#### Imagen
+- Una mochila de cuero abierta con compartimentos numerados, cada uno con un objeto distinto.
+- Zed intenta meter un objeto de más y la mochila se cierra sola; Gheco se asoma por un bolsillo.
 
 ### Encargo R02-N03-E1 · La tarjeta SUBE
 
@@ -3429,17 +3602,24 @@ En el ala oeste, cubierto de polvo, hay un molde viejísimo con una palabra grab
 - Dos sellos estampados en lacre que dejan exactamente la misma huella brillante.
 - Al fondo, en un pasillo oscuro, un molde viejo y enorme con la palabra «Personaje» grabada.
 
-### Misión R02-N04-M1 · Los mapas copiados
+### Micro-misión R02-N04-P5 · Los mapas copiados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+criatura: troll
+recompensa: xp 10, monedas 4
+antes: R02-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Dos aprendices comparten un mapa. Uno agrega marcas y el mapa del otro también cambia: ¡es el mismo mapa! De entre los estantes asoma un **troll**.
+—Copiar la etiqueta no es copiar el mapa —gruñe Gheco.
 
+#### Gheco sugiere
+Asignar un objeto a otra variable copia la **referencia**: las dos apuntan al mismo objeto. Para tener otro de verdad, hace falta un constructor de copia: `new Mapa(otro)`.
+
+#### Desafío
 Escribí una clase `Mapa` con un nombre y una cantidad de marcas, un método
 `agregarMarca()` y un constructor de copia. En el `main`:
 
@@ -3449,13 +3629,20 @@ Escribí una clase `Mapa` con un nombre y una cantidad de marcas, un método
    Mostrá los dos.
 3. Mostrá con `==` cuáles son el mismo objeto.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Se ve que el alias modifica el original y la copia no.
 - Tiene constructor de copia.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Cartografia {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Original: mapa de Frontera con 2 marcas
 Original: mapa de Frontera con 2 marcas
@@ -3464,8 +3651,7 @@ original == alias: true
 original == copia: false
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Los mapas copiados: alias contra copia.
 public class Cartografia {
@@ -3510,31 +3696,53 @@ class Mapa {
 }
 ```
 
-### Misión R02-N04-M2 · Los libros repetidos
+#### Al superarla
+Cada aprendiz se lleva su mapa y las marcas no se mezclan más. El troll, aburrido, vuelve a dormir debajo del estante.
+
+#### Imagen
+- Dos aprendices tironean de los extremos de un mismo mapa grande, con marcas de tinta.
+- Un troll gris asoma la cabeza entre los estantes del depósito; Zed le muestra una copia del mapa.
+
+### Micro-misión R02-N04-P6 · Los libros repetidos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La biblioteca de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N04-M2
 ```
 
-#### Consigna
+#### Escena
+La bibliotecaria tiene tres ejemplares del mismo libro, cada uno con el título escrito distinto, y el catálogo los cuenta como tres libros diferentes.
+—Lo que los hace iguales es el número de serie —dice Nadia—. El resto es decoración.
 
+#### Gheco sugiere
+`equals` decide cuándo dos objetos son iguales. Si lo redefinís, redefiní también `hashCode`, con el mismo criterio: `Objects.hash(isbn)`.
+
+#### Desafío
 La biblioteca de la Academia quiere detectar libros repetidos. Escribí una clase
 `Libro` con ISBN, título y año, donde **dos libros son iguales si tienen el mismo
 ISBN** (sin importar el título). Redefiní `equals` y `hashCode` con `@Override`. En un
 array de 5 libros (con dos ISBN repetidos), contá y mostrá los repetidos comparando
 cada par con `equals`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `equals(Object)` con `@Override`, `instanceof` y comparación de ISBN con `equals`.
 - `hashCode` coherente con `equals`.
 - Detecta los dos repetidos.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Objects;
 
+public class Biblioteca {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Repetido: "El arte de programar" (1968) y "El arte de programar (2a ed.)" (1973)
 Repetido: "Estructuras de datos" (1985) y "Estructuras de datos" (1985)
@@ -3542,8 +3750,7 @@ Pares repetidos: 2
 Mismo hashCode el 0 y el 2: true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los libros repetidos: equals y hashCode por ISBN.
 import java.util.Objects;
@@ -3605,17 +3812,31 @@ class Libro {
 }
 ```
 
-### Misión R02-N04-M3 · La guardia de la puerta
+#### Al superarla
+El catálogo detecta los libros repetidos y la bibliotecaria libera medio estante. Gheco se acomoda en el lugar vacío.
+
+#### Imagen
+- Tres libros iguales con tapas un poco distintas, uno al lado del otro sobre un mostrador.
+- Una bibliotecaria de rodete compara los lomos con una lupa; Gheco duerme en el estante vacío.
+
+### Micro-misión R02-N04-P7 · La guardia de la puerta
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La puerta de la Academia
+personajes: Zed, Gheco, Nadia
+criatura: troll
+recompensa: xp 10, monedas 4
+antes: R02-N04-M3
 ```
 
-#### Consigna
+#### Escena
+La puerta tiene tres turnos de guardia, pero en uno no hay nadie. Cuando alguien pregunta quién cuida ese turno, el sistema explota y aparece un **troll** de la nada.
+—El vacío también hay que preverlo —dice Nadia.
 
+#### Gheco sugiere
+Un casillero de un array de objetos puede ser `null`. Antes de usarlo (`turnos[i].getNombre()`), preguntá `if (turnos[i] == null)`; si no, se lanza un `NullPointerException`.
+
+#### Desafío
 Una puerta tiene tres turnos de guardia (un array de `Guardia` de 3 lugares) y
 algunos turnos pueden estar **vacíos** (`null`). Escribí un método `static String
 quienCuida(Guardia[] turnos, int turno)` que devuelve el nombre del guardia o "nadie"
@@ -3623,13 +3844,20 @@ si el turno está vacío o el número es inválido, **sin que nunca salte un
 `NullPointerException`**. Escribí también `static int contarPresentes(Guardia[]
 turnos)`. Probalo con los turnos 0 a 3 y con un array donde el turno 1 está vacío.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Pregunta por `null` antes de usar cada referencia.
 - Maneja el índice fuera de rango.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Guardias {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Turno 0: Baldo
 Turno 1: nadie
@@ -3638,8 +3866,7 @@ Turno 3: nadie
 Presentes: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La guardia de la puerta: trabajar con null sin romperse.
 public class Guardias {
@@ -3683,6 +3910,13 @@ class Guardia {
     }
 }
 ```
+
+#### Al superarla
+Cuando el turno está vacío, el sistema contesta «nadie» en lugar de romperse. El troll se queda sin hueco por donde colarse.
+
+#### Imagen
+- Una puerta de la Academia con tres garitas de guardia; la del medio está vacía.
+- Un troll trata de meterse por la garita vacía; Nadia le cierra el paso con el brazo extendido.
 
 ### Encargo R02-N04-E1 · Los clientes del padrón
 
@@ -4468,38 +4702,52 @@ Desde el patio llega un grito: la Maestra reúne a todos los alumnos para un eje
 - Sol, una maga joven de túnica azul, con un rayo entre las manos.
 - Detrás, Lía y Mira; al fondo, el patio de armas de la Academia lleno de alumnos.
 
-### Misión R02-N05-M1 · Los empleados del gremio
+### Micro-misión R02-N05-P5 · Los empleados del gremio
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El ala oeste de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+recompensa: xp 10, monedas 4
+antes: R02-N05-M1
 ```
 
-#### Consigna
+#### Escena
+El gremio de comerciantes paga sueldos distintos: los vendedores cobran comisión y los gerentes, un plus. Pero todos tienen nombre y sueldo base.
+—Lo común va en el molde de arriba —dice la Maestra—. Lo distinto, en cada hijo.
 
+#### Gheco sugiere
+Una subclase hereda con `extends` y puede redefinir un método con `@Override`. `super.sueldo()` llama a la versión del padre para sumarle lo propio.
+
+#### Desafío
 Escribí una clase `Empleado` (nombre y sueldo base) con un método `double
 sueldo()` que devuelve el base y `toString`. Dos subclases: `Vendedor` (agrega las
 ventas del mes y cobra el base más el 5 % de las ventas) y `Gerente` (agrega un bono
 fijo que se suma al base). Sobrescribí `sueldo()` y `toString()` usando `super`.
 Mostrá el sueldo de un empleado de cada tipo con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las subclases usan `super(...)` en el constructor.
 - `sueldo()` se sobrescribe con `@Override` y reutiliza `super.sueldo()`.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Gremio {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Olmo   cobra 400000.00
 Nara   cobra 425000.00 (vendedor, ventas 2500000.00)
 Tesla  cobra 950000.00 (gerente)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Los empleados del gremio: extends, super y @Override.
 import java.util.Locale;
@@ -4578,17 +4826,30 @@ class Gerente extends Empleado {
 }
 ```
 
-### Misión R02-N05-M2 · Las cuentas del banco imperial
+#### Al superarla
+La planilla de sueldos sale bien a la primera. El tesorero del gremio no lo puede creer y la revisa tres veces.
+
+#### Imagen
+- Un árbol genealógico tallado en madera: arriba un molde de «empleado» y abajo dos moldes hijos.
+- La Maestra de Moldes señala el molde de arriba; Zed sostiene una bolsa de sueldos.
+
+### Micro-misión R02-N05-P6 · Las cuentas del banco imperial
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El banco imperial
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N05-M2
 ```
 
-#### Consigna
+#### Escena
+En el banco imperial hay dos tipos de cuentas: la caja de ahorro, que deja sacar pocas veces, y la cuenta corriente, que permite quedar un poco en rojo.
+Zed mira las bóvedas con interés profesional. Nadia lo mira a él.
 
+#### Gheco sugiere
+La subclase puede redefinir `extraer` con sus propias reglas y usar `super.extraer(monto)` para lo común. El saldo sigue `private` en el padre: los hijos usan sus métodos.
+
+#### Desafío
 Escribí una clase `Cuenta` con saldo `private`, `depositar`, `getSaldo` y un método
 `boolean extraer(double monto)` que no deja el saldo negativo. Subclases:
 `CajaAhorro`, que solo permite 3 extracciones (después devuelve `false`), y
@@ -4597,13 +4858,22 @@ un límite). Sobrescribí `extraer` en las dos. Como el saldo es `private`, la
 subclase que necesita cambiarlo usa un método `protected void setSaldo(double)` del
 padre. Probá las dos cuentas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El saldo es `private` y las subclases lo cambian por un método `protected`.
 - Cada subclase sobrescribe `extraer` con su regla.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class BancoImperial {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Caja: extracción 1 de 100 -> true, saldo 900.0
 Caja: extracción 2 de 100 -> true, saldo 800.0
@@ -4613,8 +4883,7 @@ Corriente: extraer 600 -> true, saldo -400.0
 Corriente: extraer 200 -> false, saldo -400.0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Las cuentas del banco imperial: sobrescribir con reglas distintas.
 import java.util.Locale;
@@ -4694,17 +4963,30 @@ class CuentaCorriente extends Cuenta {
 }
 ```
 
-### Misión R02-N05-M3 · Las figuras del cartógrafo
+#### Al superarla
+Las dos cuentas funcionan con sus reglas y ninguna queda en rojo de más. Zed sale del banco sin haber tocado nada, y lo dice en voz alta.
+
+#### Imagen
+- Un banco con mostradores de mármol y una bóveda redonda de bronce al fondo.
+- Un cajero cuenta billetes; Zed mira la bóveda y Nadia lo mira a él con los ojos entrecerrados.
+
+### Micro-misión R02-N05-P7 · Las figuras del cartógrafo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El taller del cartógrafo
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N05-M3
 ```
 
-#### Consigna
+#### Escena
+El cartógrafo de la Academia dibuja terrenos con forma de rectángulo, de círculo y de triángulo, y necesita el área de cada uno con el mismo formato.
+—El formato no se toca —dice—. Lo que cambia es la cuenta.
 
+#### Gheco sugiere
+Un método `final` no se puede redefinir: arma la ficha igual para todos. Cada subclase redefine `area()` con su fórmula, y `ficha()` llama a la versión que corresponde.
+
+#### Desafío
 Escribí una clase `Figura` con un nombre, un método `double area()` que devuelve 0 y
 un método **`final`** `String ficha()` que arma `"nombre: área X.XX"` usando `area()`.
 Subclases `Rectangulo` (base y altura), `Circulo` (radio) y `Cuadrado`, que **hereda
@@ -4712,13 +4994,22 @@ de `Rectangulo`** (un cuadrado es un rectángulo con base igual a la altura) y s
 tiene un constructor. Sobrescribí `area()` donde haga falta y mostrá la ficha de una
 figura de cada tipo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `ficha()` es `final` y usa `area()`.
 - `Cuadrado` hereda de `Rectangulo` y no vuelve a escribir `area()`.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Cartografo {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 rectángulo: área 10.00
 círculo: área 28.27
@@ -4726,8 +5017,7 @@ cuadrado: área 25.00
 ¿Un cuadrado es un rectángulo? true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Las figuras del cartografo: herencia en varios niveles y un metodo final.
 import java.util.Locale;
@@ -4799,6 +5089,13 @@ class Cuadrado extends Rectangulo {
     }
 }
 ```
+
+#### Al superarla
+Todas las fichas salen con el mismo formato y cada área con su fórmula. El cartógrafo las pega en el mapa del Imperio.
+
+#### Imagen
+- Una mesa de dibujo con figuras recortadas: un rectángulo, un círculo y un triángulo de papel.
+- Un cartógrafo con compás mide el círculo; Gheco está parado en el medio del rectángulo.
 
 ### Encargo R02-N05-E1 · Los vehículos de la flota
 
@@ -5653,30 +5950,43 @@ Dos turnos, un solo método `turno`. Al terminar el ejercicio, Zed intenta abrir
 - Lía y Mira tomando turnos frente a un muñeco de práctica.
 - Zed con la ganzúa contra una cerradura que no tiene ojo: la puerta de la Sala de los Pactos.
 
-### Misión R02-N06-M1 · El zoológico de criaturas
+### Micro-misión R02-N06-P5 · El zoológico de criaturas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El zoológico de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N06-M1
 ```
 
-#### Consigna
+#### Escena
+La Academia tiene un zoológico de criaturas para estudiar. Cada una hace un sonido y tiene sus patas, pero todas se presentan igual.
+Gheco se esconde detrás de Zed cuando ruge el dragón.
 
+#### Gheco sugiere
+Una clase `abstract` no se instancia: es un molde a medias. Sus métodos `abstract` no tienen cuerpo y cada subclase concreta tiene que escribirlos.
+
+#### Desafío
 Escribí una clase abstracta `Criatura` con nombre, un método abstracto `String
 sonido()` y uno abstracto `int patas()`, y un método concreto `String presentarse()`
 que los use. Subclases concretas: `Dragon`, `Grifo` y `Serpiente`. En el `main`
 guardalas en un array de `Criatura`, mostrá la presentación de cada una y el total de
 patas del zoológico.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Criatura` es abstracta y tiene métodos abstractos y uno concreto.
 - El `main` recorre el array sin preguntar el tipo de cada criatura.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Zoologico {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Ignis dice "ROAAR" y tiene 4 patas
 Plumaferro dice "kriii" y tiene 4 patas
@@ -5684,8 +5994,7 @@ Ofidia dice "sss" y tiene 0 patas
 Patas en el zoológico: 8
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El zoologico de criaturas: clase abstracta y polimorfismo.
 public class Zoologico {
@@ -5765,17 +6074,30 @@ class Serpiente extends Criatura {
 }
 ```
 
-### Misión R02-N06-M2 · La nómina polimórfica
+#### Al superarla
+Las tres criaturas se presentan una por una. La serpiente dice que tiene cero patas y Gheco, que tiene cuatro, se siente superior.
+
+#### Imagen
+- Un zoológico con un dragón chico, un grifo y una serpiente en tres corrales de piedra.
+- Gheco se esconde detrás de la pierna de Zed mientras el dragón ruge.
+
+### Micro-misión R02-N06-P6 · La nómina polimórfica
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La tesorería de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N06-M2
 ```
 
-#### Consigna
+#### Escena
+A fin de mes, la Academia paga a sus trabajadores: unos con sueldo fijo, otros por hora y otros por contrato. El tesorero hace una cuenta distinta para cada uno y se pierde.
+—Una sola lista —dice Zed—, y que cada uno sepa cuánto cobra.
 
+#### Gheco sugiere
+Polimorfismo: un array de `Trabajador` puede tener objetos de cualquier subclase. Al llamar `pagoMensual()`, cada uno usa su propia versión.
+
+#### Desafío
 Una clase abstracta `Trabajador` con nombre y un método abstracto `double
 pagoMensual()`. Subclases: `Asalariado` (sueldo fijo), `PorHora` (horas y valor por
 hora; las horas que pasan de 160 se pagan al 150 %) y `Contratado` (monto del
@@ -5783,13 +6105,22 @@ contrato dividido en los meses que dura). Recorré un array de trabajadores, mos
 pago de cada uno con 2 decimales y el total de la nómina. Después, recorré de nuevo y
 mostrá **solo** las horas de los `PorHora` usando `instanceof` con pattern matching.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `pagoMensual` es abstracto y se calcula en cada subclase.
 - El total se calcula sin `instanceof`; solo el listado de horas lo usa.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Nomina {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Nara     650000.00
 Pip      665000.00
@@ -5800,8 +6131,7 @@ Pip trabajó 180 horas
 Lía trabajó 120 horas
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La nomina polimorfica: metodo abstracto, ligadura dinamica e instanceof.
 import java.util.Locale;
@@ -5896,17 +6226,31 @@ class Contratado extends Trabajador {
 }
 ```
 
-### Misión R02-N06-M3 · Las trampas de la mazmorra
+#### Al superarla
+La nómina sale entera recorriendo una sola lista. El tesorero le da a Zed una moneda de la suerte, la segunda de la semana.
+
+#### Imagen
+- Una mesa con sobres de sueldo de distintos tamaños apilados en una sola fila.
+- Un tesorero cansado reparte sobres; Zed le señala una lista; Gheco cuenta monedas.
+
+### Micro-misión R02-N06-P7 · Las trampas de la mazmorra
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La mazmorra de práctica
+personajes: Zed, Gheco, Nadia
+criatura: esqueleto
+recompensa: xp 10, monedas 4
+antes: R02-N06-M3
 ```
 
-#### Consigna
+#### Escena
+Debajo del patio de armas hay una mazmorra de práctica con trampas de todo tipo. Un **esqueleto** guardián las activa una tras otra.
+—Tres trampas distintas, una sola forma de activarlas —dice Nadia, y avanza primero.
 
+#### Gheco sugiere
+Cada trampa redefine `activar` a su manera. Recorriendo un array de `Trampa`, cada llamada hace lo que corresponde a ese objeto: pinchos, veneno o lo que sea.
+
+#### Desafío
 Una clase abstracta `Trampa` con un método abstracto `int activar(int vidaDelHeroe)`
 que devuelve la vida que le queda al héroe, y un método concreto `String nombre()`.
 Tres trampas: `Pinchos` (quita 10), `Veneno` (quita el 25 % de la vida actual,
@@ -5914,13 +6258,20 @@ redondeando para abajo) y `Fuente` (no es una trampa mala: **suma** 15, sin pasa
 100). Nadia arranca con 80 de vida y cruza un pasillo de 6 trampas guardadas en un
 array. Mostrá la vida después de cada una y si llega a la salida.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada trampa implementa `activar` a su manera.
 - El recorrido del pasillo no pregunta el tipo de trampa.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Mazmorra {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Pinchos -> vida 70
 Veneno -> vida 53
@@ -5931,8 +6282,7 @@ Pinchos -> vida 34
 ¡Nadia llega a la salida con 34 de vida!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Las trampas de la mazmorra: polimorfismo con un metodo que transforma un valor.
 public class Mazmorra {
@@ -5984,6 +6334,13 @@ class Fuente extends Trampa {
     }
 }
 ```
+
+#### Al superarla
+Nadia cruza la mazmorra con vida de sobra. El esqueleto guardián, sin trampas para activar, se sienta en un escalón.
+
+#### Imagen
+- Un pasillo de mazmorra con pinchos en el piso, un charco verde de veneno y una red colgando.
+- Nadia salta entre las trampas; un esqueleto guardián sostiene una palanca; Zed cuenta la vida.
 
 ### Encargo R02-N06-E1 · Los medios de pago
 
@@ -6755,17 +7112,23 @@ En el taller de al lado, un aprendiz intenta que un caballero herede de una arma
 - Cuatro llaves ordenadas sobre una mesa, de menos a más dientes; la ganzúa de Zed, primera, echando un segundo diente con un destello.
 - Kaffa sonriendo detrás de su taza; Zed mirando la ganzúa, asombrado.
 
-### Misión R02-N07-M1 · Los curanderos
+### Micro-misión R02-N07-P5 · Los curanderos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Sala de los Pactos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R02-N07-M1
 ```
 
-#### Consigna
+#### Escena
+En la Sala de los Pactos, un clérigo, una poción y una fuente sagrada no se parecen en nada… pero las tres firmaron el mismo contrato: **curar**.
+—No importa quién seas —dice Kaffa—. Importa qué prometiste.
 
+#### Gheco sugiere
+Una `interface` declara qué métodos promete una clase, sin decir cómo. Una clase la cumple con `implements`. Un método `default` ya viene escrito y se puede redefinir.
+
+#### Desafío
 Declará una interfaz `Curador` con `int curar(int vidaActual)` (devuelve la vida
 después de curar) y un método `default String describir()` que diga `"cura"`. Tres
 clases que no se parecen la implementan: `Clerigo` (suma 20), `PocionMenor` (suma 8) y
@@ -6773,13 +7136,20 @@ clases que no se parecen la implementan: `Clerigo` (suma 20), `PocionMenor` (sum
 en orden, los tres curadores guardados en un array de `Curador`: mostrá la vida
 después de cada uno. `Fuente` sobrescribe `describir()`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las tres clases implementan `Curador` y se usan a través de la interfaz.
 - Hay un método `default` y al menos una clase lo sobrescribe.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Curanderos {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Vida inicial: 35
 PocionMenor cura -> 43
@@ -6787,8 +7157,7 @@ Clerigo cura -> 63
 Fuente restaura toda la vida -> 100
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Los curanderos: una interfaz implementada por clases distintas.
 public class Curanderos {
@@ -6840,30 +7209,53 @@ class Fuente implements Curador {
 }
 ```
 
-### Misión R02-N07-M2 · El ranking de la arena
+#### Al superarla
+Las tres curan a Nadia, cada una a su manera. Zed mira su ganzúa: le pareció que se movía.
+
+#### Imagen
+- Una sala con un clérigo, una poción sobre un pedestal y una fuente que brilla, unidos por un pergamino firmado.
+- Kaffa, el Arquitecto Imperial, observa; Nadia se cura junto a la fuente.
+
+### Micro-misión R02-N07-P6 · El ranking de la arena
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La arena de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Terminó la temporada de la arena y hay que publicar el ranking. Hay empates en victorias, empates en derrotas y un luchador que exige ir primero por su nombre.
+—Hay una regla para cada empate —dice Nadia—. En orden.
 
+#### Gheco sugiere
+`Comparable<Luchador>` obliga a escribir `compareTo`: negativo si va antes, positivo si va después. Comparás victorias; si empatan, derrotas; si siguen empatados, `nombre.compareTo(...)`.
+
+#### Desafío
 Escribí una clase `Luchador` (nombre, victorias, derrotas) que implemente
 `Comparable<Luchador>`: se ordena por **más victorias**; si empatan, por **menos
 derrotas**; y si también empatan, por nombre alfabético. Agregá un método
 `double efectividad()` (victorias sobre combates, en porcentaje). Ordená un array de
 6 luchadores con `Arrays.sort` y mostrá el ranking con `printf`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `compareTo` usa `Integer.compare` y los tres criterios en orden.
 - El ranking sale de `Arrays.sort`.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Arrays;
+import java.util.Locale;
 
+public class Arena {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 1. Lía    15V  2D   88.2%
 2. Nara   15V  5D   75.0%
@@ -6873,8 +7265,7 @@ derrotas**; y si también empatan, por nombre alfabético. Agregá un método
 6. Olmo    4V  9D   30.8%
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El ranking de la arena: Comparable con tres criterios.
 import java.util.Arrays;
@@ -6938,17 +7329,30 @@ class Luchador implements Comparable<Luchador> {
 }
 ```
 
-### Misión R02-N07-M3 · Lo que se puede vender
+#### Al superarla
+El ranking queda ordenado sin una sola queja. El luchador del nombre bonito quedó último y no puede reclamar nada.
+
+#### Imagen
+- Una arena redonda de arena con una tabla de madera de posiciones colgada en la tribuna.
+- Luchadores de armadura cerrada miran la tabla; uno se agarra la cabeza; Gheco aplaude desde la tribuna.
+
+### Micro-misión R02-N07-P7 · Lo que se puede vender
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mercado del Imperio
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N07-M3
 ```
 
-#### Consigna
+#### Escena
+En el mercado se vende de todo: espadas, panes, mapas. Algunas cosas pagan impuesto y otras no. El recaudador quiere cobrar todo con una sola lista.
+—Que cada cosa firme lo que puede cumplir —dice Zed, que ya aprendió.
 
+#### Gheco sugiere
+Una clase puede implementar **varias** interfaces: `class Espada implements Vendible, Gravable`. Con `instanceof` preguntás si un objeto cumple una interfaz antes de usarla.
+
+#### Desafío
 En el mercado del Imperio se venden cosas muy distintas. Declará una interfaz
 `Vendible` con `double precio()` y `String etiqueta()`, y una interfaz `Gravable` con
 `double impuesto()` (una tasa, por ejemplo 0.21) y un método `default double
@@ -6958,13 +7362,22 @@ agrega el `default precioFinal()` = precio × (1 + impuesto). Implementá `Pan`
 (`Vendible`, sin impuesto), `Espada` y `Servicio` (`Gravable`). Mostrá precio y precio
 final de cada uno, usando `instanceof` solo para saber si se le cobra impuesto.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Una interfaz extiende a otra.
 - `precioFinal` es un método `default` que usa los otros métodos de la interfaz.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Mercado {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Pan        1200.00 ->   1200.00
 Espada    85000.00 -> 102850.00
@@ -6972,8 +7385,7 @@ Afilado    3000.00 ->   3315.00
 Total                 107365.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Lo que se puede vender: una interfaz que extiende a otra, con un default.
 import java.util.Locale;
@@ -7060,6 +7472,13 @@ class Servicio implements Gravable {
     }
 }
 ```
+
+#### Al superarla
+El recaudador cobra lo justo a cada puesto. Un panadero le regala a Zed un pan por no haberle cobrado impuesto al pan.
+
+#### Imagen
+- Un mercado con puestos de espadas, panes y mapas bajo toldos de colores.
+- Un recaudador con libreta cobra en un puesto; Zed recibe un pan del panadero.
 
 ### Encargo R02-N07-E1 · Las notificaciones
 
@@ -7838,30 +8257,45 @@ En el archivo de la Academia, alguien escribió en la pizarra «arquero», «ARQ
 - Una espada golpeando una armadura de placas: el golpe se frena en un destello.
 - Teo dándole una palmadita a su armadura.
 
-### Misión R02-N08-M1 · La factura y sus renglones
+### Micro-misión R02-N08-P5 · La factura y sus renglones
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La tienda del taller de armaduras
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N08-M1
 ```
 
-#### Consigna
+#### Escena
+El taller de armaduras vende por pedido y cada factura tiene muchos renglones. Si se pierde la factura, se pierden sus renglones con ella.
+—Los renglones viven dentro de la factura —explica Nadia—. No sueltos.
 
+#### Gheco sugiere
+Composición: la `Factura` **crea** y guarda sus `Renglon` en un array interno. Desde afuera solo se usa `agregar(...)`: nadie toca los renglones directamente.
+
+#### Desafío
 Escribí una clase `Renglon` (descripción, cantidad, precio unitario, con `subtotal()`)
 y una clase `Factura` que **compone** sus renglones: tiene un array interno de
 `Renglon` y un método `agregar(String descripcion, int cantidad, double precio)` que
 **crea** el renglón adentro (nadie de afuera los crea ni los recibe). La factura delega
 en los renglones para calcular el total. Mostrá la factura completa con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los renglones se crean dentro de la factura (composición).
 - El total se calcula delegando en `subtotal()` de cada renglón.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Facturacion {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Factura para Posada La Taza
   Guiso          2 x   1200.00 =   2400.00
@@ -7870,8 +8304,7 @@ Factura para Posada La Taza
   TOTAL                           21750.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La factura y sus renglones: composicion y delegacion.
 import java.util.Locale;
@@ -7945,31 +8378,51 @@ class Renglon {
 }
 ```
 
-### Misión R02-N08-M2 · El equipo de la expedición
+#### Al superarla
+La factura sale con cada renglón y el total exacto. El armero la firma y la clava en la pared de pedidos.
+
+#### Imagen
+- Un pergamino largo de factura con renglones y un sello, sobre un mostrador con piezas de armadura.
+- Un armero de delantal firma la factura; Zed acomoda un yelmo sobre el mostrador.
+
+### Micro-misión R02-N08-P6 · El equipo de la expedición
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las caballerizas de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N08-M2
 ```
 
-#### Consigna
+#### Escena
+Se arma una expedición y los aventureros se anotan: llegan, se suman y algunos se bajan. Pero los aventureros existen antes y después de la expedición.
+—La expedición los **junta** —dice Nadia—, no los fabrica.
 
+#### Gheco sugiere
+Agregación: la `Expedicion` recibe aventureros ya creados y los guarda; si se quita uno, el aventurero sigue existiendo. Para la fuerza total, la expedición le pregunta a cada uno (delegación).
+
+#### Desafío
 Escribí una clase `Aventurero` (nombre, fuerza) y una clase `Expedicion` que
 **agrega** aventureros: los recibe ya creados con `sumar(Aventurero a)` (hasta 4) y
 los puede `quitar(String nombre)`. La expedición delega para calcular su fuerza total.
 Creá cinco aventureros, armá **dos** expediciones que compartan a uno de ellos,
 quitá a otro de una expedición y mostrá que el aventurero sigue existiendo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los aventureros se crean afuera y se pasan (agregación).
 - Un mismo aventurero está en dos expediciones.
 - Quitar de una expedición no destruye al aventurero.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Expediciones {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Expedición Norte: Nadia (9), Baldo (14), Lía (7) | fuerza 30
 Expedición Sur: Baldo (14), Pip (4), Nara (11) | fuerza 29
@@ -7977,8 +8430,7 @@ Sin Lía: Expedición Norte: Nadia (9), Baldo (14) | fuerza 23
 Lía sigue existiendo: Lía (7)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El equipo de la expedicion: agregacion.
 public class Expediciones {
@@ -8076,17 +8528,30 @@ class Expedicion {
 }
 ```
 
-### Misión R02-N08-M3 · El personaje con montura
+#### Al superarla
+La expedición sale con cuatro aventureros y la fuerza bien sumada. Uno de los que se bajó la mira irse desde la puerta, con su mochila puesta.
+
+#### Imagen
+- Cuatro aventureros con armaduras y capas cerradas, montados, saliendo por el portón de las caballerizas.
+- Un quinto aventurero mira desde la puerta con su mochila; Zed despide a la expedición con la mano.
+
+### Micro-misión R02-N08-P7 · El personaje con montura
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las caballerizas de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N08-M3
 ```
 
-#### Consigna
+#### Escena
+Un aprendiz quiere crear una clase para cada combinación: arquero con caballo, arquero con grifo, arquero a pie… Ya va por la clase número doce.
+—Que el arquero **tenga** una montura —le dice Zed—, y que la cambie cuando quiera.
 
+#### Gheco sugiere
+En lugar de heredar cada combinación, el arquero guarda un atributo `Montura` (una interfaz). Cambiar de montura es cambiar ese objeto, y la velocidad sale de la montura que tiene.
+
+#### Desafío
 Un arquero puede ir a pie o montar distintos animales. En lugar de crear
 `ArqueroConCaballo`, `ArqueroConGrifo`… usá **composición con una interfaz**: una
 interfaz `Montura` con `int velocidad()` y `String nombre()`, implementada por
@@ -8094,13 +8559,20 @@ interfaz `Montura` con `int velocidad()` y `String nombre()`, implementada por
 pie) y un método `cambiarMontura(Montura m)`. Su velocidad delega en la montura (a pie
 es 3). Mostrá al arquero a pie, a caballo y en grifo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Arquero` tiene una `Montura` (interfaz) en lugar de heredar.
 - La velocidad delega y contempla la montura `null`.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Monturas {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Lía a pie, velocidad 3
 Lía en caballo, velocidad 12
@@ -8108,8 +8580,7 @@ Lía en grifo, velocidad 30
 Lía a pie, velocidad 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El personaje con montura: composicion en lugar de herencia.
 public class Monturas {
@@ -8177,6 +8648,13 @@ class Arquero {
     }
 }
 ```
+
+#### Al superarla
+Un solo arquero cambia de caballo a grifo y de grifo a ir a pie. El aprendiz borra once clases y respira aliviado.
+
+#### Imagen
+- Una arquera con capa cerrada que pasa de un caballo a un grifo en las caballerizas.
+- Un aprendiz rompe una pila de pergaminos de clases; Gheco anda en el lomo del grifo.
 
 ### Encargo R02-N08-E1 · El auto del taller
 
@@ -8880,17 +9358,23 @@ Esa tarde, Kaffa los cita en la biblioteca. Desenrolla un plano lleno de cajas y
 - Una ficha de bronce que se escribe sola: «Recluta[nombre=Mira, clase=ARQUERO]».
 - Al fondo, la puerta de la biblioteca de la Academia, con Kaffa esperando con un plano enrollado.
 
-### Misión R02-N09-M1 · Los días del mercado
+### Micro-misión R02-N09-P5 · Los días del mercado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La plaza del mercado
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N09-M1
 ```
 
-#### Consigna
+#### Escena
+El mercado de la plaza abre ciertos días y los fines de semana tiene feria. Pero los comerciantes escriben los días como quieren: «LUNES», «lunes», «Lunes»…
+—Los días son siete —dice Nadia—. Ni uno más.
 
+#### Gheco sugiere
+Un `enum` es un tipo con valores fijos: `enum Dia { LUNES, MARTES, ... }`. `values()` los da en orden, `ordinal()` dice la posición y `valueOf(texto.toUpperCase())` convierte el texto.
+
+#### Desafío
 Declará un `enum Dia` con los siete días. Agregale un método `boolean
 esFinDeSemana()` y otro `Dia siguiente()` (el domingo sigue al lunes: usá `values()` y
 `ordinal()`). Pedí un día por teclado (en cualquier combinación de mayúsculas),
@@ -8898,20 +9382,28 @@ convertilo con `valueOf` y mostrá si es fin de semana, cuál es el siguiente y,
 `switch`, qué se vende ese día en el mercado (inventá: pescado los viernes, etc.).
 Si el texto no es un día, avisá.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Dia` es un `enum` con métodos.
 - Maneja el texto inválido.
 - Usa un `switch` sobre el `enum`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
 
+public class Mercado {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 viernes
 ```
 
 #### Salida esperada
-
 ```
 Día: 
 VIERNES es día hábil
@@ -8919,8 +9411,7 @@ Mañana es SABADO
 En el mercado hoy: pescado
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Los dias del mercado: enum con metodos, valueOf y switch.
 import java.util.Scanner;
@@ -8965,50 +9456,30 @@ enum Dia {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Cada comerciante sabe qué día abre y cuál le sigue. El domingo un vendedor pregunta qué viene después, y el programa contesta: lunes.
 
-##### Domingo
-```entrada
-domingo
-```
-```salida
-Día:
-DOMINGO es fin de semana
-Mañana es LUNES
-En el mercado hoy: cerrado
-```
+#### Imagen
+- Una plaza de mercado con siete banderines de colores colgados en fila sobre los puestos.
+- Un comerciante señala un banderín; Zed y Nadia pasean con una canasta; Gheco viaja en la canasta.
 
-##### Mayúsculas mezcladas
-```entrada
-LuNeS
-```
-```salida
-Día:
-LUNES es día hábil
-Mañana es MARTES
-En el mercado hoy: verduras
-```
-
-##### No es un día
-```entrada
-feriado
-```
-```salida
-Día:
-FERIADO no es un día
-```
-
-### Misión R02-N09-M2 · Los pedidos de la herrería
+### Micro-misión R02-N09-P6 · Los pedidos de la herrería
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La herrería de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R02-N09-M2
 ```
 
-#### Consigna
+#### Escena
+En la herrería, un pedido pasó de «entregado» a «en forja» y nadie sabe cómo. El herrero quiere que los pedidos solo avancen como corresponde.
+—Cada estado sabe a cuál puede pasar —dice Nadia.
 
+#### Gheco sugiere
+Un `enum` puede tener atributos, constructor y métodos: cada valor guarda su texto para mostrar. Un método `puedePasarA(Estado otro)` decide qué cambios valen.
+
+#### Desafío
 Un pedido pasa por estados: `PENDIENTE → EN_FORJA → TERMINADO → ENTREGADO`, y en
 cualquier momento antes de entregarse puede quedar `CANCELADO`. Declará un `enum
 Estado` con un atributo que diga el texto para mostrar y un método `boolean
@@ -9016,13 +9487,20 @@ puedePasarA(Estado otro)` con esas reglas. Una clase `Pedido` (número, estado) 
 un método `cambiarEstado(Estado nuevo)` que solo lo cambia si está permitido. Mostrá
 un recorrido con cambios válidos e inválidos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las reglas de transición están en el `enum`.
 - `Pedido` rechaza los cambios no permitidos.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Herreria {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Pedido 101 (pendiente)
 A terminado: no permitido -> Pedido 101 (pendiente)
@@ -9033,8 +9511,7 @@ A entregado: no permitido -> Pedido 101 (cancelado)
 A cancelado: no permitido -> Pedido 101 (cancelado)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los pedidos de la herreria: enum con atributos y reglas de transicion.
 public class Herreria {
@@ -9098,17 +9575,30 @@ class Pedido {
 }
 ```
 
-### Misión R02-N09-M3 · Las coordenadas del mapa
+#### Al superarla
+Los pedidos avanzan en orden y los cancelados no vuelven a la forja. El herrero cuelga la lista de estados al lado del yunque.
+
+#### Imagen
+- Una herrería con un yunque, una espada al rojo y una fila de pedidos colgados con ganchos.
+- Un herrero robusto de delantal martilla; Zed mueve un pedido de un gancho al siguiente.
+
+### Micro-misión R02-N09-P7 · Las coordenadas del mapa
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El archivo de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+recompensa: xp 10, monedas 4
+antes: R02-N09-M3
 ```
 
-#### Consigna
+#### Escena
+En el archivo hay mapas con coordenadas negativas que no existen. La Maestra quiere que una coordenada, una vez hecha, no cambie nunca.
+—Si te movés, es otra coordenada —dice—. La vieja queda como estaba.
 
+#### Gheco sugiere
+Un `record` arma solo los atributos, el constructor, `equals` y `toString`, y sus datos no cambian. En el constructor compacto se valida: `if (fila < 0) throw ...`. Moverse devuelve un `record` nuevo.
+
+#### Desafío
 Declará un `record Coordenada(int fila, int columna)` que rechace valores negativos
 en su constructor compacto y tenga dos métodos: `Coordenada mover(Direccion d)` (que
 devuelve una coordenada **nueva**) y `int distanciaA(Coordenada otra)` (distancia
@@ -9117,13 +9607,20 @@ devuelve una coordenada **nueva**) y `int distanciaA(Coordenada otra)` (distanci
 atributos. Partí de (5, 5), seguí el camino `N, N, E, E, E, S` y mostrá cada paso y la
 distancia al punto de partida.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Coordenada` es un `record` validado; mover devuelve un record nuevo.
 - `Direccion` es un `enum` con atributos.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Camino {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 NORTE -> Coordenada[fila=4, columna=5]
 NORTE -> Coordenada[fila=3, columna=5]
@@ -9136,8 +9633,7 @@ El inicio no cambió: Coordenada[fila=5, columna=5]
 No se puede salir del mapa: coordenada negativa (0, -1)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Las coordenadas del mapa: record inmutable y enum con atributos.
 public class Camino {
@@ -9195,6 +9691,13 @@ record Coordenada(int fila, int columna) {
     }
 }
 ```
+
+#### Al superarla
+Las coordenadas imposibles no llegan a existir. Zed traza un camino por el mapa y cada paso es una coordenada nueva.
+
+#### Imagen
+- Un mapa cuadriculado sobre una mesa del archivo, con fichas de piedra marcando un camino.
+- La Maestra de Moldes rechaza una ficha con una mano; Zed mueve otra ficha un casillero.
 
 ### Encargo R02-N09-E1 · Los planes del gimnasio
 
@@ -9920,77 +10423,23 @@ Desde el sótano de la Academia llega un rugido de tres voces distintas.
 - En la esquina del plano, una caja a medio dibujar con una firma pequeña: un vitral de colores.
 - Zed mirando la firma, con la llave del vitral en la otra mano; el piso de la biblioteca vibrando por un rugido.
 
-### Misión R02-N10-M1 · Dibujá la herrería
+### Micro-misión R02-N10-P5 · Del plano al código
 
 ```meta
-entrega: archivo
-entorno: local
-extensiones: md, txt, png, jpg, pdf
-monedas: 4
-xp: 10
+lugar: La biblioteca de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R02-N10-M2
 ```
 
-#### Consigna
+#### Escena
+Kaffa extiende un plano sobre la mesa: cajas, flechas, rombos. Es el diagrama de una biblioteca entera.
+—Un plano no se interpreta —dice—. **Se construye** tal como está dibujado.
 
-Dibujá el **diagrama de clases** del ejemplo del nodo *Composición, agregación y
-delegación* (`Caballero`, `Armadura`, `Espada`, `Caballo`): cada clase con sus
-atributos y métodos con visibilidad, y las relaciones con el tipo correcto
-(composición o agregación) y sus multiplicidades.
+#### Gheco sugiere
+Leé el diagrama de arriba abajo: cada caja es una clase; `-` es `private` y `+` es `public`; la flecha con triángulo es herencia y el rombo negro, composición (la parte se crea adentro).
 
-Podés escribirlo en Mermaid (entregá el `.md` o `.txt` con el texto) o dibujarlo y
-entregar una foto o un PDF.
-
-#### Criterio de aprobación
-
-- Las cuatro clases con atributos y métodos, con `+` y `-` correctos.
-- `Caballero` compone la `Armadura` (rombo lleno) y agrega la `Espada` y el `Caballo` (rombo vacío).
-- Las multiplicidades tienen sentido (por ejemplo, `0..1` para el caballo).
-
-#### Solución de referencia
-
-```
-classDiagram
-    class Caballero {
-        -String nombre
-        +equipar(Espada espada)
-        +montar(Caballo caballo)
-        +atacar() int
-        +defensa() int
-        +velocidad() int
-        +recibirGolpe(int fuerza)
-    }
-    class Armadura {
-        -int proteccion
-        +getProteccion() int
-        +absorber(int golpe)
-    }
-    class Espada {
-        -String nombre
-        -int danio
-        +danio() int
-    }
-    class Caballo {
-        -String nombre
-        -int velocidad
-        +getNombre() String
-        +getVelocidad() int
-    }
-    Caballero "1" *-- "1" Armadura : compone
-    Caballero o-- "0..1" Espada : equipa
-    Caballero o-- "0..1" Caballo : monta
-```
-
-### Misión R02-N10-M2 · Del plano al código
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
+#### Desafío
 Programá exactamente lo que dice este diagrama (respetando visibilidades, herencia,
 interfaz y composición). `Biblioteca` crea sus estantes en el constructor (3
 estantes, con capacidad 2 libros cada uno) y `agregar` pone el libro en el primer
@@ -10035,13 +10484,20 @@ classDiagram
     Estante o-- "0..2" Libro
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada clase, interfaz, atributo y método del diagrama está en el código con su visibilidad.
 - `Libro` es abstracta e implementa `Prestable`; la composición y la agregación se respetan.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Plano {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Estante 1: Rayuela, de Cortázar | Enciclopedia del Imperio, tomo 1
 Estante 2: Ficciones, de Borges | Enciclopedia del Imperio, tomo 2
@@ -10049,8 +10505,7 @@ Estante 3: (vacío)
 Se pueden prestar: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Del plano al codigo: implementar un diagrama de clases.
 public class Plano {
@@ -10186,6 +10641,73 @@ class Biblioteca {
         }
     }
 }
+```
+
+#### Al superarla
+El programa hace exactamente lo que dice el plano. Kaffa lo compara línea por línea y, por primera vez, no corrige nada.
+
+#### Imagen
+- Un plano grande con cajas y flechas desplegado sobre una mesa de biblioteca, con velas alrededor.
+- Kaffa señala una caja del plano; Zed escribe a su lado; Gheco sostiene una esquina del papel.
+
+### Misión R02-N10-M1 · Dibujá la herrería
+
+```meta
+entrega: archivo
+entorno: local
+extensiones: md, txt, png, jpg, pdf
+monedas: 4
+xp: 10
+```
+
+#### Consigna
+
+Dibujá el **diagrama de clases** del ejemplo del nodo *Composición, agregación y
+delegación* (`Caballero`, `Armadura`, `Espada`, `Caballo`): cada clase con sus
+atributos y métodos con visibilidad, y las relaciones con el tipo correcto
+(composición o agregación) y sus multiplicidades.
+
+Podés escribirlo en Mermaid (entregá el `.md` o `.txt` con el texto) o dibujarlo y
+entregar una foto o un PDF.
+
+#### Criterio de aprobación
+
+- Las cuatro clases con atributos y métodos, con `+` y `-` correctos.
+- `Caballero` compone la `Armadura` (rombo lleno) y agrega la `Espada` y el `Caballo` (rombo vacío).
+- Las multiplicidades tienen sentido (por ejemplo, `0..1` para el caballo).
+
+#### Solución de referencia
+
+```
+classDiagram
+    class Caballero {
+        -String nombre
+        +equipar(Espada espada)
+        +montar(Caballo caballo)
+        +atacar() int
+        +defensa() int
+        +velocidad() int
+        +recibirGolpe(int fuerza)
+    }
+    class Armadura {
+        -int proteccion
+        +getProteccion() int
+        +absorber(int golpe)
+    }
+    class Espada {
+        -String nombre
+        -int danio
+        +danio() int
+    }
+    class Caballo {
+        -String nombre
+        -int velocidad
+        +getNombre() String
+        +getVelocidad() int
+    }
+    Caballero "1" *-- "1" Armadura : compone
+    Caballero o-- "0..1" Espada : equipa
+    Caballero o-- "0..1" Caballo : monta
 ```
 
 ### Misión R02-N10-M3 · La secuencia del cobro
@@ -11050,17 +11572,23 @@ Kaffa termina su café. —Los Archivos Imperiales guardan el registro de todos 
 - La Maestra de Moldes entregándole a Zed un par de guantes de cuero con remaches de bronce.
 - Kaffa con su taza; Nadia y Gheco celebrando atrás.
 
-### Misión R02-N11-M1 · La batalla contra la Quimera
+### Micro-misión R02-N11-P5 · La batalla contra la Quimera
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El sótano de la Academia
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 30, monedas 6
+antes: R02-N11-M1
 ```
 
-#### Consigna
+#### Escena
+La Quimera despierta en el sótano: cabeza de león, de cabra y de serpiente. Un grupo de aventureros baja a enfrentarla, cada uno con su forma de pelear.
+—No la vencés con fuerza —dice Kaffa—. La vencés **modelándola bien**.
 
+#### Gheco sugiere
+Separá todo en clases: una clase abstracta para los combatientes, una subclase por cada uno con su ataque, y una interfaz para los que además curan. El combate recorre una sola lista y cada uno actúa a su manera.
+
+#### Desafío
 Programá la batalla completa. El grupo es: **Nara**, guerrera de fuego (fuerza 14),
 **Olmo**, mago de hielo (fuerza 10, pero cada 3 ataques lanza un hechizo de 25) y
 **Tomás**, clérigo (ataca con veneno de fuerza 4 y además es `Curador`: cura 12). La
@@ -11075,15 +11603,21 @@ vida máxima). Los héroes arrancan con 60 (guerrera), 40 (mago) y 45 (clérigo)
 La batalla termina cuando mueren las tres cabezas o todos los héroes. Mostrá cada
 ronda y el resultado. No hay azar: el resultado sale siempre igual.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Heroe` es abstracta; `Curador` es una interfaz; `Elemento` es un `enum` con la tabla de efectividad; `Golpe` es un `record`.
 - La quimera compone sus cabezas y saltea las muertas.
 - Cada héroe ataca a su manera sin que el bucle pregunte su tipo (salvo para curar).
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class BatallaQuimera {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 --- Ronda 1 ---
 Nara -> cabeza de FUEGO: 7
@@ -11145,8 +11679,7 @@ Quimera [FUEGO 0 | HIELO 0 | VENENO 0] | Nara 32  Olmo 20  Tomás 29
 ¡La Quimera cae en la ronda 7!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Jefe R02 - Mision 1: la batalla contra la Quimera.
 public class BatallaQuimera {
@@ -11427,17 +11960,30 @@ class Quimera {
 }
 ```
 
-### Misión R02-N11-M2 · El legajo de la Academia
+#### Al superarla
+La Quimera cae y sus tres cabezas se duermen a la vez. En el piso queda un par de guantes de artesano, para quien la modeló.
+
+#### Imagen
+- Una quimera enorme con tres cabezas (león, cabra y serpiente) en un sótano de piedra.
+- Tres aventureros con armaduras cerradas la enfrentan; Zed dirige desde atrás con un plano en la mano.
+
+### Micro-misión R02-N11-P6 · El legajo de la Academia
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La secretaría de la Academia
+personajes: Zed, Gheco, Nadia, la Maestra de Moldes
+recompensa: xp 30, monedas 6
+antes: R02-N11-M2
 ```
 
-#### Consigna
+#### Escena
+Después de la batalla, la Academia actualiza los legajos de todos sus estudiantes: materias, notas, estados. Zed recibe el suyo, recién abierto.
+—Ahora sos aprendiz de la Academia —dice la Maestra—. Que tu legajo esté bien hecho.
 
+#### Gheco sugiere
+Juntá todo lo del acto: clases con atributos `private`, un `enum` para los estados, un `record` para lo que no cambia, composición para las materias del legajo y polimorfismo donde haya tipos distintos.
+
+#### Desafío
 La Academia lleva el legajo de sus estudiantes. Modelá:
 
 - un `enum Materia` con nombre visible y **carga horaria**: `ALGEBRA` (96 h),
@@ -11453,15 +11999,25 @@ estudiante puede aparecer en varias líneas) hasta una línea vacía. Las línea
 errores (materia inexistente, nota fuera de rango) se informan y se saltean. Al final,
 mostrá el ranking ordenado con promedio, materias aprobadas y horas aprobadas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Materia` es un `enum` con atributos; `Nota` es un `record` validado.
 - `Estudiante` compone sus notas y es `Comparable`.
 - Las líneas inválidas se informan sin cortar el programa.
-- La salida coincide con la esperada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Scanner;
 
+public class Legajos {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 101;Nadia;PROGRAMACION;9
 102;Baldo;ALGEBRA;6
@@ -11476,7 +12032,6 @@ mostrá el ranking ordenado con promedio, materias aprobadas y horas aprobadas.
 ```
 
 #### Salida esperada
-
 ```
 Línea salteada [103;Lía;QUIMICA;8]: No enum constant Materia.QUIMICA
 Línea salteada [101;Nadia;DISENO;11]: nota fuera de rango: 11
@@ -11487,8 +12042,7 @@ Ranking de la Academia
 3. Baldo (102)  promedio 6.00  aprobadas 2  horas 192
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Jefe R02 - Mision 2: el legajo de la Academia.
 import java.util.Arrays;
@@ -11642,41 +12196,12 @@ class Estudiante implements Comparable<Estudiante> {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El legajo de Zed queda impecable, con su primer título: aprendiz de la Academia. Nadia lo lee y, sin decir nada, le da una palmada en la espalda.
 
-##### Un solo estudiante
-```entrada
-200;Zoe;ALGEBRA;4
-200;Zoe;DISENO;3
-```
-```salida
-Ranking de la Academia
-1. Zoe (200)  promedio 3.50  aprobadas 1  horas 96
-```
-
-##### Empate de promedio
-```entrada
-2;B;ALGEBRA;8
-1;A;DISENO;8
-```
-```salida
-Ranking de la Academia
-1. A (1)  promedio 8.00  aprobadas 1  horas 64
-2. B (2)  promedio 8.00  aprobadas 1  horas 96
-```
-
-##### Solo errores
-```entrada
-5;X;MAGIA;5
-6;Y;ALGEBRA;0
-```
-```salida
-Línea salteada [5;X;MAGIA;5]: No enum constant Materia.MAGIA
-Línea salteada [6;Y;ALGEBRA;0]: nota fuera de rango: 0
-
-Ranking de la Academia
-1. Y (6)  promedio 0.00  aprobadas 0  horas 0
-```
+#### Imagen
+- Un legajo de cuero abierto con fichas, un sello de cera y una pluma sobre un escritorio.
+- La Maestra de Moldes entrega el legajo; Zed lo recibe con las dos manos; Nadia aplaude.
 
 ### Encargo R02-N11-E1 · El estacionamiento
 

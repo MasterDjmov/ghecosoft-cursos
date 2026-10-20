@@ -1,0 +1,335 @@
+{
+  "R02-N01-M1": {
+    "lugar": "Los talleres de la Academia de los Moldes",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "escena": "La Maestra de Moldes le da a Zed un bloque de arcilla y un pedido: el molde de una espada que se gaste al usarla y se pueda afilar.\n—Un molde dice qué **tiene** y qué **hace** cada espada. Después salen todas las que quieras.",
+    "gheco": "Una clase junta datos (atributos) y lo que se puede hacer con ellos (métodos). Cada `new Espada(...)` es un objeto distinto con su propio filo. `Math.max(0, filo - 15)` no deja bajar de cero.",
+    "exito": "De un mismo molde salen dos espadas: una gastada y otra recién afilada. La Maestra las golpea entre sí y suenan distinto.",
+    "imagen": [
+      "Un molde de arcilla con forma de espada sobre una mesa de taller, y dos espadas recién salidas al lado.",
+      "La Maestra de Moldes, de delantal de cuero y guantes, sostiene una espada; Zed afila la otra en una piedra."
+    ]
+  },
+  "R02-N01-M2": {
+    "lugar": "Los talleres de la Academia de los Moldes",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "escena": "Los aprendices guardan sus denarios en alcancías de barro, pero cualquiera saca más de lo que hay y la alcancía queda «debiendo».\n—Que la alcancía misma se niegue —dice la Maestra.",
+    "gheco": "Un método puede revisar antes de actuar: `retirar` devuelve `false` y no toca nada si no alcanza. `toString()` decide cómo se muestra el objeto cuando lo imprimís.",
+    "exito": "Un aprendiz intenta sacar cien denarios de una alcancía con diez, y la alcancía no se abre. Nadia asiente: «reglamento de fábrica».",
+    "imagen": [
+      "Una fila de alcancías de barro con forma de chanchito sobre un estante de madera.",
+      "Un aprendiz sacude una alcancía que no se abre; Zed se ríe y Gheco espía por la ranura."
+    ]
+  },
+  "R02-N01-M3": {
+    "lugar": "El patio de las caravanas",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Una caravana sale hacia el sur con tres mulas y una montaña de bultos. Si una mula carga de más, se sienta y no se mueve.\n—Cada mula sabe cuánto aguanta —dice Nadia—. Preguntale a ella.",
+    "gheco": "Un array puede guardar objetos: `Mula[] mulas = new Mula[3];`. Recorré los bultos y, para cada uno, probá las mulas en orden hasta que una acepte con `cargar`.",
+    "exito": "Las tres mulas salen cargadas justo y ninguna se sienta. Un bulto que no entró queda en el patio, con un aviso para la próxima caravana.",
+    "imagen": [
+      "Tres mulas cargadas con bultos de distintos tamaños, en fila, saliendo por un portón.",
+      "Zed acomoda un bulto en la última mula; Gheco viaja arriba de la carga."
+    ]
+  },
+  "R02-N02-M1": {
+    "lugar": "El laboratorio del alquimista",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El alquimista de la Academia prepara pociones de tres maneras: con todo detallado, con nombre y poder, o con solo el nombre. Cada vez repite las mismas cuentas y se equivoca.\n—Que las tres recetas usen la primera —le dice Zed.",
+    "gheco": "Una clase puede tener varios constructores con distintos parámetros. `this(nombre, 10, 3)` llama a otro constructor de la misma clase y debe ir en la primera línea.",
+    "exito": "Las tres pociones salen con la misma calidad. El alquimista le regala a Zed una poción verde «para emergencias» que huele raro.",
+    "imagen": [
+      "Un laboratorio con frascos burbujeantes de colores y un caldero sobre el fuego.",
+      "Un alquimista de anteojos redondos sirve una poción; Zed la huele con cara de duda."
+    ]
+  },
+  "R02-N02-M2": {
+    "lugar": "La oficina de pasaportes",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En la oficina de pasaportes, alguien intentó hacer uno con el nombre vacío y otro con un número de tres cifras. Nadia está indignada.\n—Un pasaporte mal hecho no se corrige después: **no se fabrica**.",
+    "gheco": "El constructor puede negarse a crear un objeto inválido lanzando `throw new IllegalArgumentException(\"motivo\")`. Quien lo crea lo atrapa con `try` / `catch` y muestra el mensaje.",
+    "exito": "Los pasaportes falsos no llegan a existir. Zed, que hacía unos parecidos en el Puerto, no dice nada y se pone a silbar.",
+    "imagen": [
+      "Una oficina con pilas de pasaportes de tapa de cuero y un sello de bronce sobre el escritorio.",
+      "Nadia rechaza un pasaporte con la mano extendida; Zed silba mirando para otro lado."
+    ]
+  },
+  "R02-N02-M3": {
+    "lugar": "El taller de los relojeros",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Los relojeros miden con relojes de arena de todos los tamaños: unos en segundos, otros en minutos, otros en horas. Nadie sabe cuál dura más.\n—Que todos guarden lo mismo —propone Zed—: segundos.",
+    "gheco": "Tres constructores con distinta cantidad de parámetros pueden reutilizar uno solo con `this(...)`, pasándole todo convertido a segundos. Un método que devuelve un objeto nuevo (`sumar`) no cambia el original.",
+    "exito": "Los relojes de arena quedan ordenados del más corto al más largo. Gheco se queda mirando caer la arena del más grande.",
+    "imagen": [
+      "Una repisa con relojes de arena de distintos tamaños, del más chico al más grande.",
+      "Un relojero da vuelta uno enorme; Gheco mira caer la arena con la cabeza ladeada."
+    ]
+  },
+  "R02-N03-M1": {
+    "lugar": "La enfermería de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El termómetro de la enfermería marca cosas imposibles porque cualquiera le cambia el número. Zed recuerda el cofre de la tesorería y se pone colorado.\n—Este número —dice— no lo toca nadie de afuera.",
+    "gheco": "Un atributo `private` solo se cambia desde adentro de la clase. El setter revisa antes de aceptar (nada por debajo de -273.15). Los getters pueden devolver el mismo dato en otras unidades.",
+    "exito": "El termómetro ya no acepta temperaturas imposibles. La enfermera lo cuelga en la pared y le pone una cinta roja de «no tocar».",
+    "imagen": [
+      "Un termómetro de vidrio enorme dentro de una vitrina cerrada con candado, en una enfermería.",
+      "Una enfermera de delantal blanco anota la temperatura; Zed mira la vitrina con las manos atrás."
+    ]
+  },
+  "R02-N03-M2": {
+    "lugar": "La entrada de la Academia",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "escena": "A la Academia llegan reclutas nuevos y cada uno recibe un número de legajo. Pero hay dos con el número 7 y nadie sabe cuántos quedan activos.\n—El número lo da la Academia —dice la Maestra—, no el recluta.",
+    "gheco": "Un atributo `static` es uno solo para toda la clase: sirve de contador compartido. Un atributo `final` se asigna una vez (en el constructor) y no cambia más.",
+    "exito": "Cada recluta tiene su número y no se repite nunca. La Maestra le da a Zed el legajo número 1 de su propio curso, como broma.",
+    "imagen": [
+      "Una fila de reclutas jóvenes con uniformes iguales recibiendo cada uno una placa numerada.",
+      "La Maestra de Moldes entrega una placa; Zed la mira por encima del hombro de un recluta."
+    ]
+  },
+  "R02-N03-M3": {
+    "lugar": "La armería de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Las mochilas de la Academia tienen un lugar fijo para cada objeto, pero los aprendices meten cosas de más y se rompen las costuras.\n—La mochila decide qué entra —dice Nadia—. No vos.",
+    "gheco": "El array va `private` y la clase lleva la cuenta de cuántos objetos hay. Los métodos devuelven `boolean` para avisar si pudieron. Nadie de afuera toca el array directamente.",
+    "exito": "La mochila se niega a guardar el objeto número once. Zed le pide una igual para él, y Nadia se la da… vacía.",
+    "imagen": [
+      "Una mochila de cuero abierta con compartimentos numerados, cada uno con un objeto distinto.",
+      "Zed intenta meter un objeto de más y la mochila se cierra sola; Gheco se asoma por un bolsillo."
+    ]
+  },
+  "R02-N04-M1": {
+    "lugar": "El depósito de la Academia",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "criatura": "troll",
+    "escena": "Dos aprendices comparten un mapa. Uno agrega marcas y el mapa del otro también cambia: ¡es el mismo mapa! De entre los estantes asoma un **troll**.\n—Copiar la etiqueta no es copiar el mapa —gruñe Gheco.",
+    "gheco": "Asignar un objeto a otra variable copia la **referencia**: las dos apuntan al mismo objeto. Para tener otro de verdad, hace falta un constructor de copia: `new Mapa(otro)`.",
+    "exito": "Cada aprendiz se lleva su mapa y las marcas no se mezclan más. El troll, aburrido, vuelve a dormir debajo del estante.",
+    "imagen": [
+      "Dos aprendices tironean de los extremos de un mismo mapa grande, con marcas de tinta.",
+      "Un troll gris asoma la cabeza entre los estantes del depósito; Zed le muestra una copia del mapa."
+    ]
+  },
+  "R02-N04-M2": {
+    "lugar": "La biblioteca de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La bibliotecaria tiene tres ejemplares del mismo libro, cada uno con el título escrito distinto, y el catálogo los cuenta como tres libros diferentes.\n—Lo que los hace iguales es el número de serie —dice Nadia—. El resto es decoración.",
+    "gheco": "`equals` decide cuándo dos objetos son iguales. Si lo redefinís, redefiní también `hashCode`, con el mismo criterio: `Objects.hash(isbn)`.",
+    "exito": "El catálogo detecta los libros repetidos y la bibliotecaria libera medio estante. Gheco se acomoda en el lugar vacío.",
+    "imagen": [
+      "Tres libros iguales con tapas un poco distintas, uno al lado del otro sobre un mostrador.",
+      "Una bibliotecaria de rodete compara los lomos con una lupa; Gheco duerme en el estante vacío."
+    ]
+  },
+  "R02-N04-M3": {
+    "lugar": "La puerta de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "troll",
+    "escena": "La puerta tiene tres turnos de guardia, pero en uno no hay nadie. Cuando alguien pregunta quién cuida ese turno, el sistema explota y aparece un **troll** de la nada.\n—El vacío también hay que preverlo —dice Nadia.",
+    "gheco": "Un casillero de un array de objetos puede ser `null`. Antes de usarlo (`turnos[i].getNombre()`), preguntá `if (turnos[i] == null)`; si no, se lanza un `NullPointerException`.",
+    "exito": "Cuando el turno está vacío, el sistema contesta «nadie» en lugar de romperse. El troll se queda sin hueco por donde colarse.",
+    "imagen": [
+      "Una puerta de la Academia con tres garitas de guardia; la del medio está vacía.",
+      "Un troll trata de meterse por la garita vacía; Nadia le cierra el paso con el brazo extendido."
+    ]
+  },
+  "R02-N05-M1": {
+    "lugar": "El ala oeste de la Academia",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "escena": "El gremio de comerciantes paga sueldos distintos: los vendedores cobran comisión y los gerentes, un plus. Pero todos tienen nombre y sueldo base.\n—Lo común va en el molde de arriba —dice la Maestra—. Lo distinto, en cada hijo.",
+    "gheco": "Una subclase hereda con `extends` y puede redefinir un método con `@Override`. `super.sueldo()` llama a la versión del padre para sumarle lo propio.",
+    "exito": "La planilla de sueldos sale bien a la primera. El tesorero del gremio no lo puede creer y la revisa tres veces.",
+    "imagen": [
+      "Un árbol genealógico tallado en madera: arriba un molde de «empleado» y abajo dos moldes hijos.",
+      "La Maestra de Moldes señala el molde de arriba; Zed sostiene una bolsa de sueldos."
+    ]
+  },
+  "R02-N05-M2": {
+    "lugar": "El banco imperial",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En el banco imperial hay dos tipos de cuentas: la caja de ahorro, que deja sacar pocas veces, y la cuenta corriente, que permite quedar un poco en rojo.\nZed mira las bóvedas con interés profesional. Nadia lo mira a él.",
+    "gheco": "La subclase puede redefinir `extraer` con sus propias reglas y usar `super.extraer(monto)` para lo común. El saldo sigue `private` en el padre: los hijos usan sus métodos.",
+    "exito": "Las dos cuentas funcionan con sus reglas y ninguna queda en rojo de más. Zed sale del banco sin haber tocado nada, y lo dice en voz alta.",
+    "imagen": [
+      "Un banco con mostradores de mármol y una bóveda redonda de bronce al fondo.",
+      "Un cajero cuenta billetes; Zed mira la bóveda y Nadia lo mira a él con los ojos entrecerrados."
+    ]
+  },
+  "R02-N05-M3": {
+    "lugar": "El taller del cartógrafo",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El cartógrafo de la Academia dibuja terrenos con forma de rectángulo, de círculo y de triángulo, y necesita el área de cada uno con el mismo formato.\n—El formato no se toca —dice—. Lo que cambia es la cuenta.",
+    "gheco": "Un método `final` no se puede redefinir: arma la ficha igual para todos. Cada subclase redefine `area()` con su fórmula, y `ficha()` llama a la versión que corresponde.",
+    "exito": "Todas las fichas salen con el mismo formato y cada área con su fórmula. El cartógrafo las pega en el mapa del Imperio.",
+    "imagen": [
+      "Una mesa de dibujo con figuras recortadas: un rectángulo, un círculo y un triángulo de papel.",
+      "Un cartógrafo con compás mide el círculo; Gheco está parado en el medio del rectángulo."
+    ]
+  },
+  "R02-N06-M1": {
+    "lugar": "El zoológico de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La Academia tiene un zoológico de criaturas para estudiar. Cada una hace un sonido y tiene sus patas, pero todas se presentan igual.\nGheco se esconde detrás de Zed cuando ruge el dragón.",
+    "gheco": "Una clase `abstract` no se instancia: es un molde a medias. Sus métodos `abstract` no tienen cuerpo y cada subclase concreta tiene que escribirlos.",
+    "exito": "Las tres criaturas se presentan una por una. La serpiente dice que tiene cero patas y Gheco, que tiene cuatro, se siente superior.",
+    "imagen": [
+      "Un zoológico con un dragón chico, un grifo y una serpiente en tres corrales de piedra.",
+      "Gheco se esconde detrás de la pierna de Zed mientras el dragón ruge."
+    ]
+  },
+  "R02-N06-M2": {
+    "lugar": "La tesorería de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "A fin de mes, la Academia paga a sus trabajadores: unos con sueldo fijo, otros por hora y otros por contrato. El tesorero hace una cuenta distinta para cada uno y se pierde.\n—Una sola lista —dice Zed—, y que cada uno sepa cuánto cobra.",
+    "gheco": "Polimorfismo: un array de `Trabajador` puede tener objetos de cualquier subclase. Al llamar `pagoMensual()`, cada uno usa su propia versión.",
+    "exito": "La nómina sale entera recorriendo una sola lista. El tesorero le da a Zed una moneda de la suerte, la segunda de la semana.",
+    "imagen": [
+      "Una mesa con sobres de sueldo de distintos tamaños apilados en una sola fila.",
+      "Un tesorero cansado reparte sobres; Zed le señala una lista; Gheco cuenta monedas."
+    ]
+  },
+  "R02-N06-M3": {
+    "lugar": "La mazmorra de práctica",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "esqueleto",
+    "escena": "Debajo del patio de armas hay una mazmorra de práctica con trampas de todo tipo. Un **esqueleto** guardián las activa una tras otra.\n—Tres trampas distintas, una sola forma de activarlas —dice Nadia, y avanza primero.",
+    "gheco": "Cada trampa redefine `activar` a su manera. Recorriendo un array de `Trampa`, cada llamada hace lo que corresponde a ese objeto: pinchos, veneno o lo que sea.",
+    "exito": "Nadia cruza la mazmorra con vida de sobra. El esqueleto guardián, sin trampas para activar, se sienta en un escalón.",
+    "imagen": [
+      "Un pasillo de mazmorra con pinchos en el piso, un charco verde de veneno y una red colgando.",
+      "Nadia salta entre las trampas; un esqueleto guardián sostiene una palanca; Zed cuenta la vida."
+    ]
+  },
+  "R02-N07-M1": {
+    "lugar": "La Sala de los Pactos",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "En la Sala de los Pactos, un clérigo, una poción y una fuente sagrada no se parecen en nada… pero las tres firmaron el mismo contrato: **curar**.\n—No importa quién seas —dice Kaffa—. Importa qué prometiste.",
+    "gheco": "Una `interface` declara qué métodos promete una clase, sin decir cómo. Una clase la cumple con `implements`. Un método `default` ya viene escrito y se puede redefinir.",
+    "exito": "Las tres curan a Nadia, cada una a su manera. Zed mira su ganzúa: le pareció que se movía.",
+    "imagen": [
+      "Una sala con un clérigo, una poción sobre un pedestal y una fuente que brilla, unidos por un pergamino firmado.",
+      "Kaffa, el Arquitecto Imperial, observa; Nadia se cura junto a la fuente."
+    ]
+  },
+  "R02-N07-M2": {
+    "lugar": "La arena de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Terminó la temporada de la arena y hay que publicar el ranking. Hay empates en victorias, empates en derrotas y un luchador que exige ir primero por su nombre.\n—Hay una regla para cada empate —dice Nadia—. En orden.",
+    "gheco": "`Comparable<Luchador>` obliga a escribir `compareTo`: negativo si va antes, positivo si va después. Comparás victorias; si empatan, derrotas; si siguen empatados, `nombre.compareTo(...)`.",
+    "exito": "El ranking queda ordenado sin una sola queja. El luchador del nombre bonito quedó último y no puede reclamar nada.",
+    "imagen": [
+      "Una arena redonda de arena con una tabla de madera de posiciones colgada en la tribuna.",
+      "Luchadores de armadura cerrada miran la tabla; uno se agarra la cabeza; Gheco aplaude desde la tribuna."
+    ]
+  },
+  "R02-N07-M3": {
+    "lugar": "El mercado del Imperio",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En el mercado se vende de todo: espadas, panes, mapas. Algunas cosas pagan impuesto y otras no. El recaudador quiere cobrar todo con una sola lista.\n—Que cada cosa firme lo que puede cumplir —dice Zed, que ya aprendió.",
+    "gheco": "Una clase puede implementar **varias** interfaces: `class Espada implements Vendible, Gravable`. Con `instanceof` preguntás si un objeto cumple una interfaz antes de usarla.",
+    "exito": "El recaudador cobra lo justo a cada puesto. Un panadero le regala a Zed un pan por no haberle cobrado impuesto al pan.",
+    "imagen": [
+      "Un mercado con puestos de espadas, panes y mapas bajo toldos de colores.",
+      "Un recaudador con libreta cobra en un puesto; Zed recibe un pan del panadero."
+    ]
+  },
+  "R02-N08-M1": {
+    "lugar": "La tienda del taller de armaduras",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El taller de armaduras vende por pedido y cada factura tiene muchos renglones. Si se pierde la factura, se pierden sus renglones con ella.\n—Los renglones viven dentro de la factura —explica Nadia—. No sueltos.",
+    "gheco": "Composición: la `Factura` **crea** y guarda sus `Renglon` en un array interno. Desde afuera solo se usa `agregar(...)`: nadie toca los renglones directamente.",
+    "exito": "La factura sale con cada renglón y el total exacto. El armero la firma y la clava en la pared de pedidos.",
+    "imagen": [
+      "Un pergamino largo de factura con renglones y un sello, sobre un mostrador con piezas de armadura.",
+      "Un armero de delantal firma la factura; Zed acomoda un yelmo sobre el mostrador."
+    ]
+  },
+  "R02-N08-M2": {
+    "lugar": "Las caballerizas de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Se arma una expedición y los aventureros se anotan: llegan, se suman y algunos se bajan. Pero los aventureros existen antes y después de la expedición.\n—La expedición los **junta** —dice Nadia—, no los fabrica.",
+    "gheco": "Agregación: la `Expedicion` recibe aventureros ya creados y los guarda; si se quita uno, el aventurero sigue existiendo. Para la fuerza total, la expedición le pregunta a cada uno (delegación).",
+    "exito": "La expedición sale con cuatro aventureros y la fuerza bien sumada. Uno de los que se bajó la mira irse desde la puerta, con su mochila puesta.",
+    "imagen": [
+      "Cuatro aventureros con armaduras y capas cerradas, montados, saliendo por el portón de las caballerizas.",
+      "Un quinto aventurero mira desde la puerta con su mochila; Zed despide a la expedición con la mano."
+    ]
+  },
+  "R02-N08-M3": {
+    "lugar": "Las caballerizas de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Un aprendiz quiere crear una clase para cada combinación: arquero con caballo, arquero con grifo, arquero a pie… Ya va por la clase número doce.\n—Que el arquero **tenga** una montura —le dice Zed—, y que la cambie cuando quiera.",
+    "gheco": "En lugar de heredar cada combinación, el arquero guarda un atributo `Montura` (una interfaz). Cambiar de montura es cambiar ese objeto, y la velocidad sale de la montura que tiene.",
+    "exito": "Un solo arquero cambia de caballo a grifo y de grifo a ir a pie. El aprendiz borra once clases y respira aliviado.",
+    "imagen": [
+      "Una arquera con capa cerrada que pasa de un caballo a un grifo en las caballerizas.",
+      "Un aprendiz rompe una pila de pergaminos de clases; Gheco anda en el lomo del grifo."
+    ]
+  },
+  "R02-N09-M1": {
+    "lugar": "La plaza del mercado",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El mercado de la plaza abre ciertos días y los fines de semana tiene feria. Pero los comerciantes escriben los días como quieren: «LUNES», «lunes», «Lunes»…\n—Los días son siete —dice Nadia—. Ni uno más.",
+    "gheco": "Un `enum` es un tipo con valores fijos: `enum Dia { LUNES, MARTES, ... }`. `values()` los da en orden, `ordinal()` dice la posición y `valueOf(texto.toUpperCase())` convierte el texto.",
+    "exito": "Cada comerciante sabe qué día abre y cuál le sigue. El domingo un vendedor pregunta qué viene después, y el programa contesta: lunes.",
+    "imagen": [
+      "Una plaza de mercado con siete banderines de colores colgados en fila sobre los puestos.",
+      "Un comerciante señala un banderín; Zed y Nadia pasean con una canasta; Gheco viaja en la canasta."
+    ]
+  },
+  "R02-N09-M2": {
+    "lugar": "La herrería de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En la herrería, un pedido pasó de «entregado» a «en forja» y nadie sabe cómo. El herrero quiere que los pedidos solo avancen como corresponde.\n—Cada estado sabe a cuál puede pasar —dice Nadia.",
+    "gheco": "Un `enum` puede tener atributos, constructor y métodos: cada valor guarda su texto para mostrar. Un método `puedePasarA(Estado otro)` decide qué cambios valen.",
+    "exito": "Los pedidos avanzan en orden y los cancelados no vuelven a la forja. El herrero cuelga la lista de estados al lado del yunque.",
+    "imagen": [
+      "Una herrería con un yunque, una espada al rojo y una fila de pedidos colgados con ganchos.",
+      "Un herrero robusto de delantal martilla; Zed mueve un pedido de un gancho al siguiente."
+    ]
+  },
+  "R02-N09-M3": {
+    "lugar": "El archivo de la Academia",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "escena": "En el archivo hay mapas con coordenadas negativas que no existen. La Maestra quiere que una coordenada, una vez hecha, no cambie nunca.\n—Si te movés, es otra coordenada —dice—. La vieja queda como estaba.",
+    "gheco": "Un `record` arma solo los atributos, el constructor, `equals` y `toString`, y sus datos no cambian. En el constructor compacto se valida: `if (fila < 0) throw ...`. Moverse devuelve un `record` nuevo.",
+    "exito": "Las coordenadas imposibles no llegan a existir. Zed traza un camino por el mapa y cada paso es una coordenada nueva.",
+    "imagen": [
+      "Un mapa cuadriculado sobre una mesa del archivo, con fichas de piedra marcando un camino.",
+      "La Maestra de Moldes rechaza una ficha con una mano; Zed mueve otra ficha un casillero."
+    ]
+  },
+  "R02-N10-M2": {
+    "lugar": "La biblioteca de la Academia",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "Kaffa extiende un plano sobre la mesa: cajas, flechas, rombos. Es el diagrama de una biblioteca entera.\n—Un plano no se interpreta —dice—. **Se construye** tal como está dibujado.",
+    "gheco": "Leé el diagrama de arriba abajo: cada caja es una clase; `-` es `private` y `+` es `public`; la flecha con triángulo es herencia y el rombo negro, composición (la parte se crea adentro).",
+    "exito": "El programa hace exactamente lo que dice el plano. Kaffa lo compara línea por línea y, por primera vez, no corrige nada.",
+    "imagen": [
+      "Un plano grande con cajas y flechas desplegado sobre una mesa de biblioteca, con velas alrededor.",
+      "Kaffa señala una caja del plano; Zed escribe a su lado; Gheco sostiene una esquina del papel."
+    ]
+  },
+  "R02-N11-M1": {
+    "lugar": "El sótano de la Academia",
+    "personajes": "Zed, Gheco, Nadia, Kaffa",
+    "escena": "La Quimera despierta en el sótano: cabeza de león, de cabra y de serpiente. Un grupo de aventureros baja a enfrentarla, cada uno con su forma de pelear.\n—No la vencés con fuerza —dice Kaffa—. La vencés **modelándola bien**.",
+    "gheco": "Separá todo en clases: una clase abstracta para los combatientes, una subclase por cada uno con su ataque, y una interfaz para los que además curan. El combate recorre una sola lista y cada uno actúa a su manera.",
+    "exito": "La Quimera cae y sus tres cabezas se duermen a la vez. En el piso queda un par de guantes de artesano, para quien la modeló.",
+    "imagen": [
+      "Una quimera enorme con tres cabezas (león, cabra y serpiente) en un sótano de piedra.",
+      "Tres aventureros con armaduras cerradas la enfrentan; Zed dirige desde atrás con un plano en la mano."
+    ]
+  },
+  "R02-N11-M2": {
+    "lugar": "La secretaría de la Academia",
+    "personajes": "Zed, Gheco, Nadia, la Maestra de Moldes",
+    "escena": "Después de la batalla, la Academia actualiza los legajos de todos sus estudiantes: materias, notas, estados. Zed recibe el suyo, recién abierto.\n—Ahora sos aprendiz de la Academia —dice la Maestra—. Que tu legajo esté bien hecho.",
+    "gheco": "Juntá todo lo del acto: clases con atributos `private`, un `enum` para los estados, un `record` para lo que no cambia, composición para las materias del legajo y polimorfismo donde haya tipos distintos.",
+    "exito": "El legajo de Zed queda impecable, con su primer título: aprendiz de la Academia. Nadia lo lee y, sin decir nada, le da una palmada en la espalda.",
+    "imagen": [
+      "Un legajo de cuero abierto con fichas, un sello de cera y una pluma sobre un escritorio.",
+      "La Maestra de Moldes entrega el legajo; Zed lo recibe con las dos manos; Nadia aplaude."
+    ]
+  }
+}

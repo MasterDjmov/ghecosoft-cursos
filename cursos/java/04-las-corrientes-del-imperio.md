@@ -469,17 +469,23 @@ Río abajo, en los muelles, los recaudadores no cuentan de a una: juntan todo en
 - Un slime saliendo del agua del río con un cartel de «IllegalStateException».
 - Al fondo, los muelles con recaudadores juntando cajas por puerto.
 
-### Misión R04-N01-M1 · El inventario que fluye
+### Micro-misión R04-N01-P5 · El inventario que fluye
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La orilla del río de la capital
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Por el río bajan barcazas con mercadería de todos los rubros. En la orilla, los recaudadores quieren saber qué llevan sin bajar un solo cajón.
+—No se descarga —dice Kaffa—. Se mira **mientras pasa**.
 
+#### Gheco sugiere
+Un stream recorre una colección sin bucles: `filter` deja pasar lo que cumple, `map` transforma, `count`, `sum` o `toList()` cierran. Cada paso devuelve otro stream hasta la operación final.
+
+#### Desafío
 Con una lista de 8 productos (`record Producto(String nombre, String rubro, double
 precio, int stock)`), resolvé **sin bucles**, cada punto con un stream:
 
@@ -492,13 +498,24 @@ precio, int stock)`), resolvé **sin bucles**, cada punto con un stream:
 
 Mostrá los montos con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No hay `for` ni `while`: todo son streams.
 - Cada punto usa la operación adecuada (`filter`, `count`, `mapToDouble`/`sum`, `sorted`+`limit`, `anyMatch`, `distinct`).
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
+public class InventarioStreams {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Sin stock: [Aceite, Jamón]
 Más de 5000: 2
@@ -508,8 +525,7 @@ Los más caros: [Jamón, Queso, Yerba]
 Rubros: [almacén, fiambrería, limpieza]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El inventario que fluye: seis preguntas, seis streams.
 import java.util.Comparator;
@@ -540,17 +556,30 @@ public class InventarioStreams {
 }
 ```
 
-### Misión R04-N01-M2 · Los números del oráculo
+#### Al superarla
+Las barcazas siguen de largo y el informe queda hecho en la orilla. Un recaudador se sienta a mirar el río, por primera vez sin apuro.
+
+#### Imagen
+- Un río ancho con barcazas cargadas de cajones de colores que bajan una detrás de otra.
+- Kaffa y Zed miran desde un muelle; Gheco cuenta cajones parado sobre un poste.
+
+### Micro-misión R04-N01-P6 · Los números del oráculo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La orilla del río de la capital
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N01-M2
 ```
 
-#### Consigna
+#### Escena
+En la orilla vive un oráculo que solo habla con números: pide la suma de los pares, los cuadrados, los múltiplos… y se ofende si alguien usa un bucle.
+—Pedile los números **de un tirón** —le susurra Gheco.
 
+#### Gheco sugiere
+`IntStream.rangeClosed(1, 20)` genera los números del 1 al 20 sin bucle. Después, `filter`, `map`, `sum`, `average` y `boxed().toList()` hacen el resto.
+
+#### Desafío
 Con `IntStream` y sin bucles:
 
 1. La suma de los números del 1 al 100 que son múltiplos de 3 o de 5.
@@ -561,13 +590,24 @@ Con `IntStream` y sin bucles:
    `Arrays.stream(frase.split(" "))`).
 5. Cuántas vocales tiene la frase (con `chars()`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `IntStream`/`LongStream`, `filter`, `limit`, `reduce` y `chars`.
 - No hay bucles.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
+public class NumerosOraculo {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Suma de múltiplos de 3 o 5: 2418
 Primeros 10 primos: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
@@ -576,8 +616,7 @@ Palabras largas: [ORACULO, SIEMPRE, ENCUENTRA, CAMINO]
 Vocales: 42
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los numeros del oraculo: IntStream, LongStream y chars.
 import java.util.Arrays;
@@ -607,17 +646,30 @@ public class NumerosOraculo {
 }
 ```
 
-### Misión R04-N01-M3 · Del bucle al stream
+#### Al superarla
+El oráculo recibe sus números y, satisfecho, cuenta una profecía: «lo que buscás viaja por el agua». Zed se mete la mano en el bolsillo y toca la llave.
+
+#### Imagen
+- Un oráculo anciano de túnica cerrada sentado en una piedra junto al río, rodeado de números de luz.
+- Zed le ofrece una hoja; Gheco mira los números flotando con la boca abierta.
+
+### Micro-misión R04-N01-P7 · Del bucle al stream
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La escuela del río
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N01-M3
 ```
 
-#### Consigna
+#### Escena
+La maestra de la escuela del río calcula los promedios con bucles larguísimos que nadie entiende. Kaffa le propone a Zed reescribirlos.
+—Mismo resultado —dice—. La mitad de renglones.
 
+#### Gheco sugiere
+Un bucle que filtra y acumula se convierte en `stream().filter(...).mapToInt(...).average()`. `anyMatch` dice si alguno cumple. Comprobá que el resultado sea el mismo que antes.
+
+#### Desafío
 Este método calcula, con bucles, el promedio de las notas aprobadas (4 o más) de los
 alumnos de una comisión, redondeado a 2 decimales, y la lista de nombres de los que
 tienen alguna nota de 10. Reescribí **los dos cálculos** con streams (debe dar
@@ -641,13 +693,23 @@ static double promedioAprobadas(List<Alumno> alumnos, String comision) {
 }
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los dos cálculos con streams dan lo mismo que con bucles.
 - Usa `flatMapToInt` (o `flatMap`) para aplanar las listas de notas.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
 
+public class BucleAStream {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Promedio (bucles): 7.38
 Promedio (streams): 7.38
@@ -655,8 +717,7 @@ Con algún 10 (bucles): [Nadia, Lía, Nara]
 Con algún 10 (streams): [Nadia, Lía, Nara]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Del bucle al stream: el mismo calculo, dos formas.
 import java.util.ArrayList;
@@ -714,6 +775,13 @@ public class BucleAStream {
     }
 }
 ```
+
+#### Al superarla
+La maestra compara los dos resultados: idénticos. Pega la versión corta en la pizarra y borra la larga con el codo.
+
+#### Imagen
+- Una escuela de madera junto al río, con una pizarra llena de un bucle larguísimo.
+- La maestra borra la pizarra; Zed escribe una sola línea al lado; Kaffa mira desde la puerta.
 
 ### Encargo R04-N01-E1 · El resumen de la tarjeta
 
@@ -1294,17 +1362,23 @@ En el delta, un cartógrafo ordena mapas de mil maneras. Tal vez sepa dónde se 
 - Un registro del río abierto: una línea resaltada, «Ceibo · un vitral · nunca llegó».
 - Zed, serio, apoyando el dedo sobre la línea; un troll yéndose con las manos vacías.
 
-### Misión R04-N02-M1 · El reporte de ventas
+### Micro-misión R04-N02-P5 · El reporte de ventas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los muelles del río
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En los muelles, los recaudadores juntan las ventas del mes en cajas: por vendedor, por rubro, por mes. Hoy quieren todo eso junto y ordenado.
+—Agrupá mientras pasa —dice Kaffa.
 
+#### Gheco sugiere
+`collect(Collectors.groupingBy(Venta::vendedor, TreeMap::new, Collectors.summingDouble(Venta::monto)))` agrupa y suma en un mapa ordenado. `counting()` y `averagingDouble` sirven para contar y promediar.
+
+#### Desafío
 Con una lista de ventas (`record Venta(String vendedor, String rubro, int mes, double
 monto)`, al menos 10), armá con `Collectors` (claves ordenadas):
 
@@ -1316,13 +1390,34 @@ monto)`, al menos 10), armá con `Collectors` (claves ordenadas):
    cada grupo.
 6. El vendedor con el mayor total (con `Optional`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `groupingBy` con collectors de abajo (`summingDouble`, `counting`, `averagingDouble`, `mapping`).
 - Usa `partitioningBy` y un `Optional` para el mejor vendedor.
 
-#### Salida esperada
+#### Código inicial
+```java
+import static java.util.stream.Collectors.averagingDouble;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.partitioningBy;
+import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.toCollection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
+public class ReporteVentas {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Total por vendedor: {Ana=196800.0, Juan=151500.0, Marta=116500.0}
 Ventas por rubro: {audio=4, hogar=4, jardín=2}
@@ -1334,8 +1429,7 @@ Grandes: 4, chicas: 6
 Mejor vendedor: Ana (196800.0)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El reporte de ventas: groupingBy, partitioningBy y Optional.
 import static java.util.stream.Collectors.averagingDouble;
@@ -1379,17 +1473,31 @@ public class ReporteVentas {
 }
 ```
 
-### Misión R04-N02-M2 · El padrón sin nulls
+#### Al superarla
+El reporte queda en una tabla prolija, caja por caja. Los recaudadores lo clavan en la pared de la capitanía.
+
+#### Imagen
+- Muelles con cajas de madera apiladas por colores, cada pila con una banderita distinta.
+- Un recaudador anota en una tabla; Zed separa cajas; Gheco duerme arriba de una pila.
+
+### Micro-misión R04-N02-P6 · El padrón sin nulls
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La capitanía de los muelles
+personajes: Zed, Gheco, Nadia, Kaffa
+criatura: troll
+recompensa: xp 10, monedas 4
+antes: R04-N02-M2
 ```
 
-#### Consigna
+#### Escena
+En el padrón de la capitanía algunas personas no tienen email, y cada vez que alguien lo busca, aparece un **troll** y se lleva el registro.
+—No devuelvas un hueco —dice Kaffa—. Devolvé una caja que puede estar vacía.
 
+#### Gheco sugiere
+`Optional<T>` es una caja que tiene algo o está vacía: `Optional.ofNullable(email)`. Quien la recibe decide con `orElse`, `map` o `isPresent`, sin chocar con un `null`.
+
+#### Desafío
 Escribí una clase `Padron` que guarda personas (`record Persona(String dni, String
 nombre, String email)`, donde el email **puede ser `null`**) y tiene métodos que
 **devuelven `Optional`**: `buscarPorDni(String)`, `emailDe(String dni)` (vacío si no
@@ -1398,13 +1506,24 @@ existe la persona **o** si no tiene email: usá `flatMap` o `map` + `ofNullable`
 probá los casos que existen y los que no, **sin** llamar nunca a `get()` ni comparar con
 `null`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los métodos devuelven `Optional` y usan `Optional.ofNullable` para el email.
 - El `main` usa `map`, `orElse`, `ifPresentOrElse` u `orElseThrow`, nunca `get()`.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
+public class PadronSinNulls {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Buscar 28999000: Juan Pérez
 Buscar 11111111: no existe
@@ -1415,8 +1534,7 @@ La persona más joven: Ana Ruiz
 Padrón vacío: no hay más joven
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El padron sin nulls: metodos que devuelven Optional.
 import java.util.Comparator;
@@ -1465,17 +1583,30 @@ public class PadronSinNulls {
 }
 ```
 
-### Misión R04-N02-M3 · Las palabras del libro
+#### Al superarla
+Las búsquedas devuelven cajas, llenas o vacías, y ninguna explota. El troll se queda mirando una caja vacía y se rasca la cabeza.
+
+#### Imagen
+- Un mostrador de capitanía con cajitas de madera, unas con cartas adentro y otras vacías.
+- Un troll gris mira confundido una caja vacía; Kaffa y Zed se ríen detrás del mostrador.
+
+### Micro-misión R04-N02-P7 · Las palabras del libro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La biblioteca flotante
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R04-N02-M3
 ```
 
-#### Consigna
+#### Escena
+En una barcaza amarrada funciona una biblioteca flotante. El bibliotecario quiere saber qué palabras se repiten más en el libro más leído del río.
+—Las palabras también fluyen —dice Zed.
 
+#### Gheco sugiere
+Partí el texto con `split("\\W+")`, pasalo a stream con `Arrays.stream`, normalizá con `map(String::toLowerCase)` y contá con `groupingBy(palabra -> palabra, counting())`.
+
+#### Desafío
 Dado un texto largo (un párrafo de al menos 60 palabras en una constante), con streams y
 `Collectors`:
 
@@ -1486,13 +1617,31 @@ Dado un texto largo (un párrafo de al menos 60 palabras en una constante), con 
 3. La palabra más larga (con `Optional`).
 4. La longitud promedio de las palabras (1 decimal).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Limpia el texto con `replaceAll` y `split("\\s+")`.
 - Usa `groupingBy` + `counting` y ordena las entradas del mapa por valor.
 
-#### Salida esperada
+#### Código inicial
+```java
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toCollection;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
+public class PalabrasLibro {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Las 5 más frecuentes:
   los: 6
@@ -1505,8 +1654,7 @@ La más larga: constructores
 Longitud promedio: 4.6
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Las palabras del libro: frecuencias con groupingBy y ordenar un mapa por valor.
 import static java.util.stream.Collectors.counting;
@@ -1549,6 +1697,13 @@ public class PalabrasLibro {
     }
 }
 ```
+
+#### Al superarla
+La palabra más repetida resulta ser «río». El bibliotecario la anota en la tapa del libro, como subtítulo.
+
+#### Imagen
+- Una barcaza amarrada convertida en biblioteca, con estantes de libros bajo un techo de lona.
+- Un bibliotecario con anteojos lee en voz alta; Zed y Nadia escuchan sentados en cajones.
 
 ### Encargo R04-N02-E1 · Las cuotas del club
 
@@ -2238,17 +2393,23 @@ Camino a la Represa está el astillero, donde los maestros arman los barcos con 
 - Un pergamino prolijo con el informe del delta, con «la Represa» subrayado.
 - Al fondo, el astillero con barcos a medio armar.
 
-### Misión R04-N03-M1 · El ranking con desempates
+### Micro-misión R04-N03-P5 · El ranking con desempates
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El delta del río
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En el delta se juega un torneo de remo entre equipos. Hay empates en puntos, empates en goles y jugadores que no dijeron su edad.
+—Tres rankings —pide el juez—. Y los sin edad, al final.
 
+#### Gheco sugiere
+Los comparadores se encadenan: `Comparator.comparing(Jugador::puntos).reversed().thenComparing(...)`. Para valores que pueden ser `null`, `Comparator.nullsLast(...)` los manda al final.
+
+#### Desafío
 Un torneo guarda los resultados de los jugadores (`record Jugador(String nombre, String
 equipo, int puntos, int goles, Integer edad)`, donde la edad **puede ser `null`**).
 Ordená la lista de tres formas, **solo con comparadores encadenados** (sin escribir
@@ -2258,13 +2419,24 @@ Ordená la lista de tres formas, **solo con comparadores encadenados** (sin escr
 2. Por equipo alfabético, y dentro de cada equipo por nombre al revés.
 3. Por edad de menor a mayor, con los que no tienen edad al final.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `comparing`, `thenComparing`, `reverseOrder` o `reversed` y `nullsLast`.
 - No hay ningún `compare` escrito a mano.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
+public class RankingDesempates {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Ranking:
   Caro   Oeste   15 pts   7 goles  edad 25
@@ -2289,8 +2461,7 @@ Por edad:
   Sofi   Sur     15 pts   5 goles  edad ?
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El ranking con desempates: comparadores encadenados.
 import java.util.ArrayList;
@@ -2326,17 +2497,30 @@ public class RankingDesempates {
 }
 ```
 
-### Misión R04-N03-M2 · Los movimientos sellados
+#### Al superarla
+Los tres rankings salen sin una queja. Un remero sin edad declarada pregunta por qué quedó último, y el juez le da un formulario.
+
+#### Imagen
+- Botes de remo en un delta con juncos, con remeros de chalecos cerrados de distintos colores.
+- Un juez sostiene una tabla de posiciones; Zed le pasa una hoja; Gheco viaja en la proa de un bote.
+
+### Micro-misión R04-N03-P6 · Los movimientos sellados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La casa de cambio del delta
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N03-M2
 ```
 
-#### Consigna
+#### Escena
+La casa de cambio del delta anota tres tipos de movimientos: depósitos, extracciones y transferencias. Un empleado inventó un cuarto tipo y se armó un lío.
+—Tres y nada más —dice Kaffa—. **Sellado**.
 
+#### Gheco sugiere
+Una interfaz `sealed` dice exactamente quién la puede implementar: `sealed interface Movimiento permits Deposito, Extraccion, Transferencia`. Con `switch` y patrones, el compilador revisa que no falte ninguno.
+
+#### Desafío
 Modelá los movimientos de una cuenta con una interfaz sellada `Movimiento` que solo
 permite tres `record`: `Deposito(double monto)`, `Extraccion(double monto)` y
 `Transferencia(String destino, double monto)`. Cada `record` valida en su constructor
@@ -2347,13 +2531,23 @@ y devuelva el saldo nuevo (la transferencia descuenta el monto más una comisió
 Aplicá una lista de movimientos desde un saldo de 10 000 y probá que un movimiento con
 monto negativo se rechaza.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La interfaz es `sealed` con `permits` y los `record` validan en el constructor compacto.
 - Usa `instanceof` con patrón, sin casteos.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.List;
+import java.util.Locale;
 
+public class MovimientosSellados {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Saldo inicial: 10000.00
 Depósito de 2500.0               saldo:   12500.00
@@ -2364,8 +2558,7 @@ Rechazado: la extracción tiene que ser positiva
 Rechazado: la transferencia necesita un destino
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los movimientos sellados: sealed, records validados e instanceof con patron.
 import java.util.List;
@@ -2447,17 +2640,30 @@ public class MovimientosSellados {
 }
 ```
 
-### Misión R04-N03-M3 · El switch de la tarifa
+#### Al superarla
+Los movimientos de la cuenta cuadran al centavo. El empleado del cuarto tipo pide disculpas y vuelve a su escritorio.
+
+#### Imagen
+- Un mostrador de casa de cambio con tres ranuras de bronce para tres tipos de papeles.
+- Un empleado avergonzado sostiene un papel que no entra en ninguna ranura; Kaffa cruza los brazos.
+
+### Micro-misión R04-N03-P7 · El switch de la tarifa
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El estacionamiento del puerto
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R04-N03-M3
 ```
 
-#### Consigna
+#### Escena
+El estacionamiento del puerto cobra según el vehículo y las horas. El dueño agregó las bicis y se olvidó de ponerles precio.
+—Que el compilador te avise si te olvidás de alguno —dice Nadia.
 
+#### Gheco sugiere
+Un `switch` como expresión sobre un `enum`, sin `default`, obliga a cubrir todos los valores: si falta uno, no compila. Cada caso devuelve su valor con `->`.
+
+#### Desafío
 Un estacionamiento cobra según el tipo de vehículo (un `enum` con `AUTO`, `MOTO`,
 `CAMIONETA` y `BICI`) y las horas. Escribí `tarifa(Vehiculo v, int horas)` con un
 `switch` **como expresión**, sin `default` (el compilador tiene que exigir los cuatro
@@ -2465,13 +2671,22 @@ casos): auto 1200 la hora, moto 600, camioneta 1800 la hora pero con un mínimo 
 horas (usá un bloque con `yield`), bici gratis. Después generá el ticket de cada
 vehículo de una lista con un **bloque de texto** y `formatted`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El `switch` devuelve el valor y no tiene `default`.
 - Usa `yield` en el caso de la camioneta y un bloque de texto para el ticket.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.List;
 
+public class SwitchTarifa {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 +----------------------+
 | Patente: AB123CD     |
@@ -2495,8 +2710,7 @@ vehículo de una lista con un **bloque de texto** y `formatted`.
 +----------------------+
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El switch de la tarifa: switch como expresion, yield y bloques de texto.
 import java.util.List;
@@ -2534,6 +2748,13 @@ public class SwitchTarifa {
     }
 }
 ```
+
+#### Al superarla
+Todos los vehículos tienen su tarifa y las bicis pagan poco, como corresponde. Zed deja su bici prestada sin pagar: es el primer día.
+
+#### Imagen
+- Un estacionamiento junto al puerto con carros, motos de vapor, una camioneta y bicicletas en fila.
+- Un cuidador con gorra cobra en una garita; Zed estaciona una bici; Gheco va en el canasto.
 
 ### Encargo R04-N03-E1 · Los pedidos de la rotisería
 
@@ -3281,17 +3502,23 @@ Río abajo, las esclusas no dan abasto: hay que abrir varias **a la vez**.
 - Una tablilla de tarifa escrita a mano, en una sola línea, colgada sobre las otras.
 - Al fondo, las esclusas del río con una fila larguísima de barcazas esperando.
 
-### Misión R04-N04-M1 · La capitanía única
+### Micro-misión R04-N04-P5 · La capitanía única
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La capitanía del astillero
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N04-M1
 ```
 
-#### Consigna
+#### Escena
+En el río hay muchos muelles pero **una sola** capitanía. Cada muelle quiere su propia capitanía y las cuentas de zarpadas no coinciden nunca.
+—Hay cosas que tienen que ser una —dice Kaffa—. Y todos usan la misma.
 
+#### Gheco sugiere
+Un **Singleton**: el constructor `private`, una instancia `private static final Capitania INSTANCIA = new Capitania();` y un `static Capitania get()` que siempre devuelve esa misma.
+
+#### Desafío
 En el río hay varios muelles, pero **una sola capitanía** que lleva la cuenta de todas las
 zarpadas. Escribí la clase `Capitania` como **Singleton** (constructor privado, una instancia
 `static final` y un método `get()`), con `registrar(String muelle, String barco)`,
@@ -3302,14 +3529,20 @@ En el `main`, creá los muelles **norte** y **sur**, hacé zarpar a `Barcaza 1` 
 `Velero 2` (sur) y `Barcaza 3` (norte), y mostrá las zarpadas, la última y si
 `Capitania.get() == Capitania.get()`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Capitania` tiene el constructor `private` y se obtiene solo con `get()`.
 - Los muelles no reciben la capitanía por parámetro: la piden con `get()`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class CapitaniaUnica {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 Barcaza 1 zarpa del muelle norte
 Velero 2 zarpa del muelle sur
@@ -3319,8 +3552,7 @@ Zarpadas en el río: 3
 Misma capitanía: true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La capitanía única: Singleton.
 public class CapitaniaUnica {
@@ -3369,17 +3601,30 @@ class Muelle {
 }
 ```
 
-### Misión R04-N04-M2 · La fábrica del astillero
+#### Al superarla
+Todos los muelles anotan en la misma capitanía y las cuentas coinciden. El capitán cuelga una campana para cada zarpada.
+
+#### Imagen
+- Una capitanía de madera con un faro en el techo, en el medio de varios muelles.
+- Muelleros llevan papeles a la misma ventanilla; Kaffa observa desde la puerta.
+
+### Micro-misión R04-N04-P6 · La fábrica del astillero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El astillero
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Al astillero llegan pedidos que dicen solo «carga», «rápido» o «pesca». El maestro de obra decide qué barco armar, y los clientes no tienen que saber cómo.
+—Una fábrica —dice Kaffa—. Le pedís, te entrega.
 
+#### Gheco sugiere
+Un **Factory** es un método que recibe el pedido y devuelve el objeto que corresponde, del tipo de la interfaz: `static Barco crear(String tipo)` con un `switch` adentro.
+
+#### Desafío
 El astillero recibe pedidos por tipo: `carga`, `rapido`, `pesca`. Declará la interfaz `Barco`
 (`nombre()` y `capacidad()`) y tres implementaciones: `Barcaza` (120), `Velero` (10) y
 `Pesquero` (30). Pueden ser `record`. Escribí `Fabrica.crear(String tipo)`, que devuelve el barco
@@ -3389,14 +3634,22 @@ que corresponde y, para un tipo desconocido, lanza `IllegalArgumentException` co
 En el `main`, procesá los pedidos `carga`, `rapido`, `pesca` y `submarino` y mostrá cada
 resultado con `printf("%-9s -> …")`, sin que el programa se corte con el último.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El `main` solo conoce la interfaz `Barco` y la `Fabrica`: no hace `new Barcaza()` ni pregunta tipos.
 - El tipo desconocido se maneja con la excepción, sin cortar el programa.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+import java.util.List;
+
+public class FabricaAstillero {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 carga     -> Barcaza (capacidad 120)
 rapido    -> Velero (capacidad 10)
@@ -3404,8 +3657,7 @@ pesca     -> Pesquero (capacidad 30)
 submarino -> el astillero no arma «submarino»
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La fábrica del astillero: Factory.
 import java.util.List;
@@ -3459,17 +3711,30 @@ class Fabrica {
 }
 ```
 
-### Misión R04-N04-M3 · El recargo por demora
+#### Al superarla
+Salen del astillero una barcaza, un velero y un pesquero, cada uno con su capacidad. El maestro de obra brinda con agua por los tres.
+
+#### Imagen
+- Un astillero con tres barcos a medio construir: una barcaza ancha, un velero y un pesquero.
+- Un maestro de obra con casco señala el plano; Zed le pasa un pedido; Gheco camina sobre una viga.
+
+### Micro-misión R04-N04-P7 · El recargo por demora
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La capitanía del astillero
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Nadia manda un mensaje desde la Aduana: el recargo por demora cambia según la época, y cada vez hay que reescribir el programa entero.
+—Cambiá la **estrategia** —dice Kaffa—, no el barco.
 
+#### Gheco sugiere
+**Strategy**: una interfaz `Recargo` con varias implementaciones; quien cobra recibe la estrategia y la usa sin saber cuál es. Cambiar de época es cambiar el objeto, no el código.
+
+#### Desafío
 La Aduana cobra un recargo por cada día de demora, y la forma de calcularlo cambia según la época.
 Declará la interfaz `Recargo` con `int calcular(int dias)` y tres estrategias:
 
@@ -3481,14 +3746,20 @@ La clase `Aduana` recibe la estrategia en el constructor, la puede cambiar con `
 calcula con `recargo(int dias)`. En el `main`, mostrá el recargo de 0, 3 y 10 días con cada
 estrategia, cambiándola en la **misma** aduana.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Aduana` no tiene ningún `if` ni `switch` sobre el tipo de recargo: delega en la estrategia.
 - Se usa una sola `Aduana` y se cambia la estrategia con `setRecargo`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class RecargoDemora {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 Recargo normal:
    0 días -> 0 denarios
@@ -3504,8 +3775,7 @@ Recargo nocturno:
   10 días -> 170 denarios
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El recargo por demora: Strategy.
 public class RecargoDemora {
@@ -3552,6 +3822,13 @@ class Aduana {
     int recargo(int dias) { return recargo.calcular(dias); }
 }
 ```
+
+#### Al superarla
+Nadia cambia de estrategia con una línea, desde la Aduana. Le manda a Zed una nota corta: «funciona». Él la guarda.
+
+#### Imagen
+- Tres tablillas de recargo distintas colgadas en una pared, con dibujos de sol, feria y luna.
+- Nadia, en la Aduana, cambia una tablilla por otra; Zed lee su nota en el astillero.
 
 ### Encargo R04-N04-E1 · La ruta según el clima
 
@@ -4234,17 +4511,23 @@ A la noche, el agua de la Represa empieza a moverse sola. Algo enorme respira de
 - Dos mensajeros llegando a la vez con presupuestos que se juntan en uno solo.
 - La Represa de noche, con el agua agitándose y una sombra enorme debajo.
 
-### Misión R04-N05-M1 · Los recaudadores
+### Micro-misión R04-N05-P5 · Los recaudadores
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las esclusas del río
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R04-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Las cinco sucursales del puerto mandan doscientas mil ventas para sumar. Un solo recaudador tarda toda la noche.
+—Varios a la vez —dice Kaffa—. Cada uno con su parte.
 
+#### Gheco sugiere
+Un `parallelStream()` reparte el trabajo entre varios hilos. Con `Collectors.groupingBy(..., summingLong(...))` el total sale igual que con un solo hilo, pero más rápido.
+
+#### Desafío
 Generá 200 000 ventas simuladas con un `Random(42)` (montos enteros entre 100 y 50 000,
 cada una de una de 5 sucursales). Calculá el total por sucursal de dos formas:
 
@@ -4255,21 +4538,38 @@ cada una de una de 5 sucursales). Calculá el total por sucursal de dos formas:
 
 Mostrá los dos resultados y si coinciden.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las tareas no comparten datos: cada una devuelve su resultado y se combinan al final.
 - Los dos cálculos coinciden y el pool se cierra.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+public class Recaudadores {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Secuencial:  {Centro=1006497013, Este=1002544442, Norte=1004672922, Oeste=1009755622, Sur=986876697}
 Concurrente: {Centro=1006497013, Este=1002544442, Norte=1004672922, Oeste=1009755622, Sur=986876697}
 ¿Coinciden? true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Los recaudadores: repartir sin compartir, y juntar al final.
 import java.util.ArrayList;
@@ -4324,17 +4624,30 @@ public class Recaudadores {
 }
 ```
 
-### Misión R04-N05-M2 · La boletería sin sobreventa
+#### Al superarla
+Las dos formas dan el mismo total al denario. Los recaudadores se van a dormir temprano, por primera vez en el año.
+
+#### Imagen
+- Varios recaudadores trabajando a la vez en mesas largas junto a las esclusas, cada uno con su pila de papeles.
+- Kaffa reparte pilas; Zed suma en una pizarra; Gheco corre entre las mesas llevando hojas.
+
+### Micro-misión R04-N05-P6 · La boletería sin sobreventa
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La boletería del anfiteatro
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R04-N05-M2
 ```
 
-#### Consigna
+#### Escena
+En el anfiteatro del río hay un recital y mil entradas. Ocho boleteros venden a la vez y, al final, vendieron mil doce.
+—Dos boleteros vendieron la misma entrada —dice Nadia—. Eso en la Aduana no pasa.
 
+#### Gheco sugiere
+Cuando varios hilos tocan el mismo dato, `synchronized` hace que de a uno por vez entre al método. Así, revisar y vender pasan juntos y no se vende de más.
+
+#### Desafío
 Un recital tiene 1000 entradas. Programá una clase `Boleteria` con un método
 `boolean vender(int cantidad)` que vende solo si quedan entradas suficientes. Lanzá 8
 hilos que intentan comprar, cada uno, 200 veces de a una entrada. Al final mostrá cuántas
@@ -4343,13 +4656,28 @@ Protegé la venta con `synchronized` (preguntar y descontar tiene que ser una so
 operación) y explicá en un comentario por qué un `AtomicInteger` solo para el contador
 no alcanza si el "preguntar" y el "descontar" van separados.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La venta es atómica: nunca se venden más de 1000 entradas.
 - Vendidas + rechazadas = 1600 pedidos.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+public class BoleteriaSegura {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Vendidas: 1000
 Rechazadas: 600
@@ -4357,8 +4685,7 @@ Pedidos: 1600
 ¿Sobreventa? false
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La boleteria sin sobreventa: preguntar y descontar en una sola operacion.
 import java.util.ArrayList;
@@ -4424,17 +4751,30 @@ public class BoleteriaSegura {
 }
 ```
 
-### Misión R04-N05-M3 · El presupuesto combinado
+#### Al superarla
+Se venden exactamente mil entradas y ni una más. Nadia consigue dos en primera fila y le da una a Zed, sin explicar por qué.
+
+#### Imagen
+- Un anfiteatro de piedra junto al río, con ocho ventanillas de boletería en fila.
+- Nadia le da una entrada a Zed; Gheco mira el escenario desde el hombro de Zed.
+
+### Micro-misión R04-N05-P7 · El presupuesto combinado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La agencia de viajes del puerto
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R04-N05-M3
 ```
 
-#### Consigna
+#### Escena
+La agencia de viajes del puerto pregunta el precio del pasaje, del hotel y del dólar, uno detrás de otro, y el cliente se aburre esperando.
+—Preguntá las tres cosas **a la vez** —dice Zed—, y juntá las respuestas.
 
+#### Gheco sugiere
+`CompletableFuture.supplyAsync(() -> ...)` lanza cada consulta en paralelo. `thenCombine` o `join()` junta los resultados cuando están. Las tres esperas se superponen en lugar de sumarse.
+
+#### Desafío
 Para armar un presupuesto de viaje hay que consultar tres "servicios" lentos (simulados
 con un método que duerme 300 ms y devuelve un valor fijo): el pasaje (95 000), el hotel
 (28 000 por noche) y la cotización del dólar (1250). Con `CompletableFuture`:
@@ -4449,13 +4789,23 @@ con un método que duerme 300 ms y devuelve un valor fijo): el pasaje (95 000), 
 Mostrá el presupuesto y medí el tiempo total: tiene que ser cercano a 300 ms y no a
 1200 ms. Imprimí solo si tardó menos de un segundo (así la salida es siempre la misma).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las consultas corren a la vez (el tiempo total es el de la más lenta).
 - Usa `thenApply`, `thenCombine` y `exceptionally`.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 
+public class PresupuestoCombinado {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Pasaje: 95000.00
 Hotel (4 noches): 112000.00
@@ -4464,8 +4814,7 @@ Total: 207000.00 pesos = 165.60 dólares
 Las consultas corrieron a la vez (menos de un segundo)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El presupuesto combinado: CompletableFuture en paralelo.
 import java.util.Locale;
@@ -4506,6 +4855,13 @@ public class PresupuestoCombinado {
     }
 }
 ```
+
+#### Al superarla
+El presupuesto sale en un tercio del tiempo. El cliente reserva el viaje antes de que se le pasen las ganas.
+
+#### Imagen
+- Una agencia de viajes con tres mensajeros que salen corriendo a la vez por tres puertas.
+- Un cliente espera con cara de sorpresa; Zed junta tres papeles; Gheco sostiene un reloj.
 
 ### Encargo R04-N05-E1 · El contador de visitas
 
@@ -5225,17 +5581,23 @@ Detrás de él, encallada en la Represa, está la barcaza **Ceibo**. Adentro, en
 - La barcaza Ceibo encallada; Zed desenvolviendo un vitral de colores envuelto en lona, con una etiqueta atada.
 - Al fondo, la Torre del Arquitecto recortada contra el cielo.
 
-### Misión R04-N06-M1 · El informe del Leviatán
+### Micro-misión R04-N06-P5 · El informe del Leviatán
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La Represa
+personajes: Zed, Gheco, Nadia, Kaffa, el Leviatán de los Datos
+recompensa: xp 30, monedas 6
+antes: R04-N06-M1
 ```
 
-#### Consigna
+#### Escena
+El Leviatán de los Datos tapa la represa con millones de registros de ventas, mezclados con líneas rotas. Kaffa le da a Zed todo lo que aprendió en el río.
+—Filtrá lo roto, agrupá lo bueno y no te ahogues.
 
+#### Gheco sugiere
+Leé las líneas del bloque de texto con `lines()`, validá cada una (separá las inválidas con su motivo), transformalas en `record` y armá el informe con `groupingBy`, `summingDouble` y `max`.
+
+#### Desafío
 Una cadena de farmacias manda sus ventas en líneas `fecha;sucursal;producto;cantidad;precio`
 (en una constante con un bloque de texto, **al menos 15 líneas y al menos 3 inválidas**
 por motivos distintos). Programá un analizador que:
@@ -5251,14 +5613,38 @@ por motivos distintos). Programá un analizador que:
 5. Procese las líneas en 3 partes con un `ExecutorService` y muestre que el resultado
    coincide con el secuencial.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Ninguna línea se pierde: válidas + rechazadas = total.
 - Usa la jerarquía sellada, `Collectors`, `Optional` y el pool; la versión en paralelo da lo mismo.
 - Sin bucles donde alcanza un stream, sin `null` ni `Optional.get()`.
 
-#### Salida esperada
+#### Código inicial
+```java
+import static java.util.stream.Collectors.averagingDouble;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.summingInt;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+public class InformeFarmacias {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Total: 16 | válidas: 12 | rechazadas: 4
   línea 6: cantidad no positiva: -1
@@ -5278,8 +5664,7 @@ Primera de Norte el 2026-09-13: no hay
 ¿En paralelo coincide? true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Jefe S02 - Mision 1: el informe de las farmacias.
 import static java.util.stream.Collectors.averagingDouble;
@@ -5434,6 +5819,13 @@ public class InformeFarmacias {
     }
 }
 ```
+
+#### Al superarla
+El Leviatán se deshace en datos ordenados y el río vuelve a correr. Detrás de él, encallada, aparece una barcaza vieja con algo envuelto en lona: un vitral.
+
+#### Imagen
+- Un leviatán gigante hecho de hojas de papel y números, enroscado en una represa de piedra.
+- Zed lo enfrenta desde el borde con Kaffa y Nadia; detrás, una barcaza encallada con un bulto envuelto en lona.
 
 ### Misión R04-N06-M2 · Las pruebas del Leviatán
 

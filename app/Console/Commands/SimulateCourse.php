@@ -330,8 +330,10 @@ class SimulateCourse extends Command
         $todo = fn (bool $allOptionals) => $unlocked->flatMap(fn (Node $node) => $node->practices->sortBy([['is_required', 'desc'], ['position', 'asc']]))
             ->first(fn (Practice $practice) => ($practice->is_required || $allOptionals || $this->wants($user, $practice, $state['persona']['optionals'])) && $open($practice));
 
-        // Cursos que se comprueban solos (inglés D106, ensamblador D110): el nodo se completa con sus micro-misiones.
-        if ($this->course->language->isSelfChecked() && ($node = $unlocked->first(fn (Node $node) => ! $access->nodeWorkDone($user, $node)))) {
+        // Cursos que se comprueban solos (inglés D106, ensamblador D110) o donde las micro-misiones completan el nodo
+        // (D111, Java): primero, las micro-misiones de los nodos abiertos.
+        $stepsPending = fn (Node $node) => ($progress = $access->stepProgress($user, $node))['done'] < $progress['total'];
+        if (($this->course->language->isSelfChecked() || $this->course->steps_complete_nodes) && ($node = $unlocked->first($stepsPending))) {
             return ['what' => 'micro-misiones de «'.$node->title.'»', 'run' => function () use ($user, $node, &$state) {
                 foreach ($node->steps as $step) {
                     app(StepCompleter::class)->complete($user, $step, (string) $step->expected_output);

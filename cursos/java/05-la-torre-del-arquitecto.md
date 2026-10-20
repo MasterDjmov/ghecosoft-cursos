@@ -488,30 +488,41 @@ En el segundo piso, Kaffa abre un plano viejo tan enredado que cambiar una puert
 - Una pila gigante de fichas que se parte por la mitad una y otra vez hasta dejar una sola brillando.
 - Al fondo, una escalera que sube al segundo piso, con planos enrollados en los escalones.
 
-### Misión R05-N01-M1 · Contar pasos
+### Micro-misión R05-N01-P5 · Contar pasos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de las balanzas del tiempo
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R05-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Dos aprendices de la Torre discuten qué búsqueda es más rápida. Kaffa les pone una balanza del tiempo delante.
+—No discutan: **midan**. Y después piensen cómo crece.
 
+#### Gheco sugiere
+Contá los pasos con una variable `static`. La búsqueda lineal mira uno por uno (crece como *n*); la binaria parte a la mitad cada vez (crece como log *n*). Mirá qué pasa cuando *n* se multiplica por diez.
+
+#### Desafío
 Escribí la búsqueda **lineal** y la **binaria** sobre un array de `int` ordenado, y contá los
 pasos de cada una en una variable `static int pasos` (un paso por cada elemento que miran).
 Para *n* = 10, 100, 1.000, 10.000 y 100.000, llená el array con `i * 3` y buscá un valor que
 **no está** (`-1`), que es el peor caso. Mostrá la tabla con `printf("%6d %8d %8d%n", …)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La búsqueda binaria descarta la mitad en cada paso (`desde`, `hasta`, `medio`).
-- Los pasos se cuentan, no se miden con el reloj: la salida es siempre la misma.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class ContarPasos {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
      n   lineal  binaria
     10       10        3
@@ -521,8 +532,7 @@ Para *n* = 10, 100, 1.000, 10.000 y 100.000, llená el array con `i * 3` y busc�
 100000   100000       16
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Contar pasos: búsqueda lineal y binaria.
 public class ContarPasos {
@@ -573,17 +583,30 @@ public class ContarPasos {
 }
 ```
 
-### Misión R05-N01-M2 · Los pasaportes duplicados
+#### Al superarla
+Con cien mil elementos, la lineal da cien mil pasos y la binaria, diecisiete. Los aprendices dejan de discutir y se ponen a dibujar curvas.
+
+#### Imagen
+- Una sala con balanzas de bronce que en lugar de pesas tienen relojes de arena de distintos tamaños.
+- Dos aprendices miden con cintas; Kaffa sostiene un reloj; Zed anota números en una pizarra.
+
+### Micro-misión R05-N01-P6 · Los pasaportes duplicados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de las balanzas del tiempo
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R05-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Nadia manda desde la Aduana la lista de pasaportes del día: hay repetidos y quiere encontrarlos rápido.
+—Hay una forma lenta y una rápida —dice Kaffa—. Probá las dos y contá.
 
+#### Gheco sugiere
+Con dos `for` anidados comparás todos contra todos (*n²*). Con un `HashSet`, `add` devuelve `false` si ya estaba: una sola pasada (*n*).
+
+#### Desafío
 La Aduana recibe la lista de pasaportes del día con repetidos:
 `AR-101, UY-202, AR-101, CL-303, UY-202, AR-101, PY-404`. Encontrá los duplicados **de dos
 formas** y compará:
@@ -593,22 +616,33 @@ formas** y compará:
 
 Mostrá los duplicados de cada forma, cuántos pasos hizo cada una y cuántos pasaportes únicos hay.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La segunda forma recorre la lista una sola vez y usa `add` del conjunto para saber si ya estaba.
 - Las dos formas encuentran los mismos duplicados.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class PasaportesDuplicados {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 Con dos bucles: [AR-101, UY-202] en 21 comparaciones
 Con HashSet: [AR-101, UY-202] en 7 pasos
 Únicos: 4
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los pasaportes duplicados: O(n²) contra O(n).
 import java.util.ArrayList;
@@ -648,31 +682,55 @@ public class PasaportesDuplicados {
 }
 ```
 
-### Misión R05-N01-M3 · Buscar por código
+#### Al superarla
+Las dos formas encuentran los mismos duplicados, pero una tarda mucho menos. Zed le manda a Nadia la rápida, con una nota: «de nada».
+
+#### Imagen
+- Una pila de pasaportes de tapa de cuero, con algunos marcados con una cinta roja.
+- Zed separa los marcados; Kaffa compara dos relojes de arena; Gheco sostiene un pasaporte.
+
+### Micro-misión R05-N01-P7 · Buscar por código
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de la Torre
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R05-N01-M3
 ```
 
-#### Consigna
+#### Escena
+En el depósito de la Torre hay cincuenta mil mercancías con su código. Buscar una recorriendo la lista lleva una eternidad.
+—Una lista se recorre —dice Kaffa—. Un mapa **se consulta**.
 
+#### Gheco sugiere
+Buscar en una `List` es recorrer hasta encontrar (*n*). Un `HashMap<String, Mercancia>` va directo por la clave (casi *O(1)*). Contá cuántos elementos mira cada forma.
+
+#### Desafío
 Cargá 50.000 mercancías (`record Mercancia(String codigo, String descripcion)`, con códigos
 `M0` a `M49999`) en una **lista** y en un **mapa** por código. Buscá `M10`, `M49999` y `X1`
 de las dos formas: en la lista recorriendo (contá los pasos) y en el mapa con `get` (un paso
 cada una). Mostrá qué encontraste, comprobá que las dos formas coinciden y mostrá los pasos
 totales de cada una.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La búsqueda en la lista corta con `break` al encontrar.
 - El mapa se usa con `get`, sin recorrerlo.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class BuscarPorCodigo {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 M10: bulto 10
 M49999: bulto 49999
@@ -681,8 +739,7 @@ Pasos con la lista: 100011
 Pasos con el mapa: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Buscar por código: lista contra mapa.
 import java.util.ArrayList;
@@ -723,6 +780,13 @@ public class BuscarPorCodigo {
     }
 }
 ```
+
+#### Al superarla
+Con el mapa, cualquier mercancía aparece al instante, aunque sea la última. El depositero tira su cuaderno de búsquedas y pide un mapa para él.
+
+#### Imagen
+- Un depósito enorme con estantes hasta el techo llenos de cajas numeradas.
+- Un depositero subido a una escalera busca una caja; Zed le muestra un mapa con un dedo; Gheco señala la caja.
 
 ### Encargo R05-N01-E1 · Cómo crecen
 
@@ -1324,17 +1388,23 @@ El servicio no sabe quién avisa, y no le hace falta. —**D** —termina Kaffa,
 - La pizarra de la Torre con las cinco letras SOLID escritas con tiza, la D subrayada dos veces.
 - Kaffa señalando hacia el techo, donde se oye el ruido de una grúa.
 
-### Misión R05-N02-M1 · Una sola razón para cambiar
+### Micro-misión R05-N02-P5 · Una sola razón para cambiar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R05-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En la sala de los planos viejos hay una clase que hace todo: calcula, arma el informe y lo anuncia. Cambiar el anuncio rompe la cuenta.
+—Una sola razón para cambiar —dice Kaffa—. Por clase.
 
+#### Gheco sugiere
+**S** de SOLID: cada clase con una responsabilidad. Separá el cálculo, el formato y el anuncio en tres clases y hacé que el `main` las combine.
+
+#### Desafío
 En la Torre hay una clase que calcula el total de las ventas, arma el texto del informe y lo
 anuncia, todo junto. Separala en tres clases con **una responsabilidad cada una**:
 `CalculadoraVentas` (`int total(List<Venta>)`), `FormateadorInforme`
@@ -1342,20 +1412,27 @@ anuncia, todo junto. Separala en tres clases con **una responsabilidad cada una*
 que muestra `[Torre] …`). Con las ventas `Capital 120`, `Puerto 80` y `Capital 40`, el `main`
 usa las tres y anuncia el informe.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada clase hace una sola cosa: ninguna calcula y muestra a la vez.
 - El `main` solo conecta las piezas.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+import java.util.List;
+
+public class UnaRazon {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 [Torre] Ventas: 3 | Total: 240 denarios
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Una sola razón para cambiar (S).
 import java.util.List;
@@ -1390,39 +1467,59 @@ class Pregonero {
 }
 ```
 
-### Misión R05-N02-M2 · Abierto para agregar
+#### Al superarla
+Ahora se cambia el anuncio sin tocar la cuenta. Kaffa archiva el plano viejo en un cajón que dice «antes».
+
+#### Imagen
+- Un plano enredado sobre una mesa, partido en tres planos más chicos y ordenados.
+- Kaffa guarda el plano viejo en un cajón; Zed acomoda los tres nuevos; Gheco sostiene una regla.
+
+### Micro-misión R05-N02-P6 · Abierto para agregar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R05-N02-M2
 ```
 
-#### Consigna
+#### Escena
+En la Torre aparecen descuentos nuevos todas las semanas, y cada vez hay que abrir y cambiar la clase de cobro.
+—Abierta para agregar —dice Kaffa—. **Cerrada** para tocar.
 
+#### Gheco sugiere
+**O** de SOLID: con una interfaz `Descuento`, un descuento nuevo es una clase nueva. La clase que cobra recibe el descuento y no se modifica más.
+
+#### Desafío
 El cobro de la Torre tiene descuentos que no paran de aparecer. Declará la interfaz
 `Descuento` con `double aplicar(double precio)` y tres implementaciones: `SinDescuento`, `Peregrino`
 (paga la mitad) y `Gremio` (15 denarios menos). Un método `cobrar(double precio, Descuento d)`
 aplica el descuento **sin ningún `if` ni `switch`**. Mostrá cuánto paga un precio de 100 con
 cada descuento, con el nombre simple de la clase.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Agregar un descuento nuevo es agregar una clase: `cobrar` no se toca.
 - No hay `if`, `switch` ni `instanceof` sobre el tipo de descuento.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+import java.util.List;
+
+public class AbiertoCerrado {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 SinDescuento: 100.0
 Peregrino: 50.0
 Gremio: 85.0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Abierto para agregar, cerrado para tocar (O).
 import java.util.List;
@@ -1456,17 +1553,30 @@ public class AbiertoCerrado {
 }
 ```
 
-### Misión R05-N02-M3 · No fabriques lo que usás
+#### Al superarla
+Se suma un descuento nuevo sin tocar una línea del cobro. El cajero de la Torre aplaude, porque esta semana no se le rompió nada.
+
+#### Imagen
+- Una caja registradora de bronce con ranuras donde se enchufan tarjetas de descuento de colores.
+- Un cajero enchufa una tarjeta nueva; Zed y Kaffa miran; Gheco está sentado sobre la caja.
+
+### Micro-misión R05-N02-P7 · No fabriques lo que usás
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de los planos viejos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R05-N02-M3
 ```
 
-#### Consigna
+#### Escena
+El servicio de reservas de la Torre fabrica su propia forma de avisar, y para probarlo hay que mandar mensajes de verdad.
+—La última regla es la más importante —dice Kaffa—. **No fabriques lo que usás: pedilo.**
 
+#### Gheco sugiere
+**D** de SOLID (inversión de dependencias): el servicio recibe un `Avisador` (una interfaz) en el constructor. Afuera se decide cuál: uno que muestra por consola, otro que guarda en una lista para probar.
+
+#### Desafío
 El `ServicioReservas` avisa cada reserva. Hacé que **dependa de una interfaz** `Avisador`
 (`void avisar(String mensaje)`) recibida por el constructor, en lugar de crear él su forma de
 avisar. Probalo con dos avisadores: uno de consola (una lambda que muestra `Consola: …`) y un
@@ -1474,21 +1584,29 @@ avisar. Probalo con dos avisadores: uno de consola (una lambda que muestra `Cons
 rechaza con el aviso `reserva rechazada para …`. Reservá a Zed (3 noches) con el de consola, y a
 Nadia (1) y a Baldo (0) con el de prueba, y mostrá lo que guardó.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `ServicioReservas` no hace ningún `new` de un avisador: lo recibe.
 - El mismo servicio funciona con los dos avisadores sin cambios.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Inversion {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 Consola: Zed reservó 3 noches
 Avisos guardados en la prueba: [Nadia reservó 1 noche, reserva rechazada para Baldo]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - No fabriques lo que usás: pedilo (D).
 import java.util.ArrayList;
@@ -1533,6 +1651,13 @@ class ServicioReservas {
     }
 }
 ```
+
+#### Al superarla
+El mismo servicio avisa por consola o guarda en memoria, sin cambiarle nada. Kaffa le da a Zed una llave de los pisos de arriba de la Torre.
+
+#### Imagen
+- Un mostrador de reservas con un enchufe donde se conectan distintos aparatos de aviso: una campana, un pergamino, una paloma mensajera.
+- Kaffa le entrega una llave a Zed; Gheco juega con la paloma.
 
 ### Encargo R05-N02-E1 · Interfaces chicas
 

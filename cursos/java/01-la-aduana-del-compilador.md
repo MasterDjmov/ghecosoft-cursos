@@ -449,17 +449,23 @@ Tres y medio cada uno: el denario perdido aparece. —Ningún error y todo mal �
 - Siete monedas que se reparten en dos montones de tres y media; media moneda partida brilla en el medio.
 - Un ogro chiquito que se escabulle detrás de la balanza.
 
-### Misión R01-N01-M1 · El inventario del carro
+### Micro-misión R01-N01-P5 · El inventario del carro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Aduana del Compilador
+personajes: Zed, Gheco, Nadia, Olmo
+recompensa: xp 10, monedas 4
+antes: R01-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Llega el carro de Olmo, un mercader gordo y amable, cargado de bolsas de harina. Nadia le pasa a Zed la libreta:
+—Declarale el carro. Cada dato, en su cajón.
 
+#### Gheco sugiere
+La cantidad de bolsas es un `int`, el peso un `double` y el nombre un `String`. `(int)` corta los decimales, y entre dos `int` la `/` da la división entera.
+
+#### Desafío
 Un mercader lleva en su carro 37 bolsas de harina de 2.5 kg cada una. Declará las
 variables con el tipo adecuado (la cantidad de bolsas, el peso de cada bolsa y el
 nombre del mercader) y mostrá:
@@ -468,14 +474,20 @@ nombre del mercader) y mostrá:
 2. El peso total en kilos enteros, con casting.
 3. Cuántas bolsas completas de 10 kg se podrían armar con esa harina (división entera).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `int`, `double` y `String` donde corresponde.
 - Usa un casting `(int)` para los kilos enteros.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class Inventario {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 Carro de Olmo
 Peso total: 92.5 kg
@@ -483,8 +495,7 @@ En kilos enteros: 92
 Bolsas completas de 10 kg: 9
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El inventario del carro: tipos, casting y division entera.
 public class Inventario {
@@ -505,30 +516,52 @@ public class Inventario {
 }
 ```
 
-### Misión R01-N01-M2 · El tesoro que dio la vuelta
+#### Al superarla
+Olmo paga el peaje exacto y le regala a Zed un pan.
+—Primera vez que no me cobran de más —dice, y sigue camino.
+
+#### Imagen
+- Un carro con muchas bolsas de harina apiladas, tirado por un burro, frente a una balanza de bronce.
+- Olmo, un mercader robusto de delantal, le da un pan a Zed; Nadia anota en su libreta.
+
+### Micro-misión R01-N01-P6 · El tesoro que dio la vuelta
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La tesorería de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R01-N01-M2
 ```
 
-#### Consigna
+#### Escena
+En la tesorería, el contador del Imperio suma un tributo enorme… y el resultado sale **negativo**. De entre las monedas salta un goblin riéndose.
+—El cajón era chico —dice Gheco.
 
+#### Gheco sugiere
+Un `int` llega hasta `Integer.MAX_VALUE` (un poco más de dos mil millones): si te pasás, da la vuelta y queda negativo. Un `long` llega mucho más lejos; sus números grandes llevan una `L` al final.
+
+#### Desafío
 El tesoro del Imperio tiene 2 000 000 000 denarios y recibe un tributo de 500 000 000.
 Mostrá qué pasa si lo guardás en un `int` y qué pasa si lo guardás en un `long`.
 Después mostrá los valores máximos de los dos tipos (`Integer.MAX_VALUE` y
 `Long.MAX_VALUE`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra el desbordamiento del `int` (queda negativo).
 - Con `long` el resultado es correcto.
 - Muestra los dos máximos.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Tesoro {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Con int: -1794967296
 Con long: 2500000000
@@ -536,8 +569,7 @@ Máximo de int: 2147483647
 Máximo de long: 9223372036854775807
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El tesoro que dio la vuelta: desbordamiento de int y uso de long.
 public class Tesoro {
@@ -556,38 +588,57 @@ public class Tesoro {
 }
 ```
 
-### Misión R01-N01-M3 · Las notas de la academia
+#### Al superarla
+Con el cajón grande, el tesoro da bien y el goblin se queda sin travesura. Nadia, por las dudas, anota los dos máximos en la tapa de la libreta.
+
+#### Imagen
+- Un goblin flaco salta riéndose desde un cofre de monedas desbordado.
+- Zed pasa las monedas a un cofre mucho más grande; Gheco mira desde arriba de una pila.
+
+### Micro-misión R01-N01-P7 · Las notas de la academia
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La puerta de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Una estudiante de la Academia llora en la puerta: le dijeron que su promedio es 8 «redondo» y ella sabe que es más. Nadia mira la cuenta y frunce el ceño.
+—Dividieron enteros.
 
+#### Gheco sugiere
+Entre dos `int`, `/` tira los decimales. Si convertís uno a `double` con `(double)`, el resultado los conserva. Un `char` también es un número: `(char) (letra + 1)` es la letra que sigue.
+
+#### Desafío
 Una estudiante de la Academia sacó 7, 9 y 8 en tres exámenes (guardalos en `int`).
 Mostrá el promedio calculado **mal** (división entera) y **bien** (con casting a
 `double`). Después mostrá la letra que va una posición después de la inicial de su
 nombre, `'L'` de Lía, usando un casting a `char`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las tres notas son `int`.
 - El promedio correcto usa `(double)`.
 - La letra siguiente se calcula con un casting a `char`, no se escribe a mano.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Notas {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Promedio con división entera: 8
 Promedio con casting: 8.0
 Letra siguiente a L: M
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Las notas de la academia: division entera vs casting.
 public class Notas {
@@ -606,6 +657,13 @@ public class Notas {
     }
 }
 ```
+
+#### Al superarla
+El promedio bien calculado le da la nota que merecía. La estudiante se va corriendo a reclamar, y Nadia anota: «división entera: revisar siempre».
+
+#### Imagen
+- Una estudiante con capa de la Academia sostiene una hoja de notas frente a una puerta grande.
+- Nadia le señala la cuenta en la hoja; Zed mira por encima del hombro.
 
 ### Encargo R01-N01-E1 · El cambio de monedas
 
@@ -1100,35 +1158,47 @@ Treinta y dos. Los dos guardias que discutían se dan la mano. —El orden decid
 - Una pizarra con la cuenta: los paréntesis brillan en verde.
 - Dos guardias dándose la mano; Nadia anota en su libreta.
 
-### Misión R01-N02-M1 · El reloj de la torre
+### Micro-misión R01-N02-P5 · El reloj de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de la Aduana
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N02-M1
 ```
 
-#### Consigna
+#### Escena
+El reloj de la torre del patio no tiene agujas: solo cuenta segundos desde la medianoche. Los guardias no saben qué hora es y discuten.
+—Cincuenta mil —lee Zed—. ¿Y eso qué hora es?
 
+#### Gheco sugiere
+`/` entre enteros te dice cuántas veces entra (cuántas horas completas) y `%` te da lo que sobra. Una hora son 3600 segundos y un minuto, 60.
+
+#### Desafío
 El reloj de la torre cuenta los segundos desde la medianoche: van **50 000**.
 Mostrá la hora en formato `horas:minutos:segundos` usando `/` y `%`. Después mostrá
 cuántos segundos faltan para la medianoche siguiente (un día tiene 86 400).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Calcula horas, minutos y segundos con `/` y `%`, sin escribir los valores a mano.
 - Muestra los segundos que faltan.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Reloj {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 Hora: 13:53:20
 Faltan 36400 segundos para la medianoche
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El reloj de la torre: / y % para convertir segundos.
 public class Reloj {
@@ -1144,29 +1214,49 @@ public class Reloj {
 }
 ```
 
-### Misión R01-N02-M2 · El año bisiesto
+#### Al superarla
+Los guardias ajustan el cambio de turno con la hora que dio Zed. El de la noche protesta: le tocan cuatro minutos más.
+
+#### Imagen
+- Una torre de piedra con un reloj redondo sin agujas, lleno de engranajes a la vista.
+- Dos guardias discuten señalando el reloj; Zed les muestra la cuenta en el aire con los dedos.
+
+### Micro-misión R01-N02-P6 · El año bisiesto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El archivo de calendarios
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N02-M2
 ```
 
-#### Consigna
+#### Escena
+El calendario de la Aduana tiene un día de más… o de menos: nadie se acuerda cuándo el año es bisiesto.
+—Hay una regla —dice Nadia—. Tres condiciones. Ni una más.
 
+#### Gheco sugiere
+`%` dice si un número es divisible por otro (`año % 4 == 0`). Las condiciones se juntan con `&&` (y) y `||` (o); los paréntesis deciden qué se evalúa primero.
+
+#### Desafío
 Un año es bisiesto si es divisible por 4 y no por 100, **o** si es divisible por
 400. Guardá en una variable `boolean` si cada uno de estos años es bisiesto y
 mostralo: 2024, 1900, 2000 y 2026. Usá una sola expresión con `%`, `&&`, `||` y
 `!=` (podés repetirla para cada año).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La condición combina `%`, `&&` y `||` correctamente.
 - Los cuatro resultados son correctos.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Bisiesto {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 2024 bisiesto: true
 1900 bisiesto: false
@@ -1174,8 +1264,7 @@ mostralo: 2024, 1900, 2000 y 2026. Usá una sola expresión con `%`, `&&`, `||` 
 2026 bisiesto: false
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El anio bisiesto: condiciones con % && ||.
 public class Bisiesto {
@@ -1196,30 +1285,50 @@ public class Bisiesto {
 }
 ```
 
-### Misión R01-N02-M3 · El golpe crítico
+#### Al superarla
+El calendario queda bien para los próximos cuatrocientos años. Nadia guarda la regla en su libreta, en la página de «cosas que nunca hay que improvisar».
+
+#### Imagen
+- Un calendario de pergamino enorme colgado en la pared, con un día marcado con un círculo.
+- Nadia sostiene la libreta abierta; Gheco está sentado sobre el día marcado.
+
+### Micro-misión R01-N02-P7 · El golpe crítico
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de entrenamiento de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R01-N02-M3
 ```
 
-#### Consigna
+#### Escena
+En el patio, un goblin con armadura vieja desafía a los aduaneros. Nadia desenvaina.
+—Calculá cuánto le saco por golpe, Zed. Y si es crítico, avisame.
 
+#### Gheco sugiere
+El ternario elige entre dos valores en una sola línea: `condicion ? valorSiVerdadero : valorSiFalso`. Es un `if` que devuelve algo.
+
+#### Desafío
 Nadia ataca con fuerza 14 a un enemigo con armadura 5 y 30 de vida. El daño es la
 fuerza menos la armadura, pero si la fuerza es al menos el doble de la armadura es
 un **golpe crítico** y el daño se duplica. Calculá con el ternario el daño final,
 restáselo a la vida con `-=` y mostrá si el enemigo sigue en pie (`vida > 0`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa el operador ternario para el daño.
 - Usa `-=` para la vida.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class GolpeCritico {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 ¿Crítico? true
 Daño: 18
@@ -1227,8 +1336,7 @@ Vida restante: 12
 ¿Sigue en pie? true
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El golpe critico: ternario y asignacion compuesta.
 public class GolpeCritico {
@@ -1248,6 +1356,13 @@ public class GolpeCritico {
     }
 }
 ```
+
+#### Al superarla
+Golpe crítico: el goblin pierde el casco y sale corriendo por la puerta del patio. Nadia guarda la espada sin decir nada, pero sonríe.
+
+#### Imagen
+- Nadia golpea con su espada a un goblin con armadura oxidada que pierde el casco.
+- Zed mira desde un costado, con los dedos en la cuenta; Gheco aplaude sobre un barril.
 
 ### Encargo R01-N02-E1 · Las páginas del catálogo
 
@@ -1771,17 +1886,23 @@ La tabla queda perfecta, con los números alineados como soldados. El Escriba Je
 - Una tabla de tarifas tallada en bronce, con precios perfectamente alineados.
 - El Escriba Jefe la cuelga en la puerta de la oficina.
 
-### Misión R01-N03-M1 · El registro del escriba
+### Micro-misión R01-N03-P5 · El registro del escriba
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de sellos de la Aduana
+personajes: Zed, Gheco, Nadia, el Escriba Jefe
+recompensa: xp 10, monedas 4
+antes: R01-N03-M1
 ```
 
-#### Consigna
+#### Escena
+El Escriba Jefe recibió un nombre escrito a las apuradas: espacios de más, mayúsculas al azar.
+—Así no entra en el registro —dice, y le pasa el papel a Zed.
 
+#### Gheco sugiere
+`trim()` saca los espacios de los bordes, `toUpperCase()` y `toLowerCase()` cambian las mayúsculas, `length()` cuenta las letras y `substring` corta un pedazo. Ninguno cambia el original: devuelven un texto nuevo.
+
+#### Desafío
 El escriba recibió el nombre `"  lía   FERRARI "` (con espacios de más). Guardalo en
 una variable y mostrá:
 
@@ -1791,13 +1912,20 @@ una variable y mostrá:
 4. Si contiene `"FERR"`.
 5. El nombre con cada `A` reemplazada por `@`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `trim`, `toUpperCase`, `indexOf`, `contains` y `replace`.
 - Guarda los resultados (no llama a los métodos sin usar lo que devuelven).
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Escriba {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 [lía   FERRARI]
 LÍA   FERRARI
@@ -1806,8 +1934,7 @@ Letras del nombre: 3
 LÍ@   FERR@RI
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El registro del escriba: metodos de String.
 public class Escriba {
@@ -1826,29 +1953,50 @@ public class Escriba {
 }
 ```
 
-### Misión R01-N03-M2 · La contraseña del portón
+#### Al superarla
+El nombre queda limpio en el registro. El Escriba Jefe lo mira de cerca, aprueba con la cabeza y lo sella.
+
+#### Imagen
+- Un escriba anciano de barba larga revisa un pergamino con una lupa, en una oficina llena de sellos.
+- Zed le entrega el papel corregido; Gheco duerme sobre una pila de sellos.
+
+### Micro-misión R01-N03-P6 · La contraseña del portón
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El portón de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R01-N03-M2
 ```
 
-#### Consigna
+#### Escena
+El portón tiene una contraseña. Zed escribe la misma palabra de tres formas distintas y el portón abre solo con algunas.
+Detrás del portón, un **ogro** se ríe bajito.
 
+#### Gheco sugiere
+`==` entre textos pregunta si son **el mismo objeto**, no si dicen lo mismo. Para comparar el contenido se usa `equals`; si no importan las mayúsculas, `equalsIgnoreCase`.
+
+#### Desafío
 La contraseña del portón es `"cafe"`. Simulá tres intentos guardados en variables:
 `"cafe"`, `"CAFE"` y un texto armado en el momento con `new String("ca") + "fe"`.
 Para cada uno mostrá el resultado de compararlo con `==`, con `equals` y con
 `equalsIgnoreCase`. Terminá con una línea que explique cuál hay que usar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra las tres comparaciones para los tres intentos.
 - Se ve que `==` falla con el texto armado aunque tenga el mismo contenido.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Porton {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 intento1: == true, equals true, ignoreCase true
 intento2: == false, equals false, ignoreCase true
@@ -1856,8 +2004,7 @@ intento3: == false, equals true, ignoreCase true
 Los textos se comparan con equals, nunca con ==.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La contrasenia del porton: == contra equals.
 public class Porton {
@@ -1875,17 +2022,30 @@ public class Porton {
 }
 ```
 
-### Misión R01-N03-M3 · La tabla de tarifas
+#### Al superarla
+Con `equals`, el portón abre siempre que la palabra es la correcta. El ogro se queda sin chiste y se aleja arrastrando los pies.
+
+#### Imagen
+- Un portón de madera reforzada con un candado de engranajes y una ranura para mensajes.
+- Un ogro detrás del portón se tapa la boca para no reírse; Zed y Nadia esperan frente al candado.
+
+### Micro-misión R01-N03-P7 · La tabla de tarifas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de sellos de la Aduana
+personajes: Zed, Gheco, Nadia, el Escriba Jefe
+recompensa: xp 10, monedas 4
+antes: R01-N03-M3
 ```
 
-#### Consigna
+#### Escena
+El Escriba Jefe quiere colgar la tabla de tarifas en la entrada, pero las columnas salen torcidas y los viajeros leen mal los precios.
+—Alineada o no se cuelga —dice.
 
+#### Gheco sugiere
+`printf` da formato: `%-10s` es un texto a la izquierda en 10 lugares, `%5d` un entero a la derecha en 5 y `%8.2f` un decimal con 2 decimales. `%n` es el salto de línea.
+
+#### Desafío
 Mostrá con `printf` la tabla de tarifas de la Aduana: tres mercancías con su
 cantidad y su precio unitario, alineadas en columnas (nombre a la izquierda en 10
 lugares, cantidad a la derecha en 5, precio y subtotal a la derecha en 9 con 2
@@ -1893,14 +2053,23 @@ decimales), y al final el total. Recordá `Locale.setDefault(Locale.US)`.
 
 Mercancías: sal (4 × 12.5), seda (2 × 310.0) y hierro (10 × 7.25).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `printf` con anchos y `%.2f`.
 - Tiene `Locale.setDefault(Locale.US)` para que el punto decimal sea siempre punto.
 - El total está bien calculado.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Tarifas {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Mercancía   Cant    Precio  Subtotal
 sal            4     12.50     50.00
@@ -1909,8 +2078,7 @@ hierro        10      7.25     72.50
 TOTAL                         742.50
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La tabla de tarifas: printf con anchos y decimales.
 import java.util.Locale;
@@ -1930,6 +2098,13 @@ public class Tarifas {
     }
 }
 ```
+
+#### Al superarla
+La tabla queda derecha como una regla. El Escriba Jefe la cuelga en la entrada y, por primera vez, nadie discute un precio.
+
+#### Imagen
+- Una tabla grande de madera con columnas perfectamente alineadas, colgada sobre la ventanilla.
+- El Escriba Jefe la mide con una regla; Zed y Nadia miran desde abajo.
 
 ### Encargo R01-N03-E1 · El usuario del sistema
 
@@ -2465,29 +2640,45 @@ Zed adivina cada tirada antes de que caiga. El tahúr se va de la fila, furioso.
 - Tres dados de luz en el aire, cada uno con su número antes de caer.
 - Un tahúr furioso que se va; Nadia anota en su libreta.
 
-### Misión R01-N04-M1 · La ficha del viajero
+### Micro-misión R01-N04-P5 · La ficha del viajero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de la Aduana
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Ahora es Zed el que atiende la ventanilla. Cada viajero dice su nombre, su ciudad y cuántos días se queda, y hay que darle su ficha con lo que paga.
+—Y los que se quedan mucho tienen descuento —agrega Nadia.
 
+#### Gheco sugiere
+`Scanner` lee lo que se escribe: `nextLine()` un renglón entero y `nextInt()` un número. Ojo: después de `nextInt()` queda un salto de línea pendiente; un `nextLine()` de más lo limpia.
+
+#### Desafío
 Pedí el nombre completo, la ciudad de origen y los días que se va a quedar (un
 entero). Mostrá una ficha con el nombre en mayúsculas, la ciudad y el costo de la
 estadía: 15 denarios por día, con un descuento del 10 % si se queda más de 7 días.
 Mostrá el costo con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee todo con `nextLine()` y convierte los días con `Integer.parseInt`.
 - Muestra el costo con `printf` y `%.2f`, con `Locale.setDefault(Locale.US)`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Locale;
+import java.util.Scanner;
 
+public class FichaViajero {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 Baldo Tallo
 Ciudadela
@@ -2495,7 +2686,6 @@ Ciudadela
 ```
 
 #### Salida esperada
-
 ```
 Nombre completo: Ciudad de origen: Días de estadía: 
 Viajero: BALDO TALLO
@@ -2503,8 +2693,7 @@ Viene de: Ciudadela
 Costo de 9 días: 121.50 denarios
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La ficha del viajero: Scanner con nextLine y parseInt.
 import java.util.Locale;
@@ -2532,63 +2721,57 @@ public class FichaViajero {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La fila avanza más rápido que nunca. Un viajero le deja propina a Zed, que la entrega a Nadia sin que se la pidan.
 
-##### Justo 7 días (sin descuento)
-```entrada
-nadia valdez
-Frontera
-7
-```
-```salida
-Nombre completo: Ciudad de origen: Días de estadía:
-Viajero: NADIA VALDEZ
-Viene de: Frontera
-Costo de 7 días: 105.00 denarios
-```
+#### Imagen
+- Zed atiende detrás de una ventanilla de madera; afuera, una fila de viajeros con valijas.
+- Nadia controla desde atrás con los brazos cruzados; Gheco sella fichas con la cola.
 
-##### Un día
-```entrada
-Lía
-Puerto
-1
-```
-```salida
-Nombre completo: Ciudad de origen: Días de estadía:
-Viajero: LÍA
-Viene de: Puerto
-Costo de 1 días: 15.00 denarios
-```
-
-### Misión R01-N04-M2 · El terreno del cuartel
+### Micro-misión R01-N04-P6 · El terreno del cuartel
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los terrenos del cuartel
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N04-M2
 ```
 
-#### Consigna
+#### Escena
+El cuartel nuevo necesita un cerco. El capataz da el ancho y el largo del terreno, y pregunta cuántas estacas comprar.
+—Si falta una, no cierra —dice—. Mejor que sobre.
 
+#### Gheco sugiere
+`Math.sqrt` es la raíz cuadrada y `Math.pow(x, 2)` el cuadrado. `Math.ceil` redondea **para arriba** (devuelve `double`). Con `printf("%.2f")` mostrás dos decimales.
+
+#### Desafío
 Pedí el ancho y el largo de un terreno (decimales). Mostrá con 2 decimales el área,
 la diagonal (con `Math.sqrt` y `Math.pow`) y cuántas estacas hacen falta para el
 perímetro si van cada 2 metros (redondeando **para arriba** con `Math.ceil`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `Math.sqrt`, `Math.pow` y `Math.ceil`.
 - Muestra los decimales con punto en cualquier compu.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Locale;
+import java.util.Scanner;
 
+public class Terreno {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 12.5
 8
 ```
 
 #### Salida esperada
-
 ```
 Ancho: Largo: 
 Área: 100.00 m2
@@ -2596,8 +2779,7 @@ Diagonal: 14.84 m
 Estacas para el perímetro: 21
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El terreno del cuartel: Math.sqrt, Math.pow y Math.ceil.
 import java.util.Locale;
@@ -2625,61 +2807,57 @@ public class Terreno {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Las estacas alcanzan justo, con una de sobra. El capataz la usa para clavar un cartel: «Calculado por Zed».
 
-##### Cuadrado
-```entrada
-2
-2
-```
-```salida
-Ancho: Largo:
-Área: 4.00 m2
-Diagonal: 2.83 m
-Estacas para el perímetro: 4
-```
+#### Imagen
+- Un terreno vacío con estacas clavadas en el borde, unidas por una soga.
+- Un capataz con casco y Zed miden la diagonal con una cuerda tensa; Gheco camina sobre la soga.
 
-##### Terreno chico
-```entrada
-0.5
-0.5
-```
-```salida
-Ancho: Largo:
-Área: 0.25 m2
-Diagonal: 0.71 m
-Estacas para el perímetro: 1
-```
-
-### Misión R01-N04-M3 · Los dados del tahúr
+### Micro-misión R01-N04-P7 · Los dados del tahúr
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La taberna de la frontera
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Un tahúr gana todas las partidas de dados. Zed, que de trampas sabe, sospecha.
+—Si la partida tiene semilla —le susurra Gheco—, los dados siempre caen igual.
 
+#### Gheco sugiere
+`new Random(semilla)` da siempre la misma secuencia para la misma semilla. `nextInt(6) + 1` es un dado de 6 caras. `Math.max(a, b)` devuelve el mayor de dos.
+
+#### Desafío
 Un tahúr de la frontera juega a los dados. Pedí la **semilla** de la partida (un
 entero) y creá un `Random` con ella. Tirá tres dados de 6 caras, mostralos, mostrá la
 suma, el mayor (con `Math.max` dos veces) y si salió un trío (los tres iguales).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Crea el `Random` con la semilla leída.
 - Cada dado da entre 1 y 6.
 - Usa `Math.max` para el mayor.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Random;
+import java.util.Scanner;
 
+public class Dados {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 7
 ```
 
 #### Salida esperada
-
 ```
 Semilla: 
 Dados: 5 3 4
@@ -2688,8 +2866,7 @@ Mayor: 5
 ¿Trío? false
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Los dados del tahur: Random con semilla y Math.max.
 import java.util.Random;
@@ -2717,31 +2894,12 @@ public class Dados {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Zed adivina la tirada antes de que caigan los dados. El tahúr junta sus cosas y se va de la taberna por la puerta de atrás.
 
-##### Semilla 1
-```entrada
-1
-```
-```salida
-Semilla:
-Dados: 4 5 2
-Suma: 11
-Mayor: 5
-¿Trío? false
-```
-
-##### Semilla 2026
-```entrada
-2026
-```
-```salida
-Semilla:
-Dados: 6 5 2
-Suma: 13
-Mayor: 6
-¿Trío? false
-```
+#### Imagen
+- Tres dados de madera en el aire sobre una mesa de taberna, con puntitos en las caras.
+- Un tahúr de sombrero se asusta; Zed sonríe con los brazos cruzados y Gheco sostiene un dado.
 
 ### Encargo R01-N04-E1 · La cuota del préstamo
 
@@ -3344,41 +3502,54 @@ Afuera, la Aduana cierra. Hay que contar todo lo que entró, carro por carro. Ma
 - Nadia guardándose la servilleta en el bolsillo de la chaqueta; Zed sonríe con la taza en la mano.
 - Por la ventana, la Aduana cerrando y faroles encendiéndose.
 
-### Misión R01-N05-M1 · La balanza del veredicto
+### Micro-misión R01-N05-P5 · La balanza del veredicto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de la Academia
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N05-M1
 ```
 
-#### Consigna
+#### Escena
+La Academia del Imperio usa una balanza que da el veredicto de cada nota, pero se trabó. Los estudiantes esperan con la hoja en la mano.
+—Del uno al diez —dice Nadia—, y cualquier otra cosa es inválida.
 
+#### Gheco sugiere
+Con `if` / `else if` / `else` se prueba un rango después del otro: el primero que da verdadero gana. Para un rango, dos condiciones con `&&` (`nota >= 4 && nota <= 6`).
+
+#### Desafío
 La Academia del Imperio pone notas de 1 a 10. Pedí una nota y mostrá el veredicto:
 de 1 a 3 "Desaprobado", de 4 a 6 "Aprobado", de 7 a 9 "Muy bueno", 10 "Sobresaliente",
 y cualquier otro número "Nota inválida". Usá `if` / `else if` / `else`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los rangos están bien ordenados y no se superponen.
 - Maneja las notas fuera de rango.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
 
+public class Veredicto {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 7
 ```
 
 #### Salida esperada
-
 ```
 Nota: 
 Muy bueno
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La balanza del veredicto: if / else if / else con rangos.
 import java.util.Scanner;
@@ -3405,81 +3576,63 @@ public class Veredicto {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La balanza vuelve a moverse y cada estudiante recibe su veredicto. Uno saca 10 y la balanza toca una campanita.
 
-##### Bordes
-```entrada
-1
-```
-```salida
-Nota:
-Desaprobado
-```
+#### Imagen
+- Una balanza de bronce enorme en un patio de piedra, con un platillo que se inclina.
+- Estudiantes de capa hacen fila con hojas en la mano; Zed ajusta un engranaje de la balanza.
 
-##### Sobresaliente
-```entrada
-10
-```
-```salida
-Nota:
-Sobresaliente
-```
-
-##### Fuera de rango
-```entrada
-0
-```
-```salida
-Nota:
-Nota inválida
-```
-
-##### Aprobado justo
-```entrada
-4
-```
-```salida
-Nota:
-Aprobado
-```
-
-### Misión R01-N05-M2 · El menú de la posada
+### Micro-misión R01-N05-P6 · El menú de la posada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La posada junto a la Aduana
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N05-M2
 ```
 
-#### Consigna
+#### Escena
+La posada tiene un menú nuevo y el posadero no da abasto con los pedidos. Le pide a Zed un programa que diga el plato y el precio de cada número.
+—Y si piden algo que no hay, que lo diga.
 
+#### Gheco sugiere
+Un `switch` como expresión devuelve un valor: `int precio = switch (opcion) { case 1 -> 1200; case 2 -> 300; default -> 0; };`. El `default` atrapa todo lo demás.
+
+#### Desafío
 Mostrá el menú de la posada (1 Guiso, 2 Pan, 3 Café, 4 Agua) y pedí una opción. Con
 un **`switch` como expresión** obtené el precio (guiso 1200, pan 300, café 450,
 agua 0) y el nombre del plato; para cualquier otra opción el precio es -1. Si el
 precio es -1, avisá que la opción no existe; si no, mostrá qué se pidió y cuánto sale.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `switch` con flechas como expresión (al menos uno).
 - Maneja la opción inexistente.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
 
+public class MenuPosada {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 3
 ```
 
 #### Salida esperada
-
 ```
 1 Guiso | 2 Pan | 3 Café | 4 Agua
 Opción: 
 Pediste café: 450 denarios
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El menu de la posada: switch con flechas como expresion.
 import java.util.Scanner;
@@ -3516,77 +3669,66 @@ public class MenuPosada {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Los pedidos salen sin una sola confusión. El posadero le pone a un guiso nuevo el nombre de Zed.
 
-##### Agua
-```entrada
-4
-```
-```salida
-1 Guiso | 2 Pan | 3 Café | 4 Agua
-Opción:
-Pediste agua: 0 denarios
-```
+#### Imagen
+- Un posadero sirve platos humeantes desde un mostrador lleno de pedidos.
+- Zed come un guiso en la barra; Gheco mira el menú pintado con dibujos de comida.
 
-##### Opción inexistente
-```entrada
-9
-```
-```salida
-1 Guiso | 2 Pan | 3 Café | 4 Agua
-Opción:
-Esa opción no existe
-```
-
-##### Guiso
-```entrada
-1
-```
-```salida
-1 Guiso | 2 Pan | 3 Café | 4 Agua
-Opción:
-Pediste guiso: 1200 denarios
-```
-
-### Misión R01-N05-M3 · Piedra, papel o tijera
+### Micro-misión R01-N05-P7 · Piedra, papel o tijera
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El cuerpo de guardia de la Aduana
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N05-M3
 ```
 
-#### Consigna
+#### Escena
+En el cambio de guardia, los aduaneros juegan a piedra, papel o tijera para ver quién hace la ronda de noche. Nadia nunca pierde… o eso dice.
+—Que lo decida un programa —propone Zed.
 
+#### Gheco sugiere
+Compará textos con `equals`. Un empate es cuando las dos jugadas son iguales; para ver quién gana, alcanza con revisar los tres casos en que gana uno (piedra a tijera, tijera a papel, papel a piedra).
+
+#### Desafío
 Pedí la jugada de Nadia (`piedra`, `papel` o `tijera`) y la semilla del guardia. El
 guardia elige con `new Random(semilla).nextInt(3)`: 0 piedra, 1 papel, 2 tijera.
 Mostrá las dos jugadas y el resultado: empate, gana Nadia o gana el guardia. Si la
 jugada de Nadia no es válida, avisá.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La jugada del guardia sale de un `switch`.
 - Compara textos con `equals`.
 - Cubre los empates y los seis casos con ganador.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Random;
+import java.util.Scanner;
 
+public class PiedraPapelTijera {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 papel
 5
 ```
 
 #### Salida esperada
-
 ```
 Tu jugada: Semilla del guardia: 
 Nadia: papel | Guardia: tijera
 Gana el guardia
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - Piedra, papel o tijera: switch, equals y condiciones combinadas.
 import java.util.Random;
@@ -3625,39 +3767,12 @@ public class PiedraPapelTijera {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Nadia pierde y le toca la ronda de noche. Lo acepta sin protestar: el programa no hace trampa.
 
-##### Piedra
-```entrada
-piedra
-1
-```
-```salida
-Tu jugada: Semilla del guardia:
-Nadia: piedra | Guardia: piedra
-Empate
-```
-
-##### Tijera
-```entrada
-tijera
-2026
-```
-```salida
-Tu jugada: Semilla del guardia:
-Nadia: tijera | Guardia: tijera
-Empate
-```
-
-##### Jugada inválida
-```entrada
-lagarto
-3
-```
-```salida
-Tu jugada: Semilla del guardia:
-Jugada inválida
-```
+#### Imagen
+- Nadia y un guardia enfrentan sus manos en piedra y tijera sobre una mesa.
+- Zed y otros guardias miran el resultado; Gheco levanta la cola como árbitro.
 
 ### Encargo R01-N05-E1 · El envío de la tienda
 
@@ -4323,28 +4438,43 @@ El carro 4 queda al costado y la campana corta la fila justo a tiempo. Nadia cie
 - Una fila de carros: el cuarto apartado con un sello falso que se despega; una campana de bronce sonando sobre el séptimo.
 - Nadia cerrando el portón con una llave enorme; Zed mirando hacia el depósito.
 
-### Misión R01-N06-M1 · La tabla del tesorero
+### Micro-misión R01-N06-P5 · La tabla del tesorero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina del tesorero
+personajes: Zed, Gheco, Nadia, el tesorero
+recompensa: xp 10, monedas 4
+antes: R01-N06-M1
 ```
 
-#### Consigna
+#### Escena
+El tesorero de la Aduana tiene que enseñarle las tablas a su aprendiz, pero el aprendiz escribe cualquier cosa cuando le preguntan un número.
+—Que pregunte hasta que le contesten bien —pide.
 
+#### Gheco sugiere
+Un bucle que valida repite la pregunta mientras la respuesta no sirva. `hasNextInt()` dice si lo que viene es un número antes de leerlo. Un `for` del 1 al 10 arma la tabla.
+
+#### Desafío
 Pedí un número del 1 al 10 (validá con un bucle: si no es un número o está fuera de
 rango, volvé a preguntar) y mostrá su tabla de multiplicar del 1 al 10 con `printf`,
 alineada. Al final mostrá la suma de todos los resultados.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Vuelve a preguntar hasta que el dato sea válido.
 - Usa un `for` para la tabla y un acumulador para la suma.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
 
+public class Tabla {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 doce
 12
@@ -4352,7 +4482,6 @@ doce
 ```
 
 #### Salida esperada
-
 ```
 Número (1-10): Tiene que ser un número del 1 al 10.
 Número (1-10): Tiene que ser un número del 1 al 10.
@@ -4370,8 +4499,7 @@ Número (1-10):
 Suma de la tabla: 385
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La tabla del tesorero: validacion en bucle, for y acumulador.
 import java.util.Scanner;
@@ -4401,96 +4529,52 @@ public class Tabla {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El aprendiz recita la tabla sin trabarse. El tesorero le da a Zed una moneda vieja «para la suerte».
 
-##### Bordes válidos
-```entrada
-1
-```
-```salida
-Número (1-10):
- 1 x  1 =   1
- 1 x  2 =   2
- 1 x  3 =   3
- 1 x  4 =   4
- 1 x  5 =   5
- 1 x  6 =   6
- 1 x  7 =   7
- 1 x  8 =   8
- 1 x  9 =   9
- 1 x 10 =  10
-Suma de la tabla: 55
-```
+#### Imagen
+- Un tesorero de anteojos y un aprendiz chico frente a una pizarra con multiplicaciones.
+- Zed los mira desde la puerta; Gheco cuenta monedas sobre el escritorio.
 
-##### Diez
-```entrada
-10
-```
-```salida
-Número (1-10):
-10 x  1 =  10
-10 x  2 =  20
-10 x  3 =  30
-10 x  4 =  40
-10 x  5 =  50
-10 x  6 =  60
-10 x  7 =  70
-10 x  8 =  80
-10 x  9 =  90
-10 x 10 = 100
-Suma de la tabla: 550
-```
-
-##### Muchos inválidos
-```entrada
-0
-11
--3
-x
-5
-```
-```salida
-Número (1-10): Tiene que ser un número del 1 al 10.
-Número (1-10): Tiene que ser un número del 1 al 10.
-Número (1-10): Tiene que ser un número del 1 al 10.
-Número (1-10): Tiene que ser un número del 1 al 10.
-Número (1-10):
- 5 x  1 =   5
- 5 x  2 =  10
- 5 x  3 =  15
- 5 x  4 =  20
- 5 x  5 =  25
- 5 x  6 =  30
- 5 x  7 =  35
- 5 x  8 =  40
- 5 x  9 =  45
- 5 x 10 =  50
-Suma de la tabla: 275
-```
-
-### Misión R01-N06-M2 · El adivino de la frontera
+### Micro-misión R01-N06-P6 · El adivino de la frontera
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La carpa del adivino
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N06-M2
 ```
 
-#### Consigna
+#### Escena
+En la frontera, un adivino piensa un número del 1 al 100 y cobra cada intento. Zed paga uno y el adivino le dice: «más».
+—Pensá —dice Gheco—. Cada pista parte el problema a la mitad.
 
+#### Gheco sugiere
+Un `do` / `while` se ejecuta al menos una vez y sigue mientras la condición sea verdadera: ideal para pedir intentos hasta acertar. Contá los intentos con una variable que suma uno por vuelta.
+
+#### Desafío
 El adivino piensa un número del 1 al 100 con `new Random(semilla).nextInt(100) + 1`
 (la semilla se pide al principio). Pedí intentos con un `do`/`while` hasta acertar;
 en cada uno decí si el número es mayor o menor. Al final mostrá en cuántos intentos
 acertó. Si en 7 intentos no acertó, cortá con `break` y revelá el número.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `do`/`while` y un contador de intentos.
 - Corta con `break` al llegar a 7 intentos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Random;
+import java.util.Scanner;
 
+public class Adivino {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 42
 50
@@ -4500,7 +4584,6 @@ acertó. Si en 7 intentos no acertó, cortá con `break` y revelá el número.
 ```
 
 #### Salida esperada
-
 ```
 Semilla: Intento:   Es menor
 Intento:   Es mayor
@@ -4508,8 +4591,7 @@ Intento:   Es menor
 Intento: ¡Acertaste en 4 intentos!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El adivino: do/while, contador y break.
 import java.util.Random;
@@ -4550,62 +4632,53 @@ public class Adivino {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Zed acierta en pocos intentos y el adivino le devuelve la plata, ofendido. Nadia anota el método: «partir a la mitad».
 
-##### Acierta al primero
-```entrada
-42
-31
-```
-```salida
-Semilla: Intento: ¡Acertaste en 1 intentos!
-```
+#### Imagen
+- Un adivino con turbante y bola de cristal, dentro de una carpa de tela con estrellas.
+- Zed le muestra con los dedos un número; Gheco se asoma por detrás de la bola de cristal.
 
-##### Se queda sin intentos
-```entrada
-42
-1
-2
-3
-4
-5
-6
-7
-```
-```salida
-Semilla: Intento:   Es mayor
-Intento:   Es mayor
-Intento:   Es mayor
-Intento:   Es mayor
-Intento:   Es mayor
-Intento:   Es mayor
-Intento:   Es mayor
-Se acabaron los intentos. Era 31
-```
-
-### Misión R01-N06-M3 · La cosecha del granero
+### Micro-misión R01-N06-P7 · La cosecha del granero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El granero de la Aduana
+personajes: Zed, Gheco, Nadia
+criatura: slime
+recompensa: xp 10, monedas 4
+antes: R01-N06-M3
 ```
 
-#### Consigna
+#### Escena
+Los campesinos declaran sus cosechas de a una, pero entre las declaraciones hay papeles en blanco y números negativos que dejó un **slime**.
+—Las que no sirven, se saltean —dice Nadia—. Y se avisa.
 
+#### Gheco sugiere
+`continue` salta al próximo giro del bucle sin hacer el resto. Leé hasta que llegue `fin` y, en cada vuelta, descartá lo que no sirve antes de sumar.
+
+#### Desafío
 Pedí las cosechas de un granero, una por línea, hasta que escriban `fin`. Ignorá con
 `continue` las líneas vacías y los números negativos (avisando). Al final mostrá
 cuántas cosechas válidas hubo, el total, la mayor y el promedio con un decimal.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El bucle termina con `fin` (comparado con `equals`).
 - Usa `continue` para las entradas inválidas.
 - Muestra cantidad, total, mayor y promedio.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Locale;
+import java.util.Scanner;
 
+public class Cosecha {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 120
 -5
@@ -4616,7 +4689,6 @@ fin
 ```
 
 #### Salida esperada
-
 ```
 Cosecha (o fin): Cosecha (o fin):   Ignoro el negativo -5
 Cosecha (o fin): Cosecha (o fin): Cosecha (o fin): Cosecha (o fin): 
@@ -4626,8 +4698,7 @@ Mayor: 200
 Promedio: 133.3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La cosecha del granero: bucle hasta "fin", continue, acumuladores.
 import java.util.Locale;
@@ -4667,48 +4738,12 @@ public class Cosecha {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El total del granero da exacto y el slime se queda sin papeles para ensuciar. Los campesinos se van con su recibo.
 
-##### Solo fin
-```entrada
-fin
-```
-```salida
-Cosecha (o fin):
-Cosechas válidas: 0
-Total: 0
-Mayor: 0
-Promedio: 0.0
-```
-
-##### Todos negativos
-```entrada
--1
--2
-fin
-```
-```salida
-Cosecha (o fin):   Ignoro el negativo -1
-Cosecha (o fin):   Ignoro el negativo -2
-Cosecha (o fin):
-Cosechas válidas: 0
-Total: 0
-Mayor: 0
-Promedio: 0.0
-```
-
-##### Una sola cosecha
-```entrada
-500
-fin
-```
-```salida
-Cosecha (o fin): Cosecha (o fin):
-Cosechas válidas: 1
-Total: 500
-Mayor: 500
-Promedio: 500.0
-```
+#### Imagen
+- Un granero de madera con sacos de trigo apilados y un slime verde que gotea sobre unos papeles.
+- Zed separa papeles en dos pilas; Nadia anota el total en su libreta.
 
 ### Encargo R01-N06-E1 · El plan de ahorro
 
@@ -5432,28 +5467,45 @@ Tres torres, cada una en su cuadrito. Nadia las marca con alfileres. Al lado del
 - Un mapa de la frontera en cuadrícula colgado en la pared, con tres torres marcadas con alfileres rojos.
 - Al lado, un reglamento gordísimo colgado de un clavo; Zed lo mira con espanto.
 
-### Misión R01-N07-M1 · Las temperaturas de la semana
+### Micro-misión R01-N07-P5 · Las temperaturas de la semana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre del clima
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N07-M1
 ```
 
-#### Consigna
+#### Escena
+En lo alto de la Aduana, una torre anota la temperatura de cada día. Al final de la semana, el comandante quiere saber cuál fue el día más caluroso.
+—Siete números —dice Zed—. Siete cajones seguidos.
 
+#### Gheco sugiere
+Un array guarda varios valores del mismo tipo: `double[] temp = new double[7];`. Se recorre con un `for` del 0 al 6. `Arrays.toString(temp)` lo muestra entero.
+
+#### Desafío
 Pedí las temperaturas máximas de los 7 días de la semana y guardalas en un array
 de `double`. Mostrá el array con `Arrays.toString`, el promedio (con un decimal), la
 máxima, la mínima y en qué día (número del 1 al 7) fue la máxima.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda los 7 valores en un array.
 - Recorre el array para calcular promedio, máxima, mínima y el día.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Scanner;
 
+public class Temperaturas {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 21.5
 24
@@ -5465,7 +5517,6 @@ máxima, la mínima y en qué día (número del 1 al 7) fue la máxima.
 ```
 
 #### Salida esperada
-
 ```
 Día 1: Día 2: Día 3: Día 4: Día 5: Día 6: Día 7: 
 [21.5, 24.0, 19.8, 27.3, 25.0, 18.2, 22.0]
@@ -5474,8 +5525,7 @@ Máxima: 27.3 (día 4)
 Mínima: 18.2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - Las temperaturas de la semana: cargar y recorrer un array.
 import java.util.Arrays;
@@ -5513,67 +5563,51 @@ public class Temperaturas {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El comandante recibe el informe y decide repartir agua el día más caluroso. Gheco se queda tomando sol en el termómetro.
 
-##### Todas iguales
-```entrada
-20
-20
-20
-20
-20
-20
-20
-```
-```salida
-Día 1: Día 2: Día 3: Día 4: Día 5: Día 6: Día 7:
-[20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0]
-Promedio: 20.0
-Máxima: 20.0 (día 1)
-Mínima: 20.0
-```
+#### Imagen
+- Una torre con un termómetro gigante de vidrio y siete banderines de colores.
+- Zed anota en una tablilla; Gheco toma sol arriba del termómetro.
 
-##### Bajo cero
-```entrada
--3
--1.5
-0
-2
--7.25
-1
--2
-```
-```salida
-Día 1: Día 2: Día 3: Día 4: Día 5: Día 6: Día 7:
-[-3.0, -1.5, 0.0, 2.0, -7.25, 1.0, -2.0]
-Promedio: -1.5
-Máxima: 2.0 (día 4)
-Mínima: -7.25
-```
-
-### Misión R01-N07-M2 · El ranking del torneo
+### Micro-misión R01-N07-P6 · El ranking del torneo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio del torneo
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N07-M2
 ```
 
-#### Consigna
+#### Escena
+Terminó el torneo de arquería de los aduaneros y hay que armar el podio. Pero el juez no quiere que se toque la planilla original.
+—Ordená una copia —dice Nadia—. La original queda como estaba.
 
+#### Gheco sugiere
+`Arrays.copyOf(original, largo)` hace una copia nueva; `Arrays.sort(copia)` la ordena de menor a mayor. Recorrela desde el final para tener los más altos primero.
+
+#### Desafío
 Guardá los puntajes `{340, 125, 980, 560, 125, 720}` en un array. Hacé una **copia**
 con `Arrays.copyOf`, ordenala y mostrá el podio (los tres más altos, de mayor a
 menor) recorriendo la copia desde el final. Mostrá el array original para demostrar
 que no cambió, y usá `Arrays.equals` para comparar el original con la copia.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Ordena una copia, no el original.
 - Muestra el podio recorriendo el array al revés.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Arrays;
 
+public class Ranking {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Podio:
   1. 980
@@ -5584,8 +5618,7 @@ Ordenado: [125, 125, 340, 560, 720, 980]
 ¿Iguales? false
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El ranking del torneo: copiar, ordenar y recorrer al reves.
 import java.util.Arrays;
@@ -5609,37 +5642,59 @@ public class Ranking {
 }
 ```
 
-### Misión R01-N07-M3 · El mapa del tesoro
+#### Al superarla
+Nadia sale segunda y no dice nada. Zed le pregunta si está bien y ella contesta que la copia está perfectamente ordenada.
+
+#### Imagen
+- Un podio de madera de tres escalones en un patio con blancos de arquería.
+- Nadia en el segundo escalón con un arco; Zed sostiene la planilla y Gheco aplaude.
+
+### Micro-misión R01-N07-P7 · El mapa del tesoro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La pared del depósito
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N07-M3
 ```
 
-#### Consigna
+#### Escena
+En la pared del depósito hay un mapa cuadriculado de la frontera, con un río que lo cruza. Un registro viejo dice dónde está escondido algo.
+Zed se acerca: al lado del mapa hay una marca chiquita con forma de vitral.
 
+#### Gheco sugiere
+Una matriz es un array de arrays: `char[][] mapa = new char[4][6];`. `mapa[fila][columna]` es un casillero. Con dos `for` anidados recorrés todas las filas y columnas.
+
+#### Desafío
 Creá una matriz de `char` de 4 filas por 6 columnas llena de `'.'` (con dos `for` o
 con `Arrays.fill` en cada fila). Pedí la fila y la columna del tesoro y marcalo con
 `'X'`. Marcá también con `'#'` toda la columna 2 (un río). Mostrá el mapa y cuántas
 casillas libres (`'.'`) quedan. Si la posición del tesoro está fuera del mapa,
 avisá sin cortar el programa.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Crea y recorre la matriz con bucles anidados.
 - Valida la posición antes de usarla.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Arrays;
+import java.util.Scanner;
 
+public class MapaTesoro {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 1
 4
 ```
 
 #### Salida esperada
-
 ```
 Fila del tesoro: Columna del tesoro: 
 ..#...
@@ -5649,8 +5704,7 @@ Fila del tesoro: Columna del tesoro:
 Casillas libres: 19
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El mapa del tesoro: matriz de char, validar indices.
 import java.util.Arrays;
@@ -5694,50 +5748,12 @@ public class MapaTesoro {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La X cae justo al lado del río. Zed toca la marca del vitral y la llave de vidrio, en su bolsillo, se entibia un instante.
 
-##### Tesoro sobre el río
-```entrada
-0
-2
-```
-```salida
-Fila del tesoro: Columna del tesoro:
-..X...
-..#...
-..#...
-..#...
-Casillas libres: 20
-```
-
-##### Fuera del mapa
-```entrada
-4
-6
-```
-```salida
-Fila del tesoro: Columna del tesoro:
-Esa posición está fuera del mapa
-..#...
-..#...
-..#...
-..#...
-Casillas libres: 20
-```
-
-##### Esquina
-```entrada
-3
-5
-```
-```salida
-Fila del tesoro: Columna del tesoro:
-..#...
-..#...
-..#...
-..#..X
-Casillas libres: 19
-```
+#### Imagen
+- Un mapa cuadriculado pintado en una pared de piedra, con un río azul que lo cruza y una X roja.
+- Zed toca con un dedo una marca chiquita con forma de vitral; Gheco ilumina con su luz.
 
 ### Encargo R01-N07-E1 · Las ventas por sucursal
 
@@ -6392,44 +6408,57 @@ Al final del último pasillo, sobre un trono de piedra, una armadura vacía sost
 - Al fondo, la silueta de una armadura sentada en un trono de piedra, con un libro abierto en las rodillas.
 - Gheco, el gecko cian, escondido en el hombro de Zed.
 
-### Misión R01-N08-M1 · El conversor del cambista
+### Micro-misión R01-N08-P5 · El conversor del cambista
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla del cambista
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N08-M1
 ```
 
-#### Consigna
+#### Escena
+En la ventanilla del cambista, los viajeros del Puerto cambian pesos por denarios. El cambista hace cada cuenta a mano y se equivoca.
+—Una receta para cada cosa —le dice Zed—, y la usás cuantas veces quieras.
 
+#### Gheco sugiere
+Un método es una receta con nombre: recibe parámetros y devuelve un resultado con `return`. `static double aDenarios(double pesos) { return pesos / 250; }` se usa como `aDenarios(1000)`.
+
+#### Desafío
 Escribí tres métodos: `aDenarios(double pesos)` que convierte pesos a denarios (1
 denario = 250 pesos), `aPesos(double denarios)` que hace lo contrario, y
 `redondear(double valor, int decimales)` que redondea a esa cantidad de decimales
 (con `Math.round` y `Math.pow`). Pedí un monto en pesos y mostrá cuántos denarios son,
 redondeado a 2 decimales, y la vuelta a pesos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los tres métodos son `static`, reciben parámetros y devuelven un valor.
 - El `main` solo lee, llama a los métodos y muestra.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
 
+public class Cambista {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 12345
 ```
 
 #### Salida esperada
-
 ```
 Pesos: 
 12345.0 pesos son 49.38 denarios
 49.38 denarios son 12345.0 pesos
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El conversor del cambista: metodos con parametros y retorno.
 import java.util.Scanner;
@@ -6461,62 +6490,52 @@ public class Cambista {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El cambista atiende la fila sin un error. Le cuelga a la ventanilla un cartelito con un dibujo de una balanza y una moneda.
 
-##### Cero
-```entrada
-0
-```
-```salida
-Pesos:
-0.0 pesos son 0.0 denarios
-0.0 denarios son 0.0 pesos
-```
+#### Imagen
+- Una ventanilla con barrotes de bronce, montones de monedas de dos tipos y una balanza chica.
+- Un cambista de chaleco cuenta monedas; Zed le señala una receta en un pergamino.
 
-##### Monto chico
-```entrada
-1
-```
-```salida
-Pesos:
-1.0 pesos son 0.0 denarios
-0.0 denarios son 0.0 pesos
-```
-
-##### Monto grande
-```entrada
-1000000
-```
-```salida
-Pesos:
-1000000.0 pesos son 4000.0 denarios
-4000.0 denarios son 1000000.0 pesos
-```
-
-### Misión R01-N08-M2 · Las estadísticas del regimiento
+### Micro-misión R01-N08-P6 · Las estadísticas del regimiento
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El cuartel del regimiento
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N08-M2
 ```
 
-#### Consigna
+#### Escena
+El capitán del regimiento quiere los números de sus soldados: la suma, el mejor y cuántos pasan un límite. Y los puntajes de más de cien se recortan, porque el reglamento lo dice.
+—Un método para cada pregunta —dice Nadia.
 
+#### Gheco sugiere
+Un método puede recibir un array: `static int suma(int[] datos)`. Ojo: si el método **cambia** el array, el cambio se ve afuera, porque el array no se copia: se pasa el mismo.
+
+#### Desafío
 Escribí métodos que reciban un `int[]`: `suma`, `maximo`, `contarMayoresA(int[]
 datos, int limite)` y `normalizar(int[] datos)`, que cambia el array para que ningún
 valor pase de 100 (los que pasan quedan en 100). En el `main`, con las fuerzas
 `{85, 120, 60, 101, 95}`, mostrá la suma, el máximo, cuántos superan 90, y el array
 antes y después de normalizar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `normalizar` es `void` y modifica el array recibido.
 - Los demás métodos devuelven su resultado sin modificar el array.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Arrays;
 
+public class Regimiento {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Suma: 461
 Máximo: 120
@@ -6525,8 +6544,7 @@ Antes: [85, 120, 60, 101, 95]
 Después: [85, 100, 60, 100, 95]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Las estadisticas del regimiento: metodos que reciben arrays.
 import java.util.Arrays;
@@ -6576,30 +6594,50 @@ public class Regimiento {
 }
 ```
 
-### Misión R01-N08-M3 · La escalera de la torre
+#### Al superarla
+El capitán recibe el informe y nombra a Zed «escribiente honorario del regimiento». Zed no sabe qué significa, pero le gusta cómo suena.
+
+#### Imagen
+- Un capitán de bigote revisa una planilla en un cuartel con soldados formados atrás.
+- Zed le entrega la planilla; Gheco hace la venia desde un casco.
+
+### Micro-misión R01-N08-P7 · La escalera de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La escalera al último pasillo
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R01-N08-M3
 ```
 
-#### Consigna
+#### Escena
+La escalera de la torre tiene escalones que se repiten y se repiten. Para subirla, cada escalón pide la misma cuenta que el anterior, un poco más chica.
+—Una receta que se usa a sí misma —murmura Gheco.
 
+#### Gheco sugiere
+Un método recursivo se llama a sí mismo con un problema más chico y tiene un **caso base** donde se detiene. Un método sobrecargado tiene el mismo nombre con distintos parámetros.
+
+#### Desafío
 Escribí dos métodos **recursivos**: `potencia(int base, int exp)` (sin usar
 `Math.pow`) y `sumaDigitos(int n)`, que suma los dígitos de un número (la suma de
 los dígitos de 4719 es 21). Escribí además un método **sobrecargado** `dibujar`:
 `dibujar(int n)` muestra una escalera de `n` escalones con `#`, y `dibujar(int n,
 char c)` hace lo mismo con otro carácter. Probá todos desde el `main`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `potencia` y `sumaDigitos` son recursivos, con caso base.
 - `dibujar` está sobrecargado y una versión reutiliza a la otra o comparten lógica.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Escalera {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 2^10 = 1024
 3^0 = 1
@@ -6613,8 +6651,7 @@ Suma de dígitos de 4719: 21
 ***
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La escalera de la torre: recursion y sobrecarga.
 public class Escalera {
@@ -6651,6 +6688,13 @@ public class Escalera {
     }
 }
 ```
+
+#### Al superarla
+Zed llega al último escalón. Desde ahí se ve, al fondo del pasillo, una armadura vacía sentada en un trono de piedra.
+
+#### Imagen
+- Una escalera de caracol de piedra que se repite hacia arriba, con cada escalón un poco más chico.
+- Zed sube con Nadia detrás; Gheco ya llegó arriba y los espera.
 
 ### Encargo R01-N08-E1 · El validador de CUIT
 
@@ -7347,17 +7391,23 @@ Esa noche, la ganzúa de Zed amanece un poco distinta, como si quisiera ser otra
 - Sobre una mesa, lo que Zed declaró: una ganzúa, una capa gastada y la llave de plomo y vidrios de colores.
 - Kaffa con su taza de café; Nadia sonriendo apenas, por primera vez.
 
-### Misión R01-N09-M1 · El duelo con el Centinela
+### Micro-misión R01-N09-P5 · El duelo con el Centinela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El trono del Centinela
+personajes: Zed, Gheco, Nadia, el Centinela
+recompensa: xp 30, monedas 6
+antes: R01-N09-M1
 ```
 
-#### Consigna
+#### Escena
+El Centinela se levanta del trono y desenvaina. Nadia se pone adelante con tres pociones en el cinturón.
+—Turno por turno —dice Zed—. Y cada cosa en su método.
 
+#### Gheco sugiere
+Un combate por turnos es un bucle: mientras los dos tengan vida, se muestra el estado, se pide una acción validada y se resuelve. Separá cada parte en un método (`mostrarEstado`, `atacar`, `turnoDelCentinela`).
+
+#### Desafío
 Escribí el duelo por turnos contra el Centinela. Nadia empieza con 40 de vida y 3
 pociones; el Centinela, con 60 de vida. Primero se pide la semilla del azar. En cada
 turno se muestra el estado y se pide una acción, validada con un método:
@@ -7371,15 +7421,24 @@ Después de la acción de Nadia, si el Centinela sigue en pie, ataca con entre 5
 de daño (`random.nextInt(8) + 5`). El duelo termina cuando alguno queda en 0 o menos.
 Mostrá quién ganó y en cuántos turnos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un `Random` con la semilla leída, creado una sola vez.
 - La acción se lee con un método que valida (1 a 3).
 - Separa en métodos al menos: leer la acción, el turno de Nadia y el ataque del Centinela.
-- La salida coincide con la esperada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Random;
+import java.util.Scanner;
 
+public class DueloCentinela {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 2026
 1
@@ -7394,7 +7453,6 @@ Mostrá quién ganó y en cuántos turnos.
 ```
 
 #### Salida esperada
-
 ```
 Semilla: 
 Turno 1 | Nadia 40 (pociones: 3) | Centinela 60
@@ -7431,8 +7489,7 @@ Turno 8 | Nadia 7 (pociones: 2) | Centinela 2
 ¡El Centinela cae en el turno 8! Nadia queda con 7 de vida.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Jefe R01 - Mision 1: el duelo con el Centinela.
 import java.util.Random;
@@ -7510,130 +7567,30 @@ public class DueloCentinela {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El Centinela cae de rodillas y su armadura queda quieta. Nadia guarda la espada con una poción todavía en el cinturón.
 
-##### Cura siempre
-```entrada
-5
-2
-2
-2
-2
-1
-1
-1
-1
-1
-1
-1
-1
-1
-1
-```
-```salida
-Semilla:
-Turno 1 | Nadia 40 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 0
-El Centinela golpea: 10 de daño
+#### Imagen
+- Una armadura enorme y vacía con espada, frente a un trono de piedra en un salón alto.
+- Nadia la enfrenta con la espada en alto; Zed le grita indicaciones y Gheco sostiene una poción.
 
-Turno 2 | Nadia 30 (pociones: 2) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 10
-El Centinela golpea: 6 de daño
-
-Turno 3 | Nadia 34 (pociones: 1) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se cura 6
-El Centinela golpea: 5 de daño
-
-Turno 4 | Nadia 35 (pociones: 0) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: No quedan pociones: Nadia pierde el turno
-El Centinela golpea: 9 de daño
-
-Turno 5 | Nadia 26 (pociones: 0) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 12 de daño
-El Centinela golpea: 12 de daño
-
-Turno 6 | Nadia 14 (pociones: 0) | Centinela 48
-1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 9 de daño
-El Centinela golpea: 11 de daño
-
-Turno 7 | Nadia 3 (pociones: 0) | Centinela 39
-1 Atacar, 2 Curarse, 3 Defender: Nadia ataca: 13 de daño
-El Centinela golpea: 8 de daño
-
-Nadia cae en el turno 7. El Centinela queda con 26.
-```
-
-##### Defiende siempre
-```entrada
-99
-3
-3
-3
-3
-3
-3
-3
-3
-3
-3
-3
-3
-3
-3
-3
-```
-```salida
-Semilla:
-Turno 1 | Nadia 40 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 5 de daño
-
-Turno 2 | Nadia 35 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 4 de daño
-
-Turno 3 | Nadia 31 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 3 de daño
-
-Turno 4 | Nadia 28 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 5 de daño
-
-Turno 5 | Nadia 23 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 5 de daño
-
-Turno 6 | Nadia 18 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 4 de daño
-
-Turno 7 | Nadia 14 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 5 de daño
-
-Turno 8 | Nadia 9 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 4 de daño
-
-Turno 9 | Nadia 5 (pociones: 3) | Centinela 60
-1 Atacar, 2 Curarse, 3 Defender: Nadia se defiende
-El Centinela golpea: 5 de daño
-
-Nadia cae en el turno 9. El Centinela queda con 60.
-```
-
-### Misión R01-N09-M2 · Los registros del Centinela
+### Micro-misión R01-N09-P6 · Los registros del Centinela
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El trono del Centinela
+personajes: Zed, Gheco, Nadia, el Centinela
+recompensa: xp 30, monedas 6
+antes: R01-N09-M2
 ```
 
-#### Consigna
+#### Escena
+Detrás del trono están los registros del Centinela, línea por línea. Algunos están rotos, otros mienten.
+—Validá cada uno antes de creerle —dice Nadia—. Como hace la Aduana.
 
+#### Gheco sugiere
+`split(";")` parte una línea en pedazos. Un método `validarRegistro` que devuelve el error (o `""` si está bien) deja el bucle principal limpio: si hay error, se avisa y se sigue con la próxima.
+
+#### Desafío
 El Centinela guarda sus registros en líneas con el formato `nombre;edad;oro`. Leé
 líneas hasta una vacía (como máximo 20). Para cada una, con un método
 `validarRegistro` que devuelve un mensaje de error o `""` si está bien, descartá las
@@ -7645,14 +7602,24 @@ por qué). Con los registros válidos, guardados en arrays paralelos, mostrá:
 3. El nombre del más rico.
 4. Cuántos son menores de 18.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La validación está en un método.
 - Usa `split(";")` y arrays paralelos.
 - Las líneas inválidas se informan y no se cuentan.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Locale;
+import java.util.Scanner;
 
+public class RegistrosCentinela {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 Nadia;19;120
 Baldo;45;-3
@@ -7664,7 +7631,6 @@ Pip;12
 ```
 
 #### Salida esperada
-
 ```
 Descartado [Baldo;45;-3]: el oro no puede ser negativo
 Descartado [Olmo;veinte;10]: la edad no es un número
@@ -7680,8 +7646,7 @@ El más rico: Tesla
 Menores de 18: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Jefe R01 - Mision 2: los registros del Centinela.
 import java.util.Locale;
@@ -7781,58 +7746,12 @@ public class RegistrosCentinela {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Entre los registros válidos aparece uno viejísimo: un viajero que declaró una sola cosa, «un vitral». Zed lo guarda en el bolsillo, junto a la llave.
 
-##### Todos válidos
-```entrada
-Ana;30;10
-Beto;17;0
-```
-```salida
-Nombre    Edad    Oro
-Ana         30     10
-Beto        17      0
-Promedio de edad: 23.5
-Oro total: 10
-El más rico: Ana
-Menores de 18: 1
-```
-
-##### Bordes de edad
-```entrada
-Uno;0;1
-Dos;120;1
-Tres;121;1
-Cuatro;-1;1
-```
-```salida
-Descartado [Tres;121;1]: edad fuera de rango
-Descartado [Cuatro;-1;1]: la edad no es un número
-
-Nombre    Edad    Oro
-Uno          0      1
-Dos        120      1
-Promedio de edad: 60.0
-Oro total: 2
-El más rico: Uno
-Menores de 18: 1
-```
-
-##### Ninguno válido
-```entrada
-a;b;c
-x
-```
-```salida
-Descartado [a;b;c]: la edad no es un número
-Descartado [x]: tiene que tener nombre;edad;oro
-
-Nombre    Edad    Oro
-Promedio de edad: 0.0
-Oro total: 0
-El más rico: null
-Menores de 18: 0
-```
+#### Imagen
+- Pilas de pergaminos detrás de un trono de piedra; algunos rotos, otros enrollados con cinta.
+- Zed lee un pergamino amarillento a la luz de Gheco; Nadia separa los rotos en una caja.
 
 ### Encargo R01-N09-E1 · El cajero automático
 

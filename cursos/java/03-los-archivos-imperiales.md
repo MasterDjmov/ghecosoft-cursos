@@ -439,6 +439,75 @@ class Catalogo {
 - Una puerta de sala con tres cerraduras de distinto tamaño: una abierta para todos, una para los de la sala y una con candado.
 - Al fondo, un estante de diez lugares desbordado de pergaminos.
 
+### Micro-misión R03-N01-P4 · Las puertas de los paquetes
+
+```meta
+lugar: Las salas de los Archivos Imperiales
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+recompensa: xp 10, monedas 4
+antes: R03-N01-M3
+```
+
+#### Escena
+Cada sala de los Archivos tiene puertas con distinto permiso: unas abiertas a todos, otras solo para los de la sala, otras para la familia. El Archivista Mayor le hace a Zed cinco preguntas antes de dejarlo pasar.
+—Un ladrón sabría qué puertas abren —dice—. A ver si un archivista también.
+
+#### Gheco sugiere
+`public` lo ve cualquiera; sin modificador, solo el mismo paquete; `protected`, el paquete y las subclases; `private`, solo la clase. Si no escribís un constructor, Java pone uno vacío con el mismo acceso que la clase.
+
+#### Desafío
+Respondé, para el proyecto del **código de ejemplo** de este nodo, qué pasa en cada
+caso (compila o no, y por qué), y después verificalo en tu compu descomentando cada línea:
+
+1. En `Main`: `System.out.println(nadia.titulo);`
+2. En `Academia`: `h.vida = 100;`
+3. En `Paladin`: `nivel = 5;`
+4. En `Paladin`: `System.out.println(nombre);`
+5. En `Main`: `System.out.println(new Academia());` (Academia es `public`, pero no tiene constructor escrito).
+
+Escribí el porqué de cada respuesta como comentario y mostrá el resumen en una línea, como en la salida esperada.
+
+**Para superarla:**
+- Las cinco respuestas son correctas y explican el nivel de acceso involucrado.
+
+#### Código inicial
+```java
+public class Respuestas {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
+```
+1 no, 2 no, 3 no, 4 sí, 5 sí
+```
+
+#### Solución
+```java
+// Mision 3 - Las puertas de los paquetes: respuestas como comentarios.
+public class Respuestas {
+    public static void main(String[] args) {
+        // 1. No compila: titulo es protected; Main no es subclase ni está en imperio.modelo.
+        // 2. No compila: vida es private; solo la ve la clase Heroe.
+        // 3. No compila: nivel no tiene modificador (paquete) y Paladin está en otro paquete,
+        //    aunque sea subclase.
+        // 4. Compila: nombre es public.
+        // 5. Compila: Academia es public y, al no escribir constructores, tiene el constructor
+        //    por defecto, que es public como la clase.
+        System.out.println("1 no, 2 no, 3 no, 4 sí, 5 sí");
+    }
+}
+```
+
+#### Al superarla
+Cinco respuestas, cinco puertas que se abren o se quedan cerradas como dijo Zed. El Archivista Mayor le da una llave de bronce de los Archivos.
+
+#### Imagen
+- Un pasillo de archivo con cinco puertas de madera, cada una con una cerradura distinta.
+- Un archivista anciano de túnica larga entrega una llave de bronce; Zed la recibe con una sonrisa.
+
 ### Misión R03-N01-M1 · El proyecto de la biblioteca
 
 ```meta
@@ -766,57 +835,6 @@ public class Main {
 javac -d out $(find src -name "*.java")
 jar --create --file conversor.jar --main-class conversor.Main -C out .
 java -jar conversor.jar 10 leguas metros
-```
-
-### Misión R03-N01-M3 · Las puertas de los paquetes
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-Esta misión se entrega pegando el texto: respondé, para el proyecto del **código de
-ejemplo** de este nodo, qué pasa en cada caso (compila o no, y por qué), y después
-verificalo en tu compu descomentando cada línea:
-
-1. En `Main`: `System.out.println(nadia.titulo);`
-2. En `Academia`: `h.vida = 100;`
-3. En `Paladin`: `nivel = 5;`
-4. En `Paladin`: `System.out.println(nombre);`
-5. En `Main`: `System.out.println(new Academia());` (Academia es `public`, pero no tiene constructor escrito).
-
-Escribí las respuestas como comentarios dentro de una clase Java que compile.
-
-#### Criterio de aprobación
-
-- Las cinco respuestas son correctas y explican el nivel de acceso involucrado.
-
-#### Salida esperada
-
-```
-1 no, 2 no, 3 no, 4 sí, 5 sí
-```
-
-#### Solución de referencia
-
-```java
-// Mision 3 - Las puertas de los paquetes: respuestas como comentarios.
-public class Respuestas {
-    public static void main(String[] args) {
-        // 1. No compila: titulo es protected; Main no es subclase ni está en imperio.modelo.
-        // 2. No compila: vida es private; solo la ve la clase Heroe.
-        // 3. No compila: nivel no tiene modificador (paquete) y Paladin está en otro paquete,
-        //    aunque sea subclase.
-        // 4. Compila: nombre es public.
-        // 5. Compila: Academia es public y, al no escribir constructores, tiene el constructor
-        //    por defecto, que es public como la clase.
-        System.out.println("1 no, 2 no, 3 no, 4 sí, 5 sí");
-    }
-}
 ```
 
 ### Encargo R03-N01-E1 · La librería de validaciones
@@ -1507,29 +1525,47 @@ Uno guarda texto y el otro un número, y la Aduana del compilador sabe qué hay 
 - Dos cofres iguales con etiquetas distintas, «String» e «Integer», uno con una carta y otro con un número.
 - Zed leyendo la etiqueta «Carta del Vidriero», intrigado.
 
-### Misión R03-N02-M1 · La lista de compras de la posada
+### Micro-misión R03-N02-P5 · La lista de compras de la posada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La posada junto a los Archivos
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R03-N02-M1
 ```
 
-#### Consigna
+#### Escena
+La posadera anota la lista de compras en una tablilla de diez renglones, pero hoy necesita catorce. Y anota dos veces el pan.
+—Una lista que crezca sola —le dice Zed— y que no deje repetir.
 
+#### Gheco sugiere
+`ArrayList<String>` crece sola: `add`, `remove`, `contains` y `Collections.sort`. Para leer comandos como `agregar pan`, separá la palabra del resto con `split(" ", 2)`.
+
+#### Desafío
 Leé comandos hasta `fin` para manejar la lista de compras de la posada:
 `agregar ITEM`, `quitar ITEM`, `ver` y `ordenar`. No se agregan items repetidos (se
 avisa) y quitar uno que no está también se avisa. Al final mostrá la lista y cuántos
 items tiene.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `List<String>` con `ArrayList`.
 - Usa `contains`, `remove` y `Collections.sort`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
+public class Compras {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 agregar harina
 agregar huevos
@@ -1544,7 +1580,6 @@ fin
 ```
 
 #### Salida esperada
-
 ```
 harina ya está en la lista
 Lista: [harina, huevos, café]
@@ -1552,8 +1587,7 @@ sal no estaba en la lista
 Final: [azúcar, café, harina] (3 items)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - La lista de compras: ArrayList con comandos.
 import java.util.ArrayList;
@@ -1594,61 +1628,56 @@ public class Compras {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La lista llega al mercado sin un pan de más. La posadera vuelve con todo y le guarda a Zed el último pan del día.
 
-##### Lista vacía
-```entrada
-ver
-fin
-```
-```salida
-Lista: []
-Final: [] (0 items)
-```
+#### Imagen
+- Una posadera con canasta y una lista larga de pergamino que llega hasta el piso.
+- Zed tacha un renglón repetido con una pluma; Gheco va sentado en la canasta.
 
-##### Quitar todo
-```entrada
-agregar a
-quitar a
-quitar a
-fin
-```
-```salida
-a no estaba en la lista
-Final: [] (0 items)
-```
-
-##### Sin fin
-```entrada
-agregar pan
-```
-```salida
-Final: [pan] (1 items)
-```
-
-### Misión R03-N02-M2 · Los puntajes del torneo
+### Micro-misión R03-N02-P6 · Los puntajes del torneo
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El ala norte de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+recompensa: xp 10, monedas 4
+antes: R03-N02-M2
 ```
 
-#### Consigna
+#### Escena
+En el ala norte se guardan los puntajes de todos los torneos del Imperio. El Archivista quiere un informe: el promedio, el mejor, el peor… y sin los puntajes de los descalificados.
+—Que la lista haga las cuentas —dice.
 
+#### Gheco sugiere
+Una `List<Integer>` guarda enteros (con autoboxing). `Collections.max` y `Collections.min` dan los extremos; `removeIf(p -> p < 0)` saca los que no van, sin recorrer a mano.
+
+#### Desafío
 Leé puntajes enteros (uno por línea) hasta una línea vacía y guardalos en un
 `List<Integer>`. Mostrá: la lista, el promedio (un decimal), el máximo y el mínimo con
 `Collections`, cuántos superan el promedio, la lista **sin los puntajes menores a
 50** (borrando con un `Iterator`) y los tres mejores.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `List<Integer>` y `Collections.max`/`min`.
 - Borra con `Iterator` (no en un for-each).
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 
+public class Torneo {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 120
 35
@@ -1660,7 +1689,6 @@ Leé puntajes enteros (uno por línea) hasta una línea vacía y guardalos en un
 ```
 
 #### Salida esperada
-
 ```
 Puntajes: [120, 35, 88, 47, 210, 99]
 Promedio: 99.8
@@ -1670,8 +1698,7 @@ Sin los menores a 50: [120, 88, 210, 99]
 Los tres mejores: [210, 120, 99]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los puntajes del torneo: List<Integer>, Collections e Iterator.
 import java.util.ArrayList;
@@ -1725,74 +1752,53 @@ public class Torneo {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El informe del torneo queda archivado en el estante correcto. El Archivista lo sella con cera azul.
 
-##### Todos menores a 50
-```entrada
-10
-20
-30
-```
-```salida
-Puntajes: [10, 20, 30]
-Promedio: 20.0
-Máximo: 30, mínimo: 10
-Superan el promedio: 1
-Sin los menores a 50: []
-Los tres mejores: []
-```
+#### Imagen
+- Estantes del ala norte llenos de rollos de pergamino atados con cintas de colores.
+- El Archivista Mayor sella un informe con cera; Zed le pasa los rollos; Gheco sostiene la vela.
 
-##### Uno solo
-```entrada
-75
-```
-```salida
-Puntajes: [75]
-Promedio: 75.0
-Máximo: 75, mínimo: 75
-Superan el promedio: 0
-Sin los menores a 50: [75]
-Los tres mejores: [75]
-```
-
-##### Dos puntajes
-```entrada
-100
-40
-```
-```salida
-Puntajes: [100, 40]
-Promedio: 70.0
-Máximo: 100, mínimo: 40
-Superan el promedio: 1
-Sin los menores a 50: [100]
-Los tres mejores: [100]
-```
-
-### Misión R03-N02-M3 · El cofre genérico
+### Micro-misión R03-N02-P7 · El cofre genérico
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El ala norte de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+recompensa: xp 10, monedas 4
+antes: R03-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Los Archivos usan el mismo estante para todo: pergaminos, sellos, llaves. Pero cada estante tiene un tope, y el carpintero hace uno distinto para cada cosa.
+—Un solo estante que sirva para cualquier tipo —propone Zed.
 
+#### Gheco sugiere
+Una clase genérica `Estante<T>` funciona con cualquier tipo: `T` se reemplaza al usarla (`Estante<String>`, `Estante<Integer>`). Adentro guardá una `List<T>` y revisá la capacidad antes de agregar.
+
+#### Desafío
 Escribí una clase genérica `Estante<T>` que guarda una lista de elementos de tipo `T`
 con una **capacidad máxima**. Métodos: `boolean poner(T cosa)` (falso si está lleno),
 `T sacarUltimo()` (devuelve `null` si está vacío), `int cantidad()`, `boolean
 lleno()` y `toString`. Usala con un `Estante<String>` de pociones y un
 `Estante<Integer>` de monedas; sumá las monedas después de sacarlas.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Estante<T>` usa una `List<T>` por dentro.
 - Se usa con dos tipos distintos sin castings.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.List;
 
+public class Estantes {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 true true false
 Pociones: [vida, furia], ¿lleno? true
@@ -1800,8 +1806,7 @@ Saco: furia
 Total de monedas: 40, estante vacío: [], saco otra: null
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El cofre generico: una clase Estante<T>.
 import java.util.ArrayList;
@@ -1863,6 +1868,13 @@ class Estante<T> {
     }
 }
 ```
+
+#### Al superarla
+El mismo estante guarda pergaminos en un lado y llaves en el otro. El carpintero, sin pedidos nuevos, se toma el día.
+
+#### Imagen
+- Un estante de madera con divisiones donde hay pergaminos, sellos y llaves, cada cosa en su lugar.
+- Un carpintero descansa con los brazos atrás de la cabeza; Zed acomoda una llave en el estante.
 
 ### Encargo R03-N02-E1 · La fila del banco
 
@@ -2523,29 +2535,46 @@ Esa noche, el palacio entero se apaga: un archivista pidió un tomo que no exist
 - Un cajón del ala sur abierto con la etiqueta «el Vidriero» y la ficha en blanco adentro.
 - Zed y Nadia mirándose; un troll escondido detrás de los cajones; las luces del palacio apagándose al fondo.
 
-### Misión R03-N03-M1 · El censo de criaturas
+### Micro-misión R03-N03-P5 · El censo de criaturas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El ala sur de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+recompensa: xp 10, monedas 4
+antes: R03-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Los exploradores vuelven con reportes de criaturas: «goblin 3», «slime 5», «goblin 2»… El Archivista quiere el censo total, ordenado por nombre.
+—Cada criatura una sola vez —dice—, con todo sumado.
 
+#### Gheco sugiere
+Un `Map` guarda pares clave → valor. `TreeMap` los mantiene ordenados por la clave. `getOrDefault(clave, 0) + cantidad` suma aunque la criatura todavía no esté.
+
+#### Desafío
 Los exploradores reportan criaturas vistas, una por línea, con el formato
 `criatura cantidad` (por ejemplo `goblin 3`), hasta una línea vacía. Una criatura puede
 aparecer varias veces. Usá un `TreeMap<String, Integer>` para sumar los avistajes por
 criatura y mostrá el censo ordenado alfabéticamente, el total y la criatura más vista.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Acumula con `merge` o `getOrDefault`.
 - Muestra el censo ordenado (por usar `TreeMap`).
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 
+public class Censo {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 goblin 3
 slime 12
@@ -2557,7 +2586,6 @@ orco 5
 ```
 
 #### Salida esperada
-
 ```
 goblin: 7
 orco: 5
@@ -2567,8 +2595,7 @@ Total: 27
 La más vista: slime
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El censo de criaturas: sumar por clave con un TreeMap.
 import java.util.Map;
@@ -2602,61 +2629,60 @@ public class Censo {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El censo queda en una sola hoja, ordenado de la A a la Z. Gheco busca su nombre en la lista y, aliviado, no lo encuentra.
 
-##### Una sola criatura
-```entrada
-dragon 1
-```
-```salida
-dragon: 1
-Total: 1
-La más vista: dragon
-```
+#### Imagen
+- Un mostrador con una pila de reportes de exploradores, con dibujos de goblins, slimes y esqueletos.
+- El Archivista Mayor suma con un ábaco; Gheco revisa la lista con preocupación.
 
-##### Empate en la más vista
-```entrada
-lobo 5
-oso 5
-```
-```salida
-lobo: 5
-oso: 5
-Total: 10
-La más vista: lobo
-```
-
-### Misión R03-N03-M2 · Los invitados del banquete
+### Micro-misión R03-N03-P6 · Los invitados del banquete
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El salón de banquetes
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R03-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Dos casas nobles organizan juntas un banquete y cada una manda su lista de invitados. Hay nombres repetidos, y los anfitriones quieren saber quién está en las dos.
+—Esto es de conjuntos —dice Nadia, que ya lo vio en la Aduana.
 
+#### Gheco sugiere
+Un `Set` no repite elementos. Con `TreeSet` quedan ordenados. Unión: `addAll`. Los que están en los dos: `retainAll`. Los de uno solo: `removeAll`. Trabajá sobre copias para no romper las originales.
+
+#### Desafío
 Dos casas nobles mandan su lista de invitados al banquete (dos líneas, con nombres
 separados por comas). Con conjuntos (`TreeSet`), mostrá: todos los invitados sin
 repetir (unión), los que están en las dos listas, los que invitó solo la primera casa y
 cuántos lugares hay que preparar. Los nombres se comparan sin importar mayúsculas ni
 espacios (pasalos a un formato común antes de guardarlos).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `addAll`, `retainAll` y `removeAll` sobre copias.
 - Normaliza los nombres antes de guardarlos.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
+public class Banquete {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 Nadia, Baldo, lía, Olmo, Nara
 baldo, Tesla, Nadia , Pip
 ```
 
 #### Salida esperada
-
 ```
 Todos: [Baldo, Lía, Nadia, Nara, Olmo, Pip, Tesla]
 Invitados por las dos casas: [Baldo, Nadia]
@@ -2664,8 +2690,7 @@ Solo de la primera casa: [Lía, Nara, Olmo]
 Lugares a preparar: 7
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - Los invitados del banquete: union, interseccion y diferencia con TreeSet.
 import java.util.Scanner;
@@ -2704,56 +2729,54 @@ public class Banquete {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+Cada invitado tiene su lugar en la mesa y nadie se sienta dos veces. Los anfitriones se dan la mano por encima del pastel.
 
-##### Nadie en común
-```entrada
-Nadia, Baldo
-Lía, Pip
-```
-```salida
-Todos: [Baldo, Lía, Nadia, Pip]
-Invitados por las dos casas: []
-Solo de la primera casa: [Baldo, Nadia]
-Lugares a preparar: 4
-```
+#### Imagen
+- Una mesa larga de banquete con platos, copas de agua y dos estandartes de casas distintas.
+- Dos nobles de ropa elegante y cerrada se dan la mano; Zed reparte tarjetas de lugar; Gheco mira el pastel.
 
-##### Listas iguales con espacios raros
-```entrada
-  nadia ,BALDO
-Baldo,nadia
-```
-```salida
-Todos: [Baldo, Nadia]
-Invitados por las dos casas: [Baldo, Nadia]
-Solo de la primera casa: []
-Lugares a preparar: 2
-```
-
-### Misión R03-N03-M3 · El inventario de la caravana
+### Micro-misión R03-N03-P7 · El inventario de la caravana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El patio de las caravanas
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R03-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Una caravana carga y descarga mercadería toda la mañana: entra harina, sale sal, entra más harina. El jefe quiere el inventario en el orden en que llegó cada cosa.
+—Y que nunca quede en negativo —agrega.
 
+#### Gheco sugiere
+`LinkedHashMap` recuerda el orden en que se cargaron las claves. Antes de restar, revisá que alcance; si una cantidad llega a cero, sacá el producto con `remove`.
+
+#### Desafío
 Un inventario es un `Map<String, Integer>` de producto a cantidad, en un
 `LinkedHashMap` (para mostrar en el orden en que se cargaron). Leé operaciones hasta
 `fin`: `+ producto cantidad` (suma), `- producto cantidad` (resta; si no alcanza, se
 avisa y no se hace; si queda en 0, el producto se **quita** del mapa) y `?
 producto` (muestra cuánto hay). Al final mostrá el inventario.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `LinkedHashMap` y `getOrDefault`.
 - Quita los productos que llegan a 0.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
 
+public class Caravana {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 + sal 10
 + tela 4
@@ -2767,7 +2790,6 @@ fin
 ```
 
 #### Salida esperada
-
 ```
 No alcanza sal: hay 10
 sal: 10
@@ -2775,8 +2797,7 @@ tela: 0
 Inventario: {sal=10, especias=7, tela=2}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El inventario de la caravana: LinkedHashMap con altas, bajas y consultas.
 import java.util.LinkedHashMap;
@@ -2816,39 +2837,12 @@ public class Caravana {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La caravana sale con el inventario cuadrado hasta el último saco. El jefe le regala a Zed una bolsita de sal «para la buena suerte».
 
-##### Sacar lo que no hay
-```entrada
-- oro 1
-? oro
-fin
-```
-```salida
-No alcanza oro: hay 0
-oro: 0
-Inventario: {}
-```
-
-##### Sumar varias veces
-```entrada
-+ pan 1
-+ pan 2
-- pan 3
-+ pan 5
-fin
-```
-```salida
-Inventario: {pan=5}
-```
-
-##### Sin fin
-```entrada
-+ sal 1
-```
-```salida
-Inventario: {sal=1}
-```
+#### Imagen
+- Carros de caravana cargando y descargando sacos en un patio con un portón grande.
+- El jefe de la caravana revisa una lista; Zed anota; Gheco duerme sobre un saco de harina.
 
 ### Encargo R03-N03-E1 · Las ventas por vendedor
 
@@ -3649,30 +3643,45 @@ Kaffa le cuelga a Zed del cuello una campanita de bronce: el **Amuleto de la Cam
 - Kaffa colgándole a Zed un amuleto con forma de campanita de bronce.
 - Un registro con «???» escrito en lugar del año.
 
-### Misión R03-N04-M1 · El conversor a prueba de balas
+### Micro-misión R03-N04-P5 · El conversor a prueba de balas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La herrería de los Archivos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R03-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Kaffa cuelga una campana en cada máquina de los Archivos. Una calculadora de divisiones recibe de todo: números, letras, ceros, líneas mal escritas.
+—Cuando algo falla, la campana suena —dice—. **Escuchala**, no la tapes.
 
+#### Gheco sugiere
+Un `try` intenta y cada `catch` atiende un tipo de error: `NumberFormatException` (no es número), `ArithmeticException` (dividir por cero), `ArrayIndexOutOfBoundsException` (faltó una parte). Avisá y seguí con la próxima línea.
+
+#### Desafío
 Leé líneas con dos números separados por `/` (por ejemplo `10/4`) hasta una línea
 vacía y mostrá el resultado de la **división entera**. Cada línea puede fallar de
 varias formas: sin `/` (índice fuera de rango al separar), texto que no es número o
 división por cero. Atrapá cada caso con su propio `catch` y un mensaje claro, y un
 `finally` que cuente las líneas procesadas. Al final mostrá cuántas salieron bien.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Un `catch` específico por tipo de error, del más específico al más general.
 - El `finally` cuenta todas las líneas, fallen o no.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Scanner;
 
+public class Divisiones {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 10/4
 7/0
@@ -3683,7 +3692,6 @@ cien/2
 ```
 
 #### Salida esperada
-
 ```
 10/4 = 2
 7/0: no se puede dividir por cero
@@ -3693,8 +3701,7 @@ cien/2: hay algo que no es un número
 2 de 5 líneas salieron bien
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El conversor a prueba de balas: varios catch y finally.
 import java.util.Scanner;
@@ -3730,52 +3737,30 @@ public class Divisiones {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La calculadora contesta todo: lo que se puede, con el resultado; lo que no, con su campana. Zed, que antes esquivaba cualquier alarma, se queda escuchándolas.
 
-##### Todo bien
-```entrada
-9/3
--8/2
-```
-```salida
-9/3 = 3
--8/2 = -4
-2 de 2 líneas salieron bien
-```
+#### Imagen
+- Una máquina de engranajes con varias campanitas de bronce colgadas arriba.
+- Kaffa cuelga la última campana; Zed escucha una que suena con la mano en la oreja.
 
-##### Todo mal
-```entrada
-a/b
-1/0
-sin barra
-```
-```salida
-a/b: hay algo que no es un número
-1/0: no se puede dividir por cero
-sin barra: hay algo que no es un número
-0 de 3 líneas salieron bien
-```
-
-##### División por número negativo
-```entrada
-7/-2
-```
-```salida
-7/-2 = -3
-1 de 1 líneas salieron bien
-```
-
-### Misión R03-N04-M2 · La herrería sin stock
+### Micro-misión R03-N04-P6 · La herrería sin stock
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La herrería de los Archivos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R03-N04-M2
 ```
 
-#### Consigna
+#### Escena
+El depósito de la herrería entrega herramientas a pedido, pero a veces piden más de las que hay. El herrero quiere que el depósito **avise** con todos los datos.
+—Y que quien pide no se pueda olvidar de atender el aviso —agrega Kaffa.
 
+#### Gheco sugiere
+Una excepción **checked** extiende `Exception`: Java obliga a atraparla o a declararla con `throws`. Puede guardar datos propios (producto, pedido, disponible) para armar el mensaje.
+
+#### Desafío
 Escribí una excepción **checked** `StockInsuficienteException` que guarde el producto,
 lo pedido y lo disponible, y una clase `Deposito` con un `Map<String, Integer>` de
 stock y un método `void retirar(String producto, int cantidad) throws
@@ -3783,13 +3768,23 @@ StockInsuficienteException`. Si el producto no existe, lanzá una
 `IllegalArgumentException` (unchecked: es un error de quien llama). Procesá la lista
 de pedidos del `main` informando cada resultado, y al final mostrá el stock.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `StockInsuficienteException` extiende `Exception` y tiene getters.
 - `retirar` declara `throws` y el `main` maneja las dos excepciones por separado.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Map;
+import java.util.TreeMap;
 
+public class Herreria {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Entregado: 2 espada
 Sin stock: pidieron 2 escudo y hay 1
@@ -3798,8 +3793,7 @@ Entregado: 1 espada
 Stock final: {escudo=1, espada=0}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La herreria sin stock: una excepcion checked propia.
 import java.util.Map;
@@ -3875,17 +3869,30 @@ class Deposito {
 }
 ```
 
-### Misión R03-N04-M3 · La lectura del registro
+#### Al superarla
+Cada pedido imposible devuelve un aviso claro, con lo que había y lo que faltó. El herrero arma una lista de compras con esos avisos.
+
+#### Imagen
+- Un depósito de herramientas con estantes medio vacíos y una campana roja que suena.
+- Un herrero lee un aviso en un papel; Kaffa señala el estante vacío; Zed anota.
+
+### Micro-misión R03-N04-P7 · La lectura del registro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las salas de los Archivos
+personajes: Zed, Gheco, Nadia, Kaffa
+recompensa: xp 10, monedas 4
+antes: R03-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Los registros de los Archivos se abren para leer y, si alguien se olvida de cerrarlos, la tinta se seca y se pierden.
+—Que se cierren solos —dice Kaffa—, pase lo que pase en el medio.
 
+#### Gheco sugiere
+Una clase que implementa `AutoCloseable` se puede usar en un `try (Registro r = new Registro()) { ... }`: al salir, `close()` se llama solo, aunque haya habido un error adentro.
+
+#### Desafío
 Escribí una clase `Registro` que implemente `AutoCloseable`: al crearla muestra
 "abriendo registro", tiene un método `String leerLinea(int n)` que devuelve la línea `n`
 de un array interno (y lanza `IllegalStateException` si el registro ya se cerró o
@@ -3895,14 +3902,21 @@ a la mitad. Mostrá que se cierra en los dos casos. Escribí además un método 
 líneas y **traduzca** el error de índice en una excepción propia `RegistroException`
 con la original como **causa**, y mostrá la causa.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Registro` implementa `AutoCloseable` y se usa con `try (…)`.
 - El registro se cierra aunque haya un error.
 - La excepción propia lleva la original como causa.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Lectura {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 abriendo registro
 Nadia entró por el portón norte
@@ -3918,8 +3932,7 @@ cerrando registro
 el registro no tiene todas las líneas pedidas | causa: IndexOutOfBoundsException
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La lectura del registro: try con recursos y excepciones encadenadas.
 public class Lectura {
@@ -3983,6 +3996,13 @@ class Registro implements AutoCloseable {
     }
 }
 ```
+
+#### Al superarla
+Los registros se cierran siempre, aun cuando la lectura falla. Kaffa cierra uno de un golpe y no se pierde ni una gota.
+
+#### Imagen
+- Un libro de registro enorme que se cierra solo sobre un atril, con una cinta de cuero.
+- Kaffa lo mira con aprobación; Zed retira la mano a tiempo; Gheco salta del libro.
 
 ### Encargo R03-N04-E1 · La transferencia bancaria
 
@@ -4614,17 +4634,23 @@ Para estar seguros, Kaffa los manda al **Tribunal de las Pruebas**, junto a los 
 - Tres pergaminos ordenados sobre una mesa: «Carta a la Torre» (1190), «Boceto de ventana» y «Vitral del río» (1203).
 - Zed comparando el boceto de la ventana con su llave de vidrios de colores.
 
-### Misión R03-N05-M1 · El ranking con comparadores
+### Micro-misión R03-N05-P5 · El ranking con comparadores
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina del Archivista Mayor
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+recompensa: xp 10, monedas 4
+antes: R03-N05-M1
 ```
 
-#### Consigna
+#### Escena
+El Archivista Mayor quiere el ranking de jugadores ordenado de cuatro maneras: por nombre, por puntos, por partidas… y cada vez escribe una clase nueva para ordenar.
+—Una tarjetita con la regla alcanza —le dice Zed.
 
+#### Gheco sugiere
+Un `Comparator` se puede escribir como lambda o con `Comparator.comparing(Jugador::puntos)`. `.reversed()` lo da vuelta y `.thenComparing(...)` desempata.
+
+#### Desafío
 Con un `record Jugador(String nombre, int puntos, int partidas)` y una lista de 6
 jugadores, mostrá la lista ordenada de cuatro formas, cada una en una línea:
 
@@ -4634,13 +4660,24 @@ jugadores, mostrá la lista ordenada de cuatro formas, cada una en una línea:
    `Comparator.comparingInt(...).thenComparing(...)`;
 4. por promedio de puntos por partida, de mayor a menor (con `comparingDouble`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa las cuatro formas pedidas.
 - Los desempates son correctos.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
+public class Rankings {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Por nombre: [Ada, Baldo, Lía, Nara, Olmo, Pip]
 Por puntos: [Baldo, Olmo, Lía, Nara, Ada, Pip]
@@ -4648,8 +4685,7 @@ Por partidas: [Ada, Pip, Lía, Nara, Olmo, Baldo]
 Por promedio: [Lía, Olmo, Ada, Nara, Pip, Baldo]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El ranking con comparadores: clase anonima, lambda y Comparator.comparing.
 import java.util.ArrayList;
@@ -4693,17 +4729,30 @@ record Jugador(String nombre, int puntos, int partidas) {
 }
 ```
 
-### Misión R03-N05-M2 · La limpieza de la posada
+#### Al superarla
+Cuatro rankings en cuatro líneas. El Archivista Mayor tira a la basura una pila de clases de ordenar y suspira, aliviado.
+
+#### Imagen
+- Un escritorio con cuatro pilas de fichas de jugadores ordenadas de forma distinta.
+- El Archivista Mayor tira papeles a un cesto; Zed sostiene una tarjetita; Gheco ordena fichas.
+
+### Micro-misión R03-N05-P6 · La limpieza de la posada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La posada junto a los Archivos
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R03-N05-M2
 ```
 
-#### Consigna
+#### Escena
+La posadera quiere saber quién debe, quién se quedó más noches y los nombres de todos en mayúsculas para el libro de visitas. Pero odia los bucles largos.
+—Decí qué querés —le dice Zed—, no cómo recorrerlo.
 
+#### Gheco sugiere
+Con lambdas y referencias a métodos se hace sin `for`: `removeIf(h -> h.pago())`, `forEach(System.out::println)`, `replaceAll(String::toUpperCase)` y `sort(Comparator.comparing(...))`.
+
+#### Desafío
 La posada guarda sus huéspedes en una lista de `record Huesped(String nombre, int
 noches, boolean pago)`. Con **lambdas** y **referencias a métodos**, sin bucles `for`:
 
@@ -4714,13 +4763,25 @@ noches, boolean pago)`. Con **lambdas** y **referencias a métodos**, sin bucles
    `replaceAll(String::toUpperCase)`);
 5. ordenala alfabéticamente con `sort(Comparator.naturalOrder())`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No usa bucles `for` ni `while`.
 - Usa al menos un `Predicate` guardado y una referencia a método.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Predicate;
 
+public class Posada {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Huesped[nombre=Olmo, noches=3, pago=true]
 Huesped[nombre=Pip, noches=0, pago=false]
@@ -4733,8 +4794,7 @@ Deben: Nara Ada
 [ADA, BALDO, NARA, OLMO]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - La limpieza de la posada: lambdas sobre colecciones, sin bucles.
 import java.util.ArrayList;
@@ -4772,17 +4832,30 @@ public class Posada {
 record Huesped(String nombre, int noches, boolean pago) { }
 ```
 
-### Misión R03-N05-M3 · La calculadora de hechizos
+#### Al superarla
+El libro de visitas queda prolijo y los que deben, anotados en rojo. La posadera le cobra a un huésped que se iba sin pagar.
+
+#### Imagen
+- Una posadera con un libro de visitas abierto en el mostrador y una lista con nombres tachados.
+- Un huésped con valija vuelve a pagar con cara de culpa; Zed lo señala; Gheco se ríe.
+
+### Micro-misión R03-N05-P7 · La calculadora de hechizos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La torre de los magos de los Archivos
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R03-N05-M3
 ```
 
-#### Consigna
+#### Escena
+Los magos de los Archivos tienen un libro de hechizos de números: duplicar, elevar al cuadrado, partir a la mitad. Cada uno lo escribe a su manera.
+—Si todos tienen la misma forma —dice Zed—, entran en el mismo libro.
 
+#### Gheco sugiere
+Una **interfaz funcional** tiene un solo método abstracto, así que una lambda la puede cumplir: `Hechizo duplicar = p -> p * 2;`. Un `Map<String, Hechizo>` guarda los hechizos por nombre.
+
+#### Desafío
 Declará tu propia **interfaz funcional** `Hechizo` con un método `int lanzar(int
 poder)`. Guardá en un `Map<String, Hechizo>` (un `LinkedHashMap`) cinco hechizos
 escritos como lambdas: `duplicar`, `cuadrado`, `mitad`, `invertir` (cambia el signo) y
@@ -4790,13 +4863,24 @@ escritos como lambdas: `duplicar`, `cuadrado`, `mitad`, `invertir` (cambia el si
 mostrá el resultado; si el hechizo no existe, avisá. Al final, aplicá **todos** los
 hechizos en cadena a 7 recorriendo el mapa con `forEach`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Hechizo` tiene un solo método abstracto (marcala con `@FunctionalInterface`).
 - Los hechizos son lambdas guardadas en un mapa.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
 
+public class Hechizos {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 duplicar 21
 cuadrado 12
@@ -4807,7 +4891,6 @@ mitad 9
 ```
 
 #### Salida esperada
-
 ```
 duplicar(21) = 42
 cuadrado(12) = 144
@@ -4821,8 +4904,7 @@ mitad(9) = 4
   tras tope: -98
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - La calculadora de hechizos: una interfaz funcional propia y lambdas en un mapa.
 import java.util.LinkedHashMap;
@@ -4867,41 +4949,12 @@ interface Hechizo {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El libro de hechizos funciona: se elige uno por nombre y se lanza. Un mago aprendiz encadena tres hechizos y el número le explota en chispas de colores.
 
-##### Hechizos en el borde
-```entrada
-tope 100
-tope 101
-invertir -5
-cuadrado -3
-```
-```salida
-tope(100) = 100
-tope(101) = 100
-invertir(-5) = 5
-cuadrado(-3) = 9
-  tras duplicar: 14
-  tras cuadrado: 196
-  tras mitad: 98
-  tras invertir: -98
-  tras tope: -98
-```
-
-##### Ninguno existe
-```entrada
-volar 1
-nadar 2
-```
-```salida
-No existe el hechizo volar
-No existe el hechizo nadar
-  tras duplicar: 14
-  tras cuadrado: 196
-  tras mitad: 98
-  tras invertir: -98
-  tras tope: -98
-```
+#### Imagen
+- Un libro de hechizos abierto que flota sobre un atril, con chispas de colores saliendo de las páginas.
+- Un mago aprendiz de túnica cerrada lanza un hechizo; Zed y Gheco se cubren de las chispas.
 
 ### Encargo R03-N05-E1 · Los filtros de la tienda
 
@@ -6589,17 +6642,24 @@ A la mañana, el diario lo dice claro: **todo** lo del Vidriero se borra en el m
 - Un diario abierto con dos renglones en naranja: «WARNING: Borrado: … en la sala vacía».
 - Zed, Nadia y Gheco mirando hacia un pasillo oscuro que baja a una sala vacía.
 
-### Misión R03-N07-M1 · El promedio que miente
+### Micro-misión R03-N07-P4 · El promedio que miente
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El ala de los errores
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+criatura: ogro
+recompensa: xp 10, monedas 4
+antes: R03-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Un programa de los Archivos calcula los promedios de los estudiantes, pero da resultados raros y nadie sabe por qué. No se rompe: miente. Es un **ogro**.
+—Seguilo paso a paso —dice el Archivista—, y mirá qué valen las variables.
 
+#### Gheco sugiere
+El depurador detiene el programa en un punto (breakpoint) y muestra cada variable. Sin depurador, un `System.out.println` de prueba en cada paso también sirve. Buscá los tres errores de lógica, no de compilación.
+
+#### Desafío
 Este programa debería mostrar el promedio de notas de cada estudiante y quién tiene el
 mejor promedio, pero da resultados raros. Tiene **tres errores**. Usá el depurador (o
 mensajes con un logger) para encontrarlos, corregilos y agregá un comentario arriba de
@@ -6628,13 +6688,22 @@ public class Promedios {
 }
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Corrige los tres errores (el índice del bucle interno, la división entera y el mejor que no se actualiza).
 - Cada corrección tiene su comentario.
 
-#### Salida esperada
+#### Código inicial
+```java
+import java.util.Locale;
 
+public class Promedios {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Salida esperada
 ```
 Nadia: 8.00
 Baldo: 7.00
@@ -6642,8 +6711,7 @@ Lía: 8.67
 Mejor promedio: Lía
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El promedio que miente: tres errores de logica corregidos.
 import java.util.Locale;
@@ -6675,17 +6743,30 @@ public class Promedios {
 }
 ```
 
-### Misión R03-N07-M2 · El diario del depósito
+#### Al superarla
+Los tres errores aparecen uno por uno y el ogro se queda sin mentiras. Los promedios dan bien y el mejor estudiante recibe, por fin, su medalla.
+
+#### Imagen
+- Un ogro tramposo que se esconde detrás de una pizarra llena de cuentas con números tachados.
+- Zed lo descubre levantando la pizarra con una lupa; el Archivista Mayor sostiene una vela.
+
+### Micro-misión R03-N07-P5 · El diario del depósito
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El depósito de los Archivos
+personajes: Zed, Gheco, Nadia, el Archivista Mayor
+recompensa: xp 10, monedas 4
+antes: R03-N07-M2
 ```
 
-#### Consigna
+#### Escena
+En el depósito entran y salen cosas sin que nadie lo anote. Cuando falta algo, nadie sabe cuándo pasó.
+—Un diario —pide el Archivista—. Que cuente todo, y que grite cuando algo está mal.
 
+#### Gheco sugiere
+Un `Logger` anota mensajes con niveles: `INFO` para lo normal, `WARNING` para lo raro y `SEVERE` para lo grave. Cada operación anota lo que pasó, aunque no se haga.
+
+#### Desafío
 Agregale un **logger** a este depósito: `INFO` cuando entra o sale mercadería,
 `WARNING` cuando se pide sacar más de lo que hay (la operación no se hace) y `SEVERE`
 si se intenta cargar una cantidad negativa (la operación no se hace). La salida
@@ -6693,13 +6774,24 @@ si se intenta cargar una cantidad negativa (la operación no se hace). La salida
 final, así que no uses `println` para los avisos. Procesá las operaciones de la entrada
 (`+ producto cantidad` o `- producto cantidad`) hasta una línea vacía.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `Logger` con los tres niveles pedidos.
-- La salida estándar tiene solo el stock final.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+import java.util.logging.Logger;
 
+public class DiarioDeposito {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 + sal 10
 + tela 4
@@ -6711,13 +6803,11 @@ final, así que no uses `println` para los avisos. Procesá las operaciones de l
 ```
 
 #### Salida esperada
-
 ```
 Stock final: {hierro=7, sal=7, tela=4}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El diario del deposito: logger con INFO, WARNING y SEVERE.
 import java.util.Map;
@@ -6761,26 +6851,12 @@ public class DiarioDeposito {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El diario del depósito anota cada movimiento. Esa misma noche, una línea `SEVERE` muestra quién intentó cargar algo imposible: una sombra sin nombre.
 
-##### Solo entradas
-```entrada
-+ pan 3
-+ pan 2
-```
-```salida
-Stock final: {pan=5}
-```
-
-##### Sacar de más
-```entrada
-- sal 1
-+ sal 1
-- sal 2
-```
-```salida
-Stock final: {sal=1}
-```
+#### Imagen
+- Un diario abierto sobre un atril, con renglones escritos en tinta negra, naranja y roja.
+- El Archivista Mayor lee una línea roja con preocupación; Zed mira hacia una sombra al fondo del depósito.
 
 ### Misión R03-N07-M3 · La documentación de la balanza
 
@@ -7622,17 +7698,23 @@ Desde las ventanas de los Archivos se oye el río que cruza la capital.
 - Zed levantando la linterna; en la pared se proyecta la ficha completa del Vidriero.
 - Por una ventana alta, el río de la capital brillando de noche.
 
-### Misión R03-N08-M1 · La biblioteca encantada
+### Micro-misión R03-N08-P5 · La biblioteca encantada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La sala vacía
+personajes: Zed, Gheco, Nadia, Kaffa, el Espectro Nulo
+recompensa: xp 30, monedas 6
+antes: R03-N08-M1
 ```
 
-#### Consigna
+#### Escena
+En la sala vacía, el Espectro Nulo convierte los libros en nada: quien busca uno, recibe `null` y se cae. Kaffa le pasa a Zed los comandos de la biblioteca.
+—Que no haya un solo lugar donde el Espectro pueda esconderse.
 
+#### Gheco sugiere
+Antes de usar lo que devuelve un mapa o una búsqueda, preguntá si es `null` (o usá `getOrDefault`, `containsKey`). Cada comando tiene que contestar algo, aunque sea «no está».
+
+#### Desafío
 Programá la biblioteca de los Archivos con estos comandos (uno por línea, hasta
 `salir`):
 
@@ -7650,14 +7732,29 @@ las hijas `LibroNoEncontradoException`, `LibroPrestadoException` y
 `LibroNoPrestadoException`. Ningún método devuelve `null`. Cada error se informa y el
 programa sigue. Una línea mal formada muestra `Comando inválido`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Jerarquía de excepciones propias y un procesador de comandos que no se corta.
 - Los listados se ordenan con `Comparator` y nunca son `null`.
-- La salida coincide con la esperada.
 
-#### Entrada de ejemplo
+#### Código inicial
+```java
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
+import java.util.TreeMap;
 
+public class BibliotecaEncantada {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
+
+#### Entrada
 ```
 alta L1;Rayuela;Cortázar
 alta L2;Ficciones;Borges
@@ -7678,7 +7775,6 @@ salir
 ```
 
 #### Salida esperada
-
 ```
 Alta de L1
 Alta de L2
@@ -7697,8 +7793,7 @@ Disponibles: [Ficciones, Rayuela]
 Comando inválido: alta sin datos
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Jefe R03 - Mision 1: la biblioteca encantada.
 import java.util.ArrayList;
@@ -7853,50 +7948,12 @@ class Biblioteca {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El Espectro Nulo se queda sin escondites y se deshace como humo. La ficha del viajero vuelve entera: mandó algo por el río hacia la Torre del Arquitecto.
 
-##### Disponibles sin libros
-```entrada
-disponibles
-socio Nadia
-salir
-```
-```salida
-Disponibles: []
-Nadia: ninguno
-```
-
-##### Devolver y prestar de nuevo
-```entrada
-alta A;Uno;Autor
-prestar A;Nadia
-devolver A
-prestar A;Baldo
-socio Baldo
-disponibles
-salir
-```
-```salida
-Alta de A
-A prestado a Nadia
-A devuelto
-A prestado a Baldo
-Baldo: [Uno]
-Disponibles: []
-```
-
-##### Comandos mal escritos
-```entrada
-prestar
-alta A;B
-volar
-salir
-```
-```salida
-Comando inválido: prestar
-Comando inválido: alta A;B
-Comando inválido: volar
-```
+#### Imagen
+- Un espectro gris y transparente se deshace como humo entre estantes de libros.
+- Zed sostiene una ficha que brilla; Kaffa y Nadia miran; Gheco ilumina con su luz.
 
 ### Misión R03-N08-M2 · El Espectro en el código
 

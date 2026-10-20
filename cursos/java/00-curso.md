@@ -11,6 +11,7 @@ dias_abono: 30
 destacado: si
 proximamente: no
 publicado: si
+micromisiones_completan: si
 ```
 
 ### Descripción
@@ -19,7 +20,7 @@ Aprendé **Java desde cero**. No hace falta saber programar: cada tema se explic
 
 Java es la lengua de los sistemas de gestión de bancos, hospitales y comercios, de Android, de los servidores de miles de empresas y de Minecraft. En el Imperio **nada existe suelto**: todo vive en una clase, cada clase en su paquete, y cada acuerdo se firma como un contrato.
 
-Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilás el ejemplo en tu compu y resolvés las **misiones**: al aprobarlas ganás denarios para abrir el siguiente. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
+Cada tema es un **nodo** del árbol. En cada uno leés la explicación, compilás el ejemplo en tu compu y resolvés las **micro-misiones**, que se comprueban solas con el ejecutor de Java: las que vienen de una misión te dan denarios para abrir el siguiente. Algunos nodos tienen además un **proyecto** que corrige el profe. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
 
 El curso sigue el programa de **Paradigmas y Lenguajes III** (Licenciatura en Sistemas, UNLaR): cada nodo dice a qué unidad corresponde.
 
@@ -43,10 +44,10 @@ Al final del camino principal llegás a la **Encrucijada de los Denarios**, de d
 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
-| coin.course | denario | denarios | m | La moneda del Imperio: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
+| coin.course | denario | denarios | m | La moneda del Imperio: se gana superando las micro-misiones que vienen de una misión (y aprobando los proyectos y las misiones de las Sendas) y abre los nodos del curso. | | curso |
 | mentor.name | Kaffa | | m | El Arquitecto Imperial: diseñó los planos de la capital del Imperio de las Clases. | Kaffa trazó los planos de la capital cuando el Imperio era un montón de piedras sueltas. Su regla es simple: **nada existe suelto**. Cada cosa tiene su clase, cada clase su paquete y cada acuerdo su contrato. Es exigente, pero siempre explica por qué. En sus planos nunca falta una taza de café. | curso |
 | world.region | Imperio de las Clases | | m | La región del mundo cuya lengua arcana es Java. | | curso |
-| story.course_intro | Bienvenida al Imperio | | f | | Zed robaba en los techos del Puerto hasta que tocó una **llave de plomo y vidrio** que decía *«para quien llegue»*. Un vitral se encendió como un portal y despertó en la fila de la **Aduana del Compilador**, sin un solo papel.<br><br>Soy {mentor}, el Arquitecto Imperial. Acá **nada existe suelto** y nada pasa sin declararse: la Aduana revisa todo lo que Zed escribe. Parece estricta, y lo es, pero cada error que marca en la frontera es uno que no va a sufrir adentro.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas lo hace avanzar, cada tema que domines le abre una puerta del Imperio y cada misión aprobada te da denarios para abrir la siguiente. | curso |
+| story.course_intro | Bienvenida al Imperio | | f | | Zed robaba en los techos del Puerto hasta que tocó una **llave de plomo y vidrio** que decía *«para quien llegue»*. Un vitral se encendió como un portal y despertó en la fila de la **Aduana del Compilador**, sin un solo papel.<br><br>Soy {mentor}, el Arquitecto Imperial. Acá **nada existe suelto** y nada pasa sin declararse: la Aduana revisa todo lo que Zed escribe. Parece estricta, y lo es, pero cada error que marca en la frontera es uno que no va a sufrir adentro.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas lo hace avanzar, cada tema que domines le abre una puerta del Imperio y las micro-misiones más difíciles te dan denarios para abrir la siguiente. | curso |
 | story.branch_completed | ¡Distrito conquistado! | | m | | {mentor} desenrolla un plano nuevo y marca con tinta un distrito entero. —Esta parte del Imperio ya funciona con tus clases, Zed. Nadia lo anota en su libreta, y por una vez no agrega ningún comentario. | curso |
 | story.course_completed | ¡Dominaste la lengua del Imperio! | | f | | {mentor} le entrega a Zed su compás de arquitecto y una taza de café recién hecha. —Entraste colado por la Aduana y te vas como arquitecto del Imperio. Desde la Encrucijada de los Denarios salen cuatro caminos: la Bóveda, el Palacio de las Ventanas, el Arcade y el Puerto. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que no pudo ordenar Kaffa | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Trató de explicarme qué estaba construyendo y no pude ponerlo en ninguna clase. Es lo único que nunca supe ordenar: algo que no es de ningún lugar, porque es de todos. | curso |
@@ -538,17 +539,24 @@ La **Llave del Vitral** va a tu mochila.
 - Zed y Nadia, uno al lado del otro, mirándose de reojo.
 - El portón de la Aduana empieza a abrirse.
 
-### Misión R00-N01-M1 · El pase de frontera
+### Micro-misión R00-N01-P6 · El pase de frontera
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El portón de la Aduana
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R00-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Nadia extiende la mano sin mirarlo.
+—Pase de frontera. Sin pase, no hay Imperio.
+Zed revisa los bolsillos: una ganzúa, la llave de vidrio y nada más. Va a tener que **escribirlo**.
 
+#### Gheco sugiere
+Cada renglón del pase es un `System.out.println("...")`. El texto va entre comillas dobles y cada instrucción termina en `;`. El archivo se llama igual que la clase pública.
+
+#### Desafío
 Escribí un programa `PaseFrontera.java` que muestre tu pase para entrar al Imperio,
 exactamente así (con tus datos, si querés, pero con el mismo formato):
 
@@ -557,14 +565,20 @@ exactamente así (con tus datos, si querés, pero con el mismo formato):
 - Una línea vacía.
 - El sello final entre comillas dobles.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La clase se llama como el archivo y tiene su `main`.
 - Usa `println` para cada renglón y `\"` para las comillas.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```java
+public class PaseFrontera {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
 #### Salida esperada
-
 ```
 ==== PASE DE FRONTERA ====
 Nombre: Nadia
@@ -574,8 +588,7 @@ Origen: el Valle de la Serpiente
 Sello: "PUEDE PASAR"
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 1 - El pase de frontera: mostrar texto con formato.
 public class PaseFrontera {
@@ -590,28 +603,40 @@ public class PaseFrontera {
 }
 ```
 
-### Misión R00-N01-M2 · El pergamino con manchas
+#### Al superarla
+Nadia lee el pase dos veces, lo sella con un golpe seco y lo guarda.
+—Declarado. Ahora sí existís.
+
+#### Imagen
+- Nadia, aduanera de uniforme cerrado, estampa un sello sobre un pergamino que Zed le acaba de entregar.
+- Zed, de pelo blanco y visor rojo, espera con las manos en los bolsillos; Gheco asoma desde su hombro.
+
+### Micro-misión R00-N01-P7 · El pergamino con manchas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La fila de la Aduana del Compilador
+personajes: Zed, Gheco, Nadia
+criatura: slime
+recompensa: xp 10, monedas 4
+antes: R00-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Un viajero de la fila le pasa a Zed un pergamino lleno de manchas: «a mí no me lo aceptaron».
+Cuando Zed intenta compilarlo, de cada mancha brota un **slime**. Son cuatro.
 
+#### Gheco sugiere
+Leé el primer error que marca el compilador, arreglalo y volvé a compilar: a veces un solo error arrastra a los demás. Mirá los `;`, las llaves y las mayúsculas (`String`, `System`).
+
+#### Desafío
 Este programa tiene **cuatro errores** y la Aduana no lo deja pasar. Copialo,
 compilalo, leé cada mensaje y arreglalo hasta que muestre la salida esperada.
 No cambies los textos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Compila sin errores.
-- La salida coincide con la esperada.
 
 #### Código inicial
-
 ```java
 public class Pergamino {
     public static void main(string[] args) {
@@ -623,15 +648,13 @@ public class Pergamino {
 ```
 
 #### Salida esperada
-
 ```
 El pergamino dice:
   Quien sabe leer los errores,
   cruza la frontera antes.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 2 - El pergamino con manchas: los cuatro errores eran
 // string -> String, el ; que faltaba, system -> System y la comilla sin cerrar.
@@ -644,29 +667,51 @@ public class Pergamino {
 }
 ```
 
-### Misión R00-N01-M3 · El cartel de la posada
+#### Al superarla
+Los cuatro slimes se secan y el pergamino queda limpio. El viajero no lo puede creer.
+—¿Cómo hiciste?
+—Le hice caso al compilador —dice Zed, sorprendido de sí mismo.
+
+#### Imagen
+- Un pergamino con cuatro manchas verdes de las que saltan cuatro slimes chiquitos.
+- Zed lo sostiene con dos dedos, con cara de asco; Gheco señala la primera mancha.
+
+### Micro-misión R00-N01-P8 · El cartel de la posada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La posada de la frontera
+personajes: Zed, Gheco, Nadia
+recompensa: xp 10, monedas 4
+antes: R00-N01-M3
 ```
 
-#### Consigna
+#### Escena
+La posada de la frontera no tiene cartel y los viajeros pasan de largo. El posadero le ofrece a Zed un guiso gratis si le escribe uno.
+Nadia cruza los brazos: «que sea prolijo».
 
+#### Gheco sugiere
+`\n` dentro de un texto es un salto de línea: con un solo `System.out.print` podés escribir varios renglones. Las cuentas se pueden hacer dentro del `println`, entre paréntesis.
+
+#### Desafío
 La posada de la frontera necesita un cartel. Mostralo usando **un solo**
 `System.out.print` con saltos de línea `\n` para el menú, y después un `println`
 con el total calculado dentro del programa: un guiso (1200) más un pan (300) más
 un café (450).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El menú sale de un único `print` con `\n`.
 - El total se calcula con `+` entre paréntesis, no se escribe a mano.
 
-#### Salida esperada
+#### Código inicial
+```java
+public class Posada {
+    public static void main(String[] args) {
+        // Escribí tu programa acá
+    }
+}
+```
 
+#### Salida esperada
 ```
 POSADA LA TAZA DE KAFFA
 -----------------------
@@ -676,8 +721,7 @@ Café ........ 450
 Total: 1950
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```java
 // Mision 3 - El cartel de la posada: \n dentro de un texto y un total calculado.
 public class Posada {
@@ -687,6 +731,13 @@ public class Posada {
     }
 }
 ```
+
+#### Al superarla
+El cartel queda colgado sobre la puerta y entran los primeros viajeros. El posadero cumple: guiso para Zed y para Nadia, que dice que no tiene hambre y se lo termina.
+
+#### Imagen
+- Una posada de madera junto a la muralla, con un cartel nuevo de madera colgado sobre la puerta.
+- Zed y Nadia comen guiso en una mesa de afuera; Gheco duerme junto al plato.
 
 ### Encargo R00-N01-E1 · El recibo del kiosco
 

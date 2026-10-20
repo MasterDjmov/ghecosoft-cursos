@@ -1,0 +1,326 @@
+{
+  "R00-N01-M1": {
+    "lugar": "El portón de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Nadia extiende la mano sin mirarlo.\n—Pase de frontera. Sin pase, no hay Imperio.\nZed revisa los bolsillos: una ganzúa, la llave de vidrio y nada más. Va a tener que **escribirlo**.",
+    "gheco": "Cada renglón del pase es un `System.out.println(\"...\")`. El texto va entre comillas dobles y cada instrucción termina en `;`. El archivo se llama igual que la clase pública.",
+    "exito": "Nadia lee el pase dos veces, lo sella con un golpe seco y lo guarda.\n—Declarado. Ahora sí existís.",
+    "imagen": [
+      "Nadia, aduanera de uniforme cerrado, estampa un sello sobre un pergamino que Zed le acaba de entregar.",
+      "Zed, de pelo blanco y visor rojo, espera con las manos en los bolsillos; Gheco asoma desde su hombro."
+    ]
+  },
+  "R00-N01-M2": {
+    "lugar": "La fila de la Aduana del Compilador",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "slime",
+    "escena": "Un viajero de la fila le pasa a Zed un pergamino lleno de manchas: «a mí no me lo aceptaron».\nCuando Zed intenta compilarlo, de cada mancha brota un **slime**. Son cuatro.",
+    "gheco": "Leé el primer error que marca el compilador, arreglalo y volvé a compilar: a veces un solo error arrastra a los demás. Mirá los `;`, las llaves y las mayúsculas (`String`, `System`).",
+    "exito": "Los cuatro slimes se secan y el pergamino queda limpio. El viajero no lo puede creer.\n—¿Cómo hiciste?\n—Le hice caso al compilador —dice Zed, sorprendido de sí mismo.",
+    "imagen": [
+      "Un pergamino con cuatro manchas verdes de las que saltan cuatro slimes chiquitos.",
+      "Zed lo sostiene con dos dedos, con cara de asco; Gheco señala la primera mancha."
+    ]
+  },
+  "R00-N01-M3": {
+    "lugar": "La posada de la frontera",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La posada de la frontera no tiene cartel y los viajeros pasan de largo. El posadero le ofrece a Zed un guiso gratis si le escribe uno.\nNadia cruza los brazos: «que sea prolijo».",
+    "gheco": "`\\n` dentro de un texto es un salto de línea: con un solo `System.out.print` podés escribir varios renglones. Las cuentas se pueden hacer dentro del `println`, entre paréntesis.",
+    "exito": "El cartel queda colgado sobre la puerta y entran los primeros viajeros. El posadero cumple: guiso para Zed y para Nadia, que dice que no tiene hambre y se lo termina.",
+    "imagen": [
+      "Una posada de madera junto a la muralla, con un cartel nuevo de madera colgado sobre la puerta.",
+      "Zed y Nadia comen guiso en una mesa de afuera; Gheco duerme junto al plato."
+    ]
+  },
+  "R01-N01-M1": {
+    "lugar": "La Aduana del Compilador",
+    "personajes": "Zed, Gheco, Nadia, Olmo",
+    "escena": "Llega el carro de Olmo, un mercader gordo y amable, cargado de bolsas de harina. Nadia le pasa a Zed la libreta:\n—Declarale el carro. Cada dato, en su cajón.",
+    "gheco": "La cantidad de bolsas es un `int`, el peso un `double` y el nombre un `String`. `(int)` corta los decimales, y entre dos `int` la `/` da la división entera.",
+    "exito": "Olmo paga el peaje exacto y le regala a Zed un pan.\n—Primera vez que no me cobran de más —dice, y sigue camino.",
+    "imagen": [
+      "Un carro con muchas bolsas de harina apiladas, tirado por un burro, frente a una balanza de bronce.",
+      "Olmo, un mercader robusto de delantal, le da un pan a Zed; Nadia anota en su libreta."
+    ]
+  },
+  "R01-N01-M2": {
+    "lugar": "La tesorería de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "goblin",
+    "escena": "En la tesorería, el contador del Imperio suma un tributo enorme… y el resultado sale **negativo**. De entre las monedas salta un goblin riéndose.\n—El cajón era chico —dice Gheco.",
+    "gheco": "Un `int` llega hasta `Integer.MAX_VALUE` (un poco más de dos mil millones): si te pasás, da la vuelta y queda negativo. Un `long` llega mucho más lejos; sus números grandes llevan una `L` al final.",
+    "exito": "Con el cajón grande, el tesoro da bien y el goblin se queda sin travesura. Nadia, por las dudas, anota los dos máximos en la tapa de la libreta.",
+    "imagen": [
+      "Un goblin flaco salta riéndose desde un cofre de monedas desbordado.",
+      "Zed pasa las monedas a un cofre mucho más grande; Gheco mira desde arriba de una pila."
+    ]
+  },
+  "R01-N01-M3": {
+    "lugar": "La puerta de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Una estudiante de la Academia llora en la puerta: le dijeron que su promedio es 8 «redondo» y ella sabe que es más. Nadia mira la cuenta y frunce el ceño.\n—Dividieron enteros.",
+    "gheco": "Entre dos `int`, `/` tira los decimales. Si convertís uno a `double` con `(double)`, el resultado los conserva. Un `char` también es un número: `(char) (letra + 1)` es la letra que sigue.",
+    "exito": "El promedio bien calculado le da la nota que merecía. La estudiante se va corriendo a reclamar, y Nadia anota: «división entera: revisar siempre».",
+    "imagen": [
+      "Una estudiante con capa de la Academia sostiene una hoja de notas frente a una puerta grande.",
+      "Nadia le señala la cuenta en la hoja; Zed mira por encima del hombro."
+    ]
+  },
+  "R01-N02-M1": {
+    "lugar": "El patio de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El reloj de la torre del patio no tiene agujas: solo cuenta segundos desde la medianoche. Los guardias no saben qué hora es y discuten.\n—Cincuenta mil —lee Zed—. ¿Y eso qué hora es?",
+    "gheco": "`/` entre enteros te dice cuántas veces entra (cuántas horas completas) y `%` te da lo que sobra. Una hora son 3600 segundos y un minuto, 60.",
+    "exito": "Los guardias ajustan el cambio de turno con la hora que dio Zed. El de la noche protesta: le tocan cuatro minutos más.",
+    "imagen": [
+      "Una torre de piedra con un reloj redondo sin agujas, lleno de engranajes a la vista.",
+      "Dos guardias discuten señalando el reloj; Zed les muestra la cuenta en el aire con los dedos."
+    ]
+  },
+  "R01-N02-M2": {
+    "lugar": "El archivo de calendarios",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El calendario de la Aduana tiene un día de más… o de menos: nadie se acuerda cuándo el año es bisiesto.\n—Hay una regla —dice Nadia—. Tres condiciones. Ni una más.",
+    "gheco": "`%` dice si un número es divisible por otro (`año % 4 == 0`). Las condiciones se juntan con `&&` (y) y `||` (o); los paréntesis deciden qué se evalúa primero.",
+    "exito": "El calendario queda bien para los próximos cuatrocientos años. Nadia guarda la regla en su libreta, en la página de «cosas que nunca hay que improvisar».",
+    "imagen": [
+      "Un calendario de pergamino enorme colgado en la pared, con un día marcado con un círculo.",
+      "Nadia sostiene la libreta abierta; Gheco está sentado sobre el día marcado."
+    ]
+  },
+  "R01-N02-M3": {
+    "lugar": "El patio de entrenamiento de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "goblin",
+    "escena": "En el patio, un goblin con armadura vieja desafía a los aduaneros. Nadia desenvaina.\n—Calculá cuánto le saco por golpe, Zed. Y si es crítico, avisame.",
+    "gheco": "El ternario elige entre dos valores en una sola línea: `condicion ? valorSiVerdadero : valorSiFalso`. Es un `if` que devuelve algo.",
+    "exito": "Golpe crítico: el goblin pierde el casco y sale corriendo por la puerta del patio. Nadia guarda la espada sin decir nada, pero sonríe.",
+    "imagen": [
+      "Nadia golpea con su espada a un goblin con armadura oxidada que pierde el casco.",
+      "Zed mira desde un costado, con los dedos en la cuenta; Gheco aplaude sobre un barril."
+    ]
+  },
+  "R01-N03-M1": {
+    "lugar": "La oficina de sellos de la Aduana",
+    "personajes": "Zed, Gheco, Nadia, el Escriba Jefe",
+    "escena": "El Escriba Jefe recibió un nombre escrito a las apuradas: espacios de más, mayúsculas al azar.\n—Así no entra en el registro —dice, y le pasa el papel a Zed.",
+    "gheco": "`trim()` saca los espacios de los bordes, `toUpperCase()` y `toLowerCase()` cambian las mayúsculas, `length()` cuenta las letras y `substring` corta un pedazo. Ninguno cambia el original: devuelven un texto nuevo.",
+    "exito": "El nombre queda limpio en el registro. El Escriba Jefe lo mira de cerca, aprueba con la cabeza y lo sella.",
+    "imagen": [
+      "Un escriba anciano de barba larga revisa un pergamino con una lupa, en una oficina llena de sellos.",
+      "Zed le entrega el papel corregido; Gheco duerme sobre una pila de sellos."
+    ]
+  },
+  "R01-N03-M2": {
+    "lugar": "El portón de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "ogro",
+    "escena": "El portón tiene una contraseña. Zed escribe la misma palabra de tres formas distintas y el portón abre solo con algunas.\nDetrás del portón, un **ogro** se ríe bajito.",
+    "gheco": "`==` entre textos pregunta si son **el mismo objeto**, no si dicen lo mismo. Para comparar el contenido se usa `equals`; si no importan las mayúsculas, `equalsIgnoreCase`.",
+    "exito": "Con `equals`, el portón abre siempre que la palabra es la correcta. El ogro se queda sin chiste y se aleja arrastrando los pies.",
+    "imagen": [
+      "Un portón de madera reforzada con un candado de engranajes y una ranura para mensajes.",
+      "Un ogro detrás del portón se tapa la boca para no reírse; Zed y Nadia esperan frente al candado."
+    ]
+  },
+  "R01-N03-M3": {
+    "lugar": "La oficina de sellos de la Aduana",
+    "personajes": "Zed, Gheco, Nadia, el Escriba Jefe",
+    "escena": "El Escriba Jefe quiere colgar la tabla de tarifas en la entrada, pero las columnas salen torcidas y los viajeros leen mal los precios.\n—Alineada o no se cuelga —dice.",
+    "gheco": "`printf` da formato: `%-10s` es un texto a la izquierda en 10 lugares, `%5d` un entero a la derecha en 5 y `%8.2f` un decimal con 2 decimales. `%n` es el salto de línea.",
+    "exito": "La tabla queda derecha como una regla. El Escriba Jefe la cuelga en la entrada y, por primera vez, nadie discute un precio.",
+    "imagen": [
+      "Una tabla grande de madera con columnas perfectamente alineadas, colgada sobre la ventanilla.",
+      "El Escriba Jefe la mide con una regla; Zed y Nadia miran desde abajo."
+    ]
+  },
+  "R01-N04-M1": {
+    "lugar": "La ventanilla de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Ahora es Zed el que atiende la ventanilla. Cada viajero dice su nombre, su ciudad y cuántos días se queda, y hay que darle su ficha con lo que paga.\n—Y los que se quedan mucho tienen descuento —agrega Nadia.",
+    "gheco": "`Scanner` lee lo que se escribe: `nextLine()` un renglón entero y `nextInt()` un número. Ojo: después de `nextInt()` queda un salto de línea pendiente; un `nextLine()` de más lo limpia.",
+    "exito": "La fila avanza más rápido que nunca. Un viajero le deja propina a Zed, que la entrega a Nadia sin que se la pidan.",
+    "imagen": [
+      "Zed atiende detrás de una ventanilla de madera; afuera, una fila de viajeros con valijas.",
+      "Nadia controla desde atrás con los brazos cruzados; Gheco sella fichas con la cola."
+    ]
+  },
+  "R01-N04-M2": {
+    "lugar": "Los terrenos del cuartel",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El cuartel nuevo necesita un cerco. El capataz da el ancho y el largo del terreno, y pregunta cuántas estacas comprar.\n—Si falta una, no cierra —dice—. Mejor que sobre.",
+    "gheco": "`Math.sqrt` es la raíz cuadrada y `Math.pow(x, 2)` el cuadrado. `Math.ceil` redondea **para arriba** (devuelve `double`). Con `printf(\"%.2f\")` mostrás dos decimales.",
+    "exito": "Las estacas alcanzan justo, con una de sobra. El capataz la usa para clavar un cartel: «Calculado por Zed».",
+    "imagen": [
+      "Un terreno vacío con estacas clavadas en el borde, unidas por una soga.",
+      "Un capataz con casco y Zed miden la diagonal con una cuerda tensa; Gheco camina sobre la soga."
+    ]
+  },
+  "R01-N04-M3": {
+    "lugar": "La taberna de la frontera",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Un tahúr gana todas las partidas de dados. Zed, que de trampas sabe, sospecha.\n—Si la partida tiene semilla —le susurra Gheco—, los dados siempre caen igual.",
+    "gheco": "`new Random(semilla)` da siempre la misma secuencia para la misma semilla. `nextInt(6) + 1` es un dado de 6 caras. `Math.max(a, b)` devuelve el mayor de dos.",
+    "exito": "Zed adivina la tirada antes de que caigan los dados. El tahúr junta sus cosas y se va de la taberna por la puerta de atrás.",
+    "imagen": [
+      "Tres dados de madera en el aire sobre una mesa de taberna, con puntitos en las caras.",
+      "Un tahúr de sombrero se asusta; Zed sonríe con los brazos cruzados y Gheco sostiene un dado."
+    ]
+  },
+  "R01-N05-M1": {
+    "lugar": "El patio de la Academia",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La Academia del Imperio usa una balanza que da el veredicto de cada nota, pero se trabó. Los estudiantes esperan con la hoja en la mano.\n—Del uno al diez —dice Nadia—, y cualquier otra cosa es inválida.",
+    "gheco": "Con `if` / `else if` / `else` se prueba un rango después del otro: el primero que da verdadero gana. Para un rango, dos condiciones con `&&` (`nota >= 4 && nota <= 6`).",
+    "exito": "La balanza vuelve a moverse y cada estudiante recibe su veredicto. Uno saca 10 y la balanza toca una campanita.",
+    "imagen": [
+      "Una balanza de bronce enorme en un patio de piedra, con un platillo que se inclina.",
+      "Estudiantes de capa hacen fila con hojas en la mano; Zed ajusta un engranaje de la balanza."
+    ]
+  },
+  "R01-N05-M2": {
+    "lugar": "La posada junto a la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La posada tiene un menú nuevo y el posadero no da abasto con los pedidos. Le pide a Zed un programa que diga el plato y el precio de cada número.\n—Y si piden algo que no hay, que lo diga.",
+    "gheco": "Un `switch` como expresión devuelve un valor: `int precio = switch (opcion) { case 1 -> 1200; case 2 -> 300; default -> 0; };`. El `default` atrapa todo lo demás.",
+    "exito": "Los pedidos salen sin una sola confusión. El posadero le pone a un guiso nuevo el nombre de Zed.",
+    "imagen": [
+      "Un posadero sirve platos humeantes desde un mostrador lleno de pedidos.",
+      "Zed come un guiso en la barra; Gheco mira el menú pintado con dibujos de comida."
+    ]
+  },
+  "R01-N05-M3": {
+    "lugar": "El cuerpo de guardia de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En el cambio de guardia, los aduaneros juegan a piedra, papel o tijera para ver quién hace la ronda de noche. Nadia nunca pierde… o eso dice.\n—Que lo decida un programa —propone Zed.",
+    "gheco": "Compará textos con `equals`. Un empate es cuando las dos jugadas son iguales; para ver quién gana, alcanza con revisar los tres casos en que gana uno (piedra a tijera, tijera a papel, papel a piedra).",
+    "exito": "Nadia pierde y le toca la ronda de noche. Lo acepta sin protestar: el programa no hace trampa.",
+    "imagen": [
+      "Nadia y un guardia enfrentan sus manos en piedra y tijera sobre una mesa.",
+      "Zed y otros guardias miran el resultado; Gheco levanta la cola como árbitro."
+    ]
+  },
+  "R01-N06-M1": {
+    "lugar": "La oficina del tesorero",
+    "personajes": "Zed, Gheco, Nadia, el tesorero",
+    "escena": "El tesorero de la Aduana tiene que enseñarle las tablas a su aprendiz, pero el aprendiz escribe cualquier cosa cuando le preguntan un número.\n—Que pregunte hasta que le contesten bien —pide.",
+    "gheco": "Un bucle que valida repite la pregunta mientras la respuesta no sirva. `hasNextInt()` dice si lo que viene es un número antes de leerlo. Un `for` del 1 al 10 arma la tabla.",
+    "exito": "El aprendiz recita la tabla sin trabarse. El tesorero le da a Zed una moneda vieja «para la suerte».",
+    "imagen": [
+      "Un tesorero de anteojos y un aprendiz chico frente a una pizarra con multiplicaciones.",
+      "Zed los mira desde la puerta; Gheco cuenta monedas sobre el escritorio."
+    ]
+  },
+  "R01-N06-M2": {
+    "lugar": "La carpa del adivino",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En la frontera, un adivino piensa un número del 1 al 100 y cobra cada intento. Zed paga uno y el adivino le dice: «más».\n—Pensá —dice Gheco—. Cada pista parte el problema a la mitad.",
+    "gheco": "Un `do` / `while` se ejecuta al menos una vez y sigue mientras la condición sea verdadera: ideal para pedir intentos hasta acertar. Contá los intentos con una variable que suma uno por vuelta.",
+    "exito": "Zed acierta en pocos intentos y el adivino le devuelve la plata, ofendido. Nadia anota el método: «partir a la mitad».",
+    "imagen": [
+      "Un adivino con turbante y bola de cristal, dentro de una carpa de tela con estrellas.",
+      "Zed le muestra con los dedos un número; Gheco se asoma por detrás de la bola de cristal."
+    ]
+  },
+  "R01-N06-M3": {
+    "lugar": "El granero de la Aduana",
+    "personajes": "Zed, Gheco, Nadia",
+    "criatura": "slime",
+    "escena": "Los campesinos declaran sus cosechas de a una, pero entre las declaraciones hay papeles en blanco y números negativos que dejó un **slime**.\n—Las que no sirven, se saltean —dice Nadia—. Y se avisa.",
+    "gheco": "`continue` salta al próximo giro del bucle sin hacer el resto. Leé hasta que llegue `fin` y, en cada vuelta, descartá lo que no sirve antes de sumar.",
+    "exito": "El total del granero da exacto y el slime se queda sin papeles para ensuciar. Los campesinos se van con su recibo.",
+    "imagen": [
+      "Un granero de madera con sacos de trigo apilados y un slime verde que gotea sobre unos papeles.",
+      "Zed separa papeles en dos pilas; Nadia anota el total en su libreta."
+    ]
+  },
+  "R01-N07-M1": {
+    "lugar": "La torre del clima",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En lo alto de la Aduana, una torre anota la temperatura de cada día. Al final de la semana, el comandante quiere saber cuál fue el día más caluroso.\n—Siete números —dice Zed—. Siete cajones seguidos.",
+    "gheco": "Un array guarda varios valores del mismo tipo: `double[] temp = new double[7];`. Se recorre con un `for` del 0 al 6. `Arrays.toString(temp)` lo muestra entero.",
+    "exito": "El comandante recibe el informe y decide repartir agua el día más caluroso. Gheco se queda tomando sol en el termómetro.",
+    "imagen": [
+      "Una torre con un termómetro gigante de vidrio y siete banderines de colores.",
+      "Zed anota en una tablilla; Gheco toma sol arriba del termómetro."
+    ]
+  },
+  "R01-N07-M2": {
+    "lugar": "El patio del torneo",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "Terminó el torneo de arquería de los aduaneros y hay que armar el podio. Pero el juez no quiere que se toque la planilla original.\n—Ordená una copia —dice Nadia—. La original queda como estaba.",
+    "gheco": "`Arrays.copyOf(original, largo)` hace una copia nueva; `Arrays.sort(copia)` la ordena de menor a mayor. Recorrela desde el final para tener los más altos primero.",
+    "exito": "Nadia sale segunda y no dice nada. Zed le pregunta si está bien y ella contesta que la copia está perfectamente ordenada.",
+    "imagen": [
+      "Un podio de madera de tres escalones en un patio con blancos de arquería.",
+      "Nadia en el segundo escalón con un arco; Zed sostiene la planilla y Gheco aplaude."
+    ]
+  },
+  "R01-N07-M3": {
+    "lugar": "La pared del depósito",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En la pared del depósito hay un mapa cuadriculado de la frontera, con un río que lo cruza. Un registro viejo dice dónde está escondido algo.\nZed se acerca: al lado del mapa hay una marca chiquita con forma de vitral.",
+    "gheco": "Una matriz es un array de arrays: `char[][] mapa = new char[4][6];`. `mapa[fila][columna]` es un casillero. Con dos `for` anidados recorrés todas las filas y columnas.",
+    "exito": "La X cae justo al lado del río. Zed toca la marca del vitral y la llave de vidrio, en su bolsillo, se entibia un instante.",
+    "imagen": [
+      "Un mapa cuadriculado pintado en una pared de piedra, con un río azul que lo cruza y una X roja.",
+      "Zed toca con un dedo una marca chiquita con forma de vitral; Gheco ilumina con su luz."
+    ]
+  },
+  "R01-N08-M1": {
+    "lugar": "La ventanilla del cambista",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "En la ventanilla del cambista, los viajeros del Puerto cambian pesos por denarios. El cambista hace cada cuenta a mano y se equivoca.\n—Una receta para cada cosa —le dice Zed—, y la usás cuantas veces quieras.",
+    "gheco": "Un método es una receta con nombre: recibe parámetros y devuelve un resultado con `return`. `static double aDenarios(double pesos) { return pesos / 250; }` se usa como `aDenarios(1000)`.",
+    "exito": "El cambista atiende la fila sin un error. Le cuelga a la ventanilla un cartelito con un dibujo de una balanza y una moneda.",
+    "imagen": [
+      "Una ventanilla con barrotes de bronce, montones de monedas de dos tipos y una balanza chica.",
+      "Un cambista de chaleco cuenta monedas; Zed le señala una receta en un pergamino."
+    ]
+  },
+  "R01-N08-M2": {
+    "lugar": "El cuartel del regimiento",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "El capitán del regimiento quiere los números de sus soldados: la suma, el mejor y cuántos pasan un límite. Y los puntajes de más de cien se recortan, porque el reglamento lo dice.\n—Un método para cada pregunta —dice Nadia.",
+    "gheco": "Un método puede recibir un array: `static int suma(int[] datos)`. Ojo: si el método **cambia** el array, el cambio se ve afuera, porque el array no se copia: se pasa el mismo.",
+    "exito": "El capitán recibe el informe y nombra a Zed «escribiente honorario del regimiento». Zed no sabe qué significa, pero le gusta cómo suena.",
+    "imagen": [
+      "Un capitán de bigote revisa una planilla en un cuartel con soldados formados atrás.",
+      "Zed le entrega la planilla; Gheco hace la venia desde un casco."
+    ]
+  },
+  "R01-N08-M3": {
+    "lugar": "La escalera al último pasillo",
+    "personajes": "Zed, Gheco, Nadia",
+    "escena": "La escalera de la torre tiene escalones que se repiten y se repiten. Para subirla, cada escalón pide la misma cuenta que el anterior, un poco más chica.\n—Una receta que se usa a sí misma —murmura Gheco.",
+    "gheco": "Un método recursivo se llama a sí mismo con un problema más chico y tiene un **caso base** donde se detiene. Un método sobrecargado tiene el mismo nombre con distintos parámetros.",
+    "exito": "Zed llega al último escalón. Desde ahí se ve, al fondo del pasillo, una armadura vacía sentada en un trono de piedra.",
+    "imagen": [
+      "Una escalera de caracol de piedra que se repite hacia arriba, con cada escalón un poco más chico.",
+      "Zed sube con Nadia detrás; Gheco ya llegó arriba y los espera."
+    ]
+  },
+  "R01-N09-M1": {
+    "lugar": "El trono del Centinela",
+    "personajes": "Zed, Gheco, Nadia, el Centinela",
+    "escena": "El Centinela se levanta del trono y desenvaina. Nadia se pone adelante con tres pociones en el cinturón.\n—Turno por turno —dice Zed—. Y cada cosa en su método.",
+    "gheco": "Un combate por turnos es un bucle: mientras los dos tengan vida, se muestra el estado, se pide una acción validada y se resuelve. Separá cada parte en un método (`mostrarEstado`, `atacar`, `turnoDelCentinela`).",
+    "exito": "El Centinela cae de rodillas y su armadura queda quieta. Nadia guarda la espada con una poción todavía en el cinturón.",
+    "imagen": [
+      "Una armadura enorme y vacía con espada, frente a un trono de piedra en un salón alto.",
+      "Nadia la enfrenta con la espada en alto; Zed le grita indicaciones y Gheco sostiene una poción."
+    ]
+  },
+  "R01-N09-M2": {
+    "lugar": "El trono del Centinela",
+    "personajes": "Zed, Gheco, Nadia, el Centinela",
+    "escena": "Detrás del trono están los registros del Centinela, línea por línea. Algunos están rotos, otros mienten.\n—Validá cada uno antes de creerle —dice Nadia—. Como hace la Aduana.",
+    "gheco": "`split(\";\")` parte una línea en pedazos. Un método `validarRegistro` que devuelve el error (o `\"\"` si está bien) deja el bucle principal limpio: si hay error, se avisa y se sigue con la próxima.",
+    "exito": "Entre los registros válidos aparece uno viejísimo: un viajero que declaró una sola cosa, «un vitral». Zed lo guarda en el bolsillo, junto a la llave.",
+    "imagen": [
+      "Pilas de pergaminos detrás de un trono de piedra; algunos rotos, otros enrollados con cinta.",
+      "Zed lee un pergamino amarillento a la luz de Gheco; Nadia separa los rotos en una caja."
+    ]
+  }
+}

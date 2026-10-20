@@ -51,7 +51,11 @@ export async function runJava(code, { stdin = '', url, helpUrl = null, timeout =
         return { output: data.output, error: `Se cortó a los ${timeout / 1000} segundos. ¿Hay un bucle que no termina?${cut}`, diagnostics: data.diagnostics, ms: data.ms, timedOut: true };
     }
     const errors = data.errors.trim();
-    const error = data.exit !== 0 ? `El programa terminó con código ${data.exit}.${errors ? '\n' + errors : ''}${cut}` : (cut || null);
+    // El ejecutor anterior a la versión 2 elegía mal la clase cuando había una clase o un record adentro antes del main.
+    const outdated = !data.version && helpUrl && errors.includes('Could not find or load main class')
+        ? `\n\nTu Ejecutor de Java es de una versión vieja: bajalo de nuevo desde ${new URL(helpUrl, window.location.href).href}, descomprimilo encima del anterior y volvé a abrirlo.`
+        : '';
+    const error = data.exit !== 0 ? `El programa terminó con código ${data.exit}.${errors ? '\n' + errors : ''}${outdated}${cut}` : (cut || null);
 
     return { output: data.output, error, diagnostics: data.diagnostics, stderr: data.exit === 0 ? errors : '', ms: data.ms };
 }

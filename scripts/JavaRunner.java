@@ -23,20 +23,26 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class JavaRunner {
     static final int PORT = 17017;
-    static final String VERSION = "1";
+    static final String VERSION = "2";
     static final Set<String> ORIGINS = new TreeSet<>(List.of(
         "https://gamificado.lariojaclick.ar", "http://localhost:8000", "http://127.0.0.1:8000"));
     static final long COMPILE_SECONDS = 20;
@@ -123,11 +129,7 @@ public class JavaRunner {
     static String run(String code, String stdin) throws Exception {
         Matcher pub = Pattern.compile("public\\s+(?:(?:final|abstract)\\s+)*(?:class|record|enum|interface)\\s+(\\w+)").matcher(code);
         String file = pub.find() ? pub.group(1) : "Main";
-        // La clase con main: la última declaración antes del primer "static void main" (casi siempre, la pública).
-        String mainClass = file;
-        int main = code.indexOf("static void main");
-        Matcher declared = Pattern.compile("\\b(?:class|record|enum)\\s+(\\w+)").matcher(main < 0 ? "" : code.substring(0, main));
-        while (declared.find()) mainClass = declared.group(1);
+        String mainClass = mainClass(code, file);
         Matcher pkg = Pattern.compile("^\\s*package\\s+([\\w.]+)\\s*;", Pattern.MULTILINE).matcher(code);
         if (pkg.find()) mainClass = pkg.group(1) + "." + mainClass;
 
@@ -150,7 +152,7 @@ public class JavaRunner {
             Result ran = exec(List.of(java, "-Xmx256m", "-Xss8m", "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
                 "-cp", "out", mainClass), dir, stdin, RUN_MS);
             long ms = (System.nanoTime() - started) / 1_000_000;
-            return "{\"compiled\":true,\"diagnostics\":" + json(compiled.err) + ",\"output\":" + json(ran.out) + ",\"errors\":" + json(ran.err)
+            return "{\"version\":\"" + VERSION + "\",\"compiled\":true,\"diagnostics\":" + json(compiled.err) + ",\"output\":" + json(ran.out) + ",\"errors\":" + json(ran.err)
                 + ",\"exit\":" + ran.exit + ",\"timedOut\":" + ran.timedOut + ",\"truncated\":" + ran.truncated + ",\"ms\":" + ms + "}";
         } finally {
             try (Stream<Path> files = Files.walk(dir)) {
@@ -160,6 +162,57 @@ public class JavaRunner {
     }
 
     record Result(String out, String err, int exit, boolean timedOut, boolean truncated) {}
+
+    /**
+     * La clase que contiene el primer "static void main" (casi siempre, la pública). Cuenta llaves salteando
+     * textos y comentarios, así una clase o un record de adentro declarado antes del main no se confunde con
+     * ella; si el main está en una clase de adentro, devuelve su nombre binario (Afuera$Adentro).
+     */
+    static String mainClass(String code, String file) {
+        int main = code.indexOf("static void main");
+        if (main < 0) return file;
+        Matcher declared = Pattern.compile("(?<![\\w.])(?:class|record|enum|interface)\\s+(\\w+)").matcher(code);
+        Map<Integer, MatchResult> at = new HashMap<>();
+        while (declared.find()) at.put(declared.start(), declared.toMatchResult());
+        Deque<String> open = new ArrayDeque<>();
+        String pending = null;
+        int i = 0;
+        while (i < main) {
+            char c = code.charAt(i);
+            if (code.startsWith("//", i)) {
+                i = code.indexOf('\n', i);
+                if (i < 0) break;
+            } else if (code.startsWith("/*", i)) {
+                i = code.indexOf("*/", i + 2);
+                if (i < 0) break;
+                i += 2;
+            } else if (code.startsWith("\"\"\"", i)) {
+                i = code.indexOf("\"\"\"", i + 3);
+                if (i < 0) break;
+                i += 3;
+            } else if (c == '"' || c == '\'') {
+                i++;
+                while (i < code.length() && code.charAt(i) != c && code.charAt(i) != '\n') i += code.charAt(i) == '\\' ? 2 : 1;
+                i++;
+            } else if (c == '{') {
+                open.push(pending == null ? "" : pending);
+                pending = null;
+                i++;
+            } else if (c == '}') {
+                if (!open.isEmpty()) open.pop();
+                i++;
+            } else if (at.containsKey(i)) {
+                pending = at.get(i).group(1);
+                i = at.get(i).end();
+            } else {
+                i++;
+            }
+        }
+        List<String> names = new ArrayList<>(open);
+        Collections.reverse(names);
+        names.removeIf(String::isEmpty);
+        return names.isEmpty() ? file : String.join("$", names);
+    }
 
     static Result exec(List<String> command, Path dir, String stdin, long timeoutMs) throws Exception {
         Process process = new ProcessBuilder(command).directory(dir.toFile()).start();

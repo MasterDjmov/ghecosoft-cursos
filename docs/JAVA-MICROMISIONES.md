@@ -1,0 +1,47 @@
+# Java con micro-misiones (D111, diseño a revisar)
+
+Pedido del docente (2026-10-20): probó Ensamblador, que se completa **solo con micro-misiones**, y quedó más que
+satisfecho. Quiere probar lo mismo en **Java** y sacarse de encima las prácticas que corrige, sin perder lo que
+funciona del curso.
+
+## 1. Punto de partida
+
+- Java está **en producción** con 4 alumnos con abono vigente: 55 entregas (la última, el 2026-10-19), 64
+  micro-misiones superadas y 18 nodos abiertos. **Nadie pierde nada** con el cambio.
+- El tronco (Clase 0 a R05) tiene **119 misiones obligatorias** y 39 encargos:
+  - **99** son de consola, con su *Salida esperada*: se pueden comprobar solas con el ejecutor de Java del alumno
+    (D85), igual que las micro-misiones que ya tiene el curso;
+  - **20** son proyectos que se entregan en un .zip (Maven, el .jar, JUnit, varias clases): no se comprueban solos.
+- Las Sendas (Bóveda, Palacio de las Ventanas, Arcade, Spring) usan bases de datos, ventanas y Spring: tampoco.
+
+## 2. Decisiones (charla con el docente, 2026-10-20)
+
+| Tema | Decisión |
+|---|---|
+| Sendas | **Quedan como están**: prácticas que corrige el docente. |
+| Misiones de consola del tronco (99) | **Pasan a ser micro-misiones**, con la misma lógica: el mismo enunciado, el código inicial, la salida esperada y la solución. Se comprueban solas. |
+| Proyectos del tronco (20) | Quedan como **prácticas que corrige el docente** (como las Sendas): no hay forma de comprobarlos solos. |
+| Denarios | **Siguen abriendo los nodos**. La micro-misión que viene de una misión paga los **denarios** que pagaba la misión; el resto de las micro-misiones sigue pagando **oro** y XP. |
+| Escenas | Cada micro-misión nueva lleva **su escena**, como las demás (Stitch, proyecto de Java). |
+
+### Propuestas para confirmar
+- **Encargos del tronco (39)**: quedan como prácticas **optativas** que corrige el docente (son las que dan comodines para abrir las Sendas). Si se convirtieran, darían comodines sin corrección.
+- **CV** (D64): los nodos completos de Java siguen contando. Ojo: lo que se comprueba en la compu del alumno se puede trampear (por eso inglés y Ensamblador no cuentan); en Java los nodos con proyecto los sigue corrigiendo el docente.
+
+## 3. Cómo funciona (para cualquier curso, no solo Java: D39)
+
+1. **Un ajuste del curso, no del lenguaje.** En el `00-curso.md`: `micromisiones_completan: si`. Hoy «se comprueba solo» depende del lenguaje (inglés, ensamblador); esto lo vuelve una opción de cualquier curso. Inglés y Ensamblador siguen igual (sin monedas).
+2. **Cuándo se completa un nodo** en un curso con el ajuste: **todas sus micro-misiones superadas** y, si le quedan prácticas obligatorias (los proyectos), **también aprobadas**.
+3. **Micro-misión que paga denarios**: en su `meta`, `recompensa: xp 20, monedas 4` (lo que pagaba la misión). Solo en un curso con el ajuste; se paga una vez, por el `Ledger`, como todo.
+4. **Lo que ya estaba completo, sigue completo.** Un nodo que el alumno completó con las misiones aprobadas no vuelve atrás porque ahora tenga micro-misiones nuevas (cuenta el registro de «nodo completado» del libro de XP).
+5. **Las misiones convertidas que el alumno ya tenía aprobadas** quedan superadas como micro-misión (sin volver a pagar): no tiene que rehacerlas.
+6. **Prácticas retiradas.** Una misión que se convierte se borra del .md. El importador:
+   - la **borra** si no tiene entregas;
+   - si tiene entregas, la **retira** (`practices.retired_at`): deja de verse y de ser obligatoria, y el docente sigue viendo las entregas viejas.
+
+## 4. Orden de trabajo (cada fase se prueba antes de seguir)
+
+1. **Motor**: el ajuste del curso, la regla de completar, los denarios de las micro-misiones, las prácticas retiradas y lo ya hecho que se conserva. Tests Pest y `app:simulate-course`.
+2. **Contenido**: las 99 misiones de consola, convertidas en `cursos/java/` (con su escena escrita, «Gheco sugiere» y «Al superarla»), probadas con el ejecutor de Java contra su salida esperada.
+3. **Escenas**: las de las micro-misiones nuevas, en Stitch. Ojo: a Java todavía le faltan 153 de sus 229 escenas actuales (ESCENAS.md).
+4. **Subida**: reimportar, verificar a los 4 alumnos (nodos, denarios, micro-misiones) y deploy.

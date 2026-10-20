@@ -65,6 +65,7 @@ nivel: desde_cero         # desde_cero | intermedio | avanzado
 destacado: si             # sale en la landing entre los cursos que más se dictan
 proximamente: no          # "Próximamente": se ve con su temario pero no se abre (solo si no está publicado)
 publicado: no             # solo al crearlo (por defecto, borrador); después se publica desde el admin
+micromisiones_completan: no  # D111: si, las micro-misiones completan el nodo (con las obligatorias que le queden)
 ```
 
 - `### Descripción`: texto largo de la ficha del curso.
@@ -189,7 +190,13 @@ carta: Conversiones | int("12") → 12 · float("3.5") → 3.5
 recompensa: xp 15, oro 15
 item: Bolsa de cuero                  # opcional
 se abre: el oro del jugador           # opcional
+antes: R01-N01-M1                     # opcional (D111): la misión de la que viene; quien la tenía aprobada la tiene superada
 ```
+
+Con `micromisiones_completan: si` (D111), `recompensa` admite `monedas N`: la micro-misión paga monedas del curso
+(las que pagaba la misión de la que viene), una sola vez. Una práctica que se saca del archivo se **borra** si nadie
+la usó y queda **retirada** (no se ve ni es obligatoria; el docente sigue viendo sus entregas) si tiene entregas,
+consultas o marcas.
 
 #### Escena            (2 a 4 líneas; {mentor}, {mundo}, {region})
 #### Gheco sugiere     (el concepto mínimo, con un ejemplo)

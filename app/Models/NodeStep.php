@@ -14,18 +14,18 @@ use Illuminate\Support\Facades\Storage;
  * Una micro-misión (D84 § 3): un paso corto del nodo con escena, pista de Gheco, desafío y recompensa.
  * Se comprueba sola (salida esperada) y solo da premios de juego: nunca monedas del curso ni aperturas.
  */
-#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'item', 'image_path', 'scene', 'translation', 'words', 'hint', 'challenge', 'starter_code', 'sample_input', 'checks', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
+#[Fillable(['node_id', 'code', 'language', 'position', 'title', 'place', 'characters', 'creature', 'card_title', 'card_body', 'xp_reward', 'gold_reward', 'coin_reward', 'item', 'image_path', 'scene', 'translation', 'words', 'hint', 'challenge', 'starter_code', 'sample_input', 'checks', 'expected_output', 'solution', 'success_text', 'unlocks', 'image_prompt'])]
 class NodeStep extends Model
 {
     /** Mismos valores por defecto que la base. */
-    protected $attributes = ['position' => 0, 'xp_reward' => 0, 'gold_reward' => 0];
+    protected $attributes = ['position' => 0, 'xp_reward' => 0, 'gold_reward' => 0, 'coin_reward' => 0];
 
     /** La solución nunca sale en un array o JSON (como las del docente, D37). */
     protected $hidden = ['solution'];
 
     protected function casts(): array
     {
-        return ['position' => 'integer', 'xp_reward' => 'integer', 'gold_reward' => 'integer'];
+        return ['position' => 'integer', 'xp_reward' => 'integer', 'gold_reward' => 'integer', 'coin_reward' => 'integer'];
     }
 
     public function node(): BelongsTo

@@ -10,11 +10,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['node_id', 'code', 'title', 'instructions', 'approval_criteria', 'is_required', 'submission_mode', 'environment', 'allowed_extensions', 'starter_code', 'sample_input', 'expected_output', 'reference_mobile', 'reference_desktop', 'reference_solution', 'coin_reward', 'xp_reward', 'position'])]
+#[Fillable(['node_id', 'code', 'title', 'instructions', 'approval_criteria', 'is_required', 'submission_mode', 'environment', 'allowed_extensions', 'starter_code', 'sample_input', 'expected_output', 'reference_mobile', 'reference_desktop', 'reference_solution', 'coin_reward', 'xp_reward', 'position', 'retired_at'])]
 class Practice extends Model
 {
     /** Mismos valores por defecto que la base. */
     protected $attributes = ['is_required' => true, 'submission_mode' => 'code', 'environment' => 'browser', 'coin_reward' => 0, 'xp_reward' => 0, 'position' => 0];
+
+    /**
+     * D111: una práctica que se sacó del curso pero tiene entregas queda retirada: no se ve ni es obligatoria.
+     * Las entregas, las consultas y las pruebas la siguen alcanzando (sus relaciones sacan este filtro).
+     */
+    public const ACTIVE = 'active';
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(self::ACTIVE, fn ($query) => $query->whereNull('practices.retired_at'));
+    }
 
     /** Solo del docente: nunca sale en un array o JSON (D37). */
     protected $hidden = ['reference_solution'];
@@ -27,6 +38,7 @@ class Practice extends Model
             'environment' => PracticeEnvironment::class,
             'coin_reward' => 'integer',
             'xp_reward' => 'integer',
+            'retired_at' => 'datetime',
         ];
     }
 

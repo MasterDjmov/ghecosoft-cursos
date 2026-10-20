@@ -5,6 +5,8 @@
     // exista el inventario (config game.inventory_enabled).
     $gold = (bool) config('game.gold_enabled');
     $inventory = (bool) config('game.inventory_enabled');
+    // D111: en un curso donde las micro-misiones completan el nodo, las que vienen de una misión pagan monedas del curso.
+    $courseCoin = $course->steps_complete_nodes ? \App\Models\Currency::forCourse($course) : null;
     $total = $steps->count();
     $doneCount = $doneSteps->count();
     // La última superada (la que viene justo antes de la actual) se muestra abierta: ahí está lo que pasó.
@@ -218,6 +220,11 @@
                                         <x-gold-icon class="size-4" /> <span x-text="result?.xp > 0 ? '+{{ $step->gold_reward }} de oro' : 'Oro (ya lo tenías o sos del staff)'"></span>
                                     </li>
                                 @endif
+                                @if ($courseCoin && $step->coin_reward > 0)
+                                    <li class="flex items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary-bright" data-test="step-coins">
+                                        <x-coin-icon :currency="$courseCoin" size="size-4" /> <span x-text="result?.xp > 0 ? '+{{ $step->coin_reward }} {{ term('coin.course', $course, $step->coin_reward) }}' : '{{ Str::ucfirst(term('coin.course', $course, 2)) }} (ya los tenías o sos del staff)'"></span>
+                                    </li>
+                                @endif
                                 @if ($inventory && $step->item)
                                     <li class="flex items-center gap-1.5 rounded-lg border border-success/40 bg-success/10 px-3 py-1.5 text-success">
                                         <flux:icon name="gift" variant="micro" /> {{ $step->item }}
@@ -248,6 +255,9 @@
                         @endif
                         @if ($gold && $step->gold_reward > 0)
                             <span class="flex items-center gap-1"><x-gold-icon class="size-3.5" /> +{{ $step->gold_reward }} de oro</span>
+                        @endif
+                        @if ($courseCoin && $step->coin_reward > 0)
+                            <span class="flex items-center gap-1"><x-coin-icon :currency="$courseCoin" size="size-3.5" /> +{{ $step->coin_reward }} {{ term('coin.course', $course, $step->coin_reward) }}</span>
                         @endif
                         @if ($inventory && $step->item)
                             <span class="flex items-center gap-1"><flux:icon name="gift" variant="micro" class="text-success" /> {{ $step->item }}</span>

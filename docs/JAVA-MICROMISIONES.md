@@ -1,4 +1,4 @@
-# Java con micro-misiones (D111, diseño a revisar)
+# Java con micro-misiones (D111)
 
 Pedido del docente (2026-10-20): probó Ensamblador, que se completa **solo con micro-misiones**, y quedó más que
 satisfecho. Quiere probar lo mismo en **Java** y sacarse de encima las prácticas que corrige, sin perder lo que
@@ -24,9 +24,8 @@ funciona del curso.
 | Denarios | **Siguen abriendo los nodos**. La micro-misión que viene de una misión paga los **denarios** que pagaba la misión; el resto de las micro-misiones sigue pagando **oro** y XP. |
 | Escenas | Cada micro-misión nueva lleva **su escena**, como las demás (Stitch, proyecto de Java). |
 
-### Propuestas para confirmar
-- **Encargos del tronco (39)**: quedan como prácticas **optativas** que corrige el docente (son las que dan comodines para abrir las Sendas). Si se convirtieran, darían comodines sin corrección.
-- **CV** (D64): los nodos completos de Java siguen contando. Ojo: lo que se comprueba en la compu del alumno se puede trampear (por eso inglés y Ensamblador no cuentan); en Java los nodos con proyecto los sigue corrigiendo el docente.
+| Encargos del tronco (39) | Quedan como prácticas **optativas** que corrige el docente (dan los comodines de las Sendas). Confirmado el 2026-10-20. |
+| CV (D64) | Los nodos completos de Java **siguen contando**, aunque lo que se comprueba en la compu del alumno se pueda trampear. Confirmado el 2026-10-20. |
 
 ## 3. Cómo funciona (para cualquier curso, no solo Java: D39)
 
@@ -41,7 +40,7 @@ funciona del curso.
 
 ## 4. Orden de trabajo (cada fase se prueba antes de seguir)
 
-1. **Motor**: el ajuste del curso, la regla de completar, los denarios de las micro-misiones, las prácticas retiradas y lo ya hecho que se conserva. Tests Pest y `app:simulate-course`.
+1. **Motor**: el ajuste del curso, la regla de completar, los denarios de las micro-misiones, las prácticas retiradas y lo ya hecho que se conserva. Tests Pest y `app:simulate-course`. **Hecha (2026-10-20):** `courses.steps_complete_nodes` (`micromisiones_completan: si`), `node_steps.coin_reward` (`recompensa: … monedas N`), `practices.retired_at` (global scope `Practice::ACTIVE`; entregas, consultas y pruebas la siguen viendo), `TreeAccess::nodeWorkDone`/`stepsCompleteNodes`, `StepCompleter::creditCoins`, el importador (`antes:`, retirar o borrar) y `tests/Feature/Student/StepsCompleteNodesTest.php`.
 2. **Contenido**: las 99 misiones de consola, convertidas en `cursos/java/` (con su escena escrita, «Gheco sugiere» y «Al superarla»), probadas con el ejecutor de Java contra su salida esperada.
 3. **Escenas**: las de las micro-misiones nuevas, en Stitch. Ojo: a Java todavía le faltan 153 de sus 229 escenas actuales (ESCENAS.md).
 4. **Subida**: reimportar, verificar a los 4 alumnos (nodos, denarios, micro-misiones) y deploy.

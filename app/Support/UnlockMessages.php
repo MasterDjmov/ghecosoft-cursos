@@ -22,9 +22,13 @@ class UnlockMessages
                 TreeAccess::BLOCK_UNPUBLISHED => 'Todavía no está disponible.',
                 TreeAccess::BLOCK_NO_SUBSCRIPTION => 'Tu abono no está vigente: renovalo para seguir abriendo.',
                 TreeAccess::BLOCK_ROOT_CLOSED => 'Primero abrí «'.$course->rootNode?->title.'».',
-                TreeAccess::BLOCK_PARENT_INCOMPLETE => $course->language->isSelfChecked()
-                    ? 'Terminá las misiones de «'.$node->parent?->title.'».'
-                    : 'Aprobá las '.term('practice', $course, 2).' obligatorias de «'.$node->parent?->title.'».',
+                TreeAccess::BLOCK_PARENT_INCOMPLETE => match (true) {
+                    $course->language->isSelfChecked() => 'Terminá las misiones de «'.$node->parent?->title.'».',
+                    // D111: las micro-misiones completan el nodo, con los proyectos que le queden.
+                    $course->steps_complete_nodes => 'Superá las micro-misiones de «'.$node->parent?->title.'»'
+                        .($node->parent?->practices()->where('is_required', true)->exists() ? ' y aprobá sus '.term('practice', $course, 2).' obligatorias' : '').'.',
+                    default => 'Aprobá las '.term('practice', $course, 2).' obligatorias de «'.$node->parent?->title.'».',
+                },
                 TreeAccess::BLOCK_SEASON_INCOMPLETE => self::seasonMissing($user, $node, $access),
                 TreeAccess::BLOCK_REQUIREMENTS_INCOMPLETE => self::missingRequirements($user, $node, $access),
                 TreeAccess::BLOCK_INSUFFICIENT_FUNDS => self::missingFunds($user, $node, $access),

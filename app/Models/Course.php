@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['title', 'slug', 'short_description', 'description', 'language', 'level', 'syllabus', 'logo', 'cover', 'is_published', 'is_featured', 'is_upcoming', 'position', 'root_price', 'subscription_days'])]
+#[Fillable(['title', 'slug', 'short_description', 'description', 'language', 'level', 'syllabus', 'logo', 'cover', 'is_published', 'is_featured', 'is_upcoming', 'position', 'root_price', 'subscription_days', 'steps_complete_nodes'])]
 class Course extends Model
 {
     /** Mismos valores por defecto que la base. */
-    protected $attributes = ['language' => 'python', 'level' => 'beginner', 'is_published' => false, 'is_featured' => false, 'is_upcoming' => false, 'position' => 0, 'root_price' => 10, 'subscription_days' => 30];
+    protected $attributes = ['language' => 'python', 'level' => 'beginner', 'is_published' => false, 'is_featured' => false, 'is_upcoming' => false, 'position' => 0, 'root_price' => 10, 'subscription_days' => 30, 'steps_complete_nodes' => false];
 
     use HasFactory;
 
@@ -31,6 +31,7 @@ class Course extends Model
             'is_upcoming' => 'boolean',
             'root_price' => 'integer',
             'subscription_days' => 'integer',
+            'steps_complete_nodes' => 'boolean',
         ];
     }
 

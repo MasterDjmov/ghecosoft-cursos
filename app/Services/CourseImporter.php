@@ -8,6 +8,7 @@ use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\PracticeEnvironment;
 use App\Enums\SubmissionMode;
+use App\Enums\SubmissionStatus;
 use App\Models\Badge;
 use App\Models\Branch;
 use App\Models\Course;
@@ -15,7 +16,10 @@ use App\Models\Currency;
 use App\Models\GlossaryTerm;
 use App\Models\Node;
 use App\Models\NodeStep;
+use App\Models\NodeStepCompletion;
 use App\Models\Practice;
+use App\Models\PracticeMessage;
+use App\Models\Submission;
 use App\Rules\SafeUpload;
 use App\Support\AsmState;
 use App\Support\CourseImport\CourseFileParser;
@@ -245,6 +249,8 @@ class CourseImporter
             'level' => isset($meta['nivel']) ? self::LEVELS[CourseFileParser::normalize($meta['nivel'])] ?? null : null,
             'is_featured' => isset($meta['destacado']) ? self::yes($meta['destacado']) : null,
             'is_upcoming' => isset($meta['proximamente']) ? self::yes($meta['proximamente']) : null,
+            // D111: las micro-misiones completan el nodo (y las que vienen de una misión pagan monedas del curso).
+            'steps_complete_nodes' => isset($meta['micromisiones_completan']) ? self::yes($meta['micromisiones_completan']) : null,
         ], fn ($value) => $value !== null));
 
         // "publicado" vale solo al crear: después se publica u oculta desde el admin.
@@ -414,7 +420,10 @@ class CourseImporter
             // Todo nodo publicado tiene al menos una obligatoria: un nodo sin hojas no se gana ni se completa.
             $hasRequired = collect($node['practices'])->contains(fn ($p) => isset($p['meta']['obligatoria']) ? self::yes($p['meta']['obligatoria']) : $p['required_default']);
             // Un curso que se comprueba solo (D106) no tiene prácticas: el nodo se completa con sus micro-misiones.
-            if ($this->course->language->isSelfChecked()) {
+            // En uno donde las micro-misiones completan el nodo (D111), alcanza con micro-misiones u obligatorias.
+            if ($this->course->steps_complete_nodes && ! $hasRequired && ($node['steps'] ?? []) !== []) {
+                // nada que avisar
+            } elseif ($this->course->language->isSelfChecked()) {
                 if (($node['steps'] ?? []) === [] && $model->is_published) {
                     $this->report->warning("{$where}: el nodo {$node['code']} no tiene micro-misiones: se completa apenas se abre.");
                 }
@@ -493,9 +502,44 @@ class CourseImporter
             $this->applyTests($model, $practice['tests']);
         }
 
+        // D111: la que se sacó del archivo se borra si nadie la usó; si tiene entregas, consultas o marcas, se retira
+        // (deja de verse y de ser obligatoria, y el docente sigue viendo lo que se entregó).
         $missing = $existing->keys()->diff(collect($data['practices'])->pluck('code'));
         foreach ($missing as $code) {
-            $this->report->note("La práctica {$code} de {$node->code} está en la base pero no en el archivo: quedó sin tocar.");
+            $practice = $existing[$code];
+            if ($practice->hasStudentActivity() || PracticeMessage::where('practice_id', $practice->id)->exists()) {
+                $practice->forceFill(['retired_at' => now(), 'is_required' => false]);
+                $this->save('prácticas', $practice);
+                $this->report->note("La práctica {$code} de {$node->code} ya no está en el archivo y tiene entregas: quedó retirada.");
+            } else {
+                $practice->delete();
+                $this->report->note("La práctica {$code} de {$node->code} ya no está en el archivo: se borró.");
+            }
+        }
+    }
+
+    /**
+     * D111: una micro-misión que viene de una misión («antes: R01-N01-M1»): quien tenía esa misión aprobada la tiene
+     * superada, sin volver a cobrar (la XP y las monedas ya las pagó la misión).
+     */
+    private function carryOver(Node $node, NodeStep $step, string $practiceCode): void
+    {
+        $practice = Practice::withoutGlobalScope(Practice::ACTIVE)->where('node_id', $node->id)->where('code', $practiceCode)->first();
+        if (! $practice) {
+            $this->report->warning("{$step->code}: «antes: {$practiceCode}» no es una práctica de {$node->code}.");
+
+            return;
+        }
+        $approved = Submission::where('practice_id', $practice->id)->where('status', SubmissionStatus::Approved)
+            ->orderBy('reviewed_at')->get()->unique('user_id');
+        foreach ($approved as $submission) {
+            $completion = NodeStepCompletion::firstOrCreate(
+                ['user_id' => $submission->user_id, 'node_step_id' => $step->id],
+                ['completed_at' => $submission->reviewed_at ?? now(), 'code' => $submission->code],
+            );
+            if ($completion->wasRecentlyCreated) {
+                $this->report->note("{$step->code}: superada para el alumno #{$submission->user_id}, que tenía {$practiceCode} aprobada.");
+            }
         }
     }
 
@@ -536,6 +580,8 @@ class CourseImporter
                 'card_body' => $cardBody ? Str::limit($cardBody, 500, '') : null,
                 'xp_reward' => preg_match('/xp\s*(\d+)/i', $reward, $m) ? (int) $m[1] : 10,
                 'gold_reward' => preg_match('/oro\s*(\d+)/i', $reward, $m) ? (int) $m[1] : 0,
+                // D111: la que viene de una misión paga las monedas del curso que pagaba la misión.
+                'coin_reward' => preg_match('/monedas\s*(\d+)/i', $reward, $m) ? (int) $m[1] : 0,
                 'item' => Str::limit($meta['item'] ?? '', 255, '') ?: null,
                 'scene' => $fields['scene'] ?? null,
                 'translation' => $fields['translation'] ?? null,
@@ -555,6 +601,12 @@ class CourseImporter
                 ...$this->stepImage($step, $model),
             ]);
             $this->save('micro-misiones', $model);
+            if ($model->coin_reward > 0 && ! $this->course->steps_complete_nodes) {
+                $this->report->warning("{$step['where']}: {$step['code']} paga monedas, pero el curso no tiene «micromisiones_completan: si»: no las va a pagar.");
+            }
+            if (filled($meta['antes'] ?? null) && $model->exists) {
+                $this->carryOver($node, $model, Str::upper(trim($meta['antes'])));
+            }
         }
 
         $codes = collect($steps)->pluck('code');
@@ -797,7 +849,9 @@ class CourseImporter
         foreach ($nodes as $node) {
             $earned[$node['code']] = collect($node['practices'])
                 ->filter(fn ($p) => isset($p['meta']['obligatoria']) ? self::yes($p['meta']['obligatoria']) : $p['required_default'])
-                ->sum(fn ($p) => max(0, (int) ($p['meta']['monedas'] ?? $p['meta']['recompensa'] ?? 0)));
+                ->sum(fn ($p) => max(0, (int) ($p['meta']['monedas'] ?? $p['meta']['recompensa'] ?? 0)))
+                // D111: las micro-misiones que pagan monedas del curso.
+                + collect($node['steps'] ?? [])->sum(fn ($s) => preg_match('/monedas\s*(\d+)/i', (string) ($s['meta']['recompensa'] ?? ''), $m) ? (int) $m[1] : 0);
         }
 
         foreach ($nodes as $node) {

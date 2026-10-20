@@ -49,7 +49,7 @@ class SubmissionReviewer
             $node = $practice->node;
             $course = $node->course;
             $levelBefore = Level::forXp($student->fresh()->xp_total)?->number;
-            $wasCompleted = $this->access->requiredPracticesApproved($student, $node);
+            $wasCompleted = $this->access->nodeWorkDone($student, $node);
 
             // ¿Ya tenía otra entrega aprobada de esta práctica? Entonces no se paga de nuevo.
             $alreadyPaid = Submission::where('user_id', $student->id)
@@ -84,7 +84,7 @@ class SubmissionReviewer
                 }
             }
 
-            if ($practice->is_required && ! $wasCompleted && $this->access->requiredPracticesApproved($student, $node)) {
+            if ($practice->is_required && ! $wasCompleted && $this->access->nodeWorkDone($student, $node)) {
                 $this->completeNode($student, $node, $admin, $reward);
             }
 

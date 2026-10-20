@@ -21,7 +21,7 @@ class PracticeMessage extends Model
 
     public function practice(): BelongsTo
     {
-        return $this->belongsTo(Practice::class);
+        return $this->belongsTo(Practice::class)->withoutGlobalScope(Practice::ACTIVE);
     }
 
     public function nodeStep(): BelongsTo

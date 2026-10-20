@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\Language;
 use App\Enums\NodeType;
 use App\Enums\SubmissionStatus;
+use App\Enums\XpReason;
 use App\Models\Branch;
 use App\Models\Course;
 use App\Models\CourseSubscription;
@@ -18,6 +19,7 @@ use App\Models\PracticeGrant;
 use App\Models\PracticeMark;
 use App\Models\Submission;
 use App\Models\User;
+use App\Models\XpTransaction;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
 
@@ -27,7 +29,7 @@ use Illuminate\Support\Collection;
  * - Ver un nodo: haberlo abierto alguna vez (el acceso a lo visto es permanente).
  * - Abrir un nodo: abono vigente + raíz abierto + obligatorias del nodo padre (y de sus
  *   requisitos extra) aprobadas + saldo. En un curso que se comprueba solo (D106), en vez de las obligatorias,
- *   las micro-misiones del padre superadas.
+ *   las micro-misiones del padre superadas; en uno donde las micro-misiones completan el nodo (D111), las dos.
  * - Entregar: nodo abierto + abono vigente.
  */
 class TreeAccess
@@ -139,7 +141,9 @@ class TreeAccess
 
     /**
      * Lo que completa un nodo abierto: las obligatorias aprobadas o, en un curso que se comprueba solo (D106,
-     * inglés), todas sus micro-misiones superadas.
+     * inglés), todas sus micro-misiones superadas. En un curso donde las micro-misiones completan el nodo (D111,
+     * Java): todas sus micro-misiones y las obligatorias que le queden; y lo que ya estaba completo sigue completo
+     * aunque después se le sumen micro-misiones.
      */
     public function nodeWorkDone(User $user, Node $node): bool
     {
@@ -149,7 +153,28 @@ class TreeAccess
             return $progress['done'] >= $progress['total'];
         }
 
+        if ($this->stepsCompleteNodes($node)) {
+            $progress = $this->stepProgress($user, $node);
+            if ($progress['done'] >= $progress['total'] && $this->requiredPracticesApproved($user, $node)) {
+                return true;
+            }
+
+            return XpTransaction::where('user_id', $user->id)->where('reason', XpReason::NodeCompleted)
+                ->where('source_type', $node->getMorphClass())->where('source_id', $node->id)->exists();
+        }
+
         return $this->requiredPracticesApproved($user, $node);
+    }
+
+    /** @var array<int, bool> Por curso: si las micro-misiones completan el nodo (D111). */
+    private array $stepsComplete = [];
+
+    /** D111: el nodo es de un curso donde las micro-misiones completan el nodo (sin dejar de usar monedas). */
+    public function stepsCompleteNodes(Node $node): bool
+    {
+        $courseId = $node->course_id ?? Node::whereKey($node->id)->value('course_id');
+
+        return $this->stepsComplete[$courseId] ??= (bool) Course::whereKey($courseId)->value('steps_complete_nodes');
     }
 
     /** @var array<int, bool> Por curso: si se comprueba solo (D106). */

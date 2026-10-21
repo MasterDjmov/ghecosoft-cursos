@@ -76,7 +76,7 @@ class NodeView extends Component
             $new = $completer->complete(auth()->user(), $step, Str::limit($output, 20000, ''), Str::limit($code, 20000, ''));
         } catch (InvalidArgumentException $e) {
             if ($completer->canPlay(auth()->user(), $step)) {
-                $log->attempt(auth()->user(), $step, false, 'output', $output);
+                $log->attempt(auth()->user(), $step, false, 'output', $output, $code);
             }
 
             return ['ok' => false, 'error' => $e->getMessage()];
@@ -88,10 +88,11 @@ class NodeView extends Component
 
     /**
      * D107: el navegador dice que el alumno falló una micro-misión (salida distinta, error, la criatura de inglés).
-     * Solo se anota para las estadísticas: no cambia nada del juego.
+     * Solo se anota para las estadísticas: no cambia nada del juego. En las de código viene también el código, para
+     * que el docente lo vea en el Recorrido.
      */
     #[Renderless]
-    public function failStep(int $stepId, string $kind, string $answer, StepCompleter $completer, ActivityLog $log): void
+    public function failStep(int $stepId, string $kind, string $answer, StepCompleter $completer, ActivityLog $log, string $code = ''): void
     {
         $step = $this->node->steps()->findOrFail($stepId);
         $key = 'step-fails:'.auth()->id();
@@ -99,7 +100,7 @@ class NodeView extends Component
             return;
         }
         RateLimiter::hit($key, 60);
-        $log->attempt(auth()->user(), $step, false, $kind, $answer);
+        $log->attempt(auth()->user(), $step, false, $kind, $answer, $code);
     }
 
     /**

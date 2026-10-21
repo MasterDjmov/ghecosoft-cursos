@@ -22,7 +22,7 @@ Hasta D107 la plataforma solo guardaba los **aciertos** de las micro-misiones (`
 
 - **`step_attempts`**: alumno, micro-misión, nodo y curso (repetidos para contar rápido), `passed`, `kind` y `answer` (≤ 500), `created_at`.
   - `kind`: en inglés, lo que dice `english.js` (`almost` = le falta o sobra una letra, `bad`, y los propios de cada misión); en código, `output` (la salida no coincide) o `checks` (el inspector no encontró lo pedido).
-  - En código, `answer` es la salida que obtuvo (recortada); el código queda en la completion cuando acierta.
+  - En código, `answer` es la salida que obtuvo (recortada) y, desde el 2026-10-21, **`code`** guarda el código de cada fallo (≤ 20.000; el mismo error con otro código cuenta aparte); el código del acierto queda en la completion.
   - Un acierto que ya estaba superado (repasar) también cuenta como intento.
 - **`node_visits`**: alumno, nodo, día, `views`, primera y última hora. Se anota al abrir el nodo (`NodeView`), no en cada click.
 - Límite de pedidos como el de `completeStep`: un alumno no puede llenar la base apretando «Ejecutar».
@@ -34,7 +34,7 @@ Capítulo por capítulo (nodo por nodo, en el orden del árbol):
 - cuándo lo vio por primera y última vez y cuántos días entró;
 - micro-misiones superadas / total, y **intentos por micro-misión** (los fallos antes del acierto);
 - **«Trabado»**: una micro-misión con 3 o más fallos y sin acierto, o un nodo abierto sin avanzar hace 7 días o más;
-- sus **últimas respuestas equivocadas** (con la micro-misión y la fecha).
+- sus **últimas respuestas equivocadas** (con la micro-misión y la fecha). Al tocar una se despliega lo necesario para corroborar la comparación: lo que obtuvo, **lo esperado** (y el inspector, si tiene), **su código** de ese intento y **la solución**, los dos con «Ejecutar» (Java con el ejecutor de la compu del docente). Los intentos anteriores al 2026-10-21 no tienen código: se muestra el del acierto si después la superó.
 
 ### 4.2 Panel *Admin → Estadísticas* — fase 2
 Filtros: curso, comisión, período y alumnos (uno, varios o todos).

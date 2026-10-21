@@ -23,18 +23,23 @@ class ActivityLog
     /** Meses que se guardan los intentos. */
     public const KEEP_MONTHS = 6;
 
-    public function attempt(User $user, NodeStep $step, bool $passed, ?string $kind = null, ?string $answer = null): void
+    /** Largo máximo del código que se guarda con un fallo (el mismo tope que el de la micro-misión superada). */
+    public const CODE_LIMIT = 20000;
+
+    public function attempt(User $user, NodeStep $step, bool $passed, ?string $kind = null, ?string $answer = null, ?string $code = null): void
     {
         if ($user->isStaff() || $this->access->isTrial($user, $step->node)) {
             return;
         }
         $answer = $answer === null ? null : Str::limit(trim($answer), 495, '…');
         $kind = $kind === null ? null : Str::limit(preg_replace('/[^a-z_-]/', '', strtolower($kind)), 20, '');
+        // El código solo interesa en los fallos: el que acierta queda en la completion.
+        $code = $passed || blank($code) ? null : Str::limit($code, self::CODE_LIMIT, '');
 
         // El mismo fallo seguido (apretar «Ejecutar» sin cambiar nada) cuenta una sola vez.
         if (! $passed) {
             $last = StepAttempt::where('user_id', $user->id)->where('node_step_id', $step->id)->latest('id')->first();
-            if ($last && ! $last->passed && $last->kind === $kind && $last->answer === $answer) {
+            if ($last && ! $last->passed && $last->kind === $kind && $last->answer === $answer && $last->code === $code) {
                 return;
             }
         }
@@ -47,6 +52,7 @@ class ActivityLog
             'passed' => $passed,
             'kind' => $kind ?: null,
             'answer' => $answer === '' ? null : $answer,
+            'code' => $code,
             'created_at' => now(),
         ]);
 

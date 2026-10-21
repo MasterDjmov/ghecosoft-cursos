@@ -483,6 +483,51 @@ test('se anotan los aciertos y los fallos (el mismo fallo seguido, una vez), nun
     expect(StepAttempt::where('user_id', $other->id)->count())->toBe(0);
 });
 
+test('los fallos de código guardan el código del intento (los aciertos no)', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+
+    Livewire::actingAs($student)->test(NodeView::class, ['course' => $course, 'node' => $course->rootNode])
+        ->call('failStep', $first->id, 'error', 'NameError', 'prin("Hola")')
+        ->call('failStep', $first->id, 'error', 'NameError', 'prin("Hola")')
+        ->call('failStep', $first->id, 'error', 'NameError', 'prnt("Hola")')
+        ->call('completeStep', $first->id, 'Hola valle', 'print("Hola valle")')
+        ->call('completeStep', $first->id, 'Hola, Valle', 'print("Hola, Valle")');
+
+    // Mismo error con otro código cuenta aparte: el docente ve cada versión.
+    expect(StepAttempt::where('user_id', $student->id)->orderBy('id')->pluck('code')->all())
+        ->toBe(['prin("Hola")', 'prnt("Hola")', 'print("Hola valle")', null]);
+});
+
+test('el docente abre un fallo y ve su código, lo esperado y la solución', function () {
+    $course = coursesWithSteps();
+    $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    $first = $course->rootNode->steps()->first();
+    app(ActivityLog::class)->attempt($student, $first, false, 'output', 'Hola valle', 'print("Hola valle")');
+    app(ActivityLog::class)->attempt($student, $first, false, 'output', 'Hola', null);
+    [$withCode, $withoutCode] = StepAttempt::orderBy('id')->get()->all();
+
+    $component = Livewire::actingAs(User::factory()->admin()->create())->test(Tree::class, ['user' => $student, 'course' => $course])
+        ->assertDontSee('data-test="fail-detail"', false)
+        ->call('toggleFail', $withCode->id)
+        ->assertSee('data-test="fail-detail"', false)
+        ->assertSee('data-test="fail-student-code"', false)
+        ->assertSee('data-test="fail-solution"', false)
+        ->assertSee('Hola, Valle');
+
+    $component->call('toggleFail', $withoutCode->id)
+        ->assertDontSee('data-test="fail-student-code"', false)
+        ->assertSee('antes de que se guardara el código')
+        ->call('toggleFail', $withoutCode->id)
+        ->assertDontSee('data-test="fail-detail"', false);
+
+    // Un intento de otro alumno no se abre desde este árbol.
+    $other = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);
+    app(ActivityLog::class)->attempt($other, $first, false, 'output', 'x', 'print("x")');
+    $component->call('toggleFail', StepAttempt::latest('id')->value('id'))->assertDontSee('data-test="fail-detail"', false);
+});
+
 test('los intentos de más de seis meses se borran', function () {
     $course = coursesWithSteps();
     $student = studentWithRootOpen(['course' => $course, 'root' => $course->rootNode]);

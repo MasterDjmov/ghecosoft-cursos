@@ -83,13 +83,66 @@
         @if ($recentFails->isNotEmpty())
             <div class="flex flex-col gap-2 border-t border-outline/60 pt-3" data-test="student-recent-fails">
                 <h3 class="tech-label">Últimas respuestas equivocadas</h3>
+                <p class="text-xs text-ink-muted">Tocá una para ver su código, lo que obtuvo, lo esperado y la solución, y ejecutarlos.</p>
                 @foreach ($recentFails as $fail)
-                    <div class="flex flex-col gap-0.5 text-sm sm:flex-row sm:items-baseline sm:gap-3" wire:key="fail-{{ $fail->id }}">
+                    <button type="button" wire:click="toggleFail({{ $fail->id }})" wire:key="fail-{{ $fail->id }}" data-test="fail-{{ $fail->id }}"
+                        @class(['flex flex-col gap-0.5 rounded-md px-1 py-0.5 text-left text-sm hover:bg-surface-high sm:flex-row sm:items-baseline sm:gap-3', 'bg-surface-high' => $openFail === $fail->id])>
                         <span class="shrink-0 font-mono text-xs text-ink-muted">{{ $fail->created_at->format('d/m H:i') }}</span>
                         <span class="shrink-0 text-ink-muted">{{ $fail->step?->title }}</span>
                         <span class="min-w-0 flex-1 truncate font-mono text-warning" title="{{ $fail->answer }}">{{ $fail->answer ?? '—' }}</span>
                         @if ($fail->kind)<span class="shrink-0 font-mono text-xs text-ink-muted">{{ $fail->kindLabel() }}</span>@endif
-                    </div>
+                        <flux:icon :name="$openFail === $fail->id ? 'chevron-up' : 'chevron-down'" variant="micro" class="shrink-0 self-center text-ink-muted" />
+                    </button>
+
+                    {{-- D107: para corroborar contra qué se compara: su código, lo esperado y la solución (el alumno nunca la ve). --}}
+                    @if ($failDetail && $failDetail['attempt']->id === $fail->id)
+                        <div class="flex flex-col gap-3 rounded-lg border border-outline/70 p-3" wire:key="fail-detail-{{ $fail->id }}" data-test="fail-detail">
+                            <p class="tech-label">{{ $failDetail['step']->code }} · {{ $failDetail['step']->title }}</p>
+                            @if (filled($failDetail['challenge']))
+                                <details class="text-sm">
+                                    <summary class="cursor-pointer text-ink-muted">El desafío</summary>
+                                    <div class="markdown mt-2 text-ink">{!! \Illuminate\Support\Str::markdown($failDetail['challenge'], ['html_input' => 'escape']) !!}</div>
+                                </details>
+                            @endif
+                            <div class="grid gap-3 xl:grid-cols-2">
+                                <div class="flex min-w-0 flex-col gap-1">
+                                    <p class="text-xs font-medium text-ink">Lo que obtuvo <span class="font-normal text-ink-muted">({{ $fail->kindLabel() ?? 'fallo' }})</span></p>
+                                    <pre class="max-h-60 overflow-auto whitespace-pre-wrap rounded-lg border border-warning/40 bg-surface-lowest p-3 font-mono text-xs text-warning">{{ $fail->answer ?? '—' }}</pre>
+                                </div>
+                                <div class="flex min-w-0 flex-col gap-1">
+                                    <p class="text-xs font-medium text-ink">Lo esperado <span class="font-normal text-ink-muted">(contra esto se compara)</span></p>
+                                    @if (filled($failDetail['checks']))
+                                        <pre class="max-h-60 overflow-auto whitespace-pre-wrap rounded-lg border border-outline bg-surface-lowest p-3 font-mono text-xs text-ink">{{ $failDetail['checks'] }}</pre>
+                                    @endif
+                                    <pre class="max-h-60 overflow-auto whitespace-pre-wrap rounded-lg border border-success/40 bg-surface-lowest p-3 font-mono text-xs text-success" data-test="fail-expected">{{ $failDetail['expected'] !== '' ? $failDetail['expected'] : '—' }}</pre>
+                                </div>
+                            </div>
+                            <div class="grid gap-3 xl:grid-cols-2">
+                                <div class="flex min-w-0 flex-col gap-1">
+                                    <p class="text-xs font-medium text-ink">Su código <span class="font-normal text-ink-muted">(el de este intento)</span></p>
+                                    @if (filled($fail->code))
+                                        <x-code-runner :code="$fail->code" :stdin="$failDetail['stdin']" :expected="$failDetail['expected']" :checks="$failDetail['checks']"
+                                            :language="$failDetail['language']" name="alumno" :read-only="true" data-test="fail-student-code" />
+                                    @elseif (filled($failDetail['done']))
+                                        <p class="text-xs text-ink-muted">Este intento es de antes de que se guardara el código. Este es el que usó cuando la superó:</p>
+                                        <x-code-runner :code="$failDetail['done']" :stdin="$failDetail['stdin']" :expected="$failDetail['expected']" :checks="$failDetail['checks']"
+                                            :language="$failDetail['language']" name="alumno" :read-only="true" />
+                                    @else
+                                        <p class="rounded-lg border border-dashed border-outline p-3 text-xs text-ink-muted">Este intento es de antes de que se guardara el código (desde el 21/10/2026 se guarda con cada fallo).</p>
+                                    @endif
+                                </div>
+                                <div class="flex min-w-0 flex-col gap-1">
+                                    <p class="text-xs font-medium text-ink">La solución <span class="font-normal text-ink-muted">(el alumno no la ve)</span></p>
+                                    @if (filled($failDetail['solution']))
+                                        <x-code-runner :code="$failDetail['solution']" :stdin="$failDetail['stdin']" :expected="$failDetail['expected']" :checks="$failDetail['checks']"
+                                            :language="$failDetail['language']" name="solucion" :read-only="true" data-test="fail-solution" />
+                                    @else
+                                        <p class="rounded-lg border border-dashed border-outline p-3 text-xs text-ink-muted">Esta micro-misión no tiene solución cargada.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endforeach
             </div>
         @endif

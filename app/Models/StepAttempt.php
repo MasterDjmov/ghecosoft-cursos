@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /** D107: un intento de una micro-misión (acierto o fallo), lo anota `ActivityLog`. */
-#[Fillable(['user_id', 'node_step_id', 'node_id', 'course_id', 'passed', 'kind', 'answer', 'created_at'])]
+#[Fillable(['user_id', 'node_step_id', 'node_id', 'course_id', 'passed', 'kind', 'answer', 'code', 'created_at'])]
 class StepAttempt extends Model
 {
     public const UPDATED_AT = null;

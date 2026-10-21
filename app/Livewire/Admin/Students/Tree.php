@@ -11,6 +11,7 @@ use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
 use App\Models\Practice;
 use App\Models\PracticeGrant;
+use App\Models\StepAttempt;
 use App\Models\Submission;
 use App\Models\User;
 use App\Notifications\PlatformNotification;
@@ -38,10 +39,49 @@ class Tree extends Component
 
     public Course $course;
 
+    /** El fallo que el docente abrió para ver el código, la salida esperada y la solución (D107). */
+    public ?int $openFail = null;
+
     public function mount(User $user, Course $course): void
     {
         abort_unless($user->isStudent(), 404);
         $this->authorize('viewProgress', [$user, $course]);
+    }
+
+    public function toggleFail(int $attemptId): void
+    {
+        $this->openFail = $this->openFail === $attemptId ? null : $attemptId;
+    }
+
+    /**
+     * Lo que hace falta para corroborar un fallo: su código (si lo mandó), lo que obtuvo, lo esperado y la solución,
+     * con «Ejecutar» (Java, con el ejecutor de la compu del docente).
+     *
+     * @return array{attempt: StepAttempt, step: NodeStep, language: string, challenge: ?string, solution: ?string, stdin: string, expected: string, checks: ?string, done: ?string}|null
+     */
+    private function failDetail(): ?array
+    {
+        if ($this->openFail === null) {
+            return null;
+        }
+        $attempt = StepAttempt::where('user_id', $this->user->id)->where('course_id', $this->course->id)->find($this->openFail);
+        $step = $attempt?->step;
+        if (! $step) {
+            return null;
+        }
+
+        return [
+            'attempt' => $attempt,
+            'step' => $step,
+            'language' => $step->runLanguage($this->course)->value,
+            'challenge' => $step->challenge,
+            'solution' => $step->solution,
+            'stdin' => (string) $step->sample_input,
+            'expected' => (string) $step->expected_output,
+            'checks' => $step->checks,
+            // Si después la superó, su código de ese momento.
+            'done' => NodeStepCompletion::where('user_id', $this->user->id)->where('node_step_id', $step->id)->value('code'),
+        ];
     }
 
     /** Abrirle al alumno un nodo que ya puede abrir: le cobra sus monedas y le llega un aviso. */
@@ -212,6 +252,7 @@ class Tree extends Component
             // D107: qué miró, cuántas veces probó y dónde se traba.
             'chapters' => $journey->chapters(collect($graph['nodes'])->pluck('state', 'id')->all()),
             'recentFails' => $journey->recentFails(),
+            'failDetail' => $this->failDetail(),
             'restoreRows' => auth()->user()->can('restoreProgress', [$this->user, $this->course]) ? $this->restoreRows($access) : null,
             'canSeeFile' => auth()->user()->can('viewStudent', $this->user),
             'next' => $access->nextNodes($this->user, $this->course)->map(fn (array $item) => [

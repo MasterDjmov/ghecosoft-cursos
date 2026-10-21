@@ -95,6 +95,10 @@ ssh ghecosoft-prod 'echo ok'             # acceso al servidor
 curl -s http://127.0.0.1:17017/ping -H "Origin: https://gamificado.lariojaclick.ar"   # ejecutor de Java
 ```
 
+## Aparte de la plataforma: Wi-Fi Negocio
+
+`~/Programas/wifi-negocio` (no es parte de este repositorio): la red `Cliente-Negocio` del router (Zhone ZNID-GPON-2428B1, 192.168.1.1) con una clave que cambia sola a los 30 minutos de que se conecta el primer cliente, su QR y el bloqueo de equipos. Desde el 2026-10-21 corre en la PC del negocio (Windows); acá el servicio de usuario `wifi-negocio` quedó apagado y fuera del arranque: no prenderlo mientras ande allá, porque las dos cambiarían la clave. Cómo instalarla de nuevo, en su `README.md`; guardá aparte su `config.json` (tiene la clave del router).
+
 ## Otros scripts
 
 - [`scripts/pruebas/`](../pruebas/README.md): ayudantes para escribir las `#### Pruebas` de un curso (D73).

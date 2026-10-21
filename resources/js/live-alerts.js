@@ -138,11 +138,15 @@ document.addEventListener('alpine:init', () => {
 document.addEventListener('livewire:init', () => {
     // Sesión cerrada (la cuenta entró en otro lado, D65, o se pausó): en vez del cartel de Livewire en
     // inglés, directo al login, que explica qué pasó.
+    // Un corte de un instante entre Cloudflare y el hosting (502, 504, 520 a 527): sin el cartel con la página de
+    // error encima de todo; la consulta de fondo siguiente (o un clic de nuevo) ya anda.
     window.Livewire.hook('request', ({ fail }) => {
         fail(({ status, preventDefault }) => {
             if (status === 419) {
                 preventDefault();
                 window.location.href = '/login';
+            } else if (status === 502 || status === 504 || (status >= 520 && status <= 527)) {
+                preventDefault();
             }
         });
     });

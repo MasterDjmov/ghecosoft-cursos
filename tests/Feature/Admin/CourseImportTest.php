@@ -240,3 +240,10 @@ test('una entrada de ejemplo que empieza con una línea vacía la conserva', fun
 
     expect(Practice::where('code', 'R01-N01-M1')->value('sample_input'))->toBe("\n15");
 });
+
+test('una entrada de ejemplo que termina con una línea vacía la conserva con su Enter', function () {
+    $contenido = str_replace("#### Entrada de ejemplo\n\n```\n15\n```", "#### Entrada de ejemplo\n\n```\n15\n\n```", file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md')));
+    app(CourseImporter::class)->import([['name' => 'curso.md', 'content' => $contenido]], dryRun: false);
+
+    expect(Practice::where('code', 'R01-N01-M1')->value('sample_input'))->toBe("15\n\n");
+});

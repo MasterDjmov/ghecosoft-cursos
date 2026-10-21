@@ -1,4 +1,4 @@
-# Historia del curso de JavaScript: La Feria de las Luces — borrador 1 (2026-10-21), a revisar
+# Historia del curso de JavaScript y TypeScript: La Feria de las Luces — aprobada (2026-10-21)
 
 La región que sigue a los Talleres: **lo que hace moverse al vitral del portal se aprende en la Feria de las Luces** ([NOVELA-GRAFICA.md](../NOVELA-GRAFICA.md)). La protagonista es **Nima, la arquera**, elegida por el docente el 2026-10-16. El curso todavía no se arma: esta es su historia y su ficha, para que el resto (temario, escenas, inglés) salga de acá.
 
@@ -106,7 +106,11 @@ El portal-vitral está quieto: brilla, pero no se mueve ([NOVELA-GRAFICA.md](../
 | Troll | el tiempo y el estado: promesas sin esperar, respuestas que llegan en otro orden, variables compartidas |
 | Dragón | los jefes: un programa grande hecho de piezas chicas |
 
-## 9. Lo que hay que decidir
+## 9. Lo que decidió el docente (2026-10-21)
+
+Aprobó los puntos 1 a 4 tal como están (Nima, Lumina, fichas de la Feria y Destello, el cruce con Nova). Sobre el 5: el curso lleva **JavaScript y TypeScript**, porque hay frameworks que salen en uno o en otro (los dos están en FullCursos, caps. 22 y 23). La ficha de Nima y la de Lumina ya están en [PERSONAJES.md](PERSONAJES.md), ocultas para el alumno hasta que el curso se publique.
+
+Las preguntas eran:
 
 1. ¿Nima como está: 17 años, arquera del Valle, impaciente, de amarillo y negro?
 2. ¿La líder es **Lumina, la Reina de las Luciérnagas**, o preferís otra figura (un titiritero, una maestra pirotécnica…)?

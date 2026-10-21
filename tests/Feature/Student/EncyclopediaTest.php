@@ -116,6 +116,14 @@ test('la ven todos los alumnos, también sin abono; los mundos sin publicar no a
     $this->get(route('student.encyclopedia'))->assertRedirect(route('login'));
 });
 
+test('la Feria de las Luces (JavaScript, sin curso todavía) no sale: ni Nima ni Lumina', function () {
+    CharacterSheets::$file = null; // las fichas de verdad
+    $keys = (new Encyclopedia($this->student))->entries()->pluck('key');
+
+    expect($keys)->not->toContain('nima')->and($keys)->not->toContain('lumina')
+        ->and(CharacterSheets::all()->pluck('name'))->toContain('Nima', 'Lumina');
+});
+
 test('artefactos: dónde se consigue siempre; descripción y bonos, recién al tenerlo', function () {
     $course = $this->data['course'];
     $amulet = Item::create(['code' => 'amuleto-prueba', 'name' => 'Amuleto de Prueba', 'kind' => 'accessory', 'rarity' => 'rare',

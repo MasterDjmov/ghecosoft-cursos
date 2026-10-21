@@ -30,6 +30,7 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 | **El Imperio de las Clases** | Java | **Kaffa**, el Arquitecto Imperial | denarios | capital de catedrales con vitrales dorados; "nada existe suelto"; nunca le falta su taza de café |
 | **El Puerto de los Mensajeros** | PHP | **Elefa**, la Capitana del Puerto, una elefanta | sellos de lacre | puerto con barcos, faro y una torre cuya campana suena con cada pedido; "ningún mensaje se queda sin respuesta" |
 | **Los Talleres de los Vitrales** | HTML y CSS | **Tesela, la Vitralista** | cristales | ciudad de ventanales de colores, ríos de plomo fundido y hornos; "todo vitral empieza chico" |
+| **La Feria de las Luces** (curso por armar) | JavaScript y TypeScript | **Lumina, la Reina de las Luciérnagas** | fichas de la Feria | feria nocturna que nunca cierra: farolitos, calesitas, fuegos artificiales y títeres de luz; "nada pasa hasta que algo pasa" |
 
 ## Cómo se cruzan las historias
 
@@ -44,7 +45,7 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 
 El **portal** por el que llegó Kira es un **vitral**. En el centro del Mundo del Código hay un balcón con cuatro portales: una espiral, un engranaje, **un vitral** y un arco de fuego. Al terminar los Talleres, Tesela reconoce la técnica del plomo: ese portal lo hizo **el Vidriero**, su maestro, que **desapareció** sin que nadie supiera para qué lo construyó.
 
-El vitral está quieto: brilla, pero no se mueve. **Lo que lo hace moverse se aprende en la Feria de las Luces** (JavaScript), la región que sigue. Cada líder sabe una parte del misterio: un curso solo cierra su historia; varios juntan las piezas.
+El vitral está quieto: brilla, pero no se mueve. **Lo que lo hace moverse se aprende en la Feria de las Luces** (JavaScript), la región que sigue. Ahí llega **Nima**, la arquera del Valle, siguiendo las luces del Vidriero ([historias/javascript.md](historias/javascript.md)); una flecha de luz suya, soltada sin querer, es el rayo que despertó a **Nova** dentro del Gólem, y al final ella hace que el vitral se mueva por primera vez. Cada líder sabe una parte del misterio: un curso solo cierra su historia; varios juntan las piezas.
 
 ## El bestiario (los errores de programación)
 

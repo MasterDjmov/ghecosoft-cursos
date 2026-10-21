@@ -49,7 +49,7 @@ Todos los cursos comparten una historia:
 | El Imperio de las Clases | 18–20 Java | Kaffa | definida (D58) |
 | La Ciudadela de los Artífices | 03–05, 07, 11, 12 C++ | Tesla, el Artífice Mayor | definida (D53) |
 | El Puerto de los Mensajeros | 21 PHP | Elefa, la Capitana del Puerto | definida (D59) |
-| La Feria de las Luces | 22–23 JS-TS | a definir | — |
+| La Feria de las Luces | 22–23 JS-TS | Lumina, la Reina de las Luciérnagas (protagonista: Nima, [historias/javascript.md](historias/javascript.md)) | fichas de la Feria |
 
 > Dato a tener en cuenta para [DISENO.md](DISENO.md): la **idea 2 (CodeQuest)** tiene el mismo tono que este guion:
 > - "misiones";

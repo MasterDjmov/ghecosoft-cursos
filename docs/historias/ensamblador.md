@@ -52,6 +52,8 @@ cursos.
 | R03 Pila y procedimientos | Ordena la torre de platos y aprende a llamar a sus propias rutinas (las funciones) | el Troll de la Pila |
 | R04 Proyectos | La calculadora del Gremio, el Oráculo y el combate | el Dragón del Gólem |
 
+**Quién encendió el rayo** (para quien escribe, no se revela en este curso): fue una flecha de luz de **Nima**, la arquera de la Feria de las Luces, soltada sin querer al probar el mecanismo del Vidriero ([javascript.md](javascript.md) § 6).
+
 Al final, Axón da su primer paso en siglos, y Nova descubre que puede proyectarse fuera de él: la puerta
 a los nanobots (ver [idea-nanobot] en la memoria del proyecto).
 

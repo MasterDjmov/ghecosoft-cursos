@@ -1137,6 +1137,54 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 
 ---
 
+## La Feria de las Luces (JavaScript y TypeScript)
+
+El curso todavía no se arma: la historia está en [javascript.md](javascript.md) (aprobada el 2026-10-21). Hasta que el curso se publique, estas fichas no salen en la enciclopedia del alumno.
+
+### Nima
+- **Curso y rol:** JavaScript y TypeScript, la Feria de las Luces. Protagonista ([javascript.md](javascript.md)).
+- **Edad y sexo:** 17, mujer.
+- **Altura y contextura:** alta (1,70 m), atlética, hombros y espalda de arquera.
+- **Rasgos:**
+  - piel morena, **ojos color ámbar**, mirada atenta;
+  - **pelo negro, largo, en una trenza alta** atada con un hilo amarillo;
+  - una cicatriz chica en la ceja izquierda (un rebote de flecha).
+- **Ropa:**
+  - **chaqueta corta de cuero negro, cerrada hasta el cuello**, con costuras amarillas que brillan;
+  - guante de arquera en la mano derecha y brazal de cuero en el brazo izquierdo;
+  - pantalón oscuro y botas altas con luz amarilla en la suela.
+  - **Ropa opaca y cerrada** (la usan alumnos chicos).
+- **Objeto:** **el arco**, que cambia con ella: el **Arco de Rama del Valle** (Clase 0), el **Arco Encordado de Luz** (R03) y el **Arco del Vitral** (final). Siempre lleva el **carcaj** a la espalda y la **brújula** del Valle en el cinturón.
+- **Color:** **amarillo** sobre negro.
+- **Personalidad:** rápida, de acción, impaciente; habla poco y en voz baja cuando apunta; leal; se ríe fuerte cuando acierta.
+- **Le gusta:** los fuegos artificiales, las calesitas de noche, el pan de la Feria con miel, ganar en los puestos de tiro.
+- **Defecto o miedo:** **no sabe esperar**: dispara antes de que el blanco aparezca, y le da miedo quedarse quieta y perderse algo. En la Feria aprende a reaccionar en el momento justo (los eventos) y a esperar sin quedarse quieta (las promesas).
+- **Frase:** «Suelto la flecha y sigo: ya va a llegar.»
+- **Relaciones:** alumna de Lumina; Sila guarda su ficha en el Archivo del Valle y Mia la conoce por ese papel; Tizón la vio pasar por las Forjas preguntando por las luces; Gheco la guía.
+- **Cómo llega:** era la mejor arquera del Valle de la Serpiente. Sigue unas luces que se mueven solas (las del Vidriero), cruza las Forjas y se sube a un carrusel abandonado que gira y la deja en la Feria.
+- **Pieza del misterio:** al probar el mecanismo del Vidriero suelta sin querer una flecha de luz que rebota en el vitral y baja por las chimeneas de las Forjas: **es el rayo que despertó a Nova** (Ensamblador). Al final hace que el vitral del portal se mueva por primera vez.
+- **Montura:** **Destello**, un ciervo de luz amarilla que solo aparece cuando ella lo llama.
+- **Primera aparición:** JavaScript, Clase 0 (antes, solo nombrada en Python R02).
+- **Imágenes:** pendientes (cuerpo entero, retrato circular, 6 aspectos y Destello).
+
+### Lumina
+- **Rol:** la líder de la Feria de las Luces, la **Reina de las Luciérnagas**. Prende cada farol de la Feria y le enseña a Nima la lengua de la Feria: reaccionar ([javascript.md](javascript.md)).
+- **Edad y sexo:** antigua como la Feria; voz suave, femenina.
+- **Altura y contextura:** una **luciérnaga enorme**, del tamaño de una persona; liviana, flota.
+- **Rasgos:** **alas de vidrio** que dejan ver la luz, ojos grandes y oscuros, **la luz amarilla en el pecho** que late despacio.
+- **Objeto:** un **farolito que nunca se apaga**.
+- **Color:** amarillo cálido sobre el azul noche de la Feria.
+- **Personalidad:** paciente, juguetona, sabia; nunca apura a nadie.
+- **Le gusta:** que la Feria esté llena, los fuegos artificiales bien a tiempo.
+- **Defecto o miedo:** que un día nadie pase por debajo de sus faroles.
+- **Frase:** «Nada pasa hasta que algo pasa.»
+- **Relaciones:** maestra de Nima; conoció al Vidriero y le guarda su taller cerrado.
+- **Moneda de la región:** las **fichas de la Feria**.
+- **Primera aparición:** JavaScript, Clase 0.
+- **Imágenes:** pendientes (cuerpo entero y retrato circular).
+
+---
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.
@@ -1188,6 +1236,7 @@ La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágen
 | **Kaffa** | Imperio (Java) | el Arquitecto Imperial, varón, nunca le falta su taza de café |
 | **Elefa** | Puerto (PHP) | la Capitana del Puerto, una elefanta con armadura y el bastón del sello; ficha completa arriba |
 | **Tesela** | Talleres (HTML y CSS) | la Vitralista, monóculo de cristal |
+| **Lumina** | Feria de las Luces (JavaScript y TypeScript) | la Reina de las Luciérnagas, farolito que nunca se apaga; ficha completa arriba |
 
 ## 5. Para el alumno: la Gran Enciclopedia
 

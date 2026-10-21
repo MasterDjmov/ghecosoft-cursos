@@ -126,8 +126,11 @@ class StudentAccounts
         'universe_votes' => ['user_id'], 'delay_reminders' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],
     ];
 
-    /** Lo que se conserva: cómo entra (llaves de acceso, sesiones, desde qué dispositivo), la autorización de menor y los «Avisame». */
-    public const KEEP = ['passkeys', 'session_evictions', 'user_accesses', 'guardian_authorizations', 'course_interests'];
+    /**
+     * Lo que se conserva: cómo entra (llaves de acceso, sesiones, desde qué dispositivo), la autorización de menor y los
+     * «Avisame». Los comentarios guardados son del docente (D73): un alumno no tiene.
+     */
+    public const KEEP = ['passkeys', 'session_evictions', 'user_accesses', 'guardian_authorizations', 'course_interests', 'review_snippets'];
 
     /**
      * Reiniciar la cuenta: queda como recién creada (mismo usuario, nombre y clave) pero sin cursos ni nada de

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Submissions;
 
 use App\Enums\SubmissionStatus;
+use App\Models\ReviewSnippet;
 use App\Models\Submission;
 use App\Services\SubmissionReviewer;
 use App\Services\TeacherScope;
@@ -23,6 +24,9 @@ class Show extends Component
     public string $comment = '';
 
     public string $reply = '';
+
+    /** Al guardar el comentario como frecuente: para todos sus cursos o solo para el de esta entrega (D73). */
+    public bool $snippetForAll = false;
 
     /** "Corregir la más vieja": la primera sin corregir de la bandeja (del docente: de sus comisiones, D72). */
     public static function nextPending(?int $exceptId = null): ?Submission
@@ -124,6 +128,35 @@ class Show extends Component
             : $this->redirectRoute('admin.submissions.index', navigate: true);
     }
 
+    /** D73: guarda el comentario escrito entre los frecuentes de quien corrige. */
+    public function saveSnippet(): void
+    {
+        $this->authorize('review', $this->submission);
+        $this->validate(['comment' => ['required', 'string', 'max:2000']], ['comment.required' => 'Escribí el comentario que querés guardar.']);
+        $user = auth()->user();
+        $body = trim($this->comment);
+        $courseId = $this->snippetForAll ? null : $this->submission->practice->node->course_id;
+
+        if (ReviewSnippet::where('user_id', $user->id)->where('course_id', $courseId)->where('body', $body)->exists()) {
+            Flux::toast(text: 'Ese comentario ya lo tenías guardado.');
+
+            return;
+        }
+        ReviewSnippet::create([
+            'user_id' => $user->id,
+            'course_id' => $courseId,
+            'body' => $body,
+            'position' => (int) ReviewSnippet::where('user_id', $user->id)->max('position') + 1,
+        ]);
+        Flux::toast(variant: 'success', text: 'Comentario guardado.');
+    }
+
+    /** Solo los propios: un docente nunca toca los comentarios de otro. */
+    public function deleteSnippet(int $snippetId): void
+    {
+        ReviewSnippet::where('user_id', auth()->id())->whereKey($snippetId)->delete();
+    }
+
     public function render()
     {
         $submission = $this->submission->load(['user', 'practice.node.course', 'comments.user:id,name,last_name,role', 'reviewer:id,name']);
@@ -139,6 +172,7 @@ class Show extends Component
             'canApproveAnyway' => $submission->status === SubmissionStatus::Redo && SubmissionReviewer::isLatestAttempt($submission),
             'previous' => Submission::where('user_id', $submission->user_id)->where('practice_id', $practice->id)
                 ->whereKeyNot($submission->id)->orderByDesc('attempt')->get(),
+            'snippets' => ReviewSnippet::for(auth()->user(), $practice->node->course_id)->get(['id', 'course_id', 'body']),
             'pendingCount' => app(TeacherScope::class)->submissions(Submission::query(), auth()->user())->where('status', SubmissionStatus::Submitted)->count(),
         ])->title('Corregir · '.$practice->title);
     }

@@ -1,6 +1,6 @@
 # Corrección asistida (D73, diseño a revisar)
 
-Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) etapa 3 (las pruebas de los cinco cursos) y etapa 4 (pruebas al abrir la entrega y *Probar pendientes*) hechas el 2026-10-01. Sigue la etapa 5.
+Conversado con el docente el 2026-09-30. **Estado:** aprobado por el docente; etapa 1 (el indicio) hecha el 2026-09-30; etapa 2 (pruebas, formato, importador y `app:course-tests`) etapa 3 (las pruebas de los cinco cursos) y etapa 4 (pruebas al abrir la entrega y *Probar pendientes*) hechas el 2026-10-01; etapa 5 hecha el 2026-10-21 (comentarios guardados; «Dónde se traban» del docente, en *Admin → Estadísticas*). **Completa.**
 
 ## Punto de partida
 
@@ -92,9 +92,9 @@ En *Admin → Entregas*, en una entrega de código con pruebas:
 
 ## 5. Dos ayudas más
 
-- **Comentarios guardados:** cada docente guarda sus devoluciones frecuentes («Bien, pero revisá los nombres de las variables») y las inserta con un clic al corregir. Tabla `review_snippets` (`user_id`, `course_id` opcional, `body`, `position`).
+- **Comentarios guardados:** cada docente guarda sus devoluciones frecuentes («Bien, pero revisá los nombres de las variables») y las inserta con un clic al corregir. Tabla `review_snippets` (`user_id`, `course_id` opcional, `body`, `position`). **Hecho el 2026-10-21:** al corregir una entrega, arriba del comentario salen los suyos (los de ese curso y los de «todos mis cursos») y un clic suma el texto al comentario; «Guardar como comentario frecuente» guarda lo escrito (para este curso o, tildando, para todos) y la ✕ lo borra. Cada docente ve y borra solo los suyos.
 - **Dónde se traban:** en cada curso, las prácticas con más pedidos de rehacer y más intentos promedio, con los alumnos del alcance del docente (`TeacherScope`). Suele señalar consignas poco claras.
-  - Primera versión hecha el 2026-10-01, **solo para el administrador**: en su *Inicio*, «Estadísticas · Prácticas» (`Support\PracticeStats`), por curso y período, con «Las más elegidas» y «Donde más se traban» (intentos para rehacer, intentos por alumno, pruebas que fallan y consultas, incluidas las prácticas con consultas y sin entregas). Falta la versión del docente, con sus alumnos (`TeacherScope`).
+  - Primera versión hecha el 2026-10-01, **solo para el administrador**: en su *Inicio*, «Estadísticas · Prácticas» (`Support\PracticeStats`), por curso y período, con «Las más elegidas» y «Donde más se traban» (intentos para rehacer, intentos por alumno, pruebas que fallan y consultas, incluidas las prácticas con consultas y sin entregas). La versión del docente quedó en *Admin → Estadísticas* (D107, 2026-10-20), con sus alumnos (`TeacherScope`).
 
 ## 6. Orden de trabajo (cada etapa se prueba antes de seguir)
 

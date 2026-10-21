@@ -91,7 +91,29 @@
     {{-- Corrección --}}
     @if ($pending)
         <section class="panel panel-active flex flex-col gap-4 p-5">
+            {{-- D73: los comentarios frecuentes de quien corrige; un clic los suma al comentario. --}}
+            @if ($snippets->isNotEmpty())
+                <div class="flex flex-col gap-1.5" data-test="review-snippets">
+                    <p class="text-xs text-ink-muted">Tus comentarios guardados (un clic lo suma al comentario):</p>
+                    <div class="flex flex-wrap gap-1.5">
+                        @foreach ($snippets as $snippet)
+                            <span class="inline-flex max-w-full items-center overflow-hidden rounded-full border border-outline text-xs" wire:key="snippet-{{ $snippet->id }}">
+                                <button type="button" class="truncate px-2.5 py-1 text-ink hover:bg-surface-high" title="{{ $snippet->body }}" data-test="snippet-{{ $snippet->id }}"
+                                    x-on:click="$wire.comment = ($wire.comment.trim() === '' ? '' : $wire.comment.trimEnd() + '\n') + @js($snippet->body)">{{ \Illuminate\Support\Str::limit($snippet->body, 60) }}@if ($snippet->course_id === null)<span class="ms-1 text-ink-muted">· todos</span>@endif</button>
+                                <button type="button" class="border-s border-outline px-1.5 py-1 text-ink-muted hover:text-danger" aria-label="Borrar este comentario guardado"
+                                    wire:click="deleteSnippet({{ $snippet->id }})" wire:confirm="¿Borrar este comentario guardado?">✕</button>
+                            </span>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
             <x-emoji-field><flux:textarea class="pe-10" wire:model="comment" label="Comentario" rows="3" placeholder="Opcional al aprobar; obligatorio para Rehacer." /></x-emoji-field>
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
+                <button type="button" wire:click="saveSnippet" class="inline-flex items-center gap-1 hover:text-white" data-test="save-snippet">
+                    <flux:icon name="bookmark" variant="micro" /> Guardar como comentario frecuente
+                </button>
+                <label class="inline-flex items-center gap-1.5"><input type="checkbox" wire:model="snippetForAll" class="rounded border-outline bg-surface-lowest"> en todos mis cursos</label>
+            </div>
             <div class="flex flex-wrap justify-end gap-2">
                 <flux:button icon="arrow-path" wire:click="redo">Rehacer</flux:button>
                 <flux:button variant="primary" icon="check" wire:click="approve">Aprobar</flux:button>

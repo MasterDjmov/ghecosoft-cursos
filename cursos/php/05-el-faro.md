@@ -5666,7 +5666,8 @@ revisar a la mañana. Escribí un programa que lea el registro de la entrada est
 - las IP con 3 o más `Login fallido` (posible ataque), a partir del JSON del contexto;
 - el pedido más caro confirmado (`Pedido confirmado` con `total` en el JSON).
 
-Los renglones que no respetan el formato se cuentan aparte como `ilegibles`.
+Los renglones que no respetan el formato se cuentan aparte como `ilegibles`. Si no hay IP
+sospechosas, mostrá `IP sospechosas: ninguna`; si no hubo ningún pedido confirmado, `Pedido más caro: ninguno`.
 
 #### Criterio de aprobación
 
@@ -5744,10 +5745,23 @@ foreach ($errores as $error) {
 }
 $sospechosas = array_filter($fallidosPorIp, fn($n) => $n >= 3);
 echo "IP sospechosas: ", $sospechosas === [] ? 'ninguna' : implode(', ', array_map(fn($ip, $n) => "$ip ($n intentos)", array_keys($sospechosas), $sospechosas)), "\n";
-echo "Pedido más caro: {$masCaro['pedido']} por $", number_format($masCaro['total'], 2, ',', '.'), "\n";
+echo "Pedido más caro: ", $masCaro === null ? 'ninguno' : "{$masCaro['pedido']} por $" . number_format($masCaro['total'], 2, ',', '.'), "\n";
 ```
 
 #### Pruebas
+
+##### Sin pedidos confirmados
+```entrada
+[2026-10-03 08:00:01] INFO: Arranca el día {}
+[2026-10-03 09:12:45] ERROR: Se cayó el mail {"pedido":1}
+```
+```salida
+Eventos: ERROR 1, INFO 1 · ilegibles 0
+Errores:
+  09:12:45 Se cayó el mail
+IP sospechosas: ninguna
+Pedido más caro: ninguno
+```
 
 ##### Sin errores ni sospechosos
 ```entrada

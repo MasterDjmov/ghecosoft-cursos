@@ -1,0 +1,311 @@
+{
+  "R00-N01-M1": {
+    "lugar": "El mostrador de la torre",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Elefa golpea el mostrador con el bastón.\n—Llegó un barco y el aviso tiene que salir ya. Título, tres renglones de datos, una línea en blanco y el sello. Exactamente así: en el Puerto, un aviso torcido es un aviso que nadie lee.",
+    "gheco": "Cada `echo` muestra lo que le pasás; `\\n` es el salto de línea (dentro de comillas dobles). Para mostrar comillas dobles dentro de un texto entre comillas dobles, escribilas como `\\\"`.",
+    "exito": "Elefa sella el aviso y lo cuelga en la puerta de la torre.\n—Derecho. Así se avisa.",
+    "imagen": [
+      "El mostrador de madera de la torre del Puerto, con una campana de bronce y un sello grande.",
+      "Elefa, la elefanta enorme con casco de metal, apoya su bastón en el mostrador; Nilo, con gorra azul y bufanda violeta, sostiene un papel; Gheco espía desde el borde."
+    ]
+  },
+  "R00-N01-M2": {
+    "lugar": "El mostrador de la torre",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Del fondo del bolso de Nilo sale una carta empapada. Las letras se corrieron y PHP ya no la entiende.\n—Tres errores —dice Elefa—. No los adivines: ejecutala, leé lo que dice PHP y arreglá de a uno. Y no le cambies ni una palabra al texto.",
+    "gheco": "PHP te dice el tipo de error y **en qué línea** está (`Parse error`, `syntax error, unexpected…`). Arreglá ese, ejecutá de nuevo y pasá al siguiente. Lo que más falta: un `;` al final, una comilla sin cerrar o un `$` en la variable.",
+    "exito": "La carta se lee entera. Nilo la pone a secar en la ventana.\n—¡Ningún mensaje se queda sin respuesta! —dice. Elefa no le contesta, pero se le mueve la trompa.",
+    "imagen": [
+      "Una carta mojada colgada a secar con un broche en la ventana de la torre, con el mar de fondo.",
+      "Nilo escurre su bufanda violeta; Gheco sacude las patas mojadas; Elefa mira con calma."
+    ]
+  },
+  "R00-N01-M3": {
+    "lugar": "El mostrador de la torre",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "La fonda del puerto le pide a la torre un cartel con el menú del día y el total de un almuerzo completo.\n—Un solo `echo` para el menú —dice Elefa—. Y el total lo calcula el programa, no vos con los dedos.",
+    "gheco": "En un texto entre comillas dobles, `\\n` corta el renglón: un solo `echo` puede mostrar varias líneas. Para el total, sumá los precios dentro del programa y mostrá el resultado en otro `echo`.",
+    "exito": "El cartel sale con el total justo. La cocinera de la fonda le regala a Nilo un mate cocido, y Gheco se toma la mitad.",
+    "imagen": [
+      "La puerta de una fonda del puerto con un pizarrón vacío y una olla humeante adentro.",
+      "Nilo cuelga un cartel liso en la puerta; Gheco mete la cabeza en una taza de mate cocido."
+    ]
+  },
+  "R01-N01-M1": {
+    "lugar": "El Muelle de las Primeras Cartas",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Atraca un barco de carga y el capitán no trae manifiesto. Elefa le pide a Nilo que lo arme.\n—Nombre del barco, cajones, peso de cada uno y si lleva algo frágil. Y la capacidad máxima, que esa no cambia nunca.",
+    "gheco": "Cada dato tiene su tipo: texto, entero, decimal o booleano. Lo que no cambia va en una **constante** (`const CAPACIDAD = …;`). `var_dump($x)` muestra el tipo y el valor.",
+    "exito": "El capitán firma el manifiesto. Elefa lo guarda en el archivo del muelle.\n—Con esto, si falta un cajón, sabemos cuál.",
+    "imagen": [
+      "Un barco de carga atracado en un muelle de madera, con cajones apilados y sogas.",
+      "Nilo cuenta cajones con el dedo; un capitán barbudo con gorra espera; Gheco se sienta sobre un cajón marcado con una copa de vidrio dibujada."
+    ]
+  },
+  "R01-N01-M2": {
+    "lugar": "El Muelle de las Primeras Cartas",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "El aduanero del muelle anota todo en papel, así que todos sus números llegan como texto. Le pide a Nilo que haga las cuentas del impuesto.\n—Redondeado para el recibo —dice Elefa— y truncado para la caja. Que se vea la diferencia.",
+    "gheco": "El *casting* cambia el tipo: `(int) \"15\"` y `(float) \"42.5\"`. `round($x, 2)` redondea; para truncar a dos decimales, `floor($x * 100) / 100`.",
+    "exito": "El aduanero compara los dos números y se rasca la oreja.\n—Por un centavo… Me quedo con el redondeado.",
+    "imagen": [
+      "Una caseta de aduana en el muelle, con una balanza grande y un sello de madera.",
+      "Un aduanero con gorra hace cuentas con una pluma; Nilo le muestra la mano abierta; Gheco equilibra una moneda sobre la nariz."
+    ]
+  },
+  "R01-N01-M3": {
+    "lugar": "El Muelle de las Primeras Cartas",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Elefa trae una lista de valores escrita en su libreta.\n—Quiero saber cuáles PHP toma por verdaderos y cuáles por falsos. Hay sorpresas. Nilo, no adivines: mostralos.",
+    "gheco": "`var_dump((bool) $valor)` muestra cómo lo ve PHP. Ojo: el texto `\"0\"` es falso, pero `\"0.0\"`, `\" \"` y `\"false\"` son verdaderos.",
+    "exito": "Nilo se queda mirando el `\"false\"` verdadero un rato largo.\n—Eso es trampa.\n—Eso es PHP —dice Elefa.",
+    "imagen": [
+      "Una libreta abierta sobre un barril del muelle, con una columna de puntos verdes y rojos.",
+      "Elefa sostiene la libreta con la trompa; Nilo se agarra la gorra, sorprendido; Gheco señala un punto rojo."
+    ]
+  },
+  "R01-N02-M1": {
+    "lugar": "La oficina de pesaje",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "El reloj de la torre no tiene agujas: muestra cuántos minutos pasaron desde la medianoche. Elefa quiere saber la hora de verdad.\n—Y qué hora va a ser cuando termine el turno largo. Si pasa de medianoche, vuelve a empezar.",
+    "gheco": "`intdiv($minutos, 60)` da las horas y `$minutos % 60` los minutos que sobran. Para volver a empezar después de las 24, `% 24`. `str_pad($m, 2, \"0\", STR_PAD_LEFT)` pone el cero adelante.",
+    "exito": "Nilo le pinta agujas al reloj con tiza para no tener que calcular nunca más. Elefa las borra con la trompa.",
+    "imagen": [
+      "Un reloj grande sin agujas en la pared de la oficina de pesaje, con una rueda de números de bronce.",
+      "Nilo dibuja agujas con tiza; Elefa le apoya la trompa en el hombro; Gheco se cuelga del borde del reloj."
+    ]
+  },
+  "R01-N02-M2": {
+    "lugar": "La oficina de pesaje",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Un mercader tramposo le jura a Elefa que sus pesas son iguales a las del Puerto. Le muestra pares de valores y dice que todos son «lo mismo».\n—Con dos iguales o con tres —dice Elefa—. Vamos a ver cuáles son realmente iguales.",
+    "gheco": "`==` compara convirtiendo los tipos y a veces dice que sí cuando no; `===` compara valor **y** tipo. `var_dump($a == $b, $a === $b)` muestra los dos en una línea.",
+    "exito": "De todos los pares, solo pasan los que también pasan con tres iguales. El mercader guarda sus pesas y se va sin saludar.",
+    "imagen": [
+      "Una balanza de dos platos en la oficina de pesaje, con pesas de bronce de distintos tamaños.",
+      "Un mercader flaco con sombrero se va enojado; Elefa cruza los brazos; Nilo y Gheco festejan detrás de la balanza."
+    ]
+  },
+  "R01-N02-M3": {
+    "lugar": "La oficina de pesaje",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "La Tortuga, un barco gordo y lento, quiere zarpar con tormenta. Elefa le pide a Nilo que revise las reglas de salida una por una.\n—Y después todas juntas. Si una sola falla, no sale.",
+    "gheco": "`&&` pide que se cumplan las dos; `||`, que se cumpla alguna. Los paréntesis deciden qué se evalúa primero: `$a && ($b || $c)`. `!== null` comprueba que la variable tenga algo.",
+    "exito": "La Tortuga puede zarpar: es grande y aguanta la tormenta. Nilo la despide desde el muelle con la bufanda.",
+    "imagen": [
+      "Un barco gordo y redondo con forma de tortuga saliendo del puerto bajo nubes de tormenta.",
+      "Nilo agita su bufanda violeta desde el muelle; Gheco se agarra de su gorra para no volarse; Elefa mira el cielo."
+    ]
+  },
+  "R01-N03-M1": {
+    "lugar": "Los casilleros del correo",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Llega un paquete con los nombres escritos a los apurones: espacios de más, mayúsculas por cualquier lado.\n—Así no lo despacho —dice Iara, y se saca el lápiz de la oreja—. Etiqueta limpia o no sale.",
+    "gheco": "`trim` saca los espacios de los extremos, `mb_strtolower` pasa a minúsculas (con tildes) y `ucwords` pone mayúscula al principio de cada palabra. `str_replace(\"  \", \" \", $x)` cambia los espacios dobles.",
+    "exito": "Iara pega la etiqueta y la alisa con la mano.\n—¿Lo anotaste?\n—Lo anoté —dice Nilo. Y es verdad, por una vez.",
+    "imagen": [
+      "Una pared llena de casilleros de madera numerados con dibujos de barcos en lugar de números, en la oficina de correos.",
+      "Iara, con un lápiz detrás de la oreja, pega una etiqueta lisa a un paquete; Nilo sostiene el paquete; Gheco cuida el rollo de cinta."
+    ]
+  },
+  "R01-N03-M2": {
+    "lugar": "Los casilleros del correo",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Un cliente dejó su dirección de mail con mayúsculas y espacios. Iara la quiere limpia, partida en usuario y dominio, y oculta para mostrarla en la ventanilla.\n—Que no se lea entera —dice—. Pico anda cerca.",
+    "gheco": "`strpos($mail, \"@\")` dice dónde está la arroba; con `substr` cortás antes y después (o con `explode(\"@\", $mail)`). `str_ends_with` comprueba el final, y `str_repeat(\"*\", n)` arma los asteriscos.",
+    "exito": "La dirección oculta aparece en la ventanilla. Pico pasa volando, la mira y sigue de largo, decepcionado.",
+    "imagen": [
+      "La ventanilla de la oficina de correos con una reja de bronce y un cartel liso.",
+      "Iara tapa un papel con la mano; Pico, una gaviota regordeta con una mancha violeta en el ala, pasa volando; Nilo y Gheco la espantan."
+    ]
+  },
+  "R01-N03-M3": {
+    "lugar": "Los casilleros del correo",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Iara quiere colgar la tabla de tarifas del correo en la puerta.\n—Destino a la izquierda, peso y precio a la derecha, con sus decimales. Y que las columnas estén derechas, que esto lo leen los capitanes.",
+    "gheco": "`printf` usa formatos: `%-10s` es texto de 10 lugares a la izquierda, `%6.1f` un decimal en 6 lugares a la derecha y `%10.2f` dos decimales en 10. Usá los mismos anchos en el título y en cada renglón.",
+    "exito": "La tabla queda colgada en la puerta, derechita. Un capitán la lee, asiente y paga sin discutir.",
+    "imagen": [
+      "La puerta de la oficina de correos con una tabla de madera colgada, con columnas de rayas alineadas.",
+      "Un capitán con pipa apagada mira la tabla; Iara espera con el sello; Nilo y Gheco cuentan monedas en el mostrador."
+    ]
+  },
+  "R01-N04-M1": {
+    "lugar": "La ventanilla de encomiendas",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "El portero del Puerto se fue a almorzar y le dejó a Nilo la puerta. Cada visitante dice su nombre y su ciudad.\n—Saludalos bien —dice Iara—. Y como el portero es raro, quiere también el nombre al revés.",
+    "gheco": "`trim(fgets(STDIN))` lee un renglón sin el salto. `ucwords(mb_strtolower(...))` deja el nombre en «Tipo Título», `mb_strlen` cuenta las letras y `strtoupper(strrev(...))` lo da vuelta en mayúsculas.",
+    "exito": "El visitante sonríe al ver su nombre al revés. El portero vuelve del almuerzo y se queda sin trabajo por el resto de la tarde.",
+    "imagen": [
+      "Una puerta de hierro de entrada al Puerto con una garita de madera al lado.",
+      "Nilo saluda con la gorra a una viajera con mochila; Iara anota desde la garita; Gheco hace de portero sobre la reja."
+    ]
+  },
+  "R01-N04-M2": {
+    "lugar": "La ventanilla de encomiendas",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La balanza de la aduana se rompió y los pesos se dictan de palabra: algunos con coma, otros con punto, y uno que dice cualquier cosa.\n—Los inválidos cuentan como cero —dice Iara—. Pero los quiero anotados.",
+    "gheco": "`str_replace(\",\", \".\", $peso)` arregla la coma. `is_numeric` dice si el texto es un número: si no, avisá y contalo. Al final, `number_format($total, 1)` o `printf(\"%.1f\")`.",
+    "exito": "Total con un decimal y un peso inválido anotado. Iara subraya el inválido dos veces.\n—Este lo vamos a pesar de nuevo.",
+    "imagen": [
+      "Una balanza de aduana rota, con el plato torcido, al lado de tres paquetes envueltos en papel madera.",
+      "Iara anota con el lápiz; Nilo levanta un paquete con las dos manos; Gheco intenta arreglar el plato de la balanza."
+    ]
+  },
+  "R01-N04-M3": null,
+  "R01-N05-M1": {
+    "lugar": "El Cruce de los Tres Muelles",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "En la boletería del ferry hay una fila larga y el boletero no sabe cobrar: cada edad tiene su tarifa y los estudiantes tienen descuento.\n—Que el programa cobre —dice Elefa—. Y si alguien dice una edad imposible, que no le venda.",
+    "gheco": "Una cadena de `if`/`elseif` por rangos de edad, de menor a mayor. Para validar, `filter_var($edad, FILTER_VALIDATE_INT)` o `ctype_digit`. El descuento es `$tarifa * 0.8`.",
+    "exito": "La fila avanza rápido. Una abuela con su nieto paga lo justo y le regala a Nilo un caramelo.",
+    "imagen": [
+      "La boletería de un ferry en el Cruce de los Tres Muelles, con una fila de pasajeros y el barco esperando.",
+      "Una abuela con un nene le da un caramelo a Nilo; Elefa vigila la fila; Gheco reparte boletos lisos."
+    ]
+  },
+  "R01-N05-M2": {
+    "lugar": "El Cruce de los Tres Muelles",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "El semáforo del cruce de barcos tiene luces de todos los colores y los capitanes nuevos no saben qué significan.\n—Un cartel que diga qué hacer con cada color —pide Elefa—. Y si la luz es de un color que no existe, que llamen al capitán del puerto.",
+    "gheco": "`match` compara con `===` y devuelve un valor: `match ($color) { 'verde' => 'Avanzar', 'azul', 'violeta' => ..., default => ... }`. Pasá el color a minúsculas antes con `mb_strtolower(trim(...))`.",
+    "exito": "Los barcos pasan el cruce en orden. Un semáforo se pone naranja y un capitán, muy serio, llama a Elefa.",
+    "imagen": [
+      "Un semáforo de faroles de colores sobre un poste en medio del cruce de tres muelles, con barcos esperando.",
+      "Elefa levanta el bastón como una guardia; Nilo señala un farol; Gheco se esconde de un farol naranja."
+    ]
+  },
+  "R01-N05-M3": {
+    "lugar": "El Cruce de los Tres Muelles",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "El farero que vigila el cruce anota los años bisiestos porque esos años le toca un día más de guardia. Se equivoca seguido.\n—Una sola condición —dice Elefa—. Si la partís en pedacitos, se te escapa el caso de los cuatrocientos.",
+    "gheco": "Bisiesto: `($a % 4 === 0 && $a % 100 !== 0) || $a % 400 === 0`. Leé cada año con `fgets(STDIN)` y mostrá 366 o 365 días según la condición.",
+    "exito": "El farero tacha dos años en su libreta y suspira.\n—Me debían dos días de franco.",
+    "imagen": [
+      "Una torrecita de vigía de madera junto al cruce, con un farol encendido y una libreta sobre la baranda.",
+      "Un farero viejo con impermeable revisa la libreta; Nilo cuenta con los dedos; Gheco duerme en el farol."
+    ]
+  },
+  "R01-N06-M1": {
+    "lugar": "La fila de barcos al amanecer",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Un estibador nuevo no sabe cuántos cajones puede cargar en la carretilla sin pasarse de peso.\n—Una tabla del uno al diez —dice Iara—. Y marcá dónde se pasa, que la carretilla aguanta doscientos cincuenta.",
+    "gheco": "Un `for` del 1 al 10 calcula `$i * $peso`. `printf` alinea las columnas y un `if` agrega ` <- excede`. El máximo sin pasarse es `intdiv(250, $peso)`, o el último que no excede.",
+    "exito": "El estibador pega la tabla en la carretilla y carga justo hasta la marca. La carretilla ni cruje.",
+    "imagen": [
+      "Una carretilla de madera con cajones apilados en un muelle al amanecer, con barcos en fila de fondo.",
+      "Un estibador corpulento empuja la carretilla; Iara le muestra una tabla; Nilo y Gheco cuentan cajones."
+    ]
+  },
+  "R01-N06-M2": {
+    "lugar": "La fila de barcos al amanecer",
+    "personajes": "Nilo, Gheco, Iara, Pico",
+    "escena": "El almacén del puerto tiene una cerradura nueva que pide una clave. Pico la sobrevuela, porque las cerraduras que dejan probar sin límite son sus favoritas.\n—Tres intentos —dice Iara—. Al tercero, se bloquea.",
+    "gheco": "`do { ... } while (...)` pide la clave al menos una vez. Contá los intentos y, si llega a tres sin acertar, mostrá el aviso y `exit(1)`.",
+    "exito": "Al tercer intento fallido, la cerradura se traba con un clic. Pico se va volando, ofendido, a buscar otra puerta.",
+    "imagen": [
+      "La puerta de un almacén del puerto con una cerradura de bronce grande con tres lucecitas.",
+      "Pico, la gaviota regordeta con una mancha violeta en el ala, picotea la cerradura; Iara la espanta con la libreta; Nilo y Gheco se ríen."
+    ]
+  },
+  "R01-N06-M3": {
+    "lugar": "La fila de barcos al amanecer",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "El registro de llegadas se dicta renglón por renglón: barco y pasajeros. Algunos renglones vienen vacíos, y el capataz grita «¡FIN!» cuando se cansa, aunque falten barcos.\n—Contá hasta donde diga —dice Iara—. Lo que venga después, que espere.",
+    "gheco": "`while (($linea = fgets(STDIN)) !== false)` lee hasta que se acaba la entrada. Con `continue` salteás los vacíos y con `break` cortás en `FIN`. `explode(\";\", $linea)` separa barco y pasajeros.",
+    "exito": "Los barcos quedan contados hasta el «FIN». El capataz se sienta en un barril y se pone a dormir.",
+    "imagen": [
+      "Una fila de barcos atracados al amanecer, con la niebla sobre el agua.",
+      "Un capataz bigotudo duerme sentado en un barril; Iara anota; Nilo y Gheco cuentan pasajeros que bajan."
+    ]
+  },
+  "R01-N07-M1": {
+    "lugar": "La bodega del tercer muelle",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Iara hace el inventario de la bodega: harina, sal, yerba, aceite y azúcar.\n—Ordenado por nombre. Y lo que tenga poco, que se reponga con el camión que llegó. Después, de mayor a menor.",
+    "gheco": "`ksort` ordena por clave y `arsort` por valor de mayor a menor. Para cambiar las cantidades dentro de un `foreach`, recorrelo por referencia: `foreach ($stock as $producto => &$cantidad)`.",
+    "exito": "La bodega queda repuesta y ordenada. Iara tacha la lista entera de una sola raya.",
+    "imagen": [
+      "Una bodega con estantes de madera llenos de bolsas de tela blanca, frascos de barro y latas sin rótulo.",
+      "Iara anota en su libreta; Nilo baja bolsas de un camión de madera; Gheco se sienta sobre una bolsa empolvada."
+    ]
+  },
+  "R01-N07-M2": {
+    "lugar": "La bodega del tercer muelle",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La escuela náutica guarda las notas de sus alumnos en la bodega, y la directora quiere el ranking. Nilo aparece en la lista.\n—Promedio por alumno, del mejor al peor —dice Iara—. Y no me mires así, que no lo voy a cambiar.",
+    "gheco": "Para cada alumno, `array_sum($notas) / count($notas)`. `usort($tabla, fn($a, $b) => $b['promedio'] <=> $a['promedio'])` ordena de mayor a menor. Recorré por referencia para guardar el promedio en la fila.",
+    "exito": "Nilo queda último. Se calza la gorra hasta los ojos.\n—El año que viene.\n—¿Lo anotaste? —pregunta Iara. Y lo anota ella.",
+    "imagen": [
+      "Una pizarra de la escuela náutica apoyada en la bodega, con rayas de colores de distinto largo.",
+      "Nilo se baja la gorra, avergonzado; Iara le da una palmada en la espalda; Gheco consuela a Nilo desde su hombro."
+    ]
+  },
+  "R01-N07-M3": {
+    "lugar": "La bodega del tercer muelle",
+    "personajes": "Nilo, Gheco, Iara, Pico",
+    "escena": "La Capitana quiere saber qué palabras se repiten más en los mensajes que llegan al Puerto. Iara tiene una bolsa llena.\n—Sin signos, sin mayúsculas y sin las palabras chiquitas que no dicen nada.",
+    "gheco": "`mb_strtolower`, después `str_replace` con un array de signos y `preg_split('/\\s+/', $texto)` para separar palabras. Contá en un array `palabra => cantidad` y ordená con `arsort`.",
+    "exito": "La palabra que más se repite es «urgente». Iara suspira.\n—Como siempre.",
+    "imagen": [
+      "Una bolsa de lona volcada con sobres desparramados en el piso de la bodega.",
+      "Iara separa sobres en montoncitos; Nilo levanta uno; Pico intenta llevarse un sobre en el pico y Gheco se lo impide."
+    ]
+  },
+  "R01-N08-M1": {
+    "lugar": "Las oficinas de la torre",
+    "personajes": "Nilo, Gheco, Iara, Elefa",
+    "escena": "Elefa reparte tareas entre las oficinas de la torre: una mide salas, otra calcula precios, otra revisa números y otra escribe iniciales. Cada una necesita su función.\n—Con tipos —dice—. En la torre, cada cosa sabe qué recibe y qué devuelve.",
+    "gheco": "`declare(strict_types=1);` arriba de todo. Cada función declara el tipo de sus parámetros y de su retorno: `function esPar(int $n): bool`. Un parámetro con valor por defecto (`$descuento = 0`) se puede omitir.",
+    "exito": "Las cuatro oficinas trabajan a la vez y nadie se pisa. Elefa recorre los pasillos con las manos atrás, conforme.",
+    "imagen": [
+      "Un pasillo de la torre con cuatro puertas de oficina abiertas, cada una con un escritorio y una lámpara.",
+      "Elefa camina por el pasillo; Iara entrega una carpeta por una puerta; Nilo y Gheco corren con papeles lisos."
+    ]
+  },
+  "R01-N08-M2": {
+    "lugar": "Las oficinas de la torre",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "En una oficina de la torre trabaja el cambista: convierte denarios, lingotes, escamas y engranajes. Le pide ayuda a Nilo porque se equivoca con las cuentas.\n—Y si alguien trae una moneda que no conozco, que el programa avise.",
+    "gheco": "Las cotizaciones van en una constante con un array. Para convertir, pasá primero a pesos y después a la otra moneda. Si la moneda no existe (`array_key_exists`), devolvé `-1` y avisá.",
+    "exito": "El cambista hace diez cambios seguidos sin equivocarse. Le regala a Nilo una moneda rara, de un lugar que nadie conoce.",
+    "imagen": [
+      "Un escritorio de cambista con balanzas chiquitas y pilas de monedas de cuatro colores: plata, hierro, verde y bronce.",
+      "Un cambista con lentes le da una moneda a Nilo; Iara anota; Gheco hace torres de monedas."
+    ]
+  },
+  "R01-N08-M3": {
+    "lugar": "Las oficinas de la torre",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Nilo sube la escalera de la torre de a uno y de a dos escalones, y se pregunta de cuántas maneras distintas podría hacerlo.\n—Con muchos escalones tu función va a tardar un siglo —dice Iara—. Hacé que se acuerde de lo que ya calculó.",
+    "gheco": "La versión recursiva repite cuentas. Guardá los resultados en un array (`static $memo = []`, o pasándolo por referencia) y, si ya calculaste `n`, devolvelo sin volver a calcular.",
+    "exito": "La versión con memoria contesta al instante. Nilo sube la escalera de una manera distinta cada día de la semana.",
+    "imagen": [
+      "Una escalera de caracol de piedra dentro de la torre, con faroles en la pared.",
+      "Nilo sube de a dos escalones; Iara cuenta desde abajo; Gheco salta de escalón en escalón."
+    ]
+  },
+  "R01-N09-M3": {
+    "lugar": "El estante de los tomos",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Entre los tomos aparece un programa viejo con un esqueleto dibujado en el margen: cuatro errores escondidos, algunos que lo hacen fallar y otros que solo dan números equivocados.\n—Los segundos son peores —dice Iara—. No avisan.",
+    "gheco": "Ejecutalo y leé cada error. Para los que no avisan, `var_dump` de las variables sospechosas: el tipo y el valor te dicen dónde se equivocó. Arreglá de a uno y explicá cada arreglo en un comentario.",
+    "exito": "El programa da la salida correcta. El esqueleto del margen, ahora que lo mirás, parece estar sonriendo.",
+    "imagen": [
+      "Un estante de tomos viejos con un libro abierto que tiene un esqueleto dibujado en el margen.",
+      "Iara sostiene una lupa sobre la página; Nilo se asusta del dibujo; Gheco le toca la nariz al esqueleto dibujado."
+    ]
+  },
+  "R01-N10-M1": {
+    "lugar": "La Roca de la Sirena",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "La Sirena se fue, pero dejó el libro de bitácora del Puerto todo mezclado: registros bien escritos, otros a medias y otros que mienten.\n—Validá cada renglón —dice Elefa—. Lo que esté mal, que diga por qué. Lo que esté bien, al resumen.",
+    "gheco": "Una función `validarRegistro` que devuelva los datos o los errores. Partí cada renglón con `explode(\";\", ...)`, revisá cantidad de partes, fecha y números. Contá los válidos y los inválidos.",
+    "exito": "El libro de bitácora vuelve a estar en orden. Elefa lo cierra con la trompa y hace sonar la campana una vez.",
+    "imagen": [
+      "La Roca de la Sirena vacía en medio del mar en calma, con una caracola nacarada brillando en la piedra.",
+      "Elefa sostiene un libro grande cerrado; Nilo mira el mar; Gheco escucha la caracola."
+    ]
+  }
+}

@@ -5,7 +5,8 @@ Toma cada «### Misión» con entrega de código y «#### Salida esperada» y la
 con el mismo enunciado (Desafío + «Para superarla»), la misma entrada, salida y solución, y la recompensa de la
 misión en denarios («monedas N») más «antes: <código de la misión>». Las micro-misiones nuevas van después de las
 que ya tiene el nodo. La parte de historia (lugar, personajes, escena, Gheco sugiere, Al superarla e imagen) sale
-de un JSON escrito a mano, una entrada por misión.
+de un JSON escrito a mano, una entrada por misión (`null`: la misión queda como está, porque no se puede
+comprobar en el navegador).
 
     python3 scripts/misiones-a-micro.py cursos/java/01-la-aduana-del-compilador.md scripts/java-micro/00-01.json [--apply]
 
@@ -41,6 +42,9 @@ def fence_language(body: str | None) -> str:
 
 def skeleton(solution: str, language: str) -> str:
     """El código inicial: los import (o #include) y el main vacío."""
+    if language == 'php':
+        strict = ['declare(strict_types=1);', ''] if 'strict_types=1' in solution else []
+        return '\n'.join(['<?php', ''] + strict + ['// Escribí tu programa acá'])
     if language == 'python':
         imports = [line for line in solution.splitlines() if line.startswith(('import ', 'from '))]
         return '\n'.join(imports + ([''] if imports else []) + ['# Escribí tu programa acá'])
@@ -118,6 +122,9 @@ def main() -> None:
                 code = re.match(r'### Misión (\S+)', block).group(1)
                 if code not in stories:
                     missing.append(code)
+                    kept.append(block)
+                    continue
+                if stories[code] is None:  # no se puede comprobar en el navegador: queda como misión
                     kept.append(block)
                     continue
                 last += 1

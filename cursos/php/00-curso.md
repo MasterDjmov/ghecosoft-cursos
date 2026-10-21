@@ -11,6 +11,7 @@ dias_abono: 30
 destacado: si
 proximamente: no
 publicado: si
+micromisiones_completan: si
 ```
 
 ### Descripción
@@ -19,7 +20,7 @@ Aprendé **PHP desde cero**. No hace falta saber programar: cada tema se explica
 
 PHP es la lengua de los servidores: responde los pedidos que llegan desde el navegador. Con PHP funcionan WordPress, Wikipedia, buena parte de las tiendas online y la mayoría de los sistemas de gestión de los hostings compartidos. En el Puerto **cada pedido recibe su respuesta**: llega un mensaje, se lo lee con cuidado, se busca lo que pide y se lo despacha.
 
-Cada tema es un **nodo** del árbol. En cada uno leés la explicación, corrés el ejemplo en tu compu y resolvés las **misiones**: al aprobarlas ganás sellos para abrir el siguiente. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
+Cada tema es un **nodo** del árbol. En cada uno leés la explicación, corrés el ejemplo y resolvés las **micro-misiones**, que se comprueban solas (PHP corre acá mismo, en tu navegador): las que vienen de una misión te dan sellos para abrir el siguiente. Los temas de la web y de la base de datos tienen además **proyectos** que corrige el profe. Cada rama termina con un **jefe**, que junta todo lo que aprendiste.
 
 Al final del camino principal llegás a la **Encrucijada de los Sellos**, de donde salen tres Sendas optativas: un **RPG por turnos**, lo esencial del framework **Laravel** y una **aplicación web con JavaScript** que habla con tu API. Y apenas terminás la primera rama se abre otra Senda optativa, la del **Escaparate**: HTML y CSS para armar páginas que se vean bien en cualquier pantalla.
 
@@ -40,10 +41,10 @@ Al final del camino principal llegás a la **Encrucijada de los Sellos**, de don
 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
-| coin.course | sello | sellos | m | La moneda del Puerto: el sello de lacre que cierra cada mensaje despachado. Se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
+| coin.course | sello | sellos | m | La moneda del Puerto: el sello de lacre que cierra cada mensaje despachado. Se gana superando las micro-misiones que vienen de una misión (y aprobando los proyectos y las misiones de las Sendas) y abre los nodos del curso. | | curso |
 | mentor.name | Elefa | | f | La Capitana del Puerto: una elefanta que despacha los mensajes de todo el mundo y nunca olvida un pedido. | Elefa llegó al Puerto de los Mensajeros cuando era una oficina con un solo mostrador y una bolsa de cartas sin abrir. Hoy dirige muelles, correos y bodegas, y desde su torre ve llegar cada barco. Tiene una memoria de elefanta —nunca se olvida de un pedido— y una sola regla: **ningún mensaje se queda sin respuesta, y ninguna respuesta sale sin revisar**. Desconfía de todo lo que llega de afuera, hasta que lo comprueba. | curso |
 | world.region | Puerto de los Mensajeros | | m | La región del mundo cuya lengua arcana es PHP. | | curso |
-| story.course_intro | Bienvenida al Puerto | | f | | Nilo era mensajero en un pueblo de la costa: charlatán, rápido y distraído, corría sin anotar nada y se olvidaba de todo entre un pedido y el siguiente. Una noche de tormenta persiguió una carta que se le voló hasta un faro abandonado, subió la escalera y apareció en lo alto del **Faro del Portal Oculto**, frente al **Puerto de los Mensajeros**, en {mundo}: barcos, gaviotas y una torre donde no para de sonar una campana.<br><br>Soy {mentor}, la Capitana del Puerto. Acá hablamos **PHP**: la lengua de los servidores, los que reciben un pedido y despachan una respuesta. Nilo va a empezar en el Muelle, escribiendo sus primeras cartas, y va a terminar dirigiendo su propia oficina, con su bodega llena de registros. Cada tema que domine le abre un muelle nuevo; cada misión aprobada le da sellos para abrir el siguiente. | curso |
+| story.course_intro | Bienvenida al Puerto | | f | | Nilo era mensajero en un pueblo de la costa: charlatán, rápido y distraído, corría sin anotar nada y se olvidaba de todo entre un pedido y el siguiente. Una noche de tormenta persiguió una carta que se le voló hasta un faro abandonado, subió la escalera y apareció en lo alto del **Faro del Portal Oculto**, frente al **Puerto de los Mensajeros**, en {mundo}: barcos, gaviotas y una torre donde no para de sonar una campana.<br><br>Soy {mentor}, la Capitana del Puerto. Acá hablamos **PHP**: la lengua de los servidores, los que reciben un pedido y despachan una respuesta. Nilo va a empezar en el Muelle, escribiendo sus primeras cartas, y va a terminar dirigiendo su propia oficina, con su bodega llena de registros. Cada tema que domine le abre un muelle nuevo; las micro-misiones más difíciles le dan sellos para abrir el siguiente. | curso |
 | story.branch_completed | ¡Muelle despachado! | | m | | {mentor} hace sonar la campana de la torre tres veces, la señal de que un muelle entero funciona solo. —Esta parte del Puerto ya responde con el código de Nilo. —Iara lo anota en su libreta, y Nilo, por primera vez, también. | curso |
 | story.course_completed | ¡Dominaste la lengua del Puerto! | | f | | {mentor} le entrega a Nilo la llave de la torre y un sello de lacre con su nombre grabado. —Llegaste persiguiendo una carta, sin acordarte ni de mi nombre, y te vas con el Faro prendido y un morral donde no se pierde nada. Ya sos capitán del Puerto. —Desde la Encrucijada de los Sellos salen tres caminos: la Arena, el Bastión de Laravel y el Palomar de los Mensajes Veloces. | curso |
 | story.portal_piece | Lo que guardó Elefa | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Un día llegó al Puerto un mensaje sin remitente, sellado con un sello de vidrio de colores. Decía solamente: *para quien llegue*. Lo guardé veinte años. Creo que ahora es tuyo, Nilo. | curso |
@@ -444,17 +445,23 @@ echo "De la costa de los faros\n";
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) del otro lado del mostrador, rascándose la gorra.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el mostrador.
 
-### Misión R00-N01-M1 · El aviso del muelle
+### Micro-misión R00-N01-P5 · El aviso del muelle
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de la torre
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R00-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Elefa golpea el mostrador con el bastón.
+—Llegó un barco y el aviso tiene que salir ya. Título, tres renglones de datos, una línea en blanco y el sello. Exactamente así: en el Puerto, un aviso torcido es un aviso que nadie lee.
 
+#### Gheco sugiere
+Cada `echo` muestra lo que le pasás; `\n` es el salto de línea (dentro de comillas dobles). Para mostrar comillas dobles dentro de un texto entre comillas dobles, escribilas como `\"`.
+
+#### Desafío
 Escribí un programa `aviso.php` que muestre el aviso de llegada de un barco,
 exactamente así:
 
@@ -463,14 +470,18 @@ exactamente así:
 - Una línea vacía.
 - El sello final entre comillas dobles.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Empieza con `<?php` y cada instrucción termina en `;`.
 - Usa `\"` para las comillas y `\n` para los saltos de línea.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 ==== AVISO DE LLEGADA ====
 Barco: La Gaviota
@@ -480,8 +491,7 @@ Trae: cartas y especias
 Sello: "PUEDE AMARRAR"
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - El aviso del muelle: mostrar texto con formato.
@@ -493,28 +503,39 @@ echo "\n";
 echo "Sello: \"PUEDE AMARRAR\"\n";
 ```
 
-### Misión R00-N01-M2 · La carta mojada
+#### Al superarla
+Elefa sella el aviso y lo cuelga en la puerta de la torre.
+—Derecho. Así se avisa.
+
+#### Imagen
+- El mostrador de madera de la torre del Puerto, con una campana de bronce y un sello grande.
+- Elefa, la elefanta enorme con casco de metal, apoya su bastón en el mostrador; Nilo, con gorra azul y bufanda violeta, sostiene un papel; Gheco espía desde el borde.
+
+### Micro-misión R00-N01-P6 · La carta mojada
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de la torre
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R00-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Del fondo del bolso de Nilo sale una carta empapada. Las letras se corrieron y PHP ya no la entiende.
+—Tres errores —dice Elefa—. No los adivines: ejecutala, leé lo que dice PHP y arreglá de a uno. Y no le cambies ni una palabra al texto.
 
+#### Gheco sugiere
+PHP te dice el tipo de error y **en qué línea** está (`Parse error`, `syntax error, unexpected…`). Arreglá ese, ejecutá de nuevo y pasá al siguiente. Lo que más falta: un `;` al final, una comilla sin cerrar o un `$` en la variable.
+
+#### Desafío
 Esta carta llegó mojada y tiene **tres errores**: PHP no la puede leer. Copiala,
 ejecutala, leé cada mensaje y arreglala hasta que muestre la salida esperada. No
 cambies los textos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Se ejecuta sin errores.
-- La salida coincide con la esperada.
 
 #### Código inicial
-
 ```php
 echo "La carta dice:\n"
 echo "  Quien lee los errores,\n";
@@ -523,7 +544,6 @@ Echo "  Firmado: la Capitana\n";
 ```
 
 #### Salida esperada
-
 ```
 La carta dice:
   Quien lee los errores,
@@ -531,8 +551,7 @@ La carta dice:
   Firmado: la Capitana
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - La carta mojada: faltaba <?php, faltaba un ; y una comilla
@@ -544,28 +563,47 @@ echo "  despacha antes.\n";
 echo "  Firmado: la Capitana\n";
 ```
 
-### Misión R00-N01-M3 · El cartel de la fonda
+#### Al superarla
+La carta se lee entera. Nilo la pone a secar en la ventana.
+—¡Ningún mensaje se queda sin respuesta! —dice. Elefa no le contesta, pero se le mueve la trompa.
+
+#### Imagen
+- Una carta mojada colgada a secar con un broche en la ventana de la torre, con el mar de fondo.
+- Nilo escurre su bufanda violeta; Gheco sacude las patas mojadas; Elefa mira con calma.
+
+### Micro-misión R00-N01-P7 · El cartel de la fonda
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El mostrador de la torre
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R00-N01-M3
 ```
 
-#### Consigna
+#### Escena
+La fonda del puerto le pide a la torre un cartel con el menú del día y el total de un almuerzo completo.
+—Un solo `echo` para el menú —dice Elefa—. Y el total lo calcula el programa, no vos con los dedos.
 
+#### Gheco sugiere
+En un texto entre comillas dobles, `\n` corta el renglón: un solo `echo` puede mostrar varias líneas. Para el total, sumá los precios dentro del programa y mostrá el resultado en otro `echo`.
+
+#### Desafío
 La fonda del puerto necesita un cartel. Mostralo usando **un solo** `echo` con
 saltos de línea `\n` para el menú, y después otro `echo` con el total calculado
 dentro del programa: un guiso (1200) más un pan (300) más un mate cocido (450).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El menú sale de un único `echo` con `\n`.
 - El total se calcula con `+`, no se escribe a mano.
 
-#### Salida esperada
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 FONDA LA TROMPA ALEGRE
 ----------------------
@@ -575,14 +613,20 @@ Mate cocido .. 450
 Total: 1950
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - El cartel de la fonda: \n dentro de un texto y un total calculado.
 echo "FONDA LA TROMPA ALEGRE\n----------------------\nGuiso ........ 1200\nPan .......... 300\nMate cocido .. 450\n";
 echo "Total: ", 1200 + 300 + 450, "\n";
 ```
+
+#### Al superarla
+El cartel sale con el total justo. La cocinera de la fonda le regala a Nilo un mate cocido, y Gheco se toma la mitad.
+
+#### Imagen
+- La puerta de una fonda del puerto con un pizarrón vacío y una olla humeante adentro.
+- Nilo cuelga un cartel liso en la puerta; Gheco mete la cabeza en una taza de mate cocido.
 
 ### Encargo R00-N01-E1 · El recibo del kiosco
 

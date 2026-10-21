@@ -531,17 +531,23 @@ Los botes se presentan solos, siempre igual. Nilo le enseña al suyo a decir «v
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) escucha con la mano en la oreja.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre una plaquita.
 
-### Misión R02-N01-M1 · El molde del cajón
+### Micro-misión R02-N01-P5 · El molde del cajón
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Astillero de los Moldes
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N01-M1
 ```
 
-#### Consigna
+#### Escena
+En el Astillero no solo se hacen botes: también cajones para la carga, todos con el mismo molde. Iara quiere que cada cajón sepa su volumen, su densidad y si es pesado.
+—Y que se presente solo cuando lo muestres —agrega—. Nada de armar el texto a mano cada vez.
 
+#### Gheco sugiere
+Con propiedades promovidas, el constructor declara y guarda en una sola línea: `public function __construct(public string $contenido, ...)`. `__toString()` define cómo se muestra el objeto con `echo`.
+
+#### Desafío
 Escribí la clase `Cajon` con:
 
 - propiedades promovidas en el constructor: `contenido` (texto), `ancho`, `alto` y
@@ -554,14 +560,20 @@ Escribí la clase `Cajon` con:
 Creá tres cajones (yerba 0.6×0.6×0.6 de 65 kg, hierro 0.4×0.3×0.5 de 180 kg,
 plumas 1×1×1 de 12 kg) y mostralos con su densidad y si son pesados.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa promoción de propiedades en el constructor.
 - Los métodos usan `$this` y tienen tipos.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Cajón de yerba (0.216 m³, 65 kg)
   densidad: 300.9 kg/m³
@@ -571,8 +583,7 @@ Cajón de plumas (1 m³, 12 kg)
   densidad: 12 kg/m³
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -621,17 +632,30 @@ foreach ($cajones as $cajon) {
 }
 ```
 
-### Misión R02-N01-M2 · La cuenta del almacén
+#### Al superarla
+Los cajones salen del molde y cada uno se presenta solo. Nilo pinta el suyo de violeta.
+
+#### Imagen
+- Un taller del Astillero con un molde de madera grande y cajones nuevos apilados al lado.
+- Iara mide un cajón con una cinta; Nilo pinta otro cajón de violeta; Gheco se mete adentro de un cajón vacío.
+
+### Micro-misión R02-N01-P6 · La cuenta del almacén
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Astillero de los Moldes
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N01-M2
 ```
 
-#### Consigna
+#### Escena
+El almacén del Astillero les fía a los carpinteros, y el almacenero anota las deudas en la pared con un carbón. Ya no se entiende nada.
+—Una cuenta para cada uno —dice Iara—. Con su límite: si se pasa, no le fían.
 
+#### Gheco sugiere
+La clase guarda el titular, el saldo y el límite. `comprar` resta del saldo solo si no pasa el límite (y devuelve `true` o `false`); `pagar` suma. `estado()` arma el texto según el saldo.
+
+#### Desafío
 El almacén del puerto les fía a los marineros. Escribí la clase `CuentaCorriente`
 con el titular, el saldo (arranca en 0) y el límite de fiado (se pasa al crearla).
 Métodos:
@@ -645,14 +669,20 @@ Creá dos cuentas y ejecutá los movimientos del ejemplo, mostrando el resultado
 cada uno. Mostrá también qué pasa si asignás la cuenta de Nilo a otra variable y
 comprás con esa variable.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los movimientos se hacen con métodos, no cambiando el saldo desde afuera.
 - `comprar` respeta el límite.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Iara compra 3200: ok
 Iara compra 2500: rechazado
@@ -662,8 +692,7 @@ Nilo: 0 (al día)
 Después de comprar con $otra: Nilo: -500 (debe)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -723,6 +752,13 @@ $otra = $nilo;
 $otra->comprar(500);
 echo "Después de comprar con \$otra: ", $nilo, "\n";
 ```
+
+#### Al superarla
+El almacenero borra la pared y cuelga las cuentas nuevas. Un carpintero intenta comprar de más y el programa le dice que no, muy educado.
+
+#### Imagen
+- Un almacén chiquito del Astillero con una pared tiznada de carbón y estantes de herramientas.
+- Un almacenero gordo con delantal borra la pared con un trapo; Iara anota; Nilo y Gheco miran a un carpintero que se va sin comprar.
 
 ### Misión R02-N01-M3 · Del array a la clase
 
@@ -1513,17 +1549,23 @@ Cada uno con su precio. Iara baja el lápiz.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el suyo.
 - Gheco (gecko de luz cian con antiparras, chiquito) entre los dos papeles.
 
-### Misión R02-N02-M1 · El timón con palanca
+### Micro-misión R02-N02-P5 · El timón con palanca
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El barco del timón
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En el barco del timón, cualquiera que pasa le pega un manotazo a la rueda y el rumbo queda en cualquier número, hasta en uno imposible.
+—El rumbo no se toca de afuera —dice Elefa—. Se gira con la palanca, y la palanca sabe dar la vuelta.
 
+#### Gheco sugiere
+La propiedad `private` no se puede cambiar desde afuera: solo con los métodos. Para dar la vuelta, `($rumbo + $grados) % 360` y, si queda negativo, sumale 360. `puntoCardinal()` decide con rangos.
+
+#### Desafío
 Escribí la clase `Timon` con el rumbo en grados (0 a 359) como propiedad
 **privada**. Métodos:
 
@@ -1537,14 +1579,20 @@ Escribí la clase `Timon` con el rumbo en grados (0 a 359) como propiedad
 El constructor recibe el rumbo inicial y lanza `InvalidArgumentException` si no está
 entre 0 y 359. Probá los giros del ejemplo e intentá crear un timón con 400.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El rumbo es `private` y solo cambia con `girar`.
 - El constructor valida.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Gira   20 →  10° (N)
 Gira  -30 → 340° (N)
@@ -1554,8 +1602,7 @@ Gira -400 → 210° (S)
 No se creó: Rumbo inválido: 400
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -1606,17 +1653,30 @@ try {
 }
 ```
 
-### Misión R02-N02-M2 · El pasaje inmutable
+#### Al superarla
+El timón ya no se deja manosear. Un marinero le da un manotazo, la rueda no se mueve y el marinero se va frotando la mano.
+
+#### Imagen
+- La cubierta de un barco con una rueda de timón grande de madera y una palanca de bronce al lado.
+- Elefa sostiene la palanca con la trompa; Nilo gira la rueda; Gheco se sienta en el centro de la rueda.
+
+### Micro-misión R02-N02-P6 · El pasaje inmutable
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El barco del timón
+personajes: Nilo, Gheco, Iara, Pico
+recompensa: xp 10, monedas 4
+antes: R02-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Pico le cambió el destino a un pasaje con una pluma mojada en tinta. Iara está furiosa.
+—Los pasajes no se cambian. Si querés otro destino, sale un pasaje **nuevo**. Y el código tiene que tener el formato correcto, o no se emite.
 
+#### Gheco sugiere
+Una clase `readonly` no deja cambiar nada después de creada. Los métodos que «cambian» algo devuelven `new static(...)` con el dato nuevo. `preg_match('/^[A-Z]-\d{3}$/', $codigo)` valida el formato.
+
+#### Desafío
 Escribí una clase `readonly` `Pasaje` con código, pasajero, destino y precio (en
 centavos, `int`). El constructor valida que el código tenga el formato `A-123`
 (una letra mayúscula, guion y tres dígitos: podés usar `preg_match('/^[A-Z]-\d{3}$/',
@@ -1630,14 +1690,20 @@ tiene métodos que devuelven un pasaje **nuevo**:
 Mostrá que el pasaje original no cambia después de pedir las variantes, e intentá
 crear uno con código `a-12`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La clase es `readonly` y las variantes devuelven objetos nuevos.
 - El constructor valida el código y el precio.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Original:  A-102 Iara → Valle: $5.000,00
 Descuento: A-102 Iara → Valle: $4.000,00
@@ -1646,8 +1712,7 @@ El original sigue igual: A-102 Iara → Valle: $5.000,00
 No se creó: Código inválido: a-12
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -1701,17 +1766,30 @@ try {
 }
 ```
 
-### Misión R02-N02-M3 · El inventario con reglas
+#### Al superarla
+Pico intenta tachar el pasaje nuevo y la tinta resbala. Se va volando, indignado, con la pluma en el pico.
+
+#### Imagen
+- Un pasaje de cartón liso con un sello violeta sobre la baranda del barco.
+- Pico, la gaviota con una mancha violeta en el ala, se va volando con una pluma; Iara cruza los brazos; Nilo y Gheco se ríen.
+
+### Micro-misión R02-N02-P7 · El inventario con reglas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El barco del timón
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N02-M3
 ```
 
-#### Consigna
+#### Escena
+La bodega del barco se maneja con un inventario que cualquiera podía tocar. Ahora Iara quiere reglas.
+—No se ingresan cantidades negativas y no se retira lo que no hay. Y si alguien lo intenta, que el error diga cuánto queda.
 
+#### Gheco sugiere
+El array de stock es `private`. `ingresar` y `retirar` revisan antes de cambiarlo y, si algo está mal, `throw new InvalidArgumentException("...")`. Atrapalo con `try`/`catch` y mostrá `$e->getMessage()`.
+
+#### Desafío
 Escribí la clase `Inventario` con un array **privado** `producto => cantidad`.
 Métodos:
 
@@ -1725,14 +1803,20 @@ Métodos:
 Ejecutá los movimientos del ejemplo dentro de un `try`/`catch` para cada uno,
 mostrando `ok` o el mensaje del error, y al final el inventario.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El array es privado y solo cambia con `ingresar` y `retirar`.
 - Los movimientos inválidos lanzan excepciones con mensajes claros.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 ingresar 50 harina: ok
 retirar 30 harina: ok
@@ -1747,8 +1831,7 @@ Array
 )
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -1807,6 +1890,13 @@ foreach ($movimientos as [$accion, $producto, $cantidad]) {
 }
 print_r($inv->productos());
 ```
+
+#### Al superarla
+Alguien intenta retirar treinta de harina, el programa contesta cuánto queda y nadie se lleva lo que no hay.
+
+#### Imagen
+- La bodega de un barco con bolsas de tela blanca empolvadas y barriles en filas.
+- Iara anota con el lápiz; Nilo intenta cargar una bolsa demasiado grande; Gheco le avisa con la cola levantada.
 
 ### Encargo R02-N02-E1 · El rango de fechas de la reserva
 
@@ -2371,17 +2461,23 @@ El velero sale con sus dos mástiles y se va navegando, aliviado.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) entre las dos puertas, señalando.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el marco de una puerta.
 
-### Misión R02-N03-M1 · Los boletos numerados
+### Micro-misión R02-N03-P4 · Los boletos numerados
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La pizarra de la puerta
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En la boletería del ferry se repiten los números de boleto: dos pasajeros con el mismo y una pelea en el muelle.
+—Que cada boleto nuevo tenga el número siguiente —dice Iara—. Uno solo para todos: la boletería entera lleva la cuenta.
 
+#### Gheco sugiere
+Una propiedad `static` es de la clase, no de cada objeto: todos los boletos comparten el contador. `sprintf('B-%04d', ...)` arma el número. Las constantes de clase (`self::PRECIO_BASE`) guardan los precios.
+
+#### Desafío
 La boletería del ferry numera los boletos sin repetir. Escribí la clase `Boleto`
 con:
 
@@ -2395,14 +2491,20 @@ con:
 Emití cuatro boletos del ejemplo, mostralos y mostrá cuántos se emitieron y la
 recaudación total.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El número sale del contador `static`.
 - Los valores fijos son constantes de clase.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 B-0001 Iara: $5000
 B-0002 Nilo (nocturno): $6250
@@ -2411,8 +2513,7 @@ B-0004 Olmo (nocturno): $6250
 Emitidos: 4 · recaudación: $22500
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -2459,17 +2560,30 @@ foreach ($boletos as $b) {
 echo "Emitidos: ", Boleto::emitidos(), " · recaudación: $", $total, "\n";
 ```
 
-### Misión R02-N03-M2 · La temperatura de tres maneras
+#### Al superarla
+Los boletos salen numerados sin repetir. Los dos pasajeros que se peleaban se dan la mano.
+
+#### Imagen
+- Una boletería de madera junto a la pizarra de la puerta, con una ranura por donde salen boletos lisos.
+- Iara arranca un boleto; Nilo separa a dos pasajeros; Gheco cuenta boletos sobre el mostrador.
+
+### Micro-misión R02-N03-P5 · La temperatura de tres maneras
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La pizarra de la puerta
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Los barcos anotan la temperatura del agua cada uno a su manera: unos en Celsius, otros en Fahrenheit, otros en Kelvin. En la pizarra de la puerta no se entiende nada.
+—Tres maneras de crearla —dice Iara— y una sola de guardarla.
 
+#### Gheco sugiere
+Con el constructor `private`, la única forma de crear el objeto es con métodos estáticos que convierten antes: `public static function fahrenheit(float $f): self { return new self(($f - 32) * 5 / 9); }`.
+
+#### Desafío
 Los barcos que llegan anotan la temperatura del agua en distintas escalas.
 Escribí una clase `readonly` `Temperatura` que guarde siempre los **grados
 Celsius**, con constructor **privado** y tres fábricas:
@@ -2482,14 +2596,20 @@ Celsius**, con constructor **privado** y tres fábricas:
 Y los métodos `enFahrenheit(): float`, `esHelada(): bool` (menos de 0 °C) y
 `__toString()` (`12.5 °C`, con un decimal). Convertí las lecturas del ejemplo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El constructor es privado y los objetos se crean con las fábricas.
 - Las fábricas devuelven `self`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Gaviota: 12.5 °C (54.5 °F)
 Vikingo: -2.0 °C (28.4 °F) ¡agua helada!
@@ -2497,8 +2617,7 @@ Explorador: 17.0 °C (62.6 °F)
 Lectura descartada: No existe una temperatura de -5 K
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -2557,17 +2676,30 @@ try {
 }
 ```
 
-### Misión R02-N03-M3 · La caja de herramientas del cambista
+#### Al superarla
+La pizarra muestra todas las temperaturas en la misma escala. Un capitán viejo se entera de que el agua no estaba tan fría como decía.
+
+#### Imagen
+- La pizarra de la puerta del Astillero con tres termómetros de vidrio colgados al lado, con líquidos de tres colores.
+- Iara compara los termómetros; Nilo mete un dedo en un balde de agua; Gheco tirita en el borde del balde.
+
+### Micro-misión R02-N03-P6 · La caja de herramientas del cambista
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La pizarra de la puerta
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N03-M3
 ```
 
-#### Consigna
+#### Escena
+El cambista se mudó al Astillero y trajo su conversor. Iara quiere que sea una caja de herramientas: que nadie la tenga que crear para usarla.
+—`Cambio::convertir` y listo. Nada de `new`.
 
+#### Gheco sugiere
+Métodos `static` se usan con `Clase::metodo()`. Con el constructor `private`, nadie puede hacer `new Cambio()`. Las cotizaciones van en una constante `private const`, y `ksort` o `sort` ordenan la lista de monedas.
+
+#### Desafío
 Convertí el conversor del cambista (R01-N08) en una clase de **utilidades** con
 métodos estáticos: `Cambio::aPesos`, `Cambio::convertir` y `Cambio::mostrar`. Las
 cotizaciones van en una **constante privada** de la clase. Agregá
@@ -2576,14 +2708,20 @@ se instancia: su constructor es privado.
 
 Mostrá la lista de monedas y los mismos cambios de aquella misión.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Todos los métodos son `static` y usan `self::`.
 - Las cotizaciones son una constante privada.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Monedas: denario, engranaje, escama, lingote
 10 denarios = 3,68 lingotes
@@ -2592,8 +2730,7 @@ Monedas: denario, engranaje, escama, lingote
 Moneda desconocida: perla
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -2648,6 +2785,13 @@ echo Cambio::mostrar(1, 'lingote', 'escama'), "\n";
 echo Cambio::mostrar(250, 'escama', 'engranaje'), "\n";
 echo Cambio::mostrar(5, 'perla', 'denario'), "\n";
 ```
+
+#### Al superarla
+El cambista usa la caja de herramientas sin crear nada. Le muestra a Nilo que hasta puede convertir de memoria, pero prefiere la caja.
+
+#### Imagen
+- Una caja de herramientas de bronce abierta, con compartimentos para monedas de cuatro colores.
+- El cambista de lentes saca una moneda de la caja; Iara anota; Nilo y Gheco miran desde la pizarra.
 
 ### Encargo R02-N03-E1 · El código de producto
 
@@ -3329,17 +3473,23 @@ La tarifa vuelve a ser la misma para todos. El aprendiz paga lo que debe. Elefa 
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) cierra el candado.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el cofre.
 
-### Misión R02-N04-M1 · Los empleados del puerto
+### Micro-misión R02-N04-P5 · Los empleados del puerto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N04-M1
 ```
 
-#### Consigna
+#### Escena
+Elefa le pide a Nilo los recibos de sueldo del Puerto: empleados comunes, estibadores con horas extra y capitanes con su plus.
+—Que el recibo sea parecido para todos —dice— y que cada uno agregue lo suyo, sin copiar lo del padre.
 
+#### Gheco sugiere
+Las hijas extienden a `Empleado` y llaman a `parent::__construct(...)`. Para cambiar el cálculo, sobreescriben `sueldo()` y pueden usar `parent::sueldo()` como base.
+
+#### Desafío
 El Puerto paga sueldos a tres tipos de empleados. Escribí la clase `Empleado`
 (nombre y sueldo básico, `protected`) con `sueldo(): float` y `recibo(): string`, y
 dos hijas:
@@ -3351,14 +3501,20 @@ dos hijas:
 Las hijas llaman al constructor del padre y usan `parent::sueldo()` en lugar de
 repetir la cuenta. Mostrá los recibos del ejemplo y el total a pagar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `extends`, `parent::__construct` y `parent::sueldo()`.
 - Las propiedades compartidas son `protected`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Nara   $650.000,00
 Nilo   $716.800,00
@@ -3366,8 +3522,7 @@ Iara   $1.170.000,00 (capitán del Gaviota)
 Total: $2.536.800,00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -3434,30 +3589,39 @@ foreach ($empleados as $e) {
 echo "Total: $", number_format($total, 2, ',', '.'), "\n";
 ```
 
-### Misión R02-N04-M2 · El padre olvidado
+#### Al superarla
+Cada empleado recibe su recibo. El capitán lee el suyo y pide que le agreguen el nombre del barco más grande. Ya está.
+
+#### Imagen
+- Un tablero de madera con forma de árbol, con tres sobres lisos colgados de sus ramas.
+- Elefa entrega un sobre a un estibador musculoso; un capitán con gorra espera; Nilo y Gheco reparten los otros.
+
+### Micro-misión R02-N04-P6 · El padre olvidado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Un aprendiz armó un programa de herencia y no anda: uno de los errores ni deja cargar el archivo, otro lo corta al ejecutar, y otro hace que un dato del padre no se vea.
+—Tres errores —dice Elefa—. Arreglalos y dejá una nota en cada uno, para que el aprendiz aprenda.
 
+#### Gheco sugiere
+Leé el mensaje: `Fatal error` con la línea. Fijate en `extends`, en que la hija llame a `parent::__construct()` y en que la propiedad del padre sea `protected` (si es `private`, la hija no la ve).
+
+#### Desafío
 Este programa tiene **tres** errores de herencia: uno no deja ni cargar el
 archivo, otro corta el programa al ejecutarse y otro hace que un dato del padre no
 se vea desde la hija. Encontralos, corregilos y dejá un comentario en cada
 corrección.
 
-#### Criterio de aprobación
-
-- Corrige los tres errores sin cambiar la salida pedida.
+**Para superarla:**
 - Cada corrección tiene su comentario.
-- La salida coincide con la esperada.
 
 #### Código inicial
-
 ```php
 <?php
 declare(strict_types=1);
@@ -3489,13 +3653,11 @@ echo $c->descripcion(), "\n";
 ```
 
 #### Salida esperada
-
 ```
 Camión AB123CD: AB123CD con 6 ruedas, 12.5 t
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -3531,17 +3693,30 @@ $c = new Camion('AB123CD', 12.5);
 echo $c->descripcion(), "\n";
 ```
 
-### Misión R02-N04-M3 · Las cuentas del banco del puerto
+#### Al superarla
+El programa del aprendiz anda. Elefa le deja las notas en el escritorio, sin firmar.
+
+#### Imagen
+- Un escritorio de aprendiz con un banquito, hojas lisas y una vela casi consumida.
+- Elefa deja unas notas dobladas; Nilo apaga la vela; Gheco duerme sobre las notas.
+
+### Micro-misión R02-N04-P7 · Las cuentas del banco del puerto
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El árbol de las embarcaciones
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N04-M3
 ```
 
-#### Consigna
+#### Escena
+El banco del puerto tiene dos cuentas especiales: una caja de ahorro que deja sacar pocas veces por mes y una cuenta corriente que deja quedar en rojo, hasta un límite.
+—Las dos son cuentas —dice Elefa—. Pero cada una con su regla.
 
+#### Gheco sugiere
+Las hijas sobreescriben `extraer`: la caja de ahorro cuenta las extracciones del mes y la corriente permite saldo negativo hasta el descubierto. Usá `parent::` para no repetir lo común.
+
+#### Desafío
 El banco del puerto tiene una clase `Cuenta` con titular y saldo (`protected`), y
 los métodos `depositar`, `extraer` (devuelve `bool`: no deja el saldo negativo) y
 `saldo()`. Hay dos tipos especiales:
@@ -3555,14 +3730,20 @@ los métodos `depositar`, `extraer` (devuelve `bool`: no deja el saldo negativo)
 `depositar` y `saldo` son `final` en `Cuenta` (nadie los tiene que cambiar).
 Ejecutá los movimientos del ejemplo mostrando cada resultado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las hijas redefinen `extraer` con la misma firma.
 - `depositar` y `saldo` son `final`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Ahorro, extracción 1 de 1000: ok
 Ahorro, extracción 2 de 2000: ok
@@ -3574,8 +3755,7 @@ Corriente, extrae 6000: ok (saldo -4000)
 Corriente, extrae 2000: rechazada (saldo -4000)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -3662,6 +3842,13 @@ $corriente->depositar(2000);
 echo "Corriente, extrae 6000: ", $corriente->extraer(6000) ? 'ok' : 'rechazada', " (saldo ", $corriente->saldo(), ")\n";
 echo "Corriente, extrae 2000: ", $corriente->extraer(2000) ? 'ok' : 'rechazada', " (saldo ", $corriente->saldo(), ")\n";
 ```
+
+#### Al superarla
+El banquero prueba las dos cuentas y no logra hacerles trampa. Le sube el sueldo a Nilo un poquito.
+
+#### Imagen
+- El interior de un banco del puerto con una bóveda chica de bronce y dos libretas de cuero sobre el mostrador.
+- Un banquero de bigote revisa una libreta; Elefa espera apoyada en su bastón; Nilo y Gheco cuentan monedas.
 
 ### Encargo R02-N04-E1 · Las entradas del teatro
 
@@ -4341,17 +4528,23 @@ Los dos barcos se botan revisados. El violeta, por supuesto, es el de Nilo.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) festeja con los brazos arriba.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre la grada.
 
-### Misión R02-N05-M1 · Las figuras del velero
+### Micro-misión R02-N05-P4 · Las figuras del velero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La lista del capataz
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N05-M1
 ```
 
-#### Consigna
+#### Escena
+El velero necesita velas nuevas de distintas formas y el capataz no sabe cuánta lona comprar.
+—Cada vela calcula su área y su perímetro —dice Iara—, pero la ficha la arma una sola vez el molde de arriba.
 
+#### Gheco sugiere
+Una clase `abstract` no se puede crear: sus métodos `abstract` los implementan las hijas. `ficha()` está en el padre y llama a `$this->area()`: cada hija responde con lo suyo. `static::class` da el nombre de la clase.
+
+#### Desafío
 El velero tiene velas de distintas formas y el velero necesita saber cuánta lona
 comprar. Escribí la clase abstracta `Figura` con `area(): float` y
 `perimetro(): float` abstractos, y un método `ficha(): string` que muestre el
@@ -4362,14 +4555,20 @@ hipotenusa es `sqrt(a² + b²)`).
 Mostrá las fichas de las velas del ejemplo, el total de lona (suma de áreas) y la
 vela más grande (recorriendo con polimorfismo, sin preguntar el tipo).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Figura` es abstracta y sus hijas implementan los dos métodos.
 - El total y el máximo se calculan sin `instanceof` ni `if` por tipo.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 TrianguloRectangulo área   24.00  perímetro  24.00
 Rectangulo          área   22.00  perímetro  19.00
@@ -4379,8 +4578,7 @@ Lona total: 59.07 m²
 La más grande: TrianguloRectangulo área   24.00  perímetro  24.00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -4457,17 +4655,30 @@ printf("Lona total: %.2f m²\n", $total);
 echo "La más grande: ", $mayor->ficha(), "\n";
 ```
 
-### Misión R02-N05-M2 · Los medios de pago
+#### Al superarla
+El capataz compra la lona justa. Sobra un pedacito violeta, que termina siendo la bandera del bote de Nilo.
+
+#### Imagen
+- Un velero en dique seco con tres velas nuevas de formas distintas: un rectángulo, un círculo y un triángulo.
+- Un capataz mide lona; Iara anota; Nilo cose una banderita violeta; Gheco se enreda en la lona.
+
+### Micro-misión R02-N05-P5 · Los medios de pago
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La lista del capataz
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N05-M2
 ```
 
-#### Consigna
+#### Escena
+La tienda del Astillero acepta efectivo, tarjeta y transferencia, y cada medio tiene su recargo o su descuento. El cajero se marea.
+—El cobro es siempre igual —dice Iara—. Lo único que cambia es el recargo.
 
+#### Gheco sugiere
+Un **método plantilla**: `cobrar()` está en la clase abstracta y llama a `recargo()`, que cada hija implementa. Si el recargo da negativo, es un descuento: mostralo con `abs()`.
+
+#### Desafío
 La tienda del puerto acepta varios medios de pago. Escribí la clase abstracta
 `MedioDePago` con un **método plantilla** `cobrar(float $monto): string` que
 calcula `monto + recargo(monto)` y devuelve el texto
@@ -4484,14 +4695,20 @@ Las hijas:
 
 Cobrá los pagos del ejemplo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `cobrar` está solo en la clase abstracta; las hijas definen `recargo`.
 - Hay un método `nombre()` que las hijas pueden redefinir.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Efectivo: $10.000,00 (recargo $0,00)
 Tarjeta (1 cuota): $10.000,00 (recargo $0,00)
@@ -4501,8 +4718,7 @@ Transferencia: $30.000,00 (recargo $0,00)
 Transferencia: $80.750,00 (descuento $4.250,00)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -4580,17 +4796,30 @@ foreach ($pagos as [$medio, $monto]) {
 }
 ```
 
-### Misión R02-N05-M3 · Chau a los if
+#### Al superarla
+El cajero cobra tres compras seguidas sin marearse. Le pregunta a Nilo si puede venir a trabajar los sábados.
+
+#### Imagen
+- El mostrador de la tienda del Astillero con una caja registradora de bronce y tres bandejitas para pagar.
+- Un cajero joven sonríe aliviado; Iara le señala una bandeja; Nilo y Gheco cuentan billetes.
+
+### Micro-misión R02-N05-P6 · Chau a los if
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La lista del capataz
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N05-M3
 ```
 
-#### Consigna
+#### Escena
+La tarifa de amarre se calcula con un `match` que crece cada vez que llega un barco de otro tipo. Al capataz ya no le entra en la hoja.
+—Que cada barco sepa su tarifa —dice Iara—. Y la misma salida de antes, exactamente.
 
+#### Gheco sugiere
+Una clase abstracta `Barco` con `tarifa()` abstracta y una hija por tipo. El programa principal solo llama a `$barco->tarifa()`: sin `match` ni `if` sobre el tipo. Compará la salida renglón por renglón.
+
+#### Desafío
 Este programa calcula la tarifa de amarre con un `match` por tipo de barco, y cada
 vez que llega un tipo nuevo hay que tocarlo. Reescribilo con una clase abstracta
 `Barco` (nombre y eslora) con `tarifa(): float` abstracta, y las hijas `Velero`,
@@ -4598,14 +4827,11 @@ vez que llega un tipo nuevo hay que tocarlo. Reescribilo con una clase abstracta
 salida** y no puede quedar ningún `match` ni `if` sobre el tipo. Después agregá un
 tipo nuevo, `Yate` ($1500 por metro más $20000 fijos), sin tocar el bucle.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - No hay `match`/`if` sobre el tipo: cada clase define su `tarifa`.
 - El bucle no cambia al agregar `Yate`.
-- La salida coincide con la esperada (la original más el yate).
 
 #### Código inicial
-
 ```php
 <?php
 $barcos = [
@@ -4624,7 +4850,6 @@ foreach ($barcos as $b) {
 ```
 
 #### Salida esperada
-
 ```
 Brisa: $4.800
 Don Pepe: $2.700
@@ -4632,8 +4857,7 @@ Aurora: $375.000
 Capricho: $53.000
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -4683,6 +4907,13 @@ foreach ($barcos as $b) {
     echo "{$b->nombre}: $", number_format($b->tarifa(), 0, ',', '.'), "\n";
 }
 ```
+
+#### Al superarla
+Llega un barco de un tipo nuevo y el capataz agrega una clase chiquita sin tocar nada más. La hoja vuelve a entrar en el bolsillo.
+
+#### Imagen
+- Una dársena con tres barcos distintos amarrados: un velero, un pesquero y un crucero chico.
+- El capataz guarda una hoja en el bolsillo; Iara asiente; Nilo y Gheco amarran una soga.
 
 ### Encargo R02-N05-E1 · Las notificaciones del sistema
 
@@ -5391,17 +5622,23 @@ Tres cosas en la bodega, contadas como se cuenta cualquier lista. Iara lo anota 
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene un farol.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre una bolsa.
 
-### Misión R02-N06-M1 · Lo que se puede exportar
+### Micro-misión R02-N06-P4 · Lo que se puede exportar
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La aduana del Astillero
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N06-M1
 ```
 
-#### Consigna
+#### Escena
+La aduana del Astillero recibe vino, artesanías y herramientas para exportar. No son parecidos entre sí, pero algunos se pesan y algunos pagan arancel.
+—No hace falta que sean familia —dice Iara—. Alcanza con que cumplan el contrato.
 
+#### Gheco sugiere
+Una `interface` declara métodos sin cuerpo. Una clase puede implementar varias: `class Vino implements Exportable, Pesable`. `instanceof Pesable` pregunta si cumple ese contrato.
+
+#### Desafío
 El puerto exporta productos a otras regiones. Escribí la interfaz `Exportable`
 con `origen(): string` y `arancel(): float` (el porcentaje, `0.15` es 15%), y la
 interfaz `Pesable` con `pesoKg(): float`. Implementalas en:
@@ -5415,22 +5652,27 @@ Escribí `function derechoDeExportacion(Exportable $e, float $precio): float` y
 `function flete(Pesable ...$cosas): float` ($120 por kilo). Calculá los derechos y
 el flete de la carga del ejemplo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Dos interfaces; `Vino` implementa las dos.
 - Las funciones piden la interfaz como tipo, no la clase.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Derecho del vino (bodega Chañarmuyo): $81.000,00
 Derecho del poncho (La Rioja): $19.000,00
 Flete de vino y contenedor: $116.040,00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -5512,17 +5754,30 @@ echo "Derecho del poncho (", $poncho->origen(), "): $", number_format(derechoDeE
 echo "Flete de vino y contenedor: $", number_format(flete($torrontes, $caja), 2, ',', '.'), "\n";
 ```
 
-### Misión R02-N06-M2 · La bitácora contable
+#### Al superarla
+El aduanero cobra a cada producto lo suyo. Una artesanía de madera que no pesa casi nada pasa sin balanza.
+
+#### Imagen
+- La aduana del Astillero con una balanza grande, cajas de botellas de vidrio verde y tallas de madera.
+- Un aduanero sella una caja; Iara anota; Nilo levanta una talla de madera; Gheco se esconde detrás de una botella.
+
+### Micro-misión R02-N06-P5 · La bitácora contable
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La aduana del Astillero
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Iara quiere una bitácora que se pueda contar, mandar como mensaje y mostrar como lista, sin que nadie tenga que aprender métodos nuevos.
+—Que funcione con `count`, con `json_encode` y con `echo`. Como cualquier cosa del Puerto.
 
+#### Gheco sugiere
+`Countable` pide `count(): int`; `JsonSerializable`, `jsonSerialize(): mixed`; `Stringable`, `__toString()`. Implementando esas interfaces, las funciones de PHP saben usar tu objeto.
+
+#### Desafío
 Escribí la clase `Bitacora` que guarda anotaciones (textos) en un array privado e
 implementa:
 
@@ -5535,14 +5790,20 @@ Con `anotar(string $texto): void` que ignora textos vacíos. Mostrá los tres us
 con las anotaciones del ejemplo. Para el JSON usá
 `json_encode($bitacora, JSON_UNESCAPED_UNICODE)` para que se vean las tildes.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Implementa las tres interfaces de PHP.
 - `count()` y `json_encode()` funcionan directamente sobre el objeto.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Anotaciones: 3
 1. Zarpamos del muelle 3 a las 6:10.
@@ -5551,8 +5812,7 @@ Anotaciones: 3
 {"barco":"Gaviota","anotaciones":["Zarpamos del muelle 3 a las 6:10.","Viento del sur, 15 nudos.","Llegamos al Valle con toda la carga."],"total":3}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -5602,17 +5862,30 @@ echo $bitacora, "\n";
 echo json_encode($bitacora, JSON_UNESCAPED_UNICODE), "\n";
 ```
 
-### Misión R02-N06-M3 · El guardián de los contratos
+#### Al superarla
+La bitácora se cuenta, se manda y se muestra. Iara la guarda en el casillero de la aduana, numerada.
+
+#### Imagen
+- Una bitácora de tapas de cuero abierta sobre el escritorio de la aduana, al lado de una paloma mensajera.
+- Iara ata un rollito a la pata de la paloma; Nilo sostiene la bitácora; Gheco mira a la paloma con desconfianza.
+
+### Micro-misión R02-N06-P6 · El guardián de los contratos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La aduana del Astillero
+personajes: Nilo, Gheco, Iara, Pico
+recompensa: xp 10, monedas 4
+antes: R02-N06-M3
 ```
 
-#### Consigna
+#### Escena
+Pico se metió en el cajón de los mensajes guardados y se llevó la mitad. Iara quiere poder cambiar dónde se guardan sin tocar el resto del programa.
+—En memoria para probar, en archivos para quedarse. El contrato es el mismo.
 
+#### Gheco sugiere
+La interfaz `Almacenamiento` define `guardar`, `leer` y `claves`. Escribí el programa contra la interfaz, no contra la clase: pasale cualquiera de las dos implementaciones y tiene que andar igual.
+
+#### Desafío
 El puerto tiene una **interfaz** `Almacenamiento` para guardar mensajes, con
 `guardar(string $clave, string $texto): void`, `leer(string $clave): ?string` y
 `claves(): array`. Hay que poder cambiar dónde se guardan sin tocar el resto del
@@ -5628,14 +5901,19 @@ uno que existe y uno que no, y liste las claves ordenadas. Llamala con los dos
 almacenes (para el de archivo, usá la carpeta `sys_get_temp_dir() . '/correo-puerto'`
 y borrá sus archivos al empezar para que la prueba sea repetible).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `correo()` pide la interfaz, no una clase concreta.
-- Las dos implementaciones dan la misma salida.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 En memoria:
   forjas: Pedido de 200 lingotes.
@@ -5647,8 +5925,7 @@ En archivos:
   claves: forjas, imperio, valle
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -5737,6 +6014,13 @@ correo(new AlmacenEnMemoria());
 echo "En archivos:\n";
 correo(new AlmacenEnArchivo($carpeta));
 ```
+
+#### Al superarla
+Los mensajes quedan guardados en archivos que Pico no sabe abrir. Se posa en la ventana y mira, enojado.
+
+#### Imagen
+- Un cajón de madera con cerradura en la aduana, con sobres ordenados adentro.
+- Pico, la gaviota con la mancha violeta, se posa en la ventana con cara de enojo; Iara cierra el cajón; Nilo y Gheco lo saludan.
 
 ### Encargo R02-N06-E1 · Los descuentos combinables
 
@@ -6405,17 +6689,23 @@ Con la grúa grande, el vidrio entra en la barcaza. En la esquina del plano hay 
 - Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) detrás, en sombra.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el cajón.
 
-### Misión R02-N07-M1 · La linterna del faro
+### Micro-misión R02-N07-P4 · La linterna del faro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El cajón de los planos viejos
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Entre los planos viejos está el de la linterna del faro: una caja que alumbra con cualquier fuente de luz.
+—La linterna no hereda de la lámpara —dice Elefa—. La **tiene**. Y se la podés cambiar cuando se queme.
 
+#### Gheco sugiere
+Composición: la linterna recibe una `FuenteDeLuz` en el constructor y la guarda. Para cambiarla, un método que reciba otra. La linterna le pregunta a su fuente los lúmenes y el consumo.
+
+#### Desafío
 El faro tiene una **linterna** que usa una **fuente de luz** intercambiable.
 Escribí la interfaz `FuenteDeLuz` con `lumenes(): int`, `consumoWatts(): float` y
 `nombre(): string`, e implementala en `Lampara` (incandescente: 1500 lúmenes,
@@ -6429,22 +6719,27 @@ tiene:
 
 Probá la linterna con las tres fuentes, 12 horas por noche a $95 el kWh.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Linterna` compone una `FuenteDeLuz` recibida por el constructor.
 - Los cálculos se delegan en la fuente.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 lámpara incandescente: 1500 lm, alcance 7.7 millas, $114.00 por noche
 LED de 30 W: 3300 lm, alcance 11.5 millas, $34.20 por noche
 candil de aceite: 200 lm, alcance 2.8 millas, $0.00 por noche
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -6548,17 +6843,30 @@ $linterna->cambiarFuente(new Candil());
 echo $linterna->informe(), "\n";
 ```
 
-### Misión R02-N07-M2 · El sello de auditoría
+#### Al superarla
+La linterna alumbra con lámpara, con led y con candil, una después de la otra. Elefa elige el candil, por nostalgia.
+
+#### Imagen
+- Una linterna de faro de bronce abierta sobre una mesa, con una lámpara, un led y un candil al lado.
+- Elefa sostiene el candil con la trompa; Nilo cambia la fuente de la linterna; Gheco se encandila.
+
+### Micro-misión R02-N07-P5 · El sello de auditoría
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El cajón de los planos viejos
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N07-M2
 ```
 
-#### Consigna
+#### Escena
+En el cajón hay planos tachados una y otra vez, y nadie sabe quién los cambió.
+—Cada registro tiene que saber quién lo creó y quién lo tocó —dice Elefa—. Y eso no se copia en cada clase: se pega.
 
+#### Gheco sugiere
+Un `trait` es código para reutilizar: `use Auditable;` dentro de la clase le agrega sus propiedades y métodos. Así varias clases distintas comparten la auditoría sin heredar de un mismo padre.
+
+#### Desafío
 La oficina del puerto quiere saber **quién** creó y modificó cada registro. Escribí
 el trait `Auditable` con:
 
@@ -6573,22 +6881,27 @@ teléfono, con `cambiarTelefono(string $tel, string $usuario)`). Los métodos de
 cambio registran el cambio con el trait. Mostrá el historial de cada uno después
 de los cambios del ejemplo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El trait se usa en dos clases que no heredan una de otra.
 - Los métodos de cambio usan los métodos del trait.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Yerba: creado por Ana; 2 cambio/s (último: Ana, cambió el precio de 4500 a 4650)
 Molino: creado por Iara; 0 cambio/s
 Molino: creado por Iara; 1 cambio/s (último: Nilo, cambió el teléfono a 380-4999999)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -6663,17 +6976,30 @@ $molino->cambiarTelefono('380-4999999', 'Nilo');
 echo "Molino: ", $molino->historial(), "\n";
 ```
 
-### Misión R02-N07-M3 · El heredero equivocado
+#### Al superarla
+Los planos nuevos llevan su historial. Elefa revisa uno y encuentra que lo modificó Nilo. Nilo silba mirando el techo.
+
+#### Imagen
+- Un cajón grande de planos enrollados con cintas de colores, cada uno con un sello de cera.
+- Elefa desenrolla un plano; Nilo silba mirando hacia arriba; Gheco se esconde dentro de un rollo.
+
+### Micro-misión R02-N07-P6 · El heredero equivocado
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El cajón de los planos viejos
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R02-N07-M3
 ```
 
-#### Consigna
+#### Escena
+Un plano viejo muestra un pedido que **es** una calculadora de envíos, solo porque alguien quería usar su método. Ahora no se le puede cambiar el transportista.
+—Un pedido no es una calculadora —dice Elefa—. Un pedido **usa** un envío.
 
+#### Gheco sugiere
+Reemplazá la herencia por composición: una interfaz `Envio` y dos implementaciones. El `Pedido` recibe un `Envio` y le pregunta el costo. Para cambiar el transportista, le pasás otro envío.
+
+#### Desafío
 Alguien armó un `Pedido` que **hereda** de `CalculadoraDeEnvio` solo para usar su
 método, y ahora el pedido "es" una calculadora y no se le puede cambiar el
 transportista. Reescribilo con **composición**: una interfaz `Envio` con
@@ -6683,14 +7009,11 @@ más, lanza `InvalidArgumentException`—), y un `Pedido` que **recibe** el env�
 el constructor. Mostrá el mismo pedido con los dos envíos y un pedido pesado con
 moto.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Pedido` ya no hereda de nada: compone un `Envio`.
 - El envío se recibe por el constructor (o un método para cambiarlo).
-- La salida coincide con la esperada.
 
 #### Código inicial
-
 ```php
 <?php
 class CalculadoraDeEnvio
@@ -6708,15 +7031,13 @@ echo (new Pedido(12000, 3))->total(), "\n";
 ```
 
 #### Salida esperada
-
 ```
 Pedido de 3 kg por correo: $13250
 Pedido de 3 kg por moto: $14500
 No se puede: La moto lleva hasta 5 kg (este pesa 12)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -6781,6 +7102,13 @@ try {
     echo "No se puede: ", $e->getMessage(), "\n";
 }
 ```
+
+#### Al superarla
+El pedido cambia de transportista sin quejarse. Elefa dobla el plano viejo y lo guarda en su armadura.
+
+#### Imagen
+- Un plano viejo amarillento sobre la mesa, con dos dibujos de carros de reparto distintos al lado.
+- Elefa guarda un plano doblado en su armadura; Nilo empuja un carrito de juguete; Gheco viaja en el carrito.
 
 ### Encargo R02-N07-E1 · El sistema de alarmas del depósito
 
@@ -7520,17 +7848,23 @@ El 31 de febrero no existe, y ahora el programa lo sabe. El goblin devuelve los 
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sostiene el boleto.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el sello.
 
-### Misión R02-N08-M1 · Los talles de la tienda náutica
+### Micro-misión R02-N08-P5 · Los talles de la tienda náutica
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El despacho de pasajes
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N08-M1
 ```
 
-#### Consigna
+#### Escena
+Al lado del despacho de pasajes hay una tienda náutica que vende camperas, y la vendedora se confunde con los talles.
+—Cuatro talles, ni uno más —dice Iara—. Con sus medidas y sus recargos. Y que te diga cuál te va según el pecho.
 
+#### Gheco sugiere
+Un `enum` respaldado tiene casos con valor: `case S = 's';`. Los enums pueden tener métodos con `match ($this)`. `Talle::from('m')` crea el caso desde el valor y `Talle::cases()` los da todos.
+
+#### Desafío
 La tienda náutica vende camperas en talles. Escribí el enum respaldado `Talle`
 (`S`, `M`, `L`, `XL`, con valores `'s'`, `'m'`, `'l'`, `'xl'`) con los métodos:
 
@@ -7543,14 +7877,20 @@ Leé pedidos de la entrada (`NOMBRE;TALLE` o `NOMBRE;medida en cm`), convertí c
 `tryFrom` (aceptando mayúsculas) o con `paraPecho`, y mostrá el precio de cada
 campera (base $58000 más el recargo). Los talles inválidos se informan.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Talle` es un enum respaldado con métodos.
 - Usa `tryFrom` para el texto y un método estático para la medida.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 Iara;m
 Nilo;XL
@@ -7560,7 +7900,6 @@ Tomi;130
 ```
 
 #### Salida esperada
-
 ```
 Iara: talle M (100 cm) $58.000
 Nilo: talle XL (116 cm) $69.600
@@ -7569,8 +7908,7 @@ Olmo: no hay talle para «xxl»
 Tomi: no hay talle para «130»
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -7629,45 +7967,30 @@ while (($linea = fgets(STDIN)) !== false) {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La vendedora le encuentra a Nilo su talle a la primera. La campera es azul, pero la bufanda violeta combina igual.
 
-##### Medidas en el borde
-```entrada
-Ana;92
-Beto;116
-Caro;117
-Dani;1
-```
-```salida
-Ana: talle S (92 cm) $58.000
-Beto: talle XL (116 cm) $69.600
-Caro: no hay talle para «117»
-Dani: talle S (92 cm) $58.000
-```
+#### Imagen
+- Una tienda náutica chiquita con camperas impermeables colgadas en fila, de cuatro tamaños.
+- Nilo se prueba una campera azul; Iara le mide los hombros; Gheco se mete en un bolsillo.
 
-##### Talles en mayúscula y minúscula
-```entrada
-Eva;S
-Fede;xl
-Gabi;XXS
-```
-```salida
-Eva: talle S (92 cm) $58.000
-Fede: talle XL (116 cm) $69.600
-Gabi: no hay talle para «XXS»
-```
-
-### Misión R02-N08-M2 · El vencimiento de las cuotas
+### Micro-misión R02-N08-P6 · El vencimiento de las cuotas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El despacho de pasajes
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N08-M2
 ```
 
-#### Consigna
+#### Escena
+Un vendedor de electrodomésticos del Puerto vende en cuotas que vencen el día diez de cada mes, salvo que caiga fin de semana. Sus clientes siempre se olvidan de cuándo pagar.
+—Que el programa les dé las fechas —dice Iara—. Con el día de la semana en castellano.
 
+#### Gheco sugiere
+`DateTimeImmutable::createFromFormat('d/m/Y', $texto)` lee la fecha. `modify('first day of next month')` y `setDate` llevan al día 10. `format('N')` da 6 o 7 los fines de semana: ahí, `modify('next monday')`.
+
+#### Desafío
 Una casa de electrodomésticos vende en cuotas que vencen **el día 10 de cada
 mes**, empezando el mes siguiente a la compra. Si el día 10 cae sábado o domingo,
 el vencimiento pasa al lunes siguiente. Leé la fecha de compra (`DD/MM/AAAA`,
@@ -7675,22 +7998,27 @@ validándola) y la cantidad de cuotas, y mostrá la fecha de cada vencimiento co
 nombre del día en castellano. Al final, mostrá cuántos días hay entre la compra y
 el último vencimiento.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Valida la fecha comparando con el texto original.
 - Usa `DateTimeImmutable` y `modify`/`add`.
 - Corre los vencimientos del fin de semana al lunes.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 28/09/2026
 6
 ```
 
 #### Salida esperada
-
 ```
 Fecha de compra: Cuotas: 
 Cuota 1: lunes 12/10/2026
@@ -7702,8 +8030,7 @@ Cuota 6: miércoles 10/03/2027
 Días entre la compra y el último vencimiento: 163
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -7743,53 +8070,30 @@ for ($n = 1; $n <= $cuotas; $n++) {
 echo "Días entre la compra y el último vencimiento: ", $compra->diff($ultimo)->days, "\n";
 ```
 
-#### Pruebas
+#### Al superarla
+Los clientes se llevan sus fechas anotadas. Ninguno se olvida esta vez, o eso prometen.
 
-##### Una cuota en enero
-```entrada
-15/12/2026
-1
-```
-```salida
-Fecha de compra: Cuotas:
-Cuota 1: lunes 11/01/2027
-Días entre la compra y el último vencimiento: 27
-```
+#### Imagen
+- Un local de electrodomésticos antiguos del Puerto: una heladera de madera, una radio y un ventilador de bronce.
+- Un vendedor sonriente reparte calendarios lisos; Iara anota; Nilo y Gheco prueban el ventilador.
 
-##### Fecha inválida
-```entrada
-31/02/2026
-3
-```
-```salida
-Fecha de compra: Cuotas:
-Fecha inválida.
-```
-
-##### Compra el día 10
-```entrada
-10/01/2027
-3
-```
-```salida
-Fecha de compra: Cuotas:
-Cuota 1: miércoles 10/02/2027
-Cuota 2: miércoles 10/03/2027
-Cuota 3: lunes 12/04/2027
-Días entre la compra y el último vencimiento: 92
-```
-
-### Misión R02-N08-M3 · El semáforo de los pedidos
+### Micro-misión R02-N08-P7 · El semáforo de los pedidos
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El despacho de pasajes
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N08-M3
 ```
 
-#### Consigna
+#### Escena
+Los pedidos del despacho pasan por estados en un orden fijo, pero alguien marcó como entregado un pedido que nunca salió.
+—Que cada estado sepa a cuáles puede pasar —dice Iara—. Y con un color para el tablero.
 
+#### Gheco sugiere
+Un enum con `puedePasarA(self $nuevo): bool`: con `match ($this)` devolvé si `$nuevo` está en la lista de los permitidos (`in_array($nuevo, [...], true)`). `color()` también con `match`.
+
+#### Desafío
 Los pedidos de un comercio pasan por estados en un orden fijo: `Nuevo` →
 `Preparando` → `Enviado` → `Entregado`, y desde `Nuevo` o `Preparando` se puede ir a
 `Cancelado`. Escribí el enum respaldado `EstadoPedido` con:
@@ -7803,14 +8107,20 @@ Escribí la clase `Pedido` con el estado privado (arranca en `Nuevo`) y
 `cambiarA(EstadoPedido $nuevo): void`, que lanza `LogicException` si la transición
 no es válida. Ejecutá la historia del ejemplo, mostrando cada cambio o el error.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las reglas de transición están en el enum.
 - `Pedido` no deja pasar transiciones inválidas.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Pedido 1042: preparando (amarillo)
 Pedido 1042: No se puede pasar de preparando a entregado
@@ -7819,8 +8129,7 @@ Pedido 1042: No se puede pasar de enviado a cancelado
 Pedido 1042: entregado (verde) - terminado
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -7893,6 +8202,13 @@ foreach ([EstadoPedido::Preparando, EstadoPedido::Entregado, EstadoPedido::Envia
     }
 }
 ```
+
+#### Al superarla
+El pedido falso vuelve a «Preparando». El tablero se ilumina con sus colores y Nilo lo mira como si fuera un faro.
+
+#### Imagen
+- Un tablero de pedidos en la pared del despacho, con lucecitas verdes, amarillas, azules y rojas en columnas.
+- Iara mueve una ficha de una columna a otra; Nilo mira el tablero fascinado; Gheco enciende una lucecita.
 
 ### Encargo R02-N08-E1 · La liquidación de vacaciones
 
@@ -8537,17 +8853,23 @@ El informe de Iara sale con su columna de «falta de cupo». La subraya dos vece
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) con el salvavidas colgado al hombro.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el barril.
 
-### Misión R02-N09-M1 · La calculadora del cambista
+### Micro-misión R02-N09-P4 · La calculadora del cambista
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Grúa de la Tormenta
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N09-M1
 ```
 
-#### Consigna
+#### Escena
+El cambista dejó su calculadora en la grúa y se la mojó la tormenta: ahora se cae con cualquier cuenta rara.
+—Que no se caiga —dice Iara—. Si la cuenta está mal escrita, que diga qué está mal y siga con la próxima.
 
+#### Gheco sugiere
+`calcular` lanza la excepción que corresponde: `InvalidArgumentException`, `DomainException` o `DivisionByZeroError`. En el bucle, un `try` con un `catch` por cada tipo (o `catch (A | B $e)`) muestra el mensaje y sigue.
+
+#### Desafío
 Leé operaciones de la entrada, una por renglón, con el formato `NUMERO OPERADOR
 NUMERO` (`12 / 4`). Escribí `function calcular(string $linea): float` que:
 
@@ -8561,14 +8883,20 @@ El programa principal atrapa cada tipo por separado y muestra un mensaje distint
 y en un `finally` cuenta las operaciones procesadas. Al final muestra cuántas
 salieron bien y cuántas mal.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `calcular` lanza excepciones y no muestra nada.
 - Hay un `catch` para cada tipo y un `finally`.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 12 / 4
 7 * 1.5
@@ -8579,7 +8907,6 @@ hola + 1
 ```
 
 #### Salida esperada
-
 ```
 12 / 4 = 3
 7 * 1.5 = 10.5
@@ -8590,8 +8917,7 @@ hola + 1 → dato inválido: No son números: hola y 1
 Procesadas: 6 · bien: 3 · mal: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -8644,47 +8970,30 @@ while (($linea = fgets(STDIN)) !== false) {
 echo "Procesadas: $procesadas · bien: $bien · mal: ", $procesadas - $bien, "\n";
 ```
 
-#### Pruebas
+#### Al superarla
+La calculadora contesta todas las cuentas y avisa en las malas, sin apagarse. El cambista la abraza.
 
-##### Todo bien
-```entrada
-1 + 1
-2 * -3
-9 / 3
-```
-```salida
-1 + 1 = 2
-2 * -3 = -6
-9 / 3 = 3
-Procesadas: 3 · bien: 3 · mal: 0
-```
+#### Imagen
+- Una calculadora mecánica de bronce sobre la base de una grúa portuaria, con charcos de lluvia alrededor.
+- El cambista de lentes abraza la calculadora; Iara sostiene un paraguas; Nilo y Gheco se secan.
 
-##### Todo mal
-```entrada
-1 / 0
-1 % 2
-uno + dos
-2 +
-```
-```salida
-1 / 0 → División por cero
-1 % 2 → no se puede: Operador desconocido: %
-uno + dos → dato inválido: No son números: uno y dos
-2 + → dato inválido: Formato: NUMERO OPERADOR NUMERO
-Procesadas: 4 · bien: 0 · mal: 4
-```
-
-### Misión R02-N09-M2 · Las excepciones del banco
+### Micro-misión R02-N09-P5 · Las excepciones del banco
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Grúa de la Tormenta
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N09-M2
 ```
 
-#### Consigna
+#### Escena
+En el banco del puerto, cuando algo sale mal, el cajero dice «error» y nada más. Los clientes se enojan.
+—Errores con nombre —dice Iara—. Si no hay saldo, que diga cuánto tenés. Si la cuenta está bloqueada, que diga de quién es.
 
+#### Gheco sugiere
+Una excepción propia extiende a otra: `class SaldoInsuficiente extends DomainException`. Puede tener propiedades (`readonly`) y armar su mensaje en el constructor con `parent::__construct("...")`.
+
+#### Desafío
 El banco del puerto necesita excepciones con nombre. Escribí:
 
 - `class SaldoInsuficiente extends DomainException` — con `readonly` el saldo
@@ -8697,14 +9006,20 @@ El banco del puerto necesita excepciones con nombre. Escribí:
 Ejecutá los movimientos del ejemplo. Cuando salta `SaldoInsuficiente`, el programa
 **ofrece** extraer lo que hay (usando las propiedades de la excepción) y lo extrae.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Dos excepciones propias que heredan de `DomainException`, con datos `readonly`.
 - El programa usa los datos de la excepción para reaccionar.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Extrajo 3000. Saldo: 5200
 Movimiento rechazado: Monto inválido: -50
@@ -8714,8 +9029,7 @@ Cuenta bloqueada por el banco
 La cuenta de Iara está bloqueada: llamá al banco.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -8790,17 +9104,30 @@ foreach ([3000, -50, 6000, 'bloquear', 100] as $movimiento) {
 }
 ```
 
-### Misión R02-N09-M3 · El archivo que no estaba
+#### Al superarla
+Los clientes leen el motivo y se van tranquilos. Uno vuelve con más plata. Otro, con la cuenta desbloqueada.
+
+#### Imagen
+- La ventanilla del banco del puerto con un vidrio y una reja de bronce, un día de lluvia.
+- Un cliente con paraguas lee un papel liso y asiente; Iara sonríe detrás del vidrio; Nilo y Gheco esperan en la fila.
+
+### Micro-misión R02-N09-P6 · El archivo que no estaba
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La Grúa de la Tormenta
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R02-N09-M3
 ```
 
-#### Consigna
+#### Escena
+Las tarifas de la grúa están en un archivo de texto, y cada vez que alguien lo abre y el programa se cae, el archivo queda abierto y trabado.
+—Abrís, leés y cerrás —dice Iara—. Pase lo que pase, se cierra.
 
+#### Gheco sugiere
+Comprobá con `file_exists` antes de abrir y lanzá `RuntimeException` si no está. Leé dentro de un `try` y cerrá con `fclose` en el `finally`: se ejecuta siempre, haya error o no.
+
+#### Desafío
 Escribí la clase `LectorDeTarifas` con `leer(string $ruta): array`, que lee un
 archivo de texto con renglones `destino;precio` y devuelve `destino => precio`.
 Tiene que:
@@ -8818,14 +9145,20 @@ inexistente, y muestra el resultado o el error de cada uno. Contá con una
 propiedad estática cuántos archivos se cerraron, para mostrar que el `finally`
 corre siempre.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El archivo se cierra en el `finally`.
 - Cada error lanza una excepción distinta con un mensaje claro.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 tarifas-ok.txt: 3 tarifas (valle, forjas, imperio)
 tarifas-rota.txt: archivo con errores. Renglón 2: el precio «cinco mil» no es un número
@@ -8833,8 +9166,7 @@ tarifas-perdida.txt: No existe el archivo tarifas-perdida.txt
 Archivos cerrados: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -8892,6 +9224,13 @@ echo "Archivos cerrados: ", LectorDeTarifas::$cerrados, "\n";
 unlink("$dir/tarifas-ok.txt");
 unlink("$dir/tarifas-rota.txt");
 ```
+
+#### Al superarla
+Las tarifas se leen y el archivo queda cerrado, siempre. El grúista enciende la grúa por primera vez en toda la tormenta.
+
+#### Imagen
+- Una grúa portuaria enorme bajo la tormenta, con una cabina iluminada y cajones colgando de un gancho.
+- Un grúista en la cabina saluda; Iara guarda un papel en una carpeta; Nilo y Gheco se resguardan bajo una lona.
 
 ### Encargo R02-N09-E1 · La importación de clientes
 
@@ -10489,17 +10828,23 @@ Pieza por pieza, el Gólem queda revisado: sabe qué tiene flojo y por qué. Se 
 - Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) llega con el bastón en alto.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre la cabeza del Gólem.
 
-### Misión R02-N11-M1 · El taller de reparaciones
+### Micro-misión R02-N11-P4 · El taller de reparaciones
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: El fondo de los moldes viejos
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 30, monedas 6
+antes: R02-N11-M1
 ```
 
-#### Consigna
+#### Escena
+Con el Gólem tranquilo, el taller de reparaciones del Astillero vuelve a abrir. Elefa quiere el sistema entero en un solo archivo: embarcaciones, estados y presupuestos.
+—Todo lo que aprendiste en el Astillero, junto —dice—. El Gólem va a mirar.
 
+#### Gheco sugiere
+Una clase abstracta para las embarcaciones con su costo por hora, un enum para el estado de la reparación y una clase para la orden. Hacé cada parte por separado y probala antes de juntar todo.
+
+#### Desafío
 El taller del Astillero repara embarcaciones. Escribí el sistema en un solo
 archivo, con `strict_types`:
 
@@ -10525,16 +10870,21 @@ El programa lee comandos de la entrada hasta el final:
 los HP, 0 para botes), `AVANZA;MATRICULA`, `TRABAJA;MATRICULA;HORAS` e `INFORME`.
 Cada comando muestra el resultado o el error atrapado (sin cortar el programa).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa clase abstracta, enum con método, excepciones propias y encapsulamiento.
 - No hay `if`/`match` sobre el tipo de embarcación para calcular costos (salvo al
-  crearla a partir del texto del comando).
 - Los errores se atrapan en el programa principal y no lo cortan.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 INGRESA;velero;LR-1024;9.5;3;cambio de jarcias
 INGRESA;lancha;LR-0077;7.2;200;motor que no arranca
@@ -10553,7 +10903,6 @@ INFORME
 ```
 
 #### Salida esperada
-
 ```
 Ingresó LR-1024 (velero): cambio de jarcias
 Ingresó LR-0077 (lancha): motor que no arranca
@@ -10574,8 +10923,7 @@ LR-2230  bote    Ingresada       0.0 h  $0,00
 Facturado: $203.100,00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -10769,49 +11117,12 @@ while (($linea = fgets(STDIN)) !== false) {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El taller presupuesta tres reparaciones sin errores. El Gólem, sentado entre los moldes, golpea el piso una vez con el puño: aprobado.
 
-##### Solo informe
-```entrada
-INFORME
-```
-```salida
-Facturado: $0,00
-```
-
-##### Bote completo
-```entrada
-INGRESA;bote;B-1;3;0;remos
-AVANZA;B-1
-TRABAJA;B-1;1.5
-AVANZA;B-1
-AVANZA;B-1
-INFORME
-```
-```salida
-Ingresó B-1 (bote): remos
-B-1 pasa a en reparación
-B-1: +1.5 h
-B-1 pasa a lista
-B-1 pasa a entregada
-B-1      bote    Entregada       1.5 h  $18.000,00
-Facturado: $18.000,00
-```
-
-##### Lancha chica sin recargo
-```entrada
-INGRESA;lancha;L-1;5;150;aceite
-AVANZA;L-1
-TRABAJA;L-1;2
-INFORME
-```
-```salida
-Ingresó L-1 (lancha): aceite
-L-1 pasa a en reparación
-L-1: +2 h
-L-1      lancha  EnReparacion    2.0 h  $36.000,00
-Facturado: $36.000,00
-```
+#### Imagen
+- El taller de reparaciones del Astillero con un bote, un velero y una lancha en sus soportes.
+- El Gólem de madera sentado al fondo aplaude despacio; Elefa recorre el taller; Nilo y Gheco revisan el casco de la lancha.
 
 ### Misión R02-N11-M2 · El alquiler de botes
 

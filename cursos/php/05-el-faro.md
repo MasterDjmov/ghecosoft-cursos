@@ -2156,17 +2156,23 @@ Los livianos entran primero y la dársena no se tapa. Marea baja el farol.
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) ordena la fila con una bandera.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el barco más chico.
 
-### Misión R05-N02-M1 · El filtro de la bitácora
+### Micro-misión R05-N02-P5 · El filtro de la bitácora
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de máquinas del Faro
+personajes: Nilo, Gheco, Iara, Marea
+recompensa: xp 10, monedas 4
+antes: R05-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Marea revisa la bitácora del Faro y siempre hace lo mismo: filtra, cambia algo y ordena. Pero cada noche en otro orden.
+—Quiero armar el proceso con pasos, como engranajes que se enchufan —dice—. Y cambiar los pasos sin tocar la máquina.
 
+#### Gheco sugiere
+Una función que devuelve otra función: `filtrar($condicion)` devuelve un `Closure` que recibe el array. `tuberia(...$pasos)` aplica cada paso al resultado del anterior, en orden.
+
+#### Desafío
 La bitácora del Faro se procesa con **pasos** configurables. Escribí:
 
 - `function tuberia(callable ...$pasos): Closure` — devuelve una función que recibe
@@ -2180,14 +2186,20 @@ Valle con más de 300 kg, ordenados por kilos de mayor a menor, como texto
 `BARCO (KILOS kg)`" y "todos los viajes, con los kilos pasados a toneladas,
 ordenados por barco". Mostrá el resultado de las dos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las funciones reciben y devuelven closures.
 - Las tuberías se arman combinando pasos, sin repetir código.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Cóndor (760 kg), Gaviota (420 kg)
 Albatros: 1.1 t
@@ -2197,8 +2209,7 @@ Petrel: 0.28 t
 Tortuga: 0.09 t
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -2251,17 +2262,30 @@ foreach ($enToneladas($viajes) as $v) {
 }
 ```
 
-### Misión R05-N02-M2 · El lector de registros gigantes
+#### Al superarla
+La bitácora pasa por los engranajes y sale ordenada. Marea cambia un paso de lugar, la máquina sigue andando y ella sonríe por primera vez en la noche.
+
+#### Imagen
+- La sala de máquinas del Faro con engranajes de bronce enchufados en fila sobre una pared.
+- Marea, con impermeable amarillo y pañuelo violeta, enchufa un engranaje; Iara anota; Nilo y Gheco miran girar la fila.
+
+### Micro-misión R05-N02-P6 · El lector de registros gigantes
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de máquinas del Faro
+personajes: Nilo, Gheco, Iara, Marea
+recompensa: xp 10, monedas 4
+antes: R05-N02-M2
 ```
 
-#### Consigna
+#### Escena
+El servidor del Faro guarda un registro de accesos larguísimo. Si lo cargás entero, la máquina se ahoga.
+—Un renglón por vez —dice Marea—. Como el agua por el caño: pasa, no se acumula.
 
+#### Gheco sugiere
+Un generador con `yield` entrega un renglón por vez sin cargar todo. Encadená generadores: `parsear(renglones())` y después otro que filtre. Cada uno recibe un `iterable` y produce el suyo.
+
+#### Desafío
 El servidor del Faro guarda un registro de accesos con un renglón por pedido:
 `FECHA HORA METODO RUTA CODIGO MILISEGUNDOS`. Leé el registro de la entrada
 estándar con un **generador** `renglones()` (sobre `STDIN`) y encadená otros dos:
@@ -2274,14 +2298,20 @@ Con eso calculá, sin guardar todos los pedidos en un array: la cantidad total d
 pedidos válidos, cuántos fueron errores, la ruta con más errores y el pedido más
 lento (en milisegundos).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa generadores encadenados; no guarda el registro completo en memoria.
 - Los renglones mal formados se saltean.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 2026-10-03 09:00:01 GET /barcos 200 35
 2026-10-03 09:00:02 GET /barcos/7 404 12
@@ -2294,7 +2324,6 @@ renglon roto
 ```
 
 #### Salida esperada
-
 ```
 Pedidos válidos: 7
 Errores: 4
@@ -2302,8 +2331,7 @@ Ruta con más errores: /barcos/7 (2)
 El más lento: GET /reporte (1250 ms, 09:02:30)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -2356,55 +2384,30 @@ echo "Ruta con más errores: ", array_key_first($porRuta), " (", reset($porRuta)
 echo "El más lento: {$contador['lento']['metodo']} {$contador['lento']['ruta']} ({$contador['lento']['ms']} ms, {$contador['lento']['hora']})\n";
 ```
 
-#### Pruebas
+#### Al superarla
+El registro entero pasa por los caños sin que la máquina se ahogue. Marea golpea el caño con los nudillos, satisfecha.
 
-##### Sin errores
-```entrada
-2026-10-03 09:00:01 GET /a 200 10
-2026-10-03 09:00:02 GET /b 301 20
-```
-```salida
-Pedidos válidos: 2
-Errores: 0
-Ruta con más errores:  ()
-El más lento: GET /b (20 ms, 09:00:02)
-```
+#### Imagen
+- Caños de cobre que atraviesan la sala de máquinas del Faro, con una cinta de papel pasando por adentro de un caño de vidrio.
+- Marea golpea un caño con los nudillos; Iara mira por el vidrio; Nilo y Gheco siguen la cinta con la vista.
 
-##### Todo roto
-```entrada
-hola
-1 2 3
-```
-```salida
-Pedidos válidos: 0
-Errores: 0
-Ruta con más errores:  ()
-El más lento:   ( ms, )
-```
-
-##### Empate de errores
-```entrada
-2026-10-03 09:00:01 GET /a 404 1
-2026-10-03 09:00:02 GET /b 404 1
-```
-```salida
-Pedidos válidos: 2
-Errores: 2
-Ruta con más errores: /a (1)
-El más lento: GET /a (1 ms, 09:00:01)
-```
-
-### Misión R05-N02-M3 · El número de turno infinito
+### Micro-misión R05-N02-P7 · El número de turno infinito
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La sala de máquinas del Faro
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R05-N02-M3
 ```
 
-#### Consigna
+#### Escena
+La oficina del Puerto entrega números de turno que van de letra en letra y vuelven a empezar. El dispensador viejo se traba cuando llega al final.
+—Un dispensador que no se termine nunca —dice Iara—. Y que arranque desde el número que le digas.
 
+#### Gheco sugiere
+Un generador infinito con `while (true)` y `yield`. Partí el turno en letra y número; al pasar de 999, la letra avanza con `chr(ord($letra) + 1)`, y después de la Z vuelve a la A.
+
+#### Desafío
 La oficina del Puerto numera los turnos así: `A001` a `A999`, después `B001`… hasta
 `Z999`, y vuelve a `A001`. Escribí un **generador infinito** `turnos(string $desde =
 'A001')` que produzca los números para siempre a partir de uno dado. Después:
@@ -2417,14 +2420,20 @@ La oficina del Puerto numera los turnos así: `A001` a `A999`, después `B001`�
 
 Usá `break` para cortar cada recorrido.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `turnos` es un generador infinito (`while (true)`).
 - Los recorridos se cortan desde afuera.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 A001 A002 A003 A004 A005
 A998 A999 B001 B002
@@ -2432,8 +2441,7 @@ Z998 Z999 A001
 A001 A251 A501 A751
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -2480,6 +2488,13 @@ echo implode(' ', primeros(turnos('A998'), 4)), "\n";
 echo implode(' ', primeros(turnos('Z998'), 3)), "\n";
 echo implode(' ', primeros(cadaN(turnos(), 250), 4)), "\n";
 ```
+
+#### Al superarla
+El dispensador da la vuelta de la Z a la A sin trabarse. Nilo saca un turno de recuerdo y lo guarda en el bolso.
+
+#### Imagen
+- Un dispensador de turnos de bronce con una rueda y una ranura, en la entrada de la oficina del Puerto.
+- Iara gira la rueda; Nilo saca un papelito liso; Gheco mira adentro de la ranura.
 
 ### Encargo R05-N02-E1 · La exportación de ventas
 
@@ -5296,17 +5311,23 @@ La clave vive en su archivo, lejos del código que se comparte. Pico tendrá que
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lo tapa con la mano.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el candado.
 
-### Misión R05-N05-M1 · El registro del muelle
+### Micro-misión R05-N05-P5 · El registro del muelle
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El libro de guardia
+personajes: Nilo, Gheco, Iara, Marea
+recompensa: xp 10, monedas 4
+antes: R05-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Marea anota todo lo que pasa en el libro de guardia, pero a veces anota de más: una vez escribió una clave entera.
+—El registro tiene que guardar lo importante y tapar lo secreto —dice Iara—. Y que se pueda pedir solo lo grave.
 
+#### Gheco sugiere
+Un nivel mínimo decide qué se guarda. Antes de guardar el contexto, reemplazá los valores de las claves prohibidas por `***`. `json_encode` arma el texto del contexto y un array cuenta por nivel.
+
+#### Desafío
 Escribí una clase `Registro` que guarda eventos en memoria (un array) con nivel,
 mensaje y contexto, y un nivel mínimo configurable. Métodos: `info`, `warning`,
 `error`, `lineas(): array` (los textos formateados `[NIVEL] mensaje {json}`) y
@@ -5316,14 +5337,20 @@ llamadas `clave`, `password` o `tarjeta`: si vienen, se reemplazan por `***`.
 Registrá los eventos del ejemplo con nivel mínimo `warning` y mostrá las líneas y el
 conteo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Filtra por nivel mínimo.
 - Oculta los datos sensibles del contexto.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 [WARNING] Login fallido {"usuario":"nilo","clave":"***"}
 [ERROR] No se pudo cobrar {"cliente":"Ana","tarjeta":"***","monto":12000}
@@ -5335,8 +5362,7 @@ Array
 )
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -5390,6 +5416,146 @@ foreach ($registro->lineas() as $linea) {
 }
 print_r($registro->contar());
 ```
+
+#### Al superarla
+El libro de guardia queda prolijo y sin secretos a la vista. Pico revisa las páginas desde la ventana y no encuentra nada que llevarse.
+
+#### Imagen
+- Un libro de guardia grande abierto sobre un atril en el Faro, con renglones de tres colores.
+- Marea tapa una línea con la mano; Iara sella la página; Pico espía desde la ventana; Nilo y Gheco lo espantan.
+
+### Micro-misión R05-N05-P6 · El cargador de configuración
+
+```meta
+lugar: El libro de guardia
+personajes: Nilo, Gheco, Iara, Marea
+recompensa: xp 10, monedas 4
+antes: R05-N05-M3
+```
+
+#### Escena
+La configuración del Faro vive en un texto aparte, lejos del código. Pero cuando falta una clave, el Faro arranca igual y después se apaga en medio de la noche.
+—Que no arranque si falta algo —dice Marea—. Y que diga **todo** lo que falta, no de a uno.
+
+#### Gheco sugiere
+`parse_ini_string($texto, false, INI_SCANNER_TYPED)` lee el texto con sus tipos. Combiná con los valores por defecto (`array_merge`) y juntá las obligatorias que faltan en un array antes de lanzar la excepción.
+
+#### Desafío
+Escribí la clase `Config` que carga la configuración de un **texto** con formato
+`.env` (para probarla sin archivos, recibe el contenido como texto; usá
+`parse_ini_string` con `INI_SCANNER_TYPED`) y:
+
+- aplica valores **por defecto** para las claves que no vienen;
+- valida las **obligatorias** (`DB_DSN`, `DB_USUARIO`) y lanza `RuntimeException` con
+  **todas** las que faltan juntas;
+- valida que `APP_ENTORNO` sea `local`, `pruebas` o `produccion`;
+- `get(string $clave): mixed` (lanza si no existe) y `esProduccion(): bool`;
+- en producción, fuerza `APP_DEBUG` a `false` aunque el archivo diga `true` (y avisa
+  con un mensaje en `advertencias()`).
+
+Probala con tres textos: uno completo de producción con `APP_DEBUG=true`, uno local
+mínimo y uno al que le faltan las dos obligatorias.
+
+**Para superarla:**
+- Junta todas las obligatorias que faltan en un solo error.
+- Aplica los valores por defecto y la regla de producción.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Salida esperada
+```
+== producción
+entorno: produccion · debug: false · zona: America/Argentina/Buenos_Aires
+aviso: APP_DEBUG estaba en true en producción: se apagó
+== local mínimo
+entorno: local · debug: false · zona: America/Argentina/Buenos_Aires
+== incompleto
+error: Faltan en la configuración: DB_DSN, DB_USUARIO
+```
+
+#### Solución
+```php
+<?php
+declare(strict_types=1);
+// Mision 3 - El cargador de configuración: valores por defecto, obligatorias y reglas.
+
+final class Config
+{
+    private const DEFECTOS = ['APP_ENTORNO' => 'local', 'APP_DEBUG' => false, 'APP_ZONA' => 'America/Argentina/Buenos_Aires'];
+    private const OBLIGATORIAS = ['DB_DSN', 'DB_USUARIO'];
+    private const ENTORNOS = ['local', 'pruebas', 'produccion'];
+
+    private array $valores;
+    private array $advertencias = [];
+
+    public function __construct(string $contenido)
+    {
+        $leido = parse_ini_string($contenido, false, INI_SCANNER_TYPED);
+        if ($leido === false) {
+            throw new RuntimeException('El archivo de configuración tiene errores de formato');
+        }
+        $this->valores = $leido + self::DEFECTOS;
+        $faltan = array_filter(self::OBLIGATORIAS, fn($c) => !array_key_exists($c, $this->valores));
+        if ($faltan !== []) {
+            throw new RuntimeException('Faltan en la configuración: ' . implode(', ', $faltan));
+        }
+        if (!in_array($this->valores['APP_ENTORNO'], self::ENTORNOS, true)) {
+            throw new RuntimeException("APP_ENTORNO inválido: {$this->valores['APP_ENTORNO']}");
+        }
+        if ($this->esProduccion() && $this->valores['APP_DEBUG'] === true) {
+            $this->valores['APP_DEBUG'] = false;
+            $this->advertencias[] = 'APP_DEBUG estaba en true en producción: se apagó';
+        }
+    }
+
+    public function get(string $clave): mixed
+    {
+        return array_key_exists($clave, $this->valores) ? $this->valores[$clave] : throw new RuntimeException("No existe la clave $clave");
+    }
+
+    public function esProduccion(): bool
+    {
+        return $this->valores['APP_ENTORNO'] === 'produccion';
+    }
+
+    public function advertencias(): array
+    {
+        return $this->advertencias;
+    }
+}
+
+$textos = [
+    'producción' => "APP_ENTORNO=produccion\nAPP_DEBUG=true\nDB_DSN=\"mysql:host=localhost;dbname=puerto\"\nDB_USUARIO=puerto\n",
+    'local mínimo' => "DB_DSN=\"mysql:host=localhost;dbname=puerto\"\nDB_USUARIO=root\n",
+    'incompleto' => "APP_ENTORNO=local\n",
+];
+foreach ($textos as $nombre => $texto) {
+    echo "== $nombre\n";
+    try {
+        $c = new Config($texto);
+        echo "entorno: ", $c->get('APP_ENTORNO'), " · debug: ", var_export($c->get('APP_DEBUG'), true), " · zona: ", $c->get('APP_ZONA'), "\n";
+        foreach ($c->advertencias() as $a) {
+            echo "aviso: $a\n";
+        }
+    } catch (RuntimeException $e) {
+        echo "error: ", $e->getMessage(), "\n";
+    }
+}
+```
+
+#### Al superarla
+El Faro revisa su configuración antes de prender. Esta noche arranca y no se apaga.
+
+#### Imagen
+- La lámpara del Faro encendida a través de su lente, de noche, con el mar iluminado.
+- Marea mira la luz desde la baranda; Iara guarda un papel en una caja con llave; Nilo y Gheco saludan a un barco.
 
 ### Misión R05-N05-M2 · La página de error amable
 
@@ -5476,121 +5642,6 @@ switch ($_GET['pagina'] ?? 'inicio') {
     default:
         http_response_code(404);
         echo 'No existe esa página.';
-}
-```
-
-### Misión R05-N05-M3 · El cargador de configuración
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-Escribí la clase `Config` que carga la configuración de un **texto** con formato
-`.env` (para probarla sin archivos, recibe el contenido como texto; usá
-`parse_ini_string` con `INI_SCANNER_TYPED`) y:
-
-- aplica valores **por defecto** para las claves que no vienen;
-- valida las **obligatorias** (`DB_DSN`, `DB_USUARIO`) y lanza `RuntimeException` con
-  **todas** las que faltan juntas;
-- valida que `APP_ENTORNO` sea `local`, `pruebas` o `produccion`;
-- `get(string $clave): mixed` (lanza si no existe) y `esProduccion(): bool`;
-- en producción, fuerza `APP_DEBUG` a `false` aunque el archivo diga `true` (y avisa
-  con un mensaje en `advertencias()`).
-
-Probala con tres textos: uno completo de producción con `APP_DEBUG=true`, uno local
-mínimo y uno al que le faltan las dos obligatorias.
-
-#### Criterio de aprobación
-
-- Junta todas las obligatorias que faltan en un solo error.
-- Aplica los valores por defecto y la regla de producción.
-- La salida coincide con la esperada.
-
-#### Salida esperada
-
-```
-== producción
-entorno: produccion · debug: false · zona: America/Argentina/Buenos_Aires
-aviso: APP_DEBUG estaba en true en producción: se apagó
-== local mínimo
-entorno: local · debug: false · zona: America/Argentina/Buenos_Aires
-== incompleto
-error: Faltan en la configuración: DB_DSN, DB_USUARIO
-```
-
-#### Solución de referencia
-
-```php
-<?php
-declare(strict_types=1);
-// Mision 3 - El cargador de configuración: valores por defecto, obligatorias y reglas.
-
-final class Config
-{
-    private const DEFECTOS = ['APP_ENTORNO' => 'local', 'APP_DEBUG' => false, 'APP_ZONA' => 'America/Argentina/Buenos_Aires'];
-    private const OBLIGATORIAS = ['DB_DSN', 'DB_USUARIO'];
-    private const ENTORNOS = ['local', 'pruebas', 'produccion'];
-
-    private array $valores;
-    private array $advertencias = [];
-
-    public function __construct(string $contenido)
-    {
-        $leido = parse_ini_string($contenido, false, INI_SCANNER_TYPED);
-        if ($leido === false) {
-            throw new RuntimeException('El archivo de configuración tiene errores de formato');
-        }
-        $this->valores = $leido + self::DEFECTOS;
-        $faltan = array_filter(self::OBLIGATORIAS, fn($c) => !array_key_exists($c, $this->valores));
-        if ($faltan !== []) {
-            throw new RuntimeException('Faltan en la configuración: ' . implode(', ', $faltan));
-        }
-        if (!in_array($this->valores['APP_ENTORNO'], self::ENTORNOS, true)) {
-            throw new RuntimeException("APP_ENTORNO inválido: {$this->valores['APP_ENTORNO']}");
-        }
-        if ($this->esProduccion() && $this->valores['APP_DEBUG'] === true) {
-            $this->valores['APP_DEBUG'] = false;
-            $this->advertencias[] = 'APP_DEBUG estaba en true en producción: se apagó';
-        }
-    }
-
-    public function get(string $clave): mixed
-    {
-        return array_key_exists($clave, $this->valores) ? $this->valores[$clave] : throw new RuntimeException("No existe la clave $clave");
-    }
-
-    public function esProduccion(): bool
-    {
-        return $this->valores['APP_ENTORNO'] === 'produccion';
-    }
-
-    public function advertencias(): array
-    {
-        return $this->advertencias;
-    }
-}
-
-$textos = [
-    'producción' => "APP_ENTORNO=produccion\nAPP_DEBUG=true\nDB_DSN=\"mysql:host=localhost;dbname=puerto\"\nDB_USUARIO=puerto\n",
-    'local mínimo' => "DB_DSN=\"mysql:host=localhost;dbname=puerto\"\nDB_USUARIO=root\n",
-    'incompleto' => "APP_ENTORNO=local\n",
-];
-foreach ($textos as $nombre => $texto) {
-    echo "== $nombre\n";
-    try {
-        $c = new Config($texto);
-        echo "entorno: ", $c->get('APP_ENTORNO'), " · debug: ", var_export($c->get('APP_DEBUG'), true), " · zona: ", $c->get('APP_ZONA'), "\n";
-        foreach ($c->advertencias() as $a) {
-            echo "aviso: $a\n";
-        }
-    } catch (RuntimeException $e) {
-        echo "error: ", $e->getMessage(), "\n";
-    }
 }
 ```
 

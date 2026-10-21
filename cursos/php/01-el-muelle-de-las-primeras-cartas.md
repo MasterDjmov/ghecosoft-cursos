@@ -449,31 +449,41 @@ Elefa sella la tarifa en el pizarrón de la entrada. —Lo que no cambia, se esc
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira para otro lado.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el pizarrón.
 
-### Misión R01-N01-M1 · El manifiesto de carga
+### Micro-misión R01-N01-P5 · El manifiesto de carga
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Atraca un barco de carga y el capitán no trae manifiesto. Elefa le pide a Nilo que lo arme.
+—Nombre del barco, cajones, peso de cada uno y si lleva algo frágil. Y la capacidad máxima, que esa no cambia nunca.
 
+#### Gheco sugiere
+Cada dato tiene su tipo: texto, entero, decimal o booleano. Lo que no cambia va en una **constante** (`const CAPACIDAD = …;`). `var_dump($x)` muestra el tipo y el valor.
+
+#### Desafío
 Declará variables para describir la carga de un barco: el nombre del barco
 (texto), la cantidad de cajones (entero), el peso de cada cajón (decimal) y si
 lleva carga frágil (booleano). Declará también una constante con la capacidad
 máxima del barco en kilos. Mostrá el manifiesto con `echo` y, al final, el
 `var_dump` de las cuatro variables.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una variable para cada dato y una constante para la capacidad.
 - El peso total se calcula con las variables.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 MANIFIESTO DE CARGA
 Barco: El Albatros
@@ -486,8 +496,7 @@ float(42.5)
 bool(false)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - El manifiesto de carga: variables, tipos y una constante.
@@ -506,17 +515,31 @@ echo "Peso total: ", $cajones * $pesoCajon, " kg de ", CAPACIDAD, "\n";
 var_dump($barco, $cajones, $pesoCajon, $fragil);
 ```
 
-### Misión R01-N01-M2 · Los papeles del aduanero
+#### Al superarla
+El capitán firma el manifiesto. Elefa lo guarda en el archivo del muelle.
+—Con esto, si falta un cajón, sabemos cuál.
+
+#### Imagen
+- Un barco de carga atracado en un muelle de madera, con cajones apilados y sogas.
+- Nilo cuenta cajones con el dedo; un capitán barbudo con gorra espera; Gheco se sienta sobre un cajón marcado con una copa de vidrio dibujada.
+
+### Micro-misión R01-N01-P6 · Los papeles del aduanero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N01-M2
 ```
 
-#### Consigna
+#### Escena
+El aduanero del muelle anota todo en papel, así que todos sus números llegan como texto. Le pide a Nilo que haga las cuentas del impuesto.
+—Redondeado para el recibo —dice Elefa— y truncado para la caja. Que se vea la diferencia.
 
+#### Gheco sugiere
+El *casting* cambia el tipo: `(int) "15"` y `(float) "42.5"`. `round($x, 2)` redondea; para truncar a dos decimales, `floor($x * 100) / 100`.
+
+#### Desafío
 El aduanero recibe todos los datos como **texto**, porque vienen escritos en un
 papel: `"15"` cajones, `"42.5"` kilos cada uno y `"3.99"` monedas de impuesto por
 kilo. Convertí cada uno al tipo correcto con *casting* y mostrá:
@@ -526,14 +549,18 @@ kilo. Convertí cada uno al tipo correcto con *casting* y mostrá:
 3. El impuesto total redondeado a 2 decimales con `round`.
 4. El impuesto total truncado a entero con `(int)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Convierte con `(int)` y `(float)`, no escribe los números a mano.
 - Usa `round` para los dos decimales.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 int(15)
 float(42.5)
@@ -543,8 +570,7 @@ Impuesto: 2543.63
 Impuesto truncado: 2543
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - Los papeles del aduanero: casting de textos a números.
@@ -565,17 +591,31 @@ echo "Impuesto: ", round($impuesto, 2), "\n";
 echo "Impuesto truncado: ", (int) $impuesto, "\n";
 ```
 
-### Misión R01-N01-M3 · ¿Verdadero o falso?
+#### Al superarla
+El aduanero compara los dos números y se rasca la oreja.
+—Por un centavo… Me quedo con el redondeado.
+
+#### Imagen
+- Una caseta de aduana en el muelle, con una balanza grande y un sello de madera.
+- Un aduanero con gorra hace cuentas con una pluma; Nilo le muestra la mano abierta; Gheco equilibra una moneda sobre la nariz.
+
+### Micro-misión R01-N01-P7 · ¿Verdadero o falso?
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Muelle de las Primeras Cartas
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Elefa trae una lista de valores escrita en su libreta.
+—Quiero saber cuáles PHP toma por verdaderos y cuáles por falsos. Hay sorpresas. Nilo, no adivines: mostralos.
 
+#### Gheco sugiere
+`var_dump((bool) $valor)` muestra cómo lo ve PHP. Ojo: el texto `"0"` es falso, pero `"0.0"`, `" "` y `"false"` son verdaderos.
+
+#### Desafío
 La Capitana tiene una lista de valores y quiere saber cuáles PHP considera
 **verdaderos** y cuáles **falsos**. Para cada uno de estos valores, mostrá su
 `var_dump` y después el `var_dump` de convertirlo a `bool`:
@@ -585,13 +625,17 @@ La Capitana tiene una lista de valores y quiere saber cuáles PHP considera
 Usá una línea por valor con el formato del ejemplo (`var_dump` acepta varios
 valores separados por coma).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra los diez valores y su conversión a `bool`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 int(0)
 bool(false)
@@ -615,8 +659,7 @@ float(0)
 bool(false)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - ¿Verdadero o falso?: la conversión a bool de cada valor.
@@ -631,6 +674,15 @@ var_dump("false", (bool) "false");
 var_dump(null, (bool) null);
 var_dump(0.0, (bool) 0.0);
 ```
+
+#### Al superarla
+Nilo se queda mirando el `"false"` verdadero un rato largo.
+—Eso es trampa.
+—Eso es PHP —dice Elefa.
+
+#### Imagen
+- Una libreta abierta sobre un barril del muelle, con una columna de puntos verdes y rojos.
+- Elefa sostiene la libreta con la trompa; Nilo se agarra la gorra, sorprendido; Gheco señala un punto rojo.
 
 ### Encargo R01-N01-E1 · El vuelto en centavos
 
@@ -1131,38 +1183,47 @@ La aguja de la balanza y el programa dicen lo mismo. Nilo le pone nombre a la ba
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) compara las bolsas inclinado sobre la balanza.
 - Gheco (gecko de luz cian con antiparras, chiquito) colgado de la aguja.
 
-### Misión R01-N02-M1 · El reloj de la torre
+### Micro-misión R01-N02-P5 · El reloj de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de pesaje
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N02-M1
 ```
 
-#### Consigna
+#### Escena
+El reloj de la torre no tiene agujas: muestra cuántos minutos pasaron desde la medianoche. Elefa quiere saber la hora de verdad.
+—Y qué hora va a ser cuando termine el turno largo. Si pasa de medianoche, vuelve a empezar.
 
+#### Gheco sugiere
+`intdiv($minutos, 60)` da las horas y `$minutos % 60` los minutos que sobran. Para volver a empezar después de las 24, `% 24`. `str_pad($m, 2, "0", STR_PAD_LEFT)` pone el cero adelante.
+
+#### Desafío
 El reloj de la torre del Puerto cuenta los **minutos** desde la medianoche. Hoy
 marca `937`. Mostrá qué hora es (horas y minutos, con `intdiv` y `%`), y qué hora
 va a ser dentro de **600 minutos** (cuando pasa de las 24 horas vuelve a empezar:
 usá `% 24`). Mostrá los minutos siempre con dos cifras usando
 `str_pad($minutos, 2, "0", STR_PAD_LEFT)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `intdiv` y `%` para horas y minutos.
 - El cálculo de "dentro de 600 minutos" da la vuelta con `% 24`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Ahora son las 15:37
 En 600 minutos: 1:37
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - El reloj de la torre: intdiv y % para horas y minutos.
@@ -1178,17 +1239,30 @@ $minutosDespues = $despues % 60;
 echo "En 600 minutos: ", $horasDespues, ":", str_pad($minutosDespues, 2, "0", STR_PAD_LEFT), "\n";
 ```
 
-### Misión R01-N02-M2 · La balanza que miente
+#### Al superarla
+Nilo le pinta agujas al reloj con tiza para no tener que calcular nunca más. Elefa las borra con la trompa.
+
+#### Imagen
+- Un reloj grande sin agujas en la pared de la oficina de pesaje, con una rueda de números de bronce.
+- Nilo dibuja agujas con tiza; Elefa le apoya la trompa en el hombro; Gheco se cuelga del borde del reloj.
+
+### Micro-misión R01-N02-P6 · La balanza que miente
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de pesaje
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Un mercader tramposo le jura a Elefa que sus pesas son iguales a las del Puerto. Le muestra pares de valores y dice que todos son «lo mismo».
+—Con dos iguales o con tres —dice Elefa—. Vamos a ver cuáles son realmente iguales.
 
+#### Gheco sugiere
+`==` compara convirtiendo los tipos y a veces dice que sí cuando no; `===` compara valor **y** tipo. `var_dump($a == $b, $a === $b)` muestra los dos en una línea.
+
+#### Desafío
 Un mercader tramposo le muestra a la Capitana estas comparaciones y dice que
 todas son "iguales". Para cada par, mostrá con `var_dump` el resultado de `==` y el
 de `===` (una línea por par, con los dos resultados):
@@ -1199,14 +1273,18 @@ de `===` (una línea por par, con los dos resultados):
 Al final, mostrá una línea que diga cuántos pares son **realmente** iguales (con
 `===`), contándolos con una variable que sumás en cada comparación verdadera.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Compara cada par con `==` y con `===`.
 - Cuenta con una variable los pares iguales con `===`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 bool(true)
 bool(false)
@@ -1223,8 +1301,7 @@ bool(false)
 Pares realmente iguales: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - La balanza que miente: == convierte, === no.
@@ -1246,17 +1323,30 @@ $iguales += (int) (" 1" === 1);
 echo "Pares realmente iguales: ", $iguales, "\n";
 ```
 
-### Misión R01-N02-M3 · ¿Puede zarpar?
+#### Al superarla
+De todos los pares, solo pasan los que también pasan con tres iguales. El mercader guarda sus pesas y se va sin saludar.
+
+#### Imagen
+- Una balanza de dos platos en la oficina de pesaje, con pesas de bronce de distintos tamaños.
+- Un mercader flaco con sombrero se va enojado; Elefa cruza los brazos; Nilo y Gheco festejan detrás de la balanza.
+
+### Micro-misión R01-N02-P7 · ¿Puede zarpar?
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La oficina de pesaje
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N02-M3
 ```
 
-#### Consigna
+#### Escena
+La Tortuga, un barco gordo y lento, quiere zarpar con tormenta. Elefa le pide a Nilo que revise las reglas de salida una por una.
+—Y después todas juntas. Si una sola falla, no sale.
 
+#### Gheco sugiere
+`&&` pide que se cumplan las dos; `||`, que se cumpla alguna. Los paréntesis deciden qué se evalúa primero: `$a && ($b || $c)`. `!== null` comprueba que la variable tenga algo.
+
+#### Desafío
 Un barco puede zarpar si se cumplen **todas** estas reglas:
 
 - el peso de la carga no supera la capacidad;
@@ -1269,14 +1359,18 @@ Con los datos del barco *La Tortuga* (carga 950 kg, capacidad 1000, capitán
 `Se queda en el muelle`. Mostrá también el nombre del capitán usando `??` con
 "sin capitán" por si fuera `null`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `&&`, `||` y `!==` (para el `null`).
 - La decisión final sale de un ternario.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 bool(true)
 bool(true)
@@ -1285,8 +1379,7 @@ Capitán: Nilo
 Puede zarpar
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - ¿Puede zarpar?: operadores lógicos, ternario y ??.
@@ -1304,6 +1397,13 @@ var_dump($pesoOk, $tieneCapitan, $climaOk);
 echo "Capitán: ", $capitan ?? "sin capitán", "\n";
 echo $pesoOk && $tieneCapitan && $climaOk ? "Puede zarpar" : "Se queda en el muelle", "\n";
 ```
+
+#### Al superarla
+La Tortuga puede zarpar: es grande y aguanta la tormenta. Nilo la despide desde el muelle con la bufanda.
+
+#### Imagen
+- Un barco gordo y redondo con forma de tortuga saliendo del puerto bajo nubes de tormenta.
+- Nilo agita su bufanda violeta desde el muelle; Gheco se agarra de su gorra para no volarse; Elefa mira el cielo.
 
 ### Encargo R01-N02-E1 · La factura con IVA
 
@@ -1798,17 +1898,23 @@ Iara firma el recibo y lo guarda en el casillero que corresponde. Nilo, por prim
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sonríe orgulloso.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el sello.
 
-### Misión R01-N03-M1 · La etiqueta del paquete
+### Micro-misión R01-N03-P5 · La etiqueta del paquete
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los casilleros del correo
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Llega un paquete con los nombres escritos a los apurones: espacios de más, mayúsculas por cualquier lado.
+—Así no lo despacho —dice Iara, y se saca el lápiz de la oreja—. Etiqueta limpia o no sale.
 
+#### Gheco sugiere
+`trim` saca los espacios de los extremos, `mb_strtolower` pasa a minúsculas (con tildes) y `ucwords` pone mayúscula al principio de cada palabra. `str_replace("  ", " ", $x)` cambia los espacios dobles.
+
+#### Desafío
 Llegó un paquete con los datos escritos a las apuradas:
 `"  nilo   de las FORJAS  "` (remitente) y `"  lía del valle  "` (destinataria).
 Armá la etiqueta:
@@ -1819,14 +1925,18 @@ Armá la etiqueta:
 4. Mostrá la etiqueta con un recuadro de `*` tan ancho como el texto más largo
    más 4 (usá `mb_strlen` y `str_repeat`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `trim`, `mb_strtolower`, `ucwords`, `str_replace`, `mb_strlen` y `str_repeat`.
 - El ancho del recuadro se calcula, no se escribe a mano.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 **************************
 * De: Nilo De Las Forjas *
@@ -1834,8 +1944,7 @@ Armá la etiqueta:
 **************************
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - La etiqueta del paquete: limpiar textos y armar un recuadro.
@@ -1857,17 +1966,32 @@ echo "* ", $para, str_repeat(" ", $ancho - mb_strlen($para) - 4), " *\n";
 echo str_repeat("*", $ancho), "\n";
 ```
 
-### Misión R01-N03-M2 · El mail del cliente
+#### Al superarla
+Iara pega la etiqueta y la alisa con la mano.
+—¿Lo anotaste?
+—Lo anoté —dice Nilo. Y es verdad, por una vez.
+
+#### Imagen
+- Una pared llena de casilleros de madera numerados con dibujos de barcos en lugar de números, en la oficina de correos.
+- Iara, con un lápiz detrás de la oreja, pega una etiqueta lisa a un paquete; Nilo sostiene el paquete; Gheco cuida el rollo de cinta.
+
+### Micro-misión R01-N03-P6 · El mail del cliente
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los casilleros del correo
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Un cliente dejó su dirección de mail con mayúsculas y espacios. Iara la quiere limpia, partida en usuario y dominio, y oculta para mostrarla en la ventanilla.
+—Que no se lea entera —dice—. Pico anda cerca.
 
+#### Gheco sugiere
+`strpos($mail, "@")` dice dónde está la arroba; con `substr` cortás antes y después (o con `explode("@", $mail)`). `str_ends_with` comprueba el final, y `str_repeat("*", n)` arma los asteriscos.
+
+#### Desafío
 La oficina de correos recibe la dirección de mail `"  Iara.Valdez@Puerto.COM.ar "`.
 Mostrá:
 
@@ -1879,14 +2003,18 @@ Mostrá:
    asteriscos por el resto de las letras del usuario, y el dominio completo
    (`i**********@puerto.com.ar`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `trim` y `strtolower`, y encuentra el `@` con `strpos` o `explode`.
 - Los asteriscos se calculan con `str_repeat` y el largo del usuario.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Mail: iara.valdez@puerto.com.ar
 Usuario: iara.valdez
@@ -1895,8 +2023,7 @@ Dominio: puerto.com.ar
 Oculto: i**********@puerto.com.ar
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - El mail del cliente: buscar y cortar textos.
@@ -1912,17 +2039,30 @@ echo "¿Es de Argentina? ", str_ends_with($dominio, ".ar") ? "sí" : "no", "\n";
 echo "Oculto: ", $usuario[0], str_repeat("*", strlen($usuario) - 1), "@", $dominio, "\n";
 ```
 
-### Misión R01-N03-M3 · La tabla de tarifas
+#### Al superarla
+La dirección oculta aparece en la ventanilla. Pico pasa volando, la mira y sigue de largo, decepcionado.
+
+#### Imagen
+- La ventanilla de la oficina de correos con una reja de bronce y un cartel liso.
+- Iara tapa un papel con la mano; Pico, una gaviota regordeta con una mancha violeta en el ala, pasa volando; Nilo y Gheco la espantan.
+
+### Micro-misión R01-N03-P7 · La tabla de tarifas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Los casilleros del correo
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N03-M3
 ```
 
-#### Consigna
+#### Escena
+Iara quiere colgar la tabla de tarifas del correo en la puerta.
+—Destino a la izquierda, peso y precio a la derecha, con sus decimales. Y que las columnas estén derechas, que esto lo leen los capitanes.
 
+#### Gheco sugiere
+`printf` usa formatos: `%-10s` es texto de 10 lugares a la izquierda, `%6.1f` un decimal en 6 lugares a la derecha y `%10.2f` dos decimales en 10. Usá los mismos anchos en el título y en cada renglón.
+
+#### Desafío
 Mostrá la tabla de tarifas del correo con `printf`: una columna de destino (10
 caracteres, a la izquierda), una de peso máximo en kilos (6 caracteres, a la
 derecha, un decimal) y una de precio (10 caracteres, a la derecha, dos
@@ -1930,14 +2070,18 @@ decimales). Los destinos son *Valle* (2.5 kg, 1800), *Forjas* (10 kg, 5250.5) e
 *Imperio* (25 kg, 12999.99). Poné un título, un renglón de guiones y, al final,
 el precio más caro escrito con `number_format` a la argentina.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `printf` con anchos (`%-10s`, `%6.1f`, `%10.2f`).
 - El precio final usa `number_format` con coma decimal.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Destino       Kg    Precio
 --------------------------
@@ -1947,8 +2091,7 @@ Imperio     25.0  12999.99
 El envío más caro: $12.999,99
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - La tabla de tarifas: printf con anchos y number_format.
@@ -1959,6 +2102,13 @@ printf("%-10s%6.1f%10.2f\n", "Forjas", 10, 5250.5);
 printf("%-10s%6.1f%10.2f\n", "Imperio", 25, 12999.99);
 echo "El envío más caro: $", number_format(12999.99, 2, ',', '.'), "\n";
 ```
+
+#### Al superarla
+La tabla queda colgada en la puerta, derechita. Un capitán la lee, asiente y paga sin discutir.
+
+#### Imagen
+- La puerta de la oficina de correos con una tabla de madera colgada, con columnas de rayas alineadas.
+- Un capitán con pipa apagada mira la tabla; Iara espera con el sello; Nilo y Gheco cuentan monedas en el mostrador.
 
 ### Encargo R01-N03-E1 · La carta con plantilla
 
@@ -2476,17 +2626,23 @@ Nueve metros cuadrados: el paquete va en la bodega grande. Nilo lo lleva corrien
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) lo mide con los brazos abiertos.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el paquete.
 
-### Misión R01-N04-M1 · El saludo del portero
+### Micro-misión R01-N04-P5 · El saludo del portero
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de encomiendas
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N04-M1
 ```
 
-#### Consigna
+#### Escena
+El portero del Puerto se fue a almorzar y le dejó a Nilo la puerta. Cada visitante dice su nombre y su ciudad.
+—Saludalos bien —dice Iara—. Y como el portero es raro, quiere también el nombre al revés.
 
+#### Gheco sugiere
+`trim(fgets(STDIN))` lee un renglón sin el salto. `ucwords(mb_strtolower(...))` deja el nombre en «Tipo Título», `mb_strlen` cuenta las letras y `strtoupper(strrev(...))` lo da vuelta en mayúsculas.
+
+#### Desafío
 El portero del Puerto pregunta el nombre y la ciudad de cada visitante y lo
 saluda. Leé los dos datos (limpiando espacios), y mostrá:
 
@@ -2495,20 +2651,23 @@ saluda. Leé los dos datos (limpiando espacios), y mostrá:
 - el nombre al revés en mayúsculas (sin tildes en el ejemplo, así que `strrev` y
   `strtoupper` alcanzan).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee con `fgets(STDIN)` y limpia con `trim`.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
    nilo  
 las Forjas
 ```
 
 #### Salida esperada
-
 ```
 Nombre: Ciudad: 
 Bienvenida, Nilo de las Forjas.
@@ -2516,8 +2675,7 @@ Tu nombre tiene 4 letras.
 Al revés: OLIN
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - El saludo del portero: leer y limpiar textos.
@@ -2532,43 +2690,30 @@ echo "Tu nombre tiene ", mb_strlen($nombre), " letras.\n";
 echo "Al revés: ", strtoupper(strrev($nombre)), "\n";
 ```
 
-#### Pruebas
+#### Al superarla
+El visitante sonríe al ver su nombre al revés. El portero vuelve del almuerzo y se queda sin trabajo por el resto de la tarde.
 
-##### Nombre en minúsculas
-```entrada
-olmo
-Valle Verde
-```
-```salida
-Nombre: Ciudad:
-Bienvenida, Olmo de Valle Verde.
-Tu nombre tiene 4 letras.
-Al revés: OMLO
-```
+#### Imagen
+- Una puerta de hierro de entrada al Puerto con una garita de madera al lado.
+- Nilo saluda con la gorra a una viajera con mochila; Iara anota desde la garita; Gheco hace de portero sobre la reja.
 
-##### Nombre compuesto
-```entrada
-ana paula
-puerto
-```
-```salida
-Nombre: Ciudad:
-Bienvenida, Ana Paula de puerto.
-Tu nombre tiene 9 letras.
-Al revés: ALUAP ANA
-```
-
-### Misión R01-N04-M2 · La balanza de la aduana
+### Micro-misión R01-N04-P6 · La balanza de la aduana
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La ventanilla de encomiendas
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N04-M2
 ```
 
-#### Consigna
+#### Escena
+La balanza de la aduana se rompió y los pesos se dictan de palabra: algunos con coma, otros con punto, y uno que dice cualquier cosa.
+—Los inválidos cuentan como cero —dice Iara—. Pero los quiero anotados.
 
+#### Gheco sugiere
+`str_replace(",", ".", $peso)` arregla la coma. `is_numeric` dice si el texto es un número: si no, avisá y contalo. Al final, `number_format($total, 1)` o `printf("%.1f")`.
+
+#### Desafío
 La balanza de la aduana pide el peso de **tres** paquetes, uno por renglón. Cada
 peso puede venir con coma o con punto (`2,5` o `2.5`). Para cada uno:
 
@@ -2578,14 +2723,18 @@ peso puede venir con coma o con punto (`2,5` o `2.5`). Para cada uno:
 
 Al final, mostrá el total con un decimal y cuántos pesos fueron inválidos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Acepta coma y punto.
 - Los pesos inválidos se informan y no rompen el programa.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 2,5
 doce
@@ -2593,15 +2742,13 @@ doce
 ```
 
 #### Salida esperada
-
 ```
 Peso 1: Peso 2: Peso inválido: «doce»
 Peso 3: 
 Total: 9.8 kg (1 inválido/s)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - La balanza de la aduana: validar números con coma o punto.
@@ -2638,32 +2785,13 @@ if (is_numeric($texto)) {
 printf("\nTotal: %.1f kg (%d inválido/s)\n", $total, $invalidos);
 ```
 
-#### Pruebas
+#### Al superarla
+Total con un decimal y un peso inválido anotado. Iara subraya el inválido dos veces.
+—Este lo vamos a pesar de nuevo.
 
-##### Todos válidos
-```entrada
-1
-2,5
-3.25
-```
-```salida
-Peso 1: Peso 2: Peso 3:
-Total: 6.8 kg (0 inválido/s)
-```
-
-##### Todos inválidos
-```entrada
-a
-b
-c
-```
-```salida
-Peso 1: Peso inválido: «a»
-Peso 2: Peso inválido: «b»
-Peso 3: Peso inválido: «c»
-
-Total: 0.0 kg (3 inválido/s)
-```
+#### Imagen
+- Una balanza de aduana rota, con el plato torcido, al lado de tres paquetes envueltos en papel madera.
+- Iara anota con el lápiz; Nilo levanta un paquete con las dos manos; Gheco intenta arreglar el plato de la balanza.
 
 ### Misión R01-N04-M3 · La etiqueta por argumentos
 
@@ -3346,17 +3474,23 @@ El carro de madera sigue al frente, sin desviarse. El ogro deja de reírse y se 
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) tira del caballo del carro.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el farol.
 
-### Misión R01-N05-M1 · La tarifa del ferry
+### Micro-misión R01-N05-P5 · La tarifa del ferry
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N05-M1
 ```
 
-#### Consigna
+#### Escena
+En la boletería del ferry hay una fila larga y el boletero no sabe cobrar: cada edad tiene su tarifa y los estudiantes tienen descuento.
+—Que el programa cobre —dice Elefa—. Y si alguien dice una edad imposible, que no le venda.
 
+#### Gheco sugiere
+Una cadena de `if`/`elseif` por rangos de edad, de menor a mayor. Para validar, `filter_var($edad, FILTER_VALIDATE_INT)` o `ctype_digit`. El descuento es `$tarifa * 0.8`.
+
+#### Desafío
 El ferry del Puerto cobra según la **edad** del pasajero:
 
 - menores de 3 años: gratis;
@@ -3369,29 +3503,31 @@ esa tarifa. Leé la edad y si es estudiante, validá que la edad sea un entero e
 0 y 120 (si no, mostrá `Edad inválida.` y terminá), y mostrá la categoría y el
 precio final.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `if`/`elseif`/`else` o `match (true)` para la tarifa.
 - Valida la edad con una cláusula de guarda.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 15
 si
 ```
 
 #### Salida esperada
-
 ```
 Edad: ¿Estudiante? (si/no): 
 Categoría: adulto (estudiante)
 Pasaje: $4.000,00
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - La tarifa del ferry: decisiones por rangos y una guarda.
@@ -3428,62 +3564,30 @@ echo "Categoría: $categoria", $estudiante ? " (estudiante)" : "", "\n";
 echo "Pasaje: $", number_format($tarifa, 2, ',', '.'), "\n";
 ```
 
-#### Pruebas
+#### Al superarla
+La fila avanza rápido. Una abuela con su nieto paga lo justo y le regala a Nilo un caramelo.
 
-##### Bebé
-```entrada
-2
-no
-```
-```salida
-Edad: ¿Estudiante? (si/no):
-Categoría: bebé
-Pasaje: $0,00
-```
+#### Imagen
+- La boletería de un ferry en el Cruce de los Tres Muelles, con una fila de pasajeros y el barco esperando.
+- Una abuela con un nene le da un caramelo a Nilo; Elefa vigila la fila; Gheco reparte boletos lisos.
 
-##### Jubilado estudiante
-```entrada
-70
-si
-```
-```salida
-Edad: ¿Estudiante? (si/no):
-Categoría: jubilado (estudiante)
-Pasaje: $2.000,00
-```
-
-##### Edad inválida
-```entrada
-150
-no
-```
-```salida
-Edad: ¿Estudiante? (si/no):
-Edad inválida.
-```
-
-##### Niño en el borde
-```entrada
-12
-no
-```
-```salida
-Edad: ¿Estudiante? (si/no):
-Categoría: niño
-Pasaje: $2.500,00
-```
-
-### Misión R01-N05-M2 · El semáforo del muelle
+### Micro-misión R01-N05-P6 · El semáforo del muelle
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N05-M2
 ```
 
-#### Consigna
+#### Escena
+El semáforo del cruce de barcos tiene luces de todos los colores y los capitanes nuevos no saben qué significan.
+—Un cartel que diga qué hacer con cada color —pide Elefa—. Y si la luz es de un color que no existe, que llamen al capitán del puerto.
 
+#### Gheco sugiere
+`match` compara con `===` y devuelve un valor: `match ($color) { 'verde' => 'Avanzar', 'azul', 'violeta' => ..., default => ... }`. Pasá el color a minúsculas antes con `mb_strtolower(trim(...))`.
+
+#### Desafío
 El semáforo del muelle muestra un color y el capitán tiene que saber qué hacer.
 Leé un color y, con **`match`**, mostrá la acción:
 
@@ -3497,28 +3601,30 @@ Aceptá el color con mayúsculas o espacios de más. Después, con un segundo
 `match (true)`, mostrá la velocidad máxima según la acción: 20 si avanza, 5 si
 reduce, 0 en cualquier otro caso.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `match` con varios valores en una rama (`"azul", "violeta" =>`).
 - Tiene un `default`.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
   AMARILLO
 ```
 
 #### Salida esperada
-
 ```
 Color: 
 Acción: Reducir la velocidad
 Velocidad máxima: 5 nudos
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - El semáforo del muelle: match con varios valores y match(true).
@@ -3544,73 +3650,48 @@ echo "Acción: $accion\n";
 echo "Velocidad máxima: $velocidad nudos\n";
 ```
 
-#### Pruebas
+#### Al superarla
+Los barcos pasan el cruce en orden. Un semáforo se pone naranja y un capitán, muy serio, llama a Elefa.
 
-##### Verde
-```entrada
-verde
-```
-```salida
-Color:
-Acción: Avanzar
-Velocidad máxima: 20 nudos
-```
+#### Imagen
+- Un semáforo de faroles de colores sobre un poste en medio del cruce de tres muelles, con barcos esperando.
+- Elefa levanta el bastón como una guardia; Nilo señala un farol; Gheco se esconde de un farol naranja.
 
-##### Luz de servicio
-```entrada
-Violeta
-```
-```salida
-Color:
-Acción: Ceder el paso a la guardia
-Velocidad máxima: 0 nudos
-```
-
-##### Color desconocido
-```entrada
-naranja
-```
-```salida
-Color:
-Acción: Semáforo roto: llamar al capitán del puerto
-Velocidad máxima: 0 nudos
-```
-
-##### Rojo
-```entrada
-ROJO
-```
-```salida
-Color:
-Acción: Detenerse
-Velocidad máxima: 0 nudos
-```
-
-### Misión R01-N05-M3 · El año del faro
+### Micro-misión R01-N05-P7 · El año del faro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: El Cruce de los Tres Muelles
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N05-M3
 ```
 
-#### Consigna
+#### Escena
+El farero que vigila el cruce anota los años bisiestos porque esos años le toca un día más de guardia. Se equivoca seguido.
+—Una sola condición —dice Elefa—. Si la partís en pedacitos, se te escapa el caso de los cuatrocientos.
 
+#### Gheco sugiere
+Bisiesto: `($a % 4 === 0 && $a % 100 !== 0) || $a % 400 === 0`. Leé cada año con `fgets(STDIN)` y mostrá 366 o 365 días según la condición.
+
+#### Desafío
 El farero anota en su libro si cada año es **bisiesto**, porque ese año hay un día
 más de guardia. Un año es bisiesto si es divisible por 4, **salvo** que sea
 divisible por 100, **aunque** sí lo es si es divisible por 400. Leé tres años (uno
 por renglón) y, para cada uno, mostrá si es bisiesto y cuántos días tiene. Escribí
 la regla como **una sola** condición con `&&`, `||` y `%`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La regla es una sola expresión con `%`, `&&` y `||`.
 - Para 1900, 2000 y 2028 da los resultados correctos.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 1900
 2000
@@ -3618,15 +3699,13 @@ la regla como **una sola** condición con `&&`, `||` y `%`.
 ```
 
 #### Salida esperada
-
 ```
 1900: común (365 días)
 2000: bisiesto (366 días)
 2028: bisiesto (366 días)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - El año del faro: una condición compuesta para los bisiestos.
@@ -3638,31 +3717,13 @@ for ($i = 1; $i <= 3; $i++) {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+El farero tacha dos años en su libreta y suspira.
+—Me debían dos días de franco.
 
-##### Divisible por 400
-```entrada
-2400
-2100
-1600
-```
-```salida
-2400: bisiesto (366 días)
-2100: común (365 días)
-1600: bisiesto (366 días)
-```
-
-##### Años comunes
-```entrada
-2023
-2025
-1
-```
-```salida
-2023: común (365 días)
-2025: común (365 días)
-1: común (365 días)
-```
+#### Imagen
+- Una torrecita de vigía de madera junto al cruce, con un farol encendido y una libreta sobre la baranda.
+- Un farero viejo con impermeable revisa la libreta; Nilo cuenta con los dedos; Gheco duerme en el farol.
 
 ### Encargo R01-N05-E1 · El envío de la tienda online
 
@@ -4286,36 +4347,45 @@ Cuarenta y nueve kilos, todos anotados. Iara tacha la lista. Nilo se va a almorz
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) la lee renglón por renglón.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el mostrador.
 
-### Misión R01-N06-M1 · La tabla del estibador
+### Micro-misión R01-N06-P5 · La tabla del estibador
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La fila de barcos al amanecer
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N06-M1
 ```
 
-#### Consigna
+#### Escena
+Un estibador nuevo no sabe cuántos cajones puede cargar en la carretilla sin pasarse de peso.
+—Una tabla del uno al diez —dice Iara—. Y marcá dónde se pasa, que la carretilla aguanta doscientos cincuenta.
 
+#### Gheco sugiere
+Un `for` del 1 al 10 calcula `$i * $peso`. `printf` alinea las columnas y un `if` agrega ` <- excede`. El máximo sin pasarse es `intdiv(250, $peso)`, o el último que no excede.
+
+#### Desafío
 El estibador tiene que saber cuánto pesan varios cajones iguales. Leé el peso de un
 cajón y mostrá la tabla de 1 a 10 cajones con `for`, alineada con `printf`. Marcá
 con ` <- excede` los renglones en los que el peso supera los 250 kg, y al final
 mostrá cuántos cajones se pueden cargar como máximo sin pasar los 250 kg.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `for` de 1 a 10.
 - Cuenta los renglones que no exceden con un contador.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 32.5
 ```
 
 #### Salida esperada
-
 ```
 Peso de un cajón (kg): 
  1 cajón/es:    32.5 kg
@@ -4331,8 +4401,7 @@ Peso de un cajón (kg):
 Máximo sin pasar 250 kg: 7 cajón/es
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - La tabla del estibador: for, printf y un contador.
@@ -4351,90 +4420,48 @@ for ($i = 1; $i <= 10; $i++) {
 echo "Máximo sin pasar 250 kg: $maximo cajón/es\n";
 ```
 
-#### Pruebas
+#### Al superarla
+El estibador pega la tabla en la carretilla y carga justo hasta la marca. La carretilla ni cruje.
 
-##### Cajón pesado
-```entrada
-300
-```
-```salida
-Peso de un cajón (kg):
- 1 cajón/es:   300.0 kg <- excede
- 2 cajón/es:   600.0 kg <- excede
- 3 cajón/es:   900.0 kg <- excede
- 4 cajón/es:  1200.0 kg <- excede
- 5 cajón/es:  1500.0 kg <- excede
- 6 cajón/es:  1800.0 kg <- excede
- 7 cajón/es:  2100.0 kg <- excede
- 8 cajón/es:  2400.0 kg <- excede
- 9 cajón/es:  2700.0 kg <- excede
-10 cajón/es:  3000.0 kg <- excede
-Máximo sin pasar 250 kg: 0 cajón/es
-```
+#### Imagen
+- Una carretilla de madera con cajones apilados en un muelle al amanecer, con barcos en fila de fondo.
+- Un estibador corpulento empuja la carretilla; Iara le muestra una tabla; Nilo y Gheco cuentan cajones.
 
-##### Cajón liviano
-```entrada
-5
-```
-```salida
-Peso de un cajón (kg):
- 1 cajón/es:     5.0 kg
- 2 cajón/es:    10.0 kg
- 3 cajón/es:    15.0 kg
- 4 cajón/es:    20.0 kg
- 5 cajón/es:    25.0 kg
- 6 cajón/es:    30.0 kg
- 7 cajón/es:    35.0 kg
- 8 cajón/es:    40.0 kg
- 9 cajón/es:    45.0 kg
-10 cajón/es:    50.0 kg
-Máximo sin pasar 250 kg: 10 cajón/es
-```
-
-##### Justo 25 kg
-```entrada
-25
-```
-```salida
-Peso de un cajón (kg):
- 1 cajón/es:    25.0 kg
- 2 cajón/es:    50.0 kg
- 3 cajón/es:    75.0 kg
- 4 cajón/es:   100.0 kg
- 5 cajón/es:   125.0 kg
- 6 cajón/es:   150.0 kg
- 7 cajón/es:   175.0 kg
- 8 cajón/es:   200.0 kg
- 9 cajón/es:   225.0 kg
-10 cajón/es:   250.0 kg
-Máximo sin pasar 250 kg: 10 cajón/es
-```
-
-### Misión R01-N06-M2 · La clave del almacén
+### Micro-misión R01-N06-P6 · La clave del almacén
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La fila de barcos al amanecer
+personajes: Nilo, Gheco, Iara, Pico
+recompensa: xp 10, monedas 4
+antes: R01-N06-M2
 ```
 
-#### Consigna
+#### Escena
+El almacén del puerto tiene una cerradura nueva que pide una clave. Pico la sobrevuela, porque las cerraduras que dejan probar sin límite son sus favoritas.
+—Tres intentos —dice Iara—. Al tercero, se bloquea.
 
+#### Gheco sugiere
+`do { ... } while (...)` pide la clave al menos una vez. Contá los intentos y, si llega a tres sin acertar, mostrá el aviso y `exit(1)`.
+
+#### Desafío
 El almacén del puerto se abre con la clave `ancla`. Pedí la clave con un
 `do-while` hasta que sea correcta, pero con un máximo de **3 intentos**: si se
 equivoca tres veces, mostrá `Almacén bloqueado.` y terminá con `exit(1)`. En cada
 error mostrá cuántos intentos le quedan. Si acierta, mostrá en qué intento lo
 logró.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `do-while` con un contador de intentos.
 - Corta a los 3 intentos.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 timon
 Ancla
@@ -4442,15 +4469,13 @@ ancla
 ```
 
 #### Salida esperada
-
 ```
 Clave: Incorrecta. Te quedan 2 intento/s.
 Clave: Incorrecta. Te quedan 1 intento/s.
 Clave: Adelante. Acertaste en el intento 3.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - La clave del almacén: do-while con un límite de intentos.
@@ -4475,39 +4500,30 @@ if (!$correcta) {
 echo "Adelante. Acertaste en el intento $intentos.\n";
 ```
 
-#### Pruebas
+#### Al superarla
+Al tercer intento fallido, la cerradura se traba con un clic. Pico se va volando, ofendido, a buscar otra puerta.
 
-##### Acierta al primero
-```entrada
-ancla
-```
-```salida
-Clave: Adelante. Acertaste en el intento 1.
-```
+#### Imagen
+- La puerta de un almacén del puerto con una cerradura de bronce grande con tres lucecitas.
+- Pico, la gaviota regordeta con una mancha violeta en el ala, picotea la cerradura; Iara la espanta con la libreta; Nilo y Gheco se ríen.
 
-##### Se bloquea
-```entrada
-a
-b
-c
-```
-```salida
-Clave: Incorrecta. Te quedan 2 intento/s.
-Clave: Incorrecta. Te quedan 1 intento/s.
-Clave: Almacén bloqueado.
-```
-
-### Misión R01-N06-M3 · El registro de llegadas
+### Micro-misión R01-N06-P7 · El registro de llegadas
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La fila de barcos al amanecer
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N06-M3
 ```
 
-#### Consigna
+#### Escena
+El registro de llegadas se dicta renglón por renglón: barco y pasajeros. Algunos renglones vienen vacíos, y el capataz grita «¡FIN!» cuando se cansa, aunque falten barcos.
+—Contá hasta donde diga —dice Iara—. Lo que venga después, que espere.
 
+#### Gheco sugiere
+`while (($linea = fgets(STDIN)) !== false)` lee hasta que se acaba la entrada. Con `continue` salteás los vacíos y con `break` cortás en `FIN`. `explode(";", $linea)` separa barco y pasajeros.
+
+#### Desafío
 El registro de llegadas se lee renglón por renglón **hasta que se termina la
 entrada** (con `while` y `fgets` que devuelve `false`). Cada renglón tiene el
 nombre del barco y la cantidad de pasajeros separados por `;`. Los renglones
@@ -4515,15 +4531,19 @@ vacíos se saltean (`continue`). Si un renglón dice `FIN`, se deja de leer
 (`break`) aunque haya más. Mostrá cada barco y, al final, cuántos barcos llegaron,
 el total de pasajeros, el promedio (dos decimales) y el barco con más pasajeros.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee con `while (($linea = fgets(STDIN)) !== false)`.
 - Usa `continue` para los vacíos y `break` para `FIN`.
 - Calcula total, promedio y máximo con acumuladores.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 Gaviota;34
 
@@ -4534,7 +4554,6 @@ Fantasma;999
 ```
 
 #### Salida esperada
-
 ```
 Llegó Gaviota con 34 pasajeros
 Llegó Albatros con 120 pasajeros
@@ -4545,8 +4564,7 @@ Promedio: 57.33
 El más lleno: Albatros (120)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - El registro de llegadas: leer hasta el final, continue y break.
@@ -4581,45 +4599,12 @@ printf("Promedio: %.2f\n", $barcos > 0 ? $pasajeros / $barcos : 0);
 echo "El más lleno: $mayor ($maxPasajeros)\n";
 ```
 
-#### Pruebas
+#### Al superarla
+Los barcos quedan contados hasta el «FIN». El capataz se sienta en un barril y se pone a dormir.
 
-##### FIN de entrada
-```entrada
-FIN
-Gaviota;10
-```
-```salida
-Barcos: 0
-Pasajeros: 0
-Promedio: 0.00
-El más lleno:  (-1)
-```
-
-##### Un solo barco
-```entrada
-Delfín;5
-```
-```salida
-Llegó Delfín con 5 pasajeros
-Barcos: 1
-Pasajeros: 5
-Promedio: 5.00
-El más lleno: Delfín (5)
-```
-
-##### Empate de pasajeros
-```entrada
-A;50
-B;50
-```
-```salida
-Llegó A con 50 pasajeros
-Llegó B con 50 pasajeros
-Barcos: 2
-Pasajeros: 100
-Promedio: 50.00
-El más lleno: A (50)
-```
+#### Imagen
+- Una fila de barcos atracados al amanecer, con la niebla sobre el agua.
+- Un capataz bigotudo duerme sentado en un barril; Iara anota; Nilo y Gheco cuentan pasajeros que bajan.
 
 ### Encargo R01-N06-E1 · El plan de cuotas
 
@@ -5172,17 +5157,23 @@ El resumen sale en un segundo. Nilo guarda la calculadora en el bolso. Se cae po
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) sube la escalera de cajones.
 - Gheco (gecko de luz cian con antiparras, chiquito) en el cajón más alto.
 
-### Misión R01-N07-M1 · El inventario de la bodega
+### Micro-misión R01-N07-P5 · El inventario de la bodega
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La bodega del tercer muelle
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Iara hace el inventario de la bodega: harina, sal, yerba, aceite y azúcar.
+—Ordenado por nombre. Y lo que tenga poco, que se reponga con el camión que llegó. Después, de mayor a menor.
 
+#### Gheco sugiere
+`ksort` ordena por clave y `arsort` por valor de mayor a menor. Para cambiar las cantidades dentro de un `foreach`, recorrelo por referencia: `foreach ($stock as $producto => &$cantidad)`.
+
+#### Desafío
 La bodega tiene este stock: `harina` 40, `sal` 12, `yerba` 25, `aceite` 7,
 `azúcar` 18. Con un array asociativo:
 
@@ -5192,14 +5183,18 @@ La bodega tiene este stock: `harina` 40, `sal` 12, `yerba` 25, `aceite` 7,
 3. Mostrá el inventario actualizado ordenado de **mayor a menor** cantidad.
 4. Mostrá el producto con más stock y el total.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa un array asociativo y `ksort`/`arsort`.
 - Calcula el máximo y el total con funciones de arrays.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Inventario:
   aceite: 7
@@ -5217,8 +5212,7 @@ Más stock: sal (42)
 Total: 162
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 1 - El inventario de la bodega: array asociativo, ordenar y actualizar.
@@ -5245,17 +5239,30 @@ echo "Más stock: ", array_key_first($stock), " (", max($stock), ")\n";
 echo "Total: ", array_sum($stock), "\n";
 ```
 
-### Misión R01-N07-M2 · Las notas de la escuela náutica
+#### Al superarla
+La bodega queda repuesta y ordenada. Iara tacha la lista entera de una sola raya.
+
+#### Imagen
+- Una bodega con estantes de madera llenos de bolsas de tela blanca, frascos de barro y latas sin rótulo.
+- Iara anota en su libreta; Nilo baja bolsas de un camión de madera; Gheco se sienta sobre una bolsa empolvada.
+
+### Micro-misión R01-N07-P6 · Las notas de la escuela náutica
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La bodega del tercer muelle
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N07-M2
 ```
 
-#### Consigna
+#### Escena
+La escuela náutica guarda las notas de sus alumnos en la bodega, y la directora quiere el ranking. Nilo aparece en la lista.
+—Promedio por alumno, del mejor al peor —dice Iara—. Y no me mires así, que no lo voy a cambiar.
 
+#### Gheco sugiere
+Para cada alumno, `array_sum($notas) / count($notas)`. `usort($tabla, fn($a, $b) => $b['promedio'] <=> $a['promedio'])` ordena de mayor a menor. Recorré por referencia para guardar el promedio en la fila.
+
+#### Desafío
 La escuela náutica tiene sus alumnos en una tabla (una lista de diccionarios) con
 nombre y tres notas:
 
@@ -5271,14 +5278,18 @@ fila. Después:
 2. Mostrá cada alumno con su promedio (un decimal) y `aprobado` si es 6 o más.
 3. Mostrá, con `array_filter`, los nombres de los que desaprobaron.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda los datos en una lista de arrays asociativos.
 - Ordena con `usort` y `<=>`, y filtra con `array_filter`.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Ivo    9.7 aprobado
 Iara   8.0 aprobado
@@ -5287,8 +5298,7 @@ Nilo   5.0 a recuperar
 A recuperar: Nilo
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 2 - Las notas de la escuela náutica: tabla, usort y array_filter.
@@ -5313,17 +5323,32 @@ $desaprobados = array_filter($alumnos, fn($a) => $a["promedio"] < 6);
 echo "A recuperar: ", implode(", ", array_column($desaprobados, "nombre")), "\n";
 ```
 
-### Misión R01-N07-M3 · El contador de palabras
+#### Al superarla
+Nilo queda último. Se calza la gorra hasta los ojos.
+—El año que viene.
+—¿Lo anotaste? —pregunta Iara. Y lo anota ella.
+
+#### Imagen
+- Una pizarra de la escuela náutica apoyada en la bodega, con rayas de colores de distinto largo.
+- Nilo se baja la gorra, avergonzado; Iara le da una palmada en la espalda; Gheco consuela a Nilo desde su hombro.
+
+### Micro-misión R01-N07-P7 · El contador de palabras
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: La bodega del tercer muelle
+personajes: Nilo, Gheco, Iara, Pico
+recompensa: xp 10, monedas 4
+antes: R01-N07-M3
 ```
 
-#### Consigna
+#### Escena
+La Capitana quiere saber qué palabras se repiten más en los mensajes que llegan al Puerto. Iara tiene una bolsa llena.
+—Sin signos, sin mayúsculas y sin las palabras chiquitas que no dicen nada.
 
+#### Gheco sugiere
+`mb_strtolower`, después `str_replace` con un array de signos y `preg_split('/\s+/', $texto)` para separar palabras. Contá en un array `palabra => cantidad` y ordená con `arsort`.
+
+#### Desafío
 La Capitana quiere saber qué palabras se repiten más en los mensajes que llegan.
 Leé renglones hasta el final de la entrada, pasá todo a minúsculas
 (`mb_strtolower`), sacá los signos `.` `,` `¡` `!` `¿` `?` (con `str_replace`
@@ -5332,14 +5357,18 @@ aparece cada palabra en un array asociativo `palabra => cantidad` e ignorá las
 palabras de menos de 3 letras. Mostrá las **5** más frecuentes (con `arsort` y
 `array_slice`); si empatan, en el orden en que aparecieron.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cuenta con un array asociativo (`$cuenta[$palabra] = ($cuenta[$palabra] ?? 0) + 1`).
 - Usa `arsort` y `array_slice` para las 5 primeras.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 ¡El barco llegó! El barco trae cartas.
 Las cartas son para el faro, y el faro espera.
@@ -5347,7 +5376,6 @@ Las cartas son para el faro, y el faro espera.
 ```
 
 #### Salida esperada
-
 ```
 barco: 4
 llegó: 3
@@ -5356,8 +5384,7 @@ faro: 2
 trae: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 // Mision 3 - El contador de palabras: contar con un array asociativo.
@@ -5380,25 +5407,13 @@ foreach (array_slice($cuenta, 0, 5) as $palabra => $veces) {
 }
 ```
 
-#### Pruebas
+#### Al superarla
+La palabra que más se repite es «urgente». Iara suspira.
+—Como siempre.
 
-##### Pocas palabras
-```entrada
-la del el
-```
-```salida
-del: 1
-```
-
-##### Palabras repetidas
-```entrada
-Faro faro FARO, mar mar ¡ola!
-```
-```salida
-faro: 3
-mar: 2
-ola: 1
-```
+#### Imagen
+- Una bolsa de lona volcada con sobres desparramados en el piso de la bodega.
+- Iara separa sobres en montoncitos; Nilo levanta uno; Pico intenta llevarse un sobre en el pico y Gheco se lo impide.
 
 ### Encargo R01-N07-E1 · El carrito de la despensa
 
@@ -6046,17 +6061,23 @@ En la caja más chica hay una carta para Nilo. Está en blanco. Iara la anota ig
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) mira por encima de su hombro.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre la caja grande.
 
-### Misión R01-N08-M1 · Las oficinas de la torre
+### Micro-misión R01-N08-P5 · Las oficinas de la torre
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las oficinas de la torre
+personajes: Nilo, Gheco, Iara, Elefa
+recompensa: xp 10, monedas 4
+antes: R01-N08-M1
 ```
 
-#### Consigna
+#### Escena
+Elefa reparte tareas entre las oficinas de la torre: una mide salas, otra calcula precios, otra revisa números y otra escribe iniciales. Cada una necesita su función.
+—Con tipos —dice—. En la torre, cada cosa sabe qué recibe y qué devuelve.
 
+#### Gheco sugiere
+`declare(strict_types=1);` arriba de todo. Cada función declara el tipo de sus parámetros y de su retorno: `function esPar(int $n): bool`. Un parámetro con valor por defecto (`$descuento = 0`) se puede omitir.
+
+#### Desafío
 Escribí estas funciones, con tipos en los parámetros y en el retorno, y
 `strict_types`:
 
@@ -6070,14 +6091,20 @@ Escribí estas funciones, con tipos en los parámetros y en el retorno, y
 
 Mostrá el resultado de llamar a cada una con los datos del ejemplo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las cinco funciones tienen tipos y `return` (no hacen `echo` adentro).
 - Usa un valor por defecto y un parámetro variádico.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 Área: 9
 Precio sin descuento: 12000
@@ -6088,8 +6115,7 @@ Promedio: 8.17
 Promedio vacío: 0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -6135,17 +6161,30 @@ echo "Promedio: ", round(promedio(8, 9.5, 7), 2), "\n";
 echo "Promedio vacío: ", promedio(), "\n";
 ```
 
-### Misión R01-N08-M2 · El conversor del cambista
+#### Al superarla
+Las cuatro oficinas trabajan a la vez y nadie se pisa. Elefa recorre los pasillos con las manos atrás, conforme.
+
+#### Imagen
+- Un pasillo de la torre con cuatro puertas de oficina abiertas, cada una con un escritorio y una lámpara.
+- Elefa camina por el pasillo; Iara entrega una carpeta por una puerta; Nilo y Gheco corren con papeles lisos.
+
+### Micro-misión R01-N08-P6 · El conversor del cambista
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las oficinas de la torre
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N08-M2
 ```
 
-#### Consigna
+#### Escena
+En una oficina de la torre trabaja el cambista: convierte denarios, lingotes, escamas y engranajes. Le pide ayuda a Nilo porque se equivoca con las cuentas.
+—Y si alguien trae una moneda que no conozco, que el programa avise.
 
+#### Gheco sugiere
+Las cotizaciones van en una constante con un array. Para convertir, pasá primero a pesos y después a la otra moneda. Si la moneda no existe (`array_key_exists`), devolvé `-1` y avisá.
+
+#### Desafío
 El cambista del puerto convierte entre monedas del mundo. Guardá las
 cotizaciones en una constante con un array (`const COTIZACIONES = ["denario" =>
 1250.0, …]`: cuántos pesos vale cada moneda): `denario` 1250, `lingote` 3400,
@@ -6164,15 +6203,21 @@ Escribí:
 Mostrá tres cambios del ejemplo y un intento con una moneda que no existe
 (`"perla"`), que tiene que mostrar `Moneda desconocida: perla`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las cotizaciones son una constante array.
 - `convertir` reusa `aPesos`.
 - Ninguna función hace `echo` salvo el programa principal.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
 10 denarios = 3,68 lingotes
 1 lingote = 4,15 escamas
@@ -6180,8 +6225,7 @@ Mostrá tres cambios del ejemplo y un intento con una moneda que no existe
 Moneda desconocida: perla
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -6227,17 +6271,30 @@ echo mostrarCambio(250, "escama", "engranaje"), "\n";
 echo mostrarCambio(5, "perla", "denario"), "\n";
 ```
 
-### Misión R01-N08-M3 · La escalera del faro
+#### Al superarla
+El cambista hace diez cambios seguidos sin equivocarse. Le regala a Nilo una moneda rara, de un lugar que nadie conoce.
+
+#### Imagen
+- Un escritorio de cambista con balanzas chiquitas y pilas de monedas de cuatro colores: plata, hierro, verde y bronce.
+- Un cambista con lentes le da una moneda a Nilo; Iara anota; Gheco hace torres de monedas.
+
+### Micro-misión R01-N08-P7 · La escalera del faro
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
+lugar: Las oficinas de la torre
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N08-M3
 ```
 
-#### Consigna
+#### Escena
+Nilo sube la escalera de la torre de a uno y de a dos escalones, y se pregunta de cuántas maneras distintas podría hacerlo.
+—Con muchos escalones tu función va a tardar un siglo —dice Iara—. Hacé que se acuerde de lo que ya calculó.
 
+#### Gheco sugiere
+La versión recursiva repite cuentas. Guardá los resultados en un array (`static $memo = []`, o pasándolo por referencia) y, si ya calculaste `n`, devolvelo sin volver a calcular.
+
+#### Desafío
 La escalera del faro tiene `n` escalones y el farero puede subir **de a 1 o de a
 2**. ¿De cuántas maneras distintas puede llegar arriba? Para 1 escalón hay 1
 manera, para 2 hay 2, y para `n` es la suma de las maneras para `n - 1` y para
@@ -6251,14 +6308,20 @@ manera, para 2 hay 2, y para `n` es la suma de las maneras para `n - 1` y para
 3. Mostrá las maneras para 1, 2, 3, 10 y 20 escalones con las dos, y para 80
    escalones solo con la rápida.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `maneras` es recursiva, con los casos base.
 - `manerasRapido` usa un array `static` como memoria.
-- La salida coincide con la esperada.
+
+#### Código inicial
+```php
+<?php
+
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
 
 #### Salida esperada
-
 ```
  1 escalones: 1 / 1
  2 escalones: 2 / 2
@@ -6268,8 +6331,7 @@ manera, para 2 hay 2, y para `n` es la suma de las maneras para `n - 1` y para
 80 escalones: 37889062373143906
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -6300,6 +6362,13 @@ foreach ([1, 2, 3, 10, 20] as $escalones) {
 }
 echo "80 escalones: ", manerasRapido(80), "\n";
 ```
+
+#### Al superarla
+La versión con memoria contesta al instante. Nilo sube la escalera de una manera distinta cada día de la semana.
+
+#### Imagen
+- Una escalera de caracol de piedra dentro de la torre, con faroles en la pared.
+- Nilo sube de a dos escalones; Iara cuenta desde abajo; Gheco salta de escalón en escalón.
 
 ### Encargo R01-N08-E1 · La validación del CUIT
 
@@ -6868,6 +6937,89 @@ Una carta sin entregar, hace veinte años: *«1 mensaje, para quien llegue. Rete
 - Elefa (elefanta enorme erguida en dos patas, armadura gris y violeta, colmillos cian, bastón coronado por un sello de lacre violeta) en la puerta, en sombra.
 - Gheco (gecko de luz cian con antiparras, chiquito) sobre el atril.
 
+### Micro-misión R01-N09-P4 · La caza del esqueleto
+
+```meta
+lugar: El estante de los tomos
+personajes: Nilo, Gheco, Iara
+recompensa: xp 10, monedas 4
+antes: R01-N09-M3
+```
+
+#### Escena
+Entre los tomos aparece un programa viejo con un esqueleto dibujado en el margen: cuatro errores escondidos, algunos que lo hacen fallar y otros que solo dan números equivocados.
+—Los segundos son peores —dice Iara—. No avisan.
+
+#### Gheco sugiere
+Ejecutalo y leé cada error. Para los que no avisan, `var_dump` de las variables sospechosas: el tipo y el valor te dicen dónde se equivocó. Arreglá de a uno y explicá cada arreglo en un comentario.
+
+#### Desafío
+Este programa tiene **cuatro errores** que lo hacen fallar o mostrar resultados
+equivocados (no hace falta separarlo en archivos). Ejecutalo, leé cada mensaje,
+usá `var_dump` donde haga falta y corregilo hasta que muestre la salida esperada.
+En tu entrega, agregá un comentario arriba de cada corrección explicando qué
+estaba mal.
+
+**Para superarla:**
+- Corrige los cuatro errores sin cambiar los textos.
+- Cada corrección tiene un comentario que explica qué estaba mal.
+
+#### Código inicial
+```php
+<?php
+declare(strict_types=1);
+
+function promedioDeCargas(array $cargas): float
+{
+    $total = 0;
+    foreach ($cargas as $carga) {
+        $total = $carga;
+    }
+    return $total / count($carga);
+}
+
+$barcos = ["Gaviota" => 450, "Albatros" => 1200, "Tortuga" => 80];
+echo "Promedio: ", promedioDeCarga($barcos), " kg\n";
+echo "El Albatros lleva: ", $barcos["albatros"], " kg\n";
+```
+
+#### Salida esperada
+```
+Promedio: 576.67 kg
+El Albatros lleva: 1200 kg
+```
+
+#### Solución
+```php
+<?php
+declare(strict_types=1);
+// Mision 3 - La caza del esqueleto: cuatro errores corregidos.
+
+function promedioDeCargas(array $cargas): float
+{
+    $total = 0;
+    foreach ($cargas as $carga) {
+        // 1. Era $total = $carga: pisaba el total en cada vuelta en lugar de sumar.
+        $total += $carga;
+    }
+    // 2. Era count($carga) (una sola carga): hay que contar el array $cargas.
+    return $total / count($cargas);
+}
+
+$barcos = ["Gaviota" => 450, "Albatros" => 1200, "Tortuga" => 80];
+// 3. La función se llama promedioDeCargas (con s): Call to undefined function.
+echo "Promedio: ", round(promedioDeCargas($barcos), 2), " kg\n";
+// 4. Las claves distinguen mayúsculas: "albatros" no existe, es "Albatros".
+echo "El Albatros lleva: ", $barcos["Albatros"], " kg\n";
+```
+
+#### Al superarla
+El programa da la salida correcta. El esqueleto del margen, ahora que lo mirás, parece estar sonriendo.
+
+#### Imagen
+- Un estante de tomos viejos con un libro abierto que tiene un esqueleto dibujado en el margen.
+- Iara sostiene una lupa sobre la página; Nilo se asusta del dibujo; Gheco le toca la nariz al esqueleto dibujado.
+
 ### Misión R01-N09-M1 · La biblioteca de medidas
 
 ```meta
@@ -7060,81 +7212,6 @@ foreach ([6, 7, 12, 19, 23] as $hora) {
 }
 $horasDeNoche = (24 - $config['hora_encendido']) + $config['hora_apagado'];
 echo "Destellos por noche: ", destellos($horasDeNoche * 60, $config), "\n";
-```
-
-### Misión R01-N09-M3 · La caza del esqueleto
-
-```meta
-entrega: codigo
-entorno: local
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-Este programa tiene **cuatro errores** que lo hacen fallar o mostrar resultados
-equivocados (no hace falta separarlo en archivos). Ejecutalo, leé cada mensaje,
-usá `var_dump` donde haga falta y corregilo hasta que muestre la salida esperada.
-En tu entrega, agregá un comentario arriba de cada corrección explicando qué
-estaba mal.
-
-#### Criterio de aprobación
-
-- Corrige los cuatro errores sin cambiar los textos.
-- Cada corrección tiene un comentario que explica qué estaba mal.
-- La salida coincide con la esperada.
-
-#### Código inicial
-
-```php
-<?php
-declare(strict_types=1);
-
-function promedioDeCargas(array $cargas): float
-{
-    $total = 0;
-    foreach ($cargas as $carga) {
-        $total = $carga;
-    }
-    return $total / count($carga);
-}
-
-$barcos = ["Gaviota" => 450, "Albatros" => 1200, "Tortuga" => 80];
-echo "Promedio: ", promedioDeCarga($barcos), " kg\n";
-echo "El Albatros lleva: ", $barcos["albatros"], " kg\n";
-```
-
-#### Salida esperada
-
-```
-Promedio: 576.67 kg
-El Albatros lleva: 1200 kg
-```
-
-#### Solución de referencia
-
-```php
-<?php
-declare(strict_types=1);
-// Mision 3 - La caza del esqueleto: cuatro errores corregidos.
-
-function promedioDeCargas(array $cargas): float
-{
-    $total = 0;
-    foreach ($cargas as $carga) {
-        // 1. Era $total = $carga: pisaba el total en cada vuelta en lugar de sumar.
-        $total += $carga;
-    }
-    // 2. Era count($carga) (una sola carga): hay que contar el array $cargas.
-    return $total / count($cargas);
-}
-
-$barcos = ["Gaviota" => 450, "Albatros" => 1200, "Tortuga" => 80];
-// 3. La función se llama promedioDeCargas (con s): Call to undefined function.
-echo "Promedio: ", round(promedioDeCargas($barcos), 2), " kg\n";
-// 4. Las claves distinguen mayúsculas: "albatros" no existe, es "Albatros".
-echo "El Albatros lleva: ", $barcos["Albatros"], " kg\n";
 ```
 
 ### Encargo R01-N09-E1 · El sistema de turnos del consultorio
@@ -7629,17 +7706,23 @@ La Sirena deja de cantar. Se mira las manos, como si las viera por primera vez, 
 - Nilo (muchacho de 17, gorra de mensajero azul noche, bufanda violeta larga, chaqueta azul noche con costuras cian, bolso cruzado de cuero marrón con sobres de lacre violeta) en su bote, estirando la mano hacia la caracola.
 - Gheco (gecko de luz cian con antiparras, chiquito) en la proa.
 
-### Misión R01-N10-M1 · El libro de bitácora
+### Micro-misión R01-N10-P5 · El libro de bitácora
 
 ```meta
-entrega: codigo
-entorno: local
-monedas: 6
-xp: 30
+lugar: La Roca de la Sirena
+personajes: Nilo, Gheco, Elefa
+recompensa: xp 30, monedas 6
+antes: R01-N10-M1
 ```
 
-#### Consigna
+#### Escena
+La Sirena se fue, pero dejó el libro de bitácora del Puerto todo mezclado: registros bien escritos, otros a medias y otros que mienten.
+—Validá cada renglón —dice Elefa—. Lo que esté mal, que diga por qué. Lo que esté bien, al resumen.
 
+#### Gheco sugiere
+Una función `validarRegistro` que devuelva los datos o los errores. Partí cada renglón con `explode(";", ...)`, revisá cantidad de partes, fecha y números. Contá los válidos y los inválidos.
+
+#### Desafío
 La Sirena mezcló los registros del libro de bitácora del Puerto. Cada renglón de
 la entrada tiene `BARCO;FECHA;KILOS;PASAJEROS`, pero hay renglones mal escritos.
 Escribí un programa (en un solo archivo, con `strict_types` y funciones con tipos)
@@ -7661,15 +7744,21 @@ que:
    viajes, total de kilos y promedio de pasajeros con un decimal.
 5. Muestre el barco que más kilos llevó en total.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La validación está en una función que no muestra nada.
 - `"12abc"`, `"3.5"` y el `"0"` como texto se tratan bien (el `0` es válido).
 - El resumen usa un array asociativo por barco.
-- La salida coincide con la esperada para la entrada de ejemplo.
 
-#### Entrada de ejemplo
+#### Código inicial
+```php
+<?php
 
+declare(strict_types=1);
+
+// Escribí tu programa acá
+```
+
+#### Entrada
 ```
 Gaviota;01/10/2026;450;34
 Albatros;01/10/2026;1200;120
@@ -7684,7 +7773,6 @@ Tortuga;09/10/2026;120;8
 ```
 
 #### Salida esperada
-
 ```
 Registros con errores:
   renglón 3: kilos inválidos: 12abc
@@ -7701,8 +7789,7 @@ Resumen por barco:
 Más carga: Albatros (2100 kg)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```php
 <?php
 declare(strict_types=1);
@@ -7786,54 +7873,12 @@ foreach ($resumen as $barco => $r) {
 echo "\nMás carga: $masKilos ({$resumen[$masKilos]['kilos']} kg)\n";
 ```
 
-#### Pruebas
+#### Al superarla
+El libro de bitácora vuelve a estar en orden. Elefa lo cierra con la trompa y hace sonar la campana una vez.
 
-##### Todos válidos
-```entrada
-Gaviota;01/01/2026;10;1
-Gaviota;02/01/2026;20;3
-```
-```salida
-Registros con errores:
-
-Resumen por barco:
-  Gaviota   2 viaje/s     30 kg    2.0 pasajeros
-
-Más carga: Gaviota (30 kg)
-```
-
-##### Todos inválidos
-```entrada
-Gaviota;1/1/2026;10;1
-Albatros;01/00/2026;10;1
-Tortuga;01/01/2026;3.5;1
-Delfín;01/01/2026;10;-1
-```
-```salida
-Registros con errores:
-  renglón 1: fecha inválida: 1/1/2026
-  renglón 2: fecha inválida: 01/00/2026
-  renglón 3: kilos inválidos: 3.5
-  renglón 4: pasajeros inválidos: -1
-
-Resumen por barco:
-
-Más carga:  ( kg)
-```
-
-##### Bordes de pasajeros
-```entrada
-Ballena;31/12/2026;0;0
-Ballena;31/12/2026;0;500
-```
-```salida
-Registros con errores:
-
-Resumen por barco:
-  Ballena   2 viaje/s      0 kg  250.0 pasajeros
-
-Más carga: Ballena (0 kg)
-```
+#### Imagen
+- La Roca de la Sirena vacía en medio del mar en calma, con una caracola nacarada brillando en la piedra.
+- Elefa sostiene un libro grande cerrado; Nilo mira el mar; Gheco escucha la caracola.
 
 ### Misión R01-N10-M2 · La oficina de encomiendas
 

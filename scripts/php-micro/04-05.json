@@ -1,0 +1,67 @@
+{
+  "R04-N01-M1": null,
+  "R04-N01-M2": null,
+  "R04-N01-M3": null,
+  "R04-N02-M1": null,
+  "R04-N02-M2": null,
+  "R04-N02-M3": null,
+  "R04-N03-M1": null,
+  "R04-N03-M2": null,
+  "R04-N03-M3": null,
+  "R05-N06-M3": null,
+  "R05-N02-M1": {
+    "lugar": "La sala de máquinas del Faro",
+    "personajes": "Nilo, Gheco, Iara, Marea",
+    "escena": "Marea revisa la bitácora del Faro y siempre hace lo mismo: filtra, cambia algo y ordena. Pero cada noche en otro orden.\n—Quiero armar el proceso con pasos, como engranajes que se enchufan —dice—. Y cambiar los pasos sin tocar la máquina.",
+    "gheco": "Una función que devuelve otra función: `filtrar($condicion)` devuelve un `Closure` que recibe el array. `tuberia(...$pasos)` aplica cada paso al resultado del anterior, en orden.",
+    "exito": "La bitácora pasa por los engranajes y sale ordenada. Marea cambia un paso de lugar, la máquina sigue andando y ella sonríe por primera vez en la noche.",
+    "imagen": [
+      "La sala de máquinas del Faro con engranajes de bronce enchufados en fila sobre una pared.",
+      "Marea, con impermeable amarillo y pañuelo violeta, enchufa un engranaje; Iara anota; Nilo y Gheco miran girar la fila."
+    ]
+  },
+  "R05-N02-M2": {
+    "lugar": "La sala de máquinas del Faro",
+    "personajes": "Nilo, Gheco, Iara, Marea",
+    "escena": "El servidor del Faro guarda un registro de accesos larguísimo. Si lo cargás entero, la máquina se ahoga.\n—Un renglón por vez —dice Marea—. Como el agua por el caño: pasa, no se acumula.",
+    "gheco": "Un generador con `yield` entrega un renglón por vez sin cargar todo. Encadená generadores: `parsear(renglones())` y después otro que filtre. Cada uno recibe un `iterable` y produce el suyo.",
+    "exito": "El registro entero pasa por los caños sin que la máquina se ahogue. Marea golpea el caño con los nudillos, satisfecha.",
+    "imagen": [
+      "Caños de cobre que atraviesan la sala de máquinas del Faro, con una cinta de papel pasando por adentro de un caño de vidrio.",
+      "Marea golpea un caño con los nudillos; Iara mira por el vidrio; Nilo y Gheco siguen la cinta con la vista."
+    ]
+  },
+  "R05-N02-M3": {
+    "lugar": "La sala de máquinas del Faro",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La oficina del Puerto entrega números de turno que van de letra en letra y vuelven a empezar. El dispensador viejo se traba cuando llega al final.\n—Un dispensador que no se termine nunca —dice Iara—. Y que arranque desde el número que le digas.",
+    "gheco": "Un generador infinito con `while (true)` y `yield`. Partí el turno en letra y número; al pasar de 999, la letra avanza con `chr(ord($letra) + 1)`, y después de la Z vuelve a la A.",
+    "exito": "El dispensador da la vuelta de la Z a la A sin trabarse. Nilo saca un turno de recuerdo y lo guarda en el bolso.",
+    "imagen": [
+      "Un dispensador de turnos de bronce con una rueda y una ranura, en la entrada de la oficina del Puerto.",
+      "Iara gira la rueda; Nilo saca un papelito liso; Gheco mira adentro de la ranura."
+    ]
+  },
+  "R05-N05-M1": {
+    "lugar": "El libro de guardia",
+    "personajes": "Nilo, Gheco, Iara, Marea",
+    "escena": "Marea anota todo lo que pasa en el libro de guardia, pero a veces anota de más: una vez escribió una clave entera.\n—El registro tiene que guardar lo importante y tapar lo secreto —dice Iara—. Y que se pueda pedir solo lo grave.",
+    "gheco": "Un nivel mínimo decide qué se guarda. Antes de guardar el contexto, reemplazá los valores de las claves prohibidas por `***`. `json_encode` arma el texto del contexto y un array cuenta por nivel.",
+    "exito": "El libro de guardia queda prolijo y sin secretos a la vista. Pico revisa las páginas desde la ventana y no encuentra nada que llevarse.",
+    "imagen": [
+      "Un libro de guardia grande abierto sobre un atril en el Faro, con renglones de tres colores.",
+      "Marea tapa una línea con la mano; Iara sella la página; Pico espía desde la ventana; Nilo y Gheco lo espantan."
+    ]
+  },
+  "R05-N05-M3": {
+    "lugar": "El libro de guardia",
+    "personajes": "Nilo, Gheco, Iara, Marea",
+    "escena": "La configuración del Faro vive en un texto aparte, lejos del código. Pero cuando falta una clave, el Faro arranca igual y después se apaga en medio de la noche.\n—Que no arranque si falta algo —dice Marea—. Y que diga **todo** lo que falta, no de a uno.",
+    "gheco": "`parse_ini_string($texto, false, INI_SCANNER_TYPED)` lee el texto con sus tipos. Combiná con los valores por defecto (`array_merge`) y juntá las obligatorias que faltan en un array antes de lanzar la excepción.",
+    "exito": "El Faro revisa su configuración antes de prender. Esta noche arranca y no se apaga.",
+    "imagen": [
+      "La lámpara del Faro encendida a través de su lente, de noche, con el mar iluminado.",
+      "Marea mira la luz desde la baranda; Iara guarda un papel en una caja con llave; Nilo y Gheco saludan a un barco."
+    ]
+  }
+}

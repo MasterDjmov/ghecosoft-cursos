@@ -1,0 +1,300 @@
+{
+  "R02-N01-M1": {
+    "lugar": "El Astillero de los Moldes",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "En el Astillero no solo se hacen botes: también cajones para la carga, todos con el mismo molde. Iara quiere que cada cajón sepa su volumen, su densidad y si es pesado.\n—Y que se presente solo cuando lo muestres —agrega—. Nada de armar el texto a mano cada vez.",
+    "gheco": "Con propiedades promovidas, el constructor declara y guarda en una sola línea: `public function __construct(public string $contenido, ...)`. `__toString()` define cómo se muestra el objeto con `echo`.",
+    "exito": "Los cajones salen del molde y cada uno se presenta solo. Nilo pinta el suyo de violeta.",
+    "imagen": [
+      "Un taller del Astillero con un molde de madera grande y cajones nuevos apilados al lado.",
+      "Iara mide un cajón con una cinta; Nilo pinta otro cajón de violeta; Gheco se mete adentro de un cajón vacío."
+    ]
+  },
+  "R02-N01-M2": {
+    "lugar": "El Astillero de los Moldes",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "El almacén del Astillero les fía a los carpinteros, y el almacenero anota las deudas en la pared con un carbón. Ya no se entiende nada.\n—Una cuenta para cada uno —dice Iara—. Con su límite: si se pasa, no le fían.",
+    "gheco": "La clase guarda el titular, el saldo y el límite. `comprar` resta del saldo solo si no pasa el límite (y devuelve `true` o `false`); `pagar` suma. `estado()` arma el texto según el saldo.",
+    "exito": "El almacenero borra la pared y cuelga las cuentas nuevas. Un carpintero intenta comprar de más y el programa le dice que no, muy educado.",
+    "imagen": [
+      "Un almacén chiquito del Astillero con una pared tiznada de carbón y estantes de herramientas.",
+      "Un almacenero gordo con delantal borra la pared con un trapo; Iara anota; Nilo y Gheco miran a un carpintero que se va sin comprar."
+    ]
+  },
+  "R02-N01-M3": null,
+  "R02-N02-M1": {
+    "lugar": "El barco del timón",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "En el barco del timón, cualquiera que pasa le pega un manotazo a la rueda y el rumbo queda en cualquier número, hasta en uno imposible.\n—El rumbo no se toca de afuera —dice Elefa—. Se gira con la palanca, y la palanca sabe dar la vuelta.",
+    "gheco": "La propiedad `private` no se puede cambiar desde afuera: solo con los métodos. Para dar la vuelta, `($rumbo + $grados) % 360` y, si queda negativo, sumale 360. `puntoCardinal()` decide con rangos.",
+    "exito": "El timón ya no se deja manosear. Un marinero le da un manotazo, la rueda no se mueve y el marinero se va frotando la mano.",
+    "imagen": [
+      "La cubierta de un barco con una rueda de timón grande de madera y una palanca de bronce al lado.",
+      "Elefa sostiene la palanca con la trompa; Nilo gira la rueda; Gheco se sienta en el centro de la rueda."
+    ]
+  },
+  "R02-N02-M2": {
+    "lugar": "El barco del timón",
+    "personajes": "Nilo, Gheco, Iara, Pico",
+    "escena": "Pico le cambió el destino a un pasaje con una pluma mojada en tinta. Iara está furiosa.\n—Los pasajes no se cambian. Si querés otro destino, sale un pasaje **nuevo**. Y el código tiene que tener el formato correcto, o no se emite.",
+    "gheco": "Una clase `readonly` no deja cambiar nada después de creada. Los métodos que «cambian» algo devuelven `new static(...)` con el dato nuevo. `preg_match('/^[A-Z]-\\d{3}$/', $codigo)` valida el formato.",
+    "exito": "Pico intenta tachar el pasaje nuevo y la tinta resbala. Se va volando, indignado, con la pluma en el pico.",
+    "imagen": [
+      "Un pasaje de cartón liso con un sello violeta sobre la baranda del barco.",
+      "Pico, la gaviota con una mancha violeta en el ala, se va volando con una pluma; Iara cruza los brazos; Nilo y Gheco se ríen."
+    ]
+  },
+  "R02-N02-M3": {
+    "lugar": "El barco del timón",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La bodega del barco se maneja con un inventario que cualquiera podía tocar. Ahora Iara quiere reglas.\n—No se ingresan cantidades negativas y no se retira lo que no hay. Y si alguien lo intenta, que el error diga cuánto queda.",
+    "gheco": "El array de stock es `private`. `ingresar` y `retirar` revisan antes de cambiarlo y, si algo está mal, `throw new InvalidArgumentException(\"...\")`. Atrapalo con `try`/`catch` y mostrá `$e->getMessage()`.",
+    "exito": "Alguien intenta retirar treinta de harina, el programa contesta cuánto queda y nadie se lleva lo que no hay.",
+    "imagen": [
+      "La bodega de un barco con bolsas de tela blanca empolvadas y barriles en filas.",
+      "Iara anota con el lápiz; Nilo intenta cargar una bolsa demasiado grande; Gheco le avisa con la cola levantada."
+    ]
+  },
+  "R02-N03-M1": {
+    "lugar": "La pizarra de la puerta",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "En la boletería del ferry se repiten los números de boleto: dos pasajeros con el mismo y una pelea en el muelle.\n—Que cada boleto nuevo tenga el número siguiente —dice Iara—. Uno solo para todos: la boletería entera lleva la cuenta.",
+    "gheco": "Una propiedad `static` es de la clase, no de cada objeto: todos los boletos comparten el contador. `sprintf('B-%04d', ...)` arma el número. Las constantes de clase (`self::PRECIO_BASE`) guardan los precios.",
+    "exito": "Los boletos salen numerados sin repetir. Los dos pasajeros que se peleaban se dan la mano.",
+    "imagen": [
+      "Una boletería de madera junto a la pizarra de la puerta, con una ranura por donde salen boletos lisos.",
+      "Iara arranca un boleto; Nilo separa a dos pasajeros; Gheco cuenta boletos sobre el mostrador."
+    ]
+  },
+  "R02-N03-M2": {
+    "lugar": "La pizarra de la puerta",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Los barcos anotan la temperatura del agua cada uno a su manera: unos en Celsius, otros en Fahrenheit, otros en Kelvin. En la pizarra de la puerta no se entiende nada.\n—Tres maneras de crearla —dice Iara— y una sola de guardarla.",
+    "gheco": "Con el constructor `private`, la única forma de crear el objeto es con métodos estáticos que convierten antes: `public static function fahrenheit(float $f): self { return new self(($f - 32) * 5 / 9); }`.",
+    "exito": "La pizarra muestra todas las temperaturas en la misma escala. Un capitán viejo se entera de que el agua no estaba tan fría como decía.",
+    "imagen": [
+      "La pizarra de la puerta del Astillero con tres termómetros de vidrio colgados al lado, con líquidos de tres colores.",
+      "Iara compara los termómetros; Nilo mete un dedo en un balde de agua; Gheco tirita en el borde del balde."
+    ]
+  },
+  "R02-N03-M3": {
+    "lugar": "La pizarra de la puerta",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "El cambista se mudó al Astillero y trajo su conversor. Iara quiere que sea una caja de herramientas: que nadie la tenga que crear para usarla.\n—`Cambio::convertir` y listo. Nada de `new`.",
+    "gheco": "Métodos `static` se usan con `Clase::metodo()`. Con el constructor `private`, nadie puede hacer `new Cambio()`. Las cotizaciones van en una constante `private const`, y `ksort` o `sort` ordenan la lista de monedas.",
+    "exito": "El cambista usa la caja de herramientas sin crear nada. Le muestra a Nilo que hasta puede convertir de memoria, pero prefiere la caja.",
+    "imagen": [
+      "Una caja de herramientas de bronce abierta, con compartimentos para monedas de cuatro colores.",
+      "El cambista de lentes saca una moneda de la caja; Iara anota; Nilo y Gheco miran desde la pizarra."
+    ]
+  },
+  "R02-N04-M1": {
+    "lugar": "El árbol de las embarcaciones",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Elefa le pide a Nilo los recibos de sueldo del Puerto: empleados comunes, estibadores con horas extra y capitanes con su plus.\n—Que el recibo sea parecido para todos —dice— y que cada uno agregue lo suyo, sin copiar lo del padre.",
+    "gheco": "Las hijas extienden a `Empleado` y llaman a `parent::__construct(...)`. Para cambiar el cálculo, sobreescriben `sueldo()` y pueden usar `parent::sueldo()` como base.",
+    "exito": "Cada empleado recibe su recibo. El capitán lee el suyo y pide que le agreguen el nombre del barco más grande. Ya está.",
+    "imagen": [
+      "Un tablero de madera con forma de árbol, con tres sobres lisos colgados de sus ramas.",
+      "Elefa entrega un sobre a un estibador musculoso; un capitán con gorra espera; Nilo y Gheco reparten los otros."
+    ]
+  },
+  "R02-N04-M2": {
+    "lugar": "El árbol de las embarcaciones",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Un aprendiz armó un programa de herencia y no anda: uno de los errores ni deja cargar el archivo, otro lo corta al ejecutar, y otro hace que un dato del padre no se vea.\n—Tres errores —dice Elefa—. Arreglalos y dejá una nota en cada uno, para que el aprendiz aprenda.",
+    "gheco": "Leé el mensaje: `Fatal error` con la línea. Fijate en `extends`, en que la hija llame a `parent::__construct()` y en que la propiedad del padre sea `protected` (si es `private`, la hija no la ve).",
+    "exito": "El programa del aprendiz anda. Elefa le deja las notas en el escritorio, sin firmar.",
+    "imagen": [
+      "Un escritorio de aprendiz con un banquito, hojas lisas y una vela casi consumida.",
+      "Elefa deja unas notas dobladas; Nilo apaga la vela; Gheco duerme sobre las notas."
+    ]
+  },
+  "R02-N04-M3": {
+    "lugar": "El árbol de las embarcaciones",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "El banco del puerto tiene dos cuentas especiales: una caja de ahorro que deja sacar pocas veces por mes y una cuenta corriente que deja quedar en rojo, hasta un límite.\n—Las dos son cuentas —dice Elefa—. Pero cada una con su regla.",
+    "gheco": "Las hijas sobreescriben `extraer`: la caja de ahorro cuenta las extracciones del mes y la corriente permite saldo negativo hasta el descubierto. Usá `parent::` para no repetir lo común.",
+    "exito": "El banquero prueba las dos cuentas y no logra hacerles trampa. Le sube el sueldo a Nilo un poquito.",
+    "imagen": [
+      "El interior de un banco del puerto con una bóveda chica de bronce y dos libretas de cuero sobre el mostrador.",
+      "Un banquero de bigote revisa una libreta; Elefa espera apoyada en su bastón; Nilo y Gheco cuentan monedas."
+    ]
+  },
+  "R02-N05-M1": {
+    "lugar": "La lista del capataz",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "El velero necesita velas nuevas de distintas formas y el capataz no sabe cuánta lona comprar.\n—Cada vela calcula su área y su perímetro —dice Iara—, pero la ficha la arma una sola vez el molde de arriba.",
+    "gheco": "Una clase `abstract` no se puede crear: sus métodos `abstract` los implementan las hijas. `ficha()` está en el padre y llama a `$this->area()`: cada hija responde con lo suyo. `static::class` da el nombre de la clase.",
+    "exito": "El capataz compra la lona justa. Sobra un pedacito violeta, que termina siendo la bandera del bote de Nilo.",
+    "imagen": [
+      "Un velero en dique seco con tres velas nuevas de formas distintas: un rectángulo, un círculo y un triángulo.",
+      "Un capataz mide lona; Iara anota; Nilo cose una banderita violeta; Gheco se enreda en la lona."
+    ]
+  },
+  "R02-N05-M2": {
+    "lugar": "La lista del capataz",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La tienda del Astillero acepta efectivo, tarjeta y transferencia, y cada medio tiene su recargo o su descuento. El cajero se marea.\n—El cobro es siempre igual —dice Iara—. Lo único que cambia es el recargo.",
+    "gheco": "Un **método plantilla**: `cobrar()` está en la clase abstracta y llama a `recargo()`, que cada hija implementa. Si el recargo da negativo, es un descuento: mostralo con `abs()`.",
+    "exito": "El cajero cobra tres compras seguidas sin marearse. Le pregunta a Nilo si puede venir a trabajar los sábados.",
+    "imagen": [
+      "El mostrador de la tienda del Astillero con una caja registradora de bronce y tres bandejitas para pagar.",
+      "Un cajero joven sonríe aliviado; Iara le señala una bandeja; Nilo y Gheco cuentan billetes."
+    ]
+  },
+  "R02-N05-M3": {
+    "lugar": "La lista del capataz",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La tarifa de amarre se calcula con un `match` que crece cada vez que llega un barco de otro tipo. Al capataz ya no le entra en la hoja.\n—Que cada barco sepa su tarifa —dice Iara—. Y la misma salida de antes, exactamente.",
+    "gheco": "Una clase abstracta `Barco` con `tarifa()` abstracta y una hija por tipo. El programa principal solo llama a `$barco->tarifa()`: sin `match` ni `if` sobre el tipo. Compará la salida renglón por renglón.",
+    "exito": "Llega un barco de un tipo nuevo y el capataz agrega una clase chiquita sin tocar nada más. La hoja vuelve a entrar en el bolsillo.",
+    "imagen": [
+      "Una dársena con tres barcos distintos amarrados: un velero, un pesquero y un crucero chico.",
+      "El capataz guarda una hoja en el bolsillo; Iara asiente; Nilo y Gheco amarran una soga."
+    ]
+  },
+  "R02-N06-M1": {
+    "lugar": "La aduana del Astillero",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "La aduana del Astillero recibe vino, artesanías y herramientas para exportar. No son parecidos entre sí, pero algunos se pesan y algunos pagan arancel.\n—No hace falta que sean familia —dice Iara—. Alcanza con que cumplan el contrato.",
+    "gheco": "Una `interface` declara métodos sin cuerpo. Una clase puede implementar varias: `class Vino implements Exportable, Pesable`. `instanceof Pesable` pregunta si cumple ese contrato.",
+    "exito": "El aduanero cobra a cada producto lo suyo. Una artesanía de madera que no pesa casi nada pasa sin balanza.",
+    "imagen": [
+      "La aduana del Astillero con una balanza grande, cajas de botellas de vidrio verde y tallas de madera.",
+      "Un aduanero sella una caja; Iara anota; Nilo levanta una talla de madera; Gheco se esconde detrás de una botella."
+    ]
+  },
+  "R02-N06-M2": {
+    "lugar": "La aduana del Astillero",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Iara quiere una bitácora que se pueda contar, mandar como mensaje y mostrar como lista, sin que nadie tenga que aprender métodos nuevos.\n—Que funcione con `count`, con `json_encode` y con `echo`. Como cualquier cosa del Puerto.",
+    "gheco": "`Countable` pide `count(): int`; `JsonSerializable`, `jsonSerialize(): mixed`; `Stringable`, `__toString()`. Implementando esas interfaces, las funciones de PHP saben usar tu objeto.",
+    "exito": "La bitácora se cuenta, se manda y se muestra. Iara la guarda en el casillero de la aduana, numerada.",
+    "imagen": [
+      "Una bitácora de tapas de cuero abierta sobre el escritorio de la aduana, al lado de una paloma mensajera.",
+      "Iara ata un rollito a la pata de la paloma; Nilo sostiene la bitácora; Gheco mira a la paloma con desconfianza."
+    ]
+  },
+  "R02-N06-M3": {
+    "lugar": "La aduana del Astillero",
+    "personajes": "Nilo, Gheco, Iara, Pico",
+    "escena": "Pico se metió en el cajón de los mensajes guardados y se llevó la mitad. Iara quiere poder cambiar dónde se guardan sin tocar el resto del programa.\n—En memoria para probar, en archivos para quedarse. El contrato es el mismo.",
+    "gheco": "La interfaz `Almacenamiento` define `guardar`, `leer` y `claves`. Escribí el programa contra la interfaz, no contra la clase: pasale cualquiera de las dos implementaciones y tiene que andar igual.",
+    "exito": "Los mensajes quedan guardados en archivos que Pico no sabe abrir. Se posa en la ventana y mira, enojado.",
+    "imagen": [
+      "Un cajón de madera con cerradura en la aduana, con sobres ordenados adentro.",
+      "Pico, la gaviota con la mancha violeta, se posa en la ventana con cara de enojo; Iara cierra el cajón; Nilo y Gheco lo saludan."
+    ]
+  },
+  "R02-N07-M1": {
+    "lugar": "El cajón de los planos viejos",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Entre los planos viejos está el de la linterna del faro: una caja que alumbra con cualquier fuente de luz.\n—La linterna no hereda de la lámpara —dice Elefa—. La **tiene**. Y se la podés cambiar cuando se queme.",
+    "gheco": "Composición: la linterna recibe una `FuenteDeLuz` en el constructor y la guarda. Para cambiarla, un método que reciba otra. La linterna le pregunta a su fuente los lúmenes y el consumo.",
+    "exito": "La linterna alumbra con lámpara, con led y con candil, una después de la otra. Elefa elige el candil, por nostalgia.",
+    "imagen": [
+      "Una linterna de faro de bronce abierta sobre una mesa, con una lámpara, un led y un candil al lado.",
+      "Elefa sostiene el candil con la trompa; Nilo cambia la fuente de la linterna; Gheco se encandila."
+    ]
+  },
+  "R02-N07-M2": {
+    "lugar": "El cajón de los planos viejos",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "En el cajón hay planos tachados una y otra vez, y nadie sabe quién los cambió.\n—Cada registro tiene que saber quién lo creó y quién lo tocó —dice Elefa—. Y eso no se copia en cada clase: se pega.",
+    "gheco": "Un `trait` es código para reutilizar: `use Auditable;` dentro de la clase le agrega sus propiedades y métodos. Así varias clases distintas comparten la auditoría sin heredar de un mismo padre.",
+    "exito": "Los planos nuevos llevan su historial. Elefa revisa uno y encuentra que lo modificó Nilo. Nilo silba mirando el techo.",
+    "imagen": [
+      "Un cajón grande de planos enrollados con cintas de colores, cada uno con un sello de cera.",
+      "Elefa desenrolla un plano; Nilo silba mirando hacia arriba; Gheco se esconde dentro de un rollo."
+    ]
+  },
+  "R02-N07-M3": {
+    "lugar": "El cajón de los planos viejos",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Un plano viejo muestra un pedido que **es** una calculadora de envíos, solo porque alguien quería usar su método. Ahora no se le puede cambiar el transportista.\n—Un pedido no es una calculadora —dice Elefa—. Un pedido **usa** un envío.",
+    "gheco": "Reemplazá la herencia por composición: una interfaz `Envio` y dos implementaciones. El `Pedido` recibe un `Envio` y le pregunta el costo. Para cambiar el transportista, le pasás otro envío.",
+    "exito": "El pedido cambia de transportista sin quejarse. Elefa dobla el plano viejo y lo guarda en su armadura.",
+    "imagen": [
+      "Un plano viejo amarillento sobre la mesa, con dos dibujos de carros de reparto distintos al lado.",
+      "Elefa guarda un plano doblado en su armadura; Nilo empuja un carrito de juguete; Gheco viaja en el carrito."
+    ]
+  },
+  "R02-N08-M1": {
+    "lugar": "El despacho de pasajes",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Al lado del despacho de pasajes hay una tienda náutica que vende camperas, y la vendedora se confunde con los talles.\n—Cuatro talles, ni uno más —dice Iara—. Con sus medidas y sus recargos. Y que te diga cuál te va según el pecho.",
+    "gheco": "Un `enum` respaldado tiene casos con valor: `case S = 's';`. Los enums pueden tener métodos con `match ($this)`. `Talle::from('m')` crea el caso desde el valor y `Talle::cases()` los da todos.",
+    "exito": "La vendedora le encuentra a Nilo su talle a la primera. La campera es azul, pero la bufanda violeta combina igual.",
+    "imagen": [
+      "Una tienda náutica chiquita con camperas impermeables colgadas en fila, de cuatro tamaños.",
+      "Nilo se prueba una campera azul; Iara le mide los hombros; Gheco se mete en un bolsillo."
+    ]
+  },
+  "R02-N08-M2": {
+    "lugar": "El despacho de pasajes",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Un vendedor de electrodomésticos del Puerto vende en cuotas que vencen el día diez de cada mes, salvo que caiga fin de semana. Sus clientes siempre se olvidan de cuándo pagar.\n—Que el programa les dé las fechas —dice Iara—. Con el día de la semana en castellano.",
+    "gheco": "`DateTimeImmutable::createFromFormat('d/m/Y', $texto)` lee la fecha. `modify('first day of next month')` y `setDate` llevan al día 10. `format('N')` da 6 o 7 los fines de semana: ahí, `modify('next monday')`.",
+    "exito": "Los clientes se llevan sus fechas anotadas. Ninguno se olvida esta vez, o eso prometen.",
+    "imagen": [
+      "Un local de electrodomésticos antiguos del Puerto: una heladera de madera, una radio y un ventilador de bronce.",
+      "Un vendedor sonriente reparte calendarios lisos; Iara anota; Nilo y Gheco prueban el ventilador."
+    ]
+  },
+  "R02-N08-M3": {
+    "lugar": "El despacho de pasajes",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Los pedidos del despacho pasan por estados en un orden fijo, pero alguien marcó como entregado un pedido que nunca salió.\n—Que cada estado sepa a cuáles puede pasar —dice Iara—. Y con un color para el tablero.",
+    "gheco": "Un enum con `puedePasarA(self $nuevo): bool`: con `match ($this)` devolvé si `$nuevo` está en la lista de los permitidos (`in_array($nuevo, [...], true)`). `color()` también con `match`.",
+    "exito": "El pedido falso vuelve a «Preparando». El tablero se ilumina con sus colores y Nilo lo mira como si fuera un faro.",
+    "imagen": [
+      "Un tablero de pedidos en la pared del despacho, con lucecitas verdes, amarillas, azules y rojas en columnas.",
+      "Iara mueve una ficha de una columna a otra; Nilo mira el tablero fascinado; Gheco enciende una lucecita."
+    ]
+  },
+  "R02-N09-M1": {
+    "lugar": "La Grúa de la Tormenta",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "El cambista dejó su calculadora en la grúa y se la mojó la tormenta: ahora se cae con cualquier cuenta rara.\n—Que no se caiga —dice Iara—. Si la cuenta está mal escrita, que diga qué está mal y siga con la próxima.",
+    "gheco": "`calcular` lanza la excepción que corresponde: `InvalidArgumentException`, `DomainException` o `DivisionByZeroError`. En el bucle, un `try` con un `catch` por cada tipo (o `catch (A | B $e)`) muestra el mensaje y sigue.",
+    "exito": "La calculadora contesta todas las cuentas y avisa en las malas, sin apagarse. El cambista la abraza.",
+    "imagen": [
+      "Una calculadora mecánica de bronce sobre la base de una grúa portuaria, con charcos de lluvia alrededor.",
+      "El cambista de lentes abraza la calculadora; Iara sostiene un paraguas; Nilo y Gheco se secan."
+    ]
+  },
+  "R02-N09-M2": {
+    "lugar": "La Grúa de la Tormenta",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "En el banco del puerto, cuando algo sale mal, el cajero dice «error» y nada más. Los clientes se enojan.\n—Errores con nombre —dice Iara—. Si no hay saldo, que diga cuánto tenés. Si la cuenta está bloqueada, que diga de quién es.",
+    "gheco": "Una excepción propia extiende a otra: `class SaldoInsuficiente extends DomainException`. Puede tener propiedades (`readonly`) y armar su mensaje en el constructor con `parent::__construct(\"...\")`.",
+    "exito": "Los clientes leen el motivo y se van tranquilos. Uno vuelve con más plata. Otro, con la cuenta desbloqueada.",
+    "imagen": [
+      "La ventanilla del banco del puerto con un vidrio y una reja de bronce, un día de lluvia.",
+      "Un cliente con paraguas lee un papel liso y asiente; Iara sonríe detrás del vidrio; Nilo y Gheco esperan en la fila."
+    ]
+  },
+  "R02-N09-M3": {
+    "lugar": "La Grúa de la Tormenta",
+    "personajes": "Nilo, Gheco, Iara",
+    "escena": "Las tarifas de la grúa están en un archivo de texto, y cada vez que alguien lo abre y el programa se cae, el archivo queda abierto y trabado.\n—Abrís, leés y cerrás —dice Iara—. Pase lo que pase, se cierra.",
+    "gheco": "Comprobá con `file_exists` antes de abrir y lanzá `RuntimeException` si no está. Leé dentro de un `try` y cerrá con `fclose` en el `finally`: se ejecuta siempre, haya error o no.",
+    "exito": "Las tarifas se leen y el archivo queda cerrado, siempre. El grúista enciende la grúa por primera vez en toda la tormenta.",
+    "imagen": [
+      "Una grúa portuaria enorme bajo la tormenta, con una cabina iluminada y cajones colgando de un gancho.",
+      "Un grúista en la cabina saluda; Iara guarda un papel en una carpeta; Nilo y Gheco se resguardan bajo una lona."
+    ]
+  },
+  "R02-N11-M1": {
+    "lugar": "El fondo de los moldes viejos",
+    "personajes": "Nilo, Gheco, Elefa",
+    "escena": "Con el Gólem tranquilo, el taller de reparaciones del Astillero vuelve a abrir. Elefa quiere el sistema entero en un solo archivo: embarcaciones, estados y presupuestos.\n—Todo lo que aprendiste en el Astillero, junto —dice—. El Gólem va a mirar.",
+    "gheco": "Una clase abstracta para las embarcaciones con su costo por hora, un enum para el estado de la reparación y una clase para la orden. Hacé cada parte por separado y probala antes de juntar todo.",
+    "exito": "El taller presupuesta tres reparaciones sin errores. El Gólem, sentado entre los moldes, golpea el piso una vez con el puño: aprobado.",
+    "imagen": [
+      "El taller de reparaciones del Astillero con un bote, un velero y una lancha en sus soportes.",
+      "El Gólem de madera sentado al fondo aplaude despacio; Elefa recorre el taller; Nilo y Gheco revisan el casco de la lancha."
+    ]
+  }
+}

@@ -179,6 +179,188 @@ Los enlaces son la "web" de la web: lo que une una página con otra. Las listas 
 ```
 **Ogro: `id` repetido**: el enlace `#glosario` va al primero. El validador avisa `Duplicate ID`.
 
+### Micro-misión R01-N01-P5 · La receta de la poción
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R01-N01-M1
+```
+
+#### Escena
+Nora prepara pociones para los vitralistas que se cortan con el vidrio, pero se olvida siempre de los pasos.
+—Escribime la receta —le pide a Iris—. Con la imagen de la poción, los ingredientes y los pasos en orden.
+
+#### Gheco sugiere
+`<ul>` es una lista sin orden (los ingredientes) y `<ol>`, una con orden (los pasos). Cada elemento va en un `<li>` adentro de su lista. La imagen lleva `alt` con lo que muestra.
+
+#### Desafío
+Escribí la receta de la poción:
+
+1. Un título y **una** imagen (podés usar `/img/cursos/html/gheco-logo.webp`) con un `alt` que diga lo que muestra (que no quede vacío).
+2. Los ingredientes en **una** `ul` con **tres** `li`.
+3. Los pasos en **una** `ol` con **tres** `li`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La receta de la poción</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+img #
+img:not([alt]) #
+img[alt=""] #
+ul #
+ul > li #
+ol #
+ol > li #
+```
+
+#### Salida esperada
+```
+img #: 1
+img:not([alt]) #: 0
+img[alt=""] #: 0
+ul #: 1
+ul > li #: 3
+ol #: 1
+ol > li #: 3
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Poción de vida</title>
+  </head>
+  <body>
+    <h1>Poción de vida</h1>
+    <img src="/img/cursos/html/gheco-logo.webp" alt="Gheco, el gecko que prepara la poción" width="64" height="64">
+    <h2>Ingredientes</h2>
+    <ul>
+      <li>2 hojas de menta</li>
+      <li>1 gota de rocío</li>
+      <li>Agua del manantial</li>
+    </ul>
+    <h2>Preparación</h2>
+    <ol>
+      <li>Hervir el agua.</li>
+      <li>Agregar la menta.</li>
+      <li>Al final, la gota de rocío.</li>
+    </ol>
+  </body>
+</html>
+```
+
+#### Al superarla
+Nora pega la receta en la pared, al lado del caldero. Esa tarde no se olvida de ningún paso.
+
+#### Imagen
+- Un caldero de cobre humeante sobre un fueguito, en un rincón del taller de Tesela, con frascos de vidrio de colores.
+- Nora revuelve el caldero; Iris lee una hoja lisa; Gheco olfatea el vapor.
+
+### Micro-misión R01-N01-P6 · El índice con saltos
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R01-N01-M2
+```
+
+#### Escena
+El bestiario del taller es una sola página larguísima y nadie encuentra nada.
+—Un índice arriba que salte a cada criatura —dice Tesela—. Y una forma de volver arriba, que la página es larga.
+
+#### Gheco sugiere
+Un enlace interno apunta a un `id`: `<a href="#slime">` salta al elemento con `id="slime"`. `href="#"` vuelve al principio de la página.
+
+#### Desafío
+Armá la página del bestiario:
+
+1. Arriba, una `ul` con **dos** enlaces internos: `href="#slime"` y `href="#goblin"`.
+2. Un `h2` para cada criatura, con `id="slime"` y `id="goblin"`, cada uno con un párrafo.
+3. Al final, **un** enlace «Volver arriba» con `href="#"`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El índice con saltos</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+ul a[href^="#"] #
+h2[id] #
+#slime #
+#goblin #
+a[href="#"] #
+```
+
+#### Salida esperada
+```
+ul a[href^="#"] #: 2
+h2[id] #: 2
+#slime #: 1
+#goblin #: 1
+a[href="#"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Índice con saltos</title>
+  </head>
+  <body>
+    <h1>Bestiario</h1>
+    <ul>
+      <li><a href="#slime">Slime</a></li>
+      <li><a href="#goblin">Goblin</a></li>
+    </ul>
+    <h2 id="slime">Slime</h2>
+    <p>Nace de etiquetas mal cerradas.</p>
+    <h2 id="goblin">Goblin</h2>
+    <p>Nace de valores de CSS inválidos.</p>
+    <p><a href="#">Volver arriba</a></p>
+  </body>
+</html>
+```
+
+#### Al superarla
+Teo prueba el índice: salta al goblin, vuelve arriba, salta al slime. Lo hace veinte veces, hasta que Tesela le saca la página.
+
+#### Imagen
+- Un libro enorme del bestiario abierto sobre un atril, con dibujos de un slime verde y un goblin.
+- Tesela pasa las páginas; Iris señala un dibujo; Gheco esquiva el dibujo del slime.
+
 ### Prueba del sello
 
 #### ¿Qué diferencia hay entre una ruta absoluta y una relativa? ¿Qué significa `..`?
@@ -402,152 +584,6 @@ Iris le muestra el boceto a {mentor}. Ella lo mira un segundo de más, lo dobla 
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo sostiene.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo mira, seria.
 
-### Misión R01-N01-M1 · La receta de la poción
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Escribí la receta de una poción del taller:
-
-1. Un título y una imagen de la poción (podés usar `/img/cursos/html/gheco-logo.webp`) con su `alt`.
-2. La lista de ingredientes con `ul`.
-3. Los pasos, en orden, con `ol`.
-
-#### Criterio de aprobación
-
-- La imagen tiene un `alt` que describe lo que muestra.
-- Los ingredientes están en una lista `ul` y los pasos en una `ol`.
-- Cada elemento de lista es un `li` dentro de su lista.
-- El HTML está completo y bien cerrado.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N01-M1-celular.webp
-compu: capturas/R01-N01-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La receta de la poción</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Poción de vida</title>
-  </head>
-  <body>
-    <h1>Poción de vida</h1>
-    <img src="/img/cursos/html/gheco-logo.webp" alt="Gheco, el gecko que prepara la poción" width="64" height="64">
-    <h2>Ingredientes</h2>
-    <ul>
-      <li>2 hojas de menta</li>
-      <li>1 gota de rocío</li>
-      <li>Agua del manantial</li>
-    </ul>
-    <h2>Preparación</h2>
-    <ol>
-      <li>Hervir el agua.</li>
-      <li>Agregar la menta.</li>
-      <li>Al final, la gota de rocío.</li>
-    </ol>
-  </body>
-</html>
-```
-
-
-### Misión R01-N01-M2 · El índice con saltos
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una página del bestiario con un índice que salte a cada criatura:
-
-1. Arriba, una lista de enlaces internos (`href="#slime"`, `href="#goblin"`…).
-2. Una sección para cada criatura, con su `id` y un párrafo.
-3. Al final de cada sección, un enlace "Volver arriba".
-
-#### Criterio de aprobación
-
-- Cada enlace del índice lleva a una sección que existe (el `href="#x"` coincide con un `id="x"`).
-- Hay al menos tres criaturas con su sección.
-- Funciona el "Volver arriba".
-- Los textos de los enlaces dicen adónde llevan.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N01-M2-celular.webp
-compu: capturas/R01-N01-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El índice con saltos</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Índice con saltos</title>
-  </head>
-  <body>
-    <h1>Bestiario</h1>
-    <ul>
-      <li><a href="#slime">Slime</a></li>
-      <li><a href="#goblin">Goblin</a></li>
-    </ul>
-    <h2 id="slime">Slime</h2>
-    <p>Nace de etiquetas mal cerradas.</p>
-    <h2 id="goblin">Goblin</h2>
-    <p>Nace de valores de CSS inválidos.</p>
-    <p><a href="#">Volver arriba</a></p>
-  </body>
-</html>
-```
-
-
 ### Encargo R01-N01-E1 · La página de contacto
 
 ```meta
@@ -763,6 +799,229 @@ Los lectores de pantalla, que usan las personas ciegas, saltan de zona en zona u
 **Ogro: `section` sin título**: si no tiene título, probablemente es un `div`.
 
 **Esqueleto: `aria-labelledby` que apunta a un `id` que no existe**: el validador avisa y la sección queda sin nombre.
+
+### Micro-misión R01-N02-P5 · El blog del taller
+
+```meta
+lugar: Los ríos de plomo
+personajes: Iris, Gheco, Nora, Tesela
+recompensa: xp 15, monedas 6
+antes: R01-N02-M1
+```
+
+#### Escena
+Tesela tiene un blog donde cuenta los trabajos del taller, pero está hecho todo con cajas iguales y nadie sabe dónde empieza cada cosa.
+—Cada parte con su nombre —dice—. La cabecera, el menú, las entradas, el costado y el pie.
+
+#### Gheco sugiere
+Las etiquetas semánticas dicen qué es cada parte: `header`, `nav`, `main`, `article`, `aside` y `footer`. La fecha va en `<time datetime="2026-09-30">`.
+
+#### Desafío
+Armá el blog del taller con etiquetas semánticas:
+
+1. Un `header` con el nombre del blog y, adentro, un `nav` con **dos** enlaces.
+2. Un `main` con **dos** `article`, cada uno con su `h2` y su fecha en un `time` con el atributo `datetime`.
+3. Un `aside` «Sobre la autora», con su `h2`.
+4. Un `footer` al final.
+
+Sin `div`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El blog del taller</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+header #
+header nav #
+nav a #
+main #
+main article #
+article h2 #
+article time[datetime] #
+aside #
+aside h2 #
+footer #
+div #
+```
+
+#### Salida esperada
+```
+header #: 1
+header nav #: 1
+nav a #: 2
+main #: 1
+main article #: 2
+article h2 #: 2
+article time[datetime] #: 2
+aside #: 1
+aside h2 #: 1
+footer #: 1
+div #: 0
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog del Taller</title>
+  </head>
+  <body>
+    <header>
+      <p>Blog del Taller</p>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Archivo</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <h1>Últimas entradas</h1>
+      <article>
+        <h2>Cómo cortar vidrio sin romperlo</h2>
+        <p><time datetime="2026-09-30">30 de septiembre</time></p>
+        <p>Primero se marca, después se golpea suave.</p>
+      </article>
+      <article>
+        <h2>El plomo perfecto</h2>
+        <p><time datetime="2026-09-28">28 de septiembre</time></p>
+        <p>Ni muy grueso ni muy fino.</p>
+      </article>
+    </main>
+    <aside aria-labelledby="titulo-autora">
+      <h2 id="titulo-autora">Sobre la autora</h2>
+      <p>Tesela, vitralista desde hace 300 años.</p>
+    </aside>
+    <footer>
+      <p>© 2026 Blog del Taller</p>
+    </footer>
+  </body>
+</html>
+```
+
+#### Al superarla
+El blog queda con cada parte en su lugar. Nora lo lee de punta a punta y descubre que Tesela cumple trescientos años de vitralista.
+
+#### Imagen
+- Un río de plomo derretido que corre brillante por un canal de piedra, con vitrales en las paredes.
+- Tesela escribe en un cuaderno grande; Nora lee por encima de su hombro; Iris y Gheco miran el río.
+
+### Micro-misión R01-N02-P6 · El perfil del jugador
+
+```meta
+lugar: Los ríos de plomo
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R01-N02-M2
+```
+
+#### Escena
+Nora quiere su ficha de jugadora de los Talleres, como la que tienen los aprendices viejos.
+—Que sea una ficha de verdad, que se entienda sola —dice—. Con mi cara, mis logros y desde cuándo estoy.
+
+#### Gheco sugiere
+Un `article` es algo que se entiende solo. Puede tener su propio `header` y su propio `footer`, y una `section` con su título adentro.
+
+#### Desafío
+Armá el perfil de una jugadora como **un** `article`:
+
+1. Su propio `header` con **una** imagen del avatar (con `alt`), el nombre y el nivel.
+2. **Una** `section` de logros con su `h2` y una lista de **dos** logros (`li`).
+3. Su propio `footer` con la fecha en que se unió.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El perfil del jugador</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+article #
+article > header #
+article img #
+article img:not([alt]) #
+article > section #
+section h2 #
+section li #
+article > footer #
+```
+
+#### Salida esperada
+```
+article #: 1
+article > header #: 1
+article img #: 1
+article img:not([alt]) #: 0
+article > section #: 1
+section h2 #: 1
+section li #: 2
+article > footer #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil de jugador</title>
+  </head>
+  <body>
+    <main>
+      <article aria-labelledby="nombre">
+        <header>
+          <img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris" width="96" height="96">
+          <h1 id="nombre">@Iris</h1>
+          <p>Nivel 14 · Espadachina</p>
+        </header>
+        <section aria-labelledby="titulo-logros">
+          <h2 id="titulo-logros">Logros</h2>
+          <ul>
+            <li>Rey Slime vencido</li>
+            <li>10 gemas en una partida</li>
+          </ul>
+        </section>
+        <footer>
+          <p>Miembro desde 2026</p>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Nora imprime su ficha y la lleva en el bolsillo. Se la muestra a todos los que pasan.
+
+#### Imagen
+- Una ficha de jugadora de cartón con un retrato redondo y dos estrellitas, sobre una mesa junto al río de plomo.
+- Nora muestra la ficha orgullosa; Iris aplaude; Gheco se sienta en la mesa.
 
 ### Prueba del sello
 
@@ -1014,175 +1273,6 @@ Nora aprieta una tecla y llega directo al título. Se ríe. —Me devolviste die
 - Un pasillo de taller con muchas puertas y un cartel de atajo brillante que salta directo a la última.
 - Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) camina con su bastón de vidrio.
 - Gheco (gecko de luz con antiparras) señala el atajo.
-
-### Misión R01-N02-M1 · El blog del taller
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá el blog de los Talleres con etiquetas semánticas:
-
-1. Un `header` con el nombre del blog y un `nav` con tres enlaces.
-2. Un `main` con dos `article`, cada uno con su título y su fecha en un `time` (con el atributo `datetime`).
-3. Un `aside` "Sobre la autora".
-4. Un `footer` al final.
-
-#### Criterio de aprobación
-
-- Usa `header`, `nav`, `main`, `article`, `aside` y `footer`, cada uno en su lugar.
-- Cada `article` tiene su título y un `time` con `datetime` válido (`2026-10-02`).
-- No hay `div` donde corresponde una etiqueta semántica.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N02-M1-celular.webp
-compu: capturas/R01-N02-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El blog del taller</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Blog del Taller</title>
-  </head>
-  <body>
-    <header>
-      <p>Blog del Taller</p>
-      <nav aria-label="Principal">
-        <ul>
-          <li><a href="#">Inicio</a></li>
-          <li><a href="#">Archivo</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <h1>Últimas entradas</h1>
-      <article>
-        <h2>Cómo cortar vidrio sin romperlo</h2>
-        <p><time datetime="2026-09-30">30 de septiembre</time></p>
-        <p>Primero se marca, después se golpea suave.</p>
-      </article>
-      <article>
-        <h2>El plomo perfecto</h2>
-        <p><time datetime="2026-09-28">28 de septiembre</time></p>
-        <p>Ni muy grueso ni muy fino.</p>
-      </article>
-    </main>
-    <aside aria-labelledby="titulo-autora">
-      <h2 id="titulo-autora">Sobre la autora</h2>
-      <p>Tesela, vitralista desde hace 300 años.</p>
-    </aside>
-    <footer>
-      <p>© 2026 Blog del Taller</p>
-    </footer>
-  </body>
-</html>
-```
-
-
-### Misión R01-N02-M2 · El perfil del jugador
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá el perfil de un jugador como un `article` independiente:
-
-1. Su propio `header` con el avatar (con `alt`), el nombre y el nivel.
-2. Una `section` de logros, con su título y una lista.
-3. Un `footer` con la fecha en que se unió.
-
-#### Criterio de aprobación
-
-- El perfil es un `article` con `header`, `section` y `footer` propios.
-- La `section` de logros tiene un título.
-- El avatar tiene `alt`.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N02-M2-celular.webp
-compu: capturas/R01-N02-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El perfil del jugador</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Perfil de jugador</title>
-  </head>
-  <body>
-    <main>
-      <article aria-labelledby="nombre">
-        <header>
-          <img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris" width="96" height="96">
-          <h1 id="nombre">@Iris</h1>
-          <p>Nivel 14 · Espadachina</p>
-        </header>
-        <section aria-labelledby="titulo-logros">
-          <h2 id="titulo-logros">Logros</h2>
-          <ul>
-            <li>Rey Slime vencido</li>
-            <li>10 gemas en una partida</li>
-          </ul>
-        </section>
-        <footer>
-          <p>Miembro desde 2026</p>
-        </footer>
-      </article>
-    </main>
-  </body>
-</html>
-```
-
 
 ### Encargo R01-N02-E1 · La página del restaurante
 
@@ -1443,6 +1533,204 @@ Todo lo que se completa en internet es un formulario: el login, el buscador, la 
 ```
 Para enviar **varios** valores se usa `name="temas[]"` (así lo entienden PHP y Laravel).
 
+### Micro-misión R01-N03-P5 · El buscador
+
+```meta
+lugar: La ventanilla del portal
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R01-N03-M1
+```
+
+#### Escena
+En la ventanilla del portal llegan preguntas por criaturas y Teo las busca a mano, página por página.
+—Un buscador —dice Iris—. Un campo para escribir y un botón.
+
+#### Gheco sugiere
+`<form method="get">` manda lo que se escribe en la dirección. El campo `type="search"` necesita su `label` conectado: el `for` del `label` igual al `id` del campo.
+
+#### Desafío
+Armá el buscador del bestiario:
+
+- Un `form` con `method="get"`.
+- Un `label` «Buscar» con `for="q"`.
+- Un `input` con `type="search"`, `id="q"` y `name="q"`.
+- Un `button` con `type="submit"` y el texto «Buscar».
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El buscador</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+form @method
+label @for
+input @type
+input @id
+input @name
+button @type
+button
+```
+
+#### Salida esperada
+```
+form @method: get
+label @for: q
+input @type: search
+input @id: q
+input @name: q
+button @type: submit
+button: Buscar
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Buscar cursos</title>
+  </head>
+  <body>
+    <main>
+      <h1>Buscar cursos</h1>
+      <form action="#" method="get" role="search">
+        <label for="q">Buscar</label>
+        <input id="q" name="q" type="search" placeholder="Ej.: OpenGL">
+        <button type="submit">Buscar</button>
+      </form>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Teo escribe «slime», aprieta Buscar y se queda mirando la pantalla, maravillado.
+—¿Y esto hace lo mismo que yo, pero sin cansarse?
+
+#### Imagen
+- Una ventanilla de madera con un vidrio de colores y una lupa grande de bronce colgada al lado.
+- Teo, muchacho de delantal, sostiene la lupa; Iris escribe en un cuadernito; Gheco espía por la ventanilla.
+
+### Micro-misión R01-N03-P6 · La encuesta del gremio
+
+```meta
+lugar: La ventanilla del portal
+personajes: Iris, Gheco, Teo, Tesela
+recompensa: xp 15, monedas 6
+antes: R01-N03-M2
+```
+
+#### Escena
+Tesela quiere saber qué piensan los aprendices de la temporada. Teo propone preguntar de a uno, en el pasillo.
+—Mejor una encuesta —dice Tesela—. Con opciones para elegir y un lugar para los comentarios. Cortitos.
+
+#### Gheco sugiere
+Los `radio` del mismo grupo comparten el `name` (se elige uno solo). Un `fieldset` agrupa y su `legend` dice qué se pregunta. `maxlength` en el `textarea` limita los caracteres.
+
+#### Desafío
+Armá la encuesta:
+
+1. Un `fieldset` con `legend` y **tres** opciones `radio`, todas con `name="opinion"`, cada una adentro de su `label`; **una** con `required`.
+2. Otro `fieldset` con `legend` y **tres** `checkbox`, cada uno adentro de su `label`.
+3. Un `textarea` con `id="comentario"` y `maxlength="300"`, con su `label for="comentario"`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La encuesta del gremio</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+fieldset #
+fieldset legend #
+input[type="radio"][name="opinion"] #
+input[type="radio"][required] #
+input[type="checkbox"] #
+label input #
+textarea @id
+textarea @maxlength
+label[for="comentario"] #
+```
+
+#### Salida esperada
+```
+fieldset #: 2
+fieldset legend #: 2
+input[type="radio"][name="opinion"] #: 3
+input[type="radio"][required] #: 1
+input[type="checkbox"] #: 3
+label input #: 6
+textarea @id: comentario
+textarea @maxlength: 300
+label[for="comentario"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Encuesta de la temporada</title>
+  </head>
+  <body>
+    <main>
+      <h1>Encuesta de la temporada</h1>
+      <form action="#" method="post">
+        <fieldset>
+          <legend>¿Qué te pareció el curso?</legend>
+          <label><input type="radio" name="opinion" value="5" required> Excelente</label>
+          <label><input type="radio" name="opinion" value="3"> Bien</label>
+          <label><input type="radio" name="opinion" value="1"> Mejorable</label>
+        </fieldset>
+        <fieldset>
+          <legend>¿Qué temas querés? (podés elegir varios)</legend>
+          <label><input type="checkbox" name="temas[]" value="vulkan"> Vulkan</label>
+          <label><input type="checkbox" name="temas[]" value="rust"> Rust</label>
+          <label><input type="checkbox" name="temas[]" value="godot"> Godot</label>
+        </fieldset>
+        <p>
+          <label for="comentario">Comentario</label><br>
+          <textarea id="comentario" name="comentario" rows="4" maxlength="300"></textarea>
+        </p>
+        <button type="submit">Enviar</button>
+      </form>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Llegan treinta respuestas en una tarde. La mayoría pide más vidrios de colores. Uno pide que Teo deje de cantar en el pasillo.
+
+#### Imagen
+- Una caja de madera con una ranura en la ventanilla del portal, llena de papelitos doblados.
+- Tesela lee un papelito y sonríe; Teo se pone colorado; Iris y Gheco cuentan papelitos.
+
 ### Prueba del sello
 
 #### ¿Por qué el `placeholder` no reemplaza al `label`?
@@ -1693,152 +1981,6 @@ Un mensajero de papel sale volando por la ventanilla, rumbo al Puerto. —Elefa 
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) lo mira irse.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) con los brazos cruzados.
 
-### Misión R01-N03-M1 · El buscador
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá el buscador del bestiario: un formulario con `method="get"`, un campo de tipo `search` con su `label` y un botón "Buscar".
-
-#### Criterio de aprobación
-
-- El formulario usa `method="get"`.
-- El campo es `type="search"`, tiene `name` y un `label` conectado (`for` igual al `id`).
-- Hay un botón de envío con un texto claro.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N03-M1-celular.webp
-compu: capturas/R01-N03-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El buscador</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Buscar cursos</title>
-  </head>
-  <body>
-    <main>
-      <h1>Buscar cursos</h1>
-      <form action="#" method="get" role="search">
-        <label for="q">Buscar</label>
-        <input id="q" name="q" type="search" placeholder="Ej.: OpenGL">
-        <button type="submit">Buscar</button>
-      </form>
-    </main>
-  </body>
-</html>
-```
-
-
-### Misión R01-N03-M2 · La encuesta del gremio
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una encuesta para los aprendices:
-
-1. Un grupo de opciones `radio` obligatorio (¿qué taller te gustó más?), dentro de un `fieldset` con su `legend`.
-2. Un grupo de `checkbox` (¿qué herramientas usaste?).
-3. Un `textarea` de comentarios de **300 caracteres como máximo**.
-
-#### Criterio de aprobación
-
-- Los `radio` comparten el mismo `name`, están en un `fieldset` con `legend` y uno lleva `required`.
-- Cada opción tiene su `label`.
-- El `textarea` tiene `maxlength="300"` y su `label`.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N03-M2-celular.webp
-compu: capturas/R01-N03-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La encuesta del gremio</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Encuesta de la temporada</title>
-  </head>
-  <body>
-    <main>
-      <h1>Encuesta de la temporada</h1>
-      <form action="#" method="post">
-        <fieldset>
-          <legend>¿Qué te pareció el curso?</legend>
-          <label><input type="radio" name="opinion" value="5" required> Excelente</label>
-          <label><input type="radio" name="opinion" value="3"> Bien</label>
-          <label><input type="radio" name="opinion" value="1"> Mejorable</label>
-        </fieldset>
-        <fieldset>
-          <legend>¿Qué temas querés? (podés elegir varios)</legend>
-          <label><input type="checkbox" name="temas[]" value="vulkan"> Vulkan</label>
-          <label><input type="checkbox" name="temas[]" value="rust"> Rust</label>
-          <label><input type="checkbox" name="temas[]" value="godot"> Godot</label>
-        </fieldset>
-        <p>
-          <label for="comentario">Comentario</label><br>
-          <textarea id="comentario" name="comentario" rows="4" maxlength="300"></textarea>
-        </p>
-        <button type="submit">Enviar</button>
-      </form>
-    </main>
-  </body>
-</html>
-```
-
-
 ### Encargo R01-N03-E1 · Los turnos de la veterinaria
 
 ```meta
@@ -2070,6 +2212,214 @@ Horarios, facturas, comparaciones de precios, tablas de posiciones, resultados d
 **Ogro: tabla para maquetar** (logo a la izquierda, menú a la derecha): el lector de pantalla anuncia "tabla de 1 fila y 2 columnas" y en el celular no se adapta.
 
 **Orco: tabla ancha en el celular**: aparece scroll horizontal en toda la página.
+
+### Micro-misión R01-N04-P5 · El horario del taller
+
+```meta
+lugar: La entrada de los Talleres
+personajes: Iris, Gheco, Nora, Teo
+recompensa: xp 15, monedas 6
+antes: R01-N04-M1
+```
+
+#### Escena
+En la entrada de los Talleres hay un pizarrón con los horarios de las clases, borroneado de tanto cambiarlo.
+—Una tabla —dice Nora—. Los días arriba, las horas al costado. Y la práctica libre ocupa dos días.
+
+#### Gheco sugiere
+`caption` es el título de la tabla. Los encabezados son `th`: con `scope="col"` los de columna y con `scope="row"` los de fila. `colspan="2"` hace que una celda ocupe dos columnas.
+
+#### Desafío
+Armá el horario del taller:
+
+- Un `caption` con el título.
+- Un `thead` con **tres** `th scope="col"`: «Hora» y dos días.
+- Un `tbody` con **dos** filas, cada una con su hora en un `th scope="row"`.
+- En la segunda fila, **una** celda con `colspan="2"`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El horario del taller</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+caption #
+thead #
+tbody #
+th[scope="col"] #
+th[scope="row"] #
+td[colspan="2"] #
+```
+
+#### Salida esperada
+```
+caption #: 1
+thead #: 1
+tbody #: 1
+th[scope="col"] #: 3
+th[scope="row"] #: 2
+td[colspan="2"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Horario de clases</title>
+  </head>
+  <body>
+    <main>
+      <h1>Horario del taller</h1>
+      <table>
+        <caption>Clases de la semana</caption>
+        <thead>
+          <tr>
+            <th scope="col">Hora</th>
+            <th scope="col">Lunes</th>
+            <th scope="col">Miércoles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">18:00</th>
+            <td>HTML</td>
+            <td>CSS</td>
+          </tr>
+          <tr>
+            <th scope="row">20:00</th>
+            <td colspan="2">Práctica libre</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Nora borra el pizarrón y cuelga la tabla. Nadie vuelve a llegar tarde. Bueno, Teo sí.
+
+#### Imagen
+- La entrada de los Talleres de los Vitrales, con una puerta grande de vitral y un pizarrón al costado.
+- Nora borra el pizarrón con un trapo; Teo llega corriendo, tarde; Iris y Gheco cuelgan una hoja lisa.
+
+### Micro-misión R01-N04-P6 · Comparar planes
+
+```meta
+lugar: La entrada de los Talleres
+personajes: Iris, Gheco, Nora, Teo
+recompensa: xp 15, monedas 6
+antes: R01-N04-M2
+```
+
+#### Escena
+Un viajero pregunta en la entrada qué diferencia hay entre el plan Gratis y el plan Supremo de los Talleres. Teo le explica con las manos y lo confunde más.
+—Una tabla —dice Nora—. Que se lea bien hasta en voz alta.
+
+#### Gheco sugiere
+Con `thead` y `tbody` la tabla se entiende por partes. Los `th scope="col"` nombran las columnas (los planes) y los `th scope="row"`, las filas (las características): así un lector de pantalla dice cada dato con su nombre.
+
+#### Desafío
+Armá la tabla que compara los planes:
+
+- Un `caption`, un `thead` y un `tbody`.
+- **Tres** `th scope="col"`: «Característica», «Gratis» y «Supremo».
+- **Dos** filas de características, cada una con su `th scope="row"` y **dos** `td` (cuatro `td` en total).
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comparar planes</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+caption #
+thead #
+tbody #
+th[scope="col"] #
+th[scope="row"] #
+td #
+```
+
+#### Salida esperada
+```
+caption #: 1
+thead #: 1
+tbody #: 1
+th[scope="col"] #: 3
+th[scope="row"] #: 2
+td #: 4
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comparar planes</title>
+  </head>
+  <body>
+    <main>
+      <h1>Planes</h1>
+      <table>
+        <caption>Comparación de planes de la plataforma</caption>
+        <thead>
+          <tr>
+            <th scope="col">Característica</th>
+            <th scope="col">Gratis</th>
+            <th scope="col">Supremo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Cursos</th>
+            <td>3</td>
+            <td>Todos</td>
+          </tr>
+          <tr>
+            <th scope="row">Certificado</th>
+            <td>No</td>
+            <td>Sí</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+El viajero lee la tabla y elige el plan Gratis. Teo, que le vendía el Supremo, se lleva las manos a la cabeza.
+
+#### Imagen
+- Una mesa en la entrada de los Talleres con una hoja grande dividida en columnas de colores.
+- Un viajero con capa señala una columna; Teo se agarra la cabeza; Nora y Gheco se ríen.
 
 ### Prueba del sello
 
@@ -2336,167 +2686,6 @@ tbody td #: 4
 - Una tabla de vidrio con la primera columna en vidrio más oscuro.
 - Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) lee con la mano.
 - Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) protesta al fondo.
-
-### Misión R01-N04-M1 · El horario del taller
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá el horario semanal del taller: los días como encabezados de columna, la hora como encabezado de cada fila, y una actividad que dure **dos días** (una celda con `colspan="2"`).
-
-#### Criterio de aprobación
-
-- Tiene `caption` con el título de la tabla.
-- Los días son `th` con `scope="col"` y las horas `th` con `scope="row"`.
-- Una celda ocupa dos días con `colspan="2"`.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N04-M1-celular.webp
-compu: capturas/R01-N04-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El horario del taller</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Horario de clases</title>
-  </head>
-  <body>
-    <main>
-      <h1>Horario del taller</h1>
-      <table>
-        <caption>Clases de la semana</caption>
-        <thead>
-          <tr>
-            <th scope="col">Hora</th>
-            <th scope="col">Lunes</th>
-            <th scope="col">Miércoles</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">18:00</th>
-            <td>HTML</td>
-            <td>CSS</td>
-          </tr>
-          <tr>
-            <th scope="row">20:00</th>
-            <td colspan="2">Práctica libre</td>
-          </tr>
-        </tbody>
-      </table>
-    </main>
-  </body>
-</html>
-```
-
-
-### Misión R01-N04-M2 · Comparar planes
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una tabla que compare el plan **Gratis** con el plan **Supremo**: las características en las filas y los planes en las columnas, con encabezados de fila y de columna.
-
-#### Criterio de aprobación
-
-- Tiene `caption`, `thead` y `tbody`.
-- Hay encabezados de columna (`scope="col"`) y de fila (`scope="row"`).
-- Leída en voz alta, cada dato se entiende con su característica y su plan.
-
-#### Cómo debe quedar
-
-celular: capturas/R01-N04-M2-celular.webp
-compu: capturas/R01-N04-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Comparar planes</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Comparar planes</title>
-  </head>
-  <body>
-    <main>
-      <h1>Planes</h1>
-      <table>
-        <caption>Comparación de planes de la plataforma</caption>
-        <thead>
-          <tr>
-            <th scope="col">Característica</th>
-            <th scope="col">Gratis</th>
-            <th scope="col">Supremo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Cursos</th>
-            <td>3</td>
-            <td>Todos</td>
-          </tr>
-          <tr>
-            <th scope="row">Certificado</th>
-            <td>No</td>
-            <td>Sí</td>
-          </tr>
-        </tbody>
-      </table>
-    </main>
-  </body>
-</html>
-```
-
 
 ### Encargo R01-N04-E1 · La factura
 

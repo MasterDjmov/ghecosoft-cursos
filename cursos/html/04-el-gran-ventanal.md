@@ -279,6 +279,575 @@ Toda aplicación web tiene este marco: una cabecera con la marca y el usuario, u
 
 **Troll: los enlaces `#seccion` quedan tapados por la cabecera fija.** Las secciones llevan `scroll-mt-24` (margen al hacer scroll hasta ellas).
 
+### Micro-misión R04-N01-P5 · El menú desplegable
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R04-N01-M1
+```
+
+#### Escena
+En la Catedral, el menú de la cabecera no entra en el celular. Nora propone un botón que lo abra.
+—Sin trucos de JavaScript —dice Iris—. Con lo que trae el HTML.
+
+#### Gheco sugiere
+`<details>` se abre y se cierra solo al tocar su `<summary>`. `lg:hidden` lo esconde en la compu, donde el menú ya se ve entero. El botón necesita un texto para quien no ve: `aria-label`.
+
+#### Desafío
+Armá el menú desplegable del celular:
+
+- Un `details` con la clase `lg:hidden`.
+- Adentro, un `summary` con `aria-label` y un `nav` con **cuatro** enlaces.
+- Sin `script`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El menú desplegable</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+details[class~="lg:hidden"] #
+details > summary[aria-label] #
+details nav a #
+script #
+```
+
+#### Salida esperada
+```
+details[class~="lg:hidden"] #: 1
+details > summary[aria-label] #: 1
+details nav a #: 4
+script #: 0
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Menú desplegable sin JavaScript</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="border-b border-borde">
+      <div class="flex items-center justify-between px-4 py-3">
+        <a href="#" class="flex items-center gap-2 font-display font-bold"><img src="/img/cursos/html/gheco-logo.webp" alt="" width="36" height="36" class="size-9 rounded-lg"> GhecoSoft</a>
+        <!-- details/summary: se abre y se cierra sin JavaScript. Solo en el celular -->
+        <details class="group relative lg:hidden">
+          <summary class="btn btn-secundario cursor-pointer list-none px-3 py-2" aria-label="Abrir menú"><span class="group-open:hidden" aria-hidden="true">☰</span><span class="hidden group-open:inline" aria-hidden="true">✕</span></summary>
+          <nav aria-label="Principal (celular)" class="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-borde bg-panel p-2 shadow-xl">
+            <a href="#" class="block rounded-lg px-3 py-2 hover:bg-neon/10">Cursos</a>
+            <a href="#" class="block rounded-lg px-3 py-2 hover:bg-neon/10">Rutas</a>
+            <a href="#" aria-current="page" class="block rounded-lg bg-neon/10 px-3 py-2 text-neon">Top 10</a>
+            <a href="#" class="block rounded-lg px-3 py-2 hover:bg-neon/10">Bóveda</a>
+          </nav>
+        </details>
+        <nav aria-label="Principal" class="hidden gap-4 lg:flex"><a href="#">Cursos</a><a href="#">Rutas</a><a href="#" class="text-neon">Top 10</a><a href="#">Bóveda</a></nav>
+      </div>
+    </header>
+    <main class="p-4 text-slate-400">Tocá ☰ (en el celular).</main>
+  </body>
+</html>
+```
+
+#### Al superarla
+El botón abre y cierra el menú sin una línea de JavaScript. Nora lo prueba en la cabaña y en el castillo: anda en los dos.
+
+#### Imagen
+- La nave de una catedral de vitrales con un cofrecito de vidrio que se abre y deja ver cuatro vitrales chicos.
+- Nora abre el cofrecito; Iris señala los vitrales; Gheco se asoma desde adentro.
+
+### Micro-misión R04-N01-P6 · La barra con indicador
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R04-N01-M2
+```
+
+#### Escena
+La barra de secciones de la Catedral no dice dónde estás. Tesela quiere una rayita arriba de la sección activa.
+—Sin agregar nada al HTML. Que la rayita la dibuje el CSS.
+
+#### Gheco sugiere
+`aria-current="page"` marca la sección activa. Un pseudo-elemento con `before:` dibuja algo arriba sin tocar el HTML: `before:absolute before:top-0 before:h-0.5`.
+
+#### Desafío
+Armá la barra inferior con clases de Tailwind:
+
+- Un `nav` con **cinco** enlaces, todos con `flex-1`.
+- **Uno** con `aria-current="page"`, con `relative` y la rayita hecha con `before:absolute` y `before:top-0`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La barra con indicador</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+nav > a[class~="flex-1"] #
+nav > a[aria-current="page"] #
+a[aria-current="page"][class~="relative"][class~="before:absolute"][class~="before:top-0"] #
+```
+
+#### Salida esperada
+```
+nav > a[class~="flex-1"] #: 5
+nav > a[aria-current="page"] #: 1
+a[aria-current="page"][class~="relative"][class~="before:absolute"][class~="before:top-0"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Barra inferior con indicador</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen pb-20">
+    <main class="p-4 text-slate-400">La sección activa tiene una rayita arriba.</main>
+    <nav aria-label="Secciones" class="fixed inset-x-0 bottom-0 flex border-t border-borde bg-panel text-[11px]">
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">🗺</span>Campañas</a>
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">📖</span>Lecciones</a>
+      <!-- before: un pseudo-elemento: la rayita de arriba -->
+      <a href="#" aria-current="page" class="relative flex flex-1 flex-col items-center py-2 text-neon before:absolute before:top-0 before:h-0.5 before:w-10 before:rounded-full before:bg-neon"><span aria-hidden="true" class="text-lg">⚔</span>Arena</a>
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">🌳</span>Árbol</a>
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">👤</span>Perfil</a>
+    </nav>
+  </body>
+</html>
+```
+
+#### Al superarla
+La rayita se enciende arriba de la sección activa. Tesela cambia de sección diez veces, solo para verla moverse.
+
+#### Imagen
+- Una barra de cinco vitrales en el piso de la Catedral, con una rayita de luz cian arriba del del medio.
+- Tesela salta de vitral en vitral; Iris sigue la rayita con el dedo; Gheco se para en el del medio.
+
 ### Prueba del sello
 
 #### ¿Por qué el menú principal y la barra inferior son dos `nav` distintos? ¿Cómo los distingue un lector de pantalla?
@@ -517,539 +1086,6 @@ nav @aria-label: Atajos
 - Dos menús de vidrio, uno arriba y uno abajo, cada uno con su placa grabada.
 - Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) toca las placas.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) las grabó.
-
-### Misión R04-N01-M1 · El menú desplegable
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-En el celular, armá un botón **☰** que abra el menú **sin JavaScript** (con `details` y `summary`), y que se oculte desde `lg`, donde el menú ya se ve completo.
-
-#### Criterio de aprobación
-
-- Usa `details`/`summary`, sin JavaScript.
-- El botón tiene un texto accesible (por ejemplo, `aria-label` o un texto `sr-only`).
-- Desde `lg` el desplegable se oculta (`lg:hidden`).
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N01-M1-celular.webp
-compu: capturas/R04-N01-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El menú desplegable</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menú desplegable sin JavaScript</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="border-b border-borde">
-      <div class="flex items-center justify-between px-4 py-3">
-        <a href="#" class="flex items-center gap-2 font-display font-bold"><img src="/img/cursos/html/gheco-logo.webp" alt="" width="36" height="36" class="size-9 rounded-lg"> GhecoSoft</a>
-        <!-- details/summary: se abre y se cierra sin JavaScript. Solo en el celular -->
-        <details class="group relative lg:hidden">
-          <summary class="btn btn-secundario cursor-pointer list-none px-3 py-2" aria-label="Abrir menú"><span class="group-open:hidden" aria-hidden="true">☰</span><span class="hidden group-open:inline" aria-hidden="true">✕</span></summary>
-          <nav aria-label="Principal (celular)" class="absolute right-0 z-50 mt-2 w-56 rounded-xl border border-borde bg-panel p-2 shadow-xl">
-            <a href="#" class="block rounded-lg px-3 py-2 hover:bg-neon/10">Cursos</a>
-            <a href="#" class="block rounded-lg px-3 py-2 hover:bg-neon/10">Rutas</a>
-            <a href="#" aria-current="page" class="block rounded-lg bg-neon/10 px-3 py-2 text-neon">Top 10</a>
-            <a href="#" class="block rounded-lg px-3 py-2 hover:bg-neon/10">Bóveda</a>
-          </nav>
-        </details>
-        <nav aria-label="Principal" class="hidden gap-4 lg:flex"><a href="#">Cursos</a><a href="#">Rutas</a><a href="#" class="text-neon">Top 10</a><a href="#">Bóveda</a></nav>
-      </div>
-    </header>
-    <main class="p-4 text-slate-400">Tocá ☰ (en el celular).</main>
-  </body>
-</html>
-```
-
-
-### Misión R04-N01-M2 · La barra con indicador
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una barra inferior de **5 secciones** donde la activa tenga una **rayita arriba**, hecha con un pseudo-elemento (`before:`).
-
-#### Criterio de aprobación
-
-- Cinco secciones del mismo ancho.
-- La activa lleva `aria-current="page"` y la rayita sale de `before:` (sin un elemento extra en el HTML).
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N01-M2-celular.webp
-compu: capturas/R04-N01-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La barra con indicador</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Barra inferior con indicador</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="min-h-screen pb-20">
-    <main class="p-4 text-slate-400">La sección activa tiene una rayita arriba.</main>
-    <nav aria-label="Secciones" class="fixed inset-x-0 bottom-0 flex border-t border-borde bg-panel text-[11px]">
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">🗺</span>Campañas</a>
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">📖</span>Lecciones</a>
-      <!-- before: un pseudo-elemento: la rayita de arriba -->
-      <a href="#" aria-current="page" class="relative flex flex-1 flex-col items-center py-2 text-neon before:absolute before:top-0 before:h-0.5 before:w-10 before:rounded-full before:bg-neon"><span aria-hidden="true" class="text-lg">⚔</span>Arena</a>
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">🌳</span>Árbol</a>
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true" class="text-lg">👤</span>Perfil</a>
-    </nav>
-  </body>
-</html>
-```
-
 
 ### Encargo R04-N01-E1 · El armazón del delivery
 
@@ -1656,6 +1692,589 @@ El "hero" es la primera pantalla de cualquier sitio: la de una película, un jue
 
 **Ogro: "Continuar campaña" en tres líneas**: el botón de al lado es demasiado largo para el celular. Acortalo en el celular o usá `whitespace-nowrap` (el componente `btn` ya lo trae).
 
+### Micro-misión R04-N02-P5 · El registro
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R04-N02-M1
+```
+
+#### Escena
+Nora arma la página para que los aprendices nuevos se anoten en la Catedral.
+—Un alias con reglas, el email y la ruta para empezar, con chips que se marquen al elegirlos.
+
+#### Gheco sugiere
+`pattern` define qué caracteres acepta un campo. Los chips son `label` con un `radio` real escondido con `sr-only`; con `has-checked:` el chip se pinta cuando su radio está marcado.
+
+#### Desafío
+Armá el formulario de registro:
+
+- Un `input` con `id="alias"` y `pattern="[A-Za-z0-9_]+"`, con su `label for="alias"`.
+- Un `input type="email"` con `id="email"` y su `label for="email"`.
+- **Tres** chips: cada uno un `label` con `has-checked:bg-neon` y, adentro, un `input type="radio"` con `name="ruta"` y `sr-only`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El registro</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+input#alias @pattern
+label[for="alias"] #
+input#email @type
+label[for="email"] #
+label[class~="has-checked:bg-neon"] > input[type="radio"][name="ruta"][class~="sr-only"] #
+```
+
+#### Salida esperada
+```
+input#alias @pattern: [A-Za-z0-9_]+
+label[for="alias"] #: 1
+input#email @type: email
+label[for="email"] #: 1
+label[class~="has-checked:bg-neon"] > input[type="radio"][name="ruta"][class~="sr-only"] #: 3
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro con el estilo de la plataforma</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="fondo-cuadricula grid min-h-screen place-items-center p-4">
+    <main class="tarjeta w-full max-w-md p-6 sm:p-8">
+      <h1 class="text-center text-2xl font-bold">Creá tu cuenta</h1>
+      <form action="#" method="post" class="mt-6 space-y-4">
+        <div class="space-y-1">
+          <label for="alias" class="etiqueta-mono block text-[10px] text-slate-400">Alias</label>
+          <input id="alias" name="alias" type="text" required minlength="3" pattern="[A-Za-z0-9_]+" class="peer w-full rounded-lg border border-borde bg-fondo px-3 py-2.5 focus:border-neon focus:ring-2 focus:ring-neon/30 focus:outline-none user-invalid:border-rose-400">
+          <p class="hidden text-xs text-rose-400 peer-user-invalid:block">Mínimo 3 letras, números o _.</p>
+        </div>
+        <div class="space-y-1">
+          <label for="email" class="etiqueta-mono block text-[10px] text-slate-400">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required class="peer w-full rounded-lg border border-borde bg-fondo px-3 py-2.5 focus:border-neon focus:ring-2 focus:ring-neon/30 focus:outline-none user-invalid:border-rose-400">
+          <p class="hidden text-xs text-rose-400 peer-user-invalid:block">Revisá el email.</p>
+        </div>
+        <fieldset class="space-y-2">
+          <legend class="etiqueta-mono text-[10px] text-slate-400">Ruta inicial</legend>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="chip cursor-pointer text-center has-checked:border-neon has-checked:bg-neon has-checked:text-fondo"><input type="radio" name="ruta" class="sr-only" checked> C++</label>
+            <label class="chip cursor-pointer text-center has-checked:border-neon has-checked:bg-neon has-checked:text-fondo"><input type="radio" name="ruta" class="sr-only"> Web</label>
+            <label class="chip cursor-pointer text-center has-checked:border-neon has-checked:bg-neon has-checked:text-fondo"><input type="radio" name="ruta" class="sr-only"> Python</label>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-primario w-full">Crear cuenta</button>
+      </form>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+El primer aprendiz se anota y elige la ruta de Python. Nora le da la bienvenida con un vidrio cian.
+
+#### Imagen
+- Un atril de piedra en la Catedral con una hoja de inscripción lisa y tres fichas de vidrio de colores.
+- Nora le da un vidrio cian a un aprendiz chico; Iris sostiene las fichas; Gheco elige una ficha con la cola.
+
+### Micro-misión R04-N02-P6 · El hero con la mascota
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R04-N02-M2
+```
+
+#### Escena
+En la entrada de la Catedral va un cartel grande con Gheco presentándose. En el celular, Gheco arriba; en la compu, a la derecha.
+—Una sola imagen —dice Tesela—. Que cambie de lugar, no que se repita.
+
+#### Gheco sugiere
+En una grilla, `lg:order-2` manda un elemento al final desde `lg`: la imagen pasa a la derecha sin moverla en el HTML. Y su `alt` cuenta lo que muestra.
+
+#### Desafío
+Armá el hero:
+
+- Una `section` con `grid` y `lg:grid-cols-2`.
+- Adentro, **una** imagen de Gheco (`/img/cursos/html/gheco-512.webp`) con `alt` y la clase `lg:order-2`.
+- Un `div` con el `h1` y el texto.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El hero con la mascota</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+section[class~="grid"][class~="lg:grid-cols-2"] #
+section img #
+section img[class~="lg:order-2"] #
+img:not([alt]) #
+section > div h1 #
+```
+
+#### Salida esperada
+```
+section[class~="grid"][class~="lg:grid-cols-2"] #: 1
+section img #: 1
+section img[class~="lg:order-2"] #: 1
+img:not([alt]) #: 0
+section > div h1 #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hero con la mascota</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <!-- En el celular la imagen va arriba; desde lg, a la derecha (order) -->
+    <section aria-labelledby="t" class="tarjeta mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-2">
+      <img src="/img/cursos/html/gheco-512.webp" alt="Gheco, el gecko de GhecoSoft, señalando hacia arriba" width="512" height="512" class="mx-auto w-48 rounded-full shadow-brillo sm:w-64 lg:order-2 lg:w-80">
+      <div>
+        <h1 id="t" class="text-3xl font-bold lg:text-5xl">Conocé a <span class="texto-neon text-neon">Gheco</span></h1>
+        <p class="mt-3 text-slate-400">Tu guía en cada nodo del árbol de habilidades.</p>
+        <a href="#" class="btn btn-primario mt-6">Empezar</a>
+      </div>
+    </section>
+  </body>
+</html>
+```
+
+#### Al superarla
+Gheco aparece arriba en el celular y a la derecha en la compu. El Gheco de verdad se mira en el cartel, encantado.
+
+#### Imagen
+- Un cartel de vitral enorme en la entrada de la Catedral con el retrato de un gecko cian a un costado.
+- Gheco se mira en el cartel, encantado; Tesela lo mira divertida; Iris señala el retrato.
+
 ### Prueba del sello
 
 #### ¿Para qué sirve `isolate` en el contenedor del hero?
@@ -1931,546 +2550,6 @@ Un botón brilla, el otro acompaña. {mentor} mira el panel central entero desde
 - Dos botones de vidrio: uno cian lleno y otro con borde cian.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) mira el panel desde lejos.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) espera.
-
-### Misión R04-N02-M1 · El registro
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá la página **"Creá tu cuenta"** con el estilo del portal: un alias con patrón (`pattern`), el email y la ruta inicial elegida con **chips** que se marcan con `has-checked:`.
-
-#### Criterio de aprobación
-
-- Cada campo tiene su `label`; el alias tiene `pattern` y el email `type="email"`.
-- La ruta se elige con radios reales, escondidos con `sr-only`, y el chip elegido se marca con `has-checked:`.
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N02-M1-celular.webp
-compu: capturas/R04-N02-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El registro</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Registro con el estilo de la plataforma</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="fondo-cuadricula grid min-h-screen place-items-center p-4">
-    <main class="tarjeta w-full max-w-md p-6 sm:p-8">
-      <h1 class="text-center text-2xl font-bold">Creá tu cuenta</h1>
-      <form action="#" method="post" class="mt-6 space-y-4">
-        <div class="space-y-1">
-          <label for="alias" class="etiqueta-mono block text-[10px] text-slate-400">Alias</label>
-          <input id="alias" name="alias" type="text" required minlength="3" pattern="[A-Za-z0-9_]+" class="peer w-full rounded-lg border border-borde bg-fondo px-3 py-2.5 focus:border-neon focus:ring-2 focus:ring-neon/30 focus:outline-none user-invalid:border-rose-400">
-          <p class="hidden text-xs text-rose-400 peer-user-invalid:block">Mínimo 3 letras, números o _.</p>
-        </div>
-        <div class="space-y-1">
-          <label for="email" class="etiqueta-mono block text-[10px] text-slate-400">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required class="peer w-full rounded-lg border border-borde bg-fondo px-3 py-2.5 focus:border-neon focus:ring-2 focus:ring-neon/30 focus:outline-none user-invalid:border-rose-400">
-          <p class="hidden text-xs text-rose-400 peer-user-invalid:block">Revisá el email.</p>
-        </div>
-        <fieldset class="space-y-2">
-          <legend class="etiqueta-mono text-[10px] text-slate-400">Ruta inicial</legend>
-          <div class="grid grid-cols-3 gap-2">
-            <label class="chip cursor-pointer text-center has-checked:border-neon has-checked:bg-neon has-checked:text-fondo"><input type="radio" name="ruta" class="sr-only" checked> C++</label>
-            <label class="chip cursor-pointer text-center has-checked:border-neon has-checked:bg-neon has-checked:text-fondo"><input type="radio" name="ruta" class="sr-only"> Web</label>
-            <label class="chip cursor-pointer text-center has-checked:border-neon has-checked:bg-neon has-checked:text-fondo"><input type="radio" name="ruta" class="sr-only"> Python</label>
-          </div>
-        </fieldset>
-        <button type="submit" class="btn btn-primario w-full">Crear cuenta</button>
-      </form>
-    </main>
-  </body>
-</html>
-```
-
-
-### Misión R04-N02-M2 · El hero con la mascota
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá un hero donde la imagen de **Gheco** (`/img/cursos/html/gheco-512.webp`) va **arriba** en el celular y **a la derecha** en la compu (`lg:order-2`).
-
-#### Criterio de aprobación
-
-- En *Celular* la imagen va arriba; en *Compu*, a la derecha del texto.
-- El cambio se hace con `order` (no repitiendo la imagen).
-- La imagen tiene un `alt` que la describe.
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N02-M2-celular.webp
-compu: capturas/R04-N02-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El hero con la mascota</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hero con la mascota</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="p-4">
-    <!-- En el celular la imagen va arriba; desde lg, a la derecha (order) -->
-    <section aria-labelledby="t" class="tarjeta mx-auto grid max-w-5xl items-center gap-6 lg:grid-cols-2">
-      <img src="/img/cursos/html/gheco-512.webp" alt="Gheco, el gecko de GhecoSoft, señalando hacia arriba" width="512" height="512" class="mx-auto w-48 rounded-full shadow-brillo sm:w-64 lg:order-2 lg:w-80">
-      <div>
-        <h1 id="t" class="text-3xl font-bold lg:text-5xl">Conocé a <span class="texto-neon text-neon">Gheco</span></h1>
-        <p class="mt-3 text-slate-400">Tu guía en cada nodo del árbol de habilidades.</p>
-        <a href="#" class="btn btn-primario mt-6">Empezar</a>
-      </div>
-    </section>
-  </body>
-</html>
-```
-
 
 ### Encargo R04-N02-E1 · El hero del gimnasio
 
@@ -3181,6 +3260,584 @@ FALLO 22-Proyecto-Plataforma: scroll horizontal a 390px:
 ```
 **Ogro: botones desalineados** entre tarjetas: falta `flex flex-col` en la tarjeta o `mt-auto` en el bloque de abajo.
 
+### Micro-misión R04-N03-P5 · El curso bloqueado
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R04-N03-M1
+```
+
+#### Escena
+En la Catedral hay cursos que todavía no se pueden tomar. Nora quiere que se note: la tarjeta apagada, con candado, y un botón que no se pueda apretar.
+—Y que diga por qué —agrega.
+
+#### Gheco sugiere
+`opacity-60 grayscale` apaga la tarjeta. Un `button` con `disabled` no se puede apretar (un enlace sí se podría seguir). El texto del botón cuenta qué falta para desbloquearla.
+
+#### Desafío
+Armá dos tarjetas de curso con la clase `tarjeta`:
+
+- Una disponible, con un enlace para continuar.
+- Una bloqueada, con `opacity-60` y `grayscale`, un candado (🔒) y un `button` con `disabled` que diga qué hace falta.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El curso bloqueado</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+article.tarjeta #
+article.tarjeta[class~="opacity-60"][class~="grayscale"] #
+article[class~="grayscale"] button[disabled] #
+article[class~="grayscale"] a #
+```
+
+#### Salida esperada
+```
+article.tarjeta #: 2
+article.tarjeta[class~="opacity-60"][class~="grayscale"] #: 1
+article[class~="grayscale"] button[disabled] #: 1
+article[class~="grayscale"] a #: 0
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarjeta bloqueada</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <div class="grid max-w-3xl gap-4 sm:grid-cols-2">
+      <article class="tarjeta flex flex-col gap-3">
+        <div class="flex items-center justify-between"><span class="rounded bg-neon/10 px-2 py-0.5 font-mono text-xs text-neon">MOD-04</span><span class="font-mono text-xs text-emerald-400">Disponible</span></div>
+        <h1 class="text-lg font-bold">C++ Moderno</h1>
+        <a href="#" class="btn btn-primario mt-auto px-3 py-1 text-xs">Continuar</a>
+      </article>
+      <!-- Bloqueada: apagada, con candado, y el boton no es un enlace -->
+      <article class="tarjeta relative flex flex-col gap-3 opacity-60 grayscale">
+        <div class="flex items-center justify-between"><span class="rounded bg-borde px-2 py-0.5 font-mono text-xs text-slate-400">MOD-30</span><span class="font-mono text-xs text-slate-400">🔒 Bloqueado</span></div>
+        <h2 class="text-lg font-bold">Vulkan &amp; Ray Tracing</h2>
+        <p class="text-sm text-slate-400">Se desbloquea al completar OpenGL 4.6.</p>
+        <button type="button" disabled class="btn btn-secundario mt-auto cursor-not-allowed px-3 py-1 text-xs">Requiere MOD-10</button>
+      </article>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+La tarjeta bloqueada se ve apagada y el botón no responde. Teo lo aprieta igual, por las dudas. Nada.
+
+#### Imagen
+- Dos vitrales en la pared de la Catedral: uno brillante y otro gris y apagado con un candado de bronce.
+- Nora señala el candado; Teo aprieta un botón que no se mueve; Iris y Gheco miran el vitral brillante.
+
+### Micro-misión R04-N03-P6 · Los filtros que filtran
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R04-N03-M2
+```
+
+#### Escena
+En la sala de las rutas, los chips de filtro se marcan pero no esconden nada. Tesela quiere que filtren de verdad.
+—Sin JavaScript. Que cada tarjeta pregunte si el grupo tiene marcado un filtro que no es el suyo.
+
+#### Gheco sugiere
+`group` en el contenedor y, en cada tarjeta, `group-has-[#f-graf:checked]:hidden`: la tarjeta se esconde cuando, adentro del grupo, está marcado el radio con `id="f-graf"`.
+
+#### Desafío
+Armá los filtros, todo adentro de un `div` con la clase `group`:
+
+- **Cuatro** `input type="radio"` con `name="f"`, cada uno adentro de su `label`; uno con `id="f-graf"`.
+- **Cuatro** `article` con la clase `tarjeta`. Las **dos** que no son de gráficos, con `group-has-[#f-graf:checked]:hidden`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Los filtros que filtran</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+div[class~="group"] #
+label > input[type="radio"][name="f"] #
+#f-graf #
+article.tarjeta #
+article[class~="group-has-[#f-graf:checked]:hidden"] #
+script #
+```
+
+#### Salida esperada
+```
+div[class~="group"] #: 1
+label > input[type="radio"][name="f"] #: 4
+#f-graf #: 1
+article.tarjeta #: 4
+article[class~="group-has-[#f-graf:checked]:hidden"] #: 2
+script #: 0
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Filtros que filtran sin JavaScript</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <!-- group en el contenedor: las tarjetas preguntan "¿el grupo TIENE tal radio marcado?" -->
+    <div class="group mx-auto max-w-4xl space-y-4">
+      <fieldset class="flex flex-wrap gap-2">
+        <legend class="sr-only">Filtrar rutas</legend>
+        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-todos" type="radio" name="f" class="sr-only" checked> Todos</label>
+        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-bajo" type="radio" name="f" class="sr-only"> Bajo nivel</label>
+        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-graf" type="radio" name="f" class="sr-only"> Gráficos</label>
+        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-web" type="radio" name="f" class="sr-only"> Web</label>
+      </fieldset>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <article class="tarjeta group-has-[#f-graf:checked]:hidden group-has-[#f-web:checked]:hidden">C++ Moderno · bajo nivel</article>
+        <article class="tarjeta group-has-[#f-bajo:checked]:hidden group-has-[#f-web:checked]:hidden">SDL3 · gráficos</article>
+        <article class="tarjeta group-has-[#f-bajo:checked]:hidden group-has-[#f-web:checked]:hidden">OpenGL · gráficos</article>
+        <article class="tarjeta group-has-[#f-graf:checked]:hidden group-has-[#f-bajo:checked]:hidden">TypeScript · web</article>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+Tesela elige «Gráficos» y las demás tarjetas desaparecen. Elige «Todos» y vuelven. Ni una línea de JavaScript.
+
+#### Imagen
+- Una pared de la Catedral con cuatro vitrales y una fila de fichas de colores abajo; dos vitrales se apagan.
+- Tesela mueve una ficha; Iris mira apagarse los vitrales; Gheco se esconde detrás de uno apagado.
+
 ### Prueba del sello
 
 #### ¿Por qué un `fieldset` con `overflow-x-auto` puede igual desbordar la página?
@@ -3434,543 +4091,6 @@ Las imágenes esperan su turno. Gheco también: se pone en la fila, detrás de l
 - Una fila de vitrales que se encienden de a uno a medida que alguien camina.
 - Gheco (gecko de luz con antiparras) espera en la fila.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) camina.
-
-### Misión R04-N03-M1 · El curso bloqueado
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una tarjeta de curso **bloqueada**: apagada (`opacity-60 grayscale`), con un candado y un **botón desactivado** en vez de un enlace.
-
-#### Criterio de aprobación
-
-- La tarjeta se ve apagada (`opacity-60 grayscale`) y tiene un candado.
-- Usa un `button` con `disabled` (no un enlace) y el texto dice por qué está bloqueada.
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N03-M1-celular.webp
-compu: capturas/R04-N03-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El curso bloqueado</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tarjeta bloqueada</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="p-4">
-    <div class="grid max-w-3xl gap-4 sm:grid-cols-2">
-      <article class="tarjeta flex flex-col gap-3">
-        <div class="flex items-center justify-between"><span class="rounded bg-neon/10 px-2 py-0.5 font-mono text-xs text-neon">MOD-04</span><span class="font-mono text-xs text-emerald-400">Disponible</span></div>
-        <h1 class="text-lg font-bold">C++ Moderno</h1>
-        <a href="#" class="btn btn-primario mt-auto px-3 py-1 text-xs">Continuar</a>
-      </article>
-      <!-- Bloqueada: apagada, con candado, y el boton no es un enlace -->
-      <article class="tarjeta relative flex flex-col gap-3 opacity-60 grayscale">
-        <div class="flex items-center justify-between"><span class="rounded bg-borde px-2 py-0.5 font-mono text-xs text-slate-400">MOD-30</span><span class="font-mono text-xs text-slate-400">🔒 Bloqueado</span></div>
-        <h2 class="text-lg font-bold">Vulkan &amp; Ray Tracing</h2>
-        <p class="text-sm text-slate-400">Se desbloquea al completar OpenGL 4.6.</p>
-        <button type="button" disabled class="btn btn-secundario mt-auto cursor-not-allowed px-3 py-1 text-xs">Requiere MOD-10</button>
-      </article>
-    </div>
-  </body>
-</html>
-```
-
-
-### Misión R04-N03-M2 · Los filtros que filtran
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Hacé que los chips de filtro **oculten de verdad** las tarjetas, sin JavaScript: `group` en el contenedor y `group-has-[#f-graf:checked]:hidden` en cada tarjeta que **no** es de gráficos.
-
-#### Criterio de aprobación
-
-- Los filtros son radios reales con su `label`.
-- Al elegir "Gráficos" se ocultan las demás tarjetas, sin JavaScript.
-- En *Celular* los chips no desbordan la página.
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N03-M2-celular.webp
-compu: capturas/R04-N03-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Los filtros que filtran</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Filtros que filtran sin JavaScript</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="p-4">
-    <!-- group en el contenedor: las tarjetas preguntan "¿el grupo TIENE tal radio marcado?" -->
-    <div class="group mx-auto max-w-4xl space-y-4">
-      <fieldset class="flex flex-wrap gap-2">
-        <legend class="sr-only">Filtrar rutas</legend>
-        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-todos" type="radio" name="f" class="sr-only" checked> Todos</label>
-        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-bajo" type="radio" name="f" class="sr-only"> Bajo nivel</label>
-        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-graf" type="radio" name="f" class="sr-only"> Gráficos</label>
-        <label class="chip cursor-pointer has-checked:bg-neon has-checked:text-fondo"><input id="f-web" type="radio" name="f" class="sr-only"> Web</label>
-      </fieldset>
-      <div class="grid gap-3 sm:grid-cols-2">
-        <article class="tarjeta group-has-[#f-graf:checked]:hidden group-has-[#f-web:checked]:hidden">C++ Moderno · bajo nivel</article>
-        <article class="tarjeta group-has-[#f-bajo:checked]:hidden group-has-[#f-web:checked]:hidden">SDL3 · gráficos</article>
-        <article class="tarjeta group-has-[#f-bajo:checked]:hidden group-has-[#f-web:checked]:hidden">OpenGL · gráficos</article>
-        <article class="tarjeta group-has-[#f-graf:checked]:hidden group-has-[#f-bajo:checked]:hidden">TypeScript · web</article>
-      </div>
-    </div>
-  </body>
-</html>
-```
-
 
 ### Encargo R04-N03-E1 · El catálogo de la librería
 
@@ -4749,6 +4869,570 @@ Los rankings, las tablas de posiciones y los resultados de búsqueda tienen que 
 
 **Ogro: `hidden` y `md:table`**: para mostrar una tabla desde `md` se usa `hidden md:table` (o envolverla en un `div` con `hidden md:block`); con `md:block` en la propia tabla, sus columnas se desarman.
 
+### Micro-misión R04-N04-P5 · Tu puesto a la vista
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R04-N04-M1
+```
+
+#### Escena
+En el salón de la fama la lista es larguísima y tu puesto se pierde abajo.
+—Que tu fila quede pegada abajo de la pantalla —dice Nora— hasta que llegues a ella.
+
+#### Gheco sugiere
+`sticky bottom-4` deja un elemento pegado a 1rem del borde de abajo mientras su lugar real no aparece en pantalla. Cuando llegás, se queda en su posición.
+
+#### Desafío
+Armá la lista del ranking: una `ol` con **doce** `li` con la clase `tarjeta`. La fila del usuario, con `sticky`, `bottom-4` y `text-neon`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tu puesto a la vista</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+ol > li.tarjeta #
+li.tarjeta[class~="sticky"][class~="bottom-4"] #
+li[class~="sticky"][class~="text-neon"] #
+```
+
+#### Salida esperada
+```
+ol > li.tarjeta #: 12
+li.tarjeta[class~="sticky"][class~="bottom-4"] #: 1
+li[class~="sticky"][class~="text-neon"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tu puesto siempre a la vista</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="pb-20">
+    <main class="space-y-2 p-4">
+      <p class="text-sm text-slate-400">Hacé scroll: tu fila queda pegada abajo hasta que llegás a ella.</p>
+      <ol start="4" class="space-y-2">
+        <li class="tarjeta py-3">4 · @ZeroByte_Arg</li><li class="tarjeta py-3">5 · @PixelSage</li><li class="tarjeta py-3">6 · @CodeKitsune</li>
+        <li class="tarjeta py-3">7 · @ByteSamurai</li><li class="tarjeta py-3">8 · @LaraBinary</li><li class="tarjeta py-3">9 · @MatrixWalker</li>
+        <li class="tarjeta py-3">11 · @NullPointer</li><li class="tarjeta py-3">12 · @SegFaultKid</li><li class="tarjeta py-3">13 · @HeapHero</li>
+        <li class="tarjeta py-3">14 · @StackSmash</li><li class="tarjeta py-3">15 · @RustAcean</li>
+        <!-- sticky bottom: se queda abajo mientras su lugar real no aparece en pantalla -->
+        <li class="tarjeta sticky bottom-4 border-neon/60 bg-panel py-3 text-neon shadow-brillo">10 · @GhecoDev (vos) · 6.400 XP</li>
+      </ol>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Nora baja por la lista y tu fila la acompaña desde abajo, hasta que se encuentra con su lugar. Se ríe sola.
+
+#### Imagen
+- Una columna larga de plaquitas de vidrio en el salón de la fama, con una plaquita cian brillante abajo de todo.
+- Nora baja una escalera mirando las plaquitas; Iris señala la cian; Gheco viaja sobre la plaquita cian.
+
+### Micro-misión R04-N04-P6 · Una sola tabla
+
+```meta
+lugar: La Gran Catedral de los Vitrales
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R04-N04-M2
+```
+
+#### Escena
+La tabla del salón de la fama tenía dos versiones, una para cada pantalla. Tesela quiere una sola.
+—En el celular, que se deslice de costado ella sola. La página, quieta.
+
+#### Gheco sugiere
+`overflow-x-auto` en el contenedor le da scroll propio; `min-w-[40rem]` en la tabla la mantiene ancha aunque la pantalla sea angosta. Y la tabla, con su `caption` y sus `scope`.
+
+#### Desafío
+Usá una sola tabla:
+
+- Un `div` con `overflow-x-auto` y, adentro, la `table` con `min-w-[40rem]`.
+- La tabla, con `caption`, **cinco** `th scope="col"` y **tres** filas con su `th scope="row"`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Una sola tabla</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+div[class~="overflow-x-auto"] > table[class~="min-w-[40rem]"] #
+caption #
+th[scope="col"] #
+th[scope="row"] #
+```
+
+#### Salida esperada
+```
+div[class~="overflow-x-auto"] > table[class~="min-w-[40rem]"] #: 1
+caption #: 1
+th[scope="col"] #: 5
+th[scope="row"] #: 3
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tabla con scroll horizontal</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
+      @theme {
+        --animate-flotar: flotar 4s ease-in-out infinite;
+        @keyframes flotar {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <!-- La otra solucion: UNA sola tabla que en el celular se desliza de costado -->
+    <div class="overflow-x-auto rounded-2xl border border-borde">
+      <table class="w-full min-w-[40rem] text-left text-sm">
+        <caption class="sr-only">Puestos 4 a 6</caption>
+        <thead class="bg-panel font-mono text-[10px] tracking-widest text-slate-500 uppercase">
+          <tr><th scope="col" class="px-4 py-3">Rank</th><th scope="col" class="px-4 py-3">Desarrollador</th><th scope="col" class="px-4 py-3">Especialidad</th><th scope="col" class="px-4 py-3">Racha</th><th scope="col" class="px-4 py-3 text-right">Puntos</th></tr>
+        </thead>
+        <tbody class="divide-y divide-borde">
+          <tr><td class="px-4 py-3 font-mono text-neon">#04</td><th scope="row" class="px-4 py-3">@ZeroByte_Arg</th><td class="px-4 py-3 text-slate-400">C++ Moderno</td><td class="px-4 py-3 text-fuego">🔥 14d</td><td class="px-4 py-3 text-right font-mono">10.900</td></tr>
+          <tr><td class="px-4 py-3 font-mono text-neon">#05</td><th scope="row" class="px-4 py-3">@PixelSage</th><td class="px-4 py-3 text-slate-400">SDL3 Engine</td><td class="px-4 py-3 text-fuego">🔥 11d</td><td class="px-4 py-3 text-right font-mono">9.850</td></tr>
+          <tr><td class="px-4 py-3 font-mono text-neon">#06</td><th scope="row" class="px-4 py-3">@CodeKitsune</th><td class="px-4 py-3 text-slate-400">OpenGL</td><td class="px-4 py-3 text-fuego">🔥 8d</td><td class="px-4 py-3 text-right font-mono">8.920</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+En el celular la tabla se desliza sola y la página no se mueve. Tesela tira a la basura la versión vieja de la tabla.
+
+#### Imagen
+- Una tira larga de vidrio con columnas de colores que se desliza de costado dentro de un marco de piedra.
+- Tesela desliza la tira con un dedo; Iris sostiene el marco; Gheco corre por arriba de la tira.
+
 ### Prueba del sello
 
 #### ¿Por qué el orden del podio en el HTML es 2-1-3?
@@ -5016,537 +5700,6 @@ ul li:last-child: Tesela
 - Un vitral con cinco retratos de líderes, uno al lado del otro.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) se mira en el vitral, emocionada, con el monóculo en la mano.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
-
-### Misión R04-N04-M1 · Tu puesto a la vista
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-En una lista larga del ranking, hacé que **la fila del usuario** quede pegada abajo de la pantalla hasta que se llega a ella al hacer scroll (`sticky bottom-4`).
-
-#### Criterio de aprobación
-
-- La fila del usuario usa `sticky bottom-…` y se distingue de las demás.
-- Al llegar a su lugar en la lista, queda en su posición.
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N04-M1-celular.webp
-compu: capturas/R04-N04-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tu puesto a la vista</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tu puesto siempre a la vista</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="pb-20">
-    <main class="space-y-2 p-4">
-      <p class="text-sm text-slate-400">Hacé scroll: tu fila queda pegada abajo hasta que llegás a ella.</p>
-      <ol start="4" class="space-y-2">
-        <li class="tarjeta py-3">4 · @ZeroByte_Arg</li><li class="tarjeta py-3">5 · @PixelSage</li><li class="tarjeta py-3">6 · @CodeKitsune</li>
-        <li class="tarjeta py-3">7 · @ByteSamurai</li><li class="tarjeta py-3">8 · @LaraBinary</li><li class="tarjeta py-3">9 · @MatrixWalker</li>
-        <li class="tarjeta py-3">11 · @NullPointer</li><li class="tarjeta py-3">12 · @SegFaultKid</li><li class="tarjeta py-3">13 · @HeapHero</li>
-        <li class="tarjeta py-3">14 · @StackSmash</li><li class="tarjeta py-3">15 · @RustAcean</li>
-        <!-- sticky bottom: se queda abajo mientras su lugar real no aparece en pantalla -->
-        <li class="tarjeta sticky bottom-4 border-neon/60 bg-panel py-3 text-neon shadow-brillo">10 · @GhecoDev (vos) · 6.400 XP</li>
-      </ol>
-    </main>
-  </body>
-</html>
-```
-
-
-### Misión R04-N04-M2 · Una sola tabla
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Usá la tabla de la compu **también en el celular**, con scroll horizontal propio: `overflow-x-auto` en el contenedor y `min-w-[40rem]` en la tabla.
-
-#### Criterio de aprobación
-
-- La tabla tiene `caption` y encabezados con `scope`.
-- En *Celular* la tabla se desliza sola; la página no tiene scroll horizontal.
-
-#### Cómo debe quedar
-
-celular: capturas/R04-N04-M2-celular.webp
-compu: capturas/R04-N04-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Una sola tabla</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tabla con scroll horizontal</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* 5) PROYECTO: las monedas de la boveda flotan (animate-flotar) */
-      @theme {
-        --animate-flotar: flotar 4s ease-in-out infinite;
-        @keyframes flotar {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body class="p-4">
-    <!-- La otra solucion: UNA sola tabla que en el celular se desliza de costado -->
-    <div class="overflow-x-auto rounded-2xl border border-borde">
-      <table class="w-full min-w-[40rem] text-left text-sm">
-        <caption class="sr-only">Puestos 4 a 6</caption>
-        <thead class="bg-panel font-mono text-[10px] tracking-widest text-slate-500 uppercase">
-          <tr><th scope="col" class="px-4 py-3">Rank</th><th scope="col" class="px-4 py-3">Desarrollador</th><th scope="col" class="px-4 py-3">Especialidad</th><th scope="col" class="px-4 py-3">Racha</th><th scope="col" class="px-4 py-3 text-right">Puntos</th></tr>
-        </thead>
-        <tbody class="divide-y divide-borde">
-          <tr><td class="px-4 py-3 font-mono text-neon">#04</td><th scope="row" class="px-4 py-3">@ZeroByte_Arg</th><td class="px-4 py-3 text-slate-400">C++ Moderno</td><td class="px-4 py-3 text-fuego">🔥 14d</td><td class="px-4 py-3 text-right font-mono">10.900</td></tr>
-          <tr><td class="px-4 py-3 font-mono text-neon">#05</td><th scope="row" class="px-4 py-3">@PixelSage</th><td class="px-4 py-3 text-slate-400">SDL3 Engine</td><td class="px-4 py-3 text-fuego">🔥 11d</td><td class="px-4 py-3 text-right font-mono">9.850</td></tr>
-          <tr><td class="px-4 py-3 font-mono text-neon">#06</td><th scope="row" class="px-4 py-3">@CodeKitsune</th><td class="px-4 py-3 text-slate-400">OpenGL</td><td class="px-4 py-3 text-fuego">🔥 8d</td><td class="px-4 py-3 text-right font-mono">8.920</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </body>
-</html>
-```
-
 
 ### Encargo R04-N04-E1 · La tabla del torneo
 

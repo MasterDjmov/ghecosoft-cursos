@@ -1,0 +1,517 @@
+{
+  "R00-N01-M1": {
+    "lugar": "El balcón de los Talleres",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "Antes de entrar a los Talleres, Tesela le pide a Iris que se presente como se presentan todos los aprendices: con una página.\n—El esqueleto completo, tu nombre, tu especialidad y dos párrafos sobre tu viaje. Una palabra fuerte y una con énfasis. Ni más ni menos.",
+    "gheco": "El esqueleto es siempre el mismo: `<!DOCTYPE html>`, `<html lang=\"es\">` y, en el `head`, `<meta charset=\"utf-8\">`, el `viewport` y el `title`. Adentro de un párrafo, `<strong>` marca algo importante y `<em>`, énfasis.",
+    "desafio": "Armá la página que presenta a {heroe} como aprendiz de los Talleres:\n\n1. El esqueleto completo: `<!DOCTYPE html>`, `html` con `lang=\"es\"`, y en el `head`, `meta charset`, `meta name=\"viewport\"` y `title`.\n2. **Un** `h1` con su nombre y **un** `h2` con su especialidad.\n3. **Dos** párrafos sobre su viaje, con **una** palabra en `strong` y **una** en `em`.\n\nEl inspector cuenta las etiquetas: los textos los elegís vos.",
+    "inspector": "!doctype\nhtml @lang\nmeta[charset] #\nmeta[name=\"viewport\"] #\ntitle #\nh1 #\nh2 #\np #\np strong #\np em #",
+    "exito": "Tesela lee la página y la cuelga en la puerta del balcón, al lado de las de los otros aprendices.\n—Bienvenida a los Talleres.",
+    "imagen": [
+      "Un balcón de piedra con una puerta de vitrales de colores, con hojas de pergamino colgadas a un lado.",
+      "Iris cuelga una hoja lisa; Tesela la mira con los brazos cruzados; Gheco se trepa al marco de la puerta."
+    ]
+  },
+  "R00-N01-M2": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "En el taller hay un manual viejo donde los títulos están todos mezclados: capítulos adentro de apartados, apartados sin capítulo.\n—Lo reescribimos —dice Tesela—. Un título, dos capítulos, y el primero con dos apartados. Sin saltear escalones.",
+    "gheco": "Los títulos van en orden: `h1` para el nombre, `h2` para cada capítulo y `h3` para los apartados de un capítulo. Nunca un `h3` sin su `h2` arriba.",
+    "desafio": "Escribí el manual del taller:\n\n1. **Un** `h1` con el nombre del manual.\n2. **Dos** `h2` (dos capítulos).\n3. Justo debajo del **primer** `h2`, **dos** `h3` (dos apartados), cada uno con **su** párrafo.\n4. El segundo capítulo, con **un** párrafo.\n\nEn total, tres párrafos. El inspector cuenta las etiquetas y revisa que el primer `h3` venga justo después de un `h2`.",
+    "inspector": "h1 #\nh2 #\nh3 #\np #\nh1 + h2 #\nh2 + h3 #\nh1 + h3 #",
+    "exito": "El manual queda con sus escalones en orden. Tesela lo guarda en el estante de los libros que se pueden leer.",
+    "imagen": [
+      "Un estante del taller de Tesela con libros de tapas de colores ordenados por tamaño.",
+      "Tesela acomoda un libro en el estante; Iris sostiene otro abierto; Gheco duerme encima de la fila de libros."
+    ]
+  },
+  "R01-N01-M1": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "Nora prepara pociones para los vitralistas que se cortan con el vidrio, pero se olvida siempre de los pasos.\n—Escribime la receta —le pide a Iris—. Con la imagen de la poción, los ingredientes y los pasos en orden.",
+    "gheco": "`<ul>` es una lista sin orden (los ingredientes) y `<ol>`, una con orden (los pasos). Cada elemento va en un `<li>` adentro de su lista. La imagen lleva `alt` con lo que muestra.",
+    "desafio": "Escribí la receta de la poción:\n\n1. Un título y **una** imagen (podés usar `/img/cursos/html/gheco-logo.webp`) con un `alt` que diga lo que muestra (que no quede vacío).\n2. Los ingredientes en **una** `ul` con **tres** `li`.\n3. Los pasos en **una** `ol` con **tres** `li`.",
+    "inspector": "img #\nimg:not([alt]) #\nimg[alt=\"\"] #\nul #\nul > li #\nol #\nol > li #",
+    "exito": "Nora pega la receta en la pared, al lado del caldero. Esa tarde no se olvida de ningún paso.",
+    "imagen": [
+      "Un caldero de cobre humeante sobre un fueguito, en un rincón del taller de Tesela, con frascos de vidrio de colores.",
+      "Nora revuelve el caldero; Iris lee una hoja lisa; Gheco olfatea el vapor."
+    ]
+  },
+  "R01-N01-M2": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "El bestiario del taller es una sola página larguísima y nadie encuentra nada.\n—Un índice arriba que salte a cada criatura —dice Tesela—. Y una forma de volver arriba, que la página es larga.",
+    "gheco": "Un enlace interno apunta a un `id`: `<a href=\"#slime\">` salta al elemento con `id=\"slime\"`. `href=\"#\"` vuelve al principio de la página.",
+    "desafio": "Armá la página del bestiario:\n\n1. Arriba, una `ul` con **dos** enlaces internos: `href=\"#slime\"` y `href=\"#goblin\"`.\n2. Un `h2` para cada criatura, con `id=\"slime\"` y `id=\"goblin\"`, cada uno con un párrafo.\n3. Al final, **un** enlace «Volver arriba» con `href=\"#\"`.",
+    "inspector": "ul a[href^=\"#\"] #\nh2[id] #\n#slime #\n#goblin #\na[href=\"#\"] #",
+    "exito": "Teo prueba el índice: salta al goblin, vuelve arriba, salta al slime. Lo hace veinte veces, hasta que Tesela le saca la página.",
+    "imagen": [
+      "Un libro enorme del bestiario abierto sobre un atril, con dibujos de un slime verde y un goblin.",
+      "Tesela pasa las páginas; Iris señala un dibujo; Gheco esquiva el dibujo del slime."
+    ]
+  },
+  "R01-N02-M1": {
+    "lugar": "Los ríos de plomo",
+    "personajes": "Iris, Gheco, Nora, Tesela",
+    "escena": "Tesela tiene un blog donde cuenta los trabajos del taller, pero está hecho todo con cajas iguales y nadie sabe dónde empieza cada cosa.\n—Cada parte con su nombre —dice—. La cabecera, el menú, las entradas, el costado y el pie.",
+    "gheco": "Las etiquetas semánticas dicen qué es cada parte: `header`, `nav`, `main`, `article`, `aside` y `footer`. La fecha va en `<time datetime=\"2026-09-30\">`.",
+    "desafio": "Armá el blog del taller con etiquetas semánticas:\n\n1. Un `header` con el nombre del blog y, adentro, un `nav` con **dos** enlaces.\n2. Un `main` con **dos** `article`, cada uno con su `h2` y su fecha en un `time` con el atributo `datetime`.\n3. Un `aside` «Sobre la autora», con su `h2`.\n4. Un `footer` al final.\n\nSin `div`.",
+    "inspector": "header #\nheader nav #\nnav a #\nmain #\nmain article #\narticle h2 #\narticle time[datetime] #\naside #\naside h2 #\nfooter #\ndiv #",
+    "exito": "El blog queda con cada parte en su lugar. Nora lo lee de punta a punta y descubre que Tesela cumple trescientos años de vitralista.",
+    "imagen": [
+      "Un río de plomo derretido que corre brillante por un canal de piedra, con vitrales en las paredes.",
+      "Tesela escribe en un cuaderno grande; Nora lee por encima de su hombro; Iris y Gheco miran el río."
+    ]
+  },
+  "R01-N02-M2": {
+    "lugar": "Los ríos de plomo",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "Nora quiere su ficha de jugadora de los Talleres, como la que tienen los aprendices viejos.\n—Que sea una ficha de verdad, que se entienda sola —dice—. Con mi cara, mis logros y desde cuándo estoy.",
+    "gheco": "Un `article` es algo que se entiende solo. Puede tener su propio `header` y su propio `footer`, y una `section` con su título adentro.",
+    "desafio": "Armá el perfil de una jugadora como **un** `article`:\n\n1. Su propio `header` con **una** imagen del avatar (con `alt`), el nombre y el nivel.\n2. **Una** `section` de logros con su `h2` y una lista de **dos** logros (`li`).\n3. Su propio `footer` con la fecha en que se unió.",
+    "inspector": "article #\narticle > header #\narticle img #\narticle img:not([alt]) #\narticle > section #\nsection h2 #\nsection li #\narticle > footer #",
+    "exito": "Nora imprime su ficha y la lleva en el bolsillo. Se la muestra a todos los que pasan.",
+    "imagen": [
+      "Una ficha de jugadora de cartón con un retrato redondo y dos estrellitas, sobre una mesa junto al río de plomo.",
+      "Nora muestra la ficha orgullosa; Iris aplaude; Gheco se sienta en la mesa."
+    ]
+  },
+  "R01-N03-M1": {
+    "lugar": "La ventanilla del portal",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "En la ventanilla del portal llegan preguntas por criaturas y Teo las busca a mano, página por página.\n—Un buscador —dice Iris—. Un campo para escribir y un botón.",
+    "gheco": "`<form method=\"get\">` manda lo que se escribe en la dirección. El campo `type=\"search\"` necesita su `label` conectado: el `for` del `label` igual al `id` del campo.",
+    "desafio": "Armá el buscador del bestiario:\n\n- Un `form` con `method=\"get\"`.\n- Un `label` «Buscar» con `for=\"q\"`.\n- Un `input` con `type=\"search\"`, `id=\"q\"` y `name=\"q\"`.\n- Un `button` con `type=\"submit\"` y el texto «Buscar».",
+    "inspector": "form @method\nlabel @for\ninput @type\ninput @id\ninput @name\nbutton @type\nbutton",
+    "exito": "Teo escribe «slime», aprieta Buscar y se queda mirando la pantalla, maravillado.\n—¿Y esto hace lo mismo que yo, pero sin cansarse?",
+    "imagen": [
+      "Una ventanilla de madera con un vidrio de colores y una lupa grande de bronce colgada al lado.",
+      "Teo, muchacho de delantal, sostiene la lupa; Iris escribe en un cuadernito; Gheco espía por la ventanilla."
+    ]
+  },
+  "R01-N03-M2": {
+    "lugar": "La ventanilla del portal",
+    "personajes": "Iris, Gheco, Teo, Tesela",
+    "escena": "Tesela quiere saber qué piensan los aprendices de la temporada. Teo propone preguntar de a uno, en el pasillo.\n—Mejor una encuesta —dice Tesela—. Con opciones para elegir y un lugar para los comentarios. Cortitos.",
+    "gheco": "Los `radio` del mismo grupo comparten el `name` (se elige uno solo). Un `fieldset` agrupa y su `legend` dice qué se pregunta. `maxlength` en el `textarea` limita los caracteres.",
+    "desafio": "Armá la encuesta:\n\n1. Un `fieldset` con `legend` y **tres** opciones `radio`, todas con `name=\"opinion\"`, cada una adentro de su `label`; **una** con `required`.\n2. Otro `fieldset` con `legend` y **tres** `checkbox`, cada uno adentro de su `label`.\n3. Un `textarea` con `id=\"comentario\"` y `maxlength=\"300\"`, con su `label for=\"comentario\"`.",
+    "inspector": "fieldset #\nfieldset legend #\ninput[type=\"radio\"][name=\"opinion\"] #\ninput[type=\"radio\"][required] #\ninput[type=\"checkbox\"] #\nlabel input #\ntextarea @id\ntextarea @maxlength\nlabel[for=\"comentario\"] #",
+    "exito": "Llegan treinta respuestas en una tarde. La mayoría pide más vidrios de colores. Uno pide que Teo deje de cantar en el pasillo.",
+    "imagen": [
+      "Una caja de madera con una ranura en la ventanilla del portal, llena de papelitos doblados.",
+      "Tesela lee un papelito y sonríe; Teo se pone colorado; Iris y Gheco cuentan papelitos."
+    ]
+  },
+  "R01-N04-M1": {
+    "lugar": "La entrada de los Talleres",
+    "personajes": "Iris, Gheco, Nora, Teo",
+    "escena": "En la entrada de los Talleres hay un pizarrón con los horarios de las clases, borroneado de tanto cambiarlo.\n—Una tabla —dice Nora—. Los días arriba, las horas al costado. Y la práctica libre ocupa dos días.",
+    "gheco": "`caption` es el título de la tabla. Los encabezados son `th`: con `scope=\"col\"` los de columna y con `scope=\"row\"` los de fila. `colspan=\"2\"` hace que una celda ocupe dos columnas.",
+    "desafio": "Armá el horario del taller:\n\n- Un `caption` con el título.\n- Un `thead` con **tres** `th scope=\"col\"`: «Hora» y dos días.\n- Un `tbody` con **dos** filas, cada una con su hora en un `th scope=\"row\"`.\n- En la segunda fila, **una** celda con `colspan=\"2\"`.",
+    "inspector": "caption #\nthead #\ntbody #\nth[scope=\"col\"] #\nth[scope=\"row\"] #\ntd[colspan=\"2\"] #",
+    "exito": "Nora borra el pizarrón y cuelga la tabla. Nadie vuelve a llegar tarde. Bueno, Teo sí.",
+    "imagen": [
+      "La entrada de los Talleres de los Vitrales, con una puerta grande de vitral y un pizarrón al costado.",
+      "Nora borra el pizarrón con un trapo; Teo llega corriendo, tarde; Iris y Gheco cuelgan una hoja lisa."
+    ]
+  },
+  "R01-N04-M2": {
+    "lugar": "La entrada de los Talleres",
+    "personajes": "Iris, Gheco, Nora, Teo",
+    "escena": "Un viajero pregunta en la entrada qué diferencia hay entre el plan Gratis y el plan Supremo de los Talleres. Teo le explica con las manos y lo confunde más.\n—Una tabla —dice Nora—. Que se lea bien hasta en voz alta.",
+    "gheco": "Con `thead` y `tbody` la tabla se entiende por partes. Los `th scope=\"col\"` nombran las columnas (los planes) y los `th scope=\"row\"`, las filas (las características): así un lector de pantalla dice cada dato con su nombre.",
+    "desafio": "Armá la tabla que compara los planes:\n\n- Un `caption`, un `thead` y un `tbody`.\n- **Tres** `th scope=\"col\"`: «Característica», «Gratis» y «Supremo».\n- **Dos** filas de características, cada una con su `th scope=\"row\"` y **dos** `td` (cuatro `td` en total).",
+    "inspector": "caption #\nthead #\ntbody #\nth[scope=\"col\"] #\nth[scope=\"row\"] #\ntd #",
+    "exito": "El viajero lee la tabla y elige el plan Gratis. Teo, que le vendía el Supremo, se lleva las manos a la cabeza.",
+    "imagen": [
+      "Una mesa en la entrada de los Talleres con una hoja grande dividida en columnas de colores.",
+      "Un viajero con capa señala una columna; Teo se agarra la cabeza; Nora y Gheco se ríen."
+    ]
+  },
+  "R01-N05-M1": null,
+  "R02-N01-M1": null,
+  "R02-N01-M2": null,
+  "R02-N02-M1": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "En el taller hay una tarjeta de curso cian que salió perfecta. Tesela quiere otra igual para el curso de SDL3, pero violeta.\n—Sin copiar todo el CSS —dice—. La misma tarjeta; lo único que cambia es el color de acento.",
+    "gheco": "Las variables de CSS se pueden pisar en un elemento: una clase `.violeta { --neon: #a78bfa; }` cambia el acento solo en las tarjetas que la tengan. Todo lo que usa `var(--neon)` adentro se pinta del color nuevo.",
+    "desafio": "Agregá la tarjeta del curso de **SDL3** con acento violeta:\n\n- Una regla `.violeta { --neon: #a78bfa; }` en el `style`.\n- Un `article` con las clases `tarjeta violeta`, con el contenido de la tarjeta (las mismas clases de adentro que la de C++).",
+    "inspector": "css .violeta { --neon }\narticle.tarjeta.violeta #",
+    "exito": "La tarjeta violeta queda al lado de la cian, idénticas salvo por el color. Tesla pasa, las mira y asiente, cosa rara en él.",
+    "imagen": [
+      "Dos tarjetas de vidrio sobre una mesa del taller, iguales salvo por el borde: una cian y otra violeta.",
+      "Tesela pone las tarjetas una al lado de la otra; Iris sostiene un vidrio violeta; Gheco se refleja en la tarjeta violeta."
+    ]
+  },
+  "R02-N02-M2": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "Tesela tiene un aviso que en la ventana grande del taller queda estirado de punta a punta y no se lee.\n—Que en lo angosto ocupe todo —dice— y en lo ancho no pase de cierto tamaño. Centrado.",
+    "gheco": "`max-width` pone un tope sin obligar a llegar: en una pantalla angosta la caja ocupa lo que haya. `margin: 2rem auto` deja 2rem arriba y abajo y reparte lo que sobra a los costados: la caja queda centrada.",
+    "desafio": "Armá una caja con un párrafo adentro, con la clase `centrada`, y en el `style`:\n\n- `max-width: 30rem;`\n- `margin: 2rem auto;`\n- `box-sizing: border-box;`\n\nMirala en *Celular* y en *Compu*.",
+    "inspector": "css .centrada { max-width }\ncss .centrada { margin }\ncss .centrada { box-sizing }\n.centrada p #",
+    "exito": "El aviso queda centrado en la ventana grande y entero en la chica. Tesela lo lee desde la otra punta del taller, sin anteojos.",
+    "imagen": [
+      "Un ventanal ancho del taller con un cartel de vidrio centrado, de bordes cian.",
+      "Tesela mira el cartel desde lejos con las manos en la cintura; Iris ajusta un costado; Gheco mide con la cola."
+    ]
+  },
+  "R02-N03-M1": {
+    "lugar": "La cornisa del ventanal",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "Teo quiere una tarjeta de perfil para su puesto en la cornisa: la cara a un lado, el nombre en el medio y un botón para seguirlo al otro.\n—Todo en una fila —dice—. Y que el nombre use el espacio que sobre.",
+    "gheco": "`display: flex` pone a los hijos en fila; `align-items: center` los centra en vertical y `gap`, separa. `flex: 1` hace que un hijo ocupe el espacio que sobra, y `flex-shrink: 0` que la imagen no se achique.",
+    "desafio": "Armá la tarjeta de perfil con estas clases y reglas:\n\n- El contenedor, `.perfil`: `display: flex`, `align-items: center` y `gap: 1rem`.\n- La imagen del avatar (con `alt`), con la regla `.perfil img`: `flex-shrink: 0` y `border-radius: 50%`.\n- El bloque del nombre y el nivel, `.datos`: `flex: 1`.\n- Un enlace «Seguir» con la clase `seguir`.",
+    "inspector": "css .perfil { display }\ncss .perfil { align-items }\ncss .perfil { gap }\ncss .perfil img { flex-shrink }\ncss .perfil img { border-radius }\ncss .datos { flex }\n.perfil > img #\n.perfil > .datos #\n.perfil > a.seguir #",
+    "exito": "La tarjeta de Teo queda en la cornisa. En una hora tiene tres seguidores: Iris, Gheco y una paloma.",
+    "imagen": [
+      "Una cornisa de piedra junto a un ventanal de vitrales, con una tarjeta alargada clavada en la pared.",
+      "Teo señala su tarjeta orgulloso; Iris aplaude; Gheco y una paloma miran la tarjeta."
+    ]
+  },
+  "R02-N03-M2": {
+    "lugar": "La cornisa del ventanal",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "Mientras el taller carga las piezas nuevas, Tesela quiere un cartel de espera **justo** en el medio de la ventana. Ni un poco arriba ni un poco al costado.\n—Sin calcular márgenes a mano —dice—. Que se centre solo.",
+    "gheco": "Con `display: flex` en el `body`, `justify-content: center` centra en horizontal y `align-items: center`, en vertical. Para que haya alto donde centrar, el `body` necesita `min-height: 100vh`.",
+    "desafio": "Centrá un cartel (un `div` con la clase `cartel`) en el medio exacto de la ventana. En el `style`, el `body` lleva:\n\n- `min-height: 100vh;`\n- `display: flex;`\n- `justify-content: center;`\n- `align-items: center;`",
+    "inspector": "css body { min-height }\ncss body { display }\ncss body { justify-content }\ncss body { align-items }\nbody > .cartel #",
+    "exito": "El cartel queda clavado en el centro, achiques o agrandes la ventana. Tesela lo mira un rato largo, satisfecha.",
+    "imagen": [
+      "Un ventanal redondo con un cartel de vidrio flotando exactamente en el centro, de bordes cian.",
+      "Tesela mira el cartel con una regla en la mano; Iris y Gheco se asoman desde los costados."
+    ]
+  },
+  "R02-N04-M1": {
+    "lugar": "La mesa de los encargos de Kaffa",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "Teo juntó insignias de todos los encargos y las quiere mostrar en una vitrina.\n—Todas cuadradas, que se acomoden solas según el ancho —dice—. Y la de campeón, más grande.",
+    "gheco": "`repeat(auto-fill, minmax(6rem, 1fr))` arma tantas columnas como entren, de al menos 6rem. `aspect-ratio: 1` las hace cuadradas y `grid-column: span 2` hace que una ocupe dos columnas.",
+    "desafio": "Armá la galería de insignias: una `ul` con la clase `insignias` y **seis** `li`, uno de ellos con la clase `grande`. En el `style`:\n\n- `.insignias`: `display: grid` y `grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr))`.\n- `.insignias li`: `aspect-ratio: 1`.\n- `.insignias .grande`: `grid-column: span 2`.",
+    "inspector": "css .insignias { display }\ncss .insignias { grid-template-columns }\ncss .insignias li { aspect-ratio }\ncss .insignias .grande { grid-column }\n.insignias > li #\n.insignias > li.grande #",
+    "exito": "La vitrina se acomoda sola cuando Teo la mueve de lugar. La insignia de campeón brilla al frente, más grande que las demás.",
+    "imagen": [
+      "Una vitrina de vidrio sobre la mesa de los encargos con insignias cuadradas en fila y una dorada más ancha al frente.",
+      "Teo señala la insignia dorada; Iris acomoda una; Gheco se refleja en el vidrio."
+    ]
+  },
+  "R02-N04-M2": {
+    "lugar": "La mesa de los encargos de Kaffa",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "Kaffa dejó un encargo en la mesa: el plano de una página con cabecera, menú al costado, contenido y pie.\n—Dibujalo con nombres —dice Tesela—. Que el CSS se lea como el plano.",
+    "gheco": "`grid-template-areas` dibuja el layout con palabras: cada renglón entre comillas es una fila. Después, cada zona dice dónde va con `grid-area: nombre`.",
+    "desafio": "Armá el esqueleto con un `header`, un `nav`, un `main` y un `footer` adentro del `body`. En el `style`:\n\n- `body`: `display: grid` y un `grid-template-areas` con tres filas: `\"cabecera cabecera\" \"menu contenido\" \"pie pie\"`.\n- `header { grid-area: cabecera; }`, `nav { grid-area: menu; }`, `main { grid-area: contenido; }` y `footer { grid-area: pie; }`.",
+    "inspector": "css body { display }\ncss header { grid-area }\ncss nav { grid-area }\ncss main { grid-area }\ncss footer { grid-area }\nbody > header #\nbody > nav #\nbody > main #\nbody > footer #",
+    "exito": "El plano de Kaffa y la página quedan iguales. Tesela dobla el plano y lo guarda: ya no lo necesita.",
+    "imagen": [
+      "Un plano de papel sobre la mesa de los encargos, dividido en cuatro zonas de colores lisos.",
+      "Tesela dobla el plano; Iris acomoda cuatro vidrios en el mismo orden; Gheco se sienta en la zona del pie."
+    ]
+  },
+  "R02-N05-M1": {
+    "lugar": "La cabaña y el castillo",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "Nora tiene fotos de vitrales para mostrar en la cabaña (la pantalla chica) y en el castillo (la grande).\n—En la cabaña, de a una. Y a medida que hay lugar, más columnas.",
+    "gheco": "Primero el CSS del celular, sin `@media`. Después, de menor a mayor, `@media (min-width: …)` suma columnas cuando la pantalla es más ancha.",
+    "desafio": "Armá una galería: una `ul` con la clase `galeria` y seis `li`. En el `style`:\n\n- `.galeria`: `display: grid` y `grid-template-columns: 1fr`.\n- `@media (min-width: 30rem)`: `.galeria { grid-template-columns: repeat(2, 1fr); }`\n- `@media (min-width: 48rem)`: tres columnas, `repeat(3, 1fr)`.\n- `@media (min-width: 80rem)`: seis columnas, `repeat(6, 1fr)`.",
+    "inspector": "css .galeria { display }\ncss .galeria { grid-template-columns }\ncss @media (min-width: 30rem) | .galeria { grid-template-columns }\ncss @media (min-width: 48rem) | .galeria { grid-template-columns }\ncss @media (min-width: 80rem) | .galeria { grid-template-columns }\n.galeria > li #",
+    "exito": "En la cabaña se ve una foto por renglón; en el castillo, seis en fila. Nora pasa de una a otra diez veces solo para mirar cómo se acomodan.",
+    "imagen": [
+      "Una cabaña chiquita y un castillo enorme uno al lado del otro, cada uno con una ventana llena de vitrales.",
+      "Nora corre de la cabaña al castillo; Iris señala las ventanas; Gheco cuenta los vitrales."
+    ]
+  },
+  "R02-N05-M2": {
+    "lugar": "La cabaña y el castillo",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "En la cabaña no entra el menú del panel: se sale por los costados y arrastra toda la página.\n—En la cabaña, que se deslice solo el menú —dice Nora—. En el castillo, que se ponga en columna a la izquierda.",
+    "gheco": "`overflow-x: auto` le da scroll propio a un elemento, sin mover la página. Desde un ancho, una `@media` cambia la grilla a dos columnas y pone el menú en columna con `flex-direction: column`.",
+    "desafio": "Armá el panel: un `div` con la clase `layout` que tenga adentro un `nav` (con **cuatro** enlaces) y un `main`. En el `style`:\n\n- `.layout`: `display: grid` y `grid-template-columns: 1fr`.\n- `nav`: `display: flex` y `overflow-x: auto`.\n- `@media (min-width: 48rem)`: `.layout { grid-template-columns: 14rem 1fr; }` y `nav { flex-direction: column; }`.",
+    "inspector": "css .layout { display }\ncss .layout { grid-template-columns }\ncss nav { display }\ncss nav { overflow-x }\ncss @media (min-width: 48rem) | .layout { grid-template-columns }\ncss @media (min-width: 48rem) | nav { flex-direction }\n.layout > nav a #\n.layout > main #",
+    "exito": "En la cabaña, el menú se desliza con el dedo; en el castillo, se para a la izquierda. Nora guarda la página en su ficha de favoritos.",
+    "imagen": [
+      "Una cinta de vitrales que se desliza de costado en la ventana de la cabaña y se pone vertical en la del castillo.",
+      "Nora desliza la cinta con un dedo; Iris mira el castillo; Gheco se sube a la cinta como a un tobogán."
+    ]
+  },
+  "R02-N06-M1": null,
+  "R03-N01-M1": {
+    "lugar": "El cofre del Gremio",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "En el cofre del Gremio hay una caja de clases ya hechas: Tailwind. Tesela quiere rehacer la tarjeta de SDL3 sin escribir ni una regla de CSS.\n—Borde violeta, acento violeta y la barra de progreso a la mitad, casi.",
+    "gheco": "Cada clase de Tailwind es una regla: `border-violet-900`, `bg-violet-400`. Para un valor que no está en la escala, corchetes: `w-[45%]`.",
+    "desafio": "Rehacé la tarjeta del curso de SDL3 solo con clases de Tailwind (sin CSS escrito a mano):\n\n- Un `article` con las clases `border` y `border-violet-900`.\n- Adentro, una barra de progreso: un `div` con la clase `w-[45%]` y la clase `bg-violet-400`.\n- El texto de los XP con la clase `text-violet-400`.",
+    "inspector": "article[class~=\"border\"][class~=\"border-violet-900\"] #\ndiv[class~=\"w-[45%]\"][class~=\"bg-violet-400\"] #\n[class~=\"text-violet-400\"] #",
+    "exito": "La tarjeta violeta sale del cofre sin una sola regla escrita a mano. Tesela cierra el cofre con una sonrisa de costado.",
+    "imagen": [
+      "Un cofre de madera abierto con cajoncitos llenos de piezas de vidrio de colores ordenadas por tono.",
+      "Tesela saca un vidrio violeta; Iris arma una tarjeta con piezas; Gheco se mete en un cajoncito."
+    ]
+  },
+  "R03-N01-M2": {
+    "lugar": "El cofre del Gremio",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "Teo quiere los dos botones de la plataforma: uno lleno para seguir la campaña y otro de borde para ir a los nodos.\n—Del mismo alto y con las mismas esquinas —dice—. Que se vean de la misma familia.",
+    "gheco": "`bg-cyan-400` pinta el fondo y `text-slate-950` el texto. Un botón de borde lleva `border` sin fondo. Para que sean de la misma familia, los dos con el mismo `px-5 py-3` y `rounded-lg`.",
+    "desafio": "Armá dos enlaces con clases de Tailwind:\n\n- «Continuar campaña», con `bg-cyan-400` y `text-slate-950`.\n- «Nodos», con `border` (sin clase de fondo).\n- Los dos, con `inline-block`, `rounded-lg`, `px-5` y `py-3`.",
+    "inspector": "a #\na[class~=\"bg-cyan-400\"][class~=\"text-slate-950\"] #\na[class~=\"border\"] #\na[class~=\"inline-block\"][class~=\"rounded-lg\"][class~=\"px-5\"][class~=\"py-3\"] #",
+    "exito": "Los dos botones quedan de la misma familia. Teo aprieta «Continuar campaña» y no pasa nada, porque es de mentira. Lo aprieta igual otras cinco veces.",
+    "imagen": [
+      "Dos botones de vidrio sobre la tapa del cofre: uno cian lleno y otro con solo el borde.",
+      "Teo aprieta el botón cian con el dedo; Iris se ríe; Gheco aprieta el otro con la cola."
+    ]
+  },
+  "R03-N02-M1": {
+    "lugar": "Los cajones del cofre",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "Nora quiere su avatar como el de la cabecera de la plataforma: redondo, con un anillo cian y el nivel pegado abajo.\n—Que la etiqueta quede encima de la imagen, al centro.",
+    "gheco": "`ring-2 ring-cyan-400` dibuja un anillo alrededor. Para superponer, el contenedor es `relative` y la etiqueta `absolute`, con `left-1/2 -translate-x-1/2` para centrarla.",
+    "desafio": "Armá el avatar con clases de Tailwind:\n\n- Un contenedor con la clase `relative`.\n- Adentro, **una** imagen con `alt`, con las clases `ring-2` y `ring-cyan-400`.\n- Una etiqueta (`span`) con el texto `LV.14` y las clases `absolute`, `left-1/2` y `-translate-x-1/2`.",
+    "inspector": "[class~=\"relative\"] > img[class~=\"ring-2\"][class~=\"ring-cyan-400\"] #\nimg:not([alt]) #\n[class~=\"relative\"] > span[class~=\"absolute\"][class~=\"left-1/2\"][class~=\"-translate-x-1/2\"]",
+    "exito": "Nora pone su avatar en su ficha. El nivel le queda chiquito abajo, como a los jugadores de verdad.",
+    "imagen": [
+      "Un medallón redondo con un anillo de luz cian y una plaquita violeta lisa abajo, sobre un cajón del cofre.",
+      "Nora se mira en el medallón; Iris le acomoda la plaquita; Gheco se refleja en el anillo."
+    ]
+  },
+  "R03-N02-M2": {
+    "lugar": "Los cajones del cofre",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "Tesela quiere los títulos del salón de la fama en degradé, como los vidrios de la ventana grande cuando les da el sol.\n—En el texto, no en el fondo. Y el de la liga, con tres colores.",
+    "gheco": "`bg-linear-to-r from-… to-…` pinta un degradé de fondo; `bg-clip-text text-transparent` lo recorta con la forma del texto. Con `via-…` se suma un color del medio.",
+    "desafio": "Escribí dos títulos con texto en degradé:\n\n- Un `h1` «Hall of Fame» con `bg-linear-to-r`, `from-amber-300`, `to-orange-500`, `bg-clip-text` y `text-transparent`.\n- Un `h2` «Liga Obsidiana» con `bg-linear-to-r`, `from-fuchsia-400`, `via-violet-400`, `to-cyan-400`, `bg-clip-text` y `text-transparent`.",
+    "inspector": "h1\nh1[class~=\"bg-linear-to-r\"][class~=\"from-amber-300\"][class~=\"to-orange-500\"][class~=\"bg-clip-text\"][class~=\"text-transparent\"] #\nh2\nh2[class~=\"from-fuchsia-400\"][class~=\"via-violet-400\"][class~=\"to-cyan-400\"][class~=\"bg-clip-text\"][class~=\"text-transparent\"] #",
+    "exito": "Los dos títulos brillan como vidrio al sol. Tesela los cuelga en la entrada del salón de la fama.",
+    "imagen": [
+      "Dos placas de vidrio en la pared, una que pasa del dorado al naranja y otra del fucsia al violeta y al cian.",
+      "Tesela cuelga una placa; Iris sostiene la otra; Gheco brilla de colores al pasar delante."
+    ]
+  },
+  "R03-N03-M1": {
+    "lugar": "La cabaña y el castillo",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "En la cabaña, la barra de secciones de abajo flota en el medio cuando hay poco contenido.\n—Que quede siempre abajo —dice Teo—, pero sin pegarla con clavos. Que la empuje el contenido.",
+    "gheco": "`min-h-screen flex flex-col` en el `body` hace una columna del alto de la pantalla. `flex-1` en el `main` lo estira y empuja la barra al fondo. Cada sección con `flex-1` mide lo mismo.",
+    "desafio": "Armá la barra inferior con clases de Tailwind:\n\n- El `body`, con `min-h-screen`, `flex` y `flex-col`.\n- Un `main` con `flex-1`.\n- Un `nav` con `flex` y **cuatro** enlaces, cada uno con `flex-1`.",
+    "inspector": "body[class~=\"min-h-screen\"][class~=\"flex\"][class~=\"flex-col\"] #\nmain[class~=\"flex-1\"] #\nnav[class~=\"flex\"] #\nnav > a[class~=\"flex-1\"] #",
+    "exito": "La barra baja al fondo y ahí se queda, haya poco o mucho contenido. Teo prueba con una sola palabra en la página: la barra, abajo.",
+    "imagen": [
+      "La ventana de la cabaña con una cinta de cuatro vitrales iguales pegada al borde de abajo.",
+      "Teo empuja la cinta hacia abajo con las dos manos; Iris mide los vitrales; Gheco duerme sobre la cinta."
+    ]
+  },
+  "R03-N03-M2": {
+    "lugar": "La cabaña y el castillo",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "Teo quiere un tablero con sus estadísticas: la experiencia arriba, grande, y la racha y los nodos abajo, una al lado de la otra.\n—Dos columnas, y la primera que ocupe las dos.",
+    "gheco": "`grid grid-cols-2` arma dos columnas. `col-span-2` hace que un elemento ocupe las dos.",
+    "desafio": "Armá el tablero con clases de Tailwind:\n\n- Un contenedor con `grid` y `grid-cols-2`.\n- Adentro, **tres** `div` de estadísticas, todos con `rounded-xl`; el primero, además, con `col-span-2`.",
+    "inspector": "[class~=\"grid\"][class~=\"grid-cols-2\"] #\n[class~=\"grid-cols-2\"] > div[class~=\"rounded-xl\"] #\n[class~=\"grid-cols-2\"] > div[class~=\"col-span-2\"] #",
+    "exito": "El tablero de Teo queda colgado en la cabaña. La racha dice cuarenta y cinco días; Teo jura que es verdad.",
+    "imagen": [
+      "Un tablero de vidrio con tres paneles: uno ancho arriba y dos chicos abajo, con lucecitas de colores.",
+      "Teo señala el panel ancho; Iris cuenta lucecitas; Gheco enciende una."
+    ]
+  },
+  "R03-N04-M1": {
+    "lugar": "La mesa de los pergaminos de Ofidia",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "Nora arma la tabla de posiciones para la mesa de Ofidia. En el celular solo entran tres datos; en la compu, cinco.\n—Que los dos de más aparezcan solos cuando hay lugar.",
+    "gheco": "`hidden md:block` esconde algo en el celular y lo muestra desde `md`. La fila es `flex` en el celular y pasa a grilla con `md:grid` y unas columnas a medida.",
+    "desafio": "Armá una fila del ranking con clases de Tailwind:\n\n- Un `div` con `flex` y `md:grid`.\n- Adentro, **cinco** `span`: puesto, nombre, especialidad, racha y puntos.\n- La especialidad y la racha, con `hidden` y `md:block`.",
+    "inspector": "div[class~=\"flex\"][class~=\"md:grid\"] #\ndiv[class~=\"md:grid\"] > span #\nspan[class~=\"hidden\"][class~=\"md:block\"] #",
+    "exito": "En el celular la fila muestra lo justo; en la compu, todo. Ofidia mira la tabla y no dice nada, que es su forma de aprobar.",
+    "imagen": [
+      "Una mesa con pergaminos enrollados y una fila de cinco plaquitas de vidrio de colores, dos de ellas más tenues.",
+      "Nora acomoda las plaquitas; Iris enciende las dos tenues con un dedo; Gheco duerme sobre un pergamino."
+    ]
+  },
+  "R03-N04-M2": {
+    "lugar": "La mesa de los pergaminos de Ofidia",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "El título de la liga en el celular queda enorme y en la compu, chiquito.\n—Al revés —dice Nora—. Que crezca con la pantalla. Y el párrafo, que no se estire de punta a punta.",
+    "gheco": "Las clases con prefijo valen desde ese ancho: `text-2xl sm:text-4xl lg:text-6xl`. Un ancho máximo para el párrafo, como `lg:max-w-xl`, deja los renglones cómodos de leer.",
+    "desafio": "Escribí con clases de Tailwind:\n\n- Un `h1` con `text-2xl`, `sm:text-4xl` y `lg:text-6xl`.\n- Un párrafo con `lg:max-w-xl`.",
+    "inspector": "h1[class~=\"text-2xl\"][class~=\"sm:text-4xl\"][class~=\"lg:text-6xl\"] #\np[class~=\"lg:max-w-xl\"] #",
+    "exito": "El título crece con la pantalla como un vitral que se agranda al acercarse. Nora lo mira en las tres pantallas, una por una.",
+    "imagen": [
+      "Tres pergaminos desplegados uno al lado del otro, cada uno más grande que el anterior, con un título de vidrio que crece.",
+      "Nora compara los tres pergaminos; Iris sostiene el más grande; Gheco se para sobre el más chico."
+    ]
+  },
+  "R03-N05-M1": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "Teo quiere que su fila del ranking reaccione cuando alguien pasa el mouse: que cambie el fondo, que el puesto se ponga cian y que aparezca una flechita.\n—Y suave —dice—. Nada de golpes.",
+    "gheco": "`group` en la fila y `group-hover:` en sus partes: así cada parte reacciona cuando el mouse está sobre la fila entera. `transition` suaviza los cambios.",
+    "desafio": "Armá una fila del ranking con clases de Tailwind:\n\n- Un enlace (`a`) con `group`, `transition` y `hover:bg-slate-800`.\n- Adentro, el puesto con `group-hover:text-cyan-400`.\n- Una flecha con `opacity-0`, `transition` y `group-hover:opacity-100`.",
+    "inspector": "a[class~=\"group\"][class~=\"transition\"][class~=\"hover:bg-slate-800\"] #\na[class~=\"group\"] [class~=\"group-hover:text-cyan-400\"] #\na[class~=\"group\"] [class~=\"opacity-0\"][class~=\"transition\"][class~=\"group-hover:opacity-100\"] #",
+    "exito": "Teo pasa el mouse por su fila una y otra vez, solo para ver aparecer la flechita.",
+    "imagen": [
+      "Una fila de vidrio que se ilumina suave al acercar la mano, con una flechita cian que aparece en la punta.",
+      "Teo pasa la mano por encima de la fila; Iris mira la flechita; Gheco persigue la flechita."
+    ]
+  },
+  "R03-N05-M2": {
+    "lugar": "El taller de Tesela",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "En la entrada del taller hay una caja que pregunta si se recuerda al visitante. Nora la quiere con forma de interruptor.\n—Pero que sea una casilla de verdad —dice—. Que se pueda usar con el teclado.",
+    "gheco": "La casilla real se esconde con `sr-only` y se marca como `peer`. Su hermano, un `span`, dibuja el interruptor y cambia con `peer-checked:`. La bolita es un pseudo-elemento: `after:`.",
+    "desafio": "Armá el interruptor «Recordarme en esta terminal» con clases de Tailwind, todo adentro de un `label`:\n\n- Un `input type=\"checkbox\"` con `peer` y `sr-only`.\n- Un `span` con `peer-checked:bg-cyan-400` y la bolita hecha con `after:absolute` y `peer-checked:after:translate-x-5`.",
+    "inspector": "label input[type=\"checkbox\"][class~=\"peer\"][class~=\"sr-only\"] #\nlabel span[class~=\"peer-checked:bg-cyan-400\"][class~=\"after:absolute\"][class~=\"peer-checked:after:translate-x-5\"] #",
+    "exito": "Nora aprieta el interruptor con el teclado y la bolita se desliza. Lo deja prendido: quiere que el taller la recuerde.",
+    "imagen": [
+      "Un interruptor de vidrio con una bolita blanca que se desliza sobre un riel que pasa de gris a cian.",
+      "Nora desliza la bolita con un dedo; Iris aplaude; Gheco se sube a la bolita."
+    ]
+  },
+  "R03-N06-M1": null,
+  "R03-N06-M2": {
+    "lugar": "El cofre del Gremio",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "En el tema del Gremio hay dos utilidades propias: un fondo cuadriculado y un texto que brilla. Teo quiere usarlas en una palabra gigante.\n—Que brille solo cuando pasás el mouse. Si no, cansa.",
+    "gheco": "Las utilidades del tema se usan como cualquier clase: `fondo-cuadricula`, `texto-neon`. Con el prefijo `hover:`, solo se aplican al pasar el mouse.",
+    "desafio": "Usá las utilidades del tema:\n\n- Un `main` con la clase `fondo-cuadricula`.\n- Adentro, un párrafo con una palabra gigante y la clase `hover:texto-neon` (el brillo, solo al pasar el mouse).",
+    "inspector": "main[class~=\"fondo-cuadricula\"] #\nmain p[class~=\"hover:texto-neon\"] #\n[class~=\"texto-neon\"] #",
+    "exito": "Teo pasa el mouse por la palabra y brilla; lo saca y se apaga. Repite hasta que Gheco le tapa los ojos.",
+    "imagen": [
+      "Una pared cuadriculada como papel de cuaderno con una palabra gigante de vidrio que brilla en cian.",
+      "Teo acerca la mano a la palabra; Iris mira de lejos; Gheco le tapa los ojos a Teo con la cola."
+    ]
+  },
+  "R03-N07-M1": {
+    "lugar": "El muestrario",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "En el muestrario hay una tarjeta modelo y Tesela quiere tres avisos: uno de éxito, uno de advertencia y uno de error.\n—Los tres con la misma tarjeta —dice—. Lo único que cambia es el color, con clases sueltas.",
+    "gheco": "Un componente del tema (`tarjeta`) se reutiliza tal cual. El color se agrega con clases sueltas al lado: `text-emerald-300`, `text-rose-300`…",
+    "desafio": "Armá tres avisos (`p`) con la clase `tarjeta` del tema:\n\n- Éxito, con `text-emerald-300`.\n- Advertencia, con `text-oro`.\n- Error, con `text-rose-300`.",
+    "inspector": "p.tarjeta #\np.tarjeta[class~=\"text-emerald-300\"] #\np.tarjeta[class~=\"text-oro\"] #\np.tarjeta[class~=\"text-rose-300\"] #",
+    "exito": "Tres avisos de la misma familia, cada uno de su color. Tesela los cuelga en el muestrario, al lado de la tarjeta modelo.",
+    "imagen": [
+      "Tres placas de vidrio iguales en la pared del muestrario: una verde, una dorada y una roja.",
+      "Tesela cuelga la roja; Iris acomoda la verde; Gheco toca la dorada."
+    ]
+  },
+  "R03-N07-M2": {
+    "lugar": "El muestrario",
+    "personajes": "Iris, Gheco, Teo",
+    "escena": "Teo quiere las tarjetitas de cursos de la versión celular: dos, iguales en forma, distintas en datos y color.\n—Con las piezas del kit —dice—. Nada inventado.",
+    "gheco": "La misma estructura dos veces: una grilla de dos columnas con dos `article.tarjeta`. Lo que cambia son los textos y la clase del color de la etiqueta.",
+    "desafio": "Armá las dos tarjetas chicas con las piezas del kit:\n\n- Un `main` con `grid` y `grid-cols-2`.\n- Adentro, **dos** `article` con la clase `tarjeta`: «TypeScript Pro» y «Spring Boot Cloud».\n- En cada una, la cantidad de nodos con la clase `text-neon`.",
+    "inspector": "main[class~=\"grid\"][class~=\"grid-cols-2\"] #\nmain > article.tarjeta #\narticle.tarjeta [class~=\"text-neon\"] #",
+    "exito": "Las dos tarjetitas quedan en el muestrario. Teo agrega una tercera de cartón, con su nombre. Tesela la deja.",
+    "imagen": [
+      "Dos tarjetitas de vidrio en el muestrario, iguales en forma, una con detalle celeste y otra con detalle rosado.",
+      "Teo pega una tarjetita de cartón al lado; Tesela sonríe; Iris y Gheco las comparan."
+    ]
+  },
+  "R03-N08-M1": null,
+  "R04-N01-M1": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "En la Catedral, el menú de la cabecera no entra en el celular. Nora propone un botón que lo abra.\n—Sin trucos de JavaScript —dice Iris—. Con lo que trae el HTML.",
+    "gheco": "`<details>` se abre y se cierra solo al tocar su `<summary>`. `lg:hidden` lo esconde en la compu, donde el menú ya se ve entero. El botón necesita un texto para quien no ve: `aria-label`.",
+    "desafio": "Armá el menú desplegable del celular:\n\n- Un `details` con la clase `lg:hidden`.\n- Adentro, un `summary` con `aria-label` y un `nav` con **cuatro** enlaces.\n- Sin `script`.",
+    "inspector": "details[class~=\"lg:hidden\"] #\ndetails > summary[aria-label] #\ndetails nav a #\nscript #",
+    "exito": "El botón abre y cierra el menú sin una línea de JavaScript. Nora lo prueba en la cabaña y en el castillo: anda en los dos.",
+    "imagen": [
+      "La nave de una catedral de vitrales con un cofrecito de vidrio que se abre y deja ver cuatro vitrales chicos.",
+      "Nora abre el cofrecito; Iris señala los vitrales; Gheco se asoma desde adentro."
+    ]
+  },
+  "R04-N01-M2": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "La barra de secciones de la Catedral no dice dónde estás. Tesela quiere una rayita arriba de la sección activa.\n—Sin agregar nada al HTML. Que la rayita la dibuje el CSS.",
+    "gheco": "`aria-current=\"page\"` marca la sección activa. Un pseudo-elemento con `before:` dibuja algo arriba sin tocar el HTML: `before:absolute before:top-0 before:h-0.5`.",
+    "desafio": "Armá la barra inferior con clases de Tailwind:\n\n- Un `nav` con **cinco** enlaces, todos con `flex-1`.\n- **Uno** con `aria-current=\"page\"`, con `relative` y la rayita hecha con `before:absolute` y `before:top-0`.",
+    "inspector": "nav > a[class~=\"flex-1\"] #\nnav > a[aria-current=\"page\"] #\na[aria-current=\"page\"][class~=\"relative\"][class~=\"before:absolute\"][class~=\"before:top-0\"] #",
+    "exito": "La rayita se enciende arriba de la sección activa. Tesela cambia de sección diez veces, solo para verla moverse.",
+    "imagen": [
+      "Una barra de cinco vitrales en el piso de la Catedral, con una rayita de luz cian arriba del del medio.",
+      "Tesela salta de vitral en vitral; Iris sigue la rayita con el dedo; Gheco se para en el del medio."
+    ]
+  },
+  "R04-N02-M1": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "Nora arma la página para que los aprendices nuevos se anoten en la Catedral.\n—Un alias con reglas, el email y la ruta para empezar, con chips que se marquen al elegirlos.",
+    "gheco": "`pattern` define qué caracteres acepta un campo. Los chips son `label` con un `radio` real escondido con `sr-only`; con `has-checked:` el chip se pinta cuando su radio está marcado.",
+    "desafio": "Armá el formulario de registro:\n\n- Un `input` con `id=\"alias\"` y `pattern=\"[A-Za-z0-9_]+\"`, con su `label for=\"alias\"`.\n- Un `input type=\"email\"` con `id=\"email\"` y su `label for=\"email\"`.\n- **Tres** chips: cada uno un `label` con `has-checked:bg-neon` y, adentro, un `input type=\"radio\"` con `name=\"ruta\"` y `sr-only`.",
+    "inspector": "input#alias @pattern\nlabel[for=\"alias\"] #\ninput#email @type\nlabel[for=\"email\"] #\nlabel[class~=\"has-checked:bg-neon\"] > input[type=\"radio\"][name=\"ruta\"][class~=\"sr-only\"] #",
+    "exito": "El primer aprendiz se anota y elige la ruta de Python. Nora le da la bienvenida con un vidrio cian.",
+    "imagen": [
+      "Un atril de piedra en la Catedral con una hoja de inscripción lisa y tres fichas de vidrio de colores.",
+      "Nora le da un vidrio cian a un aprendiz chico; Iris sostiene las fichas; Gheco elige una ficha con la cola."
+    ]
+  },
+  "R04-N02-M2": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "En la entrada de la Catedral va un cartel grande con Gheco presentándose. En el celular, Gheco arriba; en la compu, a la derecha.\n—Una sola imagen —dice Tesela—. Que cambie de lugar, no que se repita.",
+    "gheco": "En una grilla, `lg:order-2` manda un elemento al final desde `lg`: la imagen pasa a la derecha sin moverla en el HTML. Y su `alt` cuenta lo que muestra.",
+    "desafio": "Armá el hero:\n\n- Una `section` con `grid` y `lg:grid-cols-2`.\n- Adentro, **una** imagen de Gheco (`/img/cursos/html/gheco-512.webp`) con `alt` y la clase `lg:order-2`.\n- Un `div` con el `h1` y el texto.",
+    "inspector": "section[class~=\"grid\"][class~=\"lg:grid-cols-2\"] #\nsection img #\nsection img[class~=\"lg:order-2\"] #\nimg:not([alt]) #\nsection > div h1 #",
+    "exito": "Gheco aparece arriba en el celular y a la derecha en la compu. El Gheco de verdad se mira en el cartel, encantado.",
+    "imagen": [
+      "Un cartel de vitral enorme en la entrada de la Catedral con el retrato de un gecko cian a un costado.",
+      "Gheco se mira en el cartel, encantado; Tesela lo mira divertida; Iris señala el retrato."
+    ]
+  },
+  "R04-N03-M1": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "En la Catedral hay cursos que todavía no se pueden tomar. Nora quiere que se note: la tarjeta apagada, con candado, y un botón que no se pueda apretar.\n—Y que diga por qué —agrega.",
+    "gheco": "`opacity-60 grayscale` apaga la tarjeta. Un `button` con `disabled` no se puede apretar (un enlace sí se podría seguir). El texto del botón cuenta qué falta para desbloquearla.",
+    "desafio": "Armá dos tarjetas de curso con la clase `tarjeta`:\n\n- Una disponible, con un enlace para continuar.\n- Una bloqueada, con `opacity-60` y `grayscale`, un candado (🔒) y un `button` con `disabled` que diga qué hace falta.",
+    "inspector": "article.tarjeta #\narticle.tarjeta[class~=\"opacity-60\"][class~=\"grayscale\"] #\narticle[class~=\"grayscale\"] button[disabled] #\narticle[class~=\"grayscale\"] a #",
+    "exito": "La tarjeta bloqueada se ve apagada y el botón no responde. Teo lo aprieta igual, por las dudas. Nada.",
+    "imagen": [
+      "Dos vitrales en la pared de la Catedral: uno brillante y otro gris y apagado con un candado de bronce.",
+      "Nora señala el candado; Teo aprieta un botón que no se mueve; Iris y Gheco miran el vitral brillante."
+    ]
+  },
+  "R04-N03-M2": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "En la sala de las rutas, los chips de filtro se marcan pero no esconden nada. Tesela quiere que filtren de verdad.\n—Sin JavaScript. Que cada tarjeta pregunte si el grupo tiene marcado un filtro que no es el suyo.",
+    "gheco": "`group` en el contenedor y, en cada tarjeta, `group-has-[#f-graf:checked]:hidden`: la tarjeta se esconde cuando, adentro del grupo, está marcado el radio con `id=\"f-graf\"`.",
+    "desafio": "Armá los filtros, todo adentro de un `div` con la clase `group`:\n\n- **Cuatro** `input type=\"radio\"` con `name=\"f\"`, cada uno adentro de su `label`; uno con `id=\"f-graf\"`.\n- **Cuatro** `article` con la clase `tarjeta`. Las **dos** que no son de gráficos, con `group-has-[#f-graf:checked]:hidden`.",
+    "inspector": "div[class~=\"group\"] #\nlabel > input[type=\"radio\"][name=\"f\"] #\n#f-graf #\narticle.tarjeta #\narticle[class~=\"group-has-[#f-graf:checked]:hidden\"] #\nscript #",
+    "exito": "Tesela elige «Gráficos» y las demás tarjetas desaparecen. Elige «Todos» y vuelven. Ni una línea de JavaScript.",
+    "imagen": [
+      "Una pared de la Catedral con cuatro vitrales y una fila de fichas de colores abajo; dos vitrales se apagan.",
+      "Tesela mueve una ficha; Iris mira apagarse los vitrales; Gheco se esconde detrás de uno apagado."
+    ]
+  },
+  "R04-N04-M1": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Nora",
+    "escena": "En el salón de la fama la lista es larguísima y tu puesto se pierde abajo.\n—Que tu fila quede pegada abajo de la pantalla —dice Nora— hasta que llegues a ella.",
+    "gheco": "`sticky bottom-4` deja un elemento pegado a 1rem del borde de abajo mientras su lugar real no aparece en pantalla. Cuando llegás, se queda en su posición.",
+    "desafio": "Armá la lista del ranking: una `ol` con **doce** `li` con la clase `tarjeta`. La fila del usuario, con `sticky`, `bottom-4` y `text-neon`.",
+    "inspector": "ol > li.tarjeta #\nli.tarjeta[class~=\"sticky\"][class~=\"bottom-4\"] #\nli[class~=\"sticky\"][class~=\"text-neon\"] #",
+    "exito": "Nora baja por la lista y tu fila la acompaña desde abajo, hasta que se encuentra con su lugar. Se ríe sola.",
+    "imagen": [
+      "Una columna larga de plaquitas de vidrio en el salón de la fama, con una plaquita cian brillante abajo de todo.",
+      "Nora baja una escalera mirando las plaquitas; Iris señala la cian; Gheco viaja sobre la plaquita cian."
+    ]
+  },
+  "R04-N04-M2": {
+    "lugar": "La Gran Catedral de los Vitrales",
+    "personajes": "Iris, Gheco, Tesela",
+    "escena": "La tabla del salón de la fama tenía dos versiones, una para cada pantalla. Tesela quiere una sola.\n—En el celular, que se deslice de costado ella sola. La página, quieta.",
+    "gheco": "`overflow-x-auto` en el contenedor le da scroll propio; `min-w-[40rem]` en la tabla la mantiene ancha aunque la pantalla sea angosta. Y la tabla, con su `caption` y sus `scope`.",
+    "desafio": "Usá una sola tabla:\n\n- Un `div` con `overflow-x-auto` y, adentro, la `table` con `min-w-[40rem]`.\n- La tabla, con `caption`, **cinco** `th scope=\"col\"` y **tres** filas con su `th scope=\"row\"`.",
+    "inspector": "div[class~=\"overflow-x-auto\"] > table[class~=\"min-w-[40rem]\"] #\ncaption #\nth[scope=\"col\"] #\nth[scope=\"row\"] #",
+    "exito": "En el celular la tabla se desliza sola y la página no se mueve. Tesela tira a la basura la versión vieja de la tabla.",
+    "imagen": [
+      "Una tira larga de vidrio con columnas de colores que se desliza de costado dentro de un marco de piedra.",
+      "Tesela desliza la tira con un dedo; Iris sostiene el marco; Gheco corre por arriba de la tira."
+    ]
+  },
+  "R04-N05-M1": null,
+  "R04-N05-M2": null
+}

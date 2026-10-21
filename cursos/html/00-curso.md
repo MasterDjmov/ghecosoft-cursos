@@ -11,6 +11,7 @@ dias_abono: 30
 destacado: si
 proximamente: no
 publicado: si
+micromisiones_completan: si
 ```
 
 ### Descripción
@@ -19,7 +20,7 @@ Aprendé a armar **páginas web desde cero**: primero la estructura con **HTML**
 
 Todo se piensa **primero para el celular** (*mobile first*): si se ve bien en la pantalla chica, después se agranda. El curso termina con un proyecto grande: **reproducir esta misma plataforma, GhecoSoft-Code**, con su cabecera, su portal de acceso, la grilla de cursos y el Hall of Fame.
 
-En los Talleres de los Vitrales las páginas son **vitrales**: primero se arma el **plomo** (HTML, la estructura), después se eligen los **vidrios de colores** (CSS) y al final llegan las **plantillas del gremio** (Tailwind) para trabajar rápido. Cada tema es un **nodo** del árbol: leés la explicación, probás el ejemplo y resolvés las **misiones**; al aprobarlas ganás cristales para abrir el siguiente. Cada rama termina con un **jefe**.
+En los Talleres de los Vitrales las páginas son **vitrales**: primero se arma el **plomo** (HTML, la estructura), después se eligen los **vidrios de colores** (CSS) y al final llegan las **plantillas del gremio** (Tailwind) para trabajar rápido. Cada tema es un **nodo** del árbol: leés la explicación, probás el ejemplo y resolvés las **micro-misiones**, que se comprueban solas (el inspector lee tu página acá mismo, en tu navegador): las que vienen de una misión te dan cristales para abrir el siguiente. Algunos nodos tienen además un **proyecto** de diseño que corrige el profe. Cada rama termina con un **jefe**.
 
 > Qué hace falta: un navegador (Chrome o Firefox) y la plataforma. Para practicar fuera de la plataforma, un editor como **VS Code**; desde la rama de Tailwind, si querés compilar en tu compu, **Node.js 20 o más nuevo**.
 
@@ -37,10 +38,10 @@ En los Talleres de los Vitrales las páginas son **vitrales**: primero se arma e
 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
-| coin.course | cristal | cristales | m | La moneda de los Talleres: un vidrio de color tallado, listo para su vitral. Se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
+| coin.course | cristal | cristales | m | La moneda de los Talleres: un vidrio de color tallado, listo para su vitral. Se gana superando las micro-misiones que vienen de una misión (y aprobando los proyectos) y abre los nodos del curso. | | curso |
 | mentor.name | Tesela | | f | La Vitralista: maestra de los Talleres de los Vitrales, por los que se asoma todo el mundo. | Tesela aprendió a fundir el plomo en las Forjas de Hierro, con Maese Ferrum, junto a otro aprendiz que soñaba con engranajes: Tesla. Cuando terminaron, Tesla subió a la montaña a fundar la Ciudadela de los Artífices y Tesela eligió el vidrio. Hoy sus vitrales están en las catedrales del Imperio, en las ventanas del Valle y en cada mensaje que despacha el Puerto. Lleva un monóculo de cristal tallado y una sola regla: **todo vitral empieza chico; si se ve bien en la ventana de una cabaña, después se agranda al ventanal del castillo**. | curso |
 | world.region | Talleres de los Vitrales | | m | La región del mundo donde se fabrican los vitrales: las páginas web. Su lengua es HTML, con CSS para los colores. | | curso |
-| story.course_intro | Bienvenida a los Talleres | | f | | Iris dibujaba vitrales en una capilla abandonada de su mundo. Una tarde apoyó la mano en un **fragmento de vidrio de colores** que encontró entre los escombros, y el vidrio se abrió como una ventana. Despertó en un balcón de piedra de **los Talleres de los Vitrales**, en {mundo}: ventanales enormes que reparten la luz por toda la ciudad, y abajo, ríos de **plomo fundido** que corren hacia los hornos.<br><br>Soy {mentor}, la Vitralista. Acá se fabrican los vitrales por los que se asoma todo el mundo: las **páginas web**. Primero vas a aprender el **plomo**, la estructura; después, los **vidrios de colores**; y al final, las **plantillas del gremio**, para trabajar rápido.<br><br>Una sola regla: **todo vitral empieza chico**. Cada tema que domines te abre un taller nuevo; cada misión aprobada te da cristales para abrir el siguiente. | curso |
+| story.course_intro | Bienvenida a los Talleres | | f | | Iris dibujaba vitrales en una capilla abandonada de su mundo. Una tarde apoyó la mano en un **fragmento de vidrio de colores** que encontró entre los escombros, y el vidrio se abrió como una ventana. Despertó en un balcón de piedra de **los Talleres de los Vitrales**, en {mundo}: ventanales enormes que reparten la luz por toda la ciudad, y abajo, ríos de **plomo fundido** que corren hacia los hornos.<br><br>Soy {mentor}, la Vitralista. Acá se fabrican los vitrales por los que se asoma todo el mundo: las **páginas web**. Primero vas a aprender el **plomo**, la estructura; después, los **vidrios de colores**; y al final, las **plantillas del gremio**, para trabajar rápido.<br><br>Una sola regla: **todo vitral empieza chico**. Cada tema que domines te abre un taller nuevo; las micro-misiones más difíciles te dan cristales para abrir el siguiente. | curso |
 | story.branch_completed | ¡Taller terminado! | | m | | {mentor} levanta el vitral de Iris contra la luz y lo mira despacio, desde la cabaña y desde el castillo. Después se saca el monóculo y lo limpia. —Esto ya se sostiene solo. Colgalo. —Teo aplaude. Nora pasa la mano por el plomo y asiente. | curso |
 | story.course_completed | ¡El gran ventanal está terminado! | | m | | {mentor} se queda mirando el ventanal de Iris un largo rato. —¿Sabés a qué se parece? Al portal por el que llegaste. Ese portal es un vitral, y el plomo lo trabajó mi maestro, el Vidriero, antes de desaparecer. —Iris tiene en la mano su propio vitral, chiquito, con el fragmento en el centro—. Lo que hiciste está quieto: brilla, pero no se mueve. Lo que hace moverse a un vitral se aprende en la **Feria de las Luces**. Cuando quieras, ahí te espero. | curso |
 | story.portal_piece | Lo que reconoció Tesela | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Ese portal es un vitral, {heroe}, y el plomo lo trabajó mi maestro, el Vidriero. Desapareció antes de terminarlo: le falta lo que hace moverse. Eso se aprende en la Feria de las Luces. | curso |
@@ -181,6 +182,192 @@ Y como el `<strong>` quedó abierto, **todo lo que sigue** sale en negrita.
 **Ogro: tildes rotas** (`Ã¡` en vez de `á`): falta `<meta charset="utf-8">`.
 
 **Ogro: en el celular se ve todo diminuto**: falta el `meta viewport`.
+
+### Micro-misión R00-N01-P5 · La presentación
+
+```meta
+lugar: El balcón de los Talleres
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R00-N01-M1
+```
+
+#### Escena
+Antes de entrar a los Talleres, Tesela le pide a Iris que se presente como se presentan todos los aprendices: con una página.
+—El esqueleto completo, tu nombre, tu especialidad y dos párrafos sobre tu viaje. Una palabra fuerte y una con énfasis. Ni más ni menos.
+
+#### Gheco sugiere
+El esqueleto es siempre el mismo: `<!DOCTYPE html>`, `<html lang="es">` y, en el `head`, `<meta charset="utf-8">`, el `viewport` y el `title`. Adentro de un párrafo, `<strong>` marca algo importante y `<em>`, énfasis.
+
+#### Desafío
+Armá la página que presenta a {heroe} como aprendiz de los Talleres:
+
+1. El esqueleto completo: `<!DOCTYPE html>`, `html` con `lang="es"`, y en el `head`, `meta charset`, `meta name="viewport"` y `title`.
+2. **Un** `h1` con su nombre y **un** `h2` con su especialidad.
+3. **Dos** párrafos sobre su viaje, con **una** palabra en `strong` y **una** en `em`.
+
+El inspector cuenta las etiquetas: los textos los elegís vos.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La presentación</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+!doctype
+html @lang
+meta[charset] #
+meta[name="viewport"] #
+title #
+h1 #
+h2 #
+p #
+p strong #
+p em #
+```
+
+#### Salida esperada
+```
+!doctype: html
+html @lang: es
+meta[charset] #: 1
+meta[name="viewport"] #: 1
+title #: 1
+h1 #: 1
+h2 #: 1
+p #: 2
+p strong #: 1
+p em #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Presentación de Iris</title>
+  </head>
+  <body>
+    <h1>Iris</h1>
+    <h2>Espadachina aprendiz</h2>
+    <p>Llegué a Codexia por un portal. Ahora aprendo a <strong>escribir magia</strong>.</p>
+    <p>Mi objetivo: <em>volver a casa</em>.</p>
+  </body>
+</html>
+```
+
+#### Al superarla
+Tesela lee la página y la cuelga en la puerta del balcón, al lado de las de los otros aprendices.
+—Bienvenida a los Talleres.
+
+#### Imagen
+- Un balcón de piedra con una puerta de vitrales de colores, con hojas de pergamino colgadas a un lado.
+- Iris cuelga una hoja lisa; Tesela la mira con los brazos cruzados; Gheco se trepa al marco de la puerta.
+
+### Micro-misión R00-N01-P6 · El manual del taller
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R00-N01-M2
+```
+
+#### Escena
+En el taller hay un manual viejo donde los títulos están todos mezclados: capítulos adentro de apartados, apartados sin capítulo.
+—Lo reescribimos —dice Tesela—. Un título, dos capítulos, y el primero con dos apartados. Sin saltear escalones.
+
+#### Gheco sugiere
+Los títulos van en orden: `h1` para el nombre, `h2` para cada capítulo y `h3` para los apartados de un capítulo. Nunca un `h3` sin su `h2` arriba.
+
+#### Desafío
+Escribí el manual del taller:
+
+1. **Un** `h1` con el nombre del manual.
+2. **Dos** `h2` (dos capítulos).
+3. Justo debajo del **primer** `h2`, **dos** `h3` (dos apartados), cada uno con **su** párrafo.
+4. El segundo capítulo, con **un** párrafo.
+
+En total, tres párrafos. El inspector cuenta las etiquetas y revisa que el primer `h3` venga justo después de un `h2`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El manual del taller</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+h1 #
+h2 #
+h3 #
+p #
+h1 + h2 #
+h2 + h3 #
+h1 + h3 #
+```
+
+#### Salida esperada
+```
+h1 #: 1
+h2 #: 2
+h3 #: 2
+p #: 3
+h1 + h2 #: 1
+h2 + h3 #: 1
+h1 + h3 #: 0
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jerarquía de títulos</title>
+  </head>
+  <body>
+    <h1>Manual del Taller</h1>
+    <h2>Capítulo 1: El plomo</h2>
+    <h3>Cómo cortar el plomo</h3>
+    <p>Con cuidado y en línea recta.</p>
+    <h3>Cómo soldarlo</h3>
+    <p>A fuego lento.</p>
+    <h2>Capítulo 2: Los vidrios</h2>
+    <p>Próximamente.</p>
+  </body>
+</html>
+```
+
+#### Al superarla
+El manual queda con sus escalones en orden. Tesela lo guarda en el estante de los libros que se pueden leer.
+
+#### Imagen
+- Un estante del taller de Tesela con libros de tapas de colores ordenados por tamaño.
+- Tesela acomoda un libro en el estante; Iris sostiene otro abierto; Gheco duerme encima de la fila de libros.
 
 ### Prueba del sello
 
@@ -437,142 +624,6 @@ El slime se queda sin comida y se escurre por una rendija. {mentor} junta el fra
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo levanta con cuidado.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) mira apenada.
 - Al fondo, una puerta vieja con un candado enorme.
-
-### Misión R00-N01-M1 · La presentación
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una página que presente a {heroe} como aprendiz de los Talleres:
-
-1. El esqueleto completo: `DOCTYPE`, `html` con `lang="es"`, `head` con `charset`, `viewport` y `title`.
-2. Un `h1` con el nombre y un `h2` con su especialidad.
-3. Dos párrafos que cuenten algo de su viaje, con al menos una palabra en `strong` y otra en `em`.
-
-#### Criterio de aprobación
-
-- Tiene el esqueleto completo: `<!DOCTYPE html>`, `lang="es"`, `charset`, `viewport` y `title`.
-- Hay un solo `h1`, seguido de un `h2`.
-- Hay dos párrafos, con al menos un `strong` y un `em`.
-- Todas las etiquetas se cierran en orden (sin slimes).
-
-#### Cómo debe quedar
-
-celular: capturas/R00-N01-M1-celular.webp
-compu: capturas/R00-N01-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La presentación</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Presentación de Iris</title>
-  </head>
-  <body>
-    <h1>Iris</h1>
-    <h2>Espadachina aprendiz</h2>
-    <p>Llegué a Codexia por un portal. Ahora aprendo a <strong>escribir magia</strong>.</p>
-    <p>Mi objetivo: <em>volver a casa</em>.</p>
-  </body>
-</html>
-```
-
-
-### Misión R00-N01-M2 · El manual del taller
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Escribí el índice de un "manual del taller" usando solo títulos y párrafos:
-
-1. Un `h1` con el nombre del manual.
-2. Dos `h2` (dos capítulos), cada uno con un párrafo.
-3. Bajo el **primer** capítulo, dos `h3` (dos apartados), cada uno con su párrafo.
-
-Sin saltear niveles: nunca un `h3` sin un `h2` arriba.
-
-#### Criterio de aprobación
-
-- Un `h1`, dos `h2` y dos `h3` dentro del primer capítulo.
-- Ningún nivel salteado (no hay `h3` directamente bajo el `h1`).
-- Cada título tiene al menos un párrafo debajo.
-- El esqueleto está completo y las etiquetas, bien cerradas.
-
-#### Cómo debe quedar
-
-celular: capturas/R00-N01-M2-celular.webp
-compu: capturas/R00-N01-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El manual del taller</title>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Jerarquía de títulos</title>
-  </head>
-  <body>
-    <h1>Manual del Taller</h1>
-    <h2>Capítulo 1: El plomo</h2>
-    <h3>Cómo cortar el plomo</h3>
-    <p>Con cuidado y en línea recta.</p>
-    <h3>Cómo soldarlo</h3>
-    <p>A fuego lento.</p>
-    <h2>Capítulo 2: Los vidrios</h2>
-    <p>Próximamente.</p>
-  </body>
-</html>
-```
-
 
 ### Encargo R00-N01-E1 · El cartel de la panadería
 

@@ -1095,6 +1095,464 @@ Cada botón, tarjeta, foto y párrafo de una página es una caja. Cuando algo "s
 
 **Ogro: la barra se sale de las puntas redondeadas**: falta `overflow: hidden` en el contenedor.
 
+### Micro-misión R02-N02-P5 · La tarjeta de SDL3
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R02-N02-M1
+```
+
+#### Escena
+En el taller hay una tarjeta de curso cian que salió perfecta. Tesela quiere otra igual para el curso de SDL3, pero violeta.
+—Sin copiar todo el CSS —dice—. La misma tarjeta; lo único que cambia es el color de acento.
+
+#### Gheco sugiere
+Las variables de CSS se pueden pisar en un elemento: una clase `.violeta { --neon: #a78bfa; }` cambia el acento solo en las tarjetas que la tengan. Todo lo que usa `var(--neon)` adentro se pinta del color nuevo.
+
+#### Desafío
+Agregá la tarjeta del curso de **SDL3** con acento violeta:
+
+- Una regla `.violeta { --neon: #a78bfa; }` en el `style`.
+- Un `article` con las clases `tarjeta violeta`, con el contenido de la tarjeta (las mismas clases de adentro que la de C++).
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modelo de caja: la tarjeta de curso</title>
+    <style>
+      /* 07 - Modelo de caja */
+      :root {
+        --fondo: #0b1220;
+        --panel: #111a2e;
+        --borde: #1f2a44;
+        --texto: #e2e8f0;
+        --apagado: #94a3b8;
+        --neon: #22d3ee;
+        --verde: #4ade80;
+        --mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+      }
+
+      /* Con border-box, width INCLUYE padding y borde (mucho mas facil de calcular) */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 1.25rem;
+        background: var(--fondo);
+        color: var(--texto);
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.5;
+      }
+
+      h2 {
+        margin-top: 2.5rem;
+        color: var(--neon);
+        font-size: 1.125rem;
+      }
+
+      /* --- La caja de demostracion --- */
+      .demo {
+        width: 220px;
+        padding: 20px; /* espacio ADENTRO, entre contenido y borde */
+        border: 4px dashed var(--neon); /* el borde */
+        margin: 24px 0; /* espacio AFUERA: arriba/abajo 24, costados 0 */
+        background: var(--panel); /* el fondo cubre contenido + padding */
+        font-family: var(--mono);
+        text-align: center;
+      }
+
+      /* --- Tarjeta --- */
+      .tarjeta {
+        max-width: 22rem; /* nunca mas ancha que esto, pero se achica si no entra */
+        padding: 1.25rem;
+        background: var(--panel);
+        border: 1px solid var(--borde);
+        border-radius: 0.75rem;
+        /* sombra: x  y  difuminado  color */
+        box-shadow: 0 0 0 1px rgb(34 211 238 / 25%), 0 10px 30px rgb(0 0 0 / 40%);
+      }
+
+      /* Los p traen margen de fabrica: lo controlamos nosotros */
+      .tarjeta p,
+      .tarjeta h3 {
+        margin: 0 0 0.75rem;
+      }
+
+      .modulo {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--apagado);
+      }
+
+      .estado {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.25rem;
+        background: rgb(74 222 128 / 15%);
+        color: var(--verde);
+      }
+
+      .tarjeta-titulo {
+        font-size: 1.125rem;
+      }
+
+      .tarjeta-texto {
+        color: var(--apagado);
+        font-size: 0.875rem;
+      }
+
+      .progreso-texto {
+        font-size: 0.75rem;
+        color: var(--apagado);
+      }
+
+      .barra {
+        height: 0.5rem;
+        margin-bottom: 1rem;
+        background: var(--borde);
+        border-radius: 999px;
+        overflow: hidden; /* que el relleno no se salga de las puntas redondeadas */
+      }
+
+      .barra-relleno {
+        height: 100%;
+        background: var(--neon);
+      }
+
+      .tarjeta .xp {
+        margin: 0;
+        font-family: var(--mono);
+        font-weight: bold;
+        color: var(--neon);
+      }
+
+      /* --- display --- */
+      .en-linea {
+        padding: 4px; /* en inline, el padding vertical NO empuja las lineas */
+        background: rgb(248 113 113 / 30%);
+      }
+
+      .chip {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border: 1px solid var(--neon);
+        border-radius: 999px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>El modelo de caja</h1>
+
+      <!-- Caja de demostracion: contenido + padding + borde + margen -->
+      <div class="demo">contenido</div>
+
+      <h2>Una tarjeta de curso</h2>
+      <article class="tarjeta">
+        <p class="modulo">MOD-04 <span class="estado">Activo</span></p>
+        <h3 class="tarjeta-titulo">C++ Moderno &amp; Videojuegos</h3>
+        <p class="tarjeta-texto">Gestión de memoria, RAII, punteros inteligentes y conceptos de C++20.</p>
+        <p class="progreso-texto">Progreso de nodos: 18 / 24</p>
+        <!-- Barra de progreso: una caja dentro de otra, con ancho en % -->
+        <div class="barra" role="progressbar" aria-label="Progreso del curso" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+          <div class="barra-relleno" style="width: 75%"></div>
+        </div>
+        <p class="xp">+350 XP</p>
+      </article>
+
+      <h2>block, inline e inline-block</h2>
+      <p>
+        Un <span class="en-linea">span (inline)</span> fluye con el texto; una
+        <span class="chip">chip (inline-block)</span> fluye pero acepta padding y alto.
+      </p>
+    </main>
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css .violeta { --neon }
+article.tarjeta.violeta #
+```
+
+#### Salida esperada
+```
+css .violeta { --neon }: #a78bfa
+article.tarjeta.violeta #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarjeta SDL3</title>
+    <style>
+      /* 07 - Modelo de caja */
+      :root {
+        --fondo: #0b1220;
+        --panel: #111a2e;
+        --borde: #1f2a44;
+        --texto: #e2e8f0;
+        --apagado: #94a3b8;
+        --neon: #22d3ee;
+        --verde: #4ade80;
+        --mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+      }
+
+      /* Con border-box, width INCLUYE padding y borde (mucho mas facil de calcular) */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 1.25rem;
+        background: var(--fondo);
+        color: var(--texto);
+        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+        line-height: 1.5;
+      }
+
+      h2 {
+        margin-top: 2.5rem;
+        color: var(--neon);
+        font-size: 1.125rem;
+      }
+
+      /* --- La caja de demostracion --- */
+      .demo {
+        width: 220px;
+        padding: 20px; /* espacio ADENTRO, entre contenido y borde */
+        border: 4px dashed var(--neon); /* el borde */
+        margin: 24px 0; /* espacio AFUERA: arriba/abajo 24, costados 0 */
+        background: var(--panel); /* el fondo cubre contenido + padding */
+        font-family: var(--mono);
+        text-align: center;
+      }
+
+      /* --- Tarjeta --- */
+      .tarjeta {
+        max-width: 22rem; /* nunca mas ancha que esto, pero se achica si no entra */
+        padding: 1.25rem;
+        background: var(--panel);
+        border: 1px solid var(--borde);
+        border-radius: 0.75rem;
+        /* sombra: x  y  difuminado  color */
+        box-shadow: 0 0 0 1px rgb(34 211 238 / 25%), 0 10px 30px rgb(0 0 0 / 40%);
+      }
+
+      /* Los p traen margen de fabrica: lo controlamos nosotros */
+      .tarjeta p,
+      .tarjeta h3 {
+        margin: 0 0 0.75rem;
+      }
+
+      .modulo {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--apagado);
+      }
+
+      .estado {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.25rem;
+        background: rgb(74 222 128 / 15%);
+        color: var(--verde);
+      }
+
+      .tarjeta-titulo {
+        font-size: 1.125rem;
+      }
+
+      .tarjeta-texto {
+        color: var(--apagado);
+        font-size: 0.875rem;
+      }
+
+      .progreso-texto {
+        font-size: 0.75rem;
+        color: var(--apagado);
+      }
+
+      .barra {
+        height: 0.5rem;
+        margin-bottom: 1rem;
+        background: var(--borde);
+        border-radius: 999px;
+        overflow: hidden; /* que el relleno no se salga de las puntas redondeadas */
+      }
+
+      .barra-relleno {
+        height: 100%;
+        background: var(--neon);
+      }
+
+      .tarjeta .xp {
+        margin: 0;
+        font-family: var(--mono);
+        font-weight: bold;
+        color: var(--neon);
+      }
+
+      /* --- display --- */
+      .en-linea {
+        padding: 4px; /* en inline, el padding vertical NO empuja las lineas */
+        background: rgb(248 113 113 / 30%);
+      }
+
+      .chip {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border: 1px solid var(--neon);
+        border-radius: 999px;
+      }
+    </style>
+    <style>
+      /* Reutiliza la tarjeta y cambia solo el color de acento */
+      .violeta {
+        --neon: #a78bfa;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="tarjeta violeta">
+      <p class="modulo">MOD-06</p>
+      <h3 class="tarjeta-titulo">SDL3 &amp; Game Loops</h3>
+      <p class="tarjeta-texto">Renderizado acelerado, eventos y ventanas en tiempo real.</p>
+      <p class="progreso-texto">Progreso de nodos: 10 / 22</p>
+      <div class="barra" role="progressbar" aria-label="Progreso del curso" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+        <div class="barra-relleno" style="width: 45%"></div>
+      </div>
+      <p class="xp">+420 XP</p>
+    </article>
+  </body>
+</html>
+```
+
+#### Al superarla
+La tarjeta violeta queda al lado de la cian, idénticas salvo por el color. Tesla pasa, las mira y asiente, cosa rara en él.
+
+#### Imagen
+- Dos tarjetas de vidrio sobre una mesa del taller, iguales salvo por el borde: una cian y otra violeta.
+- Tesela pone las tarjetas una al lado de la otra; Iris sostiene un vidrio violeta; Gheco se refleja en la tarjeta violeta.
+
+### Micro-misión R02-N02-P6 · La caja centrada
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R02-N02-M2
+```
+
+#### Escena
+Tesela tiene un aviso que en la ventana grande del taller queda estirado de punta a punta y no se lee.
+—Que en lo angosto ocupe todo —dice— y en lo ancho no pase de cierto tamaño. Centrado.
+
+#### Gheco sugiere
+`max-width` pone un tope sin obligar a llegar: en una pantalla angosta la caja ocupa lo que haya. `margin: 2rem auto` deja 2rem arriba y abajo y reparte lo que sobra a los costados: la caja queda centrada.
+
+#### Desafío
+Armá una caja con un párrafo adentro, con la clase `centrada`, y en el `style`:
+
+- `max-width: 30rem;`
+- `margin: 2rem auto;`
+- `box-sizing: border-box;`
+
+Mirala en *Celular* y en *Compu*.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La caja centrada</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css .centrada { max-width }
+css .centrada { margin }
+css .centrada { box-sizing }
+.centrada p #
+```
+
+#### Salida esperada
+```
+css .centrada { max-width }: 30rem
+css .centrada { margin }: 2rem auto
+css .centrada { box-sizing }: border-box
+.centrada p #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Centrar una caja</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 1rem;
+        font-family: system-ui, sans-serif;
+      }
+      .centrada {
+        box-sizing: border-box;
+        max-width: 30rem; /* ancho maximo */
+        margin: 2rem auto; /* auto a los costados = centrada */
+        padding: 1.5rem;
+        border: 2px solid #22d3ee;
+        border-radius: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="centrada">
+      <p>Estoy centrada con <code>margin: auto</code>. En el celular ocupo todo el ancho; en la computadora, como mucho 30rem.</p>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+El aviso queda centrado en la ventana grande y entero en la chica. Tesela lo lee desde la otra punta del taller, sin anteojos.
+
+#### Imagen
+- Un ventanal ancho del taller con un cartel de vidrio centrado, de bordes cian.
+- Tesela mira el cartel desde lejos con las manos en la cintura; Iris ajusta un costado; Gheco mide con la cola.
+
 ### Prueba del sello
 
 #### ¿Qué diferencia hay entre `padding` y `margin`? ¿Cuál se pinta con el fondo?
@@ -1317,429 +1775,6 @@ Las esquinas quedan suaves. {mentor} pasa el dedo y no se corta.
 - Una tarjeta de vidrio azul oscuro con las esquinas redondeadas.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) pasa el dedo por una esquina.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) con una lima de pulir.
-
-### Misión R02-N02-M1 · La tarjeta de SDL3
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Partí del ejemplo y agregá la tarjeta del curso de **SDL3** con acento **violeta**. Reutilizá las mismas clases de la tarjeta de C++ y cambiá **solo** la variable `--neon` en esa tarjeta (por ejemplo, con un `style="--neon: #a78bfa"` o una clase propia).
-
-#### Criterio de aprobación
-
-- La tarjeta de SDL3 usa las mismas clases que la de C++.
-- El violeta sale de pisar la variable `--neon` solo en esa tarjeta, no de reglas nuevas para cada parte.
-- La tarjeta de C++ sigue cian.
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N02-M1-celular.webp
-compu: capturas/R02-N02-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modelo de caja: la tarjeta de curso</title>
-    <style>
-      /* 07 - Modelo de caja */
-      :root {
-        --fondo: #0b1220;
-        --panel: #111a2e;
-        --borde: #1f2a44;
-        --texto: #e2e8f0;
-        --apagado: #94a3b8;
-        --neon: #22d3ee;
-        --verde: #4ade80;
-        --mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
-      }
-
-      /* Con border-box, width INCLUYE padding y borde (mucho mas facil de calcular) */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        padding: 1.25rem;
-        background: var(--fondo);
-        color: var(--texto);
-        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-        line-height: 1.5;
-      }
-
-      h2 {
-        margin-top: 2.5rem;
-        color: var(--neon);
-        font-size: 1.125rem;
-      }
-
-      /* --- La caja de demostracion --- */
-      .demo {
-        width: 220px;
-        padding: 20px; /* espacio ADENTRO, entre contenido y borde */
-        border: 4px dashed var(--neon); /* el borde */
-        margin: 24px 0; /* espacio AFUERA: arriba/abajo 24, costados 0 */
-        background: var(--panel); /* el fondo cubre contenido + padding */
-        font-family: var(--mono);
-        text-align: center;
-      }
-
-      /* --- Tarjeta --- */
-      .tarjeta {
-        max-width: 22rem; /* nunca mas ancha que esto, pero se achica si no entra */
-        padding: 1.25rem;
-        background: var(--panel);
-        border: 1px solid var(--borde);
-        border-radius: 0.75rem;
-        /* sombra: x  y  difuminado  color */
-        box-shadow: 0 0 0 1px rgb(34 211 238 / 25%), 0 10px 30px rgb(0 0 0 / 40%);
-      }
-
-      /* Los p traen margen de fabrica: lo controlamos nosotros */
-      .tarjeta p,
-      .tarjeta h3 {
-        margin: 0 0 0.75rem;
-      }
-
-      .modulo {
-        font-family: var(--mono);
-        font-size: 0.75rem;
-        color: var(--apagado);
-      }
-
-      .estado {
-        display: inline-block;
-        margin-left: 0.5rem;
-        padding: 0.125rem 0.5rem;
-        border-radius: 0.25rem;
-        background: rgb(74 222 128 / 15%);
-        color: var(--verde);
-      }
-
-      .tarjeta-titulo {
-        font-size: 1.125rem;
-      }
-
-      .tarjeta-texto {
-        color: var(--apagado);
-        font-size: 0.875rem;
-      }
-
-      .progreso-texto {
-        font-size: 0.75rem;
-        color: var(--apagado);
-      }
-
-      .barra {
-        height: 0.5rem;
-        margin-bottom: 1rem;
-        background: var(--borde);
-        border-radius: 999px;
-        overflow: hidden; /* que el relleno no se salga de las puntas redondeadas */
-      }
-
-      .barra-relleno {
-        height: 100%;
-        background: var(--neon);
-      }
-
-      .tarjeta .xp {
-        margin: 0;
-        font-family: var(--mono);
-        font-weight: bold;
-        color: var(--neon);
-      }
-
-      /* --- display --- */
-      .en-linea {
-        padding: 4px; /* en inline, el padding vertical NO empuja las lineas */
-        background: rgb(248 113 113 / 30%);
-      }
-
-      .chip {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border: 1px solid var(--neon);
-        border-radius: 999px;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>El modelo de caja</h1>
-
-      <!-- Caja de demostracion: contenido + padding + borde + margen -->
-      <div class="demo">contenido</div>
-
-      <h2>Una tarjeta de curso</h2>
-      <article class="tarjeta">
-        <p class="modulo">MOD-04 <span class="estado">Activo</span></p>
-        <h3 class="tarjeta-titulo">C++ Moderno &amp; Videojuegos</h3>
-        <p class="tarjeta-texto">Gestión de memoria, RAII, punteros inteligentes y conceptos de C++20.</p>
-        <p class="progreso-texto">Progreso de nodos: 18 / 24</p>
-        <!-- Barra de progreso: una caja dentro de otra, con ancho en % -->
-        <div class="barra" role="progressbar" aria-label="Progreso del curso" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-          <div class="barra-relleno" style="width: 75%"></div>
-        </div>
-        <p class="xp">+350 XP</p>
-      </article>
-
-      <h2>block, inline e inline-block</h2>
-      <p>
-        Un <span class="en-linea">span (inline)</span> fluye con el texto; una
-        <span class="chip">chip (inline-block)</span> fluye pero acepta padding y alto.
-      </p>
-    </main>
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tarjeta SDL3</title>
-    <style>
-      /* 07 - Modelo de caja */
-      :root {
-        --fondo: #0b1220;
-        --panel: #111a2e;
-        --borde: #1f2a44;
-        --texto: #e2e8f0;
-        --apagado: #94a3b8;
-        --neon: #22d3ee;
-        --verde: #4ade80;
-        --mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
-      }
-
-      /* Con border-box, width INCLUYE padding y borde (mucho mas facil de calcular) */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        padding: 1.25rem;
-        background: var(--fondo);
-        color: var(--texto);
-        font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-        line-height: 1.5;
-      }
-
-      h2 {
-        margin-top: 2.5rem;
-        color: var(--neon);
-        font-size: 1.125rem;
-      }
-
-      /* --- La caja de demostracion --- */
-      .demo {
-        width: 220px;
-        padding: 20px; /* espacio ADENTRO, entre contenido y borde */
-        border: 4px dashed var(--neon); /* el borde */
-        margin: 24px 0; /* espacio AFUERA: arriba/abajo 24, costados 0 */
-        background: var(--panel); /* el fondo cubre contenido + padding */
-        font-family: var(--mono);
-        text-align: center;
-      }
-
-      /* --- Tarjeta --- */
-      .tarjeta {
-        max-width: 22rem; /* nunca mas ancha que esto, pero se achica si no entra */
-        padding: 1.25rem;
-        background: var(--panel);
-        border: 1px solid var(--borde);
-        border-radius: 0.75rem;
-        /* sombra: x  y  difuminado  color */
-        box-shadow: 0 0 0 1px rgb(34 211 238 / 25%), 0 10px 30px rgb(0 0 0 / 40%);
-      }
-
-      /* Los p traen margen de fabrica: lo controlamos nosotros */
-      .tarjeta p,
-      .tarjeta h3 {
-        margin: 0 0 0.75rem;
-      }
-
-      .modulo {
-        font-family: var(--mono);
-        font-size: 0.75rem;
-        color: var(--apagado);
-      }
-
-      .estado {
-        display: inline-block;
-        margin-left: 0.5rem;
-        padding: 0.125rem 0.5rem;
-        border-radius: 0.25rem;
-        background: rgb(74 222 128 / 15%);
-        color: var(--verde);
-      }
-
-      .tarjeta-titulo {
-        font-size: 1.125rem;
-      }
-
-      .tarjeta-texto {
-        color: var(--apagado);
-        font-size: 0.875rem;
-      }
-
-      .progreso-texto {
-        font-size: 0.75rem;
-        color: var(--apagado);
-      }
-
-      .barra {
-        height: 0.5rem;
-        margin-bottom: 1rem;
-        background: var(--borde);
-        border-radius: 999px;
-        overflow: hidden; /* que el relleno no se salga de las puntas redondeadas */
-      }
-
-      .barra-relleno {
-        height: 100%;
-        background: var(--neon);
-      }
-
-      .tarjeta .xp {
-        margin: 0;
-        font-family: var(--mono);
-        font-weight: bold;
-        color: var(--neon);
-      }
-
-      /* --- display --- */
-      .en-linea {
-        padding: 4px; /* en inline, el padding vertical NO empuja las lineas */
-        background: rgb(248 113 113 / 30%);
-      }
-
-      .chip {
-        display: inline-block;
-        padding: 0.25rem 0.75rem;
-        border: 1px solid var(--neon);
-        border-radius: 999px;
-      }
-    </style>
-    <style>
-      /* Reutiliza la tarjeta y cambia solo el color de acento */
-      .violeta {
-        --neon: #a78bfa;
-      }
-    </style>
-  </head>
-  <body>
-    <article class="tarjeta violeta">
-      <p class="modulo">MOD-06</p>
-      <h3 class="tarjeta-titulo">SDL3 &amp; Game Loops</h3>
-      <p class="tarjeta-texto">Renderizado acelerado, eventos y ventanas en tiempo real.</p>
-      <p class="progreso-texto">Progreso de nodos: 10 / 22</p>
-      <div class="barra" role="progressbar" aria-label="Progreso del curso" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-        <div class="barra-relleno" style="width: 45%"></div>
-      </div>
-      <p class="xp">+420 XP</p>
-    </article>
-  </body>
-</html>
-```
-
-
-### Misión R02-N02-M2 · La caja centrada
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una caja con un texto que en el celular ocupe **todo el ancho** y en la compu mida **como mucho 30 rem**, centrada en la pantalla. Mirala en *Celular* y en *Compu*.
-
-#### Criterio de aprobación
-
-- Usa `max-width: 30rem` (no `width`).
-- Se centra con `margin-inline: auto` (o `margin: 0 auto`).
-- En el celular no aparece scroll de costado.
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N02-M2-celular.webp
-compu: capturas/R02-N02-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La caja centrada</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Centrar una caja</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 1rem;
-        font-family: system-ui, sans-serif;
-      }
-      .centrada {
-        box-sizing: border-box;
-        max-width: 30rem; /* ancho maximo */
-        margin: 2rem auto; /* auto a los costados = centrada */
-        padding: 1.5rem;
-        border: 2px solid #22d3ee;
-        border-radius: 1rem;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="centrada">
-      <p>Estoy centrada con <code>margin: auto</code>. En el celular ocupo todo el ancho; en la computadora, como mucho 30rem.</p>
-    </div>
-  </body>
-</html>
-```
-
 
 ### Encargo R02-N02-E1 · El ticket del almacén
 
@@ -2201,6 +2236,249 @@ Las barras de navegación, las filas de un chat, una tarjeta con foto y texto, l
 
 **Ogro: la elipsis (`…`) no aparece.** `text-overflow: ellipsis` necesita una caja de texto común con `overflow: hidden` y `white-space: nowrap`; no funciona directo sobre un contenedor flex.
 
+### Micro-misión R02-N03-P5 · La tarjeta de perfil
+
+```meta
+lugar: La cornisa del ventanal
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R02-N03-M1
+```
+
+#### Escena
+Teo quiere una tarjeta de perfil para su puesto en la cornisa: la cara a un lado, el nombre en el medio y un botón para seguirlo al otro.
+—Todo en una fila —dice—. Y que el nombre use el espacio que sobre.
+
+#### Gheco sugiere
+`display: flex` pone a los hijos en fila; `align-items: center` los centra en vertical y `gap`, separa. `flex: 1` hace que un hijo ocupe el espacio que sobra, y `flex-shrink: 0` que la imagen no se achique.
+
+#### Desafío
+Armá la tarjeta de perfil con estas clases y reglas:
+
+- El contenedor, `.perfil`: `display: flex`, `align-items: center` y `gap: 1rem`.
+- La imagen del avatar (con `alt`), con la regla `.perfil img`: `flex-shrink: 0` y `border-radius: 50%`.
+- El bloque del nombre y el nivel, `.datos`: `flex: 1`.
+- Un enlace «Seguir» con la clase `seguir`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La tarjeta de perfil</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css .perfil { display }
+css .perfil { align-items }
+css .perfil { gap }
+css .perfil img { flex-shrink }
+css .perfil img { border-radius }
+css .datos { flex }
+.perfil > img #
+.perfil > .datos #
+.perfil > a.seguir #
+```
+
+#### Salida esperada
+```
+css .perfil { display }: flex
+css .perfil { align-items }: center
+css .perfil { gap }: 1rem
+css .perfil img { flex-shrink }: 0
+css .perfil img { border-radius }: 50%
+css .datos { flex }: 1
+.perfil > img #: 1
+.perfil > .datos #: 1
+.perfil > a.seguir #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarjeta de perfil con flex</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 1.25rem;
+        background: #0b1220;
+        color: #e2e8f0;
+        font-family: system-ui, sans-serif;
+      }
+      .perfil {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #1f2a44;
+        border-radius: 0.75rem;
+      }
+      .perfil img {
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: #111a2e;
+      }
+      .datos {
+        flex: 1;
+      }
+      .datos h1 {
+        margin: 0;
+        font-size: 1.125rem;
+      }
+      .datos p {
+        margin: 0;
+        color: #94a3b8;
+      }
+      .seguir {
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        background: #22d3ee;
+        color: #0b1220;
+        font-weight: 600;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="perfil">
+      <img src="/img/cursos/html/heroe-avatar.webp" alt="" width="56" height="56">
+      <div class="datos">
+        <h1>@Iris</h1>
+        <p>Nivel 14 · Espadachina</p>
+      </div>
+      <a class="seguir" href="#">Seguir</a>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+La tarjeta de Teo queda en la cornisa. En una hora tiene tres seguidores: Iris, Gheco y una paloma.
+
+#### Imagen
+- Una cornisa de piedra junto a un ventanal de vitrales, con una tarjeta alargada clavada en la pared.
+- Teo señala su tarjeta orgulloso; Iris aplaude; Gheco y una paloma miran la tarjeta.
+
+### Micro-misión R02-N03-P6 · Centrado total
+
+```meta
+lugar: La cornisa del ventanal
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R02-N03-M2
+```
+
+#### Escena
+Mientras el taller carga las piezas nuevas, Tesela quiere un cartel de espera **justo** en el medio de la ventana. Ni un poco arriba ni un poco al costado.
+—Sin calcular márgenes a mano —dice—. Que se centre solo.
+
+#### Gheco sugiere
+Con `display: flex` en el `body`, `justify-content: center` centra en horizontal y `align-items: center`, en vertical. Para que haya alto donde centrar, el `body` necesita `min-height: 100vh`.
+
+#### Desafío
+Centrá un cartel (un `div` con la clase `cartel`) en el medio exacto de la ventana. En el `style`, el `body` lleva:
+
+- `min-height: 100vh;`
+- `display: flex;`
+- `justify-content: center;`
+- `align-items: center;`
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Centrado total</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css body { min-height }
+css body { display }
+css body { justify-content }
+css body { align-items }
+body > .cartel #
+```
+
+#### Salida esperada
+```
+css body { min-height }: 100vh
+css body { display }: flex
+css body { justify-content }: center
+css body { align-items }: center
+body > .cartel #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Centrado total</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh; /* alto de toda la ventana */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0b1220;
+        color: #e2e8f0;
+        font-family: system-ui, sans-serif;
+      }
+      .cartel {
+        padding: 2rem;
+        border: 2px solid #22d3ee;
+        border-radius: 1rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cartel">
+      <p>Cargando el Taller…</p>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+El cartel queda clavado en el centro, achiques o agrandes la ventana. Tesela lo mira un rato largo, satisfecha.
+
+#### Imagen
+- Un ventanal redondo con un cartel de vidrio flotando exactamente en el centro, de bordes cian.
+- Tesela mira el cartel con una regla en la mano; Iris y Gheco se asoman desde los costados.
+
 ### Prueba del sello
 
 #### ¿Qué diferencia hay entre `justify-content` y `align-items`?
@@ -2460,196 +2738,6 @@ Los cuatro botones se estiran hasta ocupar la fila, del mismo ancho. {mentor} no
 - Una franja de vitral con cuatro paneles exactamente iguales.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) trabaja en su propio vitral.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) compara los paneles.
-
-### Misión R02-N03-M1 · La tarjeta de perfil
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una tarjeta de perfil en una sola fila: un avatar redondo a la izquierda, el nombre y el nivel en el medio (que ocupen el espacio que sobra) y un botón "Seguir" a la derecha.
-
-#### Criterio de aprobación
-
-- El contenedor usa `display: flex` con `align-items: center` y `gap`.
-- El bloque del medio tiene `flex: 1` (y `min-width: 0`).
-- El avatar no se achica (`flex-shrink: 0`) y es redondo (`border-radius: 50%`).
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N03-M1-celular.webp
-compu: capturas/R02-N03-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La tarjeta de perfil</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tarjeta de perfil con flex</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        padding: 1.25rem;
-        background: #0b1220;
-        color: #e2e8f0;
-        font-family: system-ui, sans-serif;
-      }
-      .perfil {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 1rem;
-        border: 1px solid #1f2a44;
-        border-radius: 0.75rem;
-      }
-      .perfil img {
-        flex-shrink: 0;
-        border-radius: 50%;
-        background: #111a2e;
-      }
-      .datos {
-        flex: 1;
-      }
-      .datos h1 {
-        margin: 0;
-        font-size: 1.125rem;
-      }
-      .datos p {
-        margin: 0;
-        color: #94a3b8;
-      }
-      .seguir {
-        padding: 0.5rem 1rem;
-        border-radius: 999px;
-        background: #22d3ee;
-        color: #0b1220;
-        font-weight: 600;
-        text-decoration: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="perfil">
-      <img src="/img/cursos/html/heroe-avatar.webp" alt="" width="56" height="56">
-      <div class="datos">
-        <h1>@Iris</h1>
-        <p>Nivel 14 · Espadachina</p>
-      </div>
-      <a class="seguir" href="#">Seguir</a>
-    </div>
-  </body>
-</html>
-```
-
-
-### Misión R02-N03-M2 · Centrado total
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Poné un cartel **en el centro exacto de la ventana**, en los dos ejes. Pista: el `body` tiene que medir al menos todo el alto (`min-height: 100vh`).
-
-#### Criterio de aprobación
-
-- El cartel queda centrado horizontal y verticalmente, en celular y en compu.
-- Usa flexbox (`justify-content: center` y `align-items: center`), no márgenes calculados a mano.
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N03-M2-celular.webp
-compu: capturas/R02-N03-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Centrado total</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Centrado total</title>
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh; /* alto de toda la ventana */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #0b1220;
-        color: #e2e8f0;
-        font-family: system-ui, sans-serif;
-      }
-      .cartel {
-        padding: 2rem;
-        border: 2px solid #22d3ee;
-        border-radius: 1rem;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="cartel">
-      <p>Cargando el Taller…</p>
-    </div>
-  </body>
-</html>
-```
-
 
 ### Encargo R02-N03-E1 · El pie de la ferretería
 
@@ -3000,6 +3088,240 @@ Las galerías de fotos, los catálogos de una tienda, un tablero de estadística
 
 **Ogro: áreas mal dibujadas.** En `grid-template-areas` cada fila tiene que tener la misma cantidad de nombres y cada área tiene que ser un rectángulo; si no, DevTools tacha la propiedad.
 
+### Micro-misión R02-N04-P5 · La galería de insignias
+
+```meta
+lugar: La mesa de los encargos de Kaffa
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R02-N04-M1
+```
+
+#### Escena
+Teo juntó insignias de todos los encargos y las quiere mostrar en una vitrina.
+—Todas cuadradas, que se acomoden solas según el ancho —dice—. Y la de campeón, más grande.
+
+#### Gheco sugiere
+`repeat(auto-fill, minmax(6rem, 1fr))` arma tantas columnas como entren, de al menos 6rem. `aspect-ratio: 1` las hace cuadradas y `grid-column: span 2` hace que una ocupe dos columnas.
+
+#### Desafío
+Armá la galería de insignias: una `ul` con la clase `insignias` y **seis** `li`, uno de ellos con la clase `grande`. En el `style`:
+
+- `.insignias`: `display: grid` y `grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr))`.
+- `.insignias li`: `aspect-ratio: 1`.
+- `.insignias .grande`: `grid-column: span 2`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La galería de insignias</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css .insignias { display }
+css .insignias { grid-template-columns }
+css .insignias li { aspect-ratio }
+css .insignias .grande { grid-column }
+.insignias > li #
+.insignias > li.grande #
+```
+
+#### Salida esperada
+```
+css .insignias { display }: grid
+css .insignias { grid-template-columns }: repeat(auto-fill, minmax(6rem, 1fr))
+css .insignias li { aspect-ratio }: 1
+css .insignias .grande { grid-column }: span 2
+.insignias > li #: 6
+.insignias > li.grande #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Galería de insignias</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 1.25rem;
+        background: #0b1220;
+        color: #e2e8f0;
+        font-family: system-ui, sans-serif;
+      }
+      .insignias {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
+        gap: 0.75rem;
+        padding: 0;
+        list-style: none;
+      }
+      .insignias li {
+        display: grid;
+        place-items: center;
+        aspect-ratio: 1; /* cuadradas */
+        border: 1px solid #1f2a44;
+        border-radius: 1rem;
+        font-size: 2rem;
+      }
+      /* Una insignia especial ocupa dos columnas */
+      .insignias .grande {
+        grid-column: span 2;
+        aspect-ratio: auto;
+        border-color: #fbbf24;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Insignias</h1>
+    <ul class="insignias">
+      <li class="grande"><span aria-hidden="true">🏆</span> Campeona</li>
+      <li><span role="img" aria-label="fuego">🔥</span></li>
+      <li><span role="img" aria-label="rayo">⚡</span></li>
+      <li><span role="img" aria-label="gema">💎</span></li>
+      <li><span role="img" aria-label="espada">⚔️</span></li>
+      <li><span role="img" aria-label="escudo">🛡️</span></li>
+    </ul>
+  </body>
+</html>
+```
+
+#### Al superarla
+La vitrina se acomoda sola cuando Teo la mueve de lugar. La insignia de campeón brilla al frente, más grande que las demás.
+
+#### Imagen
+- Una vitrina de vidrio sobre la mesa de los encargos con insignias cuadradas en fila y una dorada más ancha al frente.
+- Teo señala la insignia dorada; Iris acomoda una; Gheco se refleja en el vidrio.
+
+### Micro-misión R02-N04-P6 · El layout con áreas
+
+```meta
+lugar: La mesa de los encargos de Kaffa
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R02-N04-M2
+```
+
+#### Escena
+Kaffa dejó un encargo en la mesa: el plano de una página con cabecera, menú al costado, contenido y pie.
+—Dibujalo con nombres —dice Tesela—. Que el CSS se lea como el plano.
+
+#### Gheco sugiere
+`grid-template-areas` dibuja el layout con palabras: cada renglón entre comillas es una fila. Después, cada zona dice dónde va con `grid-area: nombre`.
+
+#### Desafío
+Armá el esqueleto con un `header`, un `nav`, un `main` y un `footer` adentro del `body`. En el `style`:
+
+- `body`: `display: grid` y un `grid-template-areas` con tres filas: `"cabecera cabecera" "menu contenido" "pie pie"`.
+- `header { grid-area: cabecera; }`, `nav { grid-area: menu; }`, `main { grid-area: contenido; }` y `footer { grid-area: pie; }`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El layout con áreas</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css body { display }
+css header { grid-area }
+css nav { grid-area }
+css main { grid-area }
+css footer { grid-area }
+body > header #
+body > nav #
+body > main #
+body > footer #
+```
+
+#### Salida esperada
+```
+css body { display }: grid
+css header { grid-area }: cabecera
+css nav { grid-area }: menu
+css main { grid-area }: contenido
+css footer { grid-area }: pie
+body > header #: 1
+body > nav #: 1
+body > main #: 1
+body > footer #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Layout con áreas</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        /* El "dibujo" del layout: cada palabra es un area */
+        grid-template-areas:
+          "cabecera cabecera"
+          "menu     contenido"
+          "pie      pie";
+        grid-template-columns: 12rem 1fr;
+        grid-template-rows: auto 1fr auto;
+        font-family: system-ui, sans-serif;
+      }
+      header { grid-area: cabecera; background: #1e293b; color: white; padding: 1rem; }
+      nav { grid-area: menu; background: #e2e8f0; padding: 1rem; }
+      main { grid-area: contenido; padding: 1rem; }
+      footer { grid-area: pie; background: #1e293b; color: white; padding: 1rem; }
+    </style>
+  </head>
+  <body>
+    <header>Cabecera</header>
+    <nav aria-label="Lateral">Menú lateral</nav>
+    <main>Contenido principal</main>
+    <footer>Pie</footer>
+  </body>
+</html>
+```
+
+#### Al superarla
+El plano de Kaffa y la página quedan iguales. Tesela dobla el plano y lo guarda: ya no lo necesita.
+
+#### Imagen
+- Un plano de papel sobre la mesa de los encargos, dividido en cuatro zonas de colores lisos.
+- Tesela dobla el plano; Iris acomoda cuatro vidrios en el mismo orden; Gheco se sienta en la zona del pie.
+
 ### Prueba del sello
 
 #### ¿Qué es `1fr`? ¿Qué hace `repeat(3, 1fr)`?
@@ -3263,188 +3585,6 @@ Los tres escalones se apoyan en el piso. Teo se sube al del medio para la foto.
 - Un podio dorado de tres escalones, el del medio más alto.
 - Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) subido al escalón del medio, haciendo pose.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
-
-### Misión R02-N04-M1 · La galería de insignias
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una galería de insignias **cuadradas** (`aspect-ratio: 1`) que se acomode sola con `repeat(auto-fill, minmax(…))`, y una insignia especial que ocupe **dos columnas**.
-
-#### Criterio de aprobación
-
-- La grilla usa `repeat(auto-fill, minmax(…, 1fr))`.
-- Las insignias son cuadradas con `aspect-ratio: 1`.
-- Una ocupa dos columnas (`grid-column: span 2`).
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N04-M1-celular.webp
-compu: capturas/R02-N04-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La galería de insignias</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Galería de insignias</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 1.25rem;
-        background: #0b1220;
-        color: #e2e8f0;
-        font-family: system-ui, sans-serif;
-      }
-      .insignias {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr));
-        gap: 0.75rem;
-        padding: 0;
-        list-style: none;
-      }
-      .insignias li {
-        display: grid;
-        place-items: center;
-        aspect-ratio: 1; /* cuadradas */
-        border: 1px solid #1f2a44;
-        border-radius: 1rem;
-        font-size: 2rem;
-      }
-      /* Una insignia especial ocupa dos columnas */
-      .insignias .grande {
-        grid-column: span 2;
-        aspect-ratio: auto;
-        border-color: #fbbf24;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Insignias</h1>
-    <ul class="insignias">
-      <li class="grande"><span aria-hidden="true">🏆</span> Campeona</li>
-      <li><span role="img" aria-label="fuego">🔥</span></li>
-      <li><span role="img" aria-label="rayo">⚡</span></li>
-      <li><span role="img" aria-label="gema">💎</span></li>
-      <li><span role="img" aria-label="espada">⚔️</span></li>
-      <li><span role="img" aria-label="escudo">🛡️</span></li>
-    </ul>
-  </body>
-</html>
-```
-
-
-### Misión R02-N04-M2 · El layout con áreas
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá el esqueleto de una página con **cabecera, menú lateral, contenido y pie**, usando `grid-template-areas` con nombres.
-
-#### Criterio de aprobación
-
-- Usa `grid-template-areas` y cada zona tiene su `grid-area`.
-- Las cuatro zonas son etiquetas semánticas (`header`, `nav` o `aside`, `main`, `footer`).
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N04-M2-celular.webp
-compu: capturas/R02-N04-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El layout con áreas</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Layout con áreas</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        /* El "dibujo" del layout: cada palabra es un area */
-        grid-template-areas:
-          "cabecera cabecera"
-          "menu     contenido"
-          "pie      pie";
-        grid-template-columns: 12rem 1fr;
-        grid-template-rows: auto 1fr auto;
-        font-family: system-ui, sans-serif;
-      }
-      header { grid-area: cabecera; background: #1e293b; color: white; padding: 1rem; }
-      nav { grid-area: menu; background: #e2e8f0; padding: 1rem; }
-      main { grid-area: contenido; padding: 1rem; }
-      footer { grid-area: pie; background: #1e293b; color: white; padding: 1rem; }
-    </style>
-  </head>
-  <body>
-    <header>Cabecera</header>
-    <nav aria-label="Lateral">Menú lateral</nav>
-    <main>Contenido principal</main>
-    <footer>Pie</footer>
-  </body>
-</html>
-```
-
 
 ### Encargo R02-N04-E1 · El calendario de octubre
 
@@ -3894,6 +4034,255 @@ Más de la mitad de las visitas a cualquier sitio llegan desde un celular. Un di
 
 **Orco del Desborde: scroll horizontal en el celular**. En DevTools, buscá qué elemento es más ancho que la pantalla (suele ser una imagen, una tabla o un `width` fijo).
 
+### Micro-misión R02-N05-P5 · La galería 1-2-3-6
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R02-N05-M1
+```
+
+#### Escena
+Nora tiene fotos de vitrales para mostrar en la cabaña (la pantalla chica) y en el castillo (la grande).
+—En la cabaña, de a una. Y a medida que hay lugar, más columnas.
+
+#### Gheco sugiere
+Primero el CSS del celular, sin `@media`. Después, de menor a mayor, `@media (min-width: …)` suma columnas cuando la pantalla es más ancha.
+
+#### Desafío
+Armá una galería: una `ul` con la clase `galeria` y seis `li`. En el `style`:
+
+- `.galeria`: `display: grid` y `grid-template-columns: 1fr`.
+- `@media (min-width: 30rem)`: `.galeria { grid-template-columns: repeat(2, 1fr); }`
+- `@media (min-width: 48rem)`: tres columnas, `repeat(3, 1fr)`.
+- `@media (min-width: 80rem)`: seis columnas, `repeat(6, 1fr)`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La galería 1-2-3-6</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css .galeria { display }
+css .galeria { grid-template-columns }
+css @media (min-width: 30rem) | .galeria { grid-template-columns }
+css @media (min-width: 48rem) | .galeria { grid-template-columns }
+css @media (min-width: 80rem) | .galeria { grid-template-columns }
+.galeria > li #
+```
+
+#### Salida esperada
+```
+css .galeria { display }: grid
+css .galeria { grid-template-columns }: 1fr
+css @media (min-width: 30rem) | .galeria { grid-template-columns }: repeat(2, 1fr)
+css @media (min-width: 48rem) | .galeria { grid-template-columns }: repeat(3, 1fr)
+css @media (min-width: 80rem) | .galeria { grid-template-columns }: repeat(6, 1fr)
+.galeria > li #: 6
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Galería 1-2-3-6</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 1rem;
+        font-family: system-ui, sans-serif;
+      }
+      .galeria {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 0;
+        list-style: none;
+      }
+      .galeria li {
+        aspect-ratio: 4 / 3;
+        display: grid;
+        place-items: center;
+        background: #e0f2fe;
+        border-radius: 0.5rem;
+      }
+      @media (min-width: 30rem) {
+        .galeria { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (min-width: 48rem) {
+        .galeria { grid-template-columns: repeat(3, 1fr); }
+      }
+      @media (min-width: 80rem) {
+        .galeria { grid-template-columns: repeat(6, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Galería</h1>
+    <ul class="galeria">
+      <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
+    </ul>
+  </body>
+</html>
+```
+
+#### Al superarla
+En la cabaña se ve una foto por renglón; en el castillo, seis en fila. Nora pasa de una a otra diez veces solo para mirar cómo se acomodan.
+
+#### Imagen
+- Una cabaña chiquita y un castillo enorme uno al lado del otro, cada uno con una ventana llena de vitrales.
+- Nora corre de la cabaña al castillo; Iris señala las ventanas; Gheco cuenta los vitrales.
+
+### Micro-misión R02-N05-P6 · El menú lateral
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R02-N05-M2
+```
+
+#### Escena
+En la cabaña no entra el menú del panel: se sale por los costados y arrastra toda la página.
+—En la cabaña, que se deslice solo el menú —dice Nora—. En el castillo, que se ponga en columna a la izquierda.
+
+#### Gheco sugiere
+`overflow-x: auto` le da scroll propio a un elemento, sin mover la página. Desde un ancho, una `@media` cambia la grilla a dos columnas y pone el menú en columna con `flex-direction: column`.
+
+#### Desafío
+Armá el panel: un `div` con la clase `layout` que tenga adentro un `nav` (con **cuatro** enlaces) y un `main`. En el `style`:
+
+- `.layout`: `display: grid` y `grid-template-columns: 1fr`.
+- `nav`: `display: flex` y `overflow-x: auto`.
+- `@media (min-width: 48rem)`: `.layout { grid-template-columns: 14rem 1fr; }` y `nav { flex-direction: column; }`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El menú lateral</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+css .layout { display }
+css .layout { grid-template-columns }
+css nav { display }
+css nav { overflow-x }
+css @media (min-width: 48rem) | .layout { grid-template-columns }
+css @media (min-width: 48rem) | nav { flex-direction }
+.layout > nav a #
+.layout > main #
+```
+
+#### Salida esperada
+```
+css .layout { display }: grid
+css .layout { grid-template-columns }: 1fr
+css nav { display }: flex
+css nav { overflow-x }: auto
+css @media (min-width: 48rem) | .layout { grid-template-columns }: 14rem 1fr
+css @media (min-width: 48rem) | nav { flex-direction }: column
+.layout > nav a #: 4
+.layout > main #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Menú arriba en el celular, al costado en la computadora</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr; /* celular: todo apilado */
+      }
+      nav {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto; /* si no entran, scroll SOLO en el menu */
+        padding: 1rem;
+        background: #1e293b;
+      }
+      nav a {
+        color: white;
+        white-space: nowrap;
+      }
+      main {
+        padding: 1rem;
+      }
+      @media (min-width: 48rem) {
+        .layout {
+          grid-template-columns: 14rem 1fr; /* computadora: menu a la izquierda */
+          min-height: 100vh;
+        }
+        nav {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <nav aria-label="Panel">
+        <a href="#">Resumen</a>
+        <a href="#">Mis cursos</a>
+        <a href="#">Insignias</a>
+        <a href="#">Configuración</a>
+      </nav>
+      <main>
+        <h1>Panel del alumno</h1>
+        <p>Achicá y agrandá la ventana.</p>
+      </main>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+En la cabaña, el menú se desliza con el dedo; en el castillo, se para a la izquierda. Nora guarda la página en su ficha de favoritos.
+
+#### Imagen
+- Una cinta de vitrales que se desliza de costado en la ventana de la cabaña y se pone vertical en la del castillo.
+- Nora desliza la cinta con un dedo; Iris mira el castillo; Gheco se sube a la cinta como a un tobogán.
+
 ### Prueba del sello
 
 #### ¿Qué significa *mobile first* y por qué se usa `min-width`?
@@ -4150,203 +4539,6 @@ Nora baja hasta el final y el menú la acompaña. —Así no me pierdo nunca.
 - Un vitral largo con una franja de arriba que se queda fija mientras el resto baja.
 - Nora (30, ciega, alta, piel oscura, trenzas finas con un broche de vidrio, túnica gris perla, guantes sin dedos, bastón de vidrio) recorre el vitral con la mano.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
-
-### Misión R02-N05-M1 · La galería 1-2-3-6
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una galería que tenga **1 columna** en el celular, **2** desde 30 rem, **3** desde 48 rem y **6** desde 80 rem. Escribí primero el CSS del celular y después las media queries con `min-width`.
-
-#### Criterio de aprobación
-
-- El CSS sin `@media` es el del celular (1 columna).
-- Las media queries usan `min-width` y van de menor a mayor.
-- En *Celular* hay una columna; en *Compu*, varias.
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N05-M1-celular.webp
-compu: capturas/R02-N05-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La galería 1-2-3-6</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Galería 1-2-3-6</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 1rem;
-        font-family: system-ui, sans-serif;
-      }
-      .galeria {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
-        padding: 0;
-        list-style: none;
-      }
-      .galeria li {
-        aspect-ratio: 4 / 3;
-        display: grid;
-        place-items: center;
-        background: #e0f2fe;
-        border-radius: 0.5rem;
-      }
-      @media (min-width: 30rem) {
-        .galeria { grid-template-columns: repeat(2, 1fr); }
-      }
-      @media (min-width: 48rem) {
-        .galeria { grid-template-columns: repeat(3, 1fr); }
-      }
-      @media (min-width: 80rem) {
-        .galeria { grid-template-columns: repeat(6, 1fr); }
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Galería</h1>
-    <ul class="galeria">
-      <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li>
-    </ul>
-  </body>
-</html>
-```
-
-
-### Misión R02-N05-M2 · El menú lateral
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-En el celular, el menú es **una fila con scroll horizontal propio** (sin mover la página); desde 48 rem, pasa a ser **una columna a la izquierda** del contenido.
-
-#### Criterio de aprobación
-
-- En el celular el menú usa `overflow-x: auto` y la página no se mueve de costado.
-- Desde 48 rem el menú queda en columna al costado del contenido.
-
-#### Cómo debe quedar
-
-celular: capturas/R02-N05-M2-celular.webp
-compu: capturas/R02-N05-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El menú lateral</title>
-    <style>
-
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menú arriba en el celular, al costado en la computadora</title>
-    <style>
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: system-ui, sans-serif;
-      }
-      .layout {
-        display: grid;
-        grid-template-columns: 1fr; /* celular: todo apilado */
-      }
-      nav {
-        display: flex;
-        gap: 1rem;
-        overflow-x: auto; /* si no entran, scroll SOLO en el menu */
-        padding: 1rem;
-        background: #1e293b;
-      }
-      nav a {
-        color: white;
-        white-space: nowrap;
-      }
-      main {
-        padding: 1rem;
-      }
-      @media (min-width: 48rem) {
-        .layout {
-          grid-template-columns: 14rem 1fr; /* computadora: menu a la izquierda */
-          min-height: 100vh;
-        }
-        nav {
-          flex-direction: column;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="layout">
-      <nav aria-label="Panel">
-        <a href="#">Resumen</a>
-        <a href="#">Mis cursos</a>
-        <a href="#">Insignias</a>
-        <a href="#">Configuración</a>
-      </nav>
-      <main>
-        <h1>Panel del alumno</h1>
-        <p>Achicá y agrandá la ventana.</p>
-      </main>
-    </div>
-  </body>
-</html>
-```
-
 
 ### Encargo R02-N05-E1 · Los planes del gimnasio
 

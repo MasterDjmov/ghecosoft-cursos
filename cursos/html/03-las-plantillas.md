@@ -145,6 +145,177 @@ Tailwind es uno de los frameworks de CSS más usados del mundo: lo vas a encontr
 
 **Esqueleto: clases armadas por partes** (`"text-" + color + "-400"` desde JavaScript): el CLI busca clases **completas** en el texto de los archivos; si nunca aparecen escritas enteras, no las genera.
 
+### Micro-misión R03-N01-P5 · La tarjeta violeta
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R03-N01-M1
+```
+
+#### Escena
+En el cofre del Gremio hay una caja de clases ya hechas: Tailwind. Tesela quiere rehacer la tarjeta de SDL3 sin escribir ni una regla de CSS.
+—Borde violeta, acento violeta y la barra de progreso a la mitad, casi.
+
+#### Gheco sugiere
+Cada clase de Tailwind es una regla: `border-violet-900`, `bg-violet-400`. Para un valor que no está en la escala, corchetes: `w-[45%]`.
+
+#### Desafío
+Rehacé la tarjeta del curso de SDL3 solo con clases de Tailwind (sin CSS escrito a mano):
+
+- Un `article` con las clases `border` y `border-violet-900`.
+- Adentro, una barra de progreso: un `div` con la clase `w-[45%]` y la clase `bg-violet-400`.
+- El texto de los XP con la clase `text-violet-400`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La tarjeta violeta</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+article[class~="border"][class~="border-violet-900"] #
+div[class~="w-[45%]"][class~="bg-violet-400"] #
+[class~="text-violet-400"] #
+```
+
+#### Salida esperada
+```
+article[class~="border"][class~="border-violet-900"] #: 1
+div[class~="w-[45%]"][class~="bg-violet-400"] #: 1
+[class~="text-violet-400"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarjeta SDL3 con Tailwind</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-5 text-slate-200">
+    <article class="max-w-sm rounded-xl border border-violet-900 bg-slate-900 p-5">
+      <p class="font-mono text-xs text-slate-400">MOD-06</p>
+      <h1 class="mt-3 text-lg font-semibold">SDL3 &amp; Game Loops</h1>
+      <p class="mt-2 text-sm text-slate-400">Renderizado acelerado y eventos en tiempo real.</p>
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-800" role="progressbar" aria-label="Progreso del curso" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
+        <div class="h-full w-[45%] bg-violet-400"></div>
+      </div>
+      <p class="mt-4 font-mono font-bold text-violet-400">+420 XP</p>
+    </article>
+  </body>
+</html>
+```
+
+#### Al superarla
+La tarjeta violeta sale del cofre sin una sola regla escrita a mano. Tesela cierra el cofre con una sonrisa de costado.
+
+#### Imagen
+- Un cofre de madera abierto con cajoncitos llenos de piezas de vidrio de colores ordenadas por tono.
+- Tesela saca un vidrio violeta; Iris arma una tarjeta con piezas; Gheco se mete en un cajoncito.
+
+### Micro-misión R03-N01-P6 · Los botones
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R03-N01-M2
+```
+
+#### Escena
+Teo quiere los dos botones de la plataforma: uno lleno para seguir la campaña y otro de borde para ir a los nodos.
+—Del mismo alto y con las mismas esquinas —dice—. Que se vean de la misma familia.
+
+#### Gheco sugiere
+`bg-cyan-400` pinta el fondo y `text-slate-950` el texto. Un botón de borde lleva `border` sin fondo. Para que sean de la misma familia, los dos con el mismo `px-5 py-3` y `rounded-lg`.
+
+#### Desafío
+Armá dos enlaces con clases de Tailwind:
+
+- «Continuar campaña», con `bg-cyan-400` y `text-slate-950`.
+- «Nodos», con `border` (sin clase de fondo).
+- Los dos, con `inline-block`, `rounded-lg`, `px-5` y `py-3`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Los botones</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+a #
+a[class~="bg-cyan-400"][class~="text-slate-950"] #
+a[class~="border"] #
+a[class~="inline-block"][class~="rounded-lg"][class~="px-5"][class~="py-3"] #
+```
+
+#### Salida esperada
+```
+a #: 2
+a[class~="bg-cyan-400"][class~="text-slate-950"] #: 1
+a[class~="border"] #: 1
+a[class~="inline-block"][class~="rounded-lg"][class~="px-5"][class~="py-3"] #: 2
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Botones con Tailwind</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-5">
+    <a href="#" class="inline-block rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950">▷ Continuar campaña</a>
+    <a href="#" class="ml-2 inline-block rounded-lg border border-slate-700 px-5 py-3 font-semibold text-cyan-400">Nodos</a>
+  </body>
+</html>
+```
+
+#### Al superarla
+Los dos botones quedan de la misma familia. Teo aprieta «Continuar campaña» y no pasa nada, porque es de mentira. Lo aprieta igual otras cinco veces.
+
+#### Imagen
+- Dos botones de vidrio sobre la tapa del cofre: uno cian lleno y otro con solo el borde.
+- Teo aprieta el botón cian con el dedo; Iris se ríe; Gheco aprieta el otro con la cola.
+
 ### Prueba del sello
 
 #### ¿Qué es una clase utilitaria?
@@ -366,141 +537,6 @@ La tarjeta queda con esquinas suaves. Teo prueba `rounded-full` en todo y le sal
 - Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) rodeado de vidrios redondos como píldoras.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) se ríe.
 
-### Misión R03-N01-M1 · La tarjeta violeta
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Rehacé con clases de Tailwind la tarjeta del curso de **SDL3**: borde y acento **violeta**, y una barra de progreso al **45 %**. Para un valor que no está en la escala se usan corchetes: `w-[45%]`.
-
-#### Criterio de aprobación
-
-- No hay CSS escrito a mano: solo clases de Tailwind.
-- Borde y acento violeta (`border-violet-…`, `bg-violet-…`).
-- La barra mide 45 % con un valor a medida (`w-[45%]`).
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N01-M1-celular.webp
-compu: capturas/R03-N01-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La tarjeta violeta</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tarjeta SDL3 con Tailwind</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-5 text-slate-200">
-    <article class="max-w-sm rounded-xl border border-violet-900 bg-slate-900 p-5">
-      <p class="font-mono text-xs text-slate-400">MOD-06</p>
-      <h1 class="mt-3 text-lg font-semibold">SDL3 &amp; Game Loops</h1>
-      <p class="mt-2 text-sm text-slate-400">Renderizado acelerado y eventos en tiempo real.</p>
-      <div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-800" role="progressbar" aria-label="Progreso del curso" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-        <div class="h-full w-[45%] bg-violet-400"></div>
-      </div>
-      <p class="mt-4 font-mono font-bold text-violet-400">+420 XP</p>
-    </article>
-  </body>
-</html>
-```
-
-
-### Misión R03-N01-M2 · Los botones
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá los dos botones de la plataforma: **"Continuar campaña"**, con fondo cian, y **"Nodos"**, solo con borde. Mirá «Cómo debería verse».
-
-#### Criterio de aprobación
-
-- "Continuar campaña" tiene fondo cian y texto oscuro; "Nodos", borde y fondo transparente.
-- Los dos tienen el mismo alto, relleno y esquinas redondeadas.
-- Solo clases de Tailwind.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N01-M2-celular.webp
-compu: capturas/R03-N01-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Los botones</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Botones con Tailwind</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-5">
-    <a href="#" class="inline-block rounded-lg bg-cyan-400 px-5 py-3 font-semibold text-slate-950">▷ Continuar campaña</a>
-    <a href="#" class="ml-2 inline-block rounded-lg border border-slate-700 px-5 py-3 font-semibold text-cyan-400">Nodos</a>
-  </body>
-</html>
-```
-
-
 ### Encargo R03-N01-E1 · Los avisos del sistema
 
 ```meta
@@ -718,6 +754,171 @@ Las escalas de espacios y colores son lo que hace que un diseño se vea "prolijo
 **Esqueleto: el degradé del texto no se ve**: falta `bg-clip-text` o `text-transparent`.
 
 **Goblin: corchetes con espacios** (`grid-cols-[1fr 2fr]`): se corta la clase. Usá `_`.
+
+### Micro-misión R03-N02-P5 · La insignia de nivel
+
+```meta
+lugar: Los cajones del cofre
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R03-N02-M1
+```
+
+#### Escena
+Nora quiere su avatar como el de la cabecera de la plataforma: redondo, con un anillo cian y el nivel pegado abajo.
+—Que la etiqueta quede encima de la imagen, al centro.
+
+#### Gheco sugiere
+`ring-2 ring-cyan-400` dibuja un anillo alrededor. Para superponer, el contenedor es `relative` y la etiqueta `absolute`, con `left-1/2 -translate-x-1/2` para centrarla.
+
+#### Desafío
+Armá el avatar con clases de Tailwind:
+
+- Un contenedor con la clase `relative`.
+- Adentro, **una** imagen con `alt`, con las clases `ring-2` y `ring-cyan-400`.
+- Una etiqueta (`span`) con el texto `LV.14` y las clases `absolute`, `left-1/2` y `-translate-x-1/2`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La insignia de nivel</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+[class~="relative"] > img[class~="ring-2"][class~="ring-cyan-400"] #
+img:not([alt]) #
+[class~="relative"] > span[class~="absolute"][class~="left-1/2"][class~="-translate-x-1/2"]
+```
+
+#### Salida esperada
+```
+[class~="relative"] > img[class~="ring-2"][class~="ring-cyan-400"] #: 1
+img:not([alt]) #: 0
+[class~="relative"] > span[class~="absolute"][class~="left-1/2"][class~="-translate-x-1/2"]: LV.14
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Insignia de nivel</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-5">
+    <div class="relative inline-block">
+      <img src="/img/cursos/html/gheco-logo.webp" alt="Avatar" width="64" height="64" class="rounded-xl bg-slate-900 p-2 ring-2 ring-cyan-400">
+      <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded bg-violet-600 px-1.5 font-mono text-[10px] font-bold text-white">LV.14</span>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+Nora pone su avatar en su ficha. El nivel le queda chiquito abajo, como a los jugadores de verdad.
+
+#### Imagen
+- Un medallón redondo con un anillo de luz cian y una plaquita violeta lisa abajo, sobre un cajón del cofre.
+- Nora se mira en el medallón; Iris le acomoda la plaquita; Gheco se refleja en el anillo.
+
+### Micro-misión R03-N02-P6 · Títulos con degradé
+
+```meta
+lugar: Los cajones del cofre
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R03-N02-M2
+```
+
+#### Escena
+Tesela quiere los títulos del salón de la fama en degradé, como los vidrios de la ventana grande cuando les da el sol.
+—En el texto, no en el fondo. Y el de la liga, con tres colores.
+
+#### Gheco sugiere
+`bg-linear-to-r from-… to-…` pinta un degradé de fondo; `bg-clip-text text-transparent` lo recorta con la forma del texto. Con `via-…` se suma un color del medio.
+
+#### Desafío
+Escribí dos títulos con texto en degradé:
+
+- Un `h1` «Hall of Fame» con `bg-linear-to-r`, `from-amber-300`, `to-orange-500`, `bg-clip-text` y `text-transparent`.
+- Un `h2` «Liga Obsidiana» con `bg-linear-to-r`, `from-fuchsia-400`, `via-violet-400`, `to-cyan-400`, `bg-clip-text` y `text-transparent`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Títulos con degradé</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+h1
+h1[class~="bg-linear-to-r"][class~="from-amber-300"][class~="to-orange-500"][class~="bg-clip-text"][class~="text-transparent"] #
+h2
+h2[class~="from-fuchsia-400"][class~="via-violet-400"][class~="to-cyan-400"][class~="bg-clip-text"][class~="text-transparent"] #
+```
+
+#### Salida esperada
+```
+h1: Hall of Fame
+h1[class~="bg-linear-to-r"][class~="from-amber-300"][class~="to-orange-500"][class~="bg-clip-text"][class~="text-transparent"] #: 1
+h2: Liga Obsidiana
+h2[class~="from-fuchsia-400"][class~="via-violet-400"][class~="to-cyan-400"][class~="bg-clip-text"][class~="text-transparent"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Títulos con degradé</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="space-y-4 bg-slate-950 p-5">
+    <h1 class="bg-linear-to-r from-amber-300 to-orange-500 bg-clip-text text-4xl font-black text-transparent">Hall of Fame</h1>
+    <h2 class="bg-linear-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-2xl font-bold text-transparent">Liga Obsidiana</h2>
+  </body>
+</html>
+```
+
+#### Al superarla
+Los dos títulos brillan como vidrio al sol. Tesela los cuelga en la entrada del salón de la fama.
+
+#### Imagen
+- Dos placas de vidrio en la pared, una que pasa del dorado al naranja y otra del fucsia al violeta y al cian.
+- Tesela cuelga una placa; Iris sostiene la otra; Gheco brilla de colores al pasar delante.
 
 ### Prueba del sello
 
@@ -944,135 +1145,6 @@ La tarjeta deja de saltar. Teo la mira un rato largo. —Es… linda —admite. 
 - Teo (15, flaco, pelo negro enrulado con purpurina, pecas, delantal manchado de todos los colores, cinturón con frascos de vidrio molido) le saca una estrella de la punta.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) sonríe.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) de brazos cruzados.
-
-### Misión R03-N02-M1 · La insignia de nivel
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá el avatar de la cabecera del celular: una imagen redonda con un **anillo cian** y la etiqueta **`LV.14`** pegada abajo, al centro (como en esta plataforma).
-
-#### Criterio de aprobación
-
-- El avatar es redondo y tiene un anillo cian (`ring-…`).
-- La etiqueta `LV.14` queda superpuesta abajo al centro (posición `relative`/`absolute`).
-- La imagen tiene `alt`.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N02-M1-celular.webp
-compu: capturas/R03-N02-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La insignia de nivel</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Insignia de nivel</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-5">
-    <div class="relative inline-block">
-      <img src="/img/cursos/html/gheco-logo.webp" alt="Avatar" width="64" height="64" class="rounded-xl bg-slate-900 p-2 ring-2 ring-cyan-400">
-      <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded bg-violet-600 px-1.5 font-mono text-[10px] font-bold text-white">LV.14</span>
-    </div>
-  </body>
-</html>
-```
-
-
-### Misión R03-N02-M2 · Títulos con degradé
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Escribí dos títulos con el texto en degradé: **"Hall of Fame"** en dorado y **"Liga Obsidiana"** con tres colores.
-
-#### Criterio de aprobación
-
-- El degradé está en el texto, no en el fondo (`bg-clip-text text-transparent`).
-- "Liga Obsidiana" usa tres colores (`from-…`, `via-…`, `to-…`).
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N02-M2-celular.webp
-compu: capturas/R03-N02-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Títulos con degradé</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Títulos con degradé</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="space-y-4 bg-slate-950 p-5">
-    <h1 class="bg-linear-to-r from-amber-300 to-orange-500 bg-clip-text text-4xl font-black text-transparent">Hall of Fame</h1>
-    <h2 class="bg-linear-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-2xl font-bold text-transparent">Liga Obsidiana</h2>
-  </body>
-</html>
-```
-
 
 ### Encargo R03-N02-E1 · La etiqueta de oferta
 
@@ -1321,6 +1393,177 @@ Las apps de chat, los tableros de estadísticas, las barras de navegación de lo
 **contenedor**; en el hijo se usa `self-*`.
 
 **Ogro: `space-y-*` dentro de un `flex` en fila**: `space-y` separa en vertical; en filas va `gap-*` (que funciona en las dos direcciones).
+
+### Micro-misión R03-N03-P5 · La barra inferior
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R03-N03-M1
+```
+
+#### Escena
+En la cabaña, la barra de secciones de abajo flota en el medio cuando hay poco contenido.
+—Que quede siempre abajo —dice Teo—, pero sin pegarla con clavos. Que la empuje el contenido.
+
+#### Gheco sugiere
+`min-h-screen flex flex-col` en el `body` hace una columna del alto de la pantalla. `flex-1` en el `main` lo estira y empuja la barra al fondo. Cada sección con `flex-1` mide lo mismo.
+
+#### Desafío
+Armá la barra inferior con clases de Tailwind:
+
+- El `body`, con `min-h-screen`, `flex` y `flex-col`.
+- Un `main` con `flex-1`.
+- Un `nav` con `flex` y **cuatro** enlaces, cada uno con `flex-1`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La barra inferior</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+body[class~="min-h-screen"][class~="flex"][class~="flex-col"] #
+main[class~="flex-1"] #
+nav[class~="flex"] #
+nav > a[class~="flex-1"] #
+```
+
+#### Salida esperada
+```
+body[class~="min-h-screen"][class~="flex"][class~="flex-col"] #: 1
+main[class~="flex-1"] #: 1
+nav[class~="flex"] #: 1
+nav > a[class~="flex-1"] #: 4
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Barra inferior con Tailwind</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="flex min-h-screen flex-col bg-slate-950 text-slate-200">
+    <main class="flex-1 p-4">Contenido</main>
+    <nav aria-label="Secciones" class="flex border-t border-slate-800 bg-slate-900 text-xs">
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true">🗺</span>Campañas</a>
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true">📖</span>Lecciones</a>
+      <a href="#" aria-current="page" class="flex flex-1 flex-col items-center py-2 text-cyan-400"><span aria-hidden="true">⚔</span>Arena</a>
+      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true">🌳</span>Árbol</a>
+    </nav>
+  </body>
+</html>
+```
+
+#### Al superarla
+La barra baja al fondo y ahí se queda, haya poco o mucho contenido. Teo prueba con una sola palabra en la página: la barra, abajo.
+
+#### Imagen
+- La ventana de la cabaña con una cinta de cuatro vitrales iguales pegada al borde de abajo.
+- Teo empuja la cinta hacia abajo con las dos manos; Iris mide los vitrales; Gheco duerme sobre la cinta.
+
+### Micro-misión R03-N03-P6 · El tablero
+
+```meta
+lugar: La cabaña y el castillo
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R03-N03-M2
+```
+
+#### Escena
+Teo quiere un tablero con sus estadísticas: la experiencia arriba, grande, y la racha y los nodos abajo, una al lado de la otra.
+—Dos columnas, y la primera que ocupe las dos.
+
+#### Gheco sugiere
+`grid grid-cols-2` arma dos columnas. `col-span-2` hace que un elemento ocupe las dos.
+
+#### Desafío
+Armá el tablero con clases de Tailwind:
+
+- Un contenedor con `grid` y `grid-cols-2`.
+- Adentro, **tres** `div` de estadísticas, todos con `rounded-xl`; el primero, además, con `col-span-2`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El tablero</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+[class~="grid"][class~="grid-cols-2"] #
+[class~="grid-cols-2"] > div[class~="rounded-xl"] #
+[class~="grid-cols-2"] > div[class~="col-span-2"] #
+```
+
+#### Salida esperada
+```
+[class~="grid"][class~="grid-cols-2"] #: 1
+[class~="grid-cols-2"] > div[class~="rounded-xl"] #: 3
+[class~="grid-cols-2"] > div[class~="col-span-2"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tablero de estadísticas</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-4 text-slate-200">
+    <div class="grid grid-cols-2 gap-3">
+      <div class="col-span-2 rounded-xl bg-slate-900 p-4">XP total<p class="font-mono text-3xl text-cyan-300">14.850</p></div>
+      <div class="rounded-xl bg-slate-900 p-4">Racha<p class="font-mono text-2xl text-orange-400">45 días</p></div>
+      <div class="rounded-xl bg-slate-900 p-4">Nodos<p class="font-mono text-2xl text-emerald-400">82</p></div>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+El tablero de Teo queda colgado en la cabaña. La racha dice cuarenta y cinco días; Teo jura que es verdad.
+
+#### Imagen
+- Un tablero de vidrio con tres paneles: uno ancho arriba y dos chicos abajo, con lucecitas de colores.
+- Teo señala el panel ancho; Iris cuenta lucecitas; Gheco enciende una.
 
 ### Prueba del sello
 
@@ -1576,141 +1819,6 @@ El formulario cae en una columna prolija. {mentor} lo prueba en el espejito ante
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) lo mira en un espejito.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) al lado.
 
-### Misión R03-N03-M1 · La barra inferior
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá la barra inferior de 4 secciones **pegada abajo de la ventana**, usando solo flex: `min-h-screen flex flex-col` en el `body` y `flex-1` en el `main`.
-
-#### Criterio de aprobación
-
-- La barra queda abajo aunque haya poco contenido, sin `position: fixed`.
-- Las 4 secciones miden lo mismo (`flex-1` en cada una).
-- Solo clases de Tailwind.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N03-M1-celular.webp
-compu: capturas/R03-N03-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La barra inferior</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Barra inferior con Tailwind</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="flex min-h-screen flex-col bg-slate-950 text-slate-200">
-    <main class="flex-1 p-4">Contenido</main>
-    <nav aria-label="Secciones" class="flex border-t border-slate-800 bg-slate-900 text-xs">
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true">🗺</span>Campañas</a>
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true">📖</span>Lecciones</a>
-      <a href="#" aria-current="page" class="flex flex-1 flex-col items-center py-2 text-cyan-400"><span aria-hidden="true">⚔</span>Arena</a>
-      <a href="#" class="flex flex-1 flex-col items-center py-2 text-slate-400"><span aria-hidden="true">🌳</span>Árbol</a>
-    </nav>
-  </body>
-</html>
-```
-
-
-### Misión R03-N03-M2 · El tablero
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá un tablero con **tres estadísticas** en una grilla de **2 columnas**, donde la primera ocupa las dos.
-
-#### Criterio de aprobación
-
-- Usa `grid grid-cols-2` y la primera estadística tiene `col-span-2`.
-- Las tres tarjetas tienen el mismo estilo.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N03-M2-celular.webp
-compu: capturas/R03-N03-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El tablero</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tablero de estadísticas</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-4 text-slate-200">
-    <div class="grid grid-cols-2 gap-3">
-      <div class="col-span-2 rounded-xl bg-slate-900 p-4">XP total<p class="font-mono text-3xl text-cyan-300">14.850</p></div>
-      <div class="rounded-xl bg-slate-900 p-4">Racha<p class="font-mono text-2xl text-orange-400">45 días</p></div>
-      <div class="rounded-xl bg-slate-900 p-4">Nodos<p class="font-mono text-2xl text-emerald-400">82</p></div>
-    </div>
-  </body>
-</html>
-```
-
-
 ### Encargo R03-N03-E1 · El chat de soporte
 
 ```meta
@@ -1937,6 +2045,171 @@ En cualquier proyecto con Tailwind, el diseño adaptable se escribe así: una cl
 **Troll: la barra fija tapa el final**: falta `pb-16` en el `body` (y `md:pb-0` para sacarlo cuando la barra desaparece).
 
 **Orco del Desborde: algo con ancho fijo** (`w-[500px]`) se sale en el celular. Usá `w-full max-w-[500px]`.
+
+### Micro-misión R03-N04-P5 · La fila adaptable
+
+```meta
+lugar: La mesa de los pergaminos de Ofidia
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R03-N04-M1
+```
+
+#### Escena
+Nora arma la tabla de posiciones para la mesa de Ofidia. En el celular solo entran tres datos; en la compu, cinco.
+—Que los dos de más aparezcan solos cuando hay lugar.
+
+#### Gheco sugiere
+`hidden md:block` esconde algo en el celular y lo muestra desde `md`. La fila es `flex` en el celular y pasa a grilla con `md:grid` y unas columnas a medida.
+
+#### Desafío
+Armá una fila del ranking con clases de Tailwind:
+
+- Un `div` con `flex` y `md:grid`.
+- Adentro, **cinco** `span`: puesto, nombre, especialidad, racha y puntos.
+- La especialidad y la racha, con `hidden` y `md:block`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La fila adaptable</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+div[class~="flex"][class~="md:grid"] #
+div[class~="md:grid"] > span #
+span[class~="hidden"][class~="md:block"] #
+```
+
+#### Salida esperada
+```
+div[class~="flex"][class~="md:grid"] #: 1
+div[class~="md:grid"] > span #: 5
+span[class~="hidden"][class~="md:block"] #: 2
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fila del ranking adaptable</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-4 text-slate-200">
+    <!-- Celular: puesto, nombre y puntos. Desde md aparecen especialidad y racha -->
+    <div class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 md:grid md:grid-cols-[3rem_1fr_1fr_6rem_6rem]">
+      <span class="font-mono text-cyan-400">#04</span>
+      <span class="min-w-0 flex-1 truncate font-semibold">@ZeroByte_Arg</span>
+      <span class="hidden text-slate-400 md:block">C++ Moderno / Memory Guru</span>
+      <span class="hidden md:block">🔥 14d</span>
+      <span class="text-right font-mono">10.900 XP</span>
+    </div>
+  </body>
+</html>
+```
+
+#### Al superarla
+En el celular la fila muestra lo justo; en la compu, todo. Ofidia mira la tabla y no dice nada, que es su forma de aprobar.
+
+#### Imagen
+- Una mesa con pergaminos enrollados y una fila de cinco plaquitas de vidrio de colores, dos de ellas más tenues.
+- Nora acomoda las plaquitas; Iris enciende las dos tenues con un dedo; Gheco duerme sobre un pergamino.
+
+### Micro-misión R03-N04-P6 · El texto que crece
+
+```meta
+lugar: La mesa de los pergaminos de Ofidia
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R03-N04-M2
+```
+
+#### Escena
+El título de la liga en el celular queda enorme y en la compu, chiquito.
+—Al revés —dice Nora—. Que crezca con la pantalla. Y el párrafo, que no se estire de punta a punta.
+
+#### Gheco sugiere
+Las clases con prefijo valen desde ese ancho: `text-2xl sm:text-4xl lg:text-6xl`. Un ancho máximo para el párrafo, como `lg:max-w-xl`, deja los renglones cómodos de leer.
+
+#### Desafío
+Escribí con clases de Tailwind:
+
+- Un `h1` con `text-2xl`, `sm:text-4xl` y `lg:text-6xl`.
+- Un párrafo con `lg:max-w-xl`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El texto que crece</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+h1[class~="text-2xl"][class~="sm:text-4xl"][class~="lg:text-6xl"] #
+p[class~="lg:max-w-xl"] #
+```
+
+#### Salida esperada
+```
+h1[class~="text-2xl"][class~="sm:text-4xl"][class~="lg:text-6xl"] #: 1
+p[class~="lg:max-w-xl"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Texto que crece</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-4 text-slate-200 md:p-10">
+    <h1 class="text-2xl font-black sm:text-4xl lg:text-6xl">Liga Obsidiana</h1>
+    <p class="mt-2 text-sm text-slate-400 lg:max-w-xl lg:text-lg">El texto, el padding y el ancho de línea crecen con la pantalla.</p>
+  </body>
+</html>
+```
+
+#### Al superarla
+El título crece con la pantalla como un vitral que se agranda al acercarse. Nora lo mira en las tres pantallas, una por una.
+
+#### Imagen
+- Tres pergaminos desplegados uno al lado del otro, cada uno más grande que el anterior, con un título de vidrio que crece.
+- Nora compara los tres pergaminos; Iris sostiene el más grande; Gheco se para sobre el más chico.
 
 ### Prueba del sello
 
@@ -2180,139 +2453,6 @@ El texto se queda en el medio del salón, de un ancho que se lee. {mentor} se sa
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) con el monóculo en la mano.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) espera.
 
-### Misión R03-N04-M1 · La fila adaptable
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una fila del ranking que en el celular muestre **puesto, nombre y puntos**, y desde `md` se convierta en una grilla de **5 columnas** que suma la especialidad y la racha (como la tabla de la versión de compu de esta plataforma).
-
-#### Criterio de aprobación
-
-- En *Celular* se ven tres datos; en *Compu*, cinco columnas.
-- Especialidad y racha aparecen solo desde `md` (`hidden md:block`).
-- La grilla usa `md:grid md:grid-cols-5` (o columnas a medida).
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N04-M1-celular.webp
-compu: capturas/R03-N04-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La fila adaptable</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fila del ranking adaptable</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-4 text-slate-200">
-    <!-- Celular: puesto, nombre y puntos. Desde md aparecen especialidad y racha -->
-    <div class="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 md:grid md:grid-cols-[3rem_1fr_1fr_6rem_6rem]">
-      <span class="font-mono text-cyan-400">#04</span>
-      <span class="min-w-0 flex-1 truncate font-semibold">@ZeroByte_Arg</span>
-      <span class="hidden text-slate-400 md:block">C++ Moderno / Memory Guru</span>
-      <span class="hidden md:block">🔥 14d</span>
-      <span class="text-right font-mono">10.900 XP</span>
-    </div>
-  </body>
-</html>
-```
-
-
-### Misión R03-N04-M2 · El texto que crece
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Escribí un título que pase de `text-2xl` a `text-4xl` desde `sm` y a `text-6xl` desde `lg`, y un párrafo con el ancho de línea limitado en pantallas grandes.
-
-#### Criterio de aprobación
-
-- El título usa `text-2xl sm:text-4xl lg:text-6xl`.
-- El párrafo tiene un ancho máximo (`max-w-prose` o similar).
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N04-M2-celular.webp
-compu: capturas/R03-N04-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El texto que crece</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Texto que crece</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-4 text-slate-200 md:p-10">
-    <h1 class="text-2xl font-black sm:text-4xl lg:text-6xl">Liga Obsidiana</h1>
-    <p class="mt-2 text-sm text-slate-400 lg:max-w-xl lg:text-lg">El texto, el padding y el ancho de línea crecen con la pantalla.</p>
-  </body>
-</html>
-```
-
-
 ### Encargo R03-N04-E1 · La portada de la inmobiliaria
 
 ```meta
@@ -2538,6 +2678,173 @@ Un botón que cambia al pasar el mouse, un campo que se marca en rojo cuando est
 **Ogro: el error aparece antes de escribir.** Con `invalid:` el campo vacío y obligatorio ya está en rojo al cargar la página; `user-invalid:` espera a que la persona lo use.
 
 **Esqueleto: un filtro hecho con `display: none` en el radio**: deja de funcionar con el teclado y el lector de pantalla. Usá `sr-only`.
+
+### Micro-misión R03-N05-P5 · La fila con hover
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R03-N05-M1
+```
+
+#### Escena
+Teo quiere que su fila del ranking reaccione cuando alguien pasa el mouse: que cambie el fondo, que el puesto se ponga cian y que aparezca una flechita.
+—Y suave —dice—. Nada de golpes.
+
+#### Gheco sugiere
+`group` en la fila y `group-hover:` en sus partes: así cada parte reacciona cuando el mouse está sobre la fila entera. `transition` suaviza los cambios.
+
+#### Desafío
+Armá una fila del ranking con clases de Tailwind:
+
+- Un enlace (`a`) con `group`, `transition` y `hover:bg-slate-800`.
+- Adentro, el puesto con `group-hover:text-cyan-400`.
+- Una flecha con `opacity-0`, `transition` y `group-hover:opacity-100`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La fila con hover</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+a[class~="group"][class~="transition"][class~="hover:bg-slate-800"] #
+a[class~="group"] [class~="group-hover:text-cyan-400"] #
+a[class~="group"] [class~="opacity-0"][class~="transition"][class~="group-hover:opacity-100"] #
+```
+
+#### Salida esperada
+```
+a[class~="group"][class~="transition"][class~="hover:bg-slate-800"] #: 1
+a[class~="group"] [class~="group-hover:text-cyan-400"] #: 1
+a[class~="group"] [class~="opacity-0"][class~="transition"][class~="group-hover:opacity-100"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fila con hover</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-4 text-slate-200">
+    <a href="#" class="group flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 transition hover:border-cyan-400/60 hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-cyan-300">
+      <span class="font-mono text-slate-400 group-hover:text-cyan-400">4</span>
+      <span class="flex-1 font-semibold">@ZeroByte_Arg</span>
+      <span class="font-mono">10.900 XP</span>
+      <span class="translate-x-0 text-cyan-400 opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">→</span>
+    </a>
+  </body>
+</html>
+```
+
+#### Al superarla
+Teo pasa el mouse por su fila una y otra vez, solo para ver aparecer la flechita.
+
+#### Imagen
+- Una fila de vidrio que se ilumina suave al acercar la mano, con una flechita cian que aparece en la punta.
+- Teo pasa la mano por encima de la fila; Iris mira la flechita; Gheco persigue la flechita.
+
+### Micro-misión R03-N05-P6 · El interruptor
+
+```meta
+lugar: El taller de Tesela
+personajes: Iris, Gheco, Nora
+recompensa: xp 15, monedas 6
+antes: R03-N05-M2
+```
+
+#### Escena
+En la entrada del taller hay una caja que pregunta si se recuerda al visitante. Nora la quiere con forma de interruptor.
+—Pero que sea una casilla de verdad —dice—. Que se pueda usar con el teclado.
+
+#### Gheco sugiere
+La casilla real se esconde con `sr-only` y se marca como `peer`. Su hermano, un `span`, dibuja el interruptor y cambia con `peer-checked:`. La bolita es un pseudo-elemento: `after:`.
+
+#### Desafío
+Armá el interruptor «Recordarme en esta terminal» con clases de Tailwind, todo adentro de un `label`:
+
+- Un `input type="checkbox"` con `peer` y `sr-only`.
+- Un `span` con `peer-checked:bg-cyan-400` y la bolita hecha con `after:absolute` y `peer-checked:after:translate-x-5`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>El interruptor</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+label input[type="checkbox"][class~="peer"][class~="sr-only"] #
+label span[class~="peer-checked:bg-cyan-400"][class~="after:absolute"][class~="peer-checked:after:translate-x-5"] #
+```
+
+#### Salida esperada
+```
+label input[type="checkbox"][class~="peer"][class~="sr-only"] #: 1
+label span[class~="peer-checked:bg-cyan-400"][class~="after:absolute"][class~="peer-checked:after:translate-x-5"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Interruptor sin JavaScript</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+    </style>
+  </head>
+  <body class="bg-slate-950 p-4 text-slate-200">
+    <label class="flex cursor-pointer items-center gap-3">
+      <input type="checkbox" class="peer sr-only" checked>
+      <!-- El "riel" y la "bolita" reaccionan al checkbox hermano (peer) -->
+      <span class="relative h-6 w-11 rounded-full bg-slate-700 transition peer-checked:bg-cyan-400 peer-focus-visible:outline-2 peer-focus-visible:outline-cyan-300 after:absolute after:top-0.5 after:left-0.5 after:size-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
+      Recordarme en esta terminal
+    </label>
+  </body>
+</html>
+```
+
+#### Al superarla
+Nora aprieta el interruptor con el teclado y la bolita se desliza. Lo deja prendido: quiere que el taller la recuerde.
+
+#### Imagen
+- Un interruptor de vidrio con una bolita blanca que se desliza sobre un riel que pasa de gris a cian.
+- Nora desliza la bolita con un dedo; Iris aplaude; Gheco se sube a la bolita.
 
 ### Prueba del sello
 
@@ -2768,142 +3075,6 @@ El mouse roza la tarjeta y el título se enciende en cian. {mentor} se queda mir
 - Una tarjeta de vidrio oscuro cuyo título se enciende en cian.
 - Tesela (22, pelo corto iridiscente violeta y cian, monóculo de cristal tallado, sobretodo largo negro con fragmentos de vidrio de colores cosidos) la mira.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) acerca la mano.
-
-### Misión R03-N05-M1 · La fila con hover
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá una fila del ranking que, al pasar el mouse, **cambie el fondo**, pinte el puesto de cian y muestre una flecha que **se desliza**. Todo con transición.
-
-#### Criterio de aprobación
-
-- La fila es un `group` y sus partes reaccionan con `group-hover:`.
-- Los cambios tienen `transition`.
-- También responde al teclado (`focus-visible:` si es un enlace).
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N05-M1-celular.webp
-compu: capturas/R03-N05-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La fila con hover</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Fila con hover</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-4 text-slate-200">
-    <a href="#" class="group flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900 px-4 py-3 transition hover:border-cyan-400/60 hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-cyan-300">
-      <span class="font-mono text-slate-400 group-hover:text-cyan-400">4</span>
-      <span class="flex-1 font-semibold">@ZeroByte_Arg</span>
-      <span class="font-mono">10.900 XP</span>
-      <span class="translate-x-0 text-cyan-400 opacity-0 transition group-hover:translate-x-1 group-hover:opacity-100" aria-hidden="true">→</span>
-    </a>
-  </body>
-</html>
-```
-
-
-### Misión R03-N05-M2 · El interruptor
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá un **"Recordarme en esta terminal"** con forma de interruptor: un checkbox con `peer sr-only` y un `span` que dibuja el interruptor, con la bolita hecha con `after:`.
-
-#### Criterio de aprobación
-
-- El checkbox es real (`input type="checkbox"`), con `peer sr-only`, y tiene su `label`.
-- El interruptor cambia con `peer-checked:` (color y posición de la bolita).
-- Se puede usar con el teclado.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N05-M2-celular.webp
-compu: capturas/R03-N05-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>El interruptor</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Interruptor sin JavaScript</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-    </style>
-  </head>
-  <body class="bg-slate-950 p-4 text-slate-200">
-    <label class="flex cursor-pointer items-center gap-3">
-      <input type="checkbox" class="peer sr-only" checked>
-      <!-- El "riel" y la "bolita" reaccionan al checkbox hermano (peer) -->
-      <span class="relative h-6 w-11 rounded-full bg-slate-700 transition peer-checked:bg-cyan-400 peer-focus-visible:outline-2 peer-focus-visible:outline-cyan-300 after:absolute after:top-0.5 after:left-0.5 after:size-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5"></span>
-      Recordarme en esta terminal
-    </label>
-  </body>
-</html>
-```
-
 
 ### Encargo R03-N05-E1 · Las preguntas frecuentes
 
@@ -3153,6 +3324,181 @@ Las empresas definen su marca —colores, letras, sombras— en un solo lugar, e
 **Ogro: `@apply` para todo.** Convertir cada componente en `.boton { @apply … }` es volver a escribir CSS con otra sintaxis y perder las ventajas de Tailwind. Usalo en la base y en casos puntuales («Componentes»).
 
 **Ogro: las fuentes no cambian.** Sin internet, o con el `<link>` de Google Fonts mal escrito, se usan las de reserva. En DevTools → *Calculado* → `font-family` se ve cuál se está usando de verdad.
+
+### Micro-misión R03-N06-P5 · La utilidad en acción
+
+```meta
+lugar: El cofre del Gremio
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R03-N06-M2
+```
+
+#### Escena
+En el tema del Gremio hay dos utilidades propias: un fondo cuadriculado y un texto que brilla. Teo quiere usarlas en una palabra gigante.
+—Que brille solo cuando pasás el mouse. Si no, cansa.
+
+#### Gheco sugiere
+Las utilidades del tema se usan como cualquier clase: `fondo-cuadricula`, `texto-neon`. Con el prefijo `hover:`, solo se aplican al pasar el mouse.
+
+#### Desafío
+Usá las utilidades del tema:
+
+- Un `main` con la clase `fondo-cuadricula`.
+- Adentro, un párrafo con una palabra gigante y la clase `hover:texto-neon` (el brillo, solo al pasar el mouse).
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>La utilidad en acción</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+main[class~="fondo-cuadricula"] #
+main p[class~="hover:texto-neon"] #
+[class~="texto-neon"] #
+```
+
+#### Salida esperada
+```
+main[class~="fondo-cuadricula"] #: 1
+main p[class~="hover:texto-neon"] #: 1
+[class~="texto-neon"] #: 0
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Utilidades del tema en acción</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="fondo-cuadricula grid min-h-screen place-items-center p-5">
+      <p class="font-display text-5xl font-bold text-neon hover:texto-neon">HOVER</p>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Teo pasa el mouse por la palabra y brilla; lo saca y se apaga. Repite hasta que Gheco le tapa los ojos.
+
+#### Imagen
+- Una pared cuadriculada como papel de cuaderno con una palabra gigante de vidrio que brilla en cian.
+- Teo acerca la mano a la palabra; Iris mira de lejos; Gheco le tapa los ojos a Teo con la cola.
 
 ### Prueba del sello
 
@@ -3579,164 +3925,6 @@ compu: capturas/R03-N06-M1-compu.webp
         <h1 class="mt-1 text-lg text-neon">TypeScript Pro</h1>
         <p class="mt-2 text-sm">Mismas clases, otros valores.</p>
       </article>
-    </main>
-  </body>
-</html>
-```
-
-
-### Misión R03-N06-M2 · La utilidad en acción
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Usá las utilidades propias del tema: una palabra gigante que **brilla solo al pasar el mouse** (`hover:texto-neon`) sobre el fondo cuadriculado (`fondo-cuadricula`).
-
-#### Criterio de aprobación
-
-- Usa las utilidades del tema (`fondo-cuadricula`, `texto-neon`).
-- El brillo aparece solo con `hover:`.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N06-M2-celular.webp
-compu: capturas/R03-N06-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>La utilidad en acción</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Utilidades del tema en acción</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-    </style>
-  </head>
-  <body>
-    <main class="fondo-cuadricula grid min-h-screen place-items-center p-5">
-      <p class="font-display text-5xl font-bold text-neon hover:texto-neon">HOVER</p>
     </main>
   </body>
 </html>
@@ -4199,6 +4387,532 @@ Error: Cannot apply unknown utility class `bg-neon`
 
 **Orco: la tarjeta copiada que se desvía.** Si se cambia en un lugar, cambiala en la guía primero.
 
+### Micro-misión R03-N07-P5 · Las alertas
+
+```meta
+lugar: El muestrario
+personajes: Iris, Gheco, Tesela
+recompensa: xp 15, monedas 6
+antes: R03-N07-M1
+```
+
+#### Escena
+En el muestrario hay una tarjeta modelo y Tesela quiere tres avisos: uno de éxito, uno de advertencia y uno de error.
+—Los tres con la misma tarjeta —dice—. Lo único que cambia es el color, con clases sueltas.
+
+#### Gheco sugiere
+Un componente del tema (`tarjeta`) se reutiliza tal cual. El color se agrega con clases sueltas al lado: `text-emerald-300`, `text-rose-300`…
+
+#### Desafío
+Armá tres avisos (`p`) con la clase `tarjeta` del tema:
+
+- Éxito, con `text-emerald-300`.
+- Advertencia, con `text-oro`.
+- Error, con `text-rose-300`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Las alertas</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+p.tarjeta #
+p.tarjeta[class~="text-emerald-300"] #
+p.tarjeta[class~="text-oro"] #
+p.tarjeta[class~="text-rose-300"] #
+```
+
+#### Salida esperada
+```
+p.tarjeta #: 3
+p.tarjeta[class~="text-emerald-300"] #: 1
+p.tarjeta[class~="text-oro"] #: 1
+p.tarjeta[class~="text-rose-300"] #: 1
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Componente alerta</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="space-y-3 p-5">
+      <!-- Misma estructura, el color se cambia con clases sueltas -->
+      <p class="tarjeta flex gap-3 border-emerald-400/40 py-3 text-emerald-300"><span aria-hidden="true">✔</span> Nodo desbloqueado: Smart Pointers.</p>
+      <p class="tarjeta flex gap-3 border-oro/40 py-3 text-oro"><span aria-hidden="true">⚠</span> Tu racha se corta en 2 horas.</p>
+      <p class="tarjeta flex gap-3 border-rose-400/40 py-3 text-rose-300"><span aria-hidden="true">✘</span> El compilador encontró 3 errores.</p>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Tres avisos de la misma familia, cada uno de su color. Tesela los cuelga en el muestrario, al lado de la tarjeta modelo.
+
+#### Imagen
+- Tres placas de vidrio iguales en la pared del muestrario: una verde, una dorada y una roja.
+- Tesela cuelga la roja; Iris acomoda la verde; Gheco toca la dorada.
+
+### Micro-misión R03-N07-P6 · Las tarjetas chicas
+
+```meta
+lugar: El muestrario
+personajes: Iris, Gheco, Teo
+recompensa: xp 15, monedas 6
+antes: R03-N07-M2
+```
+
+#### Escena
+Teo quiere las tarjetitas de cursos de la versión celular: dos, iguales en forma, distintas en datos y color.
+—Con las piezas del kit —dice—. Nada inventado.
+
+#### Gheco sugiere
+La misma estructura dos veces: una grilla de dos columnas con dos `article.tarjeta`. Lo que cambia son los textos y la clase del color de la etiqueta.
+
+#### Desafío
+Armá las dos tarjetas chicas con las piezas del kit:
+
+- Un `main` con `grid` y `grid-cols-2`.
+- Adentro, **dos** `article` con la clase `tarjeta`: «TypeScript Pro» y «Spring Boot Cloud».
+- En cada una, la cantidad de nodos con la clase `text-neon`.
+
+#### Código inicial
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Las tarjetas chicas</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+  </body>
+</html>
+```
+
+#### Inspector
+```
+main[class~="grid"][class~="grid-cols-2"] #
+main > article.tarjeta #
+article.tarjeta [class~="text-neon"] #
+```
+
+#### Salida esperada
+```
+main[class~="grid"][class~="grid-cols-2"] #: 1
+main > article.tarjeta #: 2
+article.tarjeta [class~="text-neon"] #: 2
+```
+
+#### Solución
+```html
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarjetas chicas</title>
+    <style type="text/tailwindcss">
+      @import "tailwindcss";
+
+      /* 1) TEMA: cada variable crea clases nuevas.
+            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
+            --font-display -> font-display */
+      @theme {
+        --color-fondo: #070b16;
+        --color-panel: #0e1626;
+        --color-borde: #1d2a42;
+        --color-neon: #22d3ee;
+        --color-neon-suave: #67e8f9;
+        --color-oro: #fbbf24;
+        --color-fuego: #fb923c;
+
+        --font-display: "Space Grotesk", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
+
+        /* Animacion propia: animate-latido */
+        --animate-latido: latido 1.6s ease-in-out infinite;
+        @keyframes latido {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.3; }
+        }
+      }
+
+      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
+      @layer base {
+        body {
+          @apply bg-fondo font-sans text-slate-200 antialiased;
+        }
+        h1, h2, h3 {
+          @apply font-display;
+        }
+      }
+
+      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
+      @utility fondo-cuadricula {
+        background-image:
+          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      @utility texto-neon {
+        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
+      }
+
+      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
+            Se definen con @utility para que acepten variantes (hover:, md:...)
+            y se puedan combinar con otras clases en el HTML. */
+      @utility btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
+          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
+      }
+
+      @utility btn-primario {
+        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
+      }
+
+      @utility btn-secundario {
+        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
+      }
+
+      @utility tarjeta {
+        @apply rounded-xl border border-borde bg-panel p-5;
+      }
+
+      @utility chip {
+        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
+      }
+
+      @utility etiqueta-mono {
+        @apply font-mono text-xs tracking-widest uppercase;
+      }
+
+      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
+      @layer base {
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation: none !important;
+            transition: none !important;
+          }
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="grid grid-cols-2 gap-3 p-5">
+      <article class="tarjeta p-3">
+        <p class="font-mono text-xs"><span class="rounded bg-sky-400/15 px-1 text-sky-300">TS</span> 23 · TYPE-SYS</p>
+        <h1 class="mt-2 text-sm font-bold">TypeScript Pro</h1>
+        <p class="mt-1 flex justify-between font-mono text-xs"><span class="text-neon">12 Nodos</span><span class="text-slate-400">+290 XP</span></p>
+      </article>
+      <article class="tarjeta p-3">
+        <p class="font-mono text-xs"><span class="rounded bg-rose-400/15 px-1 text-rose-300">JV</span> 20 · SPRING</p>
+        <h2 class="mt-2 text-sm font-bold">Spring Boot Cloud</h2>
+        <p class="mt-1 flex justify-between font-mono text-xs"><span class="text-neon">16 Nodos</span><span class="text-slate-400">+310 XP</span></p>
+      </article>
+    </main>
+  </body>
+</html>
+```
+
+#### Al superarla
+Las dos tarjetitas quedan en el muestrario. Teo agrega una tercera de cartón, con su nombre. Tesela la deja.
+
+#### Imagen
+- Dos tarjetitas de vidrio en el muestrario, iguales en forma, una con detalle celeste y otra con detalle rosado.
+- Teo pega una tarjetita de cartón al lado; Tesela sonríe; Iris y Gheco las comparan.
+
 ### Prueba del sello
 
 #### Nombrá las tres formas de evitar repetir una tarjeta. ¿Cuál es la mejor y por qué?
@@ -4488,494 +5202,6 @@ Tres chips iguales. El muestrario ya tiene botones y chips. Iris le agrega una e
 - Un muestrario de vidrio con botones y chips redondos de colores, cada uno con su etiqueta.
 - Gheco (gecko de luz con antiparras) señala un chip.
 - Iris (16, delgada, trenza larga castaño claro con mechones rojo, ámbar y azul, anteojos redondos, delantal de cuero marrón con lápices y vidrios en los bolsillos, botas con luz cian) escribe etiquetas.
-
-### Misión R03-N07-M1 · Las alertas
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá tres avisos —éxito, advertencia y error— **reutilizando el componente `tarjeta`** del tema y cambiando solo los colores con clases sueltas.
-
-#### Criterio de aprobación
-
-- Los tres avisos usan la clase `tarjeta`.
-- El color de cada uno sale de clases sueltas agregadas, no de componentes nuevos.
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N07-M1-celular.webp
-compu: capturas/R03-N07-M1-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Las alertas</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Componente alerta</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="space-y-3 p-5">
-      <!-- Misma estructura, el color se cambia con clases sueltas -->
-      <p class="tarjeta flex gap-3 border-emerald-400/40 py-3 text-emerald-300"><span aria-hidden="true">✔</span> Nodo desbloqueado: Smart Pointers.</p>
-      <p class="tarjeta flex gap-3 border-oro/40 py-3 text-oro"><span aria-hidden="true">⚠</span> Tu racha se corta en 2 horas.</p>
-      <p class="tarjeta flex gap-3 border-rose-400/40 py-3 text-rose-300"><span aria-hidden="true">✘</span> El compilador encontró 3 errores.</p>
-    </main>
-  </body>
-</html>
-```
-
-
-### Misión R03-N07-M2 · Las tarjetas chicas
-
-```meta
-entrega: codigo
-entorno: navegador
-monedas: 6
-xp: 15
-```
-
-#### Consigna
-
-Armá las dos tarjetas chicas de la versión celular de esta plataforma: **"TypeScript Pro"** y **"Spring Boot Cloud"**, usando las piezas del kit.
-
-#### Criterio de aprobación
-
-- Las dos tarjetas comparten la misma estructura y las mismas clases; solo cambian los datos y el color.
-- Usan las piezas del kit (`tarjeta`, `chip`, barra de progreso).
-
-#### Cómo debe quedar
-
-celular: capturas/R03-N07-M2-celular.webp
-compu: capturas/R03-N07-M2-compu.webp
-
-#### Código inicial
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Las tarjetas chicas</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-
-  </body>
-</html>
-```
-
-#### Solución de referencia
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tarjetas chicas</title>
-    <style type="text/tailwindcss">
-      @import "tailwindcss";
-
-      /* 1) TEMA: cada variable crea clases nuevas.
-            --color-neon  ->  bg-neon, text-neon, border-neon, shadow-neon/30...
-            --font-display -> font-display */
-      @theme {
-        --color-fondo: #070b16;
-        --color-panel: #0e1626;
-        --color-borde: #1d2a42;
-        --color-neon: #22d3ee;
-        --color-neon-suave: #67e8f9;
-        --color-oro: #fbbf24;
-        --color-fuego: #fb923c;
-
-        --font-display: "Space Grotesk", system-ui, sans-serif;
-        --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
-
-        --shadow-brillo: 0 0 0 1px rgb(34 211 238 / 35%), 0 0 24px rgb(34 211 238 / 25%);
-
-        /* Animacion propia: animate-latido */
-        --animate-latido: latido 1.6s ease-in-out infinite;
-        @keyframes latido {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-      }
-
-      /* 2) BASE: estilos de fabrica para etiquetas (en vez de repetir clases en cada una) */
-      @layer base {
-        body {
-          @apply bg-fondo font-sans text-slate-200 antialiased;
-        }
-        h1, h2, h3 {
-          @apply font-display;
-        }
-      }
-
-      /* 3) UTILIDADES PROPIAS: se usan como cualquier clase (y aceptan hover:, md:...) */
-      @utility fondo-cuadricula {
-        background-image:
-          linear-gradient(rgb(34 211 238 / 6%) 1px, transparent 1px),
-          linear-gradient(90deg, rgb(34 211 238 / 6%) 1px, transparent 1px);
-        background-size: 32px 32px;
-      }
-
-      @utility texto-neon {
-        text-shadow: 0 0 12px rgb(34 211 238 / 60%);
-      }
-
-      /* 4) COMPONENTES: solo para piezas que se repiten MUCHO y siempre iguales.
-            Se definen con @utility para que acepten variantes (hover:, md:...)
-            y se puedan combinar con otras clases en el HTML. */
-      @utility btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold whitespace-nowrap transition
-          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neon active:scale-95;
-      }
-
-      @utility btn-primario {
-        @apply bg-neon text-fondo hover:bg-neon-suave hover:shadow-lg hover:shadow-neon/30;
-      }
-
-      @utility btn-secundario {
-        @apply border border-borde text-neon hover:border-neon/60 hover:bg-neon/5;
-      }
-
-      @utility tarjeta {
-        @apply rounded-xl border border-borde bg-panel p-5;
-      }
-
-      @utility chip {
-        @apply rounded-md border border-borde px-3 py-1 text-sm transition;
-      }
-
-      @utility etiqueta-mono {
-        @apply font-mono text-xs tracking-widest uppercase;
-      }
-
-      /* Respetar "reducir movimiento" del sistema: sin animaciones decorativas */
-      @layer base {
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation: none !important;
-            transition: none !important;
-          }
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="grid grid-cols-2 gap-3 p-5">
-      <article class="tarjeta p-3">
-        <p class="font-mono text-xs"><span class="rounded bg-sky-400/15 px-1 text-sky-300">TS</span> 23 · TYPE-SYS</p>
-        <h1 class="mt-2 text-sm font-bold">TypeScript Pro</h1>
-        <p class="mt-1 flex justify-between font-mono text-xs"><span class="text-neon">12 Nodos</span><span class="text-slate-400">+290 XP</span></p>
-      </article>
-      <article class="tarjeta p-3">
-        <p class="font-mono text-xs"><span class="rounded bg-rose-400/15 px-1 text-rose-300">JV</span> 20 · SPRING</p>
-        <h2 class="mt-2 text-sm font-bold">Spring Boot Cloud</h2>
-        <p class="mt-1 flex justify-between font-mono text-xs"><span class="text-neon">16 Nodos</span><span class="text-slate-400">+310 XP</span></p>
-      </article>
-    </main>
-  </body>
-</html>
-```
-
 
 ### Encargo R03-N07-E1 · El kit de la verdulería
 

@@ -55,6 +55,12 @@ Misma modalidad, curso por curso: C, después C++ y el resto. Sin entregas en pr
 - **El código inicial no tiene que dar ya la salida esperada.** En dos de depuración el error no se veía en el navegador (sin sanitizador): al promedio que miente se le cambió un dato para que la división entera se note, y la Sanguijuela cuenta los bloques sin devolver.
 - `app:simulate-course c`: los 5 alumnos terminan los 43 nodos y los 9 controles dan bien.
 
+**Python (hecho, 2026-10-21):** las 62 misiones de consola del tronco pasan a ser micro-misiones que pagan escamas (`scripts/python-micro/*.json`); quedan como proyectos que corrige el docente las 8 que no se comprueban solas: «La ficha de personaje» (salida libre), las 3 que se entregan como archivo (módulos y el taller del Gremio), las 3 que miden tiempos (`timeit`, `cProfile`, la grilla de choques) y «Mirá hacia atrás». Las Sendas quedan como están.
+- **Se prueban en Pyodide, el Python del navegador**, no con `python3`: `PYODIDE_DIR=… node --experimental-wasm-stack-switching scripts/python-micro/probar.mjs cursos/python/0*.md` (62 de 62; la opción hace falta para `asyncio` en Node 20). Revisa también que el código inicial no dé ya la salida esperada.
+- En producción, Python tenía 2 entregas: el importador pasa lo aprobado como micro-misión superada.
+- `app:simulate-course python`: los 5 alumnos terminan los 33 nodos y los 9 controles dan bien.
+- Ojo, de antes: en `R01-N11-P3` y `R03-N07-P1` (micro-misiones viejas) el código inicial ya da la salida esperada.
+
 **C++ (hecho, 2026-10-20):** las 122 misiones de consola del tronco pasan a ser micro-misiones que pagan engranajes (`scripts/cpp-micro/*.json`); quedan como proyectos que corrige el docente las 15 que se entregan como archivo o con ventana (las de Qt, los jefes de R03 y R05, «Mirá hacia atrás») y las 8 de la Senda de la Linterna Mágica.
 - Probadas igual que C (`casos-md.py` + `browser-check.mjs --nodo=/cursos/cpp/nodos/ID`): 122 de 122 (la de medir tiempos difiere solo en `std::cerr`, que no se compara).
 - **La biblioteca de C++ del navegador (libc++) no es la de `g++` (libstdc++):** `std::uniform_int_distribution` da otros números con la misma semilla, y el vector destruye sus elementos del último al primero. En esas 6 la salida esperada es la del navegador, con el aviso en «Gheco sugiere».

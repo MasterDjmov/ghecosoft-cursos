@@ -643,16 +643,23 @@ El libro aparece entero en el pergamino, con su título y sus páginas. Sila lo 
 - Sila, seria, se inclina hacia Mia y le habla en voz baja.
 - Detrás, un estante con fichas tachadas y mezcladas.
 
-### Misión R02-N01-M1 · El vector que apunta
+### Micro-misión R02-N01-P7 · El vector que apunta
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+recompensa: xp 10, monedas 4
+antes: R02-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de investigar los registros, Sila te muestra el molde de las flechas del mapa de la Biblioteca: el `Vec2`.
+—Le faltan dos cosas. Que se pueda dividir, y que te dé la dirección pura, de largo uno. Y que el vector cero no rompa nada: ya bastante rotos están los registros.
 
+#### Gheco sugiere
+Los métodos especiales le enseñan operadores a una clase: `__truediv__(self, n)` se usa con `v / n`. Para normalizar, dividí cada coordenada por el largo (`math.hypot(x, y)`); si el largo es 0, devolvé `Vec2(0, 0)`.
+
+#### Desafío
 La clase `Vec2` representa posiciones y desplazamientos en el mapa. Agregale:
 
 1. `__truediv__`, para que `v / 2` divida las dos coordenadas.
@@ -660,14 +667,12 @@ La clase `Vec2` representa posiciones y desplazamientos en el mapa. Agregale:
 
 Probalo con `Vec2(3, 4)` y con `Vec2(0, 0)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `v / 2` funciona gracias a `__truediv__`.
 - `normalizado()` devuelve un objeto nuevo de largo 1 y no modifica el original.
 - El vector `(0, 0)` no provoca `ZeroDivisionError`.
 
 #### Código inicial
-
 ```python
 import math
 
@@ -694,15 +699,13 @@ class Vec2:
 ```
 
 #### Salida esperada
-
 ```
 Vec2(1.5, 2.0)
 Vec2(0.6, 0.8) largo: 1.0
 Vec2(0, 0)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import math
 
@@ -745,36 +748,57 @@ print(unidad, "largo:", unidad.largo())
 print(Vec2(0, 0).normalizado())
 ```
 
-### Misión R02-N01-M2 · El enemigo que acecha
+#### Al superarla
+Las flechas del mapa de la Biblioteca se acomodan y apuntan todas a la misma estantería.
+—Ahí —dice Sila en voz baja—. Ahí faltan libros.
+
+#### Imagen
+- Un mapa de la Biblioteca extendido sobre una mesa, con flechas de luz cian que apuntan hacia una estantería.
+- Sila señala la estantería con el dedo; Mia sostiene una regla de bronce; Gheco camina sobre el mapa.
+
+### Micro-misión R02-N01-P8 · El enemigo que acecha
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila, un slime, un orco, un goblin
+criatura: goblin
+recompensa: xp 10, monedas 4
+antes: R02-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Sila arma con figuritas una práctica de vigilancia: vos en el centro y tres enemigos alrededor.
+—Con un radio de cuatro baldosas, ¿quién te tiene a tiro? Quiero el molde de los enemigos hecho con `dataclass`. Nada de escribir a mano lo que Python escribe solo.
 
+#### Gheco sugiere
+`@dataclass` arma el `__init__` con los campos que declarás. Un campo puede ser de otra clase (`pos: Vec2`). `esta_cerca` calcula la distancia con `self.pos.distancia(objetivo)` y la compara con el radio.
+
+#### Desafío
 Con `@dataclass`, definí `Vec2` (con `x`, `y` y un método `distancia(otro)`) y `Enemigo` con `nombre`, `vida` y `pos: Vec2`. Agregale a `Enemigo` el método `esta_cerca(objetivo, radio)`, que diga si el enemigo está a `radio` o menos de la posición `objetivo`.
 
 Con Mia en `(2, 3)`, revisá una horda de tres enemigos: Slime en `(3, 3)`, Orco en `(10, 1)` y Goblin en `(2, 7)`, con radio 4.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `@dataclass` para las dos clases (sin escribir `__init__`).
 - `esta_cerca` usa la distancia y devuelve `True` o `False`.
 - Muestra que Slime y Goblin están cerca y Orco lejos.
 
-#### Salida esperada
+#### Código inicial
+```python
+from dataclasses import dataclass
+import math
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 Slime: ¡cerca!
 Orco: lejos
 Goblin: ¡cerca!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from dataclasses import dataclass
 import math
@@ -806,36 +830,53 @@ for enemigo in horda:
     print(f"{enemigo.nombre}: {alerta}")
 ```
 
-### Misión R02-N01-M3 · El tasador ordena
+#### Al superarla
+El slime te tiene a tiro; los otros dos, no. Sila guarda las figuritas.
+—En el Sótano no van a ser de madera.
+
+#### Imagen
+- Una mesa con un tablero de baldosas y figuritas de madera de un slime, un orco y un goblin alrededor de una figurita de maga.
+- Sila acomoda las figuritas; Mia traza un círculo con una tiza; Gheco se esconde detrás de la figurita del orco.
+
+### Micro-misión R02-N01-P9 · El tasador ordena
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Sala de los Moldes
+personajes: Mia, Gheco, Sila
+recompensa: xp 10, monedas 4
+antes: R02-N01-M3
 ```
 
-#### Consigna
+#### Escena
+En un rincón de la Sala hay un cofre de botín con ítems sin ordenar. Sila quiere tasarlos.
+—Que cada ítem se muestre lindo y que se puedan ordenar por valor. Sin `dataclass` esta vez: quiero ver que sabés hacerlo a mano.
 
+#### Gheco sugiere
+`__repr__` define cómo se muestra el objeto en una lista. `__lt__(self, otro)` dice cuándo uno es «menor» que otro: con eso alcanza para `sorted()`, `min()` y `max()`.
+
+#### Desafío
 Escribí una clase `Item` (sin dataclass) con `nombre` y `valor`, un `__repr__` que la muestre como `Espada ($120)` y un `__lt__` que compare por valor.
 
 Con un botín de cuatro ítems, mostrá la lista ordenada con `sorted()`, los dos más caros y el más barato con `min()`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `__lt__` compara por valor y con eso funcionan `sorted()` y `min()` sin `key=`.
 - `__repr__` muestra nombre y valor.
 - Muestra el botín ordenado, los dos más caros y el más barato.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 [Pan ($3), Poción ($25), Llave ($100), Espada ($120)]
 [Espada ($120), Llave ($100)]
 el más barato: Pan ($3)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 class Item:
     def __init__(self, nombre, valor):
@@ -855,6 +896,14 @@ print(sorted(botin))
 print(sorted(botin, reverse=True)[:2])
 print("el más barato:", min(botin))
 ```
+
+#### Al superarla
+El botín queda en fila, del más barato al más caro. Sila se queda con el amuleto de en medio.
+—Para el Sótano. Los amuletos baratos son los que funcionan.
+
+#### Imagen
+- Un cofre de madera abierto con ítems alineados de menor a mayor: un anillo, un amuleto, un escudo y una espada.
+- Sila sostiene un amuleto chiquito; Mia ordena la espada al final de la fila; Gheco se prueba el anillo como collar.
 
 ### Encargo R02-N01-E1 · La cuenta del Gremio
 
@@ -1539,28 +1588,33 @@ Sila mira hacia abajo, hacia una escalera húmeda. —Los registros dañados vie
 - Un pequeño gólem de piedra en el mapa da un pisotón: todas las figuras saltan.
 - Sila señala una escalera de piedra que baja hacia la oscuridad, con humedad en los escalones.
 
-### Misión R02-N02-M1 · El jefe furioso
+### Micro-misión R02-N02-P6 · El jefe furioso
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila
+recompensa: xp 10, monedas 4
+antes: R02-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de bajar al Sótano, Sila quiere practicar contra un jefe que se enfurece cada tanto.
+—Un Rey Slime: juega como cualquier enemigo, pero cada tres turnos pega el doble. Contra el muñeco de práctica, que no se queja.
 
+#### Gheco sugiere
+`class Jefe(Enemigo)` hereda todo. En `turno`, sumá un contador; si es múltiplo de 3, pegá el doble y avisá; si no, `super().turno(objetivo)` juega como un enemigo común.
+
+#### Desafío
 Creá `Jefe(Enemigo)`: un enemigo que cuenta sus turnos y **cada 3 turnos entra en furia** y pega el doble de su daño (mostrando un aviso). En los demás turnos juega igual que un `Enemigo`: usá `super().turno(objetivo)`.
 
 Probalo con `random.seed(1)`: un Rey Slime (200 de vida, 5 de daño) juega 6 turnos contra un muñeco de práctica de 100 de vida (una subclase mínima de `Entidad` cuyo `turno` no hace nada).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Jefe` hereda de `Enemigo` y llama a `super().__init__`.
 - Cuenta los turnos y en los múltiplos de 3 pega el doble.
 - En los otros turnos reutiliza `super().turno(objetivo)`.
 
 #### Código inicial
-
 ```python
 from abc import ABC, abstractmethod
 import random
@@ -1596,7 +1650,6 @@ class Enemigo(Entidad):
 ```
 
 #### Salida esperada
-
 ```
   Muñeco de práctica recibe 6 (vida 94)
   Muñeco de práctica recibe 5 (vida 89)
@@ -1608,8 +1661,7 @@ class Enemigo(Entidad):
   Muñeco de práctica recibe 10 (vida 57)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from abc import ABC, abstractmethod
 import random
@@ -1669,28 +1721,44 @@ for _ in range(6):
     jefe.turno(muñeco)
 ```
 
-### Misión R02-N02-M2 · La curandera
+#### Al superarla
+El muñeco queda abollado y el Rey Slime, agotado de tanto enojarse.
+—Ya sabemos cuándo cubrirnos —dice Sila.
+
+#### Imagen
+- Un salón de estrategia con un tablero enorme en el piso y un muñeco de práctica de paja todo abollado.
+- Un slime gigante con corona salta furioso; Sila anota con calma; Mia y Gheco se cubren detrás de una columna.
+
+### Micro-misión R02-N02-P7 · La curandera
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila, Tilo, un orco
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R02-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Tilo llega al Ala de Estrategia con una idea: en el tablero, que Sila no pelee, que cure.
+—Pero no es una entidad como nosotros —dice Sila—. ¿Puede jugar igual?
+Gheco se encoge de hombros.
+—Si camina como pato y cura como pato…
 
+#### Gheco sugiere
+*Duck typing*: a Python no le importa de qué clase es el objeto, sino que tenga los métodos que se usan (`vivo`, `recibir`, `turno`). En el turno de la curandera, buscá al aliado vivo con menos vida (`min(..., key=...)`) y sumale 15.
+
+#### Desafío
 Creá `Curandero` **sin heredar** de `Entidad` (duck typing): tiene `nombre`, `vida`, una lista de `aliados` y los métodos `vivo()`, `recibir()` y `turno(objetivo)`. En su turno, en lugar de atacar, cura 15 al aliado vivo con **menos vida**.
 
 Armá una ronda con Mia (40), Tilo (25) y la curandera Sila contra un orco: dos rondas en las que los héroes atacan, Sila cura y el orco le pega a Tilo. Usá `random.seed(4)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `Curandero` no hereda de `Entidad`, pero la función `ronda` lo acepta igual.
 - Cura al aliado vivo con menos vida (`min(..., key=...)`).
 - La ronda llama a `turno()` sin preguntar la clase de cada uno.
 
 #### Código inicial
-
 ```python
 from abc import ABC, abstractmethod
 import random
@@ -1726,7 +1794,6 @@ class Enemigo(Entidad):
 ```
 
 #### Salida esperada
-
 ```
 --- ronda 1 ---
   Orco recibe 10 (vida 50)
@@ -1740,8 +1807,7 @@ class Enemigo(Entidad):
   Tilo recibe 7 (vida 42)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from abc import ABC, abstractmethod
 import random
@@ -1817,28 +1883,48 @@ for numero in range(1, 3):
     orco.turno(tilo)
 ```
 
-### Misión R02-N02-M3 · Las fichas de la compañía
+#### Al superarla
+Dos rondas y el orco cae sin que nadie caiga del lado de la compañía. Tilo levanta los brazos.
+—¡Con curandera es otra cosa!
+
+#### Imagen
+- El tablero del Ala de Estrategia con figuritas de una maga, un guerrero y una curandera frente a un orco.
+- Sila brilla con una luz verde suave; Tilo festeja con el puño en alto; Mia mueve la figurita del orco; Gheco aplaude.
+
+### Micro-misión R02-N02-P8 · Las fichas de la compañía
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Ala de Estrategia
+personajes: Mia, Gheco, Sila, Tilo
+recompensa: xp 10, monedas 4
+antes: R02-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Sila quiere presentar a la compañía en el registro del Bastión: una línea por cada uno, que diga quién es.
+—Y que ningún personaje nuevo se olvide de presentarse —agrega—. Que Python no lo deje ni crear.
 
+#### Gheco sugiere
+Con `ABC` y `@abstractmethod`, una clase que no implementa `descripcion()` **no se puede crear**: probalo y leé el error. Después implementalo en cada clase y recorré la compañía con un solo `for`.
+
+#### Desafío
 Agregale a `Entidad` un segundo método abstracto: `descripcion()`, que devuelva una línea que presente al personaje. Creá `Guerrero`, `Maga` y `Picaro`, cada una con su `descripcion()`.
 
 Antes de terminar, **probá** crear un `Picaro` sin `descripcion()` y leé el error. Después implementalo y mostrá la ficha de toda la compañía con un solo bucle.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `descripcion` es abstracto en `Entidad` y cada subclase lo implementa.
 - Hay un comentario con el `TypeError` que apareció al faltar el método.
 - Un solo bucle muestra la ficha de toda la compañía.
 
-#### Salida esperada
+#### Código inicial
+```python
+from abc import ABC, abstractmethod
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 La compañía:
  - Tilo, guerrero de primera línea (150 de vida)
@@ -1846,8 +1932,7 @@ La compañía:
  - Baldo, pícaro sigiloso (90 de vida)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from abc import ABC, abstractmethod
 
@@ -1899,6 +1984,13 @@ print("La compañía:")
 for integrante in compania:
     print(" -", integrante.descripcion())
 ```
+
+#### Al superarla
+Las fichas de la compañía quedan en el registro del Bastión, una debajo de la otra. Tilo se lee la suya tres veces.
+
+#### Imagen
+- Un libro de registro grande del Bastión abierto sobre un atril, con cuatro fichas pegadas con cera.
+- Tilo se señala orgulloso en una ficha; Sila sella la página; Mia y Gheco miran desde atrás.
 
 ### Encargo R02-N02-E1 · Los medios de pago del mercado
 
@@ -2549,28 +2641,38 @@ for p in [3, -2]:
 - El amuleto brilla en violeta, con una línea de traceback grabada.
 - Sila y Gheco miran, contentos; el sótano está ordenado.
 
-### Misión R02-N03-M1 · El dato rebelde
+### Micro-misión R02-N03-P6 · El dato rebelde
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila
+recompensa: xp 10, monedas 4
+antes: R02-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En el Sótano hay una máquina vieja que pide datos: un nivel y una cantidad de pociones. Cada vez que alguien escribe algo raro, se traba entera.
+—Una máquina que se traba es una máquina que se rompe —dice Sila—. Que pregunte de nuevo, sin cortarse.
 
+#### Gheco sugiere
+Un `while True` con `try`/`except ValueError` alrededor del `int(input(...))`. Si no es un número, avisá y seguí; si está fuera del rango, también. Cuando es válido, `return`.
+
+#### Desafío
 Escribí `pedir_entero(mensaje, minimo, maximo)`: pide un número con `input` hasta que el usuario escriba un **entero** dentro del rango, y lo devuelve. Si escribe algo que no es un número, avisa y vuelve a pedir (sin cortar el programa); si está fuera de rango, también.
 
 Usala para pedir un nivel (1 a 10) y una cantidad de pociones (0 a 5).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `try` / `except ValueError` alrededor de la conversión.
 - Vuelve a pedir si no es número o si está fuera de rango.
 - Con la entrada de ejemplo muestra `Nivel 7 con 2 pociones.`
 
-#### Entrada de ejemplo
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Entrada
 ```
 cinco
 15
@@ -2580,7 +2682,6 @@ cinco
 ```
 
 #### Salida esperada
-
 ```
 Nivel (1-10): 'cinco' no es un número entero.
 Nivel (1-10): Tiene que estar entre 1 y 10.
@@ -2588,8 +2689,7 @@ Nivel (1-10): Pociones (0-5): Tiene que estar entre 0 y 5.
 Pociones (0-5): Nivel 7 con 2 pociones.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 def pedir_entero(mensaje, minimo, maximo):
     """Pide un número hasta que sea un entero entre minimo y maximo."""
@@ -2610,67 +2710,55 @@ pociones = pedir_entero("Pociones (0-5): ", 0, 5)
 print(f"Nivel {nivel} con {pociones} pociones.")
 ```
 
-#### Pruebas
+#### Al superarla
+La máquina acepta los dos números y escupe un ticket con un sello. Sila lo guarda.
+—Primera máquina del Sótano que no se traba.
 
-##### Bordes
-```entrada
-1
-0
-```
-```salida
-Nivel (1-10): Pociones (0-5): Nivel 1 con 0 pociones.
-```
+#### Imagen
+- Una máquina de bronce vieja en un sótano de piedra húmedo, con palancas y una ranura que escupe un ticket.
+- Mia teclea en la máquina; Sila sostiene una lámpara; Gheco espía la ranura.
 
-##### Más bordes
-```entrada
-10
-5
-```
-```salida
-Nivel (1-10): Pociones (0-5): Nivel 10 con 5 pociones.
-```
-
-##### Decimales
-```entrada
-7.5
-3
-2
-```
-```salida
-Nivel (1-10): '7.5' no es un número entero.
-Nivel (1-10): Pociones (0-5): Nivel 3 con 2 pociones.
-```
-
-### Misión R02-N03-M2 · La configuración perdida
+### Micro-misión R02-N03-P7 · La configuración perdida
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila
+recompensa: xp 10, monedas 4
+antes: R02-N03-M2
 ```
 
-#### Consigna
+#### Escena
+La máquina del Sótano busca su archivo de configuración y no lo encuentra.
+—Sin archivo, que use lo de siempre —dice Sila—. Con archivo, que le haga caso. Y al terminar, dejá todo como estaba: en el Sótano no se dejan papeles tirados.
 
+#### Gheco sugiere
+`open(ruta)` lanza `FileNotFoundError` si no existe: atrapalo y devolvé lo por defecto. Si existe, partí cada línea con `split("=", 1)`. `os.remove(ruta)` borra el archivo al final.
+
+#### Desafío
 Escribí `cargar_config(ruta)`, que lea un archivo de líneas `clave=valor` y devuelva un diccionario. Si el archivo **no existe**, avisa y devuelve la configuración por defecto: `{"dificultad": "normal", "volumen": "7", "idioma": "es"}`. Lo que esté en el archivo pisa a lo por defecto.
 
 Probala primero sin archivo; después creá `config.txt` con `dificultad=difícil` y `volumen=3` y volvé a cargarla. Al final, borrá el archivo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Atrapa `FileNotFoundError` y devuelve la config por defecto.
 - Abre el archivo con `with` y `encoding="utf-8"`.
 - Lo leído del archivo pisa los valores por defecto (el idioma sigue en `es`).
 
-#### Salida esperada
+#### Código inicial
+```python
+from pathlib import Path
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 No encontré config.txt: uso la configuración por defecto.
 {'dificultad': 'normal', 'volumen': '7', 'idioma': 'es'}
 {'dificultad': 'difícil', 'volumen': '3', 'idioma': 'es'}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from pathlib import Path
 
@@ -2699,28 +2787,45 @@ print(cargar_config("config.txt"))
 Path("config.txt").unlink()   # limpiar: la próxima ejecución arranca igual
 ```
 
-### Misión R02-N03-M3 · Los errores de la tienda
+#### Al superarla
+La máquina arranca primero en modo normal y después, con el archivo, en modo difícil. Sila borra el papel y apaga la lámpara.
+
+#### Imagen
+- Un sótano con estantes de papeles viejos y una máquina de bronce con una pantallita de vidrio encendida.
+- Sila guarda un papel en un cajón; Mia gira una perilla de la máquina; Gheco se esconde de una gota que cae del techo.
+
+### Micro-misión R02-N03-P8 · Los errores de la tienda
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Sótano del Bastión
+personajes: Mia, Gheco, Sila, Ofidia
+recompensa: xp 10, monedas 4
+antes: R02-N03-M3
 ```
 
-#### Consigna
+#### Escena
+En el fondo del Sótano hay una tiendita de provisiones con un tendero dormido. {mentor} propone que la manejes vos.
+—Con treinta de oro. Cuando falta oro o no hay stock, que la tienda lo diga **con su propio error**, no con uno cualquiera.
 
+#### Gheco sugiere
+Una excepción propia es una clase: `class ErrorDeTienda(Exception)`. Las hijas heredan de ella, y `OroInsuficiente` puede guardar `self.faltan`. Con `except OroInsuficiente as e` atrapás esa sola; con `except ErrorDeTienda`, todas.
+
+#### Desafío
 Creá una excepción base `ErrorDeTienda` y dos hijas: `OroInsuficiente` (que guarde cuánto falta en un atributo `faltan`) y `SinStock`. Escribí `comprar(objeto, oro)`, que **lance** la que corresponda o devuelva el oro que queda.
 
 Con 30 de oro, intentá comprar poción, espada (sin stock), poción y poción. Atrapá `OroInsuficiente` mostrando cuánto falta, y cualquier otro problema de la tienda con `except ErrorDeTienda`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las dos excepciones heredan de `ErrorDeTienda`.
 - `comprar` usa `raise` y no imprime nada: avisa con la excepción.
 - El bucle atrapa primero `OroInsuficiente` y después `ErrorDeTienda`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 Compraste poción. Te quedan 18.
 No se pudo: no quedan espada.
@@ -2728,8 +2833,7 @@ Compraste poción. Te quedan 6.
 No alcanza: cuesta 12 y tenés 6 (faltan 6).
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 class ErrorDeTienda(Exception):
     """Algo salió mal en una compra."""
@@ -2768,6 +2872,13 @@ for objeto in ["poción", "espada", "poción", "poción"]:
     except ErrorDeTienda as error:
         print(f"No se pudo: {error}.")
 ```
+
+#### Al superarla
+Dos pociones, una espada que no había y un oro que no alcanzó. El tendero se despierta, mira la caja y vuelve a dormirse, tranquilo.
+
+#### Imagen
+- Una tiendita de provisiones al fondo de un sótano, con frascos y una balanza sobre el mostrador.
+- Un tendero duerme apoyado en el mostrador; Mia cuenta monedas; Ofidia mira con los brazos cruzados; Gheco tapa un frasco vacío.
 
 ### Encargo R02-N03-E1 · El cronómetro del Gremio
 
@@ -3369,16 +3480,23 @@ Pero cuando volvés a mirar las copias de las notas del viajero… **cambiaron**
 - Las copias de las notas del viajero, con palabras tachadas y números raros.
 - Sila, pálida, mira hacia una puerta de hierro al fondo del Archivo.
 
-### Misión R02-N04-M1 · Guardados de otra época
+### Micro-misión R02-N04-P6 · Guardados de otra época
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Archivo
+personajes: Mia, Gheco, Sila
+recompensa: xp 10, monedas 4
+antes: R02-N04-M1
 ```
 
-#### Consigna
+#### Escena
+En el Archivo hay cajas de guardados viejos que nadie puede abrir: son de una época en que las partidas no tenían versión ni mapa.
+—Que se puedan cargar igual —dice Sila—. Les agregamos lo que les falta y quedan como nuevos.
 
+#### Gheco sugiere
+`json.loads(texto)` da un diccionario. En `migrar`, si `datos.get("version", 1) < 2`, agregá lo que falta. `json.dumps(datos)` lo vuelve texto.
+
+#### Desafío
 Los guardados viejos (versión 1) no tenían `"version"` ni `"mapa"`. Escribí:
 
 - `cargar(texto)`: lee el JSON con `json.loads` y lo **migra** con una función `migrar(datos)`: si no tiene versión o es menor que 2, agrega `"mapa": "cripta-01"` y `"version": 2`.
@@ -3386,22 +3504,26 @@ Los guardados viejos (versión 1) no tenían `"version"` ni `"mapa"`. Escribí:
 
 Probá con un guardado viejo (`{"heroe": "Mia", "gemas": 3}`) y uno nuevo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `migrar` agrega lo que falta solo a los guardados viejos.
 - Un guardado nuevo no cambia al cargarlo.
 - Al guardar, siempre queda la versión actual.
 
-#### Salida esperada
+#### Código inicial
+```python
+import json
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 {'heroe': 'Mia', 'gemas': 3, 'mapa': 'cripta-01', 'version': 2}
 {'heroe': 'Tilo', 'gemas': 5, 'mapa': 'torre-02', 'version': 2}
 {"heroe": "Mia", "gemas": 3, "mapa": "cripta-01", "version": 2}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import json
 
@@ -3431,26 +3553,47 @@ print(cargar(nuevo))
 print(guardar(cargar(viejo)))
 ```
 
-### Misión R02-N04-M2 · Los tres espacios de guardado
+#### Al superarla
+Los guardados viejos se abren uno por uno. En uno aparece un nombre que Sila no conoce, tachado y vuelto a escribir.
+
+#### Imagen
+- Un archivo con estantes altos llenos de cajas de madera viejas con candados oxidados.
+- Sila abre una caja polvorienta; Mia sostiene un pergamino amarillento; Gheco estornuda por el polvo.
+
+### Micro-misión R02-N04-P7 · Los tres espacios de guardado
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Archivo
+personajes: Mia, Gheco, Sila, Tilo
+recompensa: xp 10, monedas 4
+antes: R02-N04-M2
 ```
 
-#### Consigna
+#### Escena
+Tilo quiere tres partidas guardadas, como en los juegos de la Aldea: una por si se equivoca, otra por si se equivoca más, y otra por las dudas.
+—Las tres en un solo archivo —dice Sila—. Y que al cargarlas sean las mismas, sin una gema de menos.
 
+#### Gheco sugiere
+`asdict(partida)` convierte una dataclass en diccionario y `Partida(**datos)` la reconstruye. Guardá la lista con `json.dump` y comprobá con `==` que lo cargado es igual a lo guardado.
+
+#### Desafío
 Guardá **tres** partidas (una dataclass `Partida` con `heroe`, `mapa` y `gemas`) en un solo archivo `slots.json`, como una lista. Después cargalas, reconstruí las dataclasses y mostralas numeradas. Comprobá que lo cargado es igual a lo guardado y borrá el archivo al final.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda una lista de diccionarios con `asdict` y `json.dump`.
 - Al cargar reconstruye cada `Partida` con `Partida(**d)`.
 - Compara lo cargado con lo original y da `True`.
 
-#### Salida esperada
+#### Código inicial
+```python
+import json
+from dataclasses import dataclass, asdict
+from pathlib import Path
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 Slot 1: Mia en cripta-01 (7 gemas)
 Slot 2: Tilo en torre-02 (12 gemas)
@@ -3458,8 +3601,7 @@ Slot 3: Sila en valle (0 gemas)
 ¿se recuperó todo? True
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import json
 from dataclasses import dataclass, asdict
@@ -3494,16 +3636,30 @@ print("¿se recuperó todo?", cargar_slots() == slots)
 RUTA.unlink()
 ```
 
-### Misión R02-N04-M3 · La planilla de los vendedores
+#### Al superarla
+Las tres partidas vuelven iguales. Tilo elige la tercera, por las dudas.
+
+#### Imagen
+- Tres cajitas de guardado de madera con una gema encastrada en la tapa, sobre un estante del Archivo.
+- Tilo sostiene la tercera cajita; Sila revisa las otras dos; Mia y Gheco comparan dos gemas iguales.
+
+### Micro-misión R02-N04-P8 · La planilla de los vendedores
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Archivo
+personajes: Mia, Gheco, Sila, Tilo
+recompensa: xp 10, monedas 4
+antes: R02-N04-M3
 ```
 
-#### Consigna
+#### Escena
+Los vendedores del Bastión dejaron sus ventas en el Archivo, en una planilla. Tilo y Sila aparecen ahí, porque vendieron cosas para comprar pociones.
+—Un resumen —pide Sila—: cuánto vendió cada uno, de mayor a menor. En otra planilla.
 
+#### Gheco sugiere
+`csv.DictReader` lee cada fila como un diccionario con los encabezados. Sumá por vendedor y escribí el resumen con `csv.writer`. Acordate de convertir `monto` a número.
+
+#### Desafío
 Con esta planilla de ventas (escribila en `ventas.csv` desde el programa):
 
 ```
@@ -3517,14 +3673,20 @@ fecha,vendedor,producto,monto
 
 Calculá el total de cada vendedor con `csv.DictReader` y escribí un `resumen.csv` con `vendedor,total`, ordenado de mayor a menor. Mostrá el resumen y borrá los dos archivos.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Lee con `csv.DictReader` y convierte los montos a número.
 - Acumula en un diccionario por vendedor.
 - Escribe el resumen con `csv.writer`, ordenado de mayor a menor.
 
-#### Salida esperada
+#### Código inicial
+```python
+import csv
+from pathlib import Path
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 vendedor,total
 Tilo,105
@@ -3532,8 +3694,7 @@ Sila,84
 Baldo,12
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import csv
 from pathlib import Path
@@ -3563,6 +3724,13 @@ print(Path("resumen.csv").read_text(encoding="utf-8"), end="")
 RUTA.unlink()
 Path("resumen.csv").unlink()
 ```
+
+#### Al superarla
+Sila queda primera en el resumen. Tilo pide revisar las cuentas dos veces y sigue segundo.
+
+#### Imagen
+- Una planilla de pergamino grande clavada en un tablero del Archivo, con columnas de marcas de colores.
+- Sila sonríe; Tilo revisa la planilla con una lupa; Mia y Gheco anotan en otra hoja.
 
 ### Encargo R02-N04-E1 · El traductor universal
 
@@ -4062,16 +4230,23 @@ Las notas del viajero, ahora enteras, terminan así: «La lengua más clara es p
 - Su túnica, con las runas encendidas en violeta hasta los hombros.
 - Sila lee en voz alta la última nota; a lo lejos, por una ventana, se ve la Torre del Reloj.
 
-### Misión R02-N05-M1 · El registro de la compañía
+### Micro-misión R02-N05-P6 · El registro de la compañía
 
 ```meta
-entrega: codigo
-monedas: 6
-xp: 30
+lugar: La Bóveda
+personajes: Mia, Gheco, Ofidia, Sila
+recompensa: xp 30, monedas 6
+antes: R02-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Con el Archivista vencido, la Bóveda vuelve a abrirse a los viajeros. {mentor} quiere dejar registradas a las compañías que pasen, sin errores.
+—Ni nombres vacíos, ni niveles imposibles, ni más de cuatro, ni repetidos. Y que se puedan guardar y volver a cargar.
 
+#### Gheco sugiere
+En `__post_init__` de la dataclass, validá y lanzá `ErrorDeCompania`. En `sumar`, chequeá el tamaño y los nombres. Para guardar: `json.dumps` con `asdict`; para cargar, un `@classmethod` que arme la compañía desde el texto.
+
+#### Desafío
 Modelá una compañía de aventureros:
 
 - `ErrorDeCompania(Exception)`.
@@ -4089,15 +4264,21 @@ pedidos = [("Mia", "maga", 6), ("Tilo", "guerrero", 8), ("", "maga", 3),
 
 Al final guardá la compañía en JSON, reconstruila y mostrá sus integrantes y el nivel promedio.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Las validaciones lanzan `ErrorDeCompania`; el bucle las atrapa y sigue.
 - `Heroe` valida en `__post_init__`.
 - `desde_json` es un `@classmethod` y reconstruye la compañía con sus héroes.
 - Resultado: Mia, Tilo, Sila y Baldo, con nivel promedio 5.8.
 
-#### Salida esperada
+#### Código inicial
+```python
+import json
+from dataclasses import dataclass, asdict
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 + Mia
 + Tilo
@@ -4110,8 +4291,7 @@ x la compañía ya tiene 4 integrantes
 Los del Valle: ['Mia', 'Tilo', 'Sila', 'Baldo'], nivel promedio 5.8
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import json
 from dataclasses import dataclass, asdict
@@ -4179,16 +4359,31 @@ copia = Compania.desde_json(guardada)
 print(f"{copia.nombre}: {[h.nombre for h in copia.heroes]}, nivel promedio {copia.nivel_promedio():.1f}")
 ```
 
-### Misión R02-N05-M2 · Los pergaminos corruptos
+#### Al superarla
+La primera compañía queda registrada en la Bóveda. Es la tuya.
+—Para quien llegue —dice {mentor}, y cierra el registro.
+
+#### Imagen
+- La Bóveda iluminada de nuevo, con papelitos flotando todavía en el aire y un libro de registro sobre un pedestal.
+- Ofidia escribe en el libro con una pluma de plata; Sila sostiene una lámpara; Mia y Gheco miran el registro.
+
+### Micro-misión R02-N05-P7 · Los pergaminos corruptos
 
 ```meta
-entrega: codigo
-monedas: 6
-xp: 30
+lugar: La Bóveda
+personajes: Mia, Gheco, Sila
+recompensa: xp 30, monedas 6
+antes: R02-N05-M2
 ```
 
-#### Consigna
+#### Escena
+Entre los restos del Archivista quedaron pergaminos de guardado: algunos sanos, otros corruptos. Sila los separa en dos pilas.
+—Que el programa diga por qué está mal cada uno. Y cuántas gemas se pueden recuperar de los buenos.
 
+#### Gheco sugiere
+`json.loads` lanza `json.JSONDecodeError`: atrapalo y lanzá `PergaminoCorrupto(...) from e`. Después revisá con `isinstance` que sea un `dict` y que cada campo exista y tenga el tipo correcto.
+
+#### Desafío
 Escribí `leer_pergamino(texto)`, que convierta un guardado JSON en diccionario o lance `PergaminoCorrupto` explicando el motivo:
 
 - si no es JSON válido (traducí el `json.JSONDecodeError` con `raise ... from`);
@@ -4208,14 +4403,19 @@ pergaminos = [
 ]
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una excepción propia y `raise ... from` para el JSON inválido.
 - Revisa que existan los campos y su tipo con `isinstance`.
 - Se salvan 2 de 6 pergaminos, con 19 gemas.
 
-#### Salida esperada
+#### Código inicial
+```python
+import json
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 pergamino 1: ok
 pergamino 2: corrupto, no es JSON válido (Expecting ',' delimiter)
@@ -4226,8 +4426,7 @@ pergamino 6: ok
 Se salvaron 2 de 6. Gemas recuperadas: 19
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import json
 
@@ -4273,6 +4472,13 @@ for numero, texto in enumerate(pergaminos, start=1):
 
 print(f"Se salvaron {len(sanos)} de {len(pergaminos)}. Gemas recuperadas: {sum(d['gemas'] for d in sanos)}")
 ```
+
+#### Al superarla
+Los pergaminos sanos van a la estantería y los corruptos, al fuego. Las gemas recuperadas brillan en un frasco.
+
+#### Imagen
+- Dos pilas de pergaminos en el piso de la Bóveda: una ordenada y otra arrugada y manchada.
+- Sila tira un pergamino arrugado a un brasero; Mia guarda gemas en un frasco; Gheco vigila las llamas.
 
 ### Encargo R02-N05-E1 · La planilla de inscriptos
 

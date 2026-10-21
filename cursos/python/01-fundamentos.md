@@ -498,36 +498,45 @@ El cartel nuevo se ilumina sobre el puesto y se forma una fila de clientes. Bald
 - Al fondo, entre la niebla, se ve un puente de piedra con una gran serpiente tallada: el Puente del Juicio.
 - Mia, de espaldas, mirando hacia el puente, con su bolsa de cuero al cinturón.
 
-### Misión R01-N01-M1 · El tasador
+### Micro-misión R01-N01-P6 · El tasador
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Mercado de la Aldea del Script
+personajes: Mia, Gheco, Baldo
+recompensa: xp 10, monedas 4
+antes: R01-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Con el cartel nuevo funcionando, Baldo tiene más clientes de los que puede atender. Te pasa una tablita.
+—Hacé de tasadora un rato, maguita. Los precios me los dictan de palabra y los anoto como texto. Mostrá qué pasa si los juntás así nomás, y después el total de verdad.
 
+#### Gheco sugiere
+Con `+`, dos textos se pegan: `"12" + "3.5"` da `"123.5"`. Para sumar, convertí con `int()` o `float()`. Para mostrar dos decimales: `f"{total:.2f}"`.
+
+#### Desafío
 El mercader te pasa tres precios como texto: `"12"`, `"3.5"` y
 `"7"`. Mostrá qué pasa si los "sumás" sin convertir y después el total real,
 con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra qué pasa al unir los tres textos sin convertir.
 - Convierte con `int()`/`float()` antes de sumar.
 - Muestra el total real con 2 decimales (22.50).
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 Sin convertir: 123.57
 Total real: 22.5
 Total con formato: 22.50 monedas
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El tasador.
 
@@ -545,28 +554,46 @@ print("Total real:", total)
 print(f"Total con formato: {total:.2f} monedas")
 ```
 
-### Misión R01-N01-M2 · La ficha con formato
+#### Al superarla
+Baldo compara tu total con lo que tenía en la caja y se le cae la sonrisa de pícaro.
+—Justo, justo de verdad esta vez. Te contrataría.
+
+#### Imagen
+- El puesto de Baldo en el Mercado de la Aldea, con toldos verdes y cajitas de gemas.
+- Mia apoya una tablita sobre el mostrador; Baldo, detrás, se rasca la cabeza; Gheco mira desde una caja.
+
+### Micro-misión R01-N01-P7 · La ficha con formato
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Mercado de la Aldea del Script
+personajes: Mia, Gheco, Baldo
+recompensa: xp 10, monedas 4
+antes: R01-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Baldo saca una ficha de cliente toda desprolija: el oro con decimales que no terminan nunca, la vida como dos números sueltos y el nivel apretado en un rincón.
+—Los clientes ricos quieren ver su ficha **linda**. Con puntitos de miles, con porcentaje, con el nivel de tres cifras. ¿Me la dejás presentable?
 
+#### Gheco sugiere
+Dentro de un f-string, después de `:` va el formato: `{oro:,.2f}` pone separador de miles y 2 decimales, `{x:.0%}` muestra un porcentaje y `{nivel:03}` completa con ceros hasta 3 cifras.
+
+#### Desafío
 Con `oro = 15230.5`, `vida = 63` y `vida_max = 90`,
 mostrá el oro con separador de miles y 2 decimales, la vida como `63/90 (70%)`
 y el nivel 3 como `003`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El oro se ve con separador de miles y 2 decimales (15,230.50).
 - La vida se ve como `63/90 (70%)`, calculando el porcentaje.
 - El nivel 3 se ve como `003`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 Heroína: Mia
 Oro:     15,230.50
@@ -574,8 +601,7 @@ Vida:    63/90 (70%)
 Nivel:   003
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - La ficha con formato."""
 
@@ -590,27 +616,47 @@ print(f"Vida:    {vida}/{vida_max} ({vida / vida_max:.0%})")
 print(f"Nivel:   {3:03}")
 ```
 
-### Misión R01-N01-M3 · ¿Qué tipo es?
+#### Al superarla
+Baldo cuelga la ficha en el puesto y un cliente de capa bordada se acerca enseguida.
+—¿Ves? La gente paga más si los números se ven bien.
+
+#### Imagen
+- Una ficha de cliente de pergamino clavada en un poste del puesto, con una cinta dorada.
+- Baldo se frota las manos mientras un cliente con capa bordada se acerca; Mia y Gheco miran desde el costado.
+
+### Micro-misión R01-N01-P8 · ¿Qué tipo es?
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Mercado de la Aldea del Script
+personajes: Mia, Gheco, Baldo
+recompensa: xp 10, monedas 4
+antes: R01-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Baldo te propone un juego mientras cierra el puesto.
+—Cinco cuentas raras. Antes de ejecutarlas, decime qué **tipo** sale de cada una. Si acertás todas, te regalo un dulce de miel.
+Gheco se relame.
+—Ese dulce es mío. Pensá bien.
 
+#### Gheco sugiere
+Ojo con las trampas: `/` siempre da `float`, `True` vale `1` cuando se suma, y `int("08")` sí funciona (los ceros a la izquierda en un texto no molestan). Verificá cada una con `type()`.
+
+#### Desafío
 Antes de ejecutar, anotá qué tipo y qué valor da cada
 expresión: `10 / 2`, `"7" + "2"`, `True + True`, `int("08")`, `3 * 1.0`. Después
 verificalo con `type()`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra con `type()` el tipo y el valor de cada una de las cinco expresiones.
 - Deja anotada (en comentarios) la predicción de cada línea antes de ejecutar.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 <class 'float'> 5.0
 <class 'str'> 72
@@ -620,8 +666,7 @@ verificalo con `type()`.
 <class 'NoneType'> None
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - ¿Que tipo es? Primero predecilo, despues correlo."""
 
@@ -632,6 +677,14 @@ print(type(int("08")), int("08"))      # int: los ceros a la izquierda se ignora
 print(type(3 * 1.0), 3 * 1.0)          # float: int mezclado con float da float
 print(type(None), None)                # NoneType
 ```
+
+#### Al superarla
+Cinco de cinco. Baldo te da el dulce de miel y Gheco se lo come antes de que llegues a probarlo.
+—Los tipos no mienten —dice con la boca llena.
+
+#### Imagen
+- El Mercado de la Aldea al cerrar, con faroles encendidos y toldos plegados.
+- Baldo le da a Mia un dulce envuelto en hoja; Gheco, con la boca abierta, salta hacia el dulce.
 
 ### Encargo R01-N01-E1 · El termómetro del herrero
 
@@ -1267,34 +1320,43 @@ Del otro lado del río, entre los faroles de la Aldea, hay una casa con la puert
 - Las cinco runas de la baranda encendidas.
 - Al fondo, cruzando el río, una casa con carteles amontonados en la puerta.
 
-### Misión R01-N02-M1 · El reloj de arena
+### Micro-misión R01-N02-P6 · El reloj de arena
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Puente del Juicio
+personajes: Mia, Gheco
+recompensa: xp 10, monedas 4
+antes: R01-N02-M1
 ```
 
-#### Consigna
+#### Escena
+Ya del otro lado del puente, encontrás un reloj de arena enorme clavado en la piedra, con una marca: lleva cuatro mil segundos corriendo. Gheco golpea el vidrio.
+—¿Cuántas horas son eso? Sin ir contando de a uno, eh.
 
+#### Gheco sugiere
+`//` da cuántas veces entra entero y `%` lo que sobra: `4000 // 3600` son las horas y `4000 % 3600` los segundos que quedan. Para `01:06:40`, `f"{h:02}:{m:02}:{s:02}"`.
+
+#### Desafío
 Pasá 4000 segundos a horas, minutos y segundos usando
 solo `//` y `%`, y mostralo también como `01:06:40`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa solo `//` y `%` para calcular horas, minutos y segundos.
 - Muestra `4000 segundos = 1 h 6 min 40 s`.
 - Muestra el formato reloj `01:06:40`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 4000 segundos = 1 h 6 min 40 s
 Formato reloj: 01:06:40
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El reloj de arena: pasar segundos a horas, minutos y segundos."""
 
@@ -1309,30 +1371,49 @@ print(f"{total} segundos = {horas} h {minutos} min {segundos} s")
 print(f"Formato reloj: {horas:02}:{minutos:02}:{segundos:02}")
 ```
 
-### Misión R01-N02-M2 · El Puente del Juicio
+#### Al superarla
+Una hora, seis minutos y cuarenta segundos. La arena termina de caer justo cuando lo decís.
+—Puntual —dice Gheco—. Me gusta.
+
+#### Imagen
+- Un reloj de arena gigante de bronce clavado en la piedra junto al Puente del Juicio, de noche.
+- Mia mira la arena caer; Gheco golpea el vidrio con la pata.
+
+### Micro-misión R01-N02-P7 · El Puente del Juicio
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Puente del Juicio
+personajes: Mia, Gheco
+recompensa: xp 10, monedas 4
+antes: R01-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Grabada en la baranda del puente está la regla completa del Guardián. Gheco la lee en voz alta y se enreda.
+—Nivel cinco o más, **y** llave **o** magia, **y no** maldito… ¿Vos pasabas? ¿Y Sila? ¿Y Baldo, con la cara de maldito que tiene?
+—Probala con los tres —le decís—. Y después sin paréntesis, a ver qué pasa.
 
+#### Gheco sugiere
+`and` se evalúa antes que `or`. Sin paréntesis, `a and b or c` es `(a and b) or c`: un aprendiz con magia podría pasar aunque sea nivel 1. Escribí la regla con paréntesis para que diga lo que quiere decir.
+
+#### Desafío
 Pasa quien tiene nivel 5 o más, **y** (llave **o**
 magia), **y no** está maldito. Evaluá la regla para Mia (nivel 6, con llave),
 Sila (nivel 5, maga, sin llave) y Baldo (nivel 8, con llave, maldito). Después
 probá la regla **sin paréntesis** con un aprendiz mago de nivel 1 y explicá
 por qué cambia el resultado.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Evalúa la regla con paréntesis para Mia (True), Sila (True) y Baldo (False).
 - Prueba la regla sin paréntesis con el aprendiz y muestra que cambia el resultado.
 - Explica en un comentario que `and` se evalúa antes que `or`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 Mia puede entrar: True
 Sila puede entrar:  True
@@ -1341,8 +1422,7 @@ Aprendiz, SIN parentesis: True
 Aprendiz, CON parentesis: False
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - ¿Quien puede entrar a la mazmorra?
 
@@ -1381,28 +1461,46 @@ print("Aprendiz, SIN parentesis:", nivel >= 5 and tiene_llave or es_mago and not
 print("Aprendiz, CON parentesis:", nivel >= 5 and (tiene_llave or es_mago) and not maldito)
 ```
 
-### Misión R01-N02-M3 · Predicción
+#### Al superarla
+Con paréntesis, la regla deja pasar a quien tiene que pasar. Sin ellos, cualquier aprendiz con un poco de magia cruzaría el puente.
+—Por eso el Guardián los talló tan grandes —dice Gheco.
+
+#### Imagen
+- La baranda de piedra del Puente del Juicio, con runas talladas grandes que brillan en violeta.
+- Mia pasa la mano por las runas; Gheco, sobre la baranda, cuenta con los dedos.
+
+### Micro-misión R01-N02-P8 · Predicción
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Puente del Juicio
+personajes: Mia, Gheco
+recompensa: xp 10, monedas 4
+antes: R01-N02-M3
 ```
 
-#### Consigna
+#### Escena
+Al pie del puente hay un muñeco de práctica con una espada de madera. Gheco le pone números: veinte de ataque, seis de defensa.
+—Seis cuentas. Antes de ejecutar, adiviná qué da cada una. El que pierde, carga la mochila hasta la Aldea.
 
+#### Gheco sugiere
+Primero se hace `**`, después `*`, `/`, `//` y `%`, y al final `+` y `-`. Las comparaciones van después de las cuentas, y `not` antes que `and` y `or`. `1 < ataque < 10` es una comparación encadenada.
+
+#### Desafío
 Con `ataque = 20` y `defensa = 6`, anotá qué da cada línea antes
 de ejecutarla: `ataque - defensa * 2`, `(ataque - defensa) * 2`,
 `ataque // defensa + 1`, `ataque % defensa ** 2`,
 `not ataque > 10 or defensa`, `1 < ataque < 10`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Anota en comentarios la predicción de cada una de las seis líneas.
 - Ejecuta y compara: explica al menos las que no acertó.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 8
 28
@@ -1412,8 +1510,7 @@ de ejecutarla: `ataque - defensa * 2`, `(ataque - defensa) * 2`,
 False
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - Predecir el resultado (precedencia). Anotalos ANTES de correr."""
 
@@ -1426,6 +1523,14 @@ print(ataque % defensa ** 2)         # 20:  6 ** 2 = 36; 20 % 36 = 20
 print(not ataque > 10 or defensa)    # 6:   (not True) or 6 -> False or 6 -> 6
 print(1 < ataque < 10)               # False: 20 no es menor que 10
 ```
+
+#### Al superarla
+Ganaste. Gheco se trepa a la mochila y protesta todo el camino de vuelta.
+—La próxima pongo yo los números.
+
+#### Imagen
+- Un muñeco de práctica de paja con una espada de madera, al pie del Puente del Juicio.
+- Mia apunta con el dedo al muñeco; Gheco, encima de una mochila enorme, la mira con fastidio.
 
 ### Encargo R01-N02-E1 · El calendario del escriba
 
@@ -2026,28 +2131,38 @@ Te guarda el cartel viejo en el pergamino, como quien entrega una herencia.
 - Mia sostiene al lado el papelito de Baldo con el mismo dibujo: los dos vitrales se iluminan a la vez.
 - La Copista, sorprendida, con la mano en el pecho.
 
-### Misión R01-N03-M1 · El nombre del héroe
+### Micro-misión R01-N03-P6 · El nombre del héroe
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Casa de los Copistas
+personajes: Mia, Gheco, la Copista
+recompensa: xp 10, monedas 4
+antes: R01-N03-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de que te vayas, la Copista te pide un último favor: un viajero dejó su nombre escrito con espacios de más y mayúsculas por cualquier lado.
+—Lo quiero bien escrito, con sus iniciales y centrado en la tapa del registro. Las copistas somos así.
 
+#### Gheco sugiere
+`strip()` saca los espacios de los bordes y `title()` pone mayúscula al principio de cada palabra. Con `split()` tenés las palabras y con `palabra[0]` la primera letra. `center(30)` centra el texto en 30 caracteres.
+
+#### Desafío
 A partir de `"   mia la VALIENTE   "`, obtené
 `"Mia La Valiente"`, sus iniciales (`M.L.V.`) usando índices, el largo y el
 nombre en mayúsculas centrado en 30 caracteres.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Limpia el texto y lo muestra como `Mia La Valiente`.
 - Arma las iniciales `M.L.V.` usando índices.
 - Muestra el largo y el nombre en mayúsculas centrado en 30 caracteres.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 Nombre: [Mia La Valiente]
 Iniciales: M.L.V.
@@ -2055,8 +2170,7 @@ Largo sin espacios de borde: 15
 Para el cartel:        MIA LA VALIENTE        |
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El nombre del heroe, prolijo."""
 
@@ -2069,28 +2183,46 @@ print(f"Largo sin espacios de borde: {len(limpio)}")
 print(f"Para el cartel: {limpio.upper():^30}|")
 ```
 
-### Misión R01-N03-M2 · La runa espejo
+#### Al superarla
+La Copista pasa el dedo por el nombre centrado, de punta a punta.
+—Perfecto. Esto va a la tapa.
+
+#### Imagen
+- Un escritorio de copista lleno de plumas y tinteros, con un libro grande de tapa de cuero.
+- La Copista sostiene el libro abierto hacia Mia; Gheco, sobre la tapa, se mira en un tintero.
+
+### Micro-misión R01-N03-P7 · La runa espejo
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Casa de los Copistas
+personajes: Mia, Gheco, la Copista
+recompensa: xp 10, monedas 4
+antes: R01-N03-M2
 ```
 
-#### Consigna
+#### Escena
+En la pared de la Casa hay un espejo con una frase grabada en el marco. La Copista dice que es una **runa espejo**: se lee igual al derecho y al revés.
+—Hay otra frase que juran que también lo es. Yo no les creo. Comprobalo.
 
+#### Gheco sugiere
+Antes de comparar, pasá todo a minúsculas y sacá los espacios (`replace(" ", "")`). Al revés es `texto[::-1]`. Si son iguales, es palíndromo.
+
+#### Desafío
 Un **palíndromo** se lee igual al derecho y al revés.
 Comprobá si `"Anita lava la tina"` lo es, ignorando mayúsculas y espacios.
 Probá también con `"El orco ataca"`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Normaliza el texto (minúsculas y sin espacios) antes de comparar.
 - Compara con el texto dado vuelta (`[::-1]`).
 - Dice que "Anita lava la tina" es palíndromo y "El orco ataca" no.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 "Anita lava la tina" -> "anitalavalatina"
 ¿Es palíndromo? True
@@ -2098,8 +2230,7 @@ Probá también con `"El orco ataca"`.
 ¿Es palíndromo? False
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - La runa espejo: ¿la frase es un palindromo?
 
@@ -2118,29 +2249,47 @@ print(f'"{frase}" -> "{normalizada}"')
 print("¿Es palíndromo?", normalizada == normalizada[::-1])
 ```
 
-### Misión R01-N03-M3 · La tabla de la compañía
+#### Al superarla
+Una sí, la otra no. La Copista asiente, satisfecha.
+—Lo sabía. Los orcos no saben escribir al revés.
+
+#### Imagen
+- Un espejo ovalado con marco de madera tallada colgado en la pared de la Casa de los Copistas.
+- Mia se refleja en el espejo y su reflejo le sonríe; la Copista mira con los brazos cruzados.
+
+### Micro-misión R01-N03-P8 · La tabla de la compañía
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Casa de los Copistas
+personajes: Mia, Gheco, la Copista
+recompensa: xp 10, monedas 4
+antes: R01-N03-M3
 ```
 
-#### Consigna
+#### Escena
+La Copista te muestra la lista de la compañía que se está formando: nombres y clases todos amontonados.
+—Una tabla derecha, como la del viajero. Nombres y clases contra la izquierda; el nivel, contra la derecha. Y con su encabezado.
 
+#### Gheco sugiere
+En un f-string, `{nombre:<10}` alinea a la izquierda en 10 lugares y `{nivel:>5}` a la derecha en 5. Usá los mismos anchos en el encabezado y en cada fila.
+
+#### Desafío
 Mostrá una tabla alineada con encabezados
 `NOMBRE`, `CLASE` y `NIVEL`, con Mia (maga, 3), Tilo (guerrero, 5),
 Sila (maga, 4) y Baldo (pícaro, 2). Los nombres y las clases, a la izquierda; el
 nivel, a la derecha.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Muestra los encabezados NOMBRE, CLASE y NIVEL.
 - Nombres y clases alineados a la izquierda; el nivel, a la derecha.
 - Las columnas quedan parejas en todas las filas.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 NOMBRE  CLASE        NIVEL
 --------------------------
@@ -2150,8 +2299,7 @@ Sila    maga             4
 Baldo   picaro           2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - La tabla de la compania, alineada con f-strings."""
 
@@ -2162,6 +2310,13 @@ print(f"{'Tilo':<8}{'guerrero':<12}{5:>6}")
 print(f"{'Sila':<8}{'maga':<12}{4:>6}")
 print(f"{'Baldo':<8}{'picaro':<12}{2:>6}")
 ```
+
+#### Al superarla
+Las columnas quedan rectas como cañas. La Copista la copia en su registro sin cambiar ni una letra.
+
+#### Imagen
+- Un registro grande abierto sobre un atril, con columnas rectas trazadas en tinta.
+- La Copista copia con una pluma larga; Mia y Gheco se asoman por encima de su hombro.
 
 ### Encargo R01-N03-E1 · Los correos del Gremio
 
@@ -2943,28 +3098,38 @@ Ya es de noche y estás agotada. Allá abajo, junto al puente viejo, se ven las 
 - Afuera, desde la ladera de noche, se ven las luces cálidas de la Posada de la Serpiente junto al río.
 - Mia sostiene un junco enrollado en espiral; Gheco bosteza.
 
-### Misión R01-N04-M1 · El ritmo de la forja
+### Micro-misión R01-N04-P7 · El ritmo de la forja
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Laberinto de las Siete Salas
+personajes: Mia, Gheco
+recompensa: xp 10, monedas 4
+antes: R01-N04-M1
 ```
 
-#### Consigna
+#### Escena
+En la salida del Laberinto hay una forja abandonada con un martillo y un yunque que golpean solos, siguiendo un ritmo raro. Gheco escucha con la cabeza ladeada.
+—Del uno al treinta… en los múltiplos de tres suena el martillo, en los de cinco el yunque. ¿Y si es de los dos?
 
+#### Gheco sugiere
+Preguntá primero por **los dos** a la vez (`n % 15 == 0`, o `n % 3 == 0 and n % 5 == 0`) y después por cada uno: si preguntás primero por el 3, el 15 nunca llega a sonar doble.
+
+#### Desafío
 Del 1 al 30, mostrá `Martillo` si el número es
 múltiplo de 3, `Yunque` si es de 5, `MartilloYunque` si es de ambos, y el
 número si no es de ninguno.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Recorre del 1 al 30 con `for` y `range`.
 - Revisa primero el caso de múltiplo de 3 **y** de 5.
 - Muestra Martillo, Yunque, MartilloYunque o el número, según corresponda.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 1
 2
@@ -2998,8 +3163,7 @@ Martillo
 MartilloYunque
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El ritmo de la forja (el clasico FizzBuzz).
 
@@ -3018,30 +3182,51 @@ for n in range(1, 31):
         print(n)
 ```
 
-### Misión R01-N04-M2 · Combate con pociones
+#### Al superarla
+El martillo y el yunque terminan juntos en el treinta y se quedan quietos. Del yunque cae una chispa que se apaga en el piso.
+—Ritmo perfecto —dice Gheco, moviendo la cola.
+
+#### Imagen
+- Una forja abandonada en una sala de piedra, con un martillo que flota sobre un yunque y chispas en el aire.
+- Mia lleva el ritmo con la mano; Gheco baila sobre una piedra.
+
+### Micro-misión R01-N04-P8 · Combate con pociones
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Laberinto de las Siete Salas
+personajes: Mia, Gheco, un orco
+criatura: orco
+recompensa: xp 10, monedas 4
+antes: R01-N04-M2
 ```
 
-#### Consigna
+#### Escena
+En la última sala, un orco bloquea la salida. Tenés treinta de vida y dos pociones en el cinturón.
+—Una regla —dice Gheco—: si te queda poca vida y tenés poción, tomala. Si no, pegá. Y que el azar sea siempre el mismo, así sabemos si la regla sirve.
 
+#### Gheco sugiere
+Usá un `while` mientras los dos sigan vivos. `random.seed(7)` al principio hace que `randint` dé siempre la misma serie. En cada turno, decidí con `if`: poción o ataque.
+
+#### Desafío
 Mia (30 de vida, 2 pociones) pelea contra un orco
 (40 de vida). En su turno, si tiene menos de 10 de vida y le quedan pociones,
 toma una (+15); si no, ataca con `randint(4, 9)`. El orco pega con
 `randint(3, 8)`. Usá `random.seed(7)` para que siempre salga igual.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `random.seed(7)` para que el combate salga siempre igual.
 - El bucle sigue mientras los dos tengan vida.
 - Toma poción solo con menos de 10 de vida y si le quedan; si no, ataca.
 - Muestra quién gana.
 
-#### Salida esperada
+#### Código inicial
+```python
+import random
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 turno 1: Mia pega 6 -> orco 34
          orco pega 4 -> Mia 26
@@ -3061,8 +3246,7 @@ turno 8: Mia pega 4 -> orco 0
 ¡Victoria!
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - Combate con pociones.
 
@@ -3097,29 +3281,49 @@ while vida_mia > 0 and vida_orco > 0:
 print("¡Victoria!" if vida_mia > 0 else "Mia cae... fin de la partida")
 ```
 
-### Misión R01-N04-M3 · El acertijo de la serpiente
+#### Al superarla
+El orco cae de espaldas y hace temblar la sala entera.
+—La regla funcionó —dice Gheco—. Y te sobró una poción.
+
+#### Imagen
+- Un orco grande de piel verde y armadura de cuero tirado en el piso de una sala de piedra.
+- Mia guarda una poción roja en el cinturón; Gheco se para encima del orco, triunfante.
+
+### Micro-misión R01-N04-P9 · El acertijo de la serpiente
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Laberinto de las Siete Salas
+personajes: Mia, Gheco
+recompensa: xp 10, monedas 4
+antes: R01-N04-M3
 ```
 
-#### Consigna
+#### Escena
+En una puerta del Laberinto hay una serpiente de piedra con la boca abierta. Piensa un número del uno al cincuenta y solo contesta «más alto» o «más bajo».
+—Y no le hables en idioma raro —dice Gheco—, que se ofende. Si no sabés, podés decir «me rindo».
 
+#### Gheco sugiere
+Un `while True` que pide con `input`, y `break` cuando acierta o cuando escriben `me rindo`. Antes de convertir con `int()`, fijate con `isdigit()` que sea un número, así no se corta el programa.
+
+#### Desafío
 Elegí un número secreto del 1 al 50 con
 `random.seed(2026)` y `randint`. Pedile números al usuario hasta que acierte,
 diciéndole "más alto" o "más bajo". Rechazá lo que no sea un número, contá los
 intentos y dejá que escriba `me rindo` para terminar.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Elige el número con `random.seed(2026)` y `randint(1, 50)`.
 - Rechaza lo que no sea un número sin cortar el programa.
 - Dice "más alto" o "más bajo", cuenta los intentos y acepta `me rindo`.
 
-#### Entrada de ejemplo
+#### Código inicial
+```python
+import random
 
+# Escribí tu programa acá
+```
+
+#### Entrada
 ```
 25
 mucho
@@ -3129,7 +3333,6 @@ mucho
 ```
 
 #### Salida esperada
-
 ```
 Tu número (o 'me rindo'):   Más bajo.
 Tu número (o 'me rindo'):   Eso no es un número.
@@ -3138,8 +3341,7 @@ Tu número (o 'me rindo'):   Más bajo.
 Tu número (o 'me rindo'): ¡Correcto! Lo adivinaste en 4 intentos.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - El acertijo de Ofidia: adivinar un numero del 1 al 50.
 
@@ -3172,35 +3374,13 @@ while True:
         break
 ```
 
-#### Pruebas
+#### Al superarla
+La serpiente de piedra cierra la boca y la puerta se abre con un ruido de engranajes.
+—Contaste los intentos —dice Gheco—. Eso le gusta.
 
-##### Se rinde
-```entrada
-10
-me rindo
-```
-```salida
-Tu número (o 'me rindo'):   Más bajo.
-Tu número (o 'me rindo'): El número era 8.
-```
-
-##### Muchos inválidos
-```entrada
-x
-51
-0
-4
-10
-8
-```
-```salida
-Tu número (o 'me rindo'):   Eso no es un número.
-Tu número (o 'me rindo'):   Más bajo.
-Tu número (o 'me rindo'):   Más alto.
-Tu número (o 'me rindo'):   Más alto.
-Tu número (o 'me rindo'):   Más bajo.
-Tu número (o 'me rindo'): ¡Correcto! Lo adivinaste en 5 intentos.
-```
+#### Imagen
+- Una puerta de piedra con una gran serpiente tallada con la boca abierta y ojos verdes encendidos.
+- Mia habla hacia la boca de la serpiente; Gheco se esconde detrás de su pierna.
 
 ### Encargo R01-N04-E1 · El vuelto del cajero
 
@@ -4020,29 +4200,39 @@ Antes de irse, comenta al pasar que vio bajar hacia las Forjas a una espadachina
 - Sobre la tableta, un mapa del Valle con puntos brillantes para explorar.
 - Mia y Tilo inclinados para ver; Gheco, fascinado.
 
-### Misión R01-N05-M1 · La mochila
+### Micro-misión R01-N05-P9 · La mochila
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N05-M1
 ```
 
-#### Consigna
+#### Escena
+Antes de salir de la Posada, Tilo te ayuda a ordenar la mochila.
+—Antorcha, cuerda, poción… y ahora sumamos dos gemas, una llave oxidada y pan. La poción la usás si está. Lo último que agarraste, lo tirás: siempre agarrás cosas raras.
 
+#### Gheco sugiere
+`append` agrega al final, `remove` saca un elemento (preguntá antes con `in`), `pop()` saca el último y `sort()` ordena. `enumerate(mochila, 1)` numera desde 1 y `count("gema")` cuenta.
+
+#### Desafío
 Empezá con `["antorcha", "cuerda", "poción"]`. Agregá
 dos gemas, una llave oxidada y pan. Usá la poción (sacala solo si está), tirá
 lo último que agarró, ordená la mochila y mostrala numerada con `enumerate`,
 junto con cuántas gemas tiene.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Agrega los objetos con `append`/`extend`.
 - Saca la poción solo si está (`in`) y tira lo último con `pop()`.
 - Muestra la mochila ordenada y numerada con `enumerate`, y cuántas gemas hay (`count`).
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 al salir: ['antorcha', 'cuerda', 'poción']
 después del cofre: ['antorcha', 'cuerda', 'poción', 'gema', 'gema', 'llave oxidada', 'pan']
@@ -4057,8 +4247,7 @@ mochila ordenada (5 objetos):
 gemas: 2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - La mochila de Mia."""
 
@@ -4086,31 +4275,49 @@ for i, objeto in enumerate(mochila, start=1):
 print("gemas:", mochila.count("gema"))
 ```
 
-### Misión R01-N05-M2 · El ranking del torneo
+#### Al superarla
+La mochila queda ordenada por primera vez desde que salió de la Aldea.
+—Así da gusto viajar —dice Tilo, y se la cuelga él.
+
+#### Imagen
+- Una mesa de madera de la Posada de la Serpiente con una mochila abierta y objetos ordenados en fila.
+- Tilo acomoda una antorcha en la mochila; Mia sostiene dos gemas; Gheco duerme sobre un pan.
+
+### Micro-misión R01-N05-P10 · El ranking del torneo
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N05-M2
 ```
 
-#### Consigna
+#### Escena
+En la Posada se jugó un torneo de pulseadas y el posadero tiene los resultados anotados como pares: puntos y nombre.
+—Ordenalos de mayor a menor, con los puestos —pide Tilo—. Y fijate en qué orden quedamos Ana y yo, que empatamos.
 
+#### Gheco sugiere
+`sorted(resultados, reverse=True)` ordena las tuplas por el primer valor (los puntos) y, si empatan, por el segundo. Para el podio: `[nombre for puntos, nombre in ranking[:3]]`.
+
+#### Desafío
 Con los resultados
 `[(120, "Mia"), (95, "Tilo"), (150, "Sila"), (95, "Ana"), (60, "Baldo")]`,
 mostrá el ranking de mayor a menor con puestos, el podio (solo nombres, con
 una comprehension) y el promedio de puntos. ¿En qué orden quedan Tilo y Ana, y
 por qué?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Ordena de mayor a menor con `sorted(..., reverse=True)`.
 - Arma el podio con una comprehension.
 - Calcula el promedio de puntos.
 - Explica en un comentario el orden de Tilo y Ana (desempata por el segundo valor de la tupla).
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 RANKING
 1. Sila   150
@@ -4122,8 +4329,7 @@ podio: ['Sila', 'Mia', 'Tilo']
 promedio: 104.0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - El ranking del torneo.
 
@@ -4145,30 +4351,48 @@ promedio = sum([puntos for puntos, nombre in resultados]) / len(resultados)
 print(f"promedio: {promedio:.1f}")
 ```
 
-### Misión R01-N05-M3 · El mapa de la mazmorra
+#### Al superarla
+Tilo y Ana quedan en el orden de sus nombres: a igual puntaje, desempata la segunda parte de la tupla.
+—Me ganó por el abecedario —protesta Tilo.
+
+#### Imagen
+- Una pizarra de madera con muescas en la pared de la posada y jarras de agua sobre las mesas.
+- Tilo hace pulseadas con una muchacha de trenzas; Mia anota; Gheco hace de árbitro sobre la mesa.
+
+### Micro-misión R01-N05-P11 · El mapa de la mazmorra
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Posada de la Serpiente
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N05-M3
 ```
 
-#### Consigna
+#### Escena
+En el sótano de la Posada hay una mazmorrita de práctica: un mapa de baldosas con piso, paredes y gemas. Tilo lo dibuja en una servilleta.
+—Encontrá dónde estás parada, contá las gemas y, si a tu derecha hay piso, da un paso.
 
+#### Gheco sugiere
+Una lista de listas: `mapa[fila][columna]`. Con dos `for` y `enumerate` encontrás la `K`. Para moverla, poné `"."` donde estaba y `"K"` en la columna siguiente.
+
+#### Desafío
 Armá el mapa como lista de listas (`list("#K..G.#")`
 convierte cada fila). Encontrá la posición de Mia (`K`) con dos `for` y
 `enumerate`, contá las gemas (`G`) y, si a su derecha hay piso (`.`), movela.
 Mostrá el mapa antes y después.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Arma el mapa como lista de listas.
 - Encuentra a K con dos `for` y `enumerate`.
 - Cuenta las gemas y mueve a K solo si a la derecha hay piso.
 - Muestra el mapa antes y después.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 Mia está en fila 1, columna 1
 gemas en el mapa: 3
@@ -4180,8 +4404,7 @@ Mia avanza a la derecha
 #######
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - El mapa de la mazmorra.
 
@@ -4219,6 +4442,13 @@ if mapa[fila_k][col_k + 1] == ".":
 for fila in mapa:
     print("".join(fila))
 ```
+
+#### Al superarla
+Das el paso y la baldosa se hunde un poquito con un clic. Detrás de la pared se oye a Tilo aplaudir.
+
+#### Imagen
+- Un sótano de piedra con un piso de baldosas en grilla, algunas con gemas verdes encima.
+- Mia da un paso sobre una baldosa; Tilo aplaude desde la escalera; Gheco cuenta las gemas.
 
 ### Encargo R01-N05-E1 · Las notas de la escuela
 
@@ -4989,38 +5219,47 @@ El Ermitaño cierra el libro y te lo pone en las manos: **el Bestiario** es tuyo
 - Dos círculos de luz se cruzan en el aire: en la intersección, la palabra «luz».
 - Por la ventana, a lo lejos, se ve un puente viejo de piedra sobre el río.
 
-### Misión R01-N06-M1 · El bestiario
+### Micro-misión R01-N06-P9 · El bestiario
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, el Ermitaño
+recompensa: xp 10, monedas 4
+antes: R01-N06-M1
 ```
 
-#### Consigna
+#### Escena
+El Ermitaño te pide que pases sus apuntes al Bestiario nuevo: cada criatura con su vida, su ataque y lo que la debilita.
+—Agregá al ogro, que me olvidé. Y si alguien pregunta por el dragón, que el libro no se rompa: todavía no lo vi.
 
+#### Gheco sugiere
+Un diccionario de diccionarios: `bestiario["slime"]["vida"]`. Para filtrar: `[nombre for nombre, datos in bestiario.items() if "fuego" in datos["debil_a"]]`. `get("dragón")` devuelve `None` en vez de fallar.
+
+#### Desafío
 Armá un diccionario de criaturas (slime, goblin, orco), cada
 una con `vida`, `ataque` y una lista `debil_a`. Agregá el ogro, listá con una
 comprehension las criaturas débiles al fuego, encontrá la de más vida
 recorriendo el diccionario y buscá `"dragón"` sin que el programa falle.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cada criatura es un diccionario con `vida`, `ataque` y `debil_a`.
 - Lista las débiles al fuego con una comprehension.
 - Encuentra la de más vida recorriendo el diccionario.
 - Busca "dragón" con `get` o `in`, sin que el programa falle.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 débiles al fuego: ['slime', 'ogro']
 la más resistente: ogro (90 de vida)
 'dragón' no está en el bestiario todavía
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El bestiario del Valle."""
 
@@ -5053,28 +5292,50 @@ if datos is None:
     print(f"'{buscada}' no está en el bestiario todavía")
 ```
 
-### Misión R01-N06-M2 · El reparto del botín
+#### Al superarla
+El Ermitaño hojea el Bestiario nuevo y se detiene en la página en blanco del dragón.
+—Algún día la vas a llenar vos.
+
+#### Imagen
+- Una ermita de piedra con estantes llenos de frascos y dibujos de criaturas, a la luz de una vela.
+- El Ermitaño, viejo y barbudo, le muestra a Mia una página en blanco; Gheco se asoma por el lomo del libro.
+
+### Micro-misión R01-N06-P10 · El reparto del botín
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+recompensa: xp 10, monedas 4
+antes: R01-N06-M2
 ```
 
-#### Consigna
+#### Escena
+Tilo vacía en la mesa todo lo que soltaron las criaturas del camino: colmillos, escamas, pieles, una cosa pegajosa.
+—¿Cuánto vale todo esto? —pregunta.
+El Ermitaño saca una lista de precios.
+—Lo que no está en la lista no vale nada. Y la cosa pegajosa, menos.
 
+#### Gheco sugiere
+`Counter(lista)` cuenta cuántos hay de cada cosa y `most_common(2)` da los dos más repetidos. Para el valor: `precios.get(objeto, 0) * cantidad`.
+
+#### Desafío
 De la lista de objetos que soltaron los enemigos,
 contá cuántos hay de cada uno con `Counter`, mostrá los dos más comunes y
 calculá el valor total con un diccionario de precios (lo que no tiene precio
 vale 0).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Cuenta los objetos con `Counter` y muestra los dos más comunes.
 - Calcula el valor total con el diccionario de precios, usando 0 para lo que no tiene precio (`get(obj, 0)`).
 
-#### Salida esperada
+#### Código inicial
+```python
+from collections import Counter
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 botín: {'oro': 4, 'gema': 2, 'poción': 2, 'hueso': 1}
 total de objetos: 9
@@ -5086,8 +5347,7 @@ los 2 más comunes: [('oro', 4), ('gema', 2)]
 valor total: 70
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - El reparto del botin."""
 
@@ -5110,29 +5370,48 @@ for objeto, cantidad in botin.items():
 print("valor total:", total)
 ```
 
-### Misión R01-N06-M3 · Las habilidades de la compañía
+#### Al superarla
+Suma redonda. Tilo guarda los colmillos para vender y la cosa pegajosa se la da a Gheco, que la rechaza ofendido.
+
+#### Imagen
+- Una mesa de madera cubierta de colmillos, escamas y pieles, con una balanza de bronce.
+- Tilo separa el botín en montoncitos; el Ermitaño lee una lista; Gheco esquiva una baba verde.
+
+### Micro-misión R01-N06-P11 · Las habilidades de la compañía
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Ermita del Bestiario
+personajes: Mia, Gheco, Tilo, el Ermitaño
+recompensa: xp 10, monedas 4
+antes: R01-N06-M3
 ```
 
-#### Consigna
+#### Escena
+En el Bestiario hay un mapa de la Torre del Hielo con una advertencia: solo entra quien sabe hielo, escudo y sigilo.
+—Entre los tres sabemos un montón de cosas —dice Tilo—. ¿Alcanza?
+El Ermitaño sonríe.
+—Los conjuntos te lo dicen en una línea.
 
+#### Gheco sugiere
+Con conjuntos: `&` es lo que tienen en común, `|` lo de todos juntos y `-` lo que tiene uno y el otro no. `requisitos <= todos` dice si se cubren, y `requisitos - todos` lo que falta.
+
+#### Desafío
 Con los conjuntos de habilidades de Mia,
 Sila y Tilo: ¿qué saben los tres?, ¿qué saben entre todos?, ¿qué sabe solo
 Sila? La Torre del Hielo exige `{"hielo", "escudo", "sigilo"}`: ¿la compañía lo
 cubre? ¿Qué les falta?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Responde las tres preguntas con `&`, `|` y `-`.
 - Verifica si la compañía cubre la Torre del Hielo con `<=` (o `issubset`).
 - Muestra lo que les falta.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 los tres saben: ['fuego']
 entre todos: ['curación', 'escudo', 'espada', 'fuego', 'hacha', 'hielo', 'rayo']
@@ -5141,8 +5420,7 @@ solo Sila: ['curación', 'hielo', 'rayo']
 les falta aprender: ['sigilo']
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - Las habilidades de la compania."""
 
@@ -5160,6 +5438,13 @@ tiene_la_compania = mia | sila | tilo
 print("¿la compañía cubre todo?", requeridas <= tiene_la_compania)
 print("les falta aprender:", sorted(requeridas - tiene_la_compania))
 ```
+
+#### Al superarla
+Falta una sola habilidad. Tilo se anota en un papel «aprender sigilo» y lo guarda en la bota.
+
+#### Imagen
+- Un mapa de una torre de hielo dibujado en el Bestiario abierto, con tres símbolos: un copo, un escudo y una huella.
+- Mia, Tilo y Gheco miran el mapa a la luz de la vela; el Ermitaño señala la huella.
 
 ### Encargo R01-N06-E1 · Las estadísticas del pregonero
 
@@ -5750,16 +6035,25 @@ Tilo, raspado, se apoya en vos para caminar. —Dicen que en las Terrazas hay un
 - En el suelo, un espejo con bordes de musgo refleja a Mia.
 - Tilo, raspado, apoyado en el hombro de Mia.
 
-### Misión R01-N07-M1 · El bug del troll
+### Micro-misión R01-N07-P6 · El bug del troll
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Saliendo de la cueva, Tilo revisa la lista de la compañía que dejaste como respaldo… y él tampoco está.
+—¡Me borraste de los dos lados!
+Gheco mira el código y se tapa los ojos.
+—El respaldo no era un respaldo. Era la **misma** lista con otro nombre.
 
+#### Gheco sugiere
+`respaldo = compania` no copia: las dos variables apuntan a la misma lista. Para una copia de verdad: `compania.copy()` o `list(compania)`. Mostrá las dos listas y `is` para comprobarlo.
+
+#### Desafío
 Este código pierde a Tilo también en el respaldo.
 Explicá por qué y arreglalo:
 ```python
@@ -5769,14 +6063,12 @@ compania.remove("Tilo")
 compania = respaldo
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Explica en un comentario por qué `respaldo = compania` no copia la lista.
 - Arregla el respaldo con `.copy()` (o `list(...)`).
 - Muestra que el respaldo conserva a Tilo.
 
 #### Código inicial
-
 ```python
 compania = ["Mia", "Tilo", "Sila", "Baldo"]
 respaldo = compania
@@ -5786,15 +6078,13 @@ print(compania)
 ```
 
 #### Salida esperada
-
 ```
 después de la batalla: ['Mia', 'Sila', 'Baldo']
 respaldo: ['Mia', 'Tilo', 'Sila', 'Baldo']
 compañía restaurada: ['Mia', 'Tilo', 'Sila', 'Baldo']
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El bug del troll.
 
@@ -5819,28 +6109,48 @@ compania = respaldo              # ahora si se recupera
 print("compañía restaurada:", compania)
 ```
 
-### Misión R01-N07-M2 · El punto de guardado
+#### Al superarla
+Con la copia, Tilo vuelve al respaldo y respira tranquilo.
+—Nunca más me borres sin copia.
+
+#### Imagen
+- La salida de la Cueva del Troll, con musgo en la roca y la luz del día entrando.
+- Tilo, vendado, señala indignado un pergamino; Mia se ríe; Gheco se tapa los ojos con las patas.
+
+### Micro-misión R01-N07-P7 · El punto de guardado
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N07-M2
 ```
 
-#### Consigna
+#### Escena
+En la cueva todavía hay un cuarto sin explorar con una gema. Gheco propone guardar la partida antes de entrar.
+—Si sale mal, volvemos al punto de guardado. Pero ojo: si el punto de guardado es una copia **de mentira**, se rompe junto con el mapa.
 
+#### Gheco sugiere
+El mapa es una lista de listas. `copy.copy` copia solo la lista de afuera: las filas siguen siendo las mismas. `copy.deepcopy` copia todo. Mostrá qué pasa con cada una.
+
+#### Desafío
 Guardá un checkpoint de un mapa (lista de listas)
 antes de mover a Mia y juntar la gema, y después volvé al checkpoint.
 Mostrá también qué habría pasado con una copia superficial.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Guarda el checkpoint con `copy.deepcopy`.
 - Mueve a K y junta la gema; después vuelve al checkpoint y lo muestra igual que al principio.
 - Muestra qué habría pasado con una copia superficial.
 
-#### Salida esperada
+#### Código inicial
+```python
+import copy
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 mapa actual:
   #####
@@ -5853,8 +6163,7 @@ vuelta al checkpoint:
 ¿la copia superficial se ensució? True
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - El punto de guardado del mapa.
 
@@ -5891,16 +6200,32 @@ mapa[1][2] = "X"
 print("¿la copia superficial se ensució?", malo[1][2] == "X")
 ```
 
-### Misión R01-N07-M3 · Predicción
+#### Al superarla
+Juntás la gema, volvés al punto de guardado y el mapa aparece como antes, con la gema en su lugar.
+—Magia —dice Tilo.
+—Copia profunda —corrige Gheco.
+
+#### Imagen
+- Un cuarto de la cueva con una gema verde brillando en el piso y un círculo de luz cian en la entrada.
+- Mia agarra la gema; Gheco brilla dentro del círculo de luz como un faro; Tilo espera en la puerta.
+
+### Micro-misión R01-N07-P8 · Predicción
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Cueva del Troll
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N07-M3
 ```
 
-#### Consigna
+#### Escena
+Descansando en la entrada de la cueva, Gheco te tira cinco acertijos sobre copias y referencias.
+—Primero decí qué sale, después ejecutá. Si acertás los cinco, te cedo el lugar más blando para dormir.
 
+#### Gheco sugiere
+Las listas y los diccionarios cambian en el lugar; las tuplas y los números no: `y += (3,)` arma una tupla nueva. `[[0] * 2] * 2` repite **la misma** fila dos veces, y `copy()` de un diccionario no copia las listas de adentro.
+
+#### Desafío
 Anotá qué muestra cada bloque antes de ejecutarlo:
 ```python
 a = [1, 2]; b = a; b += [3]; print(a)
@@ -5910,13 +6235,16 @@ filas = [[0] * 2] * 2; filas[1][0] = 9; print(filas)
 d = {"items": []}; e = d.copy(); e["items"].append("gema"); print(d)
 ```
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Anota la predicción de cada bloque en un comentario.
 - Ejecuta y explica los casos que no acertó (sobre todo `[[0] * 2] * 2` y `d.copy()`).
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 [1, 2, 3]
 (1, 2) (1, 2, 3)
@@ -5925,8 +6253,7 @@ d = {"items": []}; e = d.copy(); e["items"].append("gema"); print(d)
 {'items': ['gema']}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - Predecir antes de correr (respuestas en los comentarios)."""
 
@@ -5954,6 +6281,13 @@ e = d.copy()
 e["items"].append("gema")
 print(d)            # {'items': ['gema']}  -> copia superficial
 ```
+
+#### Al superarla
+Cinco de cinco. Gheco te cede la piedra con musgo y se acurruca en tu mochila, refunfuñando.
+
+#### Imagen
+- La entrada de la cueva de noche, con una fogata chiquita y piedras con musgo.
+- Mia se acomoda sobre una piedra con musgo; Gheco se mete en la mochila; Tilo duerme sentado.
 
 ### Encargo R01-N07-E1 · Las facturas de la herrería
 
@@ -6748,35 +7082,46 @@ Cada uno con su bolsa, y en cada bolsa **pociones de curación** de verdad. Tilo
 - Tilo saltando en una pierna, curado.
 - Ofidia señala hacia la boca de una cueva en lo alto de las terrazas.
 
-### Misión R01-N08-M1 · La bolsa de dados
+### Micro-misión R01-N08-P8 · La bolsa de dados
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N08-M1
 ```
 
-#### Consigna
+#### Escena
+En una terraza, unos aprendices juegan a los dados y se pelean porque cada uno tira distinto.
+—Hagan una sola función para tirar —les dice Tilo—. Que se pueda pedir la cantidad de dados y, si quieren, las caras.
 
+#### Gheco sugiere
+Un parámetro con valor por defecto (`caras=6`) se puede omitir al llamar. Usá `random.randint(1, caras)` dentro de un bucle y devolvé la suma con `return`. `random.seed(10)` al principio hace que salga siempre igual.
+
+#### Desafío
 Escribí `tirar(cantidad, caras=6)`, que tire `cantidad`
 dados de `caras` lados y devuelva la suma. Probá `tirar(3)` y
 `tirar(2, caras=20)` con `random.seed(10)`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define `tirar(cantidad, caras=6)` y devuelve la suma con `return`.
 - Prueba `tirar(3)` y `tirar(2, caras=20)` con `random.seed(10)`.
 
-#### Salida esperada
+#### Código inicial
+```python
+import random
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 3 dados de 6: 10
 2 dados de 20: 35
 1 dado de 4: 1
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - La bolsa de dados."""
 
@@ -6797,36 +7142,53 @@ print("2 dados de 20:", tirar(2, caras=20))
 print("1 dado de 4:", tirar(1, 4))
 ```
 
-### Misión R01-N08-M2 · Formar la compañía
+#### Al superarla
+Los aprendices usan tu función y se terminan las peleas. Ahora se pelean por quién tiene más suerte.
+
+#### Imagen
+- Una terraza de piedra en la ladera, con jardines escalonados y aprendices sentados en ronda.
+- Dados de colores sobre una manta; Tilo hace de juez; Mia y Gheco miran rodar un dado de veinte caras.
+
+### Micro-misión R01-N08-P9 · Formar la compañía
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N08-M2
 ```
 
-#### Consigna
+#### Escena
+{mentor} te pide una función para anotar compañías: que reciba todos los nombres que le den, uno o diez, y arme una ficha por cada uno con la vida inicial.
+—¿Y si no le dan ninguno? —pregunta Tilo.
+—Que no explote. Eso también es una respuesta.
 
+#### Gheco sugiere
+`*nombres` junta todos los argumentos sueltos en una tupla. `vida=100` va después, y para cambiarla hay que nombrarla: `crear_compania("Mia", vida=80)`. Sin nombres, la tupla está vacía y la lista también.
+
+#### Desafío
 Escribí `crear_compania(*nombres, vida=100)`, que
 devuelva una lista de diccionarios, uno por nombre. ¿Qué devuelve si no le
 pasás nombres?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define `crear_compania(*nombres, vida=100)`.
 - Devuelve una lista de diccionarios, uno por nombre.
 - Muestra qué devuelve sin nombres (una lista vacía).
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 [{'nombre': 'Mia', 'vida': 100}, {'nombre': 'Tilo', 'vida': 100}, {'nombre': 'Sila', 'vida': 100}]
 [{'nombre': 'Baldo', 'vida': 70}]
 []
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - Formar la compania."""
 
@@ -6841,36 +7203,53 @@ print(crear_compania("Baldo", vida=70))
 print(crear_compania())                 # sin nombres: lista vacia
 ```
 
-### Misión R01-N08-M3 · La bendición del templo
+#### Al superarla
+Tu función arma compañías de cualquier tamaño, y la vacía también, sin quejarse.
+—Una compañía de nadie —dice Tilo—. Qué triste.
+
+#### Imagen
+- Una mesa de piedra en las Terrazas con fichas de pergamino apiladas en fila.
+- Tilo cuenta fichas con el dedo; Mia escribe; Gheco sostiene una ficha en blanco con cara de pena.
+
+### Micro-misión R01-N08-P10 · La bendición del templo
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: Las Terrazas de las Funciones
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N08-M3
 ```
 
-#### Consigna
+#### Escena
+En el templo de la última terraza, los monjes dan bendiciones que suben las estadísticas. Pero el monje viejo se equivoca: le cambia los números al héroe para siempre.
+—La bendición tiene que dar un héroe **nuevo** —dice Gheco—. El de antes, que quede igual.
 
+#### Gheco sugiere
+`**cambios` junta los argumentos con nombre en un diccionario. Empezá con `nuevo = dict(stats)` y sumá con `nuevo.get(clave, 0) + valor`. Así el original no se toca.
+
+#### Desafío
 Escribí `aplicar_buff(stats, **cambios)`, que sume
 cada valor de `cambios` a la estadística correspondiente y **devuelva un
 diccionario nuevo** sin modificar el original. Si la estadística no existía,
 empieza en 0.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define `aplicar_buff(stats, **cambios)`.
 - Devuelve un diccionario **nuevo** y el original queda igual.
 - Una estadística que no existía empieza en 0.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 original: {'vida': 80, 'ataque': 12, 'defensa': 4}
 bendecida: {'vida': 80, 'ataque': 17, 'defensa': 6, 'suerte': 1}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - La bendicion del templo (aplicar un buff).
 
@@ -6890,6 +7269,14 @@ bendecida = aplicar_buff(mia, ataque=5, defensa=2, suerte=1)
 print("original:", mia)
 print("bendecida:", bendecida)
 ```
+
+#### Al superarla
+Tilo sale del templo con la fuerza bendecida y la ficha vieja intacta, por si acaso.
+—Me siento nuevo —dice. Y es literal.
+
+#### Imagen
+- Un templo chiquito de piedra blanca en lo alto de las Terrazas, con velas y una campana.
+- Un monje anciano levanta las manos sobre Tilo, que brilla con una luz dorada; Mia y Gheco miran desde la puerta.
 
 ### Encargo R01-N08-E1 · El precio del mercado
 
@@ -7596,29 +7983,39 @@ Tu pergamino, mientras tanto, se enrolla solo: ya es tan largo que no encontrás
 - Mia sostiene el cofre más pequeño junto a su oreja.
 - El pergamino de Mia, larguísimo, enrollado en el piso.
 
-### Misión R01-N09-M1 · El grimorio de Mia
+### Micro-misión R01-N09-P6 · El grimorio de Mia
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N09-M1
 ```
 
-#### Consigna
+#### Escena
+En la Cueva de los Ecos tus hechizos rebotan y vuelven. Tilo te sugiere ordenarlos en un grimorio.
+—Una palabra para cada hechizo. Decís la palabra y sale el hechizo. Y si decís una que no existe, que el eco te avise en vez de explotar.
 
+#### Gheco sugiere
+Las funciones también son valores: se pueden guardar en un diccionario (`{"fuego": bola_de_fuego}`) sin paréntesis. `hechizos.get(palabra)` devuelve la función o `None`; si existe, la llamás con `(objetivo, poder)`.
+
+#### Desafío
 Escribí tres hechizos como funciones
 `(objetivo, poder)`, guardalos en un diccionario y escribí
 `lanzar(palabra, objetivo, poder=2)`, que busque el hechizo con `get` y lo
 ejecute, o avise si no existe.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Define tres hechizos como funciones `(objetivo, poder)`.
 - Los guarda en un diccionario (sin paréntesis: la función, no su resultado).
 - `lanzar` busca con `get` y avisa si el hechizo no existe.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 el ogro recibe 6 de daño de fuego
 el troll queda congelado 3 turnos
@@ -7626,8 +8023,7 @@ Tilo recupera 10 de vida
 'volar' no es un hechizo conocido
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 1 - El grimorio de Mia: una tabla de hechizos."""
 
@@ -7660,29 +8056,46 @@ print(lanzar("curar", "Tilo"))
 print(lanzar("volar", "Sila"))
 ```
 
-### Misión R01-N09-M2 · Ordenar la compañía
+#### Al superarla
+Decís «fuego» y la cueva se ilumina. Decís «pizza» y el eco contesta, muy serio, que ese hechizo no existe.
+
+#### Imagen
+- Una cueva con paredes llenas de ecos visibles: ondas de luz que rebotan en la roca.
+- Mia levanta una mano con una llama naranja; Gheco se tapa las orejas; Tilo se ríe.
+
+### Micro-misión R01-N09-P7 · Ordenar la compañía
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N09-M2
 ```
 
-#### Consigna
+#### Escena
+Antes de salir de la cueva, Tilo quiere saber quién va adelante. Hace una lista de la compañía con nivel y vida.
+—Ordenala por vida, por nombre, y por nivel con desempate. Y decime quién está más golpeado, que ese va al medio.
 
+#### Gheco sugiere
+`sorted(lista, key=lambda h: h["vida"], reverse=True)`. Para desempatar, la `key` devuelve una tupla: `(-h["nivel"], h["nombre"])`. `min(lista, key=...)` encuentra al de menos vida.
+
+#### Desafío
 Con una lista de diccionarios (`nombre`, `nivel`,
 `vida`), ordenala por vida (de mayor a menor), por nombre y por nivel (de
 mayor a menor, desempatando por nombre), y encontrá la de menos vida. Todo
 con `key=lambda`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Ordena por vida (de mayor a menor), por nombre y por nivel desempatando por nombre.
 - Usa `key=lambda` en todos los casos.
 - Encuentra la de menos vida con `min(..., key=...)`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 por vida: ['Tilo', 'Mia', 'Baldo', 'Sila']
 por nombre: ['Baldo', 'Mia', 'Sila', 'Tilo']
@@ -7690,8 +8103,7 @@ por nivel: [('Tilo', 5), ('Baldo', 4), ('Sila', 4), ('Mia', 3)]
 la de menos vida: Sila
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 2 - Ordenar la compania de varias formas (key= con lambda)."""
 
@@ -7715,29 +8127,41 @@ print("por nivel:", [(p["nombre"], p["nivel"]) for p in por_nivel])
 print("la de menos vida:", min(compania, key=lambda p: p["vida"])["nombre"])
 ```
 
-### Misión R01-N09-M3 · Las cámaras de la cueva
+#### Al superarla
+Tilo, el más golpeado, va al medio. Protesta, pero se deja.
+
+#### Imagen
+- La boca de la Cueva de los Ecos de noche, con estrellas afuera.
+- Mia ordena a la compañía en fila; Tilo, vendado, queda en el medio; Gheco marcha adelante con una antorcha.
+
+### Micro-misión R01-N09-P8 · Las cámaras de la cueva
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Cueva de los Ecos
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N09-M3
 ```
 
-#### Consigna
+#### Escena
+Tilo encuentra un mapa de la cueva entera, con pisos y paredes. Hay partes que no se tocan entre sí.
+—¿Cuántas cámaras separadas hay? Si sabemos eso, sabemos cuántas veces nos vamos a perder.
 
+#### Gheco sugiere
+Recorré todas las casillas. Cada vez que encuentres un piso **sin explorar**, contá una cámara nueva y llamá a `explorar` desde ahí: la recursión marca toda esa cámara y devuelve su tamaño.
+
+#### Desafío
 Usá la función `explorar` para contar **cuántas
 cámaras separadas** tiene una cueva y el tamaño de cada una. Pista: recorré
 todas las casillas y, cada vez que encuentres un piso sin explorar, es una
 cámara nueva.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Recorre todas las casillas y cuenta una cámara nueva por cada piso sin explorar.
 - Usa la función recursiva `explorar` para marcar cada cámara entera.
 - Muestra la cantidad de cámaras (3) y el tamaño de cada una.
 
 #### Código inicial
-
 ```python
 cueva = [
     list("###########"),
@@ -7762,14 +8186,12 @@ def explorar(mapa, f, c):
 ```
 
 #### Salida esperada
-
 ```
 cámaras encontradas: 3
 tamaño de cada una: [4, 18, 2]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Mision 3 - ¿Cuantas camaras separadas tiene la cueva?
 
@@ -7804,6 +8226,14 @@ for f in range(len(cueva)):
 print("cámaras encontradas:", len(camaras))
 print("tamaño de cada una:", camaras)
 ```
+
+#### Al superarla
+Las cámaras quedan contadas y medidas. Tilo dobla el mapa con cuidado.
+—Ya no nos perdemos. Bueno, menos.
+
+#### Imagen
+- Un mapa de pergamino de una cueva con varias cámaras sombreadas de colores distintos.
+- Tilo sostiene el mapa abierto; Mia marca una cámara con tiza; Gheco recorre el borde con la cola.
 
 ### Encargo R01-N09-E1 · El archivo del escriba
 
@@ -8438,6 +8868,79 @@ Por la ventana de la Casa se ve el **Paso** que sube al Bastión de las Escamas.
 - Por la ventana circular, a lo lejos, la silueta de una hidra de muchas cabezas sobre un paso de montaña.
 - Tilo y Gheco pegados al vidrio.
 
+### Micro-misión R01-N10-P7 · El calendario de la aventura
+
+```meta
+lugar: La Casa de los Tomos
+personajes: Mia, Gheco, Tilo
+recompensa: xp 10, monedas 4
+antes: R01-N10-M2
+```
+
+#### Escena
+En la Casa de los Tomos hay un calendario de piedra que marca la luna llena. Tilo quiere saber cuánto les falta.
+—Y armá las guardias: una cada tres días. Con el día de la semana, en castellano, que en la Casa todo está en otro idioma.
+
+#### Gheco sugiere
+`date(2026, 9, 7)` arma una fecha y restarlas da un `timedelta` con `.days`. `timedelta(days=3)` suma días. `weekday()` da 0 para el lunes: armá una lista con los nombres en castellano y usala como índice.
+
+#### Desafío
+Con `datetime`: Mia llegó el 7/9/2026, hoy
+es 26/9/2026 y la luna llena es el 26/10/2026. ¿Cuántos días lleva? ¿Cuántos
+faltan? Mostrá las próximas 4 guardias (una cada 3 días) con la fecha y el día
+de la semana **en castellano** (pista: `fecha.weekday()` da 0 para el lunes).
+
+**Para superarla:**
+- Usa `date` y `timedelta`.
+- Muestra los días de viaje (19) y los que faltan para la luna llena (30).
+- Muestra las próximas 4 guardias con la fecha y el día en castellano (una lista propia con `weekday()`).
+
+#### Código inicial
+```python
+from datetime import date, timedelta
+
+# Escribí tu programa acá
+```
+
+#### Salida esperada
+```
+días de viaje: 19
+faltan para la luna llena: 30 días
+  guardia 1: 29/09 (martes)
+  guardia 2: 02/10 (viernes)
+  guardia 3: 05/10 (lunes)
+  guardia 4: 08/10 (jueves)
+```
+
+#### Solución
+```python
+"""Mision 2 - El calendario de la aventura (datetime)."""
+
+from datetime import date, timedelta
+
+inicio = date(2026, 9, 7)
+luna_llena = date(2026, 10, 26)
+hoy = date(2026, 9, 26)
+# %A daria el dia en ingles (depende del idioma del sistema): mejor una lista propia
+DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+
+print("días de viaje:", (hoy - inicio).days)
+print("faltan para la luna llena:", (luna_llena - hoy).days, "días")
+
+# una guardia cada 3 dias, las proximas 4
+for i in range(1, 5):
+    guardia = hoy + timedelta(days=3 * i)
+    print(f"  guardia {i}: {guardia.strftime('%d/%m')} ({DIAS[guardia.weekday()]})")
+```
+
+#### Al superarla
+Las guardias quedan repartidas. Tilo se anota en la del sábado.
+—Los sábados el cocinero hace tortas.
+
+#### Imagen
+- Un calendario circular de piedra en la pared de la Casa de los Tomos, con una luna llena tallada.
+- Mia señala la luna; Tilo cuenta los días con los dedos; Gheco duerme sobre un tomo abierto.
+
 ### Misión R01-N10-M1 · Tu propio módulo
 
 ```meta
@@ -8503,60 +9006,6 @@ print("un d6:", dados.tirar())
 print("tres d8:", dados.tirar_varios(3, caras=8))
 print("con ventaja:", con_ventaja())
 print("dados.__name__ desde acá:", dados.__name__)
-```
-
-### Misión R01-N10-M2 · El calendario de la aventura
-
-```meta
-entrega: codigo
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-Con `datetime`: Mia llegó el 7/9/2026, hoy
-es 26/9/2026 y la luna llena es el 26/10/2026. ¿Cuántos días lleva? ¿Cuántos
-faltan? Mostrá las próximas 4 guardias (una cada 3 días) con la fecha y el día
-de la semana **en castellano** (pista: `fecha.weekday()` da 0 para el lunes).
-
-#### Criterio de aprobación
-
-- Usa `date` y `timedelta`.
-- Muestra los días de viaje (19) y los que faltan para la luna llena (30).
-- Muestra las próximas 4 guardias con la fecha y el día en castellano (una lista propia con `weekday()`).
-
-#### Salida esperada
-
-```
-días de viaje: 19
-faltan para la luna llena: 30 días
-  guardia 1: 29/09 (martes)
-  guardia 2: 02/10 (viernes)
-  guardia 3: 05/10 (lunes)
-  guardia 4: 08/10 (jueves)
-```
-
-#### Solución de referencia
-
-```python
-"""Mision 2 - El calendario de la aventura (datetime)."""
-
-from datetime import date, timedelta
-
-inicio = date(2026, 9, 7)
-luna_llena = date(2026, 10, 26)
-hoy = date(2026, 9, 26)
-# %A daria el dia en ingles (depende del idioma del sistema): mejor una lista propia
-DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
-
-print("días de viaje:", (hoy - inicio).days)
-print("faltan para la luna llena:", (luna_llena - hoy).days, "días")
-
-# una guardia cada 3 dias, las proximas 4
-for i in range(1, 5):
-    guardia = hoy + timedelta(days=3 * i)
-    print(f"  guardia {i}: {guardia.strftime('%d/%m')} ({DIAS[guardia.weekday()]})")
 ```
 
 ### Misión R01-N10-M3 · Romper el círculo
@@ -9050,16 +9499,23 @@ Mirás tu túnica: **las runas del borde, desde los pies hasta la cintura, brill
 - Ofidia se acerca; Tilo y Gheco abrazados de alegría.
 - Al fondo, el Bastión de las Escamas recortado contra la aurora.
 
-### Misión R01-N11-M1 · La tienda del Valle
+### Micro-misión R01-N11-P6 · La tienda del Valle
 
 ```meta
-entrega: codigo
-monedas: 6
-xp: 30
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Tilo
+recompensa: xp 30, monedas 6
+antes: R01-N11-M1
 ```
 
-#### Consigna
+#### Escena
+Al pie del Paso, un mercader aprovecha que la Hidra cayó y arma una tienda. Pero no sabe cobrar: se le mezclan las cuentas.
+—Que se pueda comprar, vender a mitad de precio y ver el inventario —dice Tilo—. Y que avise si no te alcanza.
 
+#### Gheco sugiere
+Un `while` que lee órdenes con `input` y las parte con `split()`. Con `if`/`elif` elegís qué hacer. Antes de cambiar el oro o el inventario, revisá que se pueda; si no, avisá y no toques nada.
+
+#### Desafío
 Escribí la tienda del Valle. Empezás con **100 de oro** y el inventario vacío. Los precios son:
 
 ```python
@@ -9075,15 +9531,13 @@ El programa lee órdenes hasta que escribas `salir`:
 
 Al salir, muestra el inventario final. Usá **una función por orden**.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Tiene funciones separadas para comprar, vender y mostrar; el bucle principal solo decide cuál llamar.
 - Nunca queda oro negativo ni cantidades negativas.
 - Una orden mal escrita (objeto inexistente, cantidad que no es número, faltan palabras) muestra un aviso y el programa sigue.
 - Con la entrada de ejemplo, el resultado final es 70 de oro y 2 pociones.
 
 #### Código inicial
-
 ```python
 PRECIOS = {"pocion": 12, "antorcha": 3, "cuerda": 5, "espada": 60}
 
@@ -9094,8 +9548,7 @@ oro = 100
 # 2. Escribí el bucle que lee órdenes hasta "salir".
 ```
 
-#### Entrada de ejemplo
-
+#### Entrada
 ```
 comprar pocion 3
 comprar espada 2
@@ -9107,7 +9560,6 @@ salir
 ```
 
 #### Salida esperada
-
 ```
 > Compraste 3 pocion por 36.
 > No te alcanza: 2 espada cuestan 120.
@@ -9121,8 +9573,7 @@ Oro: 70
   pocion      2
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Jefe de Fundamentos - La tienda del Valle."""
 
@@ -9183,65 +9634,31 @@ print("¡Hasta la próxima!")
 mostrar(inventario, oro)
 ```
 
-#### Pruebas
+#### Al superarla
+La tienda cierra el día con las cuentas justas. El mercader te regala una cuerda.
+—Por las dudas, para el Bastión.
 
-##### Sin oro para vender
-```entrada
-vender espada 1
-inventario
-salir
-```
-```salida
-> No tenés 1 espada.
-> Oro: 100
-> ¡Hasta la próxima!
-Oro: 100
-```
+#### Imagen
+- Una tienda de campaña con toldo verde al pie de un paso de montaña, con barriles y sogas.
+- Un mercader bajito cuenta monedas; Tilo carga una espada nueva; Mia y Gheco revisan una lista.
 
-##### Gasta todo
-```entrada
-comprar espada 1
-comprar cuerda 8
-comprar antorcha 1
-inventario
-salir
-```
-```salida
-> Compraste 1 espada por 60.
-> Compraste 8 cuerda por 40.
-> No te alcanza: 1 antorcha cuestan 3.
-> Oro: 0
-  cuerda      8
-  espada      1
-> ¡Hasta la próxima!
-Oro: 0
-  cuerda      8
-  espada      1
-```
-
-##### Órdenes raras
-```entrada
-volar
-comprar
-salir
-```
-```salida
-> Usá: comprar <objeto> <cantidad>, vender <objeto> <cantidad>, inventario o salir.
-> Usá: comprar <objeto> <cantidad>, vender <objeto> <cantidad>, inventario o salir.
-> ¡Hasta la próxima!
-Oro: 100
-```
-
-### Misión R01-N11-M2 · El informe de la batalla
+### Micro-misión R01-N11-P7 · El informe de la batalla
 
 ```meta
-entrega: codigo
-monedas: 6
-xp: 30
+lugar: El Paso de la Hidra
+personajes: Mia, Gheco, Ofidia, Tilo
+recompensa: xp 30, monedas 6
+antes: R01-N11-M2
 ```
 
-#### Consigna
+#### Escena
+{mentor} quiere un informe de la batalla del Valle bajo. Tilo anotó cada golpe en una tira larga de papel: criatura, daño y turno.
+—Cuánto daño recibió cada una, cuál cayó y en qué turno pegamos más —dice {mentor}—. Lo que pasó, contado con números.
 
+#### Gheco sugiere
+Una función que recorra los golpes y sume en un diccionario (`danio[criatura] = danio.get(criatura, 0) + golpe`). Después compará cada total con la vida de la criatura para saber cuál cayó.
+
+#### Desafío
 La compañía anotó cada golpe de la batalla como una tupla `(criatura, daño, turno)`:
 
 ```python
@@ -9260,14 +9677,19 @@ Armá el informe:
 3. La criatura que recibió más golpes (con `Counter`) y el daño promedio por golpe con un decimal.
 4. Una función `derrotadas(totales, vidas)` que devuelva un **conjunto** con las criaturas cuyo daño alcanzó su vida. Mostrá las derrotadas y las que siguen en pie.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `danio_por_criatura` y `derrotadas` son funciones que reciben los datos y **devuelven** el resultado (no usan variables globales).
 - El listado está ordenado de mayor a menor daño con `sorted(..., key=lambda ...)`.
 - `derrotadas` devuelve un `set` y las que siguen en pie se calculan con una resta de conjuntos.
 
-#### Salida esperada
+#### Código inicial
+```python
+from collections import Counter
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 Daño por criatura:
   hidra     55  (69% de su vida)
@@ -9280,8 +9702,7 @@ Derrotadas: ['slime']
 Siguen en pie: ['goblin', 'hidra', 'orco']
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 """Jefe de Fundamentos - El informe de la batalla."""
 from collections import Counter
@@ -9317,6 +9738,14 @@ print(f"Daño promedio por golpe: {sum(d for _c, d, _t in golpes) / len(golpes):
 print("Derrotadas:", sorted(derrotadas(totales, VIDA)))
 print("Siguen en pie:", sorted(set(VIDA) - derrotadas(totales, VIDA)))
 ```
+
+#### Al superarla
+{mentor} lee el informe de punta a punta y lo enrolla.
+—Esto queda en el Valle. Para quien venga después.
+
+#### Imagen
+- El Paso de la Hidra en calma, con escamas violetas desparramadas en las rocas.
+- Ofidia enrolla un pergamino largo; Tilo señala una escama; Mia y Gheco miran el cielo despejado.
 
 ### Encargo R01-N11-E1 · La libreta del almacén
 

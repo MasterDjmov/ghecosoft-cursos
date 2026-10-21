@@ -9,7 +9,7 @@ de un JSON escrito a mano, una entrada por misión.
 
     python3 scripts/misiones-a-micro.py cursos/java/01-la-aduana-del-compilador.md scripts/java-micro/00-01.json [--apply]
 
-El lenguaje sale del bloque de la solución de referencia («```java», «```c», «```cpp»).
+El lenguaje sale del bloque de la solución de referencia («```java», «```c», «```cpp», «```python»).
 """
 import json
 import re
@@ -41,6 +41,9 @@ def fence_language(body: str | None) -> str:
 
 def skeleton(solution: str, language: str) -> str:
     """El código inicial: los import (o #include) y el main vacío."""
+    if language == 'python':
+        imports = [line for line in solution.splitlines() if line.startswith(('import ', 'from '))]
+        return '\n'.join(imports + ([''] if imports else []) + ['# Escribí tu programa acá'])
     if language in ('c', 'cpp'):
         includes = [line for line in solution.splitlines() if line.startswith(('#include', 'using namespace'))]
         comment = '/* Escribí tu programa acá */' if language == 'c' else '// Escribí tu programa acá'

@@ -449,31 +449,43 @@ print(f"La más alta: {max(vidas)}")
 - Mia lo mira desde abajo; en el pergamino, `list(...)` brilla en verde.
 - Arriba, el gran reloj de la Torre, con una aguja torcida.
 
-### Misión R03-N01-M1 · Los pares sin fin
+### Micro-misión R03-N01-P6 · Los pares sin fin
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el primer piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N01-M1
 ```
 
-#### Consigna
+#### Escena
+Maese Horas te muestra una cinta de números que sale de una ranura y no se termina nunca.
+—Es la cinta de los pares. Sale sola, de a uno, cuando se la pide. Si la quisieras entera, no te alcanzaría la Torre para guardarla.
+—Diez alcanzan —dice Gheco.
 
+#### Gheco sugiere
+Un generador usa `yield`: entrega un valor y se pausa hasta que le piden el siguiente. Con `while True` no termina nunca, y `itertools.islice(gen, 10)` toma solo los primeros diez.
+
+#### Desafío
 Escribí el generador `pares_infinitos()`, que entregue 0, 2, 4, 6… sin fin. Tomá los primeros 10 con `islice` y mostralos en una lista.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - El generador usa `while True` y `yield`.
 - Se consumen solo 10 valores con `islice`.
 
-#### Salida esperada
+#### Código inicial
+```python
+from itertools import islice
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from itertools import islice
 
@@ -488,33 +500,51 @@ def pares_infinitos():
 print(list(islice(pares_infinitos(), 10)))
 ```
 
-### Misión R03-N01-M2 · La furia que crece
+#### Al superarla
+Diez pares salen por la ranura y la cinta se detiene, obediente, esperando que le pidan más.
+
+#### Imagen
+- Una máquina de bronce en el primer piso de la Torre del Reloj, con una cinta de papel que sale de una ranura.
+- Maese Horas, con su lupa, corta la cinta con una tijera; Mia la sostiene; Gheco se enreda en la punta.
+
+### Micro-misión R03-N01-P7 · La furia que crece
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el primer piso
+personajes: Mia, Gheco, Maese Horas, Tilo
+recompensa: xp 10, monedas 4
+antes: R03-N01-M2
 ```
 
-#### Consigna
+#### Escena
+Tilo practica con un muñeco que se enoja cada vez más: cada golpe que recibe lo devuelve un poco más fuerte.
+—Un diez por ciento más por turno —calcula Maese Horas—. ¿Cuánto te va a pegar en ocho turnos?
 
+#### Gheco sugiere
+Un generador infinito que guarde el daño actual: en cada vuelta hace `yield round(danio, 2)` y después `danio *= 1.1`. Tomá ocho con `islice` y sumalos.
+
+#### Desafío
 Escribí `danio_por_turno(base)`: un generador infinito que en cada turno entregue un daño que crece un 10 % respecto del anterior (redondeado a 2 decimales al entregarlo). Con base 10, mostrá los daños de los primeros 8 turnos y su total con 2 decimales.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Es un generador infinito.
 - Cada valor es un 10 % más que el anterior (10, 11.0, 12.1…).
 - Suma los 8 primeros: 114.37.
 
-#### Salida esperada
+#### Código inicial
+```python
+from itertools import islice
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 daño por turno: [10, 11.0, 12.1, 13.31, 14.64, 16.11, 17.72, 19.49]
 total en 8 turnos: 114.37
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from itertools import islice
 
@@ -532,26 +562,44 @@ print("daño por turno:", primeros)
 print(f"total en 8 turnos: {sum(primeros):.2f}")
 ```
 
-### Misión R03-N01-M3 · El mazo que se reparte
+#### Al superarla
+Tilo se aleja del muñeco al sexto turno.
+—Yo me bajo acá. Los dos que faltan, que los reciba el reloj.
+
+#### Imagen
+- Un muñeco de práctica de madera con ojos rojos encendidos en el primer piso de la Torre del Reloj.
+- Tilo retrocede con el escudo en alto; Maese Horas anota con la lupa; Mia y Gheco cuentan con los dedos.
+
+### Micro-misión R03-N01-P8 · El mazo que se reparte
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el primer piso
+personajes: Mia, Gheco, Maese Horas, Tilo
+recompensa: xp 10, monedas 4
+antes: R03-N01-M3
 ```
 
-#### Consigna
+#### Escena
+Para descansar, Maese Horas saca un mazo de cartas viejo.
+—Este mazo se puede recorrer cuantas veces quieras. No se gasta. Hacé uno igual: que se pueda repartir con `for`, volver a repartir, y preguntarle si tiene una carta.
 
+#### Gheco sugiere
+Si `__iter__` es un generador (tiene `yield`), cada `for` arranca un recorrido nuevo. Con eso, `list(mazo)` y `"carta" in mazo` también funcionan.
+
+#### Desafío
 Escribí una clase `Mazo` que guarde una lista de cartas y sea **iterable**: definí `__iter__` como generador. Mostrá que se puede recorrer con `for` dos veces, convertir en lista y usar con `in`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `__iter__` usa `yield`.
 - El mazo se recorre más de una vez sin gastarse.
 - Funciona con `for`, `list()` e `in`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 robás: espada
 robás: escudo
@@ -560,8 +608,7 @@ de nuevo: ['espada', 'escudo', 'poción']
 ¿hay poción? True
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 class Mazo:
     """Un iterable propio: se puede recorrer con for todas las veces que quieras."""
@@ -580,6 +627,13 @@ for carta in mazo:
 print("de nuevo:", list(mazo))
 print("¿hay poción?", "poción" in mazo)
 ```
+
+#### Al superarla
+Repartís dos veces y el mazo sigue entero. Tilo gana la primera mano; Gheco, la segunda, con trampa.
+
+#### Imagen
+- Una mesita en el primer piso de la Torre con cartas ilustradas repartidas en abanico.
+- Maese Horas baraja; Tilo mira sus cartas con cara seria; Gheco esconde una carta debajo de la cola.
 
 ### Encargo R03-N01-E1 · El registro del servidor
 
@@ -1130,26 +1184,31 @@ Una pieza de **plomo y vidrio de colores**. No es de ningún reloj. Es… un ped
 - Los colores del vitral se proyectan sobre su cara y sobre Gheco.
 - Maese Horas, serio, con la lupa recién limpia.
 
-### Misión R03-N02-M1 · La vida por clase
+### Micro-misión R03-N02-P7 · La vida por clase
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el segundo piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N02-M1
 ```
 
-#### Consigna
+#### Escena
+En el segundo piso, Maese Horas quiere saber cuánta vida tiene, en promedio, cada clase de la compañía.
+—Agrupalos por clase. Pero primero ponelos en fila por clase, o el agrupador se confunde.
 
+#### Gheco sugiere
+`itertools.groupby` junta los elementos **seguidos** con la misma clave: ordená antes con la misma `key`. Para cada grupo, armá la lista de vidas y sacá el promedio.
+
+#### Desafío
 A partir de la compañía, armá un diccionario `{clase: vida promedio}` usando `groupby` (acordate de ordenar antes) y mostralo alineado, con un decimal.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Ordena por clase antes de agrupar.
 - Calcula el promedio de cada grupo.
 - Guerrero 150.0, maga 80.0 y pícara 110.0.
 
 #### Código inicial
-
 ```python
 from itertools import groupby
 from dataclasses import dataclass
@@ -1175,15 +1234,13 @@ compania = [
 ```
 
 #### Salida esperada
-
 ```
 guerrero    150.0
 maga         80.0
 pícara      110.0
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from itertools import groupby
 from dataclasses import dataclass
@@ -1215,25 +1272,37 @@ for clase, promedio in promedios.items():
     print(f"{clase:<10}{promedio:>7.1f}")
 ```
 
-### Misión R03-N02-M2 · El orden del torneo
+#### Al superarla
+Los promedios quedan alineados con un decimal. Maese Horas los copia en la pared con tiza, al lado de los engranajes.
+
+#### Imagen
+- Una pared del segundo piso de la Torre del Reloj llena de engranajes y una columna de marcas de tiza.
+- Maese Horas escribe con tiza en la pared; Mia sostiene una lámpara; Gheco cuelga de un engranaje.
+
+### Micro-misión R03-N02-P8 · El orden del torneo
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el segundo piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N02-M2
 ```
 
-#### Consigna
+#### Escena
+Maese Horas arma un torneo para probar el reloj recién aceitado.
+—El orden es así: el de más nivel, primero. Si empatan, por nombre. Un solo `sorted`, que el reloj no espera.
 
+#### Gheco sugiere
+La `key` puede devolver una tupla: `(-nivel, nombre)`. El menos invierte el orden del nivel sin tocar el del nombre.
+
+#### Desafío
 Ordená la compañía por nivel **de mayor a menor** y, a igual nivel, por nombre **alfabético**, con un solo `sorted` y una `key` que devuelva una tupla. Mostrá nivel y nombre.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Un solo `sorted` con `key=lambda h: (-h.nivel, h.nombre)` (o equivalente).
 - Ana y Tilo (nivel 7) quedan en orden alfabético.
 
 #### Código inicial
-
 ```python
 from dataclasses import dataclass
 
@@ -1258,7 +1327,6 @@ compania = [
 ```
 
 #### Salida esperada
-
 ```
  7  Ana
  7  Tilo
@@ -1267,8 +1335,7 @@ compania = [
  4  Sila
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from dataclasses import dataclass
 
@@ -1295,26 +1362,45 @@ for h in ordenados:
     print(f"{h.nivel:>2}  {h.nombre}")
 ```
 
-### Misión R03-N02-M3 · Todos los equipos posibles
+#### Al superarla
+Los competidores se acomodan en la escalera de la Torre en tu orden. El reloj da una campanada justo cuando termina la fila.
+
+#### Imagen
+- Una escalera de caracol de la Torre del Reloj con competidores parados en fila, cada uno en un escalón.
+- Maese Horas mira la fila con la lupa; Mia ordena con la mano; Gheco en el primer escalón.
+
+### Micro-misión R03-N02-P9 · Todos los equipos posibles
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el segundo piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N02-M3
 ```
 
-#### Consigna
+#### Escena
+En un armario del segundo piso hay armas, armaduras y amuletos. Gheco se los quiere probar todos.
+—¿Todas las combinaciones? —pregunta Maese Horas—. Contalas primero, que alguna se me va a romper.
 
+#### Gheco sugiere
+`itertools.product(armas, armaduras, amuletos)` arma todas las combinaciones, una tupla por cada una. `len(list(...))` las cuenta y un `if` dentro de una comprehension filtra las que buscás.
+
+#### Desafío
 Con tres listas (armas: espada y arco; armaduras: cuero y malla; amuletos: fuego, hielo y vida), generá con `itertools.product` todas las combinaciones de equipo. Mostrá cuántas son, las primeras cuatro y las que llevan arco y amuleto de hielo.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `product` en lugar de tres `for` anidados.
 - Muestra 12 combinaciones en total.
 - Filtra con una comprehension.
 
-#### Salida esperada
+#### Código inicial
+```python
+from itertools import product
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 combinaciones: 12
   espada + cuero + amuleto de fuego
@@ -1324,8 +1410,7 @@ combinaciones: 12
 con arco y hielo: [('arco', 'cuero', 'hielo'), ('arco', 'malla', 'hielo')]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from itertools import product
 
@@ -1339,6 +1424,13 @@ for arma, armadura, amuleto in equipos[:4]:
     print(f"  {arma} + {armadura} + amuleto de {amuleto}")
 print("con arco y hielo:", [e for e in equipos if e[0] == "arco" and e[2] == "hielo"])
 ```
+
+#### Al superarla
+Gheco se prueba la combinación de arco y amuleto de hielo, y le queda enorme. Maese Horas guarda el resto antes de que siga.
+
+#### Imagen
+- Un armario abierto en el segundo piso de la Torre, con espadas, arcos, armaduras de cuero y de malla y amuletos colgados.
+- Gheco se prueba un amuleto de hielo que le queda gigante; Maese Horas se ríe; Mia sostiene un arco.
 
 ### Encargo R03-N02-E1 · La caja del almacén
 
@@ -1987,26 +2079,38 @@ Y al abrir la vitrina, ves un hueco con una forma conocida. Sacás la **pieza de
 - Mia con la mano todavía en la vitrina; Maese Horas, boquiabierto.
 - Gheco ilumina la escena con la cola.
 
-### Misión R03-N03-M1 · El contador de hechizos
+### Micro-misión R03-N03-P6 · El contador de hechizos
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el tercer piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N03-M1
 ```
 
-#### Consigna
+#### Escena
+En el tercer piso, Maese Horas quiere saber cuántas veces lanzás hechizos en la práctica.
+—Pero no quiero tocar la función del hechizo. Que algo la envuelva y cuente desde afuera.
 
+#### Gheco sugiere
+Un decorador es una función que recibe otra y devuelve una envoltura. Guardá el contador en la envoltura (`envoltura.llamadas = 0`) y sumá uno cada vez que se llama. `@contar_llamadas` arriba de la función la envuelve.
+
+#### Desafío
 Escribí el decorador `@contar_llamadas`, que lleve la cuenta de cuántas veces se llamó a la función decorada. Guardá el contador como **atributo de la envoltura** (`envoltura.llamadas`). Decorá `lanzar_hechizo(nombre)`, llamala tres veces y mostrá el contador.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `@functools.wraps`.
 - El contador es un atributo de la función envoltura.
 - La función decorada sigue devolviendo su resultado.
 
-#### Salida esperada
+#### Código inicial
+```python
+import functools
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 ¡fuego!
 ¡hielo!
@@ -2014,8 +2118,7 @@ Escribí el decorador `@contar_llamadas`, que lleve la cuenta de cuántas veces 
 veces que se lanzó: 3
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import functools
 
@@ -2039,26 +2142,46 @@ for hechizo in ["fuego", "hielo", "fuego"]:
 print("veces que se lanzó:", lanzar_hechizo.llamadas)
 ```
 
-### Misión R03-N03-M2 · Solo con vida
+#### Al superarla
+Tres hechizos, tres marcas en el contador. Maese Horas asiente.
+—La función no se enteró de nada. Así me gusta.
+
+#### Imagen
+- Un contador mecánico de bronce con tres bolitas corridas, en el tercer piso de la Torre del Reloj.
+- Mia lanza una chispa de luz; Maese Horas mira el contador con la lupa; Gheco empuja una bolita.
+
+### Micro-misión R03-N03-P7 · Solo con vida
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el tercer piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N03-M2
 ```
 
-#### Consigna
+#### Escena
+Maese Horas tiene un problema con los muñecos de práctica: siguen atacando aunque estén rotos.
+—Quiero un sello para los métodos: si el personaje está fuera de combate, que no haga nada y avise.
 
+#### Gheco sugiere
+Un decorador para métodos recibe `self` como primer argumento de la envoltura: `def envoltura(self, *args, **kwargs)`. Si `self.vida <= 0`, avisá; si no, llamá al método.
+
+#### Desafío
 Escribí el decorador `@requiere_vida` para **métodos**: si `self.vida <= 0`, avisa que el personaje está fuera de combate y no ejecuta el método. Aplicalo a `atacar` y `curarse` de una clase `Heroe`, y probalo con Mia (30 de vida) y Baldo (0).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La envoltura recibe `self` como primer parámetro y lo revisa.
 - Con vida 0 no se ejecuta el método.
 - Funciona con métodos de distintos parámetros (`*args`).
 
-#### Salida esperada
+#### Código inicial
+```python
+import functools
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 Mia ataca a un orco.
 Baldo no puede: está fuera de combate.
@@ -2066,8 +2189,7 @@ Baldo no puede: está fuera de combate.
 Mia se cura: vida 50.
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import functools
 
@@ -2105,34 +2227,52 @@ baldo.curarse(50)
 mia.curarse(20)
 ```
 
-### Misión R03-N03-M3 · La memoria del oráculo
+#### Al superarla
+El muñeco roto intenta atacar y se queda quieto, avisando que está fuera de combate. Maese Horas lo guarda en el armario, por fin.
+
+#### Imagen
+- Un muñeco de madera roto, con un brazo colgando, en el tercer piso de la Torre del Reloj.
+- Maese Horas le pega un sello de cera en el pecho al muñeco; Mia y Gheco miran desde una mesa de trabajo.
+
+### Micro-misión R03-N03-P8 · La memoria del oráculo
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La Torre del Reloj: el tercer piso
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 10, monedas 4
+antes: R03-N03-M3
 ```
 
-#### Consigna
+#### Escena
+El oráculo del tercer piso ya responde rápido gracias a su memoria. Maese Horas quiere ver qué pasa si le achica la memoria.
+—Con cuatro recuerdos nada más. ¿Cuántas veces se olvida?
 
+#### Gheco sugiere
+`@lru_cache(maxsize=None)` recuerda todo; `cache_info()` muestra los aciertos (`hits`) y los que tuvo que calcular (`misses`). Con `maxsize=4`, olvida los que usó hace más tiempo.
+
+#### Desafío
 Decorá una función recursiva de Fibonacci con `@lru_cache(maxsize=None)`, calculá `fibo(80)` y mostrá `cache_info()`. Después hacé una versión con `maxsize=4`, llamala con 10, 20, 10, 30 y 20, y compará los `misses`: ¿por qué sube cuando la memoria es chica?
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - `fibo(80)` responde al instante gracias al caché.
 - Muestra `cache_info()` de las dos versiones.
 - Explica en un comentario por qué hay más `misses` con `maxsize=4`.
 
-#### Salida esperada
+#### Código inicial
+```python
+import functools
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 fibo(80) = 23416728348467685
 sin límite: CacheInfo(hits=78, misses=81, maxsize=None, currsize=81)
 con maxsize=4: CacheInfo(hits=66, misses=73, maxsize=4, currsize=4)
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import functools
 
@@ -2154,6 +2294,13 @@ for n in [10, 20, 10, 30, 20]:
     fibo_chico(n)
 print("con maxsize=4:", fibo_chico.cache_info())
 ```
+
+#### Al superarla
+Con poca memoria, el oráculo se olvida de lo que le preguntaste al principio y tiene que volver a pensarlo. Maese Horas le devuelve la memoria grande.
+
+#### Imagen
+- Una esfera de cristal sobre un pie de bronce, rodeada de engranajes, en el tercer piso de la Torre del Reloj.
+- Maese Horas ajusta una perilla al costado del oráculo; Mia mira la esfera; Gheco se refleja en el cristal.
 
 ### Encargo R03-N03-E1 · El validador del mercado
 
@@ -2679,16 +2826,23 @@ Arriba se escucha el ruido de una cocina con mil cosas al fuego.
 - Mia lo recibe con las dos manos.
 - Por la escalera de arriba baja vapor y olor a pan.
 
-### Misión R03-N04-M1 · Anotá el grimorio
+### Micro-misión R03-N04-P6 · Anotá el grimorio
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Gremio de Artífices
+personajes: Mia, Gheco, la maestra del Gremio
+recompensa: xp 10, monedas 4
+antes: R03-N04-M1
 ```
 
-#### Consigna
+#### Escena
+La maestra del Gremio te da un grimorio viejo con cuatro funciones sin anotar.
+—Funcionan, pero nadie sabe qué reciben ni qué devuelven. Anotalas. Sin cambiar ni una coma de lo que hacen.
 
+#### Gheco sugiere
+Los tipos van después de cada parámetro y después de `->` para el resultado: `def curar(vida: int, cantidad: int) -> int:`. Para algo que puede no estar: `int | None`. Para funciones: `Callable[[int], int]`.
+
+#### Desafío
 Agregale anotaciones de tipos a las cuatro funciones del grimorio (parámetros y resultado), sin cambiar lo que hacen:
 
 - `curar`: enteros.
@@ -2698,14 +2852,12 @@ Agregale anotaciones de tipos a las cuatro funciones del grimorio (parámetros y
 
 Al final, mostrá `curar.__annotations__`.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Anota parámetros y resultado de las cuatro funciones.
 - Usa `list[tuple[str, int]]`, `dict[str, int]`, `int | None` y `Callable[[int], int]`.
 - El comportamiento no cambia.
 
 #### Código inicial
-
 ```python
 def curar(vida, cantidad, maximo=100):
     return min(maximo, vida + cantidad)
@@ -2730,7 +2882,6 @@ print(aplicar_a_todos(lambda v: v * 2, [1, 2, 3]))
 ```
 
 #### Salida esperada
-
 ```
 100
 ['Mia', 'Sila']
@@ -2739,8 +2890,7 @@ None
 {'vida': <class 'int'>, 'cantidad': <class 'int'>, 'maximo': <class 'int'>, 'return': <class 'int'>}
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 from collections.abc import Callable
 
@@ -2768,28 +2918,46 @@ print(aplicar_a_todos(lambda v: v * 2, [1, 2, 3]))
 print(curar.__annotations__)
 ```
 
-### Misión R03-N04-M2 · Las pruebas del precio
+#### Al superarla
+La maestra hojea el grimorio anotado y asiente.
+—Ahora cualquiera puede usarlo sin preguntarme. Eso es un grimorio de verdad.
+
+#### Imagen
+- Un grimorio viejo abierto sobre un banco de trabajo del Gremio de Artífices, rodeado de herramientas de bronce.
+- La maestra del Gremio, con lentes de aumento en la frente, señala una página; Mia escribe al margen; Gheco sostiene el tintero.
+
+### Micro-misión R03-N04-P7 · Las pruebas del precio
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: El Gremio de Artífices
+personajes: Mia, Gheco, la maestra del Gremio
+recompensa: xp 10, monedas 4
+antes: R03-N04-M2
 ```
 
-#### Consigna
+#### Escena
+En el Gremio venden herramientas con descuento e impuesto. La maestra quiere estar segura de que el precio final siempre da bien.
+—Escribí la función y seis pruebas. Si alguna falla, quiero saber cuál. Si pasan todas, que diga «todo verde».
 
+#### Gheco sugiere
+La función lanza `ValueError` con datos inválidos. Para probar un error, llamala dentro de un `try` y anotá si saltó. `probar(descripcion, condicion)` muestra `[OK]` o `[FALLA]` y lleva la cuenta.
+
+#### Desafío
 Escribí `precio_final(precio, descuento=0.0, iva=0.21)` (anotada, con docstring) que aplique el descuento, después el IVA, y redondee a 2 decimales; con precio negativo o descuento fuera de 0 a 1, lanza `ValueError`.
 
 Escribí una función `probar(descripcion, condicion)` que muestre `[OK]` o `[FALLA]` y al menos **seis** pruebas: el caso normal, con descuento, IVA cero, el redondeo y los dos errores. Al final, mostrá `todo verde` si no falló ninguna.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - La función está anotada y documentada.
 - Hay al menos seis pruebas, incluidos los dos casos de error.
 - Las pruebas de error verifican que se lanza `ValueError`.
 
-#### Salida esperada
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
 
+#### Salida esperada
 ```
 [OK   ] sin descuento suma el IVA
 [OK   ] el descuento va antes del IVA
@@ -2800,8 +2968,7 @@ Escribí una función `probar(descripcion, condicion)` que muestre `[OK]` o `[FA
 todo verde
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 def precio_final(precio: float, descuento: float = 0.0, iva: float = 0.21) -> float:
     """Aplica el descuento y después el IVA, redondeando a 2 decimales."""
@@ -2836,6 +3003,14 @@ probar("precio negativo es un error", lanza_valueerror(precio_final, -5))
 probar("descuento mayor que 1 es un error", lanza_valueerror(precio_final, 100, 1.5))
 print("todo verde" if fallas == 0 else f"{fallas} pruebas fallaron")
 ```
+
+#### Al superarla
+Seis pruebas, todo verde. La maestra cuelga la lista de pruebas al lado de la caja.
+—Lo que se prueba, aguanta.
+
+#### Imagen
+- Una caja registradora de bronce en el mostrador del Gremio, con seis lucecitas verdes encendidas en fila.
+- La maestra del Gremio sonríe; Mia aprieta una palanca; Gheco cuenta las lucecitas.
 
 ### Misión R03-N04-M3 · El taller del Gremio
 
@@ -3453,34 +3628,45 @@ Y entonces, todo se queda **quieto**. El tic-tac de la Torre se apaga. **El gran
 - Todos miran hacia arriba: el tic-tac se detuvo.
 - Por la escalera baja una luz roja y el ruido de engranajes enormes.
 
-### Misión R03-N05-M1 · El alumno que se desconecta
+### Micro-misión R03-N05-P6 · El alumno que se desconecta
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La cocina de la Torre
+personajes: Mia, Gheco, Tilo, la cocinera de la Torre
+recompensa: xp 10, monedas 4
+antes: R03-N05-M1
 ```
 
-#### Consigna
+#### Escena
+En un rincón de la cocina, la cocinera tiene un tablero mágico donde sus aprendices entregan las tareas. Tilo es uno de ellos, y justo se le corta la conexión.
+—Que los demás entreguen igual —dice la cocinera—. Y que me diga qué le pasó a Tilo, sin que se caiga todo.
 
+#### Gheco sugiere
+`asyncio.gather(*tareas, return_exceptions=True)` espera a todas y devuelve los resultados en el orden pedido; si una falla, en su lugar aparece la excepción. Recorrelos y preguntá con `isinstance(r, Exception)`.
+
+#### Desafío
 Tres alumnos entregan una tarea en un aula virtual (una corrutina que espera un rato y devuelve `"<nombre> entregó"`). Tilo se desconecta: su corrutina lanza `ConnectionError`. Juntalos con `gather(..., return_exceptions=True)` y mostrá, en orden, quién entregó y qué problema hubo, sin que el error de Tilo corte a los demás.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `asyncio.gather` con `return_exceptions=True`.
 - Distingue los errores con `isinstance(resultado, Exception)`.
 - Mia y Sila entregan aunque Tilo falle.
 
-#### Salida esperada
+#### Código inicial
+```python
+import asyncio
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 ok: Mia entregó
 problema: Tilo se desconectó
 ok: Sila entregó
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import asyncio
 
@@ -3504,34 +3690,53 @@ async def main():
 asyncio.run(main())
 ```
 
-### Misión R03-N05-M2 · Los mapas que no llegan
+#### Al superarla
+Dos entregas y un aviso. Tilo vuelve corriendo con su tarea en la mano.
+—¡Se cortó solo, lo juro!
+
+#### Imagen
+- Un tablero mágico de vidrio colgado en la pared de la cocina de la Torre, con tres casilleros: dos encendidos en verde y uno en rojo.
+- La cocinera, robusta y con delantal, señala el casillero rojo; Tilo llega corriendo; Mia y Gheco miran el tablero.
+
+### Micro-misión R03-N05-P7 · Los mapas que no llegan
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La cocina de la Torre
+personajes: Mia, Gheco, la cocinera de la Torre
+recompensa: xp 10, monedas 4
+antes: R03-N05-M2
 ```
 
-#### Consigna
+#### Escena
+La cocinera espera tres recetarios que mandan desde el Valle por palomas mensajeras. Algunas palomas se demoran demasiado.
+—Al que tarda más de la cuenta, no lo espero. Sigo con el siguiente.
 
+#### Gheco sugiere
+`await asyncio.wait_for(tarea, timeout=0.3)` lanza `TimeoutError` si tarda más y cancela la tarea. Atrapalo, avisá y seguí con la próxima descarga.
+
+#### Desafío
 Simulá la descarga de tres mapas que tardan 0.1, 0.4 y 0.2 segundos. Descargalos uno por uno con `asyncio.wait_for(..., timeout=0.3)`: los que tardan más se cancelan con un aviso y el programa sigue con el siguiente.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `asyncio.wait_for` con `timeout`.
 - Atrapa `TimeoutError` y sigue.
 - La cueva (0.4 s) se cancela; el valle y la torre llegan.
 
-#### Salida esperada
+#### Código inicial
+```python
+import asyncio
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 valle descargado
 cueva: tardó más de 0.3 s, se cancela
 torre descargado
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import asyncio
 
@@ -3553,34 +3758,52 @@ async def main():
 asyncio.run(main())
 ```
 
-### Misión R03-N05-M3 · La meta compartida
+#### Al superarla
+Dos recetarios llegan a tiempo. La paloma tardona aterriza más tarde, ofendida, y nadie la atiende.
+
+#### Imagen
+- Una ventana de la cocina de la Torre con palomas mensajeras llegando con rollos de papel atados a la pata.
+- La cocinera recibe una paloma; Mia mira un reloj de arena; Gheco persigue a una paloma que llega tarde.
+
+### Micro-misión R03-N05-P8 · La meta compartida
 
 ```meta
-entrega: codigo
-monedas: 4
-xp: 10
+lugar: La cocina de la Torre
+personajes: Mia, Gheco, Tilo, la cocinera de la Torre
+recompensa: xp 10, monedas 4
+antes: R03-N05-M3
 ```
 
-#### Consigna
+#### Escena
+La cocinera tiene una olla común donde tres ayudantes echan ingredientes hasta llenarla. Pero cuando dos echan a la vez, se pisan y la cuenta queda mal.
+—Un solo cucharón —dice—. El que lo tiene, echa. Los demás, esperan.
 
+#### Gheco sugiere
+Si cada tarea lee el progreso, espera y después escribe, otra puede leer el valor viejo en el medio. Con `async with candado:` alrededor de leer-esperar-escribir, de a una por vez. `asyncio.TaskGroup` corre las tres juntas.
+
+#### Desafío
 Tres jugadores aportan puntos a una meta común de 100 (una clase `Meta` con `progreso`). Cada aporte lee el progreso, espera `asyncio.sleep(0.01)` (la red) y guarda el nuevo valor, sin pasar de la meta. Corré los tres jugadores con un `asyncio.TaskGroup` y protegé el aporte con un `asyncio.Lock`.
 
 Probá también **sin** el candado y anotá en un comentario qué pasa con el progreso final.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa `asyncio.TaskGroup` y `create_task`.
 - El aporte está protegido con `async with candado`.
 - Con el candado, el progreso final es 90; hay un comentario que explica qué pasó sin él.
 
-#### Salida esperada
+#### Código inicial
+```python
+import asyncio
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 progreso: 90/100
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import asyncio
 
@@ -3614,6 +3837,13 @@ async def main():
 
 asyncio.run(main())
 ```
+
+#### Al superarla
+Con el cucharón, la olla llega justo a la marca. Sin cucharón, Tilo jura que echó y no aparece en la cuenta.
+
+#### Imagen
+- Una olla de cobre gigante en la cocina de la Torre, con una marca en el borde y un cucharón enorme colgado de un gancho.
+- La cocinera le da el cucharón a Mia; Tilo y otro ayudante esperan en fila; Gheco se sienta en el borde de la olla.
 
 ### Encargo R03-N05-E1 · La central de sensores
 
@@ -4750,29 +4980,43 @@ Mirás tu túnica: las runas se encendieron **enteras**, de los pies a la capuch
 - Tilo, Gheco y Ofidia la miran; Maese Horas llega corriendo por la escalera.
 - El gran reloj de la Torre, con las agujas en movimiento.
 
-### Misión R03-N07-M1 · Las oleadas del Golem
+### Micro-misión R03-N07-P6 · Las oleadas del Golem
 
 ```meta
-entrega: codigo
-monedas: 6
-xp: 30
+lugar: La cima de la Torre del Reloj
+personajes: Mia, Gheco, Maese Horas
+recompensa: xp 30, monedas 6
+antes: R03-N07-M1
 ```
 
-#### Consigna
+#### Escena
+Con el Gólem quieto, Maese Horas encuentra en su pecho el mecanismo que generaba las oleadas de engranajes, resortes y péndulos.
+—Quiero entenderlo antes de desarmarlo. Cuántas oleadas, qué traía cada una y cuándo aparecía él.
 
+#### Gheco sugiere
+Un generador infinito con `random.Random(semilla)` propio arma cada oleada. Un decorador cuenta cuántas salieron. Otro generador entrega oleadas **hasta** la del Gólem inclusive y después hace `return`.
+
+#### Desafío
 1. Escribí el generador infinito `oleadas_del_golem(semilla)`: cada oleada es un diccionario con `numero`, `enemigos` (3 tuplas `(tipo, poder)`, con tipo al azar entre engranaje, resorte y péndulo, y poder entre 5 y 20, usando `random.Random(semilla)`) y `golem` (verdadero cada 7 oleadas).
 2. Decoralo con `@registrar`, un decorador que cuente cuántas oleadas se generaron (en un atributo de la envoltura).
 3. Escribí el generador `hasta_el_golem(oleadas)`, que entregue oleadas hasta la del Golem inclusive.
 4. Con la semilla 12: mostrá cuántas oleadas hubo, las 3 más fuertes (por poder total), y por cada tipo de enemigo cuántos hubo y su poder total (con `groupby`).
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Los dos generadores y el decorador funcionan juntos (el decorador reenvía con `yield`).
 - Usa `sorted` con `key` y `groupby` sobre los datos ordenados.
 - Con la semilla 12 hay 7 oleadas y las más fuertes son la 2, la 1 y la 5.
 
-#### Salida esperada
+#### Código inicial
+```python
+import functools
+import random
+from itertools import groupby, islice
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 oleadas hasta el Golem: 7 (generadas: 7)
 las 3 más fuertes: [2, 1, 5]
@@ -4782,8 +5026,7 @@ las 3 más fuertes: [2, 1, 5]
 primeras 2: [1, 2]
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import functools
 import random
@@ -4832,16 +5075,31 @@ for tipo, grupo in groupby(enemigos, key=lambda e: e[0]):
 print("primeras 2:", [o["numero"] for o in islice(todas, 2)])
 ```
 
-### Misión R03-N07-M2 · Las tres torres
+#### Al superarla
+Maese Horas desarma el mecanismo pieza por pieza y guarda los engranajes en una caja.
+—Ya no va a haber más oleadas. Pero me quedo con el dibujo.
+
+#### Imagen
+- El pecho abierto del Gólem de bronce, arrodillado en la cima de la Torre, con un mecanismo de engranajes a la vista.
+- Maese Horas, con la lupa, saca un engranaje; Mia sostiene una caja de madera; Gheco mira desde el hombro del Gólem.
+
+### Micro-misión R03-N07-P7 · Las tres torres
 
 ```meta
-entrega: codigo
-monedas: 6
-xp: 30
+lugar: La cima de la Torre del Reloj
+personajes: Mia, Gheco, Ofidia, Tilo
+recompensa: xp 30, monedas 6
+antes: R03-N07-M2
 ```
 
-#### Consigna
+#### Escena
+{mentor} quiere saber cómo habría sido defender la Torre con tres torres a la vez. Arma una simulación con la horda que trajo el Gólem.
+—Norte, Sur y Este sacan enemigos de la misma fila hasta que no quede nadie. Contame cuántos derribó cada una.
 
+#### Gheco sugiere
+Una `asyncio.Queue` comparte la fila. Cada torre es una corrutina con un `while`: `await cola.get()`, y si recibe `None`, termina. Poné un `None` por torre al final y corré las tres con `gather`.
+
+#### Desafío
 Tres torres (Norte, Sur y Este) defienden a la vez. Cargá en una `asyncio.Queue` esta horda y, al final, un `None` por torre:
 
 ```python
@@ -4851,14 +5109,19 @@ horda = [("engranaje", 20), ("resorte", 5), ("péndulo", 35), ("engranaje", 10),
 
 Cada torre es una corrutina que saca enemigos de la cola, tarda `vida / 100` segundos en derribarlo (`asyncio.sleep`) y lo anota en un diccionario `torre → derribados`, hasta recibir `None`. Corré las tres con `gather`, mostrá qué derribó cada una y si cayó el Golem.
 
-#### Criterio de aprobación
-
+**Para superarla:**
 - Usa una `asyncio.Queue` compartida y un `None` de fin por torre.
 - Las torres corren a la vez con `gather`.
 - Resultado: Sur derriba al Golem.
 
-#### Salida esperada
+#### Código inicial
+```python
+import asyncio
 
+# Escribí tu programa acá
+```
+
+#### Salida esperada
 ```
 Norte engranaje(20), péndulo(25)
 Sur   resorte(5), engranaje(10), resorte(15), GOLEM(60)
@@ -4866,8 +5129,7 @@ Este  péndulo(35)
 ¿cayó el Golem? True
 ```
 
-#### Solución de referencia
-
+#### Solución
 ```python
 import asyncio
 
@@ -4901,6 +5163,14 @@ async def main() -> None:
 
 asyncio.run(main())
 ```
+
+#### Al superarla
+Las tres torres vacían la fila juntas, y la del Gólem cae última. {mentor} sonríe.
+—Así se defiende un Valle: de a muchos.
+
+#### Imagen
+- Tres torres de piedra en miniatura sobre un tablero en la cima de la Torre del Reloj, con fichas de engranajes en fila.
+- Ofidia mueve una ficha grande con forma de Gólem; Tilo cuenta fichas; Mia y Gheco miran desde el borde.
 
 ### Encargo R03-N07-E1 · El cronista de la Torre
 

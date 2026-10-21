@@ -1,0 +1,356 @@
+{
+  "R00-N01-M2": {
+    "lugar": "Orilla del río, junto a la Aldea del Script",
+    "personajes": "Mia, Gheco, Ofidia",
+    "escena": "Antes de entrar a la Aldea, {mentor} te pone en la mano una bolsita de cuero.\n—Veinticinco de oro. En el camino vas a comprar, vender y pagar. Si no anotás cada cambio, al llegar a la posada no vas a saber cuánto te queda.\nGheco se acomoda en tu hombro.\n—Una sola bolsa, una sola variable. Que cambie lo de adentro, no la bolsa.",
+    "gheco": "Una variable se puede **reasignar**: `oro = oro - 8` calcula con el valor viejo y guarda el nuevo en la misma variable. Mostrá el oro después de cada movimiento.",
+    "exito": "Contás las monedas que quedan en la bolsita y coinciden con lo que dice el pergamino.\n—Las cuentas claras —dice {mentor}—. Ahora sí, a la Aldea.",
+    "imagen": [
+      "La orilla de un río al atardecer, con juncos altos y la Aldea del Script a lo lejos, con faroles verdes.",
+      "Mia cuenta monedas sobre la palma de la mano; Gheco, en su hombro, señala una bolsita de cuero abierta."
+    ]
+  },
+  "R00-N01-M3": {
+    "lugar": "Orilla del río, junto a la Aldea del Script",
+    "personajes": "Mia, Gheco, Ofidia, un slime",
+    "criatura": "slime",
+    "escena": "Del barro de la orilla sale otro slime, más chico y más pegajoso que el primero. Esta vez viene con su propio hechizo, lleno de trampas.\n—Tres errores —dice {mentor}—. No los adivines: **ejecutá**, leé el pergamino rojo y arreglá uno por vez.",
+    "gheco": "El traceback se lee **de abajo hacia arriba**: la última línea dice qué pasó (`SyntaxError`, `IndentationError`, `NameError`) y la de arriba, en qué línea. Arreglá ese error, ejecutá de nuevo y pasá al siguiente.",
+    "exito": "El tercer arreglo y el slime se deshace en un charquito que huele a menta.\n—Tres errores, tres lecturas —dice {mentor}—. Así se caza.",
+    "imagen": [
+      "Un slime verde chiquito y pegajoso salta sobre el barro de la orilla, entre juncos.",
+      "Mia sostiene un pergamino que brilla en rojo; Gheco, a su lado, señala la última línea con la cola."
+    ]
+  },
+  "R01-N01-M1": {
+    "lugar": "El Mercado de la Aldea del Script",
+    "personajes": "Mia, Gheco, Baldo",
+    "escena": "Con el cartel nuevo funcionando, Baldo tiene más clientes de los que puede atender. Te pasa una tablita.\n—Hacé de tasadora un rato, maguita. Los precios me los dictan de palabra y los anoto como texto. Mostrá qué pasa si los juntás así nomás, y después el total de verdad.",
+    "gheco": "Con `+`, dos textos se pegan: `\"12\" + \"3.5\"` da `\"123.5\"`. Para sumar, convertí con `int()` o `float()`. Para mostrar dos decimales: `f\"{total:.2f}\"`.",
+    "exito": "Baldo compara tu total con lo que tenía en la caja y se le cae la sonrisa de pícaro.\n—Justo, justo de verdad esta vez. Te contrataría.",
+    "imagen": [
+      "El puesto de Baldo en el Mercado de la Aldea, con toldos verdes y cajitas de gemas.",
+      "Mia apoya una tablita sobre el mostrador; Baldo, detrás, se rasca la cabeza; Gheco mira desde una caja."
+    ]
+  },
+  "R01-N01-M2": {
+    "lugar": "El Mercado de la Aldea del Script",
+    "personajes": "Mia, Gheco, Baldo",
+    "escena": "Baldo saca una ficha de cliente toda desprolija: el oro con decimales que no terminan nunca, la vida como dos números sueltos y el nivel apretado en un rincón.\n—Los clientes ricos quieren ver su ficha **linda**. Con puntitos de miles, con porcentaje, con el nivel de tres cifras. ¿Me la dejás presentable?",
+    "gheco": "Dentro de un f-string, después de `:` va el formato: `{oro:,.2f}` pone separador de miles y 2 decimales, `{x:.0%}` muestra un porcentaje y `{nivel:03}` completa con ceros hasta 3 cifras.",
+    "exito": "Baldo cuelga la ficha en el puesto y un cliente de capa bordada se acerca enseguida.\n—¿Ves? La gente paga más si los números se ven bien.",
+    "imagen": [
+      "Una ficha de cliente de pergamino clavada en un poste del puesto, con una cinta dorada.",
+      "Baldo se frota las manos mientras un cliente con capa bordada se acerca; Mia y Gheco miran desde el costado."
+    ]
+  },
+  "R01-N01-M3": {
+    "lugar": "El Mercado de la Aldea del Script",
+    "personajes": "Mia, Gheco, Baldo",
+    "escena": "Baldo te propone un juego mientras cierra el puesto.\n—Cinco cuentas raras. Antes de ejecutarlas, decime qué **tipo** sale de cada una. Si acertás todas, te regalo un dulce de miel.\nGheco se relame.\n—Ese dulce es mío. Pensá bien.",
+    "gheco": "Ojo con las trampas: `/` siempre da `float`, `True` vale `1` cuando se suma, y `int(\"08\")` sí funciona (los ceros a la izquierda en un texto no molestan). Verificá cada una con `type()`.",
+    "exito": "Cinco de cinco. Baldo te da el dulce de miel y Gheco se lo come antes de que llegues a probarlo.\n—Los tipos no mienten —dice con la boca llena.",
+    "imagen": [
+      "El Mercado de la Aldea al cerrar, con faroles encendidos y toldos plegados.",
+      "Baldo le da a Mia un dulce envuelto en hoja; Gheco, con la boca abierta, salta hacia el dulce."
+    ]
+  },
+  "R01-N02-M1": {
+    "lugar": "El Puente del Juicio",
+    "personajes": "Mia, Gheco",
+    "escena": "Ya del otro lado del puente, encontrás un reloj de arena enorme clavado en la piedra, con una marca: lleva cuatro mil segundos corriendo. Gheco golpea el vidrio.\n—¿Cuántas horas son eso? Sin ir contando de a uno, eh.",
+    "gheco": "`//` da cuántas veces entra entero y `%` lo que sobra: `4000 // 3600` son las horas y `4000 % 3600` los segundos que quedan. Para `01:06:40`, `f\"{h:02}:{m:02}:{s:02}\"`.",
+    "exito": "Una hora, seis minutos y cuarenta segundos. La arena termina de caer justo cuando lo decís.\n—Puntual —dice Gheco—. Me gusta.",
+    "imagen": [
+      "Un reloj de arena gigante de bronce clavado en la piedra junto al Puente del Juicio, de noche.",
+      "Mia mira la arena caer; Gheco golpea el vidrio con la pata."
+    ]
+  },
+  "R01-N02-M2": {
+    "lugar": "El Puente del Juicio",
+    "personajes": "Mia, Gheco",
+    "escena": "Grabada en la baranda del puente está la regla completa del Guardián. Gheco la lee en voz alta y se enreda.\n—Nivel cinco o más, **y** llave **o** magia, **y no** maldito… ¿Vos pasabas? ¿Y Sila? ¿Y Baldo, con la cara de maldito que tiene?\n—Probala con los tres —le decís—. Y después sin paréntesis, a ver qué pasa.",
+    "gheco": "`and` se evalúa antes que `or`. Sin paréntesis, `a and b or c` es `(a and b) or c`: un aprendiz con magia podría pasar aunque sea nivel 1. Escribí la regla con paréntesis para que diga lo que quiere decir.",
+    "exito": "Con paréntesis, la regla deja pasar a quien tiene que pasar. Sin ellos, cualquier aprendiz con un poco de magia cruzaría el puente.\n—Por eso el Guardián los talló tan grandes —dice Gheco.",
+    "imagen": [
+      "La baranda de piedra del Puente del Juicio, con runas talladas grandes que brillan en violeta.",
+      "Mia pasa la mano por las runas; Gheco, sobre la baranda, cuenta con los dedos."
+    ]
+  },
+  "R01-N02-M3": {
+    "lugar": "El Puente del Juicio",
+    "personajes": "Mia, Gheco",
+    "escena": "Al pie del puente hay un muñeco de práctica con una espada de madera. Gheco le pone números: veinte de ataque, seis de defensa.\n—Seis cuentas. Antes de ejecutar, adiviná qué da cada una. El que pierde, carga la mochila hasta la Aldea.",
+    "gheco": "Primero se hace `**`, después `*`, `/`, `//` y `%`, y al final `+` y `-`. Las comparaciones van después de las cuentas, y `not` antes que `and` y `or`. `1 < ataque < 10` es una comparación encadenada.",
+    "exito": "Ganaste. Gheco se trepa a la mochila y protesta todo el camino de vuelta.\n—La próxima pongo yo los números.",
+    "imagen": [
+      "Un muñeco de práctica de paja con una espada de madera, al pie del Puente del Juicio.",
+      "Mia apunta con el dedo al muñeco; Gheco, encima de una mochila enorme, la mira con fastidio."
+    ]
+  },
+  "R01-N03-M1": {
+    "lugar": "La Casa de los Copistas",
+    "personajes": "Mia, Gheco, la Copista",
+    "escena": "Antes de que te vayas, la Copista te pide un último favor: un viajero dejó su nombre escrito con espacios de más y mayúsculas por cualquier lado.\n—Lo quiero bien escrito, con sus iniciales y centrado en la tapa del registro. Las copistas somos así.",
+    "gheco": "`strip()` saca los espacios de los bordes y `title()` pone mayúscula al principio de cada palabra. Con `split()` tenés las palabras y con `palabra[0]` la primera letra. `center(30)` centra el texto en 30 caracteres.",
+    "exito": "La Copista pasa el dedo por el nombre centrado, de punta a punta.\n—Perfecto. Esto va a la tapa.",
+    "imagen": [
+      "Un escritorio de copista lleno de plumas y tinteros, con un libro grande de tapa de cuero.",
+      "La Copista sostiene el libro abierto hacia Mia; Gheco, sobre la tapa, se mira en un tintero."
+    ]
+  },
+  "R01-N03-M2": {
+    "lugar": "La Casa de los Copistas",
+    "personajes": "Mia, Gheco, la Copista",
+    "escena": "En la pared de la Casa hay un espejo con una frase grabada en el marco. La Copista dice que es una **runa espejo**: se lee igual al derecho y al revés.\n—Hay otra frase que juran que también lo es. Yo no les creo. Comprobalo.",
+    "gheco": "Antes de comparar, pasá todo a minúsculas y sacá los espacios (`replace(\" \", \"\")`). Al revés es `texto[::-1]`. Si son iguales, es palíndromo.",
+    "exito": "Una sí, la otra no. La Copista asiente, satisfecha.\n—Lo sabía. Los orcos no saben escribir al revés.",
+    "imagen": [
+      "Un espejo ovalado con marco de madera tallada colgado en la pared de la Casa de los Copistas.",
+      "Mia se refleja en el espejo y su reflejo le sonríe; la Copista mira con los brazos cruzados."
+    ]
+  },
+  "R01-N03-M3": {
+    "lugar": "La Casa de los Copistas",
+    "personajes": "Mia, Gheco, la Copista",
+    "escena": "La Copista te muestra la lista de la compañía que se está formando: nombres y clases todos amontonados.\n—Una tabla derecha, como la del viajero. Nombres y clases contra la izquierda; el nivel, contra la derecha. Y con su encabezado.",
+    "gheco": "En un f-string, `{nombre:<10}` alinea a la izquierda en 10 lugares y `{nivel:>5}` a la derecha en 5. Usá los mismos anchos en el encabezado y en cada fila.",
+    "exito": "Las columnas quedan rectas como cañas. La Copista la copia en su registro sin cambiar ni una letra.",
+    "imagen": [
+      "Un registro grande abierto sobre un atril, con columnas rectas trazadas en tinta.",
+      "La Copista copia con una pluma larga; Mia y Gheco se asoman por encima de su hombro."
+    ]
+  },
+  "R01-N04-M1": {
+    "lugar": "El Laberinto de las Siete Salas",
+    "personajes": "Mia, Gheco",
+    "escena": "En la salida del Laberinto hay una forja abandonada con un martillo y un yunque que golpean solos, siguiendo un ritmo raro. Gheco escucha con la cabeza ladeada.\n—Del uno al treinta… en los múltiplos de tres suena el martillo, en los de cinco el yunque. ¿Y si es de los dos?",
+    "gheco": "Preguntá primero por **los dos** a la vez (`n % 15 == 0`, o `n % 3 == 0 and n % 5 == 0`) y después por cada uno: si preguntás primero por el 3, el 15 nunca llega a sonar doble.",
+    "exito": "El martillo y el yunque terminan juntos en el treinta y se quedan quietos. Del yunque cae una chispa que se apaga en el piso.\n—Ritmo perfecto —dice Gheco, moviendo la cola.",
+    "imagen": [
+      "Una forja abandonada en una sala de piedra, con un martillo que flota sobre un yunque y chispas en el aire.",
+      "Mia lleva el ritmo con la mano; Gheco baila sobre una piedra."
+    ]
+  },
+  "R01-N04-M2": {
+    "lugar": "El Laberinto de las Siete Salas",
+    "personajes": "Mia, Gheco, un orco",
+    "criatura": "orco",
+    "escena": "En la última sala, un orco bloquea la salida. Tenés treinta de vida y dos pociones en el cinturón.\n—Una regla —dice Gheco—: si te queda poca vida y tenés poción, tomala. Si no, pegá. Y que el azar sea siempre el mismo, así sabemos si la regla sirve.",
+    "gheco": "Usá un `while` mientras los dos sigan vivos. `random.seed(7)` al principio hace que `randint` dé siempre la misma serie. En cada turno, decidí con `if`: poción o ataque.",
+    "exito": "El orco cae de espaldas y hace temblar la sala entera.\n—La regla funcionó —dice Gheco—. Y te sobró una poción.",
+    "imagen": [
+      "Un orco grande de piel verde y armadura de cuero tirado en el piso de una sala de piedra.",
+      "Mia guarda una poción roja en el cinturón; Gheco se para encima del orco, triunfante."
+    ]
+  },
+  "R01-N04-M3": {
+    "lugar": "El Laberinto de las Siete Salas",
+    "personajes": "Mia, Gheco",
+    "escena": "En una puerta del Laberinto hay una serpiente de piedra con la boca abierta. Piensa un número del uno al cincuenta y solo contesta «más alto» o «más bajo».\n—Y no le hables en idioma raro —dice Gheco—, que se ofende. Si no sabés, podés decir «me rindo».",
+    "gheco": "Un `while True` que pide con `input`, y `break` cuando acierta o cuando escriben `me rindo`. Antes de convertir con `int()`, fijate con `isdigit()` que sea un número, así no se corta el programa.",
+    "exito": "La serpiente de piedra cierra la boca y la puerta se abre con un ruido de engranajes.\n—Contaste los intentos —dice Gheco—. Eso le gusta.",
+    "imagen": [
+      "Una puerta de piedra con una gran serpiente tallada con la boca abierta y ojos verdes encendidos.",
+      "Mia habla hacia la boca de la serpiente; Gheco se esconde detrás de su pierna."
+    ]
+  },
+  "R01-N05-M1": {
+    "lugar": "La Posada de la Serpiente",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "Antes de salir de la Posada, Tilo te ayuda a ordenar la mochila.\n—Antorcha, cuerda, poción… y ahora sumamos dos gemas, una llave oxidada y pan. La poción la usás si está. Lo último que agarraste, lo tirás: siempre agarrás cosas raras.",
+    "gheco": "`append` agrega al final, `remove` saca un elemento (preguntá antes con `in`), `pop()` saca el último y `sort()` ordena. `enumerate(mochila, 1)` numera desde 1 y `count(\"gema\")` cuenta.",
+    "exito": "La mochila queda ordenada por primera vez desde que salió de la Aldea.\n—Así da gusto viajar —dice Tilo, y se la cuelga él.",
+    "imagen": [
+      "Una mesa de madera de la Posada de la Serpiente con una mochila abierta y objetos ordenados en fila.",
+      "Tilo acomoda una antorcha en la mochila; Mia sostiene dos gemas; Gheco duerme sobre un pan."
+    ]
+  },
+  "R01-N05-M2": {
+    "lugar": "La Posada de la Serpiente",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En la Posada se jugó un torneo de pulseadas y el posadero tiene los resultados anotados como pares: puntos y nombre.\n—Ordenalos de mayor a menor, con los puestos —pide Tilo—. Y fijate en qué orden quedamos Ana y yo, que empatamos.",
+    "gheco": "`sorted(resultados, reverse=True)` ordena las tuplas por el primer valor (los puntos) y, si empatan, por el segundo. Para el podio: `[nombre for puntos, nombre in ranking[:3]]`.",
+    "exito": "Tilo y Ana quedan en el orden de sus nombres: a igual puntaje, desempata la segunda parte de la tupla.\n—Me ganó por el abecedario —protesta Tilo.",
+    "imagen": [
+      "Una pizarra de madera con muescas en la pared de la posada y jarras de agua sobre las mesas.",
+      "Tilo hace pulseadas con una muchacha de trenzas; Mia anota; Gheco hace de árbitro sobre la mesa."
+    ]
+  },
+  "R01-N05-M3": {
+    "lugar": "La Posada de la Serpiente",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En el sótano de la Posada hay una mazmorrita de práctica: un mapa de baldosas con piso, paredes y gemas. Tilo lo dibuja en una servilleta.\n—Encontrá dónde estás parada, contá las gemas y, si a tu derecha hay piso, da un paso.",
+    "gheco": "Una lista de listas: `mapa[fila][columna]`. Con dos `for` y `enumerate` encontrás la `K`. Para moverla, poné `\".\"` donde estaba y `\"K\"` en la columna siguiente.",
+    "exito": "Das el paso y la baldosa se hunde un poquito con un clic. Detrás de la pared se oye a Tilo aplaudir.",
+    "imagen": [
+      "Un sótano de piedra con un piso de baldosas en grilla, algunas con gemas verdes encima.",
+      "Mia da un paso sobre una baldosa; Tilo aplaude desde la escalera; Gheco cuenta las gemas."
+    ]
+  },
+  "R01-N06-M1": {
+    "lugar": "La Ermita del Bestiario",
+    "personajes": "Mia, Gheco, el Ermitaño",
+    "escena": "El Ermitaño te pide que pases sus apuntes al Bestiario nuevo: cada criatura con su vida, su ataque y lo que la debilita.\n—Agregá al ogro, que me olvidé. Y si alguien pregunta por el dragón, que el libro no se rompa: todavía no lo vi.",
+    "gheco": "Un diccionario de diccionarios: `bestiario[\"slime\"][\"vida\"]`. Para filtrar: `[nombre for nombre, datos in bestiario.items() if \"fuego\" in datos[\"debil_a\"]]`. `get(\"dragón\")` devuelve `None` en vez de fallar.",
+    "exito": "El Ermitaño hojea el Bestiario nuevo y se detiene en la página en blanco del dragón.\n—Algún día la vas a llenar vos.",
+    "imagen": [
+      "Una ermita de piedra con estantes llenos de frascos y dibujos de criaturas, a la luz de una vela.",
+      "El Ermitaño, viejo y barbudo, le muestra a Mia una página en blanco; Gheco se asoma por el lomo del libro."
+    ]
+  },
+  "R01-N06-M2": {
+    "lugar": "La Ermita del Bestiario",
+    "personajes": "Mia, Gheco, Tilo, el Ermitaño",
+    "escena": "Tilo vacía en la mesa todo lo que soltaron las criaturas del camino: colmillos, escamas, pieles, una cosa pegajosa.\n—¿Cuánto vale todo esto? —pregunta.\nEl Ermitaño saca una lista de precios.\n—Lo que no está en la lista no vale nada. Y la cosa pegajosa, menos.",
+    "gheco": "`Counter(lista)` cuenta cuántos hay de cada cosa y `most_common(2)` da los dos más repetidos. Para el valor: `precios.get(objeto, 0) * cantidad`.",
+    "exito": "Suma redonda. Tilo guarda los colmillos para vender y la cosa pegajosa se la da a Gheco, que la rechaza ofendido.",
+    "imagen": [
+      "Una mesa de madera cubierta de colmillos, escamas y pieles, con una balanza de bronce.",
+      "Tilo separa el botín en montoncitos; el Ermitaño lee una lista; Gheco esquiva una baba verde."
+    ]
+  },
+  "R01-N06-M3": {
+    "lugar": "La Ermita del Bestiario",
+    "personajes": "Mia, Gheco, Tilo, el Ermitaño",
+    "escena": "En el Bestiario hay un mapa de la Torre del Hielo con una advertencia: solo entra quien sabe hielo, escudo y sigilo.\n—Entre los tres sabemos un montón de cosas —dice Tilo—. ¿Alcanza?\nEl Ermitaño sonríe.\n—Los conjuntos te lo dicen en una línea.",
+    "gheco": "Con conjuntos: `&` es lo que tienen en común, `|` lo de todos juntos y `-` lo que tiene uno y el otro no. `requisitos <= todos` dice si se cubren, y `requisitos - todos` lo que falta.",
+    "exito": "Falta una sola habilidad. Tilo se anota en un papel «aprender sigilo» y lo guarda en la bota.",
+    "imagen": [
+      "Un mapa de una torre de hielo dibujado en el Bestiario abierto, con tres símbolos: un copo, un escudo y una huella.",
+      "Mia, Tilo y Gheco miran el mapa a la luz de la vela; el Ermitaño señala la huella."
+    ]
+  },
+  "R01-N07-M1": {
+    "lugar": "La Cueva del Troll",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "Saliendo de la cueva, Tilo revisa la lista de la compañía que dejaste como respaldo… y él tampoco está.\n—¡Me borraste de los dos lados!\nGheco mira el código y se tapa los ojos.\n—El respaldo no era un respaldo. Era la **misma** lista con otro nombre.",
+    "gheco": "`respaldo = compania` no copia: las dos variables apuntan a la misma lista. Para una copia de verdad: `compania.copy()` o `list(compania)`. Mostrá las dos listas y `is` para comprobarlo.",
+    "exito": "Con la copia, Tilo vuelve al respaldo y respira tranquilo.\n—Nunca más me borres sin copia.",
+    "imagen": [
+      "La salida de la Cueva del Troll, con musgo en la roca y la luz del día entrando.",
+      "Tilo, vendado, señala indignado un pergamino; Mia se ríe; Gheco se tapa los ojos con las patas."
+    ]
+  },
+  "R01-N07-M2": {
+    "lugar": "La Cueva del Troll",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En la cueva todavía hay un cuarto sin explorar con una gema. Gheco propone guardar la partida antes de entrar.\n—Si sale mal, volvemos al punto de guardado. Pero ojo: si el punto de guardado es una copia **de mentira**, se rompe junto con el mapa.",
+    "gheco": "El mapa es una lista de listas. `copy.copy` copia solo la lista de afuera: las filas siguen siendo las mismas. `copy.deepcopy` copia todo. Mostrá qué pasa con cada una.",
+    "exito": "Juntás la gema, volvés al punto de guardado y el mapa aparece como antes, con la gema en su lugar.\n—Magia —dice Tilo.\n—Copia profunda —corrige Gheco.",
+    "imagen": [
+      "Un cuarto de la cueva con una gema verde brillando en el piso y un círculo de luz cian en la entrada.",
+      "Mia agarra la gema; Gheco brilla dentro del círculo de luz como un faro; Tilo espera en la puerta."
+    ]
+  },
+  "R01-N07-M3": {
+    "lugar": "La Cueva del Troll",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "Descansando en la entrada de la cueva, Gheco te tira cinco acertijos sobre copias y referencias.\n—Primero decí qué sale, después ejecutá. Si acertás los cinco, te cedo el lugar más blando para dormir.",
+    "gheco": "Las listas y los diccionarios cambian en el lugar; las tuplas y los números no: `y += (3,)` arma una tupla nueva. `[[0] * 2] * 2` repite **la misma** fila dos veces, y `copy()` de un diccionario no copia las listas de adentro.",
+    "exito": "Cinco de cinco. Gheco te cede la piedra con musgo y se acurruca en tu mochila, refunfuñando.",
+    "imagen": [
+      "La entrada de la cueva de noche, con una fogata chiquita y piedras con musgo.",
+      "Mia se acomoda sobre una piedra con musgo; Gheco se mete en la mochila; Tilo duerme sentado."
+    ]
+  },
+  "R01-N08-M1": {
+    "lugar": "Las Terrazas de las Funciones",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En una terraza, unos aprendices juegan a los dados y se pelean porque cada uno tira distinto.\n—Hagan una sola función para tirar —les dice Tilo—. Que se pueda pedir la cantidad de dados y, si quieren, las caras.",
+    "gheco": "Un parámetro con valor por defecto (`caras=6`) se puede omitir al llamar. Usá `random.randint(1, caras)` dentro de un bucle y devolvé la suma con `return`. `random.seed(10)` al principio hace que salga siempre igual.",
+    "exito": "Los aprendices usan tu función y se terminan las peleas. Ahora se pelean por quién tiene más suerte.",
+    "imagen": [
+      "Una terraza de piedra en la ladera, con jardines escalonados y aprendices sentados en ronda.",
+      "Dados de colores sobre una manta; Tilo hace de juez; Mia y Gheco miran rodar un dado de veinte caras."
+    ]
+  },
+  "R01-N08-M2": {
+    "lugar": "Las Terrazas de las Funciones",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "{mentor} te pide una función para anotar compañías: que reciba todos los nombres que le den, uno o diez, y arme una ficha por cada uno con la vida inicial.\n—¿Y si no le dan ninguno? —pregunta Tilo.\n—Que no explote. Eso también es una respuesta.",
+    "gheco": "`*nombres` junta todos los argumentos sueltos en una tupla. `vida=100` va después, y para cambiarla hay que nombrarla: `crear_compania(\"Mia\", vida=80)`. Sin nombres, la tupla está vacía y la lista también.",
+    "exito": "Tu función arma compañías de cualquier tamaño, y la vacía también, sin quejarse.\n—Una compañía de nadie —dice Tilo—. Qué triste.",
+    "imagen": [
+      "Una mesa de piedra en las Terrazas con fichas de pergamino apiladas en fila.",
+      "Tilo cuenta fichas con el dedo; Mia escribe; Gheco sostiene una ficha en blanco con cara de pena."
+    ]
+  },
+  "R01-N08-M3": {
+    "lugar": "Las Terrazas de las Funciones",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En el templo de la última terraza, los monjes dan bendiciones que suben las estadísticas. Pero el monje viejo se equivoca: le cambia los números al héroe para siempre.\n—La bendición tiene que dar un héroe **nuevo** —dice Gheco—. El de antes, que quede igual.",
+    "gheco": "`**cambios` junta los argumentos con nombre en un diccionario. Empezá con `nuevo = dict(stats)` y sumá con `nuevo.get(clave, 0) + valor`. Así el original no se toca.",
+    "exito": "Tilo sale del templo con la fuerza bendecida y la ficha vieja intacta, por si acaso.\n—Me siento nuevo —dice. Y es literal.",
+    "imagen": [
+      "Un templo chiquito de piedra blanca en lo alto de las Terrazas, con velas y una campana.",
+      "Un monje anciano levanta las manos sobre Tilo, que brilla con una luz dorada; Mia y Gheco miran desde la puerta."
+    ]
+  },
+  "R01-N09-M1": {
+    "lugar": "La Cueva de los Ecos",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En la Cueva de los Ecos tus hechizos rebotan y vuelven. Tilo te sugiere ordenarlos en un grimorio.\n—Una palabra para cada hechizo. Decís la palabra y sale el hechizo. Y si decís una que no existe, que el eco te avise en vez de explotar.",
+    "gheco": "Las funciones también son valores: se pueden guardar en un diccionario (`{\"fuego\": bola_de_fuego}`) sin paréntesis. `hechizos.get(palabra)` devuelve la función o `None`; si existe, la llamás con `(objetivo, poder)`.",
+    "exito": "Decís «fuego» y la cueva se ilumina. Decís «pizza» y el eco contesta, muy serio, que ese hechizo no existe.",
+    "imagen": [
+      "Una cueva con paredes llenas de ecos visibles: ondas de luz que rebotan en la roca.",
+      "Mia levanta una mano con una llama naranja; Gheco se tapa las orejas; Tilo se ríe."
+    ]
+  },
+  "R01-N09-M2": {
+    "lugar": "La Cueva de los Ecos",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "Antes de salir de la cueva, Tilo quiere saber quién va adelante. Hace una lista de la compañía con nivel y vida.\n—Ordenala por vida, por nombre, y por nivel con desempate. Y decime quién está más golpeado, que ese va al medio.",
+    "gheco": "`sorted(lista, key=lambda h: h[\"vida\"], reverse=True)`. Para desempatar, la `key` devuelve una tupla: `(-h[\"nivel\"], h[\"nombre\"])`. `min(lista, key=...)` encuentra al de menos vida.",
+    "exito": "Tilo, el más golpeado, va al medio. Protesta, pero se deja.",
+    "imagen": [
+      "La boca de la Cueva de los Ecos de noche, con estrellas afuera.",
+      "Mia ordena a la compañía en fila; Tilo, vendado, queda en el medio; Gheco marcha adelante con una antorcha."
+    ]
+  },
+  "R01-N09-M3": {
+    "lugar": "La Cueva de los Ecos",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "Tilo encuentra un mapa de la cueva entera, con pisos y paredes. Hay partes que no se tocan entre sí.\n—¿Cuántas cámaras separadas hay? Si sabemos eso, sabemos cuántas veces nos vamos a perder.",
+    "gheco": "Recorré todas las casillas. Cada vez que encuentres un piso **sin explorar**, contá una cámara nueva y llamá a `explorar` desde ahí: la recursión marca toda esa cámara y devuelve su tamaño.",
+    "exito": "Las cámaras quedan contadas y medidas. Tilo dobla el mapa con cuidado.\n—Ya no nos perdemos. Bueno, menos.",
+    "imagen": [
+      "Un mapa de pergamino de una cueva con varias cámaras sombreadas de colores distintos.",
+      "Tilo sostiene el mapa abierto; Mia marca una cámara con tiza; Gheco recorre el borde con la cola."
+    ]
+  },
+  "R01-N10-M2": {
+    "lugar": "La Casa de los Tomos",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "En la Casa de los Tomos hay un calendario de piedra que marca la luna llena. Tilo quiere saber cuánto les falta.\n—Y armá las guardias: una cada tres días. Con el día de la semana, en castellano, que en la Casa todo está en otro idioma.",
+    "gheco": "`date(2026, 9, 7)` arma una fecha y restarlas da un `timedelta` con `.days`. `timedelta(days=3)` suma días. `weekday()` da 0 para el lunes: armá una lista con los nombres en castellano y usala como índice.",
+    "exito": "Las guardias quedan repartidas. Tilo se anota en la del sábado.\n—Los sábados el cocinero hace tortas.",
+    "imagen": [
+      "Un calendario circular de piedra en la pared de la Casa de los Tomos, con una luna llena tallada.",
+      "Mia señala la luna; Tilo cuenta los días con los dedos; Gheco duerme sobre un tomo abierto."
+    ]
+  },
+  "R01-N11-M1": {
+    "lugar": "El Paso de la Hidra",
+    "personajes": "Mia, Gheco, Tilo",
+    "escena": "Al pie del Paso, un mercader aprovecha que la Hidra cayó y arma una tienda. Pero no sabe cobrar: se le mezclan las cuentas.\n—Que se pueda comprar, vender a mitad de precio y ver el inventario —dice Tilo—. Y que avise si no te alcanza.",
+    "gheco": "Un `while` que lee órdenes con `input` y las parte con `split()`. Con `if`/`elif` elegís qué hacer. Antes de cambiar el oro o el inventario, revisá que se pueda; si no, avisá y no toques nada.",
+    "exito": "La tienda cierra el día con las cuentas justas. El mercader te regala una cuerda.\n—Por las dudas, para el Bastión.",
+    "imagen": [
+      "Una tienda de campaña con toldo verde al pie de un paso de montaña, con barriles y sogas.",
+      "Un mercader bajito cuenta monedas; Tilo carga una espada nueva; Mia y Gheco revisan una lista."
+    ]
+  },
+  "R01-N11-M2": {
+    "lugar": "El Paso de la Hidra",
+    "personajes": "Mia, Gheco, Ofidia, Tilo",
+    "escena": "{mentor} quiere un informe de la batalla del Valle bajo. Tilo anotó cada golpe en una tira larga de papel: criatura, daño y turno.\n—Cuánto daño recibió cada una, cuál cayó y en qué turno pegamos más —dice {mentor}—. Lo que pasó, contado con números.",
+    "gheco": "Una función que recorra los golpes y sume en un diccionario (`danio[criatura] = danio.get(criatura, 0) + golpe`). Después compará cada total con la vida de la criatura para saber cuál cayó.",
+    "exito": "{mentor} lee el informe de punta a punta y lo enrolla.\n—Esto queda en el Valle. Para quien venga después.",
+    "imagen": [
+      "El Paso de la Hidra en calma, con escamas violetas desparramadas en las rocas.",
+      "Ofidia enrolla un pergamino largo; Tilo señala una escama; Mia y Gheco miran el cielo despejado."
+    ]
+  }
+}

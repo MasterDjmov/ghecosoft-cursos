@@ -10,13 +10,14 @@ precio_raiz: 10
 dias_abono: 30
 destacado: si
 publicado: si
+micromisiones_completan: si
 ```
 
 ### Descripción
 
 Aprendé **Python completo, desde cero**. No hace falta saber programar: cada tema se explica antes de usarse.
 
-Cada tema es un **nodo** del árbol. En cada uno leés la explicación, probás el ejemplo en el navegador y resolvés las **misiones**: al aprobarlas ganás escamas para abrir el siguiente. Cada rama termina con un **jefe**, un proyecto que junta todo lo que aprendiste.
+Cada tema es un **nodo** del árbol. En cada uno leés la explicación, probás el ejemplo y resolvés las **micro-misiones**, que se comprueban solas (Python corre acá mismo, en tu navegador): las que vienen de una misión te dan escamas para abrir el siguiente. Algunos nodos tienen además un **proyecto** que corrige el profe. Cada rama termina con un **jefe**, que junta todo lo que aprendiste.
 
 Al final del camino principal llegás a la **Encrucijada**, de donde salen las Sendas optativas: videojuegos con pygame y Python aplicado (datos, inteligencia artificial y robótica).
 
@@ -37,10 +38,10 @@ Al final del camino principal llegás a la **Encrucijada**, de donde salen las S
 
 | clave | singular | plural | género | descripción | historia | ámbito |
 |---|---|---|---|---|---|---|
-| coin.course | escama | escamas | f | La moneda del Valle: se gana aprobando misiones obligatorias y abre los nodos del curso. | | curso |
+| coin.course | escama | escamas | f | La moneda del Valle: se gana superando las micro-misiones que vienen de una misión (y aprobando los proyectos y las misiones de las Sendas) y abre los nodos del curso. | | curso |
 | mentor.name | Ofidia | | f | Mujer alta de pelo verde, con un vestido de escamas esmeralda y una corona de serpientes vivas: la guardiana del Valle de la Serpiente. | Nadie sabe cuántos años tiene. Enseñó la lengua del Valle a todos los que cruzaron el portal antes que Mia, y todavía se acuerda de sus errores. | curso |
 | world.region | Valle de la Serpiente | | m | La región del mundo cuya lengua arcana es Python. | | curso |
-| story.course_intro | Bienvenida al Valle | | f | | Una noche, leyendo, Mia vio abrirse en la pared una espiral de luz verde. La tocó, y despertó en el {region} con un **pergamino en blanco** en la mano que no es suyo.<br><br>Soy {mentor}, la guardiana de este Valle. Acá la magia no se recita: **se escribe**. Todo lo que Mia escriba en ese pergamino, el Intérprete lo va a leer y lo va a hacer realidad, línea por línea.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines rompe un sello y cada misión aprobada te da escamas para abrir el siguiente. | curso |
+| story.course_intro | Bienvenida al Valle | | f | | Una noche, leyendo, Mia vio abrirse en la pared una espiral de luz verde. La tocó, y despertó en el {region} con un **pergamino en blanco** en la mano que no es suyo.<br><br>Soy {mentor}, la guardiana de este Valle. Acá la magia no se recita: **se escribe**. Todo lo que Mia escriba en ese pergamino, el Intérprete lo va a leer y lo va a hacer realidad, línea por línea.<br><br>Vos vas a ser su mente: cada micro-misión que resuelvas la hace avanzar, cada tema que domines rompe un sello y las micro-misiones más difíciles te dan escamas para abrir el siguiente. | curso |
 | story.branch_completed | ¡Rama completada! | | f | | —Bien hecho, Mia —dice {mentor}—. Otra parte del Valle ya habla tu lengua, y otra parte de tu túnica se enciende. | curso |
 | story.course_completed | ¡Dominaste la lengua del Valle! | | f | | El reloj del Valle vuelve a andar. Mia levanta el pergamino, ya lleno, contra la luz, y por fin se lee la marca de agua: un vitral y, debajo, «para quien llegue».<br><br>—Ya no sos aprendiz, Mia —dice {mentor}—. Desde la Encrucijada salen caminos que pocos recorren: las Sendas del Valle, y el que baja hacia las Forjas. Elegí el tuyo. | curso |
 | story.portal_piece | Lo que vio Ofidia | | f | La pieza del misterio del portal que se lee al terminar este curso (Mis Crónicas). | Hace mucho cruzó el Valle un viajero con las manos manchadas de plomo. Me preguntó cuál era la lengua más clara del mundo, la que cualquiera pudiera leer. Le dije que la mía. Sonrió y siguió camino hacia las Forjas. | curso |
@@ -485,6 +486,125 @@ El slime se derrite en un charquito que se evapora con olor a menta.
 - Mia retrocede un paso, sorprendida.
 - Gheco, en el aire, señala la línea del error con una pantalla holográfica.
 
+### Micro-misión R00-N01-P6 · La bolsa de oro
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia
+recompensa: xp 10, monedas 4
+antes: R00-N01-M2
+```
+
+#### Escena
+Antes de entrar a la Aldea, {mentor} te pone en la mano una bolsita de cuero.
+—Veinticinco de oro. En el camino vas a comprar, vender y pagar. Si no anotás cada cambio, al llegar a la posada no vas a saber cuánto te queda.
+Gheco se acomoda en tu hombro.
+—Una sola bolsa, una sola variable. Que cambie lo de adentro, no la bolsa.
+
+#### Gheco sugiere
+Una variable se puede **reasignar**: `oro = oro - 8` calcula con el valor viejo y guarda el nuevo en la misma variable. Mostrá el oro después de cada movimiento.
+
+#### Desafío
+Empezás con 25 de oro. Comprás una poción (8), vendés una piel de lobo (12) y pagás la posada (20).
+
+Usá **una sola** variable `oro`, reasignala en cada paso y mostrá cuánto queda después de cada movimiento.
+
+**Para superarla:**
+- Usa una sola variable `oro` y la reasigna en cada paso (`oro = oro - 8`…).
+- Muestra el oro después de cada movimiento.
+- El resultado final es 9.
+
+#### Código inicial
+```python
+# Escribí tu programa acá
+```
+
+#### Salida esperada
+```
+Oro inicial: 25
+Compra una poción (8): quedan 17
+Vende una piel de lobo (12): ahora tiene 29
+Paga la posada (20): quedan 9
+```
+
+#### Solución
+```python
+oro = 25
+print(f"Oro inicial: {oro}")
+
+oro = oro - 8
+print(f"Compra una poción (8): quedan {oro}")
+
+oro = oro + 12
+print(f"Vende una piel de lobo (12): ahora tiene {oro}")
+
+oro = oro - 20
+print(f"Paga la posada (20): quedan {oro}")
+```
+
+#### Al superarla
+Contás las monedas que quedan en la bolsita y coinciden con lo que dice el pergamino.
+—Las cuentas claras —dice {mentor}—. Ahora sí, a la Aldea.
+
+#### Imagen
+- La orilla de un río al atardecer, con juncos altos y la Aldea del Script a lo lejos, con faroles verdes.
+- Mia cuenta monedas sobre la palma de la mano; Gheco, en su hombro, señala una bolsita de cuero abierta.
+
+### Micro-misión R00-N01-P7 · Cazar al slime
+
+```meta
+lugar: Orilla del río, junto a la Aldea del Script
+personajes: Mia, Gheco, Ofidia, un slime
+criatura: slime
+recompensa: xp 10, monedas 4
+antes: R00-N01-M3
+```
+
+#### Escena
+Del barro de la orilla sale otro slime, más chico y más pegajoso que el primero. Esta vez viene con su propio hechizo, lleno de trampas.
+—Tres errores —dice {mentor}—. No los adivines: **ejecutá**, leé el pergamino rojo y arreglá uno por vez.
+
+#### Gheco sugiere
+El traceback se lee **de abajo hacia arriba**: la última línea dice qué pasó (`SyntaxError`, `IndentationError`, `NameError`) y la de arriba, en qué línea. Arreglá ese error, ejecutá de nuevo y pasá al siguiente.
+
+#### Desafío
+Este programa tiene **tres** errores. Ejecutalo, leé el traceback, corregí el error y volvé a ejecutar, hasta que funcione. Encontralos **de a uno**, leyendo cada pergamino de abajo hacia arriba.
+
+**Para superarla:**
+- El programa corre sin errores.
+- Se corrigieron los tres errores: la comilla sin cerrar, la indentación de más y el nombre `Vida`.
+
+#### Código inicial
+```python
+print("Un slime aparece)
+    vida = 30
+print(f"Vida del slime: {Vida}")
+```
+
+#### Salida esperada
+```
+Un slime aparece
+Vida del slime: 30
+```
+
+#### Solución
+```python
+# 1. faltaba cerrar las comillas
+# 2. sobraba indentación al principio de la línea
+# 3. 'Vida' con mayúscula no existe (Python distingue mayúsculas)
+print("Un slime aparece")
+vida = 30
+print(f"Vida del slime: {vida}")
+```
+
+#### Al superarla
+El tercer arreglo y el slime se deshace en un charquito que huele a menta.
+—Tres errores, tres lecturas —dice {mentor}—. Así se caza.
+
+#### Imagen
+- Un slime verde chiquito y pegajoso salta sobre el barro de la orilla, entre juncos.
+- Mia sostiene un pergamino que brilla en rojo; Gheco, a su lado, señala la última línea con la cola.
+
 ### Misión R00-N01-M1 · La ficha de personaje
 
 ```meta
@@ -527,94 +647,6 @@ print(f"Clase:  {clase}")
 print(f"Nivel:  {nivel}")
 print("Vida", vida, "Oro", oro, sep=" | ")
 print(f"{nombre} la {clase} está lista para la aventura.")
-```
-
-### Misión R00-N01-M2 · La bolsa de oro
-
-```meta
-entrega: codigo
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-Empezás con 25 de oro. Comprás una poción (8), vendés una piel de lobo (12) y pagás la posada (20).
-
-Usá **una sola** variable `oro`, reasignala en cada paso y mostrá cuánto queda después de cada movimiento.
-
-#### Criterio de aprobación
-
-- Usa una sola variable `oro` y la reasigna en cada paso (`oro = oro - 8`…).
-- Muestra el oro después de cada movimiento.
-- El resultado final es 9.
-
-#### Salida esperada
-
-```
-Oro inicial: 25
-Compra una poción (8): quedan 17
-Vende una piel de lobo (12): ahora tiene 29
-Paga la posada (20): quedan 9
-```
-
-#### Solución de referencia
-
-```python
-oro = 25
-print(f"Oro inicial: {oro}")
-
-oro = oro - 8
-print(f"Compra una poción (8): quedan {oro}")
-
-oro = oro + 12
-print(f"Vende una piel de lobo (12): ahora tiene {oro}")
-
-oro = oro - 20
-print(f"Paga la posada (20): quedan {oro}")
-```
-
-### Misión R00-N01-M3 · Cazar al slime
-
-```meta
-entrega: codigo
-monedas: 4
-xp: 10
-```
-
-#### Consigna
-
-Este programa tiene **tres** errores. Ejecutalo, leé el traceback, corregí el error y volvé a ejecutar, hasta que funcione. Encontralos **de a uno**, leyendo cada pergamino de abajo hacia arriba.
-
-#### Criterio de aprobación
-
-- El programa corre sin errores.
-- Se corrigieron los tres errores: la comilla sin cerrar, la indentación de más y el nombre `Vida`.
-
-#### Código inicial
-
-```python
-print("Un slime aparece)
-    vida = 30
-print(f"Vida del slime: {Vida}")
-```
-
-#### Salida esperada
-
-```
-Un slime aparece
-Vida del slime: 30
-```
-
-#### Solución de referencia
-
-```python
-# 1. faltaba cerrar las comillas
-# 2. sobraba indentación al principio de la línea
-# 3. 'Vida' con mayúscula no existe (Python distingue mayúsculas)
-print("Un slime aparece")
-vida = 30
-print(f"Vida del slime: {vida}")
 ```
 
 ### Encargo R00-N01-E1 · El ticket de la panadería

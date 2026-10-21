@@ -1,4 +1,5 @@
 {
+  "R00-N01-P5": "ce3209f130334da8895203ea1a6d9eac",
   "R00-N01-P6": "b0043f31bae849b5a1fda49b831deca2",
   "R00-N01-P7": "5272bb6c4fe24ed0a3792b4a4b773303",
   "R00-N01-P8": "30cff8675bab43b98f3bf42eca32c976",
@@ -13,5 +14,9 @@
   "R01-N03-P7": "1ad24e3d0f8c4e6f960b2e1670b579b3",
   "R01-N04-P5": "93f293c400114bd99f7ef6ca600be983",
   "R01-N04-P6": "fbefc8dc99fd46b991cd568c87432039",
-  "R01-N04-P7": "8fdd2a7c85a3490c8cac4be64de68a53"
+  "R01-N04-P7": "8fdd2a7c85a3490c8cac4be64de68a53",
+  "R01-N05-P5": "efd129c970604a2cb09faca81c2684cd",
+  "R01-N05-P6": "1c9c9fa4d5bd4859b0f7f570dd7e2b7f",
+  "R01-N05-P7": "dfbcfab014454177ad90af24280e4949",
+  "R01-N06-P5": "5a6b9394d7a44ca38ef21732b774b840"
 }

@@ -1,5 +1,5 @@
 import './live-alerts.js';
-import { describeDifference } from './runners/compare.js';
+import { compareLines, describeDifference } from './runners/compare.js';
 import { englishStep, speak } from './runners/english.js';
 
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
@@ -220,6 +220,8 @@ document.addEventListener('alpine:init', () => {
         copied: false,
         matches: null,
         mismatch: null,
+        // Si no coincide, la salida renglón por renglón con ✓ y ✗ (compareLines), para ver dónde corregir.
+        lines: null,
         editor: null,
         // HTML y CSS (D76): la página dibujada en la caja aislada, el tamaño de pantalla y la pantalla completa.
         preview: '',
@@ -276,6 +278,7 @@ document.addEventListener('alpine:init', () => {
             this.error = false;
             this.matches = null;
             this.mismatch = null;
+            this.lines = null;
             this.output = '';
 
             let result;
@@ -322,6 +325,8 @@ document.addEventListener('alpine:init', () => {
                 // Como el servidor (LocalCodeRunner::normalize); si no coincide, se dice dónde (sobre todo lo invisible).
                 this.mismatch = describeDifference(config.expected, result.output);
                 this.matches = this.mismatch === null;
+                // Solo cuando lo que se ve es la salida del programa (sin avisos del compilador ni STDERR).
+                if (!this.matches && !compiler && !notices) this.lines = compareLines(config.expected, result.output);
             }
             this.running = false;
         },

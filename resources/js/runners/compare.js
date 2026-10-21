@@ -41,6 +41,22 @@ function describe(char) {
 }
 
 /**
+ * La salida renglón por renglón contra la esperada (con la misma normalización que la comparación), para marcar
+ * cuáles ya están bien y dónde hay que corregir. Se compara cada renglón con el del mismo número: si falta uno en
+ * el medio, los siguientes quedan corridos. Al final, los renglones esperados que faltan.
+ *
+ * @returns {Array<{text: string, ok: boolean, missing?: boolean}>}
+ */
+export function compareLines(expected, got) {
+    const want = normalize(expected).split('\n');
+    const have = normalize(got).split('\n');
+    const lines = have.map((text, i) => ({ text, ok: text === want[i] }));
+    for (let i = have.length; i < want.length; i++) lines.push({ text: want[i], ok: false, missing: true });
+
+    return lines;
+}
+
+/**
  * La primera diferencia, en palabras, para que el alumno vea qué no coincide (sobre todo lo que en pantalla
  * se ve igual). null si coinciden.
  */

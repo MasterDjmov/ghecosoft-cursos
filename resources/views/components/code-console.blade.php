@@ -17,8 +17,19 @@
     </div>
 
     <div x-show="tab === 'output'" role="tabpanel" @class(['flex flex-col gap-1 p-3', 'min-h-0 flex-1 overflow-auto' => $fill])>
-        <pre @class(['min-h-12 font-mono text-sm whitespace-pre-wrap', 'max-h-72 overflow-auto' => ! $fill]) x-show="output !== null" x-cloak
+        <pre @class(['min-h-12 font-mono text-sm whitespace-pre-wrap', 'max-h-72 overflow-auto' => ! $fill]) x-show="output !== null && ! lines" x-cloak
             x-bind:class="error ? 'text-danger' : 'text-success'" x-text="output"></pre>
+        {{-- No coincide: cada renglón con ✓ (igual al esperado) o ✗ (ahí hay que corregir), y los que faltan. --}}
+        <div @class(['min-h-12 font-mono text-sm', 'max-h-72 overflow-auto' => ! $fill]) x-show="lines" x-cloak data-test="output-lines">
+            <template x-for="(line, i) in lines ?? []" :key="i">
+                <div class="flex gap-2" x-bind:class="line.ok ? 'text-success' : 'text-warning'">
+                    <span class="w-4 shrink-0 select-none text-center" x-text="line.ok ? '✓' : '✗'" x-bind:title="line.ok ? 'Igual a la esperada' : (line.missing ? 'Falta este renglón' : 'Distinta de la esperada')"></span>
+                    <span class="min-w-0 whitespace-pre-wrap" x-bind:class="line.missing && 'italic opacity-80'"
+                        x-text="line.missing ? 'Falta: «' + line.text + '»' : (line.text === '' ? ' ' : line.text)"></span>
+                </div>
+            </template>
+            <p class="mt-1 text-xs text-ink-muted">✓ igual a lo esperado · ✗ revisá ese renglón</p>
+        </div>
         <p class="min-h-12 text-xs text-ink-muted" x-show="output === null">Tocá <strong class="text-ink">Ejecutar</strong> (o Ctrl+Enter en el editor) para ver la salida acá.</p>
         <p class="text-xs text-success" x-show="matches === true" x-cloak>✓ Coincide con la salida esperada.</p>
     </div>

@@ -203,6 +203,8 @@ test('el alumno ve la micro-misión actual, las siguientes bloqueadas y nunca la
     expect($html)->toContain('data-test="node-steps"')
         ->and($html)->toContain('data-test="step-current"')
         ->and($html)->toContain('data-test="step-locked"')
+        // Si la salida no coincide, la consola la muestra renglón por renglón con ✓ y ✗.
+        ->and($html)->toContain('data-test="output-lines"')
         ->and($html)->toContain('El pergamino habla')
         ->and($html)->not->toContain('print("Hola, Valle")')
         ->and($html)->not->toContain('print("Hola, Valle")')

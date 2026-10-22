@@ -64,7 +64,7 @@ Nima descubre que su puntería no sirve acá. Los blancos de la Feria **se mueve
 - **Cómo llega:** sigue las luces del Vidriero desde el Valle, cruza las Forjas y se sube a un carrusel abandonado que gira y la deja en la Feria.
 - **Pieza del misterio:** ver § 6.
 - **Primera aparición:** JavaScript, Clase 0. Antes, solo nombrada en Python R02.
-- **Imágenes:** pendientes (cuerpo entero, retrato circular, 6 aspectos y su montura), cuando haya cuota de Stitch.
+- **Imágenes:** hechas (2026-10-21); ver § 11.
 
 ## 5. La Feria y su líder (a decidir)
 
@@ -123,4 +123,22 @@ Las preguntas eran:
 - Pasar la ficha a [PERSONAJES.md](PERSONAJES.md) y la región a [NOVELA-GRAFICA.md](../NOVELA-GRAFICA.md).
 - Sumar en ENSAMBLADOR.md (y en [ensamblador.md](ensamblador.md)) que el rayo fue la flecha de Nima, sin revelarlo en el curso.
 - Recorrer [ALTA-DE-CURSOS-Y-PERSONAJES.md](../ALTA-DE-CURSOS-Y-PERSONAJES.md) cuando se arme el curso.
-- Imágenes en Stitch: Nima (cuerpo entero, retrato, 6 aspectos), Lumina, Destello y el fondo de la Feria.
+- ~~Imágenes en Stitch~~: hechas el 2026-10-21 (§ 11).
+
+## 11. Imágenes (2026-10-21)
+
+Generadas en el proyecto de Stitch de los **Talleres** (`9229721314509917104`), vecino de la Feria y con Gheco: las escenas de JavaScript pueden usar estas referencias (o un proyecto propio, recreándolas ahí). Originales en `publicidad/logos cursos/personajes/La Feria de las Luces/`.
+
+| Qué | Stitch | En el proyecto |
+|---|---|---|
+| Nima, cuerpo entero | `2fca95e351484814bbdeb8294f4c623b` | `public/img/enciclopedia/nima-cuerpo.webp` |
+| Nima, retrato | `56bfb49ed75c489d8f958abef890d13d` | `public/img/enciclopedia/nima.webp` |
+| Nima, 6 aspectos (hoja) | `74ce1ca2377848cabf027a773659b59a` | `public/img/protagonistas/nima/1..6.webp` |
+| Lumina, cuerpo entero | `bdf51a14044046ffbd08a31cec35773e` | `public/img/enciclopedia/lumina-cuerpo.webp` |
+| Lumina, retrato | `657270bbcafc4878907cf5667a4f166e` | `public/img/enciclopedia/lumina.webp` |
+| Destello, 5 etapas | `c0815f6327e64a2ab252508061966a64` | `public/img/monturas/destello/n1..n5.webp` |
+| Fondo de la Feria (16:9) | `59916759f31a40fa9ef079072e559598` | `mundo_feria.png` en la carpeta del docente (se carga con `app:glossary-portraits` cuando exista la región) |
+
+Los aspectos, en orden (nombres a confirmar): 1 **Arquera de la Feria**, 2 **Capucha de Faroles**, 3 **Hombreras de Luciérnaga**, 4 **Corona de Fuegos**, 5 **Nima de Medianoche** (azul con anillo cian), 6 **Alas de Luciérnaga**.
+
+Falta cuando se arme el curso: Nima en `config/game.php` → `protagonists` (con esos `looks`), Destello en `mounts.species` y `mounts.about`, y el fondo en el Diccionario.

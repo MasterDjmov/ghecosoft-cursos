@@ -1165,7 +1165,7 @@ El curso todavía no se arma: la historia está en [javascript.md](javascript.md
 - **Pieza del misterio:** al probar el mecanismo del Vidriero suelta sin querer una flecha de luz que rebota en el vitral y baja por las chimeneas de las Forjas: **es el rayo que despertó a Nova** (Ensamblador). Al final hace que el vitral del portal se mueva por primera vez.
 - **Montura:** **Destello**, un ciervo de luz amarilla que solo aparece cuando ella lo llama.
 - **Primera aparición:** JavaScript, Clase 0 (antes, solo nombrada en Python R02).
-- **Imágenes:** pendientes (cuerpo entero, retrato circular, 6 aspectos y Destello).
+- **Imágenes:** hechas el 2026-10-21 en el proyecto de Stitch de los Talleres (`9229721314509917104`): cuerpo entero `2fca95e3…`, retrato `56bfb49e…`, los 6 aspectos (`public/img/protagonistas/nima/`) y Destello en 5 etapas (`public/img/monturas/destello/`). Originales en `publicidad/logos cursos/personajes/La Feria de las Luces/`.
 
 ### Lumina
 - **Rol:** la líder de la Feria de las Luces, la **Reina de las Luciérnagas**. Prende cada farol de la Feria y le enseña a Nima la lengua de la Feria: reaccionar ([javascript.md](javascript.md)).
@@ -1181,7 +1181,7 @@ El curso todavía no se arma: la historia está en [javascript.md](javascript.md
 - **Relaciones:** maestra de Nima; conoció al Vidriero y le guarda su taller cerrado.
 - **Moneda de la región:** las **fichas de la Feria**.
 - **Primera aparición:** JavaScript, Clase 0.
-- **Imágenes:** pendientes (cuerpo entero y retrato circular).
+- **Imágenes:** hechas el 2026-10-21 (proyecto de los Talleres): cuerpo entero `bdf51a14…` y retrato `657270bb…`. Es un **insecto** redondo y tierno, de cabeza oscura con dos ojos grandes (la primera versión salió con cuerpo de mujer y se rehízo).
 
 ---
 

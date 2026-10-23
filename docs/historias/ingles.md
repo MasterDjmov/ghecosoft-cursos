@@ -49,6 +49,16 @@ Son las mismas del bestiario, pero ahora son **errores de inglés** que salen de
 - **Las monturas:** Cristal, Gran Apex, Draco-Bit, PixelShell y Serphira son **cómo viaja Ada** de una región a otra. Cada mundo le presta la suya, y sirven para episodios de vocabulario de animales, partes del cuerpo y verbos de movimiento.
 - **Gheco y el Profe:** Gheco da **la pista**, como siempre. El Profe abre y cierra cada nivel en el Balcón de los Portales: revisa el libro de Ada y le da la próxima región.
 
+## 3 bis. La regla del tiempo: quién narra y cuándo (docente, 2026-10-22)
+
+**Ada narra todo, en los dos cursos, también Mis Crónicas** (`story.*` de cada curso de inglés), pero sin saltos en el tiempo:
+- **Primaria · Ada de 11, en presente:** vive cada región *mientras* el héroe vive su historia («Hoy llegué a las Forjas. Kira está…»). Cada héroe la conoce **una sola vez**, en el orden de las temporadas.
+- **Secundaria · Ada de 15, cuatro años después:** **reescribe** el Gran Libro, que el Borrón dejó lleno de huecos, con lo que recuerda y con sus notas. **Nunca vuelve a estar con un héroe en su momento**: Kira tenía 18 cuando la conoció a los 11, y no puede volver a tener 18 al lado de la Ada de 15.
+- **Para qué sirve:** la narración que recuerda trae sola los verbos y los tiempos de Secundaria: pasado simple, pasado continuo, presente perfecto, *used to*, estilo indirecto («*Kira said she was afraid*»), segundo condicional («*If I had known…*»). Cada temporada de Secundaria tiene que hacerlos ver.
+- **Imágenes de Secundaria:** la Ada de 15 sale **sola** (escribiendo, leyendo el libro o de vuelta en un lugar vacío) y los héroes aparecen como **recuerdo**: dentro de las páginas o detrás de ella, nunca a su lado y a la misma altura. Las escenas de los cursos se reusan como «lo que Ada recuerda».
+- **Si una historia necesita a alguien más grande** que viva la escena en presente con los héroes, **se crea otro personaje**; no se estira la edad de Ada.
+- **Pendiente:** las 44 portadas de Secundaria ya hechas (Talleres, Forjas, Puerto y Ciudadela) muestran a la Ada de 15 junto a los héroes en su momento; el docente decide si se rehacen.
+
 ## 4. El arco por nivel
 
 El orden de los mundos sigue la dificultad del inglés. En cada nivel Ada visita **una región principal** y **pasa por otras** en episodios sueltos, así el alumno puede elegir.

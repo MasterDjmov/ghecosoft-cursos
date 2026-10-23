@@ -69,6 +69,7 @@ Las Crónicas en Inglés recorren **todas** las regiones ([INGLES.md](INGLES.md)
 - sus escenas sirven para el inglés: cuantas más escenas tenga el curso, más barata es su temporada;
 - sus criaturas pasan a ser errores de inglés como las demás (historias/ingles.md § 2);
 - si algún personaje nuevo se cruza con Ada, va en su ficha;
+- **la regla del tiempo** ([historias/ingles.md](historias/ingles.md) § 3 bis): en Primaria la Ada de 11 vive la región en presente y cada héroe la conoce una vez; en Secundaria la Ada de 15 la **reescribe cuatro años después** (pasado, presente perfecto, estilo indirecto) y no comparte escena con el héroe en su momento: en sus portadas sale sola y el héroe, como recuerdo; si hace falta alguien grande en presente, se crea otro personaje;
 - **las portadas** (una por episodio, tronco y ramas, en las dos edades de Ada) se hacen en el proyecto de Stitch de esa región, recreando antes ahí las hojas de Ada niña y de 15 (ver ESCENAS.md, fila de las Forjas); si al curso le faltan escenas para los episodios, se generan.
 
 ## 5. Una historia o escena nueva

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
 /*
- * Alumnos demorados: abono vigente y sin avanzar hace 5 días o más. El docente ve y avisa solo a los de sus
+ * Alumnos demorados: abono vigente y sin avanzar hace 7 días o más. El docente ve y avisa solo a los de sus
  * comisiones; el aviso va por mail y a la campanita, con copia interna.
  */
 
@@ -30,7 +30,7 @@ beforeEach(function () {
     $this->travelBack();
 });
 
-test('aparece quien no avanza hace 5 días o más, y no quien avanzó', function () {
+test('aparece quien no avanza hace 7 días o más, y no quien avanzó', function () {
     $rows = app(DelayedStudents::class)->for(User::factory()->admin()->create());
     expect($rows->pluck('student.id')->all())->toEqualCanonicalizing([$this->mine->id, $this->other->id])
         ->and($rows->first()['days'])->toBe(10);
@@ -46,6 +46,15 @@ test('con el abono vencido o recién empezado no está demorado', function () {
     CourseSubscription::where('user_id', $this->other->id)->update(['starts_at' => now()->subDays(2)]);
 
     expect(app(DelayedStudents::class)->for(User::factory()->admin()->create()))->toBeEmpty();
+});
+
+test('con 6 días sin avanzar todavía no está demorado', function () {
+    $this->travel(-6)->days();
+    app(PracticeSubmitter::class)->submit($this->other, $this->data['root']->practices()->first(), 'print(1)');
+    $this->travelBack();
+
+    expect(app(DelayedStudents::class)->for(User::factory()->admin()->create())->pluck('student.id')->all())
+        ->toBe([$this->mine->id]);
 });
 
 test('el docente ve y avisa solo a los de sus comisiones', function () {

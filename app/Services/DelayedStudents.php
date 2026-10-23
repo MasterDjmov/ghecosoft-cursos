@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\DB;
  */
 class DelayedStudents
 {
-    public const DAYS = 5;
+    public const DAYS = 7;
 
     public function __construct(private readonly TeacherScope $scope) {}
 

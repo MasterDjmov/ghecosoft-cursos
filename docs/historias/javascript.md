@@ -139,6 +139,6 @@ Generadas en el proyecto de Stitch de los **Talleres** (`9229721314509917104`), 
 | Destello, 5 etapas | `c0815f6327e64a2ab252508061966a64` | `public/img/monturas/destello/n1..n5.webp` |
 | Fondo de la Feria (16:9) | `59916759f31a40fa9ef079072e559598` | `mundo_feria.png` en la carpeta del docente (se carga con `app:glossary-portraits` cuando exista la región) |
 
-Los aspectos, en orden (nombres a confirmar): 1 **Arquera de la Feria**, 2 **Capucha de Faroles**, 3 **Hombreras de Luciérnaga**, 4 **Corona de Fuegos**, 5 **Nima de Medianoche** (azul con anillo cian), 6 **Alas de Luciérnaga**.
+Los aspectos, en orden (aprobados por el docente el 2026-10-22): 1 **Arquera del Valle** (la base: arco, carcaj y trenza), 2 **Capucha de Faroles**, 3 **Hombreras de Oro**, 4 **Corona de Fuegos**, 5 **Flecha de Luz** (azul con anillo cian), 6 **Alas de Luciérnaga**.
 
 Falta cuando se arme el curso: Nima en `config/game.php` → `protagonists` (con esos `looks`), Destello en `mounts.species` y `mounts.about`, y el fondo en el Diccionario.

@@ -196,11 +196,16 @@ Nora prepara pociones para los vitralistas que se cortan con el vidrio, pero se 
 `<ul>` es una lista sin orden (los ingredientes) y `<ol>`, una con orden (los pasos). Cada elemento va en un `<li>` adentro de su lista. La imagen lleva `alt` con lo que muestra.
 
 #### Desafío
-Escribí la receta de la poción:
+Esta vez la página está vacía: escribís todo vos, **adentro del `<body>`** (entre `<body>` y `</body>`).
 
-1. Un título y **una** imagen (podés usar `/img/cursos/html/gheco-logo.webp`) con un `alt` que diga lo que muestra (que no quede vacío).
-2. Los ingredientes en **una** `ul` con **tres** `li`.
-3. Los pasos en **una** `ol` con **tres** `li`.
+1. Un título `h1` con el nombre de la poción.
+2. **Una** imagen: `<img src="/img/cursos/html/gheco-logo.webp" alt="...">`, con un `alt` que diga qué se ve (no lo dejes vacío).
+3. Los ingredientes en **una** lista sin números: un `ul` con **tres** `li` adentro.
+4. Los pasos en **una** lista numerada: un `ol` con **tres** `li` adentro.
+
+Los textos los inventás vos. Podés poner un `h2` arriba de cada lista.
+
+**Se comprueba:** una sola imagen y con `alt` escrito, un `ul` con tres `li` y un `ol` con tres `li`.
 
 #### Código inicial
 ```html
@@ -291,11 +296,15 @@ El bestiario del taller es una sola página larguísima y nadie encuentra nada.
 Un enlace interno apunta a un `id`: `<a href="#slime">` salta al elemento con `id="slime"`. `href="#"` vuelve al principio de la página.
 
 #### Desafío
-Armá la página del bestiario:
+Una página que salta a cada criatura. Escribí todo **adentro del `<body>`**.
 
-1. Arriba, una `ul` con **dos** enlaces internos: `href="#slime"` y `href="#goblin"`.
-2. Un `h2` para cada criatura, con `id="slime"` y `id="goblin"`, cada uno con un párrafo.
-3. Al final, **un** enlace «Volver arriba» con `href="#"`.
+1. Arriba, un `ul` con **dos** `li`, y en cada uno un enlace interno: `<a href="#slime">Slime</a>` y `<a href="#goblin">Goblin</a>`.
+2. Más abajo, un `h2` para cada criatura con su `id`: `<h2 id="slime">Slime</h2>` y `<h2 id="goblin">Goblin</h2>`. Debajo de cada uno, un `p` con una frase.
+3. Al final, **un** enlace para volver: `<a href="#">Volver arriba</a>`.
+
+El `href` lleva `#` y el `id`, no: `href="#slime"` salta a `id="slime"`.
+
+**Se comprueba:** dos enlaces internos en el `ul`, dos `h2` con `id` (`slime` y `goblin`) y un enlace con `href="#"`.
 
 #### Código inicial
 ```html
@@ -391,7 +400,13 @@ recompensa: xp 10, oro 10
 `<ol>` es una lista **numerada** (el orden importa); `<ul>`, con viñetas. Cada elemento va en su `<li>`.
 
 #### Desafío
-Convertí los tres pasos en una lista **numerada**: un `ol` con un `li` por paso.
+Los tres pasos están en párrafos sueltos (`<p>`). Queremos que sean una **lista numerada**.
+
+1. Abajo del `h2`, escribí `<ol>` y, al final de todo, `</ol>`: esa es la lista.
+2. Cambiá cada `<p>` por `<li>` y cada `</p>` por `</li>`. Así queda el primero: `<li>Dibujar el boceto</li>`.
+3. No cambies el texto de los pasos ni su orden.
+
+**Se comprueba:** que haya una `ol` con tres `li` y que digan los tres pasos.
 
 #### Código inicial
 ```html
@@ -449,7 +464,15 @@ recompensa: xp 10, oro 10
 `<a href="…">texto</a>` es un enlace: `href` dice adónde va y el texto dice qué hay ahí. «Clic acá» no le dice nada a nadie.
 
 #### Desafío
-Convertí *Valle de la Serpiente* en un enlace a `valle.html`.
+Queremos que el nombre *Valle de la Serpiente* sea un **enlace** que lleve a la página `valle.html`.
+
+1. Justo antes de `Valle`, escribí `<a href="valle.html">`.
+2. Justo después de `Serpiente` (antes del punto), escribí `</a>`.
+3. El resto del párrafo queda igual.
+
+Ojo: el texto que queda entre `<a ...>` y `</a>` tiene que ser exactamente **Valle de la Serpiente**.
+
+**Se comprueba:** que el enlace diga *Valle de la Serpiente* y que su `href` sea `valle.html`.
 
 #### Código inicial
 ```html
@@ -500,7 +523,14 @@ Nora, la vitralista más vieja del taller, pasa la mano por el diario. Nora no v
 `alt` describe lo que muestra la imagen, para quien no la ve (o si no carga). Sin `alt`, el lector de pantalla lee el nombre del archivo.
 
 #### Desafío
-Agregale a la imagen un `alt` que diga exactamente **Gheco, el gecko celeste con anteojos**.
+La imagen no tiene descripción, y Nora no la puede «ver». Le agregamos un `alt`.
+
+1. Adentro de la etiqueta `<img ...>`, después de `src="..."`, dejá un espacio y escribí `alt=""`.
+2. Entre las comillas poné exactamente: **Gheco, el gecko celeste con anteojos** (con la coma y sin punto final).
+
+Así empieza: `<img src="/img/personajes/gheco.webp" alt="Gheco, ...`
+
+**Se comprueba:** que el `alt` de la imagen diga exactamente esa frase.
 
 #### Código inicial
 ```html
@@ -548,7 +578,15 @@ Entre los bocetos viejos del canasto, Iris encuentra uno que no es suyo: **un vi
 `<figure>` agrupa una imagen con su epígrafe, y el epígrafe va en `<figcaption>`, adentro de la misma `figure`.
 
 #### Desafío
-Envolvé la imagen y el epígrafe en un `figure`, y poné el epígrafe en un `figcaption` (en vez del `p`).
+La imagen y su epígrafe (el textito de abajo) están sueltos. Los agrupamos en una **figura**.
+
+1. Antes de la `<img ...>`, escribí `<figure>`.
+2. Cambiá el `<p>` del epígrafe por `<figcaption>` y su `</p>` por `</figcaption>`.
+3. Después del epígrafe, cerrá con `</figure>`.
+
+La imagen y el `figcaption` tienen que quedar los dos **adentro** de la misma `figure`. No cambies el `alt` ni el texto.
+
+**Se comprueba:** que adentro de la `figure` estén la imagen (con su `alt`) y el `figcaption` con el epígrafe.
 
 #### Código inicial
 ```html
@@ -817,14 +855,14 @@ Tesela tiene un blog donde cuenta los trabajos del taller, pero está hecho todo
 Las etiquetas semánticas dicen qué es cada parte: `header`, `nav`, `main`, `article`, `aside` y `footer`. La fecha va en `<time datetime="2026-09-30">`.
 
 #### Desafío
-Armá el blog del taller con etiquetas semánticas:
+Un blog con cada parte en su etiqueta. Escribí todo **adentro del `<body>`**, sin usar ningún `div`.
 
-1. Un `header` con el nombre del blog y, adentro, un `nav` con **dos** enlaces.
-2. Un `main` con **dos** `article`, cada uno con su `h2` y su fecha en un `time` con el atributo `datetime`.
-3. Un `aside` «Sobre la autora», con su `h2`.
-4. Un `footer` al final.
+1. Un `header` con el nombre del blog y, adentro del mismo `header`, un `nav` con **dos** enlaces (`<a href="#">Inicio</a>` y otro).
+2. Un `main` con **dos** `article`. Cada `article` lleva su `h2` y su fecha así: `<time datetime="2026-09-30">30 de septiembre</time>`.
+3. Después del `main`, un `aside` con un `h2` que diga «Sobre la autora».
+4. Al final, un `footer`.
 
-Sin `div`.
+**Se comprueba:** un `header` con un `nav` adentro y dos enlaces, un `main` con dos `article`, cada uno con su `h2` y su `time` con `datetime`, un `aside` con su `h2`, un `footer` y ningún `div`.
 
 #### Código inicial
 ```html
@@ -938,11 +976,16 @@ Nora quiere su ficha de jugadora de los Talleres, como la que tienen los aprendi
 Un `article` es algo que se entiende solo. Puede tener su propio `header` y su propio `footer`, y una `section` con su título adentro.
 
 #### Desafío
-Armá el perfil de una jugadora como **un** `article`:
+El perfil de una jugadora es **un** `article` con partes adentro. Escribí todo **adentro del `<body>`**.
 
-1. Su propio `header` con **una** imagen del avatar (con `alt`), el nombre y el nivel.
-2. **Una** `section` de logros con su `h2` y una lista de **dos** logros (`li`).
-3. Su propio `footer` con la fecha en que se unió.
+1. Abrí un `<article>`; todo lo que sigue va adentro, y al final lo cerrás.
+2. Primero, el `header` del perfil: **una** imagen del avatar con `alt` (por ejemplo `<img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris">`), el nombre y el nivel.
+3. Después, **una** `section` de logros: su `h2` y una lista con **dos** `li`.
+4. Al final, el `footer` del perfil con la fecha en que se unió.
+
+El `header`, la `section` y el `footer` van directamente adentro del `article`.
+
+**Se comprueba:** un `article` con su `header`, una imagen con `alt`, una `section` con `h2` y dos `li`, y su `footer`.
 
 #### Código inicial
 ```html
@@ -1053,7 +1096,13 @@ Nora recorre el boceto del ventanal con los dedos, de arriba abajo. —No encuen
 `<div>` no dice nada. `<nav>` dice «acá está la navegación»: el lector de pantalla lo anuncia y deja saltar directo.
 
 #### Desafío
-Cambiá el `div` de los enlaces por un `nav`.
+El menú está en un `div`, que no dice qué es. Lo cambiamos por `nav`, que significa «navegación».
+
+1. Cambiá `<div>` (arriba) por `<nav>`.
+2. Cambiá `</div>` (abajo) por `</nav>`.
+3. Los tres enlaces quedan iguales, adentro.
+
+**Se comprueba:** que los tres enlaces estén adentro de un `nav` y que no quede ningún `div`.
 
 #### Código inicial
 ```html
@@ -1109,7 +1158,15 @@ El ventanal del Gremio tiene zonas: la cornisa, el panel central y el zócalo. I
 `<header>` es la cabecera, `<main>` el contenido principal (uno por página) y `<footer>` el pie.
 
 #### Desafío
-Cambiá los tres `div` por `header`, `main` y `footer`, en ese orden.
+Las tres zonas de la página están en `div` iguales. Cada una pasa a tener su nombre.
+
+1. El **primer** `div` (el del título) pasa a ser `header`: `<header>...</header>`.
+2. El **segundo** (la descripción) pasa a ser `main`.
+3. El **tercero** (el de abajo) pasa a ser `footer`.
+
+Cambiá la etiqueta de apertura **y** la de cierre de cada uno. Lo de adentro no se toca.
+
+**Se comprueba:** el `h1` adentro del `header`, el primer párrafo adentro del `main` y el último adentro del `footer`.
 
 #### Código inicial
 ```html
@@ -1163,7 +1220,23 @@ En el panel central van los encargos de la semana. Nora toca uno y pregunta: —
 `<article>` es algo que se entiende solo, aunque lo saques de la página (un encargo, una noticia). Lleva su propio título.
 
 #### Desafío
-Envolvé cada encargo (su `h3` y su `p`) en un `article`.
+Hay dos encargos, cada uno con su título (`h3`) y su párrafo (`p`). Cada encargo va en su propio `article`.
+
+1. Antes del primer `h3`, escribí `<article>`; después de su `p`, escribí `</article>`.
+2. Hacé lo mismo con el segundo encargo.
+
+Así queda el primero:
+
+```html
+<article>
+  <h3>Ventanal de Kaffa</h3>
+  <p>Doce vitrales iguales para la catedral.</p>
+</article>
+```
+
+El `h2` de la sección queda afuera de los `article`.
+
+**Se comprueba:** dos `article` adentro de la `section`, cada uno con su `h3`.
 
 #### Código inicial
 ```html
@@ -1228,7 +1301,14 @@ Nora usa el teclado para recorrer las páginas: cada vez tiene que pasar por tod
 Un `id` le pone nombre a un elemento, y `href="#ese-id"` salta hasta él. Un enlace **«Saltar al contenido»** al principio le ahorra el menú a quien usa teclado.
 
 #### Desafío
-Ponele `id="contenido"` al `main`, para que el enlace de salto llegue.
+Arriba hay un enlace «Saltar al contenido» que apunta a `#contenido`, pero ningún elemento se llama así todavía.
+
+1. Buscá la etiqueta `<main>`.
+2. Agregale el atributo `id="contenido"`, así: `<main id="contenido">`.
+
+No se escribe el `#` en el `id`: el `#` va solo en el `href` del enlace.
+
+**Se comprueba:** que el enlace siga igual y que el `main` tenga `id="contenido"`.
 
 #### Código inicial
 ```html
@@ -1550,12 +1630,14 @@ En la ventanilla del portal llegan preguntas por criaturas y Teo las busca a man
 `<form method="get">` manda lo que se escribe en la dirección. El campo `type="search"` necesita su `label` conectado: el `for` del `label` igual al `id` del campo.
 
 #### Desafío
-Armá el buscador del bestiario:
+Un buscador: el `label` y el campo se unen con el mismo nombre, `q`. Escribí todo **adentro del `<body>`**.
 
-- Un `form` con `method="get"`.
-- Un `label` «Buscar» con `for="q"`.
-- Un `input` con `type="search"`, `id="q"` y `name="q"`.
-- Un `button` con `type="submit"` y el texto «Buscar».
+1. Un `<form method="get">` y, al final, su `</form>`. Lo que sigue va adentro.
+2. El texto del campo: `<label for="q">Buscar</label>`.
+3. El campo: `<input type="search" id="q" name="q">`.
+4. El botón: `<button type="submit">Buscar</button>`.
+
+**Se comprueba:** el `form` con `method` `get`, el `label` con `for` `q`, el campo con `type` `search`, `id` `q` y `name` `q`, y el botón `submit` que diga *Buscar*.
 
 #### Código inicial
 ```html
@@ -1641,11 +1723,15 @@ Tesela quiere saber qué piensan los aprendices de la temporada. Teo propone pre
 Los `radio` del mismo grupo comparten el `name` (se elige uno solo). Un `fieldset` agrupa y su `legend` dice qué se pregunta. `maxlength` en el `textarea` limita los caracteres.
 
 #### Desafío
-Armá la encuesta:
+Una encuesta con dos grupos de preguntas y un comentario. Escribí todo **adentro del `<body>`** (si querés, adentro de un `form`).
 
-1. Un `fieldset` con `legend` y **tres** opciones `radio`, todas con `name="opinion"`, cada una adentro de su `label`; **una** con `required`.
-2. Otro `fieldset` con `legend` y **tres** `checkbox`, cada uno adentro de su `label`.
-3. Un `textarea` con `id="comentario"` y `maxlength="300"`, con su `label for="comentario"`.
+1. Un `fieldset` con su `legend` (la pregunta) y **tres** opciones de una sola respuesta. Cada una así: `<label><input type="radio" name="opinion"> Excelente</label>`. Las tres llevan el mismo `name="opinion"`, y **solo una** lleva `required`.
+2. Otro `fieldset` con su `legend` y **tres** opciones para marcar varias: `<label><input type="checkbox"> Vulkan</label>`.
+3. Un comentario: `<label for="comentario">Comentario</label>` y `<textarea id="comentario" maxlength="300"></textarea>`.
+
+Cada `input` va **adentro** de su `label`.
+
+**Se comprueba:** dos `fieldset` con su `legend`, tres `radio` con `name="opinion"` (uno con `required`), tres `checkbox`, los seis `input` adentro de un `label` y el `textarea` con `id` `comentario`, `maxlength` 300 y su `label`.
 
 #### Código inicial
 ```html
@@ -1761,7 +1847,14 @@ A la entrada del portal hay una terminal que pide nombre y contraseña. Nora apo
 `<label for="usuario">` se une al campo que tiene `id="usuario"`: el lector de pantalla lo lee, y tocar el texto pone el cursor en el campo.
 
 #### Desafío
-Agregá el `for` que falta en cada `label`, con el `id` de su campo.
+Cada `label` tiene que estar unido a su campo. Se unen así: el `for` del `label` es igual al `id` del campo.
+
+1. Mirá el `id` del primer campo: `usuario`. Agregale al primer `label` `for="usuario"`: `<label for="usuario">Usuario</label>`.
+2. Mirá el `id` del segundo campo y hacé lo mismo con el segundo `label`.
+
+Ojo: el segundo `id` es `clave`, no «contraseña».
+
+**Se comprueba:** que el primer `label` tenga `for="usuario"` y el segundo `for="clave"`.
 
 #### Código inicial
 ```html
@@ -1818,7 +1911,14 @@ Teo deja la terminal vacía y aprieta «Entrar», tres veces, cada vez más fuer
 Con el atributo `required`, el navegador no deja enviar el formulario si ese campo está vacío, y le avisa solo al que lo llena.
 
 #### Desafío
-Marcá los dos campos como obligatorios con `required`.
+Si un campo es obligatorio, el formulario no se envía vacío. Eso se marca con la palabra `required`.
+
+1. En el primer `<input ...>`, antes del `>`, agregá un espacio y `required`.
+2. Hacé lo mismo en el segundo `<input ...>`.
+
+Así queda el primero: `<input id="usuario" name="usuario" required>`. A `required` no le hace falta `=""`.
+
+**Se comprueba:** que haya dos campos con `required`.
 
 #### Código inicial
 ```html
@@ -1876,7 +1976,14 @@ El formulario de encargos pide el correo y cuántos vitrales. En el celular de u
 `type="email"` pide un correo (y el celular muestra la `@`); `type="number"` pide un número, y con `min` y `max` marca los límites.
 
 #### Desafío
-Poné `type="email"` en el correo y `type="number"` con `min="1"` y `max="12"` en la cantidad.
+Cada campo puede decir qué tipo de dato pide, con el atributo `type`.
+
+1. En el campo del correo (`id="correo"`), agregá `type="email"`.
+2. En el de la cantidad (`id="cantidad"`), agregá `type="number"`, `min="1"` y `max="12"`.
+
+Así queda el segundo: `<input id="cantidad" name="cantidad" type="number" min="1" max="12">`. El `required` del correo se queda donde está.
+
+**Se comprueba:** el correo con `type` `email`, y la cantidad con `type` `number`, `min` 1 y `max` 12.
 
 #### Código inicial
 ```html
@@ -1939,7 +2046,12 @@ Pero el botón de enviar está escrito como un enlace.
 Lo que **envía** un formulario es un `<button type="submit">`, adentro del `form`. Un enlace lleva a otra página; no envía nada.
 
 #### Desafío
-Cambiá el enlace por un `button` de tipo `submit` que diga **Enviar al Puerto**.
+Un enlace `a` lleva a otra página, pero **no envía** el formulario. Para enviar se usa un botón.
+
+1. Borrá la línea del enlace `<a href="#">Enviar al Puerto</a>`.
+2. En su lugar, antes del `</form>`, escribí `<button type="submit">Enviar al Puerto</button>`.
+
+**Se comprueba:** que adentro del `form` haya un `button` de tipo `submit` que diga *Enviar al Puerto* y ningún enlace.
 
 #### Código inicial
 ```html
@@ -2230,12 +2342,14 @@ En la entrada de los Talleres hay un pizarrón con los horarios de las clases, b
 `caption` es el título de la tabla. Los encabezados son `th`: con `scope="col"` los de columna y con `scope="row"` los de fila. `colspan="2"` hace que una celda ocupe dos columnas.
 
 #### Desafío
-Armá el horario del taller:
+Un horario como tabla. Escribí todo **adentro del `<body>`**, en un `<table>`.
 
-- Un `caption` con el título.
-- Un `thead` con **tres** `th scope="col"`: «Hora» y dos días.
-- Un `tbody` con **dos** filas, cada una con su hora en un `th scope="row"`.
-- En la segunda fila, **una** celda con `colspan="2"`.
+1. El título: `<caption>Clases de la semana</caption>` (o el que quieras).
+2. Un `thead` con una fila de **tres** títulos de columna: `<th scope="col">Hora</th>` y dos días, también con `scope="col"`.
+3. Un `tbody` con **dos** filas. Cada fila empieza con la hora como título de fila (`<th scope="row">18:00</th>`) y sigue con celdas `td`.
+4. En la segunda fila, después de la hora, **una sola** celda que ocupe dos columnas: `<td colspan="2">Práctica libre</td>`.
+
+**Se comprueba:** un `caption`, un `thead`, un `tbody`, tres `th` con `scope="col"`, dos con `scope="row"` y una `td` con `colspan="2"`.
 
 #### Código inicial
 ```html
@@ -2334,11 +2448,15 @@ Un viajero pregunta en la entrada qué diferencia hay entre el plan Gratis y el 
 Con `thead` y `tbody` la tabla se entiende por partes. Los `th scope="col"` nombran las columnas (los planes) y los `th scope="row"`, las filas (las características): así un lector de pantalla dice cada dato con su nombre.
 
 #### Desafío
-Armá la tabla que compara los planes:
+Una tabla que compara dos planes. Escribí todo **adentro del `<body>`**, en un `<table>`.
 
-- Un `caption`, un `thead` y un `tbody`.
-- **Tres** `th scope="col"`: «Característica», «Gratis» y «Supremo».
-- **Dos** filas de características, cada una con su `th scope="row"` y **dos** `td` (cuatro `td` en total).
+1. Un `caption` con el título de la tabla.
+2. Un `thead` con una fila de **tres** títulos de columna (`th scope="col"`): *Característica*, *Gratis* y *Supremo*.
+3. Un `tbody` con **dos** filas. Cada una empieza con la característica como título de fila (`<th scope="row">Cursos</th>`) y sigue con **dos** `td`, una por plan.
+
+Así queda una fila: `<tr><th scope="row">Cursos</th><td>3</td><td>Todos</td></tr>`.
+
+**Se comprueba:** un `caption`, un `thead`, un `tbody`, tres `th` con `scope="col"`, dos con `scope="row"` y cuatro `td` en total.
 
 #### Código inicial
 ```html
@@ -2452,7 +2570,14 @@ En la entrada de los Talleres cuelga la tabla de la **Liga Obsidiana**, pero ano
 Una tabla es `<table>` con filas `<tr>`, y cada fila con sus celdas `<td>`. Una fila por aprendiz.
 
 #### Desafío
-Armá la tabla: una fila `tr` por aprendiz, con dos celdas `td` (nombre y puntos).
+Los datos están sueltos adentro de la tabla. Hay que armar una fila (`tr`) por aprendiz, con dos celdas (`td`).
+
+1. Cambiá la línea `Nadia 120` por: `<tr><td>Nadia</td><td>120</td></tr>`.
+2. Hacé lo mismo con la línea de Teo.
+
+Cada dato va en su propia celda: el nombre en una `td` y los puntos en otra.
+
+**Se comprueba:** que haya dos filas y que las celdas digan Nadia, 120, Teo y 45, en ese orden.
 
 #### Código inicial
 ```html
@@ -2509,7 +2634,15 @@ recompensa: xp 10, oro 10
 La primera fila va en `<thead>` con celdas `<th scope="col">` (los títulos de las columnas); los datos, en `<tbody>`.
 
 #### Desafío
-Agregá un `thead` con una fila de dos `th` con `scope="col"`: **Aprendiz** y **Puntos**. Los datos quedan en el `tbody`.
+La tabla no tiene títulos de columna. Los agregamos en un `thead`, arriba del `tbody`.
+
+1. Entre `<table>` y `<tbody>`, escribí `<thead>` y `</thead>`.
+2. Adentro, una fila: `<tr>` y `</tr>`.
+3. Adentro de la fila, dos títulos: `<th scope="col">Aprendiz</th>` y `<th scope="col">Puntos</th>`.
+
+Los títulos van en `th`, no en `td`. El `tbody` con los datos no se toca.
+
+**Se comprueba:** que el `thead` tenga los títulos *Aprendiz* y *Puntos*, los dos con `scope="col"`, y que el `tbody` siga con sus dos filas.
 
 #### Código inicial
 ```html
@@ -2574,7 +2707,13 @@ recompensa: xp 10, oro 10
 `<caption>` es el título de una tabla. Va como **primer** elemento adentro de `<table>`.
 
 #### Desafío
-Agregá un `caption` que diga **Liga Obsidiana: la semana**.
+Toda tabla puede tener un título, que va en `caption`.
+
+1. Justo después de `<table>` (antes del `<thead>`), escribí: `<caption>Liga Obsidiana: la semana</caption>`.
+
+Tiene que ser lo **primero** adentro de la tabla, y el texto tiene que ser exactamente ese, con los dos puntos.
+
+**Se comprueba:** que la tabla tenga un `caption` que diga *Liga Obsidiana: la semana*.
 
 #### Código inicial
 ```html
@@ -2635,7 +2774,16 @@ La tabla ahora tiene racha y puntos. Nora pregunta por la fila de Teo: —¿De q
 La primera celda de cada fila, si dice **de quién** es la fila, es un `<th scope="row">`: así el lector anuncia «Teo, racha: 2 días».
 
 #### Desafío
-Convertí la primera celda de cada fila del `tbody` en un `th` con `scope="row"`.
+El nombre de cada aprendiz es el **título de su fila**. Por eso no va en una celda común (`td`), sino en un `th` con `scope="row"`.
+
+1. En cada fila del `tbody`, buscá la **primera** celda: `<td>Nadia</td>`.
+2. Cambiá `td` por `th`, en la apertura y en el cierre: `<th>Nadia</th>`.
+3. Agregale `scope="row"` en la apertura: `<th scope="row">Nadia</th>`.
+4. Hacé lo mismo con la fila de Teo.
+
+Las otras celdas de cada fila quedan como `td`. No toques el `thead`.
+
+**Se comprueba:** que en el `tbody` haya dos `th` (Nadia y Teo) con `scope="row"`, y que queden cuatro `td`.
 
 #### Código inicial
 ```html
@@ -2856,7 +3004,13 @@ El escaparate de la panadería del Gremio amaneció **derretido**: el título ch
 Un `<h2>` sin su `</h2>` se traga todo lo que viene después. Cerrá cada etiqueta antes de abrir la siguiente.
 
 #### Desafío
-Cerrá el `h2` del título, para que el párrafo quede afuera.
+El `h2` se abrió y nunca se cerró, y se «tragó» el párrafo de abajo.
+
+1. Al final de la primera línea, después de `Panadería del Gremio`, escribí `</h2>`.
+
+Así el título termina ahí y el párrafo queda afuera, solo.
+
+**Se comprueba:** que el `h2` diga solo *Panadería del Gremio* y que el párrafo quede afuera.
 
 #### Código inicial
 ```html
@@ -2907,7 +3061,14 @@ La lista de panes se escapó de su caja: los `li` andan sueltos por el escaparat
 Un `<li>` siempre vive adentro de un `<ul>` o un `<ol>`. Suelto, el navegador no sabe de qué lista es.
 
 #### Desafío
-Meté los tres `li` adentro de un `ul`.
+Los tres `li` están sueltos. Un `li` siempre va adentro de una lista.
+
+1. Antes del primer `<li>`, escribí `<ul>`.
+2. Después del último `</li>`, escribí `</ul>`.
+
+El `h2` queda afuera de la lista.
+
+**Se comprueba:** que haya un `ul` con los tres `li` adentro: *Pan de miel*, *Trenza de anís* y *Medialunas*.
 
 #### Código inicial
 ```html
@@ -2967,7 +3128,14 @@ Todo el escaparate sale en negrita, hasta el teléfono. Un `strong` quedó abier
 Buscá el `<strong>` que no tiene su `</strong>`, y cerralo donde termina lo importante, **adentro** de su párrafo.
 
 #### Desafío
-Cerrá el `strong` justo después de **recién horneado**, adentro del primer párrafo.
+El `strong` (negrita) se abrió y no se cerró, así que la negrita se escapa del párrafo.
+
+1. Buscá `recién horneado` en la primera línea.
+2. Justo después, **antes** del `</p>`, escribí `</strong>`.
+
+Así queda: `<p>Pan de miel <strong>recién horneado</strong></p>`. El orden importa: primero se cierra el `strong` y después el `p`.
+
+**Se comprueba:** un solo `strong` que diga *recién horneado*, y los dos párrafos completos.
 
 #### Código inicial
 ```html
@@ -3022,7 +3190,13 @@ Queda el último cierre: el `div` del escaparate nunca se cerró, y la nota del 
 Cada `<div>` que abrís necesita su `</div>`. Contalos: tiene que haber tantos cierres como aperturas.
 
 #### Desafío
-Cerrá el `div` del escaparate antes del `footer`, para que el pie quede afuera.
+El `div` del escaparate se abrió y nunca se cerró, así que el pie (`footer`) quedó adentro.
+
+1. Después del párrafo `<p>Pan de miel recién horneado.</p>` y **antes** del `<footer>`, escribí `</div>`.
+
+Así el `footer` queda afuera del escaparate.
+
+**Se comprueba:** que el `footer` no esté adentro del escaparate y que diga *Abierto de 7 a 13.*
 
 #### Código inicial
 ```html

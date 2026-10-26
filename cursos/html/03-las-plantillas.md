@@ -2828,7 +2828,7 @@ Una fila del ranking que se ilumina entera al pasar el mouse. Escribí todo **ad
 
 1. La fila es un enlace: `<a href="#" class="group transition hover:bg-slate-800">` y su `</a>`.
 2. Adentro, el puesto: `<span class="group-hover:text-cyan-400">#1</span>`.
-3. Adentro también, una flecha que aparece solo con el mouse: `<span class="opacity-0 transition group-hover:opacity-100">&gt;</span>`.
+3. Adentro también, una flecha que aparece solo con el mouse: `<span class="opacity-0 transition group-hover:opacity-100">></span>`.
 
 (Podés sumar el nombre y los puntos en otros `span`.)
 

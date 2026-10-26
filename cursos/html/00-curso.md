@@ -200,13 +200,16 @@ Antes de entrar a los Talleres, Tesela le pide a Iris que se presente como se pr
 El esqueleto es siempre el mismo: `<!DOCTYPE html>`, `<html lang="es">` y, en el `head`, `<meta charset="utf-8">`, el `viewport` y el `title`. Adentro de un párrafo, `<strong>` marca algo importante y `<em>`, énfasis.
 
 #### Desafío
-Armá la página que presenta a {heroe} como aprendiz de los Talleres:
+Una página entera para presentar a tu personaje. El esqueleto ya está: escribí todo **adentro del `<body>`** (entre `<body>` y `</body>`).
 
-1. El esqueleto completo: `<!DOCTYPE html>`, `html` con `lang="es"`, y en el `head`, `meta charset`, `meta name="viewport"` y `title`.
-2. **Un** `h1` con su nombre y **un** `h2` con su especialidad.
-3. **Dos** párrafos sobre su viaje, con **una** palabra en `strong` y **una** en `em`.
+1. **Un** `h1` con el nombre: `<h1>Iris</h1>` (o el nombre de tu personaje).
+2. **Un** `h2` con su especialidad: `<h2>Aprendiz de vitralista</h2>`.
+3. **Dos** párrafos (`<p>...</p>`) contando su viaje.
+4. En uno de los párrafos, marcá **una** palabra con `<strong>` y **otra** con `<em>`. Por ejemplo: `<p>Llegué <strong>sola</strong> y con <em>mucho</em> miedo.</p>`
 
-El inspector cuenta las etiquetas: los textos los elegís vos.
+Los textos los inventás vos: el inspector solo cuenta las etiquetas.
+
+**Se comprueba:** el esqueleto (doctype, `lang="es"`, `meta charset`, `viewport` y `title`), un `h1`, un `h2`, dos párrafos, y un `strong` y un `em` adentro de los párrafos.
 
 #### Código inicial
 ```html
@@ -294,14 +297,17 @@ En el taller hay un manual viejo donde los títulos están todos mezclados: cap�
 Los títulos van en orden: `h1` para el nombre, `h2` para cada capítulo y `h3` para los apartados de un capítulo. Nunca un `h3` sin su `h2` arriba.
 
 #### Desafío
-Escribí el manual del taller:
+Un manual con capítulos y apartados. Los títulos van de mayor a menor: `h1` el nombre, `h2` cada capítulo y `h3` cada apartado. Escribí todo **adentro del `<body>`**, en este orden:
 
-1. **Un** `h1` con el nombre del manual.
-2. **Dos** `h2` (dos capítulos).
-3. Justo debajo del **primer** `h2`, **dos** `h3` (dos apartados), cada uno con **su** párrafo.
-4. El segundo capítulo, con **un** párrafo.
+1. `<h1>` con el nombre del manual.
+2. `<h2>` del **primer** capítulo.
+3. Justo debajo, `<h3>` del primer apartado y su `<p>`.
+4. `<h3>` del segundo apartado y su `<p>`.
+5. `<h2>` del **segundo** capítulo y su `<p>`.
 
-En total, tres párrafos. El inspector cuenta las etiquetas y revisa que el primer `h3` venga justo después de un `h2`.
+Ojo: el primer `h3` va **inmediatamente** después del primer `h2`, sin un párrafo en el medio. Y nunca un `h3` justo debajo del `h1`.
+
+**Se comprueba:** un `h1`, dos `h2`, dos `h3` y tres párrafos; que el `h2` venga justo después del `h1` y el `h3` justo después de un `h2`.
 
 #### Código inicial
 ```html
@@ -400,7 +406,14 @@ Iris despierta en un balcón de piedra, con el fragmento de vidrio todavía en l
 Toda página empieza con `<!DOCTYPE html>` y tiene una raíz `<html lang="es">` con dos partes: `<head>` (lo que no se ve) y `<body>` (lo que se ve). Tu página se dibuja sola al lado mientras escribís; el **Inspector**, debajo, lee tu código (sin ejecutarlo) y te muestra qué encontró.
 
 #### Desafío
-Escribí la primera línea que falta, `<!DOCTYPE html>`, y poné `lang="es"` en la etiqueta `html`.
+A este esqueleto de página le faltan dos cosas: la línea que avisa que es HTML y el idioma.
+
+1. Arriba de todo, **antes** de `<html>`, agregá una línea nueva que diga: `<!DOCTYPE html>`
+2. En la etiqueta `<html>`, agregá el idioma: tiene que quedar `<html lang="es">`.
+
+El resto no se toca. Cuando esté bien, los renglones del inspector (abajo del editor) se ponen en verde.
+
+**Se comprueba:** que esté el `<!DOCTYPE html>`, que el `html` tenga `lang="es"` y que el título siga siendo *Mi primer vitral*.
 
 #### Código inicial
 ```html
@@ -467,7 +480,13 @@ recompensa: xp 10, oro 10
 `<h1>…</h1>` es el título más importante de la página (uno solo). `<p>…</p>` es un párrafo. Lo que se abre, se cierra.
 
 #### Desafío
-Agregá, arriba del párrafo, un `h1` que diga exactamente **¡Hola, Talleres!**
+La página no tiene título. Le agregamos uno grande, con `h1`.
+
+1. En el `body`, **arriba** del `<p>`, escribí una línea nueva: `<h1>¡Hola, Talleres!</h1>`
+
+El texto tiene que ser exactamente ese, con los dos signos de exclamación (`¡` y `!`) y la coma. El párrafo queda igual, debajo.
+
+**Se comprueba:** que el `h1` diga *¡Hola, Talleres!* y que el párrafo siga igual.
 
 #### Código inicial
 ```html
@@ -535,7 +554,14 @@ Iris quiere que en su párrafo **HTML** se note más que el resto, y que *qué e
 `<strong>` marca lo **importante** y `<em>` lo dicho con *énfasis*. Van adentro del párrafo: `<p>Hola <strong>mundo</strong></p>`.
 
 #### Desafío
-En el párrafo, envolvé **HTML** con `strong` y **qué es** con `em`.
+Vamos a marcar dos partes del párrafo: una como **importante** y otra con *énfasis*.
+
+1. Rodeá la palabra `HTML` con `<strong>` y `</strong>`: `<strong>HTML</strong>`.
+2. Rodeá las palabras `qué es` con `<em>` y `</em>`: `<em>qué es</em>`.
+
+Las dos etiquetas van **adentro** del párrafo; el resto del texto queda igual.
+
+**Se comprueba:** que adentro del párrafo, el `strong` diga *HTML* y el `em`, *qué es*.
 
 #### Código inicial
 ```html
@@ -588,7 +614,13 @@ Iris apoya el fragmento en una ventana vacía, sin plomo, para ver cómo queda. 
 Las etiquetas se cierran en orden inverso: la última que abriste es la primera que cerrás. Si una queda abierta, el navegador «adivina» dónde termina… y casi siempre adivina mal: acá, el *énfasis* se contagia al párrafo de abajo.
 
 #### Desafío
-El `em` de **plomo** quedó abierto y se contagia al párrafo de abajo: cerralo con `</em>` antes del `</p>`.
+El `em` de *plomo* se abrió y nunca se cerró, y por eso el segundo párrafo también sale en cursiva.
+
+1. En la segunda línea, justo después de `plomo` y **antes** de `</p>`, escribí `</em>`.
+
+Queda: `<p>Primero el <em>plomo</em></p>`. Primero se cierra el `em` (el último que se abrió) y después el `p`.
+
+**Se comprueba:** que haya un solo `em` y que diga *plomo*.
 
 #### Código inicial
 ```html

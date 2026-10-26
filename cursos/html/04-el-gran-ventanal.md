@@ -296,11 +296,15 @@ En la Catedral, el menú de la cabecera no entra en el celular. Nora propone un 
 `<details>` se abre y se cierra solo al tocar su `<summary>`. `lg:hidden` lo esconde en la compu, donde el menú ya se ve entero. El botón necesita un texto para quien no ve: `aria-label`.
 
 #### Desafío
-Armá el menú desplegable del celular:
+Un menú para el celular que se abre y se cierra solo, sin JavaScript. Escribí todo **adentro del `<body>`**.
 
-- Un `details` con la clase `lg:hidden`.
-- Adentro, un `summary` con `aria-label` y un `nav` con **cuatro** enlaces.
-- Sin `script`.
+1. Un `<details class="lg:hidden">` y su `</details>` (en la compu se esconde). Lo que sigue va adentro.
+2. El botón que lo abre: `<summary aria-label="Abrir el menú">Menú</summary>`. El `aria-label` es el nombre que lee quien no ve.
+3. Debajo del `summary`, un `nav` con **cuatro** enlaces.
+
+No uses `script`: `details` ya sabe abrirse y cerrarse.
+
+**Se comprueba:** un `details` con `lg:hidden`, un `summary` con `aria-label` directamente adentro, cuatro enlaces en el `nav` de adentro y ningún `script`.
 
 #### Código inicial
 ```html
@@ -586,10 +590,15 @@ La barra de secciones de la Catedral no dice dónde estás. Tesela quiere una ra
 `aria-current="page"` marca la sección activa. Un pseudo-elemento con `before:` dibuja algo arriba sin tocar el HTML: `before:absolute before:top-0 before:h-0.5`.
 
 #### Desafío
-Armá la barra inferior con clases de Tailwind:
+La barra de abajo, con una rayita en la sección donde estás. Escribí todo **adentro del `<body>`**.
 
-- Un `nav` con **cinco** enlaces, todos con `flex-1`.
-- **Uno** con `aria-current="page"`, con `relative` y la rayita hecha con `before:absolute` y `before:top-0`.
+1. Un `nav` con **cinco** enlaces, todos con la clase `flex-1` (podés sumarle `flex` al `nav` para ponerlos en fila).
+2. Al enlace de la sección actual sumale `aria-current="page"` y las clases `relative before:absolute before:top-0`. Por ejemplo:
+   `<a href="#" aria-current="page" class="flex-1 relative before:absolute before:top-0 before:h-0.5">Árbol</a>`
+
+`before:` dibuja la rayita arriba del enlace sin agregar HTML. Solo **uno** lleva `aria-current`.
+
+**Se comprueba:** cinco enlaces con `flex-1` en el `nav`, uno solo con `aria-current="page"`, y ese con `relative`, `before:absolute` y `before:top-0`.
 
 #### Código inicial
 ```html
@@ -878,7 +887,13 @@ El Gremio le encarga a {mentor} **el gran ventanal**: la plataforma **GhecoSoft-
 `sticky top-0` la deja pegada arriba al bajar, y `z-10` la pone por encima de lo que pasa por debajo.
 
 #### Desafío
-Agregale al `header` las clases `sticky top-0 z-10`, al principio.
+Al bajar por la página, la cabecera se va. Queremos que quede pegada arriba y por encima del resto.
+
+1. En el `class` del `header`, **al principio** (antes de `bg-slate-950/90`), escribí `sticky top-0 z-10` y un espacio.
+
+Queda: `class="sticky top-0 z-10 bg-slate-950/90 p-4 text-slate-100"`. Bajá en la vista previa para probarlo.
+
+**Se comprueba:** que el `class` del `header` sea exactamente `sticky top-0 z-10 bg-slate-950/90 p-4 text-slate-100`.
 
 #### Código inicial
 ```html
@@ -932,7 +947,13 @@ En la cabaña, el menú va abajo, al alcance del pulgar. En el castillo no hace 
 `fixed inset-x-0 bottom-0` la pega abajo de todo, de lado a lado; `md:hidden` la esconde desde la ventana mediana.
 
 #### Desafío
-Dale al `nav` de abajo las clases `fixed inset-x-0 bottom-0 md:hidden`, al principio.
+Queremos esta barra pegada abajo de todo en el celular, y escondida en pantallas más grandes.
+
+1. En el `class` del `nav`, **al principio** (antes de `flex`), escribí `fixed inset-x-0 bottom-0 md:hidden` y un espacio.
+
+`fixed bottom-0` la pega abajo, `inset-x-0` la estira de lado a lado y `md:hidden` la esconde desde la pantalla mediana. Probalo en *Celular* y en *Compu*.
+
+**Se comprueba:** que el `class` del `nav` sea exactamente `fixed inset-x-0 bottom-0 md:hidden flex justify-around bg-slate-900 p-3 text-slate-100`.
 
 #### Código inicial
 ```html
@@ -992,7 +1013,13 @@ Nora pide el atajo de siempre, «Saltar al contenido». Teo dice que queda feo a
 `sr-only` lo esconde a la vista pero no al lector de pantalla; `focus:not-sr-only` lo muestra cuando se llega con el teclado.
 
 #### Desafío
-Dale al enlace de salto las clases `sr-only focus:not-sr-only`.
+El enlace «Saltar al contenido» es para quien usa el teclado. Queremos que no se vea, salvo cuando se llega a él con la tecla Tab.
+
+1. Agregale al enlace el atributo: `class="sr-only focus:not-sr-only"`
+
+`sr-only` lo esconde (pero el lector de pantalla lo lee) y `focus:not-sr-only` lo muestra cuando tiene el foco. Probalo con Tab en la vista previa.
+
+**Se comprueba:** que el `class` del enlace de salto sea exactamente `sr-only focus:not-sr-only`.
 
 #### Código inicial
 ```html
@@ -1048,7 +1075,14 @@ El ventanal tiene dos menús: el de arriba y la barra de abajo. Nora los encuent
 Si hay dos `nav`, cada uno necesita un nombre: `aria-label="Principal"` y `aria-label="Atajos"`.
 
 #### Desafío
-Ponele `aria-label="Principal"` al primer `nav` y `aria-label="Atajos"` al segundo.
+Hay dos menús, y quien usa lector de pantalla no sabe cuál es cuál. Les ponemos nombre.
+
+1. En el **primer** `nav`, agregá `aria-label="Principal"`: `<nav aria-label="Principal" class="...">`.
+2. En el **segundo** `nav`, agregá `aria-label="Atajos"`.
+
+Las clases no se tocan.
+
+**Se comprueba:** que el primer `nav` se llame *Principal* y el segundo *Atajos*.
 
 #### Código inicial
 ```html
@@ -1709,11 +1743,17 @@ Nora arma la página para que los aprendices nuevos se anoten en la Catedral.
 `pattern` define qué caracteres acepta un campo. Los chips son `label` con un `radio` real escondido con `sr-only`; con `has-checked:` el chip se pinta cuando su radio está marcado.
 
 #### Desafío
-Armá el formulario de registro:
+Un formulario de registro con chips para elegir una ruta. Escribí todo **adentro del `<body>`** (si querés, adentro de un `form`).
 
-- Un `input` con `id="alias"` y `pattern="[A-Za-z0-9_]+"`, con su `label for="alias"`.
-- Un `input type="email"` con `id="email"` y su `label for="email"`.
-- **Tres** chips: cada uno un `label` con `has-checked:bg-neon` y, adentro, un `input type="radio"` con `name="ruta"` y `sr-only`.
+1. El alias, que solo acepta letras, números y guion bajo:
+   `<label for="alias">Alias</label>` y `<input id="alias" pattern="[A-Za-z0-9_]+">`
+2. El correo: `<label for="email">Correo</label>` y `<input id="email" type="email">`
+3. **Tres** chips. Cada uno es un `label` que se pinta al elegirlo, con un `radio` escondido adentro:
+   `<label class="has-checked:bg-neon"><input type="radio" name="ruta" class="sr-only"> Juegos</label>`
+
+Los tres `radio` llevan el mismo `name="ruta"`. Copiá el `pattern` tal cual.
+
+**Se comprueba:** el alias con ese `pattern` y su `label`, el correo con `type` `email` y su `label`, y tres `label` con `has-checked:bg-neon` y un `radio` `ruta` con `sr-only` adentro.
 
 #### Código inicial
 ```html
@@ -2008,11 +2048,15 @@ En la entrada de la Catedral va un cartel grande con Gheco presentándose. En el
 En una grilla, `lg:order-2` manda un elemento al final desde `lg`: la imagen pasa a la derecha sin moverla en el HTML. Y su `alt` cuenta lo que muestra.
 
 #### Desafío
-Armá el hero:
+La portada con Gheco: en el celular la imagen va arriba, y en la compu, a la derecha. Escribí todo **adentro del `<body>`**.
 
-- Una `section` con `grid` y `lg:grid-cols-2`.
-- Adentro, **una** imagen de Gheco (`/img/cursos/html/gheco-512.webp`) con `alt` y la clase `lg:order-2`.
-- Un `div` con el `h1` y el texto.
+1. Una `<section class="grid lg:grid-cols-2">` y su `</section>`.
+2. Adentro, **una** imagen: `<img src="/img/cursos/html/gheco-512.webp" alt="Gheco saluda" class="lg:order-2">`.
+3. Adentro también, un `div` con el `h1` y un párrafo.
+
+`lg:order-2` la manda a la segunda columna en la compu, aunque en el HTML esté primero.
+
+**Se comprueba:** la `section` con `grid` y `lg:grid-cols-2`, una sola imagen con `alt` y `lg:order-2`, y un `div` con un `h1` adentro.
 
 #### Código inicial
 ```html
@@ -2305,7 +2349,14 @@ El panel central lleva la figura del aprendiz de fondo y el texto encima. —Son
 El panel lleva `relative`; la imagen, `absolute inset-0 h-full w-full object-cover`: ocupa todo el panel, de fondo.
 
 #### Desafío
-Agregale `relative` al `section`, y a la imagen `absolute inset-0 h-full w-full object-cover`.
+Queremos la imagen de **fondo** del panel, ocupándolo entero, con el título encima.
+
+1. En el `class` de la `section`, **al principio**, escribí `relative` y un espacio: `class="relative h-80 overflow-hidden rounded-xl"`.
+2. En la imagen, el `class` está vacío (`class=""`). Escribí adentro de las comillas: `absolute inset-0 h-full w-full object-cover`.
+
+`relative` en la caja y `absolute inset-0` en la imagen hacen que la imagen la cubra entera; `object-cover` la recorta sin deformarla.
+
+**Se comprueba:** el `class` de la `section` (`relative h-80 overflow-hidden rounded-xl`) y el de la imagen (`absolute inset-0 h-full w-full object-cover`).
 
 #### Código inicial
 ```html
@@ -2365,7 +2416,14 @@ El título quedó debajo de la imagen. Y aunque lo subas, sobre la figura no se 
 Un velo oscuro (`absolute inset-0 bg-slate-950/60`) entre la imagen y el texto, y el texto con `relative` para que quede arriba.
 
 #### Desafío
-Al `div` del velo dale `absolute inset-0 bg-slate-950/60`, y agregale `relative` al principio de las clases del `h1`.
+El título blanco no se lee bien sobre la foto. Ponemos un velo oscuro entre la foto y el texto.
+
+1. El `div` vacío es el velo. Agregale: `<div class="absolute inset-0 bg-slate-950/60"></div>`.
+2. En el `class` del `h1`, **al principio**, escribí `relative` y un espacio: `class="relative p-6 text-3xl font-bold text-white"`.
+
+El `relative` del título hace que quede **encima** del velo.
+
+**Se comprueba:** el `class` del velo (`absolute inset-0 bg-slate-950/60`) y el del `h1` (`relative p-6 text-3xl font-bold text-white`).
 
 #### Código inicial
 ```html
@@ -2427,7 +2485,14 @@ Al costado del panel va el portal de acceso. Gheco se olvida su clave tres veces
 `autocomplete="username"` y `autocomplete="current-password"` le dicen al navegador qué es cada campo, para completarlo solo.
 
 #### Desafío
-Agregale `autocomplete="username"` al usuario y `autocomplete="current-password"` a la clave.
+Queremos que el navegador pueda completar solo el usuario y la contraseña guardados.
+
+1. En el `input` del usuario (`id="usuario"`), agregá `autocomplete="username"`.
+2. En el de la contraseña (`id="clave"`), agregá `autocomplete="current-password"`.
+
+Los demás atributos y las clases quedan como están.
+
+**Se comprueba:** que el primer campo tenga `autocomplete` `username` y el segundo, `current-password`.
 
 #### Código inicial
 ```html
@@ -2490,7 +2555,12 @@ El hero tiene dos botones: «Empezá gratis» y «Ver los cursos». —No pueden
 El principal, lleno: `btn btn-primario`. El secundario, solo con borde: `btn border border-neon text-neon`.
 
 #### Desafío
-Dale a «Empezá gratis» las clases `btn btn-primario`, y a «Ver los cursos», `btn border border-neon text-neon`.
+Dos botones: el principal lleno de color y el otro solo con borde. Las piezas `btn` y `btn-primario` ya están en el bloque de Tailwind.
+
+1. En «Empezá gratis», dejá `class="btn btn-primario"`.
+2. En «Ver los cursos», dejá `class="btn border border-neon text-neon"`.
+
+**Se comprueba:** que el primer enlace tenga `btn btn-primario` y el segundo, `btn border border-neon text-neon`.
 
 #### Código inicial
 ```html
@@ -3277,10 +3347,15 @@ En la Catedral hay cursos que todavía no se pueden tomar. Nora quiere que se no
 `opacity-60 grayscale` apaga la tarjeta. Un `button` con `disabled` no se puede apretar (un enlace sí se podría seguir). El texto del botón cuenta qué falta para desbloquearla.
 
 #### Desafío
-Armá dos tarjetas de curso con la clase `tarjeta`:
+Dos tarjetas de curso: una disponible y otra bloqueada. Escribí todo **adentro del `<body>`**.
 
-- Una disponible, con un enlace para continuar.
-- Una bloqueada, con `opacity-60` y `grayscale`, un candado (🔒) y un `button` con `disabled` que diga qué hace falta.
+1. La disponible: un `<article class="tarjeta">` con el nombre del curso y un enlace para continuar (`<a href="#">Continuar</a>`).
+2. La bloqueada: un `<article class="tarjeta opacity-60 grayscale">` con el nombre, un candado (🔒) y un botón que no se puede apretar:
+   `<button type="button" disabled>Aprobá Python para abrirlo</button>`
+
+La bloqueada **no** lleva enlace: solo el `button` con `disabled`.
+
+**Se comprueba:** dos `article.tarjeta`; uno con `opacity-60` y `grayscale`, con un `button` `disabled` adentro y sin enlaces.
 
 #### Código inicial
 ```html
@@ -3563,10 +3638,16 @@ En la sala de las rutas, los chips de filtro se marcan pero no esconden nada. Te
 `group` en el contenedor y, en cada tarjeta, `group-has-[#f-graf:checked]:hidden`: la tarjeta se esconde cuando, adentro del grupo, está marcado el radio con `id="f-graf"`.
 
 #### Desafío
-Armá los filtros, todo adentro de un `div` con la clase `group`:
+Filtros que esconden tarjetas sin JavaScript. Escribí todo **adentro del `<body>`**, dentro de un `<div class="group">`.
 
-- **Cuatro** `input type="radio"` con `name="f"`, cada uno adentro de su `label`; uno con `id="f-graf"`.
-- **Cuatro** `article` con la clase `tarjeta`. Las **dos** que no son de gráficos, con `group-has-[#f-graf:checked]:hidden`.
+1. **Cuatro** opciones, cada una con su `radio` adentro de un `label` y todas con `name="f"`. La de gráficos lleva `id="f-graf"`:
+   `<label><input type="radio" name="f" id="f-graf"> Gráficos</label>`
+2. **Cuatro** tarjetas `<article class="tarjeta">`: dos de gráficos y dos de otra cosa.
+3. A las **dos que no son de gráficos**, sumales la clase `group-has-[#f-graf:checked]:hidden`.
+
+Esa clase dice: «escondete cuando, en el grupo, esté marcado `#f-graf`». Sin `script`.
+
+**Se comprueba:** el `div` con `group`, cuatro `radio` `f` adentro de su `label`, uno con `id="f-graf"`, cuatro `article.tarjeta`, dos con la clase del filtro y ningún `script`.
 
 #### Código inicial
 ```html
@@ -3868,7 +3949,14 @@ Debajo del panel central van los vidrios de las rutas: ocho cursos. Nora quiere 
 Con `id` en el `h2` y `aria-labelledby` con ese id en la `section`, la sección se llama como su título.
 
 #### Desafío
-Ponele `id="rutas-titulo"` al `h2` y `aria-labelledby="rutas-titulo"` a la `section`.
+Queremos que la sección se llame como su título. Se unen con un nombre: el `id` del título y el `aria-labelledby` de la sección.
+
+1. En el `h2`, agregá `id="rutas-titulo"`.
+2. En la `section`, agregá `aria-labelledby="rutas-titulo"`.
+
+Los dos con el mismo nombre, sin `#`.
+
+**Se comprueba:** que la `section` tenga `aria-labelledby` `rutas-titulo` y el `h2`, `id` `rutas-titulo`.
 
 #### Código inicial
 ```html
@@ -3926,7 +4014,13 @@ En la cabaña, los vidrios de las rutas van de a uno; en una ventana mediana, de
 Se suman prefijos: `sm:grid-cols-2` desde la ventana chica-mediana y `lg:grid-cols-4` desde la grande.
 
 #### Desafío
-Dale a la grilla las clases `grid gap-4 sm:grid-cols-2 lg:grid-cols-4`, en ese orden.
+Cuatro tarjetas: una columna en el celular, dos en una pantalla mediana y cuatro en una grande.
+
+1. Agregale al `div` de afuera el atributo: `class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"`
+
+En ese orden. Las tarjetas de adentro no se tocan. Probalo en *Celular* y en *Compu*.
+
+**Se comprueba:** que el `class` del `div` de afuera sea exactamente `grid gap-4 sm:grid-cols-2 lg:grid-cols-4`.
 
 #### Código inicial
 ```html
@@ -3989,7 +4083,13 @@ recompensa: xp 10, oro 10
 `overflow-x-auto` en la fila de filtros: si no entran, se deslizan **adentro** de su fila, sin empujar la página.
 
 #### Desafío
-Agregale `overflow-x-auto` al final de las clases de la fila de filtros.
+Los filtros no entran en el celular y empujan la página de costado. Queremos que se deslicen dentro de su fila.
+
+1. En el `class` del `div` de afuera, después de `gap-2`, dejá un espacio y escribí `overflow-x-auto`.
+
+Queda: `class="flex gap-2 overflow-x-auto"`. Los botones no se tocan.
+
+**Se comprueba:** que el `class` del `div` sea exactamente `flex gap-2 overflow-x-auto`.
 
 #### Código inicial
 ```html
@@ -4053,7 +4153,14 @@ Cada vidrio de ruta tiene su imagen, y en el celular se bajan las ocho de golpe,
 `loading="lazy"` en una imagen: el navegador la baja recién cuando se acerca a la pantalla.
 
 #### Desafío
-Agregale `loading="lazy"` a las dos imágenes.
+Las imágenes se descargan todas de entrada, aunque no se vean. Queremos que esperen a estar cerca de la pantalla.
+
+1. En la primera imagen, agregá `loading="lazy"`.
+2. En la segunda, también.
+
+Por ejemplo: `<img src="..." alt="" width="128" height="128" loading="lazy">`.
+
+**Se comprueba:** que las dos imágenes tengan `loading` `lazy`.
 
 #### Código inicial
 ```html
@@ -4886,7 +4993,14 @@ En el salón de la fama la lista es larguísima y tu puesto se pierde abajo.
 `sticky bottom-4` deja un elemento pegado a 1rem del borde de abajo mientras su lugar real no aparece en pantalla. Cuando llegás, se queda en su posición.
 
 #### Desafío
-Armá la lista del ranking: una `ol` con **doce** `li` con la clase `tarjeta`. La fila del usuario, con `sticky`, `bottom-4` y `text-neon`.
+Un ranking largo, donde tu puesto queda siempre a la vista. Escribí todo **adentro del `<body>`**.
+
+1. Un `ol` con **doce** `li`, todos con la clase `tarjeta` (cada uno con un nombre y sus puntos).
+2. A **uno** de ellos (tu puesto), sumale `sticky bottom-4 text-neon`: `<li class="tarjeta sticky bottom-4 text-neon">8 · Vos</li>`.
+
+`sticky bottom-4` lo deja pegado abajo mientras bajás, hasta que llegás a su lugar.
+
+**Se comprueba:** doce `li.tarjeta` en el `ol`, y uno solo con `sticky`, `bottom-4` y `text-neon`.
 
 #### Código inicial
 ```html
@@ -5164,10 +5278,14 @@ La tabla del salón de la fama tenía dos versiones, una para cada pantalla. Tes
 `overflow-x-auto` en el contenedor le da scroll propio; `min-w-[40rem]` en la tabla la mantiene ancha aunque la pantalla sea angosta. Y la tabla, con su `caption` y sus `scope`.
 
 #### Desafío
-Usá una sola tabla:
+Una tabla ancha que, en el celular, se desliza de costado. Escribí todo **adentro del `<body>`**.
 
-- Un `div` con `overflow-x-auto` y, adentro, la `table` con `min-w-[40rem]`.
-- La tabla, con `caption`, **cinco** `th scope="col"` y **tres** filas con su `th scope="row"`.
+1. Un `<div class="overflow-x-auto">` y, directamente adentro, `<table class="min-w-[40rem]">`.
+2. Adentro de la tabla, un `caption` con el título.
+3. Un `thead` con una fila de **cinco** `th scope="col"`.
+4. Un `tbody` con **tres** filas; cada una empieza con un `th scope="row"` y sigue con cuatro `td`.
+
+**Se comprueba:** la tabla con `min-w-[40rem]` directamente adentro del `div` con `overflow-x-auto`, un `caption`, cinco `th` con `scope="col"` y tres con `scope="row"`.
 
 #### Código inicial
 ```html
@@ -5463,7 +5581,13 @@ En lo más alto del ventanal van los campeones de la **Liga Obsidiana**. Teo ya 
 `grid grid-cols-3 items-end gap-2`: tres columnas, apoyadas abajo, con espacio entre ellas.
 
 #### Desafío
-Dale al `ol` del podio las clases `grid grid-cols-3 items-end gap-2`, en ese orden.
+Los tres escalones del podio están uno debajo del otro. Los queremos en fila y apoyados abajo.
+
+1. Agregale al `ol` el atributo: `class="grid grid-cols-3 items-end gap-2"`
+
+`grid-cols-3` arma tres columnas e `items-end` los apoya abajo, como un podio. Los `li` no se tocan.
+
+**Se comprueba:** que el `class` del `ol` sea exactamente `grid grid-cols-3 items-end gap-2`.
 
 #### Código inicial
 ```html
@@ -5523,7 +5647,14 @@ La tabla de diez filas no entra en la cabaña. —Los mismos datos pueden tener 
 En la cabaña, la lista (`md:hidden`); en el castillo, la tabla (`hidden md:table`). Una se ve, la otra no.
 
 #### Desafío
-Dale `md:hidden` al `ol`, y `hidden md:table` a la `table`.
+Los mismos datos están dos veces: como lista (para el celular) y como tabla (para la compu). Hay que mostrar uno u otro según la pantalla.
+
+1. Agregale al `ol` el atributo `class="md:hidden"` (se esconde desde la pantalla mediana).
+2. Agregale a la `table` el atributo `class="hidden md:table"` (escondida en el celular y visible como tabla desde la mediana).
+
+Probalo en *Celular* y en *Compu*: tiene que verse uno solo por vez.
+
+**Se comprueba:** que el `ol` tenga `md:hidden` y la `table`, `hidden md:table`.
 
 #### Código inicial
 ```html
@@ -5591,7 +5722,14 @@ El diseño del ventanal no lleva título encima de la tabla: ya hay uno grande a
 Un `caption` con la clase `sr-only`: no se ve, pero el lector de pantalla lo lee.
 
 #### Desafío
-Agregá como primer elemento de la tabla un `caption` con la clase `sr-only` que diga **Liga Obsidiana: los diez mejores**.
+La tabla necesita un título para quien usa lector de pantalla, pero no queremos que se vea.
+
+1. Justo después de `<table>` (antes del `<thead>`), escribí:
+   `<caption class="sr-only">Liga Obsidiana: los diez mejores</caption>`
+
+Tiene que ser lo **primero** adentro de la tabla. `sr-only` lo esconde a la vista, pero el lector lo lee.
+
+**Se comprueba:** que el `caption` diga *Liga Obsidiana: los diez mejores* y tenga la clase `sr-only`.
 
 #### Código inicial
 ```html
@@ -5652,7 +5790,13 @@ recompensa: xp 10, oro 10
 Cada líder es un `li` de la lista. Copiá uno y cambiale el nombre.
 
 #### Desafío
-Agregá al final de la lista un `li` que diga **Tesela**.
+Falta una líder en la lista.
+
+1. Después del último `<li>Kaffa</li>` y **antes** del `</ul>`, escribí `<li>Tesela</li>`.
+
+Ojo: es *Tesela* (con **e**), no *Tesla*.
+
+**Se comprueba:** que la lista tenga cinco `li` y que el último diga *Tesela*.
 
 #### Código inicial
 ```html
@@ -6885,7 +7029,13 @@ Iris coloca el último vidrio y da un paso atrás. Entonces aparece el **Dragón
 Toda imagen que dice algo lleva `alt` con lo que muestra.
 
 #### Desafío
-Agregale a la imagen de Gheco `alt="Gheco señala las monedas de maestría"`.
+La imagen de Gheco no tiene descripción.
+
+1. En la `<img ...>`, después de `src="..."`, agregá: `alt="Gheco señala las monedas de maestría"`
+
+Copiá la frase exacta, con la tilde de *maestría*.
+
+**Se comprueba:** que el `alt` de la imagen diga exactamente *Gheco señala las monedas de maestría*.
 
 #### Código inicial
 ```html
@@ -6944,7 +7094,13 @@ El dragón encuentra un botón con un ícono de tres rayitas. Nora llega con el 
 Un botón que solo tiene un ícono necesita un nombre: `aria-label="Abrir el menú"`.
 
 #### Desafío
-Agregale al botón `aria-label="Abrir el menú"`.
+El botón solo tiene un ícono (☰), y quien no ve no sabe para qué sirve. Le damos un nombre.
+
+1. En el `<button ...>`, agregá: `aria-label="Abrir el menú"`
+
+Queda: `<button type="button" aria-label="Abrir el menú" class="...">☰</button>`.
+
+**Se comprueba:** que el botón tenga `aria-label` *Abrir el menú*.
 
 #### Código inicial
 ```html
@@ -6998,7 +7154,13 @@ El dragón agranda la ventana justo hasta 1024 píxeles, con una sonrisa: el men
 `whitespace-nowrap` en cada enlace del menú: el texto no se corta en dos renglones.
 
 #### Desafío
-Agregale `whitespace-nowrap` a los dos enlaces del menú.
+En pantallas angostas, «Liga Obsidiana» se parte en dos renglones. Queremos que cada enlace quede en un solo renglón.
+
+1. Los dos enlaces tienen `class=""` vacío. Escribí adentro de las comillas de cada uno: `whitespace-nowrap`.
+
+Queda: `<a href="#" class="whitespace-nowrap">Mis cursos</a>`, y lo mismo en el otro.
+
+**Se comprueba:** que los dos enlaces del menú tengan `whitespace-nowrap`.
 
 #### Código inicial
 ```html
@@ -7059,7 +7221,15 @@ El dragón vuelve para la última pasada: la cabecera de la página. Busca el id
 `<html lang="es">` dice el idioma, y `<meta name="description" content="…">` es el resumen que muestran los buscadores.
 
 #### Desafío
-Ponele `lang="es"` al `html` y agregá en el `head` un `meta` de `description` con **Aprendé a programar avanzando por tu árbol de habilidades.**
+Falta decir en qué idioma está la página y el resumen que muestran los buscadores. Las dos cosas van arriba, fuera de lo que se ve.
+
+1. En la etiqueta `<html>` (la segunda línea), agregá `lang="es"`: `<html lang="es">`.
+2. Adentro del `<head>`, debajo del `<title>`, escribí:
+   `<meta name="description" content="Aprendé a programar avanzando por tu árbol de habilidades.">`
+
+Copiá la frase exacta, con el punto final. El `title` no se toca.
+
+**Se comprueba:** el `lang` `es`, el `meta` `description` con esa frase y el `title` *GhecoSoft-Code*.
 
 #### Código inicial
 ```html

@@ -259,7 +259,14 @@ El esqueleto de plomo está listo. {mentor} abre el armario de los vidrios: azul
 Una regla dice **a quién** (el selector), **qué** (la propiedad) y **cómo** (el valor): `h1 { color: #22d3ee; }`. El CSS va en el `<style>`; el **Inspector** lee tus reglas tal como las escribiste (no mide cómo quedó dibujado): mirá en la vista previa que se vea como querés.
 
 #### Desafío
-Escribí en el `style` una regla para que el `h1` sea de color `#22d3ee`.
+Queremos que el título `h1` se vea color cian. Eso se hace con una **regla de CSS**, que va adentro del `<style>`.
+
+1. En la línea vacía entre `<style>` y `</style>`, escribí la regla: primero **a quién** (`h1`), después, entre llaves, **qué** y **cómo**.
+2. Tiene que quedar así: `h1 { color: #22d3ee; }`
+
+Ojo con los signos: dos puntos entre la propiedad y el valor, punto y coma al final, y las llaves `{ }`.
+
+**Se comprueba:** que haya una regla para `h1` con `color` `#22d3ee`.
 
 #### Código inicial
 ```html
@@ -311,7 +318,14 @@ Teo quiere pintar de ámbar **todos** los párrafos. Iris solo quiere el aviso.
 Una **clase** marca algunos elementos: `class="aviso"` en el HTML y `.aviso { … }` en el CSS (con punto). Así no se pinta todo.
 
 #### Desafío
-Ponele `class="aviso"` al segundo párrafo y escribí la regla `.aviso` con `background-color: #f59e0b`.
+Queremos pintar de ámbar **solo** el segundo párrafo. Para eso lo marcamos con una clase.
+
+1. En el HTML, agregale al segundo `<p>` la clase: `<p class="aviso">`.
+2. En el `<style>`, escribí la regla de esa clase, **con punto** adelante: `.aviso { background-color: #f59e0b; }`
+
+En el HTML la clase va sin punto (`class="aviso"`); en el CSS, con punto (`.aviso`). El primer párrafo no lleva clase.
+
+**Se comprueba:** que el primer párrafo no tenga clase, que el segundo tenga `class="aviso"` y que la regla `.aviso` tenga `background-color` `#f59e0b`.
 
 #### Código inicial
 ```html
@@ -368,7 +382,12 @@ Iris pintó de gris claro cada cosa, una por una: el párrafo, la lista, el tít
 El `color` y la letra se **heredan**: si se lo ponés al `body`, todo lo de adentro lo toma, salvo lo que tenga su propia regla.
 
 #### Desafío
-Poné `color: #e2e8f0` una sola vez en `body` y borrá las tres reglas de `h2`, `p` y `li`.
+Hay tres reglas que repiten el mismo color. Como el color se **hereda**, alcanza con ponerlo una sola vez en el `body`.
+
+1. En la regla del `body`, antes de la `}`, agregá `color: #e2e8f0;`. Queda: `body { background-color: #0f172a; color: #e2e8f0; }`
+2. Borrá las tres líneas enteras de `h2`, `p` y `li`.
+
+**Se comprueba:** que el `body` tenga `color` `#e2e8f0` y que ya **no haya** reglas de color para `h2`, `p` ni `li` (el inspector dice «no hay»).
 
 #### Código inicial
 ```html
@@ -433,7 +452,14 @@ En el fondo del armario, detrás de los frascos, Iris encuentra un vidrio de un 
 Una **variable** guarda un valor con nombre: `:root { --vidrio-misterio: #7c3aed; }`, y se usa con `var(--vidrio-misterio)`.
 
 #### Desafío
-Creá en `:root` la variable `--vidrio-misterio` con `#7c3aed`, y usala como `border-color` de `.fragmento`.
+El color `#7c3aed` lo vamos a guardar en una **variable**, para usarlo por su nombre.
+
+1. En el `<style>`, arriba de todo, creá la variable: `:root { --vidrio-misterio: #7c3aed; }`
+2. En la regla `.fragmento`, cambiá `border-color: #7c3aed;` por `border-color: var(--vidrio-misterio);`
+
+El nombre de la variable lleva dos guiones adelante, y para usarla se escribe adentro de `var( )`.
+
+**Se comprueba:** que `:root` tenga `--vidrio-misterio` con `#7c3aed` y que `.fragmento` use `var(--vidrio-misterio)` como `border-color`.
 
 #### Código inicial
 ```html
@@ -1112,10 +1138,13 @@ En el taller hay una tarjeta de curso cian que salió perfecta. Tesela quiere ot
 Las variables de CSS se pueden pisar en un elemento: una clase `.violeta { --neon: #a78bfa; }` cambia el acento solo en las tarjetas que la tengan. Todo lo que usa `var(--neon)` adentro se pinta del color nuevo.
 
 #### Desafío
-Agregá la tarjeta del curso de **SDL3** con acento violeta:
+Vamos a hacer una segunda tarjeta, igual a la de C++ pero violeta. No hace falta repetir todo el CSS: alcanza con cambiar la variable `--neon`.
 
-- Una regla `.violeta { --neon: #a78bfa; }` en el `style`.
-- Un `article` con las clases `tarjeta violeta`, con el contenido de la tarjeta (las mismas clases de adentro que la de C++).
+1. Al final del `<style>` (antes de `</style>`), agregá: `.violeta { --neon: #a78bfa; }`
+2. En el HTML, debajo de la tarjeta de C++, copiá **todo** el `<article class="tarjeta">` (desde `<article` hasta `</article>`) y pegalo.
+3. En la copia, cambiá `class="tarjeta"` por `class="tarjeta violeta"` y los textos por los de SDL3.
+
+**Se comprueba:** que la regla `.violeta` cambie `--neon` a `#a78bfa` y que haya un `article` con las clases `tarjeta` y `violeta`.
 
 #### Código inicial
 ```html
@@ -1472,13 +1501,17 @@ Tesela tiene un aviso que en la ventana grande del taller queda estirado de punt
 `max-width` pone un tope sin obligar a llegar: en una pantalla angosta la caja ocupa lo que haya. `margin: 2rem auto` deja 2rem arriba y abajo y reparte lo que sobra a los costados: la caja queda centrada.
 
 #### Desafío
-Armá una caja con un párrafo adentro, con la clase `centrada`, y en el `style`:
+Una caja que en la compu no pasa de 30rem de ancho y queda en el medio. Escribí el HTML **adentro del `<body>`** y el CSS adentro del `<style>`.
 
-- `max-width: 30rem;`
-- `margin: 2rem auto;`
-- `box-sizing: border-box;`
+1. En el `body`: `<div class="centrada">` con un `<p>` adentro (el texto que quieras), y su `</div>`.
+2. En el `<style>`, la regla `.centrada` con estas tres líneas:
+   - `max-width: 30rem;` (como mucho 30rem de ancho)
+   - `margin: 2rem auto;` (2rem arriba y abajo; `auto` a los costados la centra)
+   - `box-sizing: border-box;`
 
-Mirala en *Celular* y en *Compu*.
+Probá la vista previa en *Celular* y en *Compu*: en el celular ocupa todo el ancho.
+
+**Se comprueba:** las tres propiedades de `.centrada` y que la caja tenga un párrafo adentro.
 
 #### Código inicial
 ```html
@@ -1583,7 +1616,13 @@ Iris mide a ojo y el texto queda pegado al plomo. Justo pasa por el taller **Tes
 Todo es una **caja**: contenido, relleno (`padding`), borde y margen. El `padding` es el aire **adentro** del borde.
 
 #### Desafío
-Dale a `.vidrio` un `padding` de `1rem`.
+El `padding` es el espacio **adentro** del borde, entre el borde y el texto.
+
+1. En la regla `.vidrio`, antes de la `}`, agregá `padding: 1rem;`
+
+Queda: `.vidrio { border: 2px solid #22d3ee; padding: 1rem; }`. Mirá en la vista previa cómo el texto se separa del borde.
+
+**Se comprueba:** que `.vidrio` tenga `padding` `1rem`.
 
 #### Código inicial
 ```html
@@ -1635,7 +1674,13 @@ recompensa: xp 10, oro 10
 `border` lleva tres cosas: el grosor, el estilo (`solid`, `dashed`…) y el color, en ese orden.
 
 #### Desafío
-Ponele a `.vidrio` un `border` de `3px solid #f59e0b`.
+El borde se escribe con tres valores seguidos, separados por espacios: grosor, estilo y color.
+
+1. En la regla `.vidrio`, antes de la `}`, agregá `border: 3px solid #f59e0b;`
+
+Los tres valores van en ese orden y sin comas.
+
+**Se comprueba:** que `.vidrio` tenga `border` `3px solid #f59e0b`.
 
 #### Código inicial
 ```html
@@ -1687,7 +1732,13 @@ Iris le dio `width: 200px` al vidrio, pero mide 232. Le sumó el relleno y el bo
 Con `box-sizing: border-box`, el `width` **incluye** el relleno y el borde. Se pone una vez para todo: `* { box-sizing: border-box; }`.
 
 #### Desafío
-Agregá una regla para `*` con `box-sizing: border-box`.
+La caja mide 200px de ancho, pero el `padding` se le **suma** y queda más ancha. Con `box-sizing: border-box` el ancho incluye el `padding` y el borde.
+
+1. En el `<style>`, arriba de la regla `.vidrio`, escribí una regla nueva para **todos** los elementos (el `*` quiere decir «todos»): `* { box-sizing: border-box; }`
+
+La regla de `.vidrio` no se toca.
+
+**Se comprueba:** que haya una regla `*` con `box-sizing` `border-box`.
 
 #### Código inicial
 ```html
@@ -1740,7 +1791,11 @@ recompensa: xp 10, oro 10
 `border-radius` redondea las esquinas (`12px`, o `9999px` para una píldora).
 
 #### Desafío
-Dale a `.tarjeta` un `border-radius` de `12px`.
+`border-radius` redondea las esquinas de una caja.
+
+1. En la regla `.tarjeta`, antes de la `}`, agregá `border-radius: 12px;`
+
+**Se comprueba:** que `.tarjeta` tenga `border-radius` `12px`.
 
 #### Código inicial
 ```html
@@ -2253,12 +2308,18 @@ Teo quiere una tarjeta de perfil para su puesto en la cornisa: la cara a un lado
 `display: flex` pone a los hijos en fila; `align-items: center` los centra en vertical y `gap`, separa. `flex: 1` hace que un hijo ocupe el espacio que sobra, y `flex-shrink: 0` que la imagen no se achique.
 
 #### Desafío
-Armá la tarjeta de perfil con estas clases y reglas:
+Una tarjeta de perfil con la foto a la izquierda, los datos en el medio y un enlace a la derecha. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.
 
-- El contenedor, `.perfil`: `display: flex`, `align-items: center` y `gap: 1rem`.
-- La imagen del avatar (con `alt`), con la regla `.perfil img`: `flex-shrink: 0` y `border-radius: 50%`.
-- El bloque del nombre y el nivel, `.datos`: `flex: 1`.
-- Un enlace «Seguir» con la clase `seguir`.
+1. En el `body`, un `<div class="perfil">` y, directamente adentro y en este orden:
+   - una imagen con `alt`: `<img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar de Iris">`;
+   - un `<div class="datos">` con el nombre y el nivel;
+   - un enlace `<a class="seguir" href="#">Seguir</a>`.
+2. En el `<style>`:
+   - `.perfil { display: flex; align-items: center; gap: 1rem; }`
+   - `.perfil img { flex-shrink: 0; border-radius: 50%; }` (la foto no se achica y queda redonda)
+   - `.datos { flex: 1; }` (los datos ocupan el espacio que sobra)
+
+**Se comprueba:** las seis propiedades de arriba, y que adentro de `.perfil` estén la imagen, `.datos` y el enlace `.seguir`.
 
 #### Código inicial
 ```html
@@ -2394,12 +2455,18 @@ Mientras el taller carga las piezas nuevas, Tesela quiere un cartel de espera **
 Con `display: flex` en el `body`, `justify-content: center` centra en horizontal y `align-items: center`, en vertical. Para que haya alto donde centrar, el `body` necesita `min-height: 100vh`.
 
 #### Desafío
-Centrá un cartel (un `div` con la clase `cartel`) en el medio exacto de la ventana. En el `style`, el `body` lleva:
+Un cartel justo en el medio de la ventana, a lo ancho y a lo alto.
 
-- `min-height: 100vh;`
-- `display: flex;`
-- `justify-content: center;`
-- `align-items: center;`
+1. En el `body` del HTML, escribí `<div class="cartel">` con un texto y su `</div>`.
+2. En el `<style>`, una regla para `body` con estas cuatro líneas:
+   - `min-height: 100vh;` (el `body` ocupa todo el alto de la ventana)
+   - `display: flex;`
+   - `justify-content: center;` (centra a lo ancho)
+   - `align-items: center;` (centra a lo alto)
+
+Las cuatro van en la regla del `body`, no en la del cartel.
+
+**Se comprueba:** las cuatro propiedades del `body` y que el cartel esté directamente adentro del `body`.
 
 #### Código inicial
 ```html
@@ -2510,7 +2577,13 @@ En la cornisa del ventanal van el escudo y los trofeos, uno al lado del otro. Ir
 Con `display: flex` en el **contenedor**, sus hijos se ponen en fila y se reparten el espacio solos.
 
 #### Desafío
-Poné `display: flex` en `.cornisa`.
+Los dos `span` de la cornisa están uno detrás del otro. Con `display: flex` en la caja que los **contiene**, se ordenan en fila.
+
+1. En la regla `.cornisa`, antes de la `}`, agregá `display: flex;`
+
+El `flex` va en el contenedor (`.cornisa`), no en los `span`.
+
+**Se comprueba:** que `.cornisa` tenga `display` `flex`.
 
 #### Código inicial
 ```html
@@ -2568,7 +2641,13 @@ El escudo va a la izquierda y los trofeos a la derecha, bien a la punta.
 `justify-content` reparte en la dirección de la fila: `space-between` deja el primero en una punta y el último en la otra.
 
 #### Desafío
-Agregale a `.cornisa` un `justify-content: space-between`.
+Queremos el escudo en una punta y los trofeos en la otra.
+
+1. En la regla `.cornisa`, antes de la `}`, agregá `justify-content: space-between;`
+
+`space-between` pone el primero bien a la izquierda, el último bien a la derecha y reparte el espacio en el medio.
+
+**Se comprueba:** que `.cornisa` tenga `justify-content` `space-between`.
 
 #### Código inicial
 ```html
@@ -2626,7 +2705,14 @@ Abajo van cuatro botones. Teo los separó con márgenes de distinto tamaño, y a
 `align-items: center` los centra en el otro eje (el vertical, en una fila), y `gap` deja el mismo espacio entre todos.
 
 #### Desafío
-En `.botones`, poné `align-items: center` y `gap: 1rem`.
+Los botones están pegados. Les damos aire entre ellos y los centramos a lo alto.
+
+1. En la regla `.botones`, adentro de las llaves, agregá `align-items: center;`
+2. Y también `gap: 1rem;` (el espacio entre botón y botón).
+
+Queda: `.botones { display: flex; align-items: center; gap: 1rem; }`
+
+**Se comprueba:** que `.botones` tenga `align-items` `center` y `gap` `1rem`.
 
 #### Código inicial
 ```html
@@ -2692,7 +2778,13 @@ recompensa: xp 10, oro 10
 `flex: 1` en **cada hijo** hace que se repartan el espacio en partes iguales.
 
 #### Desafío
-Escribí una regla para `.botones a` con `flex: 1`.
+Queremos que los cuatro botones midan lo mismo y llenen el ancho.
+
+1. En el `<style>`, debajo de la regla `.botones`, escribí una regla **nueva** para los enlaces de adentro: `.botones a { flex: 1; }`
+
+`.botones a` quiere decir «los `a` que están adentro de `.botones`». El `flex: 1` va en cada hijo, no en el contenedor.
+
+**Se comprueba:** que haya una regla `.botones a` con `flex` `1`.
 
 #### Código inicial
 ```html
@@ -3105,11 +3197,15 @@ Teo juntó insignias de todos los encargos y las quiere mostrar en una vitrina.
 `repeat(auto-fill, minmax(6rem, 1fr))` arma tantas columnas como entren, de al menos 6rem. `aspect-ratio: 1` las hace cuadradas y `grid-column: span 2` hace que una ocupe dos columnas.
 
 #### Desafío
-Armá la galería de insignias: una `ul` con la clase `insignias` y **seis** `li`, uno de ellos con la clase `grande`. En el `style`:
+Una galería de insignias cuadradas, con una que ocupa el doble. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.
 
-- `.insignias`: `display: grid` y `grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr))`.
-- `.insignias li`: `aspect-ratio: 1`.
-- `.insignias .grande`: `grid-column: span 2`.
+1. En el `body`, una `<ul class="insignias">` con **seis** `li` (el texto que quieras). A **uno** de ellos ponele la clase `grande`: `<li class="grande">`.
+2. En el `<style>`, tres reglas:
+   - `.insignias { display: grid; grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr)); }`
+   - `.insignias li { aspect-ratio: 1; }` (cada insignia, cuadrada)
+   - `.insignias .grande { grid-column: span 2; }` (esa ocupa dos columnas)
+
+**Se comprueba:** las cuatro propiedades de arriba, seis `li` adentro de `.insignias` y uno solo con la clase `grande`.
 
 #### Código inicial
 ```html
@@ -3226,10 +3322,21 @@ Kaffa dejó un encargo en la mesa: el plano de una página con cabecera, menú a
 `grid-template-areas` dibuja el layout con palabras: cada renglón entre comillas es una fila. Después, cada zona dice dónde va con `grid-area: nombre`.
 
 #### Desafío
-Armá el esqueleto con un `header`, un `nav`, un `main` y un `footer` adentro del `body`. En el `style`:
+El esqueleto de una página dibujado con nombres. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.
 
-- `body`: `display: grid` y un `grid-template-areas` con tres filas: `"cabecera cabecera" "menu contenido" "pie pie"`.
-- `header { grid-area: cabecera; }`, `nav { grid-area: menu; }`, `main { grid-area: contenido; }` y `footer { grid-area: pie; }`.
+1. En el `body`, cuatro etiquetas en este orden, con un texto adentro de cada una: `header`, `nav`, `main` y `footer`.
+2. En el `<style>`, la regla del `body`:
+   ```css
+   body {
+     display: grid;
+     grid-template-areas: "cabecera cabecera" "menu contenido" "pie pie";
+   }
+   ```
+3. Y una regla para cada parte, diciendo en qué zona va: `header { grid-area: cabecera; }`, `nav { grid-area: menu; }`, `main { grid-area: contenido; }` y `footer { grid-area: pie; }`.
+
+Cada renglón entre comillas es una fila de la grilla. Los nombres de las zonas tienen que coincidir con los de `grid-area`.
+
+**Se comprueba:** el `body` con `display` `grid`, el `grid-area` de cada parte y que las cuatro estén directamente adentro del `body`.
 
 #### Código inicial
 ```html
@@ -3353,7 +3460,14 @@ Llega una carta de **Kaffa**, el Arquitecto Imperial: «Doce vitrales iguales, a
 `display: grid` arma una malla, y `grid-template-columns: repeat(3, 1fr)` hace tres columnas iguales (`1fr` es «una parte»).
 
 #### Desafío
-En `.vitrales`, poné `display: grid` y `grid-template-columns: repeat(3, 1fr)`.
+Los seis vitrales están uno debajo del otro. Los ordenamos en una **grilla** de tres columnas.
+
+1. En el `<style>`, escribí una regla nueva para el contenedor: `.vitrales { }`
+2. Adentro de las llaves: `display: grid;` y `grid-template-columns: repeat(3, 1fr);`
+
+`repeat(3, 1fr)` quiere decir «tres columnas de igual ancho». La regla `.vitrales div` que ya está no se toca.
+
+**Se comprueba:** que `.vitrales` tenga `display` `grid` y `grid-template-columns` `repeat(3, 1fr)`.
 
 #### Código inicial
 ```html
@@ -3414,7 +3528,11 @@ Los vitrales quedaron pegados unos con otros. Kaffa pidió una franja de plomo p
 En una malla, `gap` deja el mismo espacio entre filas y entre columnas, sin tocar los hijos.
 
 #### Desafío
-Agregale a `.vitrales` un `gap` de `0.75rem`.
+Los vitrales están pegados. Les dejamos un espacio entre ellos, como el plomo.
+
+1. En la regla `.vitrales`, antes de la `}`, agregá `gap: 0.75rem;`
+
+**Se comprueba:** que `.vitrales` tenga `gap` `0.75rem`.
 
 #### Código inicial
 ```html
@@ -3474,7 +3592,14 @@ recompensa: xp 10, oro 10
 `repeat(auto-fit, minmax(10rem, 1fr))`: cada columna mide al menos `10rem`, y entran todas las que quepan.
 
 #### Desafío
-Cambiá el `grid-template-columns` de `.vitrales` por `repeat(auto-fit, minmax(10rem, 1fr))`.
+Con tres columnas fijas, en el celular no entran. Queremos que entren **las que quepan**.
+
+1. En la regla `.vitrales`, buscá `grid-template-columns: repeat(3, 1fr);`
+2. Cambiá **solo el valor**: `grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));`
+
+Copialo con cuidado: tiene dos pares de paréntesis. Achicá y agrandá la vista previa para ver cómo cambian las columnas.
+
+**Se comprueba:** que `grid-template-columns` de `.vitrales` sea `repeat(auto-fit, minmax(10rem, 1fr))`.
 
 #### Código inicial
 ```html
@@ -3534,7 +3659,11 @@ Abajo del encargo va el podio: tres escalones, el del medio más alto. Pero en l
 `align-items: end` en la malla apoya a todos los hijos **abajo**, como escalones sobre el piso.
 
 #### Desafío
-Agregale `align-items: end` a `.podio`.
+Los escalones del podio cuelgan desde arriba. Queremos que se apoyen **abajo**, como en un podio de verdad.
+
+1. En la regla `.podio`, antes de la `}`, agregá `align-items: end;`
+
+**Se comprueba:** que `.podio` tenga `align-items` `end`.
 
 #### Código inicial
 ```html
@@ -4051,12 +4180,19 @@ Nora tiene fotos de vitrales para mostrar en la cabaña (la pantalla chica) y en
 Primero el CSS del celular, sin `@media`. Después, de menor a mayor, `@media (min-width: …)` suma columnas cuando la pantalla es más ancha.
 
 #### Desafío
-Armá una galería: una `ul` con la clase `galeria` y seis `li`. En el `style`:
+Una galería que tiene 1 columna en el celular, 2 en una tablet, 3 en una compu y 6 en una pantalla grande. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.
 
-- `.galeria`: `display: grid` y `grid-template-columns: 1fr`.
-- `@media (min-width: 30rem)`: `.galeria { grid-template-columns: repeat(2, 1fr); }`
-- `@media (min-width: 48rem)`: tres columnas, `repeat(3, 1fr)`.
-- `@media (min-width: 80rem)`: seis columnas, `repeat(6, 1fr)`.
+1. En el `body`, una `<ul class="galeria">` con **seis** `li`.
+2. En el `<style>`, primero la regla para el celular: `.galeria { display: grid; grid-template-columns: 1fr; }`
+3. Debajo, tres `@media`, de la más chica a la más grande, cada una con la regla `.galeria` adentro:
+   ```css
+   @media (min-width: 30rem) {
+     .galeria { grid-template-columns: repeat(2, 1fr); }
+   }
+   ```
+   Repetilo con `48rem` y `repeat(3, 1fr)`, y con `80rem` y `repeat(6, 1fr)`.
+
+**Se comprueba:** la regla de base (`grid` con `1fr`), las columnas de cada `@media` y los seis `li`.
 
 #### Código inicial
 ```html
@@ -4168,11 +4304,17 @@ En la cabaña no entra el menú del panel: se sale por los costados y arrastra t
 `overflow-x: auto` le da scroll propio a un elemento, sin mover la página. Desde un ancho, una `@media` cambia la grilla a dos columnas y pone el menú en columna con `flex-direction: column`.
 
 #### Desafío
-Armá el panel: un `div` con la clase `layout` que tenga adentro un `nav` (con **cuatro** enlaces) y un `main`. En el `style`:
+Un panel con menú: en el celular el menú va arriba y se desliza de costado; en la compu va a la izquierda, en columna. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.
 
-- `.layout`: `display: grid` y `grid-template-columns: 1fr`.
-- `nav`: `display: flex` y `overflow-x: auto`.
-- `@media (min-width: 48rem)`: `.layout { grid-template-columns: 14rem 1fr; }` y `nav { flex-direction: column; }`.
+1. En el `body`, un `<div class="layout">` con, adentro, un `nav` con **cuatro** enlaces `a` y después un `main` con un texto.
+2. En el `<style>`, para el celular:
+   - `.layout { display: grid; grid-template-columns: 1fr; }`
+   - `nav { display: flex; overflow-x: auto; }` (si no entran, se deslizan)
+3. Y para la compu, un `@media (min-width: 48rem) { }` con dos reglas adentro:
+   - `.layout { grid-template-columns: 14rem 1fr; }` (menú de 14rem y el resto para el contenido)
+   - `nav { flex-direction: column; }` (el menú en columna)
+
+**Se comprueba:** las propiedades de base, las dos de adentro del `@media`, cuatro enlaces en el `nav` y el `main` adentro de `.layout`.
 
 #### Código inicial
 ```html
@@ -4313,7 +4455,14 @@ El **Ogro de la Cascada** desafía al taller: el mismo vitral tiene que verse bi
 Sin la etiqueta `<meta name="viewport" content="width=device-width, initial-scale=1">`, el celular muestra la versión de compu achicada.
 
 #### Desafío
-Agregá en el `head` la etiqueta `meta` del viewport con `width=device-width, initial-scale=1`.
+Sin una etiqueta especial, el celular muestra la página achicada como si fuera una compu. Esa etiqueta va en el `head`.
+
+1. Buscá el `<head>` y, adentro (por ejemplo debajo del `<title>`), escribí:
+   `<meta name="viewport" content="width=device-width, initial-scale=1">`
+
+Copiala tal cual: `width=device-width` y `initial-scale=1` van separados por una coma y un espacio.
+
+**Se comprueba:** que haya un `meta` con `name="viewport"` y ese `content`.
 
 #### Código inicial
 ```html
@@ -4378,7 +4527,18 @@ recompensa: xp 10, oro 10
 El CSS de base es para el celular. Lo de pantallas grandes se **agrega** adentro de `@media (min-width: 768px) { … }`.
 
 #### Desafío
-Agregá un `@media (min-width: 768px)` que ponga `.grilla` con `grid-template-columns: repeat(2, 1fr)`.
+En el celular la grilla tiene una columna. Queremos **dos** solo cuando la pantalla es ancha (768px o más). Eso se hace con `@media`.
+
+1. En el `<style>`, debajo de las reglas que ya están, escribí:
+   ```css
+   @media (min-width: 768px) {
+     .grilla { grid-template-columns: repeat(2, 1fr); }
+   }
+   ```
+
+La regla `.grilla` va **adentro** de las llaves del `@media`. No agregues `grid-template-columns` a la regla `.grilla` de arriba.
+
+**Se comprueba:** que la regla `.grilla` de afuera no tenga columnas («no hay») y que la de adentro del `@media` tenga `repeat(2, 1fr)`.
 
 #### Código inicial
 ```html
@@ -4444,7 +4604,13 @@ En la ventanita de la cabaña, la imagen del vitral es más ancha que la pared y
 `max-width: 100%` hace que la imagen nunca sea más ancha que su caja, y `height: auto` mantiene la proporción.
 
 #### Desafío
-Escribí una regla para `img` con `max-width: 100%` y `height: auto`.
+La imagen es más ancha que la pantalla del celular. Queremos que nunca se pase del ancho de su caja.
+
+1. En el `<style>`, escribí una regla para todas las imágenes: `img { max-width: 100%; height: auto; }`
+
+`max-width: 100%` la achica si no entra, y `height: auto` mantiene la proporción para que no se deforme. Probala en *Celular*.
+
+**Se comprueba:** que `img` tenga `max-width` `100%` y `height` `auto`.
 
 #### Código inicial
 ```html
@@ -4498,7 +4664,13 @@ El vitral de la cabaña es largo, y al bajar se pierde el menú. Nora, que lo re
 `position: sticky` con `top: 0` deja el elemento en su lugar hasta que llega arriba, y ahí se queda pegado mientras bajás.
 
 #### Desafío
-Poné `position: sticky` y `top: 0` en `header`.
+Queremos que la cabecera quede pegada arriba cuando bajás por la página.
+
+1. En la regla `header`, antes de la `}`, agregá `position: sticky;` y `top: 0;`
+
+`top: 0` dice dónde se pega: en el borde de arriba. Bajá en la vista previa para ver cómo queda fija.
+
+**Se comprueba:** que `header` tenga `position` `sticky` y `top` `0`.
 
 #### Código inicial
 ```html
@@ -4728,7 +4900,13 @@ El Ogro de la Cascada se metió de noche en el **muro de encargos**. El aviso de
 Gana el selector más **específico**: cuenta primero los `#id`, después las `.clases`, después las etiquetas. `#muro p` tiene un id y una etiqueta; `#muro .aviso`, un id y una clase: gana.
 
 #### Desafío
-Cambiá el selector de la regla ámbar de `.aviso` a `#muro .aviso`.
+El aviso tendría que verse ámbar, pero se ve gris: la regla `#muro p` es más **fuerte** que `.aviso`. Le damos más fuerza al selector del aviso.
+
+1. En la segunda regla, cambiá **solo el selector**: donde dice `.aviso {`, escribí `#muro .aviso {`.
+
+El color no se toca. `#muro .aviso` quiere decir «el `.aviso` que está adentro de `#muro`», y tiene más fuerza que `#muro p`.
+
+**Se comprueba:** que ya no haya una regla `.aviso` sola («no hay») y que `#muro .aviso` tenga `color` `#f59e0b`.
 
 #### Código inicial
 ```html
@@ -4791,7 +4969,13 @@ El encargo destacado de Kaffa parece uno más: el borde dorado no aparece.
 `.encargo.destacado` (con las dos clases **pegadas**) apunta al elemento que tiene las dos, y es más específico que `.encargo` solo.
 
 #### Desafío
-Cambiá el selector `.destacado` por `.encargo.destacado`.
+El borde dorado del encargo destacado no se ve, porque `.encargo` viene después y lo pisa. Hacemos más fuerte el selector.
+
+1. En la primera regla, cambiá **solo el selector**: `.destacado {` pasa a ser `.encargo.destacado {`.
+
+Las dos clases van **pegadas, sin espacio**: así apunta al elemento que tiene las dos a la vez.
+
+**Se comprueba:** que ya no haya una regla `.destacado` sola («no hay») y que `.encargo.destacado` tenga `border-color` `#fbbf24`.
 
 #### Código inicial
 ```html
@@ -4850,7 +5034,12 @@ El título del muro perdió su color: el ogro le pegó con su mazo, que tiene gr
 `!important` le gana a todo… y después nada le gana a él. Sacalo, y para que gane el cian usá un selector más específico.
 
 #### Desafío
-Sacá el `!important` de `.titulo`, y escribí `.muro .titulo` con `color: #22d3ee`.
+El `!important` obliga a que el título sea gris, y después no hay forma de cambiarlo. Lo sacamos y usamos un selector más fuerte.
+
+1. En la regla `.titulo`, borrá ` !important` (deja solo `color: #64748b;`).
+2. Debajo, escribí una regla nueva: `.muro .titulo { color: #22d3ee; }`
+
+**Se comprueba:** que `.titulo` siga con `color` `#64748b` (sin `!important`) y que `.muro .titulo` tenga `color` `#22d3ee`.
 
 #### Código inicial
 ```html
@@ -4911,7 +5100,13 @@ Los botones del muro tienen el fondo oscuro y el texto no se ve. Hay dos reglas 
 Si dos reglas son igual de específicas, gana **la que viene después**. Mirá el orden.
 
 #### Desafío
-Borrá la segunda regla de `.boton` (la del fondo `#1e293b`), así gana la cian.
+Hay dos reglas iguales para `.boton`. Cuando pasa eso, gana la que está **más abajo**, y por eso el botón se ve oscuro.
+
+1. Borrá la segunda línea entera: `.boton { background: #1e293b; }`
+
+Así queda una sola regla, con el fondo cian.
+
+**Se comprueba:** que el `background` de `.boton` sea `#22d3ee`.
 
 #### Código inicial
 ```html

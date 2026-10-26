@@ -3,9 +3,14 @@
 
 Uso: python3 scripts/escenas/guardar.py cursos/c R01-N01-P1 <downloadUrl de Stitch>
 
+Si Stitch devuelve un enlace de stitch.googleapis.com (pide credenciales), bajar la imagen con la herramienta
+`download_file` y pasar en lugar del enlace el archivo .txt donde quedó su respuesta (JSON con la imagen en base64).
+
 También deja una vista chica en /tmp/escenas-vista/<ID>.jpg para revisarla rápido.
 """
+import base64
 import io
+import json
 import sys
 import urllib.request
 from pathlib import Path
@@ -31,8 +36,11 @@ def sin_franjas(img):
 
 def main():
     folder, sid, url = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
-    url = url.split('=')[0] if '=s' in url else url
-    data = urllib.request.urlopen(url + '=s1376', timeout=120).read()
+    if Path(url).is_file():  # respuesta de download_file
+        data = base64.b64decode(json.loads(Path(url).read_text())['image'])
+    else:
+        url = url.split('=')[0] if '=s' in url else url
+        data = urllib.request.urlopen(url + '=s1376', timeout=120).read()
     img = Image.open(io.BytesIO(data)).convert('RGB')
     img = sin_franjas(img)
     if img.size != (W, H):  # recorte centrado a 16:9 y escala

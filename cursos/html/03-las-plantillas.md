@@ -162,11 +162,15 @@ En el cofre del Gremio hay una caja de clases ya hechas: Tailwind. Tesela quiere
 Cada clase de Tailwind es una regla: `border-violet-900`, `bg-violet-400`. Para un valor que no está en la escala, corchetes: `w-[45%]`.
 
 #### Desafío
-Rehacé la tarjeta del curso de SDL3 solo con clases de Tailwind (sin CSS escrito a mano):
+La tarjeta violeta, hecha solo con clases de Tailwind. Escribí todo **adentro del `<body>`** (el bloque de Tailwind ya está en el `head`).
 
-- Un `article` con las clases `border` y `border-violet-900`.
-- Adentro, una barra de progreso: un `div` con la clase `w-[45%]` y la clase `bg-violet-400`.
-- El texto de los XP con la clase `text-violet-400`.
+1. Un `<article class="border border-violet-900">` con el contenido de la tarjeta adentro (título y texto, los que quieras).
+2. Adentro del `article`, la barra de progreso: `<div class="w-[45%] bg-violet-400">` y su `</div>`. Para que se vea, sumale alto: por ejemplo `h-2`.
+3. También adentro, el texto de los XP con la clase `text-violet-400`: `<p class="text-violet-400">+420 XP</p>`.
+
+`w-[45%]` va con corchetes porque 45 % no está en la escala de Tailwind.
+
+**Se comprueba:** un `article` con `border` y `border-violet-900`, un `div` con `w-[45%]` y `bg-violet-400`, y algo con `text-violet-400`.
 
 #### Código inicial
 ```html
@@ -250,11 +254,14 @@ Teo quiere los dos botones de la plataforma: uno lleno para seguir la campaña y
 `bg-cyan-400` pinta el fondo y `text-slate-950` el texto. Un botón de borde lleva `border` sin fondo. Para que sean de la misma familia, los dos con el mismo `px-5 py-3` y `rounded-lg`.
 
 #### Desafío
-Armá dos enlaces con clases de Tailwind:
+Dos botones de la misma familia: uno relleno y otro solo con borde. Escribí todo **adentro del `<body>`**.
 
-- «Continuar campaña», con `bg-cyan-400` y `text-slate-950`.
-- «Nodos», con `border` (sin clase de fondo).
-- Los dos, con `inline-block`, `rounded-lg`, `px-5` y `py-3`.
+1. El primero: `<a href="#" class="inline-block rounded-lg px-5 py-3 bg-cyan-400 text-slate-950">Continuar campaña</a>`
+2. El segundo, igual pero con borde y sin fondo: `<a href="#" class="inline-block rounded-lg px-5 py-3 border">Nodos</a>`
+
+Los dos comparten `inline-block`, `rounded-lg`, `px-5` y `py-3`. El segundo **no** lleva ninguna clase `bg-...`.
+
+**Se comprueba:** dos enlaces; uno con `bg-cyan-400` y `text-slate-950`, otro con `border`, y los dos con `inline-block`, `rounded-lg`, `px-5` y `py-3`.
 
 #### Código inicial
 ```html
@@ -347,7 +354,18 @@ Iris tardó una tarde entera en cortar los vidrios de una sola tarjeta. Entonces
 En la plataforma, Tailwind se activa con un bloque `<style type="text/tailwindcss">` que adentro tiene `@import "tailwindcss";`. Con Tailwind, el **Inspector** mira las clases de cada elemento (en el orden en que las escribiste). La vista previa compila Tailwind sola.
 
 #### Desafío
-Agregá arriba el bloque `style` de tipo `text/tailwindcss` con `@import "tailwindcss";` adentro.
+Para usar las clases de Tailwind, la página necesita cargarlo. Eso se hace con un bloque `style` especial, arriba de todo.
+
+1. En la primera línea, antes del `h1`, escribí estas tres líneas:
+   ```html
+   <style type="text/tailwindcss">
+     @import "tailwindcss";
+   </style>
+   ```
+
+Fijate que el `type` sea `text/tailwindcss` y que `@import "tailwindcss";` lleve comillas y punto y coma. En la vista previa, el título se pone cian.
+
+**Se comprueba:** que haya un `style` de tipo `text/tailwindcss` con `@import "tailwindcss";` adentro.
 
 #### Código inicial
 ```html
@@ -397,7 +415,13 @@ Cada plantilla del cofre sirve para **una sola cosa**: esta da el color cian, es
 Con Tailwind, el estilo va en `class`: `text-cyan-400` es el color del texto y `font-bold`, la letra gruesa. Con Tailwind, el **Inspector** mira las clases de cada elemento (en el orden en que las escribiste). La vista previa compila Tailwind sola.
 
 #### Desafío
-Dale al `h1` las clases `text-cyan-400 font-bold`, en ese orden.
+En Tailwind no se escribe CSS: cada **clase** ya es una regla. Las clases van todas juntas en `class="..."`, separadas por un espacio.
+
+1. Agregale al `h1` el atributo `class` con dos clases: `<h1 class="text-cyan-400 font-bold">`.
+
+`text-cyan-400` lo pinta de cian y `font-bold` lo pone en negrita. Escribilas en ese orden, con un solo espacio en el medio.
+
+**Se comprueba:** que el `class` del `h1` sea exactamente `text-cyan-400 font-bold`.
 
 #### Código inicial
 ```html
@@ -449,7 +473,13 @@ recompensa: xp 10, oro 10
 `bg-slate-900` pinta el fondo y `p-4` le da relleno (`4` son `1rem`). El color del texto, `text-slate-100`.
 
 #### Desafío
-Dale al `div` las clases `bg-slate-900 p-4 text-slate-100`, en ese orden.
+Tres clases para que el `div` parezca una tarjeta: fondo oscuro, relleno y letra clara.
+
+1. Agregale al `div` el atributo `class` con: `bg-slate-900 p-4 text-slate-100`
+
+Así queda la apertura: `<div class="bg-slate-900 p-4 text-slate-100">`. Las tres van en ese orden, separadas por un espacio.
+
+**Se comprueba:** que el `class` del `div` sea exactamente `bg-slate-900 p-4 text-slate-100`.
 
 #### Código inicial
 ```html
@@ -501,7 +531,13 @@ Teo encuentra el cajón de las esquinas. —¿Y esta plantilla para qué es? —
 `rounded-xl` redondea las esquinas, como `border-radius`. Se suma a las clases que ya tiene.
 
 #### Desafío
-Agregale `rounded-xl` al final de las clases del `div`.
+Queremos las esquinas redondeadas, **sin borrar** las clases que ya tiene.
+
+1. Adentro de las comillas del `class`, después de `text-slate-100`, dejá un espacio y escribí `rounded-xl`.
+
+Queda: `class="bg-slate-900 p-4 text-slate-100 rounded-xl"`.
+
+**Se comprueba:** que el `class` del `div` sea exactamente `bg-slate-900 p-4 text-slate-100 rounded-xl`.
 
 #### Código inicial
 ```html
@@ -772,11 +808,15 @@ Nora quiere su avatar como el de la cabecera de la plataforma: redondo, con un a
 `ring-2 ring-cyan-400` dibuja un anillo alrededor. Para superponer, el contenedor es `relative` y la etiqueta `absolute`, con `left-1/2 -translate-x-1/2` para centrarla.
 
 #### Desafío
-Armá el avatar con clases de Tailwind:
+Un avatar con un anillo y una etiqueta de nivel encima. Escribí todo **adentro del `<body>`**.
 
-- Un contenedor con la clase `relative`.
-- Adentro, **una** imagen con `alt`, con las clases `ring-2` y `ring-cyan-400`.
-- Una etiqueta (`span`) con el texto `LV.14` y las clases `absolute`, `left-1/2` y `-translate-x-1/2`.
+1. Un contenedor: `<div class="relative">` y su `</div>`. Lo que sigue va adentro.
+2. La imagen, con `alt` y el anillo: `<img src="/img/cursos/html/heroe-avatar.webp" alt="Avatar del héroe" class="ring-2 ring-cyan-400">`.
+3. La etiqueta, encima y centrada: `<span class="absolute left-1/2 -translate-x-1/2">LV.14</span>`.
+
+`relative` en el contenedor y `absolute` en la etiqueta hacen que la etiqueta se ubique sobre la imagen. Fijate el guion de adelante en `-translate-x-1/2`.
+
+**Se comprueba:** la imagen con `ring-2` y `ring-cyan-400` directamente adentro del `relative`, con `alt`, y el `span` *LV.14* con `absolute`, `left-1/2` y `-translate-x-1/2`.
 
 #### Código inicial
 ```html
@@ -855,10 +895,14 @@ Tesela quiere los títulos del salón de la fama en degradé, como los vidrios d
 `bg-linear-to-r from-… to-…` pinta un degradé de fondo; `bg-clip-text text-transparent` lo recorta con la forma del texto. Con `via-…` se suma un color del medio.
 
 #### Desafío
-Escribí dos títulos con texto en degradé:
+Dos títulos con el texto pintado en degradé. Escribí todo **adentro del `<body>`**.
 
-- Un `h1` «Hall of Fame» con `bg-linear-to-r`, `from-amber-300`, `to-orange-500`, `bg-clip-text` y `text-transparent`.
-- Un `h2` «Liga Obsidiana» con `bg-linear-to-r`, `from-fuchsia-400`, `via-violet-400`, `to-cyan-400`, `bg-clip-text` y `text-transparent`.
+1. El `h1`: `<h1 class="bg-linear-to-r from-amber-300 to-orange-500 bg-clip-text text-transparent">Hall of Fame</h1>`
+2. El `h2`, con un color más en el medio (`via-`): `<h2 class="bg-linear-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">Liga Obsidiana</h2>`
+
+`bg-linear-to-r` hace el degradé de izquierda a derecha; `from-` es el color del principio y `to-`, el del final. `bg-clip-text text-transparent` recorta el degradé con la forma de las letras.
+
+**Se comprueba:** que el `h1` diga *Hall of Fame* y el `h2` *Liga Obsidiana*, cada uno con todas sus clases.
 
 #### Código inicial
 ```html
@@ -950,7 +994,13 @@ El cofre tiene cajones: uno para los espacios, otro para las letras, otro para l
 Los espacios van de a `0.25rem`: `mb-6` es un margen de abajo de `1.5rem`. Los nombres: `m` margen, `p` relleno; `t`, `b`, `x`, `y`… el lado.
 
 #### Desafío
-Separá el título del párrafo: agregale `mb-6` al `h2`.
+El título y el párrafo están muy pegados. Le damos un margen abajo al título.
+
+1. En el `class` del `h2`, después de `font-bold`, dejá un espacio y escribí `mb-6`.
+
+`mb` es *margin-bottom* (margen de abajo) y `6` es `1.5rem`. Queda: `class="text-xl font-bold mb-6"`.
+
+**Se comprueba:** que el `class` del `h2` sea exactamente `text-xl font-bold mb-6`.
 
 #### Código inicial
 ```html
@@ -1004,7 +1054,13 @@ Nora pide que el título del encargo se lea de lejos: más grande y un poco más
 `text-2xl` agranda la letra, `font-semibold` la engrosa y `tracking-wide` separa un poco las letras.
 
 #### Desafío
-Dale al `h2` las clases `text-2xl font-semibold tracking-wide`, en ese orden.
+Tres clases para la letra del título: más grande, más gruesa y con las letras un poco separadas.
+
+1. Agregale al `h2` el atributo: `class="text-2xl font-semibold tracking-wide"`
+
+En ese orden y separadas por un espacio.
+
+**Se comprueba:** que el `class` del `h2` sea exactamente `text-2xl font-semibold tracking-wide`.
 
 #### Código inicial
 ```html
@@ -1056,7 +1112,13 @@ Iris quiere un vidrio cian, pero apenas: que se vea lo de atrás.
 Después de un color, `/20` le baja la opacidad al 20 %: `bg-cyan-400/20`.
 
 #### Desafío
-Cambiá `bg-cyan-400` por `bg-cyan-400/20` en el `div`.
+El fondo cian es muy fuerte. Lo queremos casi transparente.
+
+1. En el `class` del `div`, cambiá `bg-cyan-400` por `bg-cyan-400/20`.
+
+El `/20` va pegado, sin espacios: quiere decir «al 20 %». La clase `p-4` queda igual.
+
+**Se comprueba:** que el `class` del `div` sea exactamente `bg-cyan-400/20 p-4`.
 
 #### Código inicial
 ```html
@@ -1109,7 +1171,13 @@ Teo quiere usar todas las plantillas a la vez y arma una tarjeta que parece un �
 Si hay tres colores de fondo, gana uno y los otros sobran. Dejá solo lo que hace falta.
 
 #### Desafío
-Dejá en la tarjeta solo estas clases, en este orden: `rounded-lg bg-slate-800 p-4 text-slate-100`.
+La tarjeta de Teo tiene clases que se contradicen: tres fondos, dos rellenos, dos colores de letra y una animación que molesta. Hay que dejar solo las necesarias.
+
+1. Dejá la clase `tarjeta` (es el nombre de la tarjeta).
+2. Borrá `bg-red-500`, `bg-green-500`, `p-8`, `text-yellow-300` y `animate-bounce`.
+3. Tiene que quedar: `class="tarjeta rounded-lg bg-slate-800 p-4 text-slate-100"`.
+
+**Se comprueba:** que el `class` sea exactamente `tarjeta rounded-lg bg-slate-800 p-4 text-slate-100`.
 
 #### Código inicial
 ```html
@@ -1411,11 +1479,13 @@ En la cabaña, la barra de secciones de abajo flota en el medio cuando hay poco 
 `min-h-screen flex flex-col` en el `body` hace una columna del alto de la pantalla. `flex-1` en el `main` lo estira y empuja la barra al fondo. Cada sección con `flex-1` mide lo mismo.
 
 #### Desafío
-Armá la barra inferior con clases de Tailwind:
+Una barra de navegación pegada abajo, como en las apps del celular. Escribí todo **adentro del `<body>`**, y agregale clases al propio `<body>`.
 
-- El `body`, con `min-h-screen`, `flex` y `flex-col`.
-- Un `main` con `flex-1`.
-- Un `nav` con `flex` y **cuatro** enlaces, cada uno con `flex-1`.
+1. Al `<body>` ponele `class="min-h-screen flex flex-col"` (una columna del alto de la pantalla).
+2. Adentro, un `<main class="flex-1">` con algún texto: el `flex-1` lo estira y empuja la barra hasta abajo.
+3. Debajo del `main`, un `<nav class="flex">` con **cuatro** enlaces, cada uno con `flex-1`: `<a href="#" class="flex-1">Inicio</a>`.
+
+**Se comprueba:** el `body` con `min-h-screen`, `flex` y `flex-col`; el `main` con `flex-1`; y el `nav` con `flex` y cuatro enlaces con `flex-1`.
 
 #### Código inicial
 ```html
@@ -1499,10 +1569,13 @@ Teo quiere un tablero con sus estadísticas: la experiencia arriba, grande, y la
 `grid grid-cols-2` arma dos columnas. `col-span-2` hace que un elemento ocupe las dos.
 
 #### Desafío
-Armá el tablero con clases de Tailwind:
+Un tablero de dos columnas donde la primera estadística ocupa todo el ancho. Escribí todo **adentro del `<body>`**.
 
-- Un contenedor con `grid` y `grid-cols-2`.
-- Adentro, **tres** `div` de estadísticas, todos con `rounded-xl`; el primero, además, con `col-span-2`.
+1. Un contenedor: `<div class="grid grid-cols-2">` y su `</div>`.
+2. Adentro, **tres** `div`, todos con la clase `rounded-xl` (con el dato que quieras).
+3. Al **primero** sumale `col-span-2`: `<div class="rounded-xl col-span-2">`.
+
+**Se comprueba:** un contenedor con `grid` y `grid-cols-2`, tres `div` adentro con `rounded-xl` y uno de ellos con `col-span-2`.
 
 #### Código inicial
 ```html
@@ -1595,7 +1668,13 @@ recompensa: xp 10, oro 10
 `flex` es `display: flex`, `justify-between` es `justify-content: space-between` e `items-center`, `align-items: center`.
 
 #### Desafío
-Dale al `header` las clases `flex justify-between items-center`, en ese orden.
+Las clases de Tailwind también hacen Flexbox. Ponemos el escudo en una punta y los trofeos en la otra.
+
+1. Agregale al `header` el atributo: `class="flex justify-between items-center"`
+
+`flex` los pone en fila, `justify-between` los manda a las puntas e `items-center` los centra a lo alto. En ese orden.
+
+**Se comprueba:** que el `class` del `header` sea exactamente `flex justify-between items-center`.
 
 #### Código inicial
 ```html
@@ -1653,7 +1732,13 @@ Los cuatro botones están pegados. Teo les pone márgenes a mano, de a uno.
 `gap-4` deja `1rem` entre todos los hijos, sin tocarlos.
 
 #### Desafío
-Agregale `gap-4` a las clases del `nav`.
+Los enlaces están pegados. Les dejamos espacio entre ellos.
+
+1. En el `class` del `nav`, después de `flex`, dejá un espacio y escribí `gap-4`.
+
+Queda: `class="flex gap-4"`.
+
+**Se comprueba:** que el `class` del `nav` sea exactamente `flex gap-4`.
 
 #### Código inicial
 ```html
@@ -1713,7 +1798,13 @@ Las tarjetas de la cabaña van de a dos, en malla.
 `grid grid-cols-2` arma una malla de dos columnas iguales; `gap-4`, el espacio.
 
 #### Desafío
-Dale al `div` de afuera las clases `grid grid-cols-2 gap-4`, en ese orden.
+Los cuatro lugares están uno debajo del otro. Los ordenamos en dos columnas.
+
+1. Agregale al `div` **de afuera** (el que envuelve a los otros cuatro) el atributo: `class="grid grid-cols-2 gap-4"`
+
+Los cuatro `div` de adentro no se tocan.
+
+**Se comprueba:** que el `class` del `div` de afuera sea exactamente `grid grid-cols-2 gap-4`.
 
 #### Código inicial
 ```html
@@ -1775,7 +1866,13 @@ En la ventanita de la cabaña, el formulario de acceso va en una sola columna: u
 `flex flex-col` pone los hijos **uno debajo del otro**; `gap-2` los separa un poco.
 
 #### Desafío
-Dale al `form` las clases `flex flex-col gap-2`, en ese orden.
+El formulario está todo en una línea. Queremos cada cosa debajo de la otra, con un poco de espacio.
+
+1. Agregale al `form` el atributo: `class="flex flex-col gap-2"`
+
+`flex-col` quiere decir «en columna». Las clases del `input` y del `button` no se tocan.
+
+**Se comprueba:** que el `class` del `form` sea exactamente `flex flex-col gap-2`.
 
 #### Código inicial
 ```html
@@ -2063,11 +2160,13 @@ Nora arma la tabla de posiciones para la mesa de Ofidia. En el celular solo entr
 `hidden md:block` esconde algo en el celular y lo muestra desde `md`. La fila es `flex` en el celular y pasa a grilla con `md:grid` y unas columnas a medida.
 
 #### Desafío
-Armá una fila del ranking con clases de Tailwind:
+Una fila del ranking que en el celular muestra lo justo y en la compu muestra todo. Escribí todo **adentro del `<body>`**.
 
-- Un `div` con `flex` y `md:grid`.
-- Adentro, **cinco** `span`: puesto, nombre, especialidad, racha y puntos.
-- La especialidad y la racha, con `hidden` y `md:block`.
+1. La fila: `<div class="flex md:grid">` y su `</div>`.
+2. Adentro, **cinco** `span`: el puesto, el nombre, la especialidad, la racha y los puntos.
+3. La especialidad y la racha no entran en el celular: a esos dos `span` ponerles `class="hidden md:block"`.
+
+**Se comprueba:** un `div` con `flex` y `md:grid`, cinco `span` adentro, y dos de ellos con `hidden` y `md:block`.
 
 #### Código inicial
 ```html
@@ -2150,10 +2249,14 @@ El título de la liga en el celular queda enorme y en la compu, chiquito.
 Las clases con prefijo valen desde ese ancho: `text-2xl sm:text-4xl lg:text-6xl`. Un ancho máximo para el párrafo, como `lg:max-w-xl`, deja los renglones cómodos de leer.
 
 #### Desafío
-Escribí con clases de Tailwind:
+Un título que crece con la pantalla y un párrafo que no se estira de más. Escribí todo **adentro del `<body>`**.
 
-- Un `h1` con `text-2xl`, `sm:text-4xl` y `lg:text-6xl`.
-- Un párrafo con `lg:max-w-xl`.
+1. El título: `<h1 class="text-2xl sm:text-4xl lg:text-6xl">` con un texto y su `</h1>`.
+2. Un párrafo: `<p class="lg:max-w-xl">` con un texto y su `</p>`.
+
+Sin prefijo vale para el celular; `sm:` desde una pantalla chica y `lg:` desde una grande.
+
+**Se comprueba:** el `h1` con `text-2xl`, `sm:text-4xl` y `lg:text-6xl`, y un párrafo con `lg:max-w-xl`.
 
 #### Código inicial
 ```html
@@ -2241,7 +2344,13 @@ Desde el Valle llega un encargo de **Ofidia**: una ventana para sus pergaminos, 
 Lo que va **sin prefijo** es para la cabaña. `md:grid-cols-2` agrega, **desde** la ventana mediana, dos columnas.
 
 #### Desafío
-Agregale `md:grid-cols-2` al final de las clases del `div` de afuera.
+En el celular los pergaminos van uno debajo del otro. Desde una pantalla mediana, queremos dos columnas. Eso se hace con el prefijo `md:`.
+
+1. En el `class` del `div` de afuera, después de `gap-4`, dejá un espacio y escribí `md:grid-cols-2`.
+
+Queda: `class="grid gap-4 md:grid-cols-2"`. Mirá la vista previa en *Celular* y en *Compu*.
+
+**Se comprueba:** que el `class` del `div` de afuera sea exactamente `grid gap-4 md:grid-cols-2`.
 
 #### Código inicial
 ```html
@@ -2299,7 +2408,13 @@ El menú largo no entra en la cabaña: en la cabaña va el menú de abajo, y el 
 `hidden` lo esconde; `md:flex` lo muestra (como flex) desde la ventana mediana.
 
 #### Desafío
-Dale al `nav` las clases `hidden md:flex gap-4`, en ese orden.
+Este menú no tiene que verse en el celular, pero sí en una pantalla mediana o más grande.
+
+1. Agregale al `nav` el atributo: `class="hidden md:flex gap-4"`
+
+`hidden` lo esconde siempre, y `md:flex` lo vuelve a mostrar, en fila, desde la pantalla mediana. En ese orden. Probalo en *Celular* y en *Compu*.
+
+**Se comprueba:** que el `class` del `nav` sea exactamente `hidden md:flex gap-4`.
 
 #### Código inicial
 ```html
@@ -2361,7 +2476,14 @@ El título de los pergaminos es enorme en la cabaña y se parte en cuatro renglo
 Primero el tamaño de la cabaña (`text-2xl`), y con `md:text-4xl` crece en el castillo.
 
 #### Desafío
-Dale al `h1` las clases `text-2xl md:text-4xl font-bold`, en ese orden.
+El título es enorme en el celular. Queremos que sea mediano en el celular y grande en la compu.
+
+1. En el `class` del `h1`, borrá `text-5xl`.
+2. Dejá: `class="text-2xl md:text-4xl font-bold"`
+
+Primero el tamaño del celular (`text-2xl`), después el de la pantalla mediana (`md:text-4xl`) y al final `font-bold`.
+
+**Se comprueba:** que el `class` del `h1` sea exactamente `text-2xl md:text-4xl font-bold`.
 
 #### Código inicial
 ```html
@@ -2413,7 +2535,13 @@ En el gran salón, el texto de los pergaminos se estira de pared a pared y no ha
 `max-w-5xl` le pone un ancho máximo, `mx-auto` lo centra y `px-4` deja aire a los costados en la cabaña.
 
 #### Desafío
-Dale al `main` las clases `mx-auto max-w-5xl px-4`, en ese orden.
+En una compu ancha, el texto ocupa toda la pantalla y cuesta leerlo. Le ponemos un ancho máximo y lo centramos.
+
+1. Agregale al `main` el atributo: `class="mx-auto max-w-5xl px-4"`
+
+`max-w-5xl` es el ancho máximo, `mx-auto` lo centra y `px-4` deja aire a los costados en el celular. En ese orden.
+
+**Se comprueba:** que el `class` del `main` sea exactamente `mx-auto max-w-5xl px-4`.
 
 #### Código inicial
 ```html
@@ -2696,11 +2824,15 @@ Teo quiere que su fila del ranking reaccione cuando alguien pasa el mouse: que c
 `group` en la fila y `group-hover:` en sus partes: así cada parte reacciona cuando el mouse está sobre la fila entera. `transition` suaviza los cambios.
 
 #### Desafío
-Armá una fila del ranking con clases de Tailwind:
+Una fila del ranking que se ilumina entera al pasar el mouse. Escribí todo **adentro del `<body>`**.
 
-- Un enlace (`a`) con `group`, `transition` y `hover:bg-slate-800`.
-- Adentro, el puesto con `group-hover:text-cyan-400`.
-- Una flecha con `opacity-0`, `transition` y `group-hover:opacity-100`.
+1. La fila es un enlace: `<a href="#" class="group transition hover:bg-slate-800">` y su `</a>`.
+2. Adentro, el puesto: `<span class="group-hover:text-cyan-400">#1</span>`.
+3. Adentro también, una flecha que aparece solo con el mouse: `<span class="opacity-0 transition group-hover:opacity-100">&gt;</span>`.
+
+(Podés sumar el nombre y los puntos en otros `span`.)
+
+**Se comprueba:** el enlace con `group`, `transition` y `hover:bg-slate-800`; adentro, algo con `group-hover:text-cyan-400` y algo con `opacity-0`, `transition` y `group-hover:opacity-100`.
 
 #### Código inicial
 ```html
@@ -2781,10 +2913,16 @@ En la entrada del taller hay una caja que pregunta si se recuerda al visitante. 
 La casilla real se esconde con `sr-only` y se marca como `peer`. Su hermano, un `span`, dibuja el interruptor y cambia con `peer-checked:`. La bolita es un pseudo-elemento: `after:`.
 
 #### Desafío
-Armá el interruptor «Recordarme en esta terminal» con clases de Tailwind, todo adentro de un `label`:
+Un interruptor de encendido hecho con una casilla escondida. Escribí todo **adentro del `<body>`**.
 
-- Un `input type="checkbox"` con `peer` y `sr-only`.
-- Un `span` con `peer-checked:bg-cyan-400` y la bolita hecha con `after:absolute` y `peer-checked:after:translate-x-5`.
+1. Abrí un `<label>`. Todo lo que sigue va adentro, y al final lo cerrás.
+2. La casilla real, escondida: `<input type="checkbox" class="peer sr-only">`.
+3. El dibujo del interruptor, un `span` con estas clases: `peer-checked:bg-cyan-400 after:absolute peer-checked:after:translate-x-5` (podés sumar otras para darle tamaño y forma).
+4. El texto: «Recordarme en esta terminal».
+
+`peer` marca a la casilla; `peer-checked:` cambia al `span` cuando la casilla está marcada; `after:` dibuja la bolita.
+
+**Se comprueba:** adentro del `label`, la casilla con `peer` y `sr-only`, y el `span` con `peer-checked:bg-cyan-400`, `after:absolute` y `peer-checked:after:translate-x-5`.
 
 #### Código inicial
 ```html
@@ -2876,7 +3014,13 @@ Teo toca una tarjeta y no pasa nada. —¿Está rota? —No está rota —dice {
 `hover:` delante de una clase hace que se aplique **solo** cuando el mouse está encima: `hover:bg-cyan-300`.
 
 #### Desafío
-Agregale `hover:bg-cyan-300` al final de las clases del botón.
+El botón no reacciona cuando le pasás el mouse. El prefijo `hover:` hace que una clase valga **solo** con el mouse encima.
+
+1. En el `class` del botón, después de `py-2`, dejá un espacio y escribí `hover:bg-cyan-300`.
+
+Probalo pasando el mouse por la vista previa: el botón se aclara.
+
+**Se comprueba:** que el `class` del botón sea exactamente `rounded-lg bg-cyan-400 px-4 py-2 hover:bg-cyan-300`.
 
 #### Código inicial
 ```html
@@ -2928,7 +3072,13 @@ Nora recorre la tarjeta con el teclado, una tecla por vez, y no sabe dónde est�
 `focus-visible:ring-2 focus-visible:ring-cyan-400` dibuja un anillo cuando llegás con el teclado (no con el mouse).
 
 #### Desafío
-Agregale al botón `focus-visible:ring-2 focus-visible:ring-cyan-400`, al final.
+Quien usa el teclado (con la tecla Tab) no ve qué botón está seleccionado. Le dibujamos un anillo.
+
+1. En el `class` del botón, al final (después de `hover:bg-cyan-300`), agregá con espacios: `focus-visible:ring-2 focus-visible:ring-cyan-400`
+
+Son dos clases, y las dos llevan el prefijo `focus-visible:`. Probalo con la tecla Tab en la vista previa.
+
+**Se comprueba:** que el `class` termine en `hover:bg-cyan-300 focus-visible:ring-2 focus-visible:ring-cyan-400`.
 
 #### Código inicial
 ```html
@@ -2980,7 +3130,13 @@ La tarjeta cambia de golpe, como un parpadeo. Iris la quiere suave, como la luz 
 `transition` suaviza los cambios, y `hover:-translate-y-1` levanta la tarjeta un poquito cuando el mouse pasa.
 
 #### Desafío
-Agregale a la tarjeta `transition hover:-translate-y-1`, al final.
+Queremos que la tarjeta se levante un poquito, suave, al pasar el mouse.
+
+1. En el `class` del `article`, al final, agregá con espacios: `transition hover:-translate-y-1`
+
+`transition` hace que el cambio sea suave, y `hover:-translate-y-1` la sube (fijate el guion antes de `translate`).
+
+**Se comprueba:** que el `class` termine en `text-slate-100 transition hover:-translate-y-1`.
 
 #### Código inicial
 ```html
@@ -3032,7 +3188,14 @@ Cuando alguien se acerca a la tarjeta, Iris quiere que se encienda el **título*
 `group` en el padre, y `group-hover:text-cyan-400` en el hijo: el hijo cambia cuando el mouse pasa por **el padre**.
 
 #### Desafío
-Agregale `group` al `article`, y `group-hover:text-cyan-400` al `h3`.
+Queremos que el título cambie de color cuando el mouse pasa por **cualquier parte** de la tarjeta, no solo por el título.
+
+1. En el `class` del `article`, escribí `group` **al principio**: `class="group rounded-xl bg-slate-800 p-4"`.
+2. En el `class` del `h3`, agregá al final: `group-hover:text-cyan-400`.
+
+`group` marca a la tarjeta como «el grupo», y `group-hover:` cambia al hijo cuando el mouse está sobre el grupo.
+
+**Se comprueba:** que el `article` tenga `group rounded-xl bg-slate-800 p-4` y el `h3`, `font-bold text-slate-100 group-hover:text-cyan-400`.
 
 #### Código inicial
 ```html
@@ -3342,10 +3505,14 @@ En el tema del Gremio hay dos utilidades propias: un fondo cuadriculado y un tex
 Las utilidades del tema se usan como cualquier clase: `fondo-cuadricula`, `texto-neon`. Con el prefijo `hover:`, solo se aplican al pasar el mouse.
 
 #### Desafío
-Usá las utilidades del tema:
+El bloque de Tailwind ya trae dos utilidades propias: `fondo-cuadricula` y `texto-neon`. Se usan como cualquier clase. Escribí el HTML **adentro del `<body>`**.
 
-- Un `main` con la clase `fondo-cuadricula`.
-- Adentro, un párrafo con una palabra gigante y la clase `hover:texto-neon` (el brillo, solo al pasar el mouse).
+1. Un `<main class="fondo-cuadricula">` y su `</main>`.
+2. Adentro, un párrafo con una palabra bien grande y la clase `hover:texto-neon`: `<p class="text-6xl hover:texto-neon">NEON</p>`.
+
+El brillo va **solo con el mouse encima**: usá `hover:texto-neon`, no `texto-neon` solo.
+
+**Se comprueba:** el `main` con `fondo-cuadricula`, un párrafo adentro con `hover:texto-neon`, y que nada tenga `texto-neon` sin el `hover:`.
 
 #### Código inicial
 ```html
@@ -3531,7 +3698,19 @@ Iris copió `#22d3ee` en veinte lugares. Cuando el Gremio pide un cian «un poqu
 Adentro del bloque de Tailwind, `@theme { --color-neon: #22d3ee; }` crea las clases `text-neon`, `bg-neon`…
 
 #### Desafío
-Agregá en el bloque un `@theme` con `--color-neon: #22d3ee;`, y cambiá la clase del `h1` a `text-neon`.
+El color `#22d3ee` está escrito a mano en el `h1`. Lo guardamos en el **tema** con un nombre, y Tailwind crea la clase solo.
+
+1. Adentro del bloque `<style type="text/tailwindcss">`, debajo de `@import "tailwindcss";`, escribí:
+   ```css
+   @theme {
+     --color-neon: #22d3ee;
+   }
+   ```
+2. En el `h1`, cambiá la clase `text-[#22d3ee]` por `text-neon`.
+
+Como la variable se llama `--color-neon`, Tailwind crea `text-neon`, `bg-neon`, etc.
+
+**Se comprueba:** que el `@theme` tenga `--color-neon` con `#22d3ee` y que el `class` del `h1` sea `text-neon`.
 
 #### Código inicial
 ```html
@@ -3588,7 +3767,13 @@ El Gremio vuelve a pedir el cian «un poquito más claro». Teo prepara una list
 Con el color en el `@theme`, se cambia **una sola vez**: el valor de `--color-neon`.
 
 #### Desafío
-Cambiá el valor de `--color-neon` a `#67e8f9`.
+Queremos un cian más claro en toda la página. Como el color está en el tema, se cambia en **un solo lugar**.
+
+1. En el `@theme`, cambiá `--color-neon: #22d3ee;` por `--color-neon: #67e8f9;`
+
+No toques los `class` del HTML: el título y el párrafo cambian solos.
+
+**Se comprueba:** que `--color-neon` en el `@theme` sea `#67e8f9`.
 
 #### Código inicial
 ```html
@@ -3648,7 +3833,19 @@ Todos los títulos del taller van en negrita. Iris le pone `font-bold` a cada un
 `@layer base { h2 { @apply font-bold; } }` le da a **todos** los `h2` la letra gruesa, sin ponérsela a cada uno.
 
 #### Desafío
-Agregá en el bloque un `@layer base` con `h2 { @apply font-bold text-neon; }`, y sacale las clases a los dos `h2`.
+Los dos `h2` repiten las mismas clases. Les damos ese estilo a **todos** los `h2` desde el bloque de Tailwind.
+
+1. En el bloque de Tailwind, debajo del `@theme`, escribí:
+   ```css
+   @layer base {
+     h2 { @apply font-bold text-neon; }
+   }
+   ```
+2. En el HTML, borrale el atributo `class` a los dos `h2` (que queden `<h2>Encargos</h2>` y `<h2>Liga</h2>`).
+
+`@apply` aplica clases de Tailwind adentro de una regla.
+
+**Se comprueba:** que la regla `h2` tenga `@apply font-bold text-neon` y que ningún `h2` tenga `class`.
 
 #### Código inicial
 ```html
@@ -3714,7 +3911,14 @@ El taller tiene su propia letra para los títulos. Nora no la ve, pero la recono
 En `@theme`, `--font-display: "Space Grotesk", sans-serif;` crea la clase `font-display`. El nombre de la fuente va entre comillas.
 
 #### Desafío
-Agregá en el `@theme` la variable `--font-display` con `"Space Grotesk", sans-serif`.
+La letra *Space Grotesk* ya se carga, pero falta crear la clase `font-display` que usa el título.
+
+1. Adentro del `@theme`, debajo de `--color-neon`, agregá:
+   `--font-display: "Space Grotesk", sans-serif;`
+
+El nombre de la fuente va entre comillas dobles, después una coma y `sans-serif`. Como la variable se llama `--font-display`, Tailwind crea la clase `font-display`.
+
+**Se comprueba:** que el `@theme` tenga `--font-display` con `"Space Grotesk", sans-serif`.
 
 #### Código inicial
 ```html
@@ -4404,11 +4608,15 @@ En el muestrario hay una tarjeta modelo y Tesela quiere tres avisos: uno de éxi
 Un componente del tema (`tarjeta`) se reutiliza tal cual. El color se agrega con clases sueltas al lado: `text-emerald-300`, `text-rose-300`…
 
 #### Desafío
-Armá tres avisos (`p`) con la clase `tarjeta` del tema:
+El bloque de Tailwind ya trae la pieza `tarjeta`. Hacemos tres avisos con ella, cada uno de un color. Escribí todo **adentro del `<body>`**.
 
-- Éxito, con `text-emerald-300`.
-- Advertencia, con `text-oro`.
-- Error, con `text-rose-300`.
+1. Un aviso de éxito: `<p class="tarjeta text-emerald-300">Guardado.</p>`
+2. Uno de advertencia, con `text-oro`: `<p class="tarjeta text-oro">...</p>`
+3. Uno de error, con `text-rose-300`: `<p class="tarjeta text-rose-300">...</p>`
+
+Los tres son `p` y los tres llevan `tarjeta`; lo que cambia es la clase del color.
+
+**Se comprueba:** tres `p` con `tarjeta`, uno con `text-emerald-300`, otro con `text-oro` y otro con `text-rose-300`.
 
 #### Código inicial
 ```html
@@ -4665,11 +4873,13 @@ Teo quiere las tarjetitas de cursos de la versión celular: dos, iguales en form
 La misma estructura dos veces: una grilla de dos columnas con dos `article.tarjeta`. Lo que cambia son los textos y la clase del color de la etiqueta.
 
 #### Desafío
-Armá las dos tarjetas chicas con las piezas del kit:
+Dos tarjetas chicas, una al lado de la otra, con la pieza `tarjeta` del tema. Escribí todo **adentro del `<body>`**.
 
-- Un `main` con `grid` y `grid-cols-2`.
-- Adentro, **dos** `article` con la clase `tarjeta`: «TypeScript Pro» y «Spring Boot Cloud».
-- En cada una, la cantidad de nodos con la clase `text-neon`.
+1. Un `<main class="grid grid-cols-2">` y su `</main>`.
+2. Adentro, **dos** `article` con `class="tarjeta"`: uno con el título «TypeScript Pro» y otro con «Spring Boot Cloud».
+3. En cada tarjeta, la cantidad de nodos con la clase `text-neon`: `<p class="text-neon">22 nodos</p>`.
+
+**Se comprueba:** el `main` con `grid` y `grid-cols-2`, dos `article.tarjeta` directamente adentro, y un elemento con `text-neon` en cada tarjeta.
 
 #### Código inicial
 ```html
@@ -4944,7 +5154,17 @@ El **Orco del Desborde** asoma la cabeza por la puerta: la misma tarjeta, copiad
 `@utility btn { @apply rounded-lg px-4 py-2 font-semibold; }` crea la clase `btn`. Se escribe una vez y se usa en todos lados.
 
 #### Desafío
-Agregá en el bloque `@utility btn { @apply rounded-lg px-4 py-2 font-semibold; }`, y dejale a los dos botones solo la clase `btn`.
+Los dos botones tienen clases distintas y se ven distintos. Creamos una pieza `btn` para que sean iguales.
+
+1. En el bloque de Tailwind, debajo del `@theme`, escribí:
+   ```css
+   @utility btn {
+     @apply rounded-lg px-4 py-2 font-semibold;
+   }
+   ```
+2. En los dos enlaces, borrá todas las clases y dejá solo `class="btn"`.
+
+**Se comprueba:** que `@utility btn` aplique `rounded-lg px-4 py-2 font-semibold` y que los dos enlaces tengan solo `btn`.
 
 #### Código inicial
 ```html
@@ -5011,7 +5231,17 @@ Teo quiere que el botón de «Entrar» sea distinto: cian y llamativo. Pero sin 
 Se combinan: `class="btn btn-primario"`. La base en `btn` y el color en `btn-primario`, con su propio `@utility`.
 
 #### Desafío
-Agregá `@utility btn-primario { @apply bg-neon text-slate-950; }` y ponele al enlace las clases `btn btn-primario`.
+Ya existe `btn` (la forma del botón). Creamos `btn-primario` para el color, y las combinamos.
+
+1. En el bloque de Tailwind, debajo de `@utility btn { ... }`, escribí:
+   ```css
+   @utility btn-primario {
+     @apply bg-neon text-slate-950;
+   }
+   ```
+2. En el enlace, dejá `class="btn btn-primario"`.
+
+**Se comprueba:** que `@utility btn-primario` aplique `bg-neon text-slate-950` y que el enlace tenga `btn btn-primario`.
 
 #### Código inicial
 ```html
@@ -5080,7 +5310,13 @@ En la cabaña, el botón de Entrar tiene que ocupar todo el ancho; en el castill
 Un componente se combina con clases sueltas: `btn btn-primario w-full sm:w-auto`.
 
 #### Desafío
-Agregale `w-full sm:w-auto` al final de las clases del enlace.
+Las piezas propias se combinan con clases sueltas. Queremos el botón a todo el ancho en el celular y de su tamaño en la compu.
+
+1. En el `class` del enlace, después de `btn-primario`, agregá con espacios: `w-full sm:w-auto`
+
+Queda: `class="btn btn-primario w-full sm:w-auto"`.
+
+**Se comprueba:** que el `class` del enlace sea exactamente `btn btn-primario w-full sm:w-auto`.
 
 #### Código inicial
 ```html
@@ -5150,7 +5386,17 @@ Las tarjetas de los cursos llevan un chip con el lenguaje, y se repite en ocho t
 Lo que se repite va a un `@utility`. `@utility chip { @apply rounded-full px-3 py-1 text-xs; }`.
 
 #### Desafío
-Agregá `@utility chip { @apply rounded-full px-3 py-1 text-xs; }` y ponele `chip` a los tres `span`.
+Los tres `span` repiten las mismas cuatro clases. Las juntamos en una pieza `chip`.
+
+1. En el bloque de Tailwind, debajo del `@theme`, escribí:
+   ```css
+   @utility chip {
+     @apply rounded-full px-3 py-1 text-xs;
+   }
+   ```
+2. En los tres `span`, borrá las clases y dejá solo `class="chip"`.
+
+**Se comprueba:** que `@utility chip` aplique `rounded-full px-3 py-1 text-xs` y que los tres `span` tengan solo `chip`.
 
 #### Código inicial
 ```html
@@ -5538,7 +5784,13 @@ El Orco del Desborde entró al taller y estiró el **tablón de encargos** con s
 `max-w-full h-auto` hace que la imagen nunca sea más ancha que su caja.
 
 #### Desafío
-Cambiá la clase `w-[900px]` de la imagen por `max-w-full h-auto`.
+La imagen tiene un ancho fijo de 900px y en el celular se sale de la pantalla.
+
+1. En el `class` de la imagen, cambiá `w-[900px]` por `max-w-full h-auto`.
+
+Queda: `class="max-w-full h-auto"`. La imagen nunca va a ser más ancha que su caja, y no se deforma. Probalo en *Celular*.
+
+**Se comprueba:** que el `class` de la imagen sea exactamente `max-w-full h-auto`.
 
 #### Código inicial
 ```html
@@ -5591,7 +5843,11 @@ La dirección para seguir el encargo es una sola palabra larguísima, y empuja l
 `break-all` deja cortar una palabra larguísima en cualquier letra, para que entre.
 
 #### Desafío
-Agregale `break-all` al párrafo de la dirección.
+La dirección es una sola palabra larguísima y se sale de la pantalla del celular. Dejamos que se corte donde haga falta.
+
+1. Agregale al párrafo el atributo: `<p class="break-all">`.
+
+**Se comprueba:** que el `class` del párrafo sea `break-all`.
 
 #### Código inicial
 ```html
@@ -5644,7 +5900,14 @@ La tabla de encargos tiene seis columnas y en la cabaña no entra de ninguna for
 Envolvé la tabla en un `div` con `overflow-x-auto`: la **tabla** se desliza de costado, no la página entera.
 
 #### Desafío
-Envolvé la tabla en un `div` con la clase `overflow-x-auto`.
+La tabla es más ancha que el celular y hace que se mueva **toda** la página. Queremos que se deslice solo la tabla.
+
+1. Antes de `<table ...>`, escribí `<div class="overflow-x-auto">`.
+2. Después de `</table>`, escribí `</div>`.
+
+La tabla queda **adentro** del `div`, y la tabla no se toca.
+
+**Se comprueba:** que la tabla esté directamente adentro de un `div` con la clase `overflow-x-auto`.
 
 #### Código inicial
 ```html
@@ -5706,7 +5969,13 @@ Queda la última trampa del orco: la tarjeta del tablón tiene un ancho fijo de 
 En vez de un ancho fijo, `w-full max-w-xl`: ocupa todo lo que hay, pero nunca más que `max-w-xl`.
 
 #### Desafío
-Cambiá `w-[600px]` por `w-full max-w-xl` en la tarjeta.
+La tarjeta mide 600px fijos y en el celular no entra. Queremos que ocupe todo el ancho, pero sin pasar de un máximo.
+
+1. En el `class` del `article`, cambiá `w-[600px]` por `w-full max-w-xl`.
+
+Las otras clases quedan igual y en su lugar: `class="w-full max-w-xl rounded-xl bg-slate-800 p-4 text-slate-100"`.
+
+**Se comprueba:** que el `class` sea exactamente `w-full max-w-xl rounded-xl bg-slate-800 p-4 text-slate-100`.
 
 #### Código inicial
 ```html

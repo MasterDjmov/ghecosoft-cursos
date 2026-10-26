@@ -21,13 +21,16 @@ W, H = 1376, 768
 
 
 def sin_franjas(img):
-    """Saca las franjas negras de arriba y de abajo que a veces agrega Stitch (filas casi negras enteras)."""
+    """Saca las franjas oscuras de arriba y de abajo que a veces agrega Stitch (filas enteras casi negras o de un solo tono oscuro)."""
     gris = img.convert('L')
     w, h = gris.size
     px = gris.load()
 
     def negra(y):
-        return sum(px[x, y] for x in range(0, w, 8)) / len(range(0, w, 8)) < 10
+        # Casi negra, o una franja oscura pareja (Stitch a veces la pinta azul noche, no negra).
+        vals = [px[x, y] for x in range(0, w, 8)]
+        media = sum(vals) / len(vals)
+        return media < 10 or (media < 40 and max(vals) - min(vals) < 12)
 
     arriba = next((y for y in range(h // 6) if not negra(y)), 0)
     abajo = next((y for y in range(h - 1, h - h // 6, -1) if not negra(y)), h - 1)

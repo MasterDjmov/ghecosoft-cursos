@@ -15,11 +15,26 @@ from PIL import Image
 W, H = 1376, 768
 
 
+def sin_franjas(img):
+    """Saca las franjas negras de arriba y de abajo que a veces agrega Stitch (filas casi negras enteras)."""
+    gris = img.convert('L')
+    w, h = gris.size
+    px = gris.load()
+
+    def negra(y):
+        return sum(px[x, y] for x in range(0, w, 8)) / len(range(0, w, 8)) < 10
+
+    arriba = next((y for y in range(h // 6) if not negra(y)), 0)
+    abajo = next((y for y in range(h - 1, h - h // 6, -1) if not negra(y)), h - 1)
+    return img.crop((0, arriba, w, abajo + 1)) if arriba or abajo < h - 1 else img
+
+
 def main():
     folder, sid, url = Path(sys.argv[1]), sys.argv[2], sys.argv[3]
     url = url.split('=')[0] if '=s' in url else url
     data = urllib.request.urlopen(url + '=s1376', timeout=120).read()
     img = Image.open(io.BytesIO(data)).convert('RGB')
+    img = sin_franjas(img)
     if img.size != (W, H):  # recorte centrado a 16:9 y escala
         ratio = W / H
         w, h = img.size

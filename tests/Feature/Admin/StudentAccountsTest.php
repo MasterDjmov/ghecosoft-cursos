@@ -186,3 +186,25 @@ test('el docente no puede matricular desde el listado', function () {
         ->call('enroll')
         ->assertForbidden();
 });
+
+test('el administrador ve en «Nuevos» solo a los alumnos de la última semana, el más reciente primero', function () {
+    $old = User::factory()->create(['name' => 'Viejo', 'last_name' => 'Uno', 'created_at' => now()->subDays(10)]);
+    $first = User::factory()->create(['name' => 'Primero', 'last_name' => 'Dos', 'created_at' => now()->subDays(5)]);
+    $latest = User::factory()->create(['name' => 'Reciente', 'last_name' => 'Tres', 'created_at' => now()->subHour()]);
+    User::factory()->teacher()->create(['name' => 'Profe', 'created_at' => now()]);
+
+    Livewire::actingAs(User::factory()->admin()->create(['created_at' => now()->subYear()]))->test(Index::class)
+        ->assertSeeHtml('data-test="new-count"')
+        ->set('tab', 'nuevos')
+        ->assertSeeInOrder([$latest->fullName(), $first->fullName()])
+        ->assertSee('Se registró')
+        ->assertDontSee($old->fullName())
+        ->assertDontSee('Profe');
+});
+
+test('el docente no tiene la pestaña «Nuevos»', function () {
+    Livewire::actingAs(User::factory()->teacher()->create())->test(Index::class)
+        ->assertDontSee('Nuevos')
+        ->set('tab', 'nuevos')
+        ->assertDontSee('Se registró');
+});

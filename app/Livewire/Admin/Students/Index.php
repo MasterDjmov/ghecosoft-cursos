@@ -20,17 +20,21 @@ use Livewire\WithPagination;
 /**
  * Alumnos (y, para el administrador, los docentes). Tocar un alumno despliega sus cursos con la
  * comisión de cada uno, para cambiarla ahí mismo. El docente (D72) ve a los alumnos de sus comisiones
- * y busca a los demás (solo nombre y usuario) para sumarlos a una comisión suya.
+ * y busca a los demás (solo nombre y usuario) para sumarlos a una comisión suya. El administrador tiene
+ * además «Nuevos»: los que se registraron en los últimos días, para ofrecerles algo o darles una mano.
  */
 #[Title('Alumnos')]
 class Index extends Component
 {
     use WithPagination;
 
+    /** Cuántos días cuenta un alumno como nuevo. */
+    public const NEW_DAYS = 7;
+
     #[Url(as: 'buscar', except: '')]
     public string $search = '';
 
-    /** Administrador: '' alumnos | 'docentes'. Docente: '' sus alumnos | 'sumar' (buscar a los demás). */
+    /** Administrador: '' alumnos | 'nuevos' (registrados en la última semana) | 'docentes'. Docente: '' sus alumnos | 'sumar' (buscar a los demás). */
     #[Url(as: 'ver', except: '')]
     public string $tab = '';
 
@@ -132,6 +136,8 @@ class Index extends Component
         $viewer = auth()->user();
         $teachers = $viewer->isAdmin() && $this->tab === 'docentes';
         $finding = $viewer->isTeacher() && $this->tab === 'sumar';
+        $recent = $viewer->isAdmin() && $this->tab === 'nuevos';
+        $since = now()->subDays(self::NEW_DAYS);
         $term = trim($this->search);
 
         $query = User::where('role', $teachers ? Role::Teacher : Role::Student)
@@ -144,13 +150,15 @@ class Index extends Component
                     ->when(! $finding, fn ($w) => $w->orWhere('email', 'like', $like)->orWhere('phone', 'like', $like)->orWhere('dni', 'like', $like)));
             })
             ->when($teachers, fn ($q) => $q->withCount('taughtCohorts'))
-            ->orderBy('last_name')->orderBy('name');
+            ->when($recent, fn ($q) => $q->where('created_at', '>=', $since)->latest()->latest('id'), fn ($q) => $q->orderBy('last_name')->orderBy('name'));
         $people = $query->paginate(30);
 
         return view('livewire.admin.students.index', [
             'people' => $people,
             'teachers' => $teachers,
             'finding' => $finding,
+            'recent' => $recent,
+            'newCount' => $viewer->isAdmin() ? User::where('role', Role::Student)->where('created_at', '>=', $since)->count() : 0,
             'active' => CourseSubscription::active()->whereIn('user_id', $people->pluck('id'))->pluck('user_id')->flip(),
             'detail' => $this->expanded && ! $teachers ? $this->detail($this->expanded, $viewer, $scope) : null,
             'enrollCourses' => $viewer->isAdmin() && $this->expanded && ! $teachers ? Course::orderBy('title')->get(['id', 'title', 'is_published']) : collect(),

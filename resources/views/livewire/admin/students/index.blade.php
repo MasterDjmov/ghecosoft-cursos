@@ -1,6 +1,7 @@
 @php
     $isAdmin = auth()->user()->isAdmin();
-    $tabs = $isAdmin ? ['' => 'Alumnos', 'docentes' => 'Docentes'] : ['' => 'Mis alumnos', 'sumar' => 'Sumar alumnos'];
+    $tabs = $isAdmin ? ['' => 'Alumnos', 'nuevos' => 'Nuevos', 'docentes' => 'Docentes'] : ['' => 'Mis alumnos', 'sumar' => 'Sumar alumnos'];
+    $newSince = now()->subDays(\App\Livewire\Admin\Students\Index::NEW_DAYS);
     $placeholder = $finding ? 'Buscá por nombre o usuario para sumarlo a una comisión tuya' : 'Buscar por nombre, usuario, email, teléfono o DNI';
 @endphp
 
@@ -23,6 +24,9 @@
                 <button type="button" role="tab" wire:click="$set('tab', '{{ $value }}')" aria-selected="{{ $tab === $value ? 'true' : 'false' }}"
                     @class(['rounded-md px-3 py-1.5 text-sm font-medium transition', 'bg-primary-bright text-surface' => $tab === $value, 'text-ink-muted hover:text-ink' => $tab !== $value])>
                     {{ $label }}
+                    @if ($value === 'nuevos' && $newCount)
+                        <flux:badge size="sm" color="cyan" class="ms-1" data-test="new-count">{{ $newCount }}</flux:badge>
+                    @endif
                 </button>
             @endforeach
         </div>
@@ -33,6 +37,10 @@
         <flux:callout icon="wrench-screwdriver" color="amber" data-test="maintenance-hint">
             <flux:callout.text>Hay mantenimiento activo. Tildá <strong>Entra en mantenimiento</strong> en los alumnos que quieras dejar pasar para probar: entran a la plataforma y a los cursos cerrados. Hay {{ count($maintenanceAllowed) }} {{ count($maintenanceAllowed) === 1 ? 'habilitado' : 'habilitados' }}.</flux:callout.text>
         </flux:callout>
+    @endif
+
+    @if ($recent)
+        <flux:text class="text-sm">Los alumnos que se registraron en los últimos {{ \App\Livewire\Admin\Students\Index::NEW_DAYS }} días, del más reciente al más viejo. Tocá uno para matricularlo o ver su ficha.</flux:text>
     @endif
 
     @if ($teachers)
@@ -64,7 +72,13 @@
                                 <span class="truncate font-mono text-xs text-ink-muted">
                                     {{ '@'.$person->username }}@unless ($finding){{ $person->email ? ' · '.$person->email : '' }}{{ $person->phone ? ' · '.$person->phone : '' }}@endunless
                                 </span>
+                                @if ($recent)
+                                    <span class="text-xs text-ink-muted" data-test="registered-at">Se registró {{ $person->created_at->diffForHumans() }} · {{ $person->created_at->format('d/m H:i') }}</span>
+                                @endif
                             </div>
+                            @if (! $recent && $isAdmin && $person->created_at?->gte($newSince))
+                                <flux:badge size="sm" color="cyan">Nuevo</flux:badge>
+                            @endif
                             @if ($active->has($person->id))
                                 <flux:badge size="sm" color="green">Abono vigente</flux:badge>
                             @endif
@@ -166,6 +180,8 @@
                         Escribí al menos dos letras del nombre o el usuario.
                     @elseif (! $isAdmin && $tab === '')
                         Todavía no tenés alumnos: creá una comisión en <flux:link :href="route('admin.cohorts')" wire:navigate>Comisiones</flux:link> y sumalos desde «Sumar alumnos».
+                    @elseif ($recent)
+                        Nadie se registró en los últimos {{ \App\Livewire\Admin\Students\Index::NEW_DAYS }} días.
                     @else
                         No se encontraron {{ $teachers ? 'docentes' : 'alumnos' }}.
                     @endif

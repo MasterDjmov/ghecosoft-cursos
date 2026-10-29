@@ -118,6 +118,8 @@ export class Machine {
         const fin = program.symbols.get('fin');
         this.snapshotAt = fin && fin.address !== undefined ? fin.address : -1;
         this.snapshot = null;
+        // D110: las rutinas en curso (call apila, ret saca), para que el tablero muestre dónde está el programa.
+        this.calls = [];
 
         // Imagen del .EXE: código, datos y pila en párrafos seguidos (como lo cargaría DOS).
         const codeSeg = PSP + 0x10;
@@ -459,12 +461,14 @@ export class Machine {
             case 'call': {
                 const target = a.k === 'imm' ? a.v : this.value(a, 16);
                 this.push(this.ip);
+                if (this.calls.length < 64) this.calls.push({ target, back: this.ip });
                 this.ip = target;
                 return;
             }
             case 'ret': {
                 if (this.regs[R16.sp] === this.initialSp) throw new Halt('fin (RET con la pila vacía)', 0, true);
                 this.ip = this.pop();
+                this.calls.pop();
                 if (a) this.set('sp', this.regs[R16.sp] + a.v);
                 return;
             }

@@ -10,6 +10,30 @@ export const FLAG_ORDER = ['zf', 'sf', 'cf', 'of', 'pf', 'af', 'df', 'if', 'tf']
 const CGA = ['#000000', '#1d4ed8', '#16a34a', '#0891b2', '#b91c1c', '#9333ea', '#a16207', '#cbd5e1',
     '#64748b', '#60a5fa', '#4ade80', '#22d3ee', '#f87171', '#e879f9', '#fde047', '#ffffff'];
 
+// D110: qué interruptores mira cada salto condicional (para decir por qué saltó o no).
+const CONDITIONS = {
+    z: ['ZF = 1', ['zf']], nz: ['ZF = 0', ['zf']], c: ['CF = 1', ['cf']], nc: ['CF = 0', ['cf']],
+    a: ['CF = 0 y ZF = 0', ['cf', 'zf']], be: ['CF = 1 o ZF = 1', ['cf', 'zf']],
+    g: ['ZF = 0 y SF = OF', ['zf', 'sf', 'of']], ge: ['SF = OF', ['sf', 'of']], l: ['SF ≠ OF', ['sf', 'of']],
+    le: ['ZF = 1 o SF ≠ OF', ['zf', 'sf', 'of']], s: ['SF = 1', ['sf']], ns: ['SF = 0', ['sf']],
+    o: ['OF = 1', ['of']], no: ['OF = 0', ['of']], p: ['PF = 1', ['pf']], np: ['PF = 0', ['pf']],
+};
+
+// Lo que significa cada interruptor (se muestra al tocarlo).
+export const FLAG_INFO = {
+    zf: 'Cero: se prende si el resultado dio 0. Después de cmp, si los dos eran iguales.',
+    sf: 'Signo: copia el bit más alto del resultado. Mirado con signo, 1 es negativo.',
+    cf: 'Acarreo: se prende si la cuenta sin signo se pasó («me llevo uno») o tuvo que pedir prestado. Ahí cae también el bit que sale al correr.',
+    of: 'Desborde: se prende si la cuenta con signo se pasó de rango (dos positivos que dan negativo, o al revés).',
+    pf: 'Paridad: 1 si el byte bajo del resultado tiene una cantidad par de unos.',
+    af: 'Acarreo auxiliar: del bit 3 al 4 (lo usan las cuentas en BCD).',
+    df: 'Dirección: 0, las órdenes de cadena avanzan; 1, retroceden.',
+    if: 'Interrupciones: 1, el procesador atiende las del hardware.',
+    tf: 'Trampa: 1, el procesador se frena después de cada orden (así trabajan los depuradores).',
+};
+
+const nibbles = (v, bits) => v.toString(2).padStart(bits, '0').replace(/(.{4})(?=.)/g, '$1 ');
+
 const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 
 export class AsmSession {
@@ -27,6 +51,8 @@ export class AsmSession {
         // D110: qué hizo la última orden (en criollo) y qué pestañas tienen novedades (palpitan).
         this.explain = null;
         this.pulse = {};
+        // D110: el camino que hizo el paso a paso (las últimas órdenes, con los saltos).
+        this.trail = [];
     }
 
     /** Ensambla. Devuelve null si anduvo, o el error explicado (línea, mensaje, criatura, mensaje real). */
@@ -38,6 +64,11 @@ export class AsmSession {
             for (const s of program.symbols.values()) {
                 if (s.kind === 'data' && s.offset !== undefined) this.variables.set(s.offset, s.name);
             }
+            this.labels = new Map();
+            for (const s of program.symbols.values()) {
+                if ((s.kind === 'label' || s.kind === 'proc') && s.address !== undefined && !this.labels.has(s.address)) this.labels.set(s.address, s.name);
+            }
+            this.trail = [];
             return null;
         } catch (e) {
             this.error = describeError(e);
@@ -66,6 +97,9 @@ export class AsmSession {
         const flagsBefore = Object.fromEntries(FLAG_ORDER.map((f) => [f, m.flag(f)]));
         const memBefore = new Map();
         const screenBefore = m.screen.text();
+        const ipBefore = m.ip;
+        // La dirección de cada operando de memoria se calcula antes de que la orden cambie los registros.
+        const operands = ins ? ins.ops.map((op) => this.operand(op, ins)) : [];
         // Para mostrar «de 03 a 04» en lo que escriba, se mira cada byte antes de que la orden lo toque.
         const write8 = m.write8.bind(m);
         m.write8 = (seg, off, v) => {
@@ -85,6 +119,13 @@ export class AsmSession {
             return r;
         }
         this.describe(ins, before, flagsBefore, memBefore, screenBefore);
+        if (ins) {
+            const flow = this.flowOf(ins, flagsBefore);
+            this.explain.flow = flow;
+            this.explain.tech = this.techOf(ins, ipBefore, operands, flow);
+            this.trail.push({ n: (this.trail.at(-1)?.n ?? 0) + 1, line: ins.line, text: ins.text, ip: hex(ipBefore, 4), jump: flow?.jumped ? (this.lineAt(m.ip) ?? hex(m.ip, 4) + 'h') : null });
+            if (this.trail.length > 40) this.trail.shift();
+        }
         return r;
     }
 
@@ -100,6 +141,89 @@ export class AsmSession {
         let best = null;
         for (const [start, name] of this.variables) if (start < off && (best === null || start > best[0])) best = [start, name];
         return best && off - best[0] < 64 ? `${best[1]}+${off - best[0]}` : null;
+    }
+
+    /** El nombre del lugar del código (la etiqueta o la rutina) o su dirección. */
+    placeName(ip) {
+        const name = this.labels?.get(ip);
+        return name ? `${name} (IP ${hex(ip, 4)}h)` : `IP ${hex(ip, 4)}h`;
+    }
+
+    /** La línea del código de la orden que vive en esa dirección. */
+    lineAt(ip) {
+        const i = this.machine.p.byAddress.get(ip);
+        return i === undefined ? null : this.machine.p.instructions[i].line;
+    }
+
+    /** Por qué la orden siguió de largo o saltó (los saltos, los bucles, las llamadas y las vueltas). */
+    flowOf(ins, flagsBefore) {
+        const m = this.machine;
+        if (m.halted) return null;
+        const next = ins.address + ins.length;
+        const jumped = m.ip !== next;
+        const where = this.placeName(m.ip);
+        const name = ins.m;
+        let text = null;
+        if (ins.cond && CONDITIONS[ins.cond]) {
+            const [rule, used] = CONDITIONS[ins.cond];
+            const seen = used.map((f) => `${f.toUpperCase()} = ${flagsBefore[f]}`).join(', ');
+            text = `${name} salta solo si ${rule}. Con ${seen}, ${jumped ? `se cumple: saltó a ${where}.` : 'no se cumple: siguió con la orden de abajo.'}`;
+        } else if (/^loop/.test(name)) {
+            const extra = { loope: ' y ZF = 1', loopz: ' y ZF = 1', loopne: ' y ZF = 0', loopnz: ' y ZF = 0' }[name] ?? '';
+            text = `${name} le resta 1 a CX (quedó en ${hex(m.get('cx'), 4)}h) y vuelve si CX no es 0${extra}: ${jumped ? `volvió a ${where}.` : 'terminó el bucle y siguió de largo.'}`;
+        } else if (name === 'jcxz') {
+            text = `jcxz salta solo si CX = 0: ${jumped ? `saltó a ${where}.` : 'CX no es 0, siguió de largo.'}`;
+        } else if (name === 'jmp') {
+            text = `jmp salta siempre: el programa sigue en ${where}.`;
+        } else if (name === 'call') {
+            text = `call guardó en la pila la dirección de vuelta (${hex(next, 4)}h, la orden de abajo) y fue a ${where}.`;
+        } else if (name === 'ret' || name === 'retn') {
+            text = `ret sacó de la pila la dirección de vuelta y volvió a ${where}, justo después del call.`;
+        }
+        return text ? { jumped, text } : null;
+    }
+
+    /** Cómo se ve un operando por dentro: registro, número dentro de la orden o cajón (con su dirección). */
+    operand(op, ins) {
+        const m = this.machine;
+        if (op.k === 'reg' || op.k === 'sreg') {
+            return { kind: 'registro', text: `${op.r.toUpperCase()} (${op.size} bits)` };
+        }
+        if (op.k === 'imm') {
+            if (ins.m === 'int') return { kind: 'número de interrupción', text: `${hex(op.v & 0xff, 2)}h (el servicio lo elige AH)` };
+            if (op.label) return { kind: 'dirección del código', text: `${op.label.name} = ${hex(op.v, 4)}h` };
+            if (op.sym?.kind === 'segment') return { kind: 'segmento', text: `@data = ${hex(m.dataSeg, 4)}h` };
+            const bits = ins.size || (ins.ops[0]?.size ?? 16) || 16;
+            return { kind: 'inmediato (viaja dentro de la orden)', text: `${hex(op.v & (bits === 8 ? 0xff : 0xffff), bits === 8 ? 2 : 4)}h = ${op.v}` };
+        }
+        const seg = m.segOf(op);
+        const segName = (op.seg ?? (op.base === 'bp' ? 'ss' : 'ds')).toUpperCase();
+        const off = m.ea(op);
+        const terms = [];
+        if (op.base) terms.push(`${op.base.toUpperCase()} ${hex(m.get(op.base), 4)}h`);
+        if (op.index) terms.push(`${op.index.toUpperCase()} ${hex(m.get(op.index), 4)}h`);
+        if (op.disp || terms.length === 0) terms.push(`${hex(op.disp & 0xffff, 4)}h${op.sym?.kind === 'data' ? ` (${op.sym.name})` : ''}`);
+        const size = op.size || ins.size;
+        const name = segName === 'DS' ? this.varName(off) : null;
+        return {
+            kind: `memoria, ${size === 8 ? '1 byte' : size === 16 ? '2 bytes (word)' : 'sin tamaño'}`,
+            text: `${terms.join(' + ')} = ${hex(off, 4)}h${name ? ` (${name})` : ''} · ${segName}:${hex(off, 4)} = ${hex(seg, 4)}:${hex(off, 4)} → dirección física ${hex(seg * 16 + off, 5)}h`,
+        };
+    }
+
+    /** La capa técnica de la orden: tamaño de los operandos, dónde vive, cuántos bytes ocupa y cómo se movió IP. */
+    techOf(ins, ipBefore, operands, flow) {
+        const m = this.machine;
+        const roles = operands.length === 2 ? ['destino', 'origen'] : ['operando'];
+        const size = ins.size || ins.ops.find((o) => o.size)?.size || 0;
+        return {
+            size: size === 8 ? 'trabaja con bytes (8 bits)' : size === 16 ? 'trabaja con words (16 bits)' : null,
+            code: `vive en CS:${hex(ipBefore, 4)} y ocupa ${ins.length} byte${ins.length === 1 ? '' : 's'} de código máquina`,
+            ip: m.halted ? null : flow?.jumped
+                ? `IP: ${hex(ipBefore, 4)}h → ${hex(m.ip, 4)}h (saltó; sin el salto habría ido a ${hex(ins.address + ins.length, 4)}h)`
+                : `IP: ${hex(ipBefore, 4)}h + ${ins.length} = ${hex(m.ip, 4)}h (la orden de abajo)`,
+            operands: operands.map((o, i) => ({ role: roles[i] ?? 'operando', ...o })),
+        };
     }
 
     describe(ins, before, flagsBefore, memBefore, screenBefore) {
@@ -213,12 +337,20 @@ export class AsmSession {
         const registers = REGISTER_ORDER.map((r) => ({
             name: r.toUpperCase(),
             value: hex(m.get(r), 4),
+            // D110: el mismo número en decimal (sin y con signo) y en binario, al tocar la palanca.
+            dec: m.get(r),
+            signed: (m.get(r) << 16) >> 16,
+            bin: nibbles(m.get(r), 16),
             high: r.length === 2 && 'abcd'.includes(r[0]) && r[1] === 'x' ? hex(m.get(`${r[0]}h`), 2) : null,
             low: r.length === 2 && 'abcd'.includes(r[0]) && r[1] === 'x' ? hex(m.get(`${r[0]}l`), 2) : null,
             changed: ch.regs.has(r),
         }));
-        const flags = FLAG_ORDER.map((f) => ({ name: f.toUpperCase(), value: m.flag(f), changed: ch.flags.has(f) }));
+        const flags = FLAG_ORDER.map((f) => ({ name: f.toUpperCase(), value: m.flag(f), changed: ch.flags.has(f), info: FLAG_INFO[f] }));
+        // Dentro de qué rutinas está ahora (main → mostrar → …).
+        const calls = [this.placeName(this.machine.p.entry).replace(/ \(IP.*$/, ''), ...this.machine.calls.map((c) => this.placeName(c.target).replace(/ \(IP.*$/, ''))];
         return {
+            trail: [...this.trail].reverse(),
+            calls,
             registers,
             flags,
             memory: this.memory(m, ch),

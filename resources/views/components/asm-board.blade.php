@@ -36,7 +36,7 @@
 
     {{-- Pestañas (en la compu se ven palancas e interruptores siempre arriba) --}}
     <div class="flex items-center gap-1 overflow-x-auto border-b border-outline/60 px-2 [scrollbar-width:none]" role="tablist">
-        @foreach (['registers' => 'Palancas · registros', 'screen' => 'Pantalla', 'memory' => 'Cajones · memoria', 'stack' => 'Torre · pila'] as $key => $label)
+        @foreach (['registers' => 'Palancas · registros', 'screen' => 'Pantalla', 'memory' => 'Cajones · memoria', 'stack' => 'Torre · pila', 'flow' => 'Camino · flujo'] as $key => $label)
             <button type="button" role="tab" x-on:click="asmPanel = '{{ $key }}'" x-bind:aria-selected="asmPanel === '{{ $key }}'" class="{{ $tab }}"
                 x-bind:class="asmPanel === '{{ $key }}' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">
                 <span class="relative">{{ $label }}
@@ -63,8 +63,20 @@
 
         {{-- D110: qué hizo la última orden, en criollo (los registros que cambió, de qué cajón leyó, en cuál escribió). --}}
         <div x-show="asm?.explain && asmPanel !== 'input'" x-cloak class="mb-3 rounded-md border border-yellow-400/40 bg-yellow-400/5 px-3 py-2 text-xs" data-test="asm-explain">
-            <p class="mb-1 text-ink-muted">La última orden: <code class="font-mono text-yellow-300" x-text="asm?.explain?.text"></code></p>
+            <div class="mb-1 flex items-start gap-2">
+                <p class="text-ink-muted">La última orden: <code class="font-mono text-yellow-300" x-text="asm?.explain?.text"></code></p>
+                {{-- D110: la segunda capa, para el que quiere ver qué hace de verdad la CPU. --}}
+                <button type="button" x-on:click="asmTech = ! asmTech" class="ms-auto shrink-0 rounded px-1.5 py-0.5 text-[11px] transition"
+                    x-bind:class="asmTech ? 'bg-secondary/20 text-secondary-bright' : 'text-ink-muted hover:bg-surface-high hover:text-ink'" data-test="asm-tech-toggle">
+                    <span x-text="asmTech ? 'Ocultar la vista técnica' : 'Vista técnica'">Vista técnica</span>
+                </button>
+            </div>
             <p class="mb-1 text-ink" x-show="asm?.explain?.note" x-text="asm?.explain?.note"></p>
+            {{-- D110: por qué saltó (o no): qué interruptores miró, a dónde fue, qué guardó en la pila. --}}
+            <p class="mb-1 flex items-start gap-1.5 text-ink" x-show="asm?.explain?.flow" data-test="asm-flow">
+                <span class="font-mono" x-bind:class="asm?.explain?.flow?.jumped ? 'text-secondary-bright' : 'text-ink-muted'" x-text="asm?.explain?.flow?.jumped ? '↪' : '↓'"></span>
+                <span x-text="asm?.explain?.flow?.text"></span>
+            </p>
             <ul class="flex flex-col gap-0.5 font-mono text-[11px] text-ink">
                 <template x-for="r in asm?.explain?.regs ?? []" :key="r.name">
                     <li><span class="text-yellow-300" x-text="r.name"></span>: <span x-text="r.from"></span>h → <span class="font-semibold" x-text="r.to"></span>h</li>
@@ -79,33 +91,58 @@
                 <li x-show="asm?.explain?.stack" class="text-primary-bright" x-text="asm?.explain?.stack"></li>
                 <li x-show="asm?.explain?.screen" class="text-success">escribió en la pantalla (mirá la pestaña Pantalla)</li>
                 <li x-show="asm?.explain?.flags?.length" class="text-ink-muted" x-text="'interruptores: ' + (asm?.explain?.flags ?? []).join(' · ')"></li>
-                <li x-show="asm?.explain && ! asm.explain.regs.length && ! asm.explain.reads.length && ! asm.explain.writes.length && ! asm.explain.stack && ! asm.explain.screen && ! asm.explain.flags.length" class="text-ink-muted">no cambió nada a la vista (solo avanzó IP)</li>
+                <li x-show="asm?.explain && ! asm.explain.flow && ! asm.explain.regs.length && ! asm.explain.reads.length && ! asm.explain.writes.length && ! asm.explain.stack && ! asm.explain.screen && ! asm.explain.flags.length" class="text-ink-muted">no cambió nada a la vista (solo avanzó IP)</li>
             </ul>
+            <div x-show="asmTech && asm?.explain?.tech" x-cloak class="mt-2 border-t border-yellow-400/20 pt-2 font-mono text-[11px] text-ink" data-test="asm-tech">
+                <p class="mb-1 font-sans text-ink-muted">Qué hace la CPU por dentro</p>
+                <ul class="flex flex-col gap-0.5">
+                    <li x-show="asm?.explain?.tech?.size" x-text="asm?.explain?.tech?.size"></li>
+                    <template x-for="(o, i) in asm?.explain?.tech?.operands ?? []" :key="i">
+                        <li><span class="text-secondary-bright" x-text="o.role"></span> · <span class="text-ink-muted" x-text="o.kind"></span>: <span x-text="o.text"></span></li>
+                    </template>
+                    <li x-text="asm?.explain?.tech?.code"></li>
+                    <li x-show="asm?.explain?.tech?.ip" class="text-primary-bright" x-text="asm?.explain?.tech?.ip"></li>
+                </ul>
+            </div>
         </div>
 
         {{-- Palancas (registros) e interruptores (banderas) --}}
         <div x-show="asm && asmPanel === 'registers'" x-cloak class="flex flex-col gap-3" data-test="asm-registers">
             <div class="grid grid-cols-2 gap-1.5 @xl:grid-cols-4">
                 <template x-for="r in asm?.registers ?? []" :key="r.name">
-                    <div class="flex items-center justify-between rounded-md px-2 py-1 font-mono text-xs transition-colors duration-300"
-                        x-bind:class="r.changed ? 'bg-yellow-400 text-black' : 'bg-surface-high text-ink'">
+                    <button type="button" x-on:click="asmReg = asmReg === r.name ? null : r.name" title="Tocá para verlo en decimal y en binario"
+                        class="flex items-center justify-between rounded-md px-2 py-1 text-start font-mono text-xs transition-colors duration-300"
+                        x-bind:class="[r.changed ? 'bg-yellow-400 text-black' : 'bg-surface-high text-ink', asmReg === r.name ? 'ring-2 ring-secondary-bright' : '']">
                         <span class="opacity-70" x-text="r.name"></span>
                         <span>
                             <span class="font-semibold" x-text="r.value"></span>
                             <span class="ms-1 hidden text-[10px] opacity-60 @3xl:inline" x-show="r.high !== null" x-text="`(${r.name[0]}H ${r.high} · ${r.name[0]}L ${r.low})`"></span>
                         </span>
-                    </div>
+                    </button>
                 </template>
             </div>
+            {{-- D110: la palanca elegida, en hexa, decimal y binario (el mismo número escrito de tres maneras). --}}
+            <template x-for="r in (asm?.registers ?? []).filter((r) => r.name === asmReg)" :key="r.name">
+                <div class="rounded-md border border-secondary/40 bg-secondary/5 px-3 py-2 font-mono text-xs text-ink" data-test="asm-register-detail">
+                    <p><span class="text-secondary-bright" x-text="r.name"></span> = <span x-text="r.value"></span>h = <span x-text="r.dec"></span> en decimal<span x-show="! ['CS', 'DS', 'SS', 'ES', 'IP', 'SP'].includes(r.name) && r.signed < 0" x-text="` (con signo: ${r.signed})`"></span></p>
+                    <p class="mt-1">binario: <span x-text="r.high !== null ? r.bin.slice(0, 9) : r.bin"></span><span x-show="r.high !== null"><span class="text-ink-muted"> │ </span><span x-text="r.bin.slice(10)"></span></span></p>
+                    <p class="mt-0.5 text-[11px] text-ink-muted" x-show="r.high !== null"
+                        x-text="`${r.name[0]}H = ${r.high}h = ${parseInt(r.high, 16)} · ${r.name[0]}L = ${r.low}h = ${parseInt(r.low, 16)}${parseInt(r.low, 16) >= 32 && parseInt(r.low, 16) < 127 ? ` = '${String.fromCharCode(parseInt(r.low, 16))}'` : ''}`"></p>
+                    <p class="mt-0.5 font-sans text-[11px] text-ink-muted">Cada grupo de 4 bits es una cifra hexa. <span x-show="r.high !== null">A la izquierda de la raya, la mitad alta; a la derecha, la baja.</span></p>
+                </div>
+            </template>
             <div>
                 <p class="mb-1 text-[11px] text-ink-muted">Interruptores · banderas</p>
                 <div class="flex flex-wrap gap-1.5">
                     <template x-for="f in asm?.flags ?? []" :key="f.name">
-                        <span class="rounded-md px-2 py-0.5 font-mono text-xs transition-colors duration-300"
-                            x-bind:class="f.changed ? 'bg-yellow-400 text-black' : (f.value ? 'bg-success/20 text-success' : 'bg-surface-high text-ink-muted')"
-                            x-text="`${f.name} ${f.value}`"></span>
+                        <button type="button" x-on:click="asmFlag = asmFlag === f.name ? null : f.name" class="rounded-md px-2 py-0.5 font-mono text-xs transition-colors duration-300"
+                            x-bind:class="[f.changed ? 'bg-yellow-400 text-black' : (f.value ? 'bg-success/20 text-success' : 'bg-surface-high text-ink-muted'), asmFlag === f.name ? 'ring-2 ring-secondary-bright' : '']"
+                            x-bind:title="f.info" x-text="`${f.name} ${f.value}`"></button>
                     </template>
                 </div>
+                <template x-for="f in (asm?.flags ?? []).filter((f) => f.name === asmFlag)" :key="f.name">
+                    <p class="mt-1.5 text-xs text-ink"><span class="font-mono text-secondary-bright" x-text="`${f.name} = ${f.value}`"></span> · <span x-text="f.info"></span></p>
+                </template>
             </div>
             <p class="text-[11px] text-ink-muted" x-show="! asm?.atFin">En amarillo, lo que cambió la última orden. Órdenes ejecutadas: <span class="font-mono" x-text="asm?.steps"></span></p>
             <p class="text-[11px] text-secondary-bright" x-show="asm?.atFin" x-cloak>Así quedó el Gólem al llegar a <code class="font-mono">fin:</code>, antes de apagarse (es lo que se comprueba). Órdenes ejecutadas: <span class="font-mono" x-text="asm?.steps"></span></p>
@@ -154,6 +191,28 @@
                 </div>
             </template>
             <p class="text-xs text-ink-muted" x-show="(asm?.stack ?? []).length === 0">La torre está vacía.</p>
+        </div>
+
+        {{-- D110: el camino del programa: en qué rutina está y por dónde pasó (los saltos rompen el orden de las líneas). --}}
+        <div x-show="asm && asmPanel === 'flow'" x-cloak data-test="asm-trail">
+            <p class="mb-2 text-xs text-ink">
+                <span class="text-ink-muted">Ahora está en:</span>
+                <span class="font-mono text-primary-bright" x-text="(asm?.calls ?? []).join(' → ')"></span>
+                <span class="text-[11px] text-ink-muted">(cada call entra a una rutina; cada ret vuelve)</span>
+            </p>
+            <p class="mb-1 text-[11px] text-ink-muted">Las últimas órdenes del paso a paso, la más nueva arriba. IP es la dirección de cada orden: casi siempre avanza; un salto la cambia.</p>
+            <ol class="flex flex-col font-mono text-[11px]">
+                <template x-for="t in asm?.trail ?? []" :key="t.n">
+                    <li class="flex gap-2 border-b border-outline/30 py-0.5" x-bind:class="t.jump ? 'text-secondary-bright' : 'text-ink'">
+                        <span class="w-6 shrink-0 text-end text-ink-muted" x-text="t.n"></span>
+                        <span class="shrink-0 text-ink-muted" x-text="`IP ${t.ip}`"></span>
+                        <span class="hidden shrink-0 text-ink-muted @md:inline" x-text="`línea ${t.line}`"></span>
+                        <span class="min-w-0 truncate" x-text="t.text"></span>
+                        <span class="ms-auto shrink-0" x-show="t.jump" x-text="`↪ línea ${t.jump}`"></span>
+                    </li>
+                </template>
+            </ol>
+            <p class="text-xs text-ink-muted" x-show="(asm?.trail ?? []).length === 0">El camino se arma con <strong class="text-warning">Paso a paso</strong>.</p>
         </div>
 
         {{-- Entrada preparada (lo que se «tipea») --}}

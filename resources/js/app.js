@@ -240,6 +240,10 @@ document.addEventListener('alpine:init', () => {
         asmKey: '',
         asmEnd: null,
         asmPanel: 'registers',
+        // D110: la palanca y el interruptor que se tocaron (para verlos de cerca) y la vista técnica de la orden.
+        asmReg: null,
+        asmFlag: null,
+        asmTech: false,
         asmContinuous: false,
 
         async init() {

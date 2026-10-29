@@ -1,4 +1,4 @@
-# Crónicas en Inglés · Temporada del Valle (Mia) — propuesta (2026-10-21), a revisar
+# Crónicas en Inglés · Temporada del Valle (Mia) — temporada 6, escrita el 2026-10-29 con los cambios de ingles-cronicas.md § 1
 
 La temporada del curso de Python en las Crónicas en Inglés ([INGLES.md](../INGLES.md) § 8). Tiene la misma forma que la Ciudadela ([ingles-ciudadela.md](ingles-ciudadela.md)):
 - **8 episodios de tronco** y **4 ramas** optativas;

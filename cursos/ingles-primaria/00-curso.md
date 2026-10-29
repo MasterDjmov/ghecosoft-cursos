@@ -33,6 +33,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 - Temporada 3, el Puerto con Nilo: saludos, la familia, *have got*, *in / on / under / next to*, el clima y los días; ramas con Pico, Iara, los tres muelles y la carta «para quien llegue»
 - Temporada 4, la Ciudadela con Bron: los números hasta 100, *How many…?*, la casa y los muebles, la comida, *I like / I don't like* y *How much is it?*; ramas con el pedido de Lyn, la lima de Lima, la cinta sin fin y la llave prestada
 - Temporada 5, el Corazón del Gólem con Nova: las órdenes (*push, pull, open, close*), los ordinales hasta *tenth*, dónde están las cosas (*up, down, above, below, between*), el alfabeto y *How do you spell it?*, *first, then, finally*, *Is it…? Yes, it is* y *on top of / under*; ramas con las cuentas de Gheco, el ojo del Gólem (colores y figuras), el Oráculo y Kira (*this, that, these, those*)
+- Temporada 6, el Valle de la Serpiente con Mia: los animales del río, los plurales (*boxes, fish*), cómo se siente (*happy, scared*), la rutina, el presente simple con *he / she* y sus preguntas y negativos (*Does it…? It doesn't…*) y la hora en punto; ramas con la Cueva de los Ecos (sonidos de los animales), la biblioteca de Sila (*Please be quiet!*), los relojes de Maese Horas (*half past*) y la cocina de la Torre (*always, sometimes, never*)
 
 # DICCIONARIO
 

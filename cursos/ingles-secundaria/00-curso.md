@@ -33,6 +33,7 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 - Temporada 3, el Puerto con Nilo: presente continuo (afirmativo, negativo, preguntas), simple contra continuo, *wh-questions*, verbos de estado, pasado continuo; ramas con indicaciones, direcciones y la nota formal
 - Temporada 4, la Ciudadela con Bron: el futuro con *going to* y *will*, *will* contra *going to*, el primer condicional con *if*, *when* y *unless*; ramas con pedidos formales (*Could I…? Would you like…?*), *as … as*, advertencias (*Don't…, or…*) y los posesivos
 - Temporada 5, el Corazón del Gólem con Nova: el condicional cero, las oraciones de relativo (*that, which, who, where*), el pasado perfecto, los textos de instrucciones, *used to* y verbo + *-ing* o + *to*; ramas con las cuentas en palabras (*twice as many*), la probabilidad (*might, will probably*), las *question tags* y la habilidad en pasado (*could, was able to*)
+- Temporada 6, el Valle de la Serpiente con Mia: el presente perfecto (*has woken up*), *Have you ever…? / never*, *must / mustn't*, *already / yet / just*, *for / since*, *should / shouldn't* y presente perfecto contra pasado simple; ramas con el presente perfecto continuo, *have to / don't have to*, *must* para deducir y *too much / enough*
 
 # DICCIONARIO
 

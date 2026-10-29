@@ -5,7 +5,7 @@ La temporada del curso de Python en las Crónicas en Inglés ([INGLES.md](../ING
 - 5 micro-misiones por episodio: la portada y 4 misiones;
 - la temporada siguiente se abre con 6 de los 8.
 
-Es la **temporada 5**, o la **6** si antes se carga la del Gólem ([ingles-golem.md](ingles-golem.md), también a revisar). El Imperio sigue cerrando todo con el Gran Borrón ([ingles-imperio.md](ingles-imperio.md)).
+Es la **temporada 6**: el Gólem quedó como la 5 ([ingles-golem.md](ingles-golem.md), 2026-10-28), así que su primer nodo cuelga de `R05-N01`. El Imperio sigue cerrando todo con el Gran Borrón ([ingles-imperio.md](ingles-imperio.md)).
 
 Ada llega al Valle de la Serpiente **justo cuando Mia vive su historia**, la del curso de Python ([python.md](python.md)). Mia es la aprendiz de maga que leía todo y no se animaba a escribir; Ofidia es la guardiana del Valle. También aparecen Tilo, Baldo, la Copista, el Ermitaño, Sila, Maese Horas y la Cocinera de la Torre.
 

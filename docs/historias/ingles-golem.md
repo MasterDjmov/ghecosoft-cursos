@@ -1,4 +1,6 @@
-# Crónicas en Inglés · Temporada del Gólem (Nova) — propuesta (2026-10-21), a revisar
+# Crónicas en Inglés · Temporada del Gólem (Nova) — aprobada y escrita (2026-10-28)
+
+**Estado (2026-10-28):** el docente aprobó los tres puntos de § 5 (temporada 5, la gramática, 4 ramas). Escritos los 12 episodios en `cursos/ingles-primaria/05-golem.md` y `cursos/ingles-secundaria/05-golem.md` (60 micro-misiones cada uno, importados en local). **Cambios en Secundaria** respecto de esta propuesta, porque repetían el Puerto: el episodio 4 enseña el **pasado perfecto** (no el pasado continuo, que ya está en R03-N07) y la rama del Oráculo, las **question tags** (no las preguntas indirectas, que ya están en R03-N12). Faltan las 24 portadas (`ingles/GOLEM-01..12` y `GOLEM-S01..S12`).
 
 La temporada del curso de Ensamblador ([ENSAMBLADOR.md](../ENSAMBLADOR.md), D110) en las Crónicas en Inglés ([INGLES.md](../INGLES.md) § 8). Tiene la misma forma que la Ciudadela ([ingles-ciudadela.md](ingles-ciudadela.md)):
 - **8 episodios de tronco** y **4 ramas** optativas;
@@ -74,7 +76,7 @@ Ada sigue un borrón de tinta que se le escapa del Gran Libro, baja por una chim
 | 1 | **The Sleeping Giant** | condicional cero: *If you pull this lever, the arm moves.* | R00-N01 |
 | 2 | **The Named Drawers** | relativo con *that / which*: *A variable is a drawer that has a name.* | R01-N02 |
 | 3 | **The Wall of Drawers** | relativo con *where / who* y *the one that…* | R01-N03 |
-| 4 | **The Bronze Mouth** | pasado continuo contra pasado simple: *I was typing when the Blot ate the letter.* | R01-N04 |
+| 4 | **The Bronze Mouth** | pasado perfecto: *By the time I got there, the Blot had already eaten the letter.* | R01-N04 |
 | 5 | **The Slime of the Levers** | el texto de instrucciones: imperativos y secuencias, escrito. **Jefe.** | R01-N06 |
 | 6 | **The Gates** | *used to*: *Axón used to walk. He didn't use to sleep.* | R02-N05, R02-N06 |
 | 7 | **The Plate Tower** | verbo + *-ing* o *to*: *Remember to pop! Stop pushing! Keep counting.* | R03-N01, R03-N02 |
@@ -86,7 +88,7 @@ Ada sigue un borrón de tinta que se le escapa del Gran Libro, baja por una chim
 |---|---|---|
 | **Gheco's Sums** | episodio 2 | las cuentas en palabras y *twice as many, half as much* |
 | **The Golem's Eye** | episodio 3 | probabilidad: *It might be red. It will probably be blue.* |
-| **The Oracle** | episodio 6 | preguntas indirectas: *Can you tell me where…? Do you know if…?* |
+| **The Oracle** | episodio 6 | *question tags*: *It's higher than fifty, isn't it?* |
 | **Kira Comes Down** | episodio 7 | habilidad en pasado: *could / couldn't, was able to* |
 
 ## 5. Lo que hay que decidir

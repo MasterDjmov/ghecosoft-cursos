@@ -1,5 +1,7 @@
 # Crónicas en Inglés · Temporada del Imperio (Zed) — propuesta (2026-10-21), a revisar
 
+> **Ojo (2026-10-28):** el Gólem quedó como temporada 5 y en Secundaria ya enseña los **relativos** y *used to*. Las ramas *The Mould Workshop* y *The Academy Archive* de abajo tienen que cambiar de gramática (por ejemplo, la voz pasiva en presente y *would* para costumbres del pasado), y el Imperio pasa a ser la temporada 7.
+
 La temporada del curso de Java en las Crónicas en Inglés ([INGLES.md](../INGLES.md) § 8) y **el final de los dos cursos**: Ada lee la última carta «para quien llegue» y el Gran Borrón deja de borrar ([ingles.md](ingles.md) § 1). Tiene la misma forma que la Ciudadela ([ingles-ciudadela.md](ingles-ciudadela.md)):
 - **8 episodios de tronco** y **4 ramas** optativas;
 - 5 micro-misiones por episodio: la portada y 4 misiones;

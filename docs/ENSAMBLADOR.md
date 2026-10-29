@@ -13,7 +13,7 @@ Gólem). `probar-curso.mjs` da 170 bien y `app:simulate-course ensamblador` term
 **Fase 6 (2026-10-20):** escenas en Stitch 143 de 143; la tienda (la taberna del pie, con la tabernera) y las
 expediciones de Nova (15 lugares por el interior de Axón, con su mapa); la enciclopedia con retrato y cuerpo de Nova,
 Axón, la tabernera, la jefa del Gremio, los jefes y el Dragón (copias en la carpeta de personajes del docente,
-`ensamblador/`). Falta la temporada del Gólem en las Crónicas en Inglés (lista de ALTA § 4).
+`ensamblador/`). La temporada del Gólem en las Crónicas en Inglés está escrita (temporada 5, 2026-10-28, [historias/ingles-golem.md](historias/ingles-golem.md)); faltan sus 24 portadas.
 
 ## 1. Decisiones tomadas (2026-10-18)
 

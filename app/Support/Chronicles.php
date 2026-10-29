@@ -103,7 +103,7 @@ class Chronicles
         ]))->values()->all();
 
         $chapters = [['title' => 'El comienzo', 'branch_id' => null, 'pages' => array_values(array_filter([
-            ($intro = $story('story.course_intro')) ? $this->page('intro', $intro['title'], $intro['html'], true, 'mentor.name') : null,
+            ($intro = $story('story.course_intro')) ? $this->page('intro', $intro['title'], $intro['html'], true, self::narrator($course)) : null,
             ...$after(FragmentTrigger::CourseStarted, null, true),
             ...$nodePages($nodes->whereNull('branch_id')),
         ]))]];
@@ -115,7 +115,7 @@ class Chronicles
             $pages = $nodePages($group);
             $done = $this->revealAll || $group->every(fn (Node $node) => $this->completed->has($node->id));
             if ($branch->kind === BranchKind::Trunk && ($end = $story('story.branch_completed'))) {
-                $pages[] = $this->page('branch_end', $end['title'], $done ? $end['html'] : null, $done, 'mentor.name', 'Terminá la rama para leer el cierre.');
+                $pages[] = $this->page('branch_end', $end['title'], $done ? $end['html'] : null, $done, self::narrator($course), 'Terminá la rama para leer el cierre.');
             }
             $pages = [...$pages, ...$after(FragmentTrigger::BranchCompleted, $branch->id, $done)];
             if ($pages) {
@@ -125,7 +125,7 @@ class Chronicles
 
         $done = $this->revealAll || $this->finishedCourses->has($course->id);
         $final = [
-            ...(($epilogue = $story('story.course_completed')) ? [$this->page('epilogue', $epilogue['title'], $done ? $epilogue['html'] : null, $done, 'mentor.name', 'Terminá el curso para leer el epílogo.')] : []),
+            ...(($epilogue = $story('story.course_completed')) ? [$this->page('epilogue', $epilogue['title'], $done ? $epilogue['html'] : null, $done, self::narrator($course), 'Terminá el curso para leer el epílogo.')] : []),
             ...$after(FragmentTrigger::CourseCompleted, null, $done),
         ];
         if ($final) {
@@ -135,18 +135,27 @@ class Chronicles
         return array_values(array_filter($chapters, fn ($chapter) => $chapter['pages'] !== []));
     }
 
+    /**
+     * Quién cuenta el libro: la narradora del curso si su Diccionario la define (story.narrator: Ada en las
+     * Crónicas en Inglés, D106), si no la líder del curso (mentor.name), como en todos los demás.
+     */
+    public static function narrator(Course $course): string
+    {
+        return app(Glossary::class)->source('story.narrator', $course) === 'course' ? 'story.narrator' : 'mentor.name';
+    }
+
     /** Una página por cada nodo que tiene crónica. Se lee al completarlo. */
     private function nodePage(Node $node, Course $course, bool $render): ?array
     {
         if (blank($node->chronicle)) {
             // En la sala de guion, el lugar queda marcado para escribirla (o colgarle un fragmento).
-            return $this->revealAll ? [...$this->page('empty', $node->title, null, true, 'mentor.name', null, $node->id), 'empty' => true] : null;
+            return $this->revealAll ? [...$this->page('empty', $node->title, null, true, self::narrator($course), null, $node->id), 'empty' => true] : null;
         }
         $done = $this->done($node->id);
         $open = $this->open($node->id);
         // El título de un nodo que todavía no abrió tampoco se muestra: nunca ve lo que no abrió.
         $title = $done || $open ? $node->title : 'Una página por descubrir';
-        $speaker = $node->type === NodeType::Boss ? ($node->beast_key ?: 'beast.dragon') : 'mentor.name';
+        $speaker = $node->type === NodeType::Boss ? ($node->beast_key ?: 'beast.dragon') : self::narrator($course);
 
         return $this->page('node', $title, $done && $render ? Narrative::render($node->chronicle, $course, $this->user) : null, $done, $speaker,
             $open ? "Completá «{$node->title}» para leer esta página." : 'Seguí avanzando por el árbol para llegar a esta página.', $node->id);
@@ -157,7 +166,7 @@ class Chronicles
     {
         return [
             ...$this->page('fragment', $unlocked ? $fragment->title : ($lockedTitle ?? $fragment->title),
-                $unlocked && $render ? Narrative::render($fragment->body, $course, $this->user) : null, $unlocked, 'mentor.name',
+                $unlocked && $render ? Narrative::render($fragment->body, $course, $this->user) : null, $unlocked, self::narrator($course),
                 'Seguí avanzando para leer este fragmento.', $fragment->node_id),
             'fragment_id' => $fragment->id,
             'trigger' => $fragment->trigger->label(),

@@ -1,4 +1,4 @@
-# Crónicas en Inglés · el Valle, el Imperio y Mis Crónicas — propuesta 2 (2026-10-29), a revisar
+# Crónicas en Inglés · el Valle, el Imperio y Mis Crónicas — propuesta 2 (2026-10-29), aprobada el 2026-10-29
 
 Junta lo que falta para cerrar los dos cursos de inglés: los ajustes al Valle ([ingles-valle.md](ingles-valle.md)) y al Imperio ([ingles-imperio.md](ingles-imperio.md)) para que no repitan lo que ya enseñan las 5 temporadas cargadas, y el libro de inglés en Mis Crónicas, que hoy está vacío.
 
@@ -34,7 +34,7 @@ El libro de cada curso de inglés está **vacío**: no tiene bienvenida, ni cró
 
 ### Lo que propongo
 - **Quién habla:** Ada, con su retrato, en todas las páginas (hoy el libro pone el retrato del mentor, que en inglés es el Profe). Es un cambio chico de código: el libro usa a la narradora del curso si el Diccionario la define (`story.narrator`), y si no, al mentor como hasta ahora. Sirve para cualquier curso (D39).
-- **El Diccionario de los dos cursos:** `hero.name` = Ada; `region.name` = el Gran Libro; `story.narrator` = Ada.
+- **El Diccionario de los dos cursos:** `hero.name` = Ada y `story.narrator` = Ada (sin `world.region`: el inglés no es un reino de la enciclopedia).
 - **La crónica de cada nodo** (`### Crónica`): la portada de cada episodio ya está narrada por Ada, así que la crónica **no la repite**. Es una **entrada corta de su diario**, que se escribe al terminar el día: qué pasó al final del episodio, qué aprendió y una frase en inglés.
   - **Primaria (Ada de 11):** en español y en presente, 2 o 3 líneas, con la frase del día en inglés y en negrita.
   - **Secundaria (Ada de 15):** **en inglés**, con el tiempo verbal de esa temporada (es lectura extra al nivel del alumno), y la traducción en cursiva debajo. Así se cumple la regla del tiempo (ingles.md § 3 bis): Ada recuerda.

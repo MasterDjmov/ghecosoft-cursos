@@ -44,6 +44,10 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 | beast.goblin | goblin | goblins | m | Cambia los verbos: *she draw*, *he runned*. | Los goblins cambian una letra del verbo y se ríen bajito. | curso |
 | beast.skeleton | esqueleto | esqueletos | m | Deja palabras que no existen o que no van. | Los esqueletos son palabras vacías: suenan bien y no dicen nada. | curso |
 | beast.troll | troll | trolls | m | Desarma las preguntas. | El troll se sienta en el signo de pregunta y no deja pasar. | curso |
+| hero.name | Ada | | f | La aprendiz del Profe, ahora de 15 años, que reescribe el Gran Libro. | | curso |
+| story.narrator | Ada | | f | Quien cuenta Mis Crónicas de este curso. | | curso |
+| story.course_intro | The Book, again | | m | | Four years ago I wrote this book for the first time. The Borrón ate half of it. Now I am fifteen, and I am writing it again — with what I remember, with my old notes, and with everything I learned since then.<br><br>*Hace cuatro años escribí este libro por primera vez. El Borrón se comió la mitad. Ahora tengo quince, y lo vuelvo a escribir: con lo que recuerdo, con mis notas viejas y con todo lo que aprendí desde entonces.* | curso |
+| story.branch_completed | ¡Otra página a salvo! | | f | | Eco da tres vueltas sobre la página nueva y canta la última palabra que aprendió hasta quedarse sin voz. Una página más que el Borrón ya no se puede comer. | curso |
 
 ## R00-N01 · Iris Arrives · Iris llega
 
@@ -51,6 +55,12 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 tipo: raiz
 criatura: goblin
 ```
+
+### Crónica
+
+I was eleven, and my book was empty. That day a drop of ink became a bird.
+
+*Tenía once años, y mi libro estaba vacío. Ese día una gota de tinta se volvió un pájaro.*
 
 ### Objetivos
 *to be*, presente simple con *-s* y un primer pasado irregular.
@@ -206,6 +216,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+First I chased it, then I lost it, and finally I painted every colour again.
+
+*Primero lo perseguí, después lo perdí y al final pinté de nuevo cada color.*
+
 ### Objetivos
 Secuencias (*first, then, finally*) y *Don't* + verbo.
 
@@ -342,6 +358,12 @@ padre: R00-N01
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+There was a story in every line, Nora said. There were lines everywhere.
+
+*Nora dijo que había una historia en cada línea. Había líneas por todas partes.*
 
 ### Objetivos
 *there is / there are*, *How many…?* y los lugares (*at the top, in, on, under*).
@@ -486,6 +508,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+I couldn't read the terminal, but I could write my name. And it answered.
+
+*No podía leer la terminal, pero podía escribir mi nombre. Y me contestó.*
+
 ### Objetivos
 *can / can't* y las preguntas con *can*.
 
@@ -626,6 +654,12 @@ padre: R00-N01
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+It was the first chapter of my life, and it was the most colourful one.
+
+*Fue el primer capítulo de mi vida, y el más lleno de color.*
 
 ### Objetivos
 Ordinales, comparativos y *was / wasn't*.
@@ -772,6 +806,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+Teo always ran. He never walked. I usually laughed.
+
+*Teo siempre corría. Nunca caminaba. Yo casi siempre me reía.*
+
 ### Objetivos
 Adverbios de frecuencia y *How often…?*
 
@@ -915,6 +955,12 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Did it sound like glass? Did it feel cold? Nora always asked.
+
+*¿Sonaba a vidrio? ¿Se sentía frío? Nora siempre preguntaba.*
+
 ### Objetivos
 Verbos de los sentidos: *feel* + adjetivo; *Did…?*
 
@@ -1056,6 +1102,12 @@ padre: R01-N04
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+I didn't need any glass, but I bought some ink. How much? Too much.
+
+*No necesitaba vidrio, pero compré tinta. ¿Cuánto? Demasiado.*
 
 ### Objetivos
 *some / any*, *How much / How many* y pedir con amabilidad.

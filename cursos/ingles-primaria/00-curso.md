@@ -44,6 +44,10 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 | beast.goblin | goblin | goblins | m | Cambia los verbos: *she draw*, *I is*. | Los goblins cambian una letra del verbo y se ríen bajito. | curso |
 | beast.skeleton | esqueleto | esqueletos | m | Deja palabras que no existen o que no van. | Los esqueletos son palabras vacías: suenan bien y no dicen nada. | curso |
 | beast.troll | troll | trolls | m | Desarma las preguntas. | El troll se sienta en el signo de pregunta y no deja pasar. | curso |
+| hero.name | Ada | | f | La aprendiz del Profe, de 11 años, que pasa las crónicas a la Lengua Común. | | curso |
+| story.narrator | Ada | | f | Quien cuenta Mis Crónicas de este curso. | | curso |
+| story.course_intro | Mi libro de crónicas | | m | | Hola, soy Ada. El Profe me dio este libro grande con las páginas en blanco, y una tarea: escribir en la Lengua Común las historias de todo el Mundo del Código.<br><br>Eco me ayuda, aunque a veces repite todo dos veces. Y el Borrón… el Borrón se come las palabras. Por eso cada página que terminamos la guardo acá. | curso |
+| story.branch_completed | ¡Otra página a salvo! | | f | | Eco da tres vueltas sobre la página nueva y canta la última palabra que aprendió hasta quedarse sin voz. Una página más que el Borrón ya no se puede comer. | curso |
 
 ## R00-N01 · Iris Arrives · Iris llega
 
@@ -51,6 +55,10 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 tipo: raiz
 criatura: skeleton
 ```
+
+### Crónica
+
+Hoy conocí a Eco. Salió de mi tintero, chiquito y negro, y lo primero que dijo fue **«Hello! Hello!»**. Ahora lo dice todo el tiempo.
 
 ### Objetivos
 Saludar (*hello*), los colores, *a / an* y *big / little*.
@@ -205,6 +213,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+El Borrón se comió los colores, pero los volvimos a pintar: **red, blue, yellow**. Se escapó al margen, riéndose. Mañana lo atrapo.
+
 ### Objetivos
 Los números del 1 al 10 y los objetos del taller.
 
@@ -350,6 +362,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Nora me hizo tocar el vitral con los ojos cerrados. Arriba estaba frío; abajo, tibio. **Top, middle, bottom.**
+
 ### Objetivos
 *top, middle, bottom* y las partes del cuerpo (*eyes, ears, fingers*).
 
@@ -494,6 +510,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+¡La terminal sabe mi nombre! Le escribí **«My name is Ada»** y me saludó. Eco quiso escribir el suyo y apretó todas las teclas.
+
 ### Objetivos
 Presentarse: *What's your name? My name is… How old are you?*
 
@@ -626,6 +646,10 @@ padre: R00-N01
 precio: 0
 criatura: skeleton
 ```
+
+### Crónica
+
+Tesela me dio una llave de vidrio. **The first page is ready!** Eco está más orgulloso que yo.
 
 ### Objetivos
 *first, second, third* y los días de la semana.
@@ -764,6 +788,10 @@ padre: R01-N01
 precio: 0
 criatura: slime
 ```
+
+### Crónica
+
+Teo me tiró los frascos encima y ahora Eco es **pink and green**. Dice Teo que en una semana se le va.
 
 ### Objetivos
 Más colores y mezclarlos.
@@ -908,6 +936,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Nora no ve los colores, así que se los conté: **«It is red, like an apple.»** Eco lo repitió toda la tarde: *apple, apple*.
+
 ### Objetivos
 *It is…* para describir: *like the sky*, *sun, star, moon*.
 
@@ -1050,6 +1082,10 @@ padre: R01-N04
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+Le compré a Ámbar un vidrio **«almost no bubbles»**. Tenía una burbuja. Igual es mi preferido.
 
 ### Objetivos
 Comprar: *How much is it? A red glass, please.*

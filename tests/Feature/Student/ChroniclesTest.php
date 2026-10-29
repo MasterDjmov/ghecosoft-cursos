@@ -79,6 +79,19 @@ test('el epílogo se lee al terminar el curso', function () {
     expect($epilogue()['unlocked'])->toBeTrue()->and($epilogue()['html'])->not->toBeEmpty();
 });
 
+test('con story.narrator en el Diccionario, el libro lo cuenta ella y no la líder', function () {
+    $course = $this->made['course'];
+    $speakers = fn () => collect((new Chronicles($this->student))->book($course))->flatMap(fn ($chapter) => $chapter['pages'])
+        ->where('node_id', $this->made['root']->id)->pluck('speaker')->all();
+    expect($speakers())->toBe(['mentor.name']);
+
+    GlossaryTerm::create(['key' => 'story.narrator', 'course_id' => $course->id, 'singular' => 'Ada', 'plural' => 'Ada', 'gender' => 'f']);
+    Glossary::flush($course->id);
+
+    expect($speakers())->toBe(['story.narrator'])
+        ->and(Chronicles::narrator($course))->toBe('story.narrator');
+});
+
 test('el administrador no entra a Mis Crónicas de alumno', function () {
     $this->actingAs(User::factory()->admin()->create())->get(route('student.chronicles'))->assertForbidden();
 });

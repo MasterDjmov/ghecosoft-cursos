@@ -13,6 +13,7 @@ function registrationData(array $overrides = []): array
         'password' => 'Secreta123',
         'password_confirmation' => 'Secreta123',
         'terms' => '1',
+        'birth_date' => '2000-05-10',
         ...$overrides,
     ];
 }

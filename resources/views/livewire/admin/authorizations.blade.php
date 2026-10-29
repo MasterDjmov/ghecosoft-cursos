@@ -2,6 +2,11 @@
     <x-admin.page-header title="Autorizaciones de menores"
         subtitle="Nota firmada por el alumno, su adulto responsable y vos. Hasta que la apruebes, el alumno no puede tener CV público ni figurar en el ranking global." />
 
+    <p class="text-sm text-ink-muted">
+        <a href="{{ route('legal.guardian') }}" target="_blank" class="text-primary-bright hover:underline">Modelo para imprimir</a>
+        (cubre el uso de los datos, el CV público y el ranking general).
+    </p>
+
     <flux:select wire:model.live="status" label="Estado" class="max-w-xs">
         <flux:select.option value="pending">Pendientes</flux:select.option>
         <flux:select.option value="approved">Aprobadas</flux:select.option>

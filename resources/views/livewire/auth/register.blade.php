@@ -37,6 +37,21 @@
                     description="Para que el profe te escriba." />
             </div>
 
+            {{-- D114: la fecha dice quién es menor; con menos de 13, su adulto responsable tiene que estar de acuerdo. --}}
+            <div class="flex flex-col gap-3"
+                x-data="{ birth: @js(old('birth_date', '')), get young() { if (! this.birth) return false; const b = new Date(this.birth + 'T00:00'), t = new Date(); let age = t.getFullYear() - b.getFullYear(); if (t < new Date(t.getFullYear(), b.getMonth(), b.getDate())) age--; return age < {{ \App\Models\User::GUARDIAN_CONSENT_AGE }}; } }">
+                <flux:input name="birth_date" label="Fecha de nacimiento" :value="old('birth_date')" type="date" required x-model="birth"
+                    :max="now()->subDay()->format('Y-m-d')" description="Para saber si sos menor y cuidar tus datos como corresponde." data-test="register-birth-date" />
+
+                <div x-show="young" x-cloak class="flex flex-col gap-1">
+                    <label class="flex items-start gap-2 text-sm text-ink">
+                        <input type="checkbox" name="guardian_consent" value="1" @checked(old('guardian_consent')) x-bind:required="young" class="mt-0.5 size-4 shrink-0 accent-primary" data-test="register-guardian-consent">
+                        <span>Mi mamá, mi papá o mi tutor sabe que me registro y está de acuerdo.</span>
+                    </label>
+                    <flux:error name="guardian_consent" />
+                </div>
+            </div>
+
             <x-password-strength>
                 <flux:input
                     name="password"
@@ -66,7 +81,7 @@
                     <span>
                         Leí y acepto los <a href="{{ route('legal.terms') }}" target="_blank" class="text-primary-bright hover:underline">Términos y condiciones</a>
                         y la <a href="{{ route('legal.privacy') }}" target="_blank" class="text-primary-bright hover:underline">Política de privacidad</a>.
-                        Si sos menor, lo leíste con tu adulto responsable.
+                        Si sos menor, leelos con tu adulto responsable.
                     </span>
                 </label>
                 <flux:error name="terms" />

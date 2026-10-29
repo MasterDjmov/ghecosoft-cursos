@@ -62,6 +62,7 @@ Route::get('cv/{slug}/arbol/{course:slug}', [CvController::class, 'tree'])->midd
 // D112: legales y botones de Defensa del Consumidor, sin login.
 Route::view('terminos', 'legal.terms')->name('legal.terms');
 Route::view('privacidad', 'legal.privacy')->name('legal.privacy');
+Route::view('autorizacion', 'legal.guardian-authorization')->name('legal.guardian');
 Route::livewire('arrepentimiento', ConsumerRequestForm::class)->middleware('throttle:60,1')->name('legal.withdrawal');
 Route::livewire('baja', ConsumerRequestForm::class)->middleware('throttle:60,1')->name('legal.cancellation');
 // D113: baja de los mails «Avisame», con el link firmado del mail.

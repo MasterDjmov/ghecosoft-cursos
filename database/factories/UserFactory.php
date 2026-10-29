@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'username' => fake()->unique()->regexify('[a-z]{6}[0-9]{3}'),
+            'birth_date' => fake()->dateTimeBetween('-40 years', '-20 years')->format('Y-m-d'), // adulto (D114)
             'email' => fake()->unique()->safeEmail(),
             'role' => Role::Student,
             'email_verified_at' => now(),

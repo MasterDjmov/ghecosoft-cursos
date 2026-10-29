@@ -3,6 +3,7 @@
 namespace App\Livewire\Settings;
 
 use App\Concerns\ProfileValidationRules;
+use App\Enums\Role;
 use App\Models\User;
 use App\Services\Ranking;
 use App\Support\HeroName;
@@ -70,10 +71,12 @@ class Profile extends Component
         $validated = $this->validate([
             ...$this->profileRules($user->id),
             'dni' => ['nullable', 'regex:/^\d{7,8}$/', Rule::unique(User::class)->ignore($user->id)],
-            'birth_date' => ['nullable', 'date', 'before:today'],
+            // D114: el alumno no la puede dejar vacía (dice quién es menor); las cuentas del equipo, sí.
+            'birth_date' => [$user->role === Role::Student ? 'required' : 'nullable', 'date', 'before:today', 'after:1900-01-01'],
         ], [
             ...$this->profileMessages(),
             'dni.regex' => 'El DNI tiene que tener 7 u 8 números, sin puntos.',
+            'birth_date.required' => 'Contanos tu fecha de nacimiento: dice si sos menor y cómo cuidamos tus datos.',
         ]);
 
         $user->fill([

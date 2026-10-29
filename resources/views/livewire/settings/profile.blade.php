@@ -34,7 +34,7 @@
             <div class="grid gap-6 sm:grid-cols-2">
                 <flux:input wire:model="phone" label="Teléfono (opcional)" type="tel" autocomplete="tel" placeholder="+54 9 380 412-3456"
                     description="Para que el profe pueda escribirte por WhatsApp." />
-                <flux:input wire:model="birth_date" label="Fecha de nacimiento (opcional)" type="date" />
+                <flux:input wire:model="birth_date" :label="auth()->user()->role === \App\Enums\Role::Student ? 'Fecha de nacimiento' : 'Fecha de nacimiento (opcional)'" type="date" />
             </div>
 
             <flux:input wire:model="dni" label="DNI (opcional)" type="text" inputmode="numeric"

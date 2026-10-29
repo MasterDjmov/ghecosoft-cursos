@@ -62,6 +62,7 @@ class User extends Authenticatable implements PasskeyUser
             'email_verified_at' => 'datetime',
             'terms_accepted_at' => 'datetime',
             'announcements_muted_at' => 'datetime',
+            'guardian_consent_at' => 'datetime',
             'password' => 'hashed',
             'role' => Role::class,
             'birth_date' => 'date',
@@ -145,6 +146,9 @@ class User extends Authenticatable implements PasskeyUser
     {
         return $this->birth_date !== null && $this->birth_date->age < 18;
     }
+
+    /** Menores de esta edad necesitan el acuerdo de su adulto responsable para registrarse solos (D114). */
+    public const GUARDIAN_CONSENT_AGE = 13;
 
     public function initials(): string
     {

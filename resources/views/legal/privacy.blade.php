@@ -18,7 +18,8 @@
         <h2>2. Qué datos guardamos y para qué</h2>
         <ul>
             <li><strong>Tu cuenta:</strong> nombre, apellido, usuario y clave; email y teléfono si los cargás. Sirven para que entres, recuperes la clave y el profe te pueda escribir. La clave se guarda cifrada (con hash): nadie la puede leer, ni el profe.</li>
-            <li><strong>Datos personales opcionales:</strong> fecha de nacimiento (para saber si sos menor y pedir la autorización de tu adulto responsable), DNI y foto o avatar.</li>
+            <li><strong>Fecha de nacimiento:</strong> para saber si sos menor y pedir la autorización de tu adulto responsable. Si te crea la cuenta el profe, la puede completar después.</li>
+            <li><strong>Datos personales opcionales:</strong> DNI y foto o avatar.</li>
             <li><strong>Pagos:</strong> el comprobante de la transferencia que subís y el mensaje que lo acompaña, para aprobar tu abono. No guardamos tarjetas ni claves bancarias.</li>
             <li><strong>Lo que hacés en los cursos:</strong> tus entregas y tu código, los mensajes con el profe, las micro-misiones resueltas (también las respuestas equivocadas), los temas que visitás, tus monedas, experiencia, insignias e ítems del juego. Sirven para corregirte, mostrarte tu progreso y mejorar los cursos con estadísticas.</li>
             <li><strong>Accesos:</strong> el tipo de dispositivo, el sistema y el navegador con que entrás, y la dirección IP de tu sesión. Sirven para la seguridad de tu cuenta (una sola sesión abierta) y para saber si se usa más el celular o la compu.</li>
@@ -68,9 +69,11 @@
 
         <h2>8. Menores de edad</h2>
         <p>
-            Hay cursos pensados para chicos (las Crónicas en Inglés de Primaria, desde los 6 años). Si tenés menos de 13 años, la cuenta la
-            crea tu adulto responsable o el profe junto con él. Si tenés entre 13 y 17, usala con conocimiento de tu adulto responsable.
-            En todos los casos, para tener el CV público o aparecer en el ranking general hace falta la nota firmada por tu adulto responsable.
+            Hay cursos pensados para chicos (las Crónicas en Inglés de Primaria, desde los 6 años). Al registrarte te pedimos la fecha de
+            nacimiento para saber si sos menor. Si tenés menos de 13 años, la cuenta la crea tu adulto responsable o el profe, o la creás vos
+            marcando que tu adulto responsable sabe y está de acuerdo. Si tenés entre 13 y 17, usala con conocimiento de tu adulto responsable.
+            Para tener el CV público o aparecer en el ranking general hace falta la <a href="{{ route('legal.guardian') }}">autorización firmada</a>
+            por tu adulto responsable, que también cubre el uso de tus datos. Los cursos tienen una parte presencial: el profe sabe quién es menor.
             El adulto responsable puede pedir en cualquier momento ver, corregir o borrar los datos del menor.
         </p>
 

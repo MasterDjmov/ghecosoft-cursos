@@ -60,7 +60,9 @@
                     <h3 class="font-display font-semibold text-white">Autorización de tu adulto responsable</h3>
                     <p class="text-sm text-ink-muted">
                         Como sos menor de 18, para tener CV público y aparecer en el ranking global hace falta una nota firmada por vos,
-                        tu adulto responsable (madre, padre o tutor) y el profe. Pedile el modelo al profe, firmala y subí una foto o el PDF.
+                        tu adulto responsable (madre, padre o tutor) y el profe. También dice que tu adulto está de acuerdo con cómo cuidamos tus datos.
+                        <a href="{{ route('legal.guardian') }}" target="_blank" class="text-primary-bright hover:underline" data-test="guardian-model-link">Bajá el modelo</a>,
+                        firmalo y subí una foto o el PDF.
                     </p>
                 </div>
 

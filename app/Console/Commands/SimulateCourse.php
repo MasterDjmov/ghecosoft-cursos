@@ -274,7 +274,7 @@ class SimulateCourse extends Command
             } else {
                 // El tope de registros por IP es para la web; acá se inscriben todos desde la misma compu.
                 RateLimiter::clear('register:'.request()->ip());
-                $user = app(CreateNewUser::class)->create($data + ['password' => $persona['password'], 'password_confirmation' => $persona['password']]);
+                $user = app(CreateNewUser::class)->create($data + ['password' => $persona['password'], 'password_confirmation' => $persona['password'], 'terms' => '1', 'birth_date' => '2000-05-10']);
                 $type = $persona['via'] === 'contact' ? RequestType::Contact : RequestType::Receipt;
                 app(EnrollmentRequester::class)->request($user, $this->course, $type, $type === RequestType::Receipt ? $this->receipt() : null, 'Hola profe, quiero arrancar.');
             }

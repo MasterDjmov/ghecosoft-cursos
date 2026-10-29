@@ -59,6 +59,19 @@
                 viewable
             />
 
+            {{-- D112: consentimiento informado (Ley 25.326, art. 5 y 6). --}}
+            <div class="flex flex-col gap-1">
+                <label class="flex items-start gap-2 text-sm text-ink">
+                    <input type="checkbox" name="terms" value="1" @checked(old('terms')) required class="mt-0.5 size-4 shrink-0 accent-primary" data-test="register-terms">
+                    <span>
+                        Leí y acepto los <a href="{{ route('legal.terms') }}" target="_blank" class="text-primary-bright hover:underline">Términos y condiciones</a>
+                        y la <a href="{{ route('legal.privacy') }}" target="_blank" class="text-primary-bright hover:underline">Política de privacidad</a>.
+                        Si sos menor, lo leíste con tu adulto responsable.
+                    </span>
+                </label>
+                <flux:error name="terms" />
+            </div>
+
             <flux:button type="submit" variant="primary" class="w-full" data-test="register-user-button">
                 {{ __('Create account') }}
             </flux:button>

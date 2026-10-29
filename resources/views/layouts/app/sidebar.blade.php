@@ -46,6 +46,10 @@
                             :badge="\App\Models\GuardianAuthorization::where('status', 'pending')->count() ?: null">
                             Autorizaciones
                         </flux:sidebar.item>
+                        <flux:sidebar.item icon="receipt-refund" :href="route('admin.consumer-requests')" :current="request()->routeIs('admin.consumer-requests')" wire:navigate
+                            :badge="\App\Models\ConsumerRequest::where('status', 'pending')->count() ?: null">
+                            Arrepentimientos
+                        </flux:sidebar.item>
                         <flux:sidebar.item icon="share" :href="route('admin.courses.index')" :current="request()->routeIs('admin.courses.*', 'admin.nodes.*')" wire:navigate>
                             Cursos y árboles
                         </flux:sidebar.item>
@@ -165,6 +169,8 @@
                     Mi cuenta
                 </flux:sidebar.item>
             </flux:sidebar.nav>
+
+            <x-legal-links class="justify-start! px-2" />
         </flux:sidebar>
 
         {{-- Barra superior: saldos (alumno) y menú del avatar. --}}

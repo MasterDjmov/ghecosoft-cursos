@@ -186,6 +186,17 @@
 
             <x-emoji-field><flux:textarea class="pe-10" wire:model="message" label="Mensaje para el profe (opcional)" rows="3" /></x-emoji-field>
 
+            {{-- D112: condiciones del abono junto al pago (Ley 24.240). --}}
+            <div class="rounded-lg border border-outline bg-surface-high/50 p-3 text-xs text-ink-muted" data-test="payment-conditions">
+                <p class="mb-1 font-medium text-ink">Antes de pagar</p>
+                <ul class="list-disc space-y-0.5 ps-4">
+                    <li>El profe te confirma el precio final en pesos.</li>
+                    <li>El abono dura {{ $course->subscription_days }} días desde que se aprueba el pago y <strong class="text-ink">no se renueva solo</strong>.</li>
+                    <li>Tenés {{ config('legal.withdrawal_days') }} días corridos para arrepentirte y te devolvemos todo: <a href="{{ route('legal.withdrawal') }}" target="_blank" class="text-primary-bright hover:underline">botón de arrepentimiento</a>.</li>
+                </ul>
+                <p class="mt-1">Al enviar aceptás los <a href="{{ route('legal.terms') }}" target="_blank" class="text-primary-bright hover:underline">Términos y condiciones</a>.</p>
+            </div>
+
             <div class="flex flex-wrap justify-end gap-2">
                 <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
                 <flux:button variant="primary" type="submit" wire:loading.attr="disabled" wire:target="receipt,sendReceipt">Enviar</flux:button>

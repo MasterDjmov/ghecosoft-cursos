@@ -278,6 +278,7 @@
                 <x-app-logo href="{{ route('landing') }}" />
                 <span>Cursos de programación con árbol de habilidades.</span>
             </div>
+            <x-legal-links class="px-4 pb-6" />
         </footer>
 
         @fluxScripts

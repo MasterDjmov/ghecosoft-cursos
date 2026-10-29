@@ -11,6 +11,7 @@ use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
 use App\Livewire\Admin\Characters;
 use App\Livewire\Admin\CohortBoard;
+use App\Livewire\Admin\ConsumerRequests;
 use App\Livewire\Admin\Courses;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Admin\Glossary;
@@ -27,6 +28,7 @@ use App\Livewire\Admin\Students;
 use App\Livewire\Admin\Submissions;
 use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
+use App\Livewire\Legal\ConsumerRequestForm;
 use App\Livewire\Student\AsmTool;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
@@ -55,6 +57,12 @@ Route::get('/', LandingController::class)->middleware('throttle:120,1')->name('l
 Route::get('cv/{slug}', [CvController::class, 'show'])->middleware('throttle:60,1')->name('cv.show');
 Route::post('cv/{slug}', [CvController::class, 'unlock'])->middleware('throttle:20,1')->name('cv.unlock');
 Route::get('cv/{slug}/arbol/{course:slug}', [CvController::class, 'tree'])->middleware('throttle:60,1')->name('cv.tree');
+
+// D112: legales y botones de Defensa del Consumidor, sin login.
+Route::view('terminos', 'legal.terms')->name('legal.terms');
+Route::view('privacidad', 'legal.privacy')->name('legal.privacy');
+Route::livewire('arrepentimiento', ConsumerRequestForm::class)->middleware('throttle:60,1')->name('legal.withdrawal');
+Route::livewire('baja', ConsumerRequestForm::class)->middleware('throttle:60,1')->name('legal.cancellation');
 
 Route::middleware(['auth', 'password.changed'])->group(function () {
     // Destino después de entrar: cada rol a su inicio.
@@ -114,6 +122,7 @@ Route::middleware(['auth', 'password.changed', 'role:admin'])->prefix('admin')->
     Route::livewire('configuracion', Settings::class)->name('settings');
 
     Route::livewire('autorizaciones', Authorizations::class)->name('authorizations');
+    Route::livewire('arrepentimientos', ConsumerRequests::class)->name('consumer-requests');
     Route::livewire('alumnos/nuevo', Students\Create::class)->name('students.create');
 
     Route::livewire('cursos', Courses\Index::class)->name('courses.index');

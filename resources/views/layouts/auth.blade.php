@@ -23,6 +23,8 @@
                 <div class="panel w-full max-w-md p-6 sm:p-8">
                     {{ $slot }}
                 </div>
+
+                <x-legal-links class="max-w-md" />
             </div>
         </div>
 

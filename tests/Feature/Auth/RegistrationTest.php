@@ -12,6 +12,7 @@ function registrationData(array $overrides = []): array
         'email' => 'kira@example.com',
         'password' => 'Secreta123',
         'password_confirmation' => 'Secreta123',
+        'terms' => '1',
         ...$overrides,
     ];
 }

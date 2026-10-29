@@ -42,9 +42,10 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
-        ], $this->profileMessages())->validate();
+            'terms' => ['accepted'],
+        ], [...$this->profileMessages(), 'terms.accepted' => 'Para crear la cuenta tenés que aceptar los Términos y la Política de privacidad.'])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
             'username' => $input['username'],
@@ -52,5 +53,10 @@ class CreateNewUser implements CreatesNewUsers
             'phone' => $input['phone'],
             'password' => $input['password'],
         ]);
+
+        // D112: qué versión de los Términos y la Privacidad aceptó, y cuándo.
+        $user->forceFill(['terms_accepted_at' => now(), 'terms_version' => config('legal.version')])->save();
+
+        return $user;
     }
 }

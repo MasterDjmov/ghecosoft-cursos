@@ -14,6 +14,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Saludos: *good morning / evening / night*, *goodbye*.
+
 ### Micro-misión R03-N01-P0 · Good Evening!
 ```meta
 personajes: Ada, Eco, Nilo
@@ -152,6 +155,9 @@ padre: R03-N01
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+*in, on, under, next to* y *Where is…?*
 
 ### Micro-misión R03-N02-P0 · Where Is Eco?
 ```meta
@@ -295,6 +301,9 @@ precio: 0
 criatura: ogre
 ```
 
+### Objetivos
+La familia: *mother, father, sister, brother*; *This is my…*, *his / her*.
+
 ### Micro-misión R03-N03-P0 · Letters for the Family
 ```meta
 personajes: Ada, Eco, Nilo, Elefa
@@ -435,6 +444,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*have got / has got* para describir (jefe).
+
 ### Micro-misión R03-N04-P0 · Eco Sings Louder
 ```meta
 personajes: Ada, Eco, Nilo
@@ -574,6 +586,9 @@ padre: R03-N04
 precio: 0
 criatura: skeleton
 ```
+
+### Objetivos
+*What's her name?* y los días; *morning, afternoon, evening*.
 
 ### Micro-misión R03-N05-P0 · Iara's Cookie
 ```meta
@@ -721,6 +736,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*Have you got…? Yes, I have. / No, I haven't.*
+
 ### Micro-misión R03-N06-P0 · Eyes Closed
 ```meta
 personajes: Ada, Eco, Fermín
@@ -859,6 +877,9 @@ padre: R03-N06
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+El clima: *It's rainy, windy, sunny, cold*.
 
 ### Micro-misión R03-N07-P0 · Lightning!
 ```meta
@@ -1004,6 +1025,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Repaso y escribir sobre la familia (final).
+
 ### Micro-misión R03-N08-P0 · Elefa's Seal
 ```meta
 personajes: Ada, Eco, Elefa, Marea, Nilo
@@ -1140,6 +1164,9 @@ padre: R03-N02
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+Animales del puerto y *can*.
 
 ### Micro-misión R03-N09-P0 · Stop, Pico!
 ```meta
@@ -1279,6 +1306,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Números y la dirección: *Where do you live?*
+
 ### Micro-misión R03-N10-P0 · A Wall of Doors
 ```meta
 personajes: Ada, Eco, Iara
@@ -1412,6 +1442,9 @@ padre: R03-N05
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+Indicaciones: *Stop! Turn left! Go straight!*
 
 ### Micro-misión R03-N11-P0 · Left or Right?
 ```meta
@@ -1551,6 +1584,9 @@ padre: R03-N07
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+Escribir una carta: *Dear…*, *Who is it for?*
 
 ### Micro-misión R03-N12-P0 · One Line That Shines
 ```meta

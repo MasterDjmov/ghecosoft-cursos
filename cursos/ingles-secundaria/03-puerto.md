@@ -14,6 +14,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Presente continuo: *I'm walking*.
+
 ### Micro-misión R03-N01-P0 · My Port Notes
 ```meta
 personajes: Ada, Eco, Nilo
@@ -152,6 +155,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Presente continuo: negativas, preguntas y respuestas cortas.
+
 ### Micro-misión R03-N02-P0 · Is Eco Hiding?
 ```meta
 personajes: Ada, Eco, Nilo, Pico
@@ -286,6 +292,9 @@ precio: 0
 criatura: ogre
 ```
 
+### Objetivos
+Presente simple contra presente continuo.
+
 ### Micro-misión R03-N03-P0 · Usually, but Today
 ```meta
 personajes: Ada, Eco, Nilo, Elefa
@@ -418,6 +427,9 @@ padre: R03-N03
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+*Wh-questions* en presente continuo (jefe).
 
 ### Micro-misión R03-N04-P0 · Who Is Singing?
 ```meta
@@ -555,6 +567,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Verbos de estado: *know, want, think, remember*.
+
 ### Micro-misión R03-N05-P0 · I Know, I Remember
 ```meta
 personajes: Ada, Eco, Nilo, Iara
@@ -689,6 +704,9 @@ padre: R03-N05
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+*some / any* y *How much / How many*.
 
 ### Micro-misión R03-N06-P0 · Millions of Cards
 ```meta
@@ -827,6 +845,9 @@ precio: 0
 criatura: ogre
 ```
 
+### Objetivos
+Pasado continuo con *when / while*.
+
 ### Micro-misión R03-N07-P0 · It Was Raining When…
 ```meta
 personajes: Ada, Eco, Nilo, Fermín, Elefa
@@ -962,6 +983,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Repaso: presente continuo, preguntas y pasado continuo (final).
+
 ### Micro-misión R03-N08-P0 · The Third Chapter
 ```meta
 personajes: Ada, Eco, Elefa, Marea, Nilo
@@ -1096,6 +1120,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Describir: continuo contra simple.
+
 ### Micro-misión R03-N09-P0 · What Is Pico Doing Now?
 ```meta
 personajes: Ada, Eco, Pico
@@ -1227,6 +1254,9 @@ padre: R03-N03
 precio: 0
 criatura: skeleton
 ```
+
+### Objetivos
+Direcciones y números largos: *Where does…?*
 
 ### Micro-misión R03-N10-P0 · A Wall of Colored Doors
 ```meta
@@ -1360,6 +1390,9 @@ padre: R03-N05
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+Dar indicaciones con imperativos.
 
 ### Micro-misión R03-N11-P0 · Which Way?
 ```meta
@@ -1496,6 +1529,9 @@ padre: R03-N07
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+Una nota formal y las preguntas indirectas.
 
 ### Micro-misión R03-N12-P0 · The Line Nobody Crossed Out
 ```meta

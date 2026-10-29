@@ -32,6 +32,7 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 - Temporada 2, las Forjas con Kira: pasado simple (negativas y preguntas con *did*), comparativos, superlativos y *as … as*
 - Temporada 3, el Puerto con Nilo: presente continuo (afirmativo, negativo, preguntas), simple contra continuo, *wh-questions*, verbos de estado, pasado continuo; ramas con indicaciones, direcciones y la nota formal
 - Temporada 4, la Ciudadela con Bron: el futuro con *going to* y *will*, *will* contra *going to*, el primer condicional con *if*, *when* y *unless*; ramas con pedidos formales (*Could I…? Would you like…?*), *as … as*, advertencias (*Don't…, or…*) y los posesivos
+- Temporada 5, el Corazón del Gólem con Nova: el condicional cero, las oraciones de relativo (*that, which, who, where*), el pasado perfecto, los textos de instrucciones, *used to* y verbo + *-ing* o + *to*; ramas con las cuentas en palabras (*twice as many*), la probabilidad (*might, will probably*), las *question tags* y la habilidad en pasado (*could, was able to*)
 
 # DICCIONARIO
 
@@ -50,6 +51,9 @@ Cada episodio se **lee y se escucha** en inglés, con la traducción a mano, y s
 tipo: raiz
 criatura: goblin
 ```
+
+### Objetivos
+*to be*, presente simple con *-s* y un primer pasado irregular.
 
 ### Micro-misión R00-N01-P0 · Four Years Ago
 ```meta
@@ -202,6 +206,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Secuencias (*first, then, finally*) y *Don't* + verbo.
+
 ### Micro-misión R01-N01-P0 · The Blot
 ```meta
 personajes: Ada, Eco, el Borrón
@@ -335,6 +342,9 @@ padre: R00-N01
 precio: 0
 criatura: goblin
 ```
+
+### Objetivos
+*there is / there are*, *How many…?* y los lugares (*at the top, in, on, under*).
 
 ### Micro-misión R01-N02-P0 · A Story in Every Line
 ```meta
@@ -476,6 +486,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+*can / can't* y las preguntas con *can*.
+
 ### Micro-misión R01-N03-P0 · Three Letters of Light
 ```meta
 personajes: Ada, Eco
@@ -613,6 +626,9 @@ padre: R00-N01
 precio: 0
 criatura: goblin
 ```
+
+### Objetivos
+Ordinales, comparativos y *was / wasn't*.
 
 ### Micro-misión R01-N04-P0 · The Glass Key
 ```meta
@@ -756,6 +772,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Adverbios de frecuencia y *How often…?*
+
 ### Micro-misión R01-N05-P0 · Twelve Open Jars
 ```meta
 personajes: Ada, Eco, Teo
@@ -896,6 +915,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Verbos de los sentidos: *feel* + adjetivo; *Did…?*
+
 ### Micro-misión R01-N06-P0 · The Nora Test
 ```meta
 personajes: Ada, Eco, Nora
@@ -1034,6 +1056,9 @@ padre: R01-N04
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+*some / any*, *How much / How many* y pedir con amabilidad.
 
 ### Micro-misión R01-N07-P0 · Three Streets Away
 ```meta

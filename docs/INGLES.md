@@ -160,6 +160,7 @@ El docente pidió más que el piloto («5 capítulos de 5 misiones me los termin
 | Puerto · Nilo | saludos, familia, *have got*, *in/on/under* | presente continuo, preguntas (*some/any* ya está en la rama de Ámbar: acá solo se repasa) |
 | Forjas · Kira | cuerpo, ropa, *big/hot/heavy*, *can/can't* | pasado simple, comparativos y superlativos |
 | Ciudadela · Bron | comida, la casa, números hasta 100, *I like* | futuro (*will* y *going to*), primer condicional |
+| Gólem · Nova | órdenes, ordinales hasta *tenth*, posiciones, el alfabeto, *first/then/finally*, *Is it…? Yes, it is* | condicional cero, relativos, pasado perfecto, instrucciones, *used to*, verbo + *-ing / to* |
 | Valle · Mia | animales, rutina, presente simple, días y clima | presente perfecto, *must/should* |
 | Imperio · Zed | presente continuo, *wh-questions*, meses, repaso | voz pasiva, segundo condicional, estilo indirecto; final con el Gran Borrón |
 
@@ -167,7 +168,9 @@ El docente pidió más que el piloto («5 capítulos de 5 misiones me los termin
 
 **Se trabaja por tandas**, como el piloto: una temporada escrita en un .md, el docente la revisa y se carga.
 
-**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: [historias/ingles-forjas.md](historias/ingles-forjas.md). **Cargada el 2026-10-14** (12 episodios por curso con portadas propias; la regla de temporadas es `TreeAccess::startsSeason`). Después, el Puerto (temporada 3, [historias/ingles-puerto.md](historias/ingles-puerto.md)) y la Ciudadela con Bron (temporada 4, [historias/ingles-ciudadela.md](historias/ingles-ciudadela.md)), las dos cargadas el 2026-10-14.
+**El docente aprobó (2026-10-14)** el orden, la gramática y el tamaño, y empezar por las Forjas. Las Forjas pasan a ser la **temporada 2** (antes de Puerto) porque sus escenas están completas: [historias/ingles-forjas.md](historias/ingles-forjas.md). **Cargada el 2026-10-14** (12 episodios por curso con portadas propias; la regla de temporadas es `TreeAccess::startsSeason`). Después, el Puerto (temporada 3, [historias/ingles-puerto.md](historias/ingles-puerto.md)) y la Ciudadela con Bron (temporada 4, [historias/ingles-ciudadela.md](historias/ingles-ciudadela.md)), las dos cargadas el 2026-10-14. El **Gólem** con Nova es la **temporada 5** (aprobada y escrita el 2026-10-28, [historias/ingles-golem.md](historias/ingles-golem.md)); el Valle y el Imperio pasan a ser la 6 y la 7.
+
+**En el temario del administrador** cada episodio de inglés muestra entre paréntesis lo que enseña: sale del `### Objetivos` del nodo (una línea; el alumno no lo ve en el episodio). Al escribir una temporada nueva, ponerle su línea a cada nodo.
 
 ### El programa nacional y el de La Rioja (analizado el 2026-10-14)
 

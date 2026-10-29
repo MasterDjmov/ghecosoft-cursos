@@ -40,7 +40,12 @@
                     </p>
                     <ol class="flex flex-col gap-0.5 text-sm">
                         @foreach ($section['nodes'] as $node)
-                            <li><a href="#nodo-{{ $node->id }}" class="text-ink-muted hover:text-primary-bright">{{ ++$n }}. {{ $node->title }}</a></li>
+                            <li><a href="#nodo-{{ $node->id }}" class="text-ink-muted hover:text-primary-bright">{{ ++$n }}. {{ $node->title }}</a>
+                                {{-- D106: en inglés, qué se aprende en cada episodio, para ubicar un tema de un vistazo. --}}
+                                @if ($course->language === \App\Enums\Language::English && $node->objectives)
+                                    <span class="text-xs text-secondary-bright/80" data-test="syllabus-topic">({!! trim(Str::inlineMarkdown(trim($node->objectives), ['html_input' => 'strip'])) !!})</span>
+                                @endif
+                            </li>
                         @endforeach
                     </ol>
                 </div>

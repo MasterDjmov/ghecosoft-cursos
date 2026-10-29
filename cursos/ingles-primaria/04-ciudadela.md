@@ -14,6 +14,9 @@ precio: 0
 criatura: slime
 ```
 
+### Objetivos
+Los números grandes: *twenty, thirty… a hundred*.
+
 ### Micro-misión R04-N01-P0 · Hello, Bron!
 ```meta
 personajes: Ada, Eco, Bron, Tesla
@@ -156,6 +159,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+*How many…? There are…*
+
 ### Micro-misión R04-N02-P0 · How Many Screws?
 ```meta
 personajes: Ada, Eco, Bron
@@ -293,6 +299,9 @@ padre: R04-N02
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+Los cuartos de la casa: *kitchen, bedroom, bathroom…*
 
 ### Micro-misión R04-N03-P0 · Water in the Dining Room!
 ```meta
@@ -434,6 +443,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Ordenar frases y *Do you like…?* (jefe).
+
 ### Micro-misión R04-N04-P0 · It Talks Backwards!
 ```meta
 personajes: Ada, Eco, Bron
@@ -569,6 +581,9 @@ padre: R04-N04
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+La comida y *I like / I don't like*.
 
 ### Micro-misión R04-N05-P0 · It's Purple!
 ```meta
@@ -708,6 +723,9 @@ padre: R04-N05
 precio: 0
 criatura: goblin
 ```
+
+### Objetivos
+Comprar: *How much is it?*
 
 ### Micro-misión R04-N06-P0 · How Much Is It?
 ```meta
@@ -851,6 +869,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Los muebles y *There is a… in my room*.
+
 ### Micro-misión R04-N07-P0 · Into the Net!
 ```meta
 personajes: Ada, Eco, Bron, Tesla
@@ -988,6 +1009,9 @@ padre: R04-N07
 precio: 0
 criatura: slime
 ```
+
+### Objetivos
+Repaso: números, casa, comida, *like* y *How much* (final).
 
 ### Micro-misión R04-N08-P0 · A Medal for Ada
 ```meta
@@ -1128,6 +1152,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Pedir: *Can I have…, please?*
+
 ### Micro-misión R04-N09-P0 · Two, Please!
 ```meta
 personajes: Ada, Eco, Lyn
@@ -1266,6 +1293,9 @@ precio: 0
 criatura: orc
 ```
 
+### Objetivos
+*big / small / long / short*, *the same / different*.
+
 ### Micro-misión R04-N10-P0 · Behind Your Back
 ```meta
 personajes: Ada, Eco, Lima, Bron
@@ -1403,6 +1433,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Órdenes cortas: *Stop! Go! Faster! Slower!*
+
 ### Micro-misión R04-N11-P0 · Stop!
 ```meta
 personajes: Ada, Eco, Bron
@@ -1537,6 +1570,9 @@ padre: R04-N07
 precio: 0
 criatura: goblin
 ```
+
+### Objetivos
+*Whose is it?* y *mine / yours*.
 
 ### Micro-misión R04-N12-P0 · Whose Paper Is It?
 ```meta

@@ -14,6 +14,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Pasado de *to be*: *was / were*, *Was…? Were…?*
+
 ### Micro-misión R02-N01-P0 · The Second Chapter
 ```meta
 personajes: Ada, Eco, Kira
@@ -152,6 +155,9 @@ padre: R02-N01
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+Pasado de los verbos regulares: *-ed* y su pronunciación.
 
 ### Micro-misión R02-N02-P0 · The Blot Visited
 ```meta
@@ -292,6 +298,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Pasado de los verbos irregulares.
+
 ### Micro-misión R02-N03-P0 · Ink and Fire
 ```meta
 personajes: Ada, Eco
@@ -431,6 +440,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Pasado: *didn't* + verbo, *Did…?* y respuestas cortas.
+
 ### Micro-misión R02-N04-P0 · Did It Stop?
 ```meta
 personajes: Ada, Eco, Ferrum
@@ -568,6 +580,9 @@ padre: R02-N04
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+Comparativos: *-er than*, *more … than*, *better / worse*.
 
 ### Micro-misión R02-N05-P0 · Bigger Than Before
 ```meta
@@ -708,6 +723,9 @@ precio: 0
 criatura: ogre
 ```
 
+### Objetivos
+Superlativos: *the -est*, *the most*, *one of the…* (jefe).
+
 ### Micro-misión R02-N06-P0 · The Biggest Mistake
 ```meta
 personajes: Ada, Eco, el Gran Borrón
@@ -847,6 +865,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*as … as* y *not as … as*.
+
 ### Micro-misión R02-N07-P0 · As Dark as Ink
 ```meta
 personajes: Ada, Eco
@@ -982,6 +1003,9 @@ padre: R02-N07
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+Repaso del pasado y las comparaciones (final).
 
 ### Micro-misión R02-N08-P0 · Three Blows
 ```meta
@@ -1121,6 +1145,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+*How much…?*, *cheaper / more expensive*, pesos.
+
 ### Micro-misión R02-N09-P0 · A Special Price
 ```meta
 personajes: Ada, Eco, Chispa
@@ -1253,6 +1280,9 @@ padre: R02-N04
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+Medidas: *How long…? How old…?*
 
 ### Micro-misión R02-N10-P0 · How Tall Is Eco?
 ```meta
@@ -1387,6 +1417,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*Why…? Because…*, *borrow / return*.
+
 ### Micro-misión R02-N11-P0 · The Interest
 ```meta
 personajes: Ada, Eco, Hulda
@@ -1515,6 +1548,9 @@ padre: R02-N08
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+Una carta informal en pasado.
 
 ### Micro-misión R02-N12-P0 · Too Close to the Oven
 ```meta

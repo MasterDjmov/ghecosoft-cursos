@@ -169,6 +169,19 @@ test('el temario del curso lo ven el administrador y los docentes, con las resol
     $this->actingAs($this->mine)->get(route('admin.syllabus', $this->course))->assertRedirect(route('home'));
 });
 
+test('en el temario de un curso de inglés, cada episodio muestra al lado lo que enseña', function () {
+    $admin = User::factory()->admin()->create();
+    $english = makeCourse(['language' => 'english']);
+    $english['topic1']->update(['objectives' => 'Las órdenes: *push, pull*.']);
+    $this->course->nodes()->where('title', 'Tema 1')->update(['objectives' => 'Variables y tipos.']);
+
+    $this->actingAs($admin)->get(route('admin.syllabus', $english['course']))
+        ->assertOk()->assertSee('data-test="syllabus-topic"', false)->assertSee('(Las órdenes: <em>push, pull</em>.)', false);
+    // En los cursos de programación los objetivos son largos: la lista sigue mostrando solo el título.
+    $this->actingAs($admin)->get(route('admin.syllabus', $this->course))
+        ->assertOk()->assertDontSee('data-test="syllabus-topic"', false);
+});
+
 test('el árbol de avance de un alumno lo ven el administrador y su docente; el de otro alumno, no', function () {
     $tree = fn (User $student) => route('admin.students.tree', [$student, $this->course]);
 

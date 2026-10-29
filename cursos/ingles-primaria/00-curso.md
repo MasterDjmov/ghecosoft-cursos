@@ -32,6 +32,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 - Temporada 2, las Forjas con Kira: la ropa, el cuerpo, cómo son las cosas (*hot, cold, heavy, light, long, short*) y *can / can't*
 - Temporada 3, el Puerto con Nilo: saludos, la familia, *have got*, *in / on / under / next to*, el clima y los días; ramas con Pico, Iara, los tres muelles y la carta «para quien llegue»
 - Temporada 4, la Ciudadela con Bron: los números hasta 100, *How many…?*, la casa y los muebles, la comida, *I like / I don't like* y *How much is it?*; ramas con el pedido de Lyn, la lima de Lima, la cinta sin fin y la llave prestada
+- Temporada 5, el Corazón del Gólem con Nova: las órdenes (*push, pull, open, close*), los ordinales hasta *tenth*, dónde están las cosas (*up, down, above, below, between*), el alfabeto y *How do you spell it?*, *first, then, finally*, *Is it…? Yes, it is* y *on top of / under*; ramas con las cuentas de Gheco, el ojo del Gólem (colores y figuras), el Oráculo y Kira (*this, that, these, those*)
 
 # DICCIONARIO
 
@@ -50,6 +51,9 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 tipo: raiz
 criatura: skeleton
 ```
+
+### Objetivos
+Saludar (*hello*), los colores, *a / an* y *big / little*.
 
 ### Micro-misión R00-N01-P0 · Ada and Eco
 ```meta
@@ -201,6 +205,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Los números del 1 al 10 y los objetos del taller.
+
 ### Micro-misión R01-N01-P0 · The Blot
 ```meta
 personajes: Ada, Eco, el Borrón
@@ -343,6 +350,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+*top, middle, bottom* y las partes del cuerpo (*eyes, ears, fingers*).
+
 ### Micro-misión R01-N02-P0 · Close Your Eyes
 ```meta
 personajes: Ada, Nora, Eco
@@ -484,6 +494,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Presentarse: *What's your name? My name is… How old are you?*
+
 ### Micro-misión R01-N03-P0 · A, D, A
 ```meta
 personajes: Ada, Eco
@@ -613,6 +626,9 @@ padre: R00-N01
 precio: 0
 criatura: skeleton
 ```
+
+### Objetivos
+*first, second, third* y los días de la semana.
 
 ### Micro-misión R01-N04-P0 · The Glass Key
 ```meta
@@ -748,6 +764,9 @@ padre: R01-N01
 precio: 0
 criatura: slime
 ```
+
+### Objetivos
+Más colores y mezclarlos.
 
 ### Micro-misión R01-N05-P0 · Pink Eco
 ```meta
@@ -889,6 +908,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+*It is…* para describir: *like the sky*, *sun, star, moon*.
+
 ### Micro-misión R01-N06-P0 · Red Like an Apple
 ```meta
 personajes: Ada, Eco, Nora
@@ -1028,6 +1050,9 @@ padre: R01-N04
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+Comprar: *How much is it? A red glass, please.*
 
 ### Micro-misión R01-N07-P0 · Almost No Bubbles
 ```meta

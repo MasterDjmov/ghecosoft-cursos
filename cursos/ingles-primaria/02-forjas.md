@@ -14,6 +14,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+*he / she*, *open / closed*, *tall / small / strong*.
+
 ### Micro-misión R02-N01-P0 · Hot, Hot, Hot!
 ```meta
 personajes: Ada, Eco, Kira
@@ -158,6 +161,9 @@ precio: 0
 criatura: orc
 ```
 
+### Objetivos
+*full / empty*, *heavy / light*, *old / new*.
+
 ### Micro-misión R02-N02-P0 · An Empty Box
 ```meta
 personajes: Ada, Eco, el Borrón
@@ -301,6 +307,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*hot / cold / warm* y la pregunta *Is it…?*
+
 ### Micro-misión R02-N03-P0 · Water for Eco
 ```meta
 personajes: Ada, Eco
@@ -438,6 +447,9 @@ padre: R02-N03
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+La ropa (*hat, jacket, scarf*) y el posesivo *'s*.
 
 ### Micro-misión R02-N04-P0 · A Tiny Helmet
 ```meta
@@ -581,6 +593,9 @@ padre: R02-N04
 precio: 0
 criatura: slime
 ```
+
+### Objetivos
+Las partes del cuerpo: *face, head, eyes, nose, mouth, arms, legs*.
 
 ### Micro-misión R02-N05-P0 · No Eyebrows!
 ```meta
@@ -726,6 +741,9 @@ precio: 0
 criatura: ogre
 ```
 
+### Objetivos
+Describir con *It has…* (jefe).
+
 ### Micro-misión R02-N06-P0 · The Blot in the Golem
 ```meta
 personajes: Ada, Eco, el Borrón
@@ -867,6 +885,9 @@ padre: R02-N06
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+*can / can't* y *Can you…?*
 
 ### Micro-misión R02-N07-P0 · I Can!
 ```meta
@@ -1010,6 +1031,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Repaso de la temporada (final).
+
 ### Micro-misión R02-N08-P0 · The Second Page
 ```meta
 personajes: Ada, Eco, Ferrum
@@ -1149,6 +1173,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+Contar: *How many?*, *plus / minus*, *half*.
+
 ### Micro-misión R02-N09-P0 · Two Coins!
 ```meta
 personajes: Ada, Eco, Chispa
@@ -1283,6 +1310,9 @@ padre: R02-N04
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+Opuestos: *long / short*, *tall*.
 
 ### Micro-misión R02-N10-P0 · Not Small!
 ```meta
@@ -1421,6 +1451,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+Adivinanzas con *What has…?*
+
 ### Micro-misión R02-N11-P0 · Again! Again!
 ```meta
 personajes: Ada, Eco, Hulda
@@ -1557,6 +1590,9 @@ padre: R02-N08
 precio: 0
 criatura: troll
 ```
+
+### Objetivos
+Una carta: *Dear…*, *How are you?*, *Love…*
 
 ### Micro-misión R02-N12-P0 · A Burnt Corner
 ```meta

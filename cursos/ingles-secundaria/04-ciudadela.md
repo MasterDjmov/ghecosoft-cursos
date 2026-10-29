@@ -14,6 +14,9 @@ precio: 0
 criatura: slime
 ```
 
+### Objetivos
+Futuro con *going to*.
+
 ### Micro-misión R04-N01-P0 · Tesla's Plans
 ```meta
 personajes: Ada, Eco, Bron, Tesla
@@ -152,6 +155,9 @@ precio: 0
 criatura: goblin
 ```
 
+### Objetivos
+*going to*: negativas y preguntas.
+
 ### Micro-misión R04-N02-P0 · Are You Going to Count Them All?
 ```meta
 personajes: Ada, Eco, Bron
@@ -285,6 +291,9 @@ padre: R04-N02
 precio: 0
 criatura: ogre
 ```
+
+### Objetivos
+Primer condicional: *If* + presente, *will* + verbo.
 
 ### Micro-misión R04-N03-P0 · A Warning in Red
 ```meta
@@ -423,6 +432,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*will* para predecir (jefe).
+
 ### Micro-misión R04-N04-P0 · Pass Will Not You
 ```meta
 personajes: Ada, Eco, Bron
@@ -557,6 +569,9 @@ precio: 0
 criatura: ogre
 ```
 
+### Objetivos
+*will* para decidir, ofrecer y prometer.
+
 ### Micro-misión R04-N05-P0 · I'll Taste It!
 ```meta
 personajes: Ada, Eco, Oto
@@ -689,6 +704,9 @@ padre: R04-N05
 precio: 0
 criatura: goblin
 ```
+
+### Objetivos
+*going to* contra *will*.
 
 ### Micro-misión R04-N06-P0 · It's Going to Land on Red
 ```meta
@@ -826,6 +844,9 @@ precio: 0
 criatura: troll
 ```
 
+### Objetivos
+*when* y *unless*.
+
 ### Micro-misión R04-N07-P0 · Unless You Check the Boards
 ```meta
 personajes: Ada, Eco, Bron, Tesla
@@ -961,6 +982,9 @@ padre: R04-N07
 precio: 0
 criatura: slime
 ```
+
+### Objetivos
+Repaso: *going to*, *will* y primer condicional (final).
 
 ### Micro-misión R04-N08-P0 · My Plans
 ```meta
@@ -1101,6 +1125,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Cortesía: *Could I have…? Would you like…?*
+
 ### Micro-misión R04-N09-P0 · Could I Have Two, Please?
 ```meta
 personajes: Ada, Eco, Lyn
@@ -1234,6 +1261,9 @@ padre: R04-N03
 precio: 0
 criatura: orc
 ```
+
+### Objetivos
+Comparar: *as … as*, *not as … as*, *the same as*.
 
 ### Micro-misión R04-N10-P0 · As Big As
 ```meta
@@ -1371,6 +1401,9 @@ precio: 0
 criatura: skeleton
 ```
 
+### Objetivos
+Advertencias: *Don't…, or it will…*
+
 ### Micro-misión R04-N11-P0 · Don't Stand There
 ```meta
 personajes: Ada, Eco, Bron
@@ -1502,6 +1535,9 @@ padre: R04-N07
 precio: 0
 criatura: goblin
 ```
+
+### Objetivos
+Posesivos: *whose*, *mine, yours, his, hers, ours, theirs*.
 
 ### Micro-misión R04-N12-P0 · Whose Is This?
 ```meta

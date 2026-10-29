@@ -71,7 +71,7 @@ en lugar del editor con consola simple:
     MASM. `encoder.js` los calcula (el emulador sigue interpretando la orden, no los bytes) y
     `node scripts/asm8086/probar-codigo-maquina.mjs` los desarma con `objdump` y los compara con cada orden del
     material y del curso (11 633 órdenes, 0 mal), además de comprobar que el largo sea el que usa el ensamblador.
-    Correrlo si se toca el ensamblador o el codificador. A decidir: una micro-misión que lo use.
+    Correrlo si se toca el ensamblador o el codificador. La micro-misión `R01-N05-P8` («Lo que lee el Gólem», 2026-10-28) lo usa: hay que leer en la Vista técnica el primer byte de `mov ax, 1234h` y guardarlo en AL (B8h).
 - **Errores del ensamblador en español**, con la criatura del bestiario de `GUION.md` (Slime para la sintaxis,
   Goblin para los tamaños, Esqueleto para el «símbolo no definido», Orco para salirse, Ogro para la lógica
   y Troll para la pila) y el mensaje real entre paréntesis, para que lo reconozca en emu8086.

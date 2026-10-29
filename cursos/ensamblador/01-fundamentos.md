@@ -3789,6 +3789,72 @@ end main
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira hacia abajo, preocupada.
 - Gheco (gecko de luz cian con antiparras, chiquito) en su hombro, con la cola erizada.
 
+### Micro-misión R01-N05-P8 · Lo que lee el Gólem
+
+```meta
+lugar: El ojo del Gólem
+personajes: Nova, Axón, Gheco
+carta: Código máquina | cada orden es un puñado de bytes · el primero dice qué orden es · mov ax, número → B8
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Antes de que la baba llegue arriba, {mentor} detiene a Nova. «Vos me escribís `mov ax, 1234h`», dice, «pero yo no leo palabras. Leo **bytes**: números en mis cajones de órdenes. Si querés vencer a lo que se mete en mis palancas, tenés que ver lo que yo veo».
+
+#### Gheco sugiere
+Tocá **Paso a paso** y, en «La última orden», abrí la **Vista técnica**: ahí aparece el **código máquina** de cada orden. El primer byte dice *qué* orden es; los que siguen son el número, con el byte bajo primero. En el ensamblador, un número hexa que empieza con letra lleva un `0` adelante: `0B8h`, no `B8h`.
+
+#### Desafío
+Corré paso a paso hasta `mov ax, 1234h` y mirá su código máquina en la Vista técnica. Después, donde dice `; tus órdenes`, guardá en **AL** el **primer byte** de esa orden.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.code
+main proc
+    mov ax, 1234h
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = B8h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.code
+main proc
+    mov ax, 1234h
+
+    mov al, 0B8h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«**B8**», murmura Nova, y {mentor} asiente: «B8 quiere decir "llevá a AX el número que viene". Y el número viene al revés: **34**, después **12**». Por primera vez, Nova ve sus propias órdenes como las ve el Gólem: hileras de bytes que brillan en los cajones. Justo entonces, la baba verde asoma por el borde del ojo.
+
+#### Imagen
+- El interior del ojo de un gólem de bronce gigante: hileras de cajoncitos de bronce encendidos, cada uno con un brillo cian distinto, como bytes de luz, sin ningún número ni letra.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca uno de los cajoncitos, asombrada.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro, señalando el primer cajoncito.
+- Al borde de la imagen, una baba verde brillante asoma por abajo.
+
 ### Prueba del sello
 
 #### ¿Dónde queda el resultado de `mul bl`? ¿Y el de `mul bx`?

@@ -4,6 +4,7 @@
 
 import { assemble, describeError, stateReport, LIMIT } from './index.js';
 import { Machine, FLAG_BITS, hex } from './machine.js';
+import { encode, hexBytes } from './encoder.js';
 
 export const REGISTER_ORDER = ['ax', 'bx', 'cx', 'dx', 'si', 'di', 'bp', 'sp', 'cs', 'ds', 'ss', 'es', 'ip'];
 export const FLAG_ORDER = ['zf', 'sf', 'cf', 'of', 'pf', 'af', 'df', 'if', 'tf'];
@@ -219,6 +220,11 @@ export class AsmSession {
         return {
             size: size === 8 ? 'trabaja con bytes (8 bits)' : size === 16 ? 'trabaja con words (16 bits)' : null,
             code: `vive en CS:${hex(ipBefore, 4)} y ocupa ${ins.length} byte${ins.length === 1 ? '' : 's'} de código máquina`,
+            // D110: los bytes que leería un 8086 de verdad (encoder.js, comprobado con objdump).
+            bytes: (() => {
+                const bytes = encode(ins, { dataSeg: m.dataSeg });
+                return bytes ? hexBytes(bytes) : null;
+            })(),
             ip: m.halted ? null : flow?.jumped
                 ? `IP: ${hex(ipBefore, 4)}h → ${hex(m.ip, 4)}h (saltó; sin el salto habría ido a ${hex(ins.address + ins.length, 4)}h)`
                 : `IP: ${hex(ipBefore, 4)}h + ${ins.length} = ${hex(m.ip, 4)}h (la orden de abajo)`,

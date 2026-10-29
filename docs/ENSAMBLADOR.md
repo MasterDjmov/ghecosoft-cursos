@@ -67,9 +67,11 @@ en lugar del editor con consola simple:
   - *Vista técnica* (botón en «La última orden»): tamaño con el que trabaja (byte o word), cada operando (registro,
     inmediato que viaja dentro de la orden, o memoria con el cálculo `BX + SI + disp`, `DS:offset` y la dirección
     física), dónde vive la orden (`CS:IP`), cuántos bytes de código máquina ocupa y cómo se movió IP.
-  - *Pendiente (a decidir):* mostrar **los bytes** de cada orden (`B8 34 12` para `mov ax, 1234h`). El emulador hoy
-    calcula el largo exacto de cada orden pero no la codifica; hace falta un codificador de las ~80 órdenes del
-    curso, comprobado contra un ensamblador de verdad, y una micro-misión o dos que lo usen.
+  - *Código máquina:* la vista técnica muestra los bytes de la orden (`mov ax, 1234h` → `B8 34 12`), como los arma
+    MASM. `encoder.js` los calcula (el emulador sigue interpretando la orden, no los bytes) y
+    `node scripts/asm8086/probar-codigo-maquina.mjs` los desarma con `objdump` y los compara con cada orden del
+    material y del curso (11 633 órdenes, 0 mal), además de comprobar que el largo sea el que usa el ensamblador.
+    Correrlo si se toca el ensamblador o el codificador. A decidir: una micro-misión que lo use.
 - **Errores del ensamblador en español**, con la criatura del bestiario de `GUION.md` (Slime para la sintaxis,
   Goblin para los tamaños, Esqueleto para el «símbolo no definido», Orco para salirse, Ogro para la lógica
   y Troll para la pila) y el mensaje real entre paréntesis, para que lo reconozca en emu8086.

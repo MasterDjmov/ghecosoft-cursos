@@ -101,6 +101,8 @@
                         <li><span class="text-secondary-bright" x-text="o.role"></span> · <span class="text-ink-muted" x-text="o.kind"></span>: <span x-text="o.text"></span></li>
                     </template>
                     <li x-text="asm?.explain?.tech?.code"></li>
+                    <li x-show="asm?.explain?.tech?.bytes" data-test="asm-bytes">código máquina: <span class="rounded bg-surface-high px-1 text-yellow-300" x-text="asm?.explain?.tech?.bytes"></span>
+                        <span class="font-sans text-ink-muted">· el primer byte dice qué orden es; los números y direcciones van al final, con el byte bajo primero (little endian)</span></li>
                     <li x-show="asm?.explain?.tech?.ip" class="text-primary-bright" x-text="asm?.explain?.tech?.ip"></li>
                 </ul>
             </div>

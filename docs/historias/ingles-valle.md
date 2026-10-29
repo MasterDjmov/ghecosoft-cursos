@@ -79,6 +79,8 @@ El episodio 6 cambia contra Primaria (la Cueva del Troll en vez de la Ermita): e
 
 ## 4. Lo que hay que hacer para cargarla
 
+**Hecho (2026-10-29):** `cursos/ingles-*/06-valle.md` (con los cambios de [ingles-cronicas.md](ingles-cronicas.md) § 1 y las crónicas de Ada) y las 24 portadas.
+
 1. El docente revisa este plan (y decide si el Gólem va antes).
 2. Generar las 24 portadas en el proyecto de Python (`VALLE-01` a `12` y `VALLE-S01` a `S12`), con las hojas de Ada recreadas ahí.
 3. Escribir los 12 episodios en las dos versiones (`cursos/ingles-*/05-valle.md`, o `06-valle.md` después del Gólem), colgando el primero del primero de la temporada anterior. Probar las respuestas abiertas contra `english.js` y hacer el deploy con `--cursos`.

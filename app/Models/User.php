@@ -61,6 +61,7 @@ class User extends Authenticatable implements PasskeyUser
         return [
             'email_verified_at' => 'datetime',
             'terms_accepted_at' => 'datetime',
+            'announcements_muted_at' => 'datetime',
             'password' => 'hashed',
             'role' => Role::class,
             'birth_date' => 'date',

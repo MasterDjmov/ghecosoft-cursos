@@ -48,6 +48,7 @@ php artisan down --retry=30 || true
 composer install --no-dev --optimize-autoloader --no-interaction
 php artisan migrate --force
 php artisan app:game-items   # ítems de ejemplo del juego que falten (D90; no toca los existentes)
+php artisan app:prune-access-logs   # IP y navegador de más de 12 meses (D113, Privacidad § 6)
 EOF
 
 # 4. public/build: se sube a una carpeta nueva y se reemplaza de una vez.

@@ -67,7 +67,7 @@
 
         <h2>8. Propiedad intelectual</h2>
         <ul>
-            <li>Los cursos, los textos, las historias, los personajes y las imágenes son de {{ config('legal.owner') }} y están protegidos por la Ley 11.723. Los podés usar para estudiar, no copiarlos ni publicarlos.</li>
+            <li>Los cursos, los textos, las historias, los personajes y las imágenes son de {{ config('legal.owner') }} y están protegidos por la Ley 11.723. Los podés usar para estudiar, no copiarlos ni publicarlos. Si encontrás contenido de la plataforma publicado sin permiso, o creés que algo de acá usa una obra tuya, escribinos a {{ config('legal.email') }} y lo revisamos.</li>
             <li>El código y los trabajos que escribís son tuyos. Nos das permiso para guardarlos, corregirlos y mostrarte tu progreso.</li>
             <li>Si creés que algo publicado acá usa una obra tuya sin permiso, escribinos a <a href="mailto:{{ config('legal.email') }}">{{ config('legal.email') }}</a> y lo revisamos.</li>
         </ul>

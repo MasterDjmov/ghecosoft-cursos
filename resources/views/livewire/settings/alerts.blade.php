@@ -23,6 +23,11 @@
                 <p x-show="permission === 'unsupported'" x-cloak class="text-sm text-ink-muted">Este navegador no permite notificaciones.</p>
             </div>
 
+            @if (filled(auth()->user()->email))
+                <flux:switch wire:model="announcement_mails" label="Recibir por mail los avisos de cursos nuevos"
+                    description="Cuando sale un curso que pediste con «Avisame». Los mails de tu cuenta (entregas, pagos, abono) llegan siempre." />
+            @endif
+
             <div class="flex items-center gap-3">
                 <flux:button variant="primary" type="submit">Guardar</flux:button>
                 <flux:button type="button" variant="ghost" icon="speaker-wave" x-on:click="window.liveAlerts?.beep()">Probar el sonido</flux:button>

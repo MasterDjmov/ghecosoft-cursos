@@ -25,6 +25,10 @@
             <li><strong>Autorización de menores:</strong> la nota firmada por vos, tu adulto responsable y el profe.</li>
         </ul>
         <p>Solo pedimos lo necesario para dar los cursos. Los datos marcados como opcionales los podés dejar vacíos.</p>
+        <p>
+            Los mails de tu cuenta (entregas, pagos, abono) son parte del servicio. Los avisos de cursos nuevos que pediste con «Avisame»
+            traen un link para no recibirlos más, y también los podés apagar en <em>Mi cuenta → Avisos</em>.
+        </p>
 
         <h2>3. Quién ve tus datos</h2>
         <ul>
@@ -52,6 +56,7 @@
         <p>
             Mientras tu cuenta exista. Si pedís que la borremos, borramos o anonimizamos tus datos dentro de los 30 días, salvo lo que la ley
             nos obligue a conservar (por ejemplo, los comprobantes de pago). Las copias de seguridad se renuevan solas y las más viejas se borran a los 14 días.
+            Los registros de acceso (IP, dispositivo y navegador) se borran a los 12 meses.
         </p>
 
         <h2>7. Cómo los cuidamos</h2>

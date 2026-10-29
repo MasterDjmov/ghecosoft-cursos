@@ -7,6 +7,7 @@ use App\Http\Controllers\Files\ReceiptController;
 use App\Http\Controllers\Files\SubmissionFileController;
 use App\Http\Controllers\JavaRunnerDownloadController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\MuteAnnouncementsController;
 use App\Livewire\Admin\Authorizations;
 use App\Livewire\Admin\Badges;
 use App\Livewire\Admin\Characters;
@@ -63,6 +64,9 @@ Route::view('terminos', 'legal.terms')->name('legal.terms');
 Route::view('privacidad', 'legal.privacy')->name('legal.privacy');
 Route::livewire('arrepentimiento', ConsumerRequestForm::class)->middleware('throttle:60,1')->name('legal.withdrawal');
 Route::livewire('baja', ConsumerRequestForm::class)->middleware('throttle:60,1')->name('legal.cancellation');
+// D113: baja de los mails «Avisame», con el link firmado del mail.
+Route::get('avisos/baja/{user}', [MuteAnnouncementsController::class, 'show'])->middleware(['signed', 'throttle:60,1'])->name('announcements.mute');
+Route::post('avisos/baja/{user}', [MuteAnnouncementsController::class, 'store'])->middleware(['signed', 'throttle:60,1']);
 
 Route::middleware(['auth', 'password.changed'])->group(function () {
     // Destino después de entrar: cada rol a su inicio.

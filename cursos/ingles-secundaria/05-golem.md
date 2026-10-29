@@ -14,6 +14,12 @@ precio: 0
 criatura: slime
 ```
 
+### Crónica
+
+If you pull this lever, the arm moves. If you say nothing, Axón does nothing. That was the first page of his manual.
+
+*Si tirás de esta palanca, el brazo se mueve. Si no decís nada, Axón no hace nada. Esa fue la primera página de su manual.*
+
 ### Objetivos
 Condicional cero: *If you pull it, the arm moves.*
 
@@ -153,6 +159,12 @@ padre: R05-N01
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+A variable is a drawer that has a name. The word that Eco loved most that night was "that".
+
+*Una variable es un cajón que tiene nombre. La palabra que Eco más quiso esa noche fue «that».*
 
 ### Objetivos
 Oraciones de relativo con *that / which*.
@@ -295,6 +307,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+The key was in the drawer where the light comes in — the one that Eco missed by a single wing.
+
+*La llave estaba en el cajón donde entra la luz: el que Eco erró por una sola ala.*
+
 ### Objetivos
 Relativos con *where / who* y *the one that…*
 
@@ -434,6 +452,12 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+By the time I reached the keys, the Borrón had already eaten my D. Eco had laughed so much that he had fallen off my shoulder.
+
+*Para cuando llegué a las teclas, el Borrón ya se había comido mi D. Eco se había reído tanto que se había caído de mi hombro.*
+
 ### Objetivos
 Pasado perfecto: *had* + participio.
 
@@ -572,6 +596,12 @@ padre: R05-N04
 precio: 0
 criatura: slime
 ```
+
+### Crónica
+
+How to beat a slime: first, peel off the drops. Then, sweep the floor. Finally, pull the last lever. Never the other way round.
+
+*Cómo vencer a un slime: primero, despegá las gotas. Después, barré el piso. Por último, tirá de la última palanca. Nunca al revés.*
 
 ### Objetivos
 Textos de instrucciones: imperativos y secuencias (jefe).
@@ -714,6 +744,12 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Axón used to walk across the mountain every morning. He didn't use to sleep. Then he slept for a hundred years.
+
+*Axón cruzaba la montaña todas las mañanas. No dormía nunca. Después durmió cien años.*
+
 ### Objetivos
 *used to* y *didn't use to*.
 
@@ -851,6 +887,12 @@ padre: R05-N06
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+Remember to pop. Stop stacking when the tower is full. I kept reading those two orders until I knew them by heart.
+
+*Acordate de sacar. Dejá de apilar cuando la torre está llena. Seguí leyendo esas dos órdenes hasta que me las supe de memoria.*
 
 ### Objetivos
 Verbo + *-ing* o + *to*: *keep counting, remember to pop*.
@@ -994,6 +1036,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+When the last scale went out, Axón took his first step in a hundred years. The spark Nova gave me still shines on this page.
+
+*Cuando se apagó la última escama, Axón dio su primer paso en cien años. La chispa que me dio Nova todavía brilla en esta página.*
+
 ### Objetivos
 Repaso: condicional cero, relativos, pasado perfecto, *used to* e *-ing / to* (final).
 
@@ -1132,6 +1180,12 @@ padre: R05-N02
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+Six times two is twelve. This drawer has twice as many bottles as that one. Three pages later, Eco was asleep in the margin.
+
+*Seis por dos es doce. Este cajón tiene el doble de botellitas que aquel. Tres páginas después, Eco dormía en el margen.*
 
 ### Objetivos
 Las cuentas en palabras y *twice as many / half as much*.
@@ -1273,6 +1327,12 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+The next one might be red. It will probably be a circle. Nova was almost always wrong, and she never stopped guessing.
+
+*La próxima puede ser roja. Seguramente va a ser un círculo. Nova se equivocaba casi siempre, y nunca dejó de adivinar.*
+
 ### Objetivos
 Probabilidad: *might, will probably, will definitely*.
 
@@ -1410,6 +1470,12 @@ padre: R05-N06
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+It's higher than fifty, isn't it? Kira never asked real questions. The Oracle hated her, didn't it?
+
+*Es más alto que cincuenta, ¿no? Kira nunca hacía preguntas de verdad. El Oráculo la odiaba, ¿no?*
 
 ### Objetivos
 *Question tags*: *It's high, isn't it?*
@@ -1549,6 +1615,12 @@ padre: R05-N07
 precio: 0
 criatura: skeleton
 ```
+
+### Crónica
+
+At first she couldn't beat the automaton. After a week she was able to knock it down with one blow. Eco couldn't lift a feather, but he cheered the loudest.
+
+*Al principio no podía ganarle al autómata. Después de una semana pudo tirarlo de un solo golpe. Eco no podía levantar ni una pluma, pero festejó más fuerte que nadie.*
 
 ### Objetivos
 Habilidad en pasado: *could / couldn't, was able to*.

@@ -14,6 +14,12 @@ precio: 0
 criatura: slime
 ```
 
+### Crónica
+
+Tesla wrote: "A stranger is going to arrive." Then Bron arrived. Now I'm going to copy every one of Tesla's plans.
+
+*Tesla escribió: «Va a llegar un forastero». Después llegó Bron. Ahora voy a copiar cada uno de los planos de Tesla.*
+
 ### Objetivos
 Futuro con *going to*.
 
@@ -155,6 +161,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+Was Bron going to count every screw? Yes. Was he going to lose any? Not one — except the screw that Eco ate.
+
+*¿Bron iba a contar cada tornillo? Sí. ¿Iba a perder alguno? Ni uno, salvo el que se comió Eco.*
+
 ### Objetivos
 *going to*: negativas y preguntas.
 
@@ -291,6 +303,12 @@ padre: R04-N02
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+If you open all the gates, the dining room will flood. Bron opened them all. The dining room flooded.
+
+*Si abrís todas las compuertas, el comedor se va a inundar. Bron las abrió todas. El comedor se inundó.*
 
 ### Objetivos
 Primer condicional: *If* + presente, *will* + verbo.
@@ -432,6 +450,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+"You will not pass," the Automaton said. I think it will regret it. Bron passed, and I will never forget its face.
+
+*«No vas a pasar», dijo el Autómata. Creo que se va a arrepentir. Bron pasó, y nunca me voy a olvidar de su cara.*
+
 ### Objetivos
 *will* para predecir (jefe).
 
@@ -569,6 +593,12 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+"I'll try it!" I said. It tasted of plums and electricity. I promised Oto I would write the recipe down — and I did.
+
+*«¡Lo pruebo yo!», dije. Sabía a ciruelas y a electricidad. Le prometí a Oto que iba a anotar la receta, y lo hice.*
+
 ### Objetivos
 *will* para decidir, ofrecer y prometer.
 
@@ -704,6 +734,12 @@ padre: R04-N05
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+Lyn was going to win ten prizes. Tesla said it would land on red. It did. I'm going to remember that wheel forever.
+
+*Lyn iba a ganar diez premios. Tesla dijo que iba a caer en rojo. Cayó. Me voy a acordar de esa rueda para siempre.*
 
 ### Objetivos
 *going to* contra *will*.
@@ -844,6 +880,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+When the wood breaks, the net will catch you. Unless you check the boards, you will fall. Bron didn't check them.
+
+*Cuando la madera se rompa, la red te va a atajar. A menos que revises las tablas, te vas a caer. Bron no las revisó.*
+
 ### Objetivos
 *when* y *unless*.
 
@@ -982,6 +1024,12 @@ padre: R04-N07
 precio: 0
 criatura: slime
 ```
+
+### Crónica
+
+I wrote my own plans on the last page: I am going to finish this book, and if the Borrón comes back, I will write it again.
+
+*Escribí mis propios planes en la última página: voy a terminar este libro, y si el Borrón vuelve, lo voy a escribir otra vez.*
 
 ### Objetivos
 Repaso: *going to*, *will* y primer condicional (final).
@@ -1125,6 +1173,12 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+"Could I have two gears, please?" Lyn asked very politely. "Would you like a smaller one?" the window seemed to answer.
+
+*«¿Podría darme dos engranajes, por favor?», preguntó Lyn, muy amable. «¿No preferiría uno más chico?», pareció contestar la ventanilla.*
+
 ### Objetivos
 Cortesía: *Could I have…? Would you like…?*
 
@@ -1261,6 +1315,12 @@ padre: R04-N03
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+This gear isn't as big as that one, Lima said, but it is the same gear. Bron's copies were not as clever as he thought.
+
+*Este engranaje no es tan grande como ese, dijo Lima, pero es el mismo. Las copias de Bron no eran tan astutas como él creía.*
 
 ### Objetivos
 Comparar: *as … as*, *not as … as*, *the same as*.
@@ -1401,6 +1461,12 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Don't stand there, or the nuts will bury you. Don't read the sign too late, or you will laugh like Bron.
+
+*No te pares ahí, o las tuercas te van a tapar. No leas el cartel demasiado tarde, o te vas a reír como Bron.*
+
 ### Objetivos
 Advertencias: *Don't…, or it will…*
 
@@ -1535,6 +1601,12 @@ padre: R04-N07
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+The cyan wrench is his. The bronze one is Oto's. But whose was the paper with the glass seal? Not mine, not yours.
+
+*La llave cian es suya. La de bronce es de Oto. ¿Pero de quién era el papel con el sello de vidrio? No era mío ni tuyo.*
 
 ### Objetivos
 Posesivos: *whose*, *mine, yours, his, hers, ours, theirs*.

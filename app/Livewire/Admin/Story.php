@@ -158,16 +158,8 @@ class Story extends Component
         $course = $this->course();
         $student = $this->viewAs !== '' ? User::where('role', 'student')->find((int) $this->viewAs) : null;
         $chronicles = new Chronicles($student ?? auth()->user(), revealAll: ! $student);
-        $figure = function (string $key) use ($glossary, $course): ?string {
-            $path = $glossary->resolve($key, $course)['figure_path'];
-
-            return $path ? Storage::disk('public')->url($path) : null;
-        };
-        $portrait = function (string $key) use ($glossary, $course): ?string {
-            $path = $glossary->resolve($key, $course)['icon_path'];
-
-            return $path ? Storage::disk('public')->url($path) : null;
-        };
+        $figure = fn (string $key): ?string => Chronicles::speakerImage($key, $course, 'figure');
+        $portrait = fn (string $key): ?string => Chronicles::speakerImage($key, $course, 'portrait');
         // Para «Ver como»: los alumnos que empezaron este curso.
         $students = $course ? User::where('role', 'student')
             ->whereIn('id', NodeUnlock::whereHas('node', fn ($q) => $q->where('course_id', $course->id)->where('type', NodeType::Root))->select('user_id'))

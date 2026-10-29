@@ -14,6 +14,10 @@ precio: 0
 criatura: slime
 ```
 
+### Crónica
+
+Hoy caí adentro de un gigante de bronce y conocí a Nova y a Axón. Axón hace exactamente lo que le decís: **Push! Pull! Open! Close!** Eco no para de decir *on, off, on, off*.
+
 ### Objetivos
 Las órdenes: *push, pull, open, close*; *on / off*.
 
@@ -165,6 +169,10 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+Nova le puso nombre a cada cajón y yo los conté en inglés: **first, second, third… tenth!** Eco se cansó en el quinto.
+
 ### Objetivos
 Los ordinales: *first… tenth*.
 
@@ -313,6 +321,10 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+El Borrón escondió la llave del ojo. La buscamos arriba, abajo y al costado. **It's between the red drawer and the blue drawer!** La encontró Eco.
+
 ### Objetivos
 Dónde está: *up, down, left, right, above, below, next to, between*.
 
@@ -460,6 +472,10 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+Las teclas del gigante son letras. Nova me enseñó a deletrear: **How do you spell Ada? A, D, A!** Eco cantó las letras hasta dormirse.
+
 ### Objetivos
 El alfabeto y *How do you spell it?*
 
@@ -606,6 +622,10 @@ precio: 0
 criatura: slime
 ```
 
+### Crónica
+
+El slime mezcló las órdenes de Axón y yo las puse en orden: **First open, then go in, finally close.** El slime se fue chorreando.
+
 ### Objetivos
 Secuencias: *first, then, next, finally* (jefe).
 
@@ -751,6 +771,10 @@ padre: R05-N05
 precio: 0
 criatura: skeleton
 ```
+
+### Crónica
+
+Las compuertas tienen lucecitas que dicen si están abiertas. **Is it open? No, it isn't.** Esperamos a que la luz cambie, y bajamos.
 
 ### Objetivos
 *Is it open? Yes, it is. / No, it isn't.*; *open / closed, full / empty*.
@@ -901,6 +925,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+La torre de platos es altísima. **The last plate is on top of the tower.** El último que entra es el primero que sale. Lo anoté en grande.
+
 ### Objetivos
 *on top of, under, the top, the bottom, the last one*.
 
@@ -1045,6 +1073,10 @@ padre: R05-N07
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+¡Axón caminó! Nova apagó al dragón y me regaló una chispita. **The fifth page is ready!** Brilla de verdad, mirala.
 
 ### Objetivos
 Repaso: órdenes, ordinales, lugares, alfabeto y secuencias (final).
@@ -1192,6 +1224,10 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+Gheco nos enseñó a sumar con palancas. **Two plus three equals five!** Eco contó con las patitas y le dio seis.
+
 ### Objetivos
 Las cuentas: *plus, minus, times, equals*.
 
@@ -1338,6 +1374,10 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+El ojo de Axón muestra figuras de colores. Adiviné: **a green triangle!** Era un círculo rojo. Mañana adivino mejor.
+
 ### Objetivos
 Los colores y las figuras: *a red circle*.
 
@@ -1483,6 +1523,10 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+El Oráculo solo dice sí o no. Le pregunté **«Is it big?»** y me dijo *yes*. Kira adivinó su número en cuatro preguntas.
+
 ### Objetivos
 Preguntas de sí o no: *Is it…? Can I…?*
 
@@ -1625,6 +1669,10 @@ padre: R05-N07
 precio: 0
 criatura: skeleton
 ```
+
+### Crónica
+
+Kira bajó a visitarnos y me mostró sus cosas: **This is my sword. That is my shield.** Eco señalaba todo: *this, that, this, that*.
 
 ### Objetivos
 *this / that / these / those*.

@@ -14,6 +14,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+The air was so hot that my ink was almost boiling. Kira was at the gate, and she was angry with a door.
+
+*El aire estaba tan caliente que mi tinta casi hervía. Kira estaba en el portón, y estaba enojada con una puerta.*
+
 ### Objetivos
 Pasado de *to be*: *was / were*, *Was…? Were…?*
 
@@ -155,6 +161,12 @@ padre: R02-N01
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+I opened the box, I looked inside, and I waited. Nothing. The Borrón had visited the Forges before me.
+
+*Abrí la caja, miré adentro y esperé. Nada. El Borrón había pasado por las Forjas antes que yo.*
 
 ### Objetivos
 Pasado de los verbos regulares: *-ed* y su pronunciación.
@@ -298,6 +310,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+My pages curled, Eco's feathers smoked, and Kira broke two things before she fixed one. I wrote it all down.
+
+*Mis páginas se enrularon, las plumas de Eco humearon y Kira rompió dos cosas antes de arreglar una. Lo anoté todo.*
+
 ### Objetivos
 Pasado de los verbos irregulares.
 
@@ -440,6 +458,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+I didn't sleep that night. Did the bellows ever stop? No, they didn't. And in the morning Ferrum had no eyebrows.
+
+*No dormí esa noche. ¿Paró alguna vez el fuelle? No. Y a la mañana Ferrum no tenía cejas.*
+
 ### Objetivos
 Pasado: *didn't* + verbo, *Did…?* y respuestas cortas.
 
@@ -580,6 +604,12 @@ padre: R02-N04
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+The Borrón was faster than Eco and darker than the walls. But the Spider was worse than both.
+
+*El Borrón era más rápido que Eco y más oscuro que las paredes. Pero la Araña era peor que los dos.*
 
 ### Objetivos
 Comparativos: *-er than*, *more … than*, *better / worse*.
@@ -723,6 +753,12 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+It was the biggest, darkest thing I had ever seen. It was also the hungriest: it was eating my book.
+
+*Era lo más grande y oscuro que había visto. También lo más hambriento: se estaba comiendo mi libro.*
+
 ### Objetivos
 Superlativos: *the -est*, *the most*, *one of the…* (jefe).
 
@@ -865,6 +901,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+The mines were as dark as my inkpot. Eco wasn't as bright as Hulda's lamp, but he tried.
+
+*Las Minas eran tan oscuras como mi tintero. Eco no brillaba tanto como el farol de Hulda, pero lo intentó.*
+
 ### Objetivos
 *as … as* y *not as … as*.
 
@@ -1003,6 +1045,12 @@ padre: R02-N07
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+Ferrum hit the anvil three times. Kira didn't know what to do. My second chapter turned black and orange.
+
+*Ferrum golpeó el yunque tres veces. Kira no supo qué hacer. Mi segundo capítulo se puso negro y naranja.*
 
 ### Objetivos
 Repaso del pasado y las comparaciones (final).
@@ -1145,6 +1193,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+"Cheaper than anywhere!", Chispa said. It was more expensive, of course. Eco noticed first.
+
+*«¡Más barato que en cualquier lado!», dijo Chispa. Era más caro, claro. Eco se dio cuenta primero.*
+
 ### Objetivos
 *How much…?*, *cheaper / more expensive*, pesos.
 
@@ -1280,6 +1334,12 @@ padre: R02-N04
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+How tall was Eco? Eleven centimetres. How long was his silence after that? Two days.
+
+*¿Cuánto medía Eco? Once centímetros. ¿Cuánto le duró el silencio después? Dos días.*
 
 ### Objetivos
 Medidas: *How long…? How old…?*
@@ -1417,6 +1477,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Why did the miners laugh? Because the jokes were terrible. I returned my wagon on time, but I learned three jokes anyway.
+
+*¿Por qué se reían los mineros? Porque los chistes eran malísimos. Devolví mi vagoneta a tiempo, pero igual aprendí tres chistes.*
+
 ### Objetivos
 *Why…? Because…*, *borrow / return*.
 
@@ -1548,6 +1614,12 @@ padre: R02-N08
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+Dear Bron, the forge is fine and Ferrum is fine. His eyebrows are not. I rewrote the burnt words, and for once he said please.
+
+*Querido Bron: la forja está bien y Ferrum está bien. Sus cejas, no. Reescribí las palabras quemadas y, por una vez, dijo por favor.*
 
 ### Objetivos
 Una carta informal en pasado.

@@ -2,13 +2,9 @@
 
 namespace App\Livewire\Student;
 
-use App\Models\Course;
-use App\Services\Heroes;
 use App\Support\Chronicles as Book;
 use App\Support\Glossary;
 use App\Support\Story;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -31,40 +27,14 @@ class Chronicles extends Component
         $user->forceFill(['chronicles_seen' => (new Book($user))->unlockedCount()])->save();
     }
 
-    /**
-     * La narradora sin imagen en el Diccionario (story.narrator, D106) usa la del protagonista del curso, si
-     * es el mismo personaje: su retrato de la enciclopedia (o su primer aspecto) y su cuerpo entero.
-     */
-    private function narratorImage(string $key, ?Course $course, string $kind): ?string
-    {
-        $hero = $course ? Heroes::protagonistOf($course) : null;
-        if ($key !== 'story.narrator' || ! $hero || Str::lower(app(Glossary::class)->term($key, $course)) !== Str::lower($hero['name'])) {
-            return null;
-        }
-        $file = $kind === 'figure' ? "img/enciclopedia/{$hero['slug']}-cuerpo.webp" : "img/enciclopedia/{$hero['slug']}.webp";
-        if (is_file(public_path($file))) {
-            return asset($file);
-        }
-
-        return $kind === 'portrait' && is_file(public_path("img/protagonistas/{$hero['slug']}/1.webp")) ? Heroes::lookUrl($hero, 1) : null;
-    }
-
     public function render(Glossary $glossary)
     {
         $user = auth()->user();
         $chronicles = new Book($user);
         $courses = $chronicles->courses();
         $course = $courses->firstWhere('slug', $this->book);
-        $figure = function (string $key) use ($glossary, $course): ?string {
-            $path = $glossary->resolve($key, $course)['figure_path'];
-
-            return $path ? Storage::disk('public')->url($path) : $this->narratorImage($key, $course, 'figure');
-        };
-        $portrait = function (string $key) use ($glossary, $course): ?string {
-            $path = $glossary->resolve($key, $course)['icon_path'];
-
-            return $path ? Storage::disk('public')->url($path) : $this->narratorImage($key, $course, 'portrait');
-        };
+        $figure = fn (string $key): ?string => Book::speakerImage($key, $course, 'figure');
+        $portrait = fn (string $key): ?string => Book::speakerImage($key, $course, 'portrait');
 
         $chapters = $course ? $chronicles->book($course) : [];
         $pages = collect($chapters)->flatMap(fn ($chapter) => $chapter['pages']);

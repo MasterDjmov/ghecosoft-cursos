@@ -14,6 +14,10 @@ precio: 0
 criatura: slime
 ```
 
+### Crónica
+
+Hoy subí a la Ciudadela y conocí a Bron y a Tesla. Bron arregló los engranajes uno por uno: **twenty, thirty, forty…** Me dormí antes de que llegara a cien.
+
 ### Objetivos
 Los números grandes: *twenty, thirty… a hundred*.
 
@@ -159,6 +163,10 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+En el almacén conté tornillos con Bron: **There are fifteen screws.** Bueno, catorce: Eco se comió uno. Y un goblin se llevó una bolsa entera.
+
 ### Objetivos
 *How many…? There are…*
 
@@ -299,6 +307,10 @@ padre: R04-N02
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+Bron abrió todas las compuertas y el agua entró al comedor. **The kitchen is wet! The bedroom is wet!** Yo me subí a una silla con el libro.
 
 ### Objetivos
 Los cuartos de la casa: *kitchen, bedroom, bathroom…*
@@ -443,6 +455,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+El Autómata habla al revés, pero ordené sus tarjetas. **Do you like puzzles? Yes, I do!** Bron le ganó, y Eco cantó toda la tarde.
+
 ### Objetivos
 Ordenar frases y *Do you like…?* (jefe).
 
@@ -581,6 +597,10 @@ padre: R04-N04
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+Oto cocinó un guiso violeta. **I like bread. I don't like purple stew.** Eco piensa lo mismo. Igual le dije a Oto que estaba rico (un poquito).
 
 ### Objetivos
 La comida y *I like / I don't like*.
@@ -723,6 +743,10 @@ padre: R04-N05
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+En la feria me compré una manzana acaramelada. **How much is it? Ten coins.** Lyn ganó en la rueda, y Tesla sabía por qué.
 
 ### Objetivos
 Comprar: *How much is it?*
@@ -869,6 +893,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Bron se cayó del andamio, ¡pero había una red! **There is a net under the tower.** Tesla le regaló un amuleto chiquito con forma de red.
+
 ### Objetivos
 Los muebles y *There is a… in my room*.
 
@@ -1009,6 +1037,10 @@ padre: R04-N07
 precio: 0
 criatura: slime
 ```
+
+### Crónica
+
+Bron dibujó una llave para todas las tuercas, y Tesla me dio una medalla de engranaje. **The fourth page is ready!** Brilla como el latón.
 
 ### Objetivos
 Repaso: números, casa, comida, *like* y *How much* (final).
@@ -1152,6 +1184,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Lyn pidió **«Can I have two gears, please?»** y le dieron un engranaje chiquito. Me reí tanto que se me cayó el libro.
+
 ### Objetivos
 Pedir: *Can I have…, please?*
 
@@ -1293,6 +1329,10 @@ precio: 0
 criatura: orc
 ```
 
+### Crónica
+
+Lima tiene dos engranajes: uno grande y uno chico. **They are different… no, they are the same!** Bron escondía piezas detrás de la espalda.
+
 ### Objetivos
 *big / small / long / short*, *the same / different*.
 
@@ -1433,6 +1473,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+La cinta no paraba y las tuercas tapaban a Bron. Le grité **«Stop!»** y tiré de la palanca roja. Eco empujó conmigo.
+
 ### Objetivos
 Órdenes cortas: *Stop! Go! Faster! Slower!*
 
@@ -1570,6 +1614,10 @@ padre: R04-N07
 precio: 0
 criatura: goblin
 ```
+
+### Crónica
+
+Encontramos una llave que no era de Bron. **Whose is it? It isn't his. Is it yours?** Y un papel viejo con un sello de vidrio. ¿De quién será?
 
 ### Objetivos
 *Whose is it?* y *mine / yours*.

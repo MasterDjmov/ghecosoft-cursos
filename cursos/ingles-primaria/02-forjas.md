@@ -14,6 +14,10 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+Hoy conocí a Kira. Es alta y fuerte, y le gritaba a un portón que no se abría. **She is strong. The gate is closed.** Al final se abrió… de una patada.
+
 ### Objetivos
 *he / she*, *open / closed*, *tall / small / strong*.
 
@@ -161,6 +165,10 @@ precio: 0
 criatura: orc
 ```
 
+### Crónica
+
+Abrí una caja y estaba vacía: el Borrón se había comido la etiqueta. **The box is empty!** Eco lo buscó en todas las cajas, las llenas y las vacías.
+
 ### Objetivos
 *full / empty*, *heavy / light*, *old / new*.
 
@@ -307,6 +315,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Al lado del horno hace tanto calor que a Eco le humean las plumas. **Is it hot? Yes, it is!** Le di agua fría y se quedó contento.
+
 ### Objetivos
 *hot / cold / warm* y la pregunta *Is it…?*
 
@@ -447,6 +459,10 @@ padre: R02-N03
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+Hoy trabajé en la Forja con un delantal, guantes enormes y el sombrero de Kira. **This is Kira's hat.** A Eco le quedó un casco chiquitito.
 
 ### Objetivos
 La ropa (*hat, jacket, scarf*) y el posesivo *'s*.
@@ -593,6 +609,10 @@ padre: R02-N04
 precio: 0
 criatura: slime
 ```
+
+### Crónica
+
+Ferrum no tiene cejas: se le quemaron en el horno. Eco le miró la cara un rato largo: **eyes, nose, mouth… no eyebrows!** Ferrum se rió fuerte.
 
 ### Objetivos
 Las partes del cuerpo: *face, head, eyes, nose, mouth, arms, legs*.
@@ -741,6 +761,10 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+El gólem tenía al Borrón adentro y se comía las palabras. Le devolvimos una por una: **It has a head. It has two arms.** Tenía miedo, pero Eco no.
+
 ### Objetivos
 Describir con *It has…* (jefe).
 
@@ -885,6 +909,10 @@ padre: R02-N06
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+Eco puede volar y yo no. Pero yo puedo escribir y Eco no. **I can write. Eco can fly.** Kira dice que ella puede las dos cosas. Mentira.
 
 ### Objetivos
 *can / can't* y *Can you…?*
@@ -1031,6 +1059,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Ferrum me dio una llavecita de hierro. **The second page is ready!** Es negra y naranja, como el fuego de las Forjas.
+
 ### Objetivos
 Repaso de la temporada (final).
 
@@ -1173,6 +1205,10 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+Le compré a Chispa una lapicera nueva. **How many coins? Two!** Eco contó con el pico: *one, two*. Creo que la balanza hace trampa.
+
 ### Objetivos
 Contar: *How many?*, *plus / minus*, *half*.
 
@@ -1310,6 +1346,10 @@ padre: R02-N04
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+Tizón mide todo, ¡hasta a Eco! Dice que tiene la cola corta. **Eco is small. His tail is short.** Eco está enojado y no le habla.
 
 ### Objetivos
 Opuestos: *long / short*, *tall*.
@@ -1451,6 +1491,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Hulda cuenta chistes de adivinanzas: **What has a face but no eyes?** ¡Un reloj! Eco no lo entendió, pero se rió igual.
+
 ### Objetivos
 Adivinanzas con *What has…?*
 
@@ -1590,6 +1634,10 @@ padre: R02-N08
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+La carta de Bron llegó con una esquina quemada. Escribí las palabras que faltaban: **Dear Ferrum, how are you?** Ferrum me dijo gracias.
 
 ### Objetivos
 Una carta: *Dear…*, *How are you?*, *Love…*

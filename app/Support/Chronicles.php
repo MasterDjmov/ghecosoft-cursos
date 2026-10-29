@@ -14,9 +14,11 @@ use App\Models\Practice;
 use App\Models\StoryFragment;
 use App\Models\Submission;
 use App\Models\User;
+use App\Services\Heroes;
 use App\Services\TreeAccess;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -142,6 +144,30 @@ class Chronicles
     public static function narrator(Course $course): string
     {
         return app(Glossary::class)->source('story.narrator', $course) === 'course' ? 'story.narrator' : 'mentor.name';
+    }
+
+    /**
+     * El retrato ('portrait') o el cuerpo entero ('figure') de quien habla en una página: el del Diccionario y, si
+     * la narradora (story.narrator, D106) no tiene, el del protagonista del curso cuando es el mismo personaje.
+     */
+    public static function speakerImage(string $key, ?Course $course, string $kind): ?string
+    {
+        $glossary = app(Glossary::class);
+        $path = $glossary->resolve($key, $course)[$kind === 'figure' ? 'figure_path' : 'icon_path'];
+        if ($path) {
+            return Storage::disk('public')->url($path);
+        }
+
+        $hero = $course ? Heroes::protagonistOf($course) : null;
+        if ($key !== 'story.narrator' || ! $hero || Str::lower($glossary->term($key, $course)) !== Str::lower($hero['name'])) {
+            return null;
+        }
+        $file = $kind === 'figure' ? "img/enciclopedia/{$hero['slug']}-cuerpo.webp" : "img/enciclopedia/{$hero['slug']}.webp";
+        if (is_file(public_path($file))) {
+            return asset($file);
+        }
+
+        return $kind === 'portrait' && is_file(public_path("img/protagonistas/{$hero['slug']}/1.webp")) ? Heroes::lookUrl($hero, 1) : null;
     }
 
     /** Una página por cada nodo que tiene crónica. Se lee al completarlo. */

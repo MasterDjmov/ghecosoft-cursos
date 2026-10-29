@@ -1,11 +1,13 @@
 <?php
 
 use App\Livewire\Admin\Story;
+use App\Models\GlossaryTerm;
 use App\Models\StoryFragment;
 use App\Models\User;
 use App\Services\PracticeSubmitter;
 use App\Services\SubmissionReviewer;
 use App\Support\Chronicles;
+use App\Support\Glossary;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
@@ -77,4 +79,17 @@ test('solo el administrador entra a la sala de guion', function () {
     $this->actingAs(User::factory()->teacher()->create())->get(route('admin.story'))->assertRedirect();
     $this->actingAs($this->student)->get(route('admin.story'))->assertRedirect();
     $this->actingAs($this->admin)->get(route('admin.story'))->assertOk()->assertSee('Se llega aprendiendo');
+});
+
+test('la narradora de un curso de inglés sale con el retrato de su protagonista (D106)', function () {
+    ['course' => $course, 'root' => $root] = makeCourse(['slug' => 'ingles-primaria', 'language' => 'english']);
+    $root->update(['chronicle' => 'Hoy conocí a Eco.']);
+    GlossaryTerm::create(['key' => 'story.narrator', 'course_id' => $course->id, 'singular' => 'Ada', 'plural' => 'Ada', 'gender' => 'f']);
+    Glossary::flush($course->id);
+
+    expect(Chronicles::speakerImage('story.narrator', $course, 'portrait'))->toEndWith('img/enciclopedia/ada.webp')
+        ->and(Chronicles::speakerImage('story.narrator', $course, 'figure'))->toEndWith('img/enciclopedia/ada-cuerpo.webp');
+
+    Livewire::actingAs($this->admin)->test(Story::class, ['courseSlug' => $course->slug])
+        ->assertSee('Hoy conocí a Eco.')->assertSee('img/enciclopedia/ada.webp');
 });

@@ -14,6 +14,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Hoy llegué al Puerto y conocí a Nilo, que corría detrás de una carta. Le dije **«Good evening!»** y él me contestó *«Hello!»* a los gritos, sin parar de correr.
+
 ### Objetivos
 Saludos: *good morning / evening / night*, *goodbye*.
 
@@ -155,6 +159,10 @@ padre: R03-N01
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+Eco se escondió adentro de una caja y Pico se sentó arriba. **Where is Eco? In the box!** Nilo no podía cargar los cajones de la risa.
 
 ### Objetivos
 *in, on, under, next to* y *Where is…?*
@@ -301,6 +309,10 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+Nilo tenía dos cartas para la familia de Olmo y las mezcló. **This is his mother. This is her grandmother.** Elefa le mostró tres dedos y él se acordó.
+
 ### Objetivos
 La familia: *mother, father, sister, brother*; *This is my…*, *his / her*.
 
@@ -444,6 +456,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+La sirena canta mentiras, pero Eco cantó más fuerte. **She has got a long tail. She hasn't got a good song!** Nilo remó y nos escapamos.
+
 ### Objetivos
 *have got / has got* para describir (jefe).
 
@@ -586,6 +602,10 @@ padre: R03-N04
 precio: 0
 criatura: skeleton
 ```
+
+### Crónica
+
+Nilo se olvida de los nombres. Iara le dio una galletita con el suyo: **«What's her name? Iara!»** Eco se comió una miguita.
 
 ### Objetivos
 *What's her name?* y los días; *morning, afternoon, evening*.
@@ -736,6 +756,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Fermín encuentra cualquier ficha con los ojos cerrados. Le pregunté: **«Have you got a secret?»** —**Yes, I have** —me dijo, y se rió bajito.
+
 ### Objetivos
 *Have you got…? Yes, I have. / No, I haven't.*
 
@@ -877,6 +901,10 @@ padre: R03-N06
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+Afuera había tormenta y encontramos una ficha vieja con un faro apagado. **It's rainy and windy.** Eco se escondió debajo de mi bufanda.
 
 ### Objetivos
 El clima: *It's rainy, windy, sunny, cold*.
@@ -1025,6 +1053,10 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+¡El faro está prendido otra vez! Elefa me puso su sello. **The third page is ready!** Tiene cuatro colores, como la luz del faro.
+
 ### Objetivos
 Repaso y escribir sobre la familia (final).
 
@@ -1164,6 +1196,10 @@ padre: R03-N02
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+Pico le roba las palabras a Eco como si fueran migas. **Seagulls can fly. Pico can steal!** Eco lo persiguió por todo el muelle.
 
 ### Objetivos
 Animales del puerto y *can*.
@@ -1306,6 +1342,10 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Ayudé a Iara a repartir cartas en los casilleros de colores. **Where do you live? Number twelve!** Eco salió volando del casillero trece.
+
 ### Objetivos
 Números y la dirección: *Where do you live?*
 
@@ -1442,6 +1482,10 @@ padre: R03-N05
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+Nilo dijo **«Turn right!»** y yo señalé a la izquierda. El carro de pescado se fue derecho, claro. Mañana practico izquierda y derecha.
 
 ### Objetivos
 Indicaciones: *Stop! Turn left! Go straight!*
@@ -1584,6 +1628,10 @@ padre: R03-N07
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+En el libro gigante, una sola línea no estaba tachada: **«A letter, for whoever arrives.»** ¿Para quién será? Me quedé sin palabras.
 
 ### Objetivos
 Escribir una carta: *Dear…*, *Who is it for?*

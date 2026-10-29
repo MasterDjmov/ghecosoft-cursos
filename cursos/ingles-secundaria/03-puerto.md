@@ -14,6 +14,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+I'm reading my old notes, and I'm smiling. I'm not walking down that path anymore, but I'm hearing the sea again.
+
+*Estoy leyendo mis notas viejas y sonrío. Ya no estoy bajando por ese sendero, pero vuelvo a escuchar el mar.*
+
 ### Objetivos
 Presente continuo: *I'm walking*.
 
@@ -155,6 +161,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+Is Eco hiding? Yes, he is. Is Pico helping? No, he isn't. Is Nilo laughing at us? Of course he is.
+
+*¿Eco se está escondiendo? Sí. ¿Pico está ayudando? No. ¿Nilo se está riendo de nosotros? Claro que sí.*
+
 ### Objetivos
 Presente continuo: negativas, preguntas y respuestas cortas.
 
@@ -292,6 +304,12 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+Nilo usually checks a letter once. Today he is checking it twice, because Elefa is watching.
+
+*Nilo por lo general revisa una carta una vez. Hoy la está revisando dos veces, porque Elefa lo está mirando.*
+
 ### Objetivos
 Presente simple contra presente continuo.
 
@@ -427,6 +445,12 @@ padre: R03-N03
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+What is the siren singing? Lies. Why is Nilo not rowing? Because he is laughing too much.
+
+*¿Qué está cantando la sirena? Mentiras. ¿Por qué Nilo no está remando? Porque se está riendo demasiado.*
 
 ### Objetivos
 *Wh-questions* en presente continuo (jefe).
@@ -567,6 +591,12 @@ precio: 0
 criatura: skeleton
 ```
 
+### Crónica
+
+Nilo doesn't remember names, but he wants to. I think the cookie works. Iara knows it works.
+
+*Nilo no se acuerda de los nombres, pero quiere. Creo que la galletita funciona. Iara sabe que funciona.*
+
 ### Objetivos
 Verbos de estado: *know, want, think, remember*.
 
@@ -704,6 +734,12 @@ padre: R03-N05
 precio: 0
 criatura: orc
 ```
+
+### Crónica
+
+Fermín doesn't remember any card, but he finds them all. How much ink did he use? A lot. How many secrets? Some.
+
+*Fermín no recuerda ninguna ficha, pero las encuentra todas. ¿Cuánta tinta usó? Mucha. ¿Cuántos secretos? Algunos.*
 
 ### Objetivos
 *some / any* y *How much / How many*.
@@ -845,6 +881,12 @@ precio: 0
 criatura: ogre
 ```
 
+### Crónica
+
+While the rain was falling, I was reading the yellow card. When the lightning flashed, Eco was hiding under my scarf.
+
+*Mientras caía la lluvia, yo leía la ficha amarilla. Cuando cayó el relámpago, Eco se escondía debajo de mi bufanda.*
+
 ### Objetivos
 Pasado continuo con *when / while*.
 
@@ -983,6 +1025,12 @@ precio: 0
 criatura: troll
 ```
 
+### Crónica
+
+The lighthouse is shining again, and I'm writing the third chapter. Four years ago I was crying. Today I'm crying again.
+
+*El faro vuelve a brillar, y estoy escribiendo el tercer capítulo. Hace cuatro años lloraba. Hoy vuelvo a llorar.*
+
 ### Objetivos
 Repaso: presente continuo, preguntas y pasado continuo (final).
 
@@ -1120,6 +1168,12 @@ precio: 0
 criatura: goblin
 ```
 
+### Crónica
+
+Pico always steals words, but today he is stealing my favourite one: "thank you".
+
+*Pico siempre roba palabras, pero hoy me está robando mi preferida: «gracias».*
+
 ### Objetivos
 Describir: continuo contra simple.
 
@@ -1254,6 +1308,12 @@ padre: R03-N03
 precio: 0
 criatura: skeleton
 ```
+
+### Crónica
+
+Where does Iara put the blue letters? In the blue doors. Where does Eco sleep? In door number thirteen.
+
+*¿Dónde pone Iara las cartas azules? En las puertas azules. ¿Dónde duerme Eco? En la puerta número trece.*
 
 ### Objetivos
 Direcciones y números largos: *Where does…?*
@@ -1390,6 +1450,12 @@ padre: R03-N05
 precio: 0
 criatura: ogre
 ```
+
+### Crónica
+
+Turn left. Go straight. Stop! Don't follow my directions: the fish cart did, and it ended up in the sea.
+
+*Doblá a la izquierda. Seguí derecho. ¡Pará! No sigas mis indicaciones: el carro de pescado las siguió y terminó en el mar.*
 
 ### Objetivos
 Dar indicaciones con imperativos.
@@ -1529,6 +1595,12 @@ padre: R03-N07
 precio: 0
 criatura: troll
 ```
+
+### Crónica
+
+Could you tell me who the letter is for? Nobody could. I still wonder who will read it.
+
+*¿Podrías decirme para quién es la carta? Nadie pudo. Todavía me pregunto quién la va a leer.*
 
 ### Objetivos
 Una nota formal y las preguntas indirectas.

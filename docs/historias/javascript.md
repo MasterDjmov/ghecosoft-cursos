@@ -160,9 +160,13 @@ Salieron al escribir la Clase 0 y los Puestos de Juegos (R01). Les faltan la fic
 | **el Fantasma Undefined** | jefe de R02 | una sábana vieja, transparente y celeste, con dos ojos huecos y tristes, sin boca; borra los nombres. Era el ayudante del Vidriero; al vencerlo se vuelve el **Farol del Fantasma** (ítem) |
 | **Hilván** | el Teatro del Titiritero (R03) | el titiritero de § 5: joven y delgado, dedos larguísimos, chaleco de terciopelo violeta abotonado, camisa de mangas largas, hilos dorados enredados en los dedos. Sus títeres: Pipo y Pepa (payasos), Lola (bailarina), Chispín (dragoncito verde), Brasa (dragón mayor rojo) y Mini Nima (arquera de madera con trenza de lana) |
 | **el Títere sin Hilos (Ébano)** | jefe de R03 | un títere grande de madera oscura que perdió sus hilos («perdió su this»); al vencerlo dice su nombre, Ébano, y deja el **Hilo de Oro** (ítem) |
+| **Saeta** | la Torre de las Flechas (R04) | arquera mensajera vieja, pelo blanco en un rodete, capa gris cerrada, guantes de cuero gastados y carcaj de flechas de luz; seca y exigente, le enseña a Nima a esperar |
+| **el Troll de las Respuestas Cruzadas** | jefe de R04 | troll gordo de pelo enredado como un nido de hilos, chaleco remendado, sin armas; cruza las flechas. Al vencerlo se va hacia **la Niebla** (donde nunca llega ninguna flecha: queda como pregunta) y deja la **Flecha de Regreso** (ítem) |
+| **Nilo** (cruce con PHP) | R04-N04 y el jefe | atrapa las flechas en el Puerto; al final le cuenta a Nima que en el Puerto «llegó hace mucho un papel con su nombre» (¿la carta *para quien llegue* de Elefa?) |
 
 **Los ítems que ya se nombran** (van a `GameItems` con su imagen en la fase 4):
 - la **Ficha del Goblin**, que da el jefe de R01;
 - el **Farol del Fantasma**, que da el jefe de R02;
+- la **Flecha de Regreso**, que da el jefe de R04;
 - el **Hilo de Oro**, que da el jefe de R03 (el Títere sin Hilos se llamaba así en § 3; queda como alias del jefe);
 - el **farol dorado congelado** que Lumina guarda para más adelante (R01-N06-P6). Por ahora es solo de la historia.

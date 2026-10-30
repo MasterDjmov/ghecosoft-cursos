@@ -1,4 +1,4 @@
-# Crónicas en Inglés · Temporada del Imperio (Zed) — propuesta (2026-10-21), a revisar
+# Crónicas en Inglés · Temporada del Imperio (Zed) — temporada 7, escrita el 2026-10-30 con los cambios de ingles-cronicas.md § 2
 
 > **Ojo (2026-10-28):** el Gólem quedó como temporada 5 y en Secundaria ya enseña los **relativos** y *used to*. Las ramas *The Mould Workshop* y *The Academy Archive* de abajo tienen que cambiar de gramática (por ejemplo, la voz pasiva en presente y *would* para costumbres del pasado), y el Imperio pasa a ser la temporada 7.
 
@@ -80,6 +80,8 @@ Java tiene hechas las escenas de la Clase 0, R01 y R02 (144 de 326, 2026-10-21).
 | **The Academy Archive** | episodio 7 | *used to*: *The traveller used to sign with a stained-glass window.* |
 
 ## 4. Lo que hay que hacer para cargarla
+
+**Hecho (2026-10-30):** `cursos/ingles-*/07-imperio.md` (con los cambios de [ingles-cronicas.md](ingles-cronicas.md) § 2 y las crónicas de Ada), el epílogo `story.course_completed` de los dos cursos, las 4 escenas del final y las 24 portadas.
 
 1. El docente revisa este plan (después del Valle, o junto).
 2. Generar las 4 escenas del final y las 24 portadas en el proyecto de Java (`IMPERIO-01` a `12`, `IMPERIO-S01` a `S12`), con las hojas de Ada recreadas ahí.

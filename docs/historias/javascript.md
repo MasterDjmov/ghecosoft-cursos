@@ -187,3 +187,35 @@ Lo que sigue abierto:
 - **el papel con el nombre de Nima** que llegó hace mucho al Puerto, según Nilo.
 
 Quedan para TypeScript o para la Senda del Archivo de Sila.
+
+## 14. Las Sendas escritas (2026-10-30)
+
+Son las cinco de [JAVASCRIPT-TYPESCRIPT.md](../JAVASCRIPT-TYPESCRIPT.md) § 11. Al personaje que ya existe en otro curso se lo dibuja igual que allá.
+
+**Los que vienen de otros cursos:**
+
+| Personaje | Senda | Qué hace |
+|---|---|---|
+| Teo y Tesela (HTML) | el Escaparate Vivo | Teo trae el escaparate de los Talleres en un carro, siempre corriendo. Tesela solo aparece en sus cartas |
+| Elefa, Nilo, Iara, Fermín y Pico (PHP) | el Palomar | Elefa pide la ventanilla. Iara anota todo («¿lo anotaste?»). Fermín se equivoca de clave. Pico, la gaviota ladrona, termina posada en el hombro de Nilo |
+| Sila (Python) | el Archivo | manda las fichas que desordenó la niebla, en una paloma |
+| Nova y Axón (Ensamblador) | el Tablero | Nova sube por las chimeneas y confirma que la flecha de Nima la despertó. Axón habla por la chimenea y, al final, dice «Gracias» |
+
+**Los nuevos.** Les faltan la ficha y las imágenes (fase 4). Todos llevan ropa opaca y cerrada, y no dan miedo.
+
+| Personaje | Dónde | Cómo es |
+|---|---|---|
+| **la Polilla de los Formularios** | jefa de S01 | una polilla gris enorme y peluda, con las alas llenas de las letras que se comió. Al final se queda posada en el farolito de Lumina |
+| **el Ratón de la Niebla** | jefe de S03 | un ratón gris, mojado, con gotitas en los bigotes y los ojos blancos como la niebla. Se achica a medida que el Archivo se ordena, y termina en el bolsillo de Nima, con los ojos negros |
+| **la Herrumbre** | jefa de S04 | una mancha roja y viva que se arrastra por las palancas del Gólem y las traba. Se seca y se cae en escamas cuando alguien mira dónde se trabó |
+| **el Gran Pato de Hojalata** | jefe de S05 | un pato de hojalata gigante, gris plateado, con una llave de cuerda en la espalda y cinco abolladuras viejas (el Vidriero lo volteó hace treinta años). Grazna como una trompeta |
+
+**Destello** aparece en el Puesto de Tiro: Nima lo llama una vez por ronda.
+
+**Los hilos que siguen** (todos apuntan a TypeScript):
+- **La Niebla:**
+  - desordenó el Archivo del Valle (S03);
+  - las palomas no saben llegar a ella (S02).
+- **La ficha número 15 del Archivo:** *«El Vidriero, nivel 9, región: Mirador de las Constelaciones»* (S03).
+- **El papelito del Vidriero:** estaba dentro del Gran Pato y dice *«Para quien lo voltee más rápido que yo: mirá las estrellas»* (S05).
+

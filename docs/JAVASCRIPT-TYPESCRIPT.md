@@ -163,7 +163,7 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
 |---|---|---|
 | 1 | El ejecutor de JS (consola, página, lienzo, Puerto simulado, topes) con sus tests de seguridad | ejecutar código en un nodo de prueba |
 | 2 | El curso de JS, R00 y R01 (texto, micro-misiones, `probar.mjs`), con la Clase 0 en producción como Próximamente | la Clase 0 y los Puestos |
-| 3 | JS, R02 a R05 | todo el curso, con la simulación |
+| 3 | JS, R02 a R05 (hecha) y las cinco Sendas (hechas, § 11) | todo el curso, con la simulación |
 | 4 | Imágenes de JS: proyecto de Stitch, logo, moneda, gente, jefes, escenas, ítems y mapa; juego, enciclopedia y landing | publicarlo |
 | 5 | El compilador de TypeScript en el navegador (micro-misiones de tipo Compilador) | errores de tipos en español |
 | 6 | El curso de TS completo | todo el curso |
@@ -207,3 +207,25 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
 | **El Puesto de Tiro** | (juego) | un juego de tiro en canvas con Destello: puntaje, niveles y récord en `localStorage` |
 
 6. **Proyectos:** **solo micro-misiones**, como Ensamblador. Las que vienen de una misión pagan fichas (`micromisiones_completan: si`) y no hay entregas que corrija el docente.
+
+## 11. Las Sendas, escritas (2026-10-30)
+
+El docente dijo que siga armando todo en local, y que el curso de JavaScript se sube **entero** cuando esté listo (con las imágenes). Las cinco Sendas de § 10 quedaron escritas tal cual se propusieron. Si alguna no le gusta, se cambia o se saca: no cuentan para terminar el curso.
+
+Cada una tiene 4 nodos y 5 micro-misiones por nodo (100 en total, todas comprobadas con `probar.mjs`). La entrada cuesta 3 comodines y los nodos de adentro, 10 fichas.
+
+| Senda | Brota de | Nodos | Jefe | Insignia |
+|---|---|---|---|---|
+| S01 · El Escaparate Vivo (HTML) | R02-N07 (después de la página) | el menú que se abre, la galería, los temas, el formulario | la Polilla de los Formularios | Vidriera Viva |
+| S02 · El Palomar (PHP) | R04-N08 (después de `fetch`) | la ventanilla (GET y XSS), escribir (POST y 422), corregir y borrar (PATCH y DELETE), la sesión | Pico y la sesión (cookie HttpOnly) | Palomera del Puerto |
+| S03 · El Archivo de Sila (Python) | R01-N08 (después de los fundamentos) | buscar, ordenar, agrupar y contar, limpiar los datos | el Ratón de la Niebla | Archivista de la Feria |
+| S04 · El Tablero del Gólem (Ensamblador) | R03-N07 (después de las clases) | los registros, las órdenes escritas, banderas y saltos, el paso a paso en la página | la Herrumbre | Maestra del Tablero |
+| S05 · El Puesto de Tiro (juego) | R05-N07 (el final) | blancos y puntería, blancos que se mueven, la ronda (tiempo, combos, niveles, Destello), el juego entero | el Gran Pato de Hojalata | Tiradora de la Feria |
+
+Lo que se agregó a la caja para escribirlas:
+- **El Puerto:**
+  - `GET`, `PATCH` y `DELETE` de `/puerto/mensajes/:id`;
+  - las **palomas** (`GET` y `POST /puerto/palomas`), que piden la sesión iniciada y solo vuelan a `Valle`, `Forjas`, `Talleres` y `Puerto`.
+- **Los enlaces `#seccion`:** ya no recargan la caja.
+- **El estado del final** espera los pedidos al Puerto que dejó en vuelo el último evento, como haría el navegador.
+

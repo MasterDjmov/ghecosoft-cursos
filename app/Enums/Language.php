@@ -64,12 +64,13 @@ enum Language: string
      * vista previa en un iframe aislado, sin JavaScript ni red), SQL (SQLite en WebAssembly, en un Web Worker,
      * con una base vacía en memoria en cada ejecución), C (D98: Clang en WebAssembly, el mismo del docente,
      * con una carpeta vacía en memoria), C++ (D100: el mismo Clang con su encabezado precompilado) y PHP (D105:
-     * PHP 8.3 en WebAssembly, el mismo del docente, sin red y con una carpeta vacía en cada ejecución). El resto,
-     * solo quien corrige (D69).
+     * PHP 8.3 en WebAssembly, el mismo del docente, sin red y con una carpeta vacía en cada ejecución) y JavaScript
+     * (D115: en una caja sandbox="allow-scripts" sin mismo origen, sin red y con un mundo virtual: reloj,
+     * temporizadores, cookies, almacenamiento y el Puerto simulado). El resto, solo quien corrige (D69).
      */
     public function runsForStudents(): bool
     {
-        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm], true);
+        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm, self::JavaScript], true);
     }
 
     /**

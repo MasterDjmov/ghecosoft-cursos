@@ -1,5 +1,5 @@
 // Corrección asistida (D73): corre la entrega de un alumno con cada caso (el ejemplo y las pruebas de la
-// práctica) en el navegador del docente —o, en Java, en su compu (D69)— y compara la salida. Es una ayuda
+// práctica) en el navegador del docente (JavaScript en su caja, D115) —o, en Java, en su compu (D69)— y compara la salida. Es una ayuda
 // para corregir: la decisión sigue siendo del docente. El código del alumno nunca se ejecuta en el servidor.
 
 import { normalize } from './compare.js';
@@ -25,6 +25,11 @@ async function runOne(language, code, stdin, options) {
     if (language === 'sql') {
         const { runSql } = await import('./sql.js');
         return runSql(code, { timeout: options.timeout });
+    }
+    if (language === 'javascript') {
+        // D115: en la caja (sin mismo origen, sin red, con el mundo virtual), como el alumno.
+        const { runJavaScript } = await import('./javascript.js');
+        return runJavaScript(code, { stdin, timeout: options.timeout });
     }
     if (language === 'php') {
         const { runPhp } = await import('./php.js');

@@ -76,10 +76,15 @@ class CourseFileParser
         'espanol' => 'translation',
         'palabras' => 'words',
         'ejercicio' => 'checks',
+        // JavaScript (D115): la página de la consigna, los eventos de prueba, qué revisar y lo que ya está guardado.
+        'pagina' => 'page',
+        'eventos' => 'events',
+        'estado' => 'state',
+        'almacenamiento' => 'storage',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */
-    private const CODE_FIELDS = ['example_code', 'sample_input', 'checks', 'expected_output', 'starter_code', 'reference_solution', 'solution'];
+    private const CODE_FIELDS = ['example_code', 'sample_input', 'checks', 'expected_output', 'starter_code', 'reference_solution', 'solution', 'page', 'events', 'state', 'storage'];
 
     private const SEPARATOR = '\s*[·:–—-]\s*';
 

@@ -20,6 +20,44 @@ Hoy **nada ejecuta JavaScript del alumno**. El HTML se dibuja en un `<iframe san
 
 La regla de CLAUDE.md queda igual para el HTML (`sandbox=""` sin nada). Se suma esta excepción, **solo para el ejecutor de JS y TS**, con su test.
 
+### 1 bis. Todo lo que se pueda, simulado (pedido del docente, 2026-10-30) — hecho en la fase 1
+
+Como el tablero del 8086, que simula los registros: el programa del alumno cree que toca cosas de verdad, pero son de mentira, viven solo mientras corre y se borran al terminar. **No toca nada de la compu ni del navegador de la persona.** Está en `resources/js/runners/js-sandbox/world.js`.
+
+| Qué | Cómo se simula |
+|---|---|
+| **El reloj** | `Date`, `performance.now()` y los temporizadores avanzan con el reloj de la caja, que arranca el 2 de marzo de 2026 a las 21 h. Diez segundos de animación se comprueban en un instante y dan siempre lo mismo. |
+| **Temporizadores** | `setTimeout`, `setInterval`, `requestAnimationFrame` (60 cuadros por segundo), `requestIdleCallback` y `AbortSignal.timeout`, con el ajuste de 4 ms de los navegadores. Si al terminar queda alguno andando, se avisa. |
+| **El azar** | `Math.random()` con semilla: la misma ejecución da los mismos números. |
+| **Cookies** | `document.cookie`, con `max-age` y `expires` en el reloj de la caja. Las HttpOnly que pone el Puerto no se ven desde JS, pero viajan en los pedidos, como en un navegador de verdad. |
+| **Almacenamiento** | `localStorage` y `sessionStorage`, con el tope de 5 MB. La consigna los puede traer cargados («la segunda visita»). |
+| **La red** | `fetch` contra el **Puerto de Elefa**, con estas direcciones: `hola`, `puestos` y `puestos/:id`, `heroes`, `clima`, `mensajes` (GET y POST), `lento`, `error`, `roto`, `texto`, `eco` y `fichas?pagina=`. También hay sesión: `login`, `perfil` y `salir`. Con `?demora=` se cambia cuánto tarda y con `?falla=1` falla. `AbortController` funciona. A internet no sale; `XMLHttpRequest`, `WebSocket` y `EventSource` explican que no hay red. |
+| **Ventanitas** | `alert`, `confirm` y `prompt` leen sus respuestas de la Entrada, una por línea. |
+| **El navegador** | portapapeles, ubicación (La Rioja), vibración, notificaciones, sonido (`play()`), `window.open` y `print`: todos quedan anotados en «Avisos». |
+| **Enlaces y formularios** | un enlace no saca de la página, y un formulario sin `preventDefault()` se avisa. |
+| **El lienzo** | se graba lo que se dibuja en cada cuadro: `lienzo: fillRect(58, 10, 20, 20) #ffd400`. |
+| **Los topes** | 5 s en total, un contador en cada bucle y en cada función, y hasta 200 000 temporizadores. Atajar el corte con `try` no lo esquiva. |
+
+**El tablero** (pestaña *Tablero*, debajo del editor) muestra en vivo el reloj, las cookies, los dos almacenamientos, los pedidos al Puerto con su respuesta y los avisos. Es lo que en un navegador real está escondido en las herramientas de desarrollador.
+
+**Cómo se comprueba una micro-misión de página.** La consigna trae tres cosas:
+- su HTML (`page`);
+- los **eventos** de prueba, uno por renglón:
+  - con el mouse: `click #boton`, `click canvas 120 80`, `doble`, `pasar`, `salir`, `mover`;
+  - en los formularios: `escribir #nombre Ana`, `elegir`, `marcar`, `foco`, `enviar form`;
+  - con el teclado: `tecla ArrowUp`, `apretar` y `soltar`;
+  - con el reloj: `esperar 1000`, `cuadros 30`;
+- qué revisar (el **Estado**):
+  - de la página: `#cartel`, `li #`, `.farol @class`, `#nombre @value`, `estilo #f { background-color }`, `título`;
+  - de lo guardado: `cookie nombre`, `cookies`, `local clave`, `session`;
+  - del resto: `lienzo`, `pedidos`, `temporizadores` y `reloj`.
+
+Primero corre la comprobación con el reloj de la caja y, enseguida, la página sigue **en vivo** para que el alumno la toque. La salida que se compara es la consola, más el bloque `── Estado ──`.
+
+**Las pruebas:** `node scripts/js-micro/probar-caja.mjs` corre 54 casos en Chrome sin ventana. Cubren la consola, los errores, los topes, el reloj, el Puerto, las cookies, el almacenamiento, las ventanitas, la página, el lienzo, la seguridad y el modo en vivo.
+
+**Para probarlo:** *Herramientas → La caja de la Feria* (`/herramientas/caja-de-la-feria`). El staff la ve siempre; el alumno, con el abono de un curso de JS. Tiene cinco ejemplos: la consola, el reloj, el Puerto, la página y el lienzo.
+
 **TypeScript:** el compilador oficial (`typescript`, unos 3 MB comprimido, se baja solo la primera vez que hace falta) corre en un Web Worker. Revisa los tipos, muestra los errores con su línea y su explicación en español, y pasa el código a JS para la misma caja. El alumno no instala nada.
 
 ## 2. Las micro-misiones (cómo se comprueban)

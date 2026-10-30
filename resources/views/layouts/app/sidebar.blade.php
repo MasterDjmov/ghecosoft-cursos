@@ -87,8 +87,12 @@
                     </flux:sidebar.group>
                     @endif
                     <flux:sidebar.group heading="Vista del alumno" class="grid">
-                        <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.*')" wire:navigate>
+                        <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.*') && ! request()->routeIs('student.js-tool')" wire:navigate>
                             Mundos
+                        </flux:sidebar.item>
+                        {{-- D115: el staff prueba la caja de JavaScript aunque todavía no haya curso. --}}
+                        <flux:sidebar.item icon="light-bulb" :href="route('student.js-tool')" :current="request()->routeIs('student.js-tool')" wire:navigate data-test="menu-js-tool-staff">
+                            La caja de la Feria
                         </flux:sidebar.item>
                     </flux:sidebar.group>
                 @else
@@ -112,6 +116,12 @@
                         @if (\App\Models\Course::where('language', \App\Enums\Language::Asm)->get()->contains(fn ($c) => auth()->user()->can('useAsmTool', $c)))
                             <flux:sidebar.item icon="cpu-chip" :href="route('student.asm-tool')" :current="request()->routeIs('student.asm-tool')" wire:navigate data-test="menu-asm-tool">
                                 Gólem 8086
+                            </flux:sidebar.item>
+                        @endif
+                        {{-- Herramientas → La caja de la Feria (D115): JavaScript suelto; el staff siempre, el alumno con el abono de un curso de JS. --}}
+                        @if (\App\Livewire\Student\JsTool::allowed(auth()->user()))
+                            <flux:sidebar.item icon="light-bulb" :href="route('student.js-tool')" :current="request()->routeIs('student.js-tool')" wire:navigate data-test="menu-js-tool">
+                                La caja de la Feria
                             </flux:sidebar.item>
                         @endif
                         <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->cv_slug)" target="_blank">

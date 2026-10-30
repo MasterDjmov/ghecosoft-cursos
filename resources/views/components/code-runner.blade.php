@@ -23,6 +23,10 @@
     // Al alumno, si el ejecutor de Java no responde, se le explica cómo instalarlo (al docente, cómo abrirlo).
     $javaHelpUrl = $language === 'java' && ! auth()->user()?->isStaff() ? route('student.java-runner') : null;
     $isHtml = $language === 'html';
+    // JavaScript (D115): la consigna de una micro-misión de página trae su HTML, los eventos y qué revisar (JSON en `checks`).
+    $isJs = $language === 'javascript';
+    $jsMission = $isJs && filled($checks) ? (json_decode((string) $checks, true) ?: ['checks' => (string) $checks]) : [];
+    $jsHasPage = $isJs && (filled($jsMission['page'] ?? null) || str_starts_with(ltrim((string) $code), '<'));
     $barButton = 'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium transition disabled:opacity-50';
 @endphp
 
@@ -35,6 +39,7 @@
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
         'references' => (object) array_filter($references), 'checks' => ($isHtml || $language === 'asm') && filled($checks) ? (string) $checks : null,
+        'jsMission' => (object) $jsMission, 'jsHasPage' => $jsHasPage,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -82,6 +87,8 @@
             @if (filled($checks))
                 <x-html-inspector class="border-t border-outline" :expected="$expected" />
             @endif
+        @elseif ($canRun && $isJs)
+            <x-js-board class="border-t border-outline" />
         @elseif ($canRun && $language === 'asm')
             <x-asm-board class="border-t border-outline" />
         @elseif ($canRun)

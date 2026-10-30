@@ -26,6 +26,7 @@ use App\Support\CourseImport\CourseFileParser;
 use App\Support\CourseImport\ImportReport;
 use App\Support\EnglishExercise;
 use App\Support\Glossary;
+use App\Support\JsMission;
 use App\Support\PracticeReferences;
 use App\Support\TopicCatalog;
 use Illuminate\Database\Eloquent\Model;
@@ -174,6 +175,12 @@ class CourseImporter
                     }
                 } elseif (blank($step['fields']['expected_output'] ?? null)) {
                     $this->report->error("{$step['where']}: la micro-misión {$step['code']} no tiene «Salida esperada»: sin ella no se puede comprobar sola.");
+                }
+                // JavaScript (D115): los eventos y lo guardado al empezar, en renglones que la caja entienda.
+                if (in_array($courseLanguage, [Language::JavaScript, Language::TypeScript], true)) {
+                    foreach (JsMission::problems($step['fields']) as $problem) {
+                        $this->report->error("{$step['where']}: la micro-misión {$step['code']} {$problem}.");
+                    }
                 }
                 // HTML y CSS no imprime nada: sin inspector, la micro-misión no se puede comprobar (D102).
                 if (Str::lower($meta['lenguaje'] ?? '') === Language::Html->value && blank($step['fields']['checks'] ?? null)
@@ -569,6 +576,10 @@ class CourseImporter
             // Ensamblador (D110): la salida esperada lleva debajo el informe del estado, como lo arma el navegador.
             if ($this->course->language === Language::Asm && filled($fields['checks'] ?? null)) {
                 $fields['expected_output'] = AsmState::expected($fields['expected_output'] ?? null, (string) $fields['checks']);
+            }
+            // JavaScript (D115): la página, los eventos, el Estado y lo guardado viajan juntos (JSON) en `checks`.
+            if (in_array($this->course->language, [Language::JavaScript, Language::TypeScript], true)) {
+                $fields['checks'] = JsMission::encode($fields);
             }
             $model->fill([
                 'position' => $index + 1,

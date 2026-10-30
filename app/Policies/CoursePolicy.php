@@ -45,6 +45,16 @@ class CoursePolicy
             && ($user->isStaff() || ($course->is_published && $this->access->hasActiveSubscription($user, $course)));
     }
 
+    /**
+     * Herramientas → La caja de la Feria (D115): JavaScript suelto, para practicar fuera de las micro-misiones. Con el
+     * abono vigente de un curso de JavaScript; el staff, siempre.
+     */
+    public function useJsTool(User $user, Course $course): bool
+    {
+        return $course->language === Language::JavaScript
+            && ($user->isStaff() || ($course->is_published && $this->access->hasActiveSubscription($user, $course)));
+    }
+
     /** El ranking del curso, solo para los que entraron (la Clase 0 de prueba no cuenta, D71). */
     public function viewRanking(User $user, Course $course): bool
     {

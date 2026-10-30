@@ -216,6 +216,22 @@ consultas o marcas.
 - **Salida esperada:** se compara sin espacios al final de cada línea ni líneas vacías al final. Generala ejecutando la solución, no a mano. Lo que el alumno tiene que tipear lleva solo caracteres del teclado: nada de `·`, `—`, `…`, `→` ni comillas tipográficas (en el código inicial ya escrito sí pueden ir).
 - **HTML y CSS (D102):** la página no imprime nada, así que la micro-misión trae un `#### Inspector` con qué revisar, y la salida esperada es el **informe del inspector** (`resources/js/runners/inspector.js`, que lee el código sin ejecutarlo). Los pedidos: `!doctype`; `h1` (el texto de cada uno); `nav a #` (cuántos hay); `img @alt` (el atributo de cada uno); `css .tarjeta { padding }` (el valor de la última regla con ese selector en los `<style>`); `css @media (min-width: 768px) | .grilla { display }`. El informe se genera corriendo el inspector en Chrome con `scripts/micro-misiones/genhtml.py`, nunca a mano.
 - **Ensamblador 8086 (D110):** además de la salida (o en vez de ella) se puede pedir un `#### Estado esperado`: cómo tienen que quedar registros, banderas y memoria **cuando el programa llega a la etiqueta `fin:`** (antes del `mov ax, 4C00h` que apaga). Un pedido por renglón: `AX = 1234h`, `BL = 255`, `ZF = 1`, `[pociones] = 4` (un byte de la variable), `word [vida] = 300`, `AL = 'A'`. El importador lo normaliza (`App\Support\AsmState`) y lo guarda debajo de la salida esperada con el encabezado `── Estado ──`; el tablero del navegador arma el mismo informe y dice qué no coincidió («AX quedó en 0012h; tenía que ser 1234h»). Los cursos con `lenguaje: asm` se comprueban solos, con el árbol de siempre. Antes de importar, `node scripts/asm8086/probar-curso.mjs cursos/ensamblador` corre cada solución y comprueba que el código inicial todavía no la resuelva.
+- **JavaScript (D115):** corre en la caja del navegador (sin red, con el mundo virtual: reloj, temporizadores, cookies, almacenamiento y el Puerto simulado; ver [JAVASCRIPT-TYPESCRIPT.md](JAVASCRIPT-TYPESCRIPT.md) § 1 bis). Una micro-misión de consola es como en Python: la salida de `console.log`. Una **de página** suma, en bloques ``` ```:
+  - `#### Página`: el HTML donde corre el código;
+  - `#### Eventos`: uno por renglón, en orden:
+    - mouse: `click #boton` (o `click canvas 120 80`), `doble`, `pasar`, `salir`, `mover`;
+    - formularios: `escribir #nombre Ana`, `elegir #talle M`, `marcar #acepto`, `foco #x`, `enviar form`;
+    - teclado: `tecla ArrowUp`, `apretar ArrowRight` y `soltar ArrowRight`;
+    - reloj: `esperar 1000`, `cuadros 30`;
+  - `#### Estado`: qué se revisa al final, un pedido por renglón:
+    - de la página, como el inspector: `#cartel`, `li #`, `.farol @class`, `#nombre @value` y `@checked`, `estilo #f { color }`, `título`;
+    - de lo guardado: `cookie nombre`, `cookies`, `local clave` y `local`, `session clave`;
+    - del dibujo: `lienzo` (lo que se dibujó en el último cuadro);
+    - del resto: `pedidos` (los fetch al Puerto), `temporizadores` y `reloj`;
+  - `#### Almacenamiento`: lo que ya está guardado al empezar (`local visitas = 1`, `session x = y`, `cookie nombre = Nima`).
+  - El importador lo junta en un JSON (`App\Support\JsMission`). La salida esperada es la consola y, debajo, `── Estado ──` con el informe.
+  - `#### Entrada` da las respuestas de `prompt` y `confirm`.
+  - Las salidas esperadas se escriben con `node scripts/js-micro/probar.mjs cursos/javascript --fill`, que corre cada solución en la misma caja (en Chrome) y avisa si el código inicial ya la resuelve. Nunca se escriben a mano.
 - **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
 
 ## 6 ter. Micro-misión de inglés (D106)

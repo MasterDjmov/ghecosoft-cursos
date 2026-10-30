@@ -13,7 +13,7 @@ use App\Models\Submission;
 class SubmissionCases
 {
     /** Lenguajes que el docente puede ejecutar al corregir (Python, C/C++ D66, PHP D68, Java D69). */
-    public const LANGUAGES = ['python', 'c', 'cpp', 'php', 'java'];
+    public const LANGUAGES = ['python', 'c', 'cpp', 'php', 'java', 'javascript'];
 
     /** @return list<array{label: string, input: string, expected: string}> */
     public static function for(Submission $submission): array

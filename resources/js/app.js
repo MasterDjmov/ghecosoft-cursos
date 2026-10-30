@@ -245,6 +245,11 @@ document.addEventListener('alpine:init', () => {
         asmFlag: null,
         asmTech: false,
         asmContinuous: false,
+        // JavaScript (D115): el tablero de la caja (reloj, cookies, almacenamiento, pedidos al Puerto), sus notas y la página en vivo.
+        jsBoard: null,
+        jsNotes: [],
+        jsHasPage: Boolean(config.jsHasPage),
+        jsLive: false,
 
         async init() {
             const isHtml = config.language === 'html' && config.runnable !== false;
@@ -303,6 +308,8 @@ document.addEventListener('alpine:init', () => {
                 // SQL: SQLite en WebAssembly, en el navegador (las micro-misiones de SQL de Java).
                 const { runSql } = await import('./runners/sql.js');
                 result = await runSql(this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
+            } else if (config.language === 'javascript') {
+                result = await this.jsRun();
             } else if (config.language === 'php') {
                 // PHP: PHP 8.3 en WebAssembly, en el navegador del docente (D68) y del alumno (D105).
                 const { runPhp } = await import('./runners/php.js');
@@ -333,6 +340,65 @@ document.addEventListener('alpine:init', () => {
                 if (!this.matches && !compiler && !notices) this.lines = compareLines(config.expected, result.output);
             }
             this.running = false;
+        },
+
+        // ---------------- JavaScript: la caja y su mundo virtual (D115)
+
+        async jsRun() {
+            const { runJavaScript } = await import('./runners/javascript.js');
+            const mission = config.jsMission ?? {};
+            this.jsHasPage = Boolean(mission.page) || /^\s*</.test(this.code);
+            this.jsNotes = [];
+            this.jsLive = false;
+            this.status = 'Ejecutando…';
+            await this.$nextTick();
+            const result = await runJavaScript(this.code, {
+                stdin: this.stdin,
+                page: mission.page,
+                events: mission.events,
+                checks: mission.checks,
+                storage: mission.storage,
+                cookies: mission.cookies,
+                port: mission.port,
+                seed: mission.seed,
+                horizon: mission.horizon,
+                timeout: config.timeout,
+                container: this.jsHasPage ? this.$refs.jsPage : null,
+                // Lo que el programa escribe mientras el alumno toca la página (después de comprobar).
+                onLive: (text, board, stopped) => {
+                    if (board) this.jsBoard = board;
+                    if (text) this.output = (this.output && this.output !== '(sin salida)' ? this.output + '\n' : '') + text.replace(/\n+$/, '');
+                    if (stopped) {
+                        this.jsLive = false;
+                        this.error = true;
+                        this.status = 'Se detuvo';
+                        this.output = (this.output ? this.output + '\n' : '') + stopped;
+                    }
+                },
+                onLiveError: (text) => {
+                    this.error = true;
+                    this.output = (this.output && this.output !== '(sin salida)' ? this.output + '\n' : '') + text;
+                },
+            });
+            this.jsBoard = result.board;
+            this.jsNotes = result.notes ?? [];
+            this.jsLive = this.jsHasPage && !result.syntax && !result.timedOut;
+            if (result.line) this.editor?.markLine(result.line);
+            else this.editor?.markLine(null);
+
+            return result;
+        },
+
+        async jsStop() {
+            const { stopCaja } = await import('./runners/javascript.js');
+            stopCaja(this.$refs.jsPage);
+            this.jsLive = false;
+            this.status = 'Detenido';
+        },
+
+        jsBoardBusy() {
+            const b = this.jsBoard;
+            return Boolean(b && (b.cookies.length || b.local.length || b.session.length || b.requests.length || b.notices.length));
         },
 
         async renderHtml() {

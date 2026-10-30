@@ -760,6 +760,32 @@
         if (!event.defaultPrevented) notice('formulario', 'se envió un formulario sin preventDefault(): la página se habría recargado');
     });
 
+    // El sandbox no deja enviar formularios (sin allow-forms), y entonces el navegador ni siquiera dispara «submit».
+    // Se simula el envío: el botón del formulario, Enter en un campo, requestSubmit() y el evento «enviar».
+    function submitForm(form, submitter = null) {
+        form.dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true, submitter }));
+    }
+    define(HTMLFormElement.prototype, 'requestSubmit', function requestSubmit(submitter = null) {
+        submitForm(this, submitter);
+    });
+    define(HTMLFormElement.prototype, 'submit', function submit() {
+        notice('formulario', 'form.submit(): la página se habría recargado (sin pasar por el evento submit)');
+    });
+    const isSubmitter = (el) => el instanceof HTMLButtonElement ? el.type === 'submit' : el instanceof HTMLInputElement && ['submit', 'image'].includes(el.type);
+    document.addEventListener('click', (event) => {
+        const button = event.target instanceof Element ? event.target.closest('button, input') : null;
+        if (event.defaultPrevented || !button || !isSubmitter(button) || !button.form || button.disabled) return;
+        event.preventDefault();
+        submitForm(button.form, button);
+    });
+    document.addEventListener('keydown', (event) => {
+        const field = event.target;
+        if (event.defaultPrevented || event.key !== 'Enter' || !(field instanceof HTMLInputElement) || !field.form) return;
+        if (['button', 'checkbox', 'radio', 'submit', 'reset', 'file', 'image'].includes(field.type)) return;
+        event.preventDefault();
+        submitForm(field.form, field.form.querySelector('button:not([type]), button[type=submit], input[type=submit]'));
+    });
+
     // ───────────────────────────── El lienzo (canvas): lo que se dibuja ─────────────────────────────
 
     const canvasLogs = new Map();
@@ -880,6 +906,15 @@
     };
     const eventProblems = [];
 
+    /** «click canvas 120 80»: si los dos últimos son números, son el punto; el resto es el selector (puede tener espacios). */
+    function withPoint(words) {
+        const n = words.length;
+        if (n >= 3 && /^-?\d+(\.\d+)?$/.test(words[n - 1]) && /^-?\d+(\.\d+)?$/.test(words[n - 2])) {
+            return { selector: words.slice(0, -2).join(' '), x: Number(words[n - 2]), y: Number(words[n - 1]) };
+        }
+        return { selector: words.join(' ') };
+    }
+
     async function runEvent(line) {
         const [verb, ...rest] = squish(line).split(' ');
         const action = verb.toLowerCase();
@@ -899,21 +934,22 @@
 
         switch (action) {
             case 'click': {
-                const el = target(rest[0]);
+                const { selector, x, y } = withPoint(rest);
+                const el = target(selector);
                 if (!el) break;
-                if (rest.length >= 3) {
-                    mouse(el, 'mousedown', rest[1], rest[2]);
-                    mouse(el, 'mouseup', rest[1], rest[2]);
-                    mouse(el, 'click', rest[1], rest[2]);
+                if (x !== undefined) {
+                    mouse(el, 'mousedown', x, y);
+                    mouse(el, 'mouseup', x, y);
+                    mouse(el, 'click', x, y);
                 } else {
                     el.click();
                 }
                 break;
             }
-            case 'doble': { const el = target(rest[0]); if (el) mouse(el, 'dblclick'); break; }
-            case 'pasar': { const el = target(rest[0]); if (el) { mouse(el, 'mouseover'); mouse(el, 'mouseenter'); } break; }
-            case 'salir': { const el = target(rest[0]); if (el) { mouse(el, 'mouseout'); mouse(el, 'mouseleave'); } break; }
-            case 'mover': { const el = target(rest[0]); if (el) mouse(el, 'mousemove', rest[1], rest[2]); break; }
+            case 'doble': { const el = target(rest.join(' ')); if (el) mouse(el, 'dblclick'); break; }
+            case 'pasar': { const el = target(rest.join(' ')); if (el) { mouse(el, 'mouseover'); mouse(el, 'mouseenter'); } break; }
+            case 'salir': { const el = target(rest.join(' ')); if (el) { mouse(el, 'mouseout'); mouse(el, 'mouseleave'); } break; }
+            case 'mover': { const { selector, x, y } = withPoint(rest); const el = target(selector); if (el) mouse(el, 'mousemove', x, y); break; }
             case 'escribir': {
                 const el = target(rest[0]);
                 if (!el) break;
@@ -931,11 +967,12 @@
                 el.dispatchEvent(new Event('change', { bubbles: true }));
                 break;
             }
-            case 'marcar': { const el = target(rest[0]); if (el) el.click(); break; }
-            case 'foco': { const el = target(rest[0]); if (el) el.focus(); break; }
+            case 'marcar': { const el = target(rest.join(' ')); if (el) el.click(); break; }
+            case 'foco': { const el = target(rest.join(' ')); if (el) el.focus(); break; }
             case 'enviar': {
-                const el = target(rest[0]);
-                if (el) el.dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true }));
+                const el = target(rest.join(' '));
+                const form = el?.closest('form') ?? el;
+                if (form) submitForm(form);
                 break;
             }
             case 'tecla': key('keydown', rest[0] ?? ''); key('keyup', rest[0] ?? ''); break;

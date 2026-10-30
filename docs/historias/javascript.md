@@ -158,8 +158,11 @@ Salieron al escribir la Clase 0 y los Puestos de Juegos (R01). Les faltan la fic
 | **Don Tano** | la esquina del organito (R01-N07) | el organillero: abuelo de sombrero de copa gastado, bigote blanco grande y saco largo abotonado |
 | **Lucio** | la Avenida de los Faroles (R02) | el farolero: viejo y flaco, gorra de lana, abrigo largo abotonado, escalera al hombro y vara con mecha; prendía los faroles a mano desde que se fue el Vidriero |
 | **el Fantasma Undefined** | jefe de R02 | una sábana vieja, transparente y celeste, con dos ojos huecos y tristes, sin boca; borra los nombres. Era el ayudante del Vidriero; al vencerlo se vuelve el **Farol del Fantasma** (ítem) |
+| **Hilván** | el Teatro del Titiritero (R03) | el titiritero de § 5: joven y delgado, dedos larguísimos, chaleco de terciopelo violeta abotonado, camisa de mangas largas, hilos dorados enredados en los dedos. Sus títeres: Pipo y Pepa (payasos), Lola (bailarina), Chispín (dragoncito verde), Brasa (dragón mayor rojo) y Mini Nima (arquera de madera con trenza de lana) |
+| **el Títere sin Hilos (Ébano)** | jefe de R03 | un títere grande de madera oscura que perdió sus hilos («perdió su this»); al vencerlo dice su nombre, Ébano, y deja el **Hilo de Oro** (ítem) |
 
 **Los ítems que ya se nombran** (van a `GameItems` con su imagen en la fase 4):
 - la **Ficha del Goblin**, que da el jefe de R01;
 - el **Farol del Fantasma**, que da el jefe de R02;
+- el **Hilo de Oro**, que da el jefe de R03 (el Títere sin Hilos se llamaba así en § 3; queda como alias del jefe);
 - el **farol dorado congelado** que Lumina guarda para más adelante (R01-N06-P6). Por ahora es solo de la historia.

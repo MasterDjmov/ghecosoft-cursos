@@ -156,7 +156,10 @@ Salieron al escribir la Clase 0 y los Puestos de Juegos (R01). Les faltan la fic
 | **Doña Mirta** | el puesto del pan con miel (R01-N05) | la panadera de § 5: petisa y redonda, delantal floreado cerrado, pañuelo en la cabeza y cucharón de madera |
 | **el Flaco Ruiz** | la tienda de premios (R01-N06) | el encargado: muy flaco y alto, bigote fino, chaleco verde abotonado y galera chiquita |
 | **Don Tano** | la esquina del organito (R01-N07) | el organillero: abuelo de sombrero de copa gastado, bigote blanco grande y saco largo abotonado |
+| **Lucio** | la Avenida de los Faroles (R02) | el farolero: viejo y flaco, gorra de lana, abrigo largo abotonado, escalera al hombro y vara con mecha; prendía los faroles a mano desde que se fue el Vidriero |
+| **el Fantasma Undefined** | jefe de R02 | una sábana vieja, transparente y celeste, con dos ojos huecos y tristes, sin boca; borra los nombres. Era el ayudante del Vidriero; al vencerlo se vuelve el **Farol del Fantasma** (ítem) |
 
 **Los ítems que ya se nombran** (van a `GameItems` con su imagen en la fase 4):
 - la **Ficha del Goblin**, que da el jefe de R01;
+- el **Farol del Fantasma**, que da el jefe de R02;
 - el **farol dorado congelado** que Lumina guarda para más adelante (R01-N06-P6). Por ahora es solo de la historia.

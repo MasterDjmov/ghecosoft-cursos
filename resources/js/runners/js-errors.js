@@ -20,6 +20,8 @@ const RUNTIME = [
     [/^Cannot convert undefined or null to object$/, 'troll', 'Le pasaste undefined o null a algo que necesita un objeto.'],
     [/^Do not know how to serialize a BigInt$/, 'goblin', 'JSON no sabe guardar un BigInt: pasalo a texto antes.'],
     [/^Converting circular structure to JSON/, 'troll', 'El objeto se contiene a sí mismo: JSON no lo puede escribir.'],
+    [/^Failed to resolve module specifier "?'?([^"']+)/, 'esqueleto', 'No hay ningún archivo «$1» en la caja: revisá el nombre (y que empiece con ./).'],
+    [/does not provide an export named '?(.+?)'?$/, 'esqueleto', 'Ese archivo no exporta «$1»: revisá el nombre o agregale export.'],
     [/^Private field '(.+)' must be declared in an enclosing class$/, 'esqueleto', 'El campo privado «$1» se declara adentro de la clase antes de usarlo.'],
     [/^Cannot read private member/, 'esqueleto', 'Ese objeto no tiene ese campo privado (es de otra clase).'],
 ];
@@ -30,7 +32,7 @@ const RUNTIME = [
  */
 export function explainError(error) {
     if (!error) return '';
-    const where = error.line ? ` en la línea ${error.line}` : '';
+    const where = error.line ? ` en la línea ${error.line}${error.file ? ` de ${error.file}` : ''}` : '';
     const original = error.thrown ? `throw ${error.message}` : `${error.name}: ${error.message}`;
     const intro = error.promise ? `Una promesa falló y nadie la atajó con catch${where}` : `Error${where}`;
     for (const [pattern, , text] of RUNTIME) {

@@ -14,7 +14,7 @@ const only = (args.find((a) => a.startsWith('--only=')) ?? '').slice(7);
 const fill = args.includes('--fill');
 const force = args.includes('--force');
 
-const FIELD = { 'solución': 'solution', 'código inicial': 'starter', 'página': 'page', 'eventos': 'events', 'estado': 'checks', 'almacenamiento': 'storage', 'entrada': 'stdin', 'salida esperada': 'expected' };
+const FIELD = { 'solución': 'solution', 'código inicial': 'starter', 'página': 'page', 'eventos': 'events', 'estado': 'checks', 'almacenamiento': 'storage', 'entrada': 'stdin', 'salida esperada': 'expected', archivos: 'files' };
 
 function block(text) {
     const fenced = text.match(/^\s*(`{3,}|~{3,})[\w+-]*[ \t]*\n([\s\S]*?)\n[ \t]*\1\s*$/);
@@ -43,6 +43,12 @@ function missions(text) {
         found.push({ code: h.code, start: h.start, end, fields });
     });
     return found;
+}
+
+function filesOf(text) {
+    const files = {};
+    for (const m of String(text ?? '').matchAll(/^\s*([\w.-]+\.js)\s*\n(`{3,}|~{3,})[\w-]*\n([\s\S]*?)\n\s*\2\s*$/gm)) files[m[1]] = m[3];
+    return files;
 }
 
 function storageOf(text) {
@@ -109,7 +115,7 @@ for (const name of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
             continue;
         }
         const { storage, cookies } = storageOf(f.storage);
-        const options = { page: f.page, events: f.events, checks: f.checks, stdin: f.stdin, storage, cookies };
+        const options = { page: f.page, events: f.events, checks: f.checks, stdin: f.stdin, storage, cookies, files: filesOf(f.files) };
         const result = await chrome.run(f.solution, options);
         if (result.error) {
             console.log(`  ✗ ${mission.code}: la solución falla: ${result.error}`);

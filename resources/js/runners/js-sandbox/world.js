@@ -232,7 +232,8 @@
     function lineOf(error) {
         const stack = String(error?.stack ?? '');
         for (const match of stack.matchAll(/(blob:[^\s)]+?):(\d+):(\d+)/g)) {
-            if (scriptOffsets.has(match[1])) return Number(match[2]) + scriptOffsets.get(match[1]);
+            const where = scriptOffsets.get(match[1]);
+            if (where) return { line: Number(match[2]) + where.offset, file: where.file };
         }
         return null;
     }
@@ -240,11 +241,13 @@
     function describeError(error, promise = false) {
         if (error instanceof Stopped) return null;
         const isError = error instanceof Error || (error && typeof error === 'object' && 'message' in error && 'name' in error);
+        const where = isError ? lineOf(error) : null;
         return {
             name: isError ? String(error.name) : 'Error',
             message: isError ? String(error.message) : inspect(error),
             thrown: !isError,
-            line: isError ? lineOf(error) : null,
+            line: where?.line ?? null,
+            file: where?.file ?? null,
             promise,
         };
     }
@@ -760,7 +763,7 @@
         if (!event.defaultPrevented) notice('formulario', 'se envió un formulario sin preventDefault(): la página se habría recargado');
     });
 
-    // El sandbox no deja enviar formularios (sin allow-forms), y entonces el navegador ni siquiera dispara «submit».
+    // La caja no tiene permiso de formularios, así que el navegador ni siquiera dispara «submit».
     // Se simula el envío: el botón del formulario, Enter en un campo, requestSubmit() y el evento «enviar».
     function submitForm(form, submitter = null) {
         form.dispatchEvent(new SubmitEvent('submit', { bubbles: true, cancelable: true, submitter }));
@@ -1049,11 +1052,27 @@
         if (!dead && Number.isFinite(until) && (jump || timers.size)) now = Math.max(now, until);
     }
 
+    /** Los otros archivos de la consigna (import … from './vec2.js'): js-instrument.js los renombró a «caja/vec2.js». */
+    function loadFiles() {
+        const imports = {};
+        for (const file of CONFIG.files ?? []) {
+            const url = real.createObjectURL(new real.Blob([file.code], { type: 'text/javascript' }));
+            scriptOffsets.set(url, { offset: 0, file: file.name });
+            imports[`caja/${file.name}`] = url;
+        }
+        if (!Object.keys(imports).length) return;
+        const map = document.createElement('script');
+        map.type = 'importmap';
+        map.textContent = JSON.stringify({ imports });
+        document.head.append(map);
+    }
+
     async function runScripts() {
+        loadFiles();
         for (const [index, script] of (CONFIG.scripts ?? []).entries()) {
             if (dead) return;
             const url = real.createObjectURL(new real.Blob([script.code], { type: 'text/javascript' }));
-            scriptOffsets.set(url, script.offset ?? 0);
+            scriptOffsets.set(url, { offset: script.offset ?? 0, file: null });
             let settled = false;
             import(url).then(() => (settled = true), (error) => {
                 settled = true;

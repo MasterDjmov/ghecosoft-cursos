@@ -81,6 +81,7 @@ class CourseFileParser
         'eventos' => 'events',
         'estado' => 'state',
         'almacenamiento' => 'storage',
+        'archivos' => 'files',
     ];
 
     /** Columnas que guardan código: se toma el contenido del primer bloque ``` si lo hay. */

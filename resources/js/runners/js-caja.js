@@ -66,13 +66,17 @@ export function execute(world, code, options = {}) {
     const split = splitPage(code);
     const page = split.page ?? options.page ?? '';
     const scripts = [];
-    for (const [index, script] of split.scripts.entries()) {
-        const prepared = instrument(script.code, index);
+    // Los otros archivos de la consigna (módulos que el código importa con './nombre.js').
+    const names = Object.keys(options.files ?? {});
+    const files = [];
+    const sources = [...names.map((name) => ({ code: options.files[name], offset: 0, file: name })), ...split.scripts];
+    for (const [index, script] of sources.entries()) {
+        const prepared = instrument(script.code, script.file ? -1 : index - names.length, names);
         if (prepared.error) {
             const line = prepared.error.line + script.offset;
             return Promise.resolve({
                 output: '',
-                error: `✗ Error de escritura en la línea ${line}: ${prepared.error.message}\n  (SyntaxError: ${prepared.error.original})`,
+                error: `✗ Error de escritura en la línea ${line}${script.file ? ` de ${script.file}` : ''}: ${prepared.error.message}\n  (SyntaxError: ${prepared.error.original})`,
                 stderr: '',
                 ms: Math.round(performance.now() - started),
                 state: null,
@@ -82,7 +86,8 @@ export function execute(world, code, options = {}) {
                 syntax: true,
             });
         }
-        scripts.push({ code: prepared.code, offset: script.offset });
+        if (script.file) files.push({ name: script.file, code: prepared.code });
+        else scripts.push({ code: prepared.code, offset: script.offset });
     }
 
     const origin = options.origin ?? window.location.origin;
@@ -92,6 +97,7 @@ export function execute(world, code, options = {}) {
     const config = {
         token,
         scripts,
+        files,
         stdin: options.stdin ?? '',
         events: options.events ?? '',
         checks: options.checks ?? '',
@@ -176,7 +182,7 @@ export function execute(world, code, options = {}) {
                 state: data.state ?? null,
                 board: data.board ?? null,
                 notes,
-                line: data.error?.line ?? null,
+                line: data.error?.file ? null : data.error?.line ?? null,
                 clock: data.clock,
             });
         };

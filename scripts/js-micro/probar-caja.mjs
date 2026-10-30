@@ -79,6 +79,13 @@ const CASES = [
     ['página entera del alumno con su script (línea del error en la página)', `<!doctype html>\n<html><body>\n<p id="p">hola</p>\n<script>\nconsole.log(document.querySelector('#p').textContent);\nnoexiste();\n</script>\n</body></html>`, {}, { output: 'hola', errorIncludes: 'línea 6' }],
     ['los enlaces no sacan de la página', `document.querySelector('a').click(); console.log('sigo acá');`, { page: '<a href="https://example.com">afuera</a>' }, { output: 'sigo acá', boardNotice: 'enlace' }],
 
+    // ── Módulos: los otros archivos de la consigna
+    ['módulos: importar de otro archivo', `import { Vec2, sumar } from './vec2.js';\nimport heroe from './heroe.js';\nconsole.log(sumar(new Vec2(1, 2), new Vec2(3, 4)), heroe.nombre);`,
+        { files: { 'vec2.js': "export class Vec2 { constructor(x, y) { this.x = x; this.y = y; } }\nexport const sumar = (a, b) => new Vec2(a.x + b.x, a.y + b.y);", 'heroe.js': "import { Vec2 } from './vec2.js';\nexport default { nombre: 'Nima', pos: new Vec2(0, 0) };" } },
+        { output: "Vec2 { x: 4, y: 6 } Nima" }],
+    ['módulos: un archivo que no está', `import { x } from './nada.js';`, { files: { 'vec2.js': 'export const a = 1;' } }, { errorIncludes: 'nada.js' }],
+    ['módulos: el error dice en qué archivo', `import { romper } from './util.js';\nromper();`, { files: { 'util.js': "export function romper() {\n  return noExiste;\n}" } }, { errorIncludes: 'línea 2 de util.js' }],
+
     // ── El lienzo
     ['canvas: lo que se dibuja en el último cuadro', `const ctx = document.querySelector('canvas').getContext('2d');\nlet x = 0;\nfunction cuadro() {\n  ctx.clearRect(0, 0, 200, 100);\n  ctx.fillStyle = '#ffd400';\n  ctx.fillRect(x, 10, 20, 20);\n  x += 2;\n  if (x < 60) requestAnimationFrame(cuadro);\n}\nrequestAnimationFrame(cuadro);`,
         { page: '<canvas width="200" height="100"></canvas>', checks: 'lienzo' }, { output: '── Estado ──\nlienzo: clearRect(0, 0, 200, 100)\nlienzo: fillRect(58, 10, 20, 20) #ffd400' }],

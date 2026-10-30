@@ -250,6 +250,7 @@ document.addEventListener('alpine:init', () => {
         jsNotes: [],
         jsHasPage: Boolean(config.jsHasPage),
         jsLive: false,
+        jsFiles: config.jsMission?.files ?? {},
 
         async init() {
             const isHtml = config.language === 'html' && config.runnable !== false;
@@ -360,6 +361,7 @@ document.addEventListener('alpine:init', () => {
                 storage: mission.storage,
                 cookies: mission.cookies,
                 port: mission.port,
+                files: mission.files,
                 seed: mission.seed,
                 horizon: mission.horizon,
                 timeout: config.timeout,

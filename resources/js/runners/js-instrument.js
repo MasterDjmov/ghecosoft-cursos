@@ -60,7 +60,7 @@ function walk(node, visit) {
 /**
  * @returns {{code: string, error: null} | {code: null, error: {name: string, message: string, original: string, line: number, column: number}}}
  */
-export function instrument(source, index = 0) {
+export function instrument(source, index = 0, files = []) {
     const code = String(source ?? '');
     let ast;
     try {
@@ -73,7 +73,13 @@ export function instrument(source, index = 0) {
     }
 
     const edits = [];
+    // Los otros archivos de la consigna: './vec2.js' pasa a 'caja/vec2.js' (el mapa de importación de la caja).
+    const renamed = (node) => {
+        const name = typeof node?.value === 'string' ? node.value.replace(/^\.\//, '') : null;
+        if (node?.type === 'Literal' && /^\.\//.test(node.value) && files.includes(name)) edits.push([node.start, node.end, JSON.stringify(`caja/${name}`)]);
+    };
     walk(ast, (node) => {
+        if (['ImportDeclaration', 'ExportNamedDeclaration', 'ExportAllDeclaration', 'ImportExpression'].includes(node.type)) renamed(node.source);
         if (LOOPS.has(node.type)) {
             const body = node.body;
             if (body.type === 'BlockStatement') {
@@ -88,9 +94,13 @@ export function instrument(source, index = 0) {
     });
 
     // De atrás para adelante, así las posiciones siguen valiendo; a igual posición, el cierre «}» va primero.
-    edits.sort((a, b) => b[0] - a[0] || (a[1] === '}' ? -1 : 1));
+    // Cada cambio es [desde, texto] (insertar) o [desde, hasta, texto] (reemplazar).
+    const replaces = (e) => e.length === 3;
+    edits.sort((a, b) => b[0] - a[0] || ((replaces(a) ? '' : a[1]) === '}' ? -1 : 1));
     let out = code;
-    for (const [at, text] of edits) out = out.slice(0, at) + text + out.slice(at);
+    for (const edit of edits) {
+        out = replaces(edit) ? out.slice(0, edit[0]) + edit[2] + out.slice(edit[1]) : out.slice(0, edit[0]) + edit[1] + out.slice(edit[0]);
+    }
     // Un #! en la primera línea tiene que quedar primero.
     const bang = out.match(/^#![^\n]*/);
     out = bang ? `${bang[0]}\n__begin__(${index});${out.slice(bang[0].length + 1)}` : `__begin__(${index});${out}`;

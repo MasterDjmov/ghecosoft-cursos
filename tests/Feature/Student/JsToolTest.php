@@ -1,7 +1,10 @@
 <?php
 
 use App\Enums\Language;
+use App\Models\NodeStep;
 use App\Models\User;
+use App\Services\CourseImporter;
+use App\Support\JsMission;
 
 /*
  * D115: JavaScript corre en el navegador de quien ejecuta, en una caja sandbox="allow-scripts" SIN mismo origen
@@ -109,9 +112,9 @@ MD;
 function jsCourseReport(string $event = 'esperar 100'): array
 {
     $md = str_replace(['lenguaje: python', '### Misión R00-N01-M1'], ['lenguaje: javascript', str_replace('EVENTO', $event, JS_STEP_MD).'### Misión R00-N01-M1'], file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md')));
-    $report = app(App\Services\CourseImporter::class)->import([['name' => 'curso.md', 'content' => $md]], dryRun: false);
+    $report = app(CourseImporter::class)->import([['name' => 'curso.md', 'content' => $md]], dryRun: false);
 
-    return [$report, App\Models\NodeStep::where('code', 'R00-N01-P1')->first()];
+    return [$report, NodeStep::where('code', 'R00-N01-P1')->first()];
 }
 
 test('el importador junta la página, los eventos, el Estado y lo guardado de una micro-misión de JavaScript', function () {
@@ -132,4 +135,13 @@ test('un evento que la caja no entiende es un error del importador', function ()
     [$report] = jsCourseReport('saltar #prender');
 
     expect(implode("\n", $report->errors))->toContain('evento que no se entiende: «saltar #prender»');
+});
+
+test('los otros archivos de una micro-misión de JavaScript se leen por su nombre', function () {
+    $text = "vec2.js\n```javascript\nexport const a = 1;\n```\n\nheroe.js\n```javascript\nimport { a } from './vec2.js';\nexport default a;\n```";
+
+    expect(JsMission::files($text))->toBe([
+        'vec2.js' => 'export const a = 1;',
+        'heroe.js' => "import { a } from './vec2.js';\nexport default a;",
+    ])->and(json_decode(JsMission::encode(['files' => $text]), true)['files'])->toHaveKey('vec2.js');
 });

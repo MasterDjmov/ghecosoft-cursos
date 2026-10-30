@@ -10,6 +10,8 @@ namespace App\Support;
  *   #### Eventos         uno por renglón: click #boton · escribir #nombre Ana · tecla ArrowUp · esperar 1000 · cuadros 30 …
  *   #### Estado          qué se revisa al final: #cartel · li # · .farol @class · cookie x · local x · lienzo · pedidos …
  *   #### Almacenamiento  lo que ya está guardado al empezar: local clave = valor · session clave = valor · cookie nombre = valor
+ *   #### Archivos        otros archivos que el código importa (import … from './vec2.js'): el nombre en un renglón y,
+ *                        debajo, su bloque ```javascript; el alumno los ve pero no los cambia
  *
  * La «Salida esperada» es la consola y, si hay Estado, el bloque «── Estado ──» debajo (lo escribe
  * scripts/js-micro/probar.mjs --fill corriendo la solución, nunca a mano).
@@ -26,6 +28,7 @@ class JsMission
             'events' => self::text($fields['events'] ?? null),
             'checks' => self::text($fields['state'] ?? null),
             ...self::storage((string) ($fields['storage'] ?? '')),
+            'files' => self::files((string) ($fields['files'] ?? '')),
         ], fn ($value) => $value !== null && $value !== [] && $value !== '');
 
         return $mission ? json_encode($mission, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
@@ -48,6 +51,14 @@ class JsMission
         }
 
         return array_filter(['storage' => $storage, 'cookies' => implode('; ', $cookies) ?: null]);
+    }
+
+    /** «vec2.js» y su bloque de código, uno detrás del otro → ['vec2.js' => código]. */
+    public static function files(string $text): array
+    {
+        preg_match_all('/^\s*([\w.-]+\.js)\s*\n(`{3,}|~{3,})[\w-]*\n(.*?)\n\s*\2\s*$/msu', $text, $found, PREG_SET_ORDER);
+
+        return collect($found)->mapWithKeys(fn ($m) => [$m[1] => $m[3]])->all();
     }
 
     /** Los renglones de «Eventos» y de «Almacenamiento» que no se entienden (para el informe del importador). */

@@ -229,6 +229,7 @@ consultas o marcas.
     - del dibujo: `lienzo` (lo que se dibujó en el último cuadro);
     - del resto: `pedidos` (los fetch al Puerto), `temporizadores` y `reloj`;
   - `#### Almacenamiento`: lo que ya está guardado al empezar (`local visitas = 1`, `session x = y`, `cookie nombre = Nima`).
+  - `#### Archivos`: otros archivos que el código importa (`import { Vec2 } from './vec2.js'`): el nombre en un renglón y debajo su bloque ```` ```javascript ````. El alumno los ve en el tablero, pero no los cambia; los errores dicen en qué archivo y en qué línea.
   - El importador lo junta en un JSON (`App\Support\JsMission`). La salida esperada es la consola y, debajo, `── Estado ──` con el informe.
   - `#### Entrada` da las respuestas de `prompt` y `confirm`.
   - Las salidas esperadas se escriben con `node scripts/js-micro/probar.mjs cursos/javascript --fill`, que corre cada solución en la misma caja (en Chrome) y avisa si el código inicial ya la resuelve. Nunca se escriben a mano.

@@ -71,10 +71,10 @@ test('el curso de Primaria se importa sin prácticas y cada micro-misión con su
     $course = importEnglishPrimaria();
 
     expect($course->language->isSelfChecked())->toBeTrue()
-        // Los Talleres (raíz + 4 + 3 ramas), las Forjas, el Puerto, la Ciudadela, el Gólem y el Valle (8 de tronco + 4 ramas cada una).
-        ->and($course->nodes()->count())->toBe(68)
-        ->and($course->nodes()->where('is_published', true)->count())->toBe(68)
-        ->and($course->nodes()->where('type', 'extra')->count())->toBe(23)
+        // Los Talleres (raíz + 4 + 3 ramas), las Forjas, el Puerto, la Ciudadela, el Gólem, el Valle y el Imperio (8 de tronco + 4 ramas cada una).
+        ->and($course->nodes()->count())->toBe(80)
+        ->and($course->nodes()->where('is_published', true)->count())->toBe(80)
+        ->and($course->nodes()->where('type', 'extra')->count())->toBe(27)
         ->and($course->nodes()->whereHas('practices')->exists())->toBeFalse();
 
     $step = NodeStep::where('code', 'R00-N01-P2')->whereIn('node_id', $course->nodes()->pluck('id'))->first();

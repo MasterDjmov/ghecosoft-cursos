@@ -34,6 +34,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 - Temporada 4, la Ciudadela con Bron: los números hasta 100, *How many…?*, la casa y los muebles, la comida, *I like / I don't like* y *How much is it?*; ramas con el pedido de Lyn, la lima de Lima, la cinta sin fin y la llave prestada
 - Temporada 5, el Corazón del Gólem con Nova: las órdenes (*push, pull, open, close*), los ordinales hasta *tenth*, dónde están las cosas (*up, down, above, below, between*), el alfabeto y *How do you spell it?*, *first, then, finally*, *Is it…? Yes, it is* y *on top of / under*; ramas con las cuentas de Gheco, el ojo del Gólem (colores y figuras), el Oráculo y Kira (*this, that, these, those*)
 - Temporada 6, el Valle de la Serpiente con Mia: los animales del río, los plurales (*boxes, fish*), cómo se siente (*happy, scared*), la rutina, el presente simple con *he / she* y sus preguntas y negativos (*Does it…? It doesn't…*) y la hora en punto; ramas con la Cueva de los Ecos (sonidos de los animales), la biblioteca de Sila (*Please be quiet!*), los relojes de Maese Horas (*half past*) y la cocina de la Torre (*always, sometimes, never*)
+- Temporada 7, el Imperio de las Clases con Zed (el final): el presente continuo, de dónde sos (países y nacionalidades), los meses, *Who / Where / Why… Because…*, presente simple contra continuo y *Why can't…?*; ramas con los tres portones (*Can I…?*), el taller de moldes (describir personas), el de armaduras (*What is she wearing?*) y el archivo (las fechas); el final con la carta «para quien llegue»
 
 # DICCIONARIO
 
@@ -49,6 +50,7 @@ Cada episodio se **lee y se escucha** en inglés (cada palabra se toca y suena),
 | story.narrator | Ada | | f | Quien cuenta Mis Crónicas de este curso. | | curso |
 | story.course_intro | Mi libro de crónicas | | m | | Hola, soy Ada. El Profe me dio este libro grande con las páginas en blanco, y una tarea: escribir en la Lengua Común las historias de todo el Mundo del Código.<br><br>Eco me ayuda, aunque a veces repite todo dos veces. Y el Borrón… el Borrón se come las palabras. Por eso cada página que terminamos la guardo acá. | curso |
 | story.branch_completed | ¡Otra página a salvo! | | f | | Eco da tres vueltas sobre la página nueva y canta la última palabra que aprendió hasta quedarse sin voz. Una página más que el Borrón ya no se puede comer. | curso |
+| story.course_completed | ¡El Gran Libro está completo! | | m | | Lo terminamos. Cada capítulo del Gran Libro tiene su color: el de los Talleres, el de las Forjas, el del Puerto, el de la Ciudadela, el del Gólem, el del Valle y el del Imperio. Ahora cualquiera, de cualquier mundo, lo puede leer.<br><br>El Borrón ya no borra: escribe. Se quedó a vivir en el margen, quieto, y a veces agrega una palabra que me faltaba. El Profe leyó el libro de punta a punta, se sacó los anteojos y me dijo que desde hoy soy escribiente del Gremio.<br><br>Y vos: cada palabra que aprendiste es un puente. Gracias por escribir este libro conmigo. Eco te manda un saludo: *Hello! Hello!* | curso |
 
 ## R00-N01 · Iris Arrives · Iris llega
 

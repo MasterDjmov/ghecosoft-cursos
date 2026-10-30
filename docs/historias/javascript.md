@@ -163,10 +163,27 @@ Salieron al escribir la Clase 0 y los Puestos de Juegos (R01). Les faltan la fic
 | **Saeta** | la Torre de las Flechas (R04) | arquera mensajera vieja, pelo blanco en un rodete, capa gris cerrada, guantes de cuero gastados y carcaj de flechas de luz; seca y exigente, le enseña a Nima a esperar |
 | **el Troll de las Respuestas Cruzadas** | jefe de R04 | troll gordo de pelo enredado como un nido de hilos, chaleco remendado, sin armas; cruza las flechas. Al vencerlo se va hacia **la Niebla** (donde nunca llega ninguna flecha: queda como pregunta) y deja la **Flecha de Regreso** (ítem) |
 | **Nilo** (cruce con PHP) | R04-N04 y el jefe | atrapa las flechas en el Puerto; al final le cuenta a Nima que en el Puerto «llegó hace mucho un papel con su nombre» (¿la carta *para quien llegue* de Elefa?) |
+| **el Dragón de los Fuegos Artificiales** | jefe final (R05) | un dragón largo hecho de fuegos artificiales de colores, con ojos de bengala; cuidaba el mecanismo del vitral. Cuando el vitral se mueve, sube por la chimenea y estalla en el cielo |
+| **las sombras** | el tablero de gemas (R05-N05, N06) | figuritas negras del juguete del Vidriero que persiguen a la luciérnaga de cristal (enemigos de *Junta las Gemas*, no son personajes) |
 
 **Los ítems que ya se nombran** (van a `GameItems` con su imagen en la fase 4):
 - la **Ficha del Goblin**, que da el jefe de R01;
 - el **Farol del Fantasma**, que da el jefe de R02;
 - la **Flecha de Regreso**, que da el jefe de R04;
+- el **Arco del Vitral**, que da el jefe final (R05) y es el arco final de Nima (§ 4);
 - el **Hilo de Oro**, que da el jefe de R03 (el Títere sin Hilos se llamaba así en § 3; queda como alias del jefe);
 - el **farol dorado congelado** que Lumina guarda para más adelante (R01-N06-P6). Por ahora es solo de la historia.
+
+## 13. El tronco escrito (2026-10-30)
+
+Clase 0 y las ramas R01 a R05, con 37 nodos y 176 micro-misiones; todas se comprueban con `scripts/js-micro/probar.mjs`. El final quedó como en § 6:
+1. Nima mueve el vitral con el Arco del Vitral.
+2. El Dragón se va.
+3. El vitral del portal muestra **el Mirador de las Constelaciones**, adonde fue el Vidriero: el curso de TypeScript.
+4. Nima termina la carta a Sila y la manda, y esta vez espera la respuesta.
+
+Lo que sigue abierto:
+- **la Niebla**, adonde no llega ninguna flecha y adonde se va el Troll;
+- **el papel con el nombre de Nima** que llegó hace mucho al Puerto, según Nilo.
+
+Quedan para TypeScript o para la Senda del Archivo de Sila.

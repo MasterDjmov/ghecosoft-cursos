@@ -792,7 +792,8 @@
     // ───────────────────────────── El lienzo (canvas): lo que se dibuja ─────────────────────────────
 
     const canvasLogs = new Map();
-    const DRAWING = ['fillRect', 'strokeRect', 'clearRect', 'fillText', 'strokeText', 'arc', 'rect', 'ellipse', 'moveTo', 'lineTo', 'fill', 'stroke', 'drawImage'];
+    // Las transformaciones también se anotan: sin ellas, girar o no girar dejaría el mismo registro.
+    const DRAWING = ['fillRect', 'strokeRect', 'clearRect', 'fillText', 'strokeText', 'arc', 'rect', 'ellipse', 'moveTo', 'lineTo', 'fill', 'stroke', 'drawImage', 'save', 'restore', 'translate', 'rotate', 'scale'];
     const STYLED = { fillRect: 'fillStyle', fillText: 'fillStyle', fill: 'fillStyle', strokeRect: 'strokeStyle', strokeText: 'strokeStyle', stroke: 'strokeStyle' };
     const round = (n) => (typeof n === 'number' ? String(Math.round(n * 100) / 100) : typeof n === 'string' ? quote(n) : '…');
 

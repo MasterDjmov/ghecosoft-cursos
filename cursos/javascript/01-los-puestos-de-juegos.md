@@ -1730,3 +1730,1616 @@ El gran final llena el cielo: doce cohetes en tres tandas perfectas. Lumina vuel
 #### Imagen
 - El cielo de la feria lleno de fuegos artificiales amarillos en tres filas ordenadas.
 - Lumina (luciérnaga enorme, alas de vidrio, luz amarilla en el pecho) vuela entre las chispas; abajo, Nima y Bengala miran abrazadas por los hombros.
+
+## R01-N05 · Arreglos: map, filter y reduce
+
+```meta
+tipo: tema
+padre: R01-N04
+precio: 10
+criatura: orc
+temas: col.listas
+```
+
+### Crónica
+
+Del puesto del pan con miel sale un olor que no deja pensar. Lo atiende **Doña Mirta**, una panadera petisa y apurada, con una bandeja larguísima de panes en fila. Los cuenta, los ordena, les cambia el precio, saca los quemados… y siempre se pierde.
+
+—Una fila de cosas es un **arreglo** —dice {mentor}—. Y en la Feria, los arreglos traen sus propias herramientas: una para transformar cada elemento, otra para quedarse con algunos y otra para juntarlos todos en uno.
+
+### Objetivos
+
+- Crear arreglos, leer por posición (desde 0) y saber su largo con `length`.
+- Agregar y sacar con `push`, `pop`, `unshift` y `shift`.
+- Buscar con `includes`, `indexOf` y `find`.
+- Transformar con `map`, filtrar con `filter` y acumular con `reduce`.
+- Distinguir los métodos que **cambian** el arreglo de los que devuelven uno nuevo.
+
+### Antes de empezar
+
+- R01-N04: bucles y `for…of`.
+
+### Explicación
+
+#### Un arreglo
+```javascript
+const panes = ['miel', 'nuez', 'quemado'];
+console.log(panes[0]);       // 'miel' (las posiciones empiezan en 0)
+console.log(panes.length);   // 3
+console.log(panes[3]);       // undefined: no hay posición 3 (un orco)
+```
+
+#### Agregar y sacar
+| Método | Qué hace |
+|---|---|
+| `push(x)` | agrega al final |
+| `pop()` | saca el último (y lo devuelve) |
+| `unshift(x)` | agrega al principio |
+| `shift()` | saca el primero |
+
+Estos **cambian** el arreglo original.
+
+#### Buscar
+```javascript
+panes.includes('nuez');            // true
+panes.indexOf('quemado');          // 2 (o -1 si no está)
+const precios = [3, 5, 8];
+precios.find((p) => p > 4);        // 5: el primero que cumple
+```
+
+#### map, filter y reduce
+Reciben una **función flecha** (`(x) => …`) que se aplica a cada elemento, y **devuelven algo nuevo** sin tocar el original:
+```javascript
+const precios = [2, 3, 5];
+const conAumento = precios.map((p) => p + 1);          // [3, 4, 6]
+const baratos = precios.filter((p) => p <= 3);         // [2, 3]
+const total = precios.reduce((suma, p) => suma + p, 0); // 10
+```
+- `map`: un arreglo **del mismo largo**, con cada elemento transformado.
+- `filter`: un arreglo con **los que cumplen** la condición.
+- `reduce`: **un solo valor**. Empieza en el segundo argumento (`0`) y va acumulando.
+
+(Las funciones flecha las vas a ver a fondo en R01-N07; por ahora alcanza con saber que `(p) => p + 1` quiere decir «a cada `p`, devolvé `p + 1`».)
+
+### Código de ejemplo
+
+```javascript
+const bandeja = ['miel', 'nuez', 'quemado', 'miel'];
+bandeja.push('canela');
+console.log(bandeja, bandeja.length);
+
+const buenos = bandeja.filter((pan) => pan !== 'quemado');
+console.log('Buenos:', buenos);
+
+const precios = [2, 3, 2, 4];
+console.log('Con aumento:', precios.map((p) => p * 2));
+console.log('Total:', precios.reduce((suma, p) => suma + p, 0));
+console.log('¿Hay de nuez?', bandeja.includes('nuez'));
+```
+
+### Salida esperada
+
+```
+[ 'miel', 'nuez', 'quemado', 'miel', 'canela' ] 5
+Buenos: [ 'miel', 'nuez', 'miel', 'canela' ]
+Con aumento: [ 4, 6, 4, 8 ]
+Total: 11
+¿Hay de nuez? true
+```
+
+### ¿Para qué sirve?
+
+Una lista de productos, de mensajes, de enemigos o de puntajes: casi todos los datos vienen en arreglos. `map`, `filter` y `reduce` son las tres herramientas que más vas a usar para mostrar, buscar y resumir datos, en el navegador y en cualquier framework.
+
+### Errores habituales
+
+**Orco: contar desde 1.** El primer elemento es `[0]` y el último es `[largo - 1]`. `panes[panes.length]` da `undefined`.
+
+**Ogro: olvidarse el `return` en una flecha con llaves.** `precios.map((p) => { p * 2 })` da `[undefined, …]`. Con llaves hay que escribir `return`; sin llaves, `(p) => p * 2`, devuelve solo.
+
+**Ogro: esperar que `map` cambie el original.** `map` y `filter` devuelven uno **nuevo**: guardalo en una variable.
+
+**Orco: `reduce` sin valor inicial en un arreglo vacío.** Da `TypeError: Reduce of empty array with no initial value`. Poné siempre el inicial: `reduce(…, 0)`.
+
+### Micro-misión R01-N05-P1 · La bandeja de Doña Mirta
+
+```meta
+lugar: El puesto del pan con miel
+personajes: Nima, Gheco, Doña Mirta
+carta: Arreglos | ['a', 'b'] · lista[0] es el primero · lista.length es el largo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Doña Mirta pone la bandeja sobre el mostrador. —¿Cuál es el primero? ¿Y cuántos hay? ¡Rápido, que se enfrían!
+
+#### Gheco sugiere
+El primero es `panes[0]`, el último es `panes[panes.length - 1]` y el largo es `panes.length`.
+
+#### Desafío
+Mostrá el primer pan, el último y cuántos hay.
+
+#### Código inicial
+```javascript
+const panes = ['miel', 'nuez', 'canela', 'miel', 'chocolate'];
+
+console.log('Primero:', ___);
+console.log('Último:', ___);
+console.log('Cantidad:', ___);
+```
+
+#### Salida esperada
+```
+Primero: miel
+Último: chocolate
+Cantidad: 5
+```
+
+#### Solución
+```javascript
+const panes = ['miel', 'nuez', 'canela', 'miel', 'chocolate'];
+
+console.log('Primero:', panes[0]);
+console.log('Último:', panes[panes.length - 1]);
+console.log('Cantidad:', panes.length);
+```
+
+#### Al superarla
+—¡Cinco! —dice Doña Mirta—. Siempre me da cuatro o seis. —Le regala a Nima el de miel.
+
+#### Imagen
+- Un puesto de feria de pan con miel de noche, con una bandeja larga de panes dorados en fila y frascos de miel.
+- Doña Mirta (señora petisa y redonda, delantal floreado cerrado, pañuelo en la cabeza, cucharón de madera) señala la bandeja; Nima (trenza negra con hilo amarillo, chaqueta de cuero negra) cuenta con el dedo.
+
+### Micro-misión R01-N05-P2 · Recién salidos del horno
+
+```meta
+lugar: El puesto del pan con miel
+personajes: Nima, Gheco, Doña Mirta
+carta: push y shift | push(x) agrega al final · shift() saca el primero · cambian el arreglo
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Del horno salen dos panes nuevos, de canela y de anís, y van al final de la fila. El primero de la fila se vende enseguida.
+
+#### Gheco sugiere
+`push` agrega al final (podés pasarle dos) y `shift` saca el primero.
+
+#### Desafío
+Agregá `'canela'` y `'anis'` al final, vendé el primero y mostrá cómo quedó la bandeja.
+
+#### Código inicial
+```javascript
+const bandeja = ['miel', 'nuez'];
+
+// Agregá los dos nuevos y vendé el primero
+
+console.log(bandeja);
+```
+
+#### Salida esperada
+```
+[ 'nuez', 'canela', 'anis' ]
+```
+
+#### Solución
+```javascript
+const bandeja = ['miel', 'nuez'];
+
+bandeja.push('canela', 'anis');
+bandeja.shift();
+console.log(bandeja);
+```
+
+#### Al superarla
+La fila avanza: los recién salidos van atrás y los de adelante se venden. —Así nunca se me quema ninguno —dice Doña Mirta.
+
+#### Imagen
+- La puerta de un horno de barro de feria abierta, con dos panes nuevos saliendo en una pala de madera.
+- Doña Mirta acomoda los panes al final de la bandeja; un chico se lleva el primero de la fila.
+
+### Micro-misión R01-N05-P3 · Fuera los quemados
+
+```meta
+lugar: El puesto del pan con miel
+personajes: Nima, Gheco, Doña Mirta
+carta: filter | lista.filter((x) => condición) · devuelve los que cumplen · no toca la original
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+En la bandeja se colaron algunos panes quemados. Doña Mirta no quiere tirar la bandeja: quiere una nueva, solo con los buenos.
+
+#### Gheco sugiere
+`filter((pan) => pan !== 'quemado')` se queda con los que **no** son `'quemado'`.
+
+#### Desafío
+Armá el arreglo `buenos` sin los quemados.
+
+#### Código inicial
+```javascript
+const bandeja = ['miel', 'quemado', 'nuez', 'quemado', 'canela'];
+
+const buenos = ___;
+console.log('Buenos:', buenos);
+console.log('La bandeja sigue igual:', bandeja.length);
+```
+
+#### Salida esperada
+```
+Buenos: [ 'miel', 'nuez', 'canela' ]
+La bandeja sigue igual: 5
+```
+
+#### Solución
+```javascript
+const bandeja = ['miel', 'quemado', 'nuez', 'quemado', 'canela'];
+
+const buenos = bandeja.filter((pan) => pan !== 'quemado');
+console.log('Buenos:', buenos);
+console.log('La bandeja sigue igual:', bandeja.length);
+```
+
+#### Al superarla
+Los quemados van a parar a una canasta aparte: Doña Mirta dice que los pájaros de la Feria los prefieren.
+
+#### Imagen
+- Una bandeja de panes dorados y, al lado, una canastita con panes negros quemados y un pájaro picoteando.
+- Las manos de Doña Mirta (delantal floreado) separan los panes; Gheco tapándose la nariz.
+
+### Micro-misión R01-N05-P4 · Precios de feria
+
+```meta
+lugar: El puesto del pan con miel
+personajes: Nima, Gheco, Doña Mirta
+carta: map | lista.map((x) => nuevo) · mismo largo · cada elemento transformado
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Es noche de feria grande y Doña Mirta sube **una ficha** cada precio. Quiere la lista nueva sin perder la vieja.
+
+#### Gheco sugiere
+`precios.map((p) => p + 1)` devuelve un arreglo nuevo con cada precio más uno.
+
+#### Desafío
+Armá `nuevos` con cada precio aumentado en 1.
+
+#### Código inicial
+```javascript
+const precios = [2, 3, 1, 4];
+
+const nuevos = ___;
+console.log('Antes:', precios);
+console.log('Ahora:', nuevos);
+```
+
+#### Salida esperada
+```
+Antes: [ 2, 3, 1, 4 ]
+Ahora: [ 3, 4, 2, 5 ]
+```
+
+#### Solución
+```javascript
+const precios = [2, 3, 1, 4];
+
+const nuevos = precios.map((p) => p + 1);
+console.log('Antes:', precios);
+console.log('Ahora:', nuevos);
+```
+
+#### Al superarla
+Doña Mirta pega los precios nuevos encima de los viejos, con miel en vez de cola. Se pegan igual.
+
+#### Imagen
+- Un pizarrón chico de feria con papelitos pegados uno encima de otro (sin números legibles) y un frasco de miel abierto.
+- Doña Mirta pega un papelito con el dedo pegajoso; Nima se ríe.
+
+### Micro-misión R01-N05-P5 · La caja del día
+
+```meta
+lugar: El puesto del pan con miel
+personajes: Nima, Gheco, Doña Mirta
+carta: reduce | lista.reduce((acum, x) => acum + x, 0) · empieza en 0 · devuelve un solo valor
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Se termina la noche. Doña Mirta anotó cada venta en un arreglo y quiere saber cuánto juntó, y cuántas ventas fueron de más de 3 fichas.
+
+#### Gheco sugiere
+`reduce((total, v) => total + v, 0)` suma todo. Para contar las grandes, filtrá primero y mirá el `length`.
+
+#### Desafío
+Mostrá `Total: 23` y `Ventas grandes: 2`.
+
+#### Código inicial
+```javascript
+const ventas = [2, 5, 3, 1, 8, 4];
+
+const total = ___;
+const grandes = ___;
+console.log('Total:', total);
+console.log('Ventas grandes:', grandes);
+```
+
+#### Salida esperada
+```
+Total: 23
+Ventas grandes: 3
+```
+
+#### Solución
+```javascript
+const ventas = [2, 5, 3, 1, 8, 4];
+
+const total = ventas.reduce((suma, v) => suma + v, 0);
+const grandes = ventas.filter((v) => v > 3).length;
+console.log('Total:', total);
+console.log('Ventas grandes:', grandes);
+```
+
+#### Al superarla
+Doña Mirta guarda las veintitrés fichas en una lata de galletitas y le da a Nima una bolsa de panes para el camino. —Para cuando tengas que esperar —le guiña.
+
+#### Imagen
+- Una lata de galletitas abierta llena de fichas de bronce, sobre el mostrador de un puesto de pan cerrando de noche.
+- Doña Mirta le da a Nima una bolsita de papel con panes; Gheco ya está adentro de la bolsa.
+
+### Micro-misión R01-N05-P6 · El pedido de Lumina
+
+```meta
+lugar: El puesto del pan con miel
+personajes: Nima, Gheco, Doña Mirta, Lumina
+carta: Encadenar | lista.filter(…).map(…) · el resultado de uno entra en el siguiente · find da el primero que cumple
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Lumina quiere los panes de miel para las luciérnagas chicas, con el precio en fichas **doble** (es para un festejo). Y quiere saber cuál es el primer pan que cuesta más de 3.
+
+#### Gheco sugiere
+Encadená: primero `filter` para quedarte con los de miel, después `map` para sacar el precio por 2. Para el primero caro, `find((p) => p.precio > 3)`.
+
+#### Desafío
+Mostrá `Miel al doble: [ 4, 6 ]` y `Primero caro: chocolate`.
+
+#### Código inicial
+```javascript
+const panes = [
+  { sabor: 'miel', precio: 2 },
+  { sabor: 'nuez', precio: 3 },
+  { sabor: 'chocolate', precio: 4 },
+  { sabor: 'miel', precio: 3 },
+];
+
+const mielDoble = ___;
+const caro = ___;
+console.log('Miel al doble:', mielDoble);
+console.log('Primero caro:', caro.sabor);
+```
+
+#### Salida esperada
+```
+Miel al doble: [ 4, 6 ]
+Primero caro: chocolate
+```
+
+#### Solución
+```javascript
+const panes = [
+  { sabor: 'miel', precio: 2 },
+  { sabor: 'nuez', precio: 3 },
+  { sabor: 'chocolate', precio: 4 },
+  { sabor: 'miel', precio: 3 },
+];
+
+const mielDoble = panes.filter((p) => p.sabor === 'miel').map((p) => p.precio * 2);
+const caro = panes.find((p) => p.precio > 3);
+console.log('Miel al doble:', mielDoble);
+console.log('Primero caro:', caro.sabor);
+```
+
+#### Al superarla
+Esa noche las luciérnagas chicas brillan un poco más: dicen que es la miel. Doña Mirta jura que es su receta.
+
+#### Imagen
+- Un enjambre de luciérnagas chiquitas alrededor de una canasta con panes de miel, de noche.
+- Lumina (luciérnaga enorme, alas de vidrio) recibe la canasta de manos de Doña Mirta; Nima mira.
+
+## R01-N06 · Objetos, desestructuración y spread
+
+```meta
+tipo: tema
+padre: R01-N05
+precio: 10
+criatura: skeleton
+temas: col.mapas, prog.referencias
+```
+
+### Crónica
+
+La **tienda de premios** de la Feria es un caos: osos de peluche, cometas, silbatos y faroles, cada uno con una etiqueta escrita a mano con su nombre, su precio, su color y cuántos quedan. El encargado, un señor muy flaco al que todos llaman **el Flaco Ruiz**, busca cada dato en una pila de etiquetas.
+
+—Un premio no es un número ni un texto: es **muchas cosas juntas** —dice {mentor}—. En JavaScript eso se guarda en un **objeto**, con un nombre para cada dato.
+
+### Objetivos
+
+- Crear objetos con `{ clave: valor }` y leerlos con `.` y con `[ ]`.
+- Agregar, cambiar y borrar propiedades.
+- Recorrerlos con `Object.keys`, `Object.values` y `Object.entries`.
+- Desarmar objetos y arreglos con la desestructuración.
+- Copiar y combinar con el spread `...`.
+- Entender que dos variables pueden apuntar al **mismo** objeto, y congelarlo con `Object.freeze`.
+
+### Antes de empezar
+
+- R01-N05: arreglos.
+
+### Explicación
+
+#### Un objeto
+```javascript
+const premio = { nombre: 'Oso', precio: 10, color: 'marrón' };
+console.log(premio.nombre);      // 'Oso'
+console.log(premio['precio']);   // 10 (con corchetes, útil si la clave está en una variable)
+premio.quedan = 3;               // agrega una propiedad
+premio.precio = 12;              // la cambia
+delete premio.color;             // la borra
+```
+Aunque `premio` sea `const`, sus propiedades **sí** se pueden cambiar: `const` sella la cajita, no lo que hay adentro.
+
+#### Recorrer
+```javascript
+Object.keys(premio);     // [ 'nombre', 'precio', 'quedan' ]
+Object.values(premio);   // [ 'Oso', 12, 3 ]
+Object.entries(premio);  // [ [ 'nombre', 'Oso' ], … ]
+```
+
+#### Desestructurar
+```javascript
+const { nombre, precio } = premio;          // dos variables de una vez
+const { color = 'sin color' } = premio;     // con valor por defecto
+const [primero, segundo] = ['oso', 'cometa'];
+```
+
+#### Spread: copiar y combinar
+```javascript
+const copia = { ...premio };                       // una copia nueva
+const enOferta = { ...premio, precio: 8 };          // copia y cambia el precio
+const todos = [...premiosChicos, ...premiosGrandes]; // junta dos arreglos
+```
+
+#### El mismo objeto, dos nombres
+```javascript
+const a = { quedan: 3 };
+const b = a;      // b NO es una copia: es otro nombre del mismo objeto
+b.quedan = 0;
+console.log(a.quedan);   // 0
+```
+Para una copia de verdad, `{ ...a }`. Y para que nadie lo cambie, `Object.freeze(a)`.
+
+### Código de ejemplo
+
+```javascript
+const premio = { nombre: 'Cometa', precio: 6, color: 'rojo' };
+premio.quedan = 4;
+console.log(premio);
+
+const { nombre, precio } = premio;
+console.log(`${nombre} cuesta ${precio} fichas`);
+
+const enOferta = { ...premio, precio: 4 };
+console.log('Original:', premio.precio, '· Oferta:', enOferta.precio);
+
+for (const [clave, valor] of Object.entries(premio)) {
+  console.log(`${clave} → ${valor}`);
+}
+
+const otroNombre = premio;
+otroNombre.quedan = 0;
+console.log('Quedan (en el original):', premio.quedan);
+```
+
+### Salida esperada
+
+```
+{ nombre: 'Cometa', precio: 6, color: 'rojo', quedan: 4 }
+Cometa cuesta 6 fichas
+Original: 6 · Oferta: 4
+nombre → Cometa
+precio → 6
+color → rojo
+quedan → 4
+Quedan (en el original): 0
+```
+
+### ¿Para qué sirve?
+
+Un usuario, un producto, un personaje de un juego, la respuesta de un servidor: casi todo en JavaScript es un objeto. La desestructuración y el spread están en todo el código moderno (y en React, todo el tiempo).
+
+### Errores habituales
+
+**Esqueleto: una propiedad mal escrita.** `premio.precoi` no da error: da `undefined`, y el problema aparece después.
+
+**Troll: creer que `b = a` copia.** Cambiás `b` y se cambia `a`. Para copiar, `{ ...a }` o `[...a]`.
+
+**Ogro: el spread copia solo el primer nivel.** `{ ...premio }` copia las propiedades, pero si una de ellas es otro objeto, ese sigue siendo compartido. Para copiar todo, `structuredClone(premio)`.
+
+**Slime: desestructurar `undefined`.** `const { nombre } = undefined;` da `Cannot destructure property 'nombre' of 'undefined'`.
+
+### Micro-misión R01-N06-P1 · La etiqueta del oso
+
+```meta
+lugar: La tienda de premios
+personajes: Nima, Gheco, el Flaco Ruiz
+carta: Objetos | { nombre: 'Oso', precio: 10 } · premio.nombre · premio['precio']
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Flaco Ruiz le pide a Nima que pase la etiqueta del oso de peluche a una cajita con nombres: nombre, precio y color.
+
+#### Gheco sugiere
+Un objeto se escribe entre llaves, con `clave: valor` separados por comas.
+
+#### Desafío
+Creá el objeto `oso` con `nombre` `'Oso'`, `precio` `10` y `color` `'marrón'`.
+
+#### Código inicial
+```javascript
+const oso = ___;
+
+console.log(oso.nombre, 'cuesta', oso.precio);
+console.log('Color:', oso['color']);
+```
+
+#### Salida esperada
+```
+Oso cuesta 10
+Color: marrón
+```
+
+#### Solución
+```javascript
+const oso = { nombre: 'Oso', precio: 10, color: 'marrón' };
+
+console.log(oso.nombre, 'cuesta', oso.precio);
+console.log('Color:', oso['color']);
+```
+
+#### Al superarla
+El Flaco Ruiz busca el precio del oso en dos segundos en vez de dos minutos. Se queda mirando el objeto como si fuera magia.
+
+#### Imagen
+- Una tienda de premios de feria llena de osos de peluche, cometas y faroles colgados, con etiquetas de cartón (sin texto).
+- El Flaco Ruiz (señor muy flaco y alto, bigote fino, chaleco verde abotonado, galera chiquita) sostiene un oso marrón; Nima toma notas.
+
+### Micro-misión R01-N06-P2 · Quedan pocos
+
+```meta
+lugar: La tienda de premios
+personajes: Nima, Gheco, el Flaco Ruiz
+carta: Cambiar propiedades | obj.prop = valor agrega o cambia · delete obj.prop borra · const no impide cambiar adentro
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Llegaron más cometas, subió el precio y ya no hay color rojo. El Flaco quiere actualizar la etiqueta sin hacer una nueva.
+
+#### Gheco sugiere
+`cometa.quedan = 5` agrega la propiedad, `cometa.precio = 7` la cambia y `delete cometa.color` la borra.
+
+#### Desafío
+Agregá `quedan: 5`, cambiá el precio a `7` y borrá el `color`.
+
+#### Código inicial
+```javascript
+const cometa = { nombre: 'Cometa', precio: 6, color: 'rojo' };
+
+// Actualizá la etiqueta
+
+console.log(cometa);
+```
+
+#### Salida esperada
+```
+{ nombre: 'Cometa', precio: 7, quedan: 5 }
+```
+
+#### Solución
+```javascript
+const cometa = { nombre: 'Cometa', precio: 6, color: 'rojo' };
+
+cometa.quedan = 5;
+cometa.precio = 7;
+delete cometa.color;
+console.log(cometa);
+```
+
+#### Al superarla
+—¡Y era `const`! —se asombra el Flaco—. —La cajita está sellada —le explica Nima—, pero lo de adentro se puede acomodar.
+
+#### Imagen
+- Un mazo de cometas de colores colgadas del techo de una tienda de feria, con una etiqueta de cartón tachada.
+- El Flaco Ruiz sube una escalera para colgar más cometas; Gheco le sostiene la etiqueta.
+
+### Micro-misión R01-N06-P3 · Desarmar el paquete
+
+```meta
+lugar: La tienda de premios
+personajes: Nima, Gheco, el Flaco Ruiz
+carta: Desestructurar | const { a, b } = obj · const [x, y] = lista · con valor por defecto: { c = 'x' }
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Llega un paquete con un premio adentro. El Flaco quiere sacar el nombre y el precio, y si no trae color, ponerle `'sin color'`.
+
+#### Gheco sugiere
+`const { nombre, precio, color = 'sin color' } = paquete;` crea las tres variables de una vez.
+
+#### Desafío
+Desestructurá `paquete` para que el programa muestre los tres datos.
+
+#### Código inicial
+```javascript
+const paquete = { nombre: 'Silbato', precio: 2 };
+
+// Desarmalo en una sola línea
+
+console.log(nombre, precio, color);
+```
+
+#### Salida esperada
+```
+Silbato 2 sin color
+```
+
+#### Solución
+```javascript
+const paquete = { nombre: 'Silbato', precio: 2 };
+
+const { nombre, precio, color = 'sin color' } = paquete;
+
+console.log(nombre, precio, color);
+```
+
+#### Al superarla
+El silbato queda en la vitrina con su etiqueta completa: *sin color*. El Flaco lo prueba. Suena horrible.
+
+#### Imagen
+- Una caja de cartón abierta sobre un mostrador, con papel de seda y un silbato de lata adentro.
+- El Flaco Ruiz sopla el silbato; Nima y Gheco se tapan los oídos.
+
+### Micro-misión R01-N06-P4 · El esqueleto de la copia
+
+```meta
+lugar: La tienda de premios
+personajes: Nima, Gheco, el Flaco Ruiz
+criatura: troll
+carta: Copiar | b = a no copia: es el mismo objeto · { ...a } hace una copia nueva
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+El Flaco hizo una «copia» del farol para ponerlo en oferta. Pero al bajarle el precio a la copia, también se le bajó al original.
+
+#### Gheco sugiere
+`const oferta = farol;` no copia: son dos nombres para el mismo farol. Con `{ ...farol }` sí hay dos.
+
+#### Desafío
+Arreglá la copia para que el original siga a 8.
+
+#### Código inicial
+```javascript
+const farol = { nombre: 'Farol', precio: 8 };
+const oferta = farol;
+oferta.precio = 5;
+
+console.log('Original:', farol.precio);
+console.log('Oferta:', oferta.precio);
+```
+
+#### Salida esperada
+```
+Original: 8
+Oferta: 5
+```
+
+#### Solución
+```javascript
+const farol = { nombre: 'Farol', precio: 8 };
+const oferta = { ...farol };
+oferta.precio = 5;
+
+console.log('Original:', farol.precio);
+console.log('Oferta:', oferta.precio);
+```
+
+#### Al superarla
+Ahora hay dos faroles en la vitrina: uno caro y uno en oferta. Nadie entiende cuál es la diferencia, pero el de oferta se vende enseguida.
+
+#### Imagen
+- Dos faroles de vidrio iguales en una vitrina de feria, uno con un moño rojo de oferta.
+- Un troll chiquito y gruñón de feria (sin armas) asoma detrás de la vitrina, contrariado; Nima señala los faroles.
+
+### Micro-misión R01-N06-P5 · El inventario completo
+
+```meta
+lugar: La tienda de premios
+personajes: Nima, Gheco, el Flaco Ruiz
+carta: Object.entries | da [clave, valor] de cada propiedad · se recorre con for…of y se desarma con [k, v]
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+El Flaco guarda cuántos quedan de cada premio en un solo objeto. Quiere una lista que diga cuántos quedan de cada uno, y avise los que se agotaron.
+
+#### Gheco sugiere
+`for (const [premio, cantidad] of Object.entries(stock))` te da cada par. Si la cantidad es 0, mostrá `agotado`.
+
+#### Desafío
+Mostrá cada premio con su cantidad, o `agotado` si es 0: `oso: 3`, `cometa: agotado`, `silbato: 12`, `farol: 1`.
+
+#### Código inicial
+```javascript
+const stock = { oso: 3, cometa: 0, silbato: 12, farol: 1 };
+
+```
+
+#### Salida esperada
+```
+oso: 3
+cometa: agotado
+silbato: 12
+farol: 1
+```
+
+#### Solución
+```javascript
+const stock = { oso: 3, cometa: 0, silbato: 12, farol: 1 };
+
+for (const [premio, cantidad] of Object.entries(stock)) {
+  console.log(`${premio}: ${cantidad === 0 ? 'agotado' : cantidad}`);
+}
+```
+
+#### Al superarla
+El Flaco Ruiz pega la lista en la puerta. Por primera vez en años, nadie le pide una cometa que no tiene.
+
+#### Imagen
+- La puerta de una tienda de premios de feria con una lista pegada (sin texto legible) y un premio de cada tipo colgado alrededor.
+- El Flaco Ruiz, con la galera chiquita, sonríe por primera vez; Gheco le da la mano.
+
+### Micro-misión R01-N06-P6 · El combo de premios
+
+```meta
+lugar: La tienda de premios
+personajes: Nima, Gheco, el Flaco Ruiz, Lumina
+carta: Spread | [...a, ...b] junta arreglos · { ...obj, prop: nuevo } copia y cambia · Object.freeze lo congela
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Lumina arma un premio especial para la mejor arquera de la noche: los premios chicos y los grandes en una sola lista, y una copia del farol dorado con el precio en 0, congelada para que nadie la cambie.
+
+#### Gheco sugiere
+`[...chicos, ...grandes]` junta las dos listas. `Object.freeze({ ...farol, precio: 0 })` copia, cambia el precio y congela.
+
+#### Desafío
+Armá `todos` y `regalo`. Si el regalo quedó congelado, el intento de cambiarle el precio falla (el `try` ya está escrito).
+
+#### Código inicial
+```javascript
+const chicos = ['silbato', 'globo'];
+const grandes = ['oso', 'farol'];
+const farol = { nombre: 'Farol dorado', precio: 20 };
+
+const todos = ___;
+const regalo = ___;
+try {
+  regalo.precio = 99;   // congelado: esto tiene que fallar
+} catch (error) {
+  console.log('No se puede cambiar:', error.name);
+}
+
+console.log(todos);
+console.log(regalo, Object.isFrozen(regalo));
+```
+
+#### Salida esperada
+```
+No se puede cambiar: TypeError
+[ 'silbato', 'globo', 'oso', 'farol' ]
+{ nombre: 'Farol dorado', precio: 0 } true
+```
+
+#### Solución
+```javascript
+const chicos = ['silbato', 'globo'];
+const grandes = ['oso', 'farol'];
+const farol = { nombre: 'Farol dorado', precio: 20 };
+
+const todos = [...chicos, ...grandes];
+const regalo = Object.freeze({ ...farol, precio: 0 });
+try {
+  regalo.precio = 99;   // congelado: esto tiene que fallar
+} catch (error) {
+  console.log('No se puede cambiar:', error.name);
+}
+
+console.log(todos);
+console.log(regalo, Object.isFrozen(regalo));
+```
+
+#### Al superarla
+El farol dorado queda congelado en precio cero, con un moño amarillo. Lumina lo guarda para más adelante: —Lo vas a necesitar —le dice a Nima, sin explicar para qué.
+
+#### Imagen
+- Un farol dorado con un moño amarillo sobre un almohadón de terciopelo, brillando de noche.
+- Lumina (luciérnaga enorme, alas de vidrio) lo cubre con una campana de vidrio; Nima y el Flaco Ruiz miran.
+
+## R01-N07 · Funciones
+
+```meta
+tipo: tema
+padre: R01-N06
+precio: 10
+criatura: ogre
+temas: prog.funciones, prog.alcance
+```
+
+### Crónica
+
+En una esquina, un viejo **organito** toca siempre la misma canción, y el **organillero** (un abuelo de sombrero de copa al que todos llaman **Don Tano**) se queja: tiene cien canciones guardadas en rollos de papel, pero no sabe cómo elegir cuál tocar ni cómo cambiarle el ritmo.
+
+—Cada rollo es una **función** —dice {mentor}—. Se escribe una vez, se le pone nombre y se la llama cuando hace falta, con lo que necesite: el ritmo, el volumen, la persona a la que se le dedica.
+
+### Objetivos
+
+- Declarar funciones con `function`, con parámetros y `return`.
+- Escribir funciones flecha: `(a, b) => a + b`.
+- Usar parámetros por defecto y parámetros rest (`...nums`).
+- Pasar funciones como argumento (callbacks), como en `map` y `filter`.
+- Entender el alcance: lo que se declara adentro de una función no se ve afuera.
+
+### Antes de empezar
+
+- R01-N05 y R01-N06: arreglos y objetos (ya usaste flechas en `map` y `filter`).
+
+### Explicación
+
+#### Declarar y llamar
+```javascript
+function saludar(nombre) {
+  return `¡Hola, ${nombre}!`;
+}
+console.log(saludar('Nima'));
+```
+- `nombre` es un **parámetro**: lo que la función necesita.
+- `return` **devuelve** un valor y termina la función. Sin `return`, devuelve `undefined`.
+
+#### Funciones flecha
+```javascript
+const doble = (n) => n * 2;             // sin llaves: devuelve solo
+const sumar = (a, b) => {
+  const total = a + b;
+  return total;                          // con llaves: hace falta return
+};
+```
+
+#### Parámetros por defecto y rest
+```javascript
+function tocar(cancion, veces = 1) { … }      // si no pasan veces, vale 1
+function sumarTodas(...fichas) {               // fichas es un arreglo con todos los argumentos
+  return fichas.reduce((a, b) => a + b, 0);
+}
+sumarTodas(1, 2, 3);   // 6
+```
+
+#### Funciones que reciben funciones
+```javascript
+function repetir(veces, accion) {
+  for (let i = 1; i <= veces; i++) accion(i);
+}
+repetir(3, (n) => console.log('Vuelta', n));
+```
+`accion` es un **callback**: una función que le pasás a otra para que la llame. Es lo que hacen `map`, `filter` y, más adelante, `addEventListener` y `setTimeout`.
+
+#### Alcance
+```javascript
+function contar() {
+  const secreto = 42;
+}
+console.log(secreto);   // ReferenceError: lo de adentro no se ve afuera
+```
+
+#### `this`, en una línea
+Adentro de un **método** de un objeto (`obj.metodo()`), `this` es el objeto. Las flechas **no** tienen su propio `this`. Lo vas a ver a fondo con las clases (R03).
+
+### Código de ejemplo
+
+```javascript
+function precioFinal(precio, descuento = 0) {
+  return precio - precio * descuento;
+}
+console.log(precioFinal(10));
+console.log(precioFinal(10, 0.2));
+
+const cuadrado = (n) => n * n;
+console.log([1, 2, 3].map(cuadrado));
+
+function juntarFichas(...rondas) {
+  return rondas.reduce((total, r) => total + r, 0);
+}
+console.log('Fichas:', juntarFichas(3, 5, 2));
+
+const organito = {
+  cancion: 'La Cumparsita',
+  tocar() {
+    return `Suena ${this.cancion}`;
+  },
+};
+console.log(organito.tocar());
+```
+
+### Salida esperada
+
+```
+10
+8
+[ 1, 4, 9 ]
+Fichas: 10
+Suena La Cumparsita
+```
+
+### ¿Para qué sirve?
+
+Las funciones son la forma de partir un programa grande en piezas chicas con nombre: cada una hace una cosa y se puede probar sola. En JavaScript, además, las funciones viajan: se pasan a `map`, a un botón, a un temporizador o a un pedido al servidor. Todo lo que viene en el curso depende de esto.
+
+### Errores habituales
+
+**Ogro: olvidarse el `return`.** La función hace la cuenta pero devuelve `undefined`.
+
+**Ogro: llamar sin paréntesis.** `saludar` (sin `()`) es la función misma; `saludar('Nima')` la ejecuta. `console.log(saludar)` muestra `[Function: saludar]`.
+
+**Esqueleto: usar algo declarado adentro de otra función.** `ReferenceError: secreto is not defined`.
+
+**Ogro: el `this` perdido en una flecha.** En un método, `tocar: () => this.cancion` da `undefined`: para métodos, usá la forma `tocar() { … }`.
+
+### Micro-misión R01-N07-P1 · El rollo del saludo
+
+```meta
+lugar: La esquina del organito
+personajes: Nima, Gheco, Don Tano
+carta: function | function nombre(param) { return …; } · se llama con nombre(valor)
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Don Tano quiere un rollo que salude a cualquiera que pase, con su nombre.
+
+#### Gheco sugiere
+Una función con un parámetro `nombre` que **devuelva** el saludo con `return`.
+
+#### Desafío
+Escribí la función `saludar` para que el programa muestre los dos saludos.
+
+#### Código inicial
+```javascript
+// Escribí la función saludar acá
+
+
+console.log(saludar('Nima'));
+console.log(saludar('Gheco'));
+```
+
+#### Salida esperada
+```
+¡Bienvenida a la Feria, Nima!
+¡Bienvenida a la Feria, Gheco!
+```
+
+#### Solución
+```javascript
+function saludar(nombre) {
+  return `¡Bienvenida a la Feria, ${nombre}!`;
+}
+
+console.log(saludar('Nima'));
+console.log(saludar('Gheco'));
+```
+
+#### Al superarla
+El organito toca una melodía nueva y dice el nombre de cada uno que pasa. Gheco pasa tres veces, para escucharlo.
+
+#### Imagen
+- Un organito de manivela antiguo con pinturas de colores sobre un carrito, en una esquina de la feria iluminada.
+- Don Tano (abuelo de sombrero de copa gastado, bigote blanco grande, saco largo abotonado) gira la manivela; Nima escucha y Gheco baila arriba del organito.
+
+### Micro-misión R01-N07-P2 · Ritmo por defecto
+
+```meta
+lugar: La esquina del organito
+personajes: Nima, Gheco, Don Tano
+carta: Parámetro por defecto | function f(a, b = 1) · si no pasan b, vale 1 · return devuelve el resultado
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Algunas canciones se tocan una vez y otras varias. Si nadie dice cuántas, Don Tano la toca **una**.
+
+#### Gheco sugiere
+`function tocar(cancion, veces = 1)`: si no pasan `veces`, vale 1. Usá `.repeat(veces)` para repetir un texto.
+
+#### Desafío
+Completá la función para que devuelva la canción repetida, separada por espacios y con una nota al final: `'la '.repeat(3)` da `'la la la '`.
+
+#### Código inicial
+```javascript
+function tocar(cancion, ___) {
+  return (cancion + ' ').repeat(veces) + '♪';
+}
+
+console.log(tocar('tan'));
+console.log(tocar('tin', 3));
+```
+
+#### Salida esperada
+```
+tan ♪
+tin tin tin ♪
+```
+
+#### Solución
+```javascript
+function tocar(cancion, veces = 1) {
+  return (cancion + ' ').repeat(veces) + '♪';
+}
+
+console.log(tocar('tan'));
+console.log(tocar('tin', 3));
+```
+
+#### Al superarla
+Don Tano repite el estribillo tres veces y la gente lo canta con él. La tercera vez, desafinan todos juntos.
+
+#### Imagen
+- Rollos de papel perforado de organito apilados en un canasto, con notas musicales doradas flotando en el aire.
+- Don Tano marca el ritmo con el pie; una ronda de gente de feria canta.
+
+### Micro-misión R01-N07-P3 · Flechas de luz
+
+```meta
+lugar: La esquina del organito
+personajes: Nima, Gheco
+carta: Funciones flecha | const f = (x) => x * 2; · sin llaves devuelve solo · con llaves, return
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+Gheco dice que las funciones flecha son las favoritas de la Feria: cortas, rápidas, como las flechas de Nima.
+
+#### Gheco sugiere
+`const triple = (n) => n * 3;` es una función entera en una línea.
+
+#### Desafío
+Escribí `triple` y `esPar` como flechas (`esPar` devuelve `true` si el número es par: `n % 2 === 0`).
+
+#### Código inicial
+```javascript
+const triple = ___;
+const esPar = ___;
+
+console.log(triple(4));
+console.log(esPar(4), esPar(7));
+console.log([1, 2, 3, 4].filter(esPar).map(triple));
+```
+
+#### Salida esperada
+```
+12
+true false
+[ 6, 12 ]
+```
+
+#### Solución
+```javascript
+const triple = (n) => n * 3;
+const esPar = (n) => n % 2 === 0;
+
+console.log(triple(4));
+console.log(esPar(4), esPar(7));
+console.log([1, 2, 3, 4].filter(esPar).map(triple));
+```
+
+#### Al superarla
+Nima mira el código y se ríe: —Son como mis flechas. Salen apenas las pensás.
+
+#### Imagen
+- Tres flechas de luz amarilla cruzando el cielo de la feria, dejando estela.
+- Nima (trenza negra con hilo amarillo, chaqueta de cuero negra con costuras amarillas) baja el arco; Gheco aplaude.
+
+### Micro-misión R01-N07-P4 · Todas las fichas
+
+```meta
+lugar: La esquina del organito
+personajes: Nima, Gheco, Don Tano
+carta: Parámetros rest | function f(...nums) · nums es un arreglo con todos los argumentos
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+La gente le deja monedas a Don Tano en el sombrero, de a una o de a puñados. Quiere una función que las sume, sin importar cuántas le pasen.
+
+#### Gheco sugiere
+`function juntar(...monedas)` recibe todos los argumentos en un arreglo `monedas`. Después, `reduce`.
+
+#### Desafío
+Escribí `juntar` para que sume todos sus argumentos.
+
+#### Código inicial
+```javascript
+function juntar(___) {
+  ___
+}
+
+console.log(juntar(1, 2));
+console.log(juntar(5, 5, 5, 1));
+console.log(juntar());
+```
+
+#### Salida esperada
+```
+3
+16
+0
+```
+
+#### Solución
+```javascript
+function juntar(...monedas) {
+  return monedas.reduce((total, m) => total + m, 0);
+}
+
+console.log(juntar(1, 2));
+console.log(juntar(5, 5, 5, 1));
+console.log(juntar());
+```
+
+#### Al superarla
+Don Tano da vuelta el sombrero y cuenta: dieciséis fichas y un botón. El botón lo guarda igual.
+
+#### Imagen
+- Un sombrero de copa gastado dado vuelta en el piso, lleno de fichas de bronce y un botón.
+- Don Tano cuenta las fichas; Gheco sostiene el botón con cara de duda.
+
+### Micro-misión R01-N07-P5 · El rollo que repite
+
+```meta
+lugar: La esquina del organito
+personajes: Nima, Gheco, Don Tano
+carta: Callbacks | una función que recibe otra función · accion(i) la llama · map, filter y setTimeout lo hacen
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Don Tano quiere un rollo «comodín»: que repita **cualquier cosa** las veces que le pidan. Lo que se repite se lo pasan como otra función.
+
+#### Gheco sugiere
+`repetir(veces, accion)` hace un `for` y adentro llama `accion(i)`. Después probalo con una flecha.
+
+#### Desafío
+Completá `repetir` y usala para mostrar `Vuelta 1`, `Vuelta 2` y `Vuelta 3`.
+
+#### Código inicial
+```javascript
+function repetir(veces, accion) {
+  // llamá a accion con cada número, de 1 a veces
+
+}
+
+repetir(3, ___);
+```
+
+#### Salida esperada
+```
+Vuelta 1
+Vuelta 2
+Vuelta 3
+```
+
+#### Solución
+```javascript
+function repetir(veces, accion) {
+  for (let i = 1; i <= veces; i++) {
+    accion(i);
+  }
+}
+
+repetir(3, (n) => console.log(`Vuelta ${n}`));
+```
+
+#### Al superarla
+El rollo comodín gira tres veces y se detiene solo. Don Tano lo pone en el lugar de honor del canasto.
+
+#### Imagen
+- Un rollo de papel perforado dorado, distinto de los demás, girando en la boca de un organito.
+- Don Tano lo mira con orgullo; Nima y Gheco aplauden.
+
+### Micro-misión R01-N07-P6 · El método del organito
+
+```meta
+lugar: La esquina del organito
+personajes: Nima, Gheco, Don Tano, Lumina
+criatura: ogre
+carta: Métodos y this | metodo() { this.prop } · this es el objeto · una flecha no tiene su propio this
+recompensa: xp 15, monedas 5
+```
+
+#### Escena
+Lumina le arma a Don Tano un organito que sabe qué canción tiene puesta. Pero cuando lo prueban, dice *Suena undefined*: un ogro escondido en el código.
+
+#### Gheco sugiere
+El método está escrito como flecha, y las flechas no tienen su propio `this`. Escribilo como método: `tocar() { … }`.
+
+#### Desafío
+Arreglá el método para que muestre `Suena La Cumparsita`.
+
+#### Código inicial
+```javascript
+const organito = {
+  cancion: 'La Cumparsita',
+  tocar: () => `Suena ${this?.cancion}`,
+};
+
+console.log(organito.tocar());
+```
+
+#### Salida esperada
+```
+Suena La Cumparsita
+```
+
+#### Solución
+```javascript
+const organito = {
+  cancion: 'La Cumparsita',
+  tocar() {
+    return `Suena ${this.cancion}`;
+  },
+};
+
+console.log(organito.tocar());
+```
+
+#### Al superarla
+El organito suena con la canción correcta, y toda la esquina se pone a bailar. Lumina hace titilar su luz al compás. —Ahora sí: los Puestos ya hablan nuestra lengua.
+
+#### Imagen
+- Una esquina de la feria con gente bailando alrededor de un organito y farolitos de colores.
+- Don Tano gira la manivela; Lumina (luciérnaga enorme, alas de vidrio) titila arriba; Nima baila con Gheco en el hombro.
+
+## R01-N08 · Jefe: el Goblin de la Coerción
+
+```meta
+tipo: jefe
+padre: R01-N07
+precio: 10
+criatura: dragon
+insignia: Ficha del Goblin
+insignia_descripcion: Venciste al Goblin de la Coerción: dominás los fundamentos de JavaScript.
+usa: prog.variables, prog.condicionales, prog.bucles, col.listas, col.mapas, prog.funciones
+```
+
+### Crónica
+
+Al final de la fila de puestos, el **Goblin de la Coerción** abrió su propio puesto: *La Gran Balanza*. Promete el doble de fichas a quien gane su juego, pero hace trampa con todo: suma textos con números, compara con `==`, se come los ceros con `||` y cobra `NaN` como si fuera una ficha.
+
+—Esta vez no le vas a pagar —dice {mentor}—. Vas a jugar su juego con todo lo que aprendiste en los Puestos, y le vas a ganar con las cuentas bien hechas.
+
+### Objetivos
+
+- Integrar todo lo de la rama: variables, tipos, decisiones, bucles, arreglos, objetos y funciones.
+- Convertir a propósito los datos que llegan como texto y validarlos.
+- Partir un problema en funciones chicas.
+
+### Antes de empezar
+
+- Todos los nodos de los Puestos de Juegos (R01-N01 a R01-N07).
+
+### Explicación
+
+#### Cómo encarar un jefe
+1. **Leé la consigna entera** y anotá qué datos entran y qué tiene que salir.
+2. **Partilo en funciones chicas**: una convierte, otra valida, otra calcula.
+3. **Probá de a una**: ejecutá después de cada función nueva.
+4. **Buscá los casos raros**: un texto que no es número, un cero, un dato que falta. El Goblin ataca por ahí.
+
+#### Las trampas del Goblin (y la verdad)
+| El Goblin dice… | La verdad |
+|---|---|
+| "«5» más 5 es 55" | convertí con `Number` antes de sumar |
+| "`==` alcanza" | `===` compara tipo y valor |
+| "0 fichas es lo mismo que nada" | `??` respeta el cero; `||` no |
+| "`NaN` es una ficha" | `Number.isNaN(x)` lo descubre |
+| "si no está el dato, no pasa nada" | `?.` y `??` evitan que explote |
+
+### Micro-misión R01-N08-P1 · Los carteles de la Gran Balanza
+
+```meta
+lugar: La Gran Balanza del Goblin
+personajes: Nima, Gheco, el Goblin de la Coerción
+criatura: goblin
+carta: Trampa 1 | lo que llega en carteles es texto · Number() a cada uno · Number.isNaN descarta lo que no es número
+recompensa: xp 15, monedas 3
+```
+
+#### Escena
+El Goblin muestra los carteles de las apuestas de la noche, todos de papel: algunos son números y otros no. Dice que suman «35104», y que «diez» también cuenta.
+
+#### Gheco sugiere
+Convertí cada cartel con `Number` y quedate solo con los que **no** son `NaN` (`filter`), antes de sumarlos (`reduce`).
+
+#### Desafío
+Mostrá los válidos y el total de verdad: `Válidos: [ 3, 5, 10, 4 ]` y `Total: 22`.
+
+#### Código inicial
+```javascript
+const carteles = ['3', '5', 'diez', '10', '4', 'mucho'];
+
+const validos = ___;
+const total = ___;
+console.log('Válidos:', validos);
+console.log('Total:', total);
+```
+
+#### Salida esperada
+```
+Válidos: [ 3, 5, 10, 4 ]
+Total: 22
+```
+
+#### Solución
+```javascript
+const carteles = ['3', '5', 'diez', '10', '4', 'mucho'];
+
+const validos = carteles.map(Number).filter((n) => !Number.isNaN(n));
+const total = validos.reduce((suma, n) => suma + n, 0);
+console.log('Válidos:', validos);
+console.log('Total:', total);
+```
+
+#### Al superarla
+El Goblin tacha «35104» en su pizarra y escribe «22», chiquito. La primera trampa cayó.
+
+#### Imagen
+- Un puesto de feria enorme y recargado con una balanza gigante de bronce y carteles de papel colgados (sin texto legible).
+- El Goblin de la Coerción (goblin de orejas puntiagudas, sonrisa enorme, chaleco a rayas y galera, sin armas) tacha su pizarra con fastidio; Nima, de brazos cruzados.
+
+### Micro-misión R01-N08-P2 · La balanza de dos platos
+
+```meta
+lugar: La Gran Balanza del Goblin
+personajes: Nima, Gheco, el Goblin de la Coerción
+criatura: goblin
+carta: Trampa 2 | == convierte antes de comparar · === no · contá cuántos pares son iguales de verdad
+recompensa: xp 15, monedas 3
+```
+
+#### Escena
+El Goblin pone pares de cosas en su balanza y cobra una ficha por cada par «igual». Pero su balanza usa `==`.
+
+#### Gheco sugiere
+Recorré los pares con `for…of`, desarmá cada uno en `[a, b]` y contá solo los que dan `a === b`.
+
+#### Desafío
+Mostrá `El Goblin cobra: 4` (con `==`) y `Pares iguales de verdad: 1` (con `===`).
+
+#### Código inicial
+```javascript
+const pares = [[1, '1'], [0, ''], [2, 2], [null, undefined], ['3', 4]];
+
+let segunElGoblin = 0;
+let deVerdad = 0;
+for (const [a, b] of pares) {
+  if (a == b) segunElGoblin++;
+  // contá los iguales de verdad
+
+}
+console.log('El Goblin cobra:', segunElGoblin);
+console.log('Pares iguales de verdad:', deVerdad);
+```
+
+#### Salida esperada
+```
+El Goblin cobra: 4
+Pares iguales de verdad: 1
+```
+
+#### Solución
+```javascript
+const pares = [[1, '1'], [0, ''], [2, 2], [null, undefined], ['3', 4]];
+
+let segunElGoblin = 0;
+let deVerdad = 0;
+for (const [a, b] of pares) {
+  if (a == b) segunElGoblin++;
+  if (a === b) deVerdad++;
+}
+console.log('El Goblin cobra:', segunElGoblin);
+console.log('Pares iguales de verdad:', deVerdad);
+```
+
+#### Al superarla
+La balanza del Goblin se traba de golpe y deja de inclinarse para su lado. Él le da un golpe, pero ya no hay caso.
+
+#### Imagen
+- Una balanza de bronce gigante trabada en el medio, con objetos raros en cada plato: una ficha y un papel, una caja vacía y un globo.
+- El goblin de chaleco a rayas le da un golpe a la balanza; Gheco se ríe arriba de un plato.
+
+### Micro-misión R01-N08-P3 · El cero que se come
+
+```meta
+lugar: La Gran Balanza del Goblin
+personajes: Nima, Gheco, el Goblin de la Coerción
+criatura: goblin
+carta: Trampa 3 | fichas ?? 10 respeta el 0 · el ?. no explota si falta algo
+recompensa: xp 15, monedas 3
+```
+
+#### Escena
+El Goblin le da a cada jugador 10 fichas «si no tiene ninguna». Pero también se las da a los que tienen 0 a propósito (los que ya perdieron), y explota cuando un jugador no trae su bolsa.
+
+#### Gheco sugiere
+Usá `jugador.bolsa?.fichas ?? 10`: si no hay bolsa o no tiene el dato, 10; si tiene 0, queda 0.
+
+#### Desafío
+Escribí la función `fichasDe` para que muestre `Nima: 4`, `Bruno: 0` y `Tati: 10`.
+
+#### Código inicial
+```javascript
+const jugadores = [
+  { nombre: 'Nima', bolsa: { fichas: 4 } },
+  { nombre: 'Bruno', bolsa: { fichas: 0 } },
+  { nombre: 'Tati' },
+];
+
+function fichasDe(jugador) {
+  return jugador.bolsa.fichas || 10;
+}
+
+for (const j of jugadores) {
+  console.log(`${j.nombre}: ${fichasDe(j)}`);
+}
+```
+
+#### Salida esperada
+```
+Nima: 4
+Bruno: 0
+Tati: 10
+```
+
+#### Solución
+```javascript
+const jugadores = [
+  { nombre: 'Nima', bolsa: { fichas: 4 } },
+  { nombre: 'Bruno', bolsa: { fichas: 0 } },
+  { nombre: 'Tati' },
+];
+
+function fichasDe(jugador) {
+  return jugador.bolsa?.fichas ?? 10;
+}
+
+for (const j of jugadores) {
+  console.log(`${j.nombre}: ${fichasDe(j)}`);
+}
+```
+
+#### Al superarla
+Bruno se queda con su cero (es justo: ya perdió) y Tati recibe sus diez. El Goblin cuenta su caja y le faltan las fichas que regalaba de más.
+
+#### Imagen
+- Tres bolsitas de tela con fichas sobre un mostrador: una con pocas, una vacía y un lugar vacío donde falta la tercera.
+- Bruno (chaleco rojo) pone cara de resignado; Tati (delantal amarillo) recibe una bolsa nueva; el goblin, furioso.
+
+### Micro-misión R01-N08-P4 · El juego de la Gran Balanza
+
+```meta
+lugar: La Gran Balanza del Goblin
+personajes: Nima, Gheco, Lumina, el Goblin de la Coerción
+criatura: dragon
+carta: El jefe | partí en funciones · convertí y validá · acumulá con reduce · decidí con if
+recompensa: xp 30, oro 30, monedas 1
+item: Ficha del Goblin
+```
+
+#### Escena
+El juego final del Goblin: tres rondas de tiro. Cada ronda llega como un objeto con los puntos **en texto**, y algunas rondas llegan rotas. Si Nima junta más de 20 puntos válidos, gana el doble de fichas. El Goblin está seguro de que la cuenta le va a dar mal.
+
+#### Gheco sugiere
+Escribí `puntosDe(ronda)` que convierta y devuelva 0 si no es un número. Después sumá todas las rondas con `reduce` y decidí con un `if` (o un ternario).
+
+#### Desafío
+Completá las funciones para que el programa muestre exactamente:
+- `Ronda 1: 8`
+- `Ronda 2: 0 (rota)`
+- `Ronda 3: 9`
+- `Ronda 4: 7`
+- `Total: 24`
+- `¡Nima gana el doble!`
+
+#### Código inicial
+```javascript
+const rondas = [
+  { numero: 1, puntos: '8' },
+  { numero: 2, puntos: 'ocho' },
+  { numero: 3, puntos: '9' },
+  { numero: 4, puntos: '7' },
+];
+
+function puntosDe(ronda) {
+  // convertí a número; si es NaN, devolvé 0
+
+}
+
+for (const ronda of rondas) {
+  // mostrá cada ronda (y avisá las rotas)
+
+}
+
+const total = ___;
+console.log('Total:', total);
+// si el total es mayor que 20: '¡Nima gana el doble!'; si no: 'Gana el Goblin'
+
+```
+
+#### Salida esperada
+```
+Ronda 1: 8
+Ronda 2: 0 (rota)
+Ronda 3: 9
+Ronda 4: 7
+Total: 24
+¡Nima gana el doble!
+```
+
+#### Solución
+```javascript
+const rondas = [
+  { numero: 1, puntos: '8' },
+  { numero: 2, puntos: 'ocho' },
+  { numero: 3, puntos: '9' },
+  { numero: 4, puntos: '7' },
+];
+
+function puntosDe(ronda) {
+  const puntos = Number(ronda.puntos);
+  return Number.isNaN(puntos) ? 0 : puntos;
+}
+
+for (const ronda of rondas) {
+  const puntos = puntosDe(ronda);
+  const rota = Number.isNaN(Number(ronda.puntos)) ? ' (rota)' : '';
+  console.log(`Ronda ${ronda.numero}: ${puntos}${rota}`);
+}
+
+const total = rondas.reduce((suma, ronda) => suma + puntosDe(ronda), 0);
+console.log('Total:', total);
+console.log(total > 20 ? '¡Nima gana el doble!' : 'Gana el Goblin');
+```
+
+#### Al superarla
+La Gran Balanza se inclina, por fin, hacia el lado justo. El Goblin le paga a Nima el doble, ficha por ficha, y se le cae la galera. Entre las fichas hay una distinta, de bronce oscuro, con una cara de goblin sonriente: **la Ficha del Goblin**.
+
+—Los Puestos ya hablan nuestra lengua —dice {mentor}, y todos los faroles de la fila se prenden a la vez—. Ahora, la avenida.
+
+#### Imagen
+- La Gran Balanza de bronce inclinada hacia el lado de Nima, con una lluvia de fichas de bronce cayendo.
+- Nima (trenza negra con hilo amarillo, chaqueta corta de cuero negro con costuras amarillas, arco verde) atrapa una ficha oscura con cara de goblin; el Goblin de la Coerción (orejas puntiagudas, chaleco a rayas) pierde la galera.
+- Lumina (luciérnaga enorme con alas de vidrio y luz amarilla en el pecho) y todos los faroles de la feria prendidos atrás.

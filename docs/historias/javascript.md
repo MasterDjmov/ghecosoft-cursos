@@ -142,3 +142,21 @@ Generadas en el proyecto de Stitch de los **Talleres** (`9229721314509917104`), 
 Los aspectos, en orden (aprobados por el docente el 2026-10-22): 1 **Arquera del Valle** (la base: arco, carcaj y trenza), 2 **Capucha de Faroles**, 3 **Hombreras de Oro**, 4 **Corona de Fuegos**, 5 **Flecha de Luz** (azul con anillo cian), 6 **Alas de Luciérnaga**.
 
 Falta cuando se arme el curso: Nima en `config/game.php` → `protagonists` (con esos `looks`), Destello en `mounts.species` y `mounts.about`, y el fondo en el Diccionario.
+
+## 12. La gente de la Feria que ya aparece en el curso (2026-10-30)
+
+Salieron al escribir la Clase 0 y los Puestos de Juegos (R01). Les faltan la ficha en [PERSONAJES.md](PERSONAJES.md) y las imágenes en Stitch (fase 4 de D115). Todos llevan ropa opaca y cerrada.
+
+| Personaje | Dónde | Cómo es |
+|---|---|---|
+| **Bruno y Tati** | el puesto de tiro (R01-N01, jefe) | los chicos del puesto. Bruno: 12 años, pelo rizado, gorra al revés y chaleco rojo. Tati: 11, dos colitas y delantal amarillo; «sella» todo con `const` |
+| **el Goblin de la Coerción** | el puesto de las balanzas (R01-N02) y la Gran Balanza (jefe R01) | orejas puntiagudas, sonrisa enorme, chaleco a rayas y galera, sin armas; suma textos con números y compara con `==` |
+| **el guardia de la calesita** | la calesita (R01-N03) | grandote, con gorra de feria y una soga roja |
+| **Bengala** | la explanada de los fuegos (R01-N04) | la pirotécnica: mujer joven, antiparras de cuero, delantal grueso cerrado, guantes chamuscados y pelo corto rojizo. Era «el Pirotécnico» de § 5 |
+| **Doña Mirta** | el puesto del pan con miel (R01-N05) | la panadera de § 5: petisa y redonda, delantal floreado cerrado, pañuelo en la cabeza y cucharón de madera |
+| **el Flaco Ruiz** | la tienda de premios (R01-N06) | el encargado: muy flaco y alto, bigote fino, chaleco verde abotonado y galera chiquita |
+| **Don Tano** | la esquina del organito (R01-N07) | el organillero: abuelo de sombrero de copa gastado, bigote blanco grande y saco largo abotonado |
+
+**Los ítems que ya se nombran** (van a `GameItems` con su imagen en la fase 4):
+- la **Ficha del Goblin**, que da el jefe de R01;
+- el **farol dorado congelado** que Lumina guarda para más adelante (R01-N06-P6). Por ahora es solo de la historia.

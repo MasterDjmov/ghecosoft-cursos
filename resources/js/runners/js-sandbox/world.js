@@ -546,7 +546,10 @@
             { id: 1, de: 'Sila', texto: '¿Dónde estás, Nima? Tu ficha sigue en el Archivo.' },
             { id: 2, de: 'Tizón', texto: 'Vi pasar las luces por las Forjas. Iban al norte.' },
         ],
+        palomas: [],
+        siguiente: 3,
     };
+    const REGIONES = ['Valle', 'Forjas', 'Talleres', 'Puerto'];
     const PUESTOS = [
         { id: 1, nombre: 'Tiro al blanco', precio: 2, abierto: true },
         { id: 2, nombre: 'Pan con miel', precio: 1, abierto: true },
@@ -573,9 +576,38 @@
         ['GET', '/puerto/mensajes', () => json(200, portState.mensajes)],
         ['POST', '/puerto/mensajes', (params, body) => {
             if (!body || typeof body !== 'object' || !body.texto) return json(422, { error: 'Falta el texto del mensaje.' });
-            const mensaje = { id: portState.mensajes.length + 1, de: String(body.de ?? 'Nima'), texto: String(body.texto) };
+            const mensaje = { id: portState.siguiente++, de: String(body.de ?? 'Nima'), texto: String(body.texto) };
             portState.mensajes.push(mensaje);
             return json(201, mensaje);
+        }],
+        ['GET', '/puerto/mensajes/:id', ({ id }) => {
+            const mensaje = portState.mensajes.find((m) => String(m.id) === id);
+            return mensaje ? json(200, mensaje) : json(404, { error: `No hay ningún mensaje con el número ${id}.` });
+        }],
+        ['PATCH', '/puerto/mensajes/:id', ({ id }, body) => {
+            const mensaje = portState.mensajes.find((m) => String(m.id) === id);
+            if (!mensaje) return json(404, { error: `No hay ningún mensaje con el número ${id}.` });
+            if (!body || typeof body !== 'object' || !body.texto) return json(422, { error: 'Falta el texto del mensaje.' });
+            mensaje.texto = String(body.texto);
+            return json(200, mensaje);
+        }],
+        ['DELETE', '/puerto/mensajes/:id', ({ id }) => {
+            const at = portState.mensajes.findIndex((m) => String(m.id) === id);
+            if (at === -1) return json(404, { error: `No hay ningún mensaje con el número ${id}.` });
+            portState.mensajes.splice(at, 1);
+            return { status: 204, body: null, type: 'application/json; charset=utf-8', delay: 300 };
+        }],
+        // El Palomar (Senda S02): las palomas salen solo con la sesión iniciada.
+        ['GET', '/puerto/palomas', (params, body, method, cookies) => (/(^|; )sesion=/.test(cookies)
+            ? json(200, portState.palomas)
+            : json(401, { error: 'Primero iniciá sesión.' }))],
+        ['POST', '/puerto/palomas', (params, body, method, cookies) => {
+            if (!/(^|; )sesion=/.test(cookies)) return json(401, { error: 'Primero iniciá sesión.' });
+            if (!body || typeof body !== 'object' || !body.para || !body.texto) return json(422, { error: 'Una paloma necesita a quién (para) y qué (texto).' });
+            if (!REGIONES.includes(body.para)) return json(422, { error: `Las palomas no saben llegar a «${body.para}». Destinos: ${REGIONES.join(', ')}.` });
+            const paloma = { id: portState.palomas.length + 1, para: body.para, texto: String(body.texto), vuelo: 1000 * (REGIONES.indexOf(body.para) + 1) };
+            portState.palomas.push(paloma);
+            return json(201, paloma, 500);
         }],
         ['GET', '/puerto/lento', () => json(200, { mensaje: 'Perdón la demora: la marea estaba alta.' }, 3000)],
         ['GET', '/puerto/error', () => json(500, { error: 'Se cayó una grúa en el muelle. Probá más tarde.' })],
@@ -749,8 +781,14 @@
     // Los enlaces no sacan de la página (la caja no navega).
     document.addEventListener('click', (event) => {
         const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
-        if (!link || link.getAttribute('href').startsWith('#')) return;
+        if (!link) return;
         event.preventDefault();
+        // Un «#seccion» tampoco: la página de la caja no tiene dirección propia y el salto la recargaría.
+        if (link.getAttribute('href').startsWith('#')) {
+            const id = decodeURIComponent(link.getAttribute('href').slice(1));
+            if (id) document.getElementById(id)?.scrollIntoView();
+            return;
+        }
         notice('enlace', `iría a ${link.getAttribute('href')} (en la caja no se sale de la página)`);
     }, true);
     // location.href = … (no se puede impedir): se avisa, y la caja la saca.
@@ -1101,6 +1139,18 @@
         for (const line of events) {
             if (dead) break;
             await runEvent(line);
+        }
+        // Lo que dejó volando el último evento (un pedido al Puerto, y los que salen de su respuesta) se espera, como
+        // en un navegador; los temporizadores no, porque un bucle del juego no termina nunca.
+        const flying = () => requests.some((r) => r.status === '…');
+        for (let calm = 0; events.length && !dead && calm < 4;) {
+            if (flying()) {
+                calm = 0;
+                await advance(Infinity, () => !flying());
+            } else {
+                calm++;
+                await idle();
+            }
         }
         const state = CONFIG.checks ? [...eventProblems.map((p) => `! ${p}`), ...stateLines(CONFIG.checks)].join('\n') : null;
         post('done', {

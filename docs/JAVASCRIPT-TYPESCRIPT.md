@@ -1,4 +1,4 @@
-# D115 · Los cursos de JavaScript y TypeScript — propuesta 1 (2026-10-30), a revisar
+# D115 · Los cursos de JavaScript y TypeScript — propuesta 1 (2026-10-30), aprobada con ajustes el mismo día (§ 10)
 
 Dos cursos nuevos armados desde FullCursos (cap. 22 **JS-Vanilla** y cap. 23 **TypeScript**), con lo mismo que ya tienen los demás: micro-misiones que se comprueban solas, monedas, jefes, escenas en Stitch, logo, moneda, ítems, expediciones, enciclopedia, Mis Crónicas y, más adelante, su temporada de inglés.
 
@@ -189,3 +189,21 @@ Todos con ropa opaca y cerrada (alumnos chicos) y sin texto en la imagen.
    - en TS, los cinco de § 4.
 5. **Las Sendas de JS:** ¿la del Palomar (con PHP), alguna más (por ejemplo un juego de tiro con Destello), o ninguna por ahora?
 6. **Proyectos que corrige el docente:** ¿como en PHP (una página o un juego por rama y las Sendas) o, como en Ensamblador, solo micro-misiones?
+
+## 10. Lo que decidió el docente (2026-10-30)
+
+1. **El ejecutor:** aprobado, con todo lo que se pueda simulado (§ 1 bis). Fase 1 hecha.
+2. **TypeScript solo se recomienda** después de JS. No pide terminarlo: quien ya sabe JavaScript entra directo a TS.
+3. **TypeScript:** el Mirador de las Constelaciones, con Nima, Astrea, la Lechuza Cartógrafa, y la moneda **estrellas**, como en § 4.
+4. **Los jefes nuevos:** aprobados (el Títere sin Hilos en JS y los cinco de TS).
+5. **Las Sendas:** siempre gamificadas, y algunas atadas a los otros cursos (HTML, PHP…). La propuesta para JS, a confirmar:
+
+| Senda | Con qué curso se cruza | Qué se hace |
+|---|---|---|
+| **El Escaparate Vivo** | HTML y CSS (los Talleres, con Tesela y Teo) | darles vida a las páginas de los Talleres: un menú que se abre, una galería, el modo oscuro, un formulario que avisa |
+| **El Palomar** | PHP (el Puerto, con Nilo y Elefa) | JS que habla con el Puerto: listar, crear y borrar mensajes, iniciar sesión, manejar los errores |
+| **El Archivo de Sila** | Python (el Valle) | ordenar y filtrar las fichas del Archivo en JSON (`map`, `filter`, `reduce`, `sort`). Al final, Nima le escribe a Sila |
+| **El Tablero del Gólem** | Ensamblador (Nova) | un emulador chiquito en JS: registros, cuatro órdenes y el paso a paso |
+| **El Puesto de Tiro** | (juego) | un juego de tiro en canvas con Destello: puntaje, niveles y récord en `localStorage` |
+
+6. **Proyectos:** **solo micro-misiones**, como Ensamblador. Las que vienen de una misión pagan fichas (`micromisiones_completan: si`) y no hay entregas que corrija el docente.

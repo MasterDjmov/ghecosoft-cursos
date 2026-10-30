@@ -1,7 +1,8 @@
 // Prueba las micro-misiones de un curso de JavaScript (D115) en la misma caja que usa el alumno, en Chrome sin
 // ventana: corre la «Solución» de cada una (con su Página, Eventos, Estado, Almacenamiento y Entrada) y la compara
 // con la «Salida esperada». Con --fill escribe la salida esperada que falte (o la que cambió, con --force).
-// También avisa si el «Código inicial» ya da la salida (la micro-misión se resolvería sin hacer nada).
+// También avisa si el «Código inicial» ya da la salida (la micro-misión se resolvería sin hacer nada) y prueba el
+// «Código de ejemplo» de cada nodo contra su «Salida esperada».
 //   node scripts/js-micro/probar.mjs cursos/javascript [--only=R01] [--fill] [--force]
 import fs from 'node:fs';
 import path from 'node:path';
@@ -72,12 +73,33 @@ function writeExpected(file, mission, output) {
     fs.writeFileSync(file, text.slice(0, start) + body + text.slice(end));
 }
 
+/** El «Código de ejemplo» de cada nodo con su «Salida esperada» (la de ### del nodo, no la de las micro-misiones). */
+function examples(text) {
+    const found = [];
+    for (const node of text.split(/^## /m).slice(1)) {
+        const code = node.match(/^### Código de ejemplo\s*\n+(`{3,})javascript\n([\s\S]*?)\n\1/m);
+        const expected = node.match(/^### Salida esperada\s*\n+(`{3,})\w*\n([\s\S]*?)\n\1/m);
+        if (code) found.push({ code: node.slice(0, node.indexOf(' ')), source: code[2], expected: expected?.[2] ?? null });
+    }
+    return found;
+}
+
 const chrome = await openChrome();
 let ok = 0;
 let bad = 0;
 let filled = 0;
 for (const name of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort()) {
     const file = path.join(folder, name);
+    for (const example of examples(fs.readFileSync(file, 'utf8'))) {
+        if (only && !example.code.startsWith(only)) continue;
+        const result = await chrome.run(example.source);
+        if (result.error || normalize(result.output) !== normalize(example.expected)) {
+            console.log(`  ✗ ${example.code}: el código de ejemplo no da su salida esperada.${result.error ? ` ${result.error}` : `\n    da: ${JSON.stringify(normalize(result.output))}`}`);
+            bad++;
+        } else {
+            ok++;
+        }
+    }
     for (const mission of missions(fs.readFileSync(file, 'utf8'))) {
         if (only && !mission.code.startsWith(only)) continue;
         const f = mission.fields;

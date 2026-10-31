@@ -179,7 +179,7 @@ REFS = {
             (r'Bengala', 'Bengala', ['0cdbd18c90b04669bacd4d7eb03c96b0'], ''),
             (r'\bTano\b', 'Don Tano', ['5ee266e65e5242958dbe87a10b6d24c2'], ''),
             (r'Flaco|Ruiz', 'el Flaco Ruiz', ['57cf66ee01a24421aa8e420f3f7e6eb4'], 'El Flaco Ruiz es muy alto y muy flaco.'),
-            (r'Goblin', 'el Goblin de la Coerción', ['28148316780045fbaf6f27a11549832e'], 'El Goblin es petiso, del alto de un chico de ocho años.'),
+            (r'[Gg]oblin', 'el Goblin de la Coerción', ['28148316780045fbaf6f27a11549832e'], 'El Goblin es petiso, del alto de un chico de ocho años.'),
             (r'[Ff]antasma', 'el Fantasma Undefined', ['44bdd429ecd54a988b766b6b3ba8521d'], ''),
             (r'[ÉE]bano|T[ií]tere sin [Hh]ilos', 'Ébano', ['1cc135a27c12408e920b174fd77323be'], 'Ébano es un títere de madera del tamaño de una persona.'),
             (r'[Tt]roll', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),

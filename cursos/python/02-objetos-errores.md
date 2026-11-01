@@ -286,7 +286,21 @@ La Gran Biblioteca huele a tinta y a piedra mojada. Entre estantes que llegan al
 —**Sila**, la Archivera. —No levanta la vista—. Acá nadie escribe cada orco por separado. Se escribe el **molde** una vez, y de él salen los que hagan falta. Probá.
 
 #### Gheco sugiere
-`class Orco:` define el molde (la **clase**). Adentro, `__init__` se ejecuta **solo** cada vez que creás un orco: guarda sus datos en `self`, que es «este orco». `Orco("Grum", 40)` crea un **objeto**.
+Una **clase** es un molde para fabricar cosas parecidas: todos los orcos tienen nombre y vida, pero cada uno tiene los suyos. Cada cosa fabricada con el molde es un **objeto**.
+
+```python
+class Perro:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+toby = Perro("Toby")
+print(toby.nombre)
+```
+
+- `class Perro:` define el molde.
+- `__init__` (con dos guiones bajos de cada lado) se ejecuta **solo** cada vez que creás un objeto: guarda sus datos.
+- `self` quiere decir «este objeto». `self.nombre` es el nombre de este perro.
+- `Perro("Toby")` crea un objeto, y `toby.nombre` lee su dato.
 
 #### Desafío
 Completá el nombre del método que arma cada orco.
@@ -346,7 +360,11 @@ recompensa: xp 10, oro 10
 —Un molde no guarda solo datos —dice Sila—. También dice qué **sabe hacer** la criatura. Un orco recibe golpes, por ejemplo. Y nunca queda con vida negativa: eso enloquece a los registros.
 
 #### Gheco sugiere
-Un **método** es una función adentro de la clase. Su primer parámetro es `self`, y Python lo pasa solo: `grum.recibir(10)` es `Orco.recibir(grum, 10)`. Para que la vida no baje de 0, usá `max(0, ...)`.
+Un **método** es una función adentro de la clase: algo que el objeto sabe hacer. Su primer parámetro es siempre `self`, y Python lo pasa solo: `toby.ladrar()` es como `Perro.ladrar(toby)`.
+
+Adentro, el método usa y cambia los datos del objeto con `self.`: `self.vida = self.vida - 5`.
+
+Para que un número no baje de 0, `max(0, valor)` devuelve el más grande de los dos.
 
 #### Desafío
 Escribí lo que hace `recibir`.
@@ -412,7 +430,9 @@ recompensa: xp 10, oro 10
 Sila te pasa un registro gastado. —Necesito saber cuántos orcos salieron de este molde. No quiero contarlos de a uno.
 
 #### Gheco sugiere
-Lo que se escribe **en la clase**, fuera de los métodos, es de la **clase**: lo comparten todos los objetos. Para cambiarlo, nombrá la clase: `Orco.creados += 1`. Lo de `self.` es de cada objeto.
+Lo que se escribe **en la clase**, fuera de los métodos, es de la **clase**: lo comparten todos los objetos, como un contador común. Para cambiarlo, se nombra la clase: `Perro.cantidad += 1`.
+
+Lo que se guarda con `self.` es de **cada** objeto.
 
 #### Desafío
 Cada vez que se crea un orco, sumá uno al contador de la clase.
@@ -474,7 +494,14 @@ Imprimís un orco y el pergamino escribe `<__main__.Orco object at 0x7f3a…>`.
 —Eso no lo entiende nadie —dice Sila—. Enseñale al molde cómo **presentarse**.
 
 #### Gheco sugiere
-Los métodos con doble guion bajo le enseñan a tu clase a funcionar con Python. `__str__` devuelve el texto que muestra `print(objeto)`.
+Los métodos con doble guion bajo (`__algo__`) le enseñan a tu clase a funcionar con Python. `__str__` devuelve el texto que muestra `print(objeto)`:
+
+```python
+def __str__(self):
+    return f"Perro {self.nombre}"
+```
+
+Sin él, `print` muestra algo como `<__main__.Perro object at 0x…>`.
 
 #### Desafío
 Completá el nombre del método para que `print` muestre la ficha.
@@ -530,7 +557,9 @@ recompensa: xp 15, oro 15
 Tilo entra corriendo con un raspón nuevo. —¿Cuánta vida me queda? Pero en porcentaje, que los números sueltos no los entiendo.
 
 #### Gheco sugiere
-Con `@property` arriba, un método se usa **como un atributo**, sin paréntesis. Sirve para valores que se **calculan** con otros: `self.vida / self.vida_max`.
+Con `@property` arriba de un método, se usa **como un dato**, sin paréntesis: `personaje.porcentaje` en vez de `personaje.porcentaje()`.
+
+Sirve para valores que se **calculan** a partir de otros, como el porcentaje de vida: `self.vida / self.vida_max`. Así siempre está actualizado.
 
 #### Desafío
 Poné lo que falta arriba de `porcentaje`.
@@ -595,7 +624,18 @@ Sila te muestra una pila de moldes que solo **guardan datos**: libros, llaves, p
 —Para estos hay un atajo. Les decís qué campos tienen, y el molde se escribe solo.
 
 #### Gheco sugiere
-`@dataclass` arriba de la clase escribe por vos `__init__`, `__repr__` y `__eq__` a partir de los campos anotados (`nombre: str`). Se importa con `from dataclasses import dataclass`.
+Escribir `__init__` guardando cada dato es repetitivo. `@dataclass` arriba de la clase lo escribe por vos, a partir de los campos que anotás con su tipo:
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Punto:
+    x: int
+    y: int = 0
+```
+
+Además arma `__repr__` (cómo se muestra) y `__eq__` (comparar con `==`). Un campo con `= valor` tiene valor por defecto.
 
 #### Desafío
 Poné el decorador que falta.
@@ -657,7 +697,9 @@ Antes de investigar los registros, Sila te muestra el molde de las flechas del m
 —Le faltan dos cosas. Que se pueda dividir, y que te dé la dirección pura, de largo uno. Y que el vector cero no rompa nada: ya bastante rotos están los registros.
 
 #### Gheco sugiere
-Los métodos especiales le enseñan operadores a una clase: `__truediv__(self, n)` se usa con `v / n`. Para normalizar, dividí cada coordenada por el largo (`math.hypot(x, y)`); si el largo es 0, devolvé `Vec2(0, 0)`.
+Los métodos especiales le enseñan **operadores** a una clase: `__add__` es `+`, `__sub__` es `-`, `__mul__` es `*`, y `__truediv__(self, n)` es `/`.
+
+Para normalizar un vector (que mida 1, manteniendo la dirección), dividí cada coordenada por su largo, `math.hypot(x, y)`. Si el largo es 0, no se puede dividir: devolvé `Vec2(0, 0)`.
 
 #### Desafío
 La clase `Vec2` representa posiciones y desplazamientos en el mapa. Agregale:
@@ -771,7 +813,9 @@ Sila arma con figuritas una práctica de vigilancia: vos en el centro y tres ene
 —Con un radio de cuatro baldosas, ¿quién te tiene a tiro? Quiero el molde de los enemigos hecho con `dataclass`. Nada de escribir a mano lo que Python escribe solo.
 
 #### Gheco sugiere
-`@dataclass` arma el `__init__` con los campos que declarás. Un campo puede ser de otra clase (`pos: Vec2`). `esta_cerca` calcula la distancia con `self.pos.distancia(objetivo)` y la compara con el radio.
+Con `@dataclass` definís las dos clases. Un campo puede ser de otra clase: `pos: Vec2`.
+
+`esta_cerca(objetivo, radio)` calcula la distancia entre su posición y el objetivo, `self.pos.distancia(objetivo)`, y devuelve si es menor o igual al radio.
 
 #### Desafío
 Con `@dataclass`, definí `Vec2` (con `x`, `y` y un método `distancia(otro)`) y `Enemigo` con `nombre`, `vida` y `pos: Vec2`. Agregale a `Enemigo` el método `esta_cerca(objetivo, radio)`, que diga si el enemigo está a `radio` o menos de la posición `objetivo`.
@@ -852,7 +896,10 @@ En un rincón de la Sala hay un cofre de botín con ítems sin ordenar. Sila qui
 —Que cada ítem se muestre lindo y que se puedan ordenar por valor. Sin `dataclass` esta vez: quiero ver que sabés hacerlo a mano.
 
 #### Gheco sugiere
-`__repr__` define cómo se muestra el objeto en una lista. `__lt__(self, otro)` dice cuándo uno es «menor» que otro: con eso alcanza para `sorted()`, `min()` y `max()`.
+Sin dataclass, dos métodos especiales:
+
+- `__repr__` define cómo se muestra el objeto adentro de una lista (`Espada ($120)`);
+- `__lt__(self, otro)` dice cuándo uno es «menor» (*less than*) que otro. Comparando por valor, con eso ya alcanza para que `sorted()`, `min()` y `max()` sepan qué hacer.
 
 #### Desafío
 Escribí una clase `Item` (sin dataclass) con `nombre` y `valor`, un `__repr__` que la muestre como `Espada ($120)` y un `__lt__` que compare por valor.
@@ -1271,7 +1318,17 @@ El Ala de Estrategia es una mesa enorme con un mapa de batalla vivo: héroes, en
 —Todos tienen vida y todos reciben daño —dice Sila—. No lo escribas tres veces. Escribilo **una**, y que los demás lo **hereden**.
 
 #### Gheco sugiere
-`class Heroe(Entidad):` dice que `Heroe` **hereda** todo lo de `Entidad`: sus atributos y sus métodos. Se usa cuando la relación es «**es un**»: un héroe **es una** entidad.
+La **herencia** permite crear una clase a partir de otra: la nueva recibe todos los datos y métodos de la base, y le puede agregar lo suyo.
+
+```python
+class Animal:
+    def comer(self): ...
+
+class Perro(Animal):
+    pass
+```
+
+`Perro(Animal)` dice que `Perro` **hereda** de `Animal`: un perro ya sabe comer. `pass` quiere decir «nada más por ahora». Se usa cuando la relación es «**es un**»: un perro **es un** animal.
 
 #### Desafío
 Hacé que `Heroe` herede de `Entidad`.
@@ -1339,7 +1396,15 @@ Tu héroe necesita algo que la entidad no tiene: **pociones**. Le escribís su p
 —Te olvidaste de llamar a la base —dice Sila—. Que arme lo suyo primero.
 
 #### Gheco sugiere
-Si la subclase tiene su propio `__init__`, el de la base **no** se ejecuta solo. Llamalo con `super().__init__(...)` y después agregá lo propio.
+Si la clase hija tiene su propio `__init__`, el de la base **no** se ejecuta solo, y los datos de la base quedan sin guardar. Hay que llamarlo a mano con `super()`, que quiere decir «la clase base»:
+
+```python
+def __init__(self, nombre):
+    super().__init__(nombre, 100)
+    self.pociones = 2
+```
+
+Primero se arma lo de la base, después se agrega lo propio.
 
 #### Desafío
 Llamá al `__init__` de la base.
@@ -1402,7 +1467,9 @@ recompensa: xp 10, oro 10
 Pero tu arquera se queda quieta: su método se llama distinto.
 
 #### Gheco sugiere
-Una subclase puede **redefinir** un método de la base. Para que el bucle llame al de cada una, tiene que llamarse **igual**. Eso es el **polimorfismo**: la misma llamada, distintas respuestas.
+Una clase hija puede **redefinir** un método de la base: escribir su propia versión con el **mismo nombre**. Cuando un bucle llama al método en cada objeto, cada uno responde a su manera.
+
+Eso es el **polimorfismo**: la misma llamada, distintas respuestas. Para que funcione, el nombre tiene que ser exactamente el mismo.
 
 #### Desafío
 Poné el nombre justo al método de la arquera.
@@ -1478,7 +1545,9 @@ Sila pone en el mapa una **torre de piedra**. No es una entidad, no hereda de na
 —Los orcos nacen de **pedir lo que no está** —dice Gheco—. El mapa le pidió `turno` a la torre… y la torre tiene otro nombre.
 
 #### Gheco sugiere
-En Python no hace falta heredar para entrar en el bucle: alcanza con **tener el método** que se usa. «Si camina como pato y hace cuac, es un pato.» Eso se llama **duck typing**.
+En Python no hace falta heredar para entrar en el bucle: alcanza con **tener el método** que se usa. Si un objeto tiene `turno()`, el bucle lo puede llamar, sea de la clase que sea.
+
+«Si camina como un pato y hace cuac, es un pato.» Eso se llama **duck typing** (tipado de pato).
 
 #### Desafío
 Arreglá la torre para que juegue su turno como las demás.
@@ -1539,7 +1608,15 @@ recompensa: xp 15, oro 15
 Probás con un gólem nuevo y el mapa lo rechaza: `TypeError`.
 
 #### Gheco sugiere
-Con `ABC` y `@abstractmethod`, la base dice qué métodos **tiene** que tener toda subclase. Si falta alguno, crear el objeto da `TypeError` **enseguida**, no a mitad de la batalla.
+Una clase **abstracta** es una base que fija un contrato: dice qué métodos **tiene** que tener toda clase hija. Se arma con `ABC` y `@abstractmethod` (de la biblioteca `abc`):
+
+```python
+class Forma(ABC):
+    @abstractmethod
+    def area(self): ...
+```
+
+Si una hija no escribe ese método, crear un objeto de ella da `TypeError` **enseguida**, y no a mitad del programa.
 
 #### Desafío
 Hacé que el gólem cumpla el contrato: que juegue su turno con «Gólem golpea el suelo».
@@ -1602,7 +1679,10 @@ Antes de bajar al Sótano, Sila quiere practicar contra un jefe que se enfurece 
 —Un Rey Slime: juega como cualquier enemigo, pero cada tres turnos pega el doble. Contra el muñeco de práctica, que no se queja.
 
 #### Gheco sugiere
-`class Jefe(Enemigo)` hereda todo. En `turno`, sumá un contador; si es múltiplo de 3, pegá el doble y avisá; si no, `super().turno(objetivo)` juega como un enemigo común.
+`class Jefe(Enemigo)` hereda todo. En su `turno`, sumá un contador de turnos:
+
+- si es múltiplo de 3 (`% 3 == 0`), entra en furia: avisá y pegá el doble;
+- si no, juega como un enemigo común, llamando a la versión de la base: `super().turno(objetivo)`.
 
 #### Desafío
 Creá `Jefe(Enemigo)`: un enemigo que cuenta sus turnos y **cada 3 turnos entra en furia** y pega el doble de su daño (mostrando un aviso). En los demás turnos juega igual que un `Enemigo`: usá `super().turno(objetivo)`.
@@ -1746,7 +1826,9 @@ Gheco se encoge de hombros.
 —Si camina como pato y cura como pato…
 
 #### Gheco sugiere
-*Duck typing*: a Python no le importa de qué clase es el objeto, sino que tenga los métodos que se usan (`vivo`, `recibir`, `turno`). En el turno de la curandera, buscá al aliado vivo con menos vida (`min(..., key=...)`) y sumale 15.
+Gracias al *duck typing*, `Curandero` no necesita heredar de nada: alcanza con que tenga los métodos que usa la batalla (`vivo`, `recibir`, `turno`).
+
+En su turno, en vez de atacar, busca al aliado vivo con menos vida y le suma 15. Para encontrarlo, `min(aliados_vivos, key=lambda a: a.vida)`.
 
 #### Desafío
 Creá `Curandero` **sin heredar** de `Entidad` (duck typing): tiene `nombre`, `vida`, una lista de `aliados` y los métodos `vivo()`, `recibir()` y `turno(objetivo)`. En su turno, en lugar de atacar, cura 15 al aliado vivo con **menos vida**.
@@ -1905,7 +1987,9 @@ Sila quiere presentar a la compañía en el registro del Bastión: una línea po
 —Y que ningún personaje nuevo se olvide de presentarse —agrega—. Que Python no lo deje ni crear.
 
 #### Gheco sugiere
-Con `ABC` y `@abstractmethod`, una clase que no implementa `descripcion()` **no se puede crear**: probalo y leé el error. Después implementalo en cada clase y recorré la compañía con un solo `for`.
+Agregale a `Entidad` un segundo método abstracto, `descripcion()`. Probá crear una clase que no lo tenga y leé el error: Python no deja crearla.
+
+Después escribí `descripcion()` en cada clase, y recorré la compañía con un solo `for` llamando a ese método: cada uno se presenta a su manera.
 
 #### Desafío
 Agregale a `Entidad` un segundo método abstracto: `descripcion()`, que devuelva una línea que presente al personaje. Creá `Guerrero`, `Maga` y `Picaro`, cada una con su `descripcion()`.
@@ -2344,7 +2428,18 @@ El Sótano gotea. Los pergaminos están húmedos, y en uno el nivel de un aventu
 —No te asustes —dice {mentor}, que bajó con ustedes—. **Intentá**, y tené preparado qué hacer si sale mal.
 
 #### Gheco sugiere
-Lo que puede fallar va en `try:`. Si lanza el error que nombrás en `except`, Python salta ahí y el programa **sigue**. Si no falla, el `except` se saltea.
+Cuando algo puede fallar (como convertir a número un texto que no lo es), Python lanza una **excepción**: un aviso de error que, si nadie lo atrapa, corta el programa.
+
+Para atraparlo:
+
+```python
+try:
+    edad = int(texto)
+except ValueError:
+    edad = 0
+```
+
+Lo que está en `try:` se **intenta**. Si lanza el error que nombrás en `except`, Python salta ahí y el programa **sigue**. Si no falla, el `except` se saltea. `ValueError` es el error de un valor que no sirve.
 
 #### Desafío
 Atrapá el error de conversión: si el nivel no es un número, que valga 1.
@@ -2398,7 +2493,9 @@ Sila busca cosas en el inventario de un aventurero que no volvió: la espada est
 —Preguntá y, si no está, decí **qué** faltaba —dice Sila.
 
 #### Gheco sugiere
-Pedirle a un diccionario una clave que no tiene lanza `KeyError`. Con `except KeyError as error:` guardás el error para mostrar qué clave faltaba.
+Cada error tiene su tipo. Pedirle a un diccionario una clave que no tiene lanza `KeyError`.
+
+Con `except KeyError as error:` guardás el error en una variable, para mostrar qué clave faltaba: `print(f"Falta {error}")`.
 
 #### Desafío
 Atrapá el error y mostrá qué faltó.
@@ -2450,7 +2547,12 @@ recompensa: xp 10, oro 10
 —Un buen mago, cuando abre un pergamino, **siempre** lo vuelve a cerrar —dice {mentor}—. Salga bien o salga mal.
 
 #### Gheco sugiere
-Después del `except` pueden ir dos bloques más: `else:` corre **solo si no hubo error**, y `finally:` corre **siempre**. El `finally` es para lo que no se puede olvidar: cerrar, guardar, apagar.
+Después del `except` pueden ir dos bloques más:
+
+- `else:` corre **solo si no hubo error**;
+- `finally:` corre **siempre**, haya error o no.
+
+El `finally` es para lo que no se puede olvidar: cerrar, guardar, apagar.
 
 #### Desafío
 Completá los dos bloques que faltan.
@@ -2516,7 +2618,18 @@ item: Notas del Viajero
 En el fondo del Sótano hay un cajón con tu misma marca de agua: **un vitral**. Adentro, hojas a medio borrar. Copiás lo que se lee a un archivo nuevo antes de que la humedad se lo coma. Después buscás otra hoja que se nombra en ellas, «viajero.txt»… y no está.
 
 #### Gheco sugiere
-`with open(nombre, "w", encoding="utf-8") as f:` abre un archivo para **escribir** y lo **cierra solo** al terminar el bloque. Para leerlo, el modo es `"r"` (o ninguno). Si el archivo no existe, abrir para leer lanza `FileNotFoundError`.
+Para guardar en un **archivo**:
+
+```python
+with open("notas.txt", "w", encoding="utf-8") as f:
+    f.write("hola\n")
+```
+
+- `"w"` (de *write*) es para escribir: crea el archivo, o lo vacía si existía;
+- `encoding="utf-8"` hace que los acentos y la ñ se guarden bien;
+- `with` **cierra el archivo solo** al terminar el bloque.
+
+Para leer, el modo es `"r"` (o ninguno), y se puede recorrer línea por línea con `for linea in f:`. Si el archivo no existe, abrirlo para leer lanza `FileNotFoundError`.
 
 #### Desafío
 Escribí las notas, leelas línea por línea, y atrapá el error del archivo que falta.
@@ -2587,7 +2700,14 @@ Sila quiere que el catálogo **avise** cuando le piden una página que no puede 
 —Que el error tenga **nombre** —dice {mentor}—. Así quien lo reciba sabe exactamente qué pasó.
 
 #### Gheco sugiere
-Una excepción propia es una clase que hereda de `Exception`. Con `raise PergaminoRoto("…")` tu función avisa que algo está mal, y quien la llama la atrapa con `except PergaminoRoto`.
+Podés crear tu propio tipo de error: una clase que hereda de `Exception`.
+
+```python
+class SinNafta(Exception):
+    pass
+```
+
+Con `raise SinNafta("mensaje")` tu función **lanza** el aviso cuando algo está mal, y quien la llama lo atrapa con `except SinNafta`.
 
 #### Desafío
 Lanzá el error cuando la página sea negativa.
@@ -2655,7 +2775,11 @@ En el Sótano hay una máquina vieja que pide datos: un nivel y una cantidad de 
 —Una máquina que se traba es una máquina que se rompe —dice Sila—. Que pregunte de nuevo, sin cortarse.
 
 #### Gheco sugiere
-Un `while True` con `try`/`except ValueError` alrededor del `int(input(...))`. Si no es un número, avisá y seguí; si está fuera del rango, también. Cuando es válido, `return`.
+Un `while True` que pide con `input` y, alrededor del `int(...)`, un `try` / `except ValueError`:
+
+- si no es un número, avisá y volvé a pedir (`continue`);
+- si es un número pero está fuera del rango, también;
+- cuando es válido, devolvelo con `return` (eso también corta el bucle).
 
 #### Desafío
 Escribí `pedir_entero(mensaje, minimo, maximo)`: pide un número con `input` hasta que el usuario escriba un **entero** dentro del rango, y lo devuelve. Si escribe algo que no es un número, avisa y vuelve a pedir (sin cortar el programa); si está fuera de rango, también.
@@ -2732,7 +2856,11 @@ La máquina del Sótano busca su archivo de configuración y no lo encuentra.
 —Sin archivo, que use lo de siempre —dice Sila—. Con archivo, que le haga caso. Y al terminar, dejá todo como estaba: en el Sótano no se dejan papeles tirados.
 
 #### Gheco sugiere
-`open(ruta)` lanza `FileNotFoundError` si no existe: atrapalo y devolvé lo por defecto. Si existe, partí cada línea con `split("=", 1)`. `os.remove(ruta)` borra el archivo al final.
+`open(ruta)` lanza `FileNotFoundError` si el archivo no existe: atrapalo y devolvé la configuración por defecto.
+
+Si existe, partí cada línea en dos con `linea.split("=", 1)` (el `1` dice que corte solo en el primer `=`). Lo que está en el archivo pisa a lo por defecto: empezá con una copia de lo por defecto y actualizala.
+
+`os.remove(ruta)` borra el archivo al final.
 
 #### Desafío
 Escribí `cargar_config(ruta)`, que lea un archivo de líneas `clave=valor` y devuelva un diccionario. Si el archivo **no existe**, avisa y devuelve la configuración por defecto: `{"dificultad": "normal", "volumen": "7", "idioma": "es"}`. Lo que esté en el archivo pisa a lo por defecto.
@@ -2808,7 +2936,12 @@ En el fondo del Sótano hay una tiendita de provisiones con un tendero dormido. 
 —Con treinta de oro. Cuando falta oro o no hay stock, que la tienda lo diga **con su propio error**, no con uno cualquiera.
 
 #### Gheco sugiere
-Una excepción propia es una clase: `class ErrorDeTienda(Exception)`. Las hijas heredan de ella, y `OroInsuficiente` puede guardar `self.faltan`. Con `except OroInsuficiente as e` atrapás esa sola; con `except ErrorDeTienda`, todas.
+Los errores propios se pueden organizar en familia:
+
+- una base, `class ErrorDeTienda(Exception)`;
+- hijas que heredan de ella: `OroInsuficiente` (que guarda en `self.faltan` cuánto falta) y `SinStock`.
+
+Al atrapar, `except OroInsuficiente as e` atrapa solo esa (y podés usar `e.faltan`), y `except ErrorDeTienda` atrapa **todas** las de la familia.
 
 #### Desafío
 Creá una excepción base `ErrorDeTienda` y dos hijas: `OroInsuficiente` (que guarde cuánto falta en un atributo `faltan`) y `SinStock`. Escribí `comprar(objeto, oro)`, que **lance** la que corresponda o devuelva el oro que queda.
@@ -3184,7 +3317,11 @@ En el Archivo, las crónicas se guardan en un idioma que cualquier mago del rein
 —Se llama **JSON** —dice Sila—. Es casi igual a tus diccionarios, pero en texto. Pasá la primera nota del viajero.
 
 #### Gheco sugiere
-`import json`. `json.dumps(datos)` convierte un diccionario (o lista) en **texto** JSON. Con `ensure_ascii=False`, los acentos quedan tal cual. Fijate: `False` pasa a `false` y `None` a `null`.
+**JSON** es un formato de texto para guardar y enviar datos, muy parecido a los diccionarios y listas de Python. Lo entienden casi todos los programas.
+
+`json.dumps(datos)` (de la biblioteca `json`) convierte un diccionario o una lista en **texto** JSON. Con `ensure_ascii=False`, los acentos quedan tal cual.
+
+Fijate en los cambios: `True`/`False` pasan a `true`/`false`, y `None` a `null`.
 
 #### Desafío
 Convertí la nota a texto JSON.
@@ -3236,7 +3373,7 @@ Sila descuelga una tira vieja: la crónica de un aventurero que pasó hace años
 —Leela. Quiero saber el segundo objeto de su inventario.
 
 #### Gheco sugiere
-`json.loads(texto)` hace el camino inverso: del **texto** JSON a diccionarios y listas de Python. Después se usan como siempre.
+`json.loads(texto)` hace el camino inverso: del **texto** JSON a diccionarios y listas de Python. Después se usan como siempre: `datos["clave"]`, `datos["lista"][0]`.
 
 #### Desafío
 Convertí el texto y mostrá lo que se pide.
@@ -3287,7 +3424,12 @@ recompensa: xp 15, oro 15
 —Si tu partida no se puede guardar, se pierde al apagar la vela —dice Sila—. Guardala en un archivo y volvé a cargarla. Si sale igual, está bien guardada.
 
 #### Gheco sugiere
-`json.dump(datos, f)` escribe **en un archivo** abierto; `json.load(f)` lee de uno. (Sin la `s`: archivo. Con la `s`: texto.) `indent=2` lo deja legible.
+Para archivos, las mismas funciones **sin la `s`**:
+
+- `json.dump(datos, f)` escribe en un archivo abierto;
+- `json.load(f)` lee de uno.
+
+(Con `s`, de *string*: trabajan con texto. Sin `s`: con archivos.) `indent=2` deja el archivo prolijo, con sangría.
 
 #### Desafío
 Guardá y volvé a cargar la partida.
@@ -3351,7 +3493,9 @@ Tilo quiere que su ficha también quede guardada. Pero su ficha es una dataclass
 —Pasala a diccionario para guardarla —dice Sila—, y al cargarla, reconstruila.
 
 #### Gheco sugiere
-`asdict(objeto)` convierte una dataclass en diccionario. Al cargar, `Heroe(**datos)` la arma otra vez: el `**` reparte el diccionario como argumentos por nombre.
+Una dataclass no se puede pasar a JSON directo, pero `asdict(objeto)` (de `dataclasses`) la convierte en diccionario.
+
+Para rearmarla al cargar: `Heroe(**datos)`. El `**` reparte el diccionario como argumentos con nombre: `{"nombre": "Tilo", "nivel": 3}` pasa a ser `Heroe(nombre="Tilo", nivel=3)`.
 
 #### Desafío
 Completá la conversión y la reconstrucción.
@@ -3425,7 +3569,12 @@ Baldo mandó sus ventas en una **planilla**: un CSV, columnas separadas por coma
 —Mezclaste tipos otra vez —dice Gheco—. Al leer un CSV, **todo** viene como texto.
 
 #### Gheco sugiere
-`csv.writer(f)` escribe filas; `csv.DictReader(f)` lee cada fila como un diccionario con los nombres de la primera línea. Ojo: todo lo que se lee es `str`. Para sumar, convertí con `int()`.
+Un **CSV** es una planilla guardada como texto: una fila por línea, columnas separadas por comas. La biblioteca `csv` los maneja:
+
+- `csv.writer(f)` escribe filas con `writerow([...])`;
+- `csv.DictReader(f)` lee cada fila como un diccionario, usando los nombres de la primera línea como claves.
+
+Ojo: todo lo que se lee es **texto** (`str`). Para sumar, convertí con `int()`.
 
 #### Desafío
 Arreglá la suma.
@@ -3494,7 +3643,11 @@ En el Archivo hay cajas de guardados viejos que nadie puede abrir: son de una é
 —Que se puedan cargar igual —dice Sila—. Les agregamos lo que les falta y quedan como nuevos.
 
 #### Gheco sugiere
-`json.loads(texto)` da un diccionario. En `migrar`, si `datos.get("version", 1) < 2`, agregá lo que falta. `json.dumps(datos)` lo vuelve texto.
+Los guardados cambian con el tiempo. Una **migración** actualiza los viejos al formato nuevo.
+
+En `migrar(datos)`: si `datos.get("version", 1) < 2` (los viejos no tenían versión, así que valen 1), agregá lo que falta y marcá la versión nueva.
+
+`json.loads` lo convierte en diccionario, y `json.dumps` lo vuelve texto.
 
 #### Desafío
 Los guardados viejos (versión 1) no tenían `"version"` ni `"mapa"`. Escribí:
@@ -3574,7 +3727,9 @@ Tilo quiere tres partidas guardadas, como en los juegos de la Aldea: una por si 
 —Las tres en un solo archivo —dice Sila—. Y que al cargarlas sean las mismas, sin una gema de menos.
 
 #### Gheco sugiere
-`asdict(partida)` convierte una dataclass en diccionario y `Partida(**datos)` la reconstruye. Guardá la lista con `json.dump` y comprobá con `==` que lo cargado es igual a lo guardado.
+Para guardar varias partidas en un solo archivo: una lista de diccionarios. `asdict(partida)` convierte cada dataclass, y `json.dump` guarda la lista.
+
+Al cargar, `Partida(**datos)` rearma cada una. Compará con `==` que lo cargado sea igual a lo guardado (las dataclasses saben compararse). Al final, borrá el archivo.
 
 #### Desafío
 Guardá **tres** partidas (una dataclass `Partida` con `heroe`, `mapa` y `gemas`) en un solo archivo `slots.json`, como una lista. Después cargalas, reconstruí las dataclasses y mostralas numeradas. Comprobá que lo cargado es igual a lo guardado y borrá el archivo al final.
@@ -3657,7 +3812,11 @@ Los vendedores del Bastión dejaron sus ventas en el Archivo, en una planilla. T
 —Un resumen —pide Sila—: cuánto vendió cada uno, de mayor a menor. En otra planilla.
 
 #### Gheco sugiere
-`csv.DictReader` lee cada fila como un diccionario con los encabezados. Sumá por vendedor y escribí el resumen con `csv.writer`. Acordate de convertir `monto` a número.
+`csv.DictReader` lee cada fila como un diccionario con los encabezados de la primera línea.
+
+Sumá por vendedor con el patrón de contar: `totales[v] = totales.get(v, 0) + monto`. Acordate de convertir el monto a número.
+
+Después escribí el resumen en otro CSV con `csv.writer`.
 
 #### Desafío
 Con esta planilla de ventas (escribila en `ventas.csv` desde el programa):
@@ -3897,7 +4056,10 @@ recompensa: xp 15, oro 15
 La Bóveda es redonda y oscura. En el centro flota el **Archivista Corrupto**: una figura hecha de hojas arrancadas, con tinta que le chorrea de los dedos. Te tira registros a los que les **borró campos**, y de cada hueco sale un **orco**.
 
 #### Gheco sugiere
-Antes de usar una clave que puede faltar, preguntá: `"vida" in registro`. O usá `registro.get("vida")`, que devuelve `None` en vez de explotar.
+Los datos que vienen de afuera pueden venir incompletos. Antes de usar una clave que puede faltar, preguntá:
+
+- `"vida" in registro` dice si la clave está;
+- o `registro.get("vida")`, que devuelve `None` en vez de dar error.
 
 #### Desafío
 Mostrá la vida de cada uno, o avisá si el campo falta.
@@ -3959,7 +4121,9 @@ recompensa: xp 15, oro 15
 —¡Mucha! —grita el Archivista, y en un registro la vida dice `"mucha"` en vez de un número. Del papel salta un **goblin**.
 
 #### Gheco sugiere
-Lo que viene de afuera puede tener **el tipo equivocado**. `isinstance(valor, int)` pregunta si es un entero antes de hacer cuentas con él.
+Los datos de afuera también pueden traer **el tipo equivocado**: una palabra donde iba un número.
+
+`isinstance(valor, int)` pregunta si `valor` es un entero. Preguntá antes de hacer cuentas, y descartá lo que no sirve.
 
 #### Desafío
 Sumá solo las vidas que son números.
@@ -4017,7 +4181,7 @@ El Archivista rompe un pergamino por la mitad y te lo tira. El JSON queda **cort
 —Si lo leés así, explota —dice Sila—. Separá lo sano de lo roto.
 
 #### Gheco sugiere
-Si el texto no es un JSON válido, `json.loads` lanza `json.JSONDecodeError`. Atrapalo y seguí con el resto.
+Si el texto no es un JSON válido (por ejemplo, está cortado), `json.loads` lanza `json.JSONDecodeError`. Atrapalo con `try` / `except` y seguí con el resto, contando los rotos.
 
 #### Desafío
 Leé los pergaminos que se puedan y contá los rotos.
@@ -4079,7 +4243,7 @@ El Archivista ya no rompe registros: ahora los **inventa**. Un héroe de nivel 9
 —No dejes entrar lo que no tiene sentido —dice {mentor}—. Revisalo **al crearlo**, no después.
 
 #### Gheco sugiere
-En una dataclass, `__post_init__` se ejecuta justo después del `__init__` que escribe Python. Es el lugar para revisar los datos y lanzar un error si no tienen sentido.
+En una dataclass, `__post_init__` se ejecuta justo después del `__init__` que escribe Python. Es el lugar para **validar**: revisar que los datos tengan sentido y, si no, lanzar un error (`raise ValueError(...)`).
 
 #### Desafío
 Escribí el nombre del método que valida.
@@ -4154,7 +4318,9 @@ item: Pluma del Archivista
 Al Archivista le queda una sola hoja: la última nota del viajero. Para salvarla, la Biblioteca tiene que poder **armarla desde el JSON** y, si viene rota, avisar con **su propio** error, no con uno que nadie entiende.
 
 #### Gheco sugiere
-Un `@classmethod` recibe la **clase** (`cls`) en vez del objeto: sirve para crear objetos de otra forma, como `Nota.desde_json(texto)`. Y `raise MiError(...) from error` traduce un error de bajo nivel a uno tuyo, sin perder el original.
+Un `@classmethod` recibe la **clase** (`cls`) en vez de un objeto. Sirve para crear objetos de otra forma, por ejemplo desde un texto: `Nota.desde_json(texto)`, que termina con `return cls(...)`.
+
+Y `raise MiError(...) from error` **traduce** un error de bajo nivel (como `JSONDecodeError`) a uno tuyo, más claro, sin perder el original.
 
 #### Desafío
 Completá el decorador y la traducción del error.
@@ -4244,7 +4410,12 @@ Con el Archivista vencido, la Bóveda vuelve a abrirse a los viajeros. {mentor} 
 —Ni nombres vacíos, ni niveles imposibles, ni más de cuatro, ni repetidos. Y que se puedan guardar y volver a cargar.
 
 #### Gheco sugiere
-En `__post_init__` de la dataclass, validá y lanzá `ErrorDeCompania`. En `sumar`, chequeá el tamaño y los nombres. Para guardar: `json.dumps` con `asdict`; para cargar, un `@classmethod` que arme la compañía desde el texto.
+Algunas pistas:
+
+- en el `__post_init__` de la dataclass, validá los datos y lanzá `ErrorDeCompania` si algo no sirve;
+- en `sumar`, revisá que haya lugar y que el nombre no esté repetido;
+- para guardar: `json.dumps` con `asdict` de cada héroe;
+- para cargar, un `@classmethod` que arme la compañía desde el texto.
 
 #### Desafío
 Modelá una compañía de aventureros:
@@ -4381,7 +4552,13 @@ Entre los restos del Archivista quedaron pergaminos de guardado: algunos sanos, 
 —Que el programa diga por qué está mal cada uno. Y cuántas gemas se pueden recuperar de los buenos.
 
 #### Gheco sugiere
-`json.loads` lanza `json.JSONDecodeError`: atrapalo y lanzá `PergaminoCorrupto(...) from e`. Después revisá con `isinstance` que sea un `dict` y que cada campo exista y tenga el tipo correcto.
+Revisá en capas:
+
+1. `json.loads` puede lanzar `json.JSONDecodeError`: atrapalo y lanzá `PergaminoCorrupto(...) from e`.
+2. Revisá con `isinstance` que lo leído sea un `dict`.
+3. Para cada campo esperado, que exista y que tenga el tipo correcto.
+
+Cada falla lanza `PergaminoCorrupto` explicando el motivo.
 
 #### Desafío
 Escribí `leer_pergamino(texto)`, que convierta un guardado JSON en diccionario o lance `PergaminoCorrupto` explicando el motivo:

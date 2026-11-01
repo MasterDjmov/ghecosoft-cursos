@@ -3540,7 +3540,17 @@ recompensa: xp 10, oro 10
 Al terminar el turno, Nadia lleva a Zed a la posada. El menú se pide por número, y el posadero se confunde siempre. —Escribile el menú —dice Nadia—, que yo invito.
 
 #### Gheco sugiere
-`switch` compara un valor contra varios casos. Con flechas (`case 1 -> …;`) no hace falta `break`. `default` atrapa todo lo que no coincide.
+`switch` compara un valor contra varias opciones fijas, como un menú:
+
+```java
+switch (dia) {
+    case 1 -> System.out.println("lunes");
+    case 2 -> System.out.println("martes");
+    default -> System.out.println("otro día");
+}
+```
+
+Con la flecha `->`, se ejecuta solo lo de ese `case` (no hace falta `break`). `default` atrapa todo lo que no coincide con ninguno.
 
 #### Desafío
 Nadia pide el 2. Completá el caso 2: «Guiso del Imperio».
@@ -3599,7 +3609,17 @@ En la posada, Nadia le cuenta a Zed cómo se clasifica a los viajeros. Él escri
 —Así no está en el reglamento —dice ella. —Pero hace lo mismo —responde él.
 
 #### Gheco sugiere
-Un `switch` también puede **devolver** un valor: `String portón = switch (oficio) { case "mercader" -> "oro"; … default -> "piedra"; };`. Fijate el `;` del final.
+Un `switch` también puede **devolver** un valor, para guardarlo en una variable:
+
+```java
+String color = switch (fruta) {
+    case "banana" -> "amarillo";
+    case "frutilla" -> "rojo";
+    default -> "no sé";
+};
+```
+
+Fijate el `;` al final, después de la llave: toda la línea es una asignación.
 
 #### Desafío
 Escribí el `switch` que devuelve el portón de cada oficio.
@@ -3658,7 +3678,9 @@ La Academia del Imperio usa una balanza que da el veredicto de cada nota, pero s
 —Del uno al diez —dice Nadia—, y cualquier otra cosa es inválida.
 
 #### Gheco sugiere
-Con `if` / `else if` / `else` se prueba un rango después del otro: el primero que da verdadero gana. Para un rango, dos condiciones con `&&` (`nota >= 4 && nota <= 6`).
+Con `if` / `else if` / `else` se prueba un rango después del otro, y el primero que da verdadero gana.
+
+Para un rango hacen falta dos condiciones juntas con `&&`: `nota >= 4 && nota <= 6`. Antes de todo, revisá que la nota esté entre 1 y 10.
 
 #### Desafío
 La Academia del Imperio pone notas de 1 a 10. Pedí una nota y mostrá el veredicto:
@@ -3739,7 +3761,17 @@ La posada tiene un menú nuevo y el posadero no da abasto con los pedidos. Le pi
 —Y si piden algo que no hay, que lo diga.
 
 #### Gheco sugiere
-Un `switch` como expresión devuelve un valor: `int precio = switch (opcion) { case 1 -> 1200; case 2 -> 300; default -> 0; };`. El `default` atrapa todo lo demás.
+Un `switch` que devuelve el precio de cada opción:
+
+```java
+int precio = switch (opcion) {
+    case 1 -> 1200;
+    case 2 -> 300;
+    default -> 0;
+};
+```
+
+El `default` atrapa lo que no está en el menú: con un precio 0 podés saber que la opción no existía.
 
 #### Desafío
 Mostrá el menú de la posada (1 Guiso, 2 Pan, 3 Café, 4 Agua) y pedí una opción. Con
@@ -3832,7 +3864,9 @@ En el cambio de guardia, los aduaneros juegan a piedra, papel o tijera para ver 
 —Que lo decida un programa —propone Zed.
 
 #### Gheco sugiere
-Compará textos con `equals`. Un empate es cuando las dos jugadas son iguales; para ver quién gana, alcanza con revisar los tres casos en que gana uno (piedra a tijera, tijera a papel, papel a piedra).
+Compará las jugadas con `equals` (con textos, `==` no sirve).
+
+Primero, el empate: las dos jugadas iguales. Si no, para saber quién gana, alcanza con revisar los tres casos en que gana Nadia (piedra contra tijera, tijera contra papel, papel contra piedra), juntándolos con `||`. Si no es ninguno, gana el guardia.
 
 #### Desafío
 Pedí la jugada de Nadia (`piedra`, `papel` o `tijera`) y la semilla del guardia. El
@@ -4316,7 +4350,17 @@ Al cerrar la Aduana hay que contar los carros, uno por uno. Zed escribe su prime
 —Tu bucle nunca cambia nada —dice Gheco—. Si `carro` vale siempre 1, la condición se cumple para siempre.
 
 #### Gheco sugiere
-`while (carro <= 4) { … }` repite mientras la condición se cumpla. Adentro, algo tiene que acercarla a ser falsa: `carro++;` le suma 1 a `carro` en cada vuelta.
+Un **bucle** repite instrucciones. `while` repite **mientras** la condición sea verdad:
+
+```java
+int n = 1;
+while (n <= 3) {
+    System.out.println(n);
+    n++;
+}
+```
+
+Adentro, algo tiene que acercar la condición a ser falsa (acá, `n++`). Si no, el bucle no termina nunca y el programa se traba.
 
 #### Desafío
 Completá la línea que falta para que el contador avance y el bucle termine.
@@ -4380,7 +4424,17 @@ El tesorero quiere saber cuánto entró en la semana. Cada día se cobró diez d
 —Cuando sabés cuántas vueltas son, usá `for` —dice Gheco.
 
 #### Gheco sugiere
-`for (int dia = 1; dia <= 5; dia++)` da exactamente 5 vueltas. Para sumar, un **acumulador**: `int total = 0;` antes del bucle y `total += …;` adentro.
+`for` es un bucle con contador, ideal cuando sabés cuántas vueltas hay. Tiene tres partes:
+
+```java
+for (int dia = 1; dia <= 3; dia++) { ... }
+```
+
+1. **arranque**: `int dia = 1`;
+2. **condición**: `dia <= 3`, se pregunta antes de cada vuelta;
+3. **paso**: `dia++`, al final de cada vuelta.
+
+Para sumar, un **acumulador**: una variable que arranca en 0 **antes** del bucle y suma adentro (`total += algo;`).
 
 #### Desafío
 Sumale al total lo que se cobró cada día (`dia * 10`).
@@ -4443,7 +4497,9 @@ recompensa: xp 15, oro 15
 Un mercader apurado declara pesos imposibles para no pagar: −3 kg, 0 kg… Nadia suspira. —Preguntale otra vez. Y otra. Hasta que diga algo que tenga sentido.
 
 #### Gheco sugiere
-`do { … } while (condición);` ejecuta el bloque **una vez** y después repite **mientras** la condición se cumpla. Para validar: repetí mientras el peso sea **inválido** (`peso <= 0`). Fijate el `;` del final.
+`do { … } while (condición);` es un bucle que primero **hace** y después **pregunta**: el bloque se ejecuta al menos una vez.
+
+Sirve para pedir un dato hasta que sea válido: lo pedís, y si no sirve, lo pedís de nuevo. La condición dice cuándo **repetir**: mientras el dato sea inválido. Ojo con el `;` del final.
 
 #### Desafío
 Completá la condición: se vuelve a preguntar mientras el peso no sea mayor que cero.
@@ -4518,7 +4574,10 @@ recompensa: xp 15, oro 15
 —Hay dos formas de salir de una vuelta —dice Gheco—: saltearla o cortar todo.
 
 #### Gheco sugiere
-Adentro de un bucle, `continue;` saltea lo que queda de **esta** vuelta y pasa a la siguiente; `break;` termina el bucle **entero**.
+Dos órdenes para controlar un bucle desde adentro:
+
+- `continue;` saltea lo que queda de **esta** vuelta y pasa a la siguiente;
+- `break;` termina el bucle **entero**.
 
 #### Desafío
 Completá las dos líneas: el carro 4 se saltea y en el 7 se corta todo.
@@ -4594,7 +4653,11 @@ El tesorero de la Aduana tiene que enseñarle las tablas a su aprendiz, pero el 
 —Que pregunte hasta que le contesten bien —pide.
 
 #### Gheco sugiere
-Un bucle que valida repite la pregunta mientras la respuesta no sirva. `hasNextInt()` dice si lo que viene es un número antes de leerlo. Un `for` del 1 al 10 arma la tabla.
+Un bucle que valida repite la pregunta mientras la respuesta no sirva.
+
+`hasNextInt()` pregunta si lo que viene es un número, **antes** de leerlo. Si no lo es, hay que descartarlo con `next()` (si no, `nextInt()` se traba con las letras).
+
+Cuando tenés el número, un `for` del 1 al 10 arma la tabla.
 
 #### Desafío
 Pedí un número del 1 al 10 (validá con un bucle: si no es un número o está fuera de
@@ -4692,7 +4755,9 @@ En la frontera, un adivino piensa un número del 1 al 100 y cobra cada intento. 
 —Pensá —dice Gheco—. Cada pista parte el problema a la mitad.
 
 #### Gheco sugiere
-Un `do` / `while` se ejecuta al menos una vez y sigue mientras la condición sea verdadera: ideal para pedir intentos hasta acertar. Contá los intentos con una variable que suma uno por vuelta.
+`new Random(semilla).nextInt(100) + 1` da un número del 1 al 100.
+
+Un `do` / `while` es ideal para los intentos: se pide al menos una vez y sigue mientras no acierte. En cada vuelta, sumá uno a un contador de intentos y decí «más alto» o «más bajo».
 
 #### Desafío
 El adivino piensa un número del 1 al 100 con `new Random(semilla).nextInt(100) + 1`
@@ -4796,7 +4861,9 @@ Los campesinos declaran sus cosechas de a una, pero entre las declaraciones hay 
 —Las que no sirven, se saltean —dice Nadia—. Y se avisa.
 
 #### Gheco sugiere
-`continue` salta al próximo giro del bucle sin hacer el resto. Leé hasta que llegue `fin` y, en cada vuelta, descartá lo que no sirve antes de sumar.
+Leé línea por línea hasta que escriban `fin` (comparando con `equals`).
+
+En cada vuelta, descartá lo que no sirve **antes** de sumar: si no es un número, o es negativo, avisá y pasá a la siguiente con `continue`. Lo que queda, al acumulador.
 
 #### Desafío
 Pedí las cosechas de un granero, una por línea, hasta que escriban `fin`. Ignorá con
@@ -5362,7 +5429,13 @@ El depósito es una fila de estantes numerados. Cada uno guarda un solo cajón y
 —Empiezan en el **cero** —le avisa Nadia—. No en el uno. Todos se equivocan la primera vez.
 
 #### Gheco sugiere
-Un **array** es una fila de lugares numerados desde 0. `estantes[0]` es el primero y `estantes.length` dice cuántos hay. Como empieza en 0, el **último** está en `estantes.length - 1`.
+Un **array** es una fila de lugares del mismo tipo, uno al lado del otro, con un solo nombre:
+
+```java
+String[] colores = {"rojo", "verde", "azul"};
+```
+
+Cada lugar tiene un número de posición, el **índice**, que empieza en **0**: `colores[0]` es el primero. `colores.length` dice cuántos hay (3). Como empieza en 0, el **último** está en `colores.length - 1`.
 
 #### Desafío
 Mostrá el último estante usando `length`, sin escribir el número a mano.
@@ -5420,7 +5493,9 @@ Zed recorre los cajones para sumar lo que pesan. Al llegar al final, sigue de la
 —Pediste uno de más —dice Gheco, escondido detrás de Nadia.
 
 #### Gheco sugiere
-Los índices van de `0` a `length - 1`. Si el bucle llega a `i <= pesos.length`, en la última vuelta pide `pesos[5]`, que no existe. La condición correcta es `i < pesos.length`.
+Los índices van de `0` a `length - 1`. Si el bucle va hasta `i <= pesos.length`, en la última vuelta pide un lugar que no existe, y Java corta con un error `ArrayIndexOutOfBoundsException` (índice fuera del array).
+
+La condición correcta para recorrer todo es `i < pesos.length`.
 
 #### Desafío
 Ejecutalo, mirá el error y arreglá la condición del `for`.
@@ -5481,7 +5556,10 @@ recompensa: xp 15, oro 15
 En el archivo del depósito hay registros de viajeros de todas las épocas, mezclados. Zed quiere encontrar el más viejo. Nadia se lo prohíbe… y después le alcanza la escalera.
 
 #### Gheco sugiere
-`Arrays.sort(anios)` ordena el array de menor a mayor (lo cambia ahí mismo). `Arrays.toString(anios)` lo devuelve como texto: `[987, 1120, …]`. Hace falta `import java.util.Arrays;`.
+La clase `Arrays` (de `java.util`, hay que importarla) trae herramientas para arrays:
+
+- `Arrays.sort(v)` ordena el array de menor a mayor, ahí mismo;
+- `Arrays.toString(v)` lo devuelve como texto, para mostrarlo: `[1, 2, 3]`.
 
 #### Desafío
 Ordená los años para que el primero sea el más viejo.
@@ -5542,7 +5620,13 @@ recompensa: xp 15, oro 15
 Colgado en la pared del depósito hay un mapa de la frontera en cuadritos. Donde hay una torre de vigilancia, un 1; donde no, un 0. Nadia quiere saber dónde están todas.
 
 #### Gheco sugiere
-Una **matriz** es un array de filas. `mapa.length` es la cantidad de filas y `mapa[f].length` las columnas de la fila `f`. Se recorre con dos `for`: el de afuera por filas y el de adentro por columnas.
+Una **matriz** es un array de filas: una tabla. `int[][] mapa` tiene dos pares de corchetes.
+
+- `mapa[f][c]` es la casilla de la fila `f` y la columna `c`;
+- `mapa.length` es la cantidad de filas;
+- `mapa[f].length` es la cantidad de columnas de la fila `f`.
+
+Se recorre con dos `for`: el de afuera por las filas y el de adentro por las columnas.
 
 #### Desafío
 Completá el límite del `for` de adentro: las columnas de esa fila.
@@ -5623,7 +5707,9 @@ En lo alto de la Aduana, una torre anota la temperatura de cada día. Al final d
 —Siete números —dice Zed—. Siete cajones seguidos.
 
 #### Gheco sugiere
-Un array guarda varios valores del mismo tipo: `double[] temp = new double[7];`. Se recorre con un `for` del 0 al 6. `Arrays.toString(temp)` lo muestra entero.
+Un array también se puede crear vacío, diciendo el tamaño: `double[] temp = new double[7];` (siete lugares, todos en 0).
+
+Cargalo con un `for` del 0 al 6, leyendo cada temperatura. `Arrays.toString(temp)` lo muestra entero.
 
 #### Desafío
 Pedí las temperaturas máximas de los 7 días de la semana y guardalas en un array
@@ -5726,7 +5812,9 @@ Terminó el torneo de arquería de los aduaneros y hay que armar el podio. Pero 
 —Ordená una copia —dice Nadia—. La original queda como estaba.
 
 #### Gheco sugiere
-`Arrays.copyOf(original, largo)` hace una copia nueva; `Arrays.sort(copia)` la ordena de menor a mayor. Recorrela desde el final para tener los más altos primero.
+`Arrays.sort` cambia el array original. Para no perderlo, primero hacé una copia: `Arrays.copyOf(original, original.length)` devuelve un array nuevo con los mismos valores.
+
+Ordená la copia (queda de menor a mayor) y recorrela **desde el final** para tener los puntajes más altos primero.
 
 #### Desafío
 Guardá los puntajes `{340, 125, 980, 560, 125, 720}` en un array. Hacé una **copia**
@@ -5805,7 +5893,9 @@ En la pared del depósito hay un mapa cuadriculado de la frontera, con un río q
 Zed se acerca: al lado del mapa hay una marca chiquita con forma de vitral.
 
 #### Gheco sugiere
-Una matriz es un array de arrays: `char[][] mapa = new char[4][6];`. `mapa[fila][columna]` es un casillero. Con dos `for` anidados recorrés todas las filas y columnas.
+Una matriz de `char`: `char[][] mapa = new char[4][6];` (4 filas por 6 columnas). Llenala con `'.'` usando dos `for` anidados.
+
+Antes de marcar una casilla que pidió el usuario, revisá que la fila y la columna estén adentro del mapa: si no, Java da error.
 
 #### Desafío
 Creá una matriz de `char` de 4 filas por 6 columnas llena de `'.'` (con dos `for` o
@@ -6290,7 +6380,20 @@ En los pasillos de la Aduana, cada aduanero tiene su librito: uno pesa, otro cob
 —Un **método** es eso —dice Gheco—: un librito con nombre. Le das los datos y te devuelve la respuesta.
 
 #### Gheco sugiere
-`static double peaje(int kg) { … }` declara un método que recibe un `int` y **devuelve** un `double`. Adentro, `return …;` dice qué devuelve. En `main` se usa como un valor: `peaje(10)`.
+Un **método** es una receta con nombre: la escribís una vez y la usás muchas veces.
+
+```java
+static int doble(int n) {
+    return n * 2;
+}
+```
+
+- `int` adelante: el tipo de lo que **devuelve**;
+- `doble`: el nombre;
+- `(int n)`: los **parámetros**, los datos que recibe;
+- `return`: lo que devuelve, y ahí termina.
+
+En `main` se usa como un valor: `doble(7)` da `14`. (`static` quiere decir que se usa sin crear un objeto: por ahora, ponelo siempre.)
 
 #### Desafío
 Escribí el `return` del método: medio denario por kilo.
@@ -6352,7 +6455,9 @@ recompensa: xp 10, oro 10
 El sellador decide entre dos sellos: APROBADO si el viajero declaró todo, RETENIDO si no. Nadia le pide a Zed que escriba ese librito. —Y que devuelva el texto del sello, no que lo muestre: lo usa otro aduanero.
 
 #### Gheco sugiere
-Antes del nombre del método va el **tipo de lo que devuelve**: `String` si devuelve un texto, `int` si un número, `void` si no devuelve nada. Los parámetros van entre paréntesis, separados por coma.
+Antes del nombre del método va el **tipo de lo que devuelve**: `String` si devuelve un texto, `int` si un número entero, `void` si no devuelve nada (solo hace algo, como mostrar).
+
+Los parámetros van entre paréntesis, cada uno con su tipo, separados por coma.
 
 #### Desafío
 Completá el tipo de retorno del método.
@@ -6423,7 +6528,9 @@ El cobrador tiene dos tarifas con el mismo nombre: «cobrar». Si viene un carro
 —¿Dos libritos con el mismo nombre? —pregunta Zed. —Mientras reciban cosas distintas, Java sabe cuál abrir —dice Gheco.
 
 #### Gheco sugiere
-**Sobrecarga**: dos métodos con el mismo nombre y distintos parámetros. `cobrar(30)` usa el de un parámetro y `cobrar(30, 3)` el de dos. Uno puede llamar al otro: `cobrar(kg) * carros`.
+En Java puede haber **dos métodos con el mismo nombre**, si reciben distintos parámetros. Se llama **sobrecarga**: Java elige cuál usar según lo que le pasás.
+
+`cobrar(30)` usa el de un parámetro y `cobrar(30, 3)` el de dos. Uno puede llamar al otro, así no repetís la cuenta.
 
 #### Desafío
 Completá el `return` del segundo `cobrar`: lo de un carro por la cantidad de carros, menos 5 por carro.
@@ -6491,7 +6598,9 @@ recompensa: xp 15, oro 15
 Para llegar al último pasillo hay una escalera de caracol. Zed escribe un librito para bajar escalón por escalón: «bajar un escalón y volver a bajar». Nunca llega abajo. Al fondo, un **esqueleto** que intentó lo mismo hace siglos todavía está bajando.
 
 #### Gheco sugiere
-Un método **recursivo** se llama a sí mismo con un problema más chico: `bajar(n - 1)`. Necesita un **caso base** que corte sin volver a llamarse: cuando `n == 0`, ya llegaste. Sin él, se llena la pila y aparece `StackOverflowError`.
+Un método **recursivo** se llama a sí mismo con un problema más chico (`bajar(n - 1)`), hasta llegar a uno tan chico que ya sabe la respuesta.
+
+Necesita un **caso base**: una condición en la que corta sin volver a llamarse (acá, cuando no quedan escalones). Sin él, se llama para siempre, se llena la memoria de las llamadas y Java corta con `StackOverflowError`.
 
 #### Desafío
 Completá la condición del caso base: cuando no quedan escalones.
@@ -6564,7 +6673,15 @@ En la ventanilla del cambista, los viajeros del Puerto cambian pesos por denario
 —Una receta para cada cosa —le dice Zed—, y la usás cuantas veces quieras.
 
 #### Gheco sugiere
-Un método es una receta con nombre: recibe parámetros y devuelve un resultado con `return`. `static double aDenarios(double pesos) { return pesos / 250; }` se usa como `aDenarios(1000)`.
+Un método por cada conversión, cada uno con su parámetro y su `return`:
+
+```java
+static double mitad(double x) {
+    return x / 2;
+}
+```
+
+En `main`, leés el dato y llamás a cada método, mostrando lo que devuelve.
 
 #### Desafío
 Escribí tres métodos: `aDenarios(double pesos)` que convierte pesos a denarios (1
@@ -6653,7 +6770,9 @@ El capitán del regimiento quiere los números de sus soldados: la suma, el mejo
 —Un método para cada pregunta —dice Nadia.
 
 #### Gheco sugiere
-Un método puede recibir un array: `static int suma(int[] datos)`. Ojo: si el método **cambia** el array, el cambio se ve afuera, porque el array no se copia: se pasa el mismo.
+Un método puede recibir un array: `static int suma(int[] datos)`. Adentro lo recorrés como siempre (`datos.length`, `datos[i]`).
+
+Ojo: el array **no se copia**. El método recibe el mismo array: si lo cambia, el cambio se ve afuera.
 
 #### Desafío
 Escribí métodos que reciban un `int[]`: `suma`, `maximo`, `contarMayoresA(int[]
@@ -6757,7 +6876,12 @@ La escalera de la torre tiene escalones que se repiten y se repiten. Para subirl
 —Una receta que se usa a sí misma —murmura Gheco.
 
 #### Gheco sugiere
-Un método recursivo se llama a sí mismo con un problema más chico y tiene un **caso base** donde se detiene. Un método sobrecargado tiene el mismo nombre con distintos parámetros.
+Dos métodos recursivos, cada uno con su caso base:
+
+- **potencia**: elevar a la 0 da 1 (caso base). Si no, `base` por `potencia(base, exp - 1)`;
+- el otro, igual: resolver un poquito y llamarse con algo más chico.
+
+Y sobrecarga: el mismo nombre con distintos parámetros.
 
 #### Desafío
 Escribí dos métodos **recursivos**: `potencia(int base, int exp)` (sin usar
@@ -7223,7 +7347,9 @@ La armadura levanta la cabeza. Su voz suena a hierro: —**Cuántos días te que
 Kaffa aparece a su lado, con una taza de café. —No se lo engaña, Zed. Se lo vence con **orden**: un librito para cada cosa. Empezá por uno que lea un número válido.
 
 #### Gheco sugiere
-Un método `leerEntero(sc, min, max)` encierra el bucle de validación: pregunta, lee y repite **mientras** el número esté fuera del rango (`n < min || n > max`). Así se escribe una vez y se usa en todo el programa.
+Un método `leerEntero(sc, min, max)` guarda adentro el bucle de validación: pregunta, lee y vuelve a preguntar **mientras** el número esté fuera del rango.
+
+«Fuera del rango» es: menor que el mínimo **o** mayor que el máximo (con `||`). Así se escribe una vez y se usa en todo el programa.
 
 #### Desafío
 Completá la condición del `while`: se repite mientras el número esté fuera del rango.
@@ -7309,7 +7435,11 @@ recompensa: xp 20, oro 20
 —**Cuánto pesó, en promedio, lo que entró esta semana** —pregunta el Centinela, y del libro caen siete números. Zed empieza a sumar con los dedos. Nadia lo frena: —Un librito. Que reciba los pesos y devuelva el promedio.
 
 #### Gheco sugiere
-Un método puede recibir un **array**: `static double promedio(int[] datos)`. Adentro, recorrelo con un acumulador y devolvé `total / (double) datos.length` (el `(double)` evita que la división sea entera).
+Un método que recibe un array y devuelve un promedio: recorré con un acumulador y dividí por la cantidad.
+
+Para que la división tenga decimales, convertí uno de los dos a `double`: `total / (double) datos.length`.
+
+Un `for` especial recorre el array sin índices: `for (int dato : datos)` («para cada `dato` de `datos`»).
 
 #### Desafío
 Completá el `return`: el total dividido por la cantidad, con decimales.
@@ -7380,7 +7510,9 @@ recompensa: xp 20, oro 25
 Zed entiende el truco: el mismo número de renglón en los dos registros es el mismo viajero.
 
 #### Gheco sugiere
-Con **arrays paralelos**, `nombres[i]` y `cargas[i]` son del mismo viajero. El veredicto va en su propio método; en el bucle de `main`, solo hay que **llamarlo** con la carga de ese viajero: `veredicto(cargas[i])`.
+Con **arrays paralelos**, la misma posición en los dos arrays es del mismo viajero: `nombres[i]` y `cargas[i]`.
+
+El veredicto ya está en su propio método: en el bucle de `main`, solo hay que llamarlo con la carga del viajero de esa vuelta.
 
 #### Desafío
 Completá la llamada al método `veredicto` con la carga del viajero `i`.
@@ -7455,7 +7587,9 @@ item: Sello de Entrada
 Zed abre la bolsa. Hace una semana se hubiera guardado algo. Esta vez saca todo: la ganzúa, la capa, la llave de vidrio.
 
 #### Gheco sugiere
-Un programa completo se arma con los libritos que ya tenés: uno lee la cantidad, el bucle lee cada cosa y un acumulador suma el valor. `sc.next()` lee una palabra y `sc.nextInt()` un número.
+Un programa completo se arma con lo que ya tenés: leer la cantidad, un bucle que lee cada cosa y un acumulador que suma el valor.
+
+`sc.next()` lee una palabra y `sc.nextInt()` un número.
 
 #### Desafío
 Completá el acumulador: sumá el valor de cada cosa al total.
@@ -7547,7 +7681,9 @@ El Centinela se levanta del trono y desenvaina. Nadia se pone adelante con tres 
 —Turno por turno —dice Zed—. Y cada cosa en su método.
 
 #### Gheco sugiere
-Un combate por turnos es un bucle: mientras los dos tengan vida, se muestra el estado, se pide una acción validada y se resuelve. Separá cada parte en un método (`mostrarEstado`, `atacar`, `turnoDelCentinela`).
+Un combate por turnos es un bucle: **mientras** los dos tengan vida, se muestra el estado, se pide una acción (validada) y se resuelve.
+
+Separá cada parte en un método (`mostrarEstado`, `atacar`, `turnoDelCentinela`): así el `main` queda corto y se entiende.
 
 #### Desafío
 Escribí el duelo por turnos contra el Centinela. Nadia empieza con 40 de vida y 3
@@ -7730,7 +7866,9 @@ Detrás del trono están los registros del Centinela, línea por línea. Algunos
 —Validá cada uno antes de creerle —dice Nadia—. Como hace la Aduana.
 
 #### Gheco sugiere
-`split(";")` parte una línea en pedazos. Un método `validarRegistro` que devuelve el error (o `""` si está bien) deja el bucle principal limpio: si hay error, se avisa y se sigue con la próxima.
+`linea.split(";")` parte una línea en pedazos por el `;` y devuelve un array de textos.
+
+Un método `validarRegistro` que devuelve el error (o `""` si está todo bien) deja el bucle principal limpio: si hay error, se avisa y se sigue con la próxima línea. Los números se convierten con `Integer.parseInt(texto)`.
 
 #### Desafío
 El Centinela guarda sus registros en líneas con el formato `nombre;edad;oro`. Leé

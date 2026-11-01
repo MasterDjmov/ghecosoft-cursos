@@ -137,7 +137,21 @@ recompensa: xp 10, oro 10
 Hilván le muestra a Nima su mesa de trabajo, llena de cabezas de madera a medio pintar. —Quiero un molde —dice—. Que cada títere salga con su nombre.
 
 #### Gheco sugiere
-El `constructor` recibe el nombre y lo guarda con `this.nombre = nombre`.
+Una **clase** es un **molde**: dice cómo es y qué sabe hacer una cosa (un títere, un globo), y con él se fabrican todos los que quieras. Cada uno que sale del molde es un **objeto**, con sus propios datos.
+
+El `constructor` es lo que corre **al fabricar** cada uno: recibe los datos y los guarda. Adentro, `this` quiere decir «este objeto que se está fabricando»:
+
+```js
+class Globo {
+    constructor(color) {
+        this.color = color;
+    }
+}
+const rojo = new Globo('rojo');
+console.log(rojo.color);   // rojo
+```
+
+`this.color = color` guarda el dato que llegó en una propiedad del objeto. Por costumbre, el nombre de una clase empieza con mayúscula.
 
 #### Desafío
 Completá el constructor para que cada títere guarde su nombre.
@@ -193,7 +207,19 @@ recompensa: xp 10, oro 10
 Los títeres ya tienen nombre, pero no saben hacer nada. Hilván quiere que todos sepan hacer la reverencia de entrada.
 
 #### Gheco sugiere
-Agregá el método `saludar()` que **devuelva** `` `${this.nombre} hace una reverencia` ``.
+Un **método** es una función que vive adentro de la clase: algo que **sabe hacer** cada objeto. Se escribe sin la palabra `function`, y adentro usa `this` para llegar a los datos de ese objeto:
+
+```js
+class Globo {
+    constructor(color) { this.color = color; }
+    inflar() {
+        return `El globo ${this.color} se infla`;
+    }
+}
+console.log(new Globo('azul').inflar());   // El globo azul se infla
+```
+
+`return` **devuelve** el texto (no lo muestra): por eso se muestra afuera con `console.log`.
 
 #### Desafío
 Agregale a la clase el método `saludar`.
@@ -258,7 +284,17 @@ recompensa: xp 10, oro 10
 Los títeres se cansan: cada uno tiene 2 de energía y cada baile gasta 1. Cuando no tienen más, dicen que están cansados.
 
 #### Gheco sugiere
-En `bailar()`: si `this.energia === 0`, devolvé `` `${this.nombre} está cansado` ``; si no, restá uno y devolvé `` `${this.nombre} baila` ``.
+Cada objeto tiene **sus propios datos**: si uno cambia, los otros no se enteran. Un método puede leer y cambiar los datos de su objeto con `this`:
+
+```js
+flotar() {
+    if (this.aire === 0) return 'se desinfló';
+    this.aire--;
+    return 'flota';
+}
+```
+
+`this.aire--` le resta uno al aire **de ese** globo. Con `return` el método termina ahí: lo que está abajo ya no corre.
 
 #### Desafío
 Completá `bailar` para que cada títere gaste **su** energía.
@@ -336,7 +372,13 @@ recompensa: xp 10, oro 10
 Un goblin se coló en el taller y escribió la creación del títere sin `new`. El programa explota con un error rojo.
 
 #### Gheco sugiere
-Leé el error: dice que a la clase hay que usarla con `new`.
+A una clase no se la llama como a una función: para fabricar un objeto se pone **`new`** adelante:
+
+```js
+const verde = new Globo('verde');
+```
+
+Sin `new`, JavaScript se niega y lo dice en el error. Leelo, buscá la línea que crea el títere y fijate qué le falta.
 
 #### Desafío
 Arreglá la línea que crea el títere.
@@ -390,7 +432,14 @@ recompensa: xp 15, monedas 5
 Hilván quiere armar toda la compañía de una vez: tiene la lista de nombres y quiere un títere por cada uno, todos saludando al público.
 
 #### Gheco sugiere
-`nombres.map((nombre) => new Titere(nombre))` crea un títere por nombre. Después, recorrelos y mostrá `saludar()`.
+`map` (de R01) transforma cada elemento de un arreglo en otra cosa. Sirve también para fabricar un objeto por cada dato:
+
+```js
+const colores = ['rojo', 'azul'];
+const globos = colores.map((c) => new Globo(c));
+```
+
+`globos` queda con dos objetos `Globo`. Después se recorre con `for…of` y a cada uno se le pide su método.
 
 #### Desafío
 Creá la compañía y que cada títere salude.
@@ -460,7 +509,15 @@ recompensa: xp 15, monedas 5
 Lumina viene a ver el ensayo. En la obra, cada títere le pasa una flor al que sigue. Hilván quiere un método `pasarFlor(otro)`.
 
 #### Gheco sugiere
-`pasarFlor(otro)` devuelve `` `${this.nombre} le pasa la flor a ${otro.nombre}` ``. Recorré la compañía y que cada uno se la pase al siguiente.
+Un método puede recibir **otro objeto** como dato, y usar los datos de los dos: los suyos con `this` y los del otro con el nombre que le pusiste.
+
+```js
+chocar(otro) {
+    return `${this.color} choca con ${otro.color}`;
+}
+```
+
+Para que cada uno se relacione con **el que sigue**, conviene el `for` clásico con índice: `arreglo[i]` es el actual y `arreglo[i + 1]` el siguiente. El último no tiene siguiente: fijate hasta dónde tiene que llegar `i`.
 
 #### Desafío
 Completá el método y el recorrido: cada títere le pasa la flor al que sigue (el último no se la pasa a nadie).
@@ -655,7 +712,18 @@ recompensa: xp 10, oro 10
 Hilván quiere que la energía de los títeres sea **privada**: que solo el títere la cambie cuando baila.
 
 #### Gheco sugiere
-Declará `#energia = 3;` arriba de la clase y usala como `this.#energia`. Fijate qué muestra `console.log(payaso)` después.
+Un campo **privado** es un dato que solo puede tocar la propia clase, desde sus métodos. De afuera no se ve ni se cambia. Se marca con `#` adelante y se declara arriba, en el cuerpo de la clase:
+
+```js
+class Alcancia {
+    #monedas = 0;
+    guardar() {
+        this.#monedas++;
+    }
+}
+```
+
+El `#` es parte del nombre: se escribe **siempre**, también al usarlo (`this.#monedas`). Cambialo en todos los lugares donde aparece.
 
 #### Desafío
 Cambiá `energia` por el campo privado `#energia` en toda la clase.
@@ -726,7 +794,17 @@ recompensa: xp 10, oro 10
 Ahora nadie ve la energía, ni siquiera Hilván. Quiere poder **leerla** desde afuera, pero sin que se pueda cambiar.
 
 #### Gheco sugiere
-Un `get energia()` que devuelva `this.#energia`. Se lee como `payaso.energia`, sin paréntesis.
+Un **getter** es un método que se lee **como si fuera una propiedad**, sin paréntesis. Sirve para dejar **ver** un dato privado sin dejar cambiarlo:
+
+```js
+get monedas() {
+    return this.#monedas;
+}
+// afuera:
+console.log(alcancia.monedas);   // sin ()
+```
+
+Se escribe con `get` adelante del nombre.
 
 #### Desafío
 Agregá el getter `energia`.
@@ -800,7 +878,18 @@ recompensa: xp 10, oro 10
 Hilván quiere poder **recargar** la energía de un títere, pero entre 0 y 5. Nada de los 1000 de Bruno.
 
 #### Gheco sugiere
-`set energia(valor)`: si `valor < 0 || valor > 5`, `return` sin cambiar nada; si no, `this.#energia = valor`.
+Un **setter** es lo contrario: corre cuando alguien **asigna** con `=`, y recibe el valor nuevo. Así la clase puede **controlar** qué se acepta:
+
+```js
+set monedas(valor) {
+    if (valor > 100) return;   // no entra
+    this.#monedas = valor;
+}
+// afuera:
+alcancia.monedas = 500;   // no hace nada
+```
+
+Con `return` se sale sin cambiar nada. `||` quiere decir «o»: alcanza con que se cumpla una de las dos condiciones.
 
 #### Desafío
 Agregá el setter con su control.
@@ -875,10 +964,14 @@ recompensa: xp 10, oro 10
 ```
 
 #### Escena
-Un ogro escribió un getter para el nombre, y el programa explota con `Maximum call stack size exceeded`. Como dos espejos enfrentados, el getter se llama a sí mismo sin fin.
+Un ogro escribió un getter para el nombre, y el programa explota: `Cannot set property nombre … which has only a getter`. El constructor quiere guardar el nombre en el mismo lugar que ocupa el getter. Y aunque pudiera, el getter se leería a sí mismo sin fin, como dos espejos enfrentados.
 
 #### Gheco sugiere
-Guardá el nombre en un privado `#nombre` y que el getter devuelva `this.#nombre`.
+Una clase no puede tener **un getter y un dato con el mismo nombre**: `nombre` ya es el getter, así que `this.nombre = nombre` en el constructor quiere guardar en un lugar que solo se puede leer. De ahí el error `which has only a getter` («que solo tiene getter»).
+
+Y hay otra trampa: si el getter `nombre` hace `return this.nombre`, leer `this.nombre` vuelve a ejecutar el getter, que vuelve a leer… sin fin (`Maximum call stack size exceeded`).
+
+La salida para las dos es guardar el dato con **otro nombre**: un campo privado con `#`, que el constructor llena y el getter lee.
 
 #### Desafío
 Arreglá la clase para que el getter devuelva el nombre sin llamarse a sí mismo.
@@ -940,7 +1033,18 @@ recompensa: xp 15, monedas 5
 Hilván quiere llevar la cuenta de cuántos títeres salieron del molde desde que lo tiene. La cuenta es del **molde**, no de cada títere.
 
 #### Gheco sugiere
-`static creados = 0;` en la clase, y en el constructor `Titere.creados++`. Se lee con `Titere.creados`.
+Un campo **`static`** es de la **clase**, no de cada objeto: hay uno solo, compartido. Sirve, por ejemplo, para contar cuántos se fabricaron:
+
+```js
+class Globo {
+    static vendidos = 0;
+    constructor() {
+        Globo.vendidos++;
+    }
+}
+```
+
+Se usa con el nombre de la clase adelante (`Globo.vendidos`), no con `this`.
 
 #### Desafío
 Contá los títeres creados con un campo `static`.
@@ -1000,7 +1104,19 @@ recompensa: xp 15, monedas 5
 Lumina le regala a Hilván una caja para juntar las fichas de las funciones. Tiene que cuidarse sola: que nadie saque más de lo que hay ni ponga fichas negativas, y que se pueda ver el total.
 
 #### Gheco sugiere
-`#fichas = 0`. `get total()` devuelve las fichas. `poner(n)` suma si `n > 0`; `sacar(n)` resta si alcanza y devuelve `true` o `false`.
+Juntá lo del nodo: un campo privado para el dato, un **getter** para verlo y métodos que lo cambian **solo si se puede**.
+
+Un método puede devolver `true` o `false` para avisar si pudo hacer lo que le pidieron:
+
+```js
+gastar(n) {
+    if (n > this.#saldo) return false;   // no alcanza
+    this.#saldo -= n;
+    return true;
+}
+```
+
+`-=` resta y guarda (`a -= 3` es `a = a - 3`).
 
 #### Desafío
 Completá la caja.
@@ -1214,7 +1330,13 @@ recompensa: xp 10, oro 10
 Hilván talla un dragoncito y quiere que sea un títere más: con nombre y con reverencia, sin escribir todo de nuevo.
 
 #### Gheco sugiere
-`class Dragoncito extends Titere {}` alcanza para que tenga todo lo de `Titere`.
+La **herencia** hace un molde nuevo **a partir de otro**: la clase hija tiene todo lo del padre (sus datos y sus métodos) y después le podés agregar o cambiar cosas. Se escribe con `extends`:
+
+```js
+class GloboGigante extends Globo {}
+```
+
+Aunque las llaves estén vacías, un `GloboGigante` ya sabe hacer todo lo que sabe un `Globo`.
 
 #### Desafío
 Declará la clase `Dragoncito` que herede de `Titere`.
@@ -1282,7 +1404,18 @@ recompensa: xp 10, oro 10
 El dragoncito necesita algo que los otros títeres no tienen: cuántas chispas escupe.
 
 #### Gheco sugiere
-En el constructor de `Dragoncito`, primero `super(nombre)` y después `this.chispas = chispas`. Agregá el método `escupir()`.
+Si la hija necesita **datos propios**, escribe su propio `constructor`. Adentro, lo **primero** es `super(…)`: llama al constructor del padre para que guarde lo suyo. Después, la hija guarda lo nuevo:
+
+```js
+class GloboGigante extends Globo {
+    constructor(color, metros) {
+        super(color);          // el padre guarda el color
+        this.metros = metros;  // la hija guarda lo suyo
+    }
+}
+```
+
+Los métodos nuevos se agregan como en cualquier clase.
 
 #### Desafío
 Completá el constructor y el método `escupir`.
@@ -1358,7 +1491,9 @@ recompensa: xp 10, oro 10
 Hilván hizo la arquera de madera, pero el programa explota: `Must call super constructor in derived class before accessing 'this'`.
 
 #### Gheco sugiere
-Mirá el orden: `this.flechas` está antes de `super`. Cambialos de lugar.
+En el constructor de una hija, `this` **no existe** hasta que se llama a `super(…)`: el objeto lo fabrica el padre. Por eso usar `this` antes de `super` da error.
+
+Leé el mensaje y mirá el orden de las líneas en el constructor.
 
 #### Desafío
 Arreglá el constructor de `Arquera`.
@@ -1426,7 +1561,15 @@ recompensa: xp 10, oro 10
 Los títeres comunes hacen la reverencia, pero el dragoncito tiene que hacer la reverencia **y rugir**.
 
 #### Gheco sugiere
-En `Dragoncito`, escribí `saludar()` de nuevo y devolvé `` `${super.saludar()} y ruge` ``.
+La hija puede **volver a escribir** un método del padre con el mismo nombre: así cambia lo que hace (eso se llama **sobrescribir**). Y si quiere usar lo que hacía el padre y **agregarle** algo, lo llama con `super.metodo()`:
+
+```js
+inflar() {
+    return `${super.inflar()} hasta el techo`;
+}
+```
+
+El texto del padre queda adelante y la hija le agrega lo suyo.
 
 #### Desafío
 Sobrescribí `saludar` en el dragoncito usando el del padre.
@@ -1497,7 +1640,9 @@ recompensa: xp 15, monedas 5
 La arquera de madera tiene que disparar flechas de corcho: empieza con algunas, y cuando se queda sin, avisa.
 
 #### Gheco sugiere
-`Arquera extends Titere`, con `flechas` en el constructor. `disparar()` resta una y devuelve `` `${this.nombre} dispara (quedan ${this.flechas})` ``; si no hay, `` `${this.nombre} no tiene flechas` ``.
+Ahora va la clase entera: el `extends`, el `constructor` con `super` primero y el método. En el método, revisá primero el caso en que **no se puede** (no quedan flechas) y cortá con `return`; si no, restá y devolvé el texto.
+
+Fijate en la consigna el texto exacto de los dos casos y **cuándo** se resta: el número que se muestra es el que queda después.
 
 #### Desafío
 Escribí la clase `Arquera` completa.
@@ -1573,7 +1718,16 @@ recompensa: xp 15, monedas 5
 Lumina pide un títere especial para el final de la función: un **dragón mayor**, que es un dragoncito que además vuela. Hilván duda: ¿se puede heredar de algo que ya heredó?
 
 #### Gheco sugiere
-`DragonMayor extends Dragoncito`. Su `saludar()` agrega `y vuela` a lo que dice el del dragoncito (que ya agrega `y ruge` al del títere).
+La herencia puede tener **varias generaciones**: una clase hereda de otra que a su vez hereda de otra. `super.metodo()` siempre llama al de la clase de **arriba inmediata**, que puede usar el suyo de más arriba:
+
+```js
+class A { decir() { return 'a'; } }
+class B extends A { decir() { return `${super.decir()}b`; } }
+class C extends B { decir() { return `${super.decir()}c`; } }
+console.log(new C().decir());   // abc
+```
+
+Cada generación agrega su parte a lo que ya traía.
 
 #### Desafío
 Escribí `DragonMayor` para que salude con las tres cosas.
@@ -1779,7 +1933,17 @@ recompensa: xp 10, oro 10
 Hilván ya tiene las clases de su compañía, cada una con su `actuar()`. Falta el guion: recorrer la compañía y que cada uno actúe.
 
 #### Gheco sugiere
-Un `for…of` sobre `compania` y, adentro, `console.log(titere.actuar())`. Sin un solo `if`.
+**Polimorfismo** quiere decir «muchas formas»: objetos de clases distintas que tienen un método **con el mismo nombre**, y cada uno lo hace a su manera.
+
+La gracia es que el que los usa no necesita preguntar qué es cada uno: le pide lo mismo a todos y cada uno responde lo suyo.
+
+```js
+for (const animal of granja) {
+    console.log(animal.hablar());   // muu, beee, guau…
+}
+```
+
+No hace falta ningún `if` para saber de qué clase es.
 
 #### Desafío
 Hacé que actúe toda la compañía.
@@ -1844,7 +2008,9 @@ recompensa: xp 10, oro 10
 Chispín, el dragoncito, quiere entrar en la obra. Hilván tiene miedo de tener que cambiar todo el guion.
 
 #### Gheco sugiere
-Escribí `Dragoncito` con su `actuar()` (`` `${this.nombre} escupe chispas` ``) y agregalo a la compañía. El recorrido queda igual.
+Esa es la ventaja del polimorfismo: para sumar un personaje nuevo, alcanza con escribir su clase con **el mismo método**. El recorrido que los hace actuar **no se toca**.
+
+Escribí la clase nueva con su constructor y su método, y agregá el objeto al arreglo (al final, como pide la consigna).
 
 #### Desafío
 Agregá la clase `Dragoncito` y sumá a Chispín al final de la compañía.
@@ -1910,7 +2076,15 @@ recompensa: xp 10, oro 10
 Bruno sacó del depósito un títere **sin nada**: sin cara, sin ropa, solo el molde. Lo mandó a escena y el público no entendió nada.
 
 #### Gheco sugiere
-En el constructor de `Titere`, si `new.target === Titere`, tirá `new Error('Titere es un molde')`. Las hijas siguen funcionando.
+Algunos moldes son solo **de base**: no tiene sentido fabricar uno «genérico», solo sus hijas. Para impedirlo, el constructor puede revisar **con qué clase** lo llamaron: `new.target` es la clase que se usó en el `new`.
+
+```js
+constructor() {
+    if (new.target === Figura) throw new Error('Usá una figura concreta');
+}
+```
+
+`throw` **lanza** un error y corta. Si el `new` fue de una hija, `new.target` es la hija y sigue de largo.
 
 #### Desafío
 Hacé que `new Titere(…)` tire el error y que las hijas sigan andando.
@@ -1982,7 +2156,9 @@ recompensa: xp 10, oro 10
 Hilván agregó una `Bailarina`, pero escribió `actua()` en vez de `actuar()`. En escena, la bailarina tira un error rojo. Un ogro aplaude.
 
 #### Gheco sugiere
-El molde avisa: `Bailarina tiene que escribir actuar()`. Arreglá el nombre del método en la hija.
+El molde trae un `actuar()` que lanza un error a propósito: es la forma de exigirle a cada hija que escriba **el suyo**. Si la hija lo escribe con el mismo nombre, el suyo **tapa** al del molde y no hay error.
+
+El error aparece cuando la hija se olvida o lo escribe con **otro nombre**: comparalo letra por letra con el del molde.
 
 #### Desafío
 Corregí la bailarina para que actúe.
@@ -2055,7 +2231,19 @@ recompensa: xp 15, monedas 5
 Para el programa de mano, Hilván quiere que cada títere se presente con su clase y su nombre: *Payaso Pipo*, *Bailarina Lola*.
 
 #### Gheco sugiere
-En `Titere`, escribí `toString()` que devuelva `` `${this.constructor.name} ${this.nombre}` ``. Todas las hijas lo heredan.
+`toString()` es un método especial: JavaScript lo usa solo cuando necesita **convertir un objeto en texto**, por ejemplo adentro de un `${…}`. Si una clase no lo tiene, el objeto se ve como `[object Object]`.
+
+`this.constructor.name` es el **nombre de la clase** del objeto, como texto:
+
+```js
+class Globo {
+    toString() { return `Soy un ${this.constructor.name}`; }
+}
+class GloboGigante extends Globo {}
+console.log(`${new GloboGigante()}`);   // Soy un GloboGigante
+```
+
+Se escribe una vez en el padre y cada hija dice su propio nombre.
 
 #### Desafío
 Agregá el `toString` para que el programa de mano salga bien.
@@ -2112,7 +2300,15 @@ recompensa: xp 15, monedas 5
 En el final, todos actúan, y además **los dragones** hacen una reverencia extra, porque son los únicos que pueden volar hasta el palco de Lumina.
 
 #### Gheco sugiere
-Recorré la compañía: todos `actuar()`. Después, `if (titere instanceof Dragoncito)`, mostrá también `` `${titere.nombre} vuela hasta el palco` ``.
+A veces sí hace falta saber de qué clase es un objeto, para algo que solo hacen algunos. `instanceof` lo pregunta, y devuelve `true` o `false`:
+
+```js
+if (animal instanceof Vaca) {
+    console.log('da leche');
+}
+```
+
+Vale también para las hijas: un `GloboGigante` es `instanceof Globo`. Primero que todos actúen; el agregado va después, solo para los que corresponde.
 
 #### Desafío
 Completá el final de la obra.
@@ -2312,7 +2508,22 @@ recompensa: xp 10, oro 10
 Nima quiere hacer una cajita como la del Vidriero: cada vez que le dan cuerda, suma una vuelta.
 
 #### Gheco sugiere
-Adentro de `crearCajita`, `let vueltas = 0;` y devolvé una flecha que sume uno y devuelva `` `Vuelta ${vueltas}` ``.
+Una función puede **devolver otra función**. Y la de adentro **recuerda** las variables de la de afuera, aunque la de afuera ya haya terminado. Eso se llama **closure** (*clausura*): la función se lleva su «mochila» de variables.
+
+```js
+function crearMarcador() {
+    let goles = 0;
+    return () => {
+        goles++;
+        return goles;
+    };
+}
+const marcador = crearMarcador();
+console.log(marcador());   // 1
+console.log(marcador());   // 2
+```
+
+`goles` no se ve desde afuera: solo la flecha devuelta puede tocarla.
 
 #### Desafío
 Completá `crearCajita`.
@@ -2372,7 +2583,16 @@ recompensa: xp 10, oro 10
 Hilván quiere dos cajitas, una para cada lado del escenario. ¿Se van a pisar la cuenta?
 
 #### Gheco sugiere
-Creá `izquierda` y `derecha` con dos llamadas a `crearCajita()`, y probá cada una.
+Cada llamada a la función de afuera crea **variables nuevas**. Así, cada función devuelta tiene **su propia** mochila, y no comparte la cuenta con las otras:
+
+```js
+const local = crearMarcador();
+const visitante = crearMarcador();
+local();       // 1
+visitante();   // 1 (su cuenta es aparte)
+```
+
+Fijate el orden de los resultados de la consigna para saber cuántas veces llamar a cada una.
 
 #### Desafío
 Mostrá que cada cajita lleva su cuenta: `Vuelta 1`, `Vuelta 2`, `Vuelta 1`, `Vuelta 3`.
@@ -2441,7 +2661,15 @@ recompensa: xp 10, oro 10
 Las entradas del teatro tienen recargos distintos según el día: 10% los sábados, 50% en el estreno.
 
 #### Gheco sugiere
-`conRecargo(pct)` devuelve una función que recibe el precio. Así creás `sabado` y `estreno`.
+Con un closure se arman **fábricas de funciones**: le das un dato y te devuelve una función ya preparada con ese dato.
+
+```js
+const multiplicarPor = (n) => (x) => x * n;
+const doble = multiplicarPor(2);
+console.log(doble(7));   // 14
+```
+
+Son dos flechas seguidas: la primera recibe `n` y devuelve la segunda, que recibe `x` y recuerda `n`. Pensá qué cuenta da un recargo de un porcentaje: el precio, más el precio por el porcentaje dividido 100.
 
 #### Desafío
 Escribí `conRecargo` para que las dos entradas den 11 y 15.
@@ -2493,7 +2721,9 @@ recompensa: xp 10, oro 10
 Hilván programó que cada títere salga a escena con un segundo de diferencia: el 1, el 2 y el 3. Pero salen tres títeres que dicen todos *4*. Un troll se ríe en el foso.
 
 #### Gheco sugiere
-Con `var`, las tres funciones ven el mismo `i`, que al final vale 4. Cambialo por `let`.
+`var` es la forma vieja de crear variables, y tiene una trampa: en un bucle, **hay una sola** variable para todas las vueltas. Las funciones que se ejecutan después (con `setTimeout`) ven todas la misma, con el valor del final.
+
+Con `let` se crea **una variable nueva por vuelta**, y cada función recuerda la suya. Por eso, hoy se usan `let` y `const`, nunca `var`.
 
 #### Desafío
 Arreglá el bucle para que salgan el 1, el 2 y el 3.
@@ -2539,7 +2769,19 @@ recompensa: xp 15, monedas 5
 Hilván guarda el final de la obra en secreto. Quiere un objeto que lo deje **leer** y **cambiar** (con una clave), pero que nadie pueda ver la variable.
 
 #### Gheco sugiere
-`crearSecreto(inicial, clave)` guarda `let final = inicial` y devuelve un objeto con `leer()` y `cambiar(nuevo, intento)`, que cambia solo si `intento === clave`.
+Un closure puede devolver un **objeto con varios métodos** que comparten la misma variable escondida. Es otra forma de tener un dato privado, sin clases:
+
+```js
+function crearCandado(clave) {
+    let abierto = false;
+    return {
+        estado() { return abierto; },
+        abrir(intento) { if (intento === clave) abierto = true; },
+    };
+}
+```
+
+Los métodos ven la variable y los datos que recibió la función; nadie de afuera puede cambiarlos directamente.
 
 #### Desafío
 Completá `crearSecreto`.
@@ -2610,7 +2852,19 @@ recompensa: xp 15, monedas 5
 Lumina quiere medir qué títere aplauden más. Cada botón de la página tiene que contar **sus** aplausos.
 
 #### Gheco sugiere
-Escribí `contarAplausos(boton)`, que guarde `let aplausos = 0` y escuche el `click` del botón para sumar y mostrar en el propio botón. Llamala para cada botón.
+Los closures sirven mucho con eventos: si una función recibe un elemento, crea su variable y le pone un `addEventListener`, cada elemento queda con **su propia cuenta**.
+
+```js
+function contarToques(tecla) {
+    let toques = 0;
+    tecla.addEventListener('click', () => {
+        toques++;
+        tecla.textContent = toques;
+    });
+}
+```
+
+Después se llama a la función una vez por cada botón (con `for…of`, o con `forEach`, que hace lo mismo).
 
 #### Desafío
 Cada botón cuenta sus aplausos. (La comprobación aplaude dos veces a Pipo y una a Lola.)
@@ -2783,7 +3037,17 @@ recompensa: xp 10, oro 10
 Hilván puso todo lo de los hilos en un cajón aparte: `hilos.js`. Ahora quiere usar `atar` desde el escenario.
 
 #### Gheco sugiere
-Mirá `hilos.js` arriba de la Salida: exporta `atar`. Importalo con `import { atar } from './hilos.js';`.
+Un programa grande se reparte en **módulos**: archivos separados, cada uno con lo suyo. Un archivo **exporta** lo que quiere compartir (`export`), y otro lo **importa** para usarlo:
+
+```js
+import { sumar } from './cuentas.js';
+console.log(sumar(2, 3));
+```
+
+- entre llaves va el **nombre exacto** de lo que el otro archivo exporta;
+- después de `from`, el archivo, entre comillas y con `./` adelante (quiere decir «en esta misma carpeta»).
+
+Los archivos de esta micro-misión están arriba de la Salida: abrilos para ver qué exportan.
 
 #### Desafío
 Importá `atar` y usala con los dos títeres.
@@ -2838,7 +3102,13 @@ recompensa: xp 10, oro 10
 El molde de los títeres está en `titere.js`, exportado como **lo principal** del archivo.
 
 #### Gheco sugiere
-Lo `default` se importa **sin llaves** y con el nombre que quieras: `import Titere from './titere.js';`.
+Un archivo puede tener **una** exportación principal, marcada con `export default`. Esa se importa **sin llaves**, y le podés poner el nombre que quieras:
+
+```js
+import Globo from './globo.js';
+```
+
+Las otras (las que se exportan con `export` a secas) van con llaves y con su nombre exacto.
 
 #### Desafío
 Importá la clase y creá a Chispín.
@@ -2897,7 +3167,16 @@ recompensa: xp 10, oro 10
 La boletería del teatro quedó repartida en dos cajones: `precios.js` sabe cuánto cuesta la entrada, y `boleteria.js` cobra (y para eso, importa el precio del otro cajón). `precios.js` también guarda un secreto que no exporta.
 
 #### Gheco sugiere
-Mirá qué exporta cada archivo: de `precios.js`, `PRECIO`; de `boleteria.js`, `cobrar`. Importá cada cosa de su archivo. El secreto no lo vas a poder importar: no tiene `export`.
+Solo se puede importar lo que el otro archivo **exporta**: lo que no tiene `export` queda privado del archivo, y nadie de afuera lo ve.
+
+Si necesitás cosas de dos archivos, va un `import` por cada uno:
+
+```js
+import { IVA } from './impuestos.js';
+import { facturar } from './caja.js';
+```
+
+Abrí cada archivo y fijate qué exporta.
 
 #### Desafío
 Importá `PRECIO` de `precios.js` y `cobrar` de `boleteria.js`, y cobrá 3 entradas.
@@ -2962,7 +3241,9 @@ recompensa: xp 10, oro 10
 Un esqueleto cambió una letra del import y ahora el programa no arranca: `does not provide an export named 'pintr'`.
 
 #### Gheco sugiere
-Mirá cómo se llama de verdad la función en `pinturas.js` y corregí el import.
+Si importás con llaves un nombre que el archivo **no exporta**, aparece un error que dice que ese nombre no existe en el módulo.
+
+El nombre entre llaves tiene que ser **idéntico** al del `export`, con mayúsculas y todo. Abrí el archivo y compará.
 
 #### Desafío
 Arreglá el import.
@@ -3014,7 +3295,15 @@ recompensa: xp 15, monedas 5
 Hilván quiere usar todo lo del cajón de hilos, y además tiene una función propia que también se llama `atar`. No quiere que se peleen los nombres.
 
 #### Gheco sugiere
-`import * as hilos from './hilos.js';` trae todo bajo el nombre `hilos`: `hilos.atar(…)`, `hilos.LARGO`. Tu `atar` queda libre.
+`import * as nombre from '…'` trae **todo** lo que exporta un archivo, junto, bajo un solo nombre. Después se usa cada cosa con un punto:
+
+```js
+import * as cuentas from './cuentas.js';
+cuentas.sumar(2, 3);
+cuentas.PI;
+```
+
+Sirve también para que no choquen nombres: si tu archivo ya tiene una función `sumar`, la importada es `cuentas.sumar` y las dos conviven.
 
 #### Desafío
 Importá todo `hilos.js` como `hilos` y mostrá las dos formas de atar.
@@ -3081,7 +3370,7 @@ recompensa: xp 15, monedas 5
 Lumina ayuda a Hilván a ordenar la compañía entera: el molde en `titere.js`, cada personaje en su archivo, y el escenario (tu archivo) que arma la función.
 
 #### Gheco sugiere
-`payaso.js` y `dragoncito.js` ya importan el molde. Vos importá las dos clases (son `default`), armá la compañía y que todos actúen.
+Un módulo también puede importar de otros: cada archivo importa solo lo que usa. Vos solo tenés que importar las clases que vas a fabricar (fijate si se exportan con `default`, así sabés si van con llaves o sin), armar el arreglo con un objeto de cada una y recorrerlo como en R03-N04.
 
 #### Desafío
 Importá `Payaso` y `Dragoncito` y hacé actuar a Pipo y a Chispín.
@@ -3217,7 +3506,19 @@ recompensa: xp 15, monedas 3
 Hilván programó que Pipo actúe a los 2 segundos del telón. Pero a los 2 segundos aparece en escena el Títere sin Hilos y dice: *undefined actúa*.
 
 #### Gheco sugiere
-`setTimeout(pipo.actuar, 2000)` pasa la función suelta. Envolvela en una flecha: `setTimeout(() => pipo.actuar(), 2000)`. (Para ver lo que devuelve, mostralo con `console.log` adentro.)
+Cuando un método se pasa **suelto**, sin el objeto adelante, pierde su `this`: la función viaja sola y ya no sabe de quién es.
+
+```js
+setTimeout(globo.inflar, 1000);   // inflar corre sin su globo
+```
+
+La salida más simple es envolverlo en una flecha que lo llame **con** su objeto adelante:
+
+```js
+setTimeout(() => globo.inflar(), 1000);
+```
+
+Así lo que viaja es la flecha, y cuando corre, llama al método como corresponde.
 
 #### Desafío
 Que a los 2 segundos se vea `Pipo actúa`.
@@ -3278,7 +3579,14 @@ recompensa: xp 15, monedas 3
 Cuando tocan la campana del telón, la bailarina tiene que girar y el cartel tiene que decir su nombre. Pero el método se pasó suelto al botón, y el cartel dice *undefined gira*.
 
 #### Gheco sugiere
-`campana.addEventListener('click', lola.girar.bind(lola))` ata el método a Lola.
+Otra forma de que un método no pierda su `this` es **atarlo**: `metodo.bind(objeto)` devuelve una copia de la función que **siempre** usa ese objeto como `this`, la llame quien la llame.
+
+```js
+const inflarRojo = rojo.inflar.bind(rojo);
+boton.addEventListener('click', inflarRojo);
+```
+
+Pasa lo mismo con los eventos que con `setTimeout`: el método se pasa suelto.
 
 #### Desafío
 Que al tocar la campana el cartel diga `Lola gira`.
@@ -3361,10 +3669,14 @@ item: Hilo de Oro
 El Títere sin Hilos se planta en el centro del escenario. Para volver a atarlo, Nima tiene que armar la función entera: la compañía (un molde y sus hijas), un botón por títere que lo hace actuar **con su propio this**, un contador de actuaciones que recuerda solo, y un final en el que todos actúan juntos.
 
 #### Gheco sugiere
-- En `Titere`, `actuar` ya es un **campo flecha**: queda atado aunque lo pases suelto. Las hijas solo cambian `accion`.
-- `crearContador()` devuelve una flecha que suma y devuelve el total (un closure).
-- Para cada títere, creá un botón con `data-nombre` y escuchá su `click` pasando `titere.actuar` **suelto** (por eso tiene que estar atado).
-- El botón `#final` hace actuar a todos.
+Junta todo lo de R03:
+
+- un **campo flecha** (`metodo = () => { … }`, escrito como campo de la clase) queda atado a su objeto: la flecha usa el `this` de donde se creó, aunque viaje suelta;
+- las hijas solo cambian el dato que las diferencia;
+- el contador es un **closure** como el de R03-N05;
+- los botones se arman como en R02 (crear, `data-`, colgar) y cada uno escucha su `click`.
+
+Andá por partes y ejecutá entre medio.
 
 #### Desafío
 Completá las hijas, `crearContador` y los botones. La comprobación toca *Pipo*, *Chispín* y después *Final*. Al final:

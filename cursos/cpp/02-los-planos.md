@@ -254,7 +254,19 @@ recompensa: xp 10, oro 10
 —¿Y esto para qué me sirve? —pregunta Bron frente a miles de planos colgados. Tesla lo lleva a la ventana: tres torres, hechas con el mismo plano. Le pide que sume los pisos de las tres, y Bron cuenta las torres.
 
 #### Gheco sugiere
-Cada torre del vector tiene su campo `pisos`. En el recorrido, sumá `t.pisos` en lugar de contar torres.
+Un **struct** junta varios datos que van juntos, como una ficha:
+
+```cpp
+struct Mascota {
+    std::string nombre;
+    int edad = 0;
+};
+
+Mascota m{"Firulais", 3};
+std::cout << m.nombre;
+```
+
+Cada dato de adentro es un **campo**, y se usa con un punto: `m.edad`. Se pueden guardar muchas fichas en un `std::vector<Mascota>` y recorrerlas con un `for` de rango; dentro del bucle, cada una tiene sus campos.
 
 #### Desafío
 Sumá los pisos de todas las torres.
@@ -336,7 +348,16 @@ recompensa: xp 10, oro 10
 Un plano no solo dice qué datos tiene una torre: también qué sabe hacer. Lima le agregó a la torre un método que calcula su altura (tres metros por piso), pero lo dejó sin terminar.
 
 #### Gheco sugiere
-Adentro del método se usan los campos del objeto directamente: `return pisos * 3;`.
+Un struct puede tener, además de datos, **funciones propias**: se llaman **métodos**. Saben hacer algo con los datos de esa ficha:
+
+```cpp
+struct Mascota {
+    int edad = 0;
+    int edad_en_meses() const { return edad * 12; }
+};
+```
+
+Adentro del método, los campos se usan directamente, sin punto. Se llama con el punto: `m.edad_en_meses()`. El `const` del final promete que el método solo mira y no cambia nada.
 
 #### Desafío
 Completá el método `altura`.
@@ -418,7 +439,14 @@ recompensa: xp 15, oro 15
 El reloj de la sala marca las 23. Bron quiere adelantarlo dos horas y escribe `r.hora_ = 25`. El Taller no lo deja: la hora es **privada**. Y está bien, porque las 25 no existen.
 
 #### Gheco sugiere
-Desde afuera solo se puede usar lo `public`. El reloj tiene `avanzar(horas)`, que da la vuelta a las 24 con `%`.
+Una **clase** (`class`) es como un struct, pero puede **esconder** sus datos:
+
+- lo que está en `public:` se puede usar desde afuera;
+- lo que está en `private:` solo lo pueden tocar los métodos de la clase.
+
+Así nadie puede poner un dato inválido a mano: para cambiarlo, hay que pasar por un método público, que cuida las reglas. Esa idea se llama **encapsulamiento**.
+
+`%` sirve para dar la vuelta: `(hora + 3) % 24` nunca pasa de 23.
 
 #### Desafío
 Adelantá el reloj con el método, no tocando el dato.
@@ -494,7 +522,15 @@ Lima tiene el inventario del depósito en papelitos sueltos. Quiere pasarlo a fi
 —Y decime cuál vale más y de cuáles quedan pocas.
 
 #### Gheco sugiere
-Un `struct Pieza` y un `std::vector<Pieza>`. Leé con `while (std::cin >> p.nombre >> p.cantidad >> p.precio)`. `valor(const Pieza&)` no copia la pieza para calcular.
+Un `struct Pieza` con nombre, cantidad y precio, y un `std::vector<Pieza>` para guardarlas todas.
+
+Para leer hasta que se termine la entrada, el bucle lee directo en los campos:
+
+```cpp
+while (std::cin >> p.nombre >> p.cantidad >> p.precio)
+```
+
+Para el valor de cada pieza, una función que recibe `const Pieza&`: por **referencia** (no copia la ficha) y `const` (no la puede cambiar).
 
 #### Desafío
 Leé piezas hasta que se termine la entrada, cada una como `nombre cantidad
@@ -614,7 +650,9 @@ En la Sala de los Planos, Tesla le pide a Bron el plano de un rectángulo: que s
 —Y que se pueda agrandar o achicar sin dibujarlo de nuevo.
 
 #### Gheco sugiere
-Un `struct Rectangulo` con valores por defecto (`double ancho = 1;`). Los métodos que solo miran llevan `const`. `escalar` multiplica los dos lados.
+Los campos de un struct pueden tener un valor **por defecto**: `double ancho = 1.0;`. Si no se los das al crearlo, valen eso.
+
+Los métodos que solo miran (área, perímetro, ¿es cuadrado?) llevan `const` al final. `escalar` sí cambia los datos (multiplica los dos lados), así que ese no lleva `const`.
 
 #### Desafío
 Escribí `struct Rectangulo` con `ancho` y `alto` (por defecto 1) y los métodos
@@ -717,7 +755,9 @@ Lyn quiere saber cuánta gente hay en la Ciudadela y cuántos entraron en el dí
 —Que nadie pueda cambiar el número a mano.
 
 #### Gheco sugiere
-Los datos van en `private:` y solo se cambian con `entrar()` y `salir()`. `salir()` no hace nada si no hay nadie. Recorré la secuencia de `e` y `s`.
+Los dos datos van en `private:`: desde afuera nadie puede tocarlos. Solo se cambian con los métodos públicos `entrar()` y `salir()`, que cuidan la regla: `salir()` no hace nada si no hay nadie adentro (así el número nunca queda negativo).
+
+Para leerlos desde afuera, métodos `const` que los devuelven. Por costumbre, los datos privados terminan con `_`: `dentro_`.
 
 #### Desafío
 Escribí `class Contador` con dos datos **privados**: cuántas personas hay adentro y
@@ -1247,7 +1287,21 @@ recompensa: xp 10, oro 10
 En la línea de ensamblaje cada autómata sale con su nombre y la batería cargada. El que armó Bron sale sin nombre y con la batería en cero: el constructor recibe los datos y no los guarda.
 
 #### Gheco sugiere
-Usá la lista de inicialización: después de los parámetros, `: nombre_(n), bateria_(b)`.
+Un **constructor** es un método especial que corre solo cuando se crea un objeto. Se llama igual que la clase y no devuelve nada. Sirve para que el objeto nazca con sus datos listos:
+
+```cpp
+class Perro {
+public:
+    Perro(std::string n, int e) : nombre_(n), edad_(e) {}
+private:
+    std::string nombre_;
+    int edad_ = 0;
+};
+
+Perro p("Toby", 4);
+```
+
+Lo que va después de los dos puntos es la **lista de inicialización**: cada dato con su valor inicial, entre paréntesis.
 
 #### Desafío
 Hacé que el constructor guarde lo que recibe.
@@ -1324,7 +1378,13 @@ recompensa: xp 10, oro 10
 Al final del turno, los autómatas se apagan solos. Lima quiere ver en qué orden, pero el destructor que escribió Bron no dice nada.
 
 #### Gheco sugiere
-El destructor se llama `~Automata()` y no recibe nada. Hacé que muestre `se apaga` y el nombre.
+Así como el constructor corre al nacer, el **destructor** corre cuando el objeto deja de existir (por ejemplo, cuando termina el bloque `{ }` donde se creó). Se llama como la clase con `~` adelante y no recibe nada:
+
+```cpp
+~Perro() { std::cout << "chau " << nombre_ << "\n"; }
+```
+
+Sirve para ordenar antes de irse: cerrar archivos, devolver memoria…
 
 #### Desafío
 Completá el destructor.
@@ -1409,7 +1469,15 @@ recompensa: xp 15, oro 15
 Bron armó un autómata con `new`, «para que dure más». A la noche sigue dando vueltas por el taller, porque nadie le hizo `delete`. Oto lo usa de batidora. Funciona bastante bien, pero hay que apagarlo alguna vez.
 
 #### Gheco sugiere
-Lo que se crea con `new` se despide con `delete a;`. Ahí corre el destructor.
+Un objeto también se puede crear con `new`: vive hasta que alguien lo borra a mano, aunque termine el bloque. `new` devuelve un **puntero** (la dirección del objeto), y los métodos se llaman con flecha `->`:
+
+```cpp
+Perro* p = new Perro("Toby", 4);
+p->ladrar();
+delete p;   // ahora sí se va, y corre el destructor
+```
+
+Cada `new` necesita su `delete`. Si te lo olvidás, el objeto queda ocupando memoria para siempre (una **fuga**).
 
 #### Desafío
 Apagá el autómata al final del turno.
@@ -1493,7 +1561,11 @@ El reloj de la torre tiene que aceptar cualquier hora, incluso cosas raras como 
 —Que nazca ordenado. Siempre.
 
 #### Gheco sugiere
-El constructor guarda los minutos desde la medianoche con `((x % 1440) + 1440) % 1440`. `avanzar` usa la misma cuenta. `mostrar` con `std::setw(2) << std::setfill('0')`.
+El reloj guarda un solo número: los minutos desde la medianoche (de 0 a 1439). El constructor recibe horas y minutos y los pasa a ese número.
+
+Para que siempre quede en el rango, aunque avance de más o retroceda, se usa `((x % 1440) + 1440) % 1440`. El `+ 1440` arregla los negativos, porque en C++ `-30 % 1440` da `-30`.
+
+Para mostrar `07:05` y no `7:5`: `std::setw(2) << std::setfill('0')` rellena con ceros a la izquierda.
 
 #### Desafío
 Escribí `class Reloj` que guarda solo los **minutos desde la medianoche** (0 a
@@ -1594,7 +1666,15 @@ Lima prepara vidrios para un vitral y necesita colores que se puedan crear de va
 —Que ningún canal se pase de 255. Ni baje de cero.
 
 #### Gheco sugiere
-Los dos primeros constructores **delegan** en el de `r, g, b`: `Color() : Color(128, 128, 128) {}`. Ese recorta con `std::clamp(valor, 0, 255)`. `mezclar` promedia canal por canal.
+Una clase puede tener **varios constructores** (sobrecarga). Para no repetir código, los más simples **delegan** en el completo:
+
+```cpp
+Color() : Color(128, 128, 128) {}
+```
+
+Ese constructor sin datos le pide al de tres que haga el trabajo, con gris medio.
+
+El de tres valores recorta cada canal entre 0 y 255 con `std::clamp(valor, 0, 255)`. `mezclar` promedia canal por canal.
 
 #### Desafío
 Escribí `class Color` con tres constructores: sin parámetros (gris 128), con un
@@ -1695,7 +1775,9 @@ Los guardias de la muralla entran y salen de turno en un orden muy preciso. Lyn 
 —Escribilo antes de verlo. Después comparás.
 
 #### Gheco sugiere
-El constructor se ejecuta al crear el objeto y el destructor cuando sale de su bloque. Los de un mismo bloque salen en orden **inverso** al que entraron.
+El constructor corre cuando el objeto se crea, y el destructor cuando sale de su bloque `{ }`.
+
+Si en un mismo bloque se crean varios, al terminar el bloque se van en orden **inverso** al que entraron: el último que entró es el primero que sale, como una pila de platos.
 
 #### Desafío
 Escribí `class Guardia` cuyo constructor muestra `entra <nombre>` y cuyo destructor
@@ -2165,7 +2247,9 @@ recompensa: xp 10, oro 10
 La presión de la caldera nunca puede pasar de 100. El método `subir` que escribió Bron no revisa nada, y la aguja llega a 130. Lyn apuesta a que explota.
 
 #### Gheco sugiere
-Si la subida pasaría de 100, `subir` no la hace y avisa `No se puede: pasaria de 100`.
+Una **invariante** es una regla que el objeto tiene que cumplir **siempre**: «la presión nunca pasa de 100».
+
+Como el dato es privado, el único camino para cambiarlo es un método, y ahí se cuida la regla: antes de cambiar, preguntás si el resultado la rompería. Si la rompe, avisás y no hacés nada (`return;` sale del método sin seguir).
 
 #### Desafío
 Hacé que `subir` cuide la regla de la caldera.
@@ -2253,7 +2337,15 @@ recompensa: xp 10, oro 10
 El stock de resortes nunca puede quedar negativo. El método `sacar` de Bron saca igual, aunque no alcance, y el depósito termina debiendo resortes.
 
 #### Gheco sugiere
-`sacar` tiene que devolver `false` (sin tocar nada) si no alcanza, y `true` si pudo.
+Un método que puede fallar puede **avisar** devolviendo un `bool`: `true` si pudo, `false` si no. Y si no puede, no toca nada.
+
+Quien lo llama decide qué hacer:
+
+```cpp
+if (!caja.sacar(5)) {
+    std::cout << "no alcanza\n";
+}
+```
 
 #### Desafío
 Hacé que `sacar` no deje el stock en negativo.
@@ -2351,7 +2443,9 @@ recompensa: xp 15, oro 15
 El reloj de Lima guarda horas y minutos, y los minutos tienen que quedar siempre entre 0 y 59. Su método privado `normalizar` acomoda los minutos que se pasan… pero se olvida de sumarlos a las horas.
 
 #### Gheco sugiere
-Por cada 60 minutos, una hora más: `horas_ += minutos_ / 60;` antes de quedarse con el resto. Y las horas dan la vuelta a las 24.
+Un método **privado** es una herramienta interna de la clase: solo la usan los otros métodos. `normalizar` acomoda los datos después de cada cambio.
+
+Si los minutos pasan de 59, cada 60 minutos son una hora más: primero sumás a las horas `minutos_ / 60`, y después te quedás con el resto, `minutos_ % 60`. Las horas también dan la vuelta a las 24 con `%`.
 
 #### Desafío
 Completá `normalizar`.
@@ -2453,7 +2547,9 @@ Lyn abre una cuenta en el Gremio para guardar lo que gana con las entregas.
 —Que no me dejen sacar más de lo que tengo. Ni poner montos raros.
 
 #### Gheco sugiere
-Titular, saldo e historial en `private`. `depositar` y `extraer` devuelven `false` si el monto no es positivo o si no alcanza. Guardá cada movimiento en el historial.
+La invariante de la cuenta: el saldo nunca es negativo.
+
+Titular, saldo e historial van en `private`. `depositar` y `extraer` devuelven `false` (y no tocan nada) si el monto no es positivo o, al extraer, si no alcanza. Si sale bien, cambian el saldo y guardan el movimiento en el historial (un `std::vector` de montos; las extracciones, en negativo).
 
 #### Desafío
 Escribí `class Cuenta` con titular, saldo e historial (un vector de montos:
@@ -2583,7 +2679,14 @@ Lima trabaja con proporciones de engranajes y quiere fracciones que se simplifiq
 —Que nunca quede un 6/8. Siempre 3/4.
 
 #### Gheco sugiere
-`normalizar()` es privado: divide por `std::gcd` y deja el denominador positivo. Lo llamás en el constructor. Si el denominador es 0, se reemplaza por 1.
+La invariante de la fracción: siempre simplificada y con el denominador positivo.
+
+Un método privado `normalizar()` lo asegura:
+
+- divide numerador y denominador por su máximo común divisor, `std::gcd(a, b)` (de `<numeric>`);
+- si el denominador quedó negativo, cambia el signo de los dos.
+
+Lo llamás en el constructor, así ninguna fracción nace mal. Si el denominador es 0, se reemplaza por 1.
 
 #### Desafío
 Escribí `class Fraccion` cuya invariante es: **siempre simplificada** y con
@@ -2710,7 +2813,12 @@ Lyn prepara la mochila para una entrega larga. Tiene un límite de peso y siempr
 —Si no entra, que no entre. Pero decime.
 
 #### Gheco sugiere
-`agregar` guarda solo si el peso es positivo y entra en la capacidad libre. `quitar` saca el primero con ese nombre. Los dos devuelven `bool`.
+La mochila guarda los objetos, sus pesos y una capacidad máxima.
+
+- `agregar` guarda solo si el peso es positivo **y** entra en lo que queda libre (capacidad menos lo que ya hay).
+- `quitar` busca el primero con ese nombre y lo saca (con `erase`).
+
+Los dos devuelven `bool` para avisar si pudieron.
 
 #### Desafío
 Escribí `class Mochila` con una capacidad máxima de peso. `agregar(objeto, peso)`
@@ -3293,7 +3401,16 @@ recompensa: xp 10, oro 10
 En la mesa del cartógrafo los tramos se suman: un tramo más otro tramo. El `+` que escribió Bron devuelve siempre el primero, y los mapas quedan cortos.
 
 #### Gheco sugiere
-El resultado tiene que sumar las `x` y las `y` de los dos tramos.
+En C++ podés enseñarle a tus tipos a usar los signos de siempre (`+`, `-`, `<`…): eso es **sobrecargar un operador**. Se escribe como una función que se llama `operator+`:
+
+```cpp
+Punto operator+(const Punto& a, const Punto& b)
+{
+    return {a.x + b.x, a.y + b.y};
+}
+```
+
+Después podés escribir `p1 + p2` como con números. Sumar dos tramos es sumar las `x` entre sí y las `y` entre sí.
 
 #### Desafío
 Corregí `operator+`.
@@ -3374,7 +3491,13 @@ recompensa: xp 10, oro 10
 Lyn quiere la tabla de la carrera con los mejores **primero**. El `operator<` de Bron ordena de menor a mayor, y Lyn queda última con el puntaje más alto.
 
 #### Gheco sugiere
-`std::sort` pone primero lo que es «menor». Si «menor» significa «más puntos», el operador devuelve `puntos > otra.puntos`.
+`std::sort` ordena usando el operador `<`: pone primero lo que es «menor». Si tu struct define su propio `operator<`, vos decidís qué quiere decir «menor».
+
+```cpp
+bool operator<(const Alumno& otro) const { return nota > otro.nota; }
+```
+
+Acá «menor» quiere decir «más nota», así que los mejores quedan primero.
 
 #### Desafío
 Hacé que la tabla empiece por el puntaje más alto.
@@ -3457,7 +3580,15 @@ Los mapas del cartógrafo guardan sus coordenadas en privado. Bron escribió un 
 —La amistad la da la clase —dice Lima, muy seria—. No la pide la función.
 
 #### Gheco sugiere
-Adentro de la clase, declará el operador como amigo: `friend std::ostream& operator<<(std::ostream& os, const Mapa& m);`.
+El operador `<<` sirve para mostrar un objeto con `std::cout << objeto`. Pero es una función de afuera de la clase, así que no puede leer los datos privados.
+
+La clase le puede dar permiso declarándola **amiga** (`friend`) adentro:
+
+```cpp
+friend std::ostream& operator<<(std::ostream& os, const Mapa& m);
+```
+
+Una función amiga no es un método, pero puede ver lo privado.
 
 #### Desafío
 Hacé que la clase le dé permiso al operador.
@@ -3549,7 +3680,12 @@ En la mesa del cartógrafo, los recorridos son flechas que se suman.
 —Quiero escribir `posicion + paso`, no una función con nombre largo —dice Lima.
 
 #### Gheco sugiere
-`+=` y `-=` como métodos; `+`, `-` y `*` como funciones libres (el `*` en los dos órdenes). `bool operator==(const Vec2&) const = default;` y `<<` para mostrar.
+Dos formas de escribir operadores:
+
+- **Como métodos**, los que cambian al objeto: `+=` y `-=`. Terminan con `return *this;` (el objeto mismo), para poder encadenar.
+- **Como funciones libres**, los que arman uno nuevo: `+`, `-` y `*` por un número. El `*` va en los dos órdenes (`v * 2` y `2 * v`).
+
+`bool operator==(const Vec2&) const = default;` le pide a C++ que compare campo por campo. Y `<<` para mostrar.
 
 #### Desafío
 Completá `struct Vec2` con `+=`, `-=` (métodos), `+`, `-`, `*` por un número en los
@@ -3663,7 +3799,9 @@ Las fracciones de Lima ya se simplifican solas. Ahora quiere sumarlas y multipli
 —Y que un 3 se pueda sumar con un cuarto, sin hacer cuentas raras.
 
 #### Gheco sugiere
-Con `Fraccion(int num = 0, int den = 1)`, un entero se convierte solo. `+` usa `+=` y `*` usa `*=`. `==` compara numerador y denominador (ya están simplificadas).
+Con un constructor `Fraccion(int num = 0, int den = 1)`, un entero se convierte solo en fracción: `3` pasa a ser `3/1`. Así `f + 3` funciona sin escribir nada más.
+
+Un truco para no repetir cuentas: escribí primero `+=` y `*=` como métodos, y después `+` y `*` los usan (copiás y aplicás `+=`). Como las fracciones siempre están simplificadas, `==` puede comparar numerador y denominador directamente.
 
 #### Desafío
 Tomá la fracción siempre simplificada del nodo anterior y dale operadores: `+=`,
@@ -3794,7 +3932,12 @@ Lyn necesita el tablero de salidas de la estación ordenado por hora.
 —Y decime cuánto hay entre el primero y el último. Para saber cuánto puedo dormir.
 
 #### Gheco sugiere
-`Hora` con `operator<` y `<<` con ceros adelante. `Salida` con su propio `operator<` que compara las horas. `std::sort` usa ese `<`.
+Dos structs, cada uno con su `operator<`:
+
+- `Hora` compara pasando todo a minutos. Su `<<` muestra con ceros adelante (`08:05`).
+- `Salida` (hora y destino) compara por la hora.
+
+Como `Salida` tiene `<`, `std::sort` ya sabe ordenarlas por horario.
 
 #### Desafío
 Cada línea de la entrada es una salida de tren: `HH:MM destino`. Escribí
@@ -3908,7 +4051,14 @@ Tesla trae el apunte de la cátedra con los números complejos.
 —Las operaciones son amigas de la clase: pueden ver adentro. Probalas con varios pares.
 
 #### Gheco sugiere
-`friend Complejo operator+(const Complejo&, const Complejo&);` adentro de la clase. El producto: `(a + bi)(c + di) = (ac − bd) + (ad + bc)i`. `<<` muestra el signo de la parte imaginaria.
+Los datos de `Complejo` son privados, y los operadores `+`, `-`, `*` y `==` son funciones **amigas**: se declaran adentro con `friend`.
+
+Un complejo se escribe `a + bi`. Las cuentas:
+
+- suma y resta, parte por parte;
+- producto: `(a + bi)(c + di) = (ac − bd) + (ad + bc)i`.
+
+`<<` muestra el signo de la parte imaginaria (`3 + 2i` o `1 - 4i`) y `>>` lee dos enteros.
 
 #### Desafío
 Escribí la clase `Complejo` (parte real e imaginaria, enteras y **privadas**) con los operadores `+`, `-`, `*` y `==` como funciones **amigas**, y también `<<` (que muestre `3 + 2i` o `1 - 4i`) y `>>` (que lea dos enteros).
@@ -4364,7 +4514,9 @@ recompensa: xp 10, oro 10
 El Gran Reloj **tiene** un péndulo. Cada `tic` del reloj tendría que hacer oscilar el péndulo, pero el `tic` de Bron solo hace ruido: el péndulo nunca se entera.
 
 #### Gheco sugiere
-El reloj no oscila: le pide al péndulo que oscile. Adentro de `tic`, llamá a `pendulo_.oscilar()`.
+Un objeto puede tener **adentro** otro objeto, como un reloj que tiene un péndulo. Eso se llama **composición**.
+
+El reloj no hace todo solo: le pide a su péndulo que haga su parte, llamando a su método (`pendulo_.oscilar()`). Eso es **delegar**: cada objeto se ocupa de lo suyo.
 
 #### Desafío
 Hacé que el reloj delegue en su péndulo.
@@ -4469,7 +4621,9 @@ recompensa: xp 10, oro 10
 Al armar el reloj, Lima quiere que primero se arme la caja y después el péndulo (si no, ¿dónde se cuelga?). En la clase de Bron, el péndulo está declarado arriba, y se arma primero.
 
 #### Gheco sugiere
-Los miembros nacen en el orden en que están escritos en la clase, no en el de la lista de inicialización. Cambiá el orden de las declaraciones.
+Cuando un objeto tiene otros adentro, esas partes se construyen **antes** que él, y en el orden en que están **escritas** en la clase (de arriba hacia abajo), no en el orden de la lista de inicialización.
+
+Si querés que una parte se arme antes que otra, cambiá el orden de las declaraciones de los datos.
 
 #### Desafío
 Hacé que la caja se arme antes que el péndulo.
@@ -4558,7 +4712,7 @@ recompensa: xp 15, oro 15
 El tablero de la plaza **tiene** varios relojes, y Tesla le pide a Bron el total de dientes de todo el tablero. El método `dientes` del tablero devuelve solo los del primer reloj.
 
 #### Gheco sugiere
-Recorré `relojes_` y sumá lo que devuelve `dientes()` de cada uno.
+El tablero **tiene** un vector de relojes. Para el total, recorrés `relojes_` con un `for` de rango y sumás lo que devuelve el método `dientes()` de cada uno: cada reloj sabe calcular lo suyo.
 
 #### Desafío
 Completá el total del tablero.
@@ -4676,7 +4830,11 @@ Oto abre una tienda de piezas al lado del comedor. Tiene un depósito, una caja 
 —Que la tienda se encargue. Yo cocino.
 
 #### Gheco sugiere
-`Tienda` **tiene** un `Deposito` y una `Caja` como miembros y les delega: `vender` le pide al depósito y, si se pudo, se lo anota a la caja.
+Tres clases que trabajan juntas. `Tienda` **tiene** un `Deposito` y una `Caja` (son datos suyos) y les **delega**:
+
+- `Deposito` guarda los productos y sabe sacar del stock (y avisa si no hay);
+- `Caja` anota las ventas y suma la plata;
+- `Tienda::vender` le pide al depósito y, solo si se pudo, se lo anota a la caja.
 
 #### Desafío
 Escribí tres clases: `Deposito` (un vector de productos con nombre, stock y precio;
@@ -4849,7 +5007,9 @@ Tesla arma un tren de carga con vagones de carbón, agua y hierro.
 —Cada carga va a los vagones de su tipo, en orden. Lo que no entre, avisalo.
 
 #### Gheco sugiere
-`Vagon::cargar(t)` carga lo que entra y devuelve lo que sobró. `Tren::cargar` recorre los vagones del tipo y le pasa a cada uno lo que sobró del anterior.
+`Vagon::cargar(t)` carga lo que entra en su capacidad libre y **devuelve lo que sobró**.
+
+`Tren` tiene un vector de vagones. `Tren::cargar(tipo, t)` recorre los vagones de ese tipo y le pasa a cada uno lo que sobró del anterior, hasta que no sobre nada. Si al final sigue sobrando, no entró todo.
 
 #### Desafío
 Escribí `class Vagon` (tipo, capacidad y carga; `cargar(t)` carga lo que entra y
@@ -5008,7 +5168,9 @@ Lima arma el Gran Reloj de la plaza pieza por pieza: la caja, el péndulo, las a
 —Antes de ejecutarlo, escribí en qué orden se arma y en qué orden se apaga.
 
 #### Gheco sugiere
-Los miembros se construyen en el orden en que están **declarados**, no en el de la lista de inicialización. Se destruyen al revés. `-Wall` avisa si la lista está en otro orden.
+Las partes de un objeto se construyen en el orden en que están **declaradas** en la clase, aunque la lista de inicialización las nombre en otro orden. Y se destruyen al revés: la última en armarse es la primera en desarmarse.
+
+Si la lista está en otro orden, `-Wall` avisa con una advertencia: ordenala igual que las declaraciones para que no confunda.
 
 #### Desafío
 Escribí `class Pieza`, que avisa cuando se arma y cuando se desarma, y
@@ -5556,7 +5718,16 @@ recompensa: xp 10, oro 10
 El autómata de carga **es un** autómata, con brazos más fuertes. Bron escribió la clase derivada, pero el Taller se queja: el autómata base no tiene constructor sin datos, y nadie le pasa el nombre ni la batería.
 
 #### Gheco sugiere
-La derivada llama al constructor de la base en su lista de inicialización: `: Automata(n, 100)`.
+La **herencia** permite crear una clase nueva a partir de otra: la **derivada** recibe todo lo de la **base** y le agrega lo suyo.
+
+```cpp
+class Perro : public Animal {
+public:
+    Perro(std::string n) : Animal(n, 4) {}
+};
+```
+
+Se lee «un `Perro` es un `Animal`». La parte de `Animal` se tiene que construir también: la derivada llama al constructor de la base en su lista de inicialización.
 
 #### Desafío
 Construí la parte de `Automata` dentro del de carga.
@@ -5654,7 +5825,14 @@ recompensa: xp 10, oro 10
 El autómata guardián muestra su ficha, pero solo dice su turno: se perdió el nombre y la batería, que mostraba el autómata base. Lima quiere las dos cosas.
 
 #### Gheco sugiere
-Adentro de `Guardian::mostrar`, primero llamá a `Automata::mostrar();` y después agregá lo propio.
+Una derivada puede escribir su propia versión de un método de la base, y aun así reutilizar la de la base: la llama con el nombre de la base adelante.
+
+```cpp
+void mostrar() const {
+    Animal::mostrar();          // lo que hacía la base
+    std::cout << " y ladra";    // lo propio
+}
+```
 
 #### Desafío
 Reutilizá la ficha de la base.
@@ -5756,7 +5934,11 @@ recompensa: xp 15, oro 15
 El autómata jardinero tiene que gastar energía cada vez que riega, y la energía está en la clase base. Bron la declaró `private`, y el jardinero no puede tocarla. Tesla le muestra la tabla de accesos del archivo.
 
 #### Gheco sugiere
-Para que una derivada pueda usar un dato de la base (y los de afuera no), ese dato va en `protected`.
+Los datos `private` de la base no los ve **nadie** de afuera, ni siquiera las derivadas. Hay un tercer nivel, `protected`: lo ven la clase y sus derivadas, pero no los de afuera.
+
+- `public`: todos;
+- `protected`: la clase y sus derivadas;
+- `private`: solo la clase.
 
 #### Desafío
 Cambiá el acceso del dato para que el jardinero lo pueda usar.
@@ -5852,7 +6034,13 @@ Lyn quiere registrar los vehículos de la Ciudadela: autos y motos, algunas con 
 —Todos tienen patente y gastan combustible. Cada uno a su manera.
 
 #### Gheco sugiere
-`Auto` y `Moto` heredan de `Vehiculo` (`class Auto : public Vehiculo`) y llaman a su constructor en la lista de inicialización. Cada derivada suma lo suyo.
+Una base, `Vehiculo`, con lo que todos tienen (patente, ruedas, consumo), y dos derivadas:
+
+```cpp
+class Auto : public Vehiculo { ... };
+```
+
+Cada derivada llama al constructor de `Vehiculo` en su lista de inicialización (pasándole sus ruedas) y suma lo suyo.
 
 #### Desafío
 Escribí `class Vehiculo` (patente, ruedas, consumo cada 100 km; `ficha()` y
@@ -5975,7 +6163,11 @@ Tesla le muestra a Bron cómo se comporta la Quimera cuando se enoja: a la mitad
 —Pero solo la primera vez. No se enoja dos veces.
 
 #### Gheco sugiere
-`Jefe::recibir_dano` llama a `Entidad::recibir_dano` y, si es la primera vez que la vida queda en la mitad o menos (y sigue viva), pasa a fase 2. `estado()` llama a la de la base y agrega lo suyo.
+Tres niveles: `Entidad` → `Enemigo` → `Jefe`. Una derivada puede heredar de otra derivada.
+
+`Jefe::recibir_dano` primero llama a la de la base (`Entidad::recibir_dano(...)`) para restar la vida, y después agrega lo suyo: si es la **primera vez** que la vida queda en la mitad o menos, y sigue viva, pasa a fase 2. Guardá un dato para no entrar dos veces.
+
+`estado()` igual: llama a la de la base y agrega la fase.
 
 #### Desafío
 Armá tres niveles: `Entidad` → `Enemigo` (con oro) → `Jefe` (con fase). `Enemigo`
@@ -6123,7 +6315,9 @@ En el archivo de planos hay tres carpetas una dentro de otra: la abuela, la madr
 —¿Quién se arma primero? —pregunta Lima—. Escribilo antes de verlo.
 
 #### Gheco sugiere
-Se construye primero la base y al final la más derivada; se destruyen al revés. `Nieta` no llama a `Base`: lo hace `Derivada` en su lista de inicialización.
+Con herencia, un objeto se arma desde la base hacia arriba: primero la parte de `Base`, después la de `Derivada`, y al final la de `Nieta`. Se desarma al revés.
+
+Cada clase llama solo al constructor de su base **inmediata**: `Nieta` llama a `Derivada`, y `Derivada` a `Base`.
 
 #### Desafío
 Escribí `Base`, `Derivada : Base` y `Nieta : Derivada`, cada una con un constructor
@@ -6598,7 +6792,19 @@ recompensa: xp 10, oro 10
 Tesla le da la misma orden a varios autómatas: «¡Trabajá!». Todos responden lo mismo: «trabaja un autómata». El método de la base no es `virtual`, y C++ elige la versión por el tipo del puntero, no del objeto.
 
 #### Gheco sugiere
-Poné `virtual` en el método de la base, y `override` en los de las derivadas.
+Imaginá un vector de autómatas de distintos tipos. Si le pedís a cada uno `trabajar()`, querés que cada tipo trabaje **a su manera**. Eso es **polimorfismo**: una misma orden, distintas respuestas.
+
+Para que funcione:
+
+- en la base, el método lleva `virtual` adelante;
+- en cada derivada, el método lleva `override` al final.
+
+```cpp
+virtual void sonar() const { ... }         // en la base
+void sonar() const override { ... }        // en la derivada
+```
+
+La base también lleva `virtual ~Base() = default;`, para que se destruya bien.
 
 #### Desafío
 Hacé que cada autómata trabaje a su manera.
@@ -6698,7 +6904,14 @@ recompensa: xp 15, oro 15
 Bron guardó la batidora de Oto en un `std::vector<Automata>`, y la batidora dejó de batir: el vector guardó solo la parte de autómata. Lima dice que la «rebanaron».
 
 #### Gheco sugiere
-Un `std::vector<Automata>` guarda copias de la base. Para guardar el objeto entero, guardá punteros dueños: `std::vector<std::unique_ptr<Automata>>` y `std::make_unique<Batidora>()`.
+Un `std::vector<Automata>` guarda **copias** de la parte de la base: al meter una batidora, se copia solo lo de `Automata` y lo de la batidora se pierde. A eso se le dice **rebanar** (*slicing*).
+
+Para guardar el objeto entero, se guardan **punteros** a él. `std::unique_ptr` (de `<memory>`) es un puntero que además es **dueño** del objeto: lo borra solo cuando ya no se usa.
+
+```cpp
+std::vector<std::unique_ptr<Animal>> zoo;
+zoo.push_back(std::make_unique<Perro>());
+```
 
 #### Desafío
 Guardá la batidora sin rebanarla.
@@ -6785,7 +6998,9 @@ recompensa: xp 15, oro 15
 El autómata jardinero sigue diciendo «trabaja un automata». Bron jura que redefinió `trabajar`. Tesla mira el código: en la base es `const`; en el jardinero, no. Son **dos** métodos distintos.
 
 #### Gheco sugiere
-Agregale `const` al método del jardinero, para que tenga la misma firma que el de la base. Y `override`: si algún día no coincide, el compilador avisa.
+Para que un método de la derivada **redefina** al de la base, tiene que ser exactamente igual: mismo nombre, mismos parámetros y, también, el mismo `const`. Si difiere en algo, es otro método distinto, y el polimorfismo no lo usa.
+
+Por eso conviene poner siempre `override`: si no coincide con ninguno de la base, el compilador avisa.
 
 #### Desafío
 Hacé que el jardinero redefina de verdad el método.
@@ -6865,7 +7080,13 @@ Lima corta vidrios con formas distintas para un vitral: círculos, rectángulos 
 —Necesito el área de todos juntos. Sin preguntarle a cada uno qué forma es.
 
 #### Gheco sugiere
-`Figura` tiene `area()`, `perimetro()` y `nombre()` virtuales puros (`= 0`). Guardalas en `std::vector<std::unique_ptr<Figura>>` y llamá `f->area()`: cada una responde a su manera.
+Una clase **abstracta** es una base que no se puede usar sola: solo sirve para que otras hereden. Sus métodos se declaran **virtuales puros**, con `= 0` y sin código:
+
+```cpp
+virtual double area() const = 0;
+```
+
+Cada derivada **tiene que** escribirlos. Guardá las figuras en `std::vector<std::unique_ptr<Figura>>` y llamá `f->area()`: cada una responde con su propia cuenta.
 
 #### Desafío
 Escribí `class Figura` **abstracta** con `area()`, `perimetro()` y `nombre()`
@@ -7035,7 +7256,12 @@ Tesla tiene una cuadrilla de autómatas: cargadores, soldadores y un aprendiz. Q
 —La misma orden para todos. Cada uno trabaja a su manera.
 
 #### Gheco sugiere
-`Automata` abstracta con `trabajar()` y `costo_por_hora()` virtuales. El soldador cuenta las horas para enfriarse cada tres; el aprendiz suma 5 más cada hora. Recorré la cuadrilla con punteros a la base.
+`Automata` es abstracta, con `trabajar()` y `costo_por_hora()` virtuales puros. Cada derivada trabaja distinto:
+
+- el soldador cuenta sus horas y, cada tres, se enfría (esa hora no produce);
+- el aprendiz cada hora produce 5 más que la anterior.
+
+Recorré la cuadrilla con punteros a la base y llamá a los métodos: el `virtual` elige la versión de cada uno.
 
 #### Desafío
 Escribí `class Automata` abstracta con `trabajar()` (produce algo en una hora y lo
@@ -7179,7 +7405,9 @@ Lima le pasa el mismo engranaje a tres funciones distintas. Una lo describe bien
 —Anotá qué va a decir cada una antes de verlo.
 
 #### Gheco sugiere
-Por valor se **rebana**: se copia solo la parte de `Pieza` y se pierde lo del `Engranaje`. Por referencia o por puntero, el `virtual` funciona.
+Si una función recibe una `Pieza` **por valor**, se hace una copia de la parte de `Pieza` y lo del `Engranaje` se pierde: se **rebana**, y `describir()` usa la versión de la base.
+
+Si la recibe **por referencia** (`const Pieza&`) o por puntero, no se copia nada: la función trabaja con el objeto real, y el `virtual` llama a la versión del engranaje. Mostrá las dos formas para ver la diferencia.
 
 #### Desafío
 Escribí `class Pieza` con `virtual describir()` y `class Engranaje` que lo
@@ -7732,7 +7960,16 @@ recompensa: xp 10, oro 10
 En la Sala de los Planos, la **ficha** de cada máquina va en un cajón y el **detalle** en otro. Bron escribió el detalle del método afuera de la clase, pero se olvidó de decir de qué clase es, y el Taller cree que es una función suelta.
 
 #### Gheco sugiere
-Afuera de la clase, el nombre del método lleva adelante el nombre de la clase: `int Torre::altura() const`.
+En proyectos grandes, cada clase se reparte en dos archivos:
+
+- la **ficha**, `Torre.h`: la clase con sus datos y los métodos **declarados** (solo la primera línea, con `;`);
+- el **detalle**, `Torre.cpp`: el código de cada método.
+
+Afuera de la clase, el nombre del método lleva adelante el nombre de la clase y `::`, para que C++ sepa de quién es:
+
+```cpp
+int Torre::altura() const { ... }
+```
 
 #### Desafío
 Decí de qué clase es el método.
@@ -7820,7 +8057,9 @@ recompensa: xp 10, oro 10
 Del cajón de los detalles sale un **esqueleto** que grita «undefined reference». La ficha de la torre promete un método `pisos()`, pero nadie escribió su detalle. Gheco señala la línea del error: no tiene número de línea, tiene un nombre.
 
 #### Gheco sugiere
-Escribí la definición que falta: `int Torre::pisos() const { return pisos_; }`.
+Si la ficha promete un método y nunca escribís su detalle, el programa compila, pero al final el **enlazador** (el que junta todas las partes) no lo encuentra y da un error como `undefined reference`.
+
+La solución es escribir la definición, con el nombre de la clase y `::` adelante.
 
 #### Desafío
 Escribí el detalle que prometió la ficha.
@@ -7910,7 +8149,18 @@ recompensa: xp 15, oro 15
 Cuando un `.cpp` incluye dos headers que a su vez incluyen `Torre.h`, la ficha se pega **dos veces** y el Taller grita «redefinition». Tesla le muestra a Bron lo que pasa, pegando la ficha dos veces a mano.
 
 #### Gheco sugiere
-Envolvé la ficha con guardas: `#ifndef TORRE_H`, `#define TORRE_H` al principio y `#endif` al final. Hacelo en **las dos** copias (son el mismo archivo pegado dos veces): la segunda vez, `TORRE_H` ya está definido y se saltea.
+Si la misma ficha se incluye dos veces, la clase queda definida dos veces y el compilador se queja. Se evita con **guardas**:
+
+```cpp
+#ifndef MAPA_H
+#define MAPA_H
+
+// la ficha
+
+#endif
+```
+
+La primera vez, `MAPA_H` no existe: se define y se pega la ficha. La segunda, ya existe, y todo se saltea. Acá el archivo está pegado dos veces, así que la guarda va en las dos copias.
 
 #### Desafío
 Poné las guardas para que la segunda copia no pegue nada.
@@ -8576,7 +8826,7 @@ recompensa: xp 15, oro 15
 En la jaula del fondo de la Arena espera la **Quimera**: cabeza de león, cuerpo de cabra y cola de serpiente. Cada forma resiste un golpe distinto. Bron escribió las formas, pero la serpiente todavía no sabe qué la lastima.
 
 #### Gheco sugiere
-La serpiente recibe el daño entero de un golpe de `"llave"` (20) y la mitad de cualquier otro (10). Escribí su `danio` como los otros.
+Cada forma es una derivada de `Forma` y escribe su propia versión de `danio(golpe)`. La serpiente recibe el daño entero de un golpe de `"llave"` (20) y la mitad de cualquier otro (10). Copiá la forma de los otros y cambiá la regla.
 
 #### Desafío
 Completá la forma de serpiente.
@@ -8700,7 +8950,7 @@ La Quimera cambia de forma en cada turno, siempre en el mismo orden: león, cabr
 —¡No le preguntes! —grita Lima desde la tribuna—. ¡Sabé cuál toca!
 
 #### Gheco sugiere
-La forma del turno `t` (empezando en 0) es `formas_[t % formas_.size()]`. Completá `forma_del_turno`.
+Las formas se turnan en ronda. Con el resto se da la vuelta: la forma del turno `t` (empezando en 0) es `formas_[t % formas_.size()]`. Cuando `t` llega a la cantidad de formas, el resto vuelve a 0.
 
 #### Desafío
 Elegí la forma de cada turno con el resto.
@@ -8822,7 +9072,9 @@ recompensa: xp 15, oro 15
 Bron sigue preguntando «¿sos león?», «¿sos cabra?» con una cadena de `if`. Tesla le borra los `if`: —Que cada forma **responda** cuál es su punto débil.
 
 #### Gheco sugiere
-Cada forma ya tiene `mejor_golpe()`. En el combate, usá `f.mejor_golpe()` en lugar de preguntar el nombre. La vida baja 20 por golpe justo.
+En vez de preguntar el nombre de la forma con una cadena de `if`, preguntale a la forma: cada una ya sabe su `mejor_golpe()` (virtual). Así, si mañana aparece una forma nueva, el combate no cambia.
+
+Cada golpe justo baja 20 de vida.
 
 #### Desafío
 Usá el método de cada forma en lugar de la cadena de `if`.
@@ -8959,7 +9211,7 @@ La Quimera cae, y las piezas de bronce quedan quietas en la arena. Tesla le pide
 Para probarla, Bron escribe la clase: pero el constructor ignora la medida y todas las llaves salen de 10.
 
 #### Gheco sugiere
-El constructor tiene que guardar la medida que recibe: `: medida_(medida)`.
+El constructor tiene que guardar la medida que recibe en el dato de la llave, en la lista de inicialización: `: medida_(medida)`. Si no, cada llave nace sin medida.
 
 #### Desafío
 Hacé que cada llave tenga la medida que se le pide.
@@ -9049,7 +9301,9 @@ La Quimera cambia de forma en cada turno: león, cabra o serpiente. Cada forma r
 —No le preguntes qué es. Que responda sola.
 
 #### Gheco sugiere
-La Quimera **tiene** un vector de `unique_ptr<Forma>`. Cada forma sabe su `dano()` y cuánto absorbe con `defensa(arma)`. El turno elige la forma y la llamada virtual hace el resto.
+La Quimera **tiene** sus formas: un vector de `std::unique_ptr<Forma>`. Cada forma sabe su `dano()` y cuánto absorbe con `defensa(arma)`.
+
+En cada turno, la Quimera elige la forma con el resto (`turno % cantidad`) y llama a sus métodos: la llamada virtual hace el resto, sin preguntar qué forma es.
 
 #### Desafío
 Ahora la Quimera es una clase que **tiene** sus formas: un vector de

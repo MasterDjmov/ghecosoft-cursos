@@ -279,7 +279,19 @@ recompensa: xp 10, oro 10
 En el Taller del Juego se construyen máquinas que no pueden fallar en silencio. La que reparte engranajes entre los ayudantes **toca la alarma** si le piden repartir entre cero. Nadie la escucha, y el programa se corta de golpe.
 
 #### Gheco sugiere
-Envolvé los repartos en un `try` y atrapá con `catch (const std::exception& e)`, mostrando `Alarma: ` y `e.what()`.
+Cuando una función se encuentra con algo que no puede resolver (dividir entre 0 ayudantes), puede **lanzar una excepción**: tocar una alarma con `throw`.
+
+Quien la llamó puede **atraparla** y seguir:
+
+```cpp
+try {
+    hacer_algo();
+} catch (const std::exception& e) {
+    std::cout << "Alarma: " << e.what() << "\n";
+}
+```
+
+Lo que está en `try` se intenta; si algo tira una alarma, el programa salta al `catch`. `e.what()` es el mensaje de la alarma. Si nadie la atrapa, el programa se corta.
 
 #### Desafío
 Atrapá la alarma para que el Taller siga andando.
@@ -360,7 +372,9 @@ recompensa: xp 10, oro 10
 Cuando alguien pide una pieza que no existe, la máquina tiene que decir «no existe esa pieza»; para el resto de los errores, «falla general». Bron puso el `catch` general arriba, y todo le dice «falla general». El compilador ya le avisa.
 
 #### Gheco sugiere
-Poné el `catch (const std::out_of_range&)` **antes** que el de `std::exception`.
+Hay distintos tipos de excepciones, y un `catch` atrapa su tipo **y todos los que heredan de él**. `std::exception` es la base de casi todas: atrapa todo.
+
+Los `catch` se prueban **en orden**. Si el de `std::exception` va primero, se queda con todas y los de abajo nunca reciben nada. Por eso, primero los más **específicos** (como `std::out_of_range`) y al final el general.
 
 #### Desafío
 Ordená los `catch`.
@@ -438,7 +452,16 @@ Bron se sube a un andamio para ver mejor; el andamio se rompe, y Bron cae… y l
 Tesla quiere que la falla del andamio tenga su propio tipo, para atraparla sin confundirla con otras. Bron declaró la clase, pero sigue tirando un error genérico.
 
 #### Gheco sugiere
-En `subir`, tirá la excepción propia: `throw FallaDeAndamio("se rompio el tablon " + std::to_string(piso));`.
+Podés crear tu propio tipo de excepción, heredando de `std::runtime_error`:
+
+```cpp
+class SinNafta : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+```
+
+La línea de `using` le presta el constructor de la base (el que recibe el mensaje). Se lanza con `throw SinNafta("mensaje");`, y `std::to_string(n)` convierte un número a texto para armar el mensaje.
 
 #### Desafío
 Tirá la falla con su propio tipo.
@@ -540,7 +563,9 @@ Lima arma el tablero de puntajes del juego nuevo y los jugadores escriben cualqu
 —Que no se caiga. Que diga qué pasó con cada uno y siga.
 
 #### Gheco sugiere
-`std::stoi(texto, &usados)` te dice cuántos caracteres usó. Si `usados < texto.size()`, lanzá `std::invalid_argument` con el sobrante. Atrapá `std::invalid_argument` y `std::out_of_range` por separado para dar el mensaje justo. El texto de `what()` que pone `stoi` cambia según el compilador: atrapalo en `a_entero` y relanzá con tu mensaje.
+`std::stoi(texto, &usados)` convierte y además te dice en `usados` cuántos caracteres pudo convertir. Si `usados` es menor que el largo del texto, sobró algo (como en `"12abc"`): lanzá `std::invalid_argument` con lo que sobró.
+
+`stoi` también lanza solo: `std::invalid_argument` si no hay número, y `std::out_of_range` si no entra en un `int`. Atrapalos por separado para dar el mensaje justo. El mensaje que pone `stoi` cambia según el compilador: atrapalo en `a_entero` y relanzá con tu propio mensaje.
 
 #### Desafío
 Escribí `int a_entero(const std::string&)` con `std::stoi` y su segundo parámetro
@@ -643,7 +668,9 @@ Oto saca piezas del depósito para un juego de cocina y pide cualquier cosa: cer
 —Si no se puede, que me lo diga claro. Y si no hay, cuánto hay.
 
 #### Gheco sugiere
-`class SinStock : public std::runtime_error` guarda lo pedido y lo que hay. Lanzá la excepción justa en cada caso y, en `main`, atrapá **primero** `SinStock` y después `const std::exception&`.
+Una excepción propia puede llevar datos: `SinStock` hereda de `std::runtime_error` y además guarda lo pedido y lo que hay, con métodos para leerlos.
+
+Lanzá la excepción justa en cada caso. En `main`, atrapá **primero** `SinStock` (para usar sus datos) y después `const std::exception&` para todo lo demás.
 
 #### Desafío
 Escribí `class SinStock` (hereda de `std::runtime_error` y guarda lo pedido y lo que
@@ -781,7 +808,9 @@ Tesla arma una cadena de andamios: tres pisos, uno arriba del otro. Abajo de tod
 —Si algo se cae en el piso de arriba, ¿quién baja primero y dónde lo atajan? Anotalo antes.
 
 #### Gheco sugiere
-Cuando `dividir` lanza, la excepción sube por `promedio` e `informe` hasta el `catch` de `main`. En el camino, cada `Registro` se destruye y avisa la salida, del más nuevo al más viejo.
+Cuando una función lanza y no la atrapa, la excepción **sube** a la que la llamó, y así hasta encontrar un `catch`. Las funciones del medio se cortan ahí.
+
+En el camino, los objetos que esas funciones habían creado se destruyen igual (su destructor corre), del más nuevo al más viejo. Por eso RAII es tan útil: nada queda sin cerrar aunque haya una alarma.
 
 #### Desafío
 Armá una cadena de tres funciones: `informe` llama a `promedio`, que llama a
@@ -1285,7 +1314,9 @@ recompensa: xp 10, oro 10
 Un autómata camina en círculos. Tesla saca la lupa y un cuaderno: —Adivinar es lo más lento que hay. Bron escribió `promedio_ultimos(n)` con una suposición (`n` no puede ser más que la cantidad de pasos), y el `assert` corta el programa: alguien la está llamando mal.
 
 #### Gheco sugiere
-El `assert` no está mal: avisa que `main` pide los últimos 5 pasos de una lista de 4. Pedí los que hay: `pasos.size()`.
+`assert(condicion)` (de `<cassert>`) es una **suposición escrita**: «acá n tiene que ser mayor que 0 y no más grande que la lista». Si se cumple, no hace nada. Si no, frena el programa y dice dónde.
+
+Cuando un `assert` salta, casi nunca está mal el `assert`: está mal **quien llamó** a la función con datos que no cumplen. Mirá la llamada en `main`.
 
 #### Desafío
 Corregí la llamada para que la suposición se cumpla.
@@ -1364,7 +1395,17 @@ recompensa: xp 10, oro 10
 Bron cuenta los pasos del autómata leyendo números hasta el final, con `while (!std::cin.eof())`. Hay tres números y cuenta cuatro: la última vuelta lee nada y la cuenta igual.
 
 #### Gheco sugiere
-Leé **en la condición**: `while (std::cin >> paso)`. Si la lectura falla, el bucle termina antes de contar.
+Un error clásico: leer y después preguntar si se pudo. Cuando la lectura falla al final, el bucle da una vuelta de más con el último dato repetido.
+
+La forma correcta es leer **en la condición**:
+
+```cpp
+while (std::cin >> x) {
+    // acá x seguro se leyó bien
+}
+```
+
+Si la lectura falla, el bucle termina antes de usar el dato.
 
 #### Desafío
 Leé en la condición del bucle.
@@ -1437,7 +1478,9 @@ recompensa: xp 10, oro 10
 El contador de engranajes del Taller da siempre cero. Tesla mira el código y señala la línea: adentro del bucle, Bron escribió `int total = 0;` otra vez, y esa variable nueva tapa a la de afuera.
 
 #### Gheco sugiere
-Adentro del bucle no declares otra `total`: sumá a la de afuera.
+Si adentro de un bloque declarás una variable con el mismo nombre que una de afuera, la de adentro **tapa** a la de afuera: todo lo que hagas en el bloque le pasa a la nueva, y la de afuera no se entera. El compilador lo avisa con `-Wshadow`.
+
+Adentro del bucle no declares otra: usá la de afuera.
 
 #### Desafío
 Sacá la variable que tapa a la otra.
@@ -1505,7 +1548,13 @@ Oto hizo un programa para las compras del comedor y le dice que hay cuatro ítem
 —Tres errores —dice Oto—. Lo dice el ogro, no yo.
 
 #### Gheco sugiere
-Compilá con advertencias: `t` arranca sin valor. Mirá el `<=` del `for`: lee uno de más. Y `quitar_sin_stock` recibe el vector por valor, así que quita de una copia. Dejá un comentario sobre cada arreglo.
+Tres bugs, y tres herramientas para encontrarlos:
+
+- **Las advertencias** del compilador (`-Wall -Wextra`): una variable que arranca sin valor.
+- **El sanitizador** (`-fsanitize=address`): un `for` con `<=` que lee uno de más.
+- **Pensar**: una función que recibe el vector **por valor** cambia una copia; para cambiar el original, por referencia (`&`).
+
+Dejá un comentario sobre cada arreglo.
 
 #### Desafío
 Este programa tiene **tres** bugs. Encontralos con las advertencias, el sanitizador
@@ -1680,7 +1729,11 @@ Tesla quiere funciones que se defiendan solas: que si alguien las usa mal, se de
 —Pero ojo: lo que escribe el jugador no es culpa de la función. Eso se valida con un `if`.
 
 #### Gheco sugiere
-`assert(nota >= 1 && nota <= 10)` documenta la precondición y para el programa si alguien la rompe. En `repartir`, el `assert` del final comprueba que la suma de las partes dé el total. Lo que lee `main` se revisa con `if` y un aviso.
+Una **precondición** es lo que una función necesita para andar bien: «la nota tiene que estar entre 1 y 10». `assert` la deja escrita y frena el programa si alguien la rompe, así el error aparece enseguida y no más tarde.
+
+En `repartir`, un `assert` al final comprueba que la suma de las partes dé el total.
+
+Ojo: `assert` es para errores del programador. Lo que escribe el usuario se revisa con `if` y un aviso, no con `assert`.
 
 #### Desafío
 Escribí `en_letras(nota)` (de "uno" a "diez") con un `assert` de su precondición
@@ -1799,7 +1852,12 @@ Lyn armó el ranking de ganadores del torneo y la función hace trampa: borra mi
 —Reescribila limpia. Los que llegan al mínimo, del mejor al peor.
 
 #### Gheco sugiere
-Recibí `const std::vector<Jugador>&` y trabajá sobre una copia. `std::erase_if` borra sin romper ningún iterador. `std::ranges::sort` con una lambda: más puntos primero y, si empatan, por nombre.
+Cómo dejar limpia la función:
+
+- recibí `const std::vector<Jugador>&` (sin copiar) y trabajá sobre una copia propia;
+- usá `std::size_t` para los índices (no `int`), o mejor un `for` de rango;
+- para borrar, `std::erase_if`, que no rompe ningún iterador;
+- para ordenar, `std::ranges::sort` con una lambda: más puntos primero y, si empatan, por nombre.
 
 #### Desafío
 Esta función compila con varias advertencias y tiene un comportamiento indefinido.
@@ -2314,7 +2372,9 @@ Bron dice que su función «ya anda». La Maestra Artífice no levanta la vista 
 Esta vez Bron tiene pruebas escritas: una de cada tres falla. La función que dice si un año es bisiesto se olvidó de la regla de los siglos.
 
 #### Gheco sugiere
-Un año es bisiesto si es divisible por 4 y **no** por 100, salvo que sea divisible por 400.
+Las **pruebas** revisan que una función dé lo que tiene que dar. Si una prueba falla, lo que hay que arreglar es la **función**, no la prueba (salvo que la prueba esté mal escrita).
+
+La regla del bisiesto: divisible por 4 y **no** por 100, **o** divisible por 400.
 
 #### Desafío
 Arreglá la función, no las pruebas.
@@ -2411,7 +2471,9 @@ recompensa: xp 15, oro 15
 La función de Lima cuenta las palabras de un cartel. Con carteles normales anda. La Maestra Artífice agrega una prueba con el cartel **vacío**, y la función dice que tiene una palabra.
 
 #### Gheco sugiere
-Contá las palabras leyéndolas con un `std::istringstream` (como en los Talleres): un texto vacío da cero.
+Los errores suelen esconderse en los **casos borde**: el texto vacío, un solo elemento, el valor justo del límite.
+
+Para contar palabras sin sorpresas, leelas con un `std::istringstream` y `>>`: se saltea todos los espacios, y con un texto vacío no lee ninguna.
 
 #### Desafío
 Hacé que la función pase la prueba del cartel vacío.
@@ -2498,7 +2560,7 @@ recompensa: xp 15, oro 15
 La Maestra Artífice prueba la caldera de Bron con una secuencia de subidas y bajadas, y después de cada una revisa que la presión siga entre 0 y 100. `bajar` deja pasar presiones negativas.
 
 #### Gheco sugiere
-`bajar` tiene que hacer lo mismo que `subir`: si el resultado se sale del rango, no cambia nada.
+La invariante de la caldera: la presión siempre entre 0 y 100. `subir` ya la cuida: si el resultado se pasaría, no cambia nada. `bajar` tiene que hacer lo mismo para el otro lado: si quedaría menos de 0, no cambia nada.
 
 #### Desafío
 Hacé que `bajar` cuide la regla.
@@ -2596,7 +2658,9 @@ Bron hizo el control de contraseñas del Taller y dice «ya anda». La Maestra A
 —¿Y la prueba? Ocho caracteres justos, siete, vacía, con un espacio. Todas.
 
 #### Gheco sugiere
-Recorré la contraseña una vez con `std::isupper`, `std::islower` y `std::isdigit`, y buscá espacios. Cada prueba es un `comprobar(nombre, esperado, obtenido)`. Probá primero con el límite mal puesto: la de 8 justos es la que lo detecta.
+Recorré la contraseña una sola vez y anotá lo que encontrás: ¿hay mayúscula (`std::isupper`)? ¿minúscula (`std::islower`)? ¿dígito (`std::isdigit`)? ¿algún espacio?
+
+Cada prueba es un `comprobar(...)` con un caso pensado. Los mejores casos son los del borde: una de **8 justos** caracteres es la que detecta si el límite está mal puesto (`>` en vez de `>=`).
 
 #### Desafío
 Una contraseña es segura si tiene **8 o más** caracteres, al menos una mayúscula,
@@ -2703,7 +2767,15 @@ Lima trae la fracción que hicieron en los Planos. La Maestra la pone en el banc
 —Dos grupos: cómo nace y cómo opera. Si pasa los dos, sale de la Ciudadela.
 
 #### Gheco sugiere
-Cada grupo es una función que cuenta las que pasan y las que fallan, comparando con `==`. Probá los bordes: el signo en el denominador, el cero y el denominador 0. Al final sumá los dos grupos.
+Probá la `Fraccion` en grupos: cada grupo es una función que cuenta las pruebas que pasan y las que fallan, comparando con `==`.
+
+Los casos que más importan son los bordes de la invariante:
+
+- el signo en el denominador (`1/-2` tiene que quedar `-1/2`);
+- el cero;
+- el denominador 0.
+
+Al final, sumá los resultados de los grupos.
 
 #### Desafío
 Tomá la `Fraccion` (siempre simplificada, denominador positivo, con `+`, `*` y `==`)
@@ -2855,7 +2927,11 @@ Bron dice que buscar en un vector es igual de rápido que en un set. Lyn saca el
 —Apostemos. Pero medimos de verdad, nada de opinar.
 
 #### Gheco sugiere
-`medir_us` toma una lambda, guarda `std::chrono::steady_clock::now()` antes y después, y devuelve los microsegundos. Los tiempos cambian en cada corrida, así que van a `std::cerr`; por `std::cout`, solo lo que no cambia.
+Para saber qué es más rápido, hay que **medir**. `std::chrono::steady_clock::now()` (de `<chrono>`) da el momento actual: lo tomás antes y después, y la diferencia es lo que tardó.
+
+`medir_us` recibe una lambda (el trabajo a medir), la ejecuta entre las dos marcas y devuelve los microsegundos.
+
+Los tiempos cambian en cada corrida, así que se muestran por `std::cerr` (la salida de errores). Por `std::cout`, solo lo que no cambia, como los resultados de las búsquedas.
 
 #### Desafío
 Armá un vector con los números de 0 a 199999 desordenados, un `std::set` con los
@@ -3340,7 +3416,7 @@ recompensa: xp 10, oro 10
 En la mesa hay un juego desarmado: una heroína de madera (Bron le puso la cara de Lima, «porque es la que más pelea»), enemigos de lata y una mochila. La mochila de Bron no apila: cada poción nueva pisa a las anteriores.
 
 #### Gheco sugiere
-En `agregar`, sumá a lo que ya había: `items_[nombre] += cantidad;`.
+La mochila es un mapa de nombre a cantidad. Para que **apile**, al agregar sumá a lo que ya había en vez de reemplazar: `items_[nombre] += cantidad;`. Si no estaba, arranca en 0.
 
 #### Desafío
 Hacé que la mochila apile.
@@ -3434,7 +3510,9 @@ recompensa: xp 15, oro 15
 El enemigo de lata decide qué hacer en cada turno. El de Bron ataca aunque le quede casi nada de vida: la pregunta por la distancia va antes que la de la vida.
 
 #### Gheco sugiere
-Primero preguntá si la vida es menor que 30 (huir), después si está cerca (atacar), y si no, patrullar.
+La «inteligencia» de un enemigo simple es una lista de reglas **por prioridad**: la más importante primero. Con `if` / `else if`, entra en la primera que se cumple.
+
+Primero, si tiene poca vida, huye; si no, si está cerca, ataca; si no, patrulla. Si pusieras «atacar» primero, un enemigo moribundo atacaría en vez de huir.
 
 #### Desafío
 Ordená las decisiones por prioridad.
@@ -3515,7 +3593,9 @@ recompensa: xp 15, oro 15
 Lyn apuesta a que la heroína le gana al guiso violeta en tres golpes. Para que nadie haga trampa, el combate usa una semilla fija: la 2026. El combate de Bron usa la semilla 1, y Lyn reclama.
 
 #### Gheco sugiere
-Cambiá la semilla a 2026 y hacé que el combate siga hasta que la vida del guiso llegue a 0 o menos.
+Con una semilla fija, el generador da siempre la misma secuencia: el combate se puede repetir y comparar. La semilla acordada es 2026.
+
+El combate sigue **mientras** al guiso le quede vida: `while (vida > 0)`.
 
 #### Desafío
 Usá la semilla acordada y peleá hasta el final.
@@ -3592,7 +3672,11 @@ En el juego que arman, Lima tiene que cruzar un puente con dos guardias. Cada gu
 —Que piensen solos, turno por turno. Quiero ver si me agarran.
 
 #### Gheco sugiere
-Cada guardia calcula la distancia con `std::abs`. El orden de las reglas importa: primero ataca, después persigue, después alerta y si no, patrulla. Para patrullar guardá la dirección y dala vuelta en las puntas.
+Cada guardia mide la distancia a Lima con `std::abs(guardia - lima)` (la distancia sin signo).
+
+Las reglas van por prioridad: si está al lado, ataca; si la ve, persigue; si está cerca de verla, alerta; si no, patrulla.
+
+Para patrullar, cada guardia guarda su dirección (+1 o -1) y la da vuelta al llegar a una punta del puente.
 
 #### Desafío
 En un puente de 0 a 20 hay dos guardias: G1 en la posición 5 (ve a 3 casilleros) y
@@ -3743,7 +3827,11 @@ Lyn diseña la mochila del explorador: cuatro lugares, pociones que se apilan, a
 —Si cambio de arma, la vieja vuelve a la mochila. Nada se pierde.
 
 #### Gheco sugiere
-Un vector de `Item` con nombre, tipo y cantidad. `juntar` apila si ya hay una poción igual. `sacar` devuelve `std::optional<Item>` y resta uno de la pila. Al equipar, si había un arma equipada, volvela a juntar.
+La mochila es un vector de `Item` (nombre, tipo y cantidad), con 4 lugares.
+
+- `juntar`: si es una poción y ya hay una igual, se apila (suma la cantidad); si no, ocupa un lugar nuevo, si queda.
+- `sacar`: devuelve un `std::optional<Item>` (vacío si no está) y resta uno de la pila; si quedó en 0, libera el lugar.
+- Al equipar un arma, si ya había otra equipada, la vieja vuelve a la mochila.
 
 #### Desafío
 Una mochila de **4 lugares** (las pociones del mismo nombre se apilan en un lugar).
@@ -3933,7 +4021,11 @@ Para probar el combate del juego, los cuatro arman un torneo de mentira en la Ar
 —Con la misma semilla, el torneo sale igual —dice Lima—. Así nadie puede decir que hubo trampa.
 
 #### Gheco sugiere
-Un `std::mt19937 gen(semilla)` para todo el torneo y una `uniform_int_distribution<int>(-2, 2)` para la variación. `pelear` recibe copias de los luchadores, así el ganador vuelve con su vida original a la siguiente ronda. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+Un solo generador para todo el torneo: `std::mt19937 gen(semilla)`, y una distribución de -2 a 2 para la variación de cada golpe.
+
+`pelear` recibe **copias** de los luchadores: así pelean con la vida de la copia, y el ganador vuelve a la ronda siguiente con su vida original.
+
+En el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla: la salida esperada es la del navegador.
 
 #### Desafío
 Cuatro luchadores (Lima 60/12/3, Bron 80/9/5, Lyn 50/14/2 y Oto 70/10/4: vida,
@@ -4527,7 +4619,7 @@ recompensa: xp 10, oro 10
 En el Taller gira el Gran Péndulo, y con cada vaivén los autómatas se mueven un poquito. El autómata de Bron avanza 40 en cada vuelta, sin importar cuánto dura la vuelta: en una compu rápida cruza la sala en un segundo.
 
 #### Gheco sugiere
-La velocidad es por segundo: en cada vuelta se avanza `velocidad * dt`.
+Si el personaje avanza lo mismo en cada vuelta, en una compu rápida (más vueltas por segundo) va más rápido. Para que vaya igual en todas, la velocidad se piensa **por segundo** y cada vuelta se avanza `velocidad * dt`, donde `dt` es cuánto duró la vuelta (en segundos).
 
 #### Desafío
 Mové el autómata con el tiempo de cada vuelta.
@@ -4594,7 +4686,9 @@ recompensa: xp 15, oro 15
 Lima prueba el juego: aprieta `p` para pausar y otra vez `p` para volver… y el juego se queda en pausa para siempre. A la pausa de Bron le falta el camino de vuelta.
 
 #### Gheco sugiere
-En el estado `Pausa`, la tecla `p` tiene que volver a `Jugando`.
+Las pantallas de un juego forman una máquina de estados: menú, jugando, pausa, fin. En cada estado, cada tecla puede llevar a otro.
+
+En `Pausa`, la `p` tiene que volver a `Jugando` (si no, la pausa es para siempre).
 
 #### Desafío
 Hacé que la pausa vuelva al juego.
@@ -4719,7 +4813,13 @@ recompensa: xp 10, oro 10
 En cada vaivén del péndulo, los autómatas escuchan, se mueven y encienden sus luces. En el bucle de Bron, el autómata enciende las luces **antes** de moverse, y la pantalla siempre muestra dónde estaba, no dónde está.
 
 #### Gheco sugiere
-Dentro del bucle, primero actualizá la posición y después dibujá.
+El **bucle del juego** hace siempre lo mismo, en este orden:
+
+1. **escuchar**: leer las teclas;
+2. **actualizar**: mover todo según lo que pasó;
+3. **dibujar**: mostrar cómo quedó.
+
+Si dibujás antes de actualizar, la pantalla muestra siempre la vuelta anterior.
 
 #### Desafío
 Ordená las tres partes del bucle.
@@ -4785,7 +4885,9 @@ Lima dibuja en la pared todas las pantallas del juego: título, menú, jugando, 
 —Cada evento te lleva de una a otra. Y el récord no se pierde aunque vuelvas al menú.
 
 #### Gheco sugiere
-Un `enum class Pantalla` y una función que, según la pantalla actual y el evento, devuelve la nueva. Los puntos, las vidas y el récord viven afuera, en el estado del juego.
+Un `enum class Pantalla` y una función que recibe la pantalla actual y el evento, y devuelve la nueva (un `switch` sobre la pantalla).
+
+Los puntos, las vidas y el récord no dependen de la pantalla: viven afuera, en el estado del juego, así no se pierden al pasar de una a otra.
 
 #### Desafío
 Modelá las pantallas de un juego: **Título** (cualquier evento pasa al Menú),
@@ -4952,7 +5054,12 @@ Tesla quiere que el salto de Lima en el juego parezca de verdad.
 —Cuadro a cuadro: la gravedad frena la subida, y cuando toca el piso, aterriza. Después probá con cuadros más grandes.
 
 #### Gheco sugiere
-En cada cuadro, primero `vy += gravedad * dt` y después `y += vy * dt`. Si `y <= 0`, la dejás en 0 y termina. Guardá la altura máxima a medida que pasa. Mostrá cada 5 cuadros con `cuadro % 5 == 0`.
+Un salto con gravedad, cuadro por cuadro. En cada cuadro, en este orden:
+
+1. la gravedad cambia la velocidad: `vy += gravedad * dt` (la gravedad es negativa, así frena y después baja);
+2. la velocidad cambia la altura: `y += vy * dt`.
+
+Cuando `y` llega a 0 o menos, la dejás en 0 y termina el salto. Guardá la altura máxima a medida que pasa, y mostrá cada 5 cuadros (`cuadro % 5 == 0`).
 
 #### Desafío
 Lima salta con una velocidad inicial de 6 m/s hacia arriba, y la gravedad es de
@@ -5074,7 +5181,11 @@ Lima prueba el primer juego de verdad: caen rocas y ella tiene que esquivarlas d
 —Escuchar la tecla, mover todo, dibujar. Siempre en ese orden.
 
 #### Gheco sugiere
-`entrada` mueve a Lima sin salirse de la pantalla. `actualizar` baja las rocas, revisa el choque, saca las que salen y cada 2 cuadros agrega una. `dibujar` recibe `const Mundo&`: mira, no toca.
+Tres funciones, como el bucle del juego:
+
+- `entrada` mueve a Lima según la tecla, sin salirse de la pantalla;
+- `actualizar` baja las rocas una fila, revisa si alguna chocó a Lima, saca las que salieron de la pantalla y cada 2 cuadros agrega una nueva;
+- `dibujar` recibe `const Mundo&`: mira y muestra, pero no cambia nada.
 
 #### Desafío
 En una pantalla de 7 × 6, Lima está en la fila de abajo y caen rocas. Escribí
@@ -5512,7 +5623,9 @@ recompensa: xp 15, oro 15
 Debajo del Taller está el **Laberinto**, y adentro el **Minotauro**: no persigue, **embiste**. Tesla le da a Bron una hoja con el laberinto dibujado: `#` son paredes, `B` es Bron y `M` el Minotauro. Antes de entrar, hay que saber dónde está cada uno. Bron solo encontró a Bron.
 
 #### Gheco sugiere
-Recorré el mapa y, si la baldosa es `M`, guardá su fila y su columna.
+El mapa es un vector de textos: cada texto es una fila, y cada letra una baldosa. `mapa[f][c]` es la baldosa de la fila `f` y la columna `c`.
+
+Recorré con dos `for` anidados y, si la baldosa es `M`, guardá su fila y su columna (como ya se hace con la `B`).
 
 #### Desafío
 Encontrá también al Minotauro.
@@ -5608,7 +5721,9 @@ recompensa: xp 15, oro 15
 El Minotauro embiste si ve a Bron en línea recta. La función de Bron dice que lo ve siempre que estén en la misma fila, aunque haya una pared en el medio. Lima, que esta vez bajó, se esconde detrás de esa pared por las dudas.
 
 #### Gheco sugiere
-Además de estar en la misma fila, recorré las columnas entre los dos: si alguna es `#`, no lo ve.
+Estar en la misma fila no alcanza para verse: puede haber una pared en el medio. Recorré las columnas **entre** los dos (sin contar las de ellos): si alguna es `#`, no lo ve.
+
+`std::min` y `std::max` te dan desde dónde hasta dónde recorrer, sin importar quién está a la izquierda.
 
 #### Desafío
 Tené en cuenta las paredes.
@@ -5698,7 +5813,9 @@ recompensa: xp 15, oro 15
 Tesla le pasa a Bron varios planos del Laberinto, y algunos están mal dibujados: uno no tiene Minotauro, otro tiene dos Bron. La función de Bron los carga igual.
 
 #### Gheco sugiere
-En `validar`, contá las `B` y las `M`: si no hay exactamente una de cada una, tirá un `std::runtime_error` que diga cuál falta o sobra.
+Antes de jugar, el plano se valida: tiene que haber exactamente una `B` y una `M`. Contá las dos recorriendo el mapa.
+
+Si falta o sobra alguna, lanzá un `std::runtime_error` con un mensaje que diga cuál y cuántas hay (`std::to_string` convierte el número a texto).
 
 #### Desafío
 Validá el plano antes de jugarlo.
@@ -5813,7 +5930,9 @@ item: Engranaje del Portal
 Bron no entra a los golpes: entra con el plano. Escribió el camino hasta el Minotauro letra por letra, para que se quede trabado en un pasillo en diagonal. Pero su recorrido no revisa las paredes, y lo mete adentro de una.
 
 #### Gheco sugiere
-Antes de moverte, mirá la baldosa de destino: si es `#`, mostrá `Pared en el paso <n>` y cortá. Si llegás a la `M`, mostrá en cuántos pasos.
+Por cada letra del camino, calculá la baldosa de destino **antes** de moverte. Si es `#`, mostrá `Pared en el paso <n>` y cortá con `break`. Si no, te movés.
+
+Si llegás a la `M`, mostrá en cuántos pasos.
 
 #### Desafío
 Revisá las paredes en cada paso del camino.
@@ -5929,7 +6048,11 @@ Antes de bajar al Laberinto, Tesla guarda la partida. El Minotauro tiene la mala
 —Si el archivo está roto, que lo diga: qué línea y por qué.
 
 #### Gheco sugiere
-`class ArchivoRoto : public std::runtime_error` guarda la línea y el motivo. `cargar` lee línea por línea y lanza en cuanto algo no cierra. Para la rotura, leé todas las líneas, cambiá la N, reescribí, cargá y después restaurá el original.
+Guardar es escribir cada dato en una línea del archivo; cargar es leerlos en el mismo orden.
+
+`ArchivoRoto` hereda de `std::runtime_error` y guarda el número de línea y el motivo. `cargar` lee línea por línea y, en cuanto algo no cierra (falta un dato o no es un número), lanza `ArchivoRoto`.
+
+Para probar la rotura: leé todas las líneas, cambiá la que te piden, reescribí el archivo, intentá cargar (y atrapá el error) y después restaurá el original.
 
 #### Desafío
 Guardá una partida (heroína, posición, vida, llave y enemigos vencidos) en

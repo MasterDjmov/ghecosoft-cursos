@@ -113,9 +113,13 @@ recompensa: xp 10, oro 10
 Bruno pinta el primer blanco del juego en el lienzo del puesto, pero solo le sale un círculo rojo. —Los de verdad tienen anillos —dice Tati.
 
 #### Gheco sugiere
-Usá `circulo` para dibujar los tres anillos en el centro del lienzo (150, 75): radio 30 rojo (`#e53935`), 20 blanco (`#ffffff`) y 10 rojo.
+Esta Senda arma un puesto de tiro con el lienzo de R05. Lo primero: cuando algo se dibuja muchas veces, conviene una **función** que lo haga (como la `circulo` que ya viene), y llamarla con distintos datos.
+
+El orden importa: lo que se dibuja después queda **encima**. Para que se vean los tres anillos, va primero el más grande.
 
 #### Desafío
+Con la función `circulo`, tres anillos con centro en el medio del lienzo (150, 75): radio 30 rojo (`#e53935`), encima radio 20 blanco (`#ffffff`) y encima radio 10 rojo.
+
 El blanco de tres anillos.
 
 #### Página
@@ -193,9 +197,20 @@ recompensa: xp 10, oro 10
 Tati toca el lienzo para tirar. El juego anota el tiro… en un lugar que no es donde tocó.
 
 #### Gheco sugiere
-En el click, restale a `clientX` y `clientY` la esquina del lienzo (`getBoundingClientRect`). Mostrá `Tiro en (120, 80)` en `#tiro` (redondeado).
+El click trae dónde cayó, pero medido desde la esquina de la **ventana** (`evento.clientX` y `evento.clientY`), no del lienzo.
+
+`lienzo.getBoundingClientRect()` da la caja del lienzo en la ventana: `left` es cuánto está corrido a la derecha y `top`, hacia abajo. Restando, queda el punto **dentro** del lienzo:
+
+```js
+const caja = lienzo.getBoundingClientRect();
+const x = evento.clientX - caja.left;
+```
+
+`Math.round` lo redondea para mostrarlo.
 
 #### Desafío
+En cada click, `#tiro` muestra en qué punto **del lienzo** cayó, redondeado: `Tiro en (120, 80)`.
+
 Tati tira en el punto (120, 80) del lienzo.
 
 #### Página
@@ -267,9 +282,13 @@ recompensa: xp 10, oro 10
 Bruno tira tres veces y discute cada tiro: —¡Ese entró! —No, rozó. Hace falta un juez.
 
 #### Gheco sugiere
-En cada click, calculá la distancia al centro del blanco (150, 75). Si es menor o igual que 30, `¡Adentro!`; si no, `Afuera`. Llevá la cuenta en `#aciertos`: `1 de 3`.
+Un tiro cae adentro de un círculo si su **distancia al centro** es menor o igual que el radio. La distancia entre dos puntos es `Math.hypot(dx, dy)` (R05-N04), con las diferencias en `x` y en `y`.
+
+Para la cuenta, dos variables afuera del evento: los tiros y los aciertos. El tiro de la «esquina» está a exactamente 30… y 30 es menor **o igual** que 30.
 
 #### Desafío
+El blanco tiene centro en (150, 75) y radio 30. En cada click, `#resultado` dice `¡Adentro!` si el tiro cayó a 30 o menos del centro, o `Afuera` si no; `#aciertos` lleva la cuenta, como `1 de 3`.
+
 Bruno tira en (160, 70), (20, 20) y (175, 100), justo en la «esquina» del blanco.
 
 #### Página
@@ -360,9 +379,21 @@ recompensa: xp 15, monedas 5
 —En el puesto de verdad —dice Tati—, el centro vale más. Diez puntos el rojo chico, cinco el blanco, dos el rojo grande.
 
 #### Gheco sugiere
-Escribí `puntosDe(distancia)` y, en cada tiro, sumá los puntos en `#puntos` y mostrá los del último tiro en `#ultimo` (`+5`).
+Con varios premios según la distancia, los `if` van **del más chico al más grande**, y cada uno corta con `return`:
+
+```js
+function notaDe(error) {
+    if (error <= 1) return 'excelente';
+    if (error <= 5) return 'bien';
+    return 'a practicar';
+}
+```
+
+Si el primero no se cumple, ya se sabe que es mayor, y se pregunta el siguiente. El evento ya está armado: solo hay que cambiar la función.
 
 #### Desafío
+`puntosDe(distancia)`: 10 puntos hasta 10 del centro, 5 hasta 20, 2 hasta 30, y 0 más lejos. En cada tiro, `#puntos` muestra el total y `#ultimo` lo del último tiro (`+5`).
+
 Cuatro tiros: (150, 75), (165, 75), (175, 75) y (200, 75).
 
 #### Página
@@ -459,9 +490,13 @@ recompensa: xp 15, monedas 5
 Bruno trae los patitos de lata del puesto viejo: tres, en fila. —Cada uno que le pegás, se cae.
 
 #### Gheco sugiere
-En cada click, sacá del arreglo los blancos a los que se les pegó (con `filter`), volvé a dibujar todo (`clearRect` y un círculo amarillo por blanco que quede) y mostrá `Quedan N` en `#quedan`.
+Es el `filter` de R05-N04: el arreglo de blancos se queda con los que **no** recibieron el tiro (los que están a más de su radio del punto). Después, dibujar todo de nuevo: borrar con `clearRect` y un círculo por cada blanco que quedó.
+
+Una función `dibujar()` que se llame al empezar y después de cada tiro mantiene la pantalla igual a lo que dice el arreglo.
 
 #### Desafío
+En cada click, los blancos a los que se les pegó desaparecen: se vuelve a dibujar el lienzo con un círculo amarillo por cada blanco que queda, y `#quedan` dice `Quedan N`.
+
 Tiros en (60, 75), (240, 80) y (10, 10).
 
 #### Página
@@ -681,9 +716,13 @@ recompensa: xp 10, oro 10
 Bruno pone en marcha la cinta y el primer patito cruza… o tendría que cruzar: está quieto.
 
 #### Gheco sugiere
-En cada cuadro, mové el patito 2 a la derecha, borrá y dibujalo. Pedí el cuadro siguiente con `requestAnimationFrame`.
+Es el bucle de R05-N02: en cada cuadro, **mover, borrar, dibujar** y pedir el siguiente con `requestAnimationFrame(cuadro)`. Ya hay una función que dibuja el patito: usala.
+
+Si el patito queda dibujado varias veces (la estela), te falta el borrado o está después del dibujo.
 
 #### Desafío
+En cada cuadro, el patito avanza 2 a la derecha, se borra el lienzo y se lo dibuja.
+
 En un segundo (60 cuadros), el patito llega a x = 120.
 
 #### Página
@@ -774,9 +813,13 @@ recompensa: xp 10, oro 10
 El patito llega al borde y sigue de largo, fuera del lienzo. Tati lo espera del otro lado, pero no vuelve.
 
 #### Gheco sugiere
-Usá `vx` como velocidad (empieza en 4). Si el patito toca un borde, dale vuelta a la velocidad.
+El rebote de R05-N02: guardá la velocidad en el objeto (`vx`), sumala a la posición en cada cuadro y, al tocar un borde, dale vuelta el signo (`vx = -vx`).
+
+Un círculo toca el borde derecho cuando su centro **más el radio** pasa el ancho del lienzo (`lienzo.width`), y el izquierdo cuando su centro **menos el radio** es menor que 0.
 
 #### Desafío
+El patito empieza con velocidad `vx` en 4, y cuando toca un borde (con su radio), la velocidad se da vuelta.
+
 Después de 50 cuadros, el patito ya rebotó en la derecha y va volviendo.
 
 #### Página
@@ -863,9 +906,17 @@ recompensa: xp 10, oro 10
 —Uno solo es aburrido —dice Bruno—. Que salgan de a uno, cada segundo, cada uno a otra altura.
 
 #### Gheco sugiere
-Cada 1000 ms, agregá un blanco nuevo en `x = 0`, a una altura al azar entre 20 y 130, con `vx` 3. Mostrá cuántos hay en `#blancos`.
+Para que aparezcan cosas cada tanto, un `setInterval` (Senda del Escaparate) agrega un objeto nuevo al arreglo; y el bucle de cuadros mueve y dibuja **todos** los que haya.
+
+`Math.random()` da un número al azar entre 0 y 1 (sin llegar a 1). Para un número entre 20 y 130, se lo estira y se lo corre:
+
+```js
+const alto = 50 + Math.random() * 100;   // entre 50 y 150
+```
 
 #### Desafío
+Cada 1000 ms aparece un blanco nuevo en `x = 0`, a una altura al azar entre 20 y 130, con `vx` en 3. `#blancos` muestra cuántos hay.
+
 A los 3,5 segundos hay 3 blancos.
 
 #### Página
@@ -960,9 +1011,13 @@ recompensa: xp 15, monedas 5
 Nima espera el momento. El patito pasa por el medio, y ella tira justo cuando está ahí. El juego dice *Afuera*. —El juego sigue mirando dónde estaba al principio —dice {mentor}.
 
 #### Gheco sugiere
-En el click, compará con la posición **actual** del patito. Si le pegaste, frenalo (`vx = 0`) y mostrá `¡Le pegaste en x = 120!` (redondeado) en `#resultado`.
+Si el blanco se mueve, hay que comparar el tiro con dónde está **en el momento del click**: el objeto ya tiene su posición actualizada en cada cuadro, así que alcanza con leerla en el evento.
+
+Para frenarlo, su velocidad pasa a 0: el bucle sigue sumando, pero suma nada.
 
 #### Desafío
+En el click, se compara con la posición **actual** del patito: si le pegaste, se frena (`vx = 0`) y `#resultado` dice `¡Le pegaste en x = 120!` (redondeado).
+
 A los 40 cuadros, el patito va por x = 120: Nima tira ahí.
 
 #### Página
@@ -1071,9 +1126,19 @@ recompensa: xp 15, monedas 5
 Tati se queda mirando la cuenta de blancos: 10, 20, 50… y el juego cada vez más lento. Los patitos que se fueron por el borde siguen ahí, invisibles, moviéndose para siempre.
 
 #### Gheco sugiere
-En cada cuadro, después de mover, sacá los que pasaron el borde derecho (todo el patito afuera) y sumalos a `escapados`. Mostrá los dos números.
+En cada cuadro, después de mover, se separan los que ya **salieron enteros**: el centro menos el radio pasó el ancho del lienzo. Se pueden contar con la diferencia de largos antes y después del `filter` (R05-N04):
+
+```js
+const antes = autos.length;
+autos = autos.filter((a) => a.x - RADIO <= lienzo.width);
+fuera += antes - autos.length;
+```
+
+Sacarlos importa: si no, el arreglo crece sin fin y el juego se pone lento.
 
 #### Desafío
+En cada cuadro, los patitos que ya salieron enteros por el borde derecho se sacan y se cuentan como `escapados`. Se muestran los dos números: los que hay y los que se escaparon.
+
 A los 5 segundos, con un patito nuevo cada medio segundo que cruza en poco más de un segundo.
 
 #### Página
@@ -1295,9 +1360,13 @@ recompensa: xp 10, oro 10
 Tati pone un reloj de arena de diez segundos en el mostrador. —¡Ronda! —grita. Pero el reloj del juego sigue contando para abajo: -1, -2, -3…
 
 #### Gheco sugiere
-Al llegar a cero, cancelá el intervalo y mostrá `¡Tiempo!` en `#tiempo`. Mientras tanto, los segundos que quedan.
+Una cuenta regresiva es un `setInterval` de 1000 ms que resta uno y muestra. Cuando llega a cero, **se frena a sí mismo** con `clearInterval` (por eso se guarda el número en una variable) y muestra el aviso final.
+
+Si no se frena, sigue para siempre: −1, −2…
 
 #### Desafío
+La ronda dura 10 segundos: `#tiempo` muestra los que quedan, y al llegar a cero dice `¡Tiempo!` y el reloj se frena.
+
 A los 12 segundos la ronda ya terminó y no queda ningún temporizador.
 
 #### Página
@@ -1372,9 +1441,13 @@ recompensa: xp 10, oro 10
 Bruno quiere que el que acierta seguido gane más: el primero 10, el segundo 20, el tercero 30. Y que un error lo corte.
 
 #### Gheco sugiere
-Completá `tiro(acierto)`: sumá con el combo o cortalo. Mostrá cada tiro: `✓ x1 → 10`.
+Un **combo** es un contador que sube con cada acierto seguido y vuelve a 0 con un error. Los puntos de cada acierto dependen del combo: 10 por el combo.
+
+Pensá el orden adentro del acierto: primero sube el combo y después se suman los puntos con el combo nuevo. Si no, el primer acierto vale 0.
 
 #### Desafío
+Cada acierto seguido sube el combo y vale 10 por el combo (el primero 10, el segundo 20…); un error corta el combo a 0. Cada tiro se muestra como `✓ x1 → 10`.
+
 La ronda de Bruno: acierto, acierto, error, acierto, acierto, acierto.
 
 #### Código inicial
@@ -1441,9 +1514,13 @@ recompensa: xp 10, oro 10
 Tati escribió los puntos en el lienzo, arriba a la izquierda, como en los juegos. Pero apenas empieza la ronda, desaparecen.
 
 #### Gheco sugiere
-El texto se dibuja una sola vez al empezar, y el primer `clearRect` lo borra. Pasalo adentro de `cuadro`, después de borrar: `Puntos: N` en (10, 20) y `Tiempo: N` en (220, 20).
+El `clearRect` del bucle **borra todo** lo del lienzo en cada cuadro, también el texto. Lo que se dibuja una sola vez al empezar dura un cuadro y desaparece.
+
+Todo lo que se tiene que ver siempre (los puntos, el tiempo) se dibuja **adentro** del cuadro, después de borrar. `ctx.fillText(texto, x, y)` (R05-N01) dibuja texto; la `y` es la línea de abajo de las letras.
 
 #### Desafío
+Los números se dibujan **en el lienzo**, en cada cuadro: `Puntos: N` en (10, 20) y `Tiempo: N` en (220, 20).
+
 Nima acierta al blanco del medio y pasan dos cuadros.
 
 #### Página
@@ -1551,9 +1628,16 @@ recompensa: xp 15, monedas 5
 Nima ya no falla. Bruno pide que el juego **se ponga más difícil** a medida que suma puntos: cada cincuenta, los patitos van más rápido.
 
 #### Gheco sugiere
-Completá `nivelDe(puntos)` y `velocidadDe(nivel)`. Mostrá una tabla: `0 → nivel 1, velocidad 2.0`. La velocidad, con un decimal.
+Dos cuentas que hacen falta:
+
+- `Math.floor(n)` redondea **para abajo**: `Math.floor(120 / 50)` da 2. Sirve para «uno más cada tantos»;
+- `**` (R05-N05) es la potencia: algo que se multiplica por 1,5 en cada nivel es `inicial * 1.5 ** (nivel - 1)` (en el nivel 1, la potencia da 1).
+
+Para ver si las fórmulas andan, probá con los puntos de la consigna y compará con la salida esperada.
 
 #### Desafío
+El nivel empieza en 1 y sube uno cada 50 puntos enteros. La velocidad es 2 en el nivel 1, y en cada nivel es 1,5 veces la del anterior. Se muestra con un decimal: `0 → nivel 1, velocidad 2.0`.
+
 Para 0, 40, 50, 120 y 260 puntos.
 
 #### Código inicial
@@ -1617,9 +1701,13 @@ recompensa: xp 15, monedas 5
 Nima silba bajito y entre los faroles aparece **Destello**, su ciervo de luz amarilla. Mientras está en el puesto, todo brilla el doble. Pero se cansa rápido: viene una sola vez por noche.
 
 #### Gheco sugiere
-Con la tecla `d`, si Destello todavía no vino: que venga (los puntos valen el doble) y se vaya a los 3 segundos. En `#destello`, mostrá `Destello está acá`, `Destello ya vino` o `Llamá a Destello con D`. Cada acierto vale 10 (o 20 con Destello).
+Un **poder** que dura un rato se arma con dos variables: una que dice si está **activo** y otra que dice si **ya se usó**. Al llamarlo: si ya se usó, no hace nada; si no, se activa, se marca como usado, y un `setTimeout` (R04-N01) lo apaga a los 3 segundos.
+
+Mientras está activo, el acierto vale el doble. Una función `mostrar()` que elija el texto según las dos variables sirve después de cada cambio.
 
 #### Desafío
+Con la tecla `d`, si Destello todavía no vino, viene: mientras está, cada acierto vale 20 en vez de 10, y se va a los 3 segundos. Viene una sola vez. `#destello` dice `Destello está acá`, `Destello ya vino` o `Llamá a Destello con D`.
+
 Un acierto, llama a Destello, otro acierto, pasan 3,5 segundos, otro acierto, lo vuelve a llamar (no viene) y un último acierto.
 
 #### Página
@@ -1833,9 +1921,16 @@ recompensa: xp 10, oro 10
 Tati quiere una pantalla de inicio como en los juegos de verdad: *Apretá Enter para empezar*. Y al final, los puntos.
 
 #### Gheco sugiere
-Con `estado` en `inicio`, `#pantalla` dice `Apretá Enter para empezar`. Enter (solo si no está jugando) pasa a `jugando`, dice `¡A jugar!` y arranca una ronda de 5 segundos; al terminar, pasa a `fin` y dice `Fin de la ronda · Enter para jugar otra vez`.
+Los **estados** del juego (R05-N06): un texto que dice en qué momento está, y cada parte del programa lo mira antes de actuar.
+
+- la tecla Enter solo arranca si el estado **no** es `'jugando'`: así no se puede empezar dos veces;
+- al arrancar, se cambia el estado y un `setTimeout` deja anotado el final de la ronda.
+
+Una función por cambio (`empezar`, `terminar`) que cambie el estado **y** el cartel deja todo en un solo lugar.
 
 #### Desafío
+Con `estado` en `inicio`, `#pantalla` dice `Apretá Enter para empezar`. Enter (solo si no se está jugando) pasa a `jugando`, dice `¡A jugar!` y arranca una ronda de 5 segundos; al terminar, pasa a `fin` y dice `Fin de la ronda · Enter para jugar otra vez`.
+
 Aprietan otra tecla (no pasa nada), Enter, y esperan 6 segundos.
 
 #### Página
@@ -1933,9 +2028,13 @@ recompensa: xp 10, oro 10
 La pizarra del puesto ya tiene dos récords: Bruno 40, Tati 35. Bruno quiere que el juego guarde **los tres mejores**, con su nombre, y que la pizarra se dibuje sola.
 
 #### Gheco sugiere
-Completá `guardar(nombre, puntos)`: leé la tabla, agregá el nuevo, ordená de mayor a menor, dejá los tres primeros y guardala. Después `dibujarTabla()` pone un `<li>` por récord en `#records`: `Nima — 50`.
+Una **tabla de récords** es un arreglo de objetos guardado en `localStorage` como JSON (R02-N06). Cada partida: leer (o `[]` si no hay), agregar con `push`, ordenar de mayor a menor (Senda del Archivo), cortar con `slice(0, 3)` y guardar.
+
+Para dibujarla, `replaceChildren()` vacía la lista, y después un `<li>` por récord (R02-N02).
 
 #### Desafío
+`guardar(nombre, puntos)` lee la tabla guardada (clave `tiro`), agrega el nuevo, ordena de mayor a menor, deja los tres primeros y la vuelve a guardar. `dibujarTabla()` pone un `<li>` por récord en `#records`: `Nima — 50`.
+
 Juegan Nima (50), Lucio (10) y Bengala (45).
 
 #### Página
@@ -2031,9 +2130,13 @@ recompensa: xp 10, oro 10
 El Gran Pato cruza el lienzo, despacio, graznando. Bruno le tira y la flecha rebota: un tiro no alcanza. —Cinco tiros —dice Bruno—. Uno por cada abolladura.
 
 #### Gheco sugiere
-El Pato tiene `vida: 5`. Cada tiro que le pega (a 25 o menos de su centro, en el momento del tiro) le saca una. En cada cuadro, dibujá la barra roja de vida arriba (`fillRect(10, 10, vida * 20, 8)`) y mostrá la vida en `#vida`.
+Un enemigo con **vida** es un número que baja con cada golpe. Lo que lo muestra se calcula **a partir de** ese número: una barra cuyo ancho es la vida multiplicada por un tamaño fijo se achica sola con cada golpe.
+
+El golpe se revisa en el click, con la posición del Pato en ese momento (S05-N02-P4), y la barra se dibuja en el cuadro, después de borrar.
 
 #### Desafío
+El Pato tiene `vida: 5`. Cada tiro que le pega (a 25 o menos de su centro, en el momento del tiro) le saca una. En cada cuadro se dibuja arriba la barra roja de vida, con `fillRect(10, 10, vida * 20, 8)`, y `#vida` muestra la vida.
+
 Dos tiros que le pegan mientras cruza.
 
 #### Página
@@ -2144,9 +2247,13 @@ recompensa: xp 15, monedas 5
 En el medio de la pelea, Doña Mirta llega con pan con miel recién hecho. Nima no puede dejar pasar un pan con miel. —¡Pausa! —grita. El Pato sigue cruzando, como si nada.
 
 #### Gheco sugiere
-La tecla `p` alterna la pausa. En pausa, el bucle sigue dibujando, pero el Pato no se mueve; y aparece `Pausa` escrito en (125, 80).
+Una **pausa** es una variable `true`/`false` que la tecla alterna con `!` (no): `pausa = !pausa` la da vuelta.
+
+En el bucle, la pausa frena solo el **movimiento**: se sigue borrando y dibujando (si no, la pantalla se congela con lo último) y se sigue pidiendo el próximo cuadro. Lo que cambia es que, en pausa, no se suma la velocidad, y se dibuja el cartel.
 
 #### Desafío
+La tecla `p` pone y saca la pausa. En pausa, el bucle sigue dibujando pero el Pato no se mueve, y aparece `Pausa` escrito en (125, 80).
+
 Pasan 10 cuadros, Nima aprieta `p` y pasan 30 más: el Pato tiene que seguir donde estaba.
 
 #### Página
@@ -2249,14 +2356,20 @@ recompensa: xp 50, oro 50, monedas 1
 Toda la Feria se junta alrededor del puesto: Lucio con su escalera, Bengala con las antiparras, Don Tano con el organito callado, por respeto. Bruno le da toda la cuerda al Gran Pato. —El Vidriero lo volteó en cinco tiros —dice Tati—. Nadie sabe cuánto tardó.
 
 #### Gheco sugiere
-Juntá todo:
-- `estado` empieza en `inicio`; Enter (si no está jugando) arranca la partida: el Pato en `x = 40` con `vida: 5`, y anotá cuándo empezó (`performance.now()`);
-- jugando, el Pato se mueve 2 por cuadro; cada tiro a 25 o menos le saca una vida;
-- con vida 0: `estado = 'fin'`, calculá los segundos que tardó (con un decimal) y mostrá `¡El Pato cayó en 0.8 s!` en `#pantalla`;
-- guardá el mejor tiempo en `local mejorTiempo` (el más **chico**) y mostrá `Récord: …` en `#record`;
-- en cada cuadro, dibujá la barra de vida y el Pato.
+Junta toda la Senda:
+
+- los estados de S05-N04-P1, con Enter para arrancar;
+- la vida y los golpes de S05-N04-P3;
+- el tiempo de la partida: `performance.now()` (R04-N05) al empezar y al terminar; la resta da milisegundos, y dividida por 1000, segundos (`toFixed(1)` para un decimal);
+- el récord de `localStorage`, pero acá gana el **más chico**. Si no hay nada guardado, `Infinity` (*infinito*) sirve de reserva: cualquier tiempo es menor.
 
 #### Desafío
+- `estado` empieza en `inicio`; Enter (si no se está jugando) arranca la partida: el Pato en `x = 40` con `vida: 5`, y se anota cuándo empezó (`performance.now()`);
+- jugando, el Pato avanza 2 por cuadro; cada tiro a 25 o menos de su centro le saca una vida;
+- con vida 0: `estado` pasa a `fin`, se calculan los segundos que tardó (con un decimal) y `#pantalla` dice `¡El Pato cayó en 0.8 s!`;
+- el mejor tiempo (el más **chico**) se guarda con la clave `mejorTiempo`, y `#record` dice `Récord: …`;
+- en cada cuadro se dibujan la barra de vida y el Pato.
+
 La partida de Nima: Enter y cinco tiros mientras el Pato cruza. (El mejor tiempo guardado es de 2.5 s: el del Vidriero.)
 
 #### Página

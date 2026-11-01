@@ -233,7 +233,17 @@ En la boca de las Minas, Hulda presta vagonetas y las anota en su tablilla. Kira
 —Vagoneta que sacás, vagoneta que devolvés —dice Hulda, con el pico al hombro.
 
 #### Gheco sugiere
-`int *cargas = malloc(5 * sizeof *cargas);` pide lugar para 5 enteros. Si devuelve `NULL`, no hubo lugar. Al terminar, `free(cargas);`.
+Hasta ahora, el tamaño de cada array lo decidías al escribir el programa. Con **memoria dinámica** el programa pide lugar **mientras corre**, cuando ya sabe cuánto necesita. Es como pedir vagonetas prestadas: las usás y después las devolvés.
+
+- `malloc` (de `<stdlib.h>`) pide la memoria y devuelve un puntero al lugar:
+
+```c
+int *notas = malloc(3 * sizeof *notas);
+```
+
+`sizeof *notas` es lo que ocupa **un** elemento; por 3, lugar para tres. Después se usa como un array: `notas[0]`, `notas[1]`…
+- Si no hubo lugar, `malloc` devuelve `NULL`: preguntá siempre antes de usarlo.
+- Cuando terminás, `free(notas);` devuelve la memoria.
 
 #### Desafío
 Pedí la memoria y devolvela al final.
@@ -309,7 +319,9 @@ recompensa: xp 10, oro 10
 Tizón no sabe cuántas cargas van a llegar hoy: se lo dicen al empezar el turno. Con un array fijo tendría que adivinar. Con las vagonetas de Hulda, pide justo las que hacen falta.
 
 #### Gheco sugiere
-Se lee `n` y se pide `malloc(n * sizeof *v)`. Después se usa `v[i]` como cualquier array.
+La gracia de `malloc` es que la cantidad puede salir de un dato que se lee mientras corre el programa. Primero leés `n`, después pedís lugar para `n` elementos (`n * sizeof *v`), revisás que no sea `NULL`, y lo usás como cualquier array.
+
+No te olvides del `free` al final.
 
 #### Desafío
 Pedí lugar para `n` cargas.
@@ -395,7 +407,9 @@ Kira pidió vagonetas en cada vuelta del turno y no devolvió ninguna. Hulda la 
 El chiste es tan malo que nadie en las Minas vuelve a olvidarse una vagoneta.
 
 #### Gheco sugiere
-Si en cada vuelta se hace un `malloc`, en cada vuelta hace falta un `free` cuando ya no se usa. Si no, el **troll** se va comiendo la memoria.
+Cada `malloc` necesita su `free`. Si pedís memoria en cada vuelta de un bucle y nunca la devolvés, el programa va acumulando memoria que ya no usa: eso es una **fuga de memoria** (en inglés, *memory leak*). En un programa que corre mucho tiempo, termina ocupándola toda.
+
+La regla: en cuanto un bloque ya no se usa, `free`.
 
 #### Desafío
 Devolvé la vagoneta al final de cada vuelta.
@@ -473,7 +487,14 @@ recompensa: xp 15, oro 15
 Chispa quiere guardar el nombre de cada cliente en una vagoneta del tamaño **justo**, ni una letra de más («la vagoneta se cobra por letra»).
 
 #### Gheco sugiere
-Para copiar un texto en memoria dinámica: `char *copia = malloc(strlen(s) + 1);` (el `+1` es el `'\0'`) y `strcpy(copia, s);`.
+Para guardar una copia de un texto en memoria dinámica, pedí el lugar justo: las letras **más uno**, para el tapón `'\0'`.
+
+```c
+char *copia = malloc(strlen(texto) + 1);
+strcpy(copia, texto);
+```
+
+`strlen` cuenta las letras sin el tapón; por eso el `+ 1`. `strcpy(destino, origen)` copia las letras y el tapón.
 
 #### Desafío
 Completá el tamaño justo.
@@ -558,7 +579,11 @@ En la boca de la mina, Hulda le enseña a Kira la regla de oro de las copias: pe
 —Copiá tu nombre y armame el título completo. Y después devolvé todo.
 
 #### Gheco sugiere
-`malloc(strlen(texto) + 1)`: el `+ 1` es para el `'\0'`. Si devuelve `NULL`, no hay memoria. `unir` suma los tres largos más uno. Al final, cada `malloc` tiene su `free`.
+Repasá la receta para copiar un texto: `malloc(strlen(texto) + 1)` (el `+ 1` es el tapón), revisar `NULL`, y `strcpy`.
+
+Para unir tres textos en uno nuevo, el lugar justo es la suma de los tres largos más uno (un solo tapón al final). Copiás el primero y pegás los otros con `strcat(destino, texto)`, que agrega al final.
+
+Al terminar, cada `malloc` tiene su `free`.
 
 #### Desafío
 1. Escribí `char *duplicar(const char *texto)`, que pide con `malloc` **exactamente** la memoria necesaria, copia el texto y devuelve la copia (o `NULL` si no hay memoria).
@@ -656,7 +681,11 @@ Hulda le pide a Kira el mapa del oro de una galería nueva. No sabe cuántas fil
 —Un solo bloque. No me cavés un túnel por fila.
 
 #### Gheco sugiere
-Pedí `filas * columnas` enteros de una vez. La celda `(f, c)` está en `mapa[f * columnas + c]`. Llenala con `(f * 7 + c * 3) % 10`, mostrala con dos `for` y liberá el bloque al final.
+Una tabla de `filas × columnas` se puede guardar en **un solo bloque**, una fila detrás de la otra, como si fuera un array largo. Pedís `filas * columnas` enteros de una vez.
+
+La casilla de la fila `f` y la columna `c` está en la posición `f * columnas + c`: te salteás `f` filas enteras y avanzás `c` lugares.
+
+Llenala con la cuenta que te dan, mostrala con dos `for` anidados y liberá el bloque al final.
 
 #### Desafío
 1. Pedí la cantidad de filas y de columnas (de 1 a 20).
@@ -767,7 +796,11 @@ Kira tiene un cofre con diez vetas, pero solo le sirven las pares. Tizón le mue
 —Ojo, que al achicarlo puede cambiar de lugar. Anotá dónde quedó.
 
 #### Gheco sugiere
-Corré los pares al principio y contalos. `nuevo = realloc(v, cantidad * sizeof(int))`: si da `NULL`, el bloque viejo sigue sirviendo. Si no quedó ninguno, `free(v)` y devolvé `NULL`. La cantidad nueva va en `*n`.
+`realloc(viejo, nuevo_tamanio)` cambia el tamaño de un bloque que ya pediste: lo agranda o lo achica, y conserva los datos que entran.
+
+Para quedarte con los pares: corrélos al principio del array y contalos. Después achicás el bloque a esa cantidad.
+
+Cuidado: guardá lo que devuelve `realloc` en **otro** puntero. Si da `NULL`, el bloque viejo sigue sirviendo y no lo perdiste. Si no quedó ningún par, `free(v)` y devolvés `NULL`. La cantidad nueva se guarda en `*n`.
 
 #### Desafío
 1. Reservá un array de 10 enteros y llenalo con `i * 3 + 1`.
@@ -1241,7 +1274,16 @@ recompensa: xp 10, oro 10
 La galería donde Hulda anota a los enemigos se llena todo el tiempo. Tizón hace cuentas diez minutos y anuncia: —Conviene cavar una **del doble** cada vez. —Por una vez, nadie le discute.
 
 #### Gheco sugiere
-`int *nuevo = realloc(v, nueva_cap * sizeof *v);` pide un lugar más grande y muda los datos. Si da `NULL`, el viejo sigue sano: por eso se guarda primero en `nuevo`.
+Un array que **crece** a medida que llegan datos: arrancás con poco lugar (la **capacidad**) y, cuando se llena, pedís el doble con `realloc`, que muda los datos al lugar nuevo.
+
+```c
+int *nuevo = realloc(v, nueva_cap * sizeof *v);
+if (nuevo != NULL) {
+    v = nuevo;
+}
+```
+
+Se guarda primero en `nuevo` porque, si no hay lugar, `realloc` devuelve `NULL` y el bloque viejo sigue sano. Si lo guardaras directo en `v`, perderías la dirección de tus datos.
 
 #### Desafío
 Completá la nueva capacidad (el doble) y el `realloc`.
@@ -1337,7 +1379,9 @@ recompensa: xp 10, oro 10
 Hulda quiere una función `agregar` que haga todo sola: si hay lugar, guarda; si no, agranda y guarda. Las cargas llegan hasta un 0.
 
 #### Gheco sugiere
-`agregar(&v, &n, &cap, valor)` recibe las **direcciones** porque las cambia. Adentro, `*n`, `*cap` y `*v` son las variables de afuera.
+Una función que agrega a un array dinámico cambia tres cosas de afuera: el puntero (si `realloc` lo muda), la cantidad y la capacidad. Por eso recibe las tres **direcciones**: `int **v, int *n, int *cap`.
+
+Adentro, `*n` es la cantidad de afuera y `*v` es el puntero de afuera. Para llegar al elemento hacen falta paréntesis: `(*v)[*n]` es «el cajón número `*n` del array al que apunta `*v`».
 
 #### Desafío
 Completá la línea que guarda el valor.
@@ -1455,7 +1499,9 @@ recompensa: xp 10, oro 10
 Terminó el turno: la galería tiene lugar para 8 y hay 5 cargas. Tizón quiere devolver los 3 lugares que sobran, «para que el troll no se los coma».
 
 #### Gheco sugiere
-`realloc(v, n * sizeof *v)` con `n` menor que la capacidad **achica** el bloque y conserva los primeros `n` datos.
+`realloc` también **achica**: si le pedís menos lugar del que tiene, conserva los primeros datos y devuelve el resto de la memoria.
+
+Sirve al terminar de cargar: si pediste lugar para 8 y usaste 5, achicás a 5 y no desperdiciás. Como siempre, guardá el resultado en otro puntero y revisá `NULL`.
 
 #### Desafío
 Achicá el bloque a la cantidad justa.
@@ -1537,7 +1583,9 @@ recompensa: xp 15, oro 15
 Hulda no quiere solo números: quiere cada enemigo con su nombre y su vida, y que la lista crezca sola. Llegan de a uno por línea hasta «fin».
 
 #### Gheco sugiere
-Un array dinámico de structs funciona igual: `realloc` con `sizeof *v`, que ahora es el tamaño de un `Enemigo`.
+Un array dinámico de structs funciona igual que uno de números. La única diferencia es el tamaño de cada elemento, y `sizeof *v` ya lo sabe: si `v` es un `Enemigo *`, `sizeof *v` es lo que ocupa un `Enemigo`.
+
+Por eso conviene escribir `sizeof *v` y no `sizeof(int)`: si cambia el tipo, la cuenta sigue bien.
 
 #### Desafío
 Completá el `realloc` del array de structs.
@@ -1667,7 +1715,11 @@ En la tablilla de la horda hay cuatro enemigos anotados. Uno se escapó por un t
 —Y si te piden borrar uno que no existe, no me rompas la tablilla.
 
 #### Gheco sugiere
-Si el índice es menor que 0 o no es menor que `cantidad`, devolvé `false`. Si no, corré cada enemigo de atrás un lugar hacia adelante y bajá la `cantidad`.
+Para quitar un elemento de un array no se puede «borrar» el cajón: hay que tapar el hueco.
+
+1. Si el índice es menor que 0, o no es menor que la `cantidad`, no existe: devolvé `false`.
+2. Si existe, corré cada enemigo de atrás un lugar hacia adelante, empezando por el que sigue al que sale.
+3. Bajá la `cantidad` en uno.
 
 #### Desafío
 Partiendo de la horda del ejemplo, escribí `bool horda_quitar(Horda *h, int indice)`: borra el enemigo de esa posición moviendo los de atrás un lugar hacia adelante, baja la `cantidad` y devuelve `false` si el índice no es válido.
@@ -1860,7 +1912,11 @@ antes: R03-N02-M2
 Tizón y Hulda discuten cómo cavar las galerías nuevas: ella quiere sumar cuatro lugares cada vez, él quiere duplicar. Kira propone probar las dos y contar.
 
 #### Gheco sugiere
-Llevá la capacidad y un contador de ampliaciones: cuando `cantidad == capacidad`, ampliás (al doble o +4) con `realloc` y sumás uno. Compará las dos estrategias con 20 y con 1000 elementos.
+Agrandar con `realloc` cuesta trabajo: a veces hay que mudar todos los datos. Por eso importa **cuánto** agrandás cada vez.
+
+Llevá la capacidad y un contador de ampliaciones. Cuando `cantidad == capacidad`, ampliás (al doble, o sumando 4) y sumás uno al contador.
+
+Compará las dos estrategias con 20 elementos y con 1000: vas a ver que duplicar necesita muchas menos ampliaciones cuando son muchos.
 
 #### Desafío
 Escribí `int llenar(int elementos, int duplicar, int mostrar)`: agrega `elementos` enteros a un array dinámico y cuenta cuántas veces tuvo que ampliar. Si `duplicar` es verdadero, la capacidad pasa a `capacidad * 2` (empezando en 2); si no, a `capacidad + 4`.
@@ -1956,7 +2012,11 @@ Después de una batalla, en la galería sobra un montón de lugar vacío. Hulda 
 —Pero si llega otro, que vuelva a crecer sin drama.
 
 #### Gheco sugiere
-Con `realloc` a `cantidad` elementos, la capacidad queda igual a la cantidad. Si está vacía, liberá el bloque y dejá el puntero en `NULL` y la capacidad en 0. Al agregar después, la horda vuelve a crecer sola.
+Encoger es achicar el bloque con `realloc` para que la capacidad quede igual a la cantidad.
+
+Caso especial: si la horda está vacía, no tiene sentido pedir 0 lugares. Liberá el bloque con `free`, dejá el puntero en `NULL` y la capacidad en 0.
+
+Como `horda_agregar` ya sabe ampliar cuando se llena, después de encoger la horda vuelve a crecer sola.
 
 #### Desafío
 Escribí `bool horda_encoger(Horda *h)`, que achica el bloque para que la capacidad sea igual a la cantidad (si está vacía, la libera). Agregá 5 goblins, mostrá la horda, encogela, mostrala y agregá un orco para ver que vuelve a crecer.
@@ -2596,7 +2656,23 @@ recompensa: xp 10, oro 10
 Más abajo, los vagones van enganchados con cadenas. Para agregar uno no hay que mudar nada: se engancha adelante y listo. Hulda le muestra a Kira el primer enganche.
 
 #### Gheco sugiere
-Insertar al frente: `n->siguiente = cabeza;` y la cabeza pasa a ser `n`. La función devuelve la cabeza nueva: `cabeza = insertar(cabeza, …);`.
+Una **lista enlazada** es otra forma de guardar muchos datos: en vez de cajones uno al lado del otro, cada dato va en su propio **nodo**, y cada nodo guarda un puntero al siguiente, como los vagones de un tren enganchados.
+
+```c
+typedef struct Nodo {
+    int dato;
+    struct Nodo *siguiente;
+} Nodo;
+```
+
+Al primer nodo se lo llama **cabeza**; el último apunta a `NULL`.
+
+Para enganchar uno nuevo **adelante**, el nuevo apunta a la cabeza vieja y pasa a ser la cabeza:
+
+```c
+nuevo->siguiente = cabeza;
+cabeza = nuevo;
+```
 
 #### Desafío
 Completá el enganche.
@@ -2706,7 +2782,12 @@ recompensa: xp 15, oro 15
 Kira enganchó los vagones en cualquier orden y el tren salió con el más pesado adelante. Hulda le explica, con mucha calma y bastante volumen, que se enganchan **ordenados por peso**.
 
 #### Gheco sugiere
-Si la lista está vacía o el nuevo es menor que la cabeza, va primero. Si no, se avanza con `p` mientras `p->siguiente` exista y sea menor, y se engancha entre `p` y su siguiente.
+Para meter un nodo en orden hay dos casos:
+
+- **Va primero**: si la lista está vacía o el nuevo es menor que la cabeza, se engancha adelante (como antes) y es la cabeza nueva.
+- **Va en el medio o al final**: avanzás con un puntero `p` mientras exista `p->siguiente` y sea menor que el nuevo. Ahí lo metés entre `p` y su siguiente: primero el nuevo apunta al siguiente de `p`, y después `p` apunta al nuevo.
+
+El orden de esos dos pasos importa: si lo hacés al revés, perdés el resto de la lista.
 
 #### Desafío
 Completá la condición del avance y el enganche del medio.
@@ -2843,7 +2924,14 @@ recompensa: xp 15, oro 15
 Hay que desenganchar el vagón de 200 kg del medio del tren sin perder los de atrás. —Si soltás la cadena antes de agarrar la siguiente —advierte Tizón—, todo lo de atrás se pierde en la oscuridad.
 
 #### Gheco sugiere
-Para quitar, se busca el nodo **anterior** al que sale y se lo une con el que sigue: `ant->siguiente = sale->siguiente;` y recién ahí `free(sale)`.
+Para sacar un nodo del medio, hay que unir el de antes con el de después, saltando al que sale:
+
+```c
+anterior->siguiente = sale->siguiente;
+free(sale);
+```
+
+Primero se une y **recién después** se libera. Si liberás antes, ya no podés leer `sale->siguiente` y perdés el resto del tren.
 
 #### Desafío
 Completá la unión y la liberación.
@@ -2991,7 +3079,9 @@ recompensa: xp 15, oro 15
 Al final de una vía muerta hay un tren viejo, abandonado. Hulda quiere leer sus vagones **desde el último**, que es el más cercano a la pared de roca.
 
 #### Gheco sugiere
-`al_reves(p)`: si `p` es `NULL`, termina; si no, se llama con `p->siguiente` y **después** muestra `p`. Así se muestra a la vuelta, del último al primero.
+Una lista se puede recorrer con **recursión**: hacer algo con el primer nodo y llamarse con el resto (`p->siguiente`). El caso base es la lista vacía (`p == NULL`).
+
+El truco para mostrarla **al revés**: primero te llamás con el resto y **después** mostrás el nodo. Así cada uno se muestra «a la vuelta», cuando ya se mostraron todos los que vienen detrás.
 
 #### Desafío
 Completá la llamada recursiva.
@@ -3081,7 +3171,17 @@ En la vía, la mochila de Kira viaja como un tren de vagones enganchados: cada o
 —Seguí la cadena. Sin soltarla.
 
 #### Gheco sugiere
-Recorré con `for (const Nodo *p = cabeza; p != NULL; p = p->siguiente)`. `contar` suma uno por vagón; `contiene` compara cada objeto con `strcmp`. Con la lista vacía, el bucle ni arranca.
+La forma de recorrer una lista enlazada es un `for` con un puntero:
+
+```c
+for (const Nodo *p = cabeza; p != NULL; p = p->siguiente) {
+    // usar p
+}
+```
+
+Arranca en la cabeza, sigue mientras haya nodo y en cada vuelta salta al siguiente. Con la lista vacía (`cabeza == NULL`), el bucle ni arranca.
+
+`contar` suma uno por nodo; `contiene` compara cada objeto con `strcmp`.
 
 #### Desafío
 Escribí `int contar(const Nodo *cabeza)` y `bool contiene(const Nodo *cabeza, const char *item)`. Probalas con la lista vacía y con una mochila de tres objetos, buscando uno que está y otro que no.
@@ -3270,7 +3370,13 @@ antes: R03-N03-M2
 El tren de la mina tiene que volver por donde vino, y no hay lugar para girar. Tizón propone darlo vuelta enganche por enganche, sin traer vagones nuevos.
 
 #### Gheco sugiere
-Usá tres punteros: `anterior` (empieza en `NULL`), `actual` y `siguiente`. En cada paso guardás el siguiente, das vuelta el enganche (`actual->siguiente = anterior`) y avanzás. La nueva cabeza es el último `anterior`.
+Para dar vuelta la lista sin crear nodos, das vuelta cada enganche. Hacen falta tres punteros:
+
+- `anterior`, que empieza en `NULL`;
+- `actual`, que empieza en la cabeza;
+- `siguiente`, para no perder el resto.
+
+En cada paso: guardás el siguiente, hacés que el actual apunte al anterior y avanzás los dos un lugar. Cuando `actual` llega a `NULL`, la cabeza nueva es `anterior`.
 
 #### Desafío
 Escribí `Nodo *invertir(Nodo *cabeza)`, que da vuelta la lista **sin crear nodos nuevos**: solo reacomoda los punteros `siguiente` y devuelve la cabeza nueva. Probala con cuatro objetos y con la lista vacía.
@@ -3451,7 +3557,12 @@ Hulda quiere el inventario del tren en orden alfabético, y que se mantenga así
 —Cada cosa que sube va a su lugar. No al final.
 
 #### Gheco sugiere
-Si la lista está vacía o el objeto va antes de la cabeza (`strcmp < 0`), queda como cabeza nueva. Si no, avanzá mientras el siguiente vaya antes y enganchalo ahí. Leé hasta que `fgets` dé `NULL` y mostrá la lista después de cada uno.
+Para insertar en orden alfabético, la misma idea que con números, pero comparando con `strcmp`:
+
+- si la lista está vacía o el objeto va antes que la cabeza (`strcmp(...) < 0`), es la cabeza nueva;
+- si no, avanzás mientras el siguiente vaya antes, y lo enganchás ahí.
+
+Leé con `fgets` hasta que devuelva `NULL` (se terminó la entrada) y, después de cada objeto, mostrá la lista.
 
 #### Desafío
 Escribí `Nodo *insertar_ordenado(Nodo *cabeza, const char *item)`, que inserta cada objeto en su lugar alfabético. Leé objetos (uno por línea, hasta que se termine la entrada), insertalos y mostrá la lista después de cada uno.
@@ -4123,7 +4234,14 @@ recompensa: xp 10, oro 10
 En el montacargas, las bolsas se apilan una encima de otra. Tizón subió su almuerzo **primero**, abajo de todo. Hulda descarga desde arriba, sin una gota de compasión.
 
 #### Gheco sugiere
-Una pila con array: `apilar` guarda en `datos[cantidad++]` y `desapilar` saca `datos[--cantidad]`. Sale primero lo último que entró.
+Una **pila** guarda datos como una pila de platos: el último que ponés es el primero que sacás. En inglés se dice LIFO (*last in, first out*).
+
+Con un array y un contador:
+
+- **Apilar**: guardás en `datos[cantidad]` y sumás uno a la cantidad.
+- **Desapilar**: restás uno a la cantidad y sacás `datos[cantidad]`.
+
+`cantidad++` adentro de un índice usa el valor y **después** suma; `--cantidad` resta **antes** de usarlo.
 
 #### Desafío
 Completá apilar y desapilar.
@@ -4228,7 +4346,14 @@ recompensa: xp 10, oro 10
 Chispa intenta meter su vagoneta adelante de todas, sonriendo con el diente de oro. Hulda ni lo mira: —Es una **cola**, mercader. Al fondo.
 
 #### Gheco sugiere
-Al encolar con nodos: si la cola está vacía, el nuevo es el frente; si no, se engancha detrás del fondo (`fondo->siguiente = n`). En los dos casos, el nuevo pasa a ser el fondo.
+Una **cola** es como la fila de un mostrador: el primero que llega es el primero que sale (FIFO: *first in, first out*). Se guardan dos punteros: el **frente** (el próximo que sale) y el **fondo** (el último que llegó).
+
+Para encolar un nodo nuevo:
+
+- si la cola está vacía, el nuevo es el frente;
+- si no, se engancha detrás del fondo actual.
+
+En los dos casos, el nuevo pasa a ser el fondo.
 
 #### Desafío
 Completá el enganche al fondo.
@@ -4341,7 +4466,12 @@ recompensa: xp 15, oro 15
 El Archivero desconfía de los planos de Chispa: dice que nunca cierra lo que abre. Kira revisa cada plano con una pila.
 
 #### Gheco sugiere
-Con una pila de `char`: `(` y `[` se apilan; `)` exige que el tope sea `(` y `]` que sea `[`. Si no coincide o al final queda algo, no cierra.
+Una pila sirve para revisar si los paréntesis cierran bien. Recorrés el texto:
+
+- cada vez que se abre algo (`(` o `[`), lo apilás;
+- cada vez que se cierra, el tope de la pila tiene que ser **su** apertura: `)` espera `(` y `]` espera `[`. Si coincide, lo desapilás; si no, no cierra.
+
+Al final, la pila tiene que quedar vacía: si queda algo, hay una apertura sin cerrar.
 
 #### Desafío
 Completá el carácter de apertura que espera cada cierre.
@@ -4448,7 +4578,9 @@ recompensa: xp 15, oro 15
 El horno grande tiene lugar para 3 piezas esperando, en un riel que da la vuelta. Tizón no entiende cómo la pieza nueva va a parar al lugar 0 si ya pasó por ahí.
 
 #### Gheco sugiere
-En una cola circular con array, el próximo lugar es `(frente + cantidad) % MAX`: al pasarse del final, el `%` lo vuelve al principio.
+Una cola hecha con un array tiene un problema: los que salen dejan lugares vacíos al principio. La **cola circular** los vuelve a usar: cuando se llega al final del array, sigue desde el principio, como en una ronda.
+
+El `%` lo hace solo: el lugar donde entra el próximo es `(frente + cantidad) % MAX`. Si da `MAX`, el resto es 0 y vuelve al principio.
 
 #### Desafío
 Completá la posición donde entra cada pieza.
@@ -4536,7 +4668,12 @@ antes: R03-N04-M1
 El montacargas tiene lugar para tres bolsas, una encima de otra. Las traen Kira, Hulda, Chispa y Ferrum. Tizón ya aprendió la lección y no sube su almuerzo.
 
 #### Gheco sugiere
-Un struct con un array de 3 `Bolsa` y un tope. `apilar` falla si está lleno; `desapilar` saca la de arriba y falla si está vacío. La última que subió es la primera que baja.
+Una pila hecha con un struct: adentro, un array de 3 `Bolsa` y la cantidad que hay.
+
+- `apilar` pone la bolsa en el lugar `cantidad` y suma uno. Si ya hay 3, está **llena**: no apila y avisa (devuelve `false`).
+- `desapilar` saca la de arriba: resta uno y devuelve esa. Si no hay ninguna, está **vacía**: avisa.
+
+Como en una pila de platos, la última que subió es la primera que baja.
 
 #### Desafío
 Implementá una **pila con array** de hasta 3 `Bolsa` (dueño y kilos) con
@@ -4674,7 +4811,14 @@ El Archivero desconfía de los planos de Chispa: dice que abre paréntesis y lla
 —Revisalos vos —le dice a Kira—, que a mí no me cree.
 
 #### Gheco sugiere
-Una pila de `char`: cada `(`, `[` o `{` se apila. Cada cierre tiene que coincidir con el tope; si no coincide o la pila está vacía, no está balanceado. Al final de la línea, la pila tiene que quedar vacía.
+La misma idea de las llaves que cierran, ahora con tres pares: `()`, `[]` y `{}`.
+
+Recorrés la línea con una pila de `char`:
+
+- cada apertura se apila;
+- cada cierre tiene que encontrar **su** apertura en el tope. Si la pila está vacía o el tope es otra, no está balanceada.
+
+Al terminar la línea, la pila tiene que quedar vacía.
 
 #### Desafío
 El Archivero desconfía de los planos de Chispa: dice que nunca cierra lo que
@@ -4784,7 +4928,12 @@ En la boca de la mina, las vagonetas salen en el orden en que llegaron. Hulda le
 —Vos ordenás la fila. Y al final de la jornada, me decís cuántas quedaron.
 
 #### Gheco sugiere
-Una cola con punteros al `frente` y al `fondo`. `llega` engancha al fondo; `sale` saca el del frente (si está vacía, avisá). Al terminar, contá las que quedaron y liberalas una por una.
+Una cola con nodos y dos punteros: `frente` (el que sale primero) y `fondo` (el último que llegó).
+
+- `llega` engancha la vagoneta nueva detrás del fondo (si la cola estaba vacía, es también el frente).
+- `sale` saca la del frente y el frente pasa a ser la siguiente. Si la cola está vacía, avisá. Si salía la única, el fondo también queda en `NULL`.
+
+Al terminar, contá las que quedaron y liberalas una por una.
 
 #### Desafío
 Implementá una **cola con nodos** (frente y fondo) de vagonetas (número y
@@ -5273,7 +5422,19 @@ recompensa: xp 10, oro 10
 En el taller de las Minas hay un tablero de palancas. Cada palanca no hace nada sola: **señala** una máquina. Cambiando adónde señala, la misma palanca hace otra cosa.
 
 #### Gheco sugiere
-`int (*palanca)(int) = bomba;` guarda la función `bomba`. `palanca(10)` la llama. Después, `palanca = fuelle;` y la misma línea hace otra cosa.
+Una función también vive en la memoria, así que tiene dirección, y se la puede guardar en un **puntero a función**. Es como una palanca que podés conectar a una máquina u otra.
+
+```c
+int doble(int x) { return x * 2; }
+int triple(int x) { return x * 3; }
+
+int (*maquina)(int) = doble;
+printf("%d\n", maquina(5));   // 10
+maquina = triple;
+printf("%d\n", maquina(5));   // 15
+```
+
+`int (*maquina)(int)` se lee: «`maquina` es un puntero a una función que recibe un `int` y devuelve un `int`». La misma línea `maquina(5)` hace otra cosa según a qué función apunte.
 
 #### Desafío
 Hacé que la palanca señale primero a `bomba` y después a `fuelle`.
@@ -5352,7 +5513,20 @@ recompensa: xp 15, oro 15
 Chispa instaló una palanca nueva que manda **todos** los trenes a su puesto de ventas. Tizón la encontró en cinco minutos: estaba etiquetada «NO TOCAR, NO ES DE CHISPA». Kira arma un tablero honesto.
 
 #### Gheco sugiere
-Un array de punteros a función: `Destino destinos[3] = { a_la_forja, a_la_mina, al_archivo };` y se llama `destinos[opcion](tren)`.
+Escribir el tipo de un puntero a función es largo, así que se le pone nombre con `typedef`:
+
+```c
+typedef void (*Accion)(int);
+```
+
+Con eso se puede armar un **array de funciones**, una tabla de opciones:
+
+```c
+Accion menu[2] = { saludar, despedir };
+menu[1](7);   // llama a despedir(7)
+```
+
+En vez de un `switch` largo, elegís la función por su número.
 
 #### Desafío
 Completá la llamada con la tabla.
@@ -5433,7 +5607,13 @@ recompensa: xp 15, oro 15
 Tizón escribe una función para contar las cargas pesadas, otra para las livianas, otra para las pares… Kira le muestra que con **una sola** alcanza, si se le pasa la pregunta.
 
 #### Gheco sugiere
-`int contar(const int v[], int n, int (*criterio)(int))` recorre y suma 1 cada vez que `criterio(v[i])` es verdadero. Se llama `contar(cargas, 6, es_pesada)`.
+Una función puede **recibir** otra función como parámetro. Así una sola función sirve para muchas preguntas distintas:
+
+```c
+int contar(const int v[], int n, int (*criterio)(int))
+```
+
+Adentro, en cada vuelta llamás a `criterio(v[i])`: si devuelve verdadero, sumás uno. Quien la usa elige qué preguntar: `contar(v, n, es_par)` o `contar(v, n, es_grande)`, pasando el nombre de la función sin paréntesis.
 
 #### Desafío
 Completá la pregunta dentro de `contar`.
@@ -5518,7 +5698,9 @@ recompensa: xp 15, oro 15
 El autómata de bronce que ordenaba el cuadro de honor funcionaba así: vos le dabas la palanca. Ferrum quiere las cargas de **mayor a menor**, para mandar primero las pesadas.
 
 #### Gheco sugiere
-`qsort` llama a tu comparación con dos punteros. Para ordenar de **mayor a menor**, se devuelve `*y - *x` (al revés que de menor a mayor).
+`qsort` es el ejemplo más famoso de una función que recibe otra: vos le pasás la función que compara.
+
+La comparación devuelve negativo si el primero va antes. Restando `*x - *y` quedan de menor a mayor. Para dar vuelta el orden, restá al revés.
 
 #### Desafío
 Completá la comparación de mayor a menor.
@@ -5597,7 +5779,15 @@ Hulda arma en el tablero tres palancas para revisar la horda: una para los vivos
 —La misma función de filtrar. Lo que cambia es la palanca que le pasás.
 
 #### Gheco sugiere
-`typedef bool (*Condicion)(const Enemigo *);` Cada condición recibe un enemigo y devuelve `true` o `false`. `filtrar` recorre la horda, llama a `cumple(&v[i])` y guarda en `salida` los punteros de los que cumplen.
+Con `typedef` le ponés nombre al tipo de las condiciones:
+
+```c
+typedef bool (*Condicion)(const Enemigo *);
+```
+
+Cada condición recibe un enemigo y contesta `true` o `false` (vivo, peligroso, herido).
+
+`filtrar` recibe la horda y una condición. Recorre, llama a `cumple(&v[i])` y, si da `true`, guarda el puntero a ese enemigo en `salida`. Devuelve cuántos guardó.
 
 #### Desafío
 1. Con un array de `Enemigo` (nombre, vida, ataque), escribí condiciones `esta_vivo`, `es_peligroso` (ataque 10 o más) y `esta_herido` (vivo con menos de 20 de vida), todas con la forma `bool (*)(const Enemigo *)`.
@@ -5703,7 +5893,15 @@ En lo más hondo de la mina, Hulda le muestra a Kira sus tres conjuros de minera
 —Si no te alcanza el maná, no se tira. Y si me decís uno que no existe, te miro mal.
 
 #### Gheco sugiere
-Una tabla de structs con la orden, el costo y un puntero a la función. Para cada orden, buscala en la tabla: si no está, avisá; si el maná no alcanza, avisá; si no, restá el costo y llamá a la función.
+Una **tabla de despacho**: un array de structs donde cada fila tiene la orden (un texto), el costo y un puntero a la función que la hace.
+
+Para cada orden que leés:
+
+1. Buscala en la tabla comparando con `strcmp`. Si no está, avisá.
+2. Si el maná no alcanza para el costo, avisá.
+3. Si alcanza, restá el costo y llamá a la función de esa fila.
+
+Mostrá vida y maná después de cada orden.
 
 #### Desafío
 Hulda (vida 40, maná 20) lee órdenes, una por línea: `fuego` (cuesta 10), `curar` (cuesta 5, +15 de vida) y `meditar` (gratis, +8 de maná). Guardá los hechizos en una **tabla** de structs con la orden, el costo y la función. Para cada orden: si no existe, avisá; si no alcanza el maná, avisá; si no, ejecutá la función. Mostrá vida y maná después de cada orden.
@@ -5833,7 +6031,15 @@ Ferrum quiere ver la armería ordenada de tres formas distintas, según el día:
 —Una sola palanca que elija cómo ordenar.
 
 #### Gheco sugiere
-Tres comparadores con la firma de `qsort` y un array `int (*criterios[])(const void *, const void *)`. Para comparar `double` sin restar: `(a > b) - (a < b)`. Cada número leído elige el comparador.
+Tres funciones de comparación con la forma que pide `qsort`, guardadas en un array:
+
+```c
+int (*criterios[3])(const void *, const void *) = { ... };
+```
+
+Cada número que se lee (1, 2 o 3) elige cuál usar: `criterios[n - 1]`.
+
+Cuidado con los `double`: restarlos no sirve, porque la diferencia puede ser 0,4 y al pasar a `int` da 0. Este truco devuelve -1, 0 o 1: `(a > b) - (a < b)`.
 
 #### Desafío
 Con un array de armas (nombre, daño, peso), escribí tres comparadores para `qsort`: por nombre, por daño de mayor a menor y por peso de menor a mayor (sin restar `double`). Guardalos en un **array de punteros a función** y, por cada número que se lea (1, 2 o 3), ordená con el comparador elegido y mostrá el resultado.
@@ -6193,7 +6399,12 @@ En lo más hondo, algo enorme y blando se arrastra entre los túneles: la **Sang
 Chispa silba mirando para otro lado.
 
 #### Gheco sugiere
-Se envuelven `malloc` y `free` en funciones que cuentan: `pedir()` suma 1 y `devolver()` resta 1. Si al final queda algo, hay fuga.
+Para encontrar fugas de memoria, una idea simple: envolver `malloc` y `free` en tus propias funciones que llevan la cuenta.
+
+- `pedir()` hace el `malloc` y, si salió bien, suma uno a un contador.
+- `devolver()` hace el `free` y resta uno.
+
+Usá un contador `static` afuera de las funciones. Si al final no da 0, algo se pidió y no se devolvió.
 
 #### Desafío
 Completá las dos cuentas.
@@ -6301,7 +6512,13 @@ recompensa: xp 15, oro 15
 La Sanguijuela se enrosca en un tren abandonado de cinco vagones. Para dejarla sin comida, hay que liberar los cinco… sin leer ningún vagón ya liberado.
 
 #### Gheco sugiere
-En el bucle: `Vagon *sig = p->siguiente;` **antes** de `free(p)`, y después `p = sig;`.
+Para liberar una lista entera hay una trampa: después de `free(p)` ya no podés leer `p->siguiente`, porque ese nodo ya no es tuyo. Entonces, en cada vuelta:
+
+1. guardá primero el siguiente en otra variable;
+2. liberá el nodo actual;
+3. pasá al que guardaste.
+
+Como cruzar un río saltando piedras: mirás la próxima antes de soltar la que pisás.
 
 #### Desafío
 Completá la liberación segura.
@@ -6401,7 +6618,9 @@ recompensa: xp 15, oro 15
 Hulda le da a Kira una lámpara que brilla distinto, y con esa luz se ve el truco: cada minero tiene un **nombre** pedido aparte. Liberar la ficha sin liberar el nombre deja comida para la Sanguijuela.
 
 #### Gheco sugiere
-Si un struct pedido con `malloc` tiene adentro otro bloque pedido (el nombre), primero se libera el de **adentro** (`free(m->nombre)`) y después el de afuera (`free(m)`).
+Si un bloque pedido con `malloc` tiene adentro un puntero a **otro** bloque pedido (como un struct con su nombre en memoria propia), hay que liberar los dos, y en orden: primero el de **adentro** y después el de afuera.
+
+Si liberás primero el de afuera, ya no podés leer el puntero de adentro, y ese bloque queda perdido para siempre.
 
 #### Desafío
 Completá los dos `free` en el orden correcto.
@@ -6526,7 +6745,9 @@ item: Lámpara del Minero
 Última pelea. La Sanguijuela tiene en la panza las vagonetas de toda la temporada. Kira arma una cola de vagonetas, las saca una por una por la boca de la mina, y las devuelve todas. Si al final la tablilla da cero, la Sanguijuela no tiene de qué vivir.
 
 #### Gheco sugiere
-Encolar pide (`malloc`, suma 1), desencolar devuelve (`free`, resta 1). Al terminar, se desencola todo y la cuenta tiene que dar 0.
+Cada nodo que se encola hace un `malloc` (y suma uno a la cuenta de prestadas). Cada nodo que se desencola tiene que hacer su `free` (y restar uno).
+
+Para desencolar: guardás el del frente, el frente pasa al siguiente, y liberás el que guardaste. Al terminar de desencolar todo, la cuenta tiene que dar 0.
 
 #### Desafío
 Completá el desencolado y la cuenta.
@@ -6672,7 +6893,13 @@ La Sanguijuela se acerca y Hulda quiere el registro de la horda al día: quién 
 —Y cada nombre que se anote con memoria propia, se devuelve. Si no, la Sanguijuela se lo come.
 
 #### Gheco sugiere
-Cada nombre va con `malloc(strlen(nombre) + 1)` y su `free` cuando el enemigo cae. Mostrá cada orden con `> ` antes de procesarla. Validá los datos y no repitas nombres.
+Este programa junta casi toda la rama. Algunas pistas:
+
+- Cada nombre va en memoria propia: `malloc(strlen(nombre) + 1)` y `strcpy`. Cuando un enemigo cae, `free` de su nombre.
+- El registro es un array dinámico que crece con `realloc`.
+- Antes de procesar cada orden, mostrala con `> ` adelante.
+- Validá los datos y no repitas nombres (buscá antes de agregar).
+- Al final, liberá todo: cada nombre y después el array.
 
 #### Desafío
 Escribí un registro de enemigos que lee órdenes, una por línea, hasta que se termine la entrada (mostrá cada orden con `> ` antes de procesarla):
@@ -6927,7 +7154,15 @@ Tizón trae un programa que cava tres túneles. Parece que anda, pero la Sanguij
 —En tu compu, la lámpara del sanitizador los muestra. Acá, arreglalos igual.
 
 #### Gheco sugiere
-Buscá tres cosas: algo que se usa después de `free`, algo que se escribe fuera del bloque pedido y algo que se pide y nunca se libera. En tu compu, `gcc -g -fsanitize=address` te marca la línea de cada uno. Agregá los controles de `NULL`. Al final, «Bloques sin devolver» tiene que dar 0.
+El programa tiene tres errores de memoria clásicos. Buscá:
+
+- **Pedir de menos**: un bloque para un texto que no deja lugar para el tapón `'\0'`.
+- **Usar después de liberar**: leer algo de un bloque al que ya se le hizo `free`.
+- **Pedir y no devolver**: un bloque que nunca se libera (una fuga).
+
+Agregá también los controles de `NULL` después de cada pedido. Al final, «Bloques sin devolver» tiene que dar 0.
+
+En tu compu, compilar con `gcc -g -fsanitize=address` hace que el programa avise la línea de cada error.
 
 #### Desafío
 El programa del código inicial cava tres túneles y los recorre. Parece que funciona… pero la Sanguijuela lo mordió: tiene **tres errores de memoria**.

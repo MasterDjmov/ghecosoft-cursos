@@ -263,7 +263,19 @@ recompensa: xp 10, oro 10
 Pasando la roca de la Sirena empieza el **Astillero**: moldes de madera colgados de las paredes, uno para cada tipo de barco. Con el molde del bote, los carpinteros arman muchos botes iguales. A Nilo le dan uno para que lo bautice.
 
 #### Gheco sugiere
-`new Bote()` crea un bote nuevo con el molde. Sus datos se escriben y se leen con la flecha: `$b->nombre`.
+Una **clase** es un molde para fabricar cosas parecidas: todos los botes tienen nombre y carga, pero cada uno tiene los suyos. Cada cosa fabricada con el molde es un **objeto**.
+
+```php
+class Perro {
+    public string $nombre = '';
+}
+
+$p = new Perro();
+$p->nombre = 'Toby';
+echo $p->nombre;
+```
+
+`new Perro()` fabrica un objeto nuevo. Sus datos (las **propiedades**) se escriben y se leen con la flecha `->`.
 
 #### Desafío
 Creá dos botes con el molde y ponele nombre y color a cada uno.
@@ -333,7 +345,17 @@ recompensa: xp 10, oro 10
 Un bote salió del astillero sin nombre: alguien se olvidó de ponérselo después de crearlo. Un **troll** se escondió en el hueco del nombre. —Que nazca con su nombre —dice Gheco—, no que se lo pongan después.
 
 #### Gheco sugiere
-Con `__construct(public string $nombre, public int $carga)` el bote **recibe** sus datos al crearse: `new Bote('Gaviota', 120)`. Así nunca nace vacío.
+Un **constructor** es un método especial, `__construct`, que corre solo cuando se crea un objeto con `new`. Sirve para que el objeto nazca con sus datos:
+
+```php
+class Perro {
+    public function __construct(public string $nombre, public int $edad) {}
+}
+
+$p = new Perro('Toby', 4);
+```
+
+Con `public` adelante de cada parámetro, PHP crea la propiedad y la guarda en un solo paso (se llaman **propiedades promovidas**). Así el objeto nunca nace vacío.
 
 #### Desafío
 Escribí el constructor con promoción de propiedades y creá los botes con sus datos.
@@ -397,7 +419,15 @@ recompensa: xp 15, oro 15
 Iara anota la carga de cada bote a mano, y se equivoca de bote. —Que el bote sepa cargarse solo —le dice Nilo, orgulloso de haber entendido algo—. —¿Lo anotaste? —contesta Iara.
 
 #### Gheco sugiere
-Un método es una función adentro de la clase. Con `$this->carga` el bote cambia **su** carga, no la de otro.
+Un **método** es una función adentro de la clase: algo que el objeto sabe hacer.
+
+Adentro del método, `$this` quiere decir «este objeto»: `$this->carga` es la carga de **este** bote, no la de otro.
+
+```php
+public function cargar(int $kilos): void {
+    $this->carga += $kilos;
+}
+```
 
 #### Desafío
 Escribí el método `cargar` y usalo para cargar los dos botes.
@@ -475,7 +505,15 @@ recompensa: xp 10, oro 10
 Cada vez que alguien pregunta por un bote, Nilo arma el texto a mano, y cada vez lo arma distinto. Gheco le muestra que el bote mismo puede saber presentarse.
 
 #### Gheco sugiere
-Con `__toString()` el objeto devuelve su texto, y `echo $bote` lo usa solo.
+Con un método especial `__toString()`, el objeto sabe convertirse en texto. Así `echo $bote` lo usa solo:
+
+```php
+public function __toString(): string {
+    return "Bote {$this->nombre}";
+}
+```
+
+Las llaves `{ }` dentro del texto ayudan a PHP a saber dónde termina la variable.
 
 #### Desafío
 Escribí `__toString` para que `echo $bote` muestre «Gaviota (120 kg)».
@@ -545,7 +583,9 @@ En el Astillero no solo se hacen botes: también cajones para la carga, todos co
 —Y que se presente solo cuando lo muestres —agrega—. Nada de armar el texto a mano cada vez.
 
 #### Gheco sugiere
-Con propiedades promovidas, el constructor declara y guarda en una sola línea: `public function __construct(public string $contenido, ...)`. `__toString()` define cómo se muestra el objeto con `echo`.
+Con propiedades promovidas, el constructor declara y guarda en una sola línea: `public function __construct(public string $contenido, ...)`.
+
+`__toString()` define cómo se muestra el objeto con `echo`.
 
 #### Desafío
 Escribí la clase `Cajon` con:
@@ -653,7 +693,11 @@ El almacén del Astillero les fía a los carpinteros, y el almacenero anota las 
 —Una cuenta para cada uno —dice Iara—. Con su límite: si se pasa, no le fían.
 
 #### Gheco sugiere
-La clase guarda el titular, el saldo y el límite. `comprar` resta del saldo solo si no pasa el límite (y devuelve `true` o `false`); `pagar` suma. `estado()` arma el texto según el saldo.
+La clase guarda el titular, el saldo y el límite.
+
+- `comprar` resta del saldo solo si no se pasa del límite, y devuelve `true` o `false` para avisar si pudo;
+- `pagar` suma;
+- `estado()` arma el texto según el saldo (con un `if`).
 
 #### Desafío
 El almacén del puerto les fía a los marineros. Escribí la clase `CuentaCorriente`
@@ -1256,7 +1300,9 @@ recompensa: xp 10, oro 10
 En el Astillero hay un barco con un cartel en el timón: *«Solo el capitán»*. Una noche, **Pico** se posó en el timón, lo giró con las patas y el barco terminó encallado. Nilo jura que Pico no lo hizo a propósito.
 
 #### Gheco sugiere
-Si el rumbo es `private`, nadie lo cambia desde afuera. El método `girar()` lo cambia, pero solo si el ángulo está entre 0 y 359.
+Hasta ahora, cualquiera podía cambiar las propiedades desde afuera, y poner un rumbo de 500 grados. Con `private`, una propiedad solo se puede tocar desde **adentro** de su clase.
+
+Desde afuera hay que usar los métodos públicos, que cuidan las reglas: `girar()` cambia el rumbo, pero solo si el ángulo está entre 0 y 359. Esa idea se llama **encapsulamiento**.
 
 #### Desafío
 Hacé privado el rumbo y que `girar` rechace los ángulos imposibles.
@@ -1342,7 +1388,9 @@ recompensa: xp 15, oro 15
 Del Astillero salió un barco con calado negativo. Nadie se dio cuenta hasta que intentó amarrar y un **ogro** se rió del agujero en el muelle.
 
 #### Gheco sugiere
-Si el constructor revisa el dato y lanza una excepción cuando no tiene sentido, el objeto **nunca existe** inválido. Para probarlo, el intento va dentro de `try { … } catch (InvalidArgumentException $e) { … }`.
+Si el constructor revisa el dato y lanza un error cuando no tiene sentido, el objeto **nunca existe** inválido.
+
+Lanzar un error se llama **lanzar una excepción**: `throw new InvalidArgumentException("mensaje");`. Para probarlo sin que se corte el programa, el intento va adentro de `try { … } catch (InvalidArgumentException $e) { … }`: si salta el error, PHP va al `catch` y sigue.
 
 #### Desafío
 Validá el calado en el constructor: tiene que ser mayor que 0.
@@ -1413,7 +1461,7 @@ recompensa: xp 10, oro 10
 La matrícula de un barco se graba una vez y no se cambia nunca. Pero en el programa de Nilo, cualquiera la puede pisar. Elefa sella la matrícula con su bastón: —Lo que se graba, queda.
 
 #### Gheco sugiere
-Con `readonly`, la propiedad se asigna en el constructor y después no se puede cambiar: intentarlo da un `Error` que se puede atrapar.
+Con `readonly`, la propiedad se asigna una sola vez, en el constructor, y después no se puede cambiar. Intentarlo da un `Error`, que se puede atrapar con `try` / `catch`.
 
 #### Desafío
 Marcá la matrícula como `readonly` para que el intento de cambiarla falle.
@@ -1486,7 +1534,13 @@ recompensa: xp 15, oro 15
 Iara y Nilo comparten el mismo objeto `Precio` para dos presupuestos. Nilo le suma un recargo al suyo… y el de Iara también cambia. —¿Quién tocó mi precio? —pregunta Iara, con el lápiz en alto.
 
 #### Gheco sugiere
-Si `Precio` es `readonly`, no se puede cambiar: `conRecargo()` devuelve un **precio nuevo** y el viejo queda igual.
+Si `Precio` es `readonly`, no se puede cambiar. Entonces, para «cambiarlo», el método **devuelve un precio nuevo** con el valor nuevo, y el viejo queda igual:
+
+```php
+public function conRecargo(float $p): Precio {
+    return new Precio($this->monto * (1 + $p));
+}
+```
 
 #### Desafío
 Hacé que `conRecargo` devuelva un precio nuevo en lugar de cambiar el que hay.
@@ -1563,7 +1617,11 @@ En el barco del timón, cualquiera que pasa le pega un manotazo a la rueda y el 
 —El rumbo no se toca de afuera —dice Elefa—. Se gira con la palanca, y la palanca sabe dar la vuelta.
 
 #### Gheco sugiere
-La propiedad `private` no se puede cambiar desde afuera: solo con los métodos. Para dar la vuelta, `($rumbo + $grados) % 360` y, si queda negativo, sumale 360. `puntoCardinal()` decide con rangos.
+La propiedad `private` solo se cambia con los métodos.
+
+Para que el rumbo dé la vuelta, `($rumbo + $grados) % 360`. Si queda negativo (girando a la izquierda), sumale 360.
+
+`puntoCardinal()` decide con rangos de grados (`if` / `elseif`).
 
 #### Desafío
 Escribí la clase `Timon` con el rumbo en grados (0 a 359) como propiedad
@@ -1674,7 +1732,9 @@ Pico le cambió el destino a un pasaje con una pluma mojada en tinta. Iara está
 —Los pasajes no se cambian. Si querés otro destino, sale un pasaje **nuevo**. Y el código tiene que tener el formato correcto, o no se emite.
 
 #### Gheco sugiere
-Una clase `readonly` no deja cambiar nada después de creada. Los métodos que «cambian» algo devuelven `new static(...)` con el dato nuevo. `preg_match('/^[A-Z]-\d{3}$/', $codigo)` valida el formato.
+Una clase `readonly` no deja cambiar nada después de creada. Los métodos que «cambian» algo devuelven un objeto nuevo con el dato nuevo: `new static(...)`.
+
+Para validar el formato del código, una **expresión regular**: `preg_match('/^[A-Z]-\d{3}$/', $codigo)` da 1 si es una letra mayúscula, un guion y tres dígitos.
 
 #### Desafío
 Escribí una clase `readonly` `Pasaje` con código, pasajero, destino y precio (en
@@ -1787,7 +1847,9 @@ La bodega del barco se maneja con un inventario que cualquiera podía tocar. Aho
 —No se ingresan cantidades negativas y no se retira lo que no hay. Y si alguien lo intenta, que el error diga cuánto queda.
 
 #### Gheco sugiere
-El array de stock es `private`. `ingresar` y `retirar` revisan antes de cambiarlo y, si algo está mal, `throw new InvalidArgumentException("...")`. Atrapalo con `try`/`catch` y mostrá `$e->getMessage()`.
+El array de stock es `private`. `ingresar` y `retirar` revisan antes de cambiarlo y, si algo está mal, lanzan `throw new InvalidArgumentException("...")`.
+
+Quien los llama atrapa el error con `try` / `catch` y muestra el motivo con `$e->getMessage()`.
 
 #### Desafío
 Escribí la clase `Inventario` con un array **privado** `producto => cantidad`.
@@ -2246,7 +2308,15 @@ recompensa: xp 10, oro 10
 Para no olvidarse del calado máximo del puerto, Nilo lo escribió con tiza en la proa de cada barco, y en tres puso un número distinto. Iara los borra uno por uno. El dato es del **molde**, no de cada barco.
 
 #### Gheco sugiere
-Una constante de clase se escribe una vez: `const CALADO_MAXIMO = 12;`. Adentro de la clase se usa como `self::CALADO_MAXIMO`.
+Una **constante de clase** guarda un valor fijo que pertenece a la clase:
+
+```php
+class Barco {
+    const CALADO_MAXIMO = 12;
+}
+```
+
+Adentro de la clase se usa como `self::CALADO_MAXIMO` (`self` es «esta clase»), y afuera como `Barco::CALADO_MAXIMO`.
 
 #### Desafío
 Reemplazá los números sueltos por la constante de la clase.
@@ -2321,7 +2391,13 @@ recompensa: xp 15, oro 15
 La pizarra de la puerta dice cuántos barcos se botaron este año. Nilo puso el contador adentro de cada barco, y cada barco dice «1».
 
 #### Gheco sugiere
-Un contador que es de **todos** los barcos va `static`: `private static int $botados = 0;` y en el constructor `self::$botados++`.
+Una propiedad `static` es de la **clase**, no de cada objeto: hay una sola, compartida por todos. Sirve para contar cuántos se crearon:
+
+```php
+private static int $botados = 0;
+```
+
+En el constructor, `self::$botados++` suma uno al contador común (fijate que lleva `$`).
 
 #### Desafío
 Hacé que el contador sea de la clase y que cuente todos los barcos botados.
@@ -2400,7 +2476,15 @@ recompensa: xp 15, oro 15
 Para pedir un velero hay que acordarse de pasarle «velero» y 2 mástiles; para un remolcador, «remolcador» y 0. Nilo pidió un velero con 0 mástiles, que todavía está en la grada sin saber cómo moverse.
 
 #### Gheco sugiere
-Un método `static` que crea el objeto con los datos correctos: `Barco::velero('Brisa')`. El nombre del método dice qué se fabrica.
+Un método `static` se usa sin crear un objeto, con `Clase::metodo()`. Uno muy común es una **fábrica**: un método que crea el objeto con los datos correctos.
+
+```php
+public static function velero(string $nombre): self {
+    return new self($nombre, 'velas');
+}
+```
+
+`Barco::velero('Brisa')`: el nombre del método dice qué se fabrica.
 
 #### Desafío
 Escribí las fábricas `velero` y `remolcador`.
@@ -2475,7 +2559,9 @@ En la boletería del ferry se repiten los números de boleto: dos pasajeros con 
 —Que cada boleto nuevo tenga el número siguiente —dice Iara—. Uno solo para todos: la boletería entera lleva la cuenta.
 
 #### Gheco sugiere
-Una propiedad `static` es de la clase, no de cada objeto: todos los boletos comparten el contador. `sprintf('B-%04d', ...)` arma el número. Las constantes de clase (`self::PRECIO_BASE`) guardan los precios.
+Una propiedad `static` es de la clase: todos los boletos comparten el mismo contador, y cada uno nuevo toma el número siguiente.
+
+`sprintf('B-%04d', $n)` arma un texto con formato: `%04d` completa con ceros hasta 4 cifras (`B-0007`). Las constantes de clase (`self::PRECIO_BASE`) guardan los precios.
 
 #### Desafío
 La boletería del ferry numera los boletos sin repetir. Escribí la clase `Boleto`
@@ -2581,7 +2667,13 @@ Los barcos anotan la temperatura del agua cada uno a su manera: unos en Celsius,
 —Tres maneras de crearla —dice Iara— y una sola de guardarla.
 
 #### Gheco sugiere
-Con el constructor `private`, la única forma de crear el objeto es con métodos estáticos que convierten antes: `public static function fahrenheit(float $f): self { return new self(($f - 32) * 5 / 9); }`.
+Con el constructor `private`, nadie puede hacer `new` desde afuera. La única forma de crear el objeto es con métodos `static` que convierten antes:
+
+```php
+public static function fahrenheit(float $f): self {
+    return new self(($f - 32) * 5 / 9);
+}
+```
 
 #### Desafío
 Los barcos que llegan anotan la temperatura del agua en distintas escalas.
@@ -2697,7 +2789,9 @@ El cambista se mudó al Astillero y trajo su conversor. Iara quiere que sea una 
 —`Cambio::convertir` y listo. Nada de `new`.
 
 #### Gheco sugiere
-Métodos `static` se usan con `Clase::metodo()`. Con el constructor `private`, nadie puede hacer `new Cambio()`. Las cotizaciones van en una constante `private const`, y `ksort` o `sort` ordenan la lista de monedas.
+Los métodos `static` se usan con `Clase::metodo()`, sin crear un objeto. Con el constructor `private`, nadie puede hacer `new Cambio()`: la clase es solo una caja de herramientas.
+
+Las cotizaciones van en una constante `private const`, y `ksort` o `sort` ordenan la lista de monedas.
 
 #### Desafío
 Convertí el conversor del cambista (R01-N08) en una clase de **utilidades** con
@@ -3163,7 +3257,15 @@ recompensa: xp 10, oro 10
 En el fondo del Astillero hay un árbol genealógico pintado en la pared: arriba la **Embarcación**, y de ella salen el **Velero** y el **Remolcador**. Nilo copió en el velero todo lo de la embarcación, y en la copia se olvidó el método que presenta al barco.
 
 #### Gheco sugiere
-Con `class Velero extends Embarcacion` el velero hereda todo de la embarcación, incluida `presentar()`. Solo agrega lo suyo: las velas.
+La **herencia** permite crear una clase a partir de otra: la hija recibe todo lo del padre y le suma lo suyo.
+
+```php
+class Velero extends Embarcacion {
+    public int $velas = 2;
+}
+```
+
+`extends` quiere decir «hereda de». El velero ya tiene todo lo de la embarcación (incluido `presentar()`) sin escribirlo de nuevo, y agrega sus velas.
 
 #### Desafío
 Hacé que `Velero` herede de `Embarcacion`.
@@ -3242,7 +3344,10 @@ recompensa: xp 15, oro 15
 El Remolcador tiene un constructor propio, para su cuerda de arrastre, y se olvidó de llamar al del padre: el remolcador salió sin nombre.
 
 #### Gheco sugiere
-Dentro del constructor del hijo, `parent::__construct($nombre);` le pasa el nombre al padre. Y `parent::presentar()` reusa lo que el padre ya sabe decir.
+`parent::` llama a lo del padre:
+
+- en el constructor del hijo, `parent::__construct($nombre);` le pasa el nombre al constructor del padre, para que arme su parte;
+- `parent::presentar()` reusa lo que el padre ya sabe decir, y el hijo le agrega lo suyo.
 
 #### Desafío
 Llamá al constructor del padre y reusá su `presentar()`.
@@ -3340,7 +3445,9 @@ recompensa: xp 10, oro 10
 Nilo hizo que `Capitan` herede de `Barco` «para tener el nombre del barco a mano». Ahora el capitán tiene calado y se puede amarrar. Iara lo mira con la ceja levantada.
 
 #### Gheco sugiere
-Un capitán no **es** un barco: el barco **tiene** un capitán. Sacá el `extends` y guardá el capitán como una propiedad del barco.
+La herencia es para «**es un**»: un velero **es una** embarcación. Pero un capitán no **es** un barco: el barco **tiene** un capitán.
+
+Cuando algo **tiene** otra cosa, no se hereda: se guarda como una propiedad. Sacá el `extends` y guardá el capitán adentro del barco.
 
 #### Desafío
 Rearmá las clases: el barco tiene un capitán.
@@ -3416,7 +3523,9 @@ recompensa: xp 15, oro 15
 Un aprendiz creó un `BarcoGratis` que hereda de `Tarifa` y redefine el precio a cero. Elefa se enteró. —Hay cosas que no se heredan para cambiarlas —dice, y golpea el piso con el bastón.
 
 #### Gheco sugiere
-Marcá el método `precio()` como `final` para que ninguna hija lo pueda redefinir, y sacá la clase que lo pisa.
+`final` adelante de un método prohíbe que una hija lo redefina: su forma de calcular queda fija para todas.
+
+Marcá `precio()` como `final` y sacá la clase que lo pisa.
 
 #### Desafío
 Protegé el cálculo de la tarifa con `final` y usá la tarifa de verdad.
@@ -3487,7 +3596,9 @@ Elefa le pide a Nilo los recibos de sueldo del Puerto: empleados comunes, estiba
 —Que el recibo sea parecido para todos —dice— y que cada uno agregue lo suyo, sin copiar lo del padre.
 
 #### Gheco sugiere
-Las hijas extienden a `Empleado` y llaman a `parent::__construct(...)`. Para cambiar el cálculo, sobreescriben `sueldo()` y pueden usar `parent::sueldo()` como base.
+Las hijas extienden a `Empleado` y llaman a `parent::__construct(...)` para armar lo común.
+
+Para cambiar el cálculo, cada hija **sobreescribe** `sueldo()`: escribe su propia versión con el mismo nombre. Puede usar `parent::sueldo()` como base y sumarle lo suyo.
 
 #### Desafío
 El Puerto paga sueldos a tres tipos de empleados. Escribí la clase `Empleado`
@@ -3610,7 +3721,11 @@ Un aprendiz armó un programa de herencia y no anda: uno de los errores ni deja 
 —Tres errores —dice Elefa—. Arreglalos y dejá una nota en cada uno, para que el aprendiz aprenda.
 
 #### Gheco sugiere
-Leé el mensaje: `Fatal error` con la línea. Fijate en `extends`, en que la hija llame a `parent::__construct()` y en que la propiedad del padre sea `protected` (si es `private`, la hija no la ve).
+Leé el mensaje: `Fatal error` con la línea. Fijate en tres cosas:
+
+- que la hija tenga `extends`;
+- que llame a `parent::__construct()`;
+- que la propiedad del padre sea `protected`: con `private`, la hija no la ve. `protected` quiere decir «la ven la clase y sus hijas».
 
 #### Desafío
 Este programa tiene **tres** errores de herencia: uno no deja ni cargar el
@@ -3714,7 +3829,12 @@ El banco del puerto tiene dos cuentas especiales: una caja de ahorro que deja sa
 —Las dos son cuentas —dice Elefa—. Pero cada una con su regla.
 
 #### Gheco sugiere
-Las hijas sobreescriben `extraer`: la caja de ahorro cuenta las extracciones del mes y la corriente permite saldo negativo hasta el descubierto. Usá `parent::` para no repetir lo común.
+Las hijas sobreescriben `extraer` con sus reglas:
+
+- la caja de ahorro cuenta las extracciones del mes y no deja pasar el límite;
+- la cuenta corriente permite saldo negativo hasta el descubierto.
+
+Lo común (restar del saldo) está en el padre: usá `parent::extraer(...)` para no repetirlo.
 
 #### Desafío
 El banco del puerto tiene una clase `Cuenta` con titular y saldo (`protected`), y
@@ -4246,7 +4366,13 @@ recompensa: xp 10, oro 10
 El capataz del Astillero le dice a cada carpintero lo mismo: *«Terminá tu pieza»*. Cada uno sabe cómo se termina la suya. Nilo corre entre los talleres llevando la orden, y por primera vez no tiene que explicar nada.
 
 #### Gheco sugiere
-Una clase `abstract` declara el método sin escribirlo; cada hija lo escribe. Faltan la `Vela` y el `Ancla`.
+Una clase `abstract` es un molde a medias: no se puede usar sola (no se puede hacer `new`), solo sirve de padre. Puede declarar métodos `abstract`, sin código:
+
+```php
+abstract public function pieza(): string;
+```
+
+Cada hija **tiene** que escribirlos. Faltan la `Vela` y el `Ancla`.
 
 #### Desafío
 Escribí las clases hijas para que cada pieza se termine a su manera.
@@ -4340,7 +4466,9 @@ recompensa: xp 15, oro 15
 La función de Nilo para calcular la tarifa de amarre tiene un `if` por cada tipo de barco. Llegó un tipo nuevo, la balsa, y como nadie agregó su `if`, pagó cero. Un **ogro** se ríe desde la balsa.
 
 #### Gheco sugiere
-Que cada barco sepa su propia tarifa: un método `amarre()` en cada clase. Así la función solo pregunta `$b->amarre()`.
+En vez de preguntar el tipo de cada barco con `if` y calcular afuera, que cada barco **sepa** su propia tarifa: un método `amarre()` en cada clase.
+
+Así la función solo pregunta `$b->amarre()`, y cada barco contesta a su manera. Eso es el **polimorfismo**.
 
 #### Desafío
 Reemplazá el `if` por tipo por un método en cada clase, y agregá la `Balsa` (paga 5).
@@ -4445,7 +4573,9 @@ recompensa: xp 15, oro 15
 Todos los barcos se botan igual: se revisan, se pintan y se echan al agua. Solo la pintura cambia. Nilo escribió los tres pasos en cada clase y en una se olvidó de revisar. Iara encuentra el barco sin revisar flotando torcido.
 
 #### Gheco sugiere
-El padre tiene `botar()` con los tres pasos en orden y un paso abstracto, `pintar()`, que cada hija completa.
+Un **método plantilla**: el padre escribe los pasos en orden, y deja uno sin hacer (abstracto) para que cada hija lo complete.
+
+Acá, `botar()` hace los tres pasos y llama a `pintar()`, que es abstracto: cada barco lo pinta a su manera.
 
 #### Desafío
 Escribí `botar()` en la clase padre y dejá a las hijas solo con su pintura.
@@ -4542,7 +4672,9 @@ El velero necesita velas nuevas de distintas formas y el capataz no sabe cuánta
 —Cada vela calcula su área y su perímetro —dice Iara—, pero la ficha la arma una sola vez el molde de arriba.
 
 #### Gheco sugiere
-Una clase `abstract` no se puede crear: sus métodos `abstract` los implementan las hijas. `ficha()` está en el padre y llama a `$this->area()`: cada hija responde con lo suyo. `static::class` da el nombre de la clase.
+Los métodos `abstract` los escriben las hijas. `ficha()` está en el padre y llama a `$this->area()`: cada hija responde con su propia cuenta.
+
+`static::class` da el nombre de la clase del objeto real (`Circulo`, `Rectangulo`…).
 
 #### Desafío
 El velero tiene velas de distintas formas y el velero necesita saber cuánta lona
@@ -4676,7 +4808,9 @@ La tienda del Astillero acepta efectivo, tarjeta y transferencia, y cada medio t
 —El cobro es siempre igual —dice Iara—. Lo único que cambia es el recargo.
 
 #### Gheco sugiere
-Un **método plantilla**: `cobrar()` está en la clase abstracta y llama a `recargo()`, que cada hija implementa. Si el recargo da negativo, es un descuento: mostralo con `abs()`.
+Otro **método plantilla**: `cobrar()` está en la clase abstracta y llama a `recargo()`, que cada medio de pago escribe.
+
+Si el recargo da negativo, en realidad es un descuento: mostralo sin signo con `abs()`.
 
 #### Desafío
 La tienda del puerto acepta varios medios de pago. Escribí la clase abstracta
@@ -4817,7 +4951,9 @@ La tarifa de amarre se calcula con un `match` que crece cada vez que llega un ba
 —Que cada barco sepa su tarifa —dice Iara—. Y la misma salida de antes, exactamente.
 
 #### Gheco sugiere
-Una clase abstracta `Barco` con `tarifa()` abstracta y una hija por tipo. El programa principal solo llama a `$barco->tarifa()`: sin `match` ni `if` sobre el tipo. Compará la salida renglón por renglón.
+Una clase abstracta `Barco` con `tarifa()` abstracta, y una hija por cada tipo con su cuenta.
+
+El programa principal solo llama a `$barco->tarifa()`: sin `match` ni `if` sobre el tipo. Compará la salida con la de antes, renglón por renglón: tiene que dar igual.
 
 #### Desafío
 Este programa calcula la tarifa de amarre con un `match` por tipo de barco, y cada
@@ -5339,7 +5475,19 @@ recompensa: xp 10, oro 10
 En la aduana del Astillero hay un cartel: *«Todo lo que se cargue en un barco tiene que tener peso»*. Un cajón de fruta y un pasajero no se parecen en nada, pero los dos tienen que poder decir cuánto pesan.
 
 #### Gheco sugiere
-Una interfaz es un contrato: `interface ConPeso { public function peso(): float; }`. Cada clase que la firma con `implements` tiene que escribir `peso()`.
+Una **interfaz** es un contrato: dice qué métodos tiene que tener una clase, sin decir cómo.
+
+```php
+interface ConPeso {
+    public function peso(): float;
+}
+
+class Cajon implements ConPeso {
+    public function peso(): float { return 20; }
+}
+```
+
+Cada clase que la firma con `implements` **tiene** que escribir esos métodos. Cosas muy distintas pueden firmar el mismo contrato.
 
 #### Desafío
 Hacé que `Cajon` y `Pasajero` firmen el contrato `ConPeso`.
@@ -5450,7 +5598,9 @@ recompensa: xp 15, oro 15
 Para asegurar algo, la aduana pide que tenga **valor**. Un cuadro tiene peso y valor; Pico, que intenta subir a un barco, no tiene ninguno de los dos. El programa de Nilo intenta asegurar a Pico y salta un **esqueleto**: el método que no existe.
 
 #### Gheco sugiere
-`Cuadro` firma los dos contratos: `implements ConPeso, ConValor`. La función `asegurar` pide un `ConValor`: a Pico, que no firma nada, no se le puede pasar.
+Una clase puede firmar **varios** contratos, separados por coma: `implements ConPeso, ConValor`.
+
+Una función puede pedir un contrato como tipo de parámetro: `asegurar(ConValor $x)`. Solo se le pueden pasar objetos que lo firmen.
 
 #### Desafío
 Hacé que `Cuadro` firme `ConValor` y asegurá solo lo que tiene valor.
@@ -5558,7 +5708,7 @@ recompensa: xp 15, oro 15
 Iara lleva la lista de cosas de la bodega de un barco en un objeto `Bodega`. Quiere preguntar `count($bodega)` como con cualquier array, pero PHP no sabe contar un objeto.
 
 #### Gheco sugiere
-Si `Bodega` implementa `Countable` (que trae PHP) y escribe `count(): int`, la función `count($bodega)` la usa.
+PHP trae algunas interfaces propias. `Countable` pide un método `count(): int`. Si `Bodega` la implementa, la función común `count($bodega)` sabe contar sus cosas.
 
 #### Desafío
 Hacé que la bodega se pueda contar con `count()`.
@@ -5636,7 +5786,9 @@ La aduana del Astillero recibe vino, artesanías y herramientas para exportar. N
 —No hace falta que sean familia —dice Iara—. Alcanza con que cumplan el contrato.
 
 #### Gheco sugiere
-Una `interface` declara métodos sin cuerpo. Una clase puede implementar varias: `class Vino implements Exportable, Pesable`. `instanceof Pesable` pregunta si cumple ese contrato.
+Una `interface` declara métodos sin cuerpo, y una clase puede implementar varias: `class Vino implements Exportable, Pesable`.
+
+`$x instanceof Pesable` pregunta si un objeto cumple ese contrato, antes de usarlo.
 
 #### Desafío
 El puerto exporta productos a otras regiones. Escribí la interfaz `Exportable`
@@ -5775,7 +5927,11 @@ Iara quiere una bitácora que se pueda contar, mandar como mensaje y mostrar com
 —Que funcione con `count`, con `json_encode` y con `echo`. Como cualquier cosa del Puerto.
 
 #### Gheco sugiere
-`Countable` pide `count(): int`; `JsonSerializable`, `jsonSerialize(): mixed`; `Stringable`, `__toString()`. Implementando esas interfaces, las funciones de PHP saben usar tu objeto.
+Tres interfaces de PHP que le enseñan a tu objeto a funcionar con las funciones de siempre:
+
+- `Countable` pide `count(): int` (para `count($x)`);
+- `JsonSerializable` pide `jsonSerialize(): mixed` (para `json_encode($x)`);
+- `Stringable` pide `__toString()` (para `echo $x`).
 
 #### Desafío
 Escribí la clase `Bitacora` que guarda anotaciones (textos) en un array privado e
@@ -5883,7 +6039,9 @@ Pico se metió en el cajón de los mensajes guardados y se llevó la mitad. Iara
 —En memoria para probar, en archivos para quedarse. El contrato es el mismo.
 
 #### Gheco sugiere
-La interfaz `Almacenamiento` define `guardar`, `leer` y `claves`. Escribí el programa contra la interfaz, no contra la clase: pasale cualquiera de las dos implementaciones y tiene que andar igual.
+La interfaz `Almacenamiento` define `guardar`, `leer` y `claves`. Escribí el programa usando solo esos métodos, sin saber qué clase hay detrás.
+
+Pasale cualquiera de las dos implementaciones: tiene que andar igual con las dos.
 
 #### Desafío
 El puerto tiene una **interfaz** `Almacenamiento` para guardar mensajes, con
@@ -6438,7 +6596,9 @@ recompensa: xp 10, oro 10
 Un aprendiz dibujó un bote que **es** un motor con casco. El maestro carpintero le borró el dibujo: *«Un bote no es un motor. Un bote tiene un motor. Y mañana le vas a querer poner uno más grande.»*
 
 #### Gheco sugiere
-El bote recibe su motor por el constructor y le **delega** el trabajo: `$this->motor->arrancar()`. Cambiar el motor es pasar otro objeto.
+Un objeto puede **tener** otro adentro: un bote tiene un motor. Eso se llama **composición**.
+
+El bote recibe su motor por el constructor y le **delega** el trabajo: `$this->motor->arrancar()`. Cambiar el motor es pasarle otro objeto.
 
 #### Desafío
 Rearmá el bote para que tenga un motor y pruébalo con dos motores distintos.
@@ -6523,7 +6683,13 @@ recompensa: xp 15, oro 15
 Del otro lado del taller, un herrero pega la misma etiqueta de fecha de fabricación en todas las piezas: velas, remos, anclas. Nilo copió el método `etiqueta()` en cada clase, y en el remo se le escapó una falta de ortografía.
 
 #### Gheco sugiere
-Un `trait` guarda el método una sola vez; cada clase lo incorpora con `use ConFabricacion;`.
+Un `trait` es un pedazo de código (propiedades y métodos) para reutilizar en varias clases que no son parientes. Se escribe una sola vez, y cada clase lo incorpora con `use`:
+
+```php
+class Cajon {
+    use ConFabricacion;
+}
+```
 
 #### Desafío
 Pasá el método repetido a un trait y usalo en las dos clases.
@@ -6611,7 +6777,13 @@ recompensa: xp 15, oro 15
 Buscando planos de motores en el cajón de los planos viejos, Nilo encuentra uno raro: **una barcaza hecha para llevar un solo vidrio enorme**, encargada hace veinte años por alguien con las manos manchadas de plomo. En el programa del inventario, la barcaza crea su propia grúa adentro y nadie la puede cambiar por la grúa grande que haría falta para un vidrio así.
 
 #### Gheco sugiere
-En vez de `new Grua(…)` adentro del constructor, la barcaza **recibe** la grúa: `__construct(private Grua $grua)`. Así se le puede dar la grande.
+En vez de crear la grúa adentro del constructor (`new Grua(...)`), la barcaza la **recibe** ya armada:
+
+```php
+public function __construct(private Grua $grua) {}
+```
+
+Así, desde afuera se le puede dar la grúa grande o la chica, sin tocar la clase. Esta idea se llama **inyección de dependencias**.
 
 #### Desafío
 Hacé que la barcaza reciba su grúa por el constructor y cargá el vidrio con la grande.
@@ -6703,7 +6875,9 @@ Entre los planos viejos está el de la linterna del faro: una caja que alumbra c
 —La linterna no hereda de la lámpara —dice Elefa—. La **tiene**. Y se la podés cambiar cuando se queme.
 
 #### Gheco sugiere
-Composición: la linterna recibe una `FuenteDeLuz` en el constructor y la guarda. Para cambiarla, un método que reciba otra. La linterna le pregunta a su fuente los lúmenes y el consumo.
+Composición: la linterna recibe una `FuenteDeLuz` en el constructor y la guarda. Para cambiarla, un método que reciba otra.
+
+La linterna no calcula los lúmenes ni el consumo: se los pregunta a su fuente.
 
 #### Desafío
 El faro tiene una **linterna** que usa una **fuente de luz** intercambiable.
@@ -6864,7 +7038,9 @@ En el cajón hay planos tachados una y otra vez, y nadie sabe quién los cambió
 —Cada registro tiene que saber quién lo creó y quién lo tocó —dice Elefa—. Y eso no se copia en cada clase: se pega.
 
 #### Gheco sugiere
-Un `trait` es código para reutilizar: `use Auditable;` dentro de la clase le agrega sus propiedades y métodos. Así varias clases distintas comparten la auditoría sin heredar de un mismo padre.
+Un `trait` es código para reutilizar: `use Auditable;` adentro de la clase le agrega sus propiedades y métodos.
+
+Así varias clases distintas comparten la auditoría sin necesidad de heredar de un mismo padre.
 
 #### Desafío
 La oficina del puerto quiere saber **quién** creó y modificó cada registro. Escribí
@@ -6997,7 +7173,13 @@ Un plano viejo muestra un pedido que **es** una calculadora de envíos, solo por
 —Un pedido no es una calculadora —dice Elefa—. Un pedido **usa** un envío.
 
 #### Gheco sugiere
-Reemplazá la herencia por composición: una interfaz `Envio` y dos implementaciones. El `Pedido` recibe un `Envio` y le pregunta el costo. Para cambiar el transportista, le pasás otro envío.
+Heredar para cambiar un comportamiento termina en muchas clases parecidas. Reemplazá la herencia por composición:
+
+- una interfaz `Envio` con el costo;
+- dos implementaciones, una por transportista;
+- el `Pedido` recibe un `Envio` y le pregunta el costo.
+
+Para cambiar el transportista, le pasás otro envío.
 
 #### Desafío
 Alguien armó un `Pedido` que **hereda** de `CalculadoraDeEnvio` solo para usar su
@@ -7580,7 +7762,16 @@ recompensa: xp 10, oro 10
 En el despacho de pasajes, cada empleado anotaba el estado de las reservas como le parecía: *«pagado»*, *«Pagada»*, *«PAG»*. Iara las contó tres veces y le dio tres números distintos. Es la primera vez que Nilo la ve perder la paciencia.
 
 #### Gheco sugiere
-Con un enum, el estado solo puede ser uno de los casos. `Estado::tryFrom($texto)` da el caso, o `null` si el texto no es válido.
+Un **enum** es un tipo con una lista **cerrada** de valores posibles. El estado solo puede ser uno de los casos, y no hay lugar para «Pagada» o «PAG».
+
+```php
+enum Estado: string {
+    case Pagado = 'pagado';
+    case Pendiente = 'pendiente';
+}
+```
+
+`Estado::tryFrom($texto)` da el caso que corresponde, o `null` si el texto no es válido.
 
 #### Desafío
 Contá cuántas reservas están pagadas usando el enum, y avisá las que no se entienden.
@@ -7655,7 +7846,18 @@ recompensa: xp 15, oro 15
 Cada clase de pasaje tiene su precio: cubierta, camarote y suite. Nilo escribió los precios en un `if` aparte, lejos del enum, y al agregar la suite se olvidó de ponerle precio.
 
 #### Gheco sugiere
-El enum puede tener métodos: `precio()` con un `match ($this)` que cubra todos los casos. Si falta uno, `match` falla en lugar de dar cero.
+Un enum puede tener métodos. Adentro, `match ($this)` elige según el caso:
+
+```php
+public function precio(): int {
+    return match ($this) {
+        Talle::S => 100,
+        Talle::M => 120,
+    };
+}
+```
+
+Cubrí todos los casos: si falta uno, `match` da error en vez de devolver cero callado.
 
 #### Desafío
 Escribí el método `precio` en el enum y recorré todos los casos con `cases()`.
@@ -7738,7 +7940,11 @@ recompensa: xp 15, oro 15
 Un barco sale el 3 de octubre y vuelve diez días después. Nilo sumó 10 al día y le dio el 13… de un mes con cuarenta días. Iara tiene el calendario en la libreta y no le da.
 
 #### Gheco sugiere
-Con `DateTimeImmutable` las fechas se suman bien: `$salida->modify('+10 days')` devuelve otra fecha, y `format('d/m/Y')` la muestra.
+Sumar días a mano es difícil (meses de 30 y 31, años bisiestos). `DateTimeImmutable` lo hace bien:
+
+- `new DateTimeImmutable('2026-03-01')` es una fecha;
+- `$fecha->modify('+10 days')` devuelve **otra** fecha, 10 días después (la original no cambia);
+- `->format('d/m/Y')` la muestra como día/mes/año.
 
 #### Desafío
 Calculá la vuelta con `modify` y mostrá las dos fechas con formato.
@@ -7791,7 +7997,11 @@ recompensa: xp 15, oro 15
 Un pasajero escribió su llegada como «31/02/2026». El programa de Nilo la aceptó y calculó las noches como pudo: un **goblin** se llevó dos días en el camino.
 
 #### Gheco sugiere
-`createFromFormat('!d/m/Y', $texto)` lee la fecha; si la fecha no existe, PHP la «corrige» sola (el 31 de febrero pasa a marzo). Compará: si al volver a formatearla no da el mismo texto, era inválida.
+`DateTimeImmutable::createFromFormat('!d/m/Y', $texto)` lee una fecha escrita como día/mes/año.
+
+Trampa: si la fecha no existe, PHP la «corrige» sola (el 31 de febrero pasa a marzo). Para detectarla: volvé a formatear la fecha leída; si no da el mismo texto, era inválida.
+
+La diferencia entre dos fechas sale con `->diff(...)`, y `->days` dice cuántos días.
 
 #### Desafío
 Rechazá la fecha inválida y calculá las noches de la válida.
@@ -7862,7 +8072,11 @@ Al lado del despacho de pasajes hay una tienda náutica que vende camperas, y la
 —Cuatro talles, ni uno más —dice Iara—. Con sus medidas y sus recargos. Y que te diga cuál te va según el pecho.
 
 #### Gheco sugiere
-Un `enum` respaldado tiene casos con valor: `case S = 's';`. Los enums pueden tener métodos con `match ($this)`. `Talle::from('m')` crea el caso desde el valor y `Talle::cases()` los da todos.
+Un enum **respaldado** tiene un valor para cada caso: `case S = 's';`.
+
+- `Talle::from('m')` crea el caso desde el valor;
+- `Talle::cases()` devuelve todos los casos;
+- los enums pueden tener métodos con `match ($this)`.
 
 #### Desafío
 La tienda náutica vende camperas en talles. Escribí el enum respaldado `Talle`
@@ -7988,7 +8202,11 @@ Un vendedor de electrodomésticos del Puerto vende en cuotas que vencen el día 
 —Que el programa les dé las fechas —dice Iara—. Con el día de la semana en castellano.
 
 #### Gheco sugiere
-`DateTimeImmutable::createFromFormat('d/m/Y', $texto)` lee la fecha. `modify('first day of next month')` y `setDate` llevan al día 10. `format('N')` da 6 o 7 los fines de semana: ahí, `modify('next monday')`.
+Con `DateTimeImmutable`:
+
+- `createFromFormat('d/m/Y', $texto)` lee la fecha;
+- `modify('first day of next month')` va al primer día del mes que viene, y `setDate(año, mes, 10)` al día 10;
+- `format('N')` da el día de la semana (1 lunes … 7 domingo): si da 6 o 7, es fin de semana, y `modify('next monday')` lo pasa al lunes.
 
 #### Desafío
 Una casa de electrodomésticos vende en cuotas que vencen **el día 10 de cada
@@ -8091,7 +8309,9 @@ Los pedidos del despacho pasan por estados en un orden fijo, pero alguien marcó
 —Que cada estado sepa a cuáles puede pasar —dice Iara—. Y con un color para el tablero.
 
 #### Gheco sugiere
-Un enum con `puedePasarA(self $nuevo): bool`: con `match ($this)` devolvé si `$nuevo` está en la lista de los permitidos (`in_array($nuevo, [...], true)`). `color()` también con `match`.
+Un enum puede decidir qué cambios de estado valen: un método `puedePasarA(self $nuevo): bool`.
+
+Con `match ($this)`, para cada estado devolvé si `$nuevo` está en la lista de los permitidos: `in_array($nuevo, [...], true)` (el `true` compara exacto). `color()` también con `match`.
 
 #### Desafío
 Los pedidos de un comercio pasan por estados en un orden fijo: `Nuevo` →
@@ -8634,7 +8854,21 @@ recompensa: xp 10, oro 10
 Una noche de tormenta, la grúa del muelle 2 se traba con un contenedor colgando. El programa de la grúa ni se entera: sigue diciendo «todo bien» mientras el contenedor se balancea.
 
 #### Gheco sugiere
-Si el peso supera lo que aguanta la grúa, `levantar()` tiene que **lanzar** una excepción. Quien la llama la atrapa con `try`/`catch` y avisa.
+Cuando algo sale mal, un método puede **lanzar una excepción**: un aviso de error que corta lo que se estaba haciendo.
+
+```php
+throw new RuntimeException('Demasiado peso');
+```
+
+Quien lo llama la atrapa con `try` / `catch` y decide qué hacer:
+
+```php
+try {
+    $grua->levantar(500);
+} catch (RuntimeException $e) {
+    echo $e->getMessage();
+}
+```
 
 #### Desafío
 Lanzá una `RuntimeException` cuando el peso es demasiado y atrapala para avisar.
@@ -8703,7 +8937,7 @@ item: Salvavidas del finally
 Nilo trepa a la grúa para destrabarla, resbala y cae al agua. Lo saca un **salvavidas** que alguien había atado a la grúa «por si acaso». En el protocolo nuevo dice: *antes de irte, asegurá la carga*, pase lo que pase.
 
 #### Gheco sugiere
-Lo que va en `finally` se ejecuta **siempre**: si todo salió bien y si hubo una excepción. Ahí va «Carga asegurada.».
+Después del `catch` puede ir un bloque `finally`: lo que está ahí se ejecuta **siempre**, haya salido todo bien o haya habido una excepción. Es para lo que no se puede olvidar, como «Carga asegurada.».
 
 #### Desafío
 Mové el aviso de la carga a un `finally` para que aparezca en los dos intentos.
@@ -8778,7 +9012,13 @@ recompensa: xp 15, oro 15
 Las grúas fallan por muchas cosas: viento, peso, falta de cupo en el barco. Todas lanzan la misma `RuntimeException` y Iara no puede separar en su informe cuántas fueron por falta de cupo.
 
 #### Gheco sugiere
-Una clase `SinCupo extends RuntimeException` con un dato extra (cuánto faltó). Se atrapa por su nombre antes que las demás.
+Podés crear tu propio tipo de excepción, heredando de una de PHP:
+
+```php
+class SinCupo extends RuntimeException {}
+```
+
+Puede guardar un dato extra (cuánto faltó). Para atraparla por su nombre, su `catch` va **antes** que el de las excepciones más generales.
 
 #### Desafío
 Creá la excepción `SinCupo` y atrapala aparte para el informe.
@@ -8867,7 +9107,9 @@ El cambista dejó su calculadora en la grúa y se la mojó la tormenta: ahora se
 —Que no se caiga —dice Iara—. Si la cuenta está mal escrita, que diga qué está mal y siga con la próxima.
 
 #### Gheco sugiere
-`calcular` lanza la excepción que corresponde: `InvalidArgumentException`, `DomainException` o `DivisionByZeroError`. En el bucle, un `try` con un `catch` por cada tipo (o `catch (A | B $e)`) muestra el mensaje y sigue.
+`calcular` lanza la excepción que corresponde a cada problema: `InvalidArgumentException` (dato malo), `DomainException` (operación que no existe) o `DivisionByZeroError` (dividir por cero).
+
+En el bucle, un `try` con un `catch` por cada tipo (o uno solo para varios: `catch (A | B $e)`) muestra el mensaje y sigue con la próxima cuenta.
 
 #### Desafío
 Leé operaciones de la entrada, una por renglón, con el formato `NUMERO OPERADOR
@@ -8991,7 +9233,7 @@ En el banco del puerto, cuando algo sale mal, el cajero dice «error» y nada m�
 —Errores con nombre —dice Iara—. Si no hay saldo, que diga cuánto tenés. Si la cuenta está bloqueada, que diga de quién es.
 
 #### Gheco sugiere
-Una excepción propia extiende a otra: `class SaldoInsuficiente extends DomainException`. Puede tener propiedades (`readonly`) y armar su mensaje en el constructor con `parent::__construct("...")`.
+Una excepción propia hereda de otra: `class SaldoInsuficiente extends DomainException`. Puede tener propiedades `readonly` (cuánto había, cuánto se pidió) y armar su mensaje en el constructor con `parent::__construct("...")`.
 
 #### Desafío
 El banco del puerto necesita excepciones con nombre. Escribí:
@@ -9125,7 +9367,9 @@ Las tarifas de la grúa están en un archivo de texto, y cada vez que alguien lo
 —Abrís, leés y cerrás —dice Iara—. Pase lo que pase, se cierra.
 
 #### Gheco sugiere
-Comprobá con `file_exists` antes de abrir y lanzá `RuntimeException` si no está. Leé dentro de un `try` y cerrá con `fclose` en el `finally`: se ejecuta siempre, haya error o no.
+Antes de abrir, comprobá con `file_exists` que el archivo esté, y si no, lanzá `RuntimeException`.
+
+Leé adentro de un `try`, y cerrá el archivo con `fclose` en el `finally`: así se cierra siempre, haya error o no.
 
 #### Desafío
 Escribí la clase `LectorDeTarifas` con `leer(string $ruta): array`, que lee un
@@ -9709,7 +9953,9 @@ recompensa: xp 10, oro 10
 Dos talleres hicieron un molde llamado `Timon`, uno para veleros y otro para remolcadores. Nilo llevó el equivocado a cada taller, dos veces. Ahora cada taller pone su sello en los moldes: `Velero\Timon` y `Remolque\Timon`.
 
 #### Gheco sugiere
-Cada clase va en su `namespace`, como un apellido. En un solo archivo se puede escribir `namespace Velero { … }` y `namespace Remolque { … }`, y usarlas por su nombre completo.
+Cuando dos clases tienen el mismo nombre, se separan con un **namespace**: un apellido para cada una.
+
+En un solo archivo se puede escribir `namespace Velero { … }` y `namespace Remolque { … }`, y usar cada clase con su nombre completo: `\Velero\Timon` o `\Remolque\Timon`.
 
 #### Desafío
 Poné cada `Timon` en su namespace y usá los dos.
@@ -9790,7 +10036,7 @@ recompensa: xp 15, oro 15
 En la entrada del Astillero hay un bibliotecario que, cuando alguien pide un molde, sabe en qué estante buscarlo. El programa de Nilo, en cambio, tiene un `require` por cada molde, y se olvidó uno.
 
 #### Gheco sugiere
-`spl_autoload_register` recibe una función que, dado el nombre de la clase, hace el `require` del archivo que corresponde. Así no hace falta un `require` por clase.
+Con muchas clases, escribir un `require` por cada archivo es un lío. `spl_autoload_register` recibe una función que, cuando PHP necesita una clase que todavía no conoce, hace el `require` del archivo que corresponde. Así cada clase se carga sola la primera vez que se usa.
 
 #### Desafío
 Registrá el autoload para que encuentre las clases en la carpeta `src/`.
@@ -9850,7 +10096,13 @@ recompensa: xp 15, oro 15
 Iara propone una regla para que nadie se pierda: el apellido de cada molde dice en qué carpeta está. `Puerto\Muelle\Grua` va en `src/Muelle/Grua.php`. Es la misma regla que usa Composer.
 
 #### Gheco sugiere
-En el autoload, sacá el prefijo `Puerto\` y cambiá las `\` por `/` para armar la ruta: `str_replace('\\', '/', …)`.
+En el autoload, armá la ruta del archivo a partir del nombre completo de la clase: sacá el prefijo `Puerto\` y cambiá las barras `\` por `/`:
+
+```php
+str_replace('\\', '/', $resto)
+```
+
+(Adentro de comillas, la barra invertida se escribe doble.)
 
 #### Desafío
 Completá el autoload con la regla PSR-4.
@@ -10558,7 +10810,7 @@ recompensa: xp 15, oro 15
 En el fondo del Astillero, donde se guardan los moldes viejos, se mueve el **Gólem del Astillero**: un gigante de tablas y clavos pegados a las apuradas. Su brazo largo es una clase con todo público: cualquiera le cambia el stock a un número negativo, y el brazo se desarma.
 
 #### Gheco sugiere
-Hacé `private` el stock y escribí `retirar()`, que no deja sacar más de lo que hay.
+Para que nadie saque piezas a mano, hacé `private` el stock y escribí un método `retirar()` que no deje sacar más de lo que hay.
 
 #### Desafío
 Protegé el stock del inventario.
@@ -10634,7 +10886,7 @@ recompensa: xp 15, oro 15
 En el pecho del Gólem, detrás del timón, hay un `catch` vacío: cada error que le pasa, se lo traga y sigue caminando como si nada. Por eso se le caen las piezas sin que nadie sepa por qué.
 
 #### Gheco sugiere
-Un `catch` vacío esconde el problema. Mostrá el mensaje de la excepción y contá cuántas piezas fallaron.
+Un `catch` vacío **esconde** el problema: el error pasa y nadie se entera. Mostrá el mensaje de la excepción (`$e->getMessage()`) y contá cuántas piezas fallaron.
 
 #### Desafío
 Hacé que el `catch` avise el error en lugar de tragárselo.
@@ -10713,7 +10965,9 @@ item: Martillo del Carpintero de Moldes
 El Gólem no se vence a martillazos: se lo vence **rearmando**. Cada pieza con su responsabilidad, sus datos protegidos, sus contratos claros y sus errores con nombre. Nilo tiene que rearmarlo pieza por pieza.
 
 #### Gheco sugiere
-Una interfaz `Pieza` con `revisar(): Estado`; cada pieza la implementa; el `Golem` **tiene** sus piezas (composición) y cuenta cuántas están firmes.
+Una interfaz `Pieza` con `revisar(): Estado`, y cada pieza la implementa.
+
+El `Golem` **tiene** sus piezas (composición, en un array) y cuenta cuántas están firmes preguntándole a cada una.
 
 #### Desafío
 Completá las clases para que el Gólem se revise solo.
@@ -10842,7 +11096,11 @@ Con el Gólem tranquilo, el taller de reparaciones del Astillero vuelve a abrir.
 —Todo lo que aprendiste en el Astillero, junto —dice—. El Gólem va a mirar.
 
 #### Gheco sugiere
-Una clase abstracta para las embarcaciones con su costo por hora, un enum para el estado de la reparación y una clase para la orden. Hacé cada parte por separado y probala antes de juntar todo.
+Armá cada parte por separado y probala antes de juntar todo:
+
+- una clase abstracta para las embarcaciones, cada una con su costo por hora;
+- un enum para el estado de la reparación;
+- una clase para la orden, que tiene la embarcación y el estado.
 
 #### Desafío
 El taller del Astillero repara embarcaciones. Escribí el sistema en un solo

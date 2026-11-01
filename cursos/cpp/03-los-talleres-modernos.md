@@ -240,7 +240,11 @@ recompensa: xp 10, oro 10
 En los Talleres Modernos, Bron escribe `auto` en todos lados, encantado. Quiere duplicar la carga de cada vagoneta, pero las vagonetas siguen igual: un **goblin** se esconde en cada copia que no quería hacer.
 
 #### Gheco sugiere
-`auto x` es una copia: duplicarla no toca el vector. Para cambiar cada elemento, `auto& x`.
+`auto` le pide a C++ que adivine el tipo solo: `auto x = 5;` es un `int`. En un `for` de rango hay que elegir bien:
+
+- `for (auto x : v)` trabaja con una **copia** de cada elemento: si la cambiás, el vector no se entera.
+- `for (auto& x : v)` trabaja con el elemento **de verdad** (una referencia): si lo cambiás, cambia en el vector.
+- `for (const auto& x : v)` lo mira sin copiar y sin poder cambiarlo: ideal para mostrar.
 
 #### Desafío
 Hacé que el bucle cambie las vagonetas de verdad.
@@ -311,7 +315,13 @@ recompensa: xp 10, oro 10
 Tesla le enseña a Bron a separar cada par en dos variables con nombre. Bron las nombró al revés, y la Ciudadela tiene ahora una torre llamada «12» con «Reloj» pisos.
 
 #### Gheco sugiere
-Los nombres van en el **orden** de los campos del par: primero el `first` (el nombre), después el `second` (los pisos).
+Un `std::pair` junta dos valores: `first` (el primero) y `second` (el segundo). Para no escribir `.first` y `.second`, se pueden abrir de una, poniéndoles nombre (**structured bindings**):
+
+```cpp
+for (const auto& [nombre, edad] : alumnos)
+```
+
+Los nombres entre corchetes se asignan en **orden**: el primero recibe el `first` y el segundo el `second`. Si los ponés al revés, cada nombre tiene el dato del otro.
 
 #### Desafío
 Poné los nombres en el orden correcto.
@@ -377,7 +387,11 @@ recompensa: xp 10, oro 10
 Lima anota las horas de trabajo de cada día de la semana en un `std::array`. Bron le hizo uno de seis lugares, y la semana tiene siete días: el Taller no lo deja compilar.
 
 #### Gheco sugiere
-En `std::array<int, N>`, `N` es la cantidad de lugares. Una semana tiene 7.
+`std::array<int, N>` es un array de tamaño **fijo**, que se decide al escribir el programa: `N` es la cantidad de lugares. A diferencia de `std::vector`, no crece, pero sabe su tamaño (`.size()`) y se puede recorrer con un `for` de rango.
+
+```cpp
+std::array<int, 3> podio = {10, 8, 7};
+```
 
 #### Desafío
 Dale al array el tamaño de la semana.
@@ -443,7 +457,15 @@ Lyn sube corriendo al faro con la libreta del farero: siete temperaturas, una po
 —El farero quiere el resumen de la semana. La más alta, la más baja y el promedio. Y lo quiere ya.
 
 #### Gheco sugiere
-Los días van en un `std::array<std::string, 7>` constante. `resumir` devuelve un struct y en `main` lo abrís de una con `auto [maxima, minima, promedio] = resumir(semana);`.
+Los nombres de los días van en un `std::array<std::string, 7>` constante, y las temperaturas en un `std::array<int, 7>`.
+
+`resumir` calcula tres cosas y las devuelve juntas en un struct. En `main` se abren de una:
+
+```cpp
+auto [maxima, minima, promedio] = resumir(semana);
+```
+
+Cada nombre recibe un campo del struct, en orden.
 
 #### Desafío
 Leé las 7 temperaturas de la semana en un `std::array<int, 7>`. Mostralas con el
@@ -552,7 +574,13 @@ En el recreo, Lima dibuja un ta-te-ti con tiza en el piso del patio y desafía a
 —Pero el árbitro lo hacés vos. Si alguien juega afuera del tablero o encima de otra ficha, que lo diga.
 
 #### Gheco sugiere
-`Tablero` es un `std::array` de tres filas de `std::array<char, 3>`. Antes de poner una ficha revisá que la fila y la columna estén entre 0 y 2 y que la casilla tenga `.`. Después de cada jugada, mirá filas, columnas y las dos diagonales.
+Un tablero de 3 × 3 es un array de 3 filas, y cada fila un array de 3 casillas. `using` le pone un nombre corto:
+
+```cpp
+using Tablero = std::array<std::array<char, 3>, 3>;
+```
+
+Antes de poner una ficha, revisá que la fila y la columna estén entre 0 y 2 y que la casilla esté libre (`.`). Después de cada jugada, mirá si alguien ganó: las 3 filas, las 3 columnas y las 2 diagonales.
 
 #### Desafío
 Armá el tablero como `using Tablero = std::array<std::array<char, 3>, 3>;` lleno
@@ -685,7 +713,12 @@ Bron lima dos dientes a cada engranaje de la caja… y los engranajes siguen igu
 —Anotá antes qué va a pasar en cada vuelta —dice Lima—. Después mirá quién tenía razón.
 
 #### Gheco sugiere
-`for (auto e : caja)` trabaja con una **copia** de cada engranaje; `for (auto& e : caja)`, con el de verdad. Lo mismo pasa con `auto primero = caja[0];` y `auto& ultimo = caja.back();`.
+Con `auto` es fácil copiar sin querer:
+
+- `for (auto e : caja)` trabaja con una **copia** de cada engranaje; `for (auto& e : caja)`, con el de verdad.
+- `auto primero = caja[0];` hace una copia; `auto& ultimo = caja.back();` es una referencia al último.
+
+Cambiá cada uno y mostrá el vector después: vas a ver cuáles cambios llegaron y cuáles no.
 
 #### Desafío
 Con un vector de engranajes (`nombre`, `dientes`): chico 12, mediano 24, grande 48.
@@ -1159,7 +1192,18 @@ recompensa: xp 10, oro 10
 En la Aduana llegan planillas como «Lima;27;relojera». Bron corta el nombre, pero se lleva también el punto y coma, y el escriba anota a «Lima;».
 
 #### Gheco sugiere
-Si el `;` está en la posición `p`, el nombre son los `p` caracteres desde el 0: `substr(0, p)`. Lo que sigue empieza en `p + 1`.
+Un `std::string` trae herramientas para buscar y cortar:
+
+- `texto.find(';')` devuelve la **posición** donde está el `;` (contando desde 0).
+- `texto.substr(inicio, cantidad)` devuelve un pedazo: desde `inicio`, `cantidad` caracteres. Sin la cantidad, hasta el final.
+
+```cpp
+std::string s = "hola;mundo";
+std::size_t p = s.find(';');   // 4
+s.substr(0, p);                 // "hola"
+```
+
+Lo que sigue al `;` empieza en `p + 1`.
 
 #### Desafío
 Cortá el nombre sin el punto y coma.
@@ -1232,7 +1276,9 @@ recompensa: xp 10, oro 10
 Bron suma las edades de las planillas y le da **27120**. El escriba se desmaya. Lima lo abanica con la planilla: las edades eran texto, y sumar textos los pega.
 
 #### Gheco sugiere
-Convertí cada edad con `std::stoi` antes de sumarla.
+Un texto con cifras no es un número: `"12" + "15"` pega los textos y da `"1215"`. Para sumar, primero hay que convertir:
+
+`std::stoi(texto)` («string to int») convierte un texto a `int`: `std::stoi("12")` da `12`.
 
 #### Desafío
 Sumá las edades como números.
@@ -1302,7 +1348,15 @@ recompensa: xp 15, oro 15
 Oto dicta su receta con espacios por todos lados, y el contador de palabras de Bron (que cuenta espacios) le da un número disparatado. Oto jura que dijo cuatro palabras.
 
 #### Gheco sugiere
-Un `std::istringstream` sobre la línea lee con `>>` palabra por palabra y se saltea los espacios de más. Contá las vueltas.
+Un `std::istringstream` (de `<sstream>`) convierte un texto en algo que se puede leer como si fuera el teclado: con `>>` saca palabra por palabra, salteando los espacios de más.
+
+```cpp
+std::istringstream ss(linea);
+std::string palabra;
+while (ss >> palabra) {
+    // una palabra por vuelta
+}
+```
 
 #### Desafío
 Contá las palabras con un `istringstream`.
@@ -1381,7 +1435,11 @@ En la aduana llegan cajas con etiquetas larguísimas: rutas de archivo con carpe
 —El aduanero las quiere separadas: carpeta, nombre y extensión —dice Lima—. Ojo con las que empiezan con punto.
 
 #### Gheco sugiere
-`rfind('/')` te da dónde termina la carpeta y `rfind('.')`, dónde empieza la extensión. Si el punto está en la primera letra del nombre, no hay extensión. Usá `substr` para cortar.
+`rfind` busca **desde el final**: `ruta.rfind('/')` da la última barra (donde termina la carpeta), y `ruta.rfind('.')` el último punto (donde empieza la extensión).
+
+Si no encuentra nada, devuelve `std::string::npos`, un valor especial que quiere decir «no está».
+
+Cuidado: si el punto es la **primera letra del nombre** (como `.config`), no es una extensión. Cortá cada parte con `substr`.
 
 #### Desafío
 Cada línea de la entrada es una ruta de archivo (se ignoran las vacías). Mostrá la
@@ -1487,7 +1545,13 @@ Tesla trae un cartel para la plaza con una palabra que el Consejo pidió cambiar
 —Cambiala en todas partes. Y contá cuántas cambiaste, que el Consejo cuenta.
 
 #### Gheco sugiere
-Buscá con `texto.find(buscar, desde)` y reemplazá con `replace`. Después de reemplazar, seguí buscando **después** de lo que pusiste (`desde = pos + poner.size()`), si no, «gris» por «grisáceo» no termina nunca.
+Para reemplazar **todas** las apariciones:
+
+1. buscá con `texto.find(buscar, desde)` (busca a partir de la posición `desde`);
+2. si la encontró, reemplazá con `texto.replace(pos, buscar.size(), poner)`;
+3. seguí buscando **después** de lo que pusiste: `desde = pos + poner.size()`.
+
+Si siguieras desde `pos`, al cambiar «gris» por «grisáceo» volverías a encontrar «gris» adentro de lo nuevo, y no terminaría nunca.
 
 #### Desafío
 La primera línea es una palabra a buscar y la segunda, con qué reemplazarla. Las
@@ -1587,7 +1651,9 @@ Lyn trae el registro de los que entraron hoy a la Ciudadela, y hay renglones rar
 —El aduanero quiere los buenos y que le avises los malos. Y la edad promedio, que siempre la pide.
 
 #### Gheco sugiere
-`partir` usa un `std::istringstream` y `std::getline(flujo, campo, separador)` en un bucle. `es_numero` revisa que no esté vacío y que todos los caracteres sean dígitos. Recién ahí convertís con `std::stoi`.
+`std::getline` también sirve para partir un texto por un separador: `std::getline(flujo, campo, ';')` lee hasta el próximo `;`. Con un `std::istringstream` sobre la línea, en un bucle, sacás campo por campo y los guardás en un vector.
+
+Antes de convertir la edad con `std::stoi`, validala con `es_numero`: que no esté vacía y que todos los caracteres sean dígitos (`std::isdigit`). Si no, `std::stoi` falla.
 
 #### Desafío
 Cada línea trae `nombre;edad;oficio`. Escribí `partir(linea, separador)`, que
@@ -2100,7 +2166,14 @@ recompensa: xp 10, oro 10
 El archivista quiere saber cuántas piezas de cada tipo llegaron. El fichero de Bron anota cada pieza, pero siempre con un 1: nunca suma.
 
 #### Gheco sugiere
-`conteo[pieza]++` suma uno a lo que ya había (la primera vez, a 0).
+Un **mapa** (`std::map`, de `<map>`) guarda pares **clave → valor**, como un diccionario: buscás por la clave y obtenés el valor.
+
+```cpp
+std::map<std::string, int> edades;
+edades["Ana"] = 12;
+```
+
+Con `[]`, si la clave no existía, se crea con valor 0 (para números). Por eso, para contar, alcanza con `cuenta[palabra]++`: la primera vez pasa de 0 a 1. Al recorrerlo, las claves salen en orden alfabético.
 
 #### Desafío
 Contá cuántas veces llega cada pieza.
@@ -2178,7 +2251,9 @@ recompensa: xp 15, oro 15
 Bron pregunta en el fichero dónde está la «palanca», que no existe. El fichero responde «cajón 0»… y desde ese momento la palanca existe, en el cajón 0, que está vacío. Tesla suspira.
 
 #### Gheco sugiere
-Con `[]` preguntar crea la ficha. Usá `fichero.contains("palanca")` (o `find`) para preguntar sin crear nada.
+Ojo con `[]` en un mapa: **preguntar crea**. `mapa["x"]` agrega `"x"` con valor 0 si no estaba, aunque solo quisieras saber.
+
+Para preguntar sin crear nada: `mapa.contains("x")` devuelve `true` o `false`. Y para leer un valor que sabés que existe, `mapa.at("x")`, que avisa con un error si no está.
 
 #### Desafío
 Preguntá sin agregar fichas falsas.
@@ -2253,7 +2328,15 @@ recompensa: xp 10, oro 10
 En el libro de los aprobados nadie aparece dos veces. Oto quiere anotar su guiso dos veces «porque estaba muy bueno». El libro de Bron es un vector y lo deja.
 
 #### Gheco sugiere
-Cambiá el vector por un `std::set`: `insert` de algo repetido no lo agrega. Y sale ordenado solo.
+Un **conjunto** (`std::set`, de `<set>`) guarda valores **sin repetir**: si hacés `insert` de algo que ya está, no pasa nada. Y además los guarda **ordenados**.
+
+```cpp
+std::set<int> numeros;
+numeros.insert(3);
+numeros.insert(3);   // no se repite
+```
+
+`.size()` dice cuántos distintos hay.
 
 #### Desafío
 Usá un conjunto para que no haya repetidos.
@@ -2336,7 +2419,9 @@ El archivista quiere saber qué palabras se repiten en el manual de la Ciudadela
 —Contalas todas —dice Lima—. Sin mayúsculas ni signos, que «Engranaje,» y «engranaje» son la misma.
 
 #### Gheco sugiere
-Limpiá cada palabra con `std::isalpha` y `std::tolower`. Con `std::map<std::string, int>` alcanza `cuenta[palabra]++`, y el mapa ya las deja en orden alfabético. Para la más común, quedate con la primera que tenga la cuenta más alta.
+Para limpiar una palabra, recorré sus letras y quedate solo con las que son letras (`std::isalpha`), pasadas a minúscula (`std::tolower`). Conviene pasarles cada carácter como `unsigned char`.
+
+Con `std::map<std::string, int>`, contar es `cuenta[palabra]++`, y el mapa ya las deja en orden alfabético. Para la más común, recorré el mapa y quedate con la primera que tenga la cuenta más alta (solo la reemplazás si encontrás una **mayor**, no igual).
 
 #### Desafío
 Leé palabras hasta el final de la entrada. Limpialas (solo letras, en minúscula) y
@@ -2451,7 +2536,11 @@ Lyn necesita una agenda con los teléfonos de toda la Ciudadela para hacer sus e
 —Y cuando pregunto por alguien que no está, no me lo anotes vacío, que después lo llamo y no atiende nadie.
 
 #### Gheco sugiere
-Para consultar usá `find` (o `contains`), **no** `agenda[nombre]`: el corchete crea el contacto si no existe. Para saber si `alta` agrega o actualiza, fijate antes si ya estaba.
+Un `std::unordered_map` es un mapa que no guarda orden, pero busca más rápido.
+
+Para consultar, **no** uses `agenda[nombre]`: el corchete crea el contacto vacío si no existe. Usá `find` o `contains`.
+
+Para saber si un `alta` agrega uno nuevo o actualiza uno que ya estaba, preguntá antes si existe. Para la baja, `agenda.erase(nombre)` devuelve cuántos borró (0 o 1).
 
 #### Desafío
 Manejá una agenda con un `std::unordered_map<std::string, std::string>` (nombre →
@@ -2557,7 +2646,15 @@ Tesla quiere saber quiénes visitan las torres: la Norte y la del Reloj.
 —Los de las dos, los que solo fueron a la Norte, y los de alguna. Sin repetir a nadie.
 
 #### Gheco sugiere
-Un `std::set` por torre ya no repite y deja todo ordenado. Para cruzarlos tenés `std::set_intersection`, `std::set_difference` y `std::set_union` (o recorrés uno y preguntás con `contains` en el otro).
+Un `std::set` por torre: no repite visitantes y los deja ordenados.
+
+Para cruzarlos:
+
+- **los que fueron a las dos**: la intersección;
+- **los que fueron solo a una**: la diferencia;
+- **todos**: la unión.
+
+`<algorithm>` trae `std::set_intersection`, `std::set_difference` y `std::set_union`. Una forma más simple: recorrés un conjunto y preguntás con `contains` en el otro.
 
 #### Desafío
 Cada línea trae `torre visitante` (la torre es `norte` o `reloj`). Guardá los
@@ -3071,7 +3168,14 @@ recompensa: xp 10, oro 10
 El tablero de control ya no usa números pintados a mano: cada máquina tiene un **estado** con nombre. Pero la función que lo pasa a texto se olvidó de las averiadas, y las muestra con un signo de pregunta.
 
 #### Gheco sugiere
-Agregá el `case Estado::Averiado` que devuelva `"averiado"`.
+Un `enum class` le pone nombre a una lista de opciones fijas:
+
+```cpp
+enum class Clima { Sol, Lluvia, Nieve };
+Clima c = Clima::Lluvia;
+```
+
+Cada valor se escribe con el nombre del enum adelante y `::`. Es más claro y más seguro que usar números (0, 1, 2), y combina muy bien con `switch`: un `case` por opción.
 
 #### Desafío
 Completá la conversión del estado a texto.
@@ -3164,7 +3268,12 @@ recompensa: xp 15, oro 15
 La función que busca una máquina en el tablero devuelve **−1** cuando no la encuentra, y el tablero muestra «cajón −1». El día que Bron leyó el −1 como un cajón, abrió la pared.
 
 #### Gheco sugiere
-Que la función devuelva `std::optional<int>`: la posición si la encuentra, `std::nullopt` si no. En `main`, preguntá con `if (r)`.
+Para decir «no lo encontré», muchas funciones devuelven `-1`, pero es fácil olvidarse de revisarlo. `std::optional<int>` (de `<optional>`) es más claro: es una caja que **puede tener un valor o estar vacía**.
+
+- si encontrás, devolvés el valor: `return i;`
+- si no, devolvés la caja vacía: `return std::nullopt;`
+
+Quien llama pregunta si tiene algo con `if (r)`, y lo saca con `*r`.
 
 #### Desafío
 Reemplazá el −1 por un `optional`.
@@ -3256,7 +3365,9 @@ recompensa: xp 15, oro 15
 La caldera se prende, se avería y se arregla. Tesla dibuja el diagrama: apagada → (prender) → girando → (falla) → averiada → (arreglar) → apagada. A la máquina de Bron le falta la flecha de «arreglar».
 
 #### Gheco sugiere
-En el `case Estado::Averiado`, si el evento es `arreglar`, el estado pasa a `Apagado`.
+Una **máquina de estados**: la caldera siempre está en un estado, y cada evento la puede pasar a otro. Para cada estado, un `case`, y adentro preguntás por el evento.
+
+Falta una transición: estando averiada, si llega `arreglar`, pasa a apagada.
 
 #### Desafío
 Agregá la transición que falta.
@@ -3374,7 +3485,9 @@ El faro quedó automático y Tesla quiere probar su luz antes de la tormenta.
 —Pasale la noche, la niebla, el día y un rayo. Que cada evento la lleve a donde tiene que ir.
 
 #### Gheco sugiere
-`enum class Luz { Apagada, Girando, Destellos, Averiada };`. `siguiente` es un `switch` sobre la luz que mira el evento; el `rayo` vale desde cualquier estado, así que conviene revisarlo primero.
+La luz del faro es un `enum class Luz` con cuatro estados. `siguiente(luz, evento)` decide el estado nuevo con un `switch` sobre la luz, y adentro mira el evento.
+
+El `rayo` avería el faro desde **cualquier** estado: en vez de repetirlo en cada `case`, revisalo primero, antes del `switch`.
 
 #### Desafío
 La luz del faro tiene cuatro estados: apagada, girando, destellos y averiada.
@@ -3508,7 +3621,17 @@ Oto necesita repuestos para la cocina y trae una lista de códigos.
 —Algunos los invento yo, ¿eh? No me des una pieza que no existe, decime que no está.
 
 #### Gheco sugiere
-`buscar` devuelve `std::optional<Pieza>`: la pieza si la encuentra, `std::nullopt` si no. Preguntá con `if (auto p = buscar(...))` y usá `p->precio`. Para el final: `buscar(catalogo, "X99").transform(...)` o un `.value_or` sobre el precio.
+`buscar` devuelve `std::optional<Pieza>`: la pieza si la encuentra, `std::nullopt` si no.
+
+Se puede preguntar y usar en una sola línea:
+
+```cpp
+if (auto p = buscar(catalogo, "E24")) {
+    std::cout << p->precio;
+}
+```
+
+`p->precio` saca el campo de adentro de la caja. Para el final, `.value_or(x)` devuelve el valor si hay, o `x` si la caja está vacía.
 
 #### Desafío
 Con un catálogo fijo de piezas (código, nombre, precio): E24 engranaje de 24 ($350),
@@ -3623,7 +3746,13 @@ Los medidores de la sala tiran números, pero entre ellos se cuelan letras, sign
 —Nada de excepciones —dice Lima—. Si no es un número, lo salteás y avisás.
 
 #### Gheco sugiere
-Revisá el signo y que lo demás sean dígitos antes de convertir. Para no pasarte del `int`, acumulá en un `long long` y compará con `std::numeric_limits<int>::max()` y `min()`; si se pasa, `std::nullopt`.
+Convertir sin romperse: antes de convertir, revisá el texto.
+
+- Que no esté vacío.
+- Un signo `+` o `-` solo al principio.
+- Todo lo demás, dígitos.
+
+Convertí cifra por cifra acumulando en un `long long` (más grande que `int`). Si en algún momento se pasa de `std::numeric_limits<int>::max()` (o baja de `min()`), no entra en un `int`: devolvé `std::nullopt`.
 
 #### Desafío
 Escribí `std::optional<int> a_entero(const std::string&)`, que convierte **sin
@@ -4125,7 +4254,13 @@ recompensa: xp 10, oro 10
 El clasificador ordena piezas, pero no sabe **cómo**: hay que darle una tarjeta con la regla. Bron escribió la tarjeta al revés, y la más liviana sale primero.
 
 #### Gheco sugiere
-Para que la más pesada vaya primero, la lambda devuelve `true` cuando `a` pesa **más** que `b`.
+Una **lambda** es una función sin nombre que se escribe ahí mismo, donde se usa. Sirve para pasarle una regla a funciones como `std::sort`:
+
+```cpp
+std::sort(v.begin(), v.end(), [](int a, int b) { return a > b; });
+```
+
+Los `[]` marcan que empieza una lambda; después van los parámetros y el cuerpo. Para `sort`, la regla contesta «¿`a` va antes que `b`?». Con `a > b`, los más grandes quedan primero.
 
 #### Desafío
 Corregí la regla de la tarjeta.
@@ -4205,7 +4340,14 @@ recompensa: xp 10, oro 10
 Tesla quiere saber cuántas piezas pasan el límite de la balanza, que se lee de la entrada. La lambda de Bron no puede usar `limite`: no lo capturó.
 
 #### Gheco sugiere
-Para usar `limite` adentro de la lambda, ponelo entre los corchetes: `[limite]`.
+Una lambda no ve las variables de afuera, salvo que las **capture**: se ponen entre los corchetes.
+
+```cpp
+int minimo = 5;
+auto grande = [minimo](int x) { return x > minimo; };
+```
+
+`std::count_if(v.begin(), v.end(), regla)` cuenta cuántos elementos cumplen la regla.
 
 #### Desafío
 Capturá el límite.
@@ -4275,7 +4417,13 @@ recompensa: xp 15, oro 15
 Los engranajes con menos de 10 dientes están defectuosos. Lima quiere sacarlos todos de la caja de una vez, y Bron los está sacando de a uno, con un bucle que se saltea algunos.
 
 #### Gheco sugiere
-`std::erase_if(dientes, [](int d) { return d < 10; });` borra todos los que cumplen la condición, sin saltear ninguno.
+Borrar elementos de un vector mientras lo recorrés es fácil de hacer mal (se saltea el que queda en el lugar del borrado). `std::erase_if` lo hace bien:
+
+```cpp
+std::erase_if(v, [](int x) { return x < 0; });
+```
+
+Borra todos los que cumplen la condición de la lambda, y devuelve cuántos borró.
 
 #### Desafío
 Borrá los defectuosos con `erase_if`.
@@ -4349,7 +4497,13 @@ Terminó el torneo de las torres y Lyn tiene que colgar la tabla. Hay empates po
 —Puntos, después diferencia de gol, después goles a favor, y si siguen iguales, por nombre. ¡Una sola regla!
 
 #### Gheco sugiere
-Una sola lambda en `std::sort` con los cuatro criterios en orden: comparás los puntos; si son iguales, la diferencia; y así. `std::tie` o `<=>` te ahorran los `if`.
+Una sola lambda en `std::sort` con los cuatro criterios en orden. La lambda contesta «¿`a` va antes que `b`?»:
+
+- si los puntos son distintos, va antes el de más puntos;
+- si empatan, se mira la diferencia de goles;
+- si también empatan, el siguiente criterio, y así.
+
+`std::tie(a.puntos, ...) > std::tie(b.puntos, ...)` compara varias cosas en orden de una vez y te ahorra los `if`.
 
 #### Desafío
 Cada línea trae `equipo puntos goles_a_favor goles_en_contra`. Ordená la tabla con
@@ -4459,7 +4613,15 @@ El radar de la muralla marca contactos alrededor de la Ciudadela. Tesla quiere s
 —La regla de la distancia la escribís una vez y la usás en todas las preguntas.
 
 #### Gheco sugiere
-Guardá las lambdas en variables: `auto distancia = [](const Contacto& c) { return std::hypot(c.x, c.y); };` y otra que capture el alcance. Después, `count_if`, `find_if`, `min_element` y `none_of` las reutilizan.
+Una lambda se puede guardar en una variable y usar muchas veces:
+
+```cpp
+auto distancia = [](const Contacto& c) { return std::hypot(c.x, c.y); };
+```
+
+Otra puede capturar el alcance: `[alcance](const Contacto& c) { ... }`.
+
+Después, los algoritmos de `<algorithm>` las reutilizan: `count_if` cuenta los que cumplen, `find_if` encuentra el primero, `min_element` el menor según una regla, y `none_of` dice si **ninguno** cumple.
 
 #### Desafío
 La primera línea es el alcance del radar; las siguientes, contactos `nombre x y`
@@ -4572,7 +4734,11 @@ En el campo de prácticas aparecen muñecos de ogro con distinta vida. Lima prep
 —Una explosión para todos, sacamos a los que caen y que los que quedan griten.
 
 #### Gheco sugiere
-`for_each` con una lambda que capture el daño (`[dano](Enemigo& e) { e.vida -= dano; }`). Para borrar los caídos, `std::erase_if` devuelve cuántos sacó. Los gritos salen con `transform` a un vector nuevo.
+Tres algoritmos con lambdas:
+
+- `std::for_each(v.begin(), v.end(), regla)` hace algo con cada elemento. Para restar vida, la lambda captura el daño y recibe cada enemigo por referencia: `[dano](Enemigo& e) { e.vida -= dano; }`.
+- `std::erase_if` borra los caídos y devuelve cuántos sacó.
+- `std::transform` arma un vector nuevo pasando cada elemento por una lambda (acá, cada enemigo a su grito).
 
 #### Desafío
 Cada línea trae un enemigo `nombre vida`. Mostralos; aplicá una explosión de 25 de
@@ -5090,7 +5256,11 @@ recompensa: xp 15, oro 15
 Bron escribe el inventario en un archivo y, enseguida, lo lee para controlarlo. El archivo aparece vacío. Lima le explica: lo escrito todavía está en el buffer del `ofstream`, que recién lo graba al cerrarse.
 
 #### Gheco sugiere
-Poné la escritura en su propio bloque `{ ... }`: al terminar el bloque, el `ofstream` se destruye y se cierra (RAII), y después se puede leer.
+Para escribir un archivo se usa `std::ofstream` (de `<fstream>`), y se escribe con `<<` como en `std::cout`. Para leer, `std::ifstream`.
+
+Un archivo se cierra solo cuando el objeto deja de existir, al terminar su bloque `{ }`. Esa idea (el destructor libera lo que el objeto usaba) se llama **RAII**.
+
+Si querés leer lo que escribiste, el archivo tiene que estar cerrado antes: poné la escritura en su propio bloque `{ ... }`.
 
 #### Desafío
 Cerrá el archivo antes de leerlo, con un bloque.
@@ -5174,7 +5344,11 @@ recompensa: xp 10, oro 10
 Oto anota en el archivo del comedor cada guiso que sirve. Bron abre el archivo cada vez para escribir, y el archivo siempre tiene un solo guiso: el último.
 
 #### Gheco sugiere
-Abrí el archivo en modo agregar: `std::ofstream f("guisos.txt", std::ios::app);`.
+`std::ofstream f("notas.txt");` abre para escribir y **borra** lo que había. Para agregar al final sin borrar, se abre en modo **append**:
+
+```cpp
+std::ofstream f("notas.txt", std::ios::app);
+```
 
 #### Desafío
 Hacé que cada guiso se sume al archivo.
@@ -5259,7 +5433,9 @@ recompensa: xp 15, oro 15
 El Archivo guarda el stock en un CSV: `pieza,cantidad`. Lima quiere el total de piezas. Bron suma también el encabezado, y el programa revienta al convertir «cantidad» en número.
 
 #### Gheco sugiere
-Leé la primera línea (el encabezado) con un `getline` antes del bucle, y no la sumes.
+Un **CSV** es un archivo de texto con datos en columnas separados por comas. La primera línea suele ser el **encabezado**, con los títulos: no es un dato.
+
+Para saltearla, leela con un `std::getline` **antes** del bucle y no la uses. Después, cada línea se parte con `std::getline(flujo, campo, ',')`.
 
 #### Desafío
 Salteá el encabezado.
@@ -5344,7 +5520,13 @@ Lima le regala a Bron un cuaderno para que anote lo que vive en la Ciudadela.
 —La primera línea ya está escrita. Lo que sigue lo agregás al final, sin borrar nada de lo anterior.
 
 #### Gheco sugiere
-Creá el archivo con `std::ofstream` (pisa lo que hubiera). Para agregar, abrilo con `std::ios::app`. Después leelo con `std::ifstream` y `std::getline`; los bytes de texto son la suma de los largos de las líneas más un `\n` por cada una.
+Tres modos de trabajar con el archivo:
+
+- crearlo: `std::ofstream` común (pisa lo que había);
+- agregar líneas: `std::ofstream` con `std::ios::app`;
+- leerlo: `std::ifstream` y `std::getline` en un bucle, contando las líneas para numerarlas.
+
+Los bytes de un archivo de texto son la suma de los largos de las líneas más uno por cada `\n`.
 
 #### Desafío
 El programa crea `bitacora.txt` con una primera línea ("Día 1: llegué a la
@@ -5447,7 +5629,9 @@ Tesla da clase a los aprendices y quiere las notas en un archivo que pueda abrir
 —Primero las guardás. Después las leés **del archivo**, no de la memoria, y me decís quién recupera.
 
 #### Gheco sugiere
-Escribí con `std::ofstream` separando con comas. Al leer, salteá la primera línea con un `getline` y partí las demás con `std::getline(flujo, campo, ',')`. Para los dos decimales, `std::fixed << std::setprecision(2)`.
+Escribí el archivo con `std::ofstream`, con el encabezado primero y los datos separados por comas.
+
+Al leer, salteá la primera línea con un `getline` y partí las demás con `std::getline(flujo, campo, ',')`. Los campos son texto: convertí las notas con `std::stoi`. Para mostrar con dos decimales, `std::fixed << std::setprecision(2)`.
 
 #### Desafío
 Cada línea de la entrada trae `alumno nota1 nota2 nota3`. Guardalas en
@@ -5568,7 +5752,14 @@ El Archivo es un desorden de papeles. Lima propone ordenarlo en carpetas y despu
 —Y cuando terminamos, lo dejamos como estaba, que mañana viene otro aprendiz.
 
 #### Gheco sugiere
-`std::filesystem::create_directories` crea las carpetas que falten. Recorré con `recursive_directory_iterator`, guardá ruta y tamaño (`file_size`) y ordená. `ruta.lexically_relative(base)` te da la ruta corta (`fs::relative` no anda en el navegador: busca la carpeta real del disco). Al final, `remove_all`.
+`std::filesystem` (de `<filesystem>`) maneja carpetas y archivos:
+
+- `create_directories(ruta)` crea las carpetas que falten;
+- `recursive_directory_iterator(base)` recorre todo, carpetas adentro de carpetas;
+- `file_size(ruta)` da el tamaño de un archivo;
+- `remove_all(base)` borra todo al final.
+
+Guardá ruta y tamaño de cada archivo y ordená. Para mostrar la ruta corta, `ruta.lexically_relative(base)` (en el navegador, `fs::relative` no anda porque busca la carpeta real del disco).
 
 #### Desafío
 Cada línea de la entrada trae `carpeta archivo contenido`. Creá cada archivo dentro
@@ -5682,7 +5873,13 @@ El gremio de los artífices guarda a sus miembros en un archivo binario, uno det
 —Para subirle el nivel a uno no reescribas todo —dice Tesla—. Andá directo a su lugar.
 
 #### Gheco sugiere
-Abrí con `std::ios::in | std::ios::out | std::ios::binary`. El miembro `pos` está en `pos * sizeof(Miembro)`: `seekg` para leerlo y `seekp` para escribirlo en el mismo lugar. La cantidad sale del tamaño del archivo dividido `sizeof(Miembro)`.
+En un archivo **binario**, cada objeto ocupa siempre los mismos bytes, así que se puede ir directo a uno: el número `pos` empieza en `pos * sizeof(Miembro)`.
+
+- Abrí con `std::ios::in | std::ios::out | std::ios::binary` (leer y escribir, binario).
+- `seekg(lugar)` mueve la posición de **lectura** y `seekp(lugar)` la de **escritura**.
+- `read` y `write` mueven los bytes del objeto.
+
+Por eso el nombre va en un `char[20]` y no en un `std::string`: el objeto tiene que ser de tamaño fijo. La cantidad de miembros es el tamaño del archivo dividido `sizeof(Miembro)`.
 
 #### Desafío
 El gremio guarda sus miembros en un archivo **binario**, `gremio.dat`. Escribí la clase `Miembro` (un nombre de hasta 19 letras en un `char[20]` y un nivel) y un programa que empiece con el archivo vacío y lea órdenes:
@@ -6267,7 +6464,16 @@ recompensa: xp 10, oro 10
 La batidora (el autómata que Bron armó con `new`) por fin tiene etiqueta de dueño. Bron se la quiere dar a Oto, y escribe una copia: el Taller no lo deja. Una máquina con un solo dueño se **entrega**.
 
 #### Gheco sugiere
-`std::unique_ptr` no se copia. Para pasárselo a Oto: `std::move(de_bron)`. Después, `de_bron` queda vacío.
+Un **puntero inteligente** es un puntero que se ocupa solo de borrar el objeto cuando ya no hace falta. Así no hay `delete` a mano ni fugas.
+
+`std::unique_ptr` (de `<memory>`) es un dueño **único**: no se puede copiar, porque habría dos dueños. Para pasárselo a otro, se **mueve** con `std::move`:
+
+```cpp
+auto mio = std::make_unique<Perro>();
+auto tuyo = std::move(mio);   // ahora es tuyo
+```
+
+Después de moverlo, el original queda vacío.
 
 #### Desafío
 Entregale la batidora a Oto.
@@ -6340,7 +6546,9 @@ recompensa: xp 15, oro 15
 El guiso grande es de Oto **y** de Bron: los dos lo cuidan. Bron quiere saber cuántos dueños tiene en cada momento, pero cuenta mal: imprime un número fijo.
 
 #### Gheco sugiere
-`guiso.use_count()` dice cuántos `shared_ptr` comparten el objeto. Mostralo en lugar del número fijo.
+`std::shared_ptr` permite **varios dueños** del mismo objeto. Lleva la cuenta de cuántos son, y el objeto se borra recién cuando se va el último.
+
+Se crea con `std::make_shared`. Cada copia del puntero suma un dueño, y `use_count()` dice cuántos hay en ese momento.
 
 #### Desafío
 Mostrá la cuenta real de dueños.
@@ -6410,7 +6618,15 @@ recompensa: xp 15, oro 15
 Lima lleva una lista de los autómatas del depósito, pero no es dueña de ninguno. Cuando uno vuelve a la fundición, su lista tiene que darse cuenta. La de Bron sigue diciendo que el autómata está.
 
 #### Gheco sugiere
-Antes de usarlo, pedile al `weak_ptr` el objeto con `lock()`: si devuelve vacío, el autómata ya no existe.
+`std::weak_ptr` mira un objeto que es de un `shared_ptr`, **sin ser dueño**: no lo mantiene vivo. Por eso, cuando lo vas a usar, puede que ya no exista.
+
+Antes de usarlo, pedile el objeto con `lock()`: devuelve un `shared_ptr` que está vacío si el objeto ya se borró.
+
+```cpp
+if (auto p = mirada.lock()) {
+    // sigue existiendo: usá *p
+}
+```
 
 #### Desafío
 Preguntá con `lock()` si el autómata sigue existiendo.
@@ -6483,7 +6699,11 @@ Oto quiere ayuda en la cocina y encarga autómatas: grúas para las ollas, carre
 —Los que se rompan, a la chatarra. Y que nadie quede dando vueltas sin dueño, como el de la otra vez.
 
 #### Gheco sugiere
-`fabricar` devuelve `std::make_unique<Grua>(nombre)` o `nullptr`. Guardalos en un `std::vector<std::unique_ptr<Automata>>`; `std::erase_if` con una lambda que mire `roto` los destruye y se oye «a la chatarra». Ojo: en el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último); la salida esperada es la del navegador.
+Una **fábrica** es una función que crea objetos y te los entrega: `fabricar` devuelve un `std::unique_ptr<Automata>` con `std::make_unique<Grua>(nombre)`, o `nullptr` (vacío) si el tipo no existe.
+
+Guardalos en un `std::vector<std::unique_ptr<Automata>>`. Para sacar los rotos, `std::erase_if` con una lambda que mire `roto`: al sacarlos, se destruyen solos y se oye su destructor.
+
+En el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último): la salida esperada es la del navegador.
 
 #### Desafío
 Escribí `class Automata` abstracta (con `carga()` virtual pura, un nombre y un
@@ -6638,7 +6858,13 @@ Lyn tiene que llevar paquetes del depósito al carro y después entregarlos.
 —Cada paquete tiene un solo dueño. Si lo paso al carro, en el depósito queda el hueco.
 
 #### Gheco sugiere
-`carro.push_back(std::move(deposito[0]))` deja `deposito[0]` en `nullptr`. Una función con `const Paquete&` solo mira; una con `std::unique_ptr<Paquete>` por valor se queda con el paquete y lo destruye al terminar.
+Con `unique_ptr`, cada paquete tiene un solo dueño:
+
+- `carro.push_back(std::move(deposito[0]))` lo pasa al carro, y `deposito[0]` queda en `nullptr`.
+- Una función que recibe `const Paquete&` solo **mira**: el dueño no cambia.
+- Una que recibe `std::unique_ptr<Paquete>` por valor se **queda** con el paquete, y lo destruye al terminar.
+
+Antes de usar un lugar del depósito, preguntá si está vacío.
 
 #### Desafío
 Hay un depósito con tres paquetes (engranajes, resortes, planos), cada uno en un
@@ -6756,7 +6982,11 @@ Oto pone música en el comedor: dos listas, «Viaje» y «Fiesta», que comparte
 —Una canción no se borra mientras esté en alguna lista. Antes de probar, decime cuándo se va cada una.
 
 #### Gheco sugiere
-Con `std::make_shared` las canciones son compartidas: `use_count()` cuenta cuántos las tienen. `reset()` suelta el puntero de `main`; la canción se borra recién cuando la suelta el último. Ojo: en el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último); la salida esperada es la del navegador.
+Con `std::make_shared` las canciones son compartidas entre listas. `use_count()` cuenta cuántos las tienen.
+
+`reset()` suelta el puntero de `main`, pero la canción no se borra mientras quede alguna lista que la tenga: se borra recién cuando la suelta el último dueño.
+
+En el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último): la salida esperada es la del navegador.
 
 #### Desafío
 Tres canciones (Zamba, Chacarera, Vidala) en `shared_ptr`, que avisan cuando se
@@ -7208,7 +7438,9 @@ La puerta de la sala de máquinas se traba al entrar y hay que destrabarla al sa
 En la puerta aparece una mujer alta de pelo blanco y antiparras verdes, con una tableta llena de tildes: **la Maestra Artífice**. —¿Y la prueba? —pregunta. Bron no tiene la prueba.
 
 #### Gheco sugiere
-Usá la clase `Traba`: en su constructor traba y en su destructor destraba. Creá una al principio de `revisar` y sacá los `destrabar` a mano: el destructor corre en cualquier salida.
+**RAII** usa el constructor y el destructor para no olvidarse de nada: el constructor toma algo (traba la puerta) y el destructor lo suelta (la destraba).
+
+Como el destructor corre en **cualquier** salida de la función (un `return` en el medio incluido), ya no hace falta acordarse de destrabar a mano en cada camino. Creá un objeto `Traba` al principio de `revisar` y sacá los `destrabar()` sueltos.
 
 #### Desafío
 Reemplazá el trabado a mano por un objeto `Traba`.
@@ -7307,7 +7539,13 @@ recompensa: xp 15, oro 15
 La llave maestra de la sala de máquinas no se puede copiar: Tesla le borró la copia al plano. Bron intenta hacerse una copia «por las dudas». El Taller no lo deja: una llave maestra se **entrega**.
 
 #### Gheco sugiere
-En lugar de copiarla, movela: `LlaveMaestra de_bron = std::move(de_tesla);`.
+Algunas cosas no se pueden copiar (una llave maestra única). La clase lo prohíbe con `= delete` en el constructor de copia. Pero sí se pueden **mover**: entregarlas a otro, que pasa a ser el dueño.
+
+```cpp
+Llave tuya = std::move(mia);
+```
+
+El constructor de **movimiento** (el que recibe `Llave&&`) se lleva el contenido y deja al original vacío.
 
 #### Desafío
 Entregá la llave en lugar de copiarla.
@@ -7393,7 +7631,13 @@ recompensa: xp 10, oro 10
 Oto guarda su receta larguísima en el libro del comedor, y el libro hace una copia entera, letra por letra. Lima mide el tiempo con la lupa y se impacienta: la receta original ya no se va a usar.
 
 #### Gheco sugiere
-Pasale la receta al vector con `std::move(receta)`: el vector se lleva las letras sin copiarlas, y `receta` queda vacía.
+Copiar un texto largo cuesta: hay que duplicar todas sus letras. Si después ya no vas a usar el original, conviene **moverlo**: el destino se lleva las letras sin copiarlas.
+
+```cpp
+lista.push_back(std::move(texto));
+```
+
+Después de moverlo, `texto` queda vacío (no lo uses más, salvo para darle un valor nuevo).
 
 #### Desafío
 Mové la receta al libro.
@@ -7462,7 +7706,12 @@ La Maestra Artífice quiere un registro del turno que se escriba solo: cada tare
 —¿Y si alguien sale por la puerta de atrás? También tiene que quedar el «fin».
 
 #### Gheco sugiere
-El constructor escribe `inicio` y sube el contador `static`; el destructor baja el contador y escribe `fin`. Con `= delete` prohibís la copia. Si `procesar` hace `return` temprano, el destructor igual corre.
+Una clase RAII que deja un registro con sangría:
+
+- el constructor escribe `inicio <tarea>` y sube un contador `static` (compartido por todos los objetos), que dice cuántos espacios de sangría van;
+- el destructor baja el contador y escribe `fin <tarea>`.
+
+Con `= delete` prohibís la copia. Si `procesar` hace un `return` temprano, el destructor igual corre y el `fin` aparece.
 
 #### Desafío
 Escribí una clase RAII `Registro` que al nacer muestra `inicio <tarea>` y al morir
@@ -7586,7 +7835,11 @@ En la sala de máquinas entra uno por vez. Tesla tiene un candado que se cierra 
 —El candado no se copia. Pero si alguien me lo pasa, el que lo tenía ya no lo abre.
 
 #### Gheco sugiere
-Copia con `= delete`. El constructor de movimiento recibe `Candado&&`, toma la responsabilidad y marca al otro como inactivo; el destructor solo abre si está activo. `entrar()` devuelve el candado y se mueve solo.
+El candado no se copia (`= delete`) pero sí se mueve.
+
+- El constructor de movimiento recibe `Candado&&`: se queda con la responsabilidad de abrir la sala y marca al otro como **inactivo**.
+- El destructor solo abre la sala si está activo (así no se abre dos veces).
+- `entrar()` devuelve un candado: al devolverlo, se mueve solo.
 
 #### Desafío
 Escribí `class Candado`: el constructor cierra una sala (y avisa si ya estaba
@@ -7714,7 +7967,11 @@ Lima sospecha que en la Ciudadela se copian piezas de más.
 —Contá cada copia y cada mudanza. Y antes de mirar, anotá lo que esperás. Si le errás a una, la lima.
 
 #### Gheco sugiere
-Los contadores `static` suben en el constructor de copia y en `operator=` de copia (`copias`), y en los de movimiento (`movidas`). Con `reserve(3)` el vector no se muda en el medio y no hay movimientos de sobra.
+Las funciones especiales de una clase son: constructor de copia, `operator=` de copia, constructor de movimiento, `operator=` de movimiento y destructor.
+
+Para contar, dos contadores `static`: `copias` sube en las dos de copia, y `movidas` en las dos de movimiento.
+
+Un vector, cuando se llena, se muda a un lugar más grande y mueve sus elementos. Con `reserve(3)` le pedís lugar de antemano, y no hay movimientos de sobra.
 
 #### Desafío
 Escribí `class Pieza` con las cinco funciones especiales (salvo el destructor), que
@@ -8118,7 +8375,13 @@ Anoche alguien revolvió el **Bestiario**: hay fichas rotas, criaturas repetidas
 Bron guarda cada ficha en un `map` (nombre → peligro), pero las repetidas pisan a las anteriores y se pierde el peligro mayor.
 
 #### Gheco sugiere
-Si la criatura ya está, quedate con el peligro **mayor**: `fichas[n] = std::max(fichas[n], peligro);` (si no estaba, arranca en 0).
+Si la criatura ya está en el mapa, quedate con el peligro **mayor**. `std::max(a, b)` devuelve el más grande de los dos:
+
+```cpp
+fichas[nombre] = std::max(fichas[nombre], peligro);
+```
+
+Si no estaba, `fichas[nombre]` arranca en 0, así que la primera vez queda el peligro que llegó.
 
 #### Desafío
 Guardá el peligro mayor de cada criatura.
@@ -8205,7 +8468,9 @@ recompensa: xp 15, oro 15
 El Mímico copia a quien mira. Tesla le explica a Bron cómo lo hace: no **es** un lobo, **tiene** una copia de un lobo, y esa copia es suya. Para copiar algo sin saber qué es, cada criatura sabe copiarse a sí misma. Al troll le falta su `clone`.
 
 #### Gheco sugiere
-Escribí `clone()` en `Troll` como en `Lobo`: `return std::make_unique<Troll>(*this);`.
+Con punteros a la base no se puede copiar una criatura sin saber qué es. La solución es que cada una sepa copiarse a sí misma: un método virtual `clone()` que devuelve una copia nueva de su propio tipo.
+
+En cada derivada es igual, cambiando el tipo: `return std::make_unique<Troll>(*this);` (`*this` es el objeto mismo).
 
 #### Desafío
 Completá la copia del troll.
@@ -8311,7 +8576,14 @@ recompensa: xp 15, oro 15
 El Mímico copió a Bron (con dos llaves) y a Lima (con tres rodetes). Y tiene en la mano una **bisagra**: copió la del Vidriero, pero no sabe abrir nada con ella. Para encontrarla entre todo lo que robó, Bron recorre la bolsa a mano y se pierde.
 
 #### Gheco sugiere
-Buscá con `std::find_if` y una lambda que pregunte si el objeto es una `"bisagra"`. Si el iterador no es `end()`, la encontraste.
+`std::find_if(inicio, fin, regla)` devuelve un **iterador** (una especie de puntero) al primer elemento que cumple la regla de la lambda. Si no encuentra ninguno, devuelve `fin` (`bolsa.end()`).
+
+```cpp
+auto it = std::find_if(v.begin(), v.end(), [](const Objeto& o) { return o.tipo == "llave"; });
+if (it != v.end()) {
+    std::cout << it->de_quien;
+}
+```
 
 #### Desafío
 Encontrá la bisagra con `find_if`.
@@ -8394,7 +8666,9 @@ item: Espejo del Mímico
 Para atrapar al Mímico, hay que guardar cada criatura del Bestiario en su lugar, con **un solo dueño**: el mapa. El Mímico se escapa por cada copia que queda suelta. Bron crea las criaturas pero no las mete en el mapa.
 
 #### Gheco sugiere
-Movelas al mapa: `bestiario[nombre] = std::move(c);`. Al final, el Mímico no tiene ninguna copia suelta para esconderse.
+Un `unique_ptr` no se copia: para guardarlo en el mapa, hay que **moverlo**: `bestiario[nombre] = std::move(c);`.
+
+Después de moverlo, `c` queda vacío, así que no queda ninguna copia suelta.
 
 #### Desafío
 Guardá cada criatura en el Bestiario, entregándola.
@@ -8494,7 +8768,9 @@ El Mímico se esconde entre las criaturas del Bestiario y copia a la que tiene m
 —Si heris al original, la copia no se entera. Es suya.
 
 #### Gheco sugiere
-`clonar()` devuelve un `std::unique_ptr<Criatura>` nuevo con la vida **actual** (`std::make_unique<Lobo>(*this)`). El Mímico guarda esa copia; herir al original no la toca. Si el Mímico no cae, responde con `forma->golpe()`.
+`clonar()` devuelve una copia nueva con la vida **actual**: `std::make_unique<Lobo>(*this)`. El Mímico guarda esa copia, que es un objeto aparte: herir al original no la toca.
+
+Si el Mímico no cae, responde con el golpe de la forma que copió: `forma->golpe()`, y la llamada virtual elige la versión de esa criatura.
 
 #### Desafío
 En la sala hay tres criaturas (un vector de `unique_ptr<Criatura>`): un lobo

@@ -243,7 +243,11 @@ recompensa: xp 10, oro 10
 Detrás de la Encrucijada hay una sala oscura con una **linterna mágica** que proyecta figuras que se mueven. El reloj de la linterna da el tiempo en milisegundos, y el `dt` de Bron le da siempre cero: la figura no se mueve nunca.
 
 #### Gheco sugiere
-Dividí por `1000.0` (con decimales): así `16 / 1000.0` da `0.016`. Acá se prueba la lógica sin ventana (SDL no corre en el navegador): es lo mismo que pasa por dentro de SDL.
+En un juego, cada cuadro dura un poquito distinto. El reloj marca **milisegundos** (milésimas de segundo), y para mover las cosas se usa el tiempo del cuadro en **segundos**, `dt`.
+
+Para pasar de milisegundos a segundos, dividí por mil, pero con decimales: `16 / 1000` entre enteros da 0, y `16 / 1000.0` da `0.016`.
+
+SDL (la biblioteca de juegos) no corre en el navegador: se prueba la lógica sin ventana, que es lo mismo que pasa por dentro.
 
 #### Desafío
 Calculá el `dt` en segundos con decimales.
@@ -312,7 +316,7 @@ recompensa: xp 10, oro 10
 Lyn hace rebotar una pelota de luz contra las paredes de la proyección (la pared derecha está en 100). La pelota de Bron se sale de la pared y se pierde en la oscuridad.
 
 #### Gheco sugiere
-Si `x` pasa de 100, dejala en 100 y cambiá el signo de `vx`. Lo mismo con el borde izquierdo, en 0.
+Para rebotar: después de mover, si la pelota se pasó del borde derecho (100), dejala en 100 y dale vuelta la velocidad (`vx = -vx`). Lo mismo con el borde izquierdo, en 0.
 
 #### Desafío
 Hacé rebotar la pelota en los dos bordes.
@@ -387,7 +391,9 @@ recompensa: xp 15, oro 15
 La linterna usa tres recursos: la ventana, el pincel y una lente. Bron los pide y los devuelve a mano, y se olvidó de devolver la lente. Tesla le muestra cómo hacer que se devuelvan solos.
 
 #### Gheco sugiere
-Creá los tres como objetos `Recurso` en orden (ventana, pincel, lente) y borrá las llamadas a mano: al terminar `main`, los destructores los devuelven al revés.
+Un juego pide recursos (la ventana, el pincel, una imagen) y tiene que devolverlos al terminar, en orden inverso. Con **RAII** se hace solo: cada recurso es un objeto que lo pide en su constructor y lo devuelve en su destructor.
+
+Creá los tres objetos en orden y sacá las llamadas a mano: al terminar `main`, los destructores los devuelven del último al primero.
 
 #### Desafío
 Usá objetos que se devuelvan solos.
@@ -1104,7 +1110,9 @@ recompensa: xp 10, oro 10
 La heroína de la linterna (la que tiene la cara de Lima) camina más rápido en diagonal que derecho. Lima dice que así no camina ella.
 
 #### Gheco sugiere
-Si el vector de dirección no es cero, dividí `dx` y `dy` por su largo: `std::hypot(dx, dy)`.
+Con dos teclas a la vez (derecha y abajo), el vector de dirección es (1, 1), y en diagonal mide raíz de 2: el personaje iría más rápido. Para arreglarlo se **normaliza**: dividís `dx` y `dy` por el largo del vector, `std::hypot(dx, dy)`, así mide 1.
+
+Si no se aprieta nada, el largo es 0: no dividas.
 
 #### Desafío
 Normalizá la dirección.
@@ -1180,7 +1188,9 @@ recompensa: xp 15, oro 15
 La heroína salta cuando se aprieta la barra. Bron mantiene la barra apretada y la heroína salta en cada cuadro, como un resorte. Tesla le explica que el salto es para la tecla **recién** apretada.
 
 #### Gheco sugiere
-Guardá cómo estaba la tecla en el cuadro anterior. Salta solo si `ahora && !antes`.
+Para saltar importa el momento en que se **aprieta** la tecla, no si está apretada (si no, mantenerla saltaría en todos los cuadros).
+
+Guardá cómo estaba en el cuadro anterior. «Recién apretada» es: está apretada **ahora** y **no** lo estaba antes (`ahora && !antes`). Al final de cada cuadro, `antes = ahora`.
 
 #### Desafío
 Saltá solo cuando la tecla se acaba de apretar.
@@ -1257,7 +1267,7 @@ recompensa: xp 10, oro 10
 La heroína camina pasando cuatro placas de vidrio, a 8 cuadros por segundo. La animación de Bron se pasa del último cuadro y busca una placa 5 que no existe.
 
 #### Gheco sugiere
-Usá el resto: `% 4`, así después del cuadro 3 vuelve al 0.
+Una animación de 4 placas (dibujos) se repite en ronda: 0, 1, 2, 3, 0, 1… La placa sale del tiempo: `t * fps` dice cuántas pasaron, y con `% 4` vuelve a empezar después de la 3.
 
 #### Desafío
 Hacé que la animación vuelva a empezar.
@@ -2035,7 +2045,7 @@ recompensa: xp 10, oro 10
 La heroína tiene que frenar en las paredes del laberinto proyectado. La función de choque de Bron revisa solo el eje horizontal, y la heroína choca con paredes que están en otra fila.
 
 #### Gheco sugiere
-Agregá las dos condiciones del eje vertical: `a.y < b.y + b.h && a.y + a.h > b.y`.
+Dos rectángulos se tocan si se superponen **en los dos ejes a la vez**. En `x`: cada uno empieza antes de que termine el otro (`a.x < b.x + b.w && a.x + a.w > b.x`). En `y`, lo mismo con `y` y `h`. Si solo se superponen en un eje, no se tocan.
 
 #### Desafío
 Revisá los dos ejes.
@@ -2115,7 +2125,9 @@ recompensa: xp 15, oro 15
 El mundo de la linterna mide 1000 y la pared de la sala solo 320. La cámara sigue a la heroína, pero cerca de los bordes muestra el vacío negro de afuera del mundo.
 
 #### Gheco sugiere
-Limitá la cámara: `std::clamp(jugador - 160, 0, 1000 - 320)`.
+La cámara sigue al jugador para que quede en el centro de la pantalla: `jugador - pantalla / 2`. Pero cerca de los bordes mostraría lo que hay afuera del mundo.
+
+`std::clamp(valor, minimo, maximo)` la frena: nunca menos de 0, ni más que el ancho del mundo menos el de la pantalla.
 
 #### Desafío
 Que la cámara no muestre afuera del mundo.
@@ -2182,7 +2194,9 @@ recompensa: xp 15, oro 15
 La linterna tiene tres escenas: el título, el juego y el final. El título de Bron, cuando aprietan una tecla, vuelve a crear… el título.
 
 #### Gheco sugiere
-En `Titulo::siguiente`, devolvé `std::make_unique<Juego>()`.
+Cada escena del juego (título, juego, final) sabe cuál viene después: su método `siguiente()` devuelve un `std::unique_ptr` a la escena nueva. Así el juego pasa de una a otra sin un `switch` gigante.
+
+Del título se pasa al juego: `return std::make_unique<Juego>();`.
 
 #### Desafío
 Que el título pase al juego.
@@ -2839,7 +2853,7 @@ recompensa: xp 15, oro 15
 La linterna se apaga de golpe: el **Espectro de la Linterna** se escapó y se llevó las gemas que la hacen brillar. Lyn apuesta a que Bron no las junta antes del amanecer. Bron pasa por encima de las gemas, pero no las levanta.
 
 #### Gheco sugiere
-Cuando la baldosa es `*`, cambiala por `.` y sumá una gema.
+La fila del mapa es un texto, y cada letra una baldosa. Cuando Bron pisa una baldosa con `*` (una gema), la juntás: cambiás esa letra por `.` (así no se junta dos veces) y sumás una gema.
 
 #### Desafío
 Juntá las gemas al pisarlas.
@@ -2920,7 +2934,7 @@ recompensa: xp 15, oro 15
 Los espectros no tienen prisa, pero tampoco se cansan: en cada paso se acercan a Bron. El espectro de Bron solo se acerca en horizontal, y nunca lo alcanza en vertical.
 
 #### Gheco sugiere
-Hacé lo mismo con `y`: si el espectro está arriba, `ey++`; si está abajo, `ey--`.
+El espectro persigue dando un paso por eje hacia Bron: si está a la izquierda, `ex++`; si está a la derecha, `ex--`. Hacé lo mismo con `y`: si está arriba, `ey++`; si está abajo, `ey--`.
 
 #### Desafío
 Que el espectro persiga en los dos ejes.
@@ -2991,7 +3005,9 @@ recompensa: xp 25, oro 30
 Bron vuelve con las gemas, perseguido por los espectros. El marcador de la linterna dice «ganaste» apenas junta la primera gema, y Lyn reclama: faltan dos.
 
 #### Gheco sugiere
-Se gana cuando `gemas == total`, no con cualquier gema. Y el toque del espectro se revisa antes.
+Se gana cuando se juntaron **todas** las gemas (`gemas == total`), no cuando se junta una.
+
+Y el orden importa: en cada cuadro, revisá primero si el espectro tocó a Bron. Si lo tocó, se pierde, aunque en ese mismo cuadro haya juntado la última gema.
 
 #### Desafío
 Corregí la condición de victoria.

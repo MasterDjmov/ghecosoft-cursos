@@ -236,7 +236,11 @@ recompensa: xp 10, oro 10
 En el Taller de los Vitrales las ventanas **esperan**: cuando alguien toca una palanca, suena una campana y el código responde. Bron armó su propio botón para entender cómo funciona, pero al tocarlo no responde nadie.
 
 #### Gheco sugiere
-Cuando hacen clic, el botón tiene que **emitir** su señal: recorrer `conectados_` y llamar a cada función. Acá se prueba la lógica sin ventana (Qt no corre en el navegador): es lo mismo que pasa por dentro de Qt.
+En los programas con ventana (como los que se hacen con Qt), un botón no sabe qué va a pasar cuando lo apretan. Las otras partes se **conectan** a él: le dejan una función. Cuando lo apretan, el botón **emite su señal**: llama a todas las funciones conectadas.
+
+Acá el botón guarda las funciones (`std::function`) en `conectados_`. En `click`, recorré la lista y llamá a cada una.
+
+Qt no corre en el navegador: se prueba la lógica sin ventana, que es lo mismo que pasa por dentro.
 
 #### Desafío
 Hacé que el clic llame a todo lo conectado.
@@ -335,7 +339,9 @@ recompensa: xp 10, oro 10
 El selector de presión de Lima avisa a la etiqueta cada vez que alguien lo toca, aunque ponga el mismo número. La etiqueta se redibuja de más, y Lima se impacienta: así no avisa un `QSpinBox`.
 
 #### Gheco sugiere
-En `poner`, si el valor nuevo es igual al actual, no hagas nada. Si cambió, guardalo y avisá.
+Un control (como una perilla) avisa cuando su valor cambia. Pero si le ponen el mismo valor que ya tenía, no cambió nada y no tiene que avisar: si no, se pueden armar avisos en cadena para nada.
+
+En `poner`: si el valor nuevo es igual al actual, salí con `return`. Si cambió, guardalo y avisá (si hay alguien conectado).
 
 #### Desafío
 Avisá solo cuando el valor cambia.
@@ -438,7 +444,9 @@ recompensa: xp 15, oro 15
 La palanca del comedor toca la campana de Oto y prende la luz. De noche, Oto quiere que la palanca prenda la luz **sin** tocar la campana. Bron escribió `desconectar`, pero no saca nada.
 
 #### Gheco sugiere
-Cada conexión tiene un número. En `desconectar(id)`, borrá del mapa la conexión con ese número: `conectados_.erase(id);`.
+Cada conexión recibe un número al conectarse, como un ticket. Para desconectarse, se usa ese número.
+
+Las conexiones se guardan en un mapa de número a función, así que desconectar es borrar esa clave: `conectados_.erase(id);`.
 
 #### Desafío
 Hacé que `desconectar` saque la conexión.
@@ -1014,7 +1022,9 @@ recompensa: xp 10, oro 10
 Lyn se inscribe en la carrera y el formulario le avisa un error. Lo corrige, y le avisa otro. Y otro. Lyn le apuesta a la ventanita que la próxima vez se acuerda de todo; pierde, porque la ventanita le muestra los errores de a uno.
 
 #### Gheco sugiere
-En lugar de cortar con `return` en el primer error, agregá cada error a la lista `errores` y seguí revisando.
+Al validar un formulario, es molesto avisar los errores de a uno (arreglás uno y aparece otro). Mejor revisar **todo** y avisar todos juntos.
+
+En vez de cortar con `return` en el primer error, agregá cada error a la lista `errores` y seguí revisando. Al final, si la lista está vacía, todo está bien.
 
 #### Desafío
 Juntá todos los errores antes de avisar.
@@ -1114,7 +1124,9 @@ recompensa: xp 15, oro 15
 En la lista de inscriptos, Lima marcó dos para borrar: los lugares 1 y 3. Bron los borra en ese orden, y se va el que no era: al borrar el 1, todos los de atrás se corrieron un lugar.
 
 #### Gheco sugiere
-Recorré los lugares marcados de **atrás para adelante** (el 3 primero, después el 1): así los que todavía faltan no se mueven.
+Si borrás elementos de un vector por su posición, cada borrado corre a los que están después: el que estaba en el lugar 3 pasa al 2. Si después querés borrar «el 3», ya no es el mismo.
+
+El truco: borrá de **atrás para adelante** (el lugar más grande primero). Así los que todavía faltan, que están antes, no se mueven. Para recorrer al revés, `rbegin()` y `rend()`.
 
 #### Desafío
 Borrá en el orden que no corre a nadie.
@@ -1189,7 +1201,13 @@ recompensa: xp 15, oro 15
 El formulario guarda a cada inscripto en una línea: `nombre;edad;torre`. Oto se inscribe como «Oto el Grande», y al cargar el archivo, el programa de Bron lo parte en pedazos.
 
 #### Gheco sugiere
-Leé cada línea con `std::getline` y partila por `;` con `std::getline(campos, nombre, ';')`, que no corta en los espacios.
+Leé cada línea entera con `std::getline`, y partila por `;` con un `std::istringstream`:
+
+```cpp
+std::getline(campos, nombre, ';');
+```
+
+A diferencia de `>>`, `getline` con separador no corta en los espacios: lee hasta el `;`. Así los nombres con espacios quedan enteros.
 
 #### Desafío
 Leé los campos respetando los espacios.
@@ -2015,7 +2033,13 @@ recompensa: xp 10, oro 10
 En la oficina de patentes, el combo de la ventana ya ofrece «farol», pero la fábrica de Bron no lo conoce y devuelve nada. El empleado escribe «tipo desconocido» con cara de pena.
 
 #### Gheco sugiere
-Agregá en `crear` el caso `"farol"`, que devuelva un `std::make_unique<Farol>(nombre)`.
+La **fábrica** decide qué tipo de invento crear según un texto: una cadena de `if` que devuelve un `std::unique_ptr` al tipo que corresponde. Para enseñarle uno nuevo, agregá su caso:
+
+```cpp
+if (tipo == "farol") {
+    return std::make_unique<Farol>(nombre);
+}
+```
 
 #### Desafío
 Enseñale a la fábrica a crear faroles.
@@ -2153,7 +2177,9 @@ recompensa: xp 15, oro 15
 El empleado de patentes borra un invento de la tabla de la ventana… y el total sigue igual, porque en el registro el invento sigue estando. Dos verdades. La Maestra Artífice pasa y pregunta: —¿Y la prueba? —La prueba es el total, y no da.
 
 #### Gheco sugiere
-Borrá del **modelo** (`registro.quitar(fila)`) y después rehacé la tabla con `refrescar`, en lugar de borrar solo de `tabla`.
+En un programa con ventana, los datos viven en el **modelo** (el registro) y la tabla de la pantalla es solo una **vista** que los muestra. Tiene que haber una sola verdad: el modelo.
+
+Si borrás solo de la tabla, el modelo sigue teniendo el dato y los dos dicen cosas distintas. Lo correcto: borrá del modelo y después rehacé la tabla con `refrescar` a partir del modelo.
 
 #### Desafío
 Hacé que la tabla y el modelo digan lo mismo.
@@ -2290,7 +2316,9 @@ recompensa: xp 10, oro 10
 El empleado aprieta «Quitar» sin elegir ninguna fila. La tabla le pasa −1, y el programa de Bron revienta buscando el invento número −1.
 
 #### Gheco sugiere
-Revisá también que `fila` no sea negativa: si `fila < 0`, mostrá `Elegi un invento` y no hagas nada.
+En las ventanas, cuando no hay nada elegido en una lista, la fila elegida suele valer **-1**. Si usás ese -1 como posición, se rompe todo.
+
+Antes de quitar, revisá las dos puntas: que `fila` no sea negativa (si es, avisá «Elegí un invento») y que no se pase del tamaño.
 
 #### Desafío
 Cuidate del −1.
@@ -2385,7 +2413,11 @@ En la oficina de patentes, el empleado suma los inventos con los dedos. Tesla qu
 —Antes de la ventana, el modelo tiene que andar solo. Agregá los faroles.
 
 #### Gheco sugiere
-`Farol` hereda de `Invento` y su `valor()` es `precio() + luz_ * 3`. Sumalo a la fábrica `crear`. Para probar el archivo, guardá con un `Registro` y cargá en **otro** vacío.
+Antes de armar la ventana, el modelo tiene que andar solo, en consola.
+
+`Farol` hereda de `Invento` y suma su luz (un entero); su `valor()` es `precio() + luz_ * 3`. Agregalo a la fábrica `crear`.
+
+Para probar el archivo: guardá con un `Registro` y cargá en **otro** registro vacío. Si los dos muestran lo mismo, guardar y cargar andan bien.
 
 #### Desafío
 Antes de la ventana, el modelo tiene que andar solo. Partí de las clases del ejemplo y agregá una tercera derivada: `Farol`, con su **luz** (un entero), que vale `precio + luz * 3`.
@@ -3528,7 +3560,9 @@ recompensa: xp 10, oro 10
 El maestro vidriero pinta cada vitral a mano, baldosa por baldosa. Bron quiere saber en qué baldosa hizo clic, y confunde las coordenadas: pinta la fila donde iba la columna.
 
 #### Gheco sugiere
-`x` es la posición horizontal (la columna) e `y` la vertical (la fila). Las baldosas miden `tam` píxeles.
+La pantalla se mide en píxeles: `x` es la distancia desde la izquierda (la **columna**) e `y` desde arriba (la **fila**). Ojo con el orden: muchas veces se confunden.
+
+Si cada baldosa mide `tam` píxeles, la baldosa del clic sale con división entera: `y / tam` es la fila y `x / tam` la columna.
 
 #### Desafío
 Calculá bien la fila y la columna.
@@ -3599,7 +3633,7 @@ recompensa: xp 10, oro 10
 El reloj dibujado de la torre avanza la aguja 6 grados en cada tic del timer. Después de un minuto, la aguja de Bron marca 366 grados, y el dibujo se tuerce.
 
 #### Gheco sugiere
-Después de sumar, quedate con el resto de dividir por 360: `angulo_ = (angulo_ + 6) % 360;`.
+Un ángulo da la vuelta a los 360 grados: 365 es lo mismo que 5. Después de sumar, quedate con el resto de dividir por 360 con `%`. Así la aguja nunca pasa de 359.
 
 #### Desafío
 Hacé que la aguja dé la vuelta.
@@ -3682,7 +3716,9 @@ recompensa: xp 15, oro 15
 En la agenda, Lima filtra los contactos que tienen una «o» y elige el segundo que se ve. Bron borra la fila 1 del modelo… y se va otro contacto: la fila 1 de la vista no es la fila 1 del modelo.
 
 #### Gheco sugiere
-El filtro guarda, para cada fila visible, cuál era en el modelo (`visibles`). Borrá `modelo[visibles[1]]`, no `modelo[1]`.
+Cuando una tabla tiene un filtro, la fila 1 **de lo que se ve** no es la fila 1 del modelo: el filtro escondió algunas. El filtro guarda, para cada fila visible, cuál es en el modelo (`visibles`).
+
+Antes de borrar, convertí: la fila visible `v` es la fila `visibles[v]` del modelo.
 
 #### Desafío
 Convertí la fila de la vista a la del modelo antes de borrar.
@@ -4154,7 +4190,7 @@ En lo alto del Taller espera la **Gárgola de los Vitrales**, con su monóculo d
 A la grúa de Bron le falta su costo de mantenimiento, y el Taller no la deja construir: es abstracta.
 
 #### Gheco sugiere
-Escribí `int costo() const override` en `Grua`: `horas() * 8 + toneladas_ * 50`.
+Cada máquina calcula su costo a su manera: `costo()` es virtual puro en `Maquina` y cada derivada lo escribe con `override`. La grúa cobra 8 por hora más 50 por tonelada.
 
 #### Desafío
 Completá la grúa.
@@ -4286,7 +4322,11 @@ recompensa: xp 15, oro 15
 —Muestre cualquier máquina con `<<` —pide la Gárgola—. Con el formato del libro: `[codigo] nombre - horas h - $costo`. El operador de Bron lee lo privado sin ser amigo, y el Taller no lo deja.
 
 #### Gheco sugiere
-Declaralo **amigo** adentro de la clase: `friend std::ostream& operator<<(std::ostream& os, const Maquina& m);`.
+`operator<<` es una función de afuera de la clase, así que no puede leer los datos privados. La clase le da permiso declarándolo **amigo** adentro:
+
+```cpp
+friend std::ostream& operator<<(std::ostream& os, const Maquina& m);
+```
 
 #### Desafío
 Hacé que el operador pueda leer la máquina.
@@ -4379,7 +4419,10 @@ recompensa: xp 15, oro 15
 —Liste las máquinas de mayor a menor costo —pide la Gárgola—. Y si empatan… —deja la frase en el aire. Bron ordena solo por costo, y las empatadas salen en cualquier orden. La Gárgola carraspea.
 
 #### Gheco sugiere
-En la lambda: si los costos son distintos, `return a.costo > b.costo;`; si son iguales, `return a.codigo < b.codigo;`.
+Una lambda para `std::sort` con desempate: contesta «¿`a` va antes que `b`?».
+
+- si los costos son distintos, va antes el más caro;
+- si son iguales, va antes el de código más chico.
 
 #### Desafío
 Desempatá por código.
@@ -4469,7 +4512,9 @@ item: Llave Universal
 —Guarde el taller y vuélvalo a cargar —dice la Gárgola—. Si se pierde una sola fila, empezamos de nuevo. Bron guarda bien, pero al cargar lee el tipo y el resto en el orden equivocado.
 
 #### Gheco sugiere
-Al cargar, cada línea es `tipo;codigo;nombre;horas`. Leé los cuatro campos **en ese orden** con `getline(campos, x, ';')`.
+Si se guardó en el orden `tipo;codigo;nombre;horas`, hay que leer en ese **mismo** orden. Con `std::getline(campos, x, ';')` leés un campo por vez; los números se convierten con `std::stoi`.
+
+Si leés en otro orden, cada dato termina en el campo equivocado.
 
 #### Desafío
 Cargá los campos en el orden en que se guardaron.
@@ -4589,7 +4634,12 @@ La Gárgola de los Vitrales toma el examen de TallerExpress. Antes de la ventana
 —Altas, bajas, listado, guardar y cargar. ¿Y la prueba? Que ande todo antes de dibujar un solo botón.
 
 #### Gheco sugiere
-`Maquina` abstracta con `costo()` virtual puro y un `operator<<` amigo que llama a una función virtual. El `Taller` guarda `std::unique_ptr<Maquina>`, no deja códigos repetidos y ordena con una lambda. Guardar y cargar con `;`, el tipo primero.
+Este junta todo el capítulo, en consola:
+
+- `Maquina` abstracta con `costo()` virtual puro, y un `operator<<` amigo que llama a una función virtual (así cada máquina se muestra a su manera);
+- una fábrica que crea cada tipo según un texto;
+- `Taller` guarda `std::unique_ptr<Maquina>`, no acepta códigos repetidos y ordena con una lambda;
+- guardar y cargar con `;`, el tipo primero (para que la fábrica sepa qué crear al cargar).
 
 #### Desafío
 El modelo de TallerExpress, en consola. Escribí la jerarquía (`Maquina` abstracta, `Automata`, `Telar` y `Grua`, con el `operator<<` amigo), la fábrica y la clase `Taller`. El programa lee órdenes de la entrada hasta que se terminen:

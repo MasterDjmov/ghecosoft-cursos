@@ -117,9 +117,22 @@ recompensa: xp 10, oro 10
 La ventanilla del Palomar es un mostrador de madera con un pizarrón vacío. Del otro lado, los mensajes ya esperan en los casilleros. —Pedímelos —dice Nilo— y yo te los tiro.
 
 #### Gheco sugiere
-Pedí `/puerto/mensajes` y agregá un `<li>` por mensaje a `#mensajes`, con `de: texto`.
+Esta Senda arma una ventanilla de mensajes que habla con el Puerto, con lo de R02 y R04. Lo primero es **pedir y dibujar**:
+
+1. `await fetch(…)` y `await respuesta.json()` (R04-N04) traen el arreglo;
+2. por cada elemento, crear un `<li>`, ponerle el texto y colgarlo (R02-N02).
+
+```js
+for (const p of productos) {
+    const li = document.createElement('li');
+    li.textContent = `${p.nombre}: ${p.precio}`;
+    vidriera.append(li);
+}
+```
 
 #### Desafío
+Los mensajes están en `/puerto/mensajes`. Cada uno va en un `<li>` de `#mensajes`, como `de: texto`.
+
 Que se vean los mensajes del Palomar.
 
 #### Página
@@ -185,9 +198,17 @@ recompensa: xp 10, oro 10
 —La gente se queda mirando el pizarrón vacío y se va —dice Nilo—. No sabe si el Palomar está roto o si las palomas todavía vuelan.
 
 #### Gheco sugiere
-Antes de pedir, poné `Cargando…` en `#estado`. Cuando llegue, si la lista está vacía poné `No hay mensajes`; si no, `2 mensajes en el Palomar` (con el número que sea).
+Una página que pide cosas a un servidor tiene **tres momentos**, y la persona tiene que saber en cuál está:
+
+- **cargando**: se muestra antes del `fetch`;
+- **vacío**: llegó la lista, pero sin nada (`lista.length === 0`);
+- **lleno**: llegó con cosas; conviene decir cuántas.
+
+El aviso de «cargando» va **antes** del `await`: mientras se espera, la página ya lo muestra.
 
 #### Desafío
+Mientras espera, `#estado` dice `Cargando…`. Cuando llega la lista: `No hay mensajes` si está vacía, o cuántos hay, como `2 mensajes en el Palomar`.
+
 Que el Palomar diga en qué anda.
 
 #### Página
@@ -262,9 +283,13 @@ recompensa: xp 10, oro 10
 Pico baja del poste y deja un mensaje en el Palomar. No es un mensaje: es **una etiqueta**, `<b>`, y la ventanilla la dibuja en negrita. —Si puede meter una negrita —dice Nilo, pálido—, puede meter cualquier cosa.
 
 #### Gheco sugiere
-El código de la ventanilla escribe con `innerHTML`. Cambialo para que el mensaje de Pico se vea **tal cual**, con sus `<` y `>`.
+Lo que llega de un servidor lo pudo escribir **cualquiera**. Si se pone con `innerHTML`, se lee como HTML: alguien puede meter negritas, botones o cosas peores (es lo que vimos en R02-N02).
+
+Con `textContent` se ve tal cual, con los signos. Buscá dónde la ventanilla usa `innerHTML` para el texto de los mensajes.
 
 #### Desafío
+El mensaje de Pico se tiene que ver **tal cual**, con sus `<` y `>`.
+
 Que no aparezca ningún `<b>` en la lista.
 
 #### Página
@@ -345,9 +370,19 @@ recompensa: xp 15, monedas 5
 Se larga una tormenta en el Puerto y Elefa cierra el Palomar: las palomas no salen con viento. La ventanilla sigue mostrando *Cargando…* para siempre.
 
 #### Gheco sugiere
-Si la respuesta no es `ok`, leé el `error` que manda el Puerto y mostrá `El Palomar no atiende (503): …` en `#estado`, con la clase `error`. Si es `ok`, dibujá la lista como siempre.
+Lo de `respuesta.ok` y `respuesta.status` de R04-N04: si el servidor contesta con error, igual manda un JSON con una propiedad `error`.
+
+La desestructuración de R01 saca una propiedad de un objeto con su nombre:
+
+```js
+const { error } = await respuesta.json();
+```
+
+Es lo mismo que `const error = datos.error`. Para la clase del aviso, `classList.add` (R02-N01).
 
 #### Desafío
+Si el Puerto contesta con error, `#estado` dice `El Palomar no atiende (503): …` (con el código y el `error` que manda el Puerto) y tiene la clase `error`. Si contesta bien, se dibuja la lista como siempre.
+
 Pedí la lista con `?falla=1` (la tormenta).
 
 #### Página
@@ -431,9 +466,20 @@ recompensa: xp 15, monedas 5
 Una señora quiere ver **solo** el mensaje número 2, el de su hijo Tizón. Otro pide el 9, que no existe.
 
 #### Gheco sugiere
-En el `submit` del formulario (con `preventDefault`), pedí `/puerto/mensajes/` con el número escrito. Si está, mostrá `#2 Tizón: …` en `#resultado`; si no, el `error` que manda el Puerto.
+La dirección del `fetch` se puede **armar** con un *template literal*: `` `/puerto/productos/${numero}` `` pide uno solo, por su número. Si no existe, el servidor contesta `404` y un `error`.
+
+La función del `submit` tiene que ser `async` para usar `await` adentro (R04-N05):
+
+```js
+formulario.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    // acá ya se puede usar await
+});
+```
 
 #### Desafío
+Al enviar el formulario (sin recargar), se pide `/puerto/mensajes/` y el número escrito. Si existe, `#resultado` muestra `#2 Tizón: …`; si no, el `error` que manda el Puerto.
+
 Buscan el 2 y después el 9.
 
 #### Página
@@ -621,9 +667,11 @@ recompensa: xp 10, oro 10
 Iara le pasa a Nima un formulario de papel. —Remitente, texto. Y después me decís qué número le tocó, que lo anoto.
 
 #### Gheco sugiere
-Mandá un `POST` a `/puerto/mensajes` con `{ de: 'Nima', texto: 'La ventanilla ya funciona.' }` y mostrá `Mensaje 3 guardado` (con el `id` que contestó el Puerto) en `#aviso`.
+Es el `POST` de R04-N04: `method`, `headers` con el tipo JSON y `body` con los datos pasados a texto. El servidor contesta `201` y devuelve lo guardado, **con su `id`** nuevo: leé el JSON de la respuesta para mostrarlo.
 
 #### Desafío
+Mandá a `/puerto/mensajes` el mensaje `{ de: 'Nima', texto: 'La ventanilla ya funciona.' }`, y mostrá en `#aviso` `Mensaje 3 guardado`, con el `id` que contestó el Puerto.
+
 Que el mensaje llegue al Palomar.
 
 #### Página
@@ -689,9 +737,13 @@ recompensa: xp 10, oro 10
 Ahora le toca a la gente de la Feria. Iara pone un formulario de verdad en la ventanilla.
 
 #### Gheco sugiere
-En el `submit`, mandá el `POST` con los dos campos. Agregá a `#mensajes` un `<li>` con **lo que contestó** el Puerto (`#id de: texto`) y limpiá el formulario.
+Cuando el servidor guarda algo, conviene mostrar **lo que contestó** y no lo que escribiste: así se ve el `id` que le dio y lo que realmente quedó guardado (a veces el servidor lo corrige).
+
+Los valores de los campos se leen con `.value` (R02-N04), y el formulario se vacía con `reset()` (Senda del Escaparate) al final.
 
 #### Desafío
+Al enviar el formulario, se manda el mensaje con los dos campos; en `#mensajes` se agrega un `<li>` con **lo que contestó** el Puerto (`#id de: texto`), y el formulario queda vacío.
+
 Bengala manda un mensaje.
 
 #### Página
@@ -787,9 +839,13 @@ recompensa: xp 10, oro 10
 Un chico manda un mensaje sin texto, solo con su nombre. La ventanilla agrega a la lista un mensaje que dice *undefined*.
 
 #### Gheco sugiere
-Si el Puerto contesta algo que no es `ok`, mostrá su `error` en `#error` y **no** agregues nada a la lista. Si está bien, borrá el error.
+Si el servidor rechaza un pedido, contesta con un código de error (como `422`) y explica en `error` qué falta. Revisá `respuesta.ok` **antes** de agregar nada: si no está bien, se muestra el error y se corta con `return`.
+
+Cuando sale bien, hay que **limpiar** el aviso viejo (`textContent = ''`): si no, queda el error de la vez anterior.
 
 #### Desafío
+Si el Puerto rechaza el mensaje, su `error` se muestra en `#error` y no se agrega nada a la lista. Si lo acepta, `#error` queda vacío.
+
 Bruno manda uno sin texto y después lo completa.
 
 #### Página
@@ -891,7 +947,18 @@ recompensa: xp 15, monedas 5
 Tati toca el botón dos veces seguidas, por las dudas. Al Palomar llegan **dos** mensajes iguales, e Iara tiene que anotarlos dos veces. —¿Lo anotaste? ¡Dos veces lo anoté!
 
 #### Gheco sugiere
-Al empezar el envío, deshabilitá el botón; al terminar (pase lo que pase), habilitalo de nuevo con `finally`. Un botón deshabilitado no envía el formulario.
+Si alguien toca dos veces seguidas, salen **dos** pedidos iguales. Para evitarlo, el botón se deshabilita (`disabled = true`) apenas empieza el envío: un formulario no se envía con su botón deshabilitado.
+
+Al terminar hay que habilitarlo de nuevo, salga bien **o mal**: si no, un error lo deja apagado para siempre. Eso es el `finally` de R04-N06:
+
+```js
+boton.disabled = true;
+try {
+    // el fetch
+} finally {
+    boton.disabled = false;
+}
+```
 
 #### Desafío
 Tati toca dos veces seguidas: tiene que salir **un solo** `POST`, y el botón tiene que quedar habilitado al final.
@@ -995,9 +1062,18 @@ recompensa: xp 15, monedas 5
 El Puerto ahora recibe más datos: además del remitente y el texto, la **región** de donde escribe cada uno. Iara está harta de leer campo por campo. —¿No hay una forma de mandar todo junto?
 
 #### Gheco sugiere
-Con `Object.fromEntries(new FormData(form))` tenés un objeto con todos los campos que tienen `name`. Mandalo al **eco** del Puerto (`POST /puerto/eco`, que contesta lo que recibió) y mostrá en `#recibido` lo que contestó, como JSON (`JSON.stringify(datos.recibido)`).
+`new FormData(formulario)` junta los campos de un formulario (los que tienen atributo `name`), y `Object.fromEntries(…)` los pasa a un objeto común, con el `name` de cada campo como clave:
+
+```js
+const datos = Object.fromEntries(new FormData(formulario));
+// { usuario: 'ana', color: 'rojo' }
+```
+
+Así no hace falta leer los campos de a uno. Ese objeto se manda como siempre, con `JSON.stringify`. Para mostrar un objeto como texto, también `JSON.stringify`.
 
 #### Desafío
+Mandá todos los campos del formulario (los que tienen `name`) al **eco** del Puerto, `POST /puerto/eco`, que contesta lo que recibió. Mostrá en `#recibido` lo que contestó en `recibido`, como JSON.
+
 Lucio manda su mensaje desde la Feria.
 
 #### Página
@@ -1195,9 +1271,16 @@ recompensa: xp 10, oro 10
 Pico volvió a dejar un mensaje: el número 3. Nilo, que defiende a las gaviotas, suspira. —Está bien. Ese se va.
 
 #### Gheco sugiere
-Borrá el mensaje 3 con `DELETE` y, si el Puerto contestó bien, volvé a pedir la lista y dibujala en `#mensajes`.
+Además de `GET` (pedir) y `POST` (crear), hay otros **métodos**:
+
+- `DELETE` borra: `fetch('/puerto/productos/4', { method: 'DELETE' })` borra el número 4;
+- `PATCH` cambia una parte de algo que ya existe.
+
+Un `DELETE` que sale bien suele contestar `204` (*sin contenido*): no trae JSON, así que no se lee. Revisá `respuesta.ok` y después volvé a pedir la lista.
 
 #### Desafío
+Borrá el mensaje 3 y, si el Puerto contestó bien, volvé a pedir la lista y dibujala en `#mensajes`.
+
 Que quede la lista sin el mensaje de Pico.
 
 #### Página
@@ -1286,9 +1369,13 @@ recompensa: xp 10, oro 10
 —No puedo llamarte cada vez que hay que borrar uno —dice Iara—. Poné un botón en cada mensaje, y que borre **ese**.
 
 #### Gheco sugiere
-Cada `<li>` lleva `data-id` y un botón `.borrar`. Con un solo escuchador en la lista, borrá con `DELETE` el del `data-id` y, si salió bien, sacá el `<li>`.
+Para saber **cuál** borrar, cada `<li>` guarda el número del mensaje en un `data-` (R02-N05) al dibujarlo. Con delegación en la lista, el botón tocado encuentra su `<li>` con `closest('li')` y, de ahí, su número.
+
+Si el Puerto contestó bien, el `<li>` se saca de la página con `.remove()` (R02-N02): no hace falta volver a pedir todo.
 
 #### Desafío
+Cada `<li>` lleva su número en `data-id` y un botón `.borrar`. Al tocar uno, se borra ese mensaje en el Puerto y, si salió bien, se saca su `<li>`.
+
 Iara borra el mensaje de Tizón (el segundo).
 
 #### Página
@@ -1385,9 +1472,21 @@ recompensa: xp 10, oro 10
 Nilo escribió apurado un aviso: *«Llegó el barko de las Forjas»*. Iara lo mira con la ceja levantada. —Corregilo, que lo lee todo el Puerto.
 
 #### Gheco sugiere
-Mandá un `PATCH` al mensaje 3 con el texto corregido y, con lo que contestó el Puerto, actualizá el `<li>` que tiene `data-id="3"`.
+`PATCH` **cambia una parte** de algo que ya existe: se manda solo lo que cambia, como en un `POST`, pero a la dirección de ese elemento:
+
+```js
+await fetch('/puerto/productos/4', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ precio: 9 }),
+});
+```
+
+El servidor contesta con el elemento ya corregido. Para encontrar su `<li>`, un selector de atributo: `'[data-id="4"]'` busca el que tiene ese `data-id`.
 
 #### Desafío
+Corregí el texto del mensaje 3 en el Puerto y, con lo que contesta, actualizá el `<li>` que tiene `data-id="3"`.
+
 Que en la lista diga `Llegó el barco de las Forjas`.
 
 #### Página
@@ -1481,9 +1580,13 @@ recompensa: xp 15, monedas 5
 La ventanilla tarda en sacar los mensajes borrados: la gente toca la cruz, no pasa nada, y vuelve a tocar. Elefa quiere que se vayan **enseguida**. Pero si el Puerto no lo pudo borrar, que vuelva a aparecer, en su lugar.
 
 #### Gheco sugiere
-Al tocar la cruz, guardá el lugar (`li.nextSibling`) y sacá el `<li>` **antes** de pedir. Si el Puerto contesta mal, volvé a ponerlo con `lista.insertBefore(li, lugar)` y mostrá su `error` en `#error`.
+Sacar el `<li>` **antes** de que conteste el servidor hace que la página se sienta rápida (se llama *optimista*: suponés que va a salir bien). Pero si sale mal, hay que **deshacerlo**, y volver a ponerlo en su mismo lugar.
+
+Para eso, antes de sacarlo se guarda quién le seguía: `li.nextSibling` (el *hermano siguiente*). Después, `lista.insertBefore(li, ese)` lo vuelve a poner justo antes de él. Si era el último, `nextSibling` es `null` y `insertBefore` lo pone al final.
 
 #### Desafío
+Al tocar la cruz, el `<li>` se saca **enseguida**, antes de que conteste el Puerto. Si el Puerto contesta con error, el `<li>` vuelve a **su mismo lugar** y el `error` se muestra en `#error`.
+
 La lista tiene un mensaje viejo, el número 7, que en el Puerto ya no existe. Iara intenta borrarlo (vuelve a su lugar, con el error) y después borra el de Sila (se va).
 
 #### Página
@@ -1575,9 +1678,15 @@ recompensa: xp 15, monedas 5
 Elefa sube a Nima a la torre y le muestra el código de la ventanilla. —Mucho `fetch`, mucho `headers`, mucho `JSON.stringify`, repetido. En el Puerto, todo lo repetido se hace **una vez** y se usa muchas.
 
 #### Gheco sugiere
-Completá `pedir(metodo, ruta, datos)`: si hay `datos`, mandalos en JSON; si el estado es 204, devolvé `null`; si no es `ok`, tirá un `Error` con el `error` del Puerto. Después usala para crear, corregir, borrar y listar, y atrapá el error del final.
+Cuando todos los pedidos se parecen, conviene una **sola función** que haga lo repetido: armar las opciones, revisar `ok` y leer el JSON. Así cada pedido queda en una línea.
+
+- las opciones se arman en un objeto, y `headers` y `body` se le agregan solo si hay datos (`datos !== undefined`);
+- un `204` no trae JSON: hay que devolver antes de leerlo;
+- si no está `ok`, `throw new Error(…)` (R04-N06) con el mensaje del servidor.
 
 #### Desafío
+`pedir(metodo, ruta, datos)`: si hay `datos`, los manda en JSON; si el Puerto contesta 204 (sin contenido), devuelve `null`; si contesta con error, lanza un `Error` con el `error` del Puerto; si no, devuelve el JSON. Usala para crear, corregir, borrar y listar, y atajá el error del final.
+
 Que la consola muestre lo que hizo cada pedido.
 
 #### Código inicial
@@ -1753,9 +1862,13 @@ recompensa: xp 10, oro 10
 Nilo abre una puertita al costado de la ventanilla: la de los del Puerto. —Usuario y clave. Y no la digas en voz alta, que Pico escucha.
 
 #### Gheco sugiere
-En el `submit`, mandá `usuario` y `clave` a `/puerto/login`. Si contesta `ok`, mostrá `Hola, nima` (el `usuario` que contestó) en `#saludo`.
+**Iniciar sesión** es mandar usuario y clave con un `POST`. Si son correctos, el servidor contesta bien y además deja una **cookie de sesión** en el navegador: desde ahí, cada pedido la lleva sola, y el servidor sabe quién sos (R04-N08).
+
+En el código no hay que tocar la cookie: alcanza con hacer el pedido y mostrar lo que contestó.
 
 #### Desafío
+Al enviar el formulario, mandá `usuario` y `clave` a `/puerto/login`. Si sale bien, `#saludo` dice `Hola, nima`, con el `usuario` que contestó el Puerto.
+
 Nima entra con su usuario.
 
 #### Página
@@ -1838,9 +1951,13 @@ recompensa: xp 10, oro 10
 Pico logró meter un script chiquito en la ventanilla, uno que lee `document.cookie` para robarse la sesión. Nima lo deja correr, tranquila.
 
 #### Gheco sugiere
-Después de entrar, mostrá en `#pico` lo que ve Pico: `Pico ve: «…»` con `document.cookie`. Después pedí `/puerto/perfil` (la cookie viaja sola) y mostrá `Nima tiene 12 fichas` en `#perfil`.
+`document.cookie` muestra las cookies que el **programa de la página** puede leer. Una cookie de sesión bien hecha viene marcada como `HttpOnly`: **ningún programa** la puede leer, ni el tuyo ni uno metido por alguien como Pico. Pero el navegador la manda igual en cada pedido.
+
+Mostrá lo que hay en `document.cookie` y fijate qué sale. Después, el pedido del perfil funciona sin que hagas nada con la cookie.
 
 #### Desafío
+Después de entrar, `#pico` muestra lo que ve Pico con `document.cookie`: `Pico ve: «…»`. Después se pide `/puerto/perfil` y `#perfil` dice `Nima tiene 12 fichas`.
+
 Que se vea que Pico no ve nada, pero el Puerto sí sabe quién es Nima.
 
 #### Página
@@ -1908,9 +2025,13 @@ recompensa: xp 10, oro 10
 Fermín, el bodeguero viejo, viene a probar la puertita. Se equivoca con la clave: escribe la de antes, la que le robó Pico.
 
 #### Gheco sugiere
-Si el login contesta `401`, mostrá el `error` del Puerto en `#error` y vaciá el campo de la clave. Si sale bien, borrá el error y saludá en `#saludo`.
+Si el usuario o la clave están mal, el servidor contesta `401` (*no autorizado*) y un `error`. Por seguridad y por costumbre, en ese caso se **vacía el campo de la clave** (`campo.value = ''`), para escribirla de nuevo.
+
+Como en S02-N02-P3: con error, mostrar y cortar; si sale bien, limpiar el aviso viejo.
 
 #### Desafío
+Si la clave es equivocada (el Puerto contesta 401), `#error` muestra el `error` del Puerto y el campo de la clave queda vacío. Si sale bien, `#error` queda vacío y `#saludo` saluda.
+
 Primero con una clave equivocada, después con la buena.
 
 #### Página
@@ -2015,9 +2136,17 @@ recompensa: xp 15, monedas 5
 Nilo sube con Nima al techo del Palomar, donde duermen las palomas. —Cada una sabe ir a un lugar. Si le pedís uno que no conoce, no sale.
 
 #### Gheco sugiere
-Escribí `mandarPaloma(para, texto)`: manda el `POST` a `/puerto/palomas` y muestra en `#estado` `Salió la paloma 1 al Valle` si salió, `Primero iniciá sesión.` si contesta 401, o el `error` del Puerto si contesta otra cosa. Probala tres veces: sin sesión, después de entrar con un destino que no existe (`Niebla`) y con el Valle.
+Un pedido que necesita sesión puede salir mal por **distintos motivos**, y cada uno se avisa distinto. Se distinguen con `respuesta.status`:
+
+- `401`: no hay sesión (no entraste);
+- otro error (como `422`): el pedido está mal, y el servidor explica en `error`;
+- `ok`: salió.
+
+Una función que **devuelva** el texto de cada caso (o lo anote) se prueba fácil tres veces seguidas. Para el segundo y el tercer intento, primero hay que iniciar sesión.
 
 #### Desafío
+`mandarPaloma(para, texto)` manda el pedido a `/puerto/palomas` y muestra en `#estado`: `Salió la paloma 1 al Valle` si salió; `Primero iniciá sesión.` si contesta 401; o el `error` del Puerto si contesta otra cosa. Probala tres veces: sin sesión, después de entrar con un destino que no existe (`Niebla`) y con el Valle.
+
 Que en `#historial` quede un `<li>` por cada intento, con lo que pasó.
 
 #### Página
@@ -2133,12 +2262,25 @@ recompensa: xp 50, oro 50, monedas 1
 Pico tiene un plan: esperar a que alguien se olvide la sesión abierta en la ventanilla y mandar mil palomas a su nombre. —La ventanilla tiene que hacer **todo** bien —dice Elefa desde la torre—. Y cerrar la puerta al irse.
 
 #### Gheco sugiere
-1. Al empezar, preguntá `/puerto/perfil`. Si contesta `401`, mostrá el formulario (`#entrar` sin `hidden`) y `Entrá para mandar palomas` en `#estado`.
-2. Al enviar el formulario, entrá. Si sale bien, escondé el formulario y mostrá el de la paloma (`#paloma`).
-3. Al mandar la paloma, mostrá `Volando al Valle…` y esperá **lo que dice su `vuelo`** con un `setTimeout`. Ahí mostrá `La paloma llegó al Valle`.
-4. Al llegar, salí (`POST /puerto/salir`) y volvé a mostrar el formulario de entrar.
+Junta toda la Senda:
+
+- preguntar por el perfil al empezar es la forma de saber **si ya hay sesión**: un `401` quiere decir que no;
+- mostrar y esconder formularios es el `hidden` de R02-N05;
+- esperar lo que dice el `vuelo` es un `setTimeout` envuelto en una promesa (R04-N02), para usarlo con `await`:
+
+```js
+const esperar = (ms) => new Promise((listo) => setTimeout(listo, ms));
+await esperar(500);
+```
+
+- salir (`/puerto/salir`) hace que el servidor borre la cookie de sesión.
 
 #### Desafío
+1. Al empezar, se pregunta `/puerto/perfil`. Si contesta 401, se ve el formulario `#entrar` (sin `hidden`) y `#estado` dice `Entrá para mandar palomas`.
+2. Al enviar ese formulario, se entra. Si sale bien, se esconde y se ve el de la paloma (`#paloma`).
+3. Al mandar la paloma, `#estado` dice `Volando al Valle…`, y se espera **lo que dice su `vuelo`** (en la respuesta del Puerto). Ahí dice `La paloma llegó al Valle`.
+4. Al llegar, se sale (`POST /puerto/salir`) y vuelve el formulario de entrar.
+
 Nima entra, le manda una paloma a Sila, espera que llegue y sale. Al final no tiene que quedar ninguna cookie de sesión.
 
 #### Página

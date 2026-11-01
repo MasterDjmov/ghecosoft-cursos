@@ -119,9 +119,17 @@ recompensa: xp 10, oro 10
 Nova dibuja en el aire el tablero del Gólem: cuatro palancas con cuatro cifras cada una. —El Gólem cuenta en dieciséis, no en diez. Mi palanca grande vale cuarenta y dos, y en el tablero dice **002A**.
 
 #### Gheco sugiere
-Completá `hex(n)`: pasá a base 16, en mayúsculas y con ceros adelante hasta tener cuatro cifras.
+Esta Senda arma, en JavaScript, un tablero como el del Gólem de Ensamblador. Lo primero: mostrar números como la máquina.
+
+- `n.toString(16)` escribe el número en **base 16** (hexadecimal): `(255).toString(16)` da `'ff'`;
+- `toUpperCase()` lo pasa a mayúsculas;
+- `padStart(4, '0')` (Senda del Archivo) le agrega ceros adelante hasta que mida 4.
+
+Se pueden encadenar, uno detrás del otro, en una sola línea.
 
 #### Desafío
+`hex(n)` devuelve el número en base 16, en mayúsculas y con ceros adelante hasta tener cuatro cifras.
+
 `AX=002A BX=00FF CX=FFFF DX=0000`.
 
 #### Código inicial
@@ -169,9 +177,17 @@ recompensa: xp 10, oro 10
 —Una palanca sola no me sirve —dice Nova—. Necesito las cuatro juntas, que se puedan mover y mirar.
 
 #### Gheco sugiere
-Completá la clase `Tablero`: `mov(registro, valor)` pone el valor, y `mostrar()` devuelve las cuatro palancas en hexadecimal, separadas por espacios.
+El tablero es una **clase** (R03) con un objeto adentro que guarda las cuatro palancas. Para usar una palanca **por su nombre** (que llega como texto), se usan corchetes:
+
+```js
+this.cajas['B'] = 7;    // lo mismo que this.cajas.B = 7
+```
+
+Para armar el texto de todas, `Object.entries` (Senda del Archivo) da los pares `[nombre, valor]`, y `map` + `join(' ')` los une.
 
 #### Desafío
+La clase `Tablero`: `mov(registro, valor)` pone el valor en esa palanca, y `mostrar()` devuelve las cuatro palancas en hexadecimal, separadas por espacios.
+
 Después de `mov('AX', 5)` y `mov('DX', 4096)`: `AX=0005 BX=0000 CX=0000 DX=1000`.
 
 #### Código inicial
@@ -245,9 +261,15 @@ recompensa: xp 10, oro 10
 Desde la chimenea llega la voz grave de **Axón**: *«Yo no adivino. Una palanca llega hasta FFFF. Si se pasa, vuelve a cero.»* Nova prueba en el tablero de práctica: `FFFF + 1`… y la palanca marca `10000`, cinco cifras.
 
 #### Gheco sugiere
-Agregale a `Tablero` el método `add(registro, valor)`, que suma y se queda con 16 bits (`& 0xFFFF`). Arreglá también `mov`.
+Una palanca de 16 bits solo guarda de `0` a `FFFF` (65535). Si una cuenta se pasa, la máquina se queda con los últimos 16 bits, y vuelve a empezar desde 0, como un cuentakilómetros.
+
+`n & 0xFFFF` hace exactamente eso: `&` es el «y» **de bits**, y `0xFFFF` (un número escrito en hexadecimal en JavaScript: `0x` adelante) son dieciséis unos. Se queda solo con esos 16 bits.
+
+También vale para los negativos: `-1 & 0xFFFF` da `FFFF`, como en el 8086.
 
 #### Desafío
+`add(registro, valor)` suma a la palanca, y tanto `add` como `mov` se quedan con 16 bits (como el cuentakilómetros: después de `FFFF` vuelve a `0000`).
+
 `AX` en `FFFF` más 1 da `0000`; `BX` en 70000 queda en `1170`.
 
 #### Código inicial
@@ -337,9 +359,19 @@ recompensa: xp 15, monedas 5
 —Cada palanca grande tiene dos mitades —explica Nova—: la de arriba y la de abajo. A veces el Gólem mueve una sola. Si `AX` es `1234`, la de arriba, `AH`, es `12`.
 
 #### Gheco sugiere
-Completá `leer(nombre)`: con `AX`, `BX`… devuelve el registro entero; con `AH`, `BL`… la mitad (la letra del medio dice cuál palanca, la última, si es `H` o `L`). Completá también `poner(nombre, valor)`, que cambia una mitad sin tocar la otra.
+Cada palanca de 16 bits tiene dos mitades de 8: la **alta** (`H`, las dos cifras de la izquierda) y la **baja** (`L`, las dos de la derecha). `AX = 1234h` tiene `AH = 12h` y `AL = 34h`.
+
+Con operaciones de bits:
+
+- la baja: `n & 0xFF`;
+- la alta: `n >> 8` (`>>` corre los bits 8 lugares a la derecha: se pierde la baja);
+- para armar de vuelta: `(alta << 8) | baja` (`<<` corre a la izquierda y `|` junta).
+
+Con texto: `nombre[0]` es la primera letra y `nombre.endsWith('X')` pregunta cómo termina.
 
 #### Desafío
+`leer(nombre)`: con `AX`, `BX`… devuelve la palanca entera; con `AH`, `BL`… una mitad (la primera letra dice qué palanca y la última, si es la mitad alta `H` o la baja `L`). `poner(nombre, valor)` cambia una mitad sin tocar la otra.
+
 Con `AX = 1234`: `AH=0012 AL=0034`; después de poner `AL` en `FF`, `AX=12FF`.
 
 #### Código inicial
@@ -427,9 +459,13 @@ recompensa: xp 15, monedas 5
 Nova se emociona y prueba una palanca que se inventó: `EX`. El tablero de práctica la crea como si nada, y ahora tiene **cinco** palancas. —En el Gólem eso no pasa —dice Nova—. Si pido una palanca que no hay, el Gólem se traba.
 
 #### Gheco sugiere
-Que `mov` tire un `Error` con `no hay palanca «EX»` si el registro no es uno de los cuatro. Atrapalo con `try`/`catch` y mostrá `Nova: no hay palanca «EX»`.
+El operador `in` pregunta si un objeto **tiene** una propiedad con ese nombre: `'B' in cajas` da `true` o `false`. Sirve para saber si el registro es uno de los que existen.
+
+Si no existe, la función lanza un error propio con `throw new Error(…)` (R04-N06), y quien la llama lo ataja con `try`/`catch`. El mensaje del error está en `error.message`.
 
 #### Desafío
+Si el registro no es uno de los cuatro, `mov` lanza un `Error` con `no hay palanca «EX»` (con el nombre que llegó). El programa lo ataja y muestra `Nova: no hay palanca «EX»`.
+
 La palanca `BX` se mueve; la `EX` avisa, y el tablero sigue con cuatro.
 
 #### Código inicial
@@ -614,9 +650,21 @@ recompensa: xp 10, oro 10
 Nova escribe tres órdenes en la pared de la chimenea, con hollín, cada una de una forma distinta. El tablero tiene que entender las tres igual.
 
 #### Gheco sugiere
-Completá `desarmar(renglon)`: sacá el comentario, los espacios de los costados y pasá a mayúsculas. Cortá en `op`, `destino` y `fuente`, y devolvé un objeto con esas tres claves.
+Para **desarmar** una orden escrita como texto:
+
+- `texto.split(';')[0]` corta en el `;` y se queda con lo de antes (el comentario queda afuera);
+- `trim()` y `toUpperCase()` para limpiar;
+- para cortar en partes, `split` acepta una **expresión regular** (un patrón entre barras): `/[\s,]+/` quiere decir «uno o más espacios o comas».
+
+```js
+'pon  A ,7'.split(/[\s,]+/)   // ['pon', 'A', '7']
+```
+
+La desestructuración de R01 (`const [a, b, c] = …`) le pone nombre a cada parte.
 
 #### Desafío
+`desarmar(renglon)` saca el comentario (lo que va después de `;`), los espacios de los costados, pasa a mayúsculas y devuelve un objeto con `op`, `destino` y `fuente`.
+
 Las tres órdenes, desarmadas.
 
 #### Código inicial
@@ -671,9 +719,17 @@ recompensa: xp 10, oro 10
 —Cuando escribo `ADD AX, BX` —explica Nova—, quiero sumar **lo que tiene** `BX`. Pero cuando escribo `ADD AX, 10h`, quiero sumar dieciséis. Y si escribo `ADD AX, BANANA`, el Gólem me mira raro.
 
 #### Gheco sugiere
-Completá `valor(operando, registros)`: si es un registro, su valor; si termina en `H`, hexadecimal; si son solo dígitos, decimal; si no, tirá un `Error` con `no entiendo «BANANA»`.
+Un operando puede ser tres cosas, y se pregunta en orden:
+
+- ¿es un registro? (el `in` de S04-N01-P5);
+- ¿es hexadecimal? Una expresión regular con `.test(texto)` dice si el texto **tiene esa forma**: `/^[0-9A-F]+H$/` es «de principio (`^`) a fin (`$`), cifras hexa y una H»;
+- ¿son solo dígitos? `/^\d+$/` (`\d` es un dígito).
+
+`parseInt(texto, 16)` lee un texto en base 16, y `texto.slice(0, -1)` le saca la última letra (la `H`).
 
 #### Desafío
+`valor(operando, registros)`: si es un registro, devuelve su valor; si termina en `H`, lo lee en hexadecimal; si son solo dígitos, en decimal; si no, lanza un `Error` con `no entiendo «BANANA»` (con el operando que llegó).
+
 Los cuatro operandos.
 
 #### Código inicial
@@ -741,9 +797,21 @@ recompensa: xp 10, oro 10
 Ya entiende las partes. Ahora tiene que **hacer** lo que dicen: las cinco órdenes que Nova aprendió primero.
 
 #### Gheco sugiere
-Completá `ejecutar(renglon)` con un `switch` sobre `op`: `MOV` pone, `ADD` suma, `SUB` resta, `INC` suma uno y `DEC` resta uno. Siempre con 16 bits.
+`switch` elige entre muchos casos según **un** valor, más prolijo que una fila de `if`:
+
+```js
+switch (orden) {
+    case 'SUBIR': piso++; break;
+    case 'BAJAR': piso--; break;
+    default: throw new Error(`no conozco «${orden}»`);
+}
+```
+
+Cada `case` termina con `break` (si no, sigue de largo con el de abajo). `default` es para cuando no coincide ninguno. Y recordá los 16 bits al guardar.
 
 #### Desafío
+`ejecutar(renglon)`: `MOV` pone, `ADD` suma, `SUB` resta, `INC` suma uno y `DEC` resta uno. Siempre con 16 bits.
+
 Después de las seis órdenes: `AX=0007 BX=0003 CX=FFFF DX=0010`.
 
 #### Código inicial
@@ -848,9 +916,20 @@ recompensa: xp 15, monedas 5
 Nova escribe su primer **programa**: varios renglones, con comentarios para acordarse qué hace cada uno, y renglones vacíos para que respire.
 
 #### Gheco sugiere
-Completá `correr(programa)`: cortá el texto en renglones, salteá los vacíos y los que son solo comentario, y ejecutá los demás. Contá cuántas órdenes se ejecutaron.
+Un programa entero es un texto con varios renglones. `texto.split('\n')` lo corta en un arreglo de renglones (`\n` es el salto de línea).
+
+En el recorrido, `continue` **saltea** el resto de esa vuelta y pasa al renglón siguiente: sirve para los vacíos y los que son solo comentario.
+
+```js
+for (const renglon of renglones) {
+    if (renglon.trim() === '') continue;
+    // …
+}
+```
 
 #### Desafío
+`correr(programa)` corta el texto en renglones, saltea los vacíos y los que son solo comentario, ejecuta los demás y cuenta cuántas órdenes ejecutó.
+
 `4 órdenes · AX=000A BX=0005 CX=0000 DX=0000`.
 
 #### Código inicial
@@ -951,9 +1030,21 @@ recompensa: xp 15, monedas 5
 Nova escribe una orden que todavía no existe en el tablero: `MUL`. El tablero dice *no conozco «MUL»*. —¿Pero dónde? —pregunta Nova—. El programa tiene veinte renglones. —Por la chimenea sube la voz de Axón: *«Línea 4.»*
 
 #### Gheco sugiere
-En `correr`, atrapá el error de cada renglón y volvé a tirarlo con el número de línea adelante: `Línea 4: no conozco «MUL»`. Las líneas se cuentan desde 1, **incluidos** los renglones vacíos. El programa se frena en el error.
+Para decir **en qué línea** falló, el error se ataja adentro del recorrido y se **vuelve a lanzar** con más datos:
+
+```js
+try {
+    hacer(renglon);
+} catch (error) {
+    throw new Error(`Renglón ${n}: ${error.message}`);
+}
+```
+
+Para tener el número, el `for` clásico con índice (o `entries()`: `for (const [i, r] of renglones.entries())`). El índice empieza en 0 y las líneas en 1, y los renglones vacíos también cuentan.
 
 #### Desafío
+Si un renglón falla, `correr` frena y lanza el error con el número de línea adelante: `Línea 4: no conozco «MUL»`. Las líneas se cuentan desde 1, **incluidos** los renglones vacíos.
+
 El error con su línea, y las palancas como quedaron hasta ahí.
 
 #### Código inicial
@@ -1163,9 +1254,13 @@ recompensa: xp 10, oro 10
 Nova pone un interruptor nuevo en el tablero de práctica, con una Z pintada. —Se prende solo cuando una cuenta da cero. Es el que más uso.
 
 #### Gheco sugiere
-En `Maquina`, el método `cuenta(destino, n)` guarda el resultado con 16 bits. Hacé que también actualice `this.zf`. `MOV` usa `poner`, que no toca la bandera.
+Como en Ensamblador, las **cuentas** prenden o apagan el interruptor `ZF` (*zero flag*): prendido si el resultado dio 0. `MOV` no es una cuenta: no lo toca.
+
+Se guarda como un `true`/`false` en la máquina. Se le puede asignar directo una comparación: `this.zf = resultado === 0`. Ojo con comparar **después** de quedarte con los 16 bits: `FFFF + 1` da 0 recién ahí.
 
 #### Desafío
+Las cuentas (`ADD`, `SUB`, `INC`, `DEC`) prenden la bandera `ZF` si el resultado dio 0 y la apagan si no; `MOV` no la toca.
+
 Mostrá `CX` y `ZF` después de cada orden.
 
 #### Código inicial
@@ -1267,9 +1362,16 @@ recompensa: xp 10, oro 10
 Nova le pone nombre a los lugares de su programa, como las paradas de un recorrido: `inicio:`, `bucle:`, `fin:`. —No son órdenes —aclara—. Son carteles.
 
 #### Gheco sugiere
-Completá `leer(texto)`: devuelve `lineas` (solo las órdenes, sin comentarios ni vacíos, en mayúsculas) y `etiquetas` (cada nombre, en mayúsculas, con la posición de la orden que viene después).
+Para saltar, la máquina necesita saber **dónde** está cada etiqueta. Se lee el programa una vez antes de correrlo:
+
+- un renglón que termina en `:` es una **etiqueta**: no es una orden, solo marca un lugar;
+- la etiqueta apunta a la posición de la **orden que viene después**: o sea, cuántas órdenes se guardaron hasta ese momento (`lineas.length`).
+
+`texto.slice(0, -1)` le saca los dos puntos al nombre.
 
 #### Desafío
+`leer(texto)` devuelve `lineas` (solo las órdenes, sin comentarios ni vacíos, en mayúsculas) y `etiquetas` (cada nombre terminado en `:`, en mayúsculas, con la posición de la orden que viene después).
+
 `4 órdenes` y las etiquetas `{"INICIO":0,"BUCLE":1,"FIN":3}`.
 
 #### Código inicial
@@ -1354,9 +1456,21 @@ recompensa: xp 10, oro 10
 Llegó el momento: el primer programa que **vuelve**. Nova quiere sumar 5 + 4 + 3 + 2 + 1, sin escribir cinco `ADD`.
 
 #### Gheco sugiere
-En `correr`, usá `this.ip` para saber qué orden sigue. `JMP` salta siempre; `JNZ`, solo si ZF está apagada. Al saltar, `this.ip` pasa a la posición de la etiqueta.
+Para poder saltar, ya no sirve un `for…of`: la máquina tiene que poder **volver atrás**. Se lleva un número, `ip` (*instruction pointer*, «la que sigue»), y se avanza a mano con un `while`:
+
+```js
+while (this.ip < this.lineas.length) {
+    const orden = this.lineas[this.ip];
+    this.ip++;            // por defecto, sigue la de abajo
+    // …si es un salto, this.ip pasa a la posición de la etiqueta
+}
+```
+
+`JNZ` (*jump if not zero*) salta solo si ZF está **apagada**.
 
 #### Desafío
+`correr` lleva en `this.ip` la posición de la orden que sigue. `JMP` salta siempre; `JNZ`, solo si ZF está apagada. Al saltar, `this.ip` pasa a la posición de la etiqueta.
+
 `AX=000F CX=0000`, en 16 pasos.
 
 #### Código inicial
@@ -1488,9 +1602,18 @@ recompensa: xp 15, monedas 5
 Nova quiere que el Gólem **decida**: si la palanca grande vale siete, que prenda el ojo (`BX` en 1); si no, que lo deje apagado (`BX` en 2).
 
 #### Gheco sugiere
-Agregá `CMP`: resta sin guardar y solo actualiza ZF. Agregá `JE` (salta si ZF está prendida) y `JNE` (si está apagada). Probá el programa con `AX` en 7 y en 3.
+`CMP` (*compare*) hace una resta **en secreto**: no guarda el resultado, solo prende o apaga ZF. Si los dos eran iguales, la resta da 0 y ZF queda prendida.
+
+Los saltos que vienen después miran esa bandera:
+
+- `JE` (*jump if equal*) salta si ZF está prendida (eran iguales);
+- `JNE` (*jump if not equal*), si está apagada.
+
+Se agregan al `switch` como casos nuevos.
 
 #### Desafío
+`CMP` resta sin guardar y solo actualiza ZF. `JE` salta si ZF está prendida y `JNE`, si está apagada. Probá el programa con `AX` en 7 y en 3.
+
 `Con AX=7: BX=0001` y `Con AX=3: BX=0002`.
 
 #### Código inicial
@@ -1620,9 +1743,13 @@ recompensa: xp 15, monedas 5
 Nova escribe sin querer un programa que no termina: el tablero se queda pensando y la pestaña de Nima se congela (la caja la corta con su propio tope). Por la chimenea, Axón: *«Yo cuento mis pasos. A los mil, me detengo y aviso.»*
 
 #### Gheco sugiere
-En `correr`, contá los pasos. Si pasan de 1000, tirá un `Error` con `Axón se detuvo: más de 1000 pasos. ¿Hay un salto que no termina?`. Atrapalo y mostralo. Si el salto va a una etiqueta que no existe, tirá `no hay ninguna etiqueta «…»`.
+Un programa con un salto que **vuelve siempre** no termina nunca, y la página queda colgada. La defensa es un **tope**: contar los pasos y, si pasan de un número, frenar con un error.
+
+Otra cosa que puede fallar es saltar a una etiqueta que **no existe**: `etiquetas[nombre]` da `undefined`. Mejor revisarlo con `in` y avisar con un error claro que seguir con un `ip` roto.
 
 #### Desafío
+Si pasan más de 1000 pasos, `correr` lanza un `Error` con `Axón se detuvo: más de 1000 pasos. ¿Hay un salto que no termina?`. Si un salto va a una etiqueta que no existe, lanza `no hay ninguna etiqueta «…»`. Los dos se atajan y se muestran.
+
 Los dos programas, cada uno con su aviso.
 
 #### Código inicial
@@ -1842,9 +1969,13 @@ recompensa: xp 10, oro 10
 La mesa larga ya tiene sus casilleros dibujados: cuatro palancas, el interruptor Z y el programa al costado. Falta que muestren lo que tiene la máquina.
 
 #### Gheco sugiere
-Importá `Maquina` y `hex` de `./maquina.js`. Escribí `dibujar()`: los cuatro registros en sus celdas (`#AX`, `#BX`…), `ZF` en `#ZF` (`1` o `0`), y el programa en `#programa`, un `<li>` por orden con su `texto`. Corré el programa entero con `m.correr()` y dibujá.
+La máquina ya está hecha y vive en otro archivo (un **módulo**, R03-N06). Se importa con llaves, por su nombre exacto.
+
+Después, todo es R02: buscar cada celda y cambiarle el `textContent`. Con un *template literal* se arma el selector de cada registro: `` document.querySelector(`#${nombre}`) ``. Para la bandera, el `? :` elige entre `'1'` y `'0'`.
 
 #### Desafío
+Importá `Maquina` y `hex` de `./maquina.js`. `dibujar()` pone los cuatro registros en sus celdas (`#AX`, `#BX`…), `ZF` en `#ZF` (`1` o `0`) y el programa en `#programa`, un `<li>` por orden con su `texto`. Corré el programa entero con `m.correr()` y dibujá.
+
 El tablero con la máquina al final del programa.
 
 #### Página
@@ -2019,9 +2150,13 @@ recompensa: xp 10, oro 10
 —Ahora quiero verlo **despacio** —pide Nova—. Una orden, y miro. Otra orden, y miro.
 
 #### Gheco sugiere
-Al empezar, dibujá sin correr nada. El botón `#paso` ejecuta **una** orden y vuelve a dibujar. En `dibujar`, marcá con la clase `actual` el `<li>` de la orden que sigue (`m.ip`).
+En vez de correr todo de una vez, la máquina da **un paso** por click (`m.paso()`) y la página se vuelve a dibujar. Así se ve cómo cambia cada palanca.
+
+La lista del programa se arma **una vez**, al empezar; en cada `dibujar()` solo se cambia qué `<li>` está marcado, con el `toggle('clase', condición)` de la Senda del Escaparate: el `<li>` cuyo índice es igual a `m.ip`.
 
 #### Desafío
+Al empezar se dibuja sin correr nada. El botón `#paso` ejecuta **una** orden y vuelve a dibujar. El `<li>` de la orden que sigue (`m.ip`) tiene la clase `actual`.
+
 Dos pasos: `AX=0002`, `CX=0003`, y marcada la tercera orden.
 
 #### Página
@@ -2162,9 +2297,13 @@ recompensa: xp 10, oro 10
 Nova sigue tocando «Paso» cuando el programa ya terminó, y no pasa nada. No sabe si se trabó o si terminó. —La herrumbre hace eso —dice—: te deja tocando y no avisa.
 
 #### Gheco sugiere
-En `dibujar`, si la máquina terminó, deshabilitá `#paso` y poné `Fin del programa` en `#estado`. Si no, `Sigue: la orden N` (con el número de la que sigue, contando desde 1).
+La máquina ya sabe decir si **terminó**: tiene un getter `m.terminado` (R03-N02), que es `true` cuando `ip` llegó al final del programa y no quedan órdenes.
+
+Se deshabilita el botón con `disabled` (Senda del Escaparate). Y como `ip` empieza en 0 y la persona cuenta desde 1, al mostrarlo se suma uno.
 
 #### Desafío
+Cuando la máquina terminó, `#paso` queda deshabilitado y `#estado` dice `Fin del programa`. Si no, `Sigue: la orden N`, con el número de la que sigue, contando desde 1.
+
 Seis clicks a un programa de tres órdenes.
 
 #### Página
@@ -2290,9 +2429,13 @@ recompensa: xp 15, monedas 5
 Con programas largos, Nova se cansa de tocar. —Que corra solo, despacito, una orden cada medio segundo. Y si veo algo raro, que pueda **pausar**.
 
 #### Gheco sugiere
-`#correr` arranca un intervalo de 500 ms que da un paso y dibuja (cancelá antes el que hubiera). `#pausa` lo cancela. Cuando termina, el intervalo se cancela solo.
+`setInterval` (Senda del Escaparate) repite un paso cada tantos milisegundos, y `clearInterval` lo frena. Guardá el número del intervalo en una variable afuera, así lo encuentran los dos botones.
+
+Antes de arrancar uno nuevo, frená el anterior: si no, con dos clicks en «correr» quedan **dos** andando y va al doble. Y adentro del intervalo, después del paso, preguntá si terminó (`m.terminado`): ahí se frena solo.
 
 #### Desafío
+`#correr` arranca un intervalo de 500 ms que da un paso y dibuja (cancelando antes el que hubiera). `#pausa` lo cancela. Cuando la máquina termina, el intervalo se cancela solo.
+
 Corre 1,2 segundos, se pausa 3 segundos (no avanza), vuelve a correr hasta terminar. Al final no tiene que quedar ningún temporizador.
 
 #### Página
@@ -2432,13 +2575,19 @@ Nima baja con Nova por las chimeneas hasta el pecho de Axón, con el tablero de 
 —Con el paso a paso —dice Gheco— vemos dónde se trabó.
 
 #### Gheco sugiere
-Juntá todo en el tablero:
-- `dibujar()` muestra los cuatro registros, `ZF`, la orden actual (`li.actual`) y deshabilita `#paso` y `#correr` si terminó;
-- `#paso` da un paso; `#correr` corre cada 300 ms; `#pausa` frena;
-- `#reiniciar` frena y crea una máquina nueva con el mismo programa;
-- si `paso()` tira un error (la Herrumbre), frená el reloj, mostrá el mensaje en `#error` y dejá todo como quedó, para que se vea **dónde** se trabó.
+Junta toda la Senda. Lo nuevo es el **reinicio** y el **error**:
+
+- reiniciar es frenar el reloj, crear una máquina **nueva** con `new` (guardada con `let`, porque cambia) y volver a dibujar todo;
+- el paso va en un `try`/`catch`: si falla, se frena el reloj y se muestra el mensaje, **sin** volver a dibujar desde cero, así se ve en qué orden quedó.
+
+Una función `frenar()` que haga el `clearInterval` sirve para la pausa, el reinicio y el error.
 
 #### Desafío
+- `dibujar()` muestra los cuatro registros, `ZF` y la orden actual (`li.actual`), y deshabilita `#paso` y `#correr` si terminó;
+- `#paso` da un paso; `#correr` corre un paso cada 300 ms; `#pausa` frena;
+- `#reiniciar` frena y crea una máquina nueva con el mismo programa;
+- si un paso lanza un error (la Herrumbre), se frena el reloj, el mensaje va a `#error` y todo queda como estaba, para que se vea **dónde** se trabó.
+
 Nova prueba los botones: corre un poco, pausa, reinicia y da un paso a mano. Después lo deja correr solo hasta que se traba: tiene que verse **dónde**.
 
 #### Página

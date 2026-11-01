@@ -274,7 +274,17 @@ recompensa: xp 10, oro 10
 En la puerta de la Gran Biblioteca, Tesla explica que adentro no hay un plano por pieza, sino **moldes**. A Lima se le cae la lupa del ojo. Bron, en cambio, tiene una función `mayor` que solo sabe de enteros, y con decimales se come la coma.
 
 #### Gheco sugiere
-Convertila en plantilla: `template <typename T>` arriba, y `T` en lugar de `int` en los parámetros y en lo que devuelve.
+Si escribís una función `mayor` para `int`, otra para `double` y otra para `std::string`, las tres son iguales salvo el tipo. Una **plantilla** (*template*) es un molde: la escribís una vez con un tipo comodín, y C++ arma la versión para cada tipo que uses.
+
+```cpp
+template <typename T>
+T doble(T x)
+{
+    return x + x;
+}
+```
+
+`T` es el comodín: `doble(3)` usa `int` y `doble(1.5)` usa `double`. Solo tiene que tener sentido lo que hacés con `T` (acá, sumar).
 
 #### Desafío
 Hacé que `mayor` sirva para cualquier tipo.
@@ -345,7 +355,14 @@ recompensa: xp 15, oro 15
 Bron hizo una caja para guardar tuercas (enteros). Oto quiere una igual para guardar una receta (texto), y la caja de Bron no la acepta.
 
 #### Gheco sugiere
-Hacé la clase plantilla: `template <typename T>` arriba de la clase y `T` en lugar de `int`. Después se usa `Caja<int>` y `Caja<std::string>`.
+Una clase también puede ser plantilla: `template <typename T>` arriba de la clase, y `T` donde iba el tipo fijo. Al usarla, decís el tipo entre `< >`:
+
+```cpp
+Caja<int> numeros(5);
+Caja<std::string> palabras("hola");
+```
+
+Es lo mismo que hace `std::vector<int>`: es una plantilla de clase.
 
 #### Desafío
 Convertí la caja en una plantilla.
@@ -426,7 +443,13 @@ recompensa: xp 15, oro 15
 La función `es_par` solo tiene sentido con enteros. Lima la limitó con un **concepto**, pero eligió el equivocado: `std::floating_point` (los decimales), y ahora no acepta los enteros que le pasa Tesla.
 
 #### Gheco sugiere
-El concepto de los enteros es `std::integral`.
+Un **concepto** pone una condición al comodín de la plantilla: «`T` tiene que ser un entero». Se escribe en lugar de `typename`:
+
+```cpp
+template <std::floating_point T>
+```
+
+Si alguien la usa con un tipo que no cumple, el compilador da un error claro. `<concepts>` trae varios: `std::integral` (enteros), `std::floating_point` (con decimales)…
 
 #### Desafío
 Elegí el concepto correcto.
@@ -497,7 +520,13 @@ Lima encuentra en la Biblioteca una caja de herramientas que sirven para cualqui
 —¡Una sola pieza para todo! Escribí tres así: que anden con enteros, con decimales y con textos.
 
 #### Gheco sugiere
-`template <typename T> T limitar(T x, T minimo, T maximo)` usando solo `<`. Con `"m"` escribí `std::string("m")`, si no, compara punteros. `contar` recibe un `const std::vector<T>&` y un `const T&`.
+Tres plantillas de función:
+
+- `limitar(x, minimo, maximo)` usando **solo** `<` (así sirve para cualquier tipo que sepa compararse).
+- `intercambiar(a, b)` con referencias y una auxiliar del tipo `T`.
+- `contar(v, x)` recibe un `const std::vector<T>&` y un `const T&`, y cuenta cuántas veces está `x`.
+
+Ojo con los textos: `"m"` solo es un texto de C, y compara direcciones de memoria. Escribí `std::string("m")`.
 
 #### Desafío
 Escribí tres plantillas de función: `limitar(x, minimo, maximo)` (que use solo `<`),
@@ -606,7 +635,16 @@ Tesla guarda los libros de a pares: un título y su estante, una medida y su let
 —Una sola caja para cualquier par. Y que se pueda dar vuelta.
 
 #### Gheco sugiere
-`template <typename A, typename B> class Par`. `invertido()` devuelve `Par<B, A>{segundo_, primero_}`. El `operator<<` también es plantilla: `template <typename A, typename B> std::ostream& operator<<(std::ostream&, const Par<A, B>&)`.
+Una plantilla puede tener **dos** comodines: `template <typename A, typename B> class Par`.
+
+`invertido()` devuelve un par con los tipos dados vuelta: `Par<B, A>{segundo_, primero_}`.
+
+El `operator<<` para mostrarlo también tiene que ser plantilla, con los mismos dos comodines:
+
+```cpp
+template <typename A, typename B>
+std::ostream& operator<<(std::ostream& os, const Par<A, B>& p)
+```
 
 #### Desafío
 Escribí la plantilla de clase `Par<A, B>` con `primero()`, `segundo()` e
@@ -695,7 +733,9 @@ Oto apila bandejas en un carrito que tiene lugar para tres, ni una más.
 —Si está lleno, no me la pongas encima. Y si está vacío, no me saques nada.
 
 #### Gheco sugiere
-`template <typename T, int N> class Pila` con un `std::array<T, N>` y un contador. `apilar` y `desapilar` devuelven `bool`; el tamaño `N` se fija al escribir el tipo: `Pila<std::string, 3>`.
+Un comodín de plantilla también puede ser un **número**: `template <typename T, int N>`. El tamaño queda fijo al escribir el tipo: `Pila<std::string, 3>`.
+
+Adentro, un `std::array<T, N>` y un contador. `apilar` devuelve `false` si ya está llena; `desapilar`, si está vacía.
 
 #### Desafío
 Escribí `template <typename T, int N> class Pila` con un array de `N` elementos:
@@ -1170,7 +1210,15 @@ recompensa: xp 10, oro 10
 Los bibliotecarios recorren los estantes con un dedo de bronce. Lima quiere leer el estante de los libros nuevos de atrás para adelante (el último que llegó, primero), y el dedo de Bron va hacia adelante.
 
 #### Gheco sugiere
-Usá `rbegin()` y `rend()`: el dedo arranca en el último y avanza hacia el primero con el mismo `++`.
+Un **iterador** es como un dedo que señala un elemento de un contenedor. `begin()` señala el primero, `end()` el lugar **después** del último; con `++` el dedo avanza, y con `*it` leés lo señalado.
+
+Para recorrer **al revés** hay iteradores inversos: `rbegin()` arranca en el último y `rend()` está antes del primero. El `++` los mueve hacia atrás.
+
+```cpp
+for (auto it = v.rbegin(); it != v.rend(); ++it) {
+    std::cout << *it;
+}
+```
 
 #### Desafío
 Recorré el estante al revés.
@@ -1236,7 +1284,11 @@ recompensa: xp 10, oro 10
 Tesla le pide a Bron que encuentre el libro de los relojes y le diga **en qué lugar** del estante está. Bron lo encuentra, pero le contesta el título: ya lo sabía.
 
 #### Gheco sugiere
-`std::distance(estante.begin(), it)` cuenta cuántos pasos hay desde el principio hasta el iterador.
+`std::find` devuelve un iterador, no un número. Para saber en qué posición quedó, contá cuántos pasos hay desde el principio:
+
+```cpp
+std::distance(v.begin(), it)
+```
 
 #### Desafío
 Mostrá la posición, no el título.
@@ -1301,7 +1353,9 @@ recompensa: xp 15, oro 15
 Lima quiere copiar a otra caja solo los libros gruesos (más de 300 páginas). Bron preparó una caja del tamaño del estante entero, y quedan lugares vacíos al final, llenos de ceros.
 
 #### Gheco sugiere
-Empezá con la caja vacía y copiá con `std::back_inserter(gruesos)`: agrega uno por cada libro que cumple, ni uno más.
+`std::copy_if` copia los elementos que cumplen una regla a otro lugar. Pero el destino tiene que tener lugar: si es un vector vacío, no hay dónde escribir.
+
+`std::back_inserter(destino)` resuelve eso: es un iterador especial que, en vez de escribir encima, hace `push_back`. Así el vector crece justo lo necesario.
 
 #### Desafío
 Copiá a una caja que crece sola.
@@ -1375,7 +1429,12 @@ Lima le enseña a Bron a recorrer los estantes con un dedo de bronce, sin saber 
 —Buscá uno, y después leémelos de atrás para adelante. Pero solo con el dedo, nada de atajos.
 
 #### Gheco sugiere
-Las plantillas reciben `It ini, It fin`. Para ir al revés: mientras `fin != ini`, primero `--fin` y después mostrás `*fin`. La posición en el vector es `it - v.begin()`; en la `list` no existe la resta.
+Las plantillas pueden recibir un **rango**: dos iteradores, `ini` y `fin`. Recorrés con `for (It it = ini; it != fin; ++it)`.
+
+- `buscar` devuelve el iterador donde lo encontró, o `fin` si no está.
+- Para ir al revés: mientras `fin != ini`, primero `--fin` (retrocede) y después mostrás `*fin`.
+
+En un vector, la posición es `it - v.begin()`. En una `std::list` no se puede restar iteradores: hay que contar.
 
 #### Desafío
 Escribí dos plantillas que reciben un rango de iteradores: `buscar(ini, fin, x)`
@@ -1478,7 +1537,17 @@ Por un tubo de la Biblioteca caen números sin parar. Tesla quiere los positivos
 —Sin bucles a mano. Que fluyan por la tubería.
 
 #### Gheco sugiere
-`std::vector<int> v(std::istream_iterator<int>(std::cin), {});` los lee todos. Después `copy_if` con `std::back_inserter`, `sort` y `copy` a un `std::ostream_iterator<int>(std::cout, " ")`.
+Hay iteradores que leen y escriben en la consola:
+
+- `std::istream_iterator<int>(std::cin)` lee números de la entrada. Con el vector armado así se leen **todos** de una vez:
+
+```cpp
+std::vector<int> v(std::istream_iterator<int>(std::cin), {});
+```
+
+- `std::ostream_iterator<int>(std::cout, " ")` escribe cada número seguido de un espacio.
+
+Entre los dos, la tubería: `copy_if` con `std::back_inserter`, `sort`, y `copy` hacia el `ostream_iterator`.
 
 #### Desafío
 Leé **todos** los números de la entrada en un vector con `std::istream_iterator`
@@ -1564,7 +1633,13 @@ Bron saca libros del estante mientras lo recorre con el dedo, y el dedo se le qu
 —Cada vez que borrás o insertás, el estante te dice dónde seguir —dice Lima—. Hacele caso.
 
 #### Gheco sugiere
-`it = v.erase(it);` (y no `++it` en esa vuelta). Para insertar delante de un par: `it = v.insert(it, 0);` y después avanzá **dos** lugares, para no volver a encontrar el mismo par.
+Borrar mientras recorrés es delicado: después de `erase`, el iterador que borraste ya no sirve. Por suerte, `erase` devuelve uno nuevo que señala al **siguiente**:
+
+```cpp
+it = v.erase(it);   // y en esa vuelta no hagas ++it
+```
+
+Con `insert` pasa algo parecido: `it = v.insert(it, 0);` devuelve el iterador al elemento nuevo. Para no volver a encontrar el mismo par, avanzá **dos** lugares.
 
 #### Desafío
 Con iteradores explícitos (sin `erase_if`):
@@ -2044,7 +2119,12 @@ recompensa: xp 10, oro 10
 Oto apila los platos del comedor y siempre saca el de arriba. Bron modeló la torre con una **cola**, y en su programa Oto saca el plato de abajo de todo. La torre se viene abajo.
 
 #### Gheco sugiere
-Una torre de platos es una **pila**: cambiá `std::queue` por `std::stack` (y `front()` por `top()`).
+C++ trae contenedores para formas de ordenar especiales:
+
+- `std::queue` es una **cola**: sale primero el que entró primero (como una fila). Se mira el próximo con `front()`.
+- `std::stack` es una **pila**: sale primero el último que entró (como una torre de platos). Se mira el de arriba con `top()`.
+
+Los dos usan `push` para meter y `pop` para sacar.
 
 #### Desafío
 Modelá la torre de platos con una pila.
@@ -2119,7 +2199,9 @@ recompensa: xp 10, oro 10
 Los pedidos de reparación llegan con una urgencia del 1 al 10, y hay que atender primero el más urgente. Bron armó la cola de prioridad al revés, con `std::greater`, y está atendiendo los que pueden esperar.
 
 #### Gheco sugiere
-Por defecto, `std::priority_queue<int>` saca siempre el **mayor**. Sacale el comparador.
+`std::priority_queue` es una fila con prioridad: no sale el que llegó primero, sino el **más importante**. Por defecto, saca siempre el **mayor** con `top()`.
+
+Si se le pasa un comparador distinto (como `std::greater`), se da vuelta y saca el menor.
 
 #### Desafío
 Atendé primero lo más urgente.
@@ -2196,7 +2278,10 @@ recompensa: xp 15, oro 15
 En el depósito hay una cadena de cajas donde cada una sabe cuál es la siguiente, y nada más. Lima quiere meter la caja 2 **después** de la 1, y Bron la metió antes que todas.
 
 #### Gheco sugiere
-`insert_after(f.before_begin(), x)` mete al principio. Para meterla después de la primera caja: `insert_after(f.begin(), x)`.
+`std::forward_list` es una lista enlazada que solo se recorre hacia adelante. Por eso, para meter un elemento, se dice **después de cuál**: `insert_after(it, x)`.
+
+- `insert_after(f.before_begin(), x)` lo mete al principio (`before_begin()` es un lugar especial antes del primero).
+- `insert_after(f.begin(), x)` lo mete después del primero.
 
 #### Desafío
 Meté la caja en su lugar.
@@ -2264,7 +2349,13 @@ Tesla recibe fórmulas de los aprendices y en la mitad faltan cierres.
 —No me digas solo que está mal. Mostrame dónde.
 
 #### Gheco sugiere
-Guardá en la `std::stack` pares `{símbolo, posición}`. Un cierre tiene que coincidir con el tope; si no, el error está ahí. Si al final queda algo en la pila, el error es la posición del último abierto. La `^` va con `std::string(pos, ' ')` delante.
+Una pila sirve para revisar paréntesis. Guardá pares `{símbolo, posición}`, así sabés dónde está el error:
+
+- cada apertura se apila;
+- cada cierre tiene que coincidir con el tope. Si no coincide (o la pila está vacía), el error está en esa posición;
+- si al terminar queda algo, el error es la posición del último abierto.
+
+Para marcarlo con `^`, adelante van tantos espacios como la posición: `std::string(pos, ' ')`.
 
 #### Desafío
 Cada línea de la entrada es una expresión con `()`, `[]` y `{}`. Con una
@@ -2377,7 +2468,12 @@ El banco de la Ciudadela abrió una ventanilla nueva y Lyn quiere saber cuánto 
 —El primero que llega, el primero que atienden. Y avisame cuál fue la fila más larga del día.
 
 #### Gheco sugiere
-`std::queue<std::string>`: `push` cuando llega, `front` y `pop` al atender (si no está vacía). Después de cada llegada, compará `size()` con la más larga. Al final, `front()` y `back()`.
+La fila es una `std::queue<std::string>`:
+
+- cuando alguien llega, `push`;
+- al atender, si la fila no está vacía, `front()` para ver quién es y `pop()` para sacarlo.
+
+Después de cada llegada, compará `size()` con la fila más larga hasta ahora. Al final, `front()` y `back()` dicen quién está primero y quién último.
 
 #### Desafío
 Simulá la fila de un banco con una `std::queue`. Órdenes: `llega nombre` y
@@ -2491,7 +2587,14 @@ Lima arma un tablero de dibujo que recuerda las últimas cuatro cosas que hizo, 
 —Si hago algo nuevo después de deshacer, lo que había para rehacer se pierde. Así es la vida.
 
 #### Gheco sugiere
-Dos `std::deque`: el historial (si pasa de 4, `pop_front`) y el de rehacer. `deshacer` pasa el `back()` del historial al de rehacer; `rehacer`, al revés. Una acción nueva hace `rehacer.clear()`.
+`std::deque` es una fila que se puede usar por los dos lados: `push_back`/`pop_back` al final y `push_front`/`pop_front` al principio.
+
+Dos deques:
+
+- el **historial**: cada acción va al final; si pasa de 4, se olvida la más vieja con `pop_front`;
+- el de **rehacer**: `deshacer` pasa la última acción del historial a este; `rehacer` hace lo contrario.
+
+Una acción nueva borra lo que había para rehacer (`clear()`).
 
 #### Desafío
 Un editor guarda las **últimas 4** acciones en un `std::deque` (si hay más, olvida la
@@ -2966,7 +3069,18 @@ recompensa: xp 10, oro 10
 En el índice, el tema «mapas» aparece en varios libros. Bron lo busca con `find` y le da uno solo: el primero.
 
 #### Gheco sugiere
-`auto [desde, hasta] = indice.equal_range("mapas");` y recorré de `desde` a `hasta`.
+Un `std::multimap` es un mapa donde la **misma clave puede repetirse**: un tema con varios libros.
+
+Para traer todos los de una clave, `equal_range` devuelve dos iteradores, desde dónde hasta dónde:
+
+```cpp
+auto [desde, hasta] = indice.equal_range("vapor");
+for (auto it = desde; it != hasta; ++it) {
+    std::cout << it->second << "\n";
+}
+```
+
+`it->first` es la clave y `it->second` el valor.
 
 #### Desafío
 Mostrá todos los libros del tema.
@@ -3033,7 +3147,9 @@ recompensa: xp 15, oro 15
 Lyn busca «todo lo de la L a la P» y, entre los resultados, aparece Lima. Lyn se la quiere llevar de regalo; Lima no se deja. Pero el rango de Bron se olvida de «Poleas»: corta en `upper_bound("P")`, y «Poleas» es mayor que «P».
 
 #### Gheco sugiere
-Las palabras que empiezan con P son todas menores que «Q». Cortá en `lower_bound("Q")`.
+En un contenedor ordenado (`set`, `map`), `lower_bound(x)` devuelve un iterador al primer elemento que **no es menor** que `x`. Sirve para cortar rangos.
+
+Para «todo lo que empieza con L hasta P»: desde `lower_bound("L")` hasta `lower_bound("Q")`. Todas las palabras que empiezan con P son menores que «Q», así que quedan adentro.
 
 #### Desafío
 Incluí las palabras que empiezan con P.
@@ -3104,7 +3220,14 @@ recompensa: xp 10, oro 10
 Tesla registra visitantes en la Biblioteca y quiere avisar cuando alguien ya había venido. Bron busca antes de insertar, pero la condición está al revés y avisa con los nuevos.
 
 #### Gheco sugiere
-Usá lo que devuelve `insert`: el segundo elemento del par es `true` si lo agregó (era nuevo) y `false` si ya estaba.
+`insert` de un `set` devuelve un **par**: un iterador al elemento y un `bool` que dice si lo agregó (`true`, era nuevo) o si ya estaba (`false`).
+
+```cpp
+auto [it, nuevo] = vistos.insert(x);
+if (!nuevo) { ... }
+```
+
+Así sabés si estaba sin buscar antes.
 
 #### Desafío
 Avisá con los repetidos usando lo que devuelve `insert`.
@@ -3181,7 +3304,10 @@ Tesla organiza la semana del taller y varios días tienen más de una actividad.
 —Un día, muchas cosas. Y que pueda preguntar por un día o por un rango.
 
 #### Gheco sugiere
-En un `std::multimap<int, std::string>` el mismo día se repite. `equal_range(dia)` te da todas las de ese día; `lower_bound(desde)` y `upper_bound(hasta)`, las del rango.
+Un `std::multimap<int, std::string>`: día → actividad, y un mismo día puede tener varias.
+
+- Las de un día: `equal_range(dia)`.
+- Las de un rango de días: desde `lower_bound(desde)` hasta `upper_bound(hasta)` (`upper_bound` da el primero **mayor**, así el día `hasta` queda incluido).
 
 #### Desafío
 Guardá una agenda en un `std::multimap<int, std::string>` (día → actividad).
@@ -3293,7 +3419,11 @@ Lyn juega contra todos en la sala de juegos y quiere ver el ranking en vivo.
 —Los tres mejores arriba. Y la peor partida también, para reírme.
 
 #### Gheco sugiere
-`std::multiset<Marca, std::greater<Marca>>` deja las mayores primero y acepta repetidas. El `operator>` compara puntos y, si empatan, nombres. Los tres primeros salen con `begin()`; la peor, con `rbegin()`.
+Un `std::multiset` es un conjunto que **acepta repetidos** y los mantiene ordenados. Con `std::greater<Marca>` como segundo dato, ordena de mayor a menor.
+
+Para eso, `Marca` necesita un `operator>`: compara los puntos y, si empatan, el nombre.
+
+Los tres primeros salen desde `begin()`; la peor marca, desde `rbegin()`.
 
 #### Desafío
 Cada línea es una partida: `nombre puntos`. Guardalas en un `std::multiset<Marca,
@@ -3391,7 +3521,11 @@ El bibliotecario quiere un índice al final de un libro, con las palabras que se
 —Un renglón una sola vez —dice Lima—, aunque la palabra aparezca dos veces en el mismo.
 
 #### Gheco sugiere
-`std::map<std::string, std::set<int>>`: `indice[palabra].insert(linea)`. El `set` no repite el número de línea. Al mostrar, filtrá las que tienen `size() >= 2`.
+Un mapa puede tener un contenedor como valor: `std::map<std::string, std::set<int>>` guarda, para cada palabra, el conjunto de líneas donde aparece.
+
+`indice[palabra].insert(linea)`: si la palabra no estaba, se crea con un set vacío. El set no repite el número de línea aunque la palabra aparezca dos veces en la misma.
+
+Al mostrar, quedate con las que tienen `size() >= 2`.
 
 #### Desafío
 Leé líneas de texto y armá un índice: `std::map<std::string, std::set<int>>`, de
@@ -3840,7 +3974,13 @@ recompensa: xp 10, oro 10
 Bron estaba escribiendo un bucle de veinte líneas para sumar una columna. Tesla le alcanza una herramienta: `accumulate`. Bron la usa y la suma de los pesos le da **entera**: perdió los decimales.
 
 #### Gheco sugiere
-El valor inicial decide el tipo de la suma. Con `0` suma `int` (y trunca); con `0.0`, `double`.
+`std::accumulate` (de `<numeric>`) suma todos los elementos de un rango, empezando por un valor inicial:
+
+```cpp
+std::accumulate(v.begin(), v.end(), 0)
+```
+
+Ojo: el valor inicial decide el tipo de la suma. Con `0` suma en `int` y corta los decimales; con `0.0`, en `double`.
 
 #### Desafío
 Sumá los pesos con decimales.
@@ -3901,7 +4041,13 @@ recompensa: xp 15, oro 15
 Lima le pide a Bron que saque de la lista los libros dañados (los que tienen menos de 100 páginas). Bron usa `std::remove_if`… y la lista sigue teniendo el mismo tamaño, con cosas raras al final.
 
 #### Gheco sugiere
-`remove_if` solo corre lo que se queda hacia adelante. Para borrar el resto: `libros.erase(std::remove_if(...), libros.end());`.
+`std::remove_if` tiene un nombre engañoso: **no borra**. Corre hacia adelante los elementos que se quedan y devuelve dónde termina la parte buena; el resto sigue ahí, sin ordenar.
+
+Para borrarlos de verdad, se combina con `erase` (el modismo *erase-remove*):
+
+```cpp
+v.erase(std::remove_if(v.begin(), v.end(), regla), v.end());
+```
 
 #### Desafío
 Completá el *erase-remove*.
@@ -3966,7 +4112,13 @@ recompensa: xp 15, oro 15
 La lista de temas pedidos tiene repetidos. Bron usa `unique` y siguen apareciendo: los repetidos no estaban uno al lado del otro.
 
 #### Gheco sugiere
-Ordená primero con `std::sort`, así los repetidos quedan juntos, y después `erase` + `unique`.
+`std::unique` saca repetidos solo si están **juntos** (uno al lado del otro). Por eso, primero se ordena con `std::sort`, así los iguales quedan pegados.
+
+Y como `remove_if`, `unique` no borra: se combina con `erase`:
+
+```cpp
+v.erase(std::unique(v.begin(), v.end()), v.end());
+```
 
 #### Desafío
 Ordená antes de quitar repetidos.
@@ -4039,7 +4191,13 @@ Tesla corrigió el examen de los aprendices y quiere todos los números.
 —Sin un solo bucle. La Biblioteca tiene una herramienta para cada cosa.
 
 #### Gheco sugiere
-`accumulate(v.begin(), v.end(), 0.0)` para que el promedio sea decimal. La mediana: copiá y ordená. `minmax_element` devuelve dos iteradores. `count_if` para los aprobados y `none_of` para los ceros.
+Esta vez, sin escribir ningún bucle: todo con algoritmos.
+
+- **Promedio**: `std::accumulate(v.begin(), v.end(), 0.0)` dividido la cantidad (con `0.0`, la suma es decimal).
+- **Mediana**: copiá el vector, ordenalo y tomá el del medio.
+- **Mínimo y máximo de una vez**: `std::minmax_element` devuelve dos iteradores.
+- **Aprobados**: `std::count_if` con una lambda.
+- **¿Ningún cero?**: `std::none_of`.
 
 #### Desafío
 Leé todas las notas de la entrada con `istream_iterator`. **Sin escribir ningún
@@ -4142,7 +4300,13 @@ Terminó la carrera de las torres y Lyn quiere el podio ya.
 —No ordenes a todos, que tarda. Solo los tres primeros. Y el tiempo del medio.
 
 #### Gheco sugiere
-Una lambda `mas_rapido` que compare los segundos. `std::partial_sort(v.begin(), v.begin() + 3, v.end(), mas_rapido)` ordena solo el podio; `nth_element` deja el del medio en su lugar; `max_element` encuentra al último.
+Para el podio no hace falta ordenar todo:
+
+- `std::partial_sort(v.begin(), v.begin() + 3, v.end(), mas_rapido)` deja ordenados solo los 3 primeros.
+- `std::nth_element` pone en su lugar justo el elemento del medio (como si estuviera ordenado), sin ordenar el resto.
+- `std::max_element` encuentra al más lento.
+
+Todos reciben la misma lambda `mas_rapido`, que compara los segundos.
 
 #### Desafío
 Cada línea es un corredor: `nombre segundos`. Mostrá el podio (los 3 más rápidos)
@@ -4250,7 +4414,16 @@ El club tiene la lista de socios desordenada y con repetidos. Lima la quiere ord
 —Si alguien pregunta por un número que no está, lo sumamos en su lugar.
 
 #### Gheco sugiere
-`sort` y después `v.erase(std::unique(v.begin(), v.end()), v.end())`. `lower_bound` te da dónde está o dónde iría: si `*it == x` es socio; si no, `*it` es el siguiente y `v.insert(it, x)` lo agrega ahí.
+En una lista **ordenada** se puede buscar muy rápido, partiendo a la mitad cada vez: **búsqueda binaria**.
+
+Primero ordená y sacá repetidos (`sort`, y después `erase` + `unique`).
+
+`std::lower_bound(v.begin(), v.end(), x)` te da dónde está `x` o dónde **iría**:
+
+- si ahí está `x` (`*it == x`), es socio;
+- si no, `*it` es el siguiente, y `v.insert(it, x)` lo agrega en su lugar sin desordenar.
+
+Cuidado: si `it` es `end()`, no hay siguiente.
 
 #### Desafío
 La lista de socios del club es `{1042, 88, 5310, 713, 2204, 88, 91, 4400}`:
@@ -4706,7 +4879,13 @@ recompensa: xp 15, oro 15
 Bron escribió un functor que cuenta cuántas palancas están arriba. Se lo pasa a `for_each` y después mira su contador: cero. Lima le explica que `for_each` contó con una copia, y la devolvió.
 
 #### Gheco sugiere
-Guardá lo que devuelve `for_each`: `Contador resultado = std::for_each(..., Contador{});` y mostrá `resultado.arriba`.
+Un **functor** es un objeto que se puede llamar como una función, porque su clase tiene un `operator()`. Y como es un objeto, puede **guardar cosas** entre una llamada y otra (como un contador).
+
+`std::for_each` usa una **copia** del functor y, al terminar, la **devuelve**. Para ver la cuenta, guardá lo que devuelve:
+
+```cpp
+Contador r = std::for_each(v.begin(), v.end(), Contador{});
+```
 
 #### Desafío
 Usá el functor que devuelve `for_each`.
@@ -4778,7 +4957,13 @@ recompensa: xp 10, oro 10
 Cada palanca del tablero tiene una tarjeta con su acción. Bron cambió la tarjeta de la campana por «servir el guiso»… pero se olvidó de colgarla en la tabla, y la palanca dice «orden desconocida».
 
 #### Gheco sugiere
-Agregá la entrada `"campana"` a la tabla, con una lambda que muestre `Oto sirve el guiso`.
+`std::function<void()>` (de `<functional>`) es una caja que puede guardar **cualquier cosa que se pueda llamar**: una función, una lambda, un functor.
+
+Con un mapa de texto a `std::function` se arma una tabla de órdenes: cada palabra con su acción. Para agregar una, una fila más con su lambda:
+
+```cpp
+{"saludo", [] { std::cout << "hola\n"; }},
+```
 
 #### Desafío
 Colgá la tarjeta que falta.
@@ -4867,7 +5052,12 @@ recompensa: xp 15, oro 15
 La presión de la caldera tiene tres reglas: ser positiva, no pasar de 100 y ser par (la caldera es rara). La validación de Bron acepta la presión si cumple **alguna**.
 
 #### Gheco sugiere
-Cambiá `std::any_of` por `std::all_of`: tiene que cumplir todas.
+Dos algoritmos para preguntar por todo un rango:
+
+- `std::any_of`: ¿**alguno** cumple?
+- `std::all_of`: ¿**todos** cumplen?
+
+Acá cada elemento es una regla (una `std::function`), y la pregunta es si la presión las cumple todas.
 
 #### Desafío
 Exigí todas las reglas.
@@ -4946,7 +5136,11 @@ Por la sala de control pasan lecturas de los medidores. Tesla quiere un aparato 
 —Que recuerde lo que vio. Y otro que diga si cada lectura está en un rango.
 
 #### Gheco sugiere
-Un functor es una clase con `operator()`. `for_each` **devuelve** la copia que usó: `Estadistica e = std::for_each(...)`. `EnRango` guarda `desde` y `hasta` y se lo pasás a `count_if`.
+Un functor puede llevar la cuenta mientras recorre. `Estadistica` tiene cantidad, suma y máximo, y su `operator()(int x)` los actualiza con cada número.
+
+Acordate de que `for_each` trabaja con una copia y la **devuelve**: `Estadistica e = std::for_each(...)`.
+
+`EnRango` guarda `desde` y `hasta` (los recibe en el constructor) y su `operator()` contesta si un número está adentro. Se lo pasás a `count_if` como si fuera una lambda.
 
 #### Desafío
 Leé números de la entrada. Escribí el functor `Estadistica` (con cantidad, suma y
@@ -5046,7 +5240,11 @@ Oto quiere una calculadora para sus recetas que entienda órdenes escritas.
 —«Suma», «por», «promedio»… y si le pido una que no sabe, que me lo diga y no invente.
 
 #### Gheco sugiere
-`std::map<std::string, std::function<double(double, double)>>`, con lambdas como valores. Agregar después es `ops["promedio"] = ...`. Antes de llamar, `find`: si no está, avisás.
+Un `std::map<std::string, std::function<double(double, double)>>`: cada nombre de operación con una lambda que recibe dos números y devuelve el resultado.
+
+Agregar una operación después es una línea: `ops["promedio"] = [](double a, double b) { ... };`.
+
+Antes de llamar, buscá la operación con `find`: si no está, avisás. Si está, la llamás con `it->second(a, b)`.
 
 #### Desafío
 Armá un `std::map<std::string, std::function<double(double, double)>>` con las
@@ -5152,7 +5350,11 @@ Lima arma un tablero de avisos: cuando pasa algo, suenan las campanas que estén
 —Y si una campana molesta, la desenchufamos sin tocar las otras.
 
 #### Gheco sugiere
-`suscribir` guarda la función en `eventos_[evento][id]` y devuelve el `id`. `desuscribir` hace `erase(id)`. Al llegar un evento, recorrés el mapa de ese evento y llamás cada función.
+Un **bus de eventos** avisa a todos los que se anotaron a un evento.
+
+- `suscribir(evento, funcion)` guarda la función en `eventos_[evento][id]`, con un número nuevo (`id`), y lo devuelve. Ese número es como el ticket para desanotarse.
+- `desuscribir` borra ese `id` con `erase`.
+- Cuando llega un evento, recorrés las funciones anotadas a ese evento y llamás a cada una.
 
 #### Desafío
 Escribí `class Eventos` donde `suscribir(evento, funcion)` devuelve un número de
@@ -5660,7 +5862,16 @@ recompensa: xp 15, oro 15
 En la sala de lectura se encadenan lentes: uno que deja ver solo los capítulos pares, otro que duplica el número de página. Bron los puso al revés: primero duplica y después filtra, y todos los números le quedan pares.
 
 #### Gheco sugiere
-Poné primero el `filter` (quedarse con los pares) y después el `transform` (duplicar).
+Las **vistas** (`std::views`, de `<ranges>`) son lentes que se ponen sobre un contenedor sin copiarlo. Se encadenan con `|`, de izquierda a derecha:
+
+- `std::views::filter(regla)` deja pasar solo los que cumplen;
+- `std::views::transform(regla)` cambia cada uno.
+
+```cpp
+auto lente = v | std::views::filter(es_impar) | std::views::transform(triple);
+```
+
+El orden importa: primero se filtra y después se transforma lo que quedó.
 
 #### Desafío
 Ordená los lentes.
@@ -5731,7 +5942,13 @@ recompensa: xp 15, oro 15
 Lyn quiere el podio de la carrera: los tres con más puntos. Bron ordena por puntos, pero de menor a mayor, y en el podio quedan los últimos.
 
 #### Gheco sugiere
-Pasale `std::greater{}` como comparador a `std::ranges::sort`, antes de la proyección `&Marca::puntos`.
+`std::ranges::sort` es un `sort` más cómodo: recibe el contenedor entero, un comparador y una **proyección** (qué campo mirar):
+
+```cpp
+std::ranges::sort(alumnos, std::less{}, &Alumno::edad);
+```
+
+`std::less{}` ordena de menor a mayor y `std::greater{}`, de mayor a menor.
 
 #### Desafío
 Ordená de mayor a menor.
@@ -5814,7 +6031,9 @@ recompensa: xp 10, oro 10
 Para cerrar la sala de lectura, la campana da una cuenta regresiva del 5 al 1. La de Bron arranca en 4: `iota(1, 5)` no incluye el 5.
 
 #### Gheco sugiere
-`iota(desde, hasta)` no incluye `hasta`. Para llegar al 5, el tope es 6.
+`std::views::iota(desde, hasta)` genera los números de `desde` hasta `hasta`, **sin incluir** `hasta`: `iota(1, 4)` es 1, 2, 3.
+
+Con `| std::views::reverse` los recorre al revés.
 
 #### Desafío
 Hacé que la cuenta arranque en 5.
@@ -5878,7 +6097,13 @@ En la sala de lectura llegan registros larguísimos separados por comas. Lima no
 —Mirá los pedazos sin cortar el papel. Y sacales los espacios de las puntas.
 
 #### Gheco sugiere
-`std::string_view` mira un pedazo sin copiarlo. Para partir, `find(sep, desde)` y `substr` (en un `string_view`, no copia). Los pedazos vacíos también cuentan. `recortar` usa `remove_prefix` y `remove_suffix`.
+`std::string_view` mira un pedazo de un texto **sin copiarlo**: es liviano, ideal para partir.
+
+- `texto.find(sep, desde)` busca el separador desde una posición.
+- `texto.substr(inicio, cantidad)`, en un `string_view`, devuelve otra vista, sin copiar.
+- Los pedazos vacíos (dos separadores seguidos) también cuentan.
+
+Para `recortar` espacios: `remove_prefix(n)` y `remove_suffix(n)` achican la vista por adelante o por atrás.
 
 #### Desafío
 Escribí `partir(std::string_view texto, char sep)`, que devuelve un
@@ -5991,7 +6216,11 @@ Tesla compara lecturas de distintos sensores y quiere todas en la misma escala.
 —Una sola función. Que sirva para un vector, para un array y para un pedazo.
 
 #### Gheco sugiere
-`std::span<double>` mira cualquier bloque contiguo: vector, array o parte. Buscá el mayor con `std::ranges::max` y dividí. `mostrar` recibe `std::span<const double>` porque no cambia nada.
+`std::span<double>` (de `<span>`) mira un bloque de elementos seguidos, sin importar de dónde vienen: un vector, un `std::array` o una parte de ellos. La función no necesita saber cuál.
+
+Para normalizar, buscá el mayor (`std::ranges::max`) y dividí cada valor por él (cuidado si el mayor es 0).
+
+`mostrar` recibe `std::span<const double>`: con `const`, promete que no cambia nada.
 
 #### Desafío
 Escribí `normalizar(std::span<double>)`, que divide cada valor por el mayor
@@ -6098,7 +6327,11 @@ El Gremio le pide a Lyn varias listas de sus artífices para repartir invitacion
 —Los mejores, los relojeros, cuántos aprendices… ¡Y no me copies la lista para cada pregunta!
 
 #### Gheco sugiere
-`std::ranges::sort(v, std::greater{}, &Artifice::nivel)` ordena por nivel con una proyección. Las vistas `views::take`, `views::filter` y `views::transform` no copian nada. `std::ranges::find(v, "vapor", &Artifice::taller)`.
+Consultas sobre la tabla con `ranges`:
+
+- ordenar por nivel con una proyección: `std::ranges::sort(v, std::greater{}, &Artifice::nivel)`;
+- las vistas `views::take(n)` (los primeros n), `views::filter` y `views::transform`, sin copiar nada;
+- buscar por un campo: `std::ranges::find(v, "vapor", &Artifice::taller)`.
 
 #### Desafío
 Cada línea trae un artífice: `nombre taller nivel`. Ordenalos de mayor a menor
@@ -6599,7 +6832,13 @@ recompensa: xp 10, oro 10
 Bron hizo una clase `Estante` y quiere recorrerla con un `for` de rango. El Taller no lo deja: el estante tiene `begin()`, pero le falta `end()`.
 
 #### Gheco sugiere
-Agregá `auto end() const { return libros_.end(); }`, como el `begin()` que ya está.
+El `for` de rango funciona con **cualquier** clase que tenga `begin()` y `end()`. Si tu clase guarda un vector adentro, alcanza con devolver los de ese vector:
+
+```cpp
+auto begin() const { return datos_.begin(); }
+```
+
+Y `end()` igual.
 
 #### Desafío
 Completá lo que necesita el `for` de rango.
@@ -6686,7 +6925,9 @@ recompensa: xp 15, oro 15
 Lima fabricó un estante raro: cuando llega una lectura nueva y no hay lugar, la más vieja se cae. Así guarda siempre las últimas N lecturas de la caldera. El de Bron nunca tira nada.
 
 #### Gheco sugiere
-Después de agregar, si el `deque` tiene más de `N`, sacá la más vieja con `pop_front()`.
+La clase guarda solo las últimas `N` lecturas en un `std::deque`: después de agregar al final, si quedaron más de `N`, saca la más vieja del principio con `pop_front()`.
+
+`N` es un parámetro numérico de la plantilla, y `begin()`/`end()` devuelven los del deque, así se recorre con un `for` de rango.
 
 #### Desafío
 Hacé que el estante guarde solo las últimas `N`.
@@ -6788,7 +7029,13 @@ recompensa: xp 15, oro 15
 Tesla le pide a Bron un contenedor que no guarda nada: cuenta del 1 al N. Para eso hace falta un dedo de bronce propio. El de Bron avanza, pero cuando le preguntan dónde está, contesta siempre 0.
 
 #### Gheco sugiere
-`operator*` tiene que devolver el número actual del iterador, `actual_`.
+Un iterador propio necesita, como mínimo, tres operadores:
+
+- `operator*`: devuelve el valor que señala;
+- `operator++`: avanza al siguiente;
+- `operator!=`: dice si todavía no llegó al final.
+
+Con eso, el `for` de rango ya puede recorrerlo.
 
 #### Desafío
 Hacé que el iterador diga su valor.
@@ -6886,7 +7133,11 @@ Tesla le muestra a Bron una regla que nunca termina: marca números de a saltos,
 —Los calcula cuando los mirás. Y sabe dónde parar, aunque el salto no caiga justo.
 
 #### Gheco sugiere
-El iterador guarda el número actual y el paso; `++` suma el paso y `*` lo devuelve. El `end()` tiene que ser el primer valor alineado que ya no entra: `desde + cantidad * paso`, con `cantidad` redondeada para arriba.
+Un rango que **no guarda nada**: genera los números a medida que se recorre.
+
+El iterador guarda el número actual y el paso: `++` suma el paso y `*` devuelve el actual.
+
+`end()` tiene que ser el primer valor de la secuencia que ya no entra: `desde + cantidad * paso`. La `cantidad` de números se calcula redondeando para arriba, para que el `!=` coincida justo y el bucle termine.
 
 #### Desafío
 Escribí `class Rango(desde, hasta, paso = 1)` que representa los números `desde,
@@ -7024,7 +7275,11 @@ En la sala de espera de la Biblioteca hay tres sillas. Lima quiere anotar a los 
 —El mismo anillo. Uno pisa al más viejo; el otro dice «no hay lugar».
 
 #### Gheco sugiere
-Un tercer parámetro de plantilla `AlLlenarse modo = AlLlenarse::Pisar`. En `push`, `if constexpr (modo == AlLlenarse::Rechazar)` devolvés `false` si está lleno. `pop` saca el más viejo y avanza el inicio.
+Un parámetro de plantilla también puede ser un valor de un `enum class`: `AlLlenarse modo = AlLlenarse::Pisar`. Así se elige el comportamiento al escribir el tipo.
+
+En `push`, `if constexpr (modo == AlLlenarse::Rechazar)` decide **al compilar**: si está lleno, rechaza (`return false`). En modo pisar, escribe encima del más viejo.
+
+`pop` saca el más viejo y avanza el inicio (con `%` para dar la vuelta).
 
 #### Desafío
 Agregale al `RingBuffer` un tercer parámetro de plantilla: un `enum class
@@ -7205,7 +7460,11 @@ Tesla trae el mapa de alturas de un terreno donde van a construir una torre nuev
 —Una matriz que guarde todo en fila, y que se pueda recorrer de una. Los pozos, a cero.
 
 #### Gheco sugiere
-`m(f, c)` es `datos_[f * columnas_ + c]`. `begin()` y `end()` devuelven los del vector (y sus versiones `const`), así el `for (auto& h : m)` anda solo. `std::replace_if(m.begin(), m.end(), es_pozo, 0)`.
+Una matriz que guarda todo en un solo vector, una fila detrás de la otra. La casilla de la fila `f` y la columna `c` está en `f * columnas_ + c`.
+
+Con `operator()` se usa como `m(f, c)`.
+
+`begin()` y `end()` devuelven los del vector (con sus versiones `const`): así el `for` de rango y los algoritmos recorren la matriz entera. Por ejemplo, `std::replace_if(m.begin(), m.end(), es_pozo, 0)`.
 
 #### Desafío
 Escribí `template <typename T> class Matriz` que guarda sus datos en un
@@ -7593,7 +7852,7 @@ recompensa: xp 15, oro 15
 En los sótanos inundados vive el **Kraken de los Contenedores**, que saca un tentáculo por cada pasillo. Lima no sabe nadar y se queda en la escalera, dando indicaciones. Bron tiene que atacar primero el tentáculo más fuerte, pero su cola los guarda por nombre.
 
 #### Gheco sugiere
-Poné la fuerza **primero** en el par: `{fuerza, nombre}`. La cola de prioridad compara por el primero.
+Una `std::priority_queue` de pares los ordena por el **primer** valor del par (y, si empatan, por el segundo). Si querés que el más fuerte salga primero, la fuerza tiene que ir primero: `{fuerza, nombre}`.
 
 #### Desafío
 Ordená los tentáculos por fuerza.
@@ -7684,7 +7943,9 @@ recompensa: xp 15, oro 15
 El Kraken desordenó todo: los libros flotan mezclados. Para que no tenga dónde esconderse, cada libro tiene que volver al estante de su tema. Bron los pone todos en el mismo estante.
 
 #### Gheco sugiere
-Agrupalos con `estantes[tema].push_back(titulo);` y después recorré el mapa.
+Un mapa de tema a vector agrupa: `estantes[tema].push_back(titulo);`. Si el tema no existía, se crea con un vector vacío y se le agrega el libro.
+
+Después recorrés el mapa: cada tema con su lista de libros, y los temas salen en orden alfabético.
 
 #### Desafío
 Agrupá los libros por tema.
@@ -7777,7 +8038,13 @@ recompensa: xp 15, oro 15
 Cuando el Kraken saca un tentáculo, todos tienen que enterarse: Lima desde la escalera, Bron desde el agua. Bron armó la lista de oyentes, pero cuando suena la alarma no le avisa a nadie.
 
 #### Gheco sugiere
-En `avisar`, recorré `oyentes_` y llamá a cada uno con el pasillo: `o(pasillo);`.
+La alarma guarda una lista de **oyentes**: funciones (`std::function`) que quieren enterarse. Cuando suena, no necesita saber quiénes son: recorre la lista y llama a cada una con el pasillo.
+
+```cpp
+for (const auto& o : oyentes_) {
+    o(pasillo);
+}
+```
 
 #### Desafío
 Hacé que la alarma avise a todos los oyentes.
@@ -7878,7 +8145,7 @@ item: Catálogo de Plantillas
 El último tentáculo del Kraken suelta su estante, y cae al agua un libro de tapas de bronce: un **catálogo**. Para encontrar en él la página de las bisagras del Vidriero, Bron escribió un buscador que solo sirve para vectores, y el catálogo es una lista.
 
 #### Gheco sugiere
-Hacé `buscar` plantilla: `template <typename Contenedor>` y recibí `const Contenedor& c`. El resto del código ya funciona con cualquier contenedor que se pueda recorrer.
+Si el buscador solo usa un `for` de rango y `==`, sirve para cualquier contenedor que se pueda recorrer. Hacelo plantilla: `template <typename Contenedor>` arriba, y que reciba `const Contenedor& c`.
 
 #### Desafío
 Convertí el buscador en una plantilla.
@@ -7982,7 +8249,13 @@ Antes de bajar a los sótanos, el Gremio quiere una lista de tareas para que nad
 —Con menú —dice Lima—. Y que no se rompa si alguien aprieta una letra.
 
 #### Gheco sugiere
-Leé la opción como texto y convertila; si no es un número, avisás y seguís. Usá `any_of` para no repetir, `erase_if` para limpiar, `stable_sort` con la regla de las urgentes y `count_if` para el resumen. Si `getline` falla, salí del menú.
+Un menú robusto con algoritmos:
+
+- leé la opción como texto y convertila; si no es un número, avisás y volvés a preguntar. Si `getline` falla, salí del menú;
+- **agregar**: no vacías ni repetidas (`std::any_of` para ver si ya está);
+- **limpiar** las hechas: `std::erase_if`;
+- **ordenar** con las urgentes primero: `std::stable_sort` (mantiene el orden de llegada entre iguales);
+- **resumen**: `std::count_if`.
 
 #### Desafío
 Programá una lista de tareas con un menú: **1** agregar (no vacías ni repetidas),
@@ -8196,7 +8469,13 @@ En los sótanos, el Kraken saca tentáculos de cada estante inundado. Lima baja 
 —Cada tentáculo es una entidad. Si las tenemos ordenadas, lo vencemos.
 
 #### Gheco sugiere
-Las entidades viven en el `Mundo`. Para combatir, el índice espacial es un `unordered_map` de casilla a ids; `views::filter` elige a los que persiguen; `erase_if` recoge lo que no tiene vida; y cada muerte avisa a los suscriptos antes de borrarse.
+Un pequeño sistema de entidades. Algunas pistas:
+
+- las entidades viven en el `Mundo`, cada una con su `id`;
+- para saber quién está en cada casilla, un `std::unordered_map` de casilla a ids (el **índice espacial**);
+- `views::filter` elige a las que persiguen;
+- `erase_if` saca las que se quedaron sin vida;
+- antes de borrar una, se avisa a los suscriptos del evento de muerte.
 
 #### Desafío
 Armá un pequeño **sistema de entidades** en una grilla de 10 × 5. Cada `Entidad`

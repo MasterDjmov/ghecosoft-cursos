@@ -121,7 +121,17 @@ recompensa: xp 10, oro 10
 Saeta le pide a Nima que anote, en orden, todo lo que pasa en la galería durante un envío. Nima escribe el programa, pero los renglones salen en otro orden del que esperaba.
 
 #### Gheco sugiere
-No cambies el orden de las líneas: cambiá los **milisegundos** para que la respuesta del Puerto llegue después de la de las Forjas.
+`setTimeout(función, ms)` (el de la Clase 0) **no frena** el programa: anota la función para dentro de tantos milisegundos y el programa sigue con la línea de abajo. Por eso, lo que está afuera de un `setTimeout` sale primero.
+
+Entre varios `setTimeout`, sale primero **el de menos milisegundos**, sin importar en qué orden están escritos:
+
+```js
+setTimeout(() => console.log('B'), 2000);
+setTimeout(() => console.log('A'), 500);
+// sale A y después B
+```
+
+La consigna pide no mover las líneas: tocá solo los números.
 
 #### Desafío
 Hacé que la salida sea: `Sale la flecha`, `Saeta anota`, `Responden las Forjas`, `Responde el Puerto`.
@@ -170,7 +180,9 @@ recompensa: xp 10, oro 10
 Bruno subió a la Torre y dice que con 0 milisegundos la flecha sale «ya». Saeta le pide a Nima que le muestre que no.
 
 #### Gheco sugiere
-Ejecutá el programa y mirá en qué lugar sale el mensaje del `setTimeout`. Después, completá el último `console.log` para que diga `Fin` **antes** que la flecha de 0.
+Un `setTimeout` de **0** milisegundos no corre «ya»: corre **apenas termine** todo lo que el programa está haciendo ahora. JavaScript hace una cosa por vez: primero termina el programa entero, de arriba abajo, y recién después atiende lo que quedó anotado para más tarde.
+
+Ejecutá y fijate en qué lugar sale cada mensaje.
 
 #### Desafío
 Agregá `console.log('Fin')` al final del programa, y observá: la flecha de 0 sale última igual.
@@ -219,7 +231,15 @@ recompensa: xp 10, oro 10
 Un troll se coló en la galería y cambió el código: ahora, apenas sale la flecha, el programa muestra la respuesta… y dice *undefined*.
 
 #### Gheco sugiere
-El `console.log` de la respuesta está **afuera**, y corre antes de que llegue. Movelo adentro del callback.
+Si una variable se llena adentro de un `setTimeout`, **todavía está vacía** en la línea de abajo: esa línea corre enseguida, y el `setTimeout` mucho después.
+
+```js
+let premio;
+setTimeout(() => { premio = 'oso'; }, 1000);
+console.log(premio);   // undefined: todavía no llegó
+```
+
+Lo que usa el dato tiene que ir **adentro** de la función que se ejecuta cuando llega.
 
 #### Desafío
 Que se vea `Respuesta: ¡Recibido, Nima!`.
@@ -267,7 +287,16 @@ recompensa: xp 10, oro 10
 Saeta le enseña su técnica: la flecha lleva atada una instrucción de qué hacer cuando vuelva.
 
 #### Gheco sugiere
-Adentro de `mandarFlecha`, después de 1000 ms, llamá a `alLlegar` con el texto `` `Respuesta de ${destino}` ``.
+Un **callback** es una función que le pasás a otra para que **la llame cuando termine**. Así, el que espera dice qué hacer con el resultado:
+
+```js
+function cocinar(plato, alTerminar) {
+    setTimeout(() => alTerminar(`${plato} listo`), 1000);
+}
+cocinar('Pochoclo', (aviso) => console.log(aviso));
+```
+
+A los 1000 ms, `cocinar` llama a `alTerminar` con el texto, y se muestra `Pochoclo listo`. Fijate en la consigna qué texto tiene que recibir el callback.
 
 #### Desafío
 Completá `mandarFlecha`.
@@ -319,7 +348,18 @@ recompensa: xp 15, monedas 5
 Saeta tiene que mandar tres flechas en cadena: primero al Valle, cuando vuelva al Puerto, y cuando vuelva a las Forjas. Cada una sale recién cuando llega la anterior.
 
 #### Gheco sugiere
-Llamá a `mandarFlecha` adentro del callback de la anterior. Va a quedar escalonado: así es la «pirámide».
+Para hacer cosas **en orden** con callbacks, la segunda se pide **adentro** del callback de la primera, y la tercera adentro del de la segunda:
+
+```js
+cocinar('Pan', (r1) => {
+    console.log(r1);
+    cocinar('Torta', (r2) => {
+        console.log(r2);
+    });
+});
+```
+
+Cada nivel se corre un poco a la derecha, y con muchos se forma una **pirámide** difícil de leer. Lo que va al final (`Las tres volvieron`) tiene que estar en el nivel de más adentro.
 
 #### Desafío
 Mandá las tres en cadena para que salgan, en orden, las tres respuestas y al final `Las tres volvieron`.
@@ -383,7 +423,9 @@ recompensa: xp 15, monedas 5
 Lumina quiere ver una cosa: si mientras la flecha viaja (3 segundos) la galería sigue atendiendo. Pone un botón para tocar la campana, y quiere que la campana suene aunque la flecha esté en camino.
 
 #### Gheco sugiere
-Al tocar *Soltar*, escribí `Flecha en camino` en el cartel y programá con `setTimeout` (3000 ms) que diga `Flecha de vuelta`. La campana tiene su propio evento: anda mientras tanto.
+Mientras un `setTimeout` espera, la página **sigue andando**: los otros botones responden, se puede escribir, nada se congela. Esa es la gracia de no frenar el programa.
+
+En el evento del botón, primero cambiá el cartel y después dejá anotado, con `setTimeout`, el cambio de cuando vuelve la flecha. La campana ya tiene su propio evento: no la toques.
 
 #### Desafío
 Completá el evento de *Soltar*. (La comprobación suelta, toca la campana a los 1 s y espera hasta los 3 s.)
@@ -582,7 +624,13 @@ recompensa: xp 10, oro 10
 Saeta le da a Nima una flecha prometida. Al soltarla, a Nima le queda en la mano el papel sellado: la promesa.
 
 #### Gheco sugiere
-`flecha.then((respuesta) => console.log(respuesta))` muestra lo que traiga cuando llegue.
+Una **promesa** (`Promise`) es un objeto que representa un resultado que **todavía no llegó**: «te prometo un valor para más tarde». Con `.then` decís qué hacer **cuando llegue**:
+
+```js
+pedido.then((comida) => console.log('Llegó:', comida));
+```
+
+La función del `then` recibe el valor que trae la promesa. Es como el callback, pero se escribe afuera, después.
 
 #### Desafío
 Usá `.then` para mostrar la respuesta.
@@ -634,7 +682,18 @@ recompensa: xp 10, oro 10
 Hay niebla. Saeta suelta una flecha que se pierde: la promesa se **rechaza**. Hay que avisar del error, y anotar el viaje igual.
 
 #### Gheco sugiere
-Agregá `.catch((error) => console.log('Se perdió:', error.message))` y `.finally(() => console.log('Saeta anota el viaje'))`.
+Una promesa puede salir **bien** (se *cumple*) o **mal** (se *rechaza*, con un error). Se le pueden encadenar tres cosas:
+
+- `.then(…)` corre si salió bien;
+- `.catch((error) => …)` corre si salió mal; `error.message` es el texto del error;
+- `.finally(() => …)` corre **siempre**, salga bien o mal.
+
+```js
+pedido
+    .then((c) => console.log(c))
+    .catch((error) => console.log('Falló:', error.message))
+    .finally(() => console.log('Mesa limpia'));
+```
 
 #### Desafío
 Completá la cadena.
@@ -688,7 +747,20 @@ recompensa: xp 10, oro 10
 Saeta le pide a Nima que haga su propia función de mandar flechas: si el destino es `'la Niebla'`, la flecha se pierde; si no, vuelve a los 1000 ms.
 
 #### Gheco sugiere
-`mandar(destino)` devuelve `new Promise((resolve, reject) => { setTimeout(() => { … }, 1000); })`. Adentro, `reject(new Error(…))` o `resolve(…)`.
+Para **crear** una promesa se usa `new Promise`, que recibe una función con dos botones: `resolve` (cumplir, con el valor) y `reject` (rechazar, con un error):
+
+```js
+function tirarDado() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (Math.random() < 0.1) reject(new Error('Se cayó de la mesa'));
+            else resolve(4);
+        }, 500);
+    });
+}
+```
+
+La función **devuelve** la promesa con `return`: así quien la llama puede ponerle `.then`.
 
 #### Desafío
 Completá `mandar`.
@@ -744,7 +816,18 @@ recompensa: xp 10, oro 10
 Las mismas tres flechas en cadena de ayer (Valle, Puerto, Forjas), pero ahora con promesas: en fila, sin escalera.
 
 #### Gheco sugiere
-En cada `then`, mostrá la respuesta y **devolvé** la próxima `mandar(…)`.
+Si adentro de un `then` **devolvés** otra promesa, el `then` siguiente espera a esa. Así se hacen cosas en orden **sin pirámide**: todo queda a la misma altura.
+
+```js
+cocinar('Pan')
+    .then((r1) => {
+        console.log(r1);
+        return cocinar('Torta');
+    })
+    .then((r2) => console.log(r2));
+```
+
+Lo del final va en un último `then`.
 
 #### Desafío
 Encadená las tres para que salgan en orden y al final `Las tres volvieron`.
@@ -813,7 +896,9 @@ recompensa: xp 15, monedas 5
 Un troll borró un `return`. Ahora la segunda respuesta llega **después** del mensaje final, y el siguiente `then` recibe `undefined`.
 
 #### Gheco sugiere
-Fijate qué `then` llama a `mandar` sin devolverla.
+Si un `then` llama a otra promesa pero **no la devuelve** con `return`, el `then` siguiente no la espera: arranca enseguida, con `undefined`.
+
+Revisá cada `then` de la cadena: el que pide la próxima tiene que tener `return` adelante.
 
 #### Desafío
 Arreglalo para que salga: `Respuesta de el Valle`, `Respuesta de el Puerto`, `Fin del viaje`.
@@ -879,7 +964,9 @@ recompensa: xp 15, monedas 5
 Lumina tiene que mandar una invitación al Puerto, a las Forjas y a la Niebla (aunque sabe que la de la Niebla se pierde). Quiere un solo `catch` y que al final, pase lo que pase, se apague el farol de la galería.
 
 #### Gheco sugiere
-Encadená las tres con `return`. Un solo `catch` al final muestra el error, y el `finally` muestra `Se apaga el farol de la galería`.
+En una cadena de `then`, si cualquier paso sale mal, se **saltan** todos los `then` que siguen y se va directo al `catch`. Por eso alcanza con **un solo `catch`** al final para toda la cadena.
+
+Encadená los pasos con `return` (como en R04-N02-P4), y al final el `catch` y el `finally`. Fijate en la consigna qué tiene que mostrar cada uno.
 
 #### Desafío
 Completá la cadena.
@@ -1076,7 +1163,14 @@ recompensa: xp 10, oro 10
 Nima prueba el arco de la muesca: suelta, espera y sigue, sin escribir `then`.
 
 #### Gheco sugiere
-`const respuesta = await mandar('el Puerto');` y después mostrala.
+`await` es otra forma de esperar una promesa, más fácil de leer que `then`: **frena esa parte del programa** hasta que la promesa llegue, y da su valor:
+
+```js
+const comida = await cocinar('Pan');
+console.log(comida);
+```
+
+Se lee de arriba abajo, como si no hubiera espera. En esta caja se puede usar `await` suelto, en el programa principal.
 
 #### Desafío
 Esperá la respuesta con `await` y mostrala.
@@ -1132,7 +1226,19 @@ recompensa: xp 10, oro 10
 Saeta quiere una función `viaje()` que mande dos flechas en orden y muestre las dos respuestas.
 
 #### Gheco sugiere
-Declarala con `async function viaje()` y adentro usá `await` dos veces.
+Adentro de una función, `await` solo se puede usar si la función está marcada como **`async`** (asíncrona):
+
+```js
+async function almuerzo() {
+    const entrada = await cocinar('Sopa');
+    console.log(entrada);
+    const plato = await cocinar('Fideos');
+    console.log(plato);
+}
+almuerzo();
+```
+
+Cada `await` espera al anterior: salen en orden. Después hay que **llamarla**, como cualquier función.
 
 #### Desafío
 Escribí `viaje`.
@@ -1191,7 +1297,18 @@ recompensa: xp 10, oro 10
 Hay niebla otra vez. La flecha a la Niebla se pierde, y el programa explota con una promesa rechazada que nadie atajó.
 
 #### Gheco sugiere
-Envolvé el `await` en `try`/`catch`: en el `catch`, mostrá `Se perdió: …`; en el `finally`, `Saeta anota`.
+Con `await`, una promesa rechazada se comporta como un error común: corta el programa. Se ataja con el `try`/`catch` de R02, y el `finally` corre siempre:
+
+```js
+try {
+    const comida = await cocinar('Suflé');
+    console.log(comida);
+} catch (error) {
+    console.log('Se quemó:', error.message);
+} finally {
+    console.log('Apagar el horno');
+}
+```
 
 #### Desafío
 Atajá el error.
@@ -1253,7 +1370,9 @@ recompensa: xp 10, oro 10
 Un troll sacó un `await`. Ahora el programa muestra `Promise { … }` en vez de la respuesta del Puerto.
 
 #### Gheco sugiere
-Agregá el `await` que falta.
+Sin `await`, la variable no guarda el **resultado**: guarda **la promesa**, que todavía no tiene nada. Por eso se ve `Promise { … }` en vez de la respuesta.
+
+Buscá la línea que llama a la función que devuelve una promesa y fijate qué le falta adelante.
 
 #### Desafío
 Que se vea la respuesta.
@@ -1312,7 +1431,15 @@ recompensa: xp 15, monedas 5
 Saeta tiene que mandar flechas a tres destinos, **una por vez**, y anotar *Todas volvieron* al final. Con `forEach`, el *Todas volvieron* sale antes que las respuestas.
 
 #### Gheco sugiere
-Cambiá el `forEach` por un `for…of` con `await` adentro.
+`forEach` llama a su función para cada elemento **sin esperar** a ninguno, aunque la función tenga `await` adentro. Por eso lo que está después del `forEach` sale antes que las respuestas.
+
+El `for…of` sí respeta el `await`: no pasa al siguiente hasta que vuelve el anterior.
+
+```js
+for (const plato of menu) {
+    console.log(await cocinar(plato));
+}
+```
 
 #### Desafío
 Que las tres respuestas salgan antes que `Todas volvieron`.
@@ -1371,7 +1498,17 @@ recompensa: xp 15, monedas 5
 Nima quiere escribirle a Sila, en el Valle, pero no se anima. Lumina le propone empezar con un borrador: una función que arme la carta **esperando** las noticias de la Feria y del Puerto, y la devuelva.
 
 #### Gheco sugiere
-`armarCarta()` es `async`: espera `noticias('la Feria')` y `noticias('el Puerto')`, y **devuelve** el texto. Afuera, `const carta = await armarCarta();`.
+Una función `async` siempre **devuelve una promesa**, aunque adentro hagas `return` de un texto común. Por eso, quien la llama tiene que esperar con `await` para tener el texto:
+
+```js
+async function pedirPostre() {
+    const p = await cocinar('Flan');
+    return `De postre: ${p}`;
+}
+const postre = await pedirPostre();
+```
+
+Esperá cada noticia, armá la carta con un *template literal* y devolvela. Copiá el texto de la consigna con cuidado: cada coma y cada punto cuentan.
 
 #### Desafío
 Completá `armarCarta` para que devuelva `Querida Sila: en la Feria hay faroles nuevos y en el Puerto llegaron barcos. Nima.`
@@ -1548,7 +1685,20 @@ recompensa: xp 10, oro 10
 Nima tensa el arco grande y suelta su primera flecha-pedido al Puerto: `/puerto/hola`. Del otro lado, Nilo la atrapa.
 
 #### Gheco sugiere
-`await fetch('/puerto/hola')` y después `await respuesta.json()`. Mostrá `datos.de` y `datos.mensaje`.
+`fetch` le **pide algo a un servidor** por internet, con su dirección. Acá no sale a internet: le pide al **Puerto**, un servidor simulado de la Feria.
+
+Son dos esperas:
+
+1. `await fetch('/direccion')` espera la **respuesta** (que llegó, con qué código);
+2. `await respuesta.json()` espera el **contenido**, y lo arma como objeto (el `JSON.parse` de R02, pero esperando).
+
+```js
+const respuesta = await fetch('/puerto/clima');
+const clima = await respuesta.json();
+console.log(clima);
+```
+
+Mostrá primero el objeto entero para ver qué propiedades trae.
 
 #### Desafío
 Pedile el saludo al Puerto y mostralo como `Elefa: ¡Hola, Nima! …`.
@@ -1592,7 +1742,16 @@ recompensa: xp 10, oro 10
 Elefa guarda en el Puerto la lista oficial de puestos de la Feria. Nima quiere saber cuáles están abiertos esta noche.
 
 #### Gheco sugiere
-Pedí `/puerto/puestos`, leé el JSON y filtrá los que tienen `abierto: true`. Mostrá solo los nombres.
+Si el Puerto devuelve un **arreglo** de objetos, se trabaja como en R01:
+
+- `filter` se queda con los que cumplen algo;
+- `map` transforma cada uno (por ejemplo, en solo su nombre).
+
+```js
+const baratos = juegos.filter((j) => j.precio < 5).map((j) => j.nombre);
+```
+
+Se pueden encadenar: el `map` trabaja sobre lo que dejó el `filter`.
 
 #### Desafío
 Mostrá los nombres de los puestos abiertos.
@@ -1637,7 +1796,18 @@ recompensa: xp 10, oro 10
 Nima pide el puesto número 9. El Puerto contesta, pero con un 404. El programa muestra *undefined cuesta undefined fichas* y sigue como si nada.
 
 #### Gheco sugiere
-Antes de usar los datos, revisá `respuesta.ok`. Si no está bien, mostrá `No se pudo: ` y el `error` que manda el Puerto.
+Que llegue una respuesta no quiere decir que haya salido bien: el servidor puede contestar «no existe» o «no podés». Eso lo dice el **código de estado**:
+
+- `respuesta.status` es el número: `200` está bien, `404` es «no encontrado»;
+- `respuesta.ok` es `true` si salió bien (entre 200 y 299) y `false` si no.
+
+```js
+if (!respuesta.ok) {
+    console.log('Error', respuesta.status);
+}
+```
+
+Cuando sale mal, el Puerto igual manda un JSON, con una propiedad `error` que explica qué pasó.
 
 #### Desafío
 Manejá la respuesta de error.
@@ -1685,7 +1855,21 @@ recompensa: xp 10, oro 10
 Nima quiere dejar un mensaje en el tablero del Puerto: *De Nima: saludos desde la Feria*.
 
 #### Gheco sugiere
-`fetch('/puerto/mensajes', { method: 'POST', headers: {…}, body: JSON.stringify({ de: 'Nima', texto: '…' }) })`. El Puerto contesta 201 con el mensaje guardado.
+Hasta ahora `fetch` **pedía** (eso se llama `GET`). Para **mandar** datos se usa `POST`, y se le pasa un segundo dato con las opciones:
+
+```js
+await fetch('/puerto/pedidos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ plato: 'Pan', cantidad: 2 }),
+});
+```
+
+- `method` dice qué se hace;
+- `headers` avisa que lo que va es JSON;
+- `body` es lo que se manda, pasado a texto.
+
+Cuando guarda algo nuevo, el Puerto contesta con el código `201` (*creado*) y devuelve lo guardado con su `id` (su número).
 
 #### Desafío
 Mandá el mensaje y mostrá el status y el `id` que le dio el Puerto.
@@ -1738,7 +1922,9 @@ recompensa: xp 15, monedas 5
 Bruno mandó un mensaje sin texto, y el Puerto lo rechazó con un 422. El programa de Bruno muestra *Mensaje número undefined*. Elefa no deja pasar nada sin revisar.
 
 #### Gheco sugiere
-Escribí `enviar(texto)`: hace el POST y, si `!respuesta.ok`, devuelve `` `Rechazado: ${datos.error}` ``; si no, `` `Guardado con número ${datos.id}` ``.
+Un servidor puede **rechazar** lo que le mandás si no está bien: un dato vacío, un número que no es. Contesta con un código de error (acá, `422`: «no puedo procesar esto») y explica en `error` qué falló.
+
+En la función: hacé el `POST`, leé el JSON y, según `respuesta.ok`, devolvé un texto u otro. Fijate en la consigna el texto exacto de cada caso.
 
 #### Desafío
 Completá `enviar` y probala con un mensaje vacío y uno bueno.
@@ -1797,7 +1983,12 @@ recompensa: xp 15, monedas 5
 Una flecha llegó mojada: el papel del Puerto está cortado por la mitad (`/puerto/roto`). Otra fue a una dirección que no es el Puerto. Nima quiere una función que nunca explote y diga qué pasó.
 
 #### Gheco sugiere
-`pedir(url)`: en un `try`, hacé el `fetch`; si `!respuesta.ok`, devolvé `` `Error ${respuesta.status}` ``; si no, devolvé `await respuesta.json()`. En el `catch`, devolvé `` `Falló: ${error.name}` ``.
+Con `fetch` pueden salir mal **dos cosas distintas**:
+
+- el servidor contesta, pero con error: `respuesta.ok` es `false` (no lanza nada, hay que mirarlo);
+- algo se rompe: no hay conexión, o lo que llegó no es JSON válido y `respuesta.json()` **lanza** un error. Eso se ataja con `try`/`catch`.
+
+`error.name` es el **tipo** de error (`SyntaxError`, `TypeError`…). Adentro del `try`, devolvé lo que corresponde en cada caso; en el `catch`, el aviso del error.
 
 #### Desafío
 Completá `pedir` y probala con las cuatro direcciones.
@@ -1959,7 +2150,13 @@ recompensa: xp 10, oro 10
 Saeta le enseña a Nima a tensar tres flechas a la vez: el clima, los puestos y los héroes.
 
 #### Gheco sugiere
-`const [clima, puestos, heroes] = await Promise.all([…]);` con los tres `pedir(…)` adentro del arreglo.
+Si varias cosas **no dependen** una de otra, no hace falta pedirlas de a una: `Promise.all([…])` recibe un arreglo de promesas, espera **a todas juntas** y da un arreglo con los resultados, **en el mismo orden**:
+
+```js
+const [pan, torta] = await Promise.all([cocinar('Pan'), cocinar('Torta')]);
+```
+
+El `[pan, torta] =` es la desestructuración de R01: saca cada resultado del arreglo con su nombre.
 
 #### Desafío
 Pedí las tres cosas juntas y mostrá la temperatura, cuántos puestos y cuántos héroes hay.
@@ -2008,7 +2205,9 @@ recompensa: xp 10, oro 10
 Bruno escribió el pedido de los héroes y de los puestos con dos `await` seguidos. Tarda casi un segundo. Saeta dice que se puede en la mitad.
 
 #### Gheco sugiere
-Mandá las dos juntas con `Promise.all`. Mirá cuántos milisegundos tarda.
+Con dos `await` seguidos, la segunda pregunta **no sale** hasta que vuelve la primera: el tiempo total es la **suma**. Con `Promise.all`, salen las dos a la vez y se espera solo a la más lenta.
+
+`performance.now()` da los milisegundos desde que empezó el programa: sirve para ver cuánto se tardó.
 
 #### Desafío
 Que tarde lo de la más lenta (500 ms) y no la suma.
@@ -2058,7 +2257,18 @@ recompensa: xp 10, oro 10
 Lumina mandó cuatro invitaciones. Una dirección no existe y otra contesta roto. Con `Promise.all`, el error de una tira abajo todo. Lumina quiere saber cuáles volvieron y cuáles no.
 
 #### Gheco sugiere
-`Promise.allSettled(promesas)` y recorré: si `r.status === 'fulfilled'`, `Volvió: …`; si no, `No volvió: ${r.reason.message}`.
+`Promise.all` tiene una debilidad: si **una sola** falla, falla todo, y se pierden los resultados de las que sí volvieron.
+
+`Promise.allSettled([…])` espera a todas, salgan bien o mal, y da un arreglo con un objeto por cada una:
+
+- `status` es `'fulfilled'` (cumplida) o `'rejected'` (rechazada);
+- si se cumplió, el valor está en `value`; si se rechazó, el error está en `reason`.
+
+```js
+for (const r of resultados) {
+    if (r.status === 'fulfilled') console.log(r.value);
+}
+```
 
 #### Desafío
 Mostrá el resultado de cada invitación.
@@ -2122,7 +2332,13 @@ recompensa: xp 10, oro 10
 El pedido `/puerto/lento` tarda 3 segundos (la marea estaba alta). La galería no puede esperar tanto: después de 2 segundos, hay que darlo por perdido y avisar.
 
 #### Gheco sugiere
-Agregale `{ signal: AbortSignal.timeout(2000) }` al `fetch` y atajá el error: si `error.name === 'TimeoutError'`, mostrá `La flecha tardó demasiado`.
+Un pedido puede tardar demasiado. Se lo puede **cancelar** solo con una señal de tiempo, que va en las opciones del `fetch`:
+
+```js
+await fetch('/puerto/algo', { signal: AbortSignal.timeout(3000) });
+```
+
+Si a los 3000 ms no volvió, el `fetch` se cancela y **lanza** un error cuyo `error.name` es `'TimeoutError'`. Atajalo con `try`/`catch` y preguntá por ese nombre.
 
 #### Desafío
 Cancelá el pedido a los 2 segundos y avisalo.
@@ -2175,7 +2391,15 @@ recompensa: xp 15, monedas 5
 Saeta propone una carrera: Nima y Bruno mandan flechas al Puerto a la vez. Gana la primera que vuelva.
 
 #### Gheco sugiere
-Cada flecha es una promesa que se cumple con el nombre de quien tiró, a los milisegundos que dice. `Promise.race([…])` te da la ganadora.
+`Promise.race([…])` (*carrera*) larga todas las promesas y da el valor de **la primera que termina**. Las demás siguen, pero ya no importan.
+
+Para probarla, hace falta una función que devuelva una promesa que se cumple a tantos milisegundos, con un valor:
+
+```js
+const corredor = (nombre, ms) => new Promise((resolve) => setTimeout(() => resolve(nombre), ms));
+```
+
+Fijate quién tiene que ganar y con cuántos milisegundos tira cada uno.
 
 #### Desafío
 Mostrá `Ganó Nima`.
@@ -2221,7 +2445,19 @@ recompensa: xp 15, monedas 5
 Lumina quiere un botón *Cancelar* en la galería: si alguien se arrepiente de un pedido lento, lo corta.
 
 #### Gheco sugiere
-Al tocar *Pedir*, creá un `AbortController`, mostrá `Esperando…` y hacé el `fetch` con su `signal`. *Cancelar* llama a `control.abort()`. Atajá el error: si es `AbortError`, mostrá `Cancelado`.
+Para cancelar **cuando quieras** (con un botón, por ejemplo), se usa un `AbortController`, que tiene dos partes:
+
+- `control.signal`, la señal que va en las opciones del `fetch`;
+- `control.abort()`, que cancela.
+
+```js
+const control = new AbortController();
+fetch('/puerto/algo', { signal: control.signal });
+// más tarde:
+control.abort();
+```
+
+Al cancelar, el `fetch` lanza un error con `name` igual a `'AbortError'`. El controlador tiene que estar en una variable **afuera** de los dos eventos, así el segundo botón lo encuentra. La función del evento puede ser `async` para usar `await` adentro.
 
 #### Desafío
 Completá los dos botones. (La comprobación pide, espera 1 s y cancela.)
@@ -2433,7 +2669,16 @@ recompensa: xp 10, oro 10
 El arco de Nima llega hasta 500 pasos. Saeta quiere que la función de apuntar **se queje** si le piden más.
 
 #### Gheco sugiere
-En `apuntar`, si `distancia > 500`, `throw new Error('Demasiado lejos')`.
+Tus propias funciones también pueden **lanzar errores**, cuando les piden algo que no se puede. `throw` corta la función ahí mismo y manda el error hacia afuera:
+
+```js
+function dividir(a, b) {
+    if (b === 0) throw new Error('No se divide por cero');
+    return a / b;
+}
+```
+
+El texto del `new Error(…)` es el que después se lee en `error.message`, en el `catch`.
 
 #### Desafío
 Completá `apuntar`.
@@ -2497,7 +2742,19 @@ recompensa: xp 10, oro 10
 Saeta quiere que las flechas perdidas tengan su propio nombre en el libro: *FlechaPerdida*, con el destino adentro.
 
 #### Gheco sugiere
-`class FlechaPerdida extends Error`: en el constructor, `super(`La flecha a ${destino} se perdió`)`, `this.name = 'FlechaPerdida'` y `this.destino = destino`.
+Se puede crear un **tipo de error propio**, con una clase que hereda de `Error` (el `extends` de R03). Así el error lleva un nombre que dice qué pasó y los datos que hagan falta:
+
+```js
+class SinStock extends Error {
+    constructor(producto) {
+        super(`No queda ${producto}`);   // el mensaje
+        this.name = 'SinStock';
+        this.producto = producto;
+    }
+}
+```
+
+El `super(…)` recibe el mensaje; `this.name` es el nombre que se ve en el error.
 
 #### Desafío
 Escribí la clase.
@@ -2559,7 +2816,19 @@ recompensa: xp 10, oro 10
 Las flechas perdidas se reintentan; las que van a una dirección equivocada se tiran. Saeta quiere que el programa lo decida solo.
 
 #### Gheco sugiere
-En el `catch`: si es `FlechaPerdida`, `Reintentar a …`; si es `DireccionEquivocada`, `Descartar: …`.
+Con errores de distintos tipos, el `catch` puede preguntar **cuál llegó** con `instanceof` (de R03) y hacer algo distinto para cada uno:
+
+```js
+catch (error) {
+    if (error instanceof SinStock) {
+        console.log('Pedir más', error.producto);
+    } else if (error instanceof PrecioMal) {
+        console.log('Revisar', error.message);
+    }
+}
+```
+
+Fijate en la consigna el texto de cada caso y qué dato del error usa.
 
 #### Desafío
 Completá el `catch`.
@@ -2649,7 +2918,18 @@ recompensa: xp 10, oro 10
 Un ogro escribió un `catch` que se traga todo. Ahora, cuando hay un error de verdad (un nombre mal escrito en el código), el programa no dice nada y no se entiende qué pasa.
 
 #### Gheco sugiere
-En el `catch`, manejá solo `FlechaPerdida`; cualquier otro, volvé a lanzarlo con `throw error`. Vas a ver aparecer el error escondido.
+Un `catch` que ataja **todo** y no avisa también esconde los errores que no esperabas, como una variable mal escrita: el programa no anda y no se sabe por qué.
+
+Lo sano es manejar solo los errores que conocés, y a los demás **volver a lanzarlos** para que se vean:
+
+```js
+catch (error) {
+    if (error instanceof SinStock) { … }
+    else throw error;
+}
+```
+
+Cuando aparezca el error escondido, leelo: dice qué nombre no existe y en qué línea.
 
 #### Desafío
 Hacé que el error escondido aparezca, y después arreglalo (está en `mandar`: `destno`).
@@ -2715,7 +2995,12 @@ recompensa: xp 15, monedas 5
 Las flechas a la Torre de los Vientos se pierden muchas veces, pero tarde o temprano llegan. Saeta las manda hasta 3 veces antes de rendirse.
 
 #### Gheco sugiere
-`mandarConReintentos(destino)`: un `for` de 1 a 3. Adentro, `try { return await mandar(destino, intento); } catch { console.log('Intento … falló'); }`. Si se termina el `for`, `throw new Error('Se rindió')`.
+**Reintentar** es probar otra vez si algo falló. Se hace con un `for` que cuenta los intentos, y adentro un `try`:
+
+- si sale bien, `return` con el resultado: la función termina y no hay más vueltas;
+- si falla, el `catch` avisa y el `for` sigue con el próximo intento.
+
+Si el `for` termina sin que ningún intento haya salido bien, recién ahí, abajo del `for`, la función se rinde con un `throw`. Fijate en la consigna el texto exacto del aviso de cada intento.
 
 #### Desafío
 Completá la función. (La flecha de prueba se pierde en los intentos 1 y 2, y llega en el 3.)
@@ -2784,7 +3069,9 @@ recompensa: xp 15, monedas 5
 Cada vez que sale una flecha, Saeta prende el farol de la galería; al terminar, **siempre** hay que apagarlo, salga bien o mal. Pero cuando hay un error, el farol queda prendido toda la noche.
 
 #### Gheco sugiere
-Mové el apagado del farol al `finally`.
+Lo que tiene que pasar **siempre**, salga bien o mal (apagar una luz, cerrar algo, sacar un «cargando»), va en el `finally`. Si lo ponés al final del `try`, no corre cuando hay error: el error salta directo al `catch` y lo que quedaba abajo se pierde.
+
+Buscá dónde se apaga el farol y movelo al lugar que corre siempre.
 
 #### Desafío
 Que el farol quede apagado después de los dos envíos.
@@ -2998,7 +3285,20 @@ recompensa: xp 10, oro 10
 Saeta le da a Nima un carcaj chiquito que fabrica tres flechas, de a una: roja, verde y azul.
 
 #### Gheco sugiere
-`function* carcaj()` con tres `yield`. Después, recorrelo con `for…of`.
+Un **generador** es una función que va entregando valores **de a uno**, cuando se los piden. Se escribe con un asterisco (`function*`), y cada `yield` (*entregar*) da un valor y deja la función **en pausa** hasta que pidan el próximo:
+
+```js
+function* semaforo() {
+    yield 'verde';
+    yield 'amarillo';
+    yield 'rojo';
+}
+for (const luz of semaforo()) {
+    console.log(luz);
+}
+```
+
+El `for…of` pide uno por vuelta hasta que se terminan.
 
 #### Desafío
 Completá el generador.
@@ -3054,7 +3354,17 @@ recompensa: xp 10, oro 10
 Saeta quiere ver cómo funciona por dentro: sacar las flechas a mano, de a una, y ver cuándo se termina.
 
 #### Gheco sugiere
-Llamá `c.next()` cuatro veces y mostrá cada resultado.
+Lo que devuelve un generador se puede pedir **a mano**, con `.next()`. Cada llamada da un objeto con dos datos:
+
+- `value`: el valor entregado;
+- `done`: `false` mientras quedan, y `true` cuando ya no hay más (y ahí `value` es `undefined`).
+
+```js
+const s = semaforo();
+console.log(s.next());   // { value: 'verde', done: false }
+```
+
+Llamalo una vez más de las que hay `yield`, y mirá qué da la última.
 
 #### Desafío
 Mostrá los cuatro resultados de `next()`.
@@ -3115,7 +3425,11 @@ recompensa: xp 10, oro 10
 El carcaj infinito de Saeta numera las flechas: 1, 2, 3… para siempre. Nima necesita solo las primeras 5.
 
 #### Gheco sugiere
-`function* numerar()` con un `while (true)` que hace `yield n++`. Al recorrerlo, cortá con `break` cuando pase de 5.
+Como el generador se pausa en cada `yield`, puede tener un bucle **que no termina nunca** (`while (true)`) sin colgar el programa: solo da el próximo valor cuando se lo piden.
+
+`n++` usa el valor de `n` y **después** le suma uno: `yield n++` entrega el actual y deja listo el siguiente.
+
+Quien lo recorre es el que decide cuándo parar, con `break` (sale del `for…of`).
 
 #### Desafío
 Mostrá `Flecha 1` a `Flecha 5`.
@@ -3174,7 +3488,9 @@ recompensa: xp 10, oro 10
 Saeta quiere una herramienta para sacar **N** flechas de cualquier carcaj, infinito o no.
 
 #### Gheco sugiere
-`function* tomar(cantidad, carcaj)`: recorré `carcaj` con `for…of`, y cuando ya diste `cantidad`, `return`.
+Un generador puede **recorrer a otro** y entregar solo algunos de sus valores. Adentro, un `for…of` sobre el otro, un `yield` por cada uno y una cuenta de cuántos van; `return` en un generador lo **termina**, aunque el otro siga teniendo.
+
+`[...algo]` (el *spread* de R01) junta todo lo que entrega un generador en un arreglo. Pensá también qué pasa si piden cero.
 
 #### Desafío
 Completá `tomar` para que `[...tomar(3, numerar())]` dé `[ 1, 2, 3 ]`.
@@ -3240,7 +3556,19 @@ recompensa: xp 15, monedas 5
 Para el torneo de tiro, Saeta arma una `Ronda` con los tiradores. Quiere recorrerla con `for…of` como si fuera un arreglo.
 
 #### Gheco sugiere
-Agregale a la clase `*[Symbol.iterator]()` que haga `yield` de `` `turno de ${t}` `` por cada tirador.
+El `for…of` puede recorrer un objeto propio si la clase le enseña **cómo**: con un método especial que se llama `[Symbol.iterator]`. Si se escribe con asterisco, es un generador, y lo que entrega con `yield` es lo que recorre el `for…of`:
+
+```js
+class Fila {
+    constructor(...personas) { this.personas = personas; }
+    *[Symbol.iterator]() {
+        for (const p of this.personas) yield p.toUpperCase();
+    }
+}
+for (const p of new Fila('ana', 'leo')) console.log(p);   // ANA, LEO
+```
+
+`...personas` en los parámetros junta todos los datos que lleguen en un arreglo.
 
 #### Desafío
 Hacé que la ronda se pueda recorrer.
@@ -3308,7 +3636,9 @@ recompensa: xp 15, monedas 5
 Lumina organiza el vuelo de las luciérnagas para la Gran Noche: en cada oleada salen el doble que en la anterior, empezando con 1. Quiere ver las primeras 6 oleadas.
 
 #### Gheco sugiere
-`function* oleadas()`: empezá con `let cantidad = 1`, y en un `while (true)`, `yield cantidad` y después duplicala. Tomá las primeras 6 con un contador y `break`.
+Juntá lo del nodo: un generador infinito que va cambiando su número en cada vuelta, y un recorrido que lleva su propia cuenta y corta con `break`.
+
+`*=` multiplica y guarda (`x *= 3` es `x = x * 3`). Pensá el orden adentro del `while`: primero se entrega el número que hay y después se cambia, así el primero que sale es el inicial.
 
 #### Desafío
 Mostrá `Oleada 1: 1` hasta `Oleada 6: 32`.
@@ -3416,7 +3746,9 @@ recompensa: xp 15, monedas 3
 El Troll soltó el login y el perfil a la vez. El perfil llega antes que el login y el Puerto contesta 401: *Primero iniciá sesión*.
 
 #### Gheco sugiere
-Hacé el login con `await` **antes** de pedir el perfil. Usá `POST` con `{ usuario: 'nima', clave: 'luciernaga' }`.
+El servidor sabe **quién sos** por una **cookie**: un dato chiquito que te da al iniciar sesión y que el navegador le devuelve solo en cada pedido. Hasta que no inicies sesión, no la tenés, y el servidor no sabe quién pide.
+
+Por eso el orden importa: el pedido que inicia la sesión tiene que **terminar** (con `await`) antes de pedir lo que necesita la sesión. Si salen los dos a la vez, el segundo llega sin cookie. Después de ejecutar, mirá las cookies en el **Tablero**.
 
 #### Desafío
 Que se vea `Sesión de Nima · 12 fichas` y que en las cookies quede la sesión.
@@ -3470,7 +3802,11 @@ recompensa: xp 15, monedas 3
 En la galería hay un buscador de puestos. Nima busca el puesto 1 y enseguida el 2. Pero la respuesta del 1 llega **después** (el Troll la frenó) y pisa la del 2: el cartel dice *Tiro al blanco* aunque buscó el 2.
 
 #### Gheco sugiere
-Guardá el `AbortController` de la búsqueda anterior y, al empezar una nueva, llamá a `anterior?.abort()`. Ignorá el `AbortError`.
+Si se piden dos cosas seguidas y la primera es **más lenta**, puede volver **después** que la segunda y pisar el cartel con un dato viejo.
+
+La salida: cada búsqueda nueva **cancela la anterior** con su `AbortController` (de R04-N05). Guardá el controlador en una variable afuera, y al empezar una búsqueda, cancelá el que había. `?.` (de R01) llama a `abort` solo si hay uno: la primera vez, no hay.
+
+La cancelada lanza un `AbortError`: atajalo y no hagas nada con él.
 
 #### Desafío
 Que el cartel muestre el último puesto buscado. (La comprobación busca el 1 —que tarda 800 ms— y enseguida el 2 —que tarda 200 ms—.)
@@ -3581,9 +3917,14 @@ La última pelea. Para preparar la Gran Noche, Nima tiene que hacer todo el env�
 Si algo falla, tiene que decir exactamente qué.
 
 #### Gheco sugiere
-- `pedir(url, opciones)` hace el `fetch`, y si `!respuesta.ok` lanza un `ErrorDelPuerto` (con el `status` y el `error` del Puerto); si no, devuelve el JSON.
-- `granNoche()` hace los pasos con `await` adentro de un `try`, con el `Promise.all` en el paso 2, y en el `finally` cierra la sesión.
-- Probala dos veces: con la clave buena y con una equivocada.
+Junta todo lo de R04:
+
+- un **error propio** (R04-N06) que lleve el código de estado y el mensaje del Puerto;
+- una función que hace el `fetch`, revisa `ok` y **lanza** ese error si salió mal (R04-N04);
+- los pasos en orden con `await`, y los que no dependen uno de otro, juntos con `Promise.all` (R04-N05);
+- el `try`/`catch`/`finally`, con el cierre de sesión en el lugar que corre siempre.
+
+Compará tu salida con la de la consigna línea por línea.
 
 #### Desafío
 Completá `pedir` y `granNoche` para que la salida sea:

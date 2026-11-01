@@ -182,6 +182,9 @@ REFS = {
             (r'[Gg]oblin', 'el Goblin de la Coerción', ['28148316780045fbaf6f27a11549832e'], 'El Goblin es petiso, del alto de un chico de ocho años.'),
             (r'[Ff]antasma', 'el Fantasma Undefined', ['44bdd429ecd54a988b766b6b3ba8521d'], ''),
             (r'[ÉE]bano|T[ií]tere sin [Hh]ilos', 'Ébano', ['1cc135a27c12408e920b174fd77323be'], 'Ébano es un títere de madera del tamaño de una persona.'),
+            # Los ogros de la Feria (orcos de feria): gris azulado y pelo naranja; verde, el modelo lo dibuja como Shrek.
+            (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],
+             'El ogro de la Feria es grandote y simpático, de piel GRIS AZULADA (nunca verde), pelo naranja desgreñado, nariz grande y redonda, dos colmillitos de abajo y orejas chicas pegadas a la cabeza.'),
             (r'[Tt]roll', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),
             (r'Drag[oó]n', 'el Dragón de los Fuegos Artificiales', ['e52542221e7f4053b78a2b7321ac844c'], ''),
             (r'Polilla', 'la Polilla de los Formularios', ['02a2e1327123409fafe7ed0ed5f2e78e'], 'La Polilla es del tamaño de un perro grande.'),

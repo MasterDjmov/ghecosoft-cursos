@@ -117,7 +117,19 @@ recompensa: xp 10, oro 10
 Lucio, el farolero, saluda a Nima con la vara. —El cartel de la Avenida dice *Cerrada* desde que se fue el Vidriero. ¿Me lo cambiás?
 
 #### Gheco sugiere
-`document.querySelector('#avenida')` encuentra el cartel por su id. Después, `.textContent = '…'`.
+Para cambiar algo de la página, primero hay que **encontrarlo**. `document` es la página entera, y `document.querySelector('…')` busca el primer elemento que cumpla lo que pedís, con la misma forma de nombrar que CSS:
+
+- `'#cartel'` busca el elemento con `id="cartel"` (el `#` quiere decir «id»);
+- `'.farol'` busca uno con `class="farol"` (el `.` quiere decir «clase»).
+
+Conviene guardarlo en una variable, y después cambiarle el texto con `.textContent`:
+
+```js
+const titulo = document.querySelector('#bienvenida');
+titulo.textContent = 'Pasen y vean';
+```
+
+En la página, el elemento `#bienvenida` pasa a decir **Pasen y vean**.
 
 #### Desafío
 Hacé que el cartel diga `Avenida de los Faroles`.
@@ -174,7 +186,15 @@ recompensa: xp 10, oro 10
 Lucio sube la escalera para el primer farol y le duele la rodilla. Nima le pide que se quede abajo: ella lo prende desde el código.
 
 #### Gheco sugiere
-El CSS de la página ya dice cómo se ve un farol con la clase `prendido`. Solo hay que agregársela: `farol.classList.add('prendido')`.
+Cada elemento tiene una lista de **clases** (las del `class="…"` del HTML), y el CSS de la página decide cómo se ve cada clase. Con `classList` se le agregan o se le sacan desde el programa:
+
+```js
+const puerta = document.querySelector('#entrada');
+puerta.classList.add('abierta');     // le agrega la clase
+puerta.classList.remove('abierta');  // se la saca
+```
+
+Al agregar la clase, el elemento cambia de aspecto solo: no hace falta tocar colores ni tamaños, eso ya lo dice el CSS. Fijate qué clase enciende un farol y a cuál farol hay que encontrar.
 
 #### Desafío
 Prendé el farol `#primero`.
@@ -233,7 +253,16 @@ recompensa: xp 10, oro 10
 —Uno está bien —dice Lucio—. Pero la Avenida tiene cientos.
 
 #### Gheco sugiere
-`document.querySelectorAll('.farol')` trae todos. Recorrelos y agregale `prendido` a cada uno.
+`querySelector` trae **uno solo** (el primero que encuentra). Para traer **todos** los que cumplen, está `querySelectorAll`, que devuelve una lista:
+
+```js
+const banderines = document.querySelectorAll('.banderin');
+for (const banderin of banderines) {
+    banderin.classList.add('flameando');
+}
+```
+
+El `for…of` (el de R01) pasa por cada elemento de la lista, y adentro le hacés lo mismo a cada uno.
 
 #### Desafío
 Prendé **todos** los faroles.
@@ -294,7 +323,15 @@ recompensa: xp 10, oro 10
 Algunos faroles están rotos: si les llega luz, revientan el vidrio. Hay que prender solo los sanos.
 
 #### Gheco sugiere
-`farol.classList.contains('roto')` devuelve `true` si está roto. Prendé solo los que **no** lo están.
+`classList.contains('…')` **pregunta** si el elemento tiene esa clase: devuelve `true` o `false`, sin cambiar nada.
+
+```js
+if (puesto.classList.contains('cerrado')) {
+    console.log('Vuelva mañana');
+}
+```
+
+Para preguntar lo contrario («si **no** la tiene»), se pone `!` adelante: `!puesto.classList.contains('cerrado')`. Combinalo con el recorrido de todos los faroles.
 
 #### Desafío
 Prendé los faroles que no tienen la clase `roto`.
@@ -365,7 +402,16 @@ recompensa: xp 15, monedas 5
 Cada puesto de la Avenida tiene su color. Lucio quiere que la vidriera del puesto de pan tenga el fondo color miel y un cartelito que aparezca al pasar el mouse.
 
 #### Gheco sugiere
-`vidriera.style.backgroundColor = 'goldenrod'` cambia el fondo, y `vidriera.setAttribute('title', 'Pan con miel')` pone el cartelito.
+Dos formas más de cambiar un elemento:
+
+- `.style.` cambia **un estilo suelto**, escrito como en CSS pero sin guiones y con mayúscula en cada palabra nueva: `background-color` pasa a ser `backgroundColor`.
+- `setAttribute('nombre', 'valor')` pone un **atributo** del HTML, como `title` (el cartelito que aparece al dejar el mouse encima).
+
+```js
+const toldo = document.querySelector('#toldo');
+toldo.style.backgroundColor = 'teal';
+toldo.setAttribute('title', 'Toldo de la calesita');
+```
 
 #### Desafío
 Dale a `#pan` el fondo `goldenrod` y el `title` `Pan con miel`.
@@ -426,7 +472,9 @@ recompensa: xp 15, monedas 5
 Lucio escribió un programa para prender el farol de la fuente, pero explota con un error rojo y no prende nada. Un orco se ríe detrás de la fuente.
 
 #### Gheco sugiere
-Leé el error: `Cannot read properties of null`. El selector no encontró nada. ¿Es un id o una clase?
+Cuando `querySelector` **no encuentra nada**, devuelve `null` («nada»). Y a nada no se le puede pedir nada: por eso aparece el error `Cannot read properties of null` («no puedo leer propiedades de null») en la línea que usa el resultado.
+
+El problema casi nunca está en esa línea, sino en el **selector**: mirá en el HTML de la página cómo está marcado el farol (¿`id="…"` o `class="…"`?) y si lo buscaste con `#` o con `.`.
 
 #### Desafío
 Arreglá el selector para que el farol de la fuente se prenda.
@@ -584,7 +632,18 @@ recompensa: xp 10, oro 10
 Lucio le alcanza a Nima un papel en blanco y un clavo. —El primer aviso en treinta años. Que sea bueno.
 
 #### Gheco sugiere
-Creá un `li`, ponele el texto y agregalo a la lista `#avisos` con `append`.
+Un elemento nuevo se arma en tres pasos:
+
+1. **crearlo**: `document.createElement('li')` hace un `<li>` nuevo, que todavía no está en la página;
+2. **llenarlo**: le ponés el texto con `textContent`;
+3. **colgarlo**: `lista.append(elemento)` lo agrega **al final** de lo que hay adentro de `lista`. Recién ahí aparece en la página.
+
+```js
+const puestos = document.querySelector('#puestos');
+const nuevo = document.createElement('li');
+nuevo.textContent = 'Algodón de azúcar';
+puestos.append(nuevo);
+```
 
 #### Desafío
 Agregá un aviso que diga `Volvió la luz a la Avenida`.
@@ -645,7 +704,17 @@ recompensa: xp 10, oro 10
 Llegan los avisos atrasados de toda la semana. Lucio los trae en un arreglo.
 
 #### Gheco sugiere
-Recorré `nuevos` y, por cada texto, creá un `li` y agregalo.
+Si hay que colgar varios, se repiten los tres pasos (crear, llenar, colgar) **adentro** de un `for…of`, uno por cada texto del arreglo:
+
+```js
+for (const sabor of ['frutilla', 'limón']) {
+    const li = document.createElement('li');
+    li.textContent = sabor;
+    helados.append(li);
+}
+```
+
+El `createElement` tiene que estar **adentro** del bucle: cada vuelta necesita un `li` nuevo.
 
 #### Desafío
 Colgá los tres avisos, en orden.
@@ -714,7 +783,13 @@ recompensa: xp 10, oro 10
 Entre los avisos hay uno viejísimo, amarillento: *El Vidriero atiende de 9 a 12*. Lucio lo mira un rato y le pide a Nima que lo saque.
 
 #### Gheco sugiere
-Encontralo por su clase `vencido` y usá `.remove()`.
+`.remove()` saca un elemento de la página (desaparece con todo lo que tiene adentro):
+
+```js
+document.querySelector('#globo-pinchado').remove();
+```
+
+Primero hay que encontrarlo: mirá en el HTML qué clase tiene el aviso vencido, y buscalo con `.` adelante.
 
 #### Desafío
 Sacá el aviso vencido del tablero.
@@ -779,7 +854,13 @@ recompensa: xp 10, oro 10
 Bengala trae un aviso urgente: los fuegos se adelantan. Tiene que ir **arriba de todo**, no al final.
 
 #### Gheco sugiere
-`prepend` agrega al principio de la lista.
+`append` cuelga **al final**. Su hermano `prepend` cuelga **al principio**, antes de todo lo que ya había:
+
+```js
+fila.prepend(primero);
+```
+
+El resto es igual que antes: crear el `li`, ponerle el texto (y, si la consigna lo pide, una clase con `classList.add`) y colgarlo.
 
 #### Desafío
 Agregá `¡Los fuegos se adelantan!` al principio del tablero.
@@ -851,7 +932,20 @@ recompensa: xp 15, monedas 5
 Lucio quiere colgar la lista de ganadores de la noche, con sus puntos, y marcar en dorado a los que hicieron más de 20.
 
 #### Gheco sugiere
-Por cada ganador, un `li` con el texto `` `${g.nombre}: ${g.puntos}` ``. Si `g.puntos > 20`, agregale la clase `oro`.
+Acá se juntan varias cosas de R01: un arreglo de **objetos**, el `for…of`, el `if` y los *template literals* (el texto entre comillas invertidas con `${…}` adentro):
+
+```js
+for (const p of premios) {
+    const li = document.createElement('li');
+    li.textContent = `${p.cosa} x${p.cantidad}`;
+    if (p.cantidad > 5) {
+        li.classList.add('muchos');
+    }
+    lista.append(li);
+}
+```
+
+Fijate en la consigna qué texto lleva cada ganador, y desde cuántos puntos va la clase `oro`.
 
 #### Desafío
 Armá la lista de ganadores en `#ganadores`.
@@ -931,7 +1025,12 @@ recompensa: xp 15, monedas 5
 Alguien dejó en el buzón un aviso raro, lleno de símbolos `<` y `>`. Cuando Lucio lo cuelga, en el tablero aparece un botón falso que dice *Ganaste 100 fichas*. Es una trampa de un troll.
 
 #### Gheco sugiere
-`innerHTML` convierte el texto en HTML de verdad. Con `textContent`, se ve tal cual, con los símbolos, y no hay botón.
+Hay dos formas de ponerle texto a un elemento, y no son iguales:
+
+- `textContent` muestra el texto **tal cual**: si dice `<b>hola</b>`, se ven los signos `<` y `>`;
+- `innerHTML` lo lee como **HTML de verdad**: `<b>hola</b>` se ve como **hola** en negrita.
+
+Con un texto que escribió otra persona (un mensaje, un nombre, algo del buzón), usá siempre `textContent`: con `innerHTML`, alguien podría meter botones o cosas peores en tu página.
 
 #### Desafío
 Colgá el aviso como **texto**, para que no aparezca ningún botón.
@@ -1101,7 +1200,19 @@ recompensa: xp 10, oro 10
 El carrusel de títeres tiene una manija de bronce. Lucio dice que, cuando la tocaban, la bailarina se ponía a girar.
 
 #### Gheco sugiere
-Escuchá el `click` de `#manija` y, adentro, agregale la clase `girando` a `#bailarina`.
+Un **evento** es algo que pasa en la página: un click, una tecla, el mouse que pasa por encima. Con `addEventListener` le decís a un elemento qué hacer **cuando** pase:
+
+```js
+const campana = document.querySelector('#campana');
+campana.addEventListener('click', () => {
+    campana.classList.add('sonando');
+});
+```
+
+- el primer dato es el nombre del evento (`'click'`);
+- el segundo es la **función** que corre cada vez que pasa (la flecha `() => { … }` de R01).
+
+Al ejecutar no pasa nada todavía: el programa queda **escuchando**. Tocá el elemento en la página para verlo. Ojo: el que se escucha y el que cambia pueden ser elementos distintos.
 
 #### Desafío
 Hacé que la bailarina gire al tocar la manija.
@@ -1172,7 +1283,17 @@ recompensa: xp 10, oro 10
 Lucio quiere saber cuántas veces tocan la manija en toda la noche.
 
 #### Gheco sugiere
-Una variable `let vueltas = 0` **afuera** del evento. Adentro, sumale uno y mostrala en `#cuenta`.
+Para **contar** clicks, la cuenta tiene que vivir **afuera** de la función del evento. Si la creás adentro, vuelve a empezar de cero en cada click.
+
+```js
+let aplausos = 0;                       // afuera: se crea una sola vez
+boton.addEventListener('click', () => {
+    aplausos++;                         // adentro: suma 1 en cada click
+    marcador.textContent = aplausos;
+});
+```
+
+Va con `let` porque cambia. `aplausos++` es lo mismo que `aplausos = aplausos + 1`.
 
 #### Desafío
 Cada click en la manija suma una vuelta y la muestra.
@@ -1244,7 +1365,15 @@ recompensa: xp 10, oro 10
 El carrusel tiene tres títeres y una sola función para todos: cuando tocan uno, tiene que decir cuál fue.
 
 #### Gheco sugiere
-La función recibe el `evento`. `evento.target.textContent` es el texto del botón que tocaron. Mostralo en `#ultimo`.
+La función del evento **recibe un dato**: el propio evento, con información de lo que pasó. Se le pone un nombre entre los paréntesis de la flecha:
+
+```js
+boton.addEventListener('click', (evento) => {
+    console.log(evento.target.textContent);
+});
+```
+
+`evento.target` es **el elemento que tocaron**. Con eso, si usás la misma función para varios botones, sabés cuál fue.
 
 #### Desafío
 Escuchá el click de cada títere y mostrá en `#ultimo` el nombre del que tocaron.
@@ -1320,7 +1449,16 @@ recompensa: xp 10, oro 10
 Lucio escribió que el farol del carrusel se prenda al tocar el botón. Pero se prende **solo**, apenas carga la página, sin que nadie toque nada. Un esqueleto se esconde en un paréntesis.
 
 #### Gheco sugiere
-`addEventListener('click', prender())` **llama** a `prender` en el momento. Pasala sin paréntesis: `addEventListener('click', prender)`.
+Una función se puede **usar** de dos formas, y el paréntesis hace toda la diferencia:
+
+- `saludar()` con paréntesis la **ejecuta ahora**;
+- `saludar` sin paréntesis es la función misma, **sin ejecutar**: se la estás pasando a alguien para que la use después.
+
+```js
+bandera.addEventListener('click', flamear);   // bien: flamea al tocar
+```
+
+`addEventListener` necesita la función para llamarla cuando llegue el click. Si le ponés los paréntesis, la ejecutás en el momento y le pasás lo que devolvió.
 
 #### Desafío
 Arreglalo para que el farol se prenda **recién** al tocar el botón. (La comprobación mira cómo está antes del click y después.)
@@ -1400,7 +1538,19 @@ recompensa: xp 15, monedas 5
 Los faroles viejos de la Avenida se prendían solos cuando alguien pasaba por abajo, y se apagaban cuando se iba. Lucio quiere recuperar eso.
 
 #### Gheco sugiere
-`mouseover` agrega la clase `prendido` y `mouseout` la saca. Dos eventos, dos funciones.
+Hay más eventos que el `click`. Dos del mouse:
+
+- `'mouseover'` pasa cuando el mouse **entra** encima del elemento;
+- `'mouseout'`, cuando **sale**.
+
+Para sacar una clase está `classList.remove('…')`, el contrario de `add`. Un elemento puede escuchar varios eventos, cada uno con su `addEventListener`:
+
+```js
+cartel.addEventListener('mouseover', () => cartel.classList.add('grande'));
+cartel.addEventListener('mouseout', () => cartel.classList.remove('grande'));
+```
+
+(Si la flecha hace una sola cosa, se puede escribir sin llaves, en una línea.)
 
 #### Desafío
 El farol se prende cuando el mouse pasa por encima y se apaga cuando sale. (La comprobación pasa y sale, y vuelve a pasar.)
@@ -1468,7 +1618,15 @@ recompensa: xp 15, monedas 5
 Lumina dejó un cofre en el carrusel con un premio. El cofre da **una** ficha de luz, una sola vez. Bruno ya lo tocó diez veces para ver si da más.
 
 #### Gheco sugiere
-Con `{ once: true }` como tercer argumento, la función corre solo la primera vez.
+`addEventListener` acepta un **tercer dato**, con opciones entre llaves. La opción `once: true` (*una vez*) hace que la función corra **solo la primera vez**; después, el elemento deja de escuchar:
+
+```js
+sorpresa.addEventListener('click', () => {
+    console.log('¡Sorpresa!');
+}, { once: true });
+```
+
+Va después de la llave que cierra la función, separado por una coma.
 
 #### Desafío
 Agregá `{ once: true }` para que el cofre dé una sola ficha aunque lo toquen tres veces.
@@ -1655,7 +1813,16 @@ recompensa: xp 10, oro 10
 Tati quiere que, mientras alguien escribe su nombre, el cartelito de la boletería lo salude.
 
 #### Gheco sugiere
-Escuchá el `input` del campo y, adentro, poné en `#saludo` el texto `` `¡Hola, ${campo.value}!` ``.
+Lo que hay escrito en un campo de texto (`<input>`) está en su **`.value`**. Y el evento `'input'` pasa **cada vez que cambia** lo escrito, letra por letra:
+
+```js
+const campo = document.querySelector('#color');
+campo.addEventListener('input', () => {
+    muestra.textContent = `Elegiste ${campo.value}`;
+});
+```
+
+Escribí en el campo de la página y mirá cómo cambia a medida que tipeás.
 
 #### Desafío
 El saludo se actualiza mientras se escribe.
@@ -1724,7 +1891,18 @@ recompensa: xp 10, oro 10
 Cuando alguien aprieta *Anotar*, la boletería se «recarga» y se borra todo. Tati está desesperada.
 
 #### Gheco sugiere
-Escuchá el `submit` del formulario y empezá con `evento.preventDefault()`. Después, agregá el nombre a la lista `#entraron`.
+Cuando se envía un formulario (`<form>`), pasa el evento `'submit'`. Pero el navegador, por costumbre, **recarga la página** al enviar, y se pierde todo lo que hizo el programa.
+
+Para impedirlo, la primera línea de la función es `evento.preventDefault()` («evitá lo que hacés siempre»):
+
+```js
+formulario.addEventListener('submit', (evento) => {
+    evento.preventDefault();
+    console.log('Llegó:', campo.value);
+});
+```
+
+Se escucha el **formulario**, no el botón: así también funciona si apretan Enter. Después, armá el `li` como en R02-N02.
 
 #### Desafío
 Cada envío agrega un `li` con el nombre, sin recargar.
@@ -1802,7 +1980,13 @@ recompensa: xp 10, oro 10
 Nima compra 5 fichas y después 3 más. La boletería dice que tiene **53**. El Goblin de la Coerción espía desde la fila.
 
 #### Gheco sugiere
-Lo que viene de un campo es texto. Convertilo con `Number` antes de sumarlo al total.
+Lo que viene de un campo **siempre es texto**, aunque escriban un número: `campo.value` da `'5'`, no `5`. Y `0 + '5'` no suma: **pega** los textos (el Goblin de la coerción, de R01).
+
+`Number('5')` convierte el texto en número de verdad:
+
+```js
+const edad = Number(campoEdad.value);
+```
 
 #### Desafío
 Arreglá la suma para que el total dé 8.
@@ -1881,7 +2065,18 @@ recompensa: xp 10, oro 10
 Algunos llegan sin decir el nombre, otros ponen «muchas» en las fichas. Tati quiere que la boletería les avise en vez de anotar cualquier cosa.
 
 #### Gheco sugiere
-En el `submit`, revisá primero: si el nombre está vacío, mostrá `Falta el nombre`; si las fichas no son un número, `Las fichas tienen que ser un número`. Si está todo bien, `Entra ${nombre} con ${fichas} fichas`.
+**Validar** es revisar lo que escribieron antes de usarlo. Se revisa en orden, y apenas algo está mal, se avisa y se corta con `return`:
+
+`texto.trim()` le saca los espacios de las puntas, así un campo con solo espacios también cuenta como vacío.
+
+```js
+if (apodo.trim() === '') {
+    avisar('Falta algo');
+    return;          // no sigue
+}
+```
+
+`Number('hola')` da `NaN` (*Not a Number*, «no es un número»), y se pregunta con `Number.isNaN(valor)`. Recién al final, si pasó todas las revisiones, va el mensaje de que está todo bien. Fijate en la consigna el texto exacto de cada aviso.
 
 #### Desafío
 Completá la validación. La comprobación prueba un envío vacío, uno con letras y uno bien.
@@ -1990,7 +2185,19 @@ recompensa: xp 15, monedas 5
 Al lado de la boletería hay una mira de tiro que se mueve con las flechas del teclado. Tati quiere que la flecha derecha la mueva 10 píxeles y la izquierda la devuelva.
 
 #### Gheco sugiere
-Escuchá `keydown` en `document`. Si `evento.key === 'ArrowRight'`, sumá 10 a `x`; si es `'ArrowLeft'`, restá 10. Después mostralo en `#posicion`.
+El evento `'keydown'` pasa cuando se **aprieta una tecla**. Se escucha en `document` (la página entera), porque las teclas no se aprietan «sobre» un elemento.
+
+`evento.key` dice **qué tecla** fue: `'a'`, `'Enter'`, `'ArrowUp'` (flecha arriba), `'ArrowDown'`…
+
+```js
+document.addEventListener('keydown', (evento) => {
+    if (evento.key === 'ArrowUp') {
+        altura += 5;
+    }
+});
+```
+
+Después de cambiar el número, hay que volver a mostrarlo: el programa ya trae una función para eso.
 
 #### Desafío
 La posición cambia con las flechas. (La comprobación aprieta tres veces la derecha y una la izquierda.)
@@ -2080,7 +2287,16 @@ recompensa: xp 15, monedas 5
 Para el tiro con teclado, Lumina inventó una regla: la barra espaciadora **tensa** el arco, Enter **dispara** (solo si está tenso) y Escape lo **destensa**.
 
 #### Gheco sugiere
-Guardá `let tenso = false;`. En el `keydown`: si es `' '`, `tenso = true`; si es `'Escape'`, `tenso = false`; si es `'Enter'` y `tenso`, sumá un disparo y destensá.
+A veces una tecla vale o no según lo que pasó **antes**. Eso se guarda en una variable de **estado**, afuera del evento, que dice cómo están las cosas ahora:
+
+```js
+let abierto = false;
+// en el keydown:
+if (evento.key === 'o') abierto = true;
+if (evento.key === 'x' && abierto) { … }
+```
+
+`&&` quiere decir «y»: las dos cosas tienen que ser ciertas. La tecla espacio es `' '` (un espacio entre comillas). Seguí la secuencia de la consigna en un papel para saber cuántos disparos tienen que dar.
 
 #### Desafío
 Contá los disparos válidos en `#disparos`. (La comprobación aprieta: Enter, espacio, Enter, espacio, Escape, Enter, espacio, Enter.)
@@ -2270,7 +2486,19 @@ recompensa: xp 10, oro 10
 Lucio cuelga los faroles de la galería en un solo riel. Nima le propone escuchar el riel, no cada farol.
 
 #### Gheco sugiere
-Escuchá el `click` de `#galeria`. Adentro, `evento.target.closest('.farol')` te da el farol tocado; si es `null`, `return`.
+Si hay muchos elementos iguales, en vez de un `addEventListener` para cada uno, se escucha **una sola vez** en el que los contiene a todos. Eso se llama **delegación**: el click en un hijo «sube» hasta el padre, y el padre se entera.
+
+Adentro, `evento.target.closest('.clase')` busca, desde lo que tocaron hacia arriba, el primer elemento con esa clase. Si tocaron un hueco entre medio, da `null`, y se corta con `return`:
+
+```js
+estante.addEventListener('click', (evento) => {
+    const frasco = evento.target.closest('.frasco');
+    if (!frasco) return;
+    frasco.classList.toggle('abierto');
+});
+```
+
+`toggle` **alterna**: si la clase no está, la pone; si está, la saca.
 
 #### Desafío
 Cada farol tocado alterna la clase `prendido`. (La comprobación toca el 1, el 3 y otra vez el 1.)
@@ -2343,7 +2571,13 @@ recompensa: xp 10, oro 10
 Cada farol tiene escondido su color en un atributo `data-color`. Lucio quiere que, al tocarlo, el cartel diga de qué color es.
 
 #### Gheco sugiere
-Con delegación, encontrá el farol y leé `farol.dataset.color`. Mostralo en `#cartel`.
+En el HTML se pueden guardar datos propios en atributos que empiezan con `data-`:
+
+```html
+<div class="frasco" data-sabor="menta">
+```
+
+Desde el programa se leen con `.dataset` y el nombre sin el `data-`: `frasco.dataset.sabor` da `'menta'`. No se ven en la página: son datos escondidos para el programa.
 
 #### Desafío
 El cartel muestra `Farol rojo`, `Farol verde`, etc., según el que tocaron.
@@ -2416,7 +2650,9 @@ recompensa: xp 10, oro 10
 Esta noche llegaron faroles nuevos. Lucio los cuelga con un botón *Colgar farol*. Con el código viejo (un evento por farol), los nuevos no reaccionaban.
 
 #### Gheco sugiere
-Cambiá los eventos de cada farol por uno solo en `#galeria`. Así los nuevos también se prenden.
+Un `addEventListener` se pone sobre los elementos que **existen en ese momento**. Los que se agregan después (con un botón, por ejemplo) no lo tienen, y no responden.
+
+Con delegación no pasa: se escucha en el **contenedor**, que siempre está, y `closest` encuentra al hijo tocado, sea viejo o nuevo. Cambiá el recorrido que pone un evento a cada farol por uno solo en el contenedor.
 
 #### Desafío
 Que los faroles agregados con el botón también se prendan al tocarlos.
@@ -2506,7 +2742,13 @@ recompensa: xp 10, oro 10
 Los faroles de lujo tienen una estrellita adentro. Cuando tocan la estrellita, en vez de prenderse el farol, se «prende» la estrellita. Un ogro tocó el código.
 
 #### Gheco sugiere
-`evento.target` es lo que tocaron (la estrellita). Usá `evento.target.closest('.farol')` para subir hasta el farol.
+`evento.target` es exactamente **lo que tocaron**, y puede ser algo que está **adentro** del elemento que te interesa: un ícono, un texto en negrita.
+
+```html
+<button class="puesto"><span>★</span> Tiro al blanco</button>
+```
+
+Si tocan la estrella, `evento.target` es el `<span>`, no el botón. Por eso se usa `closest('.puesto')`: sube desde la estrella hasta encontrar el botón.
 
 #### Desafío
 Arreglalo para que, aunque toquen la estrellita, se prenda el farol.
@@ -2578,7 +2820,16 @@ recompensa: xp 15, monedas 5
 Cada farol gasta aceite: el precio por noche está en `data-precio`. Lucio quiere saber cuánto gasta la galería con los faroles que están prendidos.
 
 #### Gheco sugiere
-Con delegación, alterná la clase. Después recalculá el total: recorré los `.farol.prendido` y sumá `Number(farol.dataset.precio)`.
+Cuando algo cambia, lo más seguro es **recalcular todo desde cero** en vez de ir sumando y restando. Se puede buscar con dos clases juntas, sin espacio: `'.frasco.abierto'` trae los que tienen **las dos**.
+
+```js
+let total = 0;
+for (const frasco of document.querySelectorAll('.frasco.abierto')) {
+    total += Number(frasco.dataset.gramos);
+}
+```
+
+El `data-` también llega como texto: por eso el `Number`. Poné ese cálculo en una función y llamala después de cada click.
 
 #### Desafío
 Mostrá en `#gasto` el total de los faroles prendidos. (La comprobación prende el 1 y el 3, y después apaga el 1.)
@@ -2674,7 +2925,15 @@ recompensa: xp 15, monedas 5
 Lumina quiere un menú en la entrada de la galería: tres botones (Tiro, Pan, Fuegos) y tres carteles, uno por puesto. Al tocar un botón, se muestra solo su cartel.
 
 #### Gheco sugiere
-Cada botón tiene `data-puesto`. Con delegación en `#menu`, leé ese dato, recorré los `.cartel` y poné `cartel.hidden = cartel.id !== puesto`.
+Todo elemento tiene la propiedad `hidden` (*escondido*): `elemento.hidden = true` lo esconde y `false` lo muestra.
+
+Se le puede dar directamente el resultado de una comparación, que ya es `true` o `false`:
+
+```js
+foto.hidden = foto.id !== elegida;   // se esconde si no es la elegida
+```
+
+`!==` quiere decir «distinto de». Con delegación, sacá del botón tocado su `data-` y recorré los carteles.
 
 #### Desafío
 Que se vea solo el cartel del botón tocado. (La comprobación toca *Pan* y después *Fuegos*.)
@@ -2862,7 +3121,12 @@ recompensa: xp 10, oro 10
 Bruno quiere guardar su récord en un papel para no perderlo. Pero el récord es un objeto, y en un papel solo entra texto.
 
 #### Gheco sugiere
-`JSON.stringify(record)` lo pasa a texto. `JSON.parse(texto)` lo vuelve a armar.
+**JSON** es una forma de escribir datos (objetos, arreglos) **como texto**, para guardarlos o mandarlos:
+
+- `JSON.stringify(objeto)` pasa el objeto a texto: `{ sabor: 'menta' }` queda `'{"sabor":"menta"}'`;
+- `JSON.parse(texto)` hace lo contrario: arma el objeto de vuelta.
+
+Con el texto no se puede hacer `.sabor`; con el objeto armado de vuelta, sí.
 
 #### Desafío
 Pasá el récord a texto, mostralo, y después volvelo a objeto para mostrar los puntos.
@@ -2915,7 +3179,14 @@ recompensa: xp 10, oro 10
 Lumina le muestra a Bruno el cajón del navegador, donde las cosas no se borran al amanecer.
 
 #### Gheco sugiere
-`localStorage.setItem('record', JSON.stringify(record))` guarda el récord. Mirá el **Tablero** después de ejecutar.
+`localStorage` es un **cajón del navegador**: lo que se guarda ahí sigue estando aunque cierres la página y vuelvas mañana. Guarda pares de **clave** (el nombre del cajoncito) y **valor**, y el valor tiene que ser texto:
+
+```js
+localStorage.setItem('color', 'violeta');
+localStorage.setItem('mochila', JSON.stringify(mochila));
+```
+
+Un objeto se guarda pasado a texto con `JSON.stringify`. Después de ejecutar, mirá el **Tablero**: ahí se ve lo que quedó guardado.
 
 #### Desafío
 Guardá el récord en `localStorage` con la clave `record`.
@@ -2964,7 +3235,16 @@ recompensa: xp 10, oro 10
 Vuelve la noche. Es la segunda visita de Bruno a la página: el récord ya está guardado de ayer. Hay que leerlo y mostrarlo.
 
 #### Gheco sugiere
-`localStorage.getItem('record')` da el texto. Si no es `null`, `JSON.parse`; si es `null`, usá `{ nombre: 'nadie', puntos: 0 }`.
+`localStorage.getItem('clave')` trae lo guardado, como texto. Si no hay nada con esa clave, da `null`.
+
+El operador `? :` elige entre dos valores según una condición (un `if` en una línea):
+
+```js
+const guardada = localStorage.getItem('mochila');
+const mochila = guardada ? JSON.parse(guardada) : [];
+```
+
+Se lee: «si hay algo guardado, armalo con `JSON.parse`; si no, usá un arreglo vacío».
 
 #### Desafío
 Mostrá en `#record` el récord guardado, como `Bruno: 18`.
@@ -3031,7 +3311,15 @@ recompensa: xp 10, oro 10
 Tati quiere que la boletería cuente cuántas veces abrió la página cada visitante. Es la cuarta visita de Nima.
 
 #### Gheco sugiere
-Leé `visitas`, convertí con `Number` (si no hay nada, 0), sumale 1, guardalo de nuevo y mostralo.
+Para un número guardado se hacen cuatro pasos: **leer**, **convertir**, **cambiar** y **volver a guardar**.
+
+`??` (de R01) da el valor de la derecha si el de la izquierda es `null`: así, la primera vez que no hay nada, se arranca de 0.
+
+```js
+const vidas = Number(localStorage.getItem('vidas') ?? 3);
+```
+
+No te olvides del `setItem` al final: si no se guarda, la próxima vez vuelve al número viejo.
 
 #### Desafío
 Mostrá `Visita número 4` y dejá guardado `4`.
@@ -3096,7 +3384,13 @@ recompensa: xp 15, monedas 5
 Lucio quiere que el tablero de anuncios se acuerde de los avisos de la noche anterior, y guarde los nuevos.
 
 #### Gheco sugiere
-Al empezar, cargá el arreglo de avisos (o `[]`). Dibujalos. En el `submit`, agregá el nuevo al arreglo, guardalo con `setItem` y volvé a dibujar.
+Toda página que recuerda cosas tiene la misma forma:
+
+1. un **estado**: los datos (acá, un arreglo), cargados de `localStorage` al empezar;
+2. una función **dibujar** que borra lo que hay en la página y lo vuelve a armar a partir del estado (`lista.replaceChildren()` vacía la lista);
+3. en cada cambio: cambiar el estado, **guardarlo** y volver a **dibujar**.
+
+Así la página siempre muestra lo que dice el estado. Para agregar al arreglo está `arreglo.push(valor)`.
 
 #### Desafío
 Completá `guardar` y el `submit`. La consigna ya trae dos avisos guardados de ayer; la comprobación agrega uno.
@@ -3214,7 +3508,20 @@ recompensa: xp 15, monedas 5
 Un troll metió la mano en el cajón de Bruno y le rompió el récord: ahora el texto guardado no es JSON. La página entera explota y no se ve ni el cartel.
 
 #### Gheco sugiere
-Envolvé el `JSON.parse` en `try`/`catch`. Si falla, usá el récord por defecto y avisá en la consola.
+`JSON.parse` de un texto que no es JSON (porque se rompió o lo escribió alguien a mano) **lanza un error**, y el programa entero se corta.
+
+`try`/`catch` **atrapa** el error: se prueba lo que está en el `try`, y si falla, en vez de cortarse, corre lo del `catch`.
+
+```js
+let ajustes;
+try {
+    ajustes = JSON.parse(textoRaro);
+} catch {
+    ajustes = { volumen: 5 };
+}
+```
+
+En el `catch` va lo que se hace «por las dudas»: el valor de reserva y el aviso de la consigna.
 
 #### Desafío
 Que la página no explote: si el récord está roto, mostrá `nadie: 0` y escribí `Récord roto, empiezo de cero` en la consola.
@@ -3330,7 +3637,10 @@ recompensa: xp 15, monedas 3
 El Fantasma pasó por la fila de faroles y los carteles dicen *undefined*. Nima mira el código: alguien escribió mal una propiedad, y a un farol le falta el nombre.
 
 #### Gheco sugiere
-Revisá el nombre de la propiedad (`nombre`). Y para el farol que no tiene, usá `?? 'sin nombre'`.
+`undefined` es lo que da JavaScript cuando pedís una propiedad que el objeto **no tiene**: no avisa con un error, sigue con `undefined`. Pasa en dos casos:
+
+- el nombre está **mal escrito** (`farol.nombr`): revisá letra por letra contra los objetos;
+- al objeto **le falta** ese dato: ahí sirve `??` para poner uno de reserva, como `persona.apodo ?? 'sin apodo'`.
 
 #### Desafío
 Que ningún cartel diga `undefined`.
@@ -3402,7 +3712,12 @@ recompensa: xp 15, monedas 3
 Cada vez que Nima prende un farol, el Fantasma lo apaga, porque la página no **recuerda** cuáles están prendidos. Hay que guardar el estado.
 
 #### Gheco sugiere
-Guardá los números de los faroles prendidos en un arreglo `prendidos`. En el click (con delegación), agregá o sacá el número, guardá en `localStorage` y llamá a `dibujar()`.
+Es la forma del estado de R02-N06, con eventos:
+
+- el estado es un arreglo con los números de los faroles prendidos;
+- en el click (con delegación), sacás el número del farol de su `data-` (con `Number`);
+- si ya está en el arreglo (`arreglo.includes(n)`), lo sacás con `filter` (de R01), quedándote con todos los que son distintos; si no está, lo agregás con `push`;
+- después, guardás y llamás a `dibujar()`.
 
 #### Desafío
 Completá el evento. La consigna trae guardado que el farol 2 ya estaba prendido; la comprobación prende el 4 y apaga el 2.
@@ -3513,7 +3828,13 @@ item: Farol del Fantasma
 La última pelea: el Fantasma quiere borrar el **registro de faroles** de Lucio, la lista con el nombre de cada farol de la Avenida y sus horas de aceite. Nima tiene que armar la página entera: que cargue lo guardado, que deje agregar faroles validando los datos, que deje borrarlos con un botón ✕ y que **nunca** muestre un `undefined`.
 
 #### Gheco sugiere
-Seguí la forma de toda aplicación: estado (`faroles`, cargado o `[]`), `dibujar()`, `guardar()`, el `submit` que valida (nombre no vacío, horas número mayor que 0) y la delegación en la lista para los botones `.borrar` (con `data-i`, el índice).
+Es la forma completa de una aplicación, con todo lo de R02:
+
+- un **estado** cargado de `localStorage` (o `[]`), `dibujar()` y `guardar()`;
+- el **`submit`** con `preventDefault` y la **validación** en orden, cortando con `return` en el primer error;
+- la **delegación** en la lista para los botones de borrar: cada botón tiene en su `data-` el **índice** (la posición) de su farol, y `arreglo.splice(i, 1)` saca uno desde esa posición.
+
+Después de cada cambio: guardar y dibujar. Andá paso por paso y ejecutá entre medio.
 
 #### Desafío
 Completá `agregar` (con su validación) y el evento de borrar. La consigna trae guardado un farol; la comprobación intenta uno sin nombre, uno con horas que no son número, agrega dos bien y borra el primero. Al final:

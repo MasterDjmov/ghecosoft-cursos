@@ -257,14 +257,15 @@ Gheco entrecierra los ojos.
 —Antes de sumar nada… ¿de qué **tipo** es cada cosa?
 
 #### Gheco sugiere
-Cada valor tiene un **tipo**:
-- `int`: enteros;
-- `float`: con decimales;
-- `str`: texto, entre comillas;
-- `bool`: `True` o `False`;
-- `None`: nada.
+Cada valor de Python tiene un **tipo**, que dice qué clase de dato es:
 
-`type(valor)` te dice cuál es.
+- `int`: números enteros, como `7`;
+- `float`: números con decimales, como `2.5` (con punto, no con coma);
+- `str`: texto, siempre entre comillas, como `"hola"`. Ojo: `"7"` con comillas es texto, no número;
+- `bool`: verdadero o falso, `True` o `False`;
+- `None`: «nada», la ausencia de valor.
+
+`type(valor)` te dice de qué tipo es: `print(type(3.5))` muestra `<class 'float'>`.
 
 #### Desafío
 Mostrá el tipo de cada uno de estos cinco valores, uno por línea.
@@ -318,7 +319,16 @@ Y debajo del puesto, algo se ríe: un **goblin** verde y flaco, con los bolsillo
 —¡Te estaban cobrando de más! —grita Gheco—. Los goblins nacen de **mezclar tipos**: sumaste **letras**, no números.
 
 #### Gheco sugiere
-Para usar un texto como número, **convertilo**: `int("12")` da `12` y `float("3.5")` da `3.5`. Con `+`, dos textos se **pegan** (`"12" + "7"` da `"127"`), y dos números se **suman**.
+Un número entre comillas es **texto**, y con texto `+` no suma: **pega**. `"4" + "5"` da `"45"`.
+
+Para hacer cuentas, primero hay que **convertir** el texto a número:
+
+- `int("4")` da el entero `4`;
+- `float("2.5")` da el decimal `2.5`.
+
+```python
+print(int("4") + int("5"))   # 9
+```
 
 #### Desafío
 Convertí los precios antes de sumar.
@@ -371,7 +381,9 @@ Baldo te da el vuelto en dos monedas: una de 0.1 y otra de 0.2. Le pedís al per
 —¡Esta vez no, lo juro por mis orejas!
 
 #### Gheco sugiere
-Los `float` no son exactos: `0.1 + 0.2` da `0.30000000000000004`. No es un error de Python: así se guardan los decimales en la máquina. Para comparar o mostrar, **redondeá**: `round(x, 2)`.
+Los `float` no son exactos: `0.1 + 0.2` da `0.30000000000000004`. No es un error de Python: la computadora guarda los decimales en binario, y algunos no se pueden guardar justos (como 1/3 en decimal, que es 0,333… para siempre).
+
+Para mostrar o comparar, **redondeá**: `round(x, 2)` deja 2 decimales.
 
 #### Desafío
 Mostrá el vuelto tal cual y después compará el vuelto **redondeado** con 0.3.
@@ -417,7 +429,10 @@ Baldo vacía sobre el mostrador cuatro bolsitas que le dejaron otros viajeros: u
 —¿Cuáles tienen **algo**? —te pregunta—. Las vacías las tiro.
 
 #### Gheco sugiere
-`bool(valor)` dice si Python lo considera verdadero o falso. Son **falsos**: `0`, `0.0`, el texto vacío `""` y `None` (y las colecciones vacías, que vas a ver más adelante). **Todo lo demás es verdadero**, ¡aunque sea el texto `"0"`!
+Python puede tratar cualquier valor como verdadero o falso. `bool(valor)` te dice cuál:
+
+- son **falsos**: `0`, `0.0`, el texto vacío `""` y `None` (y las colecciones vacías, que vas a ver más adelante);
+- **todo lo demás es verdadero**. ¡Hasta el texto `"0"`, porque no está vacío!
 
 #### Desafío
 Mostrá en una línea qué bolsas tienen algo.
@@ -460,10 +475,11 @@ recompensa: xp 15, oro 15
 —Ya que sabés tanto —dice Baldo—, haceme un cartel nuevo. Que se lea lo que hay en la caja, el número de mi puesto y el descuento de hoy. **Prolijo**, que los clientes desconfían de los números feos.
 
 #### Gheco sugiere
-En un f-string, después de `:` va el **formato**:
-- `{x:,.2f}`: separador de miles y 2 decimales;
-- `{n:03}`: rellena con ceros hasta 3 cifras;
-- `{p:.0%}`: lo muestra como porcentaje.
+En un f-string, después del valor podés poner `:` y un **formato** que dice cómo mostrarlo:
+
+- `{x:,.2f}`: con separador de miles y 2 decimales (`1,234.50`);
+- `{n:03}`: completa con ceros hasta 3 cifras (`007`);
+- `{p:.0%}`: lo muestra como porcentaje, sin decimales (`0.25` se ve `25%`).
 
 #### Desafío
 Completá los tres `___` con el formato justo para que el cartel quede prolijo.
@@ -512,7 +528,9 @@ Con el cartel nuevo funcionando, Baldo tiene más clientes de los que puede aten
 —Hacé de tasadora un rato, maguita. Los precios me los dictan de palabra y los anoto como texto. Mostrá qué pasa si los juntás así nomás, y después el total de verdad.
 
 #### Gheco sugiere
-Con `+`, dos textos se pegan: `"12" + "3.5"` da `"123.5"`. Para sumar, convertí con `int()` o `float()`. Para mostrar dos decimales: `f"{total:.2f}"`.
+Acordate de que `+` entre textos los pega: `"10" + "2.5"` da `"102.5"`. Para sumar, convertí cada precio con `int()` o `float()` antes.
+
+Para mostrar el total con dos decimales, el formato del f-string: `f"{total:.2f}"`.
 
 #### Desafío
 El mercader te pasa tres precios como texto: `"12"`, `"3.5"` y
@@ -576,7 +594,13 @@ Baldo saca una ficha de cliente toda desprolija: el oro con decimales que no ter
 —Los clientes ricos quieren ver su ficha **linda**. Con puntitos de miles, con porcentaje, con el nivel de tres cifras. ¿Me la dejás presentable?
 
 #### Gheco sugiere
-Dentro de un f-string, después de `:` va el formato: `{oro:,.2f}` pone separador de miles y 2 decimales, `{x:.0%}` muestra un porcentaje y `{nivel:03}` completa con ceros hasta 3 cifras.
+Repasá los formatos del f-string, que van después de `:`:
+
+- `{x:,.2f}` separador de miles y 2 decimales;
+- `{x:.0%}` porcentaje;
+- `{x:03}` completa con ceros hasta 3 cifras.
+
+Para el porcentaje de vida, la cuenta va adentro de las llaves: `{vida / vida_max:.0%}`.
 
 #### Desafío
 Con `oro = 15230.5`, `vida = 63` y `vida_max = 90`,
@@ -640,7 +664,13 @@ Gheco se relame.
 —Ese dulce es mío. Pensá bien.
 
 #### Gheco sugiere
-Ojo con las trampas: `/` siempre da `float`, `True` vale `1` cuando se suma, y `int("08")` sí funciona (los ceros a la izquierda en un texto no molestan). Verificá cada una con `type()`.
+Algunas trampas para predecir antes de ejecutar:
+
+- `/` **siempre** da `float`, aunque la división sea exacta: `8 / 2` da `4.0`;
+- `True` vale `1` y `False` vale `0` cuando se suman;
+- `int("08")` sí funciona: los ceros a la izquierda en un texto no molestan.
+
+Anotá tu predicción y después verificá con `type()`.
 
 #### Desafío
 Antes de ejecutar, anotá qué tipo y qué valor da cada
@@ -1060,7 +1090,13 @@ El cartel de Baldo tenía razón: el puente es de piedra negra, y en el arco se 
 —Nadie cruza sin saber **calcular** —retumba—. Primera pregunta, aprendiz: si cada golpe tuyo quita 7 de vida, ¿cuántos golpes **enteros** necesitás para un enemigo de 50? ¿Y cuánta vida le queda después?
 
 #### Gheco sugiere
-`/` divide con decimales (`50 / 7` da `7.142…`). `//` da la **división entera** (cuántas veces entra) y `%` da **el resto** (lo que sobra). Son la pareja que más se usa para repartir y contar.
+Python tiene tres formas de dividir:
+
+- `/` divide con decimales: `17 / 5` da `3.4`;
+- `//` da la **división entera**, cuántas veces entra: `17 // 5` da `3`;
+- `%` da el **resto**, lo que sobra: `17 % 5` da `2`.
+
+Como repartir 17 caramelos en bolsitas de 5: salen 3 bolsitas y sobran 2. `//` y `%` son la pareja que más se usa para repartir y contar.
 
 #### Desafío
 Completá con los operadores que faltan.
@@ -1112,7 +1148,11 @@ recompensa: xp 10, oro 10
 —Segunda pregunta. —El Guardián entrecierra los ojos—. Tenés 20 de energía. Cruzar el primer tramo te cuesta 5. En el medio hay una fuente que te devuelve 3. Y si llegás al final, el puente **duplica** lo que te quede. ¿Con cuánto llegás?
 
 #### Gheco sugiere
-Para cambiar una variable usando su propio valor hay atajos: `energia -= 5` es lo mismo que `energia = energia - 5`. También existen `+=`, `*=`, `//=` y `%=`.
+Para cambiar una variable usando su propio valor hay atajos:
+
+- `puntos += 10` es lo mismo que `puntos = puntos + 10`;
+- `puntos -= 3` resta 3;
+- también existen `*=`, `//=` y `%=`.
 
 #### Desafío
 Escribí cada paso con un atajo y mostrá la energía después de cada uno.
@@ -1168,7 +1208,13 @@ recompensa: xp 10, oro 10
 —Tercera. —La voz del Guardián hace temblar el agua—. Tu fuerza es 12; la mía, 15. Decime sin miedo si sos más fuerte que yo. Decime si tu fuerza está entre 10 y 20, que es lo que pide el puente. Y decime si «Mia» y «mia» son el mismo nombre.
 
 #### Gheco sugiere
-Las comparaciones **siempre** dan `True` o `False`. Se pueden encadenar como en matemática: `10 <= fuerza < 20`. Y ojo: `=` guarda un valor; `==` **pregunta** si son iguales. Las mayúsculas cuentan: `"Mia" == "mia"` es `False`.
+Una **comparación** es una pregunta que Python contesta con `True` (verdad) o `False` (mentira):
+
+- `>` mayor, `<` menor, `>=` mayor o igual, `<=` menor o igual;
+- `==` ¿son iguales? (dos signos);
+- `!=` ¿son distintos?
+
+Se pueden encadenar como en matemática: `0 <= edad < 18`. Ojo: un solo `=` **guarda**; dos `==` **preguntan**. Y las mayúsculas cuentan: `"Ana" == "ana"` es `False`.
 
 #### Desafío
 Escribí las tres comparaciones.
@@ -1223,7 +1269,15 @@ Tenés nivel 3, no tenés llave, sos aprendiz de maga y, que sepas, no estás ma
 —¿Y cómo te llamo? —agrega el Guardián—. No me dijiste tu título. Si no tenés, te llamo «Aprendiz».
 
 #### Gheco sugiere
-`and` pide que se cumplan **las dos**; `or`, **alguna**; `not` da vuelta el valor. `and` se evalúa antes que `or`, pero los paréntesis lo hacen más claro. Y un truco: `titulo or "Aprendiz"` da `titulo` si tiene algo y, si está vacío, `"Aprendiz"`.
+Para juntar preguntas:
+
+- `and`: tienen que cumplirse **las dos**;
+- `or`: alcanza con **una**;
+- `not`: da vuelta la respuesta.
+
+`and` se hace antes que `or`; los paréntesis lo dejan más claro.
+
+Un truco útil: `apodo or "Sin nombre"` da `apodo` si tiene algo y, si está vacío, `"Sin nombre"`.
 
 #### Desafío
 Escribí la regla del puente con `and`, `or` y `not`, y el título con `or`.
@@ -1280,7 +1334,11 @@ item: Llave del Puente
 —Última —dice el Guardián, y abre la boca de piedra. Adentro, sobre la lengua, hay una **llave verde**—. Es tuya si me decís tres cosas: si la palabra «serpiente» está en mi nombre, si de verdad **no** tenías llave (si tu llave era `None`) y cuánto da `2 + 3 * 4`, que los apurados siempre contestan mal.
 
 #### Gheco sugiere
-`"serpiente" in texto` pregunta si un texto está **adentro** de otro. Para preguntar si algo es `None` se usa `is`: `llave is None`. Y la precedencia es la de la escuela: `*` antes que `+`. Si dudás, paréntesis.
+Tres preguntas más:
+
+- `"sol" in texto` pregunta si un texto está **adentro** de otro;
+- para saber si algo es `None` se usa `is`: `valor is None`;
+- las cuentas siguen el orden de la escuela: primero `*` y `/`, después `+` y `-`. Si dudás, paréntesis: `(2 + 3) * 4`.
 
 #### Desafío
 Completá las tres preguntas del Guardián.
@@ -1334,7 +1392,12 @@ Ya del otro lado del puente, encontrás un reloj de arena enorme clavado en la p
 —¿Cuántas horas son eso? Sin ir contando de a uno, eh.
 
 #### Gheco sugiere
-`//` da cuántas veces entra entero y `%` lo que sobra: `4000 // 3600` son las horas y `4000 % 3600` los segundos que quedan. Para `01:06:40`, `f"{h:02}:{m:02}:{s:02}"`.
+Para pasar segundos a horas, minutos y segundos, `//` (cuántas veces entra) y `%` (lo que sobra):
+
+- una hora tiene 3600 segundos: `total // 3600` son las horas y `total % 3600` lo que sobra;
+- con lo que sobra, `// 60` da los minutos y `% 60` los segundos.
+
+Para que se vea `05` y no `5`: `{m:02}` en el f-string.
 
 #### Desafío
 Pasá 4000 segundos a horas, minutos y segundos usando
@@ -1394,7 +1457,9 @@ Grabada en la baranda del puente está la regla completa del Guardián. Gheco la
 —Probala con los tres —le decís—. Y después sin paréntesis, a ver qué pasa.
 
 #### Gheco sugiere
-`and` se evalúa antes que `or`. Sin paréntesis, `a and b or c` es `(a and b) or c`: un aprendiz con magia podría pasar aunque sea nivel 1. Escribí la regla con paréntesis para que diga lo que quiere decir.
+`and` se hace antes que `or`. Sin paréntesis, `a and b or c` se lee `(a and b) or c`, y eso puede dejar pasar a quien no debería.
+
+Escribí la regla con paréntesis para que diga exactamente lo que quiere decir: lo que va junto, entre paréntesis.
 
 #### Desafío
 Pasa quien tiene nivel 5 o más, **y** (llave **o**
@@ -1483,7 +1548,16 @@ Al pie del puente hay un muñeco de práctica con una espada de madera. Gheco le
 —Seis cuentas. Antes de ejecutar, adiviná qué da cada una. El que pierde, carga la mochila hasta la Aldea.
 
 #### Gheco sugiere
-Primero se hace `**`, después `*`, `/`, `//` y `%`, y al final `+` y `-`. Las comparaciones van después de las cuentas, y `not` antes que `and` y `or`. `1 < ataque < 10` es una comparación encadenada.
+El orden en que Python hace las cosas:
+
+1. lo que está entre paréntesis;
+2. `**` (potencia);
+3. `*`, `/`, `//` y `%`;
+4. `+` y `-`;
+5. las comparaciones;
+6. `not`, después `and` y al final `or`.
+
+`1 < x < 10` es una comparación encadenada: las dos tienen que cumplirse.
 
 #### Desafío
 Con `ataque = 20` y `defensa = 6`, anotá qué da cada línea antes
@@ -1904,7 +1978,12 @@ Adentro hay carteles por todos lados: colgados, apilados, pegados al techo. Una 
 —¡Por fin alguien que sabe runas! Soy **la Copista**. Me encargaron un cartel para la Posada y me sale todo en una sola línea, y con las comillas rotas. Tiene que decir *Se busca* arriba y, abajo, *"aprendiz" que sepa runas*, con las comillas.
 
 #### Gheco sugiere
-Dentro de un texto, la barra `\` anuncia un carácter especial: `\n` es un **salto de línea** y `\"` es una **comilla** que no cierra el texto. También podés escribir varias líneas entre triples comillas `"""…"""`.
+Adentro de un texto, la barra invertida `\` anuncia un carácter especial (una **secuencia de escape**):
+
+- `\n` es un **salto de línea**, como un Enter;
+- `\"` es una comilla que **no** cierra el texto.
+
+También se puede escribir un texto de varias líneas entre comillas triples `"""…"""`.
 
 #### Desafío
 Arreglá el cartel con `\n` y `\"`.
@@ -1951,7 +2030,16 @@ La Copista te pasa un papel viejo.
 El papel dice: `otnirebaL le ne somev soN`.
 
 #### Gheco sugiere
-Cada letra de un texto tiene una **posición**, y se empieza a contar desde **0**: `t[0]` es la primera y `t[-1]`, la última. `t[2:5]` corta de la 2 a la 4 (la 5 no entra). Y `t[::-1]` recorre todo hacia atrás: lo da vuelta.
+Cada letra de un texto tiene una **posición** (un **índice**), y se cuenta desde **0**:
+
+- `t[0]` es la primera letra y `t[-1]` la última (los negativos cuentan desde el final);
+- `t[1:4]` corta un pedazo: de la posición 1 a la 3 (la 4 no entra);
+- `t[::-1]` recorre todo hacia atrás: lo da vuelta.
+
+```python
+t = "perro"
+print(t[0], t[-1])   # p o
+```
 
 #### Desafío
 Mostrá la primera letra, la última y el mensaje al derecho.
@@ -1998,7 +2086,13 @@ recompensa: xp 10, oro 10
 Escribís `titulo.upper()`, mostrás `titulo`… y sigue en minúsculas. Gheco suspira.
 
 #### Gheco sugiere
-Los textos en Python **no se modifican**: son como tinta que no se borra. `titulo.upper()` no cambia `titulo`: **devuelve un texto nuevo**. Si lo querés guardar, reasignalo: `titulo = titulo.upper()`. Por eso `titulo[0] = "X"` da error.
+Los textos de Python **no se pueden modificar**: son como tinta que no se borra. Por eso `t[0] = "X"` da error.
+
+Los **métodos** de texto (funciones que se usan con un punto, como `t.upper()`) no cambian el original: **devuelven uno nuevo**. Si lo querés conservar, guardalo:
+
+```python
+nombre = nombre.upper()
+```
 
 #### Desafío
 Hacé que el título quede guardado en mayúsculas.
@@ -2044,7 +2138,12 @@ El cartel más feo de todos es el de una oficina de la Aldea: tiene espacios por
 —Necesito que quede *Oficina De Las Runas*, sin espacios en las puntas.
 
 #### Gheco sugiere
-`strip()` saca los espacios de las puntas y `title()` pone en mayúscula la primera letra de cada palabra. Se pueden **encadenar**: `texto.strip().title()`.
+Dos métodos para ordenar textos:
+
+- `strip()` saca los espacios de las puntas;
+- `title()` pone en mayúscula la primera letra de cada palabra.
+
+Como cada uno devuelve un texto nuevo, se pueden **encadenar**: `texto.strip().title()` primero limpia y después pone las mayúsculas.
 
 #### Desafío
 Limpiá el cartel encadenando los dos métodos. Los corchetes muestran dónde empieza y termina.
@@ -2092,7 +2191,13 @@ Gheco se frota las patas.
 —Yo sí. Probemos.
 
 #### Gheco sugiere
-En un f-string, después de `:` podés decir el **ancho** y la **alineación**: `{texto:<10}` ocupa 10 lugares a la izquierda; `{texto:>8}`, 8 a la derecha; `{texto:^12}`, centrado. Así las columnas quedan derechas. Y `len("ñandú")` da 5: la ñ y las tildes cuentan como una letra.
+En un f-string, después de `:` también podés decir el **ancho** y la **alineación**:
+
+- `{x:<10}` ocupa 10 lugares, pegado a la izquierda;
+- `{x:>8}` ocupa 8, pegado a la derecha;
+- `{x:^12}` ocupa 12, centrado.
+
+Así las columnas de una tabla quedan derechas. Y `len(texto)` cuenta las letras: la ñ y las letras con tilde cuentan como una.
 
 #### Desafío
 Armá la tabla con las columnas alineadas: el pedido a la izquierda (10 lugares) y la cantidad a la derecha (5 lugares).
@@ -2145,7 +2250,13 @@ Antes de que te vayas, la Copista te pide un último favor: un viajero dejó su 
 —Lo quiero bien escrito, con sus iniciales y centrado en la tapa del registro. Las copistas somos así.
 
 #### Gheco sugiere
-`strip()` saca los espacios de los bordes y `title()` pone mayúscula al principio de cada palabra. Con `split()` tenés las palabras y con `palabra[0]` la primera letra. `center(30)` centra el texto en 30 caracteres.
+Algunos métodos de texto más:
+
+- `split()` parte el texto en palabras y devuelve una lista;
+- `palabra[0]` es la primera letra de una palabra;
+- `center(30)` centra el texto en 30 lugares.
+
+Con `strip().title()` lo dejás limpio, y de ahí sacás las iniciales.
 
 #### Desafío
 A partir de `"   mia la VALIENTE   "`, obtené
@@ -2205,7 +2316,9 @@ En la pared de la Casa hay un espejo con una frase grabada en el marco. La Copis
 —Hay otra frase que juran que también lo es. Yo no les creo. Comprobalo.
 
 #### Gheco sugiere
-Antes de comparar, pasá todo a minúsculas y sacá los espacios (`replace(" ", "")`). Al revés es `texto[::-1]`. Si son iguales, es palíndromo.
+Un **palíndromo** se lee igual al derecho y al revés, como «Neuquén».
+
+Antes de comparar, emparejá la frase: pasala a minúsculas (`lower()`) y sacale los espacios con `replace(" ", "")` (reemplaza cada espacio por nada). Después compará con la frase dada vuelta, `texto[::-1]`. Si son iguales, es palíndromo.
 
 #### Desafío
 Un **palíndromo** se lee igual al derecho y al revés.
@@ -2271,7 +2384,9 @@ La Copista te muestra la lista de la compañía que se está formando: nombres y
 —Una tabla derecha, como la del viajero. Nombres y clases contra la izquierda; el nivel, contra la derecha. Y con su encabezado.
 
 #### Gheco sugiere
-En un f-string, `{nombre:<10}` alinea a la izquierda en 10 lugares y `{nivel:>5}` a la derecha en 5. Usá los mismos anchos en el encabezado y en cada fila.
+Para una tabla alineada, usá los **mismos anchos** en el encabezado y en cada fila: `{nombre:<10}` pegado a la izquierda y `{nivel:>5}` a la derecha.
+
+Una línea de separación se arma repitiendo un carácter: `"-" * 26` da 26 guiones.
 
 #### Desafío
 Mostrá una tabla alineada con encabezados
@@ -2749,7 +2864,22 @@ Gheco olfatea.
 —Si la baldosa tiene trampa, esquivala. Si no, y tiene un cofre, abrilo. Y si no hay nada… seguí caminando. Una sola decisión, Mia, en orden.
 
 #### Gheco sugiere
-`if` pregunta; si se cumple, corre su bloque (las líneas con sangría debajo). `elif` es «si no, ¿y esto?», y `else` es «en cualquier otro caso». Python revisa en orden y ejecuta **solo el primero** que se cumple.
+Con `if` el programa **decide**: hace algo solo si una condición es verdad.
+
+```python
+if lluvia:
+    print("Llevá paraguas")
+elif sol:
+    print("Llevá gorra")
+else:
+    print("Salí tranquilo")
+```
+
+- `if` pregunta; si se cumple, corre su **bloque**: las líneas de abajo que tienen sangría (cuatro espacios al principio).
+- `elif` es «si no, ¿y esto?».
+- `else` es «en cualquier otro caso».
+
+Python revisa en orden y ejecuta **solo el primero** que se cumple. Fijate en los dos puntos `:` al final de cada línea que pregunta.
 
 #### Desafío
 Completá la decisión para la baldosa del medio, que no tiene trampa pero sí cofre.
@@ -2805,7 +2935,15 @@ La segunda sala es un pasillo oscuro. No se ve el final. La runa dice: *«Avanz�
 —No sabemos cuántos pasos son —dice Gheco—. Pero sí sabemos **cuándo frenar**.
 
 #### Gheco sugiere
-`while condicion:` repite su bloque **mientras** la condición sea verdadera. Adentro algo tiene que cambiar para que alguna vez deje de cumplirse; si no, el bucle no termina nunca (y la plataforma lo corta a los 5 segundos).
+Un **bucle** repite instrucciones. `while condicion:` repite su bloque **mientras** la condición sea verdad:
+
+```python
+agua = 0
+while agua < 10:
+    agua += 3
+```
+
+Antes de cada vuelta pregunta; cuando la respuesta es «no», sigue con lo de abajo. Adentro algo tiene que cambiar para que alguna vez deje de cumplirse. Si no, el bucle no termina nunca (y la plataforma lo corta a los 5 segundos).
 
 #### Desafío
 La luz aparece cuando la distancia llega a 0. Cada paso acorta 3 metros. Completá la condición y el paso.
@@ -2863,7 +3001,18 @@ La tercera sala tiene cinco losas numeradas y la runa dice: *«Pisá cada una, e
 —Acá sí sabemos cuántas son —dice Gheco—. Eso es trabajo para `for`.
 
 #### Gheco sugiere
-`for x in range(1, 6):` repite **una vez por cada número** del 1 al 5 (el último no entra). `range(0, 9, 2)` va de 2 en 2: 0, 2, 4, 6, 8. Usá `for` cuando sabés cuántas vueltas hay, y `while` cuando no.
+`for` repite una vez por cada número de un `range`:
+
+```python
+for n in range(1, 4):
+    print(n)
+```
+
+Muestra 1, 2 y 3: `range(1, 4)` va del 1 al 3, el último **no entra**. Con un tercer número, salta: `range(0, 10, 5)` da 0 y 5.
+
+Usá `for` cuando sabés cuántas vueltas hay, y `while` cuando no.
+
+`print(x, end=" ")` termina con un espacio en vez de bajar de línea, así quedan todos en la misma línea.
 
 #### Desafío
 Completá los dos `range`. En la sala 4, mostrá los números en una sola línea separados por espacio.
@@ -2919,7 +3068,12 @@ La quinta sala tiene seis puertas numeradas. Gheco escucha detrás de cada una: 
 —Y si revisamos todas y no está… —susurra Gheco— mejor todavía.
 
 #### Gheco sugiere
-Dentro de un bucle, `continue` **salta** directo a la vuelta siguiente, y `break` **corta** el bucle entero. Un `for` puede tener `else`: corre **solo si el bucle terminó sin `break`** («busqué en todos lados y no estaba»).
+Dos órdenes para controlar un bucle desde adentro:
+
+- `continue` **saltea** el resto de esta vuelta y pasa a la siguiente;
+- `break` **corta** el bucle entero.
+
+Un `for` puede tener un `else` abajo: corre **solo si el bucle terminó sin `break`**. Sirve para «busqué en todos lados y no estaba».
 
 #### Desafío
 Las vacías (2 y 4) se saltean con `continue`; en la del ogro (5), `break`. Completá.
@@ -2978,7 +3132,22 @@ La sexta puerta no tiene picaporte: tiene una **boca de piedra** que espera una 
 —Es como un menú —dice Gheco—. Para cada palabra, una respuesta.
 
 #### Gheco sugiere
-`match` compara un valor contra varios casos y corre el primero que coincide. `case "este" | "oeste":` acepta cualquiera de los dos, y `case _:` es «cualquier otra cosa». Es más claro que una cadena larga de `elif`.
+`match` compara un valor contra varios casos y corre el primero que coincide:
+
+```python
+match dia:
+    case "sábado" | "domingo":
+        print("finde")
+    case "lunes":
+        print("a la escuela")
+    case _:
+        print("otro día")
+```
+
+- `|` acepta cualquiera de las opciones;
+- `case _:` es «cualquier otra cosa».
+
+Es más claro que una cadena larga de `elif`.
 
 #### Desafío
 La salida está al norte. Completá los casos.
@@ -3047,7 +3216,10 @@ Gheco señala un número diminuto grabado en el borde de la mesa: **7**.
 —Pista: estos dados están **hechizados con una semilla**. Con la misma semilla, siempre sale lo mismo. Así se prueban los programas con azar.
 
 #### Gheco sugiere
-`import random` trae la herramienta del azar. `random.randint(1, 6)` da un número entre 1 y 6 (los dos incluidos). Si antes llamás a `random.seed(7)`, la secuencia es **siempre la misma**: ideal para probar un programa.
+`import random` trae una **biblioteca**: herramientas que vienen con Python pero hay que pedir. Esta es la del azar.
+
+- `random.randint(1, 6)` da un número entre 1 y 6, los dos incluidos, como un dado.
+- `random.seed(7)` fija la **semilla**: con la misma semilla, los números salen **siempre iguales**. Parece raro para el azar, pero es ideal para probar un programa.
 
 #### Desafío
 Fijá la semilla 7, tirá tres dados, mostralos y decí si salís.
@@ -3112,7 +3284,9 @@ En la salida del Laberinto hay una forja abandonada con un martillo y un yunque 
 —Del uno al treinta… en los múltiplos de tres suena el martillo, en los de cinco el yunque. ¿Y si es de los dos?
 
 #### Gheco sugiere
-Preguntá primero por **los dos** a la vez (`n % 15 == 0`, o `n % 3 == 0 and n % 5 == 0`) y después por cada uno: si preguntás primero por el 3, el 15 nunca llega a sonar doble.
+Para saber si un número es **múltiplo** de otro, usá el resto: `n % 3 == 0` quiere decir «al dividir por 3 no sobra nada».
+
+El orden de las preguntas importa: el 15 es múltiplo de 3 **y** de 5. Si preguntás primero por el 3, entra ahí y nunca llega al caso de los dos. Por eso, primero el de los dos a la vez (`n % 15 == 0`), después cada uno, y si no, el número.
 
 #### Desafío
 Del 1 al 30, mostrá `Martillo` si el número es
@@ -3205,7 +3379,9 @@ En la última sala, un orco bloquea la salida. Tenés treinta de vida y dos poci
 —Una regla —dice Gheco—: si te queda poca vida y tenés poción, tomala. Si no, pegá. Y que el azar sea siempre el mismo, así sabemos si la regla sirve.
 
 #### Gheco sugiere
-Usá un `while` mientras los dos sigan vivos. `random.seed(7)` al principio hace que `randint` dé siempre la misma serie. En cada turno, decidí con `if`: poción o ataque.
+Un `while` que sigue mientras **los dos** estén vivos (`and`). `random.seed(7)` al principio hace que `randint` dé siempre la misma serie.
+
+En cada turno de Mia, un `if`: si tiene menos de 10 de vida y le quedan pociones, toma una; si no, ataca. Después ataca el orco.
 
 #### Desafío
 Mia (30 de vida, 2 pociones) pelea contra un orco
@@ -3303,7 +3479,12 @@ En una puerta del Laberinto hay una serpiente de piedra con la boca abierta. Pie
 —Y no le hables en idioma raro —dice Gheco—, que se ofende. Si no sabés, podés decir «me rindo».
 
 #### Gheco sugiere
-Un `while True` que pide con `input`, y `break` cuando acierta o cuando escriben `me rindo`. Antes de convertir con `int()`, fijate con `isdigit()` que sea un número, así no se corta el programa.
+`while True:` repite para siempre, hasta que un `break` lo corte. Adentro:
+
+- pedí el número con `input`;
+- si escriben `me rindo`, cortá con `break`;
+- antes de convertir con `int()`, fijate que sea un número con `texto.isdigit()` (devuelve `True` si son todos dígitos). Si no, avisá y volvé a preguntar con `continue`, así el programa no se corta;
+- si acierta, `break`; si no, decí «más alto» o «más bajo».
 
 #### Desafío
 Elegí un número secreto del 1 al 50 con
@@ -3817,7 +3998,13 @@ La Posada huele a pan y a río. Te sentás junto al fuego y vaciás la mochila s
 —Anotalo —dice Gheco—. Un aventurero que no sabe qué lleva, no sabe qué puede hacer.
 
 #### Gheco sugiere
-Una **lista** guarda varios valores en orden, entre corchetes: `["a", "b"]`. Se cuenta desde 0, igual que en los textos: `lista[0]` es el primero y `lista[-1]`, el último. `len(lista)` dice cuántos hay.
+Una **lista** guarda varios valores en orden, entre corchetes y separados por comas:
+
+```python
+colores = ["rojo", "verde", "azul"]
+```
+
+Cada uno tiene su posición, contando desde **0** como en los textos: `colores[0]` es el primero y `colores[-1]` el último. `len(colores)` dice cuántos hay (3).
 
 #### Desafío
 Mostrá lo primero, lo último y cuántas cosas hay.
@@ -3867,7 +4054,7 @@ recompensa: xp 10, oro 10
 Gheco te mira. Vos mirás la lista de la compañía, que hasta ahora tenía dos nombres.
 
 #### Gheco sugiere
-`lista.append(x)` agrega `x` **al final**. La lista cambia ahí mismo: no hace falta volver a asignarla.
+`lista.append(x)` agrega `x` **al final** de la lista. La lista cambia ahí mismo: no hace falta volver a guardarla (a diferencia de los textos, las listas **sí** se pueden modificar).
 
 #### Desafío
 Sumá a Tilo a la compañía.
@@ -3916,7 +4103,10 @@ Tilo vacía su bolsa: un anzuelo, una piedra lisa, **otra piedra lisa** y un pan
 —Dos piedras no —dice Gheco—. Pesan.
 
 #### Gheco sugiere
-`lista.remove(x)` saca **la primera** aparición de `x` (si no está, da error: preguntá antes con `x in lista`). `lista.pop()` saca y devuelve el último.
+Dos formas de sacar:
+
+- `lista.remove(x)` saca **la primera** vez que aparece `x`. Si no está, da error: preguntá antes con `x in lista`.
+- `lista.pop()` saca el **último** y lo devuelve, así lo podés guardar: `ultimo = lista.pop()`.
 
 #### Desafío
 Sacá una de las piedras y comé el pan (el último).
@@ -3965,7 +4155,12 @@ recompensa: xp 10, oro 10
 Para dormir tranquilos, alguien tiene que hacer guardia. Deciden ir por orden alfabético… pero Gheco quiere ver también el orden al revés, «por si acaso».
 
 #### Gheco sugiere
-`sorted(lista)` devuelve una lista **nueva** ordenada y deja la original como estaba. `lista.sort()` la ordena **ahí mismo**. Las dos aceptan `reverse=True`.
+Dos formas de ordenar:
+
+- `sorted(lista)` devuelve una lista **nueva** ordenada y deja la original como estaba;
+- `lista.sort()` ordena la misma lista, **ahí mismo**.
+
+Las dos aceptan `reverse=True` para ordenar al revés.
 
 #### Desafío
 Mostrá la guardia en orden y al revés, sin cambiar la lista original.
@@ -4013,7 +4208,14 @@ recompensa: xp 10, oro 10
 —Antes de salir se pasa lista —dice Tilo—. Mi papá lo hace con los balseros: uno, dos, tres.
 
 #### Gheco sugiere
-`for x in lista:` recorre los elementos de a uno. Si además querés el número de cada uno, `enumerate(lista, start=1)` te da la **posición y el valor** juntos.
+`for x in lista:` recorre los elementos de a uno, en orden.
+
+Si además querés el número de cada uno, `enumerate(lista, start=1)` te da la **posición y el valor** juntos, contando desde 1:
+
+```python
+for numero, fruta in enumerate(frutas, start=1):
+    print(numero, fruta)
+```
 
 #### Desafío
 Pasá lista numerando desde 1.
@@ -4060,7 +4262,13 @@ item: Morral de la Posada
 El posadero les vende provisiones, pero el camino es largo: hace falta el **doble** de cada cosa. Y de paso, quedarse solo con lo que cueste menos de 5.
 
 #### Gheco sugiere
-Una *comprehension* arma una lista nueva desde otra en una línea: `[p * 2 for p in cantidades]`. Con un `if` al final, filtra: `[p for p in precios if p < 5]`.
+Una *comprehension* arma una lista nueva a partir de otra, en una sola línea:
+
+```python
+triples = [n * 3 for n in numeros]
+```
+
+Se lee: «`n * 3` para cada `n` de `numeros`». Con un `if` al final, además **filtra**: `[n for n in numeros if n > 10]` deja solo los mayores que 10.
 
 #### Desafío
 Doblá las cantidades y filtrá los precios baratos.
@@ -4111,7 +4319,9 @@ recompensa: xp 15, oro 15
 Tilo dibuja en la mesa el camino a la Ermita como una grilla: `.` es camino y `#` es piedra. La ermita está en la última fila, a la derecha.
 
 #### Gheco sugiere
-Una lista puede tener listas adentro: un **mapa** es una lista de filas. `mapa[1][2]` es la fila 1, columna 2 (siempre desde 0).
+Una lista puede tener listas adentro: un **mapa** es una lista de filas, y cada fila una lista de casillas.
+
+`mapa[1][2]`: el primer número es la fila y el segundo, la columna. Los dos se cuentan desde 0, y `-1` es la última.
 
 #### Desafío
 Mostrá qué hay en la esquina de la ermita (última fila, última columna) y en la casilla del medio.
@@ -4166,7 +4376,13 @@ Un hombre de barba canosa y sobretodo negro con líneas cian se sienta a la mesa
 —Soy **el Profe**, el Cronista del Gremio. Anoto las hazañas de los aprendices. La ermita está fija en el mapa, chicos: anótenla como algo que **no cambia**.
 
 #### Gheco sugiere
-Una **tupla** es como una lista, pero entre paréntesis y **no se puede modificar**: ideal para coordenadas. Se puede **desempaquetar**: `fila, col = (2, 2)` reparte cada valor en su variable.
+Una **tupla** es como una lista, pero entre paréntesis y **no se puede modificar**. Es ideal para datos que van juntos y no cambian, como unas coordenadas: `(3, 5)`.
+
+Se puede **desempaquetar**: repartir cada valor en su variable de una vez.
+
+```python
+x, y = (3, 5)   # x vale 3, y vale 5
+```
 
 #### Desafío
 Guardá la ermita como tupla y desempaquetala.
@@ -4214,7 +4430,14 @@ Antes de salir de la Posada, Tilo te ayuda a ordenar la mochila.
 —Antorcha, cuerda, poción… y ahora sumamos dos gemas, una llave oxidada y pan. La poción la usás si está. Lo último que agarraste, lo tirás: siempre agarrás cosas raras.
 
 #### Gheco sugiere
-`append` agrega al final, `remove` saca un elemento (preguntá antes con `in`), `pop()` saca el último y `sort()` ordena. `enumerate(mochila, 1)` numera desde 1 y `count("gema")` cuenta.
+Repasá los métodos de las listas:
+
+- `append(x)` agrega uno al final; `extend([...])` agrega varios;
+- `remove(x)` saca uno (preguntá antes con `in`); `pop()` saca el último;
+- `sort()` ordena;
+- `count(x)` cuenta cuántas veces está `x`.
+
+Para mostrarla numerada, `enumerate(mochila, 1)`.
 
 #### Desafío
 Empezá con `["antorcha", "cuerda", "poción"]`. Agregá
@@ -4297,7 +4520,9 @@ En la Posada se jugó un torneo de pulseadas y el posadero tiene los resultados 
 —Ordenalos de mayor a menor, con los puestos —pide Tilo—. Y fijate en qué orden quedamos Ana y yo, que empatamos.
 
 #### Gheco sugiere
-`sorted(resultados, reverse=True)` ordena las tuplas por el primer valor (los puntos) y, si empatan, por el segundo. Para el podio: `[nombre for puntos, nombre in ranking[:3]]`.
+Un truco: guardá cada resultado como una tupla `(puntos, nombre)`. Las tuplas se comparan elemento por elemento: primero los puntos y, si empatan, el nombre. Así `sorted(resultados, reverse=True)` ordena por puntos sin nada extra.
+
+Para el podio, los 3 primeros con `ranking[:3]`, y una *comprehension* que se quede con los nombres: `[nombre for puntos, nombre in ranking[:3]]`.
 
 #### Desafío
 Con los resultados
@@ -4373,7 +4598,9 @@ En el sótano de la Posada hay una mazmorrita de práctica: un mapa de baldosas 
 —Encontrá dónde estás parada, contá las gemas y, si a tu derecha hay piso, da un paso.
 
 #### Gheco sugiere
-Una lista de listas: `mapa[fila][columna]`. Con dos `for` y `enumerate` encontrás la `K`. Para moverla, poné `"."` donde estaba y `"K"` en la columna siguiente.
+El mapa es una lista de listas: `mapa[fila][columna]`. `list("#K..")` convierte un texto en una lista de letras.
+
+Para encontrar la `K`, dos `for` anidados con `enumerate` (así tenés la fila y la columna). Para moverla a la derecha, si la casilla siguiente es piso (`.`): ponés `"."` donde estaba y `"K"` en la nueva.
 
 #### Desafío
 Armá el mapa como lista de listas (`list("#K..G.#")`
@@ -4862,7 +5089,12 @@ El Ermitaño los mira con un solo ojo; el otro es un monóculo de luz cian.
 —¿Quieren el Bestiario? Primero lean una página. Cada criatura tiene sus datos con nombre: vida, ataque, debilidad.
 
 #### Gheco sugiere
-Un **diccionario** guarda pares **clave: valor** entre llaves. Se lee por la clave, no por la posición: `slime["vida"]`.
+Un **diccionario** guarda pares **clave: valor**, entre llaves. En vez de buscar por posición (como en las listas), se busca por la **clave**, como en un diccionario de verdad:
+
+```python
+perro = {"nombre": "Toby", "edad": 4}
+print(perro["edad"])   # 4
+```
 
 #### Desafío
 Mostrá la vida y la debilidad del slime.
@@ -4909,7 +5141,9 @@ recompensa: xp 10, oro 10
 Tilo busca la página del **troll**, que es la que más miedo le da. El libro tiembla y no la encuentra: un orco chiquito asoma entre las hojas.
 
 #### Gheco sugiere
-Pedir una clave que no existe con `d[clave]` da `KeyError` (el grito del orco). `d.get(clave, "algo")` devuelve el valor si está y, si no, lo que le digas.
+Si pedís una clave que no está con `d[clave]`, Python da un error `KeyError`.
+
+Para preguntar sin riesgo, `d.get(clave, "algo")`: devuelve el valor si la clave está y, si no, lo que le pases como segundo dato.
 
 #### Desafío
 Buscá al troll sin que aparezca el orco.
@@ -4951,7 +5185,10 @@ recompensa: xp 10, oro 10
 Le contás al Ermitaño el goblin del mercado. Era más fuerte de lo que dice el libro: tenía 20 de vida, no 15. Y el murciélago de la cueva, que nadie anotó, tenía 8.
 
 #### Gheco sugiere
-`d[clave] = valor` **cambia** el valor si la clave existe y la **agrega** si no.
+`d[clave] = valor` sirve para dos cosas:
+
+- si la clave ya existe, **cambia** su valor;
+- si no existe, la **agrega**.
 
 #### Desafío
 Corregí al goblin y agregá al murciélago.
@@ -4997,7 +5234,12 @@ recompensa: xp 10, oro 10
 —Si lo van a llevar, sepan qué hay adentro —dice el Ermitaño—. Léanmelo en voz alta.
 
 #### Gheco sugiere
-`d.items()` da los pares **clave y valor** juntos, para recorrerlos con un `for`.
+Para recorrer un diccionario entero, `d.items()` da los pares **clave y valor** juntos:
+
+```python
+for nombre, edad in edades.items():
+    print(nombre, edad)
+```
 
 #### Desafío
 Mostrá cada criatura con su vida.
@@ -5043,7 +5285,12 @@ recompensa: xp 15, oro 15
 Afuera de la ermita hay huellas en el barro. Tilo, que sabe leer huellas aunque no runas, las va nombrando. El Ermitaño quiere saber **cuántas de cada una**.
 
 #### Gheco sugiere
-El patrón para contar: un diccionario vacío y, por cada cosa, `cuenta[x] = cuenta.get(x, 0) + 1`. La primera vez `get` da 0.
+El patrón para contar cuántas veces aparece cada cosa:
+
+1. un diccionario vacío, `cuenta = {}`;
+2. por cada cosa, `cuenta[x] = cuenta.get(x, 0) + 1`.
+
+La primera vez que aparece `x`, `get` da 0 (no estaba) y queda en 1. Las siguientes, suma uno a lo que había.
 
 #### Desafío
 Completá la línea que cuenta.
@@ -5091,7 +5338,9 @@ recompensa: xp 10, oro 10
 El Ermitaño se ríe por primera vez. —Eso que hicieron a mano ya existe hecho. Miren.
 
 #### Gheco sugiere
-`Counter(lista)` cuenta todo de una vez y `.most_common(1)` da el más repetido, con su cantidad.
+Contar es tan común que Python trae una herramienta: `Counter`, de la biblioteca `collections` (se trae con `from collections import Counter`).
+
+`Counter(lista)` cuenta todo de una vez, y `.most_common(1)` da el más repetido con su cantidad.
 
 #### Desafío
 Usá `Counter` para saber cuál huella aparece más.
@@ -5137,7 +5386,9 @@ recompensa: xp 10, oro 10
 —Para el índice del libro, cada criatura una sola vez —pide el Ermitaño.
 
 #### Gheco sugiere
-Un **conjunto** (`set`) guarda cada valor **una sola vez** y sin orden. `set(lista)` saca los repetidos. Para mostrarlo prolijo, `sorted(conjunto)`.
+Un **conjunto** (`set`) guarda cada valor **una sola vez**, sin orden. `set(lista)` arma un conjunto con los elementos de la lista, sin repetidos.
+
+Como no tiene orden, para mostrarlo prolijo usá `sorted(conjunto)`, que devuelve una lista ordenada.
 
 #### Desafío
 Armá el índice sin repetidos y en orden alfabético.
@@ -5183,7 +5434,11 @@ se abre: la ficha de criaturas del Bestiario en el inventario
 —Última lección —dice el Ermitaño—. El troll es débil al fuego y a la luz. El goblin, a la luz y al agua. ¿Qué les sirve contra los dos?
 
 #### Gheco sugiere
-`a & b` da lo que está **en los dos**; `a | b`, lo que está **en alguno**; `a - b`, lo que está en `a` pero **no** en `b`.
+Los conjuntos se combinan como en matemática:
+
+- `a & b`: lo que está **en los dos** (intersección);
+- `a | b`: lo que está **en alguno** (unión);
+- `a - b`: lo que está en `a` pero **no** en `b` (diferencia).
 
 #### Desafío
 Mostrá lo que sirve contra los dos y lo que sirve solo contra el troll.
@@ -5233,7 +5488,9 @@ El Ermitaño te pide que pases sus apuntes al Bestiario nuevo: cada criatura con
 —Agregá al ogro, que me olvidé. Y si alguien pregunta por el dragón, que el libro no se rompa: todavía no lo vi.
 
 #### Gheco sugiere
-Un diccionario de diccionarios: `bestiario["slime"]["vida"]`. Para filtrar: `[nombre for nombre, datos in bestiario.items() if "fuego" in datos["debil_a"]]`. `get("dragón")` devuelve `None` en vez de fallar.
+Un diccionario puede tener diccionarios adentro: cada criatura con su ficha. `bestiario["slime"]["vida"]` primero busca la criatura y después el dato.
+
+Para filtrar, una *comprehension* sobre `bestiario.items()`, preguntando por un dato de cada ficha. Y `get("dragón")` devuelve `None` si no está, en vez de dar error.
 
 #### Desafío
 Armá un diccionario de criaturas (slime, goblin, orco), cada
@@ -5316,7 +5573,9 @@ El Ermitaño saca una lista de precios.
 —Lo que no está en la lista no vale nada. Y la cosa pegajosa, menos.
 
 #### Gheco sugiere
-`Counter(lista)` cuenta cuántos hay de cada cosa y `most_common(2)` da los dos más repetidos. Para el valor: `precios.get(objeto, 0) * cantidad`.
+`Counter(lista)` cuenta cuántos hay de cada cosa, y `most_common(2)` da los dos más repetidos.
+
+Para el valor de cada uno: el precio por la cantidad. Si un objeto no tiene precio, `precios.get(objeto, 0)` da 0 y no rompe nada.
 
 #### Desafío
 De la lista de objetos que soltaron los enemigos,
@@ -5393,7 +5652,13 @@ El Ermitaño sonríe.
 —Los conjuntos te lo dicen en una línea.
 
 #### Gheco sugiere
-Con conjuntos: `&` es lo que tienen en común, `|` lo de todos juntos y `-` lo que tiene uno y el otro no. `requisitos <= todos` dice si se cubren, y `requisitos - todos` lo que falta.
+Con conjuntos se responde rápido:
+
+- lo que saben todos: `a & b & c`;
+- lo de todos juntos: `a | b | c`;
+- lo que tiene uno y el otro no: `a - b`.
+
+`requisitos <= todos` pregunta si `requisitos` está **contenido** en `todos` (si se cubren). Y `requisitos - todos` dice lo que falta.
 
 #### Desafío
 Con los conjuntos de habilidades de Mia,
@@ -5797,7 +6062,11 @@ Antes de entrar, anotás la compañía «por las dudas», en una segunda lista. 
 Desde la oscuridad, el troll se ríe.
 
 #### Gheco sugiere
-`respaldo = compania` **no hace una copia**: da otro nombre a **la misma** lista. Lo que le hacés por un nombre, se ve por el otro. Ejecutalo y mirá.
+En Python, una variable no es una caja: es una **etiqueta** pegada a un valor. `copia = lista` **no copia** nada: pega una segunda etiqueta a **la misma** lista. Lo que le hagas por un nombre, se ve por el otro.
+
+Ejecutalo y fijate.
+
+Para una copia de verdad, una lista nueva con los mismos elementos: `lista.copy()`.
 
 #### Desafío
 Ejecutá el código y completá lo que imprime el respaldo. Después, cambiá la segunda línea para que el respaldo sea una copia de verdad: `compania.copy()`.

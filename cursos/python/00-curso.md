@@ -254,11 +254,17 @@ Te quedás quieta. Hay mil preguntas en tu cabeza y ninguna respuesta en el perg
 —¡Hola! Soy **Gheco**. No te asustes: en este Valle todos empezamos igual. Lo primero es que el pergamino **hable**. Decile quién sos.
 
 #### Gheco sugiere
-`print(...)` muestra en pantalla lo que le pasás. El texto va **entre comillas**: sin comillas, Python cree que es el nombre de algo.
+En Python hay una **función** que se llama `print()`. Una función es una orden con nombre que hace un trabajo; `print` sirve para mostrar algo en la pantalla. Lo que querés mostrar va entre los paréntesis.
+
+Si es un texto, va **entre comillas**:
 
 ```python
 print("Hola, Valle")
 ```
+
+Muestra **Hola, Valle**. Las comillas no se ven: solo marcan dónde empieza y dónde termina el texto. Sin comillas, Python cree que es el nombre de algo y se queja de que no lo conoce.
+
+Cuando termines, tocá **Ejecutar**.
 
 #### Desafío
 Hacé que el pergamino diga exactamente: `Me llamo Mia y vengo de muy lejos.`
@@ -302,7 +308,21 @@ recompensa: xp 10
 —Son tuyas. En el Valle, lo que querés recordar lo anotás con un **nombre**. Anotá quién sos y cuántas escamas tenías antes… y cuántas tenés ahora.
 
 #### Gheco sugiere
-Una **variable** es un nombre que apunta a un valor: `escamas = 0`. El `=` no significa «es igual»: significa «que `escamas` apunte a esto». Para sumarle, calculás con el valor viejo y lo volvés a guardar: `escamas = escamas + 5`.
+Una **variable** es un nombre que guarda un valor para usarlo después, como una etiqueta pegada en una caja:
+
+```python
+monedas = 3
+```
+
+Ojo: acá el `=` no es el «igual» de matemática. Quiere decir «guardá en `monedas` lo que está a la derecha».
+
+Para sumarle algo, calculás con el valor que tiene y lo volvés a guardar en la misma variable:
+
+```python
+monedas = monedas + 2   # ahora vale 5
+```
+
+Python primero hace la cuenta de la derecha (3 + 2) y después la guarda.
 
 #### Desafío
 Completá la línea que falta para que Mia pase de 0 a 5 escamas.
@@ -351,7 +371,16 @@ recompensa: xp 10
 —Cada aprendiz del Valle tiene su ficha —dice {mentor}—. Una sola línea que diga quién es, qué tiene y cuánto le falta. Para romper el primer sello del Valle hacen falta **10 escamas**.
 
 #### Gheco sugiere
-Con una `f` antes de las comillas, lo que pongas entre `{ }` se **calcula** y se mete en el texto: `f"Te faltan {10 - escamas}"`. Y lo que va después de `#` es un **comentario**: Python lo ignora, es para quien lee.
+Para mezclar texto y valores en un solo mensaje, se usa un **f-string**: una `f` justo antes de las comillas. Lo que pongas entre llaves `{ }` se **calcula** y se mete en el texto:
+
+```python
+vidas = 3
+print(f"Te quedan {vidas} vidas y {vidas * 2} corazones")
+```
+
+Muestra `Te quedan 3 vidas y 6 corazones`.
+
+Lo que va después de un `#` es un **comentario**: Python lo ignora. Son notas para quien lee el código.
 
 #### Desafío
 Armá la ficha en una sola línea con un f-string.
@@ -398,7 +427,16 @@ recompensa: xp 10
 Querés contestar, pero el pergamino solo habla, no escucha. Todavía.
 
 #### Gheco sugiere
-`input("pregunta ")` muestra la pregunta, espera a que alguien escriba y guarda lo que escribió. **Siempre devuelve texto.** En la plataforma, lo que se «tipea» va en la pestaña **Entrada**.
+`input()` hace una pregunta y **espera** a que alguien escriba la respuesta. Lo que se escribió queda guardado:
+
+```python
+color = input("¿Tu color favorito? ")
+print(f"Te gusta el {color}")
+```
+
+El texto entre paréntesis es la pregunta que se muestra. Ojo: `input` **siempre devuelve texto**, aunque escriban un número.
+
+En la plataforma no hay teclado de verdad: lo que se «tipea» va en la pestaña **Entrada**.
 
 #### Desafío
 Que el pergamino le pregunte a Mia y le conteste con lo que ella responda.
@@ -451,11 +489,14 @@ Estás tan entusiasmada que escribís rápido, sin mirar. El pergamino tiembla, 
 —¡Un slime! —grita Gheco—. Nacen de los hechizos mal escritos. Tranquila: son débiles, pero no se van hasta que encontrás qué escribiste mal.
 
 #### Gheco sugiere
-Cuando algo falla, Python muestra un **traceback**. Leelo **de abajo hacia arriba**:
-- la última línea dice **qué** pasó (`SyntaxError`, `IndentationError`…);
-- la de arriba marca **dónde** (la línea).
+Cuando algo está mal escrito, Python no ejecuta y muestra un mensaje de error llamado **traceback**. Asusta un poco, pero se lee así, **de abajo hacia arriba**:
 
-Y ojo: los espacios al principio de la línea **significan algo** en Python. Uno de más, sin motivo, es un error.
+- la última línea dice **qué** pasó (`SyntaxError` es «algo mal escrito», `IndentationError` es «espacios donde no van»);
+- la de arriba dice **dónde**: el número de línea.
+
+Ojo: en Python, los espacios al principio de una línea **significan algo** (se llaman **sangría**). Una línea con espacios de más al principio, sin motivo, es un error.
+
+Arreglá el primer error y ejecutá de nuevo: recién ahí aparece el siguiente.
 
 #### Desafío
 Ejecutalo tal como está, leé el error y corregilo. Hay **dos** errores: cuando arregles el primero, aparece el segundo.
@@ -502,7 +543,9 @@ Gheco se acomoda en tu hombro.
 —Una sola bolsa, una sola variable. Que cambie lo de adentro, no la bolsa.
 
 #### Gheco sugiere
-Una variable se puede **reasignar**: `oro = oro - 8` calcula con el valor viejo y guarda el nuevo en la misma variable. Mostrá el oro después de cada movimiento.
+Una variable se puede cambiar todas las veces que quieras: se **reasigna**. `oro = oro - 3` calcula con el valor que tiene y guarda el resultado en la misma variable.
+
+Para ver cómo va cambiando, mostrala después de cada movimiento con un f-string: `print(f"Te quedan {oro}")`.
 
 #### Desafío
 Empezás con 25 de oro. Comprás una poción (8), vendés una piel de lobo (12) y pagás la posada (20).
@@ -565,7 +608,13 @@ Del barro de la orilla sale otro slime, más chico y más pegajoso que el primer
 —Tres errores —dice {mentor}—. No los adivines: **ejecutá**, leé el pergamino rojo y arreglá uno por vez.
 
 #### Gheco sugiere
-El traceback se lee **de abajo hacia arriba**: la última línea dice qué pasó (`SyntaxError`, `IndentationError`, `NameError`) y la de arriba, en qué línea. Arreglá ese error, ejecutá de nuevo y pasá al siguiente.
+Repasá cómo se lee un traceback: **de abajo hacia arriba**. La última línea dice qué pasó y la de arriba, en qué línea. Arreglá ese error, ejecutá de nuevo y pasá al siguiente.
+
+Los tres más comunes:
+
+- `SyntaxError`: algo mal escrito, como unas comillas sin cerrar;
+- `IndentationError`: espacios de más al principio de una línea;
+- `NameError`: un nombre que Python no conoce. Ojo: Python distingue mayúsculas, así que `Puntos` y `puntos` son nombres distintos.
 
 #### Desafío
 Este programa tiene **tres** errores. Ejecutalo, leé el traceback, corregí el error y volvé a ejecutar, hasta que funcione. Encontralos **de a uno**, leyendo cada pergamino de abajo hacia arriba.

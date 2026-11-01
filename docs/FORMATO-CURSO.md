@@ -233,6 +233,13 @@ consultas o marcas.
   - El importador lo junta en un JSON (`App\Support\JsMission`). La salida esperada es la consola y, debajo, `── Estado ──` con el informe.
   - `#### Entrada` da las respuestas de `prompt` y `confirm`.
   - Las salidas esperadas se escriben con `node scripts/js-micro/probar.mjs cursos/javascript --fill`, que corre cada solución en la misma caja (en Chrome) y avisa si el código inicial ya la resuelve. Nunca se escriben a mano.
+- **Gheco sugiere (pedido del docente, 2026-10-31):** se escribe para alguien que empieza solo, de 11 años en adelante.
+  - **La primera vez que aparece algo** (una función, un símbolo, una idea), se explica entero, en frases cortas: qué es, para qué sirve, un ejemplo con lo que se ve al ejecutarlo y cómo se llama. Sin dar por sabida ninguna palabra técnica: si aparece «función», «variable» o «compilar», se dice qué es la primera vez.
+  - **Las veces siguientes**, alcanza un recordatorio corto («`\n` baja de línea, como antes»).
+  - Lo que se ve en pantalla y lo que solo marca algo se distingue: «las comillas no se ven, solo marcan dónde empieza y dónde termina el texto».
+  - No resuelve el desafío: explica con otro ejemplo, no con la respuesta.
+
+  Modelo (C, la primera micro-misión): «En C hay una función que se llama `printf()`. Sirve para mostrar texto en la consola. El texto va entre comillas dobles: `printf("Hola");` muestra **Hola** (las comillas no se ven, solo marcan dónde empieza y dónde termina). Si al final ponés `\n`, el cursor baja a la línea siguiente, como un Enter. `\n` es una **secuencia de escape**: sirven para mostrar mensajes en varias líneas.»
 - **Orden:** se juegan en orden; cada una se habilita al superar la anterior. En la Clase 0 de prueba (D71) también se juegan y quedan los premios.
 
 ## 6 ter. Micro-misión de inglés (D106)

@@ -315,7 +315,13 @@ Kira despierta junto a un vitral apagado, frente al portón de las Forjas. Un he
 Sobre el hombro de Kira aparece un gecko de luz con antiparras: **Gheco**. —Escribilo en la receta. Acá las recetas se **compilan**.
 
 #### Gheco sugiere
-`printf("…");` muestra el texto entre comillas. `\n` al final baja a la línea siguiente. Tocá **Ejecutar**: C se compila acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
+En C hay una **función** que se llama `printf()`. Una función es una orden con nombre que hace un trabajo; `printf` sirve para mostrar texto en la consola (la pantallita negra donde aparece lo que muestra tu programa).
+
+El texto va entre comillas dobles: `printf("Hola");` muestra **Hola**. Las comillas no se ven: solo marcan dónde empieza y dónde termina el texto. La línea termina con `;`.
+
+Si al final del texto ponés `\n`, el cursor baja a la línea siguiente, como cuando apretás Enter. `\n` es una **secuencia de escape**: una barra `\` seguida de una letra, que no se muestra tal cual sino que hace algo. Sirven para mostrar mensajes en varias líneas.
+
+Cuando termines, tocá **Ejecutar**. Antes de correr, C **compila** tu receta: la traduce al idioma de la máquina. Pasa acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
 
 #### Desafío
 Completá la instrucción para que Kira se presente.
@@ -369,7 +375,13 @@ recompensa: xp 10, oro 10
 —La ficha de entrada va en tres renglones —dice Ferrum—: nombre, oficio y "lo que trae". Con comillas, como se debe.
 
 #### Gheco sugiere
-Dentro del texto, `\n` baja de línea, `\t` deja una tabulación y `\"` escribe unas comillas sin cerrar el texto.
+Ya conocés `\n`, que baja de línea. Hay más secuencias de escape, y todas empiezan con la barra `\`:
+
+- `\n` baja a la línea siguiente (como Enter).
+- `\t` deja un espacio largo, una **tabulación** (como la tecla Tab).
+- `\"` escribe unas comillas. Hace falta la barra porque, sin ella, C cree que la comilla cierra el texto.
+
+Ejemplo: `printf("Dijo:\t\"hola\"\n");` muestra `Dijo:`, un espacio largo y `"hola"` con comillas, y después baja de línea.
 
 #### Desafío
 Escribí las secuencias que faltan para que la ficha quede en tres líneas y con comillas.
@@ -425,7 +437,9 @@ Un enano joven con un calibre colgado del cuello se acerca a mirar la receta de 
 —El Horno no la quiere —dice, midiéndole el renglón—. Le falta algo. Chiquito.
 
 #### Gheco sugiere
-Un **error de compilación** frena todo antes de ejecutar. `expected ';' before …` quiere decir que falta un punto y coma al final de la línea anterior a la que marca.
+Antes de ejecutar, el compilador lee toda la receta. Si encuentra algo mal escrito, se frena y no corre nada: eso es un **error de compilación**. Arriba te muestra un mensaje, casi siempre en inglés, con el número de línea.
+
+En C, cada instrucción termina con punto y coma `;`, como el punto al final de una oración. Si falta, el mensaje dice algo como `expected ';' before …` («esperaba un `;` antes de…»). Ojo: el compilador se da cuenta recién en la línea **siguiente**, así que el `;` que falta suele estar al final de la línea de arriba de la que marca.
 
 #### Desafío
 Arreglá la receta para que el Horno la acepte.
@@ -480,7 +494,16 @@ recompensa: xp 10, oro 10
 Tizón deja notas para sí mismo en todas partes, incluso adentro de las recetas. El problema es que el Horno intenta leerlas como si fueran C.
 
 #### Gheco sugiere
-Los **comentarios** son para las personas: `/* … */` puede ocupar varias líneas y `//` llega hasta el final de la línea. El compilador los saltea.
+Un **comentario** es una nota para las personas que leen el código. El compilador lo saltea: no se ejecuta ni se muestra.
+
+Hay dos formas:
+
+- `// nota` : desde las dos barras hasta el final de esa línea es comentario.
+- `/* nota */` : todo lo que está entre `/*` y `*/` es comentario, aunque ocupe varias líneas.
+
+Ejemplo: `printf("Hola\n"); // saluda` muestra solo **Hola**; lo de después de `//` es para quien lee.
+
+Una línea que no es código ni comentario hace que el compilador se queje: no sabe qué es.
 
 #### Desafío
 Convertí las notas de Tizón en comentarios para que la receta compile y muestre solo los dos saludos.
@@ -541,7 +564,21 @@ Kira toma carrera y le da un espadazo al portón. La espada **se raja** de punta
 —Acá nada se abre a golpes. Escribí la receta entera, de punta a punta: lo que se trae, dónde empieza y cómo termina.
 
 #### Gheco sugiere
-Todo programa de C trae `#include <stdio.h>` para usar `printf`, empieza en `int main(void)` (entre llaves) y termina con `return 0;`.
+Todo programa de C tiene el mismo esqueleto:
+
+- `#include <stdio.h>` arriba de todo. Trae las herramientas para mostrar y leer texto (entre ellas, `printf`). Sin esa línea, C no conoce `printf`.
+- `int main(void)` es donde empieza el programa: C ejecuta lo que está entre sus llaves `{` y `}`, de arriba hacia abajo.
+- `return 0;` va al final, adentro de las llaves. Avisa «terminé bien».
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    printf("Hola\n");
+    return 0;
+}
+```
 
 #### Desafío
 A la receta le falta el comienzo de `main` y el final. Completala.
@@ -598,7 +635,14 @@ En la entrada, Ferrum le alcanza a Kira una chapa de hierro en blanco.
 —Todo aprendiz que entra a las Forjas deja su ficha clavada en el portón. Que quede derecha.
 
 #### Gheco sugiere
-`\t` es un tabulador: salta hasta la próxima columna y deja los datos alineados. Cada línea termina con `\n`.
+Para alinear datos en columnas sirve `\t`, la tabulación: salta hasta la próxima columna, así los valores quedan uno debajo del otro aunque los nombres tengan distinto largo.
+
+```c
+printf("Edad:\t15\n");
+printf("Ciudad:\tLa Rioja\n");
+```
+
+Cada `printf` muestra una línea y termina con `\n` para que la próxima baje. Escribí uno por cada dato de la ficha.
 
 #### Desafío
 Mostrá una ficha con nombre, clase, región y mentor,
@@ -670,7 +714,13 @@ Tizón encuentra un pergamino chamuscado tirado en la entrada: es la primera rec
 —Tiene tres errores —dice Tizón—. Yo cuento tres. ¿Vos?
 
 #### Gheco sugiere
-Leé los mensajes de a uno, del primero al último: falta el `#include <stdio.h>`, un `;` al final de una línea y `printf` va en minúscula (C distingue mayúsculas).
+Cuando el compilador encuentra varios errores, los muestra todos juntos y asusta. El truco: leé el **primero**, arreglalo y volvé a compilar. A veces un solo error causa varios mensajes.
+
+Tres cosas para revisar:
+
+- ¿Está `#include <stdio.h>` arriba? Sin eso, C no sabe qué es `printf`.
+- ¿Cada instrucción termina con `;`?
+- ¿Está todo bien escrito, con minúsculas y mayúsculas? C distingue entre las dos: para C, `Printf` y `printf` son palabras distintas, y solo `printf` existe.
 
 #### Desafío
 Este código tiene **tres** errores. Compilalo, leé
@@ -745,7 +795,14 @@ Kira le pide a Ferrum ver su espada. Él se ríe y señala la pared:
 —Dibujala vos. Si la dibujás bien, algún día la vas a forjar.
 
 #### Gheco sugiere
-Adentro de un texto, la barra se escribe `\\` y la comilla `\"`: si no, C cree que el texto termina ahí.
+Adentro de un texto, la barra invertida `\` es especial: avisa que viene una secuencia de escape (como `\n`). Entonces, para que se **vea** una barra hay que escribir dos: `\\`. Y para que se vea una comilla, `\"`.
+
+```c
+printf("  /\\\n");      // muestra   /\
+printf("\"Hola\"\n");    // muestra "Hola"
+```
+
+La barra común `/` no es especial: se escribe una sola.
 
 #### Desafío
 Dibujá una espada con caracteres (`/\`, `||`, `##`) y

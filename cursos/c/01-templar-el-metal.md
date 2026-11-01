@@ -301,7 +301,19 @@ recompensa: xp 10, oro 10
 En el depósito cada material va en un cajón con etiqueta. Tizón le da a Kira tres cajones vacíos: uno para la cantidad de clavos, uno para el peso del lingote y uno para la letra del sello.
 
 #### Gheco sugiere
-Una variable se declara con su **tipo**: `int` (enteros), `double` (decimales) o `char` (un carácter, entre comillas simples: `'K'`). Se muestran con `%d`, `%.1f` y `%c`.
+Una **variable** es un cajón con nombre donde el programa guarda un dato para usarlo después. En C, antes de usar un cajón hay que **declararlo**: decir qué **tipo** de dato guarda y cómo se llama.
+
+- `int` guarda números enteros: `int monedas = 30;`
+- `double` guarda números con decimales: `double altura = 1.65;` (con punto, no con coma).
+- `char` guarda un solo carácter, entre comillas **simples**: `char inicial = 'N';`
+
+Para mostrar una variable con `printf`, en el texto se pone un **marcador** donde va el valor, y la variable va después, separada por una coma:
+
+```c
+printf("Tengo %d monedas\n", monedas);   // Tengo 30 monedas
+```
+
+Cada tipo tiene su marcador: `%d` para `int`, `%f` para `double` (`%.1f` muestra un solo decimal) y `%c` para `char`.
 
 #### Desafío
 Declará las tres variables con el tipo correcto.
@@ -368,7 +380,11 @@ Kira guarda clavos en el cajón chiquito: 254, 255… y el 256. El cajón hace *
 —¡Los había contado uno por uno! —se agarra la cabeza Tizón.
 
 #### Gheco sugiere
-Un `unsigned char` guarda de 0 a 255: si se pasa, **vuelve a 0** sin avisar. Un `int` tiene lugar de sobra (más de dos mil millones).
+Cada tipo tiene un tamaño fijo, como un cajón que no se estira. Un `unsigned char` guarda solo de 0 a 255 (`unsigned` quiere decir «sin signo»: sin negativos).
+
+Si a un cajón lleno le sumás uno más, C no avisa: el número **vuelve a empezar desde 0**, como un cuentakilómetros que pasa de 999 a 000. Eso se llama **desbordamiento**.
+
+Un `int` es mucho más grande: llega a más de dos mil millones, así que ahí entran 256 sin problema.
 
 #### Desafío
 Cambiá el tipo del cajón para que entren 256 clavos.
@@ -424,7 +440,13 @@ recompensa: xp 10, oro 10
 Tizón quiere medir los cajones por dentro, pero el calibre no entra. Gheco le muestra una herramienta mejor.
 
 #### Gheco sugiere
-`sizeof(tipo)` devuelve cuántos **bytes** ocupa ese tipo. Su valor se muestra con `%zu`.
+La memoria de la computadora se mide en **bytes**. Cada tipo ocupa una cantidad fija de bytes: cuantos más, más grande el número que entra.
+
+`sizeof(tipo)` te dice cuántos bytes ocupa un tipo. Su valor se muestra con el marcador `%zu`:
+
+```c
+printf("%zu\n", sizeof(char));   // 1
+```
 
 #### Desafío
 Completá con `sizeof` para mostrar cuánto ocupa cada tipo.
@@ -483,7 +505,14 @@ recompensa: xp 15, oro 15
 Chispa reparte el precio de 7 lingotes entre 2 compradores y le da **3** a cada uno. —Sobra uno, que me lo quedo yo —sonríe con el diente de oro.
 
 #### Gheco sugiere
-Si los dos números son `int`, la división **descarta** los decimales. Con `(double)` delante de uno, la cuenta se hace con decimales.
+Cuando dividís dos `int`, C hace una **división entera**: da solo la parte entera y tira los decimales. `7 / 2` da `3`, no `3.5`.
+
+Para que la cuenta tenga decimales, convertí uno de los números a `double` poniendo `(double)` delante. Eso se llama **conversión** (o *cast*):
+
+```c
+int a = 7, b = 2;
+printf("%.1f\n", (double) a / b);   // 3.5
+```
 
 #### Desafío
 Convertí la cuenta para que el reparto sea justo.
@@ -542,7 +571,14 @@ Tizón quiere su ficha de aprendiz en el depósito, con cada dato en el cajón q
 —Y no me pongas la experiencia en un cajón chico. Es mucha.
 
 #### Gheco sugiere
-3 500 millones no entran en un `int` (llega a unos 2 100 millones): usá `long long` con `%lld`. `char` va con `%c`, `double` con `%.2f`, `bool` (de `<stdbool.h>`) se muestra con `%d` y `unsigned` con `%u`.
+Cada dato va en el cajón que le corresponde, y cada cajón tiene su marcador en `printf`:
+
+- `int` (enteros hasta unos 2 100 millones) → `%d`
+- `long long` (enteros mucho más grandes, como 3 500 millones) → `%lld`
+- `unsigned` (enteros sin negativos) → `%u`
+- `double` (con decimales) → `%.2f` para dos decimales
+- `char` (un carácter) → `%c`
+- `bool` (verdadero o falso; hay que agregar `#include <stdbool.h>`) → `%d`: muestra `1` si es verdadero y `0` si es falso.
 
 #### Desafío
 Tizón tiene nivel 12, 3 500 millones de
@@ -619,7 +655,9 @@ En el depósito hay un cofre chiquito de 8 bits con 255 monedas. Kira le agrega 
 —Otra vez —suspira Tizón—. Este cofre ya se comió el sueldo de tres aprendices.
 
 #### Gheco sugiere
-Un `uint8_t` (de `<stdint.h>`) va de 0 a 255: al sumarle 1 vuelve a 0. Mostrá lo que pasa y después usá un tipo más grande, como `int` o `uint16_t`.
+`<stdint.h>` trae tipos con el tamaño escrito en el nombre. `uint8_t` es un entero **sin signo** de **8 bits**: va de 0 a 255. Si tiene 255 y le sumás 1, se desborda y vuelve a 0 (como en el clavo 256).
+
+Para que entre más, usá un cajón más grande, como `uint16_t` (hasta 65 535) o un `int`.
 
 #### Desafío
 Guardá 255 monedas en un `uint8_t` y sumale una. ¿Qué
@@ -693,7 +731,13 @@ Tizón quiere colgar en la pared del depósito la tabla de todos los cajones: cu
 —Así nadie más pierde clavos.
 
 #### Gheco sugiere
-`sizeof(tipo)` da los bytes (se muestra con `%zu`) y `<limits.h>` trae `CHAR_MIN`, `INT_MAX`, `LONG_MAX`, `UINT_MAX`… Ojo: el tamaño de `long` depende de la máquina. Acá, en el navegador, mide 4 bytes; en Linux de 64 bits, 8.
+`sizeof(tipo)` da los bytes de un tipo (se muestra con `%zu`). La biblioteca `<limits.h>` trae los límites ya escritos, en mayúsculas: `CHAR_MIN` (el menor `char`), `INT_MAX` (el mayor `int`), `LONG_MAX`, `UINT_MAX`…
+
+```c
+printf("%d\n", INT_MAX);   // 2147483647
+```
+
+Ojo: el tamaño de `long` depende de la máquina. Acá, en el navegador, mide 4 bytes; en Linux de 64 bits, 8.
 
 #### Desafío
 Mostrá una tabla con el tamaño, el mínimo y el
@@ -1123,7 +1167,12 @@ recompensa: xp 10, oro 10
 Chispa trae 17 herraduras y las quiere vender en cajas de 5. —¿Cuántas cajas armo y cuántas me sobran para vender sueltas, que salen más caras?
 
 #### Gheco sugiere
-Con enteros, `/` da cuántas veces entra y `%` (el **resto**) da lo que sobra.
+Con enteros, dividir tiene dos partes:
+
+- `/` dice **cuántas veces entra**: `23 / 4` es `5`.
+- `%` dice **cuánto sobra**: `23 % 4` es `3`. Se llama **resto** (o módulo).
+
+Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas completas y sobran 3.
 
 #### Desafío
 Completá los dos operadores.
@@ -1184,7 +1233,9 @@ Chispa cobra tres herraduras de 2 lingotes más 1 de envío. Le da **7**. Tizón
 —El envío es **por herradura** —dice Tizón—. Y la cuenta de Chispa lo cobra una sola vez.
 
 #### Gheco sugiere
-C hace `*` antes que `+`: `3 * 2 + 1` es 7. Para que la suma vaya primero, se encierra entre **paréntesis**.
+C hace las cuentas en el mismo orden que en la escuela: primero `*` y `/`, después `+` y `-`. Por eso `3 * 2 + 1` es `7`.
+
+Si querés que la suma vaya primero, encerrala entre **paréntesis**: `3 * (2 + 1)` es `9`. Lo de adentro del paréntesis se hace antes.
 
 #### Desafío
 Agregá los paréntesis para que el envío se cobre por cada herradura.
@@ -1244,7 +1295,14 @@ recompensa: xp 10, oro 10
 Ferrum cuenta los martillazos de Kira en voz alta, de muy mal humor: uno, otro más, cinco de golpe en un ataque de impaciencia, y después se le cae el martillo y pierde la cuenta de dos.
 
 #### Gheco sugiere
-`golpes++` suma 1. `golpes += 5` suma 5. `golpes -= 2` resta 2. Son formas cortas de `golpes = golpes + …`.
+Hay formas cortas para cambiar una variable usando su propio valor:
+
+- `vidas++;` suma 1. Es lo mismo que `vidas = vidas + 1;`
+- `vidas--;` resta 1.
+- `vidas += 5;` suma 5.
+- `vidas -= 2;` resta 2.
+
+En `vidas = vidas + 1` el `=` no es «igual» como en matemática: quiere decir «guardá en `vidas` lo que da la cuenta de la derecha».
 
 #### Desafío
 Completá con los operadores cortos para que la cuenta termine en 5.
@@ -1306,7 +1364,17 @@ recompensa: xp 15, oro 15
 Para templar una espada hacen falta 12 bolsas de carbón. Hay 9 en el depósito. Tizón quiere la respuesta en números, como todo.
 
 #### Gheco sugiere
-Una comparación da **1** si es verdadera y **0** si es falsa. Ojo: `=` guarda un valor; `==` pregunta si son iguales.
+Una **comparación** es una pregunta que C contesta con un número: **1** si es verdad y **0** si es mentira.
+
+- `>` mayor, `<` menor, `>=` mayor o igual, `<=` menor o igual
+- `==` ¿son iguales? (dos signos)
+- `!=` ¿son distintos?
+
+```c
+printf("%d\n", 5 > 3);   // 1
+```
+
+Ojo: un solo `=` **guarda** un valor; dos `==` **preguntan** si son iguales. Confundirlos es uno de los errores más comunes.
 
 #### Desafío
 Completá las comparaciones.
@@ -1366,7 +1434,12 @@ Ferrum da vuelta un reloj de arena enorme al lado del horno.
 —Este lingote se templa 4000 segundos. Decime cuántas horas, minutos y segundos son, que no pienso contar granos.
 
 #### Gheco sugiere
-Con enteros: `4000 / 3600` son las horas y `4000 % 3600` lo que sobra. Del sobrante salen los minutos y los segundos igual, con `/ 60` y `% 60`. `%02d` rellena con un cero adelante.
+Para pasar segundos a horas, minutos y segundos se usan `/` (cuántas veces entra) y `%` (lo que sobra), como con los caramelos:
+
+- Una hora tiene 3600 segundos: `total / 3600` son las horas y `total % 3600` es lo que sobra.
+- Con lo que sobra, `/ 60` da los minutos y `% 60` los segundos.
+
+Para que se vea `05` en vez de `5`, usá `%02d`: el `2` es el ancho y el `0` rellena con un cero adelante.
 
 #### Desafío
 Pasá 4000 segundos a horas, minutos y segundos usando
@@ -1437,7 +1510,13 @@ Para cruzar el Puente del Juicio hay que tener nivel 5 o más, y llave o magia, 
 —Hacé las cuentas, Kira. Con paréntesis.
 
 #### Gheco sugiere
-`&&` es «y», `||` es «o» y `!` es «no». `&&` pesa más que `||`: sin los paréntesis de `(llave || magia)`, la regla se lee de otra forma y deja pasar a quien no debería.
+Para juntar preguntas se usan los **operadores lógicos**:
+
+- `&&` es «**y**»: las dos tienen que ser verdad.
+- `||` es «**o**»: alcanza con que una sea verdad.
+- `!` es «**no**»: da vuelta la respuesta.
+
+Como en las cuentas, hay un orden: `&&` se hace antes que `||`. Si querés que el «o» se haga primero, ponelo entre paréntesis: `nivel >= 5 && (a || b)`. Sin los paréntesis la regla dice otra cosa.
 
 #### Desafío
 Pasa quien tiene nivel 5 o más **y** (llave **o**
@@ -1522,7 +1601,15 @@ Ferrum escribe siete cuentas en la pizarra del yunque.
 —Primero decime qué da cada una. Después la probás. Un herrero que no sabe qué va a pasar antes de golpear se queda sin dedos.
 
 #### Gheco sugiere
-Primero se hacen `*`, `/` y `%`, después `+` y `-`. `20 / 6` entre enteros da 3, y `(double) ataque / defensa` convierte antes de dividir. `cond ? a : b` elige uno de los dos.
+Para predecir, seguí el orden de C:
+
+1. Lo que está entre paréntesis.
+2. `*`, `/` y `%`.
+3. `+` y `-`.
+
+Acordate: entre dos `int`, `/` tira los decimales (`20 / 6` es `3`), y `(double)` delante convierte **antes** de dividir.
+
+Nuevo: `condicion ? a : b` elige entre dos valores. Si la condición es verdad da `a`; si no, `b`. `5 > 3 ? 10 : 20` da `10`.
 
 #### Desafío
 Con `ataque = 20` y `defensa = 6`, anotá qué da cada línea
@@ -1918,7 +2005,14 @@ recompensa: xp 10, oro 10
 La cerradura del pañol tiene ocho palancas. Kira la intenta abrir a patadas; no se mueve. Tizón le muestra el número de la combinación, pero escrito raro: en **hexadecimal**.
 
 #### Gheco sugiere
-`%x` muestra un número en hexadecimal (base 16) y `%d`, en decimal. `0x` delante de un número dice que está escrito en hexa.
+Los números se pueden escribir en distintas **bases**. Nosotros usamos base 10 (decimal: del 0 al 9). La computadora suele mostrar en **hexadecimal**, base 16: después del 9 siguen `a`, `b`, `c`, `d`, `e` y `f` (la `f` vale 15).
+
+- `%x` muestra un número en hexadecimal; `%d`, en decimal.
+- `0x` delante de un número dice que está escrito en hexa: `0x10` es 16 y `0x1F` es 31.
+
+```c
+printf("%x\n", 255);    // ff
+```
 
 #### Desafío
 Mostrá la combinación en hexadecimal y el número `0xFF` en decimal.
@@ -1976,7 +2070,11 @@ recompensa: xp 10, oro 10
 En la pared hay un tablero con los estados de cada aprendiz: dormido, quemado, bendecido… Kira se quemó con el horno (otra vez). Ferrum le pide que lo anote **sin borrar** lo demás.
 
 #### Gheco sugiere
-Cada estado es un bit. `estado | QUEMADO` enciende ese bit y deja los otros como estaban. `1 << 2` es el bit 2 (vale 4).
+Adentro de la computadora, un número son **bits**: casillas que valen 0 o 1, como interruptores apagados o prendidos. Con ellos se pueden guardar varios «sí o no» en un solo número: cada estado ocupa un bit.
+
+`1 << 2` quiere decir «un 1 corrido dos lugares a la izquierda»: es el bit número 2 (y vale 4).
+
+Para **prender** un bit sin tocar los demás se usa `|` («o» de bits): `estado | QUEMADO` deja todo como estaba y además prende el de QUEMADO.
 
 #### Desafío
 Encendé el bit de QUEMADO en el estado de Kira.
@@ -2044,7 +2142,12 @@ recompensa: xp 10, oro 10
 Tizón se pasó la noche durmiendo en la libreta. Hay que apagar su bit de DORMIDO, pero sin apagarle el de BENDECIDO, que le costó muchísimo conseguir.
 
 #### Gheco sugiere
-`~DORMIDO` tiene todos los bits en 1 **menos** el de DORMIDO. Con `estado & ~DORMIDO` se apaga solo ese.
+Para **apagar** un solo bit hacen falta dos operadores:
+
+- `~` da vuelta todos los bits: los 0 pasan a 1 y los 1 a 0. Entonces `~DORMIDO` tiene todo prendido **menos** el bit de DORMIDO.
+- `&` («y» de bits) deja prendido solo lo que está prendido en los dos lados.
+
+Juntos, `estado & ~DORMIDO` apaga ese bit y deja los demás como estaban.
 
 #### Desafío
 Apagá solo el bit DORMIDO.
@@ -2109,7 +2212,12 @@ recompensa: xp 15, oro 15
 Cada vez que Tizón sopla el fuelle, la temperatura del horno se duplica (eso dice él). Kira quiere comprobarlo sin multiplicar.
 
 #### Gheco sugiere
-`x << 1` corre todos los bits un lugar a la izquierda: es multiplicar por 2. `x >> 1` es dividir por 2 (sin decimales).
+`<<` corre todos los bits a la izquierda y `>>` a la derecha.
+
+- Correr un lugar a la izquierda **multiplica por 2**: `3 << 1` es `6`.
+- Correr un lugar a la derecha **divide por 2**, sin decimales: `7 >> 1` es `3`.
+
+Es como agregar o sacar un cero al final de un número en base 10, que multiplica o divide por 10.
 
 #### Desafío
 Completá los desplazamientos.
@@ -2170,7 +2278,14 @@ En el tablero de los aprendices, cada uno tiene una fila de lucecitas: nadar, tr
 —Actualizá las luces —le pide Hulda a Kira—, y decime quién sabe moverse sin hacer ruido.
 
 #### Gheco sugiere
-Cada habilidad es un bit: `#define NADAR (1u << 0)`, `TREPAR (1u << 1)`… Prender: `|=`. Apagar: `&= ~TREPAR`. Juntar las de todos: `|`. Las comunes: `&`.
+`#define` le pone nombre a un valor fijo, para no tener que escribir el número cada vez: `#define NADAR (1u << 0)`. La `u` dice que el número es sin signo.
+
+Con una bandera por bit:
+
+- **Prender**: `habilidades |= TREPAR;`
+- **Apagar**: `habilidades &= ~TREPAR;`
+- **Todas las de dos personajes juntas**: `a | b`
+- **Las que tienen los dos**: `a & b`
 
 #### Desafío
 Definí banderas `NADAR`, `TREPAR`,
@@ -2260,7 +2375,16 @@ Tizón tiene que pintar un escudo en gris pero solo tiene el número del color a
 —Ahí adentro están el rojo, el verde, el azul y la transparencia. Sacámelos.
 
 #### Gheco sugiere
-Cada canal ocupa 8 bits: el rojo es `(color >> 24) & 0xFF`, el verde `>> 16`, el azul `>> 8` y el alfa son los últimos 8. Para armarlo de nuevo: `(g << 24) | (g << 16) | (g << 8) | a`.
+Un color se guarda en un solo número de 32 bits: 8 bits para el rojo (R), 8 para el verde (G), 8 para el azul (B) y 8 para la transparencia (A, alfa). En hexa se ve de a dos cifras: `0xRRGGBBAA`.
+
+Para sacar un canal, corrés los bits hasta la derecha y te quedás con los últimos 8 usando `& 0xFF`:
+
+- rojo: `(color >> 24) & 0xFF`
+- verde: `(color >> 16) & 0xFF`
+- azul: `(color >> 8) & 0xFF`
+- alfa: `color & 0xFF`
+
+Para armarlo de nuevo se corren al revés y se juntan con `|`: `(r << 24) | (g << 16) | (b << 8) | a`.
 
 #### Desafío
 Separá el color `0x3366CCFF` en R, G, B y A.
@@ -2335,7 +2459,11 @@ En la puerta del pañol, Tizón le muestra a Kira sus trucos con las palancas: s
 —Los aprendí de memoria. Ahora probalos vos.
 
 #### Gheco sugiere
-`n & 1` vale 1 si `n` es impar. `n & (n - 1)` da 0 solo en las potencias de 2. `x << 1` multiplica por 2 y `x >> 1` divide por 2.
+Algunos trucos de bits que se usan mucho:
+
+- `n & 1` mira solo el último bit: vale 1 si `n` es **impar** y 0 si es par.
+- `n & (n - 1)` da 0 solo cuando `n` es una **potencia de 2** (1, 2, 4, 8, 16…), porque esas tienen un solo bit prendido.
+- `x << 1` multiplica por 2 y `x >> 1` divide por 2.
 
 #### Desafío
 Con `&` y `-`, averiguá si 37 es impar (`n & 1`) y si 64 y
@@ -2728,7 +2856,15 @@ recompensa: xp 10, oro 10
 Kira clava la tabla de precios en la pared. Tizón llega con el calibre: —Esta columna está corrida. Y esta otra. Y este precio tiene un decimal de más.
 
 #### Gheco sugiere
-Entre el `%` y la letra va el **ancho**: `%-8s` ocupa 8 lugares alineado a la izquierda; `%5d` y `%8.2f`, a la derecha.
+En `printf`, entre el `%` y la letra se puede poner el **ancho**: cuántos lugares ocupa el dato. Así las columnas quedan derechas.
+
+- `%5d` ocupa 5 lugares y se pega a la derecha.
+- `%-8s` ocupa 8 lugares y se pega a la izquierda (el `-` lo corre). `%s` es para texto.
+- `%8.2f` ocupa 8 lugares con 2 decimales.
+
+```c
+printf("[%5d]\n", 42);    // [   42]
+```
 
 #### Desafío
 Completá los formatos para que la tabla quede alineada.
@@ -2788,7 +2924,16 @@ El escriba de la ventanilla le pregunta la edad a Chispa. El programa lee… y n
 —Le faltó decirle **dónde** guardarlo —dice Gheco.
 
 #### Gheco sugiere
-`scanf("%d", &edad)` lee un entero y lo guarda **en** `edad`: el `&` es la dirección de la variable. Sin `&`, `scanf` no sabe dónde escribir.
+`scanf` es lo contrario de `printf`: **lee** lo que se escribe con el teclado y lo guarda en una variable.
+
+```c
+int clavos;
+scanf("%d", &clavos);
+```
+
+El `%d` dice «leé un entero». El `&` delante de la variable es importante: quiere decir «la **dirección** de `clavos`», o sea, en qué lugar de la memoria está el cajón. Sin el `&`, `scanf` no sabe dónde guardar lo que leyó.
+
+Acá no hace falta tipear: la entrada ya está cargada.
 
 #### Desafío
 Completá el `scanf` para que lea la edad (la entrada ya está cargada).
@@ -2850,7 +2995,14 @@ recompensa: xp 10, oro 10
 Tizón trae los datos de un pedido en una sola línea: cantidad de piezas y peso de cada una. Kira tiene que calcular el peso total.
 
 #### Gheco sugiere
-Un `scanf` puede leer varios datos: `%d` para un `int` y `%lf` para un `double` (en `scanf`, **con l**). Cada variable con su `&`.
+Un mismo `scanf` puede leer varios datos, uno detrás del otro. Ponés un marcador por cada dato y una variable (con su `&`) por cada marcador, en el mismo orden.
+
+Ojo con el `double`: en `printf` se muestra con `%f`, pero en `scanf` se lee con `%lf` (con una **l** de *long*).
+
+```c
+int dia; double temperatura;
+scanf("%d %lf", &dia, &temperatura);
+```
 
 #### Desafío
 Completá el formato y las direcciones.
@@ -2914,7 +3066,12 @@ recompensa: xp 15, oro 15
 Le piden a Chispa la altura y contesta «uno ochenta». El programa queda con cualquier cosa. Ferrum, desde lejos: —Si no revisás lo que te dan, forjás basura.
 
 #### Gheco sugiere
-La receta segura: `fgets` lee la línea entera y `sscanf` intenta sacar el número. `sscanf` devuelve cuántos datos pudo leer: si es 1, era un número.
+`scanf` tiene un problema: si alguien escribe letras donde iba un número, se traba. Por eso hay una receta más segura, en dos pasos:
+
+1. `fgets(linea, sizeof linea, stdin);` lee **toda la línea** que se escribió y la guarda como texto en `linea` (un cajón para texto, `char linea[50];`). `stdin` es el teclado.
+2. `sscanf(linea, "%d", &numero)` intenta sacar un número de ese texto.
+
+`sscanf` **devuelve** cuántos datos pudo leer: si dio 1, había un número; si dio 0, no. Con eso podés preguntar y avisar.
 
 #### Desafío
 Completá la condición para avisar cuando lo que llega no es un número.
@@ -2986,7 +3143,13 @@ antes: R01-N04-M1
 Un orco hace guardia en el camino a las minas. Tizón le pregunta a Kira cuánto pega y cuánto aguanta el orco, para saber cuántos golpes hacen falta antes de salir.
 
 #### Gheco sugiere
-Leé cada número con `fgets` y `sscanf`. El crítico es el doble del daño. Para redondear hacia arriba con enteros: `(vida + danio - 1) / danio`. `%4d` alinea a la derecha en 4 lugares.
+Para cada número, la receta segura de siempre: `fgets` lee la línea y `sscanf` saca el número.
+
+Algunas cuentas que vas a necesitar:
+
+- El crítico es el doble del daño: `danio * 2`.
+- Para saber cuántos golpes hacen falta, hay que **redondear hacia arriba** (si sobra un poquito de vida, hace falta un golpe más). Con enteros se hace así: `(vida + danio - 1) / danio`. Por ejemplo, con 10 de vida y 3 de daño: `(10 + 3 - 1) / 3` da 4 golpes.
+- `%4d` muestra el número en 4 lugares, pegado a la derecha.
 
 #### Desafío
 Pedí el ataque de Kira y la defensa del orco.
@@ -3076,7 +3239,13 @@ Para la expedición a las minas, Ferrum quiere la tabla de la compañía clavada
 —Derecha esta vez —dice Tizón, con el calibre ya en la mano.
 
 #### Gheco sugiere
-`%-8s` alinea un texto a la izquierda en 8 lugares, `%5d` un número a la derecha y `%6.1f` un decimal. `%08d` rellena con ceros: `00004250`.
+Repasá los anchos de `printf`:
+
+- `%-8s`: texto en 8 lugares, pegado a la izquierda.
+- `%5d`: entero en 5 lugares, pegado a la derecha.
+- `%6.1f`: decimal en 6 lugares, con 1 decimal.
+
+Nuevo: `%08d` también ocupa 8 lugares, pero rellena con **ceros** a la izquierda: `printf("%08d", 42)` muestra `00000042`.
 
 #### Desafío
 Mostrá nombre, nivel, vida y precisión de Kira,
@@ -3151,7 +3320,13 @@ Chispa vuelve a la ventanilla a anotar su altura. La dice de tres formas: «1.80
 —Fijate qué entendió en cada caso —le pide a Kira.
 
 #### Gheco sugiere
-`sscanf` devuelve **cuántos datos convirtió**. Con `1,80` lee el 1 y se frena en la coma. Esa es la peligrosa: dice que convirtió uno y el número quedó mal.
+Acordate: `sscanf` devuelve **cuántos datos pudo convertir**. En C los decimales se escriben con **punto**, no con coma.
+
+- Con `"1.80"` lee 1.80 y devuelve 1. Bien.
+- Con `"uno ochenta"` no encuentra ningún número y devuelve 0. Fácil de detectar.
+- Con `"1,80"` lee el 1, se frena en la coma y **devuelve 1** igual. Esta es la trampa: dice que leyó un número, pero quedó mal.
+
+Pensá cómo darte cuenta de lo que quedó sin leer después del número.
 
 #### Desafío
 Leé tres alturas: `1.80`, `1,80` y `uno ochenta`.
@@ -3648,7 +3823,20 @@ recompensa: xp 10, oro 10
 Kira escribió «si hace calor, más fuego» y nada más. El horno está blanco y la pizarra humea. Tizón llega con un balde de agua.
 
 #### Gheco sugiere
-Con `if … else` hay **dos caminos**: uno si la condición es verdadera, el otro si no. Sin `else`, cuando la condición es falsa no pasa nada.
+Hasta ahora el programa hacía todo, de arriba hacia abajo. Con `if` puede **decidir**: hace algo solo si una condición es verdad.
+
+```c
+if (vida < 20) {
+    printf("cuidado\n");
+} else {
+    printf("todo bien\n");
+}
+```
+
+- Lo que está entre las llaves del `if` se hace si la condición es verdad.
+- Lo del `else` («si no») se hace si es mentira.
+
+Sin `else`, cuando la condición es mentira simplemente no pasa nada. Son **dos caminos**, y siempre se toma uno solo.
 
 #### Desafío
 Agregá el `else` para que, si el horno ya está muy caliente, se baje el fuego.
@@ -3714,7 +3902,19 @@ recompensa: xp 10, oro 10
 La Forja tiene tres pisos: brasas para los aprendices (menos de 50 piezas), yunques para los oficiales (hasta 200) y la cámara del maestro para el resto.
 
 #### Gheco sugiere
-Con `else if` se encadenan condiciones: C prueba la primera, si no se cumple la segunda, y así. El `else` final atrapa todo lo que sobra.
+Cuando hay más de dos caminos, se encadenan con `else if` («si no, si…»):
+
+```c
+if (edad < 13) {
+    printf("chico\n");
+} else if (edad < 18) {
+    printf("adolescente\n");
+} else {
+    printf("adulto\n");
+}
+```
+
+C prueba las condiciones **en orden**, de arriba hacia abajo, y entra en la **primera** que se cumple; las demás ni las mira. El `else` del final atrapa todo lo que no entró antes.
 
 #### Desafío
 Completá las condiciones para mandar a Kira (140 piezas forjadas) a su piso.
@@ -3780,7 +3980,15 @@ recompensa: xp 10, oro 10
 Para templar, el horno tiene que estar entre 800 y 1000 grados **y** tiene que haber agua en el balde. Tizón revisa las dos cosas antes de dejar entrar a Kira.
 
 #### Gheco sugiere
-`a && b` es verdadero solo si **las dos** lo son. `a || b`, si **alguna** lo es. `!a` niega.
+Para pedir varias cosas a la vez, juntá las condiciones (ya los viste en el Puente del Juicio):
+
+- `a && b`: verdad solo si **las dos** son verdad.
+- `a || b`: verdad si **alguna** es verdad.
+- `!a`: lo contrario.
+
+Para «entre 10 y 20» hay que preguntar dos cosas: `x >= 10 && x <= 20`. En C no se puede escribir `10 <= x <= 20` como en matemática: da otra cosa.
+
+Una variable con 1 o 0 sirve sola como condición: `if (tiene_llave)` es lo mismo que `if (tiene_llave == 1)`.
 
 #### Desafío
 Completá la condición: entre 800 y 1000 grados, y con agua.
@@ -3844,7 +4052,22 @@ recompensa: xp 15, oro 15
 Chispa elige siempre la opción 2 del menú del herrero, y siempre le sale la 2 **y** la 3, y paga las dos. Sospecha de una estafa. Es un `break` que falta.
 
 #### Gheco sugiere
-En un `switch`, cada `case` necesita su `break;` al final: si no, sigue ejecutando el `case` de abajo.
+`switch` sirve cuando una variable puede valer varias opciones fijas, como un menú:
+
+```c
+switch (dia) {
+    case 1:
+        printf("lunes\n");
+        break;
+    case 2:
+        printf("martes\n");
+        break;
+    default:
+        printf("otro dia\n");
+}
+```
+
+C salta al `case` que coincide y ejecuta desde ahí. `break;` dice «listo, salí del `switch`». Si un `case` no tiene `break`, C **sigue de largo** con el de abajo. `default` es para cuando no coincide ninguno.
 
 #### Desafío
 Agregá el `break` que falta para que Chispa pague solo lo que pidió.
@@ -3923,7 +4146,14 @@ Ferrum mete una barra de hierro al horno.
 —El color dice cómo está el metal. Te digo la temperatura y vos me decís el color. Y si te digo una tontería, decímelo también.
 
 #### Gheco sugiere
-Una cadena de `if` / `else if` va de lo más chico a lo más grande: menos de 500, menos de 900… Si `sscanf` no convirtió 1 dato o la temperatura es negativa, avisá antes de seguir.
+Una cadena de `if` / `else if` que va de lo más chico a lo más grande: «menos de 500», si no «menos de 900», y así. Como C entra en la primera que se cumple, no hace falta repetir «y más de 500».
+
+Antes de decidir, revisá que el dato sirva:
+
+- si `sscanf` no devolvió 1, no era un número;
+- si la temperatura es negativa, tampoco sirve.
+
+En esos casos avisá y no sigas.
 
 #### Desafío
 Pedí la temperatura del hierro y mostrá su estado:
@@ -4017,7 +4247,11 @@ Chispa trae un pedido y la cuenta escrita de un tirón: «12.5 * 4». Siempre se
 —Hacé una calculadora que me lo resuelva. Así no discuto más con Tizón.
 
 #### Gheco sugiere
-`sscanf(linea, "%lf %c %lf", &a, &op, &b)` tiene que devolver 3. Después, un `switch (op)` con un `case` por operador: `case '*': case 'x':` comparten la misma cuenta. Antes de dividir, fijate que `b` no sea 0.
+`sscanf` puede sacar varios datos de una sola línea: `sscanf(linea, "%lf %c %lf", &a, &op, &b)` lee un número, un carácter (el operador) y otro número. Si salió bien, devuelve **3**.
+
+Después, un `switch (op)` con un `case` por operador: `case '+':`, `case '-':`… Los caracteres van entre comillas simples. Dos `case` pueden compartir la misma cuenta si los ponés uno debajo del otro: `case '*': case 'x':`.
+
+Ojo con dividir: si `b` es 0, la cuenta no tiene sentido. Preguntá antes.
 
 #### Desafío
 Leé una cuenta en una línea, como
@@ -4116,7 +4350,12 @@ En el patio, Tizón arma un juego con un dado de veinte caras para practicar los
 —Con un 1 te caés solo. Con un 20, golpe perfecto. Y si no, sumá tu bonificación y fijate si llegás.
 
 #### Gheco sugiere
-Primero los casos especiales: si es 1, pifia; si es 20, crítico. Después, `tirada + 3 >= 15` decide si acierta. Validá que la tirada esté entre 1 y 20.
+El orden de las preguntas importa. Primero, lo que no sirve: si la tirada no está entre 1 y 20, avisá. Después, los **casos especiales**, que mandan siempre:
+
+- si salió 1, es una pifia (falla aunque el bonus alcance);
+- si salió 20, es un crítico (acierta siempre).
+
+Recién al final, la regla común: `tirada + 3 >= 15` decide si acierta.
 
 #### Desafío
 Leé una tirada de d20 (de 1 a 20). Un 1
@@ -4666,7 +4905,19 @@ recompensa: xp 10, oro 10
 Una herradura lleva **exactamente** cuarenta martillazos. Ferrum quiere que Kira cuente de diez en diez, en voz alta, para que no se pase.
 
 #### Gheco sugiere
-`for (arranque; condición; paso)` repite mientras la condición se cumpla. Con `i += 10` el paso es de diez en diez.
+Un **bucle** repite instrucciones sin tener que escribirlas muchas veces. El `for` tiene tres partes entre paréntesis, separadas por `;`:
+
+```c
+for (int i = 1; i <= 3; i++) {
+    printf("vuelta %d\n", i);
+}
+```
+
+1. **Arranque**: `int i = 1` crea un contador y le da su primer valor.
+2. **Condición**: `i <= 3` se pregunta antes de cada vuelta; si es mentira, el bucle termina.
+3. **Paso**: `i++` se hace al final de cada vuelta.
+
+Este ejemplo muestra vuelta 1, vuelta 2 y vuelta 3. El paso puede ser otro: con `i += 2` va de dos en dos.
 
 #### Desafío
 Completá el `for` para contar de 10 a 40 de diez en diez.
@@ -4731,7 +4982,18 @@ El fuelle mecánico sopló toda la noche: la orden decía «soplá mientras el h
 En la pared, Tizón agrega: «Fuelles que no paran: 1».
 
 #### Gheco sugiere
-`while (condición)` repite **mientras** la condición se cumpla. Tiene que decir cuándo **seguir**: mientras el horno no llegue a la temperatura.
+`while` («mientras») repite **mientras** la condición sea verdad:
+
+```c
+int agua = 0;
+while (agua < 10) {
+    agua += 3;
+}
+```
+
+Antes de cada vuelta pregunta; cuando la respuesta es «no», sigue con lo que está después del bucle.
+
+La condición tiene que decir cuándo **seguir**, no cuándo parar. Si nunca se vuelve mentira, el bucle no termina nunca (y el programa se cuelga).
 
 #### Desafío
 Corregí la condición: soplar mientras el horno esté por debajo de 900 grados.
@@ -4796,7 +5058,17 @@ recompensa: xp 10, oro 10
 Chispa tiene que elegir una cantidad de 1 a 10 herraduras. Contesta 0, después 15, después 4. La ventanilla tiene que seguir preguntando hasta que el número tenga sentido.
 
 #### Gheco sugiere
-`do { … } while (condición);` ejecuta el bloque **primero** y pregunta después: sirve para pedir un dato hasta que sea válido. Termina con `;`.
+`do { … } while (condición);` es un `while` al revés: primero **hace** y después **pregunta**. Así el bloque se ejecuta al menos una vez.
+
+Sirve para pedir un dato hasta que sea válido: primero lo pedís, y si no sirve, lo pedís de nuevo.
+
+```c
+do {
+    scanf("%d", &numero);
+} while (numero < 0);
+```
+
+Ojo: después del `while (…)` va `;`.
 
 #### Desafío
 Completá la condición para repetir mientras la cantidad no esté entre 1 y 10.
@@ -4867,7 +5139,12 @@ recompensa: xp 15, oro 15
 Llegan bolsas de carbón de distinto peso, una por línea, y al final un 0. Tizón quiere el total y el promedio, «con los decimales que correspondan».
 
 #### Gheco sugiere
-Un **acumulador** (`total += peso`) y un **contador** (`bolsas++`) se inicializan en 0 antes del bucle. El promedio se calcula al final, con `(double)`.
+Dos variables que se usan mucho en los bucles:
+
+- Un **acumulador** va sumando: `total += precio;`
+- Un **contador** cuenta cuántas veces pasó algo: `cantidad++;`
+
+Los dos empiezan en 0, **antes** del bucle (si empezaran adentro, se borrarían en cada vuelta). Al final, el promedio es el total dividido por la cantidad, con `(double)` para que tenga decimales.
 
 #### Desafío
 Completá el acumulador y el contador.
@@ -4947,7 +5224,9 @@ Ferrum le enseña a Kira el ritmo de la forja: se cuenta del 1 al 30; cada tres,
 —Sin perder la cuenta.
 
 #### Gheco sugiere
-Un `for (int i = 1; i <= 30; i++)`. Preguntá primero por los dos a la vez (`i % 15 == 0`); si no, por 3 y por 5; si no, mostrás el número.
+Un `for` del 1 al 30, y adentro una cadena de `if`. Para saber si un número es **múltiplo** de otro, usá el resto: `n % 3 == 0` quiere decir «al dividir por 3 no sobra nada».
+
+El orden de las preguntas importa: el 15 es múltiplo de 3 **y** de 5. Si preguntás primero por el 3, entra ahí y nunca llega al caso de los dos. Por eso, primero el caso de los dos a la vez (`n % 15 == 0`), después el 3, después el 5 y, si no, el número.
 
 #### Desafío
 Del 1 al 30: si el número es múltiplo de 3,
@@ -5050,7 +5329,13 @@ Kira quiere juntar 1000 de oro para una espada de verdad. Ferrum le abre un cofr
 —Poné 50 cada semana y yo te sumo un cinco por ciento de lo que tengas. Decime cuándo llegás.
 
 #### Gheco sugiere
-Un `while (ahorro < 1000)`: en cada vuelta sumás 50, después el 5 % (`ahorro * 0.05`) y contás la semana. Para mostrar cada 4 semanas: `if (semana % 4 == 0)`.
+Como no sabés cuántas semanas van a hacer falta, usá `while (ahorro < 1000)`. En cada vuelta:
+
+1. sumá los 50 de la semana;
+2. sumá el 5 % de lo ahorrado: el 5 % de algo es `algo * 0.05`;
+3. contá la semana (`semana++`).
+
+Para mostrar solo cada 4 semanas, preguntá `if (semana % 4 == 0)`: el resto da 0 en la 4, la 8, la 12…
 
 #### Desafío
 Kira guarda 50 de oro por semana y Ferrum le suma
@@ -5127,7 +5412,14 @@ En la taberna hay un oráculo de bronce que piensa un número del 1 al 50. Kira 
 —Si le decís cualquier cosa que no sea un número, no te lo cuenta. Pero tampoco te lo regala.
 
 #### Gheco sugiere
-Repetí mientras queden intentos y no haya acertado. Si `sscanf` no lee un número o está fuera de 1 a 50, avisá y **no** sumes el intento. Si no, «más alto», «más bajo» o «correcto».
+Un bucle que sigue **mientras** queden intentos **y** no haya acertado: dos condiciones juntas con `&&`.
+
+En cada vuelta, leé con `fgets` y `sscanf`:
+
+- si no es un número, o no está entre 1 y 50, avisá y **no** cuentes el intento;
+- si es más chico que el secreto, «más alto»; si es más grande, «más bajo»; si es igual, «correcto».
+
+Al salir del bucle, fijate por cuál de las dos razones terminó.
 
 #### Desafío
 El oráculo piensa el 37 y Kira tiene 6 intentos: respondé
@@ -5682,7 +5974,21 @@ recompensa: xp 10, oro 10
 Kira agarra el martillo de Hulda para calcular el daño de un golpe… y le tuerce el mango. Hulda le explica, con la voz de capataz, que cada cuenta tiene su martillo: su **función**.
 
 #### Gheco sugiere
-Una función se escribe una vez y se usa muchas: `int danio(int ataque, int defensa) { return …; }` y se llama `danio(15, 4)`.
+Una **función** propia es una receta con nombre que escribís una vez y usás muchas veces. Ya usaste funciones de C, como `printf`; ahora vas a escribir las tuyas.
+
+```c
+int doble(int n)
+{
+    return n * 2;
+}
+```
+
+- `int` adelante: el tipo de lo que devuelve.
+- `doble`: el nombre.
+- `(int n)`: los **parámetros**, los datos que recibe.
+- `return`: lo que devuelve, y ahí termina.
+
+Se usa (se **llama**) así: `doble(7)` da `14`. Se escribe arriba de `main`.
 
 #### Desafío
 Completá la función: el daño es el ataque menos la defensa.
@@ -5748,7 +6054,17 @@ recompensa: xp 10, oro 10
 Tizón se lastimó la mano. Kira llama a la función `curar`… y la vida de Tizón sigue igual. —¿Me curaste o no? —pregunta, mirándose la mano.
 
 #### Gheco sugiere
-C pasa una **copia** del argumento: si la función la cambia, la variable de afuera no se entera. La función tiene que **devolver** la vida nueva y quien llama, guardarla.
+Cuando llamás a una función, C le pasa una **copia** del dato, no el cajón original. Si la función cambia su copia, la variable de afuera no se entera.
+
+```c
+int sumar_diez(int x) { return x + 10; }
+
+int puntos = 5;
+sumar_diez(puntos);            // puntos sigue en 5
+puntos = sumar_diez(puntos);   // ahora sí: 15
+```
+
+Por eso la función tiene que **devolver** el valor nuevo con `return`, y quien la llama tiene que **guardarlo**.
 
 #### Desafío
 Hacé que `curar` devuelva la vida nueva y guardala.
@@ -5814,7 +6130,20 @@ recompensa: xp 10, oro 10
 Ferrum quiere saber cuántos espadazos lleva Kira, pero cada vez que llama a `espadazo()` la cuenta vuelve a 1. La función se olvida de todo al terminar.
 
 #### Gheco sugiere
-Una variable local nace y muere con cada llamada. Con `static` delante se inicializa **una sola vez** y **recuerda** su valor.
+Las variables que se crean adentro de una función son **locales**: nacen cuando se llama a la función y se borran cuando termina. La próxima vez empiezan de nuevo.
+
+Con `static` delante es distinto: la variable se crea **una sola vez** y **recuerda** su valor entre una llamada y otra.
+
+```c
+int turno(void)
+{
+    static int n = 0;
+    n++;
+    return n;
+}
+```
+
+Cada vez que llamás a `turno()` devuelve uno más: 1, 2, 3…
 
 #### Desafío
 Hacé que la función recuerde la cuenta.
@@ -5884,7 +6213,23 @@ recompensa: xp 15, oro 15
 En el libro de la Forja hay una página rara: «para contar los eslabones de una cadena, contá el primero y después contá los eslabones del resto». Tizón la lee tres veces y se marea.
 
 #### Gheco sugiere
-Una función **recursiva** se llama a sí misma con un caso más chico y tiene un **caso base** que corta. `eslabones(0)` es 0; `eslabones(n)` es 1 más `eslabones(n - 1)`.
+Una función **recursiva** se llama a sí misma con un problema más chico, hasta llegar a uno tan chico que ya sabe la respuesta.
+
+Necesita dos partes:
+
+- el **caso base**: cuándo cortar (si no, se llama para siempre);
+- el **paso**: resolver un poquito y llamarse con algo más chico.
+
+```c
+int cuenta_regresiva(int n)
+{
+    if (n == 0) {
+        return 0;               // caso base
+    }
+    printf("%d\n", n);
+    return cuenta_regresiva(n - 1);   // más chico
+}
+```
 
 #### Desafío
 Completá el caso base y la llamada recursiva.
@@ -5955,7 +6300,12 @@ Tizón dibuja en el piso del patio las reglas del combate, cada una en su recuad
 —Una regla, una función. Después simulá a Kira contra el orco.
 
 #### Gheco sugiere
-`es_critico(tirada)` devuelve 1 si `tirada >= 15`. `danio_final` resta la defensa, nunca da menos de 1 y duplica si es crítico. En el `main`, un bucle de hasta 5 turnos que corta si el orco cae.
+Separá cada regla en su propia función, así el `main` queda corto y fácil de leer:
+
+- `es_critico(tirada)` devuelve 1 si `tirada >= 15` y 0 si no.
+- `danio_final(...)` resta la defensa, nunca da menos de 1 y, si es crítico, duplica.
+
+En el `main`, un bucle de hasta 5 turnos que llama a esas funciones y corta antes si el orco se queda sin vida.
 
 #### Desafío
 Escribí `es_critico(tirada)` (crítico con 15 o
@@ -6064,7 +6414,13 @@ Hulda le presta a Kira su caja de herramientas, pero con una condición:
 —Cada herramienta hace una sola cosa. Y si una puede usar a otra, la usa. No me tuerzas ningún mango.
 
 #### Gheco sugiere
-`maximo(a, b)` y `minimo(a, b)` devuelven uno de los dos. `limitar(valor, min, max)` es `minimo(maximo(valor, min), max)`. `es_par(n)` devuelve `n % 2 == 0`.
+Funciones chicas que después se combinan:
+
+- `maximo(a, b)` devuelve el más grande de los dos; `minimo(a, b)`, el más chico.
+- `limitar(valor, min, max)` deja el valor adentro de un rango. Se arma con las otras dos: primero no lo dejás bajar de `min` y después no lo dejás pasar de `max`.
+- `es_par(n)` devuelve el resultado de una comparación: `n % 2 == 0` ya da 1 o 0.
+
+Una función puede llamar a otra: no hace falta repetir el código.
 
 #### Desafío
 Escribí `maximo`, `minimo`, `limitar(valor, min,
@@ -6164,7 +6520,10 @@ Ferrum abre el libro de la Forja en las dos páginas raras: las que se remiten a
 —Estos dos hechizos se resuelven pidiéndose ayuda a ellos mismos. Pero siempre con un final, o no terminan nunca.
 
 #### Gheco sugiere
-`potencia(base, exp)`: si `exp == 0` devuelve 1; si no, `base * potencia(base, exp - 1)`. `suma_digitos(n)`: si `n < 10` devuelve `n`; si no, `n % 10 + suma_digitos(n / 10)`.
+Dos recursiones, cada una con su caso base:
+
+- **Potencia**: elevar a la 0 da siempre 1 (caso base). Si no, `base` elevado a `exp` es `base` por `base` elevado a `exp - 1`. Por ejemplo, 5³ = 5 · 5².
+- **Suma de dígitos**: si el número tiene una sola cifra (`n < 10`), la suma es él mismo (caso base). Si no, separás la última cifra con `n % 10` y el resto del número con `n / 10`. Con 472: la última cifra es 2 y queda 47.
 
 #### Desafío
 `potencia(base, exp)` sin usar `pow`
@@ -6632,7 +6991,15 @@ recompensa: xp 10, oro 10
 En el taller de marcar, cada caja dice cuántas piezas lleva. Tizón escribió el 12 en cinco lugares distintos de la receta, y ahora las cajas son de 10. Le toca buscar cada 12. Hay un sello mejor.
 
 #### Gheco sugiere
-`#define PIEZAS_POR_CAJA 10` define una constante: antes de compilar, el preprocesador cambia cada `PIEZAS_POR_CAJA` por `10`. Va sin `;`.
+Antes de compilar, C pasa por el **preprocesador**: un ayudante que lee las líneas que empiezan con `#` y arregla el texto. Ya conocés una: `#include`.
+
+`#define` le pone nombre a un valor fijo, una **constante**:
+
+```c
+#define VIDAS_INICIALES 3
+```
+
+El preprocesador cambia cada `VIDAS_INICIALES` por `3` en todo el programa. Si mañana querés 5, lo cambiás en un solo lugar. Por costumbre se escriben en MAYÚSCULAS, y la línea va **sin** `;`.
 
 #### Desafío
 Definí la constante para que todo el programa use 10.
@@ -6695,7 +7062,11 @@ Tizón talló un sello que marca el **cubo** de un número: `a*a*a`. Con 2 da 8.
 —El sello no piensa —gruñe Ferrum—. **Copia**.
 
 #### Gheco sugiere
-`CUBO(2+1)` con `a*a*a` se copia como `2+1*2+1*2+1`, que es 7. Con paréntesis en cada `a` y en todo, se copia como `((2+1) * (2+1) * (2+1))`.
+`#define` también puede recibir datos, como una función: eso es una **macro**. Pero ojo: el preprocesador no hace cuentas, solo **copia texto**.
+
+Con `#define DOBLE(x) x + x`, `DOBLE(3) * 2` se copia como `3 + 3 * 2`, y como la multiplicación va primero, da 9, no 12.
+
+La solución es poner paréntesis en cada parámetro y en toda la macro: `#define DOBLE(x) ((x) + (x))`. Así se copia `((3) + (3)) * 2`, que da 12.
 
 #### Desafío
 Arreglá la macro para que `CUBO(2+1)` dé 27.
@@ -6752,7 +7123,15 @@ recompensa: xp 10, oro 10
 Chispa cambió de lugar los precios de dos piezas «sin querer». Hay que volver a intercambiarlos, y después lo mismo con los pesos (que son decimales).
 
 #### Gheco sugiere
-`SWAP(tipo, a, b)` usa una variable auxiliar del tipo que le pases: `tipo aux = a; a = b; b = aux;`. Envuelto en `do { … } while (0)` se comporta como una sola instrucción.
+Para intercambiar dos variables hace falta una tercera, una **auxiliar**: como para cambiar el contenido de dos vasos necesitás un tercer vaso vacío.
+
+```c
+int aux = a;
+a = b;
+b = aux;
+```
+
+Una macro puede escribir esas tres líneas por vos, para cualquier tipo, si le pasás el tipo como dato. Envolverla en `do { … } while (0)` es un truco para que se comporte como una sola instrucción y se pueda usar con `;` sin sorpresas.
 
 #### Desafío
 Usá la macro para intercambiar los precios y los pesos.
@@ -6819,7 +7198,19 @@ recompensa: xp 15, oro 15
 Ferrum quiere una sola receta para el horno, que se compile en «modo práctica» para los aprendices y en «modo forja» para los oficiales. Kira es aprendiz. Por ahora.
 
 #### Gheco sugiere
-`#if MODO == 1` … `#else` … `#endif` elige qué líneas se compilan según el valor de `MODO`. Lo que no se cumple el compilador ni lo ve.
+El preprocesador también puede **elegir** qué partes del programa se compilan, según una constante:
+
+```c
+#define IDIOMA 1
+
+#if IDIOMA == 1
+    printf("Hola\n");
+#else
+    printf("Hello\n");
+#endif
+```
+
+Lo que no se cumple, el compilador ni lo ve: es como si no estuviera escrito. Se termina siempre con `#endif`.
 
 #### Desafío
 Completá la condición para que con `MODO` en 1 se compile el modo práctica.
@@ -6884,7 +7275,15 @@ Tizón le pide a Kira que talle los sellos nuevos del taller: uno para el área 
 —Con todos los paréntesis. No quiero más herraduras banana.
 
 #### Gheco sugiere
-Cada parámetro y la macro entera van entre paréntesis: `#define AREA(b, h) ((b) * (h))`. Así `AREA(3+1, 2)` da 8 y no 5. Las cajas completas salen con `/` y lo que sobra, con `%`.
+Repasá las reglas de las macros: paréntesis en cada parámetro y en toda la macro.
+
+```c
+#define PERIMETRO(a, b) (2 * ((a) + (b)))
+```
+
+Sin los paréntesis de adentro, `PERIMETRO(1+1, 3)` se copiaría mal.
+
+Para las cajas, lo de siempre: las completas salen con `/` y lo que sobra con `%`. Para «el menor de dos» sirve el `? :`: `(a) < (b) ? (a) : (b)`.
 
 #### Desafío
 Definí con `#define` la constante `LINGOTES_POR_CAJA` (12) y las macros
@@ -6968,7 +7367,9 @@ Ferrum deja una caja de herraduras torcidas en la mesa de Tizón. Al lado, los t
 —Arreglalos —le dice a Kira—. Y mostrale a Tizón cuánto daban antes, para que no se le olvide más.
 
 #### Gheco sugiere
-El preprocesador solo copia texto: `CUBO(2+1)` era `2+1*2+1*2+1`. Con paréntesis en cada `a` y en toda la macro, cada cuenta da lo que tiene que dar.
+Acordate de que el preprocesador solo copia texto. Para encontrar el problema de cada macro, escribí a mano cómo queda la copia y hacé la cuenta respetando el orden (`*` y `/` antes que `+` y `-`).
+
+La cura es siempre la misma: paréntesis alrededor de cada parámetro y de toda la macro.
 
 #### Desafío
 Tizón dejó estas macros en el taller:
@@ -7055,7 +7456,14 @@ antes: R01-N08-M3
 El horno de la Forja tiene dos modos: práctica y forja. Ferrum quiere que el mismo programa sirva para los dos, y que si alguien se olvida de elegir, ni arranque.
 
 #### Gheco sugiere
-`#ifndef NIVEL` + `#error` frena la compilación. Después, `#if NIVEL == 0`, `#elif NIVEL == 1`, `#else`. `#ifdef DEPURAR` agrega lo de la línea con `__LINE__`. Dejá `#define NIVEL 1` arriba.
+Más órdenes del preprocesador para elegir qué se compila:
+
+- `#ifndef NIVEL` («si **no** está definido NIVEL») junto con `#error mensaje` frena la compilación y muestra el mensaje. Sirve para avisar que falta algo.
+- `#if NIVEL == 0` … `#elif NIVEL == 1` … `#else` … `#endif` funciona como `if` / `else if` / `else`.
+- `#ifdef DEPURAR` («si **está** definido») agrega líneas solo para revisar el programa.
+- `__LINE__` se reemplaza por el número de línea donde está escrito.
+
+Dejá `#define NIVEL 1` arriba de todo.
 
 #### Desafío
 Escribí un programa que muestre la temperatura del horno según `NIVEL`:
@@ -7476,7 +7884,12 @@ recompensa: xp 10, oro 10
 Kira se pasó una semana fabricando un redondeador casero. Ferrum abre el armario del fondo: en un estante que dice `math.h` ya estaba todo hecho. Hay que mandar 47 clavos en cajas de 10.
 
 #### Gheco sugiere
-Con `#include <math.h>`: `ceil(x)` redondea **hacia arriba** (las cajas que hacen falta) y `floor(x)`, **hacia abajo** (las que se llenan). Las dos devuelven `double`: se muestran con `%.0f`.
+C trae una **biblioteca** de matemática: un conjunto de funciones ya hechas. Para usarla, agregá `#include <math.h>` arriba.
+
+- `ceil(x)` redondea **hacia arriba**: `ceil(2.1)` da 3. Sirve para «cuántas cajas hacen falta» (si sobra algo, hace falta una más).
+- `floor(x)` redondea **hacia abajo**: `floor(2.9)` da 2. Sirve para «cuántas cajas se llenan».
+
+Las dos devuelven un `double`, así que se muestran con `%.0f` (sin decimales).
 
 #### Desafío
 Usá `ceil` y `floor`.
@@ -7535,7 +7948,12 @@ recompensa: xp 10, oro 10
 Hay que cortar el alambre para la diagonal de un marco de 3 por 4. Tizón lo quiere medir con el calibre; Kira quiere usar el estante.
 
 #### Gheco sugiere
-Con `#include <math.h>`: `sqrt(x)` es la raíz cuadrada y `pow(b, e)` es b elevado a e. La diagonal es `sqrt(ancho² + alto²)`.
+Dos funciones más de `<math.h>`:
+
+- `sqrt(x)` es la **raíz cuadrada**: `sqrt(25)` da 5.
+- `pow(b, e)` es `b` **elevado** a `e`: `pow(2, 3)` da 8.
+
+La diagonal de un rectángulo sale del teorema de Pitágoras: la raíz de (ancho al cuadrado más alto al cuadrado).
 
 #### Desafío
 Calculá la diagonal con `sqrt` y `pow`.
@@ -7593,7 +8011,14 @@ recompensa: xp 10, oro 10
 Chispa escribió el cartel de su puesto en minúsculas «para ahorrar tinta». Kira lo quiere en mayúsculas, y quiere saber cuántos números tiene.
 
 #### Gheco sugiere
-`getchar()` lee **un** carácter (devuelve un `int`). Con `#include <ctype.h>`, `toupper(c)` da su mayúscula e `isdigit(c)` dice si es un dígito. `putchar(c)` lo muestra.
+Además de leer líneas enteras, se puede leer **de a un carácter**:
+
+- `getchar()` lee el próximo carácter que se escribió. Devuelve un `int` (no un `char`) porque también puede devolver `EOF`, que avisa que no hay nada más para leer.
+- `putchar(c)` muestra un carácter.
+
+La biblioteca `<ctype.h>` trae funciones para preguntar por un carácter: `isdigit(c)` dice si es un dígito (del 0 al 9) y `toupper(c)` devuelve su mayúscula.
+
+Un bucle que lee hasta el final de la línea pregunta por dos cosas: que no sea `'\n'` (el Enter) y que no sea `EOF`.
 
 #### Desafío
 Completá el bucle que lee el cartel de a un carácter hasta el fin de la línea.
@@ -7668,7 +8093,15 @@ recompensa: xp 15, oro 15
 Tizón no confía en los dados de hueso de la taberna («nunca caen igual en dos Forjas distintas»). Inventó su propio dado: un número que se transforma con una cuenta cada vez que se tira.
 
 #### Gheco sugiere
-Un generador simple: `semilla = (semilla * 17 + 5) % 101` en cada tirada, y el dado es `semilla % 6 + 1` (de 1 a 6). Así sale **siempre** la misma secuencia, en cualquier compu. `rand()` hace algo parecido, pero su cuenta cambia según el sistema.
+Para un juego hacen falta números que parezcan al azar. Una forma simple es una cuenta que cambia un número, la **semilla**, en cada tirada:
+
+```c
+semilla = (semilla * 17 + 5) % 101;
+```
+
+El `% 101` hace que el número no crezca para siempre. Después, para que quede entre 1 y 6 como un dado: `semilla % 6` da de 0 a 5, y `+ 1` lo pasa a 1 a 6.
+
+Como la cuenta es fija, sale **siempre** la misma secuencia, en cualquier compu. `rand()`, la función de C, hace algo parecido, pero su cuenta cambia según el sistema.
 
 #### Desafío
 Completá la tirada del dado.
@@ -7736,7 +8169,13 @@ Ahora el combate de práctica va con azar de verdad. Tizón le da a Kira dos poc
 —Si estás por caerte, tomá una en vez de pegar. Pero solo si te quedan.
 
 #### Gheco sugiere
-`srand(4)` fija la semilla. `tirar(minimo, maximo)` devuelve `minimo + rand() % (maximo - minimo + 1)`. Cada turno: si la vida es menor que 10 y hay pociones, +15; si no, atacás. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+C trae `rand()` (de `<stdlib.h>`): cada vez que la llamás da un número grande que parece al azar. `srand(4)` fija la semilla: con la misma semilla sale siempre la misma secuencia, así el combate se puede repetir.
+
+Para un número entre `minimo` y `maximo`: `minimo + rand() % (maximo - minimo + 1)`. Escribilo una vez en una función `tirar(minimo, maximo)`.
+
+En cada turno: si la vida es menor que 10 y quedan pociones, tomás una (+15); si no, atacás.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Kira (30 de vida, 2 pociones) contra un orco (40
@@ -7846,7 +8285,11 @@ El oráculo de la taberna aprendió a pensar números al azar. Tizón le fijó l
 —Cuando quieras jugar en serio, la cambiás por el reloj.
 
 #### Gheco sugiere
-`srand(2026)` y después `rand() % 50 + 1`. En un comentario, contá que con `srand(time(NULL))` cambia en cada partida. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otro número.
+Fijá la semilla con `srand(2026)` y sacá el número secreto con `rand() % 50 + 1` (`% 50` da de 0 a 49, y `+ 1` lo pasa a 1 a 50).
+
+Para jugar de verdad, cada partida tendría que tener otro número: eso se logra con `srand(time(NULL))`, que usa la hora como semilla (necesita `#include <time.h>`). Contalo en un comentario.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otro número.
 
 #### Desafío
 El oráculo del 07, ahora con `rand() % 50 + 1`.
@@ -7952,7 +8395,14 @@ antes: R01-N09-M3
 El sello de la Forja graba cada letra de un renglón en la chapa, pero solo sabe grabar mayúsculas y números. Tizón quiere que lo demás quede marcado distinto, y saber cuánto hubo de cada cosa.
 
 #### Gheco sugiere
-Leé con `getchar()` hasta `'\n'` o `EOF`. De `<ctype.h>`: `isalpha` + `toupper` para las letras, `isdigit`, `isspace` (mostrás `_`) y el resto `?`. Llevá un contador por tipo.
+Leé con `getchar()` hasta `'\n'` o `EOF`, y por cada carácter preguntá qué es, con las funciones de `<ctype.h>`:
+
+- `isalpha(c)`: ¿es una letra? Mostrala en mayúscula con `toupper(c)`.
+- `isdigit(c)`: ¿es un dígito?
+- `isspace(c)`: ¿es un espacio? Mostrá `_` en su lugar.
+- Si no es ninguna, mostrá `?`.
+
+Llevá un contador por cada clase, como los de los bucles.
 
 #### Desafío
 Leé una línea carácter por carácter con
@@ -8227,7 +8677,9 @@ En el patio, toda la escoria de la Forja se junta y se levanta: el **Gólem de E
 —No lo vas a vencer de un golpe —dice Ferrum—. Partilo.
 
 #### Gheco sugiere
-Cada parte del combate en su función: `vida_restante(vida, golpe)` devuelve la vida que queda (nunca menos de 0).
+Cada parte del combate va en su propia función. `vida_restante(vida, golpe)` devuelve cuánta vida queda después del golpe.
+
+La vida nunca puede quedar negativa: si el golpe es más grande que lo que queda, la vida queda en 0. Eso es un `if` adentro de la función, antes de restar.
 
 #### Desafío
 Completá la función: si el golpe es mayor que la vida, la vida queda en 0.
@@ -8303,7 +8755,9 @@ recompensa: xp 15, oro 15
 El gólem grita números falsos para confundir: «¡mil!», «¡nada!», «¡-5!». Tizón le pasa a Kira una regla: solo valen los golpes entre 1 y 99.
 
 #### Gheco sugiere
-Se lee la línea con `fgets` y se interpreta con `sscanf`. Si `sscanf` no devuelve 1 o el número está fuera de rango, se ignora y se lee la siguiente.
+La receta segura para leer: `fgets` lee la línea y `sscanf` intenta sacar el número.
+
+Para aceptar un golpe tienen que cumplirse tres cosas a la vez (con `&&`): que `sscanf` haya devuelto 1, que el número sea por lo menos 1 y que no pase de 99. Si falla alguna, lo ignorás y leés la línea siguiente.
 
 #### Desafío
 Completá la condición para aceptar solo números entre 1 y 99.
@@ -8381,7 +8835,12 @@ recompensa: xp 15, oro 15
 El gólem tiene en el pecho ocho placas con números de temple, que Tizón le va dictando a Kira. Solo las placas con temple mayor a 600 resisten; las demás se pueden romper. Kira tiene que saber cuántas son y cuál es la más dura.
 
 #### Gheco sugiere
-Un `for` lee las ocho placas con `scanf`; en cada vuelta, un `if` cuenta las blandas y otro guarda la más dura (la primera placa arranca como la más dura).
+Un `for` de 8 vueltas, y en cada vuelta leés una placa con `scanf`. Adentro, dos preguntas separadas:
+
+- si es blanda, sumás uno al contador;
+- si es la más dura **hasta ahora**, la guardás.
+
+Para «la más dura» hay un truco: la primera placa siempre arranca como la más dura (no hay otra con qué compararla). Desde la segunda, solo la reemplazás si la nueva es mayor.
 
 #### Desafío
 Completá las dos condiciones.
@@ -8468,7 +8927,15 @@ Solo queda el corazón del gólem: una piedra de lava con 60 de vida. Kira tiene
 —Medí antes de pegar —le dice Tizón, y le pasa la libreta.
 
 #### Gheco sugiere
-Un bucle lee cada golpe, lo aplica con `vida_restante` y corta (`break`) cuando la vida llega a 0.
+Un bucle que, en cada vuelta, lee un golpe y lo aplica con `vida_restante`.
+
+Nuevo: `break;` corta el bucle en el momento, aunque la condición todavía diga que siga. Sirve para salir cuando pasa algo, como que la vida llegue a 0:
+
+```c
+if (energia == 0) {
+    break;
+}
+```
 
 #### Desafío
 Completá el bucle y el corte.
@@ -8560,7 +9027,13 @@ antes: R01-N10-M1
 Mientras el Gólem de Escoria se arma en el patio, el mostrador se llena de pedidos: todos quieren armas. Chispa ofrece atender, pero Kira prefiere hacer una caja registradora que no se equivoque.
 
 #### Gheco sugiere
-Un menú en un bucle: pedí código y cantidad con una función que repita hasta que sean válidos. Llevá el total y la cantidad de productos. Mostrá cada línea con `%3d`, `%-16s` y `%8.2f`.
+Este programa junta casi todo lo de la rama. Armalo en partes:
+
+- un menú adentro de un bucle, que termina cuando se elige el código 0;
+- una función que pida el código y la cantidad, y que repita hasta que los dos sean válidos;
+- un acumulador para el total y un contador de productos.
+
+Para el ticket, los anchos de `printf`: `%3d` para la cantidad, `%-16s` para el nombre y `%8.2f` para el precio.
 
 #### Desafío
 Escribí la caja registradora de la Forja:
@@ -8731,7 +9204,15 @@ El Gólem de Escoria avanza por el patio con tres placas de armadura: cabeza, pe
 —No le pegues donde tiene placa —dice Ferrum—. Primero rompela. Después, el golpe sí entra.
 
 #### Gheco sugiere
-Las tres placas son bits de un `unsigned`. Cada turno, `zona = 1u << tirar(0, 2)`. Si `placas & zona`, la rompés con `placas &= ~zona`. Si no, restás el daño sin bajar de 0. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+Las tres placas del Gólem se guardan como tres bits de un `unsigned`, una por zona.
+
+En cada turno:
+
+1. Elegís la zona al azar: `zona = 1u << tirar(0, 2)` (el bit 0, el 1 o el 2).
+2. Si la placa de esa zona sigue puesta (`placas & zona` no da 0), el golpe la rompe: `placas &= ~zona` apaga ese bit.
+3. Si no hay placa, el golpe hace daño: restás la vida, sin bajar de 0.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Simulá el combate contra el Gólem de Escoria:

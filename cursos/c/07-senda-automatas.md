@@ -155,7 +155,15 @@ recompensa: xp 15, oro 15
 Kira prende su primera luz y se queda mirándola un minuto entero. Con `delay`, la placa no hace **nada más** mientras espera. Tizón quiere que parpadee y que, a la vez, siga escuchando. Acá no hay placa: se prueba la lógica del autómata sola, con el tiempo y los pines simulados. En la placa de verdad, lo mismo va adentro de loop().
 
 #### Gheco sugiere
-En lugar de esperar, se guarda `ultimo` (el momento del último cambio). En cada vuelta, si `ahora - ultimo >= INTERVALO`, se cambia el led y `ultimo = ahora`.
+En una placa como Arduino, el programa es un bucle que se repite todo el tiempo. Si para hacer parpadear un led esperás medio segundo sin hacer nada, la placa no puede atender nada más mientras tanto (ni un botón).
+
+El truco es **mirar el reloj** en vez de esperar. Guardás en `ultimo` el momento del último cambio, y en cada vuelta preguntás:
+
+```c
+if (ahora - ultimo >= INTERVALO) { ... }
+```
+
+Si ya pasó el intervalo, cambiás el led y anotás `ultimo = ahora`. Si no, seguís con otras cosas.
 
 #### Desafío
 Completá la condición y lo que se anota.
@@ -233,7 +241,11 @@ recompensa: xp 15, oro 15
 La puerta del Taller tiene un semáforo para que los autómatas no choquen. Chispa lo cruza siempre en rojo «porque tiene apuro». Kira programa el ciclo.
 
 #### Gheco sugiere
-Tres estados con su duración: verde 3000, amarillo 1000, rojo 2000. Cuando pasó la duración del estado actual, se pasa al siguiente con `(estado + 1) % 3`.
+Un semáforo es una máquina de estados con reloj: verde dura 3000 ms, amarillo 1000 y rojo 2000.
+
+Guardás desde cuándo está en el estado actual. Cuando pasó su duración, se pasa al siguiente y se anota el momento del cambio.
+
+Para pasar al siguiente en ronda (0, 1, 2, 0, 1…) sirve el resto: `(estado + 1) % 3`. Después del 2, `3 % 3` da 0 y vuelve al verde.
 
 #### Desafío
 Completá el cambio de estado.
@@ -310,7 +322,12 @@ recompensa: xp 15, oro 15
 El autómata tiene 8 leds en el pecho, y el Taller los guarda en un solo byte: cada bit, un led. Tizón quiere encender el 0 y el 3 y apagar el 7, sin tocar los demás.
 
 #### Gheco sugiere
-Encender el led `n`: `puerto |= (1 << n)`. Apagarlo: `puerto &= ~(1 << n)`. `%02X` muestra el byte en hexa con dos cifras.
+En una placa, varios leds se manejan con un solo byte, el **puerto**: cada bit es un pin (1 prendido, 0 apagado). Es lo mismo que las banderas de la rama 1:
+
+- prender el pin `n`: `puerto |= (1 << n);`
+- apagarlo: `puerto &= ~(1 << n);`
+
+`%02X` muestra el byte en hexadecimal con dos cifras y letras mayúsculas.
 
 #### Desafío
 Completá el encendido y el apagado.
@@ -721,7 +738,9 @@ recompensa: xp 15, oro 15
 Kira aprieta un botón **una** vez y el autómata cuenta **siete**. Tizón se pasa la tarde mirando el botón con la lupa hasta que lo ve: el contacto **rebota** como una pelota. Acá no hay placa: se prueba la lógica del autómata sola, con el tiempo y los pines simulados. En la placa de verdad, lo mismo va adentro de loop().
 
 #### Gheco sugiere
-Se guarda la última lectura cruda y desde cuándo está así. El estado «de verdad» cambia solo si la lectura cruda se mantuvo igual al menos `ESTABLE` ms. Y se cuenta cuando ese estado pasa a apretado.
+Un botón de verdad **rebota**: al apretarlo, durante unos milisegundos la placa lee apretado, suelto, apretado, suelto… muy rápido. Si contaras cada cambio, una sola pulsación contaría como varias.
+
+La solución (*debounce*): guardás la última lectura y desde cuándo está así. El estado «de verdad» recién cambia cuando la lectura se mantuvo igual al menos `ESTABLE` milisegundos. Y la pulsación se cuenta cuando ese estado de verdad pasa a apretado.
 
 #### Desafío
 Completá la condición de lectura estable.
@@ -816,7 +835,11 @@ recompensa: xp 15, oro 15
 La perilla del autómata da números de 0 a 1023, y el brazo (un servo) va de 0 a 180 grados. Chispa giró la perilla al máximo y el brazo intentó ir a 1023 grados. Hubo un ruido feo.
 
 #### Gheco sugiere
-`mapear(x, in_min, in_max, out_min, out_max)` hace la regla de tres. Con enteros, multiplicar antes de dividir para no perder precisión.
+Una perilla da un número de 0 a 1023, pero un servo (un motorcito que gira a un ángulo) quiere de 0 a 180. Hay que pasar de un rango al otro: es una **regla de tres**.
+
+`mapear(x, in_min, in_max, out_min, out_max)`: cuánto avanzó `x` en el rango de entrada, por el tamaño del rango de salida, dividido el tamaño del rango de entrada, más el comienzo del rango de salida.
+
+Con enteros, **multiplicá antes de dividir**: si dividís primero, la división entera se come los decimales.
 
 #### Desafío
 Completá la cuenta de `mapear`.
@@ -887,7 +910,15 @@ recompensa: xp 15, oro 15
 La perilla tiembla: 510, 515, 508, 600 (un salto), 512… y el brazo tiembla con ella. Tizón propone promediar las últimas 4 lecturas.
 
 #### Gheco sugiere
-Un array circular de 4: al llegar una lectura, se resta de la suma la que sale, se guarda la nueva en su lugar y se suma. El promedio es `suma / 4` (cuando ya hay 4).
+Las lecturas de un sensor tiemblan un poco. Para suavizarlas se promedian las últimas 4: un **promedio móvil**.
+
+Se guardan en un array de 4 que se usa en ronda (posición `i % 4`). Para no sumar todo de nuevo cada vez, al llegar una lectura:
+
+1. restás de la suma la que estaba en ese lugar (la que sale);
+2. guardás la nueva en su lugar;
+3. la sumás.
+
+El promedio es `suma / 4`, recién cuando ya hay 4 lecturas.
 
 #### Desafío
 Completá la actualización de la suma.
@@ -1297,7 +1328,9 @@ recompensa: xp 15, oro 15
 El primer autómata de Kira le manda a la compu un mensaje larguísimo sin pausas y la compu entiende «BANANA». Tizón inventa un idioma: **una línea por mensaje**, con una letra al principio que dice de qué se trata.
 
 #### Gheco sugiere
-Se lee línea por línea. `S 23` es un sensor con su valor; `B 1` es el botón. Con `sscanf(linea, "%c %d", &tipo, &valor) == 2` se separan. Lo que no encaja se cuenta como ignorado.
+La placa y la compu se hablan por un cable mandando texto, una línea por mensaje. Cada mensaje empieza con una letra que dice qué es: `S 23` es un sensor con su valor y `B 1` es el botón.
+
+Para separarlo: `sscanf(linea, "%c %d", &tipo, &valor)` tiene que devolver 2. Si no devuelve 2, o la letra no es `S` ni `B`, el mensaje no se entiende: lo contás como ignorado.
 
 #### Desafío
 Completá la lectura del mensaje.
@@ -1383,7 +1416,9 @@ recompensa: xp 15, oro 15
 Chispa se paró arriba del cable y algunos mensajes llegan cambiados. Kira agrega a cada mensaje una **suma de control**: si no coincide, el mensaje se descarta.
 
 #### Gheco sugiere
-El mensaje es `S valor suma`, donde `suma = valor % 97`. Al recibir, se recalcula: si `valor % 97 != suma`, el mensaje está dañado.
+Por un cable, a veces un mensaje llega dañado. Para darse cuenta, quien manda agrega una **suma de control**: un número calculado con el valor. Acá: `suma = valor % 97`.
+
+Quien recibe vuelve a hacer la cuenta con el valor que le llegó. Si no da la misma suma, algo se dañó en el camino.
 
 #### Desafío
 Completá la comprobación.
@@ -1890,7 +1925,11 @@ En el fondo del Taller espera el **Autómata Guardián**, con un joystick de bro
 En reposo, el joystick no marca 512 exacto: marca 509, 515… y el personaje camina solo.
 
 #### Gheco sugiere
-Los valores entre `CENTRO - ZONA` y `CENTRO + ZONA` se toman como quieto. Más abajo, `izquierda`; más arriba, `derecha`.
+Un joystick casi nunca queda exactamente en el centro: quieto puede marcar 509 o 517. Por eso se usa una **zona muerta**: todo lo que está cerca del centro se toma como quieto.
+
+- entre `CENTRO - ZONA` y `CENTRO + ZONA`: quieto;
+- más abajo: izquierda;
+- más arriba: derecha.
 
 #### Desafío
 Completá la condición de la zona muerta.
@@ -1984,7 +2023,12 @@ recompensa: xp 30, oro 30
 Última prueba del Guardián: recorrer la mazmorra del Dragón con **su** control. La placa manda `J` con la dirección y `B` cuando se aprieta el botón (que abre puertas). La compu mueve a Kira.
 
 #### Gheco sugiere
-Por cada línea: `J -1` o `J 1` mueve a Kira un lugar; `B 1` abre la puerta si está justo al lado (la puerta está en 4). Al llegar a 6 con la puerta abierta, se gana.
+Por cada línea que llega:
+
+- `J -1` o `J 1` mueve a Kira un lugar a la izquierda o a la derecha;
+- `B 1` abre la puerta, pero solo si Kira está justo al lado (la puerta está en la posición 4).
+
+Kira no puede pasar la puerta cerrada. Cuando llega a la salida (6) con la puerta abierta, se gana.
 
 #### Desafío
 Completá el movimiento y la apertura de la puerta.

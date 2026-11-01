@@ -212,7 +212,9 @@ recompensa: xp 15, oro 15
 Kira abre su primera ventana y la cierra sin querer en el mismo segundo: su programa terminaba enseguida. Tizón cronometra: «Duró 0,02 segundos. Récord». Acá no se abre una ventana: se prueba la lógica del juego sola, como en las pruebas de cualquier juego de verdad. El dibujo con SDL3 queda para tu compu.
 
 #### Gheco sugiere
-Un juego es un bucle: en cada vuelta (un **cuadro**) se actualiza el mundo. Acá el bucle corre 5 cuadros y en cada uno la caja avanza su velocidad.
+Un videojuego es, por dentro, un bucle que no para. Cada vuelta es un **cuadro** (en inglés, *frame*): el programa lee las teclas, mueve todo un poquito y dibuja la pantalla. Si pasa 60 veces por segundo, el ojo ve movimiento.
+
+Acá el bucle corre 5 cuadros. En cada uno, la caja avanza lo que dice su velocidad: la posición nueva es la de antes más la velocidad.
 
 #### Desafío
 Completá la actualización de la posición en cada cuadro.
@@ -293,7 +295,9 @@ recompensa: xp 15, oro 15
 En la compu de Tizón (rapidísima) la caja vuela; en la de Chispa (vieja) se arrastra. Ferrum: —El metal no puede andar más rápido porque el horno es nuevo.
 
 #### Gheco sugiere
-La velocidad se piensa en **píxeles por segundo** y cada cuadro avanza `velocidad * dt`, donde `dt` es lo que duró el cuadro. Con 60 cuadros de 1/60 o 240 de 1/240, al segundo se llega al mismo lugar.
+Si la caja avanza 2 píxeles por cuadro, en una compu que dibuja 60 cuadros por segundo va más lenta que en una que dibuja 240. Para que vaya igual en todas, la velocidad se piensa en **píxeles por segundo**.
+
+En cada cuadro se avanza `velocidad * dt`, donde `dt` es cuánto duró el cuadro, en segundos (1/60, o 1/240). Con más cuadros, cada paso es más chico, y al segundo se llega al mismo lugar.
 
 #### Desafío
 Completá el avance con `dt`.
@@ -370,7 +374,13 @@ recompensa: xp 15, oro 15
 La caja de Kira se escapa por el borde derecho de la pantalla y no vuelve más. Ferrum golpea el marco de la ventana: —Que rebote como el martillo en el yunque.
 
 #### Gheco sugiere
-Si `x` pasa el borde derecho (`x > ANCHO - LADO`), se la deja en el borde y se invierte la velocidad (`vx = -vx`). Lo mismo con el izquierdo (`x < 0`).
+Para que la caja rebote en un borde:
+
+1. después de moverla, preguntá si se pasó;
+2. si se pasó, dejala justo en el borde;
+3. y dale vuelta la velocidad: `vx = -vx` (si iba a la derecha, ahora va a la izquierda).
+
+Ojo con el borde derecho: la `x` es la esquina izquierda de la caja, así que se pasa cuando `x` supera el ancho de la pantalla **menos** el lado de la caja.
 
 #### Desafío
 Completá el rebote en el borde derecho.
@@ -978,7 +988,12 @@ recompensa: xp 15, oro 15
 El personaje de Kira salta **todo el tiempo** mientras mantiene la tecla, como un resorte. Tizón lo mide: 60 saltos por segundo. Acá no se abre una ventana: se prueba la lógica del juego sola, como en las pruebas de cualquier juego de verdad. El dibujo con SDL3 queda para tu compu.
 
 #### Gheco sugiere
-«Recién apretada» es: está apretada **ahora** y **no** lo estaba en el cuadro anterior. Para saltar se usa eso; para caminar alcanza con «está apretada».
+En un juego, una tecla puede estar **recién apretada** (justo en este cuadro) o **mantenida** (sigue apretada desde antes).
+
+- Para caminar, alcanza con saber si está apretada.
+- Para saltar, importa el momento: si no, mantenerla haría saltar en todos los cuadros.
+
+«Recién apretada» es: está apretada **ahora** y **no** lo estaba en el cuadro anterior. Por eso hay que guardar cómo estaba antes.
 
 #### Desafío
 Completá la condición de «recién apretada».
@@ -1056,7 +1071,11 @@ recompensa: xp 15, oro 15
 Chispa descubrió que caminando en diagonal su personaje va **más rápido** que derecho, y lo usa para ganar todas las carreras. Kira lo arregla.
 
 #### Gheco sugiere
-Con derecha y abajo a la vez, el vector es (1, 1), que mide raíz de 2. Para que mida 1, se divide cada parte por `sqrt(dx*dx + dy*dy)` (si no es 0).
+Un movimiento se puede pensar como un **vector**: cuánto se mueve en `x` y cuánto en `y`. Derecha es (1, 0) y abajo es (0, 1).
+
+Con las dos a la vez, el vector es (1, 1), que en diagonal mide raíz de 2 (unos 1,41): el personaje iría más rápido en diagonal. Para arreglarlo se **normaliza**: se divide cada parte por el largo del vector, `sqrt(dx*dx + dy*dy)`, así mide 1.
+
+Si no se aprieta nada, el largo es 0: no dividas por 0.
 
 #### Desafío
 Completá la normalización.
@@ -1140,7 +1159,9 @@ recompensa: xp 15, oro 15
 El personaje de Kira se va por el borde y no vuelve. Lo vuelve a crear. Lo vuelve a perder. Tizón dibuja con tiza el borde de la pantalla en el piso, por las dudas.
 
 #### Gheco sugiere
-Después de mover, se limita cada coordenada al rango de la pantalla con una función `limitar(valor, min, max)`.
+Para que el personaje no se salga de la pantalla, después de moverlo se **limita** cada coordenada a un rango: si quedó menos que el mínimo, vale el mínimo; si quedó más que el máximo, vale el máximo; si no, queda como está.
+
+Es la misma función `limitar(valor, min, max)` de la caja de herramientas.
 
 #### Desafío
 Completá `limitar`.
@@ -1810,7 +1831,15 @@ recompensa: xp 15, oro 15
 Las criaturas de Kira atraviesan las paredes como fantasmas toda la tarde. Chispa propone venderlas como «función nueva». Tizón propone preguntar si dos rectángulos se tocan.
 
 #### Gheco sugiere
-Dos rectángulos se superponen si se superponen **en x** (`a.x < b.x + b.w && b.x < a.x + a.w`) **y** en y (lo mismo con `y` y `h`).
+Para saber si dos cosas se tocan (una **colisión**), cada una se piensa como un rectángulo: esquina (`x`, `y`), ancho `w` y alto `h`.
+
+Dos rectángulos se superponen si se superponen **en x y en y** a la vez. En x se superponen si cada uno empieza antes de que termine el otro:
+
+```c
+a.x < b.x + b.w && b.x < a.x + a.w
+```
+
+En `y` es lo mismo, con `y` y `h`.
 
 #### Desafío
 Completá la superposición en y.
@@ -1890,7 +1919,12 @@ recompensa: xp 15, oro 15
 Las criaturas de hierro de la Forja Viva siguen el rastro de Kira. La primera que programó ella se queda quieta mirando a la nada, «pensando».
 
 #### Gheco sugiere
-En cada cuadro, la criatura compara su posición con la de Kira y da **un paso** hacia ella en cada eje (si ya está alineada en un eje, no se mueve en ese).
+Una criatura que persigue no necesita nada complicado: en cada cuadro mira dónde está Kira y da **un paso** hacia ella en cada eje.
+
+- Si está a la izquierda de Kira, suma 1; si está a la derecha, resta 1.
+- Si ya está alineada en ese eje, no se mueve en ese eje.
+
+Una función `paso_hacia(desde, hasta)` hace eso para un eje, y la usás para `x` y para `y`.
 
 #### Desafío
 Completá el paso en x.
@@ -1979,7 +2013,12 @@ recompensa: xp 15, oro 15
 Hay monedas de fuego frío por todo el nivel. Chispa propone que valgan el doble «si las agarra él». Kira hace que cada moneda se cuente **una sola vez**.
 
 #### Gheco sugiere
-Cada moneda tiene `activa`. Si está activa y toca al personaje, se desactiva y se suma. Desactivada, ya no cuenta aunque la vuelva a tocar.
+Cada moneda tiene un campo `activa`. En cada paso, revisás todas:
+
+- si está activa **y** toca al personaje, la juntás: la sumás y la desactivás;
+- si ya está desactivada, no cuenta, aunque el personaje vuelva a pasar por ahí.
+
+Sin `activa`, la misma moneda se sumaría cada vez que la pisás.
 
 #### Desafío
 Completá la condición y la recolección.
@@ -2949,7 +2988,9 @@ recompensa: xp 20, oro 20
 En el corazón de la Forja Viva vive la **Salamandra del Horno**. La primera partida dura cuatro segundos, y el juego sigue «jugando» después de perder. Kira ordena el juego en **estados**.
 
 #### Gheco sugiere
-El juego está siempre en **un** estado. Según el evento (`empezar`, `todas las monedas`, `te alcanzó`), cambia de estado. Una función `siguiente(estado, evento)` decide.
+Un juego también es una **máquina de estados**: siempre está en uno (menú, jugando, ganaste, perdiste) y ciertos eventos lo cambian.
+
+Una función `siguiente(estado, evento)` decide: desde el menú, «empezar» pasa a jugando; jugando, «todas las monedas» pasa a ganaste y «te alcanzó» pasa a perdiste. Si un evento no cambia nada en ese estado, devolvés el mismo.
 
 #### Desafío
 Completá las dos transiciones que faltan.
@@ -3061,7 +3102,14 @@ recompensa: xp 30, oro 30
 Última partida. Kira tiene el recorrido planeado en la libreta de Tizón. Si junta las tres monedas antes de que la Salamandra la alcance, la Salamandra se duerme.
 
 #### Gheco sugiere
-En cada cuadro: Kira avanza un paso de su recorrido, junta lo que toca, la Salamandra da un paso hacia ella, y se revisa si la alcanzó. El juego termina en `GANASTE` o `PERDISTE`.
+El orden de cada cuadro importa:
+
+1. Kira avanza un paso de su recorrido.
+2. Junta lo que toca.
+3. La Salamandra da un paso hacia ella.
+4. Se revisa si alguien ganó.
+
+Se gana cuando se juntaron todas las monedas; se pierde cuando la Salamandra está en el mismo lugar que Kira. En cuanto pasa una de las dos, el juego termina.
 
 #### Desafío
 Completá la condición de victoria y la de derrota.

@@ -202,7 +202,11 @@ La primera sala está llena de piezas que parecen perfectas. Kira le grita a una
 —No hace falta gritarle —dice—. Hace falta frenarla en la línea justa.
 
 #### Gheco sugiere
-El promedio de 4 notas da 7 y no 7.5: la división se hace con dos enteros. Seguilo línea por línea (o con un `printf` de depuración): ¿qué valor tiene la división antes de guardarse?
+Un programa que compila y corre puede igual dar un resultado equivocado: eso es un **bug** (un error de lógica). Encontrarlo y arreglarlo se llama **depurar**.
+
+Una técnica simple: seguir el programa línea por línea y preguntarte qué vale cada variable. Otra: agregar un `printf` de prueba para **ver** el valor en ese momento.
+
+Pista para este: la suma da 30 y hay 4 notas. ¿Qué pasa cuando C divide dos enteros? Acordate de cómo se conseguían los decimales.
 
 #### Desafío
 Arreglá el promedio sin cambiar las notas.
@@ -267,7 +271,12 @@ recompensa: xp 10, oro 10
 Tizón escribió un control que dice «stock agotado» cuando el stock es 0. Nunca lo dice. Y después de pasar por el control, el stock de todo queda en 0.
 
 #### Gheco sugiere
-`if (stock = 0)` **guarda** 0 en `stock` y la condición vale 0 (falso). Para comparar se usa `==`. El compilador lo avisa con `-Wall`: leé las advertencias.
+Uno de los bugs más famosos de C: escribir `=` donde iba `==`.
+
+- `if (x == 0)` **pregunta** si `x` vale 0.
+- `if (x = 0)` **guarda** 0 en `x`, y como la condición vale 0, es falsa: nunca entra. Y encima `x` cambió.
+
+El compilador lo avisa si compilás con `-Wall`: las **advertencias** (*warnings*) no frenan la compilación, pero casi siempre señalan un error. Leelas siempre.
 
 #### Desafío
 Corregí la comparación.
@@ -338,7 +347,9 @@ recompensa: xp 10, oro 10
 Hulda suma las cargas del día con un programa que a veces da bien y a veces da cualquier cosa, según el día. —En mi compu anda —dice. Ferrum: —«En mi compu anda» no alcanza.
 
 #### Gheco sugiere
-Una variable local sin valor inicial tiene **basura**: lo que quedó en esa memoria. El acumulador tiene que arrancar en 0.
+Una variable que se crea adentro de una función, sin valor inicial, no vale 0: vale **basura**, lo que haya quedado en esa memoria de antes. Puede dar bien en una compu y mal en otra.
+
+Por eso un acumulador siempre se inicializa: `int total = 0;`.
 
 #### Desafío
 Inicializá el acumulador.
@@ -401,7 +412,12 @@ recompensa: xp 15, oro 15
 Tizón suma el carbón de los 7 días de la semana y le da de menos. Lo revisa tres veces con el calibre: el carbón está, el que falta es un **día**.
 
 #### Gheco sugiere
-Si el contador arranca en 1, para llegar al 7 la condición es `dia <= 7`. Con `< 7` se queda en el 6: le falta uno. Probá a mano la primera y la última vuelta.
+El error de **uno de menos** (o uno de más) es de los más comunes en los bucles. Para encontrarlo, probá a mano la primera y la última vuelta:
+
+- ¿con qué valor arranca el contador?
+- ¿con qué valor hace la **última** vuelta?
+
+Si arranca en 1 y tiene que llegar al 7 incluido, la condición tiene que dejar pasar el 7.
 
 #### Desafío
 Corregí el límite para que se cuenten los 7 días.
@@ -467,7 +483,12 @@ En la primera sala de la Prueba hay un programa que calcula el promedio de cinco
 —Dos errores. Encontralos.
 
 #### Gheco sugiere
-Uno se sale del array (mirá el límite del `for`) y el otro hace mal la cuenta del promedio (¿división entera?). En tu compu, `-fsanitize=address` marca el primero y `gdb` ayuda con el segundo.
+Este programa tiene dos bugs distintos:
+
+- **Uno se sale del array.** Mirá el límite del `for`: si el array tiene `n` elementos, el último índice es `n - 1`.
+- **Otro hace mal el promedio.** ¿Se divide entre dos enteros?
+
+En tu compu hay herramientas que ayudan: compilar con `-fsanitize=address` hace que el programa avise cuando lee fuera de un array, y `gdb` (un **depurador**) te deja ejecutar de a una línea y mirar las variables.
 
 #### Desafío
 El código inicial calcula el promedio de cinco temperaturas y cuántas lo superan, pero tiene **dos** errores.
@@ -575,7 +596,13 @@ Tizón trae un programa que en su compu anda y en la de Hulda no.
 —Tiene tres cosas que el estándar no define. Según la máquina, hace cualquier cosa.
 
 #### Gheco sugiere
-Buscá: una variable que se usa sin valor inicial, una cuenta que se pasa de `INT_MAX` y un acceso fuera de un array. En tu compu, `-fsanitize=address,undefined` los marca.
+Hay errores que C llama **comportamiento indefinido**: el lenguaje no dice qué pasa, así que cada compu puede hacer algo distinto, y a veces hasta parece que anda. Buscá tres:
+
+- una variable que se usa sin valor inicial (basura);
+- una cuenta que se pasa de `INT_MAX`, el `int` más grande (con signo, desbordar es indefinido);
+- un acceso fuera de un array.
+
+En tu compu, `-fsanitize=address,undefined` los marca cuando pasan. En un comentario, explicá cada uno y cómo lo arreglaste.
 
 #### Desafío
 El código inicial tiene **tres** comportamientos indefinidos y, según la compu, puede parecer que anda. Compilalo con `-Wall -Wextra -g -fsanitize=address,undefined`, leé las advertencias y los informes, y corregí los tres. En un comentario, explicá cada uno: por qué es indefinido y cómo lo arreglaste.
@@ -680,7 +707,9 @@ En la sala hay una escalera de piedra que baja de a dos escalones. Con 4 se lleg
 —Arreglale el final —dice Ferrum.
 
 #### Gheco sugiere
-La suma baja de a 2: con un número impar nunca llega a 0. El caso base tiene que frenar cuando `n <= 0`, no solo cuando `n == 0`.
+La recursión baja de a 2: 5, 3, 1, -1, -3… Con un número impar **salta** el 0, así que un caso base que solo pregunta `n == 0` nunca se cumple. La función se llama para siempre hasta que se llena la memoria de las llamadas (la **pila**), y el programa se corta con `Segmentation fault`.
+
+El caso base tiene que atrapar todo lo que ya no sirve: `n <= 0`.
 
 #### Desafío
 El código inicial calcula con recursión la suma `n + (n - 2) + (n - 4) + …`. Con 4 anda, pero con 5 se corta con `Segmentation fault`.
@@ -1034,7 +1063,13 @@ recompensa: xp 10, oro 10
 La segunda sala está llena de martillos de prueba. Tizón entra, ve los martillos y los calibres, y se emociona hasta las lágrimas: por fin alguien le **pide** que mida todo.
 
 #### Gheco sugiere
-`PROBAR(cond)` suma 1 a las pruebas y, si `cond` es falsa, muestra la línea (`__LINE__`). Si es verdadera, suma 1 a las que pasaron.
+Una **prueba** (*test*) es un pedacito de código que revisa que una función dé lo que tiene que dar: «`maximo(3, 7)` tiene que ser 7». Si mañana cambiás la función, volvés a correr las pruebas y sabés al instante si rompiste algo.
+
+La macro `PROBAR(cond)` hace eso:
+
+- suma uno al total de pruebas;
+- si la condición se cumple, suma uno a las que pasaron;
+- si no, muestra la línea de la prueba que falló con `__LINE__`.
 
 #### Desafío
 Completá la macro: si la condición se cumple, cuenta una que pasó.
@@ -1111,7 +1146,9 @@ recompensa: xp 15, oro 15
 —No se prueba donde la espada es fuerte —dice Ferrum—. Se prueba en los bordes. —La función que clasifica la temperatura anda con 500 y con 1100… y falla justo en 800.
 
 #### Gheco sugiere
-Las pruebas del borde (800 exacto) muestran el error: «templada» empieza **en** 800, así que la comparación es `>=`.
+Los errores suelen esconderse en los **bordes**: el valor justo donde cambia la respuesta. Si una regla dice «desde 800», probá 799, 800 y 801.
+
+Las pruebas te muestran cuál falla. Fijate si «desde 800» incluye al 800: la diferencia entre `>` y `>=` está justo ahí.
 
 #### Desafío
 Corregí la función para que pasen las cinco pruebas.
@@ -1203,7 +1240,15 @@ recompensa: xp 15, oro 15
 Tizón propone algo raro: escribir las pruebas **antes** que la función. Las pruebas de `es_bisiesto` ya están; la función no.
 
 #### Gheco sugiere
-Un año es bisiesto si es divisible por 4, salvo los divisibles por 100, que solo lo son si también son divisibles por 400.
+Esta vez las pruebas ya están escritas **antes** que la función: escribís la función hasta que pasen todas. Esa forma de trabajar se llama TDD (desarrollo guiado por pruebas).
+
+La regla del año bisiesto, en partes:
+
+- si es divisible por 4, es bisiesto…
+- …salvo que sea divisible por 100;
+- pero los divisibles por 400 sí son bisiestos.
+
+Con `%` preguntás si es divisible, y con `&&` y `||` juntás las partes.
 
 #### Desafío
 Escribí `es_bisiesto` hasta que pasen las cinco pruebas.
@@ -1284,7 +1329,11 @@ recompensa: xp 15, oro 15
 Chispa encontró un error en la balanza del Gremio y, por primera vez en su vida, el error es **en contra suya**: con 1999 centavos y 10 % de descuento le cobran 1799 en vez de 1800. Antes de arreglarlo, Kira escribe la prueba que lo muestra.
 
 #### Gheco sugiere
-La regla del Gremio: el descuento es el 10 % del precio, en centavos enteros y **redondeado para abajo** (`centavos / 10`), y se resta. Con 1999, el descuento es 199 y se paga 1800. La cuenta `centavos * 9 / 10` redondea el precio final para abajo y da 1799.
+Apareció un caso que la función resuelve mal. La regla del Gremio dice que se calcula **el descuento** (el 10 % del precio, redondeado para abajo) y **después** se resta.
+
+La cuenta de ahora redondea el **precio final**, no el descuento, y por eso en algunos precios da un centavo de diferencia. Probá a mano con 1999 centavos las dos formas.
+
+Arreglala sin romper las pruebas que ya pasaban.
 
 #### Desafío
 Arreglá la función para que pase la prueba nueva sin romper las otras.
@@ -1360,7 +1409,14 @@ Tizón tiene un martillo de prueba para cada regla del año bisiesto y quiere us
 —Divisible por 4, por 100, por 400. Cada parte, su golpe.
 
 #### Gheco sugiere
-Con `VERIFICAR(condicion)` probá un caso de cada parte de la regla: 2024 (sí), 2023 (no), 1900 y 2100 (no), 2000 y 2400 (sí). `RESUMEN()` muestra cuántas pasaron.
+Buenas pruebas cubren **cada parte** de la regla, no muchos casos parecidos. Para el bisiesto, uno de cada camino:
+
+- divisible por 4 (sí): 2024;
+- no divisible por 4 (no): 2023;
+- divisible por 100 pero no por 400 (no): 1900 y 2100;
+- divisible por 400 (sí): 2000 y 2400.
+
+Con `VERIFICAR(condicion)` escribís cada una, y `RESUMEN()` muestra cuántas pasaron.
 
 #### Desafío
 Con el mini framework (`VERIFICAR` y `RESUMEN`), escribí las pruebas de `es_bisiesto`. Elegí casos que cubran **cada parte** de la regla: divisible por 4, no divisible por 4, divisible por 100 pero no por 400 (dos casos) y divisible por 400 (dos casos). El programa devuelve 0 si pasan todas.
@@ -1447,7 +1503,15 @@ Chispa vende un contador de palabras que, según él, no falla nunca. Lo prueba 
 —¿Ves? Perfecto.
 
 #### Gheco sugiere
-Escribí primero las pruebas de los bordes: texto vacío, espacios al principio, al final y dobles, tabulaciones y saltos de línea. Mirá cuáles fallan y después corregí la función contando el paso de espacio a no espacio (`isspace`).
+Primero las pruebas, después el arreglo. Escribí pruebas para los casos límite:
+
+- texto vacío;
+- una sola palabra;
+- espacios al principio, al final y dobles;
+- tabulaciones y saltos de línea;
+- un texto con solo espacios.
+
+Correlas y mirá cuáles fallan. Recién ahí arreglá la función. Una idea que funciona: contar las veces que se pasa de un espacio (`isspace`) a algo que no es espacio.
 
 #### Desafío
 La función `contar_palabras` del código inicial parece andar con `"hola mundo"`. Escribí pruebas para los casos límite: texto vacío, una palabra, espacios de más (al principio, al final y dobles), tabulaciones y saltos de línea, y un texto solo con espacios. Ejecutalas, mirá cuáles fallan y **después** corregí la función hasta que pasen todas.
@@ -1560,7 +1624,14 @@ Hulda quiere una función que deje prolijos los nombres de los mineros, pero est
 —Si sabés qué tiene que dar, después es fácil hacerlo.
 
 #### Gheco sugiere
-La macro `PROBAR` compara lo que devuelve `normalizar` con lo esperado. Para la función: saltá espacios, poné mayúscula a la primera letra de cada palabra y minúscula al resto, un solo espacio entre palabras, y fijate de no pasarte de `tam`.
+Primero las pruebas: con `PROBAR`, comparás lo que deja `normalizar` con lo que esperás (con `strcmp`).
+
+Después la función, recorriendo el nombre letra por letra:
+
+- salteá los espacios de más;
+- la primera letra de cada palabra va en mayúscula y el resto en minúscula;
+- un solo espacio entre palabras;
+- antes de escribir cada letra, fijate que entre en `tam` (contando el `'\0'`). Si no entra, devolvé `false`.
 
 #### Desafío
 Escribí **primero** las pruebas y **después** la función `bool normalizar(const char *nombre, char *salida, size_t tam)`, que deja el nombre sin espacios de más y con Mayúscula Inicial en cada palabra, sin pasarse de `tam` (si no entra, devuelve `false`):
@@ -2029,7 +2100,14 @@ recompensa: xp 10, oro 10
 Los comerciantes del Gremio pierden los teléfonos de sus proveedores. Chispa es el primero en probar la agenda: carga su teléfono como «llamame».
 
 #### Gheco sugiere
-Se recorre el texto: cada carácter tiene que ser un dígito, un espacio o un `+`, y tiene que haber al menos 6 dígitos.
+Para validar un teléfono, recorrés el texto carácter por carácter:
+
+- si es un dígito (`isdigit`), lo contás;
+- si no es dígito, solo se acepta un espacio o un `+`; cualquier otra cosa lo hace inválido.
+
+Al final, tiene que haber por lo menos 6 dígitos.
+
+Un detalle: a las funciones de `<ctype.h>` conviene pasarles el carácter como `(unsigned char)`, para que las letras con tilde no den problemas.
 
 #### Desafío
 Completá la condición de carácter inválido.
@@ -2120,7 +2198,10 @@ recompensa: xp 15, oro 15
 Hulda busca en la agenda «HULDA», «hulda» y «Hulda», y solo la encuentra con la última. Grita fuerte. Kira tiene que hacer que la encuentre siempre.
 
 #### Gheco sugiere
-Se comparan letra por letra con `tolower`: si alguna difiere, no son iguales; si las dos terminan juntas, sí.
+`strcmp` distingue mayúsculas: para él, «Ana» y «ana» son distintos. Para comparar sin importar eso, recorré los dos textos a la vez y compará letra por letra pasadas a minúscula con `tolower`:
+
+- si alguna difiere, no son iguales;
+- si llegan al final, son iguales solo si los **dos** terminaron juntos (si no, uno es más largo).
 
 #### Desafío
 Completá la comparación letra por letra.
@@ -2208,7 +2289,11 @@ recompensa: xp 15, oro 15
 Cada renglón que llega al Gremio dice «nombre;teléfono;email», y los nombres tienen espacios («Maese Ferrum»). Tizón quiere los tres campos bien separados.
 
 #### Gheco sugiere
-`sscanf(linea, "%29[^;];%19[^;];%39[^\n]", nombre, tel, mail)` lee los tres campos aunque tengan espacios. Si devuelve 3, están los tres.
+Para leer campos que pueden tener espacios, como un nombre completo, el marcador «hasta el `;`» sirve igual: `%29[^;]` lee todo lo que no sea `;`, con espacios incluidos.
+
+El último campo no termina en `;` sino en el fin de la línea: para ese, `%39[^\n]` («todo hasta el Enter»).
+
+Si `sscanf` devuelve 3, están los tres campos.
 
 #### Desafío
 Completá el formato del `sscanf`.
@@ -2281,7 +2366,9 @@ recompensa: xp 15, oro 15
 El Gremio quiere la agenda impresa, ordenada por nombre, para colgarla en la sede. Ferrum revisa que cada parte sea su propia función.
 
 #### Gheco sugiere
-`qsort` con una comparación que use `strcmp` de los nombres. Los contactos inválidos ni se agregan.
+Para ordenar contactos por nombre, `qsort` con una función de comparación que convierte los punteros a `Contacto` y devuelve `strcmp` de los dos nombres: `strcmp` ya da negativo, 0 o positivo, justo lo que `qsort` necesita.
+
+Antes de agregar un contacto, validalo; los inválidos ni entran.
 
 #### Desafío
 Completá la comparación por nombre.
@@ -2383,7 +2470,14 @@ En la sede del Gremio, los comerciantes pierden los contactos de sus proveedores
 —Que se guarde en un archivo —dice Chispa— y que vuelva entera.
 
 #### Gheco sugiere
-Un array dinámico de `Contacto` que crece con `realloc`. `listar` ordena con `qsort` por nombre. `guardar` escribe `agenda.csv`. Al final, volvé a cargar el archivo en otra agenda y contá los contactos.
+La agenda junta varias cosas de las ramas anteriores:
+
+- un **array dinámico** de `Contacto` que crece con `realloc`;
+- cada orden se lee con `fgets` y se separa con `sscanf`; mostrala con `> ` antes de procesarla y avisá las mal escritas;
+- `listar` ordena con `qsort` por nombre;
+- `guardar` escribe `agenda.csv`, una línea por contacto.
+
+Al final: guardá, liberá todo, cargá el archivo en **otra** agenda y mostrá cuántos contactos tiene. Si da lo mismo, sobrevivieron.
 
 #### Desafío
 Escribí la agenda base: un array dinámico de `Contacto` y las órdenes `agregar Nombre;Telefono;email`, `listar` (ordenada por nombre con `qsort`, con la cantidad) y `guardar` (a `agenda.csv`). Mostrá cada orden con `> ` antes de procesarla y avisá las órdenes mal escritas. Al terminar la entrada, guardá, liberá todo, volvé a cargar el archivo en otra agenda y mostrá cuántos contactos tiene (así se comprueba que sobreviven).
@@ -2582,7 +2676,11 @@ La agenda del Gremio necesita buscar, borrar y no aceptar cualquier cosa. Hulda 
 —Si me deja, la rompo yo.
 
 #### Gheco sugiere
-Para buscar sin importar mayúsculas, pasá los dos textos a minúscula y usá `strstr`. El teléfono acepta dígitos, espacios, guiones y un `+` al principio, con al menos 6 dígitos. El email, una `@` con algo antes y un punto después.
+Tres agregados:
+
+- **Buscar sin importar mayúsculas**: pasá los dos textos a minúscula (en copias) y usá `strstr(texto, buscado)`, que devuelve dónde aparece o `NULL` si no está.
+- **Teléfono**: dígitos, espacios y guiones, un `+` solo al principio, y al menos 6 dígitos.
+- **Email**: una `@` con algo antes, y un punto en algún lugar después de la `@`. `strchr(texto, '@')` encuentra la `@`.
 
 #### Desafío
 Agregale a la agenda:
@@ -2987,7 +3085,11 @@ Ferrum quiere ver la agenda ordenada de distintas formas: por nombre, por email 
 —Así sé a quién saludar este mes.
 
 #### Gheco sugiere
-Una tabla `{ campo, función }` con los tres comparadores. Para cada línea, buscá el campo en la tabla y ordená con su función; si no está, avisá. El de cumpleaños desempata por nombre.
+Una tabla con dos columnas: el nombre del campo (`"nombre"`, `"email"`, `"cumple"`) y la función de comparación para ese campo.
+
+Para cada línea de la entrada, buscá el campo en la tabla con `strcmp`. Si está, ordená con `qsort` usando su función y mostrá la lista; si no, avisá.
+
+El comparador de cumpleaños compara el mes y, si empatan, desempata por nombre.
 
 #### Desafío
 Con cuatro contactos que además tienen el mes de cumpleaños, escribí tres comparadores (por nombre, por email y por mes de cumpleaños, desempatando por nombre) en una **tabla** `{ campo, función }`. Por cada línea de la entrada (`nombre`, `email`, `cumple`), ordená con el comparador de ese campo y mostrá la lista; si el campo no existe, avisá.
@@ -3344,7 +3446,9 @@ El Dragón duerme sobre el plomo del Vidriero y ronca fuego. En la primera escam
 Kira se sienta, saca la libreta de Tizón y empieza por lo primero: leer **bien**.
 
 #### Gheco sugiere
-`leer_valor` lee una línea con `fgets`; si `sscanf` no da un número o el número está fuera de 0.0 a 1500.0, avisa y vuelve a leer. Recién cuando el dato sirve, lo devuelve.
+La receta segura para leer, ahora en una función que no se rinde: `leer_valor` lee una línea con `fgets` y la acepta solo si `sscanf` devolvió 1 **y** el número está entre 0.0 y 1500.0. Si no, avisa y vuelve a leer.
+
+Recién cuando el dato sirve, lo devuelve con `return`.
 
 #### Desafío
 Completá la condición del dato válido.
@@ -3437,7 +3541,9 @@ recompensa: xp 20, oro 20
 La segunda escama pide el día y el horno de la temperatura más alta de la semana. —El número solo no me sirve —dice Tizón—. Necesito saber **dónde** fue, para ir a medirlo.
 
 #### Gheco sugiere
-`pico(t, &dia, &horno)` arranca con `(0, 0)` y recorre la matriz: cuando encuentra uno mayor que `t[*dia][*horno]`, guarda esa fila y esa columna.
+La función tiene que devolver dos cosas, el día y el horno del valor más alto. Por eso las recibe como punteros, `&dia` y `&horno`, y las cambia con `*dia` y `*horno`.
+
+Arrancá suponiendo que el pico está en `(0, 0)`. Recorré la tabla con dos `for` y, cada vez que encuentres uno mayor que `t[*dia][*horno]`, guardá esa fila y esa columna.
 
 #### Desafío
 Completá la comparación y lo que se guarda.
@@ -3538,7 +3644,9 @@ recompensa: xp 20, oro 20
 La tercera escama pide los promedios de los hornos de mayor a menor. Kira ordenó el array de promedios suelto y ya no sabe de qué horno es cada uno. Ferrum gruñe: —Que el número viaje con su promedio.
 
 #### Gheco sugiere
-Con `PromedioHorno v[4]`, la burbuja compara `v[i].promedio` pero intercambia **el struct entero**: el número de horno se mueve junto con su promedio.
+Si ordenás solo los promedios, perdés de qué horno era cada uno. Por eso van juntos en un struct (`PromedioHorno`).
+
+La burbuja **compara** por el promedio, pero **intercambia el struct entero**: así el número de horno viaja con su promedio. Para intercambiar dos structs, una variable auxiliar del mismo tipo.
 
 #### Desafío
 Completá la comparación (de mayor a menor) y el intercambio.
@@ -3630,7 +3738,13 @@ El Dragón ruge y escupe fuego sobre el yunque de la fragua. Es el momento: Kira
 Tizón le pasa las medidas sin que se las pida. Ella las usa sin protestar.
 
 #### Gheco sugiere
-Primero la regla más exigente: **templada** si el promedio es 8 o más y **ninguna** de las tres medidas es menor a 7. Si no, **usable** si el promedio es 6 o más. Si no, **de vuelta al fuego**.
+Cuando hay varias categorías, preguntá **primero por la más exigente**:
+
+- **templada**: el promedio es 8 o más **y** ninguna de las tres medidas es menor a 7 (las tres tienen que ser 7 o más);
+- si no, **usable**: el promedio es 6 o más;
+- si no, **de vuelta al fuego**.
+
+Si preguntaras primero por «usable», una templada entraría ahí y nunca llegaría a la suya.
 
 #### Desafío
 Completá las dos condiciones.
@@ -3723,7 +3837,11 @@ item: Matriz del Marco
 La última escama es la del corazón. Para apagarla hay que dar de baja, en el registro de la fragua, las piezas falsas que el Dragón fue tragando (las de temperatura imposible), sin borrar ninguna, y contar las que quedan.
 
 #### Gheco sugiere
-Se recorre el archivo con `"r+b"`: a cada pieza con temperatura mayor a 1500 se le pone `'B'`, se vuelve con `fseek` y se reescribe; entre escribir y leer de nuevo va un `fseek(f, 0, SEEK_CUR)`. Después se cuentan las activas.
+Abrí el archivo con `"r+b"` y recorrelo. A cada pieza con más de 1500 grados, baja lógica: estado `'B'`, volvés un registro con `fseek` y la reescribís.
+
+Un detalle de C: en un archivo abierto para leer y escribir, entre escribir y volver a leer tiene que haber un `fseek`. Si no querés moverte, `fseek(f, 0, SEEK_CUR)` (moverse 0 desde donde estás).
+
+Después, contá las que siguen activas.
 
 #### Desafío
 Completá la vuelta atrás y el conteo de activas.
@@ -3856,7 +3974,13 @@ En la primera escama del Dragón está grabado el primer encargo: las temperatur
 —Midamos.
 
 #### Gheco sugiere
-Una matriz `double t[7][4]`. Validá cada valor entre 0.0 y 1500.0 y repetí ese mismo si no lo es. Después, promedios por horno (columnas) y por día (filas), y lo que pida el encargo.
+Una tabla `double t[7][4]`: 7 días (filas) por 4 hornos (columnas).
+
+- Para cargarla, leé cada valor y validalo entre 0.0 y 1500.0. Si no sirve, volvé a pedir **ese mismo** valor, no el siguiente.
+- El promedio de un horno suma su **columna** (los 7 días).
+- El promedio de un día suma su **fila** (los 4 hornos).
+
+Después, lo que pida el encargo, con los recorridos que ya conocés.
 
 #### Desafío
 La Forja registra durante **7 días** la temperatura de **4 hornos**. Escribí
@@ -4150,7 +4274,11 @@ La segunda escama pide el registro de los aprendices de la Forja: legajos, notas
 —Tus compañeros. No te equivoques con ninguno.
 
 #### Gheco sugiere
-Un arreglo de hasta 50 structs. Leé la cantidad y después `legajo;nombre;nota1;nota2;nota3`. Descartá los renglones con legajo no positivo o notas fuera de 0 a 10. Calculá el promedio y el rango de cada uno.
+Un array de hasta 50 structs de aprendices.
+
+Primero leé cuántos son; después, cada renglón con `legajo;nombre;nota1;nota2;nota3`. Descartá los que tengan legajo no positivo o alguna nota fuera de 0 a 10.
+
+Para cada uno, calculá el promedio y su rango. Para ordenar con desempate y buscar por legajo, usá lo de la rama 2.
 
 #### Desafío
 Escribí `aprendices.c` para registrar a los aprendices de la Forja con un
@@ -4424,7 +4552,13 @@ La última escama es la más grande: el depósito de lingotes de la Forja, en un
 —Es la última —dice Ferrum, en voz baja.
 
 #### Gheco sugiere
-Un archivo binario de structs. Cada opción del menú abre el archivo como le hace falta. La baja es lógica: cambiá el estado a `'B'` en su lugar con `fseek`. Listá solo los activos.
+Un archivo binario de structs con un menú. Cada opción abre el archivo en el modo que necesita:
+
+- alta: `"ab"` (agregar al final);
+- listado y búsqueda: `"rb"`;
+- cambiar stock y baja: `"r+b"`, con `fseek` para volver y reescribir.
+
+La baja es lógica (estado `'B'`), y el listado muestra solo los activos. Usá la lectura segura para que el menú no se trabe con letras.
 
 #### Desafío
 Escribí `deposito.c` para administrar un **archivo binario de estructuras**
@@ -4872,7 +5006,7 @@ recompensa: xp 20, oro 20
 En la entrada de las Forjas, la pared de la cuenta de espadazos está llena de palitos. Ferrum le da a Kira la tiza: falta la última línea.
 
 #### Gheco sugiere
-Un último programa para la pared: recorré los registros y mostrá cada uno alineado.
+Un último repaso de los anchos de `printf`: `%-30s` pone un texto en 30 lugares, pegado a la izquierda, y `%3d` un número en 3 lugares, pegado a la derecha. Así las dos columnas quedan derechas aunque los textos tengan distinto largo.
 
 #### Desafío
 Completá el `printf` para que la pared quede alineada (nombre a la izquierda en 30 lugares, número a la derecha en 3).
@@ -4955,7 +5089,7 @@ recompensa: xp 20, oro 20
 Del yunque viejo salen dos caminos. Uno lleva a una puerta de vidrio negro donde el metal se mueve solo, sesenta veces por segundo. El otro, a un taller lleno de figuras de latón con ojos que se prenden y se apagan.
 
 #### Gheco sugiere
-Un último `switch`: según el camino elegido, se muestra adónde lleva.
+Un último `switch`: cada `case` es un camino, con su `printf` y su `break`. El `default` atrapa lo que no es ninguno de los dos.
 
 #### Desafío
 Completá los dos `case` con los caminos.

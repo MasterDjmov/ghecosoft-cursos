@@ -204,7 +204,15 @@ recompensa: xp 10, oro 10
 El Archivero busca sus anteojos (los tiene puestos) y, mientras tanto, le enseña a Kira la regla del Archivo: —Lo que no está escrito en disco, no pasó.
 
 #### Gheco sugiere
-`fopen("pedidos.txt", "w")` crea el archivo para escribir y devuelve un `FILE *` (o `NULL`). `fprintf(f, …)` escribe como `printf`, y `fclose(f)` cierra.
+Todo lo que guardás en variables se borra cuando el programa termina. Para que algo dure, hay que guardarlo en un **archivo**.
+
+Tres pasos:
+
+1. **Abrir**: `FILE *f = fopen("notas.txt", "w");` La `"w"` (de *write*) es para escribir: crea el archivo, o lo vacía si ya existía. Devuelve un puntero de tipo `FILE *`, o `NULL` si no pudo abrirlo.
+2. **Escribir**: `fprintf(f, "hola\n");` funciona como `printf`, pero escribe en el archivo `f`.
+3. **Cerrar**: `fclose(f);` termina de guardar y suelta el archivo.
+
+Acá los archivos viven en una carpeta de mentira, en tu navegador.
 
 #### Desafío
 Completá la apertura, la escritura y el cierre.
@@ -273,7 +281,17 @@ recompensa: xp 10, oro 10
 El Archivero quiere leer el libro de pedidos que escribió Kira, renglón por renglón, numerado.
 
 #### Gheco sugiere
-Con `"r"` se abre para leer. `fgets` lee un renglón por vuelta y devuelve `NULL` cuando no quedan más.
+Para leer un archivo se abre con `"r"` (de *read*). Si no existe, `fopen` devuelve `NULL`.
+
+Para leerlo renglón por renglón sirve `fgets`, el mismo que usabas con el teclado, pero en vez de `stdin` le pasás el archivo:
+
+```c
+while (fgets(linea, sizeof linea, f) != NULL) {
+    printf("%s", linea);
+}
+```
+
+Cada vuelta lee un renglón. Cuando no quedan más, `fgets` devuelve `NULL` y el bucle termina.
 
 #### Desafío
 Completá la apertura para leer y la condición del bucle.
@@ -361,7 +379,16 @@ recompensa: xp 10, oro 10
 Cada renglón dice «pieza;cantidad». Tizón quiere el total de piezas pedidas, y saber cuál es la que más se pide.
 
 #### Gheco sugiere
-`sscanf(linea, "%19[^;];%d", pieza, &cant)` lee hasta el `;` (como mucho 19 letras) y después un entero. Si devuelve 2, el renglón está bien.
+Cada renglón trae varios datos separados por `;`, como `martillo;7`. Para separarlos sirve `sscanf` con el marcador «leé hasta el `;`»:
+
+```c
+sscanf(linea, "%19[^;];%d", nombre, &cantidad);
+```
+
+- `%19[^;]` lee hasta 19 caracteres que **no** sean `;` (el 19 cuida el tamaño del array).
+- Después viene el `;` tal cual, y `%d` lee el número.
+
+Si devuelve 2, encontró los dos datos. Ojo: `nombre` es un array, así que va sin `&`.
 
 #### Desafío
 Completá el formato del `sscanf`.
@@ -462,7 +489,9 @@ recompensa: xp 15, oro 15
 Chispa agregó renglones al libro de pedidos, a su manera: «martillo;muchos» y «yunque». Kira tiene que leer el libro sin que esos renglones rompan la cuenta.
 
 #### Gheco sugiere
-Si `sscanf` devuelve menos de 2, el renglón está mal: se avisa con su número y se sigue con el próximo.
+Un archivo puede tener renglones mal escritos. Como `sscanf` devuelve cuántos datos pudo leer, si da menos de los que esperabas, el renglón está mal.
+
+Llevá la cuenta del número de renglón para avisar dónde está el error, y seguí con el próximo: un renglón malo no tiene que frenar todo.
 
 #### Desafío
 Completá la condición del renglón válido.
@@ -561,7 +590,11 @@ El Archivero le da a Kira un cuaderno nuevo para su diario de aprendiz.
 —Cada día, una línea al final. Sin borrar lo de antes. Y después me lo leés, con número de renglón.
 
 #### Gheco sugiere
-`fopen("diario.txt", "a")` agrega al final; si devuelve `NULL`, no se pudo abrir. Al empezar, `remove("diario.txt")` lo deja vacío. Para leerlo: `"r"`, `fgets` en un bucle y `%2d | ` para el número.
+Hay un tercer modo de abrir: `"a"` (de *append*, agregar). Escribe **al final**, sin borrar lo que ya había. Es ideal para un diario.
+
+- Si `fopen` devuelve `NULL`, no se pudo abrir: avisá.
+- `remove("diario.txt")` borra el archivo; al empezar sirve para arrancar de cero.
+- Para mostrarlo numerado, abrilo con `"r"`, leé con `fgets` y contá los renglones. `%2d | ` muestra el número en 2 lugares y una barrita.
 
 #### Desafío
 1. Escribí `int agregar(const char *texto)`, que abre `diario.txt` en modo **agregar**, escribe el texto en una línea y lo cierra. Devuelve 0 si no pudo abrirlo.
@@ -654,7 +687,13 @@ Tizón copia en un pergamino la canción de las Forjas y quiere saber cuántas l
 —Contalas de a una. Como yo, pero más rápido.
 
 #### Gheco sugiere
-Escribí el archivo con `fputs` y cerralo. Después leelo con `fgetc` hasta `EOF`: cada carácter suma un byte, cada `'\n'` una línea, y una palabra empieza cuando hay un no-espacio después de un espacio (`isspace`).
+`fputs(texto, f)` escribe un texto en el archivo (sin formato). Después de escribirlo, cerralo y volvé a abrirlo para leer.
+
+`fgetc(f)` lee **un carácter** del archivo, como `getchar` con el teclado, y devuelve `EOF` al final.
+
+- Cada carácter suma un byte.
+- Cada `'\n'` suma una línea.
+- Una palabra **empieza** cuando aparece algo que no es espacio después de un espacio (`isspace`). Guardá en una variable si el carácter anterior era espacio.
 
 #### Desafío
 Escribí en `cancion.txt` estas cuatro líneas y después leelo **de a un carácter** con `fgetc` para contar líneas, palabras y bytes, como el comando `wc` de Linux:
@@ -757,7 +796,11 @@ Chispa trae la lista de precios de su puesto en un archivo, con punto y coma ent
 —Decime cuánto vale lo que está bien —pide, mirando para otro lado.
 
 #### Gheco sugiere
-Salteá la primera línea. `sscanf(linea, "%29[^;];%lf;%d %c", ...)` tiene que devolver justo 3. Validá precio mayor que 0 y stock no negativo; avisá las líneas con error y su número, y sumá precio × stock de las buenas.
+Un **CSV** es un archivo de texto con datos en columnas, separados por un signo (acá, `;`). La primera línea suele tener los títulos: salteala.
+
+Para cada línea, `sscanf(linea, "%29[^;];%lf;%d %c", ...)` tiene que devolver justo **3**. Si devuelve menos, falta algo; si devuelve 4, sobra algo.
+
+Después validá: precio mayor que 0 y stock que no sea negativo. Avisá cada línea con error y su número, y sumá precio × stock solo de las buenas.
 
 #### Desafío
 Escribí `precios.csv` con este contenido:
@@ -1197,7 +1240,12 @@ recompensa: xp 10, oro 10
 Tizón abre una caja sellada con un editor de texto y ve jeroglíficos; jura que es un idioma antiguo y empieza a traducirlo. El Archivero le saca la caja con delicadeza: así no se lee.
 
 #### Gheco sugiere
-`fwrite(&ficha, sizeof ficha, 1, f)` guarda el struct byte por byte. `fread(&ficha, sizeof ficha, 1, f)` lo vuelve a cargar. Los modos llevan `b`: `"wb"` y `"rb"`.
+Hasta ahora guardabas texto. También se puede guardar un struct tal cual está en la memoria, byte por byte: eso es un archivo **binario**.
+
+- `fwrite(&ficha, sizeof ficha, 1, f)` escribe 1 struct del tamaño de `ficha`.
+- `fread(&ficha, sizeof ficha, 1, f)` lo carga de vuelta.
+
+Los modos llevan una `b` de binario: `"wb"` para escribir y `"rb"` para leer. Un archivo binario no se puede leer con un editor de texto, pero es rápido y exacto.
 
 #### Desafío
 Completá la escritura y la lectura.
@@ -1291,7 +1339,15 @@ recompensa: xp 10, oro 10
 El Archivero quiere la ficha número 3 de una caja con 5 fichas, sin leer las tres de adelante. —El tiempo de un archivero es sagrado —dice, y se duerme un segundo.
 
 #### Gheco sugiere
-Los registros miden todos `sizeof(Lingote)`: el registro `k` empieza en el byte `k * sizeof(Lingote)`. `fseek(f, k * (long) sizeof x, SEEK_SET)` va ahí.
+En un archivo binario todos los registros miden lo mismo, así que se puede ir **directo** a uno sin leer los anteriores. El registro número `k` (contando desde 0) empieza en el byte `k * sizeof(registro)`.
+
+`fseek` mueve la posición de lectura:
+
+```c
+fseek(f, k * (long) sizeof(Ficha), SEEK_SET);
+```
+
+`SEEK_SET` quiere decir «contando desde el principio del archivo». Después, `fread` lee justo ese registro.
 
 #### Desafío
 Completá el `fseek` para ir al registro 3 (contando desde 0).
@@ -1389,7 +1445,12 @@ recompensa: xp 15, oro 15
 Hulda devolvió 15 lingotes de plomo: hay que sumarlos al stock del código 102, sin reescribir toda la caja.
 
 #### Gheco sugiere
-Con `"r+b"` se lee y se escribe. Se lee la ficha, se cambia, se **vuelve** al principio de esa ficha con `fseek(f, -(long) sizeof l, SEEK_CUR)` y se escribe encima.
+Para corregir un registro en su lugar, abrí con `"r+b"`: leer y escribir en el mismo archivo.
+
+1. Leé el registro con `fread` (la posición queda **después** de él).
+2. Cambialo en la memoria.
+3. Volvé al principio de ese registro: `fseek(f, -(long) sizeof(Ficha), SEEK_CUR);` (`SEEK_CUR` es «desde donde estoy», y el número negativo va para atrás).
+4. Escribilo encima con `fwrite`.
 
 #### Desafío
 Completá la vuelta atrás.
@@ -1518,7 +1579,9 @@ recompensa: xp 15, oro 15
 Hay que sacar del Archivo el lingote 101, que salió falso. El Archivero no deja borrar nada: —En el Archivo nada se tira. Ponele una **B**.
 
 #### Gheco sugiere
-La baja lógica cambia el estado a `'B'` y reescribe la ficha. Al listar, se muestran solo las que tienen `'A'`.
+Borrar un registro del medio de un archivo es complicado. Lo más común es una **baja lógica**: no se borra, se le cambia un campo de estado. `'A'` es activo y `'B'`, dado de baja.
+
+Para dar de baja: leés, cambiás el estado a `'B'`, volvés con `fseek` y reescribís. Al listar, mostrás solo los que tienen `'A'`.
 
 #### Desafío
 Completá la baja y el filtro del listado.
@@ -1653,7 +1716,15 @@ El Archivero le enseña a Kira a guardar su progreso en una ficha sellada, byte 
 —Y si la ficha no está, que no se rompa nada: que avise.
 
 #### Gheco sugiere
-`fwrite(p, sizeof(Progreso), 1, f)` tiene que devolver 1; lo mismo `fread`. Abrí con `"wb"` y `"rb"`, y si `fopen` da `NULL` o no se escribió/leyó un registro completo, devolvé `false`.
+`fwrite` y `fread` devuelven **cuántos** registros pudieron escribir o leer. Si pediste 1 y devuelve otra cosa, algo falló.
+
+Las dos funciones devuelven `bool`:
+
+- si `fopen` da `NULL`, `false`;
+- si `fwrite` (o `fread`) no devuelve 1, `false` (cerrá el archivo antes de salir);
+- si todo salió bien, `true`.
+
+Guardar usa `"wb"` y cargar, `"rb"`.
 
 #### Desafío
 Con un struct `Progreso` (nombre de 16, nivel, oro, x, y), escribí `bool guardar(const Progreso *p, const char *ruta)` y `bool cargar(Progreso *p, const char *ruta)`, que devuelven `false` si algo falla (el archivo no abre o no se escribió/leyó el registro completo). Guardá el progreso de Kira (nivel 7, 380 de oro, en 12, 4), cargalo en otra variable, mostralo, e intentá cargar un archivo que no existe.
@@ -1759,7 +1830,11 @@ antes: R04-N02-M2
 En una caja hay diez fichas de enemigos. Tizón quiere ver la séptima sin leer las seis anteriores, y corregir la tercera sin reescribir la caja entera.
 
 #### Gheco sugiere
-`fseek(f, 7 * sizeof(Enemigo), SEEK_SET)` va directo. Para cambiar uno en su lugar: leelo, cambialo, volvé con `fseek(f, -(long) sizeof(Enemigo), SEEK_CUR)` y escribilo. `rewind(f)` vuelve al principio.
+Para ir directo al registro 7: `fseek(f, 7 * sizeof(Enemigo), SEEK_SET)`.
+
+Para cambiar uno en su lugar, la receta de siempre: leelo, cambialo, volvé un registro con `fseek(f, -(long) sizeof(Enemigo), SEEK_CUR)` y escribilo.
+
+`rewind(f)` vuelve al principio del archivo, para recorrerlo entero otra vez.
 
 #### Desafío
 1. Guardá 10 enemigos (`numero` de 0 a 9, `vida` = 10 + número × 5) en `horda.dat`.
@@ -1859,7 +1934,12 @@ El Archivero tiene que guardar mil números y duda: ¿en un libro, con letras, o
 —Medí cuánto ocupa cada uno. Después hablamos.
 
 #### Gheco sugiere
-Escribí los números con `fprintf` en uno y con un solo `fwrite` en el otro. Para medir: `fseek(f, 0, SEEK_END)` y `ftell(f)` da el tamaño en bytes.
+Un mismo número se puede guardar de dos formas:
+
+- como **texto**: `fprintf(f, "%d\n", n)` guarda cada cifra como un carácter, más el salto de línea;
+- en **binario**: `fwrite` guarda el `int` tal como está en la memoria, siempre 4 bytes.
+
+Para medir cuánto ocupa un archivo: abrilo, andá al final con `fseek(f, 0, SEEK_END)` y preguntá la posición con `ftell(f)`: da el tamaño en bytes.
 
 #### Desafío
 Guardá 1000 enteros (`i * 1234`) de dos formas: como texto (uno por línea con `fprintf`) y en binario (un solo `fwrite`). Medí el tamaño de cada archivo con `fseek` + `ftell` y mostralo. ¿Cuál ocupa menos? ¿Cuál podés abrir con un editor?
@@ -2304,7 +2384,12 @@ recompensa: xp 10, oro 10
 Cada taller tiene una **tapa** que dice qué ofrece. En este pergamino van las tres partes juntas, una abajo de la otra: la tapa (`dado.h`), el taller (`dado.c`) y quien lo usa (`main.c`).
 
 #### Gheco sugiere
-En un `.h` van los **prototipos**: la promesa de lo que hay. El `.c` del módulo escribe las funciones. Acá, como todo está en un solo archivo, la tapa va arriba.
+Cuando un programa crece, se reparte en varios archivos, por temas, como los capítulos de un libro. Cada tema es un **módulo** con dos archivos:
+
+- el **`.h`** (la «tapa» o *header*): dice **qué** funciones hay, sin el código. Cada una se escribe como un **prototipo**: la primera línea de la función terminada en `;`, como `int sumar(int a, int b);`;
+- el **`.c`**: el código de verdad de esas funciones.
+
+Quien quiere usar el módulo hace `#include "dado.h"` y ya puede llamar a las funciones. Acá todo está en un solo archivo, así que la tapa va arriba.
 
 #### Desafío
 Escribí en la «tapa» el prototipo de la función que usa `main`.
@@ -2376,7 +2461,9 @@ recompensa: xp 10, oro 10
 Chispa encontró la función interna del taller de dados que **carga** el dado, y la usa desde afuera para ganar en la taberna. Hay que esconderla.
 
 #### Gheco sugiere
-Una función `static` fuera de todas las funciones solo se puede usar **en ese archivo**. Es lo privado del módulo; lo público va en el `.h`.
+No todo lo de un módulo tiene que ser público. Una variable o una función con `static` delante, escrita fuera de las funciones, solo se puede usar **en ese archivo**: es lo privado, las herramientas internas del taller.
+
+Lo público es lo que está en el `.h`. Así nadie de afuera puede tocar lo que no debe.
 
 #### Desafío
 Marcá como `static` la variable y la función internas del taller.
@@ -2464,7 +2551,18 @@ recompensa: xp 15, oro 15
 Tizón y Kira incluyeron la misma tapa en dos lugares sin avisarse, y el Horno se queja: el struct `Dado` está **definido dos veces**.
 
 #### Gheco sugiere
-La guarda `#ifndef DADO_H` / `#define DADO_H` / `#endif` hace que el contenido se pegue **una sola vez**: la segunda, `DADO_H` ya está definido y se saltea.
+Si dos archivos incluyen la misma tapa, su contenido se pega dos veces y el compilador se queja de que algo está definido dos veces. Para evitarlo se usa una **guarda**:
+
+```c
+#ifndef MAPA_H
+#define MAPA_H
+
+// el contenido de la tapa
+
+#endif
+```
+
+La primera vez, `MAPA_H` no existe: se define y se pega el contenido. La segunda, ya existe, y todo se saltea.
 
 #### Desafío
 Poné la guarda alrededor de la tapa (está pegada dos veces a propósito).
@@ -2544,7 +2642,19 @@ recompensa: xp 15, oro 15
 Ferrum quiere que todos los talleres sepan la dificultad de la temporada, sin pasarla por parámetro a cada función. Una sola variable, compartida.
 
 #### Gheco sugiere
-`extern int dificultad;` (en el `.h`) avisa que existe. Se **define** una sola vez en un `.c`: `int dificultad = 3;`. Acá, la declaración va arriba y la definición abajo.
+Una variable que comparten varios archivos se **declara** en el `.h` con `extern`, que avisa «existe, está en otro lado»:
+
+```c
+extern int volumen;
+```
+
+Y se **define** (se crea de verdad, con su valor) una sola vez, en un `.c`:
+
+```c
+int volumen = 5;
+```
+
+Acá todo está en un archivo: la declaración va arriba y la definición abajo.
 
 #### Desafío
 Escribí la declaración `extern` y la definición.
@@ -2623,7 +2733,14 @@ Ferrum quiere un interruptor en el programa: en modo práctica, que cuente todo 
 —Y las macros, bien protegidas. Ya tuvimos herraduras banana.
 
 #### Gheco sugiere
-`#ifdef DEPURAR` → `#define LOG(...) fprintf(stderr, "[depurar] " __VA_ARGS__)`; si no, `#define LOG(...) ((void) 0)`. `MAX` y `CUADRADO` con paréntesis en cada parámetro. La salida esperada es **sin** `DEPURAR`.
+Una macro que muestra mensajes solo mientras arreglás el programa:
+
+- `#ifdef DEPURAR`: si se compiló con `-DDEPURAR`, la macro escribe en `stderr` (la salida de errores, aparte de la normal).
+- si no, la macro no hace nada: `((void) 0)`.
+
+`LOG(...)` con tres puntos recibe cualquier cantidad de datos, y `__VA_ARGS__` los pega donde va. Para `MAX` y `CUADRADO`, paréntesis en cada parámetro y en toda la macro.
+
+La salida esperada es la de compilar **sin** `DEPURAR`.
 
 #### Desafío
 1. Definí una macro `LOG(...)` que, si se compila con `-DDEPURAR`, muestre el mensaje en `stderr` con el prefijo `[depurar] `; si no, no haga nada (`((void) 0)`). Usá `__VA_ARGS__`.
@@ -3227,7 +3344,16 @@ Chispa grita sus pedidos desde la puerta, todo junto. Los herreros viejos le dan
 En el navegador no hay terminal: acá el `main` le pasa a `forja` un `argv` armado a mano, como si se hubiera escrito esa línea.
 
 #### Gheco sugiere
-`argc` dice cuántos textos hay y `argv[i]` es cada uno. `argv[0]` es el nombre del programa; las palabras que se escribieron después empiezan en `argv[1]`.
+Un programa puede recibir datos al arrancar, escritos en la terminal después de su nombre: `./forja templar 900`. Esos datos llegan a `main` si la escribís así:
+
+```c
+int main(int argc, char *argv[])
+```
+
+- `argc` dice **cuántos** textos llegaron.
+- `argv` es un array de textos: `argv[0]` es el nombre del programa, `argv[1]` la primera palabra, `argv[2]` la segunda…
+
+Acá no hay terminal: los datos se simulan llamando a una función con los mismos parámetros.
 
 #### Desafío
 Mostrá la orden y el valor recibidos.
@@ -3297,7 +3423,14 @@ recompensa: xp 15, oro 15
 Tizón quiere templar a «900» grados, pero el programa recibe el **texto** «900», no el número. Y Chispa una vez escribió «hola» como temperatura.
 
 #### Gheco sugiere
-`long t = strtol(argv[2], &fin, 10);` convierte el texto. Si `*fin != '\0'`, quedaron letras sin convertir: no era un número.
+Todo lo que llega en `argv` es **texto**, aunque sean cifras: `"900"` no es el número 900. Para convertirlo:
+
+```c
+char *fin;
+long n = strtol(texto, &fin, 10);
+```
+
+`strtol` convierte lo que puede (el `10` es la base decimal) y deja `fin` apuntando a lo primero que **no** pudo convertir. Si ahí no está el tapón `'\0'`, quedaron letras: no era un número. Y si `fin` quedó al principio, no había ni una cifra.
 
 #### Desafío
 Completá la comprobación de lo que sobró.
@@ -3390,7 +3523,12 @@ recompensa: xp 15, oro 15
 El Archivero usa su herramienta con opciones: `contar -n 3 libro`. La `-n` dice cuántas veces. Si no está, es una vez.
 
 #### Gheco sugiere
-Se recorre `argv` desde 1: si `strcmp(argv[i], "-n") == 0` y hay un argumento más, se toma `argv[i + 1]` y se saltea (`i++`).
+Muchos programas aceptan **opciones** con guion, como `-n 3`. Para leerlas, recorrés `argv` desde la posición 1:
+
+- si la palabra es `-n` (`strcmp(argv[i], "-n") == 0`) **y** hay otra palabra después, esa siguiente es su valor: la tomás y salteás un lugar más (`i++`);
+- si no, es un dato común.
+
+`atoi(texto)` convierte un texto a `int` de forma rápida (sin avisar errores).
 
 #### Desafío
 Completá la detección de `-n`.
@@ -3485,7 +3623,9 @@ recompensa: xp 15, oro 15
 Tizón encadena herramientas: si la primera falla, la segunda no tiene que arrancar. Para eso, cada herramienta tiene que **decir cómo terminó**.
 
 #### Gheco sugiere
-`return EXIT_SUCCESS;` (0) avisa que salió bien y `return EXIT_FAILURE;` (1), que falló. Los dos están en `stdlib.h`.
+El número que devuelve `main` le dice al sistema cómo terminó el programa: **0** es «salió bien» y otro número es «falló». Otros programas o scripts lo usan para saber si seguir.
+
+`<stdlib.h>` trae dos nombres para que se entienda: `EXIT_SUCCESS` (0) y `EXIT_FAILURE` (1).
 
 #### Desafío
 Completá los dos códigos de salida.
@@ -4131,7 +4271,14 @@ recompensa: xp 10, oro 10
 El mostrador del Archivero tiene un cartel con opciones: 1 prestar, 2 devolver, 0 salir. Cada vez que alguien elige, algo cambia y el cartel vuelve a aparecer.
 
 #### Gheco sugiere
-Un menú es un `do … while` que muestra, lee la opción y la atiende con un `switch`, hasta que la opción sea 0.
+Un **menú** que se repite hasta que el usuario elige salir es un `do … while`:
+
+1. muestra las opciones;
+2. lee la opción;
+3. la atiende con un `switch`;
+4. vuelve a empezar mientras la opción no sea la de salir.
+
+Se usa `do … while` y no `while` porque el menú se tiene que mostrar al menos una vez.
 
 #### Desafío
 Completá la condición del bucle.
@@ -4223,7 +4370,7 @@ recompensa: xp 10, oro 10
 Chispa elige «8», que no existe, y el mostrador no dice nada: Chispa queda esperando, convencido de que pidió algo.
 
 #### Gheco sugiere
-El `default:` del `switch` atrapa todo lo que no es una opción válida, para avisar.
+¿Qué pasa si alguien elige una opción que no existe? En el `switch`, `default:` atrapa todo lo que no coincidió con ningún `case`. Ahí avisás «esa opción no existe», y el menú vuelve a aparecer.
 
 #### Desafío
 Agregá el `default` que avisa.
@@ -4305,7 +4452,11 @@ recompensa: xp 15, oro 15
 Chispa escribe «hola» en lugar de un número. Con `scanf`, el menú se traba para siempre leyendo la misma letra. Kira arma un mostrador que no se traba con nada.
 
 #### Gheco sugiere
-Se lee la línea entera con `fgets` y se interpreta con `sscanf`. Si no es un número, se avisa y la línea ya se consumió: la próxima vuelta lee la siguiente.
+Si en un menú alguien escribe letras, `scanf("%d")` no las lee y las deja ahí: la próxima vuelta las vuelve a encontrar y el menú se queda trabado para siempre.
+
+La receta segura lo evita: `fgets` lee **toda** la línea (aunque sean letras) y `sscanf` intenta sacar el número. Si no hay número, avisás; la línea ya se consumió, así que la próxima vuelta lee una nueva.
+
+`continue;` salta directo a la próxima vuelta del bucle, sin hacer lo que queda.
 
 #### Desafío
 Completá la lectura segura de la opción.
@@ -4384,7 +4535,12 @@ recompensa: xp 15, oro 15
 Cada noche se apaga el horno y el mostrador se olvida de todo. El Archivero quiere que, al volver a abrir, los préstamos sigan ahí.
 
 #### Gheco sugiere
-Al empezar, si `fopen(…, "r")` funciona, se lee la cantidad guardada. Al salir, se abre con `"w"` y se escribe. Acá el programa se ejecuta dos veces seguidas (dos «días»).
+Para que el programa recuerde algo entre una vez y otra, se guarda en un archivo:
+
+- **Al empezar**, intentás abrirlo con `"r"`. Si existe, leés lo guardado con `fscanf` (el `scanf` de los archivos). Si no existe, arrancás de cero.
+- **Al salir**, lo abrís con `"w"` y escribís el valor actual.
+
+Acá el programa se ejecuta dos veces seguidas, como si fueran dos días.
 
 #### Desafío
 Completá la carga y el guardado.
@@ -4500,7 +4656,14 @@ Chispa propone agregarle una opción al menú de la taberna: apostar diez de oro
 —Es justo. Casi siempre.
 
 #### Gheco sugiere
-Sumá la opción 5 al `switch`. Si el oro no alcanza, avisá. Si no, `rand() % 2 == 0` decide si ganás 20 o perdés 10. `srand(5)` fija la semilla; dejá comentado `srand(time(NULL))`. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+Sumá un `case 5` al `switch` del menú:
+
+- si el oro no alcanza para apostar 10, avisás;
+- si alcanza, tirás una moneda: `rand() % 2 == 0` sale la mitad de las veces. Si sale, ganás 20; si no, perdés 10.
+
+`srand(5)` fija la semilla para que siempre salga igual. En un comentario, dejá cómo sería con `srand(time(NULL))`, que cambia en cada partida.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Partiendo del ejemplo, agregá la opción `5) Apostar (10 oro)`: si no alcanza el oro, avisá; si no, con 50 % de probabilidad ganás 20 de oro y si no perdés 10. Usá `srand(5)` para poder probarlo siempre igual (y dejá comentado cómo sería con `time(NULL)`).
@@ -4759,7 +4922,20 @@ El cartel del mostrador del Archivero tiene las opciones escritas a mano, y cada
 —Hacelo como una tabla. Que el cartel se arme solo.
 
 #### Gheco sugiere
-Un `typedef struct { const char *texto; void (*accion)(Jugador *); } Opcion;` y un array `MENU`. La cantidad: `sizeof MENU / sizeof MENU[0]`. Para ejecutar: `MENU[opcion - 1].accion(&kira)`.
+Un menú sin `switch`: cada opción es una fila de una tabla, con su texto y la función que la hace.
+
+```c
+typedef struct {
+    const char *texto;
+    void (*accion)(Jugador *);
+} Opcion;
+```
+
+- La cantidad de filas sale sola: `sizeof MENU / sizeof MENU[0]` (lo que ocupa la tabla dividido por lo que ocupa una fila).
+- Para mostrar el menú, recorrés la tabla.
+- Para ejecutar la opción elegida: `MENU[opcion - 1].accion(&kira)` (menos 1 porque la tabla empieza en 0).
+
+Agregar una opción es agregar una fila.
 
 #### Desafío
 Reescribí el menú del ejemplo sin `switch`: cada acción es una función `void accion(Jugador *j)` y el menú es una **tabla** de structs `{ texto, función }`. El menú se muestra recorriendo la tabla y la opción elegida se ejecuta con `MENU[opcion - 1].accion(&kira)`. La cantidad de opciones sale de `sizeof` de la tabla.
@@ -5008,7 +5184,11 @@ Chispa quiere un menú para su puesto con una tienda adentro y una despedida que
 —Que nadie se vaya sin querer. Y si se corta todo, que no se rompa.
 
 #### Gheco sugiere
-La tienda es otro bucle adentro del menú, que se repite hasta `0`. Para salir, pedí `s` o `S`. Si `fgets` devuelve `NULL` en cualquier lugar, terminá ordenado.
+Un menú adentro de otro: la tienda es un segundo bucle que se repite hasta que se elige 0, y recién ahí vuelve al menú principal.
+
+Para salir del programa, pedí confirmación: aceptá `s` o `S`.
+
+Si en cualquier momento `fgets` devuelve `NULL` (se terminó la entrada), terminá en orden en vez de seguir preguntando.
 
 #### Desafío
 Escribí un menú con `1) Tienda`, `2) Trabajar (+15 oro)` y `0) Salir`:
@@ -5572,7 +5752,12 @@ En la puerta de la bóveda espera el **Guardián del Archivo**: un autómata con
 Kira se olvida de cerrar un archivo y el Guardián le cierra el cajón en los dedos.
 
 #### Gheco sugiere
-Cada `fopen` necesita su `fclose`. Si un archivo no se puede abrir (no existe), `fopen` da `NULL`: se avisa y no se usa.
+Repasá las dos reglas de los archivos:
+
+- cada `fopen` que salió bien necesita su `fclose`;
+- si `fopen` devuelve `NULL` (por ejemplo, el archivo no existe), avisás y **no** lo usás.
+
+Un archivo abierto y nunca cerrado puede quedar a medio guardar.
 
 #### Desafío
 Completá el cierre que falta y el aviso del archivo que no existe.
@@ -5652,7 +5837,12 @@ recompensa: xp 15, oro 15
 El Guardián pide que Kira guarde su inventario, apague todo… y que al volver esté **exactamente** igual.
 
 #### Gheco sugiere
-`fwrite(v, sizeof v[0], n, f)` escribe los `n` structs de una vez. `fread(w, sizeof w[0], MAX, f)` lee hasta `MAX` y **devuelve cuántos** leyó.
+`fwrite` y `fread` pueden mover muchos registros de una vez. El tercer dato es **cuántos**:
+
+- `fwrite(v, sizeof v[0], n, f)` escribe los `n` structs del array.
+- `fread(w, sizeof w[0], MAX, f)` lee hasta `MAX` y **devuelve cuántos** leyó de verdad.
+
+Guardá ese número: es la cantidad que tenés que recorrer después.
 
 #### Desafío
 Completá la escritura y la lectura del array.
@@ -5750,7 +5940,17 @@ recompensa: xp 15, oro 15
 Adentro de la bóveda, en una caja vieja, están todos los encargos de la Forja. Kira busca el que firmó el Vidriero: el código 777.
 
 #### Gheco sugiere
-`while (fread(&e, sizeof e, 1, f) == 1)` recorre todo el archivo. Si el código coincide, se muestra y se corta. Si termina sin encontrarlo, se avisa.
+Para recorrer un archivo binario de punta a punta:
+
+```c
+while (fread(&r, sizeof r, 1, f) == 1) {
+    // usar r
+}
+```
+
+Cada vuelta lee un registro; cuando ya no puede leer uno completo, `fread` devuelve 0 y el bucle termina.
+
+Para buscar: si el código coincide, lo mostrás y cortás con `break`. Usá una variable para saber si lo encontraste, y si no, avisá al final.
 
 #### Desafío
 Completá la comparación.
@@ -5872,7 +6072,9 @@ item: Libro de Registros de Plomo
 El Guardián abre su último cajón y pone la última prueba: dar de baja los registros falsos que dejó Chispa (los que tienen stock negativo), sin borrarlos, y listar los que quedan activos.
 
 #### Gheco sugiere
-Se abre con `"r+b"`, se recorre, y a cada registro con stock negativo se le pone `'B'` y se reescribe en su lugar. Después se listan los `'A'`.
+Abrí con `"r+b"` para leer y escribir. Recorrés registro por registro y, a cada uno con stock negativo, le hacés la baja lógica: estado `'B'`, volvés un registro con `fseek` y lo reescribís.
+
+Después, `rewind(f)` y otro recorrido que muestra solo los que siguen con `'A'`.
 
 #### Desafío
 Completá la condición de la baja y el filtro del listado.

@@ -204,7 +204,16 @@ La Torre del Reloj se levanta en el centro de la Gran Ciudadela, con sus engrana
 —No los mires a todos juntos —dice Gheco—. Pedilos **de a uno**.
 
 #### Gheco sugiere
-`iter(lista)` te da un **iterador**: algo que sabe por dónde va. Cada `next(it)` te da el siguiente. Un `for` hace eso por dentro.
+Un `for` recorre una lista de a un elemento. Por dentro usa un **iterador**: algo que sabe por dónde va y te da el siguiente cuando se lo pedís.
+
+- `iter(lista)` te da el iterador;
+- cada `next(it)` te da el próximo elemento.
+
+```python
+it = iter(["a", "b", "c"])
+print(next(it))   # a
+print(next(it))   # b
+```
 
 #### Desafío
 Pedí los dos primeros enemigos de a uno.
@@ -252,7 +261,16 @@ recompensa: xp 10, oro 10
 —Este portal funciona como un hechizo que se **pausa** —dice Gheco—. Entrega un enemigo, se queda quieto, y cuando le pedís otro, sigue desde donde estaba.
 
 #### Gheco sugiere
-Una función con `yield` es un **generador**. Llamarla no ejecuta nada: cada vuelta del `for` corre hasta el próximo `yield`, entrega ese valor y se pausa ahí.
+Una función con `yield` en vez de `return` es un **generador**: en vez de devolver todo de una vez, va **entregando** valores de a uno.
+
+```python
+def cuenta(n):
+    while n > 0:
+        yield n
+        n -= 1
+```
+
+Llamarla no ejecuta nada todavía. Cada vuelta del `for` corre hasta el próximo `yield`, entrega ese valor y se **pausa** ahí, hasta que le piden el siguiente.
 
 #### Desafío
 Hacé que el portal **entregue** cada oleada en lugar de terminar.
@@ -311,7 +329,9 @@ El portal se vuelve a encender, y esta vez no para.
 —Quizás infinitos —dice Gheco—. No importa: tomá **los que necesitás**.
 
 #### Gheco sugiere
-Un generador puede no terminar nunca (`while True:`). No pasa nada mientras **consumas solo lo necesario**: `itertools.islice(gen, 5)` toma los primeros 5.
+Un generador puede no terminar nunca (`while True:`), y no pasa nada mientras **pidas solo los que necesitás**. Como entrega de a uno, no hace falta que existan todos a la vez.
+
+`islice(gen, 5)` (de `itertools`) toma solo los primeros 5.
 
 #### Desafío
 Tomá solo los primeros 5 del portal infinito.
@@ -371,7 +391,9 @@ recompensa: xp 10, oro 10
 —Necesito saber cuánta vida tienen los fuertes —dice Tilo—, los de más de 20. Pero no me hagas otra lista, que ya no me entra nada en la cabeza.
 
 #### Gheco sugiere
-Una **expresión generadora** es una comprehension con paréntesis: `(v for v in vidas)`. No arma la lista; va dando los valores de a uno. Adentro de `sum`, `max` o `any` ni siquiera hacen falta los paréntesis extra.
+Una **expresión generadora** es como una *comprehension*, pero con paréntesis: `(v * 2 for v in datos)`. No arma la lista entera: va dando los valores de a uno, y ocupa menos memoria.
+
+Adentro de funciones como `sum`, `max` o `any`, ni siquiera hacen falta los paréntesis extra: `sum(v for v in datos if v > 5)`.
 
 #### Desafío
 Sumá solo las vidas de más de 20, sin armar una lista.
@@ -416,7 +438,9 @@ Querés sumar las vidas y después buscar la más alta, con el mismo generador. 
 Desde una escalera, un señor bajito, con lupa de relojero en un ojo, se ríe.
 
 #### Gheco sugiere
-Un generador se **gasta**: después de recorrerlo, queda vacío. Si necesitás los valores dos veces, guardalos en una **lista** (`list(...)` o una comprehension con corchetes).
+Un generador se **gasta**: después de recorrerlo una vez, queda vacío, y la segunda vez no entrega nada.
+
+Si necesitás los valores dos veces, guardalos en una **lista**: con corchetes en la *comprehension* (`[...]`) o con `list(...)`.
 
 #### Desafío
 Arreglalo para poder usar las vidas dos veces.
@@ -584,7 +608,9 @@ Para descansar, Maese Horas saca un mazo de cartas viejo.
 —Este mazo se puede recorrer cuantas veces quieras. No se gasta. Hacé uno igual: que se pueda repartir con `for`, volver a repartir, y preguntarle si tiene una carta.
 
 #### Gheco sugiere
-Si `__iter__` es un generador (tiene `yield`), cada `for` arranca un recorrido nuevo. Con eso, `list(mazo)` y `"carta" in mazo` también funcionan.
+Una clase propia se puede recorrer con `for` si tiene el método `__iter__`. Si `__iter__` es un generador (tiene `yield`), cada `for` arranca un recorrido nuevo desde el principio.
+
+Con eso, también funcionan `list(mazo)` y `"carta" in mazo`.
 
 #### Desafío
 Escribí una clase `Mazo` que guarde una lista de cartas y sea **iterable**: definí `__iter__` como generador. Mostrá que se puede recorrer con `for` dos veces, convertir en lista y usar con `in`.
@@ -932,7 +958,12 @@ recompensa: xp 10, oro 10
 —Ahora quedate solo con las doradas —dice Maese Horas—, y decime sus nombres en mayúsculas, que no veo bien.
 
 #### Gheco sugiere
-`filter(f, datos)` deja pasar los elementos para los que `f` da `True`. `map(f, datos)` aplica `f` a cada uno. Los dos son perezosos, como los generadores.
+Dos herramientas que reciben una función:
+
+- `filter(f, datos)` deja pasar los elementos para los que `f` devuelve `True`;
+- `map(f, datos)` aplica `f` a cada elemento.
+
+Los dos son **perezosos**, como los generadores: no hacen nada hasta que alguien recorre el resultado.
 
 #### Desafío
 Completá el filtro.
@@ -1041,7 +1072,9 @@ recompensa: xp 15, oro 15
 —Agrupalas por tipo y contalas. —Lo hacés… y aparecen **dos** grupos de resortes. No hay error, pero está mal: un **ogro**.
 
 #### Gheco sugiere
-`groupby` solo junta los elementos **consecutivos** con la misma clave. Si los datos no están ordenados por esa clave, el mismo grupo aparece varias veces. Ordená **antes** con la misma `key`.
+`groupby` (de `itertools`) junta en grupos los elementos **seguidos** que tienen la misma clave. Si no están ordenados, el mismo grupo aparece varias veces separado.
+
+Por eso siempre se ordena **antes**, con la misma clave: `groupby(sorted(datos))`. Cada grupo se puede contar con `len(list(grupo))`.
 
 #### Desafío
 Ordená antes de agrupar.
@@ -1091,7 +1124,7 @@ recompensa: xp 10, oro 10
 —Tengo cuatro engranajes —dice Maese Horas—. Quiero probar cada pareja una vez, sin repetir. ¿Cuáles encajan, porque suman 10 dientes?
 
 #### Gheco sugiere
-`combinations(datos, 2)` da todas las **parejas** posibles, sin repetir y sin importar el orden.
+`combinations(datos, 2)` (de `itertools`) da todas las **parejas** posibles, sin repetir y sin importar el orden: con `[1, 2, 3]`, da (1, 2), (1, 3) y (2, 3).
 
 #### Desafío
 Recorré todas las parejas.
@@ -1772,7 +1805,9 @@ En el tercer piso, cada reloj tiene una cuerda que **recuerda** cuántas vueltas
 —Hacé una igual —dice Maese Horas.
 
 #### Gheco sugiere
-Una función definida **adentro** de otra recuerda las variables de la de afuera, aunque esa ya haya terminado. Para **cambiarlas** (no solo leerlas), declaralas con `nonlocal`.
+Una función puede estar definida **adentro** de otra. La de adentro recuerda las variables de la de afuera, aunque esa ya haya terminado: se llama **closure** (clausura).
+
+Para **cambiar** una variable de afuera (no solo leerla), la de adentro tiene que declararla con `nonlocal nombre`. Si no, Python cree que es una variable nueva, local.
 
 #### Desafío
 Dejá que `girar` cambie las vueltas de afuera.
@@ -1834,7 +1869,17 @@ recompensa: xp 10, oro 10
 —No se desarma un reloj para mejorarlo —dice Maese Horas—. Se le pone una pieza **encima**. Esta hace «tic» antes de cada movimiento.
 
 #### Gheco sugiere
-Un **decorador** recibe una función y devuelve otra que la **envuelve**. Escribir `@anunciar` arriba de `def mover` es lo mismo que `mover = anunciar(mover)`.
+Un **decorador** es una función que recibe otra función y devuelve una nueva que la **envuelve**: hace algo antes o después, y en el medio llama a la original.
+
+```python
+def avisar(func):
+    def envoltura(*args):
+        print("empieza")
+        return func(*args)
+    return envoltura
+```
+
+Escribir `@avisar` arriba de un `def` es lo mismo que `funcion = avisar(funcion)`: la función queda envuelta.
 
 #### Desafío
 Ponele la pieza encima a `mover`.
@@ -1896,7 +1941,9 @@ recompensa: xp 10, oro 10
 Le ponés la pieza al reloj que da la hora, y ahora la hora es `None`. Ningún error, todo corre… un **ogro**.
 
 #### Gheco sugiere
-La envoltura llama a la función original, pero si **no devuelve** su resultado, la función decorada devuelve `None`. Guardalo y devolvelo: `resultado = func(*args)` y `return resultado`.
+La envoltura llama a la función original, pero si **no devuelve** su resultado, se lo come: la función decorada termina devolviendo `None`.
+
+La envoltura tiene que devolver lo que devolvió la original: `return func(*args)`.
 
 #### Desafío
 Que la envoltura devuelva lo que devuelve la función.
@@ -1957,7 +2004,9 @@ recompensa: xp 10, oro 10
 —Ojo —dice Maese Horas—. Le pusiste la pieza encima y ahora el reloj **no sabe cómo se llama**. Dice «envoltura».
 
 #### Gheco sugiere
-La envoltura reemplaza a la función, con su nombre y todo. `@functools.wraps(func)` arriba de la envoltura copia el nombre y el docstring de la original. Ponelo siempre.
+La envoltura reemplaza a la función, y con ella su nombre: `funcion.__name__` pasa a decir `envoltura`.
+
+`@functools.wraps(func)` arriba de la envoltura copia el nombre y la descripción de la original. Conviene ponerlo siempre.
 
 #### Desafío
 Que la función decorada conserve su nombre.
@@ -2022,7 +2071,7 @@ recompensa: xp 15, oro 20
 En una vitrina, el **oráculo del reloj** calcula las fases de la luna con una cuenta recursiva. Para la fase 25 hace casi un cuarto de millón de cuentas, y tarda tanto que el reloj se atrasa.
 
 #### Gheco sugiere
-`@functools.lru_cache` es un decorador que ya viene con Python: **recuerda** el resultado para cada argumento. La segunda vez que se pide lo mismo, contesta sin calcular.
+`@functools.lru_cache` es un decorador que ya viene con Python: **recuerda** el resultado para cada dato que recibió. La segunda vez que se pide lo mismo, contesta sin volver a calcular. Con funciones recursivas que repiten muchas cuentas, la diferencia es enorme.
 
 #### Desafío
 Ponele memoria al oráculo y mirá cuántas cuentas hace.
@@ -2569,7 +2618,14 @@ En el cuarto piso trabaja el **Gremio de Artífices**. Sus planos no dicen «ac�
 —Tu hechizo también puede decir qué espera y qué devuelve —dice Gheco.
 
 #### Gheco sugiere
-`vida: int` anota que el parámetro **debería** ser un entero, y `-> int`, que la función devuelve un entero. Python no lo comprueba al ejecutar: es para quien lee el código y para el editor.
+Las **anotaciones de tipo** dicen qué tipo de dato se espera, para que se lea mejor:
+
+```python
+def doble(n: int) -> int:
+    return n * 2
+```
+
+`n: int` anota que el parámetro **debería** ser un entero, y `-> int` que la función devuelve un entero. Python no lo comprueba al ejecutar: es una ayuda para quien lee el código y para el editor.
 
 #### Desafío
 Anotá lo que devuelve `curar`.
@@ -2671,7 +2727,9 @@ recompensa: xp 15, oro 15
 Las pruebas de tu hechizo de curar explotan: `AssertionError`. Había un **ogro** escondido.
 
 #### Gheco sugiere
-`assert condicion, "mensaje"` no hace nada si se cumple y lanza `AssertionError` si no. Una **prueba** usa tu función con datos que conocés y comprueba el resultado. Cuando falla, arreglá la **función**, no la prueba.
+`assert condicion, "mensaje"` no hace nada si la condición se cumple; si no, lanza `AssertionError` con el mensaje.
+
+Una **prueba** usa tu función con datos de los que ya sabés el resultado y lo comprueba con `assert`. Probá el caso normal y los **bordes** (el valor justo del límite). Cuando una prueba falla, arreglá la **función**, no la prueba.
 
 #### Desafío
 Arreglá `curar` para que pasen las pruebas: la vida nunca supera 100.
@@ -3302,7 +3360,11 @@ La cocina de la Torre es un caos ordenado: ollas, hornos y una sola cocinera, de
 —No me quedo mirando cómo hierve el agua —dice sin darse vuelta—. Pongo la olla y **espero sin frenar**.
 
 #### Gheco sugiere
-`async def` define una **corrutina**. Adentro, `await` espera algo (como `asyncio.sleep`) **dejando que otras tareas avancen**. Todo arranca con `asyncio.run(...)`.
+Hay programas que pasan mucho tiempo **esperando** (que llegue un dato, que pase un rato). Con `async`, mientras uno espera, otros pueden avanzar.
+
+- `async def` define una **corrutina**: una función que puede pausarse;
+- adentro, `await` espera algo (como `asyncio.sleep(1)`) **dejando que otras tareas avancen**;
+- todo arranca con `asyncio.run(...)`.
 
 #### Desafío
 Esperá a que hierva la sopa.
@@ -3355,7 +3417,9 @@ recompensa: xp 10, oro 10
 —Sopa, pan y té —dice la cocinera—. **A la vez**. Una sola persona, muchas esperas.
 
 #### Gheco sugiere
-`await asyncio.gather(a(), b(), c())` corre las tres corrutinas a la vez y devuelve sus resultados **en el orden en que las pediste**, aunque terminen en otro orden.
+`await asyncio.gather(a(), b(), c())` corre las tres corrutinas **a la vez**. Si cada una espera un rato, el total tarda lo que la más lenta, no la suma de las tres.
+
+Devuelve los resultados en el orden en que las **pediste**, aunque terminen en otro orden.
 
 #### Desafío
 Prepará los tres platos a la vez.
@@ -3493,7 +3557,9 @@ recompensa: xp 15, oro 15
 Vos y Tilo cargan la despensa a la vez: cada uno lee cuántas bolsas hay, suma 10 y anota. Había 50; tendrían que quedar 70. El cartel dice **60**. Un **troll** se ríe desde atrás de los sacos.
 
 #### Gheco sugiere
-Si dos tareas leen y modifican lo mismo con un `await` en el medio, se **pisan**: las dos leen 50. Con `async with candado:` (un `asyncio.Lock`), entran **de a una**.
+Si dos tareas leen un valor, esperan y después escriben, se pueden **pisar**: las dos leen 50, las dos suman 10 y guardan 60 (se perdió un aporte).
+
+Un **candado** (`asyncio.Lock()`) lo evita: con `async with candado:`, las tareas entran **de a una** a esa parte. La otra espera afuera hasta que la primera termina.
 
 #### Desafío
 Que cada uno cargue con el candado puesto.
@@ -4090,7 +4156,9 @@ En el último piso, los aprendices discuten por qué atrasa el reloj. Uno pega l
 —Hay una forma de unirlas **de una sola vez** —dice Maese Horas.
 
 #### Gheco sugiere
-`separador.join(lista)` une todos los textos de la lista con el separador en el medio, de una sola vez. Pegar con `+=` en un bucle crea un texto nuevo en cada vuelta.
+Para unir muchos textos, `separador.join(lista)` los pega todos de una vez, con el separador en el medio: `"-".join(["a", "b", "c"])` da `"a-b-c"`.
+
+Pegar con `+=` en un bucle funciona, pero crea un texto nuevo en cada vuelta: con muchos, es lento.
 
 #### Desafío
 Uní las runas con guiones.
@@ -4187,7 +4255,12 @@ recompensa: xp 10, oro 10
 —Las piezas que llegan se revisan en orden: la primera que entra, la primera que sale —dice el relojero—. Sacarlas del principio de una lista obliga a correr todas las demás.
 
 #### Gheco sugiere
-Una `deque` es una fila de doble punta: `append` agrega al final y `popleft()` saca del principio, **sin** mover las demás. Se importa de `collections`.
+Una `deque` (de `collections`) es una fila con dos puntas:
+
+- `append(x)` agrega al final;
+- `popleft()` saca del principio, **sin** mover a los demás.
+
+Con una lista común, sacar del principio con `pop(0)` obliga a correr a todos un lugar: con muchos elementos, es lento.
 
 #### Desafío
 Armá la fila con una `deque`.
@@ -4296,7 +4369,9 @@ El corazón busca, entre cien dientes, dos que sumen 197, y lo hace comparando *
 —Recorrelos **una sola vez** —dice Maese Horas—, y anotá los que ya pasaron.
 
 #### Gheco sugiere
-Dos `for` anidados sobre la misma lista crecen como **n²**. Si por cada número preguntás si **ya viste su complemento** en un `set`, alcanza con recorrerlos una vez.
+Dos `for` anidados sobre la misma lista hacen `n × n` pasos (**n²**): con 100 elementos, 10 000 pasos.
+
+Un truco para buscar un par que sume un objetivo: recorrés una sola vez y, por cada número, preguntás si **ya viste** el que le falta (`objetivo - d`) en un `set` (la pregunta es instantánea). Si no, lo agregás a los vistos.
 
 #### Desafío
 Completá la pregunta: ¿ya pasó el diente que le falta a este para llegar a 197?
@@ -4824,7 +4899,12 @@ recompensa: xp 20, oro 20
 Pero cuidado: un **troll** se esconde en las torres que quedan esperando para siempre.
 
 #### Gheco sugiere
-Una `asyncio.Queue` es una fila compartida: `put_nowait` agrega y `await cola.get()` saca (y espera si está vacía). Para que cada torre sepa que terminó, mandá **un `None` por torre**.
+Una `asyncio.Queue` es una fila que comparten varias tareas:
+
+- `put_nowait(x)` agrega;
+- `await cola.get()` saca, y si está vacía, **espera** a que llegue algo.
+
+Para que cada torre sepa que no viene nada más, se manda una señal de fin: un `None` **por torre**.
 
 #### Desafío
 Mandá una señal de fin para cada torre.
@@ -4910,7 +4990,7 @@ item: Túnica Encendida
 El corazón del Gólem late cada vez más rápido. Para llegar a él, tus golpes tienen que pasar por un decorador que los **cuenta**, y salir de un generador que los da **de a uno**.
 
 #### Gheco sugiere
-Un decorador puede envolver un **generador**, si la envoltura también es generador: recorre el original con `for` y reenvía cada valor con `yield`. Si no reenvía, se «come» los golpes.
+Un decorador también puede envolver un **generador**, pero entonces la envoltura tiene que ser generador también: recorre el original con `for` y **reenvía** cada valor con `yield`. Si no los reenvía, se los come y no sale nada.
 
 #### Desafío
 Reenviá cada golpe desde la envoltura.

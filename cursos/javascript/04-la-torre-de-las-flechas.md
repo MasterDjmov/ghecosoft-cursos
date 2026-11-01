@@ -3919,8 +3919,8 @@ Si algo falla, tiene que decir exactamente qué.
 #### Gheco sugiere
 Junta todo lo de R04:
 
-- un **error propio** (R04-N06) que lleve el código de estado y el mensaje del Puerto;
-- una función que hace el `fetch`, revisa `ok` y **lanza** ese error si salió mal (R04-N04);
+- el **error propio** (R04-N06) ya está hecho, con el código de estado y el mensaje del Puerto;
+- `pedir` hace el `fetch`, lee el JSON, revisa `ok` y **lanza** ese error si salió mal (R04-N04);
 - los pasos en orden con `await`, y los que no dependen uno de otro, juntos con `Promise.all` (R04-N05);
 - el `try`/`catch`/`finally`, con el cierre de sesión en el lugar que corre siempre.
 

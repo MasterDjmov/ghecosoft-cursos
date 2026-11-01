@@ -131,7 +131,17 @@ recompensa: xp 10, oro 10
 Lucio le muestra a Nima cómo trabajaba el Vidriero: primero dibujaba cada vidrio en el lienzo, del tamaño justo. Nima prueba con un vidrio amarillo.
 
 #### Gheco sugiere
-Elegí el color con `ctx.fillStyle = '#ffd400'` y dibujá con `ctx.fillRect(50, 25, 100, 100)`.
+Un `<canvas>` (*lienzo*) es un rectángulo de la página donde el programa **dibuja** con órdenes, como con un pincel. Para dibujar se le pide el **contexto 2D**: el pincel.
+
+```js
+const ctx = document.querySelector('#hoja').getContext('2d');
+ctx.fillStyle = '#e53935';         // el color de relleno: rojo
+ctx.fillRect(10, 20, 60, 40);      // un rectángulo relleno
+```
+
+`fillRect(x, y, ancho, alto)`: los dos primeros números dicen **dónde** va la esquina de arriba a la izquierda y los otros dos, **qué tamaño** tiene. Primero se elige el color y después se dibuja: el color queda puesto para lo que siga.
+
+Los colores se escriben en hexadecimal: `#` y seis cifras (rojo, verde y azul).
 
 #### Desafío
 Dibujá un cuadrado amarillo (`#ffd400`) en (50, 25), de 100 × 100.
@@ -190,7 +200,16 @@ recompensa: xp 10, oro 10
 En el plano del Vidriero, las cuatro esquinas del lienzo tienen un vidrito rojo de 20 × 20. Nima tiene que ubicarlos en un lienzo de 200 × 150.
 
 #### Gheco sugiere
-La esquina de abajo a la derecha de un vidrio de 20 × 20 tiene que quedar en (200, 150): su *x* es `200 - 20` y su *y* es `150 - 20`.
+En el lienzo, el punto `(0, 0)` es la esquina de **arriba a la izquierda**. La `x` crece hacia la derecha y la `y` crece **hacia abajo** (al revés que en matemática).
+
+Como `fillRect` ubica la esquina de arriba a la izquierda del rectángulo, para que uno quede pegado al borde derecho hay que **restarle su ancho** al ancho del lienzo:
+
+```js
+// lienzo de 300 de ancho, cuadrado de 50: pegado a la derecha
+ctx.fillRect(300 - 50, 0, 50, 50);
+```
+
+Con el borde de abajo pasa lo mismo, con el alto.
 
 #### Desafío
 Completá las cuatro esquinas en este orden: arriba a la izquierda, arriba a la derecha, abajo a la izquierda, abajo a la derecha.
@@ -258,10 +277,23 @@ recompensa: xp 10, oro 10
 En el centro del marco del vitral va un rosetón: un círculo grande violeta y, encima, uno chico amarillo.
 
 #### Gheco sugiere
-Para cada círculo: `beginPath()`, el color, `arc(…)` y `fill()`. El grande, radio 50 en (100, 75); el chico, radio 20 en el mismo centro.
+Un círculo se dibuja en tres pasos:
+
+1. `ctx.beginPath()` empieza una figura nueva (si no, se mezcla con la anterior);
+2. `ctx.arc(x, y, radio, 0, Math.PI * 2)` marca el círculo: el **centro**, el **radio**, y de dónde a dónde va la vuelta (de 0 a `Math.PI * 2` es la vuelta entera);
+3. `ctx.fill()` lo rellena con el color del `fillStyle`.
+
+```js
+ctx.beginPath();
+ctx.fillStyle = '#43a047';
+ctx.arc(60, 60, 30, 0, Math.PI * 2);
+ctx.fill();
+```
+
+Lo que se dibuja después queda **encima**: el orden importa.
 
 #### Desafío
-Dibujá los dos círculos: el grande `#7e57c2` y el chico `#ffd400`.
+Dibujá los dos círculos: el grande `#7e57c2`, de radio 50 con centro en (100, 75), y encima el chico `#ffd400`, de radio 20 en el mismo centro.
 
 #### Página
 ```html
@@ -328,7 +360,9 @@ recompensa: xp 10, oro 10
 Un slime se metió en el tintero del Vidriero y cambió una letra: ahora el pincel no aparece y el programa explota con `Cannot set properties of null`.
 
 #### Gheco sugiere
-Revisá el `getContext`: es `'2d'`, en minúscula.
+Si `getContext` recibe un nombre que no conoce, no da error: devuelve `null`. Y después, en la primera línea que usa el pincel, salta `Cannot read properties of null`.
+
+El nombre del contexto es exacto, con mayúsculas y minúsculas: revisalo letra por letra.
 
 #### Desafío
 Arreglá el programa para que dibuje el vidrio verde.
@@ -387,10 +421,18 @@ recompensa: xp 15, monedas 5
 El borde de abajo del vitral es una fila de vidrios de colores, todos del mismo tamaño, separados por un poquito.
 
 #### Gheco sugiere
-Un `for` sobre `colores` con su índice: cada vidrio de 30 × 30 en `x = 10 + i * 40`, `y = 100`.
+Para dibujar varias cosas en fila, la posición se calcula con el **índice** (la posición en el arreglo: 0, 1, 2…): el primero va en el punto de partida y cada uno se corre un paso más.
+
+```js
+for (let i = 0; i < 4; i++) {
+    ctx.fillRect(5 + i * 25, 10, 20, 20);   // x: 5, 30, 55, 80
+}
+```
+
+El paso (25) es el ancho del cuadrado más el espacio entre uno y otro. `forEach((color, i) => …)` da a la vez el elemento y su índice.
 
 #### Desafío
-Dibujá un vidrio por color, en fila.
+Dibujá un vidrio por color, en fila: cada uno de 30 × 30, a la altura `y = 100`; el primero en `x = 10` y cada uno 40 píxeles más a la derecha que el anterior.
 
 #### Página
 ```html
@@ -454,13 +496,21 @@ recompensa: xp 15, monedas 5
 Entre los planos, Lumina encuentra un boceto a medio hacer del vitral del portal: un fondo azul noche, un sol amarillo en el centro, cuatro rayos y la firma del Vidriero abajo. Le pide a Nima que lo pase al lienzo.
 
 #### Gheco sugiere
+Para las **líneas**:
+
+- `ctx.strokeStyle` es el color del trazo y `ctx.lineWidth`, su grosor;
+- `ctx.beginPath()`, `ctx.moveTo(x, y)` (apoyar el lápiz sin dibujar), `ctx.lineTo(x, y)` (marcar la línea hasta ahí) y `ctx.stroke()` (pasar la tinta).
+
+Para el **texto**: `ctx.fillText('Hola', x, y)`, con el color del `fillStyle`.
+
+El `for` que ya viene recorre los puntos de punta de cada rayo: cada rayo sale del centro del sol.
+
+#### Desafío
+Dibujá el boceto en este orden:
 1. Fondo `#0d1b3d` en todo el lienzo.
 2. Sol `#ffd400`: círculo de radio 25 en (100, 70).
 3. Rayos `#ffd400`, de 4 de ancho: líneas del centro a (100, 10), (100, 130), (40, 70) y (160, 70).
 4. Texto `#ffffff` `'V.'` en (180, 140).
-
-#### Desafío
-Dibujá el boceto en ese orden.
 
 #### Página
 ```html
@@ -673,10 +723,25 @@ recompensa: xp 10, oro 10
 Nima da vuelta la manivela del mecanismo y un vidrio amarillo empieza a correr por el riel del marco.
 
 #### Gheco sugiere
-En cada cuadro: sumá 2 a `x`, borrá todo el lienzo con `clearRect` y dibujá el vidrio en `(x, 40)`, de 20 × 20. Después pedí el próximo cuadro.
+Una **animación** es una serie de dibujos (*cuadros*) que cambian un poquito cada vez, tan rápido que el ojo ve movimiento.
+
+`requestAnimationFrame(funcion)` le pide al navegador que llame a la función **antes del próximo cuadro** (unas 60 veces por segundo). Si la función, al final, se pide a sí misma otra vez, queda un **bucle del juego**:
+
+```js
+let y = 0;
+function cuadro() {
+    y += 1;                              // 1. cambiar
+    ctx.clearRect(0, 0, 100, 100);       // 2. borrar todo
+    ctx.fillRect(40, y, 10, 10);         // 3. dibujar
+    requestAnimationFrame(cuadro);       // 4. pedir el próximo
+}
+requestAnimationFrame(cuadro);
+```
+
+`clearRect(x, y, ancho, alto)` borra esa parte del lienzo; con el tamaño entero, lo deja limpio.
 
 #### Desafío
-Completá `cuadro`. (La comprobación corre 30 cuadros.)
+Completá `cuadro`: en cada cuadro, el vidrio avanza 2 píxeles a la derecha y se dibuja de 20 × 20 a la altura 40. (La comprobación corre 30 cuadros.)
 
 #### Página
 ```html
@@ -752,7 +817,9 @@ recompensa: xp 10, oro 10
 Un ogro movió una línea del mecanismo y ahora el vidrio deja una estela larguísima: el lienzo se llena de amarillo.
 
 #### Gheco sugiere
-Falta borrar antes de dibujar. Mirá el Estado: sin `clearRect`, en el último cuadro solo hay un `fillRect`… pero en pantalla se ve la estela.
+El lienzo **no se borra solo**: cada dibujo queda pintado encima del anterior. Si en cada cuadro dibujás el vidrio un poco más allá sin borrar, quedan todos los anteriores a la vista, y se ve una **estela**.
+
+Por eso cada cuadro empieza borrando todo con `clearRect` y recién después dibuja. Fijate en el orden.
 
 #### Desafío
 Agregá el `clearRect` antes de dibujar.
@@ -832,7 +899,15 @@ recompensa: xp 10, oro 10
 Lucio dice que el Vidriero tenía una regla: el vidrio cruza el riel en **un segundo exacto**, sin importar si la manivela gira rápido o lento.
 
 #### Gheco sugiere
-Calculá `dt` con el tiempo que recibe `cuadro`, y mové `x += velocidad * dt` con `velocidad = 120`.
+No todas las pantallas dibujan los mismos cuadros por segundo: si el vidrio avanza 2 píxeles **por cuadro**, en una pantalla rápida corre más. Para que vaya igual en todas, se mueve según el **tiempo** que pasó.
+
+La función del cuadro recibe la hora en milisegundos (`ahora`). La diferencia con la del cuadro anterior, pasada a **segundos**, se llama `dt` (*delta de tiempo*):
+
+```js
+const dt = (ahora - antes) / 1000;
+```
+
+Y la distancia es velocidad por tiempo: si la velocidad está en píxeles **por segundo**, en ese cuadro se avanza `velocidad * dt`.
 
 #### Desafío
 Completá el cálculo. (La comprobación corre 60 cuadros: un segundo.)
@@ -923,7 +998,13 @@ recompensa: xp 10, oro 10
 El vidrio llega al final del riel y se escapa del marco. El Vidriero lo hacía rebotar: ida y vuelta, sin parar.
 
 #### Gheco sugiere
-Después de mover, si `x < 0` o `x + 20 > 200`, invertí `vx`.
+Para que algo **rebote**, se guarda su velocidad en una variable que puede ser positiva (va a la derecha) o negativa (va a la izquierda). Al tocar un borde, se le **da vuelta el signo**:
+
+```js
+vx = -vx;   // si era 4, pasa a -4; si era -4, pasa a 4
+```
+
+Pensá cuándo toca cada borde: el izquierdo cuando su `x` es menor que 0, y el derecho cuando su **lado derecho** (`x` más su ancho) pasa el ancho del lienzo.
 
 #### Desafío
 Que el vidrio rebote en los dos bordes. (La comprobación corre 70 cuadros.)
@@ -1009,7 +1090,12 @@ recompensa: xp 15, monedas 5
 Algunos vidrios del vitral no van solo de lado: van en diagonal, rebotando en las cuatro paredes del marco.
 
 #### Gheco sugiere
-Igual que antes, pero con `y` y `vy` también: rebotá en arriba/abajo con `vy = -vy`.
+Para moverse en diagonal se usan **dos** velocidades: `vx` para el costado y `vy` para arriba y abajo. Cada una se revisa con sus bordes y rebota por su cuenta:
+
+- los bordes izquierdo y derecho dan vuelta `vx`;
+- los de arriba y abajo dan vuelta `vy`.
+
+Se pueden declarar varias variables en una línea, separadas por comas: `let a = 1, b = 2;`.
 
 #### Desafío
 Hacé rebotar el vidrio en los cuatro bordes. (La comprobación corre 40 cuadros.)
@@ -1095,10 +1181,18 @@ recompensa: xp 15, monedas 5
 Lumina se acuerda: el sol del vitral no estaba quieto, **latía**, como un corazón. Se agrandaba y se achicaba, despacio.
 
 #### Gheco sugiere
-En cada cuadro, el radio es `20 + 5 * Math.sin(ahora / 300)`. Borrá y dibujá el sol en (80, 50) con ese radio.
+`Math.sin` (el seno de matemática) da un número que **sube y baja** entre −1 y 1, una y otra vez, de forma suave. Por eso sirve para todo lo que late, se balancea o respira.
+
+```js
+const alto = 30 + 10 * Math.sin(ahora / 500);   // va de 20 a 40 y vuelve
+```
+
+- el número de adelante (30) es el tamaño del medio;
+- el que multiplica (10) es cuánto se agranda y se achica;
+- el que divide a `ahora` (500) es la velocidad: más grande, más lento.
 
 #### Desafío
-Hacé latir el sol. (La comprobación corre 45 cuadros.)
+Hacé latir el sol: en cada cuadro, su radio es `20 + 5 * Math.sin(ahora / 300)`, con centro en (80, 50). (La comprobación corre 45 cuadros.)
 
 #### Página
 ```html
@@ -1298,7 +1392,16 @@ recompensa: xp 10, oro 10
 Para arreglar el juguete, primero hay que saber qué palancas están apretadas en cada momento.
 
 #### Gheco sugiere
-`keydown` agrega la tecla al `Set` y `keyup` la saca. En `#teclas` mostrá `[...teclas].join(' ')`.
+En un juego, `keydown` no alcanza: lo que importa es qué teclas están **apretadas ahora**, y puede haber varias a la vez. Se guardan en un **`Set`** (*conjunto*): una colección sin repetidos.
+
+```js
+const apretadas = new Set();
+apretadas.add('a');       // la agrega (si ya estaba, no la repite)
+apretadas.delete('a');    // la saca
+apretadas.has('a');       // ¿está? true o false
+```
+
+`keydown` pasa al **apretar** y `keyup`, al **soltar**. Para mostrar un `Set`, se pasa a arreglo con `[...conjunto]` y se une con `join(' ')`.
 
 #### Desafío
 Completá los dos eventos. (La comprobación aprieta la flecha derecha, después la de arriba, y suelta la derecha.)
@@ -1379,7 +1482,15 @@ recompensa: xp 10, oro 10
 Con las palancas arregladas, la luciérnaga de cristal tiene que moverse a la derecha mientras se aprieta la flecha.
 
 #### Gheco sugiere
-En `cuadro`, si `teclas.has('ArrowRight')`, sumá `velocidad * dt` a `luz.x` (la velocidad es 60 píxeles por segundo, y `dt` ya está calculado).
+La idea es separar las dos cosas: los eventos del teclado **solo anotan** qué teclas están apretadas, y el bucle del juego, en cada cuadro, **pregunta** y mueve.
+
+```js
+if (apretadas.has('ArrowUp')) {
+    nave.y -= nave.velocidad * dt;
+}
+```
+
+Así el movimiento es parejo mientras la tecla esté apretada, y no depende de cada cuántos milisegundos repite la tecla la compu.
 
 #### Desafío
 Mové la luciérnaga a la derecha con la flecha. (La comprobación la mantiene 1 segundo: 60 cuadros.)
@@ -1477,7 +1588,16 @@ recompensa: xp 10, oro 10
 Ahora las cuatro palancas: arriba, abajo, izquierda y derecha.
 
 #### Gheco sugiere
-Calculá `dx` y `dy` (−1, 0 o 1) según las cuatro flechas y mové con los dos.
+Una forma prolija de las cuatro flechas: calcular una **dirección** en cada eje, que vale `-1`, `0` o `1`, y mover con ella:
+
+```js
+let dx = 0;
+if (apretadas.has('ArrowLeft')) dx -= 1;
+if (apretadas.has('ArrowRight')) dx += 1;
+nave.x += dx * nave.velocidad * dt;
+```
+
+Si están apretadas las dos, se anulan y da 0: no se mueve. Con `dy` se hace lo mismo para arriba y abajo (recordá que la `y` crece hacia abajo).
 
 #### Desafío
 Mové en las cuatro direcciones. (La comprobación va medio segundo a la izquierda y medio segundo hacia arriba.)
@@ -1591,7 +1711,16 @@ recompensa: xp 10, oro 10
 Un orco empujó la luciérnaga hasta el borde y la hizo desaparecer por el costado del tablero.
 
 #### Gheco sugiere
-Después de mover, limitá `luz.x` entre `0` y `200 - 16` con `Math.max` y `Math.min`.
+Para que un número no se salga de un rango se usan dos funciones:
+
+- `Math.max(a, b)` da el **más grande** de los dos: `Math.max(0, x)` nunca deja que `x` baje de 0;
+- `Math.min(a, b)` da el **más chico**: `Math.min(x, 100)` nunca deja que pase de 100.
+
+```js
+x = Math.max(0, Math.min(x, 100));   // queda entre 0 y 100
+```
+
+El tope derecho es el ancho del lienzo **menos el tamaño** de la luciérnaga: su `x` es el lado izquierdo.
 
 #### Desafío
 Que la luciérnaga no se salga por la derecha. (La comprobación aprieta la derecha 3 segundos.)
@@ -1690,7 +1819,9 @@ recompensa: xp 15, monedas 5
 Bruno descubrió que, apretando dos flechas, la luciérnaga va más rápido. Para el torneo, eso es trampa.
 
 #### Gheco sugiere
-Si `dx` y `dy` son los dos distintos de 0, dividilos por `Math.SQRT2` antes de mover.
+Con dos flechas a la vez, se suma un paso entero de costado y otro entero hacia abajo: la diagonal es **más larga** que un paso (por el teorema de Pitágoras, mide `√2`, cerca de 1,41). Por eso va más rápido.
+
+Para que la diagonal mida lo mismo que un paso recto, cuando `dx` y `dy` son los dos distintos de 0 se dividen por `√2`. En JavaScript, `√2` ya viene escrito como `Math.SQRT2`.
 
 #### Desafío
 Normalizá la diagonal. (La comprobación aprieta derecha y abajo durante 1 segundo.)
@@ -1807,7 +1938,9 @@ recompensa: xp 15, monedas 5
 Lumina prueba el juguete en una página larga y, cada vez que aprieta una flecha, además de moverse la luciérnaga, se mueve toda la página. Es incómodo.
 
 #### Gheco sugiere
-En el `keydown`, si la tecla es una flecha o la barra (`' '`), llamá a `e.preventDefault()`. Contá cuántas veces lo evitaste en `#evitadas`.
+Algunas teclas tienen un trabajo **de fábrica** en el navegador: las flechas y la barra espaciadora mueven la página hacia arriba o abajo. Como en el `submit` de R02, `evento.preventDefault()` lo impide.
+
+Pero solo hay que impedirlo con las teclas **del juego**: si lo hacés con todas, no se puede escribir nada. Un arreglo con las teclas del juego e `includes` (de R01) sirven para preguntar si es una de esas.
 
 #### Desafío
 Evitá que las flechas y la barra muevan la página. (La comprobación aprieta derecha, la barra y la letra *a*.)
@@ -1992,7 +2125,16 @@ recompensa: xp 10, oro 10
 Según el plano, una gema se junta cuando la caja de la luciérnaga se superpone con la de la gema. Nima tiene que escribir la regla.
 
 #### Gheco sugiere
-Completá `chocan(a, b)` con las cuatro comparaciones.
+Dos rectángulos se **tocan** cuando se pisan en el costado **y** también en la altura. En el costado se pisan si cada uno empieza antes de que termine el otro:
+
+```js
+const pisanEnX = a.x < b.x + b.ancho && a.x + a.ancho > b.x;
+```
+
+- `a.x < b.x + b.ancho`: `a` empieza antes de que termine `b`;
+- `a.x + a.ancho > b.x`: `a` termina después de que empieza `b`.
+
+Con la `y` y el alto es igual. Chocan si se cumplen las cuatro comparaciones, unidas con `&&`. Esto se llama colisión de cajas (en inglés, *AABB*).
 
 #### Desafío
 Escribí `chocan`.
@@ -2052,7 +2194,9 @@ recompensa: xp 10, oro 10
 Un orco cambió los `<` por `<=` y ahora la luciérnaga junta gemas que apenas la rozan, de lejos.
 
 #### Gheco sugiere
-Volvé a poner `<` y `>` estrictos.
+Si dos rectángulos están **pegados**, borde con borde (uno termina en 70 y el otro empieza en 70), ¿se tocan? Con `<` y `>` no: `70 < 70` es falso. Con `<=` y `>=` sí, porque `70 <= 70` es verdadero.
+
+En el juego, rozar no cuenta. Compará las comparaciones del código con las de R05-N04-P1.
 
 #### Desafío
 Arreglá `chocan` para que la gema que solo roza no cuente.
@@ -2105,7 +2249,13 @@ recompensa: xp 10, oro 10
 Las gemas redondas no tienen esquinas. Para ellas, el plano dice: se tocan si están más cerca que la suma de sus radios.
 
 #### Gheco sugiere
-`Math.hypot(a.x - b.x, a.y - b.y) < a.radio + b.radio`.
+Con **círculos** es más fácil: se tocan si la distancia entre los **centros** es menor que la suma de los **dos radios**.
+
+`Math.hypot(dx, dy)` calcula esa distancia (es Pitágoras: la raíz de `dx² + dy²`), donde `dx` y `dy` son las diferencias entre las `x` y entre las `y` de los centros:
+
+```js
+const distancia = Math.hypot(p.x - q.x, p.y - q.y);
+```
 
 #### Desafío
 Escribí `tocan`.
@@ -2161,7 +2311,17 @@ recompensa: xp 10, oro 10
 La luciérnaga recorre el tablero: en cada posición, junta las gemas que toca.
 
 #### Gheco sugiere
-Escribí `juntar()` con un `filter` que saque las gemas que chocan con `luz` y sume un punto por cada una.
+`filter` (de R01) arma un arreglo **nuevo** con los que cumplen: sirve para **sacar** las gemas que se juntaron, quedándote con las que **no** chocan.
+
+Y la cuenta de puntos se puede hacer comparando largos: lo que había antes menos lo que quedó es cuántas se juntaron.
+
+```js
+const antes = frutas.length;
+frutas = frutas.filter((f) => !f.comida);
+const comidas = antes - frutas.length;
+```
+
+Para volver a asignar el arreglo, tiene que estar declarado con `let`.
 
 #### Desafío
 Completá `juntar`.
@@ -2251,7 +2411,15 @@ recompensa: xp 15, monedas 5
 Ahora en el lienzo: la luciérnaga se mueve con la flecha derecha, y en cada cuadro junta las gemas que toca.
 
 #### Gheco sugiere
-En `cuadro`, después de mover, llamá a `juntar()`. Después dibujá las gemas que quedan y mostrá los puntos en `#puntos`.
+En el bucle del juego, el orden de cada cuadro es siempre el mismo:
+
+1. **mover** (lo que dicen las teclas);
+2. **revisar** choques y reglas (juntar);
+3. **borrar y dibujar** cómo quedó todo;
+4. **mostrar** los números en la página;
+5. pedir el próximo cuadro.
+
+Si dibujás antes de juntar, en ese cuadro se ve una gema que ya no está.
 
 #### Desafío
 Completá `cuadro`. (La comprobación mantiene la derecha 1 segundo.)
@@ -2369,7 +2537,18 @@ recompensa: xp 15, monedas 5
 Lumina mezcla en el cofre gemas de distinto valor y algunas **trampas** (vidrios rotos) que restan puntos. Quiere una función que, para una posición, diga cuánto se gana.
 
 #### Gheco sugiere
-Recorré `cosas` con `filter` como antes, pero sumá `cosa.valor` (las trampas tienen valor negativo). Devolvé el total ganado en ese paso.
+Cuando cada cosa vale distinto, ya no alcanza con contar: hay que **sumar el valor** de cada una que se toca. Una forma es recorrer y repartir en dos: las que se tocan suman, las que no se quedan.
+
+```js
+let ganado = 0;
+cosas = cosas.filter((c) => {
+    if (!toca(c)) return true;    // se queda
+    ganado += c.valor;
+    return false;                 // se va
+});
+```
+
+Una trampa con valor negativo **resta** sola, sin ningún `if` especial.
 
 #### Desafío
 Completá `juntar` para que devuelva lo ganado en cada paso.
@@ -2563,7 +2742,13 @@ recompensa: xp 10, oro 10
 Una sombra aparece en una esquina del tablero y empieza a ir hacia la luciérnaga.
 
 #### Gheco sugiere
-Completá `perseguir`: calculá `dx`, `dy` y `largo`; si `largo > 0`, avanzá.
+Para que algo **persiga** a otro, en cada cuadro se mueve un poquito hacia donde está el otro:
+
+1. la **diferencia** en cada eje: `dx = objetivo.x - enemigo.x` (y lo mismo con `y`). Si es positiva, el objetivo está a la derecha;
+2. la **distancia** entre los dos, con `Math.hypot(dx, dy)`;
+3. dividir `dx` y `dy` por la distancia da una **dirección de largo 1**, y eso por la velocidad y por `dt` es cuánto avanza.
+
+Si la distancia es 0 (ya llegó), no se mueve: dividir por 0 rompe todo.
 
 #### Desafío
 Escribí `perseguir`.
@@ -2631,7 +2816,9 @@ recompensa: xp 10, oro 10
 Un goblin se disfrazó de sombra y corre rapidísimo cuando está lejos. Hace trampa: no normaliza.
 
 #### Gheco sugiere
-Dividí `dx` y `dy` por el largo antes de multiplicar por la velocidad.
+Si se mueve con `dx * velocidad` directamente, corre **más rápido cuanto más lejos está**: `dx` es la distancia entera, no una dirección. De lejos salta, de cerca casi no se mueve.
+
+Para que vaya siempre a la misma velocidad, hay que **normalizar**: dividir `dx` y `dy` por la distancia, así la dirección mide 1 y solo la velocidad dice cuánto avanza.
 
 #### Desafío
 Arreglá `perseguir` para que en 1 segundo avance 40 píxeles, esté lejos o cerca.
@@ -2691,7 +2878,15 @@ recompensa: xp 10, oro 10
 La luciérnaga tiene 3 vidas. Si una sombra la toca, pierde una… y queda un segundo brillando, intocable.
 
 #### Gheco sugiere
-En `golpear(ahora)`: si `ahora > luz.invulnerableHasta`, restá una vida y poné `invulnerableHasta = ahora + 1000`.
+Si un choque quitara una vida **en cada cuadro**, con una sola tocada se perderían todas en un instante. Por eso, después de un golpe, la luciérnaga queda **invulnerable** un rato.
+
+Se guarda **hasta cuándo** es invulnerable (en milisegundos). Un golpe solo cuenta si `ahora` ya pasó ese momento; y si cuenta, se resta la vida y se corre el momento un segundo más allá.
+
+```js
+if (ahora > escudo.hasta) {
+    // cuenta el golpe… y el escudo dura hasta ahora + 1000
+}
+```
 
 #### Desafío
 Completá `golpear`. (La sombra la toca en los milisegundos 0, 500, 1200, 1300 y 2500.)
@@ -2756,7 +2951,9 @@ recompensa: xp 10, oro 10
 Cuando la luciérnaga se libra de todas las sombras, sale una oleada nueva, el doble de grande.
 
 #### Gheco sugiere
-`lanzarOleada()` agrega `2 ** (oleada - 1)` sombras al arreglo y suma uno a `oleada`. En el bucle de prueba, cuando el arreglo está vacío, lanzá una.
+`**` es la **potencia**: `2 ** 3` es `2 × 2 × 2 = 8`. Sirve para lo que se **duplica** cada vez: 1, 2, 4, 8… es `2 ** 0`, `2 ** 1`, `2 ** 2`, `2 ** 3`.
+
+Para agregar varias a un arreglo, un `for` que cuente hasta esa cantidad y haga `push` en cada vuelta. Pensá qué número de oleada da 1 sombra en la primera y cómo sigue. Después de lanzar una, la cuenta de oleadas sube.
 
 #### Desafío
 Completá `lanzarOleada`.
@@ -2824,10 +3021,12 @@ recompensa: xp 15, monedas 5
 Con tantas sombras, Nima prefiere hacer un molde: cada sombra sabe perseguir y dibujarse.
 
 #### Gheco sugiere
-En `Sombra`, completá `perseguir` (como antes) y `dibujar` (un `fillRect` de 10 × 10 `#311b92` en su posición redondeada).
+Es pasar lo que ya hiciste a una **clase** (R03): los datos de cada sombra en el `constructor`, y lo que sabe hacer en métodos, usando `this` en vez del nombre de la variable.
+
+`Math.round(n)` **redondea** al entero más cercano: los píxeles del lienzo son enteros, y así el dibujo queda nítido.
 
 #### Desafío
-Completá la clase. (La comprobación corre 60 cuadros con dos sombras.)
+Completá la clase: `perseguir` como en R05-N05-P2, y `dibujar` con un cuadrado `#311b92` de 10 × 10 en su posición redondeada. (La comprobación corre 60 cuadros con dos sombras.)
 
 #### Página
 ```html
@@ -2958,7 +3157,9 @@ recompensa: xp 15, monedas 5
 Lumina quiere probar: la luciérnaga se mueve con las flechas, una sombra la persigue, y si la toca le saca una vida (con un segundo de invulnerabilidad).
 
 #### Gheco sugiere
-En el bucle: mové la luz, que la sombra persiga, y si `chocan(luz, sombra)` y `ahora > luz.invulnerableHasta`, restá una vida y renová el tiempo. Mostrá las vidas en `#vidas`.
+Es juntar tres cosas que ya hiciste en cada cuadro: mover, perseguir y revisar el choque con su tiempo de invulnerabilidad (R05-N05-P3). La condición del golpe tiene dos partes, unidas con `&&`: que se toquen **y** que ya haya pasado el tiempo.
+
+Después de restar la vida, mostrá las vidas en la página.
 
 #### Desafío
 Completá la parte del choque. (En la comprobación, la luz se queda quieta 3 segundos y la sombra la alcanza.)
@@ -3181,7 +3382,9 @@ recompensa: xp 10, oro 10
 El plano tiene dos pantallas: *jugando* y *fin del juego*. Nima tiene que hacer que el juego pase de una a otra cuando se acaban las vidas.
 
 #### Gheco sugiere
-En `perderVida()`, restá una vida y, si llegan a 0, poné `juego.estado = 'fin'`.
+Un juego pasa por **estados**: jugando, en pausa, terminado. Se guarda en una variable de texto (`'jugando'`, `'fin'`), y cada parte del juego mira el estado antes de actuar: si terminó, ya no se mueve ni se pierden vidas.
+
+El cambio de estado va donde pasa lo que lo provoca: cuando se pierde la última vida, el juego pasa a terminado.
 
 #### Desafío
 Completá `perderVida`.
@@ -3243,7 +3446,13 @@ recompensa: xp 10, oro 10
 Grabado en la tapa del tablero hay un récord: 12 gemas. Lucio dice que lo hizo el Vidriero. Nima quiere superarlo, y que quede guardado.
 
 #### Gheco sugiere
-`terminar(puntos)`: leé el récord (con `Number` y `?? 0`), y si `puntos` lo supera, guardalo y mostrá `¡Récord nuevo!`; si no, `Récord: …`.
+El **récord** se guarda en `localStorage` (de R02), así sigue ahí al volver otro día:
+
+- leer: `localStorage.getItem('clave')` da texto, o `null` si no hay. Con `?? 0` y `Number`, queda un número (0 si nunca se guardó);
+- comparar con los puntos de la partida;
+- si los supera, guardar el nuevo con `setItem`.
+
+Fijate en la consigna el texto exacto de los dos casos.
 
 #### Desafío
 Completá `terminar`. (El récord guardado es 12.)
@@ -3316,7 +3525,9 @@ recompensa: xp 10, oro 10
 Un ogro escribió el reinicio y se olvidó de las vidas: la segunda partida arranca con 0 vidas y termina enseguida.
 
 #### Gheco sugiere
-Que `reiniciar()` deje **todo** como al empezar: estado, puntos, vidas y ronda.
+Para **volver a empezar** hay que dejar **todo** como al principio: cada dato que cambia durante la partida. Si queda uno sin reiniciar, la partida nueva arranca con algo de la vieja (con 0 vidas, por ejemplo).
+
+Lo más seguro es que la misma función `reiniciar()` se use también para **empezar** la primera vez: así nunca hay dos listas distintas de valores iniciales. Comparala con lo que cambia en el resto del programa.
 
 #### Desafío
 Arreglá `reiniciar`.
@@ -3392,12 +3603,21 @@ recompensa: xp 30, monedas 10
 Llegó la hora: el juego entero, como en el plano. Lumina, Lucio, Bruno y Tati se juntan alrededor del tablero.
 
 #### Gheco sugiere
-El juego ya está casi todo. Faltan dos funciones:
+Las dos funciones que faltan usan lo de R05-N04 y R05-N05:
+
+- **juntar** es el `filter` con su cuenta de puntos, y una pregunta al final: si el arreglo quedó vacío, ronda nueva;
+- **revisar golpes**: `some` (*alguno*) devuelve `true` si **alguno** del arreglo cumple, ideal para «¿alguna sombra me toca?»; el golpe con su tiempo de invulnerabilidad es el de R05-N05-P3; y el final es el récord de R05-N06-P2.
+
+```js
+const hayMoscas = cosas.some((c) => c.tipo === 'mosca');
+```
+
+#### Desafío
+Completá las dos funciones:
 - `juntarGemas()`: saca las gemas que tocan a la luz y suma un punto por cada una; si no queda ninguna, `nuevaRonda()`.
 - `revisarGolpes(ahora)`: si alguna sombra toca a la luz y ya pasó el tiempo de invulnerabilidad, resta una vida (con un segundo de *cooldown*); si las vidas llegan a 0, termina (estado `'fin'`) y guarda el récord si lo superó.
 
-#### Desafío
-Completá las dos funciones. La comprobación juega: va a la derecha medio segundo (junta una gema), a la izquierda, y después se queda quieta hasta que las sombras la alcanzan.
+La comprobación juega: va a la derecha medio segundo (junta una gema), a la izquierda, y después se queda quieta hasta que las sombras la alcanzan.
 
 #### Página
 ```html
@@ -3703,7 +3923,14 @@ recompensa: xp 15, monedas 3
 El dragón respira y suelta chispas. Nima tiene que entender cómo se mueven para poder esquivarlas: cada una sale con su velocidad y se apaga cuando se le termina la vida.
 
 #### Gheco sugiere
-Completá `actualizar(dt)`: mové cada chispa (`x += vx * dt`, `y += vy * dt`), restale `dt` a su vida, y después sacá las que tengan vida `<= 0`.
+Las **partículas** (chispas, humo, polvo) son muchas cosas chiquitas, cada una con su velocidad y su **vida**: cuánto tiempo le queda, en segundos.
+
+En cada cuadro, a cada una:
+
+- se la mueve con su velocidad (como en R05-N02: velocidad por `dt`, en cada eje);
+- se le resta a su vida el tiempo que pasó.
+
+Y al final se sacan, con `filter`, las que ya no tienen vida. `-=` resta y guarda.
 
 #### Desafío
 Completá `actualizar`.
@@ -3777,10 +4004,25 @@ recompensa: xp 15, monedas 3
 El mecanismo del vitral está trabado: el sol del centro tiene que **girar** para que todo se mueva. Lumina le muestra a Nima cómo dibujaba el Vidriero las cosas que giran.
 
 #### Gheco sugiere
-En cada cuadro: borrá, guardá el pincel, trasladá al centro (100, 75), rotá `ahora / 1000` radianes y dibujá los cuatro rayos (`fillRect(-4, -60, 8, 30)` girando de a `Math.PI / 2`). Después restaurá y dibujá el sol encima.
+Para dibujar algo **girado**, en vez de calcular cada punta, se gira **el papel**:
+
+- `ctx.save()` guarda cómo está el pincel ahora;
+- `ctx.translate(x, y)` mueve el punto `(0, 0)` a ese lugar (el centro del giro);
+- `ctx.rotate(angulo)` gira todo lo que se dibuje después, en **radianes** (`Math.PI` es media vuelta);
+- `ctx.restore()` vuelve el pincel a como estaba en el `save`.
+
+```js
+ctx.save();
+ctx.translate(50, 50);
+ctx.rotate(Math.PI / 4);        // un octavo de vuelta
+ctx.fillRect(-10, -10, 20, 20); // un rombo con centro en (50, 50)
+ctx.restore();
+```
+
+Con un `rotate` adentro de un `for`, cada dibujo queda girado un poco más que el anterior.
 
 #### Desafío
-Completá el giro. (La comprobación corre 30 cuadros.)
+Completá el giro: en cada cuadro, trasladá al centro (100, 75), rotá `ahora / 1000` radianes y dibujá los cuatro rayos con `fillRect(-4, -60, 8, 30)`, girando de a `Math.PI / 2` entre uno y otro. Después restaurá y dibujá el sol encima. (La comprobación corre 30 cuadros.)
 
 #### Página
 ```html
@@ -3885,12 +4127,19 @@ item: Arco del Vitral
 Es el momento. El vitral tiene un anillo de **vidrios de colores** que tienen que girar alrededor del sol, cada uno a su velocidad. Y el mecanismo solo arranca si la **flecha de luz** llega al centro: Nima tiene que tensar el Arco del Vitral, **esperar** (dos segundos: el dragón respira y se calma) y soltar. Cuando la flecha llega, el vitral se mueve.
 
 #### Gheco sugiere
-- La clase `Vidrio` ya sabe dibujarse en el anillo: falta `avanzar(dt)`, que suma `this.velocidad * dt` a su ángulo.
-- `soltarFlecha()` es `async`: espera 2000 ms (con la promesa `esperar`), y después pone `vitral.moviendo = true` y escribe `¡El vitral se mueve!` en `#cartel`.
-- En el bucle, si `vitral.moviendo`, cada vidrio avanza.
+Junta lo del curso entero:
+
+- `avanzar` es la velocidad por `dt` de R05-N02, pero sobre un **ángulo** en vez de una posición;
+- `soltarFlecha` es una función `async` (R04): con `await` sobre la promesa `esperar`, se queda esperando sin congelar el juego, y después cambia el estado y el cartel (R02).
+
+El bucle ya pregunta por `vitral.moviendo`: no hace falta tocarlo.
 
 #### Desafío
-Completá `avanzar` y `soltarFlecha`. La comprobación toca *Soltar la flecha*, espera 2 segundos y después deja correr el vitral 1 segundo.
+Completá `avanzar` y `soltarFlecha`:
+- `avanzar(dt)` suma `this.velocidad * dt` al ángulo del vidrio;
+- `soltarFlecha()` espera 2000 ms (con la promesa `esperar`), y después pone `vitral.moviendo = true` y escribe `¡El vitral se mueve!` en `#cartel`.
+
+La comprobación toca *Soltar la flecha*, espera 2 segundos y después deja correr el vitral 1 segundo.
 
 #### Página
 ```html

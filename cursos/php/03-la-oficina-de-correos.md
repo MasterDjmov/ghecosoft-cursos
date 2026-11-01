@@ -229,7 +229,17 @@ recompensa: xp 10, oro 10
 En la Oficina de Correos, cientos de tubos de bronce bajan del techo. De cada uno cae un cilindro con un pedido: *«mandame la lista de barcos»*. Cada cilindro llega solo, sin saber nada del anterior. —¡Son como yo! —dice Nilo, emocionado—. No se acuerdan de nada.
 
 #### Gheco sugiere
-Una página PHP es texto que el servidor manda al navegador. Con `foreach` se arma una lista HTML: un `<li>` por barco. Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
+En una página web, PHP corre en el **servidor** (la computadora donde vive el sitio) y arma el texto HTML que se le manda al navegador. HTML es el idioma de las páginas: cada cosa va entre **etiquetas**, como `<li>` para un renglón de una lista.
+
+Con `foreach` se arma una lista: un `<li>` por barco.
+
+```php
+foreach ($barcos as $b) {
+    echo "<li>$b</li>\n";
+}
+```
+
+Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
 
 #### Desafío
 Armá la lista HTML de barcos que pide el cilindro.
@@ -283,7 +293,13 @@ recompensa: xp 15, oro 15
 Un cilindro pide el horario del ferry. Iara tiene los datos en su libreta, ordenados en filas; Nilo tiene que convertirlos en una tabla HTML.
 
 #### Gheco sugiere
-Un `<tr>` por cada viaje, con un `<td>` por dato. La fila de encabezados va con `<th>`.
+Una tabla HTML se arma con etiquetas anidadas:
+
+- `<tr>` es una fila;
+- `<td>` es una celda de dato;
+- `<th>` es una celda de encabezado.
+
+Un `<tr>` por cada viaje, con un `<td>` por dato, y una primera fila de encabezados con `<th>`.
 
 #### Desafío
 Completá las filas de la tabla con los viajes.
@@ -347,7 +363,9 @@ recompensa: xp 15, oro 15
 Un cilindro pide el barco *Fantasma*, que no existe. La oficina de Nilo contesta igual con «200: todo bien» y una página vacía. Un **esqueleto** se asoma del tubo: un nombre sin cuerpo.
 
 #### Gheco sugiere
-La respuesta lleva un código: 200 si se encontró, 404 si no. Una función que, según si el barco existe, devuelve el código y el texto.
+Cada respuesta del servidor lleva un **código de estado** que dice cómo salió el pedido: **200** quiere decir «encontrado, todo bien» y **404** «no existe».
+
+Escribí una función que, según si el barco existe, devuelva el código y el texto que corresponde.
 
 #### Desafío
 Devolvé 404 cuando el barco no existe.
@@ -939,7 +957,11 @@ recompensa: xp 10, oro 10
 En la ventanilla de consultas, el viajero anota el destino que busca y Nilo le devuelve los barcos que coinciden. Un chico escribe en el destino: «la luna». Nilo le busca un barco a la luna durante media hora.
 
 #### Gheco sugiere
-Leé el destino con `$_GET['destino'] ?? ''`. Si no hay ninguno que coincida, se dice. Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
+Una dirección web puede traer datos al final: `/viajes?destino=Valle`. PHP los guarda en un array especial, `$_GET`: `$_GET['destino']` vale `'Valle'`.
+
+Como puede que no venga, leelo con `$_GET['destino'] ?? ''`. Si no hay ningún barco que coincida, decilo.
+
+Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
 
 #### Desafío
 Filtrá los barcos según el destino que llega en la dirección.
@@ -1001,7 +1023,7 @@ recompensa: xp 10, oro 10
 Nilo arma a mano los enlaces de la próxima página: `?destino=Valle de la Serpiente&pagina=2`. El espacio rompe el enlace y el navegador se pierde a mitad de camino.
 
 #### Gheco sugiere
-`http_build_query($datos)` arma la parte de la dirección con todo bien codificado.
+Para armar la parte de los datos de una dirección (`?destino=Valle&dia=3`), `http_build_query($datos)` la arma desde un array, con todo bien codificado (espacios, tildes y signos raros incluidos).
 
 #### Desafío
 Armá el enlace con `http_build_query`.
@@ -1049,7 +1071,9 @@ recompensa: xp 15, oro 15
 La lista de barcos ya es tan larga que el tubo se atasca. Iara propone mandarla de a tres. Alguien pide la página 99 y un **orco** sale de donde termina la lista.
 
 #### Gheco sugiere
-`array_slice($barcos, ($pagina - 1) * 3, 3)` corta la página. Si la página es menor que 1 o mayor que la última, se usa la última (o la primera).
+Para mostrar de a 3 por página, `array_slice($barcos, inicio, 3)` corta un pedazo de la lista. La página 1 empieza en 0, la 2 en 3, la 3 en 6: el inicio es `($pagina - 1) * 3`.
+
+Si piden una página menor que 1 o mayor que la última, se usa la primera (o la última).
 
 #### Desafío
 Mostrá la página pedida, cuidando que exista.
@@ -1672,7 +1696,11 @@ recompensa: xp 10, oro 10
 En la ventanilla de envíos, los formularios llegan con de todo: el peso dice «bastante», el destino está en blanco. Nilo los mandaba igual. Iara le enseña a devolverlos con cada error marcado.
 
 #### Gheco sugiere
-Revisá cada campo y guardá el error en `$errores['peso']`, `$errores['destino']`… Al final, si `$errores` está vacío se acepta; si no, se muestran. Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
+Lo que manda un formulario hay que **validarlo**: revisar que cada campo tenga sentido antes de usarlo.
+
+Revisá cada campo y, si está mal, guardá el error con el nombre del campo: `$errores['peso'] = 'Tiene que ser un número';`. Al final, si `$errores` está vacío, se acepta; si no, se muestran los errores.
+
+Acá no hay servidor: el pedido se simula con un array, igual al que PHP arma solo cuando llega uno de verdad.
 
 #### Desafío
 Validá el peso (un número positivo) y el destino (no vacío).
@@ -1736,7 +1764,9 @@ recompensa: xp 15, oro 15
 El formulario volvía con los errores, pero vacío: el cliente tenía que escribir todo de nuevo, también lo que estaba bien. Iara se lo devuelve a Nilo con una nota: *«no borres lo bueno»*.
 
 #### Gheco sugiere
-El campo vuelve con su valor: `value="…"`. Con `htmlspecialchars` se escapa por si trae comillas.
+Cuando un formulario vuelve con errores, lo que estaba bien no se tiene que borrar: cada campo vuelve con su valor en `value="…"`.
+
+Antes de meterlo en el HTML, pasalo por `htmlspecialchars(...)`, por si trae comillas o `<` que romperían la página.
 
 #### Desafío
 Mostrá el campo del nombre con lo que ya había escrito el cliente.
@@ -1786,7 +1816,12 @@ recompensa: xp 10, oro 10
 La misma página muestra el formulario y lo procesa. El programa de Nilo intentaba procesar también cuando alguien solo quería ver el formulario, y se quejaba de campos vacíos que nadie había mandado todavía.
 
 #### Gheco sugiere
-Según el método: con `GET` se muestra el formulario; con `POST` se procesa. Probalo con los dos pedidos.
+Los pedidos tienen un **método**:
+
+- `GET` es para **ver** (abrir una página);
+- `POST` es para **mandar** datos (enviar un formulario).
+
+Según el método: con `GET` se muestra el formulario vacío; con `POST` se procesa lo que llegó. Probalo con los dos pedidos.
 
 #### Desafío
 Completá la función para que haga una cosa u otra según el método.
@@ -1846,7 +1881,13 @@ recompensa: xp 15, oro 15
 El formulario de envíos tiene un `select` con tres destinos. Un **goblin** mandó el formulario a mano, sin navegador, con el destino «la cueva del goblin». El programa lo aceptó.
 
 #### Gheco sugiere
-El servidor revisa que el valor esté en la lista: `in_array($destino, $permitidos, true)`. Lo que no está, se rechaza.
+Aunque el formulario tenga una lista de opciones, alguien puede mandar otra cosa a mano. El servidor revisa que el valor esté en la lista permitida:
+
+```php
+in_array($destino, $permitidos, true)
+```
+
+(El `true` compara exacto.) Lo que no está, se rechaza.
 
 #### Desafío
 Rechazá los destinos que no están en la lista.
@@ -2544,7 +2585,9 @@ recompensa: xp 10, oro 10
 Elefa manda a Nilo a atender la fonda. Cada vez que alguien se acerca, Nilo le pregunta de nuevo qué quería. *«Ya te lo dije hace cinco minutos»*, protesta una clienta. Nilo no tiene memoria: como HTTP.
 
 #### Gheco sugiere
-Acá la sesión se simula con un array `$libreta` que dura entre un pedido y el siguiente. Guardá el pedido la primera vez y leelo la segunda.
+Cada pedido llega a PHP solo, sin memoria del anterior: el mozo se olvida de todo entre una visita y la otra. Para recordar, existe la **sesión**: un lugar del servidor donde se guardan datos de cada visitante entre pedido y pedido.
+
+Acá la sesión se simula con un array `$libreta` que dura de un pedido al siguiente. Guardá el pedido la primera vez y leelo la segunda.
 
 #### Desafío
 Hacé que el mozo se acuerde del pedido de la clienta.
@@ -2613,7 +2656,9 @@ se abre: «¡Buen día, Elefa!»
 Iara le da a Nilo un talonario de fichas numeradas: a cada cliente le entrega una, y en su libreta anota lo que pidió cada número. De paso, le da una galletita con su nombre estampado: *«una cookie, para que te acuerdes»*.
 
 #### Gheco sugiere
-Cada cliente trae su ficha (el id). La libreta guarda los datos **por id**: `$sesiones[$ficha]['pedido']`. Así no se mezclan los clientes.
+¿Cómo sabe el servidor quién es quién? Le da a cada visitante una **cookie**: una fichita con un número (el id) que el navegador devuelve en cada pedido.
+
+La libreta guarda los datos **por id**: `$sesiones[$ficha]['pedido']`. Así no se mezclan los clientes.
 
 #### Desafío
 Guardá y leé el pedido de cada cliente según su ficha.
@@ -2692,7 +2737,13 @@ recompensa: xp 15, oro 15
 En la fonda se puede ir sumando platos a la cuenta mientras se come. La cuenta de Nilo se borraba cada vez que el cliente pedía algo nuevo: solo quedaba el último plato.
 
 #### Gheco sugiere
-Sumá al carrito sin pisar lo que había: `$carrito[$plato] = ($carrito[$plato] ?? 0) + $cantidad;`.
+Para sumar al carrito sin pisar lo que había:
+
+```php
+$carrito[$plato] = ($carrito[$plato] ?? 0) + $cantidad;
+```
+
+Si el plato no estaba, `?? 0` arranca en 0.
 
 #### Desafío
 Sumá los platos a la cuenta y mostrala.
@@ -2762,7 +2813,9 @@ recompensa: xp 10, oro 10
 Después de pagar, el cliente ve «¡Gracias por su visita!». Pero el cartel no se borra: lo ve el siguiente cliente, y el siguiente, y uno que todavía no comió nada.
 
 #### Gheco sugiere
-Leer el mensaje y **borrarlo** en el mismo paso: guardalo en una variable y hacé `unset($sesion['flash'])`.
+Un mensaje **flash** se muestra una sola vez (como «¡Pedido enviado!»): se lee y se borra en el mismo paso.
+
+Guardalo en una variable y después borralo de la sesión con `unset($sesion['flash'])`. Así, si se recarga la página, ya no aparece.
 
 #### Desafío
 Hacé que el mensaje se muestre una sola vez.
@@ -3441,7 +3494,9 @@ recompensa: xp 15, oro 15
 Una mañana, el tablero de avisos amaneció diciendo *«¡Todos los envíos gratis hoy!»*. Nadie lo había escrito: alguien dejó un aviso con un truco escondido (`<script>`), y el tablero lo ejecutó en lugar de mostrarlo. Elefa cierra la puerta con llave.
 
 #### Gheco sugiere
-`htmlspecialchars($aviso)` convierte los `<` y `>` en texto: el truco se ve, pero ya no se ejecuta.
+Si mostrás tal cual un texto que escribió alguien, puede traer código escondido (`<script>…</script>`) que el navegador ejecuta. Ese ataque se llama **XSS**.
+
+`htmlspecialchars($texto)` convierte los `<` y `>` en símbolos que solo se **ven**: el truco se muestra como texto, pero ya no se ejecuta. Escapá siempre lo que viene de afuera antes de mostrarlo.
 
 #### Desafío
 Escapá cada aviso antes de mostrarlo en el tablero.
@@ -3493,7 +3548,15 @@ recompensa: xp 15, oro 15
 Pico entra por la ventana con un formulario robado en el pico: un pedido de «transferir 100 sellos» con la firma de la tesorera… que ella nunca mandó. El programa lo aceptó porque la firma parecía buena.
 
 #### Gheco sugiere
-El token se guarda en la sesión al mostrar el formulario. Al recibirlo, `hash_equals($sesion['token'], $post['token'] ?? '')`: si no coincide, se rechaza.
+Otra página podría mandar tu formulario sin que el usuario lo sepa (ataque **CSRF**). Para evitarlo se usa un **token**: un código secreto al azar.
+
+Se guarda en la sesión al mostrar el formulario y viaja escondido en él. Al recibir el formulario, se comparan:
+
+```php
+hash_equals($sesion['token'], $post['token'] ?? '')
+```
+
+Si no coinciden, se rechaza.
 
 #### Desafío
 Rechazá el pedido que no trae el token correcto.
@@ -3555,7 +3618,13 @@ recompensa: xp 10, oro 10
 El formulario de reservas dice en el HTML que la cantidad va de 1 a 10. Un **goblin** mandó el pedido a mano, sin navegador: 500 lugares. El servidor confió en el HTML.
 
 #### Gheco sugiere
-Validá en el servidor: `filter_var($cantidad, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]])` da `false` si no está en el rango.
+Lo que revisa el navegador (como un campo que solo acepta del 1 al 10) se puede saltear. La validación de verdad es la del **servidor**:
+
+```php
+filter_var($cantidad, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 10]])
+```
+
+Devuelve el número si es un entero en el rango, o `false` si no.
 
 #### Desafío
 Rechazá las cantidades fuera del rango.
@@ -3609,7 +3678,9 @@ recompensa: xp 15, oro 15
 Después del login, la página vuelve a donde dice `?volver=`. Alguien armó un enlace con `?volver=//puerto-falso.ar` y mandó a los clientes a un sitio igualito al de Elefa, pero falso.
 
 #### Gheco sugiere
-Aceptá solo direcciones que empiezan con `/` y **no** con `//`. Todo lo demás vuelve a `/inicio`.
+Si una página redirige a la dirección que le pasan, alguien puede mandar a los usuarios a un sitio trucho. Aceptá solo direcciones internas: que empiecen con `/` y **no** con `//` (que llevaría a otro sitio). Todo lo demás vuelve a `/inicio`.
+
+`str_starts_with($texto, '/')` pregunta cómo empieza un texto.
 
 #### Desafío
 Escribí la función que decide a dónde volver.
@@ -4425,7 +4496,13 @@ recompensa: xp 15, oro 15
 Antes, el guardia de la sala de archivos tenía las contraseñas escritas en un papel. Pico se robó el papel, y con él, todas las contraseñas. Nilo anota la suya nueva en la palma de la mano. Iara se la borra con saliva.
 
 #### Gheco sugiere
-Guardá `password_hash($clave, PASSWORD_DEFAULT)` y, para entrar, compará con `password_verify($escrita, $huella)`. La huella no se puede volver a convertir en la clave.
+Las contraseñas **nunca** se guardan tal cual: si alguien roba la base, las vería todas. Se guarda una **huella**, una mezcla que no se puede volver a convertir en la clave:
+
+```php
+$huella = password_hash($clave, PASSWORD_DEFAULT);
+```
+
+Para entrar, se compara lo que escribió con la huella: `password_verify($escrita, $huella)` da `true` si coincide.
 
 #### Desafío
 Guardá la huella en lugar de la contraseña y comprobá los dos intentos.
@@ -4482,7 +4559,9 @@ recompensa: xp 10, oro 10
 La sala de archivos tiene tres puertas, y Nilo puso guardia solo en la principal. Por la de atrás entra cualquiera.
 
 #### Gheco sugiere
-Una función `exigirLogin(array $sesion): ?string` que devuelve la redirección si no hay usuario. Se llama al principio de **cada** página privada.
+Las páginas privadas tienen que revisar, al principio, si hay alguien logueado. Una función `exigirLogin(array $sesion): ?string` devuelve la dirección a donde redirigir si no hay usuario, o `null` si está todo bien.
+
+Se llama al principio de **cada** página privada: una que se olvide, queda abierta.
 
 #### Desafío
 Escribí la guardia y ponela en las tres páginas.
@@ -4552,7 +4631,9 @@ recompensa: xp 15, oro 15
 Un **goblin** prueba contraseñas en la puerta de los archivos: una, otra, otra, cien. Nadie lo frena.
 
 #### Gheco sugiere
-Contá los fallos en `$intentos[$usuario]`. Si ya son 3, se bloquea sin siquiera probar la clave.
+Para frenar a quien prueba claves al azar, contá los fallos de cada usuario en `$intentos[$usuario]`.
+
+Si ya son 3, se bloquea **sin siquiera probar** la clave: así no sirve seguir adivinando.
 
 #### Desafío
 Bloqueá al usuario después de 3 intentos fallidos.
@@ -4620,7 +4701,7 @@ recompensa: xp 10, oro 10
 Para registrarse en la Oficina, Nilo propone de contraseña «nilo». Iara le dice que una clave igual al nombre la adivina hasta Pico.
 
 #### Gheco sugiere
-Juntá los problemas en una lista: menos de 8 caracteres, igual al usuario. Si la lista está vacía, la clave sirve.
+Juntá los problemas de la clave en una lista: menos de 8 caracteres, igual al nombre de usuario… Si la lista está vacía, la clave sirve; si no, mostrá todos los problemas juntos.
 
 #### Desafío
 Revisá las dos claves y mostrá todos los problemas de cada una.
@@ -5406,7 +5487,12 @@ recompensa: xp 15, oro 15
 Un día alguien mandó un «retrato.png» que en realidad tenía código adentro, y casi incendia el archivo. Desde entonces, un revisor mira **qué hay de verdad** dentro de cada paquete antes de guardarlo.
 
 #### Gheco sugiere
-Mirá los primeros bytes del contenido: una imagen PNG empieza con `"\x89PNG"` y una JPEG con `"\xFF\xD8"`. El nombre no importa.
+Un archivo subido puede mentir con el nombre: `foto.png` puede ser cualquier cosa. Lo que no miente es el **contenido**: cada tipo de archivo empieza con unos bytes fijos.
+
+- una imagen PNG empieza con `"\x89PNG"`;
+- una JPEG con `"\xFF\xD8"`.
+
+`str_starts_with($contenido, "\x89PNG")` lo revisa. El nombre no importa.
 
 #### Desafío
 Aceptá solo los archivos que de verdad son PNG o JPEG.
@@ -5477,7 +5563,12 @@ recompensa: xp 15, oro 15
 Mientras no haya bodega, los registros se guardan en archivos JSON. Revisando el registro de robos de hace veinte años, Nilo encuentra una línea: *«paquete para quien llegue, robado del Albatros por un ladrón de techos»*.
 
 #### Gheco sugiere
-Guardá los registros con `json_encode` en un archivo y leelos con `json_decode($texto, true)`. Después buscá el que dice «para quien llegue».
+Para guardar datos en un archivo, una forma fácil es **JSON**, un formato de texto para listas y fichas:
+
+- `json_encode($datos)` convierte un array en texto JSON;
+- `json_decode($texto, true)` hace el camino inverso (el `true` pide arrays).
+
+Guardá con `file_put_contents` y leé con `file_get_contents`. Después buscá el registro que dice «para quien llegue».
 
 #### Desafío
 Guardá el registro, volvé a leerlo y encontrá la línea del robo.
@@ -5538,7 +5629,9 @@ recompensa: xp 10, oro 10
 Un cliente subió un archivo llamado `../../tablero.png`, y el revisor casi lo guarda **encima** del tablero de avisos. Iara propone que cada archivo se guarde con un número de registro.
 
 #### Gheco sugiere
-Ignorá el nombre que trae: armá uno con el número de registro y la extensión del tipo real, como `envio-0007.png`.
+El nombre que trae el archivo subido no se usa: puede tener trucos (como `../` para escribir en otra carpeta). Armá uno propio con el número de registro y la extensión del tipo **real**, como `envio-0007.png`.
+
+`sprintf('envio-%04d.png', $n)` completa el número con ceros.
 
 #### Desafío
 Generá el nombre con el número y la extensión.
@@ -6297,7 +6390,7 @@ recompensa: xp 10, oro 10
 La Oficina ya tiene veinte ventanillas, cada una con su cartel pintado a mano. Cuando cambió el horario, Nilo tuvo que repintar los veinte, y en tres se olvidó del domingo. Elefa mandó hacer un **molde de cartel**.
 
 #### Gheco sugiere
-Una función `cartel(string $ventanilla): string` que devuelve el marco común con el horario, y en el medio, lo de cada ventanilla.
+Cuando varias páginas comparten el mismo marco (encabezado, horario, pie), no se copia en cada una: una función `cartel(string $ventanilla): string` devuelve el marco común, y en el medio pone lo de cada ventanilla.
 
 #### Desafío
 Escribí el molde y usalo para las tres ventanillas.
@@ -6354,7 +6447,14 @@ recompensa: xp 15, oro 15
 Las páginas de Nilo mezclan todo: cuentas, consultas y HTML en el mismo archivo. Gheco le muestra cómo separar: la página decide **qué** mostrar y la vista, **cómo**.
 
 #### Gheco sugiere
-La vista es un archivo con HTML y `<?= ?>`. La función `vista()` hace `extract($datos)`, `ob_start()`, `require` del archivo y devuelve `ob_get_clean()`.
+Una **vista** es un archivo con el HTML de la página y huecos `<?= $variable ?>` para los datos (`<?=` es una forma corta de `echo`).
+
+La función `vista()`:
+
+1. `extract($datos)` convierte cada clave del array en una variable;
+2. `ob_start()` empieza a juntar lo que se muestra, en vez de mostrarlo;
+3. `require` del archivo de la vista;
+4. `ob_get_clean()` devuelve todo lo juntado como texto.
 
 #### Desafío
 Completá `vista()` para que arme la página con la plantilla.
@@ -6414,7 +6514,7 @@ recompensa: xp 10, oro 10
 La tarjeta de un barco aparece en tres páginas, y en cada una Nilo la escribió distinta. Iara le muestra las tres juntas: una tiene el calado, otra no, y la otra lo tiene mal.
 
 #### Gheco sugiere
-Una función `tarjeta(array $barco): string` que arme siempre lo mismo, y las tres páginas la usan.
+Un pedacito que se repite en varias páginas va en su propia función: `tarjeta(array $barco): string` arma siempre la misma tarjeta, y las tres páginas la usan. Si mañana cambia, se cambia en un solo lugar.
 
 #### Desafío
 Escribí la tarjeta una vez y usala en las dos listas.
@@ -7118,7 +7218,12 @@ recompensa: xp 15, oro 15
 En el último piso vive la **Gorgona de los Formularios**: sus cabellos son cintas de papel sin validar que se retuercen. Un email sin arroba, un precio negativo. Quien la mira sin validar, queda de piedra.
 
 #### Gheco sugiere
-Validá el email con `filter_var($email, FILTER_VALIDATE_EMAIL)` y el precio como entero positivo. Devolvé los errores por campo.
+Validá cada campo con la herramienta justa:
+
+- el email con `filter_var($email, FILTER_VALIDATE_EMAIL)`;
+- el precio como entero positivo (`FILTER_VALIDATE_INT` con `min_range`).
+
+Devolvé los errores por campo, en un array.
 
 #### Desafío
 Escribí `validarPedido` y probala con el pedido de la Gorgona.
@@ -7185,7 +7290,13 @@ recompensa: xp 15, oro 15
 Elefa le da a Nilo un escudo pulido como espejo. —No se la enfrenta de frente. —La Gorgona le lanza un nombre con trampa para que lo muestre en tres lugares: en la página, en un enlace y en un JSON.
 
 #### Gheco sugiere
-Cada lugar tiene su forma de escapar: `htmlspecialchars` para el HTML, `urlencode` para la dirección y `json_encode` para el JSON.
+Cada lugar donde se pone un dato tiene su forma de escaparlo:
+
+- en el HTML, `htmlspecialchars`;
+- en una dirección web, `urlencode`;
+- en JSON, `json_encode`.
+
+Usar la equivocada deja un agujero.
 
 #### Desafío
 Escapá el nombre en los tres lugares.
@@ -7239,7 +7350,13 @@ item: Bolso Remendado
 La Gorgona manda su último ataque: tres pedidos a la vez. Uno sin sesión, uno sin token y uno con un comentario tramposo. El sitio de Nilo tiene que atender los tres sin dejarse engañar por ninguno.
 
 #### Gheco sugiere
-Una función `atender()` que revisa en orden: ¿hay usuario?, ¿el token coincide?, ¿el comentario es válido? Si todo está bien, muestra el comentario escapado.
+Una función `atender()` que revisa en orden, y corta en el primer problema:
+
+1. ¿hay usuario logueado?
+2. ¿el token coincide?
+3. ¿el comentario es válido?
+
+Si todo está bien, muestra el comentario, escapado con `htmlspecialchars`.
 
 #### Desafío
 Completá `atender` con las tres defensas.

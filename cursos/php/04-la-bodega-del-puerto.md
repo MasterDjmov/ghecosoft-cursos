@@ -231,7 +231,13 @@ recompensa: xp 10, oro 10
 Bajando una escalera de piedra, bajo la torre, está la **Bodega del Puerto**. Un anciano de barba blanca y farol cian, **Fermín, el Bodeguero**, encuentra cualquier ficha en segundos. —¿Cómo hace para acordarse de todo? —pregunta Nilo. —No me acuerdo —dice Fermín—. Lo anoto bien.
 
 #### Gheco sugiere
-Primero se arma la estantería (`CREATE TABLE`), después se cargan las fichas (`INSERT`) y se leen (`SELECT`). Acá la bodega de práctica es SQLite en memoria (`new PDO('sqlite::memory:')`): el SQL es el mismo que vas a usar con MariaDB.
+Una **base de datos** guarda la información en **tablas**, como planillas: cada fila es una ficha y cada columna un dato. Se le habla en **SQL**, un idioma para bases de datos:
+
+- `CREATE TABLE barco (nombre TEXT, kilos INTEGER)` arma la estantería, diciendo las columnas y su tipo;
+- `INSERT INTO barco VALUES ('Gaviota', 120)` carga una ficha;
+- `SELECT * FROM barco` las lee todas.
+
+Desde PHP se usa **PDO**. Acá la bodega de práctica es SQLite en memoria (`new PDO('sqlite::memory:')`): el SQL es el mismo que vas a usar con MariaDB.
 
 #### Desafío
 Creá la tabla `barco` con su clave, cargá los dos barcos y mostralos.
@@ -291,7 +297,12 @@ recompensa: xp 15, oro 15
 Fermín nunca deja entrar una ficha mal completada. Nilo intenta guardar un barco sin nombre y otro con kilos negativos, y su estantería los acepta a los dos.
 
 #### Gheco sugiere
-Agregale a la tabla `NOT NULL` en el nombre y `CHECK (kilos > 0)` en los kilos. La base rechaza lo que no cumple con una `PDOException`.
+La tabla puede poner sus propias reglas, en la definición de cada columna:
+
+- `NOT NULL`: el dato es obligatorio;
+- `CHECK (kilos > 0)`: solo acepta valores que cumplan la condición.
+
+Si una ficha no cumple, la base la rechaza y PHP lanza una `PDOException`.
 
 #### Desafío
 Agregá las restricciones para que la estantería rechace las fichas malas.
@@ -360,7 +371,7 @@ recompensa: xp 10, oro 10
 En la bodega apareció dos veces el mismo barco, con la misma matrícula y distintos kilos. Nadie sabe cuál es el de verdad. Un **ogro** se ríe entre las estanterías.
 
 #### Gheco sugiere
-Con `matricula TEXT UNIQUE`, la segunda ficha con la misma matrícula se rechaza.
+`UNIQUE` en una columna (`matricula TEXT UNIQUE`) no deja que dos fichas tengan el mismo valor: la segunda con la misma matrícula se rechaza.
 
 #### Desafío
 Hacé que la matrícula no se pueda repetir.
@@ -967,7 +978,14 @@ recompensa: xp 10, oro 10
 A Fermín le preguntan: *«¿qué barcos de más de 500 kilos salieron, del más pesado al más liviano?»*. Nilo recorre las estanterías una por una. Vuelve a la tarde, con telarañas en la gorra.
 
 #### Gheco sugiere
-`WHERE kilos > 500` elige las filas y `ORDER BY kilos DESC` las ordena de mayor a menor. Acá la bodega de práctica es SQLite en memoria (`new PDO('sqlite::memory:')`): el SQL es el mismo que vas a usar con MariaDB.
+`SELECT` puede elegir y ordenar:
+
+- `WHERE kilos > 500` se queda solo con las filas que cumplen;
+- `ORDER BY kilos DESC` las ordena de mayor a menor (`ASC` sería de menor a mayor).
+
+```sql
+SELECT nombre FROM barco WHERE kilos > 500 ORDER BY kilos DESC
+```
 
 #### Desafío
 Escribí la consulta que contesta la pregunta.
@@ -1025,7 +1043,13 @@ recompensa: xp 15, oro 15
 La segunda pregunta del día: *«¿cuánto facturó cada muelle?»*. Nilo suma a mano los pagos del muelle 1, se marea, y empieza de nuevo.
 
 #### Gheco sugiere
-`GROUP BY muelle` junta las filas de cada muelle y `SUM(sellos)` las suma.
+`GROUP BY muelle` junta las filas de cada muelle en un grupo, y `SUM(sellos)` suma los sellos de cada grupo:
+
+```sql
+SELECT muelle, SUM(sellos) FROM envio GROUP BY muelle
+```
+
+También existen `COUNT(*)` (cuántas filas), `AVG` (promedio), `MAX` y `MIN`.
 
 #### Desafío
 Mostrá el total y la cantidad de pagos de cada muelle.
@@ -1084,7 +1108,9 @@ recompensa: xp 15, oro 15
 *«¿Quién pidió yerba y no la retiró?»*. Nilo escribe `retiro = NULL` y la bodega no le devuelve a nadie, aunque hay tres paquetes juntando polvo.
 
 #### Gheco sugiere
-`NULL` no es igual a nada, ni siquiera a sí mismo: se pregunta con `IS NULL`. Y `LIKE 'yerba%'` encuentra todo lo que empieza con «yerba».
+En SQL, `NULL` quiere decir «no hay dato», y no es igual a nada, ni siquiera a otro `NULL`. Por eso no se pregunta con `=`, sino con `IS NULL`.
+
+Para buscar textos que empiezan con algo, `LIKE 'yerba%'`: el `%` reemplaza a cualquier cosa.
 
 #### Desafío
 Arreglá la consulta.
@@ -1141,7 +1167,13 @@ recompensa: xp 15, oro 15
 Fermín le pide a Nilo que descargue el barco número 3. Nilo escribe `UPDATE barco SET kilos = 0` y la bodega entera queda vacía. Un **ogro** aplaude.
 
 #### Gheco sugiere
-El `WHERE id = 3` dice **qué** fila cambiar. Sin él, cambian todas.
+`UPDATE` cambia fichas y `DELETE` las borra. El `WHERE` dice **cuáles**:
+
+```sql
+UPDATE barco SET kilos = 200 WHERE id = 3
+```
+
+Sin `WHERE`, se cambian (o se borran) **todas**. Por eso: siempre con `WHERE`.
 
 #### Desafío
 Descargá solo el barco 3.
@@ -1834,7 +1866,16 @@ recompensa: xp 10, oro 10
 Cada ficha de viaje repetía todo el barco, teléfono del capitán incluido. Cuando el capitán de la *Gaviota* cambió de teléfono, Nilo tuvo que corregir trescientas fichas y se olvidó de cuarenta. Ahora hay dos estanterías: barcos y viajes.
 
 #### Gheco sugiere
-Con `INNER JOIN barco ON barco.id = viaje.barco_id` cada viaje trae los datos de su barco, guardados una sola vez.
+En vez de repetir los datos del barco en cada viaje, se guardan una sola vez en la tabla `barco`, y cada viaje guarda solo el número del barco (`barco_id`).
+
+Para juntarlos al leer, `INNER JOIN`:
+
+```sql
+SELECT viaje.fecha, barco.nombre
+FROM viaje INNER JOIN barco ON barco.id = viaje.barco_id
+```
+
+Cada viaje trae los datos de su barco.
 
 #### Desafío
 Uní los viajes con su barco para mostrar el teléfono.
@@ -1899,7 +1940,9 @@ recompensa: xp 15, oro 15
 Fermín quiere saber cuántos viajes hizo cada barco, **incluidos** los que no hicieron ninguno. El `INNER JOIN` de Nilo deja afuera a la Tortuga, que no salió nunca.
 
 #### Gheco sugiere
-Con `LEFT JOIN` los barcos sin viajes también aparecen, y `COUNT(viaje.id)` les da 0.
+`INNER JOIN` deja afuera a los barcos que no tienen ningún viaje. `LEFT JOIN` los incluye igual: con los datos del viaje vacíos.
+
+Para contar viajes por barco, `COUNT(viaje.id)` le da 0 a los que no viajaron (cuenta solo los que no son `NULL`).
 
 #### Desafío
 Contá los viajes de cada barco, sin dejar a ninguno afuera.
@@ -1964,7 +2007,9 @@ recompensa: xp 15, oro 15
 Nilo borró la ficha del Albatros, que todavía tenía viajes, y esos viajes quedaron apuntando a la nada. Un **troll** se instaló en el hueco. —La bodega te tiene que frenar —dice Fermín.
 
 #### Gheco sugiere
-Con `REFERENCES barco(id)` en la columna `barco_id`, la base no deja borrar un barco que tiene viajes. En la bodega de práctica (SQLite) hay que prender ese control con `PRAGMA foreign_keys = ON`; en MariaDB viene prendido.
+Una **clave foránea** une una columna con otra tabla: `barco_id INTEGER REFERENCES barco(id)`. Con eso, la base no deja borrar un barco que todavía tiene viajes (quedarían viajes de un barco que no existe).
+
+En la bodega de práctica (SQLite) hay que prender ese control con `PRAGMA foreign_keys = ON`; en MariaDB viene prendido.
 
 #### Desafío
 Agregá la clave foránea para que la base frene el borrado.
@@ -2035,7 +2080,9 @@ recompensa: xp 15, oro 15
 Iara quiere saber quiénes viajaron a las Forjas. Un pasajero hace muchos viajes y un viaje lleva muchos pasajeros: no entra en una columna. Hace falta una tercera estantería: los pasajes.
 
 #### Gheco sugiere
-La tabla `pasaje` une cada viaje con cada pasajero. Con dos `JOIN` se va del viaje al pasaje y del pasaje al pasajero.
+Un viaje lleva muchos pasajeros, y un pasajero hace muchos viajes: es una relación **muchos a muchos**. Se resuelve con una tabla del medio, `pasaje`, que une cada viaje con cada pasajero.
+
+Con dos `JOIN` se va del viaje al pasaje, y del pasaje al pasajero.
 
 #### Desafío
 Mostrá los pasajeros del viaje a las Forjas, en orden alfabético.
@@ -2775,7 +2822,12 @@ recompensa: xp 10, oro 10
 Entre la Oficina de Correos y la Bodega hay un montacargas que nadie usaba: Iara escribía arriba, Fermín abajo, y Nilo subía y bajaba la escalera cuarenta veces por día. Elefa tira de la cuerda y el montacargas empieza a andar.
 
 #### Gheco sugiere
-Las opciones se pasan al crear el PDO: `PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION` y `PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC`. Con MariaDB el DSN sería `mysql:host=…;dbname=…;charset=utf8mb4`.
+Al crear la conexión PDO se pasan opciones:
+
+- `PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION`: si algo falla, lanza una excepción (en vez de callarse);
+- `PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC`: cada fila viene como array con el nombre de la columna.
+
+Con MariaDB, la dirección de la base (el **DSN**) sería `mysql:host=…;dbname=…;charset=utf8mb4`.
 
 #### Desafío
 Creá la conexión con las opciones recomendadas y leé la fila.
@@ -2836,7 +2888,11 @@ recompensa: xp 15, oro 15
 Fermín manda tres respuestas por el montacargas: un número, una fila y una lista. Nilo las abre todas igual, con `fetchAll`, y el número le llega envuelto en dos arrays.
 
 #### Gheco sugiere
-Para un solo valor, `fetchColumn()`; para una fila, `fetch()`; para todas, `fetchAll()`.
+Tres formas de traer resultados de una consulta:
+
+- `fetchColumn()`: un solo valor (por ejemplo, un `COUNT(*)`);
+- `fetch()`: una fila;
+- `fetchAll()`: todas las filas, en un array.
 
 #### Desafío
 Leé cada respuesta con la función que corresponde.
@@ -2898,7 +2954,10 @@ recompensa: xp 10, oro 10
 Un día el montacargas pidió una tabla que no existía, y la página le mostró al visitante todo el error, con el SQL y la ruta de los archivos. Un **esqueleto** se asomó por el hueco.
 
 #### Gheco sugiere
-Atrapá la `PDOException`: al visitante le mostrás un mensaje amable y el detalle lo guardás en una variable (o en un registro).
+Si la base falla, PDO lanza una `PDOException`. Atrapala con `try` / `catch`:
+
+- al visitante le mostrás un mensaje amable («No pudimos conectar, probá en un rato»);
+- el detalle técnico lo guardás aparte (en una variable o en un registro), nunca a la vista: puede revelar datos de tu sistema.
 
 #### Desafío
 Mostrá un mensaje amable en vez del error crudo.
@@ -3676,7 +3735,16 @@ recompensa: xp 15, oro 15
 Un día llegó al montacargas un pedido extraño. Donde iba el nombre de un barco decía: `Gaviota' OR '1'='1`. Fermín, que copiaba los pedidos tal cual en su libreta, leyó *«traeme los barcos que se llamen Gaviota… o cualquiera»*. Y subió toda la bodega.
 
 #### Gheco sugiere
-Con `prepare` la consulta va con un hueco `?`, y el dato viaja aparte en `execute([$nombre])`: el truco queda como un nombre raro, no como SQL.
+Si armás la consulta pegando lo que escribió alguien, puede meter SQL propio: con `Gaviota' OR '1'='1`, la consulta trae todo. Ese ataque se llama **inyección SQL**.
+
+La cura: consultas **preparadas**. La consulta va con un hueco `?`, y el dato viaja aparte:
+
+```php
+$c = $db->prepare('SELECT * FROM barco WHERE nombre = ?');
+$c->execute([$nombre]);
+```
+
+El truco queda como un nombre raro, no como SQL.
 
 #### Desafío
 Cambiá la consulta pegada por una preparada.
@@ -3734,7 +3802,11 @@ recompensa: xp 10, oro 10
 La consulta de Fermín tiene cuatro huecos `?` y Nilo pasó los datos en otro orden: buscó barcos de «Valle» kilos al destino 100.
 
 #### Gheco sugiere
-Con huecos con nombre (`:min`, `:destino`) el orden no importa: cada dato va a su hueco por nombre.
+Los huecos también pueden tener nombre: `:min`, `:destino`. Así el orden no importa: cada dato va a su hueco por nombre.
+
+```php
+$c->execute(['destino' => 'Valle', 'min' => 100]);
+```
 
 #### Desafío
 Usá parámetros con nombre.
@@ -3790,7 +3862,10 @@ recompensa: xp 15, oro 15
 Nilo da de alta un barco y quiere mostrarle al capitán su número de registro, pero no sabe cuál le tocó. Busca el más alto a mano y se equivoca porque justo entró otro.
 
 #### Gheco sugiere
-`$db->lastInsertId()` da el id que se creó con **tu** `INSERT`. Y `$consulta->rowCount()` dice cuántas filas cambió un `UPDATE`.
+Dos datos útiles después de una consulta:
+
+- `$db->lastInsertId()` da el número (id) que la base le asignó a la ficha que acabás de crear con **tu** `INSERT`;
+- `$consulta->rowCount()` dice cuántas filas cambió un `UPDATE` o un `DELETE`.
 
 #### Desafío
 Mostrá el número nuevo y cuántas filas cambió la actualización.
@@ -3854,7 +3929,7 @@ recompensa: xp 15, oro 15
 Un capitán intenta registrar un barco con una matrícula que ya existe. La página de Nilo muestra una pantalla de error espantosa y el capitán se va asustado.
 
 #### Gheco sugiere
-Atrapá la `PDOException` del `INSERT` y avisá «esa matrícula ya está registrada». La base es la que detecta el duplicado.
+Si la columna es `UNIQUE`, la base misma detecta el duplicado y el `INSERT` lanza una `PDOException`. Atrapala y avisá «esa matrícula ya está registrada».
 
 #### Desafío
 Avisá el duplicado con un mensaje claro.
@@ -4645,7 +4720,10 @@ recompensa: xp 10, oro 10
 La Capitana le da a Nilo una llave de la Bodega: *Inventario de repuestos*. Hasta hoy lo llevaba Fermín en una planilla, y cada tanto Pico se llevaba una fila. Ahora tiene que vivir en la base.
 
 #### Gheco sugiere
-Dos funciones: `alta(PDO $db, string $nombre, int $stock)` con un `INSERT` preparado, y `listado(PDO $db)` con un `SELECT` ordenado.
+Dos funciones que reciben la conexión:
+
+- `alta(PDO $db, string $nombre, int $stock)`: un `INSERT` preparado;
+- `listado(PDO $db)`: un `SELECT` ordenado.
 
 #### Desafío
 Escribí `alta` y `listado`.
@@ -4723,7 +4801,7 @@ recompensa: xp 15, oro 15
 Un empleado intentó corregir el stock del repuesto número 99, que no existe, y la página le dijo «guardado». Otro puso stock -5 y también.
 
 #### Gheco sugiere
-Validá el stock (no negativo) y, después del `UPDATE`, mirá `rowCount()`: si es 0, el repuesto no existe.
+Antes del `UPDATE`, validá el stock (que no sea negativo). Después, mirá `rowCount()`: si dio 0, no cambió ninguna fila, o sea, ese repuesto no existe. Avisá.
 
 #### Desafío
 Escribí `modificar` con sus dos controles.
@@ -4797,7 +4875,9 @@ recompensa: xp 15, oro 15
 Un enlace de «borrar» se podía abrir sin querer, y un repuesto con historia de movimientos desapareció. Un **troll** se quedó con los movimientos huérfanos. Iara propone dos reglas: confirmar y no borrar lo que tiene historia.
 
 #### Gheco sugiere
-Si la confirmación no es «si», no se borra. Si el repuesto tiene movimientos, la clave foránea frena el `DELETE` y se avisa.
+Antes de borrar, pedí confirmación: si no es «si», no se borra.
+
+Si el repuesto tiene movimientos, la clave foránea frena el `DELETE` (la base lanza una `PDOException`): atrapala y avisá por qué no se pudo.
 
 #### Desafío
 Escribí `baja` con las dos reglas.
@@ -5824,7 +5904,15 @@ recompensa: xp 15, oro 15
 El sistema del banco del Puerto se cortó a mitad de una transferencia: los sellos salieron de la cuenta del Astillero y nunca llegaron a la de la fonda. Tres días tardaron en encontrar el error. Un **ogro** todavía se ríe.
 
 #### Gheco sugiere
-Los dos `UPDATE` van adentro de una transacción. Si algo falla entre medio, `rollBack()` deshace el primero.
+Una **transacción** junta varias consultas en un solo paquete: o se hacen **todas**, o **ninguna**.
+
+```php
+$db->beginTransaction();
+// los dos UPDATE
+$db->commit();
+```
+
+Si algo falla entre medio, `$db->rollBack()` deshace lo que ya se había hecho. Así una transferencia nunca queda a medias (plata que salió y no llegó).
 
 #### Desafío
 Envolvé la transferencia en una transacción.
@@ -5919,7 +6007,13 @@ item: Ficha de la Noche de la Tormenta
 Buscando el error de la transferencia, Nilo y Fermín bajan a la estantería más vieja: millones de fichas sin orden por fecha. Buscar una noche de hace veinte años tarda lo que tarda el ferry en cruzar. Fermín propone un **índice**, como el de un libro.
 
 #### Gheco sugiere
-`CREATE INDEX idx_fecha ON envio (fecha)` arma el índice. Con él, la consulta por fecha va directo. (El resultado es el mismo; lo que cambia es cuánto tarda.)
+Un **índice** es como el índice de un libro: con él, la base va directo a las filas que buscás, sin leer toda la tabla.
+
+```sql
+CREATE INDEX idx_fecha ON envio (fecha)
+```
+
+El resultado de la consulta es el mismo; lo que cambia es cuánto tarda (con muchas filas, muchísimo).
 
 #### Desafío
 Creá el índice y buscá los envíos de la noche del 14/03/2006.
@@ -5994,7 +6088,13 @@ recompensa: xp 10, oro 10
 Todas las mañanas, Fermín escribe la misma consulta larga para ver los envíos pendientes. Nilo se ofrece a escribirla él, y le sale distinta cada día.
 
 #### Gheco sugiere
-`CREATE VIEW pendientes AS SELECT …` guarda la consulta con nombre. Después basta con `SELECT * FROM pendientes`.
+Una **vista** guarda una consulta con nombre, como si fuera una tabla:
+
+```sql
+CREATE VIEW pendientes AS SELECT … FROM envio WHERE retirado IS NULL
+```
+
+Después basta con `SELECT * FROM pendientes`.
 
 #### Desafío
 Creá la vista y usala.
@@ -6868,7 +6968,9 @@ recompensa: xp 10, oro 10
 La Bodega tiene consultas desparramadas en cuarenta archivos. Cuando cambió el nombre de una columna, Nilo la buscó en todos. Elefa designa un encargado por estantería: *«las fichas de barcos las pide solo Ramiro»*.
 
 #### Gheco sugiere
-Una clase `BarcoRepo` que recibe el PDO y tiene métodos con nombres del Puerto. El resto del programa le pide a ella.
+Un **repositorio** es una clase que se encarga de hablar con la base, para que el resto del programa no escriba SQL por todos lados. `BarcoRepo` recibe la conexión PDO y tiene métodos con nombres del Puerto (`activos()`, `buscar($id)`).
+
+El resto del programa le pide a ella.
 
 #### Desafío
 Escribí el repositorio con `activos()`.
@@ -6944,7 +7046,13 @@ recompensa: xp 15, oro 15
 El repositorio devuelve arrays, y en cada página alguien escribe `$fila['nombre']` o `$fila['Nombre']` o `$fila['nombre_barco']`. Gheco propone que Ramiro devuelva barcos de verdad.
 
 #### Gheco sugiere
-El repositorio arma un `new Barco($fila['nombre'], (int) $fila['kilos'])` por cada fila. El objeto sabe hacer sus cosas, como `pesado()`.
+La base devuelve filas (arrays), pero el programa trabaja mejor con **objetos**. El repositorio convierte cada fila en un objeto:
+
+```php
+new Barco($fila['nombre'], (int) $fila['kilos'])
+```
+
+Y el objeto sabe hacer sus cosas, como `pesado()`.
 
 #### Desafío
 Hacé que `buscar()` devuelva un objeto `Barco` (o `null` si no existe).
@@ -7057,7 +7165,9 @@ recompensa: xp 15, oro 15
 Los usuarios de la Oficina estaban en un array escrito en el código. Iara quiere que vivan en la bodega, con su huella y su rol, y que el login le pregunte al repositorio.
 
 #### Gheco sugiere
-Guardá la huella con `password_hash` al dar el alta. Para entrar, el repositorio trae la fila por nombre y se compara con `password_verify`.
+Al dar el alta de un usuario, guardá la huella de la clave con `password_hash` (nunca la clave).
+
+Para entrar, el repositorio trae la fila por nombre de usuario, y se compara lo que escribió con la huella usando `password_verify`.
 
 #### Desafío
 Completá `entrar` para que use la base.
@@ -7937,7 +8047,15 @@ recompensa: xp 15, oro 15
 En lo más hondo de la Bodega vive la **Serpiente Marina de las Tablas**. Se alimenta del stock que se vende dos veces: dos clientes compraron la última cadena al mismo tiempo, y los dos se la llevaron. Fermín sube los pies a una silla.
 
 #### Gheco sugiere
-En vez de leer el stock y después restar, que la misma consulta reste **solo si alcanza**: `… WHERE id = ? AND stock >= ?`. Si `rowCount()` da 0, no había.
+Si leés el stock y después restás, dos compras al mismo tiempo pueden leer el mismo número y vender dos veces lo que había una vez.
+
+La solución: que **la misma consulta** reste solo si alcanza:
+
+```sql
+UPDATE producto SET stock = stock - ? WHERE id = ? AND stock >= ?
+```
+
+Si `rowCount()` da 0, no había suficiente.
 
 #### Desafío
 Hacé que la venta no deje el stock en negativo.
@@ -8010,7 +8128,7 @@ recompensa: xp 15, oro 15
 La Serpiente cambió el precio de la sal y, de golpe, todos los pedidos viejos de sal costaban otra cosa. Iara tiene los recibos de papel y no coinciden con la bodega.
 
 #### Gheco sugiere
-El pedido guarda su propio `precio_unitario` al momento de comprar. El total se calcula con ese, no con el precio actual del producto.
+Los precios cambian, pero un pedido viejo tiene que seguir valiendo lo que se pagó. Por eso el pedido guarda su propio `precio_unitario` en el momento de comprar, y el total se calcula con ese, no con el precio actual del producto.
 
 #### Desafío
 Guardá el precio en el pedido y calculá con él.
@@ -8072,7 +8190,11 @@ item: Llave de la Bodega
 La Serpiente se enrosca alrededor de los sistemas que Nilo armó en la Oficina: con muchos usuarios a la vez, los archivos JSON se pisan. Nilo tiene que llevarlos a la Bodega con todo lo que aprendió, en una sola compra que no pueda salir a medias.
 
 #### Gheco sugiere
-`comprar()` hace todo en una transacción: resta el stock solo si alcanza, guarda el pedido con el precio del momento y, si algo falla, `rollBack()`.
+`comprar()` hace todo adentro de una transacción:
+
+1. resta el stock solo si alcanza;
+2. guarda el pedido con el precio del momento;
+3. si todo salió bien, `commit()`; si algo falla, `rollBack()`.
 
 #### Desafío
 Completá `comprar` y probala con las tres compras.

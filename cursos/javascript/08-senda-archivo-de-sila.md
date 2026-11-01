@@ -130,9 +130,19 @@ recompensa: xp 10, oro 10
 La ficha de arriba es la de Nima, pero Gheco quiere ver si la encuentra **buscando**, no mirando.
 
 #### Gheco sugiere
-Usá `find` para encontrar la ficha de `Nima` y mostrá `Nima: nivel 4, inventario: soga, brújula, pan`.
+Esta Senda trabaja con **listas de datos**: arreglos de objetos, como los que devuelve un servidor. Lo primero, encontrar uno.
+
+`find` recorre el arreglo y devuelve el **primer** elemento que cumple la condición (o `undefined` si ninguno):
+
+```js
+const ana = alumnos.find((a) => a.nombre === 'Ana');
+```
+
+La flecha recibe cada elemento y devuelve `true` si es el buscado. Para mostrar un arreglo de textos separados por coma, `join(', ')`.
 
 #### Desafío
+Mostrala como `Nima: nivel 4, inventario: soga, brújula, pan`.
+
 Mostrá la ficha de Nima.
 
 #### Código inicial
@@ -186,7 +196,13 @@ recompensa: xp 10, oro 10
 Sila quiere saber, antes que nada, quiénes son del **Valle**: son los primeros que tiene que volver a guardar.
 
 #### Gheco sugiere
-Quedate con las fichas del Valle con `filter`, y mostrá sus nombres separados por coma y cuántas son.
+`filter` (R01) se queda con **todos** los que cumplen, en un arreglo nuevo, y `map` saca de cada uno lo que necesitás (por ejemplo, solo el nombre):
+
+```js
+const nombres = alumnos.filter((a) => a.curso === 3).map((a) => a.nombre);
+```
+
+El `length` del resultado dice cuántos son.
 
 #### Desafío
 `Del Valle (3): Sila, Nima, Mia`.
@@ -246,9 +262,21 @@ recompensa: xp 10, oro 10
 Bruno se arrima a mirar. —¿Hay alguno de nivel 1, como yo? ¿Y todos tienen región?
 
 #### Gheco sugiere
-Respondé las dos preguntas con `some` y `every`, y una tercera: ¿todos tienen nivel mayor que 0?
+Dos preguntas sobre una lista entera, que devuelven `true` o `false`:
+
+- `some` (*alguno*): ¿hay **al menos uno** que cumpla?
+- `every` (*todos*): ¿lo cumplen **todos**?
+
+```js
+alumnos.some((a) => a.nota === 10);    // ¿alguien sacó 10?
+alumnos.every((a) => a.nota >= 4);     // ¿aprobaron todos?
+```
+
+«Tiene región» es que la propiedad no sea `undefined`. La función `siNo` del código pasa el `true`/`false` a `sí`/`no`.
 
 #### Desafío
+¿Alguna ficha es de nivel 1? ¿Todas tienen región? ¿Todas tienen nivel mayor que 0?
+
 Tres renglones: `¿Alguno de nivel 1? sí`, `¿Todos con región? no` y `¿Todos con nivel? sí`.
 
 #### Código inicial
@@ -306,9 +334,18 @@ recompensa: xp 15, monedas 5
 La carta de Sila pide tres fichas: la de Kira, la de **Zed** y la de Iara. Nima busca la de Zed y el programa explota.
 
 #### Gheco sugiere
-Escribí `nivelDe(nombre)`, que devuelve el nivel o `'no está en el Archivo'`, sin romper. Usá `?.` y `??`.
+Si `find` no encuentra nada, da `undefined`, y pedirle una propiedad rompe el programa. Dos operadores de R01 lo resuelven en una línea:
+
+- `?.` pide la propiedad **solo si** hay algo: si no, da `undefined` sin romper;
+- `??` da un valor de reserva cuando lo de la izquierda es `undefined` o `null`.
+
+```js
+alumnos.find((a) => a.nombre === 'Zoe')?.nota ?? 'sin nota'
+```
 
 #### Desafío
+`nivelDe(nombre)` devuelve el nivel de ese héroe, o `'no está en el Archivo'` si no hay ficha con ese nombre, sin romper.
+
 Que muestre las tres, aunque una falte.
 
 #### Código inicial
@@ -372,9 +409,16 @@ recompensa: xp 15, monedas 5
 Tati quiere ayudar a buscar, pero escribe todo en minúsculas y sin acentos: `tizon`, `brujula`. Y así no encuentra nada.
 
 #### Gheco sugiere
-Escribí `limpio(texto)`, que saca acentos y mayúsculas, y `buscar(texto)`, que devuelve los nombres de las fichas cuyo `heroe` **contiene** lo buscado (los dos pasados por `limpio`).
+Para que una búsqueda no distinga mayúsculas ni acentos, se **limpian** los dos textos antes de comparar (el buscado y cada nombre):
+
+- `toLowerCase()` pasa todo a minúsculas;
+- `texto.normalize('NFD').replace(/\p{Diacritic}/gu, '')` saca los acentos: `normalize` separa la letra de su tilde, y el `replace` borra las tildes.
+
+Conviene una función `limpio(texto)` que haga las dos cosas. `includes` (R01) dice si un texto **contiene** a otro.
 
 #### Desafío
+La búsqueda no distingue mayúsculas ni acentos, y encuentra los nombres que **contienen** lo buscado.
+
 Que `tizon` encuentre a Tizón y `ni` encuentre a Nilo y a Nima.
 
 #### Código inicial
@@ -536,7 +580,15 @@ recompensa: xp 10, oro 10
 El Goblin asoma la cabeza entre las fichas, con la galera torcida. —¡Ordenado! —dice, y señala: `1, 10, 2, 9`.
 
 #### Gheco sugiere
-Pasale a `sort` la función que compara números: de menor a mayor.
+`sort` ordena el arreglo, pero sin ayuda compara **como textos**: `'10'` va antes que `'9'`, porque `'1'` va antes que `'9'`, como en el diccionario.
+
+Para números se le pasa una función que compara dos, `a` y `b`, y devuelve un número: **negativo** si `a` va primero, **positivo** si va `b`, y 0 si da igual. Restarlos hace justo eso:
+
+```js
+edades.sort((a, b) => a - b);   // de menor a mayor
+```
+
+`sort` cambia el arreglo original.
 
 #### Desafío
 `Niveles: 1, 2, 4, 9, 10`.
@@ -580,7 +632,13 @@ recompensa: xp 10, oro 10
 En el cajón de los nombres, Ámbar (la del carrito de los Talleres) quedó al final, después de Teo. Y el Ñandú de las Forjas, después de todos.
 
 #### Gheco sugiere
-Ordená los nombres con `localeCompare` en castellano.
+Para ordenar palabras en castellano, la comparación común falla con los acentos y la ñ: las pone al final, después de la `z`.
+
+`a.localeCompare(b, 'es')` compara dos textos **con las reglas del castellano**, y devuelve el número que `sort` necesita:
+
+```js
+frutas.sort((a, b) => a.localeCompare(b, 'es'));
+```
 
 #### Desafío
 Que Ámbar quede primero y Ñandú entre Nima y Teo.
@@ -624,9 +682,19 @@ recompensa: xp 10, oro 10
 Sila guarda las fichas del nivel más alto al más bajo. Y si dos tienen el mismo nivel, por nombre.
 
 #### Gheco sugiere
-Ordená por nivel de mayor a menor y, si empatan, por nombre. Mostrá cada una como `7 · Sila`.
+Para ordenar **de mayor a menor**, se resta al revés: `b - a`.
+
+Para **desempatar**, se usa `||`: si la primera comparación da 0 (empate), que vale como «falso», se usa la segunda:
+
+```js
+alumnos.sort((a, b) => b.nota - a.nota || a.nombre.localeCompare(b.nombre, 'es'));
+```
+
+Se lee: «por nota, de mayor a menor; si empatan, por nombre».
 
 #### Desafío
+Ordená por nivel, de mayor a menor, y si empatan, por nombre. Cada ficha se muestra como `7 · Sila`.
+
 Nilo y Nima tienen nivel 4: tiene que quedar primero Nilo.
 
 #### Código inicial
@@ -689,9 +757,17 @@ recompensa: xp 15, monedas 5
 La carta de Sila tenía una posdata: *«No pierdas el orden en que te llegaron: es el orden en que la niebla las fue tirando, y quiero entender por dónde pasó.»* Nima ya había ordenado el arreglo con `sort`… y el orden de llegada se perdió.
 
 #### Gheco sugiere
-Usá `toSorted` para tener la lista **por nombre** sin tocar `FICHAS`. Mostrá las dos.
+`sort` **cambia** el arreglo original, y a veces hace falta el orden de antes. `toSorted` hace lo mismo, pero devuelve un arreglo **nuevo** ordenado y deja el original como estaba:
+
+```js
+const porNombre = alumnos.toSorted((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+```
+
+Recibe la misma función que `sort`.
 
 #### Desafío
+La lista por nombre se arma **sin cambiar** `FICHAS`, que tiene que seguir en el orden en que llegaron.
+
 `Por nombre: …` y `Como llegaron: …`, cada una en su renglón.
 
 #### Código inicial
@@ -748,9 +824,17 @@ recompensa: xp 15, monedas 5
 Bruno quiere un **podio**, como en el puesto de tiro: los tres de nivel más alto del Archivo.
 
 #### Gheco sugiere
-Ordená de mayor a menor (sin cambiar el original), quedate con los tres primeros con `slice(0, 3)` y mostralos numerados: `1. Tesela (9)`.
+`slice(desde, hasta)` saca un **pedazo** de un arreglo, sin cambiarlo: desde la posición `desde` hasta antes de `hasta`. `slice(0, 3)` da los tres primeros.
+
+Para numerar, `map` da también el **índice** como segundo dato (desde 0, así que se le suma 1):
+
+```js
+podio.map((a, i) => `${i + 1}. ${a.nombre}`)
+```
 
 #### Desafío
+Los tres de nivel más alto, numerados como `1. Tesela (9)`, sin cambiar la lista original.
+
 El podio del Archivo.
 
 #### Código inicial
@@ -911,9 +995,22 @@ recompensa: xp 10, oro 10
 Doña Mirta se acerca con una bandeja de pan con miel. —Yo cuento los panes de cada horno así: un palito por pan, y a la noche sumo. —Es un `reduce` —dice Gheco.
 
 #### Gheco sugiere
-Contá cuántas fichas hay de cada región con `reduce`, y mostrá cada una en su renglón: `Valle: 3`.
+`reduce` recorre el arreglo y va **juntando** todo en un solo resultado. Recibe una función y el valor inicial; la función recibe lo juntado hasta ahí y el elemento actual, y devuelve lo juntado nuevo.
+
+Para **contar por grupo**, se arranca con un objeto vacío `{}` y en cada elemento se suma 1 en su grupo:
+
+```js
+const porColor = autos.reduce((cuenta, a) => {
+    cuenta[a.color] = (cuenta[a.color] ?? 0) + 1;
+    return cuenta;
+}, {});
+```
+
+`cuenta[a.color]` usa el color como nombre de la propiedad. Para recorrer el objeto, `Object.entries` (da pares `[clave, valor]`).
 
 #### Desafío
+Cada región en su renglón, como `Valle: 3`.
+
 Las cuentas, en el orden en que aparecen las regiones.
 
 #### Código inicial
@@ -981,7 +1078,13 @@ recompensa: xp 10, oro 10
 Sila quiere un cartelito por cajón, y hay un cajón por región. Nima escribe los carteles… y le salen siete: tres del Valle.
 
 #### Gheco sugiere
-Sacá las regiones sin repetir con un `Set`, y mostrá cuántas son y cuáles.
+Un `Set` (R05-N03) no guarda repetidos. Si le pasás un arreglo al crearlo, queda con cada valor **una sola vez**, en el orden en que aparecieron:
+
+```js
+const colores = new Set(autos.map((a) => a.color));
+colores.size;      // cuántos distintos
+[...colores];      // de vuelta a arreglo
+```
 
 #### Desafío
 `4 regiones: Valle, Forjas, Puerto, Talleres`.
@@ -1043,9 +1146,19 @@ recompensa: xp 10, oro 10
 Ahora sí: hay que meter cada ficha en su cajón. Un cajón por región, con los nombres adentro.
 
 #### Gheco sugiere
-Armá un objeto con una lista de nombres por región (creala con `??=` la primera vez) y mostrá cada cajón: `Valle → Mia, Nima, Sila`.
+**Agrupar** es armar un objeto con una **lista por grupo**. La primera vez que aparece un grupo, su lista no existe: `??=` la crea solo si falta (asigna si lo de la izquierda es `undefined` o `null`).
+
+```js
+const porColor = {};
+for (const a of autos) {
+    porColor[a.color] ??= [];
+    porColor[a.color].push(a.patente);
+}
+```
 
 #### Desafío
+Cada región con la lista de sus héroes, como `Valle → Mia, Nima, Sila`.
+
 Los cuatro cajones.
 
 #### Código inicial
@@ -1115,9 +1228,17 @@ recompensa: xp 15, monedas 5
 {mentor} se posa en el mostrador y mira los cajones. —¿Y cuál región tiene los héroes más avanzados? —Nima no sabe: un cajón tiene más fichas, pero eso no dice nada del nivel.
 
 #### Gheco sugiere
-Para cada región juntá la **suma** de niveles y la **cantidad**. Después mostrá el promedio con un decimal (`toFixed(1)`): `Valle: 5.3`.
+Para un **promedio** por grupo hacen falta dos números por grupo: la **suma** y la **cantidad**. Se guardan juntos en un objeto, creado con `??=` la primera vez:
+
+```js
+datos[a.color] ??= { suma: 0, cantidad: 0 };
+```
+
+Al final, el promedio es suma dividido cantidad. `numero.toFixed(1)` lo muestra con **un decimal** (y redondea).
 
 #### Desafío
+El promedio de nivel de cada región, con un decimal, como `Valle: 5.3`.
+
 Los promedios de las tres regiones.
 
 #### Código inicial
@@ -1188,9 +1309,17 @@ recompensa: xp 15, monedas 5
 Para la puerta del Archivo, Sila quiere un cartel con las regiones de **la que más fichas tiene a la que menos**, y si empatan, por nombre.
 
 #### Gheco sugiere
-Contá por región, pasalo a pares con `Object.entries`, ordená por cantidad (de mayor a menor) y, si empatan, por nombre. Mostrá `Valle ··· 3`.
+Un objeto no se puede ordenar, pero sus pares sí: `Object.entries(objeto)` da un arreglo de pares `[clave, valor]`, y ese arreglo se ordena como cualquier otro:
+
+```js
+Object.entries(cuenta).sort(([colorA, a], [colorB, b]) => b - a)
+```
+
+La desestructuración en los parámetros saca la clave y el valor de cada par. Para desempatar, el `||` de S03-N02-P3.
 
 #### Desafío
+Cuántas fichas hay de cada región, de la que más tiene a la que menos (si empatan, por nombre), como `Valle ··· 3`.
+
 El cartel ordenado.
 
 #### Código inicial
@@ -1374,9 +1503,19 @@ recompensa: xp 10, oro 10
 El Ratón mordió las primeras fichas: los nombres quedaron con espacios, las regiones vacías y los niveles escritos como texto.
 
 #### Gheco sugiere
-Escribí `limpiar(ficha)` y mostrá cada ficha limpia como `Nima | Sin región | 4 (number)`.
+Los datos que llegan de afuera suelen venir **sucios**: espacios de más, números escritos como texto, campos vacíos o que faltan. **Limpiar** es devolver una ficha nueva con todo en su forma correcta:
+
+- `texto.trim()` saca los espacios de las puntas;
+- `Number(texto)` pasa a número;
+- `?.` y `||` dan un valor de reserva: `||` también reemplaza el texto vacío `''` (que `??` deja pasar).
+
+```js
+const apodo = f.apodo?.trim() || 'Sin apodo';
+```
 
 #### Desafío
+`limpiar(ficha)` devuelve una ficha nueva: el nombre y la región sin espacios en las puntas, la región `Sin región` si está vacía o falta, y el nivel como número.
+
 Las tres fichas, limpias.
 
 #### Código inicial
@@ -1445,9 +1584,19 @@ recompensa: xp 10, oro 10
 El Ratón tiene otro truco: copia las fichas. La de Kira aparece tres veces, la de Mia dos.
 
 #### Gheco sugiere
-Sacá las repetidas por `id` con un `Map` (queda la **última** de cada `id`). Mostrá cuántas había, cuántas quedan y los nombres.
+Un **`Map`** guarda pares de clave y valor, como un objeto, pero cualquier cosa puede ser la clave. Si se repite una clave, **pisa** el valor anterior: queda el último.
+
+`new Map(pares)` se arma con un arreglo de pares `[clave, valor]`, y `mapa.values()` da los valores que quedaron:
+
+```js
+const unicos = [...new Map(lista.map((x) => [x.codigo, x])).values()];
+```
+
+Se lee: «armá pares código → elemento; los repetidos se pisan; quedate con los elementos».
 
 #### Desafío
+Sacá las repetidas por `id`: de cada `id` queda la **última** que aparece.
+
 `De 7 quedan 4: Mia, Kira, Nilo, Sila`.
 
 #### Código inicial
@@ -1507,7 +1656,9 @@ recompensa: xp 10, oro 10
 Algunas fichas quedaron tan mojadas que no se leen: una dice nivel *«cua…»*, otra no tiene nombre. Sila prefiere saber cuáles son, antes que inventarles los datos.
 
 #### Gheco sugiere
-Escribí `motivo(ficha)`, que devuelve por qué una ficha no sirve (o `''` si sirve). Separá las que sirven de las que no y mostrá las dos listas, las que no con su motivo: `#12 (nivel ilegible)`.
+`NaN` (*no es un número*) tiene una rareza: **no es igual a nada, ni a sí mismo**. `NaN === NaN` da `false`. Por eso, comparar con `=== NaN` nunca encuentra nada.
+
+Se pregunta con `Number.isNaN(valor)`, que da `true` si es `NaN`. Y falta revisar la otra regla: el nombre vacío. Fijate en la salida esperada el texto de cada motivo.
 
 #### Desafío
 Dos renglones: `Sirven: …` y `No sirven: …`.
@@ -1581,9 +1732,20 @@ recompensa: xp 15, monedas 5
 Don Tano, el del organito, se acerca a mirar. —En mis tiempos, las listas se escribían con puntitos, para que el ojo no se pierda. Así. —Y dibuja en el aire una fila de puntos.
 
 #### Gheco sugiere
-Mostrá una tabla: un título `HÉROE       NIVEL`, una línea de 15 guiones (`'-'.repeat(15)`) y una fila por ficha con el nombre completado con puntos hasta 10 letras y el nivel alineado a la derecha en 5.
+Para alinear columnas en texto, cada valor se **completa** hasta un largo fijo:
+
+- `texto.padEnd(8, '.')` agrega puntos **a la derecha** hasta que mida 8: `'Ana'` queda `'Ana.....'`;
+- `texto.padStart(4)` agrega espacios **a la izquierda** hasta 4: alinea los números a la derecha.
+
+```js
+console.log('Ana'.padEnd(8, '.') + String(7).padStart(4));   // Ana.....   7
+```
+
+`'-'.repeat(15)` repite un texto 15 veces. Los números se pasan a texto con `String` antes del `padStart`.
 
 #### Desafío
+La tabla lleva el título, una línea de 15 guiones y una fila por ficha: el nombre completado con puntos hasta 10 letras, y el nivel alineado a la derecha en 5 lugares.
+
 La tabla, ordenada por nivel de mayor a menor.
 
 #### Código inicial
@@ -1645,16 +1807,20 @@ recompensa: xp 50, oro 50, monedas 1
 Queda la última pila, la más mojada, y el Ratón está sentado encima. —Todo junto —dice {mentor}—. Lo que aprendiste en este paquete, de una vez.
 
 #### Gheco sugiere
-Armá el `informe` para Sila con las fichas sucias:
-1. limpiá cada ficha (`trim`, `Number`, `'Sin región'`);
-2. sacá las repetidas por `id`;
+Junta toda la Senda, en orden: limpiar (`map`), sacar repetidas (`Map`), separar (`filter`), ordenar (`toSorted` con desempate) y contar por región (`reduce`). Cada paso recibe lo que dejó el anterior: guardá cada resultado en una variable con nombre y mostralo con `console.log` mientras armás.
+
+`JSON.stringify(objeto, null, 2)` lo muestra con sangría de 2 espacios, un dato por renglón.
+
+#### Desafío
+Con las fichas sucias, armá el `informe` para Sila:
+1. limpiá cada ficha (como en S03-N04-P1);
+2. sacá las repetidas por `id` (queda la última);
 3. separá las que no sirven (nivel ilegible o sin nombre);
 4. de las que sirven, ordená por nivel (de mayor a menor) y por nombre;
 5. contá cuántas hay por región.
 
 Mostralo con `JSON.stringify(informe, null, 2)`, con estas claves: `total`, `porRegion`, `fichas` (los nombres en orden) y `paraRehacer` (los `id` que no sirven).
 
-#### Desafío
 El informe completo.
 
 #### Código inicial

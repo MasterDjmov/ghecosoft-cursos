@@ -130,7 +130,15 @@ recompensa: xp 10, oro 10
 La primera página del escaparate es la de los Talleres. Arriba tiene un botón con tres rayas, pero el menú no aparece nunca. —El CSS ya sabe cómo se ve abierto —dice Teo—. Le falta alguien que le avise.
 
 #### Gheco sugiere
-Al hacer click en `#menu-boton`, alterná la clase `abierto` del `#menu`.
+Esta Senda arma una página de verdad, con lo de R02. Lo primero: `classList.toggle('clase')` **alterna** una clase: si no la tiene, se la pone; si la tiene, se la saca. Ideal para abrir y cerrar con el mismo botón:
+
+```js
+boton.addEventListener('click', () => {
+    cajon.classList.toggle('visible');
+});
+```
+
+Cómo se ve el menú abierto ya lo dice el CSS de la página: vos solo ponés y sacás la clase. Ojo: el que escucha es el botón, y el que cambia es el menú.
 
 #### Desafío
 Que el click abra el menú (y otro click lo cierre).
@@ -202,7 +210,16 @@ recompensa: xp 10, oro 10
 —En los Talleres hay una regla —dice Teo—: **toda página es para todos**. Hay quien la escucha con un lector de pantalla, y el lector no ve si el menú bajó. Lo lee del botón.
 
 #### Gheco sugiere
-Guardá lo que devuelve `toggle` y ponelo en `aria-expanded` como texto.
+Quien usa un **lector de pantalla** no ve si el menú se abrió. Para avisarle, el botón lleva el atributo `aria-expanded` (*expandido*), con el texto `"true"` o `"false"`.
+
+`toggle` además **devuelve** cómo quedó: `true` si la clase quedó puesta y `false` si quedó sacada. Se puede guardar y usar:
+
+```js
+const visible = cajon.classList.toggle('visible');
+boton.setAttribute('aria-expanded', String(visible));
+```
+
+Los atributos son texto: `String(…)` pasa el `true` a `'true'`. Y el operador `? :` de R02 elige el texto del aviso.
 
 #### Desafío
 Después de dos clicks, el menú queda cerrado y `aria-expanded` en `false`. Mostrá en `#aviso` el estado: `Menú abierto` o `Menú cerrado`.
@@ -288,7 +305,9 @@ recompensa: xp 10, oro 10
 Teo abre el menú y quiere cerrarlo rápido, como cierra todo: con la tecla de escape. No pasa nada.
 
 #### Gheco sugiere
-Escuchá `keydown` en el `document`. Si la tecla es `Escape`, sacá la clase `abierto` y poné `aria-expanded` en `false`.
+Un menú abierto se tiene que poder cerrar con la tecla **Escape**: es lo que espera cualquiera que use el teclado. Se escucha `keydown` en el `document` (R02-N04), y `evento.key` dice qué tecla fue.
+
+Cerrar es **sacar** la clase (`classList.remove`), no alternarla: si el menú ya estaba cerrado, tiene que seguir cerrado. Y el `aria-expanded` tiene que acompañar.
 
 #### Desafío
 Abrir con el botón y cerrar con Escape.
@@ -373,7 +392,14 @@ recompensa: xp 15, monedas 5
 Llega una carta de **Tesela**, con letra prolija: *«Un menú abierto no puede tapar la página. Si alguien toca afuera, se cierra solo.»* Teo la lee dos veces, corriendo en el lugar.
 
 #### Gheco sugiere
-Escuchá `click` en el `document`. Si el elemento tocado no está adentro del menú ni del botón (`closest` da `null`), cerrá el menú.
+Para cerrar el menú al tocar **afuera**, se escucha el `click` en todo el `document`, y se pregunta si lo que tocaron está **adentro** del menú o del botón. `closest` (R02-N05) sirve: sube desde lo tocado y da `null` si no encuentra.
+
+```js
+const adentro = evento.target.closest('#cajon');
+if (!adentro) { /* tocaron afuera */ }
+```
+
+El botón también hay que excluirlo: si no, su propio click abriría el menú y el del `document` lo cerraría enseguida. Contá solo las veces que se cerró **estando abierto**.
 
 #### Desafío
 Abrí el menú, tocá un enlace del menú (sigue abierto) y después tocá el `main` (se cierra). En `#veces` contá cuántas veces se cerró solo.
@@ -475,9 +501,18 @@ recompensa: xp 15, monedas 5
 El catálogo de los Talleres tiene tres secciones apiladas, una debajo de otra, y nadie llega hasta la última. —Tesela quiere **pestañas** —dice Teo—: tres botones arriba y se ve una sola sección por vez.
 
 #### Gheco sugiere
-Cada botón tiene `data-panel` con el `id` de su sección. Al tocar uno, recorré los paneles y escondé (`hidden = true`) todos menos el elegido. Marcá el botón activo con `aria-selected="true"` y los otros con `"false"`.
+Unas **pestañas** son botones que muestran una sección por vez. Los atributos `role="tab"` y `aria-selected` le dicen al lector de pantalla qué son y cuál está elegida.
+
+Al tocar una pestaña se hacen dos recorridos:
+
+- por las **secciones**: cada una se esconde con `hidden` (R02-N05) salvo la elegida;
+- por las **pestañas**: cada una marca `aria-selected` en `'true'` si es la tocada y `'false'` si no.
+
+El `id` de la sección elegida sale del `data-` de la pestaña (`pestania.dataset.panel`).
 
 #### Desafío
+Cada pestaña tiene en su `data-panel` el `id` de su sección. Al tocar una, se ve solo su sección (las otras, con `hidden`); la pestaña tocada queda con `aria-selected="true"` y las otras con `"false"`.
+
 Tocar la pestaña «Precios» muestra solo esa sección.
 
 #### Página
@@ -665,9 +700,13 @@ recompensa: xp 10, oro 10
 Cinco miniaturas en fila y el marco grande vacío. Teo toca la del sol y no pasa nada.
 
 #### Gheco sugiere
-Usá delegación en `#miniaturas`: con `closest('img')` encontrá la miniatura tocada y copiá su `data-grande` al `src` del `#grande`, y su `alt` al `alt`.
+Una imagen cambia de foto cambiándole el **`src`** (la dirección de la imagen), y su descripción con el **`alt`**. Se pueden asignar directo: `foto.src = '…'` y `foto.alt = '…'`.
+
+Con delegación (R02-N05), un solo escuchador en el contenedor de las miniaturas; `closest('img')` encuentra la tocada, y de ella se leen su `data-` y su `alt`.
 
 #### Desafío
+Cada miniatura guarda en `data-grande` la dirección de su imagen grande. Al tocarla, el `#grande` pasa a mostrar esa imagen, con el mismo `alt` que la miniatura.
+
 Tocar la tercera miniatura (la luna) la muestra grande.
 
 #### Página
@@ -745,9 +784,19 @@ recompensa: xp 10, oro 10
 Las flechas ya están, pero hacen lo de la última vez: desde el primer vitral, la flecha de «anterior» rompe la página. —Te dije —dice Teo, y se tapa la cara.
 
 #### Gheco sugiere
-Las dos flechas tienen que **dar la vuelta**: desde el primero, «anterior» va al último. Arreglá las dos cuentas y mostrá el contador `n / 5`.
+Para **dar la vuelta** se usa `%`, el **resto** de la división: `7 % 5` es `2`. Con un arreglo de 5, `(i + 1) % 5` va de 0 a 4 y después vuelve a 0.
+
+Para ir hacia atrás hay una trampa: `-1 % 5` da `-1` en JavaScript, no `4`. Se arregla sumando el largo antes:
+
+```js
+const anterior = (i - 1 + lista.length) % lista.length;
+```
+
+El contador muestra posiciones desde 1, y el índice empieza en 0: sumale uno al mostrarlo.
 
 #### Desafío
+Las flechas **dan la vuelta**: desde el primero, «anterior» va al último, y desde el último, «siguiente» va al primero. El contador muestra `n / 5`.
+
 Desde el primero, tocá «anterior» y después dos veces «siguiente»: tiene que quedar el segundo vitral (`2 / 5`).
 
 #### Página
@@ -841,9 +890,17 @@ recompensa: xp 10, oro 10
 —Falta que se note **cuál** estás mirando —dice Teo—. Tesela le pone un marco dorado a la miniatura del vitral que está en el marco grande.
 
 #### Gheco sugiere
-En `mostrar`, recorré las miniaturas y poné la clase `activa` solo en la del índice `actual`, con `toggle(clase, condición)`. Que tocar una miniatura también la muestre (su índice sale de `data-n`).
+`classList.toggle('clase', condición)` con un **segundo dato** no alterna: pone la clase si la condición es `true` y la saca si es `false`. Así, en un recorrido, cada elemento queda bien de una sola vez:
+
+```js
+botones.forEach((b, i) => b.classList.toggle('elegido', i === marcado));
+```
+
+`forEach` da cada elemento y su índice. Para la miniatura tocada, su número viene del `data-` como texto: pasalo con `Number`.
 
 #### Desafío
+Solo la miniatura del vitral que se ve tiene la clase `activa`. Tocar una miniatura también muestra su vitral (su número está en `data-n`).
+
 Tocá «siguiente» y después la quinta miniatura: queda activa solo la quinta.
 
 #### Página
@@ -936,9 +993,11 @@ recompensa: xp 15, monedas 5
 Un visitante de la Feria no puede usar el mouse: maneja todo con el teclado. Se queda frente a la galería sin poder pasar los vitrales.
 
 #### Gheco sugiere
-Escuchá `keydown` en el `document`: `ArrowRight` pasa al siguiente y `ArrowLeft` al anterior, dando la vuelta. Las demás teclas no hacen nada.
+Es el `keydown` en el `document` de R02-N04, con las flechas `'ArrowRight'` y `'ArrowLeft'`. Lo más prolijo es que la función que muestra un vitral reciba un número **cualquiera** y lo acomode ella con la cuenta del `%` (sumando el largo para los negativos): así las flechas y los botones solo dicen «uno más» o «uno menos».
 
 #### Desafío
+`→` pasa al siguiente y `←` al anterior, dando la vuelta; las demás teclas no hacen nada.
+
 Con `←`, `←`, `→`, `a` y `←`, tiene que quedar el cuarto vitral (`4 / 5`).
 
 #### Página
@@ -1024,9 +1083,18 @@ recompensa: xp 15, monedas 5
 Tesela quiere que la galería pase sola cada tres segundos, como el carrusel de la Feria. Pero que **se quede quieta** mientras alguien la mira con el mouse encima.
 
 #### Gheco sugiere
-Hacé una función `arrancar` que cancele el intervalo anterior y cree uno nuevo de 3000 ms. Llamala al empezar y en `mouseleave`; en `mouseenter`, cancelalo.
+`setInterval(función, ms)` es como `setTimeout`, pero **repite**: llama a la función cada tantos milisegundos, sin parar. Devuelve un número que lo identifica, y con ese número se lo frena:
+
+```js
+const tic = setInterval(() => console.log('tic'), 1000);
+clearInterval(tic);   // deja de repetir
+```
+
+El mouse avisa con `'mouseenter'` (entra encima) y `'mouseleave'` (sale). Ojo: si arrancás uno nuevo sin frenar el anterior, quedan **dos** andando a la vez. Guardá el número en una variable afuera.
 
 #### Desafío
+La galería pasa sola al siguiente cada 3 segundos, y se frena mientras el mouse está encima: al salir, vuelve a contar 3 segundos desde cero.
+
 Pasan 7 segundos (va por el tercero), el mouse entra y se queda 10 segundos (no cambia), sale y pasan 3 segundos más: queda el cuarto. Al final tiene que haber **un solo** temporizador esperando.
 
 #### Página
@@ -1218,9 +1286,16 @@ recompensa: xp 10, oro 10
 Doña Mirta sigue con el delantal en la cara. Teo agrega un botón con una luna.
 
 #### Gheco sugiere
-Al tocar `#tema`, alterná la clase `oscuro` del `body` y cambiá el texto del botón: `☀ Claro` si quedó oscuro (para volver), `🌙 Oscuro` si quedó claro.
+El **modo oscuro** suele ser una clase en el `body` (`document.body`): el CSS de la página ya dice cómo se ve todo con esa clase puesta. El programa solo la alterna con `toggle` y, con lo que devuelve `toggle`, elige el texto del botón:
+
+```js
+const grande = document.body.classList.toggle('grande');
+boton.textContent = grande ? 'Achicar' : 'Agrandar';
+```
 
 #### Desafío
+Cada click alterna la clase `oscuro` del `body`. El botón dice `☀ Claro` cuando la página quedó oscura (para volver) y `🌙 Oscuro` cuando quedó clara.
+
 Un click: la página queda oscura y el botón dice `☀ Claro`.
 
 #### Página
@@ -1288,9 +1363,15 @@ recompensa: xp 10, oro 10
 A la noche siguiente, Doña Mirta vuelve a pasar… y el escaparate está claro otra vez. —¡Otra vez! ¿No se acuerda de nada esta página?
 
 #### Gheco sugiere
-Al cargar, si `localStorage` tiene `tema` en `oscuro`, poné la clase y el texto del botón. Al tocar el botón, guardá el tema nuevo.
+Para que la página **se acuerde** del tema, se guarda en `localStorage` (R02-N06) cada vez que cambia, y se lee **al cargar**.
+
+Conviene una sola función que reciba el tema y haga todo (clase, texto del botón y guardar), y llamarla en los dos momentos: al empezar, con lo guardado, y en el click, con lo contrario de lo que hay.
+
+`toggle('clase', condición)` (con el segundo dato) pone o saca según la condición: justo lo que hace falta al cargar.
 
 #### Desafío
+El tema se guarda en `localStorage`, con la clave `tema` (`oscuro` o `claro`), y al cargar la página se aplica el guardado.
+
 Doña Mirta ya lo había elegido oscuro: la página arranca oscura. Ella toca el botón dos veces (claro y otra vez oscuro), y queda guardado `oscuro`.
 
 #### Página
@@ -1379,9 +1460,19 @@ recompensa: xp 10, oro 10
 Todas las páginas de Tesela usan **un** color de acento: los bordes, los títulos y los botones. —Si cambia esa variable, cambia todo —dice Teo—. Ella la elige con un frasquito de pintura.
 
 #### Gheco sugiere
-El `<input type="color">` avisa con `input`. Copiá su `value` a la variable `--acento` del `<html>`, y mostrá el color en `#codigo`.
+Una **variable CSS** es un valor con nombre que el CSS usa en muchos lugares: `--acento: teal;` y después `color: var(--acento);`. Si el programa la cambia, cambia en todos lados a la vez.
+
+Se cambia en el `<html>` (que es `document.documentElement`) con `setProperty`:
+
+```js
+document.documentElement.style.setProperty('--fondo', '#222');
+```
+
+El `<input type="color">` avisa con el evento `input` cada vez que se elige un color, y el color elegido está en su `value`, como `#rrggbb`.
 
 #### Desafío
+Al elegir un color, se copia a la variable CSS `--acento` del `<html>` y se muestra su código en `#codigo`.
+
 Elegir el rojo `#e53935` pinta toda la página.
 
 #### Página
@@ -1452,9 +1543,17 @@ recompensa: xp 15, monedas 5
 Lucio, el farolero, se acerca al escaparate y entrecierra los ojos. —Lindo… pero no leo nada. Ya no tengo la vista de antes.
 
 #### Gheco sugiere
-Dos botones: `A+` suma 2 a la letra y `A−` resta 2, entre 12 y 24 como mucho. Ponela en `document.body.style.fontSize`, mostrala en `#tamanio` y guardala en `local letra`. Al cargar, leela (si no hay, 16).
+Es juntar tres cosas que ya hiciste:
+
+- leer el número guardado con `Number` y `??` (R02-N06);
+- **limitarlo** entre un mínimo y un máximo con `Math.max` y `Math.min` (R05-N03);
+- aplicarlo con `.style` (R02-N01): el tamaño de letra es `fontSize`, y lleva su unidad: `` `${n}px` ``.
+
+Una función que reciba el tamaño nuevo y haga todo (limitar, aplicar, mostrar y guardar) sirve para los dos botones y para el arranque.
 
 #### Desafío
+`A+` suma 2 al tamaño de la letra y `A−` resta 2, siempre entre 12 y 24. El tamaño se aplica al `body`, se muestra en `#tamanio` y se guarda con la clave `letra`; al cargar se lee (si no hay nada, 16).
+
 Lucio ya la había puesto en 20. Toca `A+` cuatro veces y `A−` una: queda en 22.
 
 #### Página
@@ -1547,9 +1646,19 @@ recompensa: xp 15, monedas 5
 —Tesela mandó un tercer tema —dice Teo—: **vitral**, todo con los colores del rosetón. Ya no alcanza con claro u oscuro. —{mentor} se posa arriba del escaparate a ver.
 
 #### Gheco sugiere
-Al cambiar el `<select id="elegir">`, poné su valor en `document.documentElement.dataset.tema` y guardalo en `local tema`. Al cargar, aplicá el guardado; si no hay ninguno o es uno que no existe, usá `claro`.
+Un `<select>` (la lista desplegable) avisa con el evento `'change'` cuando eligen otra opción, y la elegida está en su `value`. Al revés, asignarle `value` hace que muestre esa opción.
+
+Lo guardado en `localStorage` puede ser **cualquier cosa** (alguien lo pudo cambiar a mano), así que antes de usarlo se **valida**: con un arreglo de los temas que existen e `includes`, se ve si es uno válido.
+
+```js
+const talle = TALLES.includes(guardado) ? guardado : 'M';
+```
+
+El `data-tema` del `<html>` se escribe con `document.documentElement.dataset.tema`.
 
 #### Desafío
+El tema elegido en `#elegir` va en el `data-tema` del `<html>` y se guarda con la clave `tema`. Al cargar se aplica el guardado; si no hay ninguno, o es uno que no existe, `claro`.
+
 Alguien había guardado `fucsia` (que no existe): arranca en `claro`. Después elige `vitral`.
 
 #### Página
@@ -1753,9 +1862,13 @@ recompensa: xp 10, oro 10
 La Polilla se come primero los mensajes larguísimos. —¡Que la gente vea cuánto le queda! —grita Teo, tapando la caja con el cuerpo.
 
 #### Gheco sugiere
-En cada `input` del `#mensaje`, mostrá en `#cuenta` cuántas letras lleva sobre 140. Si pasa de 140, agregale la clase `pasado` a `#cuenta` (y sacala si vuelve a estar bien).
+El evento `'input'` (R02-N04) pasa en cada letra. Y `texto.length` dice **cuántas letras** tiene un texto.
+
+Para la clase de aviso, `toggle('clase', condición)` la pone o la saca de una vez según la condición: no hace falta un `if` con dos ramas.
 
 #### Desafío
+En cada letra que se escribe, `#cuenta` muestra cuántas lleva sobre 140 (`25 / 140`); si pasa de 140, `#cuenta` tiene la clase `pasado` (y la pierde si vuelve a estar bien).
+
 Escriben un pedido corto y después uno largo.
 
 #### Página
@@ -1827,9 +1940,21 @@ recompensa: xp 10, oro 10
 La Polilla se lanza sobre un correo sin arroba. Nima la espanta con el arco y la Polilla da una vuelta y espera.
 
 #### Gheco sugiere
-Escribí `errorCorreo(valor)`: si está vacío, `Falta el correo.`; si no tiene `@`, `El correo necesita una @.`; si está bien, `''`. En cada `input` del correo, mostrá el error en `#error-correo` y poné `aria-invalid` en `true` o `false`.
+Una función que **solo revisa** y devuelve el texto del error (o `''` si está bien) es fácil de probar y de usar en varios lugares:
+
+```js
+function errorEdad(valor) {
+    if (valor.trim() === '') return 'Falta la edad.';
+    if (Number.isNaN(Number(valor))) return 'La edad es un número.';
+    return '';
+}
+```
+
+`includes('@')` pregunta si un texto tiene una arroba. `aria-invalid` (en `'true'` o `'false'`) le avisa al lector de pantalla que el campo tiene un error: un texto vacío `''` cuenta como «falso» en una condición.
 
 #### Desafío
+Mientras escriben el correo, `#error-correo` dice `Falta el correo.` si está vacío, `El correo necesita una @.` si no tiene `@`, y nada si está bien. El campo tiene `aria-invalid` en `true` si hay error y en `false` si no.
+
 Escriben `teo` y después `teo@talleres`.
 
 #### Página
@@ -1912,9 +2037,17 @@ recompensa: xp 10, oro 10
 —Si el formulario está mal —dice Teo—, que el botón **ni se pueda tocar**. Así la Polilla no tiene nada que comer.
 
 #### Gheco sugiere
-Escribí `errores()`, que devuelve la lista de errores de los dos campos (los vacíos no cuentan). Después de cada `input` en el formulario (con delegación, en el `form`), deshabilitá `#enviar` si hay alguno.
+Un botón con `disabled = true` queda **deshabilitado**: no se puede tocar, y un formulario no se envía con él. Se le puede asignar directo el resultado de una comparación:
+
+```js
+guardar.disabled = problemas().length > 0;
+```
+
+Con delegación, un solo `input` en el `form` se entera de lo que escriben en **cualquier** campo. Y hay que revisar también **al empezar**: si no, el botón arranca habilitado.
 
 #### Desafío
+El botón `#enviar` está deshabilitado mientras haya errores: el nombre vacío, o el correo sin `@`. Se revisa al empezar y cada vez que escriben en el formulario.
+
 Al empezar el botón está deshabilitado. Escriben el nombre (sigue deshabilitado) y después el correo: se habilita.
 
 #### Página
@@ -2008,9 +2141,13 @@ recompensa: xp 15, monedas 5
 Ahora sí: alguien completa el pedido y lo manda. Pero la página se recarga y el pedido se pierde en el camino. Teo se agarra la cabeza.
 
 #### Gheco sugiere
-En el `submit` del formulario, frená la recarga con `preventDefault`. Agregá el pedido como un `<li>` en `#pedidos` (`nombre: mensaje`), mostrá `¡Gracias, nombre!` en `#gracias` y limpiá el formulario con `reset()`.
+Es el `submit` de R02-N04: primero `preventDefault()`, después lo que pide la consigna.
+
+Para vaciar todos los campos de una vez, un formulario tiene el método `formulario.reset()`, que los deja como estaban al cargar la página. Usalo **después** de haber leído los valores: si no, ya están vacíos.
 
 #### Desafío
+Al enviar, la página no se recarga: el pedido se agrega como `<li>` en `#pedidos` (`nombre: mensaje`), `#gracias` dice `¡Gracias, nombre!` y el formulario queda vacío.
+
 Doña Mirta manda un pedido.
 
 #### Página
@@ -2098,11 +2235,19 @@ recompensa: xp 50, oro 50, monedas 1
 La Polilla junta fuerzas para su último ataque: se pone delante de toda la luz del escaparate, enorme, y espera el próximo pedido mal hecho. —Ahora o nunca —dice Teo—. Un formulario que avise **todo**.
 
 #### Gheco sugiere
-Juntá todo: `errores()` devuelve un objeto con el error de cada campo (`nombre`, `correo`, `mensaje`; `''` si está bien). En cada `input`, mostrá el error de cada campo en su `#error-…`, marcá `aria-invalid` y deshabilitá `#enviar` si hay alguno. Al enviar, `preventDefault`, agradecé y `reset()`; después del reset, volvé a revisar (el botón queda deshabilitado otra vez).
+Junta todo el nodo. Una forma ordenada:
 
-Las reglas: el nombre no puede estar vacío; el correo necesita una `@` y algo después; el mensaje, entre 10 y 140 letras.
+- `errores()` devuelve un **objeto** con el error de cada campo, por nombre (`''` si está bien);
+- una función `revisar()` recorre ese objeto: muestra cada error en su lugar, marca su `aria-invalid` y, si alguno no está vacío, deshabilita el botón;
+- `revisar()` corre al empezar, en cada `input` del formulario y **después del `reset()`**: `reset` no avisa con `input`.
+
+`Object.values(objeto)` da un arreglo con los valores, y `some` (R05-N06) pregunta si alguno cumple.
 
 #### Desafío
+Las reglas: el nombre no puede estar vacío; el correo necesita una `@` y algo después; el mensaje, entre 10 y 140 letras.
+
+En cada letra que se escribe, cada campo muestra su error en su `#error-…` (o nada si está bien), con `aria-invalid`, y `#enviar` está deshabilitado si hay alguno. Al enviar, no se recarga: se agradece y el formulario queda vacío, con el botón deshabilitado otra vez.
+
 Escriben un correo sin arroba, lo corrigen, completan todo y lo mandan. Enseguida, Bengala empieza otro pedido con un correo a medias.
 
 #### Página

@@ -6118,7 +6118,10 @@ recompensa: xp 10, oro 10
 Gheco quiere entender la trampa del troll. —¿Y si en lugar de `append` sumo con `+`?
 
 #### Gheco sugiere
-`a.append(x)` **modifica** la lista. `a = a + [x]` arma una lista **nueva** y hace que `a` apunte a ella: el otro nombre sigue apuntando a la vieja.
+Hay una diferencia importante entre **modificar** y **reasignar**:
+
+- `a.append(x)` **modifica** la lista: la cambia ahí mismo, y todos los nombres que apuntan a ella ven el cambio.
+- `a = a + [x]` arma una lista **nueva** y le pega la etiqueta `a`. El otro nombre sigue pegado a la vieja, que no cambió.
 
 #### Desafío
 Completá: el primer resultado tiene que mostrar que `b` no cambió.
@@ -6168,7 +6171,12 @@ recompensa: xp 10, oro 10
 En la cueva hay dos cofres idénticos. El troll susurra: «Son el mismo». Gheco no le cree.
 
 #### Gheco sugiere
-`==` pregunta si **valen lo mismo**. `is` pregunta si son **el mismo objeto**. Dos listas iguales pueden ser objetos distintos. Para comparar valores usá siempre `==` (y `is` solo con `None`).
+Dos preguntas que parecen iguales:
+
+- `==` pregunta si **valen lo mismo** (mismo contenido);
+- `is` pregunta si son **el mismo objeto** (la misma lista, no una igual).
+
+Dos listas con lo mismo adentro son `==`, pero si se crearon por separado, no son `is`. Para comparar valores usá siempre `==` (y `is` solo para `None`).
 
 #### Desafío
 Completá las dos comparaciones.
@@ -6217,7 +6225,9 @@ recompensa: xp 15, oro 15
 Copiás el mapa de la cueva antes de marcar el camino. Marcás una casilla en el original… y **la copia también aparece marcada**. El troll se ríe más fuerte.
 
 #### Gheco sugiere
-`.copy()` copia **la lista de afuera**, pero si adentro hay listas (las filas del mapa), esas se **comparten**. Es una copia **superficial**.
+`.copy()` copia la lista de afuera, pero si adentro hay otras listas (como las filas de un mapa), esas **no** se copian: la copia y el original **comparten** las mismas filas. Es una copia **superficial**.
+
+Ejecutalo y mirá cómo cambiar una casilla del original también cambia la copia.
 
 #### Desafío
 Ejecutalo y mirá cómo la copia también cambia. No hay que arreglar nada todavía: completá el `print` de la copia.
@@ -6267,7 +6277,9 @@ item: Espejo del Troll
 El troll sale de la sombra: enorme, con piel de piedra y musgo. Para vencerlo hay que cruzar marcando el camino **sin arruinar** el mapa de respaldo.
 
 #### Gheco sugiere
-`copy.deepcopy(mapa)` copia la lista **y todo lo que tiene adentro**. Lo que cambies en el original ya no toca la copia.
+Para copiar una lista **y todo lo que tiene adentro**, la biblioteca `copy` trae `copy.deepcopy(lista)`: una copia **profunda**. Después de eso, lo que cambies en el original ya no toca la copia.
+
+Acordate de traer la biblioteca con `import copy`.
 
 #### Desafío
 Usá `deepcopy` para que el respaldo quede limpio.
@@ -6320,7 +6332,9 @@ Gheco mira el código y se tapa los ojos.
 —El respaldo no era un respaldo. Era la **misma** lista con otro nombre.
 
 #### Gheco sugiere
-`respaldo = compania` no copia: las dos variables apuntan a la misma lista. Para una copia de verdad: `compania.copy()` o `list(compania)`. Mostrá las dos listas y `is` para comprobarlo.
+`respaldo = compania` no copia: las dos variables son etiquetas de la misma lista, y lo que le pasa a una le pasa a la otra.
+
+Para una copia de verdad: `compania.copy()` (o `list(compania)`). Mostrá las dos listas y usá `is` para comprobar si son el mismo objeto.
 
 #### Desafío
 Este código pierde a Tilo también en el respaldo.
@@ -6400,7 +6414,12 @@ En la cueva todavía hay un cuarto sin explorar con una gema. Gheco propone guar
 —Si sale mal, volvemos al punto de guardado. Pero ojo: si el punto de guardado es una copia **de mentira**, se rompe junto con el mapa.
 
 #### Gheco sugiere
-El mapa es una lista de listas. `copy.copy` copia solo la lista de afuera: las filas siguen siendo las mismas. `copy.deepcopy` copia todo. Mostrá qué pasa con cada una.
+El mapa es una lista de listas.
+
+- `copy.copy(mapa)` copia solo la lista de afuera: las filas siguen siendo las mismas, compartidas.
+- `copy.deepcopy(mapa)` copia todo, filas incluidas.
+
+Guardá un punto de guardado de cada forma, cambiá el mapa y mostrá qué le pasó a cada copia.
 
 #### Desafío
 Guardá un checkpoint de un mapa (lista de listas)
@@ -6492,7 +6511,12 @@ Descansando en la entrada de la cueva, Gheco te tira cinco acertijos sobre copia
 —Primero decí qué sale, después ejecutá. Si acertás los cinco, te cedo el lugar más blando para dormir.
 
 #### Gheco sugiere
-Las listas y los diccionarios cambian en el lugar; las tuplas y los números no: `y += (3,)` arma una tupla nueva. `[[0] * 2] * 2` repite **la misma** fila dos veces, y `copy()` de un diccionario no copia las listas de adentro.
+Para predecir, acordate:
+
+- las **listas** y los **diccionarios** cambian en el lugar (todos los nombres ven el cambio);
+- las **tuplas** y los **números** no se pueden cambiar: `y += (3,)` arma una tupla nueva y solo `y` la ve;
+- `[[0] * 2] * 2` repite **la misma** fila dos veces (cambiar una cambia las dos);
+- `.copy()` de un diccionario no copia las listas que tiene adentro.
 
 #### Desafío
 Anotá qué muestra cada bloque antes de ejecutarlo:
@@ -7006,7 +7030,17 @@ Llegás a las Terrazas con Tilo colgado de tu hombro. {mentor} los espera junto 
 —Cansada de escribir runa por runa el mismo hechizo, ¿no? Escribilo **una vez**, ponele **nombre** y llamalo cuando quieras.
 
 #### Gheco sugiere
-`def curar():` define una **función**: un bloque con nombre. No hace nada hasta que la **llamás** con `curar()`. Podés llamarla todas las veces que quieras.
+Una **función** es un bloque de código con nombre, que escribís una vez y usás todas las veces que quieras:
+
+```python
+def saludar():
+    print("¡Hola!")
+
+saludar()
+saludar()
+```
+
+`def` la **define**: le pone nombre y guarda el bloque (las líneas con sangría). No hace nada hasta que la **llamás** escribiendo su nombre con paréntesis. Este ejemplo saluda dos veces.
 
 #### Desafío
 Definí `curar` y llamala dos veces.
@@ -7056,7 +7090,16 @@ recompensa: xp 10, oro 10
 —Un hechizo que siempre hace lo mismo sirve poco —dice {mentor}—. Decile **a quién** curar y **cuánto**.
 
 #### Gheco sugiere
-Entre los paréntesis de `def` van los **parámetros**: nombres que reciben los valores que le pasás al llamar.
+Entre los paréntesis de `def` van los **parámetros**: nombres que reciben los datos que le pasás al llamar.
+
+```python
+def saludar(nombre, veces):
+    print(f"¡Hola, {nombre}!" * veces)
+
+saludar("Ana", 2)
+```
+
+Al llamar, los valores se reparten en orden: `nombre` recibe `"Ana"` y `veces` recibe `2`.
 
 #### Desafío
 Agregá los parámetros y curá a Tilo con 5 y a Gheco con 1.
@@ -7105,7 +7148,16 @@ recompensa: xp 15, oro 15
 —Mostrar no alcanza —dice {mentor}—. Quiero que el hechizo me **dé** la vida nueva, para anotarla.
 
 #### Gheco sugiere
-`return` **devuelve** un valor a quien llamó: `nueva = curar(4, 10)`. `print` solo muestra; `return` entrega. Sin `return`, la función devuelve `None`.
+`return` hace que la función **devuelva** un valor a quien la llamó, y ahí termina:
+
+```python
+def doble(n):
+    return n * 2
+
+resultado = doble(7)   # 14
+```
+
+No es lo mismo que `print`: `print` solo **muestra** en pantalla; `return` **entrega** el valor para que lo guardes o lo uses. Sin `return`, la función devuelve `None`.
 
 #### Desafío
 Hacé que `curar` devuelva la vida nueva.
@@ -7155,7 +7207,17 @@ recompensa: xp 10, oro 10
 —Casi siempre curás 10 —observa Gheco—. ¿Y si el 10 viniera solo, y solo lo decís cuando es otra cosa?
 
 #### Gheco sugiere
-`def curar(vida, puntos=10):` hace que `puntos` valga 10 si no lo pasás. Y al llamar podés nombrar el argumento: `curar(4, puntos=25)`, que se lee mejor.
+Un parámetro puede tener un valor **por defecto**: el que usa si no se lo pasás.
+
+```python
+def saludar(nombre, saludo="Hola"):
+    print(f"{saludo}, {nombre}")
+
+saludar("Ana")                  # Hola, Ana
+saludar("Ana", saludo="Chau")   # Chau, Ana
+```
+
+Al llamar, podés nombrar el dato (`saludo="Chau"`): se lee mejor.
 
 #### Desafío
 Poné 10 por defecto y usá el nombre en la segunda llamada.
@@ -7204,7 +7266,14 @@ recompensa: xp 10, oro 10
 En el segundo nivel, una fuente revisa a quien bebe y dice dos cosas: cuánta vida tiene y si está **en peligro** (menos de 10).
 
 #### Gheco sugiere
-Una función puede devolver varios valores separados por coma: `return vida, vida < 10`. Llegan como una tupla, y la desempaquetás como en la Posada: `v, peligro = revisar(7)`.
+Una función puede devolver varios valores separados por coma: `return a, b`. Llegan juntos en una tupla, y los desempaquetás en dos variables:
+
+```python
+def dividir(a, b):
+    return a // b, a % b
+
+cociente, resto = dividir(17, 5)
+```
 
 #### Desafío
 Devolvé los dos valores.
@@ -7252,7 +7321,17 @@ recompensa: xp 15, oro 15
 —¿Y si quiero tomar dos pociones? ¿Y tres? —pregunta Tilo—. ¿Hay que escribir un hechizo para cada cantidad?
 
 #### Gheco sugiere
-Con `*` antes del parámetro, la función acepta **cualquier cantidad** de valores: `def tomar(*pociones):`. Adentro, `pociones` es una tupla que podés recorrer.
+Con un `*` antes del parámetro, la función acepta **cualquier cantidad** de valores:
+
+```python
+def sumar(*numeros):
+    ...
+
+sumar(1)
+sumar(1, 2, 3)
+```
+
+Adentro, `numeros` es una tupla con todos los que llegaron, y la podés recorrer con un `for`.
 
 #### Desafío
 Completá el parámetro y el total.
@@ -7309,7 +7388,15 @@ item: Poción de Curación x3
 —Ah —dice {mentor}—. La trampa más vieja del Valle.
 
 #### Gheco sugiere
-El valor por defecto se crea **una sola vez**, cuando se define la función. Si es una lista, **todas las llamadas comparten la misma**. Usá `None` y creá la lista adentro.
+Una trampa famosa: el valor por defecto se crea **una sola vez**, cuando se define la función, no en cada llamada. Si es una lista, **todas las llamadas comparten la misma**, y se va llenando.
+
+La solución: poné `None` por defecto, y adentro creá la lista nueva si llegó `None`:
+
+```python
+def agregar(x, lista=None):
+    if lista is None:
+        lista = []
+```
 
 #### Desafío
 Arreglá la función para que cada bolsa sea nueva.
@@ -7365,7 +7452,11 @@ En una terraza, unos aprendices juegan a los dados y se pelean porque cada uno t
 —Hagan una sola función para tirar —les dice Tilo—. Que se pueda pedir la cantidad de dados y, si quieren, las caras.
 
 #### Gheco sugiere
-Un parámetro con valor por defecto (`caras=6`) se puede omitir al llamar. Usá `random.randint(1, caras)` dentro de un bucle y devolvé la suma con `return`. `random.seed(10)` al principio hace que salga siempre igual.
+`tirar(cantidad, caras=6)`: si no le decís las caras, son 6. Adentro, un `for` de `cantidad` vueltas que va sumando `random.randint(1, caras)`, y al final `return` de la suma.
+
+Cuando no vas a usar el número de vuelta, se suele llamar `_`: `for _ in range(cantidad):`.
+
+`random.seed(10)` al principio hace que salga siempre igual.
 
 #### Desafío
 Escribí `tirar(cantidad, caras=6)`, que tire `cantidad`
@@ -7433,7 +7524,9 @@ antes: R01-N08-M2
 —Que no explote. Eso también es una respuesta.
 
 #### Gheco sugiere
-`*nombres` junta todos los argumentos sueltos en una tupla. `vida=100` va después, y para cambiarla hay que nombrarla: `crear_compania("Mia", vida=80)`. Sin nombres, la tupla está vacía y la lista también.
+`*nombres` junta todos los argumentos sueltos en una tupla. `vida=100` va **después**, y para cambiarla hay que nombrarla al llamar: `crear_compania("Mia", vida=80)`.
+
+Con una *comprehension* armás un diccionario por cada nombre. Si no llega ningún nombre, la tupla está vacía y la lista queda vacía.
 
 #### Desafío
 Escribí `crear_compania(*nombres, vida=100)`, que
@@ -7494,7 +7587,9 @@ En el templo de la última terraza, los monjes dan bendiciones que suben las est
 —La bendición tiene que dar un héroe **nuevo** —dice Gheco—. El de antes, que quede igual.
 
 #### Gheco sugiere
-`**cambios` junta los argumentos con nombre en un diccionario. Empezá con `nuevo = dict(stats)` y sumá con `nuevo.get(clave, 0) + valor`. Así el original no se toca.
+`**cambios` (dos asteriscos) junta los argumentos **con nombre** en un diccionario: `aplicar_buff(stats, fuerza=2, vida=10)` llega como `{"fuerza": 2, "vida": 10}`.
+
+Para no tocar el original, empezá con una copia: `nuevo = dict(stats)`. Después, por cada cambio, sumá con `nuevo.get(clave, 0) + valor` (si la clave no estaba, arranca en 0).
 
 #### Desafío
 Escribí `aplicar_buff(stats, **cambios)`, que sume
@@ -7995,7 +8090,9 @@ recompensa: xp 10, oro 10
 Tilo grita «¡HOLA!» dentro de la primera cámara y el eco responde. Afuera, le pide al eco que repita… y aparece un **esqueleto**: un nombre sin cuerpo.
 
 #### Gheco sugiere
-Una variable creada **dentro** de una función es **local**: afuera no existe (por eso `NameError`). Si la necesitás afuera, **devolvela** con `return`.
+Una variable creada **adentro** de una función es **local**: existe solo mientras la función corre, y afuera no se conoce (por eso da `NameError`).
+
+Si necesitás el valor afuera, la función lo **devuelve** con `return`, y quien la llama lo guarda en una variable.
 
 #### Desafío
 Hacé que la cámara devuelva el eco y guardalo afuera.
@@ -8045,7 +8142,9 @@ recompensa: xp 10, oro 10
 Gheco quiere contar cuántas veces gritaron en la cueva. Escribe una función que suma 1… y el pergamino se queja.
 
 #### Gheco sugiere
-Si una función **asigna** una variable, Python la toma como local, aunque exista afuera (`UnboundLocalError`). `global gritos` le avisa que es la de afuera. Funciona, pero se usa poco: casi siempre es mejor recibir el valor y devolverlo.
+Si una función **asigna** una variable (con `=` o `+=`), Python la toma como local, aunque haya una con el mismo nombre afuera. Por eso `+=` da `UnboundLocalError`: intenta sumar a una local que todavía no tiene valor.
+
+`global nombre` al principio de la función avisa que es la de afuera. Funciona, pero se usa poco: casi siempre es mejor recibir el valor como parámetro y devolverlo.
 
 #### Desafío
 Agregá la línea que falta.
@@ -8100,7 +8199,14 @@ recompensa: xp 15, oro 15
 En una cámara hay un atril con un libro: cada página tiene un nombre y, al decirlo, el conjuro se lanza solo. Mia se da cuenta de que **sus** hechizos también se pueden guardar así.
 
 #### Gheco sugiere
-Una función es un valor más: se puede guardar en un diccionario **sin paréntesis** (`"luz": luz`) y llamarla después con `acciones["luz"]()`. Es una tabla de acciones: reemplaza muchos `if`.
+En Python, una función es un valor más: se puede guardar en una variable o en un diccionario. Se guarda **sin paréntesis** (con paréntesis, la estarías llamando):
+
+```python
+acciones = {"saltar": saltar, "correr": correr}
+acciones["saltar"]()   # ahora sí la llama
+```
+
+Es una tabla de acciones: reemplaza una cadena larga de `if`.
 
 #### Desafío
 Completá la tabla y llamá al conjuro que pide la orden.
@@ -8156,7 +8262,19 @@ recompensa: xp 15, oro 15
 Para cruzar el pasillo hay que enfrentar a las criaturas de la menos a la más fuerte. Tilo tiene la lista de criaturas con su vida.
 
 #### Gheco sugiere
-`lambda c: c[1]` es una función de una línea, sin nombre. `sorted(lista, key=...)` usa esa función para saber **por qué valor** ordenar: acá, por la vida (la posición 1 de cada tupla).
+`lambda` arma una función chiquita, de una línea y sin nombre:
+
+```python
+lambda p: p[1]
+```
+
+Recibe `p` y devuelve `p[1]`. Sirve mucho con `sorted`: el `key` le dice **por qué valor** ordenar cada elemento.
+
+```python
+sorted(alumnos, key=lambda a: a[1])
+```
+
+Ordena las tuplas por su segundo valor.
 
 #### Desafío
 Ordená por vida, de menor a mayor.
@@ -8203,7 +8321,12 @@ item: Cofre de los Ecos
 Tilo abre el cofre: adentro hay monedas **y otro cofre**. Y adentro de ese, monedas y otro cofre más. —¿Cuántas monedas hay en total?
 
 #### Gheco sugiere
-Una función **recursiva** se llama a sí misma con algo más chico: si encuentra otro cofre (una lista), se cuenta a sí misma adentro. `isinstance(x, list)` pregunta si `x` es una lista. El caso que termina: los números se suman y listo.
+Una función **recursiva** se llama a sí misma con algo más chico. Para contar lo que hay en un cofre que puede tener cofres adentro:
+
+- si la cosa es un número, se suma;
+- si es otro cofre (una lista), la función **se llama a sí misma** con ese cofre y suma lo que devuelve.
+
+`isinstance(x, list)` pregunta si `x` es una lista. La recursión termina sola cuando ya no quedan cofres adentro.
 
 #### Desafío
 Completá la llamada recursiva.
@@ -8266,7 +8389,9 @@ En la Cueva de los Ecos tus hechizos rebotan y vuelven. Tilo te sugiere ordenarl
 —Una palabra para cada hechizo. Decís la palabra y sale el hechizo. Y si decís una que no existe, que el eco te avise en vez de explotar.
 
 #### Gheco sugiere
-Las funciones también son valores: se pueden guardar en un diccionario (`{"fuego": bola_de_fuego}`) sin paréntesis. `hechizos.get(palabra)` devuelve la función o `None`; si existe, la llamás con `(objetivo, poder)`.
+Guardá los hechizos en un diccionario, cada palabra con su función, **sin paréntesis**: `{"fuego": fuego, ...}`.
+
+Para usar uno, `hechizos.get(palabra)` devuelve la función o `None` si no existe. Si existe, la llamás con sus datos: `hechizo(objetivo, poder)`.
 
 #### Desafío
 Escribí tres hechizos como funciones
@@ -8346,7 +8471,11 @@ Antes de salir de la cueva, Tilo quiere saber quién va adelante. Hace una lista
 —Ordenala por vida, por nombre, y por nivel con desempate. Y decime quién está más golpeado, que ese va al medio.
 
 #### Gheco sugiere
-`sorted(lista, key=lambda h: h["vida"], reverse=True)`. Para desempatar, la `key` devuelve una tupla: `(-h["nivel"], h["nombre"])`. `min(lista, key=...)` encuentra al de menos vida.
+`sorted(lista, key=lambda h: h["vida"], reverse=True)` ordena por vida, de mayor a menor.
+
+Para desempatar, la `key` devuelve una **tupla**: se ordena por el primer valor y, si empatan, por el segundo. Un truco: `-h["nivel"]` (con un menos) ordena el nivel de mayor a menor aunque el resto vaya de menor a mayor.
+
+`min(lista, key=...)` encuentra al de menos vida.
 
 #### Desafío
 Con una lista de diccionarios (`nombre`, `nivel`,
@@ -8417,7 +8546,7 @@ Tilo encuentra un mapa de la cueva entera, con pisos y paredes. Hay partes que n
 —¿Cuántas cámaras separadas hay? Si sabemos eso, sabemos cuántas veces nos vamos a perder.
 
 #### Gheco sugiere
-Recorré todas las casillas. Cada vez que encuentres un piso **sin explorar**, contá una cámara nueva y llamá a `explorar` desde ahí: la recursión marca toda esa cámara y devuelve su tamaño.
+Recorré todas las casillas de la cueva con dos `for`. Cada vez que encuentres un piso que **todavía no exploraste**, es una cámara nueva: contala y llamá a `explorar` desde ahí. La recursión marca toda esa cámara (así no la contás dos veces) y devuelve su tamaño.
 
 #### Desafío
 Usá la función `explorar` para contar **cuántas
@@ -8868,7 +8997,10 @@ recompensa: xp 10, oro 10
 Tilo quiere saber cuántos viajes de balsa necesita para 21 pasajeros si entran 5 por viaje.
 
 #### Gheco sugiere
-`import math` trae el tomo de matemática. Se usa con un punto: `math.ceil(x)` redondea **hacia arriba**, `math.sqrt(x)` es la raíz.
+Python trae muchas **bibliotecas**: herramientas ya hechas que se piden con `import`. `import math` trae la de matemática, y sus funciones se usan con un punto adelante:
+
+- `math.ceil(x)` redondea **hacia arriba**: `math.ceil(2.1)` da 3;
+- `math.sqrt(x)` es la raíz cuadrada.
 
 #### Desafío
 Calculá los viajes redondeando hacia arriba.
@@ -8915,7 +9047,13 @@ recompensa: xp 10, oro 10
 —No hace falta bajar el tomo entero si querés una sola página —dice la Copista—. Quiero el promedio de las vidas del Bestiario.
 
 #### Gheco sugiere
-`from statistics import mean` trae **solo** `mean`, y se usa sin el prefijo: `mean(lista)`.
+Si solo necesitás una herramienta de una biblioteca, la podés traer sola:
+
+```python
+from statistics import mean
+```
+
+Y se usa sin el nombre de la biblioteca adelante: `mean(lista)` da el promedio.
 
 #### Desafío
 Traé `mean` y calculá el promedio.
@@ -8958,7 +9096,11 @@ recompensa: xp 15, oro 15
 —Si salimos hoy, el 7 de octubre, y el viaje a la Gran Biblioteca dura 30 días… ¿qué día llegamos? —pregunta Mia.
 
 #### Gheco sugiere
-`date(año, mes, día)` es una fecha y `timedelta(days=30)`, una duración: se pueden sumar. `.strftime("%d/%m/%Y")` la muestra como día/mes/año.
+La biblioteca `datetime` maneja fechas:
+
+- `date(2026, 3, 1)` es una fecha (año, mes, día);
+- `timedelta(days=10)` es una duración, y se puede sumar a una fecha;
+- `.strftime("%d/%m/%Y")` la muestra como día/mes/año.
 
 #### Desafío
 Calculá la llegada y mostrala en formato argentino.
@@ -9004,7 +9146,9 @@ recompensa: xp 10, oro 10
 Te acordás del vuelto de Baldo: `0.1 + 0.2` no daba `0.3`. La Copista sonríe. —Para la plata hay un tomo especial.
 
 #### Gheco sugiere
-`Decimal("0.1")` guarda el decimal **exacto** (escribilo entre comillas). Con `Decimal`, `0.1 + 0.2` da justo `0.3`.
+Los `float` no son exactos (`0.1 + 0.2` no da justo `0.3`). Para plata, donde un centavo importa, la biblioteca `decimal` trae `Decimal`, que guarda los decimales **exactos**.
+
+Se escribe con el número entre comillas: `Decimal("0.1")`. Con `Decimal`, `0.1 + 0.2` da justo `0.3`.
 
 #### Desafío
 Rehacé la cuenta de Baldo con `Decimal`.
@@ -9053,7 +9197,15 @@ item: Estante Portátil
 —Las tuplas son prolijas —dice la Copista—, pero `c[1]` no dice nada. ¿No sería mejor `c.vida`?
 
 #### Gheco sugiere
-`namedtuple` crea un tipo de tupla con **nombres de campo**: `Criatura("slime", 10)` y después `c.nombre`, `c.vida`.
+`namedtuple` (de `collections`) crea un tipo de tupla cuyos campos tienen **nombre**:
+
+```python
+Punto = namedtuple("Punto", "x y")
+p = Punto(3, 5)
+print(p.x)   # 3
+```
+
+Es más claro escribir `p.x` que `p[0]`.
 
 #### Desafío
 Creá el tipo y mostrá los campos por su nombre.
@@ -9100,7 +9252,12 @@ se abre: la segunda nota del viajero en el grimorio
 En el estante más alto, Tilo encuentra un tomo finito con **el vitral** en el lomo. Es un módulo, escrito con la letra clarísima del viajero. Termina con una línea que Mia no entiende: `if __name__ == "__main__":`.
 
 #### Gheco sugiere
-Cada archivo tiene un nombre interno: `__name__`. Si lo **ejecutás**, vale `"__main__"`. Si otro archivo lo **importa**, vale el nombre del archivo. Por eso `if __name__ == "__main__":` separa «lo que hago si me ejecutan» de «lo que presto si me importan».
+Cada archivo de Python tiene un nombre interno, `__name__`:
+
+- si lo **ejecutás** directamente, vale `"__main__"`;
+- si otro archivo lo **importa**, vale el nombre del archivo.
+
+Por eso `if __name__ == "__main__":` separa lo que el archivo hace cuando lo ejecutan, de lo que solo presta cuando lo importan.
 
 #### Desafío
 Ejecutalo así como está: el pergamino es el archivo que se ejecuta. Completá la condición.
@@ -9151,7 +9308,14 @@ En la Casa de los Tomos hay un calendario de piedra que marca la luna llena. Til
 —Y armá las guardias: una cada tres días. Con el día de la semana, en castellano, que en la Casa todo está en otro idioma.
 
 #### Gheco sugiere
-`date(2026, 9, 7)` arma una fecha y restarlas da un `timedelta` con `.days`. `timedelta(days=3)` suma días. `weekday()` da 0 para el lunes: armá una lista con los nombres en castellano y usala como índice.
+Con `datetime`:
+
+- `date(2026, 9, 7)` arma una fecha;
+- restar dos fechas da un `timedelta`, y `.days` dice cuántos días son;
+- `timedelta(days=3)` suma días;
+- `.weekday()` da el día de la semana como número: 0 es lunes.
+
+Para el nombre del día en castellano, armá una lista `["lunes", "martes", ...]` y usá ese número como índice.
 
 #### Desafío
 Con `datetime`: Mia llegó el 7/9/2026, hoy
@@ -9524,7 +9688,7 @@ recompensa: xp 15, oro 15
 La primera cabeza de la Hidra tiene forma de calavera. Grita `NameError` y tu hechizo de luz se apaga.
 
 #### Gheco sugiere
-Leé el error de abajo hacia arriba: dice **qué nombre** no existe. Casi siempre es una letra cambiada o una mayúscula.
+Un `NameError` dice que usaste un nombre que Python no conoce. Leé el error de abajo hacia arriba: dice **qué nombre** es. Casi siempre es una letra cambiada o una mayúscula (`Fuerza` y `fuerza` son distintos).
 
 #### Desafío
 Encontrá el nombre mal escrito y corregilo.
@@ -9575,7 +9739,9 @@ recompensa: xp 15, oro 15
 La segunda cabeza es verde y flaca, con sonrisa de goblin. Tu hechizo de daño explota en chispas: `TypeError`.
 
 #### Gheco sugiere
-Un `TypeError` dice que mezclaste tipos que no se combinan, como texto y número con `+`. La solución más clara: un f-string.
+Un `TypeError` dice que mezclaste tipos que no se combinan, como texto y número con `+` (`"Hola" + 5`).
+
+La solución más clara para armar mensajes con números es un f-string: `f"Tenés {puntos} puntos"`.
 
 #### Desafío
 Arreglá el mensaje del daño.
@@ -9618,7 +9784,9 @@ recompensa: xp 15, oro 15
 La tercera cabeza tiene colmillos de orco. Para cortarla hay que golpear **cada** cabeza de una lista, pero tu bucle siempre se pasa de una.
 
 #### Gheco sugiere
-Si una lista tiene 3 elementos, las posiciones son 0, 1 y 2. `range(len(lista) + 1)` se pasa. Lo más simple: recorrer la lista directamente, sin posiciones.
+Un `IndexError` dice que pediste una posición que no existe. Si una lista tiene 3 elementos, las posiciones son 0, 1 y 2: `range(len(lista) + 1)` llega hasta 3, que se pasa.
+
+Lo más simple: recorrer la lista directamente (`for x in lista:`), sin usar posiciones.
 
 #### Desafío
 Arreglá el bucle.
@@ -9665,7 +9833,9 @@ recompensa: xp 20, oro 20
 La cabeza del ogro no grita. Tu hechizo corre, no explota, no da error… y la cabeza no cae. El promedio de tus golpes da cualquier cosa.
 
 #### Gheco sugiere
-Un **ogro** no deja traceback: el programa termina tranquilo y el resultado está mal. Se vence **probando**: con 10, 20 y 30, el promedio tiene que dar 20. ¿Da?
+Hay errores que no muestran ningún mensaje: el programa termina tranquilo, pero el resultado está **mal**. Son errores de **lógica**, y se encuentran **probando** con datos de los que sabés la respuesta.
+
+Con 10, 20 y 30, el promedio tiene que dar 20. ¿Da? Mirá la cuenta con cuidado: ¿qué se suma y por qué se divide?
 
 #### Desafío
 Encontrá el error de lógica.
@@ -9711,7 +9881,9 @@ Queda la cabeza central, la más grande. Cada vez que le pegás con un hechizo l
 —Dividí.
 
 #### Gheco sugiere
-Un problema grande se vence **en partes**: una función que hace una sola cosa, otra que hace otra, y una que las junta. Cada parte se prueba sola.
+Un problema grande se vence **en partes**: funciones chicas que hacen una sola cosa cada una, y una que las junta. Cada parte se puede probar sola.
+
+Acá, `danio` calcula el golpe y `sigue_viva` contesta si la vida es mayor que 0. La tercera, `combate`, ya las usa.
 
 #### Desafío
 Completá las dos funciones chicas; la tercera ya las usa.
@@ -9782,7 +9954,9 @@ Al pie del Paso, un mercader aprovecha que la Hidra cayó y arma una tienda. Per
 —Que se pueda comprar, vender a mitad de precio y ver el inventario —dice Tilo—. Y que avise si no te alcanza.
 
 #### Gheco sugiere
-Un `while` que lee órdenes con `input` y las parte con `split()`. Con `if`/`elif` elegís qué hacer. Antes de cambiar el oro o el inventario, revisá que se pueda; si no, avisá y no toques nada.
+Un `while` que lee órdenes con `input` y las parte en palabras con `split()` (por ejemplo, `"comprar pocion 2".split()` da `["comprar", "pocion", "2"]`).
+
+Con `if` / `elif` elegís qué hacer según la primera palabra. Antes de cambiar el oro o el inventario, revisá que se pueda (que alcance, que el objeto exista, que la cantidad sea un número); si no, avisá y no toques nada.
 
 #### Desafío
 Escribí la tienda del Valle. Empezás con **100 de oro** y el inventario vacío. Los precios son:
@@ -9925,7 +10099,9 @@ antes: R01-N11-M2
 —Cuánto daño recibió cada una, cuál cayó y en qué turno pegamos más —dice {mentor}—. Lo que pasó, contado con números.
 
 #### Gheco sugiere
-Una función que recorra los golpes y sume en un diccionario (`danio[criatura] = danio.get(criatura, 0) + golpe`). Después compará cada total con la vida de la criatura para saber cuál cayó.
+Una función que recorra los golpes y sume el daño de cada criatura en un diccionario, con el patrón de contar: `danio[criatura] = danio.get(criatura, 0) + golpe`.
+
+Después, para cada criatura, compará su daño total con su vida: si el daño llegó a la vida, cayó.
 
 #### Desafío
 La compañía anotó cada golpe de la batalla como una tupla `(criatura, daño, turno)`:

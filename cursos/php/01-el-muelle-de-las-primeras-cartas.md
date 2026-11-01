@@ -245,7 +245,15 @@ recompensa: xp 10, oro 10
 En el primer muelle hay una fila de cajones con etiquetas pintadas a mano. A Nilo le toca anotar el barco, su carga y su peso. —Cada dato va en un cajón con nombre —le dice Gheco—. En PHP los cajones se llaman **variables** y su nombre empieza con `$`.
 
 #### Gheco sugiere
-`$peso = 12.5;` guarda el valor en la variable. Dentro de comillas dobles, `"Peso: $peso"` muestra lo que tiene.
+Una **variable** es un cajón con nombre donde el programa guarda un dato para usarlo después. En PHP, todas las variables empiezan con `$`:
+
+```php
+$edad = 12;
+```
+
+El `=` no es «igual» como en matemática: quiere decir «guardá en `$edad` lo que está a la derecha».
+
+Dentro de un texto entre comillas **dobles**, PHP reemplaza la variable por su valor: `echo "Tengo $edad años\n";` muestra `Tengo 12 años`.
 
 #### Desafío
 Creá las variables `$barco` ("Gaviota") y `$peso` (12.5) para que el programa las muestre.
@@ -296,7 +304,15 @@ recompensa: xp 10, oro 10
 Un estibador dejó cuatro cajones sin etiqueta de tipo. Nilo jura que en los cuatro hay «un doce». Gheco le pide que mire bien **qué tipo** de cosa hay en cada uno.
 
 #### Gheco sugiere
-`gettype($x)` devuelve el nombre del tipo: `integer`, `double` (los decimales), `string`, `boolean` o `NULL`.
+Cada valor tiene un **tipo**, que dice qué clase de dato es:
+
+- `integer`: números enteros, como `7`;
+- `double` (o `float`): números con decimales, como `2.5` (con punto);
+- `string`: texto, entre comillas;
+- `boolean`: verdadero o falso, `true` o `false`;
+- `NULL`: «nada».
+
+`gettype($x)` devuelve el nombre del tipo de lo que hay en `$x`.
 
 #### Desafío
 Mostrá el tipo de cada cajón con `gettype`.
@@ -359,7 +375,12 @@ recompensa: xp 10, oro 10
 Un estibador mete en el cajón *peso* una bolsa que dice «12.5». Nilo la convierte a entero y el medio kilo desaparece: un **goblin** se va corriendo por el muelle con él bajo el brazo.
 
 #### Gheco sugiere
-`(int)` corta los decimales; `(float)` los conserva. Para un peso con medio kilo hace falta un `float`.
+Se puede cambiar el tipo de un valor a propósito, poniendo el tipo nuevo entre paréntesis adelante (eso es un **casting**):
+
+- `(int) 7.8` da `7`: **corta** los decimales, no redondea;
+- `(float) "2.5"` da `2.5`: los conserva.
+
+Para un peso con medio kilo hace falta un `float`.
 
 #### Desafío
 Cambiá la conversión para que no se pierda el medio kilo.
@@ -410,7 +431,14 @@ recompensa: xp 15, oro 15
 Elefa le explica a Nilo que la tarifa del puerto es la misma para todos: 3 sellos por kilo. Nilo la guardó en una variable y, sin querer, más abajo la cambió por 30. Medio muelle pagó diez veces de más.
 
 #### Gheco sugiere
-Lo que no tiene que cambiar nunca se declara con `const TARIFA = 3;` y se usa sin `$`: `TARIFA`. Si alguien intenta cambiarla, PHP no lo deja.
+Un valor que no tiene que cambiar nunca se guarda en una **constante**:
+
+```php
+const DIAS = 7;
+echo DIAS;
+```
+
+Se declara con `const`, se escribe en MAYÚSCULAS (por costumbre) y se usa **sin** `$`. Si alguien intenta cambiarla, PHP no lo deja.
 
 #### Desafío
 Convertí la tarifa en una constante y borrá la línea que la pisa.
@@ -463,7 +491,9 @@ Atraca un barco de carga y el capitán no trae manifiesto. Elefa le pide a Nilo 
 —Nombre del barco, cajones, peso de cada uno y si lleva algo frágil. Y la capacidad máxima, que esa no cambia nunca.
 
 #### Gheco sugiere
-Cada dato tiene su tipo: texto, entero, decimal o booleano. Lo que no cambia va en una **constante** (`const CAPACIDAD = …;`). `var_dump($x)` muestra el tipo y el valor.
+Cada dato en su tipo: texto, entero, decimal o booleano. Lo que no cambia va en una constante (`const CAPACIDAD = ...;`).
+
+`var_dump($x)` es muy útil para revisar: muestra el **tipo y el valor** de una variable, por ejemplo `int(12)` o `string(4) "hola"`.
 
 #### Desafío
 Declará variables para describir la carga de un barco: el nombre del barco
@@ -537,7 +567,12 @@ El aduanero del muelle anota todo en papel, así que todos sus números llegan c
 —Redondeado para el recibo —dice Elefa— y truncado para la caja. Que se vea la diferencia.
 
 #### Gheco sugiere
-El *casting* cambia el tipo: `(int) "15"` y `(float) "42.5"`. `round($x, 2)` redondea; para truncar a dos decimales, `floor($x * 100) / 100`.
+Repasá el casting: `(int) "15"` convierte el texto a entero y `(float) "42.5"` a decimal.
+
+Para los decimales:
+
+- `round($x, 2)` **redondea** a 2 decimales;
+- para **cortar** a dos decimales (sin redondear): `floor($x * 100) / 100` (`floor` redondea siempre hacia abajo).
 
 #### Desafío
 El aduanero recibe todos los datos como **texto**, porque vienen escritos en un
@@ -613,7 +648,9 @@ Elefa trae una lista de valores escrita en su libreta.
 —Quiero saber cuáles PHP toma por verdaderos y cuáles por falsos. Hay sorpresas. Nilo, no adivines: mostralos.
 
 #### Gheco sugiere
-`var_dump((bool) $valor)` muestra cómo lo ve PHP. Ojo: el texto `"0"` es falso, pero `"0.0"`, `" "` y `"false"` son verdaderos.
+PHP puede tratar cualquier valor como verdadero o falso. `var_dump((bool) $valor)` muestra cómo lo ve.
+
+Son **falsos**: `0`, `0.0`, el texto vacío `""`, el texto `"0"`, `null` y la lista vacía. Todo lo demás es verdadero. Ojo con las trampas: `"0.0"`, `" "` (un espacio) y `"false"` son **verdaderos**, porque son textos que no están vacíos.
 
 #### Desafío
 La Capitana tiene una lista de valores y quiere saber cuáles PHP considera
@@ -980,7 +1017,12 @@ recompensa: xp 10, oro 10
 En la oficina de pesaje, Nilo tiene que repartir 47 cajones en bodegas de a 6. Quiere saber cuántas bodegas llena y cuántos cajones le sobran. Lo hace con los dedos y se le acaban.
 
 #### Gheco sugiere
-`intdiv(47, 6)` da cuántas veces entra el 6 en el 47, sin decimales; `47 % 6` da **lo que sobra**.
+Con enteros, dividir tiene dos partes:
+
+- `intdiv(23, 4)` dice **cuántas veces entra**, sin decimales: `5`;
+- `23 % 4` dice **cuánto sobra**: `3`. Se llama **resto** (o módulo).
+
+Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas y sobran 3. (La `/` común de PHP da decimales: `23 / 4` es `5.75`.)
 
 #### Desafío
 Completá las dos cuentas.
@@ -1035,7 +1077,12 @@ recompensa: xp 10, oro 10
 Nilo entrega la carta del casillero «01» al señor del casillero 1. —Es lo mismo, ¿no? —dice, y compara con `==`. Abajo del muelle, un **ogro** se ríe. Elefa suspira: —Tres iguales, Nilo.
 
 #### Gheco sugiere
-`==` convierte antes de comparar: para él "01" y "1" son iguales. `===` exige el mismo valor **y** el mismo tipo.
+PHP tiene dos formas de preguntar si dos cosas son iguales:
+
+- `==` convierte los tipos antes de comparar: para él, `"01"` y `1` son iguales;
+- `===` exige el mismo valor **y** el mismo tipo: `"01" === 1` es falso.
+
+Casi siempre conviene `===`, porque no hace conversiones por su cuenta.
 
 #### Desafío
 Cambiá la comparación para que la carta no se entregue al casillero equivocado.
@@ -1092,7 +1139,10 @@ recompensa: xp 15, oro 15
 A la oficina llega un cajón sin remitente: el campo está en `null`. Nilo tiene que imprimir la etiqueta igual, y en lugar del nombre sale un hueco. Un **troll** se esconde detrás de lo que no está.
 
 #### Gheco sugiere
-`$remitente ?? "Desconocido"` usa el remitente si hay uno, y si es `null`, el texto de reserva. Para elegir entre dos textos según una condición: `$frágil ? "si" : "no"`.
+Dos atajos para elegir un valor:
+
+- `$x ?? "algo"` usa `$x` si tiene algo, y si es `null` (o no existe), usa `"algo"`. Se llama **operador de fusión null**.
+- `condición ? "esto" : "lo otro"` elige entre dos valores según la condición: el **ternario**.
 
 #### Desafío
 Completá la etiqueta con `??` y con el ternario.
@@ -1147,7 +1197,13 @@ recompensa: xp 10, oro 10
 La balanza de dos platos compara dos bolsas y una aguja marca para qué lado se inclina. Nilo quiere que el programa diga lo mismo con un solo número: -1, 0 o 1.
 
 #### Gheco sugiere
-El operador `<=>` (la nave espacial) compara y devuelve -1, 0 o 1.
+El operador `<=>` (le dicen «la nave espacial» por su forma) compara dos valores y devuelve:
+
+- `-1` si el de la izquierda es menor;
+- `0` si son iguales;
+- `1` si es mayor.
+
+Es muy útil para ordenar.
 
 #### Desafío
 Completá las tres comparaciones con `<=>`.
@@ -1197,7 +1253,12 @@ El reloj de la torre no tiene agujas: muestra cuántos minutos pasaron desde la 
 —Y qué hora va a ser cuando termine el turno largo. Si pasa de medianoche, vuelve a empezar.
 
 #### Gheco sugiere
-`intdiv($minutos, 60)` da las horas y `$minutos % 60` los minutos que sobran. Para volver a empezar después de las 24, `% 24`. `str_pad($m, 2, "0", STR_PAD_LEFT)` pone el cero adelante.
+Para pasar minutos a horas y minutos:
+
+- `intdiv($minutos, 60)` da las horas completas;
+- `$minutos % 60` los minutos que sobran.
+
+Para que las horas vuelvan a empezar después de las 24, `% 24`. Y para que se vea `05` y no `5`: `str_pad($m, 2, "0", STR_PAD_LEFT)` completa con ceros a la izquierda hasta 2 lugares.
 
 #### Desafío
 El reloj de la torre del Puerto cuenta los **minutos** desde la medianoche. Hoy
@@ -1260,7 +1321,9 @@ Un mercader tramposo le jura a Elefa que sus pesas son iguales a las del Puerto.
 —Con dos iguales o con tres —dice Elefa—. Vamos a ver cuáles son realmente iguales.
 
 #### Gheco sugiere
-`==` compara convirtiendo los tipos y a veces dice que sí cuando no; `===` compara valor **y** tipo. `var_dump($a == $b, $a === $b)` muestra los dos en una línea.
+Acordate: `==` convierte los tipos y a veces dice que sí cuando no; `===` compara valor **y** tipo.
+
+`var_dump($a == $b, $a === $b)` muestra las dos respuestas en una línea, para compararlas.
 
 #### Desafío
 Un mercader tramposo le muestra a la Capitana estas comparaciones y dice que
@@ -1344,7 +1407,13 @@ La Tortuga, un barco gordo y lento, quiere zarpar con tormenta. Elefa le pide a 
 —Y después todas juntas. Si una sola falla, no sale.
 
 #### Gheco sugiere
-`&&` pide que se cumplan las dos; `||`, que se cumpla alguna. Los paréntesis deciden qué se evalúa primero: `$a && ($b || $c)`. `!== null` comprueba que la variable tenga algo.
+Para juntar condiciones:
+
+- `&&` es «**y**»: tienen que cumplirse las dos;
+- `||` es «**o**»: alcanza con una;
+- `!` es «**no**».
+
+Los paréntesis deciden qué va junto: `$a && ($b || $c)`. Y `$x !== null` pregunta si la variable tiene algo (`!==` es «distinto, en valor o en tipo»).
 
 #### Desafío
 Un barco puede zarpar si se cumplen **todas** estas reglas:
@@ -1719,7 +1788,12 @@ recompensa: xp 10, oro 10
 En los casilleros del correo, una chica de chaleco azul petróleo y lápiz detrás de la oreja limpia las direcciones que copió Nilo. Se llama **Iara** y es la escribiente de la Oficina. —¿Lo anotaste? —le pregunta. —Lo tengo acá —dice Nilo, tocándose la cabeza.
 
 #### Gheco sugiere
-`trim($x)` saca los espacios de las puntas y `ucwords($x)` pone en mayúscula la primera letra de cada palabra. Se pueden combinar: `ucwords(trim($x))`.
+PHP trae muchas **funciones** para textos: órdenes con nombre que reciben algo entre paréntesis y devuelven un resultado.
+
+- `trim($x)` saca los espacios de las puntas;
+- `ucwords($x)` pone en mayúscula la primera letra de cada palabra.
+
+Se pueden combinar, una adentro de otra: `ucwords(trim($x))` primero limpia y después pone las mayúsculas.
 
 #### Desafío
 Limpiá la dirección para que quede prolija.
@@ -1765,7 +1839,10 @@ recompensa: xp 10, oro 10
 Nilo escribió la etiqueta con comillas simples y salió literalmente `$destino` en lugar del destino. Iara levanta una ceja.
 
 #### Gheco sugiere
-Dentro de comillas **dobles**, PHP reemplaza `$destino` por su valor y entiende `\n`. En comillas **simples**, todo sale tal cual.
+PHP tiene dos tipos de comillas, y no son iguales:
+
+- con comillas **dobles**, PHP reemplaza las variables por su valor y entiende `\n`: `"Hola $nombre\n"`;
+- con comillas **simples**, todo sale tal cual: `'Hola $nombre\n'` muestra literalmente `Hola $nombre\n`.
 
 #### Desafío
 Arreglá la etiqueta para que muestre el destino y el salto de línea.
@@ -1811,7 +1888,9 @@ recompensa: xp 15, oro 15
 Las etiquetas de los casilleros tienen lugar para 10 letras. «Ñandú» entra de sobra, pero el programa de Nilo dice que tiene 7. Iara lo cuenta con el dedo: cinco.
 
 #### Gheco sugiere
-`strlen` cuenta **bytes**, y en UTF-8 una letra con tilde o una ñ ocupa dos. `mb_strlen` cuenta letras de verdad. Lo mismo `mb_strtoupper` para las mayúsculas.
+`strlen` cuenta **bytes**, no letras. Y en UTF-8 (la forma en que se guardan los textos), una letra con tilde o una ñ ocupan **dos** bytes. Por eso `strlen("ñandú")` da 7.
+
+Las funciones que empiezan con `mb_` cuentan letras de verdad: `mb_strlen("ñandú")` da 5. Lo mismo `mb_strtoupper` para pasar a mayúsculas con tildes.
 
 #### Desafío
 Usá las funciones `mb_` para contar y pasar a mayúsculas.
@@ -1860,7 +1939,10 @@ recompensa: xp 15, oro 15
 Iara le pide a Nilo un recibo por un envío de 1234.5 sellos. Nilo escribe «1234.5». —Con dos decimales y los miles separados —dice Iara—. Como se escribe acá: 1.234,50.
 
 #### Gheco sugiere
-`number_format($monto, 2, ',', '.')` da dos decimales con coma y los miles con punto. `printf("%d", $x)` muestra un entero.
+Para mostrar plata prolija:
+
+- `number_format($monto, 2, ',', '.')` da dos decimales, con coma para los decimales y punto para los miles: `1.234,50`;
+- `printf("%d", $x)` muestra un número entero, con formato.
 
 #### Desafío
 Completá el recibo con el formato argentino.
@@ -1912,7 +1994,12 @@ Llega un paquete con los nombres escritos a los apurones: espacios de más, may�
 —Así no lo despacho —dice Iara, y se saca el lápiz de la oreja—. Etiqueta limpia o no sale.
 
 #### Gheco sugiere
-`trim` saca los espacios de los extremos, `mb_strtolower` pasa a minúsculas (con tildes) y `ucwords` pone mayúscula al principio de cada palabra. `str_replace("  ", " ", $x)` cambia los espacios dobles.
+Combiná funciones de texto:
+
+- `trim` saca los espacios de las puntas;
+- `mb_strtolower` pasa todo a minúsculas (también las letras con tilde);
+- `ucwords` pone mayúscula al principio de cada palabra;
+- `str_replace("  ", " ", $x)` cambia cada espacio doble por uno solo.
 
 #### Desafío
 Llegó un paquete con los datos escritos a las apuradas:
@@ -1989,7 +2076,12 @@ Un cliente dejó su dirección de mail con mayúsculas y espacios. Iara la quier
 —Que no se lea entera —dice—. Pico anda cerca.
 
 #### Gheco sugiere
-`strpos($mail, "@")` dice dónde está la arroba; con `substr` cortás antes y después (o con `explode("@", $mail)`). `str_ends_with` comprueba el final, y `str_repeat("*", n)` arma los asteriscos.
+Para separar las partes de un mail:
+
+- `strpos($mail, "@")` dice en qué posición está la arroba;
+- `substr($texto, inicio, cantidad)` corta un pedazo. (También sirve `explode("@", $mail)`, que parte el texto en la arroba.)
+- `str_ends_with($texto, "algo")` pregunta si termina así;
+- `str_repeat("*", 5)` arma `*****`.
 
 #### Desafío
 La oficina de correos recibe la dirección de mail `"  Iara.Valdez@Puerto.COM.ar "`.
@@ -2060,7 +2152,13 @@ Iara quiere colgar la tabla de tarifas del correo en la puerta.
 —Destino a la izquierda, peso y precio a la derecha, con sus decimales. Y que las columnas estén derechas, que esto lo leen los capitanes.
 
 #### Gheco sugiere
-`printf` usa formatos: `%-10s` es texto de 10 lugares a la izquierda, `%6.1f` un decimal en 6 lugares a la derecha y `%10.2f` dos decimales en 10. Usá los mismos anchos en el título y en cada renglón.
+`printf` muestra con un **formato**: marcadores en el texto y los valores después, en orden.
+
+- `%-10s`: texto en 10 lugares, pegado a la izquierda;
+- `%6.1f`: decimal en 6 lugares con 1 decimal, a la derecha;
+- `%10.2f`: dos decimales en 10 lugares.
+
+Usá los mismos anchos en el título y en cada renglón, así la tabla queda derecha.
 
 #### Desafío
 Mostrá la tabla de tarifas del correo con `printf`: una columna de destino (10
@@ -2421,7 +2519,15 @@ recompensa: xp 10, oro 10
 En la ventanilla de encomiendas, Nilo le pregunta a cada cliente su nombre. El cliente contesta, pero el programa saluda siempre al mismo: «Hola, cliente».
 
 #### Gheco sugiere
-`fgets(STDIN)` lee un renglón de lo que escribe la persona (acá, la **Entrada** de la misión). Trae el Enter al final: `trim` lo saca.
+Para **leer** lo que escribe la persona se usa `fgets(STDIN)`: lee un renglón (`STDIN` es la entrada, el teclado).
+
+Acá no hace falta tipear: lo que se «escribe» ya está en la pestaña **Entrada**.
+
+Ojo: el renglón trae el Enter del final. `trim` lo saca:
+
+```php
+$nombre = trim(fgets(STDIN));
+```
 
 #### Desafío
 Leé el nombre de la entrada y saludá a quien escribió.
@@ -2473,7 +2579,9 @@ recompensa: xp 15, oro 15
 Un cliente contesta «doce kilos» en vez de «12». Nilo lo usa en la cuenta igual, la balanza intenta multiplicar «doce kilos» por la tarifa y del platillo empiezan a brotar **slimes**.
 
 #### Gheco sugiere
-`is_numeric($peso)` devuelve `true` si el texto es un número. Si no lo es, se avisa y no se calcula nada.
+Todo lo que se lee es **texto**, aunque sean cifras. Antes de hacer cuentas, revisá que sea un número: `is_numeric($peso)` devuelve `true` si el texto es un número.
+
+Si no lo es, avisá y no calcules nada.
 
 #### Desafío
 Validá el peso antes de calcular: si no es un número, mostrá «Peso invalido: escribilo con numeros.».
@@ -2530,7 +2638,13 @@ recompensa: xp 15, oro 15
 Iara manda los pedidos en un solo renglón, separados por comas: nombre, destino y kilos. Nilo los lee enteros y no sabe dónde termina cada uno. —Se cortan por la coma —dice Iara.
 
 #### Gheco sugiere
-`explode(",", $renglon)` corta el texto en cada coma y devuelve una lista. `[$a, $b, $c] = …` reparte las partes en tres variables.
+`explode(",", $renglon)` corta el texto en cada coma y devuelve una **lista** con las partes.
+
+Para repartir las partes en variables de una vez:
+
+```php
+[$nombre, $edad, $ciudad] = explode(",", $renglon);
+```
 
 #### Desafío
 Separá el renglón en sus tres datos.
@@ -2586,7 +2700,7 @@ recompensa: xp 10, oro 10
 Un paquete mide 4.5 por 2 metros, y el cliente lo escribió en un solo renglón con un espacio en el medio. Nilo calcula la superficie y le da 0.
 
 #### Gheco sugiere
-Cortá con `explode(" ", …)` y convertí cada parte con `(float)` antes de multiplicar.
+Cortá el renglón con `explode(" ", ...)` (en cada espacio) y convertí cada parte a número con `(float)` antes de multiplicar.
 
 #### Desafío
 Calculá la superficie del paquete.
@@ -2640,7 +2754,11 @@ El portero del Puerto se fue a almorzar y le dejó a Nilo la puerta. Cada visita
 —Saludalos bien —dice Iara—. Y como el portero es raro, quiere también el nombre al revés.
 
 #### Gheco sugiere
-`trim(fgets(STDIN))` lee un renglón sin el salto. `ucwords(mb_strtolower(...))` deja el nombre en «Tipo Título», `mb_strlen` cuenta las letras y `strtoupper(strrev(...))` lo da vuelta en mayúsculas.
+`trim(fgets(STDIN))` lee un renglón sin el Enter. Después, varias funciones de texto:
+
+- `ucwords(mb_strtolower(...))` deja el nombre como Título (primero todo en minúscula, después la primera de cada palabra en mayúscula);
+- `mb_strlen` cuenta las letras;
+- `strrev` lo da vuelta y `strtoupper` lo pasa a mayúsculas.
 
 #### Desafío
 El portero del Puerto pregunta el nombre y la ciudad de cada visitante y lo
@@ -2711,7 +2829,9 @@ La balanza de la aduana se rompió y los pesos se dictan de palabra: algunos con
 —Los inválidos cuentan como cero —dice Iara—. Pero los quiero anotados.
 
 #### Gheco sugiere
-`str_replace(",", ".", $peso)` arregla la coma. `is_numeric` dice si el texto es un número: si no, avisá y contalo. Al final, `number_format($total, 1)` o `printf("%.1f")`.
+En la Argentina escribimos los decimales con coma, pero PHP usa punto. `str_replace(",", ".", $peso)` arregla eso.
+
+Después, `is_numeric` dice si el texto es un número: si no, avisá y contalo como error. Al final, mostrá el total con un decimal: `number_format($total, 1)` o `printf("%.1f", $total)`.
 
 #### Desafío
 La balanza de la aduana pide el peso de **tres** paquetes, uno por renglón. Cada
@@ -3254,7 +3374,19 @@ recompensa: xp 10, oro 10
 El guardia del cruce se fue a almorzar y le dejó el farol a Nilo. A cada carro le tiene que señalar un camino: el pescado a la izquierda, la madera al frente y las cartas a la torre. El primer carro de pescado sube derecho a la torre.
 
 #### Gheco sugiere
-Con `if`, `elseif` y `else` se elige un camino según la carga. Se prueban en orden.
+Con `if` el programa **decide**: hace algo solo si una condición es verdad.
+
+```php
+if ($nota >= 9) {
+    echo "Excelente\n";
+} elseif ($nota >= 6) {
+    echo "Aprobado\n";
+} else {
+    echo "A recuperar\n";
+}
+```
+
+PHP prueba **en orden** y entra solo en el primero que se cumple; `else` es para todos los demás.
 
 #### Desafío
 Completá las decisiones para que cada carga vaya a su camino.
@@ -3310,7 +3442,7 @@ recompensa: xp 15, oro 15
 Al cruce llegan carros con pesos imposibles: negativos, cero, de diez mil kilos. Nilo los deja pasar a todos y la grúa se queja. Gheco le enseña el truco de la guardia: frenar lo malo en la puerta.
 
 #### Gheco sugiere
-Primero los casos inválidos, cada uno con su mensaje. Si el peso es menor o igual a 0, o mayor a 1000, se avisa y no se sigue.
+Antes de calcular, revisá que los datos sirvan. Primero los casos inválidos, cada uno con su mensaje: si el peso es menor o igual a 0, o mayor a 1000, se avisa y no se sigue.
 
 #### Desafío
 Agregá la guardia: «Peso imposible.» si el peso es menor o igual a 0 o mayor a 1000.
@@ -3364,7 +3496,17 @@ recompensa: xp 15, oro 15
 Elefa le pasa a Nilo la tabla de las dársenas: cada tipo de barco amarra en una distinta. Nilo la escribió con un `if` larguísimo que se le enreda. —Para elegir un valor según otro, está `match` —dice la Capitana.
 
 #### Gheco sugiere
-`match` compara con `===` y devuelve el valor del primer caso que coincide. Si ninguno coincide, `default`.
+`match` elige un valor según otro, como un menú:
+
+```php
+$color = match ($fruta) {
+    'banana' => 'amarillo',
+    'frutilla' => 'rojo',
+    default => 'no sé',
+};
+```
+
+Compara con `===` y devuelve el valor del primer caso que coincide. Si ninguno coincide, usa `default`.
 
 #### Desafío
 Completá el `match` para cada barco: velero y bote a la dársena 1, remolcador a la 2, carguero a la 3 y cualquier otro a «revision».
@@ -3425,7 +3567,9 @@ recompensa: xp 10, oro 10
 Un carro dice que su carga es «0». El `switch` de Nilo lo manda con el pescado, y el **ogro** del cruce se ríe a carcajadas: algo anda mal y nadie avisa.
 
 #### Gheco sugiere
-Al `switch` le falta un `break` al final del primer caso: sin él, sigue de largo y ejecuta también el caso de abajo.
+`switch` es otra forma de elegir entre casos. Salta al `case` que coincide y ejecuta desde ahí **hacia abajo**, hasta encontrar un `break;`, que lo hace salir.
+
+Si un caso no tiene `break`, sigue de largo y ejecuta también el de abajo. Fijate dónde falta.
 
 #### Desafío
 Agregá los `break` que faltan para que cada caso haga solo lo suyo.
@@ -3488,7 +3632,9 @@ En la boletería del ferry hay una fila larga y el boletero no sabe cobrar: cada
 —Que el programa cobre —dice Elefa—. Y si alguien dice una edad imposible, que no le venda.
 
 #### Gheco sugiere
-Una cadena de `if`/`elseif` por rangos de edad, de menor a mayor. Para validar, `filter_var($edad, FILTER_VALIDATE_INT)` o `ctype_digit`. El descuento es `$tarifa * 0.8`.
+Una cadena de `if` / `elseif` por rangos de edad, de menor a mayor: como PHP entra en la primera que se cumple, no hace falta repetir el límite de abajo.
+
+Para validar que la edad sea un entero: `filter_var($edad, FILTER_VALIDATE_INT)` (devuelve `false` si no lo es) o `ctype_digit($edad)` (si son todos dígitos). El 20 % de descuento: pagar el 80 %, `$tarifa * 0.8`.
 
 #### Desafío
 El ferry del Puerto cobra según la **edad** del pasajero:
@@ -3585,7 +3731,17 @@ El semáforo del cruce de barcos tiene luces de todos los colores y los capitane
 —Un cartel que diga qué hacer con cada color —pide Elefa—. Y si la luz es de un color que no existe, que llamen al capitán del puerto.
 
 #### Gheco sugiere
-`match` compara con `===` y devuelve un valor: `match ($color) { 'verde' => 'Avanzar', 'azul', 'violeta' => ..., default => ... }`. Pasá el color a minúsculas antes con `mb_strtolower(trim(...))`.
+Un `match` puede tener varios valores en el mismo caso, separados por coma:
+
+```php
+match ($color) {
+    'verde' => 'Avanzar',
+    'azul', 'violeta' => '...',
+    default => '...',
+}
+```
+
+Como `match` compara exacto (`===`), primero emparejá el texto: `mb_strtolower(trim(...))`.
 
 #### Desafío
 El semáforo del muelle muestra un color y el capitán tiene que saber qué hacer.
@@ -3671,7 +3827,13 @@ El farero que vigila el cruce anota los años bisiestos porque esos años le toc
 —Una sola condición —dice Elefa—. Si la partís en pedacitos, se te escapa el caso de los cuatrocientos.
 
 #### Gheco sugiere
-Bisiesto: `($a % 4 === 0 && $a % 100 !== 0) || $a % 400 === 0`. Leé cada año con `fgets(STDIN)` y mostrá 366 o 365 días según la condición.
+La regla del año bisiesto: divisible por 4 y no por 100, **o** divisible por 400. «Divisible» se pregunta con el resto:
+
+```php
+($a % 4 === 0 && $a % 100 !== 0) || $a % 400 === 0
+```
+
+Leé cada año con `fgets(STDIN)` y mostrá 366 o 365 días según la condición.
 
 #### Desafío
 El farero anota en su libro si cada año es **bisiesto**, porque ese año hay un día
@@ -4125,7 +4287,17 @@ recompensa: xp 10, oro 10
 Al amanecer, un barco espera para descargar 4 cajones. Nilo baja cajones a toda velocidad… y cuando el barco queda vacío sigue bajando cajones que no existen, con los brazos en el aire.
 
 #### Gheco sugiere
-Adentro del `while` falta **descontar** el cajón que se bajó: `$cajones--;`. Si nada cambia, la condición se cumple para siempre (y el navegador corta a los 5 segundos).
+Un **bucle** repite instrucciones. `while` repite **mientras** la condición sea verdad:
+
+```php
+$n = 3;
+while ($n > 0) {
+    echo "$n\n";
+    $n--;
+}
+```
+
+Adentro, algo tiene que cambiar para que la condición alguna vez deje de cumplirse (acá, `$n--` resta 1). Si nada cambia, el bucle no termina nunca (y el navegador lo corta a los 5 segundos).
 
 #### Desafío
 Hacé que el bucle termine cuando no quedan cajones.
@@ -4181,7 +4353,13 @@ recompensa: xp 10, oro 10
 Hay cinco barcos en la fila y a cada uno le toca un número de amarre, del 1 al 5. Nilo escribió los cinco `echo` a mano y se salteó el 4.
 
 #### Gheco sugiere
-Un `for` cuenta solo: `for ($i = 1; $i <= 5; $i++)` pasa por 1, 2, 3, 4 y 5.
+`for` es un bucle con contador, ideal cuando sabés cuántas vueltas hay:
+
+```php
+for ($i = 1; $i <= 3; $i++) { ... }
+```
+
+Tiene tres partes: el **arranque** (`$i = 1`), la **condición** (`$i <= 3`, se pregunta antes de cada vuelta) y el **paso** (`$i++`, suma 1 al final de cada vuelta). Este pasa por 1, 2 y 3.
 
 #### Desafío
 Reemplazá los `echo` sueltos por un `for` que numere los cinco barcos.
@@ -4233,7 +4411,13 @@ recompensa: xp 15, oro 15
 El jefe de estibadores aparta los cajones rotos y sigue con el próximo. Nilo, en cambio, los anota igual en la lista de carga, y la bodega termina llena de astillas.
 
 #### Gheco sugiere
-Dentro del `foreach`, si el cajón está roto, `continue;` lo saltea y pasa al siguiente.
+`foreach` recorre una lista elemento por elemento:
+
+```php
+foreach ($cajones as $cajon) { ... }
+```
+
+En cada vuelta, `$cajon` es el elemento que toca. Adentro, `continue;` saltea lo que queda de esta vuelta y pasa a la siguiente.
 
 #### Desafío
 Salteá los cajones rotos y sumá solo los kilos de los sanos.
@@ -4295,7 +4479,15 @@ recompensa: xp 15, oro 15
 Iara le pasa a Nilo la lista de pesos de la mañana, uno por renglón. Nilo lee solo el primero y se va a almorzar. —¿Y los demás? —pregunta Iara.
 
 #### Gheco sugiere
-`fgets(STDIN)` devuelve `false` cuando ya no quedan renglones. Un `while` que lee hasta `false` recorre la entrada entera.
+`fgets(STDIN)` devuelve `false` cuando ya no quedan renglones para leer. Un `while` que lee hasta `false` recorre la entrada entera:
+
+```php
+while (($linea = fgets(STDIN)) !== false) {
+    // usar $linea
+}
+```
+
+Los paréntesis de adentro guardan el renglón en `$linea` y, a la vez, preguntan si es `false`.
 
 #### Desafío
 Leé todos los pesos, mostralos y sumalos.
@@ -4361,7 +4553,9 @@ Un estibador nuevo no sabe cuántos cajones puede cargar en la carretilla sin pa
 —Una tabla del uno al diez —dice Iara—. Y marcá dónde se pasa, que la carretilla aguanta doscientos cincuenta.
 
 #### Gheco sugiere
-Un `for` del 1 al 10 calcula `$i * $peso`. `printf` alinea las columnas y un `if` agrega ` <- excede`. El máximo sin pasarse es `intdiv(250, $peso)`, o el último que no excede.
+Un `for` del 1 al 10 calcula `$i * $peso` en cada vuelta. `printf` alinea las columnas, y un `if` agrega ` <- excede` cuando se pasa del máximo.
+
+El máximo de cajones sin pasarse sale con `intdiv(250, $peso)`, o quedándote con el último que no excede.
 
 #### Desafío
 El estibador tiene que saber cuánto pesan varios cajones iguales. Leé el peso de un
@@ -4441,7 +4635,9 @@ El almacén del puerto tiene una cerradura nueva que pide una clave. Pico la sob
 —Tres intentos —dice Iara—. Al tercero, se bloquea.
 
 #### Gheco sugiere
-`do { ... } while (...)` pide la clave al menos una vez. Contá los intentos y, si llega a tres sin acertar, mostrá el aviso y `exit(1)`.
+`do { ... } while (...);` es un bucle que primero **hace** y después **pregunta**: la clave se pide al menos una vez.
+
+Contá los intentos y, si llega a tres sin acertar, mostrá el aviso y terminá el programa con `exit(1);`.
 
 #### Desafío
 El almacén del puerto se abre con la clave `ancla`. Pedí la clave con un
@@ -4521,7 +4717,13 @@ El registro de llegadas se dicta renglón por renglón: barco y pasajeros. Algun
 —Contá hasta donde diga —dice Iara—. Lo que venga después, que espere.
 
 #### Gheco sugiere
-`while (($linea = fgets(STDIN)) !== false)` lee hasta que se acaba la entrada. Con `continue` salteás los vacíos y con `break` cortás en `FIN`. `explode(";", $linea)` separa barco y pasajeros.
+Leé hasta que se acabe la entrada con `while (($linea = fgets(STDIN)) !== false)`.
+
+Adentro:
+
+- con `continue` salteás los renglones vacíos;
+- con `break` cortás todo cuando llega `FIN`;
+- `explode(";", $linea)` separa el barco de los pasajeros.
 
 #### Desafío
 El registro de llegadas se lee renglón por renglón **hasta que se termina la
@@ -4952,7 +5154,14 @@ recompensa: xp 10, oro 10
 En la bodega del tercer muelle, cada cajón tiene una etiqueta con un nombre. Una gaviota regordeta con una mancha violeta en el ala arranca la etiqueta *sal* y se la lleva en el pico: es **Pico**, la gaviota ladrona del Puerto. Cuando Nilo busca la sal, aparece un **orco**: `Undefined array key`.
 
 #### Gheco sugiere
-Para una clave que puede no estar, `$stock['sal'] ?? 0` da 0 en lugar del aviso.
+Un **array** en PHP puede guardar pares **clave => valor**, como un diccionario:
+
+```php
+$stock = ['sal' => 10, 'pan' => 4];
+echo $stock['pan'];   // 4
+```
+
+Si pedís una clave que no está, PHP muestra un aviso. Para usar 0 cuando falta: `$stock['sal'] ?? 0`.
 
 #### Desafío
 Leé el stock sin que aparezca el orco: lo que no está, cuenta como 0.
@@ -5002,7 +5211,15 @@ recompensa: xp 10, oro 10
 El bodeguero le pide a Nilo el inventario entero de la bodega. Nilo escribe un `echo` por producto y se olvida del aceite.
 
 #### Gheco sugiere
-`foreach ($stock as $producto => $cantidad)` pasa por cada par del diccionario, sin olvidarse de ninguno.
+`foreach` también recorre un array con clave y valor:
+
+```php
+foreach ($stock as $producto => $cantidad) {
+    echo "$producto: $cantidad\n";
+}
+```
+
+Pasa por cada par, sin olvidarse de ninguno.
 
 #### Desafío
 Mostrá el inventario entero con un `foreach`.
@@ -5052,7 +5269,9 @@ recompensa: xp 15, oro 15
 Iara lleva la tabla de los barcos del día: cada barco es una fila con su nombre y sus kilos. Le pide a Nilo que muestre solo los que pasan los 500 kilos, para mandarlos a la bodega grande.
 
 #### Gheco sugiere
-Cada `$b` del `foreach` es una fila: `$b['nombre']` y `$b['kilos']`. Un `if` adentro elige cuáles mostrar.
+Un array puede tener arrays adentro: una **tabla**, donde cada fila es un barco con sus datos. En el `foreach`, cada `$b` es una fila, y sus datos se leen con la clave: `$b['nombre']`, `$b['kilos']`.
+
+Un `if` adentro del bucle elige cuáles mostrar.
 
 #### Desafío
 Mostrá solo los barcos de más de 500 kilos.
@@ -5115,7 +5334,13 @@ recompensa: xp 15, oro 15
 Al final del día, el bodeguero pide un resumen de los pesos: cuántos cajones hubo, cuánto suman, el más pesado y la lista ordenada. Nilo saca la calculadora. Gheco le muestra que PHP ya trae todo eso.
 
 #### Gheco sugiere
-`count`, `array_sum` y `max` resumen la lista; `sort($pesos)` la ordena de menor a mayor (cambia la lista misma) e `implode(", ", $pesos)` la une en un texto.
+Funciones para resumir una lista:
+
+- `count($v)` cuenta los elementos;
+- `array_sum($v)` los suma;
+- `max($v)` da el mayor;
+- `sort($v)` la ordena de menor a mayor (cambia la lista misma);
+- `implode(", ", $v)` une los elementos en un texto, con `, ` en el medio.
 
 #### Desafío
 Completá el resumen.
@@ -5171,7 +5396,12 @@ Iara hace el inventario de la bodega: harina, sal, yerba, aceite y azúcar.
 —Ordenado por nombre. Y lo que tenga poco, que se reponga con el camión que llegó. Después, de mayor a menor.
 
 #### Gheco sugiere
-`ksort` ordena por clave y `arsort` por valor de mayor a menor. Para cambiar las cantidades dentro de un `foreach`, recorrelo por referencia: `foreach ($stock as $producto => &$cantidad)`.
+Para ordenar un array con claves:
+
+- `ksort($v)` ordena por **clave**;
+- `arsort($v)` ordena por **valor**, de mayor a menor.
+
+Para cambiar los valores adentro de un `foreach`, recorrelo **por referencia**, con `&`: `foreach ($stock as $producto => &$cantidad)`. Sin el `&`, cambiarías una copia.
 
 #### Desafío
 La bodega tiene este stock: `harina` 40, `sal` 12, `yerba` 25, `aceite` 7,
@@ -5260,7 +5490,15 @@ La escuela náutica guarda las notas de sus alumnos en la bodega, y la directora
 —Promedio por alumno, del mejor al peor —dice Iara—. Y no me mires así, que no lo voy a cambiar.
 
 #### Gheco sugiere
-Para cada alumno, `array_sum($notas) / count($notas)`. `usort($tabla, fn($a, $b) => $b['promedio'] <=> $a['promedio'])` ordena de mayor a menor. Recorré por referencia para guardar el promedio en la fila.
+Para cada alumno, el promedio es `array_sum($notas) / count($notas)`. Recorré la tabla por referencia (`&$fila`) para guardar el promedio en cada fila.
+
+Para ordenar con tu propia regla, `usort` recibe una función que compara dos filas. Con `<=>` sale corta:
+
+```php
+usort($tabla, fn($a, $b) => $b['promedio'] <=> $a['promedio']);
+```
+
+(`fn(...) => ...` es una función de una línea; poniendo `$b` primero, queda de mayor a menor.)
 
 #### Desafío
 La escuela náutica tiene sus alumnos en una tabla (una lista de diccionarios) con
@@ -5346,7 +5584,13 @@ La Capitana quiere saber qué palabras se repiten más en los mensajes que llega
 —Sin signos, sin mayúsculas y sin las palabras chiquitas que no dicen nada.
 
 #### Gheco sugiere
-`mb_strtolower`, después `str_replace` con un array de signos y `preg_split('/\s+/', $texto)` para separar palabras. Contá en un array `palabra => cantidad` y ordená con `arsort`.
+Pasos para contar palabras:
+
+1. todo a minúscula con `mb_strtolower`;
+2. sacá los signos con `str_replace`, pasándole un array de signos;
+3. separá las palabras con `preg_split('/\s+/', $texto)` (corta en uno o más espacios);
+4. contá en un array `palabra => cantidad`, sumando 1 cada vez;
+5. ordená de mayor a menor con `arsort`.
 
 #### Desafío
 La Capitana quiere saber qué palabras se repiten más en los mensajes que llegan.
@@ -5832,7 +6076,17 @@ recompensa: xp 10, oro 10
 Nilo pasó la mañana explicándole a cada capitán cómo se calcula la tarifa de su carga. Al décimo ya no tiene voz. En la torre, cada tarea tiene su oficina: la de tarifas recibe los kilos y devuelve el precio.
 
 #### Gheco sugiere
-Una función recibe datos y **devuelve** un resultado con `return`. La tarifa es 3 sellos por kilo, más 10 de despacho.
+Una **función** propia es una receta con nombre que escribís una vez y usás muchas veces:
+
+```php
+function doble($n) {
+    return $n * 2;
+}
+
+echo doble(7);   // 14
+```
+
+Recibe datos entre paréntesis (los **parámetros**) y **devuelve** un resultado con `return`.
 
 #### Desafío
 Escribí la función `tarifa` y usala para los tres barcos.
@@ -5889,7 +6143,9 @@ recompensa: xp 15, oro 15
 Un **goblin** le pasaba a la oficina de tarifas el texto «20» y la oficina, generosa, lo convertía callada. Elefa le puso a la oficina `strict_types`: —En mi Puerto, si piden un número, es un número. —Ahora el pedido de Nilo rebota con un `TypeError`.
 
 #### Gheco sugiere
-Con `strict_types` la función ya no convierte sola. Lo que llega como texto se convierte **a propósito**, a la vista, antes de pasarlo: `tarifa((int) $pedido)`.
+Con `declare(strict_types=1);` arriba de todo, PHP se vuelve estricto: si una función pide un `int` y le pasás un texto, da error en vez de convertirlo solo.
+
+Lo que llega como texto se convierte **a propósito**, a la vista, antes de pasarlo: `tarifa((int) $pedido)`.
 
 #### Desafío
 Arreglá la llamada para que la oficina reciba un número.
@@ -5950,7 +6206,13 @@ recompensa: xp 10, oro 10
 Casi todos los envíos son comunes, pero algunos son urgentes y pagan el doble. Nilo escribió dos funciones casi iguales, `tarifa` y `tarifaUrgente`, y en una se equivocó el número.
 
 #### Gheco sugiere
-Una sola función con un parámetro opcional: `function tarifa(int $kilos, bool $urgente = false)`. Si `$urgente` es `true`, el precio se duplica.
+Un parámetro puede tener un valor **por defecto**: el que usa si no se lo pasás.
+
+```php
+function saludar(string $nombre, bool $gritando = false) { ... }
+```
+
+`saludar("Ana")` usa `false`, y `saludar("Ana", true)` usa `true`. Una sola función sirve para los dos casos.
 
 #### Desafío
 Escribí una sola función `tarifa` con `$urgente` opcional.
@@ -6012,7 +6274,9 @@ recompensa: xp 15, oro 15
 Las cajas del Puerto vienen una dentro de otra, como mamushkas: la caja 3 tiene adentro la 2, que tiene adentro la 1. Iara quiere un programa que las abra todas, de afuera hacia adentro.
 
 #### Gheco sugiere
-`abrir($n)` muestra que abre la caja `$n` y, si `$n` es mayor que 1, se llama a sí misma con `$n - 1`. La caja 1 es el caso base: no tiene nada adentro.
+Una función **recursiva** se llama a sí misma con un problema más chico, hasta llegar a uno tan chico que ya sabe la respuesta (el **caso base**).
+
+Acá, `abrir($n)` muestra que abre la caja `$n` y, si `$n` es mayor que 1, se llama a sí misma con `$n - 1`. La caja 1 es el caso base: no tiene nada adentro, y ahí termina.
 
 #### Desafío
 Completá la función recursiva.
@@ -6075,7 +6339,15 @@ Elefa reparte tareas entre las oficinas de la torre: una mide salas, otra calcul
 —Con tipos —dice—. En la torre, cada cosa sabe qué recibe y qué devuelve.
 
 #### Gheco sugiere
-`declare(strict_types=1);` arriba de todo. Cada función declara el tipo de sus parámetros y de su retorno: `function esPar(int $n): bool`. Un parámetro con valor por defecto (`$descuento = 0`) se puede omitir.
+Con `declare(strict_types=1);` arriba de todo, cada función declara el **tipo** de sus parámetros y de lo que devuelve:
+
+```php
+function esPar(int $n): bool {
+    return $n % 2 === 0;
+}
+```
+
+`int $n` dice que `$n` es entero; `: bool` dice que devuelve verdadero o falso. Un parámetro con valor por defecto (`$descuento = 0`) se puede omitir al llamar.
 
 #### Desafío
 Escribí estas funciones, con tipos en los parámetros y en el retorno, y
@@ -6182,7 +6454,9 @@ En una oficina de la torre trabaja el cambista: convierte denarios, lingotes, es
 —Y si alguien trae una moneda que no conozco, que el programa avise.
 
 #### Gheco sugiere
-Las cotizaciones van en una constante con un array. Para convertir, pasá primero a pesos y después a la otra moneda. Si la moneda no existe (`array_key_exists`), devolvé `-1` y avisá.
+Las cotizaciones van en una constante con un array (moneda => valor en pesos).
+
+Para convertir de una moneda a otra, pasá primero a pesos y después a la otra. Si la moneda no está en el array (`array_key_exists($moneda, $tabla)` da `false`), devolvé `-1` y avisá.
 
 #### Desafío
 El cambista del puerto convierte entre monedas del mundo. Guardá las
@@ -6292,7 +6566,9 @@ Nilo sube la escalera de la torre de a uno y de a dos escalones, y se pregunta d
 —Con muchos escalones tu función va a tardar un siglo —dice Iara—. Hacé que se acuerde de lo que ya calculó.
 
 #### Gheco sugiere
-La versión recursiva repite cuentas. Guardá los resultados en un array (`static $memo = []`, o pasándolo por referencia) y, si ya calculaste `n`, devolvelo sin volver a calcular.
+La versión recursiva repite muchas veces las mismas cuentas. Para no repetirlas, guardá los resultados que ya calculaste en un array (una **memoria**).
+
+Antes de calcular `n`, fijate si ya está en el array: si está, devolvelo; si no, calculalo y guardalo. Con `static $memo = [];` adentro de la función, el array se conserva entre una llamada y otra.
 
 #### Desafío
 La escalera del faro tiene `n` escalones y el farero puede subir **de a 1 o de a
@@ -6777,7 +7053,11 @@ recompensa: xp 10, oro 10
 El libro de instrucciones del Puerto ya no entra en un solo tomo: ahora hay un estante, y el tomo de las tarifas es un archivo aparte. El programa de Nilo lo crea (como lo haría alguien que lo escribe a mano) y después tiene que **traerlo**.
 
 #### Gheco sugiere
-Un archivo que termina con `return [...]` se puede traer con `$tarifas = require 'tarifas.php';`: la variable recibe lo que devuelve.
+Un programa grande se reparte en varios archivos. Un archivo que termina con `return [...]` se puede traer desde otro con `require`, y la variable recibe lo que devuelve:
+
+```php
+$tarifas = require 'tarifas.php';
+```
 
 #### Desafío
 Traé el tomo de las tarifas con `require` y usalo.
@@ -6830,7 +7110,9 @@ recompensa: xp 15, oro 15
 Nilo trae el tomo de las etiquetas dos veces, por las dudas, y la oficina se traba: PHP grita que la función `etiqueta` ya existe. Del estante cae un **esqueleto** de tanto alboroto.
 
 #### Gheco sugiere
-`require_once` recuerda qué archivos ya trajo y no lo vuelve a cargar. Cambiá los dos `require` por `require_once`.
+Si un archivo se trae dos veces con `require`, se carga dos veces (y si define funciones, PHP se queja de que ya existen).
+
+`require_once` recuerda qué archivos ya trajo y no los vuelve a cargar.
 
 #### Desafío
 Hacé que el tomo se cargue una sola vez.
@@ -6881,7 +7163,9 @@ recompensa: xp 15, oro 15
 Buscando el tomo de tarifas, Nilo encuentra uno viejísimo: el **libro de las cartas sin entregar**. Todas las líneas están tachadas menos una. El programa que las cuenta dice que no queda ninguna pendiente. Iara sospecha del programa.
 
 #### Gheco sugiere
-Mirá con `var_dump` qué hay en `$entregada` de la carta que falta: no es `true` ni `false`. Compará con `=== false` para contar solo las que de verdad no se entregaron.
+Mirá con `var_dump` qué hay en `$entregada` de la carta que falta: no es `true` ni `false`, es otra cosa (como `null`). Como `null` también cuenta como falso, una condición con `!` la cuenta mal.
+
+Comparalo exacto, con `=== false`, para contar solo las que de verdad no se entregaron.
 
 #### Desafío
 Arreglá el dato para que el programa encuentre la carta pendiente y muestre para quién es.
@@ -6951,7 +7235,9 @@ Entre los tomos aparece un programa viejo con un esqueleto dibujado en el margen
 —Los segundos son peores —dice Iara—. No avisan.
 
 #### Gheco sugiere
-Ejecutalo y leé cada error. Para los que no avisan, `var_dump` de las variables sospechosas: el tipo y el valor te dicen dónde se equivocó. Arreglá de a uno y explicá cada arreglo en un comentario.
+Ejecutalo y leé cada error. Hay errores que no avisan: para esos, `var_dump` de las variables sospechosas te muestra el tipo y el valor reales, y ahí ves dónde se equivocó.
+
+Arreglá de a uno y explicá cada arreglo en un comentario.
 
 #### Desafío
 Este programa tiene **cuatro errores** que lo hacen fallar o mostrar resultados
@@ -7447,7 +7733,7 @@ recompensa: xp 15, oro 15
 Sobre una roca con algas, la **Sirena de los Tipos Débiles** canta: *«el texto “10” es el número 10…»*. Los barcos que le creen suman «10 cajas» más 5 y les da 15, sin quejarse. Nilo tiene que demostrarle la verdad.
 
 #### Gheco sugiere
-Antes de sumar, revisá con `is_numeric` cada texto: «10 cajas» no es un número y no se suma.
+Antes de sumar, revisá cada texto con `is_numeric`: «10 cajas» no es un número y no se suma.
 
 #### Desafío
 Sumá solo los textos que de verdad son números y avisá los que no.
@@ -7508,7 +7794,9 @@ recompensa: xp 15, oro 15
 *«El cero es lo mismo que nada…»*, canta la Sirena. Un barco con 0 kilos de carga y otro sin dato aparecen iguales en la lista de Nilo: los dos «vacíos». Un **ogro** se frota las manos.
 
 #### Gheco sugiere
-`empty($x)` es verdadero para 0 **y** para `null`. Para saber si falta el dato, preguntá `$kilos === null`.
+`empty($x)` es verdadero para muchas cosas: `0`, `""`, `null`… Para él, un 0 y un dato que falta son lo mismo. Pero 0 kilos es un dato válido.
+
+Para saber si de verdad falta, preguntá exacto: `$kilos === null`.
 
 #### Desafío
 Distinguí el barco con 0 kilos del que no tiene el dato.
@@ -7569,7 +7857,9 @@ recompensa: xp 15, oro 15
 *«Lo que falta no importa…»*, canta la Sirena. El formulario de un barco llega sin el campo *destino*, el programa sigue de largo y un **orco** se lo lleva al fondo del mar.
 
 #### Gheco sugiere
-Revisá cada campo obligatorio con `isset($formulario[$campo])` y juntá los que faltan en una lista. Si la lista no está vacía, se avisa.
+`isset($formulario['campo'])` pregunta si un campo existe y no es `null`.
+
+Revisá cada campo obligatorio y juntá en una lista los que faltan. Si al final la lista no está vacía, avisá cuáles son.
 
 #### Desafío
 Avisá qué campos faltan en vez de seguir de largo.
@@ -7627,7 +7917,9 @@ item: Caracola de la Sirena
 La Sirena canta su última mentira, la más larga: un manifiesto de carga lleno de textos que parecen números, ceros que parecen nada y datos que faltan. Nilo tiene que contestarle con un programa que no se deje engañar.
 
 #### Gheco sugiere
-Una función `kilosValidos(array $carga): ?int` que devuelva el peso si es un entero positivo y `null` si no. Con `strict_types` y `===`, ninguna conversión pasa callada.
+Una función `kilosValidos(array $carga): ?int` que devuelva el peso si es un entero positivo, o `null` si no. El `?` antes de `int` quiere decir «un `int` o `null`».
+
+Con `strict_types` y `===`, ninguna conversión pasa callada.
 
 #### Desafío
 Completá la función y sumá solo las cargas válidas, avisando cuáles se rechazan.
@@ -7720,7 +8012,9 @@ La Sirena se fue, pero dejó el libro de bitácora del Puerto todo mezclado: reg
 —Validá cada renglón —dice Elefa—. Lo que esté mal, que diga por qué. Lo que esté bien, al resumen.
 
 #### Gheco sugiere
-Una función `validarRegistro` que devuelva los datos o los errores. Partí cada renglón con `explode(";", ...)`, revisá cantidad de partes, fecha y números. Contá los válidos y los inválidos.
+Una función `validarRegistro` que devuelva los datos (si están bien) o la lista de errores.
+
+Partí cada renglón con `explode(";", ...)` y revisá: que tenga la cantidad de partes justa, que la fecha tenga sentido y que los números sean números. Contá los válidos y los inválidos.
 
 #### Desafío
 La Sirena mezcló los registros del libro de bitácora del Puerto. Cada renglón de

@@ -266,7 +266,17 @@ Nilo aparece en lo alto de un faro apagado, con la carta que perseguía en la ma
 —Acá las respuestas se escriben en PHP —le dice—. Si alguien pregunta «¿hay alguien?», se contesta. Probá.
 
 #### Gheco sugiere
-`echo "…";` muestra el texto entre comillas, y `\n` al final baja a la línea siguiente. Tocá **Ejecutar**: PHP corre acá mismo, en tu navegador (la primera vez baja PHP y tarda un poco).
+En PHP, para mostrar texto se usa `echo`:
+
+```php
+echo "Hola\n";
+```
+
+Muestra **Hola**. El texto va entre comillas: las comillas no se ven, solo marcan dónde empieza y dónde termina. La instrucción termina con `;`.
+
+El `\n` al final baja a la línea siguiente, como un Enter. Es una **secuencia de escape**: una barra `\` con una letra, que no se muestra tal cual sino que hace algo.
+
+Tocá **Ejecutar**: PHP corre acá mismo, en tu navegador (la primera vez lo baja y tarda un poco).
 
 #### Desafío
 Completá la instrucción para que Nilo conteste.
@@ -310,7 +320,9 @@ recompensa: xp 10, oro 10
 Bajando la escalera de caracol del faro, Nilo pisa algo blando: un **slime**, una gota de baba verde que se alimenta de los punto y coma olvidados. Gheco le muestra el mensaje que dejó en la pared: `Parse error`.
 
 #### Gheco sugiere
-Leé el error: dice en qué línea se dio cuenta PHP. Muchas veces el problema está en la línea **de arriba**: a cada instrucción le falta su `;`.
+Si algo está mal escrito, PHP no ejecuta y muestra un error con el **número de línea** donde se dio cuenta.
+
+En PHP, cada instrucción termina con punto y coma `;`, como el punto al final de una oración. Ojo: muchas veces PHP se da cuenta en la línea **siguiente**, así que el `;` que falta suele estar al final de la línea de arriba de la que marca.
 
 #### Desafío
 Encontrá lo que falta para que el programa ande.
@@ -357,7 +369,13 @@ recompensa: xp 10, oro 10
 El Sendero de las Cartas Perdidas está lleno de sobres viejos enganchados en los arbustos. Nilo quiere anotar por dónde pasó, para no olvidarse, pero cada nota que escribe en el programa PHP la intenta ejecutar.
 
 #### Gheco sugiere
-Lo que va después de `//` hasta el final del renglón es un **comentario**: PHP no lo ejecuta. Sirve para dejar notas.
+Un **comentario** es una nota para las personas que leen el código. PHP lo saltea: no se ejecuta ni se muestra.
+
+Lo que va después de `//`, hasta el final del renglón, es comentario:
+
+```php
+echo "Hola\n"; // esto es una nota
+```
 
 #### Desafío
 Convertí la nota en un comentario para que el programa ande y muestre solo el recorrido.
@@ -408,7 +426,7 @@ recompensa: xp 15, oro 15
 En el mostrador de la torre, la Capitana del Puerto, una elefanta enorme con armadura, le pide a Nilo que se presente en tres renglones: nombre, oficio y de dónde viene. Nilo lo escribe todo pegado.
 
 #### Gheco sugiere
-Cada renglón termina con `\n`. Si falta, el siguiente texto sigue en la misma línea.
+Si no le decís que baje de línea, `echo` sigue escribiendo en el mismo renglón, todo pegado. Para que cada texto salga en su línea, terminalo con `\n`.
 
 #### Desafío
 Hacé que salgan tres renglones separados.
@@ -459,7 +477,13 @@ Elefa golpea el mostrador con el bastón.
 —Llegó un barco y el aviso tiene que salir ya. Título, tres renglones de datos, una línea en blanco y el sello. Exactamente así: en el Puerto, un aviso torcido es un aviso que nadie lee.
 
 #### Gheco sugiere
-Cada `echo` muestra lo que le pasás; `\n` es el salto de línea (dentro de comillas dobles). Para mostrar comillas dobles dentro de un texto entre comillas dobles, escribilas como `\"`.
+Cada `echo` muestra lo que le pasás, y `\n` es el salto de línea (funciona dentro de comillas dobles).
+
+Para mostrar unas comillas dobles **adentro** de un texto entre comillas dobles, escribilas con una barra adelante: `\"`. Si no, PHP cree que ahí termina el texto.
+
+```php
+echo "Dijo: \"hola\"\n";   // Dijo: "hola"
+```
 
 #### Desafío
 Escribí un programa `aviso.php` que muestre el aviso de llegada de un barco,
@@ -525,7 +549,13 @@ Del fondo del bolso de Nilo sale una carta empapada. Las letras se corrieron y P
 —Tres errores —dice Elefa—. No los adivines: ejecutala, leé lo que dice PHP y arreglá de a uno. Y no le cambies ni una palabra al texto.
 
 #### Gheco sugiere
-PHP te dice el tipo de error y **en qué línea** está (`Parse error`, `syntax error, unexpected…`). Arreglá ese, ejecutá de nuevo y pasá al siguiente. Lo que más falta: un `;` al final, una comilla sin cerrar o un `$` en la variable.
+PHP te dice el tipo de error y **en qué línea** está. `Parse error: syntax error` quiere decir «algo mal escrito». Arreglá ese, ejecutá de nuevo y pasá al siguiente.
+
+Los errores más comunes:
+
+- falta un `;` al final de una línea;
+- unas comillas sin cerrar;
+- una variable sin su `$` adelante (en PHP, todas las variables empiezan con `$`).
 
 #### Desafío
 Esta carta llegó mojada y tiene **tres errores**: PHP no la puede leer. Copiala,
@@ -585,7 +615,9 @@ La fonda del puerto le pide a la torre un cartel con el menú del día y el tota
 —Un solo `echo` para el menú —dice Elefa—. Y el total lo calcula el programa, no vos con los dedos.
 
 #### Gheco sugiere
-En un texto entre comillas dobles, `\n` corta el renglón: un solo `echo` puede mostrar varias líneas. Para el total, sumá los precios dentro del programa y mostrá el resultado en otro `echo`.
+Dentro de comillas dobles, `\n` corta el renglón: con un solo `echo` podés mostrar varias líneas.
+
+PHP también hace cuentas: `echo 300 + 200;` muestra `500`. Para el total, sumá los precios en el programa y mostrá el resultado en otro `echo`.
 
 #### Desafío
 La fonda del puerto necesita un cartel. Mostralo usando **un solo** `echo` con

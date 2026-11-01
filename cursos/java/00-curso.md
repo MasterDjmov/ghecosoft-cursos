@@ -286,7 +286,15 @@ Zed despierta en una fila larguísima frente a una muralla con vitrales dorados,
 Sobre el hombro de Zed aparece un gecko de luz con antiparras: **Gheco**. —Escribilo en el pergamino. Acá los pergaminos se **ejecutan**.
 
 #### Gheco sugiere
-`System.out.println("…");` muestra el texto entre comillas y salta a la línea siguiente. Para ejecutarlo: con el **Ejecutor de Java** abierto en tu compu (*Herramientas → Ejecutor de Java*), tocá **Ejecutar**. Si no lo tenés, corrélo en tu compu o tu IDE y pegá la salida abajo.
+En Java, para mostrar texto en la consola (la pantallita donde aparece lo que muestra tu programa) se usa:
+
+```java
+System.out.println("Hola");
+```
+
+Muestra **Hola** y después baja a la línea siguiente (`println` viene de *print line*, «mostrar una línea»). El texto va entre comillas dobles: las comillas no se ven, solo marcan dónde empieza y dónde termina. La instrucción termina con `;`.
+
+Para ejecutarlo, abrí el **Ejecutor de Java** en tu compu (*Herramientas → Ejecutor de Java*) y tocá **Ejecutar**. Si no lo tenés, corrélo en tu compu o en tu programa de Java y pegá la salida abajo.
 
 #### Desafío
 Completá la instrucción para declarar quién sos.
@@ -336,7 +344,15 @@ recompensa: xp 10
 —El formulario va en **una sola línea** —dice Nadia—: nombre, guion, oficio. Y la fecha abajo.
 
 #### Gheco sugiere
-`System.out.print(…)` muestra **sin** saltar de línea: lo siguiente sigue pegado. `println` salta al final.
+Hay dos formas de mostrar:
+
+- `System.out.println(...)` muestra y **baja** de línea al final;
+- `System.out.print(...)` muestra y **no** baja: lo siguiente sigue pegado en la misma línea.
+
+```java
+System.out.print("Hola, ");
+System.out.println("mundo");   // Hola, mundo
+```
 
 #### Desafío
 Usá `print` para que nombre y oficio queden en la misma línea.
@@ -391,7 +407,9 @@ Delante de Zed, un mercader entrega su pergamino y se lo devuelven con una marca
 —La Aduana es el **compilador** —dice Gheco—. Revisa todo antes de dejarlo pasar. Si falta un signo, no se ejecuta nada.
 
 #### Gheco sugiere
-Un **error de compilación** aparece antes de ejecutar: el programa ni arranca. `';' expected` quiere decir que falta un punto y coma en esa línea.
+Antes de ejecutar, Java **compila** el programa: lo revisa y lo traduce al idioma de la máquina. Si algo está mal escrito, se frena y el programa ni arranca: es un **error de compilación**. El mensaje dice la línea y qué esperaba.
+
+En Java, cada instrucción termina con punto y coma `;`, como el punto al final de una oración. `';' expected` quiere decir «esperaba un `;`»: falta al final de esa línea.
 
 #### Desafío
 Arreglá el pergamino del mercader para que la Aduana lo deje pasar.
@@ -444,7 +462,9 @@ Zed intenta repartir el peaje entre los viajeros de su fila… que son cero. El 
 —Eso es un **error de ejecución** —dice Gheco—. La Aduana no lo vio venir. Leé la línea que te marca.
 
 #### Gheco sugiere
-Un **error de ejecución** pasa con el programa ya andando. El *stack trace* dice qué pasó (`ArithmeticException: / by zero`) y en qué línea. Dividir un entero por 0 lo provoca.
+Hay errores que el compilador no ve, porque el programa está bien escrito: aparecen recién **mientras corre**. Son **errores de ejecución**, y el programa se corta.
+
+Java muestra un *stack trace*: dice **qué** pasó (por ejemplo, `ArithmeticException: / by zero`, «dividiste por cero») y en **qué línea**. Dividir un número entero por 0 provoca ese error: fijate entre cuántos se reparte.
 
 #### Desafío
 Que el peaje se reparta entre los 4 viajeros de la fila.
@@ -498,7 +518,17 @@ En el portón, un hombre alto con una taza de café mira el pergamino de Zed: **
 —En el Imperio **nada existe suelto** —dice—. Cada instrucción vive en un método, y cada método, en una clase.
 
 #### Gheco sugiere
-Todo programa de Java tiene una **clase** (`public class Nombre { … }`) y adentro el método **`main`**, donde empieza a ejecutarse. Las llaves `{ }` marcan dónde empieza y termina cada uno.
+En Java nada existe suelto: todo el código va adentro de una **clase**. Y el programa empieza en un método especial que se llama **`main`**:
+
+```java
+public class Saludo {
+    public static void main(String[] args) {
+        System.out.println("Hola");
+    }
+}
+```
+
+Las llaves `{ }` marcan dónde empieza y termina cada uno. La línea de `main` se escribe siempre igual: por ahora, copiala tal cual.
 
 #### Desafío
 Escribí la línea que abre el método `main`.
@@ -554,7 +584,9 @@ Nadia extiende la mano sin mirarlo.
 Zed revisa los bolsillos: una ganzúa, la llave de vidrio y nada más. Va a tener que **escribirlo**.
 
 #### Gheco sugiere
-Cada renglón del pase es un `System.out.println("...")`. El texto va entre comillas dobles y cada instrucción termina en `;`. El archivo se llama igual que la clase pública.
+Cada renglón del pase es un `System.out.println("...")`: el texto entre comillas dobles y la instrucción terminada en `;`.
+
+Un detalle de Java: el archivo se tiene que llamar igual que la clase pública. Si la clase es `PaseFrontera`, el archivo es `PaseFrontera.java`.
 
 #### Desafío
 Escribí un programa `PaseFrontera.java` que muestre tu pase para entrar al Imperio,
@@ -626,7 +658,13 @@ Un viajero de la fila le pasa a Zed un pergamino lleno de manchas: «a mí no me
 Cuando Zed intenta compilarlo, de cada mancha brota un **slime**. Son cuatro.
 
 #### Gheco sugiere
-Leé el primer error que marca el compilador, arreglalo y volvé a compilar: a veces un solo error arrastra a los demás. Mirá los `;`, las llaves y las mayúsculas (`String`, `System`).
+Cuando hay varios errores, arreglalos **de a uno**: leé el primer mensaje del compilador, corregí y compilá de nuevo. A veces un solo error causa varios mensajes.
+
+Revisá:
+
+- que cada instrucción termine con `;`;
+- que las llaves `{ }` y las comillas estén cerradas;
+- las mayúsculas: Java las distingue, y `String` y `System` van con mayúscula (`system` no existe).
 
 #### Desafío
 Este programa tiene **cuatro errores** y la Aduana no lo deja pasar. Copialo,
@@ -690,7 +728,13 @@ La posada de la frontera no tiene cartel y los viajeros pasan de largo. El posad
 Nadia cruza los brazos: «que sea prolijo».
 
 #### Gheco sugiere
-`\n` dentro de un texto es un salto de línea: con un solo `System.out.print` podés escribir varios renglones. Las cuentas se pueden hacer dentro del `println`, entre paréntesis.
+Adentro de un texto, `\n` es un **salto de línea**, como un Enter: con un solo `System.out.print` podés escribir varios renglones. Es una **secuencia de escape**: una barra `\` con una letra, que no se muestra tal cual sino que hace algo.
+
+También se puede hacer una cuenta adentro y pegarla al texto con `+`. La cuenta va entre paréntesis, así se hace antes de pegarla:
+
+```java
+System.out.println("Total: " + (300 + 200));   // Total: 500
+```
 
 #### Desafío
 La posada de la frontera necesita un cartel. Mostralo usando **un solo**

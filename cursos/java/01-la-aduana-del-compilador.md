@@ -245,7 +245,12 @@ Pasado el portón hay una balanza con cajones etiquetados: *enteros*, *decimales
 —Cada cajón guarda **un solo tipo** —dice Nadia—. Declaralo.
 
 #### Gheco sugiere
-Una variable se declara con su **tipo** y su nombre: `int` (enteros), `double` (decimales), `String` (texto, con mayúscula) y `boolean` (`true` o `false`).
+Una **variable** es un cajón con nombre donde el programa guarda un dato. En Java, al crearla (**declararla**) decís el **tipo** de dato y el nombre:
+
+- `int` para enteros: `int vidas = 3;`
+- `double` para números con decimales: `double altura = 1.65;` (con punto);
+- `String` para texto, entre comillas: `String nombre = "Ana";` (con **S** mayúscula);
+- `boolean` para verdadero o falso: `boolean listo = true;`
 
 #### Desafío
 Completá el tipo de cada cajón.
@@ -301,7 +306,13 @@ recompensa: xp 10, oro 10
 Zed «ajusta» el valor del peaje en su cuenta, para pagar menos. Nadia ni lo mira: —El peaje es **constante**. Escribilo así y el compilador no te va a dejar tocarlo.
 
 #### Gheco sugiere
-Con `final` una variable se vuelve **constante**: si alguien intenta cambiarla, no compila. Por costumbre se escribe en MAYÚSCULAS.
+Con `final` adelante, una variable se vuelve **constante**: guarda un valor que no cambia nunca. Si alguien intenta cambiarla, el programa no compila.
+
+```java
+final int DIAS_SEMANA = 7;
+```
+
+Por costumbre, las constantes se escriben en MAYÚSCULAS.
 
 #### Desafío
 Sacá la línea que intenta cambiar la constante, para que compile.
@@ -356,7 +367,13 @@ Zed intenta guardar 7,8 kilos de harina en el cajón de los enteros. No compila,
 —Los goblins nacen de los tipos que no encajan —dice Gheco—. Si querés pasar un decimal a entero, **pedilo**.
 
 #### Gheco sugiere
-Un `double` no entra solo en un `int`: hay que **convertirlo** con `(int)`. Ojo: **corta** los decimales, no redondea. Para redondear está `Math.round`.
+Un `double` no entra solo en un `int`: Java no te deja perder los decimales sin avisar. Hay que **convertirlo** a propósito, poniendo `(int)` adelante (eso es un **cast**):
+
+```java
+int entero = (int) 4.9;   // 4
+```
+
+Ojo: `(int)` **corta** los decimales, no redondea. Para redondear está `Math.round(x)`.
 
 #### Desafío
 Convertí el peso a entero (cortando) para el cajón de enteros.
@@ -412,7 +429,9 @@ recompensa: xp 15, oro 15
 Hay que repartir 7 denarios de multa entre 2 viajeros. La cuenta da 3 cada uno… y se perdió un denario. Ningún error: es un **ogro**.
 
 #### Gheco sugiere
-Entre dos `int`, `/` da la **división entera**: tira los decimales. Si uno de los dos es `double` (por ejemplo `2.0`), el resultado tiene decimales.
+Cuando dividís dos `int`, Java hace una **división entera**: tira los decimales. `9 / 2` da `4`, no `4.5`.
+
+Si uno de los dos es `double` (por ejemplo, escribiendo `2.0` en vez de `2`), el resultado tiene decimales: `9 / 2.0` da `4.5`.
 
 #### Desafío
 Hacé que el reparto dé con decimales.
@@ -463,7 +482,9 @@ Llega el carro de Olmo, un mercader gordo y amable, cargado de bolsas de harina.
 —Declarale el carro. Cada dato, en su cajón.
 
 #### Gheco sugiere
-La cantidad de bolsas es un `int`, el peso un `double` y el nombre un `String`. `(int)` corta los decimales, y entre dos `int` la `/` da la división entera.
+Cada dato en el tipo que le corresponde: la cantidad de bolsas es un `int`, el peso un `double` y el nombre un `String`.
+
+Acordate: `(int)` corta los decimales, y entre dos `int` la `/` da la división entera.
 
 #### Desafío
 Un mercader lleva en su carro 37 bolsas de harina de 2.5 kg cada una. Declará las
@@ -539,7 +560,9 @@ En la tesorería, el contador del Imperio suma un tributo enorme… y el resulta
 —El cajón era chico —dice Gheco.
 
 #### Gheco sugiere
-Un `int` llega hasta `Integer.MAX_VALUE` (un poco más de dos mil millones): si te pasás, da la vuelta y queda negativo. Un `long` llega mucho más lejos; sus números grandes llevan una `L` al final.
+Cada tipo tiene un tamaño fijo. Un `int` llega hasta `Integer.MAX_VALUE`, un poco más de dos mil millones. Si te pasás, Java no avisa: el número **da la vuelta** y queda negativo (eso se llama **desbordamiento**).
+
+Para números más grandes está `long`, que llega mucho más lejos. Los números grandes de tipo `long` se escriben con una `L` al final: `5_000_000_000L`. Los guiones bajos `_` son solo para leerlos mejor.
 
 #### Desafío
 El tesoro del Imperio tiene 2 000 000 000 denarios y recibe un tributo de 500 000 000.
@@ -609,7 +632,9 @@ Una estudiante de la Academia llora en la puerta: le dijeron que su promedio es 
 —Dividieron enteros.
 
 #### Gheco sugiere
-Entre dos `int`, `/` tira los decimales. Si convertís uno a `double` con `(double)`, el resultado los conserva. Un `char` también es un número: `(char) (letra + 1)` es la letra que sigue.
+Entre dos `int`, `/` tira los decimales. Para un promedio con decimales, convertí la suma a `double` **antes** de dividir: `(double) suma / 3`.
+
+Un `char` (un solo carácter, entre comillas simples: `'L'`) por dentro también es un número. `(char) (letra + 1)` es la letra que sigue: después de `'L'` viene `'M'`.
 
 #### Desafío
 Una estudiante de la Academia sacó 7, 9 y 8 en tres exámenes (guardalos en `int`).
@@ -947,7 +972,12 @@ recompensa: xp 10, oro 10
 En el patio hay 17 barriles y los carros llevan 5 cada uno. Dos guardias discuten cuántos carros salen y cuántos barriles quedan. Nadia le pasa la cuenta a Zed.
 
 #### Gheco sugiere
-Con enteros, `/` dice **cuántas veces entra** y `%` (el resto) dice **lo que sobra**.
+Con enteros, dividir tiene dos partes:
+
+- `/` dice **cuántas veces entra**: `23 / 4` es `5`;
+- `%` dice **cuánto sobra**: `23 % 4` es `3`. Se llama **resto** (o módulo).
+
+Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas y sobran 3.
 
 #### Desafío
 Completá con el operador del resto.
@@ -1002,7 +1032,13 @@ recompensa: xp 10, oro 10
 —Contá los carros que van pasando —dice Nadia—. Uno por uno. Y al final, cada carro paga el doble por ser feriado.
 
 #### Gheco sugiere
-`carros++` suma uno. `total += 5` es `total = total + 5`; también existen `-=`, `*=` y `/=`.
+Hay formas cortas para cambiar una variable usando su propio valor:
+
+- `x++` suma 1;
+- `x += 5` es `x = x + 5`;
+- también existen `-=`, `*=` y `/=`.
+
+En `x = x + 5` el `=` no es «igual» como en matemática: quiere decir «guardá en `x` lo que da la cuenta de la derecha».
 
 #### Desafío
 Completá las tres cuentas con atajos.
@@ -1062,7 +1098,13 @@ recompensa: xp 10, oro 10
 La regla del portón: pasa quien **tiene sello y pagó**, o quien es **guardia**. Zed tiene sello, no pagó y no es guardia, pero dice que debería pasar.
 
 #### Gheco sugiere
-`&&` es «y» (las dos cosas), `||` es «o» (alguna de las dos) y `!` niega. Combinadas dan `true` o `false`.
+Para juntar condiciones (preguntas que dan `true` o `false`):
+
+- `&&` es «**y**»: las dos tienen que ser verdad;
+- `||` es «**o**»: alcanza con una;
+- `!` es «**no**»: da vuelta la respuesta.
+
+`&&` se hace antes que `||`; con paréntesis queda claro qué va junto.
 
 #### Desafío
 Escribí la regla del portón con `&&` y `||`.
@@ -1119,7 +1161,9 @@ recompensa: xp 15, oro 15
 Cada carro paga 3 denarios, más 10 de la caravana entera, y todo eso por 2 porque es feriado. Un guardia hizo la cuenta y le dio 16. Debería ser 32. No hay error: un **ogro**.
 
 #### Gheco sugiere
-Java multiplica y divide **antes** de sumar y restar. Si querés otro orden, usá **paréntesis**.
+Java hace las cuentas en el orden de la escuela: primero `*` y `/`, después `+` y `-`. `3 * 2 + 1` es `7`.
+
+Si querés otro orden, usá **paréntesis**: lo de adentro se hace primero. `3 * (2 + 1)` es `9`.
 
 #### Desafío
 Poné los paréntesis para que la cuenta dé lo que tiene que dar.
@@ -1172,7 +1216,10 @@ El reloj de la torre del patio no tiene agujas: solo cuenta segundos desde la me
 —Cincuenta mil —lee Zed—. ¿Y eso qué hora es?
 
 #### Gheco sugiere
-`/` entre enteros te dice cuántas veces entra (cuántas horas completas) y `%` te da lo que sobra. Una hora son 3600 segundos y un minuto, 60.
+Para pasar segundos a horas, minutos y segundos se usan `/` (cuántas veces entra) y `%` (lo que sobra):
+
+- una hora tiene 3600 segundos: `total / 3600` son las horas y `total % 3600` lo que sobra;
+- con lo que sobra, `/ 60` da los minutos y `% 60` los segundos.
 
 #### Desafío
 El reloj de la torre cuenta los segundos desde la medianoche: van **50 000**.
@@ -1235,7 +1282,9 @@ El calendario de la Aduana tiene un día de más… o de menos: nadie se acuerda
 —Hay una regla —dice Nadia—. Tres condiciones. Ni una más.
 
 #### Gheco sugiere
-`%` dice si un número es divisible por otro (`año % 4 == 0`). Las condiciones se juntan con `&&` (y) y `||` (o); los paréntesis deciden qué se evalúa primero.
+Para saber si un número es **divisible** por otro, se mira el resto: `anio % 4 == 0` quiere decir «al dividir por 4 no sobra nada». (`==` pregunta si son iguales; `!=`, si son distintos.)
+
+La regla del bisiesto: divisible por 4 y no por 100, **o** divisible por 400. Juntá las partes con `&&` y `||`, y usá paréntesis para que se agrupen bien.
 
 #### Desafío
 Un año es bisiesto si es divisible por 4 y no por 100, **o** si es divisible por
@@ -1307,7 +1356,13 @@ En el patio, un goblin con armadura vieja desafía a los aduaneros. Nadia desenv
 —Calculá cuánto le saco por golpe, Zed. Y si es crítico, avisame.
 
 #### Gheco sugiere
-El ternario elige entre dos valores en una sola línea: `condicion ? valorSiVerdadero : valorSiFalso`. Es un `if` que devuelve algo.
+El **ternario** elige entre dos valores en una sola línea:
+
+```java
+condicion ? valorSiEsVerdad : valorSiEsMentira
+```
+
+Es como un `if` que devuelve algo. Por ejemplo, `edad >= 18 ? "adulto" : "menor"`.
 
 #### Desafío
 Nadia ataca con fuerza 14 a un enemigo con armadura 5 y 30 de vida. El daño es la
@@ -1674,7 +1729,13 @@ recompensa: xp 10, oro 10
 En la oficina de sellos, el Escriba Jefe tiene los ojos rojos de copiar nombres con espacios de más y en minúsculas. —Arreglámelos —le pide a Zed—, que yo ya no veo.
 
 #### Gheco sugiere
-Un `String` sabe hacer cosas: `.trim()` saca los espacios de los costados, `.toUpperCase()` lo pasa a mayúsculas y `.length()` dice cuántas letras tiene.
+Un `String` no es solo texto: es un **objeto** que sabe hacer cosas. Se le pide con un punto y el nombre del **método**:
+
+- `.trim()` saca los espacios de los costados;
+- `.toUpperCase()` lo pasa a mayúsculas;
+- `.length()` dice cuántas letras tiene.
+
+Se pueden encadenar: `texto.trim().toUpperCase()`.
 
 #### Desafío
 Limpiá el nombre y pasalo a mayúsculas.
@@ -1728,7 +1789,9 @@ Zed copia un sello que dice exactamente lo mismo que el original: «APROBADO». 
 —Dos textos iguales no siempre son **el mismo** texto —dice Gheco—. Ese es el ogro preferido del Imperio.
 
 #### Gheco sugiere
-Con textos, `==` pregunta si son **el mismo objeto**, no si dicen lo mismo, y a veces da `false` aunque el texto sea igual. Para comparar el contenido se usa `.equals()`.
+Con textos, `==` **no** compara las letras: pregunta si son **el mismo objeto** (el mismo texto en la memoria). Dos textos con las mismas letras pueden ser objetos distintos, y entonces `==` da `false`.
+
+Para comparar el contenido se usa `.equals()`: `a.equals(b)` da `true` si tienen las mismas letras.
 
 #### Desafío
 Compará el contenido de los dos sellos.
@@ -1783,7 +1846,15 @@ recompensa: xp 10, oro 10
 El Escriba Jefe quiere la lista de los viajeros de hoy en una sola línea, separados por guiones. Pegar pedazos con `+` lo vuelve loco: cada `+` arma un texto nuevo.
 
 #### Gheco sugiere
-`StringBuilder` arma un texto de a pedazos: `append` agrega al final y `toString()` devuelve el texto armado.
+Para armar un texto de a pedazos, `StringBuilder` es más rápido que pegar con `+` muchas veces:
+
+```java
+StringBuilder sb = new StringBuilder();
+sb.append("Hola").append(", ").append("Ana");
+System.out.println(sb.toString());   // Hola, Ana
+```
+
+`append` agrega al final, y `toString()` devuelve el texto armado.
 
 #### Desafío
 Agregá a Nadia y al mercader con `append`, como está hecho con Zed.
@@ -1839,7 +1910,12 @@ recompensa: xp 15, oro 15
 —La tabla de tarifas tiene que quedar **prolija** —pide el Escriba—: el nombre a la izquierda y el precio con dos decimales, alineado.
 
 #### Gheco sugiere
-`printf` usa un **formato**: `%s` para textos, `%d` para enteros, `%.2f` para decimales con 2 cifras, `%n` para saltar de línea. Un número antes (`%-8s`, `%6.2f`) fija el ancho. Con `Locale.US`, el decimal es un punto en cualquier compu.
+`System.out.printf` muestra con un **formato**: en el texto pones marcadores, y los valores van después, en orden.
+
+- `%s` texto, `%d` entero, `%.2f` decimal con 2 cifras, `%n` salto de línea.
+- Un número antes fija el **ancho**: `%-8s` ocupa 8 lugares pegado a la izquierda; `%6.2f`, 6 lugares a la derecha con 2 decimales.
+
+Con `Locale.US` como primer dato, el decimal sale con punto en cualquier compu.
 
 #### Desafío
 Completá el formato del precio: ancho 6 y 2 decimales.
@@ -1900,7 +1976,11 @@ El Escriba Jefe recibió un nombre escrito a las apuradas: espacios de más, may
 —Así no entra en el registro —dice, y le pasa el papel a Zed.
 
 #### Gheco sugiere
-`trim()` saca los espacios de los bordes, `toUpperCase()` y `toLowerCase()` cambian las mayúsculas, `length()` cuenta las letras y `substring` corta un pedazo. Ninguno cambia el original: devuelven un texto nuevo.
+Repasá los métodos de `String`: `trim()`, `toUpperCase()`, `toLowerCase()` y `length()`.
+
+Nuevo: `substring(desde, hasta)` corta un pedazo (de la posición `desde` hasta la anterior a `hasta`; se cuenta desde 0), e `indexOf(" ")` dice en qué posición está el primer espacio.
+
+Ninguno cambia el original: los textos de Java no se pueden modificar, y cada método devuelve un texto **nuevo**.
 
 #### Desafío
 El escriba recibió el nombre `"  lía   FERRARI "` (con espacios de más). Guardalo en
@@ -1975,7 +2055,10 @@ El portón tiene una contraseña. Zed escribe la misma palabra de tres formas di
 Detrás del portón, un **ogro** se ríe bajito.
 
 #### Gheco sugiere
-`==` entre textos pregunta si son **el mismo objeto**, no si dicen lo mismo. Para comparar el contenido se usa `equals`; si no importan las mayúsculas, `equalsIgnoreCase`.
+Acordate: `==` entre textos pregunta si son **el mismo objeto**. Para comparar el contenido:
+
+- `a.equals(b)`: mismas letras, mayúsculas incluidas;
+- `a.equalsIgnoreCase(b)`: mismas letras, sin importar mayúsculas.
 
 #### Desafío
 La contraseña del portón es `"cafe"`. Simulá tres intentos guardados en variables:
@@ -2043,7 +2126,14 @@ El Escriba Jefe quiere colgar la tabla de tarifas en la entrada, pero las column
 —Alineada o no se cuelga —dice.
 
 #### Gheco sugiere
-`printf` da formato: `%-10s` es un texto a la izquierda en 10 lugares, `%5d` un entero a la derecha en 5 y `%8.2f` un decimal con 2 decimales. `%n` es el salto de línea.
+Repasá `printf`:
+
+- `%-10s`: texto en 10 lugares, pegado a la izquierda;
+- `%5d`: entero en 5 lugares, a la derecha;
+- `%8.2f`: decimal en 8 lugares con 2 decimales;
+- `%n`: salto de línea.
+
+Usá los mismos anchos en todas las filas, así la tabla queda derecha.
 
 #### Desafío
 Mostrá con `printf` la tabla de tarifas de la Aduana: tres mercancías con su
@@ -2399,7 +2489,20 @@ recompensa: xp 10, oro 10
 En la ventanilla, Nadia ya no lee pergaminos: **pregunta**. —Ahora lo escribís vos —le dice a Zed—. Que el programa pregunte el nombre y salude.
 
 #### Gheco sugiere
-`Scanner` lee lo que se escribe en el teclado. Se crea con `new Scanner(System.in)` y `nextLine()` lee una línea entera. Hay que importarlo: `import java.util.Scanner;`. Acá la **Entrada** ya viene escrita: es lo que «tipearía» el viajero.
+Para **leer** lo que se escribe con el teclado se usa un `Scanner`:
+
+```java
+import java.util.Scanner;   // arriba de todo
+
+Scanner sc = new Scanner(System.in);
+String nombre = sc.nextLine();
+```
+
+- `import` trae la herramienta, que vive en `java.util`;
+- `new Scanner(System.in)` crea un lector del teclado (`System.in`);
+- `nextLine()` lee una línea entera.
+
+Acá no hace falta tipear: la **Entrada** ya viene escrita, es lo que «tipearía» el viajero.
 
 #### Desafío
 Leé el nombre con `nextLine`.
@@ -2466,7 +2569,9 @@ recompensa: xp 15, oro 15
 Ahora la ventanilla pregunta la edad (un número) y después el oficio. Pero el oficio sale **vacío**, como si el viajero no hubiera dicho nada.
 
 #### Gheco sugiere
-`nextInt()` lee el número pero **deja el Enter** esperando. El `nextLine()` que sigue se lleva ese Enter vacío. Solución: un `sc.nextLine();` extra justo después de `nextInt()`.
+Una trampa clásica de `Scanner`: `nextInt()` lee el número pero **deja el Enter** sin leer. El `nextLine()` que viene después se lleva ese Enter y devuelve un texto vacío.
+
+La solución: un `sc.nextLine();` extra justo después del `nextInt()`, para llevarse el Enter que quedó.
 
 #### Desafío
 Agregá la línea que se lleva el Enter que quedó.
@@ -2534,7 +2639,12 @@ recompensa: xp 10, oro 10
 Para tasar un terreno del cuartel, Nadia usa una **tablilla de fórmulas**: el lado de un terreno cuadrado a partir de su superficie, y cuál de dos ofertas es mayor.
 
 #### Gheco sugiere
-`Math` ya trae fórmulas listas: `Math.sqrt(x)` (raíz cuadrada), `Math.pow(base, exponente)`, `Math.max(a, b)`, `Math.abs(x)`.
+`Math` ya trae fórmulas listas, y se usan con `Math.` adelante:
+
+- `Math.sqrt(x)`: raíz cuadrada;
+- `Math.pow(base, exponente)`: potencia (`Math.pow(2, 3)` es 8);
+- `Math.max(a, b)`: el mayor de dos;
+- `Math.abs(x)`: el valor sin signo.
 
 #### Desafío
 Calculá el lado con la raíz cuadrada.
@@ -2593,7 +2703,15 @@ Un tahúr en la fila le ofrece a Zed un juego de dados. Zed, que de trampas sabe
 —Es un azar con **semilla** —dice Gheco—. Misma semilla, mismos números. Los dados del tahúr están cargados.
 
 #### Gheco sugiere
-`new Random(42)` crea un generador con **semilla**: con la misma semilla da siempre la misma secuencia (sirve para probar). `r.nextInt(6)` da de 0 a 5; sumándole 1, de 1 a 6.
+Para números al azar, `Random` (de `java.util`):
+
+```java
+Random r = new Random(42);
+int dado = r.nextInt(6) + 1;
+```
+
+- `r.nextInt(6)` da un número de 0 a 5; sumándole 1, de 1 a 6, como un dado.
+- El `42` es la **semilla**: con la misma semilla sale **siempre** la misma secuencia. Parece raro para el azar, pero sirve para probar el programa.
 
 #### Desafío
 Tirá tres dados de 1 a 6.
@@ -2654,7 +2772,9 @@ Ahora es Zed el que atiende la ventanilla. Cada viajero dice su nombre, su ciuda
 —Y los que se quedan mucho tienen descuento —agrega Nadia.
 
 #### Gheco sugiere
-`Scanner` lee lo que se escribe: `nextLine()` un renglón entero y `nextInt()` un número. Ojo: después de `nextInt()` queda un salto de línea pendiente; un `nextLine()` de más lo limpia.
+`Scanner` lee lo que se escribe: `nextLine()` un renglón entero y `nextInt()` un número.
+
+Acordate de la trampa: después de `nextInt()` queda el Enter pendiente, y un `nextLine()` de más lo limpia. Otra forma: leer todo con `nextLine()` y convertir el número con `Integer.parseInt(texto)`.
 
 #### Desafío
 Pedí el nombre completo, la ciudad de origen y los días que se va a quedar (un
@@ -2742,7 +2862,13 @@ El cuartel nuevo necesita un cerco. El capataz da el ancho y el largo del terren
 —Si falta una, no cierra —dice—. Mejor que sobre.
 
 #### Gheco sugiere
-`Math.sqrt` es la raíz cuadrada y `Math.pow(x, 2)` el cuadrado. `Math.ceil` redondea **para arriba** (devuelve `double`). Con `printf("%.2f")` mostrás dos decimales.
+Algunas fórmulas de `Math`:
+
+- `Math.sqrt(x)` es la raíz cuadrada;
+- `Math.pow(x, 2)` es el cuadrado;
+- `Math.ceil(x)` redondea **hacia arriba** (devuelve `double`).
+
+Para mostrar con dos decimales: `printf("%.2f", x)`.
 
 #### Desafío
 Pedí el ancho y el largo de un terreno (decimales). Mostrá con 2 decimales el área,
@@ -2828,7 +2954,9 @@ Un tahúr gana todas las partidas de dados. Zed, que de trampas sabe, sospecha.
 —Si la partida tiene semilla —le susurra Gheco—, los dados siempre caen igual.
 
 #### Gheco sugiere
-`new Random(semilla)` da siempre la misma secuencia para la misma semilla. `nextInt(6) + 1` es un dado de 6 caras. `Math.max(a, b)` devuelve el mayor de dos.
+`new Random(semilla)` da siempre la misma secuencia para la misma semilla. `nextInt(6) + 1` es un dado de 6 caras.
+
+`Math.max(a, b)` devuelve el mayor de dos, para saber cuál fue la tirada más alta.
 
 #### Desafío
 Un tahúr de la frontera juega a los dados. Pedí la **semilla** de la partida (un
@@ -3269,7 +3397,19 @@ recompensa: xp 10, oro 10
 Frente a la Aduana hay tres portones: mercaderes, soldados y peregrinos. Nadia le da a Zed el puesto del guardia: —Mandá a cada uno al suyo.
 
 #### Gheco sugiere
-`if (condición) { … } else if (otra) { … } else { … }` revisa **en orden** y entra solo en el primero que se cumple. El `else` es para todos los demás.
+Con `if` el programa **decide**: hace algo solo si una condición es verdad.
+
+```java
+if (nota >= 9) {
+    System.out.println("Excelente");
+} else if (nota >= 6) {
+    System.out.println("Aprobado");
+} else {
+    System.out.println("A recuperar");
+}
+```
+
+Java revisa **en orden** y entra solo en el primero que se cumple; `else` es para todos los demás. Para comparar textos, acordate de usar `.equals()`.
 
 #### Desafío
 Completá la condición del portón de los soldados (el que llega ahora es un soldado).
@@ -3332,7 +3472,9 @@ recompensa: xp 15, oro 15
 El peaje depende de la carga: más de 100 kg paga 20, más de 50 paga 10, el resto 5. El guardia anterior lo escribió… y todos pagan 10. Un **ogro**.
 
 #### Gheco sugiere
-Los `else if` se revisan en orden: si la primera condición es la más **amplia** (`> 50`), atrapa también a los de 100 y nunca se llega a la otra. Lo más exigente va **primero**.
+Como Java entra en la **primera** condición que se cumple, el orden importa. Si la primera es la más amplia (`> 50`), atrapa también a los de 100, y la condición de abajo nunca llega a revisarse.
+
+La regla: lo más exigente va **primero**.
 
 #### Desafío
 Llega un carro de 120 kg y paga 10. Reordená las condiciones para que pague 20.

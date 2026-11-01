@@ -108,6 +108,17 @@
                                             <div class="flex min-w-0 flex-col">
                                                 <span class="truncate text-sm text-white">{{ $row['course']->title }}</span>
                                                 <span class="text-xs {{ $row['active'] ? 'text-success' : 'text-ink-muted' }}">{{ $row['active'] ? 'Abono vigente' : 'Abono vencido' }}</span>
+                                                {{-- XP del curso y los últimos días: verde si anduvo por el curso, rojo si no (gris, antes de su primer abono). --}}
+                                                <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1" data-test="course-activity-{{ $row['course']->id }}">
+                                                    <span class="font-mono text-xs text-ink-muted">{{ $row['activity']['xp'] }} {{ term('xp.short') }}</span>
+                                                    <span class="flex gap-0.5" aria-label="Actividad de los últimos {{ count($row['activity']['days']) }} días: {{ collect($row['activity']['days'])->where('state', 'on')->count() }} con actividad">
+                                                        @foreach ($row['activity']['days'] as $day)
+                                                            <span title="{{ $day['date']->translatedFormat('D j/n') }}: {{ ['on' => 'con actividad', 'off' => 'sin actividad', 'before' => 'todavía no estaba en el curso'][$day['state']] }}"
+                                                                class="size-2.5 rounded-sm {{ ['on' => 'bg-success', 'off' => 'bg-danger/70', 'before' => 'bg-surface-highest'][$day['state']] }}"></span>
+                                                        @endforeach
+                                                    </span>
+                                                    <span class="text-xs text-ink-muted">{{ $row['activity']['last'] ? 'Última actividad '.$row['activity']['last']->diffForHumans() : 'Sin actividad todavía' }}</span>
+                                                </div>
                                             </div>
                                             @can('viewProgress', [$person, $row['course']])
                                                 <flux:button size="xs" variant="ghost" icon="share" :href="route('admin.students.tree', [$person, $row['course']])" wire:navigate

@@ -10,7 +10,9 @@ use App\Models\User;
 use App\Services\DelayedStudents;
 use App\Services\StudentAccounts;
 use App\Services\TeacherScope;
+use App\Support\CourseActivity;
 use App\Support\Maintenance;
+use Carbon\CarbonImmutable;
 use Flux\Flux;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -181,10 +183,14 @@ class Index extends Component
             return [];
         }
         $mine = $viewer->isTeacher() ? $scope->cohortIds($viewer) : null;
+        $subscriptions = $student->subscriptions()->with(['course.cohorts.teacher:id,name,last_name', 'cohort.teacher:id,name,last_name'])
+            ->orderByDesc('ends_at')->get();
+        // XP del curso y los últimos días (activo o no), contando desde su primer abono en cada curso.
+        $activity = CourseActivity::for($student, $subscriptions->groupBy('course_id')
+            ->map(fn ($subs) => CarbonImmutable::parse($subs->min('starts_at')))->all());
 
-        return $student->subscriptions()->with(['course.cohorts.teacher:id,name,last_name', 'cohort.teacher:id,name,last_name'])
-            ->orderByDesc('ends_at')->get()->unique('course_id')
-            ->map(function ($subscription) use ($student, $viewer, $mine) {
+        return $subscriptions->unique('course_id')
+            ->map(function ($subscription) use ($student, $viewer, $mine, $activity) {
                 $course = $subscription->course;
                 $options = $course->cohorts->filter(fn (Cohort $cohort) => $mine === null || in_array($cohort->id, $mine, true))->values();
 
@@ -192,6 +198,7 @@ class Index extends Component
                     'course' => $course,
                     'cohort' => $subscription->cohort,
                     'active' => $subscription->ends_at->isFuture(),
+                    'activity' => $activity[$course->id],
                     'options' => $options,
                     'canChange' => $viewer->isAdmin() || ($options->isNotEmpty() && $viewer->can('assignCohort', [$student, $course, null])),
                     // Sin comisiones propias en ese curso (y sin estar en la de otro docente): el link para crear una.

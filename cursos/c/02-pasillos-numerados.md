@@ -407,7 +407,15 @@ recompensa: xp 10, oro 10
 Debajo de la Forja corren los pasillos numerados: estantes de hierro que empiezan en **cero**. Kira, que cuenta desde uno, busca el estante 5 de una hilera de cinco… y encuentra un **orco** durmiendo la siesta.
 
 #### Gheco sugiere
-`int pesos[5]` tiene los lugares `pesos[0]` a `pesos[4]`. El bucle va de `i = 0` mientras `i < 5`: con `<=` se pasa uno y despierta al orco.
+Un **array** (o arreglo) es una fila de cajones del mismo tipo, uno al lado del otro, con un solo nombre:
+
+```c
+int notas[3] = { 7, 9, 6 };
+```
+
+Cada cajón se usa con su número de posición, el **índice**, entre corchetes. Ojo: se cuenta **desde 0**. Este array tiene `notas[0]`, `notas[1]` y `notas[2]`; `notas[3]` ya no existe.
+
+Por eso, para recorrer un array de 3 el bucle va de `i = 0` mientras `i < 3`. Si ponés `<=`, da una vuelta de más y lee un cajón que no es tuyo: C no avisa, y lo que pasa es impredecible.
 
 #### Desafío
 Arreglá el bucle para recorrer solo los cinco estantes.
@@ -470,7 +478,13 @@ recompensa: xp 10, oro 10
 Tizón quiere saber qué estante carga más, y **cuál** es, para reforzarlo. Con el peso solo no le alcanza.
 
 #### Gheco sugiere
-Se arranca con el primero como el mayor (`mayor = v[0]`, `donde = 0`) y se recorre desde el 1: si uno supera al mayor, se guardan su valor y su posición.
+Para encontrar el más grande de un array:
+
+1. Arrancá suponiendo que el primero es el mayor, y guardá también **dónde** está (posición 0).
+2. Recorré desde el segundo (índice 1).
+3. Si uno es más grande que el mayor que tenías, guardás su valor **y** su posición.
+
+Al terminar, tenés el mayor y en qué lugar estaba.
 
 #### Desafío
 Completá la comparación y lo que se guarda.
@@ -540,7 +554,15 @@ recompensa: xp 10, oro 10
 Ferrum anota la temperatura de 4 hornos durante 3 días, en una tabla. Quiere el promedio de cada **horno** (cada columna), no de cada día.
 
 #### Gheco sugiere
-En `t[dia][horno]`, el promedio de un horno suma **una columna**: el bucle de afuera recorre los hornos y el de adentro, los días.
+Un array puede tener **dos dimensiones**, como una tabla con filas y columnas:
+
+```c
+int t[2][3];   // 2 filas, 3 columnas
+```
+
+`t[fila][columna]`: el primer índice es la fila y el segundo, la columna. Para recorrerla se usan dos `for`, uno adentro del otro (**anidados**).
+
+Para sumar **una columna**, el bucle de afuera elige la columna y el de adentro recorre todas las filas de esa columna.
 
 #### Desafío
 Completá la suma de la columna.
@@ -617,7 +639,14 @@ recompensa: xp 15, oro 15
 Tizón tiró su dado medido veinte veces y anotó cada resultado. Quiere saber cuántas veces salió cada número del 1 al 6, «para demostrar que no está cargado».
 
 #### Gheco sugiere
-Un array de contadores usa el **dato como índice**: `cuenta[dado]++`. Con 7 lugares, del 1 al 6 se usan tal cual (el 0 queda sin usar). `= { 0 }` pone todo en cero.
+Un truco muy útil: usar el **dato como índice**. Para contar cuántas veces sale cada cara de un dado, en vez de seis variables usás un array y cada cara suma en su propio cajón:
+
+```c
+int cuenta[7] = { 0 };
+cuenta[4]++;   // salió un 4
+```
+
+`= { 0 }` pone todos los cajones en cero. Son 7 para poder usar del 1 al 6 tal cual (el 0 queda sin usar).
 
 #### Desafío
 Completá la línea que cuenta.
@@ -696,7 +725,11 @@ Tizón anota en la libreta las temperaturas del horno grande durante la mañana,
 —Decime la más alta, la más baja y el promedio. Y cuántas pasaron el promedio.
 
 #### Gheco sugiere
-Guardá las temperaturas en un `double temps[10]` y llevá la cuenta de cuántas cargaste. Una línea `fin` corta antes; lo que no sea un número se avisa y no se guarda. Después, un recorrido para el máximo, el mínimo y la suma, y otro para contar las que superan el promedio.
+Un array tiene un tamaño fijo, pero no hace falta llenarlo entero: guardá en otra variable **cuántos** cargaste de verdad, y recorré solo hasta ahí.
+
+Para leer: `fgets` y `sscanf`. Si la línea dice `fin`, cortás antes. Si no es un número, avisás y no la guardás.
+
+Después, dos recorridos: uno para el máximo, el mínimo y la suma (el promedio sale de la suma), y otro para contar cuántas superan ese promedio.
 
 #### Desafío
 Leé hasta 10 temperaturas (una por línea;
@@ -827,7 +860,11 @@ antes: R02-N01-M2
 En el fondo de los pasillos hay un espejo de hierro pulido. Tizón pone una fila de lingotes numerados delante y le pide a Kira tres cosas: darla vuelta como la ve el espejo, encontrar un lingote y correrlos a todos un lugar.
 
 #### Gheco sugiere
-Para invertir sin otro array, intercambiá el primero con el último, el segundo con el anteúltimo… hasta la mitad. `buscar` recorre y devuelve la posición o `-1`. Para rotar, guardá el primero, corré todos uno a la izquierda y ponelo al final.
+Las funciones también pueden recibir arrays. Se pasa el array y su tamaño: `void invertir(int v[], int n)`. A diferencia de los números sueltos, la función trabaja sobre el array **original**: si lo cambia, afuera se ve el cambio.
+
+- **Invertir sin otro array**: intercambiá el primero con el último, el segundo con el anteúltimo… hasta la mitad.
+- **Buscar**: recorré y devolvé la posición donde está; si no está, devolvé `-1`.
+- **Rotar a la izquierda**: guardá el primero, corré todos un lugar a la izquierda y poné el guardado al final.
 
 #### Desafío
 Escribí `invertir(v, n)` (da vuelta el array sin
@@ -953,7 +990,11 @@ Hulda despliega en una mesa el mapa de una galería: paredes, pasillos y algunos
 —Cada paso que des, lo marco. Por las paredes no se pasa, por más ganas que tengas.
 
 #### Gheco sugiere
-Una matriz `char mapa[5][8]` guarda el mapa. Con cada letra calculá la casilla nueva: si es pared (`#`), no te movés; si es un tesoro, lo sumás y queda vacío. Al final, dos `for` anidados dibujan el mapa con `K` donde está Kira.
+Un mapa es una tabla de caracteres: `char mapa[5][8]`, donde cada casilla es un dibujito (`#` pared, `.` vacío…).
+
+Para mover a Kira, guardá su fila y su columna. Con cada letra calculá la casilla nueva **sin moverte todavía**: si es pared, no te movés; si es un tesoro, lo sumás y dejás la casilla vacía.
+
+Al final, dos `for` anidados recorren la tabla y la dibujan; en la casilla de Kira mostrás una `K`.
 
 #### Desafío
 Una matriz de 5 × 8 con paredes y tesoros. Kira
@@ -1628,7 +1669,15 @@ Chispa etiqueta un lingote con «ORO» en una placa de **tres** casilleros. El l
 Tizón lo descubre a la media hora. Chispa jura que fue sin querer.
 
 #### Gheco sugiere
-Un texto en C es un array de `char` que termina en `'\0'`. `"ORO"` necesita **4** lugares: tres letras y el tapón. Con `char etiqueta[3]`, no entra.
+En C, un texto (una **cadena** o *string*) es un array de `char`: una letra por cajón. Al final lleva un carácter especial, `'\0'`, que marca dónde termina el texto (el **tapón**). No se ve, pero ocupa lugar.
+
+Por eso `"SOL"` necesita **4** cajones: S, O, L y el tapón.
+
+```c
+char dia[4] = "SOL";
+```
+
+Si el array es más chico, el texto no entra y se pisa memoria que no es suya. Los textos se muestran con `%s`, y `strlen(texto)` (de `<string.h>`) cuenta las letras sin el tapón.
 
 #### Desafío
 Dale a la etiqueta el tamaño justo para «ORO» y su tapón.
@@ -1688,7 +1737,15 @@ recompensa: xp 10, oro 10
 Kira busca la caja de Tizón comparando nombres con `==`. Nunca la encuentra, aunque está ahí, con su nombre escrito clarito.
 
 #### Gheco sugiere
-Con textos, `==` compara **dónde están** guardados, no las letras. `strcmp(a, b) == 0` pregunta si tienen las mismas letras.
+Para comparar números se usa `==`, pero con textos no funciona: `==` pregunta si los dos arrays están **en el mismo lugar** de la memoria, no si tienen las mismas letras.
+
+Para comparar letras se usa `strcmp(a, b)`, de `<string.h>`. Devuelve **0** si los textos son iguales:
+
+```c
+if (strcmp(clave, "abrete") == 0) {
+    printf("pasá\n");
+}
+```
 
 #### Desafío
 Cambiá la comparación.
@@ -1754,7 +1811,15 @@ recompensa: xp 10, oro 10
 Chispa quiere que su etiqueta diga «Chispa el Veloz», con espacios. `scanf("%s")` se corta en el primer espacio. `fgets` lo lee entero, pero trae un salto de línea de regalo.
 
 #### Gheco sugiere
-`fgets(s, sizeof s, stdin)` lee la línea entera, con el `'\n'`. `s[strcspn(s, "\n")] = '\0';` lo cambia por el fin de texto.
+`scanf("%s")` corta en el primer espacio: con «Ana María» lee solo «Ana». Para leer una línea entera, con espacios, usá `fgets(texto, sizeof texto, stdin)`.
+
+`fgets` tiene una mañía: guarda también el Enter del final (`'\n'`). Para sacarlo:
+
+```c
+texto[strcspn(texto, "\n")] = '\0';
+```
+
+`strcspn` busca en qué posición está el `'\n'`, y ahí ponés el tapón: el texto termina un lugar antes.
 
 #### Desafío
 Sacale el salto de línea al nombre.
@@ -1819,7 +1884,14 @@ recompensa: xp 15, oro 15
 Tizón quiere un cartel para la puerta de cada taller: el oficio, un guion y el nombre. Kira lo arma pegando pedazos.
 
 #### Gheco sugiere
-`snprintf(destino, sizeof destino, "%s - %s", a, b)` arma el texto con formato **sin pasarse** del tamaño del array. Es la forma segura.
+`snprintf` funciona como `printf`, pero en vez de mostrar el texto lo **guarda** en un array:
+
+```c
+char saludo[20];
+snprintf(saludo, sizeof saludo, "Hola, %s", nombre);
+```
+
+El segundo dato es el tamaño del array: así `snprintf` nunca escribe de más, aunque el texto sea largo (corta lo que no entra). Por eso es la forma segura de armar textos.
 
 #### Desafío
 Armá el cartel con `snprintf`.
@@ -1879,7 +1951,11 @@ antes: R02-N02-M1
 Los aprendices nuevos se anotan en el mostrador de etiquetas y cada uno escribe su nombre como quiere: todo en minúscula, todo en mayúscula, o mitad y mitad. Chispa quiere que las placas queden prolijas, con las iniciales en una placa chiquita.
 
 #### Gheco sugiere
-Repetí la pregunta mientras el nombre esté vacío o tenga algo que no sea letra o espacio (`isalpha`, `isspace`). Una letra va en mayúscula si es la primera o si antes hay un espacio. Las iniciales van a otro texto: cuidá su tamaño y el `'\0'` del final.
+Tres partes:
+
+- **Validar**: repetí la pregunta mientras el nombre esté vacío o tenga algo que no sea letra (`isalpha`) o espacio (`isspace`).
+- **Mayúsculas**: recorré el texto letra por letra; una letra va en mayúscula (`toupper`) si es la primera o si la de antes es un espacio.
+- **Iniciales**: se guardan en otro array de `char`. Llevá la cuenta de cuántas pusiste, cuidá que entren y no te olvides del `'\0'` al final.
 
 #### Desafío
 Pedí un nombre completo hasta que sea válido (no
@@ -2030,7 +2106,11 @@ El registro de la Forja es una pila de papelitos con `nombre;nivel;oro`. Algunos
 —Pasalos en limpio —le pide Tizón—, y decime en qué línea está cada desastre.
 
 #### Gheco sugiere
-Leé con `fgets` hasta que devuelva `NULL` y llevá el número de línea. `sscanf(linea, "%29[^;];%d;%d %c", ...)` tiene que devolver justo 3: si devuelve 4, sobran datos. Validá el nivel antes de sumar el oro.
+Leé con `fgets` en un bucle: cuando no queda nada por leer devuelve `NULL`, y ahí terminás. Llevá también el número de línea para avisar dónde hay un error.
+
+Para separar `nombre;nivel;oro` sirve `sscanf` con un marcador especial: `%29[^;]` quiere decir «leé hasta 29 caracteres que **no** sean `;`». El 29 evita pasarse del tamaño del array.
+
+`sscanf` devuelve cuántos datos leyó: tiene que dar **3**. Un truco: si al final del formato pedís un carácter más (`%c`) y devuelve 4, quiere decir que sobraban datos en la línea.
 
 #### Desafío
 Leé líneas `nombre;nivel;oro` hasta que no haya
@@ -2138,7 +2218,16 @@ Chispa trae runas de una tienda vieja que, según él, se leen igual al derecho 
 —Si son de verdad, valen el triple. Fijate cuáles sí.
 
 #### Gheco sugiere
-Dos índices: uno desde el principio y otro desde el final. Saltá los espacios, compará las letras con `tolower` y acercalos hasta que se crucen. Si alguna no coincide, no es palíndromo.
+Un **palíndromo** se lee igual al derecho y al revés, como «Neuquén».
+
+Usá dos índices: uno que arranca al principio y otro al final. En cada paso:
+
+- si alguno está sobre un espacio, salteá ese espacio;
+- compará las dos letras en minúscula (`tolower`), así «A» y «a» son iguales;
+- si no coinciden, no es palíndromo;
+- si coinciden, acercá los dos índices uno hacia el otro.
+
+Cuando se cruzan, ya comparaste todo.
 
 #### Desafío
 Escribí `es_palindromo(frase)`, que ignore los
@@ -2728,7 +2817,19 @@ recompensa: xp 10, oro 10
 Antes había una lista de nombres, otra de vidas y otra de fuerzas. Un día alguien ordenó una y no las otras, y Kira quedó con la vida de Tizón durante una semana. Ferrum manda hacer **fichas**.
 
 #### Gheco sugiere
-`typedef struct { … } Aprendiz;` define un tipo con varios campos. Cada campo se usa con el punto: `kira.vida`.
+Un **struct** junta varios datos distintos que van juntos, como una ficha: un nombre, un número, otro número. Con `typedef` le ponés nombre al tipo nuevo:
+
+```c
+typedef struct {
+    char nombre[12];
+    int edad;
+} Persona;
+
+Persona ana = { "Ana", 12 };
+printf("%s tiene %d\n", ana.nombre, ana.edad);
+```
+
+Cada dato de adentro es un **campo**, y se usa con un punto: `ana.edad`.
 
 #### Desafío
 Completá los campos que faltan en la ficha.
@@ -2794,7 +2895,13 @@ recompensa: xp 10, oro 10
 En las fichas viejas el oficio era un número: 0, 1 o 2. Nadie se acordaba cuál era cuál y Chispa figuraba como «minero».
 
 #### Gheco sugiere
-Un `enum` pone nombre a cada valor: `HERRERO` vale 0, `MINERA` 1 y `MERCADER` 2. Un `switch` puede usarlos en los `case`.
+Un **enum** le pone nombre a una lista de opciones. Por dentro son números (el primero vale 0, el segundo 1…), pero en el código se leen las palabras:
+
+```c
+typedef enum { ROJO, AMARILLO, VERDE } Semaforo;
+```
+
+Acá `ROJO` vale 0, `AMARILLO` 1 y `VERDE` 2. Son ideales para un `switch`: `case VERDE:` se entiende mucho mejor que `case 2:`.
 
 #### Desafío
 Completá los `case` del `switch` con los nombres del `enum`.
@@ -2876,7 +2983,14 @@ recompensa: xp 10, oro 10
 Hulda quiere saber **dónde** está cada minero: cada ficha necesita una posición en la mina (galería y profundidad). Y quiere poder mover a alguien de lugar sin rehacer la ficha.
 
 #### Gheco sugiere
-Un struct puede tener otro struct adentro: `minero.pos.galeria`. Para mover, se cambian los campos de la posición.
+Un struct puede tener otro struct adentro, como una ficha que tiene una ficha más chica pegada:
+
+```c
+typedef struct { int x; int y; } Punto;
+typedef struct { char nombre[12]; Punto lugar; } Bandera;
+```
+
+Para llegar al campo de adentro, se encadenan los puntos: `bandera.lugar.x`.
 
 #### Desafío
 Mové a Tizon a la galería 3, profundidad 40.
@@ -2954,7 +3068,9 @@ recompensa: xp 15, oro 15
 La ficha del pedido de plomo tiene un campo raro: un número que, según Ferrum, «no pesa nada que tenga sentido». Kira sospecha que hay que leerlo **de otra forma**.
 
 #### Gheco sugiere
-En un `union`, los campos ocupan el **mismo lugar**. Si se guarda un número en `valor`, `letras[0]` … `letras[3]` son sus cuatro bytes, empezando por el de menor peso (*little endian*).
+En un **union**, todos los campos comparten **el mismo lugar** de la memoria: es una sola caja que se puede mirar de varias formas. Si guardás un número de 4 bytes, mirándolo como `char letras[4]` ves esos mismos 4 bytes, uno por uno.
+
+Cada byte es un número, y un número también puede ser una letra (la `A` es el 65, por ejemplo). Ojo: en la mayoría de las computadoras, los bytes de un número se guardan empezando por el **de menor peso** (el de la derecha). Eso se llama *little endian*.
 
 #### Desafío
 Mostrá los cuatro bytes del número como letras.
@@ -3035,7 +3151,15 @@ Ferrum quiere una ficha de hierro para cada arma del depósito, igual que la de 
 —Y que se pueda usar y reparar sin perder la ficha.
 
 #### Gheco sugiere
-`typedef struct { ... } Arma;` con un `enum` para el tipo. Las funciones reciben el arma, la cambian y la **devuelven**: `arma = usar(arma, 10);`. El daño efectivo es la mitad si la durabilidad baja de 20.
+Armá el struct `Arma` con un `enum` adentro para el tipo (espada, hacha, arco).
+
+Acordate de que las funciones reciben una **copia**: para cambiar el arma, la función la recibe, la modifica y la **devuelve**, y quien llama la guarda:
+
+```c
+arma = usar(arma, 10);
+```
+
+Para el daño efectivo, un `if`: si la durabilidad baja de 20, el daño es la mitad.
 
 #### Desafío
 Un struct `Arma` con nombre, tipo (un `enum`: espada,
@@ -3176,7 +3300,10 @@ Tizón marca con tiza las zonas del patio: la del yunque, la del horno, la de la
 —Así no choca nadie más.
 
 #### Gheco sugiere
-Un punto está adentro si su `x` está entre la esquina y la esquina más el ancho, y lo mismo con `y` y el alto. Dos rectángulos se tocan si **no** está uno entero a la izquierda, a la derecha, arriba o abajo del otro.
+Un rectángulo se guarda con su esquina (una `Posicion` con `x` e `y`), su ancho y su alto.
+
+- **Un punto está adentro** si su `x` está entre la `x` de la esquina y esa `x` más el ancho, y lo mismo con `y` y el alto.
+- **Dos rectángulos se tocan** cuando **no** pasa ninguna de estas: uno está entero a la izquierda del otro, entero a la derecha, entero arriba o entero abajo. Es más fácil preguntar si están separados y dar vuelta la respuesta con `!`.
 
 #### Desafío
 Un struct `Rect` con una `Posicion` (la esquina de
@@ -3282,7 +3409,12 @@ Tizón armó un muñeco de práctica que camina, ataca y se frena según la pala
 —Pasale la lista de órdenes y contame qué hizo en cada una.
 
 #### Gheco sugiere
-Un `enum Estado` y una función `siguiente(estado, evento)` con un `switch` sobre el evento. Herido, `a` no cambia nada. Recorré el texto `"mapgamgpa"` y mostrá cada cambio.
+Una **máquina de estados** es una forma de pensar un personaje: siempre está en un estado (quieto, caminando…) y cada **evento** (una tecla, un golpe) lo puede pasar a otro.
+
+- Un `enum Estado` con los estados posibles.
+- Una función `siguiente(estado, evento)` que, con un `switch` sobre el evento, devuelve el estado nuevo. Si en ese estado el evento no hace nada (herido, `a` no cambia), devolvés el mismo.
+
+Después recorrés el texto de eventos letra por letra y mostrás cada cambio.
 
 #### Desafío
 Un `enum Estado` (quieto, caminando, atacando,
@@ -3936,7 +4068,18 @@ recompensa: xp 10, oro 10
 En los pasillos hay **carteles** que no guardan nada: señalan dónde está cada cosa. Tizón quiere cambiar la carga de un estante sin ir hasta él: le alcanza con tirar del cartel.
 
 #### Gheco sugiere
-`&carga` es la dirección de `carga`. Un puntero la guarda: `int *cartel = &carga;`. Con `*cartel = 50;` se cambia lo apuntado.
+Cada variable vive en un lugar de la memoria, y ese lugar tiene un número: su **dirección**. Ya la usaste con `scanf`: `&edad` es la dirección de `edad`.
+
+Un **puntero** es una variable que guarda una dirección. Es como un cartel que dice «el dato está en tal cajón»:
+
+```c
+int puntos = 10;
+int *p = &puntos;   // p apunta a puntos
+*p = 25;            // cambia puntos a través de p
+```
+
+- `int *p` declara un puntero a `int`.
+- `*p` quiere decir «lo que está donde apunta `p`». Cambiar `*p` cambia `puntos`.
 
 #### Desafío
 Completá el puntero y el cambio a través de él.
@@ -3997,7 +4140,15 @@ Kira sigue un cartel que dice «por acá» con toda la confianza del mundo. El c
 Hulda la saca con una soga.
 
 #### Gheco sugiere
-Un puntero que no apunta a nada vale `NULL`. Usar `*p` con `p == NULL` rompe el programa. Siempre se pregunta antes: `if (p != NULL)`.
+Un puntero que no apunta a ningún lado vale `NULL` (algo así como «ninguna dirección»). Es útil para decir «acá no hay nada».
+
+Pero si usás `*p` cuando `p` vale `NULL`, el programa se rompe: le estás pidiendo que lea un cajón que no existe. Por eso, antes de seguir un puntero que puede estar vacío, preguntá:
+
+```c
+if (p != NULL) {
+    printf("%d\n", *p);
+}
+```
 
 #### Desafío
 Protegé la lectura: si el cartel es `NULL`, avisá en lugar de seguirlo.
@@ -4063,7 +4214,19 @@ recompensa: xp 10, oro 10
 Chispa intercambió dos estantes con una función que trabajaba con copias. Los estantes, claro, siguen igual. Él dice que «en su compu andaba».
 
 #### Gheco sugiere
-Para que una función cambie variables de afuera, recibe sus **direcciones** (`int *a, int *b`) y cambia `*a` y `*b`. Se llama con `intercambiar(&x, &y)`.
+Ya viste que una función recibe una **copia**: si la cambia, la variable de afuera no se entera. Con punteros se puede: le pasás la **dirección** de la variable, y la función cambia lo que está en esa dirección.
+
+```c
+void poner_en_cero(int *x)
+{
+    *x = 0;
+}
+
+int vidas = 3;
+poner_en_cero(&vidas);   // vidas ahora vale 0
+```
+
+La función recibe `int *` y usa `*x`; quien la llama pasa `&vidas`. Para intercambiar dos variables, la función necesita las direcciones de las dos.
 
 #### Desafío
 Completá la función y la llamada.
@@ -4133,7 +4296,12 @@ recompensa: xp 15, oro 15
 Tizón descubre que puede recorrer el pasillo moviendo el cartel, sin contar estantes: cada `+ 1` lo lleva al siguiente, mida lo que mida cada uno.
 
 #### Gheco sugiere
-Si `p` apunta a `v[0]`, `p + 1` apunta a `v[1]`: C avanza de a **un elemento**. `*(p + i)` es `v[i]`.
+El nombre de un array, solo, es la dirección de su primer cajón. Entonces un puntero puede recorrerlo:
+
+- si `p` apunta al primero, `p + 1` apunta al segundo;
+- `*(p + i)` es lo mismo que `v[i]`.
+
+C avanza de a **un elemento** entero, no de a un byte: si son `int`, salta un `int` por vez.
 
 #### Desafío
 Recorré los pesos con el puntero, sin corchetes.
@@ -4198,7 +4366,15 @@ Tizón está harto de copiar el mismo bucle de preguntar cada vez que necesita u
 —Hacé una receta que pregunte hasta que le contesten bien, y que deje el número donde le digas. Probala con tres durezas de metal.
 
 #### Gheco sugiere
-`pedir_entero` recibe un `int *resultado`: guarda el número con `*resultado = valor` y devuelve `true`, o `false` si `fgets` da `NULL`. `ordenar_tres(&x, &y, &z)` compara de a dos e intercambia con `intercambiar(&a, &b)`.
+Una función solo puede devolver una cosa con `return`. Si necesitás dos resultados (si pudo leer, y el número), devolvé uno con `return` y el otro a través de un puntero:
+
+```c
+bool pedir_entero(int *resultado)
+```
+
+Adentro, guardás el número con `*resultado = valor;` y devolvés `true` si salió bien o `false` si `fgets` devolvió `NULL` (no había más para leer).
+
+Para ordenar tres valores con `intercambiar`: comparás de a dos y, si están al revés, los intercambiás pasando sus direcciones.
 
 #### Desafío
 Convertí el bucle de validación del 07 en una
@@ -4334,7 +4510,11 @@ Hulda le enseña a Kira a recorrer los pasillos sin mirar los números de los es
 —Uno desde cada punta, hasta que se encuentren.
 
 #### Gheco sugiere
-Un puntero avanza con `p++` y se lee con `*p`. Para invertir, `izq = v` y `der = v + n - 1`: intercambiás y se acercan mientras `izq < der`. `mi_strlen` avanza hasta encontrar el `'\0'` y devuelve `p - texto`.
+Se puede recorrer sin índices, solo moviendo un puntero:
+
+- `p++` lo avanza al cajón siguiente y `*p` lee lo que hay ahí.
+- **Invertir**: un puntero al principio (`v`) y otro al final (`v + n - 1`). Intercambiás lo que apuntan y los acercás, mientras el de la izquierda esté antes que el de la derecha.
+- **Largo de un texto**: avanzá hasta encontrar el tapón `'\0'`. La resta de dos punteros da cuántos cajones hay entre ellos: `p - texto` es el largo.
 
 #### Desafío
 Sin usar índices: `contar_mayores(inicio, fin,
@@ -4458,7 +4638,11 @@ Una horda de orcos duerme en fila en el pasillo. Tizón quiere saber dónde est�
 —Dame la dirección. Del resto me encargo.
 
 #### Gheco sugiere
-`extremos` recibe `int **menor` y `int **mayor`: guarda en `*menor` la **dirección** del elemento (`&v[i]`). Después, `**mayor /= 2` cambia la vida en el array, y `*mayor - v` da la posición.
+Si una función tiene que devolver una **dirección** a través de un parámetro, ese parámetro es un puntero a puntero: `int **menor`.
+
+- Adentro guardás la dirección del elemento: `*menor = &v[i];`
+- Afuera, `*mayor` es la dirección del elemento y `**mayor` es su valor: `**mayor /= 2` cambia el elemento dentro del array.
+- Restando direcciones sacás la posición: `*mayor - v`.
 
 #### Desafío
 Escribí `extremos(v, n, int **menor, int
@@ -5022,7 +5206,18 @@ recompensa: xp 10, oro 10
 Kira manda su ficha al taller para que le suban la fuerza, y vuelve igual: el taller cambió una **copia**. —Es como fundir otra espada cada vez que querés afilarla —dice Ferrum—. Mandá el cartel.
 
 #### Gheco sugiere
-Con `Aprendiz *a`, la función recibe la dirección de la ficha. `a->fuerza` es el campo de la ficha original. Se llama con `entrenar(&kira)`.
+Con un struct pasa lo mismo que con un número: la función recibe una copia. Para que cambie la ficha original, pasale su **dirección**:
+
+```c
+void cumplir_anios(Persona *p)
+{
+    p->edad += 1;
+}
+
+cumplir_anios(&ana);
+```
+
+Con un puntero a struct, los campos se usan con una **flecha** `->` en vez del punto: `p->edad` es «el campo `edad` de la ficha a la que apunta `p`».
 
 #### Desafío
 Hacé que `entrenar` reciba un puntero y cambie la ficha original.
@@ -5099,7 +5294,12 @@ recompensa: xp 10, oro 10
 Tizón manda un cartel a la ficha de Hulda… pero confunde el **punto** con la **flecha** y el Horno no quiere saber nada. Hulda todavía no sabe si reírse.
 
 #### Gheco sugiere
-Con la variable struct se usa el punto: `hulda.vida`. Con un **puntero** a struct, la flecha: `p->vida`.
+La regla para elegir:
+
+- Si tenés **la ficha** (una variable struct), punto: `ficha.campo`.
+- Si tenés **un puntero** a la ficha, flecha: `puntero->campo`.
+
+`p->vida` es una forma corta de escribir `(*p).vida`.
 
 #### Desafío
 Corregí los accesos: uno es una variable y el otro, un puntero.
@@ -5168,7 +5368,9 @@ recompensa: xp 10, oro 10
 Chispa pidió ver la ficha de un lingote «solo para mirar», y le bajó el precio a la mitad. Ferrum quiere una ventanilla que muestre pero **no deje tocar**.
 
 #### Gheco sugiere
-Con `const Ficha *f`, la función recibe la dirección (no copia la ficha entera) pero el compilador **no deja** cambiarla. Mostrar sí.
+Pasar un struct grande por copia gasta memoria y tiempo. Pasar su dirección es más liviano, pero entonces la función **podría** cambiarlo sin querer.
+
+`const` resuelve eso: con `const Persona *p`, la función recibe la dirección pero el compilador **no la deja** cambiar nada; si lo intenta, da error. Sirve para funciones que solo miran, como las que muestran.
 
 #### Desafío
 Agregá `const` al parámetro y completá lo que muestra.
@@ -5242,7 +5444,14 @@ recompensa: xp 15, oro 15
 Después de un derrumbe, Hulda tiene vendas para uno solo: para el más herido de la cuadrilla. Quiere una función que le **señale** a quién, para curarlo ahí mismo.
 
 #### Gheco sugiere
-La función recorre el array y devuelve `&v[i]` del de menos vida. Con ese puntero, `herido->vida += 30` cura al original.
+Una función puede devolver la **dirección** de un elemento de un array, en vez de su valor. Con esa dirección, quien llama puede cambiar el original:
+
+```c
+Persona *mayor = mas_grande(grupo, 3);
+mayor->edad = 0;   // cambia el del array
+```
+
+Adentro, la función guarda `&v[i]` del que busca, y lo devuelve al final.
 
 #### Desafío
 Completá el puntero que se devuelve y la cura.
@@ -5339,7 +5548,11 @@ La mochila de Kira tiene lugar para pocas cosas. Hulda le muestra cómo cargarla
 —Si sacás algo del medio, corré lo de atrás. No me dejes huecos.
 
 #### Gheco sugiere
-Las funciones reciben `Personaje *p` y usan `p->mochila` y `p->cantidad`. `quitar` busca el objeto, corre los de atrás una posición y resta uno. `tiene` recibe `const Personaje *`: solo mira.
+Las funciones de la mochila reciben `Personaje *p` y trabajan con `p->mochila` y `p->cantidad`, así cambian al personaje original.
+
+- **Agregar**: si hay lugar, copiás el nombre en la posición `p->cantidad` y sumás uno.
+- **Quitar**: buscás el objeto, corrés los que están detrás un lugar hacia adelante (para tapar el hueco) y restás uno.
+- **Tiene**: solo mira, así que recibe `const Personaje *`.
 
 #### Desafío
 Rehacé la mochila del 12 con funciones que
@@ -5488,7 +5701,13 @@ Antes de la Arena, Tizón organiza un duelo de práctica entre dos muñecos con 
 —Atacan de a uno. Cambiá el atacante y el defensor en cada turno.
 
 #### Gheco sugiere
-`srand(7)`. En cada turno, daño = ataque + tirada de 0 a 5 − defensa, mínimo 1, y el doble con un 5. Para alternar, intercambiá los punteros `atacante` y `defensor`. `duelo` devuelve un puntero al que quedó en pie. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+Fijá la semilla con `srand(7)`. En cada turno, el daño es: ataque + una tirada de 0 a 5 − defensa. Nunca menos de 1, y si la tirada fue 5, el doble.
+
+Un truco para alternar los turnos: dos punteros, `atacante` y `defensor`. Después de cada golpe, intercambiás los **punteros** (no los luchadores) y el que pegaba pasa a recibir.
+
+`duelo` devuelve un puntero al que quedó en pie.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Dos `Luchador` (vida, ataque, defensa) pelean por turnos con
@@ -5635,7 +5854,9 @@ Ferrum tiene que actualizar las fichas de los aprendices con la experiencia del 
 —Que la ficha lo calcule sola. Yo no pienso contar.
 
 #### Gheco sugiere
-`ganar_experiencia(Personaje *p, int xp)` suma la experiencia y, con un `while`, sube de nivel mientras alcance `nivel * 100`: resta lo que cuesta, sube vida y ataque. Devuelve cuántas veces subió.
+`ganar_experiencia(Personaje *p, int xp)` cambia al personaje original, así que recibe un puntero.
+
+Suma la experiencia y, con un `while`, sube de nivel **mientras alcance**: subir del nivel 3 cuesta `3 * 100`. En cada vuelta restás lo que cuesta, subís el nivel, la vida y el ataque, y contás. Con mucha experiencia de golpe puede subir más de un nivel. Al final devolvés cuántas veces subió.
 
 #### Desafío
 `ganar_experiencia(Personaje *p, int xp)` suma la
@@ -6303,7 +6524,9 @@ recompensa: xp 10, oro 10
 El registro de la Forja es un estante con lugar para diez fichas, pero hoy hay cuatro. Tizón quiere el listado y el promedio de fuerza, sin contar los lugares vacíos.
 
 #### Gheco sugiere
-Un array de structs se recorre igual que cualquier array, hasta la **cantidad** cargada (no hasta el tamaño): `v[i].fuerza`.
+Un array puede guardar structs: un estante de fichas. Se recorre como cualquier array, y de cada ficha se usa el campo con el punto: `v[i].edad`.
+
+Ojo: si el array tiene lugar para 10 pero cargaste 4, recorré hasta la **cantidad** cargada, no hasta el tamaño. Los otros cajones están vacíos.
 
 #### Desafío
 Completá el recorrido y la suma.
@@ -6383,7 +6606,16 @@ recompensa: xp 10, oro 10
 Ferrum busca a un aprendiz por su número de legajo. Si no existe, quiere un aviso, no un aprendiz cualquiera.
 
 #### Gheco sugiere
-La función recorre y devuelve la **posición** donde está el legajo, o `-1` si no lo encuentra. Quien la llama pregunta si dio `-1`.
+Para buscar algo en un array, una función lo recorre y, en cuanto lo encuentra, devuelve la **posición** con `return`.
+
+Si termina de recorrer sin encontrarlo, devuelve `-1`: ningún array tiene una posición negativa, así que quien llama sabe que no estaba.
+
+```c
+int pos = buscar(v, n, 205);
+if (pos == -1) {
+    printf("no está\n");
+}
+```
 
 #### Desafío
 Completá la comparación y lo que se devuelve si no está.
@@ -6484,7 +6716,12 @@ recompensa: xp 15, oro 15
 Ferrum quiere el cuadro de honor por temple de mayor a menor y, si empatan, por nombre. Kira los ordenó por altura. Tizón quedó primero por tercera vez y nadie le cree.
 
 #### Gheco sugiere
-`va_antes` decide el orden: si los promedios son distintos, va antes el mayor; si empatan, el que va antes alfabéticamente (`strcmp(a, b) < 0`). La burbuja intercambia cuando el de la derecha `va_antes` que el de la izquierda.
+Para ordenar, el método de la **burbuja** recorre el array muchas veces comparando vecinos de a dos: si están al revés, los intercambia. Los grandes van «subiendo» como burbujas.
+
+Para decidir el orden conviene una función `va_antes(a, b)` que conteste «¿`a` va antes que `b`?»:
+
+- si los puntajes son distintos, va antes el mayor;
+- si empatan, se **desempata** por nombre: `strcmp(a, b) < 0` quiere decir que `a` va antes en el orden alfabético.
 
 #### Desafío
 Completá el desempate.
@@ -6593,7 +6830,13 @@ recompensa: xp 15, oro 15
 Ferrum saca de un cajón un autómata de bronce que ordena cualquier cosa… si le explicás cómo comparar. Kira tiene que escribir esa explicación para ordenar los lingotes por precio.
 
 #### Gheco sugiere
-`qsort` necesita una función `int comparar(const void *a, const void *b)`. Adentro se convierten: `const Lingote *x = a;` y se devuelve `x->precio - y->precio` (negativo si va antes).
+C trae una función para ordenar: `qsort`, de `<stdlib.h>`. Ella hace todo el trabajo, pero vos le decís **cómo comparar** dos elementos con una función:
+
+```c
+int comparar(const void *a, const void *b)
+```
+
+`void *` es un puntero «a cualquier cosa»: adentro lo convertís al tipo de verdad (`const Lingote *x = a;`). La función devuelve un número **negativo** si `a` va antes, **positivo** si va después y **0** si da igual. Restar los dos valores da justo eso.
 
 #### Desafío
 Completá la comparación.
@@ -6683,7 +6926,13 @@ En la entrada de la Arena hay un tablero con los cinco mejores puntajes. Tizón 
 —Y si no entrás, que te lo diga. Sin vueltas.
 
 #### Gheco sugiere
-Buscá el primer puesto con menos puntos que el nuevo. Corré los de abajo un lugar hacia atrás (el último se cae si está lleno) y poné el nuevo en el hueco. Devolvé el puesto, o `-1` si no entró.
+El tablero tiene lugar para 5 y siempre está ordenado de mayor a menor. Para meter un puntaje nuevo:
+
+1. Buscá el primer puesto con menos puntos que el nuevo: ahí va.
+2. Corré los de abajo un lugar hacia atrás, empezando por el último (si el tablero estaba lleno, el último se cae).
+3. Poné el nuevo en el hueco.
+
+Devolvé el puesto, o `-1` si no entró.
 
 #### Desafío
 Guardá los 5 mejores puntajes **siempre
@@ -6817,7 +7066,11 @@ Hulda arma la armería para la expedición: quiere armas livianas, la que más d
 —No pienso cargar un hacha de doce kilos por una cueva.
 
 #### Gheco sugiere
-Recorré el array para las livianas y para la de mejor `danio / peso` (devolvé un puntero a ella). `qsort` necesita una función de comparación que reciba dos `const void *`: compará por daño y, si empatan, con `strcmp`.
+Tres recorridos distintos sobre el mismo array:
+
+- **Filtrar**: mostrá solo las que cumplen (las livianas).
+- **Buscar la mejor**: la de mayor `danio / peso`. Acordate de convertir a `double` para no perder decimales, y devolvé un puntero a ella.
+- **Ordenar**: con `qsort` y una función de comparación que reciba dos `const void *`. Primero compará por daño (de mayor a menor) y, si empatan, por nombre con `strcmp`.
 
 #### Desafío
 Con un array de armas (nombre, daño, peso): mostrá las que
@@ -6946,7 +7199,11 @@ Ferrum le entrega a Kira el libro de la compañía.
 —Vas a ser la encargada del registro: altas, bajas, búsquedas y la lista completa. Sin nombres repetidos y sin pasarte del lugar que hay.
 
 #### Gheco sugiere
-Un menú en un bucle con `pedir_entero`. Antes de agregar, fijate que haya lugar y que el nombre no esté. `pedir_texto` repite mientras la línea esté vacía. Para quitar, corré los de atrás.
+Un menú adentro de un bucle, con `pedir_entero` para elegir la opción. Antes de cada acción, revisá lo que puede salir mal:
+
+- **Agregar**: que haya lugar y que el nombre no esté ya.
+- **Pedir un texto**: `pedir_texto` repite mientras la línea esté vacía.
+- **Quitar**: buscás y corrés los de atrás un lugar para tapar el hueco.
 
 #### Desafío
 Un menú que agrega (sin repetir nombres ni pasarse
@@ -7203,7 +7460,11 @@ Ferrum quiere colgar el cuadro de honor de los aprendices, ordenado por su prome
 —Y si empatan, por nombre.
 
 #### Gheco sugiere
-Calculá el promedio de cada uno y ordená con **burbuja**: intercambiás dos fichas si el promedio de la primera es menor o, si son iguales, si su nombre va después (`strcmp(...) > 0`). Mostrá el promedio con `%.2f`.
+Primero calculá el promedio de cada aprendiz y guardalo en su ficha. Después ordená con **burbuja**: recorré comparando vecinos e intercambialos cuando están al revés.
+
+Están al revés si el promedio del primero es **menor**, o si son iguales y su nombre va **después** en el orden alfabético (`strcmp(...) > 0`). Para intercambiar dos fichas, usá una ficha auxiliar.
+
+Mostrá el promedio con `%.2f`.
 
 #### Desafío
 Ferrum quiere colgar en la pared el **cuadro de honor** de los aprendices.
@@ -8030,7 +8291,16 @@ recompensa: xp 15, oro 15
 En la Arena, la **Araña de las Direcciones** teje carteles que apuntan a otros carteles. Kira, por primera vez, no tira el primer golpe: saca la libreta de Tizón y sigue los hilos de a uno.
 
 #### Gheco sugiere
-Un puntero a puntero (`int **pp`) guarda la dirección de otro puntero. `*pp` es el puntero del medio y `**pp`, el valor del final.
+Un puntero también vive en un cajón, así que tiene dirección. Un **puntero a puntero** guarda la dirección de otro puntero: un cartel que señala a otro cartel.
+
+```c
+int x = 5;
+int *p = &x;
+int **pp = &p;
+```
+
+- `*pp` es lo que está donde apunta `pp`: el puntero `p`.
+- `**pp` sigue los dos carteles hasta el final: el valor de `x`.
 
 #### Desafío
 Seguí los dos carteles hasta el tesoro.
@@ -8089,7 +8359,15 @@ recompensa: xp 15, oro 15
 La Araña tiende su red justo después del último lugar del array: espera que alguien lea uno de más. Hulda le pasa a Kira una regla: «antes de pisar, contá».
 
 #### Gheco sugiere
-Antes de usar `v[pos]`, se comprueba `pos >= 0 && pos < n`. Si no, se avisa y no se toca.
+C no revisa si un índice existe: si pedís `v[10]` en un array de 4, lee memoria que no es tuya, sin avisar. Por eso, cuando el índice viene de afuera (lo escribió alguien), revisalo **antes** de usarlo:
+
+```c
+if (pos >= 0 && pos < n) {
+    // recién ahora, v[pos]
+}
+```
+
+Si no está en el rango, avisás y no tocás el array.
 
 #### Desafío
 Completá la comprobación.
@@ -8169,7 +8447,9 @@ recompensa: xp 15, oro 15
 La Araña muerde y envenena: cada turno le saca vida a quien muerde. Kira escribe un turno que actúa sobre las fichas **originales**, con carteles.
 
 #### Gheco sugiere
-`void morder(Luchador *atacante, Luchador *victima)` resta el ataque de uno a la vida del otro con `->`. La vida no baja de 0.
+La función recibe dos punteros a struct: el que pega y el que recibe. Con la flecha, restás el ataque del primero a la vida del segundo: `victima->vida -= atacante->ataque;`.
+
+Después, que la vida no quede negativa: si bajó de 0, la dejás en 0. El atacante no cambia, así que puede ir con `const`.
 
 #### Desafío
 Completá la mordida.
@@ -8261,7 +8541,9 @@ item: Hilo de las Direcciones
 La Araña tiene cuatro patas sanas y una vida enorme. Kira anotó en la libreta qué golpe va a cada pata. Si los aplica en orden, sobre las patas **originales**, la Araña se enreda en su propia tela.
 
 #### Gheco sugiere
-`golpear(&patas[i], golpe)` cambia la pata original. Al final se cuentan las patas con resistencia 0.
+`golpear` recibe la dirección de una pata, así cambia la original: en el bucle se llama con `&patas[i]`.
+
+Al final, otro recorrido cuenta las patas que quedaron con resistencia 0.
 
 #### Desafío
 Completá la llamada y la cuenta de patas rotas.
@@ -8374,7 +8656,13 @@ Antes de la Araña, en la Arena aparece un goblin con dagas envenenadas. Tizón 
 —Si te pincha, el veneno dura tres turnos. Una poción también lo cura.
 
 #### Gheco sugiere
-Agregá a `Partida` un campo para los turnos de veneno que quedan. Cada golpe del goblin lo pone en 3 si Kira no estaba envenenada; al empezar su turno, si es mayor que 0, resta 3 de vida y descuenta uno. La poción lo pone en 0. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+Agregá a `Partida` un campo nuevo: cuántos turnos de veneno le quedan a Kira.
+
+- Cuando el Goblin pega y Kira no estaba envenenada, el campo pasa a 3.
+- Al empezar el turno de Kira, si es mayor que 0, pierde 3 de vida y el campo baja uno.
+- La poción también lo pone en 0.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Cada golpe del Goblin envenena a Kira (si no lo
@@ -9110,7 +9398,11 @@ Chispa arma un puestito al costado de la Arena. Cada rival vencido deja oro, y �
 —Comprá lo que quieras. Si no te alcanza, te aviso. Con descuento, no.
 
 #### Gheco sugiere
-Cada rival deja su vida máxima dividida por 3 en oro. La tienda es un menú en un bucle que termina con 0: si el oro no alcanza, avisá y no compres. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+Cada rival vencido deja oro: su vida máxima dividida por 3 (división entera).
+
+La tienda es un menú adentro de un bucle que termina cuando se elige 0. Antes de vender, revisá que el oro alcance; si no, avisás y no comprás. Se puede comprar varias cosas antes de salir.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Cada rival deja oro (su vida máxima / 3). La
@@ -9861,7 +10153,11 @@ Después de la pelea con la Araña, Tizón quiere escribir la crónica. Pero no 
 —Los demás no los cuenta nadie.
 
 #### Gheco sugiere
-Agregá a `Partida` un array de structs (turno, rival, daño) y un contador. Al final, `qsort` con una comparación que ordene por daño de mayor a menor y, si empatan, por turno. Mostrá los primeros tres. La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+Para recordar cada golpe, agregá a `Partida` un array de structs (turno, rival y daño) y un contador de cuántos guardaste.
+
+Al final, ordená con `qsort`: la función de comparación pone primero el de más daño y, si empatan, el de turno más chico. Mostrá los tres primeros.
+
+La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
 
 #### Desafío
 Guardá cada golpe de Kira en un array de structs

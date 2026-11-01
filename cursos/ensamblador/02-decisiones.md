@@ -164,7 +164,9 @@ recompensa: xp 10, oro 10
 La primera compuerta tiene una cerradura con un número grabado: el **7**. Nova tiene un 7 en AL. —¿Cómo le pregunto al Gólem si son iguales?
 
 #### Gheco sugiere
-`cmp al, 7` resta 7 a AL **sin cambiar AL**: solo prende los interruptores. Si son iguales, la resta da 0 y se prende **ZF**.
+Para decidir, el Gólem primero **compara**. `cmp al, 7` resta 7 a `AL` en secreto, **sin cambiar AL**: solo mira cómo dio la cuenta y prende unos **interruptores** (en la compu de verdad se llaman **banderas**, *flags*).
+
+El más usado es **ZF** (*zero flag*): se prende si la resta dio 0, o sea, si los dos eran **iguales**. Mirá la pestaña **Interruptores** después del `cmp`.
 
 #### Desafío
 Completá la comparación para que se prenda **ZF**, y fijate que AL siga valiendo 7.
@@ -237,7 +239,9 @@ recompensa: xp 10, oro 10
 Detrás de la primera compuerta hay una trampa: una orden que pone un **9** en BL. Nova la quiere esquivar entera, sin borrarla.
 
 #### Gheco sugiere
-`jmp listo` salta **siempre** a la etiqueta `listo:`, y lo que queda en el medio no se ejecuta.
+Un **salto** hace que el Gólem siga en otra parte del programa, en vez de la línea de abajo. Las partes se marcan con **etiquetas**: un nombre con dos puntos, como `listo:`.
+
+`jmp listo` salta **siempre** a `listo:`, y lo que queda en el medio no se ejecuta.
 
 #### Desafío
 Completá el salto para que el Gólem pase por encima de la trampa y BL se quede en **1**.

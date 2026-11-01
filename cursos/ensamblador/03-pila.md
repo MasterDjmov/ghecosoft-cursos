@@ -147,7 +147,12 @@ recompensa: xp 10, oro 10
 Nova tiene un **5** en AX, pero necesita AX para otra cuenta. No quiere perder el 5: lo deja un ratito en la torre.
 
 #### Gheco sugiere
-`push ax` pone una copia arriba de la torre. Usá AX para lo que quieras, y después `pop ax` lo devuelve como estaba.
+La **pila** es una torre de platos en la memoria: lo último que ponés arriba es lo primero que sacás.
+
+- `push ax` apila una **copia** de `AX` arriba de la torre;
+- `pop ax` saca el plato de arriba y lo pone en `AX`.
+
+Sirve para guardar una palanca un rato: la apilás, la usás para otra cosa, y al sacarla vuelve como estaba.
 
 #### Desafío
 Completá el `push` y el `pop` para que, al final, AX vuelva a valer **5**, BX tenga el **9** de la otra cuenta y la torre quede como empezó (SP = 100h).
@@ -851,7 +856,16 @@ recompensa: xp 10, oro 10
 Gheco ya escribió una rutina que pasa de renglón: `salto`. Nova solo tiene que **llamarla** entre las dos palabras.
 
 #### Gheco sugiere
-`call salto` hace todo lo que está entre `salto proc` y su `ret`, y vuelve a la orden siguiente.
+Una **rutina** es un pedazo de programa con nombre que se puede usar muchas veces (como una función en Python):
+
+```asm
+salto proc
+    ...
+    ret
+salto endp
+```
+
+`call salto` ejecuta todo lo que está entre `salto proc` y su `ret`, y después **vuelve** a la orden siguiente al `call`. (Para saber adónde volver, el Gólem usa la pila.)
 
 #### Desafío
 Completá la llamada para que las palabras salgan en dos renglones.

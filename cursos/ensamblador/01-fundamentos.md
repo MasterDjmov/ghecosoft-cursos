@@ -172,7 +172,18 @@ recompensa: xp 10, oro 10
 Nova junta coraje y le pide al Gólem que muestre su inicial en el ojo. —Una sola letra —dice—. La **N**.
 
 #### Gheco sugiere
-En `DL` va el carácter entre comillas simples, en `AH` el pedido `02h`, y después `int 21h`.
+Para mostrar algo en la pantalla, el programa le **pide** un servicio a DOS (el sistema que corre el Gólem). El pedido se hace con `int 21h` (*interrupción 21h*), y antes se deja en `AH` **qué** se pide:
+
+- `AH = 02h` quiere decir «mostrá un carácter»;
+- el carácter va en `DL`, entre comillas simples.
+
+```asm
+mov dl, 'A'
+mov ah, 02h
+int 21h
+```
+
+Muestra una **A**.
 
 #### Desafío
 Completá la orden que falta para que el ojo muestre la letra **N**.
@@ -245,7 +256,15 @@ recompensa: xp 10, oro 10
 Letra por letra tarda una eternidad. —¿No puedo mostrar una frase de una vez? —pregunta Nova.
 
 #### Gheco sugiere
-La función `09h` muestra un texto entero. Necesita en `DX` la **dirección** donde empieza: `mov dx, offset saludo`.
+La función `09h` de DOS muestra un **texto entero**, no un solo carácter. Necesita saber **dónde empieza** el texto en la memoria: su **dirección**, que va en `DX`.
+
+```asm
+mov dx, offset saludo
+mov ah, 09h
+int 21h
+```
+
+`offset saludo` es la dirección del cajón donde empieza `saludo`.
 
 #### Desafío
 El texto ya está guardado en `saludo`. Completá la orden para que DX tenga **su dirección** y el ojo muestre la frase.
@@ -800,7 +819,13 @@ recompensa: xp 10, oro 10
 Nova encuentra un cajón vacío y le pone una etiqueta: **pociones**. Adentro guarda tres frasquitos de luz.
 
 #### Gheco sugiere
-En `.data` se declara con `nombre db valor`. Después, `mov al, pociones` copia lo que hay en el cajón a la palanca AL.
+Además de las palancas, el Gólem tiene **cajones**: lugares de la memoria con nombre, para guardar datos. Se declaran en la sección `.data`:
+
+```asm
+pociones db 3
+```
+
+`db` (*define byte*) reserva un cajón de 1 byte con un 3 adentro. Después, `mov al, pociones` copia lo que hay en el cajón a la palanca `AL`. Es como en Python `pociones = 3`.
 
 #### Desafío
 Declará la variable `pociones` con el valor **3** y copiala en **AL**.
@@ -2242,7 +2267,14 @@ recompensa: xp 10, oro 10
 Kira, frente a la boca de bronce, quiere contestarle al Gólem. {mentor} pregunta en el ojo si ya despertó del todo; Kira apoya el dedo sobre la tecla **s**.
 
 #### Gheco sugiere
-Con `mov ah, 01h` y `int 21h`, el Gólem espera una tecla, la muestra y deja su código en AL. Guardala enseguida en BL, antes de que se pise.
+Para **leer** una tecla se le pide a DOS la función `01h`:
+
+```asm
+mov ah, 01h
+int 21h
+```
+
+El Gólem espera a que se apriete una tecla, la muestra, y deja su código en `AL`. Guardala enseguida en otra palanca (por ejemplo, `mov bl, al`): la próxima orden que use `AL` la pisa.
 
 #### Desafío
 Completá la función para que el Gólem **lea una tecla con eco** y la guarde en **BL**. Kira va a apretar la `s`.
@@ -3196,7 +3228,12 @@ recompensa: xp 10, oro 10
 Kira tiene **4** pociones, compra **3** en el Puerto y usa **2** subiendo por las escaleras del Gólem. Nova quiere que {mentor} lleve la cuenta.
 
 #### Gheco sugiere
-`add bl, 3` suma 3 a lo que hay en BL; `sub bl, 2` le resta 2. Es el `bl += 3` y el `bl -= 2` de C o Python.
+Para hacer cuentas:
+
+- `add bl, 3` suma 3 a lo que hay en `BL`;
+- `sub bl, 2` le resta 2.
+
+El resultado queda en la misma palanca. Es el `bl += 3` y el `bl -= 2` de C o Python.
 
 #### Desafío
 Completá las dos órdenes que faltan para que BL termine con las pociones que le quedan a Kira, y el ojo las muestre.

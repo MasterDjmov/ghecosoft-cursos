@@ -246,7 +246,15 @@ item: Fragmento del Vitral
 Nova mira la primera palanca, la que dice **AX**. Tiene un visor con cuatro ceros. —Quiero moverla —dice—. ¿Cómo?
 
 #### Gheco sugiere
-`mov ax, 5` pone un 5 en la palanca `AX`. El destino va primero, después una coma y el valor.
+El Gólem tiene **palancas**: lugares donde guarda un número mientras trabaja. En la computadora de verdad se llaman **registros**, y cada uno tiene nombre de dos letras: `AX`, `BX`, `CX`, `DX`…
+
+La orden `mov` (de *move*, mover) pone un valor en una palanca:
+
+```asm
+mov ax, 5
+```
+
+Pone un 5 en la palanca `AX`. Primero va el **destino** (adónde), después una coma, y al final el **valor**. Mirá el tablero: la palanca cambia.
 
 #### Desafío
 Completá la orden para que la palanca **AX** quede en **5**. Después probá **Paso a paso** y mirá cómo se ilumina AX.
@@ -388,7 +396,9 @@ recompensa: xp 10, oro 10
 El visor de CX muestra cosas raras: `00FF`. —¿Por qué tiene letras? —pregunta Nova. —Porque cuento en hexadecimal —retumba {mentor}—. Es más cómodo para mí.
 
 #### Gheco sugiere
-`0FFh` es 255 en hexadecimal: la **h** al final dice «es hexa» y el **0** adelante dice «es un número, no un nombre». Sin el 0, aparece un slime: `Symbol not defined : FFh`.
+Las computadoras suelen mostrar los números en **hexadecimal** (base 16): después del 9 siguen `A`, `B`, `C`, `D`, `E` y `F` (la `F` vale 15). Así, `FF` es 255.
+
+En el ensamblador, un número en hexa lleva una **h** al final: `0FFh`. Y si empieza con letra, lleva un **0** adelante, para que no se confunda con un nombre. Sin el 0, aparece un slime: `Symbol not defined : FFh` («no conozco nada que se llame FFh»).
 
 #### Desafío
 Este programa tiene un slime: el número está mal escrito. Arreglalo para que **CX** quede en **255** (FFh).

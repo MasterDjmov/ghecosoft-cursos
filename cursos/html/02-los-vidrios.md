@@ -1613,7 +1613,18 @@ recompensa: xp 10, oro 10
 Iris mide a ojo y el texto queda pegado al plomo. Justo pasa por el taller **Tesla**, el Artífice de la Ciudadela, y se ríe: —Igual que Tesela cuando éramos aprendices de Ferrum. —{mentor} lo mira por encima del monóculo y Tesla se pone serio de golpe.
 
 #### Gheco sugiere
-Todo es una **caja**: contenido, relleno (`padding`), borde y margen. El `padding` es el aire **adentro** del borde.
+Para CSS, todo elemento es una **caja** con cuatro capas, de adentro hacia afuera:
+
+1. el **contenido** (el texto, la imagen);
+2. el **relleno** (`padding`): el aire **adentro** del borde;
+3. el **borde** (`border`);
+4. el **margen** (`margin`): el aire **afuera** del borde, que la separa de las otras cajas.
+
+```css
+.marco { padding: 1rem; }
+```
+
+`rem` es una medida: 1rem es el tamaño de la letra normal de la página.
 
 #### Desafío
 El `padding` es el espacio **adentro** del borde, entre el borde y el texto.
@@ -2574,7 +2585,13 @@ En la cornisa del ventanal van el escudo y los trofeos, uno al lado del otro. Ir
 —Dejá de empujar los vidrios con el dedo —dice {mentor}, y le da una regla que se estira.
 
 #### Gheco sugiere
-Con `display: flex` en el **contenedor**, sus hijos se ponen en fila y se reparten el espacio solos.
+Por defecto, los elementos se apilan uno debajo del otro. Con `display: flex` en el **contenedor** (el padre), sus hijos se ponen **en fila** y se reparten el espacio solos:
+
+```css
+.barra { display: flex; }
+```
+
+Se le pone al padre, no a cada hijo.
 
 #### Desafío
 Los dos `span` de la cornisa están uno detrás del otro. Con `display: flex` en la caja que los **contiene**, se ordenan en fila.
@@ -3457,7 +3474,16 @@ Llega una carta de **Kaffa**, el Arquitecto Imperial: «Doce vitrales iguales, a
 —Con la regla flexible hacés filas —dice {mentor}—, pero no **cuadrículas**. Para Kaffa, la **malla**.
 
 #### Gheco sugiere
-`display: grid` arma una malla, y `grid-template-columns: repeat(3, 1fr)` hace tres columnas iguales (`1fr` es «una parte»).
+`display: grid` arma una **malla** de filas y columnas, como una planilla:
+
+```css
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+```
+
+`repeat(3, 1fr)` hace tres columnas iguales: `1fr` quiere decir «una parte» del espacio que hay. Los hijos se van acomodando solos, de a tres por fila.
 
 #### Desafío
 Los seis vitrales están uno debajo del otro. Los ordenamos en una **grilla** de tres columnas.
@@ -4524,7 +4550,15 @@ recompensa: xp 10, oro 10
 —Empezá por la ventana **chica** —le dice {mentor}—. Agrandar es fácil; achicar algo grande, casi imposible.
 
 #### Gheco sugiere
-El CSS de base es para el celular. Lo de pantallas grandes se **agrega** adentro de `@media (min-width: 768px) { … }`.
+Una página tiene que verse bien en el celular y en la compu. La forma más simple: el CSS de base es para el **celular**, y lo de pantallas grandes se **agrega** adentro de una `@media`:
+
+```css
+@media (min-width: 768px) {
+  .galeria { grid-template-columns: repeat(2, 1fr); }
+}
+```
+
+Se lee: «si la pantalla mide 768 píxeles o más, aplicá esto».
 
 #### Desafío
 En el celular la grilla tiene una columna. Queremos **dos** solo cuando la pantalla es ancha (768px o más). Eso se hace con `@media`.

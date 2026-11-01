@@ -294,7 +294,13 @@ En el taller hay un manual viejo donde los títulos están todos mezclados: cap�
 —Lo reescribimos —dice Tesela—. Un título, dos capítulos, y el primero con dos apartados. Sin saltear escalones.
 
 #### Gheco sugiere
-Los títulos van en orden: `h1` para el nombre, `h2` para cada capítulo y `h3` para los apartados de un capítulo. Nunca un `h3` sin su `h2` arriba.
+Los títulos tienen niveles, del más importante al menos importante, como en un libro:
+
+- `<h1>` el nombre de la página;
+- `<h2>` cada capítulo;
+- `<h3>` los apartados de un capítulo.
+
+Van en orden: nunca un `<h3>` sin su `<h2>` arriba. Quien usa un lector de pantalla navega por esos niveles.
 
 #### Desafío
 Un manual con capítulos y apartados. Los títulos van de mayor a menor: `h1` el nombre, `h2` cada capítulo y `h3` cada apartado. Escribí todo **adentro del `<body>`**, en este orden:
@@ -477,7 +483,16 @@ recompensa: xp 10, oro 10
 —Un vitral sin título es un vidrio más —dice {mentor}, y le alcanza una varilla de plomo—. Decí qué es, arriba de todo.
 
 #### Gheco sugiere
-`<h1>…</h1>` es el título más importante de la página (uno solo). `<p>…</p>` es un párrafo. Lo que se abre, se cierra.
+HTML es el idioma de las páginas web. Cada parte de la página va entre **etiquetas**: una que **abre** y otra que **cierra**, con una barra `/`:
+
+```html
+<p>Esto es un párrafo.</p>
+```
+
+- `<h1>…</h1>` es el título más importante de la página (hay uno solo);
+- `<p>…</p>` es un párrafo.
+
+Lo que se abre, se cierra.
 
 #### Desafío
 La página no tiene título. Le agregamos uno grande, con `h1`.
@@ -551,7 +566,12 @@ Teo entra corriendo con un vitral de doce colores. —¡Miren lo que…! —Se l
 Iris quiere que en su párrafo **HTML** se note más que el resto, y que *qué es* suene distinto.
 
 #### Gheco sugiere
-`<strong>` marca lo **importante** y `<em>` lo dicho con *énfasis*. Van adentro del párrafo: `<p>Hola <strong>mundo</strong></p>`.
+Adentro de un párrafo se pueden marcar palabras:
+
+- `<strong>` marca lo **importante** (se ve en negrita);
+- `<em>` marca lo dicho con *énfasis* (se ve en cursiva).
+
+Van **adentro** del párrafo, envolviendo solo esas palabras: `<p>Hola <strong>mundo</strong></p>`.
 
 #### Desafío
 Vamos a marcar dos partes del párrafo: una como **importante** y otra con *énfasis*.
@@ -611,7 +631,13 @@ Iris apoya el fragmento en una ventana vacía, sin plomo, para ver cómo queda. 
 —Un vidrio sin plomo es un vidrio en el piso —dice {mentor}. Y señala el vitral de Iris: un **slime** se está comiendo un cierre mal puesto.
 
 #### Gheco sugiere
-Las etiquetas se cierran en orden inverso: la última que abriste es la primera que cerrás. Si una queda abierta, el navegador «adivina» dónde termina… y casi siempre adivina mal: acá, el *énfasis* se contagia al párrafo de abajo.
+Las etiquetas se pueden meter una adentro de otra, como cajas. Se cierran en orden **inverso**: la última que abriste es la primera que cerrás.
+
+```html
+<p>Un <em>gran</em> día</p>
+```
+
+Si una queda abierta, el navegador «adivina» dónde termina… y casi siempre adivina mal: acá, el *énfasis* se contagia al párrafo de abajo.
 
 #### Desafío
 El `em` de *plomo* se abrió y nunca se cerró, y por eso el segundo párrafo también sale en cursiva.

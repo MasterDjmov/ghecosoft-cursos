@@ -397,7 +397,19 @@ recompensa: xp 10, oro 10
 —Llevá un diario del taller —le pide {mentor}, y le da un cuaderno en blanco—. Lo primero: los pasos de cada trabajo, en orden.
 
 #### Gheco sugiere
-`<ol>` es una lista **numerada** (el orden importa); `<ul>`, con viñetas. Cada elemento va en su `<li>`.
+Hay dos tipos de listas:
+
+- `<ol>` es una lista **numerada** (*ordered list*), para cuando el orden importa, como los pasos;
+- `<ul>` es una lista con viñetas (*unordered list*).
+
+Cada elemento va en su propio `<li>` (*list item*), adentro de la lista:
+
+```html
+<ol>
+  <li>Cortar el vidrio</li>
+  <li>Emplomar</li>
+</ol>
+```
 
 #### Desafío
 Los tres pasos están en párrafos sueltos (`<p>`). Queremos que sean una **lista numerada**.
@@ -461,7 +473,14 @@ recompensa: xp 10, oro 10
 {mentor} señala los ventanales del fondo: uno da al Valle de la Serpiente, otro al Puerto de los Mensajeros. —Un vitral también **conecta**. Cada ventana da a otra.
 
 #### Gheco sugiere
-`<a href="…">texto</a>` es un enlace: `href` dice adónde va y el texto dice qué hay ahí. «Clic acá» no le dice nada a nadie.
+Un **enlace** lleva a otra página:
+
+```html
+<a href="https://ejemplo.com">Visitá el Puerto</a>
+```
+
+- `href` es un **atributo**: un dato extra que va adentro de la etiqueta que abre. Dice adónde va el enlace;
+- el texto de adentro es lo que se ve y se toca. Tiene que decir qué hay ahí: «Clic acá» no le dice nada a nadie (y menos a quien usa un lector de pantalla).
 
 #### Desafío
 Queremos que el nombre *Valle de la Serpiente* sea un **enlace** que lleve a la página `valle.html`.
@@ -520,7 +539,14 @@ Nora, la vitralista más vieja del taller, pasa la mano por el diario. Nora no v
 —¿Y qué hay en el dibujo de la mascota? —pregunta. El dibujo no dice nada. Para Nora, no existe.
 
 #### Gheco sugiere
-`alt` describe lo que muestra la imagen, para quien no la ve (o si no carga). Sin `alt`, el lector de pantalla lee el nombre del archivo.
+Una imagen se pone con `<img>`, que no tiene etiqueta de cierre:
+
+```html
+<img src="vitral.png" alt="Un vitral azul con una estrella">
+```
+
+- `src` dice dónde está la imagen;
+- `alt` describe lo que muestra, para quien no la ve (por ejemplo, alguien ciego que usa un lector de pantalla) o por si no carga. Sin `alt`, el lector lee el nombre del archivo.
 
 #### Desafío
 La imagen no tiene descripción, y Nora no la puede «ver». Le agregamos un `alt`.
@@ -1093,7 +1119,9 @@ recompensa: xp 10, oro 10
 Nora recorre el boceto del ventanal con los dedos, de arriba abajo. —No encuentro el menú —dice—. Para mí son cajas, todas iguales.
 
 #### Gheco sugiere
-`<div>` no dice nada. `<nav>` dice «acá está la navegación»: el lector de pantalla lo anuncia y deja saltar directo.
+`<div>` es una caja que no dice nada de lo que tiene adentro. Las etiquetas **semánticas** dicen qué es cada parte: `<nav>` quiere decir «acá está el menú de navegación».
+
+Se ven igual, pero el lector de pantalla anuncia el `<nav>` y deja saltar directo a él.
 
 #### Desafío
 El menú está en un `div`, que no dice qué es. Lo cambiamos por `nav`, que significa «navegación».
@@ -1844,7 +1872,16 @@ recompensa: xp 10, oro 10
 A la entrada del portal hay una terminal que pide nombre y contraseña. Nora apoya la mano: —Hay dos cajas, pero ninguna dice qué es.
 
 #### Gheco sugiere
-`<label for="usuario">` se une al campo que tiene `id="usuario"`: el lector de pantalla lo lee, y tocar el texto pone el cursor en el campo.
+Un formulario tiene **campos** donde se escribe (`<input>`), y cada campo necesita su **etiqueta** de texto (`<label>`) que diga qué va ahí.
+
+Se unen así: el `for` del `label` igual al `id` del campo.
+
+```html
+<label for="usuario">Usuario</label>
+<input id="usuario">
+```
+
+Así el lector de pantalla lee el nombre del campo, y tocar el texto pone el cursor en el campo.
 
 #### Desafío
 Cada `label` tiene que estar unido a su campo. Se unen así: el `for` del `label` es igual al `id` del campo.
@@ -2567,7 +2604,13 @@ recompensa: xp 10, oro 10
 En la entrada de los Talleres cuelga la tabla de la **Liga Obsidiana**, pero anoche el Slime desarmó las filas y quedaron los datos sueltos. Teo jura que él estaba primero.
 
 #### Gheco sugiere
-Una tabla es `<table>` con filas `<tr>`, y cada fila con sus celdas `<td>`. Una fila por aprendiz.
+Una tabla se arma con etiquetas anidadas:
+
+- `<table>` es la tabla entera;
+- `<tr>` (*table row*) es una fila;
+- `<td>` (*table data*) es una celda con un dato.
+
+Una fila por aprendiz, y en cada fila una celda por dato.
 
 #### Desafío
 Los datos están sueltos adentro de la tabla. Hay que armar una fila (`tr`) por aprendiz, con dos celdas (`td`).

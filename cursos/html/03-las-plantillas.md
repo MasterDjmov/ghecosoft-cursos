@@ -412,7 +412,15 @@ recompensa: xp 10, oro 10
 Cada plantilla del cofre sirve para **una sola cosa**: esta da el color cian, esta la letra gruesa.
 
 #### Gheco sugiere
-Con Tailwind, el estilo va en `class`: `text-cyan-400` es el color del texto y `font-bold`, la letra gruesa. Con Tailwind, el **Inspector** mira las clases de cada elemento (en el orden en que las escribiste). La vista previa compila Tailwind sola.
+**Tailwind** es otra forma de dar estilo: en vez de escribir reglas CSS aparte, se ponen **clases chiquitas** en el `class` de cada elemento, y cada una hace una sola cosa:
+
+```html
+<h1 class="text-cyan-400 font-bold">Hola</h1>
+```
+
+`text-cyan-400` es el color del texto (cian, en el tono 400) y `font-bold`, la letra gruesa.
+
+Con Tailwind, el **Inspector** mira las clases de cada elemento (en el orden en que las escribiste).
 
 #### Desafío
 En Tailwind no se escribe CSS: cada **clase** ya es una regla. Las clases van todas juntas en `class="..."`, separadas por un espacio.
@@ -2341,7 +2349,13 @@ recompensa: xp 10, oro 10
 Desde el Valle llega un encargo de **Ofidia**: una ventana para sus pergaminos, que se vea bien en el espejo de bolsillo de cada aldeano y en el gran salón. Iris saca el espejito antes de que {mentor} se lo alcance.
 
 #### Gheco sugiere
-Lo que va **sin prefijo** es para la cabaña. `md:grid-cols-2` agrega, **desde** la ventana mediana, dos columnas.
+En Tailwind, una clase **sin prefijo** vale siempre, también en el celular (la «cabaña»). Con un prefijo de tamaño, vale **desde** ese ancho de pantalla en adelante:
+
+```html
+<div class="grid md:grid-cols-2">
+```
+
+En el celular, una columna; desde la ventana mediana (`md`), dos columnas. Es como una `@media (min-width: …)`, pero en la clase.
 
 #### Desafío
 En el celular los pergaminos van uno debajo del otro. Desde una pantalla mediana, queremos dos columnas. Eso se hace con el prefijo `md:`.

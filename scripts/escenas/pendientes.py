@@ -185,7 +185,10 @@ REFS = {
             # Los ogros de la Feria (orcos de feria): gris azulado y pelo naranja; verde, el modelo lo dibuja como Shrek.
             (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],
              'El ogro de la Feria es grandote y simpático, de piel GRIS AZULADA (nunca verde), pelo naranja desgreñado, nariz grande y redonda, dos colmillitos de abajo y orejas chicas pegadas a la cabeza.'),
-            (r'[Tt]roll', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),
+            # «Un troll chiquito y gruñón» es una criatura de feria, no el jefe.
+            (r'troll chiquito', 'el troll chiquito de feria', ['1d079c0700224221b55e0b9f9bb68949'],
+             'El troll chiquito de feria es del alto de un nene de seis años: piel color musgo grisáceo, nariz de papa, pelo de paja y chaleco remendado (el de la izquierda en su referencia).'),
+            (r'[Tt]roll(?! chiquito)|Respuestas Cruzadas', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),
             (r'Drag[oó]n', 'el Dragón de los Fuegos Artificiales', ['e52542221e7f4053b78a2b7321ac844c'], ''),
             (r'Polilla', 'la Polilla de los Formularios', ['02a2e1327123409fafe7ed0ed5f2e78e'], 'La Polilla es del tamaño de un perro grande.'),
             (r'Rat[oó]n', 'el Ratón de la Niebla', ['edba9f307a1c4351825086c4ba8c9dcd'], 'El Ratón es del tamaño de un gato.'),

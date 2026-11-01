@@ -274,7 +274,21 @@ recompensa: xp 10, oro 10
 Con el Sello de Entrada en el bolsillo, Zed llega a la **Academia de los Moldes**. La **Maestra de Moldes**, con el delantal lleno de virutas de bronce, le señala tres arrays sueltos en su pizarra: nombres, edades y oficios. —Así guardabas a tus viajeros. Desde hoy, cada viajero sale de un **molde**.
 
 #### Gheco sugiere
-Una **clase** es el molde: dice qué datos tiene cada objeto (`String nombre; int edad;`). `new Viajero()` crea un **objeto** nuevo de ese molde, y con el punto le cargás sus datos: `v.nombre = "Zed";`.
+Una **clase** es un molde para fabricar cosas parecidas: todos los viajeros tienen nombre y edad, pero cada uno tiene los suyos. Cada cosa fabricada con el molde es un **objeto**.
+
+```java
+class Perro {
+    String nombre;
+    int edad;
+}
+
+Perro p = new Perro();
+p.nombre = "Toby";
+```
+
+- La clase dice qué datos (**atributos**) tiene cada objeto.
+- `new Perro()` fabrica un objeto nuevo con ese molde.
+- Con el punto le cargás o le leés sus datos: `p.nombre`.
 
 #### Desafío
 Creá el objeto con `new`.
@@ -412,7 +426,9 @@ recompensa: xp 15, oro 15
 —Un molde no guarda solo datos —dice la Maestra—. También sabe **hacer** cosas. Cada viajero sabe presentarse, y se presenta con **su** nombre.
 
 #### Gheco sugiere
-Un método **sin `static`** pertenece a cada objeto: adentro, `nombre` es el nombre de **ese** objeto. Se llama con el punto: `zed.saludo()`.
+Un objeto también puede **saber hacer cosas**: los métodos que escribís adentro de la clase, **sin `static`**, pertenecen a cada objeto.
+
+Adentro de ese método, `nombre` es el nombre de **ese** objeto. Se llama con el punto: `zed.saludo()` usa el nombre de Zed y `nadia.saludo()` el de Nadia.
 
 #### Desafío
 Completá el `return` del método `saludo`: «Soy <nombre>. Origen: <origen>».
@@ -495,7 +511,15 @@ Zed imprime a su viajero directamente y en la consola aparece algo como `Viajero
 —Java no sabe cómo querés que se vea tu objeto —dice Gheco—. Decíselo.
 
 #### Gheco sugiere
-Al imprimir un objeto, Java llama a su método `toString()`. Si no lo escribiste, muestra la clase y un código raro. Escribilo vos: `public String toString() { return …; }`.
+Cuando hacés `System.out.println(objeto)`, Java llama a un método del objeto que se llama `toString()` para saber qué mostrar. Si no lo escribiste, muestra el nombre de la clase y un código raro, como `Viajero@1b6d3586`.
+
+Escribilo vos para decidir cómo se ve:
+
+```java
+public String toString() {
+    return "Perro " + nombre;
+}
+```
 
 #### Desafío
 Completá el nombre del método para que `println(v)` muestre al viajero.
@@ -1217,7 +1241,20 @@ recompensa: xp 10, oro 10
 Un aprendiz arma soldados a mano: primero el cuerpo, después el casco, después el nombre… y a la mitad se olvida la espada. La Maestra aprieta una palanca y el soldado sale **completo**. —Esa palanca es el **constructor**.
 
 #### Gheco sugiere
-Un **constructor** se llama igual que la clase y no tiene tipo de retorno. Recibe los datos y los guarda en el objeto: `this.arma = arma;` (`this.arma` es el atributo; `arma`, el parámetro).
+Un **constructor** es un método especial que corre solo cuando se crea un objeto con `new`. Sirve para que el objeto nazca con sus datos listos:
+
+```java
+class Perro {
+    String nombre;
+    Perro(String nombre) {
+        this.nombre = nombre;
+    }
+}
+
+Perro p = new Perro("Toby");
+```
+
+Se llama igual que la clase y no tiene tipo de retorno. `this` quiere decir «este objeto»: `this.nombre` es el atributo, y `nombre` solo es el parámetro que llegó.
 
 #### Desafío
 Completá la línea que guarda el arma en el objeto.
@@ -2220,7 +2257,9 @@ recompensa: xp 10, oro 15
 El cofre de la tesorería está abierto y Zed, por costumbre, mete la mano. Saca más de lo que hay y en la etiqueta queda escrito **«-500»**. La Maestra no lo reta: le da el molde del cofre. —Lo rompiste vos. Arreglalo vos: que **nadie**, ni vos, lo pueda dejar en negativo.
 
 #### Gheco sugiere
-Con `private int saldo;` el saldo solo se toca desde **adentro** de la clase. Desde afuera se usa `retirar(monto)`, que puede negarse: si el monto es mayor que el saldo, devuelve `false` y no cambia nada.
+Hasta ahora, cualquiera podía cambiar los datos de un objeto desde afuera, y poner un saldo negativo. Con `private` adelante, un atributo solo se puede tocar desde **adentro** de su clase.
+
+Desde afuera hay que usar los métodos públicos, que cuidan las reglas: `retirar(monto)` puede negarse si no alcanza (devuelve `false` y no cambia nada). Esa idea se llama **encapsulamiento**.
 
 #### Desafío
 Completá la condición: no se puede retirar más de lo que hay.
@@ -3262,7 +3301,9 @@ Dos alumnos tienen una tarjeta que dice «escudo dorado, estante 7». Uno lo lle
 —Las dos tarjetas señalaban **el mismo escudo** —dice Gheco.
 
 #### Gheco sugiere
-Una variable de tipo clase guarda una **referencia**: la dirección del objeto, no el objeto. `Escudo b = a;` hace que `b` señale al mismo escudo que `a`. Para que cada uno tenga el suyo, `b` necesita su propio `new`.
+Una variable de tipo clase no guarda el objeto: guarda una **referencia**, la dirección de dónde está el objeto. Es como una flecha que lo señala.
+
+`Escudo b = a;` no copia el escudo: hace que `b` señale **al mismo** escudo que `a`. Si abollás uno, se abollan los dos, porque es uno solo. Para que cada uno tenga el suyo, `b` necesita su propio `new`.
 
 #### Desafío
 Ejecutalo y fijate que se abollan los dos. Después hacé que `b` sea un escudo nuevo.
@@ -4331,7 +4372,15 @@ recompensa: xp 10, oro 10
 En el ala oeste, el molde **Personaje** tiene nombre, vida y un método para describirse. De él salen los demás. —No escribas dos veces lo que todos tienen —dice la Maestra—. El Guerrero **es** un Personaje: que lo herede.
 
 #### Gheco sugiere
-`class Guerrero extends Personaje` hace que el Guerrero tenga todo lo del Personaje (`nombre`, `vida`, `describir()`) sin escribirlo de nuevo, y le suma lo suyo (`fuerza`).
+La **herencia** permite crear una clase a partir de otra: la hija recibe todos los atributos y métodos del padre, y le suma lo suyo.
+
+```java
+class Perro extends Animal {
+    int ladridos;
+}
+```
+
+`extends` quiere decir «hereda de». Un `Perro` ya tiene todo lo de `Animal` sin escribirlo de nuevo. Se usa cuando la relación es «**es un**»: un perro **es un** animal.
 
 #### Desafío
 Completá la palabra que hace que el Guerrero herede del Personaje.
@@ -5533,7 +5582,9 @@ recompensa: xp 10, oro 10
 En el patio de armas, la Maestra grita una sola orden: **¡Ataquen!** Y cada alumno ataca a su manera. Ella no necesita saber quién es quién: sabe que todos son personajes y que todos saben atacar.
 
 #### Gheco sugiere
-Una variable (o un array) del tipo del **padre** puede guardar objetos de cualquier hijo: `Personaje[] tropa`. Al llamar `p.atacar()`, se ejecuta el método del objeto **real**: el de la guerrera, el de la arquera…
+Una variable (o un array) del tipo del **padre** puede guardar objetos de cualquier hijo: en un `Animal[]` entran perros, gatos y loros.
+
+Al llamar a un método, se ejecuta el del objeto **real**: `a.sonido()` hace ladrar al perro y maullar al gato. Eso es el **polimorfismo**: una misma orden, distintas respuestas.
 
 #### Desafío
 Completá el tipo del array para que entren los tres alumnos.
@@ -5655,7 +5706,15 @@ recompensa: xp 15, oro 15
 —¿Y si alguien sale del molde Personaje, sin ser guerrero ni arquero ni nada? —pregunta Zed. —Sería un alumno que no sabe atacar —dice la Maestra—. Por eso ese molde es **abstracto**: existe para que los demás lo completen.
 
 #### Gheco sugiere
-Una clase `abstract` no se puede instanciar: solo sirve de padre. Un método `abstract` no tiene cuerpo (`abstract String atacar();`) y **obliga** a cada hijo concreto a escribirlo. Si una clase tiene un método abstracto, la clase también tiene que ser `abstract`.
+Una clase `abstract` es un molde que no se puede usar solo (no se puede hacer `new` de ella): solo sirve de padre.
+
+Un método `abstract` no tiene código, solo la primera línea con `;`:
+
+```java
+abstract String atacar();
+```
+
+Eso **obliga** a cada hijo a escribirlo. Y si una clase tiene un método abstracto, la clase también tiene que ser `abstract`.
 
 #### Desafío
 Completá la palabra que hace abstracta a la clase Personaje.

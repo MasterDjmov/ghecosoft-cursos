@@ -456,7 +456,17 @@ recompensa: xp 10, oro 10
 En la punta del muelle más largo está **el Faro**: el mismo por el que llegó Nilo, con la lámpara apagada desde hace veinte años. En la cúpula lo espera **Marea, la farera**. Aunque el Faro no alumbra, ella sigue dirigiendo a los barcos: a cada uno le mira la bandera y le señala una dársena. —Cada barco, a su dársena —dice.
 
 #### Gheco sugiere
-Un array de rutas con el método y la dirección como clave (`'GET /barcos'`) y una función como valor. El router busca la clave y llama a esa función.
+Un **router** es el que decide qué función atiende cada pedido, según el método y la dirección. Como un portero que manda a cada barco a su dársena.
+
+Un array de rutas, con el método y la dirección como clave y una función como valor:
+
+```php
+$rutas = [
+    'GET /barcos' => fn () => 'lista de barcos',
+];
+```
+
+El router arma la clave del pedido, la busca en el array y llama a esa función.
 
 #### Desafío
 Completá el router para que cada pedido vaya a su controlador.
@@ -525,7 +535,10 @@ recompensa: xp 15, oro 15
 Llega un barco con una bandera que nadie conoce y el router se rompe: `Undefined array key`. Un **esqueleto** sube por la escalera. Llega otro que quiere *borrar* el horario del ferry, algo que no se puede.
 
 #### Gheco sugiere
-Si la ruta con ese método no está: fijate si la dirección existe con **otro** método (405) o no existe para nada (404).
+Si la ruta no está, hay dos casos distintos:
+
+- la dirección existe, pero con **otro** método (por ejemplo, hay `GET /barcos` y llegó `DELETE /barcos`): código **405**, «método no permitido»;
+- la dirección no existe para nada: código **404**.
 
 #### Desafío
 Devolvé 404 o 405 según corresponda.
@@ -598,7 +611,13 @@ recompensa: xp 15, oro 15
 Los barcos ya no piden «la lista»: piden «el barco 12». Nilo escribió una ruta por cada barco, del 1 al 40, y el barco 41 se quedó afuera.
 
 #### Gheco sugiere
-Una sola ruta con un patrón: `preg_match('#^/barcos/(\d+)$#', $ruta, $m)` reconoce cualquier número, y `$m[1]` lo da.
+Para no escribir una ruta por cada barco, una sola ruta con un **patrón** reconoce cualquier número. Una **expresión regular** describe ese patrón:
+
+```php
+preg_match('#^/barcos/(\d+)$#', $ruta, $m)
+```
+
+`\d+` es «uno o más dígitos», y los paréntesis lo atrapan: si coincide, `$m[1]` es el número.
 
 #### Desafío
 Reconocé la ruta con el número y pasáselo al controlador.
@@ -673,7 +692,13 @@ recompensa: xp 15, oro 15
 El controlador de Nilo hace todo: busca los barcos, los filtra y arma el HTML. Cuando Marea quiere la misma lista en otro formato, hay que reescribirlo entero.
 
 #### Gheco sugiere
-Separá: el **modelo** da los datos (`BarcoModelo::activos()`), la **vista** arma el texto (`vistaLista()`) y el **controlador** junta los dos.
+Una forma de ordenar un programa web en tres partes, llamada **MVC**:
+
+- el **modelo** da los datos (`BarcoModelo::activos()`);
+- la **vista** arma el texto que se muestra (`vistaLista()`);
+- el **controlador** recibe el pedido, le pide los datos al modelo y se los pasa a la vista.
+
+Cada parte hace una sola cosa.
 
 #### Desafío
 Separá el controlador en modelo, vista y controlador.
@@ -1916,7 +1941,18 @@ recompensa: xp 10, oro 10
 En la sala de máquinas del Faro hay un tablero lleno de palancas intercambiables: cada palanca es una instrucción que se puede sacar y enchufar en otro lado. Nilo quiere una palanca que aplique un recargo, y que el porcentaje se pueda cambiar.
 
 #### Gheco sugiere
-`function recargo(float $tasa): Closure { return fn ($precio) => $precio * (1 + $tasa); }` fabrica una palanca. Con `array_map` se aplica a todos los precios.
+En PHP, una función también es un valor: se puede guardar en una variable y devolver desde otra función. Una función sin nombre se llama **closure**:
+
+```php
+function recargo(float $tasa): Closure {
+    return fn ($precio) => $precio * (1 + $tasa);
+}
+
+$conIva = recargo(0.21);
+echo $conIva(100);   // 121
+```
+
+`recargo` **fabrica** una función. Con `array_map($conIva, $precios)` se aplica a todos los precios de una lista.
 
 #### Desafío
 Escribí la fábrica de palancas y aplicá dos recargos distintos.
@@ -1976,7 +2012,13 @@ recompensa: xp 15, oro 15
 Iara pide el total de kilos de los barcos que van al Valle, en un solo número. Nilo escribió tres bucles uno detrás del otro, con variables por todos lados.
 
 #### Gheco sugiere
-Filtrá los del Valle con `array_filter`, quedate con los kilos con `array_map` y sumalos con `array_reduce`.
+Tres herramientas para trabajar con listas, que reciben una función:
+
+- `array_filter($v, $f)` se queda con los que cumplen;
+- `array_map($f, $v)` transforma cada uno;
+- `array_reduce($v, $f, 0)` los junta en un solo valor (por ejemplo, sumando).
+
+Filtrá los del Valle, quedate con los kilos y sumalos.
 
 #### Desafío
 Calculá el total encadenando las tres funciones.
@@ -2033,7 +2075,19 @@ recompensa: xp 15, oro 15
 La cinta trae cajones desde la bodega. Nilo intenta bajar todos juntos «para ganar tiempo» y la cinta se traba con un crujido. Marea lo mira sin decir nada.
 
 #### Gheco sugiere
-Una función con `yield` da los cajones de a uno: `foreach (cajones(5) as $c)` los recibe a medida que los necesita.
+Una función con `yield` es un **generador**: en vez de armar toda la lista de una vez, entrega los valores **de a uno**, a medida que se los piden.
+
+```php
+function cajones(int $n) {
+    for ($i = 1; $i <= $n; $i++) {
+        yield $i;
+    }
+}
+
+foreach (cajones(5) as $c) { ... }
+```
+
+Con millones de datos, ahorra mucha memoria.
 
 #### Desafío
 Convertí la función en un generador que entregue de a un cajón.
@@ -2105,7 +2159,11 @@ recompensa: xp 10, oro 10
 Marea quiere que los barcos entren por destino y, dentro de cada destino, del más liviano al más pesado. Nilo los ordenó solo por destino y los cargueros pesados entran primero, tapando la dársena.
 
 #### Gheco sugiere
-`usort` con la nave espacial sobre dos criterios: `[$a['destino'], $a['kilos']] <=> [$b['destino'], $b['kilos']]`.
+Para ordenar por dos criterios, `usort` con la nave espacial `<=>` comparando **arrays**: compara el primer elemento y, si empatan, el segundo.
+
+```php
+usort($v, fn ($a, $b) => [$a['destino'], $a['kilos']] <=> [$b['destino'], $b['kilos']]);
+```
 
 #### Desafío
 Ordená por destino y después por kilos.
@@ -2170,7 +2228,9 @@ Marea revisa la bitácora del Faro y siempre hace lo mismo: filtra, cambia algo 
 —Quiero armar el proceso con pasos, como engranajes que se enchufan —dice—. Y cambiar los pasos sin tocar la máquina.
 
 #### Gheco sugiere
-Una función que devuelve otra función: `filtrar($condicion)` devuelve un `Closure` que recibe el array. `tuberia(...$pasos)` aplica cada paso al resultado del anterior, en orden.
+Una función que devuelve otra función: `filtrar($condicion)` devuelve un `Closure` que, cuando le pasás un array, lo filtra con esa condición.
+
+`tuberia(...$pasos)` recibe varios pasos (los `...` juntan todos los que lleguen) y aplica cada uno al resultado del anterior, en orden.
 
 #### Desafío
 La bitácora del Faro se procesa con **pasos** configurables. Escribí:
@@ -2283,7 +2343,9 @@ El servidor del Faro guarda un registro de accesos larguísimo. Si lo cargás en
 —Un renglón por vez —dice Marea—. Como el agua por el caño: pasa, no se acumula.
 
 #### Gheco sugiere
-Un generador con `yield` entrega un renglón por vez sin cargar todo. Encadená generadores: `parsear(renglones())` y después otro que filtre. Cada uno recibe un `iterable` y produce el suyo.
+Un generador entrega un renglón por vez, sin cargar todo el archivo en memoria.
+
+Los generadores se pueden **encadenar**: `parsear(renglones())`, y después otro que filtre. Cada uno recibe un `iterable` (cualquier cosa que se pueda recorrer) y produce el suyo.
 
 #### Desafío
 El servidor del Faro guarda un registro de accesos con un renglón por pedido:
@@ -2405,7 +2467,9 @@ La oficina del Puerto entrega números de turno que van de letra en letra y vuel
 —Un dispensador que no se termine nunca —dice Iara—. Y que arranque desde el número que le digas.
 
 #### Gheco sugiere
-Un generador infinito con `while (true)` y `yield`. Partí el turno en letra y número; al pasar de 999, la letra avanza con `chr(ord($letra) + 1)`, y después de la Z vuelve a la A.
+Un generador infinito: `while (true)` con `yield` adentro. No se cuelga, porque solo avanza cuando le piden el próximo.
+
+Partí el turno en letra y número. Al pasar de 999, el número vuelve a 1 y la letra avanza: `chr(ord($letra) + 1)` (`ord` da el número de la letra y `chr` hace lo contrario). Después de la Z, vuelve a la A.
 
 #### Desafío
 La oficina del Puerto numera los turnos así: `A001` a `A999`, después `B001`… hasta
@@ -2885,7 +2949,9 @@ recompensa: xp 10, oro 10
 A la torre del Faro llegan mensajes de otras máquinas: la aduana pregunta qué barcos llegaron hoy. Nilo les contesta con una página llena de colores y una gaviota dibujada. Las máquinas no entienden nada.
 
 #### Gheco sugiere
-Respondé con `json_encode($barcos)`: datos ordenados que cualquier máquina entiende. Con `JSON_PRETTY_PRINT` queda legible para las personas también.
+Una **API** es una puerta para que otros programas (no personas) le pidan datos a tu sistema. Las máquinas no quieren HTML lindo: quieren datos ordenados, y el formato más usado es **JSON**.
+
+`json_encode($barcos)` convierte el array en JSON. Con `JSON_PRETTY_PRINT` queda legible también para las personas.
 
 #### Desafío
 Contestá en JSON.
@@ -2942,7 +3008,9 @@ recompensa: xp 15, oro 15
 El correo de otro puerto manda paquetes para registrar en JSON. Uno llegó roto, con una llave sin cerrar, y el programa de Nilo lo registró como un paquete vacío. Un **goblin** se lo llevó.
 
 #### Gheco sugiere
-Decodificá con `json_decode($cuerpo, true)`. Si da `null` y el cuerpo no era `null`, el JSON está roto: se responde 400 con el motivo.
+Lo que mandan a la API viene como texto JSON. `json_decode($cuerpo, true)` lo convierte en array.
+
+Si da `null` y el cuerpo no era `null`, el JSON está roto: se responde **400** («pedido mal armado») con el motivo.
 
 #### Desafío
 Rechazá con 400 el cuerpo roto y registrá el bueno.
@@ -3004,7 +3072,13 @@ recompensa: xp 15, oro 15
 Marea propone que la API de envíos hable como un faro: una señal para cada cosa. Leer, crear y borrar con el mismo método es como prender la misma luz para todo.
 
 #### Gheco sugiere
-Una función `api()` que según el método y si hay un id, lista, muestra, crea o borra, y devuelve el código que corresponde.
+Una API suele usar el método del pedido para saber qué hacer:
+
+- `GET` sin id: listar; `GET` con id: mostrar uno;
+- `POST`: crear;
+- `DELETE`: borrar.
+
+Una función `api()` que, según el método y si hay un id, hace la acción y devuelve el código que corresponde (200, 201 creado, 404…).
 
 #### Desafío
 Completá la API con los cuatro casos y sus códigos.
@@ -3092,7 +3166,7 @@ recompensa: xp 15, oro 15
 Una aplicación manda un envío con kilos negativos y sin destino. El JSON está bien armado, pero los datos no sirven. La API de Nilo contesta «400», y la aplicación no sabe qué corregir.
 
 #### Gheco sugiere
-Si el JSON se pudo leer pero los datos no pasan la validación, es **422**, con los errores por campo en el cuerpo.
+Si el JSON se pudo leer pero los datos no pasan la validación (falta el nombre, los kilos son negativos), el código es **422**: «no se puede procesar». En el cuerpo de la respuesta van los errores por campo, para que quien mandó sepa qué corregir.
 
 #### Desafío
 Devolvé 422 con los errores de cada campo.
@@ -3893,7 +3967,9 @@ recompensa: xp 10, oro 10
 El ingeniero del Faro revisaba la lámpara a mano cada noche. Un día se enfermó y nadie supo cómo revisarla. Desde entonces hay un **banco de pruebas**: se aprieta un botón y prueba las cuarenta cosas, siempre igual. Nilo lo mira con envidia: es una máquina que no se olvida de nada.
 
 #### Gheco sugiere
-En el navegador no hay PHPUnit, así que acá armamos la idea con una función `afirmar($esperado, $real, $nombre)` que dice «ok» o «FALLA». En tu compu, las misiones usan PHPUnit de verdad.
+Una **prueba** (*test*) es un pedacito de código que revisa que una función dé lo que tiene que dar. Si mañana cambiás la función, las corrés y sabés al instante si rompiste algo.
+
+En el navegador no hay PHPUnit (la herramienta de pruebas de PHP), así que acá armamos la idea con una función `afirmar($esperado, $real, $nombre)` que dice «ok» o «FALLA». En tu compu, las misiones usan PHPUnit de verdad.
 
 #### Desafío
 Completá `afirmar` y encontrá la prueba que falla.
@@ -3965,7 +4041,9 @@ recompensa: xp 15, oro 15
 La lámpara no debe prenderse con una intensidad negativa. Nilo probó solo los casos buenos, y nadie se dio cuenta de que con -5 la lámpara se prendía igual, al revés.
 
 #### Gheco sugiere
-Una prueba que llama con -5 y espera que se lance `InvalidArgumentException`: si no se lanza, la prueba falla.
+También se prueba que una función **falle bien**: que con un dato inválido lance la excepción justa.
+
+Llamala con -5 adentro de un `try`. Si cae en el `catch (InvalidArgumentException $e)`, la prueba pasa; si no se lanzó nada, la prueba falla.
 
 #### Desafío
 Hacé que `prender` rechace lo negativo y que la prueba lo compruebe.
@@ -4044,7 +4122,7 @@ recompensa: xp 15, oro 15
 Iara tiene una lista de veinte pesos con la tarifa que corresponde a cada uno. Nilo escribió veinte pruebas casi iguales y en la catorce copió mal el número.
 
 #### Gheco sugiere
-Una lista de casos `[kilos, esperado]` y un `foreach` que prueba cada uno con la misma función.
+Para probar muchos casos con la misma función, armá una lista de casos `[kilos, esperado]` y un `foreach` que pruebe cada uno. Así agregar un caso es agregar una línea.
 
 #### Desafío
 Probá la tarifa con la lista de casos de Iara.
@@ -5056,7 +5134,15 @@ recompensa: xp 10, oro 10
 Una madrugada, la lámpara de prueba se apagó y nadie sabía por qué: Nilo, que estaba de guardia, solo recordaba «un ruido raro». Desde entonces hay un **libro de guardia**. Esa noche, por primera vez en el viaje, Nilo anota **todo**. Iara lee el libro de punta a punta y se tiene que sentar.
 
 #### Gheco sugiere
-Una clase `Registro` con `anotar(string $nivel, string $mensaje)` que guarda el renglón con la hora que le pasan (acá fija, para que el ejemplo dé siempre igual) y lo escribe en un archivo con `FILE_APPEND`.
+Un **registro** (*log*) es un archivo donde el programa anota lo que pasa, para revisarlo después.
+
+Una clase `Registro` con `anotar(string $nivel, string $mensaje)` que arma el renglón con la hora (acá fija, para que el ejemplo dé siempre igual) y lo agrega al archivo:
+
+```php
+file_put_contents($archivo, $renglon, FILE_APPEND);
+```
+
+`FILE_APPEND` agrega al final, sin borrar lo anterior.
 
 #### Desafío
 Completá el registro y anotá los tres sucesos.
@@ -5134,7 +5220,9 @@ recompensa: xp 15, oro 15
 Un **orco** pide la clave `'presion'` de un sensor que no la tiene. PHP avisa con un `Warning`, sigue con `null`, y la lámpara calcula con un cero que nadie pidió.
 
 #### Gheco sugiere
-`set_error_handler` recibe una función que lanza `ErrorException`. Así el aviso corta el programa y se puede atrapar.
+Algunos problemas de PHP son solo **avisos**: muestran un mensaje y el programa sigue como si nada. `set_error_handler` cambia eso: recibe una función que se llama con cada aviso, y esa función puede lanzar una `ErrorException`.
+
+Así el aviso corta el programa y se puede atrapar con `try` / `catch`, como cualquier error.
 
 #### Desafío
 Convertí el aviso en una excepción y atrapala.
@@ -5197,7 +5285,10 @@ recompensa: xp 15, oro 15
 En la puerta del Faro hay un cartel para los visitantes: *«Faro momentáneamente fuera de servicio»*, sin detalles técnicos. El sistema de Nilo, en cambio, le mostraba al visitante la ruta de los archivos y la línea del error.
 
 #### Gheco sugiere
-Según el entorno: en `desarrollo` se muestra el detalle; en `produccion`, el mensaje amable para el visitante y el detalle al registro.
+Según el **entorno**, el error se muestra distinto:
+
+- en `desarrollo` (tu compu), se muestra el detalle, para arreglarlo;
+- en `produccion` (el sitio de verdad), el visitante ve un mensaje amable, y el detalle va al registro (nunca a la vista).
 
 #### Desafío
 Mostrá lo que corresponde en cada entorno.
@@ -5264,7 +5355,9 @@ recompensa: xp 10, oro 10
 La clave de la base de datos del Faro estaba escrita en el medio del código. Cuando Nilo lo compartió para pedir ayuda, la clave viajó con él. Pico se la sabía al día siguiente.
 
 #### Gheco sugiere
-Leé un archivo `.env` con renglones `CLAVE=valor` y armá un array de configuración. El código pide `$config['DB_PASS']`, sin saber cuál es.
+Las cosas que cambian según dónde corre el programa (la clave de la base, la dirección) no se escriben en el código: van en un archivo de **configuración**, como `.env`, con renglones `CLAVE=valor`.
+
+Leé el archivo, partí cada renglón en el `=`, y armá un array. El código pide `$config['DB_PASS']`, sin saber cuál es.
 
 #### Desafío
 Leé la configuración del archivo `.env`.
@@ -5325,7 +5418,9 @@ Marea anota todo lo que pasa en el libro de guardia, pero a veces anota de más:
 —El registro tiene que guardar lo importante y tapar lo secreto —dice Iara—. Y que se pueda pedir solo lo grave.
 
 #### Gheco sugiere
-Un nivel mínimo decide qué se guarda. Antes de guardar el contexto, reemplazá los valores de las claves prohibidas por `***`. `json_encode` arma el texto del contexto y un array cuenta por nivel.
+Un **nivel mínimo** decide qué se guarda: si es `WARNING`, los `INFO` no se anotan.
+
+Antes de guardar el contexto, tapá los datos sensibles: reemplazá los valores de las claves prohibidas (como `clave`) por `***`. `json_encode` arma el texto del contexto, y un array cuenta cuántos hubo de cada nivel.
 
 #### Desafío
 Escribí una clase `Registro` que guarda eventos en memoria (un array) con nivel,
@@ -5438,7 +5533,9 @@ La configuración del Faro vive en un texto aparte, lejos del código. Pero cuan
 —Que no arranque si falta algo —dice Marea—. Y que diga **todo** lo que falta, no de a uno.
 
 #### Gheco sugiere
-`parse_ini_string($texto, false, INI_SCANNER_TYPED)` lee el texto con sus tipos. Combiná con los valores por defecto (`array_merge`) y juntá las obligatorias que faltan en un array antes de lanzar la excepción.
+`parse_ini_string($texto, false, INI_SCANNER_TYPED)` lee un texto de configuración (`clave = valor`) y convierte los tipos solos (números, `true`/`false`).
+
+Combiná con los valores por defecto usando `array_merge($porDefecto, $leidos)` (lo leído pisa a lo por defecto). Juntá las claves obligatorias que faltan en un array y, si hay alguna, lanzá la excepción con todas.
 
 #### Desafío
 Escribí la clase `Config` que carga la configuración de un **texto** con formato
@@ -6033,7 +6130,7 @@ recompensa: xp 10, oro 10
 Para que los barcos de verdad vean el sistema, hay que llevarlo a la costa. Elefa le entrega a Nilo un papel con tres cosas: *un dominio, un hosting, una base de datos*. —Si lo hacés con una lista, la mudanza sale bien. Si lo hacés de memoria —y lo mira— siempre se olvida algo.
 
 #### Gheco sugiere
-Recorré la lista de chequeo contra lo que está preparado y mostrá lo que falta.
+Antes de subir un sitio, se revisa una lista de chequeo. Recorré la lista contra lo que está preparado y mostrá lo que falta.
 
 #### Desafío
 Mostrá qué falta para poder subir.
@@ -6090,7 +6187,9 @@ recompensa: xp 15, oro 15
 En el primer intento de subida, el `.env` quedó dentro de la carpeta pública y cualquiera lo podía bajar escribiendo `/.env`. Un **troll** ya lo estaba leyendo.
 
 #### Gheco sugiere
-Una función que decide si una dirección se puede servir: solo lo que está bajo `public/` y no empieza con punto.
+En un servidor, solo lo que está dentro de la carpeta `public/` se puede ver desde afuera; el resto (el código, la configuración) queda privado.
+
+Una función que decide si una dirección se puede servir: solo lo que está bajo `public/` y no empieza con punto (los archivos como `.env` son secretos).
 
 #### Desafío
 Escribí la regla que protege lo privado.
@@ -6159,7 +6258,12 @@ recompensa: xp 15, oro 15
 Limpiando la lámpara grande para la mudanza, Nilo y Marea descubren que la lente no es de vidrio común: es **un vitral**, con el plomo trabajado como el de las Forjas. El faro por el que llegó Nilo no es solo un faro. Antes de seguir, Marea le pide revisar que todo esté en su lugar.
 
 #### Gheco sugiere
-Revisá cada requisito con lo que tiene el servidor (`PHP_VERSION`, `extension_loaded`) y mostrá ok o falta. Usá `version_compare`.
+Antes de instalar, se revisa que el servidor tenga lo necesario:
+
+- `PHP_VERSION` dice qué versión de PHP tiene, y `version_compare(PHP_VERSION, '8.2', '>=')` la compara;
+- `extension_loaded('pdo')` dice si una extensión está instalada.
+
+Mostrá «ok» o «falta» por cada requisito.
 
 #### Desafío
 Completá el diagnóstico.
@@ -6801,7 +6905,13 @@ recompensa: xp 15, oro 15
 La noche en que Nilo termina su último sistema, el mar se agita como la noche en que llegó. De entre las olas se levanta el **Dragón del Faro**, hecho de todo lo que puede salir mal. Su primer ataque: dos reservas de amarre para el mismo día.
 
 #### Gheco sugiere
-Dos reservas se pisan si `inicioA < finB && inicioB < finA`. Con fechas `DateTimeImmutable` se comparan con `<`.
+Dos reservas se pisan si se superponen en el tiempo: una empieza antes de que termine la otra, **y** la otra empieza antes de que termine la una:
+
+```php
+$inicioA < $finB && $inicioB < $finA
+```
+
+Con fechas `DateTimeImmutable` se comparan con `<` como si fueran números.
 
 #### Desafío
 Escribí `sePisan` y probala con los tres casos.
@@ -6865,7 +6975,9 @@ recompensa: xp 15, oro 15
 El Dragón ataca por dos lados: por la web, con personas que reservan, y por la API, con máquinas que reservan. Nilo había copiado la regla en los dos lados, y en uno se olvidó de validar.
 
 #### Gheco sugiere
-Un servicio `Reservas::reservar()` con la regla. La web y la API lo llaman y solo cambian cómo muestran la respuesta.
+La regla de las reservas va en un solo lugar: un servicio `Reservas::reservar()`. La página web y la API lo llaman, y solo cambian **cómo muestran** la respuesta (HTML o JSON).
+
+Si mañana cambia la regla, se cambia una vez.
 
 #### Desafío
 Hacé que la web y la API usen el mismo servicio.
@@ -6967,7 +7079,13 @@ item: Morral del Correo Mayor
 —Esta vez no hay un solo truco —dice Elefa, parada al lado de Nilo en la cúpula—. El dragón se vence con un sistema **entero**. Todo lo que aprendiste en el Puerto, junto. Encendé la lámpara.
 
 #### Gheco sugiere
-El sistema arranca en orden: carga la configuración, prueba las reglas, revisa la base y, si todo da ok, prende la lámpara. Si algo falla, lo registra y no prende.
+El sistema arranca en orden, y cada paso tiene que salir bien:
+
+1. carga la configuración;
+2. prueba las reglas;
+3. revisa la base.
+
+Si todo da ok, prende la lámpara. Si algo falla, lo anota en el registro y no prende.
 
 #### Desafío
 Completá el arranque del sistema del Faro.
@@ -8003,7 +8121,7 @@ item: Mensaje para quien llegue
 En la plaza, junto a la fuente con forma de sello de lacre, Elefa le da a Nilo un sobre amarillento, sellado con un sello de vidrio de colores. Dice *para quien llegue*. —Lo guardé veinte años. Creo que ahora es tuyo. —Cuando Nilo rompe el sello, el vidrio muestra un instante un balcón con cuatro portales: una espiral, un engranaje, un vitral y un arco de fuego.
 
 #### Gheco sugiere
-Recorré lo que aprendiste en cada parte del Puerto y mostralo, rama por rama, con un `foreach` sobre un array asociativo.
+Recorré lo que aprendiste en cada parte del Puerto con un `foreach` sobre un array asociativo (rama => lo que se aprendió), y mostralo rama por rama.
 
 #### Desafío
 Armá el resumen del viaje, una línea por rama.
@@ -8069,7 +8187,7 @@ recompensa: xp 10, oro 10
 A la mañana siguiente, Nilo baja a la plaza. Iara, Fermín, Marea y Pico lo esperan en la fuente, y Elefa, sentada en el borde con la trompa en el agua. —Buen día, Elefa —dice Nilo, sin pensarlo. Elefa sonríe.
 
 #### Gheco sugiere
-Un `match` que, según el camino elegido, diga a dónde lleva. Cualquier otro camino: «todavía no se abrió».
+Un `match` que, según el camino elegido, diga a dónde lleva. Cualquier otro camino va al `default`: «todavía no se abrió».
 
 #### Desafío
 Escribí el cartel de la Encrucijada.

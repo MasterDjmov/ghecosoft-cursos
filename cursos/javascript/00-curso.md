@@ -202,7 +202,15 @@ Nima baja del carrusel. Sobre su hombro se enciende un gecko de luz con antiparr
 —Lumina dice que la Feria entiende JavaScript —le susurra—. Si la saludás bien, se prende el primer farol.
 
 #### Gheco sugiere
-`console.log('…');` muestra el texto que va entre comillas. Tocá **Ejecutar** (o Ctrl+Enter): JavaScript corre acá mismo, en tu navegador.
+En JavaScript, para mostrar algo en la **consola** (el recuadro donde aparecen los mensajes del programa, la Salida) se usa:
+
+```js
+console.log('Hola');
+```
+
+Muestra **Hola**. `console.log` es una **función**: una orden con nombre que hace un trabajo, y lo que querés mostrar va entre sus paréntesis. El texto va entre comillas: las comillas no se ven, solo marcan dónde empieza y dónde termina. La línea termina con `;`.
+
+Tocá **Ejecutar** (o Ctrl+Enter): JavaScript corre acá mismo, en tu navegador.
 
 #### Desafío
 Completá la instrucción para que Nima salude a la Feria.
@@ -244,7 +252,9 @@ recompensa: xp 10, oro 10
 En el caballito de madera donde llegó Nima hay algo verde y blando: un **slime**, una gota de baba que se alimenta de las comillas que nadie cierra. Gheco señala el mensaje que dejó en el editor: `SyntaxError`.
 
 #### Gheco sugiere
-Leé el error: dice en qué línea se dio cuenta JavaScript. Toda comilla que abre un texto tiene que cerrarse con la misma comilla.
+Si algo está mal escrito, JavaScript no ejecuta y muestra un error con el **número de línea** donde se dio cuenta.
+
+Un error muy común: un texto que no se cierra. Toda comilla que abre un texto tiene que cerrarse con **la misma** comilla: `'hola'` o `"hola"`, pero no `'hola"`.
 
 #### Desafío
 Arreglá el programa para que ande.
@@ -285,7 +295,13 @@ recompensa: xp 10, oro 10
 El dueño del puesto de tiro duerme sobre el mostrador. En una pizarra dice: *3 tiros por ronda · 2 rondas*. Nima quiere saber cuántos tiros son y cuánto cuestan, si cada tiro vale 2 fichas.
 
 #### Gheco sugiere
-Los números van **sin** comillas y se pueden hacer cuentas adentro de `console.log`. Con una coma, mostrás un texto y un número juntos: `console.log('Tiros:', 3 * 2);`.
+Los números van **sin** comillas, y JavaScript hace las cuentas: `console.log(3 * 2)` muestra `6`. Con comillas, `'3 * 2'` sería un texto y se mostraría tal cual.
+
+Con una coma, `console.log` muestra varias cosas juntas, separadas por un espacio:
+
+```js
+console.log('Tiros:', 3 * 2);   // Tiros: 6
+```
 
 #### Desafío
 Reemplazá los `___` por las cuentas: los tiros son 3 por ronda y 2 rondas; las fichas, 2 por tiro.
@@ -329,7 +345,14 @@ recompensa: xp 10, oro 10
 Nima anota todo en papelitos que guarda en el carcaj. Uno dice algo que ya no sirve: *el blanco está quieto*. En la Feria, eso es mentira.
 
 #### Gheco sugiere
-Si ponés `//` al principio de una línea, JavaScript la saltea: queda como una nota, sin ejecutarse.
+Un **comentario** es una nota para las personas que leen el código. JavaScript lo saltea: no se ejecuta.
+
+Todo lo que va después de `//`, hasta el final de la línea, es comentario:
+
+```js
+// esto es una nota
+console.log('esto sí se muestra');
+```
 
 #### Desafío
 «Apagá» la línea que dice que el blanco está quieto, sin borrarla, para que el programa muestre solo las otras dos.
@@ -376,7 +399,15 @@ Nima tira otra vez, y otra vez la flecha llega antes que el blanco. Lumina se po
 —Tu flecha sale apenas la pensás. El blanco aparece dentro de dos segundos. Decile a tu flecha que **espere**.
 
 #### Gheco sugiere
-`setTimeout(() => console.log('…'), 2500);` muestra el texto **dentro de 2500 milisegundos** (2,5 segundos). Mirá el orden de la salida: lo que está dentro de un `setTimeout` sale después, aunque esté escrito antes.
+`setTimeout` deja una orden **para más tarde**:
+
+```js
+setTimeout(() => console.log('¡Ya!'), 2500);
+```
+
+Muestra `¡Ya!` dentro de 2500 **milisegundos** (milésimas de segundo: 2500 son 2,5 segundos). Lo que va antes de la coma, `() => …`, es la orden que espera.
+
+Mirá el orden de la salida: lo que está dentro de un `setTimeout` sale **después**, aunque esté escrito antes. El resto del programa no se queda esperando.
 
 #### Desafío
 Hacé que *¡Suelta la flecha!* salga **después** de que aparezca el blanco: metela en un `setTimeout` de 2500 ms, igual que el blanco.
@@ -424,7 +455,14 @@ Volviendo a la entrada, el cartel sigue diciendo *Cerrado*. Lumina sacude las al
 —La Feria es una página, y JavaScript la puede cambiar. Ese cartel tiene un nombre: `cartel`.
 
 #### Gheco sugiere
-Arriba de la Salida está **la página**. `document.querySelector('#cartel')` busca el elemento cuyo `id` es `cartel`, y `.textContent = '…'` le cambia el texto.
+Arriba de la Salida está **la página**: el HTML donde corre tu código. Cada parte de la página es un **elemento** (un título, un botón, un párrafo).
+
+```js
+document.querySelector('#cartel').textContent = 'Abierto';
+```
+
+- `document.querySelector('#cartel')` busca el elemento cuyo `id` es `cartel` (el `#` quiere decir «id»);
+- `.textContent = '…'` le cambia el texto.
 
 #### Desafío
 Cambiá el texto del cartel por `Abierto`.
@@ -483,7 +521,17 @@ La avenida principal está a oscuras. Al lado del primer farol hay una palanca d
 —Los faroles de la Feria no se prenden solos —dice Lumina—. Esperan. Cuando alguien toca la palanca, reaccionan.
 
 #### Gheco sugiere
-`addEventListener('click', () => { … })` deja **esperando** lo que está entre las llaves: se ejecuta recién cuando alguien hace click en el botón. Adentro, `farol.classList.add('prendido')` le pone la clase que lo enciende. Después de ejecutar, ¡tocá el botón de la página!
+Un programa de página no hace todo de una vez: deja cosas **esperando** a que pase algo, como un click. Eso es un **evento**.
+
+```js
+boton.addEventListener('click', () => {
+    // esto corre recién cuando hacen click
+});
+```
+
+Lo que está entre las llaves no se ejecuta ahora: se ejecuta cada vez que alguien hace click en el botón. Adentro, `farol.classList.add('prendido')` le pone al farol la clase que lo enciende.
+
+Después de ejecutar, ¡tocá el botón en la página!
 
 #### Desafío
 Completá el código para que, al tocar **Prender**, el farol se prenda (que tenga la clase `prendido`) y el cartel diga `Farol prendido`.

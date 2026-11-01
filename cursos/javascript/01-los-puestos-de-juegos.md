@@ -130,7 +130,12 @@ recompensa: xp 10, oro 10
 Bruno le pide a Nima su nombre y cuántas fichas tiene, para anotarla en la pizarra. Tati, que es la que borra, le pide por favor que el nombre «no se borre nunca».
 
 #### Gheco sugiere
-`const` para lo que no cambia (el nombre) y `let` para lo que sí (las fichas). Después, `console.log` muestra lo que guardaste.
+Una **variable** es una cajita con nombre donde el programa guarda un dato para usarlo después. En JavaScript hay dos formas de crearla:
+
+- `const` para lo que **no cambia**: `const nombre = 'Nima';`
+- `let` para lo que **sí cambia**: `let fichas = 10;`
+
+El `=` no es «igual» como en matemática: quiere decir «guardá esto en la cajita». Después, `console.log(fichas)` muestra lo que hay adentro.
 
 #### Desafío
 Creá la constante `nombre` con el texto `Nima` y la variable `fichas` con el número `3`.
@@ -180,7 +185,11 @@ recompensa: xp 10, oro 10
 Cada tiro cuesta una ficha. Nima tira dos veces y Bruno tiene que actualizar la pizarra.
 
 #### Gheco sugiere
-`tiros++` suma uno y `fichas -= 1` resta uno. Hacelo dos veces: una por cada tiro.
+Hay atajos para cambiar una variable usando su propio valor:
+
+- `tiros++` suma 1;
+- `fichas -= 1` resta 1 (es lo mismo que `fichas = fichas - 1`);
+- también existen `+=`, `*=` y `--`.
 
 #### Desafío
 Después de los dos tiros, `tiros` tiene que valer 2 y `fichas` tiene que valer 1.
@@ -241,7 +250,9 @@ recompensa: xp 10, oro 10
 Tati sella todas las cajitas, «por las dudas». Ahora, cuando Nima gana un premio, el programa explota con un error rojo.
 
 #### Gheco sugiere
-Leé el error: `Assignment to constant variable`. ¿Cuál de las dos cajitas tiene que poder cambiar?
+Una cajita `const` no se puede cambiar: si el programa lo intenta, JavaScript corta con el error `Assignment to constant variable` («le asignaste algo a una constante»).
+
+Fijate cuál de las dos cajitas tiene que poder cambiar, y creala con `let`.
 
 #### Desafío
 Arreglá la declaración que corresponde para que el programa ande.
@@ -290,7 +301,14 @@ recompensa: xp 10, oro 10
 Bruno quiere colgar un cartel con el precio de los tiros, pero cada vez que cambia el precio tiene que rehacer todo el cartel.
 
 #### Gheco sugiere
-Con comillas invertidas, `${precio}` mete el valor de la variable adentro del texto, y `${precio * 3}` mete el resultado de la cuenta.
+Para meter valores adentro de un texto, se usan **comillas invertidas** (`` ` ``, la tecla al lado del 1 o con AltGr + }) y `${ }`:
+
+```js
+const precio = 4;
+console.log(`Cuesta ${precio} fichas, y tres cuestan ${precio * 3}`);
+```
+
+Lo que va entre `${ }` se calcula y se mete en el texto. Se llama **plantilla de texto** (*template literal*).
 
 #### Desafío
 Completá los dos carteles usando `${…}` con las variables `puesto` y `precio`.
@@ -339,7 +357,7 @@ recompensa: xp 15, monedas 5
 Se termina la ronda. Bruno y Tati quieren pasar la pizarra en limpio: quién jugó, cuántos tiros hizo, cuántos acertó y cuántas fichas ganó.
 
 #### Gheco sugiere
-Cada acierto paga 3 fichas. Calculá las fichas ganadas a partir de los aciertos, con una cuenta, no escribiendo el resultado a mano.
+Cada acierto paga 3 fichas. Calculá las fichas ganadas a partir de los aciertos, con una cuenta (`aciertos * 3`), no escribiendo el resultado a mano: así, si cambian los aciertos, el resultado cambia solo.
 
 #### Desafío
 Nima hizo 5 tiros y acertó 4. Guardá esos datos y mostrá la pizarra **exactamente** así (las fichas son los aciertos por 3):
@@ -396,7 +414,9 @@ recompensa: xp 15, monedas 5
 Nima juega tres rondas. En la primera gana 6 fichas, en la segunda 3 y en la tercera 9. Bruno quiere un número que vaya **juntando** todo.
 
 #### Gheco sugiere
-Empezá con `let total = 0;` y después de cada ronda hacé `total += …`. Mostrá el total parcial después de cada ronda.
+Un **acumulador** es una variable que va sumando: empezá con `let total = 0;` y, después de cada ronda, `total += fichasDeLaRonda;`.
+
+Mostrá el total parcial después de cada ronda.
 
 #### Desafío
 Acumulá las fichas de las tres rondas (6, 3 y 9) y mostrá el total parcial después de cada una, así:
@@ -556,7 +576,14 @@ recompensa: xp 10, oro 10
 Sobre el mostrador del Goblin hay tres cosas: una ficha, un cartel y una lamparita. Gheco quiere saber de qué tipo es cada una antes de tocar nada.
 
 #### Gheco sugiere
-`typeof valor` devuelve el tipo como texto. Mostralo con `console.log`.
+Cada valor tiene un **tipo**, que dice qué clase de dato es:
+
+- `number`: números (con o sin decimales);
+- `string`: texto, entre comillas;
+- `boolean`: verdadero o falso, `true` o `false`;
+- `undefined`: «todavía no tiene valor».
+
+`typeof valor` devuelve el tipo como texto: `typeof 5` da `'number'`.
 
 #### Desafío
 Mostrá el tipo de cada una de las tres variables, una por línea.
@@ -611,7 +638,9 @@ recompensa: xp 10, oro 10
 El Goblin pesa dos bolsas de fichas: una dice «2» en un cartel de papel y la otra tiene 2 fichas de verdad. —¡Veintidós! —anuncia, y estira la mano.
 
 #### Gheco sugiere
-El cartel es un **texto**. Convertilo con `Number(…)` antes de sumar.
+Un número entre comillas es **texto**, y con texto `+` no suma: **pega**. `'20' + 2` da `'202'`.
+
+Para sumar, primero convertí el texto a número con `Number(...)`: `Number('20') + 2` da `22`.
 
 #### Desafío
 Hacé que el total sea 4, convirtiendo el cartel a número.
@@ -660,7 +689,12 @@ recompensa: xp 10, oro 10
 El Goblin tiene una balanza que dice «iguales» aunque en un plato haya una ficha y en el otro un papel con un «1» escrito.
 
 #### Gheco sugiere
-`==` convierte antes de comparar; `===` no. Cambiá la comparación para que no la engañen.
+JavaScript tiene dos formas de preguntar si dos cosas son iguales:
+
+- `==` convierte los tipos antes de comparar: para él, `'5' == 5` es verdad;
+- `===` no convierte: exige el mismo valor **y** el mismo tipo. `'5' === 5` es falso.
+
+Usá siempre `===`: así nadie te engaña con un número disfrazado de texto.
 
 #### Desafío
 Hacé que la balanza diga `false`: la ficha y el papel **no** son lo mismo.
@@ -707,7 +741,9 @@ recompensa: xp 10, oro 10
 El Goblin le da a Nima el vuelto en una moneda gris que dice `NaN`. Nima quiere saber si vale algo, pero cuando la compara con otra moneda `NaN`, la balanza dice que no son iguales.
 
 #### Gheco sugiere
-`NaN` no es igual a nada, ni a sí mismo. Para saber si un valor es `NaN`, usá `Number.isNaN(valor)`.
+Cuando una cuenta no da un número (por ejemplo, `Number('hola')`), JavaScript devuelve `NaN`: *Not a Number*, «no es un número».
+
+`NaN` es raro: no es igual a nada, ni siquiera a sí mismo (`NaN === NaN` es falso). Para saber si un valor es `NaN`, usá `Number.isNaN(valor)`.
 
 #### Desafío
 Reemplazá la comparación por `Number.isNaN(vuelto)` para que diga `true`.
@@ -755,7 +791,7 @@ recompensa: xp 15, monedas 5
 El Goblin anota las compras del día en carteles de papel: todo es texto. Dice que la gente le debe `"3" + "4" + "5"` fichas, que según él son **345**.
 
 #### Gheco sugiere
-Convertí cada cartel con `Number` antes de sumar. Mostrá primero la cuenta del Goblin y después la de verdad.
+Convertí cada cartel con `Number(...)` antes de sumar. Mostrá primero la cuenta del Goblin (sumando los textos tal cual, que se pegan) y después la de verdad.
 
 #### Desafío
 Mostrá exactamente:
@@ -808,7 +844,10 @@ recompensa: xp 15, monedas 5
 En el fondo del puesto hay dos cajas. Una nunca se abrió; la otra la vaciaron a propósito. Lumina le pide a Nima que les ponga la etiqueta correcta.
 
 #### Gheco sugiere
-Una variable declarada sin valor vale `undefined`. Si querés decir «vacía a propósito», le das `null`.
+Dos formas de decir «no hay nada»:
+
+- `undefined`: una variable que se creó pero **todavía** no recibió valor (`let x;`);
+- `null`: «vacía **a propósito**». Se la ponés vos cuando querés decir que no hay nada.
 
 #### Desafío
 Declará `cajaNueva` **sin valor** y `cajaVaciada` con `null`, para que el programa muestre lo que se espera.
@@ -988,7 +1027,17 @@ recompensa: xp 10, oro 10
 El guardia de la calesita deja pasar solo a quien tiene al menos 3 fichas. Nima tiene 5.
 
 #### Gheco sugiere
-`if (fichas >= 3) { … } else { … }`: lo de la primera llave se ejecuta si se cumple, lo del `else` si no.
+Con `if` el programa **decide**: hace algo solo si una condición es verdad.
+
+```js
+if (edad >= 12) {
+    console.log('Pasa');
+} else {
+    console.log('No pasa');
+}
+```
+
+Lo que está en las primeras llaves se ejecuta si la condición se cumple; lo del `else` («si no»), si no se cumple. `>=` es «mayor o igual».
 
 #### Desafío
 Completá la condición para que muestre `Pasás a la calesita` si hay 3 fichas o más, y `Te faltan fichas` si no.
@@ -1040,7 +1089,15 @@ recompensa: xp 10, oro 10
 En la calesita hay caballitos para tres alturas: los grandes (desde 1,5 m), los medianos (desde 1,1 m) y los chiquitos. Un nene de 1,2 m quiere saber cuál le toca.
 
 #### Gheco sugiere
-Con `else if` agregás un camino en el medio. Preguntá primero por el más alto.
+Con `else if` («si no, si…») agregás caminos en el medio:
+
+```js
+if (nota >= 9) { ... }
+else if (nota >= 6) { ... }
+else { ... }
+```
+
+JavaScript prueba **en orden** y entra solo en el primero que se cumple. Por eso, preguntá primero por el más alto: si no, el más fácil atrapa todo.
 
 #### Desafío
 Completá las condiciones para que a 1,2 m le toque el caballito mediano.
@@ -1096,7 +1153,19 @@ recompensa: xp 10, oro 10
 Lumina tiene una lista de precios: el tiro cuesta 2 fichas, la calesita 3 y los títeres 1. Lo que no está en la lista, no existe.
 
 #### Gheco sugiere
-`switch` compara con `===` cada `case`. Terminá cada caso con `break`, y usá `default` para lo que no está.
+`switch` compara un valor con varias opciones fijas, como un menú:
+
+```js
+switch (juego) {
+    case 'calesita':
+        precio = 2;
+        break;
+    default:
+        precio = 0;
+}
+```
+
+Compara con `===`. Cada caso termina con `break` (si no, sigue de largo con el de abajo), y `default` es para lo que no coincide con ninguno.
 
 #### Desafío
 Completá el `switch` con los tres juegos, para que el `'calesita'` muestre `3 fichas`.
@@ -1161,7 +1230,12 @@ recompensa: xp 10, oro 10
 Un ogro torpe anota cuántas vueltas dio cada uno. Si alguien dio 0 vueltas, el ogro anota «3», porque usa `||` y se le borra el cero.
 
 #### Gheco sugiere
-`vueltas || 3` reemplaza también el 0. Con `vueltas ?? 3`, el 3 se usa **solo** si no hay dato (`null` o `undefined`).
+Dos operadores para poner un valor por defecto:
+
+- `x || 3` usa el 3 si `x` es **cualquier cosa falsa**: también el 0 y el texto vacío;
+- `x ?? 3` usa el 3 **solo** si no hay dato (`null` o `undefined`).
+
+Si 0 es un valor válido (cero vueltas), usá `??`.
 
 #### Desafío
 Cambiá `||` por `??` para que las 0 vueltas se respeten, pero el que no tiene dato siga con 3.
@@ -1211,7 +1285,9 @@ recompensa: xp 15, monedas 5
 La calesita guarda qué caballito eligió cada uno. Nima todavía no eligió, y cuando el programa le pregunta el color de su caballito, explota con un error rojo.
 
 #### Gheco sugiere
-`jugadora.caballito` es `undefined`, y no se le puede pedir `.color`. Con `jugadora.caballito?.color` no explota, y con `?? 'sin elegir'` le das un texto por defecto.
+Si `jugadora.caballito` es `undefined`, pedirle `.color` corta el programa con un error.
+
+Con `?.` (**encadenamiento opcional**) no explota: `jugadora.caballito?.color` da `undefined` si no hay caballito, en vez de error. Y con `?? 'sin elegir'` le das un texto por defecto.
 
 #### Desafío
 Arreglá la línea que explota para que muestre `Color: sin elegir`.
@@ -1258,7 +1334,12 @@ recompensa: xp 15, monedas 5
 Para la montaña rusa hay que medir al menos 1,4 m **y** tener 4 fichas, **o** tener el pase dorado. Nima mide 1,7 m, tiene 3 fichas y no tiene pase.
 
 #### Gheco sugiere
-Armá la condición con `&&` y `||`, y usá el ternario `puede ? 'Pasa' : 'No pasa'` para mostrar el resultado.
+Para juntar condiciones:
+
+- `&&` es «**y**»: las dos tienen que cumplirse;
+- `||` es «**o**»: alcanza con una.
+
+Para elegir entre dos textos en una línea, el **ternario**: `puede ? 'Pasa' : 'No pasa'`. Si `puede` es verdad, da lo primero; si no, lo segundo.
 
 #### Desafío
 Completá la condición para que muestre `Nima: No pasa`.
@@ -1428,7 +1509,19 @@ recompensa: xp 10, oro 10
 Bengala, la pirotécnica, cuenta para atrás antes de cada cohete, pero siempre se saltea un número. Le pide a Nima que la ayude.
 
 #### Gheco sugiere
-`for (let i = 5; i >= 1; i--)` empieza en 5 y baja de a uno mientras `i` sea mayor o igual que 1.
+Un **bucle** repite instrucciones. El `for` tiene tres partes entre paréntesis:
+
+```js
+for (let i = 1; i <= 3; i++) {
+    console.log(i);
+}
+```
+
+1. **arranque**: `let i = 1`;
+2. **condición**: `i <= 3`, se pregunta antes de cada vuelta;
+3. **paso**: `i++`, al final de cada vuelta.
+
+Para contar hacia atrás, arrancá alto y usá `i--`.
 
 #### Desafío
 Completá el `for` para que cuente del 5 al 1, y después muestre `¡Fuego!`.
@@ -1479,7 +1572,15 @@ recompensa: xp 10, oro 10
 Bengala tiene una fila de cohetes de colores. Quiere anunciar cada uno antes de prenderlo.
 
 #### Gheco sugiere
-`for (const cohete of cohetes)` te da cada elemento del arreglo, uno por vuelta.
+Un **arreglo** (*array*) es una lista de valores entre corchetes: `['rojo', 'verde', 'azul']`.
+
+`for…of` lo recorre y te da cada elemento, uno por vuelta:
+
+```js
+for (const color of colores) {
+    console.log(color);
+}
+```
 
 #### Desafío
 Recorré el arreglo con `for…of` y mostrá `Cohete rojo`, `Cohete verde`, etc.
@@ -1529,7 +1630,10 @@ recompensa: xp 10, oro 10
 Llovió un poco y hay cohetes mojados. Los mojados no se prenden (se saltean), y si aparece uno **roto**, hay que parar todo por seguridad.
 
 #### Gheco sugiere
-Adentro del `for…of`, `if (cohete === 'mojado') continue;` lo saltea, y `if (cohete === 'roto') break;` corta todo.
+Dos órdenes para controlar un bucle desde adentro:
+
+- `continue;` saltea lo que queda de **esta** vuelta y pasa a la siguiente;
+- `break;` corta el bucle **entero**.
 
 #### Desafío
 Completá los dos `if` para que los mojados se salteen y el roto corte el bucle.
@@ -1585,7 +1689,13 @@ recompensa: xp 10, oro 10
 Bengala tiene 20 gramos de pólvora y cada cohete usa 6. Quiere saber cuántos cohetes le salen.
 
 #### Gheco sugiere
-`while (polvora >= 6)` repite mientras alcance. Adentro, restá los 6 gramos y sumá un cohete. ¡No te olvides de restar, o no termina nunca!
+`while` repite **mientras** la condición sea verdad:
+
+```js
+while (polvora >= 6) { ... }
+```
+
+Adentro, algo tiene que cambiar para que alguna vez deje de cumplirse: restá los 6 gramos y sumá un cohete. Si no restás, no termina nunca.
 
 #### Desafío
 Completá el `while` para que muestre `Cohetes: 3` y `Sobran: 2`.
@@ -1641,7 +1751,15 @@ recompensa: xp 15, monedas 5
 Bengala vende cohetes de tres tamaños y guarda los precios en un objeto. Quiere imprimir la lista para colgarla.
 
 #### Gheco sugiere
-`for (const tamaño in precios)` te da cada nombre, y `precios[tamaño]` su precio.
+`for…in` recorre los **nombres** de un objeto (sus claves):
+
+```js
+for (const tamaño in precios) {
+    console.log(tamaño, precios[tamaño]);
+}
+```
+
+En cada vuelta, `tamaño` es un nombre, y `precios[tamaño]` es su valor.
 
 #### Desafío
 Mostrá cada tamaño con su precio, así: `chico: 1 fichas`, `mediano: 3 fichas`, `grande: 5 fichas`.
@@ -1688,7 +1806,9 @@ recompensa: xp 15, monedas 5
 Para el gran final, Bengala quiere 3 tandas de 4 cohetes cada una. Lumina le pide que muestre el plan entero antes de prender nada.
 
 #### Gheco sugiere
-Un `for` para las tandas y, adentro, otro `for` para los cohetes de cada tanda. Armá el renglón de cada tanda con `+=` y mostralo al final de esa vuelta.
+Un bucle puede ir **adentro** de otro (bucles **anidados**): un `for` para las tandas y, adentro, otro `for` para los cohetes de cada tanda.
+
+Armá el renglón de cada tanda sumándole partes con `+=` (con textos, `+=` pega al final), y mostralo al terminar esa tanda.
 
 #### Desafío
 Mostrá cada tanda con sus cohetes numerados, así:
@@ -1854,7 +1974,11 @@ recompensa: xp 10, oro 10
 Doña Mirta pone la bandeja sobre el mostrador. —¿Cuál es el primero? ¿Y cuántos hay? ¡Rápido, que se enfrían!
 
 #### Gheco sugiere
-El primero es `panes[0]`, el último es `panes[panes.length - 1]` y el largo es `panes.length`.
+Cada elemento de un arreglo tiene una posición, que se cuenta desde **0**:
+
+- el primero es `panes[0]`;
+- `panes.length` dice cuántos hay;
+- el último es `panes[panes.length - 1]` (si hay 5, el último está en la posición 4).
 
 #### Desafío
 Mostrá el primer pan, el último y cuántos hay.
@@ -1904,7 +2028,10 @@ recompensa: xp 10, oro 10
 Del horno salen dos panes nuevos, de canela y de anís, y van al final de la fila. El primero de la fila se vende enseguida.
 
 #### Gheco sugiere
-`push` agrega al final (podés pasarle dos) y `shift` saca el primero.
+Los arreglos tienen **métodos** (funciones que se usan con un punto) para cambiarlos:
+
+- `push(x)` agrega al final (se le pueden pasar varios: `push(a, b)`);
+- `shift()` saca el primero.
 
 #### Desafío
 Agregá `'canela'` y `'anis'` al final, vendé el primero y mostrá cómo quedó la bandeja.
@@ -1952,7 +2079,13 @@ recompensa: xp 10, oro 10
 En la bandeja se colaron algunos panes quemados. Doña Mirta no quiere tirar la bandeja: quiere una nueva, solo con los buenos.
 
 #### Gheco sugiere
-`filter((pan) => pan !== 'quemado')` se queda con los que **no** son `'quemado'`.
+`filter` arma un arreglo **nuevo** solo con los elementos que cumplen una condición. La condición es una función chiquita (una **flecha**):
+
+```js
+panes.filter((pan) => pan !== 'quemado')
+```
+
+Se lee: «para cada `pan`, quedate con él si no es `'quemado'`». `!==` es «distinto».
 
 #### Desafío
 Armá el arreglo `buenos` sin los quemados.
@@ -2001,7 +2134,13 @@ recompensa: xp 10, oro 10
 Es noche de feria grande y Doña Mirta sube **una ficha** cada precio. Quiere la lista nueva sin perder la vieja.
 
 #### Gheco sugiere
-`precios.map((p) => p + 1)` devuelve un arreglo nuevo con cada precio más uno.
+`map` arma un arreglo **nuevo** transformando cada elemento con una función:
+
+```js
+precios.map((p) => p * 2)
+```
+
+Devuelve cada precio multiplicado por 2. El arreglo original no cambia.
 
 #### Desafío
 Armá `nuevos` con cada precio aumentado en 1.
@@ -2050,7 +2189,15 @@ recompensa: xp 15, monedas 5
 Se termina la noche. Doña Mirta anotó cada venta en un arreglo y quiere saber cuánto juntó, y cuántas ventas fueron de más de 3 fichas.
 
 #### Gheco sugiere
-`reduce((total, v) => total + v, 0)` suma todo. Para contar las grandes, filtrá primero y mirá el `length`.
+`reduce` junta todos los elementos en un solo valor:
+
+```js
+ventas.reduce((total, v) => total + v, 0)
+```
+
+Arranca con `total` en 0 (el último dato) y, por cada `v`, suma. Al final da la suma de todo.
+
+Para contar los que cumplen algo: filtrá primero y mirá el `length` del resultado.
 
 #### Desafío
 Mostrá `Total: 23` y `Ventas grandes: 2`.
@@ -2101,7 +2248,9 @@ recompensa: xp 15, monedas 5
 Lumina quiere los panes de miel para las luciérnagas chicas, con el precio en fichas **doble** (es para un festejo). Y quiere saber cuál es el primer pan que cuesta más de 3.
 
 #### Gheco sugiere
-Encadená: primero `filter` para quedarte con los de miel, después `map` para sacar el precio por 2. Para el primero caro, `find((p) => p.precio > 3)`.
+Los métodos se pueden **encadenar**, uno detrás del otro: primero `filter` para quedarte con los de miel, después `map` para sacar el precio por 2.
+
+Para el primero que cumpla una condición, `find`: `find((p) => p.precio > 3)` devuelve el primero que la cumple (o `undefined` si ninguno).
 
 #### Desafío
 Mostrá `Miel al doble: [ 4, 6 ]` y `Primero caro: chocolate`.
@@ -2283,7 +2432,13 @@ recompensa: xp 10, oro 10
 El Flaco Ruiz le pide a Nima que pase la etiqueta del oso de peluche a una cajita con nombres: nombre, precio y color.
 
 #### Gheco sugiere
-Un objeto se escribe entre llaves, con `clave: valor` separados por comas.
+Un **objeto** junta varios datos sobre una misma cosa, cada uno con su nombre, entre llaves:
+
+```js
+const premio = { nombre: 'oso', precio: 8, color: 'marrón' };
+```
+
+Cada `nombre: valor` es una **propiedad**, separadas por comas. Se lee con un punto: `premio.precio`.
 
 #### Desafío
 Creá el objeto `oso` con `nombre` `'Oso'`, `precio` `10` y `color` `'marrón'`.
@@ -2330,7 +2485,11 @@ recompensa: xp 10, oro 10
 Llegaron más cometas, subió el precio y ya no hay color rojo. El Flaco quiere actualizar la etiqueta sin hacer una nueva.
 
 #### Gheco sugiere
-`cometa.quedan = 5` agrega la propiedad, `cometa.precio = 7` la cambia y `delete cometa.color` la borra.
+Las propiedades de un objeto se pueden cambiar:
+
+- `cometa.quedan = 5` la **agrega** si no estaba;
+- `cometa.precio = 7` la **cambia** si estaba;
+- `delete cometa.color` la **borra**.
 
 #### Desafío
 Agregá `quedan: 5`, cambiá el precio a `7` y borrá el `color`.
@@ -2379,7 +2538,13 @@ recompensa: xp 10, oro 10
 Llega un paquete con un premio adentro. El Flaco quiere sacar el nombre y el precio, y si no trae color, ponerle `'sin color'`.
 
 #### Gheco sugiere
-`const { nombre, precio, color = 'sin color' } = paquete;` crea las tres variables de una vez.
+Para sacar varias propiedades de un objeto de una vez, se **desarma** (desestructuración):
+
+```js
+const { nombre, precio } = paquete;
+```
+
+Crea las variables `nombre` y `precio` con los valores del objeto. Con `= 'algo'` le das un valor por defecto, por si esa propiedad no está.
 
 #### Desafío
 Desestructurá `paquete` para que el programa muestre los tres datos.
@@ -2428,7 +2593,9 @@ recompensa: xp 10, oro 10
 El Flaco hizo una «copia» del farol para ponerlo en oferta. Pero al bajarle el precio a la copia, también se le bajó al original.
 
 #### Gheco sugiere
-`const oferta = farol;` no copia: son dos nombres para el mismo farol. Con `{ ...farol }` sí hay dos.
+`const oferta = farol;` **no copia** el objeto: crea un segundo nombre para **el mismo** farol. Si cambiás uno, cambia el otro, porque es uno solo.
+
+Para una copia de verdad: `const oferta = { ...farol };`. Los tres puntos (`...`, **spread**) desparraman las propiedades del farol adentro de un objeto nuevo.
 
 #### Desafío
 Arreglá la copia para que el original siga a 8.
@@ -2479,7 +2646,13 @@ recompensa: xp 15, monedas 5
 El Flaco guarda cuántos quedan de cada premio en un solo objeto. Quiere una lista que diga cuántos quedan de cada uno, y avise los que se agotaron.
 
 #### Gheco sugiere
-`for (const [premio, cantidad] of Object.entries(stock))` te da cada par. Si la cantidad es 0, mostrá `agotado`.
+`Object.entries(objeto)` convierte un objeto en una lista de pares `[clave, valor]`. Con `for…of` y desarmando cada par:
+
+```js
+for (const [premio, cantidad] of Object.entries(stock)) { ... }
+```
+
+En cada vuelta tenés el nombre y la cantidad. Si la cantidad es 0, mostrá `agotado`.
 
 #### Desafío
 Mostrá cada premio con su cantidad, o `agotado` si es 0: `oso: 3`, `cometa: agotado`, `silbato: 12`, `farol: 1`.
@@ -2527,7 +2700,12 @@ recompensa: xp 15, monedas 5
 Lumina arma un premio especial para la mejor arquera de la noche: los premios chicos y los grandes en una sola lista, y una copia del farol dorado con el precio en 0, congelada para que nadie la cambie.
 
 #### Gheco sugiere
-`[...chicos, ...grandes]` junta las dos listas. `Object.freeze({ ...farol, precio: 0 })` copia, cambia el precio y congela.
+Los tres puntos también sirven para juntar:
+
+- `[...chicos, ...grandes]` arma un arreglo con los de las dos listas;
+- `{ ...farol, precio: 0 }` copia el farol y le cambia el precio.
+
+`Object.freeze(objeto)` lo **congela**: después nadie lo puede cambiar.
 
 #### Desafío
 Armá `todos` y `regalo`. Si el regalo quedó congelado, el intento de cambiarle el precio falla (el `try` ya está escrito).
@@ -2723,7 +2901,17 @@ recompensa: xp 10, oro 10
 Don Tano quiere un rollo que salude a cualquiera que pase, con su nombre.
 
 #### Gheco sugiere
-Una función con un parámetro `nombre` que **devuelva** el saludo con `return`.
+Una **función** es una receta con nombre que escribís una vez y usás muchas veces:
+
+```js
+function doble(n) {
+    return n * 2;
+}
+
+console.log(doble(7));   // 14
+```
+
+Entre los paréntesis van los **parámetros** (los datos que recibe), y `return` **devuelve** el resultado y termina.
 
 #### Desafío
 Escribí la función `saludar` para que el programa muestre los dos saludos.
@@ -2773,7 +2961,15 @@ recompensa: xp 10, oro 10
 Algunas canciones se tocan una vez y otras varias. Si nadie dice cuántas, Don Tano la toca **una**.
 
 #### Gheco sugiere
-`function tocar(cancion, veces = 1)`: si no pasan `veces`, vale 1. Usá `.repeat(veces)` para repetir un texto.
+Un parámetro puede tener un valor **por defecto**, el que usa si no se lo pasan:
+
+```js
+function tocar(cancion, veces = 1) { ... }
+```
+
+Si llamás `tocar('vals')`, `veces` vale 1.
+
+`texto.repeat(n)` repite un texto `n` veces: `'la'.repeat(3)` da `'lalala'`.
 
 #### Desafío
 Completá la función para que devuelva la canción repetida, separada por espacios y con una nota al final: `'la '.repeat(3)` da `'la la la '`.
@@ -2824,7 +3020,13 @@ recompensa: xp 10, oro 10
 Gheco dice que las funciones flecha son las favoritas de la Feria: cortas, rápidas, como las flechas de Nima.
 
 #### Gheco sugiere
-`const triple = (n) => n * 3;` es una función entera en una línea.
+Las **funciones flecha** son una forma corta de escribir funciones:
+
+```js
+const doble = (n) => n * 2;
+```
+
+Recibe `n` y devuelve `n * 2`, todo en una línea. Si es una sola expresión, no hace falta `return` ni llaves.
 
 #### Desafío
 Escribí `triple` y `esPar` como flechas (`esPar` devuelve `true` si el número es par: `n % 2 === 0`).
@@ -2876,7 +3078,15 @@ recompensa: xp 10, oro 10
 La gente le deja monedas a Don Tano en el sombrero, de a una o de a puñados. Quiere una función que las sume, sin importar cuántas le pasen.
 
 #### Gheco sugiere
-`function juntar(...monedas)` recibe todos los argumentos en un arreglo `monedas`. Después, `reduce`.
+Con tres puntos antes del parámetro (**parámetro rest**), la función acepta **cualquier cantidad** de datos y los junta en un arreglo:
+
+```js
+function juntar(...monedas) { ... }
+
+juntar(1, 2, 3);   // monedas es [1, 2, 3]
+```
+
+Después, para sumarlas, `reduce`.
 
 #### Desafío
 Escribí `juntar` para que sume todos sus argumentos.
@@ -2930,7 +3140,13 @@ recompensa: xp 15, monedas 5
 Don Tano quiere un rollo «comodín»: que repita **cualquier cosa** las veces que le pidan. Lo que se repite se lo pasan como otra función.
 
 #### Gheco sugiere
-`repetir(veces, accion)` hace un `for` y adentro llama `accion(i)`. Después probalo con una flecha.
+Una función puede recibir **otra función** como dato. `repetir(veces, accion)` hace un `for` y, en cada vuelta, llama a `accion(i)`.
+
+Al usarla, le pasás una flecha que dice qué hacer en cada vuelta:
+
+```js
+repetir(3, (i) => console.log('vuelta', i));
+```
 
 #### Desafío
 Completá `repetir` y usala para mostrar `Vuelta 1`, `Vuelta 2` y `Vuelta 3`.
@@ -2984,7 +3200,16 @@ recompensa: xp 15, monedas 5
 Lumina le arma a Don Tano un organito que sabe qué canción tiene puesta. Pero cuando lo prueban, dice *Suena undefined*: un ogro escondido en el código.
 
 #### Gheco sugiere
-El método está escrito como flecha, y las flechas no tienen su propio `this`. Escribilo como método: `tocar() { … }`.
+Adentro de un objeto, `this` quiere decir «este objeto». Pero las funciones **flecha** no tienen su propio `this`: usan el de afuera, y ahí `this.cancion` no existe.
+
+Por eso, un método que usa `this` se escribe como método común, no como flecha:
+
+```js
+const organito = {
+    cancion: 'vals',
+    tocar() { console.log(this.cancion); },
+};
+```
 
 #### Desafío
 Arreglá el método para que muestre `Suena La Cumparsita`.
@@ -3082,7 +3307,7 @@ recompensa: xp 15, monedas 3
 El Goblin muestra los carteles de las apuestas de la noche, todos de papel: algunos son números y otros no. Dice que suman «35104», y que «diez» también cuenta.
 
 #### Gheco sugiere
-Convertí cada cartel con `Number` y quedate solo con los que **no** son `NaN` (`filter`), antes de sumarlos (`reduce`).
+Convertí cada cartel con `Number(...)`, quedate solo con los que **no** son `NaN` (con `filter` y `Number.isNaN`), y recién ahí sumalos con `reduce`.
 
 #### Desafío
 Mostrá los válidos y el total de verdad: `Válidos: [ 3, 5, 10, 4 ]` y `Total: 22`.
@@ -3134,7 +3359,7 @@ recompensa: xp 15, monedas 3
 El Goblin pone pares de cosas en su balanza y cobra una ficha por cada par «igual». Pero su balanza usa `==`.
 
 #### Gheco sugiere
-Recorré los pares con `for…of`, desarmá cada uno en `[a, b]` y contá solo los que dan `a === b`.
+Recorré los pares con `for…of` y desarmá cada uno en dos variables: `for (const [a, b] of pares)`. Contá solo los que dan `a === b` (iguales en valor y en tipo).
 
 #### Desafío
 Mostrá `El Goblin cobra: 4` (con `==`) y `Pares iguales de verdad: 1` (con `===`).
@@ -3195,7 +3420,10 @@ recompensa: xp 15, monedas 3
 El Goblin le da a cada jugador 10 fichas «si no tiene ninguna». Pero también se las da a los que tienen 0 a propósito (los que ya perdieron), y explota cuando un jugador no trae su bolsa.
 
 #### Gheco sugiere
-Usá `jugador.bolsa?.fichas ?? 10`: si no hay bolsa o no tiene el dato, 10; si tiene 0, queda 0.
+`jugador.bolsa?.fichas ?? 10`:
+
+- si no hay bolsa, `?.` da `undefined` en vez de error, y `??` pone el 10;
+- si la bolsa tiene 0 fichas, `??` deja el 0 (porque 0 es un dato, no «nada»).
 
 #### Desafío
 Escribí la función `fichasDe` para que muestre `Nima: 4`, `Bruno: 0` y `Tati: 10`.
@@ -3263,7 +3491,11 @@ item: Ficha del Goblin
 El juego final del Goblin: tres rondas de tiro. Cada ronda llega como un objeto con los puntos **en texto**, y algunas rondas llegan rotas. Si Nima junta más de 20 puntos válidos, gana el doble de fichas. El Goblin está seguro de que la cuenta le va a dar mal.
 
 #### Gheco sugiere
-Escribí `puntosDe(ronda)` que convierta y devuelva 0 si no es un número. Después sumá todas las rondas con `reduce` y decidí con un `if` (o un ternario).
+Separá en partes:
+
+1. `puntosDe(ronda)` convierte la ronda a número y devuelve 0 si no lo es (`Number.isNaN`);
+2. sumá todas las rondas con `reduce`, usando `puntosDe` en cada una;
+3. decidí el resultado con un `if` (o un ternario).
 
 #### Desafío
 Completá las funciones para que el programa muestre exactamente:

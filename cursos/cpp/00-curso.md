@@ -355,7 +355,17 @@ Bron despierta al pie de la cuesta, junto a un vitral apagado. Arriba, el portó
 —Acá las órdenes se escriben en C++ —le dice—. Antes de arreglar nada, presentate. Por escrito.
 
 #### Gheco sugiere
-`std::cout << "…";` muestra el texto entre comillas, y `\n` al final baja a la línea siguiente. Tocá **Ejecutar**: C++ se compila acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
+En C++, para mostrar texto en la consola (la pantallita donde aparece lo que muestra tu programa) se usa `std::cout`, que se lee «si-aut»: la **salida** de la consola. Le mandás el texto con dos flechitas `<<`, como si lo empujaras hacia la pantalla:
+
+```cpp
+std::cout << "Hola";
+```
+
+Muestra **Hola**. El texto va entre comillas dobles: las comillas no se ven, solo marcan dónde empieza y dónde termina. La línea termina con `;`.
+
+Si al final del texto ponés `\n`, el cursor baja a la línea siguiente, como un Enter. `\n` es una **secuencia de escape**: una barra `\` con una letra, que no se muestra tal cual sino que hace algo.
+
+Tocá **Ejecutar**. Antes de correr, C++ **compila** tu programa: lo traduce al idioma de la máquina. Pasa acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
 
 #### Desafío
 Completá la instrucción para que Bron se presente.
@@ -409,7 +419,11 @@ recompensa: xp 10, oro 10
 Entre los dientes del portón se asoma un **slime**: una gota de baba verde que se alimenta de los punto y coma olvidados. Bron le escribe una orden al portón, y el Taller ni la mira: devuelve un error.
 
 #### Gheco sugiere
-Leé el primer error: dice la línea y que **esperaba** algo (`expected ';'`). Cada instrucción termina con `;`.
+Antes de ejecutar, el compilador lee todo el programa. Si algo está mal escrito, se frena y no corre nada: es un **error de compilación**. Arriba aparece un mensaje, casi siempre en inglés, con el número de línea.
+
+En C++, cada instrucción termina con punto y coma `;`, como el punto al final de una oración. Si falta, el mensaje dice algo como `expected ';'` («esperaba un `;`»). Ojo: el compilador se da cuenta en la línea **siguiente**, así que el `;` que falta suele estar al final de la línea de arriba de la que marca.
+
+Leé siempre el **primer** error: los demás muchas veces son consecuencia de ese.
 
 #### Desafío
 Encontrá lo que falta para que el programa compile.
@@ -466,7 +480,15 @@ Bron lleva 47 engranajes arreglados a mano. Una chica de delantal azul, con una 
 —¿Cuántos te faltan? —Bron escribe la cuenta… y el Taller le muestra la cuenta, no el resultado.
 
 #### Gheco sugiere
-Lo que va entre comillas se muestra **tal cual**. Para que C++ haga la cuenta, la cuenta va **afuera** de las comillas, con su propio `<<`.
+Lo que va entre comillas es **texto**, y se muestra tal cual: `"2 + 3"` muestra `2 + 3`, no hace la cuenta.
+
+Para que C++ calcule, la cuenta va **afuera** de las comillas. Con varias `<<` podés encadenar texto y cuentas en la misma línea:
+
+```cpp
+std::cout << "Tengo " << 10 + 5 << " manzanas\n";
+```
+
+Muestra `Tengo 15 manzanas`. Fijate en los espacios: van adentro de las comillas.
 
 #### Desafío
 Hacé que el programa muestre el resultado de la cuenta.
@@ -521,7 +543,7 @@ Al engranaje 47 la llave se traba en un diente, Bron hace fuerza y la llave sale
 —El portón tiene un plano —dice, y le muestra una hoja—. Escribilo bien, línea por línea, y el Taller arregla los doscientos de una vez.
 
 #### Gheco sugiere
-Cada parte del plano tiene que ir en su renglón: falta el `\n` al final de cada texto.
+Si no le decís que baje de línea, `std::cout` sigue escribiendo en el mismo renglón, todo pegado. Para que cada texto salga en su línea, terminalo con `\n`, el Enter de la secuencia de escape.
 
 #### Desafío
 Hacé que cada paso del plano salga en su propia línea.
@@ -584,7 +606,14 @@ Lima llega al portón con una chapa en blanco.
 —Acá todo el que entra deja su ficha colgada. La mía la hacés vos, que yo tengo las manos ocupadas.
 
 #### Gheco sugiere
-Cada línea es un `std::cout << ... << '\n';`. El `\t` deja el valor en la siguiente columna, así quedan alineados.
+Para alinear datos en columnas sirve `\t`, la **tabulación**: salta hasta la próxima columna, así los valores quedan uno debajo del otro aunque los nombres tengan distinto largo.
+
+```cpp
+std::cout << "Edad:\t15\n";
+std::cout << "Ciudad:\tChilecito\n";
+```
+
+Cada línea termina con `\n` (o con `'\n'` entre comillas simples, que es un solo carácter: da lo mismo).
 
 #### Desafío
 Mostrá la ficha de Lima en la Ciudadela: nombre, clase, región y mentor, uno por
@@ -653,7 +682,11 @@ Tesla le pasa a Bron un plano arrugado con tres errores.
 —El compilador te dice dónde está cada uno. Leelo de a uno. No arregles todo junto, que después no sabés qué pasó.
 
 #### Gheco sugiere
-Falta `#include <iostream>`, falta un `;` al final de una línea, y `cout` sin `std::` no existe. Compilá después de cada arreglo.
+Cuando hay varios errores, arreglalos **de a uno**: leé el primer mensaje, corregí, compilá de nuevo. Revisá estas tres cosas:
+
+- `#include <iostream>` arriba de todo: trae `std::cout`. Sin esa línea, C++ no lo conoce.
+- Cada instrucción termina con `;`.
+- `cout` va con `std::` adelante. `std` es el **espacio de nombres** de la biblioteca de C++: como el apellido de una familia. `cout` solo, sin apellido, C++ no sabe de dónde es.
 
 #### Desafío
 Este plano tiene **tres** errores. Compilalo, leé cada mensaje y arreglalo **de a
@@ -726,7 +759,14 @@ Tesla quiere ver si Bron entiende cómo es un engranaje por dentro.
 —Dibujámelo. Con caracteres. Y abajo, la frase que dice siempre Lima.
 
 #### Gheco sugiere
-La barra invertida se escribe `\\` y las comillas `\"`. Si no, C++ cree que el texto termina antes.
+Adentro de un texto, la barra invertida `\` es especial: avisa que viene una secuencia de escape (como `\n`). Entonces, para que se **vea** una barra hay que escribir dos: `\\`. Y para que se vea una comilla, `\"`; si no, C++ cree que el texto termina ahí.
+
+```cpp
+std::cout << " /\\\n";       // muestra  /\
+std::cout << "\"Hola\"\n";   // muestra "Hola"
+```
+
+La barra común `/` no es especial: se escribe una sola.
 
 #### Desafío
 Dibujá un engranaje con caracteres y una frase entre comillas debajo. Vas a

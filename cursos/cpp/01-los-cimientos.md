@@ -255,7 +255,14 @@ Bron guarda tres kilos y tres cuartos de tornillos en el cajón de la etiqueta `
 Lima se ríe por primera vez (y después disimula).
 
 #### Gheco sugiere
-Un `int` solo guarda enteros. Para guardar `3.75`, el cajón tiene que ser `double`. Mirá también lo que dice el compilador del navegador: avisa que el valor cambia.
+Una **variable** es un cajón con nombre donde el programa guarda un dato. Al crearla (**declararla**) decís qué **tipo** de dato guarda:
+
+- `int` guarda números **enteros**: `int vidas = 3;`
+- `double` guarda números **con decimales**: `double altura = 1.65;` (con punto, no con coma).
+
+Si guardás un número con decimales en un `int`, C++ le corta los decimales sin preguntar. El compilador del navegador te avisa: leé ese aviso.
+
+Para mostrar una variable: `std::cout << vidas << "\n";`.
 
 #### Desafío
 Cambiá el tipo del cajón para que no se pierdan los decimales.
@@ -311,7 +318,12 @@ Hay 17 tuercas para repartir en 5 cajas iguales. Bron calcula cuántas van en ca
 —Para el resto hay un operador —dice Lima, sin levantar la vista del reloj que arregla.
 
 #### Gheco sugiere
-Entre enteros, `/` da el cociente y `%` da el **resto**: `17 % 5` es `2`.
+Con enteros, dividir tiene dos partes:
+
+- `/` dice **cuántas veces entra**: `23 / 4` es `5`.
+- `%` dice **cuánto sobra**: `23 % 4` es `3`. Se llama **resto** (o módulo).
+
+Como repartir 23 caramelos en bolsitas de 4: salen 5 bolsitas completas y sobran 3.
 
 #### Desafío
 Calculá lo que sobra con el operador del resto.
@@ -376,7 +388,16 @@ Lyn, la mensajera de la Ciudadela, corrió dos vueltas a las torres en 7 minutos
 —¡Es un robo! —grita Lyn—. Le apuesto lo que sea a que fueron tres y medio.
 
 #### Gheco sugiere
-`7 / 2` entre enteros da `3`. Si convertís uno a `double` con `static_cast<double>(...)`, la división da `3.5`.
+Cuando dividís dos `int`, C++ hace una **división entera**: tira los decimales. `9 / 2` da `4`, no `4.5`.
+
+Para que tenga decimales, convertí uno de los dos a `double` **antes** de dividir:
+
+```cpp
+int a = 9, b = 2;
+std::cout << static_cast<double>(a) / b;   // 4.5
+```
+
+`static_cast<double>(x)` quiere decir «tratá a `x` como un `double`». Esa conversión a propósito se llama **cast**.
 
 #### Desafío
 Convertí a propósito para que el promedio tenga decimales.
@@ -436,7 +457,15 @@ Lima tiene que embaldosar la base de una torre nueva y le pide a Bron las cuenta
 —Las medidas no cambian. Que queden fijas.
 
 #### Gheco sugiere
-Las medidas van en `const double`. El área es largo × ancho y el perímetro 2 × (largo + ancho). Las baldosas: área dividida por el área de una baldosa (0.5 × 0.5).
+Un valor que nunca cambia se guarda en una **constante**: una variable con `const` adelante. Si después alguien intenta cambiarla, el compilador no lo deja.
+
+```cpp
+const double PRECIO = 2.5;
+```
+
+Por costumbre, las constantes se escriben en MAYÚSCULAS.
+
+Las cuentas que vas a necesitar: el área es largo por ancho; el perímetro, dos veces (largo + ancho); y la cantidad de baldosas, el área dividida por el área de una baldosa.
 
 #### Desafío
 La base de una torre mide 12.5 por 8 metros. Guardá esas medidas en **constantes**
@@ -506,7 +535,14 @@ Hay mil engranajes para repartir entre siete artífices. Lima quiere el reparto 
 —Que lo que sobra, sobre a la vista.
 
 #### Gheco sugiere
-Entre enteros, `1000 / 7` da cuántos le tocan y `1000 % 7` lo que sobra. Para el promedio exacto, convertí a `double` antes de dividir. La comprobación: `a_cada_uno * artifices + sobran`.
+Repartir en partes iguales es división entera:
+
+- `/` da cuánto le toca a cada uno;
+- `%` da cuánto sobra.
+
+Para el promedio exacto, con decimales, convertí a `double` antes de dividir.
+
+Una forma de comprobar que la cuenta está bien: lo que le tocó a cada uno por la cantidad de personas, más lo que sobró, tiene que dar el total.
 
 #### Desafío
 Hay 1000 engranajes para repartir en partes iguales entre 7 artífices. Mostrá
@@ -578,7 +614,10 @@ El reloj de la torre cuenta segundos desde la medianoche y nadie sabe leerlo. Te
 —¿Qué hora es?
 
 #### Gheco sugiere
-`45296 / 3600` son las horas y `45296 % 3600` lo que sobra. De lo que sobra salen los minutos (`/ 60`) y los segundos (`% 60`).
+Para pasar segundos a horas, minutos y segundos se usan `/` (cuántas veces entra) y `%` (lo que sobra):
+
+- una hora tiene 3600 segundos: `total / 3600` son las horas y `total % 3600` lo que sobra;
+- con lo que sobra, `/ 60` da los minutos y `% 60` los segundos.
 
 #### Desafío
 El reloj de la torre cuenta segundos desde la medianoche. Convertí 45296 segundos
@@ -933,7 +972,16 @@ Lyn llega corriendo a la ventanilla (siempre llega corriendo) y grita su pedido:
 Lyn le apuesta a Bron que el guardia está roto.
 
 #### Gheco sugiere
-`std::cin >> pedido` corta en el primer espacio. Para leer la frase completa: `std::getline(std::cin, pedido);`.
+Para **leer** lo que se escribe con el teclado se usa `std::cin` («si-in»), con las flechitas al revés, `>>`, como si el dato entrara a la variable:
+
+```cpp
+int edad;
+std::cin >> edad;
+```
+
+Para textos se usa el tipo `std::string`. Pero `std::cin >>` corta en el primer espacio: con «Ana María» lee solo «Ana».
+
+Para leer una línea entera, con espacios, se usa `std::getline(std::cin, texto);`.
 
 #### Desafío
 Leé el pedido entero.
@@ -997,7 +1045,12 @@ recompensa: xp 10, oro 10
 Oto, el cocinero del comedor, pide ollas nuevas: escribe en la ventanilla la cantidad y el precio de cada una. El guardia tiene que calcular el total, pero se olvida de leer el precio.
 
 #### Gheco sugiere
-Se pueden leer varios valores seguidos: `std::cin >> cantidad >> precio;`.
+Un mismo `std::cin` puede leer varios valores seguidos, encadenando `>>`. Los lee en orden, separados por espacios o Enter:
+
+```cpp
+int dia, mes;
+std::cin >> dia >> mes;
+```
 
 #### Desafío
 Leé también el precio y mostrá el total.
@@ -1062,7 +1115,17 @@ Oto quiere colgar el menú del día en la ventanilla, con los precios en columna
 Lima le mide las columnas con la lupa: —Así no se puede leer.
 
 #### Gheco sugiere
-`std::left << std::setw(10) << nombre` ocupa 10 lugares con el nombre a la izquierda. `std::fixed << std::setprecision(2)` muestra siempre dos decimales (`8.00`).
+Para armar una tabla prolija, `<iomanip>` trae herramientas que se mandan a `std::cout` antes del dato:
+
+- `std::setw(10)` hace que el **próximo** dato ocupe 10 lugares.
+- `std::left` lo pega a la izquierda (si no, va a la derecha).
+- `std::fixed << std::setprecision(2)` muestra los decimales con exactamente 2 cifras: `3` se ve `3.00`.
+
+```cpp
+std::cout << std::left << std::setw(8) << "Ana" << 15 << "\n";
+```
+
+Ojo: `setw` vale solo para el dato que viene justo después; las otras quedan puestas.
 
 #### Desafío
 Dale ancho a la columna de los nombres y dos decimales a los precios.
@@ -1125,7 +1188,12 @@ En la puerta de la Ciudadela, el guardia anota solo la primera palabra del nombr
 —¡Me anotó «Lyn» y nada más! Hacé un registro que escuche la frase entera.
 
 #### Gheco sugiere
-`std::getline(std::cin, nombre)` lee la línea completa, con espacios. `nombre.size()` da la cantidad de caracteres y `nombre[0]` la inicial.
+`std::getline(std::cin, nombre)` lee la línea completa, con espacios.
+
+Un `std::string` sabe cosas de sí mismo:
+
+- `nombre.size()` dice cuántos caracteres tiene;
+- `nombre[0]` es el primer carácter (la inicial): se cuenta desde 0.
 
 #### Desafío
 Pedí el **nombre completo** (con espacios) y el **oficio** de quien entra a la
@@ -1204,7 +1272,19 @@ Oto compra ingredientes en el mercado y quiere la cuenta con los centavos bien p
 —Y si alguien me dice un precio con letras, que no me cobre cualquier cosa.
 
 #### Gheco sugiere
-Después de `std::cin >> precio`, si `!std::cin` el dato no era un número: avisá y `return 1`. `std::fixed << std::setprecision(2)` muestra siempre dos decimales.
+¿Qué pasa si alguien escribe letras donde iba un número? `std::cin` falla y queda en error. Se puede preguntar justo después de leer:
+
+```cpp
+std::cin >> precio;
+if (!std::cin) {
+    std::cout << "Eso no es un número\n";
+    return 1;
+}
+```
+
+`!std::cin` quiere decir «la lectura falló». `return 1;` termina el programa avisando que algo salió mal.
+
+Para el total con dos decimales: `std::fixed << std::setprecision(2)`.
 
 #### Desafío
 Pedí un producto (puede tener espacios), su precio y la cantidad. Mostrá la
@@ -1293,7 +1373,12 @@ Lima trae la lista de materiales escrita de corrido, en una sola línea.
 —Pasala a una tabla. Los nombres a la izquierda, los números a la derecha, y el total abajo.
 
 #### Gheco sugiere
-`std::cin >> nombre >> cantidad` tres veces. `std::left << std::setw(12)` para el nombre y `std::right << std::setw(8)` para la cantidad.
+Leé los tres pares encadenando `>>`: nombre, cantidad, nombre, cantidad…
+
+Para la tabla, dos anchos distintos:
+
+- el nombre con `std::left << std::setw(12)` (pegado a la izquierda);
+- la cantidad con `std::right << std::setw(8)` (pegada a la derecha, así los números quedan alineados por las unidades).
 
 #### Desafío
 Leé tres materiales con su cantidad, todos en una línea (`hierro 40 cobre 15
@@ -1718,7 +1803,19 @@ Las compuertas del canal se abren según cuánto llovió: más de 50 mm, tres; m
 El comedor de Oto se inunda igual, porque Bron después abrió todas «por las dudas».
 
 #### Gheco sugiere
-Con `else if`, entra en la **primera** condición que se cumple. Si `lluvia > 0` va primero, 35 entra ahí y nunca llega a las otras. Ordená de la más exigente a la menos.
+Con `if` el programa **decide**: hace algo solo si una condición es verdad. Con `else if` se encadenan varias:
+
+```cpp
+if (nota >= 9) {
+    std::cout << "Excelente\n";
+} else if (nota >= 6) {
+    std::cout << "Aprobado\n";
+} else {
+    std::cout << "A recuperar\n";
+}
+```
+
+C++ prueba en orden y entra en la **primera** que se cumple; las demás ni las mira. Por eso el orden importa: si la condición más fácil va primero, atrapa todo y las otras nunca llegan. Poné primero la más exigente.
 
 #### Desafío
 Ordená las condiciones para que cada lluvia abra las compuertas que corresponden.
@@ -1796,7 +1893,12 @@ recompensa: xp 10, oro 10
 El guiso de Oto está listo entre 80 y 95 grados, ni uno más ni uno menos. Bron le armó un termómetro que dice «listo» con 120 grados, y el guiso sale violeta.
 
 #### Gheco sugiere
-«Entre 80 y 95» son **dos** condiciones que se tienen que cumplir juntas: `&&`. Con `||` alcanza con que se cumpla una, y 120 es mayor que 80.
+Para pedir dos cosas a la vez se juntan las condiciones:
+
+- `&&` es «**y**»: las dos tienen que ser verdad.
+- `||` es «**o**»: alcanza con que una sea verdad.
+
+«Entre 10 y 20» son dos condiciones que se tienen que cumplir juntas: `x >= 10 && x <= 20`. Con `||` alcanzaría con una, y casi cualquier número cumpliría alguna.
 
 #### Desafío
 Corregí la condición del termómetro.
@@ -1866,7 +1968,22 @@ recompensa: xp 10, oro 10
 Lyn reparte cartas según la letra de la torre: `a`, la del reloj; `b`, la de las poleas; `c`, la de los vitrales. Con la letra `a`, el programa la manda a las tres torres. Lyn corre igual, pero llega agotada.
 
 #### Gheco sugiere
-En un `switch`, cuando entra en un `case`, sigue de largo por los de abajo hasta encontrar un `break`.
+`switch` sirve cuando una variable puede valer varias opciones fijas, como un menú:
+
+```cpp
+switch (letra) {
+    case 's':
+        std::cout << "sí\n";
+        break;
+    case 'n':
+        std::cout << "no\n";
+        break;
+    default:
+        std::cout << "?\n";
+}
+```
+
+C++ salta al `case` que coincide y ejecuta desde ahí **hacia abajo**, hasta encontrar un `break;`, que lo hace salir. Sin `break`, sigue de largo por los `case` de abajo. `default` es para cuando no coincide ninguno. Los caracteres van entre comillas simples.
 
 #### Desafío
 Agregá lo que falta para que cada letra mande a una sola torre.
@@ -1951,7 +2068,9 @@ La puerta de la torre solo se abre con nivel 5 o más y con llave. Tesla quiere 
 —No me sirve un «no». Quiero saber por qué.
 
 #### Gheco sugiere
-Leé el nivel y la llave (`si`/`no`). Con `if` / `else if` cubrí los cuatro casos: todo bien, falta la llave, falta el nivel, falta todo.
+Con dos condiciones (nivel y llave) hay cuatro combinaciones posibles: las dos bien, falta la llave, falta el nivel, falta todo. Cubrilas con `if` / `else if` / `else`, empezando por «las dos bien» (`&&`).
+
+Para la llave leés un texto (`si` o `no`) y comparás: con `std::string`, `==` sí compara las letras: `llave == "si"`.
 
 #### Desafío
 La puerta de la torre se abre solo si tenés **nivel 5 o más** y **llave**. Pedí el
@@ -2037,7 +2156,11 @@ Lima quiere una calculadora para el taller: le escribís la cuenta y te la resue
 —Y si alguien divide por cero, que no se rompa nada.
 
 #### Gheco sugiere
-`std::cin >> a >> op >> b`. Un `switch (op)` con un `case` por operación; `case '*': case 'x':` comparten la cuenta. Antes de dividir, fijate que `b` no sea 0.
+`std::cin >> a >> op >> b` lee un número, un carácter (la operación) y otro número.
+
+Después, un `switch (op)` con un `case` por operación: `case '+':`, `case '-':`… Dos `case` pueden compartir la misma cuenta si los ponés uno debajo del otro, sin `break` entre ellos: `case '*': case 'x':`.
+
+Ojo con dividir: si `b` es 0, la cuenta no tiene sentido. Preguntá antes.
 
 #### Desafío
 Leé una cuenta como `8 * 3` (número, operación, número) y resolvela con un
@@ -2129,7 +2252,11 @@ El calendario de la torre no sabe cuándo febrero tiene 29 días. Tesla le dicta
 —Divisible por 4 y no por 100, o divisible por 400.
 
 #### Gheco sugiere
-`bool bisiesto = (anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0;`. Los dos mensajes salen con el ternario `bisiesto ? ... : ...`.
+Un `bool` guarda **verdadero** (`true`) o **falso** (`false`). Se le puede guardar directamente el resultado de una condición.
+
+La regla del bisiesto: divisible por 4 y no por 100, **o** divisible por 400. «Divisible» se pregunta con el resto: `anio % 4 == 0`.
+
+Para elegir entre dos mensajes en una sola línea sirve el **ternario**: `condicion ? "esto" : "lo otro"`. Si la condición es verdad da lo primero; si no, lo segundo.
 
 #### Desafío
 Un año es **bisiesto** si es divisible por 4 y no por 100, **o** si es divisible
@@ -2566,7 +2693,19 @@ Bron prende la cinta para mandar diez tuercas al taller de Lima. Llegan once. Li
 —¿Contaste las vueltas? —No. —Se nota.
 
 #### Gheco sugiere
-Si `i` arranca en 0, `i <= 10` da once vueltas (de 0 a 10). Con `i < 10` da diez.
+Un **bucle** repite instrucciones. El `for` tiene tres partes entre paréntesis:
+
+```cpp
+for (int i = 0; i < 3; i++) {
+    std::cout << i << "\n";
+}
+```
+
+1. **Arranque**: `int i = 0` crea el contador.
+2. **Condición**: `i < 3` se pregunta antes de cada vuelta.
+3. **Paso**: `i++` suma 1 al final de cada vuelta.
+
+Este da 3 vueltas: 0, 1 y 2. Contá con cuidado: si arranca en 0, `i <= 3` daría **cuatro** vueltas.
 
 #### Desafío
 Hacé que la cinta mande exactamente diez tuercas.
@@ -2627,7 +2766,9 @@ recompensa: xp 10, oro 10
 La cinta lleva cajas: la primera con 2 tuercas, la segunda con 4, la tercera con 6… Tesla le pregunta a Bron cuántas tuercas hay en total en las primeras `n` cajas. Bron cuenta con los dedos y se le acaban.
 
 #### Gheco sugiere
-La caja `i` tiene `2 * i` tuercas. Sumalas en `total` dentro del bucle (`total += 2 * i;`) y mostrá el total al final.
+Un **acumulador** es una variable que va sumando dentro de un bucle. Arranca en 0 **antes** del bucle y en cada vuelta suma: `total += algo;` (es lo mismo que `total = total + algo;`).
+
+Al terminar el bucle, el total ya tiene la suma de todas las vueltas.
 
 #### Desafío
 Completá la suma dentro del bucle.
@@ -2703,7 +2844,15 @@ recompensa: xp 10, oro 10
 El cronómetro de Lyn anota cada vuelta con una letra: `x` si fue buena, `o` si tropezó. Lyn quiere saber cuántas de cada una, y Bron le cuenta solo las buenas.
 
 #### Gheco sugiere
-El `for` de rango ya recorre cada letra. Falta el contador de los tropiezos, y sumarle cuando la letra es `'o'`.
+Un `std::string` es una fila de caracteres, y el **`for` de rango** los recorre uno por uno, sin índices:
+
+```cpp
+for (char c : palabra) {
+    // c es cada letra, en orden
+}
+```
+
+Se lee: «para cada `char` `c` de `palabra`». Para contar algo, un contador que arranca en 0 antes del bucle y suma cuando la letra es la que buscás (los caracteres van entre comillas simples: `'o'`).
 
 #### Desafío
 Contá también los tropiezos.
@@ -2784,7 +2933,11 @@ El sensor de la caldera manda lecturas sin parar hasta que se apaga con un cero.
 —Cuántas, la suma, el promedio, la más alta y la más baja.
 
 #### Gheco sugiere
-Un bucle que lee mientras la lectura no sea 0. Llevá la cantidad, la suma, el máximo y el mínimo. Si no hubo ninguna, mostrá el mensaje especial. El promedio, con `double`.
+Cuando no sabés cuántos datos van a venir, usá `while`, que repite **mientras** la condición sea verdad. Acá: mientras la lectura no sea 0.
+
+Antes del bucle, prepará lo que vas a llevar: la cantidad y la suma en 0. El máximo y el mínimo arrancan con la **primera** lectura (no con 0, porque podrían ser todas negativas o todas grandes).
+
+Si no hubo ninguna lectura, mostrá el mensaje especial (y no dividas por 0). El promedio, con `double`.
 
 #### Desafío
 Leé lecturas enteras del sensor hasta que llegue un **0**. Mostrá cuántas hubo, la
@@ -2877,7 +3030,12 @@ Lima apila engranajes en forma de pirámide para la vidriera: uno arriba, tres a
 —Decime cuántos voy a necesitar.
 
 #### Gheco sugiere
-Un `for` por piso y adentro dos más: uno para los espacios (`pisos - piso`) y otro para los engranajes (`2 * piso - 1`). El total es `pisos * pisos`.
+Un bucle puede ir **adentro** de otro (bucles **anidados**). Para dibujar, el de afuera recorre los pisos y, por cada piso, los de adentro dibujan esa fila:
+
+- uno muestra los espacios de la izquierda: en el piso `p`, `pisos - p` espacios;
+- otro muestra los engranajes: `2 * p - 1` (1, 3, 5…).
+
+Después de cada fila, un `\n`. El total de engranajes es `pisos * pisos`.
 
 #### Desafío
 Pedí la cantidad de pisos y dibujá una pirámide centrada con `o`: el piso 1 tiene
@@ -2960,7 +3118,9 @@ En la plaza hay un adivino mecánico que piensa un número. Lyn ya lo probó y p
 —Cinco intentos. Si te dice más alto o más bajo, hacele caso.
 
 #### Gheco sugiere
-Un `for` de hasta 5 intentos con `break` si acertás. Llevá un `bool` para saber, al final, si acertaste o se acabaron los intentos.
+Un `for` de hasta 5 intentos. Nuevo: `break;` corta el bucle en el momento, aunque queden vueltas. Sirve para salir cuando acertaste.
+
+Para saber al final por qué terminó, guardá un `bool acerto = false;` y ponelo en `true` cuando acertás. Después del bucle, si es `true` felicitás; si no, se acabaron los intentos.
 
 #### Desafío
 El adivino piensa el número **37**. Tenés 5 intentos: después de cada uno te dice
@@ -3434,7 +3594,21 @@ Lima le encarga a Bron un tablero con relojes. Bron escribe la cuenta de los die
 Lo que pasa es que Lima saca la lima. —¿Y si lo hacemos **una sola vez**?
 
 #### Gheco sugiere
-La función recibe la cantidad de engranajes y los dientes de cada uno, y **devuelve** el total con `return`.
+Una **función** es una receta con nombre que escribís una vez y usás muchas veces:
+
+```cpp
+int doble(int n)
+{
+    return n * 2;
+}
+```
+
+- `int` adelante: el tipo de lo que devuelve.
+- `doble`: el nombre.
+- `(int n)`: los **parámetros**, los datos que recibe.
+- `return`: lo que devuelve, y ahí termina.
+
+Se usa (se **llama**) así: `doble(7)` da `14`. Se escribe arriba de `main`.
 
 #### Desafío
 Completá el cuerpo de la función.
@@ -3503,7 +3677,14 @@ recompensa: xp 15, oro 15
 El anunciador de la torre del reloj sabe anunciar números enteros y textos. Cuando Tesla le pasa la presión de la caldera, `2.5`, anuncia «entero 2». Tesla se cruza de brazos.
 
 #### Gheco sugiere
-Cuando no hay una versión para `double`, C++ convierte el `2.5` a `int` y usa esa. Escribí una tercera `anunciar` que reciba un `double`.
+En C++ puede haber **varias funciones con el mismo nombre**, si reciben distintos tipos de datos. Se llama **sobrecarga**: C++ elige cuál usar mirando lo que le pasás.
+
+```cpp
+void mostrar(int n) { ... }
+void mostrar(const std::string& t) { ... }
+```
+
+`void` quiere decir que la función no devuelve nada. Si no hay una versión para el tipo que le pasás, C++ intenta convertirlo a uno que sí tenga (y un `2.5` pasado a `int` pierde los decimales).
 
 #### Desafío
 Agregá la versión que falta.
@@ -3589,7 +3770,13 @@ recompensa: xp 10, oro 10
 La campana del comedor se toca una vez para avisar que hay guiso, y tres para los días de fiesta. Oto quiere poder escribir `tocar()` sin número, y el Taller no lo deja.
 
 #### Gheco sugiere
-Un parámetro puede tener un valor **por defecto**: `void tocar(int veces = 1)`. Si no se lo pasás, usa ese.
+Un parámetro puede tener un valor **por defecto**: el que usa si no se lo pasás.
+
+```cpp
+void saludar(std::string nombre = "amigo")
+```
+
+`saludar("Ana")` usa «Ana» y `saludar()`, sin nada, usa «amigo».
 
 #### Desafío
 Dale a `veces` el valor 1 por defecto.
@@ -3662,7 +3849,13 @@ Lyn trae pedidos de otros reinos con medidas raras: pies, libras, grados Fahrenh
 —Necesito un conversor. Rápido, que me esperan.
 
 #### Gheco sugiere
-Escribí los prototipos arriba de `main` y las funciones abajo. Celsius a Fahrenheit es `c * 9 / 5 + 32` (con `double`).
+Si las funciones van **abajo** de `main`, C++ todavía no las conoce cuando las encuentra en `main`. La solución es un **prototipo** arriba: la primera línea de la función, terminada en `;`, como una promesa de que existe.
+
+```cpp
+double mitad(double x);   // prototipo, arriba de main
+```
+
+Y la función completa, abajo. Para las cuentas usá `double`, así no se pierden decimales: Celsius a Fahrenheit es `c * 9 / 5 + 32`.
 
 #### Desafío
 Escribí tres funciones: `metros_a_pies` (× 3.28084), `kilos_a_libras`
@@ -3747,7 +3940,9 @@ Lima quiere una sola herramienta para encontrar el más grande, sea de dos o de 
 —Con el mismo nombre. Y que la de tres use la de dos.
 
 #### Gheco sugiere
-Tres funciones `maximo` con distintos parámetros (sobrecarga). La de tres es `maximo(maximo(a, b), c)`.
+Tres funciones con el mismo nombre, `maximo`, cada una con distintos parámetros (sobrecarga): dos `int`, tres `int` y dos `double`.
+
+Una función puede usar otra: la de tres no necesita escribir todo de nuevo. El mayor de tres es el mayor entre (el mayor de los dos primeros) y el tercero.
 
 #### Desafío
 Escribí tres versiones sobrecargadas de `maximo`: para dos `int`, para tres `int` y
@@ -3826,7 +4021,9 @@ Tesla quiere ver cuánto falta para cada tarea en una barra que se llena. Y que 
 —Si no le digo el ancho, que use veinte.
 
 #### Gheco sugiere
-Los valores por defecto van en la declaración: `int maximo = 100, int ancho = 20, char relleno = '#'`. Recortá el valor entre 0 y el máximo antes de calcular `valor * ancho / maximo`.
+Los valores por defecto van en la declaración, y siempre los **últimos** parámetros: `int maximo = 100, int ancho = 20, char relleno = '#'`.
+
+Antes de dibujar, recortá el valor para que quede entre 0 y el máximo. La cantidad de casillas llenas es `valor * ancho / maximo` (multiplicá antes de dividir, así no se pierde nada con la división entera).
 
 #### Desafío
 Escribí `barra(valor, maximo = 100, ancho = 20, relleno = '#')`, que dibuja una
@@ -4277,7 +4474,19 @@ recompensa: xp 10, oro 10
 Oto le pide la llave a Bron para ajustar la presión de la olla grande. Bron, generoso, le hace una **copia** en el torno. Oto ajusta con la copia… y la olla sigue igual.
 
 #### Gheco sugiere
-Sin `&`, la función recibe una copia de `presion`: la cambia y la copia se tira al salir. Con `int& p`, recibe **la** variable de `main`.
+Cuando llamás a una función, recibe una **copia** del dato: si la cambia, la variable de afuera no se entera.
+
+Con `&` en el parámetro, la función recibe una **referencia**: otro nombre para **la misma** variable. Lo que cambia adentro, cambia afuera.
+
+```cpp
+void sumar_uno(int& x)
+{
+    x = x + 1;
+}
+
+int puntos = 4;
+sumar_uno(puntos);   // puntos ahora vale 5
+```
 
 #### Desafío
 Hacé que la función ajuste la presión de verdad.
@@ -4344,7 +4553,13 @@ recompensa: xp 10, oro 10
 Lima quiere una función que, de una sola vez, diga cuántas tuercas van por caja **y** cuántas sobran. Bron escribió la función, pero los resultados nunca llegan a `main`.
 
 #### Gheco sugiere
-`por_caja` y `sobran` tienen que llegar como referencias (`int&`) para que la función pueda escribir en las variables de `main`.
+Una función solo devuelve una cosa con `return`. Si necesitás dos resultados, una forma es recibir dos variables por referencia (`int&`) y escribir en ellas:
+
+```cpp
+void partir(int total, int& mitad, int& sobra)
+```
+
+Quien la llama le pasa sus variables, y al volver ya tienen los resultados.
 
 #### Desafío
 Hacé que los dos resultados lleguen a `main`.
@@ -4416,7 +4631,15 @@ Bron y Lima tienen que cambiar los turnos de guardia del depósito. Bron escribe
 Mientras lo arregla, ve en un estante un pedido viejo y amarillento: **«Bisagras, dos. Que abran algo que no es una puerta»**, firmado con un vitral dibujado. Tesla lo mira y se pone serio un segundo.
 
 #### Gheco sugiere
-Para intercambiar dos variables de `main`, la función tiene que recibir las **dos** por referencia.
+Para intercambiar dos variables hace falta una auxiliar, como para cambiar el contenido de dos vasos necesitás un tercer vaso:
+
+```cpp
+std::string aux = a;
+a = b;
+b = aux;
+```
+
+Para que el cambio llegue afuera, la función tiene que recibir las **dos** variables por referencia (`&`). Si una va por copia, solo cambia la copia.
 
 #### Desafío
 Hacé que el intercambio llegue a `main`.
@@ -4495,7 +4718,10 @@ Oto cuida la vida de los luchadores de la Arena con su cucharón: les da guiso c
 —Pero no más que el máximo, que después no pueden moverse.
 
 #### Gheco sugiere
-Recibí la vida por referencia (`int& vida`) para cambiar la original. `recibir_dano` no deja que baje de 0 y `curar` no deja que pase el máximo.
+Las dos funciones reciben la vida por referencia (`int& vida`), así cambian la original.
+
+- `recibir_dano`: resta y, si quedó menos de 0, la deja en 0.
+- `curar`: suma y, si se pasó del máximo, la deja en el máximo.
 
 #### Desafío
 Escribí `recibir_dano(int& vida, int dano)`, que nunca deje la vida bajo 0, y
@@ -4580,7 +4806,9 @@ Lima tiene tres cajas de piezas desordenadas en el estante.
 —Ordenalas de menor a mayor. Pero las de verdad, no una copia.
 
 #### Gheco sugiere
-`intercambiar(int& a, int& b)` usa una auxiliar. `ordenar3` compara de a dos y llama a `intercambiar` cuando están al revés: a con b, b con c y otra vez a con b.
+Primero `intercambiar(int& a, int& b)`, con una auxiliar.
+
+Después, `ordenar3` la usa: compara de a dos vecinos y, si están al revés, los intercambia. Alcanza con tres comparaciones en este orden: a con b, b con c, y otra vez a con b (porque el más chico puede haber llegado al medio).
 
 #### Desafío
 Escribí `intercambiar(int& a, int& b)` y, usándola, `ordenar3(int& a, int& b,
@@ -4671,7 +4899,12 @@ Tesla quiere una herramienta que reparta piezas y diga cuántas sobran, todo de 
 —Y si alguien quiere repartir entre cero, que diga que no puede.
 
 #### Gheco sugiere
-Devolvé `bool` para avisar si se pudo, y llená `cociente` y `resto` por referencia. Si `b == 0`, devolvé `false` sin tocar nada.
+La función devuelve un `bool` para avisar si pudo hacer la cuenta, y deja los resultados en dos referencias.
+
+- Si `b` es 0, no se puede dividir: devolvé `false` sin tocar nada.
+- Si no, guardá el cociente (`/`) y el resto (`%`) en las referencias y devolvé `true`.
+
+Quien la llama pregunta: `if (dividir(...))`.
 
 #### Desafío
 Escribí `bool dividir(int a, int b, int& cociente, int& resto)`: si `b` es 0,
@@ -5119,7 +5352,15 @@ recompensa: xp 10, oro 10
 En la torre del reloj, los engranajes cuelgan de una cadena numerada desde **cero**. Bron recorre la cadena hasta el lugar 10 de una cadena de 10, y en ese lugar encuentra un **orco** dormido. El programa revienta con un `out_of_range`.
 
 #### Gheco sugiere
-Las posiciones van de `0` a `size() - 1`. El bucle tiene que seguir **mientras** `i < dientes.size()`. Como el código usa `.at(i)`, el orco avisa en lugar de morder en silencio.
+Un **vector** (`std::vector`) es una lista de valores del mismo tipo, uno detrás del otro, que puede crecer:
+
+```cpp
+std::vector<int> notas = {7, 9, 6};
+```
+
+Cada uno se usa con su posición, que se cuenta **desde 0**: este tiene `notas[0]`, `notas[1]` y `notas[2]`. `notas.size()` dice cuántos hay (3), así que el último es el `size() - 1`.
+
+Para recorrerlo, el bucle sigue mientras `i < notas.size()`. `.at(i)` es como `[i]`, pero si te pasás, avisa con un error en vez de leer basura.
 
 #### Desafío
 Arreglá la condición del bucle.
@@ -5184,7 +5425,15 @@ recompensa: xp 10, oro 10
 Lyn corrió varias vueltas y anotó cada tiempo en segundos. Quiere verlos ordenados, del mejor al peor, y saber el mejor. Bron los guarda, pero nunca los ordena.
 
 #### Gheco sugiere
-Los tiempos ya se guardan con `push_back`. Falta ordenarlos con `std::sort(tiempos.begin(), tiempos.end());` antes de mostrarlos: el mejor queda primero.
+Un vector puede empezar vacío y crecer: `push_back(x)` agrega `x` al final.
+
+Para ordenarlo, la biblioteca `<algorithm>` trae `std::sort`:
+
+```cpp
+std::sort(v.begin(), v.end());
+```
+
+`begin()` y `end()` marcan dónde empieza y dónde termina lo que hay que ordenar. Queda de menor a mayor.
 
 #### Desafío
 Ordená los tiempos antes de mostrarlos.
@@ -5266,7 +5515,9 @@ recompensa: xp 15, oro 15
 El tablero de control de la torre es una grilla de 3 filas y 4 columnas. Tesla le pide a Bron que marque con una `X` el engranaje roto, en la fila 1, columna 2. Bron marca la fila 2, columna 1.
 
 #### Gheco sugiere
-Primero va la **fila** y después la **columna**: `tablero[1][2]`. Las dos empiezan en 0.
+Un vector de vectores es una **tabla**: cada elemento es una fila, y cada fila es un vector con las columnas.
+
+`tablero[fila][columna]`: primero la **fila** y después la **columna**, y las dos se cuentan desde 0. `tablero[0][3]` es la primera fila, cuarta columna.
 
 #### Desafío
 Marcá el engranaje en el lugar correcto.
@@ -5338,7 +5589,11 @@ Lima corrige los exámenes de los aprendices de relojería. Algunos le escribier
 —Guardá solo las válidas y decime el promedio, los aprobados y la del medio.
 
 #### Gheco sugiere
-`while (std::cin >> nota)` lee hasta el final. Guardá en un `std::vector<int>` solo las de 1 a 10. `std::sort` las ordena y la mediana está en `notas[notas.size() / 2]`.
+`while (std::cin >> nota)` lee mientras haya datos: cuando se termina la entrada, la lectura falla y el bucle termina.
+
+Guardá en el vector solo las notas válidas (de 1 a 10). Si al final está vacío (`notas.empty()`), avisá.
+
+La **mediana** es el valor del medio cuando los datos están ordenados: ordená con `std::sort` y tomá `notas[notas.size() / 2]`.
 
 #### Desafío
 Leé notas enteras hasta que se termine la entrada (`while (std::cin >> nota)`),
@@ -5441,7 +5696,17 @@ Tesla arma el plano del taller nuevo: una grilla con lugares para cada pieza.
 —Si una pieza cae afuera o encima de otra, avisá. No la pongas igual.
 
 #### Gheco sugiere
-`std::vector<std::vector<char>> plano(filas, std::vector<char>(columnas, '.'))`. Antes de colocar, fijate que la fila y la columna estén adentro y que la casilla sea `.`. El dibujo, con una función que recibe `const&`.
+Una tabla de caracteres con un tamaño que se decide al leer:
+
+```cpp
+std::vector<std::vector<char>> plano(filas, std::vector<char>(columnas, '.'));
+```
+
+Se lee: `filas` filas, cada una con `columnas` puntos.
+
+Antes de colocar una pieza, revisá que la fila y la columna estén adentro de la tabla y que esa casilla esté libre (`.`).
+
+Para dibujar, una función que recibe el plano como `const&`: por referencia (sin copiarlo) pero sin poder cambiarlo.
 
 #### Desafío
 La primera línea trae las filas, las columnas y la cantidad de piezas del plano.
@@ -5551,7 +5816,12 @@ En la ventanilla de pedidos hay una fila, y Tesla se cuela. Lyn está dos veces 
 —Ordená la fila. Y que cada uno esté una sola vez.
 
 #### Gheco sugiere
-`fila.insert(fila.begin() + 1, "Tesla")` cuela en la segunda posición. `fila.erase(fila.begin())` saca al primero. Para quitar repetidos, armá otro vector y usá `std::find` antes de agregar.
+Un vector se puede cambiar en el medio:
+
+- `v.insert(v.begin() + 1, "Ana")` mete «Ana» en la segunda posición y corre a los demás.
+- `v.erase(v.begin())` saca al primero.
+
+Para quitar repetidos, armá otro vector y agregá cada nombre solo si todavía no está. `std::find(v.begin(), v.end(), x)` lo busca: si devuelve `v.end()`, no estaba.
 
 #### Desafío
 Empezá con la fila `Bron Lyn Lima Lyn Oto`. Mostrala después de cada paso:
@@ -5979,7 +6249,11 @@ Lyn apuesta al número de la rueda de la feria y gana diez veces seguidas. Tesla
 —Que la semilla la elija el feriante cada mañana —dice Tesla.
 
 #### Gheco sugiere
-La semilla ya no puede estar fija: leela de la entrada y pasásela al generador. `gen() % 6 + 1` da un número del 1 al 6 (acá se usa así para que dé igual en el navegador y en tu compu).
+Para números que parecen al azar, C++ trae generadores en `<random>`. `std::mt19937 gen(semilla);` crea uno, y cada `gen()` da un número grande.
+
+La **semilla** decide la secuencia: con la misma semilla salen siempre los mismos números. Por eso, si la semilla está fija, el juego es siempre igual. Leela de la entrada para que cambie.
+
+`gen() % 6 + 1` da de 1 a 6: `% 6` da de 0 a 5, y `+ 1` lo corre.
 
 #### Desafío
 Leé la semilla de la entrada en lugar de usar siempre la 7.
@@ -6051,7 +6325,9 @@ recompensa: xp 10, oro 10
 Bron está en la esquina (1, 2) de la plaza y Lima en la (4, 6). Bron calcula cuánto tiene que caminar sumando los dos lados: 7. Lima cruza en diagonal y llega antes.
 
 #### Gheco sugiere
-En línea recta la distancia es la hipotenusa: `std::hypot(dx, dy)`, con `dx` y `dy` las diferencias de cada coordenada.
+La distancia en línea recta entre dos puntos sale del teorema de Pitágoras: es la hipotenusa del triángulo que forman las diferencias en `x` y en `y`.
+
+`<cmath>` trae `std::hypot(dx, dy)`, que hace esa cuenta: raíz de (dx al cuadrado más dy al cuadrado).
 
 #### Desafío
 Calculá la distancia en línea recta.
@@ -6116,7 +6392,9 @@ recompensa: xp 10, oro 10
 El manómetro de la caldera tiene una aguja que va de 0 a 100. Cuando la presión se pasa, la aguja da la vuelta entera y marca cualquier cosa. Tesla quiere que se quede quieta en el tope.
 
 #### Gheco sugiere
-`std::clamp(presion, 0, 100)` devuelve la presión, pero nunca menos de 0 ni más de 100.
+`std::clamp(valor, minimo, maximo)` (de `<algorithm>`) **limita** un valor a un rango: si es menor que el mínimo, devuelve el mínimo; si es mayor que el máximo, el máximo; si no, el mismo valor.
+
+`std::clamp(130, 0, 100)` da 100 y `std::clamp(-5, 0, 100)` da 0.
 
 #### Desafío
 Limitá la aguja al rango del manómetro.
@@ -6187,7 +6465,13 @@ En la feria hay una mesa de dados. Lyn quiere saber qué suma sale más seguido,
 —Bueno, lo tirás vos.
 
 #### Gheco sugiere
-`std::mt19937 gen(semilla)` y una distribución de 1 a 6 por dado. Contá cada suma en `veces(13, 0)` y dibujá una `*` cada 10. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+Para números en un rango hay **distribuciones**: `std::uniform_int_distribution<int> dado(1, 6);` y cada `dado(gen)` da de 1 a 6, todos con la misma chance.
+
+La suma de dos dados va de 2 a 12. Contá cuántas veces sale cada una en un vector de 13 lugares, usando la suma como posición: `veces[suma]++`.
+
+Para el histograma, por cada suma dibujá una `*` cada 10 veces.
+
+La salida esperada es la del navegador: en tu compu, con la misma semilla, las distribuciones pueden dar otros números.
 
 #### Desafío
 Leé una semilla y tirá **dos dados** 1200 veces. Contá cuántas veces salió cada suma
@@ -6288,7 +6572,9 @@ Lima tiene que llevar piezas a varias torres y quiere saber cuál queda más cer
 —En línea recta. Las alturas me dan igual.
 
 #### Gheco sugiere
-`std::hypot(x2 - x1, y2 - y1)` da la distancia en línea recta. Recorré las torres, mostrá cada distancia con 2 decimales y guardá la más cercana.
+Para cada torre, la distancia al taller es `std::hypot(x2 - x1, y2 - y1)`. Mostrala con 2 decimales (`std::fixed << std::setprecision(2)`).
+
+Para la más cercana, la idea de siempre: arrancás suponiendo que es la primera, y la reemplazás cada vez que encontrás una con menos distancia. Guardá también su nombre.
 
 #### Desafío
 La primera línea trae la posición del taller (`x y`) y la cantidad de torres. Cada
@@ -6392,7 +6678,11 @@ En el sótano del depósito hay cofres viejos con piezas comunes, raras y épica
 —Con semilla, así podemos repetir la abierta.
 
 #### Gheco sugiere
-`abrir_cofre` recibe el generador por referencia (`std::mt19937&`) para que no se copie. Hasta 60 es común, hasta 90 raro y más, épico. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+`abrir_cofre` recibe el generador **por referencia** (`std::mt19937&`). Si lo recibiera por copia, cada cofre arrancaría con la misma secuencia y saldría siempre lo mismo.
+
+Adentro, una tirada de 1 a 100 y una cadena de `if`: hasta 60 es común, hasta 90 raro, y más, épico.
+
+La salida esperada es la del navegador: en tu compu, con la misma semilla, las distribuciones pueden dar otros números.
 
 #### Desafío
 Leé una semilla y abrí 10 cofres. Cada cofre tira un número de 1 a 100: hasta 60 es
@@ -6705,7 +6995,9 @@ En el patio de pruebas espera el **Autómata de Latón**, con una tarjeta perfor
 Tesla le saca la llave de la mano. —Con un plan. Primero, leé qué órdenes tiene grabadas.
 
 #### Gheco sugiere
-Las órdenes llegan una por palabra hasta `FIN`. Contá las que dicen `girar` y las que dicen `golpear`; el bucle ya se detiene en `FIN`.
+Las órdenes llegan una por palabra. El bucle `while (std::cin >> orden && orden != "FIN")` lee mientras haya palabras y no sea `FIN`.
+
+Adentro, compará cada orden con `==` (con `std::string` sí compara las letras) y sumá en el contador que corresponda.
 
 #### Desafío
 Contá cada tipo de orden.
@@ -6781,7 +7073,9 @@ recompensa: xp 15, oro 15
 Las placas del Autómata tienen distinta dureza. Lima quiere saber cuál es la más blanda (por ahí se entra) y cuál la más dura (esa ni intentarla). La función de Bron solo encuentra la más dura.
 
 #### Gheco sugiere
-Arrancá `menor` y `mayor` con el primer elemento, y en el recorrido actualizá los dos.
+Para el más chico y el más grande a la vez: arrancá los dos con el **primer** elemento, y en el recorrido actualizá cada uno cuando encontrás uno menor o uno mayor.
+
+Como la función devuelve dos cosas, las recibe por referencia (`int& menor, int& mayor`). El vector va como `const&`: no se copia y no se puede cambiar.
 
 #### Desafío
 Completá la búsqueda de la placa más blanda.
@@ -6883,7 +7177,9 @@ recompensa: xp 15, oro 15
 El Autómata elige al azar qué brazo mover, pero Tesla lo construyó con una semilla fija: 47, el engranaje donde se melló la llave de Bron. Si Bron simula los primeros movimientos, sabe por dónde va a venir cada golpe.
 
 #### Gheco sugiere
-`gen() % 2` da 0 o 1: 0 es el brazo izquierdo y 1 el derecho. La semilla tiene que ser la del Autómata, 47, y hay que mostrar cinco movimientos.
+`gen() % 2` da 0 o 1, como tirar una moneda: 0 es el brazo izquierdo y 1, el derecho.
+
+Con una semilla fija, la secuencia es siempre la misma: por eso la del Autómata tiene que ser la suya, 47. Para elegir entre dos textos en una línea, el ternario: `condicion ? "izquierdo" : "derecho"`.
 
 #### Desafío
 Usá la semilla del Autómata y simulá cinco movimientos.
@@ -6955,7 +7251,7 @@ Para detener al Autómata hay que llegar a su corazón de vapor con la secuencia
 —Partilo —dice Tesla—. Una función por cosa.
 
 #### Gheco sugiere
-Completá `accion`: devuelve `"girar"` si la dureza es par y `"golpear"` si es impar. El resto del plan ya está armado.
+`accion(dureza)` decide qué hacer con cada placa: si la dureza es **par** devuelve `"girar"`, y si es impar, `"golpear"`. Par quiere decir que al dividir por 2 no sobra nada: `dureza % 2 == 0`.
 
 #### Desafío
 Escribí la función que decide la acción de cada placa.
@@ -7075,7 +7371,15 @@ Antes de dejar pasar a Bron, el Autómata de Latón acepta un duelo de práctica
 —Atacar, cargar o cubrirse. Elijo yo, turno por turno.
 
 #### Gheco sugiere
-Una semilla, después las opciones de Lima. Los golpes salen de `std::uniform_int_distribution<int>(6, 12)`. Mostrá las barras con `vida * 10 / maximo` casillas llenas. La salida esperada es la del navegador: en tu compu, las distribuciones pueden dar otros números. Ojo: en el navegador, `std::uniform_int_distribution` da otros números que el `g++` de tu compu con la misma semilla; la salida esperada es la del navegador.
+El duelo junta casi toda la rama:
+
+- una semilla para el generador, y las opciones de Lima leídas con una función que valida (de 1 a 3);
+- los golpes salen de `std::uniform_int_distribution<int>(6, 12)`;
+- en cada turno, vida que no baje de 0.
+
+Para las barras de vida, la cantidad de casillas llenas es `vida * 10 / maximo`.
+
+La salida esperada es la del navegador: en tu compu, con la misma semilla, las distribuciones pueden dar otros números.
 
 #### Desafío
 Programá el duelo de Lima (60 de vida) contra el Autómata (70 de vida). La
@@ -7322,7 +7626,13 @@ Tesla le muestra a Bron las siete placas de blindaje del Autómata.
 —Cada golpe le hace daño a su placa y la mitad a las vecinas. Contame cuáles se rompen.
 
 #### Gheco sugiere
-Un `std::vector<int>` con las siete placas. Si la posición está fuera, es un golpe al aire. Restá la fuerza a la placa y la mitad a las vecinas que existan y no estén rotas, sin bajar de 0.
+Las siete placas van en un `std::vector<int>`. Por cada golpe:
+
+- si la posición está fuera del vector, es un golpe al aire;
+- si no, restás la fuerza a esa placa, y la **mitad** a las vecinas que existan (que no estén fuera del vector) y no estén rotas;
+- ninguna placa baja de 0.
+
+Después de cada golpe, mostrá el blindaje con una función que recibe el vector como `const&`.
 
 #### Desafío
 El Autómata tiene 7 placas de blindaje: `30 30 40 50 40 30 30`. Cada línea de la

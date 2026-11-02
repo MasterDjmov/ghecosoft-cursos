@@ -80,13 +80,13 @@ test('el Diccionario general lista los personajes propios de cada curso y abre s
         ->assertSet('singular', 'Ofidia');
 });
 
-test('la portada muestra a la líder de cada curso publicado con retrato, en su propia fila', function () {
+test('la portada muestra a la líder de cada curso publicado con su cara (el busto de la Enciclopedia), en su propia fila', function () {
     $course = makeCourse()['course'];
     $course->update(['is_published' => true]);
     GlossaryTerm::create(['key' => 'mentor.name', 'course_id' => $course->id, 'singular' => 'Ofidia', 'plural' => 'Ofidia', 'gender' => 'f', 'icon_path' => 'glossary/ofidia.jpg', 'short_description' => 'Serpiente sabia.']);
     GlossaryTerm::create(['key' => 'companion.theory', 'course_id' => $course->id, 'singular' => 'Sin Foto', 'plural' => 'Sin Foto', 'gender' => 'f']);
 
-    $this->get('/')->assertOk()->assertSee('data-test="landing-leaders"', false)->assertSee('Ofidia')->assertSee(Str::before($course->title, ':'))->assertSee('glossary/ofidia.jpg', false)->assertSee('Serpiente sabia.')->assertDontSee('Sin Foto');
+    $this->get('/')->assertOk()->assertSee('data-test="landing-leaders"', false)->assertSee('Ofidia')->assertSee(Str::before($course->title, ':'))->assertSee('img/enciclopedia/ofidia-cuerpo.webp', false)->assertSee('Serpiente sabia.')->assertDontSee('Sin Foto');
 });
 
 test('el fondo del mundo sale del Diccionario: la región del curso o, si no tiene, el Mundo del Código', function () {

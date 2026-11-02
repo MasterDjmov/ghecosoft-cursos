@@ -183,7 +183,14 @@
                                 <details class="mt-3 rounded-lg border border-outline/70 px-3 py-2 text-sm" data-test="step-chat"
                                     x-data x-init="if ({{ (int) request()->query('consulta') === $step->id ? 'true' : 'false' }}) $el.open = true">
                                     <summary class="flex cursor-pointer items-center gap-2 text-ink-muted hover:text-white">
-                                        <flux:icon name="chat-bubble-left-right" variant="micro" /> Preguntale al profe
+                                        {{-- Un círculo que late, para que se vea que se puede preguntar (rojo si el profe ya respondió). --}}
+                                        <span class="relative grid size-6 place-items-center" data-test="step-chat-pulse">
+                                            <span @class(['absolute inset-0 animate-ping rounded-full motion-reduce:animate-none', 'bg-danger/50' => $unreadForStep, 'bg-primary-bright/40' => ! $unreadForStep])></span>
+                                            <span @class(['relative grid size-6 place-items-center rounded-full border', 'border-danger/60 bg-danger/20 text-white' => $unreadForStep, 'border-primary-bright/50 bg-primary-bright/15 text-primary-bright' => ! $unreadForStep])>
+                                                <flux:icon name="chat-bubble-left-right" variant="micro" class="size-3.5" />
+                                            </span>
+                                        </span>
+                                        Preguntale al profe
                                         @if ($unreadForStep)
                                             <span class="grid min-w-5 place-items-center rounded-full bg-danger px-1.5 font-mono text-[11px] font-bold text-white">{{ $unreadForStep }}</span>
                                         @endif

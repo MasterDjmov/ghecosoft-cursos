@@ -200,20 +200,45 @@
                         <h2 class="font-display text-3xl font-semibold text-white">Cada mundo tiene su moneda</h2>
                         <p class="text-ink-muted">Se ganan aprobando las prácticas obligatorias y sirven para abrir los nodos de ese curso. Juntalas todas.</p>
                     </div>
-                    <div class="flex flex-wrap gap-4">
+                    {{-- Una tarjeta por moneda: la medalla, de qué región y lenguaje es, qué hace y su curso. --}}
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" data-test="landing-coins">
                         @foreach ($coins as $coin)
-                            <div class="panel flex items-center gap-3 p-3 pe-5">
-                                @if ($coin['icon_path'])
-                                    <img src="{{ Storage::disk('public')->url($coin['icon_path']) }}" alt="" class="size-14 rounded-full border border-[#fbbf24]/50 object-cover">
-                                @else
-                                    <span class="grid size-12 place-items-center rounded-full border border-[#fbbf24]/50 bg-[#fbbf24]/10 font-mono text-sm font-bold text-[#fbbf24]">{{ $coin['course']->language->short() }}</span>
-                                @endif
-                                <div class="flex flex-col">
-                                    <span class="font-display font-semibold text-white">{{ \Illuminate\Support\Str::ucfirst($coin['plural']) }}</span>
-                                    <span class="text-xs text-ink-muted">{{ $coin['short_description'] ?: 'La moneda de '.$coin['course']->title }}</span>
+                            <article class="panel flex min-w-0 flex-col gap-3 p-3 transition hover:border-[#fbbf24]/60 sm:p-4">
+                                <div class="flex items-start justify-between gap-2">
+                                    @if ($coin['icon_path'])
+                                        <img src="{{ Storage::disk('public')->url($coin['icon_path']) }}" alt="" loading="lazy"
+                                            class="size-12 rounded-full border border-[#fbbf24]/50 object-cover shadow-[0_0_14px_rgba(251,191,36,0.25)] sm:size-14">
+                                    @else
+                                        <span class="grid size-12 place-items-center rounded-full border border-[#fbbf24]/50 bg-[#fbbf24]/10 font-mono text-sm font-bold text-[#fbbf24] shadow-[0_0_14px_rgba(251,191,36,0.25)] sm:size-14">{{ $coin['course']->language->short() }}</span>
+                                    @endif
+                                    <span class="rounded bg-[#fbbf24]/15 px-1.5 py-0.5 font-mono text-[10px] font-bold text-[#fbbf24]">{{ $coin['course']->language->label() }}</span>
                                 </div>
-                            </div>
+                                <div class="flex flex-col gap-0.5">
+                                    <h3 class="font-display font-semibold text-white">{{ \Illuminate\Support\Str::ucfirst($coin['plural']) }}</h3>
+                                    <p class="font-mono text-[10px] text-[#fbbf24]/80">{{ $coin['region'] }}</p>
+                                </div>
+                                @if ($coin['flavor'])
+                                    <p class="text-xs leading-snug text-ink-muted">{{ $coin['flavor'] }}</p>
+                                @endif
+                            </article>
                         @endforeach
+
+                        {{-- El comodín no es de ningún mundo: vale en todos. --}}
+                        {{-- Ocupa lo que queda de la última fila. --}}
+                        <article @class(['panel flex min-w-0 flex-col gap-3 border-secondary-bright/50 p-3 shadow-[0_0_14px_-2px_rgba(168,85,247,0.3)] sm:flex-row sm:items-center sm:p-4',
+                            $coins->count() % 2 ? 'col-span-1' : 'col-span-2',
+                            ['lg:col-span-4', 'lg:col-span-3', 'lg:col-span-2', 'lg:col-span-1'][$coins->count() % 4]]) data-test="landing-wildcard">
+                            <div class="flex items-start justify-between gap-2 sm:contents">
+                                @if ($wildcard['icon_path'])
+                                    <img src="{{ Storage::disk('public')->url($wildcard['icon_path']) }}" alt="" loading="lazy" class="size-12 shrink-0 rounded-full border border-secondary-bright/60 object-cover shadow-[0_0_14px_rgba(168,85,247,0.35)] sm:size-14">
+                                @endif
+                                <span class="rounded bg-secondary-bright/15 px-1.5 py-0.5 font-mono text-[10px] font-bold text-secondary-bright sm:order-last sm:self-start">Todos los mundos</span>
+                            </div>
+                            <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+                                <h3 class="font-display font-semibold text-white">{{ \Illuminate\Support\Str::ucfirst($wildcard['plural']) }}</h3>
+                                <p class="text-xs leading-snug text-ink-muted">{{ $wildcard['short_description'] ?: 'Se ganan con las tareas optativas y abren las Sendas, las especializaciones de cada curso.' }}</p>
+                            </div>
+                        </article>
                     </div>
                 </section>
             @endif

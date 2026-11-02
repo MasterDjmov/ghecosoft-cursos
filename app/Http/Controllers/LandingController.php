@@ -89,6 +89,21 @@ class LandingController
             ->values();
     }
 
+    /**
+     * Lo propio de cada moneda, sin lo que tienen todas («se gana superando las micro-misiones… y abre los nodos»,
+     * que la sección ya explica): «La moneda del Puerto: el sello de lacre que cierra cada mensaje despachado. Se gana…»
+     * → «El sello de lacre que cierra cada mensaje despachado.» null si no le queda nada.
+     */
+    private function coinFlavor(?string $description): ?string
+    {
+        $text = trim(Str::contains((string) $description, ': ') ? Str::after($description, ': ') : (string) $description);
+        $own = collect(preg_split('/(?<=\.)\s+/', $text))
+            ->reject(fn (string $sentence) => $sentence === '' || Str::startsWith(Str::lower($sentence), 'se gana'))
+            ->implode(' ');
+
+        return $own !== '' ? Str::ucfirst($own) : null;
+    }
+
     public function __invoke(Ranking $ranking, Glossary $glossary)
     {
         if (auth()->check()) {
@@ -112,7 +127,18 @@ class LandingController
             'leaders' => $this->leaders($glossary),
             'crew' => $this->cast($glossary, ['hero.name', 'mentor.name', 'companion.']),
             'beasts' => $this->cast($glossary, ['beast.']),
-            'coins' => $published->map(fn (Course $course) => ['course' => $course, ...$glossary->resolve('coin.course', $course)]),
+            'coins' => $published->map(function (Course $course) use ($glossary) {
+                $region = $glossary->resolve('world.region', $course)['singular'];
+                $coin = $glossary->resolve('coin.course', $course);
+
+                return [
+                    'course' => $course, 'plural' => $coin['plural'], 'icon_path' => $coin['icon_path'],
+                    // Sin región propia (inglés), el nombre del curso.
+                    'region' => $region === config('glossary')['world.region']['singular'] ? Str::before($course->title, ':') : Str::ucfirst($region),
+                    'flavor' => $this->coinFlavor($coin['short_description']),
+                ];
+            }),
+            'wildcard' => $glossary->resolve('coin.wildcard'),
             'top' => $ranking->publicTop(),
             'whatsapp' => $whatsapp !== '' ? $whatsapp : null,
         ]);

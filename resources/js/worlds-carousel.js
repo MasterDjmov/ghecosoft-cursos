@@ -39,6 +39,10 @@ export function worldsCarousel(count, start = 0) {
             return this.$refs.stage ? this.$refs.stage.firstElementChild.offsetWidth * (this.wide ? 0.62 : 0.5) : 160;
         },
 
+        cardClass(index) {
+            return this.active === index ? 'panel-active shadow-[0_0_36px_-4px_rgb(6_182_212/0.45)]' : 'brightness-75';
+        },
+
         cardStyle(index) {
             const offset = index - this.active + this.drag / this.step();
             const distance = Math.abs(offset);

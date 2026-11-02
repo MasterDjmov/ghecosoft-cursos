@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\DelayedStudents;
 use App\Services\TeacherScope;
 use Flux\Flux;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -23,8 +24,10 @@ class Delayed extends Component
     #[Url(as: 'curso', except: '')]
     public string $courseId = '';
 
+    #[Locked]
     public ?int $studentId = null;
 
+    #[Locked]
     public ?int $remindCourseId = null;
 
     public string $body = '';

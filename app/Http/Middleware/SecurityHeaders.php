@@ -10,12 +10,23 @@ use Symfony\Component\HttpFoundation\Response;
  * Cabeceras de seguridad para todas las páginas: no se puede meter la plataforma
  * en un iframe ajeno, el navegador no adivina tipos de archivo y no se filtran
  * URLs completas a otros sitios. Una respuesta que ya trae la suya la conserva.
+ * En producción, quien entra por HTTP pasa a HTTPS y no se dice qué versión de PHP corre.
  */
 class SecurityHeaders
 {
     public function handle(Request $request, Closure $next): Response
     {
+        // Cloudflare entrega el HTTP tal cual: sin esto, la primera visita viaja sin cifrar (después manda el HSTS).
+        if (app()->isProduction() && ! $request->isSecure() && $request->isMethodSafe()) {
+            return redirect()->secure($request->getRequestUri(), 301);
+        }
+
         $response = $next($request);
+
+        if (app()->isProduction()) {
+            header_remove('X-Powered-By');
+            $response->headers->remove('X-Powered-By');
+        }
 
         $headers = [
             'X-Content-Type-Options' => 'nosniff',

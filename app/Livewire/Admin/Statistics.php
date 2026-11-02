@@ -85,7 +85,7 @@ class Statistics extends Component
 
         $progress = new ProgressStats($students, $courseId, $since, $courseIds);
         $practices = new PracticeStats($courseId, $since, $students, $courseIds);
-        $chosen = $this->student !== '' ? User::find((int) $this->student) : null;
+        $chosen = $this->student !== '' ? $this->students($scope)->find((int) $this->student) : null;
 
         return view('livewire.admin.statistics', [
             'courses' => $courses,

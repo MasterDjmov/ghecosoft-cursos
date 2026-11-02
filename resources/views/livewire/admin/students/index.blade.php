@@ -109,6 +109,7 @@
                                                 <span class="truncate text-sm text-white">{{ $row['course']->title }}</span>
                                                 <span class="text-xs {{ $row['active'] ? 'text-success' : 'text-ink-muted' }}">{{ $row['active'] ? 'Abono vigente' : 'Abono vencido' }}</span>
                                                 {{-- XP del curso y los últimos días: verde si anduvo por el curso, rojo si no (gris, antes de su primer abono). --}}
+                                                @if ($row['activity'])
                                                 <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1" data-test="course-activity-{{ $row['course']->id }}">
                                                     <span class="font-mono text-xs text-ink-muted">{{ $row['activity']['xp'] }} {{ term('xp.short') }}</span>
                                                     <span class="flex gap-0.5" aria-label="Actividad de los últimos {{ count($row['activity']['days']) }} días: {{ collect($row['activity']['days'])->where('state', 'on')->count() }} con actividad">
@@ -119,6 +120,7 @@
                                                     </span>
                                                     <span class="text-xs text-ink-muted">{{ $row['activity']['last'] ? 'Última actividad '.$row['activity']['last']->diffForHumans() : 'Sin actividad todavía' }}</span>
                                                 </div>
+                                                @endif
                                             </div>
                                             @can('viewProgress', [$person, $row['course']])
                                                 <flux:button size="xs" variant="ghost" icon="share" :href="route('admin.students.tree', [$person, $row['course']])" wire:navigate

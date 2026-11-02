@@ -105,7 +105,10 @@ test('el docente suma un alumno a su comisión desde Alumnos, pero no mueve alum
         ->set('tab', 'sumar')->set('search', $this->other->username)
         ->assertSee($this->other->fullName())->assertDontSee($this->other->email)
         ->call('toggle', $this->other->id)->assertSee('data-test="student-courses"', false)
-        ->call('assignCohort', $this->other->id, $this->course->id, (string) $this->cohort->id);
+        // Todavía no es suyo: ve sus cursos para sumarlo, pero no cómo le va (XP ni días de actividad).
+        ->assertDontSee('data-test="course-activity-'.$this->course->id.'"', false)
+        ->call('assignCohort', $this->other->id, $this->course->id, (string) $this->cohort->id)
+        ->assertSee('data-test="course-activity-'.$this->course->id.'"', false);
     expect(CourseSubscription::where('user_id', $this->other->id)->value('cohort_id'))->toBe($this->cohort->id);
 
     $rival = User::factory()->teacher()->create();

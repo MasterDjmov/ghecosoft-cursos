@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureCloudflare;
 use App\Http\Middleware\EnsureCourseOpen;
 use App\Http\Middleware\EnsurePasswordChanged;
 use App\Http\Middleware\EnsurePlatformOpen;
@@ -25,6 +26,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'password.changed' => EnsurePasswordChanged::class,
             'course.open' => EnsureCourseOpen::class,
         ]);
+        // Antes que nada: con CLOUDFLARE_ONLY, lo que no llega por Cloudflare no pasa (config/security.php).
+        $middleware->prepend(EnsureCloudflare::class);
         $middleware->web(append: [ThrottleAuthForms::class, SecurityHeaders::class, EnsureSingleSession::class, EnsurePlatformOpen::class, TrackAccess::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
     })

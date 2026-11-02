@@ -132,7 +132,8 @@ class Messages extends Component
             'isStep' => $open && $subject instanceof NodeStep,
             'selectedStudent' => $open ? $selectedStudent : null,
             'context' => $open ? $this->context($subject, $selectedStudent) : null,
-            'filteredStudent' => $this->student !== '' ? User::find((int) $this->student) : null,
+            // El filtro viene del navegador: el docente solo ve el nombre de alumnos de sus comisiones (D72).
+            'filteredStudent' => $this->student !== '' ? app(TeacherScope::class)->students(User::query(), auth()->user())->find((int) $this->student) : null,
         ]);
     }
 }

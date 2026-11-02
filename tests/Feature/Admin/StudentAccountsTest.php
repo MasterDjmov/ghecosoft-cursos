@@ -181,7 +181,7 @@ test('el docente no puede matricular desde el listado', function () {
     $student = enrolledStudent($course);
 
     Livewire::actingAs(User::factory()->teacher()->create())->test(Index::class)
-        ->set('expanded', $student->id)
+        ->call('toggle', $student->id)
         ->set('enrollCourseId', (string) $course->id)
         ->call('enroll')
         ->assertForbidden();

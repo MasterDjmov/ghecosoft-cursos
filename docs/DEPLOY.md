@@ -212,6 +212,8 @@ El subdominio pasa por Cloudflare (proxy naranja). Al subir el proyecto:
 4. **Nada de caché de HTML ni optimizaciones que tocan el JS**: en Cloudflare, *Rocket Loader* apagado (rompe Livewire y Alpine) y sin reglas de *Cache Everything* para las páginas. Cachear `/build/*` sí está bien: los archivos llevan hash.
 5. **Límite de subida**: el plan gratis de Cloudflare acepta hasta 100 MB por pedido; nuestros archivos son de 25 MB como máximo, así que no molesta.
 6. Si se ve algo raro después de actualizar, *Caching → Purge Everything* en Cloudflare.
+7. **Que nadie se saltee a Cloudflare**: la IP real del servidor se ve en `mail.`, `cpanel.` y `ftp.` (no pueden ir por Cloudflare), y el servidor atiende el sitio directo por esa IP. Con `CLOUDFLARE_ONLY=true` en el `.env` (y `php artisan config:cache`), la app rechaza lo que no llega desde Cloudflare. **Probarlo enseguida**: si el sitio abre normal, queda; si todo da *Forbidden*, el hosting ya reemplaza la IP por la del visitante: volver a `false` y avisar. Para comprobar que anda: `curl -s -o /dev/null -w '%{http_code}' --resolve gamificado.lariojaclick.ar:443:IP_DEL_SERVIDOR https://gamificado.lariojaclick.ar/login` tiene que dar `403`.
+8. **HTTP → HTTPS**: la app ya pasa a HTTPS a quien entra por `http://` (en producción); conviene prender también *SSL/TLS → Edge Certificates → Always Use HTTPS* en Cloudflare.
 
 ## 10. Problemas comunes
 

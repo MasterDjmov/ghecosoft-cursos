@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\Middleware\EnsureCourseOpen;
 use App\Http\Middleware\EnsurePasswordChanged;
+use App\Http\Middleware\EnsureRole;
 use App\Models\User;
 use App\Support\MailBudget;
 use App\Support\TrustedProxies;
@@ -41,7 +42,8 @@ class AppServiceProvider extends ServiceProvider
 
         // También en las acciones de Livewire: con clave provisoria no se hace nada más, y un curso en
         // mantenimiento (D86) frena también las páginas que ya estaban abiertas.
-        Livewire::addPersistentMiddleware([EnsurePasswordChanged::class, EnsureCourseOpen::class]);
+        // EnsureRole también: a quien le sacan el rol con la pantalla abierta, sus acciones ya no pasan.
+        Livewire::addPersistentMiddleware([EnsurePasswordChanged::class, EnsureCourseOpen::class, EnsureRole::class]);
 
         // El correo real (SMTP del docente) con interruptor y tope por día: lo que no corresponde no sale.
         Event::listen(MessageSending::class, fn () => config('mail.default') === 'smtp' && ! MailBudget::canSend() ? false : null);

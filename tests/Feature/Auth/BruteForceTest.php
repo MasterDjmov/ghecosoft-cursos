@@ -96,3 +96,20 @@ test('detrás de Cloudflare se usa la IP real del alumno, y un X-Forwarded-For d
 
     TrustProxies::flushState();
 });
+
+test('con CLOUDFLARE_ONLY, quien le habla directo al servidor recibe 403; por Cloudflare entra', function () {
+    config(['security.cloudflare_only' => true]);
+
+    $this->withServerVariables(['REMOTE_ADDR' => '200.45.1.7'])->get(route('login'))->assertForbidden();
+    $this->withServerVariables(['REMOTE_ADDR' => '173.245.48.10'])->get(route('login'))->assertOk();
+
+    config(['security.cloudflare_only' => false]);
+    $this->withServerVariables(['REMOTE_ADDR' => '200.45.1.7'])->get(route('login'))->assertOk();
+});
+
+test('en producción, quien entra por HTTP pasa a HTTPS', function () {
+    $this->app->detectEnvironment(fn () => 'production');
+
+    $this->get('http://localhost/login')->assertStatus(301)->assertRedirect('https://localhost/login');
+    $this->get('https://localhost/login')->assertOk()->assertHeaderMissing('X-Powered-By');
+});

@@ -13,6 +13,14 @@
 return [
     'trusted_proxies' => env('TRUSTED_PROXIES'),
 
+    /*
+    | Solo por Cloudflare (CLOUDFLARE_ONLY=true): el servidor rechaza a quien le habla directo a su IP
+    | (que se ve en mail., cpanel. y ftp.) en vez de pasar por Cloudflare y su protección. Se mira la IP
+    | que entrega el servidor (REMOTE_ADDR), así que antes de dejarlo prendido hay que probar que el sitio
+    | siga abriendo: si el hosting ya reemplaza esa IP por la del visitante, rechazaría a todos (DEPLOY.md § 9).
+    */
+    'cloudflare_only' => (bool) env('CLOUDFLARE_ONLY', false),
+
     // https://www.cloudflare.com/ips/ (revisar si Cloudflare los cambia).
     'cloudflare_ips' => [
         '173.245.48.0/20', '103.21.244.0/22', '103.22.200.0/22', '103.31.4.0/22',

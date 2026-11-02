@@ -14,6 +14,7 @@ use App\Support\CourseActivity;
 use App\Support\Maintenance;
 use Carbon\CarbonImmutable;
 use Flux\Flux;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -40,6 +41,7 @@ class Index extends Component
     #[Url(as: 'ver', except: '')]
     public string $tab = '';
 
+    #[Locked]
     public ?int $expanded = null;
 
     /** Administrador: matricular al alumno desplegado en otro curso (o renovarle uno), con su comisión. */
@@ -190,7 +192,7 @@ class Index extends Component
             ->map(fn ($subs) => CarbonImmutable::parse($subs->min('starts_at')))->all());
 
         return $subscriptions->unique('course_id')
-            ->map(function ($subscription) use ($student, $viewer, $mine, $activity) {
+            ->map(function ($subscription) use ($student, $viewer, $mine, $activity, $scope) {
                 $course = $subscription->course;
                 $options = $course->cohorts->filter(fn (Cohort $cohort) => $mine === null || in_array($cohort->id, $mine, true))->values();
 
@@ -198,7 +200,8 @@ class Index extends Component
                     'course' => $course,
                     'cohort' => $subscription->cohort,
                     'active' => $subscription->ends_at->isFuture(),
-                    'activity' => $activity[$course->id],
+                    // Buscando alumnos de otros («sumar»), el docente no ve cómo le va en los cursos que no le da.
+                    'activity' => $viewer->isAdmin() || $scope->teaches($viewer, $student, $course) ? $activity[$course->id] : null,
                     'options' => $options,
                     'canChange' => $viewer->isAdmin() || ($options->isNotEmpty() && $viewer->can('assignCohort', [$student, $course, null])),
                     // Sin comisiones propias en ese curso (y sin estar en la de otro docente): el link para crear una.

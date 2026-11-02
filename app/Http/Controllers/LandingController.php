@@ -29,6 +29,9 @@ class LandingController
         'beast.ogre' => 'ogro', 'beast.troll' => 'troll', 'beast.dragon' => 'dragon',
     ];
 
+    /** Quién pone la cara cuando el nombre no alcanza para encontrarla en la Enciclopedia. */
+    private const FACES = ['companion.guild' => 'la-jefa-del-gremio'];
+
     private const ROLES = [
         'hero.name' => 'La heroína del camino. Cuando empezás, le ponés tu nombre.',
         'mentor.name' => 'El mentor: te guía de punta a punta y corrige tus misiones.',
@@ -47,24 +50,29 @@ class LandingController
      */
     private function cast(Glossary $glossary, array $prefixes): Collection
     {
+        // La compañía va con cara (face()); las criaturas, con su retrato de siempre.
+        $faces = ! in_array('beast.', $prefixes, true);
+
         $keys = collect(array_keys(config('glossary')))
             ->merge(GlossaryTerm::whereNull('course_id')->pluck('key'))
             ->unique()
             ->filter(fn (string $key) => Str::startsWith($key, $prefixes) || in_array($key, $prefixes, true));
 
-        $general = $keys->map(function (string $key) use ($glossary) {
+        $general = $keys->map(function (string $key) use ($glossary, $faces) {
             $term = $glossary->resolve($key);
+            $name = Str::ucfirst($term['singular']);
             $image = isset(self::IMAGES[$key]) ? asset('img/personajes/'.self::IMAGES[$key].'.webp')
                 : ($term['icon_path'] ? Storage::disk('public')->url($term['icon_path']) : null);
 
-            return ['image' => $image, 'name' => Str::ucfirst($term['singular']), 'role' => $term['short_description'] ?: (self::ROLES[$key] ?? null)];
+            return [...(($faces ? $this->face($name, $key) : null) ?? ['image' => $image, 'bust' => false]), 'name' => $name, 'role' => $term['short_description'] ?: (self::ROLES[$key] ?? null)];
         });
 
         // Las líderes de cada curso (mentor.name) van en su propia fila: leaders().
         $own = $glossary->courseCharacters($prefixes, publishedOnly: true)
             ->reject(fn (array $term) => $term['key'] === 'mentor.name')
             ->map(fn (array $term) => [
-                'image' => $term['icon_path'] ? Storage::disk('public')->url($term['icon_path']) : null,
+                ...(($faces ? $this->face(Str::ucfirst($term['singular']), $term['key']) : null)
+                    ?? ['image' => $term['icon_path'] ? Storage::disk('public')->url($term['icon_path']) : null, 'bust' => false]),
                 'name' => Str::ucfirst($term['singular']),
                 'role' => $term['short_description'] ?: (self::ROLES[$term['key']] ?? null),
             ]);
@@ -75,18 +83,54 @@ class LandingController
             ->values();
     }
 
-    /** La líder de cada curso publicado (Ofidia en Python, Elefa en PHP…), con retrato del Diccionario. */
+    /**
+     * La cara de un personaje, igual para todos en la portada: la del avatar si es protagonista de un curso
+     * (public/img/protagonistas) o, si no, el busto de su cuerpo entero de la Enciclopedia (`bust`: la vista
+     * recorta la cabeza). null si no tiene ninguna de las dos.
+     *
+     * @return array{image: string, bust: bool}|null
+     */
+    private function face(string $name, ?string $key = null): ?array
+    {
+        $hero = collect(config('game.protagonists'))->firstWhere('name', $name);
+        if ($hero && is_file(public_path('img/protagonistas/'.$hero['slug'].'/1.webp'))) {
+            return ['image' => Heroes::lookUrl($hero, 1), 'bust' => false];
+        }
+        $body = 'img/enciclopedia/'.(self::FACES[$key] ?? Str::slug($name)).'-cuerpo.webp';
+
+        return is_file(public_path($body)) ? ['image' => asset($body), 'bust' => true] : null;
+    }
+
+    /**
+     * La líder de cada curso publicado (Ofidia en Python, Elefa en PHP…), del Diccionario. Sin retrato, la moneda
+     * del curso; sin ninguno de los dos, no se muestra.
+     */
     private function leaders(Glossary $glossary): Collection
     {
         return $glossary->courseCharacters(['mentor.name'], publishedOnly: true)
-            ->filter(fn (array $term) => $term['icon_path'] !== null)
             ->map(fn (array $term) => [
-                'image' => Storage::disk('public')->url($term['icon_path']),
+                ...($this->face(Str::ucfirst($term['singular']))
+                    ?? ['image' => ($path = $term['icon_path'] ?? $glossary->resolve('coin.course', $term['course'])['icon_path']) ? Storage::disk('public')->url($path) : null, 'bust' => false]),
                 'name' => Str::ucfirst($term['singular']),
                 'course' => Str::before($term['course']->title, ':'),
                 'role' => $term['short_description'],
             ])
+            ->filter(fn (array $leader) => $leader['image'] !== null)
             ->values();
+    }
+
+    /**
+     * El protagonista de cada curso publicado (config/game.php, D84) que no esté ya en la compañía: Iris, Nilo,
+     * Nova, Ada… Con la cara de su avatar (el primer aspecto), así un curso nuevo suma el suyo solo.
+     */
+    private function protagonists(Collection $published): Collection
+    {
+        return $published->map(fn (Course $course) => ($hero = Heroes::cardOf($course)) ? [
+            'image' => $hero['image'],
+            'bust' => false,
+            'name' => $hero['name'],
+            'role' => $hero['title'].' · '.Str::before($course->title, ':'),
+        ] : null)->filter()->values();
     }
 
     /**
@@ -125,7 +169,8 @@ class LandingController
             'heroes' => $catalog->mapWithKeys(fn (Course $course) => [$course->id => Heroes::cardOf($course)]),
             'upcoming' => $catalog->filter(fn (Course $course) => $course->isUpcoming()),
             'leaders' => $this->leaders($glossary),
-            'crew' => $this->cast($glossary, ['hero.name', 'mentor.name', 'companion.']),
+            'crew' => $this->cast($glossary, ['hero.name', 'mentor.name', 'companion.'])
+                ->concat($this->protagonists($published))->unique('name')->values(),
             'beasts' => $this->cast($glossary, ['beast.']),
             'coins' => $published->map(function (Course $course) use ($glossary) {
                 $region = $glossary->resolve('world.region', $course)['singular'];

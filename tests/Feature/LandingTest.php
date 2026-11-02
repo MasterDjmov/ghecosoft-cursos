@@ -131,3 +131,17 @@ test('los cursos van en el carrusel con su protagonista y el temario', function 
         ->assertSee('Aprendiz de maga')
         ->assertSee('Bucles');
 });
+
+test('cada curso publicado suma a su protagonista, y la líder sin retrato sale con la moneda del curso', function () {
+    ['course' => $course] = makeCourse(['title' => 'PHP: El Puerto', 'language' => 'php']);
+    GlossaryTerm::create(['key' => 'mentor.name', 'course_id' => $course->id, 'singular' => 'Capitana Gaviota', 'plural' => 'Capitana Gaviota', 'gender' => 'f']);
+    GlossaryTerm::create(['key' => 'coin.course', 'course_id' => $course->id, 'singular' => 'sello', 'plural' => 'sellos', 'gender' => 'm', 'icon_path' => 'glossary/sello.png']);
+    Glossary::flush($course->id);
+
+    $this->get('/')->assertOk()
+        ->assertSee('img/protagonistas/nilo/1.webp', false)
+        ->assertSee('Mensajero del Puerto · PHP')
+        ->assertSeeInOrder(['data-test="landing-leaders"', 'glossary/sello.png', 'Capitana Gaviota'], false)
+        // Los de la compañía, todos con cara: el profe con el busto de su cuerpo entero.
+        ->assertSee('img/enciclopedia/el-profe-cuerpo.webp', false);
+});

@@ -139,8 +139,7 @@
                         <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                             @foreach ($leaders as $leader)
                                 <figure class="flex flex-col items-center gap-2 text-center">
-                                    <img src="{{ $leader['image'] }}" alt="{{ $leader['name'] }}" loading="lazy"
-                                        class="size-28 rounded-full object-cover ring-2 ring-[#a78bfa]/50 shadow-[0_0_28px_rgba(167,139,250,0.3)] transition hover:scale-105">
+                                    <x-landing-face :character="$leader" class="ring-[#a78bfa]/50 shadow-[0_0_28px_rgba(167,139,250,0.3)]" />
                                     <figcaption class="flex flex-col gap-0.5">
                                         <span class="font-display font-semibold text-white">{{ $leader['name'] }}</span>
                                         <span class="font-mono text-[11px] text-[#c4b5fd]">{{ $leader['course'] }}</span>
@@ -159,8 +158,7 @@
                     <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                         @foreach ($crew as $member)
                             <figure class="flex flex-col items-center gap-2 text-center">
-                                <img src="{{ $member['image'] }}" alt="{{ $member['name'] }}" loading="lazy"
-                                    class="size-28 rounded-full object-cover ring-2 ring-primary/40 shadow-[0_0_24px_rgba(34,211,238,0.25)] transition hover:scale-105">
+                                <x-landing-face :character="$member" class="ring-primary/40 shadow-[0_0_24px_rgba(34,211,238,0.25)]" />
                                 <figcaption class="flex flex-col gap-0.5">
                                     <span class="font-display font-semibold text-white">{{ $member['name'] }}</span>
                                     @if ($member['role'])

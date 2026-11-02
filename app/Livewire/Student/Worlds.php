@@ -5,9 +5,11 @@ namespace App\Livewire\Student;
 use App\Enums\RequestStatus;
 use App\Models\Course;
 use App\Models\CourseInterest;
+use App\Models\Hero;
 use App\Models\Node;
 use App\Models\NodeUnlock;
 use App\Services\CourseCatalog;
+use App\Services\Heroes;
 use App\Services\TreeAccess;
 use DomainException;
 use Flux\Flux;
@@ -83,9 +85,23 @@ class Worlds extends Component
             });
 
         [$mine, $discover] = $worlds->partition(fn ($w) => ! in_array($w['status'], ['closed', 'upcoming']));
+        $mine = $mine->values();
+
+        // En el carrusel, cada mundo con su protagonista, con el aspecto que eligió el alumno en ese curso.
+        $looks = Hero::where('user_id', $user->id)->pluck('look', 'course_id');
+        $mine = $mine->map(function (array $world) use ($looks) {
+            $protagonist = Heroes::protagonistOf($world['course']);
+            $world['protagonist'] = $protagonist && is_file(public_path('img/protagonistas/'.$protagonist['slug'].'/1.webp'))
+                ? ['name' => $protagonist['name'], 'title' => $protagonist['title'], 'image' => Heroes::lookUrl($protagonist, $looks[$world['course']->id] ?? 1)]
+                : null;
+
+            return $world;
+        });
 
         return view('livewire.student.worlds', [
             'mine' => $mine,
+            // El carrusel arranca en el primer mundo en curso.
+            'startAt' => max(0, (int) $mine->search(fn ($w) => $w['status'] === 'active')),
             'discover' => $discover->sortBy(fn ($w) => $w['status'] === 'upcoming' ? 1 : 0)->values(),
             'interested' => CourseInterest::where('user_id', $user->id)->pluck('course_id')->flip(),
             'expiring' => $mine->filter(fn ($w) => $w['status'] === 'active' && $w['paidUntil']->lte(now()->addDays(config('game.subscription_warning_days')))),

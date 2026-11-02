@@ -1,6 +1,7 @@
 import './live-alerts.js';
 import { compareLines, describeDifference } from './runners/compare.js';
 import { englishStep, speak } from './runners/english.js';
+import { worldsCarousel } from './worlds-carousel.js';
 
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
 // en las páginas que muestran el árbol (import dinámico).
@@ -18,6 +19,9 @@ document.addEventListener('alpine:init', () => {
     // Crónicas en Inglés (D106): una micro-misión de inglés, y la voz para leer el episodio entero.
     window.Alpine.data('englishStep', englishStep);
     window.speakEnglish = speak;
+
+    // Mundos: el carrusel 3D de «Seguí donde dejaste».
+    window.Alpine.data('worldsCarousel', worldsCarousel);
 
     window.Alpine.data('skillTree', (data, options = {}) => ({
         tree: null,

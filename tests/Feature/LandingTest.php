@@ -121,3 +121,13 @@ test('la portada presenta a la compañía y a sus enemigos con los nombres del D
     Glossary::flush(null);
     $this->get('/')->assertSee('Hidra')->assertSee('glossary/hidra.jpg', false)->assertSee('Le cortás un bug y salen dos.')->assertDontSee('Kraken');
 });
+
+test('los cursos van en el carrusel con su protagonista y el temario', function () {
+    makeCourse(['title' => 'Python destacado', 'language' => 'python', 'is_featured' => true, 'syllabus' => "Bucles\nFunciones"]);
+
+    $this->get('/')->assertOk()
+        ->assertSee('data-test="landing-courses"', false)
+        ->assertSee('img/protagonistas/mia/1.webp', false)
+        ->assertSee('Aprendiz de maga')
+        ->assertSee('Bucles');
+});

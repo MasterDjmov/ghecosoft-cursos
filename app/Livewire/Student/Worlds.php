@@ -90,10 +90,7 @@ class Worlds extends Component
         // En el carrusel, cada mundo con su protagonista, con el aspecto que eligió el alumno en ese curso.
         $looks = Hero::where('user_id', $user->id)->pluck('look', 'course_id');
         $mine = $mine->map(function (array $world) use ($looks) {
-            $protagonist = Heroes::protagonistOf($world['course']);
-            $world['protagonist'] = $protagonist && is_file(public_path('img/protagonistas/'.$protagonist['slug'].'/1.webp'))
-                ? ['name' => $protagonist['name'], 'title' => $protagonist['title'], 'image' => Heroes::lookUrl($protagonist, $looks[$world['course']->id] ?? 1)]
-                : null;
+            $world['protagonist'] = Heroes::cardOf($world['course'], $looks[$world['course']->id] ?? 1);
 
             return $world;
         });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\GlossaryTerm;
 use App\Models\Setting;
+use App\Services\Heroes;
 use App\Services\Ranking;
 use App\Support\Glossary;
 use Illuminate\Support\Collection;
@@ -106,6 +107,7 @@ class LandingController
 
         return view('landing', [
             'courses' => $featured->isNotEmpty() ? $featured : $published,
+            'heroes' => $catalog->mapWithKeys(fn (Course $course) => [$course->id => Heroes::cardOf($course)]),
             'upcoming' => $catalog->filter(fn (Course $course) => $course->isUpcoming()),
             'leaders' => $this->leaders($glossary),
             'crew' => $this->cast($glossary, ['hero.name', 'mentor.name', 'companion.']),

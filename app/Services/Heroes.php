@@ -42,6 +42,21 @@ class Heroes
         return config('game.protagonists.'.$course->slug) ?? config('game.protagonists.'.$course->language->value);
     }
 
+    /**
+     * El protagonista para las tarjetas de los cursos (Mundos y landing), con el aspecto `$look`; null si el curso
+     * no tiene o todavía no tiene sus imágenes.
+     *
+     * @return array{name: string, title: string, image: string}|null
+     */
+    public static function cardOf(Course $course, int $look = 1): ?array
+    {
+        $protagonist = self::protagonistOf($course);
+
+        return $protagonist && is_file(public_path('img/protagonistas/'.$protagonist['slug'].'/1.webp'))
+            ? ['name' => $protagonist['name'], 'title' => $protagonist['title'], 'image' => self::lookUrl($protagonist, $look)]
+            : null;
+    }
+
     public static function lookUrl(array $protagonist, int $look): string
     {
         return asset('img/protagonistas/'.$protagonist['slug'].'/'.$look.'.webp');

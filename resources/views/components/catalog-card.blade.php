@@ -1,6 +1,7 @@
-@props(['course', 'nodes' => 0])
+@props(['course', 'nodes' => 0, 'hero' => null])
 
-{{-- Tarjeta del catálogo (Mundos y landing). "Próximamente" lleva la portada y el temario, sin entrar. --}}
+{{-- Tarjeta del catálogo (Mundos y landing). "Próximamente" lleva la portada y el temario, sin entrar.
+     Con $hero (['name', 'title', 'image']), el protagonista del curso ocupa el lugar del logo grande. --}}
 @php($upcoming = $course->isUpcoming())
 @php($inline = fn (string $text) => Str::inlineMarkdown($text, ['html_input' => 'escape', 'allow_unsafe_links' => false]))
 <article {{ $attributes->class(['panel flex flex-col overflow-hidden', 'border-dashed' => $upcoming]) }} data-test="catalog-{{ $course->slug }}">
@@ -12,22 +13,47 @@
     @endif
 
     <div class="flex flex-1 flex-col gap-4 p-5">
-        <div class="flex items-start justify-between gap-3">
-            <x-course-logo :course="$course" size="size-50 max-w-full" />
-            @if ($upcoming)
-                <span class="rounded border border-secondary-bright/40 px-2 py-0.5 font-mono text-[11px] text-secondary-bright">Próximamente</span>
-            @endif
-        </div>
-
-        <div class="flex flex-col gap-1">
-            <h3 class="font-display text-lg font-semibold text-white">{{ $course->title }}</h3>
-            <p class="font-mono text-[11px] text-ink-muted">
-                {{ $course->language->label() }} · {{ $course->level->label() }}@unless ($upcoming) · {{ $nodes }} {{ term('node', $course, $nodes) }}@endunless
-            </p>
+        @if ($hero)
+            <div class="flex items-center gap-3">
+                <x-course-logo :course="$course" size="size-14" />
+                <div class="flex min-w-0 flex-col gap-0.5">
+                    <h3 class="font-display text-lg leading-tight font-semibold text-white">{{ $course->title }}</h3>
+                    <p class="font-mono text-[11px] text-ink-muted">
+                        {{ $course->language->label() }} · {{ $course->level->label() }}@unless ($upcoming) · {{ $nodes }} {{ term('node', $course, $nodes) }}@endunless
+                    </p>
+                </div>
+            </div>
+            <div class="relative aspect-[4/3] overflow-hidden rounded-lg border border-outline bg-surface-lowest">
+                <img src="{{ $hero['image'] }}" alt="{{ $hero['name'] }}" class="size-full object-cover" loading="lazy" draggable="false">
+                <div class="absolute inset-0 bg-gradient-to-t from-surface-lowest via-transparent to-transparent"></div>
+                <div class="absolute inset-x-2 bottom-2 rounded-md border border-primary-bright/30 bg-surface-lowest/85 px-2.5 py-1.5 text-xs text-ink backdrop-blur">
+                    <strong class="text-white">{{ $hero['name'] }}</strong> · {{ $hero['title'] }}
+                </div>
+                @if ($upcoming)
+                    <span class="absolute top-2 right-2 rounded border border-secondary-bright/40 bg-surface-lowest/85 px-2 py-0.5 font-mono text-[11px] text-secondary-bright">Próximamente</span>
+                @endif
+            </div>
             @if ($course->short_description)
                 <p class="text-sm text-ink-muted">{{ $course->short_description }}</p>
             @endif
-        </div>
+        @else
+            <div class="flex items-start justify-between gap-3">
+                <x-course-logo :course="$course" size="size-50 max-w-full" />
+                @if ($upcoming)
+                    <span class="rounded border border-secondary-bright/40 px-2 py-0.5 font-mono text-[11px] text-secondary-bright">Próximamente</span>
+                @endif
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <h3 class="font-display text-lg font-semibold text-white">{{ $course->title }}</h3>
+                <p class="font-mono text-[11px] text-ink-muted">
+                    {{ $course->language->label() }} · {{ $course->level->label() }}@unless ($upcoming) · {{ $nodes }} {{ term('node', $course, $nodes) }}@endunless
+                </p>
+                @if ($course->short_description)
+                    <p class="text-sm text-ink-muted">{{ $course->short_description }}</p>
+                @endif
+            </div>
+        @endif
 
         @php($items = $course->syllabusItems())
         @php($paths = $course->paths)

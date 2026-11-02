@@ -86,19 +86,24 @@
                     <h2 class="font-display text-3xl font-semibold text-white">Los cursos que más se dictan</h2>
                     <p class="text-ink-muted">Se cursan en comisiones, con el profe. Creá tu cuenta gratis, probá la clase 0 del curso que te guste y, si te convence, pedí tu lugar (o consultá por WhatsApp).</p>
                 </div>
-                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                    @forelse ($courses as $course)
-                        <x-catalog-card :course="$course" :nodes="$course->published_nodes_count">
-                            <flux:button size="sm" variant="primary" icon="play" :href="route('register')" class="flex-1">Probar gratis</flux:button>
-                            @if ($whatsapp)
-                                <flux:button size="sm" icon="chat-bubble-left-right" class="flex-1" target="_blank" rel="noopener"
-                                    href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hola profe, quiero saber más de «'.$course->title.'».') }}">Consultar</flux:button>
-                            @endif
-                        </x-catalog-card>
-                    @empty
-                        <div class="panel p-8 text-center text-ink-muted sm:col-span-2 lg:col-span-3">Muy pronto, los primeros cursos.</div>
-                    @endforelse
-                </div>
+                @if ($courses->isEmpty())
+                    <div class="panel p-8 text-center text-ink-muted">Muy pronto, los primeros cursos.</div>
+                @else
+                    <x-carousel-3d :titles="$courses->pluck('title')->all()" data-test="landing-courses">
+                        <x-slot:heading></x-slot:heading>
+                        @foreach ($courses->values() as $i => $course)
+                            <x-catalog-card :course="$course" :nodes="$course->published_nodes_count" :hero="$heroes[$course->id]"
+                                            class="carousel-card" x-bind:class="cardClass({{ $i }})" x-bind:style="cardStyle({{ $i }})">
+                                <x-carousel-3d.pick :index="$i" :label="$course->title" />
+                                <flux:button size="sm" variant="primary" icon="play" :href="route('register')" class="flex-1">Probar gratis</flux:button>
+                                @if ($whatsapp)
+                                    <flux:button size="sm" icon="chat-bubble-left-right" class="flex-1" target="_blank" rel="noopener"
+                                        href="https://wa.me/{{ $whatsapp }}?text={{ rawurlencode('Hola profe, quiero saber más de «'.$course->title.'».') }}">Consultar</flux:button>
+                                @endif
+                            </x-catalog-card>
+                        @endforeach
+                    </x-carousel-3d>
+                @endif
             </section>
 
             {{-- Próximamente --}}

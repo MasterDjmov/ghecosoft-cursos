@@ -121,6 +121,7 @@ Secciones (todas opcionales; el alumno ve solo las que tienen texto, en este ord
 | `### Antes de empezar` | Qué tiene que saber ya | — |
 | `### Explicación` | La teoría | Mia (`companion.theory`) |
 | `### Código de ejemplo` | Un bloque de código ejecutable | — |
+| (varios archivos) | (D116) Un ejemplo (o una solución de referencia) de varios archivos se escribe con un renglón `` `ruta/archivo.ext` `` antes de cada bloque; el texto entre bloques es la explicación del archivo que sigue. El alumno lo ve en solapas. Si es un solo programa con los archivos simulados, un comentario pegado al margen los separa: `/* ===== dado.h ===== */` o `// ===== main.cpp =====` | — |
 | `### Así se ve` | (D116, HTML y CSS) Las capturas del ejemplo ya dibujado, como `#### Cómo debe quedar` de las prácticas: `celular: ruta` y `compu: ruta`. El alumno las ve abiertas debajo del ejemplo. Las genera `node scripts/html-captures.mjs` | — |
 | `### Entrada de ejemplo` | Lo que se tipea (una línea por lectura) | — |
 | `### Salida esperada` | Lo que tiene que mostrar el ejemplo | — |

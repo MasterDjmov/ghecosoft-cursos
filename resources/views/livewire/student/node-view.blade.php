@@ -232,7 +232,7 @@
 
                     @if ($node->example_code)
                         <x-node-section title="Ejemplo" icon="code-bracket">
-                            <x-code-runner :code="$node->example_code" :stdin="$node->sample_input" :expected="$node->expected_output" name="ejemplo"
+                            <x-code-runner files :code="$node->example_code" :stdin="$node->sample_input" :expected="$node->expected_output" name="ejemplo"
                                 :language="$node->example_language ?? $course->language->value" :runnable="$runnable" />
                             <x-example-captures :references="$node->exampleReferenceUrls()" class="mt-4" />
                         </x-node-section>

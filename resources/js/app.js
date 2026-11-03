@@ -260,6 +260,10 @@ document.addEventListener('alpine:init', () => {
         fileTab: 0,
         fileEditors: [],
         fileOriginals: [],
+        // Ejemplos de varios archivos (D116, App\Support\CodeFiles): lo que explica cada uno y cuál se ejecuta.
+        fileNotes: [],
+        fileAfter: [],
+        runSource: null,
 
         async init() {
             const isHtml = config.language === 'html' && config.runnable !== false;
@@ -268,6 +272,7 @@ document.addEventListener('alpine:init', () => {
             const { createEditor } = await import('./editor/code-editor.js');
             this.$refs.editor.replaceChildren();
             // HTML y CSS: una solapa por archivo (index.html, estilos.css y, si hay, app.js); `code` sigue siendo la página entera.
+            if (config.fenced) return this.initFiles(this.fencedSplit(config.fenced), createEditor, false);
             if (config.language === 'html') {
                 const { splitHtml } = await import('./editor/html-files.js');
                 const split = splitHtml(this.code);
@@ -311,7 +316,7 @@ document.addEventListener('alpine:init', () => {
             if (config.language === 'cpp' || config.language === 'c') {
                 // C y C++, compilando en el navegador: también para el alumno (D98 C, D100 C++).
                 const { runCpp } = await import('./runners/cpp.js');
-                result = await runCpp(this.code, {
+                result = await runCpp(this.runSource ?? this.code, {
                     stdin: this.stdin,
                     language: config.language,
                     timeout: config.timeout,
@@ -320,21 +325,21 @@ document.addEventListener('alpine:init', () => {
             } else if (config.language === 'java') {
                 // Java: en la compu de quien lo usa, con scripts/JavaRunner.java abierto (D69 docente, D85 alumno).
                 const { runJava } = await import('./runners/java.js');
-                result = await runJava(this.code, { stdin: this.stdin, url: config.javaRunnerUrl, helpUrl: config.javaHelpUrl, timeout: config.timeout, onStatus: (status) => (this.status = status) });
+                result = await runJava(this.runSource ?? this.code, { stdin: this.stdin, url: config.javaRunnerUrl, helpUrl: config.javaHelpUrl, timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else if (config.language === 'sql') {
                 // SQL: SQLite en WebAssembly, en el navegador (las micro-misiones de SQL de Java).
                 const { runSql } = await import('./runners/sql.js');
-                result = await runSql(this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
+                result = await runSql(this.runSource ?? this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else if (config.language === 'javascript') {
                 result = await this.jsRun();
             } else if (config.language === 'php') {
                 // PHP: PHP 8.3 en WebAssembly, en el navegador del docente (D68) y del alumno (D105).
                 const { runPhp } = await import('./runners/php.js');
-                result = await runPhp(this.code, { stdin: this.stdin, timeout: config.timeout, onStatus: (status) => (this.status = status) });
+                result = await runPhp(this.runSource ?? this.code, { stdin: this.stdin, timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else {
                 const { runPython, isPythonLoaded } = await import('./runners/python.js');
                 this.status = isPythonLoaded() ? 'Ejecutando…' : 'Cargando Python (la primera vez tarda unos segundos)…';
-                result = await runPython(this.code, {
+                result = await runPython(this.runSource ?? this.code, {
                     stdin: this.stdin,
                     url: config.pyodideUrl,
                     timeout: config.timeout,
@@ -369,7 +374,7 @@ document.addEventListener('alpine:init', () => {
             this.jsLive = false;
             this.status = 'Ejecutando…';
             await this.$nextTick();
-            const result = await runJavaScript(this.code, {
+            const result = await runJavaScript(this.runSource ?? this.code, {
                 stdin: this.stdin,
                 page: mission.page,
                 events: mission.events,
@@ -592,7 +597,8 @@ document.addEventListener('alpine:init', () => {
 
         async copy() {
             try {
-                await navigator.clipboard.writeText(this.code);
+                // Con solapas se copia el archivo que se está viendo.
+                await navigator.clipboard.writeText(this.fileEditors.length ? this.fileEditors[this.fileTab].state.doc.toString() : this.code);
                 this.copied = true;
                 setTimeout(() => (this.copied = false), 1500);
             } catch (e) {
@@ -604,6 +610,7 @@ document.addEventListener('alpine:init', () => {
             if (this.fileEditors.length) {
                 this.fileEditors.forEach((editor, i) => editor.setDoc(this.fileOriginals[i]));
                 this.code = this.original;
+                if (config.fenced?.run >= 0) this.runSource = this.fileOriginals[config.fenced.run];
                 return;
             }
             this.code = this.original;
@@ -627,6 +634,7 @@ document.addEventListener('alpine:init', () => {
                     onChange: (text) => {
                         texts[i] = text;
                         this.code = split.join(texts);
+                        if (split.run != null) this.runSource = texts[split.run];
                         if (isHtml) {
                             clearTimeout(this.renderTimer);
                             this.renderTimer = setTimeout(() => this.run(), 400);
@@ -636,6 +644,21 @@ document.addEventListener('alpine:init', () => {
                 });
             });
             this.editor = this.fileEditors[0];
+        },
+
+        // Los archivos que armó el servidor; join() vuelve a escribir el texto con sus nombres y bloques (si no se tocó
+        // nada, el original exacto).
+        fencedSplit({ files, run }) {
+            this.fileNotes = files.map((f) => f.note);
+            this.fileAfter = files.map((f) => f.after);
+            if (run != null && run >= 0) this.runSource = files[run].text;
+            const join = (texts) => {
+                if (texts.every((t, i) => t === files[i].text)) return this.original;
+                // Archivos simulados con comentarios en un solo programa: se pegan tal cual y se ejecuta todo.
+                if (run === -1) return texts.join('\n');
+                return files.map((f, i) => `\`${f.name}\`\n\n\`\`\`\n${texts[i]}\n\`\`\``).join('\n\n');
+            };
+            return { files: files.map((f) => ({ name: f.name, language: f.language ?? 'text', text: f.text })), join, run: run >= 0 ? run : null };
         },
 
         selectFile(index) {

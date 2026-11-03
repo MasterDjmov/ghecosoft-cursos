@@ -10,6 +10,8 @@
     'references' => [],
     // Micro-misión de HTML (D102): qué revisa el inspector; su informe se compara con `expected`.
     'checks' => null,
+    // Ejemplo de varios archivos en solapas (D116, App\Support\CodeFiles): el ejemplo del nodo y la solución de referencia.
+    'files' => false,
 ])
 
 @php
@@ -23,6 +25,15 @@
     // Al alumno, si el ejecutor de Java no responde, se le explica cómo instalarlo (al docente, cómo abrirlo).
     $javaHelpUrl = $language === 'java' && ! auth()->user()?->isStaff() ? route('student.java-runner') : null;
     $isHtml = $language === 'html';
+    // Un ejemplo de varios archivos (`dado.h` + su bloque, `dado.c`…): una solapa por archivo (D116). Se ejecuta solo si
+    // hay un único archivo del lenguaje del curso (los otros son tablas, configuración o la terminal).
+    $fenced = $files && ! $isHtml && $language !== 'asm' ? \App\Support\CodeFiles::split((string) $code, $language, $name, $extension) : null;
+    if ($fenced) {
+        $canRun = $canRun && $fenced['run'] !== null;
+        $fenced['files'] = array_map(fn ($f) => [
+            ...$f, 'note' => $f['note'] ? \App\Support\Markdown::render($f['note']) : null, 'after' => $f['after'] ? \App\Support\Markdown::render($f['after']) : null,
+        ], $fenced['files']);
+    }
     // JavaScript (D115): la consigna de una micro-misión de página trae su HTML, los eventos y qué revisar (JSON en `checks`).
     $isJs = $language === 'javascript';
     $jsMission = $isJs && filled($checks) ? (json_decode((string) $checks, true) ?: ['checks' => (string) $checks]) : [];
@@ -39,7 +50,7 @@
         'readOnly' => $readOnly, 'runnable' => $canRun, 'tab' => ($showStdin ?? false) ? 'input' : 'output',
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
         'references' => (object) array_filter($references), 'checks' => ($isHtml || $language === 'asm') && filled($checks) ? (string) $checks : null,
-        'jsMission' => (object) $jsMission, 'jsHasPage' => $jsHasPage,
+        'jsMission' => (object) $jsMission, 'jsHasPage' => $jsHasPage, 'fenced' => $fenced,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -50,8 +61,10 @@
                 <span class="size-2.5 rounded-full bg-[#10b981]/70"></span>
             </span>
             <flux:icon name="document-text" variant="micro" class="shrink-0 text-ink-muted" />
-            <span class="min-w-0 truncate font-mono text-xs text-ink">{{ $name }}.{{ $extension }}</span>
-            <span class="tech-label hidden shrink-0 sm:inline">{{ $languageLabel }}</span>
+            <span class="min-w-0 truncate font-mono text-xs text-ink" @if ($fenced) x-text="files[fileTab]?.split('/').pop() ?? '{{ $name }}.{{ $extension }}'" @endif>{{ $name }}.{{ $extension }}</span>
+            @unless ($fenced)
+                <span class="tech-label hidden shrink-0 sm:inline">{{ $languageLabel }}</span>
+            @endunless
             @if ($readOnly)
                 <flux:icon name="lock-closed" variant="micro" class="shrink-0 text-ink-muted" aria-label="Solo lectura" />
             @endif
@@ -76,14 +89,22 @@
             </div>
         </div>
 
-        @if ($isHtml)
+        @if ($isHtml || $fenced)
             <x-code-file-tabs />
+        @endif
+        @if ($fenced)
+            <div x-show="fileNotes[fileTab]" x-cloak x-html="fileNotes[fileTab]" data-test="code-file-note"
+                class="prose-sm border-b border-outline bg-surface-low/40 px-4 py-2 text-sm text-ink-muted [&_code]:text-primary-bright [&_p]:my-1"></div>
         @endif
 
         {{-- Mientras carga CodeMirror se ve el código plano. --}}
         <div x-ref="editor" wire:ignore>
             <pre class="code-window-fallback p-3 font-mono text-sm whitespace-pre-wrap text-ink">{{ $code }}</pre>
         </div>
+        @if ($fenced)
+            <div x-show="fileAfter[fileTab]" x-cloak x-html="fileAfter[fileTab]"
+                class="border-t border-outline bg-surface-low/40 px-4 py-2 text-sm text-ink-muted [&_code]:text-primary-bright [&_p]:my-1 [&_pre]:my-1"></div>
+        @endif
 
         {{-- Consola, o la página dibujada si es HTML y CSS --}}
         @if ($canRun && $isHtml)

@@ -154,9 +154,11 @@ REFS = {
     'javascript': {
         'project': '9229721314509917104',
         'region': 'La Feria de las Luces',
+        'siempre': {'Nima': 'c1beb5a9084e4492b1d9fb759dd0eb35'},
+        'cierre': 'Imagen solo de dibujo, sin escritura.',
         'ambiente': 'en una feria de pueblo europea antigua, de noche, con carpas a rayas, banderines de colores lisos, faroles de vidrio y hierro, guirnaldas de foquitos amarillos, luciérnagas, puestos de madera y una calesita; nada oriental, sin carteles, sin máscaras ni símbolos pintados',
         'ambientes': {
-            '02-la-avenida-de-los-faroles.md': 'en una avenida de feria de noche, con faroles altos de hierro y vidrio a los dos lados, adoquines, guirnaldas y luciérnagas',
+            '02-la-avenida-de-los-faroles.md': 'en una avenida de feria de pueblo europea antigua, de noche, con faroles altos de hierro y vidrio a los dos lados, adoquines, guirnaldas y luciérnagas',
             '03-el-teatro-del-titiritero.md': 'en un teatro de títeres de feria, con telón de terciopelo violeta, escenario de madera, títeres colgados y velas, de noche',
             '04-la-torre-de-las-flechas.md': 'en una torre de piedra alta en el borde de la feria, con dianas, flechas de luz amarilla que cruzan el cielo nocturno y palomas',
             '05-el-taller-del-vidriero.md': 'en el taller abandonado de un vidriero, con vitrales de colores, mesas de vidrio, engranajes, una chimenea y luz de luciérnagas',
@@ -168,8 +170,8 @@ REFS = {
         },
         'chars': [
             # La segunda referencia es la escena de la calesita (R01-N03-P1): ahí la ropa salió cerrada; con la ficha sola, el modelo liviano a veces le deja la panza al aire.
-            (r'\bNima\b', 'Nima', ['2fca95e351484814bbdeb8294f4c623b', 'c1beb5a9084e4492b1d9fb759dd0eb35'], 'Nima tiene la piel morena oscura y lleva la chaqueta de cuero negra CERRADA, larga hasta la cadera, como en la escena de la calesita: nada de panza ni piel del torso a la vista.'),
-            (r'Lumina', 'Lumina', ['bdf51a14044046ffbd08a31cec35773e'], 'Lumina es una luciérnaga enorme, del tamaño de una persona, que flota.'),
+            (r'\bNima\b', 'Nima', ['2fca95e351484814bbdeb8294f4c623b', 'c1beb5a9084e4492b1d9fb759dd0eb35'], 'Nima aparece UNA sola vez. Nima tiene la piel morena oscura y lleva la chaqueta de cuero negra CERRADA con el cierre subido, larga hasta la cadera, como en la escena de la calesita: nada de panza ni piel del torso a la vista.'),
+            (r'Lumina', 'Lumina', ['bdf51a14044046ffbd08a31cec35773e'], 'Lumina es una luciérnaga enorme, del tamaño de una persona, que flota: un INSECTO de verdad, como en su referencia (seis patitas, antenas, coronita dorada, alas de vidrio y el abdomen que brilla amarillo); nada de hada ni de cuerpo de persona.'),
             (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años.'),
             (r'\bTati\b', 'Tati', ['4ed7e467fe034ed48f852420a3cbebf3'], 'Tati es una chica de 11 años, bajita.'),
@@ -189,7 +191,7 @@ REFS = {
             # «Un troll chiquito y gruñón» es una criatura de feria, no el jefe.
             (r'troll chiquito', 'el troll chiquito de feria', ['1d079c0700224221b55e0b9f9bb68949'],
              'El troll chiquito de feria es del alto de un nene de seis años: piel color musgo grisáceo, nariz de papa, pelo de paja y chaleco remendado (el de la izquierda en su referencia).'),
-            (r'[Tt]roll(?! chiquito)|Respuestas Cruzadas', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),
+            (r'\bTroll\b(?! chiquito)|Respuestas Cruzadas', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),
             (r'Drag[oó]n', 'el Dragón de los Fuegos Artificiales', ['e52542221e7f4053b78a2b7321ac844c'], ''),
             (r'Polilla', 'la Polilla de los Formularios', ['02a2e1327123409fafe7ed0ed5f2e78e'], 'La Polilla es del tamaño de un perro grande.'),
             (r'Rat[oó]n', 'el Ratón de la Niebla', ['edba9f307a1c4351825086c4ba8c9dcd'], 'El Ratón es del tamaño de un gato.'),
@@ -348,6 +350,11 @@ def prompt(course: str, scene: dict) -> dict:
             notes.append(note)
     if len(screens) > MAX_REFS or len(found) >= 3:  # se quedan los cuerpos enteros (con 3+, Stitch arma viñetas si no)
         screens = [c[2][0] for c in found][:MAX_REFS]
+    # Nima lleva siempre su 2.ª referencia (la chaqueta cerrada), aunque se queden solo los cuerpos enteros.
+    extra = cfg.get('siempre', {})
+    for name, sid in extra.items():
+        if name in [c[1] for c in found] and sid not in screens:
+            screens.insert(screens.index(next(c[2][0] for c in found if c[1] == name)) + 1, sid)
     names = [c[1] for c in found]
     who = ', '.join(names[:-1]) + (' y ' if len(names) > 1 else '') + names[-1] if names else ''
     text = (
@@ -357,7 +364,9 @@ def prompt(course: str, scene: dict) -> dict:
         + f'\n\nLa escena ({cfg.get("ambientes", {}).get(scene["file"], cfg["ambiente"])}):\n'
         + scene['imagen']
         + ('\n\nTamaños: ' + ' '.join(notes) if notes else '')
-        + '\n\nEstilo: anime/cómic cyber-arcana, 16:9 horizontal (1376×768), de noche, con luz propia. Sin texto de ningún tipo: ni letras, ni números, ni carteles, ni títulos, ni rótulos con el nombre del lugar.'
+        + '\n\nEstilo: anime/cómic cyber-arcana, 16:9 horizontal (1376×768), de noche, con luz propia. '
+        # En JavaScript, el pedido negativo largo lo escribía en los papeles: alcanza con decir que es solo dibujo.
+        + cfg.get('cierre', 'Sin texto de ningún tipo: ni letras, ni números, ni carteles, ni títulos, ni rótulos con el nombre del lugar.')
     )
     if not has_kira:  # la descripción de Ferrum la nombra: sin Kira en la escena, se saca
         text = text.replace(', más alto y ancho que Kira', '')

@@ -184,7 +184,7 @@ REFS = {
             (r'[Ff]antasma', 'el Fantasma Undefined', ['44bdd429ecd54a988b766b6b3ba8521d'], ''),
             (r'[ÉE]bano|T[ií]tere sin [Hh]ilos', 'Ébano', ['1cc135a27c12408e920b174fd77323be'], 'Ébano es un títere de madera del tamaño de una persona.'),
             # Los ogros de la Feria (orcos de feria): gris azulado y pelo naranja; verde, el modelo lo dibuja como Shrek.
-            (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],
+            (r'\b[Oo](?:gro|rco)s?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],
              'El ogro de la Feria es grandote y simpático, de piel GRIS AZULADA (nunca verde), pelo naranja desgreñado, nariz grande y redonda, dos colmillitos de abajo y orejas chicas pegadas a la cabeza.'),
             # «Un troll chiquito y gruñón» es una criatura de feria, no el jefe.
             (r'troll chiquito', 'el troll chiquito de feria', ['1d079c0700224221b55e0b9f9bb68949'],

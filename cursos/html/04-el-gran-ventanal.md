@@ -267,6 +267,11 @@ Tocá *Celular* y *Compu* en la vista previa: . Celular: cabecera con el logo y 
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R04-N01-ejemplo-celular.webp
+compu: capturas/R04-N01-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Toda aplicación web tiene este marco: una cabecera con la marca y el usuario, un menú, y en el celular una barra abajo, al alcance del pulgar (como Instagram o Mercado Libre). Armarlo bien —accesible, que no tape contenido, que se adapte— es lo primero que se hace en cualquier proyecto.
@@ -1711,6 +1716,11 @@ Tocá *Celular* y *Compu* en la vista previa: . Celular: el aprendiz arriba, que
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R04-N02-ejemplo-celular.webp
+compu: capturas/R04-N02-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -3316,6 +3326,11 @@ Tocá *Celular* y *Compu* en la vista previa: . Celular: el título con "DIRECTO
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R04-N03-ejemplo-celular.webp
+compu: capturas/R04-N03-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -4963,6 +4978,11 @@ Tocá *Celular* y *Compu* en la vista previa: . Celular: el título con el cierr
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R04-N04-ejemplo-celular.webp
+compu: capturas/R04-N04-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -6986,6 +7006,11 @@ Cabecera, hero con el aprendiz, portal, ocho rutas, podio, ranking, bóveda con 
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R04-N05-ejemplo-celular.webp
+compu: capturas/R04-N05-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 

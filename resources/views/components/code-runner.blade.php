@@ -76,6 +76,10 @@
             </div>
         </div>
 
+        @if ($isHtml)
+            <x-code-file-tabs />
+        @endif
+
         {{-- Mientras carga CodeMirror se ve el código plano. --}}
         <div x-ref="editor" wire:ignore>
             <pre class="code-window-fallback p-3 font-mono text-sm whitespace-pre-wrap text-ink">{{ $code }}</pre>

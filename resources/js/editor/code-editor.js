@@ -11,6 +11,7 @@ import { cpp } from '@codemirror/lang-cpp';
 import { java } from '@codemirror/lang-java';
 import { php } from '@codemirror/lang-php';
 import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
 import { sql } from '@codemirror/lang-sql';
 import { javascript } from '@codemirror/lang-javascript';
 import { tags as t } from '@lezer/highlight';
@@ -73,7 +74,7 @@ const asm8086 = StreamLanguage.define({
 });
 
 // C, C++ y Arduino comparten resaltado; los demás lenguajes se ven sin colores por ahora.
-const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp(), java: () => java(), php: () => php(), html: () => html(), sql: () => sql(), asm: () => asm8086, javascript: () => javascript(), typescript: () => javascript({ typescript: true }) };
+const LANGUAGES = { python: () => python(), c: () => cpp(), cpp: () => cpp(), arduino: () => cpp(), java: () => java(), php: () => php(), html: () => html(), css: () => css(), sql: () => sql(), asm: () => asm8086, javascript: () => javascript(), typescript: () => javascript({ typescript: true }) };
 
 // La línea que se ejecuta ahora (el paso a paso del tablero del Gólem, D110).
 const setActiveLine = StateEffect.define();

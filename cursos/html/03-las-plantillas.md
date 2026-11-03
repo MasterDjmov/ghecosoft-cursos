@@ -131,6 +131,11 @@ Tocá *Celular* y *Compu* en la vista previa: la misma tarjeta de el nodo «El m
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R03-N01-ejemplo-celular.webp
+compu: capturas/R03-N01-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Tailwind es uno de los frameworks de CSS más usados del mundo: lo vas a encontrar en startups, en plantillas de Laravel y en muchísimos proyectos de React. Esta misma plataforma está hecha con Tailwind. Saber leer sus clases te permite meterte en cualquiera de esos proyectos desde el primer día.
@@ -786,6 +791,11 @@ Tocá *Celular* y *Compu* en la vista previa: "árbol de habilidades" en degrad�
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R03-N02-ejemplo-celular.webp
+compu: capturas/R03-N02-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -1456,6 +1466,11 @@ Tocá *Celular* y *Compu* en la vista previa: cabecera con el gecko y las estad�
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R03-N03-ejemplo-celular.webp
+compu: capturas/R03-N03-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -2137,6 +2152,11 @@ Igual que el nodo «Responsive: celular primero»: celular con botones apilados,
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R03-N04-ejemplo-celular.webp
+compu: capturas/R03-N04-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 En cualquier proyecto con Tailwind, el diseño adaptable se escribe así: una clase para el celular y otra con prefijo para pantallas más grandes, en la misma línea. Es muchísimo más rápido que mantener media queries en un archivo aparte, y se ve de un vistazo cómo cambia cada pieza.
@@ -2805,6 +2825,11 @@ La captura muestra el estado inicial. Interactuando: el botón brilla y se achic
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R03-N05-ejemplo-celular.webp
+compu: capturas/R03-N05-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -3489,6 +3514,11 @@ Tocá *Celular* y *Compu* en la vista previa: fondo azul muy oscuro con una cuad
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R03-N06-ejemplo-celular.webp
+compu: capturas/R03-N06-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -4589,6 +4619,11 @@ Tocá *Celular* y *Compu* en la vista previa: los tres botones, los chips y píl
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R03-N07-ejemplo-celular.webp
+compu: capturas/R03-N07-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 

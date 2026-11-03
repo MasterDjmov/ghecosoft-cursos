@@ -29,6 +29,9 @@ class CourseFileParser
         'explicacion' => 'content',
         'codigo de ejemplo' => 'example_code',
         'ejemplo' => 'example_code',
+        // HTML y CSS: las capturas del ejemplo (como «Cómo debe quedar» de las prácticas, D77).
+        'asi se ve' => 'example_references',
+        'como se ve' => 'example_references',
         'entrada de ejemplo' => 'sample_input',
         'salida esperada' => 'expected_output',
         'para que sirve' => 'use_cases',
@@ -462,6 +465,8 @@ class CourseFileParser
         $this->result['course']['syllabus'] = trim(preg_replace('/^\s*[-*]\s+/m', '', $this->result['course']['syllabus']));
 
         foreach ($this->result['nodes'] as &$node) {
+            $node['example_references'] = self::parseReferences($node['fields']['example_references'] ?? '');
+            unset($node['fields']['example_references']);
             $node['fields'] = self::cleanFields($node['fields']);
             $node['self_check'] = array_map(fn ($item) => ['question' => trim($item['question']), 'answer' => trim($item['answer'])], $node['self_check']);
             foreach ($node['practices'] as &$practice) {

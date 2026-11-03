@@ -255,6 +255,11 @@ document.addEventListener('alpine:init', () => {
         jsHasPage: Boolean(config.jsHasPage),
         jsLive: false,
         jsFiles: config.jsMission?.files ?? {},
+        // HTML y CSS (solapas): los nombres de los archivos, la solapa abierta, sus editores y su texto original.
+        files: [],
+        fileTab: 0,
+        fileEditors: [],
+        fileOriginals: [],
 
         async init() {
             const isHtml = config.language === 'html' && config.runnable !== false;
@@ -262,6 +267,12 @@ document.addEventListener('alpine:init', () => {
             if (!this.$refs.editor) return;
             const { createEditor } = await import('./editor/code-editor.js');
             this.$refs.editor.replaceChildren();
+            // HTML y CSS: una solapa por archivo (index.html, estilos.css y, si hay, app.js); `code` sigue siendo la página entera.
+            if (config.language === 'html') {
+                const { splitHtml } = await import('./editor/html-files.js');
+                const split = splitHtml(this.code);
+                if (split) return this.initFiles(split, createEditor, isHtml);
+            }
             this.editor = createEditor(this.$refs.editor, {
                 doc: this.code,
                 language: config.language ?? 'python',
@@ -280,7 +291,8 @@ document.addEventListener('alpine:init', () => {
 
         destroy() {
             clearTimeout(this.renderTimer);
-            this.editor?.destroy();
+            if (this.fileEditors.length) this.fileEditors.forEach((editor) => editor.destroy());
+            else this.editor?.destroy();
         },
 
         async run() {
@@ -589,8 +601,46 @@ document.addEventListener('alpine:init', () => {
         },
 
         restore() {
+            if (this.fileEditors.length) {
+                this.fileEditors.forEach((editor, i) => editor.setDoc(this.fileOriginals[i]));
+                this.code = this.original;
+                return;
+            }
             this.code = this.original;
             this.editor?.setDoc(this.original);
+        },
+
+        // ---------------- HTML y CSS en solapas
+
+        initFiles(split, createEditor, isHtml) {
+            this.files = split.files.map((f) => f.name);
+            this.fileOriginals = split.files.map((f) => f.text);
+            const texts = [...this.fileOriginals];
+            this.fileEditors = split.files.map((file, i) => {
+                const pane = document.createElement('div');
+                pane.style.display = i === 0 ? '' : 'none';
+                this.$refs.editor.appendChild(pane);
+                return createEditor(pane, {
+                    doc: file.text,
+                    language: file.language,
+                    readOnly: Boolean(config.readOnly),
+                    onChange: (text) => {
+                        texts[i] = text;
+                        this.code = split.join(texts);
+                        if (isHtml) {
+                            clearTimeout(this.renderTimer);
+                            this.renderTimer = setTimeout(() => this.run(), 400);
+                        }
+                    },
+                    onRun: () => this.run(),
+                });
+            });
+            this.editor = this.fileEditors[0];
+        },
+
+        selectFile(index) {
+            this.fileTab = index;
+            [...this.$refs.editor.children].forEach((pane, i) => (pane.style.display = i === index ? '' : 'none'));
         },
     }));
 });

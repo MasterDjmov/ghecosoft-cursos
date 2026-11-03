@@ -161,6 +161,11 @@ El título, el logo de Gheco (el gecko celeste con anteojos), la ilustración de
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R01-N01-ejemplo-celular.webp
+compu: capturas/R01-N01-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Los enlaces son la "web" de la web: lo que une una página con otra. Las listas están en todos lados (menús, ingredientes, pasos de un trámite) y las imágenes bien hechas cargan rápido en el celular y se pueden "leer" con un lector de pantalla. Un texto alternativo bien escrito también ayuda a que la página aparezca en los buscadores.
@@ -849,6 +854,11 @@ Todo en una columna, letra con serifa, enlaces azules: así se ve la estructura 
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R01-N02-ejemplo-celular.webp
+compu: capturas/R01-N02-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -1621,6 +1631,11 @@ Campos con su texto arriba, casillas y botones del sistema (sin diseño todavía
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R01-N03-ejemplo-celular.webp
+compu: capturas/R01-N03-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Todo lo que se completa en internet es un formulario: el login, el buscador, la compra con tarjeta, la encuesta, el turno del médico. Un formulario bien hecho se usa rápido con el teclado, muestra el teclado numérico en el celular cuando hace falta y avisa los errores antes de enviar. En el curso de PHP vas a ver el otro lado: cómo el servidor recibe esos datos.
@@ -2347,6 +2362,11 @@ Una tabla sin bordes (todavía sin CSS), con los encabezados en negrita y centra
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R01-N04-ejemplo-celular.webp
+compu: capturas/R01-N04-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 

@@ -212,6 +212,11 @@ Fondo azul noche, letra clara, la etiqueta "PLATAFORMA DE CURSOS" en una píldor
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R02-N01-ejemplo-celular.webp
+compu: capturas/R02-N01-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Con el mismo HTML, el CSS cambia todo: el modo oscuro de una app, los colores de una marca, la versión para imprimir de una factura. Las **variables** son la forma en que las empresas cambian la paleta entera de un sitio tocando una sola línea. Y entender la especificidad es lo que separa a quien "pelea con el CSS" de quien lo maneja.
@@ -1106,6 +1111,11 @@ Tocá *Celular* y *Compu* en la vista previa: la caja punteada cian, la tarjeta 
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R02-N02-ejemplo-celular.webp
+compu: capturas/R02-N02-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -2287,6 +2297,11 @@ Tocá *Celular* y *Compu* en la vista previa: igual que la parte de arriba y la 
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R02-N03-ejemplo-celular.webp
+compu: capturas/R02-N03-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Las barras de navegación, las filas de un chat, una tarjeta con foto y texto, los botones de un formulario, los íconos de una app: casi todo lo que va "uno al lado del otro" se arma con flexbox. Es, por lejos, la herramienta de diseño más usada de CSS. Y es la misma que usa React Native para armar las pantallas de las apps de celular.
@@ -3184,6 +3199,11 @@ Celular: cursos en una columna, dos tarjetas lado a lado y el podio 2–1–3 co
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R02-N04-ejemplo-celular.webp
+compu: capturas/R02-N04-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 
@@ -4174,6 +4194,11 @@ Tocá *Celular* y *Compu* en la vista previa: . Celular: cabecera pegada arriba,
   </body>
 </html>
 ```
+
+### Así se ve
+
+celular: capturas/R02-N05-ejemplo-celular.webp
+compu: capturas/R02-N05-ejemplo-compu.webp
 
 ### ¿Para qué sirve?
 

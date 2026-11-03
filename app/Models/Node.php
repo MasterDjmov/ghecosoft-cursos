@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['course_id', 'code', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'badge_id', 'video_url', 'chronicle', 'objectives', 'before_you_start', 'content', 'example_code', 'example_language', 'example_runnable', 'expected_output', 'sample_input', 'use_cases', 'common_errors', 'beast_key', 'topics', 'uses', 'self_check', 'teacher_solutions', 'pos_x', 'pos_y', 'is_published'])]
+#[Fillable(['course_id', 'code', 'branch_id', 'parent_id', 'type', 'title', 'position', 'price', 'price_currency_id', 'badge_id', 'video_url', 'chronicle', 'objectives', 'before_you_start', 'content', 'example_code', 'example_language', 'example_runnable', 'example_reference_mobile', 'example_reference_desktop', 'expected_output', 'sample_input', 'use_cases', 'common_errors', 'beast_key', 'topics', 'uses', 'self_check', 'teacher_solutions', 'pos_x', 'pos_y', 'is_published'])]
 class Node extends Model
 {
     /** Mismos valores por defecto que la base. */
@@ -56,6 +57,19 @@ class Node extends Model
     {
         $query->where('type', '!=', NodeType::Extra)
             ->where(fn ($q) => $q->whereNull('branch_id')->orWhereHas('branch', fn ($b) => $b->where('is_extra', false)));
+    }
+
+    /**
+     * «Así se ve»: las capturas del ejemplo en celular y en compu (HTML y CSS), las que no hay en null.
+     *
+     * @return array{mobile: ?string, desktop: ?string}
+     */
+    public function exampleReferenceUrls(): array
+    {
+        return [
+            'mobile' => $this->example_reference_mobile ? Storage::disk('public')->url($this->example_reference_mobile) : null,
+            'desktop' => $this->example_reference_desktop ? Storage::disk('public')->url($this->example_reference_desktop) : null,
+        ];
     }
 
     public function isRoot(): bool

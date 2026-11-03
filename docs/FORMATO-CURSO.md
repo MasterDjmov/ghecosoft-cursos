@@ -121,6 +121,7 @@ Secciones (todas opcionales; el alumno ve solo las que tienen texto, en este ord
 | `### Antes de empezar` | Qué tiene que saber ya | — |
 | `### Explicación` | La teoría | Mia (`companion.theory`) |
 | `### Código de ejemplo` | Un bloque de código ejecutable | — |
+| `### Así se ve` | (D116, HTML y CSS) Las capturas del ejemplo ya dibujado, como `#### Cómo debe quedar` de las prácticas: `celular: ruta` y `compu: ruta`. El alumno las ve abiertas debajo del ejemplo. Las genera `node scripts/html-captures.mjs` | — |
 | `### Entrada de ejemplo` | Lo que se tipea (una línea por lectura) | — |
 | `### Salida esperada` | Lo que tiene que mostrar el ejemplo | — |
 | `### ¿Para qué sirve?` | Usos reales fuera del juego | Bron (`companion.uses`) |

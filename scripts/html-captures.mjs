@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // «Así tiene que quedar» (D77): genera las capturas de cada práctica de HTML y CSS a partir de su solución de
 // referencia —celular (390 px) y compu (1280 px), página completa, en WebP— y escribe la parte
-// «#### Cómo debe quedar» en el .md. Tailwind se compila igual que en la vista previa del alumno
+// «#### Cómo debe quedar» en el .md. Lo mismo con el «Código de ejemplo» de cada nodo: sus capturas van en
+// «### Así se ve», debajo del ejemplo (las que se ven en la Teoría, como las de cada clase del material). Tailwind se compila igual que en la vista previa del alumno
 // (resources/js/runners/html.js), así lo que se compara es lo mismo que se ve.
 //
 //   node scripts/html-captures.mjs cursos/html [--only=R02] [--force]
@@ -78,6 +79,33 @@ function writeReferences(file, code, mobile, desktop) {
     fs.writeFileSync(file, text.slice(0, start) + block + text.slice(end));
 }
 
+// ── Los ejemplos de los nodos ─────────────────────────────────────────────────────────────────────
+function examples(file) {
+    const text = fs.readFileSync(file, 'utf8');
+    const found = [];
+    for (const m of text.matchAll(/^## (R\d\d-N\d\d) ·[^\n]*\n([\s\S]*?)(?=^## |(?![\s\S]))/gm)) {
+        const ex = m[2].match(/^### Código de ejemplo\s+(`{3,4})html\n([\s\S]*?)\n\1/m);
+        if (ex) found.push({ code: `${m[1]}-ejemplo`, node: m[1], solution: ex[2] });
+    }
+    return found;
+}
+
+function writeExampleReferences(file, node, mobile, desktop) {
+    const text = fs.readFileSync(file, 'utf8');
+    const start = text.search(new RegExp(`^## ${node} ·`, 'm'));
+    const next = text.slice(start + 1).search(/^## /m);
+    const end = next === -1 ? text.length : start + 1 + next;
+    let block = text.slice(start, end);
+    const part = `### Así se ve\n\ncelular: ${mobile}\ncompu: ${desktop}\n\n`;
+    if (/^### Así se ve\n[\s\S]*?(?=^#{2,3} |(?![\s\S]))/m.test(block)) {
+        block = block.replace(/^### Así se ve\n[\s\S]*?(?=^#{2,3} |(?![\s\S]))/m, part);
+    } else {
+        // Justo después del bloque de código del ejemplo.
+        block = block.replace(/(^### Código de ejemplo\s+(`{3,4})html\n[\s\S]*?\n\2\n)\n*/m, (all, code) => `${code}\n${part}`);
+    }
+    fs.writeFileSync(file, text.slice(0, start) + block + text.slice(end));
+}
+
 // ── Servidor (public/ + la página a capturar) y Chrome ────────────────────────────────────────────
 const pages = new Map();
 const server = http.createServer((req, res) => {
@@ -129,12 +157,13 @@ let made = 0;
 let skipped = 0;
 let failed = 0;
 for (const file of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort()) {
-    for (const p of practices(path.join(folder, file))) {
+    const items = [...practices(path.join(folder, file)), ...examples(path.join(folder, file))];
+    for (const p of items) {
         if (only && !p.code.startsWith(only)) continue;
         const mobile = `capturas/${p.code}-celular.webp`;
         const desktop = `capturas/${p.code}-compu.webp`;
         if (!force && fs.existsSync(path.join(folder, mobile)) && fs.existsSync(path.join(folder, desktop))) {
-            writeReferences(path.join(folder, file), p.code, mobile, desktop);
+            (p.node ? writeExampleReferences(path.join(folder, file), p.node, mobile, desktop) : writeReferences(path.join(folder, file), p.code, mobile, desktop));
             skipped++;
             continue;
         }
@@ -144,7 +173,7 @@ for (const file of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
             const url = `http://127.0.0.1:${PORT}/__captura/${p.code}.html`;
             fs.writeFileSync(path.join(folder, mobile), await shot(url, 390, 844));
             fs.writeFileSync(path.join(folder, desktop), await shot(url, 1280, 800));
-            writeReferences(path.join(folder, file), p.code, mobile, desktop);
+            (p.node ? writeExampleReferences(path.join(folder, file), p.node, mobile, desktop) : writeReferences(path.join(folder, file), p.code, mobile, desktop));
             made++;
             console.log(`  ✓ ${p.code}`);
         } catch (e) {

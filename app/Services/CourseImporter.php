@@ -416,6 +416,8 @@ class CourseImporter
                 'uses' => $this->topics($meta['usa'] ?? '', $where, 'usa'),
                 'self_check' => $node['self_check'] ?: null,
                 'teacher_solutions' => $fields['teacher_solutions'] ?? null,
+                ...$this->references(['references' => $node['example_references'] ?? [], 'where' => $where, 'code' => $node['code'].' (ejemplo)'], $model,
+                    ['mobile' => 'example_reference_mobile', 'desktop' => 'example_reference_desktop']),
             ]);
             // Un nodo nuevo se publica salvo que diga lo contrario; uno existente cambia solo si el archivo lo dice.
             if (isset($meta['publicado']) || ! $model->exists) {
@@ -671,16 +673,17 @@ class CourseImporter
     }
 
     /**
-     * «Cómo debe quedar» (D77): copia las capturas de la carpeta del curso al disco público. Sin carpeta
+     * «Cómo debe quedar» (D77) y «Así se ve» del ejemplo de un nodo: copia las capturas de la carpeta del curso al disco público. Sin carpeta
      * (desde la web, que sube solo los .md) o con una imagen que no sirve, quedan las que ya tenía.
      *
-     * @return array{reference_mobile?: ?string, reference_desktop?: ?string}
+     * @param  array{mobile: string, desktop: string}  $columns  dónde va cada pantalla
+     * @return array<string, ?string>
      */
-    private function references(array $practice, Practice $model): array
+    private function references(array $practice, Practice|Node $model, array $columns = ['mobile' => 'reference_mobile', 'desktop' => 'reference_desktop']): array
     {
         $wanted = $practice['references'] ?? [];
         if ($wanted === []) {
-            return ['reference_mobile' => null, 'reference_desktop' => null];
+            return array_fill_keys($columns, null);
         }
         if ($this->assetsDir === null) {
             $this->report->warning("{$practice['where']}: {$practice['code']} tiene capturas («Cómo debe quedar»): desde la web no se suben; cargalas con `php artisan app:import-course` o desde el editor de la práctica.");
@@ -688,8 +691,9 @@ class CourseImporter
             return [];
         }
 
+        $map = $columns;
         $columns = [];
-        foreach (['mobile' => 'reference_mobile', 'desktop' => 'reference_desktop'] as $device => $column) {
+        foreach ($map as $device => $column) {
             if (! isset($wanted[$device])) {
                 $columns[$column] = null;
 

@@ -228,6 +228,9 @@
                                 </button>
                             </div>
                         </div>
+                        @if ($course->language->value === 'html')
+                            <x-code-file-tabs />
+                        @endif
                         <div x-ref="editor" wire:ignore class="mission-editor min-h-0 flex-1 overflow-hidden">
                             <pre class="code-window-fallback p-3 font-mono text-sm whitespace-pre-wrap text-ink">{{ $startingCode }}</pre>
                         </div>

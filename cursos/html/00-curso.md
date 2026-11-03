@@ -160,6 +160,11 @@ Pestaña "Mi primer vitral"; en la página, el título grande "¡Hola, Talleres!
 </html>
 ```
 
+### Así se ve
+
+celular: capturas/R00-N01-ejemplo-celular.webp
+compu: capturas/R00-N01-ejemplo-compu.webp
+
 ### ¿Para qué sirve?
 
 Toda página que abrís —un diario, una tienda, esta misma plataforma— es un archivo HTML que el navegador dibuja. Las apps de los bancos, los correos que te llegan con colores y botones, las pantallas de muchos juegos: todo eso tiene HTML adentro. Y aunque después uses herramientas que lo escriben por vos, cuando algo se ve mal, el que entiende el HTML es el que lo arregla.

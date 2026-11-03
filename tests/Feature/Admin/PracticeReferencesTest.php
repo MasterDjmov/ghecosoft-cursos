@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Admin\Nodes\Edit;
+use App\Models\Node;
 use App\Models\Practice;
 use App\Models\User;
 use App\Services\CourseImporter;
@@ -110,4 +111,36 @@ test('el alumno ve «Así tiene que quedar» y puede comparar en la vista previa
         ->assertSee('data-test="expected-references"', false)
         ->assertSee('practice-refs/celular.png', false)
         ->assertSee('data-test="compare-reference"', false);
+});
+
+test('«Así se ve» del ejemplo de un nodo se importa como las de las prácticas y el alumno lo ve en la teoría', function () {
+    file_put_contents($this->dir.'/capturas/em.png', ($this->png)(390, 900));
+    file_put_contents($this->dir.'/capturas/ed.png', ($this->png)(1280, 800));
+    $content = file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md'));
+    $at = strpos($content, '### ¿Para qué sirve?');
+    $content = substr($content, 0, $at)."### Así se ve\n\ncelular: capturas/em.png\ncompu: capturas/ed.png\n\n".substr($content, $at);
+
+    $report = app(CourseImporter::class)->import([['name' => 'curso.md', 'content' => $content]], dryRun: false, assetsDir: $this->dir);
+    expect($report->ok())->toBeTrue();
+
+    $node = Node::where('code', 'R00-N01')->first();
+    expect($node->example_reference_mobile)->toStartWith('practice-refs/')
+        ->and(Storage::disk('public')->exists($node->example_reference_desktop))->toBeTrue()
+        ->and($node->content)->not->toContain('capturas/em.png');
+
+    // Sin la sección, al reimportar se van.
+    app(CourseImporter::class)->import([['name' => 'curso.md', 'content' => file_get_contents(base_path('tests/Fixtures/curso-ejemplo.md'))]], dryRun: false, assetsDir: $this->dir);
+    expect($node->fresh()->example_reference_mobile)->toBeNull();
+});
+
+test('el alumno ve las capturas del ejemplo debajo del código, abiertas', function () {
+    $made = makeCourse(['language' => 'html']);
+    $student = studentWithRootOpen($made);
+    $made['root']->update(['example_code' => "<!DOCTYPE html>\n<p>Hola</p>", 'example_reference_mobile' => 'practice-refs/ej-celular.png', 'example_reference_desktop' => 'practice-refs/ej-compu.png']);
+
+    $this->actingAs($student)->get(route('student.node', [$made['course'], $made['root']]))
+        ->assertOk()
+        ->assertSee('data-test="example-captures"', false)
+        ->assertSee('practice-refs/ej-celular.png', false)
+        ->assertSee('Así se ve');
 });

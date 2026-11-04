@@ -170,7 +170,7 @@ REFS = {
         },
         'chars': [
             # La segunda referencia es la escena de la calesita (R01-N03-P1): ahí la ropa salió cerrada; con la ficha sola, el modelo liviano a veces le deja la panza al aire.
-            (r'\bNima\b', 'Nima', ['2fca95e351484814bbdeb8294f4c623b', 'c1beb5a9084e4492b1d9fb759dd0eb35'], 'Nima aparece UNA sola vez. Nima tiene la piel morena oscura y lleva la chaqueta de cuero negra CERRADA con el cierre subido, larga hasta la cadera, como en la escena de la calesita: nada de panza ni piel del torso a la vista.'),
+            (r'\bNima\b', 'Nima', ['2fca95e351484814bbdeb8294f4c623b', 'c1beb5a9084e4492b1d9fb759dd0eb35'], 'Nima aparece UNA sola vez. Nima tiene la piel morena oscura y lleva un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo, que le tapa toda la cintura (si la chaqueta es corta, Stitch le deja la panza al aire).'),
             (r'Lumina', 'Lumina', ['bdf51a14044046ffbd08a31cec35773e'], 'Lumina es una luciérnaga enorme, del tamaño de una persona, que flota: un INSECTO de verdad, como en su referencia (seis patitas, antenas, coronita dorada, alas de vidrio y el abdomen que brilla amarillo); nada de hada ni de cuerpo de persona.'),
             (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, con gorra negra al revés, chaleco ROJO inflado sobre buzo oscuro y zapatillas rojas.'),

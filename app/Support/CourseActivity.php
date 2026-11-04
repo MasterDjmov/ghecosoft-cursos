@@ -2,6 +2,8 @@
 
 namespace App\Support;
 
+use App\Models\NodeStepCompletion;
+use App\Models\NodeUnlock;
 use App\Models\NodeVisit;
 use App\Models\StepAttempt;
 use App\Models\User;
@@ -18,6 +20,38 @@ use Illuminate\Support\Collection;
 class CourseActivity
 {
     public const DAYS = 14;
+
+    /**
+     * Cuándo usó por última vez cada curso (course_id → timestamp), para poner primero lo que viene usando. ActivityLog
+     * no registra al staff, así que también cuentan las micro-misiones superadas y los nodos abiertos, que valen para todos.
+     *
+     * @return array<int, int>
+     */
+    public static function lastUsed(User $user): array
+    {
+        $sources = [
+            NodeVisit::where('user_id', $user->id)
+                ->groupBy('course_id')->selectRaw('course_id, MAX(last_at) as at')->pluck('at', 'course_id'),
+            StepAttempt::where('user_id', $user->id)
+                ->groupBy('course_id')->selectRaw('course_id, MAX(created_at) as at')->pluck('at', 'course_id'),
+            NodeStepCompletion::where('node_step_completions.user_id', $user->id)
+                ->join('node_steps', 'node_steps.id', '=', 'node_step_completions.node_step_id')
+                ->join('nodes', 'nodes.id', '=', 'node_steps.node_id')
+                ->groupBy('nodes.course_id')->selectRaw('nodes.course_id, MAX(node_step_completions.completed_at) as at')->pluck('at', 'course_id'),
+            NodeUnlock::where('node_unlocks.user_id', $user->id)
+                ->join('nodes', 'nodes.id', '=', 'node_unlocks.node_id')
+                ->groupBy('nodes.course_id')->selectRaw('nodes.course_id, MAX(node_unlocks.unlocked_at) as at')->pluck('at', 'course_id'),
+        ];
+
+        $last = [];
+        foreach ($sources as $byCourse) {
+            foreach ($byCourse as $courseId => $at) {
+                $last[$courseId] = max($last[$courseId] ?? 0, strtotime($at));
+            }
+        }
+
+        return $last;
+    }
 
     /**
      * @param  array<int, CarbonImmutable>  $startedAt  desde cuándo está en cada curso (course_id → primer abono)

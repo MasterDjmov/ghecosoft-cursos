@@ -35,7 +35,7 @@
     @endforeach
 
     @if ($mine->isNotEmpty())
-        <x-carousel-3d :titles="$mine->map(fn ($w) => $w['course']->title)->all()" :start="$startAt" data-test="my-courses">
+        <x-carousel-3d :titles="$mine->map(fn ($w) => $w['course']->title)->all()" data-test="my-courses">
             <x-slot:heading>
                 <h2 class="flex items-center gap-2 font-display text-xl font-semibold text-white">
                     <flux:icon name="play-circle" class="size-6 text-primary-bright" /> Seguí donde dejaste

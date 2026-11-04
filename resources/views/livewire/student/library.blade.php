@@ -93,4 +93,8 @@
         </section>
     @endforeach
     <x-image-lightbox />
+
+    @can('restart', $course)
+        <livewire:student.course-restart :course="$course" />
+    @endcan
 </div>

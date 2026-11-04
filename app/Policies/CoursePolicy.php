@@ -55,6 +55,15 @@ class CoursePolicy
             && ($user->isStaff() || ($course->is_published && $this->access->hasActiveSubscription($user, $course)));
     }
 
+    /**
+     * Reiniciar el propio progreso en el curso (D117): el staff siempre (prueba los cursos sin abono); el alumno, con el
+     * abono vigente, porque con el vencido no podría volver a abrir lo que borra.
+     */
+    public function restart(User $user, Course $course): bool
+    {
+        return $user->isStaff() || $this->access->hasActiveSubscription($user, $course);
+    }
+
     /** El ranking del curso, solo para los que entraron (la Clase 0 de prueba no cuenta, D71). */
     public function viewRanking(User $user, Course $course): bool
     {

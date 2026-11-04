@@ -125,6 +125,32 @@ class Ledger
         });
     }
 
+    /**
+     * Reiniciar un curso (D117): borra las monedas y la XP de ese curso y deja el saldo como al inscribirse (el
+     * acreditado de la inscripción queda). Los comodines ganados o gastados ahí también se van: si ya gastó en otro
+     * curso uno ganado acá, queda debiéndolo, porque al rehacer el curso lo vuelve a ganar. El oro no se toca.
+     */
+    public function forgetCourse(User $user, Course $course): void
+    {
+        DB::transaction(function () use ($user, $course) {
+            $locked = $this->lock($user);
+
+            if ($course->currency) {
+                CoinTransaction::where('user_id', $locked->id)->where('currency_id', $course->currency->id)
+                    ->where('reason', '!=', CoinReason::EnrollmentGrant)->delete();
+            }
+            CoinTransaction::where('user_id', $locked->id)->where('currency_id', Currency::wildcard()->id)
+                ->where('course_id', $course->id)
+                ->whereIn('reason', [CoinReason::PracticeApproved, CoinReason::NodeUnlock])->delete();
+
+            $xp = XpTransaction::where('user_id', $locked->id)->where('course_id', $course->id);
+            $earned = (int) (clone $xp)->sum('amount');
+            $xp->delete();
+            $locked->forceFill(['xp_total' => max(0, (int) $locked->xp_total - $earned)])->save();
+            $user->xp_total = $locked->xp_total;
+        });
+    }
+
     private function recordCoins(
         User $user,
         Currency $currency,

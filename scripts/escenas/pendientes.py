@@ -160,7 +160,7 @@ REFS = {
         'ambientes': {
             '02-la-avenida-de-los-faroles.md': 'en una avenida de feria de pueblo europea antigua, de noche, con faroles altos de hierro y vidrio a los dos lados, adoquines, guirnaldas y luciérnagas',
             '03-el-teatro-del-titiritero.md': 'en un teatro de títeres de feria, con telón de terciopelo violeta, escenario de madera con el fondo de tela lisa, títeres colgados y velas, de noche',
-            '04-la-torre-de-las-flechas.md': 'en una torre de piedra alta en el borde de la feria, con dianas, flechas de luz amarilla que cruzan el cielo nocturno y palomas',
+            '04-la-torre-de-las-flechas.md': 'en una torre de piedra lisa en el borde de una feria de pueblo europea antigua, sin neones ni carteles luminosos, con dianas, flechas de luz amarilla que cruzan el cielo nocturno y palomas',
             '05-el-taller-del-vidriero.md': 'en el taller abandonado de un vidriero, con vitrales de colores, mesas de vidrio, engranajes, una chimenea y luz de luciérnagas',
             '06-senda-escaparate-vivo.md': 'en una vidriera de los Talleres de los Vitrales armada en la avenida de la feria, con vidrios de colores, telas y faroles',
             '07-senda-palomar.md': 'en un palomar de madera junto a una ventanilla de correos del puerto, de noche, con palomas, sobres con sello violeta y faroles',

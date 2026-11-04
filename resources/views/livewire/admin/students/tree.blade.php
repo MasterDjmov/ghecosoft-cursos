@@ -263,5 +263,42 @@
                 </details>
             @endforeach
         </section>
+
+        {{-- Reiniciarle el curso (D117): lo mismo que él puede hacer desde su árbol. --}}
+        <div class="flex justify-end" data-test="student-course-restart">
+            <flux:modal.trigger name="student-course-restart">
+                <flux:button size="sm" variant="ghost" icon="arrow-path">Reiniciar este curso</flux:button>
+            </flux:modal.trigger>
+
+            <flux:modal name="student-course-restart" class="w-full max-w-md">
+                <form wire:submit="restartCourse" class="flex flex-col gap-4">
+                    <flux:heading size="lg">¿Reiniciar {{ $course->title }} a {{ $user->name }}?</flux:heading>
+                    <div class="flex flex-col gap-3 text-sm text-ink-muted">
+                        <div>
+                            <p class="font-medium text-ink">Se borra, y no se puede deshacer:</p>
+                            <ul class="mt-1 list-disc ps-5">
+                                <li>los nodos abiertos, las micro-misiones y las entregas de este curso;</li>
+                                <li>sus monedas, la XP que ganó acá y sus insignias;</li>
+                                <li>su héroe de este curso (le devuelve el oro de sus atributos).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="font-medium text-ink">Queda igual:</p>
+                            <ul class="mt-1 list-disc ps-5">
+                                <li>sus otros cursos y su abono;</li>
+                                <li>sus consultas;</li>
+                                <li>su oro y su mochila. Lo que ya ganó acá no se vuelve a pagar.</li>
+                            </ul>
+                        </div>
+                        <p>Le llega un aviso.</p>
+                    </div>
+                    <flux:input wire:model="restartConfirmation" :label="'Escribí '.\App\Livewire\Student\CourseRestart::WORD.' para confirmar'" autocomplete="off" data-test="student-course-restart-word" />
+                    <div class="flex justify-end gap-2">
+                        <flux:modal.close><flux:button variant="ghost">Cancelar</flux:button></flux:modal.close>
+                        <flux:button type="submit" variant="danger" data-test="student-course-restart-confirm">Reiniciar</flux:button>
+                    </div>
+                </form>
+            </flux:modal>
+        </div>
     @endif
 </div>

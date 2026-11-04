@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\CoinReason;
+use App\Livewire\Admin\Students\Tree as StudentTree;
 use App\Livewire\Student\CourseRestart;
 use App\Models\Currency;
 use App\Models\NodeStep;
@@ -8,6 +9,7 @@ use App\Models\NodeStepCompletion;
 use App\Models\NodeUnlock;
 use App\Models\Submission;
 use App\Models\User;
+use App\Notifications\PlatformNotification;
 use App\Services\CourseRestarter;
 use App\Services\Heroes;
 use App\Services\Ledger;
@@ -15,6 +17,7 @@ use App\Services\NodeUnlocker;
 use App\Services\StepCompleter;
 use App\Services\StudentAccounts;
 use App\Services\TreeAccess;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
 // D117: cada uno reinicia su propio progreso en un curso, sin tocar los otros.
@@ -143,4 +146,36 @@ test('el botón aparece en el árbol del alumno', function () {
 
     $this->actingAs($student)->get(route('student.tree', $made['course']))
         ->assertOk()->assertSee('data-test="course-restart"', false)->assertSee('Reiniciar este curso');
+});
+
+test('el administrador le reinicia el curso a un alumno desde su árbol, con confirmación y aviso', function () {
+    Notification::fake();
+    $made = makeCourse();
+    $other = makeCourse(['title' => 'Otro']);
+    $student = studentWithRootOpen($made);
+    enrolledStudent($other['course'], $student);
+    app(NodeUnlocker::class)->unlock($student, $other['root']);
+    $admin = User::factory()->admin()->create();
+
+    $this->actingAs($admin)->get(route('admin.students.tree', [$student, $made['course']]))
+        ->assertOk()->assertSee('data-test="student-course-restart"', false);
+
+    Livewire::actingAs($admin)->test(StudentTree::class, ['user' => $student, 'course' => $made['course']])
+        ->set('restartConfirmation', 'otra cosa')->call('restartCourse')->assertHasErrors('restartConfirmation');
+    expect(NodeUnlock::where('user_id', $student->id)->where('node_id', $made['root']->id)->exists())->toBeTrue();
+
+    Livewire::actingAs($admin)->test(StudentTree::class, ['user' => $student, 'course' => $made['course']])
+        ->set('restartConfirmation', 'reiniciar')->call('restartCourse')->assertHasNoErrors();
+
+    expect(NodeUnlock::where('user_id', $student->id)->where('node_id', $made['root']->id)->exists())->toBeFalse()
+        ->and(NodeUnlock::where('user_id', $student->id)->where('node_id', $other['root']->id)->exists())->toBeTrue();
+    Notification::assertSentTo($student, PlatformNotification::class);
+});
+
+test('el docente no le puede reiniciar el curso a un alumno de su comisión', function () {
+    $made = makeCourse();
+    $student = studentWithRootOpen($made);
+    $teacher = User::factory()->create(['role' => 'teacher']);
+
+    expect($teacher->can('restoreProgress', [$student, $made['course']]))->toBeFalse();
 });

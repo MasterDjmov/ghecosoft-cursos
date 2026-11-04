@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Students;
 
 use App\Enums\SubmissionStatus;
 use App\Exceptions\NodeLocked;
+use App\Livewire\Student\CourseRestart;
 use App\Models\Course;
 use App\Models\Node;
 use App\Models\NodeStep;
@@ -15,6 +16,7 @@ use App\Models\StepAttempt;
 use App\Models\Submission;
 use App\Models\User;
 use App\Notifications\PlatformNotification;
+use App\Services\CourseRestarter;
 use App\Services\NodeUnlocker;
 use App\Services\ProgressRestorer;
 use App\Services\TreeAccess;
@@ -24,6 +26,7 @@ use App\Support\UnlockMessages;
 use DomainException;
 use Flux\Flux;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -41,6 +44,9 @@ class Tree extends Component
 
     /** El fallo que el docente abrió para ver el código, la salida esperada y la solución (D107). */
     public ?int $openFail = null;
+
+    /** Lo que escribe el administrador para confirmar que le reinicia el curso (D117). */
+    public string $restartConfirmation = '';
 
     public function mount(User $user, Course $course): void
     {
@@ -162,6 +168,30 @@ class Tree extends Component
 
             return '«'.$node->title.'» aprobado entero. Ya le llegó el aviso.';
         });
+    }
+
+    /** Reiniciarle el curso al alumno (D117): lo mismo que hace él desde su árbol, con confirmación y aviso. Solo el administrador. */
+    public function restartCourse(CourseRestarter $restarter)
+    {
+        $this->authorize('restoreProgress', [$this->user, $this->course]);
+
+        if (Str::upper(trim($this->restartConfirmation)) !== CourseRestart::WORD) {
+            $this->addError('restartConfirmation', 'Escribí '.CourseRestart::WORD.' para confirmar.');
+
+            return null;
+        }
+
+        $restarter->restart($this->user, $this->course);
+        $this->user->notify(new PlatformNotification(
+            kind: 'course_restarted',
+            title: 'Se reinició «'.$this->course->title.'»',
+            body: 'El profe reinició tu avance en «'.$this->course->title.'»: arranca de cero, con tu abono igual.',
+            url: route('student.tree', $this->course),
+            icon: 'arrow-path',
+        ));
+        Flux::toast(variant: 'success', text: $this->course->title.' arranca de cero para '.$this->user->name.'. Ya le llegó el aviso.');
+
+        return $this->redirectRoute('admin.students.tree', [$this->user, $this->course], navigate: true);
     }
 
     private function restorableNode(int $nodeId): Node

@@ -177,7 +177,7 @@ REFS = {
             (r'\bTati\b', 'Tati', ['4ed7e467fe034ed48f852420a3cbebf3'], 'Tati es una chica de 11 años, bajita, de piel clara, dos coletas negras, vestido azul con cuello blanco y delantal amarillo.'),
             (r'\bLucio\b', 'Lucio', ['edd2a5c8a13b42318521115982f1721c'], 'Lucio es un viejo flaco y alto.'),
             (r'\bSaeta\b', 'Saeta', ['ecbeb78a4f69490890b76c7a7da87384'], ''),
-            (r'Hilv[aá]n', 'Hilván', ['3c08241be0d04d6cb8ddc5c8a8528ff1'], 'Hilván es un hombre joven, delgado y alto, de cara amable, pelo negro, chaleco de terciopelo VIOLETA abotonado sobre camisa clara de mangas largas (nunca abrigo largo ni camisa oscura).'),
+            (r'Hilv[aá]n', 'Hilván', ['3c08241be0d04d6cb8ddc5c8a8528ff1'], 'Hilván es un HOMBRE ADULTO alto y delgado, de cara adulta y amable, piel clara (les saca más de una cabeza a los chicos), pelo negro, chaleco de terciopelo VIOLETA abotonado sobre camisa clara de mangas largas (nunca abrigo largo ni camisa oscura).'),
             (r'Mirta', 'Doña Mirta', ['5e23bd2445d0489983d6634747e16bca'], 'Doña Mirta es petisa y redonda.'),
             (r'Bengala', 'Bengala', ['0cdbd18c90b04669bacd4d7eb03c96b0'], ''),
             (r'\bTano\b', 'Don Tano', ['5ee266e65e5242958dbe87a10b6d24c2'], ''),

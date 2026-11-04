@@ -20,7 +20,7 @@ Axón, la tabernera, la jefa del Gremio, los jefes y el Dragón (copias en la ca
 | Tema | Decisión |
 |---|---|
 | Ejecución | **Ensamblador y emulador 8086 propios**, en JavaScript, en el navegador del alumno: un intérprete que corre por tandas sin trabar la página (no hace falta Web Worker: no ejecuta JavaScript ajeno). El fork `vgath-8086` solo fue referencia visual: no tiene licencia, así que no se copia código. |
-| Sintaxis | **MASM, la de la cursada** (`.model small`, `.stack`, `.data`, `.code`, `@data`, `proc`/`endp`, `end main`): lo que el alumno escribe acá corre igual en emu8086. |
+| Sintaxis | **MASM, la de este curso** (`.model small`, `.stack`, `.data`, `.code`, `@data`, `proc`/`endp`, `end main`): lo que el alumno escribe acá corre igual en emu8086. |
 | Corrección | **Ninguna**: el curso se completa solo con **micro-misiones** que se comprueban solas (como el de inglés, `Language::isSelfChecked`). Sin prácticas ni entregas. |
 | Precio | **Con abono**, como todos los cursos. |
 | Protagonista | **Nova**, la chispa del Gólem (§ 6, opción A). Prepara la idea de los nanobots. Kira queda en C y aparece de visita. |

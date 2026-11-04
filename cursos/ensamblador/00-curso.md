@@ -17,11 +17,11 @@ publicado: si
 
 Aprendé **ensamblador del Intel 8086** desde cero. No hace falta saber programar en otra lengua, pero si ya sabés Python, C o PHP vas a descubrir **qué hay debajo**: cada `if` termina siendo un `cmp` y un salto, cada `for` un `loop`, cada función un `call` y un `ret`.
 
-Todo se hace acá mismo, en tu navegador, con el **tablero del Gólem**: escribís las órdenes, las ejecutás de a una con **Paso a paso** y ves cómo cambian los registros, las banderas, la memoria y la pila. El código es el mismo de la cursada: corre igual en **emu8086**.
+Todo se hace acá mismo, en tu navegador, con el **tablero del Gólem**: escribís las órdenes, las ejecutás de a una con **Paso a paso** y ves cómo cambian los registros, las banderas, la memoria y la pila. El código de este curso corre igual en **emu8086**.
 
 Acompañás a **Nova**, una chispa de inteligencia que despierta dentro de **Axón**, el Gólem de Bronce que duerme debajo de las Forjas. Nova sabe que existe, pero no sabe mover nada: cada orden que escribís es una orden que ella aprende a darle a su propio cuerpo. El curso se hace con **micro-misiones** cortas que se comprueban solas; cada nodo que completás abre los siguientes.
 
-> Qué hace falta: nada más que este navegador. Si en la cursada usan emu8086, el mismo código corre ahí.
+> Qué hace falta: nada más que este navegador. Si tenés emu8086, el mismo código corre ahí.
 
 ### Temario
 

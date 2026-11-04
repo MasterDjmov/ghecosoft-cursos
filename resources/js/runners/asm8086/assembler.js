@@ -1,4 +1,4 @@
-// Ensamblador 8086 de la plataforma (D110): el subconjunto de MASM que usa la cursada (.model small, .stack,
+// Ensamblador 8086 de la plataforma (D110): el subconjunto de MASM que usa este curso (.model small, .stack,
 // .data, .code, db/dw/dup/?, equ, offset, byte ptr/word ptr, proc/endp, macro/endm/local, end main).
 // No genera código máquina: arma una lista de instrucciones ya analizadas, cada una con la dirección y el
 // tamaño que tendría en un 8086 de verdad (así IP, CALL/RET y la pila se ven como en emu8086), y la imagen

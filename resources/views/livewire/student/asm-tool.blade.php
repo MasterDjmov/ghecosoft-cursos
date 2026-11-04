@@ -3,7 +3,7 @@
         <p class="tech-label">Herramientas</p>
         <h1 class="font-display text-2xl font-semibold text-white">El tablero del Gólem 8086</h1>
         <p class="text-sm text-ink-muted">
-            Para practicar lo que quieras fuera de las micro-misiones. Corre acá mismo, en tu navegador, con la misma sintaxis de la cursada
+            Para practicar lo que quieras fuera de las micro-misiones. Corre acá mismo, en tu navegador, con la misma sintaxis de este curso
             (MASM): lo que escribas también funciona en emu8086. Nada de lo que hagas acá se guarda ni cuenta para el curso.
         </p>
     </header>
@@ -14,7 +14,7 @@
         <h2 class="font-display text-base font-semibold text-white">Lo que entiende el Gólem</h2>
         <ul class="list-disc space-y-1 ps-5 text-ink-muted">
             <li>Las órdenes del 8086: <code>mov add sub inc dec mul div cmp jmp</code>, los saltos condicionales, <code>loop</code>, <code>push pop call ret</code>, las de bits y las de cadenas.</li>
-            <li>Las directivas de la cursada: <code>.model .stack .data .code</code>, <code>db dw dup ? equ offset byte ptr</code>, <code>proc/endp</code>, <code>macro/endm</code> y <code>end main</code>.</li>
+            <li>Las directivas de este curso: <code>.model .stack .data .code</code>, <code>db dw dup ? equ offset byte ptr</code>, <code>proc/endp</code>, <code>macro/endm</code> y <code>end main</code>.</li>
             <li>Las interrupciones del curso: <code>INT 21h</code> (teclado y pantalla), <code>INT 10h</code> (cursor y colores) e <code>INT 16h</code>.</li>
             <li>Si usás una etiqueta <code>fin:</code>, al terminar el tablero te muestra cómo quedaron las palancas en ese momento.</li>
         </ul>

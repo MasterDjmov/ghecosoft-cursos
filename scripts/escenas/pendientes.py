@@ -155,7 +155,7 @@ REFS = {
         'project': '9229721314509917104',
         'region': 'La Feria de las Luces',
         'siempre': {'Nima': 'c1beb5a9084e4492b1d9fb759dd0eb35'},
-        'cierre': 'Imagen solo de dibujo, sin escritura.',
+        'cierre': 'Imagen solo de dibujo, sin escritura; telas, carteles y paredes lisos, sin runas ni símbolos mágicos.',
         'ambiente': 'en una feria de pueblo europea antigua, de noche, con carpas a rayas, banderines de colores lisos, faroles de vidrio y hierro, guirnaldas de foquitos amarillos, luciérnagas, puestos de madera y una calesita; nada oriental, sin carteles, sin máscaras ni símbolos pintados',
         'ambientes': {
             '02-la-avenida-de-los-faroles.md': 'en una avenida de feria de pueblo europea antigua, de noche, con faroles altos de hierro y vidrio a los dos lados, adoquines, guirnaldas y luciérnagas',

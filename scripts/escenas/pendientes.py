@@ -45,7 +45,7 @@ REFS = {
             (r'Drag[oó]n', 'el Dragón bajo la Montaña', ['1beb2b13ac2740e39ec873e25f0a9d2a', '05f46ee7ccb54ec5b3521163315fe841'], ''),
             (r'Salamandra', 'la Salamandra del Horno', ['f00b5bd8e0b541fd925273a2f23e8a1e', 'f94717f4f0ea4451a188eeb0c6077d24'], ''),
             (r'Aut[oó]mata Guardi[aá]n', 'el Autómata Guardián', ['be394c154b3544cd84a0f6cb5304046d', 'ae330b94011143dd97df7dab07894b9c'], ''),
-            (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
         ],
     },
     # D110: el Gólem duerme debajo de las Forjas, así que sus escenas van en el proyecto de C (ahí están Gheco y Kira).
@@ -59,7 +59,7 @@ REFS = {
             (r'Ax[oó]n', 'Axón', ['a3f048dbdb0144748446e592787f2bdb', 'c4b3a82e96bb49e689670d429bea0fba'],
              'Axón es un gólem de bronce de cuatro metros: Nova le llega a la rodilla.'),
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
-            (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
         ],
     },
     'cpp': {
@@ -76,7 +76,7 @@ REFS = {
             # Solo el cuerpo entero: los circulares de este proyecto llevan el nombre escrito y Stitch lo copiaría.
             # Bron y Gheco se generaron en este proyecto el 2026-10-11 desde sus fichas y sus imágenes (no estaban subidos).
             (r'\bBron\b', 'Bron', ['36fd6421d03b45329e15255c57bf1d96'], 'Bron es un mecánico grandote de 24 años, alto y ancho, con una llave inglesa cian al hombro.'),
-            (r'Gheco|gecko', 'Gheco', ['8b96c262b47549dbb5a441fb463377a5'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['8b96c262b47549dbb5a441fb463377a5'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'\bTesla\b', 'Tesla', ['17568498787211306263'], 'Tesla es un muchacho de estatura mediana (1,75 m), delgado, de pelo en punta y visor cian.'),
             (r'\bLima\b', 'Lima', ['3741430dea15423a86d24bbd54d5c72f'], 'Lima es una chica chiquita (1,52 m), mucho más baja que los demás, con dos rodetes y una lupa de relojera en un ojo.'),
             (r'Maestra Art[ií]fice|[Ii]nspectora', 'la Maestra Artífice', ['4954292303660227400'], 'La Maestra Artífice es una mujer alta (1,72 m), delgada y erguida.'),
@@ -109,7 +109,7 @@ REFS = {
             # Generados en este proyecto el 2026-10-11 (Nilo y Elefa desde sus imágenes oficiales; el resto, desde sus fichas).
             (r'\bNilo\b', 'Nilo', ['3defe2e1780843e09e4c04400943f0b8'], 'Nilo es un muchacho de 17 años, de estatura mediana (1,70 m) y delgado, con gorra de mensajero y bufanda violeta.'),
             (r'\bElefa\b', 'Elefa', ['ede888afd1934fa6a2d4853f2f4ef6b1'], 'Elefa es una elefanta enorme (2,60 m) erguida en dos patas, con armadura: le saca casi un metro a una persona.'),
-            (r'Gheco|gecko', 'Gheco', ['bce6aece6b9c43939e86fd2b757679ad'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['bce6aece6b9c43939e86fd2b757679ad'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'\bIara\b', 'Iara', ['5d09d4c2cd01468999e671616ec88913'], 'Iara es bajita (1,58 m): más baja que Nilo.'),
             (r'Ferm[ií]n|[Bb]odeguero', 'Fermín', ['fc1a64872e8e420ab4ca98a70c73800a'], 'Fermín es un anciano bajo y encorvado.'),
             (r'\bMarea\b|[Ff]arera', 'Marea', ['15758130c92349e88c7ca83c931fcae1'], 'Marea es una mujer alta (1,78 m) y fuerte: más alta que Nilo.'),
@@ -134,7 +134,7 @@ REFS = {
              'Iris lleva UNA SOLA trenza gruesa, de costado, que le cae sobre un hombro (nunca dos trenzas), pelo castaño cobrizo con mechones de colores dentro de la trenza, anteojos redondos.'),
             (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'],
              'Tesela e Iris son casi de la misma altura (Tesela apenas unos centímetros más alta).'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             # Subidos el 2026-10-10. Solo el cuerpo entero: los circulares llevan el nombre escrito y Stitch lo copiaría.
             (r'\bNora\b', 'Nora', ['e01c853235f1406f8ae015a41a3ddb13'],
              'Nora es ciega y alta, más alta que Iris; lleva túnica gris perla y un bastón blanco.'),
@@ -163,7 +163,7 @@ REFS = {
             (r'\bNilo\b', 'Nilo', ['55c53c1c0629482192ef2cf0e90c7370'], 'Nilo es un muchacho de 17 años, con gorra de mensajero y bufanda violeta.'),
             (r'\bNima\b', 'Nima', ['0f9fcc6dde3f450e96c11f25612bdfa3'], 'Nima tiene la piel morena oscura, una trenza negra alta y un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, con gorra negra al revés, chaleco ROJO inflado sobre buzo oscuro.'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
         ],
     },
     'javascript': {
@@ -187,7 +187,7 @@ REFS = {
             # La segunda referencia es la escena de la calesita (R01-N03-P1): ahí la ropa salió cerrada; con la ficha sola, el modelo liviano a veces le deja la panza al aire.
             (r'\bNima\b', 'Nima', ['2fca95e351484814bbdeb8294f4c623b', 'c1beb5a9084e4492b1d9fb759dd0eb35'], 'Nima aparece UNA sola vez. Nima tiene la piel morena oscura y lleva un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo, que le tapa toda la cintura (si la chaqueta es corta, Stitch le deja la panza al aire).'),
             (r'Lumina', 'Lumina', ['bdf51a14044046ffbd08a31cec35773e'], 'Lumina es una luciérnaga enorme, del tamaño de una persona, que flota: un INSECTO de verdad, como en su referencia (seis patitas, antenas, coronita dorada, alas de vidrio y el abdomen que brilla amarillo); nada de hada ni de cuerpo de persona.'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, con gorra negra al revés, chaleco ROJO inflado sobre buzo oscuro y zapatillas rojas.'),
             (r'\bTati\b', 'Tati', ['4ed7e467fe034ed48f852420a3cbebf3'], 'Tati es una chica de 11 años, bajita, de piel clara, dos coletas negras, vestido azul con cuello blanco y delantal amarillo.'),
             (r'\bLucio\b', 'Lucio', ['edd2a5c8a13b42318521115982f1721c'], 'Lucio es un viejo flaco y alto.'),
@@ -239,7 +239,7 @@ REFS = {
              'Iris lleva UNA SOLA trenza gruesa, de costado, que le cae sobre un hombro (nunca dos trenzas), pelo castaño cobrizo con mechones de colores dentro de la trenza, anteojos redondos.'),
             (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'],
              'Tesela e Iris son casi de la misma altura (Tesela apenas unos centímetros más alta).'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'\bNora\b', 'Nora', ['e01c853235f1406f8ae015a41a3ddb13'],
              'Nora es ciega y alta, más alta que Iris; lleva túnica gris perla y un bastón blanco.'),
             (r'\bTeo\b', 'Teo', ['21a330a7f37f44ae88efae1965f5261c'],
@@ -261,7 +261,7 @@ REFS = {
             (r'\bMia\b', 'Mia', ['5963293020836080820'], 'Mia es bajita (1,55 m) y delgada.'),
             (r'\bTilo\b', 'Tilo', ['5696938930910017018'], 'Tilo es un chico bajo, flaco y fibroso, descalzo.'),
             (r'Ofidia', 'Ofidia', ['10928700517117951865'], 'Ofidia es muy alta (1,90 m) y esbelta: le saca más de una cabeza a Mia.'),
-            (r'Gheco|gecko', 'Gheco', ['15690829756280996174'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['15690829756280996174'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'Guardi[aá]n del Puente', 'el Guardián del Puente', ['13111980321235167624'], ''),
             (r'Archivista', 'el Archivista Corrupto', ['76f4476e7b8e459fa75b72cbe7906fbb'], ''),
             (r'G[oó]lem', 'el Gólem del Reloj', ['11d43dda059d4a2b8de8c6e1c8077d0c'], ''),
@@ -295,7 +295,7 @@ REFS = {
             (r'\bZed\b', 'Zed', ['5522991768613220027'], 'Zed es alto (1,80 m), delgado y fibroso.'),
             (r'\bNadia\b', 'Nadia', ['17346538076052872870'], 'Nadia es de estatura mediana, más baja que Zed, muy erguida.'),
             (r'\bKaffa\b', 'Kaffa', ['8221925489435297833'], 'Kaffa es alto, de hombros anchos, más alto que Zed.'),
-            (r'Gheco|gecko', 'Gheco', ['7453549721618962721'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+            (r'Gheco|gecko', 'Gheco', ['7453549721618962721'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'Escriba', 'el Escriba Jefe', ['b12044f03eb646dca40ac3c69a952478'], 'El Escriba Jefe es bajo, panzón y un poco encorvado.'),
             (r'Maestra de Moldes', 'la Maestra de Moldes', ['8bed9638b6a0475a9f697e8c247b0e30'], 'La Maestra de Moldes es alta y de hombros anchos.'),
             (r'Archivista', 'el Archivista Mayor', ['f64f0eb5f95045789403ea7d4bf54696'], 'El Archivista Mayor es alto y muy flaco, un poco encorvado.'),

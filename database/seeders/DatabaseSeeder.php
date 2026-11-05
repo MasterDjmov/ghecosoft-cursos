@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             HtmlCourseSeeder::class,
             EnglishCoursesSeeder::class,
             AsmCourseSeeder::class,
+            CsharpCourseSeeder::class,
             UpcomingCoursesSeeder::class,
             DemoEnrollmentSeeder::class,
             DemoTeacherSeeder::class,

@@ -57,7 +57,7 @@ Textos de historia del diccionario que se muestran: `story.course_intro` (bienve
 ```meta
 slug: python             # obligatorio; minúsculas y guiones; identifica el curso al reimportar
 titulo: Python desde cero # obligatorio
-lenguaje: python          # obligatorio: python, c, cpp, java, javascript, typescript, php, sql, arduino, other
+lenguaje: python          # obligatorio: python, c, cpp, java, csharp, javascript, typescript, php, sql, arduino, other
 descripcion_corta: Tu primera lengua: clara y legible.
 precio_raiz: 10           # monedas para abrir la Clase 0
 dias_abono: 30

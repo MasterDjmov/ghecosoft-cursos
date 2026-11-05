@@ -30,6 +30,7 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 | **El Imperio de las Clases** | Java | **Kaffa**, el Arquitecto Imperial | denarios | capital de catedrales con vitrales dorados; "nada existe suelto"; nunca le falta su taza de café |
 | **El Puerto de los Mensajeros** | PHP | **Elefa**, la Capitana del Puerto, una elefanta | sellos de lacre | puerto con barcos, faro y una torre cuya campana suena con cada pedido; "ningún mensaje se queda sin respuesta" |
 | **Los Talleres de los Vitrales** | HTML y CSS | **Tesela, la Vitralista** | cristales | ciudad de ventanales de colores, ríos de plomo fundido y hornos; "todo vitral empieza chico" |
+| **El Conservatorio de Do Sostenido** | C# | **Clave, la Directora** | corcheas | conservatorio gótico con torres de tubos de órgano y aurora violeta; "acá la magia se escribe y se ensaya antes de sonar" |
 | **La Feria de las Luces** (curso por armar) | JavaScript y TypeScript | **Lumina, la Reina de las Luciérnagas** | fichas de la Feria | feria nocturna que nunca cierra: farolitos, calesitas, fuegos artificiales y títeres de luz; "nada pasa hasta que algo pasa" |
 
 ## Cómo se cruzan las historias
@@ -39,6 +40,8 @@ En la plataforma, Kira es el alumno: cada estudiante le pone su nombre.
 - **Los Talleres hacen las ventanas de todos.** Hay vitrales de Tesela en las catedrales de Kaffa, en las ventanas del Valle de Ofidia y en cada mensaje que despacha el Puerto.
 - **Elefa responde lo que arman los Talleres.** Los formularios se hacen en los Talleres; cuando alguien los completa, el mensaje viaja al Puerto y Elefa lo contesta.
 - **Los caminos optativos conectan regiones.** Desde la Ciudadela de Tesla sale la *Senda de los Vitrales* y desde el Puerto de Elefa, la *Senda del Escaparate*: las dos llevan hacia los Talleres.
+- **La cajita de música une la Feria y el Conservatorio.** Hilván, el titiritero de la Feria, tiene una cajita que suena desafinada desde siempre; la lleva su hermana **Ceci** al Conservatorio de **Clave**. La cajita la hizo el Vidriero: su melodía es la que falta para que el vitral, además de moverse, **cante** ([historias/csharp.md](historias/csharp.md)).
+- **El Imperio y el Conservatorio son primos.** Clave y **Kaffa** aprendieron juntos a declarar todo: por eso C# y Java se parecen tanto.
 - **La galería de las líderes.** En el Hall of Fame de los Talleres, Kira arma un vitral con las seis líderes juntas.
 
 ## El misterio que atraviesa todo

@@ -348,6 +348,20 @@ return [
             ],
         ],
         // Ensamblador 8086 (D110, docs/historias/ensamblador.md): Nova, la chispa que despierta dentro de Axón.
+        // C# (docs/historias/csharp.md, D119): la tienda y las expediciones se suman cuando estén sus imágenes y el mapa.
+        'csharp' => [
+            'name' => 'Ceci',
+            'slug' => 'ceci',
+            'title' => 'Violinista de la Feria',
+            'looks' => [
+                1 => 'Violín de la Feria',
+                2 => 'Capa de Viaje',
+                3 => 'Abrigo de Camino',
+                4 => 'Alumna del Conservatorio',
+                5 => 'La Cajita en la Lluvia',
+                6 => 'Directora de Orquesta',
+            ],
+        ],
         'asm' => [
             'name' => 'Nova',
             'slug' => 'nova',

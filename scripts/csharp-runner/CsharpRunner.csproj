@@ -1,0 +1,23 @@
+<!-- Ejecutor de C# para el navegador (D119): Roslyn y el runtime de .NET en WebAssembly. Lo arma scripts/build-csharp-toolchain.sh. -->
+<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <UseSystemResourceKeys>false</UseSystemResourceKeys>
+    <PublishTrimmed>false</PublishTrimmed>
+    <WasmEnableThreads>false</WasmEnableThreads>
+    <SatelliteResourceLanguages>es</SatelliteResourceLanguages>
+    <NoWarn>CA1416</NoWarn>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Runner.cs" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <RefAssembly Include="System.Runtime;System.Console;System.Linq;System.Collections;System.Collections.Concurrent;System.Threading;System.Threading.Tasks;System.Threading.Thread;System.Memory;System.Text.Json;System.Text.RegularExpressions;System.Runtime.Numerics;System.ObjectModel;System.Net.Http;System.Net.Primitives;System.Runtime.Extensions;System.Globalization;System.Text.Encoding.Extensions;System.IO.FileSystem;System.ComponentModel.Annotations;System.Diagnostics.Debug;System.Diagnostics.Process;System.Linq.Expressions;System.Runtime.InteropServices" />
+    <EmbeddedResource Include="@(RefAssembly->'$(NetCoreTargetingPackRoot)/Microsoft.NETCore.App.Ref/$(BundledNETCoreAppPackageVersion)/ref/net10.0/%(Identity).dll')" LogicalName="ref/%(Identity).dll" />
+  </ItemGroup>
+</Project>

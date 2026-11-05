@@ -2,7 +2,7 @@
 
 Pedido del docente (2026-10-14): cada vez que se suma **un curso, un personaje (principal, secundario o enemigo), una criatura, una montura, un ítem o un tramo de historia**, se revisa esta lista entera. Así no hay que salir a buscar después dónde faltó agregarlo (pasó con los ítems de PHP sin imagen, con Ada sin retrato en la enciclopedia y con las monedas de inglés).
 
-Se vienen **JavaScript, React Native y Laravel**: cada uno trae su región, su héroe, su líder, su gente, sus jefes y su moneda, y todo eso pasa por esta lista.
+Se vienen **JavaScript, C#, React Native y Laravel**: cada uno trae su región, su héroe, su líder, su gente, sus jefes y su moneda, y todo eso pasa por esta lista.
 
 > Regla: el trabajo no está terminado hasta que cada fila que aplica esté hecha o anotada como pendiente en el .md del curso (con el motivo).
 

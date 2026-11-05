@@ -332,6 +332,10 @@ document.addEventListener('alpine:init', () => {
                 result = await runSql(this.runSource ?? this.code, { timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else if (config.language === 'javascript') {
                 result = await this.jsRun();
+            } else if (config.language === 'csharp') {
+                // C#: el compilador y .NET en WebAssembly, en el navegador (D119).
+                const { runCsharp } = await import('./runners/csharp.js');
+                result = await runCsharp(this.runSource ?? this.code, { stdin: this.stdin, timeout: config.timeout, onStatus: (status) => (this.status = status) });
             } else if (config.language === 'php') {
                 // PHP: PHP 8.3 en WebAssembly, en el navegador del docente (D68) y del alumno (D105).
                 const { runPhp } = await import('./runners/php.js');

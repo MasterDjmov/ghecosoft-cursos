@@ -1185,6 +1185,58 @@ El curso todavía no se arma: la historia está en [javascript.md](javascript.md
 
 ---
 
+## El Conservatorio de Do Sostenido (C#)
+
+Historia en [csharp.md](csharp.md).
+
+### Ceci
+- **Curso y rol:** C#, el Conservatorio de Do Sostenido. Protagonista ([csharp.md](csharp.md)).
+- **Edad y sexo:** 15, mujer.
+- **Altura y contextura:** bajita y delgada.
+- **Rasgos:**
+  - piel clara, cara redonda con pecas, **ojos verdes**;
+  - **pelo cobrizo, ondulado y corto, en dos rodetes chiquitos**.
+- **Ropa:**
+  - **saco de banda de música bordó, largo hasta los muslos**, abotonado hasta el cuello, con botones dorados y mangas largas;
+  - pantalón oscuro y botas marrones.
+  - **Ropa opaca y cerrada** (la usan alumnos chicos).
+- **Objeto:** **su violín** de madera clara y **la cajita de música** de la Feria, colgada del cinturón.
+- **Color:** **bordó** con dorado.
+- **Personalidad:** inquieta, charlatana, toca de oído y quiere sonar ya; se pone nerviosa con las reglas, pero no abandona.
+- **Le gusta:** tocar para los títeres de su hermano, el pan con miel de la Feria, que la gente se ponga a bailar.
+- **Defecto o miedo:** salir a tocar sin ensayar, y que se note que nunca estudió.
+- **Frase:** «¡Pero si sonaba bien en mi cabeza!»
+- **Cómo habla:** rápido, con muchas preguntas, y se ríe de sus propios errores.
+- **Relaciones:** hermana menor de **Hilván**; alumna de **Clave**; amiga de **Bemol**. Conoce a **Nima** de la Feria.
+
+### Clave
+- **Curso y rol:** C#, el Conservatorio de Do Sostenido. Líder de la región, la Directora.
+- **Edad y sexo:** unos 50, mujer.
+- **Altura y contextura:** alta, delgada y muy derecha.
+- **Rasgos:** piel morena clara; pelo negro con **una mecha blanca**, en un rodete tirante; **anteojos finos redondos dorados**.
+- **Ropa:** **capa larga negra con forro violeta**, cerrada con un broche dorado; vestido negro de cuello alto y mangas largas.
+- **Objeto:** **la batuta** de marfil.
+- **Personalidad:** seca y exacta, nunca grita; en el fondo, paciente: explica todas las veces que haga falta.
+- **Defecto o miedo:** le cuesta decir «muy bien».
+- **Frase:** «Acá la magia se escribe y se ensaya antes de sonar.»
+- **Cómo habla:** frases cortas; corrige con una sola pregunta.
+- **Relaciones:** aprendió con **Kaffa** en el Imperio; le debe un concierto al **Vidriero**, que le dejó una partitura sin terminar.
+
+### Bemol
+- **Curso y rol:** C#, el Conservatorio de Do Sostenido. Compañero de Ceci.
+- **Edad y sexo:** 14, varón.
+- **Altura y contextura:** gordito y bonachón.
+- **Rasgos:** piel morena, pelo negro enrulado y corto, **anteojos rectangulares algo torcidos**.
+- **Ropa:** saco de banda azul petróleo abotonado, de mangas largas; pantalón gris; zapatillas gastadas.
+- **Objeto:** un tambor chico con correa cruzada y dos palillos.
+- **Personalidad:** tranquilo y curioso; siempre pregunta «¿y por qué?». Entra medio tono tarde, y por eso le dicen Bemol.
+- **Frase:** «Esperá, esperá: ¿por qué dio eso?»
+- **Relaciones:** lleva dos años en el Conservatorio y le explica a Ceci cómo funciona todo.
+
+### Slime Desafinado
+- **Curso y rol:** C#, el Conservatorio. Jefe del primer bloque (todavía sin nodo: va cuando se complete la rama).
+- **Qué error representa:** los errores de sintaxis que no dejan arrancar el programa.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

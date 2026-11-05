@@ -12,14 +12,14 @@ class CodeFiles
     /** El lenguaje del bloque → el del editor (resaltado). */
     private const EDITOR = [
         'c' => 'c', 'h' => 'c', 'cpp' => 'cpp', 'c++' => 'cpp', 'hpp' => 'cpp', 'cc' => 'cpp', 'cmake' => null,
-        'java' => 'java', 'php' => 'php', 'blade' => 'php', 'python' => 'python', 'py' => 'python',
+        'java' => 'java', 'csharp' => 'csharp', 'cs' => 'csharp', 'php' => 'php', 'blade' => 'php', 'python' => 'python', 'py' => 'python',
         'html' => 'html', 'xml' => 'html', 'svg' => 'html', 'css' => 'css', 'sql' => 'sql',
         'js' => 'javascript', 'javascript' => 'javascript', 'json' => 'javascript', 'ts' => 'typescript', 'typescript' => 'typescript',
     ];
 
     /** Por la extensión del nombre, cuando el bloque no dice su lenguaje. */
     private const EXTENSIONS = [
-        'c' => 'c', 'h' => 'c', 'cpp' => 'cpp', 'hpp' => 'cpp', 'java' => 'java', 'php' => 'php', 'py' => 'python',
+        'c' => 'c', 'h' => 'c', 'cpp' => 'cpp', 'hpp' => 'cpp', 'java' => 'java', 'cs' => 'csharp', 'php' => 'php', 'py' => 'python',
         'html' => 'html', 'xml' => 'html', 'svg' => 'html', 'css' => 'css', 'sql' => 'sql', 'js' => 'javascript', 'json' => 'javascript', 'ts' => 'typescript',
     ];
 

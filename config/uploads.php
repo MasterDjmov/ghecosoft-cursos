@@ -26,6 +26,6 @@ return [
     // Recursos de un nodo (disco privado, se sirven por controlador).
     'resource' => [
         'max_kb' => 20480,
-        'mimes' => ['pdf', 'zip', 'txt', 'py', 'c', 'cpp', 'h', 'java', 'js', 'html', 'css', 'sql', 'md', 'png', 'jpg', 'jpeg', 'webp', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp'],
+        'mimes' => ['pdf', 'zip', 'txt', 'py', 'c', 'cpp', 'h', 'java', 'cs', 'js', 'html', 'css', 'sql', 'md', 'png', 'jpg', 'jpeg', 'webp', 'docx', 'xlsx', 'pptx', 'odt', 'ods', 'odp'],
     ],
 ];

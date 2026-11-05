@@ -8,6 +8,8 @@ enum Language: string
     case C = 'c';
     case Cpp = 'cpp';
     case Java = 'java';
+    // D119: C#, con Roslyn y .NET en WebAssembly, en el navegador (scripts/csharp-runner).
+    case Csharp = 'csharp';
     case JavaScript = 'javascript';
     case TypeScript = 'typescript';
     case Php = 'php';
@@ -27,6 +29,7 @@ enum Language: string
             self::Python => 'Py',
             self::Cpp => 'C++',
             self::Java => 'Jv',
+            self::Csharp => 'C#',
             self::JavaScript => 'JS',
             self::TypeScript => 'TS',
             self::Php => 'PHP',
@@ -47,6 +50,7 @@ enum Language: string
             self::C => 'C',
             self::Cpp => 'C++',
             self::Java => 'Java',
+            self::Csharp => 'C#',
             self::JavaScript => 'JavaScript',
             self::TypeScript => 'TypeScript',
             self::Php => 'PHP',
@@ -66,11 +70,12 @@ enum Language: string
      * con una carpeta vacía en memoria), C++ (D100: el mismo Clang con su encabezado precompilado) y PHP (D105:
      * PHP 8.3 en WebAssembly, el mismo del docente, sin red y con una carpeta vacía en cada ejecución) y JavaScript
      * (D115: en una caja sandbox="allow-scripts" sin mismo origen, sin red y con un mundo virtual: reloj,
-     * temporizadores, cookies, almacenamiento y el Puerto simulado). El resto, solo quien corrige (D69).
+     * temporizadores, cookies, almacenamiento y el Puerto simulado) y C# (D119: Roslyn y .NET en WebAssembly, en un Web
+     * Worker, con consola, teclado y carpeta de mentira). El resto, solo quien corrige (D69).
      */
     public function runsForStudents(): bool
     {
-        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm, self::JavaScript], true);
+        return in_array($this, [self::Python, self::Html, self::Sql, self::C, self::Cpp, self::Php, self::Asm, self::JavaScript, self::Csharp], true);
     }
 
     /**
@@ -116,6 +121,7 @@ enum Language: string
             self::TypeScript => 'ts',
             self::Arduino => 'ino',
             self::Other, self::English => 'txt',
+            self::Csharp => 'cs',
             default => $this->value,
         };
     }

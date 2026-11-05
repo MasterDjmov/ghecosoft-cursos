@@ -151,6 +151,21 @@ REFS = {
     # D115: la Feria de las Luces está al lado de los Talleres; Nima, Lumina y Gheco ya estaban en el proyecto de HTML,
     # así que las escenas de JS van ahí. La gente nueva se dibujó el 2026-10-30 (ficha de cuerpo entero sobre el fondo
     # de la de Bruno); los de otros cursos (Nilo, Iara, Elefa, Pico, Nova, Axón), descritos desde sus imágenes oficiales.
+    'csharp': {
+        'project': '9229721314509917104',
+        'region': 'El Conservatorio de Do Sostenido',
+        'cierre': 'Imagen solo de dibujo, sin escritura; telas, carteles, hojas y paredes lisos, sin runas ni símbolos mágicos.',
+        'ambiente': 'en un conservatorio gótico de piedra lisa y oscura, de noche, con atriles de madera, velas, faroles y tubos dorados de órgano',
+        'chars': [
+            (r'\bCeci\b', 'Ceci', ['6d9cb3583ce9486fa80bf873f9fecc59'], 'Ceci es una chica de 15 años, bajita, de pecas, con pelo cobrizo en dos rodetes chiquitos y un saco de banda BORDÓ con botones dorados, largo hasta los muslos, abotonado hasta el cuello.'),
+            (r'\bClave\b', 'Clave', ['073d8d3f52ca458f9667e7bb00837445'], 'Clave es una mujer de 50, alta y muy derecha, con anteojos redondos dorados, rodete negro con una mecha blanca y capa negra.'),
+            (r'\bBemol\b', 'Bemol', ['cd264829c3f4447ca0687617eae85633'], 'Bemol es un chico de 14, gordito, de piel morena, rulos negros, anteojos rectangulares y saco azul petróleo abotonado; lleva un tambor chico.'),
+            (r'\bNilo\b', 'Nilo', ['55c53c1c0629482192ef2cf0e90c7370'], 'Nilo es un muchacho de 17 años, con gorra de mensajero y bufanda violeta.'),
+            (r'\bNima\b', 'Nima', ['0f9fcc6dde3f450e96c11f25612bdfa3'], 'Nima tiene la piel morena oscura, una trenza negra alta y un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo.'),
+            (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, con gorra negra al revés, chaleco ROJO inflado sobre buzo oscuro.'),
+            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, de color cian brillante con manchas amarillas.'),
+        ],
+    },
     'javascript': {
         'project': '9229721314509917104',
         'region': 'La Feria de las Luces',

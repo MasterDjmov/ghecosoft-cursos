@@ -31,6 +31,10 @@ async function runOne(language, code, stdin, options) {
         const { runJavaScript } = await import('./javascript.js');
         return runJavaScript(code, { stdin, timeout: options.timeout });
     }
+    if (language === 'csharp') {
+        const { runCsharp } = await import('./csharp.js');
+        return runCsharp(code, { stdin, timeout: options.timeout });
+    }
     if (language === 'php') {
         const { runPhp } = await import('./php.js');
         return runPhp(code, { stdin, timeout: options.timeout });

@@ -27,7 +27,7 @@ SKIP = {('14674491267148198305', 'Gheco'), ('12272294721581088244', 'Gheco')}
 COMMON = 'Copiá fielmente su diseño, cara, colores, ropa, accesorios y proporciones, sin rediseñarlo ni embellecerlo. Es UN SOLO personaje repetido. Fondo azul noche oscuro liso, sin grilla, sin piso y sin decorado. Formato 16:9 (1376×768). Ocho figuras separadas, sin tocarse, del mismo tamaño, cuerpo entero, en dos filas de cuatro.'
 PERSON = 'Fila de arriba, de pie en postura neutra: 1) de frente; 2) tres cuartos; 3) de perfil; 4) de espaldas. Fila de abajo: 5) caminando, con su objeto característico si tiene; 6) sentado; 7) señalando algo con la mano, hablando; 8) primer plano de la cabeza en tres cuartos, para ver bien la cara y el pelo. En TODAS, la misma ropa, opaca y cerrada, sin escote ni panza al aire y sin agregar prendas.'
 BEAST = 'Fila de arriba, en postura neutra: 1) de frente; 2) tres cuartos; 3) de perfil; 4) de espaldas. Fila de abajo: 5) en movimiento; 6) quieto, descansando; 7) amenazando o en acción, con cara expresiva; 8) primer plano de la cabeza. En TODAS, la misma forma, el mismo cuerpo, los mismos colores y detalles. Aspecto apto para alumnos chicos, sin sangre.'
-END = 'Dejá vacío el borde inferior. Imagen solo de dibujo, sin ningún texto, rótulos, flechas, guías ni runas.'
+END = 'Sin rótulos ni palabras debajo de las figuras. Dejá vacío el borde inferior. Imagen solo de dibujo, sin ningún texto, flechas, guías ni runas.'
 
 
 def refs():

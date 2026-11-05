@@ -39,15 +39,24 @@ gasta la cuota enseguida. El 2026-10-09 se cortó después de `R00-N01-P4`.
 Si una llamada a Stitch se corta por tiempo, la pantalla igual puede aparecer: buscarla con `get_screen` no sirve sin el
 id, así que se vuelve a pedir.
 
+## Hojas de personaje: la referencia de cada uno (2026-11-05)
+
+Idea del docente: en lugar de una imagen suelta, cada personaje, líder, héroe y monstruo tiene una **hoja de 8 ángulos** (frente, tres cuartos, perfil, espaldas y cuatro poses), generada en Stitch desde su referencia. Así no se pierde al pedirlo de costado o en otra pose.
+
+- **Herramienta:** `python3 scripts/escenas/hojas.py` da el avance por proyecto; `--next N [PROYECTO]`, los pedidos que faltan; `--ok PROYECTO NOMBRE SCREEN ARCHIVO.txt` aprueba una.
+- **Dónde quedan:** los ids en `scripts/escenas/referencias/hojas.json` y una copia en `referencias/<proyecto>/`. Stitch solo toma referencias del mismo proyecto: un personaje que aparece en dos proyectos lleva una hoja en cada uno.
+- **Uso:** al aprobar una hoja, `pendientes.py` la pide sola en lugar de las referencias sueltas, y agrega «dibujá a cada personaje UNA SOLA VEZ».
+- **Probado:** con `GEMINI_3_5_FLASH_LITE`, tres hojas juntas (Ceci, Slime, Gheco) dieron exactamente tres figuras correctas al primer intento; con Gheco solo y con Gheco y Lucio, también. Son 3 pruebas: seguir mirando cada imagen.
+- **Generarlas con `GEMINI_3_8_FLASH` y mirarlas todas antes de aprobar.** Cerca de una de cada tres necesitó otra vuelta. Se vio: ropa cambiada (Nima con chaqueta corta: usar la referencia correcta, `0f9fcc6d…`), texto escrito en el borde (Clave: «la misma hoja, sin la frase de abajo»), estilo caricaturesco o contextura perdida (Bemol: pedir el mismo estilo y después «gordito»). En cada pedido, «no escribas ninguna palabra ni letra».
+- **Sin hoja todavía:** el Gheco de C++ y PHP (primero hay que subir la oficial) y los personajes que no tienen ninguna imagen en Stitch (la Hidra, por ejemplo): revisar `docs/historias/PERSONAJES.md` contra `hojas.py`.
+
 ## Gheco: siempre el mismo (2026-11-05)
 
 **Decisión del docente (2026-11-05):** las escenas ya hechas de los otros cursos, JavaScript incluido, **quedan como están** (son unas 720; en muchas Gheco sale más chico o sin antiparras). No se rehacen. **Toda escena nueva, de cualquier curso, pide a Gheco igual al oficial**, con su referencia y las pautas de abajo.
 
 La imagen oficial es `gheco-code.webp`, del proyecto de Stitch `10046788797115308866`, donde se creó. Es **flaco y alargado, aguamarina claro translúcido y liso, con finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico chico pegado a la cabeza**. **Sin manchas**: la nota vieja de `pendientes.py` decía «manchas amarillas» y producía otro gecko (corregida en todos los cursos).
 
-Referencias por proyecto: Python y Java tienen el archivo idéntico; C, Ensamblador, HTML, JS, C#, inglés, el mismo dibujo con fondo (`GhecoCode.jpeg`). **C++ y PHP tienen uno regenerado, distinto** (`8b96c262…`, `bce6aece…`): no usarlos como modelo; si se hacen escenas nuevas ahí, subir antes la imagen oficial.
-
-**Hoja de 8 ángulos (2026-11-05):** en el proyecto de la Feria (`9229721314509917104`: HTML, JS, C#, inglés) la referencia es `df178b74…`: giro de frente, tres cuartos, perfil y espaldas, más señalando, sentado, trepando y la cabeza de perfil. Copia en `scripts/escenas/referencias/gheco-hoja.webp`. `pendientes.py` la pide sola y agrega «dibujalo UNA SOLA VEZ». Probada en 2 escenas con el modelo liviano: un solo Gheco, flaco, liso y con antiparras, sin corrección. Es poca muestra: seguir revisando cada imagen. Stitch solo toma referencias del mismo proyecto; para otro proyecto, generarla ahí a partir de la imagen oficial.
+En el proyecto de la Feria su referencia es la hoja `df178b74…`. Imágenes base por proyecto: Python y Java tienen el archivo idéntico; C, Ensamblador, HTML, JS, C#, inglés, el mismo dibujo con fondo (`GhecoCode.jpeg`). **C++ y PHP tienen uno regenerado, distinto** (`8b96c262…`, `bce6aece…`): no usarlos como modelo; si se hacen escenas nuevas ahí, subir antes la imagen oficial.
 
 Qué anduvo (C#, con `GEMINI_3_8_FLASH`; el modelo liviano lo achica y le deja manchas):
 - `[escena, referencia de Gheco]`, cambiando solo el gecko, describiendo la silueta y prohibiendo las manchas. Sin «flaco y alargado, nada de chibi» sale gordito.

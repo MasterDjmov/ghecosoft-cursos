@@ -32,7 +32,7 @@ Se vienen **JavaScript, C#, React Native y Laravel**: cada uno trae su región, 
 | Dónde | Qué | Archivo o comando |
 |---|---|---|
 | Ficha | aspecto, edad, rol, frase (manda sobre todo lo demás) | `docs/historias/PERSONAJES.md` |
-| Imágenes en Stitch | cuerpo entero (+ circular si va al diccionario); su ID en las referencias de escenas | `scripts/escenas/pendientes.py` (`REFS`/`chars`) |
+| Imágenes en Stitch | cuerpo entero (+ circular si va al diccionario) y **hoja de 8 ángulos** ([ESCENAS.md](ESCENAS.md) § Hojas); su ID en las referencias de escenas | `scripts/escenas/pendientes.py` (`REFS`/`chars`) |
 | Copia del docente | en la carpeta de personajes | `publicidad/logos cursos/personajes/<curso>/` |
 | Diccionario general | retrato | `php artisan app:glossary-portraits carpeta/ --apply` |
 | Enciclopedia | retrato y cuerpo (`<slug>.webp`, `<slug>-cuerpo.webp`), silueta y pista | `public/img/enciclopedia/`, `scripts/enciclopedia/imagenes.py` |

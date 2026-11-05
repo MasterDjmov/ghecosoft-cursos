@@ -14,6 +14,8 @@ from pathlib import Path
 
 # Referencias en Stitch por curso: nombre → (proyecto, [pantallas]). Cuerpo entero + circular.
 # Gheco: siempre igual al oficial (proyecto 10046788797115308866, gheco-code.webp). Ver docs/ESCENAS.md § Gheco.
+# En el proyecto de la Feria la referencia es su hoja de 8 ángulos (df178b74…; copia en scripts/escenas/referencias/gheco-hoja.webp).
+GHECO_SHEETS = {'df178b74dac047e88cb333796320e721'}
 # En C++ y PHP la referencia de acá es regenerada y distinta: antes de hacer escenas nuevas ahí, subir la oficial y cambiar el id.
 REFS = {
     'c': {
@@ -136,7 +138,7 @@ REFS = {
              'Iris lleva UNA SOLA trenza gruesa, de costado, que le cae sobre un hombro (nunca dos trenzas), pelo castaño cobrizo con mechones de colores dentro de la trenza, anteojos redondos.'),
             (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'],
              'Tesela e Iris son casi de la misma altura (Tesela apenas unos centímetros más alta).'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'Gheco|gecko', 'Gheco', ['df178b74dac047e88cb333796320e721'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             # Subidos el 2026-10-10. Solo el cuerpo entero: los circulares llevan el nombre escrito y Stitch lo copiaría.
             (r'\bNora\b', 'Nora', ['e01c853235f1406f8ae015a41a3ddb13'],
              'Nora es ciega y alta, más alta que Iris; lleva túnica gris perla y un bastón blanco.'),
@@ -165,7 +167,7 @@ REFS = {
             (r'\bNilo\b', 'Nilo', ['55c53c1c0629482192ef2cf0e90c7370'], 'Nilo es un muchacho de 17 años, con gorra de mensajero y bufanda violeta.'),
             (r'\bNima\b', 'Nima', ['0f9fcc6dde3f450e96c11f25612bdfa3'], 'Nima tiene la piel morena oscura, una trenza negra alta y un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, con gorra negra al revés, chaleco ROJO inflado sobre buzo oscuro.'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'Gheco|gecko', 'Gheco', ['df178b74dac047e88cb333796320e721'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
         ],
     },
     'javascript': {
@@ -189,7 +191,7 @@ REFS = {
             # La segunda referencia es la escena de la calesita (R01-N03-P1): ahí la ropa salió cerrada; con la ficha sola, el modelo liviano a veces le deja la panza al aire.
             (r'\bNima\b', 'Nima', ['2fca95e351484814bbdeb8294f4c623b', 'c1beb5a9084e4492b1d9fb759dd0eb35'], 'Nima aparece UNA sola vez. Nima tiene la piel morena oscura y lleva un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo, que le tapa toda la cintura (si la chaqueta es corta, Stitch le deja la panza al aire).'),
             (r'Lumina', 'Lumina', ['bdf51a14044046ffbd08a31cec35773e'], 'Lumina es una luciérnaga enorme, del tamaño de una persona, que flota: un INSECTO de verdad, como en su referencia (seis patitas, antenas, coronita dorada, alas de vidrio y el abdomen que brilla amarillo); nada de hada ni de cuerpo de persona.'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'Gheco|gecko', 'Gheco', ['df178b74dac047e88cb333796320e721'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, con gorra negra al revés, chaleco ROJO inflado sobre buzo oscuro y zapatillas rojas.'),
             (r'\bTati\b', 'Tati', ['4ed7e467fe034ed48f852420a3cbebf3'], 'Tati es una chica de 11 años, bajita, de piel clara, dos coletas negras, vestido azul con cuello blanco y delantal amarillo.'),
             (r'\bLucio\b', 'Lucio', ['edd2a5c8a13b42318521115982f1721c'], 'Lucio es un viejo flaco y alto.'),
@@ -241,7 +243,7 @@ REFS = {
              'Iris lleva UNA SOLA trenza gruesa, de costado, que le cae sobre un hombro (nunca dos trenzas), pelo castaño cobrizo con mechones de colores dentro de la trenza, anteojos redondos.'),
             (r'Tesela', 'Tesela', ['1156350282938354434', '1156350282938353708'],
              'Tesela e Iris son casi de la misma altura (Tesela apenas unos centímetros más alta).'),
-            (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'Gheco|gecko', 'Gheco', ['df178b74dac047e88cb333796320e721'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'\bNora\b', 'Nora', ['e01c853235f1406f8ae015a41a3ddb13'],
              'Nora es ciega y alta, más alta que Iris; lleva túnica gris perla y un bastón blanco.'),
             (r'\bTeo\b', 'Teo', ['21a330a7f37f44ae88efae1965f5261c'],
@@ -385,6 +387,8 @@ def prompt(course: str, scene: dict) -> dict:
         # En JavaScript, el pedido negativo largo lo escribía en los papeles: alcanza con decir que es solo dibujo.
         + cfg.get('cierre', 'Sin texto de ningún tipo: ni letras, ni números, ni carteles, ni títulos, ni rótulos con el nombre del lugar.')
     )
+    if GHECO_SHEETS & set(screens):  # la hoja muestra a un solo personaje: sin esto, Stitch podría copiar varios
+        text = text.replace('\n\nLa escena (', ' La referencia de Gheco es una hoja de personaje con varios ángulos de UN SOLO personaje: dibujalo UNA SOLA VEZ, sin el fondo de la hoja, eligiendo el ángulo que pida la escena.\n\nLa escena (', 1)
     if not has_kira:  # la descripción de Ferrum la nombra: sin Kira en la escena, se saca
         text = text.replace(', más alto y ancho que Kira', '')
     return {'projectId': cfg['project'], 'selectedScreenIds': screens, 'prompt': text}

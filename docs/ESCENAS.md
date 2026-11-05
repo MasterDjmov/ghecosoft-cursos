@@ -41,6 +41,8 @@ id, así que se vuelve a pedir.
 
 ## Gheco: siempre el mismo (2026-11-05)
 
+**Decisión del docente (2026-11-05):** las escenas ya hechas de los otros cursos, JavaScript incluido, **quedan como están** (son unas 720; en muchas Gheco sale más chico o sin antiparras). No se rehacen. **Toda escena nueva, de cualquier curso, pide a Gheco igual al oficial**, con su referencia y las pautas de abajo.
+
 La imagen oficial es `gheco-code.webp`, del proyecto de Stitch `10046788797115308866`, donde se creó. Es **flaco y alargado, aguamarina claro translúcido y liso, con finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico chico pegado a la cabeza**. **Sin manchas**: la nota vieja de `pendientes.py` decía «manchas amarillas» y producía otro gecko (corregida en todos los cursos).
 
 Referencias por proyecto: Python y Java tienen el archivo idéntico; C, Ensamblador, HTML, JS, C#, inglés, el mismo dibujo con fondo (`GhecoCode.jpeg`). **C++ y PHP tienen uno regenerado, distinto** (`8b96c262…`, `bce6aece…`): no usarlos como modelo; si se hacen escenas nuevas ahí, subir antes la imagen oficial.

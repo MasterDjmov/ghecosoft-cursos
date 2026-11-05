@@ -76,6 +76,7 @@ Las Crónicas en Inglés recorren **todas** las regiones ([INGLES.md](INGLES.md)
 
 - El texto en `docs/historias/<slug>.md` y, si toca a otros cursos, en `NOVELA-GRAFICA.md`.
 - Las escenas en `cursos/<slug>/escenas/` y el conteo en [ESCENAS.md](ESCENAS.md).
+- Gheco, siempre igual al oficial, con su referencia del proyecto: [ESCENAS.md](ESCENAS.md) § Gheco. Si es un proyecto de Stitch nuevo, subir antes `gheco-code.webp`.
 - Si suma un objeto que gana el héroe, va a `GameItems` (con imagen).
 - Si suma un personaje, § 2.
 - Si se puede contar en inglés, se anota en la temporada de esa región.

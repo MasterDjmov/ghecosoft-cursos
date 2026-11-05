@@ -13,6 +13,8 @@ import sys
 from pathlib import Path
 
 # Referencias en Stitch por curso: nombre → (proyecto, [pantallas]). Cuerpo entero + circular.
+# Gheco: siempre igual al oficial (proyecto 10046788797115308866, gheco-code.webp). Ver docs/ESCENAS.md § Gheco.
+# En C++ y PHP la referencia de acá es regenerada y distinta: antes de hacer escenas nuevas ahí, subir la oficial y cambiar el id.
 REFS = {
     'c': {
         'project': '12453694413360128121',

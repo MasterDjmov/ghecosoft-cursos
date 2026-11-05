@@ -21,7 +21,9 @@ from PIL import Image
 
 HERE = Path(__file__).parent
 MANIFEST = HERE / 'referencias' / 'hojas.json'
-BEASTS = r'^(el|la) (Slime|Ogro|Orco|Dragón|Goblin|Fantasma|ogro|troll|Troll|Polilla|Ratón|Herrumbre|Gran Pato|Gólem|Araña|Sanguijuela|Salamandra|Autómata|Quimera|Mímico|Kraken|Minotauro|Gárgola|Espectro|Sirena|Gorgona|Serpiente|Grifo|Orca|Hipocampo|Leviatán|Centinela|Borrón|Guardián)|^(Gheco|Axón|Eco|Chispa|Marea|Pico|Bengala|Ébano|Saeta)$'
+BEASTS = r'^(el|la) (Slime|Ogro|Orco|Dragón|Goblin|Fantasma|ogro|troll|Troll|Polilla|Ratón|Herrumbre|Gran Pato|Gólem|Araña|Sanguijuela|Salamandra|Autómata|Quimera|Mímico|Kraken|Minotauro|Gárgola|Espectro|Sirena|Gorgona|Serpiente|Grifo|Orca|Hipocampo|Leviatán|Centinela|Borrón|Guardián)|^(Gheco|Axón|Eco|Pico|Bengala|Ébano|Saeta)$'
+# En estos proyectos la referencia de Gheco es regenerada y distinta: subir la oficial antes de hacerle su hoja (docs/ESCENAS.md).
+SKIP = {('14674491267148198305', 'Gheco'), ('12272294721581088244', 'Gheco')}
 COMMON = 'Copiá fielmente su diseño, cara, colores, ropa, accesorios y proporciones, sin rediseñarlo ni embellecerlo. Es UN SOLO personaje repetido. Fondo azul noche oscuro liso, sin grilla, sin piso y sin decorado. Formato 16:9 (1376×768). Ocho figuras separadas, sin tocarse, del mismo tamaño, cuerpo entero, en dos filas de cuatro.'
 PERSON = 'Fila de arriba, de pie en postura neutra: 1) de frente; 2) tres cuartos; 3) de perfil; 4) de espaldas. Fila de abajo: 5) caminando, con su objeto característico si tiene; 6) sentado; 7) señalando algo con la mano, hablando; 8) primer plano de la cabeza en tres cuartos, para ver bien la cara y el pelo. En TODAS, la misma ropa, opaca y cerrada, sin escote ni panza al aire y sin agregar prendas.'
 BEAST = 'Fila de arriba, en postura neutra: 1) de frente; 2) tres cuartos; 3) de perfil; 4) de espaldas. Fila de abajo: 5) en movimiento; 6) quieto, descansando; 7) amenazando o en acción, con cara expresiva; 8) primer plano de la cabeza. En TODAS, la misma forma, el mismo cuerpo, los mismos colores y detalles. Aspecto apto para alumnos chicos, sin sangre.'
@@ -46,7 +48,7 @@ def inventory():
     for cfg in table.values():
         for char in cfg['chars']:
             key = (cfg['project'], char[1])
-            if key not in out:
+            if key not in out and key not in SKIP:
                 out[key] = {'project': cfg['project'], 'name': char[1], 'ids': originals.get(key, char[2])[:2], 'note': char[3]}
     return out
 

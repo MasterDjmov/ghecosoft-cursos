@@ -8,7 +8,7 @@ nivel: desde_cero
 descripcion_corta: Ensamblador del Intel 8086 desde cero: lo que hay debajo de cada if, cada for y cada función, con un emulador en tu navegador.
 precio_raiz: 0
 dias_abono: 30
-destacado: no
+destacado: si
 proximamente: no
 publicado: si
 ```

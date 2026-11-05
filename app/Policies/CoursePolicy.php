@@ -56,6 +56,15 @@ class CoursePolicy
     }
 
     /**
+     * Herramientas → Practicar (D120): un editor suelto del lenguaje del curso (qué curso habilita qué lenguaje, en
+     * PracticeTools). Con el abono vigente; el staff, siempre.
+     */
+    public function usePracticeTool(User $user, Course $course): bool
+    {
+        return $user->isStaff() || ($course->is_published && $this->access->hasActiveSubscription($user, $course));
+    }
+
+    /**
      * Reiniciar el propio progreso en el curso (D117): el staff siempre (prueba los cursos sin abono); el alumno, con el
      * abono vigente, porque con el vencido no podría volver a abrir lo que borra.
      */

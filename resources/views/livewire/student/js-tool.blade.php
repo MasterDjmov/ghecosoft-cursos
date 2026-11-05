@@ -1,13 +1,9 @@
-<div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 sm:p-8" x-data="{ open: 'consola' }">
-    <header class="flex flex-col gap-1">
-        <p class="tech-label">Herramientas</p>
-        <h1 class="font-display text-2xl font-semibold text-white">La caja de la Feria</h1>
-        <p class="text-sm text-ink-muted">
-            JavaScript para practicar lo que quieras. Corre acá mismo, en tu navegador, dentro de una caja: no tiene internet, no ve tu sesión
-            y todo lo que toca es de mentira (el reloj, las cookies, el almacenamiento y el Puerto de Elefa). Al terminar se borra todo: no queda
-            nada en tu compu. Nada de lo que hagas acá se guarda ni cuenta para el curso.
-        </p>
-    </header>
+<div @class(['mx-auto flex w-full max-w-5xl flex-col gap-6', 'p-4 sm:p-8' => ! $inWindow, 'p-3' => $inWindow]) x-data="{ open: 'consola' }">
+    <x-tool-header title="La caja de la Feria" :in-window="$inWindow">
+        JavaScript para practicar lo que quieras. Corre acá mismo, en tu navegador, dentro de una caja: no tiene internet, no ve tu sesión
+        y todo lo que toca es de mentira (el reloj, las cookies, el almacenamiento y el Puerto de Elefa), y se borra al terminar.
+        Tu código queda en este navegador, por si volvés, y no cuenta para el curso.
+    </x-tool-header>
 
     <nav class="flex flex-wrap gap-2" aria-label="Ejemplos">
         @foreach ($examples as $key => $example)
@@ -22,7 +18,7 @@
     @foreach ($examples as $key => $example)
         <section x-show="open === '{{ $key }}'" @if (! $loop->first) x-cloak @endif class="flex flex-col gap-3">
             <p class="text-sm text-ink-muted">{{ $example['about'] }}</p>
-            <x-code-runner :code="$example['code']" language="javascript" name="feria"
+            <x-code-runner :code="$example['code']" language="javascript" name="feria" :keep="'js-'.$key" autocomplete
                 :checks="isset($example['page']) ? json_encode(['page' => $example['page']], JSON_UNESCAPED_UNICODE) : null" data-test="js-tool" />
         </section>
     @endforeach
@@ -37,7 +33,7 @@
             <li><strong class="text-ink">alert, confirm y prompt:</strong> las respuestas salen de la pestaña Entrada, una por línea.</li>
             <li><strong class="text-ink">Un tope:</strong> si un bucle no termina, la caja lo corta (como al Gólem) y te avisa.</li>
         </ul>
-        @if ($course)
+        @if ($course && ! $inWindow)
             <p class="text-xs text-ink-muted">Las explicaciones están en el curso <a href="{{ route('student.course', $course) }}" wire:navigate class="text-primary-bright hover:underline">{{ $course->title }}</a>.</p>
         @endif
     </section>

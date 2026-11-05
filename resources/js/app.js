@@ -1,4 +1,5 @@
 import './live-alerts.js';
+import './tool-window.js';
 import { compareLines, describeDifference } from './runners/compare.js';
 import { englishStep, speak } from './runners/english.js';
 import { worldsCarousel } from './worlds-carousel.js';
@@ -266,6 +267,22 @@ document.addEventListener('alpine:init', () => {
         runSource: null,
 
         async init() {
+            // Herramientas (D120): lo que se escribió queda en este navegador; «Restaurar» vuelve al ejemplo.
+            if (config.keep) {
+                try {
+                    this.code = localStorage.getItem(config.keep) ?? this.code;
+                } catch (e) {
+                    // Sin almacenamiento, arranca del ejemplo.
+                }
+                this.$watch('code', (code) => {
+                    try {
+                        if (code === this.original) localStorage.removeItem(config.keep);
+                        else localStorage.setItem(config.keep, code);
+                    } catch (e) {
+                        // No se recuerda, pero se puede seguir escribiendo.
+                    }
+                });
+            }
             const isHtml = config.language === 'html' && config.runnable !== false;
             if (isHtml) this.run();
             if (!this.$refs.editor) return;
@@ -282,6 +299,7 @@ document.addEventListener('alpine:init', () => {
                 doc: this.code,
                 language: config.language ?? 'python',
                 readOnly: Boolean(config.readOnly),
+                autocomplete: Boolean(config.autocomplete),
                 onChange: (code) => {
                     this.code = code;
                     // La página se vuelve a dibujar sola mientras se escribe (con una pausa corta).
@@ -611,6 +629,16 @@ document.addEventListener('alpine:init', () => {
         },
 
         restore() {
+            // Los archivos en solapas se arman de nuevo a partir del ejemplo.
+            if (config.keep && this.fileEditors.length) {
+                try {
+                    localStorage.removeItem(config.keep);
+                } catch (e) {
+                    // Si no se pudo guardar, tampoco hay nada que borrar.
+                }
+                window.location.reload();
+                return;
+            }
             if (this.fileEditors.length) {
                 this.fileEditors.forEach((editor, i) => editor.setDoc(this.fileOriginals[i]));
                 this.code = this.original;
@@ -635,6 +663,7 @@ document.addEventListener('alpine:init', () => {
                     doc: file.text,
                     language: file.language,
                     readOnly: Boolean(config.readOnly),
+                    autocomplete: Boolean(config.autocomplete),
                     onChange: (text) => {
                         texts[i] = text;
                         this.code = split.join(texts);

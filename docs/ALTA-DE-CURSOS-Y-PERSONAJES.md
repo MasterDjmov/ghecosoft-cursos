@@ -25,6 +25,7 @@ Se vienen **JavaScript, C#, React Native y Laravel**: cada uno trae su región, 
 | Mis Crónicas | el libro del curso y su pieza del portal | `Support\Chronicles`, [CRONICAS.md](CRONICAS.md) |
 | Simulación | correr el súper test antes de abrirlo | `php artisan app:simulate-course <slug>` |
 | **Inglés** | **su temporada en las Crónicas en Inglés (Primaria y Secundaria)**, ver § 4 | [INGLES.md](INGLES.md) § 8 |
+| Herramientas | si es un lenguaje nuevo, su lugar para practicar y sus sugerencias | `PracticeTools::TOOLS`, `completions.js`, [HERRAMIENTAS.md](HERRAMIENTAS.md) |
 | CLAUDE.md | la carpeta del curso en «Documentos» | `CLAUDE.md` |
 
 ## 2. Un personaje nuevo (héroe, líder, secundario o jefe)

@@ -4,7 +4,7 @@
         @include('partials.head')
     </head>
     {{-- Modo misión: pantalla completa, sin menú lateral. --}}
-    <body class="h-svh overflow-hidden">
+    <body class="h-svh overflow-hidden" data-tool-windows="{{ auth()->id() }}">
         {{ $slot }}
 
         @persist('toast')

@@ -31,7 +31,6 @@ use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
 use App\Livewire\Legal\ConsumerRequestForm;
 use App\Livewire\Student\AsmTool;
-use App\Livewire\Student\JsTool;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
@@ -42,8 +41,10 @@ use App\Livewire\Student\Hero;
 use App\Livewire\Student\Heroes;
 use App\Livewire\Student\Inventory as StudentInventory;
 use App\Livewire\Student\JavaRunner as StudentJavaRunner;
+use App\Livewire\Student\JsTool;
 use App\Livewire\Student\Mission;
 use App\Livewire\Student\NodeView;
+use App\Livewire\Student\PracticeTool;
 use App\Livewire\Student\RankingBoard;
 use App\Livewire\Student\Shop;
 use App\Livewire\Student\Stables;
@@ -112,6 +113,7 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::livewire('herramientas/golem-8086', AsmTool::class)->name('student.asm-tool');
     Route::livewire('herramientas/caja-de-la-feria', JsTool::class)->name('student.js-tool');
+    Route::livewire('herramientas/practicar/{language}', PracticeTool::class)->name('student.practice-tool');
     Route::get('herramientas/ejecutor-java/descargar', JavaRunnerDownloadController::class)->middleware('throttle:20,1')->name('student.java-runner.download');
     Route::livewire('ranking/{course}', RankingBoard::class)->name('student.ranking.course');
 

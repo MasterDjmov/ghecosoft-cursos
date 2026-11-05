@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen">
+    <body class="min-h-screen" data-tool-windows="{{ auth()->id() }}">
         <flux:sidebar sticky collapsible="mobile" class="border-e border-outline bg-surface-lowest/95 backdrop-blur-md">
             <flux:sidebar.header>
                 <x-app-logo href="{{ route('home') }}" wire:navigate />
@@ -90,11 +90,9 @@
                         <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.*') && ! request()->routeIs('student.js-tool')" wire:navigate>
                             Mundos
                         </flux:sidebar.item>
-                        {{-- D115: el staff prueba la caja de JavaScript aunque todavía no haya curso. --}}
-                        <flux:sidebar.item icon="light-bulb" :href="route('student.js-tool')" :current="request()->routeIs('student.js-tool')" wire:navigate data-test="menu-js-tool-staff">
-                            La caja de la Feria
-                        </flux:sidebar.item>
                     </flux:sidebar.group>
+
+                    <x-tools-card />
                 @else
                     <flux:sidebar.group heading="Aprender" class="grid">
                         <flux:sidebar.item icon="globe-americas" :href="route('student.worlds')" :current="request()->routeIs('student.worlds', 'student.course', 'student.tree', 'student.node')" wire:navigate>
@@ -106,28 +104,12 @@
                         <flux:sidebar.item icon="sparkles" :href="route('student.universe')" :current="request()->routeIs('student.universe')" wire:navigate data-test="menu-universe">
                             Universo
                         </flux:sidebar.item>
-                        {{-- Herramientas → Ejecutor de Java (D85): para quien cursa o pidió un curso de Java. --}}
-                        @if (\App\Models\Course::where('language', \App\Enums\Language::Java)->where(fn ($q) => $q->whereHas('subscriptions', fn ($s) => $s->where('user_id', auth()->id()))->orWhereHas('enrollmentRequests', fn ($r) => $r->where('user_id', auth()->id())))->exists())
-                            <flux:sidebar.item icon="command-line" :href="route('student.java-runner')" :current="request()->routeIs('student.java-runner')" wire:navigate data-test="menu-java-runner">
-                                Ejecutor de Java
-                            </flux:sidebar.item>
-                        @endif
-                        {{-- Herramientas → Gólem 8086 (D110): el tablero suelto, con el abono vigente de un curso de Ensamblador. --}}
-                        @if (\App\Models\Course::where('language', \App\Enums\Language::Asm)->get()->contains(fn ($c) => auth()->user()->can('useAsmTool', $c)))
-                            <flux:sidebar.item icon="cpu-chip" :href="route('student.asm-tool')" :current="request()->routeIs('student.asm-tool')" wire:navigate data-test="menu-asm-tool">
-                                Gólem 8086
-                            </flux:sidebar.item>
-                        @endif
-                        {{-- Herramientas → La caja de la Feria (D115): JavaScript suelto; el staff siempre, el alumno con el abono de un curso de JS. --}}
-                        @if (\App\Livewire\Student\JsTool::allowed(auth()->user()))
-                            <flux:sidebar.item icon="light-bulb" :href="route('student.js-tool')" :current="request()->routeIs('student.js-tool')" wire:navigate data-test="menu-js-tool">
-                                La caja de la Feria
-                            </flux:sidebar.item>
-                        @endif
                         <flux:sidebar.item icon="identification" :href="route('cv.show', auth()->user()->cv_slug)" target="_blank">
                             Mi CV
                         </flux:sidebar.item>
                     </flux:sidebar.group>
+
+                    <x-tools-card />
 
                     {{-- El juego (D84): separado de lo del curso, para que se entienda qué es cada cosa. --}}
                     <flux:separator variant="subtle" class="my-2" />

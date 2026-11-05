@@ -15,6 +15,7 @@ import { css } from '@codemirror/lang-css';
 import { sql } from '@codemirror/lang-sql';
 import { javascript } from '@codemirror/lang-javascript';
 import { tags as t } from '@lezer/highlight';
+import { editorCompletions } from './completions.js';
 
 const theme = EditorView.theme(
     {
@@ -95,9 +96,9 @@ const activeLineField = StateField.define({
 
 /**
  * @param {HTMLElement} parent
- * @param {{doc: string, language?: string, readOnly?: boolean, onChange?: (code: string) => void, onRun?: () => void}} options
+ * @param {{doc: string, language?: string, readOnly?: boolean, autocomplete?: boolean, onChange?: (code: string) => void, onRun?: () => void}} options
  */
-export function createEditor(parent, { doc, language = 'python', readOnly = false, onChange, onRun }) {
+export function createEditor(parent, { doc, language = 'python', readOnly = false, autocomplete = false, onChange, onRun }) {
     const extensions = [
         basicSetup,
         theme,
@@ -110,6 +111,7 @@ export function createEditor(parent, { doc, language = 'python', readOnly = fals
         activeLineField,
     ];
     if (LANGUAGES[language]) extensions.push(LANGUAGES[language]());
+    if (autocomplete) extensions.push(editorCompletions(language));
     if (readOnly) extensions.push(EditorState.readOnly.of(true), EditorView.editable.of(false));
 
     const view = new EditorView({ doc, extensions, parent });

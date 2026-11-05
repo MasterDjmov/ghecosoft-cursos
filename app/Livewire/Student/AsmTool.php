@@ -3,6 +3,7 @@
 namespace App\Livewire\Student;
 
 use App\Enums\Language;
+use App\Livewire\Student\Concerns\RendersToolPage;
 use App\Models\Course;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -15,6 +16,8 @@ use Livewire\Component;
 #[Title('Gólem 8086')]
 class AsmTool extends Component
 {
+    use RendersToolPage;
+
     public const STARTER = <<<'ASM'
         ; El tablero del Gólem: escribí tus órdenes y probá Ejecutar o Paso a paso.
         .model small
@@ -51,6 +54,6 @@ class AsmTool extends Component
 
     public function render()
     {
-        return view('livewire.student.asm-tool', ['course' => $this->course(), 'starter' => str_replace('Gólem', 'Golem', self::STARTER)]);
+        return $this->toolView('livewire.student.asm-tool', ['course' => $this->course(), 'starter' => str_replace('Gólem', 'Golem', self::STARTER)]);
     }
 }

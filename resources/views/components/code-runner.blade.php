@@ -12,6 +12,9 @@
     'checks' => null,
     // Ejemplo de varios archivos en solapas (D116, App\Support\CodeFiles): el ejemplo del nodo y la solución de referencia.
     'files' => false,
+    // Herramientas (D120): lo escrito se recuerda en este navegador, con sugerencias al escribir.
+    'keep' => null,
+    'autocomplete' => false,
 ])
 
 @php
@@ -51,6 +54,7 @@
         'pyodideUrl' => config('services.pyodide.url'), 'javaRunnerUrl' => config('services.java_runner.url'), 'javaHelpUrl' => $javaHelpUrl, 'timeout' => config('services.pyodide.timeout_ms'),
         'references' => (object) array_filter($references), 'checks' => ($isHtml || $language === 'asm') && filled($checks) ? (string) $checks : null,
         'jsMission' => (object) $jsMission, 'jsHasPage' => $jsHasPage, 'fenced' => $fenced,
+        'keep' => $keep ? 'practice:'.auth()->id().':'.$keep : null, 'autocomplete' => $autocomplete,
     ]))">
     <div class="code-window overflow-hidden rounded-lg border border-outline bg-surface-lowest transition focus-within:border-primary-bright/60">
         {{-- Barra de la ventana --}}
@@ -124,7 +128,7 @@
     @if ($canRun && $javaHelpUrl)
         <p class="-mt-2 flex items-center gap-1.5 text-xs text-ink-muted" data-test="java-runner-hint">
             <flux:icon name="computer-desktop" variant="micro" /> Java se ejecuta en tu compu, con el
-            <a href="{{ $javaHelpUrl }}" wire:navigate class="text-primary-bright hover:underline">Ejecutor de Java</a> abierto.
+            <a href="{{ $javaHelpUrl }}" @if (request()->boolean('ventana')) target="_blank" @else wire:navigate @endif class="text-primary-bright hover:underline">Ejecutor de Java</a> abierto.
         </p>
     @endif
 

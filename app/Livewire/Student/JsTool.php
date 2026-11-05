@@ -3,6 +3,7 @@
 namespace App\Livewire\Student;
 
 use App\Enums\Language;
+use App\Livewire\Student\Concerns\RendersToolPage;
 use App\Models\Course;
 use App\Models\User;
 use Livewire\Attributes\Title;
@@ -17,6 +18,8 @@ use Livewire\Component;
 #[Title('La caja de la Feria')]
 class JsTool extends Component
 {
+    use RendersToolPage;
+
     /** Los ejemplos: título, qué muestra, el código y, si es una página, su HTML. */
     public const EXAMPLES = [
         'consola' => [
@@ -160,7 +163,7 @@ class JsTool extends Component
 
     public function render()
     {
-        return view('livewire.student.js-tool', [
+        return $this->toolView('livewire.student.js-tool', [
             'examples' => self::EXAMPLES,
             'course' => Course::where('language', Language::JavaScript)->get()->first(fn (Course $course) => auth()->user()->can('useJsTool', $course) && $course->is_published),
         ]);

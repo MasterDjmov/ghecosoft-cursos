@@ -1,14 +1,10 @@
-<div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 sm:p-8">
-    <header class="flex flex-col gap-1">
-        <p class="tech-label">Herramientas</p>
-        <h1 class="font-display text-2xl font-semibold text-white">El tablero del Gólem 8086</h1>
-        <p class="text-sm text-ink-muted">
-            Para practicar lo que quieras fuera de las micro-misiones. Corre acá mismo, en tu navegador, con la misma sintaxis de este curso
-            (MASM): lo que escribas también funciona en emu8086. Nada de lo que hagas acá se guarda ni cuenta para el curso.
-        </p>
-    </header>
+<div @class(['mx-auto flex w-full max-w-5xl flex-col gap-6', 'p-4 sm:p-8' => ! $inWindow, 'p-3' => $inWindow])>
+    <x-tool-header title="El tablero del Gólem 8086" :in-window="$inWindow">
+        Para practicar lo que quieras fuera de las micro-misiones. Corre acá mismo, en tu navegador, con la misma sintaxis de este curso
+        (MASM): lo que escribas también funciona en emu8086. Lo que escribís queda en este navegador, por si volvés, y no cuenta para el curso.
+    </x-tool-header>
 
-    <x-code-runner :code="$starter" language="asm" name="practica" data-test="asm-tool" />
+    <x-code-runner :code="$starter" language="asm" name="practica" keep="asm" autocomplete data-test="asm-tool" />
 
     <section class="panel flex flex-col gap-2 p-5 text-sm text-ink">
         <h2 class="font-display text-base font-semibold text-white">Lo que entiende el Gólem</h2>
@@ -18,7 +14,7 @@
             <li>Las interrupciones del curso: <code>INT 21h</code> (teclado y pantalla), <code>INT 10h</code> (cursor y colores) e <code>INT 16h</code>.</li>
             <li>Si usás una etiqueta <code>fin:</code>, al terminar el tablero te muestra cómo quedaron las palancas en ese momento.</li>
         </ul>
-        @if ($course)
+        @if ($course && ! $inWindow)
             <p class="text-xs text-ink-muted">Las explicaciones de cada orden están en el curso <a href="{{ route('student.course', $course) }}" wire:navigate class="text-primary-bright hover:underline">{{ $course->title }}</a>.</p>
         @endif
     </section>

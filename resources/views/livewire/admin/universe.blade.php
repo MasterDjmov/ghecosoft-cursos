@@ -77,7 +77,7 @@
             <span class="flex items-center gap-1.5"><span class="size-2.5 rounded-full bg-ink"></span> curso · nodo (color del curso)</span>
             <span class="flex items-center gap-1.5"><span class="size-2.5 rotate-45 bg-secondary-bright"></span> tema (color de su familia; brilla si se repite)</span>
             <span class="flex items-center gap-1.5"><span class="size-2.5 rotate-45 bg-[#ef4444]"></span> falta y algún nodo lo usa</span>
-            <span class="flex items-center gap-1.5"><span class="size-2.5 rotate-45 bg-[#475569]"></span> falta (nadie lo enseña)</span>
+            <span class="flex items-center gap-1.5"><span class="size-2.5 rotate-45 bg-[#a8b5c8]"></span> falta (nadie lo enseña)</span>
         </div>
         <div class="absolute bottom-3 left-3 flex gap-2">
             <flux:button size="xs" icon="viewfinder-circle" x-on:click="fit">Ver todo</flux:button>

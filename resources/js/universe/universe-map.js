@@ -1,5 +1,5 @@
 // Mapa 3D del universo de cursos (D70, Admin → Universo; D81, el Universo del alumno). Cada curso es una
-// galaxia (su logo en el centro y sus nodos, unidos como en su árbol) y los temas del catálogo
+// galaxia (su logo en el centro y sus nodos, unidos como en su árbol) sobre una esfera, y los temas del catálogo
 // (cursos/temas.md) son octaedros que atan los nodos que los enseñan (línea) o los usan (línea con
 // partículas). Los temas que faltan y tienen potencial —se usan, los piden los alumnos— laten.
 // Solo para mirar: no cambia nada (el voto del alumno lo guarda su componente de Livewire).
@@ -8,7 +8,7 @@ import SpriteText from 'three-spritetext';
 import * as THREE from 'three';
 import { forceX, forceY, forceZ } from 'd3-force-3d';
 
-const MISSING = '#475569';
+const MISSING = '#a8b5c8';
 const NEEDED = '#ef4444';
 
 const escape = (text) => String(text ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -27,7 +27,7 @@ export function familyColors(families) {
 }
 
 /** Un color más apagado, mezclado con el fondo: los nodos que el alumno todavía no abrió. */
-function dim(hex, amount = 0.6) {
+function dim(hex, amount = 0.4) {
     const n = parseInt(String(hex ?? '#94a3b8').slice(1), 16);
     const mix = (c, bg) => Math.round(c * (1 - amount) + bg * amount);
     return `rgb(${mix((n >> 16) & 255, 5)}, ${mix((n >> 8) & 255, 7)}, ${mix(n & 255, 13)})`;
@@ -49,6 +49,47 @@ function halo() {
         haloTexture = new THREE.CanvasTexture(canvas);
     }
     return haloTexture;
+}
+
+/**
+ * El grosor de las rutas y el tamaño de lo que viaja por ellas crecen al alejarse, para que tengan siempre
+ * unos píxeles en la pantalla: lo que se mueve se ve sin hacer zoom. Lo aplica la placa de video, sin tocar
+ * cada objeto. `axes` son los ejes que crecen: en una ruta solo el ancho, porque su largo lo marca la distancia.
+ */
+const screenScale = { value: 1 };
+function constantOnScreen(material, axes) {
+    material.onBeforeCompile = (shader) => {
+        shader.uniforms.screenScale = screenScale;
+        shader.vertexShader = `uniform float screenScale;\n${shader.vertexShader}`
+            .replace('#include <begin_vertex>', `#include <begin_vertex>\ntransformed.${axes} *= screenScale;`);
+    };
+    material.customProgramCacheKey = () => axes;
+    return material;
+}
+
+/** Luz que se suma a lo que hay detrás: las rutas que se cruzan brillan más. */
+const glowMaterial = (color, opacity) => new THREE.MeshBasicMaterial({ color, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false });
+
+const LINK_GLOW = { tree: 0.6, teaches: 0.5, uses: 0.4 };
+const linkMaterials = new Map();
+function linkMaterial(link) {
+    const key = `${link.kind}${link.color}`;
+    if (!linkMaterials.has(key)) linkMaterials.set(key, constantOnScreen(glowMaterial(link.color ?? '#94a3b8', LINK_GLOW[link.kind]), 'xy'));
+    return linkMaterials.get(key);
+}
+
+let particleModel = null;
+function particle() {
+    particleModel ??= new THREE.Mesh(new THREE.SphereGeometry(0.85, 8, 8), constantOnScreen(glowMaterial('#ffffff', 1), 'xyz'));
+    return particleModel;
+}
+
+/** Reparte los cursos parejo sobre una esfera (espiral de Fibonacci): no quedan polos ni un anillo plano. */
+function spherePoint(i, total, radius) {
+    const y = total === 1 ? 0 : 1 - (2 * i) / (total - 1);
+    const ring = Math.sqrt(1 - y * y);
+    const angle = i * Math.PI * (3 - Math.sqrt(5));
+    return { x: Math.cos(angle) * ring * radius, y: y * radius, z: Math.sin(angle) * ring * radius };
 }
 
 /** El logo del curso como medallón redondo con un aro de su color (como en el árbol 2D). */
@@ -87,12 +128,17 @@ export function mountUniverse(element, data, { onSelect, student = false } = {})
     const families = new Map(data.families.map((family) => [family.key, family]));
     const rawNodes = new Map(data.nodes.map((node) => [node.id, node]));
 
-    // Centros de las galaxias en un círculo.
-    const radius = 220 + 45 * data.courses.length;
-    const centers = new Map(data.courses.map((course, i) => {
-        const angle = (i / data.courses.length) * Math.PI * 2;
-        return [course.id, { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius, z: 0 }];
+    // Centros de las galaxias sobre una esfera; los temas que comparten quedan adentro, entre ellas.
+    // En la vista 2D, en un círculo: aplastar la esfera las encimaría.
+    const total = data.courses.length;
+    const sphereRadius = 300 + 20 * total;
+    const sphere = new Map(data.courses.map((course, i) => [course.id, spherePoint(i, total, sphereRadius)]));
+    const ringRadius = 220 + 45 * total;
+    const ring = new Map(data.courses.map((course, i) => {
+        const angle = (i / total) * Math.PI * 2;
+        return [course.id, { x: Math.cos(angle) * ringRadius, y: Math.sin(angle) * ringRadius, z: 0 }];
     }));
+    let centers = sphere;
 
     const topicStatus = (topic) => {
         const taughtIn = new Set(topic.taught.map((id) => rawNodes.get(id)?.course_id));
@@ -140,9 +186,23 @@ export function mountUniverse(element, data, { onSelect, student = false } = {})
     const topicCenter = (topic) => {
         const points = topic.taught.map((id) => centers.get(rawNodes.get(id)?.course_id)).filter(Boolean);
         if (!points.length) return { x: 0, y: 0, z: 0 };
-        return { x: points.reduce((s, p) => s + p.x, 0) / points.length, y: points.reduce((s, p) => s + p.y, 0) / points.length, z: 0 };
+        const average = (axis) => points.reduce((sum, point) => sum + point[axis], 0) / points.length;
+        return { x: average('x'), y: average('y'), z: average('z') };
     };
     const center = (item) => item.kind === 'topic' ? topicCenter(item.topic) : centers.get(item.kind === 'course' ? item.course.id : item.courseId) ?? { x: 0, y: 0, z: 0 };
+
+    // Cada pieza arranca cerca de su lugar y el logo de cada curso queda fijo: los temas que comparten
+    // los cursos no los arrastran entre sí, y la forma de la esfera se mantiene.
+    function place() {
+        const flat = centers === ring;
+        for (const item of byId.values()) {
+            const { x, y, z } = center(item);
+            const jitter = () => (Math.random() - 0.5) * 40;
+            Object.assign(item, { x: x + jitter(), y: y + jitter(), z: flat ? 0 : z + jitter(), vx: 0, vy: 0, vz: 0 });
+            if (item.kind === 'course') Object.assign(item, { x, y, z, fx: x, fy: y, fz: z });
+        }
+    }
+    place();
 
     const allLinks = [];
     for (const node of data.nodes) {
@@ -166,19 +226,25 @@ export function mountUniverse(element, data, { onSelect, student = false } = {})
         .nodeOpacity(0.95)
         .nodeThreeObject((item) => item.kind === 'course' ? courseObject(item) : item.kind === 'topic' ? topicObject(item) : null)
         .linkColor((link) => link.color)
-        .linkOpacity(0.28)
-        .linkWidth((link) => isFocused(link) ? 1.6 : link.kind === 'tree' ? 0.7 : link.kind === 'teaches' ? 0.5 : 0.25)
+        .linkMaterial(linkMaterial)
+        .linkWidth((link) => isFocused(link) ? 1.8 : link.kind === 'tree' ? 0.8 : link.kind === 'teaches' ? 0.6 : 0.4)
         .linkDirectionalParticles((link) => link.kind === 'uses' ? 2 : 0)
-        .linkDirectionalParticleWidth(1.4)
+        .linkDirectionalParticleThreeObject(particle)
         .linkDirectionalParticleSpeed(0.004)
         .onNodeClick((item) => select(item.id))
         .onBackgroundClick(() => select(null));
 
     graph.d3Force('charge').strength(-45);
-    graph.d3Force('link').distance((link) => link.kind === 'tree' ? 16 : link.kind === 'teaches' ? 70 : 110).strength((link) => link.kind === 'tree' ? 0.9 : 0.08);
+    graph.d3Force('link').distance((link) => link.kind === 'tree' ? 16 : link.kind === 'teaches' ? 70 : 110).strength((link) => link.kind === 'tree' ? 0.9 : 0.02);
     graph.d3Force('x', forceX((item) => center(item).x).strength((item) => item.kind === 'topic' ? 0.03 : 0.1));
     graph.d3Force('y', forceY((item) => center(item).y).strength((item) => item.kind === 'topic' ? 0.03 : 0.1));
-    graph.d3Force('z', forceZ(0).strength(0.02));
+    graph.d3Force('z', forceZ((item) => center(item).z).strength((item) => item.kind === 'topic' ? 0.03 : 0.1));
+
+    // Gira despacio hasta que alguien lo toca: el giro es lo que hace que se lea como una esfera.
+    const controls = graph.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+    controls.addEventListener('start', () => { controls.autoRotate = false; });
 
     const resize = () => graph.width(element.clientWidth).height(element.clientHeight);
     const observer = new ResizeObserver(resize);
@@ -209,10 +275,10 @@ export function mountUniverse(element, data, { onSelect, student = false } = {})
         const size = item.status === 'repeated' ? 6 : glowing ? 5 : 4;
         const faded = item.status === 'missing' && !glowing;
         const color = glowing ? '#fbbf24' : item.color;
-        const material = new THREE.MeshLambertMaterial({ color, transparent: true, opacity: faded ? (student ? 0.5 : 0.3) : 0.95,
+        const material = new THREE.MeshLambertMaterial({ color, transparent: true, opacity: faded ? 0.8 : 0.95,
             emissive: item.status === 'repeated' || glowing ? color : '#000000', emissiveIntensity: 0.6 });
         group.add(new THREE.Mesh(new THREE.OctahedronGeometry(size), material));
-        const label = new SpriteText(item.topic.title, 3, faded ? '#94a3b8' : color);
+        const label = new SpriteText(item.topic.title, 3, faded ? '#cbd5e1' : color);
         label.position.set(0, -size - 4, 0);
         group.add(label);
         addGlow(group, item, size * 6, material);
@@ -234,6 +300,7 @@ export function mountUniverse(element, data, { onSelect, student = false } = {})
     let frame = 0;
     const pulse = (time) => {
         const t = time / 1000;
+        screenScale.value = Math.max(0.9, graph.camera().position.distanceTo(controls.target) * 0.0014);
         for (const p of pulsers) {
             const k = 0.5 + 0.5 * Math.sin(t * 2.4 + p.phase);
             const scale = p.base * (1 + 0.45 * k * p.intensity);
@@ -357,7 +424,13 @@ export function mountUniverse(element, data, { onSelect, student = false } = {})
             if (selected) onSelect?.(details(selected));
         },
         fit: () => graph.zoomToFit(800, 40),
-        dimensions: (n) => graph.numDimensions(n),
+        dimensions(n) {
+            controls.autoRotate = false;
+            centers = n === 3 ? sphere : ring;
+            place();
+            graph.numDimensions(n);
+            graph.cameraPosition({ x: 0, y: 0, z: (n === 3 ? sphereRadius : ringRadius) * 4 }, { x: 0, y: 0, z: 0 }, 800);
+        },
         destroy() {
             cancelAnimationFrame(frame);
             observer.disconnect();

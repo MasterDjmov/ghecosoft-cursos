@@ -211,7 +211,7 @@ REFS = {
             (r'\b[Tt]roll\b(?! chiquito)|Respuestas Cruzadas', 'el Troll de las Respuestas Cruzadas', ['4997fb2d079a4e5f8d368df45f4caf0e'], 'El Troll mide dos metros y medio.'),
             (r'[Dd]rag[oó]n', 'el Dragón de los Fuegos Artificiales', ['e52542221e7f4053b78a2b7321ac844c'], ''),
             (r'Polilla', 'la Polilla de los Formularios', ['02a2e1327123409fafe7ed0ed5f2e78e'], 'La Polilla es del tamaño de un perro grande.'),
-            (r'Rat[oó]n', 'el Ratón de la Niebla', ['edba9f307a1c4351825086c4ba8c9dcd'], 'El Ratón es del tamaño de un gato.'),
+            (r'[Rr]at[oó]n|[Rr]atoncito', 'el Ratón de la Niebla', ['edba9f307a1c4351825086c4ba8c9dcd'], 'El Ratón es del tamaño de un gato.'),
             (r'Herrumbre', 'la Herrumbre', ['8a4b1435aad54333bc96d273832ba9f2'], ''),
             (r'Gran Pato|[Pp]ato de [Hh]ojalata', 'el Gran Pato de Hojalata', ['53b17af8346c460eac776430f6befe04'], 'El Gran Pato mide tres metros.'),
             (r'\bTeo\b', 'Teo', ['21a330a7f37f44ae88efae1965f5261c'], 'Teo es un chico flaco y bajo para su edad, de pelo negro enrulado.'),

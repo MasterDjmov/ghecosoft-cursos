@@ -56,7 +56,8 @@
   "la Araña de las Direcciones": "94e84a40d07c4dd59c58c49720705edf",
   "la Sanguijuela de las Minas": "88c6ce097c2a486ea3cac5efa1750cba",
   "el Guardián del Archivo": "17b6cf0ccc1b4af1b551271383b503a9",
-  "el Dragón bajo la Montaña": "c794610ff0f84835926f3c9884354433"
+  "el Dragón bajo la Montaña": "c794610ff0f84835926f3c9884354433",
+  "la Salamandra del Horno": "e0a946b02c184066b963ea51db5c7299"
  },
  "14674491267148198305": {
   "Lima": "fc5535f6313b4eeb9193f2a34f3cad7a",
@@ -87,7 +88,8 @@
   "el Campeón Eterno": "c6235bea0a224029974684b3650ff544",
   "la Sirena de los Tipos Débiles": "2fc99b22c7f3495f9876f9267744061a",
   "el Grifo de los Registros": "7ee96a7b6d2f426b8dd88d7cb7e94068",
-  "el Hipocampo de las Vidrieras": "2add5d2dcc014175b34558fe9e3067d4"
+  "el Hipocampo de las Vidrieras": "2add5d2dcc014175b34558fe9e3067d4",
+  "la Orca de los Mensajes": "47048deb746c4896bdaa46bd814bd2e3"
  },
  "16828689365976730624": {
   "Mia": "226fed37f228433cb6aafc731dbc74e9",
@@ -100,6 +102,22 @@
   "Baldo": "b5dfbd9b38fd41caa9637d4e5adace19",
   "Sila": "cdf7549495a14bcca8d5678bfbb0dec2",
   "Maese Horas": "f2d56379c17a448c8738386705a4e635",
-  "el Ermitaño": "8e06b58aa0a84c22acf9ab54d6b5c09e"
+  "el Ermitaño": "8e06b58aa0a84c22acf9ab54d6b5c09e",
+  "la Cocinera de la Torre": "fb0fc0fad88a4882b98615e5bace46f1",
+  "la Copista": "e1a486da85d545c1a3ee7383f1d81ddb",
+  "Gheco": "884403e2c37745629376c54c5e67c5b4"
+ },
+ "7393382501138179740": {
+  "Kaffa": "2d5c95a0ad124871957a21a017fa3952",
+  "el Escriba Jefe": "9d4133c9ceb04f92845a4e212e5d6c37",
+  "Zed": "8b4c0faf08e74ea18a86d85977a2331e",
+  "Nadia": "c8825381fb5046308bc2b5e0bf9ecfff",
+  "la Maestra de Moldes": "1469dc62a4b343e7a24b1cc6ecf41e8a",
+  "el Archivista Mayor": "2a201c3c44614620bfab0b845d7d8286",
+  "el Centinela de la Aduana": "262fbc62d183451cb499d345f0d2713f",
+  "el Espectro Nulo": "d703d36316214cedb9cdfd953cd02d8c",
+  "el Leviatán de los Datos": "5ba966f0ea804211be626b43eb0ed1b6",
+  "el Dragón del Imperio": "7047f135e43f4f24a8ec3db05daa9261",
+  "Gheco": "d39ac92dcf6d46158cfcda4149f701ad"
  }
 }

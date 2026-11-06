@@ -61,7 +61,14 @@
   "el Autómata Guardián": "d4f20024a04f40c88182f976ed219666",
   "Nova": "25afdf4060fa4d2390c8f62f32337e5e",
   "Axón": "9382439ed9184be4bee0021d95b89abf",
-  "Gheco": "d119a11666c04b6a9aa3492b20d6a0d0"
+  "Gheco": "d119a11666c04b6a9aa3492b20d6a0d0",
+  "el Autómata de Hierro": "2f053b9f0d0f4d2682506e9cd8907868",
+  "el Ogro de las Banderas": "40746608e9f74783aae2faa3a692fdbe",
+  "el Troll de la Pila": "d55c5902a7774b2aa28444d3842a51d0",
+  "el Dragón del Gólem": "f0ef5b61036a4042879e7b0fdf77ed93",
+  "la jefa del Gremio": "57f383ad28c049318da0677b1ef41ac4",
+  "el Slime de las Palancas": "f0cd11e0fe0c4760a57eedf3a277f01b",
+  "la tabernera del pie": "c51401abaa8b429bb6477d6f1996a786"
  },
  "14674491267148198305": {
   "Lima": "fc5535f6313b4eeb9193f2a34f3cad7a",
@@ -123,5 +130,10 @@
   "el Leviatán de los Datos": "5ba966f0ea804211be626b43eb0ed1b6",
   "el Dragón del Imperio": "7047f135e43f4f24a8ec3db05daa9261",
   "Gheco": "d39ac92dcf6d46158cfcda4149f701ad"
+ },
+ "10046788797115308866": {
+  "el Esqueleto": "6e28109be8ff48c6bc8b8429ea9e2d0b",
+  "la Guardiana de la Arena": "f40520351b1f432da6f58a81bb56c5de",
+  "el Profe": "ac951e7534634ab19888f60e79cfbfde"
  }
 }

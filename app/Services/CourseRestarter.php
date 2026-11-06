@@ -33,7 +33,7 @@ class CourseRestarter
      */
     public const KEPT = [
         'crafts', 'mounts', 'item_movements', 'ranking_snapshots', 'universe_votes',
-        'course_subscriptions', 'enrollment_requests', 'practice_messages', 'delay_reminders',
+        'course_subscriptions', 'enrollment_requests', 'practice_messages', 'delay_reminders', 'delay_dismissals',
     ];
 
     public function __construct(private readonly Ledger $ledger, private readonly Heroes $heroes) {}

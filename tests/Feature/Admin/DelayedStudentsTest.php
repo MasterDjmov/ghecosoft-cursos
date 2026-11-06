@@ -3,6 +3,7 @@
 use App\Livewire\Admin\Students\Delayed;
 use App\Models\Cohort;
 use App\Models\CourseSubscription;
+use App\Models\DelayDismissal;
 use App\Models\DelayReminder;
 use App\Models\User;
 use App\Notifications\PlatformNotification;
@@ -73,6 +74,43 @@ test('el docente ve y avisa solo a los de sus comisiones', function () {
     Livewire::actingAs($this->teacher)->test(Delayed::class)
         ->call('open', $this->other->id, $this->course->id)->assertForbidden();
     expect(DelayReminder::where('user_id', $this->other->id)->exists())->toBeFalse();
+});
+
+test('quitado a mano sale de la lista y se puede volver a mostrar', function () {
+    Livewire::actingAs($this->teacher)->test(Delayed::class)
+        ->assertSee($this->mine->fullName())
+        ->call('dismiss', $this->mine->id, $this->course->id)
+        ->assertDontSee($this->mine->fullName())
+        ->assertSee('Ver quitados (1)')
+        ->set('showDismissed', true)
+        ->assertSee($this->mine->fullName())
+        ->call('restore', $this->mine->id, $this->course->id)
+        ->assertSet('showDismissed', false)
+        ->assertSee($this->mine->fullName());
+
+    expect(DelayDismissal::count())->toBe(0);
+});
+
+test('el docente no quita ni vuelve a mostrar a alumnos ajenos', function () {
+    Livewire::actingAs($this->teacher)->test(Delayed::class)
+        ->call('dismiss', $this->other->id, $this->course->id)->assertForbidden();
+    Livewire::actingAs($this->teacher)->test(Delayed::class)
+        ->call('restore', $this->other->id, $this->course->id)->assertForbidden();
+
+    expect(DelayDismissal::count())->toBe(0);
+});
+
+test('el quitado vuelve a la lista si avanza y se frena de nuevo', function () {
+    $admin = User::factory()->admin()->create();
+    app(DelayedStudents::class)->dismiss($admin, $this->mine, $this->course);
+    expect(app(DelayedStudents::class)->for($admin)->pluck('student.id')->all())->toBe([$this->other->id]);
+
+    $this->travel(1)->days();
+    app(PracticeSubmitter::class)->submit($this->mine, $this->data['root']->practices()->first(), 'print(1)');
+    $this->travel(7)->days();
+    CourseSubscription::where('user_id', $this->mine->id)->update(['ends_at' => now()->addMonth()]);
+
+    expect(app(DelayedStudents::class)->for($admin)->pluck('student.id')->all())->toContain($this->mine->id);
 });
 
 test('el alumno no entra a la pantalla de demorados', function () {

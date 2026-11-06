@@ -16,7 +16,8 @@ use Livewire\Component;
 
 /**
  * Alumnos demorados: con el abono vigente y sin avanzar hace DelayedStudents::DAYS días o más. El docente ve
- * a los de sus comisiones (TeacherScope) y les manda un aviso (mail + campanita, con copia interna).
+ * a los de sus comisiones (TeacherScope) y les manda un aviso (mail + campanita, con copia interna), o los
+ * quita de la lista si no hace falta seguirlos.
  */
 #[Title('Alumnos demorados')]
 class Delayed extends Component
@@ -31,6 +32,8 @@ class Delayed extends Component
     public ?int $remindCourseId = null;
 
     public string $body = '';
+
+    public bool $showDismissed = false;
 
     public function open(DelayedStudents $delayed, int $studentId, int $courseId): void
     {
@@ -59,10 +62,35 @@ class Delayed extends Component
         Flux::toast(variant: 'success', text: 'Aviso enviado a '.$student->fullName().' (mail y campanita).');
     }
 
+    public function dismiss(DelayedStudents $delayed, int $studentId, int $courseId): void
+    {
+        $student = User::findOrFail($studentId);
+        $course = Course::findOrFail($courseId);
+        $this->authorize('remindDelayed', [$student, $course]);
+
+        $delayed->dismiss(auth()->user(), $student, $course);
+        Flux::toast(text: $student->fullName().' salió de la lista. Vuelve si avanza o renueva y se frena de nuevo.');
+    }
+
+    public function restore(DelayedStudents $delayed, int $studentId, int $courseId): void
+    {
+        $student = User::findOrFail($studentId);
+        $course = Course::findOrFail($courseId);
+        $this->authorize('remindDelayed', [$student, $course]);
+
+        $delayed->restore($student, $course);
+        Flux::toast(variant: 'success', text: $student->fullName().' volvió a la lista.');
+    }
+
     public function render(DelayedStudents $delayed, TeacherScope $scope)
     {
         $viewer = auth()->user();
-        $rows = $delayed->for($viewer, $this->courseId === '' ? null : (int) $this->courseId);
+        $all = $delayed->all($viewer, $this->courseId === '' ? null : (int) $this->courseId);
+        $dismissedCount = $all->where('dismissed', true)->count();
+        if ($dismissedCount === 0) {
+            $this->showDismissed = false;
+        }
+        $rows = $all->where('dismissed', $this->showDismissed)->values();
         $courses = Course::whereIn('id', $viewer->isAdmin()
             ? CourseSubscription::active()->select('course_id')
             : Cohort::whereIn('id', $scope->cohortIds($viewer) ?: [0])->select('course_id'))
@@ -70,6 +98,7 @@ class Delayed extends Component
 
         return view('livewire.admin.students.delayed', [
             'rows' => $rows,
+            'dismissedCount' => $dismissedCount,
             'courses' => $courses,
             'reminding' => $this->studentId ? User::find($this->studentId) : null,
             'remindCourse' => $this->remindCourseId ? Course::find($this->remindCourseId) : null,

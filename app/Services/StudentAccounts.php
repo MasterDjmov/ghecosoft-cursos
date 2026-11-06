@@ -123,7 +123,7 @@ class StudentAccounts
         'node_step_completions' => ['user_id'], 'step_attempts' => ['user_id'], 'node_visits' => ['user_id'], 'practice_grants' => ['user_id'], 'node_unlocks' => ['user_id'], 'practice_marks' => ['user_id'],
         'submission_comments' => ['user_id'], 'submissions' => ['user_id'], 'practice_messages' => ['student_id', 'author_id'],
         'course_completions' => ['user_id'], 'user_badges' => ['user_id'], 'ranking_snapshots' => ['user_id'],
-        'universe_votes' => ['user_id'], 'delay_reminders' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],
+        'universe_votes' => ['user_id'], 'delay_reminders' => ['user_id'], 'delay_dismissals' => ['user_id'], 'course_subscriptions' => ['user_id'], 'enrollment_requests' => ['user_id'],
     ];
 
     /**

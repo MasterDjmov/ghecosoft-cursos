@@ -1,19 +1,26 @@
 <div class="mx-auto flex w-full max-w-5xl flex-col gap-6 p-4 sm:p-8">
     <x-admin.page-header title="Alumnos demorados"
-        :subtitle="'Con el abono vigente y sin avanzar hace '.\App\Services\DelayedStudents::DAYS.' días o más (entregar, superar una micro-misión o abrir un nodo). Mandales un aviso: les llega por mail y a la campanita.'">
+        :subtitle="'Con el abono vigente y sin avanzar hace '.\App\Services\DelayedStudents::DAYS.' días o más (entregar, superar una micro-misión o abrir un nodo). Mandales un aviso (les llega por mail y a la campanita) o quitalos de la lista. Cuando se les vence el abono, salen solos.'">
         <x-slot:actions>
             <flux:button variant="ghost" icon="arrow-left" :href="route('admin.students.index')" wire:navigate>Alumnos</flux:button>
         </x-slot:actions>
     </x-admin.page-header>
 
-    @if ($courses->count() > 1)
-        <flux:select wire:model.live="courseId" class="max-w-sm">
-            <flux:select.option value="">Todos los cursos</flux:select.option>
-            @foreach ($courses as $course)
-                <flux:select.option :value="$course->id">{{ $course->title }}</flux:select.option>
-            @endforeach
-        </flux:select>
-    @endif
+    <div class="flex flex-wrap items-center justify-between gap-3">
+        @if ($courses->count() > 1)
+            <flux:select wire:model.live="courseId" class="max-w-sm">
+                <flux:select.option value="">Todos los cursos</flux:select.option>
+                @foreach ($courses as $course)
+                    <flux:select.option :value="$course->id">{{ $course->title }}</flux:select.option>
+                @endforeach
+            </flux:select>
+        @endif
+        @if ($dismissedCount)
+            <flux:button size="sm" variant="ghost" icon="eye" wire:click="$toggle('showDismissed')">
+                {{ $showDismissed ? 'Volver a los demorados' : 'Ver quitados ('.$dismissedCount.')' }}
+            </flux:button>
+        @endif
+    </div>
 
     <div class="panel overflow-hidden">
         <ul class="divide-y divide-outline">
@@ -26,6 +33,7 @@
                             <span class="truncate text-xs text-ink-muted">
                                 {{ $row['course']->title }}{{ $row['cohort'] ? ' · '.$row['cohort']->name : '' }}
                                 · {{ $row['what'] }} el {{ $row['last']->format('d/m') }}
+                                · Abono hasta el {{ $row['ends_at']->format('d/m') }}
                             </span>
                             @if ($row['reminded'])
                                 <span class="text-xs text-primary-bright">Avisado el {{ $row['reminded']->created_at->format('d/m H:i') }}</span>
@@ -37,11 +45,16 @@
                         @if (! $row['student']->email)
                             <span class="text-xs text-ink-muted" title="No tiene email: el aviso le llega solo a la campanita">sin email</span>
                         @endif
-                        <flux:button size="sm" icon="envelope" wire:click="open({{ $row['student']->id }}, {{ $row['course']->id }})">Avisar</flux:button>
+                        @if ($row['dismissed'])
+                            <flux:button size="sm" icon="arrow-uturn-left" wire:click="restore({{ $row['student']->id }}, {{ $row['course']->id }})">Volver a mostrar</flux:button>
+                        @else
+                            <flux:button size="sm" icon="envelope" wire:click="open({{ $row['student']->id }}, {{ $row['course']->id }})">Avisar</flux:button>
+                            <flux:button size="sm" variant="ghost" icon="x-mark" wire:click="dismiss({{ $row['student']->id }}, {{ $row['course']->id }})">Quitar</flux:button>
+                        @endif
                     </div>
                 </li>
             @empty
-                <li class="p-8 text-center text-ink-muted">No hay alumnos demorados. Todos avanzaron en los últimos {{ \App\Services\DelayedStudents::DAYS }} días.</li>
+                <li class="p-8 text-center text-ink-muted">No hay alumnos demorados en la lista.</li>
             @endforelse
         </ul>
     </div>

@@ -170,6 +170,20 @@ class PracticeTools
         ],
     ];
 
+    /**
+     * Las que son para todos los que iniciaron sesión, con o sin abono: son de consulta. Se abren en una ventana, se
+     * pueden tener varias a la vez (`limit`) y solo se cierran con la cruz.
+     *
+     * @return list<array{key: string, label: string, icon: string, url: string, route: string, size: string, limit: int}>
+     */
+    public static function utilities(): array
+    {
+        return [
+            ['key' => 'ascii', 'label' => 'Tabla ASCII', 'icon' => 'table-cells', 'url' => route('student.ascii'), 'route' => 'student.ascii', 'size' => '600x640', 'limit' => 3],
+            ['key' => 'calculator', 'label' => 'Calculadora', 'icon' => 'calculator', 'url' => route('student.calculator'), 'route' => 'student.calculator', 'size' => '400x740', 'limit' => 3],
+        ];
+    }
+
     /** Los lenguajes de los cursos con los que este usuario puede practicar, una sola vez por request. */
     public static function allows(User $user, string $key): bool
     {

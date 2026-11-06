@@ -3,6 +3,8 @@ import './tool-window.js';
 import { compareLines, describeDifference } from './runners/compare.js';
 import { englishStep, speak } from './runners/english.js';
 import { worldsCarousel } from './worlds-carousel.js';
+import { asciiTool } from './tools/ascii.js';
+import { calculatorTool } from './tools/calculator.js';
 
 // Componente Alpine del árbol de habilidades. force-graph se descarga solo
 // en las páginas que muestran el árbol (import dinámico).
@@ -23,6 +25,10 @@ document.addEventListener('alpine:init', () => {
 
     // Mundos: el carrusel 3D de «Seguí donde dejaste».
     window.Alpine.data('worldsCarousel', worldsCarousel);
+
+    // Herramientas (D120): la calculadora y la tabla de caracteres.
+    window.Alpine.data('calculatorTool', calculatorTool);
+    window.Alpine.data('asciiTool', asciiTool);
 
     window.Alpine.data('skillTree', (data, options = {}) => ({
         tree: null,

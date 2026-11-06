@@ -5,7 +5,7 @@
     <header class="flex flex-col gap-1">
         <div class="flex flex-wrap items-center justify-between gap-2">
             <p class="tech-label">Herramientas</p>
-            <button type="button" data-tool-window="{{ url()->current() }}" data-tool-title="{{ $title }}" data-test="tool-open-window"
+            <button type="button" data-tool-window="{{ url()->current() }}" data-tool-title="{{ $title }}" data-test="tool-open-window" {{ $attributes }}
                 class="inline-flex items-center gap-1.5 rounded-md border border-outline px-2.5 py-1 text-xs text-ink-muted transition hover:border-primary-bright hover:text-ink">
                 <flux:icon name="arrow-top-right-on-square" variant="micro" /> Abrir en ventana
             </button>

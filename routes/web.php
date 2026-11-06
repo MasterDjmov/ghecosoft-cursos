@@ -30,7 +30,9 @@ use App\Livewire\Admin\Submissions;
 use App\Livewire\Admin\Syllabus;
 use App\Livewire\Admin\Universe;
 use App\Livewire\Legal\ConsumerRequestForm;
+use App\Livewire\Student\AsciiTool;
 use App\Livewire\Student\AsmTool;
+use App\Livewire\Student\CalculatorTool;
 use App\Livewire\Student\Chronicles as StudentChronicles;
 use App\Livewire\Student\CourseDetail;
 use App\Livewire\Student\CourseTree;
@@ -110,6 +112,8 @@ Route::middleware(['auth', 'password.changed'])->group(function () {
 
         return $world ? redirect()->route('student.expeditions', $world) : redirect()->route('student.heroes');
     })->name('student.expeditions.home');
+    Route::livewire('herramientas/calculadora', CalculatorTool::class)->name('student.calculator');
+    Route::livewire('herramientas/tabla-ascii', AsciiTool::class)->name('student.ascii');
     Route::livewire('herramientas/ejecutor-java', StudentJavaRunner::class)->name('student.java-runner');
     Route::livewire('herramientas/golem-8086', AsmTool::class)->name('student.asm-tool');
     Route::livewire('herramientas/caja-de-la-feria', JsTool::class)->name('student.js-tool');

@@ -84,3 +84,32 @@ test('en la ventana flotante la herramienta va suelta, sin el menú ni otra vent
         ->assertSee('data-test="menu-asm-tool"', false)
         ->assertSee('data-tool-window', false);
 });
+
+test('la calculadora y la tabla son para todos los que iniciaron sesión, sin abono', function () {
+    $student = User::factory()->create();
+    expect(PracticeTools::menu($student))->toBe([]);
+
+    $this->actingAs($student)->get(route('student.worlds'))
+        ->assertSee('data-test="menu-tools"', false)
+        ->assertSee('data-test="menu-ascii"', false)
+        ->assertSee('data-test="menu-calculator"', false);
+
+    $this->actingAs($student)->get(route('student.calculator'))->assertOk()->assertSee('data-test="calculator-tool"', false);
+    $this->actingAs($student)->get(route('student.ascii'))->assertOk()->assertSee('data-test="ascii-tool"', false);
+});
+
+test('la calculadora y la tabla piden iniciar sesión', function () {
+    $this->get(route('student.calculator'))->assertRedirect(route('login'));
+    $this->get(route('student.ascii'))->assertRedirect(route('login'));
+});
+
+test('en la ventana flotante la calculadora y la tabla van sueltas', function () {
+    $student = User::factory()->create();
+
+    foreach (['student.calculator', 'student.ascii'] as $route) {
+        $this->actingAs($student)->get(route($route, ['ventana' => 1]))
+            ->assertOk()
+            ->assertDontSee('data-test="menu-tools"', false)
+            ->assertDontSee('data-tool-window', false);
+    }
+});

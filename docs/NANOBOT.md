@@ -320,7 +320,8 @@ El docente imagina combinar cartas: un iterable, una herencia de Java, algo de e
 3. **Mejorar el bot sigue el flujo de hoy.** Que lo equipado se vea en el bot queda para más adelante.
 4. **Fase 0 aprobada:** prototipo para ver el diseño del bot, los movimientos y los escenarios antes de codificar.
 5. **Opinión sobre el prototipo:**
-   - El bot tiene que parecerse a lo ya armado: Serphira se rehace desde su imagen cuando vuelva la cuota de la cuenta principal. Lo actual es un boceto.
+   - El bot tiene que parecerse a lo ya armado: Serphira ya se rehízo desde sus 5 imágenes (2026-11-06, a la espera del OK del docente). Forma y colores de cada nivel, más ojo-lente, juntas y luz en el pecho; sin bases, círculos ni pantallas. Hojas en Stitch, proyecto `16828689365976730624`: `a2811ac7…` (n1), `27e36026…` (n2), `90963805…` (n3), `767186423…` (n4), `171787da…` (n5).
+   - **Cómo sale para los otros bots:** Stitch confunde derecha e izquierda y a veces agrega figuras, así que se piden 5 vistas (frente, 3/4 frente, perfil, 3/4 espalda, espalda) y se espejan las demás con `scripts/nanobot-prototipo/armar-serphira.py`, que dice qué figura va en cada dirección. Hay que mirar cada hoja antes de armarla. El bot apagado sale en gris del nivel 1, sin gastar cuota. Lo espejado invierte también lo asimétrico (la montura o una marca de un solo lado).
    - El mapa en rombos queda.
    - Se suman las cartas como piezas (§ 5).
    - Las órdenes se entienden, porque se aprenden de a poco.

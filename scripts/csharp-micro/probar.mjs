@@ -22,12 +22,12 @@ for (const file of fs.readdirSync(folder).filter((f) => f.endsWith('.md')).sort(
         const head = part.split('\n')[0];
         if (head.startsWith('## ')) {
             const code = block(part, 'Código de ejemplo');
-            if (code) items.push({ id: `${head.slice(3, 10)} ejemplo`, code, want: block(part, 'Salida esperada') });
+            if (code) items.push({ id: `${head.slice(3, 10)} ejemplo`, code, want: block(part, 'Salida esperada'), stdin: block(part, 'Entrada de ejemplo') ?? '' });
         } else if (head.startsWith('### ')) {
             const id = head.match(/R\d+-N\d+-\w+/)?.[0];
             const code = block(part, 'Solución') ?? block(part, 'Solución de referencia');
             const start = head.startsWith('### Micro') ? block(part, 'Código inicial') : null;
-            items.push({ id, code, start, want: block(part, 'Salida esperada'), stdin: block(part, 'Entrada') ?? '' });
+            items.push({ id, code, start, want: block(part, 'Salida esperada'), stdin: block(part, 'Entrada') ?? block(part, 'Entrada de ejemplo') ?? '' });
         }
     }
 }

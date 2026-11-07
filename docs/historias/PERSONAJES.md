@@ -1378,8 +1378,11 @@ Historia en [csharp.md](csharp.md).
 - **Relaciones:** lleva dos años en el Conservatorio y le explica a Ceci cómo funciona todo.
 
 ### Slime Desafinado
-- **Curso y rol:** C#, el Conservatorio. Jefe del primer bloque (todavía sin nodo: va cuando se complete la rama).
-- **Qué error representa:** los errores de sintaxis que no dejan arrancar el programa.
+- **Rol:** el jefe de R01 de C#, en la Sala de Ensayo (R01-N15). Se trepó al atril grande y se comió los signos de la partitura.
+- **Qué error representa:** los errores de sintaxis que no dejan arrancar el programa: el `;` que falta (`CS1002`), la llave sin cerrar (`CS1513`), la comilla abierta (`CS1010`).
+- **Cómo se lo vence:** leyendo lo que dice el compilador (la línea y el código), arreglando de a un error, empezando por el primero.
+- **Qué es:** un **slime verde brillante y gelatinoso**, redondo y del alto de un chico, con **dos ojos grandes un poco bizcos** (desafinados), boca torcida, gotas a los costados y notas musicales y puntitos flotando adentro.
+- **Imágenes:** cuerpo entero `652d3237…` y hoja `d0581643…` en el proyecto de la Feria (2026-11-07). Deja la insignia **Oído Afinado**.
 
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 

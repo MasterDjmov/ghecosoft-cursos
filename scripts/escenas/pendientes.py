@@ -166,6 +166,13 @@ REFS = {
             (r'\bNima\b', 'Nima', ['0f9fcc6dde3f450e96c11f25612bdfa3'], 'Nima tiene la piel morena oscura, una trenza negra alta y un saco de cuero negro largo hasta los muslos, cerrado del cuello hasta abajo.'),
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, de pelo castaño enrulado, con gorra ROJA al revés, chaleco rojo abotonado sobre camisa clara de mangas largas y pantalón marrón.'),
             (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'[Ss]lime', 'el Slime Desafinado', ['652d3237f39c48e78bf22f6084d4a53c'], 'El Slime Desafinado es un slime verde brillante y gelatinoso, redondo, con dos ojos grandes un poco bizcos, boca torcida y notas musicales y puntitos flotando adentro.'),
+            (r'\bTano\b|sombrero de copa', 'Don Tano', ['5ee266e65e5242958dbe87a10b6d24c2'], ''),
+            (r'\b[Oo]rcos?\b', 'el Orco del Desborde', ['7a8f59387a2545509da51e5bce46317f'], ''),
+            (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],
+             'El ogro es grandote y simpático, de piel GRIS AZULADA (nunca verde), pelo naranja desgreñado, nariz grande y redonda, dos colmillitos de abajo y orejas chicas pegadas a la cabeza.'),
+            (r'\b[Tt]roll\b', 'el troll chiquito de feria', ['1d079c0700224221b55e0b9f9bb68949'],
+             'El troll es chiquito, del alto de un nene de seis años: piel color musgo grisáceo, nariz de papa, pelo de paja y chaleco remendado (el de la izquierda en su referencia).'),
         ],
     },
     'javascript': {

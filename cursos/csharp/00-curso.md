@@ -33,6 +33,12 @@ Cada tema es un **nodo** del árbol, con **micro-misiones** que se comprueban so
 - Tipos: enteros, decimales, dinero, verdadero o falso, y convertir entre ellos
 - Cuentas: suma, resta, división entera, resto y el orden de las operaciones
 - Comparar y decidir: mayor, menor, igual, "y" y "o"
+- Textos: letras, mayúsculas, buscar, cortar, partir y dar formato
+- Leer lo que escribe el usuario y revisarlo antes de usarlo
+- Math y el azar: cuentas ya hechas y dados con semilla
+- Decidir con if y switch, repetir con while y for, y el menú
+- Arreglos y matrices: muchos datos con un solo nombre
+- Métodos: escribir una vez y usar muchas, tuplas y recursión
 
 # DICCIONARIO
 

@@ -8,9 +8,9 @@ nivel: desde_cero
 descripcion_corta: JavaScript desde cero: la lengua del navegador, de la consola a páginas que reaccionan, pedidos a un servidor y juegos en canvas.
 precio_raiz: 10
 dias_abono: 30
-destacado: no
-proximamente: si
-publicado: no
+destacado: si
+proximamente: no
+publicado: si
 micromisiones_completan: si
 ```
 

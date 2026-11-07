@@ -231,7 +231,7 @@ Lo que se agregó a la caja para escribirlas:
 
 ## 12. La guía de alta de JavaScript ([ALTA-DE-CURSOS-Y-PERSONAJES.md](ALTA-DE-CURSOS-Y-PERSONAJES.md))
 
-El curso se puede abrir cuando el docente lo decida (`proximamente` y `publicado` en `cursos/javascript/00-curso.md`).
+Publicado por el docente el 2026-11-07, y destacado para que salga entre los cursos de la portada (`destacado: si` en `cursos/javascript/00-curso.md`).
 
 | Punto | Estado |
 |---|---|

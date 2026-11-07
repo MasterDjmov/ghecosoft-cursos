@@ -64,6 +64,20 @@ canvas { display:block; width:100%; background:radial-gradient(circle at 50% 45%
 #log div.now { background:#17345e; border-radius:4px; }
 #log .bad { color:var(--red); } #log .good { color:var(--green); } #log .ask { color:var(--cyan); }
 pre.help { background:#071022; border-radius:10px; padding:9px 11px; margin:8px 0 0; font-size:12.5px; white-space:pre-wrap; color:var(--muted); }
+.grim { background:#071022; border-radius:10px; padding:10px 11px; margin-top:8px; }
+.grim h3 { margin:0 0 2px; font-size:14px; }
+.grim p { margin:0 0 8px; font-size:12.5px; color:var(--muted); line-height:1.35; }
+.compass { display:grid; grid-template-columns:repeat(3,64px); gap:4px; justify-content:center; margin-bottom:8px; }
+.compass button, .compass div { height:44px; padding:0; border-radius:8px; font:700 14px system-ui,sans-serif; display:flex; align-items:center; justify-content:center; gap:4px; }
+.compass div { font:600 11px system-ui; color:var(--muted); text-align:center; line-height:1.1; }
+.grim-card { margin-top:8px; }
+.grim-card > small { display:block; color:var(--cyan); font-size:11.5px; margin-bottom:3px; }
+.grim-card.off > small { color:var(--muted); }
+.cmds { display:flex; flex-wrap:wrap; gap:4px; }
+.cmds button { padding:3px 7px; border-radius:6px; font:12.5px ui-monospace,Menlo,monospace; color:var(--teal); }
+.grim-card.off .cmds button { color:var(--muted); border-style:dashed; }
+#cmdDlg pre { background:#071022; border-radius:8px; padding:8px 10px; margin:8px 0; font:13px/1.45 ui-monospace,Menlo,monospace; white-space:pre-wrap; }
+#cmdDlg .lock { color:var(--gold); }
 #status { min-height:22px; color:var(--gold); font-size:13.5px; margin-top:6px; }
 #guide { display:none; margin-top:8px; padding:10px 12px; border-radius:10px; background:#17345e; border:1px solid var(--cyan); white-space:pre-wrap; }
 #guide b { color:var(--gold); }
@@ -127,13 +141,23 @@ dialog input { font:inherit; width:100%; margin:8px 0; background:#071022; color
         <div id="guide" aria-live="polite"></div>
         <textarea id="code" spellcheck="false" aria-label="Programa en Python" style="margin-top:8px"></textarea>
         <div id="status"></div>
-        <pre class="help" id="help"></pre>
+        <div class="grim">
+          <h3>Los rumbos</h3>
+          <p>Son como en un mapa: <b>N</b> es arriba en la pantalla. <b>NE</b> es noreste, arriba a la derecha. <b>O</b> es oeste, con la letra O, no un cero. Tocá uno para escribirlo en tu código.</p>
+          <div class="compass" id="compass"></div>
+          <label class="muted" style="font-size:12.5px"><input type="checkbox" id="showDirs" checked> Ver los rumbos en el mapa</label>
+        </div>
+        <div class="grim">
+          <h3>Tu Grimorio</h3>
+          <p>Cada carta le da comandos al bot. Tocá uno para ver qué hace, qué devuelve y un ejemplo.</p>
+          <div id="grimoire"></div>
+        </div>
       </div>
       <div class="panel">
         <div class="row">
           <select id="world" aria-label="Mundo"><option value="valle">El Valle</option><option value="forjas">Las Forjas</option><option value="puerto">El Puerto</option></select>
           <select id="size" aria-label="Tamaño"><option value="8">Corta · 5 min · 8 × 8</option><option value="10" selected>Media · 15 min · 10 × 10</option><option value="12">Larga · 30 min · 12 × 12</option></select>
-          <select id="level" aria-label="Nivel"><option value="n1">Nivel 1</option><option value="n3">Nivel 3</option><option value="n5">Nivel 5</option></select>
+          <select id="level" aria-label="Nivel"><option value="n1">Nivel 1</option><option value="n2">Nivel 2</option><option value="n3">Nivel 3</option><option value="n4">Nivel 4</option><option value="n5">Nivel 5</option></select>
           <button id="newMap">Otro mapa</button>
           <select id="zoom" aria-label="Vista"><option value="150" selected>Vista cerca</option><option value="215">Muy cerca</option><option value="all">Mapa entero</option></select>
           <button id="wide">Ampliar el mapa</button>
@@ -152,6 +176,7 @@ dialog input { font:inherit; width:100%; margin:8px 0; background:#071022; color
   </section>
 </main>
 <dialog id="info"><img id="infoImg" alt=""><h3 id="infoTitle"></h3><div id="infoBody"></div><div class="dlg-actions"><button id="infoJump" class="main">Saltar acá</button><button id="infoClose">Cerrar</button></div></dialog>
+<dialog id="cmdDlg"><h3 id="cmdName" style="font-family:ui-monospace,Menlo,monospace"></h3><p class="muted" id="cmdFrom"></p><p id="cmdWhat"></p><p id="cmdGives"></p><pre id="cmdEg"></pre><p class="lock" id="cmdLock"></p><div class="dlg-actions"><button id="cmdPut" class="main">Escribirlo en mi código</button><button id="cmdClose">Cerrar</button></div></dialog>
 <dialog id="ask"><h3>Tu programa pide un dato</h3><p class="muted">Lo que escribas es lo que devuelve <code>input()</code>.</p><input id="askIn" aria-label="Dato para input"><div class="dlg-actions"><button id="askOk" class="main">Enviar</button></div></dialog>
 
 <script>
@@ -251,20 +276,66 @@ const CARDS = [
 ];
 const ORDER_CARD = {};
 CARDS.forEach((c, i) => c.orders.forEach((o) => { ORDER_CARD[o] = i; }));
-const ORDER_HELP = [
-  ['Moverse', 'mover("NE"): N NE E SE S SO O NO. juntar(), volver()', 3],
-  ['Preguntar', 'mirar("NE"): libre, pared, recurso, cofre, enemigo, pocion, celula, bono. vida(), energia(), pociones(), celulas(), bonos()', 1],
-  ['Actuar', 'atacar("NE"), tomar_pocion(), recargar(), usar_bono(), huir()', 2],
-  ['Decir', 'decir("hola")', 0],
-  ['Radar', 'radar(): lista con las 8 casillas, en el orden de RUMBOS', 4],
-  ['Llave', 'parado en un cofre: pista() da una lista de números y abrir(n) prueba la clave', 4],
-  ['Mapa', 'mapa(): filas con . libre, # pared, * recurso, $ cofre, ! enemigo, + poción, ~ célula, ^ bono, ? sin explorar', 5],
-  ['GPS', 'fila, columna = donde(). NE sube una fila, SO baja una, SE avanza una columna, NO retrocede una', 6],
-  ['Escáner', 'analizar("NE"): {"nombre": "Goblin", "vida": 26, "ataque": 6}, o None', 7],
-  ['Escudo', 'defender()', 8],
-  ['Caja negra', 'guardar(texto), recordar()', 9],
-];
 // Los comandos del bot. Por debajo son print e input: el simulador recibe las mismas órdenes.
+const COMMANDS = [
+  { c: 0, n: 'decir("hola")', what: 'El bot dice algo en un globito. Cualquier otra cosa que imprimas con print, también la dice.', eg: 'decir("Voy para allá")', put: 'decir("hola")' },
+  { c: 1, n: 'mirar("NE")', what: 'Mira la casilla vecina en ese rumbo, sin moverse.', gives: 'Un texto: "libre", "pared", "recurso", "cofre", "enemigo", "pocion", "celula" o "bono".', eg: 'if mirar("NE") == "enemigo":\n    decir("¡Cuidado!")', put: 'mirar("NE")' },
+  { c: 1, n: 'vida()', what: 'Pregunta cuánta vida le queda al bot.', gives: 'Un número.', eg: 'if vida() < 10:\n    tomar_pocion()', put: 'vida()' },
+  { c: 1, n: 'energia()', what: 'Pregunta cuánta energía le queda. Sin energía, la exploración termina.', gives: 'Un número.', eg: 'if energia() < 15:\n    recargar()', put: 'energia()' },
+  { c: 1, n: 'pociones()', what: 'Cuenta las pociones de vida que lleva.', gives: 'Un número.', eg: 'if vida() < 25 and pociones() > 0:\n    tomar_pocion()', put: 'pociones()' },
+  { c: 1, n: 'celulas()', what: 'Cuenta las células de energía que lleva.', gives: 'Un número.', eg: 'if celulas() > 0:\n    recargar()', put: 'celulas()' },
+  { c: 1, n: 'bonos()', what: 'Cuenta los bonos de fuerza que lleva.', gives: 'Un número.', eg: 'if bonos() > 0:\n    usar_bono()', put: 'bonos()' },
+  { c: 2, n: 'atacar("NE")', what: 'Le pega al enemigo que está en la casilla vecina en ese rumbo.', eg: 'while mirar("NE") == "enemigo":\n    atacar("NE")', put: 'atacar("NE")' },
+  { c: 2, n: 'tomar_pocion()', what: 'Toma una poción y recupera vida. Nada se usa solo: tu programa decide cuándo.', eg: 'if vida() < 25:\n    tomar_pocion()', put: 'tomar_pocion()' },
+  { c: 2, n: 'recargar()', what: 'Usa una célula y recupera 30 de energía.', eg: 'if energia() < 15:\n    recargar()', put: 'recargar()' },
+  { c: 2, n: 'usar_bono()', what: 'Usa un bono de fuerza: los próximos 3 golpes pegan más.', eg: 'if mirar("N") == "enemigo" and bonos() > 0:\n    usar_bono()', put: 'usar_bono()' },
+  { c: 2, n: 'huir()', what: 'Termina la exploración ya y el bot vuelve con la mitad de lo que juntó.', eg: 'if vida() < 12:\n    huir()', put: 'huir()' },
+  { c: 3, n: 'mover("NE")', what: 'Salta a la casilla vecina en ese rumbo. Gasta energía.', eg: 'while mirar("NE") == "libre":\n    mover("NE")', put: 'mover("NE")' },
+  { c: 3, n: 'juntar()', what: 'Junta lo que hay en la casilla donde está parado. La mochila tiene un límite.', eg: 'if mirar("E") == "recurso":\n    mover("E")\n    juntar()', put: 'juntar()' },
+  { c: 3, n: 'volver()', what: 'Termina la exploración y el bot vuelve con todo lo que juntó.', eg: 'if energia() < 5:\n    volver()', put: 'volver()' },
+  { c: 4, n: 'radar()', what: 'Mira las 8 casillas vecinas de una vez.', gives: 'Una lista con 8 textos, en este orden: N, NE, E, SE, S, SO, O, NO.', eg: 'vecinas = radar()\nif "enemigo" in vecinas:\n    decir("Hay alguien cerca")', put: 'radar()' },
+  { c: 4, n: 'pista()', what: 'Parado sobre un cofre, lee las pistas de su cerradura.', gives: 'Una lista de números.', eg: 'numeros = pista()\nabrir(sum(numeros))', put: 'pista()' },
+  { c: 4, n: 'abrir(clave)', what: 'Parado sobre un cofre, prueba esa clave en la cerradura.', eg: 'abrir(sum(pista()))', put: 'abrir(sum(pista()))' },
+  { c: 5, n: 'mapa()', what: 'Da todo lo explorado hasta ahora.', gives: 'Una lista de filas. Cada letra es una casilla: . libre, # pared, * recurso, $ cofre, ! enemigo, + poción, ~ célula, ^ bono, ? sin explorar.', eg: 'plano = mapa()\ndecir(plano[0][0])', put: 'mapa()' },
+  { c: 6, n: 'donde()', what: 'Da la posición del bot en el mapa. NE sube una fila, SO baja una, SE avanza una columna y NO retrocede una.', gives: 'Una tupla: (fila, columna).', eg: 'fila, columna = donde()', put: 'donde()' },
+  { c: 7, n: 'analizar("NE")', what: 'Escanea al enemigo de la casilla vecina.', gives: 'Un diccionario con "nombre", "vida" y "ataque", o None si no hay nadie.', eg: 'datos = analizar("NE")\nif datos and datos["ataque"] > 8:\n    huir()', put: 'analizar("NE")' },
+  { c: 8, n: 'defender()', what: 'Levanta el escudo y cubre el próximo golpe que le den.', eg: 'if vida() < 20:\n    defender()', put: 'defender()' },
+  { c: 9, n: 'guardar("3")', what: 'Guarda un texto en la caja negra. Queda para la próxima exploración.', eg: 'guardar("Hay un goblin al norte")', put: 'guardar("3")' },
+  { c: 9, n: 'recordar()', what: 'Lee lo que guardaste en la caja negra.', gives: 'Un texto.', eg: 'decir(recordar())', put: 'recordar()' },
+];
+const ROSE_MAP = [['NO', '↖', 'noroeste'], ['N', '↑', 'norte'], ['NE', '↗', 'noreste'], ['O', '←', 'oeste'], null, ['E', '→', 'este'], ['SO', '↙', 'suroeste'], ['S', '↓', 'sur'], ['SE', '↘', 'sureste']];
+function putInCode(text) { const t = $('code'); t.setRangeText(text, t.selectionStart, t.selectionEnd, 'end'); t.focus(); }
+function drawRoseMap() {
+  const box = $('compass'); box.replaceChildren();
+  ROSE_MAP.forEach((r) => {
+    if (!r) { const d = document.createElement('div'); d.textContent = 'el bot'; box.append(d); return; }
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = `${r[1]} ${r[0]}`; b.title = r[2]; b.setAttribute('aria-label', `Escribir el rumbo ${r[2]}`);
+    b.onclick = () => putInCode(`"${r[0]}"`);
+    b.onmouseenter = () => { if (view) { view.pulse = r[0]; redraw(); } };
+    b.onmouseleave = () => { if (view) { view.pulse = null; redraw(); } };
+    box.append(b);
+  });
+}
+function drawGrimoire() {
+  const box = $('grimoire'); box.replaceChildren();
+  CARDS.forEach((c, i) => {
+    const wrap = document.createElement('div'); wrap.className = `grim-card${hasCard(i) ? '' : ' off'}`;
+    const h = document.createElement('small'); h.textContent = `${c.card} · ${c.piece}${hasCard(i) ? '' : ` · se habilita en ${c.step}`}`;
+    const list = document.createElement('div'); list.className = 'cmds';
+    COMMANDS.filter((k) => k.c === i).forEach((k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = k.n; b.onclick = () => showCommand(k); list.append(b);
+    });
+    wrap.append(h, list); box.append(wrap);
+  });
+}
+function showCommand(k) {
+  const c = CARDS[k.c], open = hasCard(k.c);
+  $('cmdName').textContent = k.n; $('cmdFrom').textContent = `Carta «${c.card}» · pieza: ${c.piece}`;
+  $('cmdWhat').textContent = k.what; $('cmdGives').textContent = k.gives ? `Devuelve: ${k.gives}` : 'No devuelve nada: solo actúa.';
+  $('cmdEg').textContent = k.eg; $('cmdLock').textContent = open ? '' : `Todavía no la tenés: se habilita en la micro-misión ${c.step}.`;
+  $('cmdPut').style.display = open ? '' : 'none'; $('cmdPut').onclick = () => { $('cmdDlg').close(); putInCode(k.put); };
+  $('cmdDlg').showModal();
+}
 const BOT_LIB = `
 import builtins
 def input(mensaje=""):
@@ -328,7 +399,7 @@ function drawCards() {
     b.onclick = () => { progress = i; drawCards(); };
     box.append(b);
   });
-  $('help').textContent = [...ORDER_HELP.filter(([, , i]) => hasCard(i)).map(([t, o]) => `${t}: ${o}`), 'Cualquier otra cosa que imprimas, el bot la dice.'].join('\n');
+  drawGrimoire();
   if (world) { hud(view?.lastSnap ?? { hp: 60, en: world.n * 8, gems: 0, chests: 0, potions: world.carry.hp, cells: world.carry.cells, bonus: 0 }); }
   showExamples();
 }
@@ -663,7 +734,7 @@ function redraw() {
     if (e.kind === 'pick') { drawPickup(e.tile, e.x, e.y, g); continue; }
     if (e.kind === 'bot') {
       const lv = $('level').value;
-      drawSprite(lv, FACING[view.bot.facing] ?? 0, view.bot.x, view.bot.y, g, { scale: { n1: .9, n3: 1, n5: 1.15 }[lv], hop: view.bot.hop, dx: view.bot.dx || 0, dy: view.bot.dy || 0 });
+      drawSprite(lv, FACING[view.bot.facing] ?? 0, view.bot.x, view.bot.y, g, { scale: { n1: .9, n2: .95, n3: 1, n4: 1.08, n5: 1.15 }[lv], hop: view.bot.hop, dx: view.bot.dx || 0, dy: view.bot.dy || 0 });
     } else {
       const fx = view.beastFx?.[e.id] || {};
       const f = dirFromTo(e, view.bot);
@@ -681,6 +752,18 @@ function redraw() {
       const [sx, sy] = iso(x, y, g);
       ctx.fillStyle = 'rgba(47,230,200,.16)'; ctx.strokeStyle = '#2fe6c8'; ctx.lineWidth = 2.5;
       ctx.beginPath(); ctx.moveTo(sx, sy - g.th / 2); ctx.lineTo(sx + g.tw / 2, sy); ctx.lineTo(sx, sy + g.th / 2); ctx.lineTo(sx - g.tw / 2, sy); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+  }
+  if ($('showDirs').checked && !view.playing) {
+    for (const d of MOVES) {
+      const x = Math.round(view.bot.x) + DIR[d][0], y = Math.round(view.bot.y) + DIR[d][1];
+      if (x < 0 || y < 0 || x >= n || y >= n) continue;
+      const [sx, sy] = iso(x, y, g), on = view.pulse === d;
+      if (on) { ctx.fillStyle = 'rgba(255,200,87,.35)'; ctx.beginPath(); ctx.moveTo(sx, sy - g.th / 2); ctx.lineTo(sx + g.tw / 2, sy); ctx.lineTo(sx, sy + g.th / 2); ctx.lineTo(sx - g.tw / 2, sy); ctx.closePath(); ctx.fill(); }
+      const size = Math.round(Math.max(15, g.tw * .15)); ctx.font = `700 ${size}px system-ui,sans-serif`; ctx.textAlign = 'center';
+      const w = ctx.measureText(d).width + size * .8, h = size * 1.45;
+      ctx.fillStyle = on ? '#ffc857' : 'rgba(7,16,34,.82)'; ctx.beginPath(); ctx.roundRect(sx - w / 2, sy - h / 2, w, h, 6); ctx.fill();
+      ctx.fillStyle = on ? '#10223a' : '#fff'; ctx.fillText(d, sx, sy + size * .36);
     }
   }
   for (const f of view.fx) {
@@ -740,6 +823,10 @@ async function play(events) {
   await playEvents(events, token);
 }
 async function playEvents(events, token) {
+  const seen = view; if (seen) seen.playing = true;
+  try { return await playAllEvents(events, token); } finally { if (seen) { seen.playing = false; if (seen === view) redraw(); } }
+}
+async function playAllEvents(events, token) {
   for (const e of events) {
     if (token !== playToken) return;
     view.mark = null;
@@ -1139,6 +1226,9 @@ function inspect(x, y) {
   return true;
 }
 $('infoClose').onclick = () => $('info').close();
+$('cmdClose').onclick = () => $('cmdDlg').close();
+$('showDirs').onchange = () => redraw();
+drawRoseMap();
 function startManual() {
   manual = { sim: makeSim(world, { hp: 60, en: world.n * 8, str: 2, has: world.tutorial ? () => true : hasCard, memo: blackBox, manual: true }), ptr: 0, busy: false, step: 0, inspected: false };
   view.manual = true; view.seen = new Set([`${world.start[0]},${world.start[1]}`]);
@@ -1246,7 +1336,7 @@ $('newMap').onclick = () => { playToken++; seed = (seed * 31 + 11) % 99991; newW
 $('wide').onclick = () => { const w = $('play').classList.toggle('wide'); $('wide').textContent = w ? 'Achicar el mapa' : 'Ampliar el mapa'; };
 newWorld();
 drawCards();
-window.__proto = { geomNow: () => geom(world.n), jump, get manual() { return manual; }, get world() { return world; }, encounterAlive, runMission, makeWorld, EXAMPLES, setWorld(name) { $('world').value = name; redraw(); }, setProgress(i) { progress = i; drawCards(); } };
+window.__proto = { get view() { return view; }, redraw, geomNow: () => geom(world.n), jump, get manual() { return manual; }, get world() { return world; }, encounterAlive, runMission, makeWorld, EXAMPLES, setWorld(name) { $('world').value = name; redraw(); }, setProgress(i) { progress = i; drawCards(); } };
 </script>
 </body>
 </html>

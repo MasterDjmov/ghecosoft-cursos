@@ -114,6 +114,8 @@ Columnas:
 | 18 | **Java** (Paradigmas III, UNLaR) | 26 (índice: 42) | **8** | ❌ | en la plataforma: `cursos/java`, ramas 1 a 5 y Senda del Arcade (D58) |
 | 19 | Java avanzado | 13 | 0 | ❌ | en la plataforma: Senda de las Corrientes de `cursos/java` (D58) |
 | 20 | Spring Boot + Lombok | 12 | 0 | ❌ | en la plataforma: Senda del Puerto de Spring de `cursos/java` (D58) |
+
+> **2026-11-07:** el material sumó `COMPATIBILIDAD-NETBEANS-VSCODE.md` y cambió los `pom.xml` (Lombok 1.18.46 con `annotationProcessorPaths` para Java 23 o más nuevo, y `<start-class>` para el *Run* de NetBeans). El curso de Java ya lo sigue: los 23 `pom.xml` de la rama 5 y de la Senda del Puerto de Spring, y las explicaciones de R05-N03 (NetBeans, `[unloadable]`) y R05-N05 (Lombok).
 | 21 | PHP | 23 | 0 | ❌ hoy (posible con php-wasm) | en la plataforma: `cursos/php`, tronco de 5 ramas y Senda de la Arena (D59) |
 | 22 | JS Vanilla | 22 | 0 | ⚠️ JS corre nativo en el navegador | formato viejo |
 | 23 | TypeScript | 22 | 0 | ⚠️ ídem, compilando TS en el cliente | formato viejo |

@@ -1813,6 +1813,21 @@ mi-proyecto/
 
 En Windows es `mvnw.cmd` en lugar de `./mvnw`.
 
+#### Abrirlo en NetBeans
+Los `pom.xml` de este curso ya traen dos cosas que NetBeans necesita. Si bajás un
+proyecto nuevo de start.spring.io, revisalas vos:
+- **`<start-class>`**: en `<properties>`, la clase que tiene `@SpringBootApplication`,
+  con su paquete (`<start-class>imperio.puerto.PuertoApplication</start-class>`). El botón
+  *Run* de NetBeans la usa para saber qué ejecutar. Sin ella, Java dice
+  `no se ha encontrado o cargado la clase principal ${start-class}`.
+- **Lombok**, en los proyectos que lo usan: lo ves en el nodo de los DTO.
+
+Si NetBeans muestra el proyecto como **`[unloadable]`** (sin *Source Packages*), el
+proyecto no tiene nada mal. Pasa cuando las bibliotecas las bajó otro Maven (el de
+`mvnw`, o el de VS Code) y el de NetBeans no las reconoce. Clic derecho en el proyecto →
+**Resolve Project Problems…** → **Priming Build**, y después clic derecho → **Reload POM**.
+Pasa igual en Linux y en Windows.
+
 #### Crear el proyecto
 La forma más simple es **start.spring.io** (*Spring Initializr*): elegís Maven, Java
 17, el nombre del paquete y las dependencias, y bajás un zip listo. Todos los proyectos
@@ -1901,6 +1916,8 @@ reemplazá los archivos.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.puerto.PuertoApplication</start-class>
     </properties>
 
     <dependencies>
@@ -2155,6 +2172,11 @@ sabe cuál inyectar (`expected single matching bean but found 2`). Marcá una co
 
 **Ogro: la clave mal escrita.** `@Value("${puerto.bienvenidas}")` con una clave que no
 existe hace fallar el arranque: `Could not resolve placeholder`.
+
+**Esqueleto: `${start-class}` en NetBeans.** Al tocar *Run*, Java dice
+`no se ha encontrado o cargado la clase principal ${start-class}`: al `pom.xml` le falta
+`<start-class>` con tu clase `@SpringBootApplication`. Desde la terminal anda igual:
+`./mvnw spring-boot:run` (`mvnw.cmd spring-boot:run` en Windows).
 
 **Slime: inyección en el atributo.** `@Autowired private Repositorio r;` funciona, pero
 el atributo no puede ser `final` y la clase no se puede probar sin Spring. Preferí el
@@ -2584,6 +2606,8 @@ Entregá el proyecto en un zip (sin la carpeta `target`).
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.turnos.TurnosApplication</start-class>
     </properties>
 
     <dependencies>
@@ -2798,6 +2822,8 @@ de consola.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.puerto.PuertoApplication</start-class>
     </properties>
 
     <dependencies>
@@ -3081,6 +3107,8 @@ conversor redondea a 2 decimales. Probalo con una fuente falsa (sin Spring) y co
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.conversor.ConversorApplication</start-class>
     </properties>
 
     <dependencies>
@@ -3299,6 +3327,8 @@ Probalo con `@SpringBootTest`.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.despacho.DespachoApplication</start-class>
     </properties>
 
     <dependencies>
@@ -3673,6 +3703,8 @@ La ventanilla de los héroes: una API REST completa en memoria, con sus pruebas.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.ventanilla.VentanillaApplication</start-class>
     </properties>
 
     <dependencies>
@@ -4300,6 +4332,8 @@ Probá cada ruta con `MockMvc`, incluidos los 404 y 409.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.biblioteca.BibliotecaApplication</start-class>
     </properties>
 
     <dependencies>
@@ -4591,6 +4625,8 @@ de filtros con `MockMvc`.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.catalogo.CatalogoApplication</start-class>
     </properties>
 
     <dependencies>
@@ -4836,6 +4872,8 @@ Probalo con `MockMvc`.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.taller.TallerApplication</start-class>
     </properties>
 
     <dependencies>
@@ -5144,6 +5182,8 @@ Probalo con `MockMvc`.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.turnero.TurneroApplication</start-class>
     </properties>
 
     <dependencies>
@@ -5480,9 +5520,16 @@ public class ServicioAlumnos {
     private final RepositorioAlumnos repositorio;      // Lombok arma el constructor
 }
 ```
-Lombok necesita la dependencia en el `pom.xml` y, en el IDE, el plugin de Lombok (IntelliJ
-ya lo trae). Desde Java 23 hay que declararlo también como procesador de anotaciones del
-compilador: los `pom.xml` de este nodo ya lo hacen.
+Lombok necesita tres cosas en el `pom.xml`, y los de este nodo ya las traen:
+1. **La dependencia** de Lombok.
+2. **El procesador de anotaciones** (`annotationProcessorPaths` dentro de
+   `maven-compiler-plugin`). Desde Java 23, el compilador ya no lo ejecuta solo: sin
+   esto, Lombok no genera nada.
+3. **Una versión que conozca tu Java**: `<lombok.version>1.18.46</lombok.version>`. La que
+   trae Spring Boot 3.3 por defecto (1.18.34) no anda con Java 23 o más nuevo.
+
+En el IDE hace falta además el plugin de Lombok (IntelliJ y NetBeans ya lo traen; en VS
+Code viene con el *Extension Pack for Java*).
 
 > **Si venís de Python.** Los DTO con validación se parecen a los modelos de Pydantic en
 > FastAPI, y Lombok a los `@dataclass`.
@@ -5514,6 +5561,10 @@ La inscripción a las comisiones: DTO de entrada y salida, validación, errores 
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.inscripciones.InscripcionesApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
@@ -5859,9 +5910,11 @@ tiene `@Valid`: los datos inválidos entran igual.
 método. Lanzá excepciones propias desde el servicio y convertilas en un solo
 `@RestControllerAdvice`.
 
-**Slime: Lombok que no genera nada.** `cannot find symbol: method getNombre()`: falta el
-plugin de Lombok en el IDE, o (desde Java 23) el procesador de anotaciones en el
-`pom.xml`.
+**Slime: Lombok que no genera nada.** `cannot find symbol: method getNombre()` o
+`constructor Producto cannot be applied to given types`: parece que Lombok no existe.
+Casi siempre es el `pom.xml`, no tu código: con Java 23 o más nuevo faltan el procesador
+de anotaciones o `<lombok.version>1.18.46</lombok.version>`. Si no, falta el plugin de
+Lombok en el IDE. **No comentes líneas para que compile:** arreglá el `pom.xml`.
 
 ### Micro-misión R05-N05-P1 · Lo que viaja no es lo que se guarda
 
@@ -6281,6 +6334,10 @@ lanza un conflicto si el usuario o el email ya existen. Los errores salen como
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.usuarios.UsuariosApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
@@ -6672,6 +6729,10 @@ indicar cuál (por ejemplo `items[1].cantidad`).
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.corralon.CorralonApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
@@ -6983,6 +7044,8 @@ persona, con 10 % de descuento desde 7 noches).
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.hotel.HotelApplication</start-class>
     </properties>
 
     <dependencies>
@@ -7287,6 +7350,10 @@ El modelo usa Lombok y los errores salen de un `@RestControllerAdvice`.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.ayuda.AyudaApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
@@ -8361,6 +8428,10 @@ acá un `.zip` del proyecto (sin `target/`) con el enlace al repositorio en el `
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.aduana.AduanaExpressApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>

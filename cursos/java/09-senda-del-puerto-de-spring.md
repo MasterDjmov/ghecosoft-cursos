@@ -160,6 +160,10 @@ JPQL, un servicio transaccional y la API con DTO.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.gremios.GremiosApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
@@ -980,6 +984,8 @@ stock quedaría negativo. Probá el repositorio con `@DataJpaTest` y la API con 
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.almacen.AlmacenApplication</start-class>
     </properties>
 
     <dependencies>
@@ -1420,6 +1426,8 @@ Probá con `@DataJpaTest` y con `MockMvc`.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.autores.AutoresApplication</start-class>
     </properties>
 
     <dependencies>
@@ -1867,6 +1875,8 @@ una fallida deja los saldos y los movimientos como estaban.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.banco.BancoApplication</start-class>
     </properties>
 
     <dependencies>
@@ -2199,6 +2209,8 @@ primera, una del medio y la última página.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.club.ClubApplication</start-class>
     </properties>
 
     <dependencies>
@@ -2568,6 +2580,10 @@ en el Palacio de las Ventanas): materias, alumnos, inscripciones y notas.
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.actas.ActasApplication</start-class>
+        <!-- Lombok nuevo: anda con Java 17 y también con Java 23 o más nuevo -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     <dependencies>
@@ -3605,6 +3621,8 @@ uno no alcanza, no se descuenta ninguno).
 
     <properties>
         <java.version>17</java.version>
+        <!-- la clase main: NetBeans la usa para «Run» -->
+        <start-class>imperio.pedidos.PedidosApplication</start-class>
     </properties>
 
     <dependencies>

@@ -1,0 +1,1252 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo del nanobot</title>
+<style>
+:root { --bg:#0b1326; --panel:#131c35; --panel2:#1b2747; --line:#2c3a61; --text:#e6ecff; --muted:#9aa8cf; --teal:#2fe6c8; --cyan:#5fd8ff; --gold:#ffc857; --red:#ff6b6b; --green:#6be48b; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+header { padding:18px 20px 0; max-width:1320px; margin:auto; }
+h1 { font-size:22px; margin:0 0 2px; }
+header p { margin:0; color:var(--muted); }
+nav { display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; }
+button, select { font:inherit; color:var(--text); background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:7px 12px; cursor:pointer; }
+button:hover { border-color:var(--teal); }
+button.on { background:var(--teal); color:#06231f; border-color:var(--teal); font-weight:600; }
+button.main { background:var(--teal); color:#06231f; font-weight:700; border-color:var(--teal); padding:9px 18px; }
+button:disabled { opacity:.5; cursor:wait; }
+main { max-width:1320px; margin:auto; padding:14px 20px 40px; }
+.tab { display:none; } .tab.on { display:block; }
+.panel { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; }
+.row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.muted { color:var(--muted); font-size:13px; }
+/* Despertar */
+.wake { display:grid; grid-template-columns:minmax(280px,1fr) 1.2fr; gap:16px; }
+.stage-view { position:relative; height:430px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:64px; border-radius:12px; background:radial-gradient(circle at 50% 70%,#1d3a4d,#0b1326 70%); overflow:hidden; }
+.bot-wrap { position:relative; width:260px; height:300px; display:flex; align-items:flex-end; justify-content:center; }
+.bot-wrap img { height:300px; transition:filter .5s; }
+.heart { position:absolute; width:46px; height:46px; left:50%; top:60%; margin-left:-23px; border-radius:50%; background:radial-gradient(circle,#ffffff 0,#5fd8ff 35%,rgba(95,216,255,0) 72%); opacity:0; pointer-events:none; }
+.heart.on { animation:beat 1.3s infinite; }
+@keyframes beat { 0%,100%{opacity:.25;transform:scale(.8)} 15%{opacity:1;transform:scale(1.25)} 30%{opacity:.45;transform:scale(.95)} 45%{opacity:.95;transform:scale(1.15)} }
+.bubble { position:absolute; top:26px; left:50%; transform:translateX(-50%); background:#fff; color:#10223a; border-radius:12px; padding:7px 13px; font-weight:600; max-width:88%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bubble:empty { display:none; }
+.stages { display:grid; gap:7px; }
+.stages button { text-align:left; display:block; padding:9px 12px; }
+.stages small { display:block; color:inherit; opacity:.8; font-weight:400; }
+.talk { margin-top:10px; display:none; } .talk input { font:inherit; background:#0b1326; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:7px 10px; flex:1; min-width:160px; }
+/* Direcciones */
+.rose { display:grid; grid-template-columns:repeat(3,minmax(90px,170px)); justify-content:center; gap:4px; }
+.rose div { aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; background:var(--panel2); border-radius:10px; padding:6px; font-weight:700; color:var(--cyan); font-size:13px; cursor:pointer; border:2px solid transparent; }
+.rose div.on { border-color:var(--teal); }
+.rose img { max-width:100%; max-height:calc(100% - 20px); min-height:0; }
+/* Mapa */
+.play { display:grid; grid-template-columns:minmax(310px,370px) minmax(0,1fr); gap:14px; align-items:start; }
+.play.wide { grid-template-columns:minmax(0,1fr); }
+.play.wide > .panel:first-child { order:2; }
+.cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:7px; margin-bottom:14px; }
+.card { text-align:left; display:block; padding:8px 10px; border-radius:10px; background:#10182d; opacity:.62; }
+.card.on { opacity:1; background:var(--panel2); border-color:var(--teal); color:var(--text); font-weight:400; }
+.card.next { opacity:.9; border-color:var(--gold); border-style:dashed; }
+.card b { display:block; font-family:ui-monospace,Menlo,monospace; font-size:13px; color:var(--cyan); }
+.card.on b { color:var(--teal); }
+.card span { display:block; font-size:13px; font-weight:600; }
+.card small { display:block; font-size:11.5px; color:var(--muted); line-height:1.3; margin-top:2px; }
+.cards-head { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:baseline; margin-bottom:8px; }
+.cards-head h2 { font-size:16px; margin:0; }
+textarea { width:100%; height:340px; resize:vertical; background:#071022; color:#d9f7ef; border:1px solid var(--line); border-radius:10px; padding:10px; font:13.5px/1.45 ui-monospace,"Cascadia Code",Menlo,monospace; tab-size:4; }
+canvas { display:block; width:100%; background:radial-gradient(circle at 50% 45%,#1a2b4e,#080e1e 75%); border-radius:12px; }
+.hud { display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin:8px 0; font-weight:600; }
+.bar { width:130px; height:12px; background:#0a1022; border-radius:6px; overflow:hidden; display:inline-block; vertical-align:middle; margin-left:5px; }
+.bar i { display:block; height:100%; transition:width .2s; }
+#log { height:165px; overflow:auto; background:#071022; border-radius:10px; padding:8px 11px; font:13px/1.5 ui-monospace,Menlo,monospace; margin-top:8px; }
+#log div.now { background:#17345e; border-radius:4px; }
+#log .bad { color:var(--red); } #log .good { color:var(--green); } #log .ask { color:var(--cyan); }
+pre.help { background:#071022; border-radius:10px; padding:9px 11px; margin:8px 0 0; font-size:12.5px; white-space:pre-wrap; color:var(--muted); }
+#status { min-height:22px; color:var(--gold); font-size:13.5px; margin-top:6px; }
+#guide { display:none; margin-top:8px; padding:10px 12px; border-radius:10px; background:#17345e; border:1px solid var(--cyan); white-space:pre-wrap; }
+#guide b { color:var(--gold); }
+dialog { background:var(--panel); color:var(--text); border:1px solid var(--teal); border-radius:14px; padding:18px; max-width:380px; width:calc(100% - 32px); }
+dialog::backdrop { background:rgba(4,8,20,.65); }
+dialog h3 { margin:0 0 6px; font-size:19px; }
+dialog img { display:block; height:110px; margin:0 auto 8px; }
+dialog p { margin:4px 0; }
+dialog input { font:inherit; width:100%; margin:8px 0; background:#071022; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:8px 10px; }
+.dlg-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:12px; }
+@media (max-width:900px) { .wake,.play { grid-template-columns:minmax(0,1fr); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Prototipo del nanobot</h1>
+  <p>Una prueba para mirar y opinar: el arte es de ensayo y nada de esto toca la plataforma.</p>
+  <nav>
+    <button data-tab="wake" class="on">1. El despertar</button>
+    <button data-tab="dirs">2. Las 8 direcciones</button>
+    <button data-tab="map">3. Programalo y mandalo</button>
+  </nav>
+</header>
+<main>
+  <section id="wake" class="tab on">
+    <div class="wake">
+      <div class="panel">
+        <div class="stage-view"><div class="bubble" id="bubble"></div><div class="bot-wrap"><img id="wakeBot" alt="El nanobot"><div class="heart" id="heart"></div></div></div>
+        <div class="talk row" id="talk"><input id="talkIn" placeholder="Escribile una orden…" aria-label="Orden para el bot"><button id="talkBtn">Enviar</button></div>
+      </div>
+      <div class="panel">
+        <div class="stages" id="stages"></div>
+        <p class="muted">Cada etapa se abriría al superar la micro-misión que enseña ese tema. Usa dos hojas, la prendida y la apagada, y una luz encima para el corazón.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="dirs" class="tab">
+    <div class="panel">
+      <div class="row" id="dirPick" style="margin-bottom:12px"></div>
+      <div class="rose" id="rose"></div>
+      <p class="muted" style="text-align:center">Pasá el mouse por una dirección. Cada hoja de 8 figuras se recorta sola gracias al fondo magenta. Los monstruos salieron de una descripción, sin sus hojas oficiales.</p>
+    </div>
+  </section>
+
+  <section id="map" class="tab">
+    <div class="panel" style="margin-bottom:14px">
+      <div class="cards-head">
+        <h2>Las piezas del bot, según las cartas de tu Grimorio</h2>
+        <span class="muted">Tocá una carta para simular que llegaste hasta esa micro-misión.</span>
+      </div>
+      <div class="cards" id="cards" style="margin-bottom:0"></div>
+    </div>
+    <div class="play" id="play">
+      <div class="panel">
+        <div class="row">
+          <select id="mode" aria-label="Cómo se juega"><option value="auto">Programado</option><option value="manual">A mano</option><option value="tut0">Tutorial 1: moverse</option><option value="tut1">Tutorial 2: el cofre</option><option value="tut2">Tutorial 3: la pelea</option><option value="tut3">Tutorial 4: curarse</option><option value="tut4">Tutorial 5: defenderse</option></select>
+          <select id="example" aria-label="Programas de ejemplo"></select>
+          <button class="main" id="go">Mandar al bot</button>
+        </div>
+        <div id="guide" aria-live="polite"></div>
+        <textarea id="code" spellcheck="false" aria-label="Programa en Python" style="margin-top:8px"></textarea>
+        <div id="status"></div>
+        <pre class="help" id="help"></pre>
+      </div>
+      <div class="panel">
+        <div class="row">
+          <select id="world" aria-label="Mundo"><option value="valle">El Valle</option><option value="forjas">Las Forjas</option><option value="puerto">El Puerto</option></select>
+          <select id="size" aria-label="Tamaño"><option value="8">Corta · 5 min · 8 × 8</option><option value="10" selected>Media · 15 min · 10 × 10</option><option value="12">Larga · 30 min · 12 × 12</option></select>
+          <select id="level" aria-label="Nivel"><option value="n1">Nivel 1</option><option value="n3">Nivel 3</option><option value="n5">Nivel 5</option></select>
+          <button id="newMap">Otro mapa</button>
+          <select id="zoom" aria-label="Vista"><option value="150" selected>Vista cerca</option><option value="215">Muy cerca</option><option value="all">Mapa entero</option></select>
+          <button id="wide">Ampliar el mapa</button>
+          <select id="speed" aria-label="Velocidad"><option value="1">× 1</option><option value="2" selected>× 2</option><option value="4">× 4</option></select>
+          <button id="replay" disabled>Ver de nuevo</button>
+        </div>
+        <div class="hud">
+          <span>Vida<span class="bar"><i id="hpBar" style="background:var(--red);width:100%"></i></span> <span id="hpNum"></span></span>
+          <span>Energía<span class="bar"><i id="enBar" style="background:var(--cyan);width:100%"></i></span> <span id="enNum"></span></span>
+          <span id="loot">Botín: nada</span>
+        </div>
+        <canvas id="cv" width="1200" height="700"></canvas>
+        <div id="log" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<dialog id="info"><img id="infoImg" alt=""><h3 id="infoTitle"></h3><div id="infoBody"></div><div class="dlg-actions"><button id="infoJump" class="main">Saltar acá</button><button id="infoClose">Cerrar</button></div></dialog>
+<dialog id="ask"><h3>Tu programa pide un dato</h3><p class="muted">Lo que escribas es lo que devuelve <code>input()</code>.</p><input id="askIn" aria-label="Dato para input"><div class="dlg-actions"><button id="askOk" class="main">Enviar</button></div></dialog>
+
+<script>
+const PYODIDE = new URLSearchParams(location.search).get('py') || 'https://cdn.jsdelivr.net/pyodide/v0.29.5/full/';
+const $ = (id) => document.getElementById(id);
+const sprite = (name, k) => `img/${name}-${k}.webp`;
+
+/* Pestañas */
+document.querySelectorAll('nav button').forEach((b) => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach((o) => o.classList.toggle('on', o === b));
+  document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('on', t.id === b.dataset.tab));
+  if (b.dataset.tab === 'map') { drawStatic(); }
+});
+
+/* ---------- 1. El despertar ---------- */
+const STAGES = [
+  ['Vacío', 'Entrás al curso y el Profe te lo da apagado.'],
+  ['Corazón', 'Repartís los atributos: le late una luz en el pecho.'],
+  ['Ojos', 'Aprendés a imprimir: abre los ojos, parpadea, mira y habla.'],
+  ['Oídos', 'Aprendés a leer datos: te escucha.'],
+  ['Criterio', 'Aprendés condicionales: decide, todavía sin moverse.'],
+  ['Movimiento', 'Aprendés bucles: se mueve y salen las exploraciones.'],
+];
+let stage = 0, wakeTimers = [];
+const wakeBot = $('wakeBot'), heart = $('heart'), bubble = $('bubble');
+function clearWake() { wakeTimers.forEach(clearInterval); wakeTimers = []; }
+function setStage(s) {
+  stage = s; clearWake();
+  document.querySelectorAll('#stages button').forEach((b, i) => b.classList.toggle('on', i === s));
+  heart.classList.toggle('on', s === 1);
+  bubble.textContent = '';
+  $('talk').style.display = (s === 3 || s === 4) ? 'flex' : 'none';
+  wakeBot.style.filter = s === 0 ? 'grayscale(.9) brightness(.55)' : 'none';
+  wakeBot.src = s < 2 ? sprite('off', 0) : sprite('n1', 0);
+  if (s >= 2 && s < 5) {
+    let look = 0; const looks = [0, 0, 1, 0, 7, 0];
+    wakeTimers.push(setInterval(() => {
+      wakeBot.src = sprite('off', looks[look]);
+      setTimeout(() => { look = (look + 1) % looks.length; if (stage >= 2 && stage < 5) wakeBot.src = sprite('n1', looks[look]); }, 130);
+    }, 1700));
+  }
+  if (s === 2) bubble.textContent = 'Hola, mundo';
+  if (s === 3) bubble.textContent = 'Te escucho…';
+  if (s === 4) bubble.textContent = 'Si veo un cristal, lo junto. Si no, espero.';
+  if (s === 5) { let d = 0; wakeTimers.push(setInterval(() => { d = (d + 1) % 8; wakeBot.src = sprite('n1', d); }, 320)); bubble.textContent = '¡Allá voy!'; }
+}
+STAGES.forEach(([t, d], i) => {
+  const b = document.createElement('button');
+  const strong = document.createElement('strong'); strong.textContent = `${i}. ${t}`;
+  const small = document.createElement('small'); small.textContent = d;
+  b.append(strong, small); b.onclick = () => setStage(i); $('stages').append(b);
+});
+$('talkBtn').onclick = () => {
+  const v = $('talkIn').value.trim(); if (!v) return;
+  bubble.textContent = stage === 3 ? `Recibí: «${v}»` : (/cristal|recurso/i.test(v) ? 'Hay un cristal: lo junto.' : `«${v}»: no hay nada que juntar, espero.`);
+  $('talkIn').value = '';
+};
+setStage(0);
+
+/* ---------- 2. Las 8 direcciones ---------- */
+const ROSE = [['NO', 5], ['N', 4], ['NE', 3], ['O', 6], [null, 0], ['E', 2], ['SO', 7], ['S', 0], ['SE', 1]];
+const SHEETS = [['n1', 'Bot nivel 1'], ['off', 'Bot apagado'], ['n3', 'Bot nivel 3'], ['n5', 'Bot nivel 5'], ['slime', 'Slime'], ['goblin', 'Goblin'], ['esqueleto', 'Esqueleto']];
+let sheet = 'n1';
+function drawRose() {
+  const r = $('rose'); r.replaceChildren();
+  const center = { k: 0 };
+  ROSE.forEach(([name, k]) => {
+    const d = document.createElement('div');
+    const img = document.createElement('img');
+    if (name) {
+      img.src = sprite(sheet, k); img.alt = name; d.append(img); d.append(name);
+      d.onmouseenter = () => { center.img.src = sprite(sheet, k); document.querySelectorAll('#rose div').forEach((o) => o.classList.remove('on')); d.classList.add('on'); };
+    } else { img.src = sprite(sheet, 0); img.alt = 'Vista elegida'; center.img = img; d.append(img); d.style.background = '#22345f'; }
+    r.append(d);
+  });
+}
+SHEETS.forEach(([n, l]) => {
+  const b = document.createElement('button'); b.textContent = l; b.classList.toggle('on', n === sheet);
+  b.onclick = () => { sheet = n; document.querySelectorAll('#dirPick button').forEach((o) => o.classList.toggle('on', o === b)); drawRose(); };
+  $('dirPick').append(b);
+});
+drawRose();
+
+/* ---------- Las piezas: cada carta del Grimorio habilita una pieza del bot ---------- */
+const MOVES = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+const CARDS = [
+  { card: 'print', piece: 'Voz', step: 'R00-N01-P1', orders: ['DECIR'], does: 'decir("hola")' },
+  { card: 'input', piece: 'Antena', step: 'R00-N01-P4', orders: ['MIRAR', 'VIDA', 'ENERGIA', 'POCIONES'], does: 'mirar("NE") · vida() · energia() · pociones() · celulas() · bonos()' },
+  { card: 'if / elif / else', piece: 'Criterio', step: 'R01-N04-P1', orders: ['ATACAR', 'POCION', 'USAR', 'HUIR'], does: 'atacar("NE") · tomar_pocion() · recargar() · usar_bono() · huir()' },
+  { card: 'while', piece: 'Motor', step: 'R01-N04-P2', orders: [...MOVES, 'JUNTAR', 'VOLVER'], does: 'mover("NE") · juntar() · volver()' },
+  { card: 'Listas', piece: 'Radar, mochila y llave', step: 'R01-N05-P1', orders: ['RADAR', 'PISTA', 'ABRIR'], does: 'radar() · abrir(sum(pista())) · carga 8 cosas, no 3' },
+  { card: 'Listas anidadas', piece: 'Mapa interno', step: 'R01-N05-P7', orders: ['MAPA'], does: 'mapa()[fila][columna]' },
+  { card: 'Tuplas', piece: 'GPS', step: 'R01-N05-P8', orders: ['DONDE'], does: 'fila, columna = donde()' },
+  { card: 'Diccionarios', piece: 'Escáner', step: 'R01-N06-P1', orders: ['ANALIZAR'], does: 'analizar("NE")["ataque"]' },
+  { card: 'try / except', piece: 'Escudo', step: 'R02-N03-P1', orders: ['DEFENDER'], does: 'defender()' },
+  { card: 'Archivos', piece: 'Caja negra', step: 'R02-N03-P4', orders: ['GUARDAR', 'RECORDAR'], does: 'guardar("3") · recordar()' },
+];
+const ORDER_CARD = {};
+CARDS.forEach((c, i) => c.orders.forEach((o) => { ORDER_CARD[o] = i; }));
+const ORDER_HELP = [
+  ['Moverse', 'mover("NE"): N NE E SE S SO O NO. juntar(), volver()', 3],
+  ['Preguntar', 'mirar("NE"): libre, pared, recurso, cofre, enemigo, pocion, celula, bono. vida(), energia(), pociones(), celulas(), bonos()', 1],
+  ['Actuar', 'atacar("NE"), tomar_pocion(), recargar(), usar_bono(), huir()', 2],
+  ['Decir', 'decir("hola")', 0],
+  ['Radar', 'radar(): lista con las 8 casillas, en el orden de RUMBOS', 4],
+  ['Llave', 'parado en un cofre: pista() da una lista de números y abrir(n) prueba la clave', 4],
+  ['Mapa', 'mapa(): filas con . libre, # pared, * recurso, $ cofre, ! enemigo, + poción, ~ célula, ^ bono, ? sin explorar', 5],
+  ['GPS', 'fila, columna = donde(). NE sube una fila, SO baja una, SE avanza una columna, NO retrocede una', 6],
+  ['Escáner', 'analizar("NE"): {"nombre": "Goblin", "vida": 26, "ataque": 6}, o None', 7],
+  ['Escudo', 'defender()', 8],
+  ['Caja negra', 'guardar(texto), recordar()', 9],
+];
+// Los comandos del bot. Por debajo son print e input: el simulador recibe las mismas órdenes.
+const BOT_LIB = `
+import builtins
+def input(mensaje=""):
+    if mensaje:
+        print("DECIR " + str(mensaje))
+    return builtins.input()
+RUMBOS = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"]
+def _rumbo(r):
+    if str(r).upper() not in RUMBOS:
+        raise ValueError(f"No conozco el rumbo {r}: usá uno de {RUMBOS}")
+    return str(r).upper()
+def _preguntar(orden):
+    print(orden)
+    return input()
+def _inv():
+    return dict(p.split("=") for p in _preguntar("POCIONES").split())
+def decir(texto): print("DECIR " + str(texto))
+def mirar(r): return _preguntar("MIRAR " + _rumbo(r))
+def vida(): return int(_preguntar("VIDA"))
+def energia(): return int(_preguntar("ENERGIA"))
+def pociones(): return int(_inv()["vida"])
+def celulas(): return int(_inv()["energia"])
+def bonos(): return int(_inv()["bono"])
+def mover(r): print(_rumbo(r))
+def juntar(): print("JUNTAR")
+def volver(): print("VOLVER")
+def atacar(r): print("ATACAR " + _rumbo(r))
+def tomar_pocion(): print("POCION VIDA")
+def recargar(): print("POCION ENERGIA")
+def usar_bono(): print("USAR BONO")
+def huir(): print("HUIR")
+def defender(): print("DEFENDER")
+def radar(): return _preguntar("RADAR").split()
+def mapa(): return _preguntar("MAPA").split("/")
+def donde():
+    f, c = _preguntar("DONDE").split()
+    return int(f), int(c)
+def analizar(r):
+    res = _preguntar("ANALIZAR " + _rumbo(r))
+    if res == "nada":
+        return None
+    d = dict(p.split("=") for p in res.split())
+    return {"nombre": d["nombre"], "vida": int(d["vida"]), "ataque": int(d["ataque"])}
+def pista(): return [int(n) for n in _preguntar("PISTA").split()]
+def abrir(n): print("ABRIR " + str(n))
+def guardar(t): print("GUARDAR " + str(t))
+def recordar(): return _preguntar("RECORDAR")
+`;
+let progress = 3; // Hasta qué carta llegó: 3 es «while», cuando abren las exploraciones.
+let blackBox = 'nada'; // Lo que guardó, de una exploración a la otra.
+const hasCard = (i) => i <= progress;
+function drawCards() {
+  const box = $('cards'); box.replaceChildren();
+  CARDS.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.className = `card${hasCard(i) ? ' on' : (i === progress + 1 ? ' next' : '')}`;
+    const t = document.createElement('b'); t.textContent = c.card;
+    const p = document.createElement('span'); p.textContent = c.piece;
+    const d = document.createElement('small'); d.textContent = hasCard(i) ? c.does : `Se habilita en ${c.step}`;
+    b.append(t, p, d);
+    b.onclick = () => { progress = i; drawCards(); };
+    box.append(b);
+  });
+  $('help').textContent = [...ORDER_HELP.filter(([, , i]) => hasCard(i)).map(([t, o]) => `${t}: ${o}`), 'Cualquier otra cosa que imprimas, el bot la dice.'].join('\n');
+  if (world) { hud(view?.lastSnap ?? { hp: 60, en: world.n * 8, gems: 0, chests: 0, potions: world.carry.hp, cells: world.carry.cells, bonus: 0 }); }
+  showExamples();
+}
+
+/* ---------- 3. El simulador (reglas puras, sin dibujo) ---------- */
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+// Con la pantalla como brújula: NE sube a la derecha, N sube derecho.
+const DIR = { N: [-1, -1], NE: [0, -1], E: [1, -1], SE: [1, 0], S: [1, 1], SO: [0, 1], O: [-1, 1], NO: [-1, 0] };
+const FACING = { S: 0, SE: 1, E: 2, NE: 3, N: 4, NO: 5, O: 6, SO: 7 };
+const GRASS = 0, FLOWER = 1, PATH = 2, WATER = 3, TREE = 4, ROCK = 5, GEM = 6, CHEST = 7, POTION = 8, CELL = 9, BONUS = 10;
+// Según la duración. El primer tiro: sin balancear.
+const TABLE = {
+  8: { beasts: 4, gems: 6, chests: 1, potions: 1, cells: 1, bonus: 0, carry: { hp: 1, cells: 1 } },
+  10: { beasts: 6, gems: 8, chests: 2, potions: 2, cells: 1, bonus: 1, carry: { hp: 2, cells: 1 } },
+  12: { beasts: 8, gems: 10, chests: 3, potions: 3, cells: 2, bonus: 2, carry: { hp: 3, cells: 1 } },
+};
+const BEASTS = { slime: { hp: 18, atk: 4, name: 'Slime' }, goblin: { hp: 26, atk: 6, name: 'Goblin' }, esqueleto: { hp: 34, atk: 8, name: 'Esqueleto' } };
+function makeWorld(seed, n) {
+  const r = rng(seed), cells = Array.from({ length: n }, () => Array(n).fill(GRASS)), beasts = [];
+  const c = Math.floor(n / 2);
+  const free = (x, y) => Math.abs(x - c) + Math.abs(y - c) > 1;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { const v = r(); if (v < .14) cells[y][x] = FLOWER; else if (v < .24) cells[y][x] = PATH; }
+  // Un arroyo que cruza, con un paso.
+  let wx = 1 + Math.floor(r() * (n - 2)); const gap = Math.floor(r() * n);
+  for (let y = 0; y < n; y++) { if (y !== gap && free(wx, y)) cells[y][wx] = WATER; if (r() < .25) wx = Math.max(0, Math.min(n - 1, wx + (r() < .5 ? -1 : 1))); }
+  const far = (x, y) => Math.max(Math.abs(x - c), Math.abs(y - c));
+  const tb = TABLE[n];
+  const place = (count, fn, minFar = 0) => { for (let i = 0, t = 0; i < count && t < 800; t++) { const x = Math.floor(r() * n), y = Math.floor(r() * n); if (far(x, y) >= minFar && free(x, y) && cells[y][x] <= PATH && !beasts.some((b) => b.x === x && b.y === y)) { fn(x, y); i++; } } };
+  place(Math.round(n * n * .08), (x, y) => cells[y][x] = TREE);
+  place(Math.round(n * n * .06), (x, y) => cells[y][x] = ROCK);
+  place(tb.gems, (x, y) => cells[y][x] = GEM);
+  place(tb.chests, (x, y) => cells[y][x] = CHEST, Math.ceil(c * .6)); // Lejos es mejor y más peligroso.
+  place(tb.potions, (x, y) => cells[y][x] = POTION);
+  place(tb.cells, (x, y) => cells[y][x] = CELL, 2);
+  place(tb.bonus, (x, y) => cells[y][x] = BONUS, 2);
+  place(tb.beasts, (x, y) => { const d = far(x, y) / c, v = r(); const code = d + v * .3 < .62 ? 'slime' : d + v * .3 < 1 ? 'goblin' : 'esqueleto'; beasts.push({ code, x, y, hp: BEASTS[code].hp, max: BEASTS[code].hp, name: BEASTS[code].name, id: beasts.length }); });
+  return { seed, n, cells, beasts, start: [c, c], carry: tb.carry };
+}
+function makeSim(world, stats) {
+  const r = rng(world.seed ^ 0x51ED);
+  const cells = world.cells.map((row) => row.slice());
+  const beasts = world.beasts.map((b) => ({ ...b }));
+  const st = { x: world.start[0], y: world.start[1], facing: 'S', hp: stats.hp, hpMax: stats.hp, en: stats.en, enMax: stats.en, gems: 0, chests: 0, potions: world.carry.hp, cells: world.carry.cells, bonus: 0, boost: 0, found: 0, guard: false, done: false, why: '', orders: 0, kept: 1, memo: stats.memo };
+  const has = stats.has ?? (() => true);
+  const capacity = has(4) ? 8 : 3;
+  const known = new Set();
+  const sense = (x, y) => { if (stats.manual) { known.add(`${x},${y}`); return; } for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) known.add(`${x + i},${y + j}`); };
+  sense(st.x, st.y);
+  const ev = [];
+  const out = (x, y) => x < 0 || y < 0 || x >= world.n || y >= world.n;
+  const blocked = (x, y) => out(x, y) || [WATER, TREE, ROCK].includes(cells[y][x]);
+  const beastAt = (x, y) => beasts.find((b) => b.hp > 0 && b.x === x && b.y === y);
+  const push = (t, o = {}) => ev.push({ t, ...o, snap: { x: st.x, y: st.y, facing: st.facing, hp: st.hp, en: st.en, gems: st.gems, chests: st.chests, potions: st.potions, cells: st.cells, bonus: st.bonus } });
+  const finish = (why, kept = 1) => { st.done = true; st.why = why; st.kept = kept; push('end', { why, kept }); };
+  const strike = (b, dir) => {
+    const dmg = 5 + Math.floor(r() * 6) + stats.str + (st.boost > 0 ? 6 : 0); if (st.boost > 0) st.boost--; const crit = r() < .12;
+    b.hp -= crit ? Math.round(dmg * 1.8) : dmg; b.engaged = true;
+    push('hit', { id: b.id, dmg: crit ? Math.round(dmg * 1.8) : dmg, crit, dir, left: Math.max(0, b.hp) });
+    if (b.hp <= 0) { cells[b.y][b.x] = cells[b.y][b.x]; st.chests += 0; push('down', { id: b.id, name: b.name }); }
+  };
+  const counter = () => {
+    for (const b of beasts) {
+      if (b.hp > 0 && b.engaged && Math.max(Math.abs(b.x - st.x), Math.abs(b.y - st.y)) <= 1 && !st.done) {
+        let dmg = BEASTS[b.code].atk + Math.floor(r() * 4); if (st.guard) dmg = Math.ceil(dmg / 2);
+        st.hp = Math.max(0, st.hp - dmg);
+        push('hurt', { id: b.id, dmg, guarded: st.guard });
+        if (st.hp <= 0) { finish('cayó', 0); return; }
+      }
+    }
+    st.guard = false;
+  };
+  const spend = (n = 1) => { st.en -= n; if (st.en <= 0) { st.en = 0; return false; } return true; };
+  function order(raw) {
+    const line = raw.trim(); if (!line) return { };
+    const [cmd, arg] = line.toUpperCase().split(/\s+/);
+    st.orders++;
+    if (st.orders > 800) { finish('tope'); return {}; }
+    // Una orden de una pieza que no tiene: el bot lo dice y vuelve, sin castigo.
+    const needs = ORDER_CARD[cmd];
+    if (needs !== undefined && !has(needs)) { const c = CARDS[needs]; push('locked', { order: cmd, card: c.card, piece: c.piece, step: c.step }); finish('falta pieza'); return {}; }
+    const seeAt = (x, y) => blocked(x, y) ? 'pared' : beastAt(x, y) ? 'enemigo' : cells[y][x] === GEM ? 'recurso' : cells[y][x] === CHEST ? 'cofre' : cells[y][x] === POTION ? 'pocion' : cells[y][x] === CELL ? 'celula' : cells[y][x] === BONUS ? 'bono' : 'libre';
+    // A mano, espiar tiene costo: si no, se acaba la sorpresa de la niebla.
+    if (stats.manual && (cmd === 'MIRAR' || cmd === 'RADAR' || cmd === 'ANALIZAR')) {
+      spend(cmd === 'RADAR' ? 2 : 1);
+      if (st.en <= 0) { finish('sin energía', .5); return { answer: 'pared' }; }
+    }
+    if (cmd === 'PISTA' || cmd === 'ABRIR') {
+      if (cells[st.y][st.x] !== CHEST) { push('say', { text: 'Acá no hay ningún cofre.' }); return cmd === 'PISTA' ? { answer: '0' } : {}; }
+      const pr = rng(world.seed ^ (st.x * 131 + st.y * 17)), nums = [0, 0, 0].map(() => 1 + Math.floor(pr() * 9));
+      const keyOk = world.chestKey !== undefined ? arg === world.chestKey : Number(arg) === nums.reduce((a, b) => a + b, 0);
+      if (cmd === 'PISTA') { push('hint', { nums }); return { answer: nums.join(' ') }; }
+      spend();
+      if (keyOk) {
+        if (st.gems + st.chests + st.found + st.bonus >= capacity) push('say', { text: `La mochila está llena: cargo ${capacity}.` });
+        else { cells[st.y][st.x] = GRASS; st.chests++; push('opened'); push('take', { x: st.x, y: st.y, what: 'cofre' }); }
+      } else push('wrongkey', { tried: arg });
+      if (st.en <= 0) finish('sin energía', .5);
+      return {};
+    }
+    if (cmd === 'RADAR') {
+      const all = MOVES.map((d) => seeAt(st.x + DIR[d][0], st.y + DIR[d][1]));
+      push('radar', { all }); return { answer: all.join(' ') };
+    }
+    if (cmd === 'MAPA') {
+      const SYM = { libre: '.', pared: '#', recurso: '*', cofre: '$', enemigo: '!', pocion: '+', celula: '~', bono: '^' };
+      const rows = cells.map((row, y) => row.map((_, x) => known.has(`${x},${y}`) ? SYM[seeAt(x, y)] : '?').join(''));
+      push('map'); return { answer: rows.join('/') };
+    }
+    if (cmd === 'DONDE') { push('where', { row: st.y, col: st.x }); return { answer: `${st.y} ${st.x}` }; }
+    if (cmd === 'ANALIZAR') {
+      if (!DIR[arg]) { push('say', { text: `No sé analizar hacia «${arg ?? ''}»` }); return { answer: 'nada' }; }
+      const b = beastAt(st.x + DIR[arg][0], st.y + DIR[arg][1]); st.facing = arg;
+      push('scan', { dir: arg, name: b?.name });
+      return { answer: b ? `nombre=${b.name} vida=${b.hp} ataque=${BEASTS[b.code].atk}` : 'nada' };
+    }
+    if (cmd === 'RECORDAR') { push('memo', { text: st.memo, read: true }); return { answer: st.memo }; }
+    if (cmd === 'GUARDAR') { st.memo = line.slice(7).trim() || 'nada'; push('memo', { text: st.memo }); return {}; }
+    if (cmd === 'MIRAR') {
+      if (!DIR[arg]) { push('say', { text: `No sé mirar hacia «${arg ?? ''}»` }); return { answer: 'pared' }; }
+      const x = st.x + DIR[arg][0], y = st.y + DIR[arg][1];
+      const seen = seeAt(x, y); known.add(`${x},${y}`);
+      st.facing = arg; push('look', { x, y, seen, dir: arg });
+      return { answer: seen };
+    }
+    if (cmd === 'DECIR') { push('say', { text: line.slice(5).trim() }); return {}; }
+    if (cmd === 'POCIONES') return { answer: `vida=${st.potions} energia=${st.cells} bono=${st.bonus}` };
+    if (cmd === 'VIDA') return { answer: String(st.hp) };
+    if (cmd === 'ENERGIA') return { answer: String(st.en) };
+    if (DIR[cmd]) {
+      const x = st.x + DIR[cmd][0], y = st.y + DIR[cmd][1]; st.facing = cmd;
+      const b = beastAt(x, y);
+      if (b && stats.manual && !b.engaged) { spend(); b.engaged = true; known.add(`${x},${y}`); st.encounter = b.id; push('encounter', { id: b.id, name: b.name, x, y, dir: cmd }); if (st.en <= 0) finish('sin energía', .5); return {}; }
+      if (b) { spend(); strike(b, cmd); }
+      else if (blocked(x, y)) { spend(); known.add(`${x},${y}`); push('bump', { dir: cmd, x, y }); }
+      else { const from = [st.x, st.y]; spend(); st.x = x; st.y = y; sense(x, y); push('move', { from, dir: cmd }); }
+    } else if (cmd === 'JUNTAR') {
+      const c = cells[st.y][st.x];
+      if (c === CHEST && stats.manual) { spend(); push('say', { text: 'Tiene cerradura: hay que abrirlo con código.' }); if (st.en <= 0) finish('sin energía', .5); return {}; }
+      const pickup = { [GEM]: 'cristal', [CHEST]: 'cofre', [POTION]: 'poción', [CELL]: 'célula', [BONUS]: 'bono' }[c];
+      if (pickup && st.gems + st.chests + st.found + st.bonus >= capacity) { spend(); push('say', { text: `La mochila está llena: cargo ${capacity}.` }); }
+      else if (pickup) {
+        cells[st.y][st.x] = GRASS; spend();
+        if (c === GEM) st.gems++; else if (c === CHEST) st.chests++; else if (c === BONUS) st.bonus++; else { st.found++; if (c === POTION) st.potions++; else st.cells++; }
+        push('take', { x: st.x, y: st.y, what: pickup });
+      }
+      else { spend(); push('say', { text: 'Acá no hay nada para juntar.' }); }
+    } else if (cmd === 'ATACAR') {
+      if (!DIR[arg]) { push('say', { text: `No sé atacar hacia «${arg ?? ''}»` }); return {}; }
+      const b = beastAt(st.x + DIR[arg][0], st.y + DIR[arg][1]); st.facing = arg; spend();
+      if (b) strike(b, arg); else push('say', { text: 'Ataca al aire.' });
+    } else if (cmd === 'DEFENDER') { st.guard = true; spend(); push('guard'); if (st.en <= 0) finish('sin energía', .5); return {}; } // Cubre el golpe siguiente.
+    else if (cmd === 'POCION') {
+      if (arg === 'ENERGIA') {
+        if (st.cells > 0) { st.cells--; if (st.found > 0) st.found--; st.en = Math.min(st.enMax, st.en + 30); push('heal', { n: 30, energy: true }); } else push('say', { text: 'No me quedan células.' });
+      } else if (st.potions > 0) { st.potions--; if (st.found > 0) st.found--; st.hp = Math.min(st.hpMax, st.hp + 25); push('heal', { n: 25 }); } else push('say', { text: 'No me quedan pociones.' });
+    }
+    else if (cmd === 'USAR') {
+      if (st.bonus > 0) { st.bonus--; st.boost = 3; push('boost'); } else push('say', { text: 'No tengo ningún bono.' });
+    } else if (cmd === 'HUIR') { finish('huyó', .5); return {}; }
+    else if (cmd === 'VOLVER') { finish('volvió', 1); return {}; }
+    else { push('say', { text: line }); return {}; }
+    counter();
+    if (!st.done && st.en <= 0) finish('sin energía', .5);
+    return {};
+  }
+  return { st, ev, order, finish, cells, beasts };
+}
+
+/* ---------- El programa: Python en un Web Worker, corrido varias veces ---------- */
+const WORKER = `
+let py = null;
+self.onmessage = async ({ data }) => {
+  const { id, code, stdin, base, seed, lib } = data;
+  try {
+    if (!py) { const { loadPyodide } = await import(base + 'pyodide.mjs'); py = await loadPyodide({ indexURL: base }); self.postMessage({ id, ready: true }); }
+    const out = []; let hungry = false; const lines = stdin.slice();
+    py.setStdout({ batched: (s) => { if (out.length > 800) throw new Error('corte'); out.push(s); } });
+    let err = '';
+    py.setStderr({ batched: (s) => { err += s + '\\n'; } });
+    py.setStdin({ stdin: () => { if (lines.length) return lines.shift(); hungry = true; return null; } });
+    const g = py.globals.get('dict')(); g.set('__name__', '__main__');
+    const t0 = performance.now(); let error = null;
+    try { py.runPython('import random as _r\\n_r.seed(' + seed + ')\\ndel _r', { globals: g }); py.runPython(lib, { globals: g }); await py.runPythonAsync(code, { globals: g }); }
+    catch (e) { error = String(e.message); } finally { g.destroy(); }
+    self.postMessage({ id, out, hungry, error: hungry ? null : (error || (err ? err : null)), capped: out.length > 800, ms: performance.now() - t0 });
+  } catch (e) { self.postMessage({ id, fatal: String(e.message) }); }
+};`;
+let worker = null, nextId = 1;
+function startWorker() { worker = new Worker(URL.createObjectURL(new Blob([WORKER], { type: 'text/javascript' })), { type: 'module' }); }
+function runOnce(code, stdin, seed, timeout) {
+  if (!worker) startWorker();
+  return new Promise((resolve) => {
+    const id = nextId++; let timer = null;
+    const arm = () => { timer = setTimeout(() => { worker.terminate(); worker = null; resolve({ timeout: true }); }, timeout); };
+    worker.onmessage = ({ data }) => {
+      if (data.id !== id) return;
+      if (data.ready) { arm(); return; }
+      clearTimeout(timer); resolve(data);
+    };
+    worker.onerror = (e) => { clearTimeout(timer); resolve({ fatal: e.message || 'el worker no arrancó' }); };
+    worker.postMessage({ id, code, stdin, base: PYODIDE, seed, lib: BOT_LIB + (world?.libExtra ?? '') });
+    if (worker.__loaded) arm();
+  }).then((r) => { if (worker && !r.timeout && !r.fatal) worker.__loaded = true; return r; });
+}
+function pretty(error) {
+  const raw = String(error);
+  const names = 'vida|energia|pociones|celulas|bonos|mirar|radar|mapa|donde|analizar';
+  // Los dos errores más probables con los comandos, dichos en criollo.
+  if (/not supported between instances of '(function|int|str)' and '(function|int|str)'/.test(raw) && /function/.test(raw)) return 'A un comando le faltaron los paréntesis: se escribe if vida() < 10, no if vida < 10.';
+  if (/object is not callable/.test(raw)) return `Una variable pisó a un comando, como en vida = vida(). Usá otro nombre: mi_vida = vida(). (${names.replaceAll('|', ', ')})`;
+  const lines = raw.trim().split('\n');
+  return lines.filter((l) => !l.includes('/lib/python') && !l.includes('_pyodide') && !l.includes('run_async') && !l.includes('coroutine = eval')).slice(-4).join('\n');
+}
+// Corre un programa contra un simulador. A mano no termina la exploración: es una jugada más.
+async function runProgram(code, sim, seedValue, onProgress, manualRun = false) {
+  const answers = []; let seen = []; const m = { runs: 0, ms: 0, last: 0, stops: '' };
+  const t0 = performance.now();
+  const stop = (text, why) => { sim.ev.push({ t: 'error', text }); if (!manualRun) sim.finish(why, .5); };
+  while (!sim.st.done) {
+    m.runs++;
+    onProgress?.(m.runs);
+    const r = await runOnce(code, answers, seedValue, 3000);
+    if (r.fatal) { m.fatal = r.fatal; break; }
+    if (r.timeout) { stop('Tu programa tardó demasiado sin dar órdenes: revisá si hay un bucle que no imprime ni pregunta.', 'colgado'); break; }
+    m.ms += r.ms; m.last = r.ms;
+    const lines = r.out;
+    const same = seen.every((l, i) => lines[i] === l);
+    if (!same) { stop('Tu programa dio distinto al correrlo de nuevo: ¿usa la hora?', 'colgado'); break; }
+    const fresh = lines.slice(seen.length); const before = answers.length;
+    seen = lines;
+    for (const l of fresh) { if (sim.st.done) break; const res = sim.order(l); if (res.answer !== undefined) answers.push(res.answer); }
+    if (sim.st.done) break;
+    if (r.error && !r.capped) { stop(pretty(r.error), 'error'); break; }
+    if (r.capped) { sim.finish('tope'); break; }
+    if (!r.hungry) { if (!manualRun) sim.finish('terminó', 1); break; }
+    if (answers.length === before && manualRun) {
+      await flush();
+      const v = await askPlayer();
+      if (v === null) break;
+      answers.push(v); continue;
+    }
+    if (answers.length === before) { stop('Pediste un input() sin haber preguntado nada: primero imprimí MIRAR, VIDA o ENERGIA.', 'colgado'); break; }
+  }
+  m.total = performance.now() - t0;
+  blackBox = sim.st.memo;
+  return m;
+}
+async function runMission(code, world, onProgress) {
+  const sim = makeSim(world, { hp: 60, en: world.n * 8, str: 2, has: hasCard, memo: blackBox });
+  const m = await runProgram(code, sim, world.seed, onProgress);
+  return { sim, m };
+}
+
+/* ---------- Dibujo ---------- */
+const cv = $('cv'), ctx = cv.getContext('2d');
+const images = {};
+function img(src) { if (!images[src]) { const i = new Image(); i.src = src; images[src] = i; i.onload = () => redraw(); } return images[src]; }
+const THEMES = { valle: { top: .5, depth: .36 }, forjas: { top: .57, depth: .3 }, puerto: { top: .5, depth: .17 } };
+let view = null; // { world, cells, beasts, seen, bot:{x,y,hop,facing}, fx:[], ... }
+// La cámara sigue al bot y se acerca un poco en las peleas.
+const cam = { x: 0, y: 0, z: 1, zt: 1 };
+function camSnap() { if (view) { cam.x = view.bot.x; cam.y = view.bot.y; cam.z = cam.zt = 1; } }
+function camStep() { if (!view) return; cam.x += (view.bot.x - cam.x) * .16; cam.y += (view.bot.y - cam.y) * .16; cam.z += (cam.zt - cam.z) * .12; }
+function geom(n) {
+  const W = cv.width, H = cv.height, zoom = $('zoom').value;
+  if (zoom === 'all') {
+    const tw = Math.min((W - 30) / n, (H - 110) / (n * .5)), th = tw * .5;
+    return { tw, th, ox: W / 2, oy: 62 + th / 2 };
+  }
+  const tw = +zoom * cam.z, th = tw * .5;
+  return { tw, th, ox: W / 2 - (cam.x - cam.y) * tw / 2, oy: H * .6 - (cam.x + cam.y) * th / 2 };
+}
+function iso(x, y, g) { return [g.ox + (x - y) * g.tw / 2, g.oy + (x + y) * g.th / 2]; }
+function neutral(world, kind) { return kind === TREE || kind === ROCK || kind >= GEM ? GRASS : kind; }
+// Dibujo de ensayo: estas tres cosas todavía no tienen imagen propia.
+function drawPickup(kind, x, y, g) {
+  const [sx, sy] = iso(x, y, g), r = g.tw * .15, cy = sy - r * .9;
+  const [fill, mark] = { [POTION]: ['#ff5d73', '+'], [CELL]: ['#35c9ff', '⚡'], [BONUS]: ['#ffc857', '★'] }[kind];
+  ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.beginPath(); ctx.ellipse(sx, sy + g.th * .05, r, r * .45, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = fill; ctx.strokeStyle = '#fff'; ctx.lineWidth = Math.max(2, r * .14); ctx.beginPath(); ctx.arc(sx, cy, r, 0, 7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#10223a'; ctx.font = `700 ${Math.round(r * 1.2)}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(mark, sx, cy + 1); ctx.textBaseline = 'alphabetic';
+}
+// Las casillas sin explorar, oscurecidas una sola vez: filtrar en cada cuadro es muy lento.
+const dimCache = new Map();
+function dimmed(im) {
+  if (!dimCache.has(im)) {
+    const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+    const x = c.getContext('2d'); x.filter = 'brightness(.3) saturate(.35)'; x.drawImage(im, 0, 0); dimCache.set(im, c);
+  }
+  return dimCache.get(im);
+}
+function drawTile(name, kind, x, y, g, dim) {
+  const im = img(sprite(name, kind)); if (!im.complete || !im.naturalWidth) return;
+  const t = THEMES[name]; const [sx, sy] = iso(x, y, g);
+  if (sx < -g.tw || sx > cv.width + g.tw || sy < -g.tw || sy > cv.height + g.tw * 1.5) return;
+  const w = g.tw * 1.03, h = im.naturalHeight * w / im.naturalWidth;
+  const bottom = sy + g.th / 2 + g.tw * t.depth * .55;
+  ctx.drawImage(dim ? dimmed(im) : im, sx - w / 2, bottom - h, w, h);
+}
+function drawSprite(name, k, x, y, g, opts = {}) {
+  const im = img(sprite(name, k)); if (!im.complete || !im.naturalWidth) return;
+  const [sx, sy] = iso(x, y, g);
+  const hTarget = g.tw * (opts.scale ?? .85); const h = hTarget, w = im.naturalWidth * h / im.naturalHeight;
+  ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.beginPath(); ctx.ellipse(sx, sy + g.th * .12, w * .34, g.th * .2, 0, 0, 7); ctx.fill();
+  if (opts.alpha !== undefined) ctx.globalAlpha = opts.alpha;
+  ctx.drawImage(im, sx - w / 2 + (opts.dx || 0), sy + g.th * .16 - h - (opts.hop || 0) + (opts.dy || 0), w, h);
+  ctx.globalAlpha = 1;
+}
+function redraw() {
+  if (!view) return;
+  ctx.clearRect(0, 0, cv.width, cv.height);
+  const { world } = view, n = world.n, g = geom(n), name = $('world').value;
+  const entities = [];
+  view.beasts.forEach((b) => { if (b.hp > 0 && view.seen.has(`${b.x},${b.y}`)) entities.push({ ...b, kind: 'beast' }); });
+  entities.push({ kind: 'bot', x: view.bot.x, y: view.bot.y });
+  const order = [];
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) order.push([x + y, 0, x, y]);
+  order.sort((a, b) => a[0] - b[0]);
+  for (const [, , x, y] of order) {
+    const known = view.seen.has(`${x},${y}`), k = view.cells[y][x];
+    drawTile(name, known ? (k >= POTION ? GRASS : k) : neutral(world, k), x, y, g, !known);
+    const mark = view.mark?.x === x && view.mark?.y === y ? view.mark : view.marks?.find((m) => m.x === x && m.y === y);
+    if (mark) {
+      const [sx, sy] = iso(x, y, g);
+      ctx.strokeStyle = { enemigo: '#ff6b6b', recurso: '#6be48b', cofre: '#ffc857', pared: '#9aa8cf', libre: '#5fd8ff' }[mark.seen] || '#5fd8ff'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(sx, sy - g.th / 2); ctx.lineTo(sx + g.tw / 2, sy); ctx.lineTo(sx, sy + g.th / 2); ctx.lineTo(sx - g.tw / 2, sy); ctx.closePath(); ctx.stroke();
+    }
+  }
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (view.cells[y][x] >= POTION && view.seen.has(`${x},${y}`)) entities.push({ kind: 'pick', x, y, tile: view.cells[y][x] });
+  entities.sort((a, b) => (a.x + a.y) - (b.x + b.y));
+  for (const e of entities) {
+    if (e.kind === 'pick') { drawPickup(e.tile, e.x, e.y, g); continue; }
+    if (e.kind === 'bot') {
+      const lv = $('level').value;
+      drawSprite(lv, FACING[view.bot.facing] ?? 0, view.bot.x, view.bot.y, g, { scale: { n1: .9, n3: 1, n5: 1.15 }[lv], hop: view.bot.hop, dx: view.bot.dx || 0, dy: view.bot.dy || 0 });
+    } else {
+      const fx = view.beastFx?.[e.id] || {};
+      const f = dirFromTo(e, view.bot);
+      drawSprite(e.code, FACING[f], e.x, e.y, g, { scale: { slime: .62, goblin: .78, esqueleto: .85 }[e.code], alpha: fx.alpha, dx: fx.dx || 0 });
+      if (e.hp < e.max) {
+        const [sx, sy] = iso(e.x, e.y, g); const bw = g.tw * .55, top = sy - g.tw * .78, bh = Math.max(6, g.tw * .05);
+        ctx.fillStyle = '#0a1022'; ctx.fillRect(sx - bw / 2, top, bw, bh); ctx.fillStyle = '#ff6b6b'; ctx.fillRect(sx - bw / 2, top, bw * e.hp / e.max, bh);
+      }
+    }
+  }
+  if (manual && !manual.busy && !manual.sim.st.done && !encounterAlive()) {
+    for (const d of MOVES) {
+      const x = Math.round(view.bot.x) + DIR[d][0], y = Math.round(view.bot.y) + DIR[d][1];
+      if (x < 0 || y < 0 || x >= n || y >= n) continue;
+      const [sx, sy] = iso(x, y, g);
+      ctx.fillStyle = 'rgba(47,230,200,.16)'; ctx.strokeStyle = '#2fe6c8'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(sx, sy - g.th / 2); ctx.lineTo(sx + g.tw / 2, sy); ctx.lineTo(sx, sy + g.th / 2); ctx.lineTo(sx - g.tw / 2, sy); ctx.closePath(); ctx.fill(); ctx.stroke();
+    }
+  }
+  for (const f of view.fx) {
+    const [sx, sy] = iso(f.x, f.y, g);
+    ctx.font = `700 ${Math.round((f.size || 20) * Math.max(1, g.tw / 110))}px system-ui`; ctx.textAlign = 'center'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.75)'; ctx.fillStyle = f.color;
+    ctx.globalAlpha = Math.max(0, 1 - f.age); const yy = sy - g.tw * .7 - f.age * 34;
+    ctx.strokeText(f.text, sx, yy); ctx.fillText(f.text, sx, yy); ctx.globalAlpha = 1;
+  }
+  if (view.say) {
+    const [sx, sy] = iso(view.bot.x, view.bot.y, g);
+    ctx.font = '600 20px system-ui'; ctx.textAlign = 'center'; const tw = Math.min(ctx.measureText(view.say).width + 24, cv.width - 20);
+    const bx = Math.max(10, Math.min(cv.width - tw - 10, sx - tw / 2)), by = Math.max(6, sy - g.tw * 1.2);
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.roundRect(bx, by, tw, 36, 10); ctx.fill(); ctx.fillStyle = '#10223a'; ctx.fillText(view.say, bx + tw / 2, by + 25, tw - 14);
+  }
+}
+function dirFromTo(a, b) {
+  const dx = Math.sign(b.x - a.x), dy = Math.sign(b.y - a.y);
+  for (const [k, v] of Object.entries(DIR)) if (v[0] === dx && v[1] === dy) return k;
+  return 'S';
+}
+function reveal(view, x, y) { if (view.manual) { view.seen.add(`${x},${y}`); return; } for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) view.seen.add(`${x + i},${y + j}`); }
+function freshView(world) {
+  const v = { world, cells: world.cells.map((r) => r.slice()), beasts: world.beasts.map((b) => ({ ...b })), seen: new Set(), bot: { x: world.start[0], y: world.start[1], facing: 'S', hop: 0 }, fx: [], beastFx: {} };
+  reveal(v, v.bot.x, v.bot.y); return v;
+}
+let world = null, seed = 7;
+function newWorld() { const tutMode = TUTORIALS[$('mode').value]; world = tutMode ? tutMode.make() : makeWorld(seed, +$('size').value); view = freshView(world); camSnap(); hud({ hp: 60, en: world.n * 8, gems: 0, chests: 0, potions: world.carry.hp, cells: world.carry.cells, bonus: 0 }); $('log').replaceChildren(); if ($('mode').value !== 'auto') startManual(); redraw(); }
+function drawStatic() { redraw(); }
+
+/* ---------- La repetición ---------- */
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+let playToken = 0;
+function hud(s) {
+  if (view) view.lastSnap = s;
+  const emax = (world?.n ?? 10) * 8;
+  $('hpBar').style.width = `${s.hp / 60 * 100}%`; $('hpNum').textContent = `${s.hp}/60`;
+  $('enBar').style.width = `${s.en / emax * 100}%`; $('enNum').textContent = `${s.en}/${emax}`;
+  const bits = []; if (s.gems) bits.push(`${s.gems} cristal${s.gems > 1 ? 'es' : ''}`); if (s.chests) bits.push(`${s.chests} cofre${s.chests > 1 ? 's' : ''}`);
+  $('loot').textContent = `Botín: ${bits.join(' y ') || 'nada'} (carga ${hasCard(4) ? 8 : 3}) · Pociones ${s.potions ?? world?.carry.hp ?? 0} · Células ${s.cells ?? world?.carry.cells ?? 0} · Bonos ${s.bonus ?? 0}`;
+}
+function logLine(text, cls = '') { const d = document.createElement('div'); d.textContent = text; if (cls) d.className = cls; const l = $('log'); l.append(d); l.scrollTop = l.scrollHeight; return d; }
+function floatText(x, y, text, color, size) { const f = { x, y, text, color, age: 0, size }; view.fx.push(f); return f; }
+async function tween(ms, token, fn) {
+  const speed = +$('speed').value, t0 = performance.now(), dur = ms / speed;
+  while (true) {
+    if (token !== playToken) return false;
+    const t = Math.min(1, (performance.now() - t0) / dur);
+    fn(t); camStep(); view.fx.forEach((f) => f.age += 1 / 40); view.fx = view.fx.filter((f) => f.age < 1); redraw();
+    if (t >= 1) return true;
+    await new Promise(requestAnimationFrame);
+  }
+}
+const WHY = { 'volvió': 'Volvió a casa con todo el botín.', 'terminó': 'Tu programa terminó: el bot vuelve con todo.', 'huyó': 'Huyó: vuelve con la mitad del botín.', 'sin energía': 'Se quedó sin energía: Gheco lo trae con la mitad del botín.', 'cayó': 'Cayó en combate: Gheco abre un portal y vuelve sin botín.', tope: 'Llegó al tope de órdenes de la exploración.', 'falta pieza': 'Le falta una pieza: vuelve con lo que tenía.', colgado: 'La exploración se cortó por un problema del programa.', error: 'La exploración se cortó por un error del programa.' };
+async function play(events) {
+  const token = ++playToken;
+  view = freshView(world); camSnap(); hud({ hp: 60, en: world.n * 8, gems: 0, chests: 0, potions: world.carry.hp, cells: world.carry.cells, bonus: 0 }); $('log').replaceChildren(); redraw();
+  await playEvents(events, token);
+}
+async function playEvents(events, token) {
+  for (const e of events) {
+    if (token !== playToken) return;
+    view.mark = null;
+    const bot = view.bot;
+    cam.zt = (e.t === 'hit' || e.t === 'hurt' || e.t === 'down' || e.t === 'encounter') ? 1.22 : 1;
+    switch (e.t) {
+      case 'encounter': {
+        bot.facing = e.dir; view.seen.add(`${e.x},${e.y}`); view.mark = { x: e.x, y: e.y, seen: 'enemigo' };
+        logLine(`¡Un ${e.name} al ${e.dir}! Programá tu jugada y ejecutala.`, 'bad'); floatText(e.x, e.y, '¡Grrr!', '#ff6b6b', 24);
+        await tween(420, token, () => {}); break;
+      }
+      case 'hint': logLine(`Pista de la cerradura: ${e.nums.join(', ')}`, 'ask'); break;
+      case 'opened': logLine('¡La cerradura cede!', 'good'); break;
+      case 'wrongkey': logLine(`La clave ${e.tried} no abre`, 'bad'); floatText(bot.x, bot.y, 'No abre', '#ffc857'); await tween(320, token, () => {}); break;
+      case 'locked': {
+        logLine(`${e.order}: me falta la pieza ${e.piece}. La da la carta «${e.card}» (micro-misión ${e.step}).`, 'bad');
+        view.say = `Me falta la pieza ${e.piece}`; await tween(1100, token, () => {}); view.say = null; break;
+      }
+      case 'radar': {
+        logLine(`Radar: ${MOVES.map((d, i) => `${d} ${e.all[i]}`).join(' · ')}`, 'ask');
+        view.marks = MOVES.map((d, i) => { const x = bot.x + DIR[d][0], y = bot.y + DIR[d][1]; view.seen.add(`${x},${y}`); return { x, y, seen: e.all[i] }; }).filter((m) => m.seen !== 'pared' && m.x >= 0 && m.y >= 0 && m.x < view.world.n && m.y < view.world.n);
+        await tween(190, token, () => {}); view.marks = null; break;
+      }
+      case 'map': logLine('Consulta su mapa interno', 'ask'); break;
+      case 'where': logLine(`Está en la fila ${e.row}, columna ${e.col}`, 'ask'); break;
+      case 'scan': {
+        bot.facing = e.dir; logLine(`Analiza hacia ${e.dir}: ${e.name ?? 'nada'}`, 'ask');
+        view.mark = { x: bot.x + DIR[e.dir][0], y: bot.y + DIR[e.dir][1], seen: e.name ? 'enemigo' : 'libre' }; await tween(190, token, () => {}); break;
+      }
+      case 'memo': logLine(e.read ? `Recuerda: ${e.text}` : `Guarda en la caja negra: ${e.text}`, 'good'); break;
+      case 'move': {
+        const [fx, fy] = e.from; bot.facing = e.dir; logLine(`→ ${e.dir}`);
+        await tween(300, token, (t) => { bot.x = fx + (e.snap.x - fx) * t; bot.y = fy + (e.snap.y - fy) * t; bot.hop = Math.sin(Math.PI * t) * 16; });
+        bot.x = e.snap.x; bot.y = e.snap.y; bot.hop = 0; reveal(view, bot.x, bot.y); break;
+      }
+      case 'look': {
+        bot.facing = e.dir; view.seen.add(`${e.x},${e.y}`); view.mark = { x: e.x, y: e.y, seen: e.seen };
+        logLine(`¿${e.dir}? ${e.seen}`, 'ask'); redraw(); await new Promise(requestAnimationFrame); break;
+      }
+      case 'bump': {
+        bot.facing = e.dir; view.seen.add(`${e.x},${e.y}`); logLine(`${e.dir}: choca`, 'bad'); floatText(bot.x, bot.y, '¡Pum!', '#ffc857');
+        const d = DIR[e.dir]; await tween(230, token, (t) => { const k = Math.sin(Math.PI * t) * 9; bot.dx = (d[0] - d[1]) * k * .6; bot.dy = (d[0] + d[1]) * k * .3; });
+        bot.dx = bot.dy = 0; break;
+      }
+      case 'take': {
+        view.cells[e.y][e.x] = GRASS; logLine(`Junta: ${e.what}`, 'good'); floatText(bot.x, bot.y, `+1 ${e.what}`, e.what === 'cristal' ? '#6be48b' : '#ffc857');
+        await tween(320, token, (t) => { bot.hop = Math.sin(Math.PI * t) * 24; }); bot.hop = 0; break;
+      }
+      case 'hit': {
+        const b = view.beasts.find((o) => o.id === e.id); bot.facing = e.dir; b.hp = e.left;
+        logLine(`${e.crit ? '¡Crítico! ' : ''}Golpea al ${b.name}: ${e.dmg}`);
+        floatText(b.x, b.y, `-${e.dmg}`, e.crit ? '#ffc857' : '#fff', e.crit ? 28 : 21);
+        const d = DIR[e.dir]; view.beastFx[e.id] = {};
+        await tween(300, token, (t) => { const k = Math.sin(Math.PI * t) * 20; bot.dx = (d[0] - d[1]) * k * .5; bot.dy = (d[0] + d[1]) * k * .25; view.beastFx[e.id].dx = t > .4 ? Math.sin(t * 40) * 4 : 0; });
+        bot.dx = bot.dy = 0; view.beastFx[e.id] = {}; break;
+      }
+      case 'down': logLine(`El ${e.name} cae`, 'good'); await tween(220, token, () => {}); break;
+      case 'hurt': {
+        const b = view.beasts.find((o) => o.id === e.id); logLine(`El ${b.name} pega: ${e.dmg}${e.guarded ? ' (se defendió)' : ''}`, 'bad'); floatText(bot.x, bot.y, `-${e.dmg}`, '#ff6b6b', 21);
+        await tween(270, token, (t) => { view.beastFx[e.id] = { dx: Math.sin(Math.PI * t) * 8 * Math.sign(bot.x - b.x || 1) }; bot.dx = t > .4 ? Math.sin(t * 40) * 3 : 0; });
+        bot.dx = 0; view.beastFx[e.id] = {}; break;
+      }
+      case 'guard': logLine('Se defiende'); floatText(bot.x, bot.y, 'Guardia', '#5fd8ff'); await tween(220, token, () => {}); break;
+      case 'heal': logLine(e.energy ? `Usa una célula: +${e.n} de energía` : `Toma una poción: +${e.n} de vida`, 'good'); floatText(bot.x, bot.y, `+${e.n}`, e.energy ? '#5fd8ff' : '#6be48b', 21); await tween(280, token, () => {}); break;
+      case 'boost': logLine('Usa un bono: pega más fuerte por 3 golpes', 'good'); floatText(bot.x, bot.y, '¡Bono!', '#ffc857', 21); await tween(280, token, () => {}); break;
+      case 'say': logLine(`Dice: ${e.text}`); view.say = e.text; await tween(700, token, () => {}); view.say = null; break;
+      case 'error': logLine(e.text, 'bad'); view.say = '¡Algo anda mal!'; await tween(800, token, () => {}); view.say = null; break;
+      case 'end': {
+        const kept = e.kept; const g = Math.floor(e.snap.gems * kept), c = Math.floor(e.snap.chests * kept);
+        logLine(WHY[e.why] ?? e.why, e.kept ? 'good' : 'bad');
+        logLine(`Recompensa de juego: ${g} cristal(es) y ${c} cofre(s). Le quedan ${e.snap.potions} poción(es), ${e.snap.cells} célula(s) y ${e.snap.bonus} bono(s).`, 'good');
+        view.say = WHY[e.why] ?? e.why; redraw();
+        break;
+      }
+    }
+    if (e.snap) { hud(e.snap); }
+  }
+}
+
+/* ---------- Ejemplos ---------- */
+const EXAMPLE_NEEDS = { 'Con radar': 4, 'Con mapa y GPS': 6, 'Con escáner y escudo': 8, 'Con caja negra': 9 };
+const EXAMPLES = {
+  'Se cuida solo': `# Vida, energía y bonos: nada se usa solo, lo decidís vos.
+import random
+
+rumbo = "NE"
+
+while True:
+    if vida() < 25 and pociones() > 0:
+        tomar_pocion()
+    elif vida() < 12:
+        huir()
+        break
+
+    if energia() < 15:
+        if celulas() > 0:
+            recargar()
+        else:
+            volver()
+            break
+
+    veo = mirar(rumbo)
+    if veo == "enemigo":
+        if bonos() > 0:
+            usar_bono()
+        atacar(rumbo)
+    elif veo == "libre":
+        mover(rumbo)
+    elif veo == "pared":
+        rumbo = random.choice(RUMBOS)
+    else:
+        mover(rumbo)
+        juntar()
+`,
+  'A ciegas': `# Solo da órdenes: no mira nada.
+for i in range(3):
+    mover("NE")
+juntar()
+for i in range(3):
+    mover("E")
+decir("Hola, ya estoy lejos")
+volver()
+`,
+  'Con radar': `# Ve las 8 casillas de una vez, en una lista.
+import random
+
+rumbo = "NE"
+
+while True:
+    if energia() < 15:
+        if celulas() > 0:
+            recargar()
+        else:
+            volver()
+            break
+    if vida() < 25:
+        if pociones() > 0:
+            tomar_pocion()
+        else:
+            huir()
+            break
+
+    vistas = radar()
+    if "enemigo" in vistas:
+        atacar(RUMBOS[vistas.index("enemigo")])
+    elif "pocion" in vistas:
+        mover(RUMBOS[vistas.index("pocion")])
+        juntar()
+    elif "celula" in vistas:
+        mover(RUMBOS[vistas.index("celula")])
+        juntar()
+    elif "recurso" in vistas:
+        mover(RUMBOS[vistas.index("recurso")])
+        juntar()
+    elif "cofre" in vistas:
+        mover(RUMBOS[vistas.index("cofre")])
+        juntar()
+    elif vistas[RUMBOS.index(rumbo)] == "libre":
+        mover(rumbo)
+    else:
+        rumbo = random.choice(RUMBOS)
+`,
+  'Con mapa y GPS': `# Cuenta en su mapa los recursos que conoce y dice dónde está.
+import random
+
+rumbo = "NE"
+conocidos = 0
+
+while True:
+    if energia() < 6:
+        volver()
+        break
+    if vida() < 20:
+        huir()
+        break
+
+    recursos = 0
+    for fila in mapa():
+        for casilla in fila:
+            if casilla == "*":
+                recursos = recursos + 1
+
+    if recursos > conocidos:
+        fila, columna = donde()
+        decir(f"Estoy en {fila},{columna} y veo {recursos} recursos")
+    conocidos = recursos
+
+    vistas = radar()
+    if "recurso" in vistas:
+        mover(RUMBOS[vistas.index("recurso")])
+        juntar()
+    elif "enemigo" in vistas:
+        atacar(RUMBOS[vistas.index("enemigo")])
+    elif vistas[RUMBOS.index(rumbo)] == "libre":
+        mover(rumbo)
+    else:
+        rumbo = random.choice(RUMBOS)
+`,
+  'Con escáner y escudo': `# Analiza al enemigo: si pega fuerte, se cubre antes de atacar.
+import random
+
+rumbo = "NE"
+
+while True:
+    if energia() < 6:
+        volver()
+        break
+    if vida() < 20:
+        if pociones() > 0:
+            tomar_pocion()
+        else:
+            huir()
+            break
+
+    vistas = radar()
+    if "enemigo" in vistas:
+        hacia = RUMBOS[vistas.index("enemigo")]
+        if analizar(hacia)["ataque"] >= 8:
+            defender()
+        atacar(hacia)
+    elif "recurso" in vistas:
+        mover(RUMBOS[vistas.index("recurso")])
+        juntar()
+    elif vistas[RUMBOS.index(rumbo)] == "libre":
+        mover(rumbo)
+    else:
+        rumbo = random.choice(RUMBOS)
+`,
+  'Con caja negra': `# Recuerda de la exploración anterior. Mandalo dos veces.
+viajes = recordar()
+if viajes == "nada":
+    viajes = 0
+viajes = int(viajes) + 1
+decir(f"Este es mi viaje número {viajes}")
+guardar(viajes)
+
+for i in range(3):
+    mover("NE")
+volver()
+`,
+  'Por dentro: con print e input': `# Los comandos son esto: imprimir una orden y leer la respuesta.
+import random
+
+rumbos = ["N", "NE", "E", "SE", "S", "SO", "O", "NO"]
+rumbo = "NE"
+
+while True:
+    print("ENERGIA")
+    if int(input()) < 6:
+        print("VOLVER")
+        break
+    print("MIRAR " + rumbo)
+    veo = input()
+    if veo == "enemigo":
+        print("ATACAR " + rumbo)
+    elif veo == "libre":
+        print(rumbo)
+    elif veo == "pared":
+        rumbo = random.choice(rumbos)
+    else:
+        print(rumbo)
+        print("JUNTAR")
+`,
+  'Un error de principiante': `# Sigue derecho para siempre: choca y gasta toda la energía.
+while True:
+    mover("N")
+`,
+  'Sin paréntesis': `# Falta algo: vida es un comando, se escribe vida().
+if vida < 10:
+    decir("Me duele")
+`,
+};
+function showExamples() {
+  const keep = $('example').value; $('example').replaceChildren();
+  Object.keys(EXAMPLES).forEach((k) => {
+    const o = document.createElement('option'); o.value = k; const i = EXAMPLE_NEEDS[k];
+    o.textContent = i !== undefined && !hasCard(i) ? `${k} (falta «${CARDS[i].card}»)` : k; $('example').append(o);
+  });
+  if (keep) $('example').value = keep;
+}
+showExamples();
+$('example').onchange = () => { $('code').value = EXAMPLES[$('example').value]; };
+$('example').value = 'Se cuida solo'; $('code').value = EXAMPLES['Se cuida solo'];
+$('code').addEventListener('keydown', (e) => { if (e.key === 'Tab') { e.preventDefault(); const t = e.target, s = t.selectionStart; t.setRangeText('    ', s, t.selectionEnd, 'end'); } });
+
+/* ---------- A mano: un click por salto, con código en vivo en cada encuentro ---------- */
+let manual = null; // { sim, ptr, busy }
+function encounterAlive() {
+  if (!manual || manual.sim.st.encounter === undefined) return false;
+  const b = manual.sim.beasts.find((o) => o.id === manual.sim.st.encounter), st = manual.sim.st;
+  return !!b && b.hp > 0 && Math.max(Math.abs(b.x - st.x), Math.abs(b.y - st.y)) <= 1;
+}
+const emptyGrid = () => Array.from({ length: 3 }, () => Array(3).fill(GRASS));
+const TUTORIALS = {
+  tut0: {
+    title: 'Tutorial 1: moverse',
+    next: 'tut1',
+    make() { const cells = emptyGrid(); cells[0][1] = ROCK; cells[0][2] = GEM; return { seed: 10, n: 3, cells, beasts: [], start: [1, 1], carry: { hp: 0, cells: 0 }, tutorial: 'tut0', fog: true }; },
+    steps: [
+      { text: 'Este es tu bot. Tocá una casilla marcada: salta sin saber qué hay.', done: (m) => m.sim.st.orders > 0 },
+      { text: 'Cada salto gasta energía, y si hay una pared, choca. En algún lado de este mapa hay un cristal: buscalo.', done: (m) => m.sim.st.gems > 0 },
+      { text: '¡Lo encontraste! Los recursos se juntan solos al caer. Ya sabés moverte.', done: () => false },
+    ],
+  },
+  tut1: {
+    title: 'Tutorial 2: el cofre',
+    next: 'tut2',
+    make() { const cells = emptyGrid(); cells[0][1] = CHEST; return { seed: 11, n: 3, cells, beasts: [], start: [1, 1], carry: { hp: 0, cells: 0 }, tutorial: 'tut1', chestKey: '4821', libExtra: '\ncaja = "4821"\n', fog: true }; },
+    steps: [
+      { text: 'Tocá la casilla marcada de arriba a la derecha: tu bot salta sin saber qué hay.', done: (m) => m.sim.cells[0][1] === CHEST && m.sim.st.x === 1 && m.sim.st.y === 0 },
+      { text: '¡Un cofre! Tiene el dato guardado en la variable caja. Mostralo como aprendiste:\n\nprint(caja)\n\nEscribilo abajo y tocá «Ejecutar ahora».', done: (m) => m.sim.ev.some((e) => e.t === 'say' && e.text === '4821') },
+      { text: 'Apareció la clave. Ahora pedila con input y probala:\n\nclave = input()\nabrir(clave)\n\nAl ejecutar, te la va a preguntar: escribí lo que mostró la caja.', done: (m) => m.sim.st.chests > 0 },
+      { text: '¡Abierto! Usaste print e input de verdad, y ya sabés abrir cofres. Premio: 1 cofre.', done: () => false },
+    ],
+  },
+  tut2: {
+    title: 'Tutorial 3: la pelea',
+    next: 'tut3',
+    make() { const cells = emptyGrid(); return { seed: 12, n: 3, cells, beasts: [{ code: 'slime', x: 1, y: 0, hp: 18, max: 18, name: 'Slime', id: 0 }], start: [1, 1], carry: { hp: 1, cells: 0 }, tutorial: 'tut2' }; },
+    steps: [
+      { text: 'Hay un monstruo al NE. Antes de pelear, tocalo para ver sus datos.', done: (m) => m.inspected },
+      { text: 'Tu golpe hace entre 7 y 12 de daño. Con su vida, ¿cuántos golpes hacen falta?\n\nElegí un ciclo y atacá hacia NE:\n\nfor i in range(3):\n    atacar("NE")\n\no\n\nwhile mirar("NE") == "enemigo":\n    atacar("NE")', done: (m) => m.sim.beasts[0].hp <= 0 },
+      { text: '¡Ganaste! Calculaste antes de entrar y elegiste un ciclo. Eso es planear una pelea.', done: () => false },
+    ],
+  },
+  tut3: {
+    title: 'Tutorial 4: curarse',
+    next: 'tut4',
+    make() { return { seed: 13, n: 3, cells: emptyGrid(), beasts: [{ code: 'goblin', x: 1, y: 0, hp: 26, max: 26, name: 'Goblin', id: 0 }], start: [1, 1], carry: { hp: 1, cells: 0 }, tutorial: 'tut3', startHp: 15 }; },
+    steps: [
+      { text: 'Tu bot llega lastimado: mirá su vida arriba. Tocá al monstruo para ver cuánto pega. ¿Te conviene pelear así?', done: (m) => m.inspected },
+      { text: 'Nada se usa solo: si no lo escribís, no se cura. Decidilo con un if:\n\nif vida() < 20:\n    tomar_pocion()\n\nEscribilo y tocá «Ejecutar ahora».', done: (m) => m.sim.st.potions === 0 },
+      { text: 'Ahora sí. Peleá, y cortá si la vida baja mucho:\n\nwhile vida() > 10 and mirar("NE") == "enemigo":\n    atacar("NE")', done: (m) => m.sim.beasts[0].hp <= 0 },
+      { text: '¡Listo! Con if decidís y con while sostenés la estrategia. Con esto ya podés salir a explorar.', done: () => false },
+    ],
+  },
+  tut4: {
+    title: 'Tutorial 5: defenderse',
+    make() { return { seed: 14, n: 3, cells: emptyGrid(), beasts: [{ code: 'esqueleto', x: 1, y: 0, hp: 34, max: 34, name: 'Esqueleto', id: 0 }], start: [1, 1], carry: { hp: 0, cells: 0 }, tutorial: 'tut4', startHp: 30 }; },
+    steps: [
+      { text: 'Tenés la carta del Escudo. Tocá a este monstruo: pega fuerte, tenés 30 de vida y ninguna poción.', done: (m) => m.inspected },
+      { text: 'Si solo atacás, es probable que caigas. defender() cubre el golpe siguiente y recibís la mitad. Cuesta energía, pero alcanza:\n\nwhile mirar("NE") == "enemigo":\n    defender()\n    atacar("NE")', done: (m) => m.sim.beasts[0].hp <= 0 },
+      { text: '¡Aguantaste! Cuando no te da la vida para ganar a los golpes, cubrirte cambia la pelea.', done: () => false },
+    ],
+  },
+};
+function showGuide() {
+  const g = $('guide'); const tut = manual && world.tutorial && TUTORIALS[world.tutorial];
+  g.style.display = tut ? 'block' : 'none'; if (!tut) return;
+  while (manual.step < tut.steps.length - 1 && tut.steps[manual.step].done(manual)) manual.step++;
+  const b = document.createElement('b'); b.textContent = `${tut.title} · paso ${manual.step + 1} de ${tut.steps.length}\n`;
+  g.replaceChildren(b, tut.steps[manual.step].text);
+  const last = manual.step === tut.steps.length - 1;
+  if (manual.sim.st.done && !last) { g.append('\n\nSe terminó este intento. Tocá «Otro mapa» para reintentar.'); }
+  if (last && tut.next) {
+    const go = document.createElement('button'); go.className = 'main'; go.id = 'tutNext'; go.textContent = 'Siguiente mapa'; go.style.cssText = 'display:block;margin-top:10px';
+    go.onclick = () => { $('mode').value = tut.next; setMode(); }; g.append(go);
+  }
+}
+function askPlayer() {
+  return new Promise((resolve) => {
+    const d = $('ask'), i = $('askIn'); i.value = '';
+    const send = () => { d.close(); $('askOk').onclick = null; i.onkeydown = null; resolve(i.value); };
+    $('askOk').onclick = send; i.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); send(); } };
+    d.oncancel = (e) => { e.preventDefault(); };
+    d.showModal(); i.focus();
+  });
+}
+/* Tocar algo: muestra lo que se sabe de eso. Nunca lo que todavía no se vio. */
+const TILE_INFO = {
+  [GRASS]: ['Pasto', 'Se puede pisar.'], [FLOWER]: ['Flores', 'Se puede pisar.'], [PATH]: ['Sendero', 'Se puede pisar.'],
+  [WATER]: ['Agua', 'No se puede cruzar. Buscá un paso.'], [TREE]: ['Árbol', 'No se puede pasar.'], [ROCK]: ['Roca', 'No se puede pasar.'],
+  [GEM]: ['Cristal', 'Un recurso: al pisarlo, el bot lo junta. Ocupa lugar en la carga.'],
+  [CHEST]: ['Cofre', 'Tiene cerradura: parate encima y abrilo con código.'],
+  [POTION]: ['Poción de vida', 'Cura 25. La usás con tomar_pocion(). Ocupa lugar en la carga.'],
+  [CELL]: ['Célula de energía', 'Da 30 de energía. La usás con recargar(). Ocupa lugar en la carga.'],
+  [BONUS]: ['Bono de fuerza', 'Suma 6 de daño por 3 golpes. Lo usás con usar_bono().'],
+};
+function inspect(x, y) {
+  if (!view.seen.has(`${x},${y}`)) return false;
+  const b = view.beasts.find((o) => o.hp > 0 && o.x === x && o.y === y), body = $('infoBody'); body.replaceChildren();
+  const line = (t) => { const p = document.createElement('p'); p.textContent = t; body.append(p); };
+  const im = $('infoImg');
+  if (b) {
+    const def = BEASTS[b.code]; im.src = sprite(b.code, 0); im.style.display = 'block'; $('infoTitle').textContent = b.name;
+    line(`Vida: ${b.hp} de ${b.max}`); line(`Pega: entre ${def.atk} y ${def.atk + 3}`); line('Grupo: 1 enemigo');
+    line('Tu golpe: entre 7 y 12, con 12 % de crítico'); line(`Tu vida ahora: ${manual ? manual.sim.st.hp : (view.lastSnap?.hp ?? 60)}`);
+    if (manual) manual.inspected = true;
+  } else {
+    const [t, d] = TILE_INFO[view.cells[y][x]]; im.style.display = 'none'; $('infoTitle').textContent = t; line(d);
+  }
+  const st = manual?.sim.st, dir = st && !st.done && !b && !encounterAlive() && Object.entries(DIR).find(([, v]) => v[0] === x - st.x && v[1] === y - st.y);
+  const passable = ![WATER, TREE, ROCK].includes(view.cells[y][x]);
+  $('infoJump').style.display = dir && passable ? '' : 'none';
+  $('infoJump').onclick = () => { $('info').close(); jump(dir[0]); };
+  $('info').showModal(); showGuide();
+  return true;
+}
+$('infoClose').onclick = () => $('info').close();
+function startManual() {
+  manual = { sim: makeSim(world, { hp: 60, en: world.n * 8, str: 2, has: world.tutorial ? () => true : hasCard, memo: blackBox, manual: true }), ptr: 0, busy: false, step: 0, inspected: false };
+  view.manual = true; view.seen = new Set([`${world.start[0]},${world.start[1]}`]);
+  if (world.tutorial && !world.fog) { for (let y = 0; y < world.n; y++) for (let x = 0; x < world.n; x++) view.seen.add(`${x},${y}`); }
+  if (world.startHp) { manual.sim.st.hp = world.startHp; hud({ ...view.lastSnap, hp: world.startHp }); }
+  if (world.tutorial) { $('code').value = ''; $('status').textContent = ''; redraw(); showGuide(); return; }
+  showGuide();
+  $('code').value = '# Tocá una casilla vecina para saltar. Lo que escribas acá\n# se ejecuta en este momento, en este lugar.\n';
+  $('status').textContent = 'Tocá una casilla marcada para saltar. No sabés qué hay hasta caer.';
+  redraw();
+}
+async function flush() {
+  const evs = manual.sim.ev.slice(manual.ptr); manual.ptr = manual.sim.ev.length;
+  await playEvents(evs, ++playToken);
+}
+function dirText() { const st = manual.sim.st, b = manual.sim.beasts.find((o) => o.id === st.encounter); return dirFromTo({ x: st.x, y: st.y }, b); }
+async function jump(dir) {
+  if (!manual || manual.busy || manual.sim.st.done) return;
+  if (encounterAlive()) { $('status').textContent = 'Hay un monstruo enfrente: resolvelo con código, o huí con huir().'; return; }
+  manual.busy = true; redraw();
+  const { sim } = manual, before = sim.st.encounter;
+  sim.order(dir);
+  const c = sim.cells[sim.st.y][sim.st.x];
+  if (!sim.st.done && [GEM, POTION, CELL, BONUS].includes(c)) sim.order('JUNTAR');
+  await flush();
+  manual.busy = false;
+  if (world.tutorial) { showGuide(); window.__played = true; redraw(); return; }
+  if (!sim.st.done) {
+    if (encounterAlive() && sim.st.encounter !== before || (encounterAlive() && before === undefined)) {
+      const b = sim.beasts.find((o) => o.id === sim.st.encounter), d = dirText();
+      $('code').value = `# Un ${b.name} al ${d}. Programá la pelea y ejecutala.\nwhile vida() > 20 and mirar("${d}") == "enemigo":\n    atacar("${d}")\n\nif vida() <= 20 and pociones() > 0:\n    tomar_pocion()\n`;
+      $('status').textContent = `¡Un ${b.name}! Podés cambiar la estrategia antes de ejecutar.`;
+    } else if (c === CHEST) {
+      $('code').value = hasCard(4)
+        ? '# Un cofre con cerradura: la clave es la suma de la pista.\nnumeros = pista()\nabrir(sum(numeros))\n'
+        : `# Un cofre con cerradura. Para abrirlo te falta la carta «${CARDS[4].card}».\n# La da la micro-misión ${CARDS[4].step}.\n`;
+      $('status').textContent = hasCard(4) ? '¡Un cofre! Abrilo con código.' : 'Un cofre, pero todavía no tenés con qué abrirlo. Podés seguir.';
+    } else $('status').textContent = 'Tocá otra casilla, o escribí código y ejecutalo.';
+  } else $('status').textContent = 'La exploración terminó. «Otro mapa» arranca una nueva.';
+  window.__played = true; redraw();
+}
+async function runLive() {
+  if (!manual || manual.busy || manual.sim.st.done) return;
+  manual.busy = true; $('go').disabled = true; redraw();
+  $('status').textContent = 'Preparando…';
+  const m = await runProgram($('code').value, manual.sim, world.seed + manual.sim.ev.length, null, true);
+  if (m.fatal) $('status').textContent = `No se pudo cargar Python: ${m.fatal}`;
+  await flush();
+  manual.busy = false; $('go').disabled = false;
+  const st = manual.sim.st;
+  if (st.done) $('status').textContent = 'La exploración terminó. «Otro mapa» arranca una nueva.';
+  else if (encounterAlive()) $('status').textContent = 'El monstruo sigue en pie: cambiá la estrategia y volvé a ejecutar, o huí con huir().';
+  else if (!m.fatal) $('status').textContent = 'Listo. Tocá otra casilla para seguir.';
+  showGuide();
+  window.__played = true;
+  window.__last = { runs: m.runs, total: m.total, orders: st.orders, why: st.why, gems: st.gems, chests: st.chests, hp: st.hp, en: st.en, potions: st.potions, cells: st.cells, errors: manual.sim.ev.filter((e) => e.t === 'error').map((e) => e.text) };
+  redraw();
+}
+function cellAt(ev) {
+  const r = cv.getBoundingClientRect(), mx = (ev.clientX - r.left) * cv.width / r.width, my = (ev.clientY - r.top) * cv.height / r.height;
+  const g = geom(world.n), dx = (mx - g.ox) / (g.tw / 2), dy = (my - g.oy) / (g.th / 2);
+  return { x: Math.round((dx + dy) / 2), y: Math.round((dy - dx) / 2) };
+}
+cv.addEventListener('click', (ev) => {
+  if (!view || manual?.busy) return;
+  const c = cellAt(ev);
+  if (c.x < 0 || c.y < 0 || c.x >= world.n || c.y >= world.n) return;
+  const st = manual?.sim.st, d = st && Object.entries(DIR).find(([, v]) => v[0] === c.x - st.x && v[1] === c.y - st.y);
+  const kind = view.cells[c.y][c.x], seen = view.seen.has(`${c.x},${c.y}`), hasBeast = view.beasts.some((o) => o.hp > 0 && o.x === c.x && o.y === c.y);
+  // Lo que ya se ve y tiene algo adentro abre su ficha; una casilla vacía o con niebla, salta.
+  if (seen && (hasBeast || kind >= WATER || !d)) { if (st && c.x === st.x && c.y === st.y && kind < WATER) return; inspect(c.x, c.y); return; }
+  if (d) jump(d[0]);
+});
+function setMode() {
+  const m = $('mode').value; playToken++;
+  $('go').textContent = m === 'manual' ? 'Ejecutar ahora' : 'Mandar al bot';
+  $('go').textContent = m === 'auto' ? 'Mandar al bot' : 'Ejecutar ahora';
+  $('example').style.display = m === 'auto' ? '' : 'none';
+  $('replay').style.display = m === 'auto' ? '' : 'none';
+  if (m === 'auto') { manual = null; $('example').onchange(); $('status').textContent = ''; showGuide(); }
+  newWorld();
+}
+$('mode').onchange = setMode;
+
+let lastEvents = null;
+$('go').onclick = async () => {
+  if (manual) { await runLive(); return; }
+  playToken++; $('go').disabled = true; $('replay').disabled = true;
+  newWorld();
+  $('status').textContent = 'Preparando Python (la primera vez tarda unos segundos)…';
+  const res = await runMission($('code').value, world, (n) => { if (n > 1) $('status').textContent = `Calculando la exploración: corrida ${n}…`; });
+  $('go').disabled = false;
+  if (res.m.fatal) { $('status').textContent = `No se pudo cargar Python: ${res.m.fatal}`; return; }
+  const m = res.m;
+  $('status').textContent = `Listo: ${res.sim.st.orders} órdenes, ${m.runs} corridas, ${(m.total / 1000).toFixed(1)} s en total. En el juego, acá el bot estaría afuera entre 5 y 30 minutos.`;
+  lastEvents = res.sim.ev; $('replay').disabled = false;
+  window.__last = { runs: m.runs, ms: m.ms, total: m.total, lastRun: m.last, orders: res.sim.st.orders, why: res.sim.st.why, gems: res.sim.st.gems, chests: res.sim.st.chests, hp: res.sim.st.hp, en: res.sim.st.en, potions: res.sim.st.potions, cells: res.sim.st.cells, took: res.sim.ev.filter((e) => e.t === 'heal').length, errors: res.sim.ev.filter((e) => e.t === 'error').map((e) => e.text) };
+  await play(lastEvents);
+  window.__played = true;
+};
+$('replay').onclick = () => { if (lastEvents) play(lastEvents); };
+$('newMap').onclick = () => { playToken++; seed = (seed * 31 + 11) % 99991; newWorld(); };
+['size'].forEach((id) => $(id).onchange = () => { playToken++; newWorld(); });
+['world', 'level', 'zoom'].forEach((id) => $(id).onchange = () => { camSnap(); redraw(); });
+$('wide').onclick = () => { const w = $('play').classList.toggle('wide'); $('wide').textContent = w ? 'Achicar el mapa' : 'Ampliar el mapa'; };
+newWorld();
+drawCards();
+window.__proto = { geomNow: () => geom(world.n), jump, get manual() { return manual; }, get world() { return world; }, encounterAlive, runMission, makeWorld, EXAMPLES, setWorld(name) { $('world').value = name; redraw(); }, setProgress(i) { progress = i; drawCards(); } };
+</script>
+</body>
+</html>

@@ -362,6 +362,62 @@ return [
                 6 => 'Directora de Orquesta',
             ],
         ],
+        // JavaScript (docs/historias/javascript.md, D115): Nima recorre la Feria de las Luces.
+        'javascript' => [
+            'name' => 'Nima',
+            'slug' => 'nima',
+            'title' => 'Arquera del Valle',
+            'looks' => [
+                1 => 'Arquera del Valle',
+                2 => 'Capucha de Faroles',
+                3 => 'Hombreras de Oro',
+                4 => 'Corona de Fuegos',
+                5 => 'Flecha de Luz',
+                6 => 'Alas de Luciérnaga',
+            ],
+            // La tienda de premios del Flaco Ruiz (R01-N06).
+            'shop' => ['name' => 'La tienda de premios', 'keeper' => 'El Flaco Ruiz', 'portrait' => 'img/personajes/flaco-ruiz.webp', 'figure' => 'img/personajes/flaco-ruiz-cuerpo.webp',
+                'greeting' => '—Pase, pase, señorita. Acá todo se gana o se paga, y lo que se paga no se devuelve. Elija tranquila: la Feria no cierra.'],
+            // La Feria de las Luces: los lugares siguen el recorrido de Nima, de la entrada al vitral.
+            'expeditions' => [
+                'opens_after' => 'R01-N05',
+                'map' => 'img/mundos/feria/mapa.webp',
+                'places' => [
+                    ['code' => 'entrada-de-la-feria', 'name' => 'La Entrada de la Feria', 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 50, 'y' => 87,
+                        'text' => 'El arco de faroles donde Nima oyó a Lumina por primera vez. De noche, algún slime se pega a los carteles.'],
+                    ['code' => 'puesto-de-tiro', 'name' => 'El Puesto de Tiro', 'node' => 'R01-N01', 'level' => 2, 'creatures' => ['slime', 'goblin'], 'x' => 12, 'y' => 79,
+                        'text' => 'El puesto de Bruno y Tati. Blancos de madera, arcos de feria y algún goblin que quiere cambiar los puntajes.'],
+                    ['code' => 'puesto-de-las-balanzas', 'name' => 'El Puesto de las Balanzas', 'node' => 'R01-N02', 'level' => 3, 'creatures' => ['goblin'], 'x' => 34, 'y' => 74,
+                        'text' => 'Acá un cinco y un «5» pesan parecido, y los goblins se aprovechan.'],
+                    ['code' => 'la-calesita', 'name' => 'La Calesita', 'node' => 'R01-N03', 'level' => 3, 'creatures' => ['goblin', 'slime'], 'x' => 63, 'y' => 74,
+                        'text' => 'El guardia y su soga roja deciden quién sube. Abajo de la plataforma se esconde de todo.'],
+                    ['code' => 'explanada-de-los-fuegos', 'name' => 'La Explanada de los Fuegos', 'node' => 'R01-N04', 'level' => 4, 'creatures' => ['goblin', 'esqueleto'], 'x' => 89, 'y' => 61,
+                        'text' => 'Donde Bengala cuenta hasta diez, y a veces se le pasa. Huele a pólvora de colores.'],
+                    ['code' => 'puesto-del-pan', 'name' => 'El Puesto del Pan con Miel', 'node' => 'R01-N05', 'level' => 4, 'creatures' => ['esqueleto', 'slime'], 'x' => 78, 'y' => 56,
+                        'text' => 'Doña Mirta reparte, filtra y suma. Atrás, las bandejas vacías atraen a los que no comen.'],
+                    ['code' => 'tienda-de-premios', 'name' => 'La Tienda de Premios', 'node' => 'R01-N06', 'level' => 5, 'creatures' => ['goblin', 'esqueleto'], 'x' => 17, 'y' => 48,
+                        'text' => 'Estantes hasta el techo. Cada premio tiene su etiqueta, y hay quien se las cambia de noche.'],
+                    ['code' => 'esquina-del-organito', 'name' => 'La Esquina del Organito', 'node' => 'R01-N07', 'level' => 5, 'creatures' => ['esqueleto', 'orco'], 'x' => 60, 'y' => 52,
+                        'text' => 'Don Tano da vuelta la manija y sale siempre la misma canción. Los orcos no soportan repetirla.'],
+                    ['code' => 'avenida-de-los-faroles', 'name' => 'La Avenida de los Faroles', 'node' => 'R02-N01', 'level' => 6, 'creatures' => ['esqueleto', 'orco'], 'x' => 50, 'y' => 42,
+                        'text' => 'Lucio los prende a mano desde que se fue el Vidriero. Entre un farol y otro, la calle se pone oscura.'],
+                    ['code' => 'fin-de-la-avenida', 'name' => 'El Fin de la Avenida', 'node' => 'R02-N07', 'level' => 7, 'creatures' => ['orco', 'ogro'], 'x' => 50, 'y' => 25,
+                        'text' => 'Donde penaba el Fantasma Undefined. Algunos carteles todavía no recuerdan su nombre.'],
+                    ['code' => 'teatro-del-titiritero', 'name' => 'El Teatro del Titiritero', 'node' => 'R03-N01', 'level' => 8, 'creatures' => ['orco', 'esqueleto'], 'x' => 23, 'y' => 25,
+                        'text' => 'El teatro de Hilván: terciopelo, polvo y moldes de títeres colgados del techo.'],
+                    ['code' => 'detras-del-telon', 'name' => 'Detrás del Telón', 'node' => 'R03-N05', 'level' => 9, 'creatures' => ['ogro', 'orco'], 'x' => 36, 'y' => 22,
+                        'text' => 'Hilos enredados por todos lados. Acá se guardan los títeres que recuerdan lo que nadie les pidió.'],
+                    ['code' => 'torre-de-las-flechas', 'name' => 'La Torre de las Flechas', 'node' => 'R04-N01', 'level' => 10, 'creatures' => ['troll', 'orco'], 'x' => 80, 'y' => 26,
+                        'text' => 'Saeta manda desde arriba. Las flechas salen ahora y vuelven después; hay que saber esperarlas.'],
+                    ['code' => 'cima-de-la-torre', 'name' => 'La Cima de la Torre', 'node' => 'R04-N05', 'level' => 11, 'creatures' => ['troll', 'ogro'], 'x' => 80, 'y' => 15,
+                        'text' => 'Varias flechas a la vez, y un troll que cruza las respuestas por diversión.'],
+                    ['code' => 'taller-del-vidriero', 'name' => 'El Taller del Vidriero', 'node' => 'R05-N01', 'level' => 12, 'creatures' => ['ogro', 'troll'], 'x' => 61, 'y' => 23,
+                        'text' => 'Treinta años cerrado. Hay lienzos a medio pintar, y sombras que se mueven solas sobre el tablero.'],
+                    ['code' => 'chimenea-del-vitral', 'name' => 'La Chimenea del Vitral', 'node' => 'R05-N07', 'level' => 13, 'creatures' => ['dragon', 'ogro'], 'x' => 69, 'y' => 15,
+                        'text' => 'Por acá subió el Dragón de los Fuegos Artificiales. Todavía caen chispas de colores.'],
+                ],
+            ],
+        ],
         'asm' => [
             'name' => 'Nova',
             'slug' => 'nova',
@@ -504,6 +560,11 @@ return [
         ['code' => 'pluma-del-juicio', 'gives' => ['pluma-del-juicio' => 1], 'needs' => ['pluma-de-la-copista' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'capa-de-musgo', 'gives' => ['capa-de-musgo' => 1], 'needs' => ['capa-del-valle' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'baculo-de-la-garra', 'gives' => ['baculo-de-la-garra' => 1], 'needs' => ['baculo-del-interprete' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // La Feria de las Luces (JavaScript): los mismos materiales, con los ítems de la tienda de premios.
+        ['code' => 'pan-doble', 'gives' => ['pan-con-miel' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'arco-dentado', 'gives' => ['arco-dentado' => 1], 'needs' => ['arco-de-feria' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'abrigo-acolchado', 'gives' => ['abrigo-acolchado' => 1], 'needs' => ['abrigo-del-farolero' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'arco-de-la-garra', 'gives' => ['arco-de-la-garra' => 1], 'needs' => ['arco-de-faroles' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
         // El Corazón del Gólem (Ensamblador): los mismos materiales, con los ítems de la taberna del pie.
         ['code' => 'aceite-doble', 'gives' => ['aceite-de-rodilla' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
         ['code' => 'llave-dentada', 'gives' => ['llave-dentada' => 1], 'needs' => ['llave-de-palanca' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
@@ -544,10 +605,11 @@ return [
     // Monturas (JUEGO.md § 6): la especie es cosmética; el nivel acorta las expediciones.
     'mounts' => [
         'species' => ['algoritmia' => 'Algoritmia', 'archivald' => 'Archivald', 'auragryph' => 'AuraGryph', 'copperpug' => 'CopperPug',
-            'cristal' => 'Cristal', 'draco-bit' => 'Draco-Bit', 'folio' => 'Folio', 'gran-apex' => 'Gran Apex', 'pixelshell' => 'PixelShell', 'serphira' => 'Serphira',
+            'cristal' => 'Cristal', 'destello' => 'Destello', 'draco-bit' => 'Draco-Bit', 'folio' => 'Folio', 'gran-apex' => 'Gran Apex', 'pixelshell' => 'PixelShell', 'serphira' => 'Serphira',
             'titan' => 'Titán', 'vitral' => 'Vitral', 'vitrox' => 'Vitrox', 'voltcat' => 'VoltCat', 'voltio' => 'Voltio'],
         // Lo que cuenta la Enciclopedia de cada especie (D104, etapa 3). La especie es cosmética; el nivel es el efecto.
         'about' => [
+            'destello' => 'Una chispa de luz con alas chiquitas, que nació de un farol de la Feria. Nunca se queda quieto y llega antes de que lo llames; al crecer, deja una estela de fuegos artificiales.',
             'algoritmia' => 'Una coneja de luz verde, con anteojos, que viaja sobre una tabla con ruedas. Nunca toma dos veces el mismo camino si hay uno más corto; cuando crece, le salen alas y pantallas que flotan a su alrededor.',
             'archivald' => 'Un búho plateado con antiparras y rollos de pergamino bajo las alas. Recuerda cada sendero que recorrió; con los años, sus alas se vuelven de luz y carga su propia biblioteca.',
             'auragryph' => 'Una gatita de capucha que se sienta en un almohadón flotante. Es curiosa: se detiene a mirar todo, pero llega igual. Al crecer se vuelve un grifo con alas de oro.',

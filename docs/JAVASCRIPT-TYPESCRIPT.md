@@ -229,3 +229,25 @@ Lo que se agregó a la caja para escribirlas:
 - **Los enlaces `#seccion`:** ya no recargan la caja.
 - **El estado del final** espera los pedidos al Puerto que dejó en vuelo el último evento, como haría el navegador.
 
+## 12. La guía de alta de JavaScript ([ALTA-DE-CURSOS-Y-PERSONAJES.md](ALTA-DE-CURSOS-Y-PERSONAJES.md))
+
+El curso se puede abrir cuando el docente lo decida (`proximamente` y `publicado` en `cursos/javascript/00-curso.md`).
+
+| Punto | Estado |
+|---|---|
+| Lenguaje, contenido, ejecutor, Herramientas, universo, Mis Crónicas | hecho |
+| Seeder y deploy | hecho (`JavascriptCourseSeeder`, `deploy.sh --cursos`) |
+| Logo y moneda | hecho: `php artisan app:course-brand javascript cursos/javascript/marca`, **también en producción** |
+| Retrato de Lumina y fondo de la Feria | hecho: `php artisan app:glossary-portraits cursos/javascript/marca --apply`, **también en producción** |
+| Lumina de cuerpo entero (Mis Crónicas) | hecho: `php artisan app:glossary-portraits cursos/javascript/figuras --figuras --apply`, **también en producción** |
+| Nima, sus 6 aspectos y Destello | hecho (`config/game.php`) |
+| La tienda del Flaco Ruiz | hecho |
+| 16 ítems de la tienda y el taller, y los 5 de los jefes, con imagen | hecho: `php artisan app:item-images cursos/javascript/items --apply`, **también en producción**. Hojas en Stitch (proyecto de la Feria): `7138aba8…`, `239bce28…` y `9487a077…` |
+| Expediciones: 16 lugares y el mapa | hecho. Mapa `c9b6ec4f…`, sin letras: los nombres los pone la plataforma |
+| Fichas y enciclopedia (18 personajes nuevos con retrato y cuerpo) | hecho. Las fichas se escribieron con lo que ya dice el curso: **a revisar por el docente** |
+| Enciclopedia: los jefes de Sendas (`S01`…) | hecho: `Encyclopedia::target` ahora reconoce `S` además de `R` |
+| Simulación | ver el commit |
+| El guardia de la calesita | **pendiente**: sin imagen ni ficha; aparece poco |
+| Fermín en `S02-N04-P3` | **pendiente**: espera su imagen en el proyecto (ESCENAS.md) |
+| Temporada en las Crónicas en Inglés | **pendiente**: siguen el Valle y el Imperio ([INGLES.md](INGLES.md) § 8) |
+| TypeScript | **pendiente** (§ 4) |

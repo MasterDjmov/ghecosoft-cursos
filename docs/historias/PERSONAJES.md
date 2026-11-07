@@ -1139,7 +1139,7 @@ Las criaturas que aparecen en todos los mundos. Cada una es un tipo de error de 
 
 ## La Feria de las Luces (JavaScript y TypeScript)
 
-El curso todavía no se arma: la historia está en [javascript.md](javascript.md) (aprobada el 2026-10-21). Hasta que el curso se publique, estas fichas no salen en la enciclopedia del alumno.
+Historia en [javascript.md](javascript.md). Hasta que el curso se publique, estas fichas no salen en la enciclopedia del alumno.
 
 ### Nima
 - **Curso y rol:** JavaScript y TypeScript, la Feria de las Luces. Protagonista ([javascript.md](javascript.md)).
@@ -1164,7 +1164,7 @@ El curso todavía no se arma: la historia está en [javascript.md](javascript.md
 - **Cómo llega:** era la mejor arquera del Valle de la Serpiente. Sigue unas luces que se mueven solas (las del Vidriero), cruza las Forjas y se sube a un carrusel abandonado que gira y la deja en la Feria.
 - **Pieza del misterio:** al probar el mecanismo del Vidriero suelta sin querer una flecha de luz que rebota en el vitral y baja por las chimeneas de las Forjas: **es el rayo que despertó a Nova** (Ensamblador). Al final hace que el vitral del portal se mueva por primera vez.
 - **Montura:** **Destello**, un ciervo de luz amarilla que solo aparece cuando ella lo llama.
-- **Primera aparición:** JavaScript, Clase 0 (antes, solo nombrada en Python R02).
+- **Primera aparición:** JavaScript, Clase 0 (antes, solo nombrada en Python).
 - **Imágenes:** hechas el 2026-10-21 en el proyecto de Stitch de los Talleres (`9229721314509917104`): cuerpo entero `2fca95e3…`, retrato `56bfb49e…`, los 6 aspectos (`public/img/protagonistas/nima/`) y Destello en 5 etapas (`public/img/monturas/destello/`). Originales en `publicidad/logos cursos/personajes/La Feria de las Luces/`.
 
 ### Lumina
@@ -1182,6 +1182,138 @@ El curso todavía no se arma: la historia está en [javascript.md](javascript.md
 - **Moneda de la región:** las **fichas de la Feria**.
 - **Primera aparición:** JavaScript, Clase 0.
 - **Imágenes:** hechas el 2026-10-21 (proyecto de los Talleres): cuerpo entero `bdf51a14…` y retrato `657270bb…`. Es un **insecto** redondo y tierno, de cabeza oscura con dos ojos grandes (la primera versión salió con cuerpo de mujer y se rehízo).
+
+### Bruno
+- **Curso y rol:** JavaScript, los chicos del puesto de tiro.
+- **Edad y sexo:** 12, varón.
+- **Rasgos:** pelo rizado, **gorra roja al revés**.
+- **Ropa:** **chaleco rojo** abotonado, camisa clara de mangas largas y pantalón marrón. Ropa opaca y cerrada.
+- **Personalidad:** rápido y entusiasta; lleva los puntajes del puesto.
+- **Relaciones:** trabaja con **Tati**.
+- **Primera aparición:** JavaScript, R01-N01.
+- **Imágenes:** hoja `53b5bf46…` en el proyecto de la Feria.
+
+### Tati
+- **Curso y rol:** JavaScript, los chicos del puesto de tiro.
+- **Edad y sexo:** 11, mujer.
+- **Rasgos:** **dos colitas**.
+- **Ropa:** **delantal amarillo** sobre camisa verde de mangas largas y pollera larga marrón. Ropa opaca y cerrada.
+- **Personalidad:** ordenada y terminante: «sella» todo con `const`.
+- **Relaciones:** trabaja con **Bruno**.
+- **Primera aparición:** JavaScript, R01-N01.
+- **Imágenes:** hoja `d72a9311…` en el proyecto de la Feria.
+
+### Bengala
+- **Curso y rol:** JavaScript, la pirotécnica de la explanada de los fuegos.
+- **Edad y sexo:** joven, mujer.
+- **Rasgos:** **pelo corto rojizo** y antiparras de cuero.
+- **Ropa:** **delantal grueso cerrado** y guantes chamuscados.
+- **Personalidad:** cuenta cada fuego con cuidado: de eso depende que salga bien.
+- **Primera aparición:** JavaScript, R01-N04.
+
+### Doña Mirta
+- **Curso y rol:** JavaScript, la panadera del puesto del pan con miel.
+- **Edad y sexo:** mayor, mujer.
+- **Altura y contextura:** petisa y redonda.
+- **Ropa:** **delantal floreado cerrado** y pañuelo en la cabeza.
+- **Objeto:** un cucharón de madera.
+- **Personalidad:** reparte, separa y cuenta sin perder el hilo.
+- **Primera aparición:** JavaScript, R01-N05.
+
+### El Flaco Ruiz
+- **Curso y rol:** JavaScript, el encargado de la tienda de premios. Atiende la tienda de la Feria.
+- **Edad y sexo:** adulto, varón.
+- **Altura y contextura:** muy flaco y alto.
+- **Rasgos:** bigote fino y **galera chiquita**.
+- **Ropa:** **chaleco verde abotonado**.
+- **Personalidad:** ceremonioso; cada premio tiene su etiqueta.
+- **Primera aparición:** JavaScript, R01-N06.
+
+### Don Tano
+- **Curso y rol:** JavaScript, el organillero de la esquina del organito.
+- **Edad y sexo:** abuelo, varón.
+- **Rasgos:** bigote blanco grande y **sombrero de copa gastado**.
+- **Ropa:** saco largo abotonado.
+- **Objeto:** su organito.
+- **Primera aparición:** JavaScript, R01-N07.
+
+### Lucio
+- **Curso y rol:** JavaScript, el farolero de la Avenida de los Faroles.
+- **Edad y sexo:** viejo, varón.
+- **Altura y contextura:** flaco.
+- **Ropa:** gorra de lana y **abrigo largo abotonado**.
+- **Objeto:** una escalera al hombro y una vara con mecha.
+- **Personalidad:** prende los faroles a mano desde que se fue el Vidriero.
+- **Primera aparición:** JavaScript, R02-N01.
+
+### Hilván
+- **Curso y rol:** JavaScript, el titiritero del Teatro.
+- **Edad y sexo:** joven, varón.
+- **Altura y contextura:** delgado, de **dedos larguísimos**.
+- **Ropa:** **chaleco de terciopelo violeta** abotonado y camisa de mangas largas.
+- **Objeto:** hilos dorados enredados en los dedos. Sus títeres: Pipo y Pepa, Lola, Chispín, Brasa y Mini Nima.
+- **Relaciones:** hermano mayor de **Ceci**.
+- **Primera aparición:** JavaScript, R03-N01.
+
+### Saeta
+- **Curso y rol:** JavaScript, la arquera mensajera de la Torre de las Flechas.
+- **Edad y sexo:** vieja, mujer.
+- **Rasgos:** **pelo blanco en un rodete**.
+- **Ropa:** capa gris cerrada y guantes de cuero gastados.
+- **Objeto:** un carcaj de flechas de luz.
+- **Personalidad:** seca y exigente.
+- **Relaciones:** le enseña a **Nima** a esperar.
+- **Primera aparición:** JavaScript, R04-N01.
+
+### El Goblin de la Coerción
+- **Rol:** el jefe de R01 de JavaScript, en la Gran Balanza.
+- **Qué error representa:** la **coerción**: suma textos con números y compara con `==`.
+- **Cómo se lo vence:** convirtiendo los datos y comparando con `===`.
+- **Qué es:** un goblin de orejas puntiagudas y sonrisa enorme, con **chaleco a rayas y galera**, sin armas.
+- **Imágenes:** en el proyecto de la Feria. Deja la **Ficha del Goblin**.
+
+### El Fantasma Undefined
+- **Rol:** el jefe de R02 de JavaScript, en la Avenida de los Faroles.
+- **Qué error representa:** **`undefined`**: borra los nombres, y lo que no tiene nombre no se encuentra.
+- **Qué es:** una **sábana vieja, transparente y celeste**, con dos ojos huecos y tristes, sin boca. Era el ayudante del Vidriero.
+- **Imágenes:** en el proyecto de la Feria. Al vencerlo se vuelve el **Farol del Fantasma**.
+
+### El Títere sin Hilos
+- **Rol:** el jefe de R03 de JavaScript, en el Teatro del Titiritero. Al vencerlo dice su nombre: **Ébano**.
+- **Qué error representa:** **perder el `this`**: un títere que ya no sabe quién es.
+- **Qué es:** un títere grande de **madera oscura** que perdió sus hilos.
+- **Imágenes:** en el proyecto de la Feria. Deja el **Hilo de Oro**.
+
+### El Troll de las Respuestas Cruzadas
+- **Rol:** el jefe de R04 de JavaScript, en la Torre de las Flechas.
+- **Qué error representa:** las **respuestas que llegan cruzadas**: no esperar lo que todavía no volvió.
+- **Qué es:** un troll gordo, de **pelo enredado como un nido de hilos** y chaleco remendado, sin armas. Al vencerlo se va hacia la Niebla.
+- **Imágenes:** en el proyecto de la Feria. Deja la **Flecha de Regreso**.
+
+### El Dragón de los Fuegos Artificiales
+- **Rol:** el jefe de R05 de JavaScript, el jefe final de la Feria.
+- **Qué es:** un **dragón largo hecho de fuegos artificiales de colores**, con ojos de bengala. Cuidaba el mecanismo del vitral; cuando el vitral se mueve, sube por la chimenea y estalla en el cielo.
+- **Imágenes:** en el proyecto de la Feria. Deja el **Arco del Vitral**.
+
+### La Polilla de los Formularios
+- **Rol:** la jefa de S01 de JavaScript, en la Senda del Escaparate Vivo.
+- **Qué es:** una **polilla gris enorme y peluda**, con las alas llenas de las letras que se comió. Al final se queda posada en el farolito de Lumina.
+- **Imágenes:** en el proyecto de la Feria.
+
+### El Ratón de la Niebla
+- **Rol:** el jefe de S03 de JavaScript, en la Senda del Archivo.
+- **Qué es:** un **ratón gris, mojado**, con gotitas en los bigotes y los ojos blancos como la niebla. Se achica a medida que el Archivo se ordena, y termina en el bolsillo de Nima.
+- **Imágenes:** en el proyecto de la Feria.
+
+### La Herrumbre
+- **Rol:** la jefa de S04 de JavaScript, en la Senda del Tablero del Gólem.
+- **Qué es:** una **mancha roja y viva** que se arrastra por las palancas del Gólem y las traba. Se seca y se cae en escamas cuando alguien mira dónde se trabó.
+- **Imágenes:** en el proyecto de la Feria.
+
+### El Gran Pato de Hojalata
+- **Rol:** el jefe de S05 de JavaScript, en la Senda del Puesto de Tiro.
+- **Qué es:** un **pato de hojalata gigante**, gris plateado, con una llave de cuerda en la espalda y cinco abolladuras viejas. Grazna como una trompeta.
+- **Imágenes:** en el proyecto de la Feria.
 
 ---
 

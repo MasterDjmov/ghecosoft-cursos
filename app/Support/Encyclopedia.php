@@ -138,7 +138,7 @@ class Encyclopedia
         $nodes = $this->nodes[$course->id] ??= $course->nodes()->where('is_published', true)
             ->orderBy('position')->orderBy('id')->with('branch:id,title')->get(['id', 'course_id', 'branch_id', 'code', 'type', 'title']);
         $root = $nodes->first(fn (Node $node) => $node->type === NodeType::Root);
-        if (! preg_match('/\bR\d\d(?:-N\d\d)?\b/u', $text, $m)) {
+        if (! preg_match('/\b[RS]\d\d(?:-N\d\d)?\b/u', $text, $m)) {
             return $root;
         }
         $code = $m[0];

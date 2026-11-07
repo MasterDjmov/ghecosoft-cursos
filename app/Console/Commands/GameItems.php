@@ -242,6 +242,31 @@ class GameItems extends Command
             ['code' => 'morral-del-correo-mayor', 'name' => 'Morral del Correo Mayor', 'kind' => 'armor', 'rarity' => 'legendary', 'defense' => 12, 'intelligence' => 3, 'luck' => 2, 'description' => 'Un compartimiento numerado para cada pedido: nada se pierde y todo se encuentra. Elefa se lo dio a Nilo con el Faro prendido.'],
             ['code' => 'mensaje-para-quien-llegue', 'name' => 'Mensaje para quien llegue', 'kind' => 'story', 'description' => 'El sobre que Elefa guardó veinte años, sellado con vidrio de colores. Al romper el sello, un balcón con cuatro portales.'],
         ],
+        // La Feria de las Luces (JavaScript, D115, docs/historias/javascript.md): la tienda de premios del Flaco Ruiz.
+        // Lo que dan los jefes (la Ficha del Goblin, el Hilo de Oro…) lo crea el importador con el curso.
+        'javascript' => [
+            // Armas
+            ['code' => 'arco-de-feria', 'name' => 'Arco de Feria', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'De los del puesto de Bruno y Tati: liviano, pintado de rojo y amarillo, y más firme de lo que parece.'],
+            ['code' => 'vara-de-farolero', 'name' => 'Vara de Farolero', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'Larga, con mecha en la punta. Lucio tiene una igual y dice que la suya prende mejor.'],
+            ['code' => 'arco-de-faroles', 'name' => 'Arco de Faroles', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Lleva dos farolitos atados a las puntas, que se prenden cuando alguien tensa la cuerda.'],
+            ['code' => 'honda-del-puesto', 'name' => 'Honda del Puesto', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Tira bolitas de cristal. Dicen que el Vidriero la usaba para voltear patos de hojalata.'],
+            ['code' => 'arco-de-cometa', 'name' => 'Arco de Cometa', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Hecho con una vara que cayó del cielo una noche de fuegos. La flecha deja una estela de colores.'],
+            // Ropa
+            ['code' => 'chaleco-de-feria', 'name' => 'Chaleco de Feria', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Rojo y abotonado, con un bolsillo para las fichas y otro para lo que sobre.'],
+            ['code' => 'abrigo-del-farolero', 'name' => 'Abrigo del Farolero', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Largo y azul, para las noches de avenida. Huele un poco a mecha.'],
+            ['code' => 'saco-de-arquera', 'name' => 'Saco de Arquera', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'Largo hasta los muslos y reforzado en el hombro. Saeta lo aprueba, y eso es mucho decir.'],
+            ['code' => 'coraza-de-vitrales', 'name' => 'Coraza de Vitrales', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Placas de vidrio de colores en un marco de plomo. Resiste golpes, y de noche brilla sola.'],
+            // Accesorios
+            ['code' => 'libreta-de-la-consola', 'name' => 'Libreta de la Consola', 'kind' => 'accessory', 'rarity' => 'common', 'intelligence' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Para anotar lo que pasó, en el orden en que pasó. Ayuda más de lo que parece.'],
+            ['code' => 'reloj-de-saeta', 'name' => 'Reloj de Saeta', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Un relojito de arena de bolsillo. Sirve para aprender lo más difícil de la Torre: esperar.'],
+            ['code' => 'ficha-de-la-suerte', 'name' => 'Ficha de la Suerte', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Una ficha de la Feria que siempre cae del mismo lado. Nadie sabe de cuál, hasta que cae.'],
+            // Pociones
+            ['code' => 'pan-con-miel', 'name' => 'Pan con Miel', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'El de Doña Mirta, todavía tibio. Cura lo que haga falta y levanta el ánimo.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'arco-dentado', 'name' => 'Arco Dentado', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'description' => 'El Arco de Feria con dientes de goblin en las puntas y huesos en la empuñadura. Ya no parece de juguete.'],
+            ['code' => 'abrigo-acolchado', 'name' => 'Abrigo Acolchado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Abrigo del Farolero forrado con musgo de troll: abriga, amortigua y no se engancha en las escaleras.'],
+            ['code' => 'arco-de-la-garra', 'name' => 'Arco de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Arco de Faroles con garras de ogro y escamas de dragón: los farolitos ahora arden en colores.'],
+        ],
         // El Corazón del Gólem (Ensamblador, D110, docs/historias/ensamblador.md): la taberna del pie. Armas
         'ensamblador' => [
             ['code' => 'llave-de-palanca', 'name' => 'Llave de Palanca', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave de bronce del largo de un brazo. Destraba palancas viejas… y espanta goblins.'],
@@ -544,6 +569,28 @@ class GameItems extends Command
         'lentes-de-traductora' => 'Unos anteojos redondos de marco dorado sobre una carta escrita en dos idiomas.',
         'lacre-de-las-cartas' => 'Un sello de lacre de vidrio de colores (rojo, ámbar, azul) sin letras, con un brillo violeta.',
         'te-de-ambar' => 'Un vaso de vidrio color ámbar con té humeante, con una burbujita atrapada en el vidrio.',
+        // JavaScript: la Feria de las Luces (azul noche, faroles amarillos, rojo de feria y vidrio de colores)
+        'arco-de-feria' => 'Un arco liviano de madera pintada a rayas rojas y amarillas, con cuerda blanca, estilo puesto de feria.',
+        'vara-de-farolero' => 'Una vara larga de madera con una mecha encendida y un pequeño gancho de bronce en la punta.',
+        'arco-de-faroles' => 'Un arco de madera oscura con un farolito amarillo encendido atado en cada punta.',
+        'honda-del-puesto' => 'Una honda de madera y cuero con una bolita de cristal de colores en el cuero.',
+        'arco-de-cometa' => 'Un arco elegante de madera azul noche con una estela de chispas de colores que sale de sus puntas.',
+        'chaleco-de-feria' => 'Un chaleco rojo abotonado, con botones dorados y dos bolsillos, doblado de frente.',
+        'abrigo-del-farolero' => 'Un abrigo largo azul oscuro abotonado, de lana gruesa, con cuello alto, de frente.',
+        'saco-de-arquera' => 'Un saco largo de cuero marrón y tela azul, cerrado, con refuerzo de cuero en un hombro.',
+        'coraza-de-vitrales' => 'Una coraza hecha de placas de vidrio de colores en un marco de plomo oscuro, como un vitral, con brillo suave.',
+        'libreta-de-la-consola' => 'Una libreta chiquita de tapa azul con un lápiz atado con hilo amarillo; sin letras a la vista.',
+        'reloj-de-saeta' => 'Un reloj de arena de bolsillo con marco de bronce y arena dorada brillante.',
+        'ficha-de-la-suerte' => 'Una ficha redonda de feria, dorada y roja, con una estrella en el centro y un brillo mágico.',
+        'pan-con-miel' => 'Un pan redondo tibio partido al medio, con miel dorada chorreando, sobre una servilleta a cuadros.',
+        'arco-dentado' => 'Un arco de feria rojo y amarillo con dientes blancos en las puntas y huesitos atados a la empuñadura.',
+        'abrigo-acolchado' => 'Un abrigo largo azul oscuro abotonado y acolchado, con musgo verde asomando en el cuello y los puños.',
+        'arco-de-la-garra' => 'Un arco oscuro con farolitos de fuego de colores en las puntas, garras curvas y escamas rojas en la empuñadura.',
+        'javascript-ficha-del-goblin' => 'Una ficha de feria grande de bronce, con una galera violeta chiquita grabada en el centro.',
+        'javascript-farol-del-fantasma' => 'Un farol antiguo con vidrio celeste translúcido y una luz fría y triste adentro.',
+        'javascript-hilo-de-oro' => 'Un ovillo chico de hilo dorado brillante, con una punta suelta que flota.',
+        'javascript-flecha-de-regreso' => 'Una flecha de luz cian con plumas blancas, doblada suavemente en forma de arco, como si volviera.',
+        'javascript-arco-del-vitral' => 'Un arco majestuoso hecho de vidrio de colores en marco dorado, como un vitral curvado, con cuerda de luz.',
         // Ensamblador: el Corazón del Gólem (bronce, pátina verde, engranajes y luz cian)
         'llave-de-palanca' => 'Una llave inglesa grande de bronce con pátina verde, del largo de un brazo, con un remache brillante en el mango.',
         'martillo-de-remaches' => 'Un martillo de herrero de cabeza cuadrada de bronce, con remaches incrustados en la cabeza y polvo dorado.',

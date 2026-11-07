@@ -242,12 +242,12 @@ Publicado por el docente el 2026-11-07, y destacado para que salga entre los cur
 | Lumina de cuerpo entero (Mis Crónicas) | hecho: `php artisan app:glossary-portraits cursos/javascript/figuras --figuras --apply`, **también en producción** |
 | Nima, sus 6 aspectos y Destello | hecho (`config/game.php`) |
 | La tienda del Flaco Ruiz | hecho |
-| 16 ítems de la tienda y el taller, y los 5 de los jefes, con imagen | hecho: `php artisan app:item-images cursos/javascript/items --apply`, **también en producción**. Hojas en Stitch (proyecto de la Feria): `7138aba8…`, `239bce28…` y `9487a077…` |
+| 16 ítems de la tienda y el taller, y los 5 de los jefes, con imagen | hecho: `php artisan app:item-images cursos/javascript/items --apply`, **también en producción**. Hojas en Stitch (proyecto de la Feria): `7138aba8…`, `239bce28…` y `9487a077…`; la Flecha de Regreso se rehízo sola (`2756749c…`) porque salió con plumas sueltas |
 | Expediciones: 16 lugares y el mapa | hecho. Mapa `c9b6ec4f…`, sin letras: los nombres los pone la plataforma |
 | Fichas y enciclopedia (18 personajes nuevos con retrato y cuerpo) | hecho. Las fichas se escribieron con lo que ya dice el curso: **a revisar por el docente** |
 | Enciclopedia: los jefes de Sendas (`S01`…) | hecho: `Encyclopedia::target` ahora reconoce `S` además de `R` |
 | Simulación | ver el commit |
-| El guardia de la calesita | **pendiente**: sin imagen ni ficha; aparece poco |
-| Fermín en `S02-N04-P3` | **pendiente**: espera su imagen en el proyecto (ESCENAS.md) |
+| El guardia de la calesita | hecho (2026-11-07): ficha, retrato, cuerpo y hoja; `R01-N03-P6` rehecha con él |
+| Fermín en `S02-N04-P3` | hecho (2026-11-07): hoja en el proyecto de la Feria y escena rehecha |
 | Temporada en las Crónicas en Inglés | **pendiente**: siguen el Valle y el Imperio ([INGLES.md](INGLES.md) § 8) |
 | TypeScript | **pendiente** (§ 4) |

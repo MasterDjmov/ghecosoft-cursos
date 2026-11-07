@@ -1203,6 +1203,18 @@ Historia en [javascript.md](javascript.md). Hasta que el curso se publique, esta
 - **Primera aparición:** JavaScript, R01-N01.
 - **Imágenes:** hoja `d72a9311…` en el proyecto de la Feria.
 
+### El guardia de la calesita
+- **Curso y rol:** JavaScript, el que cuida la entrada de la calesita y de la montaña rusa: deja pasar a unos sí y a otros no, según las reglas.
+- **Edad y sexo:** unos cincuenta, varón.
+- **Altura y contextura:** grandote y corpulento.
+- **Rasgos:** cara redonda y amable, barba de pocos días.
+- **Ropa:** **gorra de feria azul oscuro**, camisa gris de mangas largas, **chaleco oscuro abotonado**, pantalón y botas negras. Ropa opaca y cerrada.
+- **Objeto:** **la soga roja de terciopelo** con ganchos de bronce.
+- **Personalidad:** firme pero sonriente: las reglas son las reglas, y las explica sin enojarse.
+- **Frase:** «Te falta una ficha. Volvé cuando hayas ganado más.»
+- **Primera aparición:** JavaScript, R01-N03.
+- **Imágenes:** cuerpo entero `7054bc84…` y hoja `327e490d…` en el proyecto de la Feria (la hoja trae números arriba de las figuras: Stitch no los quiso sacar).
+
 ### Bengala
 - **Curso y rol:** JavaScript, la pirotécnica de la explanada de los fuegos.
 - **Edad y sexo:** joven, mujer.

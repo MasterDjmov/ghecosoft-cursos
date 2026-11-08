@@ -42,7 +42,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 
 **Los vínculos con otros lenguajes:** los encargos siguen llegando de otras regiones, y al terminar el tronco van **Sendas cruzadas**: el Teatro (con JS: Ceci y Hilván), el Gólem (con Ensamblador: qué hay debajo de C#), el Puerto (con PHP: una API en C# que habla con la de Elefa) y el Arcade (a la manera de Unity o Godot).
 
-**Por fases, frenando en cada una:** 1) el Acto I completo; 2) el juego del Conservatorio (un **luthier nuevo** atiende la tienda, ítems, una **montura musical nueva** para Ceci, el mapa y sus lugares); 3) los actos II a V, los proyectos y las Sendas.
+**Por fases, frenando en cada una:** 1) el Acto I completo; 2) el juego del Conservatorio (**hecho, 2026-11-08**) (un **luthier nuevo** atiende la tienda, ítems, una **montura musical nueva** para Ceci, el mapa y sus lugares); 3) los actos II a V, los proyectos y las Sendas.
 
 ### El Acto I (fase 1, 2026-11-07)
 
@@ -68,9 +68,9 @@ Personajes: **Ceci** (protagonista, 6 aspectos), **Clave** (líder) y **Bemol**,
 | Historia, fichas, novela gráfica, Mis Crónicas (`story.portal_piece`) | hecho (borrador, a revisar por el docente) |
 | Protagonista y 6 aspectos | hecho |
 | Simulación | hecho |
-| Tienda de Ceci | **pendiente**: hace falta el vendedor y su imagen |
-| Expediciones y mapa | **pendiente**: el mapa y sus lugares |
-| Monturas e ítems del Conservatorio | **pendiente** |
+| La tienda de Don Cedro, el luthier | hecho (fase 2, 2026-11-08): ficha, retrato y cuerpo (`36d7ce93…`), hoja (`cddb912e…`) en el proyecto de la Feria; aparece en el Taller de Instrumentos (R02) |
+| Expediciones y mapa | hecho: `public/img/mundos/conservatorio/mapa.webp` (proyecto de Stitch «Conservatorio - mapa», sin letras) y 9 lugares del Acto I; los de los actos II a V se suman con sus nodos (en el mapa ya están el taller del luthier, la torre del archivo con la bóveda y la arena) |
+| Montura e ítems del Conservatorio | hecho: **Trino** (`public/img/monturas/trino/n1…n5`, del pajarito de notas al fénix de partituras); 16 ítems del taller y el Diapasón Verde (lo deja el Slime) con imagen: `php artisan app:item-images cursos/csharp/items --apply`, **falta en producción**; 4 recetas |
 | Jefe del bloque (Slime Desafinado) y el resto de los nodos | Acto I **hecho** (2026-11-07); siguen los actos II a V (§ 2 bis) |
 | Temporada en las Crónicas en Inglés | **pendiente**: cuando el curso esté más avanzado |
 | Copia de las imágenes en `publicidad/logos cursos/personajes/` | **pendiente** |

@@ -6421,6 +6421,7 @@ personajes: Ceci, Clave, Bemol, Gheco
 criatura: slime
 carta: Jefe | métodos + arreglo + bucle + formato · un error a la vez · al final, que suene bien
 recompensa: xp 30, oro 30, monedas 3
+item: Diapasón Verde
 ```
 
 #### Escena
@@ -6475,7 +6476,7 @@ static void Anunciar(int numero, string obra)
 ```
 
 #### Al superarla
-El programa compila, y el concierto suena de punta a punta. El Slime Desafinado se disuelve en un charquito verde que se evapora con el último acorde. Clave guarda la partitura sin terminar y mira a Ceci: —Ahora sí sabés escribir antes de tocar. Mañana te espera el Taller de Instrumentos.
+El programa compila, y el concierto suena de punta a punta. El Slime Desafinado se disuelve en un charquito verde que se evapora con el último acorde. En el piso queda un diapasón de cristal verde que todavía zumba bajito: **el Diapasón Verde**. Clave guarda la partitura sin terminar y mira a Ceci: —Ahora sí sabés escribir antes de tocar. Mañana te espera el Taller de Instrumentos.
 
 #### Imagen
 - La sala de ensayo iluminada con velas, el atril grande limpio y brillante, y un charquito verde evaporándose en el piso.

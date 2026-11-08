@@ -1377,12 +1377,31 @@ Historia en [csharp.md](csharp.md).
 - **Frase:** «Esperá, esperá: ¿por qué dio eso?»
 - **Relaciones:** lleva dos años en el Conservatorio y le explica a Ceci cómo funciona todo.
 
+### Don Cedro
+- **Curso y rol:** C#, el luthier del Conservatorio. Atiende la tienda (el taller de Don Cedro): arregla y vende instrumentos, arcos, cuerdas y resina.
+- **Edad y sexo:** unos 70 años, varón.
+- **Altura y contextura:** bajito y algo encorvado.
+- **Rasgos:** barba blanca corta y prolija, cejas blancas tupidas, **anteojos redondos de marco dorado** en la punta de la nariz, nariz grande y lápiz de carpintero detrás de la oreja.
+- **Ropa:** camisa crema arremangada, chaleco marrón oscuro abotonado, **delantal de cuero largo** con bolsillos llenos de herramientas, pantalón gris oscuro y zapatos marrones.
+- **Objeto:** un violín sin terminar, de madera clara, y un pincel de cola.
+- **Personalidad:** paciente y gruñón a la vez; no deja tocar nada recién encolado. Piensa que todo instrumento es un molde: «primero el plano, después la madera».
+- **Frase:** «Lo que no suena, lo arreglo. Lo que suena mal, lo arreglás vos.»
+- **Relaciones:** hizo el violín de Clave cuando ella era alumna. Conoció al Vidriero: le cambiaba vidrios de colores por cuerdas.
+- **Primera aparición:** C#, el Taller de Instrumentos (R02).
+
 ### Slime Desafinado
 - **Rol:** el jefe de R01 de C#, en la Sala de Ensayo (R01-N15). Se trepó al atril grande y se comió los signos de la partitura.
 - **Qué error representa:** los errores de sintaxis que no dejan arrancar el programa: el `;` que falta (`CS1002`), la llave sin cerrar (`CS1513`), la comilla abierta (`CS1010`).
 - **Cómo se lo vence:** leyendo lo que dice el compilador (la línea y el código), arreglando de a un error, empezando por el primero.
 - **Qué es:** un **slime verde brillante y gelatinoso**, redondo y del alto de un chico, con **dos ojos grandes un poco bizcos** (desafinados), boca torcida, gotas a los costados y notas musicales y puntitos flotando adentro.
 - **Imágenes:** cuerpo entero `652d3237…` y hoja `d0581643…` en el proyecto de la Feria (2026-11-07). Deja la insignia **Oído Afinado**.
+
+### Quimera de las Mil Partituras
+- **Rol:** el jefe de R02 de C#, en el Taller de Instrumentos (R02-N11). Se levantó de una pila de planos mezclados.
+- **Qué error representa:** los diseños de clases mal armados: datos a la vista sin cuidar, objetos que nacen vacíos, familias sin su propia voz, herencia donde hacía falta composición y promesas (interfaces) sin cumplir.
+- **Cómo se la vence:** revisando el diseño pieza por pieza: propiedades, constructores, `abstract` y `override`, composición e interfaces; de a un error por vez.
+- **Qué es:** una **quimera hecha de partes de instrumentos**: cabeza de león de **bronce de trompeta**, cuerpo de **hojas de partitura** (sin letras), alas como **abanicos de papel** y **cola de cuerdas de violín** doradas. Grande pero de caricatura, apta para chicos.
+- Deja la insignia **Maestro Luthier** y la **Cuerda de la Quimera**.
 
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 

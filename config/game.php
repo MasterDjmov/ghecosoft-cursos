@@ -348,7 +348,7 @@ return [
             ],
         ],
         // Ensamblador 8086 (D110, docs/historias/ensamblador.md): Nova, la chispa que despierta dentro de Axón.
-        // C# (docs/historias/csharp.md, D119): la tienda y las expediciones se suman cuando estén sus imágenes y el mapa.
+        // C# (docs/historias/csharp.md, D119): Ceci en el Conservatorio de Do Sostenido.
         'csharp' => [
             'name' => 'Ceci',
             'slug' => 'ceci',
@@ -360,6 +360,34 @@ return [
                 4 => 'Alumna del Conservatorio',
                 5 => 'La Cajita en la Lluvia',
                 6 => 'Directora de Orquesta',
+            ],
+            // El taller de Don Cedro, el luthier del Conservatorio (aparece en el Taller de Instrumentos, R02).
+            'shop' => ['name' => 'El taller de Don Cedro', 'keeper' => 'Don Cedro', 'portrait' => 'img/personajes/don-cedro.webp', 'figure' => 'img/personajes/don-cedro-cuerpo.webp',
+                'greeting' => '—Pasá, nena, y no toques nada que esté encolado. Cuerdas, arcos, resina… Todo lo que hay acá suena; lo que no suena, lo arreglo.'],
+            // El Conservatorio de Do Sostenido: los lugares siguen el recorrido de Ceci. Los de los actos II a V se suman con sus nodos.
+            'expeditions' => [
+                'opens_after' => 'R01-N05',
+                'map' => 'img/mundos/conservatorio/mapa.webp',
+                'places' => [
+                    ['code' => 'portico-del-conservatorio', 'name' => 'El Pórtico del Conservatorio', 'node' => 'R00-N01', 'level' => 1, 'creatures' => ['slime'], 'x' => 50, 'y' => 85,
+                        'text' => 'Las escalinatas donde Ceci llegó con la cajita bajo el brazo. Entre las columnas, algún slime tararea fuera de tono.'],
+                    ['code' => 'sala-de-ensayo', 'name' => 'La Sala de Ensayo', 'node' => 'R01-N01', 'level' => 2, 'creatures' => ['slime', 'goblin'], 'x' => 62, 'y' => 46,
+                        'text' => 'Atriles con nombre, velas y el pizarrón de Clave. De noche, los goblins cambian las partituras de atril.'],
+                    ['code' => 'pasillo-de-los-atriles', 'name' => 'El Pasillo de los Atriles', 'node' => 'R01-N02', 'level' => 3, 'creatures' => ['goblin'], 'x' => 23, 'y' => 59,
+                        'text' => 'Cada atril guarda un solo tipo de partitura. Los goblins meten un vals donde va una marcha.'],
+                    ['code' => 'la-boleteria', 'name' => 'La Boletería', 'node' => 'R01-N04', 'level' => 3, 'creatures' => ['goblin', 'slime'], 'x' => 72, 'y' => 79,
+                        'text' => 'La ventanilla que dice sí o no. Hay quien intenta pasar con la entrada de ayer.'],
+                    ['code' => 'biblioteca-de-partituras', 'name' => 'La Biblioteca de Partituras', 'node' => 'R01-N05', 'level' => 4, 'creatures' => ['goblin', 'esqueleto'], 'x' => 12, 'y' => 46,
+                        'text' => 'Estantes de letras y más letras. Entre los cuadernos viejos se esconden nombres que nadie escribió.'],
+                    ['code' => 'patio-de-la-fuente', 'name' => 'El Patio de la Fuente', 'node' => 'R01-N07', 'level' => 4, 'creatures' => ['esqueleto', 'slime'], 'x' => 42, 'y' => 51,
+                        'text' => 'Donde el público escribe sus pedidos en papelitos. La mitad llega mal escrita.'],
+                    ['code' => 'torre-del-metronomo', 'name' => 'La Torre del Metrónomo', 'node' => 'R01-N08', 'level' => 5, 'creatures' => ['esqueleto', 'orco'], 'x' => 86, 'y' => 49,
+                        'text' => 'Un péndulo enorme marca el tiempo. Los dados de los ensayos ruedan por las escaleras.'],
+                    ['code' => 'escenario-grande', 'name' => 'El Escenario Grande', 'node' => 'R01-N12', 'level' => 6, 'creatures' => ['orco', 'esqueleto'], 'x' => 50, 'y' => 14,
+                        'text' => 'Filas y columnas de sillas. Los orcos se sientan en la fila que no existe.'],
+                    ['code' => 'foso-de-la-orquesta', 'name' => 'El Foso de la Orquesta', 'node' => 'R01-N15', 'level' => 7, 'creatures' => ['orco', 'ogro'], 'x' => 50, 'y' => 25,
+                        'text' => 'Donde cayó el Slime Desafinado todavía quedan gotitas verdes que zumban.'],
+                ],
             ],
         ],
         // JavaScript (docs/historias/javascript.md, D115): Nima recorre la Feria de las Luces.
@@ -560,6 +588,11 @@ return [
         ['code' => 'pluma-del-juicio', 'gives' => ['pluma-del-juicio' => 1], 'needs' => ['pluma-de-la-copista' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
         ['code' => 'capa-de-musgo', 'gives' => ['capa-de-musgo' => 1], 'needs' => ['capa-del-valle' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
         ['code' => 'baculo-de-la-garra', 'gives' => ['baculo-de-la-garra' => 1], 'needs' => ['baculo-del-interprete' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
+        // El Conservatorio (C#): los mismos materiales, con los ítems del taller de Don Cedro.
+        ['code' => 'te-de-tilo-doble', 'gives' => ['te-de-tilo' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
+        ['code' => 'batuta-dentada', 'gives' => ['batuta-dentada' => 1], 'needs' => ['batuta-de-ensayo' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
+        ['code' => 'capa-de-concierto-acolchada', 'gives' => ['capa-de-concierto-acolchada' => 1], 'needs' => ['capa-de-concierto' => 1, 'musgo-de-troll' => 3, 'baba-de-slime' => 4], 'minutes' => 15, 'min_level' => 6],
+        ['code' => 'arco-de-crin-de-la-garra', 'gives' => ['arco-de-crin-de-la-garra' => 1], 'needs' => ['arco-de-crin-de-plata' => 1, 'garra-de-ogro' => 4, 'escama-de-dragon' => 2], 'minutes' => 30, 'min_level' => 10],
         // La Feria de las Luces (JavaScript): los mismos materiales, con los ítems de la tienda de premios.
         ['code' => 'pan-doble', 'gives' => ['pan-con-miel' => 2], 'needs' => ['baba-de-slime' => 3], 'minutes' => 5, 'min_level' => 1],
         ['code' => 'arco-dentado', 'gives' => ['arco-dentado' => 1], 'needs' => ['arco-de-feria' => 1, 'diente-de-goblin' => 4, 'hueso-de-esqueleto' => 3], 'minutes' => 15, 'min_level' => 5],
@@ -606,7 +639,7 @@ return [
     'mounts' => [
         'species' => ['algoritmia' => 'Algoritmia', 'archivald' => 'Archivald', 'auragryph' => 'AuraGryph', 'copperpug' => 'CopperPug',
             'cristal' => 'Cristal', 'destello' => 'Destello', 'draco-bit' => 'Draco-Bit', 'folio' => 'Folio', 'gran-apex' => 'Gran Apex', 'pixelshell' => 'PixelShell', 'serphira' => 'Serphira',
-            'titan' => 'Titán', 'vitral' => 'Vitral', 'vitrox' => 'Vitrox', 'voltcat' => 'VoltCat', 'voltio' => 'Voltio'],
+            'titan' => 'Titán', 'trino' => 'Trino', 'vitral' => 'Vitral', 'vitrox' => 'Vitrox', 'voltcat' => 'VoltCat', 'voltio' => 'Voltio'],
         // Lo que cuenta la Enciclopedia de cada especie (D104, etapa 3). La especie es cosmética; el nivel es el efecto.
         'about' => [
             'destello' => 'Una chispa de luz con alas chiquitas, que nació de un farol de la Feria. Nunca se queda quieto y llega antes de que lo llames; al crecer, deja una estela de fuegos artificiales.',
@@ -620,6 +653,7 @@ return [
             'gran-apex' => 'Empieza como un pichón blanco, con mochila y sentado en un cajón de correo. Crece hasta ser un águila oscura de alas de tormenta: la montura de los mensajeros del Puerto.',
             'pixelshell' => 'Una tortuga con caparazón de lava y patas de hierro. Calienta el camino a su paso; nadie la apura. Con los niveles, su caparazón se vuelve una fragua que echa fuego.',
             'serphira' => 'Una serpiente de escamas esmeralda, del Valle. Se enrosca en círculos de runas para despegar y, al crecer, le salen alas de hojas de luz.',
+            'trino' => 'Un pajarito hecho de notas musicales, del Conservatorio, que silba lo que acaba de oír. Al crecer, sus plumas se vuelven pentagramas y termina siendo un fénix de partituras que deja música en el aire.',
             'titan' => 'Un elefante de metal azul que viaja en un carrito con ruedas. Carga lo que sea y no le teme a ningún ogro. Al crecer se vuelve un coloso con alas de cristal.',
             'vitral' => 'Un ciervo hecho de vidrio de colores, de los Talleres. Cuando pasa la luz, deja el camino pintado; al crecer, sus astas se vuelven un rosetón.',
             'vitrox' => 'Un cachorro de gárgola con armadura de bronce que echa humo cuando se enoja, que es seguido. Crece hasta ser un dragón de bronce con calderas en el lomo.',

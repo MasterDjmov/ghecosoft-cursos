@@ -158,6 +158,9 @@ REFS = {
         'region': 'El Conservatorio de Do Sostenido',
         'cierre': 'Imagen solo de dibujo, sin escritura; telas, carteles, hojas y paredes lisos, sin runas ni símbolos mágicos.',
         'ambiente': 'en un conservatorio gótico de piedra lisa y oscura, de noche, con atriles de madera, velas, faroles y tubos dorados de órgano',
+        'ambientes': {
+            '02-el-taller-de-instrumentos.md': 'en un conservatorio gótico de piedra lisa y oscura, de noche; si el lugar es el Taller de Instrumentos, un taller de luthier de madera cálida con mesas de trabajo, violines y chelos colgados, virutas, herramientas, faroles y velas',
+        },
         'chars': [
             (r'\bCeci\b', 'Ceci', ['6d9cb3583ce9486fa80bf873f9fecc59'], 'Ceci es una chica de 15 años, bajita, de pecas, con pelo cobrizo en dos rodetes chiquitos y un saco de banda BORDÓ con botones dorados, largo hasta los muslos, abotonado hasta el cuello.'),
             (r'\bClave\b', 'Clave', ['073d8d3f52ca458f9667e7bb00837445'], 'Clave es una mujer de 50, alta y muy derecha, con anteojos redondos dorados, rodete negro con una mecha blanca y capa negra.'),
@@ -167,6 +170,8 @@ REFS = {
             (r'\bBruno\b', 'Bruno', ['aa2b4f906be344918c60e9553fed907c'], 'Bruno es un chico de 12 años, de pelo castaño enrulado, con gorra ROJA al revés, chaleco rojo abotonado sobre camisa clara de mangas largas y pantalón marrón.'),
             (r'Gheco|gecko', 'Gheco', ['11514129442070458985'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
             (r'[Ss]lime', 'el Slime Desafinado', ['652d3237f39c48e78bf22f6084d4a53c'], 'El Slime Desafinado es un slime verde brillante y gelatinoso, redondo, con dos ojos grandes un poco bizcos, boca torcida y notas musicales y puntitos flotando adentro.'),
+            (r'\bCedro\b|luthier', 'Don Cedro', ['36d7ce935eee4cb68b62a43cd27b8ca9'], 'Don Cedro es un luthier de 70 años, bajito y algo encorvado, de barba blanca corta, anteojos redondos dorados y lápiz detrás de la oreja, con camisa crema arremangada, chaleco marrón, delantal largo de cuero con herramientas y pantalón gris.'),
+            (r'[Qq]uimera', 'la Quimera de las Mil Partituras', ['e6b99aa8c3a94e2eb5db372ea53ff78b'], 'La Quimera es una criatura de caricatura hecha de partes de instrumentos: cabeza de león de bronce con melena de campanas de trompeta, cuerpo de hojas de partitura sin letras, alas de abanico de papel, patas de madera de violín y cola de cuerdas doradas.'),
             (r'\bTano\b|sombrero de copa', 'Don Tano', ['5ee266e65e5242958dbe87a10b6d24c2'], ''),
             (r'\b[Oo]rcos?\b', 'el Orco del Desborde', ['7a8f59387a2545509da51e5bce46317f'], ''),
             (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],

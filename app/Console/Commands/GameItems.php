@@ -267,6 +267,34 @@ class GameItems extends Command
             ['code' => 'abrigo-acolchado', 'name' => 'Abrigo Acolchado', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'El Abrigo del Farolero forrado con musgo de troll: abriga, amortigua y no se engancha en las escaleras.'],
             ['code' => 'arco-de-la-garra', 'name' => 'Arco de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Arco de Faroles con garras de ogro y escamas de dragón: los farolitos ahora arden en colores.'],
         ],
+        // El Conservatorio de Do Sostenido (C#, D119, docs/historias/csharp.md): el taller de Don Cedro, el luthier.
+        // Lo que dan los jefes va al final, con su nombre igual al `item:` de la micro-misión.
+        'csharp' => [
+            // Armas
+            ['code' => 'arco-de-estudio', 'name' => 'Arco de Estudio', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Un arco de violín de los que se prestan en el Conservatorio. Tiene la crin un poco gastada y mucha paciencia.'],
+            ['code' => 'batuta-de-ensayo', 'name' => 'Batuta de Ensayo', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 3, 'strength' => 1, 'price' => 300, 'min_level' => 3, 'droppable' => true, 'description' => 'De madera clara, con mango de corcho. Clave tiene una igual y la golpea contra el atril cuando algo no compila.'],
+            ['code' => 'arco-de-crin-de-plata', 'name' => 'Arco de Crin de Plata', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'price' => 900, 'min_level' => 6, 'droppable' => true, 'description' => 'Don Cedro le puso crin plateada y una punta de nácar. Suena limpio aunque la mano tiemble.'],
+            ['code' => 'diapason-de-acero', 'name' => 'Diapasón de Acero', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 6, 'dexterity' => 2, 'price' => 1200, 'min_level' => 8, 'droppable' => true, 'description' => 'Golpeado contra cualquier cosa, da un La perfecto. A los ogros les zumban los oídos durante horas.'],
+            ['code' => 'arco-de-la-tormenta', 'name' => 'Arco de la Tormenta', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 9, 'intelligence' => 4, 'droppable' => true, 'description' => 'Hecho con la madera de un cedro que partió un rayo. Cada nota deja una chispa azul en el aire.'],
+            // Ropa
+            ['code' => 'chaleco-de-ensayo', 'name' => 'Chaleco de Ensayo', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 2, 'price' => 100, 'min_level' => 1, 'droppable' => true, 'description' => 'Bordó, abotonado hasta arriba, con un bolsillo para el lápiz de las correcciones.'],
+            ['code' => 'capa-de-concierto', 'name' => 'Capa de Concierto', 'kind' => 'armor', 'rarity' => 'common', 'defense' => 3, 'dexterity' => 1, 'price' => 280, 'min_level' => 3, 'droppable' => true, 'description' => 'Azul noche, larga y forrada en dorado. Se cierra con un broche en forma de clave de sol.'],
+            ['code' => 'levita-del-conservatorio', 'name' => 'Levita del Conservatorio', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'strength' => 1, 'price' => 850, 'min_level' => 6, 'droppable' => true, 'description' => 'La de los alumnos avanzados: negra, larga y con botones de bronce. Clave dice que pesa lo que pesa la responsabilidad.'],
+            ['code' => 'coraza-de-tubos', 'name' => 'Coraza de Tubos', 'kind' => 'armor', 'rarity' => 'epic', 'defense' => 9, 'intelligence' => 3, 'luck' => 1, 'droppable' => true, 'description' => 'Placas de bronce con forma de tubos de órgano. Cuando le pegan, suena un acorde y quien pegó se queda escuchando.'],
+            // Accesorios
+            ['code' => 'metronomo-de-bolsillo', 'name' => 'Metrónomo de Bolsillo', 'kind' => 'accessory', 'rarity' => 'common', 'intelligence' => 1, 'luck' => 1, 'price' => 150, 'min_level' => 2, 'droppable' => true, 'description' => 'Tic, tac, tic, tac. Ayuda a hacer las cosas en orden, una por vez.'],
+            ['code' => 'partitura-encantada', 'name' => 'Partitura Encantada', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'price' => 900, 'min_level' => 7, 'droppable' => true, 'description' => 'Si la nota está mal escrita, se pone roja antes de que la toques. Como el ensayo general, pero en papel.'],
+            ['code' => 'cuerda-de-la-suerte', 'name' => 'Cuerda de la Suerte', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 2, 'luck' => 3, 'droppable' => true, 'description' => 'Una cuerda de violín dorada que nunca se corta en medio de un concierto. Don Cedro jura que es la única.'],
+            // Pociones
+            ['code' => 'te-de-tilo', 'name' => 'Té de Tilo', 'kind' => 'potion', 'rarity' => 'common', 'heal' => 40, 'price' => 30, 'min_level' => 1, 'description' => 'El que Don Cedro toma mientras encola. Calma los nervios antes de subir al escenario y cura los raspones.'],
+            // Solo se fabrican en el taller (D93)
+            ['code' => 'batuta-dentada', 'name' => 'Batuta Dentada', 'kind' => 'weapon', 'rarity' => 'rare', 'attack' => 5, 'intelligence' => 2, 'description' => 'La Batuta de Ensayo con dientes de goblin y huesos en el mango. Ahora la orquesta obedece rápido.'],
+            ['code' => 'capa-de-concierto-acolchada', 'name' => 'Capa de Concierto Acolchada', 'kind' => 'armor', 'rarity' => 'rare', 'defense' => 5, 'dexterity' => 2, 'description' => 'La Capa de Concierto forrada con musgo de troll: abriga en los patios y no hace ruido al caminar.'],
+            ['code' => 'arco-de-crin-de-la-garra', 'name' => 'Arco de la Garra', 'kind' => 'weapon', 'rarity' => 'epic', 'attack' => 10, 'intelligence' => 4, 'description' => 'El Arco de Crin de Plata con garras de ogro y escamas de dragón: las notas salen como zarpazos de luz.'],
+            // Lo que gana Ceci en la historia
+            ['code' => 'csharp-diapason-verde', 'name' => 'Diapasón Verde', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'luck' => 2, 'description' => 'Lo dejó el Slime Desafinado al disolverse. Zumba bajito cuando falta un punto y coma cerca.'],
+            ['code' => 'csharp-cuerda-de-la-quimera', 'name' => 'Cuerda de la Quimera', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 3, 'dexterity' => 2, 'luck' => 1, 'description' => 'La cola de la Quimera de las Mil Partituras, enroscada y dorada. Vibra cuando un plano está bien hecho.'],
+        ],
         // El Corazón del Gólem (Ensamblador, D110, docs/historias/ensamblador.md): la taberna del pie. Armas
         'ensamblador' => [
             ['code' => 'llave-de-palanca', 'name' => 'Llave de Palanca', 'kind' => 'weapon', 'rarity' => 'common', 'attack' => 2, 'price' => 120, 'min_level' => 1, 'droppable' => true, 'description' => 'Una llave de bronce del largo de un brazo. Destraba palancas viejas… y espanta goblins.'],
@@ -617,6 +645,25 @@ class GameItems extends Command
         'contrato-del-gremio' => 'Un pergamino enrollado atado con cinta, con un sello de lacre en forma de balanza, sin letras visibles.',
         'garrote-de-practica' => 'Un garrote de hierro acolchado con tela gris y remaches, de entrenamiento.',
         'corazon-de-brasa' => 'Un corazón de cristal rojo brasa que late con luz naranja y cian en el centro, engarzado en bronce.',
+        // C#: el Conservatorio de Do Sostenido (madera, bronce y azul noche)
+        'arco-de-estudio' => 'Un arco de violín sencillo de madera marrón con crin blanca algo gastada y talón negro.',
+        'batuta-de-ensayo' => 'Una batuta de director de orquesta de madera clara con mango de corcho redondeado.',
+        'arco-de-crin-de-plata' => 'Un arco de violín elegante de madera oscura con crin plateada brillante y punta de nácar.',
+        'diapason-de-acero' => 'Un diapasón de acero pulido en forma de horquilla, con ondas de sonido azules suaves alrededor.',
+        'arco-de-la-tormenta' => 'Un arco de violín de madera partida por un rayo, con vetas azules luminosas y chispas eléctricas.',
+        'chaleco-de-ensayo' => 'Un chaleco bordó abotonado hasta arriba, con un bolsillo y un lápiz asomando.',
+        'capa-de-concierto' => 'Una capa larga azul noche forrada en dorado, cerrada con un broche dorado con forma de clave de sol.',
+        'levita-del-conservatorio' => 'Una levita negra larga de concierto con botones de bronce y cuello alto.',
+        'coraza-de-tubos' => 'Una coraza de bronce hecha de placas con forma de tubos de órgano de distintos largos.',
+        'metronomo-de-bolsillo' => 'Un metrónomo chico de madera con forma de pirámide y péndulo de bronce.',
+        'partitura-encantada' => 'Una hoja de partitura enrollada con pentagramas que brillan en dorado, sin notas legibles.',
+        'cuerda-de-la-suerte' => 'Una cuerda de violín dorada enrollada en espiral, con un brillo cálido.',
+        'te-de-tilo' => 'Una taza de porcelana blanca con té de tilo dorado humeante y una ramita de tilo al lado.',
+        'batuta-dentada' => 'Una batuta de madera clara con dientes chicos de goblin incrustados y huesos atados en el mango.',
+        'capa-de-concierto-acolchada' => 'Una capa larga azul noche acolchada con musgo verde en el forro y broche dorado.',
+        'arco-de-crin-de-la-garra' => 'Un arco de violín de madera oscura con garras de ogro en el talón y escamas de dragón rojas a lo largo.',
+        'csharp-cuerda-de-la-quimera' => 'Una cuerda de violín dorada enroscada como la cola de un animal, con un brillo violeta y hojitas de partitura sin letras flotando alrededor.',
+        'csharp-diapason-verde' => 'Un diapasón de cristal verde translúcido, con una gotita verde brillante en la punta.',
         // Comunes (sirven en cualquier mundo)
         'pocion-grande' => 'Un frasco grande de vidrio facetado con líquido rojo y dorado luminoso, tapón lacrado.',
         Item::RESPEC => 'Un pergamino enrollado con sello de cera dorado, del que salen flechas de luz que vuelven al centro.',

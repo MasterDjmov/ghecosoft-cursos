@@ -2488,6 +2488,99 @@ BL = 2. La caldera del tobillo no hace falta: con 2 grados alcanza. Nova anota e
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala el más alto.
 - Gheco (gecko de luz cian con antiparras, chiquito) abrazado al más alto, para calentarse.
 
+### Micro-misión R02-N04-P5 · Justo en cero
+
+```meta
+lugar: El tobillo del Gólem
+personajes: Nova, Gheco, Kira
+carta: jle y jge | menor o igual / mayor o igual CON signo · incluyen el caso igual · jl y jg no
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira quiere saber si el agua del tobillo se congela. El termómetro marca **0** justo, y el Gólem dice «No se congela». Kira, con la bufanda puesta, no le cree.
+
+#### Gheco sugiere
+`jl` salta si es **menor**: con 0 contra 0 no salta, porque 0 no es menor que 0. El agua se congela a 0 grados **o menos**, y para eso está **`jle`** (*jump if less or equal*): menor **o igual**, con signo.
+
+Su espejo es **`jge`**: mayor **o igual**, con signo. Sin signo, los mismos son `jbe` y `jae`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá qué dice. Después cambiá el salto para que, con 0 grados, el ojo diga `Se congela`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+temp     db 0
+t_hielo  db 'Se congela$'
+t_agua   db 'No se congela$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    cmp temp, 0
+    jl  hielo
+    lea dx, t_agua
+    jmp mostrar
+hielo:
+    lea dx, t_hielo
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Se congela
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+temp     db 0
+t_hielo  db 'Se congela$'
+t_agua   db 'No se congela$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    cmp temp, 0
+    jle hielo
+    lea dx, t_agua
+    jmp mostrar
+hielo:
+    lea dx, t_hielo
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Se congela». Kira asiente y patina un poco sobre el charco duro del tobillo. Nova suma una línea a su regla de oro: **si el igual cuenta, va la `e`: `jle`, `jge`, `jbe`, `jae`**.
+
+#### Imagen
+- Un charco congelado sobre una placa de bronce del tobillo de un gólem gigante, con un termómetro de bronce al lado cuya columna cian llega justo a una línea marcada, sin números.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian, bufanda) patina un poco sobre el hielo, sonriendo.
+- Gheco (gecko de luz cian con antiparras, chiquito) se desliza sobre el hielo con las patitas abiertas.
+
 ### Prueba del sello
 
 #### ¿Qué vale `FFh` sin signo? ¿Y con signo?
@@ -4316,6 +4409,166 @@ end main
 - La cintura de un gólem gigante girando, con engranajes en movimiento.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) con los brazos abiertos, girando con la cintura.
 - Gheco (gecko de luz cian con antiparras, chiquito) agarrado a un interruptor encendido.
+
+### Micro-misión R02-N07-P6 · La letra que se da vuelta
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco
+carta: xor | invierte bits · 1 en la máscara = se da vuelta · dos veces = como estaba
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Gheco descubre un truco: con una sola orden, una letra cambia de minúscula a mayúscula… y con la misma orden, vuelve.
+
+#### Gheco sugiere
+`xor` **invierte** los bits que tienen **1** en la máscara: el 0 pasa a 1 y el 1 a 0. Los demás quedan igual.
+
+El bit 5 (`00100000b`) es el que separa mayúsculas de minúsculas. Con `xor dl, 00100000b`, una `'n'` pasa a `'N'`; si lo hacés de nuevo, vuelve a `'n'`.
+
+#### Desafío
+Completá la máscara de las dos órdenes `xor` para que el ojo muestre `Nn`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, 'n'
+    xor dl, ___        ; se da vuelta: 'N'
+    mov ah, 02h
+    int 21h
+    xor dl, ___        ; vuelve: 'n'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Nn
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, 'n'
+    xor dl, 00100000b  ; se da vuelta: 'N'
+    mov ah, 02h
+    int 21h
+    xor dl, 00100000b  ; vuelve: 'n'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+N, n. Gheco lo repite diez veces seguidas, fascinado: la letra sube y baja como una palanca. —Ni `or` ni `and` hacen eso —dice Nova—. Ellos eligen un lado; `xor` da vuelta.
+
+#### Imagen
+- Una palanca de bronce con un cristal en la punta que muestra una letra grande que cambia entre dos tamaños, con un destello cian en cada cambio, en una sala mecánica de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mueve la palanca, sonriendo.
+- Gheco (gecko de luz cian con antiparras, chiquito) se cuelga de la palanca, divertido.
+
+### Micro-misión R02-N07-P7 · La mitad de una deuda
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: sar | ÷ 2 CON signo · conserva el bit de signo · shr mete un 0 y rompe los negativos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Gheco le debe **8** chispas a Nova: en su cajón dice `−8`. Nova le perdona la mitad y corre los bits a la derecha con `shr`. Un ogro aplaude: ¡ahora Gheco debe… 124!
+
+#### Gheco sugiere
+`−8` en un byte es `F8h` = `11111000b`. El bit de más a la izquierda en 1 dice «negativo».
+
+- `shr` corre todo a la derecha y mete un **0** por la izquierda: `01111100b` = 124. El signo se perdió.
+- **`sar`** (*shift arithmetic right*) corre igual, pero **copia el bit de signo**: `11111100b` = `FCh` = −4.
+
+Para dividir por 2 algo que puede ser negativo, `sar`. Para cantidades sin signo, `shr`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá AL en el tablero (`7Ch`, o sea 124). Después cambiá la orden para que AL quede en `FCh` (−4).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+deuda db -8
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, deuda
+    shr al, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = FCh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+deuda db -8
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, deuda
+    sar al, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AL = `FCh`: −4. Gheco debe la mitad, no ciento veinticuatro. El ogro, que esperaba quedarse con la diferencia, se va rascándose la cabeza.
+
+#### Imagen
+- Una fila de ocho lucecitas de bronce en la pared de la cintura de un gólem, corriéndose un lugar a la derecha, con la primera de la izquierda que se copia encendida, en una sala mecánica de bronce.
+- Un ogro grandote y torpe se va rascándose la cabeza, decepcionado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala las lucecitas; Gheco (gecko de luz cian con antiparras, chiquito), en su hombro, suspira aliviado.
 
 ### Prueba del sello
 

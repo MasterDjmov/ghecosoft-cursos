@@ -256,6 +256,8 @@ mov ax, 5
 
 Pone un 5 en la palanca `AX`. Primero va el **destino** (adónde), después una coma, y al final el **valor**. Mirá el tablero: la palanca cambia.
 
+En el código vas a ver órdenes arriba (`.model small`, `mov ax, @data`…) y abajo (`mov ax, 4C00h`, `int 21h`): son la **caja** de encendido y apagado del Gólem. Van siempre igual y por ahora no hace falta entenderlas. Vos escribís **en el medio**, donde está el `___`.
+
 #### Desafío
 Completá la orden para que la palanca **AX** quede en **5**. Después probá **Paso a paso** y mirá cómo se ilumina AX.
 

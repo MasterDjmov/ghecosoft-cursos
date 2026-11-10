@@ -266,6 +266,8 @@ int 21h
 
 `offset saludo` es la dirección del cajón donde empieza `saludo`.
 
+¿Y `saludo` de dónde sale? Arriba, en `.data`, dice `saludo db 'Hola, soy Nova$'`: **`db`** (*define byte*) guarda el texto en cajones seguidos, una letra por cajón, y le pone el nombre `saludo` al primero. El **`$`** del final marca dónde termina: la `09h` muestra letras hasta encontrarlo.
+
 #### Desafío
 El texto ya está guardado en `saludo`. Completá la orden para que DX tenga **su dirección** y el ojo muestre la frase.
 
@@ -1786,7 +1788,12 @@ recompensa: xp 15, oro 15
 Nova guarda `4142h` monedas en un cajón doble y mira la pestaña **Cajones**: ve un `42` y **después** un `41`. —¡Se dio vuelta! —Así guardo los words —dice {mentor}—: la mitad baja, primero.
 
 #### Gheco sugiere
-En `4142h`, la mitad **baja** son las dos cifras de la derecha: `42h`. Esa va en el primer cajón. Si dudás, ejecutá el programa: el ojo muestra los dos bytes en el orden en que están guardados (`41h` es la letra A y `42h` la B).
+Antes, dos palabras nuevas del código:
+
+- **`byte ptr`** quiere decir «de acá, tomá **un solo** cajón». `monedas` es un `dw` (dos cajones), y DL tiene lugar para uno solo: sin `byte ptr`, el Gólem no sabe cuál de los dos querés y da error. `mov dl, byte ptr monedas` copia solo el **primero**.
+- **`monedas+1`** es «el cajón que sigue a `monedas`»: el **segundo** de los dos.
+
+Ahora, la pregunta: en `4142h`, la mitad **baja** son las dos cifras de la derecha, `42h`. Esa va en el primer cajón. Si dudás, ejecutá el programa: el ojo muestra los dos bytes en el orden en que están guardados (`41h` es la letra A y `42h` la B).
 
 #### Desafío
 Predecí: ¿qué byte está en el **primer** cajón de `monedas`? Escribilo en hexa en lugar de `___`, para que **BL** quede con ese byte.
@@ -2673,6 +2680,12 @@ recompensa: xp 15, oro 15
 Nova ya tiene el nombre en la bolsa, pero para mostrarlo le falta el `'$'`. Calcula dónde va, escribe `mov [si], '$'`, y salta un goblin: *«Instruction operand must have size»*.
 
 #### Gheco sugiere
+Las líneas de antes calculan **dónde** va el `'$'`:
+
+- `mov bl, nombre+1`: BL = cuántas letras se escribieron.
+- `mov bh, 0`: BH es la mitad **alta** de BX (como AH lo es de AX). Al ponerla en 0, BX vale exactamente esa cantidad, ahora en 16 bits.
+- `lea si, nombre+2` y `add si, bx`: SI apunta al cajón que sigue a la última letra.
+
 `[si]` es el cajón cuya dirección está en SI. Pero `'$'` no dice si ocupa un cajón o dos, y `[si]` tampoco. Con `byte ptr [si]` le aclarás que es **uno**.
 
 #### Desafío
@@ -3747,7 +3760,7 @@ recompensa: xp 20, oro 20
 {mentor} quiere mostrar en el ojo cuántas palancas tiene su brazo izquierdo: **7** filas de **6**. Pero el ojo solo muestra un dígito por vez.
 
 #### Gheco sugiere
-Multiplicá 7 × 6 con `mul` (queda en AX). Después dividí por 10: AL tiene las **decenas** y AH las **unidades**. Guardá las dos en otra palanca (por ejemplo `mov cx, ax`) antes de mostrar cada una con `+ '0'` y la `02h`.
+Multiplicá 7 × 6 con `mul` (queda en AX). Después dividí por 10: AL tiene las **decenas** y AH las **unidades**. Guardá las dos en otra palanca (por ejemplo `mov cx, ax`) antes de mostrar cada una con `+ '0'` y la `02h`: después de copiar, **CL** es la mitad baja de CX (lo que estaba en AL) y **CH** la mitad alta (lo que estaba en AH).
 
 #### Desafío
 Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo diga `Palancas: 42`.

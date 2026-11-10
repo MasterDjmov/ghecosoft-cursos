@@ -1834,7 +1834,7 @@ recompensa: xp 20, oro 20
 Nova quiere una rutina que conteste **sí o no**: «¿la tecla de AL es un dígito?». Gheco le propone contestar con un interruptor: **CF**.
 
 #### Gheco sugiere
-Si AL está entre `'0'` y `'9'`, terminá con `clc` (CF = 0: sí); si no, con `stc` (CF = 1: no). El programa principal ya decide con `jc`.
+Si AL está entre `'0'` y `'9'`, terminá con `clc` (CF = 0: sí); si no, con `stc` (CF = 1: no). El programa principal ya decide con `jc` («saltá si CF es 1»).
 
 #### Desafío
 Completá las dos órdenes que ponen CF en la rutina. Vas a tipear el `7`.

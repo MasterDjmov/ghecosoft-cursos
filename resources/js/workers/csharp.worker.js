@@ -14,6 +14,47 @@ async function gunzipped(url) {
     return new Response(bytes, { headers: { 'Content-Type': url.endsWith('.wasm') ? 'application/wasm' : 'application/octet-stream' } });
 }
 
+// La Bóveda (Acto V): el SQLite en WebAssembly de las micro-misiones de SQL (sql.js), que es sincrónico, así que el
+// programa de C# le habla en el acto (Prelude/Sqlite.cs → Runner.Sql). Se baja solo si el programa lo usa, y cada
+// ejecución empieza con una base vacía en memoria.
+let SQL = null;
+let db = null;
+
+async function loadSql() {
+    if (SQL) return;
+    const [{ default: initSqlJs }, { default: wasmUrl }] = await Promise.all([
+        import('sql.js/dist/sql-wasm.js'),
+        import('sql.js/dist/sql-wasm.wasm?url'),
+    ]);
+    SQL = await initSqlJs({ locateFile: () => wasmUrl });
+}
+
+globalThis.csharpSql = (request) => {
+    const { sql, values } = JSON.parse(request);
+    if (!SQL) return JSON.stringify({ error: 'SQLite no está cargado' });
+    if (!db) {
+        db = new SQL.Database();
+        db.run('PRAGMA foreign_keys = ON;');
+    }
+    const results = [];
+    try {
+        for (const statement of db.iterateStatements(sql)) {
+            if (Object.keys(values).length > 0) statement.bind(values);
+            const columns = statement.getColumnNames();
+            const rows = [];
+            while (statement.step()) {
+                rows.push(statement.get().map((v) => (v instanceof Uint8Array ? null : v)));
+            }
+            statement.free();
+            results.push({ columns, rows, changes: columns.length > 0 ? 0 : db.getRowsModified() });
+        }
+    } catch (error) {
+        return JSON.stringify({ error: String(error?.message ?? error) });
+    }
+
+    return JSON.stringify({ results });
+};
+
 let exportsReady = null;
 let currentId = 0;
 let warming = true;
@@ -53,8 +94,13 @@ self.onmessage = async ({ data }) => {
         exportsReady ??= load();
         const runner = await exportsReady;
         if (first) postMessage({ id: data.id, type: 'loaded' });
+        if (/Microsoft\.Data\.Sqlite|SqliteConnection/.test(data.code)) await loadSql();
+        db?.close();
+        db = null;
         const started = performance.now();
         const result = JSON.parse(await runner.Run(data.code, data.stdin ?? ''));
+        db?.close();
+        db = null;
         postMessage({ id: data.id, type: 'done', ...result, ms: Math.round(performance.now() - started) });
     } catch (error) {
         postMessage({ id: data.id, type: 'failed', message: error?.message ?? String(error) });

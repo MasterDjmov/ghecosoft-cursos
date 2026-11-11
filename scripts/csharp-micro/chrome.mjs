@@ -23,10 +23,21 @@ export async function openChrome() {
     const server = http.createServer((req, res) => {
         const url = decodeURIComponent(req.url.split('?')[0]);
         if (url === '/') return res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }).end(PAGE);
+        // Sin Vite: sql.js (de la Bóveda) es CommonJS, se envuelve como módulo; el .wasm se sirve de node_modules.
+        if (url === '/__sqljs.js') {
+            const text = fs.readFileSync(path.join(ROOT, 'node_modules/sql.js/dist/sql-wasm.js'), 'utf8');
+            return res.writeHead(200, { 'content-type': 'text/javascript' }).end(`var module = { exports: {} }; var exports = module.exports;\n${text}\nexport default module.exports;`);
+        }
+        if (url === '/__sqljs-url.js') return res.writeHead(200, { 'content-type': 'text/javascript' }).end("export default '/node_modules/sql.js/dist/sql-wasm.wasm';");
+        if (url === '/node_modules/sql.js/dist/sql-wasm.wasm') return res.writeHead(200, { 'content-type': 'application/wasm' }).end(fs.readFileSync(path.join(ROOT, url)));
         const file = url.startsWith('/toolchains/') ? path.join(ROOT, 'public', url) : path.join(ROOT, url);
         const allowed = url.startsWith('/toolchains/csharp/') || url.startsWith('/resources/js/');
         if (!allowed || !fs.existsSync(file) || fs.statSync(file).isDirectory()) return res.writeHead(404).end();
-        res.writeHead(200, { 'content-type': TYPES[path.extname(file)] ?? 'application/octet-stream' }).end(fs.readFileSync(file));
+        let body = fs.readFileSync(file);
+        if (url.endsWith('.js') && url.startsWith('/resources/js/')) {
+            body = String(body).replace("'sql.js/dist/sql-wasm.js'", "'/__sqljs.js'").replace("'sql.js/dist/sql-wasm.wasm?url'", "'/__sqljs-url.js'");
+        }
+        res.writeHead(200, { 'content-type': TYPES[path.extname(file)] ?? 'application/octet-stream' }).end(body);
     });
     await new Promise((r) => server.listen(port, '127.0.0.1', r));
 

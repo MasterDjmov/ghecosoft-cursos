@@ -17,7 +17,9 @@
   <ItemGroup>
     <Compile Include="Runner.cs" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-    <RefAssembly Include="System.Runtime;System.Console;System.Linq;System.Collections;System.Collections.Concurrent;System.Threading;System.Threading.Tasks;System.Threading.Thread;System.Memory;System.Text.Json;System.Text.RegularExpressions;System.Runtime.Numerics;System.ObjectModel;System.Net.Http;System.Net.Primitives;System.Runtime.Extensions;System.Globalization;System.Text.Encoding.Extensions;System.IO.FileSystem;System.ComponentModel.Annotations;System.Diagnostics.Debug;System.Diagnostics.Process;System.Linq.Expressions;System.Runtime.InteropServices" />
+    <RefAssembly Include="System.Runtime;System.Console;System.Linq;System.Collections;System.Collections.Concurrent;System.Threading;System.Threading.Tasks;System.Threading.Thread;System.Memory;System.Text.Json;System.Text.RegularExpressions;System.Runtime.Numerics;System.ObjectModel;System.Net.Http;System.Net.Primitives;System.Runtime.Extensions;System.Globalization;System.Text.Encoding.Extensions;System.IO.FileSystem;System.ComponentModel.Annotations;System.Diagnostics.Debug;System.Diagnostics.Process;System.Linq.Expressions;System.Runtime.InteropServices;System.Net.Http.Json;System.Text.Encodings.Web;System.Threading.Tasks.Parallel;System.Data.Common;System.Collections.NonGeneric" />
+    <!-- La xUnit, la Bóveda y la ventanilla de mentira (Acto V): se compilan junto al programa del alumno, no acá. -->
+    <EmbeddedResource Include="Prelude/*.cs" LogicalName="prelude/%(Filename).cs" />
     <EmbeddedResource Include="@(RefAssembly->'$(NetCoreTargetingPackRoot)/Microsoft.NETCore.App.Ref/$(BundledNETCoreAppPackageVersion)/ref/net10.0/%(Identity).dll')" LogicalName="ref/%(Identity).dll" />
   </ItemGroup>
 </Project>

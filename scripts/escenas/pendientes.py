@@ -153,12 +153,15 @@ REFS = {
     # D115: la Feria de las Luces está al lado de los Talleres; Nima, Lumina y Gheco ya estaban en el proyecto de HTML,
     # así que las escenas de JS van ahí. La gente nueva se dibujó el 2026-10-30 (ficha de cuerpo entero sobre el fondo
     # de la de Bruno); los de otros cursos (Nilo, Iara, Elefa, Pico, Nova, Axón), descritos desde sus imágenes oficiales.
+    # Los actos I a III se hicieron en el proyecto de los Talleres; desde el 2026-11-11 (Acto IV) van a un proyecto
+    # chico, porque en el grande cada pedido se cortaba por tiempo. Las hojas se subieron desde la web.
     'csharp': {
-        'project': '9229721314509917104',
+        'project': '9034180179663220768',
         'region': 'El Conservatorio de Do Sostenido',
         'cierre': 'Imagen solo de dibujo, sin escritura; telas, carteles, hojas y paredes lisos, sin runas ni símbolos mágicos.',
         'ambiente': 'en un conservatorio gótico de piedra lisa y oscura, de noche, con atriles de madera, velas, faroles y tubos dorados de órgano',
         'ambientes': {
+            '04-el-archivo-mudo.md': 'en un conservatorio gótico de piedra lisa y oscura, de noche; si el lugar es el Archivo Mudo, un sótano de piedra debajo del archivo, con cajones polvorientos, estantes, velas, telarañas finas y faroles azules',
             '02-el-taller-de-instrumentos.md': 'en un conservatorio gótico de piedra lisa y oscura, de noche; si el lugar es el Taller de Instrumentos, un taller de luthier de madera cálida con mesas de trabajo, violines y chelos colgados, virutas, herramientas, faroles y velas',
         },
         'chars': [
@@ -172,6 +175,7 @@ REFS = {
             (r'[Ss]lime', 'el Slime Desafinado', ['652d3237f39c48e78bf22f6084d4a53c'], 'El Slime Desafinado es un slime verde brillante y gelatinoso, redondo, con dos ojos grandes un poco bizcos, boca torcida y notas musicales y puntitos flotando adentro.'),
             (r'\bCedro\b', 'Don Cedro', ['36d7ce935eee4cb68b62a43cd27b8ca9'], 'Don Cedro es un luthier de 70 años, bajito y algo encorvado, de barba blanca corta, anteojos redondos dorados y lápiz detrás de la oreja, con camisa crema arremangada, chaleco marrón, delantal largo de cuero con herramientas y pantalón gris.'),
             (r'[Qq]uimera', 'la Quimera de las Mil Partituras', ['e6b99aa8c3a94e2eb5db372ea53ff78b'], 'La Quimera es una criatura de caricatura hecha de partes de instrumentos: cabeza de león de bronce con melena de campanas de trompeta, cuerpo de hojas de partitura sin letras, alas de abanico de papel, patas de madera de violín y cola de cuerdas doradas.'),
+            (r'\b[Ll]iche\b', 'el Liche del Archivo Mudo', ['ed5644f71905434f8edd9abd2a805a3b'], 'El Liche es un liche de caricatura, alto y flaco, con una túnica larga y cerrada de color negro con una esclavina de páginas de papel en blanco sobre los hombros, capucha, cara de calavera redondeada y simpática con ojos de luz cian, guantes grises y un apagavelas de bronce.'),
             (r'[Hh]idra', 'la Hidra del Coro', ['aa188968c3a34b899e9d0907b91b9d23'], 'La Hidra del Coro es una hidra de caricatura con el cuerpo hecho de tubos dorados de órgano y cinco cabezas de cuello largo color marfil con adornos dorados, cada una con la boca abierta cantando; ojos expresivos, sin dientes filosos.'),
             (r'\bTano\b|sombrero de copa', 'Don Tano', ['5ee266e65e5242958dbe87a10b6d24c2'], ''),
             (r'\b[Oo]rcos?\b', 'el Orco del Desborde', ['7a8f59387a2545509da51e5bce46317f'], ''),

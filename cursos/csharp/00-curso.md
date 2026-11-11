@@ -48,6 +48,8 @@ Cada tema es un **nodo** del árbol, con **micro-misiones** que se comprueban so
 - Genéricos y yield: código para cualquier tipo, valores de a uno
 - Lambdas y eventos: órdenes guardadas y avisos
 - LINQ: filtrar, ordenar, agrupar y resumir tus datos
+- Excepciones: atrapar errores, lanzar los tuyos y que el programa siga
+- Archivos: texto, CSV y JSON para que tus programas recuerden
 
 # DICCIONARIO
 

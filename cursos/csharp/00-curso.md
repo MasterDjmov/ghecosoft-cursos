@@ -39,6 +39,15 @@ Cada tema es un **nodo** del árbol, con **micro-misiones** que se comprueban so
 - Decidir con if y switch, repetir con while y for, y el menú
 - Arreglos y matrices: muchos datos con un solo nombre
 - Métodos: escribir una vez y usar muchas, tuplas y recursión
+- Clases y objetos: tus propios tipos, con datos y acciones
+- Propiedades y constructores: objetos que se cuidan solos y nacen completos
+- Valor y referencia: struct, enum, record y null
+- Herencia y polimorfismo: familias de clases, cada una con su voz
+- Interfaces y composición: promesas y piezas que se cambian
+- Colecciones: listas, diccionarios, conjuntos, filas y pilas
+- Genéricos y yield: código para cualquier tipo, valores de a uno
+- Lambdas y eventos: órdenes guardadas y avisos
+- LINQ: filtrar, ordenar, agrupar y resumir tus datos
 
 # DICCIONARIO
 

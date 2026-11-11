@@ -34,8 +34,8 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 | Acto | Material | Nodos | Jefe | Estado |
 |---|---|---|---|---|
 | I · La Sala de Ensayo | 01–08 | R01-N01 a R01-N14 + el jefe R01-N15 | el Slime Desafinado | **hecho (2026-11-07)** |
-| II · El Taller de Instrumentos | 09–14 | unos 9: clases, constructores, propiedades y `static`, `struct`/`enum`/`record`, `null`, herencia, polimorfismo, interfaces, composición (y la **sobrecarga**, que en un programa suelto no se puede) | la Quimera de las Mil Partituras | falta |
-| III · El Archivo y la batuta | 15–18 | unos 9: `List`, `Dictionary`, `HashSet`/`Queue`/`Stack`, genéricos, `yield`, delegados y lambdas, eventos, LINQ (dos nodos) | la Hidra del Coro | falta |
+| II · El Taller de Instrumentos | 09–14 | R02-N01 a R02-N10 + el jefe R02-N11: clases, objetos que trabajan juntos y **sobrecarga**, propiedades, constructores y `static`, `struct`/`enum`, `record`/`null`, herencia, polimorfismo y `abstract`, interfaces, composición | la Quimera de las Mil Partituras | **texto hecho (2026-11-08)**, escenas en curso |
+| III · El Archivo y la batuta | 15–18 | R03-N01 a R03-N09 + el jefe R03-N10: `List`, `Dictionary`, `HashSet`/`Queue`/`Stack`, genéricos, `yield`, delegados y lambdas, eventos, LINQ (dos nodos, con `GroupBy`, `MaxBy` y extensiones) | la Hidra del Coro | **texto hecho (2026-11-10)**, sin escenas |
 | IV · El Archivo Mudo | 19–20 | unos 5: excepciones, propias y `when`, archivos, CSV, JSON | el Liche del Archivo Mudo | falta |
 | V · El mundo real | 21–24 | unos 6, con un mundo simulado como el Puerto de JS (SQLite: el de SQL en el navegador) | la Sirena de la Red | falta |
 | Proyectos | 25–27 | la Arena, Junta las Gemas y el Gremio | el Dragón del Conservatorio | falta |
@@ -51,6 +51,20 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 - **Lo que no se puede en un programa suelto:** los métodos son funciones locales, que no admiten sobrecarga. Por eso la sobrecarga pasó al Acto II.
 - El jefe, **el Slime Desafinado**: ficha, retrato, cuerpo (`652d3237…`) y hoja (`d0581643…`) en el proyecto de la Feria; insignia «Oído Afinado».
 - Las 55 escenas, con las hojas de Ceci, Clave, Bemol, Gheco, Don Tano, el Slime y las criaturas de la Feria (el ogro, el troll chiquito y el Orco del Desborde).
+
+### El Acto II (2026-11-08)
+
+- `cursos/csharp/02-el-taller-de-instrumentos.md`: 11 nodos, 55 micro-misiones y 11 encargos (de otras regiones: Lucio, Nilo, Bruno, el Flaco Ruiz, el guardia de la calesita, Elefa, Doña Mirta, el Gremio, Baldo y Kira). Don Cedro aparece en el Taller.
+- Las clases van **abajo de todo**, después de las órdenes y de los métodos sueltos; adentro de una clase sí hay sobrecarga.
+- `probar.mjs`: 77 de 77.
+- El jefe, **la Quimera de las Mil Partituras**: ficha, retrato, cuerpo (`e6b99aa8…`) y hoja (`6d20041d…`); insignia «Maestro Luthier» y la **Cuerda de la Quimera** (ítem épico).
+- Escenas: Stitch se cortaba por tiempo el 2026-11-08 (con dos pedidos en paralelo, y después también de a uno); el modelo liviano con las dos hojas como referencia anduvo a ratos.
+
+### El Acto III (2026-11-10)
+
+- `cursos/csharp/03-el-archivo-y-la-batuta.md`: 10 nodos, 50 micro-misiones y 10 encargos (Doña Mirta, Nilo, la Posada, Hulda, la Torre, Ofidia, Baldo, la Maestra de Moldes, el Flaco Ruiz y el Gremio). `probar.mjs`: 70 de 70.
+- El jefe, **la Hidra del Coro** (cuerpo de tubos de órgano, cinco cabezas que cantan): ficha escrita, **falta su imagen y su hoja**; insignia «Directora del Archivo» y la **Partitura del Coro** (otra parte de la melodía del Vidriero).
+- Sin personajes nuevos: Ceci, Clave, Bemol, Don Cedro y Gheco.
 
 ## 3. Lo que hay hoy
 

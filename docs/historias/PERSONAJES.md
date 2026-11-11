@@ -1403,6 +1403,13 @@ Historia en [csharp.md](csharp.md).
 - **Qué es:** una **quimera hecha de partes de instrumentos**: cabeza de león de **bronce de trompeta**, cuerpo de **hojas de partitura** (sin letras), alas como **abanicos de papel** y **cola de cuerdas de violín** doradas. Grande pero de caricatura, apta para chicos.
 - Deja la insignia **Maestro Luthier** y la **Cuerda de la Quimera**.
 
+### Hidra del Coro
+- **Rol:** el jefe de R03 de C#, en el Archivo (R03-N10). Subió del fondo del Archivo la noche del ensayo coral.
+- **Qué error representa:** elegir mal la colección y preguntar mal a los datos: repetidos donde no van, claves que no están, una pila donde iba una fila, avisos que nunca se disparan y consultas que no ordenan.
+- **Cómo se la vence:** callando una cabeza por vez: `HashSet`, `GetValueOrDefault`, `Queue`, eventos y LINQ.
+- **Qué es:** una **hidra de caricatura con el cuerpo hecho de tubos dorados de órgano** y **cinco cabezas de cuello largo**, cada una con la boca abierta cantando una parte distinta, a destiempo. Ojos expresivos, nada de dientes filosos: apta para chicos.
+- Deja la insignia **Directora del Archivo** y la **Partitura del Coro**, otra parte de la melodía del Vidriero.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

@@ -1410,6 +1410,13 @@ Historia en [csharp.md](csharp.md).
 - **Qué es:** una **hidra de caricatura con el cuerpo hecho de tubos dorados de órgano** y **cinco cabezas de cuello largo**, cada una con la boca abierta cantando una parte distinta, a destiempo. Ojos expresivos, nada de dientes filosos: apta para chicos.
 - Deja la insignia **Directora del Archivo** y la **Partitura del Coro**, otra parte de la melodía del Vidriero.
 
+### Liche del Archivo Mudo
+- **Rol:** el jefe de R04 de C#, en el Archivo Mudo, el sótano debajo del Archivo (R04-N07). Apaga las velas del Conservatorio: con cada una, alguien se olvida de algo que ensayó.
+- **Qué error representa:** los programas que se caen con el primer dato malo y los que no recuerdan nada al terminar: errores sin atrapar, archivos que no existen, `WriteAllText` que borra lo anterior, el punto decimal mal leído y la memoria que nunca se guarda.
+- **Cómo se lo vence:** encendiendo cinco velas: `try`/`catch`, `AppendAllText`, un CSV bien leído, JSON y una memoria que se carga y se guarda.
+- **Qué es:** un **liche de caricatura**, alto y flaco, con una **túnica larga y cerrada hecha de páginas en blanco** (todo lo que borró) y capucha; cara de calavera redondeada y simpática con ojos de luz cian, manos huesudas con guantes grises y un **apagavelas de bronce**. Nada de sangre ni de aspecto aterrador: apto para chicos.
+- Deja la insignia **Guardiana de la Memoria** y el **Compás Perdido**, otra parte de la melodía del Vidriero.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

@@ -36,7 +36,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 | I · La Sala de Ensayo | 01–08 | R01-N01 a R01-N14 + el jefe R01-N15 | el Slime Desafinado | **hecho (2026-11-07)** |
 | II · El Taller de Instrumentos | 09–14 | R02-N01 a R02-N10 + el jefe R02-N11: clases, objetos que trabajan juntos y **sobrecarga**, propiedades, constructores y `static`, `struct`/`enum`, `record`/`null`, herencia, polimorfismo y `abstract`, interfaces, composición | la Quimera de las Mil Partituras | **texto hecho (2026-11-08)**, escenas en curso |
 | III · El Archivo y la batuta | 15–18 | R03-N01 a R03-N09 + el jefe R03-N10: `List`, `Dictionary`, `HashSet`/`Queue`/`Stack`, genéricos, `yield`, delegados y lambdas, eventos, LINQ (dos nodos, con `GroupBy`, `MaxBy` y extensiones) | la Hidra del Coro | **texto hecho (2026-11-10)**, sin escenas |
-| IV · El Archivo Mudo | 19–20 | unos 5: excepciones, propias y `when`, archivos, CSV, JSON | el Liche del Archivo Mudo | falta |
+| IV · El Archivo Mudo | 19–20 | R04-N01 a R04-N06 + el jefe R04-N07: `try`/`catch`/`finally`, `throw`, excepciones propias y `when`, archivos de texto, `using` con `StreamWriter`/`StreamReader`, CSV con `InvariantCulture`, JSON | el Liche del Archivo Mudo | escrito (2026-11-11), escenas en curso |
 | V · El mundo real | 21–24 | unos 6, con un mundo simulado como el Puerto de JS (SQLite: el de SQL en el navegador) | la Sirena de la Red | falta |
 | Proyectos | 25–27 | la Arena, Junta las Gemas y el Gremio | el Dragón del Conservatorio | falta |
 
@@ -65,6 +65,13 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 - `cursos/csharp/03-el-archivo-y-la-batuta.md`: 10 nodos, 50 micro-misiones y 10 encargos (Doña Mirta, Nilo, la Posada, Hulda, la Torre, Ofidia, Baldo, la Maestra de Moldes, el Flaco Ruiz y el Gremio). `probar.mjs`: 70 de 70.
 - El jefe, **la Hidra del Coro** (cuerpo de tubos de órgano, cinco cabezas que cantan): ficha, retrato, cuerpo (`aa188968…`) y hoja (`4da49cc7…`); insignia «Directora del Archivo» y la **Partitura del Coro** (otra parte de la melodía del Vidriero).
 - Sin personajes nuevos: Ceci, Clave, Bemol, Don Cedro y Gheco.
+
+### El Acto IV (2026-11-11)
+
+- `cursos/csharp/04-el-archivo-mudo.md`: 7 nodos, 35 micro-misiones y 7 encargos (Hilván, Elefa, Tizón, Zed, Baldo, Nima y el Gremio). `probar.mjs`: 49 de 49.
+- Lo que se probó en el ejecutor antes de escribir: `System.Text.Json` anda (las tildes salen como `\u00ED`: el acto usa datos sin tilde en los JSON y lo avisa en «Errores habituales»), los mensajes de las excepciones de .NET salen en inglés (por eso se muestra `e.GetType().Name` y no `e.Message`, salvo en las excepciones propias), `FileNotFoundException` trae una ruta al azar, y la carpeta de mentira empieza vacía en cada ejecución (cada micro-misión escribe y lee en el mismo programa).
+- El jefe, **el Liche del Archivo Mudo**: ficha escrita; insignia «Guardiana de la Memoria» y el **Compás Perdido** (otra parte de la melodía del Vidriero). Falta su imagen y su hoja, y las imágenes de los tres ítems de jefe (Cuerda de la Quimera, Partitura del Coro y Compás Perdido).
+- Sin personajes nuevos.
 
 ## 3. Lo que hay hoy
 

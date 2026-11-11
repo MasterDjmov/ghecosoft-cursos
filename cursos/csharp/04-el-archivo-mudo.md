@@ -13,7 +13,7 @@ padre: R03-N10
 precio: 10
 criatura: goblin
 temas: err.excepciones
-usa: tipos.conversion, prog.bucles
+usa: prog.variables, prog.bucles
 ```
 
 ### Crónica
@@ -1283,7 +1283,7 @@ padre: R04-N02
 precio: 10
 criatura: orco
 temas: arch.texto
-usa: err.excepciones, tipos.strings
+usa: err.excepciones, prog.cadenas
 ```
 
 ### Crónica
@@ -2243,7 +2243,7 @@ padre: R04-N04
 precio: 10
 criatura: ogro
 temas: arch.csv
-usa: arch.texto, tipos.strings, tipos.conversion
+usa: arch.texto, prog.cadenas, prog.variables
 ```
 
 ### Crónica

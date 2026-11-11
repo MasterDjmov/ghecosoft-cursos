@@ -94,8 +94,9 @@ public partial class Runner
 
         var image = new MemoryStream();
         var result = Compile(OutputKind.ConsoleApplication).Emit(image);
-        // Un archivo de pruebas no tiene programa principal (CS5001): se compila como biblioteca y solo se corren las pruebas.
-        if (!result.Success && result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error).All(d => d.Id == "CS5001"))
+        // Un archivo de pruebas no tiene programa principal (CS5001): se compila como biblioteca y solo se corren las
+        // pruebas. Si además tiene otro error, se muestra ese, sin el «falta Main» que confunde.
+        if (!result.Success && result.Diagnostics.Any(d => d.Id == "CS5001"))
         {
             image = new MemoryStream();
             result = Compile(OutputKind.DynamicallyLinkedLibrary).Emit(image);

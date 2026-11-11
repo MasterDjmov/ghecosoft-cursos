@@ -37,7 +37,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 | II · El Taller de Instrumentos | 09–14 | R02-N01 a R02-N10 + el jefe R02-N11: clases, objetos que trabajan juntos y **sobrecarga**, propiedades, constructores y `static`, `struct`/`enum`, `record`/`null`, herencia, polimorfismo y `abstract`, interfaces, composición | la Quimera de las Mil Partituras | **texto hecho (2026-11-08)**, escenas en curso |
 | III · El Archivo y la batuta | 15–18 | R03-N01 a R03-N09 + el jefe R03-N10: `List`, `Dictionary`, `HashSet`/`Queue`/`Stack`, genéricos, `yield`, delegados y lambdas, eventos, LINQ (dos nodos, con `GroupBy`, `MaxBy` y extensiones) | la Hidra del Coro | **texto hecho (2026-11-10)**, sin escenas |
 | IV · El Archivo Mudo | 19–20 | R04-N01 a R04-N06 + el jefe R04-N07: `try`/`catch`/`finally`, `throw`, excepciones propias y `when`, archivos de texto, `using` con `StreamWriter`/`StreamReader`, CSV con `InvariantCulture`, JSON | el Liche del Archivo Mudo | **hecho** (2026-11-11): 35/35 escenas |
-| V · El mundo real | 21–24 | unos 6, con un mundo simulado como el Puerto de JS (SQLite: el de SQL en el navegador) | la Sirena de la Red | falta |
+| V · La Bóveda y la ventanilla | 21–24 | R05-N01 a R05-N07 + el jefe R05-N08: `async`/`await`, `WhenAll`/`WhenAny`/cancelar, la carrera y `SemaphoreSlim`, pruebas con xUnit, SQLite (la Bóveda), `WHERE`/`UPDATE`/`DELETE` y transacciones, API web (la ventanilla) | el Duende de la Ventanilla | **texto hecho (2026-11-11)**, escenas en curso |
 | Proyectos | 25–27 | la Arena, Junta las Gemas y el Gremio | el Dragón del Conservatorio | falta |
 
 **Los vínculos con otros lenguajes:** los encargos siguen llegando de otras regiones, y al terminar el tronco van **Sendas cruzadas**: el Teatro (con JS: Ceci y Hilván), el Gólem (con Ensamblador: qué hay debajo de C#), el Puerto (con PHP: una API en C# que habla con la de Elefa) y el Arcade (a la manera de Unity o Godot).
@@ -88,7 +88,9 @@ Material 21 a 24: asincronía, pruebas con xUnit, SQLite y API web. Lo que se pr
 
 **Nodos (unos 7, uno por idea):** R05-N01 esperar sin trabar (`async`/`await`, `Task.Delay`) · N02 todas juntas (`WhenAll`, `WhenAny`, cancelar) · N03 la carrera y el candado (`SemaphoreSlim`) · N04 ensayar con pruebas (`[Fact]`, `Assert`) · N05 la Bóveda (crear tabla, insertar con parámetros, leer) · N06 buscar, actualizar y transacciones · N07 la ventanilla (rutas, verbos, códigos) · y el jefe R05-N08.
 
-**El jefe:** la tabla de la historia dice «la Sirena de la Red», pero PHP ya tiene a **la Sirena de los Tipos Débiles** (R01-N10). Para no repetir criatura, se propone otro: **el Eco de la Ventanilla**, un espíritu hecho de cartas y campanillas que contesta antes de que le pregunten (pedidos sin `await`, rutas que no existen, datos sin validar). Necesita ficha, retrato, cuerpo y hoja.
+**El jefe:** la tabla de la historia decía «la Sirena de la Red», pero PHP ya tiene a **la Sirena de los Tipos Débiles** (R01-N10), y «Eco» es la mascota de Ada en inglés: el docente eligió **el Duende de la Ventanilla**, un duende de papel plegado con campanillas que contesta antes de que le pregunten.
+
+**Escrito (2026-11-11):** `cursos/csharp/05-la-boveda-y-la-ventanilla.md`, 8 nodos, 40 micro-misiones y 8 encargos (Nilo, Hilván, el Gremio, Hilván, Hulda, el Gremio, Nima y el Gremio). `probar.mjs`: 56 de 56. Lugares nuevos: la Ventanilla de Pedidos y la Bóveda. El Duende: ficha, cuerpo (`fe731d81…`), retrato y hoja (`63ed137f…`) en el proyecto «Conservatorio - Actos IV y V»; insignia «Voz de la Ventanilla» y la **Campanilla Afinada** (ítem épico con imagen), otra parte de la melodía del Vidriero. Sin personajes nuevos fuera del jefe.
 
 ## 3. Lo que hay hoy
 

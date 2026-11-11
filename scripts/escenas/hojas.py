@@ -21,7 +21,7 @@ from PIL import Image
 
 HERE = Path(__file__).parent
 MANIFEST = HERE / 'referencias' / 'hojas.json'
-BEASTS = r'^(el|la) (Slime|Ogro|Orco|Dragón|Goblin|Fantasma|ogro|troll|Troll|Polilla|Ratón|Herrumbre|Gran Pato|Gólem|Araña|Sanguijuela|Salamandra|Autómata|Quimera|Hidra|Liche|Mímico|Kraken|Minotauro|Gárgola|Espectro|Sirena|Gorgona|Serpiente|Grifo|Orca|Hipocampo|Leviatán|Centinela|Borrón|Guardián)|^(Gheco|Axón|Eco|Pico|Ébano)$'
+BEASTS = r'^(el|la) (Slime|Ogro|Orco|Dragón|Goblin|Fantasma|ogro|troll|Troll|Polilla|Ratón|Herrumbre|Gran Pato|Gólem|Araña|Sanguijuela|Salamandra|Autómata|Quimera|Hidra|Liche|Duende|Mímico|Kraken|Minotauro|Gárgola|Espectro|Sirena|Gorgona|Serpiente|Grifo|Orca|Hipocampo|Leviatán|Centinela|Borrón|Guardián)|^(Gheco|Axón|Eco|Pico|Ébano)$'
 # En estos proyectos la referencia de Gheco es regenerada y distinta: subir la oficial antes de hacerle su hoja (docs/ESCENAS.md).
 SKIP = {('14674491267148198305', 'Gheco'), ('12272294721581088244', 'Gheco')}
 COMMON = 'Copiá fielmente su diseño, cara, colores, ropa, accesorios y proporciones, sin rediseñarlo ni embellecerlo. Es UN SOLO personaje repetido. Fondo azul noche oscuro liso, sin grilla, sin piso y sin decorado. Formato 16:9 (1376×768). Ocho figuras separadas, sin tocarse, del mismo tamaño, cuerpo entero, en dos filas de cuatro.'

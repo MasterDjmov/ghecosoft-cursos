@@ -50,6 +50,9 @@ Cada tema es un **nodo** del árbol, con **micro-misiones** que se comprueban so
 - LINQ: filtrar, ordenar, agrupar y resumir tus datos
 - Excepciones: atrapar errores, lanzar los tuyos y que el programa siga
 - Archivos: texto, CSV y JSON para que tus programas recuerden
+- Asincronía: async, await y tareas que no se pisan
+- Pruebas automáticas con xUnit
+- Bases de datos con SQLite y una API web
 
 # DICCIONARIO
 

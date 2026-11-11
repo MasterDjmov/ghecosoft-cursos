@@ -31,6 +31,11 @@ const CURSES = {
     KeyNotFoundException: ['Orco', 'esa clave no está en el diccionario.'],
     NullReferenceException: ['Troll', 'usaste algo que vale `null`: no hay nada ahí.'],
     FileNotFoundException: ['Esqueleto', 'ese archivo no existe (acá la carpeta arranca vacía).'],
+    SqliteException: ['Esqueleto', 'la Bóveda no entendió el SQL: mirá el mensaje (una tabla o columna que no existe, una restricción que no se cumple…). Acá la base arranca vacía en cada ejecución.'],
+    InvalidOperationException: ['Ogro', 'eso no se puede hacer en este momento (por ejemplo, usar la conexión antes de `Open()`, o pedirle algo a una colección vacía).'],
+    TaskCanceledException: ['Ogro', 'la tarea se canceló antes de terminar.'],
+    OperationCanceledException: ['Ogro', 'la tarea se canceló antes de terminar.'],
+    HttpRequestException: ['Esqueleto', 'el pedido no llegó a ningún lado: en el navegador no hay red. Hablale a la ventanilla con `app.CreateClient()`.'],
 };
 
 export function explainCsharpErrors(errors = []) {

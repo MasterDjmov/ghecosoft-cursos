@@ -30,6 +30,7 @@ Acompañás a **Nova**, una chispa de inteligencia que despierta dentro de **Ax�
 - Cuentas: `add`, `sub`, `inc`, `dec`, `mul`, `div` y las banderas
 - Decisiones y repeticiones: `cmp`, los saltos y `loop` (el `if` y el `for` de todas las lenguas)
 - Bits, arreglos, la pila y los procedimientos (las funciones por dentro)
+- Optativos: cuentas con signo y de 32 bits (`imul`, `idiv`, `adc`), giros y tablas para mostrar en hexadecimal (`rol`, `xlat`) y las órdenes de fila (`rep movsb`, el `memcpy` del 8086)
 - Proyectos: una calculadora, un juego de adivinanzas y un combate por turnos
 
 # DICCIONARIO

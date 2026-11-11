@@ -233,6 +233,8 @@ Kira dejó las llaves cambiadas: la de la puerta (**2**) está en AX y la del co
 #### Gheco sugiere
 Apilá las dos (primero AX, después BX) y sacalas en el **mismo** orden de nombres: la primera que sale es la última que entró, así que se cruzan.
 
+Ya conocés otras dos formas de intercambiar (Los cajones con nombre): con una palanca de apoyo (`mov cx, ax`, `mov ax, bx`, `mov bx, cx`) y con `xchg ax, bx`, el `swap` de C++, que lo hace en una sola orden. La torre sirve cuando no te queda ninguna palanca libre de apoyo; para dos palancas sueltas, lo más corto es `xchg`.
+
 #### Desafío
 Escribí las cuatro órdenes donde dice `; tus órdenes` para que AX y BX se intercambien y la torre quede pareja.
 

@@ -183,6 +183,25 @@ tiene prácticas, y además sirve para todos los cursos que tienen micro-misione
 | 5 | R02, R03 y R04 | `app:simulate-course ensamblador` |
 | 6 | Escenas en Stitch, enciclopedia, landing, temporada de inglés (lista de ALTA) | Revisión de la lista |
 
+## 10. Las órdenes que faltaban (2026-11-11)
+
+Revisando el material contra el curso apareció `xchg` (capítulo 2, misión «El cambio de manos»), que el curso no
+enseñaba. Se revisaron todas las órdenes que el emulador ya sabía ejecutar y que ningún nodo usaba:
+
+| Qué | Dónde | Por qué ahí |
+|---|---|---|
+| Intercambiar con una palanca de apoyo y con `xchg` (y el goblin de `xchg` entre dos cajones) | R01-N02, P7 a P9 (obligatorio) | Está en el material de la cátedra |
+| `not` (y que `neg` es `not` + `inc`) | R02-N07-P8 (obligatorio) | La teoría ya lo nombraba y ninguna micro-misión lo usaba |
+| `imul`, `idiv`, `cbw`, `cwd`, `adc` y `sbb` | **R02-N10** (extra, brota de R02-N04), 6 micro-misiones | No está en el material: optativo |
+| `rol`, `ror` y `xlat` (mostrar en hexadecimal) | **R02-N11** (extra, brota de R02-N08), 5 micro-misiones | Idem |
+| `lodsb`, `stosb`, `movsb`, `scasb`, `cmpsb`, `rep`/`repne`/`repe`, `cld` y `mov es, ax` | **R02-N12** (extra, brota de R02-N08), 5 micro-misiones | Idem |
+| `js`/`jo` y `loope`/`loopne` | Solo en la teoría de R02-N04 y R02-N05 | Se leen en programas ajenos; el curso no los necesita |
+
+Los extras (`tipo: extra`) no cuentan para completar el curso. Cada orden lleva su puente con otras lenguas
+(`xchg` = `std::swap` de C++ o `a, b = b, a`; `rep movsb` = `memcpy`; `xlat` = `"0123456789ABCDEF"[n]`…). Quedan
+sin enseñar, a propósito: `rcl`/`rcr`, `lahf`/`sahf`, `pushf`/`popf`, `cmc`, `nop`, `cli`/`sti` y `hlt` (el
+emulador las ejecuta igual). Escenas de las 23 micro-misiones nuevas o sin imagen: pendientes en Stitch.
+
 ## 9. Preguntas abiertas (respondidas el 2026-10-18)
 
 1. Protagonista: **Nova**.

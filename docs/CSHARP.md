@@ -63,7 +63,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 ### El Acto III (2026-11-10)
 
 - `cursos/csharp/03-el-archivo-y-la-batuta.md`: 10 nodos, 50 micro-misiones y 10 encargos (Doña Mirta, Nilo, la Posada, Hulda, la Torre, Ofidia, Baldo, la Maestra de Moldes, el Flaco Ruiz y el Gremio). `probar.mjs`: 70 de 70.
-- El jefe, **la Hidra del Coro** (cuerpo de tubos de órgano, cinco cabezas que cantan): ficha escrita, **falta su imagen y su hoja**; insignia «Directora del Archivo» y la **Partitura del Coro** (otra parte de la melodía del Vidriero).
+- El jefe, **la Hidra del Coro** (cuerpo de tubos de órgano, cinco cabezas que cantan): ficha, retrato, cuerpo (`aa188968…`) y hoja (`4da49cc7…`); insignia «Directora del Archivo» y la **Partitura del Coro** (otra parte de la melodía del Vidriero).
 - Sin personajes nuevos: Ceci, Clave, Bemol, Don Cedro y Gheco.
 
 ## 3. Lo que hay hoy

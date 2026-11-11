@@ -172,6 +172,7 @@ REFS = {
             (r'[Ss]lime', 'el Slime Desafinado', ['652d3237f39c48e78bf22f6084d4a53c'], 'El Slime Desafinado es un slime verde brillante y gelatinoso, redondo, con dos ojos grandes un poco bizcos, boca torcida y notas musicales y puntitos flotando adentro.'),
             (r'\bCedro\b', 'Don Cedro', ['36d7ce935eee4cb68b62a43cd27b8ca9'], 'Don Cedro es un luthier de 70 años, bajito y algo encorvado, de barba blanca corta, anteojos redondos dorados y lápiz detrás de la oreja, con camisa crema arremangada, chaleco marrón, delantal largo de cuero con herramientas y pantalón gris.'),
             (r'[Qq]uimera', 'la Quimera de las Mil Partituras', ['e6b99aa8c3a94e2eb5db372ea53ff78b'], 'La Quimera es una criatura de caricatura hecha de partes de instrumentos: cabeza de león de bronce con melena de campanas de trompeta, cuerpo de hojas de partitura sin letras, alas de abanico de papel, patas de madera de violín y cola de cuerdas doradas.'),
+            (r'[Hh]idra', 'la Hidra del Coro', ['aa188968c3a34b899e9d0907b91b9d23'], 'La Hidra del Coro es una hidra de caricatura con el cuerpo hecho de tubos dorados de órgano y cinco cabezas de cuello largo color marfil con adornos dorados, cada una con la boca abierta cantando; ojos expresivos, sin dientes filosos.'),
             (r'\bTano\b|sombrero de copa', 'Don Tano', ['5ee266e65e5242958dbe87a10b6d24c2'], ''),
             (r'\b[Oo]rcos?\b', 'el Orco del Desborde', ['7a8f59387a2545509da51e5bce46317f'], ''),
             (r'\b[Oo]gros?\b', 'el ogro de la Feria', ['93ecb5ea185a4d848ad0d9c87b381c4d'],

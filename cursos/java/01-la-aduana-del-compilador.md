@@ -1793,6 +1793,8 @@ Con textos, `==` **no** compara las letras: pregunta si son **el mismo objeto** 
 
 Para comparar el contenido se usa `.equals()`: `a.equals(b)` da `true` si tienen las mismas letras.
 
+`new String("APROBADO")` fabrica **otro** texto con las mismas letras: un objeto distinto, aunque diga lo mismo.
+
 #### Desafío
 Compará el contenido de los dos sellos.
 
@@ -1916,6 +1918,8 @@ recompensa: xp 15, oro 15
 - Un número antes fija el **ancho**: `%-8s` ocupa 8 lugares pegado a la izquierda; `%6.2f`, 6 lugares a la derecha con 2 decimales.
 
 Con `Locale.US` como primer dato, el decimal sale con punto en cualquier compu.
+
+`import java.util.Locale;` trae una clase de la biblioteca de Java para poder usarla con su nombre corto. Los `import` van siempre arriba de todo.
 
 #### Desafío
 Completá el formato del precio: ancho 6 y 2 decimales.
@@ -2869,6 +2873,8 @@ Algunas fórmulas de `Math`:
 - `Math.ceil(x)` redondea **hacia arriba** (devuelve `double`).
 
 Para mostrar con dos decimales: `printf("%.2f", x)`.
+
+`Double.parseDouble(texto)` convierte un texto en `double` (como `Integer.parseInt` con los enteros).
 
 #### Desafío
 Pedí el ancho y el largo de un terreno (decimales). Mostrá con 2 decimales el área,
@@ -3868,6 +3874,8 @@ Compará las jugadas con `equals` (con textos, `==` no sirve).
 
 Primero, el empate: las dos jugadas iguales. Si no, para saber quién gana, alcanza con revisar los tres casos en que gana Nadia (piedra contra tijera, tijera contra papel, papel contra piedra), juntándolos con `||`. Si no es ninguno, gana el guardia.
 
+Un `return;` solo, en un método `void`, termina el método en ese momento.
+
 #### Desafío
 Pedí la jugada de Nadia (`piedra`, `papel` o `tijera`) y la semilla del guardia. El
 guardia elige con `new Random(semilla).nextInt(3)`: 0 piedra, 1 papel, 2 tijera.
@@ -4659,6 +4667,8 @@ Un bucle que valida repite la pregunta mientras la respuesta no sirva.
 
 Cuando tenés el número, un `for` del 1 al 10 arma la tabla.
 
+`linea.matches("\\d+")` dice si el texto entero son **dígitos** (`\\d` es un dígito y `+` quiere decir uno o más).
+
 #### Desafío
 Pedí un número del 1 al 10 (validá con un bucle: si no es un número o está fuera de
 rango, volvé a preguntar) y mostrá su tabla de multiplicar del 1 al 10 con `printf`,
@@ -4864,6 +4874,8 @@ Los campesinos declaran sus cosechas de a una, pero entre las declaraciones hay 
 Leé línea por línea hasta que escriban `fin` (comparando con `equals`).
 
 En cada vuelta, descartá lo que no sirve **antes** de sumar: si no es un número, o es negativo, avisá y pasá a la siguiente con `continue`. Lo que queda, al acumulador.
+
+`linea.isEmpty()` da `true` si el texto está vacío (no tiene ni una letra).
 
 #### Desafío
 Pedí las cosechas de un granero, una por línea, hasta que escriban `fin`. Ignorá con
@@ -6883,6 +6895,8 @@ Dos métodos recursivos, cada uno con su caso base:
 
 Y sobrecarga: el mismo nombre con distintos parámetros.
 
+`String.valueOf(c)` convierte el carácter en texto, y `.repeat(i)` lo repite `i` veces: `"*".repeat(3)` es `***`.
+
 #### Desafío
 Escribí dos métodos **recursivos**: `potencia(int base, int exp)` (sin usar
 `Math.pow`) y `sumaDigitos(int n)`, que suma los dígitos de un número (la suma de
@@ -7869,6 +7883,8 @@ Detrás del trono están los registros del Centinela, línea por línea. Algunos
 `linea.split(";")` parte una línea en pedazos por el `;` y devuelve un array de textos.
 
 Un método `validarRegistro` que devuelve el error (o `""` si está todo bien) deja el bucle principal limpio: si hay error, se avisa y se sigue con la próxima línea. Los números se convierten con `Integer.parseInt(texto)`.
+
+`teclado.hasNextLine()` dice si todavía queda una línea para leer: así el bucle no explota cuando se termina la entrada.
 
 #### Desafío
 El Centinela guarda sus registros en líneas con el formato `nombre;edad;oro`. Leé

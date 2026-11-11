@@ -4780,6 +4780,8 @@ Console.WriteLine(tabla[1, 0]);
 
 Muestra `3`: fila 1, columna 0.
 
+`char` es el tipo de **una sola letra** (o símbolo), y va entre comillas simples: `'#'`, `'a'`. Una matriz `char[,]` es una tabla de letras, como un dibujito hecho con caracteres.
+
 #### Desafío
 Mostrá lo que hay en la fila `1`, columna `2`.
 
@@ -4829,6 +4831,8 @@ Bemol quiere ver el plano entero, fila por fila, como un dibujo.
 
 #### Gheco sugiere
 Con un `for` adentro de otro recorrés toda la matriz: el de afuera pasa por las filas y el de adentro por las columnas. `Write` deja todo en la misma línea, y el `WriteLine()` vacío pasa a la siguiente al terminar cada fila.
+
+`escenario.GetLength(0)` dice **cuántas filas** tiene la matriz, y `GetLength(1)` **cuántas columnas**. Así los `for` sirven para una matriz de cualquier tamaño.
 
 #### Desafío
 Completá el `for` de adentro para que recorra las columnas y muestre cada lugar con `Console.Write`.
@@ -5818,6 +5822,8 @@ static (int, int) Dividir(int a, int b) => (a / b, a % b);
 ```
 
 Muestra `3 y sobran 2`.
+
+`Math.Min(a, b)` devuelve **el menor** de los dos números, y `Math.Max(a, b)` el mayor.
 
 #### Desafío
 Hacé que el método devuelva `(menor, mayor)` en lugar de `(0, 0)`.

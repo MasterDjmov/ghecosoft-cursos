@@ -700,6 +700,8 @@ Una forma de ordenar un programa web en tres partes, llamada **MVC**:
 
 Cada parte hace una sola cosa.
 
+`array_values($array)` renumera las claves desde 0: después de un `array_filter` quedan huecos, y así vuelve a ser una lista prolija.
+
 #### Desafío
 Separá el controlador en modelo, vista y controlador.
 
@@ -3168,6 +3170,8 @@ Una aplicación manda un envío con kilos negativos y sin destino. El JSON está
 #### Gheco sugiere
 Si el JSON se pudo leer pero los datos no pasan la validación (falta el nombre, los kilos son negativos), el código es **422**: «no se puede procesar». En el cuerpo de la respuesta van los errores por campo, para que quien mandó sepa qué corregir.
 
+`is_int($x)` dice si el valor es un número entero.
+
 #### Desafío
 Devolvé 422 con los errores de cada campo.
 
@@ -5144,6 +5148,8 @@ file_put_contents($archivo, $renglon, FILE_APPEND);
 
 `FILE_APPEND` agrega al final, sin borrar lo anterior.
 
+`is_file('guardia.log')` dice si el archivo existe.
+
 #### Desafío
 Completá el registro y anotá los tres sucesos.
 
@@ -5289,6 +5295,8 @@ Según el **entorno**, el error se muestra distinto:
 
 - en `desarrollo` (tu compu), se muestra el detalle, para arreglarlo;
 - en `produccion` (el sitio de verdad), el visitante ve un mensaje amable, y el detalle va al registro (nunca a la vista).
+
+`$e->getFile()` es el archivo donde se lanzó la excepción.
 
 #### Desafío
 Mostrá lo que corresponde en cada entorno.

@@ -239,6 +239,8 @@ Una **base de datos** guarda la información en **tablas**, como planillas: cada
 
 Desde PHP se usa **PDO**. Acá la bodega de práctica es SQLite en memoria (`new PDO('sqlite::memory:')`): el SQL es el mismo que vas a usar con MariaDB.
 
+`$db->exec("…")` ejecuta una orden SQL que no devuelve filas (crear una tabla, insertar), y `$db->query("SELECT …")` ejecuta una consulta y devuelve las filas, que se recorren con `foreach`.
+
 #### Desafío
 Creá la tabla `barco` con su clave, cargá los dos barcos y mostralos.
 
@@ -372,6 +374,8 @@ En la bodega apareció dos veces el mismo barco, con la misma matrícula y disti
 
 #### Gheco sugiere
 `UNIQUE` en una columna (`matricula TEXT UNIQUE`) no deja que dos fichas tengan el mismo valor: la segunda con la misma matrícula se rechaza.
+
+`->fetchColumn()` toma el **primer valor** de la primera fila: ideal para un `COUNT(*)`.
 
 #### Desafío
 Hacé que la matrícula no se pueda repetir.
@@ -1111,6 +1115,8 @@ recompensa: xp 15, oro 15
 En SQL, `NULL` quiere decir «no hay dato», y no es igual a nada, ni siquiera a otro `NULL`. Por eso no se pregunta con `=`, sino con `IS NULL`.
 
 Para buscar textos que empiezan con algo, `LIKE 'yerba%'`: el `%` reemplaza a cualquier cosa.
+
+`->fetchAll(PDO::FETCH_COLUMN)` trae todas las filas, quedándose solo con la primera columna de cada una.
 
 #### Desafío
 Arreglá la consulta.
@@ -2828,6 +2834,8 @@ Al crear la conexión PDO se pasan opciones:
 - `PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC`: cada fila viene como array con el nombre de la columna.
 
 Con MariaDB, la dirección de la base (el **DSN**) sería `mysql:host=…;dbname=…;charset=utf8mb4`.
+
+`->fetch()` trae **una** fila (la siguiente) del resultado.
 
 #### Desafío
 Creá la conexión con las opciones recomendadas y leé la fila.

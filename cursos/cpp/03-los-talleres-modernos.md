@@ -467,6 +467,8 @@ auto [maxima, minima, promedio] = resumir(semana);
 
 Cada nombre recibe un campo del struct, en orden.
 
+`std::accumulate(t.begin(), t.end(), 0)` suma todos los elementos, empezando desde 0 (viene en `<numeric>`).
+
 #### Desafío
 Leé las 7 temperaturas de la semana en un `std::array<int, 7>`. Mostralas con el
 nombre del día (otro `std::array` constante) y escribí una función
@@ -2423,6 +2425,8 @@ Para limpiar una palabra, recorré sus letras y quedate solo con las que son let
 
 Con `std::map<std::string, int>`, contar es `cuenta[palabra]++`, y el mapa ya las deja en orden alfabético. Para la más común, recorré el mapa y quedate con la primera que tenga la cuenta más alta (solo la reemplazás si encontrás una **mayor**, no igual).
 
+`#include <cctype>` trae las funciones de letras: `std::tolower`, `std::isalpha`, `std::isspace`…
+
 #### Desafío
 Leé palabras hasta el final de la entrada. Limpialas (solo letras, en minúscula) y
 contá cuántas veces aparece cada una con un `std::map<std::string, int>`. Mostrá
@@ -2541,6 +2545,8 @@ Un `std::unordered_map` es un mapa que no guarda orden, pero busca más rápido.
 Para consultar, **no** uses `agenda[nombre]`: el corchete crea el contacto vacío si no existe. Usá `find` o `contains`.
 
 Para saber si un `alta` agrega uno nuevo o actualiza uno que ya estaba, preguntá antes si existe. Para la baja, `agenda.erase(nombre)` devuelve cuántos borró (0 o 1).
+
+`auto it = agenda.find(nombre);` devuelve un **iterador**: si es igual a `agenda.end()`, no lo encontró; si no, `it->second` es el valor.
 
 #### Desafío
 Manejá una agenda con un `std::unordered_map<std::string, std::string>` (nombre →
@@ -5262,6 +5268,8 @@ Un archivo se cierra solo cuando el objeto deja de existir, al terminar su bloqu
 
 Si querés leer lo que escribiste, el archivo tiene que estar cerrado antes: poné la escritura en su propio bloque `{ ... }`.
 
+`std::ofstream out("inventario.txt");` abre el archivo para **escribir** (`out` es solo el nombre de la variable), y `out << …` escribe como `cout`.
+
 #### Desafío
 Cerrá el archivo antes de leerlo, con un bloque.
 
@@ -5633,6 +5641,8 @@ Escribí el archivo con `std::ofstream`, con el encabezado primero y los datos s
 
 Al leer, salteá la primera línea con un `getline` y partí las demás con `std::getline(flujo, campo, ',')`. Los campos son texto: convertí las notas con `std::stoi`. Para mostrar con dos decimales, `std::fixed << std::setprecision(2)`.
 
+`std::stod(texto)` convierte un texto en `double` (como `std::stoi` hace con los enteros).
+
 #### Desafío
 Cada línea de la entrada trae `alumno nota1 nota2 nota3`. Guardalas en
 `notas.csv` con una cabecera (`alumno,nota1,nota2,nota3`) y separadas por comas.
@@ -5761,6 +5771,8 @@ El Archivo es un desorden de papeles. Lima propone ordenarlo en carpetas y despu
 
 Guardá ruta y tamaño de cada archivo y ordená. Para mostrar la ruta corta, `ruta.lexically_relative(base)` (en el navegador, `fs::relative` no anda porque busca la carpeta real del disco).
 
+En el código: `fs::path` es una ruta de archivo; `fs::exists(ruta)` dice si existe, y `e.is_regular_file()` dice si es un archivo común (y no una carpeta).
+
 #### Desafío
 Cada línea de la entrada trae `carpeta archivo contenido`. Creá cada archivo dentro
 de `archivo_ciudadela/<carpeta>/` con ese contenido (creando las carpetas que
@@ -5880,6 +5892,8 @@ En un archivo **binario**, cada objeto ocupa siempre los mismos bytes, así que 
 - `read` y `write` mueven los bytes del objeto.
 
 Por eso el nombre va en un `char[20]` y no en un `std::string`: el objeto tiene que ser de tamaño fijo. La cantidad de miembros es el tamaño del archivo dividido `sizeof(Miembro)`.
+
+Cosas nuevas del código: `std::ios::ate` abre el archivo parado al **final**; `f.tellg()` dice en qué byte está, así que el tamaño dividido el de un miembro da cuántos hay; y `reinterpret_cast<char*>(&m)` deja ver el objeto como bytes sueltos, que es lo que piden `read` y `write`.
 
 #### Desafío
 El gremio guarda sus miembros en un archivo **binario**, `gremio.dat`. Escribí la clase `Miembro` (un nombre de hasta 19 letras en un `char[20]` y un nivel) y un programa que empiece con el archivo vacío y lea órdenes:
@@ -6628,6 +6642,8 @@ if (auto p = mirada.lock()) {
 }
 ```
 
+`dueno.reset();` suelta el objeto: si era el último dueño, el objeto se borra.
+
 #### Desafío
 Preguntá con `lock()` si el autómata sigue existiendo.
 
@@ -6987,6 +7003,8 @@ Con `std::make_shared` las canciones son compartidas entre listas. `use_count()`
 `reset()` suelta el puntero de `main`, pero la canción no se borra mientras quede alguna lista que la tenga: se borra recién cuando la suelta el último dueño.
 
 En el navegador, el vector destruye sus elementos del último al primero (con el `g++` de tu compu, del primero al último): la salida esperada es la del navegador.
+
+`lista.clear()` vacía el vector: suelta todos sus elementos de una vez.
 
 #### Desafío
 Tres canciones (Zamba, Chacarera, Vidala) en `shared_ptr`, que avisan cuando se
@@ -7547,6 +7565,8 @@ Llave tuya = std::move(mia);
 
 El constructor de **movimiento** (el que recibe `Llave&&`) se lleva el contenido y deja al original vacío.
 
+`noexcept` le promete a C++ que el constructor de movimiento no tira excepciones: así los vectores se animan a mover en vez de copiar.
+
 #### Desafío
 Entregá la llave en lugar de copiarla.
 
@@ -7712,6 +7732,8 @@ Una clase RAII que deja un registro con sangría:
 - el destructor baja el contador y escribe `fin <tarea>`.
 
 Con `= delete` prohibís la copia. Si `procesar` hace un `return` temprano, el destructor igual corre y el `fin` aparece.
+
+`inline static int nivel_ = 0;` declara el contador `static` y le da su valor ahí mismo, adentro de la clase.
 
 #### Desafío
 Escribí una clase RAII `Registro` que al nacer muestra `inicio <tarea>` y al morir

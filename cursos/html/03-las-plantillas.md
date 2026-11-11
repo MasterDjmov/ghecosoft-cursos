@@ -166,6 +166,8 @@ En el cofre del Gremio hay una caja de clases ya hechas: Tailwind. Tesela quiere
 #### Gheco sugiere
 Cada clase de Tailwind es una regla: `border-violet-900`, `bg-violet-400`. Para un valor que no está en la escala, corchetes: `w-[45%]`.
 
+`@import` trae otra hoja de estilos (acá, Tailwind). Y `role="progressbar"` con `aria-valuenow` le cuenta a los lectores de pantalla que es una barra de progreso y cuánto marca.
+
 #### Desafío
 La tarjeta violeta, hecha solo con clases de Tailwind. Escribí todo **adentro del `<body>`** (el bloque de Tailwind ya está en el `head`).
 
@@ -1500,6 +1502,8 @@ En la cabaña, la barra de secciones de abajo flota en el medio cuando hay poco 
 
 #### Gheco sugiere
 `min-h-screen flex flex-col` en el `body` hace una columna del alto de la pantalla. `flex-1` en el `main` lo estira y empuja la barra al fondo. Cada sección con `flex-1` mide lo mismo.
+
+`aria-current="page"` marca el enlace de la página donde estás, y `aria-hidden="true"` esconde un adorno a los lectores de pantalla.
 
 #### Desafío
 Una barra de navegación pegada abajo, como en las apps del celular. Escribí todo **adentro del `<body>`**, y agregale clases al propio `<body>`.
@@ -3548,6 +3552,8 @@ En el tema del Gremio hay dos utilidades propias: un fondo cuadriculado y un tex
 #### Gheco sugiere
 Las utilidades del tema se usan como cualquier clase: `fondo-cuadricula`, `texto-neon`. Con el prefijo `hover:`, solo se aplican al pasar el mouse.
 
+Lo nuevo del CSS de base: `@theme` define los colores y letras propios del tema; `@layer base` agrupa los estilos de base; `@apply` usa clases de Tailwind adentro del CSS; y `@keyframes latido` describe los pasos de una animación (`antialiased` solo suaviza la letra).
+
 #### Desafío
 El bloque de Tailwind ya trae dos utilidades propias: `fondo-cuadricula` y `texto-neon`. Se usan como cualquier clase. Escribí el HTML **adentro del `<body>`**.
 
@@ -3953,6 +3959,8 @@ El taller tiene su propia letra para los títulos. Nora no la ve, pero la recono
 
 #### Gheco sugiere
 En `@theme`, `--font-display: "Space Grotesk", sans-serif;` crea la clase `font-display`. El nombre de la fuente va entre comillas.
+
+`<link rel="stylesheet" href="…">` conecta la página con una hoja de estilos en otro archivo.
 
 #### Desafío
 La letra *Space Grotesk* ya se carga, pero falta crear la clase `font-display` que usa el título.
@@ -4655,6 +4663,8 @@ En el muestrario hay una tarjeta modelo y Tesela quiere tres avisos: uno de éxi
 
 #### Gheco sugiere
 Un componente del tema (`tarjeta`) se reutiliza tal cual. El color se agrega con clases sueltas al lado: `text-emerald-300`, `text-rose-300`…
+
+Más CSS nuevo: `animation: latido …` usa la animación del `@keyframes`; `:active` es mientras se está apretando; `outline-offset` separa el contorno del borde; y `@media (prefers-reduced-motion: reduce)` apaga las animaciones para quien lo pidió en su sistema.
 
 #### Desafío
 El bloque de Tailwind ya trae la pieza `tarjeta`. Hacemos tres avisos con ella, cada uno de un color. Escribí todo **adentro del `<body>`**.

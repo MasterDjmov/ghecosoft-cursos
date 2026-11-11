@@ -2707,6 +2707,8 @@ Los tres puntos también sirven para juntar:
 
 `Object.freeze(objeto)` lo **congela**: después nadie lo puede cambiar.
 
+El `try { … } catch (error) { … }` ya viene escrito: **prueba** lo que está en el `try` y, si falla, en vez de cortar el programa corre lo del `catch`, con el error en `error`. `error.name` es el **tipo** de error (acá, `TypeError`). Lo vas a ver con calma en R02.
+
 #### Desafío
 Armá `todos` y `regalo`. Si el regalo quedó congelado, el intento de cambiarle el precio falla (el `try` ya está escrito).
 

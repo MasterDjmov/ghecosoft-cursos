@@ -1084,6 +1084,8 @@ PHP tiene dos formas de preguntar si dos cosas son iguales:
 
 Casi siempre conviene `===`, porque no hace conversiones por su cuenta.
 
+En el código vas a ver `if (…) { … } else { … }`: si la condición se cumple se hace lo primero; si no, lo del `else`.
+
 #### Desafío
 Cambiá la comparación para que la carta no se entregue al casillero equivocado.
 
@@ -1892,6 +1894,8 @@ Las etiquetas de los casilleros tienen lugar para 10 letras. «Ñandú» entra d
 
 Las funciones que empiezan con `mb_` cuentan letras de verdad: `mb_strlen("ñandú")` da 5. Lo mismo `mb_strtoupper` para pasar a mayúsculas con tildes.
 
+`strtoupper($nombre)` devuelve el texto en mayúsculas.
+
 #### Desafío
 Usá las funciones `mb_` para contar y pasar a mayúsculas.
 
@@ -2000,6 +2004,8 @@ Combiná funciones de texto:
 - `mb_strtolower` pasa todo a minúsculas (también las letras con tilde);
 - `ucwords` pone mayúscula al principio de cada palabra;
 - `str_replace("  ", " ", $x)` cambia cada espacio doble por uno solo.
+
+`max(a, b)` da el mayor de los dos, y `mb_strlen($texto)` cuenta las letras (también las que llevan tilde).
 
 #### Desafío
 Llegó un paquete con los datos escritos a las apuradas:
@@ -3835,6 +3841,8 @@ La regla del año bisiesto: divisible por 4 y no por 100, **o** divisible por 40
 
 Leé cada año con `fgets(STDIN)` y mostrá 366 o 365 días según la condición.
 
+El `for ($i = 1; $i <= 3; $i++)` repite tres veces: arranca en 1, sigue mientras sea menor o igual a 3, y suma uno en cada vuelta. Los bucles se ven a fondo en el próximo nodo.
+
 #### Desafío
 El farero anota en su libro si cada año es **bisiesto**, porque ese año hay un día
 más de guardia. Un año es bisiesto si es divisible por 4, **salvo** que sea
@@ -5500,6 +5508,8 @@ usort($tabla, fn($a, $b) => $b['promedio'] <=> $a['promedio']);
 
 (`fn(...) => ...` es una función de una línea; poniendo `$b` primero, queda de mayor a menor.)
 
+`array_column($lista, "nombre")` saca de cada fila solo la columna `nombre`, y `implode(", ", …)` las junta en un texto separadas por coma.
+
 #### Desafío
 La escuela náutica tiene sus alumnos en una tabla (una lista de diccionarios) con
 nombre y tres notas:
@@ -6278,6 +6288,8 @@ Una función **recursiva** se llama a sí misma con un problema más chico, hast
 
 Acá, `abrir($n)` muestra que abre la caja `$n` y, si `$n` es mayor que 1, se llama a sí misma con `$n - 1`. La caja 1 es el caso base: no tiene nada adentro, y ahí termina.
 
+`: void` después de los paréntesis dice que la función **no devuelve** nada: solo hace algo.
+
 #### Desafío
 Completá la función recursiva.
 
@@ -6457,6 +6469,8 @@ En una oficina de la torre trabaja el cambista: convierte denarios, lingotes, es
 Las cotizaciones van en una constante con un array (moneda => valor en pesos).
 
 Para convertir de una moneda a otra, pasá primero a pesos y después a la otra. Si la moneda no está en el array (`array_key_exists($moneda, $tabla)` da `false`), devolvé `-1` y avisá.
+
+`isset(COTIZACIONES[$moneda])` dice si esa clave **existe** en el array: así no se usa una moneda que no está.
 
 #### Desafío
 El cambista del puerto convierte entre monedas del mundo. Guardá las
@@ -7058,6 +7072,8 @@ Un programa grande se reparte en varios archivos. Un archivo que termina con `re
 ```php
 $tarifas = require 'tarifas.php';
 ```
+
+Arriba, `file_put_contents('tarifas.php', …)` crea el archivo de prueba, escribiéndole un texto entero de una vez.
 
 #### Desafío
 Traé el tomo de las tarifas con `require` y usalo.
@@ -8015,6 +8031,8 @@ La Sirena se fue, pero dejó el libro de bitácora del Puerto todo mezclado: reg
 Una función `validarRegistro` que devuelva los datos (si están bien) o la lista de errores.
 
 Partí cada renglón con `explode(";", ...)` y revisá: que tenga la cantidad de partes justa, que la fecha tenga sentido y que los números sean números. Contá los válidos y los inválidos.
+
+`array_map('trim', $campos)` aplica `trim` a **cada** elemento y devuelve el array nuevo (con una función flecha `fn(…) => …` se aplica la que quieras).
 
 #### Desafío
 La Sirena mezcló los registros del libro de bitácora del Puerto. Cada renglón de

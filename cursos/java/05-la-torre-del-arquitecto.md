@@ -8022,6 +8022,8 @@ El Dragón cambia de humor y, con él, el recargo por demora: normal, feria o no
 #### Gheco sugiere
 Las estrategias se guardan en un mapa por nombre. La activa es solo un nombre: `estrategias.get(activa).calcular(dias, valor)`. Cambiarla es cambiar ese nombre.
 
+`ESTRATEGIAS.keySet()` da todas las **claves** del mapa, para recorrerlas.
+
 #### Desafío
 Completá el cálculo con la estrategia activa del mapa.
 

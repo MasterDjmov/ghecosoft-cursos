@@ -1290,6 +1290,8 @@ Tesla le pide a Bron que encuentre el libro de los relojes y le diga **en qué l
 std::distance(v.begin(), it)
 ```
 
+`#include <iterator>` trae `std::distance`, que cuenta cuántos lugares hay entre dos iteradores.
+
 #### Desafío
 Mostrá la posición, no el título.
 
@@ -2202,6 +2204,8 @@ Los pedidos de reparación llegan con una urgencia del 1 al 10, y hay que atende
 `std::priority_queue` es una fila con prioridad: no sale el que llegó primero, sino el **más importante**. Por defecto, saca siempre el **mayor** con `top()`.
 
 Si se le pasa un comparador distinto (como `std::greater`), se da vuelta y saca el menor.
+
+`#include <functional>` trae los comparadores ya hechos, como `std::greater`.
 
 #### Desafío
 Atendé primero lo más urgente.
@@ -4199,6 +4203,8 @@ Esta vez, sin escribir ningún bucle: todo con algoritmos.
 - **Aprobados**: `std::count_if` con una lambda.
 - **¿Ningún cero?**: `std::none_of`.
 
+`std::all_of(…, condición)` da `true` si **todos** cumplen la condición (el contrario de `std::none_of`).
+
 #### Desafío
 Leé todas las notas de la entrada con `istream_iterator`. **Sin escribir ningún
 bucle**, mostrá: cantidad, promedio (con `accumulate` y `0.0`), mediana (ordenando
@@ -5246,6 +5252,8 @@ Agregar una operación después es una línea: `ops["promedio"] = [](double a, d
 
 Antes de llamar, buscá la operación con `find`: si no está, avisás. Si está, la llamás con `it->second(a, b)`.
 
+`std::pow(a, b)` es la potencia: `a` elevado a la `b`.
+
 #### Desafío
 Armá un `std::map<std::string, std::function<double(double, double)>>` con las
 operaciones `suma`, `resta`, `por`, `potencia` e `hipotenusa`, y agregá `promedio`
@@ -5949,6 +5957,8 @@ std::ranges::sort(alumnos, std::less{}, &Alumno::edad);
 ```
 
 `std::less{}` ordena de menor a mayor y `std::greater{}`, de mayor a menor.
+
+`tabla | std::views::take(3)` mira solo los **tres primeros** elementos, sin copiar nada.
 
 #### Desafío
 Ordená de mayor a menor.
@@ -7139,6 +7149,8 @@ El iterador guarda el número actual y el paso: `++` suma el paso y `*` devuelve
 
 `end()` tiene que ser el primer valor de la secuencia que ya no entra: `desde + cantidad * paso`. La `cantidad` de números se calcula redondeando para arriba, para que el `!=` coincida justo y el bucle termine.
 
+Los `using` de arriba (`iterator_category`, `value_type`, `difference_type`…) le cuentan a la biblioteca estándar qué clase de iterador es: así los algoritmos lo saben usar. Se copian tal cual.
+
 #### Desafío
 Escribí `class Rango(desde, hasta, paso = 1)` que representa los números `desde,
 desde + paso, …` menores que `hasta`, **sin guardarlos**: su iterador solo guarda el
@@ -8256,6 +8268,8 @@ Un menú robusto con algoritmos:
 - **limpiar** las hechas: `std::erase_if`;
 - **ordenar** con las urgentes primero: `std::stable_sort` (mantiene el orden de llegada entre iguales);
 - **resumen**: `std::count_if`.
+
+`std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n')` tira todo lo que quedó en el renglón (de `<limits>`), y `std::cin.eof()` dice si ya no hay más entrada.
 
 #### Desafío
 Programá una lista de tareas con un menú: **1** agregar (no vacías ni repetidas),

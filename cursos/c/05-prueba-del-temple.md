@@ -1418,6 +1418,8 @@ Buenas pruebas cubren **cada parte** de la regla, no muchos casos parecidos. Par
 
 Con `VERIFICAR(condicion)` escribís cada una, y `RESUMEN()` muestra cuántas pasaron.
 
+En la macro, `__FILE__` y `__LINE__` son el nombre del archivo y el número de línea donde se usó, y `#condicion` convierte la condición en texto: así, cuando una prueba falla, dice exactamente cuál y dónde.
+
 #### Desafío
 Con el mini framework (`VERIFICAR` y `RESUMEN`), escribí las pruebas de `es_bisiesto`. Elegí casos que cubran **cada parte** de la regla: divisible por 4, no divisible por 4, divisible por 100 pero no por 400 (dos casos) y divisible por 400 (dos casos). El programa devuelve 0 si pasan todas.
 
@@ -2478,6 +2480,8 @@ La agenda junta varias cosas de las ramas anteriores:
 - `guardar` escribe `agenda.csv`, una línea por contacto.
 
 Al final: guardá, liberá todo, cargá el archivo en **otra** agenda y mostrá cuántos contactos tiene. Si da lo mismo, sobrevivieron.
+
+`strncmp(linea, "agregar ", 8)` compara solo los primeros 8 caracteres: sirve para saber si la línea **empieza** con «agregar ». Da `0` si son iguales.
 
 #### Desafío
 Escribí la agenda base: un array dinámico de `Contacto` y las órdenes `agregar Nombre;Telefono;email`, `listar` (ordenada por nombre con `qsort`, con la cantidad) y `guardar` (a `agenda.csv`). Mostrá cada orden con `> ` antes de procesarla y avisá las órdenes mal escritas. Al terminar la entrada, guardá, liberá todo, volvé a cargar el archivo en otra agenda y mostrá cuántos contactos tiene (así se comprueba que sobreviven).

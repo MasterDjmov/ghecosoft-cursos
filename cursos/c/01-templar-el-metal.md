@@ -580,6 +580,8 @@ Cada dato va en el cajón que le corresponde, y cada cajón tiene su marcador en
 - `char` (un carácter) → `%c`
 - `bool` (verdadero o falso; hay que agregar `#include <stdbool.h>`) → `%d`: muestra `1` si es verdadero y `0` si es falso.
 
+El `LL` al final de un número grande (`8000000000LL`) le avisa a C que es `long long`. Y un `bool` vale `true` (verdadero) o `false` (falso).
+
 #### Desafío
 Tizón tiene nivel 12, 3 500 millones de
 experiencia, 15 % de probabilidad de crítico, rango `S`, escudo (sí) y 40
@@ -738,6 +740,8 @@ printf("%d\n", INT_MAX);   // 2147483647
 ```
 
 Ojo: el tamaño de `long` depende de la máquina. Acá, en el navegador, mide 4 bytes; en Linux de 64 bits, 8.
+
+`INT_MIN` es el `int` más chico (el más negativo), el compañero de `INT_MAX`.
 
 #### Desafío
 Mostrá una tabla con el tamaño, el mínimo y el
@@ -3072,6 +3076,8 @@ Le piden a Chispa la altura y contesta «uno ochenta». El programa queda con cu
 2. `sscanf(linea, "%d", &numero)` intenta sacar un número de ese texto.
 
 `sscanf` **devuelve** cuántos datos pudo leer: si dio 1, había un número; si dio 0, no. Con eso podés preguntar y avisar.
+
+En el código vas a ver `if (…) { … } else { … }`: si la condición se cumple, se hace lo primero; si no, lo que está en el `else`. Las decisiones se ven a fondo en el próximo nodo.
 
 #### Desafío
 Completá la condición para avisar cuando lo que llega no es un número.
@@ -5421,6 +5427,12 @@ En cada vuelta, leé con `fgets` y `sscanf`:
 
 Al salir del bucle, fijate por cuál de las dos razones terminó.
 
+Tres cosas nuevas del código:
+
+- `const int SECRETO = 37;` es una **constante**: un valor que no se puede cambiar después.
+- `fgets` devuelve `NULL` cuando ya no hay más nada para leer: por eso se pregunta, para no quedarse dando vueltas.
+- `continue` salta directo a la **vuelta siguiente** del bucle, sin terminar la actual.
+
 #### Desafío
 El oráculo piensa el 37 y Kira tiene 6 intentos: respondé
 "más alto" o "más bajo". Lo que no sea un número del 1 al 50 **no cuenta**
@@ -7132,6 +7144,8 @@ b = aux;
 ```
 
 Una macro puede escribir esas tres líneas por vos, para cualquier tipo, si le pasás el tipo como dato. Envolverla en `do { … } while (0)` es un truco para que se comporte como una sola instrucción y se pueda usar con `;` sin sorpresas.
+
+La macro ya está escrita arriba: `#define SWAP(tipo, a, b) …`. Se usa como una función: `SWAP(int, x, y);`.
 
 #### Desafío
 Usá la macro para intercambiar los precios y los pesos.
@@ -9034,6 +9048,8 @@ Este programa junta casi todo lo de la rama. Armalo en partes:
 - un acumulador para el total y un contador de productos.
 
 Para el ticket, los anchos de `printf`: `%3d` para la cantidad, `%-16s` para el nombre y `%8.2f` para el precio.
+
+En el código: `const char *nombre` es un texto que la función recibe y **no** cambia, y `bool` (con `true` y `false`, de `<stdbool.h>`) es un sí o no.
 
 #### Desafío
 Escribí la caja registradora de la Forja:

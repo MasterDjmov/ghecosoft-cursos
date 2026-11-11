@@ -1752,6 +1752,8 @@ Nora arma la página para que los aprendices nuevos se anoten en la Catedral.
 #### Gheco sugiere
 `pattern` define qué caracteres acepta un campo. Los chips son `label` con un `radio` real escondido con `sr-only`; con `has-checked:` el chip se pinta cuando su radio está marcado.
 
+En el formulario: `autocomplete` deja que el navegador sugiera lo ya escrito (por ejemplo, `email`), y `minlength` pide un mínimo de letras.
+
 #### Desafío
 Un formulario de registro con chips para elegir una ruta. Escribí todo **adentro del `<body>`** (si querés, adentro de un `form`).
 

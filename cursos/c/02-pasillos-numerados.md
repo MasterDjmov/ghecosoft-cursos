@@ -1679,6 +1679,8 @@ char dia[4] = "SOL";
 
 Si el array es más chico, el texto no entra y se pisa memoria que no es suya. Los textos se muestran con `%s`, y `strlen(texto)` (de `<string.h>`) cuenta las letras sin el tapón.
 
+Un texto no se puede asignar con `=` a un array: se copia con `strcpy(destino, "ORO")`, de `<string.h>` (copia también el tapón).
+
 #### Desafío
 Dale a la etiqueta el tamaño justo para «ORO» y su tapón.
 
@@ -1956,6 +1958,8 @@ Tres partes:
 - **Validar**: repetí la pregunta mientras el nombre esté vacío o tenga algo que no sea letra (`isalpha`) o espacio (`isspace`).
 - **Mayúsculas**: recorré el texto letra por letra; una letra va en mayúscula (`toupper`) si es la primera o si la de antes es un espacio.
 - **Iniciales**: se guardan en otro array de `char`. Llevá la cuenta de cuántas pusiste, cuidá que entren y no te olvides del `'\0'` al final.
+
+`tolower(c)` pasa una letra a minúscula (el contrario de `toupper`). Y `const char texto[]` quiere decir que la función recibe el texto pero no lo modifica.
 
 #### Desafío
 Pedí un nombre completo hasta que sea válido (no
@@ -4515,6 +4519,8 @@ Se puede recorrer sin índices, solo moviendo un puntero:
 - `p++` lo avanza al cajón siguiente y `*p` lee lo que hay ahí.
 - **Invertir**: un puntero al principio (`v`) y otro al final (`v + n - 1`). Intercambiás lo que apuntan y los acercás, mientras el de la izquierda esté antes que el de la derecha.
 - **Largo de un texto**: avanzá hasta encontrar el tapón `'\0'`. La resta de dos punteros da cuántos cajones hay entre ellos: `p - texto` es el largo.
+
+`size_t` es el tipo entero (sin negativos) que C usa para tamaños y largos: es lo que devuelven `sizeof` y `strlen`. Viene en `<stddef.h>`.
 
 #### Desafío
 Sin usar índices: `contar_mayores(inicio, fin,
@@ -8663,6 +8669,8 @@ Agregá a `Partida` un campo nuevo: cuántos turnos de veneno le quedan a Kira.
 - La poción también lo pone en 0.
 
 La salida esperada es la del navegador: en tu compu, `rand()` puede dar otros números.
+
+`strstr(texto, "Goblin")` busca un texto dentro de otro: si no lo encuentra, devuelve `NULL`.
 
 #### Desafío
 Cada golpe del Goblin envenena a Kira (si no lo

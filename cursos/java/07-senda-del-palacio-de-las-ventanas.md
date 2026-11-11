@@ -234,6 +234,8 @@ En el Palacio de las Ventanas nadie escribe en la consola: hay paneles con boton
 #### Gheco sugiere
 `boton.addActionListener(e -> …)` registra qué hacer cuando lo tocan. `doClick()` simula un clic, así se prueba sin ventana. `e.getActionCommand()` da el texto del botón.
 
+Los `import javax.swing.…` de arriba traen los componentes de las ventanas de escritorio (`JFrame`, `JButton`, `JLabel`…), que vienen con Java.
+
 #### Desafío
 Registrá la reacción del botón: que muestre «Tocaron: » y el texto del botón.
 
@@ -1124,6 +1126,8 @@ El panel principal del Palacio se divide como un mapa: arriba el título, abajo 
 
 #### Gheco sugiere
 `BorderLayout` tiene cinco lugares con nombre: `BorderLayout.NORTH`, `SOUTH`, `EAST`, `WEST` y `CENTER`. Se elige al agregar: `panel.add(componente, BorderLayout.SOUTH)`.
+
+`java.awt.BorderLayout` (de AWT, la parte más vieja de las ventanas de Java) acomoda los componentes en cinco zonas: norte, sur, este, oeste y centro.
 
 #### Desafío
 Agregá la barra de estado en el sur.
@@ -2055,6 +2059,8 @@ El pedido es para infantería **o** para caballería, nunca las dos. Zed tilda l
 #### Gheco sugiere
 Los `JRadioButton` agrupados en un `ButtonGroup` se excluyen: si se marca uno, se desmarca el otro. Sin el grupo, se pueden marcar los dos.
 
+`casilla.isSelected()` dice si una casilla o botón de opción está marcado.
+
 #### Desafío
 Agregá el segundo botón al grupo.
 
@@ -2125,6 +2131,8 @@ El tamaño del escudo se elige con una **barra deslizante** de 1 a 10. Zed inten
 
 #### Gheco sugiere
 Un `JSlider` (y una `JProgressBar`) tiene mínimo y máximo. Si se pide un valor fuera del rango, se ajusta solo al borde. `getValue()` dice el valor que quedó.
+
+`tamanio.setValue(15)` mueve el deslizador a ese valor (si te pasás del mínimo o del máximo, se queda en el borde).
 
 #### Desafío
 Leé el valor que quedó en la barra después de pedir 15.
@@ -5364,6 +5372,8 @@ El mensajero vuelve, pero no puede tocar la ventana él mismo: solo el que atien
 #### Gheco sugiere
 `done()` corre en el **hilo de eventos** cuando la tarea termina: ahí se cambia la ventana (`etiqueta.setText(...)`). Adentro, `get()` ya tiene el resultado. Para esperar en el `main` a que eso pase, se usa un `CountDownLatch`.
 
+`listo.await()` espera hasta que el `CountDownLatch` llegue a cero, o sea, hasta que terminen las tareas que se estaban esperando.
+
 #### Desafío
 Completá el `done()`: poné en la etiqueta «Viajeros: » y el resultado.
 
@@ -6764,6 +6774,8 @@ El código viejo tenía la clave de la Bóveda escrita adentro, a la vista de cu
 
 #### Gheco sugiere
 `Properties.load(...)` lee `url`, `usuario` y `clave` de un archivo. El programa los usa sin conocerlos de antemano. Al mostrar la configuración, la clave se tapa.
+
+`jdbc:postgresql://localhost:5432/imperio` es la dirección de la base: el motor (PostgreSQL), la máquina (`localhost`), el puerto (`5432`) y el nombre de la base (`imperio`).
 
 #### Desafío
 Completá la lectura del usuario desde las propiedades.

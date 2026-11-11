@@ -579,6 +579,8 @@ En la orilla vive un oráculo que solo habla con números: pide la suma de los p
 #### Gheco sugiere
 `IntStream.rangeClosed(1, 20)` genera los números del 1 al 20 sin bucle. Después, `filter`, `map`, `sum`, `average` y `boxed().toList()` hacen el resto.
 
+`noneMatch(condición)` da `true` si **ninguno** cumple la condición.
+
 #### Desafío
 Con `IntStream` y sin bucles:
 
@@ -668,6 +670,8 @@ La maestra de la escuela del río calcula los promedios con bucles larguísimos 
 
 #### Gheco sugiere
 Un bucle que filtra y acumula se convierte en `stream().filter(...).mapToInt(...).average()`. `anyMatch` dice si alguno cumple. Comprobá que el resultado sea el mismo que antes.
+
+`.orElse(0)` saca el valor del `Optional`, o da `0` si está vacío.
 
 #### Desafío
 Este método calcula, con bucles, el promedio de las notas aprobadas (4 o más) de los
@@ -1605,6 +1609,8 @@ En una barcaza amarrada funciona una biblioteca flotante. El bibliotecario quier
 
 #### Gheco sugiere
 Partí el texto con `split("\\W+")`, pasalo a stream con `Arrays.stream`, normalizá con `map(String::toLowerCase)` y contá con `groupingBy(palabra -> palabra, counting())`.
+
+`p.charAt(0)` es la primera letra del texto, y `Comparator.reverseOrder()` ordena al revés (de mayor a menor).
 
 #### Desafío
 Dado un texto largo (un párrafo de al menos 60 palabras en una constante), con streams y
@@ -4290,6 +4296,8 @@ Crear un hilo para cada barcaza es un lío. El capataz de las esclusas tiene **d
 #### Gheco sugiere
 Un `ExecutorService` es un capataz con hilos fijos: `Executors.newFixedThreadPool(2)`. `submit(() -> valor)` le pasa una tarea y devuelve un `Future` (el recibo). `f.get()` espera y devuelve el resultado. Al final, `shutdown()`.
 
+`Executors.newFixedThreadPool(2)` crea un **pool**: un grupo de 2 hilos que se reparten las tareas (viene en `java.util.concurrent`).
+
 #### Desafío
 Completá el método del recibo que espera y devuelve el resultado.
 
@@ -4526,6 +4534,8 @@ Las cinco sucursales del puerto mandan doscientas mil ventas para sumar. Un solo
 
 #### Gheco sugiere
 Un `parallelStream()` reparte el trabajo entre varios hilos. Con `Collectors.groupingBy(..., summingLong(...))` el total sale igual que con un solo hilo, pero más rápido.
+
+`pool.invokeAll(partes)` manda todas las tareas juntas y devuelve una lista de `Future`, uno por tarea.
 
 #### Desafío
 Generá 200 000 ventas simuladas con un `Random(42)` (montos enteros entre 100 y 50 000,
@@ -4773,6 +4783,8 @@ La agencia de viajes del puerto pregunta el precio del pasaje, del hotel y del d
 
 #### Gheco sugiere
 `CompletableFuture.supplyAsync(() -> ...)` lanza cada consulta en paralelo. `thenCombine` o `join()` junta los resultados cuando están. Las tres esperas se superponen en lugar de sumarse.
+
+`System.nanoTime()` da un tiempo muy preciso (en nanosegundos), para medir cuánto tardó algo, y `Thread.sleep(300)` hace esperar al hilo 300 milisegundos.
 
 #### Desafío
 Para armar un presupuesto de viaje hay que consultar tres "servicios" lentos (simulados
@@ -5596,6 +5608,8 @@ El Leviatán de los Datos tapa la represa con millones de registros de ventas, m
 
 #### Gheco sugiere
 Leé las líneas del bloque de texto con `lines()`, validá cada una (separá las inválidas con su motivo), transformalas en `record` y armá el informe con `groupingBy`, `summingDouble` y `max`.
+
+`.ifPresent(e -> …)` ejecuta la lambda solo si el `Optional` tiene algo adentro.
 
 #### Desafío
 Una cadena de farmacias manda sus ventas en líneas `fecha;sucursal;producto;cantidad;precio`

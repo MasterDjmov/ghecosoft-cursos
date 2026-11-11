@@ -1446,6 +1446,8 @@ Los goblins pelean a lo loco, los orcos siempre van contra el más débil. El mo
 #### Gheco sugiere
 Cada forma de pensar es una clase que implementa `Estrategia`. `ContraElMasDebil` elige al de menos vida; `AlPrimero` elige el primero.
 
+`array_search($valor, $array, true)` devuelve la **clave** donde está ese valor (o `false` si no está).
+
 #### Desafío
 Escribí las dos estrategias.
 
@@ -2400,6 +2402,8 @@ Las puertas de la Arena se abren una y otra vez, y cada vez salen más criaturas
 
 #### Gheco sugiere
 Un generador que da la oleada `n` con `n` goblins y, cada tres, un orco más. Se piden solo las que se juegan.
+
+`array_fill(0, $n, 'goblin')` arma un array de `$n` elementos, todos `'goblin'`.
 
 #### Desafío
 Escribí el generador de oleadas.

@@ -494,6 +494,8 @@ Es el `filter` de R05-N04: el arreglo de blancos se queda con los que **no** rec
 
 Una función `dibujar()` que se llame al empezar y después de cada tiro mantiene la pantalla igual a lo que dice el arreglo.
 
+`lienzo.width` y `lienzo.height` son el **ancho y el alto** del lienzo. Para borrar todo: `ctx.clearRect(0, 0, lienzo.width, lienzo.height)` limpia el rectángulo que va desde la esquina hasta el otro extremo.
+
 #### Desafío
 En cada click, los blancos a los que se les pegó desaparecen: se vuelve a dibujar el lienzo con un círculo amarillo por cada blanco que queda, y `#quedan` dice `Quedan N`.
 

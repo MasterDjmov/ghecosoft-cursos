@@ -632,6 +632,8 @@ pedido.then((comida) => console.log('Llegó:', comida));
 
 La función del `then` recibe el valor que trae la promesa. Es como el callback, pero se escribe afuera, después.
 
+Para fabricar una promesa propia: `new Promise((resolve) => { … })`. Adentro, cuando el valor esté listo, se llama a `resolve(valor)`: eso **cumple** la promesa y le pasa el valor al `.then`.
+
 #### Desafío
 Usá `.then` para mostrar la respuesta.
 
@@ -694,6 +696,8 @@ pedido
     .catch((error) => console.log('Falló:', error.message))
     .finally(() => console.log('Mesa limpia'));
 ```
+
+Además de `resolve`, la promesa recibe `reject`: llamar a `reject(new Error('…'))` la **rechaza**, y entonces corre el `.catch` en lugar del `.then`.
 
 #### Desafío
 Completá la cadena.

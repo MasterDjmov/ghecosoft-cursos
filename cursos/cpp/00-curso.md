@@ -367,6 +367,8 @@ Si al final del texto ponés `\n`, el cursor baja a la línea siguiente, como un
 
 Tocá **Ejecutar**. Antes de correr, C++ **compila** tu programa: lo traduce al idioma de la máquina. Pasa acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
 
+Las líneas de alrededor son la **caja** de todo programa en C++: `#include <iostream>` trae `std::cout`, y `int main() { … return 0; }` es donde arranca el programa (el `return 0` avisa que terminó bien). Por ahora van siempre igual: vos escribís adentro.
+
 #### Desafío
 Completá la instrucción para que Bron se presente.
 

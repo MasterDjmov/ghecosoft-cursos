@@ -596,6 +596,8 @@ Hay un tercer modo de abrir: `"a"` (de *append*, agregar). Escribe **al final**,
 - `remove("diario.txt")` borra el archivo; al empezar sirve para arrancar de cero.
 - Para mostrarlo numerado, abrilo con `"r"`, leé con `fgets` y contá los renglones. `%2d | ` muestra el número en 2 lugares y una barrita.
 
+`perror(RUTA)` muestra el error que dio el sistema (por ejemplo «No such file or directory»), con lo que le pases adelante: así se sabe **por qué** no se pudo abrir.
+
 #### Desafío
 1. Escribí `int agregar(const char *texto)`, que abre `diario.txt` en modo **agregar**, escribe el texto en una línea y lo cierra. Devuelve 0 si no pudo abrirlo.
 2. Borrá el diario al empezar (para que cada prueba arranque igual) y agregá tres entradas: `Día 1: templé mi primera hoja.`, `Día 2: Ferrum dice que está torcida.` y `Día 3: la enderecé. Casi.`.

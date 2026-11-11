@@ -1392,6 +1392,8 @@ Si el constructor revisa el dato y lanza un error cuando no tiene sentido, el ob
 
 Lanzar un error se llama **lanzar una excepción**: `throw new InvalidArgumentException("mensaje");`. Para probarlo sin que se corte el programa, el intento va adentro de `try { … } catch (InvalidArgumentException $e) { … }`: si salta el error, PHP va al `catch` y sigue.
 
+`$e->getMessage()` es el mensaje de la excepción. Y `public readonly` en el constructor declara una propiedad que se asigna al crear el objeto y después **no se puede cambiar**.
+
 #### Desafío
 Validá el calado en el constructor: tiene que ser mayor que 0.
 
@@ -1850,6 +1852,8 @@ La bodega del barco se maneja con un inventario que cualquiera podía tocar. Aho
 El array de stock es `private`. `ingresar` y `retirar` revisan antes de cambiarlo y, si algo está mal, lanzan `throw new InvalidArgumentException("...")`.
 
 Quien los llama atrapa el error con `try` / `catch` y muestra el motivo con `$e->getMessage()`.
+
+`print_r($array)` muestra un array completo, con sus claves y valores (sirve para mirar qué hay adentro).
 
 #### Desafío
 Escribí la clase `Inventario` con un array **privado** `producto => cantidad`.
@@ -2793,6 +2797,8 @@ Los métodos `static` se usan con `Clase::metodo()`, sin crear un objeto. Con el
 
 Las cotizaciones van en una constante `private const`, y `ksort` o `sort` ordenan la lista de monedas.
 
+`array_keys($array)` devuelve solo las **claves** del array.
+
 #### Desafío
 Convertí el conversor del cambista (R01-N08) en una clase de **utilidades** con
 métodos estáticos: `Cambio::aPesos`, `Cambio::convertir` y `Cambio::mostrar`. Las
@@ -3348,6 +3354,8 @@ El Remolcador tiene un constructor propio, para su cuerda de arrastre, y se olvi
 
 - en el constructor del hijo, `parent::__construct($nombre);` le pasa el nombre al constructor del padre, para que arme su parte;
 - `parent::presentar()` reusa lo que el padre ya sabe decir, y el hijo le agrega lo suyo.
+
+`protected` es como `private`, pero las clases hijas **sí** la pueden usar.
 
 #### Desafío
 Llamá al constructor del padre y reusá su `presentar()`.
@@ -4469,6 +4477,8 @@ La función de Nilo para calcular la tarifa de amarre tiene un `if` por cada tip
 En vez de preguntar el tipo de cada barco con `if` y calcular afuera, que cada barco **sepa** su propia tarifa: un método `amarre()` en cada clase.
 
 Así la función solo pregunta `$b->amarre()`, y cada barco contesta a su manera. Eso es el **polimorfismo**.
+
+`$b instanceof Velero` pregunta si el objeto `$b` es un `Velero`.
 
 #### Desafío
 Reemplazá el `if` por tipo por un método en cada clase, y agregá la `Balsa` (paga 5).
@@ -7042,6 +7052,8 @@ Un `trait` es código para reutilizar: `use Auditable;` adentro de la clase le a
 
 Así varias clases distintas comparten la auditoría sin necesidad de heredar de un mismo padre.
 
+`end($array)` devuelve el **último** elemento del array.
+
 #### Desafío
 La oficina del puerto quiere saber **quién** creó y modificó cada registro. Escribí
 el trait `Auditable` con:
@@ -7773,6 +7785,8 @@ enum Estado: string {
 
 `Estado::tryFrom($texto)` da el caso que corresponde, o `null` si el texto no es válido.
 
+`str_starts_with($texto, 'pag')` dice si el texto **empieza** con eso.
+
 #### Desafío
 Contá cuántas reservas están pagadas usando el enum, y avisá las que no se entienden.
 
@@ -7858,6 +7872,8 @@ public function precio(): int {
 ```
 
 Cubrí todos los casos: si falta uno, `match` da error en vez de devolver cero callado.
+
+En un `enum`, `$c->name` es el nombre del caso tal como está escrito (por ejemplo `Comun`).
 
 #### Desafío
 Escribí el método `precio` en el enum y recorré todos los casos con `cases()`.
@@ -8207,6 +8223,8 @@ Con `DateTimeImmutable`:
 - `createFromFormat('d/m/Y', $texto)` lee la fecha;
 - `modify('first day of next month')` va al primer día del mes que viene, y `setDate(año, mes, 10)` al día 10;
 - `format('N')` da el día de la semana (1 lunes … 7 domingo): si da 6 o 7, es fin de semana, y `modify('next monday')` lo pasa al lunes.
+
+`date_default_timezone_set('America/Argentina/Buenos_Aires')` fija la zona horaria: así las fechas y horas salen con la hora de acá.
 
 #### Desafío
 Una casa de electrodomésticos vende en cuotas que vencen **el día 10 de cada
@@ -10968,6 +10986,8 @@ El Gólem no se vence a martillazos: se lo vence **rearmando**. Cada pieza con s
 Una interfaz `Pieza` con `revisar(): Estado`, y cada pieza la implementa.
 
 El `Golem` **tiene** sus piezas (composición, en un array) y cuenta cuántas están firmes preguntándole a cada una.
+
+En un `enum` con valores, `$estado->value` es el valor asignado a ese caso (el texto o número que va después del `=`).
 
 #### Desafío
 Completá las clases para que el Gólem se revise solo.

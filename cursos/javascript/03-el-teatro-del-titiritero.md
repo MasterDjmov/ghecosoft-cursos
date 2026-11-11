@@ -973,6 +973,8 @@ Y hay otra trampa: si el getter `nombre` hace `return this.nombre`, leer `this.n
 
 La salida para las dos es guardar el dato con **otro nombre**: un campo privado con `#`, que el constructor llena y el getter lee.
 
+`texto.toUpperCase()` devuelve el texto **en mayúsculas**: `'Pipo'.toUpperCase()` da `'PIPO'`.
+
 #### Desafío
 Arreglá la clase para que el getter devuelva el nombre sin llamarse a sí mismo.
 
@@ -1337,6 +1339,8 @@ class GloboGigante extends Globo {}
 ```
 
 Aunque las llaves estén vacías, un `GloboGigante` ya sabe hacer todo lo que sabe un `Globo`.
+
+`objeto instanceof Clase` pregunta si el objeto **se fabricó con ese molde** (o con una hija suya): da `true` o `false`.
 
 #### Desafío
 Declará la clase `Dragoncito` que herede de `Titere`.
@@ -2085,6 +2089,8 @@ constructor() {
 ```
 
 `throw` **lanza** un error y corta. Si el `new` fue de una hija, `new.target` es la hija y sigue de largo.
+
+El `try`/`catch` (R02) atrapa el error que lanza el `throw`, y `error.message` es **el texto** que le pusiste en `new Error('…')`.
 
 #### Desafío
 Hacé que `new Titere(…)` tire el error y que las hijas sigan andando.

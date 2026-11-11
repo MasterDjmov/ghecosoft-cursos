@@ -2674,6 +2674,8 @@ nuevo->siguiente = cabeza;
 cabeza = nuevo;
 ```
 
+`exit(1)` termina el programa en el acto; el `1` avisa que terminó por un error. Se usa cuando `malloc` no consiguió memoria y no hay forma de seguir.
+
 #### Desafío
 Completá el enganche.
 

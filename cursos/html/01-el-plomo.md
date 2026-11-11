@@ -200,6 +200,8 @@ Nora prepara pociones para los vitralistas que se cortan con el vidrio, pero se 
 #### Gheco sugiere
 `<ul>` es una lista sin orden (los ingredientes) y `<ol>`, una con orden (los pasos). Cada elemento va en un `<li>` adentro de su lista. La imagen lleva `alt` con lo que muestra.
 
+En el código vas a ver dos cosas nuevas: `<meta name="viewport" content="width=device-width, initial-scale=1">` en el `<head>`, que hace que la página se vea bien en el celular (usa el ancho real de la pantalla), y `width` y `height` en la imagen, que le reservan el lugar antes de que cargue.
+
 #### Desafío
 Esta vez la página está vacía: escribís todo vos, **adentro del `<body>`** (entre `<body>` y `</body>`).
 
@@ -889,6 +891,8 @@ Tesela tiene un blog donde cuenta los trabajos del taller, pero está hecho todo
 
 #### Gheco sugiere
 Las etiquetas semánticas dicen qué es cada parte: `header`, `nav`, `main`, `article`, `aside` y `footer`. La fecha va en `<time datetime="2026-09-30">`.
+
+`aria-labelledby="id"` en una sección le dice a los lectores de pantalla qué título la nombra: el elemento con ese `id`.
 
 #### Desafío
 Un blog con cada parte en su etiqueta. Escribí todo **adentro del `<body>`**, sin usar ningún `div`.
@@ -1672,6 +1676,8 @@ En la ventanilla del portal llegan preguntas por criaturas y Teo las busca a man
 #### Gheco sugiere
 `<form method="get">` manda lo que se escribe en la dirección. El campo `type="search"` necesita su `label` conectado: el `for` del `label` igual al `id` del campo.
 
+Lo nuevo del formulario: `action` es la dirección adonde se mandarían los datos, `placeholder` es el texto gris de ejemplo que se borra al escribir, y `role="…"` le avisa a los lectores de pantalla qué es ese elemento.
+
 #### Desafío
 Un buscador: el `label` y el campo se unen con el mismo nombre, `q`. Escribí todo **adentro del `<body>`**.
 
@@ -1764,6 +1770,8 @@ Tesela quiere saber qué piensan los aprendices de la temporada. Teo propone pre
 
 #### Gheco sugiere
 Los `radio` del mismo grupo comparten el `name` (se elige uno solo). Un `fieldset` agrupa y su `legend` dice qué se pregunta. `maxlength` en el `textarea` limita los caracteres.
+
+`<br>` es un salto de línea dentro de un texto.
 
 #### Desafío
 Una encuesta con dos grupos de preguntas y un comentario. Escribí todo **adentro del `<body>`** (si querés, adentro de un `form`).
@@ -2397,6 +2405,8 @@ En la entrada de los Talleres hay un pizarrón con los horarios de las clases, b
 
 #### Gheco sugiere
 `caption` es el título de la tabla. Los encabezados son `th`: con `scope="col"` los de columna y con `scope="row"` los de fila. `colspan="2"` hace que una celda ocupe dos columnas.
+
+Una tabla se arma con `<table>`: cada **fila** es un `<tr>`, y adentro van las celdas, `<th>` para los títulos y `<td>` para los datos.
 
 #### Desafío
 Un horario como tabla. Escribí todo **adentro del `<body>`**, en un `<table>`.
@@ -3251,6 +3261,8 @@ Queda el último cierre: el `div` del escaparate nunca se cerró, y la nota del 
 
 #### Gheco sugiere
 Cada `<div>` que abrís necesita su `</div>`. Contalos: tiene que haber tantos cierres como aperturas.
+
+`class="…"` le pone un nombre al elemento, para darle estilo desde el CSS con un punto: `.nombre { … }`.
 
 #### Desafío
 El `div` del escaparate se abrió y nunca se cerró, así que el pie (`footer`) quedó adentro.

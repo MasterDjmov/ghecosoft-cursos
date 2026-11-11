@@ -1985,6 +1985,8 @@ switch (letra) {
 
 C++ salta al `case` que coincide y ejecuta desde ahí **hacia abajo**, hasta encontrar un `break;`, que lo hace salir. Sin `break`, sigue de largo por los `case` de abajo. `default` es para cuando no coincide ninguno. Los caracteres van entre comillas simples.
 
+`char` guarda **un** carácter, entre comillas simples: `char torre = 's';`.
+
 #### Desafío
 Agregá lo que falta para que cada letra mande a una sola torre.
 
@@ -2071,6 +2073,8 @@ La puerta de la torre solo se abre con nivel 5 o más y con llave. Tesla quiere 
 Con dos condiciones (nivel y llave) hay cuatro combinaciones posibles: las dos bien, falta la llave, falta el nivel, falta todo. Cubrilas con `if` / `else if` / `else`, empezando por «las dos bien» (`&&`).
 
 Para la llave leés un texto (`si` o `no`) y comparás: con `std::string`, `==` sí compara las letras: `llave == "si"`.
+
+`bool` guarda verdadero o falso: `bool tiene_llave = (llave == "si");` queda en `true` si la comparación se cumple.
 
 #### Desafío
 La puerta de la torre se abre solo si tenés **nivel 5 o más** y **llave**. Pedí el
@@ -5362,6 +5366,8 @@ Cada uno se usa con su posición, que se cuenta **desde 0**: este tiene `notas[0
 
 Para recorrerlo, el bucle sigue mientras `i < notas.size()`. `.at(i)` es como `[i]`, pero si te pasás, avisa con un error en vez de leer basura.
 
+En el código, el índice es `std::size_t`: un entero sin negativos, el tipo que usa C++ para posiciones y tamaños (es lo que devuelve `.size()`).
+
 #### Desafío
 Arreglá la condición del bucle.
 
@@ -5823,6 +5829,8 @@ Un vector se puede cambiar en el medio:
 
 Para quitar repetidos, armá otro vector y agregá cada nombre solo si todavía no está. `std::find(v.begin(), v.end(), x)` lo busca: si devuelve `v.end()`, no estaba.
 
+`fila.front()` es el **primero** del vector y `fila.back()` el **último**.
+
 #### Desafío
 Empezá con la fila `Bron Lyn Lima Lyn Oto`. Mostrala después de cada paso:
 1. Tesla se cuela en la **segunda** posición (`insert`).
@@ -6254,6 +6262,8 @@ Para números que parecen al azar, C++ trae generadores en `<random>`. `std::mt1
 La **semilla** decide la secuencia: con la misma semilla salen siempre los mismos números. Por eso, si la semilla está fija, el juego es siempre igual. Leela de la entrada para que cambie.
 
 `gen() % 6 + 1` da de 1 a 6: `% 6` da de 0 a 5, y `+ 1` lo corre.
+
+`unsigned int` es un entero **sin** negativos: la semilla nunca es negativa.
 
 #### Desafío
 Leé la semilla de la entrada en lugar de usar siempre la 7.
@@ -7633,6 +7643,13 @@ Las siete placas van en un `std::vector<int>`. Por cada golpe:
 - ninguna placa baja de 0.
 
 Después de cada golpe, mostrá el blindaje con una función que recibe el vector como `const&`.
+
+Cosas nuevas del código:
+
+- `std::max(0, x)` da el mayor de los dos: así la placa no baja de 0.
+- `std::count(v.begin(), v.end(), 0)` cuenta cuántos elementos valen 0.
+- `static_cast<long>(…)` convierte un valor a otro tipo, para comparar tipos iguales.
+- `continue` salta a la vuelta siguiente del bucle.
 
 #### Desafío
 El Autómata tiene 7 placas de blindaje: `30 30 40 50 40 30 30`. Cada línea de la

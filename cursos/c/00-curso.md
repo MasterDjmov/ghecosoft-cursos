@@ -323,6 +323,8 @@ Si al final del texto ponés `\n`, el cursor baja a la línea siguiente, como cu
 
 Cuando termines, tocá **Ejecutar**. Antes de correr, C **compila** tu receta: la traduce al idioma de la máquina. Pasa acá mismo, en tu navegador (la primera vez baja el compilador y tarda un poco).
 
+Las líneas de alrededor son la **caja** de todo programa en C: `#include <stdio.h>` trae `printf`, y `int main(void) { … return 0; }` es donde arranca el programa (el `return 0` avisa que terminó bien). Por ahora van siempre igual: vos escribís adentro.
+
 #### Desafío
 Completá la instrucción para que Kira se presente.
 

@@ -244,6 +244,8 @@ Debajo de los Archivos, una escalera de piedra baja a la **Bóveda Imperial**. E
 #### Gheco sugiere
 `Files.writeString(ruta, texto)` escribe un archivo entero y `Files.readAllLines(ruta)` lo lee como una lista de líneas. Para probar, se usa un archivo temporal y se borra al final.
 
+`Files.delete(ruta)` (de `java.nio.file`) borra el archivo.
+
 #### Desafío
 Leé las líneas del archivo.
 
@@ -4685,6 +4687,8 @@ Cuando la base rechaza algo, devuelve un mensaje en idioma de máquina: *duplica
 
 #### Gheco sugiere
 El DAO atrapa la `SQLException` y lanza una excepción **propia**, con un mensaje claro y la original como **causa**: `throw new DatoInvalidoException("…", e)`. Así nadie fuera del DAO tiene que conocer SQL.
+
+`getSQLState()` es el código de error que manda la base de datos (por ejemplo, `23505` es una clave repetida).
 
 #### Desafío
 Completá el `throw`: una `DatoInvalidoException` con el mensaje y la causa.

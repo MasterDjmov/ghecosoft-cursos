@@ -456,6 +456,8 @@ En el fondo del armario, detrás de los frascos, Iris encuentra un vidrio de un 
 #### Gheco sugiere
 Una **variable** guarda un valor con nombre: `:root { --vidrio-misterio: #7c3aed; }`, y se usa con `var(--vidrio-misterio)`.
 
+`padding` es el espacio **de adentro**, entre el borde y el contenido. Las medidas: `px` son píxeles; `rem` es relativo al tamaño de letra de la página (`1rem` es una letra normal), así crece si el usuario agranda la letra.
+
 #### Desafío
 El color `#7c3aed` lo vamos a guardar en una **variable**, para usarlo por su nombre.
 
@@ -1147,6 +1149,14 @@ En el taller hay una tarjeta de curso cian que salió perfecta. Tesela quiere ot
 #### Gheco sugiere
 Las variables de CSS se pueden pisar en un elemento: una clase `.violeta { --neon: #a78bfa; }` cambia el acento solo en las tarjetas que la tengan. Todo lo que usa `var(--neon)` adentro se pinta del color nuevo.
 
+El CSS que ya viene escrito trae varias cosas nuevas:
+
+- `font-family` elige la letra (`monospace`, la de máquina de escribir);
+- `line-height` es el alto de cada renglón, y `text-align: center` centra el texto;
+- `display: block` o `inline-block` cambia cómo se acomoda un elemento;
+- `::before` y `::after` agregan un adorno antes o después del contenido;
+- `aria-hidden="true"` esconde un adorno a los lectores de pantalla.
+
 #### Desafío
 Vamos a hacer una segunda tarjeta, igual a la de C++ pero violeta. No hace falta repetir todo el CSS: alcanza con cambiar la variable `--neon`.
 
@@ -1509,6 +1519,8 @@ Tesela tiene un aviso que en la ventana grande del taller queda estirado de punt
 
 #### Gheco sugiere
 `max-width` pone un tope sin obligar a llegar: en una pantalla angosta la caja ocupa lo que haya. `margin: 2rem auto` deja 2rem arriba y abajo y reparte lo que sobra a los costados: la caja queda centrada.
+
+`border-radius` redondea las esquinas, y `font-family: system-ui, sans-serif` usa la letra del sistema (y, si no está, una sin serifas).
 
 #### Desafío
 Una caja que en la compu no pasa de 30rem de ancho y queda en el medio. Escribí el HTML **adentro del `<body>`** y el CSS adentro del `<style>`.
@@ -3233,6 +3245,8 @@ Teo juntó insignias de todos los encargos y las quiere mostrar en una vitrina.
 #### Gheco sugiere
 `repeat(auto-fill, minmax(6rem, 1fr))` arma tantas columnas como entren, de al menos 6rem. `aspect-ratio: 1` las hace cuadradas y `grid-column: span 2` hace que una ocupe dos columnas.
 
+`place-items: center` centra el contenido de una grilla en las dos direcciones a la vez.
+
 #### Desafío
 Una galería de insignias cuadradas, con una que ocupa el doble. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.
 
@@ -4353,6 +4367,8 @@ En la cabaña no entra el menú del panel: se sale por los costados y arrastra t
 
 #### Gheco sugiere
 `overflow-x: auto` le da scroll propio a un elemento, sin mover la página. Desde un ancho, una `@media` cambia la grilla a dos columnas y pone el menú en columna con `flex-direction: column`.
+
+`white-space: nowrap` no deja que el texto se parta en dos renglones.
 
 #### Desafío
 Un panel con menú: en el celular el menú va arriba y se desliza de costado; en la compu va a la izquierda, en columna. Escribí el HTML **adentro del `<body>`** y el CSS en el `<style>`.

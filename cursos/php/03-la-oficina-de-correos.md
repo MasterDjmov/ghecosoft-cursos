@@ -3558,6 +3558,8 @@ hash_equals($sesion['token'], $post['token'] ?? '')
 
 Si no coinciden, se rechaza.
 
+`random_bytes(16)` genera 16 bytes al azar, imposibles de adivinar, y `bin2hex(…)` los convierte en texto (letras y números): así se arma un token secreto.
+
 #### Desafío
 Rechazá el pedido que no trae el token correcto.
 
@@ -5569,6 +5571,8 @@ Para guardar datos en un archivo, una forma fácil es **JSON**, un formato de te
 - `json_decode($texto, true)` hace el camino inverso (el `true` pide arrays).
 
 Guardá con `file_put_contents` y leé con `file_get_contents`. Después buscá el registro que dice «para quien llegue».
+
+`str_contains($texto, 'quien llegue')` dice si el texto **contiene** eso en alguna parte.
 
 #### Desafío
 Guardá el registro, volvé a leerlo y encontrá la línea del robo.

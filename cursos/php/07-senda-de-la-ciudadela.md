@@ -426,6 +426,8 @@ En el taller donde se dibujan las vistas, los guardias no dejan pasar un dato si
 #### Gheco sugiere
 Imitá el trabajo de Blade: `{{ … }}` se reemplaza por el dato escapado con `htmlspecialchars`, `{!! … !!}` por el dato tal cual.
 
+`blade` es el nombre de nuestra función de plantillas, igual que el motor de plantillas de Laravel: reemplaza `{{ … }}` por el dato escapado y `{!! … !!}` por el dato tal cual.
+
 #### Desafío
 Completá el mini-Blade para que `{{ }}` escape.
 
@@ -3180,6 +3182,8 @@ El Grifo revisa cientos de registros por mañana. Iara propone mostrarle de a po
 #### Gheco sugiere
 Filtrá por destino solo si viene uno, después cortá la página con `array_slice` y armá el enlace a la siguiente con `http_build_query` conservando el filtro.
 
+`range(1, 12)` arma la lista de números del 1 al 12.
+
 #### Desafío
 Completá el listado filtrado y paginado.
 
@@ -3253,6 +3257,8 @@ El Grifo baja por última vez, dispuesto a arrancar la página que encuentre mal
 
 #### Gheco sugiere
 Una lista de reglas con su prueba (una función que devuelve `true` si se cumple). Corré todas y mostrá ok o FALLA; si todas pasan, el Grifo se queda.
+
+`array_unique($array)` saca los repetidos: si al sacarlos el largo cambia, había repetidos.
 
 #### Desafío
 Escribí las pruebas de las tres reglas del Grifo.

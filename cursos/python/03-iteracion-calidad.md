@@ -1233,6 +1233,8 @@ En el segundo piso, Maese Horas quiere saber cuánta vida tiene, en promedio, ca
 #### Gheco sugiere
 `itertools.groupby` junta los elementos **seguidos** con la misma clave: ordená antes con la misma `key`. Para cada grupo, armá la lista de vidas y sacá el promedio.
 
+`@dataclass(frozen=True)` hace la dataclass **inmutable**: una vez creada, sus campos no se pueden cambiar (si lo intentás, da error).
+
 #### Desafío
 A partir de la compañía, armá un diccionario `{clase: vida promedio}` usando `groupby` (acordate de ordenar antes) y mostralo alineado, con un decimal.
 
@@ -2143,6 +2145,8 @@ En el tercer piso, Maese Horas quiere saber cuántas veces lanzás hechizos en l
 
 #### Gheco sugiere
 Un decorador es una función que recibe otra y devuelve una envoltura. Guardá el contador en la envoltura (`envoltura.llamadas = 0`) y sumá uno cada vez que se llama. `@contar_llamadas` arriba de la función la envuelve.
+
+`*args, **kwargs` recibe **cualquier** cantidad de argumentos, sueltos (`args`) y con nombre (`kwargs`), y `func(*args, **kwargs)` se los pasa tal cual a la función envuelta. Así el decorador sirve para cualquier función.
 
 #### Desafío
 Escribí el decorador `@contar_llamadas`, que lleve la cuenta de cuántas veces se llamó a la función decorada. Guardá el contador como **atributo de la envoltura** (`envoltura.llamadas`). Decorá `lanzar_hechizo(nombre)`, llamala tres veces y mostrá el contador.
@@ -3493,6 +3497,8 @@ recompensa: xp 10, oro 10
 
 #### Gheco sugiere
 `await asyncio.wait_for(tarea(), timeout=s)` espera como mucho `s` segundos. Si se pasa, cancela la tarea y lanza `TimeoutError`.
+
+`async def main()` es la corrutina principal del programa, y `asyncio.run(main())` la pone en marcha: es la forma de arrancar todo lo que usa `await`.
 
 #### Desafío
 Ponele un límite de tiempo al asado.
@@ -5075,6 +5081,8 @@ Con el Gólem quieto, Maese Horas encuentra en su pecho el mecanismo que generab
 
 #### Gheco sugiere
 Un generador infinito con `random.Random(semilla)` propio arma cada oleada. Un decorador cuenta cuántas salieron. Otro generador entrega oleadas **hasta** la del Gólem inclusive y después hace `return`.
+
+`azar.choice(tipos)` elige un elemento al azar de la lista (con la semilla del `random.Random`, siempre el mismo orden).
 
 #### Desafío
 1. Escribí el generador infinito `oleadas_del_golem(semilla)`: cada oleada es un diccionario con `numero`, `enemigos` (3 tuplas `(tipo, poder)`, con tipo al azar entre engranaje, resorte y péndulo, y poder entre 5 y 20, usando `random.Random(semilla)`) y `golem` (verdadero cada 7 oleadas).

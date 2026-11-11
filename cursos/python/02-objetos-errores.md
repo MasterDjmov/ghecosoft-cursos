@@ -2862,6 +2862,8 @@ Si existe, partí cada línea en dos con `linea.split("=", 1)` (el `1` dice que 
 
 `os.remove(ruta)` borra el archivo al final.
 
+Arriba, el código crea el archivo de prueba con `Path("config.txt").write_text(...)` (de `pathlib`: escribe un texto entero en un archivo, de una vez) y al final lo borra con `.unlink()`. Son atajos de `open` + `write` y de `os.remove`.
+
 #### Desafío
 Escribí `cargar_config(ruta)`, que lea un archivo de líneas `clave=valor` y devuelva un diccionario. Si el archivo **no existe**, avisa y devuelve la configuración por defecto: `{"dificultad": "normal", "volumen": "7", "idioma": "es"}`. Lo que esté en el archivo pisa a lo por defecto.
 
@@ -3576,6 +3578,8 @@ Un **CSV** es una planilla guardada como texto: una fila por línea, columnas se
 
 Ojo: todo lo que se lee es **texto** (`str`). Para sumar, convertí con `int()`.
 
+Al abrir un CSV, `newline=""` deja que la biblioteca `csv` maneje los fines de línea: sin eso, en Windows aparecen renglones vacíos de más.
+
 #### Desafío
 Arreglá la suma.
 
@@ -3731,6 +3735,8 @@ Para guardar varias partidas en un solo archivo: una lista de diccionarios. `asd
 
 Al cargar, `Partida(**datos)` rearma cada una. Compará con `==` que lo cargado sea igual a lo guardado (las dataclasses saben compararse). Al final, borrá el archivo.
 
+`Path(ruta).unlink()` (de `pathlib`) borra el archivo, igual que `os.remove(ruta)`.
+
 #### Desafío
 Guardá **tres** partidas (una dataclass `Partida` con `heroe`, `mapa` y `gemas`) en un solo archivo `slots.json`, como una lista. Después cargalas, reconstruí las dataclasses y mostralas numeradas. Comprobá que lo cargado es igual a lo guardado y borrá el archivo al final.
 
@@ -3817,6 +3823,8 @@ Los vendedores del Bastión dejaron sus ventas en el Archivo, en una planilla. T
 Sumá por vendedor con el patrón de contar: `totales[v] = totales.get(v, 0) + monto`. Acordate de convertir el monto a número.
 
 Después escribí el resumen en otro CSV con `csv.writer`.
+
+`csv.writer(f, lineterminator="\n")` termina cada fila con un salto de línea simple. Y `Path("resumen.csv").read_text()` lee el archivo entero como un solo texto, para mostrarlo.
 
 #### Desafío
 Con esta planilla de ventas (escribila en `ventas.csv` desde el programa):
@@ -4416,6 +4424,8 @@ Algunas pistas:
 - en `sumar`, revisá que haya lugar y que el nombre no esté repetido;
 - para guardar: `json.dumps` con `asdict` de cada héroe;
 - para cargar, un `@classmethod` que arme la compañía desde el texto.
+
+`any(h.nombre == heroe.nombre for h in self.heroes)` da `True` si **al menos uno** cumple la condición: así se pregunta si el nombre ya está.
 
 #### Desafío
 Modelá una compañía de aventureros:

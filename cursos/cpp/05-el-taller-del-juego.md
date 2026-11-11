@@ -293,6 +293,8 @@ try {
 
 Lo que está en `try` se intenta; si algo tira una alarma, el programa salta al `catch`. `e.what()` es el mensaje de la alarma. Si nadie la atrapa, el programa se corta.
 
+`std::invalid_argument` es una de las alarmas ya hechas, de `<stdexcept>`: sirve cuando a una función le pasan un dato que no sirve.
+
 #### Desafío
 Atrapá la alarma para que el Taller siga andando.
 
@@ -2662,6 +2664,8 @@ Recorré la contraseña una sola vez y anotá lo que encontrás: ¿hay mayúscul
 
 Cada prueba es un `comprobar(...)` con un caso pensado. Los mejores casos son los del borde: una de **8 justos** caracteres es la que detecta si el límite está mal puesto (`>` en vez de `>=`).
 
+`std::isspace(c)` dice si el carácter es un espacio (o un tab o un salto de línea).
+
 #### Desafío
 Una contraseña es segura si tiene **8 o más** caracteres, al menos una mayúscula,
 una minúscula y un dígito, y ningún espacio. Escribí `contrasenia_segura` y las
@@ -2932,6 +2936,8 @@ Para saber qué es más rápido, hay que **medir**. `std::chrono::steady_clock::
 `medir_us` recibe una lambda (el trabajo a medir), la ejecuta entre las dos marcas y devuelve los microsegundos.
 
 Los tiempos cambian en cada corrida, así que se muestran por `std::cerr` (la salida de errores). Por `std::cout`, solo lo que no cambia, como los resultados de las búsquedas.
+
+`std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count()` convierte la diferencia de tiempo en **microsegundos** y da el número.
 
 #### Desafío
 Armá un vector con los números de 0 a 199999 desordenados, un `std::set` con los
@@ -3832,6 +3838,8 @@ La mochila es un vector de `Item` (nombre, tipo y cantidad), con 4 lugares.
 - `juntar`: si es una poción y ya hay una igual, se apila (suma la cantidad); si no, ocupa un lugar nuevo, si queda.
 - `sacar`: devuelve un `std::optional<Item>` (vacío si no está) y resta uno de la pila; si quedó en 0, libera el lugar.
 - Al equipar un arma, si ya había otra equipada, la vieja vuelve a la mochila.
+
+`nombre.starts_with("pocion")` dice si el texto **empieza** con eso.
 
 #### Desafío
 Una mochila de **4 lugares** (las pociones del mismo nombre se apilan en un lugar).
@@ -6053,6 +6061,8 @@ Guardar es escribir cada dato en una línea del archivo; cargar es leerlos en el
 `ArchivoRoto` hereda de `std::runtime_error` y guarda el número de línea y el motivo. `cargar` lee línea por línea y, en cuanto algo no cierra (falta un dato o no es un número), lanza `ArchivoRoto`.
 
 Para probar la rotura: leé todas las líneas, cambiá la que te piden, reescribí el archivo, intentá cargar (y atrapá el error) y después restaurá el original.
+
+`in.close()` cierra el archivo antes de volver a abrirlo. Y `do { … } while (cond);` es un bucle que se ejecuta **al menos una vez** y pregunta al final.
 
 #### Desafío
 Guardá una partida (heroína, posición, vida, llave y enemigos vencidos) en

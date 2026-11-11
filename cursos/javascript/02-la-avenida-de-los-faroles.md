@@ -2199,6 +2199,8 @@ document.addEventListener('keydown', (evento) => {
 
 Después de cambiar el número, hay que volver a mostrarlo: el programa ya trae una función para eso.
 
+`mira.style.left = '20px'` mueve el elemento: `left` es la distancia desde el **borde izquierdo**. El programa ya lo hace en `dibujar()`: vos solo cambiá `x` y volvé a dibujar.
+
 #### Desafío
 La posición cambia con las flechas. (La comprobación aprieta tres veces la derecha y una la izquierda.)
 
@@ -3835,6 +3837,8 @@ Es la forma completa de una aplicación, con todo lo de R02:
 - la **delegación** en la lista para los botones de borrar: cada botón tiene en su `data-` el **índice** (la posición) de su farol, y `arreglo.splice(i, 1)` saca uno desde esa posición.
 
 Después de cada cambio: guardar y dibujar. Andá paso por paso y ejecutá entre medio.
+
+`arreglo.forEach((elemento, i) => { … })` corre la función **una vez por cada elemento**, igual que un `for…of`, pero además te da su posición `i` (0, 1, 2…). Acá se usa para guardar el índice en el botón de borrar.
 
 #### Desafío
 Completá `agregar` (con su validación) y el evento de borrar. La consigna trae guardado un farol; la comprobación intenta uno sin nombre, uno con horas que no son número, agrega dos bien y borra el primero. Al final:

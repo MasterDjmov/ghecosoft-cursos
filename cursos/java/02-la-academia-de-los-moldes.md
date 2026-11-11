@@ -1666,6 +1666,8 @@ En la oficina de pasaportes, alguien intentó hacer uno con el nombre vacío y o
 #### Gheco sugiere
 El constructor puede negarse a crear un objeto inválido lanzando `throw new IllegalArgumentException("motivo")`. Quien lo crea lo atrapa con `try` / `catch` y muestra el mensaje.
 
+`e.getMessage()` es el mensaje que trae la excepción, y `texto.isBlank()` da `true` si está vacío o tiene solo espacios.
+
 #### Desafío
 Escribí una clase `Pasaporte` con titular, número y año de vencimiento. El
 constructor **rechaza** con `IllegalArgumentException` un titular vacío, un número que
@@ -3461,6 +3463,8 @@ Hay dos sellos con el mismo código, «A-7». Son dos objetos distintos, pero va
 
 #### Gheco sugiere
 `==` compara **identidad** (si es el mismo objeto). `equals` compara **igualdad**, pero hay que escribirlo: si el otro es un `Sello`, son iguales cuando tienen el mismo `codigo`. Los `String` se comparan con `equals`.
+
+`o instanceof Sello` pregunta si el objeto `o` es un `Sello`: así se sabe si se lo puede comparar.
 
 #### Desafío
 Completá el `return` de `equals`: iguales si tienen el mismo código.
@@ -6830,6 +6834,8 @@ La puerta de la Sala de los Pactos no tiene cerradura: tiene un pergamino. **Kaf
 
 #### Gheco sugiere
 Una **interfaz** dice qué métodos tiene que tener quien la firme, sin decir cómo. `class Barco implements Nadador` firma el contrato y **tiene** que escribir `nadar()`. Un barco y un grifo no se parecen, pero los dos pueden nadar.
+
+`interface Nadador { String nadar(); }` es un **contrato**: dice qué sabe hacer, sin decir cómo. Una clase lo cumple con `implements Nadador` y escribiendo `nadar()`.
 
 #### Desafío
 Completá la palabra con la que el Barco firma el contrato `Nadador`.

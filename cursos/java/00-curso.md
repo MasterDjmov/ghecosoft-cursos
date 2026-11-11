@@ -296,6 +296,8 @@ Muestra **Hola** y después baja a la línea siguiente (`println` viene de *prin
 
 Para ejecutarlo, abrí el **Ejecutor de Java** en tu compu (*Herramientas → Ejecutor de Java*) y tocá **Ejecutar**. Si no lo tenés, corrélo en tu compu o en tu programa de Java y pegá la salida abajo.
 
+Las líneas de alrededor son la **caja** de todo programa en Java: `public class Main { … }` es la clase que lo contiene, y `public static void main(String[] args) { … }` es el lugar donde arranca. Por ahora van siempre igual: vos escribís adentro.
+
 #### Desafío
 Completá la instrucción para declarar quién sos.
 

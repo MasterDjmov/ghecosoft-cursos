@@ -329,6 +329,8 @@ En una placa, varios leds se manejan con un solo byte, el **puerto**: cada bit e
 
 `%02X` muestra el byte en hexadecimal con dos cifras y letras mayúsculas.
 
+`0x80` es un número escrito en **hexadecimal** (128): en binario, `10000000`, el bit 7 prendido.
+
 #### Desafío
 Completá el encendido y el apagado.
 

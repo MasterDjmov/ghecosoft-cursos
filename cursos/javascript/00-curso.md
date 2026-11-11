@@ -464,6 +464,8 @@ document.querySelector('#cartel').textContent = 'Abierto';
 - `document.querySelector('#cartel')` busca el elemento cuyo `id` es `cartel` (el `#` quiere decir «id»);
 - `.textContent = '…'` le cambia el texto.
 
+`const cartel = …` guarda el elemento en una **cajita con nombre** (`cartel`) para usarlo después sin buscarlo de nuevo. `const` quiere decir que esa cajita no se va a cambiar por otra; en R01 lo vas a ver con calma.
+
 #### Desafío
 Cambiá el texto del cartel por `Abierto`.
 

@@ -1386,6 +1386,8 @@ Así como el constructor corre al nacer, el **destructor** corre cuando el objet
 
 Sirve para ordenar antes de irse: cerrar archivos, devolver memoria…
 
+`explicit` delante del constructor evita que C++ convierta un texto en un `Automata` sin que lo pidas: hay que escribir `Automata("…")` a propósito.
+
 #### Desafío
 Completá el destructor.
 
@@ -3686,6 +3688,8 @@ Dos formas de escribir operadores:
 - **Como funciones libres**, los que arman uno nuevo: `+`, `-` y `*` por un número. El `*` va en los dos órdenes (`v * 2` y `2 * v`).
 
 `bool operator==(const Vec2&) const = default;` le pide a C++ que compare campo por campo. Y `<<` para mostrar.
+
+`std::boolalpha` hace que `cout` muestre `true` y `false` en lugar de `1` y `0`.
 
 #### Desafío
 Completá `struct Vec2` con `+=`, `-=` (métodos), `+`, `-`, `*` por un número en los
@@ -6806,6 +6810,8 @@ void sonar() const override { ... }        // en la derivada
 
 La base también lleva `virtual ~Base() = default;`, para que se destruya bien.
 
+Los autómatas se guardan como `std::unique_ptr<Automata>`: un puntero que es **dueño** del objeto y lo borra solo cuando ya no se usa. `std::make_unique<Carga>()` crea el objeto y su dueño de una vez (viene en `<memory>`).
+
 #### Desafío
 Hacé que cada autómata trabaje a su manera.
 
@@ -7087,6 +7093,8 @@ virtual double area() const = 0;
 ```
 
 Cada derivada **tiene que** escribirlos. Guardá las figuras en `std::vector<std::unique_ptr<Figura>>` y llamá `f->area()`: cada una responde con su propia cuenta.
+
+Cosas nuevas del código: `nullptr` es el puntero que no apunta a nada; `f.get()` da el puntero común que guarda un `unique_ptr`; `std::sqrt` saca la raíz cuadrada, y `<numbers>` trae constantes como `std::numbers::pi`.
 
 #### Desafío
 Escribí `class Figura` **abstracta** con `area()`, `perimetro()` y `nombre()`

@@ -2243,6 +2243,8 @@ Junta todo el nodo. Una forma ordenada:
 
 `Object.values(objeto)` da un arreglo con los valores, y `some` (R05-N06) pregunta si alguno cumple.
 
+`texto.endsWith('@')` pregunta si el texto **termina** con eso: `'ana@'.endsWith('@')` da `true`.
+
 #### Desafío
 Las reglas: el nombre no puede estar vacío; el correo necesita una `@` y algo después; el mensaje, entre 10 y 140 letras.
 

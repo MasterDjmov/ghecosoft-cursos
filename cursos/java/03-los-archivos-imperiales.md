@@ -1402,6 +1402,8 @@ En la lista de salas para revisar hay que tachar la **sala 2**. Zed escribe `sal
 #### Gheco sugiere
 En una `List<Integer>`, `remove(2)` borra la **posición** 2. Para borrar el **valor** 2 hay que pasarle un objeto: `remove(Integer.valueOf(2))`.
 
+`List.of(5, 2, 9, 7)` arma una lista con esos valores de una vez; se la envuelve en `new ArrayList<>(…)` para poder agregarle y sacarle.
+
 #### Desafío
 Ejecutalo, mirá qué sala desaparece y arreglalo para borrar el valor 2.
 
@@ -1650,6 +1652,8 @@ En el ala norte se guardan los puntajes de todos los torneos del Imperio. El Arc
 
 #### Gheco sugiere
 Una `List<Integer>` guarda enteros (con autoboxing). `Collections.max` y `Collections.min` dan los extremos; `removeIf(p -> p < 0)` saca los que no van, sin recorrer a mano.
+
+`puntajes.iterator()` da un **iterador**, que recorre la lista y permite sacar elementos mientras tanto (`it.hasNext()`, `it.next()`, `it.remove()`). Y `lista.subList(0, 3)` es el pedazo de la lista de la posición 0 a la 2.
 
 #### Desafío
 Leé puntajes enteros (uno por línea) hasta una línea vacía y guardalos en un
@@ -4752,6 +4756,8 @@ La posadera quiere saber quién debe, quién se quedó más noches y los nombres
 #### Gheco sugiere
 Con lambdas y referencias a métodos se hace sin `for`: `removeIf(h -> h.pago())`, `forEach(System.out::println)`, `replaceAll(String::toUpperCase)` y `sort(Comparator.comparing(...))`.
 
+`debe.test(h)` usa el `Predicate`: le pregunta si `h` cumple la condición y devuelve `true` o `false`.
+
 #### Desafío
 La posada guarda sus huéspedes en una lista de `record Huesped(String nombre, int
 noches, boolean pago)`. Con **lambdas** y **referencias a métodos**, sin bucles `for`:
@@ -6439,6 +6445,8 @@ La escriba no usa `println`: lleva un **diario** donde cada cosa tiene su graved
 #### Gheco sugiere
 Un `Logger` anota mensajes con un **nivel**: `FINE` (detalle), `INFO` (normal), `WARNING` (algo raro), `SEVERE` (grave). `log.setLevel(Level.INFO)` muestra INFO y lo más grave, y esconde los `FINE`. El método `diario()` ya está armado para escribir en la consola.
 
+`Logger.getLogger("archivos")` da un registro con ese nombre (de `java.util.logging`), y `log.info(...)`, `log.warning(...)` o `log.fine(...)` anotan mensajes según su importancia. El `publish` con `synchronized` de abajo es el que los recibe; `synchronized` evita que dos hilos lo usen a la vez.
+
 #### Desafío
 Completá el nivel para que se vean INFO y WARNING, pero no los FINE.
 
@@ -6765,6 +6773,8 @@ En el depósito entran y salen cosas sin que nadie lo anote. Cuando falta algo, 
 
 #### Gheco sugiere
 Un `Logger` anota mensajes con niveles: `INFO` para lo normal, `WARNING` para lo raro y `SEVERE` para lo grave. Cada operación anota lo que pasó, aunque no se haga.
+
+`LOG.severe(...)` anota un mensaje del nivel más grave: un error.
 
 #### Desafío
 Agregale un **logger** a este depósito: `INFO` cuando entra o sale mercadería,
@@ -7713,6 +7723,8 @@ En la sala vacía, el Espectro Nulo convierte los libros en nada: quien busca un
 
 #### Gheco sugiere
 Antes de usar lo que devuelve un mapa o una búsqueda, preguntá si es `null` (o usá `getOrDefault`, `containsKey`). Cada comando tiene que contestar algo, aunque sea «no está».
+
+`Objects.requireNonNull(codigo)` corta en el acto con un error si `codigo` es `null`: así el objeto nunca nace con datos vacíos.
 
 #### Desafío
 Programá la biblioteca de los Archivos con estos comandos (uno por línea, hasta

@@ -4602,6 +4602,8 @@ El mapa es una lista de listas: `mapa[fila][columna]`. `list("#K..")` convierte 
 
 Para encontrar la `K`, dos `for` anidados con `enumerate` (así tenés la fila y la columna). Para moverla a la derecha, si la casilla siguiente es piso (`.`): ponés `"."` donde estaba y `"K"` en la nueva.
 
+`"".join(fila)` junta las letras de la lista en un solo texto, poniendo entre cada una lo que va antes del punto (acá, nada).
+
 #### Desafío
 Armá el mapa como lista de listas (`list("#K..G.#")`
 convierte cada fila). Encontrá la posición de Mia (`K`) con dos `for` y
@@ -5576,6 +5578,8 @@ El Ermitaño saca una lista de precios.
 `Counter(lista)` cuenta cuántos hay de cada cosa, y `most_common(2)` da los dos más repetidos.
 
 Para el valor de cada uno: el precio por la cantidad. Si un objeto no tiene precio, `precios.get(objeto, 0)` da 0 y no rompe nada.
+
+`dict(botin)` muestra el contador como un diccionario común, y `botin.values()` da solo los valores (las cantidades): `sum(...)` los suma.
 
 #### Desafío
 De la lista de objetos que soltaron los enemigos,

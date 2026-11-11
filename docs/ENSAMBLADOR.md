@@ -197,10 +197,17 @@ enseñaba. Se revisaron todas las órdenes que el emulador ya sabía ejecutar y 
 | `lodsb`, `stosb`, `movsb`, `scasb`, `cmpsb`, `rep`/`repne`/`repe`, `cld` y `mov es, ax` | **R02-N12** (extra, brota de R02-N08), 5 micro-misiones | Idem |
 | `js`/`jo` y `loope`/`loopne` | Solo en la teoría de R02-N04 y R02-N05 | Se leen en programas ajenos; el curso no los necesita |
 
+| `rcl` y `rcr` (correr un número de dos palancas) | R02-N11-P6 | Idem |
+| `nop`, `hlt`, `cmc`, `lahf`, `sahf`, `pushf`, `popf`, `cli` y `sti` | **R03-N08** (extra, brota de R03-N03, «Lo que ve el depurador»), 7 micro-misiones | El docente pidió que nada de lo que se ve en un depurador quede sin explicar |
+
 Los extras (`tipo: extra`) no cuentan para completar el curso. Cada orden lleva su puente con otras lenguas
-(`xchg` = `std::swap` de C++ o `a, b = b, a`; `rep movsb` = `memcpy`; `xlat` = `"0123456789ABCDEF"[n]`…). Quedan
-sin enseñar, a propósito: `rcl`/`rcr`, `lahf`/`sahf`, `pushf`/`popf`, `cmc`, `nop`, `cli`/`sti` y `hlt` (el
-emulador las ejecuta igual). Escenas de las 23 micro-misiones nuevas o sin imagen: pendientes en Stitch.
+(`xchg` = `std::swap` de C++ o `a, b = b, a`; `rep movsb` = `memcpy`; `xlat` = `"0123456789ABCDEF"[n]`; `nop` =
+`pass`; `cli`/`sti` = una sección crítica…). De paso se arregló `lahf` en el emulador (el bit 1 vale 1, como en el
+8086). Escenas de las 31 micro-misiones nuevas o sin imagen: pendientes en Stitch.
+
+Lo que el emulador **todavía no** ejecuta (fase 2 de esta revisión, a decidir): `aaa`, `aas`, `aam`, `aad`,
+`daa`, `das` (BCD), `lds` y `les`, `in` y `out` (puertos), `iret`, `into`, `int 3` y las rutinas de interrupción
+propias, `retf` y los saltos y llamadas lejanos, y `lock`, `wait` y `esc` (solo teoría).
 
 ## 9. Preguntas abiertas (respondidas el 2026-10-18)
 

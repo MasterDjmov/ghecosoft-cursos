@@ -5141,3 +5141,775 @@ Se saca basura, o el lugar de vuelta de una rutina.
 
 #### ¿Cómo se sabe si una palabra es palíndromo con la pila?
 Se apilan las letras y se comparan, al desapilarlas, con la palabra original.
+
+## R03-N08 · Lo que ve el depurador: `nop`, `hlt`, `cmc`, `lahf`, `sahf`, `pushf`, `popf`, `cli` y `sti`
+
+```meta
+tipo: extra
+criatura: skeleton
+padre: R03-N03
+precio: 0
+temas: maq.banderas, maq.pila, maq.interrupciones
+```
+
+### Crónica
+
+Detrás del núcleo del Gólem hay una sala que nadie había abierto: **la sala del vigía**. Adentro, un esqueleto de bronce sentado frente a un tablero anotó durante siglos cada orden que pasaba por el cuerpo de {mentor}. Su libro está lleno de órdenes raras: `NOP`, `HLT`, `PUSHF`, `CLI`…
+
+—Si algún día miro tus órdenes con una lupa —dice Nova—, me las voy a encontrar. Y no sé qué hacen.
+
+—Entonces aprendelas ahora —responde {mentor}—. Son pocas, son cortas, y todas tienen su razón.
+
+### Objetivos
+
+Reconocer y usar las órdenes que aparecen en cualquier depurador (emu8086, DEBUG, los de hoy): `nop` (no hacer
+nada, a propósito), `hlt` (detener el procesador), `cmc` (dar vuelta CF), `lahf` y `sahf` (los interruptores en
+AH), `pushf` y `popf` (guardar los interruptores en la pila) y `cli` y `sti` (pausar las interrupciones).
+
+### Antes de empezar
+
+- Los interruptores ZF, SF, CF y OF (Las cuentas del Gólem y Con signo y sin signo).
+- `stc` y `clc` (ya los usaste para devolver «sí» o «no»).
+- `push`, `pop`, `call` y `ret` (La torre de platos y Las rutinas).
+- El código máquina y las direcciones de cada orden (Las cuentas del Gólem, P8).
+
+### Explicación
+
+#### `nop`: la orden que no hace nada
+`nop` (*no operation*) no cambia nada: ni palancas, ni cajones, ni interruptores. Solo ocupa **un byte** (`90h`)
+y hace pasar al Gólem a la orden siguiente. ¿Para qué sirve algo que no hace nada?
+
+- **Borrar una orden sin mover las demás.** Si cambiás una orden de 2 bytes por dos `nop`, todo lo que viene
+  después sigue en la misma dirección.
+- **Dejar lugar** para completar más tarde, o **alinear** el código para que empiece en una dirección par.
+- **Esperar** un instante (en las compus viejas, se usaba para hacer tiempo).
+
+En un depurador vas a ver `nop` muy seguido, incluso donde vos no los escribiste: algunos ensambladores los
+agregan solos para rellenar (por ejemplo, después de un `jmp` hacia adelante que terminó entrando en menos bytes).
+
+#### `hlt`: el Gólem se duerme
+`hlt` (*halt*) **detiene** el procesador hasta que llegue una interrupción del hardware. Muchos ejemplos de
+emu8086 terminan con `hlt`, y en el emulador sirve para frenar. Pero en una compu con DOS de verdad, `hlt` **no**
+devuelve el control al sistema: la máquina se queda quieta, esperando. Para terminar un programa de DOS, siempre
+`mov ax, 4C00h` e `int 21h`.
+
+#### Los interruptores a mano
+Ya conocés `stc` (CF = 1) y `clc` (CF = 0). **`cmc`** (*complement carry*) lo **da vuelta**: si estaba en 1,
+queda en 0, y al revés.
+
+`lahf` (*load AH from flags*) copia cinco interruptores en AH, uno por bit: SF (bit 7), ZF (6), AF (4), PF (2) y
+CF (0); el bit 1 siempre vale 1. **`sahf`** hace lo contrario: los carga desde AH. Sirven para guardar el
+resultado de una comparación y mirarlo más tarde, o para prender varios interruptores juntos.
+
+#### Guardar todos los interruptores: `pushf` y `popf`
+`pushf` apila los **16 bits** de los interruptores y `popf` los recupera. Una rutina que hace un `cmp` adentro
+cambia los interruptores de quien la llamó; si los guarda al entrar y los recupera al salir, es **discreta**:
+
+```asm
+revisar proc
+    pushf              ; guardo los interruptores de quien me llamó
+    ...                ; mis cmp, mis cuentas
+    popf               ; se los devuelvo como estaban
+    ret
+revisar endp
+```
+
+Es lo mismo que hacés con `push ax` y `pop ax` para cuidar las palancas.
+
+#### Pausar las interrupciones: `cli` y `sti`
+El hardware (el teclado, el reloj) puede interrumpir al Gólem **en cualquier momento**, entre dos órdenes, y para
+atenderlo usa la pila. El interruptor **IF** dice si las atiende (1) o no (0). `cli` (*clear interrupt flag*) lo
+apaga y `sti` (*set*) lo prende. Se usan alrededor de algo que **no** puede quedar a medias: por ejemplo, mudar la
+pila a otro lugar, porque entre `mov ss` y `mov sp` la pila está rota.
+
+```asm
+cli                ; nadie me interrumpe
+mov ss, ax
+mov sp, 80h
+sti                ; listo: ya pueden
+```
+
+> **Puente con otras lenguas.** `nop` es el `pass` de Python o el `;` solo de C: algo que tiene que estar pero no
+> hace nada. `hlt` es lo que hace el sistema operativo cuando la compu no tiene nada que hacer (por eso el
+> procesador se enfría). `pushf`/`popf` es lo mismo que guarda cualquier lenguaje al llamar a una función, y
+> `cli`/`sti` es la idea de una **sección crítica**: el `lock` de Java, C# o Python, para que nada se meta en el
+> medio.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t_iguales db 'Iguales$'
+t_no      db 'Distintos$'
+t_cf      db 13, 10, 'CF dado vuelta: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 5
+    cmp al, 5          ; ZF = 1
+    call revisar       ; no toca los interruptores
+    nop                ; no hace nada
+    jne distintos
+    lea dx, t_iguales
+    jmp mostrar
+distintos:
+    lea dx, t_no
+mostrar:
+    mov ah, 09h
+    int 21h
+
+    lea dx, t_cf
+    mov ah, 09h
+    int 21h
+    stc                ; CF = 1
+    cmc                ; CF = 0
+    mov dl, '0'
+    adc dl, 0          ; suma CF: sigue '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+revisar proc
+    pushf
+    push bx
+    mov bl, 1
+    cmp bl, 2          ; cambia ZF... pero adentro
+    pop bx
+    popf
+    ret
+revisar endp
+end main
+```
+
+### Salida esperada
+
+```
+Iguales
+CF dado vuelta: 0
+```
+
+### ¿Para qué sirve?
+
+Abrir un depurador (en emu8086, en DEBUG o en los de hoy, como los de Visual Studio o GDB) y entender **cada**
+línea, sin ninguna orden misteriosa. Los sistemas operativos usan `hlt` todo el tiempo para ahorrar energía, y
+`cli`/`sti` para que nada se rompa a medias; los programas que se arreglan sin recompilar se parchan con `nop`; y
+cualquier compilador guarda y recupera los interruptores cuando hace falta.
+
+### Errores habituales
+
+**Esqueleto: terminar con `hlt` en una compu de verdad.** En emu8086 frena, pero en DOS la compu queda colgada
+esperando. Para volver al sistema, `mov ax, 4C00h` e `int 21h`.
+
+**Ogro: borrar en vez de poner `nop`.** Si sacás una orden, todas las que vienen después cambian de dirección;
+con `nop`, quedan donde estaban.
+
+**Ogro: `pushf` sin su `popf`.** Como cualquier `push`: el `ret` saca los interruptores en lugar de la dirección
+de vuelta, y el Gólem salta a cualquier lado.
+
+**Ogro: `cli` sin `sti`.** Si las interrupciones quedan apagadas, el teclado y el reloj dejan de funcionar.
+
+**Goblin: `cmc` con operandos.** `cmc`, `lahf`, `sahf`, `pushf`, `popf`, `cli`, `sti`, `nop` y `hlt` no llevan
+nada.
+
+### Micro-misión R03-N08-P1 · La orden que no hace nada
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco
+criatura: skeleton
+carta: nop | no hace nada · ocupa 1 byte (90h) · borrar una orden sin mover las demás · como pass en Python
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En el libro del vigía, Nova encuentra un programa con una orden de más: `mov al, 0` borra las 5 pociones. Pero hay otras órdenes que dependen de **dónde** está cada una (`despues` tiene que seguir en la misma dirección), así que no se puede simplemente sacar.
+
+#### Gheco sugiere
+`mov al, 0` ocupa **2 bytes**. Si la borrás, todo lo que viene después se corre 2 lugares. Si la cambiás por **dos `nop`** (1 byte cada uno), el Gólem pasa de largo sin hacer nada, y `despues` sigue en su dirección: BX lo muestra.
+
+#### Desafío
+Reemplazá `mov al, 0` por dos órdenes que no hagan nada, para que AL siga en **5** y `despues` siga en la dirección **9** (BX).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 5
+    mov al, 0
+despues:
+    mov bx, offset despues
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 5
+BX = 9
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 5
+    nop
+    nop
+despues:
+    mov bx, offset despues
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Las pociones siguen siendo 5 y nada se movió de lugar. En la vista de código máquina, donde estaba `B0 00` ahora dice `90 90`. —Así que eso eran los `NOP` del libro —dice Nova—. Agujeritos a propósito.
+
+#### Imagen
+- Un libro enorme de hojas de bronce abierto sobre un atril, en una sala circular de bronce iluminada con luz ámbar, con tableros de lucecitas en las paredes.
+- Un esqueleto de bronce, quieto y amable, sentado en una silla alta frente a un tablero.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala una página del libro.
+- Gheco (gecko de luz cian con antiparras, chiquito), sobre el libro, se asoma por un agujerito redondo de la página.
+
+### Micro-misión R03-N08-P2 · El Gólem se duerme
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco, Axón
+carta: hlt | detiene el procesador hasta una interrupción · en emu8086 frena · en DOS NO vuelve al sistema: para eso, 4C00h
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El libro del vigía termina muchos programas con una sola palabra: `HLT`. —El Gólem se dormía ahí —explica {mentor}—. Hasta que algo lo despertaba.
+
+#### Gheco sugiere
+`hlt` detiene el procesador: después de `hlt`, no se ejecuta nada más (hasta que llegue una interrupción del hardware). En emu8086 se usa mucho para frenar al final. Ojo: en DOS de verdad la compu se queda quieta y **no** vuelve al sistema; para terminar un programa, siempre `4C00h`.
+
+#### Desafío
+Completá la orden que detiene al Gólem después de mostrar `Me duermo`, para que la **X** nunca aparezca.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t db 'Me duermo$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    ___
+
+    mov dl, 'X'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Me duermo
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t db 'Me duermo$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    hlt
+
+    mov dl, 'X'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Me duermo», y nada más. El ojo de {mentor} se apaga despacito, y Nova tiene que tocarle el hombro para que vuelva. —Dormir no es terminar —dice el Gólem, despertándose—. Para irme de verdad, `4C00h`.
+
+#### Imagen
+- Un gólem de bronce gigante dormido, sentado contra una pared mecánica, con su único ojo redondo de cristal apagado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) le toca el hombro enorme con una mano, sonriendo.
+- Gheco (gecko de luz cian con antiparras, chiquito) duerme hecho un ovillo sobre la rodilla del gólem.
+
+### Micro-misión R03-N08-P3 · Dar vuelta el acarreo
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco
+carta: cmc | da vuelta CF · stc = 1 · clc = 0 · cmc = al revés de como estaba
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Una rutina del libro devuelve la respuesta en CF: 1 si la puerta está **abierta**. Pero Nova necesita saber lo contrario: si está **cerrada**. —No quiero reescribir la rutina —dice—. Solo dar vuelta la respuesta.
+
+#### Gheco sugiere
+`stc` prende CF y `clc` lo apaga, sin importar cómo estaba. **`cmc`** (*complement carry*) lo **da vuelta**: el 1 pasa a 0 y el 0 a 1. Es el `not` de un solo interruptor.
+
+#### Desafío
+Completá la orden que da vuelta CF, para que, con la puerta abierta (CF = 1), quede en **0**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    stc                ; la rutina dice: abierta
+    ___                ; ¿cerrada?
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+CF = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    stc                ; la rutina dice: abierta
+    cmc                ; ¿cerrada?
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+CF = 0: «no, no está cerrada». Nova prueba con `clc` antes del `cmc` y CF queda en 1. —Una sola orden y la pregunta cambia de sentido.
+
+#### Imagen
+- Una palanca chiquita de bronce con una luz en la punta que pasa de encendida a apagada, en un tablero de una sala circular de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) baja la palanquita con un dedo.
+- Gheco (gecko de luz cian con antiparras, chiquito) se cuelga de la palanca, haciéndola balancear.
+
+### Micro-misión R03-N08-P4 · Los interruptores en una palanca
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco
+carta: lahf | AH = los interruptores: SF (bit 7), ZF (6), AF (4), PF (2), CF (0) · el bit 1 siempre en 1
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El vigía anotaba los interruptores de cada orden como un número. Nova quiere hacer lo mismo: guardar cómo quedaron los interruptores después de un `cmp`, todos juntos, en una palanca.
+
+#### Gheco sugiere
+**`lahf`** (*load AH from flags*) copia los interruptores en AH, uno por bit:
+
+| Bit | 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
+|---|---|---|---|---|---|---|---|---|
+| Interruptor | SF | ZF | 0 | AF | 0 | PF | 1 | CF |
+
+Después de `cmp al, 5` con AL = 5, el resultado es 0: ZF = 1 y PF = 1 (el 0 tiene una cantidad par de unos). AH queda en `01000110b` = `46h`.
+
+#### Desafío
+Completá la orden que copia los interruptores en AH, para que AH quede en **46h**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 5
+    cmp al, 5
+    ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AH = 46h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 5
+    cmp al, 5
+    lahf
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AH = `46h`. Nova lo escribe en binario y encuentra los dos unos de ZF y PF, y el del bit 1, que nunca se apaga. —Ocho interruptores en una palanca —dice—. Como el vigía.
+
+#### Imagen
+- Una fila de ocho lucecitas de bronce en un tablero, tres encendidas, reflejadas como números en una página de un libro de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) copia las luces en el libro con una pluma de luz.
+- Gheco (gecko de luz cian con antiparras, chiquito) señala la última lucecita encendida.
+
+### Micro-misión R03-N08-P5 · Interruptores a medida
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco
+carta: sahf | los interruptores = AH · al revés de lahf · prende o apaga varios juntos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para probar una rutina, Nova necesita que el Gólem «crea» que el último `cmp` dio **igual** y con **acarreo**, sin hacer ninguna cuenta.
+
+#### Gheco sugiere
+**`sahf`** (*store AH into flags*) es lo contrario de `lahf`: carga los interruptores desde AH, con los mismos bits (SF el 7, ZF el 6, CF el 0…). Para ZF = 1 y CF = 1: AH = `01000001b`.
+
+#### Desafío
+Completá el valor de AH y la orden que lo carga en los interruptores, para que queden **ZF = 1** y **CF = 1**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, ___
+    ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+ZF = 1
+CF = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 01000001b
+    sahf
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+En la pestaña Interruptores, ZF y CF se prenden juntos, sin ningún `cmp`. —Ahora puedo poner los interruptores como quiero para probar cada camino —dice Nova.
+
+#### Imagen
+- Un tablero de bronce con ocho interruptores en fila, dos de ellos subidos y encendidos con luz cian.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sube los dos interruptores a la vez, uno con cada mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira con los ojos muy abiertos.
+
+### Micro-misión R03-N08-P6 · La rutina discreta
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: pushf y popf | pushf al entrar · popf antes del ret · la rutina no cambia los interruptores de quien la llamó
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira compara dos llaves (`cmp`), llama a la rutina `revisar` para que las limpie, y después pregunta con `je` si eran iguales. Eran iguales… pero el ojo dice `Distintos`. Un ogro se ríe en la puerta.
+
+#### Gheco sugiere
+`revisar` hace su propio `cmp` adentro y **pisa** ZF: cuando vuelve, el `je` mira el `cmp` de la rutina, no el de Kira. Como con las palancas, la rutina tiene que **cuidar** los interruptores: `pushf` al entrar los apila, y `popf` antes del `ret` los devuelve como estaban.
+
+#### Desafío
+Tocá **Ejecutar** y mirá el error de lógica. Después agregá `pushf` y `popf` en la rutina, para que el ojo diga `Iguales`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t_iguales db 'Iguales$'
+t_no      db 'Distintos$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 7
+    cmp al, 7
+    call revisar
+    jne distintos
+    lea dx, t_iguales
+    jmp mostrar
+distintos:
+    lea dx, t_no
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+revisar proc
+    push bx
+    mov bl, 1
+    cmp bl, 2
+    pop bx
+    ret
+revisar endp
+end main
+```
+
+#### Salida esperada
+```
+Iguales
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t_iguales db 'Iguales$'
+t_no      db 'Distintos$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 7
+    cmp al, 7
+    call revisar
+    jne distintos
+    lea dx, t_iguales
+    jmp mostrar
+distintos:
+    lea dx, t_no
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+revisar proc
+    pushf
+    push bx
+    mov bl, 1
+    cmp bl, 2
+    pop bx
+    popf
+    ret
+revisar endp
+end main
+```
+
+#### Al superarla
+«Iguales». La rutina hizo su trabajo y dejó todo como lo encontró. El ogro se va sin chiste. —Las palancas con `push` y `pop`, los interruptores con `pushf` y `popf` —dice Kira—. Una rutina educada.
+
+#### Imagen
+- Dos llaves de bronce iguales sobre una mesa de bronce, en una sala circular con tableros de lucecitas.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) las compara levantándolas a la luz.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) guarda una cajita de bronce con lucecitas en un estante.
+- Un ogro grandote y torpe se va por la puerta, aburrido; Gheco (gecko de luz cian con antiparras, chiquito) lo despide con la patita.
+
+### Micro-misión R03-N08-P7 · Mudar la torre
+
+```meta
+lugar: La sala del vigía
+personajes: Nova, Gheco, Axón
+carta: cli y sti | cli = IF en 0: nada interrumpe · sti = IF en 1 · alrededor de lo que no puede quedar a medias
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+{mentor} quiere mudar su torre de platos (la pila) a otro lugar. Para eso hay que cambiar **dos** palancas, SS y SP, y entre una y otra la torre está partida en dos. Si justo en ese instante el teclado lo interrumpe, el Gólem apilaría sobre una torre rota.
+
+#### Gheco sugiere
+El interruptor **IF** dice si el Gólem atiende las interrupciones del hardware. **`cli`** lo apaga (nadie interrumpe) y **`sti`** lo vuelve a prender. Se ponen alrededor de lo que no puede quedar a medias: es la idea de una **sección crítica**, como el `lock` de Java o C#.
+
+#### Desafío
+Completá las dos órdenes: la que apaga las interrupciones antes de mudar la torre y la que las vuelve a prender después. Al final, SP tiene que quedar en **80h** e IF en **1**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ___                ; nadie me interrumpe
+    mov ax, ss
+    mov ss, ax
+    mov sp, 80h        ; la torre, en su lugar nuevo
+    ___                ; listo
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+SP = 80h
+IF = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    cli                ; nadie me interrumpe
+    mov ax, ss
+    mov ss, ax
+    mov sp, 80h        ; la torre, en su lugar nuevo
+    sti                ; listo
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Con el paso a paso, Nova ve IF apagarse, la torre mudarse y IF prenderse otra vez. El esqueleto del vigía, por primera vez en siglos, cierra su libro: ya no queda ninguna orden que Nova no conozca. —Ahora sí —dice ella—. Que me miren con la lupa que quieran.
+
+#### Imagen
+- Una torre de platos de bronce flotando en el aire, mudándose de un pedestal a otro, en una sala circular de bronce con luz ámbar.
+- Un esqueleto de bronce, sentado, cierra un libro enorme de hojas de bronce, sereno.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) sostiene la torre con cuidado con sus dos manos enormes.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) levanta la mano como si pidiera silencio; Gheco (gecko de luz cian con antiparras, chiquito), en su hombro, se tapa la boca.
+
+### Prueba del sello
+
+#### ¿Para qué sirve una orden que no hace nada?
+Para borrar una orden sin mover las demás, dejar lugar o alinear el código. En un depurador aparece seguido.
+
+#### ¿Por qué no conviene terminar un programa de DOS con `hlt`?
+Porque detiene el procesador y no vuelve al sistema: la compu queda esperando. Para terminar, `4C00h`.
+
+#### ¿Qué diferencia hay entre `clc`, `stc` y `cmc`?
+`clc` deja CF en 0, `stc` en 1 y `cmc` lo da vuelta.
+
+#### ¿Para qué se usan `pushf` y `popf` en una rutina?
+Para devolverle a quien la llamó los interruptores como estaban, aunque la rutina haga sus propias cuentas.
+
+#### ¿Qué hacen `cli` y `sti`, y cuándo se usan?
+Apagan y prenden IF (las interrupciones del hardware). Se usan alrededor de algo que no puede quedar a medias, como mudar la pila.

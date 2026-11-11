@@ -6613,7 +6613,7 @@ Cociente −3 y resto −1: corta hacia el cero, como C y Java (Python da −4 y
 #### ¿Para qué sirve `adc`?
 Para sumar la parte alta de un número de dos palancas sumando también el acarreo (CF) que dejó la parte baja.
 
-## R02-N11 · Ruedas de bits y tablas: `rol`, `ror` y `xlat`
+## R02-N11 · Ruedas de bits y tablas: `rol`, `ror`, `rcl`, `rcr` y `xlat`
 
 ```meta
 tipo: extra
@@ -6633,8 +6633,9 @@ En la espalda del Gólem hay una puerta redonda con una cerradura de **ruedas**:
 
 ### Objetivos
 
-Girar los bits con `rol` y `ror` (sin perder ninguno), dar vuelta las dos mitades de un byte, buscar en una
-tabla con `xlat`, y combinar todo para **mostrar un número en hexadecimal**.
+Girar los bits con `rol` y `ror` (sin perder ninguno), dar vuelta las dos mitades de un byte, correr un número
+de 32 bits pasando el bit por CF con `rcl` y `rcr`, buscar en una tabla con `xlat`, y combinar todo para
+**mostrar un número en hexadecimal**.
 
 ### Antes de empezar
 
@@ -6669,6 +6670,19 @@ xchg ah, al        ; AX = 1234h  →  3412h: los dos bytes de un word
 ```
 
 Para un word, los dos bytes se cambian con `xchg ah, al` (o con `rol ax, cl` y CL = 8).
+
+#### Girar pasando por el acarreo: `rcl` y `rcr`
+`rcl` (*rotate through carry left*) y `rcr` (*right*) giran una rueda de **9** bits: los 8 del byte más **CF**.
+El bit que se cae va a CF, y lo que había en CF entra por el otro lado. Sirven para correr un número que ocupa
+**dos palancas**: el bit que se cae de la parte baja pasa, por CF, a la parte alta.
+
+```asm
+shl ax, 1          ; DX:AX × 2: la parte baja; el bit de arriba cae en CF
+rcl dx, 1          ; la parte alta, y el CF entra por la derecha
+```
+
+Para dividir por 2 es al revés: `shr dx, 1` y después `rcr ax, 1`. Es el mismo «me llevo uno» que `adc`, pero
+para correr bits.
 
 #### Buscar en una tabla: `xlat`
 `xlat` (*translate*) reemplaza AL por el byte de una tabla que está en la posición AL. La tabla la señala **BX**:
@@ -7203,6 +7217,86 @@ end main
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) entra flotando por la puerta, maravillada.
 - Gheco (gecko de luz cian con antiparras, chiquito) corre adelante, hacia la luz.
 
+### Micro-misión R02-N11-P6 · La rueda de nueve
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco, Axón
+criatura: goblin
+carta: rcl | gira 9 bits: el byte + CF · shl ax, 1 + rcl dx, 1 = DX:AX × 2 · rcr es al revés
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Del otro lado de la puerta hay un contador de pasos del Gólem tan grande que ocupa dos ruedas: DX tiene la parte alta y AX la baja. Hay que **duplicarlo**. Nova corre las dos ruedas con `shl`… y un goblin se queda con un bit en el bolsillo.
+
+#### Gheco sugiere
+DX:AX = `0001h:8000h`. `shl ax, 1` deja AX en 0 y el bit de arriba cae en **CF**. Pero `shl dx, 1` mete un **0** por la derecha: el bit que cayó de AX se pierde, y DX queda en 2 en vez de 3.
+
+**`rcl`** (*rotate through carry left*) gira pasando por CF: lo que había en CF entra por la derecha. Con `rcl dx, 1`, el bit que se cayó de AX llega a DX. Para dividir por 2 es al revés: `shr dx, 1` y `rcr ax, 1`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá DX (`0002h`). Después cambiá la orden de la parte alta para que DX:AX quede en `0003h:0000h`, el doble.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; parte alta
+    mov ax, 8000h      ; parte baja
+    shl ax, 1
+    shl dx, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+DX = 3
+AX = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; parte alta
+    mov ax, 8000h      ; parte baja
+    shl ax, 1
+    rcl dx, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+DX:AX = `0003h:0000h`: el doble exacto. El goblin se revisa el bolsillo y está vacío: el bit pasó por CF y llegó a destino. —Una rueda de nueve —dice Nova—. La novena es el interruptor.
+
+#### Imagen
+- Dos ruedas de lucecitas de bronce una al lado de la otra en una pared mecánica, con una chispa cian saltando de la rueda de la derecha a la de la izquierda a través de una perilla en el medio.
+- Un goblin verde y flaco revisándose los bolsillos vacíos, sorprendido.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira desde arriba con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sigue la chispa con el dedo; Gheco (gecko de luz cian con antiparras, chiquito), en su hombro, aplaude.
+
 ### Prueba del sello
 
 #### ¿Qué diferencia hay entre `shl` y `rol`?
@@ -7216,6 +7310,10 @@ Reemplaza AL por el byte de la tabla que señala BX, en la posición AL.
 
 #### ¿Cómo se cambian de lugar los dos bytes de AX?
 Con `xchg ah, al`.
+
+#### ¿Qué diferencia hay entre `rol` y `rcl`?
+`rol` gira los 8 bits (el que cae entra por el otro lado); `rcl` gira 9: el que cae va a CF y lo que había en CF
+entra. Sirve para correr números de dos palancas.
 
 ## R02-N12 · Las órdenes de fila: `lodsb`, `stosb`, `movsb`, `scasb`, `cmpsb` y `rep`
 

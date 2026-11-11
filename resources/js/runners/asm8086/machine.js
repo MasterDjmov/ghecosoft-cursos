@@ -496,7 +496,7 @@ export class Machine {
             case 'cli': return this.setFlag('if', 0);
             case 'sti': return this.setFlag('if', 1);
             case 'nop': return;
-            case 'lahf': return this.set('ah', this.flags & 0xd5);
+            case 'lahf': return this.set('ah', (this.flags & 0xd5) | 0x02); // el bit 1 siempre vale 1, como en el 8086
             case 'sahf':
                 ['cf', 'pf', 'af', 'zf', 'sf'].forEach((f) => this.setFlag(f, (this.get('ah') >> FLAG_BITS[f]) & 1));
                 return;

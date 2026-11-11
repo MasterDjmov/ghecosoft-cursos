@@ -153,8 +153,10 @@ REFS = {
     # D115: la Feria de las Luces está al lado de los Talleres; Nima, Lumina y Gheco ya estaban en el proyecto de HTML,
     # así que las escenas de JS van ahí. La gente nueva se dibujó el 2026-10-30 (ficha de cuerpo entero sobre el fondo
     # de la de Bruno); los de otros cursos (Nilo, Iara, Elefa, Pico, Nova, Axón), descritos desde sus imágenes oficiales.
+    # Los actos I a III se hicieron en el proyecto de los Talleres; desde el 2026-11-11 (Acto IV) van a un proyecto
+    # chico, porque en el grande cada pedido se cortaba por tiempo. Las hojas se subieron desde la web.
     'csharp': {
-        'project': '9229721314509917104',
+        'project': '9034180179663220768',
         'region': 'El Conservatorio de Do Sostenido',
         'cierre': 'Imagen solo de dibujo, sin escritura; telas, carteles, hojas y paredes lisos, sin runas ni símbolos mágicos.',
         'ambiente': 'en un conservatorio gótico de piedra lisa y oscura, de noche, con atriles de madera, velas, faroles y tubos dorados de órgano',

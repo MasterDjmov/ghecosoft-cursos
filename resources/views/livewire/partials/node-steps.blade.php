@@ -52,6 +52,9 @@
                     @if ($image = $step->imageUrl() ?? $fallbackScene)
                         <button type="button" class="group relative cursor-zoom-in" x-data x-on:click="$dispatch('zoom-image', { src: @js($image) })" aria-label="Ver la escena en grande" data-test="step-zoom">
                             <img src="{{ $image }}" alt="" class="aspect-[16/7] w-full rounded-lg border border-outline object-cover" loading="lazy" data-test="step-done-image">
+                            @unless ($step->imageUrl())
+                                <span class="absolute inset-0 flex items-center justify-center bg-[#070a14]/55" data-test="step-scene-pending"><span class="flex items-center gap-2 rounded-lg border border-warning/50 bg-surface/90 px-3 py-1.5 font-mono text-xs text-warning sm:text-sm"><flux:icon name="wrench-screwdriver" variant="micro" /> Escena en construcción</span></span>
+                            @endunless
                             <span class="absolute right-3 bottom-3 rounded-md bg-surface/80 p-1 text-white opacity-70 transition group-hover:opacity-100"><flux:icon name="magnifying-glass-plus" variant="micro" /></span>
                         </button>
                     @endif
@@ -100,6 +103,9 @@
                     <figure class="relative aspect-[16/7] overflow-hidden border-b border-outline">
                         <img src="{{ $image }}" alt="" class="size-full object-cover" loading="lazy" data-test="step-image">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#070a14] via-transparent to-transparent"></div>
+                        @unless ($step->imageUrl())
+                            <span class="absolute inset-0 flex items-center justify-center bg-[#070a14]/55" data-test="step-scene-pending"><span class="flex items-center gap-2 rounded-lg border border-warning/50 bg-surface/90 px-3 py-1.5 font-mono text-xs text-warning sm:text-sm"><flux:icon name="wrench-screwdriver" variant="micro" /> Escena en construcción</span></span>
+                        @endunless
                         {{-- Tocarla la muestra entera y en grande (x-image-lightbox en la página del nodo). --}}
                         <button type="button" class="group absolute inset-0 cursor-zoom-in" x-data x-on:click="$dispatch('zoom-image', { src: @js($image) })" aria-label="Ver la escena en grande" data-test="step-zoom">
                             <span class="absolute right-3 top-3 rounded-md bg-surface/80 p-1 text-white opacity-70 transition group-hover:opacity-100"><flux:icon name="magnifying-glass-plus" variant="micro" /></span>

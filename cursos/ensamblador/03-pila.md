@@ -5913,3 +5913,600 @@ Para devolverle a quien la llamó los interruptores como estaban, aunque la ruti
 
 #### ¿Qué hacen `cli` y `sti`, y cuándo se usan?
 Apagan y prenden IF (las interrupciones del hardware). Se usan alrededor de algo que no puede quedar a medias, como mudar la pila.
+
+## R03-N09 · Rutinas lejanas: segmentos, `proc far`, `retf`, `dd`, `lds` y `les`
+
+```meta
+tipo: extra
+criatura: goblin
+padre: R03-N02
+precio: 0
+temas: maq.direcciones, maq.pila, maq.memoria
+```
+
+### Crónica
+
+Los dos hombros de {mentor} son dos torres, unidas por un puente de bronce. En cada torre, los cajones están numerados desde cero, así que el cajón 5 de una torre no es el cajón 5 de la otra.
+
+—Para llegar a un cajón de la otra torre no alcanza con el número —dice {mentor}—. Hay que decir **en qué torre** y **qué número**. Una dirección **lejana**.
+
+### Objetivos
+
+Entender que una dirección completa del 8086 tiene dos partes, **segmento:desplazamiento**; llamar y volver de
+rutinas lejanas (`proc far`, `call far`, `retf`); guardar direcciones completas en variables de 4 bytes (`dd`) y
+cargarlas con `lds` y `les`; y usar `seg` y los punteros a rutinas.
+
+### Antes de empezar
+
+- `call` y `ret`, y la pila (La torre de platos y Las rutinas).
+- `offset`, `lea` y DS (Dirección y contenido).
+- ES y las órdenes de fila (Las órdenes de fila), si las hiciste.
+
+### Explicación
+
+#### Segmento y desplazamiento
+Cada palanca del 8086 tiene 16 bits: llega hasta 65.535. Pero la memoria tiene **1 MB**. Para llegar a todo, una
+dirección se arma con **dos** números: el **segmento** (la torre) y el **desplazamiento** (el cajón dentro de la
+torre). Se escribe `segmento:desplazamiento`, por ejemplo `0712:0005`. La dirección real es segmento × 16 +
+desplazamiento.
+
+Hasta ahora todo fue **cercano**: el código vive en el segmento CS y los datos en DS, y alcanzaba con el
+desplazamiento (`offset`). `seg nombre` da la otra mitad: el segmento donde vive.
+
+#### Rutinas lejanas
+Un `call` **cercano** apila solo IP (el número de cajón donde volver). Un `call` **lejano** apila **CS e IP**, para
+poder volver a otra torre, y la rutina tiene que terminar con **`retf`** (*return far*), que saca los dos.
+
+```asm
+call far ptr saludo    ; apila CS e IP
+...
+saludo proc far        ; con «far», el ret de adentro es un retf
+    ...
+    ret                ; = retf
+saludo endp
+```
+
+Si la rutina se declara `proc far`, MASM hace las dos cosas solo: el `call saludo` pasa a ser lejano y el `ret`,
+`retf`. Lo que **no** se puede es mezclar: un `call` cercano con un `retf` saca un plato de más y el Gólem vuelve
+a cualquier lado.
+
+#### Punteros lejanos: `dd`, `lds` y `les`
+Una dirección completa ocupa **4 bytes**: primero el desplazamiento y después el segmento. Se guarda con `dd`
+(*define double word*):
+
+```asm
+puntero dd mensaje     ; el desplazamiento y el segmento de mensaje
+```
+
+Para usarla, **`lds`** (*load pointer using DS*) carga las dos mitades de una vez: el desplazamiento en la palanca
+que digas y el segmento en DS. **`les`** hace lo mismo con ES:
+
+```asm
+lds dx, puntero        ; DX = desplazamiento, DS = segmento
+les di, destino        ; DI = desplazamiento, ES = segmento (justo lo que usa stosb)
+```
+
+`mov dx, puntero` no anda: el cajón tiene 4 bytes y DX solo 2.
+
+#### Llamar por puntero
+`call dword ptr tabla` salta a la rutina cuya dirección completa está en `tabla`. Con varias direcciones en fila
+(`tabla dd uno, dos, tres`) se elige la rutina con un número: es una **tabla de saltos**.
+
+> **Puente con otras lenguas.** Los punteros `far` de los compiladores de C para DOS eran exactamente esto (`char
+> far *p`), y `lds`/`les` es lo que generaban para usarlos. Una tabla de rutinas es un arreglo de punteros a
+> función en C (`void (*tabla[])(void)`), el `switch` que un compilador convierte en saltos, o los métodos
+> virtuales de C++, Java y C#: cada objeto tiene una tabla con las direcciones de sus métodos.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+mensaje db 'Desde la otra torre$'
+puntero dd mensaje
+salto   db 13, 10, '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call saludo            ; saludo es far: llamada lejana
+
+    push ds
+    lds dx, puntero        ; DX = offset, DS = segmento de mensaje
+    mov ah, 09h
+    int 21h
+    pop ds
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+saludo proc far
+    mov dl, '>'
+    mov ah, 02h
+    int 21h
+    mov dl, ' '
+    int 21h
+    ret                    ; en un proc far, es un retf
+saludo endp
+end main
+```
+
+### Salida esperada
+
+```
+> Desde la otra torre
+```
+
+### ¿Para qué sirve?
+
+En las compus de 16 bits, los programas grandes no entraban en un segmento de 64 KB: tenían el código repartido en
+varios, con llamadas lejanas, y los datos con punteros lejanos. Las bibliotecas, los controladores y el propio DOS
+se llamaban así. Y la idea de la tabla de rutinas sigue en todos lados: los métodos virtuales, los menús que
+llaman a una función según la opción, las interrupciones (que es lo que viene).
+
+### Errores habituales
+
+**Goblin: `mov` con un puntero de 4 bytes.** `mov dx, puntero` (puntero es `dd`):
+```
+main.asm(10) : Error A2048: Operands must be the same size: 2 - 4
+```
+Se carga con `lds dx, puntero` o `les`.
+
+**Ogro: `call` cercano con `retf`.** La rutina saca un plato de más (el «segmento» que nunca se apiló) y el Gólem
+vuelve a un lugar sin órdenes. Declarala `proc far`, o usá `ret` común.
+
+**Ogro: DS cambiado y no devuelto.** `lds` pisa DS: si después usás tus variables, DS ya no apunta a `.data`.
+Guardalo antes (`push ds`) y recuperalo (`pop ds`).
+
+**Ogro: el puntero al revés.** En `dd` va primero el desplazamiento y después el segmento; si lo armás a mano con
+dos `dw`, respetá ese orden.
+
+### Micro-misión R03-N09-P1 · La rutina de la otra torre
+
+```meta
+lugar: Los hombros del Gólem
+personajes: Nova, Gheco
+criatura: goblin
+carta: proc far | call lejano apila CS e IP · retf saca los dos · con proc far, MASM los arma solo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La rutina `saludo` vive en la otra torre y termina con `retf`. Nova la llama con un `call` común y, al volver, el Gólem salta a un lugar sin órdenes. Un goblin se ríe desde el puente.
+
+#### Gheco sugiere
+Un `call` común apila solo IP. `retf` saca **dos** platos: IP y CS. Como CS nunca se apiló, saca basura y el Gólem vuelve a cualquier torre.
+
+La solución es declarar la rutina **`proc far`**: así MASM convierte el `call saludo` en una llamada lejana (que apila CS e IP) y todo coincide.
+
+#### Desafío
+Tocá **Ejecutar** y mirá el error. Después agregá `far` a la declaración de `saludo`, para que el ojo muestre `Hola desde lejos` y la torre de platos quede pareja (SP = 100h).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t db 'Hola desde lejos$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call saludo
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+saludo proc
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    retf
+saludo endp
+end main
+```
+
+#### Salida esperada
+```
+Hola desde lejos
+```
+
+#### Estado esperado
+```
+SP = 100h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t db 'Hola desde lejos$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call saludo
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+saludo proc far
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    retf
+saludo endp
+end main
+```
+
+#### Al superarla
+«Hola desde lejos». Con el paso a paso, Nova ve dos platos entrar en la torre al llamar (CS e IP) y dos salir al volver. El goblin se va por el puente, aburrido.
+
+#### Imagen
+- Dos torres de bronce unidas por un puente de bronce, adentro de los hombros de un gólem gigante, de noche.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) cruza el puente flotando, con dos platos de bronce en las manos.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, se aleja aburrido por el puente.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Micro-misión R03-N09-P2 · La torre y el cajón
+
+```meta
+lugar: Los hombros del Gólem
+personajes: Nova, Gheco, Axón
+carta: seg | seg nombre = el segmento donde vive · offset nombre = el desplazamiento · juntos: la dirección completa
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+—Decime dónde está tu mensaje —pide {mentor}—, pero completo: la torre y el cajón.
+
+#### Gheco sugiere
+`offset t` da el **cajón** (el desplazamiento) y **`seg t`** da la **torre** (el segmento). Con las dos mitades en una palanca de segmento y otra común, se llega al cajón desde cualquier lado: `es:[bx]` lee el cajón BX de la torre ES.
+
+#### Desafío
+Completá las dos mitades de la dirección de `t`, para que el ojo muestre su primera letra: **H**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t db 'Hola$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, ___ t       ; la torre
+    mov es, ax
+    mov bx, ___ t       ; el cajón
+    mov dl, es:[bx]
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+H
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t db 'Hola$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, seg t       ; la torre
+    mov es, ax
+    mov bx, offset t    ; el cajón
+    mov dl, es:[bx]
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Una **H** en el ojo. —La torre y el cajón —repite Nova—. Con los dos, llego a cualquier lugar de tu memoria.
+
+#### Imagen
+- Una pared de cajoncitos de bronce adentro de una torre, con un cajoncito señalado por un rayo de luz cian que viene de lejos.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) apunta con un dedo enorme hacia la otra torre.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sigue el rayo con la mirada.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Micro-misión R03-N09-P3 · El puntero de cuatro bytes
+
+```meta
+lugar: Los hombros del Gólem
+personajes: Nova, Gheco
+criatura: goblin
+carta: lds | lds dx, puntero · DX = desplazamiento, DS = segmento · mov dx, puntero no entra (4 bytes en 2)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En una variable de 4 bytes, alguien dejó anotada la dirección completa del mensaje. Nova la carga con `mov dx, puntero` y salta un goblin: *«Operands must be the same size: 2 - 4»*.
+
+#### Gheco sugiere
+`puntero dd t` guarda **4 bytes**: el desplazamiento y el segmento. DX tiene 2. **`lds dx, puntero`** carga las dos mitades de una vez: el desplazamiento en DX y el segmento en DS, justo lo que pide la función 09h.
+
+#### Desafío
+Tocá **Ejecutar** para ver el error. Después cambiá el `mov` por `lds`, para que el ojo muestre `Por el puntero`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t       db 'Por el puntero$'
+puntero dd t
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, puntero
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Por el puntero
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t       db 'Por el puntero$'
+puntero dd t
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lds dx, puntero
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Por el puntero». En la pestaña Cajones, Nova ve los cuatro bytes de `puntero`: dos con el cajón y dos con la torre. El goblin se rasca la cabeza.
+
+#### Imagen
+- Una llave de bronce larga, de dos partes unidas, flotando sobre un cajón de bronce, con luz cian.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, rascándose la cabeza, confundido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toma la llave con las dos manos.
+- Gheco (gecko de luz cian con antiparras, chiquito) se cuelga de la llave.
+
+### Micro-misión R03-N09-P4 · La mano que deja, en otra torre
+
+```meta
+lugar: Los hombros del Gólem
+personajes: Nova, Gheco
+carta: les | les di, puntero · DI = desplazamiento, ES = segmento · justo lo que usa stosb
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay que dejar una marca **\*** en un cajón de la otra torre, y Nova tiene su dirección completa en `destino_ptr`. —La mano que deja usa ES:DI —recuerda.
+
+#### Gheco sugiere
+**`les`** es como `lds`, pero carga el segmento en **ES**: `les di, destino_ptr` deja ES:DI señalando el cajón. Después, `stosb` deja AL ahí.
+
+#### Desafío
+Completá la orden que carga ES:DI desde el puntero, para que el cajón `destino` quede con un **\***.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+destino     db '-'
+destino_ptr dd destino
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ___ di, destino_ptr
+    mov al, '*'
+    stosb
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[destino] = '*'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+destino     db '-'
+destino_ptr dd destino
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    les di, destino_ptr
+    mov al, '*'
+    stosb
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El cajón cambia de `-` a `*`. —`lds` para la mano que toma, `les` para la que deja —dice Nova—. Ya ni hace falta `mov es, ax`.
+
+#### Imagen
+- Una mano mecánica de bronce que deja una estrellita de luz cian dentro de un cajón, en una torre lejana unida por un puente.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) maneja la mano con una palanca desde la otra punta del puente.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira por un catalejo de bronce.
+
+### Micro-misión R03-N09-P5 · La tabla de rutinas
+
+```meta
+lugar: Los hombros del Gólem
+personajes: Nova, Gheco, Axón
+carta: call dword ptr | salta a la dirección guardada en 4 bytes · tabla dd uno, dos · como punteros a función o métodos virtuales
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+{mentor} tiene una tabla con las direcciones completas de dos rutinas lejanas: `uno` y `dos`. —No me digas a cuál saltar —dice—: decime en qué lugar de la tabla está.
+
+#### Gheco sugiere
+`rutinas dd uno, dos` guarda dos direcciones completas, de 4 bytes cada una: `uno` en `rutinas` y `dos` en `rutinas+4`. **`call dword ptr rutinas+4`** salta a la dirección guardada ahí, como un `call` lejano. Es una **tabla de saltos**: en C sería un arreglo de punteros a función.
+
+#### Desafío
+Completá el lugar de la tabla, para que el Gólem llame a la rutina `dos` y el ojo muestre **2**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+rutinas dd uno, dos
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call dword ptr rutinas+___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+uno proc far
+    mov dl, '1'
+    mov ah, 02h
+    int 21h
+    ret
+uno endp
+
+dos proc far
+    mov dl, '2'
+    mov ah, 02h
+    int 21h
+    ret
+dos endp
+end main
+```
+
+#### Salida esperada
+```
+2
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+rutinas dd uno, dos
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    call dword ptr rutinas+4
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+uno proc far
+    mov dl, '1'
+    mov ah, 02h
+    int 21h
+    ret
+uno endp
+
+dos proc far
+    mov dl, '2'
+    mov ah, 02h
+    int 21h
+    ret
+dos endp
+end main
+```
+
+#### Al superarla
+Un **2** en el ojo. {mentor} asiente: —Así funcionan mis interrupciones. Hay una tabla igual, en el primer cajón de mi memoria, con la dirección de cada una. Y vos podés cambiarla.
+
+#### Imagen
+- Una tabla de bronce en la pared con dos casilleros lisos, uno de ellos brillando cian, y un rayo de luz que sale de él hacia una puerta lejana.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) señala la tabla con un dedo enorme.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sigue el rayo con la mirada.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado en el casillero que brilla.
+
+### Prueba del sello
+
+#### ¿Qué dos partes tiene una dirección completa del 8086?
+El segmento y el desplazamiento: `segmento:desplazamiento`. La dirección real es segmento × 16 + desplazamiento.
+
+#### ¿Qué diferencia hay entre un `call` cercano y uno lejano?
+El cercano apila solo IP; el lejano, CS e IP. El lejano vuelve con `retf`.
+
+#### ¿Qué hace `lds dx, puntero`?
+Carga el desplazamiento en DX y el segmento en DS, desde una variable de 4 bytes.
+
+#### ¿Para qué sirve una tabla de rutinas?
+Para elegir a qué rutina saltar con un número: `call dword ptr tabla+4` salta a la segunda.

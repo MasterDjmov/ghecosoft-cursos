@@ -251,6 +251,9 @@ document.addEventListener('alpine:init', () => {
         asmKey: '',
         asmEnd: null,
         asmPanel: 'registers',
+        // Los controles flotantes: aparecen cuando la barra de botones del tablero quedó más abajo de lo que se ve
+        // (con 100 líneas de código, para tracear sin bajar y volver a subir).
+        asmDock: false,
         // D110: la palanca y el interruptor que se tocaron (para verlos de cerca) y la vista técnica de la orden.
         asmReg: null,
         asmFlag: null,

@@ -121,10 +121,10 @@ export function createEditor(parent, { doc, language = 'python', readOnly = fals
         setDoc(text) {
             view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: text } });
         },
-        /** Marca la línea que se ejecuta (null la saca) y la trae a la vista. */
+        /** Marca la línea que se ejecuta (null la saca) y la trae a la vista, lejos del borde (ahí va la barra flotante del Gólem). */
         markLine(line) {
             const effects = [setActiveLine.of(line)];
-            if (line && line <= view.state.doc.lines) effects.push(EditorView.scrollIntoView(view.state.doc.line(line).from, { y: 'nearest' }));
+            if (line && line <= view.state.doc.lines) effects.push(EditorView.scrollIntoView(view.state.doc.line(line).from, { y: 'nearest', yMargin: 160 }));
             view.dispatch({ effects });
         },
         destroy() {

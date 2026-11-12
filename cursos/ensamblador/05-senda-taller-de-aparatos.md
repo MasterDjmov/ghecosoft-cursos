@@ -1277,3 +1277,1113 @@ Del 0 al 2: rojo el 0, amarillo el 1 y verde el 2.
 
 #### ¿Cómo se espera un segundo con la BIOS?
 `INT 15h` con AH = 86h y CX:DX = 000F4240h (un millón de microsegundos).
+
+## S01-N04 · El termostato del horno
+
+```meta
+tipo: tema
+padre: S01-N03
+precio: 0
+criatura: ogre
+temas: maq.saltos, prog.condiciones
+```
+
+### Crónica
+
+El horno grande de las Forjas tiene que estar **entre 60 y 80 grados**: más frío, el bronce no se funde; más caliente, se arruinan los moldes. El horno tiene un termómetro y un calefactor, y alguien tiene que mirarlo todo el día. —O un programa —dice Nova.
+
+### Objetivos
+
+Leer la temperatura del termómetro de emu8086 (puerto 125, con signo), prender y apagar el calefactor (puerto
+127: 1 prendido, 0 apagado) y escribir un **termostato**: un bucle que mira y decide, para siempre.
+
+### Antes de empezar
+
+- `in` y `out` (Los nervios del Gólem).
+- `cmp`, `jl`, `jg` y el if/else (Dos caminos; Con signo y sin signo).
+- Bucles (Repetir; Mientras y hasta que).
+
+### Explicación
+
+#### El termómetro y el calefactor
+| Puerto | Qué es |
+|---|---|
+| 125 | la temperatura, en grados, con signo (`in al, 125`) |
+| 127 | el calefactor: `out 127, al` con 1 lo prende y con 0 lo apaga |
+
+El horno empieza **frío** (a la temperatura del aire, 0°). Con el calefactor prendido, la temperatura sube; apagado,
+baja despacio. El tiempo es el reloj del Gólem: cada vuelta de un bucle lo hace avanzar.
+
+#### Un termostato
+Un termostato es un bucle que nunca termina: mira la temperatura y decide.
+
+```asm
+vuelta:
+    in al, 125
+    cmp al, 60
+    jl prender          ; si está fría, prender
+    cmp al, 80
+    jg apagar           ; si está muy caliente, apagar
+    jmp vuelta          ; si está bien, no tocar nada
+prender:
+    mov al, 1
+    out 127, al
+    jmp vuelta
+apagar:
+    mov al, 0
+    out 127, al
+    jmp vuelta
+```
+
+Así es el ejemplo de emu8086 (`thermometer.asm`). En las micro-misiones el bucle da una cantidad fija de vueltas,
+para que termine.
+
+> **Puente con otras lenguas.** Es el `while True:` con un `if` adentro que controla cualquier aparato: una
+> heladera, el aire acondicionado, el control de un horno en Arduino. Que la temperatura no salte entre
+> «prendido» y «apagado» a cada rato (tener un margen de 60 a 80) se llama **histéresis**, y se usa en todos los
+> termostatos reales.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t db 'El horno llego a 60 grados$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1
+    out 127, al         ; prender el calefactor
+calentar:
+    in al, 125
+    cmp al, 60
+    jl calentar         ; esperar a que llegue a 60
+    mov al, 0
+    out 127, al         ; apagar
+
+    lea dx, t
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+El horno llego a 60 grados
+```
+
+### ¿Para qué sirve?
+
+Casi todo lo automático funciona así: leer un sensor, comparar y actuar. Heladeras, hornos, invernaderos, el
+control de velocidad de un auto, los drones que se mantienen en el aire. Es la primera idea de la **robótica** y
+del **control automático**.
+
+### Errores habituales
+
+**Ogro: el `jl` que debió ser `jb`, o al revés.** La temperatura puede ser negativa: se compara con signo (`jl`,
+`jg`).
+
+**Ogro: prender y nunca apagar.** Sin la rama de «apagar», el horno sube hasta el máximo.
+
+**Ogro: el bucle que no vuelve a leer.** Si el `in` queda afuera del bucle, el programa mira siempre la misma
+temperatura vieja.
+
+### Micro-misión S01-N04-P1 · ¿Qué temperatura hay?
+
+```meta
+lugar: El horno de las Forjas
+personajes: Nova, Gheco, Kira
+carta: Termómetro (125) | in al, 125 · la temperatura en grados, con signo · el horno empieza frío (0°)
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Antes de prender nada, Nova quiere saber cómo está el horno. Kira le alcanza el cable del termómetro: puerto **125**.
+
+#### Gheco sugiere
+`in al, 125` trae la temperatura a AL. El horno está apagado desde anoche, así que está a la temperatura del aire: **0** grados. Guardala en BL para no perderla.
+
+#### Desafío
+Completá la orden que lee el termómetro, para que BL quede con la temperatura (0) y el calefactor siga apagado.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 99          ; todavía no leyó
+    ___ al, 125
+    mov bl, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BL = 0
+puerto 127 = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 99          ; todavía no leyó
+    in al, 125
+    mov bl, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+BL = 0: el horno está helado. En la solapa de aparatos, el termómetro marca 0° y el calefactor está apagado. —Hay que calentarlo —dice Kira.
+
+#### Imagen
+- Un horno enorme de piedra y bronce apagado en una forja de noche, con un termómetro de bronce grande al costado cuya columna cian está abajo de todo.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se frota las manos por el frío.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira el termómetro.
+- Gheco (gecko de luz cian con antiparras, chiquito) se abraza a la columna del termómetro, tiritando.
+
+### Micro-misión S01-N04-P2 · Calentar hasta 60
+
+```meta
+lugar: El horno de las Forjas
+personajes: Nova, Gheco
+carta: Calefactor (127) | out 127, al con 1 prende y con 0 apaga · esperar en un bucle: in, cmp, jl
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Para fundir bronce, el horno tiene que llegar a **60** grados. Nova prende el calefactor… y tiene que esperar mirando el termómetro.
+
+#### Gheco sugiere
+Primero `mov al, 1` y `out 127, al` para prender el calefactor. Después, un bucle que lee la temperatura y vuelve mientras sea menor a 60: `in al, 125`, `cmp al, 60`, `jl calentar`. Cuando sale del bucle, AL tiene 60.
+
+#### Desafío
+Completá el puerto del calefactor y el salto del bucle, para que el horno llegue a **60** grados (AL = 60) con el calefactor prendido.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1
+    out ___, al         ; prender el calefactor
+calentar:
+    in al, 125
+    cmp al, 60
+    ___ calentar        ; volver mientras esté fría
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 60
+puerto 127 = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1
+    out 127, al         ; prender el calefactor
+calentar:
+    in al, 125
+    cmp al, 60
+    jl calentar         ; volver mientras esté fría
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El termómetro sube despacito hasta **60**. En el paso a paso se ve el bucle dar vueltas y vueltas mientras la columna crece. —El programa espera por mí —dice Nova.
+
+#### Imagen
+- Un horno de piedra y bronce encendido con fuego naranja en una forja de noche, con un termómetro de bronce cuya columna cian sube hasta la mitad.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) baja una palanca grande junto al horno.
+- Gheco (gecko de luz cian con antiparras, chiquito) se calienta las patitas cerca del fuego, contento.
+
+### Micro-misión S01-N04-P3 · El termostato
+
+```meta
+lugar: El horno de las Forjas
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: Termostato | en cada vuelta: fría (jl 60) → prender · muy caliente (jg 80) → apagar · si no, no tocar
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira deja a Nova a cargo del horno toda la tarde. Un ogro fundidor avisa, preocupado: —Si pasa de 80 se rajan los moldes. Y el programa de Nova solo sabe prender.
+
+#### Gheco sugiere
+El bucle ya prende el calefactor cuando la temperatura es menor a 60. Falta la otra mitad: si es **mayor a 80** (`cmp al, 80` y `jg apagar`), apagarlo con `mov al, 0` y `out 127, al`. Al final, el programa mide y dice si quedó entre 60 y 80.
+
+#### Desafío
+Escribí la rama que apaga el calefactor, donde dice `; tus órdenes`, para que al terminar el ojo diga `Entre 60 y 80`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t_bien db 'Entre 60 y 80$'
+t_mal  db 'Fuera de rango$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, 30000       ; toda la tarde
+vuelta:
+    in al, 125
+    cmp al, 60
+    jl prender
+    ; tus órdenes
+    jmp sigue
+prender:
+    mov al, 1
+    out 127, al
+sigue:
+    loop vuelta
+
+    in al, 125          ; ¿cómo quedó?
+    cmp al, 60
+    jl fuera
+    cmp al, 80
+    jg fuera
+    lea dx, t_bien
+    jmp mostrar
+fuera:
+    lea dx, t_mal
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Entre 60 y 80
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t_bien db 'Entre 60 y 80$'
+t_mal  db 'Fuera de rango$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov cx, 30000       ; toda la tarde
+vuelta:
+    in al, 125
+    cmp al, 60
+    jl prender
+    cmp al, 80
+    jg apagar
+    jmp sigue
+apagar:
+    mov al, 0
+    out 127, al
+    jmp sigue
+prender:
+    mov al, 1
+    out 127, al
+sigue:
+    loop vuelta
+
+    in al, 125          ; ¿cómo quedó?
+    cmp al, 60
+    jl fuera
+    cmp al, 80
+    jg fuera
+    lea dx, t_bien
+    jmp mostrar
+fuera:
+    lea dx, t_mal
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Entre 60 y 80». El horno se pasa la tarde subiendo y bajando entre los dos números, sin pasarse nunca. El ogro fundidor se va a dormir la siesta, tranquilo.
+
+#### Imagen
+- Un horno de piedra y bronce con fuego tranquilo en una forja de noche, con un termómetro de bronce cuya columna cian está entre dos marcas lisas.
+- Un ogro grandote y torpe, con delantal de cuero cerrado, se acomoda para dormir la siesta en un banco.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) le choca los cinco a Nova.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sonríe; Gheco (gecko de luz cian con antiparras, chiquito) duerme sobre el termómetro.
+
+### Prueba del sello
+
+#### ¿Qué puertos usa el termómetro de emu8086?
+El 125 para leer la temperatura y el 127 para prender (1) o apagar (0) el calefactor.
+
+#### ¿Qué hace un termostato?
+Mira la temperatura en un bucle: si está fría prende el calefactor, si está muy caliente lo apaga y, si no, no toca nada.
+
+## S01-N05 · La grúa del puerto de carga
+
+```meta
+tipo: tema
+padre: S01-N04
+precio: 0
+criatura: goblin
+temas: prog.bits, maq.saltos
+```
+
+### Crónica
+
+La grúa que sube los bloques de bronce a los carros se mueve con un **motor paso a paso**: tres imanes que, prendidos en el orden justo, hacen girar el eje un poquito por vez. Desde que se fue el grúista, nadie sabe en qué orden prenderlos. El motor está en el puerto **7**.
+
+### Objetivos
+
+Manejar el motor paso a paso de emu8086 (puerto 7): prender sus tres imanes con los bits 0, 1 y 2, esperar a que
+esté listo mirando el bit 7 al leer el puerto, y hacerlo girar con una tabla de pasos.
+
+### Antes de empezar
+
+- Bits y `test` (Bits y máscaras).
+- `in` y `out` (Los nervios del Gólem).
+- Arreglos de bytes y `loop` (Arreglos e índices).
+
+### Explicación
+
+#### Tres imanes
+El motor tiene tres imanes, uno por bit del puerto 7 (bits 0, 1 y 2). El eje gira hacia el imán prendido. Si se
+prenden en orden, gira: `001b` → `011b` → `010b` → `110b` son tres **medios pasos** en el sentido de las agujas
+del reloj (el ejemplo de emu8086).
+
+#### Esperar a que esté listo
+El motor es mecánico: tarda un instante en moverse. Si le mandás otro paso antes, lo pierde. Al **leer** el puerto
+7, el bit 7 dice si está listo (1) o todavía moviéndose (0):
+
+```asm
+espera:
+    in al, 7
+    test al, 10000000b  ; ¿bit 7 en 1?
+    jz espera           ; todavía no: esperar
+```
+
+> **Puente con otras lenguas.** Esperar mirando un bit hasta que el aparato esté listo se llama **sondeo**
+> (*polling*): es lo que hace un `while (!listo) {}` en C para Arduino. Los motores paso a paso mueven las
+> impresoras 3D, los escáneres y los brazos robóticos.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+pasos db 001b, 011b, 010b, 110b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, pasos
+    mov cx, 4
+paso:
+espera:
+    in al, 7
+    test al, 10000000b
+    jz espera           ; esperar a que esté listo
+    mov al, [si]
+    out 7, al           ; el próximo paso
+    inc si
+    loop paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### ¿Para qué sirve?
+
+Los motores paso a paso están en las impresoras (comunes y 3D), en los lectores de discos, en las cámaras de
+seguridad que giran y en los robots. Y la idea de esperar a que un aparato esté listo antes de mandarle lo
+siguiente está en toda comunicación con hardware: impresoras, discos, redes.
+
+### Errores habituales
+
+**Ogro: no esperar.** Mandar los pasos seguidos, sin mirar el bit 7: el motor está ocupado y los pierde.
+
+**Ogro: el `jz` al revés.** `test al, 80h` + `jz` vuelve mientras el bit 7 está en **0** (ocupado). Con `jnz`, el
+programa esperaría justo cuando está listo.
+
+**Goblin: el orden de los imanes.** Saltar de `001b` a `110b` no hace girar: hay que pasar por los del medio.
+
+### Micro-misión S01-N05-P1 · El primer paso
+
+```meta
+lugar: El puerto de carga
+personajes: Nova, Gheco
+carta: Motor paso a paso (7) | bits 0, 1 y 2 = los tres imanes · out 7, al · el eje gira hacia el imán prendido
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La grúa está quieta. Nova prueba prender el **primer** imán, a ver si el eje se mueve.
+
+#### Gheco sugiere
+Cada imán es un bit del puerto 7. El primero es el bit 0: `mov al, 001b` y `out 7, al`. En la solapa de aparatos vas a ver el imán prenderse en rojo.
+
+#### Desafío
+Completá la orden que manda el paso al motor, para que el puerto 7 quede con `001b`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 001b
+    ___ 7, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+puerto 7 = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 001b
+    out 7, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+*Clac*. El eje de la grúa da un saltito. —Se mueve —dice Nova—. Ahora, en orden.
+
+#### Imagen
+- Una grúa de bronce en un puerto de carga de noche, con un motor redondo a la vista: tres imanes, uno encendido en rojo.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira el motor de cerca.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre el gancho de la grúa.
+
+### Micro-misión S01-N05-P2 · Esperar a la grúa
+
+```meta
+lugar: El puerto de carga
+personajes: Nova, Gheco
+criatura: goblin
+carta: Listo (bit 7) | in al, 7 · test al, 80h · jz espera: vuelve mientras está ocupado · polling
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova manda dos pasos seguidos y el segundo se pierde: la grúa todavía se estaba moviendo. Un goblin se ríe colgado del gancho.
+
+#### Gheco sugiere
+Al **leer** el puerto 7, el bit 7 dice si el motor está listo. Antes de cada paso: `in al, 7`, `test al, 10000000b` y `jz espera` (vuelve mientras el bit 7 esté en 0).
+
+#### Desafío
+Completá la espera antes del segundo paso, para que el puerto 7 termine con `011b`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 001b
+    out 7, al           ; primer paso
+espera:
+    in al, 7
+    test al, ___
+    ___ espera          ; volver mientras esté ocupado
+    mov al, 011b
+    out 7, al           ; segundo paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+puerto 7 = 3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 001b
+    out 7, al           ; primer paso
+espera:
+    in al, 7
+    test al, 10000000b
+    jz espera           ; volver mientras esté ocupado
+    mov al, 011b
+    out 7, al           ; segundo paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Dos pasos, sin perder ninguno. El goblin se cae del gancho por el envión. —Primero pregunto si está lista —dice Nova—, después le pido.
+
+#### Imagen
+- Una grúa de bronce girando un poquito en un puerto de carga de noche, con dos imanes encendidos en rojo en su motor.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, cayéndose del gancho de la grúa.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) espera con los brazos cruzados, paciente.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira un relojito de bolsillo.
+
+### Micro-misión S01-N05-P3 · La vuelta de la grúa
+
+```meta
+lugar: El puerto de carga
+personajes: Nova, Gheco, Kira
+carta: Tabla de pasos | pasos db 001b, 011b, 010b, 110b · esperar listo · out 7 · inc si · loop
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira necesita que la grúa gire para subir un bloque al carro: los **cuatro** medios pasos de la tabla, uno tras otro, esperando a la grúa en cada uno.
+
+#### Gheco sugiere
+Recorré la tabla con SI: en cada vuelta, esperá a que el motor esté listo, mandá `[si]` al puerto 7 e `inc si`. Es el ejemplo de emu8086 (`stepper_motor.asm`), en chico.
+
+#### Desafío
+Escribí el cuerpo del bucle, donde dice `; tus órdenes`, para que la grúa dé los cuatro pasos y el puerto 7 termine con `110b`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+pasos db 001b, 011b, 010b, 110b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, pasos
+    mov cx, 4
+paso:
+    ; tus órdenes
+    loop paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+puerto 7 = 6
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+pasos db 001b, 011b, 010b, 110b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, pasos
+    mov cx, 4
+paso:
+espera:
+    in al, 7
+    test al, 10000000b
+    jz espera
+    mov al, [si]
+    out 7, al
+    inc si
+    loop paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La grúa gira suave, levanta el bloque de bronce y lo deja en el carro. Kira silba desde abajo. —Cuatro imanes en orden —dice Nova—, y la grúa baila.
+
+#### Imagen
+- Una grúa de bronce levantando un bloque de bronce brillante hacia un carro, en un puerto de carga de noche.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) silba desde abajo, con los dedos en la boca.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) maneja la grúa desde una cabina de bronce.
+- Gheco (gecko de luz cian con antiparras, chiquito) viaja parado sobre el bloque.
+
+### Prueba del sello
+
+#### ¿Cómo se sabe si el motor está listo para otro paso?
+Leyendo el puerto 7: si el bit 7 está en 1, está listo.
+
+#### ¿Por qué hay que esperar entre paso y paso?
+Porque el motor tarda en moverse: si le llega otro paso mientras está ocupado, lo pierde.
+
+## S01-N06 · La impresora del Gremio
+
+```meta
+tipo: tema
+padre: S01-N05
+precio: 0
+criatura: goblin
+temas: prog.cadenas, maq.interrupciones
+```
+
+### Crónica
+
+El Gremio tiene una impresora de tipos de bronce que imprime los recibos de las carreras. Hace años que no imprime nada, y los recibos se escriben a mano. Su cable va al puerto **130**.
+
+### Objetivos
+
+Imprimir en la impresora de emu8086: un carácter con la función 05h de DOS o con `out 130, al`, un texto entero
+recorriéndolo con un bucle, y los caracteres especiales (Enter, tabulación y hoja nueva).
+
+### Antes de empezar
+
+- `out` (Los nervios del Gólem).
+- Recorrer un texto con `[si]` o `lodsb` (Arreglos e índices; Las órdenes de fila).
+
+### Explicación
+
+#### Dos formas de imprimir
+| Forma | Cómo |
+|---|---|
+| DOS, función 05h | `mov dl, 'A'`, `mov ah, 05h`, `int 21h` (lo que usa el ejemplo de emu8086) |
+| Directo al puerto | `mov al, 'A'` y `out 130, al` |
+
+La impresora no tiene `$` ni función 09h: se imprime **carácter por carácter**, con un bucle. Algunos caracteres
+son órdenes: **13** vuelve al principio del renglón, **10** baja un renglón, **9** es una tabulación y **12** saca
+la hoja y empieza una nueva.
+
+Lo que imprime aparece en la solapa de aparatos y, en la salida, debajo de `── Impresora ──`.
+
+> **Puente con otras lenguas.** En C, `fputc(c, stdprn)` mandaba un carácter a la impresora en DOS; hoy se manda
+> un archivo entero al sistema operativo. El `\f` de C, Python y Java (el carácter 12, *form feed*) existe
+> justamente para pedirle hoja nueva a una impresora.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Recibo del Gremio', 13, 10, 'Carrera ganada', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, recibo
+imprimir:
+    mov dl, [si]
+    cmp dl, 0
+    je listo            ; el 0 marca el final
+    mov ah, 05h
+    int 21h             ; a la impresora
+    inc si
+    jmp imprimir
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+── Impresora ──
+Recibo del Gremio
+Carrera ganada
+```
+
+### ¿Para qué sirve?
+
+Las impresoras de tickets de los comercios, las de etiquetas y las de los cajeros se siguen manejando así: un
+carácter por vez, con caracteres especiales para cortar el papel o cambiar de renglón. Y la idea de terminar un
+texto con un 0 (en vez de `$`) es la que usa C en todos sus textos.
+
+### Errores habituales
+
+**Ogro: usar la función 09h.** La 09h es para la pantalla; a la impresora se le manda de a un carácter.
+
+**Ogro: el texto sin final.** Si el texto no tiene una marca de fin (un 0, o una cantidad fija), el bucle imprime
+toda la memoria.
+
+**Goblin: el 13 sin el 10.** El 13 vuelve al principio del renglón pero no baja: sin el 10, escribe encima.
+
+### Micro-misión S01-N06-P1 · La primera letra
+
+```meta
+lugar: El salón del Gremio
+personajes: Nova, Gheco, Kira
+carta: Impresora | mov dl, 'K' · mov ah, 05h · int 21h · o mov al, 'K' y out 130, al
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira sopla el polvo de la impresora del Gremio. —Probá con una letra —dice—. La mía.
+
+#### Gheco sugiere
+La función **05h** de DOS manda el carácter de DL a la impresora: `mov dl, 'K'`, `mov ah, 05h` e `int 21h`. Es como la 02h, pero va al papel.
+
+#### Desafío
+Completá la función de DOS, para que la impresora imprima una **K**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, 'K'
+    mov ah, ___
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+── Impresora ──
+K
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dl, 'K'
+    mov ah, 05h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La impresora tose, el carro se mueve, y una **K** de tinta aparece en el papel. Kira lo arranca y se lo guarda en el bolsillo, como un trofeo.
+
+#### Imagen
+- Una impresora antigua de tipos de bronce sobre una mesa de piedra del Gremio, con una hoja de papel saliendo, lisa, con una sola marca de tinta.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sopla el polvo de la impresora.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira el papel salir.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre la impresora.
+
+### Micro-misión S01-N06-P2 · El recibo
+
+```meta
+lugar: El salón del Gremio
+personajes: Nova, Gheco
+carta: Imprimir un texto | recorrer con [si] hasta el 0 · out 130, al en cada letra · sin $ ni 09h
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El primer recibo del Gremio en años: «Pagado: 5 chispas». La impresora no entiende de `$`: hay que mandarle letra por letra.
+
+#### Gheco sugiere
+El texto termina en **0**. Recorrelo con SI: en cada vuelta, `mov al, [si]`; si es 0, terminaste; si no, `out 130, al` (directo a la impresora) e `inc si`.
+
+#### Desafío
+Completá la orden que manda la letra a la impresora, para que se imprima el recibo.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Pagado: 5 chispas', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out ___, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+── Impresora ──
+Pagado: 5 chispas
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Pagado: 5 chispas', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out 130, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El recibo sale entero, con su tinta todavía húmeda. —Letra por letra —dice Nova—, como cuando aprendí a mostrar mi primer texto.
+
+#### Imagen
+- Una impresora antigua de tipos de bronce imprimiendo una tira de papel larga y lisa (sin letras legibles), en un salón de piedra.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene la punta del papel que sale.
+- Gheco (gecko de luz cian con antiparras, chiquito) se envuelve en la tira de papel, jugando.
+
+### Micro-misión S01-N06-P3 · Dos renglones y hoja nueva
+
+```meta
+lugar: El salón del Gremio
+personajes: Nova, Gheco, Kira
+carta: Caracteres de la impresora | 13 = principio del renglón · 10 = renglón nuevo · 12 = hoja nueva · 9 = tabulación
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira quiere el recibo en dos renglones, «Gremio» arriba y «Gracias» abajo, y que después la impresora saque la hoja para el próximo.
+
+#### Gheco sugiere
+Entre los dos renglones van el **13** (volver al principio) y el **10** (bajar un renglón). Al final, el **12** saca la hoja. Son bytes como cualquier otro: van en el texto, entre comas.
+
+#### Desafío
+Completá los dos bytes que separan los renglones y el byte de hoja nueva, en la declaración del texto.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Gremio', ___, ___, 'Gracias', ___, 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out 130, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+── Impresora ──
+Gremio
+Gracias
+----- (hoja nueva) -----
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Gremio', 13, 10, 'Gracias', 12, 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out 130, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Dos renglones, y la hoja sale sola. Kira la cuelga en la pared del Gremio. —El primer recibo impreso del Gremio en diez años —dice, orgullosa.
+
+#### Imagen
+- Una hoja de papel lisa colgada en la pared de piedra del Gremio con un clavo, y abajo una impresora antigua de bronce.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) cuelga la hoja, orgullosa.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) aplaude.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre la impresora, con una gorrita de papel.
+
+### Prueba del sello
+
+#### ¿Cómo se manda un carácter a la impresora?
+Con la función 05h de DOS (`mov dl, c`, `mov ah, 05h`, `int 21h`) o directo con `out 130, al`.
+
+#### ¿Qué hacen los caracteres 13, 10 y 12 en la impresora?
+El 13 vuelve al principio del renglón, el 10 baja uno y el 12 saca la hoja.

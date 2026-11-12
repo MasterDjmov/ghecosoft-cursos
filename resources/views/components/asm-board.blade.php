@@ -6,8 +6,12 @@
     $tab = '-mb-px border-b-2 px-2.5 py-2 text-xs font-medium whitespace-nowrap transition';
 @endphp
 <div {{ $attributes->class('@container flex flex-col bg-[#05070d]') }} data-test="asm-board">
-    {{-- Controles --}}
-    <div class="flex flex-wrap items-center gap-1.5 border-b border-outline/60 px-2 py-1.5">
+    {{-- Controles (si quedan más abajo de la pantalla, aparece la barra flotante de abajo) --}}
+    <div class="flex flex-wrap items-center gap-1.5 border-b border-outline/60 px-2 py-1.5"
+        x-init="let below = false, near = false;
+            const update = () => { asmDock = below && near };
+            new IntersectionObserver(([e]) => { below = ! e.isIntersecting && e.boundingClientRect.top > 0; update() }).observe($el);
+            new IntersectionObserver(([e]) => { near = e.isIntersecting; update() }).observe($el.closest('[x-data]') ?? $el)">
         <button type="button" x-on:click="asmRun" x-bind:disabled="running" class="{{ $btn }} bg-primary/15 text-primary-bright hover:bg-primary/25" data-test="asm-run">
             <flux:icon name="play" variant="micro" /> <span x-text="asmMode === 'stepping' ? 'Seguir hasta el final' : 'Ejecutar'">Ejecutar</span>
         </button>
@@ -19,6 +23,34 @@
             <flux:icon name="stop" variant="micro" /> <span x-text="running ? 'Pausar' : 'Reiniciar'">Reiniciar</span>
         </button>
         <span class="ms-auto truncate ps-2 font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
+    </div>
+
+    {{-- La barra flotante: los mismos botones, la línea que sigue y las palancas e interruptores que acaban de cambiar. --}}
+    <div x-show="asmDock" x-cloak x-transition.opacity
+        class="fixed inset-x-2 bottom-2 z-40 mx-auto flex max-w-3xl flex-col gap-1.5 rounded-xl border border-primary/40 bg-[#05070d]/95 p-2 shadow-2xl shadow-black/60 backdrop-blur sm:inset-x-4"
+        data-test="asm-dock">
+        <div class="flex flex-wrap items-center gap-1.5">
+            <button type="button" x-on:click="asmRun" x-bind:disabled="running" class="{{ $btn }} bg-primary/15 text-primary-bright hover:bg-primary/25">
+                <flux:icon name="play" variant="micro" /> <span x-text="asmMode === 'stepping' ? 'Seguir hasta el final' : 'Ejecutar'">Ejecutar</span>
+            </button>
+            <button type="button" x-on:click="asmStep" x-bind:disabled="running || asmMode === 'waiting'" class="{{ $btn }} bg-warning/15 text-warning hover:bg-warning/25" title="Ejecuta una sola orden y muestra qué cambió">
+                <flux:icon name="forward" variant="micro" /> <span x-text="asmMode === 'stepping' ? 'Una orden más' : 'Paso a paso'">Paso a paso</span>
+            </button>
+            <button type="button" x-on:click="asmStop" x-show="asmMode !== 'idle'" x-cloak class="{{ $btn }} text-ink-muted hover:bg-surface-high hover:text-ink">
+                <flux:icon name="stop" variant="micro" /> <span x-text="running ? 'Pausar' : 'Reiniciar'">Reiniciar</span>
+            </button>
+            <span class="font-mono text-[11px] text-warning" x-show="asm?.line" x-cloak x-text="`línea ${asm?.line}`"></span>
+            <span class="ms-auto min-w-0 truncate font-mono text-[11px]" x-bind:class="error ? 'text-danger' : 'text-ink-muted'" x-text="status"></span>
+        </div>
+        <div class="flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-[11px]" x-show="asm" x-cloak>
+            <template x-for="r in (asm?.registers ?? []).filter((r) => ['AX', 'BX', 'CX', 'DX', 'SI', 'DI', 'SP', 'IP'].includes(r.name))" :key="r.name">
+                <span x-bind:class="r.changed ? 'text-primary-bright' : 'text-ink-muted'"><span x-text="r.name"></span>=<span x-text="r.value"></span></span>
+            </template>
+            <template x-for="f in (asm?.flags ?? []).filter((f) => ['ZF', 'SF', 'CF', 'OF'].includes(f.name))" :key="f.name">
+                <span x-bind:class="f.changed ? 'text-warning' : 'text-ink-muted'"><span x-text="f.name"></span>=<span x-text="f.value"></span></span>
+            </template>
+        </div>
+        <p class="truncate text-[11px] text-ink" x-show="asm?.explain?.text" x-cloak x-text="asm?.explain?.text"></p>
     </div>
 
     {{-- El error del ensamblador, con su criatura y el mensaje real (como lo muestra emu8086) --}}

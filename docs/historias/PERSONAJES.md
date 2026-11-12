@@ -1417,6 +1417,14 @@ Historia en [csharp.md](csharp.md).
 - **Qué es:** un **liche de caricatura**, alto y flaco, con una **túnica larga y cerrada hecha de páginas en blanco** (todo lo que borró) y capucha; cara de calavera redondeada y simpática con ojos de luz cian, manos huesudas con guantes grises y un **apagavelas de bronce**. Nada de sangre ni de aspecto aterrador: apto para chicos.
 - Deja la insignia **Guardiana de la Memoria** y el **Compás Perdido**, otra parte de la melodía del Vidriero.
 
+### Duende de la Ventanilla
+- **Rol:** el jefe de R05 de C#, en la Ventanilla de Pedidos del Conservatorio (R05-N08). Contesta antes de que le pregunten: mezcla los turnos, promete partituras que no existen y acepta pedidos de cero violines.
+- **Qué error representa:** los programas que se traban esperando, las tareas que pisan el mismo dato, el código sin pruebas, los cambios de dos partes que quedan a medias y las APIs que contestan mentiras (rutas que no coinciden, `200` vacíos, datos sin validar).
+- **Cómo se lo vence:** apagando sus cinco campanillas: `Task.WhenAll`, un candado con `finally`, pruebas en verde, una transacción y una ventanilla que contesta con el código justo.
+- **Qué es:** un **duende de caricatura**, chiquito y flaco, hecho de **sobres y cartas de papel liso** (sin letras), con un **sombrero puntiagudo de papel doblado**, ojos grandes de luz ámbar y sonrisa traviesa, y **campanillas de bronce** colgando del cinturón y de las puntas de los zapatos. Ropa de papel cerrada hasta el cuello. Travieso, nunca aterrador: apto para chicos.
+- **Cómo habla:** rápido y antes de tiempo; termina las frases de los demás, casi siempre mal.
+- Deja la insignia **Voz de la Ventanilla** y la **Campanilla Afinada**, otra parte de la melodía del Vidriero.
+
 ## Las Crónicas en Inglés (Primaria y Secundaria)
 
 La historia unificada de los cursos de inglés ([ingles.md](ingles.md)). Imágenes generadas en Stitch el 2026-10-13, en el proyecto de los Talleres (`9229721314509917104`); los archivos, en `publicidad/logos cursos/personajes/Crónicas en Inglés/`.

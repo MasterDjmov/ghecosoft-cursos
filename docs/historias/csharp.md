@@ -32,7 +32,7 @@ Región: **el Conservatorio de Do Sostenido** (C# se lee «do sostenido»), del 
 | II · Objetos | el Taller de Instrumentos | la Quimera de las Mil Partituras | falta |
 | III · Colecciones y funciones | el Archivo y la batuta | la Hidra del Coro | falta |
 | IV · Errores y archivos | el Archivo Mudo | el Liche del Archivo Mudo | falta |
-| V · El mundo real | la Bóveda y la ventanilla | la Sirena de la Red | falta |
+| V · El mundo real | la Bóveda y la ventanilla | el Duende de la Ventanilla | texto hecho (2026-11-11) |
 | Proyectos | la Arena y el Libro Mayor | el Dragón del Conservatorio | falta |
 
 ## 4. Las criaturas en C#

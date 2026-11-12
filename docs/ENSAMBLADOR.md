@@ -205,9 +205,26 @@ Los extras (`tipo: extra`) no cuentan para completar el curso. Cada orden lleva 
 `pass`; `cli`/`sti` = una sección crítica…). De paso se arregló `lahf` en el emulador (el bit 1 vale 1, como en el
 8086). Escenas de las 31 micro-misiones nuevas o sin imagen: pendientes en Stitch.
 
-Lo que el emulador **todavía no** ejecuta (fase 2 de esta revisión, a decidir): `aaa`, `aas`, `aam`, `aad`,
-`daa`, `das` (BCD), `lds` y `les`, `in` y `out` (puertos), `iret`, `into`, `int 3` y las rutinas de interrupción
-propias, `retf` y los saltos y llamadas lejanos, y `lock`, `wait` y `esc` (solo teoría).
+**Fase 2 (2026-11-12, el docente pidió el 8086 completo):** el emulador ejecuta todo el 8086 menos `esc` (solo
+teoría): BCD; `lds`/`les` con `dd`, `dword ptr` y `seg`; `proc far`, `retf` y `call`/`jmp far` (directos y por
+puntero); la tabla de vectores real (0000:0000) con `iret`, `into`, `int 3` (en el tablero, punto de parada),
+funciones 25h/35h de DOS, el error de división que va a la rutina propia y el reloj 1Ch (cada 55 ms de reloj
+virtual, pendiente con `cli`, `hlt` lo espera); `lock` y `wait`; `in`/`out` con los aparatos de emu8086 (sacados de
+su documentación y de su código fuente en `~/.wine/drive_c/emu8086/DEVICES`): puertos simples 110/112, semáforo 4,
+motor 7, robot 9–11 (mapa fijo), termómetro 125/127 (sube 1° cada 2 ms con el calefactor), impresora 130 (y DOS
+05h) y visor 199. El tablero tiene la solapa «Aparatos · puertos»; la impresora y el robot se suman a la salida
+(`── Impresora ──`, `── Robot ──`) y el estado esperado acepta `puerto N = v`. Todo es determinista: el tiempo es el
+reloj del Gólem (1 µs por orden). Nodos nuevos:
+
+| Nodo | Qué |
+|---|---|
+| R02-N13 (extra, de R02-N10) | BCD: `aam`, `aad`, `aaa`, `aas`, `daa`, `das` (el reloj del pecho), 5 micro-misiones |
+| R03-N09 (extra, de R03-N02) | Rutinas lejanas: segmento:desplazamiento, `proc far`, `retf`, `seg`, `dd`, `lds`, `les`, tabla de rutinas, 5 |
+| R03-N10 (extra, de R03-N09 y R03-N08) | Interrupciones propias: la tabla de vectores, 25h, `iret`, `int 3`, `int 0`, `into`, el reloj 1Ch, 6 |
+| **S01 · Senda del Taller de Aparatos** (brota de R02-N09) | 8 nodos, 28 micro-misiones: `in`/`out`, visor, semáforo con `INT 15h` 86h, termostato, grúa (motor paso a paso), impresora, robot de las minas y el jefe, el Goblin de los Cables (insignia «Maestra de los Aparatos») |
+
+Escenas: las 44 micro-misiones nuevas, pendientes en Stitch (proyecto 9034180179663220768, con las hojas de
+Ensamblador).
 
 ## 9. Preguntas abiertas (respondidas el 2026-10-18)
 

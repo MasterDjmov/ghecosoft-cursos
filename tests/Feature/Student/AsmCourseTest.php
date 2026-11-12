@@ -55,7 +55,7 @@ test('el curso de ensamblador se comprueba solo pero se ve como árbol', functio
 
     $course = importAsmCourse();
     expect($course->language)->toBe(Language::Asm)
-        ->and($course->nodes()->count())->toBe(31) // 27 del tronco + 4 extras (2026-11-11)
+        ->and($course->nodes()->count())->toBe(42) // 27 del tronco + 7 extras + la Senda del Taller de Aparatos (8)
         ->and($course->nodes()->whereHas('practices')->exists())->toBeFalse();
 
     // La micro-misión de estado guarda la salida esperada con el informe debajo.

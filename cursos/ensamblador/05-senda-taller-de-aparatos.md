@@ -2387,3 +2387,970 @@ Con la función 05h de DOS (`mov dl, c`, `mov ah, 05h`, `int 21h`) o directo con
 
 #### ¿Qué hacen los caracteres 13, 10 y 12 en la impresora?
 El 13 vuelve al principio del renglón, el 10 baja uno y el 12 saca la hoja.
+
+## S01-N07 · El robot de las minas
+
+```meta
+tipo: tema
+padre: S01-N06
+precio: 0
+criatura: goblin
+temas: maq.saltos, prog.funciones
+```
+
+### Crónica
+
+En las minas de las Forjas trabaja un robot de bronce chiquito que prende y apaga las lámparas de los túneles. Desde que se perdió su control remoto, se quedó quieto en la entrada, mirando al este. Sus cables van a los puertos **9**, **10** y **11**.
+
+### Objetivos
+
+Manejar el robot de emu8086: mandarle órdenes por el puerto 9, esperar a que termine mirando el estado (puerto 11),
+leer lo que examinó (puerto 10) y armar un recorrido con una rutina que espera y manda.
+
+### Antes de empezar
+
+- `in`, `out` y la espera mirando un bit (Los nervios del Gólem; La grúa del puerto de carga).
+- Rutinas con `call` y `ret` (Las rutinas).
+
+### Explicación
+
+#### Tres puertos
+| Puerto | Qué es |
+|---|---|
+| 9 | la **orden**: 0 nada, 1 avanzar, 2 girar a la izquierda, 3 girar a la derecha, 4 examinar lo que tiene adelante, 5 prender la lámpara de adelante, 6 apagarla |
+| 10 | el **dato** que dejó «examinar»: 255 pared, 0 nada, 7 lámpara prendida, 8 lámpara apagada |
+| 11 | el **estado**: bit 0 = hay un dato nuevo, bit 1 = está ocupado, bit 2 = la última orden falló |
+
+El robot es mecánico: cada orden le lleva un rato. Si le llega otra mientras está **ocupado** (bit 1 del estado),
+la rechaza. Por eso, antes de cada orden, hay que esperar:
+
+```asm
+orden proc              ; manda la orden de AL, cuando el robot esté libre
+    push ax
+ocupado:
+    in al, 11
+    test al, 00000010b  ; ¿bit 1 (ocupado)?
+    jnz ocupado
+    pop ax
+    out 9, al
+    ret
+orden endp
+```
+
+Lo que hace el robot aparece en la salida, debajo de `── Robot ──`, y en la solapa de aparatos se ve el mapa de la
+mina: `#` pared, `*` lámpara prendida, `o` apagada, y el robot como una flecha.
+
+> **Puente con otras lenguas.** Es la misma idea que programar un robot de juguete o una tortuga de Logo:
+> «avanzar, girar, mirar». La rutina `orden` es una **función** que esconde el detalle (esperar) y deja el
+> programa principal leyéndose como una lista de pasos.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; avanzar
+    call orden
+    mov al, 3           ; girar a la derecha
+    call orden
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+orden proc
+    push ax
+ocupado:
+    in al, 11
+    test al, 00000010b
+    jnz ocupado
+    pop ax
+    out 9, al
+    ret
+orden endp
+end main
+```
+
+### Salida esperada
+
+```
+── Robot ──
+avanza a (2, 1)
+gira a la derecha: mira al sur
+```
+
+### ¿Para qué sirve?
+
+Así se programan los robots de verdad: órdenes simples, esperar a que terminen, mirar los sensores y decidir. Los
+robots de los depósitos, las aspiradoras automáticas y los vehículos de Marte trabajan con estas mismas ideas.
+
+### Errores habituales
+
+**Ogro: órdenes seguidas sin esperar.** El robot está ocupado y rechaza la orden: en la salida aparece
+`¡ocupado! (no tomó la orden)`.
+
+**Ogro: leer el dato antes de tiempo.** Después de «examinar», hay que esperar el bit 0 del estado antes de leer el
+puerto 10.
+
+**Ogro: avanzar contra una pared.** El robot no se mueve y prende el bit 2 del estado (error).
+
+### Micro-misión S01-N07-P1 · Un paso adelante
+
+```meta
+lugar: Las minas de las Forjas
+personajes: Nova, Gheco, Kira
+carta: Robot (puerto 9) | 1 avanzar · 2 girar a la izquierda · 3 a la derecha · 4 examinar · 5 prender · 6 apagar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El robotito de las minas está quieto en la entrada, mirando al este. Kira le conecta el cable al puerto **9**. —Probá que camine —dice.
+
+#### Gheco sugiere
+Al puerto 9 se le manda la **orden**: el 1 es «avanzar». `mov al, 1` y `out 9, al`. Abajo de la salida va a aparecer lo que hizo el robot.
+
+#### Desafío
+Completá la orden que manda AL al robot, para que avance un lugar.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; avanzar
+    ___ 9, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+── Robot ──
+avanza a (2, 1)
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; avanzar
+    out 9, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El robotito da un paso con un chirrido. Kira aplaude. En la solapa de aparatos, la flechita del robot se movió un lugar en el mapa de la mina.
+
+#### Imagen
+- La entrada de una mina de piedra con lámparas de bronce en las paredes, y un robot chiquito de bronce, con ruedas y un brazo, dando un paso.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) aplaude, agachada junto al robot.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene un cable fino conectado al robot.
+- Gheco (gecko de luz cian con antiparras, chiquito) viaja sentado arriba del robot.
+
+### Micro-misión S01-N07-P2 · Dos pasos, sin apuro
+
+```meta
+lugar: Las minas de las Forjas
+personajes: Nova, Gheco
+criatura: goblin
+carta: Esperar al robot | in al, 11 · test al, 00000010b · jnz ocupado: vuelve mientras el bit 1 (ocupado) esté en 1
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova le manda dos pasos seguidos, pero el robot solo da uno: en la salida dice *«¡ocupado! (no tomó la orden)»*. Un goblin se ríe en el túnel.
+
+#### Gheco sugiere
+El robot tarda en dar cada paso. Mientras camina, el **bit 1** del estado (puerto 11) está en 1. Antes del segundo paso, esperá: `in al, 11`, `test al, 00000010b` y `jnz ocupado` (vuelve mientras esté ocupado).
+
+#### Desafío
+Tocá **Ejecutar** y mirá la salida. Después completá la espera antes del segundo paso, para que el robot avance dos lugares.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1
+    out 9, al           ; primer paso
+ocupado:
+    in al, 11
+    test al, ___
+    ___ ocupado         ; esperar mientras esté ocupado
+    mov al, 1
+    out 9, al           ; segundo paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+── Robot ──
+avanza a (2, 1)
+avanza a (3, 1)
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1
+    out 9, al           ; primer paso
+ocupado:
+    in al, 11
+    test al, 00000010b
+    jnz ocupado         ; esperar mientras esté ocupado
+    mov al, 1
+    out 9, al           ; segundo paso
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Dos pasos, uno detrás del otro. El goblin se queda sin chiste. —Igual que la grúa —dice Nova—: primero pregunto, después pido.
+
+#### Imagen
+- Un túnel de mina de piedra con lámparas de bronce, y un robot chiquito de bronce avanzando, con huellas detrás.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, se ríe asomado detrás de una roca.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) acompaña al robot flotando a su lado.
+- Gheco (gecko de luz cian con antiparras, chiquito) camina al lado del robot, imitando sus pasos.
+
+### Micro-misión S01-N07-P3 · ¿Qué hay adelante?
+
+```meta
+lugar: Las minas de las Forjas
+personajes: Nova, Gheco
+carta: Examinar | orden 4 · esperar el bit 0 del estado (hay dato) · in al, 10: 255 pared, 0 nada, 7 lámpara prendida, 8 apagada
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El robot gira hacia el norte, y Nova quiere saber qué tiene adelante antes de mandarlo a caminar contra algo.
+
+#### Gheco sugiere
+La orden **4** es «examinar». Cuando termina, prende el **bit 0** del estado (hay un dato nuevo) y deja el resultado en el puerto **10**: 255 si es una pared. Esperá el bit 0 con `test al, 00000001b` y `jz` (vuelve mientras **no** haya dato), y después `in al, 10`.
+
+#### Desafío
+Completá la espera del dato, para que BL quede con lo que examinó el robot (una pared: `FFh`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 2           ; girar a la izquierda: mira al norte
+    call orden
+    mov al, 4           ; examinar
+    call orden
+dato:
+    in al, 11
+    test al, ___
+    ___ dato            ; esperar mientras no haya dato
+    in al, 10
+    mov bl, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+orden proc
+    push ax
+ocupado:
+    in al, 11
+    test al, 00000010b
+    jnz ocupado
+    pop ax
+    out 9, al
+    ret
+orden endp
+end main
+```
+
+#### Salida esperada
+```
+── Robot ──
+gira a la izquierda: mira al norte
+examina: pared
+```
+
+#### Estado esperado
+```
+BL = FFh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 2           ; girar a la izquierda: mira al norte
+    call orden
+    mov al, 4           ; examinar
+    call orden
+dato:
+    in al, 11
+    test al, 00000001b
+    jz dato             ; esperar mientras no haya dato
+    in al, 10
+    mov bl, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+orden proc
+    push ax
+ocupado:
+    in al, 11
+    test al, 00000010b
+    jnz ocupado
+    pop ax
+    out 9, al
+    ret
+orden endp
+end main
+```
+
+#### Al superarla
+BL = `FFh`: una pared. El robot no se chocó: miró antes. —Como Kira —dice Nova—: primero mira, después salta.
+
+#### Imagen
+- Un robot chiquito de bronce frente a una pared de roca de una mina, con un rayo de luz cian que sale de su ojo y la examina.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) espera detrás del robot.
+- Gheco (gecko de luz cian con antiparras, chiquito) toca la pared con la patita.
+
+### Micro-misión S01-N07-P4 · La lámpara del túnel
+
+```meta
+lugar: Las minas de las Forjas
+personajes: Nova, Gheco, Kira
+carta: Un recorrido | una orden por línea con call orden · girar, avanzar y prender (5) la lámpara de adelante
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Al sur de la entrada hay un túnel oscuro con una lámpara **apagada**. Kira necesita que el robot la prenda. Desde donde está (mirando al este): girar a la derecha, avanzar tres veces, girar a la izquierda… y la lámpara queda adelante.
+
+#### Gheco sugiere
+Con la rutina `orden`, cada paso es una línea: `mov al, número` y `call orden`. Las órdenes: 3 girar a la derecha, 1 avanzar, 2 girar a la izquierda y **5** prender la lámpara de adelante.
+
+#### Desafío
+Escribí el recorrido donde dice `; tus órdenes`, para que el robot prenda la lámpara del túnel.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+orden proc
+    push ax
+ocupado:
+    in al, 11
+    test al, 00000010b
+    jnz ocupado
+    pop ax
+    out 9, al
+    ret
+orden endp
+end main
+```
+
+#### Salida esperada
+```
+── Robot ──
+gira a la derecha: mira al sur
+avanza a (1, 2)
+avanza a (1, 3)
+avanza a (1, 4)
+gira a la izquierda: mira al este
+prende la lámpara
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3           ; girar a la derecha
+    call orden
+    mov al, 1           ; avanzar
+    call orden
+    mov al, 1
+    call orden
+    mov al, 1
+    call orden
+    mov al, 2           ; girar a la izquierda
+    call orden
+    mov al, 5           ; prender la lámpara
+    call orden
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+orden proc
+    push ax
+ocupado:
+    in al, 11
+    test al, 00000010b
+    jnz ocupado
+    pop ax
+    out 9, al
+    ret
+orden endp
+end main
+```
+
+#### Al superarla
+La lámpara del túnel se enciende y la mina se llena de luz cálida. Los mineros que esperaban afuera entran cantando. Kira abraza al robotito.
+
+#### Imagen
+- Un túnel de mina de piedra iluminándose con una lámpara de bronce recién encendida, con luz cálida.
+- Un robot chiquito de bronce con el brazo estirado hacia la lámpara.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) abraza al robot, contenta.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sonríe; Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre la lámpara.
+
+### Prueba del sello
+
+#### ¿Por qué hay que esperar antes de cada orden al robot?
+Porque mientras hace una orden está ocupado (bit 1 del puerto 11) y rechaza las nuevas.
+
+#### ¿Cómo se lee lo que examinó el robot?
+Esperando el bit 0 del puerto 11 (hay dato) y leyendo el puerto 10: 255 pared, 0 nada, 7 lámpara prendida, 8 apagada.
+
+## S01-N08 · Jefe: el Goblin de los Cables
+
+```meta
+tipo: jefe
+padre: S01-N07
+precio: 0
+criatura: goblin
+insignia: Maestra de los Aparatos
+insignia_descripcion: Venciste al Goblin de los Cables: el visor, el semáforo y la impresora te obedecen por los nervios del Gólem.
+temas: maq.registros, prog.bits, maq.saltos
+```
+
+### Crónica
+
+La noche de la gran carrera, un goblin se mete en el taller de aparatos y **cruza todos los cables**: el visor muestra cualquier cosa, el semáforo se queda en rojo y la impresora tira papel en blanco. La carrera empieza en minutos.
+
+—Hay que arreglarlo todo en un solo programa —dice Kira—: la cuenta regresiva en el visor, el verde para los corredores y el recibo de largada.
+
+### Objetivos
+
+Combinar en un programa el visor, la espera de la BIOS, el semáforo y la impresora: cada aparato con su puerto, cada
+paso en su orden.
+
+### Antes de empezar
+
+- El visor (199), el semáforo (4), la espera con `INT 15h` y la impresora (130).
+
+### Explicación
+
+#### Un programa, tres aparatos
+El jefe se vence con lo que ya sabés, ordenado:
+
+1. **Cuenta regresiva** en el visor: 3, 2, 1, con un segundo de espera entre cada número, y el 0 al final.
+2. **Verde** para los corredores: la esquina de abajo en verde, las otras en rojo (`0000001001001100b`).
+3. El **recibo** de largada en la impresora.
+
+Cuando un programa maneja varios aparatos, conviene una **rutina** por tarea (esperar un segundo, imprimir un
+texto), así el principal se lee como una lista de pasos.
+
+> **Puente con otras lenguas.** Es un pequeño **sistema embebido**: el programa de un microcontrolador que
+> coordina varios aparatos (un visor, unas luces, una impresora de tickets), como el de un surtidor de nafta o una
+> máquina expendedora.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 0000001001001001b   ; todo en rojo
+    out 4, ax
+    mov ax, 9
+    out 199, ax                 ; el visor, listo
+    call segundo
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+segundo proc                    ; espera un segundo
+    push ax
+    push cx
+    push dx
+    mov cx, 0Fh
+    mov dx, 4240h
+    mov ah, 86h
+    int 15h
+    pop dx
+    pop cx
+    pop ax
+    ret
+segundo endp
+end main
+```
+
+### ¿Para qué sirve?
+
+Los aparatos de verdad casi nunca están solos: una máquina coordina luces, motores, visores e impresoras. Saber
+ordenar los pasos y separar las tareas en rutinas es lo que permite programar algo grande sin perderse.
+
+### Errores habituales
+
+**Ogro: la cuenta regresiva sin esperas.** Los números pasan en un instante y nadie los ve.
+
+**Ogro: CX pisado por la espera.** La espera usa CX: si el `loop` de la cuenta también usa CX, la rutina tiene que
+guardarlo (`push cx` / `pop cx`).
+
+**Goblin: el verde en la esquina equivocada.** El verde de abajo es el bit 2; el de la derecha, el 5.
+
+### Micro-misión S01-N08-P1 · La cuenta regresiva
+
+```meta
+lugar: El taller de aparatos
+personajes: Nova, Gheco, Kira
+criatura: goblin
+carta: Cuenta con espera | loop con CX: mostrar CX en el visor y call segundo · la rutina guarda CX
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El goblin dejó el visor mostrando números al azar. Lo primero: la cuenta regresiva de la largada, **3, 2, 1, 0**, con un segundo entre cada número.
+
+#### Gheco sugiere
+En el bucle: `mov ax, cx`, `out 199, ax` y `call segundo`. La rutina `segundo` guarda CX, así que el `loop` no se rompe. Después del bucle, el 0.
+
+#### Desafío
+Completá las tres órdenes del cuerpo del bucle (qué mostrar, dónde y qué rutina llamar), para que el visor cuente 3, 2, 1 con su espera y termine en 0.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 9999                ; lo que dejó el goblin
+    out 199, ax
+    mov cx, 3
+cuenta:
+    mov ax, ___
+    out ___, ax
+    call ___
+    loop cuenta
+    mov ax, 0
+    out 199, ax
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+segundo proc
+    push ax
+    push cx
+    push dx
+    mov cx, 0Fh
+    mov dx, 4240h
+    mov ah, 86h
+    int 15h
+    pop dx
+    pop cx
+    pop ax
+    ret
+segundo endp
+end main
+```
+
+#### Estado esperado
+```
+word puerto 199 = 0
+CX = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 9999                ; lo que dejó el goblin
+    out 199, ax
+    mov cx, 3
+cuenta:
+    mov ax, cx
+    out 199, ax
+    call segundo
+    loop cuenta
+    mov ax, 0
+    out 199, ax
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+segundo proc
+    push ax
+    push cx
+    push dx
+    mov cx, 0Fh
+    mov dx, 4240h
+    mov ah, 86h
+    int 15h
+    pop dx
+    pop cx
+    pop ax
+    ret
+segundo endp
+end main
+```
+
+#### Al superarla
+3… 2… 1… 0. El visor vuelve a obedecer. El goblin, que esperaba ver el caos, frunce el ceño y se esconde detrás del semáforo.
+
+#### Imagen
+- Un taller de aparatos de bronce de noche, con un visor grande de cifras rojas de luz en la pared y una maraña de cables cruzados.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, se esconde detrás de un semáforo de bronce, frunciendo el ceño.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) cuenta con los dedos levantados.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) desenreda un cable; Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Micro-misión S01-N08-P2 · Verde y recibo
+
+```meta
+lugar: El taller de aparatos
+personajes: Nova, Gheco
+criatura: goblin
+carta: Dos aparatos | out 4, ax con el verde de abajo · después el recibo a la impresora, letra por letra
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+El semáforo de la largada sigue clavado en rojo y la impresora no imprime. El goblin cruzó los cables al revés.
+
+#### Gheco sugiere
+Primero el semáforo: verde abajo y rojo en las otras tres (`0000001001001100b`) al puerto 4. Después, el recibo: el texto termina en 0, y cada letra va a la impresora con `out 130, al`.
+
+#### Desafío
+Completá el número del verde y el puerto de la impresora, para que el semáforo dé verde a los corredores y se imprima `Largada!`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Largada!', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, ___                 ; verde abajo
+    out 4, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out ___, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+── Impresora ──
+Largada!
+```
+
+#### Estado esperado
+```
+word puerto 4 = 024Ch
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Largada!', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 0000001001001100b   ; verde abajo
+    out 4, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out 130, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Verde para los corredores, y la impresora escupe el recibo de largada. El goblin se rasca la cabeza: le quedan pocos cables por cruzar.
+
+#### Imagen
+- Un semáforo de bronce con la luz verde encendida en una cara y una impresora antigua de bronce sacando una tira de papel lisa, en un taller de noche.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, se rasca la cabeza con un cable en la mano.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) conecta un cable al semáforo.
+- Gheco (gecko de luz cian con antiparras, chiquito) tira de la tira de papel.
+
+### Micro-misión S01-N08-P3 · La gran largada
+
+```meta
+lugar: El taller de aparatos
+personajes: Nova, Gheco, Kira, Axón
+criatura: goblin
+carta: Todo junto | rojo · cuenta 3, 2, 1, 0 con esperas · verde abajo · recibo «Largada!» a la impresora
+recompensa: xp 30, oro 30
+```
+
+#### Escena
+Faltan segundos para la carrera. El goblin cruza el último cable y apaga todo. Hay que hacerlo **todo junto**, en orden: todo en rojo, la cuenta regresiva, el verde y el recibo.
+
+#### Gheco sugiere
+Ya tenés todas las piezas. En orden:
+
+1. `0000001001001001b` al puerto 4 (todo en rojo).
+2. La cuenta regresiva en el visor: 3, 2, 1 con `call segundo` entre cada uno, y el 0.
+3. `0000001001001100b` al puerto 4 (verde abajo).
+4. El recibo, letra por letra, al puerto 130.
+
+#### Desafío
+Escribí el programa entero donde dice `; tus órdenes` (la rutina `segundo` ya está), para que la largada salga completa.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Largada!', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+segundo proc
+    push ax
+    push cx
+    push dx
+    mov cx, 0Fh
+    mov dx, 4240h
+    mov ah, 86h
+    int 15h
+    pop dx
+    pop cx
+    pop ax
+    ret
+segundo endp
+end main
+```
+
+#### Salida esperada
+```
+── Impresora ──
+Largada!
+```
+
+#### Estado esperado
+```
+word puerto 4 = 024Ch
+word puerto 199 = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+recibo db 'Largada!', 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 0000001001001001b   ; todo en rojo
+    out 4, ax
+
+    mov cx, 3
+cuenta:
+    mov ax, cx
+    out 199, ax
+    call segundo
+    loop cuenta
+    mov ax, 0
+    out 199, ax
+
+    mov ax, 0000001001001100b   ; verde abajo
+    out 4, ax
+
+    lea si, recibo
+letra:
+    mov al, [si]
+    cmp al, 0
+    je listo
+    out 130, al
+    inc si
+    jmp letra
+listo:
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+segundo proc
+    push ax
+    push cx
+    push dx
+    mov cx, 0Fh
+    mov dx, 4240h
+    mov ah, 86h
+    int 15h
+    pop dx
+    pop cx
+    pop ax
+    ret
+segundo endp
+end main
+```
+
+#### Al superarla
+Rojo. 3, 2, 1… **0**. ¡Verde! Los corredores salen disparados y la impresora entrega el recibo de largada. El Goblin de los Cables, sin un solo cable cruzado que le quede, levanta las manos y se ríe: —Me ganaste, chispita.
+
+{mentor} hace brillar su ojo, orgulloso. —Ahora mis nervios llegan a todo el Gremio —dice—. Y vos sabés usarlos.
+
+#### Imagen
+- Una pista de carreras de noche en las Forjas, con un semáforo de bronce en verde, un visor grande de cifras rojas y una impresora sacando un papel, y corredores saliendo disparados.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira desde atrás, con el ojo brillando orgulloso.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, levanta las manos riéndose, derrotado.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) corre entre los corredores, festejando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) levanta los brazos; Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Prueba del sello
+
+#### ¿En qué orden van los pasos de la largada?
+Todo en rojo, la cuenta regresiva en el visor con esperas, el verde abajo y el recibo en la impresora.
+
+#### ¿Por qué la rutina `segundo` guarda CX?
+Porque la espera de la BIOS usa CX, y el `loop` de la cuenta también: sin guardarlo, el bucle se rompe.

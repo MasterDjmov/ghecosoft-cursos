@@ -6510,3 +6510,885 @@ Carga el desplazamiento en DX y el segmento en DS, desde una variable de 4 bytes
 
 #### ¿Para qué sirve una tabla de rutinas?
 Para elegir a qué rutina saltar con un número: `call dword ptr tabla+4` salta a la segunda.
+
+## R03-N10 · Interrupciones propias: el vector, `iret`, `int 3`, `into` y el reloj
+
+```meta
+tipo: extra
+criatura: skeleton
+padre: R03-N09
+requiere: R03-N08
+precio: 0
+temas: maq.interrupciones, maq.pila, maq.direcciones
+```
+
+### Crónica
+
+En lo más alto de la cabeza de {mentor} hay una sala redonda con **256 campanas** colgadas en fila. Debajo de cada una hay una tarjeta de bronce con una dirección escrita. Cuando una campana suena, el Gólem deja lo que está haciendo, lee la tarjeta y va a esa dirección a atender. Después, vuelve exactamente adonde estaba.
+
+—La campana 21h la toca DOS cada vez que le pedís algo —explica {mentor}—. Y hay campanas libres. Si cambiás la tarjeta, la campana te llama **a vos**.
+
+### Objetivos
+
+Entender qué hace `int n` por dentro (la **tabla de vectores**), escribir **rutinas de interrupción** propias que
+terminan con `iret`, instalarlas con la función 25h de DOS, atrapar el error de división, avisar desbordes con
+`into`, usar `int 3` como punto de parada y contar los latidos del **reloj** (1Ch).
+
+### Antes de empezar
+
+- Rutinas lejanas, `seg`, `offset` y la tabla de rutinas (Rutinas lejanas).
+- `pushf`/`popf`, `cli`/`sti` y `hlt` (Lo que ve el depurador).
+- Guardar palancas con `push` y `pop` (Rutinas que cuidan sus palancas).
+
+### Explicación
+
+#### La tabla de vectores
+En los primeros 1024 bytes de la memoria (desde `0000:0000`) hay una tabla con **256 direcciones completas**, una
+por interrupción, de 4 bytes cada una (desplazamiento y segmento): la de la interrupción `n` está en `0000:n×4`.
+Cuando el Gólem ejecuta `int n`:
+
+1. Apila los interruptores (como `pushf`), CS e IP.
+2. Apaga IF y TF (mientras atiende, no lo interrumpen otras campanas).
+3. Salta a la dirección de la tarjeta `n`.
+
+La rutina termina con **`iret`** (*interrupt return*), que saca IP, CS y los interruptores: el programa sigue
+como si nada.
+
+#### Instalar una rutina propia
+DOS tiene dos funciones para las tarjetas:
+
+| Función | Hace |
+|---|---|
+| `AH = 25h` | pone la dirección DS:DX en la tarjeta AL |
+| `AH = 35h` | lee la tarjeta AL y la deja en ES:BX |
+
+```asm
+push ds
+mov ax, cs              ; la rutina vive en el segmento de código
+mov ds, ax
+mov dx, offset campana  ; y en este desplazamiento
+mov ax, 2560h           ; AH = 25h (poner), AL = 60h (la campana 60h, libre)
+int 21h
+pop ds
+...
+int 60h                 ; ahora llama a campana
+```
+
+Adentro de la rutina, **todo lo que se toca se guarda y se devuelve** (`push`/`pop`): el programa interrumpido no
+sabe que lo interrumpieron. Y si usa variables, tiene que poner DS en `@data` (puede haber llegado con otro DS).
+
+#### Campanas especiales
+| Interrupción | Suena cuando… |
+|---|---|
+| `int 0` | una división por cero o un cociente que no entra (el «Divide overflow») |
+| `int 3` | el programa pasa por un **punto de parada**: los depuradores la ponen donde querés frenar (ocupa 1 byte, `CCh`) |
+| `int 4` | se ejecuta **`into`** con OF = 1: un aviso de desborde con signo, sin `jo` |
+| `int 1Ch` | late el **reloj** de la PC, unas 18 veces por segundo (cada 55 ms), si IF = 1 |
+
+Con una rutina propia en la 0, un error de división deja de detener al Gólem: lo atendés vos y seguís. Con una en
+la 1Ch, tu código corre solo, de fondo, a cada latido.
+
+> **Puente con otras lenguas.** Una rutina de interrupción es un **manejador de eventos**: el `addEventListener`
+> de JavaScript, el `signal` de C o Python, el `catch` de una excepción (la 0 es el «ZeroDivisionError» del
+> procesador). El reloj 1Ch es un `setInterval`. Y el `int 3` es exactamente lo que pone un depurador cuando
+> marcás un *breakpoint* en VS Code o en GDB.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t_campana db 'Din! $'
+t_cero    db 'No se divide por cero. $'
+t_sigo    db 'Sigo vivo.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds                 ; la campana 60h llama a «campana»
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset campana
+    mov ax, 2560h
+    int 21h
+    mov dx, offset cero     ; y la 0 (dividir por cero) a «cero»
+    mov ax, 2500h
+    int 21h
+    pop ds
+
+    int 60h
+    int 60h
+    mov ax, 10
+    mov bl, 0
+    div bl                  ; suena la campana 0
+    lea dx, t_sigo
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+campana proc
+    push ax
+    push dx
+    push ds
+    mov ax, @data
+    mov ds, ax
+    lea dx, t_campana
+    mov ah, 09h
+    int 21h
+    pop ds
+    pop dx
+    pop ax
+    iret
+campana endp
+
+cero proc
+    push ds
+    mov ax, @data
+    mov ds, ax
+    lea dx, t_cero
+    mov ah, 09h
+    int 21h
+    pop ds
+    mov ax, 0               ; un resultado de compromiso
+    iret
+cero endp
+end main
+```
+
+### Salida esperada
+
+```
+Din! Din! No se divide por cero. Sigo vivo.
+```
+
+### ¿Para qué sirve?
+
+Así funcionan el teclado, el reloj, el mouse y los discos: cada aparato «toca su campana» y el procesador deja lo
+que hace para atenderlo. Los sistemas operativos instalan sus rutinas en estas tablas, los antivirus y los juegos
+de DOS cambiaban vectores para meterse en el medio, y los depuradores frenan con `int 3`. Entender esto es entender
+cómo una compu hace varias cosas «a la vez».
+
+### Errores habituales
+
+**Ogro: terminar con `ret` en vez de `iret`.** `ret` saca solo IP: CS y los interruptores quedan en la pila, que
+queda corrida 4 bytes. El programa sigue, pero la torre está rota.
+
+**Ogro: la rutina que pisa palancas.** Si la rutina cambia AX o DX sin guardarlos, el programa interrumpido se
+encuentra valores que no puso. Todo con `push` y `pop`.
+
+**Esqueleto: DS equivocado adentro.** La rutina puede llegar con cualquier DS: para usar variables, `mov ax, @data`
+y `mov ds, ax` (guardando el DS de antes).
+
+**Ogro: el vector con el segmento de datos.** La tarjeta tiene que apuntar al **código**: DS = CS al llamar a la
+función 25h, no `@data`.
+
+**Ogro: el reloj con IF apagado.** Si quedó un `cli`, los latidos no llegan: el programa espera para siempre.
+
+### Micro-misión R03-N10-P1 · La campana propia
+
+```meta
+lugar: La sala de las campanas
+personajes: Nova, Gheco, Axón
+carta: Instalar una interrupción | DS:DX = la rutina · AH = 25h, AL = la campana · int 21h · después, int n la llama
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+{mentor} le regala a Nova una campana libre, la **60h**. —Escribí en su tarjeta dónde está tu rutina —le dice—, y cada vez que la toques, te va a llamar.
+
+#### Gheco sugiere
+La función **25h** de DOS escribe la tarjeta: la campana va en **AL** y la dirección de la rutina en **DS:DX**. Como la rutina vive en el código, DS tiene que ser **CS** mientras tanto (por eso el `push ds` / `pop ds` alrededor).
+
+`mov ax, 2560h` pone AH = 25h y AL = 60h de una vez.
+
+#### Desafío
+Completá la campana (en AX) y el desplazamiento de la rutina (en DX), para que cada `int 60h` muestre `Din! ` y el ojo diga `Din! Din! `.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t db 'Din! $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, ___ campana
+    mov ax, ___
+    int 21h
+    pop ds
+
+    int 60h
+    int 60h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+campana proc
+    push ax
+    push dx
+    push ds
+    mov ax, @data
+    mov ds, ax
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    pop ds
+    pop dx
+    pop ax
+    iret
+campana endp
+end main
+```
+
+#### Salida esperada
+```
+Din! Din!
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t db 'Din! $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset campana
+    mov ax, 2560h
+    int 21h
+    pop ds
+
+    int 60h
+    int 60h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+campana proc
+    push ax
+    push dx
+    push ds
+    mov ax, @data
+    mov ds, ax
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    pop ds
+    pop dx
+    pop ax
+    iret
+campana endp
+end main
+```
+
+#### Al superarla
+*Din, din.* La campana 60h suena y la rutina de Nova contesta. Con el paso a paso, Nova ve entrar tres platos en la torre (los interruptores, CS e IP) y salir los tres con `iret`.
+
+#### Imagen
+- Una sala redonda de bronce en lo alto de un gólem, con muchas campanas de bronce colgadas en fila; una de ellas suena con ondas de luz cian.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) le alcanza a Nova una tarjeta de bronce lisa.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca la campana con un martillito.
+- Gheco (gecko de luz cian con antiparras, chiquito) se tapa los oídos sobre su hombro.
+
+### Micro-misión R03-N10-P2 · El iret que faltaba
+
+```meta
+lugar: La sala de las campanas
+personajes: Nova, Gheco
+criatura: ogre
+carta: iret | saca IP, CS y los interruptores · ret saca solo IP: la torre queda corrida 4 bytes
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La rutina de la campana contesta bien, pero después de cada llamada la torre de platos queda más alta: SP no vuelve a 100h. Un ogro apila platos de más, divertido.
+
+#### Gheco sugiere
+`int` apila **tres** platos: los interruptores, CS e IP. Un `ret` común saca **uno** solo (IP): los otros dos quedan en la torre. **`iret`** saca los tres, en el orden justo.
+
+#### Desafío
+Tocá **Ejecutar** y mirá SP (`00FCh`). Después cambiá el final de la rutina para que SP vuelva a **100h**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset grito
+    mov ax, 2560h
+    int 21h
+    pop ds
+
+    int 60h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+grito proc
+    push ax
+    push dx
+    mov dl, '!'
+    mov ah, 02h
+    int 21h
+    pop dx
+    pop ax
+    ret
+grito endp
+end main
+```
+
+#### Salida esperada
+```
+!
+```
+
+#### Estado esperado
+```
+SP = 100h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset grito
+    mov ax, 2560h
+    int 21h
+    pop ds
+
+    int 60h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+grito proc
+    push ax
+    push dx
+    mov dl, '!'
+    mov ah, 02h
+    int 21h
+    pop dx
+    pop ax
+    iret
+grito endp
+end main
+```
+
+#### Al superarla
+SP = 100h: la torre queda pareja. El ogro se queda sin platos que apilar. —Tres entran, tres salen —dice Nova.
+
+#### Imagen
+- Una torre de platos de bronce demasiado alta, tambaleándose, en una sala redonda con campanas.
+- Un ogro grandote y torpe, con ropa de cuero cerrada, sonríe mientras apila un plato más.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) saca tres platos de arriba de la torre.
+- Gheco (gecko de luz cian con antiparras, chiquito) sostiene la torre para que no se caiga.
+
+### Micro-misión R03-N10-P3 · El punto de parada
+
+```meta
+lugar: La sala de las campanas
+personajes: Nova, Gheco
+carta: int 3 | punto de parada: el tablero frena ahí al ejecutar · 1 byte (CCh) · lo que pone un depurador en un breakpoint
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El programa es largo y Nova quiere frenar justo antes de mostrar el resultado, sin ir orden por orden desde el principio.
+
+#### Gheco sugiere
+**`int 3`** es la campana del **punto de parada**: en el tablero, «Ejecutar» se frena ahí y podés mirar las palancas y seguir con Paso a paso. Al comprobar la micro-misión, sigue de largo. Es lo que pone un depurador cuando marcás un *breakpoint*.
+
+#### Desafío
+Completá el punto de parada antes de mostrar el resultado. Después tocá **Ejecutar** y mirá cómo se frena con AL en 7. Al terminar, el ojo tiene que mostrar **7**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3
+    add al, 4
+    ___                 ; frená acá
+    mov dl, al
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+7
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3
+    add al, 4
+    int 3               ; frená acá
+    mov dl, al
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El tablero se frena con el mensaje del punto de parada y AL = 7. Nova sigue con una orden más y el 7 aparece en el ojo. —Como poner un señalador en un libro —dice.
+
+#### Imagen
+- Un libro de bronce enorme abierto, con un señalador de luz cian metido entre las páginas lisas, en una sala redonda con campanas.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) pone el señalador con una mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado sobre el libro, con una banderita de luz.
+
+### Micro-misión R03-N10-P4 · La división que no detiene
+
+```meta
+lugar: La sala de las campanas
+personajes: Nova, Gheco, Axón
+criatura: skeleton
+carta: int 0 | una división por cero toca la campana 0 · con rutina propia, el programa sigue · como un catch
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Un cálculo divide por cero y el Gólem se detiene de golpe: *«Divide overflow»*. —Mi campana 0 suena cada vez que pasa eso —dice {mentor}—. Si escribís su tarjeta, la atendés vos y seguimos.
+
+#### Gheco sugiere
+Dividir por cero toca la campana **0**. La rutina `cero` ya está escrita: muestra un aviso y deja AX en 0. Falta **instalarla**, igual que la 60h pero con AL = 0: `mov ax, 2500h`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá cómo se detiene. Después escribí las órdenes que instalan `cero` en la campana 0 (donde dice `; tus órdenes`), para que el ojo muestre `No se divide por cero. Sigo vivo.`
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t_cero db 'No se divide por cero. $'
+t_sigo db 'Sigo vivo.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ; tus órdenes
+
+    mov ax, 10
+    mov bl, 0
+    div bl
+    lea dx, t_sigo
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+cero proc
+    push ds
+    mov ax, @data
+    mov ds, ax
+    lea dx, t_cero
+    mov ah, 09h
+    int 21h
+    pop ds
+    mov ax, 0
+    iret
+cero endp
+end main
+```
+
+#### Salida esperada
+```
+No se divide por cero. Sigo vivo.
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t_cero db 'No se divide por cero. $'
+t_sigo db 'Sigo vivo.$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset cero
+    mov ax, 2500h
+    int 21h
+    pop ds
+
+    mov ax, 10
+    mov bl, 0
+    div bl
+    lea dx, t_sigo
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+cero proc
+    push ds
+    mov ax, @data
+    mov ds, ax
+    lea dx, t_cero
+    mov ah, 09h
+    int 21h
+    pop ds
+    mov ax, 0
+    iret
+cero endp
+end main
+```
+
+#### Al superarla
+«No se divide por cero. Sigo vivo.» El Gólem tropieza pero no se cae. {mentor} se ríe: —Es la primera vez que una división por cero no me deja tieso.
+
+#### Imagen
+- Una campana de bronce grande sonando con ondas rojas en una sala redonda, y debajo una red de luz cian que ataja una piedra que cae.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) se tambalea pero sigue en pie, aliviado.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene la red con las dos manos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sobre su hombro, con los ojos muy abiertos.
+
+### Micro-misión R03-N10-P5 · El aviso del desborde
+
+```meta
+lugar: La sala de las campanas
+personajes: Nova, Gheco
+carta: into | si OF = 1 toca la campana 4 · si no, no hace nada · un aviso de desborde sin jo
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova suma vidas con signo, y cuando 127 + 1 da la vuelta a −128 nadie se entera. Quiere que, cada vez que una cuenta con signo desborde, suene una alarma.
+
+#### Gheco sugiere
+**`into`** (*interrupt on overflow*) mira OF: si está en 1, toca la campana **4**; si no, no hace nada. La rutina `alarma` ya está instalada en la 4. Falta poner el `into` justo después de la suma.
+
+#### Desafío
+Completá la orden que avisa el desborde después de la suma, para que el ojo muestre `Desborde! ` antes de la x.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+t db 'Desborde! $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset alarma
+    mov ax, 2504h
+    int 21h
+    pop ds
+
+    mov al, 127
+    add al, 1           ; da la vuelta: OF = 1
+    ___
+    mov dl, 'x'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+alarma proc
+    push ds
+    push ax
+    push dx
+    mov ax, @data
+    mov ds, ax
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    pop dx
+    pop ax
+    pop ds
+    iret
+alarma endp
+end main
+```
+
+#### Salida esperada
+```
+Desborde! x
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+t db 'Desborde! $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset alarma
+    mov ax, 2504h
+    int 21h
+    pop ds
+
+    mov al, 127
+    add al, 1           ; da la vuelta: OF = 1
+    into
+    mov dl, 'x'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+alarma proc
+    push ds
+    push ax
+    push dx
+    mov ax, @data
+    mov ds, ax
+    lea dx, t
+    mov ah, 09h
+    int 21h
+    pop dx
+    pop ax
+    pop ds
+    iret
+alarma endp
+end main
+```
+
+#### Al superarla
+«Desborde! x». La alarma suena justo a tiempo. Nova prueba con 100 + 1 y la alarma no suena: OF quedó en 0. —Un `jo` que no hace falta escribir cada vez —dice.
+
+#### Imagen
+- Una campana de alarma de bronce sonando con luz roja en una sala redonda, sobre una balanza de bronce volcada.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) levanta la vista hacia la campana.
+- Gheco (gecko de luz cian con antiparras, chiquito) se tapa los oídos.
+
+### Micro-misión R03-N10-P6 · Los latidos del reloj
+
+```meta
+lugar: La sala de las campanas
+personajes: Nova, Gheco, Axón
+carta: int 1Ch | el reloj late cada 55 ms y toca la campana 1Ch (si IF = 1) · rutina de fondo, como setInterval · hlt espera el latido
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+—Tengo un corazón que late solo —dice {mentor}—: el reloj. Cada latido toca la campana 1Ch. Si le ponés una rutina, la llama sin que nadie se lo pida.
+
+#### Gheco sugiere
+La rutina `latido` suma 1 a la variable `latidos` cada vez que la llaman. Instalala en la campana **1Ch** (`mov ax, 251Ch`). El programa espera con `hlt` (que se duerme hasta el próximo latido) y mira si ya van 3.
+
+#### Desafío
+Completá la campana y la rutina en la instalación, para que el programa espere tres latidos y el ojo muestre **3**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+latidos db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset ___
+    mov ax, ___
+    int 21h
+    pop ds
+
+espera:
+    hlt                 ; dormir hasta el próximo latido
+    cmp latidos, 3
+    jb espera
+
+    mov dl, latidos
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+latido proc
+    push ds
+    push ax
+    mov ax, @data
+    mov ds, ax
+    inc latidos
+    pop ax
+    pop ds
+    iret
+latido endp
+end main
+```
+
+#### Salida esperada
+```
+3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+latidos db 0
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    push ds
+    mov ax, cs
+    mov ds, ax
+    mov dx, offset latido
+    mov ax, 251Ch
+    int 21h
+    pop ds
+
+espera:
+    hlt                 ; dormir hasta el próximo latido
+    cmp latidos, 3
+    jb espera
+
+    mov dl, latidos
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+
+latido proc
+    push ds
+    push ax
+    mov ax, @data
+    mov ds, ax
+    inc latidos
+    pop ax
+    pop ds
+    iret
+latido endp
+end main
+```
+
+#### Al superarla
+Uno, dos, tres latidos, y un **3** en el ojo. La rutina de Nova corre de fondo, al ritmo del corazón de {mentor}. —Ahora sé cómo hacés varias cosas a la vez —le dice—. No las hacés a la vez: te interrumpís muy rápido.
+
+#### Imagen
+- Un corazón mecánico de bronce latiendo con pulsos de luz cian, conectado a una campana que suena, en una sala redonda de un gólem.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) se toca el pecho con una mano enorme, con el ojo brillando cálido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) cuenta los latidos con los dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) mueve la cola al ritmo de los latidos.
+
+### Prueba del sello
+
+#### ¿Qué hace el Gólem cuando ejecuta `int n`?
+Apila los interruptores, CS e IP, apaga IF y salta a la dirección guardada en la tarjeta n de la tabla de vectores.
+
+#### ¿Por qué una rutina de interrupción termina con `iret` y no con `ret`?
+Porque `iret` saca los tres platos (IP, CS e interruptores); `ret` saca solo IP y deja la pila corrida.
+
+#### ¿Cómo se instala una rutina propia en la campana 60h?
+Con DS:DX apuntando a la rutina (DS = CS), AX = 2560h e `int 21h`.
+
+#### ¿Qué campana suena al dividir por cero? ¿Y con `into`?
+La 0 al dividir por cero; la 4 con `into`, si OF = 1.

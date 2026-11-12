@@ -57,6 +57,9 @@ REFS = {
         'project': '9034180179663220768',
         'region': 'El Corazón del Gólem',
         'ambiente': 'adentro de un gólem de bronce gigante: una catedral mecánica de bronce con pátina verde, palancas con visores de luz, paredes de cajoncitos, engranajes enormes y el núcleo de luz ámbar',
+        'ambientes': {
+            '05-senda-taller-de-aparatos.md': 'en las Forjas de Hierro, una ciudad subterránea de forjas, de noche: talleres de bronce, hornos con fuego naranja, calles de piedra y cables finos de bronce que bajan del gólem gigante',
+        },
         'chars': [
             (r'\bNova\b', 'Nova', ['66dcc9173d064f0b981a1d937eb959ea', 'be0d6929ddbc4fce8ce8302f40291e44'],
              'Nova es una chica de 15 años (1,60 m) que flota a unos centímetros del piso: capa oscura de cuello alto con circuitos cian, túnica cerrada, calzas oscuras y botas con suela cian (ropa opaca y cerrada; nunca holograma translúcido).'),

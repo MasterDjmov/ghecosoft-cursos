@@ -294,6 +294,7 @@ class GameItems extends Command
             // Lo que gana Ceci en la historia
             ['code' => 'csharp-diapason-verde', 'name' => 'Diapasón Verde', 'kind' => 'accessory', 'rarity' => 'rare', 'intelligence' => 2, 'luck' => 2, 'description' => 'Lo dejó el Slime Desafinado al disolverse. Zumba bajito cuando falta un punto y coma cerca.'],
             ['code' => 'csharp-compas-perdido', 'name' => 'Compás Perdido', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 4, 'luck' => 2, 'description' => 'Lo dejó el Liche del Archivo Mudo al apagarse: un papel dorado doblado en cuatro, lo único que nunca se animó a borrar. Otra parte de la melodía del Vidriero.'],
+            ['code' => 'csharp-campanilla-afinada', 'name' => 'Campanilla Afinada', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 4, 'luck' => 3, 'description' => 'La dejó el Duende de la Ventanilla al quedarse sin voz: una campanilla de vidrio que suena con la nota que le faltaba a la melodía del Vidriero.'],
             ['code' => 'csharp-partitura-del-coro', 'name' => 'Partitura del Coro', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 4, 'luck' => 2, 'description' => 'La dejó la Hidra del Coro al callarse. Una partitura dorada escrita por el Vidriero: otra parte de la melodía de la cajita.'],
             ['code' => 'csharp-cuerda-de-la-quimera', 'name' => 'Cuerda de la Quimera', 'kind' => 'accessory', 'rarity' => 'epic', 'intelligence' => 3, 'dexterity' => 2, 'luck' => 1, 'description' => 'La cola de la Quimera de las Mil Partituras, enroscada y dorada. Vibra cuando un plano está bien hecho.'],
         ],
@@ -666,6 +667,7 @@ class GameItems extends Command
         'arco-de-crin-de-la-garra' => 'Un arco de violín de madera oscura con garras de ogro en el talón y escamas de dragón rojas a lo largo.',
         'csharp-cuerda-de-la-quimera' => 'Una cuerda de violín dorada enroscada como la cola de un animal, con un brillo violeta y hojitas de partitura sin letras flotando alrededor.',
         'csharp-compas-perdido' => 'Un papel dorado brillante doblado en cuatro, con un pentagrama de luz sin notas ni letras asomando en el borde y una vela chiquita encendida al lado.',
+        'csharp-campanilla-afinada' => 'Una campanilla de vidrio transparente con borde dorado y badajo de cristal, colgando de una cinta bordó, con un brillo suave y ondas de sonido de luz alrededor, sin letras.',
         'csharp-partitura-del-coro' => 'Una partitura enrollada de papel dorado brillante, con pentagramas de luz sin notas ni letras, atada con una cinta bordó.',
         'csharp-diapason-verde' => 'Un diapasón de cristal verde translúcido, con una gotita verde brillante en la punta.',
         // Comunes (sirven en cualquier mundo)

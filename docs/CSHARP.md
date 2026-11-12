@@ -37,7 +37,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 | II · El Taller de Instrumentos | 09–14 | R02-N01 a R02-N10 + el jefe R02-N11: clases, objetos que trabajan juntos y **sobrecarga**, propiedades, constructores y `static`, `struct`/`enum`, `record`/`null`, herencia, polimorfismo y `abstract`, interfaces, composición | la Quimera de las Mil Partituras | **texto hecho (2026-11-08)**, escenas en curso |
 | III · El Archivo y la batuta | 15–18 | R03-N01 a R03-N09 + el jefe R03-N10: `List`, `Dictionary`, `HashSet`/`Queue`/`Stack`, genéricos, `yield`, delegados y lambdas, eventos, LINQ (dos nodos, con `GroupBy`, `MaxBy` y extensiones) | la Hidra del Coro | **texto hecho (2026-11-10)**, sin escenas |
 | IV · El Archivo Mudo | 19–20 | R04-N01 a R04-N06 + el jefe R04-N07: `try`/`catch`/`finally`, `throw`, excepciones propias y `when`, archivos de texto, `using` con `StreamWriter`/`StreamReader`, CSV con `InvariantCulture`, JSON | el Liche del Archivo Mudo | **hecho** (2026-11-11): 35/35 escenas |
-| V · La Bóveda y la ventanilla | 21–24 | R05-N01 a R05-N07 + el jefe R05-N08: `async`/`await`, `WhenAll`/`WhenAny`/cancelar, la carrera y `SemaphoreSlim`, pruebas con xUnit, SQLite (la Bóveda), `WHERE`/`UPDATE`/`DELETE` y transacciones, API web (la ventanilla) | el Duende de la Ventanilla | **texto hecho (2026-11-11)**, escenas en curso |
+| V · La Bóveda y la ventanilla | 21–24 | R05-N01 a R05-N07 + el jefe R05-N08: `async`/`await`, `WhenAll`/`WhenAny`/cancelar, la carrera y `SemaphoreSlim`, pruebas con xUnit, SQLite (la Bóveda), `WHERE`/`UPDATE`/`DELETE` y transacciones, API web (la ventanilla) | el Duende de la Ventanilla | **hecho** (2026-11-11): 40/40 escenas |
 | Proyectos | 25–27 | la Arena, Junta las Gemas y el Gremio | el Dragón del Conservatorio | falta |
 
 **Los vínculos con otros lenguajes:** los encargos siguen llegando de otras regiones, y al terminar el tronco van **Sendas cruzadas**: el Teatro (con JS: Ceci y Hilván), el Gólem (con Ensamblador: qué hay debajo de C#), el Puerto (con PHP: una API en C# que habla con la de Elefa) y el Arcade (a la manera de Unity o Godot).
@@ -73,7 +73,7 @@ El docente pidió que el curso llegue a unos 30 nodos o más, como los demás, y
 - El jefe, **el Liche del Archivo Mudo**: ficha escrita; insignia «Guardiana de la Memoria» y el **Compás Perdido** (otra parte de la melodía del Vidriero). Con retrato, cuerpo y hoja; los tres ítems de jefe (Cuerda de la Quimera, Partitura del Coro y Compás Perdido) ya tienen imagen. Desde el Acto IV las escenas van en un proyecto de Stitch propio, «Conservatorio - Actos IV y V» (`9034180179663220768`), porque en el de los Talleres cada pedido se cortaba por tiempo; ahí están subidas las hojas de los personajes que aparecen.
 - Sin personajes nuevos.
 
-### El Acto V (aprobado por el docente el 2026-11-11: emular los cuatro temas; el jefe, el Eco de la Ventanilla)
+### El Acto V (aprobado por el docente el 2026-11-11: emular los cuatro temas; el jefe, el Duende de la Ventanilla)
 
 Material 21 a 24: asincronía, pruebas con xUnit, SQLite y API web. Lo que se probó en el ejecutor antes de proponer:
 

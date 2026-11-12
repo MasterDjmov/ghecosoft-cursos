@@ -557,9 +557,11 @@ document.addEventListener('alpine:init', () => {
                 this.asmMode = 'stepping';
                 return;
             }
-            if (result === 'stopped') {
+            if (result === 'stopped' || result === 'break') {
                 this.asmMode = 'stepping';
-                this.status = 'En pausa: seguí de a una orden o ejecutá hasta el final';
+                this.status = result === 'break'
+                    ? 'Punto de parada (INT 3): mirá cómo está todo y seguí de a una orden o ejecutá hasta el final'
+                    : 'En pausa: seguí de a una orden o ejecutá hasta el final';
                 this.editor?.markLine(session.currentLine());
                 return;
             }

@@ -2082,6 +2082,18 @@ jg  mayor      ; NO salta: −1 es menor que 1
 Así como **CF** avisa que una cuenta sin signo se pasó, **OF** (*overflow*) avisa que una cuenta **con signo** no
 entra: `127 + 1` en un byte da `−128` y prende OF. Los saltos con signo miran OF y SF; los sin signo, CF.
 
+#### Saltos que miran una sola bandera
+Además de los de la tabla, hay saltos que miran **un interruptor** solo:
+
+| Salto | Salta si… | Para… |
+|---|---|---|
+| `js` / `jns` | SF = 1 / SF = 0 | el resultado dio negativo / no negativo |
+| `jo` / `jno` | OF = 1 / OF = 0 | la cuenta con signo desbordó / no desbordó |
+| `jc` / `jnc` | CF = 1 / CF = 0 | la cuenta sin signo se pasó (ya los conocés) |
+
+`add al, bl` + `jo error` es la forma de avisar «el número no entra» cuando trabajás con signo, como `jc` sin
+signo.
+
 > **Puente con otras lenguas.** Es la diferencia entre `unsigned char` y `signed char` en C, o entre `int` y
 > `unsigned int`. En C, comparar un número con signo con uno sin signo da resultados raros justamente por esto.
 
@@ -2669,6 +2681,12 @@ ladrillos:
     dec bl
     jnz filas            ; jnz: salta si el dec no dio 0
 ```
+
+#### Dos primos de `loop`
+`loope` (*loop while equal*) resta 1 a CX y vuelve **solo si** CX no llegó a 0 **y** ZF = 1 (el último `cmp` dio
+igual). `loopne` es al revés: vuelve mientras CX no sea 0 y el último `cmp` haya dado **distinto**. Sirven para
+«recorrer hasta encontrar»: `cmp al, [si]` + `loopne` sigue buscando mientras no lo encuentre y no se acaben las
+vueltas. En este curso alcanza con `loop` y un salto, pero si los ves en un programa ya sabés qué hacen.
 
 > **Puente con otras lenguas.** `loop` es el `for i in range(5)` de Python o el `for (int i = 5; i > 0; i--)` de
 > C, contado hacia atrás. Y el «acumulador» es el `total += x` de siempre.
@@ -3898,7 +3916,11 @@ Estas órdenes comparan cada bit del destino con el de la fuente, de a uno:
 | 1 | 0 | 0 | 1 | 1 |
 | 1 | 1 | 1 | 1 | 0 |
 
-`not` invierte todos los bits. Un número en binario se escribe con `b` al final: `00100000b`.
+`not` invierte **todos** los bits: los 0 pasan a 1 y los 1 a 0 (no lleva máscara, tiene un solo operando). Un
+número en binario se escribe con `b` al final: `00100000b`.
+
+`not` y `neg` se parecen pero no son iguales: `not` da vuelta los bits (`5` → `FAh`, que con signo es −6) y `neg`
+cambia el signo (`5` → `FBh`, −5). Por eso `neg` es lo mismo que `not` y después `inc`.
 
 #### Las máscaras
 | Para… | Orden | La máscara tiene… | Ejemplo |
@@ -4570,6 +4592,89 @@ AL = `FCh`: −4. Gheco debe la mitad, no ciento veinticuatro. El ogro, que espe
 - Un ogro grandote y torpe se va rascándose la cabeza, decepcionado.
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala las lucecitas; Gheco (gecko de luz cian con antiparras, chiquito), en su hombro, suspira aliviado.
 
+### Micro-misión R02-N07-P8 · Todo al revés
+
+```meta
+lugar: La cintura del Gólem
+personajes: Nova, Gheco, Axón
+carta: not | invierte TODOS los bits · sin máscara · como ~x en C · neg = not + inc
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Es de noche en las Forjas y el Gólem tiene que cambiar de guardia: las luces de la cintura que estaban prendidas se apagan y las apagadas se prenden. Todas a la vez.
+
+#### Gheco sugiere
+`not` invierte **todos** los bits, sin máscara: `not luces` convierte `10100101b` en `01011010b` (`5Ah`). Es el `~luces` de C, Java o JavaScript.
+
+Y un detalle: `not` **no** es cambiar el signo. `not` de 5 da `FAh` (−6 con signo); para llegar a −5 hay que sumarle 1 después. Eso es exactamente lo que hace `neg`: `not` y después `inc`.
+
+#### Desafío
+Completá las dos órdenes: la que da vuelta todas las luces del cajón `luces`, y la que, después del `not al`, deja AL en **−5** (`FBh`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+luces db 10100101b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    ___ luces           ; todas al revés
+
+    mov al, 5
+    not al              ; AL = FAh (-6)
+    ___ al              ; AL = FBh (-5)
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[luces] = 5Ah
+AL = FBh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+luces db 10100101b
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    not luces           ; todas al revés
+
+    mov al, 5
+    not al              ; AL = FAh (-6)
+    inc al              ; AL = FBh (-5)
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Las ocho luces de la cintura cambian a la vez: las que dormían se despiertan. {mentor} hace girar su ojo, conforme. —Y ya sé cómo hace `neg` por dentro —dice Nova—: da vuelta todo y le suma uno.
+
+#### Imagen
+- Una fila de ocho lucecitas de bronce en la cintura de un gólem: cuatro que se apagan y cuatro que se prenden a la vez, alternadas, con destellos cian, de noche.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira las luces desde arriba con su ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) baja una palanca grande con las dos manos.
+- Gheco (gecko de luz cian con antiparras, chiquito) se tapa los ojos con las patitas por el destello.
+
 ### Prueba del sello
 
 #### ¿Qué orden y qué máscara apagan el bit 0 de AL?
@@ -4583,6 +4688,9 @@ Lo multiplica por 2 (y el bit que se cae queda en CF).
 
 #### ¿Qué bit separa las mayúsculas de las minúsculas?
 El bit 5 (vale 32).
+
+#### ¿Qué diferencia hay entre `not` y `neg`?
+`not` da vuelta todos los bits; `neg` cambia el signo. `neg` es `not` y después sumar 1.
 
 ## R02-N08 · Arreglos e índices: muchos cajones, un nombre
 
@@ -5830,3 +5938,2574 @@ Con `jl` (menor con signo).
 
 #### ¿Por qué el bucle de afuera no puede usar `loop` si el de adentro también lo usa?
 Porque comparten CX: el de adentro lo deja en 0 y rompe la cuenta del de afuera.
+
+## R02-N10 · Cuentas con signo y números grandes: `imul`, `idiv`, `cbw`, `cwd`, `adc` y `sbb`
+
+```meta
+tipo: extra
+criatura: ogre
+padre: R02-N04
+precio: 0
+temas: maq.banderas, maq.numeracion, prog.operadores
+```
+
+### Crónica
+
+Kira baja a la bóveda del Gólem con las cuentas del Gremio de las Forjas: deudas que hay que repartir y un tesoro que hay que sumar. —Las deudas son números negativos —dice—, y el tesoro es tan grande que no entra en ninguna palanca.
+
+—`mul` y `div` no entienden de deudas —advierte Gheco—. Y una palanca llega hasta 65535. Vamos a necesitar órdenes nuevas.
+
+### Objetivos
+
+Multiplicar y dividir **con signo** con `imul` e `idiv`; preparar el dividendo con `cbw` (de byte a word) y
+`cwd` (de word a DX:AX) sin perder el signo; y sumar y restar números de **32 bits** repartidos en dos palancas
+con `adc` y `sbb`.
+
+### Antes de empezar
+
+- `mul` y `div` (Las cuentas del Gólem).
+- El byte con dos lecturas, `jg`/`jl` y la bandera OF (Con signo y sin signo).
+- CF, el acarreo (Las cuentas del Gólem).
+
+### Explicación
+
+#### `imul` e `idiv`: `mul` y `div` con signo
+`mul` y `div` leen los números **sin signo**: para ellos `−7` (`F9h`) es 249. Sus primos con **i** (*integer*,
+entero con signo) los leen con signo:
+
+```asm
+mov al, -7
+mov bl, 3
+mul bl           ; AX = 249 × 3 = 747 (02EBh): mal, si era una deuda
+imul bl          ; AX = −7 × 3 = −21 (FFEBh): bien
+```
+
+Usan las mismas palancas que `mul` y `div`:
+
+| Orden | Byte | Word |
+|---|---|---|
+| `imul fuente` | AX = AL × fuente | DX:AX = AX × fuente |
+| `idiv fuente` | AL = AX ÷ fuente, AH = resto | AX = DX:AX ÷ fuente, DX = resto |
+
+#### `cbw` y `cwd`: estirar sin perder el signo
+`idiv bl` divide **AX entero**. Si AL tiene −7 (`F9h`) y ponés `mov ah, 0`, AX queda en `00F9h` = **249**: el
+Gólem divide otro número. Para que AX sea −7 (`FFF9h`), AH tiene que llenarse con **unos** cuando AL es negativo,
+y con ceros cuando es positivo. Eso hace **`cbw`** (*convert byte to word*): estira AL hasta AX copiando el signo.
+
+`cwd` (*convert word to double word*) hace lo mismo un piso más arriba: estira AX hasta **DX:AX**, para un
+`idiv` de 16 bits.
+
+| Antes de… | Sin signo | Con signo |
+|---|---|---|
+| dividir AX por un byte | `mov ah, 0` + `div` | `cbw` + `idiv` |
+| dividir DX:AX por un word | `mov dx, 0` + `div` | `cwd` + `idiv` |
+
+#### El resto con signo
+`idiv` corta el cociente **hacia el cero**: −7 ÷ 2 da **−3**, y el resto se queda con el signo del dividendo:
+**−1** (porque −3 × 2 − 1 = −7).
+
+#### Números que no entran: `adc` y `sbb`
+Una palanca llega a 65535. Para números más grandes, se usan **dos**: DX con la parte alta y AX con la baja
+(DX:AX, como deja `mul`). Para sumar dos números así, primero se suman las partes bajas con `add`; si se pasan,
+se prende **CF**. Después, las altas con **`adc`** (*add with carry*), que suma además ese CF: el «me llevo uno»
+de la escuela.
+
+```asm
+add ax, bx       ; las partes bajas (CF = 1 si se pasaron)
+adc dx, cx       ; las altas, más el 1 que me llevé
+```
+
+Para restar es igual: `sub` las bajas y **`sbb`** (*subtract with borrow*) las altas, que resta además el «pedí
+prestado».
+
+> **Puente con otras lenguas.** `imul` e `idiv` son el `*` y el `/` de C con `int`; `mul` y `div`, con
+> `unsigned`. C y Java también cortan hacia el cero: `-7 / 2` da `-3` y `-7 % 2` da `-1`. Python no: `-7 // 2`
+> da `-4` y `-7 % 2` da `1` (redondea hacia abajo). `cbw` es lo que hace C cuando pasás un `signed char` a
+> `int`. Y `adc` es como suma un `long` de 32 bits un compilador de 16 bits; los enteros sin límite de Python
+> hacen exactamente esto, word por word, todas las veces que haga falta.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t1 db '-7 x 3 = $'
+t2 db 13, 10, '-7 / 2 = $'
+t3 db ', resto $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t1
+    mov ah, 09h
+    int 21h
+    mov al, -7
+    mov bl, 3
+    imul bl            ; AX = -21 (FFEBh)
+    neg ax             ; 21, para mostrar las cifras
+    mov bl, 10
+    div bl             ; AL = 2, AH = 1
+    mov cx, ax         ; CL = 2, CH = 1
+    mov ah, 02h
+    mov dl, '-'
+    int 21h
+    mov dl, cl
+    add dl, '0'
+    int 21h
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+    lea dx, t2
+    mov ah, 09h
+    int 21h
+    mov al, -7
+    cbw                ; AX = FFF9h: -7 en 16 bits
+    mov bl, 2
+    idiv bl            ; AL = -3 (cociente), AH = -1 (resto)
+    mov cx, ax
+    mov ah, 02h
+    mov dl, '-'
+    int 21h
+    neg cl
+    mov dl, cl
+    add dl, '0'
+    int 21h
+    lea dx, t3
+    mov ah, 09h
+    int 21h
+    mov ah, 02h
+    mov dl, '-'
+    int 21h
+    neg ch
+    mov dl, ch
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+-7 x 3 = -21
+-7 / 2 = -3, resto -1
+```
+
+### ¿Para qué sirve?
+
+Todo lo que puede ser negativo (saldos, temperaturas, coordenadas de un juego) se multiplica y divide con signo.
+Y los números de más de 16 bits están en todos lados: en una compu de 16 bits, un `long` de C, la fecha en
+segundos o el tamaño de un archivo se sumaban así, con `add` y `adc`. Hoy los procesadores tienen palancas más
+grandes, pero los números enormes (las claves de la criptografía) se siguen sumando con acarreo, de a pedazos.
+
+### Errores habituales
+
+**Ogro: `mul` con una deuda.** `mul` lee −7 como 249: el resultado es enorme y positivo. Con signo, `imul`.
+
+**Ogro: `mov ah, 0` antes de `idiv`.** Con AL negativo, AX deja de ser el mismo número. Antes de `idiv bl`, `cbw`.
+
+**Ogro: el `cwd` que falta.** Si DX tiene basura (o un 0 con AX negativo), `idiv bx` divide otro número; a veces
+el cociente no entra y el Gólem se detiene: *«Divide overflow»*.
+
+**Ogro: `add` donde iba `adc`.** Sumar las partes altas con `add` olvida el «me llevo uno»: el resultado queda
+65536 por debajo.
+
+**Goblin: `cbw` con operandos.** `cbw al` no existe: `cbw` y `cwd` no llevan nada, siempre trabajan con AL, AX y DX.
+
+### Micro-misión R02-N10-P1 · La deuda que se triplica
+
+```meta
+lugar: La bóveda del Gólem
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: imul | mul CON signo · AX = AL × fuente · mul lee -7 como 249
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Gheco le debe **7** chispas al Gremio, y por cada día de atraso la deuda se triplica. Nova multiplica con `mul` y un ogro aparece contento: según el Gólem, ¡el Gremio le debe 747 chispas a Gheco!
+
+#### Gheco sugiere
+La deuda es **−7**, que en un byte se guarda como `F9h`. `mul` no sabe de signos: lee 249, y 249 × 3 = 747 (`02EBh`).
+
+**`imul`** es `mul` **con signo**: lee −7 y da −21, que en AX es `FFEBh`. Mismas palancas: el otro factor va en AL y el resultado queda en AX.
+
+#### Desafío
+Tocá **Ejecutar** y mirá AX en el tablero (`02EBh`). Después cambiá la orden para que AX quede en **−21** (`FFEBh`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+deuda db -7
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, deuda
+    mov bl, 3
+    mul bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = FFEBh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+deuda db -7
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, deuda
+    mov bl, 3
+    imul bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AX = `FFEBh`: −21. La deuda creció, pero en la dirección correcta. El ogro se va refunfuñando y Gheco, por primera vez, se alegra de deber algo bien calculado.
+
+#### Imagen
+- Una bóveda de bronce con pilas de monedas doradas lisas y una balanza grande de bronce.
+- Un ogro grandote y torpe se aleja refunfuñando, con los brazos cruzados.
+- Gheco (gecko de luz cian con antiparras, chiquito), sentado sobre una moneda, mira un papel enrollado larguísimo que le cuelga de las patitas.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) y Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) se miran con una sonrisa.
+
+### Micro-misión R02-N10-P2 · Repartir una deuda
+
+```meta
+lugar: La bóveda del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: cbw | estira AL hasta AX copiando el signo · antes de idiv · mov ah, 0 rompe los negativos
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Gheco y Nova deciden repartir la deuda de **−7** entre los dos. Nova divide con `idiv`, que entiende de signos… y el Gólem dice que a cada uno le toca **124**. El ogro vuelve corriendo.
+
+#### Gheco sugiere
+`idiv bl` divide **AX entero**, no solo AL. Con `mov ah, 0`, AX queda en `00F9h`: 249, no −7.
+
+Para que AX sea −7 (`FFF9h`), AH tiene que llenarse con **unos**, porque AL es negativo. **`cbw`** (*convert byte to word*) lo hace solo: si AL es negativo, AH = `FFh`; si es positivo, AH = 0. No lleva operandos.
+
+#### Desafío
+Tocá **Ejecutar** y mirá AL (`7Ch`, 124). Después reemplazá el `mov ah, 0` por `cbw`, para que AL quede en **−3** (`FDh`) y AH, el resto, en **−1** (`FFh`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+deuda db -7
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, deuda
+    mov ah, 0
+    mov bl, 2
+    idiv bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = FDh
+AH = FFh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+deuda db -7
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, deuda
+    cbw
+    mov bl, 2
+    idiv bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+−3 para cada uno, y sobra −1. —¿Y quién se queda con la chispa de deuda que sobra? —pregunta Gheco. Nova lo mira fijo. —Bueno, bueno —dice el gecko—. Yo.
+
+#### Imagen
+- Una balanza grande de bronce en una bóveda, con un papel enrollado en cada platillo, perfectamente equilibrada.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene un tercer papel enrollado, chiquito.
+- Gheco (gecko de luz cian con antiparras, chiquito) levanta la pata, resignado, para quedarse con el papelito.
+- Al fondo, un ogro grandote y torpe se va arrastrando los pies.
+
+### Micro-misión R02-N10-P3 · La deuda del Gremio
+
+```meta
+lugar: La bóveda del Gólem
+personajes: Nova, Gheco, Kira
+criatura: ogre
+carta: cwd | estira AX hasta DX:AX copiando el signo · antes de un idiv de 16 bits
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El Gremio entero debe **700** chispas, y la deuda se reparte entre **3** talleres. Es un número grande, así que va en un word, y la división es de 16 bits: divide **DX:AX**.
+
+#### Gheco sugiere
+Con un word, `idiv bx` divide el número de 32 bits que forman **DX:AX**. Con `mov dx, 0` y AX = −700, DX:AX es un número positivo enorme.
+
+**`cwd`** (*convert word to double word*) es el `cbw` de un piso más arriba: si AX es negativo, DX = `FFFFh`; si es positivo, DX = 0.
+
+#### Desafío
+Reemplazá el `mov dx, 0` por la orden que estira AX hasta DX:AX con su signo, para que AX quede en **−233** (`FF17h`) y DX, el resto, en **−1** (`FFFFh`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+deuda dw -700
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, deuda
+    mov dx, 0
+    mov bx, 3
+    idiv bx
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = FF17h
+DX = FFFFh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+deuda dw -700
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, deuda
+    cwd
+    mov bx, 3
+    idiv bx
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+−233 por taller, y sobra −1. Kira lo anota en su libreta. —Con un byte: `cbw`. Con un word: `cwd` —repasa Nova—. Siempre antes de `idiv`.
+
+#### Imagen
+- Tres yunques de bronce en fila en una bóveda, cada uno con una pila igual de monedas doradas lisas.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) anota en una libreta de cuero.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) reparte las monedas.
+- Gheco (gecko de luz cian con antiparras, chiquito) sostiene una moneda sobrante, sin saber dónde ponerla.
+
+### Micro-misión R02-N10-P4 · Me llevo uno
+
+```meta
+lugar: La bóveda del Gólem
+personajes: Nova, Gheco, Axón
+criatura: ogre
+carta: adc | suma y además CF · para la parte alta de un número de 32 bits · el «me llevo uno»
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El tesoro del Gólem es tan grande que ocupa dos palancas: DX tiene la parte alta y AX la baja. Nova le suma una moneda… y el tesoro, en vez de crecer, se achica 65535 monedas.
+
+#### Gheco sugiere
+DX:AX = `0001h:FFFFh` (131.071 monedas). `add ax, 1` hace dar la vuelta a AX (`0000h`) y prende **CF**: «me llevo uno». Pero `add dx, 0` no lo mira, y ese uno se pierde.
+
+**`adc`** (*add with carry*) suma lo que le pedís **más CF**: `adc dx, 0` suma el uno que se llevó la parte baja. Como en la escuela, cuando sumás columnas.
+
+#### Desafío
+Cambiá la orden de la parte alta para que sume el acarreo, y que DX:AX quede en `0002h:0000h` (131.072 monedas).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; parte alta
+    mov ax, 0FFFFh     ; parte baja
+    add ax, 1
+    add dx, 0
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+DX = 2
+AX = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; parte alta
+    mov ax, 0FFFFh     ; parte baja
+    add ax, 1
+    adc dx, 0
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+DX = 2, AX = 0: 131.072 monedas, una más que antes. {mentor} hace sonar algo en su pecho, como una risa. —Así sumaba yo los números grandes cuando era joven —dice—. De a pedazos, llevándome uno.
+
+#### Imagen
+- Dos pilas enormes de monedas doradas lisas en una bóveda de bronce, una muy alta y otra baja, con una sola moneda brillante pasando de una a la otra por el aire.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira desde arriba con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) acompaña la moneda con la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) trepa a la pila alta.
+
+### Micro-misión R02-N10-P5 · Pedir prestado
+
+```meta
+lugar: La bóveda del Gólem
+personajes: Nova, Gheco
+criatura: ogre
+carta: sbb | resta y además CF · el «pedí prestado» para la parte alta · va después de sub
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Ahora hay que **pagar** una moneda del tesoro de 131.072 (`0002h:0000h`). La parte baja está en cero: va a tener que pedirle prestado a la alta.
+
+#### Gheco sugiere
+`sub ax, 1` con AX en 0 da la vuelta hacia abajo (`FFFFh`) y prende **CF**: «pedí prestado». La parte alta tiene que devolverlo: **`sbb`** (*subtract with borrow*) resta lo que le pedís **más CF**. Es el `adc` de las restas.
+
+#### Desafío
+Cambiá la orden de la parte alta para que reste el préstamo, y que DX:AX quede en `0001h:FFFFh` (131.071).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 2          ; parte alta
+    mov ax, 0          ; parte baja
+    sub ax, 1
+    sub dx, 0
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+DX = 1
+AX = FFFFh
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 2          ; parte alta
+    mov ax, 0          ; parte baja
+    sub ax, 1
+    sbb dx, 0
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+`0001h:FFFFh`. El tesoro bajó exactamente una moneda. —`add` con `adc`, `sub` con `sbb` —dice Nova—. Siempre de a dos, y siempre la parte baja primero.
+
+#### Imagen
+- Una pila de monedas doradas lisas en una bóveda de bronce; una moneda se va flotando hacia afuera por una ventanilla de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) despide la moneda con la mano.
+- Gheco (gecko de luz cian con antiparras, chiquito) la mira irse, triste.
+
+### Micro-misión R02-N10-P6 · Dos tesoros
+
+```meta
+lugar: La bóveda del Gólem
+personajes: Nova, Gheco, Kira
+carta: Sumar 32 bits | add ax, bx (las bajas) · adc dx, cx (las altas + CF) · siempre en ese orden
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira trae el tesoro del Gremio para guardarlo junto al del Gólem: **70.000** monedas cada uno. Ninguno de los dos entra en una sola palanca, y la suma tampoco.
+
+#### Gheco sugiere
+70.000 es `0001h:1170h`. El tesoro del Gólem está en DX:AX y el del Gremio en CX:BX. Sumá primero las partes **bajas** (AX con BX) y después las **altas** (DX con CX) **llevándote** el acarreo.
+
+#### Desafío
+Escribí las dos órdenes, donde dice `; tus órdenes`, para que DX:AX quede con la suma: **140.000** (`0002h:22E0h`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; el tesoro del Gólem: 70.000
+    mov ax, 1170h
+    mov cx, 1          ; el tesoro del Gremio: 70.000
+    mov bx, 1170h
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+DX = 2
+AX = 22E0h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; el tesoro del Gólem: 70.000
+    mov ax, 1170h
+    mov cx, 1          ; el tesoro del Gremio: 70.000
+    mov bx, 1170h
+    add ax, bx
+    adc dx, cx
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+`0002h:22E0h`: 140.000 monedas. Kira silba. —Es más de lo que el Gremio vio junto en toda su historia. —Y entra en dos palancas —dice Nova—. Si hiciera falta, con `adc` sumaría en tres, o en diez.
+
+#### Imagen
+- Dos montañas de monedas doradas lisas juntándose en una sola, enorme, en una bóveda de bronce.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) vacía un cofre de madera sobre la montaña.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) flota arriba de la montaña, con los brazos abiertos.
+- Gheco (gecko de luz cian con antiparras, chiquito) se zambulle entre las monedas.
+
+### Prueba del sello
+
+#### ¿Qué diferencia hay entre `mul` e `imul`?
+`mul` lee los números sin signo; `imul`, con signo. Con −7, `mul` multiplica 249.
+
+#### ¿Por qué hace falta `cbw` antes de `idiv bl`?
+Porque `idiv bl` divide AX entero: `cbw` llena AH con el signo de AL. Con `mov ah, 0`, un negativo se vuelve positivo.
+
+#### ¿Cuánto da −7 ÷ 2 con `idiv`? ¿Y el resto?
+Cociente −3 y resto −1: corta hacia el cero, como C y Java (Python da −4 y 1).
+
+#### ¿Para qué sirve `adc`?
+Para sumar la parte alta de un número de dos palancas sumando también el acarreo (CF) que dejó la parte baja.
+
+## R02-N11 · Ruedas de bits y tablas: `rol`, `ror`, `rcl`, `rcr` y `xlat`
+
+```meta
+tipo: extra
+criatura: goblin
+padre: R02-N08
+precio: 0
+temas: prog.bits, maq.numeracion
+```
+
+### Crónica
+
+En la espalda del Gólem hay una puerta redonda con una cerradura de **ruedas**: ocho lucecitas en círculo que giran. Si una se cae por un lado, vuelve a entrar por el otro.
+
+—`shl` no sirve acá —dice Nova—. Lo que se cae, se pierde.
+
+—Para las ruedas hay órdenes que **giran** —responde {mentor}—. Y al lado de la puerta hay una tabla con los dieciséis dígitos del hexadecimal. Con las dos cosas, voy a poder mostrarte mis números como los veo yo.
+
+### Objetivos
+
+Girar los bits con `rol` y `ror` (sin perder ninguno), dar vuelta las dos mitades de un byte, correr un número
+de 32 bits pasando el bit por CF con `rcl` y `rcr`, buscar en una tabla con `xlat`, y combinar todo para
+**mostrar un número en hexadecimal**.
+
+### Antes de empezar
+
+- `shl`, `shr`, `and` y las máscaras (Bits y máscaras).
+- Un arreglo y `lea bx, arreglo` (Arreglos e índices).
+- `xchg` (Los cajones con nombre).
+
+### Explicación
+
+#### Girar en vez de correr
+`shl` y `shr` corren los bits y el que se cae **se pierde** (solo queda en CF). `rol` (*rotate left*) y `ror`
+(*rotate right*) los **giran**: el que se cae por un lado vuelve a entrar por el otro.
+
+```asm
+mov al, 10000001b
+shl al, 1          ; AL = 00000010b: el 1 de la izquierda se perdió
+mov al, 10000001b
+rol al, 1          ; AL = 00000011b: el 1 de la izquierda entró por la derecha
+```
+
+Ocho `rol al, 1` dejan AL como estaba: es una rueda. Como `shl`, para girar más de un lugar la cantidad va en
+**CL**: `mov cl, 3` y `rol al, cl`.
+
+#### Las dos mitades de un byte
+Cada dígito hexadecimal son **4 bits**. Girar un byte 4 lugares cambia de lugar sus dos dígitos: `3Ch` pasa a
+`C3h`.
+
+```asm
+mov cl, 4
+rol al, cl         ; AL = 3Ch  →  C3h
+xchg ah, al        ; AX = 1234h  →  3412h: los dos bytes de un word
+```
+
+Para un word, los dos bytes se cambian con `xchg ah, al` (o con `rol ax, cl` y CL = 8).
+
+#### Girar pasando por el acarreo: `rcl` y `rcr`
+`rcl` (*rotate through carry left*) y `rcr` (*right*) giran una rueda de **9** bits: los 8 del byte más **CF**.
+El bit que se cae va a CF, y lo que había en CF entra por el otro lado. Sirven para correr un número que ocupa
+**dos palancas**: el bit que se cae de la parte baja pasa, por CF, a la parte alta.
+
+```asm
+shl ax, 1          ; DX:AX × 2: la parte baja; el bit de arriba cae en CF
+rcl dx, 1          ; la parte alta, y el CF entra por la derecha
+```
+
+Para dividir por 2 es al revés: `shr dx, 1` y después `rcr ax, 1`. Es el mismo «me llevo uno» que `adc`, pero
+para correr bits.
+
+#### Buscar en una tabla: `xlat`
+`xlat` (*translate*) reemplaza AL por el byte de una tabla que está en la posición AL. La tabla la señala **BX**:
+
+```asm
+hexa db '0123456789ABCDEF'
+...
+lea bx, hexa
+mov al, 11
+xlat               ; AL = hexa[11] = 'B'
+```
+
+Es lo mismo que `mov al, [bx + al]`, que el 8086 no deja escribir (AL no puede ir entre corchetes).
+
+#### Mostrar en hexadecimal
+Con las dos cosas juntas se muestra cualquier número dígito por dígito: girar 4 lugares para traer el dígito
+de más a la izquierda a la derecha, quedarse con él (`and al, 0Fh`) y buscar su letra en la tabla.
+
+> **Puente con otras lenguas.** C no tiene un operador de giro: se escribe `(x << 1) | (x >> 7)`, y C++20 trae
+> `std::rotl` y `std::rotr` (que el compilador traduce a `rol` y `ror`). `xlat` es el clásico
+> `"0123456789ABCDEF"[n]` de C, y mostrar en hexadecimal es lo que hacen por dentro `printf("%X")`, `hex()` de
+> Python y `toString(16)` de JavaScript.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+hexa   db '0123456789ABCDEF'
+vida   dw 300
+t_k    db 'Codigo de K: $'
+t_vida db 13, 10, 'Vida: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    lea bx, hexa
+
+    lea dx, t_k
+    mov ah, 09h
+    int 21h
+    mov ch, 'K'        ; 4Bh
+    mov cl, 4
+    mov al, ch
+    shr al, cl         ; AL = 4: el dígito de la izquierda
+    xlat               ; AL = '4'
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    mov al, ch
+    and al, 0Fh        ; AL = 0Bh: el de la derecha
+    xlat               ; AL = 'B'
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+    lea dx, t_vida
+    mov ah, 09h
+    int 21h
+    mov si, vida       ; 012Ch
+    mov ch, 4          ; cuatro dígitos
+digito:
+    rol si, cl         ; trae el dígito de la izquierda a la derecha
+    mov ax, si
+    and al, 0Fh
+    xlat
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    dec ch
+    jnz digito
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Codigo de K: 4B
+Vida: 012C
+```
+
+### ¿Para qué sirve?
+
+Los depuradores, los editores hexadecimales y los mensajes de error de los sistemas muestran la memoria en
+hexadecimal: alguien escribió esta misma rutina. Los giros están en la criptografía y en las funciones de *hash*
+(SHA, MD5 giran bits todo el tiempo), en los generadores de números al azar y en la compresión. Y las tablas
+como la de `xlat` son la forma más rápida de traducir: códigos de teclas, colores, letras de un alfabeto a otro.
+
+### Errores habituales
+
+**Goblin: girar más de un lugar con un número.** `rol al, 4` no existe en el 8086:
+```
+main.asm(9) : Error A2030: Instruction or register not accepted in current CPU mode
+```
+`mov cl, 4` y `rol al, cl`.
+
+**Ogro: `xlat` sin la tabla en BX.** `xlat` siempre mira BX: si BX señala otra cosa, devuelve cualquier byte.
+`lea bx, hexa` antes.
+
+**Ogro: CL compartido.** Si CL tiene la cantidad de giro, no lo uses también para contar vueltas con `loop`
+(usa CX): contá con otra palanca (`dec ch` + `jnz`).
+
+**Ogro: el dígito sin máscara.** Después de girar, AL tiene los dos dígitos; sin `and al, 0Fh`, `xlat` busca en
+la posición 75 en vez de la 11.
+
+### Micro-misión R02-N11-P1 · La rueda de la cerradura
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco
+carta: rol | gira a la izquierda · el bit que se cae entra por la derecha · shl lo pierde
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La cerradura tiene dos lucecitas prendidas, una en cada punta: `10000001b`. Para abrirla, la rueda tiene que girar un lugar a la izquierda. Nova usa `shl`… y una lucecita se apaga para siempre.
+
+#### Gheco sugiere
+`shl` corre los bits y el que se cae por la izquierda **se pierde**. **`rol`** (*rotate left*) los **gira**: el que se cae por la izquierda vuelve a entrar por la derecha. Con `rol al, 1`, `10000001b` pasa a `00000011b`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá AL (`02h`: se perdió una luz). Después cambiá la orden para que AL quede en `03h`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 10000001b
+    shl al, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 03h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 10000001b
+    rol al, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La rueda gira un lugar y las dos luces siguen prendidas, ahora una al lado de la otra. Un engranaje de la puerta hace *clic*.
+
+#### Imagen
+- Una puerta redonda de bronce con una rueda de ocho lucecitas en círculo, dos encendidas una al lado de la otra, en una sala mecánica de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) gira la rueda con las dos manos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sigue el giro con la cabeza, colgado de un engranaje.
+
+### Micro-misión R02-N11-P2 · Tres lugares
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco
+criatura: goblin
+carta: ror con CL | ror al, cl · más de un lugar: la cantidad va en CL · ror al, 3 no existe en el 8086
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La segunda rueda tiene tres luces juntas a la derecha (`00000111b`) y hay que girarla **tres** lugares a la derecha. Nova escribe `ror al, 3` y un **goblin** se ríe desde la cerradura: *«Instruction or register not accepted in current CPU mode»*.
+
+#### Gheco sugiere
+**`ror`** (*rotate right*) gira a la derecha: lo que se cae por la derecha entra por la izquierda. Pero, igual que `shl`, en el 8086 solo gira **un** lugar con un número; para más, la cantidad va en **CL**:
+
+```asm
+mov cl, 3
+ror al, cl
+```
+
+#### Desafío
+Tocá **Ejecutar** para ver el error del goblin. Después arreglalo con CL, para que AL quede en `11100000b` (`E0h`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 00000111b
+    ror al, 3
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = E0h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 00000111b
+    mov cl, 3
+    ror al, cl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Las tres luces dan la vuelta y aparecen del otro lado: `11100000b`. El goblin se cae de la cerradura por la sorpresa. Otro *clic*.
+
+#### Imagen
+- Una rueda de ocho lucecitas de bronce en una puerta redonda, con tres luces juntas girando con una estela cian.
+- Un goblin verde y flaco cayéndose de espaldas desde el borde de la cerradura, sorprendido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala la rueda, contenta.
+- Gheco (gecko de luz cian con antiparras, chiquito) se ríe tapándose la boca.
+
+### Micro-misión R02-N11-P3 · Las dos mitades
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco, Axón
+carta: Dar vuelta mitades | rol al, cl con CL = 4: 3Ch → C3h · xchg ah, al: 1234h → 3412h
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+La tercera rueda muestra dos dígitos hexadecimales, `3C`, y para abrir tiene que mostrar `C3`. Al lado hay una cuarta, doble, que muestra `1234` y tiene que mostrar `3412`.
+
+#### Gheco sugiere
+Cada dígito hexadecimal son 4 bits. Si girás un byte **4** lugares, sus dos dígitos se cambian de lugar: `rol al, cl` con CL = 4.
+
+Para un word es todavía más fácil: sus dos bytes son BH y BL. Para cambiarlos de lugar ya tenés una orden: `xchg bh, bl`.
+
+#### Desafío
+Completá las dos órdenes: la que gira AL para que quede en **C3h**, y la que deja BX en **3412h**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3Ch
+    mov cl, 4
+    ___ al, cl
+
+    mov bx, 1234h
+    ___ bh, bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = C3h
+BX = 3412h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 3Ch
+    mov cl, 4
+    rol al, cl
+
+    mov bx, 1234h
+    xchg bh, bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Las dos ruedas muestran lo que tenían que mostrar, y la puerta se entreabre. —`xchg` otra vez —dice Nova—. Sirve para mucho más que cambiar de mano.
+
+#### Imagen
+- Dos ruedas de bronce con lucecitas en una puerta redonda: una simple y una doble, con sus mitades intercambiándose de lugar en un destello cian.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira desde arriba, con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) empuja la puerta, que se entreabre con luz ámbar.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Micro-misión R02-N11-P4 · La tabla de los dígitos
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco
+carta: xlat | AL = tabla[AL] · la tabla la señala BX · lea bx, tabla antes
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Al lado de la puerta hay una tabla de bronce con los dieciséis dígitos del hexadecimal en fila: `0123456789ABCDEF`. —Si quiero el dígito del 11 —piensa Nova—, cuento once lugares desde el principio.
+
+#### Gheco sugiere
+**`xlat`** hace exactamente eso: reemplaza AL por el byte que está en la posición AL de la tabla que señala **BX**.
+
+```asm
+lea bx, hexa
+mov al, 11
+xlat            ; AL = hexa[11] = 'B'
+```
+
+Es el `"0123456789ABCDEF"[11]` de C.
+
+#### Desafío
+Completá la orden que busca en la tabla, para que el ojo muestre **B**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+hexa db '0123456789ABCDEF'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea bx, hexa
+    mov al, 11
+    ___
+
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+B
+```
+
+#### Estado esperado
+```
+DL = 'B'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+hexa db '0123456789ABCDEF'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea bx, hexa
+    mov al, 11
+    xlat
+
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Una **B** aparece en el ojo. Nova prueba con 15 y aparece una F; con 0, un 0. —La tabla traduce —dice—. Le doy un número y me devuelve su dígito.
+
+#### Imagen
+- Una tabla larga de bronce con dieciséis casilleros en fila, uno de ellos encendido con luz cian, al lado de una puerta redonda.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) cuenta los casilleros con el dedo.
+- Gheco (gecko de luz cian con antiparras, chiquito) está sentado en el casillero encendido.
+
+### Micro-misión R02-N11-P5 · El Gólem en hexadecimal
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco, Axón
+carta: Mostrar en hexadecimal | shr al, cl (CL = 4) = el dígito de la izquierda · and al, 0Fh = el de la derecha · xlat = su letra
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+La puerta pide la contraseña final: el código de la letra **Z** en hexadecimal. {mentor} la sabe de memoria, pero quiere que Nova se la haga mostrar al ojo.
+
+#### Gheco sugiere
+`'Z'` es un byte con dos dígitos hexadecimales. Para mostrarlos:
+
+1. **El de la izquierda:** copiá la letra en AL y corréla 4 lugares a la derecha (`shr al, cl`, con CL = 4). Buscá su letra con `xlat` y mostrala.
+2. **El de la derecha:** copiá la letra otra vez en AL y quedate con los 4 bits de la derecha (`and al, 0Fh`). `xlat` y mostrala.
+
+Guardá la letra en CH: la `02h` cambia AL.
+
+#### Desafío
+Escribí las órdenes desde cero, donde dice `; tus órdenes`, para que el ojo muestre el código de la Z: **5A**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+hexa db '0123456789ABCDEF'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea bx, hexa
+    mov ch, 'Z'
+    mov cl, 4
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+5A
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+hexa db '0123456789ABCDEF'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea bx, hexa
+    mov ch, 'Z'
+    mov cl, 4
+    mov al, ch
+    shr al, cl
+    xlat
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    mov al, ch
+    and al, 0Fh
+    xlat
+    mov dl, al
+    mov ah, 02h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«5A». La puerta redonda gira sobre sí misma y se abre del todo. Del otro lado, la espalda del Gólem está llena de números: todos en hexadecimal, y ahora Nova los puede leer. —Así me ves —le dice a {mentor}. —Así te veo —responde él.
+
+#### Imagen
+- Una puerta redonda de bronce abierta de par en par, con una pared llena de lucecitas y engranajes detrás, bañada de luz ámbar.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) inclina la cabeza, con el ojo brillando cálido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) entra flotando por la puerta, maravillada.
+- Gheco (gecko de luz cian con antiparras, chiquito) corre adelante, hacia la luz.
+
+### Micro-misión R02-N11-P6 · La rueda de nueve
+
+```meta
+lugar: La puerta de las ruedas
+personajes: Nova, Gheco, Axón
+criatura: goblin
+carta: rcl | gira 9 bits: el byte + CF · shl ax, 1 + rcl dx, 1 = DX:AX × 2 · rcr es al revés
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Del otro lado de la puerta hay un contador de pasos del Gólem tan grande que ocupa dos ruedas: DX tiene la parte alta y AX la baja. Hay que **duplicarlo**. Nova corre las dos ruedas con `shl`… y un goblin se queda con un bit en el bolsillo.
+
+#### Gheco sugiere
+DX:AX = `0001h:8000h`. `shl ax, 1` deja AX en 0 y el bit de arriba cae en **CF**. Pero `shl dx, 1` mete un **0** por la derecha: el bit que cayó de AX se pierde, y DX queda en 2 en vez de 3.
+
+**`rcl`** (*rotate through carry left*) gira pasando por CF: lo que había en CF entra por la derecha. Con `rcl dx, 1`, el bit que se cayó de AX llega a DX. Para dividir por 2 es al revés: `shr dx, 1` y `rcr ax, 1`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá DX (`0002h`). Después cambiá la orden de la parte alta para que DX:AX quede en `0003h:0000h`, el doble.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; parte alta
+    mov ax, 8000h      ; parte baja
+    shl ax, 1
+    shl dx, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+DX = 3
+AX = 0
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov dx, 1          ; parte alta
+    mov ax, 8000h      ; parte baja
+    shl ax, 1
+    rcl dx, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+DX:AX = `0003h:0000h`: el doble exacto. El goblin se revisa el bolsillo y está vacío: el bit pasó por CF y llegó a destino. —Una rueda de nueve —dice Nova—. La novena es el interruptor.
+
+#### Imagen
+- Dos ruedas de lucecitas de bronce una al lado de la otra en una pared mecánica, con una chispa cian saltando de la rueda de la derecha a la de la izquierda a través de una perilla en el medio.
+- Un goblin verde y flaco revisándose los bolsillos vacíos, sorprendido.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira desde arriba con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sigue la chispa con el dedo; Gheco (gecko de luz cian con antiparras, chiquito), en su hombro, aplaude.
+
+### Prueba del sello
+
+#### ¿Qué diferencia hay entre `shl` y `rol`?
+`shl` pierde el bit que se cae; `rol` lo vuelve a meter por el otro lado.
+
+#### ¿Cómo se gira AL tres lugares en el 8086?
+`mov cl, 3` y `rol al, cl` (o `ror`): `rol al, 3` no existe.
+
+#### ¿Qué hace `xlat`?
+Reemplaza AL por el byte de la tabla que señala BX, en la posición AL.
+
+#### ¿Cómo se cambian de lugar los dos bytes de AX?
+Con `xchg ah, al`.
+
+#### ¿Qué diferencia hay entre `rol` y `rcl`?
+`rol` gira los 8 bits (el que cae entra por el otro lado); `rcl` gira 9: el que cae va a CF y lo que había en CF
+entra. Sirve para correr números de dos palancas.
+
+## R02-N12 · Las órdenes de fila: `lodsb`, `stosb`, `movsb`, `scasb`, `cmpsb` y `rep`
+
+```meta
+tipo: extra
+criatura: goblin
+padre: R02-N08
+precio: 0
+temas: col.arrays, prog.cadenas, maq.direcciones
+```
+
+### Crónica
+
+En el brazo izquierdo del Gólem corren dos **cintas** de bronce, una al lado de la otra, cargadas de cajoncitos. Sobre cada cinta hay una mano mecánica: la de la izquierda **toma** de su cinta, la de la derecha **deja** en la suya. Y cada vez que una mano trabaja, su cinta avanza sola un lugar.
+
+—Esto es un bucle que ya viene armado —dice Nova, fascinada.
+
+—Son mis órdenes de **fila** —dice {mentor}—. Una sola orden, y la cinta se mueve sola.
+
+### Objetivos
+
+Recorrer, llenar, copiar, buscar y comparar filas de cajones con las órdenes de fila (`lodsb`, `stosb`, `movsb`,
+`scasb`, `cmpsb`), repetirlas con `rep`, `repne` y `repe`, saber qué hacen SI, DI, CX y la bandera DF, y no
+olvidarse de **ES**.
+
+### Antes de empezar
+
+- Arreglos, `lea si, arreglo` y `[si]` (Arreglos e índices).
+- `loop` y CX (Repetir).
+- `cmp` y ZF (Las compuertas).
+
+### Explicación
+
+#### Dos manos y dos cintas
+Las órdenes de fila trabajan siempre con las mismas palancas:
+
+| Palanca | Es… |
+|---|---|
+| **SI** (*source index*) | la mano que **toma**: señala el cajón de origen (en el segmento DS) |
+| **DI** (*destination index*) | la mano que **deja**: señala el cajón de destino (en el segmento **ES**) |
+| **AL** (o AX) | lo que lleva la mano |
+| **CX** | cuántas veces repetir (con `rep`) |
+
+Después de cada una, SI y DI **avanzan solos** al siguiente cajón (1 lugar con `b`, 2 con `w`).
+
+| Orden | Hace | Como hacer… |
+|---|---|---|
+| `lodsb` (*load string byte*) | AL = [SI], y SI avanza | `mov al, [si]` + `inc si` |
+| `stosb` (*store string byte*) | [DI] = AL, y DI avanza | `mov [di], al` + `inc di` |
+| `movsb` (*move string byte*) | [DI] = [SI], y avanzan los dos | ¡de cajón a cajón! |
+| `scasb` (*scan string byte*) | compara AL con [DI], y DI avanza | `cmp al, [di]` + `inc di` |
+| `cmpsb` (*compare string bytes*) | compara [SI] con [DI], y avanzan los dos | `cmp` de cajón a cajón |
+
+Con `w` al final (`lodsw`, `stosw`, `movsw`…) trabajan con words y AX.
+
+#### Repetir: `rep`, `repne` y `repe`
+Delante de una orden de fila, **`rep`** la repite CX veces (y deja CX en 0):
+
+```asm
+mov cx, 10
+rep stosb        ; llena 10 cajones con AL
+```
+
+Para buscar y comparar hay dos más: **`repne`** (*repeat while not equal*) repite mientras **no** encuentre y
+queden vueltas; **`repe`** (*repeat while equal*), mientras sean **iguales** y queden vueltas. Al terminar, ZF
+dice cómo terminó: con `repne scasb`, ZF = 1 si lo encontró.
+
+#### DF: hacia adelante o hacia atrás
+La bandera **DF** (*direction*) elige el sentido: `cld` la apaga (avanzar, lo de siempre) y `std` la prende
+(retroceder). Poné `cld` antes de usarlas, para no depender de cómo quedó.
+
+#### No olvidarse de ES
+DI señala dentro del segmento **ES**, no de DS. En `.model small`, al empezar, ES **no** apunta a `.data`: hay
+que hacerlo a mano, junto con DS:
+
+```asm
+mov ax, @data
+mov ds, ax
+mov es, ax       ; para stosb, movsb, scasb y cmpsb
+```
+
+Sin esa línea, lo que deja la mano derecha va a parar a otro lado de la memoria.
+
+> **Puente con otras lenguas.** `rep stosb` es el `memset` de C (`memset(muro, '#', 10)`) y `rep movsb` es
+> `memcpy`; `repne scasb` es `memchr` (buscar un carácter) y `repe cmpsb` es `memcmp`/`strcmp`. `lodsb` es el
+> `*p++` de C. En Python son `[x] * 10`, `copia = lista[:]`, `.index()` y `==` entre dos textos; en JavaScript,
+> `fill`, `slice`, `indexOf` y `===`. Muchos `memcpy` y `memset` de verdad, todavía hoy, terminan siendo un
+> `rep movsb` y un `rep stosb`.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+nombre db 'NOVA$'
+copia  db 5 dup(?)
+muro   db 8 dup(?), '$'
+t1     db 'Copia: $'
+t2     db 13, 10, 'Muro: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea si, nombre
+    lea di, copia
+    mov cx, 5          ; las 4 letras y el '$'
+    rep movsb          ; copia = nombre
+
+    lea di, muro
+    mov al, '#'
+    mov cx, 8
+    rep stosb          ; 8 ladrillos
+
+    lea dx, t1
+    mov ah, 09h
+    int 21h
+    lea dx, copia
+    int 21h
+    lea dx, t2
+    int 21h
+    lea dx, muro
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Copia: NOVA
+Muro: ########
+```
+
+### ¿Para qué sirve?
+
+Copiar, llenar, buscar y comparar bloques de memoria es lo que más hace una compu: copiar un archivo, borrar la
+pantalla, buscar una palabra en un texto, comparar una contraseña. Por eso el 8086 tiene órdenes especiales para
+eso, y por eso las funciones de C que lo hacen (`memcpy`, `memset`, `strlen`, `strcmp`) son de las más usadas y
+de las más cuidadas de toda la programación.
+
+### Errores habituales
+
+**Goblin: el ES que falta.** Sin `mov es, ax`, `stosb`, `movsb`, `scasb` y `cmpsb` trabajan en otro lado de la
+memoria: el destino queda vacío y, al mostrarlo, el Gólem dice *«la cadena no termina en '$'»*.
+
+**Ogro: CX sin cargar.** `rep` repite CX veces: si CX quedó en 0, no hace nada; si quedó con basura, recorre
+miles de cajones.
+
+**Ogro: `rep` con `scasb` o `cmpsb`.** `rep scasb` no se detiene al encontrar: para buscar es `repne`, y para
+comparar, `repe`.
+
+**Ogro: DI pasado de largo.** Después de `repne scasb`, DI quedó **uno después** de lo que encontró: la posición
+es DI − 1.
+
+**Ogro: el sentido olvidado.** Si alguien dejó DF en 1 (`std`), todo va para atrás. Un `cld` antes no cuesta nada.
+
+### Micro-misión R02-N12-P1 · La mano que toma
+
+```meta
+lugar: Las cintas del brazo
+personajes: Nova, Gheco, Kira
+carta: lodsb | AL = [SI] y SI avanza solo · como mov al, [si] + inc si · como *p++ en C
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Por la cinta de la izquierda pasa un nombre, letra por letra, y la mano mecánica las va tomando una por una: **K**, **I**, **R**, **A**. Kira se ríe: es el suyo.
+
+#### Gheco sugiere
+**`lodsb`** toma el cajón que señala SI, lo deja en AL y corre SI al siguiente: es `mov al, [si]` y `inc si` en una sola orden (el `*p++` de C). Para leer no hace falta ES: SI trabaja con DS.
+
+#### Desafío
+Completá la orden que toma la letra, para que el ojo muestre **KIRA**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre db 'KIRA'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    cld
+
+    lea si, nombre
+    mov cx, 4
+letra:
+    ___
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    loop letra
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+KIRA
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre db 'KIRA'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    cld
+
+    lea si, nombre
+    mov cx, 4
+letra:
+    lodsb
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    loop letra
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«KIRA», letra por letra. La cinta se detiene sola cuando se acaban las vueltas. —Ni siquiera tuve que escribir `inc si` —dice Nova.
+
+#### Imagen
+- Una cinta transportadora de bronce cargada de cajoncitos lisos, con una mano mecánica de bronce que toma uno, dentro del brazo de un gólem.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) mira la cinta riéndose.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) maneja una palanca al lado de la cinta.
+- Gheco (gecko de luz cian con antiparras, chiquito) viaja sentado sobre un cajoncito de la cinta.
+
+### Micro-misión R02-N12-P2 · El muro de una orden
+
+```meta
+lugar: Las cintas del brazo
+personajes: Nova, Gheco
+carta: rep stosb | llena CX cajones con AL desde DI · como memset en C · necesita mov es, ax
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Hay que levantar un muro de **10** ladrillos para frenar el viento que entra por el codo. Con un bucle, Nova tendría que escribir cuatro órdenes; la mano derecha lo puede hacer en **una**.
+
+#### Gheco sugiere
+**`stosb`** deja AL en el cajón que señala DI y corre DI al siguiente. Con **`rep`** delante, lo repite CX veces: `rep stosb` llena una fila entera. Es el `memset` de C.
+
+Ojo: DI trabaja con el segmento **ES**, por eso el programa tiene `mov es, ax` arriba.
+
+#### Desafío
+Completá la orden repetida, para que el muro quede con **10** ladrillos `#`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+muro db 10 dup(?), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea di, muro
+    mov al, '#'
+    mov cx, 10
+    rep ___
+
+    lea dx, muro
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+##########
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+muro db 10 dup(?), '$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea di, muro
+    mov al, '#'
+    mov cx, 10
+    rep stosb
+
+    lea dx, muro
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Diez ladrillos, de una sola vez. El viento deja de silbar. —Cuatro órdenes en un bucle, o dos palabras —dice Nova—. Me quedo con las dos palabras.
+
+#### Imagen
+- Un muro de diez ladrillos de bronce iguales, recién puesto, tapando una abertura por donde entra viento, dentro del brazo de un gólem.
+- Una mano mecánica de bronce deja el último ladrillo.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) se sacude el polvo de las manos.
+- Gheco (gecko de luz cian con antiparras, chiquito), despeinado por el viento, se agarra del muro.
+
+### Micro-misión R02-N12-P3 · La copia que se perdió
+
+```meta
+lugar: Las cintas del brazo
+personajes: Nova, Gheco
+criatura: goblin
+carta: rep movsb y ES | copia CX cajones de [SI] a [DI] · como memcpy · sin mov es, ax la copia va a otro lado
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova quiere una copia del nombre `NOVA` para guardarla en otra fila. Usa `rep movsb`, pero cuando la muestra, un **goblin** se ríe: *«la cadena no termina en '$'»*. La copia nunca llegó.
+
+#### Gheco sugiere
+**`movsb`** copia el cajón de [SI] al de [DI] y corre los dos: ¡la única orden que va de cajón a cajón! Con `rep`, copia CX cajones. Es el `memcpy` de C.
+
+Pero DI trabaja con **ES**, y al empezar ES no señala `.data`. La copia se fue a otro lado de la memoria y `copia` quedó vacía. Falta `mov es, ax` al lado de `mov ds, ax`.
+
+#### Desafío
+Tocá **Ejecutar** para ver el error. Después agregá la orden que falta, para que el ojo muestre `NOVA`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+nombre db 'NOVA$'
+copia  db 5 dup(?)
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    cld
+
+    lea si, nombre
+    lea di, copia
+    mov cx, 5
+    rep movsb
+
+    lea dx, copia
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+NOVA
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+nombre db 'NOVA$'
+copia  db 5 dup(?)
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea si, nombre
+    lea di, copia
+    mov cx, 5
+    rep movsb
+
+    lea dx, copia
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«NOVA», en la fila nueva. El goblin busca otra cosa de qué reírse y no encuentra nada. —DS para la mano que toma, ES para la que deja —repite Nova—. Las dos con `@data`.
+
+#### Imagen
+- Dos cintas transportadoras de bronce paralelas; cuatro cajoncitos pasan de una a la otra por el aire, en fila, con una estela cian.
+- Un goblin verde y flaco, de brazos cruzados y aburrido, sentado sobre una de las cintas.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) ajusta una perilla en el medio de las dos cintas.
+- Gheco (gecko de luz cian con antiparras, chiquito) atrapa un cajoncito al vuelo.
+
+### Micro-misión R02-N12-P4 · Buscar la letra
+
+```meta
+lugar: Las cintas del brazo
+personajes: Nova, Gheco
+carta: repne scasb | busca AL desde DI · se detiene al encontrarlo (ZF = 1) · la posición es DI - 1 · como memchr
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+En la cinta pasa la palabra `FORJAS` y Nova quiere saber **en qué lugar** está la **J**, sin mirar cajón por cajón.
+
+#### Gheco sugiere
+**`scasb`** compara AL con el cajón que señala DI y corre DI. Para buscar, delante va **`repne`**: repite mientras **no** sea igual y queden vueltas en CX. Al terminar:
+
+- ZF = 1 si la encontró.
+- DI quedó **uno después** de la letra: la posición es DI − 1 − el principio de la palabra.
+
+Es el `memchr` de C, o el `.index()` de Python.
+
+#### Desafío
+Completá el prefijo que repite **mientras no encuentre**, para que BX quede con la posición de la J (**3**, contando desde 0).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+palabra db 'FORJAS'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea di, palabra
+    mov al, 'J'
+    mov cx, 6
+    ___ scasb
+
+    mov bx, di
+    sub bx, offset palabra
+    dec bx              ; DI quedó uno después
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+BX = 3
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+palabra db 'FORJAS'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea di, palabra
+    mov al, 'J'
+    mov cx, 6
+    repne scasb
+
+    mov bx, di
+    sub bx, offset palabra
+    dec bx              ; DI quedó uno después
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+BX = 3: la J es la cuarta letra (la 0 es la F). La cinta se detuvo justo después de ella, sin recorrer el resto. —Para cuando la encuentra —dice Nova—. No pierde tiempo.
+
+#### Imagen
+- Una cinta transportadora de bronce detenida, con seis cajoncitos lisos; uno de ellos brilla con luz cian.
+- Una lupa grande de bronce flota sobre el cajoncito que brilla.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) señala el cajoncito.
+- Gheco (gecko de luz cian con antiparras, chiquito) mira a través de la lupa con un ojo enorme.
+
+### Micro-misión R02-N12-P5 · La contraseña del codo
+
+```meta
+lugar: Las cintas del brazo
+personajes: Nova, Gheco, Axón
+carta: repe cmpsb | compara [SI] con [DI] mientras sean iguales · ZF = 1 al final si todas coincidieron · como strcmp
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+La compuerta del codo tiene una contraseña de cinco letras grabada (`GOLEM`), y Nova tiene la suya en otra fila. La compuerta solo se abre si las dos filas son **iguales**, letra por letra.
+
+#### Gheco sugiere
+**`cmpsb`** compara el cajón de [SI] con el de [DI] y corre los dos. Con **`repe`** delante, sigue mientras sean **iguales** y queden vueltas. Al terminar, si todas coincidieron, ZF = 1: un `jne` después sabe si hubo alguna distinta.
+
+Es el `strcmp` o el `memcmp` de C, o el `==` entre dos textos de Python.
+
+#### Desafío
+Escribí las órdenes donde dice `; tus órdenes`: que SI señale `clave`, DI señale `intento`, CX tenga **5**, y la comparación repetida. Si son iguales, el ojo tiene que mostrar `Adelante`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+clave   db 'GOLEM'
+intento db 'GOLEM'
+t_si    db 'Adelante$'
+t_no    db 'Cerrado$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    ; tus órdenes
+
+    jne distinto
+    lea dx, t_si
+    jmp mostrar
+distinto:
+    lea dx, t_no
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+Adelante
+```
+
+#### Estado esperado
+```
+ZF = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+clave   db 'GOLEM'
+intento db 'GOLEM'
+t_si    db 'Adelante$'
+t_no    db 'Cerrado$'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+    mov es, ax
+    cld
+
+    lea si, clave
+    lea di, intento
+    mov cx, 5
+    repe cmpsb
+
+    jne distinto
+    lea dx, t_si
+    jmp mostrar
+distinto:
+    lea dx, t_no
+mostrar:
+    mov ah, 09h
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«Adelante». La compuerta del codo se abre con un suspiro de vapor y el brazo entero de {mentor} se estira, por primera vez en siglos. Nova cambia una letra del intento, solo para probar: «Cerrado». La vuelve a poner. «Adelante».
+
+#### Imagen
+- Una compuerta de bronce en el codo de un gólem, abriéndose con vapor, con dos cintas de cajoncitos lisos alineadas delante.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) estira el brazo, con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) flota delante de la compuerta abierta, sonriendo.
+- Gheco (gecko de luz cian con antiparras, chiquito) salta de una cinta a la otra.
+
+### Prueba del sello
+
+#### ¿Qué palancas usan las órdenes de fila?
+SI (origen, con DS), DI (destino, con ES), AL o AX (lo que se lleva) y CX (cuántas veces, con `rep`).
+
+#### ¿Por qué hay que hacer `mov es, ax` al empezar?
+Porque DI trabaja con ES, y en `.model small` ES no señala `.data` al empezar.
+
+#### ¿Qué orden de C es `rep movsb`? ¿Y `rep stosb`?
+`memcpy` y `memset`.
+
+#### Después de `repne scasb`, ¿cómo sabés si encontró la letra y dónde?
+Si ZF = 1, la encontró; está un cajón antes de donde quedó DI.
+
+## R02-N13 · Números en BCD: `aam`, `aad`, `aaa`, `aas`, `daa` y `das`
+
+```meta
+tipo: extra
+criatura: goblin
+padre: R02-N10
+precio: 0
+temas: maq.numeracion, prog.operadores
+```
+
+### Crónica
+
+En el pecho de {mentor} hay un reloj de bronce que nunca se detuvo. Muestra la hora con cifras de luz, pero cuando Nova mira su cajón por dentro, encuentra algo raro: la hora 19 no está guardada como `13h` (que sería 19 en hexa), sino como `19h`.
+
+—Los relojes de antes guardan cada cifra en su **medio byte** —explica {mentor}—. Se llama **BCD**. Para mí es más fácil mostrarlo; para hacer cuentas, necesito unas órdenes de ajuste.
+
+### Objetivos
+
+Entender el **BCD** (decimal codificado en binario, una cifra por medio byte), separar y juntar cifras con `aam` y
+`aad`, y ajustar sumas y restas de cifras con `aaa`, `aas`, `daa` y `das`.
+
+### Antes de empezar
+
+- Hexadecimal y medio byte (Clase 0 y Ruedas de bits y tablas).
+- `add`, `sub` y la bandera CF (Las cuentas del Gólem).
+- `div` por 10 para separar cifras (Las cuentas del Gólem).
+
+### Explicación
+
+#### Una cifra por medio byte
+En **BCD** (*binary coded decimal*), cada cifra decimal se guarda en 4 bits, sin convertirla a binario de verdad:
+
+| Número | En binario normal | En BCD empaquetado (dos cifras por byte) | En BCD desempaquetado (una por byte) |
+|---|---|---|---|
+| 19 | `13h` | `19h` | `01h 09h` |
+| 47 | `2Fh` | `47h` | `04h 07h` |
+
+La ventaja: para mostrar `19h` alcanza con mirar cada medio byte, sin dividir. La desventaja: las cuentas comunes
+dan cualquier cosa (`19h + 1` da `1Ah`, que no es una cifra), y hay que **ajustarlas**.
+
+#### Separar y juntar cifras: `aam` y `aad`
+- **`aam`** (*ASCII adjust after multiply*) divide AL por 10: deja las **decenas en AH** y las **unidades en AL**.
+  Con AL = 47, `aam` deja AX = `0407h`. Es el `div` por 10 de siempre, en una sola orden y sin preparar AH.
+- **`aad`** (*ASCII adjust before division*) hace lo contrario: AL = AH × 10 + AL, y AH = 0. Con AH = 3 y AL = 8,
+  `aad` deja AL = 38 (`26h`). Sirve para armar un número con dos teclas.
+
+#### Sumar y restar cifra con cifra: `aaa` y `aas`
+Con BCD **desempaquetado** (una cifra por byte): `7 + 5` da `0Ch`. **`aaa`** (*ASCII adjust after addition*) lo
+ajusta: AL = 2 y AH sube 1 (se lleva uno), o sea `0102h`: el 12. **`aas`** es lo mismo para las restas.
+
+#### Sumar y restar dos cifras por byte: `daa` y `das`
+Con BCD **empaquetado**: `19h + 1` da `1Ah`. **`daa`** (*decimal adjust after addition*) lo ajusta a `20h`. Si
+el resultado pasa de 99, prende CF. **`das`** es lo mismo para las restas: `20h − 1` da `1Fh`, y `das` lo deja en
+`19h`.
+
+Las seis van **después** de la cuenta, y siempre trabajan con AL (y AH).
+
+> **Puente con otras lenguas.** El BCD sigue vivo en los relojes de las placas madre (la BIOS da la hora en BCD
+> con `INT 1Ah`), en las calculadoras y en los sistemas de bancos escritos en COBOL, donde un centavo no se puede
+> perder por redondeo. Python tiene `decimal.Decimal` y Java `BigDecimal` por la misma razón: hacer cuentas en
+> decimal de verdad, no en binario. Y `aam` es el `divmod(n, 10)` de Python en una sola orden.
+
+### Código de ejemplo
+
+```asm
+.model small
+.stack 100h
+.data
+t1 db 'Con aam: $'
+t2 db 13, 10, 'Reloj: $'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    lea dx, t1
+    mov ah, 09h
+    int 21h
+    mov al, 47
+    aam                ; AH = 4, AL = 7
+    mov bx, ax
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+    lea dx, t2
+    mov ah, 09h
+    int 21h
+    mov al, 19h        ; 19 en BCD
+    add al, 1          ; 1Ah: no es una cifra
+    daa                ; 20h: ahora sí
+    mov bl, al
+    mov cl, 4
+    shr al, cl         ; la cifra de las decenas
+    add al, '0'
+    mov dl, al
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    and dl, 0Fh        ; la de las unidades
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+### Salida esperada
+
+```
+Con aam: 47
+Reloj: 20
+```
+
+### ¿Para qué sirve?
+
+Mostrar números en relojes, visores de siete segmentos y calculadoras (cada cifra va directo a su lugar), leer la
+hora del reloj de la compu, y hacer cuentas de plata sin errores de redondeo. Y `aam` es un atajo muy usado en
+emu8086 para mostrar números de dos cifras.
+
+### Errores habituales
+
+**Ogro: el ajuste antes de la cuenta.** `daa` y `aaa` van **después** del `add`; antes no ajustan nada.
+
+**Ogro: mezclar las dos formas.** `aaa` es para una cifra por byte; `daa`, para dos. Con el ajuste equivocado, el
+resultado no es BCD.
+
+**Goblin: `aam` con un número de más de dos cifras.** Con AL = 150, `aam` deja AH = 15: el 15 no es una cifra.
+Para tres cifras, primero dividí por 100.
+
+**Ogro: CF olvidado.** Si `daa` da más de 99, la cifra que sobra queda en CF: hay que llevarla al byte siguiente.
+
+### Micro-misión R02-N13-P1 · Las dos cifras de una vez
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco, Axón
+carta: aam | AL ÷ 10: decenas en AH, unidades en AL · como divmod(n, 10) en Python
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El reloj del pecho de {mentor} marca **47** minutos, y Nova quiere mostrarlos en el ojo. —Con `div` tengo que poner AH en cero, preparar el 10 en una palanca… —suspira.
+
+#### Gheco sugiere
+**`aam`** divide AL por 10 en una sola orden: deja las **decenas en AH** y las **unidades en AL**. Con AL = 47, AX queda en `0407h`. Después, cada cifra se muestra con `+ '0'`.
+
+#### Desafío
+Completá la orden que separa las cifras, para que el ojo muestre **47**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 47
+    ___
+    mov bx, ax          ; BH = decenas, BL = unidades
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Salida esperada
+```
+47
+```
+
+#### Estado esperado
+```
+BX = 0407h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 47
+    aam
+    mov bx, ax          ; BH = decenas, BL = unidades
+    mov dl, bh
+    add dl, '0'
+    mov ah, 02h
+    int 21h
+    mov dl, bl
+    add dl, '0'
+    int 21h
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+«47» en el ojo, con una orden menos. {mentor} hace sonar el reloj de su pecho, conforme. —Así me mostraban la hora mis constructores —dice.
+
+#### Imagen
+- Un reloj redondo de bronce en el pecho de un gólem gigante, con dos cifras de luz cian lisas (sin números legibles) que se separan en dos ventanitas.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) se mira el pecho con el ojo brillando.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca el reloj con un dedo.
+- Gheco (gecko de luz cian con antiparras, chiquito) en su hombro.
+
+### Micro-misión R02-N13-P2 · Juntar las cifras
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco
+carta: aad | AL = AH × 10 + AL · AH = 0 · para armar un número con dos teclas
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Kira dejó escritas dos cifras para poner el reloj en hora: un **3** y un **8**. El reloj quiere un solo número: el 38.
+
+#### Gheco sugiere
+**`aad`** hace lo contrario que `aam`: junta las decenas de AH y las unidades de AL en un solo número: AL = AH × 10 + AL, y AH queda en 0. Con AH = 3 y AL = 8, AL queda en 38 (`26h`).
+
+#### Desafío
+Completá la orden que junta las cifras, para que AX quede en **38** (`0026h`).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 3           ; las decenas
+    mov al, 8           ; las unidades
+    ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = 38
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ah, 3           ; las decenas
+    mov al, 8           ; las unidades
+    aad
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AX = `0026h`: 38. El reloj del pecho se acomoda solo. —Una tecla y otra tecla, y un número —dice Nova—. Me sirve para leer números del teclado.
+
+#### Imagen
+- Dos ventanitas de bronce con cifras de luz lisas que se juntan en una sola, en un reloj redondo de bronce.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) junta las manos frente al reloj.
+- Gheco (gecko de luz cian con antiparras, chiquito) aplaude sobre el borde del reloj.
+
+### Micro-misión R02-N13-P3 · Me llevo uno, en BCD
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco
+carta: aaa | después de add con una cifra por byte · si pasa de 9: AL - 10 y AH + 1 · aas para restar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El contador de segundos guarda una cifra por byte: AL tiene un **7**. Nova le suma **5**, y en vez de 12 aparece `0Ch`. —¡Eso no es una cifra!
+
+#### Gheco sugiere
+Con una cifra por byte (BCD desempaquetado), después del `add` va **`aaa`**: si AL pasó de 9, le resta 10 y suma 1 en AH (se lleva uno). `7 + 5` queda AH = 1 y AL = 2: el 12. Para restas, `aas`.
+
+#### Desafío
+Completá la orden de ajuste, para que AX quede en `0102h` (un 1 y un 2).
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 7
+    add al, 5           ; 0Ch
+    ___
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AX = 0102h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov ax, 7
+    add al, 5           ; 0Ch
+    aaa
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+AH = 1, AL = 2. El contador de segundos marca **12**, cifra por cifra. —Como en la escuela —dice Nova—: siete más cinco, dos y me llevo uno.
+
+#### Imagen
+- Dos ruedas de bronce con cifras de luz lisas, una al lado de la otra, la de la izquierda girando un lugar, en el reloj de un gólem.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) cuenta con los dedos.
+- Gheco (gecko de luz cian con antiparras, chiquito) empuja la rueda de la izquierda.
+
+### Micro-misión R02-N13-P4 · El reloj que no sabe pasar del 19
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco, Axón
+criatura: goblin
+carta: daa | después de add con dos cifras por byte · 19h + 1 = 1Ah → daa → 20h · das para restar
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+El reloj marca las **19h**, en BCD. Pasa una hora, Nova le suma 1… y el reloj muestra un **1A**. Un goblin se ríe desde las agujas.
+
+#### Gheco sugiere
+`19h + 1` da `1Ah` para el procesador, que suma en binario. Con dos cifras por byte (BCD empaquetado), después del `add` va **`daa`**: si la cifra de la derecha pasó de 9, la corrige y se lleva uno a la de la izquierda. `1Ah` queda en `20h`.
+
+#### Desafío
+Agregá la orden de ajuste después de la suma, para que AL quede en `20h`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 19h         ; las 19, en BCD
+    add al, 1
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 20h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 19h         ; las 19, en BCD
+    add al, 1
+    daa
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+El reloj pasa a las **20**. El goblin se cae de las agujas. {mentor} se ríe por dentro: —Hacía siglos que no me acomodaba la hora.
+
+#### Imagen
+- Un reloj redondo de bronce en el pecho de un gólem, con las agujas moviéndose y una chispa cian en la ventanita de las cifras.
+- Un goblin verde y flaco de caricatura, con ropa de tela cerrada, cayéndose de las agujas.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mira hacia abajo, divertido.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) gira una perilla del reloj; Gheco (gecko de luz cian con antiparras, chiquito) se agarra de la perilla.
+
+### Micro-misión R02-N13-P5 · La cuenta regresiva
+
+```meta
+lugar: El reloj del pecho
+personajes: Nova, Gheco, Kira
+carta: das | después de sub con dos cifras por byte · 20h - 1 = 1Fh → das → 19h
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+Kira programa una cuenta regresiva en el reloj para la próxima carrera del Gremio: faltan **20** minutos. Pasa uno, y hay que restarlo.
+
+#### Gheco sugiere
+`20h − 1` da `1Fh`: otra vez una cifra que no existe. Para restas en BCD empaquetado está **`das`** (*decimal adjust after subtraction*): `1Fh` queda en `19h`.
+
+#### Desafío
+Escribí las dos órdenes donde dice `; tus órdenes`: la resta de un minuto y su ajuste, para que AL quede en `19h`.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 20h         ; faltan 20 minutos, en BCD
+    ; tus órdenes
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 19h
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 20h         ; faltan 20 minutos, en BCD
+    sub al, 1
+    das
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+**19**. Kira pone a andar la cuenta regresiva y sale corriendo a avisarle al Gremio. —Ahora sé por qué los relojes nunca muestran un 1F —dice Nova.
+
+#### Imagen
+- Un reloj redondo de bronce con cifras de luz lisas que bajan, con un destello cian.
+- Kira (pelo negro corto con un mechón cian, visor cian sobre la oreja izquierda, traje negro ajustado con líneas cian) sale corriendo, saludando con la mano.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira el reloj, contenta.
+- Gheco (gecko de luz cian con antiparras, chiquito) sentado en la punta de una aguja.
+
+### Prueba del sello
+
+#### ¿Cómo se guarda el 47 en BCD empaquetado?
+Como `47h`: un 4 en el medio byte de arriba y un 7 en el de abajo.
+
+#### ¿Qué hace `aam`?
+Divide AL por 10: las decenas quedan en AH y las unidades en AL.
+
+#### ¿Por qué hace falta `daa` después de `add` en BCD?
+Porque el procesador suma en binario: `19h + 1` da `1Ah`, y `daa` lo corrige a `20h`.
+
+#### ¿Qué diferencia hay entre `aaa` y `daa`?
+`aaa` ajusta una cifra por byte; `daa`, dos cifras por byte.

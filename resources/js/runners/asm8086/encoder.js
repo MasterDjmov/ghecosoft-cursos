@@ -14,6 +14,7 @@ const SINGLE = {
     clc: 0xf8, stc: 0xf9, cmc: 0xf5, cld: 0xfc, std: 0xfd, cli: 0xfa, sti: 0xfb, nop: 0x90, cbw: 0x98, cwd: 0x99,
     lahf: 0x9f, sahf: 0x9e, pushf: 0x9c, popf: 0x9d, hlt: 0xf4, xlat: 0xd7, movsb: 0xa4, movsw: 0xa5, lodsb: 0xac,
     lodsw: 0xad, stosb: 0xaa, stosw: 0xab, cmpsb: 0xa6, cmpsw: 0xa7, scasb: 0xae, scasw: 0xaf, into: 0xce, iret: 0xcf,
+    aaa: 0x37, aas: 0x3f, daa: 0x27, das: 0x2f, wait: 0x9b,
 };
 // Las 8 combinaciones de registros entre corchetes que entiende el 8086 (el campo r/m).
 const RM = { 'bx+si': 0, 'bx+di': 1, 'bp+si': 2, 'bp+di': 3, si: 4, di: 5, bp: 6, bx: 7 };
@@ -39,13 +40,13 @@ function modrm(reg, op) {
  * @param ins una de program.instructions
  * @param dataSeg el segmento de datos (lo que vale @data cuando DOS carga el programa)
  */
-export function encode(ins, { dataSeg = 0 } = {}) {
+export function encode(ins, { dataSeg = 0, codeSeg = 0 } = {}) {
     const [a, b] = ins.ops;
     const m = ins.m;
     const w = (ins.size || a?.size || b?.size) === 16 ? 1 : 0;
-    const imm = (op) => (op.sym?.kind === 'segment' ? dataSeg : op.v);
+    const imm = (op) => (op.sym?.kind === 'segment' ? (op.sym.code ? codeSeg : dataSeg) : op.v);
     const pre = [];
-    if (ins.prefix) pre.push(ins.prefix === 'repne' ? 0xf2 : 0xf3);
+    if (ins.prefix) pre.push(ins.prefix === 'lock' ? 0xf0 : ins.prefix === 'repne' ? 0xf2 : 0xf3);
     for (const op of ins.ops) if (op.k === 'mem' && op.seg) pre.push(0x26 | (SREG[op.seg] << 3));
     const rel = (target, size) => target - (ins.address + ins.length);
 
@@ -53,9 +54,17 @@ export function encode(ins, { dataSeg = 0 } = {}) {
     if (SINGLE[m] !== undefined) out = [SINGLE[m]];
     else if (m === 'int') out = a.v === 3 ? [0xcc] : [0xcd, a.v & 0xff];
     else if (m === 'ret') out = a ? [0xc2, ...word(a.v)] : [0xc3];
-    else if (m === 'call') out = a.k === 'imm' ? [0xe8, ...word(rel(a.v))] : [0xff, ...modrm(2, a)];
-    else if (m === 'jmp') {
-        if (a.k !== 'imm') out = [0xff, ...modrm(4, a)];
+    else if (m === 'retf') out = a ? [0xca, ...word(a.v)] : [0xcb];
+    else if (m === 'aam' || m === 'aad') out = [m === 'aam' ? 0xd4 : 0xd5, a ? a.v & 0xff : 10];
+    else if (m === 'in') out = b.k === 'imm' ? [0xe4 | w, b.v & 0xff] : [0xec | w];
+    else if (m === 'out') out = a.k === 'imm' ? [0xe6 | w, a.v & 0xff] : [0xee | w];
+    else if (m === 'lds' || m === 'les') out = [m === 'lds' ? 0xc5 : 0xc4, ...modrm(R16[a.r], b)];
+    else if (m === 'call') {
+        if (a.k === 'imm') out = ins.far ? [0x9a, ...word(a.v), ...word(codeSeg)] : [0xe8, ...word(rel(a.v))];
+        else out = [0xff, ...modrm(ins.far ? 3 : 2, a)];
+    } else if (m === 'jmp') {
+        if (a.k !== 'imm') out = [0xff, ...modrm(ins.far ? 5 : 4, a)];
+        else if (ins.far) out = [0xea, ...word(a.v), ...word(codeSeg)];
         else out = ins.short ? [0xeb, rel(a.v) & 0xff] : [0xe9, ...word(rel(a.v))];
     } else if (ins.cond) out = [0x70 | CC[ins.cond], rel(a.v) & 0xff];
     else if (LOOP[m]) out = [LOOP[m], rel(a.v) & 0xff];

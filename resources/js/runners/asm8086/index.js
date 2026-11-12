@@ -61,7 +61,7 @@ export function runAsm(code, { stdin = '', checks = '', limit = LIMIT, timeout =
         if (status !== 'ok') break;
         if (Date.now() - t0 > timeout) break;
     }
-    const output = m.screen.text();
+    const output = withDevices(m);
     if (status === 'ok') {
         return { output, error: 'El Gólem se quedó dando vueltas: el programa no terminó (¿un bucle sin salida?)', timedOut: true, ms: Date.now() - t0 };
     }
@@ -74,6 +74,13 @@ export function runAsm(code, { stdin = '', checks = '', limit = LIMIT, timeout =
         return { output: full, error: soft ? null : friendlyHalt(halt), halt: halt.reason, ms: Date.now() - t0 };
     }
     return { output: full, error: null, ms: Date.now() - t0, halt: halt.reason };
+}
+
+/** La pantalla y, debajo, lo que dejaron la impresora y el robot (si el programa los usó). */
+export function withDevices(machine) {
+    const screen = machine.screen.text();
+    const devices = machine.devices.text();
+    return devices ? (screen ? `${screen}\n${devices}` : devices) : screen;
 }
 
 function friendlyHalt(halt) {
@@ -99,6 +106,11 @@ export function parseStateLine(line) {
     if (value === null) return null;
     if (SIZES[lower]) return { name: name.toUpperCase(), kind: 'reg', size: SIZES[lower], target: lower, value };
     if (lower in FLAG_BITS) return { name: name.toUpperCase(), kind: 'flag', size: 1, target: lower, value: value ? 1 : 0 };
+    // «puerto 199 = 1234» (un byte; con «word» delante, dos): lo que quedó en un puerto de in/out.
+    const port = /^puerto\s+(\w+)$/i.exec(name);
+    if (port && parseNumber(port[1]) !== null) {
+        return { name: `${width === 16 ? 'word ' : ''}puerto ${parseNumber(port[1])}`, kind: 'port', size: width ?? 8, target: parseNumber(port[1]), value };
+    }
     const mem = /^\[\s*(.+?)\s*\]$/.exec(name);
     if (mem) return { name: `${width === 16 ? 'word ' : ''}[${mem[1]}]`, kind: 'mem', size: width ?? 8, target: mem[1], value };
     return null;
@@ -136,6 +148,7 @@ export function stateReport(machine, checks) {
         if (!p) continue;
         let actual;
         if (p.kind === 'reg' || p.kind === 'flag') actual = machine.get(p.target);
+        else if (p.kind === 'port') actual = p.size === 8 ? machine.ports[p.target] : machine.ports[p.target] | (machine.ports[(p.target + 1) & 0xffff] << 8);
         else actual = readMemory(machine, p.target, p.size);
         out.push(`${p.name} = ${actual === null ? '?' : formatValue(actual, p.size)}`);
     }

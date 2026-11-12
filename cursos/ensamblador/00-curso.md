@@ -30,6 +30,8 @@ Acompañás a **Nova**, una chispa de inteligencia que despierta dentro de **Ax�
 - Cuentas: `add`, `sub`, `inc`, `dec`, `mul`, `div` y las banderas
 - Decisiones y repeticiones: `cmp`, los saltos y `loop` (el `if` y el `for` de todas las lenguas)
 - Bits, arreglos, la pila y los procedimientos (las funciones por dentro)
+- Optativos: cuentas con signo, de 32 bits y en BCD, giros y tablas para mostrar en hexadecimal, las órdenes de fila (`rep movsb`, el `memcpy` del 8086), lo que ve un depurador, rutinas lejanas e interrupciones propias (el reloj de la PC)
+- Senda del Taller de Aparatos: `in` y `out` con los aparatos de emu8086 (semáforo, visor, termómetro, motor, impresora y robot)
 - Proyectos: una calculadora, un juego de adivinanzas y un combate por turnos
 
 # DICCIONARIO

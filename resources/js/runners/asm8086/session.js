@@ -2,7 +2,7 @@
 // página), avanza de a una orden, espera las teclas que pide el programa y arma lo que dibuja el tablero.
 // Todo es del navegador del alumno.
 
-import { assemble, describeError, stateReport, LIMIT } from './index.js';
+import { assemble, describeError, stateReport, withDevices, LIMIT } from './index.js';
 import { Machine, FLAG_BITS, hex } from './machine.js';
 import { encode, hexBytes } from './encoder.js';
 
@@ -61,6 +61,7 @@ export class AsmSession {
         try {
             const program = assemble(this.code);
             this.machine = new Machine(program, { input: this.stdin, interactive: true });
+            this.machine.stopOnBreak = true;
             this.variables = new Map();
             for (const s of program.symbols.values()) {
                 if (s.kind === 'data' && s.offset !== undefined) this.variables.set(s.offset, s.name);
@@ -114,6 +115,8 @@ export class AsmSession {
         } finally {
             delete m.write8;
         }
+        // Paso a paso, el INT 3 no frena nada: ya se está mirando orden por orden.
+        m.breakpoint = false;
         this.lastChanges = m.changes ?? this.lastChanges;
         if (r === 'input') {
             this.explain = null;
@@ -222,7 +225,7 @@ export class AsmSession {
             code: `vive en CS:${hex(ipBefore, 4)} y ocupa ${ins.length} byte${ins.length === 1 ? '' : 's'} de código máquina`,
             // D110: los bytes que leería un 8086 de verdad (encoder.js, comprobado con objdump).
             bytes: (() => {
-                const bytes = encode(ins, { dataSeg: m.dataSeg });
+                const bytes = encode(ins, { dataSeg: m.dataSeg, codeSeg: m.codeSeg });
                 return bytes ? hexBytes(bytes) : null;
             })(),
             ip: m.halted ? null : flow?.jumped
@@ -328,7 +331,7 @@ export class AsmSession {
     /** Lo que se compara con la salida esperada: la pantalla y, si la micro-misión lo pide, el estado. */
     result() {
         const m = this.machine;
-        const output = m.screen.text();
+        const output = withDevices(m);
         const report = this.checks ? stateReport(m.snapshot ?? m, this.checks) : '';
         return report ? (output ? `${output}\n${report}` : report) : output;
     }
@@ -367,6 +370,7 @@ export class AsmSession {
             atFin,
             explain: this.explain,
             pulse: this.pulse,
+            devices: m.devices?.view() ?? null,
         };
     }
 

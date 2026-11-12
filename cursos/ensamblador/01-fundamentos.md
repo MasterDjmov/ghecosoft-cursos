@@ -679,8 +679,8 @@ Las palancas no alcanzan: Nova tiene que recordar muchas cosas y el Gólem tiene
 ### Objetivos
 
 Declarar **variables** en `.data` con `db` (un byte) y `dw` (dos bytes, un *word*), leerlas y escribirlas con
-`mov`, operar directo sobre ellas con `inc`, declarar **constantes** con `equ`, y entender por qué los tamaños
-tienen que coincidir.
+`mov`, operar directo sobre ellas con `inc`, **intercambiar** dos valores (con una palanca de apoyo y con `xchg`),
+declarar **constantes** con `equ`, y entender por qué los tamaños tienen que coincidir.
 
 ### Antes de empezar
 
@@ -734,6 +734,26 @@ El Gólem no puede pasar algo de un cajón a otro de una sola vez: siempre **pas
 mov al, pociones    ; del cajón a la palanca
 mov guardadas, al   ; de la palanca al otro cajón
 ```
+
+#### Intercambiar dos valores
+Para cambiar de lugar lo que tienen AL y BL, dos `mov` no alcanzan: `mov al, bl` **pisa** lo que había en AL y
+se pierde. Hace falta una palanca de **apoyo** que lo guarde un momento:
+```asm
+mov cl, al          ; CL guarda lo de AL
+mov al, bl          ; AL recibe lo de BL
+mov bl, cl          ; BL recibe lo que guardó CL
+```
+Como se cambia tan seguido, el 8086 tiene una orden que lo hace **de una sola vez**, sin palanca de apoyo:
+```asm
+xchg al, bl         ; exchange: AL y BL se intercambian
+```
+`xchg` acepta dos palancas o una palanca y un cajón (`xchg al, pociones`), siempre del **mismo tamaño**. Lo que
+no acepta es un número (`xchg al, 5`) ni **dos cajones** (como `mov`, una de las dos tiene que ser palanca).
+
+> **Puente con otras lenguas.** La forma con la palanca de apoyo es la de C: `int aux = a; a = b; b = aux;`.
+> `xchg` es el `swap` de C++ (`std::swap(a, b)`), y lo mismo que `a, b = b, a` en Python o `[a, b] = [b, a]`
+> en JavaScript: en esas lenguas también se ve como «una sola orden», pero por dentro alguien guarda uno de los
+> dos un momento.
 
 #### Constantes con `equ`
 ```asm
@@ -797,6 +817,16 @@ main.asm(11) : Error A2048: Operands must be the same size: 2 - 1
 
 **Goblin: de memoria a memoria.** `mov guardadas, pociones`: el 8086 no copia de un cajón a otro; hace falta pasar
 por una palanca.
+
+**Goblin: `xchg` entre dos cajones.** `xchg llave1, llave2` tampoco existe:
+```
+main.asm(12) : Error A2049: Invalid instruction operands
+```
+Se trae uno a una palanca, se intercambia con el otro cajón y se devuelve: `mov al, llave1`,
+`xchg al, llave2`, `mov llave1, al`.
+
+**Ogro: el intercambio que pierde un valor.** `mov al, bl` y después `mov bl, al` deja los **dos** iguales: el
+primer `mov` ya pisó lo que había en AL.
 
 **Esqueleto: el nombre que no existe.** Un error de tipeo (`pocion` en vez de `pociones`):
 ```
@@ -1259,6 +1289,262 @@ Un 9 aparece en el ojo. {mentor} graba una etiqueta de bronce y se la pega en el
 - Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) toca la placa con la punta de los dedos.
 - Gheco (gecko de luz cian con antiparras, chiquito) lustra la placa con la cola.
 
+### Micro-misión R01-N02-P7 · El cambio de manos
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco
+criatura: ogre
+carta: Intercambiar | mov cl, al · mov al, bl · mov bl, cl · hace falta una palanca de apoyo · como aux en C
+recompensa: xp 15, oro 15
+```
+
+#### Escena
+Nova tiene la antorcha (**1**) en la palanca AL y el mapa (**2**) en la palanca BL, y quiere cambiarlos de mano. Lo intenta con dos `mov`… y aparece un **ogro** con dos mapas iguales, uno en cada mano. ¿Y la antorcha?
+
+#### Gheco sugiere
+`mov al, bl` copia el 2 en AL y **pisa** el 1: la antorcha se perdió antes de llegar a BL. Por eso hace falta una tercera palanca que la **guarde** un momento:
+
+```asm
+mov cl, al      ; CL guarda la antorcha
+mov al, bl      ; AL recibe el mapa
+mov bl, cl      ; BL recibe la antorcha que guardó CL
+```
+
+Es lo mismo que en C: `int aux = a; a = b; b = aux;`. CL hace de `aux`.
+
+#### Desafío
+Tocá **Ejecutar** y mirá AL y BL en el tablero: los dos quedan en 2. Después arreglá el intercambio usando **CL** de apoyo, para que AL quede en **2** y BL en **1**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; la antorcha
+    mov bl, 2           ; el mapa
+
+    mov al, bl
+    mov bl, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 2
+BL = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; la antorcha
+    mov bl, 2           ; el mapa
+
+    mov cl, al
+    mov al, bl
+    mov bl, cl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+La antorcha pasa a la otra mano y el mapa también. El ogro mira sus dos mapas iguales, no entiende de dónde salió el segundo, y se va con los dos. —Tres pasos —cuenta Nova—. Y uno es solo para no olvidarme.
+
+#### Imagen
+- Una pared de cajoncitos de bronce; delante, tres palancas de bronce en fila con visores de luz.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) sostiene una antorcha en una mano y un mapa enrollado en la otra, cruzando los brazos para cambiarlos.
+- Gheco (gecko de luz cian con antiparras, chiquito) sostiene la antorcha un momento sobre la palanca del medio.
+- Un ogro grandote y torpe se rasca la cabeza con dos mapas enrollados iguales, uno en cada mano.
+
+### Micro-misión R01-N02-P8 · De una sola vez
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco, Axón
+carta: xchg | xchg al, bl · intercambia en una sola orden · como swap en C++ o a, b = b, a en Python
+recompensa: xp 10, oro 10
+```
+
+#### Escena
+—Tres órdenes cada vez que quiero cambiar de mano —protesta Nova—. ¿No hay algo más corto? {mentor} hace girar dos de sus palancas a la vez, y los visores se cruzan.
+
+#### Gheco sugiere
+`xchg` (*exchange*, intercambiar) cambia lo que tienen dos palancas **en una sola orden**, sin palanca de apoyo:
+
+```asm
+xchg al, bl
+```
+
+Es el `std::swap(a, b)` de C++ o el `a, b = b, a` de Python. Las dos tienen que ser del **mismo tamaño**: `xchg al, bl` sí (byte con byte), `xchg al, bx` no.
+
+#### Desafío
+Completá la orden que intercambia **AL** y **BL** de una sola vez.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; la antorcha
+    mov bl, 2           ; el mapa
+
+    ___ al, bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+AL = 2
+BL = 1
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, 1           ; la antorcha
+    mov bl, 2           ; el mapa
+
+    xchg al, bl
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+Los visores de AL y BL giran a la vez y se cruzan: 2 y 1. —Una sola orden —sonríe Nova—. Y CL quedó libre para otra cosa.
+
+#### Imagen
+- Dos palancas de bronce con visores de luz, girando a la vez y cruzando dos chispas de luz cian en el aire.
+- Axón (gólem de bronce gigante con un único ojo redondo de cristal) mueve las dos palancas con una sola mano enorme.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) mira las chispas cruzarse, asombrada.
+- Gheco (gecko de luz cian con antiparras, chiquito) sigue las chispas con la cabeza, mareado.
+
+### Micro-misión R01-N02-P9 · Las dos llaves
+
+```meta
+lugar: La pared de los cajones
+personajes: Nova, Gheco
+criatura: goblin
+carta: xchg con un cajón | xchg al, llave2 sí · xchg llave1, llave2 no · uno de los dos tiene que ser palanca
+recompensa: xp 20, oro 20
+```
+
+#### Escena
+En dos cajones, las llaves quedaron al revés: en `llave1` está la del cofre (**C**) y en `llave2` la de la puerta (**P**). Nova escribe `xchg llave1, llave2` y salta un **goblin**: *«Invalid instruction operands»*.
+
+#### Gheco sugiere
+Como `mov`, `xchg` no trabaja entre **dos cajones**: uno de los dos tiene que ser una palanca. Pero sí puede intercambiar una palanca con un cajón. Entonces:
+
+```asm
+mov al, llave1      ; traigo la primera llave a AL
+xchg al, llave2     ; AL y llave2 se intercambian
+mov llave1, al      ; y AL vuelve al primer cajón
+```
+
+#### Desafío
+Tocá **Ejecutar** para ver el error del goblin. Después reemplazá esa orden por las tres de arriba, para que `llave1` quede con la **P** y `llave2` con la **C**.
+
+#### Código inicial
+```asm
+.model small
+.stack 100h
+.data
+llave1 db 'C'
+llave2 db 'P'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    xchg llave1, llave2
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Estado esperado
+```
+[llave1] = 'P'
+[llave2] = 'C'
+```
+
+#### Solución
+```asm
+.model small
+.stack 100h
+.data
+llave1 db 'C'
+llave2 db 'P'
+.code
+main proc
+    mov ax, @data
+    mov ds, ax
+
+    mov al, llave1
+    xchg al, llave2
+    mov llave1, al
+
+fin:
+    mov ax, 4C00h
+    int 21h
+main endp
+end main
+```
+
+#### Al superarla
+En la pestaña Cajones, los dos bytes se cruzan: `50` (la P) y `43` (la C). El goblin se queda con la boca abierta. —De cajón a cajón, nunca —repite Nova—. Siempre pasa por una palanca.
+
+#### Imagen
+- Dos cajoncitos de bronce abiertos en una pared de cajones, cada uno con una llave de bronce adentro: una con el dibujito de un cofre y otra con el de una puerta.
+- Nova (chica de 15 años con capa oscura de cuello alto con circuitos cian y detalles dorados, túnica cerrada, calzas oscuras, botas con suela cian, pelo rubio flotando, ojos cian) saca una llave para cambiarla de cajón.
+- Un goblin verde y flaco, sorprendido, con la boca abierta, colgado del borde de un cajón.
+- Gheco (gecko de luz cian con antiparras, chiquito) espía desde adentro de un cajón.
+
 ### Prueba del sello
 
 #### ¿Qué diferencia hay entre `db` y `dw`?
@@ -1272,6 +1558,12 @@ Pasando por una palanca: `mov al, uno` y después `mov otro, al`.
 
 #### ¿Ocupa memoria una constante declarada con `equ`?
 No: el ensamblador reemplaza el nombre por su valor antes de traducir.
+
+#### ¿Por qué `mov al, bl` y después `mov bl, al` no intercambian?
+Porque el primer `mov` pisa lo que tenía AL: los dos quedan iguales. Hace falta una palanca de apoyo o `xchg`.
+
+#### ¿Se puede hacer `xchg uno, otro` con dos variables?
+No: como `mov`, uno de los dos tiene que ser una palanca. `mov al, uno`, `xchg al, otro`, `mov uno, al`.
 
 ## R01-N03 · Dirección y contenido: dónde vive cada cajón
 

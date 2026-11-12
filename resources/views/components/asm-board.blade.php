@@ -63,6 +63,8 @@
                         </span>
                     </button>
                 @endforeach
+                <button type="button" role="tab" x-show="asm?.devices" x-cloak x-on:click="asmDockPanel = 'devices'" x-bind:aria-selected="asmDockPanel === 'devices'" class="{{ $tab }}"
+                    x-bind:class="asmDockPanel === 'devices' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">Aparatos</button>
             </div>
             <div class="max-h-[45vh] overflow-y-auto pt-2 lg:max-h-none lg:flex-1">
                 <x-asm-board-panels dock />
@@ -106,6 +108,11 @@
                 </span>
             </button>
         @endforeach
+        {{-- D110: los aparatos de emu8086 (in/out); la pestaña aparece cuando el programa usa un puerto. --}}
+        <button type="button" role="tab" x-show="asm?.devices" x-cloak x-on:click="asmPanel = 'devices'" x-bind:aria-selected="asmPanel === 'devices'" class="{{ $tab }}"
+            x-bind:class="asmPanel === 'devices' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'" data-test="asm-tab-devices">
+            Aparatos · puertos
+        </button>
         <button type="button" role="tab" x-on:click="asmPanel = 'input'" x-bind:aria-selected="asmPanel === 'input'" class="{{ $tab }} flex items-center gap-1.5"
             x-bind:class="asmPanel === 'input' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">
             Entrada <span class="size-1.5 rounded-full bg-primary-bright" x-show="stdin.trim() !== ''" x-cloak></span>

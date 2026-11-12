@@ -39,6 +39,8 @@ test('el estado esperado se normaliza como lo informa el navegador', function ()
         ->and(AsmState::normalizeLine('[pociones] = 4'))->toBe('[pociones] = 04h')
         ->and(AsmState::normalizeLine('word [vida] = 300'))->toBe('word [vida] = 012Ch')
         ->and(AsmState::normalizeLine("AL = 'A'"))->toBe('AL = 41h')
+        ->and(AsmState::normalizeLine('puerto 127 = 1'))->toBe('puerto 127 = 01h')
+        ->and(AsmState::normalizeLine('word puerto 199 = -5678'))->toBe('word puerto 199 = E9D2h')
         ->and(AsmState::normalizeLine('cualquier cosa'))->toBeNull()
         ->and(AsmState::expected("9\n", "BL = 9\n"))->toBe("9\n── Estado ──\nBL = 09h")
         ->and(AsmState::expected(null, 'AX = 7'))->toBe("── Estado ──\nAX = 0007h")
@@ -53,7 +55,7 @@ test('el curso de ensamblador se comprueba solo pero se ve como árbol', functio
 
     $course = importAsmCourse();
     expect($course->language)->toBe(Language::Asm)
-        ->and($course->nodes()->count())->toBe(27)
+        ->and($course->nodes()->count())->toBe(42) // 27 del tronco + 7 extras + la Senda del Taller de Aparatos (8)
         ->and($course->nodes()->whereHas('practices')->exists())->toBeFalse();
 
     // La micro-misión de estado guarda la salida esperada con el informe debajo.

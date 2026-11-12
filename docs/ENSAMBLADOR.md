@@ -183,6 +183,49 @@ tiene prácticas, y además sirve para todos los cursos que tienen micro-misione
 | 5 | R02, R03 y R04 | `app:simulate-course ensamblador` |
 | 6 | Escenas en Stitch, enciclopedia, landing, temporada de inglés (lista de ALTA) | Revisión de la lista |
 
+## 10. Las órdenes que faltaban (2026-11-11)
+
+Revisando el material contra el curso apareció `xchg` (capítulo 2, misión «El cambio de manos»), que el curso no
+enseñaba. Se revisaron todas las órdenes que el emulador ya sabía ejecutar y que ningún nodo usaba:
+
+| Qué | Dónde | Por qué ahí |
+|---|---|---|
+| Intercambiar con una palanca de apoyo y con `xchg` (y el goblin de `xchg` entre dos cajones) | R01-N02, P7 a P9 (obligatorio) | Está en el material de la cátedra |
+| `not` (y que `neg` es `not` + `inc`) | R02-N07-P8 (obligatorio) | La teoría ya lo nombraba y ninguna micro-misión lo usaba |
+| `imul`, `idiv`, `cbw`, `cwd`, `adc` y `sbb` | **R02-N10** (extra, brota de R02-N04), 6 micro-misiones | No está en el material: optativo |
+| `rol`, `ror` y `xlat` (mostrar en hexadecimal) | **R02-N11** (extra, brota de R02-N08), 5 micro-misiones | Idem |
+| `lodsb`, `stosb`, `movsb`, `scasb`, `cmpsb`, `rep`/`repne`/`repe`, `cld` y `mov es, ax` | **R02-N12** (extra, brota de R02-N08), 5 micro-misiones | Idem |
+| `js`/`jo` y `loope`/`loopne` | Solo en la teoría de R02-N04 y R02-N05 | Se leen en programas ajenos; el curso no los necesita |
+
+| `rcl` y `rcr` (correr un número de dos palancas) | R02-N11-P6 | Idem |
+| `nop`, `hlt`, `cmc`, `lahf`, `sahf`, `pushf`, `popf`, `cli` y `sti` | **R03-N08** (extra, brota de R03-N03, «Lo que ve el depurador»), 7 micro-misiones | El docente pidió que nada de lo que se ve en un depurador quede sin explicar |
+
+Los extras (`tipo: extra`) no cuentan para completar el curso. Cada orden lleva su puente con otras lenguas
+(`xchg` = `std::swap` de C++ o `a, b = b, a`; `rep movsb` = `memcpy`; `xlat` = `"0123456789ABCDEF"[n]`; `nop` =
+`pass`; `cli`/`sti` = una sección crítica…). De paso se arregló `lahf` en el emulador (el bit 1 vale 1, como en el
+8086). Escenas de las 31 micro-misiones nuevas o sin imagen: pendientes en Stitch.
+
+**Fase 2 (2026-11-12, el docente pidió el 8086 completo):** el emulador ejecuta todo el 8086 menos `esc` (solo
+teoría): BCD; `lds`/`les` con `dd`, `dword ptr` y `seg`; `proc far`, `retf` y `call`/`jmp far` (directos y por
+puntero); la tabla de vectores real (0000:0000) con `iret`, `into`, `int 3` (en el tablero, punto de parada),
+funciones 25h/35h de DOS, el error de división que va a la rutina propia y el reloj 1Ch (cada 55 ms de reloj
+virtual, pendiente con `cli`, `hlt` lo espera); `lock` y `wait`; `in`/`out` con los aparatos de emu8086 (sacados de
+su documentación y de su código fuente en `~/.wine/drive_c/emu8086/DEVICES`): puertos simples 110/112, semáforo 4,
+motor 7, robot 9–11 (mapa fijo), termómetro 125/127 (sube 1° cada 2 ms con el calefactor), impresora 130 (y DOS
+05h) y visor 199. El tablero tiene la solapa «Aparatos · puertos»; la impresora y el robot se suman a la salida
+(`── Impresora ──`, `── Robot ──`) y el estado esperado acepta `puerto N = v`. Todo es determinista: el tiempo es el
+reloj del Gólem (1 µs por orden). Nodos nuevos:
+
+| Nodo | Qué |
+|---|---|
+| R02-N13 (extra, de R02-N10) | BCD: `aam`, `aad`, `aaa`, `aas`, `daa`, `das` (el reloj del pecho), 5 micro-misiones |
+| R03-N09 (extra, de R03-N02) | Rutinas lejanas: segmento:desplazamiento, `proc far`, `retf`, `seg`, `dd`, `lds`, `les`, tabla de rutinas, 5 |
+| R03-N10 (extra, de R03-N09 y R03-N08) | Interrupciones propias: la tabla de vectores, 25h, `iret`, `int 3`, `int 0`, `into`, el reloj 1Ch, 6 |
+| **S01 · Senda del Taller de Aparatos** (brota de R02-N09) | 8 nodos, 28 micro-misiones: `in`/`out`, visor, semáforo con `INT 15h` 86h, termostato, grúa (motor paso a paso), impresora, robot de las minas y el jefe, el Goblin de los Cables (insignia «Maestra de los Aparatos») |
+
+Escenas: las 44 micro-misiones nuevas, pendientes en Stitch (proyecto 9034180179663220768, con las hojas de
+Ensamblador).
+
 ## 9. Preguntas abiertas (respondidas el 2026-10-18)
 
 1. Protagonista: **Nova**.

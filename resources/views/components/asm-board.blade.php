@@ -63,6 +63,8 @@
                         </span>
                     </button>
                 @endforeach
+                <button type="button" role="tab" x-show="asm?.devices" x-cloak x-on:click="asmDockPanel = 'devices'" x-bind:aria-selected="asmDockPanel === 'devices'" class="{{ $tab }}"
+                    x-bind:class="asmDockPanel === 'devices' ? 'border-primary-bright text-ink' : 'border-transparent text-ink-muted hover:text-ink'">Aparatos</button>
             </div>
             <div class="max-h-[45vh] overflow-y-auto pt-2 lg:max-h-none lg:flex-1">
                 <x-asm-board-panels dock />
@@ -125,71 +127,6 @@
         </p>
 
         <x-asm-board-panels />
-
-        {{-- D110: los aparatos conectados a los puertos (los mismos de emu8086, con sus números de puerto). --}}
-        <div x-show="asm?.devices && asmPanel === 'devices'" x-cloak class="flex flex-col gap-3" data-test="asm-devices">
-            <template x-if="asm?.devices?.semaforo">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Semáforo · puerto 4 (word): bits <span class="font-mono" x-text="asm.devices.semaforoBits"></span> (rojo, amarillo y verde de cada esquina, de a 3 bits)</p>
-                    <div class="flex flex-wrap gap-3">
-                        <template x-for="s in asm.devices.semaforo" :key="s.where">
-                            <div class="flex flex-col items-center gap-1 rounded-md border border-outline bg-surface-lowest p-1.5">
-                                <span class="size-4 rounded-full" x-bind:class="s.red ? 'bg-red-500 shadow-[0_0_8px] shadow-red-500' : 'bg-red-950'"></span>
-                                <span class="size-4 rounded-full" x-bind:class="s.yellow ? 'bg-yellow-400 shadow-[0_0_8px] shadow-yellow-400' : 'bg-yellow-950'"></span>
-                                <span class="size-4 rounded-full" x-bind:class="s.green ? 'bg-green-500 shadow-[0_0_8px] shadow-green-500' : 'bg-green-950'"></span>
-                                <span class="text-[10px] text-ink-muted" x-text="s.where"></span>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-            </template>
-            <template x-if="asm?.devices?.visor !== undefined">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Visor de números · puerto 199 (word con signo)</p>
-                    <span class="inline-block rounded-md border border-outline bg-black px-3 py-1 font-mono text-2xl tracking-widest text-red-500" x-text="String(asm.devices.visor).padStart(6, ' ')"></span>
-                </div>
-            </template>
-            <template x-if="asm?.devices?.termometro">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Termómetro · puerto 125 (temperatura) y 127 (calefactor: 1 prendido, 0 apagado)</p>
-                    <p class="font-mono text-sm text-ink"><span x-text="asm.devices.termometro.temp"></span>° · calefactor <span x-bind:class="asm.devices.termometro.heater ? 'text-warning' : 'text-ink-muted'" x-text="asm.devices.termometro.heater ? '🔥 prendido' : 'apagado'"></span></p>
-                </div>
-            </template>
-            <template x-if="asm?.devices?.motor">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Motor paso a paso · puerto 7 (bits 0–2: los tres imanes; al leer, el bit 7 dice si está listo)</p>
-                    <p class="flex items-center gap-2 font-mono text-sm text-ink">
-                        <template x-for="(on, i) in asm.devices.motor.magnets" :key="i"><span class="size-4 rounded-sm" x-bind:class="on ? 'bg-red-500' : 'bg-blue-900'"></span></template>
-                        <span x-text="`${asm.devices.motor.steps} pasos · ${asm.devices.motor.ready ? 'listo' : 'moviéndose'}`"></span>
-                    </p>
-                </div>
-            </template>
-            <template x-if="asm?.devices?.impresora !== undefined">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Impresora · puerto 130 (o INT 21h, función 05h)</p>
-                    <pre class="max-h-32 overflow-auto rounded-md border border-outline bg-white p-2 font-mono text-xs text-black" x-text="asm.devices.impresora || ' '"></pre>
-                </div>
-            </template>
-            <template x-if="asm?.devices?.robot">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Robot · puerto 9 (orden), 10 (dato) y 11 (estado) · # pared, * lámpara prendida, o apagada</p>
-                    <div class="flex flex-wrap gap-3">
-                        <pre class="rounded-md border border-outline bg-surface-lowest p-2 font-mono text-sm leading-tight text-ink" x-text="asm.devices.robot.map.join('\n')"></pre>
-                        <ul class="font-mono text-[11px] text-ink-muted">
-                            <template x-for="(l, i) in asm.devices.robot.log" :key="i"><li x-text="l"></li></template>
-                        </ul>
-                    </div>
-                </div>
-            </template>
-            <template x-if="asm?.devices?.puertos?.length">
-                <div>
-                    <p class="mb-1 text-[11px] text-ink-muted">Otros puertos que escribió el programa</p>
-                    <p class="flex flex-wrap gap-2 font-mono text-xs text-ink">
-                        <template x-for="p in asm.devices.puertos" :key="p.port"><span class="rounded border border-outline px-1.5" x-text="`${p.port}: ${p.value}h`"></span></template>
-                    </p>
-                </div>
-            </template>
-        </div>
 
         {{-- Entrada preparada (lo que se «tipea») --}}
         <div x-show="asmPanel === 'input'" x-cloak>

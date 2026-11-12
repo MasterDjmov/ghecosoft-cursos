@@ -53,6 +53,7 @@ Cada tema es un **nodo** del árbol, con **micro-misiones** que se comprueban so
 - Asincronía: async, await y tareas que no se pisan
 - Pruebas automáticas con xUnit
 - Bases de datos con SQLite y una API web
+- Proyectos: un juego por turnos, un laberinto con récord y un sistema de ventas con capas y pruebas
 
 # DICCIONARIO
 

@@ -253,6 +253,9 @@ document.addEventListener('alpine:init', () => {
         asmPanel: 'registers',
         // Los controles flotantes: aparecen cuando la barra de botones del tablero quedó más abajo de lo que se ve
         // (con 100 líneas de código, para tracear sin bajar y volver a subir).
+        // Lo mismo para la consola de los otros lenguajes: Ejecutar y la salida a mano sin bajar.
+        consoleDock: false,
+        consoleDockOpen: false,
         asmDock: false,
         asmDockOpen: false,
         asmDockPanel: 'registers',

@@ -51,8 +51,9 @@ REFS = {
         ],
     },
     # D110: el Gólem duerme debajo de las Forjas, así que sus escenas van en el proyecto de C (ahí están Gheco y Kira).
+    # 2026-11-11: proyecto chico propio (en el de C cada pedido se cortaba por tiempo); hojas subidas desde la web.
     'ensamblador': {
-        'project': '12453694413360128121',
+        'project': '3331690252474888519',
         'region': 'El Corazón del Gólem',
         'ambiente': 'adentro de un gólem de bronce gigante: una catedral mecánica de bronce con pátina verde, palancas con visores de luz, paredes de cajoncitos, engranajes enormes y el núcleo de luz ámbar',
         'chars': [
@@ -62,6 +63,8 @@ REFS = {
              'Axón es un gólem de bronce de cuatro metros: Nova le llega a la rodilla.'),
             (r'(?<!que )\bKira\b', 'Kira', ['14393643890262141765', '14393643890262141939'], ''),
             (r'Gheco|gecko', 'Gheco', ['7475890398726357700'], 'Gheco es un gecko chiquito, que cabe en la palma de una mano, exactamente como en su referencia: mascota de caricatura FLACA y ALARGADA (cuello largo, torso angosto, patas finas, cola larga y fina; nunca gordito ni chibi), aguamarina claro translúcido y liso con brillo cian, finas líneas de circuito, antiparras de aviador con lente redondo y visor holográfico al costado, sin manchas.'),
+            (r'\bogro\b', 'un ogro', [], 'El ogro es como en su referencia (la hoja del Ogro de las Banderas, pero SIN su corona ni sus banderas: un ogro común), más alto que Nova, con ropa de cuero cerrada.'),
+            (r'esqueleto de bronce', 'el esqueleto del vigía', [], 'El esqueleto del vigía es como en su referencia, pero de BRONCE pulido y tranquilo, sentado.'),
         ],
     },
     'cpp': {

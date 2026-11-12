@@ -51,9 +51,10 @@ REFS = {
         ],
     },
     # D110: el Gólem duerme debajo de las Forjas, así que sus escenas van en el proyecto de C (ahí están Gheco y Kira).
-    # 2026-11-11: proyecto chico propio (en el de C cada pedido se cortaba por tiempo); hojas subidas desde la web.
+    # 2026-11-12: en el proyecto de los actos IV y V de C# (el propio, 3331690252474888519, quedó bloqueado por Stitch
+    # con «invalid argument»); hojas subidas desde la web. Gheco usa la hoja que ya estaba ahí.
     'ensamblador': {
-        'project': '3331690252474888519',
+        'project': '9034180179663220768',
         'region': 'El Corazón del Gólem',
         'ambiente': 'adentro de un gólem de bronce gigante: una catedral mecánica de bronce con pátina verde, palancas con visores de luz, paredes de cajoncitos, engranajes enormes y el núcleo de luz ámbar',
         'chars': [
